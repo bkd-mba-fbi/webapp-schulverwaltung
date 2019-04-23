@@ -6,9 +6,6 @@ import { OffeneAbsenzenComponent } from './offene-absenzen.component';
 
 @NgModule({
   declarations: [OffeneAbsenzenComponent],
-  imports: [
-    CommonModule,
-    OffeneAbsenzenRoutingModule
-  ]
+  imports: [CommonModule, OffeneAbsenzenRoutingModule]
 })
-export class OffeneAbsenzenModule { }
+export class OffeneAbsenzenModule {}

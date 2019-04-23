@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "lint:format": "ng lint --tslint-config tslint-prettier.json --files \"src/**/*.ts\" $(ng config defaultProject)",
+    "lint:format": "ng lint $(ng config defaultProject) --tslint-config tslint-prettier.json --files \"src/**/*.ts\"",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
     "e2e": "ng e2e"
   },
@@ -59,8 +59,8 @@
   },
   "lint-staged": {
     "linters": {
-      "./src/**/*.ts": [
-        "ng lint --files",
+      "./src/app/**/*.ts": [
+        "tslint -c tslint.json",
         "prettier --write",
         "git add"
       ],

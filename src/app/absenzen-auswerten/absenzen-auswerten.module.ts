@@ -6,9 +6,6 @@ import { AbsenzenAuswertenComponent } from './absenzen-auswerten.component';
 
 @NgModule({
   declarations: [AbsenzenAuswertenComponent],
-  imports: [
-    CommonModule,
-    AbsenzenAuswertenRoutingModule
-  ]
+  imports: [CommonModule, AbsenzenAuswertenRoutingModule]
 })
-export class AbsenzenAuswertenModule { }
+export class AbsenzenAuswertenModule {}

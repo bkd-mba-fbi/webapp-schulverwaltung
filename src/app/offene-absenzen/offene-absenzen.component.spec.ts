@@ -8,9 +8,8 @@ describe('OffeneAbsenzenComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OffeneAbsenzenComponent ]
-    })
-    .compileComponents();
+      declarations: [OffeneAbsenzenComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
