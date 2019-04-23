@@ -1,0 +1,6 @@
+dist/
+tmp/
+out-tsc/
+.vscode/
+coverage/
+typings/
