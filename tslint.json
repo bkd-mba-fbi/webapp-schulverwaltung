@@ -43,6 +43,8 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "component-selector": [true, "element", "erz", "kebab-case"],
+    "directive-selector": [true, "attribute", "erz", "camelCase"]
   }
 }

@@ -6,9 +6,6 @@ import { AbsenzenBearbeitenComponent } from './absenzen-bearbeiten.component';
 
 @NgModule({
   declarations: [AbsenzenBearbeitenComponent],
-  imports: [
-    CommonModule,
-    AbsenzenBearbeitenRoutingModule
-  ]
+  imports: [CommonModule, AbsenzenBearbeitenRoutingModule]
 })
-export class AbsenzenBearbeitenModule { }
+export class AbsenzenBearbeitenModule {}

@@ -6,9 +6,6 @@ import { PraesenzkontrolleComponent } from './praesenzkontrolle.component';
 
 @NgModule({
   declarations: [PraesenzkontrolleComponent],
-  imports: [
-    CommonModule,
-    PraesenzkontrolleRoutingModule
-  ]
+  imports: [CommonModule, PraesenzkontrolleRoutingModule]
 })
-export class PraesenzkontrolleModule { }
+export class PraesenzkontrolleModule {}

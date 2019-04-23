@@ -8,9 +8,8 @@ describe('PraesenzkontrolleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PraesenzkontrolleComponent ]
-    })
-    .compileComponents();
+      declarations: [PraesenzkontrolleComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

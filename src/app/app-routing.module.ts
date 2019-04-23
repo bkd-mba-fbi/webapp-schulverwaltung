@@ -5,19 +5,23 @@ import { HomeComponent } from './home.component';
 const routes: Routes = [
   {
     path: 'praesenzkontrolle',
-    loadChildren: './praesenzkontrolle/praesenzkontrolle.module#PraesenzkontrolleModule'
+    loadChildren:
+      './praesenzkontrolle/praesenzkontrolle.module#PraesenzkontrolleModule'
   },
   {
     path: 'offene-absenzen',
-    loadChildren: './offene-absenzen/offene-absenzen.module#OffeneAbsenzenModule'
+    loadChildren:
+      './offene-absenzen/offene-absenzen.module#OffeneAbsenzenModule'
   },
   {
     path: 'absenzen-bearbeiten',
-    loadChildren: './absenzen-bearbeiten/absenzen-bearbeiten.module#AbsenzenBearbeitenModule'
+    loadChildren:
+      './absenzen-bearbeiten/absenzen-bearbeiten.module#AbsenzenBearbeitenModule'
   },
   {
     path: 'absenzen-auswerten',
-    loadChildren: './absenzen-auswerten/absenzen-auswerten.module#AbsenzenAuswertenModule'
+    loadChildren:
+      './absenzen-auswerten/absenzen-auswerten.module#AbsenzenAuswertenModule'
   },
   {
     path: '',
@@ -27,7 +31,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
