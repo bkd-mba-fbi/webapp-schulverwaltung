@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": "*.{js,ts,component.html}",
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
+}
