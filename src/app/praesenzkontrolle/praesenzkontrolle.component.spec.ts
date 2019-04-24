@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PraesenzkontrolleComponent } from './praesenzkontrolle.component';
 
 describe('PraesenzkontrolleComponent', () => {
@@ -7,9 +8,11 @@ describe('PraesenzkontrolleComponent', () => {
   let fixture: ComponentFixture<PraesenzkontrolleComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PraesenzkontrolleComponent]
-    }).compileComponents();
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [PraesenzkontrolleComponent]
+      })
+    ).compileComponents();
   }));
 
   beforeEach(() => {

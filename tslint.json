@@ -35,6 +35,7 @@
     "no-switch-case-fall-through": true,
     "no-use-before-declare": true,
     "no-var-requires": false,
+    "typedef": [true, "call-signature"],
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "trailing-comma": false,

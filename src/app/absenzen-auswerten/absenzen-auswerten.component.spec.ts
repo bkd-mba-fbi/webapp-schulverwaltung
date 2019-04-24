@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { AbsenzenAuswertenComponent } from './absenzen-auswerten.component';
 
 describe('AbsenzenAuswertenComponent', () => {
@@ -7,9 +8,11 @@ describe('AbsenzenAuswertenComponent', () => {
   let fixture: ComponentFixture<AbsenzenAuswertenComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AbsenzenAuswertenComponent]
-    }).compileComponents();
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [AbsenzenAuswertenComponent]
+      })
+    ).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,0 +1,14 @@
+{
+  "praesenzkontrolle": {
+    "title": "Contrôle de présence"
+  },
+  "offene-absenzen": {
+    "title": "Absences ouvertes"
+  },
+  "absenzen-bearbeiten": {
+    "title": "Éditer des absences"
+  },
+  "absenzen-auswerten": {
+    "title": "Évaluer des absences"
+  }
+}

@@ -1,12 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'erz-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  template: `
+    <ul>
+      <li *ngFor="let section of sections">
+        <h2>
+          <a [routerLink]="'/' + section">
+            {{ section + '.title' | translate }}
+          </a>
+        </h2>
+      </li>
+    </ul>
+  `,
+  styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
+export class HomeComponent {
+  sections: ReadonlyArray<string> = [
+    'praesenzkontrolle',
+    'offene-absenzen',
+    'absenzen-bearbeiten',
+    'absenzen-auswerten'
+  ];
 }

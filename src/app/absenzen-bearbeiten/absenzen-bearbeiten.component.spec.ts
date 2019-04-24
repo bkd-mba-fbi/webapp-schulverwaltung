@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { AbsenzenBearbeitenComponent } from './absenzen-bearbeiten.component';
 
 describe('AbsenzenBearbeitenComponent', () => {
@@ -7,9 +8,11 @@ describe('AbsenzenBearbeitenComponent', () => {
   let fixture: ComponentFixture<AbsenzenBearbeitenComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AbsenzenBearbeitenComponent]
-    }).compileComponents();
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [AbsenzenBearbeitenComponent]
+      })
+    ).compileComponents();
   }));
 
   beforeEach(() => {

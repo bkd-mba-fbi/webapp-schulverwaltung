@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'erz-offene-absenzen',
   templateUrl: './offene-absenzen.component.html',
-  styleUrls: ['./offene-absenzen.component.css']
+  styleUrls: ['./offene-absenzen.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OffeneAbsenzenComponent implements OnInit {
   constructor() {}

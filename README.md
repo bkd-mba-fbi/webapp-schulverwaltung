@@ -15,3 +15,4 @@ TODO:
 - Allgemeine Aspekte sind im [Wiki](https://github.com/erz-mba-fbi/absenzenmanagement/wiki) dokumentiert
 - [Einrichten Entwicklungsumgebung](doc/setup-entwicklung.md)
 - [Prettier](doc/prettier.md)
+- [Internationalization (i18n)](doc/i18n.md)
