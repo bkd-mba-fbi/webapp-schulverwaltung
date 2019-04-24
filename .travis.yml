@@ -2,4 +2,11 @@ language: node_js
 node_js:
   - "10"
 
+dist: trusty
+addons:
+  chrome: stable
+
 cache: npm
+
+script:
+  - npm run test:headless

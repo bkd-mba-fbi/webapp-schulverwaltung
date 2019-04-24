@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "lint:format": "ng lint $(ng config defaultProject) --tslint-config tslint-prettier.json --files \"src/**/*.ts\"",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
