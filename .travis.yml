@@ -8,5 +8,10 @@ addons:
 
 cache: npm
 
-script:
-  - npm run test:headless
+jobs:
+  include:
+    - stage: lint
+      script: npm run lint
+      script: npm run lint:format
+    - stage: test
+      script: npm run test:headless
