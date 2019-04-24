@@ -1,5 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-jasmine-rules",
+    "tslint-config-prettier"
+  ],
   "rulesDirectory": ["codelyzer"],
   "rules": {
     "array-type": false,
@@ -44,7 +48,9 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
+    "directive-selector": [true, "attribute", "erz", "camelCase"],
     "component-selector": [true, "element", "erz", "kebab-case"],
-    "directive-selector": [true, "attribute", "erz", "camelCase"]
+    "no-focused-tests": true,
+    "no-disabled-tests": true
   }
 }
