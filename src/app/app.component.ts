@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { I18nService } from './shared/i18n.service';
+import { I18nService } from './shared/services/i18n.service';
 
 @Component({
   selector: 'erz-app',

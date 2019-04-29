@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service.ts.service';
 
 @Component({
   selector: 'erz-presence-control',
@@ -7,7 +8,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PresenceControlComponent implements OnInit {
-  constructor() {}
+  lessonPresences$ = this.lessPresencesService.getList();
+
+  constructor(private lessPresencesService: LessonPresencesRestService) {}
 
   ngOnInit(): void {}
 }

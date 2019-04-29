@@ -16,6 +16,14 @@ export class SettingsService {
   settings$ = this.loadSettings();
   apiUrl$ = this.settings$.pipe(pluck<Settings, string>('apiUrl'));
 
+  protected get settings(): Option<Settings> {
+    return (
+      ((window as any).absenzenmanagement &&
+        (window as any).absenzenmanagement.settings) ||
+      null
+    );
+  }
+
   private loadSettings(): Observable<Settings> {
     return defer(() => of(this.settings)).pipe(
       map(settings => {
@@ -39,14 +47,6 @@ export class SettingsService {
         }
         return error;
       })
-    );
-  }
-
-  private get settings(): Option<Settings> {
-    return (
-      ((window as any).absenzenmanagement &&
-        (window as any).absenzenmanagement.settings) ||
-      null
     );
   }
 }
