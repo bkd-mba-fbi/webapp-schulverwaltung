@@ -18,7 +18,14 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/settings.js",
+              "src/settings.example.js",
+              "src/assets",
+              { "glob": "README.md", "input": ".", "output": "." },
+              { "glob": "**/*.md", "input": "doc", "output": "doc" }
+            ],
             "styles": ["src/styles.css"],
             "scripts": [],
             "es5BrowserSupport": true
