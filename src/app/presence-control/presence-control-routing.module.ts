@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PraesenzkontrolleComponent } from './praesenzkontrolle.component';
+import { PresenceControlComponent } from './presence-control.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PraesenzkontrolleComponent
+    component: PresenceControlComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PraesenzkontrolleRoutingModule {}
+export class PresenceControlRoutingModule {}

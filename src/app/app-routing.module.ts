@@ -4,9 +4,9 @@ import { HomeComponent } from './home.component';
 
 const routes: Routes = [
   {
-    path: 'praesenzkontrolle',
+    path: 'presence-control',
     loadChildren:
-      './praesenzkontrolle/praesenzkontrolle.module#PraesenzkontrolleModule'
+      './presence-control/presence-control.module#PresenceControlModule'
   },
   {
     path: 'offene-absenzen',
