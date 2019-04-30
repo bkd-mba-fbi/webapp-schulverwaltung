@@ -15,3 +15,13 @@ jobs:
       script: npm run lint:format
     - stage: test
       script: npm run test:headless
+    - stage: deploy
+      script: npm run build:prod && (cd dist; zip --recurse-paths absenzenmanagement.zip *)
+      deploy:
+        provider: pages
+        local-dir: dist
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: false
+        on:
+          branch: master
