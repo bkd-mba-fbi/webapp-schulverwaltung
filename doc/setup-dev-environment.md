@@ -1,6 +1,6 @@
-# Einrichten Entwicklungsumgebung
+# Setup development environment
 
-[zurück](../README.md)
+[back](../README.md)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
