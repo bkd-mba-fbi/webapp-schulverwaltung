@@ -18,9 +18,9 @@ const routes: Routes = [
     loadChildren: './edit-absences/edit-absences.module#EditAbsencesModule'
   },
   {
-    path: 'absenzen-auswerten',
+    path: 'evaluate-absences',
     loadChildren:
-      './absenzen-auswerten/absenzen-auswerten.module#AbsenzenAuswertenModule'
+      './evaluate-absences/evaluate-absences.module#EvaluateAbsencesModule'
   },
   {
     path: '',

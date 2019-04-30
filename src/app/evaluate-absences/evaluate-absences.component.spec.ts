@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { AbsenzenAuswertenComponent } from './absenzen-auswerten.component';
+import { EvaluateAbsencesComponent } from './evaluate-absences.component';
 
-describe('AbsenzenAuswertenComponent', () => {
-  let component: AbsenzenAuswertenComponent;
-  let fixture: ComponentFixture<AbsenzenAuswertenComponent>;
+describe('EvaluateAbsencesComponent', () => {
+  let component: EvaluateAbsencesComponent;
+  let fixture: ComponentFixture<EvaluateAbsencesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [AbsenzenAuswertenComponent]
+        declarations: [EvaluateAbsencesComponent]
       })
     ).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AbsenzenAuswertenComponent);
+    fixture = TestBed.createComponent(EvaluateAbsencesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

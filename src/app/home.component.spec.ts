@@ -33,7 +33,7 @@ describe('HomeComponent', () => {
       '/presence-control',
       '/offene-absenzen',
       '/edit-absences',
-      '/absenzen-auswerten'
+      '/evaluate-absences'
     ]);
   });
 
