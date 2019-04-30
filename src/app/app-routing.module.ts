@@ -14,9 +14,8 @@ const routes: Routes = [
       './offene-absenzen/offene-absenzen.module#OffeneAbsenzenModule'
   },
   {
-    path: 'absenzen-bearbeiten',
-    loadChildren:
-      './absenzen-bearbeiten/absenzen-bearbeiten.module#AbsenzenBearbeitenModule'
+    path: 'edit-absences',
+    loadChildren: './edit-absences/edit-absences.module#EditAbsencesModule'
   },
   {
     path: 'absenzen-auswerten',

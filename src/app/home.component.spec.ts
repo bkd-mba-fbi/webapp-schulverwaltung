@@ -32,7 +32,7 @@ describe('HomeComponent', () => {
     expect(links).toEqual([
       '/presence-control',
       '/offene-absenzen',
-      '/absenzen-bearbeiten',
+      '/edit-absences',
       '/absenzen-auswerten'
     ]);
   });

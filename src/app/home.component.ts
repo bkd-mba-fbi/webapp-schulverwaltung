@@ -20,7 +20,7 @@ export class HomeComponent {
   sections: ReadonlyArray<string> = [
     'presence-control',
     'offene-absenzen',
-    'absenzen-bearbeiten',
+    'edit-absences',
     'absenzen-auswerten'
   ];
 }
