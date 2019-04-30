@@ -9,9 +9,8 @@ const routes: Routes = [
       './presence-control/presence-control.module#PresenceControlModule'
   },
   {
-    path: 'offene-absenzen',
-    loadChildren:
-      './offene-absenzen/offene-absenzen.module#OffeneAbsenzenModule'
+    path: 'open-absences',
+    loadChildren: './open-absences/open-absences.module#OpenAbsencesModule'
   },
   {
     path: 'edit-absences',

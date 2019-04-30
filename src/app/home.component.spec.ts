@@ -31,7 +31,7 @@ describe('HomeComponent', () => {
     const links = getLinks();
     expect(links).toEqual([
       '/presence-control',
-      '/offene-absenzen',
+      '/open-absences',
       '/edit-absences',
       '/evaluate-absences'
     ]);
