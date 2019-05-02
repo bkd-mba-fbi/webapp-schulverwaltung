@@ -1,24 +1,26 @@
 # Prettier
 
-[zurück](../README.md)
+[back](../README.md)
 
-Wir verwenden Prettier zur automatischen Formatierung des Source Codes.
+We use Prettier to automatically format the source code.
 
-Der Einsatz erfolgt dreistufig:
+The module is integrated threefold:
 
-- Integration in den Editor durch Formatierung beim Speichern (siehe https://prettier.io/docs/en/editors.html).
-- Integration ins Git durch Formatierung beim Comitten (Pre-Commit Hook).
-- Integration ins CI mit einem Linting-Step, welcher fehlschlägt, wenn eine (TypeScript-)Datei nicht Prettier-formatiert ist (`npm run lint:format`).
+- Format on save in the editor, see https://prettier.io/docs/en/editors.html
+- Pre-commit hook in Git
+- Linting step in the CI pipeline: The build fails when a (TypeScript) file is not properly formatted (`npm run lint:format`)
 
-## Prettier Version aktualisieren
+## Update Prettier version
 
-Prettier ist auf eine exakte Version gepinnt, da die Formatierung von Version zu Version unterschiedlich sein kann. Eine Aktualisierung kann manuell vorgenommen werden:
+Automatic Prettier updates are disabled, because the formatting rules can change in newer versions. Therefore an exact version of the Prettier module is installed.
+
+You can update it manually:
 
 ```
 npm install --save-exact prettier@latest
 ```
 
-Danach muss die Codebase neu formatiert werden:
+To reformat the code base afterwards:
 
 ```
 npm run format

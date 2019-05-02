@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { PraesenzkontrolleComponent } from './praesenzkontrolle.component';
+import { PresenceControlComponent } from './presence-control.component';
 
-describe('PraesenzkontrolleComponent', () => {
-  let component: PraesenzkontrolleComponent;
-  let fixture: ComponentFixture<PraesenzkontrolleComponent>;
+describe('PresenceControlComponent', () => {
+  let component: PresenceControlComponent;
+  let fixture: ComponentFixture<PresenceControlComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PraesenzkontrolleComponent]
+        declarations: [PresenceControlComponent]
       })
     ).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PraesenzkontrolleComponent);
+    fixture = TestBed.createComponent(PresenceControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

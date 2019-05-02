@@ -4,24 +4,22 @@ import { HomeComponent } from './home.component';
 
 const routes: Routes = [
   {
-    path: 'praesenzkontrolle',
+    path: 'presence-control',
     loadChildren:
-      './praesenzkontrolle/praesenzkontrolle.module#PraesenzkontrolleModule'
+      './presence-control/presence-control.module#PresenceControlModule'
   },
   {
-    path: 'offene-absenzen',
-    loadChildren:
-      './offene-absenzen/offene-absenzen.module#OffeneAbsenzenModule'
+    path: 'open-absences',
+    loadChildren: './open-absences/open-absences.module#OpenAbsencesModule'
   },
   {
-    path: 'absenzen-bearbeiten',
-    loadChildren:
-      './absenzen-bearbeiten/absenzen-bearbeiten.module#AbsenzenBearbeitenModule'
+    path: 'edit-absences',
+    loadChildren: './edit-absences/edit-absences.module#EditAbsencesModule'
   },
   {
-    path: 'absenzen-auswerten',
+    path: 'evaluate-absences',
     loadChildren:
-      './absenzen-auswerten/absenzen-auswerten.module#AbsenzenAuswertenModule'
+      './evaluate-absences/evaluate-absences.module#EvaluateAbsencesModule'
   },
   {
     path: '',

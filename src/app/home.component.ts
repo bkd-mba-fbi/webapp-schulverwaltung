@@ -18,9 +18,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class HomeComponent {
   sections: ReadonlyArray<string> = [
-    'praesenzkontrolle',
-    'offene-absenzen',
-    'absenzen-bearbeiten',
-    'absenzen-auswerten'
+    'presence-control',
+    'open-absences',
+    'edit-absences',
+    'evaluate-absences'
   ];
 }

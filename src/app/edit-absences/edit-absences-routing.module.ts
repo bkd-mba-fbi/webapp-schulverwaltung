@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OffeneAbsenzenComponent } from './offene-absenzen.component';
+import { EditAbsencesComponent } from './edit-absences.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: OffeneAbsenzenComponent
+    component: EditAbsencesComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class OffeneAbsenzenRoutingModule {}
+export class EditAbsencesRoutingModule {}

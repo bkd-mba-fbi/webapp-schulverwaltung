@@ -1,14 +1,14 @@
 {
-  "praesenzkontrolle": {
+  "presence-control": {
     "title": "Präsenzkontrolle"
   },
-  "offene-absenzen": {
+  "open-absences": {
     "title": "Offene Absenzen"
   },
-  "absenzen-bearbeiten": {
+  "edit-absences": {
     "title": "Absenzen bearbeiten"
   },
-  "absenzen-auswerten": {
+  "evaluate-absences": {
     "title": "Absenzen auswerten"
   }
 }
