@@ -16,7 +16,10 @@ jobs:
     - stage: test
       script: npm run test:headless
     - stage: deploy
-      script: npm run build:prod && (cd dist; zip --recurse-paths absenzenmanagement.zip *)
+      script: 
+        - npm run build:prod
+        - (cd dist; zip --recurse-paths absenzenmanagement.zip *; mv absenzenmanagement app)
+        - cp README.md dist && cp -r doc dist
       deploy:
         provider: pages
         local-dir: dist
