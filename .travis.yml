@@ -18,8 +18,10 @@ jobs:
     - stage: deploy
       script: 
         - npm run build:prod
-        - (cd dist; zip --recurse-paths absenzenmanagement.zip *; mv absenzenmanagement app)
         - cp README.md dist && cp -r doc dist
+        - (cd dist && zip --recurse-paths absenzenmanagement.zip *)
+        - mv dist/absenzenmanagement dist/app
+        - sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
       deploy:
         provider: pages
         local-dir: dist
