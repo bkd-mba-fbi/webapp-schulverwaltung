@@ -8,10 +8,7 @@ JavaScript web module to implement the process "Absenzenverwaltung" using the CL
 
 ## Integration
 
-TODO:
-
-- Latest build
-- Prerequisites (localStorage values etc.)
+Download the [latest build](absenzenmanagement.zip).
 
 To integrate this application in your website, you have to copy and paste the import of the `settings.js` and the CSS file from `index.html`'s `<head>`:
 
