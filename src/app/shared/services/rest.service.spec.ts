@@ -5,9 +5,10 @@ import { HttpTestingController } from '@angular/common/http/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { RestService } from './rest.service';
+import { RestModel } from '../models/rest.model';
 import { SettingsService } from './settings.service';
 
-interface FooModel {
+class FooModel extends RestModel {
   foo: string;
 }
 
@@ -15,6 +16,10 @@ interface FooModel {
 class FooService extends RestService<FooModel> {
   constructor(http: HttpClient, settings: SettingsService) {
     super(http, settings, 'Foo');
+  }
+
+  buildEntry(json: any): FooModel {
+    return FooModel.from(json);
   }
 }
 
@@ -37,7 +42,7 @@ describe('RestService', () => {
   describe('.get', () => {
     it('requests single instance with given id', () => {
       service.get(123).subscribe(result => {
-        expect(result).toEqual({ foo: 'bar' });
+        expect(result).toEqual(FooModel.from({ foo: 'bar' }));
       });
 
       httpTestingController
@@ -49,7 +54,10 @@ describe('RestService', () => {
   describe('.getList', () => {
     it('requests multiple instances', () => {
       service.getList().subscribe(result => {
-        expect(result).toEqual([{ foo: 'bar' }, { foo: 'baz' }]);
+        expect(result).toEqual([
+          FooModel.from({ foo: 'bar' }),
+          FooModel.from({ foo: 'baz' })
+        ]);
       });
 
       httpTestingController

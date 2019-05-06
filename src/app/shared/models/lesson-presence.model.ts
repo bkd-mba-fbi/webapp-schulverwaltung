@@ -1,6 +1,7 @@
+import { RestModel } from './rest.model';
 import { Reference, Flag } from './common-types';
 
-export interface LessonPresence {
+export class LessonPresence extends RestModel {
   LessonRef: Reference;
   StudentRef: Reference;
   EventRef: Reference;

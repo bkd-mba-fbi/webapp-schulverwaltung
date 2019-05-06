@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { SettingsService } from './settings.service';
 
 export abstract class RestService<T> {
@@ -11,12 +11,16 @@ export abstract class RestService<T> {
   ) {}
 
   get(id: number): Observable<T> {
-    return this.withBaseUrl(url => this.http.get<T>(`${url}/${id}`));
+    return this.withBaseUrl(url => this.http.get<any>(`${url}/${id}`)).pipe(
+      map((json: any) => this.buildEntry(json))
+    );
   }
 
   getList(params?: any): Observable<ReadonlyArray<T>> {
     return this.withBaseUrl(url =>
-      this.http.get<ReadonlyArray<T>>(url, this.buildRequestOptions(params))
+      this.http
+        .get<any[]>(url, this.buildRequestOptions(params))
+        .pipe(map((json: any[]) => this.buildList(json)))
     );
   }
 
@@ -42,5 +46,11 @@ export abstract class RestService<T> {
 
   protected buildBaseUrl(baseUrl: string): string {
     return [baseUrl, this.resourcePath].join('/');
+  }
+
+  protected abstract buildEntry(json: any): T;
+
+  protected buildList(json: any[]): ReadonlyArray<T> {
+    return json.map(e => this.buildEntry(e));
   }
 }

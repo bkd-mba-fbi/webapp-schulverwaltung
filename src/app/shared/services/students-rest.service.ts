@@ -11,4 +11,8 @@ export class StudentsRestService extends RestService<Student> {
   constructor(http: HttpClient, settings: SettingsService) {
     super(http, settings, 'Students');
   }
+
+  protected buildEntry(json: any): Student {
+    return Student.from(json);
+  }
 }

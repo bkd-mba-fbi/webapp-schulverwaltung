@@ -12,4 +12,8 @@ export class LessonPresencesRestService extends RestService<LessonPresence> {
   constructor(http: HttpClient, settings: SettingsService) {
     super(http, settings, 'LessonPresences');
   }
+
+  protected buildEntry(json: any): LessonPresence {
+    return LessonPresence.from(json);
+  }
 }
