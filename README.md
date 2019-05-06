@@ -4,6 +4,8 @@
 
 JavaScript web module to implement the process "Absenzenverwaltung" using the CLX.Evento backend (REST API).
 
+[Demo](app)
+
 ## Integration
 
 TODO:
