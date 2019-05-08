@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
+import { LessonIncidentsRestService } from './lesson-incidents-rest.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { LessonPresencesRestService } from './lesson-presences-rest.service.ts.service';
 
-describe('LessonPresencesRestService', () => {
+describe('LessonIncidentsRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: LessonPresencesRestService = TestBed.get(
-      LessonPresencesRestService
+    const service: LessonIncidentsRestService = TestBed.get(
+      LessonIncidentsRestService
     );
     expect(service).toBeTruthy();
   });

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service.ts.service';
+
+import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service';
 
 @Component({
   selector: 'erz-presence-control',

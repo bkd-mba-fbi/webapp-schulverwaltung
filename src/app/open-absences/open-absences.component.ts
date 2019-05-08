@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
+import { LessonAbsencesRestService } from '../shared/services/lesson-absences-rest.service';
+
 @Component({
   selector: 'erz-open-absences',
   templateUrl: './open-absences.component.html',
@@ -7,7 +9,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OpenAbsencesComponent implements OnInit {
-  constructor() {}
+  lessonAbsences$ = this.lessonAbsencesService.getList();
+
+  constructor(private lessonAbsencesService: LessonAbsencesRestService) {}
 
   ngOnInit(): void {}
 }
