@@ -1,5 +1,5 @@
 interface AttrSet {
-  [className: string]: Set<string>;
+  [className: string]: string[];
 }
 
 type AttributesDecoder = (
@@ -33,7 +33,7 @@ function buildAttributesDecoder<T, R>(
   return (constructorFunction: Constructor<RestModel>, data: any): any => {
     const modelName = constructorFunction.name;
     Object.keys(data).forEach(property => {
-      if (attrSet[modelName] && attrSet[modelName].has(property)) {
+      if (attrSet[modelName] && attrSet[modelName].indexOf(property) !== -1) {
         data[property] = decode(data[property]);
       }
     });
@@ -46,9 +46,9 @@ function buildAttributesDecorator(attrSet: AttrSet): () => any {
     return (target: object, propertyKey: string) => {
       const modelName = target.constructor.name;
       if (!attrSet[modelName]) {
-        attrSet[modelName] = new Set();
+        attrSet[modelName] = [];
       }
-      attrSet[modelName].add(propertyKey);
+      attrSet[modelName].push(propertyKey);
     };
   };
 }
