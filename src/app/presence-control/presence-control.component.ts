@@ -3,7 +3,10 @@ import { map, shareReplay } from 'rxjs/operators';
 
 import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service';
 import { Lesson } from '../shared/models/lesson.model';
-import { LessonPresence } from '../shared/models/lesson-presence.model';
+import {
+  LessonPresence,
+  extractLesson
+} from '../shared/models/lesson-presence.model';
 
 @Component({
   selector: 'erz-presence-control',
@@ -23,6 +26,6 @@ export class PresenceControlComponent implements OnInit {
     if (lessonPresences.length === 0) {
       return null;
     }
-    return lessonPresences[0].getLesson();
+    return extractLesson(lessonPresences[0]);
   }
 }

@@ -1,12 +1,16 @@
-import { RestModel } from './rest.model';
-import { Reference } from './common-types';
+import * as t from 'io-ts';
+import { Reference, Option } from './common-types';
 
-export class LessonIncident extends RestModel {
-  LessonRef: Reference;
-  StudentRef: Reference;
-  TypeRef: Reference;
-  Comment: Option<string>;
-  StudentFullName: string;
-  Type: Option<string>;
-  Href: string;
-}
+const LessonIncident = t.type({
+  LessonRef: Reference,
+  StudentRef: Reference,
+  TypeRef: Reference,
+  Comment: Option(t.string),
+  StudentFullName: t.string,
+  Type: Option(t.string),
+  Href: t.string
+});
+type LessonIncident = t.TypeOf<typeof LessonIncident>;
+export { LessonIncident };
+
+export type LessonIncidentProps = t.PropsOf<typeof LessonIncident>;

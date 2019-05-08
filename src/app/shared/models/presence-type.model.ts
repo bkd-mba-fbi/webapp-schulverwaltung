@@ -1,17 +1,21 @@
-import { RestModel } from './rest.model';
-import { Flag } from './common-types';
+import * as t from 'io-ts';
+import { Flag, Option } from './common-types';
 
-export class PresenceType extends RestModel {
-  Id: number;
-  TypeId: number;
-  Active: Flag;
-  Description: string; // "Absenz;2;aktiv"
-  Designation: Option<string>;
-  IsAbsence: Flag;
-  IsComment: Flag;
-  IsDispensation: Flag;
-  IsIncident: Flag;
-  NeedsConfirmation: Flag;
-  Sort: number;
-  Href: string;
-}
+const PresenceType = t.type({
+  Id: t.number,
+  TypeId: t.number,
+  Active: Flag,
+  Description: t.string,
+  Designation: Option(t.string),
+  IsAbsence: Flag,
+  IsComment: Flag,
+  IsDispensation: Flag,
+  IsIncident: Flag,
+  NeedsConfirmation: Flag,
+  Sort: t.number,
+  Href: t.string
+});
+type PresenceType = t.TypeOf<typeof PresenceType>;
+export { PresenceType };
+
+export type PresenceTypeProps = t.PropsOf<typeof PresenceType>;

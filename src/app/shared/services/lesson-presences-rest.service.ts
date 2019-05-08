@@ -3,17 +3,18 @@ import { HttpClient } from '@angular/common/http';
 
 import { RestService } from './rest.service';
 import { SettingsService } from './settings.service';
-import { LessonPresence } from '../models/lesson-presence.model';
+import {
+  LessonPresenceProps,
+  LessonPresence
+} from '../models/lesson-presence.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LessonPresencesRestService extends RestService<LessonPresence> {
+export class LessonPresencesRestService extends RestService<
+  LessonPresenceProps
+> {
   constructor(http: HttpClient, settings: SettingsService) {
-    super(http, settings, 'LessonPresences');
-  }
-
-  protected buildEntry(json: any): LessonPresence {
-    return LessonPresence.from(json);
+    super(http, settings, LessonPresence, 'LessonPresences');
   }
 }

@@ -1,26 +1,30 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import * as t from 'io-ts/lib/index';
+
+import { decode, decodeArray } from '../utils/decode';
 import { SettingsService } from './settings.service';
 
-export abstract class RestService<T> {
+export abstract class RestService<P extends t.AnyProps> {
   constructor(
     protected http: HttpClient,
     protected settings: SettingsService,
+    protected decoder: t.TypeC<P>,
     protected resourcePath: string
   ) {}
 
-  get(id: number): Observable<T> {
+  get(id: number): Observable<t.TypeOfProps<P>> {
     return this.withBaseUrl(url => this.http.get<any>(`${url}/${id}`)).pipe(
-      map((json: any) => this.buildEntry(json))
+      switchMap(decode(this.decoder))
     );
   }
 
-  getList(params?: any): Observable<ReadonlyArray<T>> {
+  getList(params?: any): Observable<ReadonlyArray<t.TypeOfProps<P>>> {
     return this.withBaseUrl(url =>
       this.http
         .get<any[]>(url, this.buildRequestOptions(params))
-        .pipe(map((json: any[]) => this.buildList(json, this.buildEntry)))
+        .pipe(switchMap(decodeArray(this.decoder)))
     );
   }
 
@@ -46,14 +50,5 @@ export abstract class RestService<T> {
 
   protected buildBaseUrl(baseUrl: string): string {
     return [baseUrl, this.resourcePath].join('/');
-  }
-
-  protected abstract buildEntry(json: any): T;
-
-  protected buildList<R>(
-    json: any[],
-    entryBuilder: (json: any) => R
-  ): ReadonlyArray<R> {
-    return json.map(e => entryBuilder(e));
   }
 }

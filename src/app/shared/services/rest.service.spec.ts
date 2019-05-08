@@ -2,30 +2,27 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpTestingController } from '@angular/common/http/testing';
+import * as t from 'io-ts';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { RestService } from './rest.service';
-import { RestModel } from '../models/rest.model';
 import { SettingsService } from './settings.service';
-
-class FooModel extends RestModel {
-  foo: string;
-}
-
-@Injectable()
-class FooService extends RestService<FooModel> {
-  constructor(http: HttpClient, settings: SettingsService) {
-    super(http, settings, 'Foo');
-  }
-
-  buildEntry(json: any): FooModel {
-    return FooModel.from(json);
-  }
-}
+import { DecodeError } from '../utils/decode';
 
 describe('RestService', () => {
   let service: FooService;
   let httpTestingController: HttpTestingController;
+  const Foo = t.type({
+    foo: t.string
+  });
+  type FooProps = t.PropsOf<typeof Foo>;
+
+  @Injectable()
+  class FooService extends RestService<FooProps> {
+    constructor(http: HttpClient, settings: SettingsService) {
+      super(http, settings, Foo, 'Foo');
+    }
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule(
@@ -42,27 +39,58 @@ describe('RestService', () => {
   describe('.get', () => {
     it('requests single instance with given id', () => {
       service.get(123).subscribe(result => {
-        expect(result).toEqual(FooModel.from({ foo: 'bar' }));
+        expect(result).toEqual({ foo: 'bar' });
       });
 
       httpTestingController
         .expectOne('https://eventotest.api/Foo/123')
         .flush({ foo: 'bar' });
     });
+
+    it('throws an error if JSON from server is not compliant', () => {
+      const success = jasmine.createSpy('success');
+      const error = jasmine.createSpy('error');
+      service.get(123).subscribe(success, error);
+
+      httpTestingController
+        .expectOne('https://eventotest.api/Foo/123')
+        .flush({ foo: 123 });
+
+      expect(success).not.toHaveBeenCalled();
+      expect(error).toHaveBeenCalled();
+
+      expect(error).toHaveBeenCalledWith(
+        new DecodeError('Expecting string at foo but instead got: 123.')
+      );
+    });
   });
 
   describe('.getList', () => {
     it('requests multiple instances', () => {
       service.getList().subscribe(result => {
-        expect(result).toEqual([
-          FooModel.from({ foo: 'bar' }),
-          FooModel.from({ foo: 'baz' })
-        ]);
+        expect(result).toEqual([{ foo: 'bar' }, { foo: 'baz' }]);
       });
 
       httpTestingController
         .expectOne('https://eventotest.api/Foo')
         .flush([{ foo: 'bar' }, { foo: 'baz' }]);
+    });
+
+    it('throws an error if JSON from server is not compliant', () => {
+      const success = jasmine.createSpy('success');
+      const error = jasmine.createSpy('error');
+      service.getList().subscribe(success, error);
+
+      httpTestingController
+        .expectOne('https://eventotest.api/Foo')
+        .flush([{ foo: 123 }, { foo: 'baz' }]);
+
+      expect(success).not.toHaveBeenCalled();
+      expect(error).toHaveBeenCalled();
+
+      expect(error).toHaveBeenCalledWith(
+        new DecodeError('Expecting string at 0.foo but instead got: 123.')
+      );
     });
   });
 });

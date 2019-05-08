@@ -1,18 +1,23 @@
-import { RestModel } from './rest.model';
+import * as t from 'io-ts';
+import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
 
-export class Student extends RestModel {
-  Id: number;
-  AddressLine1: string;
-  AdressLine2: string;
-  Birthdate: string; // '2002-08-12T00:00:00'
-  DisplayEmail: string;
-  FirstName: string;
-  FullName: string;
-  Gender: 'M' | 'F';
-  LastName: string;
-  Location: string;
-  PhoneMobile: string;
-  PhonePrivate: string;
-  PostalCode: string;
-  Href: string;
-}
+const Student = t.type({
+  Id: t.number,
+  AddressLine1: t.string,
+  AdressLine2: t.string,
+  Birthdate: DateFromISOString,
+  DisplayEmail: t.string,
+  FirstName: t.string,
+  FullName: t.string,
+  Gender: t.union([t.literal('M'), t.literal('F')]),
+  LastName: t.string,
+  Location: t.string,
+  PhoneMobile: t.string,
+  PhonePrivate: t.string,
+  PostalCode: t.string,
+  Href: t.string
+});
+type Student = t.TypeOf<typeof Student>;
+export { Student };
+
+export type StudentProps = t.PropsOf<typeof Student>;

@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { SettingsService } from './settings.service';
 import { RestService } from './rest.service';
-import { Student } from '../models/student.model';
+import { decodeArray } from '../utils/decode';
+import { Student, StudentProps } from '../models/student.model';
 import { LegalRepresentative } from '../models/legal-representative.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentsRestService extends RestService<Student> {
+export class StudentsRestService extends RestService<StudentProps> {
   constructor(http: HttpClient, settings: SettingsService) {
-    super(http, settings, 'Students');
-  }
-
-  protected buildEntry(json: any): Student {
-    return Student.from(json);
+    super(http, settings, Student, 'Students');
   }
 
   getLegalRepresentatives(
@@ -29,11 +27,7 @@ export class StudentsRestService extends RestService<Student> {
           `${url}/${studentId}/LegalRepresentatives`,
           this.buildRequestOptions(params)
         )
-        .pipe(
-          map((json: any[]) =>
-            this.buildList(json, data => LegalRepresentative.from(data))
-          )
-        )
+        .pipe(switchMap(decodeArray(LegalRepresentative)))
     );
   }
 }

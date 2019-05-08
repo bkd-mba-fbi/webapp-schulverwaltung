@@ -1,46 +1,43 @@
-import { RestModel, RestDateTime } from './rest.model';
-import { Reference, Flag } from './common-types';
+import * as t from 'io-ts';
+import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
+import { Reference, Flag, Option, Maybe } from './common-types';
 import { Lesson } from './lesson.model';
 
-export class LessonPresence extends RestModel {
-  LessonRef: Reference;
-  StudentRef: Reference;
-  EventRef: Reference;
-  PresenceTypeRef: Option<Reference>;
-  StudyClassRef: Reference;
-  EventTypeId: number;
-  PresenceConfirmationState: string;
-  PresenceConfirmationStateId: number;
-  EventDesignation: string;
-  EventNumber: string;
-  HasStudyCourseConfirmationCode: string;
-  IsReadOnly: Flag;
+const LessonPresence = t.type({
+  LessonRef: Reference,
+  StudentRef: Reference,
+  EventRef: Reference,
+  PresenceTypeRef: Option(Reference),
+  StudyClassRef: Reference,
+  EventTypeId: t.number,
+  PresenceConfirmationState: Option(t.string),
+  PresenceConfirmationStateId: Option(t.number),
+  EventDesignation: t.string,
+  EventNumber: t.string,
+  HasStudyCourseConfirmationCode: t.number,
+  IsReadOnly: Flag,
+  LessonDateTimeFrom: DateFromISOString,
+  LessonDateTimeTo: DateFromISOString,
+  PresenceComment: Option(t.string),
+  PresenceDate: Option(DateFromISOString),
+  PresenceType: Option(t.string),
+  StudentFullName: t.string,
+  StudyClassDesignation: t.string,
+  StudyClassNumber: t.string,
+  TeacherInformation: t.string,
+  WasAbsentInPrecedingLesson: Maybe(Flag),
+  Href: t.string
+});
+type LessonPresence = t.TypeOf<typeof LessonPresence>;
+export { LessonPresence };
 
-  @RestDateTime()
-  LessonDateTimeFrom: Date; // 2019-04-25T07:45:00;
+export type LessonPresenceProps = t.PropsOf<typeof LessonPresence>;
 
-  @RestDateTime()
-  LessonDateTimeTo: Date; // 2019-04-25T08:30:00;
-
-  PresenceComment: Option<string>;
-
-  @RestDateTime()
-  PresenceDate: Date; // 2019-04-18;
-
-  PresenceType: Option<string>;
-  StudentFullName: string;
-  StudyClassDesignation: string;
-  StudyClassNumber: string;
-  TeacherInformation: string;
-  WasAbsentInPrecedingLesson: Flag;
-  Href: string;
-
-  getLesson(): Lesson {
-    return {
-      EventDesignation: this.EventDesignation,
-      StudyClassNumber: this.StudyClassNumber,
-      LessonDateTimeFrom: this.LessonDateTimeFrom,
-      LessonDateTimeTo: this.LessonDateTimeTo
-    };
-  }
+export function extractLesson(lessonPresence: LessonPresence): Lesson {
+  return {
+    EventDesignation: lessonPresence.EventDesignation,
+    StudyClassNumber: lessonPresence.StudyClassNumber,
+    LessonDateTimeFrom: lessonPresence.LessonDateTimeFrom,
+    LessonDateTimeTo: lessonPresence.LessonDateTimeTo
+  };
 }

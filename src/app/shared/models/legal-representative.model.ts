@@ -1,17 +1,17 @@
-import { RestModel, RestDateTime } from './rest.model';
+import * as t from 'io-ts';
+import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
 import { Reference, Flag } from './common-types';
 
-export class LegalRepresentative extends RestModel {
-  Id: number;
-  RepresentativeRef: Reference;
-  StudentRef: Reference;
+const LegalRepresentative = t.type({
+  Id: t.number,
+  RepresentativeRef: Reference,
+  StudentRef: Reference,
+  DateFrom: DateFromISOString,
+  DateTo: DateFromISOString,
+  RepresentativeAfterMajority: Flag,
+  Href: t.string
+});
+type LegalRepresentative = t.TypeOf<typeof LegalRepresentative>;
+export { LegalRepresentative };
 
-  @RestDateTime()
-  DateFrom: Date;
-
-  @RestDateTime()
-  DateTo: Date;
-
-  RepresentativeAfterMajority: Flag;
-  Href: string;
-}
+export type LegalRepresentativeProps = t.PropsOf<typeof LegalRepresentative>;
