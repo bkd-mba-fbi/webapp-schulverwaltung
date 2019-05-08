@@ -5,11 +5,8 @@
 <input type="text" ngbDatepicker #d="ngbDatepicker" />
 <button class="btn btn-primary" (click)="d.toggle()">Toggle</button>
 
-Students:
-<ul>
-  <li *ngFor="let lessonPresence of lessonPresences$ | async">
-    {{ lessonPresence.StudentFullName }},
-    {{ lessonPresence.LessonDateTimeFrom }},
-    {{ lessonPresence.EventDesignation }}
-  </li>
-</ul>
+Präsenzen:
+<erz-presence-control-header
+  *ngIf="lesson$ | async as lesson"
+  [lesson]="lesson"
+></erz-presence-control-header>
