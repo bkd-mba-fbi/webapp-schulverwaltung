@@ -20,7 +20,7 @@ export abstract class RestService<T> {
     return this.withBaseUrl(url =>
       this.http
         .get<any[]>(url, this.buildRequestOptions(params))
-        .pipe(map((json: any[]) => this.buildList(json)))
+        .pipe(map((json: any[]) => this.buildList(json, this.buildEntry)))
     );
   }
 
@@ -50,7 +50,10 @@ export abstract class RestService<T> {
 
   protected abstract buildEntry(json: any): T;
 
-  protected buildList(json: any[]): ReadonlyArray<T> {
-    return json.map(e => this.buildEntry(e));
+  protected buildList<R>(
+    json: any[],
+    entryBuilder: (json: any) => R
+  ): ReadonlyArray<R> {
+    return json.map(e => entryBuilder(e));
   }
 }
