@@ -1,5 +1,6 @@
 import { RestModel, RestDateTime } from './rest.model';
 import { Reference, Flag } from './common-types';
+import { Lesson } from './lesson.model';
 
 export class LessonPresence extends RestModel {
   LessonRef: Reference;
@@ -33,4 +34,13 @@ export class LessonPresence extends RestModel {
   TeacherInformation: string;
   WasAbsentInPrecedingLesson: Flag;
   Href: string;
+
+  getLesson(): Lesson {
+    return {
+      EventDesignation: this.EventDesignation,
+      StudyClassNumber: this.StudyClassNumber,
+      LessonDateTimeFrom: this.LessonDateTimeFrom,
+      LessonDateTimeTo: this.LessonDateTimeTo
+    };
+  }
 }
