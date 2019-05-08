@@ -1,12 +1,17 @@
-import { RestModel } from './rest.model';
+import { RestModel, RestDateTime } from './rest.model';
 import { Reference, Flag } from './common-types';
 
 export class LegalRepresentative extends RestModel {
   Id: number;
   RepresentativeRef: Reference;
   StudentRef: Reference;
-  DateFrom: string; // Date
-  DateTo: string; // Date
+
+  @RestDateTime()
+  DateFrom: Date;
+
+  @RestDateTime()
+  DateTo: Date;
+
   RepresentativeAfterMajority: Flag;
   Href: string;
 }

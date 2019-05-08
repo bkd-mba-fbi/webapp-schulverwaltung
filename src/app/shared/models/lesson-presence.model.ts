@@ -1,4 +1,4 @@
-import { RestModel } from './rest.model';
+import { RestModel, RestDateTime } from './rest.model';
 import { Reference, Flag } from './common-types';
 
 export class LessonPresence extends RestModel {
@@ -14,10 +14,18 @@ export class LessonPresence extends RestModel {
   EventNumber: string;
   HasStudyCourseConfirmationCode: string;
   IsReadOnly: Flag;
-  LessonDateTimeFrom: string; // 2019-04-25T07:45:00;
-  LessonDateTimeTo: string; // 2019-04-25T08:30:00;
+
+  @RestDateTime()
+  LessonDateTimeFrom: Date; // 2019-04-25T07:45:00;
+
+  @RestDateTime()
+  LessonDateTimeTo: Date; // 2019-04-25T08:30:00;
+
   PresenceComment: Option<string>;
-  PresenceDate: string; // 2019-04-18;
+
+  @RestDateTime()
+  PresenceDate: Date; // 2019-04-18;
+
   PresenceType: Option<string>;
   StudentFullName: string;
   StudyClassDesignation: string;

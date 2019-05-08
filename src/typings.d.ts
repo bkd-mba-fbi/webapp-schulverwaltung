@@ -4,3 +4,7 @@ type Maybe<T> = T | undefined | null;
 interface Dict<T> {
   [index: string]: T;
 }
+
+interface Constructor<T> {
+  new (...args: any[]): T;
+}

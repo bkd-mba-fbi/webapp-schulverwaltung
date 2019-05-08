@@ -1,25 +1,54 @@
+interface AttrSet {
+  [className: string]: Set<string>;
+}
+
+type AttributesDecoder = (
+  constructorFunction: Constructor<RestModel>,
+  data: any
+) => any;
+
+const dateTimeAttrs: AttrSet = {};
+const decodeDateTimeStrings = buildAttributesDecoder<string, Date>(
+  dateTimeAttrs,
+  value => new Date(value)
+);
+
+export const RestDateTime = buildAttributesDecorator(dateTimeAttrs);
+
 export class RestModel {
   /**
    * Create a model from a given object
    *
    * let student = Student.from({ FirstName: 'Hänsel' });
    */
-  static from<T extends RestModel>(
-    this: { new (): T },
-    data: { [P in keyof T]?: T[P] }
-  ): T {
-    return Object.assign(new this(), data);
+  static from<T extends RestModel>(this: { new (): T }, data: any): T {
+    return Object.assign(new this(), decodeDateTimeStrings(this, data));
   }
 }
 
-// export function RestAttr(type?: string): any {
-//   return (
-//     target: object,
-//     propertyKey: string,
-//     descriptor: PropertyDescriptor
-//   ) => {
-//     let keys = restAttrMap.get(target) || {};
-//     keys[propertyKey] = type;
-//     restAttrMap.set(target, keys);
-//   };
-// }
+function buildAttributesDecoder<T, R>(
+  attrSet: AttrSet,
+  decode: (value: T) => R
+): AttributesDecoder {
+  return (constructorFunction: Constructor<RestModel>, data: any): any => {
+    const modelName = constructorFunction.name;
+    Object.keys(data).forEach(property => {
+      if (attrSet[modelName] && attrSet[modelName].has(property)) {
+        data[property] = decode(data[property]);
+      }
+    });
+    return data;
+  };
+}
+
+function buildAttributesDecorator(attrSet: AttrSet): () => any {
+  return () => {
+    return (target: object, propertyKey: string) => {
+      const modelName = target.constructor.name;
+      if (!attrSet[modelName]) {
+        attrSet[modelName] = new Set();
+      }
+      attrSet[modelName].add(propertyKey);
+    };
+  };
+}
