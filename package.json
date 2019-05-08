@@ -11,7 +11,10 @@
     "lint": "ng lint",
     "lint:format": "ng lint $(ng config defaultProject) --tslint-config tslint-prettier.json --files \"src/**/*.ts\"",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "preanalyze": "ng build --stats-json",
+    "analyze": "npx webpack-bundle-analyzer dist/$(ng config defaultProject)/stats.json",
+    "postanalyze": "rm dist/$(ng config defaultProject)/stats.json"
   },
   "private": true,
   "dependencies": {
