@@ -30,3 +30,7 @@ jobs:
         keep-history: false
         on:
           branch: master
+
+stages:
+  - name: deploy
+    if: branch = master
