@@ -8,7 +8,7 @@ export class Student extends RestModel {
   DisplayEmail: string;
   FirstName: string;
   FullName: string;
-  Gender: string; // 'M' || 'F'
+  Gender: 'M' | 'F';
   LastName: string;
   Location: string;
   PhoneMobile: string;
