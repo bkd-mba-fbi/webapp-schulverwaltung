@@ -18,6 +18,12 @@ describe('PresenceControlHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlHeaderComponent);
     component = fixture.componentInstance;
+    component.lesson = {
+      EventDesignation: 'Deutsch',
+      StudyClassNumber: 'DHF2018a',
+      LessonDateTimeFrom: new Date(),
+      LessonDateTimeTo: new Date()
+    };
     fixture.detectChanges();
   });
 
