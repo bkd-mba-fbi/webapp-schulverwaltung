@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'erz-evaluate-absences',
   templateUrl: './evaluate-absences.component.html',
-  styleUrls: ['./evaluate-absences.component.css'],
+  styleUrls: ['./evaluate-absences.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EvaluateAbsencesComponent implements OnInit {

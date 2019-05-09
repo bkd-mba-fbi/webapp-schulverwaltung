@@ -13,7 +13,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
       </li>
     </ul>
   `,
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {

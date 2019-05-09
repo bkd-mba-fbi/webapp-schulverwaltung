@@ -4,7 +4,7 @@ import { I18nService } from './shared/i18n.service';
 @Component({
   selector: 'erz-app',
   template: '<router-outlet></router-outlet>',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
