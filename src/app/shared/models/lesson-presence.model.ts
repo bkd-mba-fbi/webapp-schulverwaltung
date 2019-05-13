@@ -1,7 +1,6 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
 import { Reference, Flag, Option, Maybe } from './common-types';
-import { Lesson } from './lesson.model';
 
 const LessonPresence = t.type({
   LessonRef: Reference,
@@ -32,12 +31,3 @@ type LessonPresence = t.TypeOf<typeof LessonPresence>;
 export { LessonPresence };
 
 export type LessonPresenceProps = t.PropsOf<typeof LessonPresence>;
-
-export function extractLesson(lessonPresence: LessonPresence): Lesson {
-  return {
-    EventDesignation: lessonPresence.EventDesignation,
-    StudyClassNumber: lessonPresence.StudyClassNumber,
-    LessonDateTimeFrom: lessonPresence.LessonDateTimeFrom,
-    LessonDateTimeTo: lessonPresence.LessonDateTimeTo
-  };
-}

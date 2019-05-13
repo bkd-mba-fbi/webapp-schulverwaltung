@@ -1,7 +1,7 @@
 import * as t from 'io-ts/lib/index';
 import { decode, decodeArray, DecodeError } from './decode';
 
-describe('decode', () => {
+describe('decode utils', () => {
   const Foo = t.type({
     foo: t.string
   });

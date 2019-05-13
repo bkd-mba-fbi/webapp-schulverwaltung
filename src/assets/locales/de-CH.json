@@ -1,6 +1,14 @@
 {
   "presence-control": {
-    "title": "Präsenzkontrolle"
+    "title": "Präsenzkontrolle",
+    "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",
+    "no-lesson-presences": "Keine Schüler/-innen vorhanden",
+    "header": {
+      "previous-lesson": "Vorherige Lektion",
+      "next-lesson": "Nächste Lektion",
+      "search": "Suchen",
+      "search-by-name": "Nach Name suchen..."
+    }
   },
   "open-absences": {
     "title": "Offene Absenzen"

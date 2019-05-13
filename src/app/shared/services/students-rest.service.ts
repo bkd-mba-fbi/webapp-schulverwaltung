@@ -19,14 +19,11 @@ export class StudentsRestService extends RestService<StudentProps> {
 
   getLegalRepresentatives(
     studentId: number,
-    params?: any
+    params?: Dict<string>
   ): Observable<ReadonlyArray<LegalRepresentative>> {
     return this.withBaseUrl(url =>
       this.http
-        .get<any[]>(
-          `${url}/${studentId}/LegalRepresentatives`,
-          this.buildRequestOptions(params)
-        )
+        .get<any[]>(`${url}/${studentId}/LegalRepresentatives`, { params })
         .pipe(switchMap(decodeArray(LegalRepresentative)))
     );
   }

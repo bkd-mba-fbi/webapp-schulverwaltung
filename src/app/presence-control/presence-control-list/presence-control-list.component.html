@@ -1,21 +1,41 @@
-<h2>Präsenzliste</h2>
-<erz-presence-control-header
-  *ngIf="lesson$ | async as lesson"
-  [lesson]="lesson"
-></erz-presence-control-header>
+<ng-container *ngIf="state.selectedLesson$ | async as lesson; else noLessons">
+  <erz-presence-control-header
+    [lesson]="lesson"
+    [hasPreviousLesson]="!(state.isFirstLesson$ | async)"
+    [hasNextLesson]="!(state.isLastLesson$ | async)"
+    [presencesCount]="14"
+    [absencesCount]="1"
+    [delaysCount]="0"
+    (previousLesson)="state.previousLesson()"
+    (nextLesson)="state.nextLesson()"
+    (search)="search$.next($event)"
+  ></erz-presence-control-header>
 
-<ul>
-  <li *ngFor="let lessonPresence of lessonPresences$ | async">
-    {{ lessonPresence.StudentFullName }}
-    <a
-      [routerLink]="['/presence-control/detail', lessonPresence.StudentRef.Id]"
-      routerLinkActive="active"
-      >Detail
-    </a>
-    <a
-      [routerLink]="['/presence-control/comment', lessonPresence.StudentRef.Id]"
-      routerLinkActive="active"
-      >Kommentar</a
-    >
-  </li>
-</ul>
+  <ng-container *ngIf="lessonPresences$ | async as lessonPresences">
+    <ul *ngIf="lessonPresences.length > 0; else noLessonPresences">
+      <li *ngFor="let presence of lessonPresences">
+        {{ presence.StudentFullName }}
+        <a
+          [routerLink]="['/presence-control/detail', presence.StudentRef.Id]"
+          routerLinkActive="active"
+        >
+          Detail
+        </a>
+        <a
+          [routerLink]="['/presence-control/comment', presence.StudentRef.Id]"
+          routerLinkActive="active"
+        >
+          Kommentar
+        </a>
+      </li>
+    </ul>
+
+    <ng-template #noLessonPresences>
+      <p>{{ 'presence-control.no-lesson-presences' | translate }}</p>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<ng-template #noLessons>
+  <p>{{ 'presence-control.no-lessons' | translate }}</p>
+</ng-template>

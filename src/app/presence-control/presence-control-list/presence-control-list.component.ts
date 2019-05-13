@@ -1,29 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { shareReplay, map } from 'rxjs/operators';
-import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
-import {
-  LessonPresence,
-  extractLesson
-} from 'src/app/shared/models/lesson-presence.model';
-import { Lesson } from 'src/app/shared/models/lesson.model';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
+
+import { spreadTuple } from '../../shared/utils/function';
+import { searchLessonPresences } from '../utils/lesson-presences';
+import { PresenceControlStateService } from '../presence-control-state.service';
+
+const MINIMAL_SEARCH_TERM_LENGTH = 3;
 
 @Component({
   selector: 'erz-presence-control-list',
   templateUrl: './presence-control-list.component.html',
-  styleUrls: ['./presence-control-list.component.scss']
+  styleUrls: ['./presence-control-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PresenceControlListComponent implements OnInit {
-  lessonPresences$ = this.lessPresencesService.getList().pipe(shareReplay(1));
-  lesson$ = this.lessonPresences$.pipe(map(this.getLesson));
+  search$ = new BehaviorSubject<string>('');
+  private validSearch$ = this.search$.pipe(
+    map(term => (term.length < MINIMAL_SEARCH_TERM_LENGTH ? '' : term)),
+    distinctUntilChanged()
+  );
 
-  constructor(private lessPresencesService: LessonPresencesRestService) {}
+  lessonPresences$ = combineLatest(
+    this.state.selectedLessonPresences$,
+    this.validSearch$
+  ).pipe(map(spreadTuple(searchLessonPresences)));
+
+  constructor(public state: PresenceControlStateService) {}
 
   ngOnInit(): void {}
-
-  getLesson(lessonPresences: ReadonlyArray<LessonPresence>): Option<Lesson> {
-    if (lessonPresences.length === 0) {
-      return null;
-    }
-    return extractLesson(lessonPresences[0]);
-  }
 }

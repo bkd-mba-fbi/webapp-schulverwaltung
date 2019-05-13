@@ -15,4 +15,8 @@ $secondary: $gray;
 // font
 $font-family-sans-serif: "Open Sans", sans-serif;
 
+$presence-color: #28a745;
+$absence-color: #dc3545;
+$delay-color: $yellow;
+
 @import "node_modules/bootstrap/scss/variables";

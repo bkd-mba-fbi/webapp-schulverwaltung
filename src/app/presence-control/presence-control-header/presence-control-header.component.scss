@@ -1,0 +1,126 @@
+@import "../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: $gray-100;
+  padding: 0.75 * $spacer $spacer;
+}
+
+.header-nav {
+  display: flex;
+}
+
+.previous-lesson,
+.next-lesson {
+  color: $body-color;
+}
+
+.calendar-icon {
+  position: relative;
+  top: 4px;
+}
+
+.header-info {
+  flex: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.header-info,
+.header-info-content {
+  overflow: hidden;
+}
+
+.header-info-datetime,
+.header-info-lesson {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.header-info-date {
+  font-weight: 600;
+}
+
+.header-states {
+  display: flex;
+  justify-content: center;
+}
+
+.header-state {
+  margin-right: 3 * $spacer;
+  display: flex;
+}
+.header-state:last-child {
+  margin-right: 0;
+}
+
+.header-state .count {
+  margin-left: 3px;
+  margin-top: 1px;
+}
+
+.header-state.presences i {
+  color: $presence-color;
+}
+.header-state.absences i {
+  color: $absence-color;
+}
+.header-state.delays i {
+  color: $delay-color;
+}
+
+.header-searchviews {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid $gray-200;
+}
+.header-search {
+  flex: auto;
+  max-width: 300px;
+  margin-right: $spacer;
+}
+.header-views {
+  display: flex;
+}
+.header-view {
+  color: $gray-600;
+
+  &.active {
+    color: $body-color;
+  }
+}
+
+.previous-lesson,
+.next-lesson,
+.header-view {
+  line-height: 1;
+  text-decoration: none;
+}
+
+.header-view {
+  padding: 0.25rem;
+}
+
+/**
+ * Make up some space when on really small screen
+ */
+@media (max-width: 365px) {
+  :host {
+    padding-left: 0.5 * $spacer;
+    padding-right: 0.5 * $spacer;
+  }
+
+  .previous-lesson,
+  .next-lesson {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  #search-addon {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
