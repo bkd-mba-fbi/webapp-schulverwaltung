@@ -1,11 +1,29 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { PresenceControlComponent } from './presence-control.component';
+import { PresenceControlListComponent } from './presence-control-list/presence-control-list.component';
+import { PresenceControlDetailComponent } from './presence-control-detail/presence-control-detail.component';
+import { PresenceControlCommentComponent } from './presence-control-comment/presence-control-comment.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PresenceControlComponent
+    component: PresenceControlComponent,
+    children: [
+      {
+        path: '',
+        component: PresenceControlListComponent
+      },
+      {
+        path: 'detail',
+        component: PresenceControlDetailComponent
+      },
+      {
+        path: 'comment',
+        component: PresenceControlCommentComponent
+      }
+    ]
   }
 ];
 

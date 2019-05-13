@@ -1,0 +1,21 @@
+<h2>Präsenzliste</h2>
+<erz-presence-control-header
+  *ngIf="lesson$ | async as lesson"
+  [lesson]="lesson"
+></erz-presence-control-header>
+
+<ul>
+  <li>
+    <a routerLink="/presence-control/detail" routerLinkActive="active"
+      >Detail</a
+    >
+  </li>
+  <li>
+    <a routerLink="/presence-control/comment" routerLinkActive="active"
+      >Kommentar</a
+    >
+  </li>
+</ul>
+
+<input type="text" ngbDatepicker #d="ngbDatepicker" />
+<button class="btn btn-primary" (click)="d.toggle()">Toggle</button>

@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceControlComponent } from './presence-control.component';
-import { PresenceControlHeaderComponent } from './presence-control-header/presence-control-header.component';
 
 describe('PresenceControlComponent', () => {
   let component: PresenceControlComponent;
@@ -11,7 +10,7 @@ describe('PresenceControlComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlComponent, PresenceControlHeaderComponent]
+        declarations: [PresenceControlComponent]
       })
     ).compileComponents();
   }));

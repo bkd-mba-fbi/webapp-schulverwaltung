@@ -10,7 +10,7 @@ import {
 
 @Component({
   selector: 'erz-presence-control',
-  templateUrl: './presence-control.component.html',
+  template: '<router-outlet></router-outlet>',
   styleUrls: ['./presence-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
