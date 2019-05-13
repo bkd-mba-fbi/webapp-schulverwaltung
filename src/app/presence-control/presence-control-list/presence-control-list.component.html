@@ -5,17 +5,17 @@
 ></erz-presence-control-header>
 
 <ul>
-  <li>
-    <a routerLink="/presence-control/detail" routerLinkActive="active"
-      >Detail</a
-    >
-  </li>
-  <li>
-    <a routerLink="/presence-control/comment" routerLinkActive="active"
+  <li *ngFor="let lessonPresence of lessonPresences$ | async">
+    {{ lessonPresence.StudentFullName }}
+    <a
+      [routerLink]="['/presence-control/detail', lessonPresence.StudentRef.Id]"
+      routerLinkActive="active"
+      >Detail
+    </a>
+    <a
+      [routerLink]="['/presence-control/comment', lessonPresence.StudentRef.Id]"
+      routerLinkActive="active"
       >Kommentar</a
     >
   </li>
 </ul>
-
-<input type="text" ngbDatepicker #d="ngbDatepicker" />
-<button class="btn btn-primary" (click)="d.toggle()">Toggle</button>

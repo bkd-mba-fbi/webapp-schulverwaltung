@@ -16,11 +16,11 @@ const routes: Routes = [
         component: PresenceControlListComponent
       },
       {
-        path: 'detail',
+        path: 'detail/:id',
         component: PresenceControlDetailComponent
       },
       {
-        path: 'comment',
+        path: 'comment/:id',
         component: PresenceControlCommentComponent
       }
     ]
