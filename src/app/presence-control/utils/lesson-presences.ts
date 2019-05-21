@@ -1,24 +1,25 @@
 import { deburr } from 'lodash-es';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
 
-export function searchLessonPresences(
-  lessonPresences: ReadonlyArray<LessonPresence>,
+export function searchPresenceControlEntries(
+  presenceControlEntries: ReadonlyArray<PresenceControlEntry>,
   term: string
-): ReadonlyArray<LessonPresence> {
+): ReadonlyArray<PresenceControlEntry> {
   if (!term) {
-    return lessonPresences;
+    return presenceControlEntries;
   }
 
-  return lessonPresences.filter(matchesLessonPresence(term));
+  return presenceControlEntries.filter(matchesPresenceControlEntry(term));
 }
 
-function matchesLessonPresence(
+function matchesPresenceControlEntry(
   term: string
-): (lessonPresence: LessonPresence) => boolean {
+): (presenceControlEntry: PresenceControlEntry) => boolean {
   const preparedTerm = normalizeSearchValue(term);
-  return lessonPresence =>
-    normalizeSearchValue(lessonPresence.StudentFullName).indexOf(preparedTerm) >
-    -1;
+  return entry =>
+    normalizeSearchValue(entry.lessonPresence.StudentFullName).indexOf(
+      preparedTerm
+    ) > -1;
 }
 
 function normalizeSearchValue(value: string): string {

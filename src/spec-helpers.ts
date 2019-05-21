@@ -17,7 +17,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 class SettingsMockService extends SettingsService {
   protected get settings(): Option<Settings> {
     return {
-      apiUrl: 'https://eventotest.api'
+      apiUrl: 'https://eventotest.api',
+      latePresenceTypeId: 12
     };
   }
 }

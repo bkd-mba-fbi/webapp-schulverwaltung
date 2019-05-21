@@ -11,18 +11,25 @@
     (search)="search$.next($event)"
   ></erz-presence-control-header>
 
-  <ng-container *ngIf="lessonPresences$ | async as lessonPresences">
-    <ul *ngIf="lessonPresences.length > 0; else noLessonPresences">
-      <li *ngFor="let presence of lessonPresences">
-        {{ presence.StudentFullName }}
+  <ng-container *ngIf="presenceControlEntries$ | async as entries">
+    <ul *ngIf="entries.length > 0; else noLessonPresences">
+      <li *ngFor="let entry of entries">
+        {{ entry.lessonPresence.StudentFullName }}
+        {{ entry.presenceCategory }}
         <a
-          [routerLink]="['/presence-control/detail', presence.StudentRef.Id]"
+          [routerLink]="[
+            '/presence-control/detail',
+            entry.lessonPresence.StudentRef.Id
+          ]"
           routerLinkActive="active"
         >
           Detail
         </a>
         <a
-          [routerLink]="['/presence-control/comment', presence.StudentRef.Id]"
+          [routerLink]="[
+            '/presence-control/comment',
+            entry.lessonPresence.StudentRef.Id
+          ]"
           routerLinkActive="active"
         >
           Kommentar

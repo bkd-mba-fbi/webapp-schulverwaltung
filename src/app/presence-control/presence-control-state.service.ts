@@ -21,7 +21,8 @@ import {
   extractLessons,
   getCurrentLesson,
   getLessonPresencesForLesson,
-  lessonsEqual
+  lessonsEqual,
+  getPresenceControlEntriesForLesson
 } from './utils/lessons';
 import {
   previousElement,
@@ -30,6 +31,7 @@ import {
   isLastElement
 } from '../shared/utils/array';
 import { spreadTuple } from '../shared/utils/function';
+import { PresenceTypesService } from '../shared/services/presence-types.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +44,9 @@ export class PresenceControlStateService {
     switchMap(this.loadLessonPresencesByDate.bind(this)),
     shareReplay(1)
   );
+  private presenceTypes$ = this.presenceTypesService
+    .getList()
+    .pipe(shareReplay(1));
   private lessons$ = this.lessonPresences$.pipe(
     map(extractLessons),
     shareReplay(1)
@@ -51,10 +56,20 @@ export class PresenceControlStateService {
   selectedLesson$ = merge(this.currentLesson$, this.selectLesson$).pipe(
     shareReplay(1)
   );
-  selectedLessonPresences$ = combineLatest(
+  selectedPresenceControlEntries$ = combineLatest(
     this.selectedLesson$,
-    this.lessonPresences$
-  ).pipe(map(spreadTuple(getLessonPresencesForLesson)));
+    this.lessonPresences$,
+    this.presenceTypes$
+  ).pipe(
+    map(([selectedLesson, lessonPresences, presenceTypes]) =>
+      getPresenceControlEntriesForLesson(
+        selectedLesson,
+        lessonPresences,
+        presenceTypes
+      )
+    )
+  );
+
   isFirstLesson$ = combineLatest(this.selectedLesson$, this.lessons$).pipe(
     map(spreadTuple(isFirstElement(lessonsEqual)))
   );
@@ -62,7 +77,10 @@ export class PresenceControlStateService {
     map(spreadTuple(isLastElement(lessonsEqual)))
   );
 
-  constructor(private lessonPresencesService: LessonPresencesRestService) {}
+  constructor(
+    private lessonPresencesService: LessonPresencesRestService,
+    private presenceTypesService: PresenceTypesService
+  ) {}
 
   setDate(date: Date): void {
     this.date$.next(date);
