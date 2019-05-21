@@ -29,7 +29,7 @@ import {
   isFirstElement,
   isLastElement
 } from '../shared/utils/array';
-import { spreadTuple } from '../shared/utils/function';
+import { spreadTuple, spreadTriplet } from '../shared/utils/function';
 import { PresenceTypesService } from '../shared/services/presence-types.service';
 
 @Injectable({
@@ -59,15 +59,7 @@ export class PresenceControlStateService {
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$
-  ).pipe(
-    map(([selectedLesson, lessonPresences, presenceTypes]) =>
-      getPresenceControlEntriesForLesson(
-        selectedLesson,
-        lessonPresences,
-        presenceTypes
-      )
-    )
-  );
+  ).pipe(map(spreadTriplet(getPresenceControlEntriesForLesson)));
 
   isFirstLesson$ = combineLatest(this.selectedLesson$, this.lessons$).pipe(
     map(spreadTuple(isFirstElement(lessonsEqual)))
