@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
 import { spreadTuple } from '../../shared/utils/function';
-import { searchPresenceControlEntries } from '../utils/lesson-presences';
+import { searchPresenceControlEntries } from '../utils/presence-control-entries';
 import { PresenceControlStateService } from '../presence-control-state.service';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 3;

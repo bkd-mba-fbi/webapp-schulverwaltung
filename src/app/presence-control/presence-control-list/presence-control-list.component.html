@@ -14,7 +14,9 @@
   <ng-container *ngIf="presenceControlEntries$ | async as entries">
     <ul *ngIf="entries.length > 0; else noLessonPresences">
       <li *ngFor="let entry of entries">
-        {{ entry.lessonPresence.StudentFullName }}
+        <span class="student-name">{{
+          entry.lessonPresence.StudentFullName
+        }}</span>
         {{ entry.presenceCategory }}
         <a
           [routerLink]="[
