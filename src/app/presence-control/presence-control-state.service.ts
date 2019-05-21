@@ -20,7 +20,6 @@ import { Lesson } from '../shared/models/lesson.model';
 import {
   extractLessons,
   getCurrentLesson,
-  getLessonPresencesForLesson,
   lessonsEqual,
   getPresenceControlEntriesForLesson
 } from './utils/lessons';

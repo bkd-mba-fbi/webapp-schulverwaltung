@@ -5,13 +5,19 @@ import * as t from 'io-ts/lib/index';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceControlStateService } from './presence-control-state.service';
 import { LessonPresence } from '../shared/models/lesson-presence.model';
-import { buildLessonPresence, buildLesson } from 'src/spec-builders';
+import {
+  buildLessonPresence,
+  buildLesson,
+  buildPresenceType,
+  buildPresenceControlEntry
+} from 'src/spec-builders';
+import { PresenceType } from '../shared/models/presence-type.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
   let httpTestingController: HttpTestingController;
   let selectedLessonCb: jasmine.Spy;
-  let selectedLessonPresencesCb: jasmine.Spy;
+  let selectedPresenceControlEntriesCb: jasmine.Spy;
   let isFirstLessonCb: jasmine.Spy;
   let isLastLessonCb: jasmine.Spy;
 
@@ -21,6 +27,10 @@ describe('PresenceControlStateService', () => {
   let deutschFrisch: LessonPresence;
   let mathEinstein1: LessonPresence;
   let mathEinstein2: LessonPresence;
+
+  let presenceTypes: PresenceType[];
+  let absent: PresenceType;
+  let late: PresenceType;
 
   beforeEach(() => {
     jasmine.clock().install();
@@ -33,10 +43,12 @@ describe('PresenceControlStateService', () => {
     selectedLessonCb = jasmine.createSpy('selectedLesson$ callback');
     service.selectedLesson$.subscribe(selectedLessonCb);
 
-    selectedLessonPresencesCb = jasmine.createSpy(
-      'selectedLessonPresences$ callback'
+    selectedPresenceControlEntriesCb = jasmine.createSpy(
+      'selectedPresenceControlEntries$ callback'
     );
-    service.selectedLessonPresences$.subscribe(selectedLessonPresencesCb);
+    service.selectedPresenceControlEntries$.subscribe(
+      selectedPresenceControlEntriesCb
+    );
 
     isFirstLessonCb = jasmine.createSpy('isFirstLesson$ callback');
     service.isFirstLesson$.subscribe(isFirstLessonCb);
@@ -86,6 +98,10 @@ describe('PresenceControlStateService', () => {
       mathEinstein1,
       mathEinstein2
     ];
+
+    absent = buildPresenceType(11, 377, 1, 0);
+    late = buildPresenceType(12, 380, 0, 1);
+    presenceTypes = [absent, late];
   });
 
   afterEach(() => {
@@ -95,15 +111,17 @@ describe('PresenceControlStateService', () => {
 
   it('emits null/empty array if no lesson presences are available', () => {
     expectLessonPresencesRequest([]);
+    expectPresenceTypesRequest();
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
-    expect(selectedLessonPresencesCb).toHaveBeenCalledWith([]);
+    expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
     expect(isFirstLessonCb).toHaveBeenCalledWith(false);
     expect(isLastLessonCb).toHaveBeenCalledWith(false);
   });
 
   it('initially selects the current lesson', () => {
     expectLessonPresencesRequest();
+    expectPresenceTypesRequest();
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
       buildLesson(
@@ -113,9 +131,9 @@ describe('PresenceControlStateService', () => {
         'Deutsch'
       )
     );
-    expect(selectedLessonPresencesCb).toHaveBeenCalledWith([
-      deutschEinstein,
-      deutschFrisch
+    expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
+      buildPresenceControlEntry(deutschEinstein, null),
+      buildPresenceControlEntry(deutschFrisch, null)
     ]);
     expect(isFirstLessonCb).toHaveBeenCalledWith(false);
     expect(isLastLessonCb).toHaveBeenCalledWith(false);
@@ -124,6 +142,7 @@ describe('PresenceControlStateService', () => {
   describe('.setDate', () => {
     it('loads lessons and presences of given day', () => {
       expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
 
       resetCallbackSpies();
       service.setDate(new Date(2000, 0, 10, 12, 0));
@@ -144,7 +163,9 @@ describe('PresenceControlStateService', () => {
           'Werken'
         )
       );
-      expect(selectedLessonPresencesCb).toHaveBeenCalledWith([werkenFrisch]);
+      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
+        buildPresenceControlEntry(werkenFrisch, null)
+      ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(true);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);
     });
@@ -153,6 +174,7 @@ describe('PresenceControlStateService', () => {
   describe('.previousLesson', () => {
     it('emits presences for previous lesson', () => {
       expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
       resetCallbackSpies();
       service.previousLesson();
 
@@ -164,7 +186,9 @@ describe('PresenceControlStateService', () => {
           'Turnen'
         )
       );
-      expect(selectedLessonPresencesCb).toHaveBeenCalledWith([turnenFrisch]);
+      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
+        buildPresenceControlEntry(turnenFrisch, null)
+      ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(true);
       expect(isLastLessonCb).toHaveBeenCalledWith(false);
     });
@@ -173,6 +197,7 @@ describe('PresenceControlStateService', () => {
   describe('.nextLesson', () => {
     it('emits presences for next lesson', () => {
       expectLessonPresencesRequest(lessonPresences.slice(0, 4));
+      expectPresenceTypesRequest();
       resetCallbackSpies();
       service.nextLesson();
 
@@ -184,7 +209,9 @@ describe('PresenceControlStateService', () => {
           'Mathematik'
         )
       );
-      expect(selectedLessonPresencesCb).toHaveBeenCalledWith([mathEinstein1]);
+      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
+        buildPresenceControlEntry(mathEinstein1, null)
+      ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(false);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);
     });
@@ -192,7 +219,7 @@ describe('PresenceControlStateService', () => {
 
   function resetCallbackSpies(): void {
     selectedLessonCb.calls.reset();
-    selectedLessonPresencesCb.calls.reset();
+    selectedPresenceControlEntriesCb.calls.reset();
   }
 
   function expectLessonPresencesRequest(
@@ -203,5 +230,12 @@ describe('PresenceControlStateService', () => {
     httpTestingController
       .expectOne(req => req.urlWithParams === url, url)
       .flush(t.array(LessonPresence).encode(response));
+  }
+
+  function expectPresenceTypesRequest(response = presenceTypes): void {
+    const url = 'https://eventotest.api/PresenceTypes';
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(PresenceType).encode(response));
   }
 });
