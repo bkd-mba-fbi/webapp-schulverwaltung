@@ -21,16 +21,16 @@ describe('PresenceControlStateService', () => {
   let isFirstLessonCb: jasmine.Spy;
   let isLastLessonCb: jasmine.Spy;
 
-  let lessonPresences: LessonPresence[];
-  let turnenFrisch: LessonPresence;
-  let deutschEinstein: LessonPresence;
-  let deutschFrisch: LessonPresence;
-  let mathEinstein1: LessonPresence;
-  let mathEinstein2: LessonPresence;
-
   let presenceTypes: PresenceType[];
   let absent: PresenceType;
   let late: PresenceType;
+
+  let lessonPresences: LessonPresence[];
+  let turnenFrisch: LessonPresence;
+  let deutschEinsteinAbwesend: LessonPresence;
+  let deutschFrisch: LessonPresence;
+  let mathEinstein1: LessonPresence;
+  let mathEinstein2: LessonPresence;
 
   beforeEach(() => {
     jasmine.clock().install();
@@ -56,6 +56,10 @@ describe('PresenceControlStateService', () => {
     isLastLessonCb = jasmine.createSpy('isLastLesson$ callback');
     service.isLastLesson$.subscribe(isLastLessonCb);
 
+    absent = buildPresenceType(11, 377, 1, 0);
+    late = buildPresenceType(12, 380, 0, 1);
+    presenceTypes = [absent, late];
+
     turnenFrisch = buildLessonPresence(
       1,
       new Date(2000, 0, 23, 7, 0),
@@ -63,12 +67,13 @@ describe('PresenceControlStateService', () => {
       'Turnen',
       'Frisch Max'
     );
-    deutschEinstein = buildLessonPresence(
+    deutschEinsteinAbwesend = buildLessonPresence(
       2,
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
-      'Einstein Albert'
+      'Einstein Albert',
+      absent.Id
     );
     deutschFrisch = buildLessonPresence(
       2,
@@ -93,15 +98,11 @@ describe('PresenceControlStateService', () => {
     );
     lessonPresences = [
       turnenFrisch,
-      deutschEinstein,
+      deutschEinsteinAbwesend,
       deutschFrisch,
       mathEinstein1,
       mathEinstein2
     ];
-
-    absent = buildPresenceType(11, 377, 1, 0);
-    late = buildPresenceType(12, 380, 0, 1);
-    presenceTypes = [absent, late];
   });
 
   afterEach(() => {
@@ -132,8 +133,8 @@ describe('PresenceControlStateService', () => {
       )
     );
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-      buildPresenceControlEntry(deutschEinstein, null),
-      buildPresenceControlEntry(deutschFrisch, null)
+      buildPresenceControlEntry(deutschEinsteinAbwesend, absent),
+      buildPresenceControlEntry(deutschFrisch)
     ]);
     expect(isFirstLessonCb).toHaveBeenCalledWith(false);
     expect(isLastLessonCb).toHaveBeenCalledWith(false);
@@ -164,7 +165,7 @@ describe('PresenceControlStateService', () => {
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(werkenFrisch, null)
+        buildPresenceControlEntry(werkenFrisch)
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(true);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);
@@ -187,7 +188,7 @@ describe('PresenceControlStateService', () => {
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(turnenFrisch, null)
+        buildPresenceControlEntry(turnenFrisch)
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(true);
       expect(isLastLessonCb).toHaveBeenCalledWith(false);
@@ -210,7 +211,7 @@ describe('PresenceControlStateService', () => {
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(mathEinstein1, null)
+        buildPresenceControlEntry(mathEinstein1)
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(false);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);

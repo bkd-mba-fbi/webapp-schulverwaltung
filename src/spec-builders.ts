@@ -13,13 +13,14 @@ export function buildLessonPresence(
   dateFrom: Date,
   dateTo: Date,
   eventDesignation: string,
-  studentName = ''
+  studentName = '',
+  presenceTypeId?: number
 ): LessonPresence {
   return {
     LessonRef: buildReference(lessonId),
     StudentRef: buildReference(),
     EventRef: buildReference(),
-    PresenceTypeRef: null,
+    PresenceTypeRef: buildReference(presenceTypeId),
     StudyClassRef: buildReference(),
     EventTypeId: 123,
     PresenceConfirmationState: null,
@@ -59,9 +60,9 @@ export function buildLesson(
 
 export function buildPresenceControlEntry(
   lessonPresence: LessonPresence,
-  presenceType: Option<PresenceType>
+  presenceType?: Option<PresenceType>
 ): PresenceControlEntry {
-  return new PresenceControlEntry(lessonPresence, presenceType);
+  return new PresenceControlEntry(lessonPresence, presenceType || null);
 }
 
 export function buildPresenceType(
