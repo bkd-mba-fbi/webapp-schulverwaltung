@@ -29,6 +29,7 @@ import {
   lessonsEqual,
   getPresenceControlEntriesForLesson
 } from './utils/lessons';
+import { getCategoryCount } from './utils/presence-control-entries';
 import {
   previousElement,
   nextElement,
@@ -65,6 +66,16 @@ export class PresenceControlStateService {
     this.lessonPresences$,
     this.presenceTypes$
   ).pipe(map(spreadTriplet(getPresenceControlEntriesForLesson)));
+
+  presentCount$ = this.selectedPresenceControlEntries$.pipe(
+    map(getCategoryCount('present'))
+  );
+  absentCount$ = this.selectedPresenceControlEntries$.pipe(
+    map(getCategoryCount('absent'))
+  );
+  lateCount$ = this.selectedPresenceControlEntries$.pipe(
+    map(getCategoryCount('late'))
+  );
 
   isFirstLesson$ = combineLatest(this.selectedLesson$, this.lessons$).pipe(
     map(spreadTuple(isFirstElement(lessonsEqual)))

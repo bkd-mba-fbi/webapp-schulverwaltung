@@ -12,6 +12,13 @@ export function searchPresenceControlEntries(
   return presenceControlEntries.filter(matchesPresenceControlEntry(term));
 }
 
+export function getCategoryCount(
+  presenceCategory: string
+): (entries: ReadonlyArray<PresenceControlEntry>) => number {
+  return entries =>
+    entries.filter(entry => entry.presenceCategory === presenceCategory).length;
+}
+
 function matchesPresenceControlEntry(
   term: string
 ): (presenceControlEntry: PresenceControlEntry) => boolean {
