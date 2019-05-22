@@ -6,6 +6,7 @@ import { buildLessonPresence, buildLesson } from 'src/spec-builders';
 import { PresenceControlListComponent } from './presence-control-list.component';
 import { PresenceControlHeaderComponent } from '../presence-control-header/presence-control-header.component';
 import { PresenceControlStateService } from '../presence-control-state.service';
+import { PresenceControlEntryComponent } from '../presence-control-entry/presence-control-entry.component';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { Lesson } from 'src/app/shared/models/lesson.model';
 
@@ -48,7 +49,8 @@ describe('PresenceControlListComponent', () => {
       buildTestModuleMetadata({
         declarations: [
           PresenceControlListComponent,
-          PresenceControlHeaderComponent
+          PresenceControlHeaderComponent,
+          PresenceControlEntryComponent
         ],
         providers: [
           {
