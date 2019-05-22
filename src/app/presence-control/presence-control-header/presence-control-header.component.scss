@@ -58,18 +58,18 @@
 }
 
 .header-state .count {
-  margin-left: 3px;
+  margin-left: 0.3em;
   margin-top: 1px;
 }
 
-.header-state.presences i {
-  color: $presence-color;
+.header-state.present i {
+  color: $present-color;
 }
-.header-state.absences i {
-  color: $absence-color;
+.header-state.absent i {
+  color: $absent-color;
 }
-.header-state.delays i {
-  color: $delay-color;
+.header-state.late i {
+  color: $late-color;
 }
 
 .header-searchviews {

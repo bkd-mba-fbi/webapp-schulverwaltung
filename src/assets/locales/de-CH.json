@@ -8,6 +8,9 @@
       "next-lesson": "Nächste Lektion",
       "search": "Suchen",
       "search-by-name": "Nach Name suchen..."
+    },
+    "entry": {
+      "comment": "Kommentar..."
     }
   },
   "open-absences": {

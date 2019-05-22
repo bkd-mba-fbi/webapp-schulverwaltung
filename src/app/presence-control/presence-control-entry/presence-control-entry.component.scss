@@ -1,0 +1,71 @@
+@import "../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  padding: 2 * $spacer $spacer;
+}
+
+:host.absent {
+  background-color: lighten($absent-color, 40%);
+}
+
+.portrait {
+  margin-right: $spacer;
+}
+
+.portrait img {
+  width: 100px;
+  height: 130px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: auto;
+  overflow: hidden;
+}
+
+.presence-category-button {
+  position: relative;
+  top: -$btn-padding-y;
+  text-decoration: none;
+}
+
+.presence-category {
+  display: flex;
+  justify-content: right;
+}
+
+.presence-category i {
+  margin-left: 0.3em;
+}
+
+:host.absent .presence-category {
+  color: $absent-color;
+}
+
+:host.present .presence-category {
+  color: $present-color;
+}
+
+:host.late .presence-category {
+  color: $late-color;
+}
+
+.presence-category-designation,
+.student-name,
+.comment span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comment {
+  display: flex;
+  color: rgba($body-color, 0.5);
+}
+
+.comment i {
+  margin-right: 0.3em;
+}

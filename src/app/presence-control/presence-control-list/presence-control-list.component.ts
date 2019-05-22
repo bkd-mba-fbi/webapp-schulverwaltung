@@ -5,6 +5,7 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { spreadTuple } from '../../shared/utils/function';
 import { searchPresenceControlEntries } from '../utils/presence-control-entries';
 import { PresenceControlStateService } from '../presence-control-state.service';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 3;
 
@@ -29,4 +30,8 @@ export class PresenceControlListComponent implements OnInit {
   constructor(public state: PresenceControlStateService) {}
 
   ngOnInit(): void {}
+
+  togglePresenceType(entry: PresenceControlEntry): void {
+    console.log('Toggle', entry);
+  }
 }

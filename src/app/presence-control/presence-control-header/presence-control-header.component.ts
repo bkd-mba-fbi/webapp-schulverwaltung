@@ -16,9 +16,9 @@ export class PresenceControlHeaderComponent implements OnInit {
   @Input() lesson: Lesson;
   @Input() hasPreviousLesson = false;
   @Input() hasNextLesson = false;
-  @Input() presencesCount: Option<number> = null;
-  @Input() absencesCount: Option<number> = null;
-  @Input() delaysCount: Option<number> = null;
+  @Input() presentCount: Option<number> = null;
+  @Input() absentCount: Option<number> = null;
+  @Input() lateCount: Option<number> = null;
 
   @Output() previousLesson = new EventEmitter<void>();
   @Output() nextLesson = new EventEmitter<void>();

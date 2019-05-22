@@ -7,6 +7,7 @@ import { PresenceControlHeaderComponent } from './presence-control-header/presen
 import { PresenceControlListComponent } from './presence-control-list/presence-control-list.component';
 import { PresenceControlCommentComponent } from './presence-control-comment/presence-control-comment.component';
 import { PresenceControlDetailComponent } from './presence-control-detail/presence-control-detail.component';
+import { PresenceControlEntryComponent } from './presence-control-entry/presence-control-entry.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PresenceControlDetailComponent } from './presence-control-detail/presen
     PresenceControlHeaderComponent,
     PresenceControlListComponent,
     PresenceControlCommentComponent,
-    PresenceControlDetailComponent
+    PresenceControlDetailComponent,
+    PresenceControlEntryComponent
   ],
   imports: [SharedModule, PresenceControlRoutingModule]
 })

@@ -35,19 +35,17 @@
 </div>
 
 <div class="header-states py-3">
-  <div class="header-state presences">
+  <div class="header-state present">
     <i class="material-icons">check_circle</i>
-    <span class="count">{{
-      presencesCount != null ? presencesCount : '?'
-    }}</span>
+    <span class="count">{{ presentCount != null ? presentCount : '?' }}</span>
   </div>
-  <div class="header-state absences">
+  <div class="header-state absent">
     <i class="material-icons">cancel</i>
-    <span class="count">{{ absencesCount != null ? absencesCount : '?' }}</span>
+    <span class="count">{{ absentCount != null ? absentCount : '?' }}</span>
   </div>
-  <div class="header-state delays">
+  <div class="header-state late">
     <i class="material-icons">watch_later</i>
-    <span class="count">{{ delaysCount != null ? delaysCount : '?' }}</span>
+    <span class="count">{{ lateCount != null ? lateCount : '?' }}</span>
   </div>
 </div>
 
