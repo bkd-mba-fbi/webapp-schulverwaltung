@@ -5,15 +5,18 @@ import { StorageService } from './storage.service';
 describe('StorageService', () => {
   let service: StorageService;
   const storeMock: any = {};
+  let getItemSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.get(StorageService);
 
-    spyOn(localStorage, 'getItem').and.callFake(
+    getItemSpy = spyOn(localStorage, 'getItem').and.callFake(
       (key: string) => storeMock[key] || null
     );
   });
+
+  afterEach(() => getItemSpy.and.callThrough());
 
   describe('.getLanguage', () => {
     it('returns null if no value is available', () => {
