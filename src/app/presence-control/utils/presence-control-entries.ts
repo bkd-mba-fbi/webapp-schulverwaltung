@@ -16,7 +16,11 @@ export function getCategoryCount(
   presenceCategory: string
 ): (entries: ReadonlyArray<PresenceControlEntry>) => number {
   return entries =>
-    entries.filter(entry => entry.presenceCategory === presenceCategory).length;
+    entries.reduce(
+      (count, entry) =>
+        count + (entry.presenceCategory === presenceCategory ? 1 : 0),
+      0
+    );
 }
 
 function matchesPresenceControlEntry(
