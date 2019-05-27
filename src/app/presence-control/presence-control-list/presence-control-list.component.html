@@ -13,15 +13,18 @@
         [presentCount]="state.presentCount$ | async"
         [absentCount]="state.absentCount$ | async"
         [lateCount]="state.lateCount$ | async"
+        [viewMode]="state.viewMode$ | async"
         (previousLesson)="state.previousLesson()"
         (nextLesson)="state.nextLesson()"
         (search)="search$.next($event)"
+        (viewModeChange)="state.setViewMode($event)"
       ></erz-presence-control-header>
 
       <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">
         <erz-presence-control-entry
           *ngFor="let entry of data.entries"
           [entry]="entry"
+          [viewMode]="state.viewMode$ | async"
           (togglePresenceType)="togglePresenceType($event)"
         ></erz-presence-control-entry>
       </ng-container>

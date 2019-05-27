@@ -39,6 +39,11 @@ import {
 import { spreadTuple, spreadTriplet } from '../shared/utils/function';
 import { nonZero } from '../shared/utils/filter';
 
+export enum ViewMode {
+  Grid = 'grid',
+  List = 'list'
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +51,7 @@ export class PresenceControlStateService {
   private date$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<Lesson>>();
   private loadingCount$ = new BehaviorSubject(0);
+  private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
 
   private lessonPresences$ = this.date$.pipe(
     switchMap(this.loadLessonPresencesByDate.bind(this)),
@@ -86,6 +92,8 @@ export class PresenceControlStateService {
 
   loading$ = this.loadingCount$.pipe(map(nonZero));
 
+  viewMode$ = this.viewModeSubject$.asObservable();
+
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService
@@ -113,6 +121,10 @@ export class PresenceControlStateService {
         map(spreadTuple(nextElement(lessonsEqual)))
       )
       .subscribe(lesson => this.selectLesson$.next(lesson));
+  }
+
+  setViewMode(mode: ViewMode): void {
+    this.viewModeSubject$.next(mode);
   }
 
   private loadLessonPresencesByDate(

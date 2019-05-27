@@ -5,6 +5,12 @@ import {
   NgbDateNativeAdapter,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
+import { ViewMode } from '../presence-control-state.service';
+
+interface ViewModeOption {
+  viewMode: ViewMode;
+  icon: string;
+}
 
 @Component({
   selector: 'erz-presence-control-header',
@@ -19,11 +25,18 @@ export class PresenceControlHeaderComponent implements OnInit {
   @Input() presentCount: Option<number> = null;
   @Input() absentCount: Option<number> = null;
   @Input() lateCount: Option<number> = null;
+  @Input() viewMode: ViewMode;
 
   @Output() previousLesson = new EventEmitter<void>();
   @Output() nextLesson = new EventEmitter<void>();
   @Output() selectDate = new EventEmitter<Date>();
   @Output() search = new EventEmitter<string>();
+  @Output() viewModeChange = new EventEmitter<ViewMode>();
+
+  viewModeOptions: ReadonlyArray<ViewModeOption> = [
+    { viewMode: ViewMode.List, icon: 'list' },
+    { viewMode: ViewMode.Grid, icon: 'view_module' }
+  ];
 
   constructor() {}
 

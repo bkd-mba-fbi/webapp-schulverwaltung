@@ -7,6 +7,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import { ViewMode } from '../presence-control-state.service';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -15,6 +16,8 @@ import { PresenceControlEntry } from '../models/presence-control-entry.model';
 })
 export class PresenceControlEntryComponent implements OnInit {
   @Input() entry: PresenceControlEntry;
+  @Input() viewMode: ViewMode;
+
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
 
   @HostBinding('class') get presenceCategory(): string {
@@ -34,5 +37,9 @@ export class PresenceControlEntryComponent implements OnInit {
       default:
         return 'check_circle';
     }
+  }
+
+  get isListViewMode(): boolean {
+    return this.viewMode === ViewMode.List;
   }
 }
