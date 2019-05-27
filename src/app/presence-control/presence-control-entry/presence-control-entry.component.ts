@@ -4,17 +4,27 @@ import {
   Input,
   HostBinding,
   Output,
-  EventEmitter
+  EventEmitter,
+  SimpleChanges,
+  OnChanges
 } from '@angular/core';
+import { ReplaySubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { spreadTuple } from 'src/app/shared/utils/function';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { ViewMode } from '../presence-control-state.service';
+import { SettingsService } from 'src/app/shared/services/settings.service';
+import { StorageService } from 'src/app/shared/services/storage.service';
+
+const FALLBACK_AVATAR = 'assets/images/avatar-placeholder.png';
 
 @Component({
   selector: 'erz-presence-control-entry',
   templateUrl: './presence-control-entry.component.html',
   styleUrls: ['./presence-control-entry.component.scss']
 })
-export class PresenceControlEntryComponent implements OnInit {
+export class PresenceControlEntryComponent implements OnInit, OnChanges {
   @Input() entry: PresenceControlEntry;
   @Input() viewMode: ViewMode;
 
@@ -24,9 +34,28 @@ export class PresenceControlEntryComponent implements OnInit {
     return this.entry.presenceCategory;
   }
 
-  constructor() {}
+  private studentId$ = new ReplaySubject<number>(1);
+  private avatarUrl$ = combineLatest(
+    this.settings.apiUrl$,
+    this.studentId$
+  ).pipe(map(spreadTuple(this.buildAvatarUrl.bind(this))));
+
+  avatarStyles$ = this.avatarUrl$.pipe(map(this.buildAvatarStyles.bind(this)));
+
+  constructor(
+    private settings: SettingsService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.entry) {
+      this.studentId$.next(
+        changes.entry.currentValue.lessonPresence.StudentRef.Id
+      );
+    }
+  }
 
   get presenceCategoryIcon(): string {
     switch (this.entry.presenceCategory) {
@@ -41,5 +70,16 @@ export class PresenceControlEntryComponent implements OnInit {
 
   get isListViewMode(): boolean {
     return this.viewMode === ViewMode.List;
+  }
+
+  private buildAvatarUrl(apiUrl: string, studentId: number): string {
+    const accessToken = this.storageService.getAccessToken() || '';
+    return `${apiUrl}/Files\/personPictures/${studentId}?token=${accessToken}`;
+  }
+
+  private buildAvatarStyles(url: string): { [key: string]: string } {
+    return {
+      'background-image': `url(${url}), url(${FALLBACK_AVATAR})`
+    };
   }
 }

@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PresenceControlEntryComponent } from './presence-control-entry.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { buildTestModuleMetadata, changeInput } from 'src/spec-helpers';
 import {
   buildLessonPresence,
   buildPresenceControlEntry
 } from 'src/spec-builders';
+import { StorageService } from 'src/app/shared/services/storage.service';
 
 describe('PresenceControlEntryComponent', () => {
   let component: PresenceControlEntryComponent;
@@ -14,7 +15,17 @@ describe('PresenceControlEntryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlEntryComponent]
+        declarations: [PresenceControlEntryComponent],
+        providers: [
+          {
+            provide: StorageService,
+            useValue: {
+              getAccessToken(): string {
+                return 'asdf';
+              }
+            }
+          }
+        ]
       })
     ).compileComponents();
   }));
@@ -29,11 +40,26 @@ describe('PresenceControlEntryComponent', () => {
       'Physik',
       'Marie Curie'
     );
-    component.entry = buildPresenceControlEntry(lessonPresence, null);
+    changeInput(
+      component,
+      'entry',
+      buildPresenceControlEntry(lessonPresence, null)
+    );
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('.avatarStyles$', () => {
+    it('emits styles object with avatar image and fallback', () => {
+      component.avatarStyles$.subscribe(styles =>
+        expect(styles).toEqual({
+          'background-image':
+            'url(https://eventotest.api/Files/personPictures/123?token=asdf), url(assets/images/avatar-placeholder.png)'
+        })
+      );
+    });
   });
 });

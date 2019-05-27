@@ -9,13 +9,15 @@
   background-color: lighten($absent-color, 40%);
 }
 
-.portrait {
-  margin-right: $spacer;
-}
-
-.portrait img {
+.avatar {
   width: 100px;
+  min-width: 100px;
   height: 130px;
+  margin-right: $spacer;
+  border: 1px solid rgba($body-color, 0.25);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .content {

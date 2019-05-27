@@ -1,17 +1,12 @@
 <a
-  class="portrait"
+  class="avatar"
   [hidden]="isListViewMode"
   [routerLink]="[
     '/presence-control/detail',
     entry.lessonPresence.StudentRef.Id
   ]"
->
-  <img
-    src="https://placeimg.com/100/130/people?id={{
-      entry.lessonPresence.StudentRef.Id
-    }}"
-  />
-</a>
+  [ngStyle]="avatarStyles$ | async"
+></a>
 <div class="content">
   <button
     (click)="togglePresenceType.emit(entry)"

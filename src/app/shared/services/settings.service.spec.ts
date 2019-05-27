@@ -12,6 +12,7 @@ describe('SettingsService', () => {
     let next: jasmine.Spy;
     let error: jasmine.Spy;
     let complete: jasmine.Spy;
+
     beforeEach(() => {
       settingsMock = {
         apiUrl: 'https://example.com/api',
@@ -21,6 +22,8 @@ describe('SettingsService', () => {
       next = jasmine.createSpy('next');
       error = jasmine.createSpy('error');
       complete = jasmine.createSpy('complete');
+
+      resetSettings();
     });
 
     afterEach(() => resetSettings());
