@@ -4,7 +4,7 @@
 
 JavaScript web module to implement the process "Absenzenverwaltung" using the CLX.Evento backend (REST API).
 
-[Demo](app)
+[Demo](https://erz-mba-fbi.github.io/absenzenmanagement/app)
 
 ## Integration
 
