@@ -4,7 +4,7 @@ import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
 const Student = t.type({
   Id: t.number,
   AddressLine1: t.string,
-  AdressLine2: t.string,
+  AddressLine2: t.string,
   Birthdate: DateFromISOString,
   DisplayEmail: t.string,
   FirstName: t.string,
