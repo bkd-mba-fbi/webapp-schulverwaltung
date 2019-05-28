@@ -34,14 +34,33 @@
   overflow: hidden;
 }
 
-.header-info-datetime,
 .header-info-lesson {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.header-info-datetime {
+  display: flex;
+  align-items: center;
+}
+
+.header-info-datetime button {
+  padding: 0 0.5ch 0 0;
+}
+
+.header-info-datetime i {
+  color: $body-color;
+}
+
 .header-info-date {
   font-weight: 600;
+}
+
+input.header-info-date {
+  background: transparent;
+  border: none;
+  width: 11ch;
 }
 
 .header-states {

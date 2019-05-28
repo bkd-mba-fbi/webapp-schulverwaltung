@@ -14,10 +14,12 @@
         [absentCount]="state.absentCount$ | async"
         [lateCount]="state.lateCount$ | async"
         [viewMode]="state.viewMode$ | async"
+        [selectDate]="state.selectedDate$ | async"
         (previousLesson)="state.previousLesson()"
         (nextLesson)="state.nextLesson()"
         (search)="search$.next($event)"
         (viewModeChange)="state.setViewMode($event)"
+        (selectDateChange)="state.setDate($event)"
       ></erz-presence-control-header>
 
       <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">

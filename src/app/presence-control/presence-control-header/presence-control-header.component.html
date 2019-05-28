@@ -10,13 +10,21 @@
   <div class="header-info">
     <div class="header-info-content">
       <div class="header-info-datetime">
-        <i class="calendar-icon material-icons">calendar_today</i
-        ><span class="header-info-date">{{
-          lesson.LessonDateTimeFrom | date: 'dd.MM.yyyy'
-        }}</span
-        >, {{ lesson.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-          lesson.LessonDateTimeTo | date: 'HH:mm'
-        }}
+        <button class="btn btn-link" (click)="d.toggle()">
+          <i class="material-icons">calendar_today</i>
+        </button>
+        <input
+          class="header-info-date"
+          [ngModel]="selectDate"
+          (ngModelChange)="selectDateChange.emit($event)"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        />
+        <div>
+          {{ lesson.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+            lesson.LessonDateTimeTo | date: 'HH:mm'
+          }}
+        </div>
       </div>
       <div class="header-info-lesson">
         {{ lesson.EventDesignation }},
@@ -78,13 +86,3 @@
     </button>
   </div>
 </div>
-
-<!-- <div>
-     <input
-     type="text"
-     ngbDatepicker
-     #d="ngbDatepicker"
-     (dateSelect)="onDateSelect($event)"
-     />
-     <button class="btn btn-primary" (click)="d.toggle()">Toggle</button>
-     </div> -->

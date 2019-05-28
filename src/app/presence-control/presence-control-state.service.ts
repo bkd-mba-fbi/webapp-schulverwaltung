@@ -48,12 +48,12 @@ export enum ViewMode {
   providedIn: 'root'
 })
 export class PresenceControlStateService {
-  private date$ = new BehaviorSubject(new Date());
+  private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<Lesson>>();
   private loadingCount$ = new BehaviorSubject(0);
   private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
 
-  private lessonPresences$ = this.date$.pipe(
+  private lessonPresences$ = this.selectedDateSubject$.pipe(
     switchMap(this.loadLessonPresencesByDate.bind(this)),
     shareReplay(1)
   );
@@ -93,6 +93,7 @@ export class PresenceControlStateService {
   loading$ = this.loadingCount$.pipe(map(nonZero));
 
   viewMode$ = this.viewModeSubject$.asObservable();
+  selectedDate$ = this.selectedDateSubject$.asObservable();
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
@@ -100,7 +101,7 @@ export class PresenceControlStateService {
   ) {}
 
   setDate(date: Date): void {
-    this.date$.next(date);
+    this.selectedDateSubject$.next(date);
   }
 
   previousLesson(): void {
