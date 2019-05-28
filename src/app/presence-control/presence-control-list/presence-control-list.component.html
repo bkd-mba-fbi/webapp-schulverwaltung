@@ -1,41 +1,45 @@
-<ng-container *ngIf="state.selectedLesson$ | async as lesson; else noLessons">
-  <erz-presence-control-header
-    [lesson]="lesson"
-    [hasPreviousLesson]="!(state.isFirstLesson$ | async)"
-    [hasNextLesson]="!(state.isLastLesson$ | async)"
-    [presencesCount]="14"
-    [absencesCount]="1"
-    [delaysCount]="0"
-    (previousLesson)="state.previousLesson()"
-    (nextLesson)="state.nextLesson()"
-    (search)="search$.next($event)"
-  ></erz-presence-control-header>
+<ng-container
+  *erzLet="{
+    lesson: state.selectedLesson$ | async,
+    entries: presenceControlEntries$ | async
+  } as data"
+>
+  <ng-container *ngIf="!(state.loading$ | async); else loading">
+    <ng-container *ngIf="data.lesson; else noLessons">
+      <erz-presence-control-header
+        [lesson]="data.lesson"
+        [hasPreviousLesson]="!(state.isFirstLesson$ | async)"
+        [hasNextLesson]="!(state.isLastLesson$ | async)"
+        [presentCount]="state.presentCount$ | async"
+        [absentCount]="state.absentCount$ | async"
+        [lateCount]="state.lateCount$ | async"
+        [viewMode]="state.viewMode$ | async"
+        (previousLesson)="state.previousLesson()"
+        (nextLesson)="state.nextLesson()"
+        (search)="search$.next($event)"
+        (viewModeChange)="state.setViewMode($event)"
+      ></erz-presence-control-header>
 
-  <ng-container *ngIf="lessonPresences$ | async as lessonPresences">
-    <ul *ngIf="lessonPresences.length > 0; else noLessonPresences">
-      <li *ngFor="let presence of lessonPresences">
-        {{ presence.StudentFullName }}
-        <a
-          [routerLink]="['/presence-control/detail', presence.StudentRef.Id]"
-          routerLinkActive="active"
-        >
-          Detail
-        </a>
-        <a
-          [routerLink]="['/presence-control/comment', presence.StudentRef.Id]"
-          routerLinkActive="active"
-        >
-          Kommentar
-        </a>
-      </li>
-    </ul>
+      <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">
+        <erz-presence-control-entry
+          *ngFor="let entry of data.entries"
+          [entry]="entry"
+          [viewMode]="state.viewMode$ | async"
+          (togglePresenceType)="togglePresenceType($event)"
+        ></erz-presence-control-entry>
+      </ng-container>
 
-    <ng-template #noLessonPresences>
-      <p>{{ 'presence-control.no-lesson-presences' | translate }}</p>
+      <ng-template #noLessonPresences>
+        <p>{{ 'presence-control.no-lesson-presences' | translate }}</p>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #noLessons>
+      <p>{{ 'presence-control.no-lessons' | translate }}</p>
     </ng-template>
   </ng-container>
-</ng-container>
 
-<ng-template #noLessons>
-  <p>{{ 'presence-control.no-lessons' | translate }}</p>
-</ng-template>
+  <ng-template #loading>
+    <erz-spinner></erz-spinner>
+  </ng-template>
+</ng-container>

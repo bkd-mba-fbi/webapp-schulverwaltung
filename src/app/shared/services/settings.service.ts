@@ -4,6 +4,7 @@ import { map, retryWhen, delay, pluck, shareReplay } from 'rxjs/operators';
 
 export interface Settings {
   apiUrl: string;
+  latePresenceTypeId: number;
 }
 
 const SETTINGS_RETRY_COUNT = 10;

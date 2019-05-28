@@ -1,6 +1,8 @@
-import { Reference } from './app/shared/models/common-types';
+import { Reference, Flag } from './app/shared/models/common-types';
 import { LessonPresence } from './app/shared/models/lesson-presence.model';
 import { Lesson } from './app/shared/models/lesson.model';
+import { PresenceType } from './app/shared/models/presence-type.model';
+import { PresenceControlEntry } from './app/presence-control/models/presence-control-entry.model';
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, Href: href || `/${id}` };
@@ -11,13 +13,14 @@ export function buildLessonPresence(
   dateFrom: Date,
   dateTo: Date,
   eventDesignation: string,
-  studentName = ''
+  studentName = '',
+  presenceTypeId?: number
 ): LessonPresence {
   return {
     LessonRef: buildReference(lessonId),
     StudentRef: buildReference(),
     EventRef: buildReference(),
-    PresenceTypeRef: null,
+    PresenceTypeRef: buildReference(presenceTypeId),
     StudyClassRef: buildReference(),
     EventTypeId: 123,
     PresenceConfirmationState: null,
@@ -52,5 +55,34 @@ export function buildLesson(
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
     StudyClassNumber: '9a'
+  };
+}
+
+export function buildPresenceControlEntry(
+  lessonPresence: LessonPresence,
+  presenceType?: Option<PresenceType>
+): PresenceControlEntry {
+  return new PresenceControlEntry(lessonPresence, presenceType || null);
+}
+
+export function buildPresenceType(
+  id: number,
+  typeId: number,
+  isAbsence: Flag,
+  IsIncident: Flag
+): PresenceType {
+  return {
+    Id: id,
+    TypeId: typeId,
+    Active: 1,
+    Description: '',
+    Designation: '',
+    IsAbsence: isAbsence,
+    IsComment: 0,
+    IsDispensation: 0,
+    IsIncident: IsIncident,
+    NeedsConfirmation: 1,
+    Sort: 1,
+    Href: ''
   };
 }

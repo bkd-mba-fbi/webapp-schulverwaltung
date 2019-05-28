@@ -1,0 +1,36 @@
+<a
+  class="avatar"
+  [hidden]="isListViewMode"
+  [routerLink]="[
+    '/presence-control/detail',
+    entry.lessonPresence.StudentRef.Id
+  ]"
+  [ngStyle]="avatarStyles$ | async"
+></a>
+<div class="content">
+  <button
+    (click)="togglePresenceType.emit(entry)"
+    class="presence-category-button btn btn-link"
+  >
+    <div class="presence-category">
+      <span class="presence-category-designation">{{
+        entry.presenceType?.Designation
+      }}</span>
+      <i class="material-icons">{{ presenceCategoryIcon }}</i>
+    </div>
+  </button>
+  <span class="student-name">{{ entry.lessonPresence.StudentFullName }}</span>
+  <a
+    class="comment"
+    [routerLink]="[
+      '/presence-control/comment',
+      entry.lessonPresence.StudentRef.Id
+    ]"
+  >
+    <i class="material-icons">notes</i>
+    <span>{{
+      entry.lessonPresence.PresenceComment ||
+        ('presence-control.entry.comment' | translate)
+    }}</span>
+  </a>
+</div>

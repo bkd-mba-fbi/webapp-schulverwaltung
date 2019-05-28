@@ -3,8 +3,9 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
 import { spreadTuple } from '../../shared/utils/function';
-import { searchLessonPresences } from '../utils/lesson-presences';
+import { searchPresenceControlEntries } from '../utils/presence-control-entries';
 import { PresenceControlStateService } from '../presence-control-state.service';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 3;
 
@@ -21,12 +22,16 @@ export class PresenceControlListComponent implements OnInit {
     distinctUntilChanged()
   );
 
-  lessonPresences$ = combineLatest(
-    this.state.selectedLessonPresences$,
+  presenceControlEntries$ = combineLatest(
+    this.state.selectedPresenceControlEntries$,
     this.validSearch$
-  ).pipe(map(spreadTuple(searchLessonPresences)));
+  ).pipe(map(spreadTuple(searchPresenceControlEntries)));
 
   constructor(public state: PresenceControlStateService) {}
 
   ngOnInit(): void {}
+
+  togglePresenceType(entry: PresenceControlEntry): void {
+    console.log('Toggle', entry);
+  }
 }

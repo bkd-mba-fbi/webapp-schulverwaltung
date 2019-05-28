@@ -12,3 +12,13 @@ export function spreadTuple<A, B, T>(
 ): (args: [A, B]) => T {
   return ([a, b]) => fn(a, b);
 }
+
+/**
+ * Type-safe utility to wrap a ternary function and spread a triplet
+ * argument to it.
+ */
+export function spreadTriplet<A, B, C, T>(
+  fn: (a: A, b: B, c: C) => T
+): (args: [A, B, C]) => T {
+  return ([a, b, c]) => fn(a, b, c);
+}

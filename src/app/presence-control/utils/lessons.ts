@@ -2,6 +2,8 @@ import { isSameDay, isBefore, isWithinRange } from 'date-fns';
 
 import { Lesson } from '../../shared/models/lesson.model';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import { PresenceType } from 'src/app/shared/models/presence-type.model';
 
 export function lessonsEqual(a: Lesson, b: Lesson): boolean {
   return a.LessonRef.Id === b.LessonRef.Id;
@@ -88,6 +90,28 @@ export function getLessonPresencesForLesson(
   return lessonPresences
     .filter(p => p.LessonRef.Id === lesson.LessonRef.Id)
     .sort(lessonPresencesComparator);
+}
+
+export function getPresenceControlEntriesForLesson(
+  lesson: Option<Lesson>,
+  lessonPresences: ReadonlyArray<LessonPresence>,
+  presenceTypes: ReadonlyArray<PresenceType>
+): ReadonlyArray<PresenceControlEntry> {
+  return getLessonPresencesForLesson(lesson, lessonPresences).map(
+    lessonPresence => {
+      let presenceType = null;
+      if (lessonPresence.PresenceTypeRef) {
+        presenceType =
+          presenceTypes.find(
+            t =>
+              t.Id ===
+              (lessonPresence.PresenceTypeRef &&
+                lessonPresence.PresenceTypeRef.Id)
+          ) || null;
+      }
+      return new PresenceControlEntry(lessonPresence, presenceType);
+    }
+  );
 }
 
 /**
