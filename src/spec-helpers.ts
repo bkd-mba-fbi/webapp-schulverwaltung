@@ -20,6 +20,7 @@ class SettingsMockService extends SettingsService {
   protected get settings(): Option<Settings> {
     return {
       apiUrl: 'https://eventotest.api',
+      absencePresenceTypeId: 11,
       latePresenceTypeId: 12
     };
   }

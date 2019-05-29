@@ -11,6 +11,7 @@ const PresenceType = t.type({
   IsComment: Flag,
   IsDispensation: Flag,
   IsIncident: Flag,
+  IsHalfDay: Flag,
   NeedsConfirmation: Flag,
   Sort: t.number,
   Href: t.string

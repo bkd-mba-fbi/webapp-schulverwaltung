@@ -4,6 +4,7 @@ import { map, retryWhen, delay, pluck, shareReplay } from 'rxjs/operators';
 
 export interface Settings {
   apiUrl: string;
+  absencePresenceTypeId: number;
   latePresenceTypeId: number;
 }
 

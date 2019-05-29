@@ -14,7 +14,6 @@ import {
   take,
   withLatestFrom,
   tap,
-  finalize,
   catchError
 } from 'rxjs/operators';
 

@@ -69,7 +69,7 @@ export function buildPresenceType(
   id: number,
   typeId: number,
   isAbsence: Flag,
-  IsIncident: Flag
+  isIncident: Flag
 ): PresenceType {
   return {
     Id: id,
@@ -80,7 +80,8 @@ export function buildPresenceType(
     IsAbsence: isAbsence,
     IsComment: 0,
     IsDispensation: 0,
-    IsIncident: IsIncident,
+    IsIncident: isIncident,
+    IsHalfDay: 0,
     NeedsConfirmation: 1,
     Sort: 1,
     Href: ''
