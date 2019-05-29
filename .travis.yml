@@ -32,5 +32,7 @@ jobs:
           branch: master
 
 stages:
+  - lint
+  - test
   - name: deploy
     if: branch = master
