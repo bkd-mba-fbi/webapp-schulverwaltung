@@ -19,7 +19,14 @@
       <i class="material-icons">{{ presenceCategoryIcon }}</i>
     </div>
   </button>
-  <span class="student-name">{{ entry.lessonPresence.StudentFullName }}</span>
+  <a
+    [routerLink]="[
+      '/presence-control/detail',
+      entry.lessonPresence.StudentRef.Id
+    ]"
+    class="student-name"
+    >{{ entry.lessonPresence.StudentFullName }}</a
+  >
   <a
     class="comment"
     [routerLink]="[

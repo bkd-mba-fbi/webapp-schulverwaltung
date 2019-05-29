@@ -63,6 +63,10 @@
   text-overflow: ellipsis;
 }
 
+.student-name {
+  color: $body-color;
+}
+
 .comment {
   display: flex;
   color: rgba($body-color, 0.5);
