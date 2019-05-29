@@ -15,24 +15,62 @@ export class PresenceControlEntry {
   ) {}
 
   get presenceCategory(): PresenceCategory {
-    if (
-      this.presenceType &&
-      (this.presenceType.IsAbsence === 1 ||
-        this.presenceType.IsDispensation === 1 ||
-        this.presenceType.IsHalfDay === 1)
-    ) {
+    if (this.isAbsent(this.presenceType)) {
       return PresenceCategory.Absent;
     }
 
-    if (
-      this.presenceType &&
-      this.settings &&
-      this.presenceType.Id === this.settings.latePresenceTypeId
-    ) {
+    if (this.isLate(this.presenceType)) {
       return PresenceCategory.Late;
     }
 
     return PresenceCategory.Present;
+  }
+
+  get nextPresenceCategory(): PresenceCategory {
+    const categories = Object.keys(PresenceCategory).map(
+      c => PresenceCategory[c as any] as string
+    );
+    const currentCategory = this.presenceCategory;
+    const index = categories.findIndex(c => c === currentCategory);
+    return categories[(index + 1) % categories.length] as PresenceCategory;
+  }
+
+  getNextPresenceType(
+    presenceTypes: ReadonlyArray<PresenceType>
+  ): Option<PresenceType> {
+    switch (this.nextPresenceCategory) {
+      case PresenceCategory.Absent:
+        return presenceTypes.find(this.isDefaultAbsence.bind(this)) || null;
+      case PresenceCategory.Late:
+        return presenceTypes.find(this.isLate.bind(this)) || null;
+      default:
+        return null;
+    }
+  }
+
+  private isAbsent(presenceType: Option<PresenceType>): boolean {
+    return Boolean(
+      presenceType &&
+        (presenceType.IsAbsence === 1 ||
+          presenceType.IsDispensation === 1 ||
+          presenceType.IsHalfDay === 1)
+    );
+  }
+
+  private isDefaultAbsence(presenceType: Option<PresenceType>): boolean {
+    return Boolean(
+      presenceType &&
+        this.settings &&
+        presenceType.Id === this.settings.absencePresenceTypeId
+    );
+  }
+
+  private isLate(presenceType: Option<PresenceType>): boolean {
+    return Boolean(
+      presenceType &&
+        this.settings &&
+        presenceType.Id === this.settings.latePresenceTypeId
+    );
   }
 
   private get settings(): Settings {

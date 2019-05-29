@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from './app/shared/shared.module';
 import { Settings, SETTINGS } from './app/settings';
@@ -21,6 +22,8 @@ const settings: Settings = {
 
 const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
+    RouterTestingModule,
+    HttpClientTestingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -28,8 +31,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
         deps: [HttpClient]
       }
     }),
-    RouterTestingModule,
-    HttpClientTestingModule,
+    ToastrModule,
     SharedModule
   ],
   providers: [{ provide: SETTINGS, useValue: settings }]

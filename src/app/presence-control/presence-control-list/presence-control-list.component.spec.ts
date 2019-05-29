@@ -2,14 +2,19 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, BehaviorSubject } from 'rxjs';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { buildLessonPresence, buildLesson } from 'src/spec-builders';
+import {
+  buildLessonPresence,
+  buildLesson,
+  buildPresenceType
+} from 'src/spec-builders';
 import { PresenceControlListComponent } from './presence-control-list.component';
 import { PresenceControlHeaderComponent } from '../presence-control-header/presence-control-header.component';
 import { PresenceControlStateService } from '../presence-control-state.service';
 import { PresenceControlEntryComponent } from '../presence-control-entry/presence-control-entry.component';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { Lesson } from 'src/app/shared/models/lesson.model';
-import { LoadingService } from 'src/app/shared/services/loading-service';
+import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
+import { PresenceType } from 'src/app/shared/models/presence-type.model';
 
 describe('PresenceControlListComponent', () => {
   let component: PresenceControlListComponent;
@@ -21,7 +26,11 @@ describe('PresenceControlListComponent', () => {
   let bichsel: PresenceControlEntry;
   let frisch: PresenceControlEntry;
   let jenni: PresenceControlEntry;
+  let absence: PresenceType;
+
   let selectedPresenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
+  let stateServiceMock: PresenceControlStateService;
+  let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
 
   beforeEach(async(() => {
     lesson = buildLesson(
@@ -39,17 +48,22 @@ describe('PresenceControlListComponent', () => {
       jenni
     ]);
 
-    const loadingServiceMock = {
-      loading$: of(false)
-    };
+    absence = buildPresenceType(2, 20, 1, 0);
 
-    const stateServiceMock = {
+    stateServiceMock = ({
+      loading$: of(false),
       selectedLesson$: of(lesson),
       selectedPresenceControlEntries$,
       isFirstLesson$: of(true),
       isLastLesson$: of(true),
-      loadingService: loadingServiceMock
-    };
+      getNextPresenceType: jasmine
+        .createSpy('getNextPresenceType')
+        .and.callFake(() => of(absence))
+    } as unknown) as PresenceControlStateService;
+
+    lessonPresencesUpdateServiceMock = ({
+      updatePresenceTypes: jasmine.createSpy('updatePresenceTypes')
+    } as unknown) as LessonPresencesUpdateService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -62,6 +76,10 @@ describe('PresenceControlListComponent', () => {
           {
             provide: PresenceControlStateService,
             useValue: stateServiceMock
+          },
+          {
+            provide: LessonPresencesUpdateService,
+            useValue: lessonPresencesUpdateServiceMock
           }
         ]
       })
@@ -101,6 +119,17 @@ describe('PresenceControlListComponent', () => {
       ]);
       fixture.detectChanges();
       expect(getRenderedStudentNames()).toEqual(['Frisch Max', 'Frisch Peter']);
+    });
+  });
+
+  describe('.togglePresenceType', () => {
+    beforeEach(() => {});
+
+    it('updates given entry to next presence type', () => {
+      component.togglePresenceType(bichsel);
+      expect(
+        lessonPresencesUpdateServiceMock.updatePresenceTypes
+      ).toHaveBeenCalledWith([bichsel.lessonPresence], absence.Id);
     });
   });
 

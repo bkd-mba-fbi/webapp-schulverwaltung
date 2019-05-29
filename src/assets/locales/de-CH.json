@@ -28,5 +28,10 @@
   },
   "evaluate-absences": {
     "title": "Absenzen auswerten"
+  },
+  "shared": {
+    "lesson-presences-update": {
+      "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten"
+    }
   }
 }

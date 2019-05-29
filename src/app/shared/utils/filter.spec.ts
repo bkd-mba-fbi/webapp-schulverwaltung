@@ -1,4 +1,4 @@
-import { nonZero } from './filter';
+import { nonZero, not } from './filter';
 
 describe('filter utils', () => {
   describe('nonZero', () => {
@@ -16,6 +16,24 @@ describe('filter utils', () => {
       expect(nonZero(-1)).toBe(true);
       expect(nonZero(-2)).toBe(true);
       expect(nonZero(-1000)).toBe(true);
+    });
+  });
+
+  describe('not', () => {
+    it('returns function that calls given function and negates its result', () => {
+      expect(
+        not(arg => {
+          expect(arg).toBe(123);
+          return true;
+        })(123)
+      ).toBe(false);
+
+      expect(
+        not(arg => {
+          expect(arg).toBe(123);
+          return false;
+        })(123)
+      ).toBe(true);
     });
   });
 });

@@ -6,6 +6,7 @@ import { spreadTuple } from '../../shared/utils/function';
 import { searchPresenceControlEntries } from '../utils/presence-control-entries';
 import { PresenceControlStateService } from '../presence-control-state.service';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 3;
 
@@ -27,11 +28,21 @@ export class PresenceControlListComponent implements OnInit {
     this.validSearch$
   ).pipe(map(spreadTuple(searchPresenceControlEntries)));
 
-  constructor(public state: PresenceControlStateService) {}
+  constructor(
+    public state: PresenceControlStateService,
+    private lessonPresencesUpdateService: LessonPresencesUpdateService
+  ) {}
 
   ngOnInit(): void {}
 
   togglePresenceType(entry: PresenceControlEntry): void {
-    console.log('Toggle', entry);
+    this.state
+      .getNextPresenceType(entry)
+      .subscribe(newPresenceType =>
+        this.lessonPresencesUpdateService.updatePresenceTypes(
+          [entry.lessonPresence],
+          newPresenceType ? newPresenceType.Id : null
+        )
+      );
   }
 }

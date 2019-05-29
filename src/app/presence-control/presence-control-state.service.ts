@@ -33,6 +33,9 @@ import {
   lessonsEqual
 } from './utils/lessons';
 import { getCategoryCount } from './utils/presence-control-entries';
+import { updatePresenceTypeForPresences } from './utils/lesson-presences';
+import { PresenceControlEntry } from './models/presence-control-entry.model';
+import { LessonPresenceUpdate } from '../shared/services/lesson-presences-update.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -47,10 +50,14 @@ export class PresenceControlStateService {
   private selectLesson$ = new Subject<Option<Lesson>>();
   private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
 
-  private lessonPresences$ = this.selectedDateSubject$.pipe(
-    switchMap(this.loadLessonPresencesByDate.bind(this)),
-    shareReplay(1)
-  );
+  private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
+
+  private lessonPresences$ = merge(
+    this.selectedDateSubject$.pipe(
+      switchMap(this.loadLessonPresencesByDate.bind(this))
+    ),
+    this.updateLessonPresences$
+  ).pipe(shareReplay(1));
   private presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
   private lessons$ = this.lessonPresences$.pipe(
     map(extractLessons),
@@ -121,6 +128,36 @@ export class PresenceControlStateService {
 
   setViewMode(mode: ViewMode): void {
     this.viewModeSubject$.next(mode);
+  }
+
+  updateLessonPresences(
+    affectedLessonPresences: ReadonlyArray<LessonPresenceUpdate>
+  ): void {
+    combineLatest(
+      this.lessonPresences$.pipe(take(1)),
+      this.presenceTypes$.pipe(take(1))
+    )
+      .pipe(
+        map(([lessonPresences, presenceTypes]) =>
+          updatePresenceTypeForPresences(
+            lessonPresences,
+            affectedLessonPresences,
+            presenceTypes
+          )
+        )
+      )
+      .subscribe(lessonPresences =>
+        this.updateLessonPresences$.next(lessonPresences)
+      );
+  }
+
+  getNextPresenceType(
+    entry: PresenceControlEntry
+  ): Observable<Option<PresenceType>> {
+    return this.presenceTypes$.pipe(
+      take(1),
+      map(presenceTypes => entry.getNextPresenceType(presenceTypes))
+    );
   }
 
   private loadLessonPresencesByDate(
