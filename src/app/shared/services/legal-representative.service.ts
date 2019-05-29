@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { RestService } from './rest.service';
-import { SettingsService } from './settings.service';
+import { SETTINGS, Settings } from '../../settings';
 import {
   LegalRepresentative,
   LegalRepresentativeProps
@@ -14,7 +14,7 @@ import {
 export class LegalRepresentativeService extends RestService<
   LegalRepresentativeProps
 > {
-  constructor(http: HttpClient, settings: SettingsService) {
+  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, LegalRepresentative, 'LegalRepresentatives');
   }
 }

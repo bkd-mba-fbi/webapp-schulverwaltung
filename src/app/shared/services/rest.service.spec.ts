@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpTestingController } from '@angular/common/http/testing';
 import * as t from 'io-ts';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { RestService } from './rest.service';
-import { SettingsService } from './settings.service';
 import { DecodeError } from '../utils/decode';
+import { SETTINGS, Settings } from 'src/app/settings';
 
 describe('RestService', () => {
   let service: FooService;
@@ -19,7 +19,7 @@ describe('RestService', () => {
 
   @Injectable()
   class FooService extends RestService<FooProps> {
-    constructor(http: HttpClient, settings: SettingsService) {
+    constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
       super(http, settings, Foo, 'Foo');
     }
   }

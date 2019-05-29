@@ -7,24 +7,17 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { SharedModule } from './app/shared/shared.module';
-import {
-  SettingsService,
-  Settings
-} from './app/shared/services/settings.service';
+import { Settings, SETTINGS } from './app/settings';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/locales/', '.json');
 }
 
-class SettingsMockService extends SettingsService {
-  protected get settings(): Option<Settings> {
-    return {
-      apiUrl: 'https://eventotest.api',
-      absencePresenceTypeId: 11,
-      latePresenceTypeId: 12
-    };
-  }
-}
+const settings: Settings = {
+  apiUrl: 'https://eventotest.api',
+  absencePresenceTypeId: 11,
+  latePresenceTypeId: 12
+};
 
 const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
@@ -39,7 +32,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
     HttpClientTestingModule,
     SharedModule
   ],
-  providers: [{ provide: SettingsService, useClass: SettingsMockService }]
+  providers: [{ provide: SETTINGS, useValue: settings }]
 };
 
 export function buildTestModuleMetadata(

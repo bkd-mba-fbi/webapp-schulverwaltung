@@ -1,6 +1,6 @@
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { Settings } from 'src/app/shared/services/settings.service';
+import { Settings } from 'src/app/settings';
 
 export enum PresenceCategory {
   Present = 'present',
@@ -35,11 +35,7 @@ export class PresenceControlEntry {
     return PresenceCategory.Present;
   }
 
-  private get settings(): Option<Settings> {
-    return (
-      ((window as any).absenzenmanagement &&
-        (window as any).absenzenmanagement.settings) ||
-      null
-    );
+  private get settings(): Settings {
+    return window.absenzenmanagement.settings;
   }
 }

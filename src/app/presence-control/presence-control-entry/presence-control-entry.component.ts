@@ -6,15 +6,15 @@ import {
   Output,
   EventEmitter,
   SimpleChanges,
-  OnChanges
+  OnChanges,
+  Inject
 } from '@angular/core';
 import { ReplaySubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { spreadTuple } from 'src/app/shared/utils/function';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { ViewMode } from '../presence-control-state.service';
-import { SettingsService } from 'src/app/shared/services/settings.service';
+import { SETTINGS, Settings } from '../../settings';
 import { StorageService } from 'src/app/shared/services/storage.service';
 
 const FALLBACK_AVATAR = 'assets/images/avatar-placeholder.png';
@@ -35,15 +35,14 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   }
 
   private studentId$ = new ReplaySubject<number>(1);
-  private avatarUrl$ = combineLatest(
-    this.settings.apiUrl$,
-    this.studentId$
-  ).pipe(map(spreadTuple(this.buildAvatarUrl.bind(this))));
+  private avatarUrl$ = this.studentId$.pipe(
+    map(this.buildAvatarUrl.bind(this))
+  );
 
   avatarStyles$ = this.avatarUrl$.pipe(map(this.buildAvatarStyles.bind(this)));
 
   constructor(
-    private settings: SettingsService,
+    @Inject(SETTINGS) private settings: Settings,
     private storageService: StorageService
   ) {}
 
@@ -72,9 +71,11 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
     return this.viewMode === ViewMode.List;
   }
 
-  private buildAvatarUrl(apiUrl: string, studentId: number): string {
+  private buildAvatarUrl(studentId: number): string {
     const accessToken = this.storageService.getAccessToken() || '';
-    return `${apiUrl}/Files\/personPictures/${studentId}?token=${accessToken}`;
+    return `${
+      this.settings.apiUrl
+    }/Files\/personPictures/${studentId}?token=${accessToken}`;
   }
 
   private buildAvatarStyles(url: string): { [key: string]: string } {

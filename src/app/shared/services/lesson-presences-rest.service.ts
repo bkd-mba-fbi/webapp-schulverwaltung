@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { format } from 'date-fns';
 
 import { RestService } from './rest.service';
-import { SettingsService } from './settings.service';
+import { SETTINGS, Settings } from '../../settings';
 import {
   LessonPresenceProps,
   LessonPresence
@@ -16,7 +16,7 @@ import {
 export class LessonPresencesRestService extends RestService<
   LessonPresenceProps
 > {
-  constructor(http: HttpClient, settings: SettingsService) {
+  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, LessonPresence, 'LessonPresences');
   }
 

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { SettingsService } from './settings.service';
+import { SETTINGS, Settings } from '../../settings';
 import { RestService } from './rest.service';
 import {
   LessonIncident,
@@ -14,7 +14,7 @@ import {
 export class LessonIncidentsRestService extends RestService<
   LessonIncidentProps
 > {
-  constructor(http: HttpClient, settings: SettingsService) {
+  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, LessonIncident, 'LessonIncidents');
   }
 }
