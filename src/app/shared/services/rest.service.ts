@@ -1,16 +1,15 @@
-import { Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import * as t from 'io-ts/lib/index';
 
-import { SETTINGS, Settings } from '../../settings';
+import { Settings } from '../../settings';
 import { decode, decodeArray } from '../utils/decode';
 
 export abstract class RestService<P extends t.AnyProps> {
   constructor(
     protected http: HttpClient,
-    @Inject(SETTINGS) protected settings: Settings,
+    protected settings: Settings,
     protected decoder: t.TypeC<P>,
     protected resourcePath: string
   ) {}
