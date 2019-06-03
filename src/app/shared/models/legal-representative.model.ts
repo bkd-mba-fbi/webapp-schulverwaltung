@@ -1,13 +1,13 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
-import { Reference, Flag } from './common-types';
+import { Reference, Flag, Option } from './common-types';
 
 const LegalRepresentative = t.type({
   Id: t.number,
   RepresentativeRef: Reference,
   StudentRef: Reference,
-  DateFrom: DateFromISOString,
-  DateTo: DateFromISOString,
+  DateFrom: Option(DateFromISOString),
+  DateTo: Option(DateFromISOString),
   RepresentativeAfterMajority: Flag,
   Href: t.string
 });

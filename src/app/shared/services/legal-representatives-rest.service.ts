@@ -11,7 +11,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class LegalRepresentativeService extends RestService<
+export class LegalRepresentativesRestService extends RestService<
   LegalRepresentativeProps
 > {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {

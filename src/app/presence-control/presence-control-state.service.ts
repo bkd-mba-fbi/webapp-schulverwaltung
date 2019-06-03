@@ -21,7 +21,7 @@ import { LessonPresence } from '../shared/models/lesson-presence.model';
 import { PresenceType } from '../shared/models/presence-type.model';
 import { Lesson } from '../shared/models/lesson.model';
 import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service';
-import { PresenceTypesService } from '../shared/services/presence-types.service';
+import { PresenceTypesRestService } from '../shared/services/presence-types-rest.service';
 import {
   extractLessons,
   getCurrentLesson,
@@ -96,7 +96,7 @@ export class PresenceControlStateService {
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
-    private presenceTypesService: PresenceTypesService
+    private presenceTypesService: PresenceTypesRestService
   ) {}
 
   setDate(date: Date): void {

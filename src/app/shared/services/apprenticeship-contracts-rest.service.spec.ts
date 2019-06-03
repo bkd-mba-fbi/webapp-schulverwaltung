@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ApprenticeshipContractsService } from './apprenticeship-contracts.service';
+import { ApprenticeshipContractsRestService } from './apprenticeship-contracts-rest.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
-describe('ApprenticeshipContractsService', () => {
+describe('ApprenticeshipContractsRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: ApprenticeshipContractsService = TestBed.get(
-      ApprenticeshipContractsService
+    const service: ApprenticeshipContractsRestService = TestBed.get(
+      ApprenticeshipContractsRestService
     );
     expect(service).toBeTruthy();
   });

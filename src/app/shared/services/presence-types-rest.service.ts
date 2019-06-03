@@ -8,7 +8,7 @@ import { PresenceType, PresenceTypeProps } from '../models/presence-type.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PresenceTypesService extends RestService<PresenceTypeProps> {
+export class PresenceTypesRestService extends RestService<PresenceTypeProps> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, PresenceType, 'PresenceTypes');
   }

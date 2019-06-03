@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ApprenticeshipContractsService extends RestService<
+export class ApprenticeshipContractsRestService extends RestService<
   ApprenticeshipContractProps
 > {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {

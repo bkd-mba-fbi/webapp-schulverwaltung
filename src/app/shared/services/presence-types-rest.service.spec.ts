@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PresenceTypesService } from './presence-types.service';
+import { PresenceTypesRestService } from './presence-types-rest.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
-describe('PresenceTypesService', () => {
+describe('PresenceTypesRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: PresenceTypesService = TestBed.get(PresenceTypesService);
+    const service: PresenceTypesRestService = TestBed.get(
+      PresenceTypesRestService
+    );
     expect(service).toBeTruthy();
   });
 });
