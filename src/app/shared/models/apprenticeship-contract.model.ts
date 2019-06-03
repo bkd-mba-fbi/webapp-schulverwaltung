@@ -7,8 +7,8 @@ const ApprenticeshipContract = t.type({
   JobTrainerRef: Reference,
   StudentRef: Reference,
   ApprenticeshipManagerId: t.number,
-  ApprenticeshipDateFrom: DateFromISOString,
-  ApprenticeshipDateTo: DateFromISOString,
+  ApprenticeshipDateFrom: t.string, // TODO
+  ApprenticeshipDateTo: t.string, // TODO
   CompanyName: t.string,
   ContractDateFrom: Option(DateFromISOString),
   ContractDateTo: Option(DateFromISOString),
