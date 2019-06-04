@@ -3,7 +3,7 @@ import { HttpTestingController } from '@angular/common/http/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PersonsRestService } from './persons-rest.service';
-import { Person } from '../models/person.model';
+import { buildPerson } from 'src/spec-builders';
 
 describe('PersonsRestService', () => {
   let service: PersonsRestService;
@@ -19,59 +19,21 @@ describe('PersonsRestService', () => {
 
   describe('.getListForIds', () => {
     it('should request all the persons in the given list of ids', () => {
+      const persons = [buildPerson(38608), buildPerson(38610)];
+
       service.getListForIds([38608, 38610]).subscribe(result => {
-        expect(result).toEqual([buildModel(38608), buildModel(38610)]);
+        expect(result).toEqual(persons);
       });
 
       // TODO how to test urls with parameters?
       // httpTestingController.expectOne(
       //   'https://eventotest.api/Persons?filter.Id=;38608;38610'
       // );
-      // .flush([buildModel(38608), buildModel(38610)]);
+      // .flush(persons);
 
       httpTestingController
         .expectOne(req => req.url === 'https://eventotest.api/Persons')
-        .flush([buildModel(38608), buildModel(38610)]);
+        .flush(persons);
     });
-
-    function buildModel(id: number): Person {
-      return {
-        Id: id,
-        Country: 'Schweiz',
-        CountryId: 'CH',
-        FormOfAddress: 'Frau',
-        FormOfAddressId: 2,
-        HomeCountry: null,
-        HomeCountryId: null,
-        Nationality: null,
-        NationalityId: null,
-        AddressLine1: null,
-        AddressLine2: null,
-        BillingAddress: '',
-        Birthdate: null,
-        CorrespondenceAddress: '',
-        DisplayEmail: null,
-        Email: null,
-        Email2: null,
-        FirstName: 'First',
-        Gender: 'F',
-        HomeTown: null,
-        IsEditable: true,
-        IsEmployee: false,
-        LastName: 'Last',
-        Location: null,
-        MatriculationNumber: null,
-        MiddleName: null,
-        NativeLanguage: null,
-        PhoneMobile: null,
-        PhonePrivate: null,
-        Profession: null,
-        SocialSecurityNumber: null,
-        StayPermit: null,
-        StayPermitExpiry: null,
-        Zip: null,
-        Href: ''
-      };
-    }
   });
 });

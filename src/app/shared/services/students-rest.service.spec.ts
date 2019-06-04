@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StudentsRestService } from './students-rest.service';
 import { HttpTestingController } from '@angular/common/http/testing';
-import { ApprenticeshipContract } from '../models/apprenticeship-contract.model';
+import { buildApprenticeshipContract } from 'src/spec-builders';
 
 describe('StudentsRestService', () => {
   let service: StudentsRestService;
@@ -51,39 +51,17 @@ describe('StudentsRestService', () => {
 
   describe('.getCurrentApprenticeshipContract', () => {
     it('should request the current apprenticeship contract of a given student', () => {
+      const apprenticeshipContract = buildApprenticeshipContract(55905);
+
       service.getCurrentApprenticeshipContract(39361).subscribe(result => {
-        expect(result).toEqual(buildModel(55905));
+        expect(result).toEqual(apprenticeshipContract);
       });
 
       httpTestingController
         .expectOne(
           'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current'
         )
-        .flush(buildModel(55905));
+        .flush(apprenticeshipContract);
     });
-
-    function buildModel(id: number): ApprenticeshipContract {
-      const ref = {
-        Id: 456,
-        Href: ''
-      };
-      return {
-        Id: id,
-        JobTrainerRef: ref,
-        StudentRef: ref,
-        ApprenticeshipManagerId: id,
-        ApprenticeshipDateFrom: '2018-08-06',
-        ApprenticeshipDateTo: '2021-08-05',
-        CompanyName: 'Firma',
-        ContractDateFrom: null,
-        ContractDateTo: null,
-        ContractNumber: '123456789',
-        ContractTermination: null,
-        ContractType: '100',
-        JobCode: 0,
-        JobVersion: 1,
-        Href: ''
-      };
-    }
   });
 });
