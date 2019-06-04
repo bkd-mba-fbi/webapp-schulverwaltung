@@ -1,7 +1,9 @@
-<h2>Detail</h2>
+<ng-container *erzLet="profile$ | async as profile">
+  <ng-container *ngIf="profile">
+    <h2>Personalien</h2>
+    {{ profile.student.AddressLine1 }}
+    {{ profile.student.PostalCode }} {{ profile.student.Location }}
+  </ng-container>
+</ng-container>
 
-<ul>
-  <li>
-    <a routerLink="/presence-control" routerLinkActive="active">Back</a>
-  </li>
-</ul>
+<button class="btn btn-link" (click)="goToList()">Back</button>
