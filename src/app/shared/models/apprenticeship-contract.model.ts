@@ -14,7 +14,7 @@ const ApprenticeshipContract = t.type({
   ContractDateTo: Option(DateFromISOString),
   ContractNumber: t.string,
   ContractTermination: Option(DateFromISOString),
-  ContractType: t.number,
+  ContractType: t.string,
   JobCode: t.number,
   JobVersion: t.number,
   Href: t.string

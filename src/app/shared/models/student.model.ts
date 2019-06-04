@@ -1,10 +1,11 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
+import { Option, Maybe } from './common-types';
 
 const Student = t.type({
   Id: t.number,
   AddressLine1: t.string,
-  AddressLine2: t.string,
+  AddressLine2: Maybe(t.string), // TODO
   Birthdate: DateFromISOString,
   DisplayEmail: t.string,
   FirstName: t.string,

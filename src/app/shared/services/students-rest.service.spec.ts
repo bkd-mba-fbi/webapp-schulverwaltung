@@ -79,7 +79,7 @@ describe('StudentsRestService', () => {
         ContractDateTo: null,
         ContractNumber: '123456789',
         ContractTermination: null,
-        ContractType: 100,
+        ContractType: '100',
         JobCode: 0,
         JobVersion: 1,
         Href: ''
