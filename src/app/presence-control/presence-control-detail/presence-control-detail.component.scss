@@ -1,0 +1,20 @@
+@import "../../../bootstrap-variables";
+
+.detail {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.detail-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.detail-entry {
+  padding-top: $spacer;
+  border-bottom: 1px solid $gray-500;
+}
+
+.detail-subentry {
+  padding-bottom: $spacer;
+}
