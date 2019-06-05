@@ -11,10 +11,12 @@
         >{{ profile.student.AddressLine2 }}<br
       /></span>
       {{ profile.student.PostalCode }} {{ profile.student.Location }}<br />
-      <a href="tel:{{ profile.student.PhonePrivate }}">{{
-        profile.student.PhonePrivate
-      }}</a
-      ><br />
+      <span *ngIf="profile.student.PhonePrivate"
+        ><a href="tel:{{ profile.student.PhonePrivate }}">{{
+          profile.student.PhonePrivate
+        }}</a
+        ><br
+      /></span>
       <a href="tel:{{ profile.student.PhoneMobile }}">{{
         profile.student.PhoneMobile
       }}</a
