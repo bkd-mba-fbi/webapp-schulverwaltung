@@ -11,6 +11,12 @@
     },
     "entry": {
       "comment": "Kommentar..."
+    },
+    "detail": {
+      "legal-representation": "Gesetzliche Vertretung",
+      "apprenticeship-company": "Lehrbetrieb",
+      "apprenticeship-period": "Lehrzeit",
+      "job-trainer": "Berufsbildner"
     }
   },
   "open-absences": {

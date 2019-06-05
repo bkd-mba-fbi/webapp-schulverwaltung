@@ -1,9 +1,124 @@
+<button class="btn btn-link" (click)="goToList()">Back</button>
 <ng-container *erzLet="profile$ | async as profile">
   <ng-container *ngIf="profile">
-    <h2>Personalien</h2>
-    {{ profile.student.AddressLine1 }}
-    {{ profile.student.PostalCode }} {{ profile.student.Location }}
+    <div>
+      {{ profile.student.FullName }} ({{ profile.student.Gender }})<br />
+      {{ profile.student.Birthdate | date: 'dd.MM.yyyy' }}
+    </div>
+    <address>
+      {{ profile.student.AddressLine1 }}<br />
+      <span *ngIf="profile.student.AddressLine2"
+        >{{ profile.student.AddressLine2 }}<br
+      /></span>
+      {{ profile.student.PostalCode }} {{ profile.student.Location }}<br />
+      <a href="tel:{{ profile.student.PhonePrivate }}">{{
+        profile.student.PhonePrivate
+      }}</a
+      ><br />
+      <a href="tel:{{ profile.student.PhoneMobile }}">{{
+        profile.student.PhoneMobile
+      }}</a
+      ><br />
+      <a href="mailto:{{ profile.student.DisplayEmail }}">{{
+        profile.student.DisplayEmail
+      }}</a>
+    </address>
+    <div
+      *ngFor="
+        let legalPerson of profile.legalRepresentativePersons;
+        let i = index
+      "
+    >
+      <h3>
+        {{ 'presence-control.detail.legal-representation' | translate }}
+        {{ i + 1 }}
+      </h3>
+      <address>
+        {{ legalPerson.LastName }} {{ legalPerson.FirstName }}<br />
+        <span *ngIf="legalPerson.AddressLine1"
+          >{{ legalPerson.AddressLine1 }}<br
+        /></span>
+        <span *ngIf="legalPerson.AddressLine2"
+          >{{ legalPerson.AddressLine2 }}<br
+        /></span>
+        <span *ngIf="legalPerson.Zip && legalPerson.Zip"
+          >{{ legalPerson.Zip }} {{ legalPerson.Location }}<br
+        /></span>
+        <span *ngIf="legalPerson.PhonePrivate">
+          <a href="tel:{{ legalPerson.PhonePrivate }}"
+            >{{ legalPerson.PhonePrivate }}<br /></a
+        ></span>
+        <span *ngIf="legalPerson.PhoneMobile">
+          <a href="tel:{{ legalPerson.PhoneMobile }}"
+            >{{ legalPerson.PhoneMobile }}<br /></a
+        ></span>
+        <span *ngIf="legalPerson.DisplayEmail">
+          <a href="mailto:{{ legalPerson.DisplayEmail }}">{{
+            legalPerson.DisplayEmail
+          }}</a></span
+        >
+      </address>
+    </div>
+    <h3>
+      {{ 'presence-control.detail.apprenticeship-company' | translate }}
+    </h3>
+    <address>
+      {{ profile.apprenticeshipContract.CompanyName }}<br />
+      {{ profile.apprenticeshipManagerPerson.LastName }}
+      {{ profile.apprenticeshipManagerPerson.FirstName }}<br />
+      <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine1"
+        >{{ profile.apprenticeshipManagerPerson.AddressLine1 }}<br
+      /></span>
+      <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine2"
+        >{{ profile.apprenticeshipManagerPerson.AddressLine2 }}<br
+      /></span>
+      <span
+        *ngIf="
+          profile.apprenticeshipManagerPerson.Zip &&
+          profile.apprenticeshipManagerPerson.Zip
+        "
+        >{{ profile.apprenticeshipManagerPerson.Zip }}
+        {{ profile.apprenticeshipManagerPerson.Location }}<br
+      /></span>
+      <span *ngIf="profile.apprenticeshipManagerPerson.PhoneBusiness">
+        <a href="tel:{{ profile.apprenticeshipManagerPerson.PhoneBusiness }}"
+          >{{ profile.apprenticeshipManagerPerson.PhoneBusiness }}<br /></a
+      ></span>
+      <span *ngIf="profile.apprenticeshipManagerPerson.DisplayEmail">
+        <a
+          href="mailto:{{ profile.apprenticeshipManagerPerson.DisplayEmail }}"
+          >{{ profile.apprenticeshipManagerPerson.DisplayEmail }}</a
+        ></span
+      >
+    </address>
+    <div>
+      <h5>{{ 'presence-control.detail.apprenticeship-period' | translate }}</h5>
+      {{
+        profile.apprenticeshipContract.ApprenticeshipDateFrom
+          | date: 'dd.MM.yyyy'
+      }}
+      -
+      {{
+        profile.apprenticeshipContract.ApprenticeshipDateTo | date: 'dd.MM.yyyy'
+      }}
+    </div>
+    <h5>{{ 'presence-control.detail.job-trainer' | translate }}</h5>
+    <address>
+      {{ profile.jobTrainerPerson.LastName }}
+      {{ profile.jobTrainerPerson.FirstName }}<br />
+      <span *ngIf="profile.jobTrainerPerson.PhoneBusiness">
+        <a href="tel:{{ profile.jobTrainerPerson.PhoneBusiness }}"
+          >{{ profile.jobTrainerPerson.PhoneBusiness }}<br /></a
+      ></span>
+      <span *ngIf="profile.jobTrainerPerson.PhoneMobile">
+        <a href="tel:{{ profile.jobTrainerPerson.PhoneMobile }}"
+          >{{ profile.jobTrainerPerson.PhoneMobile }}<br /></a
+      ></span>
+      <span *ngIf="profile.jobTrainerPerson.DisplayEmail">
+        <a href="mailto:{{ profile.jobTrainerPerson.DisplayEmail }}">{{
+          profile.jobTrainerPerson.DisplayEmail
+        }}</a></span
+      >
+    </address>
   </ng-container>
 </ng-container>
-
-<button class="btn btn-link" (click)="goToList()">Back</button>
