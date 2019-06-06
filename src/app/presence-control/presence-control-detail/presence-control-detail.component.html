@@ -43,10 +43,10 @@
         "
         class="detail-entry"
       >
-        <h4>
+        <h5>
           {{ 'presence-control.detail.legal-representation' | translate }}
           {{ i + 1 }}
-        </h4>
+        </h5>
         <address>
           {{ legalPerson.LastName }} {{ legalPerson.FirstName }}<br />
           <span *ngIf="legalPerson.AddressLine1"
@@ -74,9 +74,9 @@
         </address>
       </div>
       <div class="detail-entry">
-        <h4>
+        <h5>
           {{ 'presence-control.detail.apprenticeship-company' | translate }}
-        </h4>
+        </h5>
         <address>
           {{ profile.apprenticeshipContract.CompanyName }}<br />
           {{ profile.apprenticeshipManagerPerson.LastName }}

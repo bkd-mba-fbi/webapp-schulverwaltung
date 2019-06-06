@@ -1,6 +1,7 @@
 @import "../../../bootstrap-variables";
 
 .detail {
+  padding-top: $spacer;
   max-width: 500px;
   margin: 0 auto;
 }
@@ -8,13 +9,32 @@
 .detail-header {
   display: flex;
   flex-direction: row;
+  padding-bottom: $spacer;
+}
+
+.detail-header-navigation {
+  padding-left: 0;
+  color: $body-color;
 }
 
 .detail-entry {
   padding-top: $spacer;
-  border-bottom: 1px solid $gray-500;
+  padding-left: $spacer;
+  padding-right: $spacer;
+  border-bottom: 1px solid $gray-200;
 }
 
 .detail-subentry {
   padding-bottom: $spacer;
+}
+
+.avatar {
+  width: 40px;
+  min-width: 40px;
+  height: 50px;
+  margin-right: $spacer;
+  border: 1px solid rgba($body-color, 0.25);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
