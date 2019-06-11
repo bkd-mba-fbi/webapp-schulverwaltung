@@ -16,6 +16,6 @@ export class PersonsRestService extends RestService<PersonProps> {
   getListForIds(
     personIds: ReadonlyArray<number>
   ): Observable<ReadonlyArray<Person>> {
-    return this.getList({ 'filter.Id': `=;${personIds.join(';')}` });
+    return this.getList({ 'filter.Id': `;${personIds.join(';')}` });
   }
 }

@@ -1,13 +1,13 @@
 <div class="detail">
   <ng-container *erzLet="profile$ | async as profile">
-    <ng-container *ngIf="profile">
+    <ng-container *ngIf="profile; else noProfile">
       <div class="detail-header">
-        <button
+        <a
           class="detail-header-navigation btn btn-link"
-          (click)="goToList()"
+          [routerLink]="['/presence-control']"
         >
           <i class="material-icons">navigate_before</i>
-        </button>
+        </a>
         <a class="avatar" [ngStyle]="avatarStyles$ | async"></a>
         <div class="detail-header-info">
           {{ profile.student.FullName }} ({{ profile.student.Gender }})<br />
@@ -117,9 +117,7 @@
           {{
             profile.apprenticeshipContract.ApprenticeshipDateFrom
               | date: 'dd.MM.yyyy'
-          }}
-          -
-          {{
+          }}–{{
             profile.apprenticeshipContract.ApprenticeshipDateTo
               | date: 'dd.MM.yyyy'
           }}
@@ -146,5 +144,8 @@
         </div>
       </div>
     </ng-container>
+    <ng-template #noProfile>
+      <p>{{ 'presence-control.detail.no-profile' | translate }}</p>
+    </ng-template>
   </ng-container>
 </div>

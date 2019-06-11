@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
 import { Person } from 'src/app/shared/models/person.model';
@@ -8,13 +8,14 @@ import { Student } from 'src/app/shared/models/student.model';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { spreadTriplet } from 'src/app/shared/utils/function';
+import { catch404AsNull } from 'src/app/shared/utils/observable';
 
 export interface Profile {
   student: Student;
   legalRepresentativePersons: ReadonlyArray<Person>;
-  apprenticeshipContract: ApprenticeshipContract;
-  jobTrainerPerson: Person;
-  apprenticeshipManagerPerson: Person;
+  apprenticeshipContract: Option<ApprenticeshipContract>;
+  jobTrainerPerson: Option<Person>;
+  apprenticeshipManagerPerson: Option<Person>;
 }
 
 @Injectable({
@@ -26,9 +27,7 @@ export class PresenceControlDetailStateService {
     private personsService: PersonsRestService
   ) {}
 
-  // TODO catch errors (404) else throw error
-
-  getProfile(studentId: number): Observable<Profile> {
+  getProfile(studentId: number): Observable<Option<Profile>> {
     return combineLatest(
       this.loadStudent(studentId),
       this.loadLegalRepresentatives(studentId),
@@ -36,27 +35,34 @@ export class PresenceControlDetailStateService {
     ).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))));
   }
 
-  private loadStudent(id: number): Observable<Student> {
-    return this.studentService.get(id);
+  private loadStudent(id: number): Observable<Option<Student>> {
+    return this.studentService.get(id).pipe(catch404AsNull());
   }
 
   private loadLegalRepresentatives(
     id: number
   ): Observable<ReadonlyArray<LegalRepresentative>> {
-    return this.studentService.getLegalRepresentatives(id);
+    return this.studentService
+      .getLegalRepresentatives(id)
+      .pipe(catchError(error => of([])));
   }
 
   private loadApprenticeshipContract(
     id: number
-  ): Observable<ApprenticeshipContract> {
-    return this.studentService.getCurrentApprenticeshipContract(id);
+  ): Observable<Option<ApprenticeshipContract>> {
+    return this.studentService
+      .getCurrentApprenticeshipContract(id)
+      .pipe(catch404AsNull());
   }
 
   private mapToProfile(
-    student: Student,
+    student: Option<Student>,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: ApprenticeshipContract
-  ): Observable<Profile> {
+    apprenticeshipContract: Option<ApprenticeshipContract>
+  ): Observable<Option<Profile>> {
+    if (!student) {
+      return of(null);
+    }
     return this.loadPersons(legalRepresentatives, apprenticeshipContract).pipe(
       map(persons =>
         this.createProfile(
@@ -71,7 +77,7 @@ export class PresenceControlDetailStateService {
 
   private loadPersons(
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: ApprenticeshipContract
+    apprenticeshipContract: Option<ApprenticeshipContract>
   ): Observable<ReadonlyArray<Person>> {
     return this.personsService.getListForIds(
       this.getPersonIds(legalRepresentatives, apprenticeshipContract)
@@ -80,7 +86,7 @@ export class PresenceControlDetailStateService {
 
   private getPersonIds(
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: ApprenticeshipContract
+    apprenticeshipContract: Option<ApprenticeshipContract>
   ): ReadonlyArray<number> {
     const personIds = legalRepresentatives.map(
       legalRepresentative => legalRepresentative.RepresentativeRef.Id
@@ -92,32 +98,47 @@ export class PresenceControlDetailStateService {
     return personIds;
   }
 
-  // TODO create class profile?
   private createProfile(
     student: Student,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: ApprenticeshipContract,
+    apprenticeshipContract: Option<ApprenticeshipContract>,
     persons: ReadonlyArray<Person>
   ): Profile {
-    return {
+    let profile: Profile = {
       student,
       legalRepresentativePersons: legalRepresentatives.map(
         legalRepresentative =>
           this.findPerson(legalRepresentative.RepresentativeRef.Id, persons)
       ),
-      apprenticeshipContract,
-      jobTrainerPerson: this.findPerson(
-        apprenticeshipContract.JobTrainerRef.Id,
-        persons
-      ),
-      apprenticeshipManagerPerson: this.findPerson(
-        apprenticeshipContract.ApprenticeshipManagerId,
-        persons
-      )
+      apprenticeshipContract: null,
+      jobTrainerPerson: null,
+      apprenticeshipManagerPerson: null
     };
+
+    if (apprenticeshipContract) {
+      profile = {
+        ...profile,
+        apprenticeshipContract,
+        jobTrainerPerson: this.findPerson(
+          apprenticeshipContract.JobTrainerRef.Id,
+          persons
+        ),
+        apprenticeshipManagerPerson: this.findPerson(
+          apprenticeshipContract.ApprenticeshipManagerId,
+          persons
+        )
+      };
+    }
+
+    return profile;
   }
 
   private findPerson(id: number, persons: ReadonlyArray<Person>): Person {
-    return persons.filter(person => person.Id === id)[0];
+    const person = persons.find(p => p.Id === id);
+    if (person) {
+      return person;
+    } else {
+      throw new Error('person not found in list');
+    }
   }
 }

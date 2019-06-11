@@ -79,7 +79,7 @@ describe('PresenceControlDetailStateService', () => {
 
   describe('.getProfile', () => {
     it('gets the profile for the given student', () => {
-      service.getProfile(student.Id).subscribe((result: Profile) => {
+      service.getProfile(student.Id).subscribe((result: Option<Profile>) => {
         expect(result).toEqual(profile);
       });
       expectStudentRequest(student.Id);
@@ -110,16 +110,12 @@ describe('PresenceControlDetailStateService', () => {
   }
 
   function expectPersonsRequest(personIds: number[], response = persons): void {
-    // const url = `https://eventotest.api/Persons?filter.Id=;${personIds.join(
-    //   ';'
-    // )}`;
-    httpTestingController
-      .expectOne(req => req.url === 'https://eventotest.api/Persons')
-      .flush(t.array(Person).encode(response));
+    const url = `https://eventotest.api/Persons?filter.Id=;${personIds.join(
+      ';'
+    )}`;
 
-    // TODO url with params?
-    // httpTestingController
-    //   .expectOne(req => req.urlWithParams === url, url)
-    //   .flush(t.array(Person).encode(response));
+    httpTestingController
+      .expectOne(req => req.urlWithParams === url, url)
+      .flush(t.array(Person).encode(response));
   }
 });

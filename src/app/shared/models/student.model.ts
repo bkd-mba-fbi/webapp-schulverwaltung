@@ -5,7 +5,7 @@ import { Maybe, Option } from './common-types';
 const Student = t.type({
   Id: t.number,
   AddressLine1: t.string,
-  AddressLine2: Maybe(t.string), // TODO
+  AddressLine2: Maybe(t.string),
   Birthdate: DateFromISOString,
   DisplayEmail: t.string,
   FirstName: t.string,
