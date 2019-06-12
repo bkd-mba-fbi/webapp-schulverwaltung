@@ -9,6 +9,7 @@ import { PresenceControlStateService } from '../presence-control-state.service';
 import { PresenceControlEntryComponent } from '../presence-control-entry/presence-control-entry.component';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { Lesson } from 'src/app/shared/models/lesson.model';
+import { LoadingService } from 'src/app/shared/services/loading-service';
 
 describe('PresenceControlListComponent', () => {
   let component: PresenceControlListComponent;
@@ -38,11 +39,16 @@ describe('PresenceControlListComponent', () => {
       jenni
     ]);
 
+    const loadingServiceMock = {
+      loading$: of(false)
+    };
+
     const stateServiceMock = {
       selectedLesson$: of(lesson),
       selectedPresenceControlEntries$,
       isFirstLesson$: of(true),
-      isLastLesson$: of(true)
+      isLastLesson$: of(true),
+      loadingService: loadingServiceMock
     };
 
     TestBed.configureTestingModule(

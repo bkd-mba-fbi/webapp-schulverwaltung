@@ -4,7 +4,7 @@
     entries: presenceControlEntries$ | async
   } as data"
 >
-  <ng-container *ngIf="!(state.loading$ | async); else loading">
+  <ng-container *ngIf="!(state.loadingService.loading$ | async); else loading">
     <ng-container *ngIf="data.lesson; else noLessons">
       <erz-presence-control-header
         [lesson]="data.lesson"

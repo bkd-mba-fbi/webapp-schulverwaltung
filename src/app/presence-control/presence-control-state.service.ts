@@ -1,42 +1,38 @@
 import { Injectable } from '@angular/core';
 import {
-  Observable,
   BehaviorSubject,
-  Subject,
-  merge,
   combineLatest,
-  throwError
+  merge,
+  Observable,
+  Subject
 } from 'rxjs';
 import {
   map,
   shareReplay,
   switchMap,
   take,
-  withLatestFrom,
-  tap,
-  catchError
+  withLatestFrom
 } from 'rxjs/operators';
-
 import { LessonPresence } from '../shared/models/lesson-presence.model';
-import { PresenceType } from '../shared/models/presence-type.model';
 import { Lesson } from '../shared/models/lesson.model';
+import { PresenceType } from '../shared/models/presence-type.model';
 import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service';
+import { LoadingService } from '../shared/services/loading-service';
 import { PresenceTypesRestService } from '../shared/services/presence-types-rest.service';
+import {
+  isFirstElement,
+  isLastElement,
+  nextElement,
+  previousElement
+} from '../shared/utils/array';
+import { spreadTriplet, spreadTuple } from '../shared/utils/function';
 import {
   extractLessons,
   getCurrentLesson,
-  lessonsEqual,
-  getPresenceControlEntriesForLesson
+  getPresenceControlEntriesForLesson,
+  lessonsEqual
 } from './utils/lessons';
 import { getCategoryCount } from './utils/presence-control-entries';
-import {
-  previousElement,
-  nextElement,
-  isFirstElement,
-  isLastElement
-} from '../shared/utils/array';
-import { spreadTuple, spreadTriplet } from '../shared/utils/function';
-import { nonZero } from '../shared/utils/filter';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -49,7 +45,6 @@ export enum ViewMode {
 export class PresenceControlStateService {
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<Lesson>>();
-  private loadingCount$ = new BehaviorSubject(0);
   private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
 
   private lessonPresences$ = this.selectedDateSubject$.pipe(
@@ -89,14 +84,13 @@ export class PresenceControlStateService {
     map(spreadTuple(isLastElement(lessonsEqual)))
   );
 
-  loading$ = this.loadingCount$.pipe(map(nonZero));
-
   viewMode$ = this.viewModeSubject$.asObservable();
   selectedDate$ = this.selectedDateSubject$.asObservable();
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
-    private presenceTypesService: PresenceTypesRestService
+    private presenceTypesService: PresenceTypesRestService,
+    public loadingService: LoadingService
   ) {}
 
   setDate(date: Date): void {
@@ -130,29 +124,12 @@ export class PresenceControlStateService {
   private loadLessonPresencesByDate(
     date: Date
   ): Observable<ReadonlyArray<LessonPresence>> {
-    return this.load(this.lessonPresencesService.getListByDate(date));
-  }
-
-  private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
-    return this.load(this.presenceTypesService.getList());
-  }
-
-  private load<T>(source$: Observable<T>): Observable<T> {
-    this.incrementLoadingCount();
-    return source$.pipe(
-      tap(() => this.decrementLoadingCount()),
-      catchError(error => {
-        this.decrementLoadingCount();
-        return throwError(error);
-      })
+    return this.loadingService.load(
+      this.lessonPresencesService.getListByDate(date)
     );
   }
 
-  private incrementLoadingCount(): void {
-    this.loadingCount$.next(this.loadingCount$.value + 1);
-  }
-
-  private decrementLoadingCount(): void {
-    this.loadingCount$.next(Math.max(this.loadingCount$.value - 1, 0));
+  private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
+    return this.loadingService.load(this.presenceTypesService.getList());
   }
 }

@@ -5,6 +5,7 @@ import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-con
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
 import { Person } from 'src/app/shared/models/person.model';
 import { Student } from 'src/app/shared/models/student.model';
+import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { spreadTriplet } from 'src/app/shared/utils/function';
@@ -24,15 +25,18 @@ export interface Profile {
 export class PresenceControlDetailStateService {
   constructor(
     private studentService: StudentsRestService,
-    private personsService: PersonsRestService
+    private personsService: PersonsRestService,
+    public loadingService: LoadingService
   ) {}
 
   getProfile(studentId: number): Observable<Option<Profile>> {
-    return combineLatest(
-      this.loadStudent(studentId),
-      this.loadLegalRepresentatives(studentId),
-      this.loadApprenticeshipContract(studentId)
-    ).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))));
+    return this.loadingService.load(
+      combineLatest(
+        this.loadStudent(studentId),
+        this.loadLegalRepresentatives(studentId),
+        this.loadApprenticeshipContract(studentId)
+      ).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))))
+    );
   }
 
   private loadStudent(id: number): Observable<Option<Student>> {
