@@ -46,9 +46,7 @@ export class PresenceControlDetailStateService {
   private loadLegalRepresentatives(
     id: number
   ): Observable<ReadonlyArray<LegalRepresentative>> {
-    return this.studentService
-      .getLegalRepresentatives(id)
-      .pipe(catchError(error => of([])));
+    return this.studentService.getLegalRepresentatives(id);
   }
 
   private loadApprenticeshipContract(
