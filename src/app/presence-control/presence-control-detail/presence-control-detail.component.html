@@ -10,7 +10,10 @@
         >
           <i class="material-icons">navigate_before</i>
         </a>
-        <a class="avatar" [ngStyle]="avatarStyles$ | async"></a>
+        <erz-avatar
+          [studentId]="studentId$ | async"
+          class="mr-3 small"
+        ></erz-avatar>
         <div class="detail-header-info" *ngIf="profile">
           {{ profile.student.FullName }} ({{ profile.student.Gender }})<br />
           {{ profile.student.Birthdate | date: 'dd.MM.yyyy' }}

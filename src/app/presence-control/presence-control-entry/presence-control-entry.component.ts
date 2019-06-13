@@ -1,23 +1,16 @@
 import {
   Component,
-  OnInit,
-  Input,
-  HostBinding,
-  Output,
   EventEmitter,
-  SimpleChanges,
+  HostBinding,
+  Input,
   OnChanges,
-  Inject
+  OnInit,
+  Output,
+  SimpleChanges
 } from '@angular/core';
-import { ReplaySubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
-
+import { ReplaySubject } from 'rxjs';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { ViewMode } from '../presence-control-state.service';
-import { SETTINGS, Settings } from '../../settings';
-import { StorageService } from 'src/app/shared/services/storage.service';
-
-const FALLBACK_AVATAR = 'assets/images/avatar-placeholder.png';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -35,16 +28,8 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   }
 
   private studentId$ = new ReplaySubject<number>(1);
-  private avatarUrl$ = this.studentId$.pipe(
-    map(this.buildAvatarUrl.bind(this))
-  );
 
-  avatarStyles$ = this.avatarUrl$.pipe(map(this.buildAvatarStyles.bind(this)));
-
-  constructor(
-    @Inject(SETTINGS) private settings: Settings,
-    private storageService: StorageService
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -69,18 +54,5 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
 
   get isListViewMode(): boolean {
     return this.viewMode === ViewMode.List;
-  }
-
-  private buildAvatarUrl(studentId: number): string {
-    const accessToken = this.storageService.getAccessToken() || '';
-    return `${
-      this.settings.apiUrl
-    }/Files\/personPictures/${studentId}?token=${accessToken}`;
-  }
-
-  private buildAvatarStyles(url: string): { [key: string]: string } {
-    return {
-      'background-image': `url(${url}), url(${FALLBACK_AVATAR})`
-    };
   }
 }

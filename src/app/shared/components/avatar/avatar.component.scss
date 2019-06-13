@@ -1,0 +1,30 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+}
+
+:host.small {
+  width: 40px;
+  min-width: 40px;
+  height: 50px;
+}
+
+:host.large {
+  width: 100px;
+  min-width: 100px;
+  height: 130px;
+}
+
+.avatar {
+  flex: 1;
+  border: 1px solid rgba($body-color, 0.25);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}

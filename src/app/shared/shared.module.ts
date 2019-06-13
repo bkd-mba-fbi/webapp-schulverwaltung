@@ -1,19 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LetDirective } from './directives/let.directive';
+import { TranslateModule } from '@ngx-translate/core';
+import { AvatarComponent } from './components/avatar/avatar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { LetDirective } from './directives/let.directive';
 
-const components = [LetDirective, SpinnerComponent];
+const components = [LetDirective, SpinnerComponent, AvatarComponent];
 
 @NgModule({
   declarations: [...components],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     HttpClientModule,
     TranslateModule.forChild(),
     NgbModule
@@ -21,6 +24,7 @@ const components = [LetDirective, SpinnerComponent];
   exports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     HttpClientModule,
     TranslateModule,
     NgbModule,
