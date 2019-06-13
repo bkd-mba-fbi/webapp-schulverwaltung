@@ -5,7 +5,7 @@
     >
       <div class="detail-header">
         <a
-          class="detail-header-navigation btn btn-link"
+          class="detail-header-back btn btn-link"
           [routerLink]="['/presence-control']"
         >
           <i class="material-icons">navigate_before</i>
@@ -16,6 +16,7 @@
           {{ profile.student.Birthdate | date: 'dd.MM.yyyy' }}
         </div>
       </div>
+
       <div class="detail-content" *ngIf="profile; else noProfile">
         <div class="detail-entry">
           <address>
@@ -40,121 +41,168 @@
             }}</a>
           </address>
         </div>
-        <div
-          *ngFor="
-            let legalPerson of profile.legalRepresentativePersons;
-            let i = index
-          "
-          class="detail-entry"
-        >
-          <h5>
-            {{ 'presence-control.detail.legal-representation' | translate }}
-            {{ i + 1 }}
-          </h5>
-          <address>
-            {{ legalPerson.LastName }} {{ legalPerson.FirstName }}<br />
-            <span *ngIf="legalPerson.AddressLine1"
-              >{{ legalPerson.AddressLine1 }}<br
-            /></span>
-            <span *ngIf="legalPerson.AddressLine2"
-              >{{ legalPerson.AddressLine2 }}<br
-            /></span>
-            <span *ngIf="legalPerson.Zip && legalPerson.Zip"
-              >{{ legalPerson.Zip }} {{ legalPerson.Location }}<br
-            /></span>
-            <span *ngIf="legalPerson.PhonePrivate">
-              <a href="tel:{{ legalPerson.PhonePrivate }}"
-                >{{ legalPerson.PhonePrivate }}<br /></a
-            ></span>
-            <span *ngIf="legalPerson.PhoneMobile">
-              <a href="tel:{{ legalPerson.PhoneMobile }}"
-                >{{ legalPerson.PhoneMobile }}<br /></a
-            ></span>
-            <span *ngIf="legalPerson.DisplayEmail">
-              <a href="mailto:{{ legalPerson.DisplayEmail }}">{{
-                legalPerson.DisplayEmail
-              }}</a></span
-            >
-          </address>
-        </div>
-        <div class="detail-entry">
-          <h5>
-            {{ 'presence-control.detail.apprenticeship-company' | translate }}
-          </h5>
-          <address>
-            {{ profile.apprenticeshipContract.CompanyName }}<br />
-            {{ profile.apprenticeshipManagerPerson.LastName }}
-            {{ profile.apprenticeshipManagerPerson.FirstName }}<br />
-            <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine1"
-              >{{ profile.apprenticeshipManagerPerson.AddressLine1 }}<br
-            /></span>
-            <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine2"
-              >{{ profile.apprenticeshipManagerPerson.AddressLine2 }}<br
-            /></span>
-            <span
-              *ngIf="
-                profile.apprenticeshipManagerPerson.Zip &&
-                profile.apprenticeshipManagerPerson.Zip
-              "
-              >{{ profile.apprenticeshipManagerPerson.Zip }}
-              {{ profile.apprenticeshipManagerPerson.Location }}<br
-            /></span>
-            <span *ngIf="profile.apprenticeshipManagerPerson.PhoneBusiness">
-              <a
-                href="tel:{{
-                  profile.apprenticeshipManagerPerson.PhoneBusiness
-                }}"
-                >{{ profile.apprenticeshipManagerPerson.PhoneBusiness
-                }}<br /></a
-            ></span>
-            <span *ngIf="profile.apprenticeshipManagerPerson.DisplayEmail">
-              <a
-                href="mailto:{{
-                  profile.apprenticeshipManagerPerson.DisplayEmail
-                }}"
-                >{{ profile.apprenticeshipManagerPerson.DisplayEmail }}</a
-              ></span
-            >
-          </address>
-          <div class="detail-subentry">
-            {{
-              'presence-control.detail.apprenticeship-period' | translate
-            }}:<br />
 
-            {{
-              profile.apprenticeshipContract.ApprenticeshipDateFrom
-                | date: 'dd.MM.yyyy'
-            }}–{{
-              profile.apprenticeshipContract.ApprenticeshipDateTo
-                | date: 'dd.MM.yyyy'
-            }}
-          </div>
-          <div class="detail-subentry">
-            {{ 'presence-control.detail.job-trainer' | translate }}:
-            <address>
-              {{ profile.jobTrainerPerson.LastName }}
-              {{ profile.jobTrainerPerson.FirstName }}<br />
-              <span *ngIf="profile.jobTrainerPerson.PhoneBusiness">
-                <a href="tel:{{ profile.jobTrainerPerson.PhoneBusiness }}"
-                  >{{ profile.jobTrainerPerson.PhoneBusiness }}<br /></a
-              ></span>
-              <span *ngIf="profile.jobTrainerPerson.PhoneMobile">
-                <a href="tel:{{ profile.jobTrainerPerson.PhoneMobile }}"
-                  >{{ profile.jobTrainerPerson.PhoneMobile }}<br /></a
-              ></span>
-              <span *ngIf="profile.jobTrainerPerson.DisplayEmail">
-                <a href="mailto:{{ profile.jobTrainerPerson.DisplayEmail }}">{{
-                  profile.jobTrainerPerson.DisplayEmail
-                }}</a></span
+        <ngb-accordion ngb-accordion #acc="ngbAccordion">
+          <ngb-panel
+            *ngFor="
+              let legalPerson of profile.legalRepresentativePersons;
+              let i = index
+            "
+            class="detail-entry"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <div
+                class="detail-entry-header d-flex align-items-center justify-content-between"
               >
-            </address>
-          </div>
-        </div>
+                <h5 class="m-0">
+                  {{
+                    'presence-control.detail.legal-representation' | translate
+                  }}
+                  {{ i + 1 }}
+                </h5>
+                <button ngbPanelToggle class="btn btn-link p-0">
+                  <i class="material-icons">{{
+                    opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+                  }}</i>
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="detail-entry">
+                <address>
+                  {{ legalPerson.LastName }} {{ legalPerson.FirstName }}<br />
+                  <span *ngIf="legalPerson.AddressLine1"
+                    >{{ legalPerson.AddressLine1 }}<br
+                  /></span>
+                  <span *ngIf="legalPerson.AddressLine2"
+                    >{{ legalPerson.AddressLine2 }}<br
+                  /></span>
+                  <span *ngIf="legalPerson.Zip && legalPerson.Zip"
+                    >{{ legalPerson.Zip }} {{ legalPerson.Location }}<br
+                  /></span>
+                  <span *ngIf="legalPerson.PhonePrivate">
+                    <a href="tel:{{ legalPerson.PhonePrivate }}"
+                      >{{ legalPerson.PhonePrivate }}<br /></a
+                  ></span>
+                  <span *ngIf="legalPerson.PhoneMobile">
+                    <a href="tel:{{ legalPerson.PhoneMobile }}"
+                      >{{ legalPerson.PhoneMobile }}<br /></a
+                  ></span>
+                  <span *ngIf="legalPerson.DisplayEmail">
+                    <a href="mailto:{{ legalPerson.DisplayEmail }}">{{
+                      legalPerson.DisplayEmail
+                    }}</a></span
+                  >
+                </address>
+              </div>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel>
+            <ng-template ngbPanelHeader let-opened="opened">
+              <div
+                class="detail-entry-header d-flex align-items-center justify-content-between"
+              >
+                <h5 class="m-0">
+                  {{
+                    'presence-control.detail.apprenticeship-company' | translate
+                  }}
+                </h5>
+                <button ngbPanelToggle class="btn btn-link p-0">
+                  <i class="material-icons">{{
+                    opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+                  }}</i>
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="detail-entry">
+                <address>
+                  {{ profile.apprenticeshipContract.CompanyName }}<br />
+                  {{ profile.apprenticeshipManagerPerson.LastName }}
+                  {{ profile.apprenticeshipManagerPerson.FirstName }}<br />
+                  <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine1"
+                    >{{ profile.apprenticeshipManagerPerson.AddressLine1 }}<br
+                  /></span>
+                  <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine2"
+                    >{{ profile.apprenticeshipManagerPerson.AddressLine2 }}<br
+                  /></span>
+                  <span
+                    *ngIf="
+                      profile.apprenticeshipManagerPerson.Zip &&
+                      profile.apprenticeshipManagerPerson.Zip
+                    "
+                    >{{ profile.apprenticeshipManagerPerson.Zip }}
+                    {{ profile.apprenticeshipManagerPerson.Location }}<br
+                  /></span>
+                  <span
+                    *ngIf="profile.apprenticeshipManagerPerson.PhoneBusiness"
+                  >
+                    <a
+                      href="tel:{{
+                        profile.apprenticeshipManagerPerson.PhoneBusiness
+                      }}"
+                      >{{ profile.apprenticeshipManagerPerson.PhoneBusiness
+                      }}<br /></a
+                  ></span>
+                  <span
+                    *ngIf="profile.apprenticeshipManagerPerson.DisplayEmail"
+                  >
+                    <a
+                      href="mailto:{{
+                        profile.apprenticeshipManagerPerson.DisplayEmail
+                      }}"
+                      >{{ profile.apprenticeshipManagerPerson.DisplayEmail }}</a
+                    ></span
+                  >
+                </address>
+                <div class="detail-subentry">
+                  {{
+                    'presence-control.detail.apprenticeship-period' | translate
+                  }}:<br />
+
+                  {{
+                    profile.apprenticeshipContract.ApprenticeshipDateFrom
+                      | date: 'dd.MM.yyyy'
+                  }}–{{
+                    profile.apprenticeshipContract.ApprenticeshipDateTo
+                      | date: 'dd.MM.yyyy'
+                  }}
+                </div>
+                <div class="detail-subentry">
+                  {{ 'presence-control.detail.job-trainer' | translate }}:
+                  <address>
+                    {{ profile.jobTrainerPerson.LastName }}
+                    {{ profile.jobTrainerPerson.FirstName }}<br />
+                    <span *ngIf="profile.jobTrainerPerson.PhoneBusiness">
+                      <a href="tel:{{ profile.jobTrainerPerson.PhoneBusiness }}"
+                        >{{ profile.jobTrainerPerson.PhoneBusiness }}<br /></a
+                    ></span>
+                    <span *ngIf="profile.jobTrainerPerson.PhoneMobile">
+                      <a href="tel:{{ profile.jobTrainerPerson.PhoneMobile }}"
+                        >{{ profile.jobTrainerPerson.PhoneMobile }}<br /></a
+                    ></span>
+                    <span *ngIf="profile.jobTrainerPerson.DisplayEmail">
+                      <a
+                        href="mailto:{{
+                          profile.jobTrainerPerson.DisplayEmail
+                        }}"
+                        >{{ profile.jobTrainerPerson.DisplayEmail }}</a
+                      ></span
+                    >
+                  </address>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </div>
+
       <ng-template #noProfile>
         <p>{{ 'presence-control.detail.no-profile' | translate }}</p>
       </ng-template>
     </ng-container>
+
     <ng-template #loading>
       <erz-spinner></erz-spinner>
     </ng-template>

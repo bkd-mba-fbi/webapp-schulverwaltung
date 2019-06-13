@@ -9,19 +9,25 @@
 .detail-header {
   display: flex;
   flex-direction: row;
-  padding-bottom: $spacer;
+  padding-bottom: 2 * $spacer;
 }
 
-.detail-header-navigation {
+.detail-header-back {
   padding-left: 0;
   color: $body-color;
 }
 
 .detail-entry {
-  padding-top: $spacer;
-  padding-left: $spacer;
-  padding-right: $spacer;
-  border-bottom: 1px solid $gray-200;
+  padding: 0 $spacer;
+}
+
+.detail-entry-header {
+  padding: $spacer;
+  border-top: 1px solid $gray-200;
+}
+
+.detail-entry-header button {
+  color: $body-color;
 }
 
 .detail-subentry {
