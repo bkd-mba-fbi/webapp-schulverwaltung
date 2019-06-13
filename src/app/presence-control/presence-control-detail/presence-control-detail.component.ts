@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { PresenceControlDetailStateService } from './presence-control-detail-state-service';
+import { PresenceControlDetailService } from './presence-control-detail-service';
 
 @Component({
   selector: 'erz-presence-control-detail',
@@ -12,11 +12,13 @@ export class PresenceControlDetailComponent implements OnInit {
   studentId$ = this.route.paramMap.pipe(
     map(params => Number(params.get('id')))
   );
-  profile$ = this.studentId$.pipe(switchMap(id => this.state.getProfile(id)));
+  profile$ = this.studentId$.pipe(
+    switchMap(id => this.detailService.getProfile(id))
+  );
 
   constructor(
     private route: ActivatedRoute,
-    public state: PresenceControlDetailStateService
+    public detailService: PresenceControlDetailService
   ) {}
 
   ngOnInit(): void {}

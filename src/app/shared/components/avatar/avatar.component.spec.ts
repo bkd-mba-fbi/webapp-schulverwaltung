@@ -1,9 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AvatarComponent } from './avatar.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { SimpleChange } from '@angular/core';
+import { buildTestModuleMetadata, changeInput } from 'src/spec-helpers';
 import { StorageService } from '../../services/storage.service';
+import { AvatarComponent } from './avatar.component';
 
 describe('AvatarComponent', () => {
   let component: AvatarComponent;
@@ -32,13 +30,9 @@ describe('AvatarComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('.avatarStyles$', () => {
-    it('emits styles object with avatar image and fallback', () => {
-      component.studentId = 123;
-
-      component.ngOnChanges({
-        studentId: new SimpleChange(null, component.studentId, true)
-      });
+  describe('.avatarStyles', () => {
+    it('is set to styles object', () => {
+      changeInput(component, 'studentId', 123);
       fixture.detectChanges();
 
       expect(component.avatarStyles).toEqual({

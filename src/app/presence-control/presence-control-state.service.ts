@@ -58,6 +58,8 @@ export class PresenceControlStateService {
   );
   private currentLesson$ = this.lessons$.pipe(map(getCurrentLesson));
 
+  loading$ = this.loadingService.loading$;
+
   selectedLesson$ = merge(this.currentLesson$, this.selectLesson$).pipe(
     shareReplay(1)
   );
@@ -90,7 +92,7 @@ export class PresenceControlStateService {
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesRestService,
-    public loadingService: LoadingService
+    private loadingService: LoadingService
   ) {}
 
   setDate(date: Date): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
 import { Person } from 'src/app/shared/models/person.model';
@@ -22,11 +22,13 @@ export interface Profile {
 @Injectable({
   providedIn: 'root'
 })
-export class PresenceControlDetailStateService {
+export class PresenceControlDetailService {
+  loading$ = this.loadingService.loading$;
+
   constructor(
     private studentService: StudentsRestService,
     private personsService: PersonsRestService,
-    public loadingService: LoadingService
+    private loadingService: LoadingService
   ) {}
 
   getProfile(studentId: number): Observable<Option<Profile>> {

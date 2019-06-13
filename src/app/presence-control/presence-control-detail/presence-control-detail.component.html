@@ -1,9 +1,7 @@
 <div class="detail">
   <ng-container *erzLet="profile$ | async as profile">
-    <ng-container
-      *ngIf="!(state.loadingService.loading$ | async); else loading"
-    >
-      <div class="detail-header">
+    <ng-container *ngIf="!(detailService.loading$ | async); else loading">
+      <div class="detail-header d-flex align-items-center">
         <a
           class="detail-header-back btn btn-link"
           [routerLink]="['/presence-control']"
@@ -51,10 +49,11 @@
               let legalPerson of profile.legalRepresentativePersons;
               let i = index
             "
-            class="detail-entry"
+            [id]="'detail-entry-' + i"
           >
             <ng-template ngbPanelHeader let-opened="opened">
               <div
+                (click)="acc.toggle('detail-entry-' + i)"
                 class="detail-entry-header d-flex align-items-center justify-content-between"
               >
                 <h5 class="m-0">
@@ -63,10 +62,12 @@
                   }}
                   {{ i + 1 }}
                 </h5>
-                <button ngbPanelToggle class="btn btn-link p-0">
-                  <i class="material-icons">{{
-                    opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
-                  }}</i>
+                <button class="btn btn-link p-0">
+                  <div class="d-flex align-items-center">
+                    <i class="material-icons">{{
+                      opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+                    }}</i>
+                  </div>
                 </button>
               </div>
             </ng-template>
@@ -101,9 +102,16 @@
             </ng-template>
           </ngb-panel>
 
-          <ngb-panel>
+          <ngb-panel
+            [id]="'detail-entry-' + profile.legalRepresentativePersons.length"
+          >
             <ng-template ngbPanelHeader let-opened="opened">
               <div
+                (click)="
+                  acc.toggle(
+                    'detail-entry-' + profile.legalRepresentativePersons.length
+                  )
+                "
                 class="detail-entry-header d-flex align-items-center justify-content-between"
               >
                 <h5 class="m-0">
@@ -111,10 +119,12 @@
                     'presence-control.detail.apprenticeship-company' | translate
                   }}
                 </h5>
-                <button ngbPanelToggle class="btn btn-link p-0">
-                  <i class="material-icons">{{
-                    opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
-                  }}</i>
+                <button class="btn btn-link p-0">
+                  <div class="d-flex align-items-center">
+                    <i class="material-icons">{{
+                      opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+                    }}</i>
+                  </div>
                 </button>
               </div>
             </ng-template>
