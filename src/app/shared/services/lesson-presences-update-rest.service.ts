@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
@@ -18,7 +18,8 @@ export class LessonPresencesUpdateRestService {
     lessonIds: ReadonlyArray<number>,
     personIds: ReadonlyArray<number>,
     presenceTypeId: Option<number> = null,
-    confirmationValue: Option<number> = null
+    confirmationValue: Option<number> = null,
+    params?: HttpParams
   ): Observable<void> {
     const body: Dict<any> = {
       LessonIds: lessonIds,
@@ -32,20 +33,27 @@ export class LessonPresencesUpdateRestService {
     }
 
     return this.http
-      .put<void>(`${this.settings.apiUrl}/BulkEditLessonPresence`, body)
+      .put<void>(`${this.settings.apiUrl}/BulkEditLessonPresence`, body, {
+        params
+      })
       .pipe(mapTo(undefined));
     // TODO: handle 409 response (Validation error)
   }
 
   removeLessonPresences(
     lessonIds: ReadonlyArray<number>,
-    personIds: ReadonlyArray<number>
+    personIds: ReadonlyArray<number>,
+    params?: HttpParams
   ): Observable<void> {
     return this.http
-      .put<void>(`${this.settings.apiUrl}/BulkResetLessonPresence`, {
-        LessonIds: lessonIds,
-        PersonIds: personIds
-      })
+      .put<void>(
+        `${this.settings.apiUrl}/BulkResetLessonPresence`,
+        {
+          LessonIds: lessonIds,
+          PersonIds: personIds
+        },
+        { params }
+      )
       .pipe(mapTo(undefined));
     // TODO: handle 409 response (Validation error)
   }

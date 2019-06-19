@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HttpClient,
+  HTTP_INTERCEPTORS
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -10,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { GlobalErrorHandler } from './global-error-handler';
+import { RestErrorInterceptor } from './rest-error-interceptor';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -35,7 +40,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       preventDuplicates: true
     })
   ],
-  providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { SimpleChanges, SimpleChange } from '@angular/core';
 import { TestModuleMetadata } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -9,6 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from './app/shared/shared.module';
 import { Settings, SETTINGS } from './app/settings';
+import { RestErrorInterceptor } from './app/rest-error-interceptor';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/locales/', '.json');
@@ -31,10 +32,17 @@ const baseTestModuleMetadata: TestModuleMetadata = {
         deps: [HttpClient]
       }
     }),
-    ToastrModule,
+    ToastrModule.forRoot(),
     SharedModule
   ],
-  providers: [{ provide: SETTINGS, useValue: settings }]
+  providers: [
+    { provide: SETTINGS, useValue: settings },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RestErrorInterceptor,
+      multi: true
+    }
+  ]
 };
 
 export function buildTestModuleMetadata(

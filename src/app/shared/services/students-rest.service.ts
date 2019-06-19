@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -20,7 +20,7 @@ export class StudentsRestService extends RestService<StudentProps> {
 
   getLegalRepresentatives(
     studentId: number,
-    params?: Dict<string>
+    params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<LegalRepresentative>> {
     return this.http
       .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives`, {
@@ -31,7 +31,7 @@ export class StudentsRestService extends RestService<StudentProps> {
 
   getCurrentApprenticeshipContract(
     studentId: number,
-    params?: Dict<string>
+    params?: HttpParams | Dict<string>
   ): Observable<ApprenticeshipContract> {
     return this.http
       .get<any>(

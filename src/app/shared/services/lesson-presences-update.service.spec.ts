@@ -17,6 +17,7 @@ import { LessonPresence } from '../models/lesson-presence.model';
 import { PresenceType } from '../models/presence-type.model';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
 import { PresenceControlStateService } from 'src/app/presence-control/presence-control-state.service';
+import { withConfig } from 'src/app/rest-error-interceptor';
 
 describe('LessonPresencesUpdateService', () => {
   let service: LessonPresencesUpdateService;
@@ -156,7 +157,9 @@ describe('LessonPresencesUpdateService', () => {
           deutschFrisch.StudentRef.Id,
           deutschWalser.StudentRef.Id
         ],
-        late.Id
+        late.Id,
+        null,
+        withConfig({ disableErrorHandling: true })
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
@@ -210,7 +213,9 @@ describe('LessonPresencesUpdateService', () => {
       expect(restServiceMock.editLessonPresences).toHaveBeenCalledWith(
         [deutschEinsteinAbwesend.LessonRef.Id],
         [deutschEinsteinAbwesend.StudentRef.Id, deutschFrisch.StudentRef.Id],
-        late.Id
+        late.Id,
+        null,
+        withConfig({ disableErrorHandling: true })
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateServiceMock.updateLessonPresences).toHaveBeenCalledWith([
@@ -253,7 +258,8 @@ describe('LessonPresencesUpdateService', () => {
       ).toBe(1);
       expect(restServiceMock.removeLessonPresences).toHaveBeenCalledWith(
         [deutschEinsteinAbwesend.LessonRef.Id],
-        [deutschEinsteinAbwesend.StudentRef.Id]
+        [deutschEinsteinAbwesend.StudentRef.Id],
+        withConfig({ disableErrorHandling: true })
       );
       expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
 

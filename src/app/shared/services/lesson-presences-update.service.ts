@@ -16,6 +16,7 @@ import { not } from '../utils/filter';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
 import { PresenceControlStateService } from 'src/app/presence-control/presence-control-state.service';
 import { LessonPresence } from '../models/lesson-presence.model';
+import { withConfig } from 'src/app/rest-error-interceptor';
 
 export const UPDATE_ACTION_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
@@ -140,7 +141,9 @@ export class LessonPresencesUpdateService implements OnDestroy {
   }
 
   /**
-   * Performs edit or remove request for given lessonId/personIds.
+   * Performs edit or remove request for given
+   * lessonId/personIds. Note, that the response errors of these
+   * requests are not handled.
    */
   private performLessonPresencesUpdatesByIds(
     lessonId: number,
@@ -151,10 +154,16 @@ export class LessonPresencesUpdateService implements OnDestroy {
       return this.restService.editLessonPresences(
         [lessonId],
         personIds,
-        newPresenceTypeId
+        newPresenceTypeId,
+        null,
+        withConfig({ disableErrorHandling: true })
       );
     }
-    return this.restService.removeLessonPresences([lessonId], personIds);
+    return this.restService.removeLessonPresences(
+      [lessonId],
+      personIds,
+      withConfig({ disableErrorHandling: true })
+    );
   }
 
   private revertUpdatesAfterError(

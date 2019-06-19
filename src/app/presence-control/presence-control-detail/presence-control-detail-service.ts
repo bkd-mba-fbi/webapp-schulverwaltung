@@ -10,6 +10,7 @@ import { PersonsRestService } from 'src/app/shared/services/persons-rest.service
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { spreadTriplet } from 'src/app/shared/utils/function';
 import { catch404AsNull } from 'src/app/shared/utils/observable';
+import { withConfig } from 'src/app/rest-error-interceptor';
 
 export interface Profile {
   student: Student;
@@ -42,7 +43,9 @@ export class PresenceControlDetailService {
   }
 
   private loadStudent(id: number): Observable<Option<Student>> {
-    return this.studentService.get(id).pipe(catch404AsNull());
+    return this.studentService
+      .get(id, withConfig({ disableErrorHandlingForStatus: [404] }))
+      .pipe(catch404AsNull());
   }
 
   private loadLegalRepresentatives(
@@ -55,7 +58,10 @@ export class PresenceControlDetailService {
     id: number
   ): Observable<Option<ApprenticeshipContract>> {
     return this.studentService
-      .getCurrentApprenticeshipContract(id)
+      .getCurrentApprenticeshipContract(
+        id,
+        withConfig({ disableErrorHandlingForStatus: [404] })
+      )
       .pipe(catch404AsNull());
   }
 
