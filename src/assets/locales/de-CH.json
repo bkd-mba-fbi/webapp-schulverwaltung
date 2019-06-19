@@ -1,4 +1,10 @@
 {
+  "global": {
+    "errors": {
+      "exception_title": "Fehler",
+      "exception_message": "Ein Fehler ist aufgetreten, versuchen Sie es erneut oder laden Sie die Applikation neu."
+    }
+  },
   "presence-control": {
     "title": "Präsenzkontrolle",
     "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",
