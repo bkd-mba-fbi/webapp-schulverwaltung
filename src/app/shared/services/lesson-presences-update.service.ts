@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { not } from '../utils/filter';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { PresenceControlStateService } from 'src/app/presence-control/presence-control-state.service';
+import { PresenceControlStateService } from '../../presence-control/services/presence-control-state.service';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { withConfig } from 'src/app/rest-error-interceptor';
 

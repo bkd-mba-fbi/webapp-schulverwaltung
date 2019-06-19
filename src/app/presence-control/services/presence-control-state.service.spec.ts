@@ -4,14 +4,14 @@ import * as t from 'io-ts/lib/index';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceControlStateService } from './presence-control-state.service';
-import { LessonPresence } from '../shared/models/lesson-presence.model';
+import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import {
   buildLessonPresence,
   buildLesson,
   buildPresenceType,
   buildPresenceControlEntry
 } from 'src/spec-builders';
-import { PresenceType } from '../shared/models/presence-type.model';
+import { PresenceType } from '../../shared/models/presence-type.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;

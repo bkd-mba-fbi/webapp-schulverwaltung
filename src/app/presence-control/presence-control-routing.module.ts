@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PresenceControlComponent } from './presence-control.component';
-import { PresenceControlListComponent } from './presence-control-list/presence-control-list.component';
-import { PresenceControlDetailComponent } from './presence-control-detail/presence-control-detail.component';
-import { PresenceControlCommentComponent } from './presence-control-comment/presence-control-comment.component';
+import { PresenceControlComponent } from './components/presence-control/presence-control.component';
+import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
+import { PresenceControlDetailComponent } from './components/presence-control-detail/presence-control-detail.component';
+import { PresenceControlCommentComponent } from './components/presence-control-comment/presence-control-comment.component';
 
 const routes: Routes = [
   {

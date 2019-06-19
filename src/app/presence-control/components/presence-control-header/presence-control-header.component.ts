@@ -6,7 +6,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { Lesson } from 'src/app/shared/models/lesson.model';
-import { ViewMode } from '../presence-control-state.service';
+import { ViewMode } from '../../services/presence-control-state.service';
 
 interface ViewModeOption {
   viewMode: ViewMode;

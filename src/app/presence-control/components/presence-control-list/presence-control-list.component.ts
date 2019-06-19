@@ -2,10 +2,10 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
-import { spreadTuple } from '../../shared/utils/function';
-import { searchPresenceControlEntries } from '../utils/presence-control-entries';
-import { PresenceControlStateService } from '../presence-control-state.service';
-import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import { spreadTuple } from '../../../shared/utils/function';
+import { searchPresenceControlEntries } from '../../utils/presence-control-entries';
+import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 3;

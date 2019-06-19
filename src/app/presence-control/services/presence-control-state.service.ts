@@ -13,29 +13,29 @@ import {
   take,
   withLatestFrom
 } from 'rxjs/operators';
-import { LessonPresence } from '../shared/models/lesson-presence.model';
-import { Lesson } from '../shared/models/lesson.model';
-import { PresenceType } from '../shared/models/presence-type.model';
-import { LessonPresencesRestService } from '../shared/services/lesson-presences-rest.service';
-import { LoadingService } from '../shared/services/loading-service';
-import { PresenceTypesRestService } from '../shared/services/presence-types-rest.service';
+import { LessonPresence } from '../../shared/models/lesson-presence.model';
+import { Lesson } from '../../shared/models/lesson.model';
+import { PresenceType } from '../../shared/models/presence-type.model';
+import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
+import { LoadingService } from '../../shared/services/loading-service';
+import { PresenceTypesRestService } from '../../shared/services/presence-types-rest.service';
 import {
   isFirstElement,
   isLastElement,
   nextElement,
   previousElement
-} from '../shared/utils/array';
-import { spreadTriplet, spreadTuple } from '../shared/utils/function';
+} from '../../shared/utils/array';
+import { spreadTriplet, spreadTuple } from '../../shared/utils/function';
 import {
   extractLessons,
   getCurrentLesson,
   getPresenceControlEntriesForLesson,
   lessonsEqual
-} from './utils/lessons';
-import { getCategoryCount } from './utils/presence-control-entries';
-import { updatePresenceTypeForPresences } from './utils/lesson-presences';
-import { PresenceControlEntry } from './models/presence-control-entry.model';
-import { LessonPresenceUpdate } from '../shared/services/lesson-presences-update.service';
+} from '../utils/lessons';
+import { getCategoryCount } from '../utils/presence-control-entries';
+import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
 
 export enum ViewMode {
   Grid = 'grid',

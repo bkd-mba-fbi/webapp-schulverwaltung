@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { PresenceControlDetailService } from './presence-control-detail-service';
+
+import { PresenceControlDetailService } from '../../services/presence-control-detail-service';
 
 @Component({
   selector: 'erz-presence-control-detail',

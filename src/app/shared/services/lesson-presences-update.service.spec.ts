@@ -16,7 +16,7 @@ import {
 import { LessonPresence } from '../models/lesson-presence.model';
 import { PresenceType } from '../models/presence-type.model';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { PresenceControlStateService } from 'src/app/presence-control/presence-control-state.service';
+import { PresenceControlStateService } from '../../presence-control/services/presence-control-state.service';
 import { withConfig } from 'src/app/rest-error-interceptor';
 
 describe('LessonPresencesUpdateService', () => {
