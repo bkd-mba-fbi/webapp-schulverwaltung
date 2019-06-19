@@ -60,4 +60,34 @@ describe('LessonPresencesRestService', () => {
         .flush(data);
     });
   });
+
+  describe('.getListByDate', () => {
+    it('fetches list filtered by given date', () => {
+      const data: any[] = [];
+      service
+        .getListByDate(new Date(2000, 0, 23))
+        .subscribe(result => expect(result).toBe(data));
+
+      const url =
+        'https://eventotest.api/LessonPresences?filter.LessonDateTimeFrom==2000-01-23';
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
+
+  describe('.getListOfUnconfirmed', () => {
+    it('fetches list filtered by unconfirmed state from settings', () => {
+      const data: any[] = [];
+      service
+        .getListOfUnconfirmed()
+        .subscribe(result => expect(result).toBe(data));
+
+      const url =
+        'https://eventotest.api/LessonPresences?filter.PresenceConfirmationStateId==219';
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
 });

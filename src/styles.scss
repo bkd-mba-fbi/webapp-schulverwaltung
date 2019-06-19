@@ -6,5 +6,8 @@
 // Material Icons font
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-// ngs-toastr
+// ngx-toastr
 @import "~ngx-toastr/toastr-bs4-alert";
+
+// Shared application styles
+@import "src/app/shared/styles/table";

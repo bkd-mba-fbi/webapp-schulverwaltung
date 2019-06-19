@@ -12,5 +12,8 @@ window.absenzenmanagement.settings = {
   absencePresenceTypeId: 11,
 
   // Id of the PresenceType that represents the "late" incident
-  latePresenceTypeId: 12
+  latePresenceTypeId: 12,
+
+  // Id of the confirmation state for unconfirmed absences
+  unconfirmedAbsenceStateId: 219
 };

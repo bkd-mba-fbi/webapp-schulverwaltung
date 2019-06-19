@@ -117,7 +117,10 @@ export function getPresenceControlEntriesForLesson(
 /**
  * Sorts by LessonDateTimeFrom, LessonDateTimeTo.
  */
-function lessonsComparator(a: Lesson, b: Lesson): number {
+export function lessonsComparator(
+  a: Lesson | LessonPresence,
+  b: Lesson | LessonPresence
+): number {
   const aFromTime = a.LessonDateTimeFrom.getTime();
   const bFromTime = b.LessonDateTimeFrom.getTime();
   if (aFromTime - bFromTime === 0) {

@@ -26,4 +26,12 @@ export class LessonPresencesRestService extends RestService<
       'filter.LessonDateTimeFrom': `=${format(date, 'YYYY-MM-DD')}`
     });
   }
+
+  getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {
+    return this.getList({
+      'filter.PresenceConfirmationStateId': `=${
+        this.settings.unconfirmedAbsenceStateId
+      }`
+    });
+  }
 }

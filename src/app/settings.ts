@@ -12,6 +12,7 @@ export interface Settings {
   apiUrl: string;
   absencePresenceTypeId: number;
   latePresenceTypeId: number;
+  unconfirmedAbsenceStateId: number;
 }
 
 export const SETTINGS = new InjectionToken<Settings>('Application Settings', {

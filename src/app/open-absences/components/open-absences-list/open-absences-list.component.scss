@@ -1,0 +1,33 @@
+@import "../../../../bootstrap-variables";
+
+th {
+  cursor: pointer;
+}
+
+th:first-child,
+td:first-child {
+  width: 2 * $table-cell-padding + 1.25rem;
+}
+
+.sort-direction {
+  position: relative;
+  top: -2px;
+}
+
+.student-name {
+  color: $body-color;
+}
+
+.lessons-count,
+.days-ago {
+  color: $gray-500;
+}
+
+.date {
+  color: $gray-600;
+}
+
+.lessons-count,
+.days-ago {
+  font-size: $font-size-sm;
+}

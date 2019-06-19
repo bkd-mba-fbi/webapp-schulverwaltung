@@ -20,3 +20,7 @@ $absent-color: #dc3545;
 $late-color: $yellow;
 
 @import "node_modules/bootstrap/scss/variables";
+
+// Tables
+$table-head-bg: $table-border-color;
+$table-head-color: $gray-600;

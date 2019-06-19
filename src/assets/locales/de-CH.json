@@ -37,7 +37,27 @@
     }
   },
   "open-absences": {
-    "title": "Offene Absenzen"
+    "title": "Offene Absenzen",
+    "list": {
+      "header": {
+        "name": "Name",
+        "date": "Datum"
+      },
+      "content": {
+        "lessonsCount": {
+          "singular": "{{count}} Lektion",
+          "plural": "{{count}} Lektionen"
+        },
+        "daysAgo": {
+          "today": "Heute",
+          "yesterday": "Gestern",
+          "plural": "vor {{count}} Tagen"
+        }
+      }
+    },
+    "detail": {
+      "all": "Alle"
+    }
   },
   "edit-absences": {
     "title": "Absenzen bearbeiten"

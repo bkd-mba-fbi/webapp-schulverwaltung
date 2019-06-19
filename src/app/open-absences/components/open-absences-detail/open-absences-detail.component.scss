@@ -1,0 +1,29 @@
+@import "../../../../bootstrap-variables";
+
+.back {
+  color: $body-color;
+  text-decoration: none;
+}
+
+.back:hover,
+.back:active {
+  span {
+    text-decoration: underline;
+  }
+}
+
+td:first-child {
+  width: 2 * $table-cell-padding + 1.25rem;
+}
+
+tr:first-child input[type="checkbox"] {
+  height: 1.5em;
+}
+
+.time-teacher {
+  font-size: $font-size-sm;
+}
+
+.comment {
+  color: $gray-500;
+}
