@@ -17,7 +17,7 @@ const routes: Routes = [
         component: OpenAbsencesDetailComponent
       },
       {
-        path: 'edit/:personIds/:lessonIds',
+        path: 'edit',
         component: OpenAbsencesEditComponent
       }
     ]

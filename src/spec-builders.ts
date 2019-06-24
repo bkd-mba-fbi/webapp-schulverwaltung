@@ -47,6 +47,17 @@ export function buildLessonPresence(
   };
 }
 
+export function buildLessonPresenceWithIds(
+  lessonId: number,
+  studentId: number,
+  dateFrom = new Date(),
+  dateTo = new Date()
+): LessonPresence {
+  const presence = buildLessonPresence(lessonId, dateFrom, dateTo, '');
+  presence.StudentRef = buildReference(studentId);
+  return presence;
+}
+
 export function buildLesson(
   lessonId: number,
   dateFrom: Date,

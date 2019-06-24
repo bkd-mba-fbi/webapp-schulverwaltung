@@ -9,9 +9,10 @@ td:first-child {
   width: 2 * $table-cell-padding + 1.25rem;
 }
 
-.sort-direction {
-  position: relative;
-  top: -2px;
+td {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .student-name {

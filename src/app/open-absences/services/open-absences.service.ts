@@ -3,7 +3,6 @@ import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { shareReplay, map, take } from 'rxjs/operators';
 
 import { spreadTuple } from 'src/app/shared/utils/function';
-import { sortUnconfirmedAbsences } from '../utils/unconfirmed-absences';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import {
@@ -34,6 +33,11 @@ export class OpenAbsencesService {
     this.sortCriteria$
   ).pipe(map(spreadTuple(sortOpenAbsencesEntries)));
 
+  selected: ReadonlyArray<{
+    lessonIds: ReadonlyArray<number>;
+    personIds: ReadonlyArray<number>;
+  }> = [];
+
   constructor(private lessonPresencesService: LessonPresencesRestService) {}
 
   getUnconfirmedAbsences(
@@ -50,6 +54,10 @@ export class OpenAbsencesService {
     );
   }
 
+  /**
+   * Switches primary sort key or toggles sort direction, if already
+   * sorted by given key.
+   */
   toggleSort(primarySortKey: PrimarySortKey): void {
     this.sortCriteriaSubject$.pipe(take(1)).subscribe(criteria => {
       if (criteria.primarySortKey === primarySortKey) {
@@ -69,8 +77,6 @@ export class OpenAbsencesService {
   }
 
   private loadUnconfirmedAbsences(): Observable<ReadonlyArray<LessonPresence>> {
-    return this.lessonPresencesService
-      .getListOfUnconfirmed()
-      .pipe(map(sortUnconfirmedAbsences));
+    return this.lessonPresencesService.getListOfUnconfirmed();
   }
 }

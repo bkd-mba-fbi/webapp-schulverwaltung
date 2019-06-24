@@ -1,15 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { OpenAbsencesEditComponent } from './open-absences-edit.component';
+import { OpenAbsencesService } from '../../services/open-absences.service';
 
 describe('OpenAbsencesEditComponent', () => {
   let component: OpenAbsencesEditComponent;
   let fixture: ComponentFixture<OpenAbsencesEditComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [OpenAbsencesEditComponent]
-    }).compileComponents();
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [OpenAbsencesEditComponent],
+        providers: [OpenAbsencesService]
+      })
+    ).compileComponents();
   }));
 
   beforeEach(() => {

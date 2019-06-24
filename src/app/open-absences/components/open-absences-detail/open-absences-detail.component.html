@@ -1,9 +1,21 @@
-<button class="back btn btn-link p-3" [routerLink]="['/open-absences']">
-  <div class="d-flex align-items-center">
-    <i class="material-icons">navigate_before</i>
-    <span class="ml-3">{{ studentFullName$ | async }}</span>
-  </div>
-</button>
+<div
+  class="header d-flex align-items-center justify-content-between"
+  *erzLet="selection.selection$ | async as selection"
+>
+  <button class="back btn btn-link p-3" [routerLink]="['/open-absences']">
+    <div class="d-flex align-items-center">
+      <i class="material-icons">navigate_before</i>
+      <span class="ml-3">{{ studentFullName$ | async }}</span>
+    </div>
+  </button>
+  <a
+    class="edit btn btn-link"
+    [class.disabled]="selection.length === 0"
+    routerLink="/open-absences/edit"
+  >
+    <i class="material-icons">edit</i>
+  </a>
+</div>
 
 <table class="table">
   <tbody>
@@ -13,6 +25,7 @@
           #allCheckbox
           type="checkbox"
           class="form-control"
+          [checked]="allSelected$ | async"
           (change)="toggleAll($event.target.checked)"
         />
       </td>
@@ -27,7 +40,8 @@
           #checkbox
           type="checkbox"
           class="form-control"
-          (change)="toggleAbsence(absence, $event.target.checked)"
+          [checked]="selection.isSelected$(absence) | async"
+          (change)="selection.toggle(absence)"
         />
       </td>
       <td>

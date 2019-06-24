@@ -9,7 +9,7 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 export class OpenAbsencesEntry {
   readonly date: Date;
   readonly dateString: string;
-  readonly daysAgo: number;
+  readonly daysDifference: number;
   readonly studentId: number;
   readonly studentFullName: string;
   readonly lessonsCount: number;
@@ -20,7 +20,7 @@ export class OpenAbsencesEntry {
     }
     this.date = startOfDay(this.absences[0].LessonDateTimeFrom);
     this.dateString = format(this.date, 'YYYY-MM-DD');
-    this.daysAgo = differenceInCalendarDays(this.date, new Date());
+    this.daysDifference = differenceInCalendarDays(this.date, new Date());
     this.studentId = this.absences[0].StudentRef.Id;
     this.studentFullName = this.absences[0].StudentFullName;
     this.lessonsCount = this.absences.length;

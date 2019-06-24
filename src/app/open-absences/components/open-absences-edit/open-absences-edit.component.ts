@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OpenAbsencesService } from '../../services/open-absences.service';
 
 @Component({
   selector: 'erz-open-absences-edit',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./open-absences-edit.component.scss']
 })
 export class OpenAbsencesEditComponent implements OnInit {
-  constructor() {}
+  constructor(private openAbsencesService: OpenAbsencesService) {
+    console.log('selected entries:', openAbsencesService.selected);
+  }
 
   ngOnInit(): void {}
 }

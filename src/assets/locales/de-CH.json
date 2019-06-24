@@ -38,6 +38,7 @@
   },
   "open-absences": {
     "title": "Offene Absenzen",
+    "selected": "{{count}} ausgewählt",
     "list": {
       "header": {
         "name": "Name",
@@ -48,10 +49,12 @@
           "singular": "{{count}} Lektion",
           "plural": "{{count}} Lektionen"
         },
-        "daysAgo": {
+        "daysDifference": {
           "today": "Heute",
+          "tomorrow": "Morgen",
           "yesterday": "Gestern",
-          "plural": "vor {{count}} Tagen"
+          "ago": "vor {{count}} Tagen",
+          "in": "in {{count}} Tagen"
         }
       }
     },

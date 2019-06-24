@@ -1,5 +1,21 @@
+<div
+  class="header pl-3 d-flex align-items-center justify-content-between"
+  *erzLet="selection.selection$ | async as selection"
+>
+  <div class="selection-count">
+    {{ 'open-absences.selected' | translate: { count: selection.length } }}
+  </div>
+  <a
+    class="edit btn btn-link"
+    [class.disabled]="selection.length === 0"
+    routerLink="/open-absences/edit"
+  >
+    <i class="material-icons">edit</i>
+  </a>
+</div>
+
 <table
-  class="table"
+  class="table table-fixed"
   *erzLet="openAbsencesService.sortCriteria$ | async as sortCriteria"
 >
   <thead>
@@ -24,7 +40,8 @@
           #checkbox
           type="checkbox"
           class="form-control"
-          (change)="toggleEntry(entry, $event.target.checked)"
+          [checked]="selection.isSelected$(entry) | async"
+          (change)="selection.toggle(entry)"
         />
       </td>
       <td>
@@ -42,7 +59,10 @@
       <td>
         <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
         <div class="days-ago">
-          {{ getDaysAgoKey(entry) | translate: { count: entry.daysAgo } }}
+          {{
+            getDaysDifferenceKey(entry)
+              | translate: { count: entry.daysDifference }
+          }}
         </div>
       </td>
     </tr>

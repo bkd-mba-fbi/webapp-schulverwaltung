@@ -9,22 +9,20 @@ export function buildOpenAbsencesEntries(
   absences: ReadonlyArray<LessonPresence>
 ): ReadonlyArray<OpenAbsencesEntry> {
   const groupedAbsences = groupAbsences(absences);
-  return Object.keys(groupedAbsences)
-    .reduce(
-      (acc, day) => {
-        Object.keys(groupedAbsences[day]).forEach(studentId => {
-          acc = [
-            ...acc,
-            new OpenAbsencesEntry(
-              groupedAbsences[day][studentId].sort(lessonsComparator)
-            )
-          ];
-        });
-        return acc;
-      },
-      [] as OpenAbsencesEntry[]
-    )
-    .sort(openAbsencesEntriesComparator);
+  return Object.keys(groupedAbsences).reduce(
+    (acc, day) => {
+      Object.keys(groupedAbsences[day]).forEach(studentId => {
+        acc = [
+          ...acc,
+          new OpenAbsencesEntry(
+            groupedAbsences[day][studentId].sort(lessonsComparator)
+          )
+        ];
+      });
+      return acc;
+    },
+    [] as OpenAbsencesEntry[]
+  );
 }
 
 export function sortOpenAbsencesEntries(
@@ -32,6 +30,17 @@ export function sortOpenAbsencesEntries(
   sortCriteria: SortCriteria
 ): ReadonlyArray<OpenAbsencesEntry> {
   return [...entries].sort(getOpenAbsencesComparator(sortCriteria));
+}
+
+export function flattenOpenAbsencesEntries(
+  entries: ReadonlyArray<OpenAbsencesEntry>
+): ReadonlyArray<LessonPresence> {
+  return entries.reduce(
+    (acc, e) => {
+      return acc.concat(e.absences);
+    },
+    [] as ReadonlyArray<LessonPresence>
+  );
 }
 
 function getOpenAbsencesComparator(
@@ -86,15 +95,4 @@ function groupAbsences(
     },
     {} as Dict<Dict<LessonPresence[]>>
   );
-}
-
-function openAbsencesEntriesComparator(
-  a: OpenAbsencesEntry,
-  b: OpenAbsencesEntry
-): number {
-  const dateDiff = a.date.getTime() - b.date.getTime();
-  if (dateDiff === 0) {
-    return a.studentFullName.localeCompare(b.studentFullName);
-  }
-  return dateDiff;
 }
