@@ -1,6 +1,6 @@
 <div
   class="header pl-3 d-flex align-items-center justify-content-between"
-  *erzLet="selection.selection$ | async as selection"
+  *erzLet="selectionService.selection$ | async as selection"
 >
   <div class="selection-count">
     {{ 'open-absences.selected' | translate: { count: selection.length } }}
@@ -40,8 +40,8 @@
           #checkbox
           type="checkbox"
           class="form-control"
-          [checked]="selection.isSelected$(entry) | async"
-          (change)="selection.toggle(entry)"
+          [checked]="selectionService.isSelected$(entry) | async"
+          (change)="selectionService.toggle(entry)"
         />
       </td>
       <td>

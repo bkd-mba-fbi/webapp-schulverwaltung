@@ -27,11 +27,11 @@ export class OpenAbsencesListComponent implements OnInit, OnDestroy {
 
   constructor(
     public openAbsencesService: OpenAbsencesService,
-    public selection: OpenAbsencesEntriesSelectionService
+    public selectionService: OpenAbsencesEntriesSelectionService
   ) {}
 
   ngOnInit(): void {
-    this.selection.selectedIds$
+    this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
       .subscribe(ids => (this.openAbsencesService.selected = ids));
   }

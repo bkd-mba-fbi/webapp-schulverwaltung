@@ -26,20 +26,21 @@ export class OpenAbsencesDetailComponent implements OnInit, OnDestroy {
   studentFullName$ = this.absences$.pipe(
     map(absences => (absences[0] && absences[0].StudentFullName) || null)
   );
-  allSelected$ = combineLatest(this.absences$, this.selection.selection$).pipe(
-    map(([absences, selection]) => absences.length === selection.length)
-  );
+  allSelected$ = combineLatest(
+    this.absences$,
+    this.selectionService.selection$
+  ).pipe(map(([absences, selection]) => absences.length === selection.length));
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private openAbsencesService: OpenAbsencesService,
-    private selection: AbsencesSelectionService
+    public selectionService: AbsencesSelectionService
   ) {}
 
   ngOnInit(): void {
-    this.selection.selectedIds$
+    this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
       .subscribe(ids => (this.openAbsencesService.selected = ids));
   }
@@ -52,9 +53,9 @@ export class OpenAbsencesDetailComponent implements OnInit, OnDestroy {
     if (checked) {
       this.absences$
         .pipe(take(1))
-        .subscribe(absences => this.selection.clear(absences));
+        .subscribe(absences => this.selectionService.clear(absences));
     } else {
-      this.selection.clear();
+      this.selectionService.clear();
     }
   }
 

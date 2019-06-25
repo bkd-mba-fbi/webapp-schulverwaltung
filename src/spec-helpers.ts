@@ -1,8 +1,10 @@
 import { SimpleChanges, SimpleChange } from '@angular/core';
 import { TestModuleMetadata } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ParamMap, Params, convertToParamMap } from '@angular/router';
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReplaySubject } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToastrModule } from 'ngx-toastr';
@@ -104,4 +106,26 @@ function createInputChange<
   component[property] = value;
 
   return change;
+}
+
+/**
+ * An ActivateRoute test double with a `paramMap` observable.
+ * Use the `setParamMap()` method to add the next `paramMap` value.
+ */
+export class ActivatedRouteMock {
+  // Use a ReplaySubject to share previous values with subscribers
+  // and pump new values into the `paramMap` observable
+  private subject = new ReplaySubject<ParamMap>();
+
+  constructor(initialParams: Params) {
+    this.setParamMap(initialParams);
+  }
+
+  /** The mock paramMap observable */
+  readonly paramMap = this.subject.asObservable();
+
+  /** Set the paramMap observables's next value */
+  setParamMap(params: Params): void {
+    this.subject.next(convertToParamMap(params));
+  }
 }

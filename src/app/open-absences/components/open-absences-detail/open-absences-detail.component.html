@@ -1,6 +1,6 @@
 <div
   class="header d-flex align-items-center justify-content-between"
-  *erzLet="selection.selection$ | async as selection"
+  *erzLet="selectionService.selection$ | async as selection"
 >
   <button class="back btn btn-link p-3" [routerLink]="['/open-absences']">
     <div class="d-flex align-items-center">
@@ -40,8 +40,8 @@
           #checkbox
           type="checkbox"
           class="form-control"
-          [checked]="selection.isSelected$(absence) | async"
-          (change)="selection.toggle(absence)"
+          [checked]="selectionService.isSelected$(absence) | async"
+          (change)="selectionService.toggle(absence)"
         />
       </td>
       <td>
