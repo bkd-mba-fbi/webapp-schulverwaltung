@@ -4,9 +4,10 @@ import {
   ObservedValueOf,
   of,
   OperatorFunction,
-  throwError
+  throwError,
+  MonoTypeOperatorFunction
 } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 export function catch404AsNull<
   T,
@@ -19,4 +20,18 @@ export function catch404AsNull<
       return throwError(error);
     }
   });
+}
+
+/**
+ * For debugging purposes, logs message an value for each value in the
+ * stream, e.g.:
+ *   foo$.pipe(log('foo$')).subscribe()
+ */
+export function log<T>(
+  message: Option<string> = null
+): MonoTypeOperatorFunction<T> {
+  return input$ =>
+    input$.pipe(
+      tap((x: T) => (message ? console.log(message, x) : console.log(x)))
+    );
 }
