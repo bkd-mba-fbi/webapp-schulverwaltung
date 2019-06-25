@@ -5,8 +5,11 @@ import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 
-export function lessonsEqual(a: Lesson, b: Lesson): boolean {
-  return a.LessonRef.Id === b.LessonRef.Id;
+export function lessonsEqual(a: Option<Lesson>, b: Option<Lesson>): boolean {
+  return (
+    (a === null && b === null) ||
+    (a !== null && b !== null && a.LessonRef.Id === b.LessonRef.Id)
+  );
 }
 
 /**

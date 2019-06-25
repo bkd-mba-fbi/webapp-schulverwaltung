@@ -5,11 +5,11 @@ import { LessonPresenceUpdate } from 'src/app/shared/services/lesson-presences-u
 
 export function updatePresenceTypeForPresences(
   allLessonPresences: ReadonlyArray<LessonPresence>,
-  affectedLessonPresences: ReadonlyArray<LessonPresenceUpdate>,
+  updates: ReadonlyArray<LessonPresenceUpdate>,
   presenceTypes: ReadonlyArray<PresenceType>
 ): ReadonlyArray<LessonPresence> {
   return allLessonPresences.map(lessonPresence => {
-    const update = affectedLessonPresences.find(u =>
+    const update = updates.find(u =>
       lessonPresenceEquals(u.presence, lessonPresence)
     );
     if (update) {

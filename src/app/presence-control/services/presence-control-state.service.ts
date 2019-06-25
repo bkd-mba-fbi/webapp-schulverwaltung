@@ -11,7 +11,8 @@ import {
   shareReplay,
   switchMap,
   take,
-  withLatestFrom
+  withLatestFrom,
+  distinctUntilChanged
 } from 'rxjs/operators';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { Lesson } from '../../shared/models/lesson.model';
@@ -61,7 +62,10 @@ export class PresenceControlStateService {
     map(extractLessons),
     shareReplay(1)
   );
-  private currentLesson$ = this.lessons$.pipe(map(getCurrentLesson));
+  private currentLesson$ = this.lessons$.pipe(
+    map(getCurrentLesson),
+    distinctUntilChanged(lessonsEqual)
+  );
 
   loading$ = this.loadingService.loading$;
 
@@ -72,7 +76,10 @@ export class PresenceControlStateService {
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$
-  ).pipe(map(spreadTriplet(getPresenceControlEntriesForLesson)));
+  ).pipe(
+    map(spreadTriplet(getPresenceControlEntriesForLesson)),
+    shareReplay(1)
+  );
 
   presentCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getCategoryCount('present'))

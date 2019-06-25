@@ -59,6 +59,7 @@ describe('PresenceControlStateService', () => {
     service.isLastLesson$.subscribe(isLastLessonCb);
 
     absent = buildPresenceType(11, 377, 1, 0);
+    absent.Designation = 'Abwesend';
     late = buildPresenceType(12, 380, 0, 1);
     presenceTypes = [absent, late];
 
@@ -217,6 +218,28 @@ describe('PresenceControlStateService', () => {
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(false);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('.updateLessonPresences', () => {
+    it('updates the lesson presences with the new presence type', () => {
+      expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
+      service.nextLesson();
+      resetCallbackSpies();
+
+      service.updateLessonPresences([
+        { presence: mathEinstein1, newPresenceTypeId: absent.Id }
+      ]);
+
+      expect(selectedLessonCb).not.toHaveBeenCalled();
+      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledTimes(1);
+
+      const [entries] = selectedPresenceControlEntriesCb.calls.argsFor(0);
+      expect(entries.length).toBe(1);
+      expect(entries[0].lessonPresence.PresenceTypeRef.Id).toBe(absent.Id);
+      expect(entries[0].lessonPresence.PresenceType).toBe('Abwesend');
+      expect(entries[0].presenceType).toBe(absent);
     });
   });
 

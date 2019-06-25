@@ -13,6 +13,21 @@ describe('lessons utils', () => {
   afterEach(() => jasmine.clock().uninstall());
 
   describe('lessonsEqual', () => {
+    it('returns true for null', () => {
+      expect(lessonsEqual(null, null)).toBe(true);
+    });
+
+    it('returns false for one null', () => {
+      const lesson = buildLesson(
+        1,
+        new Date(2000, 0, 23, 9, 0),
+        new Date(2000, 0, 23, 10, 0),
+        'Mathematik'
+      );
+      expect(lessonsEqual(null, lesson)).toBe(false);
+      expect(lessonsEqual(lesson, null)).toBe(false);
+    });
+
     it('returns true for same object', () => {
       const lesson = buildLesson(
         1,
