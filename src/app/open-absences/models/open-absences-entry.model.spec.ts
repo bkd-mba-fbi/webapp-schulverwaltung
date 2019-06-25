@@ -30,6 +30,7 @@ describe('OpenAbsencesEntry', () => {
     expect(entry.date).toEqual(new Date(2000, 0, 23));
     expect(entry.dateString).toBe('2000-01-23');
     expect(entry.daysDifference).toBe(0);
+    expect(entry.daysDifferenceAbsolute).toBe(0);
     expect(entry.studentId).toBe(21);
     expect(entry.studentFullName).toBe('Albert Einstein');
     expect(entry.lessonsCount).toBe(2);
@@ -41,6 +42,7 @@ describe('OpenAbsencesEntry', () => {
     presenceB.LessonDateTimeFrom = new Date(2000, 0, 1, 13);
     const entry = new OpenAbsencesEntry([presenceA, presenceB]);
     expect(entry.daysDifference).toBe(-22);
+    expect(entry.daysDifferenceAbsolute).toBe(22);
   });
 
   it('handles date in the future', () => {
@@ -48,5 +50,6 @@ describe('OpenAbsencesEntry', () => {
     presenceB.LessonDateTimeFrom = new Date(2000, 0, 24, 13);
     const entry = new OpenAbsencesEntry([presenceA, presenceB]);
     expect(entry.daysDifference).toBe(1);
+    expect(entry.daysDifferenceAbsolute).toBe(1);
   });
 });

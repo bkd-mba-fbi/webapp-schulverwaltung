@@ -10,6 +10,7 @@ export class OpenAbsencesEntry {
   readonly date: Date;
   readonly dateString: string;
   readonly daysDifference: number;
+  readonly daysDifferenceAbsolute: number;
   readonly studentId: number;
   readonly studentFullName: string;
   readonly lessonsCount: number;
@@ -21,6 +22,7 @@ export class OpenAbsencesEntry {
     this.date = startOfDay(this.absences[0].LessonDateTimeFrom);
     this.dateString = format(this.date, 'YYYY-MM-DD');
     this.daysDifference = differenceInCalendarDays(this.date, new Date());
+    this.daysDifferenceAbsolute = Math.abs(this.daysDifference);
     this.studentId = this.absences[0].StudentRef.Id;
     this.studentFullName = this.absences[0].StudentFullName;
     this.lessonsCount = this.absences.length;
