@@ -1,24 +1,25 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, combineLatest, Subject, of } from 'rxjs';
+import { Observable, combineLatest, Subject, of, merge } from 'rxjs';
 import {
-  tap,
   mapTo,
   debounceTime,
-  concatMap,
   scan,
   takeUntil,
-  catchError
+  catchError,
+  filter,
+  share,
+  concatMap
 } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 import { not } from '../utils/filter';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { PresenceControlStateService } from '../../presence-control/services/presence-control-state.service';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { withConfig } from 'src/app/rest-error-interceptor';
+import { isEmptyArray } from '../utils/array';
 
-export const UPDATE_ACTION_DEBOUNCE_TIME = 20;
+export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
 
 export interface LessonPresenceUpdate {
@@ -57,32 +58,34 @@ type UpdateAction = AddUpdateAction | RemoveUpdateAction;
 })
 export class LessonPresencesUpdateService implements OnDestroy {
   private destroy$ = new Subject<void>();
-  private actions$ = new Subject<UpdateAction>();
-  private pendingUpdates$ = this.actions$.pipe(
+  private action$ = new Subject<UpdateAction>();
+  private pendingUpdates$ = this.action$.pipe(
     scan(this.reduceUpdates.bind(this), [] as ReadonlyArray<
       LessonPresenceUpdate
-    >)
+    >),
+    share()
+  );
+  private revertUpdates$ = new Subject<ReadonlyArray<LessonPresenceUpdate>>();
+
+  // Perform updates after a certain "thinking time"
+  private performUpdates$ = this.pendingUpdates$.pipe(
+    debounceTime(UPDATE_REQUEST_DEBOUNCE_TIME),
+    filter(not(isEmptyArray)),
+    concatMap(this.performUpdates.bind(this)) // Execute each request after another to not DOS the backend
+  );
+
+  // Update the UI state right-away (latency-compensation)
+  stateUpdates$ = merge(this.pendingUpdates$, this.revertUpdates$).pipe(
+    debounceTime(UPDATE_STATE_DEBOUNCE_TIME), // Ensure removing of multiple items causes one event
+    filter(not(isEmptyArray))
   );
 
   constructor(
     private toastr: ToastrService,
     private translate: TranslateService,
-    private restService: LessonPresencesUpdateRestService,
-    private presenceControlState: PresenceControlStateService
+    private restService: LessonPresencesUpdateRestService
   ) {
-    this.pendingUpdates$
-      .pipe(
-        takeUntil(this.destroy$),
-
-        // Update the UI state right-away (latency-compensation)
-        debounceTime(UPDATE_ACTION_DEBOUNCE_TIME), // Ensure removing of multiple items causes one event
-        tap(this.updateState.bind(this)),
-
-        // Perform updates after a certain "thinking time"
-        debounceTime(UPDATE_REQUEST_DEBOUNCE_TIME),
-        concatMap(this.performUpdates.bind(this))
-      )
-      .subscribe();
+    this.performUpdates$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   ngOnDestroy(): void {
@@ -94,13 +97,6 @@ export class LessonPresencesUpdateService implements OnDestroy {
     newPresenceTypeId: Option<number> = null
   ): void {
     lessonPresences.forEach(p => this.dispatchAddUpdate(p, newPresenceTypeId));
-  }
-
-  private updateState(updates: ReadonlyArray<LessonPresenceUpdate>): void {
-    if (updates.length === 0) {
-      return;
-    }
-    this.presenceControlState.updateLessonPresences(updates);
   }
 
   private performUpdates(
@@ -178,7 +174,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     );
 
     // Revert UI back to it's original state
-    this.presenceControlState.updateLessonPresences(
+    this.revertUpdates$.next(
       updates.map(u => ({
         ...u,
         newPresenceTypeId: u.presence.PresenceTypeRef
@@ -247,14 +243,14 @@ export class LessonPresencesUpdateService implements OnDestroy {
     presence: LessonPresence,
     newPresenceTypeId: Option<number>
   ): void {
-    this.actions$.next({
+    this.action$.next({
       type: UpdateActionTypes.AddUpdateAction,
       payload: { presence, newPresenceTypeId }
     });
   }
 
   private dispatchRemoveUpdate(presence: LessonPresence): void {
-    this.actions$.next({
+    this.action$.next({
       type: UpdateActionTypes.RemoveUpdateAction,
       payload: presence
     });

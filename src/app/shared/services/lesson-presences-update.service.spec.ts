@@ -11,19 +11,18 @@ import {
 import {
   LessonPresencesUpdateService,
   UPDATE_REQUEST_DEBOUNCE_TIME,
-  UPDATE_ACTION_DEBOUNCE_TIME
+  UPDATE_STATE_DEBOUNCE_TIME
 } from './lesson-presences-update.service';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { PresenceType } from '../models/presence-type.model';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { PresenceControlStateService } from '../../presence-control/services/presence-control-state.service';
 import { withConfig } from 'src/app/rest-error-interceptor';
 
 describe('LessonPresencesUpdateService', () => {
   let service: LessonPresencesUpdateService;
   let restServiceMock: LessonPresencesUpdateRestService;
-  let stateServiceMock: PresenceControlStateService;
   let toastrServiceMock: ToastrService;
+  let stateUpdatesCallback: jasmine.Spy;
 
   let absent: PresenceType;
   let late: PresenceType;
@@ -43,10 +42,6 @@ describe('LessonPresencesUpdateService', () => {
         .and.callFake(() => of())
     } as unknown) as LessonPresencesUpdateRestService;
 
-    stateServiceMock = ({
-      updateLessonPresences: jasmine.createSpy('updateLessonPresences')
-    } as unknown) as PresenceControlStateService;
-
     toastrServiceMock = ({
       error: jasmine.createSpy('error')
     } as unknown) as ToastrService;
@@ -58,12 +53,14 @@ describe('LessonPresencesUpdateService', () => {
             provide: LessonPresencesUpdateRestService,
             useValue: restServiceMock
           },
-          { provide: PresenceControlStateService, useValue: stateServiceMock },
           { provide: ToastrService, useValue: toastrServiceMock }
         ]
       })
     );
     service = TestBed.get(LessonPresencesUpdateService);
+
+    stateUpdatesCallback = jasmine.createSpy('stateUpdates$');
+    service.stateUpdates$.subscribe(stateUpdatesCallback);
 
     absent = buildPresenceType(11, 377, 1, 0);
     late = buildPresenceType(12, 380, 0, 1);
@@ -115,37 +112,37 @@ describe('LessonPresencesUpdateService', () => {
       );
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // State gets updated for both
-      tick(UPDATE_ACTION_DEBOUNCE_TIME);
+      tick(UPDATE_STATE_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).toHaveBeenCalledWith([
+      expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
         { presence: deutschFrisch, newPresenceTypeId: late.Id }
       ]);
 
       // Nothing happens after half the debounce time
-      (stateServiceMock.updateLessonPresences as jasmine.Spy).calls.reset();
+      (stateUpdatesCallback as jasmine.Spy).calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME / 2);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // Also change Walser to 'late' after half the debounce time, updates state
       service.updatePresenceTypes([deutschWalser], late.Id);
-      tick(UPDATE_ACTION_DEBOUNCE_TIME);
+      tick(UPDATE_STATE_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).toHaveBeenCalledWith([
+      expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
         { presence: deutschFrisch, newPresenceTypeId: late.Id },
         { presence: deutschWalser, newPresenceTypeId: late.Id }
       ]);
 
       // Waits whole debounce time, then performs requests for all three
-      (stateServiceMock.updateLessonPresences as jasmine.Spy).calls.reset();
+      (stateUpdatesCallback as jasmine.Spy).calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(
         (restServiceMock.editLessonPresences as jasmine.Spy).calls.count()
@@ -162,14 +159,14 @@ describe('LessonPresencesUpdateService', () => {
         withConfig({ disableErrorHandling: true })
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // Nothing happens afterwards
       (restServiceMock.editLessonPresences as jasmine.Spy).calls.reset();
-      tick(UPDATE_ACTION_DEBOUNCE_TIME + UPDATE_REQUEST_DEBOUNCE_TIME);
+      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       expect(toastrServiceMock.error).not.toHaveBeenCalled();
     }));
@@ -192,20 +189,20 @@ describe('LessonPresencesUpdateService', () => {
       service.updatePresenceTypes([deutschWalser], absent.Id);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // State gets optimistically updated for all three
-      tick(UPDATE_ACTION_DEBOUNCE_TIME);
+      tick(UPDATE_STATE_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).toHaveBeenCalledWith([
+      expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
         { presence: deutschFrisch, newPresenceTypeId: late.Id },
         { presence: deutschWalser, newPresenceTypeId: absent.Id }
       ]);
 
       // Performs two requests and reverts Walser on error of second request
-      (stateServiceMock.updateLessonPresences as jasmine.Spy).calls.reset();
+      (stateUpdatesCallback as jasmine.Spy).calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(
         (restServiceMock.editLessonPresences as jasmine.Spy).calls.count()
@@ -218,7 +215,7 @@ describe('LessonPresencesUpdateService', () => {
         withConfig({ disableErrorHandling: true })
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).toHaveBeenCalledWith([
+      expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschWalser, newPresenceTypeId: 123 }
       ]);
       expect(toastrServiceMock.error).toHaveBeenCalledWith(
@@ -227,11 +224,11 @@ describe('LessonPresencesUpdateService', () => {
 
       // Nothing happens afterwards
       (restServiceMock.editLessonPresences as jasmine.Spy).calls.reset();
-      (stateServiceMock.updateLessonPresences as jasmine.Spy).calls.reset();
-      tick(UPDATE_ACTION_DEBOUNCE_TIME + UPDATE_REQUEST_DEBOUNCE_TIME);
+      (stateUpdatesCallback as jasmine.Spy).calls.reset();
+      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
     }));
 
     it('it executes remove request for entries set to "present"', fakeAsync(() => {
@@ -239,18 +236,18 @@ describe('LessonPresencesUpdateService', () => {
       service.updatePresenceTypes([deutschEinsteinAbwesend], null);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // State gets updated
-      tick(UPDATE_ACTION_DEBOUNCE_TIME);
+      tick(UPDATE_STATE_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).toHaveBeenCalledWith([
+      expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: null }
       ]);
 
       // Waits debounce time, then performs request
-      (stateServiceMock.updateLessonPresences as jasmine.Spy).calls.reset();
+      (stateUpdatesCallback as jasmine.Spy).calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(
@@ -261,14 +258,14 @@ describe('LessonPresencesUpdateService', () => {
         [deutschEinsteinAbwesend.StudentRef.Id],
         withConfig({ disableErrorHandling: true })
       );
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // Nothing happens afterwards
       (restServiceMock.removeLessonPresences as jasmine.Spy).calls.reset();
-      tick(UPDATE_ACTION_DEBOUNCE_TIME + UPDATE_REQUEST_DEBOUNCE_TIME);
+      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateServiceMock.updateLessonPresences).not.toHaveBeenCalled();
+      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       expect(toastrServiceMock.error).not.toHaveBeenCalled();
     }));

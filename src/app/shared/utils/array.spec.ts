@@ -1,4 +1,4 @@
-import { previousElement, nextElement } from './array';
+import { previousElement, nextElement, isEmptyArray } from './array';
 
 describe('array utils', () => {
   describe('previousElement', () => {
@@ -52,6 +52,18 @@ describe('array utils', () => {
 
     it('returns null if current entry is last entry', () => {
       expect(nextElement(eq)({ id: 3 }, array)).toBeNull();
+    });
+  });
+
+  describe('isEmptyArray', () => {
+    it('is true for empty array', () => {
+      expect(isEmptyArray([])).toBe(true);
+    });
+
+    it('is false for non-empty array', () => {
+      expect(isEmptyArray([1, 2, 3])).toBe(false);
+      expect(isEmptyArray([null])).toBe(false);
+      expect(isEmptyArray(['foobar'])).toBe(false);
     });
   });
 });

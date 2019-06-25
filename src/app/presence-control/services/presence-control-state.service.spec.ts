@@ -36,7 +36,9 @@ describe('PresenceControlStateService', () => {
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date(2000, 0, 23, 8, 30));
 
-    TestBed.configureTestingModule(buildTestModuleMetadata({}));
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({ providers: [PresenceControlStateService] })
+    );
     httpTestingController = TestBed.get(HttpTestingController);
     service = TestBed.get(PresenceControlStateService);
 

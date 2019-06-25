@@ -51,3 +51,7 @@ export function isLastElement<T>(
       entry && entries.length > 0 && equal(entry, entries[entries.length - 1])
     );
 }
+
+export function isEmptyArray(array: any[] | ReadonlyArray<any>): boolean {
+  return array.length === 0;
+}

@@ -42,9 +42,7 @@ export enum ViewMode {
   List = 'list'
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PresenceControlStateService {
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<Lesson>>();
@@ -130,9 +128,7 @@ export class PresenceControlStateService {
     this.viewModeSubject$.next(mode);
   }
 
-  updateLessonPresences(
-    affectedLessonPresences: ReadonlyArray<LessonPresenceUpdate>
-  ): void {
+  updateLessonPresences(updates: ReadonlyArray<LessonPresenceUpdate>): void {
     combineLatest(
       this.lessonPresences$.pipe(take(1)),
       this.presenceTypes$.pipe(take(1))
@@ -141,7 +137,7 @@ export class PresenceControlStateService {
         map(([lessonPresences, presenceTypes]) =>
           updatePresenceTypeForPresences(
             lessonPresences,
-            affectedLessonPresences,
+            updates,
             presenceTypes
           )
         )
