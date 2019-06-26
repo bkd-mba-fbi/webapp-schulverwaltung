@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ParamMap, Params, convertToParamMap } from '@angular/router';
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -28,6 +29,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
     RouterTestingModule,
     HttpClientTestingModule,
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -34,6 +34,14 @@
       "apprenticeship-period": "Lehrzeit",
       "job-trainer": "Berufsbildner",
       "no-profile": "Profil wurde nicht gefunden"
+    },
+    "comment": {
+      "placeholder": "Kommentar...",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "validation-errors": {
+        "maxlength": "Der Kommentar darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen."
+      }
     }
   },
   "open-absences": {

@@ -1,0 +1,16 @@
+@import "../../../../bootstrap-variables";
+
+.comment-icon,
+.comment-field,
+.comment-display {
+  color: $gray-600;
+}
+
+.comment-display {
+  min-height: 10em;
+}
+
+.comment-icon,
+.comment-display {
+  cursor: pointer;
+}

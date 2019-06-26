@@ -28,7 +28,8 @@
     class="comment"
     [routerLink]="[
       '/presence-control/comment',
-      entry.lessonPresence.StudentRef.Id
+      entry.lessonPresence.StudentRef.Id,
+      entry.lessonPresence.LessonRef.Id
     ]"
   >
     <i class="material-icons">notes</i>

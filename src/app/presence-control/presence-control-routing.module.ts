@@ -20,7 +20,7 @@ const routes: Routes = [
         component: PresenceControlDetailComponent
       },
       {
-        path: 'comment/:id',
+        path: 'comment/:studentId/:lessonId',
         component: PresenceControlCommentComponent
       }
     ]

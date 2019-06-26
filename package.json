@@ -38,6 +38,7 @@
     "lodash-es": "^4.17.11",
     "monocle-ts": "^1.7.2",
     "newtype-ts": "^0.2.4",
+    "ngx-autogrow": "^3.0.0",
     "ngx-toastr": "^10.0.4",
     "rxjs": "~6.5.2",
     "tslib": "^1.9.3",

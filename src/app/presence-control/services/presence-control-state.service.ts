@@ -163,6 +163,26 @@ export class PresenceControlStateService {
     );
   }
 
+  /**
+   * Looks up presence control entry within current lesson.
+   */
+  getPresenceControlEntry(
+    studentId: number,
+    lessonId: number
+  ): Observable<Option<PresenceControlEntry>> {
+    return this.selectedPresenceControlEntries$.pipe(
+      take(1),
+      map(
+        entries =>
+          entries.find(
+            e =>
+              e.lessonPresence.StudentRef.Id === studentId &&
+              e.lessonPresence.LessonRef.Id === lessonId
+          ) || null
+      )
+    );
+  }
+
   private loadLessonPresencesByDate(
     date: Date
   ): Observable<ReadonlyArray<LessonPresence>> {

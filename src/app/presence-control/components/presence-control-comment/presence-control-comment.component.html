@@ -1,7 +1,59 @@
-<erz-presence-control-back
-  class="mb-2"
-  [studentId]="123"
-  [student]=""
-></erz-presence-control-back>
+<div class="erz-container erz-container-padding-y">
+  <erz-presence-control-back
+    class="mb-2"
+    [studentId]="studentId$ | async"
+    [student]="student$ | async"
+    [studentName]="
+      (presenceControlEntry$ | async)?.lessonPresence?.StudentFullName
+    "
+  ></erz-presence-control-back>
 
-Kommentar...
+  <form [formGroup]="formGroup$ | async" (ngSubmit)="onSubmit()" class="mt-5">
+    <div class="d-flex mb-5">
+      <i
+        class="comment-icon material-icons ml-3 mr-2"
+        (click)="onCommentIconClick()"
+        >notes</i
+      >
+      <div
+        *ngIf="!(editing$ | async)"
+        class="comment-display flex-fill"
+        (click)="startEditing()"
+      >
+        {{
+          (presenceControlEntry$ | async)?.lessonPresence?.PresenceComment ||
+            'presence-control.comment.placeholder' | translate
+        }}
+      </div>
+      <div *ngIf="editing$ | async" class="flex-fill form-group">
+        <textarea
+          class="comment-field form-control"
+          [class.is-invalid]="(commentErrors$ | async).length > 0"
+          #commentField
+          autogrow
+          [attr.placeholder]="
+            'presence-control.comment.placeholder' | translate
+          "
+          formControlName="comment"
+        ></textarea>
+        <div
+          class="invalid-feedback"
+          *ngFor="let error of commentErrors$ | async"
+        >
+          {{
+            'presence-control.comment.validation-errors.' + error.error
+              | translate: error.params
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end" *ngIf="editing$ | async">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        {{ 'presence-control.comment.cancel' | translate }}
+      </button>
+      <button type="submit" class="btn btn-primary ml-2">
+        {{ 'presence-control.comment.save' | translate }}
+      </button>
+    </div>
+  </form>
+</div>
