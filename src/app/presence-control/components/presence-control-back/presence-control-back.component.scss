@@ -1,0 +1,10 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  align-items: center;
+}
+
+a {
+  color: $body-color;
+}

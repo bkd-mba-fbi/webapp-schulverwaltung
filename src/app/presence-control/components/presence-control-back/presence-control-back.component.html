@@ -1,0 +1,8 @@
+<a class="btn btn-link" [routerLink]="link">
+  <i class="material-icons">navigate_before</i>
+</a>
+<erz-avatar [studentId]="studentId" class="mr-3 small"></erz-avatar>
+<div class="detail-header-info" *ngIf="student">
+  {{ student.FullName }} ({{ student.Gender }})<br />
+  {{ student.Birthdate | date: 'dd.MM.yyyy' }}
+</div>

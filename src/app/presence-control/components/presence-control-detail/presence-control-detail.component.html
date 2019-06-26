@@ -1,22 +1,11 @@
 <div class="detail">
   <ng-container *erzLet="profile$ | async as profile">
     <ng-container *ngIf="!(detailService.loading$ | async); else loading">
-      <div class="detail-header d-flex align-items-center">
-        <a
-          class="detail-header-back btn btn-link"
-          [routerLink]="['/presence-control']"
-        >
-          <i class="material-icons">navigate_before</i>
-        </a>
-        <erz-avatar
-          [studentId]="studentId$ | async"
-          class="mr-3 small"
-        ></erz-avatar>
-        <div class="detail-header-info" *ngIf="profile">
-          {{ profile.student.FullName }} ({{ profile.student.Gender }})<br />
-          {{ profile.student.Birthdate | date: 'dd.MM.yyyy' }}
-        </div>
-      </div>
+      <erz-presence-control-back
+        class="mb-2"
+        [studentId]="studentId$ | async"
+        [student]="profile && profile.student"
+      ></erz-presence-control-back>
 
       <div class="detail-content" *ngIf="profile; else noProfile">
         <div class="detail-entry">
