@@ -3,3 +3,18 @@
 erz-presence-control-entry {
   border-bottom: 1px solid $gray-200;
 }
+
+.previously-absent-entries {
+  background-color: lighten($absent-color, 40%);
+
+  > label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: bold;
+    text-align: center;
+    color: $absent-color;
+  }
+  erz-presence-control-entry:last-child {
+    border-bottom: 0;
+  }
+}

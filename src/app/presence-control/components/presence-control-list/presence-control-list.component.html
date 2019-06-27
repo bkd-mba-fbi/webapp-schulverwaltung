@@ -2,7 +2,9 @@
   class="erz-container"
   *erzLet="{
     lesson: state.selectedLesson$ | async,
-    entries: presenceControlEntries$ | async
+    entries: entries$ | async,
+    previouslyPresentEntries: previouslyPresentEntries$ | async,
+    previouslyAbsentEntries: previouslyAbsentEntries$ | async
   } as data"
 >
   <ng-container *ngIf="!(state.loading$ | async); else loading">
@@ -24,8 +26,22 @@
       ></erz-presence-control-header>
 
       <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">
+        <div
+          *ngIf="data.previouslyAbsentEntries.length > 0"
+          class="previously-absent-entries pt-1 px-2 pb-3"
+        >
+          <label class="mb-1">
+            {{ 'presence-control.previously-absent' | translate }}
+          </label>
+          <erz-presence-control-entry
+            *ngFor="let entry of data.previouslyAbsentEntries"
+            [entry]="entry"
+            [viewMode]="state.viewMode$ | async"
+            (togglePresenceType)="togglePresenceType($event)"
+          ></erz-presence-control-entry>
+        </div>
         <erz-presence-control-entry
-          *ngFor="let entry of data.entries"
+          *ngFor="let entry of data.previouslyPresentEntries"
           [entry]="entry"
           [viewMode]="state.viewMode$ | async"
           (togglePresenceType)="togglePresenceType($event)"

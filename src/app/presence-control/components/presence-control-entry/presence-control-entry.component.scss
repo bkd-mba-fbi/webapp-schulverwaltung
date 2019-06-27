@@ -3,6 +3,7 @@
 :host {
   display: flex;
   padding: 2 * $spacer $spacer;
+  background-color: $body-bg;
 }
 
 :host.absent {

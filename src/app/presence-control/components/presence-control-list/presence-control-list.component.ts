@@ -1,9 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { map, distinctUntilChanged, shareReplay } from 'rxjs/operators';
 
 import { spreadTuple } from '../../../shared/utils/function';
-import { searchPresenceControlEntries } from '../../utils/presence-control-entries';
+import {
+  searchPresenceControlEntries,
+  filterPreviouslyAbsentEntries,
+  filterPreviouslyPresentEntries
+} from '../../utils/presence-control-entries';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
@@ -23,10 +27,21 @@ export class PresenceControlListComponent implements OnInit {
     distinctUntilChanged()
   );
 
-  presenceControlEntries$ = combineLatest(
+  entries$ = combineLatest(
     this.state.selectedPresenceControlEntries$,
     this.validSearch$
-  ).pipe(map(spreadTuple(searchPresenceControlEntries)));
+  ).pipe(
+    map(spreadTuple(searchPresenceControlEntries)),
+    shareReplay(1)
+  );
+
+  previouslyPresentEntries$ = this.entries$.pipe(
+    map(filterPreviouslyPresentEntries)
+  );
+
+  previouslyAbsentEntries$ = this.entries$.pipe(
+    map(filterPreviouslyAbsentEntries)
+  );
 
   constructor(
     public state: PresenceControlStateService,

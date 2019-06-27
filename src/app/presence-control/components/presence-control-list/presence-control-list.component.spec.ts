@@ -21,7 +21,6 @@ describe('PresenceControlListComponent', () => {
   let fixture: ComponentFixture<PresenceControlListComponent>;
   let element: HTMLElement;
 
-  let presenceControlEntriesCb: jasmine.Spy;
   let lesson: Lesson;
   let bichsel: PresenceControlEntry;
   let frisch: PresenceControlEntry;
@@ -42,6 +41,7 @@ describe('PresenceControlListComponent', () => {
     bichsel = buildPresenceControlEntry('Bichsel Peter');
     frisch = buildPresenceControlEntry('Frisch Max');
     jenni = buildPresenceControlEntry('Zoë Jenny');
+    jenni.lessonPresence.WasAbsentInPrecedingLesson = 1;
     selectedPresenceControlEntries$ = new BehaviorSubject([
       bichsel,
       frisch,
@@ -91,18 +91,15 @@ describe('PresenceControlListComponent', () => {
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
 
-    presenceControlEntriesCb = jasmine.createSpy('presenceControlEntries$');
-    component.presenceControlEntries$.subscribe(presenceControlEntriesCb);
-
     fixture.detectChanges();
   });
 
   describe('.presenceControlEntries$', () => {
     it('emits all entries initially', () => {
+      expect(getRenderedPreviouslyAbsentStudentNames()).toEqual(['Zoë Jenny']);
       expect(getRenderedStudentNames()).toEqual([
         'Bichsel Peter',
-        'Frisch Max',
-        'Zoë Jenny'
+        'Frisch Max'
       ]);
     });
 
@@ -118,6 +115,7 @@ describe('PresenceControlListComponent', () => {
         jenni
       ]);
       fixture.detectChanges();
+      expect(getRenderedPreviouslyAbsentStudentNames()).toEqual([]);
       expect(getRenderedStudentNames()).toEqual(['Frisch Max', 'Frisch Peter']);
     });
   });
@@ -135,7 +133,19 @@ describe('PresenceControlListComponent', () => {
 
   function getRenderedStudentNames(): string[] {
     return Array.prototype.slice
-      .call(element.querySelectorAll('.student-name'))
+      .call(
+        element.querySelectorAll(
+          '.erz-container > erz-presence-control-entry .student-name'
+        )
+      )
+      .map(e => e.textContent.trim());
+  }
+
+  function getRenderedPreviouslyAbsentStudentNames(): string[] {
+    return Array.prototype.slice
+      .call(
+        element.querySelectorAll('.previously-absent-entries .student-name')
+      )
       .map(e => e.textContent.trim());
   }
 

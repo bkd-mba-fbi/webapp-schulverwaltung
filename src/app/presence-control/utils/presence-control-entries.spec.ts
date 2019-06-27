@@ -1,6 +1,10 @@
 import { buildLessonPresence } from 'src/spec-builders';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
-import { searchPresenceControlEntries } from './presence-control-entries';
+import {
+  searchPresenceControlEntries,
+  filterPreviouslyPresentEntries,
+  filterPreviouslyAbsentEntries
+} from './presence-control-entries';
 
 describe('presence control entries utils', () => {
   let bichsel: PresenceControlEntry;
@@ -11,6 +15,7 @@ describe('presence control entries utils', () => {
     bichsel = buildPresenceControlEntry('Bichsel Peter');
     frisch = buildPresenceControlEntry('Frisch Max');
     jenni = buildPresenceControlEntry('Zoë Jenny');
+    jenni.lessonPresence.WasAbsentInPrecedingLesson = 1;
   });
 
   describe('searchPresenceControlEntries', () => {
@@ -40,6 +45,20 @@ describe('presence control entries utils', () => {
         [bichsel, frisch, jenni],
         'Zoe'
       );
+      expect(result).toEqual([jenni]);
+    });
+  });
+
+  describe('filterPreviouslyPresentEntries', () => {
+    it('filters the previously present entries', () => {
+      const result = filterPreviouslyPresentEntries([bichsel, frisch, jenni]);
+      expect(result).toEqual([bichsel, frisch]);
+    });
+  });
+
+  describe('filterPreviouslyAbsentEntries', () => {
+    it('filters the previously absent entries', () => {
+      const result = filterPreviouslyAbsentEntries([bichsel, frisch, jenni]);
       expect(result).toEqual([jenni]);
     });
   });
