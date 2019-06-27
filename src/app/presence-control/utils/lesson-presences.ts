@@ -13,14 +13,55 @@ export function updatePresenceTypeForPresences(
       lessonPresenceEquals(u.presence, lessonPresence)
     );
     if (update) {
-      const newPresenceType =
-        presenceTypes.find(t => t.Id === update.newPresenceTypeId) || null;
+      let newPresenceType: Option<PresenceType>;
+      if (!update.newPresenceTypeId && lessonPresence.PresenceComment) {
+        // Use comment type if is present and has comment
+        newPresenceType = presenceTypes.find(t => t.IsComment === 1) || null;
+      } else {
+        newPresenceType =
+          presenceTypes.find(t => t.Id === update.newPresenceTypeId) || null;
+      }
+
       return {
         ...lessonPresence,
         PresenceTypeRef: buildPresenceTypeRef(newPresenceType),
-        // PresenceComment: // TODO: remove comment in some cases?
         PresenceDate: null, // TODO: where does this value come from?
         PresenceType: newPresenceType ? newPresenceType.Designation : null
+      };
+    }
+    return lessonPresence;
+  });
+}
+
+export function updateCommentForPresence(
+  allLessonPresences: ReadonlyArray<LessonPresence>,
+  affectedLessonPresence: LessonPresence,
+  newComment: Option<string>,
+  presenceTypes: ReadonlyArray<PresenceType>
+): ReadonlyArray<LessonPresence> {
+  return allLessonPresences.map(lessonPresence => {
+    if (lessonPresenceEquals(lessonPresence, affectedLessonPresence)) {
+      let presenceTypeRef = lessonPresence.PresenceTypeRef;
+      let presenceDesignation = lessonPresence.PresenceType;
+      let newPresenceType: Maybe<PresenceType>;
+      if (newComment && !presenceTypeRef) {
+        // Set to comment presence type
+        newPresenceType = presenceTypes.find(p => p.IsComment === 1);
+      } else if (!newComment && presenceTypeRef) {
+        // TODO: Unset presence type if it has `IsComment=1`?
+      }
+      if (newPresenceType) {
+        presenceTypeRef = {
+          Id: newPresenceType.Id,
+          Href: ''
+        };
+        presenceDesignation = newPresenceType.Designation;
+      }
+      return {
+        ...lessonPresence,
+        PresenceComment: newComment,
+        PresenceTypeRef: presenceTypeRef,
+        PresenceType: presenceDesignation
       };
     }
     return lessonPresence;

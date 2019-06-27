@@ -48,11 +48,27 @@
       </div>
     </div>
     <div class="d-flex justify-content-end" *ngIf="editing$ | async">
-      <button type="button" class="btn btn-secondary" (click)="cancel()">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="saving$ | async"
+        (click)="cancel()"
+      >
         {{ 'presence-control.comment.cancel' | translate }}
       </button>
-      <button type="submit" class="btn btn-primary ml-2">
+      <button
+        type="submit"
+        class="btn btn-primary ml-2"
+        [disabled]="saving$ | async"
+      >
         {{ 'presence-control.comment.save' | translate }}
+        <div
+          *ngIf="saving$ | async"
+          class="spinner-border spinner-border-sm"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
       </button>
     </div>
   </form>

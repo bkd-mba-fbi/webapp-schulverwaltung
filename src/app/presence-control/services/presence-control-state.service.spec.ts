@@ -221,14 +221,14 @@ describe('PresenceControlStateService', () => {
     });
   });
 
-  describe('.updateLessonPresences', () => {
+  describe('.updateLessonPresencesTypes', () => {
     it('updates the lesson presences with the new presence type', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       service.nextLesson();
       resetCallbackSpies();
 
-      service.updateLessonPresences([
+      service.updateLessonPresencesTypes([
         { presence: mathEinstein1, newPresenceTypeId: absent.Id }
       ]);
 
@@ -240,6 +240,24 @@ describe('PresenceControlStateService', () => {
       expect(entries[0].lessonPresence.PresenceTypeRef.Id).toBe(absent.Id);
       expect(entries[0].lessonPresence.PresenceType).toBe('Abwesend');
       expect(entries[0].presenceType).toBe(absent);
+    });
+  });
+
+  describe('.updateLessonPresenceComment', () => {
+    it('updates the comment of the affected lesson presence', () => {
+      expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
+      service.nextLesson();
+      resetCallbackSpies();
+
+      service.updateLessonPresenceComment(mathEinstein1, 'e = mc^2');
+
+      expect(selectedLessonCb).not.toHaveBeenCalled();
+      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledTimes(1);
+
+      const [entries] = selectedPresenceControlEntriesCb.calls.argsFor(0);
+      expect(entries.length).toBe(1);
+      expect(entries[0].lessonPresence.PresenceComment).toBe('e = mc^2');
     });
   });
 

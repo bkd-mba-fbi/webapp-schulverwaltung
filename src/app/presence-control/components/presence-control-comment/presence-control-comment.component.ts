@@ -6,15 +6,21 @@ import {
   ElementRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import {
   map,
   pluck,
   shareReplay,
   switchMap,
   take,
-  startWith
+  startWith,
+  catchError,
+  finalize,
+  tap,
+  delay
 } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
@@ -44,6 +50,7 @@ export class PresenceControlCommentComponent implements OnInit {
   );
 
   editing$ = new BehaviorSubject(false);
+  saving$ = new BehaviorSubject(false);
 
   studentId$ = this.params$.pipe(pluck('studentId'));
   student$ = this.studentId$.pipe(
@@ -72,11 +79,23 @@ export class PresenceControlCommentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private toastr: ToastrService,
+    private translate: TranslateService,
     private state: PresenceControlStateService,
     private studentsService: StudentsRestService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Disable comment field during saving
+    combineLatest(this.formGroup$, this.saving$).subscribe(
+      ([formGroup, saving]) => {
+        const control = formGroup.get('comment');
+        if (control) {
+          saving ? control.disable() : control.enable();
+        }
+      }
+    );
+  }
 
   onCommentIconClick(): void {
     this.editing$
@@ -96,22 +115,33 @@ export class PresenceControlCommentComponent implements OnInit {
   }
 
   cancel(): void {
-    // TODO: Display dialog for unsaved comment, as well when clicking
-    // on the back link
     this.stopEditing();
   }
 
   onSubmit(): void {
-    this.formGroup$.pipe(take(1)).subscribe(formGroup => {
-      if (formGroup.valid) {
-        const comment = formGroup.value.comment;
-
-        console.log('save comment', comment);
-        // TODO: Save comment and update state
-
-        this.stopEditing();
-      }
-    });
+    combineLatest(
+      this.formGroup$.pipe(take(1)),
+      this.presenceControlEntry$.pipe(take(1))
+    )
+      .pipe(
+        switchMap(([formGroup, entry]) => {
+          if (formGroup.valid && entry) {
+            const comment = formGroup.value.comment;
+            return this.saveComment(entry, comment).pipe(
+              tap(() => {
+                this.state.updateLessonPresenceComment(
+                  entry.lessonPresence,
+                  comment
+                );
+                this.stopEditing();
+              })
+            );
+          }
+          return of(null);
+        }),
+        catchError(error => this.onSaveError(error))
+      )
+      .subscribe();
   }
 
   private createFormGroup(
@@ -139,5 +169,26 @@ export class PresenceControlCommentComponent implements OnInit {
     if (this.commentField) {
       this.commentField.nativeElement.focus();
     }
+  }
+
+  private saveComment(
+    entry: PresenceControlEntry,
+    newComment: string
+  ): Observable<any> {
+    this.saving$.next(true);
+    // TODO: Implement saving of comment
+    console.log(`Save comment "${newComment}" for entry`, entry);
+    return of(undefined).pipe(
+      delay(2000), // TODO: Remove, just for simulating request time
+      finalize(() => this.saving$.next(false))
+    );
+  }
+
+  private onSaveError(error: any): Observable<void> {
+    console.error('Error while saving comment:', error);
+    this.toastr.error(
+      this.translate.instant('presence-control.comment.save-error')
+    );
+    return of(undefined);
   }
 }

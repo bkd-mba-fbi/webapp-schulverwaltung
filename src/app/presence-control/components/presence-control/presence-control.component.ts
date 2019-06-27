@@ -30,7 +30,7 @@ export class PresenceControlComponent implements OnInit, OnDestroy {
     // currently loaded data
     this.lessonPresencesUpdateService.stateUpdates$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(updates => this.state.updateLessonPresences(updates));
+      .subscribe(updates => this.state.updateLessonPresencesTypes(updates));
   }
 
   ngOnDestroy(): void {

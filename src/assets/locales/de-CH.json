@@ -39,6 +39,7 @@
       "placeholder": "Kommentar...",
       "cancel": "Abbrechen",
       "save": "Speichern",
+      "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten.",
       "validation-errors": {
         "maxlength": "Der Kommentar darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen."
       }
