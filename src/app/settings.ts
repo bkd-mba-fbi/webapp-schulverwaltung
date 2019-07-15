@@ -10,6 +10,8 @@ declare global {
 
 export interface Settings {
   apiUrl: string;
+  scriptsPath: string;
+  assetsPath: string;
   absencePresenceTypeId: number;
   latePresenceTypeId: number;
   unconfirmedAbsenceStateId: number;

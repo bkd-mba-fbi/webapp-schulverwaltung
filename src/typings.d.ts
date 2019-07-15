@@ -8,3 +8,5 @@ interface Dict<T> {
 interface Constructor<T> {
   new (...args: any[]): T;
 }
+
+declare var __webpack_public_path__: string;

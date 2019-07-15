@@ -20,6 +20,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 const settings: Settings = {
   apiUrl: 'https://eventotest.api',
+  scriptsPath: '.',
+  assetsPath: './assets',
   absencePresenceTypeId: 11,
   latePresenceTypeId: 12,
   unconfirmedAbsenceStateId: 219

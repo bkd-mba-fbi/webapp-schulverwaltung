@@ -9,8 +9,6 @@ import {
 import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from '../../services/storage.service';
 
-const FALLBACK_AVATAR = 'assets/images/avatar-placeholder.png';
-
 @Component({
   selector: 'erz-avatar',
   templateUrl: './avatar.component.html',
@@ -31,10 +29,19 @@ export class AvatarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.studentId) {
-      this.avatarStyles = this.buildAvatarStyles(
-        this.buildAvatarUrl(this.studentId)
-      );
+      this.avatarStyles = this.buildAvatarStyles(this.studentId);
     }
+  }
+
+  private buildAvatarStyles(studentId: number): { [key: string]: string } {
+    return {
+      'background-image': [
+        this.buildAvatarUrl(studentId),
+        this.fallbackAvatarUrl
+      ]
+        .map(url => `url(${url})`)
+        .join(', ')
+    };
   }
 
   private buildAvatarUrl(studentId: number): string {
@@ -42,9 +49,7 @@ export class AvatarComponent implements OnInit, OnChanges {
     return `${this.settings.apiUrl}/Files\/personPictures/${studentId}?token=${accessToken}`;
   }
 
-  private buildAvatarStyles(url: string): { [key: string]: string } {
-    return {
-      'background-image': `url(${url}), url(${FALLBACK_AVATAR})`
-    };
+  private get fallbackAvatarUrl(): string {
+    return `${this.settings.assetsPath}/images/avatar-placeholder.png`;
   }
 }

@@ -37,7 +37,7 @@ describe('AvatarComponent', () => {
 
       expect(component.avatarStyles).toEqual({
         'background-image':
-          'url(https://eventotest.api/Files/personPictures/123?token=asdf), url(assets/images/avatar-placeholder.png)'
+          'url(https://eventotest.api/Files/personPictures/123?token=asdf), url(./assets/images/avatar-placeholder.png)'
       });
     });
   });

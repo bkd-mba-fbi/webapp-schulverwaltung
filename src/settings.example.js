@@ -3,8 +3,16 @@
 window.absenzenmanagement = window.absenzenmanagement || {};
 
 window.absenzenmanagement.settings = {
-  // API base URL without trailing slash
+  // API base URL (without trailing slash)
   apiUrl: 'https://eventotest.api',
+
+  // Path to the JavaScript bundles (with trailing slash, relative to
+  // the index.html)
+  scriptsPath: './',
+
+  // Path to the images and locale files (without trailing slash,
+  // relative to the index.html)
+  assetsPath: './assets',
 
   // Id of the PresenceType that represents an absence without cause
   // (i.e. the default absence that will be used when changing state

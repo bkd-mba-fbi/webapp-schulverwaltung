@@ -15,10 +15,18 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { GlobalErrorHandler } from './global-error-handler';
 import { RestErrorInterceptor } from './rest-error-interceptor';
+import { Settings, SETTINGS } from './settings';
 
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/locales/', '.json');
+export function HttpLoaderFactory(
+  http: HttpClient,
+  settings: Settings
+): TranslateHttpLoader {
+  return new TranslateHttpLoader(
+    http,
+    `${settings.assetsPath}/locales/`,
+    '.json'
+  );
 }
 
 @NgModule({
@@ -32,7 +40,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
+        deps: [HttpClient, SETTINGS]
       }
     }),
     ToastrModule.forRoot({

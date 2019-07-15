@@ -4,6 +4,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
+__webpack_public_path__ = window.absenzenmanagement.settings.scriptsPath;
+
 if (environment.production) {
   enableProdMode();
 }
