@@ -1,3 +1,92 @@
-<p>
-  open-absences-edit works!
-</p>
+<div
+  class="erz-container erz-container-padding-y"
+  *erzLet="{
+    unexcusedState: unexcusedState$ | async,
+    excusedState: excusedState$ | async
+  } as data"
+>
+  <form
+    *ngIf="data.unexcusedState && data.excusedState"
+    [formGroup]="formGroup"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">
+      {{ 'global.validation-errors.' + error.error | translate: error.params }}
+    </div>
+
+    <div class="form-group pb-4">
+      <label>{{ 'open-absences.edit.state' | translate }}</label>
+      <div class="form-check mt-2 mb-3">
+        <input
+          type="radio"
+          class="form-check-input"
+          id="excused"
+          formControlName="confirmationValue"
+          [value]="data.excusedState.Key"
+        />
+        <label class="form-check-label" for="excused">
+          {{ data.excusedState.Value }}
+        </label>
+      </div>
+
+      <select
+        class="form-control"
+        [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
+        formControlName="absenceTypeId"
+      >
+        <option [ngValue]="null">
+          {{ 'open-absences.edit.absence-type-placeholder' | translate }}
+        </option>
+        <option *ngFor="let type of absenceTypes$ | async" [ngValue]="type.Id">
+          {{ type.Designation }}
+        </option>
+      </select>
+      <div
+        class="invalid-feedback"
+        *ngFor="let error of absenceTypeIdErrors$ | async"
+      >
+        {{
+          'global.validation-errors.' + error.error | translate: error.params
+        }}
+      </div>
+
+      <div class="form-check mt-4">
+        <input
+          type="radio"
+          class="form-check-input"
+          id="unexcused"
+          formControlName="confirmationValue"
+          [value]="data.unexcusedState.Key"
+        />
+        <label class="form-check-label" for="unexcused">
+          {{ data.unexcusedState.Value }}
+        </label>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="saving$ | async"
+        (click)="cancel()"
+      >
+        {{ 'open-absences.edit.cancel' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary ml-2"
+        [disabled]="saving$ | async"
+      >
+        {{ 'open-absences.edit.save' | translate }}
+        <div
+          *ngIf="saving$ | async"
+          class="spinner-border spinner-border-sm"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </button>
+    </div>
+  </form>
+</div>

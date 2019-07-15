@@ -137,8 +137,8 @@ export class RestErrorInterceptor implements HttpInterceptor {
 
   private notifyError(messageKey: string): void {
     this.toastr.error(
-      this.translate.instant(`global.errors.${messageKey}_message`),
-      this.translate.instant(`global.errors.${messageKey}_title`)
+      this.translate.instant(`global.rest-errors.${messageKey}-message`),
+      this.translate.instant(`global.rest-errors.${messageKey}-title`)
     );
   }
 }

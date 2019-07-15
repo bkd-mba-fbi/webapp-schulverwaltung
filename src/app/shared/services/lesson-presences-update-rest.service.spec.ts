@@ -94,6 +94,23 @@ describe('LessonPresencesUpdateRestService', () => {
     });
   });
 
+  describe('.confirmLessonPresences', () => {
+    it('executes PUT request with JSON body', () => {
+      service
+        .confirmLessonPresences([1, 2, 3], [4, 5, 6], 11, 220)
+        .subscribe(result => {
+          expect(result).toBeUndefined();
+        });
+
+      expectRequestWithBody('https://eventotest.api/LessonAbsences/Confirm', {
+        LessonIds: [1, 2, 3],
+        PersonIds: [4, 5, 6],
+        AbsenceTypeId: 11,
+        ConfirmationValue: 220
+      });
+    });
+  });
+
   function expectRequestWithBody(
     url: string,
     body: any,

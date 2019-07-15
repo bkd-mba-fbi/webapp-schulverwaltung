@@ -5,12 +5,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -27,11 +22,11 @@ import {
   tap
 } from 'rxjs/operators';
 import { withConfig } from 'src/app/rest-error-interceptor';
+import { getValidationErrors } from 'src/app/shared/utils/form';
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { validatationErrorsToArray } from 'src/app/shared/utils/form';
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 
 @Component({
   selector: 'erz-presence-control-comment',
@@ -71,7 +66,7 @@ export class PresenceControlCommentComponent implements OnInit {
   );
 
   commentErrors$ = this.formGroup$.pipe(
-    switchMap(this.getCommentErrors.bind(this)),
+    switchMap(formGroup => getValidationErrors(formGroup.get('comment'))),
     startWith([]),
     shareReplay(1)
   );
@@ -154,16 +149,6 @@ export class PresenceControlCommentComponent implements OnInit {
         Validators.maxLength(255)
       ]
     });
-  }
-
-  private getCommentErrors(
-    formGroup: FormGroup
-  ): Observable<ReadonlyArray<{ error: string; params: any }>> {
-    const control = formGroup.get('comment') as FormControl;
-    return control.statusChanges.pipe(
-      startWith(control.status),
-      map(() => validatationErrorsToArray(control))
-    );
   }
 
   private focusCommentField(): void {

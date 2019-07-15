@@ -43,6 +43,23 @@ export function flattenOpenAbsencesEntries(
   );
 }
 
+export function removeOpenAbsences(
+  entries: ReadonlyArray<LessonPresence>,
+  affectedIds: ReadonlyArray<{
+    lessonIds: ReadonlyArray<number>;
+    personIds: ReadonlyArray<number>;
+  }>
+): ReadonlyArray<LessonPresence> {
+  return entries.filter(
+    e =>
+      !affectedIds.some(
+        ({ lessonIds, personIds }) =>
+          lessonIds.indexOf(e.LessonRef.Id) !== -1 &&
+          personIds.indexOf(e.StudentRef.Id) !== -1
+      )
+  );
+}
+
 function getOpenAbsencesComparator(
   sortCriteria: SortCriteria
 ): (a: OpenAbsencesEntry, b: OpenAbsencesEntry) => number {

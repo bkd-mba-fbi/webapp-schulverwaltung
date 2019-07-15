@@ -41,8 +41,7 @@
           *ngFor="let error of commentErrors$ | async"
         >
           {{
-            'presence-control.comment.validation-errors.' + error.error
-              | translate: error.params
+            'global.validation-errors.' + error.error | translate: error.params
           }}
         </div>
       </div>

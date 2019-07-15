@@ -31,6 +31,8 @@ export class OpenAbsencesListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.openAbsencesService.currentDetail = null;
+
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
       .subscribe(ids => (this.openAbsencesService.selected = ids));

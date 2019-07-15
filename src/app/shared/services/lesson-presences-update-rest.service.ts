@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from 'src/app/settings';
@@ -57,6 +57,24 @@ export class LessonPresencesUpdateRestService {
         },
         { params }
       )
+      .pipe(mapTo(undefined));
+  }
+
+  confirmLessonPresences(
+    lessonIds: ReadonlyArray<number>,
+    personIds: ReadonlyArray<number>,
+    absenceTypeId: number,
+    confirmationValue: number
+  ): Observable<void> {
+    const body: Dict<any> = {
+      LessonIds: lessonIds,
+      PersonIds: personIds,
+      AbsenceTypeId: absenceTypeId,
+      ConfirmationValue: confirmationValue
+    };
+
+    return this.http
+      .put<void>(`${this.settings.apiUrl}/LessonAbsences/Confirm`, body)
       .pipe(mapTo(undefined));
   }
 }

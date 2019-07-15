@@ -1,63 +1,65 @@
-<div
-  class="header d-flex align-items-center justify-content-between"
-  *erzLet="selectionService.selection$ | async as selection"
->
-  <button class="back btn btn-link p-3" [routerLink]="['/open-absences']">
-    <div class="d-flex align-items-center">
-      <i class="material-icons">navigate_before</i>
-      <span class="ml-3">{{ studentFullName$ | async }}</span>
-    </div>
-  </button>
-  <a
-    class="edit btn btn-link"
-    [class.disabled]="selection.length === 0"
-    routerLink="/open-absences/edit"
+<div class="erz-container">
+  <div
+    class="header d-flex align-items-center justify-content-between"
+    *erzLet="selectionService.selection$ | async as selection"
   >
-    <i class="material-icons">edit</i>
-  </a>
-</div>
-
-<table class="table">
-  <tbody>
-    <tr (click)="onRowClick($event, allCheckbox)">
-      <td>
-        <input
-          #allCheckbox
-          type="checkbox"
-          class="form-control"
-          [checked]="allSelected$ | async"
-          (change)="toggleAll($event.target.checked)"
-        />
-      </td>
-      <td>{{ 'open-absences.detail.all' | translate }}</td>
-    </tr>
-    <tr
-      *ngFor="let absence of absences$ | async"
-      (click)="onRowClick($event, checkbox)"
+    <button class="back btn btn-link p-3" [routerLink]="['/open-absences']">
+      <div class="d-flex align-items-center">
+        <i class="material-icons">navigate_before</i>
+        <span class="ml-3">{{ studentFullName$ | async }}</span>
+      </div>
+    </button>
+    <a
+      class="edit btn btn-link"
+      [class.disabled]="selection.length === 0"
+      routerLink="/open-absences/edit"
     >
-      <td>
-        <input
-          #checkbox
-          type="checkbox"
-          class="form-control"
-          [checked]="selectionService.isSelected$(absence) | async"
-          (change)="selectionService.toggle(absence)"
-        />
-      </td>
-      <td>
-        <div class="lesson-class">
-          {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
-        </div>
-        <div class="time-teacher">
-          {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-            absence.LessonDateTimeTo | date: 'HH:mm'
-          }},
-          {{ absence.TeacherInformation }}
-        </div>
-        <div class="comment" *ngIf="absence.PresenceComment">
-          {{ absence.PresenceComment }}
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      <i class="material-icons">edit</i>
+    </a>
+  </div>
+
+  <table class="table">
+    <tbody>
+      <tr (click)="onRowClick($event, allCheckbox)">
+        <td>
+          <input
+            #allCheckbox
+            type="checkbox"
+            class="form-control"
+            [checked]="allSelected$ | async"
+            (change)="toggleAll($event.target.checked)"
+          />
+        </td>
+        <td>{{ 'open-absences.detail.all' | translate }}</td>
+      </tr>
+      <tr
+        *ngFor="let absence of absences$ | async"
+        (click)="onRowClick($event, checkbox)"
+      >
+        <td>
+          <input
+            #checkbox
+            type="checkbox"
+            class="form-control"
+            [checked]="selectionService.isSelected$(absence) | async"
+            (change)="selectionService.toggle(absence)"
+          />
+        </td>
+        <td>
+          <div class="lesson-class">
+            {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
+          </div>
+          <div class="time-teacher">
+            {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+              absence.LessonDateTimeTo | date: 'HH:mm'
+            }},
+            {{ absence.TeacherInformation }}
+          </div>
+          <div class="comment" *ngIf="absence.PresenceComment">
+            {{ absence.PresenceComment }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

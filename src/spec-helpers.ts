@@ -23,7 +23,9 @@ const settings: Settings = {
   scriptsAndAssetsPath: '.',
   absencePresenceTypeId: 11,
   latePresenceTypeId: 12,
-  unconfirmedAbsenceStateId: 219
+  unconfirmedAbsenceStateId: 219,
+  unexcusedAbsenceStateId: 225,
+  excusedAbsenceStateId: 220
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {

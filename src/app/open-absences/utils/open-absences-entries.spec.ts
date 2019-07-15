@@ -3,7 +3,8 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import {
   buildOpenAbsencesEntries,
   flattenOpenAbsencesEntries,
-  sortOpenAbsencesEntries
+  sortOpenAbsencesEntries,
+  removeOpenAbsences
 } from './open-absences-entries';
 import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
 
@@ -113,6 +114,17 @@ describe('open absences entries utils', () => {
         new OpenAbsencesEntry([presenceD])
       ]);
       expect(result).toEqual([presenceA, presenceB, presenceC, presenceD]);
+    });
+  });
+
+  describe('removeOpenAbsences', () => {
+    it('removes entries matching the affected ids', () => {
+      const result = removeOpenAbsences(
+        [presenceA, presenceB, presenceC, presenceD],
+        [{ lessonIds: [10, 11], personIds: [21] }]
+      );
+
+      expect(result).toEqual([presenceC, presenceD]);
     });
   });
 });

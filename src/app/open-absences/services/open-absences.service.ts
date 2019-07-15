@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  Subject,
+  merge
+} from 'rxjs';
 import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
@@ -8,7 +14,8 @@ import { spreadTuple } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
 import {
   buildOpenAbsencesEntries,
-  sortOpenAbsencesEntries
+  sortOpenAbsencesEntries,
+  removeOpenAbsences
 } from '../utils/open-absences-entries';
 
 export type PrimarySortKey = 'date' | 'name';
@@ -23,28 +30,39 @@ export class OpenAbsencesService {
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>('');
 
-  private unconfirmedAbsences$ = this.loadUnconfirmedAbsences().pipe(
+  private updateUnconfirmedAbsences$ = new Subject<
+    ReadonlyArray<LessonPresence>
+  >();
+  private unconfirmedAbsences$ = merge(
+    this.loadUnconfirmedAbsences(),
+    this.updateUnconfirmedAbsences$
+  ).pipe(shareReplay(1));
+  private entries$ = this.unconfirmedAbsences$.pipe(
+    map(buildOpenAbsencesEntries),
     shareReplay(1)
   );
+
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
     primarySortKey: 'date',
     ascending: false
   });
 
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
-  sortedEntries$ = combineLatest(
-    this.unconfirmedAbsences$.pipe(map(buildOpenAbsencesEntries)),
-    this.sortCriteria$
-  ).pipe(map(spreadTuple(sortOpenAbsencesEntries)));
+  sortedEntries$ = combineLatest(this.entries$, this.sortCriteria$).pipe(
+    map(spreadTuple(sortOpenAbsencesEntries))
+  );
 
   filteredEntries$ = combineLatest(this.sortedEntries$, this.search$).pipe(
-    map(spreadTuple(searchEntries))
+    map(spreadTuple(searchEntries)),
+    shareReplay(1)
   );
 
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
     personIds: ReadonlyArray<number>;
   }> = [];
+
+  currentDetail: Option<{ date: string; personId: number }> = null;
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
@@ -55,7 +73,7 @@ export class OpenAbsencesService {
     dateString: string,
     studentId: number
   ): Observable<ReadonlyArray<LessonPresence>> {
-    return this.filteredEntries$.pipe(
+    return this.entries$.pipe(
       map(entries => {
         const entry = entries.find(
           e => e.dateString === dateString && e.studentId === studentId
@@ -85,6 +103,24 @@ export class OpenAbsencesService {
         });
       }
     });
+  }
+
+  /**
+   * Removes selected entries from unconfirmed absences and cleans
+   * selection.
+   */
+  removeSelectedEntries(): void {
+    this.unconfirmedAbsences$
+      .pipe(
+        take(1),
+        map(unconfirmedAbsences =>
+          removeOpenAbsences(unconfirmedAbsences, this.selected)
+        )
+      )
+      .subscribe(unconfirmedAbsences => {
+        this.selected = [];
+        this.updateUnconfirmedAbsences$.next(unconfirmedAbsences);
+      });
   }
 
   private loadUnconfirmedAbsences(): Observable<ReadonlyArray<LessonPresence>> {

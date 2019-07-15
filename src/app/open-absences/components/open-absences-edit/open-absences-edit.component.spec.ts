@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { OpenAbsencesEditComponent } from './open-absences-edit.component';
@@ -12,7 +13,13 @@ describe('OpenAbsencesEditComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [OpenAbsencesEditComponent],
-        providers: [OpenAbsencesService]
+        providers: [
+          OpenAbsencesService,
+          {
+            provide: Router,
+            useValue: jasmine.createSpyObj('Router', ['navigate'])
+          }
+        ]
       })
     ).compileComponents();
   }));

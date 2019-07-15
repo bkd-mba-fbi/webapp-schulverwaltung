@@ -14,6 +14,8 @@ export interface Settings {
   absencePresenceTypeId: number;
   latePresenceTypeId: number;
   unconfirmedAbsenceStateId: number;
+  unexcusedAbsenceStateId: number;
+  excusedAbsenceStateId: number;
 }
 
 export const SETTINGS = new InjectionToken<Settings>('Application Settings', {

@@ -204,8 +204,8 @@ describe('RestErrorInterceptor', () => {
 
     function expectToast(messageKey: string): void {
       expect(toastrMock.error).toHaveBeenCalledWith(
-        `global.errors.${messageKey}_message`,
-        `global.errors.${messageKey}_title`
+        `global.rest-errors.${messageKey}-message`,
+        `global.rest-errors.${messageKey}-title`
       );
     }
   });

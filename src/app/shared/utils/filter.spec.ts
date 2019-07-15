@@ -1,4 +1,4 @@
-import { nonZero, not } from './filter';
+import { nonZero, not, notNull } from './filter';
 
 describe('filter utils', () => {
   describe('nonZero', () => {
@@ -16,6 +16,23 @@ describe('filter utils', () => {
       expect(nonZero(-1)).toBe(true);
       expect(nonZero(-2)).toBe(true);
       expect(nonZero(-1000)).toBe(true);
+    });
+  });
+
+  describe('notNull', () => {
+    it('returns true for non null value', () => {
+      expect(notNull(0)).toBe(true);
+      expect(notNull('')).toBe(true);
+      expect(notNull('null')).toBe(true);
+      expect(notNull({})).toBe(true);
+    });
+
+    it('returns true for undefined', () => {
+      expect(notNull(undefined)).toBe(true);
+    });
+
+    it('returns false for null', () => {
+      expect(notNull(null)).toBe(false);
     });
   });
 

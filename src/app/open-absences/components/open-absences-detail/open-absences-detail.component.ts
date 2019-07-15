@@ -43,6 +43,16 @@ export class OpenAbsencesDetailComponent implements OnInit, OnDestroy {
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
       .subscribe(ids => (this.openAbsencesService.selected = ids));
+
+    // Set detail params on service to be able to navigate back to
+    // here after edit
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(
+      params =>
+        (this.openAbsencesService.currentDetail = {
+          date: String(params.get('date')),
+          personId: Number(params.get('personId'))
+        })
+    );
   }
 
   ngOnDestroy(): void {

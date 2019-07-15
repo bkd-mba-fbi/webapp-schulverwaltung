@@ -30,7 +30,7 @@ export abstract class RestService<P extends t.AnyProps> {
     params?: HttpParams | Dict<string>
   ): Observable<t.TypeOfProps<P>> {
     return this.http
-      .get<any>(`${this.baseUrl}/${id}`, { params })
+      .get<unknown>(`${this.baseUrl}/${id}`, { params })
       .pipe(switchMap(decode(this.decoder)));
   }
 
@@ -38,11 +38,11 @@ export abstract class RestService<P extends t.AnyProps> {
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<t.TypeOfProps<P>>> {
     return this.http
-      .get<any[]>(`${this.baseUrl}/`, { params })
+      .get<unknown>(`${this.baseUrl}/`, { params })
       .pipe(switchMap(decodeArray(this.decoder)));
   }
 
   protected get baseUrl(): string {
-    return [this.settings.apiUrl, this.resourcePath].join('/');
+    return `${this.settings.apiUrl}/${this.resourcePath}`;
   }
 }

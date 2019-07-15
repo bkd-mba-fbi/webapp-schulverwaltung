@@ -1,18 +1,23 @@
 {
   "global": {
-    "errors": {
-      "exception_title": "Fehler",
-      "exception_message": "Ein Fehler ist aufgetreten, versuchen Sie es erneut oder laden Sie die Applikation neu.",
-      "noaccess_title": "Kein Zugriff",
-      "noaccess_message": "Auf eine Ressource konnte nicht zugegriffen werden.",
-      "notfound_title": "Nicht gefunden",
-      "notfound_message": "Eine Ressource konnte nicht gefunden werden",
-      "unavailable_title": "Server nicht verfügbar",
-      "unavailable_message": "Der Server ist momentan nicht verfügbar oder überlastet, bitte erneut versuchen.",
-      "conflict_title": "Ungültige Daten",
-      "conflict_message": "Die zu speichernden Daten sind nicht valide.",
-      "server_title": "Serverfehler",
-      "server_message": "Beim Zugriff auf den Server ist ein Fehler aufgetreten."
+    "rest-errors": {
+      "exception-title": "Fehler",
+      "exception-message": "Ein Fehler ist aufgetreten, versuchen Sie es erneut oder laden Sie die Applikation neu.",
+      "noaccess-title": "Kein Zugriff",
+      "noaccess-message": "Auf eine Ressource konnte nicht zugegriffen werden.",
+      "notfound-title": "Nicht gefunden",
+      "notfound-message": "Eine Ressource konnte nicht gefunden werden",
+      "unavailable-title": "Server nicht verfügbar",
+      "unavailable-message": "Der Server ist momentan nicht verfügbar oder überlastet, bitte erneut versuchen.",
+      "conflict-title": "Ungültige Daten",
+      "conflict-message": "Die zu speichernden Daten sind nicht valide.",
+      "server-title": "Serverfehler",
+      "server-message": "Beim Zugriff auf den Server ist ein Fehler aufgetreten."
+    },
+    "validation-errors": {
+      "required": "Dieser Wert muss ausgefüllt werden.",
+      "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
+      "confirmationvaluerequired": "Ein Absenzgrund muss ausgewählt werden."
     }
   },
   "unauthenticated": {
@@ -42,11 +47,8 @@
     "comment": {
       "placeholder": "Kommentar...",
       "cancel": "Abbrechen",
-      "save": "Speichern",
-      "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten.",
-      "validation-errors": {
-        "maxlength": "Der Kommentar darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen."
-      }
+      "save": "Übernehmen",
+      "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten."
     },
     "dialog": {
       "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie eine Absenz erfassen?",
@@ -81,6 +83,13 @@
     },
     "detail": {
       "all": "Alle"
+    },
+    "edit": {
+      "state": "Status",
+      "absence-type-placeholder": "Absenzgrund auswählen...",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Der Status der ausgewählten Einträge wurde erfolgreich geändert."
     }
   },
   "edit-absences": {
