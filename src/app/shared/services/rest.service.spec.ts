@@ -60,7 +60,9 @@ describe('RestService', () => {
       expect(error).toHaveBeenCalled();
 
       expect(error).toHaveBeenCalledWith(
-        new DecodeError('Expecting string at foo but instead got: 123.')
+        new DecodeError(
+          'Invalid value 123 supplied to : { foo: string }/foo: string'
+        )
       );
     });
   });
@@ -89,7 +91,9 @@ describe('RestService', () => {
       expect(error).toHaveBeenCalled();
 
       expect(error).toHaveBeenCalledWith(
-        new DecodeError('Expecting string at 0.foo but instead got: 123.')
+        new DecodeError(
+          'Invalid value 123 supplied to : Array<{ foo: string }>/0: { foo: string }/foo: string'
+        )
       );
     });
   });

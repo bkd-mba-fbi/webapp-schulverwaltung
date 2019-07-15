@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
+import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
 import { Maybe, Option } from './common-types';
 
 const Student = t.type({

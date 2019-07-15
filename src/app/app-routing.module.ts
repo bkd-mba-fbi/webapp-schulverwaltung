@@ -5,21 +5,31 @@ import { HomeComponent } from './home.component';
 const routes: Routes = [
   {
     path: 'presence-control',
-    loadChildren:
-      './presence-control/presence-control.module#PresenceControlModule'
+    loadChildren: () =>
+      import('./presence-control/presence-control.module').then(
+        m => m.PresenceControlModule
+      )
   },
   {
     path: 'open-absences',
-    loadChildren: './open-absences/open-absences.module#OpenAbsencesModule'
+    loadChildren: () =>
+      import('./open-absences/open-absences.module').then(
+        m => m.OpenAbsencesModule
+      )
   },
   {
     path: 'edit-absences',
-    loadChildren: './edit-absences/edit-absences.module#EditAbsencesModule'
+    loadChildren: () =>
+      import('./edit-absences/edit-absences.module').then(
+        m => m.EditAbsencesModule
+      )
   },
   {
     path: 'evaluate-absences',
-    loadChildren:
-      './evaluate-absences/evaluate-absences.module#EvaluateAbsencesModule'
+    loadChildren: () =>
+      import('./evaluate-absences/evaluate-absences.module').then(
+        m => m.EvaluateAbsencesModule
+      )
   },
   {
     path: '',

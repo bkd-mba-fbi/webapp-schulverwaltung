@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
+import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
 import { Reference, Flag, Option } from './common-types';
 
 const LegalRepresentative = t.type({

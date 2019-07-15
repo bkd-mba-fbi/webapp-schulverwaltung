@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { Reference, Option } from './common-types';
-import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
+import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
 
 const ApprenticeshipContract = t.type({
   Id: t.number,

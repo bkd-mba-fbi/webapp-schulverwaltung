@@ -40,7 +40,7 @@ import { validatationErrorsToArray } from 'src/app/shared/utils/form';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PresenceControlCommentComponent implements OnInit {
-  @ViewChild('commentField') commentField?: ElementRef;
+  @ViewChild('commentField', { static: false }) commentField?: ElementRef;
 
   private params$ = this.route.paramMap.pipe(
     map(params => ({

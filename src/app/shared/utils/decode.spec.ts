@@ -28,7 +28,9 @@ describe('decode utils', () => {
       decoder(data).subscribe(success, error);
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalledWith(
-        new DecodeError('Expecting string at foo but instead got: 123.')
+        new DecodeError(
+          'Invalid value 123 supplied to : { foo: string }/foo: string'
+        )
       );
     });
   });
@@ -48,7 +50,9 @@ describe('decode utils', () => {
       decoder(data).subscribe(success, error);
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalledWith(
-        new DecodeError('Expecting string at 1.foo but instead got: undefined.')
+        new DecodeError(
+          'Invalid value undefined supplied to : Array<{ foo: string }>/1: { foo: string }/foo: string'
+        )
       );
     });
   });

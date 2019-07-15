@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { Option } from './common-types';
-import { DateFromISOString } from 'io-ts-types/lib/Date/DateFromISOString';
+import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
 
 const Person = t.type({
   Id: t.number,

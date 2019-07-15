@@ -1,5 +1,6 @@
 import * as t from 'io-ts/lib/index';
-import { reporter } from 'io-ts-reporters';
+import { PathReporter } from 'io-ts/lib/PathReporter';
+import { fold } from 'fp-ts/lib/Either';
 import { Observable, throwError, of } from 'rxjs';
 
 export class DecodeError extends Error {
@@ -28,10 +29,10 @@ export function decode<P extends t.AnyProps>(
 ): (json: unknown) => Observable<t.TypeOfProps<P>> {
   return json => {
     const result = decoder.decode(json);
-    return result.fold(
-      () => throwError(new DecodeError(reporter(result).join('\n'))),
-      r => of(r)
-    );
+    return fold(
+      () => throwError(new DecodeError(PathReporter.report(result).join('\n'))),
+      (data: t.TypeOfProps<P>) => of(data)
+    )(result);
   };
 }
 
@@ -53,9 +54,9 @@ export function decodeArray<P extends t.AnyProps>(
 ): (json: unknown) => Observable<ReadonlyArray<t.TypeOfProps<P>>> {
   return json => {
     const result = t.array(decoder).decode(json);
-    return result.fold(
-      () => throwError(new DecodeError(reporter(result).join('\n'))),
-      r => of(r)
-    );
+    return fold(
+      () => throwError(new DecodeError(PathReporter.report(result).join('\n'))),
+      (data: ReadonlyArray<t.TypeOfProps<P>>) => of(data)
+    )(result);
   };
 }
