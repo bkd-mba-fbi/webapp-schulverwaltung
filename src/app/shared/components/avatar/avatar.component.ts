@@ -1,4 +1,11 @@
-import { Component, Inject, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  SimpleChanges,
+  OnChanges
+} from '@angular/core';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from '../../services/storage.service';
 
@@ -9,7 +16,7 @@ const FALLBACK_AVATAR = 'assets/images/avatar-placeholder.png';
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss']
 })
-export class AvatarComponent implements OnInit {
+export class AvatarComponent implements OnInit, OnChanges {
   @Input() studentId: number;
   @Input() link: string[];
 
@@ -32,9 +39,7 @@ export class AvatarComponent implements OnInit {
 
   private buildAvatarUrl(studentId: number): string {
     const accessToken = this.storageService.getAccessToken() || '';
-    return `${
-      this.settings.apiUrl
-    }/Files\/personPictures/${studentId}?token=${accessToken}`;
+    return `${this.settings.apiUrl}/Files\/personPictures/${studentId}?token=${accessToken}`;
   }
 
   private buildAvatarStyles(url: string): { [key: string]: string } {
