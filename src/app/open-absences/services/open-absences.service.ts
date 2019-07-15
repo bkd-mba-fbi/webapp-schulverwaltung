@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { shareReplay, map, take } from 'rxjs/operators';
-
-import { spreadTuple } from 'src/app/shared/utils/function';
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
+import { LoadingService } from 'src/app/shared/services/loading-service';
+import { spreadTuple } from 'src/app/shared/utils/function';
+import { searchEntries } from 'src/app/shared/utils/search';
 import {
   buildOpenAbsencesEntries,
   sortOpenAbsencesEntries
 } from '../utils/open-absences-entries';
-import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -22,6 +21,7 @@ export interface SortCriteria {
 @Injectable()
 export class OpenAbsencesService {
   loading$ = this.loadingService.loading$;
+  search$ = new BehaviorSubject<string>('');
 
   private unconfirmedAbsences$ = this.loadUnconfirmedAbsences().pipe(
     shareReplay(1)
@@ -32,10 +32,14 @@ export class OpenAbsencesService {
   });
 
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
-  entries$ = combineLatest(
+  sortedEntries$ = combineLatest(
     this.unconfirmedAbsences$.pipe(map(buildOpenAbsencesEntries)),
     this.sortCriteria$
   ).pipe(map(spreadTuple(sortOpenAbsencesEntries)));
+
+  filteredEntries$ = combineLatest(this.sortedEntries$, this.search$).pipe(
+    map(spreadTuple(searchEntries))
+  );
 
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
@@ -51,7 +55,7 @@ export class OpenAbsencesService {
     dateString: string,
     studentId: number
   ): Observable<ReadonlyArray<LessonPresence>> {
-    return this.entries$.pipe(
+    return this.filteredEntries$.pipe(
       map(entries => {
         const entry = entries.find(
           e => e.dateString === dateString && e.studentId === studentId

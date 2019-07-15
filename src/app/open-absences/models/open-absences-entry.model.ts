@@ -1,12 +1,13 @@
 import { startOfDay, differenceInCalendarDays, format } from 'date-fns';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { Searchable } from 'src/app/shared/utils/search';
 
 /**
  * Represents a grouping of LessonPresences by day/student. Make sure
  * you'll only instantiate it for absences on the same day and the
  * same student (may be multiple lessons).
  */
-export class OpenAbsencesEntry {
+export class OpenAbsencesEntry implements Searchable {
   readonly date: Date;
   readonly dateString: string;
   readonly daysDifference: number;

@@ -1,6 +1,7 @@
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { Settings } from 'src/app/settings';
+import { Searchable } from 'src/app/shared/utils/search';
 
 export enum PresenceCategory {
   Present = 'present',
@@ -8,11 +9,14 @@ export enum PresenceCategory {
   Late = 'late'
 }
 
-export class PresenceControlEntry {
+export class PresenceControlEntry implements Searchable {
+  readonly studentFullName: string;
   constructor(
     public lessonPresence: LessonPresence,
     public presenceType: Option<PresenceType>
-  ) {}
+  ) {
+    this.studentFullName = lessonPresence.StudentFullName;
+  }
 
   get presenceCategory(): PresenceCategory {
     if (this.isAbsent(this.presenceType)) {

@@ -50,6 +50,8 @@
     "title": "Offene Absenzen",
     "noEntries": "Keine Einträge vorhanden",
     "selected": "{{count}} ausgewählt",
+    "search": "Suchen",
+    "search-by-name": "Name suchen...",
     "list": {
       "header": {
         "name": "Name",

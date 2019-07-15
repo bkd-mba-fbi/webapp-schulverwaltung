@@ -36,7 +36,8 @@ describe('OpenAbsencesListComponent', () => {
             useValue: {
               sortCriteria$: of({ primarySortKey: 'name', ascending: true }),
               toggleSort: jasmine.createSpy('toggleSort'),
-              entries$: of([entryA, entryB]),
+              sortedEntries$: of([entryA, entryB]),
+              filteredEntries$: of([entryA, entryB]),
               selected: []
             }
           },

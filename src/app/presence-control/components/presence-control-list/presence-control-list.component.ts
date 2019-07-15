@@ -1,18 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, distinctUntilChanged, shareReplay } from 'rxjs/operators';
-
+import { map, shareReplay } from 'rxjs/operators';
+import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
+import { searchEntries } from 'src/app/shared/utils/search';
 import { spreadTuple } from '../../../shared/utils/function';
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
+import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import {
-  searchPresenceControlEntries,
   filterPreviouslyAbsentEntries,
   filterPreviouslyPresentEntries
 } from '../../utils/presence-control-entries';
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
-
-const MINIMAL_SEARCH_TERM_LENGTH = 3;
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -22,16 +19,11 @@ const MINIMAL_SEARCH_TERM_LENGTH = 3;
 })
 export class PresenceControlListComponent implements OnInit {
   search$ = new BehaviorSubject<string>('');
-  private validSearch$ = this.search$.pipe(
-    map(term => (term.length < MINIMAL_SEARCH_TERM_LENGTH ? '' : term)),
-    distinctUntilChanged()
-  );
-
   entries$ = combineLatest(
     this.state.selectedPresenceControlEntries$,
-    this.validSearch$
+    this.search$
   ).pipe(
-    map(spreadTuple(searchPresenceControlEntries)),
+    map(spreadTuple(searchEntries)),
     shareReplay(1)
   );
 
