@@ -48,6 +48,7 @@
   },
   "open-absences": {
     "title": "Offene Absenzen",
+    "noEntries": "Keine Einträge vorhanden",
     "selected": "{{count}} ausgewählt",
     "list": {
       "header": {
