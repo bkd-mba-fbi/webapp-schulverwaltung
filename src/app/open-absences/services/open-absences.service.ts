@@ -3,12 +3,14 @@ import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { shareReplay, map, take } from 'rxjs/operators';
 
 import { spreadTuple } from 'src/app/shared/utils/function';
+import { LoadingService } from 'src/app/shared/services/loading-service';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import {
   buildOpenAbsencesEntries,
   sortOpenAbsencesEntries
 } from '../utils/open-absences-entries';
+import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -19,6 +21,8 @@ export interface SortCriteria {
 
 @Injectable()
 export class OpenAbsencesService {
+  loading$ = this.loadingService.loading$;
+
   private unconfirmedAbsences$ = this.loadUnconfirmedAbsences().pipe(
     shareReplay(1)
   );
@@ -38,7 +42,10 @@ export class OpenAbsencesService {
     personIds: ReadonlyArray<number>;
   }> = [];
 
-  constructor(private lessonPresencesService: LessonPresencesRestService) {}
+  constructor(
+    private lessonPresencesService: LessonPresencesRestService,
+    private loadingService: LoadingService
+  ) {}
 
   getUnconfirmedAbsences(
     dateString: string,
@@ -77,6 +84,8 @@ export class OpenAbsencesService {
   }
 
   private loadUnconfirmedAbsences(): Observable<ReadonlyArray<LessonPresence>> {
-    return this.lessonPresencesService.getListOfUnconfirmed();
+    return this.loadingService.load(
+      this.lessonPresencesService.getListOfUnconfirmed()
+    );
   }
 }

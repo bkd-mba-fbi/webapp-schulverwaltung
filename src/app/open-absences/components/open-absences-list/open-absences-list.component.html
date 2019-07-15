@@ -1,70 +1,80 @@
 <div
-  class="header pl-3 d-flex align-items-center justify-content-between"
-  *erzLet="selectionService.selection$ | async as selection"
+  *erzLet="{
+    selection: selectionService.selection$ | async,
+    entries: openAbsencesService.entries$ | async,
+    sortCriteria: openAbsencesService.sortCriteria$ | async
+  } as data"
 >
-  <div class="selection-count">
-    {{ 'open-absences.selected' | translate: { count: selection.length } }}
-  </div>
-  <a
-    class="edit btn btn-link"
-    [class.disabled]="selection.length === 0"
-    routerLink="/open-absences/edit"
-  >
-    <i class="material-icons">edit</i>
-  </a>
-</div>
-
-<table
-  class="table table-fixed"
-  *erzLet="openAbsencesService.sortCriteria$ | async as sortCriteria"
->
-  <thead>
-    <tr>
-      <th></th>
-      <th
-        *ngFor="let key of ['name', 'date']"
-        (click)="openAbsencesService.toggleSort(key)"
+  <ng-container *ngIf="!(openAbsencesService.loading$ | async); else loading">
+    <div class="header pl-3 d-flex align-items-center justify-content-between">
+      <div class="selection-count">
+        {{
+          'open-absences.selected' | translate: { count: data.selection.length }
+        }}
+      </div>
+      <a
+        class="edit btn btn-link"
+        [class.disabled]="data.selection.length === 0"
+        routerLink="/open-absences/edit"
       >
-        {{ 'open-absences.list.header.' + key | translate }}
-        <span class="sort-direction">{{
-          getSortDirectionCharacter(sortCriteria, key)
-        }}</span>
-      </th>
-    </tr>
-  </thead>
+        <i class="material-icons">edit</i>
+      </a>
+    </div>
 
-  <tbody>
-    <tr *ngFor="let entry of openAbsencesService.entries$ | async">
-      <td (click)="onCheckboxCellClick($event, checkbox)">
-        <input
-          #checkbox
-          type="checkbox"
-          class="form-control"
-          [checked]="selectionService.isSelected$(entry) | async"
-          (change)="selectionService.toggle(entry)"
-        />
-      </td>
-      <td>
-        <a
-          class="student-name"
-          [routerLink]="['detail', entry.studentId, entry.dateString]"
-          >{{ entry.studentFullName }}</a
-        >
-        <div class="lessons-count">
-          {{
-            getLessonsCountKey(entry) | translate: { count: entry.lessonsCount }
-          }}
-        </div>
-      </td>
-      <td>
-        <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
-        <div class="days-ago">
-          {{
-            getDaysDifferenceKey(entry)
-              | translate: { count: entry.daysDifferenceAbsolute }
-          }}
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <table class="table table-fixed">
+      <thead>
+        <tr>
+          <th></th>
+          <th
+            *ngFor="let key of ['name', 'date']"
+            (click)="openAbsencesService.toggleSort(key)"
+          >
+            {{ 'open-absences.list.header.' + key | translate }}
+            <span class="sort-direction">{{
+              getSortDirectionCharacter(data.sortCriteria, key)
+            }}</span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let entry of data.entries">
+          <td (click)="onCheckboxCellClick($event, checkbox)">
+            <input
+              #checkbox
+              type="checkbox"
+              class="form-control"
+              [checked]="selectionService.isSelected$(entry) | async"
+              (change)="selectionService.toggle(entry)"
+            />
+          </td>
+          <td>
+            <a
+              class="student-name"
+              [routerLink]="['detail', entry.studentId, entry.dateString]"
+              >{{ entry.studentFullName }}</a
+            >
+            <div class="lessons-count">
+              {{
+                getLessonsCountKey(entry)
+                  | translate: { count: entry.lessonsCount }
+              }}
+            </div>
+          </td>
+          <td>
+            <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
+            <div class="days-ago">
+              {{
+                getDaysDifferenceKey(entry)
+                  | translate: { count: entry.daysDifferenceAbsolute }
+              }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+  <ng-template #loading>
+    <erz-spinner></erz-spinner>
+  </ng-template>
+</div>
