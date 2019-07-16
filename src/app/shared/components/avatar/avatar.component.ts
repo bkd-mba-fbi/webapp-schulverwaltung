@@ -50,6 +50,6 @@ export class AvatarComponent implements OnInit, OnChanges {
   }
 
   private get fallbackAvatarUrl(): string {
-    return `${this.settings.assetsPath}/images/avatar-placeholder.png`;
+    return `${this.settings.scriptsAndAssetsPath}/assets/images/avatar-placeholder.png`;
   }
 }

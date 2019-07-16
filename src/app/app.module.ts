@@ -24,7 +24,7 @@ export function HttpLoaderFactory(
 ): TranslateHttpLoader {
   return new TranslateHttpLoader(
     http,
-    `${settings.assetsPath}/locales/`,
+    `${settings.scriptsAndAssetsPath}/assets/locales/`,
     '.json'
   );
 }
