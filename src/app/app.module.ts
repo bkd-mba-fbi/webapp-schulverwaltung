@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
+import { UnauthenticatedComponent } from './unauthenticated.component';
 import { GlobalErrorHandler } from './global-error-handler';
 import { RestErrorInterceptor } from './rest-error-interceptor';
 import { Settings, SETTINGS } from './settings';
@@ -30,7 +31,7 @@ export function HttpLoaderFactory(
 }
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, UnauthenticatedComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

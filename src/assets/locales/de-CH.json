@@ -15,6 +15,9 @@
       "server_message": "Beim Zugriff auf den Server ist ein Fehler aufgetreten."
     }
   },
+  "unauthenticated": {
+    "message": "Es sind keine Authentifizierungsdaten vorhanden."
+  },
   "presence-control": {
     "title": "Präsenzkontrolle",
     "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",
