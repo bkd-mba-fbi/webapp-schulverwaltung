@@ -16,6 +16,7 @@ import { HomeComponent } from './home.component';
 import { UnauthenticatedComponent } from './unauthenticated.component';
 import { GlobalErrorHandler } from './global-error-handler';
 import { RestErrorInterceptor } from './rest-error-interceptor';
+import { RestAuthInterceptor } from './rest-auth-interceptor';
 import { Settings, SETTINGS } from './settings';
 
 // AoT requires an exported function for factories
@@ -51,6 +52,7 @@ export function HttpLoaderFactory(
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
