@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
-import { Reference, Flag, Option } from './common-types';
+import { Reference, Option } from './common-types';
 
 const LegalRepresentative = t.type({
   Id: t.number,
@@ -8,7 +8,7 @@ const LegalRepresentative = t.type({
   StudentRef: Reference,
   DateFrom: Option(DateFromISOString),
   DateTo: Option(DateFromISOString),
-  RepresentativeAfterMajority: Flag,
+  RepresentativeAfterMajority: t.boolean,
   Href: t.string
 });
 type LegalRepresentative = t.TypeOf<typeof LegalRepresentative>;

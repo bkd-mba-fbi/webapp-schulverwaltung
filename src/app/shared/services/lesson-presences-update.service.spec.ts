@@ -62,8 +62,8 @@ describe('LessonPresencesUpdateService', () => {
     stateUpdatesCallback = jasmine.createSpy('stateUpdates$');
     service.stateUpdates$.subscribe(stateUpdatesCallback);
 
-    absent = buildPresenceType(11, 377, 1, 0);
-    late = buildPresenceType(12, 380, 0, 1);
+    absent = buildPresenceType(11, 377, true, false);
+    late = buildPresenceType(12, 380, false, true);
 
     turnenFrisch = buildLessonPresence(
       1,

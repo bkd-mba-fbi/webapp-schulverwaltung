@@ -45,7 +45,7 @@ describe('StudentsRestService', () => {
         StudentRef: ref,
         DateFrom: dateValue,
         DateTo: dateValue,
-        RepresentativeAfterMajority: 0,
+        RepresentativeAfterMajority: false,
         Href: ''
       };
     }

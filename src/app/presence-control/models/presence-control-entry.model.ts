@@ -55,9 +55,9 @@ export class PresenceControlEntry implements Searchable {
   private isAbsent(presenceType: Option<PresenceType>): boolean {
     return Boolean(
       presenceType &&
-        (presenceType.IsAbsence === 1 ||
-          presenceType.IsDispensation === 1 ||
-          presenceType.IsHalfDay === 1)
+        (presenceType.IsAbsence ||
+          presenceType.IsDispensation ||
+          presenceType.IsHalfDay)
     );
   }
 

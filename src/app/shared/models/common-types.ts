@@ -15,7 +15,3 @@ export function Maybe<T extends t.Any>(
 const Reference = t.type({ Id: t.number, Href: t.string });
 type Reference = t.TypeOf<typeof Reference>;
 export { Reference };
-
-const Flag = t.union([t.literal(0), t.literal(1)]);
-type Flag = t.TypeOf<typeof Flag>;
-export { Flag };

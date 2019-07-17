@@ -20,5 +20,5 @@ export function filterPreviouslyPresentEntries(
 export function filterPreviouslyAbsentEntries(
   entries: ReadonlyArray<PresenceControlEntry>
 ): ReadonlyArray<PresenceControlEntry> {
-  return entries.filter(e => e.lessonPresence.WasAbsentInPrecedingLesson === 1);
+  return entries.filter(e => e.lessonPresence.WasAbsentInPrecedingLesson);
 }

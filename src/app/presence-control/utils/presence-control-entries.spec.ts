@@ -15,7 +15,7 @@ describe('presence control entries utils', () => {
     bichsel = buildPresenceControlEntry('Bichsel Peter');
     frisch = buildPresenceControlEntry('Frisch Max');
     jenni = buildPresenceControlEntry('Zoë Jenny');
-    jenni.lessonPresence.WasAbsentInPrecedingLesson = 1;
+    jenni.lessonPresence.WasAbsentInPrecedingLesson = true;
   });
 
   describe('searchPresenceControlEntries', () => {

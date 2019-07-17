@@ -58,9 +58,9 @@ describe('PresenceControlStateService', () => {
     isLastLessonCb = jasmine.createSpy('isLastLesson$ callback');
     service.isLastLesson$.subscribe(isLastLessonCb);
 
-    absent = buildPresenceType(11, 377, 1, 0);
+    absent = buildPresenceType(11, 377, true, false);
     absent.Designation = 'Abwesend';
-    late = buildPresenceType(12, 380, 0, 1);
+    late = buildPresenceType(12, 380, false, true);
     presenceTypes = [absent, late];
 
     turnenFrisch = buildLessonPresence(

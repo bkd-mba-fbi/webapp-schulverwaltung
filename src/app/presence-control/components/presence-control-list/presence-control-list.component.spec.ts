@@ -43,14 +43,14 @@ describe('PresenceControlListComponent', () => {
     bichsel = buildPresenceControlEntry('Bichsel Peter');
     frisch = buildPresenceControlEntry('Frisch Max');
     jenni = buildPresenceControlEntry('Zoë Jenny');
-    jenni.lessonPresence.WasAbsentInPrecedingLesson = 1;
+    jenni.lessonPresence.WasAbsentInPrecedingLesson = true;
     selectedPresenceControlEntries$ = new BehaviorSubject([
       bichsel,
       frisch,
       jenni
     ]);
 
-    absence = buildPresenceType(2, 20, 1, 0);
+    absence = buildPresenceType(2, 20, true, false);
     blockLessons = [jenni.lessonPresence];
 
     stateServiceMock = ({

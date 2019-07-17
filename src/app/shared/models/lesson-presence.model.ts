@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
-import { Reference, Flag, Option, Maybe } from './common-types';
+import { Reference, Option, Maybe } from './common-types';
 
 const LessonPresence = t.type({
   LessonRef: Reference,
@@ -13,8 +13,8 @@ const LessonPresence = t.type({
   PresenceConfirmationStateId: Option(t.number),
   EventDesignation: t.string,
   EventNumber: t.string,
-  HasStudyCourseConfirmationCode: t.number,
-  IsReadOnly: Flag,
+  HasStudyCourseConfirmationCode: t.boolean,
+  IsReadOnly: t.boolean,
   LessonDateTimeFrom: DateFromISOString,
   LessonDateTimeTo: DateFromISOString,
   PresenceComment: Option(t.string),
@@ -24,7 +24,7 @@ const LessonPresence = t.type({
   StudyClassDesignation: t.string,
   StudyClassNumber: t.string,
   TeacherInformation: t.string,
-  WasAbsentInPrecedingLesson: Maybe(Flag),
+  WasAbsentInPrecedingLesson: Maybe(t.boolean),
   Href: t.string
 });
 type LessonPresence = t.TypeOf<typeof LessonPresence>;

@@ -16,7 +16,7 @@ export function updatePresenceTypeForPresences(
       let newPresenceType: Option<PresenceType>;
       if (!update.newPresenceTypeId && lessonPresence.PresenceComment) {
         // Use comment type if is present and has comment
-        newPresenceType = presenceTypes.find(t => t.IsComment === 1) || null;
+        newPresenceType = presenceTypes.find(t => t.IsComment) || null;
       } else {
         newPresenceType =
           presenceTypes.find(t => t.Id === update.newPresenceTypeId) || null;
@@ -46,7 +46,7 @@ export function updateCommentForPresence(
       let newPresenceType: Maybe<PresenceType>;
       if (newComment && !presenceTypeRef) {
         // Set to comment presence type
-        newPresenceType = presenceTypes.find(p => p.IsComment === 1);
+        newPresenceType = presenceTypes.find(p => p.IsComment);
       } else if (!newComment && presenceTypeRef) {
         // TODO: Unset presence type if it has `IsComment=1`?
       }

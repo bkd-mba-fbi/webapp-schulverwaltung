@@ -1,18 +1,18 @@
 import * as t from 'io-ts';
-import { Flag, Option } from './common-types';
+import { Option } from './common-types';
 
 const PresenceType = t.type({
   Id: t.number,
   TypeId: t.number,
-  Active: Flag,
+  Active: t.boolean,
   Description: t.string,
   Designation: Option(t.string),
-  IsAbsence: Flag,
-  IsComment: Flag,
-  IsDispensation: Flag,
-  IsIncident: Flag,
-  IsHalfDay: Flag,
-  NeedsConfirmation: Flag,
+  IsAbsence: t.boolean,
+  IsComment: t.boolean,
+  IsDispensation: t.boolean,
+  IsIncident: t.boolean,
+  IsHalfDay: t.boolean,
+  NeedsConfirmation: t.boolean,
   Sort: t.number,
   Href: t.string
 });

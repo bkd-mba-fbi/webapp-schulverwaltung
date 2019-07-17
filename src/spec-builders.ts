@@ -1,4 +1,4 @@
-import { Reference, Flag } from './app/shared/models/common-types';
+import { Reference } from './app/shared/models/common-types';
 import { LessonPresence } from './app/shared/models/lesson-presence.model';
 import { Lesson } from './app/shared/models/lesson.model';
 import { PresenceType } from './app/shared/models/presence-type.model';
@@ -31,8 +31,8 @@ export function buildLessonPresence(
     PresenceConfirmationStateId: null,
     EventDesignation: eventDesignation,
     EventNumber: '',
-    HasStudyCourseConfirmationCode: 0,
-    IsReadOnly: 0,
+    HasStudyCourseConfirmationCode: false,
+    IsReadOnly: false,
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
     PresenceComment: null,
@@ -83,22 +83,22 @@ export function buildPresenceControlEntry(
 export function buildPresenceType(
   id: number,
   typeId: number,
-  isAbsence: Flag,
-  isIncident: Flag
+  isAbsence: boolean,
+  isIncident: boolean
 ): PresenceType {
   return {
     Id: id,
     TypeId: typeId,
-    Active: 1,
+    Active: true,
     Description: '',
     Designation: '',
     IsAbsence: isAbsence,
-    IsComment: 0,
-    IsDispensation: 0,
+    IsComment: false,
+    IsDispensation: false,
     IsIncident: isIncident,
-    IsHalfDay: 0,
-    NeedsConfirmation: 1,
-    Sort: 1,
+    IsHalfDay: false,
+    NeedsConfirmation: true,
+    Sort: 0,
     Href: ''
   };
 }
@@ -156,7 +156,7 @@ export function buildLegalRepresentative(
     StudentRef: buildReference(),
     DateFrom: null,
     DateTo: null,
-    RepresentativeAfterMajority: 0,
+    RepresentativeAfterMajority: false,
     Href: ''
   };
 }
