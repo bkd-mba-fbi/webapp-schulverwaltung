@@ -15,9 +15,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { UnauthenticatedComponent } from './unauthenticated.component';
 import { GlobalErrorHandler } from './global-error-handler';
-import { RestErrorInterceptor } from './rest-error-interceptor';
-import { RestAuthInterceptor } from './rest-auth-interceptor';
 import { Settings, SETTINGS } from './settings';
+import { SharedModule } from './shared/shared.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(
@@ -48,13 +47,10 @@ export function HttpLoaderFactory(
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
-    })
+    }),
+    SharedModule
   ],
-  providers: [
-    { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true }
-  ],
+  providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

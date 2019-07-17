@@ -98,8 +98,7 @@ export function buildPresenceType(
     IsIncident: isIncident,
     IsHalfDay: false,
     NeedsConfirmation: true,
-    Sort: 0,
-    Href: ''
+    Sort: 0
   };
 }
 

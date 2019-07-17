@@ -116,11 +116,17 @@ describe('lesson presences utils', () => {
 
       expect(result[0]).toBe(turnenFrisch);
 
-      expect(result[1].PresenceTypeRef).toEqual({ Id: comment.Id, HRef: '' });
+      expect(result[1].PresenceTypeRef).toEqual({
+        Id: comment.Id,
+        HRef: comment.Id.toString()
+      });
       expect(result[1].PresenceType).toBeNull();
       expect(result[1].PresenceComment).toBe('e = mc^2');
 
-      expect(result[2].PresenceTypeRef).toEqual({ Id: late.Id, HRef: '' });
+      expect(result[2].PresenceTypeRef).toEqual({
+        Id: late.Id,
+        HRef: late.Id.toString()
+      });
       expect(result[2].PresenceType).toBe('Verspätet');
 
       expect(result[3]).toBe(deutschWalser);

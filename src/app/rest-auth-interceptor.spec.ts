@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { AuthService } from './shared/services/auth.service';
-import { SETTINGS } from './settings';
-import { RestAuthInterceptor } from './rest-auth-interceptor';
 
 describe('RestAuthInterceptor', () => {
   let http: HttpClient;
@@ -15,25 +13,7 @@ describe('RestAuthInterceptor', () => {
   let errorCallback: jasmine.Spy;
 
   beforeEach(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        providers: [
-          {
-            provide: HTTP_INTERCEPTORS,
-            useClass: RestAuthInterceptor,
-            multi: true
-          },
-          {
-            provide: AuthService,
-            useValue: {
-              isAuthenticated: true,
-              accessToken: 'abcdefghijklmnopqrstuvwxyz'
-            }
-          },
-          { provide: SETTINGS, useValue: { apiUrl: '/api' } }
-        ]
-      })
-    );
+    TestBed.configureTestingModule(buildTestModuleMetadata());
 
     http = TestBed.get(HttpClient);
     httpTestingController = TestBed.get(HttpTestingController);
@@ -46,11 +26,13 @@ describe('RestAuthInterceptor', () => {
   describe('.intercept', () => {
     describe('authenticated', () => {
       it('adds CLX-Authorization header to request for API requests', () => {
-        http.get('/api').subscribe(successCallback, errorCallback);
+        http
+          .get('https://eventotest.api/foo')
+          .subscribe(successCallback, errorCallback);
         httpTestingController
           .expectOne(
             req =>
-              req.url === '/api' &&
+              req.url === 'https://eventotest.api/foo' &&
               req.headers.get('CLX-Authorization') ===
                 'token_type=urn:ietf:params:oauth:token-type:jwt-bearer, access_token=abcdefghijklmnopqrstuvwxyz'
           )
@@ -84,10 +66,14 @@ describe('RestAuthInterceptor', () => {
       });
 
       it('does not add CLX-Authorization header to request', () => {
-        http.get('/api').subscribe(successCallback, errorCallback);
+        http
+          .get('https://eventotest.api/foo')
+          .subscribe(successCallback, errorCallback);
         httpTestingController
           .expectOne(
-            req => req.url === '/api' && !req.headers.has('CLX-Authorization')
+            req =>
+              req.url === 'https://eventotest.api/foo' &&
+              !req.headers.has('CLX-Authorization')
           )
           .flush('hello', { status: 200, statusText: 'Success' });
 

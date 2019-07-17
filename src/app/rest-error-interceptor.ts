@@ -7,12 +7,12 @@ import {
   HttpErrorResponse,
   HttpParams
 } from '@angular/common/http';
-import { Observable, empty } from 'rxjs';
+import { Observable, empty, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { HTTP_STATUS } from './shared/services/rest.service';
-import { TranslateService } from '@ngx-translate/core';
 
 interface RestConfig {
   disableErrorHandling?: boolean;
@@ -126,7 +126,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
         }
       }
 
-      return Observable.throw(error);
+      return throwError(error);
     };
   }
 

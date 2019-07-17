@@ -21,7 +21,6 @@ export class LessonPresencesRestService extends RestService<
   }
 
   getListByDate(date: Date): Observable<ReadonlyArray<LessonPresence>> {
-    // TODO: Check if the date time can be filtered by day like this
     return this.getList({
       'filter.LessonDateTimeFrom': `=${format(date, 'YYYY-MM-DD')}`
     });

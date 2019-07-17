@@ -82,6 +82,6 @@ function buildPresenceTypeRef(
   }
   return {
     Id: presenceType.Id,
-    HRef: presenceType.HRef
+    HRef: presenceType.Id.toString()
   };
 }

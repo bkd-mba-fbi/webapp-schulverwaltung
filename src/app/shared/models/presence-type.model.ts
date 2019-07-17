@@ -5,7 +5,7 @@ const PresenceType = t.type({
   Id: t.number,
   TypeId: t.number,
   Active: t.boolean,
-  Description: t.string,
+  Description: Option(t.string),
   Designation: Option(t.string),
   IsAbsence: t.boolean,
   IsComment: t.boolean,
@@ -13,8 +13,7 @@ const PresenceType = t.type({
   IsIncident: t.boolean,
   IsHalfDay: t.boolean,
   NeedsConfirmation: t.boolean,
-  Sort: t.number,
-  Href: t.string
+  Sort: t.number
 });
 type PresenceType = t.TypeOf<typeof PresenceType>;
 export { PresenceType };
