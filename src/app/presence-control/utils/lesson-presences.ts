@@ -1,6 +1,6 @@
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { Reference } from 'src/app/shared/models/common-types';
+import { OptionalReference } from 'src/app/shared/models/common-types';
 import { LessonPresenceUpdate } from 'src/app/shared/services/lesson-presences-update.service';
 
 export function updatePresenceTypeForPresences(
@@ -14,7 +14,7 @@ export function updatePresenceTypeForPresences(
     );
     if (update) {
       let newPresenceType: Option<PresenceType>;
-      if (!update.newPresenceTypeId && lessonPresence.PresenceComment) {
+      if (!update.newPresenceTypeId && lessonPresence.Comment) {
         // Use comment type if is present and has comment
         newPresenceType = presenceTypes.find(t => t.IsComment) || null;
       } else {
@@ -24,9 +24,9 @@ export function updatePresenceTypeForPresences(
 
       return {
         ...lessonPresence,
-        PresenceTypeRef: buildPresenceTypeRef(newPresenceType),
-        PresenceDate: null, // TODO: where does this value come from?
-        PresenceType: newPresenceType ? newPresenceType.Designation : null
+        TypeRef: buildPresenceTypeRef(newPresenceType),
+        Date: null, // TODO: where does this value come from?
+        Type: newPresenceType ? newPresenceType.Designation : null
       };
     }
     return lessonPresence;
@@ -41,10 +41,10 @@ export function updateCommentForPresence(
 ): ReadonlyArray<LessonPresence> {
   return allLessonPresences.map(lessonPresence => {
     if (lessonPresenceEquals(lessonPresence, affectedLessonPresence)) {
-      let presenceTypeRef = lessonPresence.PresenceTypeRef;
-      let presenceDesignation = lessonPresence.PresenceType;
+      let presenceTypeRef = lessonPresence.TypeRef;
+      let presenceDesignation = lessonPresence.Type;
       let newPresenceType: Maybe<PresenceType>;
-      if (newComment && !presenceTypeRef) {
+      if (newComment && !presenceTypeRef.Id) {
         // Set to comment presence type
         newPresenceType = presenceTypes.find(p => p.IsComment);
       } else if (!newComment && presenceTypeRef) {
@@ -53,15 +53,15 @@ export function updateCommentForPresence(
       if (newPresenceType) {
         presenceTypeRef = {
           Id: newPresenceType.Id,
-          HRef: ''
+          HRef: null
         };
         presenceDesignation = newPresenceType.Designation;
       }
       return {
         ...lessonPresence,
-        PresenceComment: newComment,
-        PresenceTypeRef: presenceTypeRef,
-        PresenceType: presenceDesignation
+        Comment: newComment,
+        TypeRef: presenceTypeRef,
+        Type: presenceDesignation
       };
     }
     return lessonPresence;
@@ -76,12 +76,9 @@ function lessonPresenceEquals(a: LessonPresence, b: LessonPresence): boolean {
 
 function buildPresenceTypeRef(
   presenceType: Option<PresenceType>
-): Option<Reference> {
-  if (!presenceType) {
-    return null;
-  }
+): OptionalReference {
   return {
-    Id: presenceType.Id,
-    HRef: presenceType.Id.toString()
+    Id: presenceType ? presenceType.Id : null,
+    HRef: null
   };
 }

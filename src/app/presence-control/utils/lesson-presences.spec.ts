@@ -43,7 +43,7 @@ describe('lesson presences utils', () => {
       'Frisch Max'
     );
     turnenFrisch.StudentRef = buildReference(10);
-    turnenFrisch.PresenceTypeRef = null;
+    turnenFrisch.TypeRef = { Id: null, HRef: null };
 
     deutschEinsteinAbwesend = buildLessonPresence(
       2,
@@ -54,8 +54,8 @@ describe('lesson presences utils', () => {
       absent.Id
     );
     deutschEinsteinAbwesend.StudentRef = buildReference(20);
-    deutschEinsteinAbwesend.PresenceType = absent.Designation;
-    deutschEinsteinAbwesend.PresenceComment = 'e = mc^2';
+    deutschEinsteinAbwesend.Type = absent.Designation;
+    deutschEinsteinAbwesend.Comment = 'e = mc^2';
 
     deutschFrisch = buildLessonPresence(
       2,
@@ -65,7 +65,7 @@ describe('lesson presences utils', () => {
       'Frisch Max'
     );
     deutschFrisch.StudentRef = buildReference(10);
-    deutschFrisch.PresenceTypeRef = null;
+    deutschFrisch.TypeRef = { Id: null, HRef: null };
 
     deutschWalser = buildLessonPresence(
       2,
@@ -76,8 +76,8 @@ describe('lesson presences utils', () => {
       comment.Id
     );
     deutschWalser.StudentRef = buildReference(30);
-    deutschWalser.PresenceType = comment.Designation;
-    deutschWalser.PresenceComment = 'Der Schlaf hat innere Augen.';
+    deutschWalser.Type = comment.Designation;
+    deutschWalser.Comment = 'Der Schlaf hat innere Augen.';
 
     deutschCurrieAbwesend = buildLessonPresence(
       2,
@@ -88,7 +88,7 @@ describe('lesson presences utils', () => {
       absent.Id
     );
     deutschCurrieAbwesend.StudentRef = buildReference(40);
-    deutschCurrieAbwesend.PresenceType = absent.Designation;
+    deutschCurrieAbwesend.Type = absent.Designation;
 
     presences = [
       turnenFrisch,
@@ -116,23 +116,23 @@ describe('lesson presences utils', () => {
 
       expect(result[0]).toBe(turnenFrisch);
 
-      expect(result[1].PresenceTypeRef).toEqual({
+      expect(result[1].TypeRef).toEqual({
         Id: comment.Id,
-        HRef: comment.Id.toString()
+        HRef: null
       });
-      expect(result[1].PresenceType).toBeNull();
-      expect(result[1].PresenceComment).toBe('e = mc^2');
+      expect(result[1].Type).toBeNull();
+      expect(result[1].Comment).toBe('e = mc^2');
 
-      expect(result[2].PresenceTypeRef).toEqual({
+      expect(result[2].TypeRef).toEqual({
         Id: late.Id,
-        HRef: late.Id.toString()
+        HRef: null
       });
-      expect(result[2].PresenceType).toBe('Verspätet');
+      expect(result[2].Type).toBe('Verspätet');
 
       expect(result[3]).toBe(deutschWalser);
 
-      expect(result[4].PresenceTypeRef).toBeNull();
-      expect(result[4].PresenceType).toBeNull();
+      expect(result[4].TypeRef).toEqual({ Id: null, HRef: null });
+      expect(result[4].Type).toBeNull();
     });
   });
 
@@ -150,11 +150,11 @@ describe('lesson presences utils', () => {
       expect(result[3]).toBe(presences[3]);
       expect(result[4]).toBe(presences[4]);
 
-      expect(result[1].PresenceComment).toBe('Heureka!');
-      expect(result[1].PresenceType).toBe('Abwesend');
-      expect(result[1].PresenceTypeRef).toEqual({
+      expect(result[1].Comment).toBe('Heureka!');
+      expect(result[1].Type).toBe('Abwesend');
+      expect(result[1].TypeRef).toEqual({
         Id: absent.Id,
-        HRef: `/${absent.Id}`
+        HRef: null
       });
     });
 
@@ -171,11 +171,11 @@ describe('lesson presences utils', () => {
       expect(result[3]).toBe(presences[3]);
       expect(result[4]).toBe(presences[4]);
 
-      expect(result[1].PresenceComment).toBeNull();
-      expect(result[1].PresenceType).toBe('Abwesend');
-      expect(result[1].PresenceTypeRef).toEqual({
+      expect(result[1].Comment).toBeNull();
+      expect(result[1].Type).toBe('Abwesend');
+      expect(result[1].TypeRef).toEqual({
         Id: absent.Id,
-        HRef: `/${absent.Id}`
+        HRef: null
       });
     });
 
@@ -192,11 +192,11 @@ describe('lesson presences utils', () => {
       expect(result[3]).toEqual(presences[3]);
       expect(result[4]).toEqual(presences[4]);
 
-      expect(result[2].PresenceComment).toBe('Meetings sind meist Zeiträuber.');
-      expect(result[2].PresenceType).toBeNull();
-      expect(result[2].PresenceTypeRef).toEqual({
+      expect(result[2].Comment).toBe('Meetings sind meist Zeiträuber.');
+      expect(result[2].Type).toBeNull();
+      expect(result[2].TypeRef).toEqual({
         Id: comment.Id,
-        HRef: ''
+        HRef: null
       });
     });
 
@@ -213,9 +213,9 @@ describe('lesson presences utils', () => {
       expect(result[2]).toEqual(presences[2]);
       expect(result[4]).toEqual(presences[4]);
 
-      expect(result[3].PresenceComment).toBeNull();
-      // expect(result[3].PresenceType).toBeNull();
-      // expect(result[3].PresenceTypeRef).toBeNull();
+      expect(result[3].Comment).toBeNull();
+      // expect(result[3].Type).toBeNull();
+      // expect(result[3].TypeRef).toBeNull();
     });
   });
 });

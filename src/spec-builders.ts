@@ -1,4 +1,4 @@
-import { Reference } from './app/shared/models/common-types';
+import { Reference, OptionalReference } from './app/shared/models/common-types';
 import { LessonPresence } from './app/shared/models/lesson-presence.model';
 import { Lesson } from './app/shared/models/lesson.model';
 import { PresenceType } from './app/shared/models/presence-type.model';
@@ -12,6 +12,12 @@ export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
 }
 
+export function buildOptionalReference(
+  id: Option<number> = null
+): OptionalReference {
+  return { Id: id, HRef: null };
+}
+
 export function buildLessonPresence(
   lessonId: number,
   dateFrom: Date,
@@ -21,29 +27,29 @@ export function buildLessonPresence(
   presenceTypeId?: number
 ): LessonPresence {
   return {
+    Id: '1',
     LessonRef: buildReference(lessonId),
     StudentRef: buildReference(),
     EventRef: buildReference(),
-    PresenceTypeRef: buildReference(presenceTypeId),
+    TypeRef: buildOptionalReference(presenceTypeId),
     StudyClassRef: buildReference(),
     EventTypeId: 123,
-    PresenceConfirmationState: null,
-    PresenceConfirmationStateId: null,
+    ConfirmationState: null,
+    ConfirmationStateId: null,
     EventDesignation: eventDesignation,
     EventNumber: '',
     HasStudyCourseConfirmationCode: false,
     IsReadOnly: false,
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
-    PresenceComment: null,
-    PresenceDate: null,
-    PresenceType: null,
+    Comment: null,
+    Date: null,
+    Type: null,
     StudentFullName: studentName,
     StudyClassDesignation: '',
     StudyClassNumber: '9a',
     TeacherInformation: '',
-    WasAbsentInPrecedingLesson: null,
-    HRef: ''
+    WasAbsentInPrecedingLesson: null
   };
 }
 

@@ -20,28 +20,28 @@ describe('LessonPresencesRestService', () => {
       HRef: ''
     };
     const data: Readonly<any> = {
+      Id: '1',
       LessonRef: ref,
       StudentRef: ref,
       EventRef: ref,
-      PresenceTypeRef: null,
+      TypeRef: { Id: null, HRef: null },
       StudyClassRef: ref,
       EventTypeId: 123,
-      PresenceConfirmationState: null,
-      PresenceConfirmationStateId: null,
+      ConfirmationState: null,
+      ConfirmationStateId: null,
       EventDesignation: '',
       EventNumber: '',
       HasStudyCourseConfirmationCode: false,
       IsReadOnly: false,
       LessonDateTimeFrom: '2019-04-25T07:45:00',
       LessonDateTimeTo: '2019-04-25T08:30:00',
-      PresenceComment: null,
-      PresenceDate: '2019-04-18',
-      PresenceType: null,
+      Comment: null,
+      Date: '2019-04-18',
+      Type: null,
       StudentFullName: '',
       StudyClassDesignation: '',
       StudyClassNumber: '',
-      TeacherInformation: '',
-      HRef: ''
+      TeacherInformation: ''
     };
 
     it('decodes ISO date strings to date objects', () => {
@@ -52,7 +52,7 @@ describe('LessonPresencesRestService', () => {
         expect(result.LessonDateTimeTo).toEqual(
           new Date('2019-04-25T08:30:00')
         );
-        expect(result.PresenceDate).toEqual(new Date('2019-04-18'));
+        expect(result.Date).toEqual(new Date('2019-04-18'));
       });
 
       httpTestingController

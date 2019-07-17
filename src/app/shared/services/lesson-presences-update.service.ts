@@ -178,9 +178,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     this.revertUpdates$.next(
       updates.map(u => ({
         ...u,
-        newPresenceTypeId: u.presence.PresenceTypeRef
-          ? u.presence.PresenceTypeRef.Id
-          : null
+        newPresenceTypeId: u.presence.TypeRef.Id
       }))
     );
     return of(undefined);

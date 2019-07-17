@@ -237,8 +237,8 @@ describe('PresenceControlStateService', () => {
 
       const [entries] = selectedPresenceControlEntriesCb.calls.argsFor(0);
       expect(entries.length).toBe(1);
-      expect(entries[0].lessonPresence.PresenceTypeRef.Id).toBe(absent.Id);
-      expect(entries[0].lessonPresence.PresenceType).toBe('Abwesend');
+      expect(entries[0].lessonPresence.TypeRef.Id).toBe(absent.Id);
+      expect(entries[0].lessonPresence.Type).toBe('Abwesend');
       expect(entries[0].presenceType).toBe(absent);
     });
   });
@@ -257,7 +257,7 @@ describe('PresenceControlStateService', () => {
 
       const [entries] = selectedPresenceControlEntriesCb.calls.argsFor(0);
       expect(entries.length).toBe(1);
-      expect(entries[0].lessonPresence.PresenceComment).toBe('e = mc^2');
+      expect(entries[0].lessonPresence.Comment).toBe('e = mc^2');
     });
   });
 

@@ -150,7 +150,7 @@ export class PresenceControlCommentComponent implements OnInit {
   ): FormGroup {
     return this.fb.group({
       comment: [
-        entry ? entry.lessonPresence.PresenceComment || '' : '',
+        entry ? entry.lessonPresence.Comment || '' : '',
         Validators.maxLength(255)
       ]
     });

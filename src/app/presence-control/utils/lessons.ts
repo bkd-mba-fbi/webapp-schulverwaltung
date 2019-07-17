@@ -103,14 +103,9 @@ export function getPresenceControlEntriesForLesson(
   return getLessonPresencesForLesson(lesson, lessonPresences).map(
     lessonPresence => {
       let presenceType = null;
-      if (lessonPresence.PresenceTypeRef) {
+      if (lessonPresence.TypeRef.Id) {
         presenceType =
-          presenceTypes.find(
-            t =>
-              t.Id ===
-              (lessonPresence.PresenceTypeRef &&
-                lessonPresence.PresenceTypeRef.Id)
-          ) || null;
+          presenceTypes.find(t => t.Id === lessonPresence.TypeRef.Id) || null;
       }
       return new PresenceControlEntry(lessonPresence, presenceType);
     }

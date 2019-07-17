@@ -173,6 +173,8 @@ describe('LessonPresencesUpdateService', () => {
     }));
 
     it('it reverts state of lesson presence if request fails', fakeAsync(() => {
+      deutschWalser.TypeRef.Id = 123;
+
       (restServiceMock.editLessonPresences as jasmine.Spy).and.callFake(
         (lessonIds, personIds, newPresenceTypeId) => {
           if (personIds.includes(deutschWalser.StudentRef.Id)) {
