@@ -10,9 +10,14 @@
     class="presence-category-button btn btn-link"
   >
     <div class="presence-category">
-      <span class="presence-category-designation">{{
-        entry.presenceType?.Designation
-      }}</span>
+      <span
+        *ngIf="
+          entry.presenceType?.IsDispensation === 1 ||
+          entry.presenceType?.IsHalfDay === 1
+        "
+        class="presence-category-designation"
+        >{{ entry.presenceType?.Designation }}</span
+      >
       <i class="material-icons">{{ presenceCategoryIcon }}</i>
     </div>
   </button>
@@ -25,7 +30,13 @@
     >{{ entry.lessonPresence.StudentFullName }}</a
   >
   <a
-    class="comment"
+    *ngIf="
+      entry.presenceCategory === 'absent' ||
+      entry.presenceCategory === 'late' ||
+      (entry.presenceCategory === 'present' &&
+        entry.presenceType?.IsComment === 1)
+    "
+    class="comment mt-3"
     [routerLink]="[
       '/presence-control/comment',
       entry.lessonPresence.StudentRef.Id,
