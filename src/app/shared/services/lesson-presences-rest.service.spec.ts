@@ -17,7 +17,7 @@ describe('LessonPresencesRestService', () => {
   describe('.get', () => {
     const ref = {
       Id: 123,
-      Href: ''
+      HRef: ''
     };
     const data: Readonly<any> = {
       LessonRef: ref,
@@ -41,7 +41,7 @@ describe('LessonPresencesRestService', () => {
       StudyClassDesignation: '',
       StudyClassNumber: '',
       TeacherInformation: '',
-      Href: ''
+      HRef: ''
     };
 
     it('decodes ISO date strings to date objects', () => {

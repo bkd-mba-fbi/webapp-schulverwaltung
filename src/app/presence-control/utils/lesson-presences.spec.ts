@@ -116,11 +116,11 @@ describe('lesson presences utils', () => {
 
       expect(result[0]).toBe(turnenFrisch);
 
-      expect(result[1].PresenceTypeRef).toEqual({ Id: comment.Id, Href: '' });
+      expect(result[1].PresenceTypeRef).toEqual({ Id: comment.Id, HRef: '' });
       expect(result[1].PresenceType).toBeNull();
       expect(result[1].PresenceComment).toBe('e = mc^2');
 
-      expect(result[2].PresenceTypeRef).toEqual({ Id: late.Id, Href: '' });
+      expect(result[2].PresenceTypeRef).toEqual({ Id: late.Id, HRef: '' });
       expect(result[2].PresenceType).toBe('Verspätet');
 
       expect(result[3]).toBe(deutschWalser);
@@ -148,7 +148,7 @@ describe('lesson presences utils', () => {
       expect(result[1].PresenceType).toBe('Abwesend');
       expect(result[1].PresenceTypeRef).toEqual({
         Id: absent.Id,
-        Href: `/${absent.Id}`
+        HRef: `/${absent.Id}`
       });
     });
 
@@ -169,7 +169,7 @@ describe('lesson presences utils', () => {
       expect(result[1].PresenceType).toBe('Abwesend');
       expect(result[1].PresenceTypeRef).toEqual({
         Id: absent.Id,
-        Href: `/${absent.Id}`
+        HRef: `/${absent.Id}`
       });
     });
 
@@ -190,7 +190,7 @@ describe('lesson presences utils', () => {
       expect(result[2].PresenceType).toBeNull();
       expect(result[2].PresenceTypeRef).toEqual({
         Id: comment.Id,
-        Href: ''
+        HRef: ''
       });
     });
 

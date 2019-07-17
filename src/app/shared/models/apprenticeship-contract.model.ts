@@ -17,7 +17,7 @@ const ApprenticeshipContract = t.type({
   ContractType: t.string,
   JobCode: t.number,
   JobVersion: t.number,
-  Href: t.string
+  HRef: t.string
 });
 
 type ApprenticeshipContract = t.TypeOf<typeof ApprenticeshipContract>;

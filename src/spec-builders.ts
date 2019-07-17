@@ -9,7 +9,7 @@ import { LegalRepresentative } from './app/shared/models/legal-representative.mo
 import { Person } from './app/shared/models/person.model';
 
 export function buildReference(id = 123, href?: string): Reference {
-  return { Id: id, Href: href || `/${id}` };
+  return { Id: id, HRef: href || `/${id}` };
 }
 
 export function buildLessonPresence(
@@ -43,7 +43,7 @@ export function buildLessonPresence(
     StudyClassNumber: '9a',
     TeacherInformation: '',
     WasAbsentInPrecedingLesson: null,
-    Href: ''
+    HRef: ''
   };
 }
 
@@ -118,7 +118,7 @@ export function buildStudent(id: number): Student {
     PhoneMobile: '',
     PhonePrivate: '',
     PostalCode: '',
-    Href: ''
+    HRef: ''
   };
 }
 
@@ -142,7 +142,7 @@ export function buildApprenticeshipContract(
     ContractType: '',
     JobCode: 123,
     JobVersion: 1,
-    Href: ''
+    HRef: ''
   };
 }
 
@@ -157,7 +157,7 @@ export function buildLegalRepresentative(
     DateFrom: null,
     DateTo: null,
     RepresentativeAfterMajority: false,
-    Href: ''
+    HRef: ''
   };
 }
 
@@ -197,6 +197,6 @@ export function buildPerson(id: number): Person {
     StayPermit: null,
     StayPermitExpiry: null,
     Zip: null,
-    Href: ''
+    HRef: ''
   };
 }

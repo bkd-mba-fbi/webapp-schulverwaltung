@@ -8,7 +8,7 @@ const LessonDispensation = t.type({
   Comment: Option(t.string),
   StudentFullName: t.string,
   Type: Option(t.string),
-  Href: t.string
+  HRef: t.string
 });
 type LessonDispensation = t.TypeOf<typeof LessonDispensation>;
 export { LessonDispensation };

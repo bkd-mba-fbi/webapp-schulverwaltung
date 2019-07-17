@@ -53,7 +53,7 @@ export function updateCommentForPresence(
       if (newPresenceType) {
         presenceTypeRef = {
           Id: newPresenceType.Id,
-          Href: ''
+          HRef: ''
         };
         presenceDesignation = newPresenceType.Designation;
       }
@@ -82,6 +82,6 @@ function buildPresenceTypeRef(
   }
   return {
     Id: presenceType.Id,
-    Href: presenceType.Href
+    HRef: presenceType.HRef
   };
 }

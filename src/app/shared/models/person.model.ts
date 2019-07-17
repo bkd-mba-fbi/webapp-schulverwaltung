@@ -37,7 +37,7 @@ const Person = t.type({
   StayPermit: Option(t.string),
   StayPermitExpiry: Option(DateFromISOString),
   Zip: Option(t.string),
-  Href: t.string
+  HRef: t.string
 });
 
 type Person = t.TypeOf<typeof Person>;

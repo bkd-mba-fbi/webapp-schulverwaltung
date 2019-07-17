@@ -9,7 +9,7 @@ const LegalRepresentative = t.type({
   DateFrom: Option(DateFromISOString),
   DateTo: Option(DateFromISOString),
   RepresentativeAfterMajority: t.boolean,
-  Href: t.string
+  HRef: t.string
 });
 type LegalRepresentative = t.TypeOf<typeof LegalRepresentative>;
 export { LegalRepresentative };

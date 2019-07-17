@@ -36,7 +36,7 @@ describe('StudentsRestService', () => {
     function buildModel(id: number, useDate = true): any {
       const ref = {
         Id: 123,
-        Href: ''
+        HRef: ''
       };
       const dateValue = useDate ? date : date.toISOString();
       return {
@@ -46,7 +46,7 @@ describe('StudentsRestService', () => {
         DateFrom: dateValue,
         DateTo: dateValue,
         RepresentativeAfterMajority: false,
-        Href: ''
+        HRef: ''
       };
     }
   });

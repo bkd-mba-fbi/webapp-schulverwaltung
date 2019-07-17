@@ -82,7 +82,7 @@ describe('lessons utils', () => {
         )
       );
       expect(result).toEqual({
-        LessonRef: { Id: 1, Href: '/1' },
+        LessonRef: { Id: 1, HRef: '/1' },
         EventDesignation: 'Mathematik',
         StudyClassNumber: '9a',
         LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
@@ -121,21 +121,21 @@ describe('lessons utils', () => {
       ]);
       expect(result).toEqual([
         {
-          LessonRef: { Id: 2, Href: '/2' },
+          LessonRef: { Id: 2, HRef: '/2' },
           EventDesignation: 'Deutsch',
           StudyClassNumber: '9a',
           LessonDateTimeFrom: new Date(2000, 0, 23, 8, 0),
           LessonDateTimeTo: new Date(2000, 0, 23, 9, 0)
         },
         {
-          LessonRef: { Id: 1, Href: '/1' },
+          LessonRef: { Id: 1, HRef: '/1' },
           EventDesignation: 'Mathematik',
           StudyClassNumber: '9a',
           LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
           LessonDateTimeTo: new Date(2000, 0, 23, 10, 0)
         },
         {
-          LessonRef: { Id: 3, Href: '/3' },
+          LessonRef: { Id: 3, HRef: '/3' },
           EventDesignation: 'Mathematik',
           StudyClassNumber: '9a',
           LessonDateTimeFrom: new Date(2000, 0, 23, 10, 0),

@@ -16,7 +16,7 @@ const Student = t.type({
   PhoneMobile: t.string,
   PhonePrivate: Option(t.string),
   PostalCode: t.string,
-  Href: t.string
+  HRef: t.string
 });
 type Student = t.TypeOf<typeof Student>;
 export { Student };

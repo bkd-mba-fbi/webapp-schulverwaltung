@@ -25,7 +25,7 @@ const LessonPresence = t.type({
   StudyClassNumber: t.string,
   TeacherInformation: t.string,
   WasAbsentInPrecedingLesson: Maybe(t.boolean),
-  Href: t.string
+  HRef: t.string
 });
 type LessonPresence = t.TypeOf<typeof LessonPresence>;
 export { LessonPresence };
