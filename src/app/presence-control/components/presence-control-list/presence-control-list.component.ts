@@ -43,13 +43,12 @@ export class PresenceControlListComponent implements OnInit {
   ngOnInit(): void {}
 
   togglePresenceType(entry: PresenceControlEntry): void {
-    this.state
-      .getNextPresenceType(entry)
-      .subscribe(newPresenceType =>
-        this.lessonPresencesUpdateService.updatePresenceTypes(
-          [entry.lessonPresence],
-          newPresenceType ? newPresenceType.Id : null
-        )
-      );
+    this.state.getNextPresenceType(entry).subscribe(newPresenceType =>
+      this.lessonPresencesUpdateService.updatePresenceTypes(
+        // TODO get selected block lesson presences from param
+        entry.blockLessonPresences,
+        newPresenceType ? newPresenceType.Id : null
+      )
+    );
   }
 }

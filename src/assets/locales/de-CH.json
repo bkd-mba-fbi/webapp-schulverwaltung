@@ -44,6 +44,11 @@
       "validation-errors": {
         "maxlength": "Der Kommentar darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen."
       }
+    },
+    "dialog": {
+      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie eine Absenz erfassen?",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen"
     }
   },
   "open-absences": {
