@@ -27,7 +27,9 @@ describe('StudentsRestService', () => {
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Students/39361/LegalRepresentatives')
+        .expectOne(
+          'https://eventotest.api/Students/39361/LegalRepresentatives/'
+        )
         .flush([buildModel(54425, false), buildModel(56200, false)]);
     });
 
@@ -59,7 +61,7 @@ describe('StudentsRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current'
+          'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current/'
         )
         .flush(apprenticeshipContract);
     });

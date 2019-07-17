@@ -37,11 +37,10 @@ export class LessonPresencesUpdateRestService {
     }
 
     return this.http
-      .put<void>(`${this.settings.apiUrl}/BulkEditLessonPresence`, body, {
+      .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit/`, body, {
         params
       })
       .pipe(mapTo(undefined));
-    // TODO: handle 409 response (Validation error)
   }
 
   removeLessonPresences(
@@ -51,7 +50,7 @@ export class LessonPresencesUpdateRestService {
   ): Observable<void> {
     return this.http
       .put<void>(
-        `${this.settings.apiUrl}/BulkResetLessonPresence`,
+        `${this.settings.apiUrl}/LessonPresences/Reset/`,
         {
           LessonIds: lessonIds,
           PersonIds: personIds
@@ -59,6 +58,5 @@ export class LessonPresencesUpdateRestService {
         { params }
       )
       .pipe(mapTo(undefined));
-    // TODO: handle 409 response (Validation error)
   }
 }

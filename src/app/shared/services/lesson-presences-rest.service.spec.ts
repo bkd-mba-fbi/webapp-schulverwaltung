@@ -56,7 +56,7 @@ describe('LessonPresencesRestService', () => {
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/LessonPresences/123')
+        .expectOne('https://eventotest.api/LessonPresences/123/')
         .flush(data);
     });
   });
@@ -69,7 +69,7 @@ describe('LessonPresencesRestService', () => {
         .subscribe(result => expect(result).toBe(data));
 
       const url =
-        'https://eventotest.api/LessonPresences?filter.LessonDateTimeFrom==2000-01-23';
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23';
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
         .flush(data);

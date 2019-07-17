@@ -27,7 +27,7 @@ describe('PersonsRestService', () => {
         expect(result).toEqual(persons);
       });
 
-      const url = 'https://eventotest.api/Persons?filter.Id=;38608;38610';
+      const url = 'https://eventotest.api/Persons/?filter.Id=;38608;38610';
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
         .flush(t.array(Person).encode(persons));

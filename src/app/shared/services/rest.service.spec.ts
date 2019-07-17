@@ -43,7 +43,7 @@ describe('RestService', () => {
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo/123')
+        .expectOne('https://eventotest.api/Foo/123/')
         .flush({ foo: 'bar' });
     });
 
@@ -53,7 +53,7 @@ describe('RestService', () => {
       service.get(123).subscribe(success, error);
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo/123')
+        .expectOne('https://eventotest.api/Foo/123/')
         .flush({ foo: 123 });
 
       expect(success).not.toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('RestService', () => {
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo')
+        .expectOne('https://eventotest.api/Foo/')
         .flush([{ foo: 'bar' }, { foo: 'baz' }]);
     });
 
@@ -84,7 +84,7 @@ describe('RestService', () => {
       service.getList().subscribe(success, error);
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo')
+        .expectOne('https://eventotest.api/Foo/')
         .flush([{ foo: 123 }, { foo: 'baz' }]);
 
       expect(success).not.toHaveBeenCalled();

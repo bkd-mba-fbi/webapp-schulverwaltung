@@ -23,7 +23,7 @@ export class StudentsRestService extends RestService<StudentProps> {
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<LegalRepresentative>> {
     return this.http
-      .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives`, {
+      .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives/`, {
         params
       })
       .pipe(switchMap(decodeArray(LegalRepresentative)));
@@ -35,7 +35,7 @@ export class StudentsRestService extends RestService<StudentProps> {
   ): Observable<ApprenticeshipContract> {
     return this.http
       .get<any>(
-        `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current`,
+        `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current/`,
         {
           params
         }

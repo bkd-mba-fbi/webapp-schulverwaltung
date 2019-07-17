@@ -25,7 +25,7 @@ describe('LessonPresencesUpdateRestService', () => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/BulkEditLessonPresence', {
+      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit/', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
         AbsenceTypeId: 10,
@@ -55,7 +55,7 @@ describe('LessonPresencesUpdateRestService', () => {
         expect(result).toBeUndefined();
       });
 
-      expectRequestWithBody('https://eventotest.api/BulkEditLessonPresence', {
+      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit/', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6]
       });
@@ -87,7 +87,7 @@ describe('LessonPresencesUpdateRestService', () => {
         expect(result).toBeUndefined();
       });
 
-      expectRequestWithBody('https://eventotest.api/BulkResetLessonPresence', {
+      expectRequestWithBody('https://eventotest.api/LessonPresences/Reset/', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6]
       });

@@ -22,7 +22,7 @@ export class DecodeError extends Error {
  *   decode(Foo)({ foo: 'bar' }).subscribe(result => ...)
  *
  * Example using HttpClient:
- *   this.http.get(...).pipe(switchMap(decode(decode(Foo)))).subscribe(...)
+ *   this.http.get(...).pipe(switchMap(decode(Foo))).subscribe(...)
  */
 export function decode<P extends t.AnyProps>(
   decoder: t.TypeC<P>
@@ -47,7 +47,7 @@ export function decode<P extends t.AnyProps>(
  *   decode(Foo)([{ foo: 'bar' }]).subscribe(result => ...)
  *
  * Example using HttpClient:
- *   this.http.get(...).pipe(switchMap(decodeArray(decode(Foo)))).subscribe(...)
+ *   this.http.get(...).pipe(switchMap(decodeArray(Foo))).subscribe(...)
  */
 export function decodeArray<P extends t.AnyProps>(
   decoder: t.TypeC<P>
