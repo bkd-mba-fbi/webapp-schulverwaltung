@@ -12,6 +12,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error: any): void {
     console.error(error);
+    console.error(String(error));
 
     if (!(error instanceof HttpErrorResponse)) {
       this.notifyError();

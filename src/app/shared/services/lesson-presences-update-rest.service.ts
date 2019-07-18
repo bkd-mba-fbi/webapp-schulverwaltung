@@ -27,7 +27,7 @@ export class LessonPresencesUpdateRestService {
       PersonIds: personIds
     };
     if (presenceTypeId !== undefined) {
-      body.AbsenceTypeId = presenceTypeId;
+      body.PresenceTypeId = presenceTypeId;
     }
     if (confirmationValue !== undefined) {
       body.ConfirmationValue = confirmationValue;
@@ -37,7 +37,7 @@ export class LessonPresencesUpdateRestService {
     }
 
     return this.http
-      .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit/`, body, {
+      .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit`, body, {
         params
       })
       .pipe(mapTo(undefined));
@@ -50,7 +50,7 @@ export class LessonPresencesUpdateRestService {
   ): Observable<void> {
     return this.http
       .put<void>(
-        `${this.settings.apiUrl}/LessonPresences/Reset/`,
+        `${this.settings.apiUrl}/LessonPresences/Reset`,
         {
           LessonIds: lessonIds,
           PersonIds: personIds

@@ -157,12 +157,12 @@ export function buildLegalRepresentative(
 ): LegalRepresentative {
   return {
     Id: id,
-    RepresentativeRef: buildReference(representativeId),
-    StudentRef: buildReference(),
+    TypeId: '',
+    RepresentativeId: representativeId || 0,
+    StudentId: 0,
     DateFrom: null,
     DateTo: null,
-    RepresentativeAfterMajority: false,
-    HRef: ''
+    RepresentativeAfterMajority: false
   };
 }
 

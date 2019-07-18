@@ -13,7 +13,7 @@ const Student = t.type({
   Gender: t.union([t.literal('M'), t.literal('F')]),
   LastName: t.string,
   Location: t.string,
-  PhoneMobile: t.string,
+  PhoneMobile: Option(t.string),
   PhonePrivate: Option(t.string),
   PostalCode: t.string,
   HRef: t.string

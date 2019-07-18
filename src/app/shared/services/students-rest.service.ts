@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from '../../settings';
 import { RestService } from './rest.service';
@@ -23,7 +23,7 @@ export class StudentsRestService extends RestService<StudentProps> {
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<LegalRepresentative>> {
     return this.http
-      .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives/`, {
+      .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives`, {
         params
       })
       .pipe(switchMap(decodeArray(LegalRepresentative)));
@@ -32,14 +32,17 @@ export class StudentsRestService extends RestService<StudentProps> {
   getCurrentApprenticeshipContract(
     studentId: number,
     params?: HttpParams | Dict<string>
-  ): Observable<ApprenticeshipContract> {
+  ): Observable<Option<ApprenticeshipContract>> {
     return this.http
       .get<any>(
-        `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current/`,
+        `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current`,
         {
           params
         }
       )
-      .pipe(switchMap(decode(ApprenticeshipContract)));
+      .pipe(
+        switchMap(decodeArray(ApprenticeshipContract)),
+        map(contracts => (contracts.length > 0 ? contracts[0] : null))
+      );
   }
 }

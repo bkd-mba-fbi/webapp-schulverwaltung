@@ -99,7 +99,7 @@ export class PresenceControlDetailService {
     apprenticeshipContract: Option<ApprenticeshipContract>
   ): ReadonlyArray<number> {
     const personIds = legalRepresentatives.map(
-      legalRepresentative => legalRepresentative.RepresentativeRef.Id
+      legalRepresentative => legalRepresentative.RepresentativeId
     );
     if (apprenticeshipContract) {
       personIds.push(apprenticeshipContract.JobTrainerRef.Id);
@@ -118,7 +118,7 @@ export class PresenceControlDetailService {
       student,
       legalRepresentativePersons: legalRepresentatives.map(
         legalRepresentative =>
-          this.findPerson(legalRepresentative.RepresentativeRef.Id, persons)
+          this.findPerson(legalRepresentative.RepresentativeId, persons)
       ),
       apprenticeshipContract: null,
       jobTrainerPerson: null,

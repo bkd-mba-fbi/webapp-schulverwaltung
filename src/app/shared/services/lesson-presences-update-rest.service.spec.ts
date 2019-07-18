@@ -25,10 +25,10 @@ describe('LessonPresencesUpdateRestService', () => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit/', {
+      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
-        AbsenceTypeId: 10,
+        PresenceTypeId: 10,
         ConfirmationValue: 20,
         Comment: 'comment'
       });
@@ -50,18 +50,18 @@ describe('LessonPresencesUpdateRestService', () => {
       });
     });
 
-    it('omits AbsenceTypeId, ConfirmationValue and Comment if not set', () => {
+    it('omits PresenceTypeId, ConfirmationValue and Comment if not set', () => {
       service.editLessonPresences([1, 2, 3], [4, 5, 6]).subscribe(result => {
         expect(result).toBeUndefined();
       });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit/', {
+      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6]
       });
     });
 
-    it('omits AbsenceTypeId, ConfirmationValue and Comment if set to undefined', () => {
+    it('omits PresenceTypeId, ConfirmationValue and Comment if set to undefined', () => {
       service
         .editLessonPresences(
           [1, 2, 3],
@@ -87,7 +87,7 @@ describe('LessonPresencesUpdateRestService', () => {
         expect(result).toBeUndefined();
       });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Reset/', {
+      expectRequestWithBody('https://eventotest.api/LessonPresences/Reset', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6]
       });

@@ -48,10 +48,10 @@ describe('PresenceControlDetailService', () => {
     );
 
     legalRepresentative1 = buildPerson(
-      legalRepresentatives[0].RepresentativeRef.Id
+      legalRepresentatives[0].RepresentativeId
     );
     legalRepresentative2 = buildPerson(
-      legalRepresentatives[1].RepresentativeRef.Id
+      legalRepresentatives[1].RepresentativeId
     );
     jobTrainer = buildPerson(apprenticeshipContract.JobTrainerRef.Id);
     apprenticeshipManager = buildPerson(
@@ -90,7 +90,7 @@ describe('PresenceControlDetailService', () => {
   });
 
   function expectStudentRequest(id: number, response = student): void {
-    const url = `https://eventotest.api/Students/${id}/`;
+    const url = `https://eventotest.api/Students/${id}`;
     httpTestingController.expectOne(url).flush(Student.encode(response));
   }
 
@@ -98,15 +98,15 @@ describe('PresenceControlDetailService', () => {
     id: number,
     response = legalRepresentatives
   ): void {
-    const url = `https://eventotest.api/Students/${id}/LegalRepresentatives/`;
+    const url = `https://eventotest.api/Students/${id}/LegalRepresentatives`;
     httpTestingController
       .expectOne(url)
       .flush(t.array(LegalRepresentative).encode(response));
   }
 
   function expectApprenticeshipContractRequest(id: number): void {
-    const url = `https://eventotest.api/Students/${id}/ApprenticeshipContracts/Current/`;
-    httpTestingController.expectOne(url).flush(apprenticeshipContract);
+    const url = `https://eventotest.api/Students/${id}/ApprenticeshipContracts/Current`;
+    httpTestingController.expectOne(url).flush([apprenticeshipContract]);
   }
 
   function expectPersonsRequest(personIds: number[], response = persons): void {

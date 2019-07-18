@@ -27,26 +27,20 @@ describe('StudentsRestService', () => {
       });
 
       httpTestingController
-        .expectOne(
-          'https://eventotest.api/Students/39361/LegalRepresentatives/'
-        )
+        .expectOne('https://eventotest.api/Students/39361/LegalRepresentatives')
         .flush([buildModel(54425, false), buildModel(56200, false)]);
     });
 
     function buildModel(id: number, useDate = true): any {
-      const ref = {
-        Id: 123,
-        HRef: ''
-      };
       const dateValue = useDate ? date : date.toISOString();
       return {
         Id: id,
-        RepresentativeRef: ref,
-        StudentRef: ref,
+        TypeId: '',
+        RepresentativeId: 123,
+        StudentId: 123,
         DateFrom: dateValue,
         DateTo: dateValue,
-        RepresentativeAfterMajority: false,
-        HRef: ''
+        RepresentativeAfterMajority: false
       };
     }
   });
@@ -61,9 +55,9 @@ describe('StudentsRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current/'
+          'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current'
         )
-        .flush(apprenticeshipContract);
+        .flush([apprenticeshipContract]);
     });
   });
 });

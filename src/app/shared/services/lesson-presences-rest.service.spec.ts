@@ -56,7 +56,7 @@ describe('LessonPresencesRestService', () => {
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/LessonPresences/123/')
+        .expectOne('https://eventotest.api/LessonPresences/123')
         .flush(data);
     });
   });
