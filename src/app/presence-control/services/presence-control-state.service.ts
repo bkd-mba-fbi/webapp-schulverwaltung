@@ -12,7 +12,8 @@ import {
   switchMap,
   take,
   withLatestFrom,
-  distinctUntilChanged
+  distinctUntilChanged,
+  filter
 } from 'rxjs/operators';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { Lesson } from '../../shared/models/lesson.model';
@@ -207,6 +208,25 @@ export class PresenceControlStateService {
               e.lessonPresence.StudentRef.Id === studentId &&
               e.lessonPresence.LessonRef.Id === lessonId
           ) || null
+      )
+    );
+  }
+
+  getBlockLessons(
+    entry: PresenceControlEntry
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    return this.lessonPresences$.pipe(
+      take(1),
+      map(presences =>
+        presences
+          .filter(
+            presence =>
+              presence.EventRef.Id === entry.lessonPresence.EventRef.Id &&
+              presence.StudentRef.Id === entry.lessonPresence.StudentRef.Id
+          )
+          .sort((a, b) =>
+            a.LessonDateTimeFrom > b.LessonDateTimeFrom ? 1 : -1
+          )
       )
     );
   }

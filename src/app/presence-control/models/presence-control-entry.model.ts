@@ -13,8 +13,7 @@ export class PresenceControlEntry implements Searchable {
   readonly studentFullName: string;
   constructor(
     public lessonPresence: LessonPresence,
-    public presenceType: Option<PresenceType>,
-    public blockLessonPresences: ReadonlyArray<LessonPresence> = []
+    public presenceType: Option<PresenceType>
   ) {
     this.studentFullName = lessonPresence.StudentFullName;
   }

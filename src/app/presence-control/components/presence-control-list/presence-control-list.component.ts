@@ -46,7 +46,7 @@ export class PresenceControlListComponent implements OnInit {
     this.state.getNextPresenceType(entry).subscribe(newPresenceType =>
       this.lessonPresencesUpdateService.updatePresenceTypes(
         // TODO get selected block lesson presences from param
-        entry.blockLessonPresences,
+        [entry.lessonPresence],
         newPresenceType ? newPresenceType.Id : null
       )
     );

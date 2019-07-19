@@ -112,18 +112,7 @@ export function getPresenceControlEntriesForLesson(
                 lessonPresence.PresenceTypeRef.Id)
           ) || null;
       }
-      const blockLessonPresences = lessonPresences
-        .filter(
-          presence =>
-            presence.EventRef.Id === lessonPresence.EventRef.Id &&
-            presence.StudentRef.Id === lessonPresence.StudentRef.Id
-        )
-        .sort((a, b) => (a.LessonDateTimeFrom > b.LessonDateTimeFrom ? 1 : -1));
-      return new PresenceControlEntry(
-        lessonPresence,
-        presenceType,
-        blockLessonPresences
-      );
+      return new PresenceControlEntry(lessonPresence, presenceType);
     }
   );
 }

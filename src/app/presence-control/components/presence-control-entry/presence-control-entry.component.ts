@@ -10,8 +10,12 @@ import {
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReplaySubject } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { ViewMode } from '../../services/presence-control-state.service';
+import {
+  PresenceControlStateService,
+  ViewMode
+} from '../../services/presence-control-state.service';
 import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
 
 @Component({
@@ -31,7 +35,10 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
 
   private studentId$ = new ReplaySubject<number>(1);
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private stateService: PresenceControlStateService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -59,24 +66,34 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   }
 
   open(entry: PresenceControlEntry): void {
-    // TODO how to check for block lessons?
-    if (entry.blockLessonPresences.length === 1) {
-      this.togglePresenceType.emit(entry);
-    } else {
-      // TODO
-      const modalRef = this.modalService.open(PresenceControlDialogComponent);
-      modalRef.componentInstance.entry = entry;
-      modalRef.result.then(
-        result => {
-          if (result === 'save') {
-            console.log('save');
-          }
-        },
-        () => {
-          console.log('close');
+    this.stateService
+      .getBlockLessons(entry)
+      .pipe(
+        take(1),
+        tap(lessonPresences => console.log(lessonPresences))
+      )
+      .subscribe(lessonPresences => {
+        if (lessonPresences.length < 2) {
+          this.togglePresenceType.emit(entry);
+        } else {
+          // TODO
+          const modalRef = this.modalService.open(
+            PresenceControlDialogComponent
+          );
+          modalRef.componentInstance.entry = entry;
+          modalRef.componentInstance.blockLessonPresences = lessonPresences;
+          modalRef.result.then(
+            result => {
+              if (result === 'save') {
+                console.log('save');
+              }
+            },
+            () => {
+              console.log('close');
+            }
+          );
         }
-      );
-    }
+      });
   }
 
   // updatePresenceType(dialog: any, entry: PresenceControlEntry): void {
