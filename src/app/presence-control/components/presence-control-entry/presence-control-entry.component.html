@@ -5,10 +5,7 @@
   class="mr-3 large"
 ></erz-avatar>
 <div class="content">
-  <button
-    (click)="updatePresenceType(blockLessonDialog, entry)"
-    class="presence-category-button btn btn-link"
-  >
+  <button (click)="open(entry)" class="presence-category-button btn btn-link">
     <div class="presence-category">
       <span
         *ngIf="
@@ -50,45 +47,3 @@
     }}</span>
   </a>
 </div>
-
-<ng-template #blockLessonDialog let-modal>
-  <div class="modal-body">
-    <p>
-      {{ 'presence-control.dialog.text' | translate }}
-    </p>
-    <form>
-      <div
-        *ngFor="let lessonPresence of entry.blockLessonPresences; let i = index"
-        class="form-group form-check"
-      >
-        <input
-          type="checkbox"
-          class="form-check-input"
-          id="lesson-presence-{{ i }}"
-          [checked]="selectionService.isSelected$(lessonPresence) | async"
-          (change)="selectionService.toggle(lessonPresence)"
-          [disabled]="
-            lessonPresence.LessonRef.Id === entry.lessonPresence.LessonRef.Id
-          "
-        />
-        <label class="form-check-label" for="lesson-presence-{{ i }}">
-          {{ lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-            lessonPresence.LessonDateTimeTo | date: 'HH:mm'
-          }}</label
-        >
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.close('cancel')"
-    >
-      {{ 'presence-control.dialog.cancel' | translate }}
-    </button>
-    <button type="button" class="btn btn-primary" (click)="modal.close('save')">
-      {{ 'presence-control.dialog.save' | translate }}
-    </button>
-  </div>
-</ng-template>

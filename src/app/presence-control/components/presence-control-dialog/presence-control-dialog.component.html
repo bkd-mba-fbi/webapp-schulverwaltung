@@ -1,0 +1,43 @@
+<div class="modal-body">
+  <p>
+    {{ 'presence-control.dialog.text' | translate }}
+  </p>
+  <form>
+    <div
+      *ngFor="let lessonPresence of entry.blockLessonPresences; let i = index"
+      class="form-group form-check"
+    >
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="lesson-presence-{{ i }}"
+        [checked]="selectionService.isSelected$(lessonPresence) | async"
+        (change)="selectionService.toggle(lessonPresence)"
+        [disabled]="
+          lessonPresence.LessonRef.Id === entry.lessonPresence.LessonRef.Id
+        "
+      />
+      <label class="form-check-label" for="lesson-presence-{{ i }}">
+        {{ lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+          lessonPresence.LessonDateTimeTo | date: 'HH:mm'
+        }}</label
+      >
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.close('cancel')"
+  >
+    {{ 'presence-control.dialog.cancel' | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close('save')"
+  >
+    {{ 'presence-control.dialog.save' | translate }}
+  </button>
+</div>
