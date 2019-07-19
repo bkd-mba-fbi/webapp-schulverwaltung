@@ -5,7 +5,10 @@
   class="mr-3 large"
 ></erz-avatar>
 <div class="content">
-  <button (click)="open(entry)" class="presence-category-button btn btn-link">
+  <button
+    (click)="updatePresenceType(entry)"
+    class="presence-category-button btn btn-link"
+  >
     <div class="presence-category">
       <span
         *ngIf="
