@@ -12,7 +12,11 @@ import {
   filterPreviouslyAbsentEntries,
   filterPreviouslyPresentEntries
 } from '../../utils/presence-control-entries';
-import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
+import {
+  PresenceControlDialogComponent,
+  LessonPresenceOption
+} from '../presence-control-dialog/presence-control-dialog.component';
+import { result } from 'lodash-es';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -63,62 +67,29 @@ export class PresenceControlListComponent implements OnInit {
   togglePresenceType(entry: PresenceControlEntry): void {
     this.state
       .getBlockLessons(entry)
-      .pipe(
-        take(1),
-        tap(lessonPresences => console.log(lessonPresences))
-      )
+      .pipe(take(1))
       .subscribe(lessonPresences => {
-        if (lessonPresences.length < 2) {
+        if (lessonPresences.length === 1) {
           this.doTogglePresenceType(entry, lessonPresences);
         } else {
-          // TODO
           const modalRef = this.modalService.open(
             PresenceControlDialogComponent
           );
           modalRef.componentInstance.entry = entry;
           modalRef.componentInstance.blockLessonPresences = lessonPresences;
           modalRef.result.then(
-            result => {
-              if (result === 'save') {
-                console.log('save');
+            lessonPresenceOptions => {
+              if (lessonPresenceOptions) {
+                const selectedPresences = lessonPresenceOptions
+                  .filter((option: LessonPresenceOption) => option.selected)
+                  .map((option: LessonPresenceOption) => option.lessonPresence);
+
+                this.doTogglePresenceType(entry, selectedPresences);
               }
             },
-            () => {
-              console.log('close');
-            }
+            () => {}
           );
         }
       });
   }
-
-  // updatePresenceType(dialog: any, entry: PresenceControlEntry): void {
-  //   this.selectionService.toggle(entry.lessonPresence);
-  //   if (entry.blockLessonPresences.length === 1) {
-  //     this.togglePresenceType.emit(entry);
-  //   } else {
-  //     this.modalService
-  //       .open(dialog, { ariaLabelledBy: 'modal-basic-title' })
-  //       .result.then(
-  //         result => {
-  //           if (result === 'save') {
-  //             this.selectionService.selectedIds$
-  //               .pipe(take(1))
-  //               .subscribe(selectedIds => {
-  //                 // TODO do not change the block lesson presences on the entry, emit object?
-  //                 entry.blockLessonPresences = entry.blockLessonPresences.filter(
-  //                   presence => selectedIds.includes(presence.LessonRef.Id)
-  //                 );
-  //                 this.togglePresenceType.emit(entry);
-  //               });
-  //           }
-  //           if (result === 'cancel') {
-  //             this.selectionService.clear();
-  //           }
-  //         },
-  //         () => {
-  //           this.selectionService.clear();
-  //         }
-  //       );
-  //   }
-  // }
 }

@@ -4,39 +4,36 @@
   </p>
   <form>
     <div
-      *ngFor="let lessonPresence of blockLessonPresences; let i = index"
+      *ngFor="let option of lessonPresenceOptions; let i = index"
       class="form-group form-check"
     >
       <input
         type="checkbox"
         class="form-check-input"
         id="lesson-presence-{{ i }}"
-        [checked]="selectionService.isSelected$(lessonPresence) | async"
-        (change)="selectionService.toggle(lessonPresence)"
+        [checked]="option.selected"
+        (change)="option.selected = !option.selected"
         [disabled]="
-          lessonPresence.LessonRef.Id === entry.lessonPresence.LessonRef.Id
+          option.lessonPresence.LessonRef.Id ===
+          entry.lessonPresence.LessonRef.Id
         "
       />
       <label class="form-check-label" for="lesson-presence-{{ i }}">
-        {{ lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-          lessonPresence.LessonDateTimeTo | date: 'HH:mm'
+        {{ option.lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+          option.lessonPresence.LessonDateTimeTo | date: 'HH:mm'
         }}</label
       >
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-secondary"
-    (click)="activeModal.close('cancel')"
-  >
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
     {{ 'presence-control.dialog.cancel' | translate }}
   </button>
   <button
     type="button"
     class="btn btn-primary"
-    (click)="activeModal.close('save')"
+    (click)="activeModal.close(lessonPresenceOptions)"
   >
     {{ 'presence-control.dialog.save' | translate }}
   </button>
