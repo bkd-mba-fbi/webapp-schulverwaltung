@@ -20,7 +20,7 @@ describe('LessonPresencesUpdateRestService', () => {
   describe('.editLessonPresences', () => {
     it('executes PUT request with JSON body', () => {
       service
-        .editLessonPresences([1, 2, 3], [4, 5, 6], 10, 20)
+        .editLessonPresences([1, 2, 3], [4, 5, 6], 10, 20, 'comment')
         .subscribe(result => {
           expect(result).toBeUndefined();
         });
@@ -29,14 +29,50 @@ describe('LessonPresencesUpdateRestService', () => {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
         AbsenceTypeId: 10,
-        ConfirmationValue: 20
+        ConfirmationValue: 20,
+        Comment: 'comment'
       });
     });
 
-    it('omits AbsenceTypeId and ConfirmationValue if not set', () => {
+    it('executes PUT request with JSON body with explicit null values', () => {
+      service
+        .editLessonPresences([1, 2, 3], [4, 5, 6], null, null, null)
+        .subscribe(result => {
+          expect(result).toBeUndefined();
+        });
+
+      expectRequestWithBody('https://eventotest.api/BulkEditLessonPresence', {
+        LessonIds: [1, 2, 3],
+        PersonIds: [4, 5, 6],
+        AbsenceTypeId: null,
+        ConfirmationValue: null,
+        Comment: null
+      });
+    });
+
+    it('omits AbsenceTypeId, ConfirmationValue and Comment if not set', () => {
       service.editLessonPresences([1, 2, 3], [4, 5, 6]).subscribe(result => {
         expect(result).toBeUndefined();
       });
+
+      expectRequestWithBody('https://eventotest.api/BulkEditLessonPresence', {
+        LessonIds: [1, 2, 3],
+        PersonIds: [4, 5, 6]
+      });
+    });
+
+    it('omits AbsenceTypeId, ConfirmationValue and Comment if set to undefined', () => {
+      service
+        .editLessonPresences(
+          [1, 2, 3],
+          [4, 5, 6],
+          undefined,
+          undefined,
+          undefined
+        )
+        .subscribe(result => {
+          expect(result).toBeUndefined();
+        });
 
       expectRequestWithBody('https://eventotest.api/BulkEditLessonPresence', {
         LessonIds: [1, 2, 3],

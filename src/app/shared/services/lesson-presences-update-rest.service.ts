@@ -17,19 +17,23 @@ export class LessonPresencesUpdateRestService {
   editLessonPresences(
     lessonIds: ReadonlyArray<number>,
     personIds: ReadonlyArray<number>,
-    presenceTypeId: Option<number> = null,
-    confirmationValue: Option<number> = null,
+    presenceTypeId?: Option<number>,
+    confirmationValue?: Option<number>,
+    comment?: Option<string>,
     params?: HttpParams
   ): Observable<void> {
     const body: Dict<any> = {
       LessonIds: lessonIds,
       PersonIds: personIds
     };
-    if (presenceTypeId) {
+    if (presenceTypeId !== undefined) {
       body.AbsenceTypeId = presenceTypeId;
     }
-    if (confirmationValue) {
+    if (confirmationValue !== undefined) {
       body.ConfirmationValue = confirmationValue;
+    }
+    if (comment !== undefined) {
+      body.Comment = comment;
     }
 
     return this.http

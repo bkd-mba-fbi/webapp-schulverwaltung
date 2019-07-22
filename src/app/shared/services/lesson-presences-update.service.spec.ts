@@ -155,7 +155,8 @@ describe('LessonPresencesUpdateService', () => {
           deutschWalser.StudentRef.Id
         ],
         late.Id,
-        null,
+        undefined,
+        undefined,
         withConfig({ disableErrorHandling: true })
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
@@ -211,7 +212,8 @@ describe('LessonPresencesUpdateService', () => {
         [deutschEinsteinAbwesend.LessonRef.Id],
         [deutschEinsteinAbwesend.StudentRef.Id, deutschFrisch.StudentRef.Id],
         late.Id,
-        null,
+        undefined,
+        undefined,
         withConfig({ disableErrorHandling: true })
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();

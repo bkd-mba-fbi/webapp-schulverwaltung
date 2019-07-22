@@ -1,37 +1,37 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  ViewChild,
-  ElementRef
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, of, combineLatest } from 'rxjs';
 import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  catchError,
+  finalize,
   map,
   pluck,
   shareReplay,
+  startWith,
   switchMap,
   take,
-  startWith,
-  catchError,
-  finalize,
-  tap,
-  delay
+  tap
 } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
-
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { withConfig } from 'src/app/rest-error-interceptor';
+import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from '@angular/forms';
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { validatationErrorsToArray } from 'src/app/shared/utils/form';
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
+import { PresenceControlStateService } from '../../services/presence-control-state.service';
 
 @Component({
   selector: 'erz-presence-control-comment',
@@ -82,7 +82,8 @@ export class PresenceControlCommentComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private state: PresenceControlStateService,
-    private studentsService: StudentsRestService
+    private studentsService: StudentsRestService,
+    private lessonPresencesRestService: LessonPresencesUpdateRestService
   ) {}
 
   ngOnInit(): void {
@@ -176,12 +177,16 @@ export class PresenceControlCommentComponent implements OnInit {
     newComment: string
   ): Observable<any> {
     this.saving$.next(true);
-    // TODO: Implement saving of comment
-    console.log(`Save comment "${newComment}" for entry`, entry);
-    return of(undefined).pipe(
-      delay(2000), // TODO: Remove, just for simulating request time
-      finalize(() => this.saving$.next(false))
-    );
+    return this.lessonPresencesRestService
+      .editLessonPresences(
+        [entry.lessonPresence.LessonRef.Id],
+        [entry.lessonPresence.StudentRef.Id],
+        undefined,
+        undefined,
+        newComment ? newComment : null,
+        withConfig({ disableErrorHandling: true })
+      )
+      .pipe(finalize(() => this.saving$.next(false)));
   }
 
   private onSaveError(error: any): Observable<void> {

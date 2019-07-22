@@ -151,7 +151,8 @@ export class LessonPresencesUpdateService implements OnDestroy {
         [lessonId],
         personIds,
         newPresenceTypeId,
-        null,
+        undefined,
+        undefined,
         withConfig({ disableErrorHandling: true })
       );
     }
