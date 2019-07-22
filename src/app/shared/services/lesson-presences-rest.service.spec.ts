@@ -84,7 +84,7 @@ describe('LessonPresencesRestService', () => {
         .subscribe(result => expect(result).toBe(data));
 
       const url =
-        'https://eventotest.api/LessonPresences?filter.PresenceConfirmationStateId==219';
+        'https://eventotest.api/LessonPresences?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
         .flush(data);

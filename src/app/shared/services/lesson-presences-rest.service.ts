@@ -29,7 +29,9 @@ export class LessonPresencesRestService extends RestService<
 
   getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      'filter.PresenceConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`
+      'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
+      'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
+      'filter.HasStudyCourseConfirmationCode': '=false'
     });
   }
 }
