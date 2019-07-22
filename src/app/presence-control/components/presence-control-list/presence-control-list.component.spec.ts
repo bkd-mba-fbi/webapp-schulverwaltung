@@ -15,6 +15,7 @@ import { PresenceControlEntry } from '../../models/presence-control-entry.model'
 import { Lesson } from 'src/app/shared/models/lesson.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
+import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 
 describe('PresenceControlListComponent', () => {
   let component: PresenceControlListComponent;
@@ -26,6 +27,7 @@ describe('PresenceControlListComponent', () => {
   let frisch: PresenceControlEntry;
   let jenni: PresenceControlEntry;
   let absence: PresenceType;
+  let blockLessons: Array<LessonPresence>;
 
   let selectedPresenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
   let stateServiceMock: PresenceControlStateService;
@@ -49,6 +51,7 @@ describe('PresenceControlListComponent', () => {
     ]);
 
     absence = buildPresenceType(2, 20, 1, 0);
+    blockLessons = [jenni.lessonPresence];
 
     stateServiceMock = ({
       loading$: of(false),
@@ -58,7 +61,10 @@ describe('PresenceControlListComponent', () => {
       isLastLesson$: of(true),
       getNextPresenceType: jasmine
         .createSpy('getNextPresenceType')
-        .and.callFake(() => of(absence))
+        .and.callFake(() => of(absence)),
+      getBlockLessons: jasmine
+        .createSpy('getBlockLessons')
+        .and.callFake(() => of(blockLessons))
     } as unknown) as PresenceControlStateService;
 
     lessonPresencesUpdateServiceMock = ({
@@ -120,11 +126,18 @@ describe('PresenceControlListComponent', () => {
     });
   });
 
-  describe('.togglePresenceType', () => {
+  describe('.doTogglePresenceType', () => {
     beforeEach(() => {});
 
-    it('updates given entry to next presence type', () => {
+    it('updates given entry without block lesson dialog', () => {
       component.togglePresenceType(bichsel);
+      expect(
+        lessonPresencesUpdateServiceMock.updatePresenceTypes
+      ).toHaveBeenCalledWith([bichsel.lessonPresence], absence.Id);
+    });
+
+    it('updates given entry to next presence type', () => {
+      component.doTogglePresenceType(bichsel);
       expect(
         lessonPresencesUpdateServiceMock.updatePresenceTypes
       ).toHaveBeenCalledWith([bichsel.lessonPresence], absence.Id);

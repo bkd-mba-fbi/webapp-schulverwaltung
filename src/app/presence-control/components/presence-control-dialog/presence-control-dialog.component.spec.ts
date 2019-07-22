@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PresenceControlDialogComponent } from './presence-control-dialog.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('PresenceControlDialogComponent', () => {
   let component: PresenceControlDialogComponent;
@@ -10,7 +11,8 @@ describe('PresenceControlDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlDialogComponent]
+        declarations: [PresenceControlDialogComponent],
+        providers: [NgbActiveModal]
       })
     ).compileComponents();
   }));
@@ -18,6 +20,7 @@ describe('PresenceControlDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlDialogComponent);
     component = fixture.componentInstance;
+    component.blockLessonPresences = [];
     fixture.detectChanges();
   });
 

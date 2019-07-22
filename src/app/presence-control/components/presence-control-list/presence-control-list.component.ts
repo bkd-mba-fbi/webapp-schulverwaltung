@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, shareReplay, take, tap } from 'rxjs/operators';
+import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { searchEntries } from 'src/app/shared/utils/search';
@@ -13,10 +13,9 @@ import {
   filterPreviouslyPresentEntries
 } from '../../utils/presence-control-entries';
 import {
-  PresenceControlDialogComponent,
-  LessonPresenceOption
+  LessonPresenceOption,
+  PresenceControlDialogComponent
 } from '../presence-control-dialog/presence-control-dialog.component';
-import { result } from 'lodash-es';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -52,13 +51,13 @@ export class PresenceControlListComponent implements OnInit {
 
   doTogglePresenceType(
     entry: PresenceControlEntry,
-    lessonPresences: ReadonlyArray<LessonPresence>
+    lessonPresences?: ReadonlyArray<LessonPresence>
   ): void {
     this.state
       .getNextPresenceType(entry)
       .subscribe(newPresenceType =>
         this.lessonPresencesUpdateService.updatePresenceTypes(
-          lessonPresences,
+          lessonPresences ? lessonPresences : [entry.lessonPresence],
           newPresenceType ? newPresenceType.Id : null
         )
       );
@@ -70,7 +69,7 @@ export class PresenceControlListComponent implements OnInit {
       .pipe(take(1))
       .subscribe(lessonPresences => {
         if (lessonPresences.length === 1) {
-          this.doTogglePresenceType(entry, lessonPresences);
+          this.doTogglePresenceType(entry);
         } else {
           const modalRef = this.modalService.open(
             PresenceControlDialogComponent
