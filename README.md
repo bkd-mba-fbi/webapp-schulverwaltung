@@ -32,6 +32,10 @@ In addition, you have to copy and paste the app tag and all `<script>` tags from
 
 To configure the app, you have to rename the file `settings.example.js` to `settings.js` and adjust its contents.
 
+### Authorization
+
+The website integrating this application has to make sure the OAuth access token is available in localStorage under the key `CLX.LoginToken` (e.g. by setting `localStorage.setItem('CLX.LoginToken', '...')`). If not provided, the application displays a unauthenticated message to the user.
+
 ## Development
 
 - Common aspects are documented in the [Wiki](https://github.com/erz-mba-fbi/absenzenmanagement/wiki)
