@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Option } from './common-types';
+import { Option, Gender } from './common-types';
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
 
 const Person = t.type({
@@ -21,7 +21,8 @@ const Person = t.type({
   Email: Option(t.string),
   Email2: Option(t.string),
   FirstName: t.string,
-  Gender: t.union([t.literal('M'), t.literal('F')]),
+  // Gender: t.union([t.literal('M'), t.literal('F')]),
+  Gender,
   HomeTown: Option(t.string),
   IsEditable: t.boolean,
   IsEmployee: t.boolean,

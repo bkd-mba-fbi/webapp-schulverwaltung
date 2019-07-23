@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
-import { Maybe, Option } from './common-types';
+import { Maybe, Option, Gender } from './common-types';
 
 const Student = t.type({
   Id: t.number,
@@ -10,7 +10,8 @@ const Student = t.type({
   DisplayEmail: t.string,
   FirstName: t.string,
   FullName: t.string,
-  Gender: t.union([t.literal('M'), t.literal('F')]),
+  // Gender: t.union([t.literal('M'), t.literal('F')]),
+  Gender,
   LastName: t.string,
   Location: t.string,
   PhoneMobile: Option(t.string),
