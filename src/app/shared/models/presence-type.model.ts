@@ -1,11 +1,11 @@
 import * as t from 'io-ts';
-import { Option } from './common-types';
+import { Option, Maybe } from './common-types';
 
 const PresenceType = t.type({
   Id: t.number,
   TypeId: t.number,
   Active: t.boolean,
-  Description: Option(t.string),
+  Description: Maybe(t.string),
   Designation: Option(t.string),
   IsAbsence: t.boolean,
   IsComment: t.boolean,
