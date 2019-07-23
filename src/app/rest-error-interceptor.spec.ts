@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { withConfig } from './rest-error-interceptor';
@@ -9,16 +10,19 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 describe('RestErrorInterceptor', () => {
   let http: HttpClient;
   let httpTestingController: HttpTestingController;
+  let routerMock: Router;
   let toastrMock: ToastrService;
   let successCallback: jasmine.Spy;
   let errorCallback: jasmine.Spy;
 
   beforeEach(() => {
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
     toastrMock = jasmine.createSpyObj('ToastrService', ['error']);
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [
+          { provide: Router, useValue: routerMock },
           {
             provide: ToastrService,
             useValue: toastrMock
@@ -43,6 +47,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).toHaveBeenCalledWith('hello');
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectNoToast();
     });
 
@@ -54,6 +59,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('unavailable');
     });
 
@@ -65,6 +71,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/unauthenticated']);
       expectToast('noaccess');
     });
 
@@ -76,6 +83,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('noaccess');
     });
 
@@ -87,6 +95,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('notfound');
     });
 
@@ -98,6 +107,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('unavailable');
     });
 
@@ -109,6 +119,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('unavailable');
     });
 
@@ -120,6 +131,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('server');
     });
 
@@ -131,6 +143,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('conflict');
     });
 
@@ -142,6 +155,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('server');
     });
 
@@ -154,6 +168,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectNoToast();
     });
 
@@ -166,6 +181,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectNoToast();
     });
 
@@ -178,6 +194,7 @@ describe('RestErrorInterceptor', () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('server');
     });
 

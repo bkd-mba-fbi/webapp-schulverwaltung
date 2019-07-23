@@ -7,6 +7,7 @@ import {
   HttpErrorResponse,
   HttpParams
 } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, empty, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
@@ -48,6 +49,7 @@ function extractConfig(
 @Injectable()
 export class RestErrorInterceptor implements HttpInterceptor {
   constructor(
+    private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService
   ) {}
@@ -106,6 +108,9 @@ export class RestErrorInterceptor implements HttpInterceptor {
       ) {
         switch (error.status) {
           case HTTP_STATUS.UNAUTHORIZED:
+            this.notifyError('noaccess');
+            this.router.navigate(['/unauthenticated']);
+            return empty();
           case HTTP_STATUS.FORBIDDEN:
             this.notifyError('noaccess');
             return empty();
