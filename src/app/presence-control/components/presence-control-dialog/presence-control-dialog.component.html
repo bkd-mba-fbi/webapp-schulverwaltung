@@ -33,7 +33,7 @@
   <button
     type="button"
     class="btn btn-primary"
-    (click)="activeModal.close(lessonPresenceOptions)"
+    (click)="activeModal.close(getSelectedLessonPresences())"
   >
     {{ 'presence-control.dialog.save' | translate }}
   </button>

@@ -12,10 +12,7 @@ import {
   filterPreviouslyAbsentEntries,
   filterPreviouslyPresentEntries
 } from '../../utils/presence-control-entries';
-import {
-  LessonPresenceOption,
-  PresenceControlDialogComponent
-} from '../presence-control-dialog/presence-control-dialog.component';
+import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -77,12 +74,8 @@ export class PresenceControlListComponent implements OnInit {
           modalRef.componentInstance.entry = entry;
           modalRef.componentInstance.blockLessonPresences = lessonPresences;
           modalRef.result.then(
-            lessonPresenceOptions => {
-              if (lessonPresenceOptions) {
-                const selectedPresences = lessonPresenceOptions
-                  .filter((option: LessonPresenceOption) => option.selected)
-                  .map((option: LessonPresenceOption) => option.lessonPresence);
-
+            selectedPresences => {
+              if (selectedPresences) {
                 this.doTogglePresenceType(entry, selectedPresences);
               }
             },
