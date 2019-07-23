@@ -1,22 +1,21 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
-
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { of, throwError } from 'rxjs';
+import { withConfig } from 'src/app/rest-error-interceptor';
 import {
   buildLessonPresence,
   buildPresenceType,
   buildReference
 } from 'src/spec-builders';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { LessonPresence } from '../models/lesson-presence.model';
+import { PresenceType } from '../models/presence-type.model';
+import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
 import {
   LessonPresencesUpdateService,
   UPDATE_REQUEST_DEBOUNCE_TIME,
   UPDATE_STATE_DEBOUNCE_TIME
 } from './lesson-presences-update.service';
-import { LessonPresence } from '../models/lesson-presence.model';
-import { PresenceType } from '../models/presence-type.model';
-import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { withConfig } from 'src/app/rest-error-interceptor';
 
 describe('LessonPresencesUpdateService', () => {
   let service: LessonPresencesUpdateService;
@@ -155,7 +154,7 @@ describe('LessonPresencesUpdateService', () => {
           deutschWalser.StudentRef.Id
         ],
         late.Id,
-        undefined,
+        null,
         undefined,
         withConfig({ disableErrorHandling: true })
       );
@@ -214,7 +213,7 @@ describe('LessonPresencesUpdateService', () => {
         [deutschEinsteinAbwesend.LessonRef.Id],
         [deutschEinsteinAbwesend.StudentRef.Id, deutschFrisch.StudentRef.Id],
         late.Id,
-        undefined,
+        null,
         undefined,
         withConfig({ disableErrorHandling: true })
       );

@@ -1,23 +1,23 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, combineLatest, Subject, of, merge } from 'rxjs';
-import {
-  mapTo,
-  debounceTime,
-  scan,
-  takeUntil,
-  catchError,
-  filter,
-  share,
-  concatMap
-} from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
+import { ToastrService } from 'ngx-toastr';
+import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  debounceTime,
+  filter,
+  mapTo,
+  scan,
+  share,
+  takeUntil
+} from 'rxjs/operators';
+import { withConfig } from 'src/app/rest-error-interceptor';
+import { Settings, SETTINGS } from 'src/app/settings';
+import { LessonPresence } from '../models/lesson-presence.model';
+import { isEmptyArray } from '../utils/array';
 import { not } from '../utils/filter';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { LessonPresence } from '../models/lesson-presence.model';
-import { withConfig } from 'src/app/rest-error-interceptor';
-import { isEmptyArray } from '../utils/array';
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
@@ -83,7 +83,8 @@ export class LessonPresencesUpdateService implements OnDestroy {
   constructor(
     private toastr: ToastrService,
     private translate: TranslateService,
-    private restService: LessonPresencesUpdateRestService
+    private restService: LessonPresencesUpdateRestService,
+    @Inject(SETTINGS) private settings: Settings
   ) {
     this.performUpdates$.pipe(takeUntil(this.destroy$)).subscribe();
   }
@@ -151,7 +152,9 @@ export class LessonPresencesUpdateService implements OnDestroy {
         [lessonId],
         personIds,
         newPresenceTypeId,
-        undefined,
+        newPresenceTypeId === this.settings.absencePresenceTypeId
+          ? this.settings.unconfirmedAbsenceStateId
+          : null,
         undefined,
         withConfig({ disableErrorHandling: true })
       );
