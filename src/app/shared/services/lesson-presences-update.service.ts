@@ -154,7 +154,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
         newPresenceTypeId,
         newPresenceTypeId === this.settings.absencePresenceTypeId
           ? this.settings.unconfirmedAbsenceStateId
-          : null,
+          : undefined,
         undefined,
         withConfig({ disableErrorHandling: true })
       );

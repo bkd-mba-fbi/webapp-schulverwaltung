@@ -154,7 +154,7 @@ describe('LessonPresencesUpdateService', () => {
           deutschWalser.StudentRef.Id
         ],
         late.Id,
-        null,
+        undefined,
         undefined,
         withConfig({ disableErrorHandling: true })
       );
@@ -213,7 +213,7 @@ describe('LessonPresencesUpdateService', () => {
         [deutschEinsteinAbwesend.LessonRef.Id],
         [deutschEinsteinAbwesend.StudentRef.Id, deutschFrisch.StudentRef.Id],
         late.Id,
-        null,
+        undefined,
         undefined,
         withConfig({ disableErrorHandling: true })
       );
