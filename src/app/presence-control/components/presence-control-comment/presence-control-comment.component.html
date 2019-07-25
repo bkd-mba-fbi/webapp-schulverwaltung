@@ -21,7 +21,7 @@
         (click)="startEditing()"
       >
         {{
-          (presenceControlEntry$ | async)?.lessonPresence?.PresenceComment ||
+          (presenceControlEntry$ | async)?.lessonPresence?.Comment ||
             'presence-control.comment.placeholder' | translate
         }}
       </div>
