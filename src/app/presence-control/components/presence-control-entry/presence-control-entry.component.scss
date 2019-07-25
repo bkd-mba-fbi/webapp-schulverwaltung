@@ -6,10 +6,6 @@
   background-color: $body-bg;
 }
 
-:host.absent {
-  background-color: lighten($absent-color, 40%);
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -25,7 +21,7 @@
 
 .presence-category {
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 }
 
 .presence-category i {
