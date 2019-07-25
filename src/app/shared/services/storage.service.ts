@@ -14,7 +14,8 @@ export class StorageService {
   }
 
   getAccessToken(): Option<string> {
-    return this.getValue(ACCESS_TOKEN_KEY);
+    const token = this.getValue(ACCESS_TOKEN_KEY);
+    return token ? token.replace(/^\"+|\"+$/g, '') : null;
   }
 
   getRefreshToken(): Option<string> {

@@ -36,6 +36,11 @@ describe('StorageService', () => {
       storeMock['CLX.LoginToken'] = 'asdf';
       expect(service.getAccessToken()).toBe('asdf');
     });
+
+    it('returns value with trailing double quotes removed', () => {
+      storeMock['CLX.LoginToken'] = '"asdf"';
+      expect(service.getAccessToken()).toBe('asdf');
+    });
   });
 
   describe('.getRefreshToken', () => {
