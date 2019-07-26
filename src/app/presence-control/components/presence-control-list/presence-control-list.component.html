@@ -8,23 +8,24 @@
   } as data"
 >
   <ng-container *ngIf="!(state.loading$ | async); else loading">
-    <ng-container *ngIf="data.lesson; else noLessons">
-      <erz-presence-control-header
-        [lesson]="data.lesson"
-        [hasPreviousLesson]="!(state.isFirstLesson$ | async)"
-        [hasNextLesson]="!(state.isLastLesson$ | async)"
-        [presentCount]="state.presentCount$ | async"
-        [absentCount]="state.absentCount$ | async"
-        [lateCount]="state.lateCount$ | async"
-        [viewMode]="state.viewMode$ | async"
-        [selectDate]="state.selectedDate$ | async"
-        (previousLesson)="state.previousLesson()"
-        (nextLesson)="state.nextLesson()"
-        (search)="search$.next($event)"
-        (viewModeChange)="state.setViewMode($event)"
-        (selectDateChange)="state.setDate($event)"
-      ></erz-presence-control-header>
+    <erz-presence-control-header
+      [lesson]="data.lesson"
+      [hasPreviousLesson]="!(state.isFirstLesson$ | async)"
+      [hasNextLesson]="!(state.isLastLesson$ | async)"
+      [presentCount]="state.presentCount$ | async"
+      [absentCount]="state.absentCount$ | async"
+      [lateCount]="state.lateCount$ | async"
+      [viewMode]="state.viewMode$ | async"
+      [selectDate]="state.selectedDate$ | async"
+      [search]="search$ | async"
+      (previousLesson)="state.previousLesson()"
+      (nextLesson)="state.nextLesson()"
+      (searchChange)="search$.next($event)"
+      (viewModeChange)="state.setViewMode($event)"
+      (selectDateChange)="state.setDate($event)"
+    ></erz-presence-control-header>
 
+    <ng-container *ngIf="data.lesson; else noLessons">
       <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">
         <div
           *ngIf="data.previouslyAbsentEntries.length > 0"

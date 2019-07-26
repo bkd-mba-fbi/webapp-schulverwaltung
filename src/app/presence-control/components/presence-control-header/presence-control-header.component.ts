@@ -31,11 +31,12 @@ export class PresenceControlHeaderComponent implements OnInit {
   @Input() lateCount: Option<number> = null;
   @Input() viewMode: ViewMode;
   @Input() selectDate: Date;
+  @Input() search = '';
 
   @Output() previousLesson = new EventEmitter<void>();
   @Output() nextLesson = new EventEmitter<void>();
   @Output() selectDateChange = new EventEmitter<Date>();
-  @Output() search = new EventEmitter<string>();
+  @Output() searchChange = new EventEmitter<string>();
   @Output() viewModeChange = new EventEmitter<ViewMode>();
 
   viewModeOptions: ReadonlyArray<ViewModeOption> = [
