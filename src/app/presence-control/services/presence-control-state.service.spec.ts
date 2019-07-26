@@ -90,14 +90,20 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 9, 0),
       new Date(2000, 0, 23, 10, 0),
       'Mathematik',
-      'Einstein Albert'
+      'Einstein Albert',
+      undefined,
+      33,
+      66
     );
     mathEinstein2 = buildLessonPresence(
       4,
       new Date(2000, 0, 23, 10, 0),
       new Date(2000, 0, 23, 11, 0),
       'Mathematik',
-      'Einstein Albert'
+      'Einstein Albert',
+      undefined,
+      33,
+      66
     );
     lessonPresences = [
       turnenFrisch,
@@ -258,6 +264,19 @@ describe('PresenceControlStateService', () => {
       const [entries] = selectedPresenceControlEntriesCb.calls.argsFor(0);
       expect(entries.length).toBe(1);
       expect(entries[0].lessonPresence.Comment).toBe('e = mc^2');
+    });
+  });
+
+  describe('.getBlockLessonPresences', () => {
+    it('returns all block lessons for the given entry', () => {
+      expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
+
+      service
+        .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
+        .subscribe(result =>
+          expect(result).toEqual([mathEinstein1, mathEinstein2])
+        );
     });
   });
 

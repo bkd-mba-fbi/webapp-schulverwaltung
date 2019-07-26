@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
@@ -40,6 +40,8 @@ import {
 } from '../utils/lesson-presences';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
+import { Settings, SETTINGS } from 'src/app/settings';
+import { canChangePresenceType } from '../utils/presence-types';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -107,7 +109,8 @@ export class PresenceControlStateService {
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesRestService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    @Inject(SETTINGS) private settings: Settings
   ) {}
 
   setDate(date: Date): void {
@@ -150,7 +153,8 @@ export class PresenceControlStateService {
           updatePresenceTypeForPresences(
             lessonPresences,
             updates,
-            presenceTypes
+            presenceTypes,
+            this.settings
           )
         )
       )
@@ -211,17 +215,27 @@ export class PresenceControlStateService {
     );
   }
 
-  getBlockLessons(
+  /**
+   * Lesson presences for which the presence type cannot be updated are filtered from the list of block lesson presences
+   */
+  getBlockLessonPresences(
     entry: PresenceControlEntry
   ): Observable<ReadonlyArray<LessonPresence>> {
-    return this.lessonPresences$.pipe(
-      take(1),
-      map(presences =>
+    return combineLatest(
+      this.lessonPresences$.pipe(take(1)),
+      this.presenceTypes$.pipe(take(1))
+    ).pipe(
+      map(([presences, types]) =>
         presences
           .filter(
             presence =>
               presence.EventRef.Id === entry.lessonPresence.EventRef.Id &&
-              presence.StudentRef.Id === entry.lessonPresence.StudentRef.Id
+              presence.StudentRef.Id === entry.lessonPresence.StudentRef.Id &&
+              canChangePresenceType(
+                presence,
+                types.find(t => t.Id === presence.TypeRef.Id) || null,
+                this.settings
+              )
           )
           .sort((a, b) =>
             a.LessonDateTimeFrom > b.LessonDateTimeFrom ? 1 : -1

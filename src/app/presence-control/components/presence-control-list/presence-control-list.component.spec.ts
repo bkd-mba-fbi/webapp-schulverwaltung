@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, BehaviorSubject } from 'rxjs';
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { buildTestModuleMetadata, settings } from 'src/spec-helpers';
 import {
   buildLessonPresence,
   buildLesson,
@@ -62,8 +62,8 @@ describe('PresenceControlListComponent', () => {
       getNextPresenceType: jasmine
         .createSpy('getNextPresenceType')
         .and.callFake(() => of(absence)),
-      getBlockLessons: jasmine
-        .createSpy('getBlockLessons')
+      getBlockLessonPresences: jasmine
+        .createSpy('getBlockLessonPresences')
         .and.callFake(() => of(blockLessons))
     } as unknown) as PresenceControlStateService;
 
@@ -165,7 +165,7 @@ describe('PresenceControlListComponent', () => {
   function buildPresenceControlEntry(
     studentName: string
   ): PresenceControlEntry {
-    return new PresenceControlEntry(
+    const presenceControlEntry = new PresenceControlEntry(
       buildLessonPresence(
         lesson.LessonRef.Id,
         lesson.LessonDateTimeFrom,
@@ -175,5 +175,10 @@ describe('PresenceControlListComponent', () => {
       ),
       null
     );
+
+    Object.defineProperty(presenceControlEntry, 'settings', {
+      get: () => settings
+    });
+    return presenceControlEntry;
   }
 });

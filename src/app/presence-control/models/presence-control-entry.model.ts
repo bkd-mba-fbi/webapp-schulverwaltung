@@ -2,6 +2,14 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { Settings } from 'src/app/settings';
 import { Searchable } from 'src/app/shared/utils/search';
+import {
+  isAbsent,
+  isLate,
+  isDefaultAbsence,
+  isPresent,
+  isComment,
+  canChangePresenceType
+} from '../utils/presence-types';
 
 export enum PresenceCategory {
   Present = 'present',
@@ -19,11 +27,11 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get presenceCategory(): PresenceCategory {
-    if (this.isAbsent(this.presenceType)) {
+    if (isAbsent(this.presenceType)) {
       return PresenceCategory.Absent;
     }
 
-    if (this.isLate(this.presenceType)) {
+    if (isLate(this.presenceType, this.settings)) {
       return PresenceCategory.Late;
     }
 
@@ -44,36 +52,22 @@ export class PresenceControlEntry implements Searchable {
   ): Option<PresenceType> {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
-        return presenceTypes.find(this.isDefaultAbsence.bind(this)) || null;
+        return (
+          presenceTypes.find(type => isDefaultAbsence(type, this.settings)) ||
+          null
+        );
       case PresenceCategory.Late:
-        return presenceTypes.find(this.isLate.bind(this)) || null;
+        return presenceTypes.find(type => isLate(type, this.settings)) || null;
       default:
         return null;
     }
   }
 
-  private isAbsent(presenceType: Option<PresenceType>): boolean {
-    return Boolean(
-      presenceType &&
-        (presenceType.IsAbsence ||
-          presenceType.IsDispensation ||
-          presenceType.IsHalfDay)
-    );
-  }
-
-  private isDefaultAbsence(presenceType: Option<PresenceType>): boolean {
-    return Boolean(
-      presenceType &&
-        this.settings &&
-        presenceType.Id === this.settings.absencePresenceTypeId
-    );
-  }
-
-  private isLate(presenceType: Option<PresenceType>): boolean {
-    return Boolean(
-      presenceType &&
-        this.settings &&
-        presenceType.Id === this.settings.latePresenceTypeId
+  get canChangePresenceType(): boolean {
+    return canChangePresenceType(
+      this.lessonPresence,
+      this.presenceType,
+      this.settings
     );
   }
 

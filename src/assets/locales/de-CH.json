@@ -37,7 +37,8 @@
       "search-by-name": "Name suchen..."
     },
     "entry": {
-      "comment": "Kommentar..."
+      "comment": "Kommentar...",
+      "update-warning": "Statuswechsel nicht möglich"
     },
     "detail": {
       "legal-representation": "Gesetzliche Vertretung",

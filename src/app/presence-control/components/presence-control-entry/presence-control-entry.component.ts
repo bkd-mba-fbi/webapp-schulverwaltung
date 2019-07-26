@@ -11,6 +11,8 @@ import {
 import { ReplaySubject } from 'rxjs';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { ViewMode } from '../../services/presence-control-state.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -29,7 +31,10 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
 
   private studentId$ = new ReplaySubject<number>(1);
 
-  constructor() {}
+  constructor(
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -57,6 +62,12 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   }
 
   updatePresenceType(entry: PresenceControlEntry): void {
-    this.togglePresenceType.emit(entry);
+    if (!entry.canChangePresenceType) {
+      this.toastr.warning(
+        this.translate.instant('presence-control.entry.update-warning')
+      );
+    } else {
+      this.togglePresenceType.emit(entry);
+    }
   }
 }

@@ -24,18 +24,21 @@ export function buildLessonPresence(
   dateTo: Date,
   eventDesignation: string,
   studentName = '',
-  presenceTypeId?: number
+  presenceTypeId?: number,
+  eventRefId?: number,
+  studentRefId?: number,
+  confirmationStateId?: number
 ): LessonPresence {
   return {
     Id: '1',
     LessonRef: buildReference(lessonId),
-    StudentRef: buildReference(),
-    EventRef: buildReference(),
+    StudentRef: buildReference(studentRefId),
+    EventRef: buildReference(eventRefId),
     TypeRef: buildOptionalReference(presenceTypeId),
     // StudyClassRef: buildReference(),
     // EventTypeId: 123,
     // ConfirmationState: null,
-    ConfirmationStateId: null,
+    ConfirmationStateId: confirmationStateId || null,
     EventDesignation: eventDesignation,
     // EventNumber: '',
     HasStudyCourseConfirmationCode: false,
@@ -89,7 +92,8 @@ export function buildPresenceControlEntry(
 export function buildPresenceType(
   id: number,
   isAbsence: boolean,
-  isIncident: boolean
+  isIncident: boolean,
+  isComment = false
 ): PresenceType {
   return {
     Id: id,
@@ -98,7 +102,7 @@ export function buildPresenceType(
     // Description: '',
     Designation: '',
     IsAbsence: isAbsence,
-    IsComment: false,
+    IsComment: isComment,
     IsDispensation: false,
     IsIncident: isIncident,
     IsHalfDay: false,

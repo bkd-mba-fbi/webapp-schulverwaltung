@@ -18,7 +18,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/locales/', '.json');
 }
 
-const settings: Settings = {
+export const settings: Settings = {
   apiUrl: 'https://eventotest.api',
   scriptsAndAssetsPath: '.',
   absencePresenceTypeId: 11,

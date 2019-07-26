@@ -1,13 +1,14 @@
+import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import {
-  buildPresenceType,
   buildLessonPresence,
+  buildPresenceType,
   buildReference
 } from 'src/spec-builders';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { settings } from 'src/spec-helpers';
 import {
-  updatePresenceTypeForPresences,
-  updateCommentForPresence
+  updateCommentForPresence,
+  updatePresenceTypeForPresences
 } from './lesson-presences';
 
 describe('lesson presences utils', () => {
@@ -110,7 +111,8 @@ describe('lesson presences utils', () => {
           { presence: deutschFrisch, newPresenceTypeId: late.Id },
           { presence: deutschCurrieAbwesend, newPresenceTypeId: null }
         ],
-        presenceTypes
+        presenceTypes,
+        settings
       );
       expect(result.length).toBe(5);
 

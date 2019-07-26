@@ -62,7 +62,7 @@ export class PresenceControlListComponent implements OnInit {
 
   togglePresenceType(entry: PresenceControlEntry): void {
     this.state
-      .getBlockLessons(entry)
+      .getBlockLessonPresences(entry)
       .pipe(take(1))
       .subscribe(lessonPresences => {
         if (lessonPresences.length === 1) {

@@ -18,6 +18,7 @@ import { LessonPresence } from '../models/lesson-presence.model';
 import { isEmptyArray } from '../utils/array';
 import { not } from '../utils/filter';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
+import { getNewConfirmationStateId } from 'src/app/presence-control/utils/presence-types';
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
@@ -152,9 +153,8 @@ export class LessonPresencesUpdateService implements OnDestroy {
         [lessonId],
         personIds,
         newPresenceTypeId,
-        newPresenceTypeId === this.settings.absencePresenceTypeId
-          ? this.settings.unconfirmedAbsenceStateId
-          : undefined,
+        getNewConfirmationStateId(newPresenceTypeId, this.settings) ||
+          undefined,
         undefined,
         withConfig({ disableErrorHandling: true })
       );
