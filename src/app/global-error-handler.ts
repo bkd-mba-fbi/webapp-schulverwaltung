@@ -1,4 +1,4 @@
-import { Injectable, ErrorHandler } from '@angular/core';
+import { Injectable, ErrorHandler, Injector, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,12 +6,12 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(
-    private toastr: ToastrService,
+    private ngZone: NgZone,
+    private injector: Injector,
     private translate: TranslateService
   ) {}
 
   handleError(error: any): void {
-    console.error(error);
     console.error(String(error));
 
     if (!(error instanceof HttpErrorResponse)) {
@@ -20,9 +20,17 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   private notifyError(): void {
-    this.toastr.error(
-      this.translate.instant('global.errors.exception_message'),
-      this.translate.instant('global.errors.exception_title')
-    );
+    // Inject and use ToastrService within ngZone, see:
+    // https://github.com/scttcper/ngx-toastr/issues/179
+    this.ngZone.run(() => {
+      this.toastr.error(
+        this.translate.instant('global.app-errors.exception-message'),
+        this.translate.instant('global.app-errors.exception-title')
+      );
+    });
+  }
+
+  private get toastr(): ToastrService {
+    return this.injector.get(ToastrService);
   }
 }

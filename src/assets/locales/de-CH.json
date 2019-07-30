@@ -1,8 +1,10 @@
 {
   "global": {
-    "rest-errors": {
+    "app-errors": {
       "exception-title": "Fehler",
-      "exception-message": "Ein Fehler ist aufgetreten, versuchen Sie es erneut oder laden Sie die Applikation neu.",
+      "exception-message": "Ein Fehler ist aufgetreten, versuchen Sie es erneut oder laden Sie die Applikation neu."
+    },
+    "rest-errors": {
       "noaccess-title": "Kein Zugriff",
       "noaccess-message": "Auf eine Ressource konnte nicht zugegriffen werden.",
       "notfound-title": "Nicht gefunden",
