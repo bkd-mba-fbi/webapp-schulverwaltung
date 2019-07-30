@@ -1,0 +1,7 @@
+:host {
+  // Ensure absolute positioned children are placed relative to the
+  // app component
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
