@@ -7,17 +7,18 @@
 <div class="content">
   <button
     type="button"
+    *ngIf="!entry.canChangePresenceType"
     (click)="updatePresenceType(entry)"
-    class="presence-category-button btn btn-link"
+    class="presence-category designation btn btn-link"
   >
-    <div class="presence-category">
-      <span
-        *ngIf="!entry.canChangePresenceType"
-        class="presence-category-designation"
-        >{{ entry.presenceType?.Designation }}</span
-      >
-      <i class="material-icons">{{ presenceCategoryIcon }}</i>
-    </div>
+    {{ entry.presenceType?.Designation }}
+  </button>
+  <button
+    type="button"
+    (click)="updatePresenceType(entry)"
+    class="presence-category status btn btn-link"
+  >
+    <i class="material-icons">{{ presenceCategoryIcon }}</i>
   </button>
   <a
     [routerLink]="[
@@ -29,7 +30,7 @@
   >
   <a
     *ngIf="entry.canChangePresenceType"
-    class="comment mt-3"
+    class="comment"
     [routerLink]="[
       '/presence-control/comment',
       entry.lessonPresence.StudentRef.Id,

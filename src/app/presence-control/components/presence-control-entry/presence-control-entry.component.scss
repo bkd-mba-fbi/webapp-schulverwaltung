@@ -8,24 +8,21 @@
 
 .content {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   flex: auto;
   overflow: hidden;
-}
-
-.presence-category-button {
-  position: relative;
-  top: -$btn-padding-y;
-  text-decoration: none;
+  justify-content: flex-end;
+  align-content: flex-start;
 }
 
 .presence-category {
-  display: flex;
-  justify-content: flex-end;
+  text-decoration: none;
+  padding: 0;
 }
 
 .presence-category i {
-  margin-left: 0.3em;
+  position: relative;
+  top: $btn-padding-y / 2;
 }
 
 :host.absent .presence-category {
@@ -40,23 +37,68 @@
   color: $late-color;
 }
 
-.presence-category-designation,
+.designation,
 .student-name,
+a.comment,
 .comment span {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+.designation {
+  text-align: right;
+  flex-basis: 85%;
+}
+
+.status {
+  padding-left: $spacer / 2;
+}
+
 .student-name {
+  padding-top: $spacer;
+  flex-basis: 100%;
   color: $body-color;
 }
 
 .comment {
   display: flex;
+  flex-basis: 100%;
   color: rgba($body-color, 0.5);
+  margin-top: $spacer;
 }
 
 .comment i {
   margin-right: 0.3em;
+}
+
+// List layout
+:host.list {
+  padding: $spacer / 2;
+
+  .content {
+    justify-content: space-between;
+  }
+
+  .designation,
+  .comment {
+    margin-top: 0;
+  }
+
+  .student-name {
+    padding-top: 0;
+    flex-basis: auto;
+    order: -2;
+  }
+
+  .status {
+    flex-basis: auto;
+    order: -1;
+    padding-bottom: 0;
+  }
+
+  .designation {
+    flex-basis: 100%;
+    text-align: right;
+  }
 }

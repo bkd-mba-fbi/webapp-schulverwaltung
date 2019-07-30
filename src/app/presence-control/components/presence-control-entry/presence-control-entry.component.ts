@@ -25,8 +25,8 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
 
-  @HostBinding('class') get presenceCategory(): string {
-    return this.entry.presenceCategory;
+  @HostBinding('class') get classNames(): string {
+    return [this.entry.presenceCategory, this.viewMode].join(' ');
   }
 
   private studentId$ = new ReplaySubject<number>(1);
