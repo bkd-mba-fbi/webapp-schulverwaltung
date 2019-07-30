@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, combineLatest } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
 import {
   takeUntil,
   filter,
@@ -13,6 +13,7 @@ import {
 } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { flattenDeep } from 'lodash-es';
 
 import { notNull } from 'src/app/shared/utils/filter';
 import { getValidationErrors } from 'src/app/shared/utils/form';
@@ -173,16 +174,38 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
 
   private save(confirmationValue: number, absenceTypeId: number): void {
     this.saving$.next(true);
-    combineLatest(
+    // Execute bulk requests
+    // const requests = this.openAbsencesService.selected.map(
+    //   ({ lessonIds, personIds }) =>
+    //     this.updateService.confirmLessonPresences(
+    //       lessonIds,
+    //       personIds,
+    //       absenceTypeId,
+    //       confirmationValue
+    //     )
+    // );
+
+    // Workaround: due to a backend bug, a request for each
+    // lessonId/personId pair has to be done (see #92). Use the above
+    // implementation that performs bulk requests for multiple
+    // lessonIds if this issue is fixed in the backend.
+    const selected = (flattenDeep(
       this.openAbsencesService.selected.map(({ lessonIds, personIds }) =>
-        this.updateService.confirmLessonPresences(
-          lessonIds,
-          personIds,
-          absenceTypeId,
-          confirmationValue
+        lessonIds.map(lessonId =>
+          personIds.map(personId => ({ lessonId, personId }))
         )
       )
-    )
+    ) as unknown) as { lessonId: number; personId: number }[];
+    const requests = selected.map(({ lessonId, personId }) =>
+      this.updateService.confirmLessonPresences(
+        [lessonId],
+        [personId],
+        absenceTypeId,
+        confirmationValue
+      )
+    );
+
+    combineLatest(requests)
       .pipe(finalize(() => this.saving$.next(false)))
       .subscribe(this.onSaveSuccess.bind(this));
   }
