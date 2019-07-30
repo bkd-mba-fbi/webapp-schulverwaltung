@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { tap, catchError, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, finalize } from 'rxjs/operators';
 import { nonZero } from '../utils/filter';
+import { prepare } from '../utils/observable';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,9 @@ export class LoadingService {
   loading$ = this.loadingCount$.pipe(map(nonZero));
 
   load<T>(source$: Observable<T>): Observable<T> {
-    this.incrementLoadingCount();
     return source$.pipe(
-      tap(() => this.decrementLoadingCount()),
-      catchError(error => {
-        this.decrementLoadingCount();
-        return throwError(error);
-      })
+      prepare(this.incrementLoadingCount.bind(this)),
+      finalize(this.decrementLoadingCount.bind(this))
     );
   }
 

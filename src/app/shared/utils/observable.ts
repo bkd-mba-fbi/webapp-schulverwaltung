@@ -5,7 +5,9 @@ import {
   of,
   OperatorFunction,
   throwError,
-  MonoTypeOperatorFunction
+  MonoTypeOperatorFunction,
+  Observable,
+  defer
 } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -34,4 +36,18 @@ export function log<T>(
     input$.pipe(
       tap((x: T) => (message ? console.log(message, x) : console.log(x)))
     );
+}
+
+/**
+ * Calls a callback when an observable gets subscribed, e.g.:
+ *   foo$.pipe(prepare(() => console.log('subscribed')))
+ */
+export function prepare<T>(
+  callback: () => void
+): (source: Observable<T>) => Observable<T> {
+  return (source: Observable<T>): Observable<T> =>
+    defer(() => {
+      callback();
+      return source;
+    });
 }
