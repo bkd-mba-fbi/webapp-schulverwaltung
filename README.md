@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.org/erz-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.org/erz-mba-fbi/absenzenmanagement)
 
-JavaScript web module to implement the process "Absenzenverwaltung" using the CLX.Evento backend (REST API).
+JavaScript web module to implement the process "Absenzenverwaltung"
+using the CLX.Evento backend (REST API).
 
 [Demo](https://erz-mba-fbi.github.io/absenzenmanagement/app)
 
@@ -10,7 +11,9 @@ JavaScript web module to implement the process "Absenzenverwaltung" using the CL
 
 Download the [latest build](absenzenmanagement.zip).
 
-To integrate this application in your website, you have to copy and paste the import of the `settings.js` and the CSS file from `index.html`'s `<head>`:
+To integrate this application in your website, you have to copy and
+paste the import of the `settings.js` and the CSS file from
+`index.html`'s `<head>`:
 
 ```
 <head>
@@ -19,7 +22,8 @@ To integrate this application in your website, you have to copy and paste the im
 </head>
 ```
 
-In addition, you have to copy and paste the app tag and all `<script>` tags from `index.html`'s `<body>`:
+In addition, you have to copy and paste the app tag and all `<script>`
+tags from `index.html`'s `<body>`:
 
 ```
 <body>
@@ -30,11 +34,23 @@ In addition, you have to copy and paste the app tag and all `<script>` tags from
 </body>
 ```
 
-To configure the app, you have to rename the file `settings.example.js` to `settings.js` and adjust its contents.
+To configure the app, you have to rename the file
+`settings.example.js` to `settings.js` and adjust its contents.
 
 ### Authorization
 
-The website integrating this application has to make sure the OAuth access token is available in localStorage under the key `CLX.LoginToken` (e.g. by setting `localStorage.setItem('CLX.LoginToken', '...')`). If not provided, the application displays a unauthenticated message to the user.
+The website integrating this application has to make sure the OAuth
+access token is available in localStorage under the key
+`CLX.LoginToken` (e.g. by setting
+`localStorage.setItem('CLX.LoginToken', '...')`). If not provided, the
+application displays a unauthenticated message to the user.
+
+### Important Notes
+
+- When integrated in the Evento Application, the App is wrapped in a
+  `<form>` tag. It is therefore important, that all `<button>`'s are
+  defined with `type="button"` attribute, otherwise the global form
+  will get submitted which results in a page reload.
 
 ## Development
 

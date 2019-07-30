@@ -1,5 +1,6 @@
 <div class="header-nav">
   <button
+    type="button"
     class="previous-lesson btn btn-link"
     (click)="previousLesson.emit()"
     [disabled]="!lesson || !hasPreviousLesson"
@@ -10,7 +11,7 @@
   <div class="header-info">
     <div class="header-info-content">
       <div class="header-info-datetime">
-        <button class="btn btn-link" (click)="d.toggle()">
+        <button type="button" class="btn btn-link" (click)="d.toggle()">
           <i class="material-icons">calendar_today</i>
         </button>
         <input
@@ -33,6 +34,7 @@
     </div>
   </div>
   <button
+    type="button"
     class="next-lesson btn btn-link"
     (click)="nextLesson.emit()"
     [disabled]="!lesson || !hasNextLesson"
@@ -77,6 +79,7 @@
   </div>
   <div class="header-views">
     <button
+      type="button"
       *ngFor="let option of viewModeOptions"
       class="header-view btn"
       [disabled]="!lesson"

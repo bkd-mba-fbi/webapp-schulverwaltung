@@ -3,7 +3,11 @@
     class="header d-flex align-items-center justify-content-between"
     *erzLet="selectionService.selection$ | async as selection"
   >
-    <button class="back btn btn-link p-3" [routerLink]="['/open-absences']">
+    <button
+      type="button"
+      class="back btn btn-link p-3"
+      [routerLink]="['/open-absences']"
+    >
       <div class="d-flex align-items-center">
         <i class="material-icons">navigate_before</i>
         <span class="ml-3">{{ studentFullName$ | async }}</span>
