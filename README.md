@@ -42,3 +42,4 @@ The website integrating this application has to make sure the OAuth access token
 - [Setup development environment](doc/setup-dev-environment.md)
 - [Prettier](doc/prettier.md)
 - [Internationalization (i18n)](doc/i18n.md)
+- [API Data Contract (Data Decoding)](doc/io-ts.md)

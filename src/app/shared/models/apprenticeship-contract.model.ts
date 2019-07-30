@@ -1,23 +1,22 @@
 import * as t from 'io-ts';
-import { Reference, Option } from './common-types';
-import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
+import { Reference } from './common-types';
 
 const ApprenticeshipContract = t.type({
   Id: t.number,
   JobTrainerRef: Reference,
-  StudentRef: Reference,
+  // StudentRef: Reference,
   ApprenticeshipManagerId: t.number,
-  ApprenticeshipDateFrom: t.string, // TODO
-  ApprenticeshipDateTo: t.string, // TODO
-  CompanyName: t.string,
-  ContractDateFrom: Option(DateFromISOString),
-  ContractDateTo: Option(DateFromISOString),
-  ContractNumber: t.string,
-  ContractTermination: Option(DateFromISOString),
-  ContractType: t.string,
-  JobCode: t.number,
-  JobVersion: t.number,
-  HRef: t.string
+  ApprenticeshipDateFrom: t.string,
+  ApprenticeshipDateTo: t.string,
+  CompanyName: t.string
+  // ContractDateFrom: Option(DateFromISOString),
+  // ContractDateTo: Option(DateFromISOString),
+  // ContractNumber: t.string,
+  // ContractTermination: Option(DateFromISOString),
+  // ContractType: t.string,
+  // JobCode: t.number,
+  // JobVersion: t.number,
+  // HRef: t.string
 });
 
 type ApprenticeshipContract = t.TypeOf<typeof ApprenticeshipContract>;

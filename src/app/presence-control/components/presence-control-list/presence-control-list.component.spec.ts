@@ -50,7 +50,7 @@ describe('PresenceControlListComponent', () => {
       jenni
     ]);
 
-    absence = buildPresenceType(2, 20, true, false);
+    absence = buildPresenceType(2, true, false);
     blockLessons = [jenni.lessonPresence];
 
     stateServiceMock = ({

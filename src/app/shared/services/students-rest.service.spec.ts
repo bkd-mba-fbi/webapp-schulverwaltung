@@ -8,14 +8,11 @@ import { buildApprenticeshipContract } from 'src/spec-builders';
 describe('StudentsRestService', () => {
   let service: StudentsRestService;
   let httpTestingController: HttpTestingController;
-  let date: Date;
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
     service = TestBed.get(StudentsRestService);
     httpTestingController = TestBed.get(HttpTestingController);
-
-    date = new Date();
   });
 
   afterEach(() => httpTestingController.verify());
@@ -28,19 +25,13 @@ describe('StudentsRestService', () => {
 
       httpTestingController
         .expectOne('https://eventotest.api/Students/39361/LegalRepresentatives')
-        .flush([buildModel(54425, false), buildModel(56200, false)]);
+        .flush([buildModel(54425), buildModel(56200)]);
     });
 
-    function buildModel(id: number, useDate = true): any {
-      const dateValue = useDate ? date : date.toISOString();
+    function buildModel(id: number): any {
       return {
         Id: id,
-        TypeId: '',
-        RepresentativeId: 123,
-        StudentId: 123,
-        DateFrom: dateValue,
-        DateTo: dateValue,
-        RepresentativeAfterMajority: false
+        RepresentativeId: 123
       };
     }
   });

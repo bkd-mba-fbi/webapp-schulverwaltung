@@ -32,23 +32,23 @@ export function buildLessonPresence(
     StudentRef: buildReference(),
     EventRef: buildReference(),
     TypeRef: buildOptionalReference(presenceTypeId),
-    StudyClassRef: buildReference(),
-    EventTypeId: 123,
-    ConfirmationState: null,
+    // StudyClassRef: buildReference(),
+    // EventTypeId: 123,
+    // ConfirmationState: null,
     ConfirmationStateId: null,
     EventDesignation: eventDesignation,
-    EventNumber: '',
+    // EventNumber: '',
     HasStudyCourseConfirmationCode: false,
-    IsReadOnly: false,
+    // IsReadOnly: false,
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
     Comment: null,
     Date: null,
     Type: null,
     StudentFullName: studentName,
-    StudyClassDesignation: '',
+    // StudyClassDesignation: '',
     StudyClassNumber: '9a',
-    TeacherInformation: '',
+    // TeacherInformation: '',
     WasAbsentInPrecedingLesson: null
   };
 }
@@ -88,23 +88,22 @@ export function buildPresenceControlEntry(
 
 export function buildPresenceType(
   id: number,
-  typeId: number,
   isAbsence: boolean,
   isIncident: boolean
 ): PresenceType {
   return {
     Id: id,
-    TypeId: typeId,
-    Active: true,
-    Description: '',
+    // TypeId: id * 10,
+    // Active: true,
+    // Description: '',
     Designation: '',
     IsAbsence: isAbsence,
     IsComment: false,
     IsDispensation: false,
     IsIncident: isIncident,
     IsHalfDay: false,
-    NeedsConfirmation: true,
-    Sort: 0
+    NeedsConfirmation: true
+    // Sort: 0
   };
 }
 
@@ -115,15 +114,15 @@ export function buildStudent(id: number): Student {
     AddressLine2: null,
     Birthdate: new Date(),
     DisplayEmail: '',
-    FirstName: '',
+    // FirstName: '',
     FullName: '',
     Gender: 'F',
-    LastName: '',
+    // LastName: '',
     Location: '',
     PhoneMobile: '',
     PhonePrivate: '',
-    PostalCode: '',
-    HRef: ''
+    PostalCode: ''
+    // HRef: ''
   };
 }
 
@@ -135,19 +134,19 @@ export function buildApprenticeshipContract(
   return {
     Id: id,
     JobTrainerRef: buildReference(jobTrainerId),
-    StudentRef: buildReference(),
+    // StudentRef: buildReference(),
     ApprenticeshipManagerId: apprenticeshipManagerId,
     ApprenticeshipDateFrom: '',
     ApprenticeshipDateTo: '',
-    CompanyName: '',
-    ContractDateFrom: null,
-    ContractDateTo: null,
-    ContractNumber: '',
-    ContractTermination: null,
-    ContractType: '',
-    JobCode: 123,
-    JobVersion: 1,
-    HRef: ''
+    CompanyName: ''
+    // ContractDateFrom: null,
+    // ContractDateTo: null,
+    // ContractNumber: '',
+    // ContractTermination: null,
+    // ContractType: '',
+    // JobCode: 123,
+    // JobVersion: 1,
+    // HRef: ''
   };
 }
 
@@ -157,51 +156,52 @@ export function buildLegalRepresentative(
 ): LegalRepresentative {
   return {
     Id: id,
-    TypeId: '',
-    RepresentativeId: representativeId || 0,
-    StudentId: 0,
-    DateFrom: null,
-    DateTo: null,
-    RepresentativeAfterMajority: false
+    // TypeId: '',
+    RepresentativeId: representativeId || 0
+    // StudentId: 0,
+    // DateFrom: null,
+    // DateTo: null,
+    // RepresentativeAfterMajority: false
   };
 }
 
 export function buildPerson(id: number): Person {
   return {
     Id: id,
-    Country: '',
-    CountryId: '',
-    FormOfAddress: 'Frau',
-    FormOfAddressId: 1,
-    HomeCountry: null,
-    HomeCountryId: null,
-    Nationality: null,
-    NationalityId: null,
+    // Country: '',
+    // CountryId: '',
+    // FormOfAddress: 'Frau',
+    // FormOfAddressId: 1,
+    // HomeCountry: null,
+    // HomeCountryId: null,
+    // Nationality: null,
+    // NationalityId: null,
     AddressLine1: null,
     AddressLine2: null,
-    BillingAddress: '',
-    Birthdate: null,
-    CorrespondenceAddress: '',
+    // BillingAddress: '',
+    // Birthdate: null,
+    // CorrespondenceAddress: '',
     DisplayEmail: null,
-    Email: null,
-    Email2: null,
+    // Email: null,
+    // Email2: null,
     FirstName: '',
     Gender: 'F',
-    HomeTown: null,
-    IsEditable: false,
-    IsEmployee: false,
+    // HomeTown: null,
+    // IsEditable: false,
+    // IsEmployee: false,
     LastName: '',
     Location: null,
-    MatriculationNumber: null,
-    MiddleName: null,
-    NativeLanguage: null,
+    // MatriculationNumber: null,
+    // MiddleName: null,
+    // NativeLanguage: null,
     PhoneMobile: null,
     PhonePrivate: null,
-    Profession: null,
-    SocialSecurityNumber: null,
-    StayPermit: null,
-    StayPermitExpiry: null,
-    Zip: null,
-    HRef: ''
+    PhoneBusiness: null,
+    // Profession: null,
+    // SocialSecurityNumber: null,
+    // StayPermit: null,
+    // StayPermitExpiry: null,
+    Zip: null
+    // HRef: ''
   };
 }

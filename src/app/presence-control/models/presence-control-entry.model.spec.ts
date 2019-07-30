@@ -16,14 +16,14 @@ describe('PresenceControlEntry', () => {
   let entry: PresenceControlEntry;
 
   beforeEach(() => {
-    absenceType = buildPresenceType(1, 10, true, false);
-    dispensationType = buildPresenceType(2, 20, false, false);
+    absenceType = buildPresenceType(1, true, false);
+    dispensationType = buildPresenceType(2, false, false);
     dispensationType.IsDispensation = true;
-    halfDayType = buildPresenceType(3, 30, false, false);
+    halfDayType = buildPresenceType(3, false, false);
     halfDayType.IsHalfDay = true;
-    lateType = buildPresenceType(4, 40, false, true);
-    incidentType = buildPresenceType(5, 50, false, true);
-    commentType = buildPresenceType(6, 60, false, false);
+    lateType = buildPresenceType(4, false, true);
+    incidentType = buildPresenceType(5, false, true);
+    commentType = buildPresenceType(6, false, false);
     commentType.IsComment = true;
 
     presenceTypes = [

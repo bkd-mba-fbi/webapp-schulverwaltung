@@ -23,6 +23,13 @@ describe('decode utils', () => {
       expect(error).not.toHaveBeenCalled();
     });
 
+    it('ignores additional attributes', () => {
+      const data: unknown = { foo: 'bar', baz: 123 };
+      decoder(data).subscribe(success, error);
+      expect(success).toHaveBeenCalledWith({ foo: 'bar', baz: 123 });
+      expect(error).not.toHaveBeenCalled();
+    });
+
     it('throws error if data is not valid', () => {
       const data: unknown = { foo: 123 };
       decoder(data).subscribe(success, error);

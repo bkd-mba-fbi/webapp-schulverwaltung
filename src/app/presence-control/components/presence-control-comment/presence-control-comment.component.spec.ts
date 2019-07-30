@@ -35,7 +35,7 @@ describe('PresenceControlCommentComponent', () => {
     lessonPresence = buildLessonPresence(123, new Date(), new Date(), '');
     lessonPresence.Comment = 'comment';
     lesson = buildLesson(133, new Date(), new Date(), '');
-    absence = buildPresenceType(143, 11, true, false);
+    absence = buildPresenceType(143, true, false);
     entry = buildPresenceControlEntry(lessonPresence, absence);
 
     activatedRouteMock = new ActivatedRouteMock({

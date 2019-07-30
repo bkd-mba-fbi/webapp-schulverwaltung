@@ -25,13 +25,13 @@ describe('lesson presences utils', () => {
   let presenceTypes: ReadonlyArray<PresenceType>;
 
   beforeEach(() => {
-    absent = buildPresenceType(11, 377, true, false);
+    absent = buildPresenceType(11, true, false);
     absent.Designation = 'Abwesend';
 
-    late = buildPresenceType(12, 380, false, true);
+    late = buildPresenceType(12, false, true);
     late.Designation = 'Verspätet';
 
-    comment = buildPresenceType(13, 390, false, true);
+    comment = buildPresenceType(13, false, true);
     comment.IsComment = true;
     comment.Designation = null;
 

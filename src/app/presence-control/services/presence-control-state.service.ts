@@ -12,8 +12,7 @@ import {
   switchMap,
   take,
   withLatestFrom,
-  distinctUntilChanged,
-  filter
+  distinctUntilChanged
 } from 'rxjs/operators';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { Lesson } from '../../shared/models/lesson.model';
