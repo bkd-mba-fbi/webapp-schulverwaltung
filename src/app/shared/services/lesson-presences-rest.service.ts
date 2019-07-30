@@ -1,14 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
 import { format } from 'date-fns';
-
-import { RestService } from './rest.service';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { SETTINGS, Settings } from '../../settings';
 import {
-  LessonPresenceProps,
-  LessonPresence
+  LessonPresence,
+  LessonPresenceProps
 } from '../models/lesson-presence.model';
+import { decodeArray } from '../utils/decode';
+import { RestService } from './rest.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,12 @@ export class LessonPresencesRestService extends RestService<
     return this.getList({
       'filter.LessonDateTimeFrom': `=${format(date, 'YYYY-MM-DD')}`
     });
+  }
+
+  getListForToday(): Observable<ReadonlyArray<LessonPresence>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/Today`)
+      .pipe(switchMap(decodeArray(this.decoder)));
   }
 
   getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {

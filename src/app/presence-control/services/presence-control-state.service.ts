@@ -42,6 +42,7 @@ import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { canChangePresenceType } from '../utils/presence-types';
+import { isToday } from 'date-fns';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -248,7 +249,9 @@ export class PresenceControlStateService {
     date: Date
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.loadingService.load(
-      this.lessonPresencesService.getListByDate(date)
+      isToday(date)
+        ? this.lessonPresencesService.getListForToday()
+        : this.lessonPresencesService.getListByDate(date)
     );
   }
 

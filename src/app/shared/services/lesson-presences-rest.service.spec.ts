@@ -76,6 +76,18 @@ describe('LessonPresencesRestService', () => {
     });
   });
 
+  describe('.getListForToday', () => {
+    it("fetches list filtered by today's date", () => {
+      const data: any[] = [];
+      service.getListForToday().subscribe(result => expect(result).toBe(data));
+
+      const url = 'https://eventotest.api/LessonPresences/Today';
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
+
   describe('.getListOfUnconfirmed', () => {
     it('fetches list filtered by unconfirmed state from settings', () => {
       const data: any[] = [];
