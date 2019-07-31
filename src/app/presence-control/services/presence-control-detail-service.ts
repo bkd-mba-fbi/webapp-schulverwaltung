@@ -19,9 +19,9 @@ export interface Profile {
 }
 
 export interface ApprenticeshipCompany {
-  apprenticeshipContract: Option<ApprenticeshipContract>;
-  jobTrainerPerson: Option<Person>;
-  apprenticeshipManagerPerson: Option<Person>;
+  apprenticeshipContract: ApprenticeshipContract;
+  jobTrainerPerson: Person;
+  apprenticeshipManagerPerson: Person;
 }
 
 @Injectable({
@@ -102,17 +102,15 @@ export class PresenceControlDetailService {
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
     apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
   ): ReadonlyArray<number> {
-    const personIds = legalRepresentatives.map(
-      legalRepresentative => legalRepresentative.RepresentativeId
-    );
-    const trainerIds = apprenticeshipContracts.map(
-      contract => contract.JobTrainer
-    );
-    const managerIds = apprenticeshipContracts.map(
-      contract => contract.ApprenticeshipManagerId
-    );
-
-    return personIds.concat(trainerIds).concat(managerIds);
+    return [
+      ...legalRepresentatives.map(
+        legalRepresentative => legalRepresentative.RepresentativeId
+      ),
+      ...apprenticeshipContracts.map(contract => contract.JobTrainer),
+      ...apprenticeshipContracts.map(
+        contract => contract.ApprenticeshipManagerId
+      )
+    ];
   }
 
   private createProfile(

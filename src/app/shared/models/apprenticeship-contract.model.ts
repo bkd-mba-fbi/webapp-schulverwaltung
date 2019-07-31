@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Reference } from './common-types';
+import { Maybe, Option } from './common-types';
 
 const ApprenticeshipContract = t.type({
   Id: t.number,
@@ -7,8 +7,8 @@ const ApprenticeshipContract = t.type({
   // StudentRef: Reference,
   ApprenticeshipManagerId: t.number,
   ApprenticeshipDateFrom: t.string,
-  ApprenticeshipDateTo: t.string
-  // CompanyName: t.string
+  ApprenticeshipDateTo: t.string,
+  CompanyName: Maybe(t.string)
   // ContractDateFrom: Option(DateFromISOString),
   // ContractDateTo: Option(DateFromISOString),
   // ContractNumber: t.string,

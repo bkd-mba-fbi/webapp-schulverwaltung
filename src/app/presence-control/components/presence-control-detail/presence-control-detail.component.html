@@ -11,17 +11,17 @@
         <div class="detail-entry">
           <address>
             {{ profile.student.AddressLine1 }}<br />
-            <span *ngIf="profile.student.AddressLine2"
+            <ng-container *ngIf="profile.student.AddressLine2"
               >{{ profile.student.AddressLine2 }}<br
-            /></span>
+            /></ng-container>
             {{ profile.student.PostalCode }} {{ profile.student.Location
             }}<br />
-            <span *ngIf="profile.student.PhonePrivate"
+            <ng-container *ngIf="profile.student.PhonePrivate"
               ><a href="tel:{{ profile.student.PhonePrivate }}">{{
                 profile.student.PhonePrivate
               }}</a
               ><br
-            /></span>
+            /></ng-container>
             <a href="tel:{{ profile.student.PhoneMobile }}">{{
               profile.student.PhoneMobile
             }}</a
@@ -49,7 +49,10 @@
                   {{
                     'presence-control.detail.legal-representation' | translate
                   }}
-                  {{ i + 1 }}
+                  <ng-container
+                    *ngIf="profile.legalRepresentativePersons > 1"
+                    >{{ i + 1 }}</ng-container
+                  >
                 </h5>
                 <button type="button" class="btn btn-link p-0">
                   <div class="d-flex align-items-center">
@@ -64,27 +67,27 @@
               <div class="detail-entry">
                 <address>
                   {{ legalPerson.LastName }} {{ legalPerson.FirstName }}<br />
-                  <span *ngIf="legalPerson.AddressLine1"
+                  <ng-container *ngIf="legalPerson.AddressLine1"
                     >{{ legalPerson.AddressLine1 }}<br
-                  /></span>
-                  <span *ngIf="legalPerson.AddressLine2"
+                  /></ng-container>
+                  <ng-container *ngIf="legalPerson.AddressLine2"
                     >{{ legalPerson.AddressLine2 }}<br
-                  /></span>
-                  <span *ngIf="legalPerson.Zip && legalPerson.Zip"
+                  /></ng-container>
+                  <ng-container *ngIf="legalPerson.Zip && legalPerson.Zip"
                     >{{ legalPerson.Zip }} {{ legalPerson.Location }}<br
-                  /></span>
-                  <span *ngIf="legalPerson.PhonePrivate">
+                  /></ng-container>
+                  <ng-container *ngIf="legalPerson.PhonePrivate">
                     <a href="tel:{{ legalPerson.PhonePrivate }}"
                       >{{ legalPerson.PhonePrivate }}<br /></a
-                  ></span>
-                  <span *ngIf="legalPerson.PhoneMobile">
+                  ></ng-container>
+                  <ng-container *ngIf="legalPerson.PhoneMobile">
                     <a href="tel:{{ legalPerson.PhoneMobile }}"
                       >{{ legalPerson.PhoneMobile }}<br /></a
-                  ></span>
-                  <span *ngIf="legalPerson.DisplayEmail">
+                  ></ng-container>
+                  <ng-container *ngIf="legalPerson.DisplayEmail">
                     <a href="mailto:{{ legalPerson.DisplayEmail }}">{{
                       legalPerson.DisplayEmail
-                    }}</a></span
+                    }}</a></ng-container
                   >
                 </address>
               </div>
@@ -114,7 +117,10 @@
                   {{
                     'presence-control.detail.apprenticeship-company' | translate
                   }}
-                  {{ i + 1 }}
+                  <ng-container
+                    *ngIf="profile.apprenticeshipCompanies.length > 1"
+                    >{{ i + 1 }}</ng-container
+                  >
                 </h5>
                 <button type="button" class="btn btn-link p-0">
                   <div class="d-flex align-items-center">
@@ -128,8 +134,15 @@
             <ng-template ngbPanelContent>
               <div class="detail-entry">
                 <address>
-                  <!-- {{ profile.apprenticeshipContract.CompanyName }}<br /> -->
-                  <span
+                  <ng-container
+                    *ngIf="
+                      apprenticeshipCompany.apprenticeshipContract.CompanyName
+                    "
+                    >{{
+                      apprenticeshipCompany.apprenticeshipContract.CompanyName
+                    }}<br
+                  /></ng-container>
+                  <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .LastName &&
@@ -144,8 +157,8 @@
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .FirstName
                     }}<br />
-                  </span>
-                  <span
+                  </ng-container>
+                  <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .AddressLine1
@@ -154,8 +167,8 @@
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .AddressLine1
                     }}<br
-                  /></span>
-                  <span
+                  /></ng-container>
+                  <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .AddressLine2
@@ -164,8 +177,8 @@
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .AddressLine2
                     }}<br
-                  /></span>
-                  <span
+                  /></ng-container>
+                  <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson.Zip &&
                       apprenticeshipCompany.apprenticeshipManagerPerson.Zip
@@ -177,8 +190,8 @@
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .Location
                     }}<br
-                  /></span>
-                  <span
+                  /></ng-container>
+                  <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .PhoneBusiness
@@ -193,8 +206,8 @@
                         apprenticeshipCompany.apprenticeshipManagerPerson
                           .PhoneBusiness
                       }}<br /></a
-                  ></span>
-                  <span
+                  ></ng-container>
+                  <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson
                         .DisplayEmail
@@ -209,7 +222,7 @@
                         apprenticeshipCompany.apprenticeshipManagerPerson
                           .DisplayEmail
                       }}</a
-                    ></span
+                    ></ng-container
                   >
                 </address>
                 <div class="detail-subentry">
@@ -230,7 +243,7 @@
                   <address>
                     {{ apprenticeshipCompany.jobTrainerPerson.LastName }}
                     {{ apprenticeshipCompany.jobTrainerPerson.FirstName }}<br />
-                    <span
+                    <ng-container
                       *ngIf="
                         apprenticeshipCompany.jobTrainerPerson.PhoneBusiness
                       "
@@ -242,8 +255,8 @@
                         >{{
                           apprenticeshipCompany.jobTrainerPerson.PhoneBusiness
                         }}<br /></a
-                    ></span>
-                    <span
+                    ></ng-container>
+                    <ng-container
                       *ngIf="apprenticeshipCompany.jobTrainerPerson.PhoneMobile"
                     >
                       <a
@@ -252,8 +265,8 @@
                         }}"
                         >{{ apprenticeshipCompany.jobTrainerPerson.PhoneMobile
                         }}<br /></a
-                    ></span>
-                    <span
+                    ></ng-container>
+                    <ng-container
                       *ngIf="
                         apprenticeshipCompany.jobTrainerPerson.DisplayEmail
                       "
@@ -265,7 +278,7 @@
                         >{{
                           apprenticeshipCompany.jobTrainerPerson.DisplayEmail
                         }}</a
-                      ></span
+                      ></ng-container
                     >
                   </address>
                 </div>
