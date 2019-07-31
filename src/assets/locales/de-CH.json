@@ -34,7 +34,9 @@
       "previous-lesson": "Vorherige Lektion",
       "next-lesson": "Nächste Lektion",
       "search": "Suchen",
-      "search-by-name": "Name suchen..."
+      "search-by-name": "Name suchen...",
+      "no-previous-lesson": "Keine vorherigen Lektionen am gewählten Tag vorhanden, bitte benutzen Sie den Kalender.",
+      "no-next-lesson": "Keine nachfolgenden Lektionen am gewählten Tag vorhanden, bitte benutzen Sie den Kalender."
     },
     "entry": {
       "comment": "Kommentar...",

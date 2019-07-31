@@ -7,6 +7,8 @@ import {
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { Lesson } from 'src/app/shared/models/lesson.model';
 import { ViewMode } from '../../services/presence-control-state.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ViewModeOption {
   viewMode: ViewMode;
@@ -44,7 +46,30 @@ export class PresenceControlHeaderComponent implements OnInit {
     { viewMode: ViewMode.Grid, icon: 'view_module' }
   ];
 
-  constructor() {}
+  constructor(
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {}
+
+  selectNextLesson(): void {
+    if (this.hasNextLesson) {
+      this.nextLesson.emit();
+    } else {
+      this.toastr.warning(
+        this.translate.instant('presence-control.header.no-previous-lesson')
+      );
+    }
+  }
+
+  selectPreviousLesson(): void {
+    if (this.hasPreviousLesson) {
+      this.previousLesson.emit();
+    } else {
+      this.toastr.warning(
+        this.translate.instant('presence-control.header.no-next-lesson')
+      );
+    }
+  }
 }

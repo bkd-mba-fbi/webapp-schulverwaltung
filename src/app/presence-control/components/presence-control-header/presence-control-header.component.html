@@ -2,8 +2,9 @@
   <button
     type="button"
     class="previous-lesson btn btn-link"
-    (click)="previousLesson.emit()"
-    [disabled]="!lesson || !hasPreviousLesson"
+    [class.disabled]="!hasPreviousLesson"
+    (click)="selectPreviousLesson()"
+    [disabled]="!lesson"
     [attr.aria-label]="'presence-control.header.previous-lesson' | translate"
   >
     <i class="material-icons">navigate_before</i>
@@ -36,8 +37,9 @@
   <button
     type="button"
     class="next-lesson btn btn-link"
-    (click)="nextLesson.emit()"
-    [disabled]="!lesson || !hasNextLesson"
+    [class.disabled]="!hasNextLesson"
+    (click)="selectNextLesson()"
+    [disabled]="!lesson"
     [attr.aria-label]="'presence-control.header.next-lesson' | translate"
   >
     <i class="material-icons">navigate_next</i>
