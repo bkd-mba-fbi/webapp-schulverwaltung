@@ -53,7 +53,7 @@ describe('PresenceControlDetailService', () => {
     legalRepresentative2 = buildPerson(
       legalRepresentatives[1].RepresentativeId
     );
-    jobTrainer = buildPerson(apprenticeshipContract.JobTrainerRef.Id);
+    jobTrainer = buildPerson(apprenticeshipContract.JobTrainer);
     apprenticeshipManager = buildPerson(
       apprenticeshipContract.ApprenticeshipManagerId
     );

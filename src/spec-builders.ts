@@ -132,17 +132,17 @@ export function buildStudent(id: number): Student {
 
 export function buildApprenticeshipContract(
   id: number,
-  jobTrainerId?: number,
+  jobTrainerId = 0,
   apprenticeshipManagerId = 0
 ): ApprenticeshipContract {
   return {
     Id: id,
-    JobTrainerRef: buildReference(jobTrainerId),
+    JobTrainer: jobTrainerId,
     // StudentRef: buildReference(),
     ApprenticeshipManagerId: apprenticeshipManagerId,
     ApprenticeshipDateFrom: '',
-    ApprenticeshipDateTo: '',
-    CompanyName: ''
+    ApprenticeshipDateTo: ''
+    // CompanyName: ''
     // ContractDateFrom: null,
     // ContractDateTo: null,
     // ContractNumber: '',

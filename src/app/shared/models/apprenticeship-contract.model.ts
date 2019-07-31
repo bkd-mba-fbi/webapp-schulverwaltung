@@ -3,12 +3,12 @@ import { Reference } from './common-types';
 
 const ApprenticeshipContract = t.type({
   Id: t.number,
-  JobTrainerRef: Reference,
+  JobTrainer: t.number,
   // StudentRef: Reference,
   ApprenticeshipManagerId: t.number,
   ApprenticeshipDateFrom: t.string,
-  ApprenticeshipDateTo: t.string,
-  CompanyName: t.string
+  ApprenticeshipDateTo: t.string
+  // CompanyName: t.string
   // ContractDateFrom: Option(DateFromISOString),
   // ContractDateTo: Option(DateFromISOString),
   // ContractNumber: t.string,

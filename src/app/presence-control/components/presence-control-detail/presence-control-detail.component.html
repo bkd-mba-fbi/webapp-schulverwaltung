@@ -121,9 +121,16 @@
             <ng-template ngbPanelContent>
               <div class="detail-entry">
                 <address>
-                  {{ profile.apprenticeshipContract.CompanyName }}<br />
-                  {{ profile.apprenticeshipManagerPerson.LastName }}
-                  {{ profile.apprenticeshipManagerPerson.FirstName }}<br />
+                  <!-- {{ profile.apprenticeshipContract.CompanyName }}<br /> -->
+                  <span
+                    *ngIf="
+                      profile.apprenticeshipManagerPerson.LastName &&
+                      profile.apprenticeshipManagerPerson.FirstName
+                    "
+                  >
+                    {{ profile.apprenticeshipManagerPerson.LastName }}
+                    {{ profile.apprenticeshipManagerPerson.FirstName }}<br />
+                  </span>
                   <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine1"
                     >{{ profile.apprenticeshipManagerPerson.AddressLine1 }}<br
                   /></span>

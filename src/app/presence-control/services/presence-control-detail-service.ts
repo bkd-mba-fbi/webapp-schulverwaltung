@@ -102,7 +102,7 @@ export class PresenceControlDetailService {
       legalRepresentative => legalRepresentative.RepresentativeId
     );
     if (apprenticeshipContract) {
-      personIds.push(apprenticeshipContract.JobTrainerRef.Id);
+      personIds.push(apprenticeshipContract.JobTrainer);
       personIds.push(apprenticeshipContract.ApprenticeshipManagerId);
     }
     return personIds;
@@ -130,7 +130,7 @@ export class PresenceControlDetailService {
         ...profile,
         apprenticeshipContract,
         jobTrainerPerson: this.findPerson(
-          apprenticeshipContract.JobTrainerRef.Id,
+          apprenticeshipContract.JobTrainer,
           persons
         ),
         apprenticeshipManagerPerson: this.findPerson(
