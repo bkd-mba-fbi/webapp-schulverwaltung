@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { withConfig } from 'src/app/rest-error-interceptor';
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
 import { Person } from 'src/app/shared/models/person.model';
@@ -10,11 +11,14 @@ import { PersonsRestService } from 'src/app/shared/services/persons-rest.service
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { spreadTriplet } from 'src/app/shared/utils/function';
 import { catch404AsNull } from 'src/app/shared/utils/observable';
-import { withConfig } from 'src/app/rest-error-interceptor';
 
 export interface Profile {
   student: Student;
   legalRepresentativePersons: ReadonlyArray<Person>;
+  apprenticeshipCompanies: ReadonlyArray<ApprenticeshipCompany>;
+}
+
+export interface ApprenticeshipCompany {
   apprenticeshipContract: Option<ApprenticeshipContract>;
   jobTrainerPerson: Option<Person>;
   apprenticeshipManagerPerson: Option<Person>;
@@ -37,7 +41,7 @@ export class PresenceControlDetailService {
       combineLatest(
         this.loadStudent(studentId),
         this.loadLegalRepresentatives(studentId),
-        this.loadApprenticeshipContract(studentId)
+        this.loadApprenticeshipContracts(studentId)
       ).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))))
     );
   }
@@ -54,11 +58,11 @@ export class PresenceControlDetailService {
     return this.studentService.getLegalRepresentatives(id);
   }
 
-  private loadApprenticeshipContract(
+  private loadApprenticeshipContracts(
     id: number
-  ): Observable<Option<ApprenticeshipContract>> {
+  ): Observable<ReadonlyArray<ApprenticeshipContract>> {
     return this.studentService
-      .getCurrentApprenticeshipContract(
+      .getCurrentApprenticeshipContracts(
         id,
         withConfig({ disableErrorHandlingForStatus: [404] })
       )
@@ -68,17 +72,17 @@ export class PresenceControlDetailService {
   private mapToProfile(
     student: Option<Student>,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: Option<ApprenticeshipContract>
+    apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
   ): Observable<Option<Profile>> {
     if (!student) {
       return of(null);
     }
-    return this.loadPersons(legalRepresentatives, apprenticeshipContract).pipe(
+    return this.loadPersons(legalRepresentatives, apprenticeshipContracts).pipe(
       map(persons =>
         this.createProfile(
           student,
           legalRepresentatives,
-          apprenticeshipContract,
+          apprenticeshipContracts,
           persons
         )
       )
@@ -87,60 +91,62 @@ export class PresenceControlDetailService {
 
   private loadPersons(
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: Option<ApprenticeshipContract>
+    apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
   ): Observable<ReadonlyArray<Person>> {
     return this.personsService.getListForIds(
-      this.getPersonIds(legalRepresentatives, apprenticeshipContract)
+      this.getPersonIds(legalRepresentatives, apprenticeshipContracts)
     );
   }
 
   private getPersonIds(
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: Option<ApprenticeshipContract>
+    apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
   ): ReadonlyArray<number> {
     const personIds = legalRepresentatives.map(
       legalRepresentative => legalRepresentative.RepresentativeId
     );
-    if (apprenticeshipContract) {
-      personIds.push(apprenticeshipContract.JobTrainer);
-      personIds.push(apprenticeshipContract.ApprenticeshipManagerId);
-    }
-    return personIds;
+    const trainerIds = apprenticeshipContracts.map(
+      contract => contract.JobTrainer
+    );
+    const managerIds = apprenticeshipContracts.map(
+      contract => contract.ApprenticeshipManagerId
+    );
+
+    return personIds.concat(trainerIds).concat(managerIds);
   }
 
   private createProfile(
     student: Student,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContract: Option<ApprenticeshipContract>,
+    apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>,
     persons: ReadonlyArray<Person>
   ): Profile {
-    let profile: Profile = {
+    const profile: Profile = {
       student,
       legalRepresentativePersons: legalRepresentatives.map(
         legalRepresentative =>
           this.findPerson(legalRepresentative.RepresentativeId, persons)
       ),
-      apprenticeshipContract: null,
-      jobTrainerPerson: null,
-      apprenticeshipManagerPerson: null
+      apprenticeshipCompanies: apprenticeshipContracts.map(contract =>
+        this.createApprenticeshipCompany(contract, persons)
+      )
     };
-
-    if (apprenticeshipContract) {
-      profile = {
-        ...profile,
-        apprenticeshipContract,
-        jobTrainerPerson: this.findPerson(
-          apprenticeshipContract.JobTrainer,
-          persons
-        ),
-        apprenticeshipManagerPerson: this.findPerson(
-          apprenticeshipContract.ApprenticeshipManagerId,
-          persons
-        )
-      };
-    }
-
     return profile;
+  }
+
+  private createApprenticeshipCompany(
+    contract: ApprenticeshipContract,
+    persons: ReadonlyArray<Person>
+  ): ApprenticeshipCompany {
+    const apprenticeshipCompany: ApprenticeshipCompany = {
+      apprenticeshipContract: contract,
+      jobTrainerPerson: this.findPerson(contract.JobTrainer, persons),
+      apprenticeshipManagerPerson: this.findPerson(
+        contract.ApprenticeshipManagerId,
+        persons
+      )
+    };
+    return apprenticeshipCompany;
   }
 
   private findPerson(id: number, persons: ReadonlyArray<Person>): Person {

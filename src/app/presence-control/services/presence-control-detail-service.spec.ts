@@ -67,9 +67,13 @@ describe('PresenceControlDetailService', () => {
     profile = {
       student,
       legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
-      apprenticeshipContract,
-      jobTrainerPerson: jobTrainer,
-      apprenticeshipManagerPerson: apprenticeshipManager
+      apprenticeshipCompanies: [
+        {
+          apprenticeshipContract,
+          jobTrainerPerson: jobTrainer,
+          apprenticeshipManagerPerson: apprenticeshipManager
+        }
+      ]
     };
   });
 

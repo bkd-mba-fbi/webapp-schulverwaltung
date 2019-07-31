@@ -92,14 +92,20 @@
           </ngb-panel>
 
           <ngb-panel
-            *ngIf="profile.apprenticeshipManagerPerson"
-            [id]="'detail-entry-' + profile.legalRepresentativePersons.length"
+            *ngFor="
+              let apprenticeshipCompany of profile.apprenticeshipCompanies;
+              let i = index
+            "
+            [id]="
+              'detail-entry-' + (i + profile.legalRepresentativePersons.length)
+            "
           >
             <ng-template ngbPanelHeader let-opened="opened">
               <div
                 (click)="
                   acc.toggle(
-                    'detail-entry-' + profile.legalRepresentativePersons.length
+                    'detail-entry-' +
+                      (i + profile.legalRepresentativePersons.length)
                   )
                 "
                 class="detail-entry-header d-flex align-items-center justify-content-between"
@@ -108,6 +114,7 @@
                   {{
                     'presence-control.detail.apprenticeship-company' | translate
                   }}
+                  {{ i + 1 }}
                 </h5>
                 <button type="button" class="btn btn-link p-0">
                   <div class="d-flex align-items-center">
@@ -124,45 +131,84 @@
                   <!-- {{ profile.apprenticeshipContract.CompanyName }}<br /> -->
                   <span
                     *ngIf="
-                      profile.apprenticeshipManagerPerson.LastName &&
-                      profile.apprenticeshipManagerPerson.FirstName
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .LastName &&
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .FirstName
                     "
                   >
-                    {{ profile.apprenticeshipManagerPerson.LastName }}
-                    {{ profile.apprenticeshipManagerPerson.FirstName }}<br />
+                    {{
+                      apprenticeshipCompany.apprenticeshipManagerPerson.LastName
+                    }}
+                    {{
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .FirstName
+                    }}<br />
                   </span>
-                  <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine1"
-                    >{{ profile.apprenticeshipManagerPerson.AddressLine1 }}<br
-                  /></span>
-                  <span *ngIf="profile.apprenticeshipManagerPerson.AddressLine2"
-                    >{{ profile.apprenticeshipManagerPerson.AddressLine2 }}<br
+                  <span
+                    *ngIf="
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .AddressLine1
+                    "
+                    >{{
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .AddressLine1
+                    }}<br
                   /></span>
                   <span
                     *ngIf="
-                      profile.apprenticeshipManagerPerson.Zip &&
-                      profile.apprenticeshipManagerPerson.Zip
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .AddressLine2
                     "
-                    >{{ profile.apprenticeshipManagerPerson.Zip }}
-                    {{ profile.apprenticeshipManagerPerson.Location }}<br
+                    >{{
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .AddressLine2
+                    }}<br
                   /></span>
                   <span
-                    *ngIf="profile.apprenticeshipManagerPerson.PhoneBusiness"
+                    *ngIf="
+                      apprenticeshipCompany.apprenticeshipManagerPerson.Zip &&
+                      apprenticeshipCompany.apprenticeshipManagerPerson.Zip
+                    "
+                    >{{
+                      apprenticeshipCompany.apprenticeshipManagerPerson.Zip
+                    }}
+                    {{
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .Location
+                    }}<br
+                  /></span>
+                  <span
+                    *ngIf="
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .PhoneBusiness
+                    "
                   >
                     <a
                       href="tel:{{
-                        profile.apprenticeshipManagerPerson.PhoneBusiness
+                        apprenticeshipCompany.apprenticeshipManagerPerson
+                          .PhoneBusiness
                       }}"
-                      >{{ profile.apprenticeshipManagerPerson.PhoneBusiness
+                      >{{
+                        apprenticeshipCompany.apprenticeshipManagerPerson
+                          .PhoneBusiness
                       }}<br /></a
                   ></span>
                   <span
-                    *ngIf="profile.apprenticeshipManagerPerson.DisplayEmail"
+                    *ngIf="
+                      apprenticeshipCompany.apprenticeshipManagerPerson
+                        .DisplayEmail
+                    "
                   >
                     <a
                       href="mailto:{{
-                        profile.apprenticeshipManagerPerson.DisplayEmail
+                        apprenticeshipCompany.apprenticeshipManagerPerson
+                          .DisplayEmail
                       }}"
-                      >{{ profile.apprenticeshipManagerPerson.DisplayEmail }}</a
+                      >{{
+                        apprenticeshipCompany.apprenticeshipManagerPerson
+                          .DisplayEmail
+                      }}</a
                     ></span
                   >
                 </address>
@@ -172,32 +218,53 @@
                   }}:<br />
 
                   {{
-                    profile.apprenticeshipContract.ApprenticeshipDateFrom
-                      | date: 'dd.MM.yyyy'
+                    apprenticeshipCompany.apprenticeshipContract
+                      .ApprenticeshipDateFrom | date: 'dd.MM.yyyy'
                   }}–{{
-                    profile.apprenticeshipContract.ApprenticeshipDateTo
-                      | date: 'dd.MM.yyyy'
+                    apprenticeshipCompany.apprenticeshipContract
+                      .ApprenticeshipDateTo | date: 'dd.MM.yyyy'
                   }}
                 </div>
                 <div class="detail-subentry">
                   {{ 'presence-control.detail.job-trainer' | translate }}:
                   <address>
-                    {{ profile.jobTrainerPerson.LastName }}
-                    {{ profile.jobTrainerPerson.FirstName }}<br />
-                    <span *ngIf="profile.jobTrainerPerson.PhoneBusiness">
-                      <a href="tel:{{ profile.jobTrainerPerson.PhoneBusiness }}"
-                        >{{ profile.jobTrainerPerson.PhoneBusiness }}<br /></a
+                    {{ apprenticeshipCompany.jobTrainerPerson.LastName }}
+                    {{ apprenticeshipCompany.jobTrainerPerson.FirstName }}<br />
+                    <span
+                      *ngIf="
+                        apprenticeshipCompany.jobTrainerPerson.PhoneBusiness
+                      "
+                    >
+                      <a
+                        href="tel:{{
+                          apprenticeshipCompany.jobTrainerPerson.PhoneBusiness
+                        }}"
+                        >{{
+                          apprenticeshipCompany.jobTrainerPerson.PhoneBusiness
+                        }}<br /></a
                     ></span>
-                    <span *ngIf="profile.jobTrainerPerson.PhoneMobile">
-                      <a href="tel:{{ profile.jobTrainerPerson.PhoneMobile }}"
-                        >{{ profile.jobTrainerPerson.PhoneMobile }}<br /></a
+                    <span
+                      *ngIf="apprenticeshipCompany.jobTrainerPerson.PhoneMobile"
+                    >
+                      <a
+                        href="tel:{{
+                          apprenticeshipCompany.jobTrainerPerson.PhoneMobile
+                        }}"
+                        >{{ apprenticeshipCompany.jobTrainerPerson.PhoneMobile
+                        }}<br /></a
                     ></span>
-                    <span *ngIf="profile.jobTrainerPerson.DisplayEmail">
+                    <span
+                      *ngIf="
+                        apprenticeshipCompany.jobTrainerPerson.DisplayEmail
+                      "
+                    >
                       <a
                         href="mailto:{{
-                          profile.jobTrainerPerson.DisplayEmail
+                          apprenticeshipCompany.jobTrainerPerson.DisplayEmail
                         }}"
-                        >{{ profile.jobTrainerPerson.DisplayEmail }}</a
+                        >{{
+                          apprenticeshipCompany.jobTrainerPerson.DisplayEmail
+                        }}</a
                       ></span
                     >
                   </address>

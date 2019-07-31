@@ -36,19 +36,23 @@ describe('StudentsRestService', () => {
     }
   });
 
-  describe('.getCurrentApprenticeshipContract', () => {
-    it('should request the current apprenticeship contract of a given student', () => {
-      const apprenticeshipContract = buildApprenticeshipContract(55905);
-
-      service.getCurrentApprenticeshipContract(39361).subscribe(result => {
-        expect(result).toEqual(apprenticeshipContract);
+  describe('.getCurrentApprenticeshipContracts', () => {
+    it('should request the current apprenticeship contracts of a given student', () => {
+      service.getCurrentApprenticeshipContracts(39361).subscribe(result => {
+        expect(result).toEqual([
+          buildApprenticeshipContract(55905),
+          buildApprenticeshipContract(55906)
+        ]);
       });
 
       httpTestingController
         .expectOne(
           'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current'
         )
-        .flush([apprenticeshipContract]);
+        .flush([
+          buildApprenticeshipContract(55905),
+          buildApprenticeshipContract(55906)
+        ]);
     });
   });
 });
