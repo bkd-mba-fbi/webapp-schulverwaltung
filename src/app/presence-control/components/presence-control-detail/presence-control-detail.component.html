@@ -238,7 +238,10 @@
                       .ApprenticeshipDateTo | date: 'dd.MM.yyyy'
                   }}
                 </div>
-                <div class="detail-subentry">
+                <div
+                  *ngIf="apprenticeshipCompany.jobTrainerPerson"
+                  class="detail-subentry"
+                >
                   {{ 'presence-control.detail.job-trainer' | translate }}:
                   <address>
                     {{ apprenticeshipCompany.jobTrainerPerson.LastName }}

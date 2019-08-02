@@ -20,7 +20,7 @@ export interface Profile {
 
 export interface ApprenticeshipCompany {
   apprenticeshipContract: ApprenticeshipContract;
-  jobTrainerPerson: Person;
+  jobTrainerPerson: Option<Person>;
   apprenticeshipManagerPerson: Person;
 }
 
@@ -106,7 +106,9 @@ export class PresenceControlDetailService {
       ...legalRepresentatives.map(
         legalRepresentative => legalRepresentative.RepresentativeId
       ),
-      ...apprenticeshipContracts.map(contract => contract.JobTrainer),
+      ...apprenticeshipContracts
+        .map(contract => contract.JobTrainer)
+        .filter((id): id is number => typeof id === 'number'),
       ...apprenticeshipContracts.map(
         contract => contract.ApprenticeshipManagerId
       )
@@ -138,7 +140,9 @@ export class PresenceControlDetailService {
   ): ApprenticeshipCompany {
     const apprenticeshipCompany: ApprenticeshipCompany = {
       apprenticeshipContract: contract,
-      jobTrainerPerson: this.findPerson(contract.JobTrainer, persons),
+      jobTrainerPerson: contract.JobTrainer
+        ? this.findPerson(contract.JobTrainer, persons)
+        : null,
       apprenticeshipManagerPerson: this.findPerson(
         contract.ApprenticeshipManagerId,
         persons

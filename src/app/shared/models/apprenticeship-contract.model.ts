@@ -3,7 +3,7 @@ import { Maybe, Option } from './common-types';
 
 const ApprenticeshipContract = t.type({
   Id: t.number,
-  JobTrainer: t.number,
+  JobTrainer: Option(t.number),
   // StudentRef: Reference,
   ApprenticeshipManagerId: t.number,
   ApprenticeshipDateFrom: t.string,
