@@ -17,9 +17,9 @@
       "server-message": "Beim Zugriff auf den Server ist ein Fehler aufgetreten."
     },
     "validation-errors": {
-      "required": "Dieser Wert muss ausgefüllt werden.",
+      "required": "Dieses Feld muss ausgefüllt werden.",
       "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
-      "confirmationvaluerequired": "Ein Absenzgrund muss ausgewählt werden."
+      "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus."
     }
   },
   "unauthenticated": {
@@ -28,15 +28,15 @@
   "presence-control": {
     "title": "Präsenzkontrolle",
     "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",
-    "no-lesson-presences": "Keine Schüler/-innen vorhanden",
+    "no-lesson-presences": "Keine Lernenden vorhanden",
     "previously-absent": "In Vorlektion abwesend",
     "header": {
       "previous-lesson": "Vorherige Lektion",
       "next-lesson": "Nächste Lektion",
       "search": "Suchen",
       "search-by-name": "Name suchen...",
-      "no-previous-lesson": "Keine vorherigen Lektionen am gewählten Tag vorhanden, bitte benutzen Sie den Kalender.",
-      "no-next-lesson": "Keine nachfolgenden Lektionen am gewählten Tag vorhanden, bitte benutzen Sie den Kalender."
+      "no-previous-lesson": "Es ist keine vorherige Lektion am gewählten Tag vorhanden, bitte benutzen Sie den Kalender.",
+      "no-next-lesson": "Es ist keine nachfolgende Lektion am gewählten Tag vorhanden, bitte benutzen Sie den Kalender."
     },
     "entry": {
       "comment": "Kommentar...",
@@ -46,7 +46,7 @@
       "legal-representation": "Gesetzliche Vertretung",
       "apprenticeship-company": "Lehrbetrieb",
       "apprenticeship-period": "Lehrzeit",
-      "job-trainer": "Berufsbildner",
+      "job-trainer": "Berufsbildner/in",
       "no-profile": "Profil wurde nicht gefunden"
     },
     "comment": {
@@ -56,7 +56,7 @@
       "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten."
     },
     "dialog": {
-      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie eine Absenz erfassen?",
+      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie den Präsenzstatus ändern?",
       "cancel": "Abbrechen",
       "save": "Übernehmen"
     }
@@ -94,7 +94,7 @@
       "absence-type-placeholder": "Absenzgrund auswählen...",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
-      "save-success": "Der Status der ausgewählten Einträge wurde erfolgreich geändert."
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
     }
   },
   "edit-absences": {
@@ -105,7 +105,7 @@
   },
   "shared": {
     "lesson-presences-update": {
-      "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten"
+      "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
     }
   }
 }
