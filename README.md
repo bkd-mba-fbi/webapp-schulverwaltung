@@ -9,7 +9,7 @@ using the CLX.Evento backend (REST API).
 
 ## Integration
 
-Download the [latest build](absenzenmanagement.zip).
+Download the [latest build](https://erz-mba-fbi.github.io/absenzenmanagement/absenzenmanagement.zip).
 
 To integrate this application in your website, you have to copy and
 paste the import of the `settings.js` and the CSS file from
