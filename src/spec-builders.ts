@@ -106,8 +106,8 @@ export function buildPresenceType(
     IsDispensation: false,
     IsIncident: isIncident,
     IsHalfDay: false,
-    NeedsConfirmation: true
-    // Sort: 0
+    NeedsConfirmation: true,
+    Sort: 0
   };
 }
 

@@ -23,6 +23,7 @@ import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson
 import { SETTINGS, Settings } from 'src/app/settings';
 import { findDropDownItem$ } from 'src/app/shared/utils/drop-down-items';
 import { PresenceTypesRestService } from 'src/app/shared/services/presence-types-rest.service';
+import { sortPresenceTypes } from '../../utils/presence-types';
 
 @Component({
   selector: 'erz-open-absences-edit',
@@ -66,9 +67,10 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
     this.settings.unexcusedAbsenceStateId
   );
 
-  absenceTypes$ = this.presenceTypesService
-    .getConfirmationTypes()
-    .pipe(shareReplay(1));
+  absenceTypes$ = this.presenceTypesService.getConfirmationTypes().pipe(
+    map(sortPresenceTypes),
+    shareReplay(1)
+  );
 
   private destroy$ = new Subject<void>();
 
