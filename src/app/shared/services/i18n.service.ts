@@ -26,7 +26,7 @@ export class I18nService {
    *   3. Browser's language
    *   4. Fallback language
    */
-  private detectLanguage(): string {
+  detectLanguage(): string {
     return (
       this.getDocumentLanguage() ||
       this.getStoredLanguage() ||

@@ -1,18 +1,21 @@
+import { registerLocaleData } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import localeDECH from '@angular/common/locales/de-CH';
+import localeFRCH from '@angular/common/locales/fr-CH';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToastrModule } from 'ngx-toastr';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home.component';
-import { UnauthenticatedComponent } from './unauthenticated.component';
 import { GlobalErrorHandler } from './global-error-handler';
+import { HomeComponent } from './home.component';
 import { Settings, SETTINGS } from './settings';
+import { I18nService } from './shared/services/i18n.service';
 import { SharedModule } from './shared/shared.module';
+import { UnauthenticatedComponent } from './unauthenticated.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(
@@ -25,6 +28,9 @@ export function HttpLoaderFactory(
     '.json'
   );
 }
+
+registerLocaleData(localeDECH);
+registerLocaleData(localeFRCH);
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, UnauthenticatedComponent],
@@ -46,7 +52,14 @@ export function HttpLoaderFactory(
     }),
     SharedModule
   ],
-  providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    {
+      provide: LOCALE_ID,
+      useFactory: (i18nService: I18nService) => i18nService.detectLanguage(),
+      deps: [I18nService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
