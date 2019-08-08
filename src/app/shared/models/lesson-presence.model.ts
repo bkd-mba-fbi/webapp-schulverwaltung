@@ -1,6 +1,12 @@
 import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
-import { Reference, OptionalReference, Option, Maybe } from './common-types';
+import {
+  Reference,
+  OptionalReference,
+  Option,
+  Maybe,
+  DateFromString
+} from './common-types';
 
 const LessonPresence = t.type({
   Id: t.string,
@@ -16,8 +22,8 @@ const LessonPresence = t.type({
   // EventNumber: t.string,
   HasStudyCourseConfirmationCode: t.boolean,
   // IsReadOnly: t.boolean,
-  LessonDateTimeFrom: DateFromISOString,
-  LessonDateTimeTo: DateFromISOString,
+  LessonDateTimeFrom: DateFromString,
+  LessonDateTimeTo: DateFromString,
   Comment: Option(t.string),
   Date: Option(DateFromISOString),
   Type: Option(t.string),
