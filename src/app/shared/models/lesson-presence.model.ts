@@ -1,11 +1,11 @@
 import * as t from 'io-ts';
-import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
 import {
   Reference,
   OptionalReference,
   Option,
   Maybe,
-  DateFromString
+  LocalDateTimeFromString,
+  LocalDateFromString
 } from './common-types';
 
 const LessonPresence = t.type({
@@ -22,10 +22,10 @@ const LessonPresence = t.type({
   // EventNumber: t.string,
   HasStudyCourseConfirmationCode: t.boolean,
   // IsReadOnly: t.boolean,
-  LessonDateTimeFrom: DateFromString,
-  LessonDateTimeTo: DateFromString,
+  LessonDateTimeFrom: LocalDateTimeFromString,
+  LessonDateTimeTo: LocalDateTimeFromString,
   Comment: Option(t.string),
-  Date: Option(DateFromISOString),
+  Date: Option(LocalDateFromString),
   Type: Option(t.string),
   StudentFullName: t.string,
   // StudyClassDesignation: t.string,

@@ -52,7 +52,7 @@ describe('LessonPresencesRestService', () => {
         expect(result.LessonDateTimeTo).toEqual(
           new Date('2019-04-25T08:30:00')
         );
-        expect(result.Date).toEqual(new Date('2019-04-18'));
+        expect(result.Date).toEqual(new Date('2019-04-18T00:00:00'));
       });
 
       httpTestingController

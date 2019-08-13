@@ -17,7 +17,7 @@ mechanism works as follows:
   discovered at the earliest possible stage, with a very clear
   description of the problem. Any subsequent errors and undefined
   behavior of the application can be prevented.
-- We use custom types (like `DateFromISOString`) to transform data.
+- We use custom types (like `LocalDateTimeFromString` and `LocalDateFromString`) to transform data.
 
 ## Best Practices
 

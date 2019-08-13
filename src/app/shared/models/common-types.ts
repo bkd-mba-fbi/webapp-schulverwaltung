@@ -1,6 +1,11 @@
 import * as t from 'io-ts';
 import { either } from 'fp-ts/lib/Either';
-import { parseISOLocal, formatISOLocal } from '../utils/date';
+import {
+  parseISOLocalDateTime,
+  formatISOLocalDateTime,
+  parseISOLocalDate,
+  formatISOLocalDate
+} from '../utils/date';
 
 export function Option<T extends t.Any>(
   optionalType: T
@@ -49,13 +54,24 @@ export const Gender = new t.Type<'M' | 'F', 'M' | 'F' | 1 | 2>(
   a => a
 );
 
-export const DateFromString = new t.Type<Date, string, unknown>(
-  'DateFromString',
+export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
+  'LocalDateTimeFromString',
   (u): u is Date => u instanceof Date,
   (u, c) =>
     either.chain(t.string.validate(u, c), s => {
-      const d = parseISOLocal(s);
+      const d = parseISOLocalDateTime(s);
       return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
     }),
-  a => formatISOLocal(a)
+  a => formatISOLocalDateTime(a)
+);
+
+export const LocalDateFromString = new t.Type<Date, string, unknown>(
+  'LocalDateTimeFromString',
+  (u): u is Date => u instanceof Date,
+  (u, c) =>
+    either.chain(t.string.validate(u, c), s => {
+      const d = parseISOLocalDate(s);
+      return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
+    }),
+  a => formatISOLocalDate(a)
 );

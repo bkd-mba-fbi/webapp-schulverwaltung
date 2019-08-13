@@ -14,6 +14,8 @@ export class I18nService {
     private storage: StorageService
   ) {}
 
+  private detectedLanguage: Option<string>;
+
   initialize(): void {
     this.translate.setDefaultLang(FALLBACK_LANGUAGE);
     this.translate.use(this.detectLanguage());
@@ -27,12 +29,15 @@ export class I18nService {
    *   4. Fallback language
    */
   detectLanguage(): string {
-    return (
-      this.getDocumentLanguage() ||
-      this.getStoredLanguage() ||
-      this.getBrowserLanguage() ||
-      FALLBACK_LANGUAGE
-    );
+    if (!this.detectedLanguage) {
+      this.detectedLanguage =
+        this.getDocumentLanguage() ||
+        this.getStoredLanguage() ||
+        this.getBrowserLanguage() ||
+        FALLBACK_LANGUAGE;
+    }
+
+    return this.detectedLanguage;
   }
 
   private getDocumentLanguage(): Option<string> {

@@ -116,7 +116,7 @@ export function buildStudent(id: number): Student {
     Id: id,
     AddressLine1: '',
     AddressLine2: null,
-    Birthdate: new Date(),
+    Birthdate: new Date('2002-07-10T00:00:00'),
     DisplayEmail: '',
     // FirstName: '',
     FullName: '',

@@ -14,7 +14,7 @@ const Person = t.type({
   AddressLine1: Option(t.string),
   AddressLine2: Option(t.string),
   // BillingAddress: Option(t.string),
-  // Birthdate: Option(DateFromISOString),
+  // Birthdate: Option(LocalDateTimeFromString),
   // CorrespondenceAddress: Option(t.string),
   DisplayEmail: Option(t.string),
   // Email: Option(t.string),
@@ -35,7 +35,7 @@ const Person = t.type({
   // Profession: Option(t.string),
   // SocialSecurityNumber: Option(t.string),
   // StayPermit: Option(t.string),
-  // StayPermitExpiry: Option(DateFromISOString),
+  // StayPermitExpiry: Option(LocalDateTimeFromString),
   Zip: Option(t.string)
   // HRef: t.string
 });

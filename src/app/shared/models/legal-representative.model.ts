@@ -5,8 +5,8 @@ const LegalRepresentative = t.type({
   // TypeId: t.string,
   RepresentativeId: t.number
   // StudentId: t.number,
-  // DateFrom: Option(DateFromISOString),
-  // DateTo: Option(DateFromISOString),
+  // DateFrom: Option(LocalDateTimeFromString),
+  // DateTo: Option(LocalDateTimeFromString),
   // RepresentativeAfterMajority: t.boolean
 });
 type LegalRepresentative = t.TypeOf<typeof LegalRepresentative>;
