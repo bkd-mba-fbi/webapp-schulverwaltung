@@ -13,7 +13,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: PresenceControlListComponent
+        component: PresenceControlListComponent,
+        data: {
+          restoreScrollPositionFrom: [
+            '/presence-control/detail/:id',
+            '/presence-control/comment/:studentId/:lessonId'
+          ]
+        }
       },
       {
         path: 'detail/:id',

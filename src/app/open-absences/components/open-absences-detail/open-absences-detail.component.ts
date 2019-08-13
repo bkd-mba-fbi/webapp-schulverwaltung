@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
+  AfterViewInit
 } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, combineLatest, Subject } from 'rxjs';
@@ -11,6 +12,7 @@ import { switchMap, map, take, takeUntil } from 'rxjs/operators';
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { AbsencesSelectionService } from '../../services/absences-selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -19,7 +21,8 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
   providers: [AbsencesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OpenAbsencesDetailComponent implements OnInit, OnDestroy {
+export class OpenAbsencesDetailComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   absences$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForParams.bind(this))
   );
@@ -36,7 +39,8 @@ export class OpenAbsencesDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private openAbsencesService: OpenAbsencesService,
-    public selectionService: AbsencesSelectionService
+    public selectionService: AbsencesSelectionService,
+    private scrollPosition: ScrollPositionService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +57,10 @@ export class OpenAbsencesDetailComponent implements OnInit, OnDestroy {
           personId: Number(params.get('personId'))
         })
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollPosition.restore();
   }
 
   ngOnDestroy(): void {

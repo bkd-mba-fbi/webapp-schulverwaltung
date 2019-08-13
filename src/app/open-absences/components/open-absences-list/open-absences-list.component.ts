@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
+  AfterViewInit
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +15,7 @@ import {
 } from '../../services/open-absences.service';
 import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
 import { OpenAbsencesEntriesSelectionService } from '../../services/open-absences-entries-selection.service';
+import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 
 @Component({
   selector: 'erz-open-absences-list',
@@ -22,12 +24,14 @@ import { OpenAbsencesEntriesSelectionService } from '../../services/open-absence
   providers: [OpenAbsencesEntriesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OpenAbsencesListComponent implements OnInit, OnDestroy {
+export class OpenAbsencesListComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
     public openAbsencesService: OpenAbsencesService,
-    public selectionService: OpenAbsencesEntriesSelectionService
+    public selectionService: OpenAbsencesEntriesSelectionService,
+    private scrollPosition: ScrollPositionService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +40,10 @@ export class OpenAbsencesListComponent implements OnInit, OnDestroy {
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
       .subscribe(ids => (this.openAbsencesService.selected = ids));
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollPosition.restore();
   }
 
   ngOnDestroy(): void {

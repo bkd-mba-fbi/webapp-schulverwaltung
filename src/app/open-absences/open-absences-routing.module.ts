@@ -11,10 +11,20 @@ const routes: Routes = [
     path: '',
     component: OpenAbsencesComponent,
     children: [
-      { path: '', component: OpenAbsencesListComponent },
+      {
+        path: '',
+        component: OpenAbsencesListComponent,
+        data: {
+          restoreScrollPositionFrom: [
+            '/open-absences/detail/:personId/:date',
+            '/open-absences/edit'
+          ]
+        }
+      },
       {
         path: 'detail/:personId/:date',
-        component: OpenAbsencesDetailComponent
+        component: OpenAbsencesDetailComponent,
+        data: { restoreScrollPositionFrom: ['/open-absences/edit'] }
       },
       {
         path: 'edit',
