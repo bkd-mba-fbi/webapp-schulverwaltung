@@ -1,5 +1,4 @@
-<div
-  class="erz-container"
+<ng-container
   *erzLet="{
     lesson: state.selectedLesson$ | async,
     entries: entries$ | async,
@@ -34,19 +33,23 @@
           <label class="mb-1">
             {{ 'presence-control.previously-absent' | translate }}
           </label>
+          <div class="entries view-mode-{{ state.viewMode$ | async }}">
+            <erz-presence-control-entry
+              *ngFor="let entry of data.previouslyPresentEntries"
+              [entry]="entry"
+              [viewMode]="state.viewMode$ | async"
+              (togglePresenceType)="togglePresenceType($event)"
+            ></erz-presence-control-entry>
+          </div>
+        </div>
+        <div class="entries view-mode-{{ state.viewMode$ | async }}">
           <erz-presence-control-entry
-            *ngFor="let entry of data.previouslyAbsentEntries"
+            *ngFor="let entry of data.previouslyPresentEntries"
             [entry]="entry"
             [viewMode]="state.viewMode$ | async"
             (togglePresenceType)="togglePresenceType($event)"
           ></erz-presence-control-entry>
         </div>
-        <erz-presence-control-entry
-          *ngFor="let entry of data.previouslyPresentEntries"
-          [entry]="entry"
-          [viewMode]="state.viewMode$ | async"
-          (togglePresenceType)="togglePresenceType($event)"
-        ></erz-presence-control-entry>
       </ng-container>
 
       <ng-template #noLessonPresences>
@@ -64,4 +67,4 @@
   <ng-template #loading>
     <erz-spinner></erz-spinner>
   </ng-template>
-</div>
+</ng-container>

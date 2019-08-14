@@ -14,7 +14,27 @@ erz-presence-control-entry {
     text-align: center;
     color: $absent-color;
   }
-  erz-presence-control-entry:last-child {
-    border-bottom: 0;
+
+  > .entries {
+    background-color: $body-bg;
+  }
+}
+
+/**
+ * Grid view mode (default layout is list view mode)
+ */
+.entries.view-mode-grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  > * {
+    width: 100%;
+
+    @for $i from 1 through 6 {
+      @media (min-width: $erz-presence-control-entry-min-width*$i) {
+        width: percentage(1 / $i);
+        border-right: 1px solid $gray-200;
+      }
+    }
   }
 }
