@@ -13,14 +13,36 @@ describe('open absences entries utils', () => {
   let presenceB: LessonPresence;
   let presenceC: LessonPresence;
   let presenceD: LessonPresence;
+  let presenceE: LessonPresence;
 
   beforeEach(() => {
-    presenceA = buildLessonPresenceWithIds(10, 21, new Date(2000, 0, 23));
-    presenceB = buildLessonPresenceWithIds(11, 21, new Date(2000, 0, 23));
-    presenceC = buildLessonPresenceWithIds(12, 21, new Date(2000, 0, 24));
-    presenceD = buildLessonPresenceWithIds(10, 22, new Date(2000, 0, 23));
+    presenceA = buildLessonPresenceWithIds(
+      10,
+      21,
+      new Date(2000, 0, 23, 8, 15, 0)
+    );
+    presenceB = buildLessonPresenceWithIds(
+      11,
+      21,
+      new Date(2000, 0, 23, 12, 30, 0)
+    );
+    presenceC = buildLessonPresenceWithIds(
+      12,
+      21,
+      new Date(2000, 0, 24, 8, 15, 0)
+    );
+    presenceD = buildLessonPresenceWithIds(
+      10,
+      22,
+      new Date(2000, 0, 23, 12, 30, 0)
+    );
+    presenceE = buildLessonPresenceWithIds(
+      10,
+      21,
+      new Date(2000, 0, 23, 9, 0, 0)
+    );
 
-    [presenceA, presenceB, presenceC].forEach(
+    [presenceA, presenceB, presenceC, presenceE].forEach(
       p => (p.StudentFullName = 'Max Frisch')
     );
     presenceD.StudentFullName = 'Albert Einstein';
@@ -32,12 +54,13 @@ describe('open absences entries utils', () => {
         presenceA,
         presenceB,
         presenceC,
-        presenceD
+        presenceD,
+        presenceE
       ])
         .slice()
         .sort(openAbsencesEntriesComparator);
       expect(result.length).toBe(3);
-      expect(result[0].absences).toEqual([presenceA, presenceB]);
+      expect(result[0].absences).toEqual([presenceA, presenceE, presenceB]);
       expect(result[1].absences).toEqual([presenceD]);
       expect(result[2].absences).toEqual([presenceC]);
     });
