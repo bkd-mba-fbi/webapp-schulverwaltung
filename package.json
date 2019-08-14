@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:es5": "ng serve --configuration es5",
+    "start:browserstack": "ng serve --host 0.0.0.0 --disable-host-check --port 8000",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
