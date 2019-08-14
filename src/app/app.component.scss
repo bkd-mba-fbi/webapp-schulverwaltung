@@ -5,3 +5,7 @@
   justify-content: center;
   position: relative;
 }
+
+:host ::ng-deep > *:not(router-outlet) {
+  flex: 1;
+}
