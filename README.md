@@ -57,5 +57,6 @@ application displays a unauthenticated message to the user.
 - Common aspects are documented in the [Wiki](https://github.com/erz-mba-fbi/absenzenmanagement/wiki)
 - [Setup development environment](doc/setup-dev-environment.md)
 - [Prettier](doc/prettier.md)
+- [Browser support](doc/browser-support.md)
 - [Internationalization (i18n)](doc/i18n.md)
 - [API Data Contract (Data Decoding)](doc/io-ts.md)

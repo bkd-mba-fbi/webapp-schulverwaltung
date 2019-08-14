@@ -52,6 +52,11 @@
  *
  */
 
+/**
+ * Polyfills for IE 11
+ */
+import 'core-js/es/array';
+
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */

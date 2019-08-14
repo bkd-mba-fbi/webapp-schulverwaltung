@@ -58,6 +58,9 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "es5": {
+              "tsConfig": "src/tsconfig-es5.app.json"
             }
           }
         },
@@ -69,6 +72,9 @@
           "configurations": {
             "production": {
               "browserTarget": "absenzenmanagement:build:production"
+            },
+            "es5": {
+              "browserTarget": "absenzenmanagement:build:es5"
             }
           }
         },
