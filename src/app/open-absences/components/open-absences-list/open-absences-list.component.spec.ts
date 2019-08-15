@@ -62,7 +62,7 @@ describe('OpenAbsencesListComponent', () => {
   });
 
   it('renders two entries', () => {
-    expect(element.querySelectorAll('tbody tr').length).toBe(2);
+    expect(element.querySelectorAll('div.absence-entry').length).toBe(2);
   });
 
   describe('selection', () => {

@@ -14,7 +14,7 @@
         else noEntries
       "
     >
-      <div class="header pl-3 pr-3 pt-3">
+      <div class="header pt-3">
         <div class="header-search input-group">
           <div class="input-group-prepend">
             <span class="input-group-text" id="search-addon"
@@ -47,58 +47,50 @@
         </div>
       </div>
 
-      <table class="table table-fixed">
-        <thead>
-          <tr>
-            <th></th>
-            <th
-              *ngFor="let key of ['name', 'date']"
-              (click)="openAbsencesService.toggleSort(key)"
-            >
-              {{ 'open-absences.list.header.' + key | translate }}
-              <span class="sort-direction">{{
-                getSortDirectionCharacter(data.sortCriteria, key)
-              }}</span>
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let entry of data.entries">
-            <td (click)="onCheckboxCellClick($event, checkbox)">
-              <input
-                #checkbox
-                type="checkbox"
-                class="form-control"
-                [checked]="selectionService.isSelected$(entry) | async"
-                (change)="selectionService.toggle(entry)"
-              />
-            </td>
-            <td>
-              <a
-                class="student-name"
-                [routerLink]="['detail', entry.studentId, entry.dateString]"
-                >{{ entry.studentFullName }}</a
-              >
-              <div class="lessons-count">
-                {{
-                  getLessonsCountKey(entry)
-                    | translate: { count: entry.lessonsCount }
-                }}
-              </div>
-            </td>
-            <td>
-              <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
-              <div class="days-ago">
-                {{
-                  getDaysDifferenceKey(entry)
-                    | translate: { count: entry.daysDifferenceAbsolute }
-                }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="absence-header">
+        <div class="checkbox"></div>
+        <div
+          *ngFor="let key of ['name', 'date']"
+          (click)="openAbsencesService.toggleSort(key)"
+          [className]="key"
+        >
+          {{ 'open-absences.list.header.' + key | translate }}
+          <span class="sort-direction">{{
+            getSortDirectionCharacter(data.sortCriteria, key)
+          }}</span>
+        </div>
+      </div>
+      <div *ngFor="let entry of data.entries">
+        <div class="absence-entry">
+          <div class="checkbox" (click)="onCheckboxCellClick($event, checkbox)">
+            <input
+              #checkbox
+              type="checkbox"
+              class="form-check-input"
+              [checked]="selectionService.isSelected$(entry) | async"
+              (change)="selectionService.toggle(entry)"
+            />
+          </div>
+          <div class="name pr-2">
+            <a [routerLink]="['detail', entry.studentId, entry.dateString]">{{
+              entry.studentFullName
+            }}</a>
+          </div>
+          <div class="lessons-count">
+            {{
+              getLessonsCountKey(entry)
+                | translate: { count: entry.lessonsCount }
+            }}
+          </div>
+          <div class="days-ago">
+            {{
+              getDaysDifferenceKey(entry)
+                | translate: { count: entry.daysDifferenceAbsolute }
+            }}
+          </div>
+          <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
+        </div>
+      </div>
     </ng-container>
 
     <ng-template #noEntries>
