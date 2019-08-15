@@ -30,7 +30,7 @@ export class LessonPresencesRestService extends RestService<
   getListForToday(): Observable<ReadonlyArray<LessonPresence>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/Today`)
-      .pipe(switchMap(decodeArray(this.decoder)));
+      .pipe(switchMap(decodeArray(this.codec)));
   }
 
   getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {

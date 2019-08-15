@@ -1,19 +1,16 @@
 import * as t from 'io-ts/lib/index';
+import { pipe } from 'fp-ts/lib/pipeable';
+import { fold, left } from 'fp-ts/lib/Either';
 import { PathReporter } from 'io-ts/lib/PathReporter';
-import { fold } from 'fp-ts/lib/Either';
 import { Observable, throwError, of } from 'rxjs';
 
 export class DecodeError extends Error {
   name = 'DecodeError';
-
-  constructor(message: string) {
-    super(message);
-  }
 }
 
 /**
- * Decode JSON data using the given io-st type (i.e. decoder), throws
- * a `DecodeError` if the data is not valid.
+ * Decode JSON data using the given io-st type (i.e. codec), throws a
+ * `DecodeError` if the data is not valid.
  *
  * Usage:
  *   const Foo = t.type({
@@ -24,39 +21,29 @@ export class DecodeError extends Error {
  * Example using HttpClient:
  *   this.http.get(...).pipe(switchMap(decode(Foo))).subscribe(...)
  */
-export function decode<P extends t.AnyProps>(
-  decoder: t.TypeC<P>
-): (json: unknown) => Observable<t.TypeOfProps<P>> {
+export function decode<C extends t.Mixed>(
+  codec: C
+): (json: unknown) => Observable<t.TypeOf<C>> {
   return json => {
-    const result = decoder.decode(json);
-    return fold(
-      () => throwError(new DecodeError(PathReporter.report(result).join('\n'))),
-      (data: t.TypeOfProps<P>) => of(data)
-    )(result);
+    return pipe(
+      codec.decode(json),
+      fold(
+        error =>
+          throwError(
+            new DecodeError(PathReporter.report(left(error)).join('\n'))
+          ),
+        data => of(data)
+      )
+    );
   };
 }
 
 /**
- * Decode JSON array data using the given io-st type (i.e. decoder), throws
- * a `DecodeError` if the data is not valid.
- *
- * Usage:
- *   const Foo = t.type({
- *     foo: t.string
- *   });
- *   decode(Foo)([{ foo: 'bar' }]).subscribe(result => ...)
- *
- * Example using HttpClient:
- *   this.http.get(...).pipe(switchMap(decodeArray(Foo))).subscribe(...)
+ * Convenience function, equivalent to calling `decode(t.array(X))`,
+ * but without having to import io-ts: `decodeArray(X)`.
  */
-export function decodeArray<P extends t.AnyProps>(
-  decoder: t.TypeC<P>
-): (json: unknown) => Observable<ReadonlyArray<t.TypeOfProps<P>>> {
-  return json => {
-    const result = t.array(decoder).decode(json);
-    return fold(
-      () => throwError(new DecodeError(PathReporter.report(result).join('\n'))),
-      (data: ReadonlyArray<t.TypeOfProps<P>>) => of(data)
-    )(result);
-  };
+export function decodeArray<C extends t.Mixed>(
+  codec: C
+): (json: unknown) => Observable<ReadonlyArray<t.TypeOf<C>>> {
+  return decode(t.array(codec));
 }

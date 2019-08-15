@@ -21,7 +21,7 @@ export abstract class RestService<P extends t.AnyProps> {
   constructor(
     protected http: HttpClient,
     protected settings: Settings,
-    protected decoder: t.TypeC<P>,
+    protected codec: t.TypeC<P>,
     protected resourcePath: string
   ) {}
 
@@ -31,7 +31,7 @@ export abstract class RestService<P extends t.AnyProps> {
   ): Observable<t.TypeOfProps<P>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`, { params })
-      .pipe(switchMap(decode(this.decoder)));
+      .pipe(switchMap(decode(this.codec)));
   }
 
   getList(
@@ -39,7 +39,7 @@ export abstract class RestService<P extends t.AnyProps> {
   ): Observable<ReadonlyArray<t.TypeOfProps<P>>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, { params })
-      .pipe(switchMap(decodeArray(this.decoder)));
+      .pipe(switchMap(decodeArray(this.codec)));
   }
 
   protected get baseUrl(): string {
