@@ -1,5 +1,11 @@
 @import "../../../../bootstrap-variables";
 
+/* autoprefixer grid: autoplace */
+
+:host ::ng-deep > *:not(router-outlet) {
+  max-width: none;
+}
+
 .back {
   color: $body-color;
   text-decoration: none;
@@ -12,18 +18,87 @@
   }
 }
 
-td:first-child {
-  width: 2 * $table-cell-padding + 1.25rem;
+.absence-all {
+  padding: 0.5em 0;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template: "checkbox all" / 50px 1fr;
 }
 
-tr:first-child input[type="checkbox"] {
-  height: 1.5em;
+.absence-entry {
+  padding: 1em 0;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template:
+    "checkbox lesson-class time teacher"
+    "checkbox comment comment comment" / 50px 3fr 1fr 1fr;
+}
+
+.checkbox {
+  padding: 0.25em 0 0 1em;
+  grid-area: checkbox;
+}
+
+.checkbox input.form-check-input {
+  margin: 0;
+}
+
+.all {
+  grid-area: all;
+}
+
+.lesson-class {
+  grid-area: lesson-class;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.time {
+  grid-area: time;
+}
+
+.teacher {
+  grid-area: teacher;
 }
 
 .time-teacher {
-  font-size: $font-size-sm;
+  grid-area: time-teacher;
+  display: none;
 }
 
 .comment {
   color: $gray-500;
+  grid-area: comment;
+}
+
+@media (max-width: 750px) {
+  :host ::ng-deep > *:not(router-outlet) {
+    padding: 0;
+  }
+
+  .header {
+    padding-left: $spacer;
+    padding-right: $spacer;
+  }
+
+  .absence-all {
+    grid-template: "checkbox all" / 50px 1fr;
+  }
+
+  .absence-entry {
+    grid-template:
+      "checkbox lesson-class"
+      "checkbox time-teacher"
+      "checkbox comment" / 50px 1fr;
+  }
+
+  .time-teacher {
+    display: grid;
+  }
+
+  .time,
+  .teacher {
+    display: none;
+  }
 }

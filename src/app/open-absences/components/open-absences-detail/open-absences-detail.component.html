@@ -22,48 +22,55 @@
     </a>
   </div>
 
-  <table class="table">
-    <tbody>
-      <tr (click)="onRowClick($event, allCheckbox)">
-        <td>
-          <input
-            #allCheckbox
-            type="checkbox"
-            class="form-control"
-            [checked]="allSelected$ | async"
-            (change)="toggleAll($event.target.checked)"
-          />
-        </td>
-        <td>{{ 'open-absences.detail.all' | translate }}</td>
-      </tr>
-      <tr
-        *ngFor="let absence of absences$ | async"
-        (click)="onRowClick($event, checkbox)"
-      >
-        <td>
-          <input
-            #checkbox
-            type="checkbox"
-            class="form-control"
-            [checked]="selectionService.isSelected$(absence) | async"
-            (change)="selectionService.toggle(absence)"
-          />
-        </td>
-        <td>
-          <div class="lesson-class">
-            {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
-          </div>
-          <div class="time-teacher">
-            {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-              absence.LessonDateTimeTo | date: 'HH:mm'
-            }},
-            {{ absence.TeacherInformation }}
-          </div>
-          <div class="comment" *ngIf="absence.Comment">
-            {{ absence.Comment }}
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="absence-all">
+    <div class="checkbox" (click)="onRowClick($event, allCheckbox)">
+      <input
+        #allCheckbox
+        type="checkbox"
+        class="form-check-input"
+        [checked]="allSelected$ | async"
+        (change)="toggleAll($event.target.checked)"
+      />
+    </div>
+    <div class="all">{{ 'open-absences.detail.all' | translate }}</div>
+  </div>
+  <div
+    class="absence-entry"
+    *ngFor="let absence of absences$ | async"
+    (click)="onRowClick($event, checkbox)"
+  >
+    <div class="checkbox">
+      <input
+        #checkbox
+        type="checkbox"
+        class="form-check-input"
+        [checked]="selectionService.isSelected$(absence) | async"
+        (change)="selectionService.toggle(absence)"
+      />
+    </div>
+    <div class="lesson-class">
+      {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
+    </div>
+    <div class="time pr-2">
+      {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+        absence.LessonDateTimeTo | date: 'HH:mm'
+      }}
+    </div>
+    <div class="teacher">
+      {{ absence.TeacherInformation }}
+    </div>
+    <div class="time">
+      {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+        absence.LessonDateTimeTo | date: 'HH:mm'
+      }}
+    </div>
+    <div class="time-teacher">
+      {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+        absence.LessonDateTimeTo | date: 'HH:mm'
+      }}, {{ absence.TeacherInformation }}
+    </div>
+    <div class="comment" *ngIf="absence.Comment">
+      {{ absence.Comment }}
+    </div>
+  </div>
 </div>
