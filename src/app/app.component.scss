@@ -1,11 +1,5 @@
 :host {
-  // Ensure absolute positioned children are placed relative to the
-  // app component
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-:host ::ng-deep > *:not(router-outlet) {
-  flex: 1;
+  // Somehow the app element is not full width, ensure it is full width
+  // to be able to center the spinner within the available space.
+  width: 100%;
 }
