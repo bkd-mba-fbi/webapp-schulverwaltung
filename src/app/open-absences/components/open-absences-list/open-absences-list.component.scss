@@ -1,13 +1,14 @@
 @import "../../../../bootstrap-variables";
 
-/* autoprefixer grid: autoplace */
+/* autoprefixer grid: on */
 
-:host ::ng-deep > *:not(router-outlet) {
-  max-width: none;
+.content {
+  padding-left: $spacer;
+  padding-right: $spacer;
 }
 
 .header-search input.form-control {
-  max-width: 700px;
+  max-width: 500px;
 }
 
 .absence-header {
@@ -15,14 +16,16 @@
   padding: 0.5em 0;
   background: $gray-200;
   display: grid;
-  grid-template: "checkbox name date" / 50px 4fr 2fr;
+  grid-template-areas: "checkbox name date";
+  grid-template-columns: 50px 4fr 2fr;
 }
 
 .absence-entry {
   padding: 1em 0;
   border-bottom: 1px solid $gray-200;
   display: grid;
-  grid-template: "checkbox name lessons-count days-ago date" / 50px 3fr 1fr 1fr 1fr;
+  grid-template-areas: "checkbox name lessons-count days-ago date";
+  grid-template-columns: 50px 3fr 1fr 1fr 1fr;
 }
 
 .checkbox {
@@ -59,23 +62,21 @@
 }
 
 @media (max-width: 750px) {
-  :host ::ng-deep > *:not(router-outlet) {
-    padding: 0;
-  }
-
-  .header {
-    padding-left: $spacer;
-    padding-right: $spacer;
+  .content {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .absence-header {
-    grid-template: "checkbox name date" / 50px 3fr 2fr;
+    grid-template-areas: "checkbox name date";
+    grid-template-columns: 50px 3fr 2fr;
   }
 
   .absence-entry {
-    grid-template:
+    grid-template-areas:
       "checkbox name date"
-      "checkbox lessons-count days-ago" / 50px 3fr 2fr;
+      "checkbox lessons-count days-ago";
+    grid-template-columns: 50px 3fr 2fr;
   }
 
   .days-ago,

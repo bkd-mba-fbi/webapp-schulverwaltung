@@ -36,15 +36,10 @@ implement IE 11 customizations:
 
 ### CSS Grid
 
-When using CSS Grid, add the following comment to the concerning block
-to enable the autoprefixer's polyfills:
+When using CSS Grid, add the following comment at the top of the .scss file to enable the autoprefixer's polyfills:
 
 ```
-.my-grid {
-  /* autoprefixer grid: on */
-  display: grid;
-  ...
-}
+/* autoprefixer grid: on */
 ```
 
 Checkout the following table for the supported features: https://css-tricks.com/css-grid-in-ie-css-grid-and-the-new-autoprefixer/#article-header-id-1

@@ -1,27 +1,27 @@
-<div class="erz-container">
-  <div
-    class="header d-flex align-items-center justify-content-between"
-    *erzLet="selectionService.selection$ | async as selection"
+<div
+  class="header d-flex align-items-center justify-content-between"
+  *erzLet="selectionService.selection$ | async as selection"
+>
+  <button
+    type="button"
+    class="back btn btn-link p-3"
+    [routerLink]="['/open-absences']"
   >
-    <button
-      type="button"
-      class="back btn btn-link p-3"
-      [routerLink]="['/open-absences']"
-    >
-      <div class="d-flex align-items-center">
-        <i class="material-icons">navigate_before</i>
-        <span class="ml-3">{{ studentFullName$ | async }}</span>
-      </div>
-    </button>
-    <a
-      class="edit btn btn-link"
-      [class.disabled]="selection.length === 0"
-      routerLink="/open-absences/edit"
-    >
-      <i class="material-icons">edit</i>
-    </a>
-  </div>
+    <div class="d-flex align-items-center">
+      <i class="material-icons">navigate_before</i>
+      <span class="ml-3">{{ studentFullName$ | async }}</span>
+    </div>
+  </button>
+  <a
+    class="edit btn btn-link"
+    [class.disabled]="selection.length === 0"
+    routerLink="/open-absences/edit"
+  >
+    <i class="material-icons">edit</i>
+  </a>
+</div>
 
+<div class="content">
   <div class="absence-all">
     <div class="checkbox" (click)="onRowClick($event, allCheckbox)">
       <input
