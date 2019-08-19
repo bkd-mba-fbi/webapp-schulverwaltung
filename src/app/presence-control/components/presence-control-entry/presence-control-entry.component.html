@@ -2,45 +2,43 @@
   *ngIf="!isListViewMode"
   [studentId]="studentId$ | async"
   [link]="['/presence-control/detail', entry.lessonPresence.StudentRef.Id]"
-  class="mr-3 large"
+  class="avatar mr-3 large"
 ></erz-avatar>
-<div class="content">
-  <button
-    type="button"
-    *ngIf="!entry.canChangePresenceType"
-    (click)="updatePresenceType(entry)"
-    class="presence-category designation btn btn-link"
-  >
-    {{ entry.presenceType?.Designation }}
-  </button>
-  <button
-    type="button"
-    (click)="updatePresenceType(entry)"
-    class="presence-category status btn btn-link"
-  >
-    <i class="material-icons">{{ presenceCategoryIcon }}</i>
-  </button>
-  <a
-    [routerLink]="[
-      '/presence-control/detail',
-      entry.lessonPresence.StudentRef.Id
-    ]"
-    class="student-name"
-    >{{ entry.lessonPresence.StudentFullName }}</a
-  >
-  <a
-    *ngIf="entry.canChangePresenceType"
-    class="comment"
-    [routerLink]="[
-      '/presence-control/comment',
-      entry.lessonPresence.StudentRef.Id,
-      entry.lessonPresence.LessonRef.Id
-    ]"
-  >
-    <i class="material-icons">notes</i>
-    <span>{{
-      entry.lessonPresence.Comment ||
-        ('presence-control.entry.comment' | translate)
-    }}</span>
-  </a>
-</div>
+<button
+  type="button"
+  *ngIf="!entry.canChangePresenceType"
+  (click)="updatePresenceType(entry)"
+  class="presence-category designation btn btn-link text-right"
+>
+  {{ entry.presenceType?.Designation }}
+</button>
+<button
+  type="button"
+  (click)="updatePresenceType(entry)"
+  class="presence-category status btn btn-link"
+>
+  <i class="material-icons">{{ presenceCategoryIcon }}</i>
+</button>
+<a
+  [routerLink]="[
+    '/presence-control/detail',
+    entry.lessonPresence.StudentRef.Id
+  ]"
+  class="student-name"
+  >{{ entry.lessonPresence.StudentFullName }}</a
+>
+<a
+  *ngIf="entry.canChangePresenceType"
+  class="comment"
+  [routerLink]="[
+    '/presence-control/comment',
+    entry.lessonPresence.StudentRef.Id,
+    entry.lessonPresence.LessonRef.Id
+  ]"
+>
+  <i class="material-icons">notes</i>
+  <span>{{
+    entry.lessonPresence.Comment ||
+      ('presence-control.entry.comment' | translate)
+  }}</span>
+</a>

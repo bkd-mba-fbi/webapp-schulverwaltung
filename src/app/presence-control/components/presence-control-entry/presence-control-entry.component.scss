@@ -1,23 +1,24 @@
 @import "../../../../bootstrap-variables";
 
+/* autoprefixer grid: on */
+
 :host {
-  display: flex;
   padding: 2 * $spacer $spacer;
   background-color: $body-bg;
+  display: grid;
+  grid-template-areas:
+    "avatar designation status"
+    "avatar student-name student-name"
+    "avatar comment comment";
+  grid-template-columns: min-content 1fr min-content;
 }
 
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  flex: auto;
-  overflow: hidden;
-  justify-content: flex-end;
-  align-content: flex-start;
+:host > * {
+  align-self: center;
 }
 
 .presence-category {
   text-decoration: none;
-  padding: 0;
 }
 
 .presence-category i {
@@ -46,26 +47,32 @@ a.comment,
   text-overflow: ellipsis;
 }
 
+.avatar {
+  grid-area: avatar;
+}
+
 .designation {
-  text-align: right;
-  flex-basis: 85%;
+  padding-top: 0;
+  padding-bottom: 0;
+  grid-area: designation;
 }
 
 .status {
-  padding-left: $spacer / 2;
+  padding-left: 0;
+  grid-area: status;
 }
 
 .student-name {
-  padding-top: $spacer;
-  flex-basis: 100%;
   color: $body-color;
+  grid-area: student-name;
+  display: flex;
 }
 
 .comment {
-  display: flex;
-  flex-basis: 100%;
   color: rgba($body-color, 0.5);
-  margin-top: $spacer;
+  padding-right: $btn-padding-x;
+  grid-area: comment;
+  display: flex;
 }
 
 .comment i {
@@ -74,31 +81,34 @@ a.comment,
 
 // List layout
 :host.list {
+  grid-template-areas: "student-name commentordesignation status";
+  grid-template-columns: 1fr 2fr min-content;
   padding: $spacer / 2;
 
-  .content {
-    justify-content: space-between;
-  }
-
-  .designation,
-  .comment {
-    margin-top: 0;
-  }
-
-  .student-name {
-    padding-top: 0;
-    flex-basis: auto;
-    order: -2;
-  }
-
-  .status {
-    flex-basis: auto;
-    order: -1;
-    padding-bottom: 0;
-  }
-
+  .comment,
   .designation {
-    flex-basis: 100%;
-    text-align: right;
+    grid-area: commentordesignation;
+  }
+
+  @media (max-width: 750px) {
+    grid-template-areas:
+      "student-name status"
+      "commentordesignation commentordesignation";
+    grid-template-columns: 1fr min-content;
+  }
+}
+
+:host-context(.ie11) {
+  // To force generation of missing -ms-grid-column-span property
+  .comment,
+  .designation {
+    grid-column: span 1;
+  }
+
+  @media (max-width: 750px) {
+    .comment,
+    .designation {
+      grid-column: span 2;
+    }
   }
 }
