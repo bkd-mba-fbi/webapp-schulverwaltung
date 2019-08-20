@@ -1,0 +1,24 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+  position: relative;
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0.75 * $spacer;
+  display: flex;
+  align-items: center;
+  z-index: $zindex-dropdown + 1;
+}
+.spinner-border {
+  color: $gray-600;
+}
+
+// Avoid overlapping with cross-icon that is displayed in IE 11
+:host-context(.ie11) .spinner-container {
+  right: 2.25 * $spacer;
+}

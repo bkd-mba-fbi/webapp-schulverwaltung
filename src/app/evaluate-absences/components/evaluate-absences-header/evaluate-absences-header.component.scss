@@ -1,0 +1,39 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: $spacer;
+  border-bottom: 1px solid $border-color;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: $spacer;
+  margin-bottom: 0;
+}
+
+.buttons {
+  flex: none;
+  margin-right: 0;
+}
+
+/**
+ * Switch to vertical layout for small screens
+ */
+@media (max-width: 800px) {
+  :host {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-group {
+    margin-right: 0;
+    margin-bottom: $spacer;
+  }
+
+  .buttons {
+    align-self: flex-end;
+  }
+}

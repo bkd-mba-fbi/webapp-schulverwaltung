@@ -17,7 +17,7 @@ export const enum HTTP_STATUS {
   GATEWAY_TIMEOUT = 504
 }
 
-export abstract class RestService<T extends t.Mixed> {
+export abstract class RestService<T extends t.InterfaceType<any>> {
   constructor(
     protected http: HttpClient,
     protected settings: Settings,

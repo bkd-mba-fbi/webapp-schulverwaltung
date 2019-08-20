@@ -1,0 +1,29 @@
+<div class="form-group">
+  <label>{{ 'evaluate-absences.header.student' | translate }}</label>
+  <erz-typeahead
+    [typeaheadService]="studentsService"
+    (selectItem)="filter.student = $event"
+  ></erz-typeahead>
+</div>
+
+<div class="form-group">
+  <label>{{ 'evaluate-absences.header.module-instance' | translate }}</label>
+  <erz-typeahead
+    [typeaheadService]="moduleInstancesService"
+    (selectItem)="filter.moduleInstance = $event"
+  ></erz-typeahead>
+</div>
+
+<div class="form-group">
+  <label>{{ 'evaluate-absences.header.study-class' | translate }}</label>
+  <erz-typeahead
+    [typeaheadService]="studyClassesService"
+    (selectItem)="filter.studyClass = $event"
+  ></erz-typeahead>
+</div>
+
+<div class="buttons">
+  <button type="button" class="btn btn-primary" (click)="show()">
+    {{ 'evaluate-absences.header.show' | translate }}
+  </button>
+</div>

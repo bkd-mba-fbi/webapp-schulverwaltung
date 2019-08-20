@@ -1,0 +1,17 @@
+<ng-container
+  *erzLet="{
+    isFilterValid: state.isFilterValid$ | async,
+    entries: state.entries$ | async
+  } as data"
+>
+  <erz-evaluate-absences-header
+    (filterChange)="state.setFilter($event)"
+  ></erz-evaluate-absences-header>
+
+  <erz-evaluate-absences-list *ngIf="data.isFilterValid; else noFilter">
+  </erz-evaluate-absences-list>
+
+  <ng-template #noFilter>
+    <p class="mt-3 pl-3">{{ 'evaluate-absences.no-filter' | translate }}</p>
+  </ng-template>
+</ng-container>

@@ -101,11 +101,21 @@
     "title": "Absenzen bearbeiten"
   },
   "evaluate-absences": {
-    "title": "Absenzen auswerten"
+    "title": "Absenzen auswerten",
+    "no-filter": "Bitte Name, Fach oder Klasse auswählen.",
+    "header": {
+      "student": "Name",
+      "module-instance": "Fach",
+      "study-class": "Klasse",
+      "show": "Anzeigen"
+    }
   },
   "shared": {
     "lesson-presences-update": {
       "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
+    },
+    "typeahead": {
+      "default-placeholder": "Suchen..."
     }
   }
 }

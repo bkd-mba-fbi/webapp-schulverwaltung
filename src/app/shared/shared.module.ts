@@ -11,8 +11,14 @@ import { LetDirective } from './directives/let.directive';
 import { NgxAutogrowModule } from 'ngx-autogrow';
 import { RestAuthInterceptor } from '../rest-auth-interceptor';
 import { RestErrorInterceptor } from '../rest-error-interceptor';
+import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 
-const components = [LetDirective, SpinnerComponent, AvatarComponent];
+const components = [
+  LetDirective,
+  SpinnerComponent,
+  AvatarComponent,
+  TypeaheadComponent
+];
 
 @NgModule({
   declarations: [...components],

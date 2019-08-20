@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from '../../settings';
-import { RestService } from './rest.service';
+import { TypeaheadRestService } from './typeahead-rest.service';
 import { decodeArray } from '../utils/decode';
 import { Student } from '../models/student.model';
 import { LegalRepresentative } from '../models/legal-representative.model';
@@ -13,9 +13,9 @@ import { ApprenticeshipContract } from '../models/apprenticeship-contract.model'
 @Injectable({
   providedIn: 'root'
 })
-export class StudentsRestService extends RestService<typeof Student> {
+export class StudentsRestService extends TypeaheadRestService<typeof Student> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, Student, 'Students');
+    super(http, settings, Student, 'Students', 'FullName');
   }
 
   getLegalRepresentatives(
