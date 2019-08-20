@@ -146,11 +146,7 @@ describe('PresenceControlListComponent', () => {
 
   function getRenderedStudentNames(): string[] {
     return Array.prototype.slice
-      .call(
-        element.querySelectorAll(
-          '.erz-container > erz-presence-control-entry .student-name'
-        )
-      )
+      .call(element.querySelectorAll('.default-entries .student-name'))
       .map(e => e.textContent.trim());
   }
 

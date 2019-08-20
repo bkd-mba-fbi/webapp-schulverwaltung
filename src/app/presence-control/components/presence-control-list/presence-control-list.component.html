@@ -35,14 +35,18 @@
           </label>
           <div class="entries view-mode-{{ state.viewMode$ | async }}">
             <erz-presence-control-entry
-              *ngFor="let entry of data.previouslyPresentEntries"
+              *ngFor="let entry of data.previouslyAbsentEntries"
               [entry]="entry"
               [viewMode]="state.viewMode$ | async"
               (togglePresenceType)="togglePresenceType($event)"
             ></erz-presence-control-entry>
           </div>
         </div>
-        <div class="entries view-mode-{{ state.viewMode$ | async }}">
+        <div
+          class="default-entries entries view-mode-{{
+            state.viewMode$ | async
+          }}"
+        >
           <erz-presence-control-entry
             *ngFor="let entry of data.previouslyPresentEntries"
             [entry]="entry"
