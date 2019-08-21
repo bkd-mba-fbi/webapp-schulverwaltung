@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { format } from 'date-fns';
 import { Observable } from 'rxjs';
@@ -7,6 +7,8 @@ import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { decodeArray } from '../utils/decode';
 import { RestService } from './rest.service';
+import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
+import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +38,33 @@ export class LessonPresencesRestService extends RestService<
       'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
       'filter.HasStudyCourseConfirmationCode': '=false'
     });
+  }
+
+  getStatistics(
+    absencesFilter: EvaluateAbsencesFilter
+  ): Observable<ReadonlyArray<LessonPresenceStatistic>> {
+    let params = new HttpParams();
+
+    params = absencesFilter.student
+      ? params.set('filter.StudentRef=', String(absencesFilter.student.id))
+      : params;
+
+    params = absencesFilter.moduleInstance
+      ? params.set(
+          'filter.ModuleInstanceRef=',
+          String(absencesFilter.moduleInstance.id)
+        )
+      : params;
+
+    params = absencesFilter.studyClass
+      ? params.set(
+          'filter.StudyClassRef=',
+          String(absencesFilter.studyClass.id)
+        )
+      : params;
+
+    return this.http
+      .get<any[]>(`${this.baseUrl}/Statistics`, { params })
+      .pipe(switchMap(decodeArray(LessonPresenceStatistic)));
   }
 }

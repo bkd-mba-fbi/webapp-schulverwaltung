@@ -3,6 +3,7 @@ import { HttpTestingController } from '@angular/common/http/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresencesRestService } from './lesson-presences-rest.service';
+import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 
 describe('LessonPresencesRestService', () => {
   let service: LessonPresencesRestService;
@@ -97,6 +98,49 @@ describe('LessonPresencesRestService', () => {
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
+
+  describe('.getStatistics', () => {
+    const data: any[] = [];
+    let filter: EvaluateAbsencesFilter;
+
+    beforeEach(() => {
+      filter = {
+        student: null,
+        moduleInstance: null,
+        studyClass: null
+      };
+    });
+
+    it('fetches statistics based on the given filter, all filter criteria set', () => {
+      filter.student = { id: 123, label: 'Hans Muster' };
+      filter.moduleInstance = { id: 333, label: 'Biologie' };
+      filter.studyClass = { id: 678, label: 'D3b' };
+      const url =
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.ModuleInstanceRef==333&filter.StudyClassRef==678';
+
+      service
+        .getStatistics(filter)
+        .subscribe(result => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+
+    it('fetches statistics based on the given filter, only student set', () => {
+      filter.student = { id: 123, label: 'Hans Muster' };
+      const url =
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123';
+
+      service
+        .getStatistics(filter)
+        .subscribe(result => expect(result).toBe(data));
+
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
         .flush(data);

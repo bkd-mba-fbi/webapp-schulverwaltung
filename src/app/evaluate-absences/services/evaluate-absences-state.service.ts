@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, filter, switchMap } from 'rxjs/operators';
 
 import { TypeaheadItem } from 'src/app/shared/models/typeahead-item';
+import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 
 export interface EvaluateAbsencesFilter {
   student: Option<TypeaheadItem>;
@@ -24,14 +25,14 @@ export class EvaluateAbsencesStateService {
     switchMap(this.loadEntries.bind(this))
   );
 
-  constructor() {}
+  constructor(private lessonPresenceService: LessonPresencesRestService) {}
 
   setFilter(absencesFilter: EvaluateAbsencesFilter): void {
     this.filter$.next(absencesFilter);
   }
 
   private loadEntries(absencesFilter: EvaluateAbsencesFilter): Observable<any> {
-    return of([]);
+    return this.lessonPresenceService.getStatistics(absencesFilter);
   }
 }
 
