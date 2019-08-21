@@ -1,1 +1,44 @@
-<p>evaluate-absences-list works!</p>
+<div *erzLet="state.entries$ | async as entries">
+  <ng-container *ngIf="!(state.loading$ | async); else loading">
+    <ng-container *ngIf="entries.length > 0; else noEntries">
+      <div class="content">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'evaluate-absences.list.header.name' | translate }}</th>
+              <th>{{ 'evaluate-absences.list.header.total' | translate }}</th>
+              <th>
+                {{ 'evaluate-absences.list.header.valid-excuse' | translate }}
+              </th>
+              <th>
+                {{ 'evaluate-absences.list.header.without-excuse' | translate }}
+              </th>
+              <th>
+                {{ 'evaluate-absences.list.header.unconfirmed' | translate }}
+              </th>
+              <th>{{ 'evaluate-absences.list.header.late' | translate }}</th>
+              <th>{{ 'evaluate-absences.list.header.halfday' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of entries">
+              <td>{{ entry.StudentFullName }}</td>
+              <td>{{ entry.TotalAbsences }}</td>
+              <td>{{ entry.TotalAbsencesUnconfirmed }}</td>
+              <td>{{ entry.TotalAbsencesValidExcuse }}</td>
+              <td>{{ entry.TotalAbsencesWithoutExcuse }}</td>
+              <td>{{ entry.TotalIncidents }}</td>
+              <td>{{ entry.TotalHalfDays }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+    <ng-template #noEntries>
+      <p class="mt-3 pl-3">{{ 'evaluate-absences.no-entries' | translate }}</p>
+    </ng-template>
+  </ng-container>
+  <ng-template #loading>
+    <erz-spinner></erz-spinner>
+  </ng-template>
+</div>

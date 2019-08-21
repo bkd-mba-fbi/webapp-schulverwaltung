@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
 
 @Component({
   selector: 'erz-evaluate-absences-list',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./evaluate-absences-list.component.scss']
 })
 export class EvaluateAbsencesListComponent implements OnInit {
-  constructor() {}
+  constructor(public state: EvaluateAbsencesStateService) {}
 
   ngOnInit(): void {}
 }

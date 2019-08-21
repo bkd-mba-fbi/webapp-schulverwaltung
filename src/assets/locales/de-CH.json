@@ -103,11 +103,23 @@
   "evaluate-absences": {
     "title": "Absenzen auswerten",
     "no-filter": "Bitte Name, Fach oder Klasse auswählen.",
+    "no-entries": "Keine Resultate gefunden.",
     "header": {
       "student": "Name",
       "module-instance": "Fach",
       "study-class": "Klasse",
       "show": "Anzeigen"
+    },
+    "list": {
+      "header": {
+        "name": "Name",
+        "total": "Total",
+        "valid-excuse": "Entschuldigt",
+        "without-excuse": "Unentschuldigt",
+        "unconfirmed": "Offen",
+        "late": "Verspätung",
+        "halfday": "Halbtage"
+      }
     }
   },
   "shared": {

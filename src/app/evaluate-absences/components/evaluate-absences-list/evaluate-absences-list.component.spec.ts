@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { EvaluateAbsencesListComponent } from './evaluate-absences-list.component';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
 
 describe('EvaluateAbsencesListComponent', () => {
   let component: EvaluateAbsencesListComponent;
@@ -10,7 +11,8 @@ describe('EvaluateAbsencesListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EvaluateAbsencesListComponent]
+        declarations: [EvaluateAbsencesListComponent],
+        providers: [EvaluateAbsencesStateService]
       })
     ).compileComponents();
   }));
