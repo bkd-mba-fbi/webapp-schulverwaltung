@@ -36,7 +36,7 @@ describe('EvaluateAbsencesListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should show the table if statistics', () => {
+  it('should show the results table', () => {
     expect(element.querySelectorAll('table').length).toBe(1);
   });
 });

@@ -1,0 +1,34 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: $spacer;
+  border-bottom: 1px solid $border-color;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: $spacer;
+  margin-bottom: 0;
+}
+
+.buttons {
+  flex: none;
+  margin-right: 0;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.extended-filters-header {
+  cursor: pointer;
+}
+
+.extended-filters-header button {
+  color: $body-color;
+  text-decoration: none;
+}

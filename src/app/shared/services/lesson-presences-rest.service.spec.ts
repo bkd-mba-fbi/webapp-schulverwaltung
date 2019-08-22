@@ -4,6 +4,7 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresencesRestService } from './lesson-presences-rest.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
+import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 
 describe('LessonPresencesRestService', () => {
   let service: LessonPresencesRestService;
@@ -140,6 +141,38 @@ describe('LessonPresencesRestService', () => {
       service
         .getStatistics(filter)
         .subscribe(result => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
+
+  describe('.search', () => {
+    const data: any[] = [];
+    let filter: EditAbsencesFilter;
+
+    beforeEach(() => {
+      filter = {
+        student: null,
+        moduleInstance: null,
+        studyClass: null,
+        dateFrom: null,
+        dateTo: null,
+        reason: null,
+        state: null
+      };
+    });
+
+    it('fetches lesson presences on the given basic filters', () => {
+      filter.student = { id: 123, label: 'Hans Muster' };
+      filter.moduleInstance = { id: 333, label: 'Biologie' };
+      filter.studyClass = { id: 678, label: 'D3b' };
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';
+
+      service.search(filter).subscribe(result => expect(result).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)

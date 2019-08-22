@@ -1,0 +1,92 @@
+<p>{{ 'edit-absences.header.description' | translate }}</p>
+
+<div class="filters mt-3 mb-3">
+  <div class="form-group">
+    <label>{{ 'edit-absences.header.student' | translate }}</label>
+    <erz-typeahead
+      [typeaheadService]="studentsService"
+      (selectItem)="filter.student = $event"
+    ></erz-typeahead>
+  </div>
+
+  <div class="form-group">
+    <label>{{ 'edit-absences.header.module-instance' | translate }}</label>
+    <erz-typeahead
+      [typeaheadService]="moduleInstancesService"
+      (selectItem)="filter.moduleInstance = $event"
+    ></erz-typeahead>
+  </div>
+
+  <div class="form-group">
+    <label>{{ 'edit-absences.header.study-class' | translate }}</label>
+    <erz-typeahead
+      [typeaheadService]="studyClassService"
+      (selectItem)="filter.studyClass = $event"
+    ></erz-typeahead>
+  </div>
+
+  <div class="form-group">
+    <label>{{ 'edit-absences.header.date-from' | translate }}</label>
+    <input
+      class="date-from"
+      (click)="df.toggle()"
+      [ngModel]="selectDate"
+      (ngModelChange)="filter.dateFrom = $event"
+      ngbDatepicker
+      #df="ngbDatepicker"
+    />
+  </div>
+
+  <div class="form-group">
+    <label>{{ 'edit-absences.header.date-to' | translate }}</label>
+    <input
+      class="date-to"
+      (click)="dt.toggle()"
+      [ngModel]="selectDate"
+      (ngModelChange)="filter.dateTo = $event"
+      ngbDatepicker
+      #dt="ngbDatepicker"
+    />
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="btn btn-primary" (click)="show()">
+      {{ 'edit-absences.header.show' | translate }}
+    </button>
+  </div>
+</div>
+
+<ngb-accordion ngb-accordion #acc="ngbAccordion">
+  <ngb-panel id="extended-filters">
+    <ng-template ngbPanelHeader let-opened="opened">
+      <div
+        (click)="acc.toggle('extended-filters')"
+        class="extended-filters-header d-flex align-items-center"
+      >
+        <div class="d-flex align-self-div-flex-end">
+          {{ 'edit-absences.header.extended-filters' | translate }}
+        </div>
+        <button type="button" class="btn btn-link">
+          <div class="d-flex align-self-flex-start">
+            <i class="material-icons">{{
+              opened ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+            }}</i>
+          </div>
+        </button>
+      </div>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="filters mb-3 mt-3">
+        <div class="form-group">
+          <label>{{ 'edit-absences.header.reason' | translate }}</label>
+          <erz-typeahead></erz-typeahead>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'edit-absences.header.state' | translate }}</label>
+          <erz-typeahead></erz-typeahead>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>

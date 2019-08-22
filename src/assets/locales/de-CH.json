@@ -98,7 +98,35 @@
     }
   },
   "edit-absences": {
-    "title": "Absenzen bearbeiten"
+    "title": "Absenzen bearbeiten",
+    "no-filter": "Bitte Name, Fach, Klasse oder Datum auswählen.",
+    "no-entries": "Keine Resultate gefunden.",
+    "header": {
+      "description": "Hier können Sie alle vergangenen und zukünftigen Absenzen anzeigen, erfassen, bearbeiten oder löschen.",
+      "student": "Name",
+      "module-instance": "Fach",
+      "study-class": "Klasse",
+      "date-from": "Datum von",
+      "date-to": "Datum bis",
+      "show": "Anzeigen",
+      "extended-filters": "Weitere Kriterien",
+      "reason": "Grund",
+      "state": "Status"
+    },
+    "list": {
+      "header": {
+        "presence": "Präsenz",
+        "student": "Name",
+        "module-instance": "Fach",
+        "study-class": "Klasse",
+        "time": "Zeit",
+        "state": "Status",
+        "reason": "Grund",
+        "comment": "Kommentar",
+        "date": "Datum",
+        "teacher": "Lehrkraft"
+      }
+    }
   },
   "evaluate-absences": {
     "title": "Absenzen auswerten",
@@ -112,7 +140,7 @@
     },
     "list": {
       "header": {
-        "name": "Name",
+        "student": "Name",
         "total": "Total",
         "valid-excuse": "Entschuldigt",
         "without-excuse": "Unentschuldigt",

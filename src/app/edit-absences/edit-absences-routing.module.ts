@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EditAbsencesComponent } from './edit-absences.component';
+import { EditAbsencesComponent } from './components/edit-absences/edit-absences.component';
 
 const routes: Routes = [
   {

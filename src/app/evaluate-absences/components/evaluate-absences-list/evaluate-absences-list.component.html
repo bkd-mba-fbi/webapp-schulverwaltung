@@ -1,12 +1,12 @@
 <div *erzLet="state.entries$ | async as entries">
   <ng-container *ngIf="!(state.loading$ | async); else loading">
-    <ng-container *ngIf="entries.length > 0; else noEntries">
+    <ng-container *ngIf="entries && entries.length > 0; else noEntries">
       <div class="content">
         <table class="table">
           <thead>
             <tr>
               <th scope="col">
-                {{ 'evaluate-absences.list.header.name' | translate }}
+                {{ 'evaluate-absences.list.header.student' | translate }}
               </th>
               <th>{{ 'evaluate-absences.list.header.total' | translate }}</th>
               <th>
