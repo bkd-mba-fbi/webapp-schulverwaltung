@@ -7,6 +7,7 @@ import { Student } from './app/shared/models/student.model';
 import { ApprenticeshipContract } from './app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from './app/shared/models/legal-representative.model';
 import { Person } from './app/shared/models/person.model';
+import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-statistic';
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
@@ -108,6 +109,22 @@ export function buildPresenceType(
     IsHalfDay: false,
     NeedsConfirmation: true,
     Sort: 0
+  };
+}
+
+export function buildLessonPresenceStatistic(
+  studentId: number
+): LessonPresenceStatistic {
+  return {
+    StudentRef: buildReference(studentId),
+    StudentFullName: 'Bachofner Roman',
+    TotalAbsences: 0,
+    TotalAbsencesUnconfirmed: 0,
+    TotalAbsencesValidExcuse: 0,
+    TotalAbsencesWithoutExcuse: 0,
+    TotalDispensations: 0,
+    TotalHalfDays: 0,
+    TotalIncidents: 0
   };
 }
 

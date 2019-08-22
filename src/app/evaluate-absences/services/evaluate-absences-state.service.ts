@@ -4,6 +4,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { TypeaheadItem } from 'src/app/shared/models/typeahead-item';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
+import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
 
 export interface EvaluateAbsencesFilter {
   student: Option<TypeaheadItem>;
@@ -35,7 +36,9 @@ export class EvaluateAbsencesStateService {
     this.filter$.next(absencesFilter);
   }
 
-  private loadEntries(absencesFilter: EvaluateAbsencesFilter): Observable<any> {
+  private loadEntries(
+    absencesFilter: EvaluateAbsencesFilter
+  ): Observable<ReadonlyArray<LessonPresenceStatistic>> {
     return this.loadingService.load(
       this.lessonPresenceService.getStatistics(absencesFilter)
     );
