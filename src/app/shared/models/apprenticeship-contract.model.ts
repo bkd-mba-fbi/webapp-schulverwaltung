@@ -21,7 +21,3 @@ const ApprenticeshipContract = t.type({
 
 type ApprenticeshipContract = t.TypeOf<typeof ApprenticeshipContract>;
 export { ApprenticeshipContract };
-
-export type ApprenticeshipContractProps = t.PropsOf<
-  typeof ApprenticeshipContract
->;

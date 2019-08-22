@@ -12,5 +12,3 @@ const LessonDispensation = t.type({
 });
 type LessonDispensation = t.TypeOf<typeof LessonDispensation>;
 export { LessonDispensation };
-
-export type LessonDispensationProps = t.PropsOf<typeof LessonDispensation>;

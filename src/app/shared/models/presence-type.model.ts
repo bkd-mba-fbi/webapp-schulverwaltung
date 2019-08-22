@@ -17,5 +17,3 @@ const PresenceType = t.type({
 });
 type PresenceType = t.TypeOf<typeof PresenceType>;
 export { PresenceType };
-
-export type PresenceTypeProps = t.PropsOf<typeof PresenceType>;

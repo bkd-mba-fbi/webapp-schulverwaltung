@@ -17,18 +17,15 @@ export const enum HTTP_STATUS {
   GATEWAY_TIMEOUT = 504
 }
 
-export abstract class RestService<P extends t.AnyProps> {
+export abstract class RestService<T extends t.Mixed> {
   constructor(
     protected http: HttpClient,
     protected settings: Settings,
-    protected codec: t.TypeC<P>,
+    protected codec: T,
     protected resourcePath: string
   ) {}
 
-  get(
-    id: number,
-    params?: HttpParams | Dict<string>
-  ): Observable<t.TypeOfProps<P>> {
+  get(id: number, params?: HttpParams | Dict<string>): Observable<t.TypeOf<T>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`, { params })
       .pipe(switchMap(decode(this.codec)));
@@ -36,7 +33,7 @@ export abstract class RestService<P extends t.AnyProps> {
 
   getList(
     params?: HttpParams | Dict<string>
-  ): Observable<ReadonlyArray<t.TypeOfProps<P>>> {
+  ): Observable<ReadonlyArray<t.TypeOf<T>>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, { params })
       .pipe(switchMap(decodeArray(this.codec)));

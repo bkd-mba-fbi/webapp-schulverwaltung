@@ -15,10 +15,9 @@ describe('RestService', () => {
   const Foo = t.type({
     foo: t.string
   });
-  type FooProps = t.PropsOf<typeof Foo>;
 
   @Injectable()
-  class FooService extends RestService<FooProps> {
+  class FooService extends RestService<typeof Foo> {
     constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
       super(http, settings, Foo, 'Foo');
     }

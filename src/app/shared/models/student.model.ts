@@ -19,5 +19,3 @@ const Student = t.type({
 });
 type Student = t.TypeOf<typeof Student>;
 export { Student };
-
-export type StudentProps = t.PropsOf<typeof Student>;

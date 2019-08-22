@@ -12,5 +12,3 @@ const LessonIncident = t.type({
 });
 type LessonIncident = t.TypeOf<typeof LessonIncident>;
 export { LessonIncident };
-
-export type LessonIncidentProps = t.PropsOf<typeof LessonIncident>;

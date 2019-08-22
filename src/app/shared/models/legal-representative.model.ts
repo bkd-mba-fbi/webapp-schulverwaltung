@@ -11,5 +11,3 @@ const LegalRepresentative = t.type({
 });
 type LegalRepresentative = t.TypeOf<typeof LegalRepresentative>;
 export { LegalRepresentative };
-
-export type LegalRepresentativeProps = t.PropsOf<typeof LegalRepresentative>;

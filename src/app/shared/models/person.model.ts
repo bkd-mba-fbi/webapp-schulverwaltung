@@ -42,5 +42,3 @@ const Person = t.type({
 
 type Person = t.TypeOf<typeof Person>;
 export { Person };
-
-export type PersonProps = t.PropsOf<typeof Person>;

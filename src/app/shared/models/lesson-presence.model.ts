@@ -35,5 +35,3 @@ const LessonPresence = t.type({
 });
 type LessonPresence = t.TypeOf<typeof LessonPresence>;
 export { LessonPresence };
-
-export type LessonPresenceProps = t.PropsOf<typeof LessonPresence>;

@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 
 import { RestService } from './rest.service';
 import { SETTINGS, Settings } from '../../settings';
-import { PresenceType, PresenceTypeProps } from '../models/presence-type.model';
+import { PresenceType } from '../models/presence-type.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PresenceTypesRestService extends RestService<PresenceTypeProps> {
+export class PresenceTypesRestService extends RestService<typeof PresenceType> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, PresenceType, 'PresenceTypes');
   }

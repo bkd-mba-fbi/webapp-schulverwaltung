@@ -4,10 +4,7 @@ import { format } from 'date-fns';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SETTINGS, Settings } from '../../settings';
-import {
-  LessonPresence,
-  LessonPresenceProps
-} from '../models/lesson-presence.model';
+import { LessonPresence } from '../models/lesson-presence.model';
 import { decodeArray } from '../utils/decode';
 import { RestService } from './rest.service';
 
@@ -15,7 +12,7 @@ import { RestService } from './rest.service';
   providedIn: 'root'
 })
 export class LessonPresencesRestService extends RestService<
-  LessonPresenceProps
+  typeof LessonPresence
 > {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, LessonPresence, 'LessonPresences');
