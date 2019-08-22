@@ -5,9 +5,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th>{{ 'evaluate-absences.list.header.name' | translate }}</th>
+              <th scope="col">
+                {{ 'evaluate-absences.list.header.name' | translate }}
+              </th>
               <th>{{ 'evaluate-absences.list.header.total' | translate }}</th>
-              <th>
+              <th class="font-weight-bold">
                 {{ 'evaluate-absences.list.header.valid-excuse' | translate }}
               </th>
               <th>
@@ -24,9 +26,11 @@
             <tr *ngFor="let entry of entries">
               <td>{{ entry.StudentFullName }}</td>
               <td>{{ entry.TotalAbsences }}</td>
-              <td>{{ entry.TotalAbsencesUnconfirmed }}</td>
-              <td>{{ entry.TotalAbsencesValidExcuse }}</td>
+              <td class="font-weight-bold">
+                {{ entry.TotalAbsencesValidExcuse }}
+              </td>
               <td>{{ entry.TotalAbsencesWithoutExcuse }}</td>
+              <td>{{ entry.TotalAbsencesUnconfirmed }}</td>
               <td>{{ entry.TotalIncidents }}</td>
               <td>{{ entry.TotalHalfDays }}</td>
             </tr>
