@@ -15,7 +15,3 @@ const LessonPresenceStatistic = t.type({
 
 type LessonPresenceStatistic = t.TypeOf<typeof LessonPresenceStatistic>;
 export { LessonPresenceStatistic };
-
-export type LessonPresenceStatisticProps = t.PropsOf<
-  typeof LessonPresenceStatistic
->;
