@@ -1,5 +1,3 @@
-<p>{{ 'edit-absences.header.description' | translate }}</p>
-
 <div class="filters mt-3 mb-3">
   <div class="form-group">
     <label>{{ 'edit-absences.header.student' | translate }}</label>
@@ -27,26 +25,12 @@
 
   <div class="form-group">
     <label>{{ 'edit-absences.header.date-from' | translate }}</label>
-    <input
-      class="date-from"
-      (click)="df.toggle()"
-      [ngModel]="selectDate"
-      (ngModelChange)="filter.dateFrom = $event"
-      ngbDatepicker
-      #df="ngbDatepicker"
-    />
+    <erz-date-select (valueChange)="filter.dateFrom = $event"></erz-date-select>
   </div>
 
   <div class="form-group">
     <label>{{ 'edit-absences.header.date-to' | translate }}</label>
-    <input
-      class="date-to"
-      (click)="dt.toggle()"
-      [ngModel]="selectDate"
-      (ngModelChange)="filter.dateTo = $event"
-      ngbDatepicker
-      #dt="ngbDatepicker"
-    />
+    <erz-date-select (valueChange)="filter.dateTo = $event"></erz-date-select>
   </div>
 
   <div class="buttons">
@@ -79,11 +63,16 @@
       <div class="filters mb-3 mt-3">
         <div class="form-group">
           <label>{{ 'edit-absences.header.reason' | translate }}</label>
-          <erz-typeahead></erz-typeahead>
+          <select class="form-control"></select>
         </div>
 
         <div class="form-group">
           <label>{{ 'edit-absences.header.state' | translate }}</label>
+          <select class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'edit-absences.header.teacher' | translate }}</label>
           <erz-typeahead></erz-typeahead>
         </div>
       </div>

@@ -12,12 +12,14 @@ import { NgxAutogrowModule } from 'ngx-autogrow';
 import { RestAuthInterceptor } from '../rest-auth-interceptor';
 import { RestErrorInterceptor } from '../rest-error-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
+import { DateSelectComponent } from './components/date-select/date-select.component';
 
 const components = [
   LetDirective,
   SpinnerComponent,
   AvatarComponent,
-  TypeaheadComponent
+  TypeaheadComponent,
+  DateSelectComponent
 ];
 
 @NgModule({

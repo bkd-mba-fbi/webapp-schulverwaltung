@@ -99,19 +99,19 @@
   },
   "edit-absences": {
     "title": "Absenzen bearbeiten",
-    "no-filter": "Bitte Name, Fach, Klasse oder Datum auswählen.",
+    "no-filter": "Hier können Sie alle vergangenen und zukünftigen Absenzen anzeigen, erfassen, bearbeiten oder löschen. Wählen Sie mindestens ein Kriterium aus und klicken Sie danach auf «Anzeigen».",
     "no-entries": "Keine Resultate gefunden.",
     "header": {
-      "description": "Hier können Sie alle vergangenen und zukünftigen Absenzen anzeigen, erfassen, bearbeiten oder löschen.",
       "student": "Name",
       "module-instance": "Fach",
       "study-class": "Klasse",
       "date-from": "Datum von",
       "date-to": "Datum bis",
-      "show": "Anzeigen",
-      "extended-filters": "Weitere Kriterien",
       "reason": "Grund",
-      "state": "Status"
+      "state": "Status",
+      "teacher": "Lehrkraft",
+      "show": "Anzeigen",
+      "extended-filters": "Weitere Kriterien"
     },
     "list": {
       "header": {
@@ -130,7 +130,7 @@
   },
   "evaluate-absences": {
     "title": "Absenzen auswerten",
-    "no-filter": "Bitte Name, Fach oder Klasse auswählen.",
+    "no-filter": "Wählen Sie mindestens ein Kriterium aus und klicken Sie danach auf «Anzeigen».",
     "no-entries": "Keine Resultate gefunden.",
     "header": {
       "student": "Name",
@@ -151,6 +151,9 @@
     }
   },
   "shared": {
+    "date-select": {
+      "default-placeholder": "Datum wählen..."
+    },
     "lesson-presences-update": {
       "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
     },

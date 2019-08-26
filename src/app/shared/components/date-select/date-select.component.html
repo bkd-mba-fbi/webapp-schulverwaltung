@@ -1,0 +1,19 @@
+<div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text" [id]="componentId"
+      ><i class="material-icons">calendar_today</i></span
+    >
+  </div>
+  <input
+    type="text"
+    class="form-control"
+    [attr.placeholder]="placeholder | translate"
+    [attr.aria-label]="placeholder | translate"
+    [attr.aria-describedby]="componentId"
+    ngbDatepicker
+    #dp="ngbDatepicker"
+    (click)="dp.toggle()"
+    [ngModel]="value"
+    (ngModelChange)="valueChange.emit($event)"
+  />
+</div>
