@@ -10,11 +10,18 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter
 } from '@ng-bootstrap/ng-bootstrap';
+import { shareReplay, map } from 'rxjs/operators';
+
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
+import { createPresenceTypesDropdownItems } from 'src/app/shared/utils/presence-types';
 import { ModuleInstancesRestService } from 'src/app/shared/services/module-instances-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
-import { EditAbsencesFilter } from '../../services/edit-absences-state.service';
+import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
+import {
+  EditAbsencesFilter,
+  EditAbsencesStateService
+} from '../../services/edit-absences-state.service';
 
 @Component({
   selector: 'erz-edit-absences-header',
@@ -35,14 +42,21 @@ export class EditAbsencesHeaderComponent implements OnInit {
     studyClass: null,
     dateFrom: null,
     dateTo: null,
-    reason: null,
-    state: null
+    presenceType: null,
+    confirmationState: null
   };
+
+  absenceConfirmationStates$ = this.state.absenceConfirmationStates$;
+
+  presenceTypes$ = this.state.presenceTypes$.pipe(
+    map(createPresenceTypesDropdownItems)
+  );
 
   constructor(
     public studentsService: StudentsRestService,
     public moduleInstancesService: ModuleInstancesRestService,
-    public studyClassService: StudyClassesRestService
+    public studyClassService: StudyClassesRestService,
+    private state: EditAbsencesStateService
   ) {}
 
   ngOnInit(): void {}

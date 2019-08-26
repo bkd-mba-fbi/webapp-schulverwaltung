@@ -107,9 +107,8 @@
       "study-class": "Klasse",
       "date-from": "Datum von",
       "date-to": "Datum bis",
-      "reason": "Grund",
-      "state": "Status",
-      "teacher": "Lehrkraft",
+      "presence-type": "Grund",
+      "confirmation-state": "Status",
       "show": "Anzeigen",
       "extended-filters": "Weitere Kriterien"
     },
@@ -120,11 +119,10 @@
         "module-instance": "Fach",
         "study-class": "Klasse",
         "time": "Zeit",
-        "state": "Status",
-        "reason": "Grund",
+        "confirmation-state": "Status",
+        "presence-type": "Grund",
         "comment": "Kommentar",
-        "date": "Datum",
-        "teacher": "Lehrkraft"
+        "date": "Datum"
       }
     }
   },
@@ -156,6 +154,9 @@
     },
     "lesson-presences-update": {
       "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
+    },
+    "select": {
+      "empty-option": "Wählen..."
     },
     "typeahead": {
       "default-placeholder": "Suchen..."

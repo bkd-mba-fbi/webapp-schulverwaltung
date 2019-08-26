@@ -62,18 +62,21 @@
     <ng-template ngbPanelContent>
       <div class="filters mb-3 mt-3">
         <div class="form-group">
-          <label>{{ 'edit-absences.header.reason' | translate }}</label>
-          <select class="form-control"></select>
+          <label>{{ 'edit-absences.header.presence-type' | translate }}</label>
+          <erz-select
+            [options]="presenceTypes$ | async"
+            (valueChange)="filter.presenceType = $event"
+          ></erz-select>
         </div>
 
         <div class="form-group">
-          <label>{{ 'edit-absences.header.state' | translate }}</label>
-          <select class="form-control"></select>
-        </div>
-
-        <div class="form-group">
-          <label>{{ 'edit-absences.header.teacher' | translate }}</label>
-          <erz-typeahead></erz-typeahead>
+          <label>{{
+            'edit-absences.header.confirmation-state' | translate
+          }}</label>
+          <erz-select
+            [options]="absenceConfirmationStates$ | async"
+            (valueChange)="filter.confirmationState = $event"
+          ></erz-select>
         </div>
       </div>
     </ng-template>

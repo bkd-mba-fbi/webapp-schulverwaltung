@@ -159,8 +159,8 @@ describe('LessonPresencesRestService', () => {
         studyClass: null,
         dateFrom: null,
         dateTo: null,
-        reason: null,
-        state: null
+        presenceType: null,
+        confirmationState: null
       };
     });
 
@@ -172,7 +172,9 @@ describe('LessonPresencesRestService', () => {
       const url =
         'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';
 
-      service.search(filter).subscribe(result => expect(result).toBe(data));
+      service
+        .getFilteredList(filter)
+        .subscribe(result => expect(result).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)

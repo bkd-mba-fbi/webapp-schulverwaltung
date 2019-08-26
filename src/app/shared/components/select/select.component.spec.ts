@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DateSelectComponent } from './date-select.component';
+import { SelectComponent } from './select.component';
 
-describe('DateSelectComponent', () => {
-  let component: DateSelectComponent;
-  let fixture: ComponentFixture<DateSelectComponent>;
+describe('SelectComponent', () => {
+  let component: SelectComponent;
+  let fixture: ComponentFixture<SelectComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(
@@ -14,7 +14,7 @@ describe('DateSelectComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DateSelectComponent);
+    fixture = TestBed.createComponent(SelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

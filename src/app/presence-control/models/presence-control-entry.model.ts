@@ -6,8 +6,6 @@ import {
   isAbsent,
   isLate,
   isDefaultAbsence,
-  isPresent,
-  isComment,
   canChangePresenceType
 } from '../utils/presence-types';
 

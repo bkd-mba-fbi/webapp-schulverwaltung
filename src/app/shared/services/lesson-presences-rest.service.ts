@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { format } from 'date-fns';
-import { Observable, of } from 'rxjs';
+import { format, isSameDay, addDays, subDays } from 'date-fns';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { decodeArray } from '../utils/decode';
@@ -47,21 +48,18 @@ export class LessonPresencesRestService extends RestService<
     let params = new HttpParams();
 
     params = absencesFilter.student
-      ? params.set('filter.StudentRef=', String(absencesFilter.student.id))
+      ? params.set('filter.StudentRef', `=${absencesFilter.student.id}`)
       : params;
 
     params = absencesFilter.moduleInstance
       ? params.set(
-          'filter.ModuleInstanceRef=',
-          String(absencesFilter.moduleInstance.id)
+          'filter.ModuleInstanceRef',
+          `=${absencesFilter.moduleInstance.id}`
         )
       : params;
 
     params = absencesFilter.studyClass
-      ? params.set(
-          'filter.StudyClassRef=',
-          String(absencesFilter.studyClass.id)
-        )
+      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.id}`)
       : params;
 
     return this.http
@@ -69,27 +67,57 @@ export class LessonPresencesRestService extends RestService<
       .pipe(switchMap(decodeArray(LessonPresenceStatistic)));
   }
 
-  search(
+  getFilteredList(
     absencesFilter: EditAbsencesFilter
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = new HttpParams();
 
     params = absencesFilter.student
-      ? params.set('filter.StudentRef=', String(absencesFilter.student.id))
+      ? params.set('filter.StudentRef', `=${absencesFilter.student.id}`)
       : params;
 
     params = absencesFilter.moduleInstance
-      ? params.set('filter.EventRef=', String(absencesFilter.moduleInstance.id))
+      ? params.set('filter.EventRef', `=${absencesFilter.moduleInstance.id}`)
       : params;
 
     params = absencesFilter.studyClass
-      ? params.set(
-          'filter.StudyClassRef=',
-          String(absencesFilter.studyClass.id)
-        )
+      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.id}`)
       : params;
 
-    // TODO add other filters
+    if (
+      absencesFilter.dateFrom &&
+      absencesFilter.dateTo &&
+      isSameDay(absencesFilter.dateFrom, absencesFilter.dateTo)
+    ) {
+      params = params.set(
+        'filter.LessonDateTimeFrom',
+        `=${format(absencesFilter.dateFrom, 'YYYY-MM-DD')}`
+      );
+    } else {
+      if (absencesFilter.dateFrom) {
+        params = params.set(
+          'filter.LessonDateTimeFrom',
+          `>${format(subDays(absencesFilter.dateFrom, 1), 'YYYY-MM-DD')}`
+        );
+      }
+      if (absencesFilter.dateTo) {
+        params = params.set(
+          'filter.LessonDateTimeTo',
+          `>${format(addDays(absencesFilter.dateTo, 1), 'YYYY-MM-DD')}`
+        );
+      }
+    }
+
+    params = absencesFilter.presenceType
+      ? params.set('filter.TypeRef', `=${absencesFilter.presenceType.Key}`)
+      : params;
+
+    params = absencesFilter.confirmationState
+      ? params.set(
+          'filter.ConfirmationStateId',
+          `=${absencesFilter.confirmationState.Key}`
+        )
+      : params;
 
     return this.getList(params);
   }

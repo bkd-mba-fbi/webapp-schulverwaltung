@@ -1,0 +1,13 @@
+<select
+  class="form-control"
+  [ngModel]="null"
+  (ngModelChange)="valueChange.emit($event)"
+>
+  <option *ngIf="allowEmpty" [ngValue]="null">{{
+    'shared.select.empty-option' | translate
+  }}</option>
+  <option *ngFor="let option of options" [ngValue]="option">{{
+    option.Value
+  }}</option>
+  >
+</select>

@@ -13,13 +13,15 @@ import { RestAuthInterceptor } from '../rest-auth-interceptor';
 import { RestErrorInterceptor } from '../rest-error-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { DateSelectComponent } from './components/date-select/date-select.component';
+import { SelectComponent } from './components/select/select.component';
 
 const components = [
   LetDirective,
   SpinnerComponent,
   AvatarComponent,
   TypeaheadComponent,
-  DateSelectComponent
+  DateSelectComponent,
+  SelectComponent
 ];
 
 @NgModule({

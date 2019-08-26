@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import {
   takeUntil,
   filter,
@@ -23,7 +23,7 @@ import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson
 import { SETTINGS, Settings } from 'src/app/settings';
 import { findDropDownItem$ } from 'src/app/shared/utils/drop-down-items';
 import { PresenceTypesRestService } from 'src/app/shared/services/presence-types-rest.service';
-import { sortPresenceTypes } from '../../utils/presence-types';
+import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 
 @Component({
   selector: 'erz-open-absences-edit',
