@@ -64,7 +64,7 @@ export class LessonPresencesRestService extends RestService<
       : params;
 
     return this.http
-      .get<any[]>(`${this.baseUrl}/Statistics`, { params })
+      .get<unknown>(`${this.baseUrl}/Statistics`, { params })
       .pipe(switchMap(decodeArray(LessonPresenceStatistic)));
   }
 }

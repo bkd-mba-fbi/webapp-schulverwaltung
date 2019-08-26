@@ -9,7 +9,7 @@
                 {{ 'evaluate-absences.list.header.name' | translate }}
               </th>
               <th>{{ 'evaluate-absences.list.header.total' | translate }}</th>
-              <th class="font-weight-bold">
+              <th>
                 {{ 'evaluate-absences.list.header.valid-excuse' | translate }}
               </th>
               <th>
@@ -26,7 +26,7 @@
             <tr *ngFor="let entry of entries">
               <td>{{ entry.StudentFullName }}</td>
               <td>{{ entry.TotalAbsences }}</td>
-              <td class="font-weight-bold">
+              <td>
                 {{ entry.TotalAbsencesValidExcuse }}
               </td>
               <td>{{ entry.TotalAbsencesWithoutExcuse }}</td>
