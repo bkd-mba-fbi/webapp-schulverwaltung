@@ -23,9 +23,7 @@ export interface EditAbsencesFilter {
   confirmationState: Option<number>;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EditAbsencesStateService {
   private filter$ = new BehaviorSubject<EditAbsencesFilter>({
     student: null,
@@ -41,7 +39,8 @@ export class EditAbsencesStateService {
   isFilterValid$ = this.filter$.pipe(map(isValidFilter));
   lessonPresences$ = this.filter$.pipe(
     filter(isValidFilter),
-    switchMap(this.loadEntries.bind(this))
+    switchMap(this.loadEntries.bind(this)),
+    shareReplay(1)
   );
   presenceTypes$ = this.loadPresenceTypes().pipe(
     map(sortPresenceTypes),
@@ -61,6 +60,11 @@ export class EditAbsencesStateService {
     shareReplay(1)
   );
 
+  selected: ReadonlyArray<{
+    lessonIds: ReadonlyArray<number>;
+    personIds: ReadonlyArray<number>;
+  }> = [];
+
   constructor(
     private loadingService: LoadingService,
     private lessonPresencesService: LessonPresencesRestService,
@@ -70,6 +74,13 @@ export class EditAbsencesStateService {
 
   setFilter(absencesFilter: EditAbsencesFilter): void {
     this.filter$.next(absencesFilter);
+  }
+
+  /**
+   * Clears the selected entries.
+   */
+  resetSelection(): void {
+    this.selected = [];
   }
 
   private loadEntries(

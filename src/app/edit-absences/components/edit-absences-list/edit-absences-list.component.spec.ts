@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { buildLessonPresence } from 'src/spec-builders';
 import { buildTestModuleMetadata, settings } from 'src/spec-helpers';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { EditAbsencesListComponent } from './edit-absences-list.component';
 import { PresenceControlEntry } from 'src/app/presence-control/models/presence-control-entry.model';
+import { EditAbsencesHeaderComponent } from '../edit-absences-header/edit-absences-header.component';
 
 describe('EditAbsencesListComponent', () => {
   let fixture: ComponentFixture<EditAbsencesListComponent>;
@@ -12,13 +14,20 @@ describe('EditAbsencesListComponent', () => {
   let stateServiceMock: EditAbsencesStateService;
 
   beforeEach(async(() => {
+    const entry = buildPresenceControlEntry();
     stateServiceMock = ({
-      presenceControlEntries$: of([buildPresenceControlEntry()])
+      loading$: of(false),
+      lessonPresences$: of([entry.lessonPresence]),
+      presenceControlEntries$: of([entry]),
+      presenceTypes$: of([]),
+      selected: [],
+      setFilter: jasmine.createSpy('setFilter'),
+      isFilterValid$: of(true)
     } as unknown) as EditAbsencesStateService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EditAbsencesListComponent],
+        declarations: [EditAbsencesListComponent, EditAbsencesHeaderComponent],
         providers: [
           { provide: EditAbsencesStateService, useValue: stateServiceMock }
         ]

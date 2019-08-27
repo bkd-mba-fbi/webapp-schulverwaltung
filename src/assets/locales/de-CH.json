@@ -113,6 +113,8 @@
       "extended-filters": "Weitere Kriterien"
     },
     "list": {
+      "total": "{{count}} Resultate",
+      "selected": "{{count}} ausgewählt",
       "header": {
         "presence": "Präsenz",
         "student": "Name",
@@ -125,6 +127,19 @@
         "date": "Datum",
         "teacher": "Lehrkraft"
       }
+    },
+    "edit": {
+      "categories": {
+        "absent": "Absenz",
+        "dispensation": "Dispensation",
+        "half-day": "Freier Halbtag",
+        "late": "Verspätung",
+        "present": "Anwesend"
+      },
+      "absence-type-placeholder": "Absenzgrund auswählen...",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
     }
   },
   "evaluate-absences": {

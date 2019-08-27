@@ -23,6 +23,8 @@ export const settings: Settings = {
   scriptsAndAssetsPath: '.',
   absencePresenceTypeId: 11,
   latePresenceTypeId: 12,
+  dispensationPresenceTypeId: 18,
+  halfDayPresenceTypeId: 17,
   unconfirmedAbsenceStateId: 219,
   unexcusedAbsenceStateId: 225,
   excusedAbsenceStateId: 220

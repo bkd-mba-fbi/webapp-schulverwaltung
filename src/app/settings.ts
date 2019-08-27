@@ -6,6 +6,8 @@ const Settings = t.type({
   scriptsAndAssetsPath: t.string,
   absencePresenceTypeId: t.number,
   latePresenceTypeId: t.number,
+  dispensationPresenceTypeId: t.number,
+  halfDayPresenceTypeId: t.number,
   unconfirmedAbsenceStateId: t.number,
   unexcusedAbsenceStateId: t.number,
   excusedAbsenceStateId: t.number

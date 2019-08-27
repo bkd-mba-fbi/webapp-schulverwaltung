@@ -19,6 +19,12 @@ window.absenzenmanagement.settings = {
   // Id of the PresenceType that represents the "late" incident
   latePresenceTypeId: 12,
 
+  // Id of the PresenceType that represents the "dispensation" absence
+  dispensationPresenceTypeId: 18,
+
+  // Id of the PresenceType that represents the "half day" absence
+  halfDayPresenceTypeId: 17,
+
   // Id of the confirmation state for absences that need to be
   // confirmed
   unconfirmedAbsenceStateId: 219,
