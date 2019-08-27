@@ -118,9 +118,9 @@ describe('LessonPresencesRestService', () => {
     });
 
     it('fetches statistics based on the given filter, all filter criteria set', () => {
-      filter.student = { id: 123, label: 'Hans Muster' };
-      filter.moduleInstance = { id: 333, label: 'Biologie' };
-      filter.studyClass = { id: 678, label: 'D3b' };
+      filter.student = { Key: 123, Value: 'Hans Muster' };
+      filter.moduleInstance = { Key: 333, Value: 'Biologie' };
+      filter.studyClass = { Key: 678, Value: 'D3b' };
       const url =
         'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.ModuleInstanceRef==333&filter.StudyClassRef==678';
 
@@ -134,7 +134,7 @@ describe('LessonPresencesRestService', () => {
     });
 
     it('fetches statistics based on the given filter, only student set', () => {
-      filter.student = { id: 123, label: 'Hans Muster' };
+      filter.student = { Key: 123, Value: 'Hans Muster' };
       const url =
         'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123';
 
@@ -165,9 +165,9 @@ describe('LessonPresencesRestService', () => {
     });
 
     it('fetches lesson presences on the given basic filters', () => {
-      filter.student = { id: 123, label: 'Hans Muster' };
-      filter.moduleInstance = { id: 333, label: 'Biologie' };
-      filter.studyClass = { id: 678, label: 'D3b' };
+      filter.student = { Key: 123, Value: 'Hans Muster' };
+      filter.moduleInstance = { Key: 333, Value: 'Biologie' };
+      filter.studyClass = { Key: 678, Value: 'D3b' };
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';

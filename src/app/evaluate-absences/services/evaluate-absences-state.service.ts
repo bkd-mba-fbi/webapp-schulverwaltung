@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { TypeaheadItem } from 'src/app/shared/models/typeahead-item';
+
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 export interface EvaluateAbsencesFilter {
-  student: Option<TypeaheadItem>;
-  moduleInstance: Option<TypeaheadItem>;
-  studyClass: Option<TypeaheadItem>;
+  student: Option<DropDownItem>;
+  moduleInstance: Option<DropDownItem>;
+  studyClass: Option<DropDownItem>;
 }
 
 @Injectable()

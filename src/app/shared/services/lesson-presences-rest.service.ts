@@ -48,18 +48,18 @@ export class LessonPresencesRestService extends RestService<
     let params = new HttpParams();
 
     params = absencesFilter.student
-      ? params.set('filter.StudentRef', `=${absencesFilter.student.id}`)
+      ? params.set('filter.StudentRef', `=${absencesFilter.student.Key}`)
       : params;
 
     params = absencesFilter.moduleInstance
       ? params.set(
           'filter.ModuleInstanceRef',
-          `=${absencesFilter.moduleInstance.id}`
+          `=${absencesFilter.moduleInstance.Key}`
         )
       : params;
 
     params = absencesFilter.studyClass
-      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.id}`)
+      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.Key}`)
       : params;
 
     return this.http
@@ -73,15 +73,15 @@ export class LessonPresencesRestService extends RestService<
     let params = new HttpParams();
 
     params = absencesFilter.student
-      ? params.set('filter.StudentRef', `=${absencesFilter.student.id}`)
+      ? params.set('filter.StudentRef', `=${absencesFilter.student.Key}`)
       : params;
 
     params = absencesFilter.moduleInstance
-      ? params.set('filter.EventRef', `=${absencesFilter.moduleInstance.id}`)
+      ? params.set('filter.EventRef', `=${absencesFilter.moduleInstance.Key}`)
       : params;
 
     params = absencesFilter.studyClass
-      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.id}`)
+      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.Key}`)
       : params;
 
     if (

@@ -6,11 +6,11 @@ import * as t from 'io-ts';
 import { Settings } from 'src/app/settings';
 import { pick } from '../utils/types';
 import { decodeArray } from '../utils/decode';
-import { TypeaheadItem } from '../models/typeahead-item';
 import { RestService } from '../services/rest.service';
+import { DropDownItem } from '../models/drop-down-item.model';
 
 export interface TypeaheadService {
-  getTypeaheadItems(term: string): Observable<ReadonlyArray<TypeaheadItem>>;
+  getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>>;
 }
 
 export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
@@ -27,7 +27,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     super(http, settings, codec, resourcePath);
   }
 
-  getTypeaheadItems(term: string): Observable<ReadonlyArray<TypeaheadItem>> {
+  getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
     const typeaheadCodec = t.type(
       pick(this.codec.props, [this.idAttr, this.labelAttr])
     );
@@ -41,7 +41,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
       .pipe(
         switchMap(decodeArray(typeaheadCodec)),
         map(items =>
-          items.map(i => ({ id: i[this.idAttr], label: i[this.labelAttr] }))
+          items.map(i => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
         )
       );
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { TypeaheadItem } from 'src/app/shared/models/typeahead-item';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, filter, shareReplay } from 'rxjs/operators';
+
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { PresenceTypesRestService } from 'src/app/shared/services/presence-types-rest.service';
@@ -11,9 +11,9 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
 
 export interface EditAbsencesFilter {
-  student: Option<TypeaheadItem>;
-  moduleInstance: Option<TypeaheadItem>;
-  studyClass: Option<TypeaheadItem>;
+  student: Option<DropDownItem>;
+  moduleInstance: Option<DropDownItem>;
+  studyClass: Option<DropDownItem>;
   dateFrom: Option<Date>;
   dateTo: Option<Date>;
   presenceType: Option<DropDownItem>;

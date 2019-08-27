@@ -16,9 +16,9 @@ import {
 } from 'rxjs/operators';
 import { uniqueId } from 'lodash-es';
 
-import { TypeaheadItem } from '../../models/typeahead-item';
-import { TypeaheadService } from '../../services/typeahead-rest.service';
 import { longerOrEqual } from '../../utils/filter';
+import { TypeaheadService } from '../../services/typeahead-rest.service';
+import { DropDownItem } from '../../models/drop-down-item.model';
 
 const FETCH_DEBOUNCE_TIME = 300;
 const MINIMAL_TERM_LENGTH = 3;
@@ -30,7 +30,7 @@ const MINIMAL_TERM_LENGTH = 3;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TypeaheadComponent implements OnInit {
-  private selectItemSource$ = new BehaviorSubject<Option<TypeaheadItem>>(null);
+  private selectItemSource$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = 'shared.typeahead.default-placeholder';
@@ -52,17 +52,17 @@ export class TypeaheadComponent implements OnInit {
     );
   };
 
-  format(item: TypeaheadItem): string {
-    return item.label;
+  format(item: DropDownItem): string {
+    return item.Value;
   }
 
   modelChange(value: unknown): void {
     this.selectItemSource$.next(
-      value instanceof Object ? (value as TypeaheadItem) : null
+      value instanceof Object ? (value as DropDownItem) : null
     );
   }
 
-  private fetchItems(term: string): Observable<ReadonlyArray<TypeaheadItem>> {
+  private fetchItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
     this.loading$.next(true);
     return this.typeaheadService
       .getTypeaheadItems(term)
