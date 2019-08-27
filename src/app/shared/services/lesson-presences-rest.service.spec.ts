@@ -117,7 +117,7 @@ describe('LessonPresencesRestService', () => {
       };
     });
 
-    it('fetches statistics based on the given filter, all filter criteria set', () => {
+    it('fetches statistics based with the given filter, all filter criteria set', () => {
       filter.student = { Key: 123, Value: 'Hans Muster' };
       filter.moduleInstance = { Key: 333, Value: 'Biologie' };
       filter.studyClass = { Key: 678, Value: 'D3b' };
@@ -133,7 +133,7 @@ describe('LessonPresencesRestService', () => {
         .flush(data);
     });
 
-    it('fetches statistics based on the given filter, only student set', () => {
+    it('fetches statistics based with the given filter, only student set', () => {
       filter.student = { Key: 123, Value: 'Hans Muster' };
       const url =
         'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123';
@@ -148,7 +148,7 @@ describe('LessonPresencesRestService', () => {
     });
   });
 
-  describe('.search', () => {
+  describe('.getFilteredList', () => {
     const data: any[] = [];
     let filter: EditAbsencesFilter;
 
@@ -164,13 +164,80 @@ describe('LessonPresencesRestService', () => {
       };
     });
 
-    it('fetches lesson presences on the given basic filters', () => {
+    it('fetches lesson presences with the given basic filters', () => {
       filter.student = { Key: 123, Value: 'Hans Muster' };
       filter.moduleInstance = { Key: 333, Value: 'Biologie' };
       filter.studyClass = { Key: 678, Value: 'D3b' };
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';
+
+      service
+        .getFilteredList(filter)
+        .subscribe(result => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+
+    it('fetches lesson presences with all given filters', () => {
+      filter.student = { Key: 123, Value: 'Hans Muster' };
+      filter.moduleInstance = { Key: 333, Value: 'Biologie' };
+      filter.studyClass = { Key: 678, Value: 'D3b' };
+      filter.dateFrom = new Date(2000, 0, 23);
+      filter.dateTo = new Date(2000, 0, 25);
+      filter.presenceType = { Key: 888, Value: 'Halbtag' };
+      filter.confirmationState = { Key: 999, Value: 'Bestätigt' };
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef==888&filter.ConfirmationStateId==999&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-26';
+
+      service
+        .getFilteredList(filter)
+        .subscribe(result => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+
+    it('fetches lesson presences with with only date from', () => {
+      filter.dateFrom = new Date(2000, 0, 23);
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom=%3E2000-01-22';
+
+      service
+        .getFilteredList(filter)
+        .subscribe(result => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+
+    it('fetches lesson presences with with only date to', () => {
+      filter.dateTo = new Date(2000, 0, 25);
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeTo=%3C2000-01-26';
+
+      service
+        .getFilteredList(filter)
+        .subscribe(result => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+
+    it('fetches lesson presences with with equal date from/to', () => {
+      filter.dateFrom = new Date(2000, 0, 23);
+      filter.dateTo = new Date(2000, 0, 23);
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23';
 
       service
         .getFilteredList(filter)

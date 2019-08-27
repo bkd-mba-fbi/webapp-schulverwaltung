@@ -11,6 +11,7 @@ import { RestService } from './rest.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
+import { DropDownItem } from '../models/drop-down-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,23 +46,11 @@ export class LessonPresencesRestService extends RestService<
   getStatistics(
     absencesFilter: EvaluateAbsencesFilter
   ): Observable<ReadonlyArray<LessonPresenceStatistic>> {
-    let params = new HttpParams();
-
-    params = absencesFilter.student
-      ? params.set('filter.StudentRef', `=${absencesFilter.student.Key}`)
-      : params;
-
-    params = absencesFilter.moduleInstance
-      ? params.set(
-          'filter.ModuleInstanceRef',
-          `=${absencesFilter.moduleInstance.Key}`
-        )
-      : params;
-
-    params = absencesFilter.studyClass
-      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.Key}`)
-      : params;
-
+    const params = buildHttpParamsForFilter([
+      [absencesFilter.student, 'StudentRef'],
+      [absencesFilter.moduleInstance, 'ModuleInstanceRef'],
+      [absencesFilter.studyClass, 'StudyClassRef']
+    ]);
     return this.http
       .get<unknown>(`${this.baseUrl}/Statistics`, { params })
       .pipe(switchMap(decodeArray(LessonPresenceStatistic)));
@@ -70,19 +59,13 @@ export class LessonPresencesRestService extends RestService<
   getFilteredList(
     absencesFilter: EditAbsencesFilter
   ): Observable<ReadonlyArray<LessonPresence>> {
-    let params = new HttpParams();
-
-    params = absencesFilter.student
-      ? params.set('filter.StudentRef', `=${absencesFilter.student.Key}`)
-      : params;
-
-    params = absencesFilter.moduleInstance
-      ? params.set('filter.EventRef', `=${absencesFilter.moduleInstance.Key}`)
-      : params;
-
-    params = absencesFilter.studyClass
-      ? params.set('filter.StudyClassRef', `=${absencesFilter.studyClass.Key}`)
-      : params;
+    let params = buildHttpParamsForFilter([
+      [absencesFilter.student, 'StudentRef'],
+      [absencesFilter.moduleInstance, 'EventRef'],
+      [absencesFilter.studyClass, 'StudyClassRef'],
+      [absencesFilter.presenceType, 'TypeRef'],
+      [absencesFilter.confirmationState, 'ConfirmationStateId']
+    ]);
 
     if (
       absencesFilter.dateFrom &&
@@ -103,22 +86,27 @@ export class LessonPresencesRestService extends RestService<
       if (absencesFilter.dateTo) {
         params = params.set(
           'filter.LessonDateTimeTo',
-          `>${format(addDays(absencesFilter.dateTo, 1), 'YYYY-MM-DD')}`
+          `<${format(addDays(absencesFilter.dateTo, 1), 'YYYY-MM-DD')}`
         );
       }
     }
 
-    params = absencesFilter.presenceType
-      ? params.set('filter.TypeRef', `=${absencesFilter.presenceType.Key}`)
-      : params;
-
-    params = absencesFilter.confirmationState
-      ? params.set(
-          'filter.ConfirmationStateId',
-          `=${absencesFilter.confirmationState.Key}`
-        )
-      : params;
-
     return this.getList(params);
   }
+}
+
+/**
+ * Builds a `HttpParams` object for the given filter values (an array
+ * of item/field tuples). All non-DropDownItem values have to be
+ * custom added to the returned `HttpParams`.
+ */
+function buildHttpParamsForFilter(
+  filterValues: ReadonlyArray<[Option<DropDownItem>, string]>
+): HttpParams {
+  return filterValues.reduce((acc, [item, field]) => {
+    if (item && field) {
+      return acc.set(`filter.${field}`, `=${item.Key}`);
+    }
+    return acc;
+  }, new HttpParams());
 }
