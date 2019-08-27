@@ -9,6 +9,8 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
+import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
+import { sortDropDownItemsByValue } from 'src/app/shared/utils/drop-down-items';
 
 export interface EditAbsencesFilter {
   student: Option<DropDownItem>;
@@ -40,8 +42,12 @@ export class EditAbsencesStateService {
     filter(isValidFilter),
     switchMap(this.loadEntries.bind(this))
   );
-  presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
+  presenceTypes$ = this.loadPresenceTypes().pipe(
+    map(sortPresenceTypes),
+    shareReplay(1)
+  );
   absenceConfirmationStates$ = this.loadAbsenceConfirmationStates().pipe(
+    map(sortDropDownItemsByValue),
     shareReplay(1)
   );
 

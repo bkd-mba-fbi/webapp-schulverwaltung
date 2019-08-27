@@ -10,14 +10,15 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter
 } from '@ng-bootstrap/ng-bootstrap';
-import { shareReplay, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
+import { not } from 'src/app/shared/utils/filter';
+import { isComment } from 'src/app/presence-control/utils/presence-types';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { createPresenceTypesDropdownItems } from 'src/app/shared/utils/presence-types';
 import { ModuleInstancesRestService } from 'src/app/shared/services/module-instances-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
-import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
 import {
   EditAbsencesFilter,
   EditAbsencesStateService
@@ -49,6 +50,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
   absenceConfirmationStates$ = this.state.absenceConfirmationStates$;
 
   presenceTypes$ = this.state.presenceTypes$.pipe(
+    map(presenceTypes => presenceTypes.filter(not(isComment))),
     map(createPresenceTypesDropdownItems)
   );
 

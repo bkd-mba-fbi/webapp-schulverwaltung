@@ -8,3 +8,9 @@ export function findDropDownItem$(
 ): Observable<Option<DropDownItem>> {
   return items$.pipe(map(items => items.find(i => i.Key === key) || null));
 }
+
+export function sortDropDownItemsByValue(
+  items: ReadonlyArray<DropDownItem>
+): ReadonlyArray<DropDownItem> {
+  return items.slice().sort((a, b) => a.Value.localeCompare(b.Value));
+}

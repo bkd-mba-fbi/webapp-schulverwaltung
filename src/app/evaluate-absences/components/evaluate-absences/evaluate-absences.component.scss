@@ -1,0 +1,6 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+  min-width: $erz-evaluate-absences-min-width;
+}

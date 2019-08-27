@@ -122,7 +122,7 @@ describe('LessonPresencesRestService', () => {
       filter.moduleInstance = { Key: 333, Value: 'Biologie' };
       filter.studyClass = { Key: 678, Value: 'D3b' };
       const url =
-        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.ModuleInstanceRef==333&filter.StudyClassRef==678';
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';
 
       service
         .getStatistics(filter)

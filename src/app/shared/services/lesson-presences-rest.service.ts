@@ -48,7 +48,7 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<ReadonlyArray<LessonPresenceStatistic>> {
     const params = buildHttpParamsForFilter([
       [absencesFilter.student, 'StudentRef'],
-      [absencesFilter.moduleInstance, 'ModuleInstanceRef'],
+      [absencesFilter.moduleInstance, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef']
     ]);
     return this.http

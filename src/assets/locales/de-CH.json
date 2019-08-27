@@ -122,7 +122,8 @@
         "confirmation-state": "Status",
         "presence-type": "Grund",
         "comment": "Kommentar",
-        "date": "Datum"
+        "date": "Datum",
+        "teacher": "Lehrkraft"
       }
     }
   },
