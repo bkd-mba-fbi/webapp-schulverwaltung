@@ -1,27 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { buildLessonPresence } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { buildTestModuleMetadata, settings } from 'src/spec-helpers';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { EditAbsencesListComponent } from './edit-absences-list.component';
+import { PresenceControlEntry } from 'src/app/presence-control/models/presence-control-entry.model';
 
 describe('EditAbsencesListComponent', () => {
   let fixture: ComponentFixture<EditAbsencesListComponent>;
   let element: HTMLElement;
   let stateServiceMock: EditAbsencesStateService;
-  let lessonPresence: LessonPresence;
 
   beforeEach(async(() => {
-    lessonPresence = buildLessonPresence(
-      5837_4508,
-      new Date('2019-08-12T14:35:00'),
-      new Date('2019-08-12T15:20:00'),
-      '2-1-Biologie-MNW-2019/20-22a'
-    );
-
     stateServiceMock = ({
-      entries$: of([lessonPresence])
+      presenceControlEntries$: of([buildPresenceControlEntry()])
     } as unknown) as EditAbsencesStateService;
 
     TestBed.configureTestingModule(
@@ -44,3 +36,20 @@ describe('EditAbsencesListComponent', () => {
     expect(element.querySelectorAll('table').length).toBe(1);
   });
 });
+
+function buildPresenceControlEntry(): PresenceControlEntry {
+  const presenceControlEntry = new PresenceControlEntry(
+    buildLessonPresence(
+      5837_4508,
+      new Date('2019-08-12T14:35:00'),
+      new Date('2019-08-12T15:20:00'),
+      '2-1-Biologie-MNW-2019/20-22a'
+    ),
+    null
+  );
+
+  Object.defineProperty(presenceControlEntry, 'settings', {
+    get: () => settings
+  });
+  return presenceControlEntry;
+}

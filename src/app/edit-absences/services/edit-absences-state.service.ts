@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap, filter, shareReplay } from 'rxjs/operators';
-
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
-import { PresenceTypesRestService } from 'src/app/shared/services/presence-types-rest.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { PresenceControlEntry } from 'src/app/presence-control/models/presence-control-entry.model';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
-import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
+import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
+import { LoadingService } from 'src/app/shared/services/loading-service';
+import { PresenceTypesRestService } from 'src/app/shared/services/presence-types-rest.service';
 import { sortDropDownItemsByValue } from 'src/app/shared/utils/drop-down-items';
+import { spreadTriplet } from 'src/app/shared/utils/function';
+import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 
 export interface EditAbsencesFilter {
   student: Option<DropDownItem>;
@@ -38,7 +39,7 @@ export class EditAbsencesStateService {
 
   loading$ = this.loadingService.loading$;
   isFilterValid$ = this.filter$.pipe(map(isValidFilter));
-  entries$ = this.filter$.pipe(
+  lessonPresences$ = this.filter$.pipe(
     filter(isValidFilter),
     switchMap(this.loadEntries.bind(this))
   );
@@ -48,6 +49,15 @@ export class EditAbsencesStateService {
   );
   absenceConfirmationStates$ = this.loadAbsenceConfirmationStates().pipe(
     map(sortDropDownItemsByValue),
+    shareReplay(1)
+  );
+
+  presenceControlEntries$ = combineLatest(
+    this.lessonPresences$,
+    this.presenceTypes$,
+    this.absenceConfirmationStates$
+  ).pipe(
+    map(spreadTriplet(getPresenceControlEntries)),
     shareReplay(1)
   );
 
@@ -65,7 +75,6 @@ export class EditAbsencesStateService {
   private loadEntries(
     absencesFilter: EditAbsencesFilter
   ): Observable<ReadonlyArray<LessonPresence>> {
-    console.log(absencesFilter);
     return this.loadingService.load(
       this.lessonPresencesService.getFilteredList(absencesFilter)
     );
@@ -94,4 +103,29 @@ function isValidFilter(absencesFilter: EditAbsencesFilter): boolean {
       absencesFilter.presenceType ||
       absencesFilter.confirmationState
   );
+}
+
+function getPresenceControlEntries(
+  lessonPresences: ReadonlyArray<LessonPresence>,
+  presenceTypes: ReadonlyArray<PresenceType>,
+  confirmationStates: ReadonlyArray<DropDownItem>
+): ReadonlyArray<PresenceControlEntry> {
+  return lessonPresences.map(lessonPresence => {
+    let presenceType = null;
+    if (lessonPresence.TypeRef.Id) {
+      presenceType =
+        presenceTypes.find(t => t.Id === lessonPresence.TypeRef.Id) || null;
+    }
+    let confirmationState;
+    if (lessonPresence.ConfirmationStateId) {
+      confirmationState = confirmationStates.find(
+        s => s.Key === lessonPresence.ConfirmationStateId
+      );
+    }
+    return new PresenceControlEntry(
+      lessonPresence,
+      presenceType,
+      confirmationState
+    );
+  });
 }

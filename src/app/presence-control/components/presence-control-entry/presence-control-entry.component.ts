@@ -46,17 +46,6 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
     }
   }
 
-  get presenceCategoryIcon(): string {
-    switch (this.entry.presenceCategory) {
-      case 'absent':
-        return 'cancel';
-      case 'late':
-        return 'watch_later';
-      default:
-        return 'check_circle';
-    }
-  }
-
   get isListViewMode(): boolean {
     return this.viewMode === ViewMode.List;
   }

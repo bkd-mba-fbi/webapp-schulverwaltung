@@ -1,4 +1,4 @@
-<div *erzLet="state.entries$ | async as entries">
+<div *erzLet="state.presenceControlEntries$ | async as entries">
   <ng-container *ngIf="!(state.loading$ | async); else loading">
     <ng-container *ngIf="entries && entries.length > 0; else noEntries">
       <div class="content">
@@ -6,14 +6,12 @@
           <thead>
             <tr>
               <th><input type="checkbox" /></th>
-              <th>
+              <th class="presence-category">
                 {{ 'edit-absences.list.header.presence' | translate }}
               </th>
               <th>
-                <span>{{
-                  'edit-absences.list.header.student' | translate
-                }}</span
-                >,
+                {{ 'edit-absences.list.header.student' | translate }}
+                <br />
                 {{ 'edit-absences.list.header.module-instance' | translate }},
                 {{ 'edit-absences.list.header.study-class' | translate }}
               </th>
@@ -22,7 +20,8 @@
                 {{ 'edit-absences.list.header.confirmation-state' | translate }}
               </th>
               <th>
-                {{ 'edit-absences.list.header.presence-type' | translate }},
+                {{ 'edit-absences.list.header.presence-type' | translate
+                }}<br />
                 {{ 'edit-absences.list.header.comment' | translate }}
               </th>
               <th>
@@ -34,24 +33,35 @@
           <tbody>
             <tr *ngFor="let entry of entries">
               <td><input type="checkbox" /></td>
-              <td></td>
-              <td>
-                <span>{{ entry.StudentFullName }}</span
-                >, {{ entry.EventDesignation }}, {{ entry.StudyClassNumber }}
+              <td class="presence-category">
+                <span [className]="entry.presenceCategory">
+                  <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
+                </span>
               </td>
               <td>
-                {{ entry.LessonDateTimeFrom | date: 'shortTime' }}–{{
-                  entry.LessonDateTimeTo | date: 'shortTime'
+                {{ entry.lessonPresence.StudentFullName }}
+                <br />
+                {{ entry.lessonPresence.EventDesignation }},
+                {{ entry.lessonPresence.StudyClassNumber }}
+              </td>
+              <td>
+                {{
+                  entry.lessonPresence.LessonDateTimeFrom | date: 'shortTime'
+                }}–{{
+                  entry.lessonPresence.LessonDateTimeTo | date: 'shortTime'
                 }}
               </td>
-              <td></td>
-              <td></td>
+              <td>{{ entry.confirmationState?.Value }}</td>
+              <td class="designation-comment">
+                {{ entry.presenceType?.Designation }}<br />
+                <span class="comment">{{ entry.lessonPresence.Comment }}</span>
+              </td>
               <td>
-                {{ entry.LessonDateTimeFrom | date: 'mediumDate' }}–{{
-                  entry.LessonDateTimeTo | date: 'mediumDate'
+                {{
+                  entry.lessonPresence.LessonDateTimeFrom | date: 'mediumDate'
                 }}
               </td>
-              <td>{{ entry.TeacherInformation }}</td>
+              <td>{{ entry.lessonPresence.TeacherInformation }}</td>
             </tr>
           </tbody>
         </table>

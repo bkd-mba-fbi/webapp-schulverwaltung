@@ -3,3 +3,27 @@
 .content {
   padding: 1rem;
 }
+
+.presence-category {
+  text-align: center;
+}
+
+.presence-category .absent {
+  color: $absent-color;
+}
+
+.presence-category .present {
+  color: $present-color;
+}
+
+.presence-category .late {
+  color: $late-color;
+}
+
+.designation-comment {
+  max-width: 50ch;
+}
+
+.comment {
+  color: $gray-500;
+}

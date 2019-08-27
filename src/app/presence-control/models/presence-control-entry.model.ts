@@ -8,6 +8,7 @@ import {
   isDefaultAbsence,
   canChangePresenceType
 } from '../utils/presence-types';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 export enum PresenceCategory {
   Present = 'present',
@@ -19,7 +20,8 @@ export class PresenceControlEntry implements Searchable {
   readonly studentFullName: string;
   constructor(
     public lessonPresence: LessonPresence,
-    public presenceType: Option<PresenceType>
+    public presenceType: Option<PresenceType>,
+    public confirmationState?: DropDownItem
   ) {
     this.studentFullName = lessonPresence.StudentFullName;
   }
@@ -67,6 +69,17 @@ export class PresenceControlEntry implements Searchable {
       this.presenceType,
       this.settings
     );
+  }
+
+  get presenceCategoryIcon(): string {
+    switch (this.presenceCategory) {
+      case 'absent':
+        return 'cancel';
+      case 'late':
+        return 'watch_later';
+      default:
+        return 'check_circle';
+    }
   }
 
   private get settings(): Settings {
