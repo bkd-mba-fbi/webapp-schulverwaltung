@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+
 import { PresenceControlEntry } from 'src/app/presence-control/models/presence-control-entry.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -12,6 +14,7 @@ import { PresenceTypesRestService } from 'src/app/shared/services/presence-types
 import { sortDropDownItemsByValue } from 'src/app/shared/utils/drop-down-items';
 import { spreadTriplet } from 'src/app/shared/utils/function';
 import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
+import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 
 export interface EditAbsencesFilter {
   student: Option<number>;
@@ -24,7 +27,7 @@ export interface EditAbsencesFilter {
 }
 
 @Injectable()
-export class EditAbsencesStateService {
+export class EditAbsencesStateService implements OnDestroy {
   private filter$ = new BehaviorSubject<EditAbsencesFilter>({
     student: null,
     moduleInstance: null,
@@ -60,17 +63,32 @@ export class EditAbsencesStateService {
     shareReplay(1)
   );
 
+  queryParams$ = this.filter$.pipe(map(buildHttpParamsFromAbsenceFilter));
+
+  private destroy$ = new Subject<void>();
+
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
     personIds: ReadonlyArray<number>;
   }> = [];
 
   constructor(
+    private location: Location,
     private loadingService: LoadingService,
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesRestService,
     private dropDownItemsService: DropDownItemsRestService
-  ) {}
+  ) {
+    this.queryParams$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params =>
+        this.location.replaceState('/edit-absences', params.toString())
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
 
   setFilter(absencesFilter: EditAbsencesFilter): void {
     this.filter$.next(absencesFilter);
@@ -104,7 +122,7 @@ export class EditAbsencesStateService {
   }
 }
 
-function isValidFilter(absencesFilter: EditAbsencesFilter): boolean {
+export function isValidFilter(absencesFilter: EditAbsencesFilter): boolean {
   return Boolean(
     absencesFilter.student ||
       absencesFilter.moduleInstance ||

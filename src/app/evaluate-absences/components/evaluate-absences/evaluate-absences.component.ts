@@ -15,8 +15,7 @@ import { map, take } from 'rxjs/operators';
   providers: [EvaluateAbsencesStateService]
 })
 export class EvaluateAbsencesComponent implements OnInit {
-  params$ = this.route.queryParams;
-  filter$ = this.params$.pipe(map(createFilterFromParams));
+  filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
 
   constructor(
     public state: EvaluateAbsencesStateService,
@@ -24,7 +23,7 @@ export class EvaluateAbsencesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.filter$
+    this.filterFromParams$
       .pipe(take(1))
       .subscribe(filter => this.state.setFilter(filter));
   }
@@ -32,8 +31,10 @@ export class EvaluateAbsencesComponent implements OnInit {
 
 function createFilterFromParams(params: Params): EvaluateAbsencesFilter {
   return {
-    student: params.student || null,
-    moduleInstance: params.moduleInstance || null,
-    studyClass: params.studyClass || null
+    student: params.student ? Number(params.student) : null,
+    moduleInstance: params.moduleInstance
+      ? Number(params.moduleInstance)
+      : null,
+    studyClass: params.studyClass ? Number(params.studyClass) : null
   };
 }

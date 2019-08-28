@@ -37,10 +37,10 @@ export class TypeaheadComponent implements OnInit, OnChanges {
 
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = 'shared.typeahead.default-placeholder';
-  @Input() selectedId: number;
+  @Input() value: number;
 
   @Output()
-  selectId = this.selectIdSource$.pipe(distinctUntilChanged());
+  valueChange = this.selectIdSource$.pipe(distinctUntilChanged());
 
   selectedItem$ = new Subject<DropDownItem>();
 
@@ -52,8 +52,8 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedId && changes.selectedId.currentValue) {
-      this.fetchItem(changes.selectedId.currentValue).subscribe(item => {
+    if (changes.value && changes.value.currentValue) {
+      this.fetchItem(changes.value.currentValue).subscribe(item => {
         this.selectedItem$.next(item);
         this.modelChange(item);
       });

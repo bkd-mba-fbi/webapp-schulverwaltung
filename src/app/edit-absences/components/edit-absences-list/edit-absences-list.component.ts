@@ -5,12 +5,17 @@ import {
   OnDestroy,
   AfterViewInit
 } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, map } from 'rxjs/operators';
 
-import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
+import {
+  EditAbsencesStateService,
+  EditAbsencesFilter
+} from '../../services/edit-absences-state.service';
 import { EditAbsencesSelectionService } from '../../services/edit-absences-selection.service';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
+import { parseISOLocalDate } from 'src/app/shared/utils/date';
 
 @Component({
   selector: 'erz-edit-absences-list',
@@ -21,15 +26,23 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
 })
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy {
+  filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
+
   private destroy$ = new Subject();
 
   constructor(
     public state: EditAbsencesStateService,
     public selectionService: EditAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService
+    private scrollPosition: ScrollPositionService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    // Load list with filter from query params
+    this.filterFromParams$
+      .pipe(take(1))
+      .subscribe(filter => this.state.setFilter(filter));
+
     // Clear selection when new entries have been loaded
     this.state.lessonPresences$
       .pipe(takeUntil(this.destroy$))
@@ -62,4 +75,20 @@ export class EditAbsencesListComponent
       checkbox.click();
     }
   }
+}
+
+function createFilterFromParams(params: Params): EditAbsencesFilter {
+  return {
+    student: params.student ? Number(params.student) : null,
+    moduleInstance: params.moduleInstance
+      ? Number(params.moduleInstance)
+      : null,
+    studyClass: params.studyClass ? Number(params.studyClass) : null,
+    dateFrom: params.dateFrom ? parseISOLocalDate(params.dateFrom) : null,
+    dateTo: params.dateTo ? parseISOLocalDate(params.dateTo) : null,
+    presenceType: params.presenceType ? Number(params.presenceType) : null,
+    confirmationState: params.confirmationState
+      ? Number(params.confirmationState)
+      : null
+  };
 }

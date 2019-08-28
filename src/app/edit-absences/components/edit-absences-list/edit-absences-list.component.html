@@ -5,6 +5,7 @@
   } as data"
 >
   <erz-edit-absences-header
+    [filter]="filterFromParams$ | async"
     (filterChange)="state.setFilter($event)"
   ></erz-edit-absences-header>
 
@@ -31,6 +32,9 @@
             class="edit btn btn-link pr-1"
             [class.disabled]="data.selection.length === 0"
             routerLink="/edit-absences/edit"
+            [queryParams]="{
+              returnparams: (state.queryParams$ | async)?.toString()
+            }"
           >
             <i class="material-icons">edit</i>
           </a>

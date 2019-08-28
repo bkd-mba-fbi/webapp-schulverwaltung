@@ -19,14 +19,14 @@ import { EvaluateAbsencesFilter } from '../../services/evaluate-absences-state.s
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EvaluateAbsencesHeaderComponent implements OnInit {
-  @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();
-
   @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
     moduleInstance: null,
     studyClass: null
   };
+
+  @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();
 
   constructor(
     public studentsService: StudentsRestService,

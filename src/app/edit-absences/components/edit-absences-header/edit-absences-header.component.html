@@ -3,7 +3,7 @@
     <label>{{ 'edit-absences.header.student' | translate }}</label>
     <erz-typeahead
       [typeaheadService]="studentsService"
-      (selectId)="filter.student = $event"
+      [(value)]="filter.student"
     ></erz-typeahead>
   </div>
 
@@ -11,7 +11,7 @@
     <label>{{ 'edit-absences.header.module-instance' | translate }}</label>
     <erz-typeahead
       [typeaheadService]="moduleInstancesService"
-      (selectId)="filter.moduleInstance = $event"
+      [(value)]="filter.moduleInstance"
     ></erz-typeahead>
   </div>
 
@@ -19,18 +19,18 @@
     <label>{{ 'edit-absences.header.study-class' | translate }}</label>
     <erz-typeahead
       [typeaheadService]="studyClassService"
-      (selectId)="filter.studyClass = $event"
+      [(value)]="filter.studyClass"
     ></erz-typeahead>
   </div>
 
   <div class="form-group">
     <label>{{ 'edit-absences.header.date-from' | translate }}</label>
-    <erz-date-select (valueChange)="filter.dateFrom = $event"></erz-date-select>
+    <erz-date-select [(value)]="filter.dateFrom"></erz-date-select>
   </div>
 
   <div class="form-group">
     <label>{{ 'edit-absences.header.date-to' | translate }}</label>
-    <erz-date-select (valueChange)="filter.dateTo = $event"></erz-date-select>
+    <erz-date-select [(value)]="filter.dateTo"></erz-date-select>
   </div>
 
   <div class="buttons">
@@ -65,7 +65,7 @@
           <label>{{ 'edit-absences.header.presence-type' | translate }}</label>
           <erz-select
             [options]="presenceTypes$ | async"
-            (valueChange)="filter.presenceType = $event"
+            [(value)]="filter.presenceType"
           ></erz-select>
         </div>
 
@@ -75,7 +75,7 @@
           }}</label>
           <erz-select
             [options]="absenceConfirmationStates$ | async"
-            (valueChange)="filter.confirmationState = $event"
+            [(value)]="filter.confirmationState"
           ></erz-select>
         </div>
       </div>

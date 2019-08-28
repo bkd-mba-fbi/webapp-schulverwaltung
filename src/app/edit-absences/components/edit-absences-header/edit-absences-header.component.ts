@@ -3,14 +3,15 @@ import {
   Component,
   EventEmitter,
   OnInit,
-  Output
+  Output,
+  Input
 } from '@angular/core';
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDateParserFormatter
 } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { not } from 'src/app/shared/utils/filter';
 import { isComment } from 'src/app/presence-control/utils/presence-types';
@@ -35,8 +36,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditAbsencesHeaderComponent implements OnInit {
-  @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
-
+  @Input()
   filter: EditAbsencesFilter = {
     student: null,
     moduleInstance: null,
@@ -46,6 +46,8 @@ export class EditAbsencesHeaderComponent implements OnInit {
     presenceType: null,
     confirmationState: null
   };
+
+  @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
 
   absenceConfirmationStates$ = this.state.absenceConfirmationStates$;
 

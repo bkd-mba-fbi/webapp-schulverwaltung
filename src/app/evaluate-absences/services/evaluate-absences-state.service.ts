@@ -1,12 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
-import { Location } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
+import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
@@ -29,15 +29,7 @@ export class EvaluateAbsencesStateService implements OnDestroy {
     switchMap(this.loadEntries.bind(this))
   );
 
-  queryParams$ = this.filter$.pipe(
-    map(f =>
-      buildHttpParamsForFilter([
-        [f.student, 'student'],
-        [f.moduleInstance, 'moduleInstance'],
-        [f.studyClass, 'studyClass']
-      ])
-    )
-  );
+  queryParams$ = this.filter$.pipe(map(buildHttpParamsFromAbsenceFilter));
 
   private destroy$ = new Subject<void>();
 
@@ -70,21 +62,10 @@ export class EvaluateAbsencesStateService implements OnDestroy {
   }
 }
 
-function isValidFilter(absencesFilter: EvaluateAbsencesFilter): boolean {
+export function isValidFilter(absencesFilter: EvaluateAbsencesFilter): boolean {
   return Boolean(
     absencesFilter.student ||
       absencesFilter.moduleInstance ||
       absencesFilter.studyClass
   );
-}
-
-function buildHttpParamsForFilter(
-  filterValues: ReadonlyArray<[Option<number>, string]>
-): HttpParams {
-  return filterValues.reduce((acc, [id, field]) => {
-    if (id && field) {
-      return acc.set(`${field}`, `${id}`);
-    }
-    return acc;
-  }, new HttpParams());
 }

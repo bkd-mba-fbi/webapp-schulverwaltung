@@ -6,7 +6,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
 import {
   takeUntil,
@@ -14,7 +15,8 @@ import {
   map,
   finalize,
   shareReplay,
-  startWith
+  startWith,
+  take
 } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -87,6 +89,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private translate: TranslateService,
     private state: EditAbsencesStateService,
@@ -319,7 +322,11 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   }
 
   private navigateBack(): void {
-    this.router.navigate(['/edit-absences']);
+    this.route.queryParams.pipe(take(1)).subscribe(params => {
+      this.router.navigate(['/edit-absences'], {
+        queryParams: convertQueryStringToParams(params.returnparams)
+      });
+    });
   }
 
   private sortAbsenceConfirmationStates(
@@ -341,4 +348,13 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   ): ReadonlyArray<PresenceType> {
     return types.filter(t => t.NeedsConfirmation && t.IsAbsence);
   }
+}
+
+function convertQueryStringToParams(queryString: any): Params {
+  return String(queryString || '')
+    .split('&')
+    .reduce((acc, pair) => {
+      const [key, value] = pair.split('=');
+      return { ...acc, [key]: value };
+    }, {});
 }

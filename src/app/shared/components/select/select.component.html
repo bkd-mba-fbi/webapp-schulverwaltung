@@ -1,6 +1,6 @@
 <select
   class="form-control"
-  [ngModel]="null"
+  [ngModel]="value$ | async"
   (ngModelChange)="valueChange.emit($event.Key)"
 >
   <option *ngIf="allowEmpty" [ngValue]="null">{{
