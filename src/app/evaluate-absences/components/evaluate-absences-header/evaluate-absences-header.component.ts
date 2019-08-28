@@ -3,7 +3,8 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
@@ -20,6 +21,7 @@ import { EvaluateAbsencesFilter } from '../../services/evaluate-absences-state.s
 export class EvaluateAbsencesHeaderComponent implements OnInit {
   @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();
 
+  @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
     moduleInstance: null,

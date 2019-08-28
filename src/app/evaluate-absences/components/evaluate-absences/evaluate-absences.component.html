@@ -1,6 +1,7 @@
 <ng-container *erzLet="state.isFilterValid$ | async as isFilterValid">
   <erz-evaluate-absences-header
     (filterChange)="state.setFilter($event)"
+    [filter]="filter$ | async"
   ></erz-evaluate-absences-header>
 
   <erz-evaluate-absences-list *ngIf="isFilterValid; else noFilter">

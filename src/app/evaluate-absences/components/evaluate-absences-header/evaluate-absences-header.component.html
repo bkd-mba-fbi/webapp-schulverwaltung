@@ -2,7 +2,8 @@
   <label>{{ 'evaluate-absences.header.student' | translate }}</label>
   <erz-typeahead
     [typeaheadService]="studentsService"
-    (selectItem)="filter.student = $event"
+    (selectId)="filter.student = $event"
+    [selectedId]="filter.student"
   ></erz-typeahead>
 </div>
 
@@ -10,7 +11,8 @@
   <label>{{ 'evaluate-absences.header.module-instance' | translate }}</label>
   <erz-typeahead
     [typeaheadService]="moduleInstancesService"
-    (selectItem)="filter.moduleInstance = $event"
+    (selectId)="filter.moduleInstance = $event"
+    [selectedId]="filter.moduleInstance"
   ></erz-typeahead>
 </div>
 
@@ -18,7 +20,8 @@
   <label>{{ 'evaluate-absences.header.study-class' | translate }}</label>
   <erz-typeahead
     [typeaheadService]="studyClassesService"
-    (selectItem)="filter.studyClass = $event"
+    (selectId)="filter.studyClass = $event"
+    [selectedId]="filter.studyClass"
   ></erz-typeahead>
 </div>
 

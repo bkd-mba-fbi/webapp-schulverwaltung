@@ -1,6 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
+import {
+  EvaluateAbsencesStateService,
+  EvaluateAbsencesFilter
+} from '../../services/evaluate-absences-state.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'erz-evaluate-absences',
@@ -10,7 +15,25 @@ import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-s
   providers: [EvaluateAbsencesStateService]
 })
 export class EvaluateAbsencesComponent implements OnInit {
-  constructor(public state: EvaluateAbsencesStateService) {}
+  params$ = this.route.queryParams;
+  filter$ = this.params$.pipe(map(createFilterFromParams));
 
-  ngOnInit(): void {}
+  constructor(
+    public state: EvaluateAbsencesStateService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.filter$
+      .pipe(take(1))
+      .subscribe(filter => this.state.setFilter(filter));
+  }
+}
+
+function createFilterFromParams(params: Params): EvaluateAbsencesFilter {
+  return {
+    student: params.student || null,
+    moduleInstance: params.moduleInstance || null,
+    studyClass: params.studyClass || null
+  };
 }

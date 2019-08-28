@@ -97,15 +97,15 @@ export class LessonPresencesRestService extends RestService<
 
 /**
  * Builds a `HttpParams` object for the given filter values (an array
- * of item/field tuples). All non-DropDownItem values have to be
+ * of item/field tuples). All non-Id values have to be
  * custom added to the returned `HttpParams`.
  */
 function buildHttpParamsForFilter(
-  filterValues: ReadonlyArray<[Option<DropDownItem>, string]>
+  filterValues: ReadonlyArray<[Option<number>, string]>
 ): HttpParams {
   return filterValues.reduce((acc, [item, field]) => {
     if (item && field) {
-      return acc.set(`filter.${field}`, `=${item.Key}`);
+      return acc.set(`filter.${field}`, `=${item}`);
     }
     return acc;
   }, new HttpParams());

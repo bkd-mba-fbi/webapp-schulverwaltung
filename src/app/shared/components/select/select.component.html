@@ -1,7 +1,7 @@
 <select
   class="form-control"
   [ngModel]="null"
-  (ngModelChange)="valueChange.emit($event)"
+  (ngModelChange)="valueChange.emit($event.Key)"
 >
   <option *ngIf="allowEmpty" [ngValue]="null">{{
     'shared.select.empty-option' | translate

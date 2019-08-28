@@ -10,8 +10,8 @@ import { DropDownItem } from '../../models/drop-down-item.model';
 export class SelectComponent implements OnInit {
   @Input() options: ReadonlyArray<DropDownItem> = [];
   @Input() allowEmpty = true;
-  @Input() value: Option<DropDownItem> = null;
-  @Output() valueChange = new EventEmitter<Option<DropDownItem>>();
+  @Input() value: Option<number> = null;
+  @Output() valueChange = new EventEmitter<Option<number>>();
 
   constructor() {}
 

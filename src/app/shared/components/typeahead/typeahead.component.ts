@@ -3,9 +3,12 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Output,
-  Input
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges
 } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -29,14 +32,17 @@ const MINIMAL_TERM_LENGTH = 3;
   styleUrls: ['./typeahead.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TypeaheadComponent implements OnInit {
-  private selectItemSource$ = new BehaviorSubject<Option<DropDownItem>>(null);
+export class TypeaheadComponent implements OnInit, OnChanges {
+  private selectIdSource$ = new BehaviorSubject<Option<number>>(null);
 
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = 'shared.typeahead.default-placeholder';
+  @Input() selectedId: number;
 
   @Output()
-  selectItem = this.selectItemSource$.pipe(distinctUntilChanged());
+  selectId = this.selectIdSource$.pipe(distinctUntilChanged());
+
+  selectedItem$ = new Subject<DropDownItem>();
 
   componentId = uniqueId('erz-typeahead-');
   loading$ = new BehaviorSubject(false);
@@ -44,6 +50,15 @@ export class TypeaheadComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedId && changes.selectedId.currentValue) {
+      this.fetchItem(changes.selectedId.currentValue).subscribe(item => {
+        this.selectedItem$.next(item);
+        this.modelChange(item);
+      });
+    }
+  }
 
   search = (term$: Observable<string>) => {
     return term$.pipe(
@@ -57,8 +72,8 @@ export class TypeaheadComponent implements OnInit {
   }
 
   modelChange(value: unknown): void {
-    this.selectItemSource$.next(
-      value instanceof Object ? (value as DropDownItem) : null
+    this.selectIdSource$.next(
+      value instanceof Object ? (value as DropDownItem).Key : null
     );
   }
 
@@ -66,6 +81,13 @@ export class TypeaheadComponent implements OnInit {
     this.loading$.next(true);
     return this.typeaheadService
       .getTypeaheadItems(term)
+      .pipe(finalize(() => this.loading$.next(false)));
+  }
+
+  private fetchItem(id: number): Observable<DropDownItem> {
+    this.loading$.next(true);
+    return this.typeaheadService
+      .getTypeaheadItemById(id)
       .pipe(finalize(() => this.loading$.next(false)));
   }
 }

@@ -14,13 +14,13 @@ import { spreadTriplet } from 'src/app/shared/utils/function';
 import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 
 export interface EditAbsencesFilter {
-  student: Option<DropDownItem>;
-  moduleInstance: Option<DropDownItem>;
-  studyClass: Option<DropDownItem>;
+  student: Option<number>;
+  moduleInstance: Option<number>;
+  studyClass: Option<number>;
   dateFrom: Option<Date>;
   dateTo: Option<Date>;
-  presenceType: Option<DropDownItem>;
-  confirmationState: Option<DropDownItem>;
+  presenceType: Option<number>;
+  confirmationState: Option<number>;
 }
 
 @Injectable({

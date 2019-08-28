@@ -13,7 +13,7 @@
     [ngbTypeahead]="search"
     [inputFormatter]="format"
     [resultFormatter]="format"
-    [ngModel]="null"
+    [ngModel]="selectedItem$ | async"
     (ngModelChange)="modelChange($event)"
   />
 </div>
