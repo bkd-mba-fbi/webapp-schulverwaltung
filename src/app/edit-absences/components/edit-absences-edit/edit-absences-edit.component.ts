@@ -69,7 +69,13 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     startWith([])
   );
 
-  categories = Object.values(Category);
+  categories = [
+    Category.Absent,
+    Category.Dispensation,
+    Category.HalfDay,
+    Category.Late,
+    Category.Present
+  ];
 
   confirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
