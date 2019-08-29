@@ -17,7 +17,7 @@ window.absenzenmanagement.settings = {
   absencePresenceTypeId: 11,
 
   // Id of the PresenceType that represents the "late" incident
-  latePresenceTypeId: 12,
+  latePresenceTypeId: 20,
 
   // Id of the PresenceType that represents the "dispensation" absence
   dispensationPresenceTypeId: 18,
