@@ -25,21 +25,28 @@ export class LessonPresencesRestService extends RestService<
 
   getListByDate(date: Date): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      'filter.LessonDateTimeFrom': `=${format(date, 'YYYY-MM-DD')}`
+      params: {
+        'filter.LessonDateTimeFrom': `=${format(date, 'YYYY-MM-DD')}`
+      },
+      headers: { 'X-Role-Restriction': 'LessonTeacherRole' }
     });
   }
 
   getListForToday(): Observable<ReadonlyArray<LessonPresence>> {
     return this.http
-      .get<unknown>(`${this.baseUrl}/Today`)
+      .get<unknown>(`${this.baseUrl}/Today`, {
+        headers: { 'X-Role-Restriction': 'LessonTeacherRole' }
+      })
       .pipe(switchMap(decodeArray(this.codec)));
   }
 
   getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
-      'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-      'filter.HasStudyCourseConfirmationCode': '=false'
+      params: {
+        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
+        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
+        'filter.HasStudyCourseConfirmationCode': '=false'
+      }
     });
   }
 
@@ -91,7 +98,7 @@ export class LessonPresencesRestService extends RestService<
       }
     }
 
-    return this.getList(params);
+    return this.getList({ params });
   }
 }
 

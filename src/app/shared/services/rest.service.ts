@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import * as t from 'io-ts/lib/index';
@@ -25,17 +25,24 @@ export abstract class RestService<T extends t.InterfaceType<any>> {
     protected resourcePath: string
   ) {}
 
-  get(id: number, params?: HttpParams | Dict<string>): Observable<t.TypeOf<T>> {
+  get(
+    id: number,
+    options?: {
+      headers?: HttpHeaders | Dict<string>;
+      params?: HttpParams | Dict<string>;
+    }
+  ): Observable<t.TypeOf<T>> {
     return this.http
-      .get<unknown>(`${this.baseUrl}/${id}`, { params })
+      .get<unknown>(`${this.baseUrl}/${id}`, options)
       .pipe(switchMap(decode(this.codec)));
   }
 
-  getList(
-    params?: HttpParams | Dict<string>
-  ): Observable<ReadonlyArray<t.TypeOf<T>>> {
+  getList(options?: {
+    headers?: HttpHeaders | Dict<string>;
+    params?: HttpParams | Dict<string>;
+  }): Observable<ReadonlyArray<t.TypeOf<T>>> {
     return this.http
-      .get<unknown>(`${this.baseUrl}/`, { params })
+      .get<unknown>(`${this.baseUrl}/`, options)
       .pipe(switchMap(decodeArray(this.codec)));
   }
 

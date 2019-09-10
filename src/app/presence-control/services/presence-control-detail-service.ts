@@ -48,7 +48,7 @@ export class PresenceControlDetailService {
 
   private loadStudent(id: number): Observable<Option<Student>> {
     return this.studentService
-      .get(id, withConfig({ disableErrorHandlingForStatus: [404] }))
+      .get(id, { params: withConfig({ disableErrorHandlingForStatus: [404] }) })
       .pipe(catch404AsNull());
   }
 
@@ -66,7 +66,7 @@ export class PresenceControlDetailService {
         id,
         withConfig({ disableErrorHandlingForStatus: [404] })
       )
-      .pipe(catch404AsNull());
+      .pipe(catch404AsNull([]));
   }
 
   private mapToProfile(

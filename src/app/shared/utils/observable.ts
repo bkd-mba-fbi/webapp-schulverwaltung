@@ -11,13 +11,12 @@ import {
 } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-export function catch404AsNull<
-  T,
-  O extends ObservableInput<any>
->(): OperatorFunction<T, Option<T | ObservedValueOf<O>>> {
+export function catch404AsNull<T, O extends ObservableInput<any>>(
+  returnValue?: any
+): OperatorFunction<T, Option<T | ObservedValueOf<O>>> {
   return catchError(error => {
     if (error instanceof HttpErrorResponse && error.status === 404) {
-      return of(null);
+      return of(returnValue || null);
     } else {
       return throwError(error);
     }
