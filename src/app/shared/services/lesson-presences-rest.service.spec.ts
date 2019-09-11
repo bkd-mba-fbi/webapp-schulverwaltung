@@ -90,15 +90,30 @@ describe('LessonPresencesRestService', () => {
     });
   });
 
-  describe('.getListOfUnconfirmed', () => {
-    it('fetches list filtered by unconfirmed state from settings', () => {
+  describe('.getListOfUnconfirmedLessonTeacher', () => {
+    it('fetches list for lesson teacher filtered by unconfirmed state from settings', () => {
       const data: any[] = [];
       service
-        .getListOfUnconfirmed()
+        .getListOfUnconfirmedLessonTeacher()
         .subscribe(result => expect(result).toBe(data));
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
+      httpTestingController
+        .expectOne(req => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
+
+  describe('.getListOfUnconfirmedClassTeacher', () => {
+    it('fetches list for class teacher filtered by unconfirmed state from settings', () => {
+      const data: any[] = [];
+      service
+        .getListOfUnconfirmedClassTeacher()
+        .subscribe(result => expect(result).toBe(data));
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
         .flush(data);

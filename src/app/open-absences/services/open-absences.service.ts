@@ -4,7 +4,8 @@ import {
   combineLatest,
   Observable,
   Subject,
-  merge
+  merge,
+  forkJoin
 } from 'rxjs';
 import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -15,7 +16,8 @@ import { searchEntries } from 'src/app/shared/utils/search';
 import {
   buildOpenAbsencesEntries,
   sortOpenAbsencesEntries,
-  removeOpenAbsences
+  removeOpenAbsences,
+  mergeUniqueLessonPresences
 } from '../utils/open-absences-entries';
 
 export type PrimarySortKey = 'date' | 'name';
@@ -125,7 +127,10 @@ export class OpenAbsencesService {
 
   private loadUnconfirmedAbsences(): Observable<ReadonlyArray<LessonPresence>> {
     return this.loadingService.load(
-      this.lessonPresencesService.getListOfUnconfirmed()
+      forkJoin(
+        this.lessonPresencesService.getListOfUnconfirmedLessonTeacher(),
+        this.lessonPresencesService.getListOfUnconfirmedClassTeacher()
+      ).pipe(map(spreadTuple(mergeUniqueLessonPresences)))
     );
   }
 }

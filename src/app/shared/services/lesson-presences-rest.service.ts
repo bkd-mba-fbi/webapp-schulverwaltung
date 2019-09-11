@@ -11,7 +11,6 @@ import { RestService } from './rest.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
-import { DropDownItem } from '../models/drop-down-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,12 +39,28 @@ export class LessonPresencesRestService extends RestService<
       .pipe(switchMap(decodeArray(this.codec)));
   }
 
-  getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {
+  getListOfUnconfirmedLessonTeacher(): Observable<
+    ReadonlyArray<LessonPresence>
+  > {
     return this.getList({
+      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
       params: {
         'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
         'filter.HasStudyCourseConfirmationCode': '=false'
+      }
+    });
+  }
+
+  getListOfUnconfirmedClassTeacher(): Observable<
+    ReadonlyArray<LessonPresence>
+  > {
+    return this.getList({
+      headers: { 'X-Role-Restriction': 'ClassTeacherRole' },
+      params: {
+        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
+        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
+        'filter.HasStudyCourseConfirmationCode': '=true'
       }
     });
   }

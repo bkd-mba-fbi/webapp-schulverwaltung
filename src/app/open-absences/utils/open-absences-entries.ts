@@ -60,6 +60,29 @@ export function removeOpenAbsences(
   );
 }
 
+export function mergeUniqueLessonPresences(
+  a: ReadonlyArray<LessonPresence>,
+  b: ReadonlyArray<LessonPresence>
+): ReadonlyArray<LessonPresence> {
+  const mergedLessonPresences = [...a, ...b];
+
+  const uniqueLessonPresences = mergedLessonPresences.reduce(
+    (uniquePresences, presence) => {
+      if (
+        uniquePresences.some(
+          uniquePresence => uniquePresence.Id === presence.Id
+        )
+      ) {
+        return uniquePresences;
+      }
+      return [...uniquePresences, presence];
+    },
+    [] as LessonPresence[]
+  );
+
+  return uniqueLessonPresences;
+}
+
 function getOpenAbsencesComparator(
   sortCriteria: SortCriteria
 ): (a: OpenAbsencesEntry, b: OpenAbsencesEntry) => number {
