@@ -225,17 +225,23 @@
                     ></ng-container
                   >
                 </address>
-                <div class="detail-subentry">
+                <div
+                  class="detail-subentry"
+                  *ngIf="
+                    apprenticeshipCompany.apprenticeshipContract
+                      .ContractDateFrom
+                  "
+                >
                   {{
                     'presence-control.detail.apprenticeship-period' | translate
                   }}:<br />
 
                   {{
                     apprenticeshipCompany.apprenticeshipContract
-                      .ApprenticeshipDateFrom | date: 'dd.MM.yyyy'
+                      .ContractDateFrom | date: 'dd.MM.yyyy'
                   }}–{{
-                    apprenticeshipCompany.apprenticeshipContract
-                      .ApprenticeshipDateTo | date: 'dd.MM.yyyy'
+                    apprenticeshipCompany.apprenticeshipContract.ContractDateTo
+                      | date: 'dd.MM.yyyy'
                   }}
                 </div>
                 <div

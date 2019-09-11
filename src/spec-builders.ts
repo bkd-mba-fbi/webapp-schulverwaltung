@@ -157,11 +157,11 @@ export function buildApprenticeshipContract(
     JobTrainer: jobTrainerId,
     // StudentRef: buildReference(),
     ApprenticeshipManagerId: apprenticeshipManagerId,
-    ApprenticeshipDateFrom: '',
-    ApprenticeshipDateTo: '',
-    CompanyName: ''
-    // ContractDateFrom: null,
-    // ContractDateTo: null,
+    // ApprenticeshipDateFrom: '',
+    // ApprenticeshipDateTo: '',
+    CompanyName: '',
+    ContractDateFrom: null,
+    ContractDateTo: null
     // ContractNumber: '',
     // ContractTermination: null,
     // ContractType: '',
