@@ -104,7 +104,10 @@
               </td>
               <td>{{ entry.confirmationState?.Value }}</td>
               <td class="designation-comment">
-                {{ entry.presenceType?.Designation }}<br />
+                <ng-container *ngIf="!entry.canChangePresenceType">{{
+                  entry.presenceType?.Designation
+                }}</ng-container
+                ><br />
                 <span class="comment">{{ entry.lessonPresence.Comment }}</span>
               </td>
               <td>
