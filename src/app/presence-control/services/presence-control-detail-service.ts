@@ -10,7 +10,7 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { spreadTriplet } from 'src/app/shared/utils/function';
-import { catch404AsNull } from 'src/app/shared/utils/observable';
+import { catch404 } from 'src/app/shared/utils/observable';
 
 export interface Profile {
   student: Student;
@@ -49,7 +49,7 @@ export class PresenceControlDetailService {
   private loadStudent(id: number): Observable<Option<Student>> {
     return this.studentService
       .get(id, { params: withConfig({ disableErrorHandlingForStatus: [404] }) })
-      .pipe(catch404AsNull());
+      .pipe(catch404());
   }
 
   private loadLegalRepresentatives(
@@ -66,7 +66,7 @@ export class PresenceControlDetailService {
         id,
         withConfig({ disableErrorHandlingForStatus: [404] })
       )
-      .pipe(catch404AsNull([]));
+      .pipe(catch404([]));
   }
 
   private mapToProfile(

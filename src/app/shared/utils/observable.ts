@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-export function catch404AsNull<T, O extends ObservableInput<any>>(
+export function catch404<T, O extends ObservableInput<any>>(
   returnValue?: any
 ): OperatorFunction<T, Option<T | ObservedValueOf<O>>> {
   return catchError(error => {
