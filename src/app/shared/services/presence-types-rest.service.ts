@@ -23,7 +23,9 @@ export class PresenceTypesRestService extends RestService<typeof PresenceType> {
       map(types =>
         types.filter(
           t =>
-            t.NeedsConfirmation && t.Id !== this.settings.absencePresenceTypeId
+            t.NeedsConfirmation &&
+            t.Active &&
+            t.Id !== this.settings.absencePresenceTypeId
         )
       )
     );

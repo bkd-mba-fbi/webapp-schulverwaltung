@@ -99,7 +99,7 @@ export function buildPresenceType(
   return {
     Id: id,
     // TypeId: id * 10,
-    // Active: true,
+    Active: true,
     // Description: '',
     Designation: '',
     IsAbsence: isAbsence,

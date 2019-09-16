@@ -353,7 +353,10 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     types: ReadonlyArray<PresenceType>
   ): ReadonlyArray<PresenceType> {
     return types.filter(
-      t => t.NeedsConfirmation && t.Id !== this.settings.absencePresenceTypeId
+      t =>
+        t.NeedsConfirmation &&
+        t.Active &&
+        t.Id !== this.settings.absencePresenceTypeId
     );
   }
 }

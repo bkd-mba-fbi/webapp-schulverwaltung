@@ -4,7 +4,7 @@ import { Option } from './common-types';
 const PresenceType = t.type({
   Id: t.number,
   // TypeId: t.number,
-  // Active: t.boolean,
+  Active: t.boolean,
   // Description: Maybe(t.string),
   Designation: Option(t.string),
   IsAbsence: t.boolean,
