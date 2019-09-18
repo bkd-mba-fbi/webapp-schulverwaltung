@@ -18,7 +18,8 @@ export class PresenceTypesRestService extends RestService<typeof PresenceType> {
   getConfirmationTypes(): Observable<ReadonlyArray<PresenceType>> {
     // Filtering with `?filter.NeedsConfirmation==true` seems not to
     // be working so filter the entries in the client. In addition to
-    // that, exclude the default absence presence type.
+    // that, exclude the default absence presence type and inactive
+    // presence types.
     return this.getList().pipe(
       map(types =>
         types.filter(

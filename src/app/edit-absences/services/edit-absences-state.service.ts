@@ -46,6 +46,7 @@ export class EditAbsencesStateService implements OnDestroy {
     shareReplay(1)
   );
   presenceTypes$ = this.loadPresenceTypes().pipe(
+    map(this.filterAbsenceTypes.bind(this)),
     map(sortPresenceTypes),
     shareReplay(1)
   );
@@ -119,6 +120,12 @@ export class EditAbsencesStateService implements OnDestroy {
     return this.loadingService.load(
       this.dropDownItemsService.getAbsenceConfirmationStates()
     );
+  }
+
+  private filterAbsenceTypes(
+    types: ReadonlyArray<PresenceType>
+  ): ReadonlyArray<PresenceType> {
+    return types.filter(t => t.Active);
   }
 }
 

@@ -1,35 +1,33 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
-  OnDestroy,
   Inject,
-  ChangeDetectionStrategy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Params } from '@angular/router';
-import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
-import {
-  takeUntil,
-  filter,
-  map,
-  finalize,
-  shareReplay,
-  startWith,
-  take
-} from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { flattenDeep } from 'lodash-es';
-
-import { getValidationErrors } from 'src/app/shared/utils/form';
-import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import {
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  startWith,
+  take,
+  takeUntil
+} from 'rxjs/operators';
+import { SETTINGS, Settings } from 'src/app/settings';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
-import { SETTINGS, Settings } from 'src/app/settings';
+import { getValidationErrors } from 'src/app/shared/utils/form';
 import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
+import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
+import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
 
 enum Category {
   Absent = 'absent',
@@ -84,8 +82,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       shareReplay(1)
     );
 
-  absenceTypes$ = this.state.presenceTypes$.pipe(
-    map(this.filterAbsenceTypes.bind(this)),
+  absenceTypes$ = this.presenceTypesService.getConfirmationTypes().pipe(
     map(sortPresenceTypes),
     shareReplay(1)
   );
@@ -100,6 +97,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private state: EditAbsencesStateService,
     private dropDownItemsService: DropDownItemsRestService,
+    private presenceTypesService: PresenceTypesRestService,
     private updateService: LessonPresencesUpdateRestService,
     @Inject(SETTINGS) private settings: Settings
   ) {}
@@ -347,17 +345,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       }
       return a.Value.localeCompare(b.Value);
     });
-  }
-
-  private filterAbsenceTypes(
-    types: ReadonlyArray<PresenceType>
-  ): ReadonlyArray<PresenceType> {
-    return types.filter(
-      t =>
-        t.NeedsConfirmation &&
-        t.Active &&
-        t.Id !== this.settings.absencePresenceTypeId
-    );
   }
 }
 
