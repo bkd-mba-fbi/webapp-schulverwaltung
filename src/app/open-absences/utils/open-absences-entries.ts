@@ -4,6 +4,7 @@ import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
 import { lessonsComparator } from 'src/app/presence-control/utils/lessons';
 import { SortCriteria } from '../services/open-absences.service';
 import { UnreachableError } from 'src/app/shared/utils/error';
+import { uniqBy } from 'lodash-es';
 
 export function buildOpenAbsencesEntries(
   absences: ReadonlyArray<LessonPresence>
@@ -64,23 +65,7 @@ export function mergeUniqueLessonPresences(
   a: ReadonlyArray<LessonPresence>,
   b: ReadonlyArray<LessonPresence>
 ): ReadonlyArray<LessonPresence> {
-  const mergedLessonPresences = [...a, ...b];
-
-  const uniqueLessonPresences = mergedLessonPresences.reduce(
-    (uniquePresences, presence) => {
-      if (
-        uniquePresences.some(
-          uniquePresence => uniquePresence.Id === presence.Id
-        )
-      ) {
-        return uniquePresences;
-      }
-      return [...uniquePresences, presence];
-    },
-    [] as LessonPresence[]
-  );
-
-  return uniqueLessonPresences;
+  return uniqBy([...a, ...b], 'Id');
 }
 
 function getOpenAbsencesComparator(
