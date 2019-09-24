@@ -8,13 +8,22 @@
   border-bottom: 1px solid $border-color;
 }
 
+.filters {
+  display: block;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
 .form-group {
   flex: 1;
   margin-right: $spacer;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
+  float: left;
 }
-
 .buttons {
   flex: none;
   margin-right: 0;
+  padding-top: 31px;
+  float: left;
+  margin-bottom: 1rem;
 }

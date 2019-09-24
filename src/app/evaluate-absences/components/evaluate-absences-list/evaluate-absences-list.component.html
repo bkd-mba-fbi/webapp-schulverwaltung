@@ -1,7 +1,11 @@
 <div class="p-3" *erzLet="state.entries$ | async as entries">
   <ng-container *ngIf="!(state.loading$ | async); else loading">
     <ng-container *ngIf="entries && entries.length > 0; else noEntries">
-      <table class="table">
+      <table
+        class="table table-striped"
+        matSort
+        (matSortChange)="sortData($event)"
+      >
         <thead>
           <tr>
             <th scope="col">
@@ -23,15 +27,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let entry of entries">
-            <td>{{ entry.StudentFullName }}</td>
-            <td>{{ entry.TotalAbsences }}</td>
-            <td>
+            <td data-label="NAME">{{ entry.StudentFullName }}</td>
+            <td data-label="TOTAL">{{ entry.TotalAbsences }}</td>
+            <td data-label="ENTSCHULDIGT">
               {{ entry.TotalAbsencesValidExcuse }}
             </td>
-            <td>{{ entry.TotalAbsencesWithoutExcuse }}</td>
-            <td>{{ entry.TotalAbsencesUnconfirmed }}</td>
-            <td>{{ entry.TotalIncidents }}</td>
-            <td>{{ entry.TotalHalfDays }}</td>
+            <td data-label="UNENTSCHULDIGT">
+              {{ entry.TotalAbsencesWithoutExcuse }}
+            </td>
+            <td data-label="OFFEN">{{ entry.TotalAbsencesUnconfirmed }}</td>
+            <td data-label="VERSPÄTUNG">{{ entry.TotalIncidents }}</td>
+            <td data-label="HALBTAGE">{{ entry.TotalHalfDays }}</td>
           </tr>
         </tbody>
       </table>

@@ -1,29 +1,31 @@
-<div class="form-group">
-  <label>{{ 'evaluate-absences.header.student' | translate }}</label>
-  <erz-typeahead
-    [typeaheadService]="studentsService"
-    [(value)]="filter.student"
-  ></erz-typeahead>
-</div>
+<div class="filters mb-2">
+  <div class="form-group">
+    <label>{{ 'evaluate-absences.header.student' | translate }}</label>
+    <erz-typeahead
+      [typeaheadService]="studentsService"
+      [(value)]="filter.student"
+    ></erz-typeahead>
+  </div>
 
-<div class="form-group">
-  <label>{{ 'evaluate-absences.header.module-instance' | translate }}</label>
-  <erz-typeahead
-    [typeaheadService]="moduleInstancesService"
-    [(value)]="filter.moduleInstance"
-  ></erz-typeahead>
-</div>
+  <div class="form-group">
+    <label>{{ 'evaluate-absences.header.module-instance' | translate }}</label>
+    <erz-typeahead
+      [typeaheadService]="moduleInstancesService"
+      [(value)]="filter.moduleInstance"
+    ></erz-typeahead>
+  </div>
 
-<div class="form-group">
-  <label>{{ 'evaluate-absences.header.study-class' | translate }}</label>
-  <erz-typeahead
-    [typeaheadService]="studyClassesService"
-    [(value)]="filter.studyClass"
-  ></erz-typeahead>
-</div>
+  <div class="form-group">
+    <label>{{ 'evaluate-absences.header.study-class' | translate }}</label>
+    <erz-typeahead
+      [typeaheadService]="studyClassesService"
+      [(value)]="filter.studyClass"
+    ></erz-typeahead>
+  </div>
 
-<div class="buttons">
-  <button type="button" class="btn btn-primary" (click)="show()">
-    {{ 'evaluate-absences.header.show' | translate }}
-  </button>
+  <div class="buttons">
+    <button type="button" class="btn btn-primary" (click)="show()">
+      {{ 'evaluate-absences.header.show' | translate }}
+    </button>
+  </div>
 </div>

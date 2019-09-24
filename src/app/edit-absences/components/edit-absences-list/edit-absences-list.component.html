@@ -38,7 +38,7 @@
             <i class="material-icons">edit</i>
           </a>
         </div>
-        <table class="table">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>
@@ -74,7 +74,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let entry of data.entries">
-              <td (click)="onCheckboxCellClick($event, checkbox)">
+              <td
+                class="edit-absences-checkbox"
+                (click)="onCheckboxCellClick($event, checkbox)"
+              >
                 <input
                   #checkbox
                   type="checkbox"
@@ -84,38 +87,40 @@
                   (change)="selectionService.toggle(entry.lessonPresence)"
                 />
               </td>
-              <td class="presence-category">
+              <td data-label="PRÄSENZ" class="presence-category">
                 <span [className]="entry.presenceCategory">
                   <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
                 </span>
               </td>
-              <td>
+              <td data-label="NAME, FACH, KLASSE">
                 {{ entry.lessonPresence.StudentFullName }}
                 <br />
                 {{ entry.lessonPresence.EventDesignation }},
                 {{ entry.lessonPresence.StudyClassNumber }}
               </td>
-              <td>
+              <td data-label="ZEIT">
                 {{
                   entry.lessonPresence.LessonDateTimeFrom | date: 'shortTime'
                 }}–{{
                   entry.lessonPresence.LessonDateTimeTo | date: 'shortTime'
                 }}
               </td>
-              <td>{{ entry.confirmationState?.Value }}</td>
-              <td class="designation-comment">
+              <td data-label="STATUS">{{ entry.confirmationState?.Value }}</td>
+              <td data-label="GRUND, KOMMENTAR" class="designation-comment">
                 <ng-container *ngIf="!entry.canChangePresenceType">{{
                   entry.presenceType?.Designation
                 }}</ng-container
                 ><br />
                 <span class="comment">{{ entry.lessonPresence.Comment }}</span>
               </td>
-              <td>
+              <td data-label="DATUM">
                 {{
                   entry.lessonPresence.LessonDateTimeFrom | date: 'mediumDate'
                 }}
               </td>
-              <td>{{ entry.lessonPresence.TeacherInformation }}</td>
+              <td data-label="LEHRKRAFT">
+                {{ entry.lessonPresence.TeacherInformation }}
+              </td>
             </tr>
           </tbody>
         </table>
