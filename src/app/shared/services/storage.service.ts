@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TokenPayload } from 'src/app/shared/models/token-payload.model';
 
 const LANGUAGE_KEY = 'uiCulture';
 const ACCESS_TOKEN_KEY = 'CLX.LoginToken';
@@ -24,6 +25,15 @@ export class StorageService {
 
   getTokenExpire(): Option<string> {
     return this.getValue(TOKEN_EXPIRE_KEY);
+  }
+
+  getPayload(): Option<TokenPayload> {
+    const token = this.getAccessToken();
+    const base64Url = token ? token.split('.')[1] : null;
+    const base64 = base64Url
+      ? base64Url.replace('-', '+').replace('_', '/')
+      : null;
+    return JSON.parse(window.atob(base64 ? base64 : ''));
   }
 
   private getValue(key: string): Option<string> {
