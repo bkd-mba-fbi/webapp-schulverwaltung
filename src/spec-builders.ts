@@ -187,6 +187,17 @@ export function buildLegalRepresentative(
   };
 }
 
+/*
+export function buildPayLoad(): TokenPayload {
+  return {
+    culture_info: 'de-CH',
+    fullname: 'Test Rudy',
+    id_person: 2431,
+    instance_id: 'GYmTEST',
+    roles: 'LessonTeacherRole;ClassTeacherRole'
+  };
+}*/
+
 export function buildPerson(id: number): Person {
   return {
     Id: id,
@@ -227,13 +238,3 @@ export function buildPerson(id: number): Person {
     // HRef: ''
   };
 }
-  /*
-  export function buildPayLoad(): TokenPayload {
-    return {
-      culture_info: 'de-CH',
-      fullname: 'Test Rudy',
-      id_person: 2431,
-      instance_id: 'GYmTEST',
-      roles: 'LessonTeacherRole;ClassTeacherRole'
-    };
-  }*/
