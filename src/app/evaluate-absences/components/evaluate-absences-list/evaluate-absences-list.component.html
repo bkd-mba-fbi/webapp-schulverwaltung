@@ -1,11 +1,7 @@
 <div class="p-3" *erzLet="state.entries$ | async as entries">
   <ng-container *ngIf="!(state.loading$ | async); else loading">
     <ng-container *ngIf="entries && entries.length > 0; else noEntries">
-      <table
-        class="table table-striped"
-        matSort
-        (matSortChange)="sortData($event)"
-      >
+      <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">
