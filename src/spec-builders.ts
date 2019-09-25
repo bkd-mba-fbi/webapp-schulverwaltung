@@ -8,7 +8,7 @@ import { ApprenticeshipContract } from './app/shared/models/apprenticeship-contr
 import { LegalRepresentative } from './app/shared/models/legal-representative.model';
 import { Person } from './app/shared/models/person.model';
 import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-statistic';
-import { TokenPayload } from './app/shared/models/token-payload.model';
+/*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
@@ -227,7 +227,7 @@ export function buildPerson(id: number): Person {
     // HRef: ''
   };
 }
-  
+  /*
   export function buildPayLoad(): TokenPayload {
     return {
       culture_info: 'de-CH',
@@ -236,4 +236,4 @@ export function buildPerson(id: number): Person {
       instance_id: 'GYmTEST',
       roles: 'LessonTeacherRole;ClassTeacherRole'
     };
-  }
+  }*/
