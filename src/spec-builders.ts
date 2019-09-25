@@ -225,9 +225,8 @@ export function buildPerson(id: number): Person {
     // StayPermitExpiry: null,
     Zip: null
     // HRef: ''
-  }
+  };
 }
-
   
   export function buildPayLoad(): TokenPayload {
     return {
