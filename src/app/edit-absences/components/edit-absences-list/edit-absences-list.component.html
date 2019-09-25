@@ -87,38 +87,68 @@
                   (change)="selectionService.toggle(entry.lessonPresence)"
                 />
               </td>
-              <td data-label="PRÄSENZ" class="presence-category">
+              <td
+                [attr.data-label]="
+                  'edit-absences.list.header.presence' | translate
+                "
+                class="presence-category"
+              >
                 <span [className]="entry.presenceCategory">
                   <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
                 </span>
               </td>
-              <td data-label="NAME, FACH, KLASSE">
+              <td
+                [attr.data-label]="
+                  'edit-absences.list.header.mobil-student-module-instance-study-class'
+                    | translate
+                "
+              >
                 {{ entry.lessonPresence.StudentFullName }}
                 <br />
                 {{ entry.lessonPresence.EventDesignation }},
                 {{ entry.lessonPresence.StudyClassNumber }}
               </td>
-              <td data-label="ZEIT">
+              <td
+                [attr.data-label]="'edit-absences.list.header.time' | translate"
+              >
                 {{
                   entry.lessonPresence.LessonDateTimeFrom | date: 'shortTime'
                 }}–{{
                   entry.lessonPresence.LessonDateTimeTo | date: 'shortTime'
                 }}
               </td>
-              <td data-label="STATUS">{{ entry.confirmationState?.Value }}</td>
-              <td data-label="GRUND, KOMMENTAR" class="designation-comment">
+              <td
+                [attr.data-label]="
+                  'edit-absences.list.header.confirmation-state' | translate
+                "
+              >
+                {{ entry.confirmationState?.Value }}
+              </td>
+              <td
+                [attr.data-label]="
+                  'edit-absences.list.header.mobil-presence-type-comment'
+                    | translate
+                "
+                class="designation-comment"
+              >
                 <ng-container *ngIf="!entry.canChangePresenceType">{{
                   entry.presenceType?.Designation
                 }}</ng-container
                 ><br />
                 <span class="comment">{{ entry.lessonPresence.Comment }}</span>
               </td>
-              <td data-label="DATUM">
+              <td
+                [attr.data-label]="'edit-absences.list.header.date' | translate"
+              >
                 {{
                   entry.lessonPresence.LessonDateTimeFrom | date: 'mediumDate'
                 }}
               </td>
-              <td data-label="LEHRKRAFT">
+              <td
+                [attr.data-label]="
+                  'edit-absences.list.header.teacher' | translate
+                "
+              >
                 {{ entry.lessonPresence.TeacherInformation }}
               </td>
             </tr>

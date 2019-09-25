@@ -27,17 +27,55 @@
         </thead>
         <tbody>
           <tr *ngFor="let entry of entries">
-            <td data-label="NAME">{{ entry.StudentFullName }}</td>
-            <td data-label="TOTAL">{{ entry.TotalAbsences }}</td>
-            <td data-label="ENTSCHULDIGT">
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.student' | translate
+              "
+            >
+              {{ entry.StudentFullName }}
+            </td>
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.total' | translate
+              "
+            >
+              {{ entry.TotalAbsences }}
+            </td>
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.valid-excuse' | translate
+              "
+            >
               {{ entry.TotalAbsencesValidExcuse }}
             </td>
-            <td data-label="UNENTSCHULDIGT">
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.without-excuse' | translate
+              "
+            >
               {{ entry.TotalAbsencesWithoutExcuse }}
             </td>
-            <td data-label="OFFEN">{{ entry.TotalAbsencesUnconfirmed }}</td>
-            <td data-label="VERSPÄTUNG">{{ entry.TotalIncidents }}</td>
-            <td data-label="HALBTAGE">{{ entry.TotalHalfDays }}</td>
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.unconfirmed' | translate
+              "
+            >
+              {{ entry.TotalAbsencesUnconfirmed }}
+            </td>
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.late' | translate
+              "
+            >
+              {{ entry.TotalIncidents }}
+            </td>
+            <td
+              [attr.data-label]="
+                'evaluate-absences.list.header.halfday' | translate
+              "
+            >
+              {{ entry.TotalHalfDays }}
+            </td>
           </tr>
         </tbody>
       </table>
