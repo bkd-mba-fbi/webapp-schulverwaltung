@@ -1,16 +1,52 @@
-.table thead {
-  background-color: $table-head-bg;
-}
-
 .table th {
   padding-top: $spacer / 4;
   padding-bottom: $spacer / 4;
   color: $table-head-color;
-  font-size: $font-size-sm;
   font-weight: 300;
   text-transform: uppercase;
 }
 
 .table-fixed {
   table-layout: fixed;
+}
+
+@media screen and (max-width: 820px) {
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  .presence-category {
+    text-align: right !important;
+  }
+
+  .designation-comment {
+    max-width: initial !important;
+  }
+
+  .edit-absences-checkbox {
+    text-align: left;
+  }
+
+  table tr {
+    border-bottom: 2px solid #ddd;
+    display: block;
+  }
+
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    text-align: right;
+    min-height: 50px;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    float: left;
+  }
 }

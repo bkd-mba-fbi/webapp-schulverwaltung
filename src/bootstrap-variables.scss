@@ -8,8 +8,9 @@ $blue: rgb(65, 118, 145);
 $teal: rgb(19, 69, 97);
 $gray: rgb(138, 138, 138);
 $gray-dark: rgb(51, 51, 51);
+$blue: #005189;
 
-$primary: $yellow;
+$primary: $blue;
 $secondary: $gray;
 
 // font
@@ -31,7 +32,3 @@ $erz-container-padding-x: $spacer;
 $erz-container-padding-y: $spacer;
 
 $erz-presence-control-entry-min-width: 400px;
-
-$erz-edit-absences-min-width: 900px;
-
-$erz-evaluate-absences-min-width: 800px;

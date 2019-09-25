@@ -125,7 +125,9 @@
         "presence-type": "Grund",
         "comment": "Kommentar",
         "date": "Datum",
-        "teacher": "Lehrkraft"
+        "teacher": "Lehrkraft",
+        "mobil-student-module-instance-study-class": "Name, Fach, Klasse",
+        "mobil-presence-type-comment": "Kommentar, Grund"
       }
     },
     "edit": {
