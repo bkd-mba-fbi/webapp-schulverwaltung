@@ -83,7 +83,7 @@ a.comment,
 :host.list {
   grid-template-areas: "student-name commentordesignation status";
   grid-template-columns: 1fr 2fr min-content;
-  padding: $spacer / 2;
+  padding: 0.5rem 0.5rem 0.5rem 1rem; //  $spacer / 2;
 
   .comment,
   .designation {

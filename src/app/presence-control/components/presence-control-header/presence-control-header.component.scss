@@ -82,6 +82,7 @@
 :host-context(.ie11) .lesson-date-input {
   // Compensate for IE 11's crappy center alignment
   margin-top: -5px;
+  width: 12ch;
 }
 
 .lesson-time {
