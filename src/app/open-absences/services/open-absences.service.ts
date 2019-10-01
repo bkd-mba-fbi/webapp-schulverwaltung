@@ -19,6 +19,7 @@ import {
   removeOpenAbsences,
   mergeUniqueLessonPresences
 } from '../utils/open-absences-entries';
+import { StorageService } from 'src/app/shared/services/storage.service';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -32,6 +33,7 @@ export class OpenAbsencesService {
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>('');
 
+  private storage = new StorageService();
   private updateUnconfirmedAbsences$ = new Subject<
     ReadonlyArray<LessonPresence>
   >();
@@ -126,11 +128,20 @@ export class OpenAbsencesService {
   }
 
   private loadUnconfirmedAbsences(): Observable<ReadonlyArray<LessonPresence>> {
-    return this.loadingService.load(
-      forkJoin(
-        this.lessonPresencesService.getListOfUnconfirmedLessonTeacher(),
-        this.lessonPresencesService.getListOfUnconfirmedClassTeacher()
-      ).pipe(map(spreadTuple(mergeUniqueLessonPresences)))
-    );
+    const tokenPayload = this.storage.getPayload();
+    const roles = tokenPayload ? tokenPayload.roles : '';
+    const classTeacher = roles.indexOf('ClassTeacherRole') > 0 ? true : false;
+    if (classTeacher) {
+      return this.loadingService.load(
+        forkJoin(
+          this.lessonPresencesService.getListOfUnconfirmedLessonTeacher(),
+          this.lessonPresencesService.getListOfUnconfirmedClassTeacher()
+        ).pipe(map(spreadTuple(mergeUniqueLessonPresences)))
+      );
+    } else {
+      return this.loadingService.load(
+        this.lessonPresencesService.getListOfUnconfirmedLessonTeacher().pipe()
+      );
+    }
   }
 }
