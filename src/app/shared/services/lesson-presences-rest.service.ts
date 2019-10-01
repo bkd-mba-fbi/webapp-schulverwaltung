@@ -11,7 +11,6 @@ import { RestService } from './rest.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
-import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +18,7 @@ import { StorageService } from './storage.service';
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
 > {
-  constructor(
-    http: HttpClient,
-    @Inject(SETTINGS) settings: Settings,
-    private storage: StorageService
-  ) {
+  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, LessonPresence, 'LessonPresences');
   }
 
@@ -60,14 +55,9 @@ export class LessonPresencesRestService extends RestService<
   getListOfUnconfirmedClassTeacher(): Observable<
     ReadonlyArray<LessonPresence>
   > {
-    const tokenPayload = this.storage.getPayload();
-    const roles = tokenPayload ? tokenPayload.roles : '';
     return this.getList({
       headers: {
-        'X-Role-Restriction':
-          roles.indexOf('ClassTeacherRole') > 0
-            ? 'ClassTeacherRole'
-            : 'LessonTeacherRole'
+        'X-Role-Restriction': 'ClassTeacherRole'
       },
       params: {
         'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
