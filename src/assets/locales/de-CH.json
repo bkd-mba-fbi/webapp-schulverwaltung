@@ -23,7 +23,7 @@
     }
   },
   "unauthenticated": {
-    "message": "Es sind keine gültigen Authentifizierungsdaten vorhanden."
+    "message": "Sie sind keine Lehrkraft."
   },
   "presence-control": {
     "title": "Präsenzkontrolle",
