@@ -43,8 +43,8 @@ export class EditAbsencesListComponent
       .pipe(take(1))
       .subscribe(filter => this.state.setFilter(filter));
 
-    // Clear selection when new entries have been loaded
-    this.state.lessonPresences$
+    // Clear selection when filter changes and new entries are being loaded
+    this.state.validFilter$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.selectionService.clear());
 
@@ -63,7 +63,7 @@ export class EditAbsencesListComponent
   }
 
   toggleAll(checked: boolean): void {
-    this.state.lessonPresences$
+    this.state.entries$
       .pipe(take(1))
       .subscribe(entries =>
         this.selectionService.clear(checked ? entries : null)

@@ -17,12 +17,14 @@ describe('EditAbsencesListComponent', () => {
     const entry = buildPresenceControlEntry();
     stateServiceMock = ({
       loading$: of(false),
-      lessonPresences$: of([entry.lessonPresence]),
+      loadingPage$: of(false),
+      entries$: of([entry.lessonPresence]),
       presenceControlEntries$: of([entry]),
       presenceTypes$: of([]),
       selected: [],
       setFilter: jasmine.createSpy('setFilter'),
-      isFilterValid$: of(true)
+      isFilterValid$: of(true),
+      validFilter$: of({})
     } as unknown) as EditAbsencesStateService;
 
     TestBed.configureTestingModule(

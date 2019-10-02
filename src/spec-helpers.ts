@@ -21,6 +21,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 export const settings: Settings = {
   apiUrl: 'https://eventotest.api',
   scriptsAndAssetsPath: '.',
+  paginationLimit: 1000,
   absencePresenceTypeId: 11,
   latePresenceTypeId: 12,
   dispensationPresenceTypeId: 18,

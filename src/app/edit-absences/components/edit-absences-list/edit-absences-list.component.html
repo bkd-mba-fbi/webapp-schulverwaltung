@@ -1,7 +1,9 @@
 <ng-container
   *erzLet="{
     selection: selectionService.selection$ | async,
-    entries: state.presenceControlEntries$ | async
+    entries: state.presenceControlEntries$ | async,
+    hasMore: state.hasMore$ | async,
+    loadingPage: state.loadingPage$ | async
   } as data"
 >
   <erz-edit-absences-header
@@ -12,15 +14,20 @@
   <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
     <ng-container *ngIf="!(state.loading$ | async); else loading">
       <div
-        *ngIf="data.entries && data.entries.length > 0; else noEntries"
+        *ngIf="
+          (data.entries && data.entries.length > 0) || data.loadingPage;
+          else noEntries
+        "
         class="p-3"
       >
-        <div class="d-flex align-items-center justify-content-between">
+        <div
+          *ngIf="data.entries && data.entries.length > 0"
+          class="d-flex align-items-center justify-content-between"
+        >
           <div class="total">
-            <!-- TODO: Change data.entries.length to pagination total -->
             {{
               'edit-absences.list.total'
-                | translate: { count: data.entries.length }
+                | translate: { count: (state.total$ | async) || 0 }
             }},
             {{
               'edit-absences.list.selected'
@@ -38,7 +45,10 @@
             <i class="material-icons">edit</i>
           </a>
         </div>
-        <table class="table table-striped">
+        <table
+          *ngIf="data.entries && data.entries.length > 0"
+          class="table table-striped"
+        >
           <thead>
             <tr>
               <th>
@@ -154,6 +164,16 @@
             </tr>
           </tbody>
         </table>
+
+        <erz-spinner class="inline" *ngIf="data.loadingPage"></erz-spinner>
+        <button
+          *ngIf="data.hasMore && !data.loadingPage"
+          type="button"
+          class="btn btn-secondary btn-sm d-block mx-auto"
+          (click)="state.nextPage()"
+        >
+          {{ 'global.pagination.load-more' | translate }}
+        </button>
       </div>
 
       <ng-template #noEntries>

@@ -1,7 +1,8 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
+import { combineLatest, Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 import { PresenceControlEntry } from 'src/app/presence-control/models/presence-control-entry.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
@@ -15,6 +16,12 @@ import { sortDropDownItemsByValue } from 'src/app/shared/utils/drop-down-items';
 import { spreadTriplet } from 'src/app/shared/utils/function';
 import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
+import {
+  PaginatedFilteredEntriesService,
+  PAGE_LOADING_CONTEXT
+} from 'src/app/shared/services/paginated-filtered-entries.service';
+import { Paginated } from 'src/app/shared/utils/pagination';
+import { SETTINGS, Settings } from 'src/app/settings';
 
 export interface EditAbsencesFilter {
   student: Option<number>;
@@ -27,24 +34,10 @@ export interface EditAbsencesFilter {
 }
 
 @Injectable()
-export class EditAbsencesStateService implements OnDestroy {
-  private filter$ = new BehaviorSubject<EditAbsencesFilter>({
-    student: null,
-    moduleInstance: null,
-    studyClass: null,
-    dateFrom: null,
-    dateTo: null,
-    presenceType: null,
-    confirmationState: null
-  });
-
-  loading$ = this.loadingService.loading$;
-  isFilterValid$ = this.filter$.pipe(map(isValidFilter));
-  lessonPresences$ = this.filter$.pipe(
-    filter(isValidFilter),
-    switchMap(this.loadEntries.bind(this)),
-    shareReplay(1)
-  );
+export class EditAbsencesStateService extends PaginatedFilteredEntriesService<
+  LessonPresence,
+  EditAbsencesFilter
+> {
   presenceTypes$ = this.loadPresenceTypes().pipe(
     map(this.filterAbsenceTypes.bind(this)),
     map(sortPresenceTypes),
@@ -56,7 +49,7 @@ export class EditAbsencesStateService implements OnDestroy {
   );
 
   presenceControlEntries$ = combineLatest(
-    this.lessonPresences$,
+    this.entries$,
     this.presenceTypes$,
     this.absenceConfirmationStates$
   ).pipe(
@@ -64,35 +57,20 @@ export class EditAbsencesStateService implements OnDestroy {
     shareReplay(1)
   );
 
-  queryParams$ = this.filter$.pipe(map(buildHttpParamsFromAbsenceFilter));
-
-  private destroy$ = new Subject<void>();
-
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
     personIds: ReadonlyArray<number>;
   }> = [];
 
   constructor(
-    private location: Location,
-    private loadingService: LoadingService,
+    location: Location,
+    loadingService: LoadingService,
+    @Inject(SETTINGS) settings: Settings,
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesRestService,
     private dropDownItemsService: DropDownItemsRestService
   ) {
-    this.queryParams$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(params =>
-        this.location.replaceState('/edit-absences', params.toString())
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
-
-  setFilter(absencesFilter: EditAbsencesFilter): void {
-    this.filter$.next(absencesFilter);
+    super(location, loadingService, settings, '/edit-absences');
   }
 
   /**
@@ -102,12 +80,44 @@ export class EditAbsencesStateService implements OnDestroy {
     this.selected = [];
   }
 
-  private loadEntries(
-    absencesFilter: EditAbsencesFilter
-  ): Observable<ReadonlyArray<LessonPresence>> {
-    return this.loadingService.load(
-      this.lessonPresencesService.getFilteredList(absencesFilter)
+  protected getInitialFilter(): EditAbsencesFilter {
+    return {
+      student: null,
+      moduleInstance: null,
+      studyClass: null,
+      dateFrom: null,
+      dateTo: null,
+      presenceType: null,
+      confirmationState: null
+    };
+  }
+
+  protected isValidFilter(filterValue: EditAbsencesFilter): boolean {
+    return Boolean(
+      filterValue.student ||
+        filterValue.moduleInstance ||
+        filterValue.studyClass ||
+        filterValue.dateFrom ||
+        filterValue.dateTo ||
+        filterValue.presenceType ||
+        filterValue.confirmationState
     );
+  }
+
+  protected loadEntries(
+    filterValue: EditAbsencesFilter,
+    offset: number
+  ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
+    return this.loadingService.load(
+      this.lessonPresencesService.getFilteredList(filterValue, offset),
+      PAGE_LOADING_CONTEXT
+    );
+  }
+
+  protected buildHttpParamsFromFilter(
+    filterValue: EditAbsencesFilter
+  ): HttpParams {
+    return buildHttpParamsFromAbsenceFilter(filterValue);
   }
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
@@ -127,18 +137,6 @@ export class EditAbsencesStateService implements OnDestroy {
   ): ReadonlyArray<PresenceType> {
     return types.filter(t => t.Active);
   }
-}
-
-export function isValidFilter(absencesFilter: EditAbsencesFilter): boolean {
-  return Boolean(
-    absencesFilter.student ||
-      absencesFilter.moduleInstance ||
-      absencesFilter.studyClass ||
-      absencesFilter.dateFrom ||
-      absencesFilter.dateTo ||
-      absencesFilter.presenceType ||
-      absencesFilter.confirmationState
-  );
 }
 
 function getPresenceControlEntries(

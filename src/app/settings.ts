@@ -4,6 +4,7 @@ import * as t from 'io-ts';
 const Settings = t.type({
   apiUrl: t.string,
   scriptsAndAssetsPath: t.string,
+  paginationLimit: t.number,
   absencePresenceTypeId: t.number,
   latePresenceTypeId: t.number,
   dispensationPresenceTypeId: t.number,

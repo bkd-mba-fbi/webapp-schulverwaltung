@@ -20,6 +20,9 @@
       "required": "Dieses Feld muss ausgefüllt werden.",
       "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
       "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus."
+    },
+    "pagination": {
+      "load-more": "Weitere Einträge laden"
     }
   },
   "unauthenticated": {

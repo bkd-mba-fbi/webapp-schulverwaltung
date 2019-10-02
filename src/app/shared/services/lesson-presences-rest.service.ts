@@ -11,6 +11,12 @@ import { RestService } from './rest.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
+import {
+  decodePaginatedResponse,
+  Paginated,
+  paginatedParams,
+  paginatedHeaders
+} from '../utils/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -68,21 +74,27 @@ export class LessonPresencesRestService extends RestService<
   }
 
   getStatistics(
-    absencesFilter: EvaluateAbsencesFilter
-  ): Observable<ReadonlyArray<LessonPresenceStatistic>> {
+    absencesFilter: EvaluateAbsencesFilter,
+    offset: number
+  ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     const params = buildHttpParamsForFilter([
       [absencesFilter.student, 'StudentRef'],
       [absencesFilter.moduleInstance, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef']
     ]);
     return this.http
-      .get<unknown>(`${this.baseUrl}/Statistics`, { params })
-      .pipe(switchMap(decodeArray(LessonPresenceStatistic)));
+      .get<unknown>(`${this.baseUrl}/Statistics`, {
+        params: paginatedParams(offset, this.settings.paginationLimit, params),
+        headers: paginatedHeaders(),
+        observe: 'response'
+      })
+      .pipe(decodePaginatedResponse(LessonPresenceStatistic));
   }
 
   getFilteredList(
-    absencesFilter: EditAbsencesFilter
-  ): Observable<ReadonlyArray<LessonPresence>> {
+    absencesFilter: EditAbsencesFilter,
+    offset: number
+  ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     let params = buildHttpParamsForFilter([
       [absencesFilter.student, 'StudentRef'],
       [absencesFilter.moduleInstance, 'EventRef'],
@@ -115,7 +127,13 @@ export class LessonPresencesRestService extends RestService<
       }
     }
 
-    return this.getList({ params });
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(offset, this.settings.paginationLimit, params),
+        headers: paginatedHeaders(),
+        observe: 'response'
+      })
+      .pipe(decodePaginatedResponse(LessonPresence));
   }
 }
 

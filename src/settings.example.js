@@ -11,6 +11,9 @@ window.absenzenmanagement.settings = {
   // locale files
   scriptsAndAssetsPath: '.',
 
+  // Maximum loaded entries per page, where pagination is in place
+  paginationLimit: 200,
+
   // Id of the PresenceType that represents an absence without cause
   // (i.e. the default absence that will be used when changing state
   // in the presence control module)

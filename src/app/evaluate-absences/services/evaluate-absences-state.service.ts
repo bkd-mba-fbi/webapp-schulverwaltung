@@ -1,12 +1,18 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
 import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
+import { Paginated } from 'src/app/shared/utils/pagination';
+import {
+  PaginatedFilteredEntriesService,
+  PAGE_LOADING_CONTEXT
+} from 'src/app/shared/services/paginated-filtered-entries.service';
+import { SETTINGS, Settings } from 'src/app/settings';
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
@@ -15,57 +21,48 @@ export interface EvaluateAbsencesFilter {
 }
 
 @Injectable()
-export class EvaluateAbsencesStateService implements OnDestroy {
-  private filter$ = new BehaviorSubject<EvaluateAbsencesFilter>({
-    student: null,
-    moduleInstance: null,
-    studyClass: null
-  });
-
-  loading$ = this.loadingService.loading$;
-  isFilterValid$ = this.filter$.pipe(map(isValidFilter));
-  entries$ = this.filter$.pipe(
-    filter(isValidFilter),
-    switchMap(this.loadEntries.bind(this))
-  );
-
-  queryParams$ = this.filter$.pipe(map(buildHttpParamsFromAbsenceFilter));
-
-  private destroy$ = new Subject<void>();
-
+export class EvaluateAbsencesStateService extends PaginatedFilteredEntriesService<
+  LessonPresenceStatistic,
+  EvaluateAbsencesFilter
+> {
   constructor(
-    private lessonPresenceService: LessonPresencesRestService,
-    private loadingService: LoadingService,
-    private location: Location
+    location: Location,
+    loadingService: LoadingService,
+    @Inject(SETTINGS) settings: Settings,
+    private lessonPresenceService: LessonPresencesRestService
   ) {
-    this.queryParams$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(params =>
-        this.location.replaceState('/evaluate-absences', params.toString())
-      );
+    super(location, loadingService, settings, '/evaluate-absences');
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
+  protected getInitialFilter(): EvaluateAbsencesFilter {
+    return {
+      student: null,
+      moduleInstance: null,
+      studyClass: null
+    };
   }
 
-  setFilter(absencesFilter: EvaluateAbsencesFilter): void {
-    this.filter$.next(absencesFilter);
-  }
-
-  private loadEntries(
-    absencesFilter: EvaluateAbsencesFilter
-  ): Observable<ReadonlyArray<LessonPresenceStatistic>> {
-    return this.loadingService.load(
-      this.lessonPresenceService.getStatistics(absencesFilter)
+  protected isValidFilter(filterValue: EvaluateAbsencesFilter): boolean {
+    return Boolean(
+      filterValue.student ||
+        filterValue.moduleInstance ||
+        filterValue.studyClass
     );
   }
-}
 
-export function isValidFilter(absencesFilter: EvaluateAbsencesFilter): boolean {
-  return Boolean(
-    absencesFilter.student ||
-      absencesFilter.moduleInstance ||
-      absencesFilter.studyClass
-  );
+  protected loadEntries(
+    filterValue: EvaluateAbsencesFilter,
+    offset: number
+  ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
+    return this.loadingService.load(
+      this.lessonPresenceService.getStatistics(filterValue, offset),
+      PAGE_LOADING_CONTEXT
+    );
+  }
+
+  protected buildHttpParamsFromFilter(
+    filterValue: EvaluateAbsencesFilter
+  ): HttpParams {
+    return buildHttpParamsFromAbsenceFilter(filterValue);
+  }
 }

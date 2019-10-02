@@ -1,28 +1,78 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map, finalize } from 'rxjs/operators';
-import { nonZero } from '../utils/filter';
+import { Observable, Subject } from 'rxjs';
+import {
+  map,
+  finalize,
+  scan,
+  pluck,
+  startWith,
+  distinctUntilChanged,
+  shareReplay
+} from 'rxjs/operators';
 import { prepare } from '../utils/observable';
+
+interface LoadingAction {
+  action: 'increment' | 'decrement';
+  context: string;
+}
+
+interface LoadingCounts {
+  [context: string]: number;
+}
+
+const DEFAULT_CONTEXT = 'default';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadingService {
-  private loadingCount$ = new BehaviorSubject(0);
-  loading$ = this.loadingCount$.pipe(map(nonZero));
+  private action$ = new Subject<LoadingAction>();
+  loadingCounts$ = this.action$.pipe(
+    scan(
+      (counts, { action, context }) => {
+        switch (action) {
+          case 'increment':
+            counts[context] = (counts[context] || 0) + 1;
+            return counts;
+          case 'decrement':
+            counts[context] = Math.max(0, (counts[context] || 0) - 1);
+            return counts;
+          default:
+            return counts;
+        }
+      },
+      {} as LoadingCounts
+    ),
+    startWith({} as LoadingCounts),
+    shareReplay(1)
+  );
 
-  load<T>(source$: Observable<T>): Observable<T> {
-    return source$.pipe(
-      prepare(this.incrementLoadingCount.bind(this)),
-      finalize(this.decrementLoadingCount.bind(this))
+  loading$ = this.loading();
+
+  loading(context = DEFAULT_CONTEXT): Observable<boolean> {
+    return this.loadingCounts$.pipe(
+      pluck(context),
+      map(nonZero),
+      distinctUntilChanged()
     );
   }
 
-  private incrementLoadingCount(): void {
-    this.loadingCount$.next(this.loadingCount$.value + 1);
+  load<T>(source$: Observable<T>, context = DEFAULT_CONTEXT): Observable<T> {
+    return source$.pipe(
+      prepare(this.incrementLoadingCount(context)),
+      finalize(this.decrementLoadingCount(context))
+    );
   }
 
-  private decrementLoadingCount(): void {
-    this.loadingCount$.next(Math.max(this.loadingCount$.value - 1, 0));
+  private incrementLoadingCount(context: string): () => void {
+    return () => this.action$.next({ action: 'increment', context });
   }
+
+  private decrementLoadingCount(context: string): () => void {
+    return () => this.action$.next({ action: 'decrement', context });
+  }
+}
+
+function nonZero(value?: number): boolean {
+  return (value || 0) !== 0;
 }

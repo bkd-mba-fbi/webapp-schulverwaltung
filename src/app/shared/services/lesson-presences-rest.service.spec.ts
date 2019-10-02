@@ -147,11 +147,11 @@ describe('LessonPresencesRestService', () => {
       filter.moduleInstance = 333;
       filter.studyClass = 678;
       const url =
-        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&offset=0&limit=1000';
 
       service
-        .getStatistics(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getStatistics(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
@@ -161,11 +161,11 @@ describe('LessonPresencesRestService', () => {
     it('fetches statistics based with the given filter, only student set', () => {
       filter.student = 123;
       const url =
-        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123';
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&offset=0&limit=1000';
 
       service
-        .getStatistics(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getStatistics(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
@@ -195,11 +195,11 @@ describe('LessonPresencesRestService', () => {
       filter.studyClass = 678;
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678';
+        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&offset=0&limit=1000';
 
       service
-        .getFilteredList(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getFilteredList(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
@@ -216,11 +216,11 @@ describe('LessonPresencesRestService', () => {
       filter.confirmationState = 999;
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef==888&filter.ConfirmationStateId==999&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-26';
+        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef==888&filter.ConfirmationStateId==999&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-26&offset=0&limit=1000';
 
       service
-        .getFilteredList(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getFilteredList(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
@@ -231,11 +231,11 @@ describe('LessonPresencesRestService', () => {
       filter.dateFrom = new Date(2000, 0, 23);
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom=%3E2000-01-22';
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom=%3E2000-01-22&offset=0&limit=1000';
 
       service
-        .getFilteredList(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getFilteredList(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
@@ -246,11 +246,11 @@ describe('LessonPresencesRestService', () => {
       filter.dateTo = new Date(2000, 0, 25);
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeTo=%3C2000-01-26';
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeTo=%3C2000-01-26&offset=0&limit=1000';
 
       service
-        .getFilteredList(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getFilteredList(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)
@@ -262,11 +262,11 @@ describe('LessonPresencesRestService', () => {
       filter.dateTo = new Date(2000, 0, 23);
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23';
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23&offset=0&limit=1000';
 
       service
-        .getFilteredList(filter)
-        .subscribe(result => expect(result).toBe(data));
+        .getFilteredList(filter, 0)
+        .subscribe(result => expect(result.entries).toBe(data));
 
       httpTestingController
         .expectOne(req => req.urlWithParams === url, url)

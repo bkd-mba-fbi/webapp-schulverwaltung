@@ -1,7 +1,22 @@
-<div class="p-3" *erzLet="state.entries$ | async as entries">
+<div
+  class="p-3"
+  *erzLet="{
+    entries: state.entries$ | async,
+    hasMore: state.hasMore$ | async,
+    loadingPage: state.loadingPage$ | async
+  } as data"
+>
   <ng-container *ngIf="!(state.loading$ | async); else loading">
-    <ng-container *ngIf="entries && entries.length > 0; else noEntries">
-      <table class="table table-striped">
+    <ng-container
+      *ngIf="
+        (data.entries && data.entries.length > 0) || data.loadingPage;
+        else noEntries
+      "
+    >
+      <table
+        *ngIf="data.entries && data.entries.length > 0"
+        class="table table-striped"
+      >
         <thead>
           <tr>
             <th scope="col">
@@ -22,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let entry of entries">
+          <tr *ngFor="let entry of data.entries">
             <td
               [attr.data-label]="
                 'evaluate-absences.list.header.student' | translate
@@ -75,6 +90,16 @@
           </tr>
         </tbody>
       </table>
+
+      <erz-spinner class="inline" *ngIf="data.loadingPage"></erz-spinner>
+      <button
+        *ngIf="data.hasMore && !data.loadingPage"
+        type="button"
+        class="btn btn-secondary btn-sm d-block mx-auto"
+        (click)="state.nextPage()"
+      >
+        {{ 'global.pagination.load-more' | translate }}
+      </button>
     </ng-container>
     <ng-template #noEntries>
       <p>{{ 'evaluate-absences.no-entries' | translate }}</p>

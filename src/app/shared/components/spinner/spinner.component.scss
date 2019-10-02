@@ -1,11 +1,15 @@
 .spinner-container {
   text-align: center;
-  top: -131px;
-  min-height: 200px;
+  :host:not(.inline) {
+    top: -131px;
+    min-height: 200px;
+  }
 }
 
 .spinner-border {
   width: 3rem;
   height: 3rem;
-  margin-top: 100px;
+  :host:not(.inline) {
+    margin-top: 100px;
+  }
 }
