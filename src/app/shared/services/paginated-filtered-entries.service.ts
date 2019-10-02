@@ -18,7 +18,7 @@ import {
   scan,
   debounceTime,
   pluck,
-  startWith
+  take
 } from 'rxjs/operators';
 
 import { LoadingService } from './loading-service';
@@ -56,7 +56,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
   private offset$ = this.page$.pipe(
     map(page => page * this.settings.paginationLimit)
   );
-  private pageResult$ = combineLatest(this.validFilter$, this.offset$).pipe(
+  private pageResult$ = combineLatest([this.validFilter$, this.offset$]).pipe(
     debounceTime(10),
     switchMap(spreadTuple(this.loadEntries.bind(this))),
     shareReplay(1)
@@ -82,8 +82,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
 
   total$ = this.pageResult$.pipe(pluck('total'));
   hasMore$ = this.pageResult$.pipe(
-    map(({ offset, total }) => offset < total - this.settings.paginationLimit),
-    startWith(false)
+    map(({ offset, total }) => offset < total - this.settings.paginationLimit)
   );
 
   queryParams$ = this.filter$.pipe(
@@ -114,7 +113,11 @@ export abstract class PaginatedFilteredEntriesService<T, F>
   }
 
   nextPage(): void {
-    this.nextPage$.next();
+    this.hasMore$.pipe(take(1)).subscribe(hasMore => {
+      if (hasMore) {
+        this.nextPage$.next();
+      }
+    });
   }
 
   protected abstract getInitialFilter(): F;

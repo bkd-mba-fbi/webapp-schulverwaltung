@@ -9,6 +9,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LetDirective } from './directives/let.directive';
 import { NgxAutogrowModule } from 'ngx-autogrow';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RestAuthInterceptor } from '../rest-auth-interceptor';
 import { RestErrorInterceptor } from '../rest-error-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
@@ -38,7 +39,8 @@ const components = [
     HttpClientModule,
     TranslateModule.forChild(),
     NgbModule,
-    NgxAutogrowModule
+    NgxAutogrowModule,
+    InfiniteScrollModule
   ],
   exports: [
     CommonModule,
@@ -49,6 +51,7 @@ const components = [
     TranslateModule,
     NgbModule,
     NgxAutogrowModule,
+    InfiniteScrollModule,
     ...components
   ]
 })

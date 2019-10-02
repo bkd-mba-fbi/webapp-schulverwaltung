@@ -75,6 +75,10 @@ export class EditAbsencesListComponent
       checkbox.click();
     }
   }
+
+  onScroll(): void {
+    this.state.nextPage();
+  }
 }
 
 function createFilterFromParams(params: Params): EditAbsencesFilter {

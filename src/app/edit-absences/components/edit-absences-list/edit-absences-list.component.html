@@ -19,6 +19,8 @@
           else noEntries
         "
         class="p-3"
+        infiniteScroll
+        (scrolled)="onScroll()"
       >
         <div
           *ngIf="data.entries && data.entries.length > 0"

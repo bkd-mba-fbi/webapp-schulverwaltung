@@ -11,4 +11,8 @@ export class EvaluateAbsencesListComponent implements OnInit {
   constructor(public state: EvaluateAbsencesStateService) {}
 
   ngOnInit(): void {}
+
+  onScroll(): void {
+    this.state.nextPage();
+  }
 }
