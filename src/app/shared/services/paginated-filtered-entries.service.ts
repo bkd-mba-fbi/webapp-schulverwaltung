@@ -11,7 +11,7 @@ import {
 import {
   map,
   filter,
-  switchMap,
+  concatMap,
   shareReplay,
   takeUntil,
   mapTo,
@@ -58,7 +58,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
   );
   private pageResult$ = combineLatest([this.validFilter$, this.offset$]).pipe(
     debounceTime(10),
-    switchMap(spreadTuple(this.loadEntries.bind(this))),
+    concatMap(spreadTuple(this.loadEntries.bind(this))),
     shareReplay(1)
   );
 
