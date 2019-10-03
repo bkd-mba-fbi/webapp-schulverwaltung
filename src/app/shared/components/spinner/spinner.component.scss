@@ -1,6 +1,6 @@
 .spinner-container {
   text-align: center;
-  :host:not(.inline) {
+  :host:not(.inline) & {
     top: -131px;
     min-height: 200px;
   }
@@ -9,7 +9,7 @@
 .spinner-border {
   width: 3rem;
   height: 3rem;
-  :host:not(.inline) {
+  :host:not(.inline) & {
     margin-top: 100px;
   }
 }
