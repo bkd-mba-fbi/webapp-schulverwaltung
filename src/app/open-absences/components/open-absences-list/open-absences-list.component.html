@@ -8,8 +8,8 @@
   <ng-container *ngIf="!(openAbsencesService.loading$ | async); else loading">
     <ng-container
       *ngIf="
-        (openAbsencesService.sortedEntries$ | async).length > 0 ||
-          data.entries.length > 0;
+        (openAbsencesService.sortedEntries$ | async)?.length > 0 ||
+          data.entries?.length > 0;
         else noEntries
       "
     >
