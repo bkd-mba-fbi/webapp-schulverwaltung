@@ -1,14 +1,186 @@
 {
+  "global": {
+    "app-errors": {
+      "exception-title": "Erreur",
+      "exception-message": "Une erreur s'est produite. Veuillez réessayer ou relancer l'application."
+    },
+    "rest-errors": {
+      "noaccess-title": "Aucun accès",
+      "noaccess-message": "Une ressource n'est pas accessible.",
+      "notfound-title": "Aucun résultat",
+      "notfound-message": "Aucune ressource n'a été trouvée.",
+      "unavailable-title": "Le serveur n'est pas disponible.",
+      "unavailable-message": "Le serveur est momentanément indisponible ou surchargé. Veuillez réessayer plus tard.",
+      "conflict-title": "Données non valides",
+      "conflict-message": "Les données que vous souhaitez enregistrer ne sont pas valides.",
+      "server-title": "Erreur du serveur",
+      "server-message": "Une erreur s'est produite lors de la connexion au serveur."
+    },
+    "validation-errors": {
+      "required": "Ce champ doit être rempli.",
+      "maxlength": "Le texte ne peut pas dépasser {{requiredLength}} caractères ; il en contient actuellement {{actualLength}}.",
+      "confirmationvaluerequired": "Veuillez sélectionner un motif d'absence."
+    },
+    "pagination": {
+      "load-more": "Charger plus de données"
+    }
+  },
+  "unauthenticated": {
+    "message": "Vous n'avez pas les droits d'accès de l'enseignant-e."
+  },
   "presence-control": {
-    "title": "Contrôle de présence"
+    "title": "Contrôle des présences",
+    "no-lessons": "Aucune leçon n'a lieu à la date sélectionnée.",
+    "no-lesson-presences": "Aucun-e élève n'a été sélectionné-e.",
+    "previously-absent": "Absent-e la leçon précédente",
+    "header": {
+      "previous-lesson": "Leçon précédente",
+      "next-lesson": "Leçon suivante",
+      "search": "Rechercher",
+      "search-by-name": "Rechercher un nom...",
+      "no-previous-lesson": "Il n'y a pas de leçon précédente à la date sélectionnée. Veuillez utiliser le calendrier.",
+      "no-next-lesson": "Il n'y a pas de leçon suivante à la date sélectionnée. Veuillez utiliser le calendrier."
+    },
+    "entry": {
+      "comment": "Commentaire...",
+      "update-warning": "Il n'est pas possible de modifier le statut."
+    },
+    "detail": {
+      "legal-representation": "Représentants légaux",
+      "apprenticeship-company": "Entreprise formatrice",
+      "apprenticeship-period": "Durée de l'apprentissage",
+      "job-trainer": "Formateur/trice",
+      "no-profile": "Le profil n'a pas été trouvé."
+    },
+    "comment": {
+      "placeholder": "Commentaire...",
+      "cancel": "Annuler",
+      "save": "Valider",
+      "save-error": "Une erreur s'est produite lors de l'enregistrement du commentaire."
+    },
+    "dialog": {
+      "text": "La leçon sélectionnée fait partie d'un bloc. Pour quelle(s) période(s) voulez-vous changer le statut de présence ?",
+      "cancel": "Annuler",
+      "save": "Valider"
+    }
   },
   "open-absences": {
-    "title": "Absences ouvertes"
+    "title": "Absences actuelles",
+    "noEntries": "Aucune donnée disponible",
+    "selected": "{{count}} sélectionné(s)",
+    "search": "Rechercher",
+    "search-by-name": "Rechercher un nom...",
+    "list": {
+      "header": {
+        "name": "Nom",
+        "date": "Date"
+      },
+      "content": {
+        "lessonsCount": {
+          "singular": "{{count}} leçon",
+          "plural": "{{count}} leçons"
+        },
+        "daysDifference": {
+          "today": "Ajourd'hui",
+          "tomorrow": "Demain",
+          "yesterday": "Hier",
+          "ago": "il y a {{count}} jours",
+          "in": "dans {{count}} jours"
+        }
+      }
+    },
+    "detail": {
+      "all": "Tout"
+    },
+    "edit": {
+      "state": "Statut",
+      "absence-type-placeholder": "Sélectionner un motif d'absence...",
+      "cancel": "Annuler",
+      "save": "Valider",
+      "save-success": "Les données sélectionnées ont été enregistrées avec succès."
+    }
   },
   "edit-absences": {
-    "title": "Éditer des absences"
+    "title": "Traiter les absences",
+    "no-filter": "Vous pouver afficher, saisir, traiter ou supprimer toutes les absences passées ou futures. Sélectionnez au moins un critère, puis cliquez sur « Afficher ».",
+    "no-entries": "Aucun résultat n'a été trouvé.",
+    "header": {
+      "student": "Nom",
+      "module-instance": "Discipline",
+      "study-class": "Classe",
+      "date-from": "Date du",
+      "date-to": "Date au",
+      "presence-type": "Motif",
+      "confirmation-state": "Statut",
+      "show": "Afficher",
+      "extended-filters": "Autres critères"
+    },
+    "list": {
+      "total": "{{count}} résultats",
+      "selected": "{{count}} sélectionné(s)",
+      "header": {
+        "presence": "Présence",
+        "student": "Nom",
+        "module-instance": "Discipline",
+        "study-class": "Classe",
+        "time": "Période",
+        "confirmation-state": "Statut",
+        "presence-type": "Motif",
+        "comment": "Commentaire",
+        "date": "Date",
+        "teacher": "Enseignant-e",
+        "mobil-student-module-instance-study-class": "Nom, Discipline, Classe",
+        "mobil-presence-type-comment": "Commentaire, Motif"
+      }
+    },
+    "edit": {
+      "categories": {
+        "absent": "Absence",
+        "dispensation": "Dispense",
+        "half-day": "Demi-journée libre",
+        "late": "Retard",
+        "present": "Présence"
+      },
+      "absence-type-placeholder": "Sélectionner le motif d'absence...",
+      "cancel": "Annuler",
+      "save": "Valider",
+      "save-success": "Les données sélectionnées ont été enregistrées avec succès."
+    }
   },
   "evaluate-absences": {
-    "title": "Évaluer des absences"
+    "title": "Evaluer les absences",
+    "no-filter": "Sélectionnez au moins un critère, puis cliquez sur « Afficher ».",
+    "no-entries": "Aucun résultat n'a été trouvé.",
+    "header": {
+      "student": "Nom",
+      "module-instance": "Discipline",
+      "study-class": "Classe",
+      "show": "Afficher"
+    },
+    "list": {
+      "header": {
+        "student": "Nom",
+        "total": "Total",
+        "valid-excuse": "Excusé-e",
+        "without-excuse": "Non excusé-e",
+        "unconfirmed": "En cours",
+        "late": "Retard",
+        "halfday": "Demi-journées"
+      }
+    }
+  },
+  "shared": {
+    "date-select": {
+      "default-placeholder": "Sélectionner la date..."
+    },
+    "lesson-presences-update": {
+      "error": "Une erreur s'est produite lors de l'enregistrement des modifications."
+    },
+    "select": {
+      "empty-option": "Sélectionner..."
+    },
+    "typeahead": {
+      "default-placeholder": "Rechercher..."
+    }
   }
 }
