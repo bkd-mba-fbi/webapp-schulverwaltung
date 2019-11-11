@@ -6,7 +6,7 @@ const Student = t.type({
   AddressLine1: t.string,
   AddressLine2: Maybe(t.string),
   Birthdate: LocalDateTimeFromString,
-  DisplayEmail: t.string,
+  DisplayEmail: Option(t.string),
   // FirstName: t.string,
   FullName: t.string,
   Gender, // t.union([t.literal('M'), t.literal('F')]),

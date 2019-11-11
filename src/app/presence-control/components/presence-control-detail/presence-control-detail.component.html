@@ -11,24 +11,27 @@
         <div class="detail-entry">
           <address>
             {{ profile.student.AddressLine1 }}<br />
-            <ng-container *ngIf="profile.student.AddressLine2"
-              >{{ profile.student.AddressLine2 }}<br
-            /></ng-container>
+            <ng-container *ngIf="profile.student.AddressLine2">
+              {{ profile.student.AddressLine2 }}<br />
+            </ng-container>
             {{ profile.student.PostalCode }} {{ profile.student.Location
             }}<br />
-            <ng-container *ngIf="profile.student.PhonePrivate"
-              ><a href="tel:{{ profile.student.PhonePrivate }}">{{
-                profile.student.PhonePrivate
-              }}</a
-              ><br
-            /></ng-container>
-            <a href="tel:{{ profile.student.PhoneMobile }}">{{
-              profile.student.PhoneMobile
-            }}</a
-            ><br />
-            <a href="mailto:{{ profile.student.DisplayEmail }}">{{
-              profile.student.DisplayEmail
-            }}</a>
+            <ng-container *ngIf="profile.student.PhonePrivate">
+              <a href="tel:{{ profile.student.PhonePrivate }}">
+                {{ profile.student.PhonePrivate }}
+              </a>
+              <br />
+            </ng-container>
+            <a href="tel:{{ profile.student.PhoneMobile }}">
+              {{ profile.student.PhoneMobile }}
+            </a>
+            <br />
+            <a
+              *ngIf="profile.student.DisplayEmail"
+              href="mailto:{{ profile.student.DisplayEmail }}"
+            >
+              {{ profile.student.DisplayEmail }}
+            </a>
           </address>
         </div>
 
