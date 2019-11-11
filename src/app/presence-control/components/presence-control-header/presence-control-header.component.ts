@@ -58,7 +58,7 @@ export class PresenceControlHeaderComponent implements OnInit {
       this.nextLesson.emit();
     } else {
       this.toastr.warning(
-        this.translate.instant('presence-control.header.no-previous-lesson')
+        this.translate.instant('presence-control.header.no-next-lesson')
       );
     }
   }
@@ -68,7 +68,7 @@ export class PresenceControlHeaderComponent implements OnInit {
       this.previousLesson.emit();
     } else {
       this.toastr.warning(
-        this.translate.instant('presence-control.header.no-next-lesson')
+        this.translate.instant('presence-control.header.no-previous-lesson')
       );
     }
   }
