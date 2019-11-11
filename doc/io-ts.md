@@ -23,7 +23,7 @@ mechanism works as follows:
 
 ### Type Definition
 
-Runtime types are described in a `.model.ts` file:
+Runtime types are described in a `.model.ts` file in the `src/app/shared/models` directory:
 
 ```
 import * as t from 'io-ts';
