@@ -1,5 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import {
+  Observable,
+  Subject,
+  ReplaySubject,
+  ConnectableObservable,
+  Subscription
+} from 'rxjs';
 import {
   map,
   finalize,
@@ -7,7 +13,7 @@ import {
   pluck,
   startWith,
   distinctUntilChanged,
-  shareReplay
+  multicast
 } from 'rxjs/operators';
 import { prepare } from '../utils/observable';
 
@@ -25,8 +31,10 @@ const DEFAULT_CONTEXT = 'default';
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingService {
+export class LoadingService implements OnDestroy {
   private action$ = new Subject<LoadingAction>();
+  private loadingCountsSub: Subscription;
+
   loadingCounts$ = this.action$.pipe(
     scan(
       (counts, { action, context }) => {
@@ -44,10 +52,20 @@ export class LoadingService {
       {} as LoadingCounts
     ),
     startWith({} as LoadingCounts),
-    shareReplay(1)
+    multicast(() => new ReplaySubject<LoadingCounts>(1)) // Make it hot
   );
 
   loading$ = this.loading();
+
+  constructor() {
+    this.loadingCountsSub = (this.loadingCounts$ as ConnectableObservable<
+      LoadingCounts
+    >).connect();
+  }
+
+  ngOnDestroy(): void {
+    this.loadingCountsSub.unsubscribe();
+  }
 
   loading(context = DEFAULT_CONTEXT): Observable<boolean> {
     return this.loadingCounts$.pipe(
