@@ -176,35 +176,15 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
 
   private save(confirmationValue: number, absenceTypeId: number): void {
     this.saving$.next(true);
-    // Execute bulk requests
-    // const requests = this.openAbsencesService.selected.map(
-    //   ({ lessonIds, personIds }) =>
-    //     this.updateService.confirmLessonPresences(
-    //       lessonIds,
-    //       personIds,
-    //       absenceTypeId,
-    //       confirmationValue
-    //     )
-    // );
 
-    // Workaround: due to a backend bug, a request for each
-    // lessonId/personId pair has to be done (see #92). Use the above
-    // implementation that performs bulk requests for multiple
-    // lessonIds if this issue is fixed in the backend.
-    const selected = (flattenDeep(
-      this.openAbsencesService.selected.map(({ lessonIds, personIds }) =>
-        lessonIds.map(lessonId =>
-          personIds.map(personId => ({ lessonId, personId }))
+    const requests = this.openAbsencesService.selected.map(
+      ({ lessonIds, personIds }) =>
+        this.updateService.confirmLessonPresences(
+          lessonIds,
+          personIds,
+          absenceTypeId,
+          confirmationValue
         )
-      )
-    ) as unknown) as { lessonId: number; personId: number }[];
-    const requests = selected.map(({ lessonId, personId }) =>
-      this.updateService.confirmLessonPresences(
-        [lessonId],
-        [personId],
-        absenceTypeId,
-        confirmationValue
-      )
     );
 
     combineLatest(requests)
