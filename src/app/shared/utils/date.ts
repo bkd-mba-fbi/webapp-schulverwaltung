@@ -4,7 +4,7 @@
  * See https://stackoverflow.com/questions/33908299/javascript-parse-a-string-to-date-as-local-time-zone/33909265#33909265
  */
 export function parseISOLocalDateTime(dateString: string): Date {
-  const dateArray = dateString.split(/\D/).map(d => Number(d));
+  const dateArray = dateString.split(/\D/).map((d) => Number(d));
   return new Date(
     dateArray[0],
     dateArray[1] - 1,
@@ -21,7 +21,7 @@ export function parseISOLocalDateTime(dateString: string): Date {
  * See https://stackoverflow.com/questions/33908299/javascript-parse-a-string-to-date-as-local-time-zone/33909265#33909265
  */
 export function parseISOLocalDate(dateString: string): Date {
-  const dateArray = dateString.split(/\D/).map(d => Number(d));
+  const dateArray = dateString.split(/\D/).map((d) => Number(d));
   return new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
 }
 

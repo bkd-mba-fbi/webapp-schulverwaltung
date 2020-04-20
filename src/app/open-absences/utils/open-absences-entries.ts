@@ -10,20 +10,17 @@ export function buildOpenAbsencesEntries(
   absences: ReadonlyArray<LessonPresence>
 ): ReadonlyArray<OpenAbsencesEntry> {
   const groupedAbsences = groupAbsences(absences);
-  return Object.keys(groupedAbsences).reduce(
-    (acc, day) => {
-      Object.keys(groupedAbsences[day]).forEach(studentId => {
-        acc = [
-          ...acc,
-          new OpenAbsencesEntry(
-            groupedAbsences[day][studentId].sort(lessonsComparator)
-          )
-        ];
-      });
-      return acc;
-    },
-    [] as OpenAbsencesEntry[]
-  );
+  return Object.keys(groupedAbsences).reduce((acc, day) => {
+    Object.keys(groupedAbsences[day]).forEach((studentId) => {
+      acc = [
+        ...acc,
+        new OpenAbsencesEntry(
+          groupedAbsences[day][studentId].sort(lessonsComparator)
+        ),
+      ];
+    });
+    return acc;
+  }, [] as OpenAbsencesEntry[]);
 }
 
 export function sortOpenAbsencesEntries(
@@ -36,12 +33,9 @@ export function sortOpenAbsencesEntries(
 export function flattenOpenAbsencesEntries(
   entries: ReadonlyArray<OpenAbsencesEntry>
 ): ReadonlyArray<LessonPresence> {
-  return entries.reduce(
-    (acc, e) => {
-      return acc.concat(e.absences);
-    },
-    [] as ReadonlyArray<LessonPresence>
-  );
+  return entries.reduce((acc, e) => {
+    return acc.concat(e.absences);
+  }, [] as ReadonlyArray<LessonPresence>);
 }
 
 export function removeOpenAbsences(
@@ -52,7 +46,7 @@ export function removeOpenAbsences(
   }>
 ): ReadonlyArray<LessonPresence> {
   return entries.filter(
-    e =>
+    (e) =>
       !affectedIds.some(
         ({ lessonIds, personIds }) =>
           lessonIds.indexOf(e.LessonRef.Id) !== -1 &&
@@ -105,19 +99,16 @@ function getOpenAbsencesComparator(
 function groupAbsences(
   absences: ReadonlyArray<LessonPresence>
 ): Dict<Dict<LessonPresence[]>> {
-  return absences.reduce(
-    (acc, absence) => {
-      const day = format(absence.LessonDateTimeFrom, 'YYYY-MM-DD');
-      const studentId = absence.StudentRef.Id;
-      if (!acc[day]) {
-        acc[day] = {};
-      }
-      if (!acc[day][studentId]) {
-        acc[day][studentId] = [];
-      }
-      acc[day][studentId].push(absence);
-      return acc;
-    },
-    {} as Dict<Dict<LessonPresence[]>>
-  );
+  return absences.reduce((acc, absence) => {
+    const day = format(absence.LessonDateTimeFrom, 'yyyy-MM-dd');
+    const studentId = absence.StudentRef.Id;
+    if (!acc[day]) {
+      acc[day] = {};
+    }
+    if (!acc[day][studentId]) {
+      acc[day][studentId] = [];
+    }
+    acc[day][studentId].push(absence);
+    return acc;
+  }, {} as Dict<Dict<LessonPresence[]>>);
 }

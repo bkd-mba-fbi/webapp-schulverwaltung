@@ -8,7 +8,7 @@ export function previousElement<T>(
 ): (entry: Option<T>, entries: ReadonlyArray<T>) => Option<T> {
   return (entry, entries) => {
     if (entry && entries.length > 0) {
-      const index = entries.findIndex(e => equal(e, entry));
+      const index = entries.findIndex((e) => equal(e, entry));
       if (index > 0) {
         return entries[index - 1];
       }
@@ -27,7 +27,7 @@ export function nextElement<T>(
 ): (entry: Option<T>, entries: ReadonlyArray<T>) => Option<T> {
   return (entry, entries) => {
     if (entry && entries.length > 0) {
-      const index = entries.findIndex(e => equal(e, entry));
+      const index = entries.findIndex((e) => equal(e, entry));
       if (index > -1 && index < entries.length - 1) {
         return entries[index + 1];
       }

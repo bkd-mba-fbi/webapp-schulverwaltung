@@ -5,7 +5,7 @@ import {
   extractLesson,
   extractLessons,
   getLessonPresencesForLesson,
-  getCurrentLesson
+  getCurrentLesson,
 } from './lessons';
 
 describe('lessons utils', () => {
@@ -86,7 +86,7 @@ describe('lessons utils', () => {
         EventDesignation: 'Mathematik',
         StudyClassNumber: '9a',
         LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
-        LessonDateTimeTo: new Date(2000, 0, 23, 10, 0)
+        LessonDateTimeTo: new Date(2000, 0, 23, 10, 0),
       });
     });
   });
@@ -117,7 +117,7 @@ describe('lessons utils', () => {
           new Date(2000, 0, 23, 10, 0),
           new Date(2000, 0, 23, 11, 0),
           'Mathematik'
-        )
+        ),
       ]);
       expect(result).toEqual([
         {
@@ -125,22 +125,22 @@ describe('lessons utils', () => {
           EventDesignation: 'Deutsch',
           StudyClassNumber: '9a',
           LessonDateTimeFrom: new Date(2000, 0, 23, 8, 0),
-          LessonDateTimeTo: new Date(2000, 0, 23, 9, 0)
+          LessonDateTimeTo: new Date(2000, 0, 23, 9, 0),
         },
         {
           LessonRef: { Id: 1, HRef: '/1' },
           EventDesignation: 'Mathematik',
           StudyClassNumber: '9a',
           LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
-          LessonDateTimeTo: new Date(2000, 0, 23, 10, 0)
+          LessonDateTimeTo: new Date(2000, 0, 23, 10, 0),
         },
         {
           LessonRef: { Id: 3, HRef: '/3' },
           EventDesignation: 'Mathematik',
           StudyClassNumber: '9a',
           LessonDateTimeFrom: new Date(2000, 0, 23, 10, 0),
-          LessonDateTimeTo: new Date(2000, 0, 23, 11, 0)
-        }
+          LessonDateTimeTo: new Date(2000, 0, 23, 11, 0),
+        },
       ]);
     });
 
@@ -277,13 +277,13 @@ describe('lessons utils', () => {
             new Date(2000, 0, 23, 11, 0),
             'Mathematik',
             'Einstein Albert'
-          )
+          ),
         ]
       );
       expect(result.length).toEqual(2);
-      expect(result.map(p => p.StudentFullName)).toEqual([
+      expect(result.map((p) => p.StudentFullName)).toEqual([
         'Einstein Albert',
-        'Max Frisch'
+        'Max Frisch',
       ]);
     });
 
@@ -295,7 +295,7 @@ describe('lessons utils', () => {
           new Date(2000, 0, 23, 9, 0),
           'Deutsch',
           'Max Frisch'
-        )
+        ),
       ]);
       expect(result).toEqual([]);
     });

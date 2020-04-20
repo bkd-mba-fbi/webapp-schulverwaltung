@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
-  Input
+  Input,
 } from '@angular/core';
 
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
@@ -16,14 +16,14 @@ import { EvaluateAbsencesFilter } from '../../services/evaluate-absences-state.s
   selector: 'erz-evaluate-absences-header',
   templateUrl: './evaluate-absences-header.component.html',
   styleUrls: ['./evaluate-absences-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesHeaderComponent implements OnInit {
   @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
     moduleInstance: null,
-    studyClass: null
+    studyClass: null,
   };
 
   @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();

@@ -20,10 +20,10 @@ describe('EditAbsencesHeaderComponent', () => {
               absenceConfirmationStates$: of([]),
               presenceTypes$: of([]),
               selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
-              removeSelectedEntries: jasmine.createSpy('removeSelectedEntries')
-            }
-          }
-        ]
+              removeSelectedEntries: jasmine.createSpy('removeSelectedEntries'),
+            },
+          },
+        ],
       })
     ).compileComponents();
   }));

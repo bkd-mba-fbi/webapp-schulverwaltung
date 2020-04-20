@@ -36,7 +36,7 @@ const Person = t.type({
   // SocialSecurityNumber: Option(t.string),
   // StayPermit: Option(t.string),
   // StayPermitExpiry: Option(LocalDateTimeFromString),
-  Zip: Option(t.string)
+  Zip: Option(t.string),
   // HRef: t.string
 });
 

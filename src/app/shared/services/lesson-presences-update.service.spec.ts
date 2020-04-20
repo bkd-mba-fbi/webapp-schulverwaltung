@@ -5,7 +5,7 @@ import { withConfig } from 'src/app/rest-error-interceptor';
 import {
   buildLessonPresence,
   buildPresenceType,
-  buildReference
+  buildReference,
 } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresence } from '../models/lesson-presence.model';
@@ -14,7 +14,7 @@ import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest
 import {
   LessonPresencesUpdateService,
   UPDATE_REQUEST_DEBOUNCE_TIME,
-  UPDATE_STATE_DEBOUNCE_TIME
+  UPDATE_STATE_DEBOUNCE_TIME,
 } from './lesson-presences-update.service';
 
 describe('LessonPresencesUpdateService', () => {
@@ -38,11 +38,11 @@ describe('LessonPresencesUpdateService', () => {
         .and.callFake(() => of()),
       removeLessonPresences: jasmine
         .createSpy('removeLessonPresences')
-        .and.callFake(() => of())
+        .and.callFake(() => of()),
     } as unknown) as LessonPresencesUpdateRestService;
 
     toastrServiceMock = ({
-      error: jasmine.createSpy('error')
+      error: jasmine.createSpy('error'),
     } as unknown) as ToastrService;
 
     TestBed.configureTestingModule(
@@ -50,13 +50,13 @@ describe('LessonPresencesUpdateService', () => {
         providers: [
           {
             provide: LessonPresencesUpdateRestService,
-            useValue: restServiceMock
+            useValue: restServiceMock,
           },
-          { provide: ToastrService, useValue: toastrServiceMock }
-        ]
+          { provide: ToastrService, useValue: toastrServiceMock },
+        ],
       })
     );
-    service = TestBed.get(LessonPresencesUpdateService);
+    service = TestBed.inject(LessonPresencesUpdateService);
 
     stateUpdatesCallback = jasmine.createSpy('stateUpdates$');
     service.stateUpdates$.subscribe(stateUpdatesCallback);
@@ -119,7 +119,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
-        { presence: deutschFrisch, newPresenceTypeId: late.Id }
+        { presence: deutschFrisch, newPresenceTypeId: late.Id },
       ]);
 
       // Nothing happens after half the debounce time
@@ -137,7 +137,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
         { presence: deutschFrisch, newPresenceTypeId: late.Id },
-        { presence: deutschWalser, newPresenceTypeId: late.Id }
+        { presence: deutschWalser, newPresenceTypeId: late.Id },
       ]);
 
       // Waits whole debounce time, then performs requests for all three
@@ -151,7 +151,7 @@ describe('LessonPresencesUpdateService', () => {
         [
           deutschEinsteinAbwesend.StudentRef.Id,
           deutschFrisch.StudentRef.Id,
-          deutschWalser.StudentRef.Id
+          deutschWalser.StudentRef.Id,
         ],
         late.Id,
         undefined,
@@ -200,7 +200,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
         { presence: deutschFrisch, newPresenceTypeId: late.Id },
-        { presence: deutschWalser, newPresenceTypeId: absent.Id }
+        { presence: deutschWalser, newPresenceTypeId: absent.Id },
       ]);
 
       // Performs two requests and reverts Walser on error of second request
@@ -219,7 +219,7 @@ describe('LessonPresencesUpdateService', () => {
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschWalser, newPresenceTypeId: 123 }
+        { presence: deutschWalser, newPresenceTypeId: 123 },
       ]);
       expect(toastrServiceMock.error).toHaveBeenCalledWith(
         'shared.lesson-presences-update.error'
@@ -246,7 +246,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschEinsteinAbwesend, newPresenceTypeId: null }
+        { presence: deutschEinsteinAbwesend, newPresenceTypeId: null },
       ]);
 
       // Waits debounce time, then performs request

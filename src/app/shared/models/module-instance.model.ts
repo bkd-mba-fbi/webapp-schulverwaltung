@@ -9,7 +9,7 @@ const ModuleInstance = t.type({
   // StatusId: t.number,
   // DateFrom: Option(LocalDateTimeFromString),
   // DateTo: Option(LocalDateTimeFromString),
-  Designation: t.string
+  Designation: t.string,
   // DisplayText: t.string,
   // Duration: Option(t.number),
   // HasQueue: t.boolean,

@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   Inject,
-  HostBinding
+  HostBinding,
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { NAVIGATOR } from './shared/tokens/dom-apis';
   selector: 'erz-app',
   template: '<router-outlet></router-outlet>',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   @HostBinding('class.ie11') get isIE11(): boolean {
@@ -37,7 +37,7 @@ export class AppComponent {
   private checkSettings(): void {
     decode(Settings)(this.settings)
       .pipe(
-        catchError(error => {
+        catchError((error) => {
           console.error(String(error));
           this.toastrService.error(
             'Please check the contents of the settings.js file (see Console output for more details).',

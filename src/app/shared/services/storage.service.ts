@@ -7,7 +7,7 @@ const REFRESH_TOKEN_KEY = 'CLX.RefreshToken';
 const TOKEN_EXPIRE_KEY = 'CLX.TokenExpire';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
   getLanguage(): Option<string> {

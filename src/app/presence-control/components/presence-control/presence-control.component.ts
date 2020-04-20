@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-pre
   template: '<router-outlet></router-outlet>',
   styleUrls: ['./presence-control.component.scss'],
   providers: [PresenceControlStateService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -30,7 +30,7 @@ export class PresenceControlComponent implements OnInit, OnDestroy {
     // currently loaded data
     this.lessonPresencesUpdateService.stateUpdates$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(updates => this.state.updateLessonPresencesTypes(updates));
+      .subscribe((updates) => this.state.updateLessonPresencesTypes(updates));
   }
 
   ngOnDestroy(): void {

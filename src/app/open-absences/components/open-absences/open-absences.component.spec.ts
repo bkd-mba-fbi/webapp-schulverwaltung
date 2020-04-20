@@ -10,7 +10,7 @@ describe('OpenAbsencesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [OpenAbsencesComponent]
+        declarations: [OpenAbsencesComponent],
       })
     ).compileComponents();
   }));

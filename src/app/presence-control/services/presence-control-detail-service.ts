@@ -25,7 +25,7 @@ export interface ApprenticeshipCompany {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PresenceControlDetailService {
   loading$ = this.loadingService.loading$;
@@ -38,11 +38,11 @@ export class PresenceControlDetailService {
 
   getProfile(studentId: number): Observable<Option<Profile>> {
     return this.loadingService.load(
-      combineLatest(
+      combineLatest([
         this.loadStudent(studentId),
         this.loadLegalRepresentatives(studentId),
-        this.loadApprenticeshipContracts(studentId)
-      ).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))))
+        this.loadApprenticeshipContracts(studentId),
+      ]).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))))
     );
   }
 
@@ -78,7 +78,7 @@ export class PresenceControlDetailService {
       return of(null);
     }
     return this.loadPersons(legalRepresentatives, apprenticeshipContracts).pipe(
-      map(persons =>
+      map((persons) =>
         this.createProfile(
           student,
           legalRepresentatives,
@@ -107,14 +107,14 @@ export class PresenceControlDetailService {
   ): ReadonlyArray<number> {
     return [
       ...legalRepresentatives.map(
-        legalRepresentative => legalRepresentative.RepresentativeId
+        (legalRepresentative) => legalRepresentative.RepresentativeId
       ),
       ...apprenticeshipContracts
-        .map(contract => contract.JobTrainer)
+        .map((contract) => contract.JobTrainer)
         .filter((id): id is number => typeof id === 'number'),
       ...apprenticeshipContracts.map(
-        contract => contract.ApprenticeshipManagerId
-      )
+        (contract) => contract.ApprenticeshipManagerId
+      ),
     ];
   }
 
@@ -127,12 +127,12 @@ export class PresenceControlDetailService {
     const profile: Profile = {
       student,
       legalRepresentativePersons: legalRepresentatives.map(
-        legalRepresentative =>
+        (legalRepresentative) =>
           this.findPerson(legalRepresentative.RepresentativeId, persons)
       ),
-      apprenticeshipCompanies: apprenticeshipContracts.map(contract =>
+      apprenticeshipCompanies: apprenticeshipContracts.map((contract) =>
         this.createApprenticeshipCompany(contract, persons)
-      )
+      ),
     };
     return profile;
   }
@@ -149,13 +149,13 @@ export class PresenceControlDetailService {
       apprenticeshipManagerPerson: this.findPerson(
         contract.ApprenticeshipManagerId,
         persons
-      )
+      ),
     };
     return apprenticeshipCompany;
   }
 
   private findPerson(id: number, persons: ReadonlyArray<Person>): Person {
-    const person = persons.find(p => p.Id === id);
+    const person = persons.find((p) => p.Id === id);
     if (person) {
       return person;
     } else {

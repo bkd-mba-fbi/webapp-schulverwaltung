@@ -15,9 +15,9 @@ describe('RestAuthInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata());
 
-    http = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
-    authServiceMock = TestBed.get(AuthService);
+    http = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    authServiceMock = TestBed.inject(AuthService);
 
     successCallback = jasmine.createSpy('success');
     errorCallback = jasmine.createSpy('error');
@@ -31,7 +31,7 @@ describe('RestAuthInterceptor', () => {
           .subscribe(successCallback, errorCallback);
         httpTestingController
           .expectOne(
-            req =>
+            (req) =>
               req.url === 'https://eventotest.api/foo' &&
               req.headers.get('CLX-Authorization') ===
                 'token_type=urn:ietf:params:oauth:token-type:jwt-bearer, access_token=abcdefghijklmnopqrstuvwxyz'
@@ -48,7 +48,7 @@ describe('RestAuthInterceptor', () => {
           .subscribe(successCallback, errorCallback);
         httpTestingController
           .expectOne(
-            req =>
+            (req) =>
               req.url === 'http://example.com' &&
               !req.headers.has('CLX-Authorization')
           )
@@ -65,13 +65,18 @@ describe('RestAuthInterceptor', () => {
         (authServiceMock as any).accessToken = null;
       });
 
+      afterEach(() => {
+        (authServiceMock as any).isAuthenticated = true;
+        (authServiceMock as any).accessToken = 'abcdefghijklmnopqrstuvwxyz';
+      });
+
       it('does not add CLX-Authorization header to request', () => {
         http
           .get('https://eventotest.api/foo')
           .subscribe(successCallback, errorCallback);
         httpTestingController
           .expectOne(
-            req =>
+            (req) =>
               req.url === 'https://eventotest.api/foo' &&
               !req.headers.has('CLX-Authorization')
           )

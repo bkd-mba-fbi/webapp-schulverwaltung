@@ -15,11 +15,11 @@ import {
   decodePaginatedResponse,
   Paginated,
   paginatedParams,
-  paginatedHeaders
+  paginatedHeaders,
 } from '../utils/pagination';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
@@ -31,16 +31,16 @@ export class LessonPresencesRestService extends RestService<
   getListByDate(date: Date): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       params: {
-        'filter.LessonDateTimeFrom': `=${format(date, 'YYYY-MM-DD')}`
+        'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
       },
-      headers: { 'X-Role-Restriction': 'LessonTeacherRole' }
+      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
     });
   }
 
   getListForToday(): Observable<ReadonlyArray<LessonPresence>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/Today`, {
-        headers: { 'X-Role-Restriction': 'LessonTeacherRole' }
+        headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
       })
       .pipe(switchMap(decodeArray(this.codec)));
   }
@@ -53,8 +53,8 @@ export class LessonPresencesRestService extends RestService<
       params: {
         'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-        'filter.HasStudyCourseConfirmationCode': '=false'
-      }
+        'filter.HasStudyCourseConfirmationCode': '=false',
+      },
     });
   }
 
@@ -63,13 +63,13 @@ export class LessonPresencesRestService extends RestService<
   > {
     return this.getList({
       headers: {
-        'X-Role-Restriction': 'ClassTeacherRole'
+        'X-Role-Restriction': 'ClassTeacherRole',
       },
       params: {
         'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-        'filter.HasStudyCourseConfirmationCode': '=true'
-      }
+        'filter.HasStudyCourseConfirmationCode': '=true',
+      },
     });
   }
 
@@ -80,13 +80,13 @@ export class LessonPresencesRestService extends RestService<
     const params = buildHttpParamsForFilter([
       [absencesFilter.student, 'StudentRef'],
       [absencesFilter.moduleInstance, 'EventRef'],
-      [absencesFilter.studyClass, 'StudyClassRef']
+      [absencesFilter.studyClass, 'StudyClassRef'],
     ]);
     return this.http
       .get<unknown>(`${this.baseUrl}/Statistics`, {
         params: paginatedParams(offset, this.settings.paginationLimit, params),
         headers: paginatedHeaders(),
-        observe: 'response'
+        observe: 'response',
       })
       .pipe(decodePaginatedResponse(LessonPresenceStatistic));
   }
@@ -100,7 +100,7 @@ export class LessonPresencesRestService extends RestService<
       [absencesFilter.moduleInstance, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef'],
       [absencesFilter.presenceType, 'TypeRef'],
-      [absencesFilter.confirmationState, 'ConfirmationStateId']
+      [absencesFilter.confirmationState, 'ConfirmationStateId'],
     ]);
 
     if (
@@ -110,19 +110,19 @@ export class LessonPresencesRestService extends RestService<
     ) {
       params = params.set(
         'filter.LessonDateTimeFrom',
-        `=${format(absencesFilter.dateFrom, 'YYYY-MM-DD')}`
+        `=${format(absencesFilter.dateFrom, 'yyyy-MM-dd')}`
       );
     } else {
       if (absencesFilter.dateFrom) {
         params = params.set(
           'filter.LessonDateTimeFrom',
-          `>${format(subDays(absencesFilter.dateFrom, 1), 'YYYY-MM-DD')}`
+          `>${format(subDays(absencesFilter.dateFrom, 1), 'yyyy-MM-dd')}`
         );
       }
       if (absencesFilter.dateTo) {
         params = params.set(
           'filter.LessonDateTimeTo',
-          `<${format(addDays(absencesFilter.dateTo, 1), 'YYYY-MM-DD')}`
+          `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`
         );
       }
     }
@@ -131,7 +131,7 @@ export class LessonPresencesRestService extends RestService<
       .get<unknown>(`${this.baseUrl}/`, {
         params: paginatedParams(offset, this.settings.paginationLimit, params),
         headers: paginatedHeaders(),
-        observe: 'response'
+        observe: 'response',
       })
       .pipe(decodePaginatedResponse(LessonPresence));
   }

@@ -16,7 +16,7 @@ describe('function utils', () => {
       const result = spreadTriplet((a, b, c) => `a:${a}, b:${b}, c:${c}`)([
         'foo',
         'bar',
-        'baz'
+        'baz',
       ]);
       expect(result).toEqual('a:foo, b:bar, c:baz');
     });

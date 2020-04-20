@@ -10,7 +10,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [AppComponent]
+        declarations: [AppComponent],
       })
     ).compileComponents();
   }));

@@ -5,7 +5,7 @@ import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-s
   selector: 'erz-evaluate-absences-list',
   templateUrl: './evaluate-absences-list.component.html',
   styleUrls: ['./evaluate-absences-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit {
   constructor(public state: EvaluateAbsencesStateService) {}

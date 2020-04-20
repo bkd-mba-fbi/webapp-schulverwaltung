@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
   SimpleChanges,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from '../../services/storage.service';
@@ -12,7 +12,7 @@ import { StorageService } from '../../services/storage.service';
 @Component({
   selector: 'erz-avatar',
   templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss']
+  styleUrls: ['./avatar.component.scss'],
 })
 export class AvatarComponent implements OnInit, OnChanges {
   @Input() studentId: number;
@@ -37,10 +37,10 @@ export class AvatarComponent implements OnInit, OnChanges {
     return {
       'background-image': [
         this.buildAvatarUrl(studentId),
-        this.fallbackAvatarUrl
+        this.fallbackAvatarUrl,
       ]
-        .map(url => `url(${url})`)
-        .join(', ')
+        .map((url) => `url(${url})`)
+        .join(', '),
     };
   }
 

@@ -11,7 +11,7 @@ const Settings = t.type({
   halfDayPresenceTypeId: t.number,
   unconfirmedAbsenceStateId: t.number,
   unexcusedAbsenceStateId: t.number,
-  excusedAbsenceStateId: t.number
+  excusedAbsenceStateId: t.number,
 });
 
 type Settings = t.TypeOf<typeof Settings>;
@@ -27,5 +27,5 @@ declare global {
 
 export const SETTINGS = new InjectionToken<Settings>('Application Settings', {
   providedIn: 'root',
-  factory: () => window.absenzenmanagement.settings
+  factory: () => window.absenzenmanagement.settings,
 });

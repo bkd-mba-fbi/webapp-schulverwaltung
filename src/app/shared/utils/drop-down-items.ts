@@ -6,7 +6,7 @@ export function findDropDownItem$(
   items$: Observable<ReadonlyArray<DropDownItem>>,
   key: number
 ): Observable<Option<DropDownItem>> {
-  return items$.pipe(map(items => items.find(i => i.Key === key) || null));
+  return items$.pipe(map((items) => items.find((i) => i.Key === key) || null));
 }
 
 export function sortDropDownItemsByValue(

@@ -10,7 +10,7 @@ import {
   mapTo,
   scan,
   share,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 import { withConfig } from 'src/app/rest-error-interceptor';
 import { Settings, SETTINGS } from 'src/app/settings';
@@ -36,7 +36,7 @@ interface GroupedLessonPresenceUpdates {
 
 enum UpdateActionTypes {
   AddUpdateAction = 'ADD',
-  RemoveUpdateAction = 'REMOVE'
+  RemoveUpdateAction = 'REMOVE',
 }
 
 interface AddUpdateAction {
@@ -55,15 +55,16 @@ type UpdateAction = AddUpdateAction | RemoveUpdateAction;
  * Service to update lesson presences. Updates UI state optimistically, debounces requests and reverts state on error.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LessonPresencesUpdateService implements OnDestroy {
   private destroy$ = new Subject<void>();
   private action$ = new Subject<UpdateAction>();
   private pendingUpdates$ = this.action$.pipe(
-    scan(this.reduceUpdates.bind(this), [] as ReadonlyArray<
-      LessonPresenceUpdate
-    >),
+    scan(
+      this.reduceUpdates.bind(this),
+      [] as ReadonlyArray<LessonPresenceUpdate>
+    ),
     share()
   );
   private revertUpdates$ = new Subject<ReadonlyArray<LessonPresenceUpdate>>();
@@ -98,7 +99,9 @@ export class LessonPresencesUpdateService implements OnDestroy {
     lessonPresences: ReadonlyArray<LessonPresence>,
     newPresenceTypeId: Option<number> = null
   ): void {
-    lessonPresences.forEach(p => this.dispatchAddUpdate(p, newPresenceTypeId));
+    lessonPresences.forEach((p) =>
+      this.dispatchAddUpdate(p, newPresenceTypeId)
+    );
   }
 
   private performUpdates(
@@ -106,17 +109,14 @@ export class LessonPresencesUpdateService implements OnDestroy {
   ): Observable<GroupedLessonPresenceUpdates> {
     const groupedUpdates = this.groupUpdates(updates);
     return combineLatest(
-      Object.keys(groupedUpdates).reduce(
-        (result, presenceTypeId) => {
-          const presenceTypeGroup = groupedUpdates[presenceTypeId];
-          Object.keys(presenceTypeGroup).forEach(lessonId => {
-            const lessonGroup = presenceTypeGroup[lessonId];
-            result.push(this.performUpdateForGroup(lessonGroup));
-          });
-          return result;
-        },
-        [] as Observable<void>[]
-      )
+      Object.keys(groupedUpdates).reduce((result, presenceTypeId) => {
+        const presenceTypeGroup = groupedUpdates[presenceTypeId];
+        Object.keys(presenceTypeGroup).forEach((lessonId) => {
+          const lessonGroup = presenceTypeGroup[lessonId];
+          result.push(this.performUpdateForGroup(lessonGroup));
+        });
+        return result;
+      }, [] as Observable<void>[])
     ).pipe(mapTo(groupedUpdates));
   }
 
@@ -128,14 +128,14 @@ export class LessonPresencesUpdateService implements OnDestroy {
     updates: ReadonlyArray<LessonPresenceUpdate>
   ): Observable<void> {
     // Remove (i.e. consume) entries from pending updates queue
-    updates.forEach(u => this.dispatchRemoveUpdate(u.presence));
+    updates.forEach((u) => this.dispatchRemoveUpdate(u.presence));
 
     // Perform actual request
     return this.performLessonPresencesUpdatesByIds(
       updates[0].presence.LessonRef.Id,
-      updates.map(u => u.presence.StudentRef.Id),
+      updates.map((u) => u.presence.StudentRef.Id),
       updates[0].newPresenceTypeId
-    ).pipe(catchError(error => this.revertUpdatesAfterError(updates, error)));
+    ).pipe(catchError((error) => this.revertUpdatesAfterError(updates, error)));
   }
 
   /**
@@ -179,9 +179,9 @@ export class LessonPresencesUpdateService implements OnDestroy {
 
     // Revert UI back to it's original state
     this.revertUpdates$.next(
-      updates.map(u => ({
+      updates.map((u) => ({
         ...u,
-        newPresenceTypeId: u.presence.TypeRef.Id
+        newPresenceTypeId: u.presence.TypeRef.Id,
       }))
     );
     return of(undefined);
@@ -193,26 +193,23 @@ export class LessonPresencesUpdateService implements OnDestroy {
   private groupUpdates(
     updates: ReadonlyArray<LessonPresenceUpdate>
   ): GroupedLessonPresenceUpdates {
-    return updates.reduce(
-      (grouped, update) => {
-        const presenceTypeId = String(
-          update.newPresenceTypeId && update.newPresenceTypeId
-        );
-        if (!grouped[presenceTypeId]) {
-          grouped[presenceTypeId] = {};
-        }
-        if (
-          !Array.isArray(grouped[presenceTypeId][update.presence.LessonRef.Id])
-        ) {
-          grouped[presenceTypeId][update.presence.LessonRef.Id] = [];
-        }
+    return updates.reduce((grouped, update) => {
+      const presenceTypeId = String(
+        update.newPresenceTypeId && update.newPresenceTypeId
+      );
+      if (!grouped[presenceTypeId]) {
+        grouped[presenceTypeId] = {};
+      }
+      if (
+        !Array.isArray(grouped[presenceTypeId][update.presence.LessonRef.Id])
+      ) {
+        grouped[presenceTypeId][update.presence.LessonRef.Id] = [];
+      }
 
-        grouped[presenceTypeId][update.presence.LessonRef.Id].push(update);
+      grouped[presenceTypeId][update.presence.LessonRef.Id].push(update);
 
-        return grouped;
-      },
-      {} as GroupedLessonPresenceUpdates
-    );
+      return grouped;
+    }, {} as GroupedLessonPresenceUpdates);
   }
 
   /**
@@ -232,7 +229,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
         return [
           ...updates.slice(0, index),
           { presence: updates[index].presence, newPresenceTypeId },
-          ...updates.slice(index + 1)
+          ...updates.slice(index + 1),
         ];
       case UpdateActionTypes.RemoveUpdateAction:
         return updates.filter(not(equalsUpdate(action.payload)));
@@ -247,14 +244,14 @@ export class LessonPresencesUpdateService implements OnDestroy {
   ): void {
     this.action$.next({
       type: UpdateActionTypes.AddUpdateAction,
-      payload: { presence, newPresenceTypeId }
+      payload: { presence, newPresenceTypeId },
     });
   }
 
   private dispatchRemoveUpdate(presence: LessonPresence): void {
     this.action$.next({
       type: UpdateActionTypes.RemoveUpdateAction,
-      payload: presence
+      payload: presence,
     });
   }
 }
@@ -262,7 +259,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
 function equalsUpdate(
   lessonPresence: LessonPresence
 ): (update: LessonPresenceUpdate) => boolean {
-  return update =>
+  return (update) =>
     update.presence.LessonRef.Id === lessonPresence.LessonRef.Id &&
     update.presence.StudentRef.Id === lessonPresence.StudentRef.Id;
 }

@@ -37,13 +37,13 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
           fields: [this.idAttr, this.labelAttr].join(','),
-          [`filter.${this.labelAttr}`]: `~*${term}*`
-        }
+          [`filter.${this.labelAttr}`]: `~*${term}*`,
+        },
       })
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
-        map(items =>
-          items.map(i => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
+        map((items) =>
+          items.map((i) => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
         )
       );
   }
@@ -52,12 +52,12 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`, {
         params: {
-          fields: [this.idAttr, this.labelAttr].join(',')
-        }
+          fields: [this.idAttr, this.labelAttr].join(','),
+        },
       })
       .pipe(
         switchMap(decode(this.typeaheadCodec)),
-        map(item => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
+        map((item) => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
       );
   }
 }

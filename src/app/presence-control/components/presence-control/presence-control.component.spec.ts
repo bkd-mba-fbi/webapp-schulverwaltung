@@ -10,7 +10,7 @@ describe('PresenceControlComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlComponent]
+        declarations: [PresenceControlComponent],
       })
     ).compileComponents();
   }));

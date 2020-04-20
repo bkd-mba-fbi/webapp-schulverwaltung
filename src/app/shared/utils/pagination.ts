@@ -35,13 +35,13 @@ export function decodePaginatedResponse<C extends t.Mixed>(
 ): (
   source: Observable<HttpResponse<unknown>>
 ) => Observable<Paginated<ReadonlyArray<t.TypeOf<C>>>> {
-  return source => {
+  return (source) => {
     return source.pipe(
-      switchMap(response => {
+      switchMap((response) => {
         const offset = Number(response.headers.get('X-Pagination-Offset'));
         const total = Number(response.headers.get('X-Pagination-Total'));
         return decodeArray(codec)(response.body).pipe(
-          map(entries => ({ offset, total, entries }))
+          map((entries) => ({ offset, total, entries }))
         );
       })
     );

@@ -29,9 +29,9 @@ describe('OpenAbsencesEditComponent', () => {
           OpenAbsencesService,
           {
             provide: Router,
-            useValue: jasmine.createSpyObj('Router', ['navigate'])
-          }
-        ]
+            useValue: jasmine.createSpyObj('Router', ['navigate']),
+          },
+        ],
       })
     ).compileComponents();
   }));

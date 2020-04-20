@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 const LegalRepresentative = t.type({
   Id: t.number,
   // TypeId: t.string,
-  RepresentativeId: t.number
+  RepresentativeId: t.number,
   // StudentId: t.number,
   // DateFrom: Option(LocalDateTimeFromString),
   // DateTo: Option(LocalDateTimeFromString),

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
-  NgbDateParserFormatter
+  NgbDateParserFormatter,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { Lesson } from 'src/app/shared/models/lesson.model';
@@ -21,8 +21,8 @@ interface ViewModeOption {
   styleUrls: ['./presence-control-header.component.scss'],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter }
-  ] // TODO: move to (app-)module?
+    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
+  ], // TODO: move to (app-)module?
 })
 export class PresenceControlHeaderComponent implements OnInit {
   @Input() lesson: Lesson;
@@ -43,7 +43,7 @@ export class PresenceControlHeaderComponent implements OnInit {
 
   viewModeOptions: ReadonlyArray<ViewModeOption> = [
     { viewMode: ViewMode.List, icon: 'list' },
-    { viewMode: ViewMode.Grid, icon: 'view_module' }
+    { viewMode: ViewMode.Grid, icon: 'view_module' },
   ];
 
   constructor(

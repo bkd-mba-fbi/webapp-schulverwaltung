@@ -3,12 +3,12 @@ import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import {
   buildLessonPresence,
   buildPresenceType,
-  buildReference
+  buildReference,
 } from 'src/spec-builders';
 import { settings } from 'src/spec-helpers';
 import {
   updateCommentForPresence,
-  updatePresenceTypeForPresences
+  updatePresenceTypeForPresences,
 } from './lesson-presences';
 
 describe('lesson presences utils', () => {
@@ -96,7 +96,7 @@ describe('lesson presences utils', () => {
       deutschEinsteinAbwesend,
       deutschFrisch,
       deutschWalser,
-      deutschCurrieAbwesend
+      deutschCurrieAbwesend,
     ];
 
     presenceTypes = [absent, late, comment];
@@ -109,7 +109,7 @@ describe('lesson presences utils', () => {
         [
           { presence: deutschEinsteinAbwesend, newPresenceTypeId: null },
           { presence: deutschFrisch, newPresenceTypeId: late.Id },
-          { presence: deutschCurrieAbwesend, newPresenceTypeId: null }
+          { presence: deutschCurrieAbwesend, newPresenceTypeId: null },
         ],
         presenceTypes,
         settings
@@ -120,14 +120,14 @@ describe('lesson presences utils', () => {
 
       expect(result[1].TypeRef).toEqual({
         Id: comment.Id,
-        HRef: null
+        HRef: null,
       });
       expect(result[1].Type).toBeNull();
       expect(result[1].Comment).toBe('e = mc^2');
 
       expect(result[2].TypeRef).toEqual({
         Id: late.Id,
-        HRef: null
+        HRef: null,
       });
       expect(result[2].Type).toBe('Verspätet');
 
@@ -156,7 +156,7 @@ describe('lesson presences utils', () => {
       expect(result[1].Type).toBe('Abwesend');
       expect(result[1].TypeRef).toEqual({
         Id: absent.Id,
-        HRef: null
+        HRef: null,
       });
     });
 
@@ -177,7 +177,7 @@ describe('lesson presences utils', () => {
       expect(result[1].Type).toBe('Abwesend');
       expect(result[1].TypeRef).toEqual({
         Id: absent.Id,
-        HRef: null
+        HRef: null,
       });
     });
 
@@ -198,7 +198,7 @@ describe('lesson presences utils', () => {
       expect(result[2].Type).toBeNull();
       expect(result[2].TypeRef).toEqual({
         Id: comment.Id,
-        HRef: null
+        HRef: null,
       });
     });
 

@@ -13,7 +13,7 @@ describe('RestService', () => {
   let service: FooService;
   let httpTestingController: HttpTestingController;
   const Foo = t.type({
-    foo: t.string
+    foo: t.string,
   });
 
   @Injectable()
@@ -26,18 +26,18 @@ describe('RestService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        providers: [FooService]
+        providers: [FooService],
       })
     );
-    service = TestBed.get(FooService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(FooService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpTestingController.verify());
 
   describe('.get', () => {
     it('requests single instance with given id', () => {
-      service.get(123).subscribe(result => {
+      service.get(123).subscribe((result) => {
         expect(result).toEqual({ foo: 'bar' });
       });
 
@@ -68,7 +68,7 @@ describe('RestService', () => {
 
   describe('.getList', () => {
     it('requests multiple instances', () => {
-      service.getList().subscribe(result => {
+      service.getList().subscribe((result) => {
         expect(result).toEqual([{ foo: 'bar' }, { foo: 'baz' }]);
       });
 

@@ -11,7 +11,7 @@ describe('PresenceControlHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlHeaderComponent]
+        declarations: [PresenceControlHeaderComponent],
       })
     ).compileComponents();
   }));
@@ -24,7 +24,7 @@ describe('PresenceControlHeaderComponent', () => {
       EventDesignation: 'Deutsch',
       StudyClassNumber: 'DHF2018a',
       LessonDateTimeFrom: new Date(),
-      LessonDateTimeTo: new Date()
+      LessonDateTimeTo: new Date(),
     };
     fixture.detectChanges();
   });

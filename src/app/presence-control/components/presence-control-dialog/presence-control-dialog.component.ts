@@ -10,7 +10,7 @@ interface LessonPresenceOption {
 
 @Component({
   selector: 'erz-presence-control-dialog-component',
-  templateUrl: './presence-control-dialog.component.html'
+  templateUrl: './presence-control-dialog.component.html',
 })
 export class PresenceControlDialogComponent implements OnInit {
   @Input() entry: PresenceControlEntry;
@@ -19,8 +19,8 @@ export class PresenceControlDialogComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
-    this.lessonPresenceOptions = this.blockLessonPresences.map(lessonPresence =>
-      this.createLessonPresenceOption(lessonPresence)
+    this.lessonPresenceOptions = this.blockLessonPresences.map(
+      (lessonPresence) => this.createLessonPresenceOption(lessonPresence)
     );
   }
 
@@ -36,7 +36,7 @@ export class PresenceControlDialogComponent implements OnInit {
     return {
       lessonPresence,
       selected:
-        lessonPresence.LessonRef.Id === this.entry.lessonPresence.LessonRef.Id
+        lessonPresence.LessonRef.Id === this.entry.lessonPresence.LessonRef.Id,
     };
   }
 }

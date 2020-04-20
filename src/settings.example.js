@@ -36,5 +36,5 @@ window.absenzenmanagement.settings = {
   unexcusedAbsenceStateId: 225,
 
   // Id of the confirmation state for absences with valid excuse
-  excusedAbsenceStateId: 220
+  excusedAbsenceStateId: 220,
 };

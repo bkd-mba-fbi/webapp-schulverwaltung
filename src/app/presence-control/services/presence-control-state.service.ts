@@ -4,7 +4,7 @@ import {
   combineLatest,
   merge,
   Observable,
-  Subject
+  Subject,
 } from 'rxjs';
 import {
   map,
@@ -12,7 +12,7 @@ import {
   switchMap,
   take,
   withLatestFrom,
-  distinctUntilChanged
+  distinctUntilChanged,
 } from 'rxjs/operators';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { Lesson } from '../../shared/models/lesson.model';
@@ -24,19 +24,19 @@ import {
   isFirstElement,
   isLastElement,
   nextElement,
-  previousElement
+  previousElement,
 } from '../../shared/utils/array';
 import { spreadTriplet, spreadTuple } from '../../shared/utils/function';
 import {
   extractLessons,
   getCurrentLesson,
   getPresenceControlEntriesForLesson,
-  lessonsEqual
+  lessonsEqual,
 } from '../utils/lessons';
 import { getCategoryCount } from '../utils/presence-control-entries';
 import {
   updatePresenceTypeForPresences,
-  updateCommentForPresence
+  updateCommentForPresence,
 } from '../utils/lesson-presences';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
@@ -46,7 +46,7 @@ import { isToday } from 'date-fns';
 
 export enum ViewMode {
   Grid = 'grid',
-  List = 'list'
+  List = 'list',
 }
 
 @Injectable()
@@ -78,11 +78,11 @@ export class PresenceControlStateService {
   selectedLesson$ = merge(this.currentLesson$, this.selectLesson$).pipe(
     shareReplay(1)
   );
-  selectedPresenceControlEntries$ = combineLatest(
+  selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
-    this.presenceTypes$
-  ).pipe(
+    this.presenceTypes$,
+  ]).pipe(
     map(spreadTriplet(getPresenceControlEntriesForLesson)),
     shareReplay(1)
   );
@@ -97,10 +97,10 @@ export class PresenceControlStateService {
     map(getCategoryCount('late'))
   );
 
-  isFirstLesson$ = combineLatest(this.selectedLesson$, this.lessons$).pipe(
+  isFirstLesson$ = combineLatest([this.selectedLesson$, this.lessons$]).pipe(
     map(spreadTuple(isFirstElement(lessonsEqual)))
   );
-  isLastLesson$ = combineLatest(this.selectedLesson$, this.lessons$).pipe(
+  isLastLesson$ = combineLatest([this.selectedLesson$, this.lessons$]).pipe(
     map(spreadTuple(isLastElement(lessonsEqual)))
   );
 
@@ -125,7 +125,7 @@ export class PresenceControlStateService {
         withLatestFrom(this.lessons$),
         map(spreadTuple(previousElement(lessonsEqual)))
       )
-      .subscribe(lesson => this.selectLesson$.next(lesson));
+      .subscribe((lesson) => this.selectLesson$.next(lesson));
   }
 
   nextLesson(): void {
@@ -135,7 +135,7 @@ export class PresenceControlStateService {
         withLatestFrom(this.lessons$),
         map(spreadTuple(nextElement(lessonsEqual)))
       )
-      .subscribe(lesson => this.selectLesson$.next(lesson));
+      .subscribe((lesson) => this.selectLesson$.next(lesson));
   }
 
   setViewMode(mode: ViewMode): void {
@@ -145,10 +145,10 @@ export class PresenceControlStateService {
   updateLessonPresencesTypes(
     updates: ReadonlyArray<LessonPresenceUpdate>
   ): void {
-    combineLatest(
+    combineLatest([
       this.lessonPresences$.pipe(take(1)),
-      this.presenceTypes$.pipe(take(1))
-    )
+      this.presenceTypes$.pipe(take(1)),
+    ])
       .pipe(
         map(([lessonPresences, presenceTypes]) =>
           updatePresenceTypeForPresences(
@@ -159,7 +159,7 @@ export class PresenceControlStateService {
           )
         )
       )
-      .subscribe(lessonPresences =>
+      .subscribe((lessonPresences) =>
         this.updateLessonPresences$.next(lessonPresences)
       );
   }
@@ -168,10 +168,10 @@ export class PresenceControlStateService {
     lessonPresence: LessonPresence,
     newComment: Option<string>
   ): void {
-    combineLatest(
+    combineLatest([
       this.lessonPresences$.pipe(take(1)),
-      this.presenceTypes$.pipe(take(1))
-    )
+      this.presenceTypes$.pipe(take(1)),
+    ])
       .pipe(
         map(([lessonPresences, presenceTypes]) =>
           updateCommentForPresence(
@@ -182,7 +182,7 @@ export class PresenceControlStateService {
           )
         )
       )
-      .subscribe(lessonPresences =>
+      .subscribe((lessonPresences) =>
         this.updateLessonPresences$.next(lessonPresences)
       );
   }
@@ -192,7 +192,7 @@ export class PresenceControlStateService {
   ): Observable<Option<PresenceType>> {
     return this.presenceTypes$.pipe(
       take(1),
-      map(presenceTypes => entry.getNextPresenceType(presenceTypes))
+      map((presenceTypes) => entry.getNextPresenceType(presenceTypes))
     );
   }
 
@@ -206,9 +206,9 @@ export class PresenceControlStateService {
     return this.selectedPresenceControlEntries$.pipe(
       take(1),
       map(
-        entries =>
+        (entries) =>
           entries.find(
-            e =>
+            (e) =>
               e.lessonPresence.StudentRef.Id === studentId &&
               e.lessonPresence.LessonRef.Id === lessonId
           ) || null
@@ -222,19 +222,19 @@ export class PresenceControlStateService {
   getBlockLessonPresences(
     entry: PresenceControlEntry
   ): Observable<ReadonlyArray<LessonPresence>> {
-    return combineLatest(
+    return combineLatest([
       this.lessonPresences$.pipe(take(1)),
-      this.presenceTypes$.pipe(take(1))
-    ).pipe(
+      this.presenceTypes$.pipe(take(1)),
+    ]).pipe(
       map(([presences, types]) =>
         presences
           .filter(
-            presence =>
+            (presence) =>
               presence.EventRef.Id === entry.lessonPresence.EventRef.Id &&
               presence.StudentRef.Id === entry.lessonPresence.StudentRef.Id &&
               canChangePresenceType(
                 presence,
-                types.find(t => t.Id === presence.TypeRef.Id) || null,
+                types.find((t) => t.Id === presence.TypeRef.Id) || null,
                 this.settings
               )
           )

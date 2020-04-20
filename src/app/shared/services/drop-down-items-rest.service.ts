@@ -8,7 +8,7 @@ import { DropDownItem } from '../models/drop-down-item.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DropDownItemsRestService {
   constructor(
@@ -19,10 +19,7 @@ export class DropDownItemsRestService {
   getAbsenceConfirmationStates(): Observable<ReadonlyArray<DropDownItem>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/AbsenceConfirmationStates`)
-      .pipe(
-        switchMap(decodeArray(DropDownItem)),
-        shareReplay(1)
-      );
+      .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
   }
 
   private get baseUrl(): string {

@@ -6,7 +6,7 @@ import { mapTo } from 'rxjs/operators';
 import { SETTINGS, Settings } from 'src/app/settings';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LessonPresencesUpdateRestService {
   constructor(
@@ -24,7 +24,7 @@ export class LessonPresencesUpdateRestService {
   ): Observable<void> {
     const body: Dict<any> = {
       LessonIds: lessonIds,
-      PersonIds: personIds
+      PersonIds: personIds,
     };
     if (presenceTypeId !== undefined) {
       body.PresenceTypeId = presenceTypeId;
@@ -38,7 +38,7 @@ export class LessonPresencesUpdateRestService {
 
     return this.http
       .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit`, body, {
-        params
+        params,
       })
       .pipe(mapTo(undefined));
   }
@@ -53,7 +53,7 @@ export class LessonPresencesUpdateRestService {
         `${this.settings.apiUrl}/LessonPresences/Reset`,
         {
           LessonIds: lessonIds,
-          PersonIds: personIds
+          PersonIds: personIds,
         },
         { params }
       )
@@ -70,7 +70,7 @@ export class LessonPresencesUpdateRestService {
       LessonIds: lessonIds,
       PersonIds: personIds,
       AbsenceTypeId: absenceTypeId,
-      ConfirmationValue: confirmationValue
+      ConfirmationValue: confirmationValue,
     };
 
     return this.http

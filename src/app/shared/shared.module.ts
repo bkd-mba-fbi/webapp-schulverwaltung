@@ -22,14 +22,14 @@ const components = [
   AvatarComponent,
   TypeaheadComponent,
   DateSelectComponent,
-  SelectComponent
+  SelectComponent,
 ];
 
 @NgModule({
   declarations: [...components],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },
   ],
   imports: [
     CommonModule,
@@ -40,7 +40,7 @@ const components = [
     TranslateModule.forChild(),
     NgbModule,
     NgxAutogrowModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
   ],
   exports: [
     CommonModule,
@@ -52,7 +52,7 @@ const components = [
     NgbModule,
     NgxAutogrowModule,
     InfiniteScrollModule,
-    ...components
-  ]
+    ...components,
+  ],
 })
 export class SharedModule {}

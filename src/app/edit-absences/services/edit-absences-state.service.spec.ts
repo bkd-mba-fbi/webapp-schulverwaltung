@@ -11,7 +11,7 @@ describe('EditAbsencesStateService', () => {
   );
 
   it('should be created', () => {
-    const service: EditAbsencesStateService = TestBed.get(
+    const service: EditAbsencesStateService = TestBed.inject(
       EditAbsencesStateService
     );
     expect(service).toBeTruthy();

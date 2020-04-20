@@ -3,7 +3,7 @@ import {
   Component,
   Inject,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -18,7 +18,7 @@ import {
   shareReplay,
   startWith,
   take,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
@@ -34,14 +34,14 @@ enum Category {
   Dispensation = 'dispensation',
   HalfDay = 'half-day',
   Late = 'late',
-  Present = 'present'
+  Present = 'present',
 }
 
 @Component({
   selector: 'erz-edit-absences-edit',
   templateUrl: './edit-absences-edit.component.html',
   styleUrls: ['./edit-absences-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   formGroup = this.createFormGroup();
@@ -49,21 +49,21 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = combineLatest(
+  formErrors$ = combineLatest([
     getValidationErrors(this.formGroup),
-    this.submitted$
-  ).pipe(
-    filter(v => v[1]),
-    map(v => v[0]),
+    this.submitted$,
+  ]).pipe(
+    filter((v) => v[1]),
+    map((v) => v[0]),
     startWith([])
   );
 
-  absenceTypeIdErrors$ = combineLatest(
+  absenceTypeIdErrors$ = combineLatest([
     getValidationErrors(this.formGroup.get('absenceTypeId')),
-    this.submitted$
-  ).pipe(
-    filter(v => v[1]),
-    map(v => v[0]),
+    this.submitted$,
+  ]).pipe(
+    filter((v) => v[1]),
+    map((v) => v[0]),
     startWith([])
   );
 
@@ -72,20 +72,16 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     Category.Dispensation,
     Category.HalfDay,
     Category.Late,
-    Category.Present
+    Category.Present,
   ];
 
   confirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
-    .pipe(
-      map(this.sortAbsenceConfirmationStates.bind(this)),
-      shareReplay(1)
-    );
+    .pipe(map(this.sortAbsenceConfirmationStates.bind(this)), shareReplay(1));
 
-  absenceTypes$ = this.presenceTypesService.getConfirmationTypes().pipe(
-    map(sortPresenceTypes),
-    shareReplay(1)
-  );
+  absenceTypes$ = this.presenceTypesService
+    .getConfirmationTypes()
+    .pipe(map(sortPresenceTypes), shareReplay(1));
 
   private destroy$ = new Subject<void>();
 
@@ -142,7 +138,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       const {
         category,
         confirmationValue,
-        absenceTypeId
+        absenceTypeId,
       } = this.fetchAndProcessFormValues();
       this.save(category, confirmationValue, absenceTypeId);
     }
@@ -157,9 +153,9 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       category: [Category.Absent, Validators.required],
       confirmationValue: [
         this.settings.excusedAbsenceStateId,
-        Validators.required
+        Validators.required,
       ],
-      absenceTypeId: [null, Validators.required]
+      absenceTypeId: [null, Validators.required],
     });
   }
 
@@ -217,7 +213,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     return {
       category,
       confirmationValue,
-      absenceTypeId
+      absenceTypeId,
     };
   }
 
@@ -234,7 +230,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     } else {
       requests = this.createEditBulkRequests(confirmationValue, absenceTypeId);
     }
-    combineLatest(requests)
+    combineLatest(requests) // tslint:disable-line
       .pipe(finalize(() => this.saving$.next(false)))
       .subscribe(this.onSaveSuccess.bind(this));
   }
@@ -268,9 +264,9 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   }
 
   private navigateBack(): void {
-    this.route.queryParams.pipe(take(1)).subscribe(params => {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.router.navigate(['/edit-absences'], {
-        queryParams: convertQueryStringToParams(params.returnparams)
+        queryParams: convertQueryStringToParams(params.returnparams),
       });
     });
   }

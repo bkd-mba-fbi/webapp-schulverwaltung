@@ -21,13 +21,13 @@ describe('OpenAbsencesDetailComponent', () => {
   beforeEach(async(() => {
     activatedRouteMock = new ActivatedRouteMock({
       date: '2000-01-23',
-      personId: 21
+      personId: 21,
     });
 
     presenceA = buildLessonPresenceWithIds(10, 21, new Date(2000, 0, 23, 12));
     presenceB = buildLessonPresenceWithIds(11, 21, new Date(2000, 0, 23, 13));
     [presenceA, presenceB].forEach(
-      p => (p.StudentFullName = 'Einstein Albert')
+      (p) => (p.StudentFullName = 'Einstein Albert')
     );
 
     TestBed.configureTestingModule(
@@ -41,14 +41,14 @@ describe('OpenAbsencesDetailComponent', () => {
               getUnconfirmedAbsences: jasmine
                 .createSpy('getUnconfirmedAbsences')
                 .and.returnValue(of([presenceA, presenceB])),
-              selected: []
-            }
-          }
-        ]
+              selected: [],
+            },
+          },
+        ],
       })
     ).compileComponents();
 
-    openAbsencesService = TestBed.get(OpenAbsencesService);
+    openAbsencesService = TestBed.inject(OpenAbsencesService);
   }));
 
   beforeEach(() => {
@@ -88,12 +88,12 @@ describe('OpenAbsencesDetailComponent', () => {
 
       toggleCheckbox(1);
       expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10] }
+        { personIds: [21], lessonIds: [10] },
       ]);
 
       toggleCheckbox(2);
       expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10, 11] }
+        { personIds: [21], lessonIds: [10, 11] },
       ]);
 
       toggleCheckbox(1);
@@ -105,7 +105,7 @@ describe('OpenAbsencesDetailComponent', () => {
       const selectAllCheckbox = getCheckbox(0);
       toggleCheckbox(0);
       expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10, 11] }
+        { personIds: [21], lessonIds: [10, 11] },
       ]);
 
       toggleCheckbox(0);

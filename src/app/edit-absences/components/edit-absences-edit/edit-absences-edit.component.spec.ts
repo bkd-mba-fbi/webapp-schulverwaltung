@@ -19,10 +19,10 @@ describe('EditAbsencesEditComponent', () => {
             useValue: {
               presenceTypes$: of([]),
               selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
-              resetSelection: jasmine.createSpy('resetSelection')
-            }
-          }
-        ]
+              resetSelection: jasmine.createSpy('resetSelection'),
+            },
+          },
+        ],
       })
     ).compileComponents();
   }));

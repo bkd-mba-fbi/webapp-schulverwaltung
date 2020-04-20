@@ -7,14 +7,14 @@ import {
   throwError,
   MonoTypeOperatorFunction,
   Observable,
-  defer
+  defer,
 } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 export function catch404<T, O extends ObservableInput<any>>(
   returnValue?: any
 ): OperatorFunction<T, Option<T | ObservedValueOf<O>>> {
-  return catchError(error => {
+  return catchError((error) => {
     if (error instanceof HttpErrorResponse && error.status === 404) {
       return of(returnValue || null);
     } else {
@@ -31,7 +31,7 @@ export function catch404<T, O extends ObservableInput<any>>(
 export function log<T>(
   message: Option<string> = null
 ): MonoTypeOperatorFunction<T> {
-  return input$ =>
+  return (input$) =>
     input$.pipe(
       tap((x: T) => (message ? console.log(message, x) : console.log(x)))
     );

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PresenceTypesRestService extends RestService<typeof PresenceType> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
@@ -21,9 +21,9 @@ export class PresenceTypesRestService extends RestService<typeof PresenceType> {
     // that, exclude the default absence presence type and inactive
     // presence types.
     return this.getList().pipe(
-      map(types =>
+      map((types) =>
         types.filter(
-          t =>
+          (t) =>
             t.NeedsConfirmation &&
             t.Active &&
             t.Id !== this.settings.absencePresenceTypeId

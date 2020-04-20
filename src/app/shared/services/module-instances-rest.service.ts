@@ -6,7 +6,7 @@ import { TypeaheadRestService } from './typeahead-rest.service';
 import { ModuleInstance } from '../models/module-instance.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModuleInstancesRestService extends TypeaheadRestService<
   typeof ModuleInstance

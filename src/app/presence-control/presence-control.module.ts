@@ -20,9 +20,9 @@ import { PresenceControlDialogComponent } from './components/presence-control-di
     PresenceControlDetailComponent,
     PresenceControlEntryComponent,
     PresenceControlBackComponent,
-    PresenceControlDialogComponent
+    PresenceControlDialogComponent,
   ],
   imports: [SharedModule, PresenceControlRoutingModule],
-  entryComponents: [PresenceControlDialogComponent]
+  entryComponents: [PresenceControlDialogComponent],
 })
 export class PresenceControlModule {}

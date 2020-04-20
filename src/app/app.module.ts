@@ -43,23 +43,23 @@ registerLocaleData(localeFRCH);
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient, SETTINGS]
-      }
+        deps: [HttpClient, SETTINGS],
+      },
     }),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-      preventDuplicates: true
+      preventDuplicates: true,
     }),
-    SharedModule
+    SharedModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: LOCALE_ID,
       useFactory: (i18nService: I18nService) => i18nService.detectLanguage(),
-      deps: [I18nService]
-    }
+      deps: [I18nService],
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

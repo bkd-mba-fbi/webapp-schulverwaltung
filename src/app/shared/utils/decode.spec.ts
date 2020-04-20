@@ -3,7 +3,7 @@ import { decode, decodeArray, DecodeError } from './decode';
 
 describe('decode utils', () => {
   const Foo = t.type({
-    foo: t.string
+    foo: t.string,
   });
   let success: jasmine.Spy;
   let error: jasmine.Spy;

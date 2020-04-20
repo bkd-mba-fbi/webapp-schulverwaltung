@@ -15,8 +15,8 @@ describe('EditAbsencesComponent', () => {
         declarations: [
           EditAbsencesComponent,
           EditAbsencesHeaderComponent,
-          EditAbsencesListComponent
-        ]
+          EditAbsencesListComponent,
+        ],
       })
     ).compileComponents();
   }));

@@ -4,7 +4,7 @@ import {
   Subject,
   ReplaySubject,
   ConnectableObservable,
-  Subscription
+  Subscription,
 } from 'rxjs';
 import {
   map,
@@ -13,7 +13,7 @@ import {
   pluck,
   startWith,
   distinctUntilChanged,
-  multicast
+  multicast,
 } from 'rxjs/operators';
 import { prepare } from '../utils/observable';
 
@@ -29,28 +29,25 @@ interface LoadingCounts {
 const DEFAULT_CONTEXT = 'default';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService implements OnDestroy {
   private action$ = new Subject<LoadingAction>();
   private loadingCountsSub: Subscription;
 
   loadingCounts$ = this.action$.pipe(
-    scan(
-      (counts, { action, context }) => {
-        switch (action) {
-          case 'increment':
-            counts[context] = (counts[context] || 0) + 1;
-            return counts;
-          case 'decrement':
-            counts[context] = Math.max(0, (counts[context] || 0) - 1);
-            return counts;
-          default:
-            return counts;
-        }
-      },
-      {} as LoadingCounts
-    ),
+    scan((counts, { action, context }) => {
+      switch (action) {
+        case 'increment':
+          counts[context] = (counts[context] || 0) + 1;
+          return counts;
+        case 'decrement':
+          counts[context] = Math.max(0, (counts[context] || 0) - 1);
+          return counts;
+        default:
+          return counts;
+      }
+    }, {} as LoadingCounts),
     startWith({} as LoadingCounts),
     multicast(() => new ReplaySubject<LoadingCounts>(1)) // Make it hot
   );

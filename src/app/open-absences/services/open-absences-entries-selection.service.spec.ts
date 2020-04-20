@@ -11,18 +11,18 @@ describe('OpenAbsencesEntriesSelectionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OpenAbsencesEntriesSelectionService]
+      providers: [OpenAbsencesEntriesSelectionService],
     });
-    service = TestBed.get(OpenAbsencesEntriesSelectionService);
+    service = TestBed.inject(OpenAbsencesEntriesSelectionService);
 
     entryA = new OpenAbsencesEntry([
       buildLessonPresenceWithIds(10, 21),
-      buildLessonPresenceWithIds(11, 21)
+      buildLessonPresenceWithIds(11, 21),
     ]);
 
     entryB = new OpenAbsencesEntry([
       buildLessonPresenceWithIds(10, 22),
-      buildLessonPresenceWithIds(12, 22)
+      buildLessonPresenceWithIds(12, 22),
     ]);
   });
 
@@ -35,14 +35,14 @@ describe('OpenAbsencesEntriesSelectionService', () => {
 
       service.toggle(entryA);
       expect(selectedIdsCallback).toHaveBeenCalledWith([
-        { personIds: [21], lessonIds: [10, 11] }
+        { personIds: [21], lessonIds: [10, 11] },
       ]);
 
       selectedIdsCallback.calls.reset();
       service.toggle(entryB);
       expect(selectedIdsCallback).toHaveBeenCalledWith([
         { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10, 12] }
+        { personIds: [22], lessonIds: [10, 12] },
       ]);
 
       selectedIdsCallback.calls.reset();

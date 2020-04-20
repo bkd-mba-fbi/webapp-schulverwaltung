@@ -17,15 +17,15 @@ describe('EvaluateAbsencesListComponent', () => {
     statistic = buildLessonPresenceStatistic(333);
 
     stateServiceMock = ({
-      entries$: of([statistic])
+      entries$: of([statistic]),
     } as unknown) as EvaluateAbsencesStateService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [EvaluateAbsencesListComponent],
         providers: [
-          { provide: EvaluateAbsencesStateService, useValue: stateServiceMock }
-        ]
+          { provide: EvaluateAbsencesStateService, useValue: stateServiceMock },
+        ],
       })
     ).compileComponents();
   }));

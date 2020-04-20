@@ -2,7 +2,7 @@ import {
   parseISOLocalDateTime,
   formatISOLocalDateTime,
   parseISOLocalDate,
-  formatISOLocalDate
+  formatISOLocalDate,
 } from './date';
 
 describe('date utils', () => {

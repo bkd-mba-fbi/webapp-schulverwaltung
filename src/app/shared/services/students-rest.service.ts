@@ -11,7 +11,7 @@ import { LegalRepresentative } from '../models/legal-representative.model';
 import { ApprenticeshipContract } from '../models/apprenticeship-contract.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StudentsRestService extends TypeaheadRestService<typeof Student> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
@@ -24,7 +24,7 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
   ): Observable<ReadonlyArray<LegalRepresentative>> {
     return this.http
       .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives`, {
-        params
+        params,
       })
       .pipe(switchMap(decodeArray(LegalRepresentative)));
   }
@@ -37,7 +37,7 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
       .get<any>(
         `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current`,
         {
-          params
+          params,
         }
       )
       .pipe(switchMap(decodeArray(ApprenticeshipContract)));

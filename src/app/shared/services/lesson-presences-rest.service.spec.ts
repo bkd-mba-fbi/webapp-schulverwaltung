@@ -12,8 +12,8 @@ describe('LessonPresencesRestService', () => {
   let storeMock: any;
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
-    service = TestBed.get(LessonPresencesRestService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(LessonPresencesRestService);
+    httpTestingController = TestBed.inject(HttpTestingController);
 
     storeMock = {};
     spyOn(localStorage, 'getItem').and.callFake(
@@ -27,7 +27,7 @@ describe('LessonPresencesRestService', () => {
   describe('.get', () => {
     const ref = {
       Id: 123,
-      HRef: ''
+      HRef: '',
     };
     const data: Readonly<any> = {
       Id: '1',
@@ -51,11 +51,11 @@ describe('LessonPresencesRestService', () => {
       StudentFullName: '',
       StudyClassDesignation: '',
       StudyClassNumber: '',
-      TeacherInformation: ''
+      TeacherInformation: '',
     };
 
     it('decodes ISO date strings to date objects', () => {
-      service.get(123).subscribe(result => {
+      service.get(123).subscribe((result) => {
         expect(result.LessonDateTimeFrom).toEqual(
           new Date('2019-04-25T07:45:00')
         );
@@ -76,12 +76,12 @@ describe('LessonPresencesRestService', () => {
       const data: any[] = [];
       service
         .getListByDate(new Date(2000, 0, 23))
-        .subscribe(result => expect(result).toBe(data));
+        .subscribe((result) => expect(result).toBe(data));
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23';
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
   });
@@ -89,11 +89,13 @@ describe('LessonPresencesRestService', () => {
   describe('.getListForToday', () => {
     it("fetches list filtered by today's date", () => {
       const data: any[] = [];
-      service.getListForToday().subscribe(result => expect(result).toBe(data));
+      service
+        .getListForToday()
+        .subscribe((result) => expect(result).toBe(data));
 
       const url = 'https://eventotest.api/LessonPresences/Today';
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
   });
@@ -103,12 +105,12 @@ describe('LessonPresencesRestService', () => {
       const data: any[] = [];
       service
         .getListOfUnconfirmedLessonTeacher()
-        .subscribe(result => expect(result).toBe(data));
+        .subscribe((result) => expect(result).toBe(data));
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
   });
@@ -120,12 +122,12 @@ describe('LessonPresencesRestService', () => {
       const data: any[] = [];
       service
         .getListOfUnconfirmedClassTeacher()
-        .subscribe(result => expect(result).toBe(data));
+        .subscribe((result) => expect(result).toBe(data));
 
       const url =
         'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
   });
@@ -138,7 +140,7 @@ describe('LessonPresencesRestService', () => {
       filter = {
         student: null,
         moduleInstance: null,
-        studyClass: null
+        studyClass: null,
       };
     });
 
@@ -151,10 +153,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getStatistics(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
 
@@ -165,10 +167,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getStatistics(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
   });
@@ -185,7 +187,7 @@ describe('LessonPresencesRestService', () => {
         dateFrom: null,
         dateTo: null,
         presenceType: null,
-        confirmationState: null
+        confirmationState: null,
       };
     });
 
@@ -199,10 +201,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getFilteredList(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
 
@@ -220,10 +222,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getFilteredList(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
 
@@ -235,10 +237,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getFilteredList(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
 
@@ -250,10 +252,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getFilteredList(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
 
@@ -266,10 +268,10 @@ describe('LessonPresencesRestService', () => {
 
       service
         .getFilteredList(filter, 0)
-        .subscribe(result => expect(result.entries).toBe(data));
+        .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
   });

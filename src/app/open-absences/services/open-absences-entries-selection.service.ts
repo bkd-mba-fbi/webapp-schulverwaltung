@@ -11,6 +11,6 @@ export class OpenAbsencesEntriesSelectionService extends SelectionService<
   OpenAbsencesEntry
 > {
   selectedIds$ = this.selection$.pipe(
-    map(entries => getIdsGroupedByPerson(flattenOpenAbsencesEntries(entries)))
+    map((entries) => getIdsGroupedByPerson(flattenOpenAbsencesEntries(entries)))
   );
 }

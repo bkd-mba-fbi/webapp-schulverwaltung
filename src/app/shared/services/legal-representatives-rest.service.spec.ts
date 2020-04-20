@@ -7,7 +7,7 @@ describe('LegalRepresentativesRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: LegalRepresentativesRestService = TestBed.get(
+    const service: LegalRepresentativesRestService = TestBed.inject(
       LegalRepresentativesRestService
     );
     expect(service).toBeTruthy();

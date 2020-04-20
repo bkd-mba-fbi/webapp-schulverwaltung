@@ -4,12 +4,12 @@ import {
   EventEmitter,
   OnInit,
   Output,
-  Input
+  Input,
 } from '@angular/core';
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
-  NgbDateParserFormatter
+  NgbDateParserFormatter,
 } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 
@@ -22,7 +22,7 @@ import { StudentsRestService } from 'src/app/shared/services/students-rest.servi
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import {
   EditAbsencesFilter,
-  EditAbsencesStateService
+  EditAbsencesStateService,
 } from '../../services/edit-absences-state.service';
 
 @Component({
@@ -31,9 +31,9 @@ import {
   styleUrls: ['./edit-absences-header.component.scss'],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesHeaderComponent implements OnInit {
   @Input()
@@ -44,7 +44,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
     dateFrom: null,
     dateTo: null,
     presenceType: null,
-    confirmationState: null
+    confirmationState: null,
   };
 
   @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
@@ -52,7 +52,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
   absenceConfirmationStates$ = this.state.absenceConfirmationStates$;
 
   presenceTypes$ = this.state.presenceTypes$.pipe(
-    map(presenceTypes => presenceTypes.filter(not(isComment))),
+    map((presenceTypes) => presenceTypes.filter(not(isComment))),
     map(createPresenceTypesDropdownItems)
   );
 

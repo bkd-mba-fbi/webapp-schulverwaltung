@@ -9,7 +9,7 @@ import {
   buildLessonPresence,
   buildLesson,
   buildPresenceType,
-  buildPresenceControlEntry
+  buildPresenceControlEntry,
 } from 'src/spec-builders';
 import { PresenceType } from '../../shared/models/presence-type.model';
 
@@ -39,8 +39,8 @@ describe('PresenceControlStateService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({ providers: [PresenceControlStateService] })
     );
-    httpTestingController = TestBed.get(HttpTestingController);
-    service = TestBed.get(PresenceControlStateService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(PresenceControlStateService);
 
     selectedLessonCb = jasmine.createSpy('selectedLesson$ callback');
     service.selectedLesson$.subscribe(selectedLessonCb);
@@ -110,7 +110,7 @@ describe('PresenceControlStateService', () => {
       deutschEinsteinAbwesend,
       deutschFrisch,
       mathEinstein1,
-      mathEinstein2
+      mathEinstein2,
     ];
   });
 
@@ -143,7 +143,7 @@ describe('PresenceControlStateService', () => {
     );
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
       buildPresenceControlEntry(deutschEinsteinAbwesend, absent),
-      buildPresenceControlEntry(deutschFrisch)
+      buildPresenceControlEntry(deutschFrisch),
     ]);
     expect(isFirstLessonCb).toHaveBeenCalledWith(false);
     expect(isLastLessonCb).toHaveBeenCalledWith(false);
@@ -174,7 +174,7 @@ describe('PresenceControlStateService', () => {
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(werkenFrisch)
+        buildPresenceControlEntry(werkenFrisch),
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(true);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);
@@ -197,7 +197,7 @@ describe('PresenceControlStateService', () => {
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(turnenFrisch)
+        buildPresenceControlEntry(turnenFrisch),
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(true);
       expect(isLastLessonCb).toHaveBeenCalledWith(false);
@@ -220,7 +220,7 @@ describe('PresenceControlStateService', () => {
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(mathEinstein1)
+        buildPresenceControlEntry(mathEinstein1),
       ]);
       expect(isFirstLessonCb).toHaveBeenCalledWith(false);
       expect(isLastLessonCb).toHaveBeenCalledWith(true);
@@ -235,7 +235,7 @@ describe('PresenceControlStateService', () => {
       resetCallbackSpies();
 
       service.updateLessonPresencesTypes([
-        { presence: mathEinstein1, newPresenceTypeId: absent.Id }
+        { presence: mathEinstein1, newPresenceTypeId: absent.Id },
       ]);
 
       expect(selectedLessonCb).not.toHaveBeenCalled();
@@ -274,7 +274,7 @@ describe('PresenceControlStateService', () => {
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
-        .subscribe(result =>
+        .subscribe((result) =>
           expect(result).toEqual([mathEinstein1, mathEinstein2])
         );
     });
@@ -294,7 +294,7 @@ describe('PresenceControlStateService', () => {
       : 'https://eventotest.api/LessonPresences/Today';
 
     httpTestingController
-      .expectOne(req => req.urlWithParams === url, url)
+      .expectOne((req) => req.urlWithParams === url, url)
       .flush(t.array(LessonPresence).encode(response));
   }
 

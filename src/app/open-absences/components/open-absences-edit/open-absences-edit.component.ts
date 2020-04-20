@@ -9,7 +9,7 @@ import {
   finalize,
   shareReplay,
   take,
-  startWith
+  startWith,
 } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,7 +28,7 @@ import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 @Component({
   selector: 'erz-open-absences-edit',
   templateUrl: './open-absences-edit.component.html',
-  styleUrls: ['./open-absences-edit.component.scss']
+  styleUrls: ['./open-absences-edit.component.scss'],
 })
 export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
   formGroup = this.createFormGroup();
@@ -36,21 +36,21 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = combineLatest(
+  formErrors$ = combineLatest([
     getValidationErrors(this.formGroup),
-    this.submitted$
-  ).pipe(
-    filter(v => v[1]),
-    map(v => v[0]),
+    this.submitted$,
+  ]).pipe(
+    filter((v) => v[1]),
+    map((v) => v[0]),
     startWith([])
   );
 
-  absenceTypeIdErrors$ = combineLatest(
+  absenceTypeIdErrors$ = combineLatest([
     getValidationErrors(this.formGroup.get('absenceTypeId')),
-    this.submitted$
-  ).pipe(
-    filter(v => v[1]),
-    map(v => v[0]),
+    this.submitted$,
+  ]).pipe(
+    filter((v) => v[1]),
+    map((v) => v[0]),
     startWith([])
   );
 
@@ -67,10 +67,9 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
     this.settings.unexcusedAbsenceStateId
   );
 
-  absenceTypes$ = this.presenceTypesService.getConfirmationTypes().pipe(
-    map(sortPresenceTypes),
-    shareReplay(1)
-  );
+  absenceTypes$ = this.presenceTypesService
+    .getConfirmationTypes()
+    .pipe(map(sortPresenceTypes), shareReplay(1));
 
   private destroy$ = new Subject<void>();
 
@@ -101,7 +100,7 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
         .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
 
       // Disable form when saving
-      this.saving$.pipe(takeUntil(this.destroy$)).subscribe(saving => {
+      this.saving$.pipe(takeUntil(this.destroy$)).subscribe((saving) => {
         if (saving) {
           confirmationValueControl.disable();
           absenceTypeIdControl.disable();
@@ -113,11 +112,8 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
 
       // Initially select excused state radio button
       this.excusedState$
-        .pipe(
-          take(1),
-          filter(notNull)
-        )
-        .subscribe(excusedState =>
+        .pipe(take(1), filter(notNull))
+        .subscribe((excusedState) =>
           confirmationValueControl.setValue(excusedState.Key)
         );
     }
@@ -131,11 +127,8 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
     this.submitted$.next(true);
     if (this.formGroup.valid) {
       this.excusedState$
-        .pipe(
-          take(1),
-          filter(notNull)
-        )
-        .subscribe(confirmedState => {
+        .pipe(take(1), filter(notNull))
+        .subscribe((confirmedState) => {
           const { confirmationValue, absenceTypeId } = this.formGroup.value;
           this.save(
             confirmationValue,
@@ -154,7 +147,7 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
   private createFormGroup(): FormGroup {
     return this.fb.group({
       confirmationValue: [null],
-      absenceTypeId: [null, Validators.required]
+      absenceTypeId: [null, Validators.required],
     });
   }
 
@@ -162,11 +155,8 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
     const absenceTypeIdControl = this.formGroup.get('absenceTypeId');
     if (absenceTypeIdControl) {
       this.excusedState$
-        .pipe(
-          take(1),
-          filter(notNull)
-        )
-        .subscribe(excusedState =>
+        .pipe(take(1), filter(notNull))
+        .subscribe((excusedState) =>
           confirmationValue === excusedState.Key
             ? absenceTypeIdControl.enable()
             : absenceTypeIdControl.disable()
@@ -205,7 +195,7 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
       this.router.navigate([
         '/open-absences/detail',
         this.openAbsencesService.currentDetail.personId,
-        this.openAbsencesService.currentDetail.date
+        this.openAbsencesService.currentDetail.date,
       ]);
     } else {
       this.router.navigate(['/open-absences']);

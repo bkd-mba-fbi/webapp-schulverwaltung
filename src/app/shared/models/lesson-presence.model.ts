@@ -5,7 +5,7 @@ import {
   Option,
   Maybe,
   LocalDateTimeFromString,
-  LocalDateFromString
+  LocalDateFromString,
 } from './common-types';
 
 const LessonPresence = t.type({
@@ -31,7 +31,7 @@ const LessonPresence = t.type({
   // StudyClassDesignation: t.string,
   StudyClassNumber: t.string,
   // TeacherInformation: t.string,
-  WasAbsentInPrecedingLesson: Maybe(t.boolean)
+  WasAbsentInPrecedingLesson: Maybe(t.boolean),
 });
 type LessonPresence = t.TypeOf<typeof LessonPresence>;
 export { LessonPresence };

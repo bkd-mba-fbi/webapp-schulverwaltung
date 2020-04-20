@@ -13,8 +13,8 @@ describe('PresenceControlDetailComponent', () => {
       buildTestModuleMetadata({
         declarations: [
           PresenceControlDetailComponent,
-          PresenceControlBackComponent
-        ]
+          PresenceControlBackComponent,
+        ],
       })
     ).compileComponents();
   }));

@@ -10,43 +10,43 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./presence-control/presence-control.module').then(
-        m => m.PresenceControlModule
-      )
+        (m) => m.PresenceControlModule
+      ),
   },
   {
     path: 'open-absences',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./open-absences/open-absences.module').then(
-        m => m.OpenAbsencesModule
-      )
+        (m) => m.OpenAbsencesModule
+      ),
   },
   {
     path: 'edit-absences',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./edit-absences/edit-absences.module').then(
-        m => m.EditAbsencesModule
-      )
+        (m) => m.EditAbsencesModule
+      ),
   },
   {
     path: 'evaluate-absences',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./evaluate-absences/evaluate-absences.module').then(
-        m => m.EvaluateAbsencesModule
-      )
+        (m) => m.EvaluateAbsencesModule
+      ),
   },
   { path: 'unauthenticated', component: UnauthenticatedComponent },
   {
     path: '',
     component: HomeComponent,
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

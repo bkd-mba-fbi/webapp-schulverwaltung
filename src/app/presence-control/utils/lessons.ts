@@ -1,4 +1,4 @@
-import { isSameDay, isBefore, isWithinRange } from 'date-fns';
+import { isSameDay, isBefore, isWithinInterval } from 'date-fns';
 
 import { Lesson } from '../../shared/models/lesson.model';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
@@ -21,7 +21,7 @@ export function extractLesson(lessonPresence: LessonPresence): Lesson {
     EventDesignation: lessonPresence.EventDesignation,
     StudyClassNumber: lessonPresence.StudyClassNumber,
     LessonDateTimeFrom: lessonPresence.LessonDateTimeFrom,
-    LessonDateTimeTo: lessonPresence.LessonDateTimeTo
+    LessonDateTimeTo: lessonPresence.LessonDateTimeTo,
   };
 }
 
@@ -33,15 +33,12 @@ export function extractLessons(
   lessonPresences: ReadonlyArray<LessonPresence>
 ): ReadonlyArray<Lesson> {
   return lessonPresences
-    .reduce(
-      (lessons, lessonPresence) => {
-        if (lessons.some(l => l.LessonRef.Id === lessonPresence.LessonRef.Id)) {
-          return lessons;
-        }
-        return [...lessons, extractLesson(lessonPresence)];
-      },
-      [] as Lesson[]
-    )
+    .reduce((lessons, lessonPresence) => {
+      if (lessons.some((l) => l.LessonRef.Id === lessonPresence.LessonRef.Id)) {
+        return lessons;
+      }
+      return [...lessons, extractLesson(lessonPresence)];
+    }, [] as Lesson[])
     .sort(lessonsComparator);
 }
 
@@ -64,11 +61,10 @@ export function getCurrentLesson(
     for (const lesson of lessons) {
       if (
         isBefore(currentDate, lesson.LessonDateTimeFrom) ||
-        isWithinRange(
-          currentDate,
-          lesson.LessonDateTimeFrom,
-          lesson.LessonDateTimeTo
-        )
+        isWithinInterval(currentDate, {
+          start: lesson.LessonDateTimeFrom,
+          end: lesson.LessonDateTimeTo,
+        })
       ) {
         return lesson;
       }
@@ -91,7 +87,7 @@ export function getLessonPresencesForLesson(
   }
 
   return lessonPresences
-    .filter(p => p.LessonRef.Id === lesson.LessonRef.Id)
+    .filter((p) => p.LessonRef.Id === lesson.LessonRef.Id)
     .sort(lessonPresencesComparator);
 }
 
@@ -101,11 +97,11 @@ export function getPresenceControlEntriesForLesson(
   presenceTypes: ReadonlyArray<PresenceType>
 ): ReadonlyArray<PresenceControlEntry> {
   return getLessonPresencesForLesson(lesson, lessonPresences).map(
-    lessonPresence => {
+    (lessonPresence) => {
       let presenceType = null;
       if (lessonPresence.TypeRef.Id) {
         presenceType =
-          presenceTypes.find(t => t.Id === lessonPresence.TypeRef.Id) || null;
+          presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
       }
       return new PresenceControlEntry(lessonPresence, presenceType);
     }

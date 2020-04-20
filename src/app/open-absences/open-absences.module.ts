@@ -12,8 +12,8 @@ import { OpenAbsencesEditComponent } from './components/open-absences-edit/open-
     OpenAbsencesComponent,
     OpenAbsencesListComponent,
     OpenAbsencesDetailComponent,
-    OpenAbsencesEditComponent
+    OpenAbsencesEditComponent,
   ],
-  imports: [SharedModule, OpenAbsencesRoutingModule]
+  imports: [SharedModule, OpenAbsencesRoutingModule],
 })
 export class OpenAbsencesModule {}

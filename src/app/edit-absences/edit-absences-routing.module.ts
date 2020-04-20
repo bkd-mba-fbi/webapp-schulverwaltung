@@ -13,19 +13,19 @@ const routes: Routes = [
         path: '',
         component: EditAbsencesListComponent,
         data: {
-          restoreScrollPositionFrom: ['/edit-absences/edit']
-        }
+          restoreScrollPositionFrom: ['/edit-absences/edit'],
+        },
       },
       {
         path: 'edit',
-        component: EditAbsencesEditComponent
-      }
-    ]
-  }
+        component: EditAbsencesEditComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class EditAbsencesRoutingModule {}

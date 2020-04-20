@@ -54,7 +54,7 @@ export function buildLessonPresence(
     // StudyClassDesignation: '',
     StudyClassNumber: '9a',
     // TeacherInformation: '',
-    WasAbsentInPrecedingLesson: null
+    WasAbsentInPrecedingLesson: null,
   };
 }
 
@@ -80,7 +80,7 @@ export function buildLesson(
     EventDesignation: eventDesignation,
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
-    StudyClassNumber: '9a'
+    StudyClassNumber: '9a',
   };
 }
 
@@ -109,7 +109,7 @@ export function buildPresenceType(
     IsIncident: isIncident,
     IsHalfDay: false,
     NeedsConfirmation: true,
-    Sort: 0
+    Sort: 0,
   };
 }
 
@@ -125,7 +125,7 @@ export function buildLessonPresenceStatistic(
     TotalAbsencesWithoutExcuse: 0,
     TotalDispensations: 0,
     TotalHalfDays: 0,
-    TotalIncidents: 0
+    TotalIncidents: 0,
   };
 }
 
@@ -143,7 +143,7 @@ export function buildStudent(id: number): Student {
     Location: '',
     PhoneMobile: '',
     PhonePrivate: '',
-    PostalCode: ''
+    PostalCode: '',
     // HRef: ''
   };
 }
@@ -162,7 +162,7 @@ export function buildApprenticeshipContract(
     // ApprenticeshipDateTo: '',
     CompanyName: '',
     ContractDateFrom: null,
-    ContractDateTo: null
+    ContractDateTo: null,
     // ContractNumber: '',
     // ContractTermination: null,
     // ContractType: '',
@@ -179,7 +179,7 @@ export function buildLegalRepresentative(
   return {
     Id: id,
     // TypeId: '',
-    RepresentativeId: representativeId || 0
+    RepresentativeId: representativeId || 0,
     // StudentId: 0,
     // DateFrom: null,
     // DateTo: null,
@@ -234,7 +234,7 @@ export function buildPerson(id: number): Person {
     // SocialSecurityNumber: null,
     // StayPermit: null,
     // StayPermitExpiry: null,
-    Zip: null
+    Zip: null,
     // HRef: ''
   };
 }

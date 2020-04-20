@@ -11,7 +11,7 @@ describe('EvaluateAbsencesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [EvaluateAbsencesModule]
+        imports: [EvaluateAbsencesModule],
       })
     ).compileComponents();
   }));

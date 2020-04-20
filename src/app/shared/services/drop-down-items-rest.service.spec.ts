@@ -7,7 +7,7 @@ describe('DropdownItemsRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: DropDownItemsRestService = TestBed.get(
+    const service: DropDownItemsRestService = TestBed.inject(
       DropDownItemsRestService
     );
     expect(service).toBeTruthy();

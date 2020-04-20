@@ -5,7 +5,7 @@ import { buildTestModuleMetadata, settings } from 'src/spec-helpers';
 import {
   buildLessonPresence,
   buildLesson,
-  buildPresenceType
+  buildPresenceType,
 } from 'src/spec-builders';
 import { PresenceControlListComponent } from './presence-control-list.component';
 import { PresenceControlHeaderComponent } from '../presence-control-header/presence-control-header.component';
@@ -47,7 +47,7 @@ describe('PresenceControlListComponent', () => {
     selectedPresenceControlEntries$ = new BehaviorSubject([
       bichsel,
       frisch,
-      jenni
+      jenni,
     ]);
 
     absence = buildPresenceType(2, true, false);
@@ -64,11 +64,11 @@ describe('PresenceControlListComponent', () => {
         .and.callFake(() => of(absence)),
       getBlockLessonPresences: jasmine
         .createSpy('getBlockLessonPresences')
-        .and.callFake(() => of(blockLessons))
+        .and.callFake(() => of(blockLessons)),
     } as unknown) as PresenceControlStateService;
 
     lessonPresencesUpdateServiceMock = ({
-      updatePresenceTypes: jasmine.createSpy('updatePresenceTypes')
+      updatePresenceTypes: jasmine.createSpy('updatePresenceTypes'),
     } as unknown) as LessonPresencesUpdateService;
 
     TestBed.configureTestingModule(
@@ -76,18 +76,18 @@ describe('PresenceControlListComponent', () => {
         declarations: [
           PresenceControlListComponent,
           PresenceControlHeaderComponent,
-          PresenceControlEntryComponent
+          PresenceControlEntryComponent,
         ],
         providers: [
           {
             provide: PresenceControlStateService,
-            useValue: stateServiceMock
+            useValue: stateServiceMock,
           },
           {
             provide: LessonPresencesUpdateService,
-            useValue: lessonPresencesUpdateServiceMock
-          }
-        ]
+            useValue: lessonPresencesUpdateServiceMock,
+          },
+        ],
       })
     ).compileComponents();
   }));
@@ -105,7 +105,7 @@ describe('PresenceControlListComponent', () => {
       expect(getRenderedPreviouslyAbsentStudentNames()).toEqual(['Zoë Jenny']);
       expect(getRenderedStudentNames()).toEqual([
         'Bichsel Peter',
-        'Frisch Max'
+        'Frisch Max',
       ]);
     });
 
@@ -118,7 +118,7 @@ describe('PresenceControlListComponent', () => {
         bichsel,
         frisch,
         buildPresenceControlEntry('Frisch Peter'),
-        jenni
+        jenni,
       ]);
       fixture.detectChanges();
       expect(getRenderedPreviouslyAbsentStudentNames()).toEqual([]);
@@ -147,7 +147,7 @@ describe('PresenceControlListComponent', () => {
   function getRenderedStudentNames(): string[] {
     return Array.prototype.slice
       .call(element.querySelectorAll('.default-entries .student-name'))
-      .map(e => e.textContent.trim());
+      .map((e) => e.textContent.trim());
   }
 
   function getRenderedPreviouslyAbsentStudentNames(): string[] {
@@ -155,7 +155,7 @@ describe('PresenceControlListComponent', () => {
       .call(
         element.querySelectorAll('.previously-absent-entries .student-name')
       )
-      .map(e => e.textContent.trim());
+      .map((e) => e.textContent.trim());
   }
 
   function buildPresenceControlEntry(
@@ -173,7 +173,7 @@ describe('PresenceControlListComponent', () => {
     );
 
     Object.defineProperty(presenceControlEntry, 'settings', {
-      get: () => settings
+      get: () => settings,
     });
     return presenceControlEntry;
   }

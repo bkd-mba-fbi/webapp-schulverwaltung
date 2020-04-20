@@ -14,13 +14,13 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     </ul>
   `,
   styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   sections: ReadonlyArray<string> = [
     'presence-control',
     'open-absences',
     'edit-absences',
-    'evaluate-absences'
+    'evaluate-absences',
   ];
 }

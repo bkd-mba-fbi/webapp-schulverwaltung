@@ -3,7 +3,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 import {
   OpenAbsencesService,
   SortCriteria,
-  PrimarySortKey
+  PrimarySortKey,
 } from '../../services/open-absences.service';
 import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
 import { OpenAbsencesEntriesSelectionService } from '../../services/open-absences-entries-selection.service';
@@ -22,7 +22,7 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
   templateUrl: './open-absences-list.component.html',
   styleUrls: ['./open-absences-list.component.scss'],
   providers: [OpenAbsencesEntriesSelectionService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -39,7 +39,7 @@ export class OpenAbsencesListComponent
 
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(ids => (this.openAbsencesService.selected = ids));
+      .subscribe((ids) => (this.openAbsencesService.selected = ids));
   }
 
   ngAfterViewInit(): void {

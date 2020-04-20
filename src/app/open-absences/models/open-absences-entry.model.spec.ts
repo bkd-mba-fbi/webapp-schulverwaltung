@@ -10,7 +10,7 @@ describe('OpenAbsencesEntry', () => {
     presenceA = buildLessonPresenceWithIds(10, 21, new Date(2000, 0, 23, 12));
     presenceB = buildLessonPresenceWithIds(11, 21, new Date(2000, 0, 23, 13));
     [presenceA, presenceB].forEach(
-      p => (p.StudentFullName = 'Albert Einstein')
+      (p) => (p.StudentFullName = 'Albert Einstein')
     );
 
     jasmine.clock().install();

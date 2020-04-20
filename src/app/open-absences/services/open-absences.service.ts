@@ -5,7 +5,7 @@ import {
   Observable,
   Subject,
   merge,
-  forkJoin
+  forkJoin,
 } from 'rxjs';
 import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -17,7 +17,7 @@ import {
   buildOpenAbsencesEntries,
   sortOpenAbsencesEntries,
   removeOpenAbsences,
-  mergeUniqueLessonPresences
+  mergeUniqueLessonPresences,
 } from '../utils/open-absences-entries';
 import { StorageService } from 'src/app/shared/services/storage.service';
 
@@ -48,15 +48,15 @@ export class OpenAbsencesService {
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
     primarySortKey: 'date',
-    ascending: false
+    ascending: false,
   });
 
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
-  sortedEntries$ = combineLatest(this.entries$, this.sortCriteria$).pipe(
+  sortedEntries$ = combineLatest([this.entries$, this.sortCriteria$]).pipe(
     map(spreadTuple(sortOpenAbsencesEntries))
   );
 
-  filteredEntries$ = combineLatest(this.sortedEntries$, this.search$).pipe(
+  filteredEntries$ = combineLatest([this.sortedEntries$, this.search$]).pipe(
     map(spreadTuple(searchEntries)),
     shareReplay(1)
   );
@@ -78,9 +78,9 @@ export class OpenAbsencesService {
     studentId: number
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.entries$.pipe(
-      map(entries => {
+      map((entries) => {
         const entry = entries.find(
-          e => e.dateString === dateString && e.studentId === studentId
+          (e) => e.dateString === dateString && e.studentId === studentId
         );
         return entry ? entry.absences : [];
       })
@@ -92,18 +92,18 @@ export class OpenAbsencesService {
    * sorted by given key.
    */
   toggleSort(primarySortKey: PrimarySortKey): void {
-    this.sortCriteriaSubject$.pipe(take(1)).subscribe(criteria => {
+    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
       if (criteria.primarySortKey === primarySortKey) {
         // Change sort direction
         this.sortCriteriaSubject$.next({
           primarySortKey,
-          ascending: !criteria.ascending
+          ascending: !criteria.ascending,
         });
       } else {
         // Change sort key
         this.sortCriteriaSubject$.next({
           primarySortKey,
-          ascending: primarySortKey === 'name'
+          ascending: primarySortKey === 'name',
         });
       }
     });
@@ -117,11 +117,11 @@ export class OpenAbsencesService {
     this.unconfirmedAbsences$
       .pipe(
         take(1),
-        map(unconfirmedAbsences =>
+        map((unconfirmedAbsences) =>
           removeOpenAbsences(unconfirmedAbsences, this.selected)
         )
       )
-      .subscribe(unconfirmedAbsences => {
+      .subscribe((unconfirmedAbsences) => {
         this.selected = [];
         this.updateUnconfirmedAbsences$.next(unconfirmedAbsences);
       });
@@ -133,10 +133,10 @@ export class OpenAbsencesService {
     const classTeacher = roles.indexOf('ClassTeacherRole') > 0 ? true : false;
     if (classTeacher) {
       return this.loadingService.load(
-        forkJoin(
+        forkJoin([
           this.lessonPresencesService.getListOfUnconfirmedLessonTeacher(),
-          this.lessonPresencesService.getListOfUnconfirmedClassTeacher()
-        ).pipe(map(spreadTuple(mergeUniqueLessonPresences)))
+          this.lessonPresencesService.getListOfUnconfirmedClassTeacher(),
+        ]).pipe(map(spreadTuple(mergeUniqueLessonPresences)))
       );
     } else {
       return this.loadingService.load(
