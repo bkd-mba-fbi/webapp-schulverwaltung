@@ -2,7 +2,7 @@ import { buildLessonPresenceWithIds } from 'src/spec-builders';
 import { LessonPresence } from '../models/lesson-presence.model';
 import {
   getIdsGroupedByPerson,
-  getIdsGroupedByLesson
+  getIdsGroupedByLesson,
 } from './lesson-presences';
 
 describe('lesson presences utils', () => {
@@ -21,7 +21,7 @@ describe('lesson presences utils', () => {
       const result = getIdsGroupedByPerson([presenceA, presenceB, presenceC]);
       expect(result).toEqual([
         { personIds: [20], lessonIds: [10] },
-        { personIds: [21], lessonIds: [10, 11] }
+        { personIds: [21], lessonIds: [10, 11] },
       ]);
     });
   });
@@ -31,7 +31,7 @@ describe('lesson presences utils', () => {
       const result = getIdsGroupedByLesson([presenceA, presenceB, presenceC]);
       expect(result).toEqual([
         { lessonIds: [10], personIds: [20, 21] },
-        { lessonIds: [11], personIds: [21] }
+        { lessonIds: [11], personIds: [21] },
       ]);
     });
   });

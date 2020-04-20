@@ -6,14 +6,14 @@ import {
   isAbsent,
   isLate,
   isDefaultAbsence,
-  canChangePresenceType
+  canChangePresenceType,
 } from '../utils/presence-types';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 export enum PresenceCategory {
   Present = 'present',
   Absent = 'absent',
-  Late = 'late'
+  Late = 'late',
 }
 
 export class PresenceControlEntry implements Searchable {
@@ -40,10 +40,10 @@ export class PresenceControlEntry implements Searchable {
 
   get nextPresenceCategory(): PresenceCategory {
     const categories = Object.keys(PresenceCategory).map(
-      c => PresenceCategory[c as any] as string
+      (c) => PresenceCategory[c as keyof typeof PresenceCategory]
     );
     const currentCategory = this.presenceCategory;
-    const index = categories.findIndex(c => c === currentCategory);
+    const index = categories.findIndex((c) => c === currentCategory);
     return categories[(index + 1) % categories.length] as PresenceCategory;
   }
 
@@ -53,11 +53,13 @@ export class PresenceControlEntry implements Searchable {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
         return (
-          presenceTypes.find(type => isDefaultAbsence(type, this.settings)) ||
+          presenceTypes.find((type) => isDefaultAbsence(type, this.settings)) ||
           null
         );
       case PresenceCategory.Late:
-        return presenceTypes.find(type => isLate(type, this.settings)) || null;
+        return (
+          presenceTypes.find((type) => isLate(type, this.settings)) || null
+        );
       default:
         return null;
     }

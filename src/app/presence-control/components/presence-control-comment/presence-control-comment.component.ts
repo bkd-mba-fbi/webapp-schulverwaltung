@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +19,7 @@ import {
   startWith,
   switchMap,
   take,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { withConfig } from 'src/app/rest-error-interceptor';
 import { getValidationErrors } from 'src/app/shared/utils/form';
@@ -32,15 +32,15 @@ import { PresenceControlEntry } from '../../models/presence-control-entry.model'
   selector: 'erz-presence-control-comment',
   templateUrl: './presence-control-comment.component.html',
   styleUrls: ['./presence-control-comment.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlCommentComponent implements OnInit {
-  @ViewChild('commentField', { static: false }) commentField?: ElementRef;
+  @ViewChild('commentField') commentField?: ElementRef;
 
   private params$ = this.route.paramMap.pipe(
-    map(params => ({
+    map((params) => ({
       studentId: Number(params.get('studentId')),
-      lessonId: Number(params.get('lessonId'))
+      lessonId: Number(params.get('lessonId')),
     }))
   );
 
@@ -49,7 +49,7 @@ export class PresenceControlCommentComponent implements OnInit {
 
   studentId$ = this.params$.pipe(pluck('studentId'));
   student$ = this.studentId$.pipe(
-    switchMap(id => this.studentsService.get(id)),
+    switchMap((id) => this.studentsService.get(id)),
     shareReplay(1)
   );
 
@@ -66,7 +66,7 @@ export class PresenceControlCommentComponent implements OnInit {
   );
 
   commentErrors$ = this.formGroup$.pipe(
-    switchMap(formGroup => getValidationErrors(formGroup.get('comment'))),
+    switchMap((formGroup) => getValidationErrors(formGroup.get('comment'))),
     startWith([]),
     shareReplay(1)
   );
@@ -83,7 +83,7 @@ export class PresenceControlCommentComponent implements OnInit {
 
   ngOnInit(): void {
     // Disable comment field during saving
-    combineLatest(this.formGroup$, this.saving$).subscribe(
+    combineLatest([this.formGroup$, this.saving$]).subscribe(
       ([formGroup, saving]) => {
         const control = formGroup.get('comment');
         if (control) {
@@ -96,7 +96,7 @@ export class PresenceControlCommentComponent implements OnInit {
   onCommentIconClick(): void {
     this.editing$
       .pipe(take(1))
-      .subscribe(editing =>
+      .subscribe((editing) =>
         editing ? this.focusCommentField() : this.startEditing()
       );
   }
@@ -115,10 +115,10 @@ export class PresenceControlCommentComponent implements OnInit {
   }
 
   onSubmit(): void {
-    combineLatest(
+    combineLatest([
       this.formGroup$.pipe(take(1)),
-      this.presenceControlEntry$.pipe(take(1))
-    )
+      this.presenceControlEntry$.pipe(take(1)),
+    ])
       .pipe(
         switchMap(([formGroup, entry]) => {
           if (formGroup.valid && entry) {
@@ -135,7 +135,7 @@ export class PresenceControlCommentComponent implements OnInit {
           }
           return of(null);
         }),
-        catchError(error => this.onSaveError(error))
+        catchError((error) => this.onSaveError(error))
       )
       .subscribe();
   }
@@ -146,8 +146,8 @@ export class PresenceControlCommentComponent implements OnInit {
     return this.fb.group({
       comment: [
         entry ? entry.lessonPresence.Comment || '' : '',
-        Validators.maxLength(255)
-      ]
+        Validators.maxLength(255),
+      ],
     });
   }
 

@@ -6,7 +6,7 @@ import { SETTINGS, Settings } from '../../settings';
 import { LegalRepresentative } from '../models/legal-representative.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LegalRepresentativesRestService extends RestService<
   typeof LegalRepresentative

@@ -6,7 +6,7 @@ import {
   Observable,
   Subject,
   merge,
-  combineLatest
+  combineLatest,
 } from 'rxjs';
 import {
   map,
@@ -18,7 +18,7 @@ import {
   scan,
   debounceTime,
   pluck,
-  take
+  take,
 } from 'rxjs/operators';
 
 import { LoadingService } from './loading-service';
@@ -54,7 +54,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
     this.validFilter$.pipe(mapTo('reset'))
   ).pipe(scan((page, action) => (action === 'next' ? page + 1 : 0), 0));
   private offset$ = this.page$.pipe(
-    map(page => page * this.settings.paginationLimit)
+    map((page) => page * this.settings.paginationLimit)
   );
   private pageResult$ = combineLatest([this.validFilter$, this.offset$]).pipe(
     debounceTime(10),
@@ -69,7 +69,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
     // Accumulate entries of loaded pages
     this.pageResult$.pipe(
       map(
-        result =>
+        (result) =>
           ({ action: 'append', entries: result.entries } as AppendEntriesAction<
             T
           >)
@@ -99,7 +99,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
   ) {
     this.queryParams$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(params =>
+      .subscribe((params) =>
         this.location.replaceState(pageUrl, params.toString())
       );
   }
@@ -113,7 +113,7 @@ export abstract class PaginatedFilteredEntriesService<T, F>
   }
 
   nextPage(): void {
-    this.hasMore$.pipe(take(1)).subscribe(hasMore => {
+    this.hasMore$.pipe(take(1)).subscribe((hasMore) => {
       if (hasMore) {
         this.nextPage$.next();
       }

@@ -18,7 +18,7 @@ import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 import {
   PaginatedFilteredEntriesService,
-  PAGE_LOADING_CONTEXT
+  PAGE_LOADING_CONTEXT,
 } from 'src/app/shared/services/paginated-filtered-entries.service';
 import { Paginated } from 'src/app/shared/utils/pagination';
 import { SETTINGS, Settings } from 'src/app/settings';
@@ -48,14 +48,11 @@ export class EditAbsencesStateService extends PaginatedFilteredEntriesService<
     shareReplay(1)
   );
 
-  presenceControlEntries$ = combineLatest(
+  presenceControlEntries$ = combineLatest([
     this.entries$,
     this.presenceTypes$,
-    this.absenceConfirmationStates$
-  ).pipe(
-    map(spreadTriplet(getPresenceControlEntries)),
-    shareReplay(1)
-  );
+    this.absenceConfirmationStates$,
+  ]).pipe(map(spreadTriplet(getPresenceControlEntries)), shareReplay(1));
 
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
@@ -88,7 +85,7 @@ export class EditAbsencesStateService extends PaginatedFilteredEntriesService<
       dateFrom: null,
       dateTo: null,
       presenceType: null,
-      confirmationState: null
+      confirmationState: null,
     };
   }
 
@@ -135,7 +132,7 @@ export class EditAbsencesStateService extends PaginatedFilteredEntriesService<
   private filterAbsenceTypes(
     types: ReadonlyArray<PresenceType>
   ): ReadonlyArray<PresenceType> {
-    return types.filter(t => t.Active);
+    return types.filter((t) => t.Active);
   }
 }
 
@@ -144,16 +141,16 @@ function getPresenceControlEntries(
   presenceTypes: ReadonlyArray<PresenceType>,
   confirmationStates: ReadonlyArray<DropDownItem>
 ): ReadonlyArray<PresenceControlEntry> {
-  return lessonPresences.map(lessonPresence => {
+  return lessonPresences.map((lessonPresence) => {
     let presenceType = null;
     if (lessonPresence.TypeRef.Id) {
       presenceType =
-        presenceTypes.find(t => t.Id === lessonPresence.TypeRef.Id) || null;
+        presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
     }
     let confirmationState;
     if (lessonPresence.ConfirmationStateId) {
       confirmationState = confirmationStates.find(
-        s => s.Key === lessonPresence.ConfirmationStateId
+        (s) => s.Key === lessonPresence.ConfirmationStateId
       );
     }
     return new PresenceControlEntry(

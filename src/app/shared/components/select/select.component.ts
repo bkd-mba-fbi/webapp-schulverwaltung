@@ -5,7 +5,7 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 import { DropDownItem } from '../../models/drop-down-item.model';
@@ -14,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'erz-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss']
+  styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent implements OnInit, OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];
@@ -31,7 +31,7 @@ export class SelectComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.value) {
       this.value$.next(
-        this.options.find(o => o.Key === changes.value.currentValue) || null
+        this.options.find((o) => o.Key === changes.value.currentValue) || null
       );
     }
   }

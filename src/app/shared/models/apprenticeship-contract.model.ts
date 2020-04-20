@@ -10,7 +10,7 @@ const ApprenticeshipContract = t.type({
   // ApprenticeshipDateTo: t.string,
   CompanyName: Maybe(t.string),
   ContractDateFrom: Option(LocalDateTimeFromString),
-  ContractDateTo: Option(LocalDateTimeFromString)
+  ContractDateTo: Option(LocalDateTimeFromString),
   // ContractNumber: t.string,
   // ContractTermination: Option(LocalDateFromString),
   // ContractType: t.string,

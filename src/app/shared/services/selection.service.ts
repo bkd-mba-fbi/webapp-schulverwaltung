@@ -4,12 +4,13 @@ import {
   map,
   startWith,
   shareReplay,
-  distinctUntilChanged
+  distinctUntilChanged,
 } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 enum SelectionActionTypes {
   ToggleSelection = 'TOGGLE',
-  ClearSelection = 'CLEAR'
+  ClearSelection = 'CLEAR',
 }
 
 interface ToggleSelectionAction<T> {
@@ -24,6 +25,7 @@ interface ClearSelectionAction<T> {
 
 type SelectionAction<T> = ToggleSelectionAction<T> | ClearSelectionAction<T>;
 
+@Injectable()
 export abstract class SelectionService<T> {
   private action$ = new Subject<SelectionAction<T>>();
   selection$ = this.action$.pipe(
@@ -37,20 +39,20 @@ export abstract class SelectionService<T> {
   toggle(entry: T): void {
     this.action$.next({
       type: SelectionActionTypes.ToggleSelection,
-      payload: entry
+      payload: entry,
     });
   }
 
   clear(entries: Option<ReadonlyArray<T>> = null): void {
     this.action$.next({
       type: SelectionActionTypes.ClearSelection,
-      payload: entries
+      payload: entries,
     });
   }
 
   isSelected$(entry: T): Observable<boolean> {
     return this.selection$.pipe(
-      map(selection => selection.indexOf(entry) !== -1),
+      map((selection) => selection.indexOf(entry) !== -1),
       distinctUntilChanged()
     );
   }
@@ -64,7 +66,7 @@ export abstract class SelectionService<T> {
         if (selection.indexOf(action.payload) === -1) {
           return [...selection, action.payload];
         }
-        return selection.filter(e => e !== action.payload);
+        return selection.filter((e) => e !== action.payload);
       case SelectionActionTypes.ClearSelection:
         return action.payload || [];
       default:

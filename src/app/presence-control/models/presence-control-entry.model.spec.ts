@@ -1,6 +1,6 @@
 import {
   PresenceControlEntry,
-  PresenceCategory
+  PresenceCategory,
 } from './presence-control-entry.model';
 import { buildLessonPresence, buildPresenceType } from 'src/spec-builders';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
@@ -32,7 +32,7 @@ describe('PresenceControlEntry', () => {
       halfDayType,
       lateType,
       incidentType,
-      commentType
+      commentType,
     ];
   });
 
@@ -146,8 +146,8 @@ describe('PresenceControlEntry', () => {
       // only returns odd die sides
       get: () => ({
         latePresenceTypeId: lateType.Id,
-        absencePresenceTypeId: absenceType.Id
-      })
+        absencePresenceTypeId: absenceType.Id,
+      }),
     });
     return presenceControlEntry;
   }

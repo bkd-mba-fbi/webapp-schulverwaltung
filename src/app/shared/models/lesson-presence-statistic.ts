@@ -10,7 +10,7 @@ const LessonPresenceStatistic = t.type({
   TotalAbsencesWithoutExcuse: t.number,
   TotalDispensations: t.number,
   TotalHalfDays: t.number,
-  TotalIncidents: t.number
+  TotalIncidents: t.number,
 });
 
 type LessonPresenceStatistic = t.TypeOf<typeof LessonPresenceStatistic>;

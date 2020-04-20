@@ -19,7 +19,7 @@ describe('SelectionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [FooService] });
-    service = TestBed.get(FooService);
+    service = TestBed.inject(FooService);
 
     selectionCallback = jasmine.createSpy('selection$');
     service.selection$.subscribe(selectionCallback);

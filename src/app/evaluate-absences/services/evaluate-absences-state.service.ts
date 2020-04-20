@@ -10,7 +10,7 @@ import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-
 import { Paginated } from 'src/app/shared/utils/pagination';
 import {
   PaginatedFilteredEntriesService,
-  PAGE_LOADING_CONTEXT
+  PAGE_LOADING_CONTEXT,
 } from 'src/app/shared/services/paginated-filtered-entries.service';
 import { SETTINGS, Settings } from 'src/app/settings';
 
@@ -38,7 +38,7 @@ export class EvaluateAbsencesStateService extends PaginatedFilteredEntriesServic
     return {
       student: null,
       moduleInstance: null,
-      studyClass: null
+      studyClass: null,
     };
   }
 

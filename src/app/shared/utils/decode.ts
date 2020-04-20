@@ -24,15 +24,15 @@ export class DecodeError extends Error {
 export function decode<C extends t.Mixed>(
   codec: C
 ): (json: unknown) => Observable<t.TypeOf<C>> {
-  return json => {
+  return (json) => {
     return pipe(
       codec.decode(json),
       fold(
-        error =>
+        (error) =>
           throwError(
             new DecodeError(PathReporter.report(left(error)).join('\n'))
           ),
-        data => of(data)
+        (data) => of(data)
       )
     );
   };

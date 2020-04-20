@@ -13,7 +13,7 @@ const PresenceType = t.type({
   IsIncident: t.boolean,
   IsHalfDay: t.boolean,
   NeedsConfirmation: t.boolean,
-  Sort: t.number
+  Sort: t.number,
 });
 type PresenceType = t.TypeOf<typeof PresenceType>;
 export { PresenceType };

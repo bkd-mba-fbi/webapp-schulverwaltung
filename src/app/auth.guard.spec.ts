@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
-  Router
+  Router,
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -19,7 +19,7 @@ describe('AuthGuard', () => {
   let routerStateSnapshotMock: jasmine.SpyObj<RouterStateSnapshot>;
 
   @Component({
-    template: ''
+    template: '',
   })
   class DummyComponent {}
 
@@ -28,8 +28,8 @@ describe('AuthGuard', () => {
       buildTestModuleMetadata({
         imports: [
           RouterTestingModule.withRoutes([
-            { path: 'unauthenticated', component: DummyComponent }
-          ])
+            { path: 'unauthenticated', component: DummyComponent },
+          ]),
         ],
         providers: [
           AuthGuard,
@@ -37,16 +37,16 @@ describe('AuthGuard', () => {
             provide: AuthService,
             useValue: {
               isAuthenticated: true,
-              accessToken: 'abcdefghijklmnopqrstuvwxyz'
-            }
-          }
+              accessToken: 'abcdefghijklmnopqrstuvwxyz',
+            },
+          },
         ],
-        declarations: [DummyComponent]
+        declarations: [DummyComponent],
       })
     );
-    guard = TestBed.get(AuthGuard);
-    router = TestBed.get(Router);
-    authServiceMock = TestBed.get(AuthService);
+    guard = TestBed.inject(AuthGuard);
+    router = TestBed.inject(Router);
+    authServiceMock = TestBed.inject(AuthService);
 
     activatedRouteSnapshotMock = jasmine.createSpyObj<ActivatedRouteSnapshot>(
       'ActivatedRouteSnapshot',

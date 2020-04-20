@@ -12,8 +12,8 @@ import { EditAbsencesEditComponent } from './components/edit-absences-edit/edit-
     EditAbsencesComponent,
     EditAbsencesHeaderComponent,
     EditAbsencesListComponent,
-    EditAbsencesEditComponent
+    EditAbsencesEditComponent,
   ],
-  imports: [SharedModule, EditAbsencesRoutingModule]
+  imports: [SharedModule, EditAbsencesRoutingModule],
 })
 export class EditAbsencesModule {}

@@ -11,7 +11,7 @@ describe('EvaluateAbsencesStateService', () => {
   );
 
   it('should be created', () => {
-    const service: EvaluateAbsencesStateService = TestBed.get(
+    const service: EvaluateAbsencesStateService = TestBed.inject(
       EvaluateAbsencesStateService
     );
     expect(service).toBeTruthy();

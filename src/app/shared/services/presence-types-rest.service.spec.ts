@@ -7,7 +7,7 @@ describe('PresenceTypesRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: PresenceTypesRestService = TestBed.get(
+    const service: PresenceTypesRestService = TestBed.inject(
       PresenceTypesRestService
     );
     expect(service).toBeTruthy();

@@ -1,6 +1,6 @@
 import {
   getNewConfirmationStateId,
-  canChangePresenceType
+  canChangePresenceType,
 } from './presence-types';
 import { buildLessonPresence, buildPresenceType } from 'src/spec-builders';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';

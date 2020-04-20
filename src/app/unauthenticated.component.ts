@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
         {{ 'unauthenticated.message' | translate }}
       </div>
     </div>
-  `
+  `,
 })
 export class UnauthenticatedComponent implements OnInit {
   constructor() {}

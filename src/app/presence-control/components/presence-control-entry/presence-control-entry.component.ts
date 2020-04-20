@@ -6,7 +6,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'erz-presence-control-entry',
   templateUrl: './presence-control-entry.component.html',
-  styleUrls: ['./presence-control-entry.component.scss']
+  styleUrls: ['./presence-control-entry.component.scss'],
 })
 export class PresenceControlEntryComponent implements OnInit, OnChanges {
   @Input() entry: PresenceControlEntry;

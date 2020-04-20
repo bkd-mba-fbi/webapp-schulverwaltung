@@ -24,15 +24,15 @@ describe('EditAbsencesListComponent', () => {
       selected: [],
       setFilter: jasmine.createSpy('setFilter'),
       isFilterValid$: of(true),
-      validFilter$: of({})
+      validFilter$: of({}),
     } as unknown) as EditAbsencesStateService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [EditAbsencesListComponent, EditAbsencesHeaderComponent],
         providers: [
-          { provide: EditAbsencesStateService, useValue: stateServiceMock }
-        ]
+          { provide: EditAbsencesStateService, useValue: stateServiceMock },
+        ],
       })
     ).compileComponents();
   }));
@@ -60,7 +60,7 @@ function buildPresenceControlEntry(): PresenceControlEntry {
   );
 
   Object.defineProperty(presenceControlEntry, 'settings', {
-    get: () => settings
+    get: () => settings,
   });
   return presenceControlEntry;
 }

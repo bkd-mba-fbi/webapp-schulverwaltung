@@ -5,12 +5,12 @@ import { EvaluateAbsencesComponent } from './components/evaluate-absences/evalua
 const routes: Routes = [
   {
     path: '',
-    component: EvaluateAbsencesComponent
-  }
+    component: EvaluateAbsencesComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class EvaluateAbsencesRoutingModule {}

@@ -2,7 +2,7 @@ import { buildLessonPresence } from 'src/spec-builders';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import {
   filterPreviouslyAbsentEntries,
-  filterPreviouslyPresentEntries
+  filterPreviouslyPresentEntries,
 } from './presence-control-entries';
 import { searchEntries } from 'src/app/shared/utils/search';
 

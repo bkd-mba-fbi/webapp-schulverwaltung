@@ -20,11 +20,11 @@ function validatationErrorsToArray(
   if (!control) {
     return [];
   }
-  return Object.keys(control.errors || {}).map(e => ({
+  return Object.keys(control.errors || {}).map((e) => ({
     error: e,
     params:
       control.errors && control.errors[e] instanceof Object
         ? control.errors[e]
-        : null
+        : null,
   }));
 }

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -16,7 +16,7 @@ import { PresenceControlEntry } from '../../models/presence-control-entry.model'
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import {
   filterPreviouslyAbsentEntries,
-  filterPreviouslyPresentEntries
+  filterPreviouslyPresentEntries,
 } from '../../utils/presence-control-entries';
 import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
@@ -25,17 +25,14 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
   selector: 'erz-presence-control-list',
   templateUrl: './presence-control-list.component.html',
   styleUrls: ['./presence-control-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlListComponent implements OnInit, AfterViewInit {
   search$ = new BehaviorSubject<string>('');
-  entries$ = combineLatest(
+  entries$ = combineLatest([
     this.state.selectedPresenceControlEntries$,
-    this.search$
-  ).pipe(
-    map(spreadTuple(searchEntries)),
-    shareReplay(1)
-  );
+    this.search$,
+  ]).pipe(map(spreadTuple(searchEntries)), shareReplay(1));
 
   previouslyPresentEntries$ = this.entries$.pipe(
     map(filterPreviouslyPresentEntries)
@@ -64,7 +61,7 @@ export class PresenceControlListComponent implements OnInit, AfterViewInit {
   ): void {
     this.state
       .getNextPresenceType(entry)
-      .subscribe(newPresenceType =>
+      .subscribe((newPresenceType) =>
         this.lessonPresencesUpdateService.updatePresenceTypes(
           lessonPresences ? lessonPresences : [entry.lessonPresence],
           newPresenceType ? newPresenceType.Id : null
@@ -76,7 +73,7 @@ export class PresenceControlListComponent implements OnInit, AfterViewInit {
     this.state
       .getBlockLessonPresences(entry)
       .pipe(take(1))
-      .subscribe(lessonPresences => {
+      .subscribe((lessonPresences) => {
         if (lessonPresences.length === 1) {
           this.doTogglePresenceType(entry);
         } else {
@@ -86,7 +83,7 @@ export class PresenceControlListComponent implements OnInit, AfterViewInit {
           modalRef.componentInstance.entry = entry;
           modalRef.componentInstance.blockLessonPresences = lessonPresences;
           modalRef.result.then(
-            selectedPresences => {
+            (selectedPresences) => {
               if (selectedPresences) {
                 this.doTogglePresenceType(entry, selectedPresences);
               }

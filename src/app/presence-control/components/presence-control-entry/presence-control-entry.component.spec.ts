@@ -3,7 +3,7 @@ import { buildLessonPresence } from 'src/spec-builders';
 import {
   buildTestModuleMetadata,
   changeInput,
-  settings
+  settings,
 } from 'src/spec-helpers';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { PresenceControlEntryComponent } from './presence-control-entry.component';
@@ -15,7 +15,7 @@ describe('PresenceControlEntryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlEntryComponent]
+        declarations: [PresenceControlEntryComponent],
       })
     ).compileComponents();
   }));
@@ -45,7 +45,7 @@ function buildPresenceControlEntry(): PresenceControlEntry {
   );
 
   Object.defineProperty(presenceControlEntry, 'settings', {
-    get: () => settings
+    get: () => settings,
   });
   return presenceControlEntry;
 }

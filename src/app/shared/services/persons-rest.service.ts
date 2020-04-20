@@ -6,7 +6,7 @@ import { SETTINGS, Settings } from '../../settings';
 import { Person } from '../models/person.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PersonsRestService extends RestService<typeof Person> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {

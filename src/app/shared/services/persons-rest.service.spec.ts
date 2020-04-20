@@ -13,8 +13,8 @@ describe('PersonsRestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
-    service = TestBed.get(PersonsRestService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(PersonsRestService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpTestingController.verify());
@@ -23,13 +23,13 @@ describe('PersonsRestService', () => {
     it('should request all the persons in the given list of ids', () => {
       const persons = [buildPerson(38608), buildPerson(38610)];
 
-      service.getListForIds([38608, 38610]).subscribe(result => {
+      service.getListForIds([38608, 38610]).subscribe((result) => {
         expect(result).toEqual(persons);
       });
 
       const url = 'https://eventotest.api/Persons/?filter.Id=;38608;38610';
       httpTestingController
-        .expectOne(req => req.urlWithParams === url, url)
+        .expectOne((req) => req.urlWithParams === url, url)
         .flush(t.array(Person).encode(persons));
     });
   });

@@ -6,7 +6,7 @@ const LANGUAGES: ReadonlyArray<string> = ['de-CH', 'fr-CH'];
 const FALLBACK_LANGUAGE = LANGUAGES[0];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class I18nService {
   constructor(
@@ -55,6 +55,6 @@ export class I18nService {
 
   private normalizeLanguage(lang: Maybe<string>): Option<string> {
     lang = (lang || '').split('-')[0];
-    return (lang && LANGUAGES.find(l => lang === l.split('-')[0])) || null;
+    return (lang && LANGUAGES.find((l) => lang === l.split('-')[0])) || null;
   }
 }

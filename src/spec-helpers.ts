@@ -28,7 +28,7 @@ export const settings: Settings = {
   halfDayPresenceTypeId: 17,
   unconfirmedAbsenceStateId: 219,
   unexcusedAbsenceStateId: 225,
-  excusedAbsenceStateId: 220
+  excusedAbsenceStateId: 220,
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {
@@ -40,11 +40,11 @@ const baseTestModuleMetadata: TestModuleMetadata = {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     ToastrModule.forRoot(),
-    SharedModule
+    SharedModule,
   ],
   providers: [
     { provide: SETTINGS, useValue: settings },
@@ -52,20 +52,20 @@ const baseTestModuleMetadata: TestModuleMetadata = {
       provide: AuthService,
       useValue: {
         isAuthenticated: true,
-        accessToken: 'abcdefghijklmnopqrstuvwxyz'
-      }
-    }
-  ]
+        accessToken: 'abcdefghijklmnopqrstuvwxyz',
+      },
+    },
+  ],
 };
 
 export function buildTestModuleMetadata(
   data: TestModuleMetadata = {}
 ): TestModuleMetadata {
   const result: any = { ...data };
-  Object.keys(baseTestModuleMetadata).forEach(key => {
+  Object.keys(baseTestModuleMetadata).forEach((key) => {
     result[key] = [
       ...(baseTestModuleMetadata as any)[key],
-      ...((data && (data as any)[key]) || [])
+      ...((data && (data as any)[key]) || []),
     ];
   });
   return result;
@@ -80,7 +80,7 @@ export function changeInputs<
   const simpleChanges: SimpleChanges = changes.reduce(
     (acc, { property, value, firstChange }) =>
       Object.assign(acc, {
-        [property]: createInputChange(component, property, value, firstChange)
+        [property]: createInputChange(component, property, value, firstChange),
       }),
     {}
   );

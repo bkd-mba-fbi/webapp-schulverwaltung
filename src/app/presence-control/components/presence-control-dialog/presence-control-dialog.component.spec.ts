@@ -12,7 +12,7 @@ describe('PresenceControlDialogComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [PresenceControlDialogComponent],
-        providers: [NgbActiveModal]
+        providers: [NgbActiveModal],
       })
     ).compileComponents();
   }));

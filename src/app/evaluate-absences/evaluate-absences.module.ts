@@ -10,8 +10,8 @@ import { EvaluateAbsencesListComponent } from './components/evaluate-absences-li
   declarations: [
     EvaluateAbsencesComponent,
     EvaluateAbsencesHeaderComponent,
-    EvaluateAbsencesListComponent
+    EvaluateAbsencesListComponent,
   ],
-  imports: [SharedModule, EvaluateAbsencesRoutingModule]
+  imports: [SharedModule, EvaluateAbsencesRoutingModule],
 })
 export class EvaluateAbsencesModule {}

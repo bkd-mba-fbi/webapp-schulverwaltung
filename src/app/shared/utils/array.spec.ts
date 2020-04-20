@@ -5,7 +5,7 @@ describe('array utils', () => {
     const array: ReadonlyArray<{ id: number }> = [
       { id: 1 },
       { id: 2 },
-      { id: 3 }
+      { id: 3 },
     ];
     const eq = (a: any, b: any) => a.id === b.id;
 
@@ -32,7 +32,7 @@ describe('array utils', () => {
     const array: ReadonlyArray<{ id: number }> = [
       { id: 1 },
       { id: 2 },
-      { id: 3 }
+      { id: 3 },
     ];
     const eq = (a: any, b: any) => a.id === b.id;
 

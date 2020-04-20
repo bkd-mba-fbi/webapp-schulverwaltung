@@ -6,7 +6,7 @@ import { EditAbsencesStateService } from '../../services/edit-absences-state.ser
   templateUrl: './edit-absences.component.html',
   styleUrls: ['./edit-absences.component.scss'],
   providers: [EditAbsencesStateService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesComponent implements OnInit {
   constructor(public state: EditAbsencesStateService) {}

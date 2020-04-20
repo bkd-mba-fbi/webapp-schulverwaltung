@@ -11,15 +11,15 @@ describe('StudentsRestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
-    service = TestBed.get(StudentsRestService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(StudentsRestService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => httpTestingController.verify());
 
   describe('.getLegalRepresentatives', () => {
     it('should request the legal representatives of a given student', () => {
-      service.getLegalRepresentatives(39361).subscribe(result => {
+      service.getLegalRepresentatives(39361).subscribe((result) => {
         expect(result).toEqual([buildModel(54425), buildModel(56200)]);
       });
 
@@ -31,17 +31,17 @@ describe('StudentsRestService', () => {
     function buildModel(id: number): any {
       return {
         Id: id,
-        RepresentativeId: 123
+        RepresentativeId: 123,
       };
     }
   });
 
   describe('.getCurrentApprenticeshipContracts', () => {
     it('should request the current apprenticeship contracts of a given student', () => {
-      service.getCurrentApprenticeshipContracts(39361).subscribe(result => {
+      service.getCurrentApprenticeshipContracts(39361).subscribe((result) => {
         expect(result).toEqual([
           buildApprenticeshipContract(55905),
-          buildApprenticeshipContract(55906)
+          buildApprenticeshipContract(55906),
         ]);
       });
 
@@ -51,7 +51,7 @@ describe('StudentsRestService', () => {
         )
         .flush([
           buildApprenticeshipContract(55905),
-          buildApprenticeshipContract(55906)
+          buildApprenticeshipContract(55906),
         ]);
     });
   });

@@ -7,7 +7,9 @@ describe('ScrollPositionService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: ScrollPositionService = TestBed.get(ScrollPositionService);
+    const service: ScrollPositionService = TestBed.inject(
+      ScrollPositionService
+    );
     expect(service).toBeTruthy();
   });
 });

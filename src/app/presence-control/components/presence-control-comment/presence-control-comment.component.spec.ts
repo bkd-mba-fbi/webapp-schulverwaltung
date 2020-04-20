@@ -10,7 +10,7 @@ import {
   buildLesson,
   buildLessonPresence,
   buildPresenceControlEntry,
-  buildPresenceType
+  buildPresenceType,
 } from 'src/spec-builders';
 import { ActivatedRouteMock, buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
@@ -40,38 +40,38 @@ describe('PresenceControlCommentComponent', () => {
 
     activatedRouteMock = new ActivatedRouteMock({
       studentId: lessonPresence.StudentRef.Id,
-      lessonId: lesson.LessonRef.Id
+      lessonId: lesson.LessonRef.Id,
     });
 
     stateServiceMock = ({
       getPresenceControlEntry: jasmine
         .createSpy('getPresenceControlEntry')
-        .and.callFake(() => of(entry))
+        .and.callFake(() => of(entry)),
     } as unknown) as PresenceControlStateService;
 
     restServiceMock = ({
       editLessonPresences: jasmine
         .createSpy('editLessonPresences')
-        .and.callFake(() => of())
+        .and.callFake(() => of()),
     } as unknown) as LessonPresencesUpdateRestService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [
           PresenceControlCommentComponent,
-          PresenceControlBackComponent
+          PresenceControlBackComponent,
         ],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           {
             provide: PresenceControlStateService,
-            useValue: stateServiceMock
+            useValue: stateServiceMock,
           },
           {
             provide: LessonPresencesUpdateRestService,
-            useValue: restServiceMock
-          }
-        ]
+            useValue: restServiceMock,
+          },
+        ],
       })
     ).compileComponents();
   }));

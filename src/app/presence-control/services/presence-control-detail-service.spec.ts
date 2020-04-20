@@ -9,12 +9,12 @@ import {
   buildApprenticeshipContract,
   buildLegalRepresentative,
   buildPerson,
-  buildStudent
+  buildStudent,
 } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import {
   PresenceControlDetailService,
-  Profile
+  Profile,
 } from './presence-control-detail-service';
 
 describe('PresenceControlDetailService', () => {
@@ -33,13 +33,13 @@ describe('PresenceControlDetailService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
-    httpTestingController = TestBed.get(HttpTestingController);
-    service = TestBed.get(PresenceControlDetailService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(PresenceControlDetailService);
 
     student = buildStudent(39405);
     legalRepresentatives = [
       buildLegalRepresentative(56248, 22080),
-      buildLegalRepresentative(56249, 39403)
+      buildLegalRepresentative(56249, 39403),
     ];
     apprenticeshipContract = buildApprenticeshipContract(
       student.Id,
@@ -59,7 +59,7 @@ describe('PresenceControlDetailService', () => {
       legalRepresentative1,
       legalRepresentative2,
       jobTrainer,
-      apprenticeshipManager
+      apprenticeshipManager,
     ];
 
     profile = {
@@ -69,9 +69,9 @@ describe('PresenceControlDetailService', () => {
         {
           apprenticeshipContract,
           jobTrainerPerson: jobTrainer,
-          apprenticeshipManagerPerson: apprenticeshipManager
-        }
-      ]
+          apprenticeshipManagerPerson: apprenticeshipManager,
+        },
+      ],
     };
   });
 
@@ -87,7 +87,7 @@ describe('PresenceControlDetailService', () => {
       expectStudentRequest(student.Id);
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
-      expectPersonsRequest(persons.map(person => person.Id));
+      expectPersonsRequest(persons.map((person) => person.Id));
     });
   });
 
@@ -117,7 +117,7 @@ describe('PresenceControlDetailService', () => {
     )}`;
 
     httpTestingController
-      .expectOne(req => req.urlWithParams === url, url)
+      .expectOne((req) => req.urlWithParams === url, url)
       .flush(t.array(Person).encode(response));
   }
 });

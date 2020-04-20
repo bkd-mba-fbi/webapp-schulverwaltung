@@ -7,7 +7,7 @@ describe('ApprenticeshipContractsRestService', () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
   it('should be created', () => {
-    const service: ApprenticeshipContractsRestService = TestBed.get(
+    const service: ApprenticeshipContractsRestService = TestBed.inject(
       ApprenticeshipContractsRestService
     );
     expect(service).toBeTruthy();

@@ -8,7 +8,7 @@ const LessonIncident = t.type({
   Comment: Option(t.string),
   StudentFullName: t.string,
   Type: Option(t.string),
-  HRef: t.string
+  HRef: t.string,
 });
 type LessonIncident = t.TypeOf<typeof LessonIncident>;
 export { LessonIncident };

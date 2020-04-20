@@ -6,7 +6,7 @@ import {
   Input,
   OnChanges,
   SimpleChange,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import {
@@ -15,7 +15,7 @@ import {
   switchMap,
   map,
   filter,
-  finalize
+  finalize,
 } from 'rxjs/operators';
 import { uniqueId } from 'lodash-es';
 
@@ -30,7 +30,7 @@ const MINIMAL_TERM_LENGTH = 3;
   selector: 'erz-typeahead',
   templateUrl: './typeahead.component.html',
   styleUrls: ['./typeahead.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TypeaheadComponent implements OnInit, OnChanges {
   private selectIdSource$ = new BehaviorSubject<Option<number>>(null);
@@ -53,7 +53,7 @@ export class TypeaheadComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.value && changes.value.currentValue) {
-      this.fetchItem(changes.value.currentValue).subscribe(item => {
+      this.fetchItem(changes.value.currentValue).subscribe((item) => {
         this.selectedItem$.next(item);
         this.modelChange(item);
       });
@@ -96,7 +96,7 @@ function processTerm(
   minimalTermLength: number,
   fetchDebounceTime: number
 ): (source$: Observable<string>) => Observable<string> {
-  return source$ =>
+  return (source$) =>
     source$.pipe(
       debounceTime(fetchDebounceTime),
       map(normalizeTerm),

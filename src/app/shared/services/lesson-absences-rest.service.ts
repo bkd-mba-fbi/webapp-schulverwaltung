@@ -6,7 +6,7 @@ import { SETTINGS, Settings } from '../../settings';
 import { LessonAbsence } from '../models/lesson-absence.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LessonAbsencesRestService extends RestService<
   typeof LessonAbsence

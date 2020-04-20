@@ -5,7 +5,7 @@ import { RestService } from './rest.service';
 import { ApprenticeshipContract } from '../models/apprenticeship-contract.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApprenticeshipContractsRestService extends RestService<
   typeof ApprenticeshipContract

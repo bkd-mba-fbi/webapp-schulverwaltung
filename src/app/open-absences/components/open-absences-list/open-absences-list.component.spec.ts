@@ -21,11 +21,11 @@ describe('OpenAbsencesListComponent', () => {
   beforeEach(async(() => {
     entryA = new OpenAbsencesEntry([
       buildLessonPresenceWithIds(10, 21),
-      buildLessonPresenceWithIds(11, 21)
+      buildLessonPresenceWithIds(11, 21),
     ]);
     entryB = new OpenAbsencesEntry([
       buildLessonPresenceWithIds(10, 22),
-      buildLessonPresenceWithIds(12, 22)
+      buildLessonPresenceWithIds(12, 22),
     ]);
 
     storeMock = {};
@@ -50,15 +50,15 @@ describe('OpenAbsencesListComponent', () => {
               toggleSort: jasmine.createSpy('toggleSort'),
               sortedEntries$: of([entryA, entryB]),
               filteredEntries$: of([entryA, entryB]),
-              selected: []
-            }
+              selected: [],
+            },
           },
-          OpenAbsencesEntriesSelectionService
-        ]
+          OpenAbsencesEntriesSelectionService,
+        ],
       })
     ).compileComponents();
 
-    openAbsencesService = TestBed.get(OpenAbsencesService);
+    openAbsencesService = TestBed.inject(OpenAbsencesService);
   }));
 
   afterEach(() => jasmine.clock().uninstall());
@@ -94,13 +94,13 @@ describe('OpenAbsencesListComponent', () => {
 
       toggleCheckbox(0);
       expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10, 11] }
+        { personIds: [21], lessonIds: [10, 11] },
       ]);
 
       toggleCheckbox(1);
       expect(openAbsencesService.selected).toEqual([
         { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10, 12] }
+        { personIds: [22], lessonIds: [10, 12] },
       ]);
 
       toggleCheckbox(0);
@@ -120,7 +120,7 @@ describe('OpenAbsencesListComponent', () => {
     it('it returns key for today', () => {
       const result = component.getDaysDifferenceKey(
         new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 23))
+          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 23)),
         ])
       );
       expect(result).toBe('open-absences.list.content.daysDifference.today');
@@ -129,7 +129,7 @@ describe('OpenAbsencesListComponent', () => {
     it('it returns key for tomorrow', () => {
       const result = component.getDaysDifferenceKey(
         new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 24))
+          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 24)),
         ])
       );
       expect(result).toBe('open-absences.list.content.daysDifference.tomorrow');
@@ -138,7 +138,7 @@ describe('OpenAbsencesListComponent', () => {
     it('it returns key for yesterday', () => {
       const result = component.getDaysDifferenceKey(
         new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 22))
+          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 22)),
         ])
       );
       expect(result).toBe(
@@ -149,7 +149,7 @@ describe('OpenAbsencesListComponent', () => {
     it('it returns key for past date', () => {
       const result = component.getDaysDifferenceKey(
         new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 1))
+          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 1)),
         ])
       );
       expect(result).toBe('open-absences.list.content.daysDifference.ago');
@@ -158,7 +158,7 @@ describe('OpenAbsencesListComponent', () => {
     it('it returns key for future date', () => {
       const result = component.getDaysDifferenceKey(
         new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 31))
+          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 31)),
         ])
       );
       expect(result).toBe('open-absences.list.content.daysDifference.in');

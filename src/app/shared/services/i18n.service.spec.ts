@@ -17,18 +17,18 @@ describe('I18nService', () => {
           useValue: jasmine.createSpyObj('TranslateService', [
             'setDefaultLang',
             'use',
-            'getBrowserLang'
-          ])
+            'getBrowserLang',
+          ]),
         },
         {
           provide: StorageService,
-          useValue: jasmine.createSpyObj('StorageService', ['getLanguage'])
-        }
-      ]
+          useValue: jasmine.createSpyObj('StorageService', ['getLanguage']),
+        },
+      ],
     });
-    service = TestBed.get(I18nService);
-    translateMock = TestBed.get(TranslateService);
-    storageMock = TestBed.get(StorageService);
+    service = TestBed.inject(I18nService);
+    translateMock = TestBed.inject(TranslateService);
+    storageMock = TestBed.inject(StorageService);
   });
 
   afterEach(() => {

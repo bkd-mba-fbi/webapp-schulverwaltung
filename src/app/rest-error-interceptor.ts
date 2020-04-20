@@ -5,10 +5,10 @@ import {
   HttpHandler,
   HttpEvent,
   HttpErrorResponse,
-  HttpParams
+  HttpParams,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, empty, throwError } from 'rxjs';
+import { Observable, EMPTY, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -42,7 +42,7 @@ function extractConfig(
 ): { config: RestConfig; params: HttpParams } {
   return {
     config: JSON.parse(params.get('restConfig') || '{}'),
-    params: params.delete('restConfig')
+    params: params.delete('restConfig'),
   };
 }
 
@@ -110,24 +110,24 @@ export class RestErrorInterceptor implements HttpInterceptor {
           case HTTP_STATUS.UNAUTHORIZED:
             this.notifyError('noaccess');
             this.router.navigate(['/unauthenticated']);
-            return empty();
+            return EMPTY;
           case HTTP_STATUS.FORBIDDEN:
             this.notifyError('noaccess');
-            return empty();
+            return EMPTY;
           case HTTP_STATUS.NOT_FOUND:
             this.notifyError('notfound');
-            return empty();
+            return EMPTY;
           case HTTP_STATUS.UNKNOWN:
           case HTTP_STATUS.SERVICE_UNAVAILABLE:
           case HTTP_STATUS.GATEWAY_TIMEOUT:
             this.notifyError('unavailable');
-            return empty();
+            return EMPTY;
           case HTTP_STATUS.CONFLICT: // Validation error
             this.notifyError('conflict');
-            return empty();
+            return EMPTY;
           default:
             this.notifyError('server');
-            return empty();
+            return EMPTY;
         }
       }
 

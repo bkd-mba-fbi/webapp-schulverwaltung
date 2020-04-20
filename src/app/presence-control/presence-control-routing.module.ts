@@ -17,24 +17,24 @@ const routes: Routes = [
         data: {
           restoreScrollPositionFrom: [
             '/presence-control/detail/:id',
-            '/presence-control/comment/:studentId/:lessonId'
-          ]
-        }
+            '/presence-control/comment/:studentId/:lessonId',
+          ],
+        },
       },
       {
         path: 'detail/:id',
-        component: PresenceControlDetailComponent
+        component: PresenceControlDetailComponent,
       },
       {
         path: 'comment/:studentId/:lessonId',
-        component: PresenceControlCommentComponent
-      }
-    ]
-  }
+        component: PresenceControlCommentComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class PresenceControlRoutingModule {}

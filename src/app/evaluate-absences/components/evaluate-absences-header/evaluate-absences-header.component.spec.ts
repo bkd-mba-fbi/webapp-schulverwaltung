@@ -12,7 +12,7 @@ describe('EvaluateAbsencesHeaderComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [EvaluateAbsencesHeaderComponent],
-        providers: [EvaluateAbsencesStateService]
+        providers: [EvaluateAbsencesStateService],
       })
     ).compileComponents();
   }));

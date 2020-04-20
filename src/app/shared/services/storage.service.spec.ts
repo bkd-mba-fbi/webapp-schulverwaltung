@@ -9,7 +9,7 @@ describe('StorageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.get(StorageService);
+    service = TestBed.inject(StorageService);
 
     storeMock = {};
     spyOn(localStorage, 'getItem').and.callFake(

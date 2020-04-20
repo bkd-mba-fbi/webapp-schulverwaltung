@@ -17,25 +17,25 @@ const routes: Routes = [
         data: {
           restoreScrollPositionFrom: [
             '/open-absences/detail/:personId/:date',
-            '/open-absences/edit'
-          ]
-        }
+            '/open-absences/edit',
+          ],
+        },
       },
       {
         path: 'detail/:personId/:date',
         component: OpenAbsencesDetailComponent,
-        data: { restoreScrollPositionFrom: ['/open-absences/edit'] }
+        data: { restoreScrollPositionFrom: ['/open-absences/edit'] },
       },
       {
         path: 'edit',
-        component: OpenAbsencesEditComponent
-      }
-    ]
-  }
+        component: OpenAbsencesEditComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class OpenAbsencesRoutingModule {}

@@ -6,7 +6,7 @@ import { RestService } from './rest.service';
 import { LessonIncident } from '../models/lesson-incident.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LessonIncidentsRestService extends RestService<
   typeof LessonIncident

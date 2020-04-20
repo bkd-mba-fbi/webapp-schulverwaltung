@@ -11,18 +11,18 @@ export function updatePresenceTypeForPresences(
   presenceTypes: ReadonlyArray<PresenceType>,
   settings: Settings
 ): ReadonlyArray<LessonPresence> {
-  return allLessonPresences.map(lessonPresence => {
-    const update = updates.find(u =>
+  return allLessonPresences.map((lessonPresence) => {
+    const update = updates.find((u) =>
       lessonPresenceEquals(u.presence, lessonPresence)
     );
     if (update) {
       let newPresenceType: Option<PresenceType>;
       if (!update.newPresenceTypeId && lessonPresence.Comment) {
         // Use comment type if is present and has comment
-        newPresenceType = presenceTypes.find(t => t.IsComment) || null;
+        newPresenceType = presenceTypes.find((t) => t.IsComment) || null;
       } else {
         newPresenceType =
-          presenceTypes.find(t => t.Id === update.newPresenceTypeId) || null;
+          presenceTypes.find((t) => t.Id === update.newPresenceTypeId) || null;
       }
 
       return {
@@ -33,7 +33,7 @@ export function updatePresenceTypeForPresences(
         ConfirmationStateId: getNewConfirmationStateId(
           newPresenceType ? newPresenceType.Id : null,
           settings
-        )
+        ),
       };
     }
     return lessonPresence;
@@ -46,21 +46,21 @@ export function updateCommentForPresence(
   newComment: Option<string>,
   presenceTypes: ReadonlyArray<PresenceType>
 ): ReadonlyArray<LessonPresence> {
-  return allLessonPresences.map(lessonPresence => {
+  return allLessonPresences.map((lessonPresence) => {
     if (lessonPresenceEquals(lessonPresence, affectedLessonPresence)) {
       let presenceTypeRef = lessonPresence.TypeRef;
       let presenceDesignation = lessonPresence.Type;
       let newPresenceType: Maybe<PresenceType>;
       if (newComment && !presenceTypeRef.Id) {
         // Set to comment presence type
-        newPresenceType = presenceTypes.find(p => p.IsComment);
+        newPresenceType = presenceTypes.find((p) => p.IsComment);
       } else if (!newComment && presenceTypeRef) {
         // TODO: Unset presence type if it has `IsComment=1`?
       }
       if (newPresenceType) {
         presenceTypeRef = {
           Id: newPresenceType.Id,
-          HRef: null
+          HRef: null,
         };
         presenceDesignation = newPresenceType.Designation;
       }
@@ -68,7 +68,7 @@ export function updateCommentForPresence(
         ...lessonPresence,
         Comment: newComment,
         TypeRef: presenceTypeRef,
-        Type: presenceDesignation
+        Type: presenceDesignation,
       };
     }
     return lessonPresence;
@@ -86,6 +86,6 @@ function buildPresenceTypeRef(
 ): OptionalReference {
   return {
     Id: presenceType ? presenceType.Id : null,
-    HRef: null
+    HRef: null,
   };
 }

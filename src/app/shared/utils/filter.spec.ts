@@ -39,14 +39,14 @@ describe('filter utils', () => {
   describe('not', () => {
     it('returns function that calls given function and negates its result', () => {
       expect(
-        not(arg => {
+        not((arg) => {
           expect(arg).toBe(123);
           return true;
         })(123)
       ).toBe(false);
 
       expect(
-        not(arg => {
+        not((arg) => {
           expect(arg).toBe(123);
           return false;
         })(123)

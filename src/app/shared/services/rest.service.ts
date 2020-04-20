@@ -14,7 +14,7 @@ export const enum HTTP_STATUS {
   CONFLICT = 409,
   UNPROCESSABLE_ENTITY = 422,
   SERVICE_UNAVAILABLE = 503,
-  GATEWAY_TIMEOUT = 504
+  GATEWAY_TIMEOUT = 504,
 }
 
 export abstract class RestService<T extends t.InterfaceType<any>> {

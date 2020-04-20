@@ -3,7 +3,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, combineLatest, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
   templateUrl: './open-absences-detail.component.html',
   styleUrls: ['./open-absences-detail.component.scss'],
   providers: [AbsencesSelectionService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesDetailComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -27,12 +27,12 @@ export class OpenAbsencesDetailComponent
     switchMap(this.getAbsencesForParams.bind(this))
   );
   studentFullName$ = this.absences$.pipe(
-    map(absences => (absences[0] && absences[0].StudentFullName) || null)
+    map((absences) => (absences[0] && absences[0].StudentFullName) || null)
   );
-  allSelected$ = combineLatest(
+  allSelected$ = combineLatest([
     this.absences$,
-    this.selectionService.selection$
-  ).pipe(map(([absences, selection]) => absences.length === selection.length));
+    this.selectionService.selection$,
+  ]).pipe(map(([absences, selection]) => absences.length === selection.length));
 
   private destroy$ = new Subject<void>();
 
@@ -46,15 +46,15 @@ export class OpenAbsencesDetailComponent
   ngOnInit(): void {
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(ids => (this.openAbsencesService.selected = ids));
+      .subscribe((ids) => (this.openAbsencesService.selected = ids));
 
     // Set detail params on service to be able to navigate back to
     // here after edit
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(
-      params =>
+      (params) =>
         (this.openAbsencesService.currentDetail = {
           date: String(params.get('date')),
-          personId: Number(params.get('personId'))
+          personId: Number(params.get('personId')),
         })
     );
   }
@@ -71,7 +71,7 @@ export class OpenAbsencesDetailComponent
     if (checked) {
       this.absences$
         .pipe(take(1))
-        .subscribe(absences => this.selectionService.clear(absences));
+        .subscribe((absences) => this.selectionService.clear(absences));
     } else {
       this.selectionService.clear();
     }

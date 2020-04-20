@@ -21,7 +21,7 @@ export class OpenAbsencesEntry implements Searchable {
       throw new Error('Absences array is empty');
     }
     this.date = startOfDay(this.absences[0].LessonDateTimeFrom);
-    this.dateString = format(this.date, 'YYYY-MM-DD');
+    this.dateString = format(this.date, 'yyyy-MM-dd');
     this.daysDifference = differenceInCalendarDays(this.date, new Date());
     this.daysDifferenceAbsolute = Math.abs(this.daysDifference);
     this.studentId = this.absences[0].StudentRef.Id;

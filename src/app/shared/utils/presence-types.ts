@@ -17,8 +17,8 @@ export function sortPresenceTypes(
 export function createPresenceTypesDropdownItems(
   presenceTypes: ReadonlyArray<PresenceType>
 ): ReadonlyArray<DropDownItem> {
-  return presenceTypes.map(presenceType => ({
+  return presenceTypes.map((presenceType) => ({
     Key: presenceType.Id,
-    Value: presenceType.Designation || ''
+    Value: presenceType.Designation || '',
   }));
 }

@@ -4,7 +4,7 @@ import {
   buildOpenAbsencesEntries,
   flattenOpenAbsencesEntries,
   sortOpenAbsencesEntries,
-  removeOpenAbsences
+  removeOpenAbsences,
 } from './open-absences-entries';
 import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
 
@@ -43,7 +43,7 @@ describe('open absences entries utils', () => {
     );
 
     [presenceA, presenceB, presenceC, presenceE].forEach(
-      p => (p.StudentFullName = 'Max Frisch')
+      (p) => (p.StudentFullName = 'Max Frisch')
     );
     presenceD.StudentFullName = 'Albert Einstein';
   });
@@ -55,7 +55,7 @@ describe('open absences entries utils', () => {
         presenceB,
         presenceC,
         presenceD,
-        presenceE
+        presenceE,
       ])
         .slice()
         .sort(openAbsencesEntriesComparator);
@@ -83,48 +83,48 @@ describe('open absences entries utils', () => {
     it('sorts open absences entries by student name ascending', () => {
       const result = sortOpenAbsencesEntries(entries, {
         primarySortKey: 'name',
-        ascending: true
+        ascending: true,
       });
       expect(result).toEqual([
         openAbsenceEntryC,
         openAbsenceEntryB,
-        openAbsenceEntryA
+        openAbsenceEntryA,
       ]);
     });
 
     it('sorts open absences entries by student name descending', () => {
       const result = sortOpenAbsencesEntries(entries, {
         primarySortKey: 'name',
-        ascending: false
+        ascending: false,
       });
       expect(result).toEqual([
         openAbsenceEntryB,
         openAbsenceEntryA,
-        openAbsenceEntryC
+        openAbsenceEntryC,
       ]);
     });
 
     it('sorts open absences entries by date ascending', () => {
       const result = sortOpenAbsencesEntries(entries, {
         primarySortKey: 'date',
-        ascending: true
+        ascending: true,
       });
       expect(result).toEqual([
         openAbsenceEntryC,
         openAbsenceEntryA,
-        openAbsenceEntryB
+        openAbsenceEntryB,
       ]);
     });
 
     it('sorts open absences entries by date descending', () => {
       const result = sortOpenAbsencesEntries(entries, {
         primarySortKey: 'date',
-        ascending: false
+        ascending: false,
       });
       expect(result).toEqual([
         openAbsenceEntryB,
         openAbsenceEntryC,
-        openAbsenceEntryA
+        openAbsenceEntryA,
       ]);
     });
   });
@@ -134,7 +134,7 @@ describe('open absences entries utils', () => {
       const result = flattenOpenAbsencesEntries([
         new OpenAbsencesEntry([presenceA, presenceB]),
         new OpenAbsencesEntry([presenceC]),
-        new OpenAbsencesEntry([presenceD])
+        new OpenAbsencesEntry([presenceD]),
       ]);
       expect(result).toEqual([presenceA, presenceB, presenceC, presenceD]);
     });

@@ -7,14 +7,14 @@ import { PresenceControlDetailService } from '../../services/presence-control-de
 @Component({
   selector: 'erz-presence-control-detail',
   templateUrl: './presence-control-detail.component.html',
-  styleUrls: ['./presence-control-detail.component.scss']
+  styleUrls: ['./presence-control-detail.component.scss'],
 })
 export class PresenceControlDetailComponent implements OnInit {
   studentId$ = this.route.paramMap.pipe(
-    map(params => Number(params.get('id')))
+    map((params) => Number(params.get('id')))
   );
   profile$ = this.studentId$.pipe(
-    switchMap(id => this.detailService.getProfile(id))
+    switchMap((id) => this.detailService.getProfile(id))
   );
 
   constructor(

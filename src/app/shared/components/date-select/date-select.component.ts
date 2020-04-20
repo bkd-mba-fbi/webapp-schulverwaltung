@@ -4,7 +4,7 @@ import { uniqueId } from 'lodash-es';
 @Component({
   selector: 'erz-date-select',
   templateUrl: './date-select.component.html',
-  styleUrls: ['./date-select.component.scss']
+  styleUrls: ['./date-select.component.scss'],
 })
 export class DateSelectComponent implements OnInit {
   @Input() value: Option<Date> = null;

@@ -3,7 +3,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import { takeUntil, take, map } from 'rxjs/operators';
 
 import {
   EditAbsencesStateService,
-  EditAbsencesFilter
+  EditAbsencesFilter,
 } from '../../services/edit-absences-state.service';
 import { EditAbsencesSelectionService } from '../../services/edit-absences-selection.service';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
@@ -22,7 +22,7 @@ import { parseISOLocalDate } from 'src/app/shared/utils/date';
   templateUrl: './edit-absences-list.component.html',
   styleUrls: ['./edit-absences-list.component.scss'],
   providers: [EditAbsencesSelectionService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -41,7 +41,7 @@ export class EditAbsencesListComponent
     // Load list with filter from query params
     this.filterFromParams$
       .pipe(take(1))
-      .subscribe(filter => this.state.setFilter(filter));
+      .subscribe((filter) => this.state.setFilter(filter));
 
     // Clear selection when filter changes and new entries are being loaded
     this.state.validFilter$
@@ -51,7 +51,7 @@ export class EditAbsencesListComponent
     // Remember selected entries
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(ids => (this.state.selected = ids));
+      .subscribe((ids) => (this.state.selected = ids));
   }
 
   ngAfterViewInit(): void {
@@ -65,7 +65,7 @@ export class EditAbsencesListComponent
   toggleAll(checked: boolean): void {
     this.state.entries$
       .pipe(take(1))
-      .subscribe(entries =>
+      .subscribe((entries) =>
         this.selectionService.clear(checked ? entries : null)
       );
   }
@@ -93,6 +93,6 @@ function createFilterFromParams(params: Params): EditAbsencesFilter {
     presenceType: params.presenceType ? Number(params.presenceType) : null,
     confirmationState: params.confirmationState
       ? Number(params.confirmationState)
-      : null
+      : null,
   };
 }

@@ -11,7 +11,7 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [HomeComponent]
+        declarations: [HomeComponent],
       })
     ).compileComponents();
   }));
@@ -33,12 +33,12 @@ describe('HomeComponent', () => {
       '/presence-control',
       '/open-absences',
       '/edit-absences',
-      '/evaluate-absences'
+      '/evaluate-absences',
     ]);
   });
 
   function getLinks(): string[] {
     const anchors = Array.prototype.slice.call(element.querySelectorAll('a'));
-    return anchors.map(l => l.getAttribute('href'));
+    return anchors.map((l) => l.getAttribute('href'));
   }
 });

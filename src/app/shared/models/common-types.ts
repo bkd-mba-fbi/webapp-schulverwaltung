@@ -4,7 +4,7 @@ import {
   parseISOLocalDateTime,
   formatISOLocalDateTime,
   parseISOLocalDate,
-  formatISOLocalDate
+  formatISOLocalDate,
 } from '../utils/date';
 
 export function Option<T extends t.Any>(
@@ -25,7 +25,7 @@ export { Reference };
 
 const OptionalReference = t.type({
   Id: Option(t.number),
-  HRef: Option(t.string)
+  HRef: Option(t.string),
 });
 type OptionalReference = t.TypeOf<typeof OptionalReference>;
 export { OptionalReference };
@@ -34,20 +34,20 @@ export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
   'LocalDateTimeFromString',
   (u): u is Date => u instanceof Date,
   (u, c) =>
-    either.chain(t.string.validate(u, c), s => {
+    either.chain(t.string.validate(u, c), (s) => {
       const d = parseISOLocalDateTime(s);
       return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
     }),
-  a => formatISOLocalDateTime(a)
+  (a) => formatISOLocalDateTime(a)
 );
 
 export const LocalDateFromString = new t.Type<Date, string, unknown>(
   'LocalDateTimeFromString',
   (u): u is Date => u instanceof Date,
   (u, c) =>
-    either.chain(t.string.validate(u, c), s => {
+    either.chain(t.string.validate(u, c), (s) => {
       const d = parseISOLocalDate(s);
       return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
     }),
-  a => formatISOLocalDate(a)
+  (a) => formatISOLocalDate(a)
 );

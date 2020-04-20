@@ -21,7 +21,7 @@ function serializeFilterValue(value: any): Option<string> {
     return value;
   }
   if (value instanceof Date) {
-    return format(value, 'YYYY-MM-DD');
+    return format(value, 'yyyy-MM-dd');
   }
   return String(value);
 }

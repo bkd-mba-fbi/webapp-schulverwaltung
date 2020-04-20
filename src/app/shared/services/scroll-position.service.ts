@@ -5,7 +5,7 @@ import {
   ActivatedRouteSnapshot,
   ActivationEnd,
   NavigationStart,
-  NavigationEnd
+  NavigationEnd,
 } from '@angular/router';
 import { Subject, of } from 'rxjs';
 import {
@@ -17,7 +17,7 @@ import {
   mergeMap,
   switchAll,
   shareReplay,
-  skip
+  skip,
 } from 'rxjs/operators';
 
 /**
@@ -53,7 +53,7 @@ import {
  *   }
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScrollPositionService implements OnDestroy {
   private scrollPositions: Dict<[number, number]> = {};
@@ -77,14 +77,14 @@ export class ScrollPositionService implements OnDestroy {
   // On each NavigationEnd, emit the first ActivationEnd (there may be
   // multiple for a single navigation)
   private route$ = this.activationEnd$.pipe(take(1)).pipe(
-    mergeMap(first => [
+    mergeMap((first) => [
       of(first),
       this.navigationEnd$.pipe(
         switchMap(() => this.activationEnd$.pipe(take(1)))
-      )
+      ),
     ]),
     switchAll(),
-    map(event => event.snapshot),
+    map((event) => event.snapshot),
     shareReplay(1)
   );
 
@@ -94,9 +94,9 @@ export class ScrollPositionService implements OnDestroy {
   ) {
     this.scrollPosition$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(position => (this.currentScrollPosition = position));
+      .subscribe((position) => (this.currentScrollPosition = position));
 
-    this.route$.pipe(takeUntil(this.destroy$)).subscribe(route => {
+    this.route$.pipe(takeUntil(this.destroy$)).subscribe((route) => {
       this.previousRoute = this.currentRoute;
       this.currentRoute = route;
     });
@@ -128,7 +128,7 @@ export class ScrollPositionService implements OnDestroy {
         skip(1),
         take(1),
         takeUntil(this.destroy$),
-        filter(nextRoute => this.shouldStoreFor(currentRoute, nextRoute))
+        filter((nextRoute) => this.shouldStoreFor(currentRoute, nextRoute))
       )
       .subscribe(() => {
         const storeRouteUrl = this.getPath(currentRoute);
@@ -154,8 +154,8 @@ export class ScrollPositionService implements OnDestroy {
     return (
       '/' +
       route.pathFromRoot
-        .map(r => r.routeConfig && r.routeConfig.path)
-        .filter(r => r)
+        .map((r) => r.routeConfig && r.routeConfig.path)
+        .filter((r) => r)
         .join('/')
     );
   }

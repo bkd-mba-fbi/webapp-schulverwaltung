@@ -25,14 +25,14 @@ describe('RestErrorInterceptor', () => {
           { provide: Router, useValue: routerMock },
           {
             provide: ToastrService,
-            useValue: toastrMock
-          }
-        ]
+            useValue: toastrMock,
+          },
+        ],
       })
     );
 
-    http = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
+    http = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
 
     successCallback = jasmine.createSpy('success');
     errorCallback = jasmine.createSpy('error');
