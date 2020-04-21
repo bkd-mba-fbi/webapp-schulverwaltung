@@ -14,80 +14,40 @@
       "
     >
       <table
-        *ngIf="data.entries && data.entries.length > 0"
-        class="table table-striped"
+        class="table table-striped table-fixed"
         infiniteScroll
         (scrolled)="onScroll()"
       >
         <thead>
           <tr>
-            <th scope="col">
-              {{ 'evaluate-absences.list.header.student' | translate }}
+            <th
+              *ngFor="let column of columns"
+              (click)="state.toggleSorting(column.key)"
+              scope="col"
+              [ngClass]="column.label"
+            >
+              <div class="d-flex">
+                <div class="column-title">
+                  {{
+                    'evaluate-absences.list.header.' + column.label | translate
+                  }}
+                </div>
+                <div class="sort-direction">
+                  {{ getSortingChar$(column) | async }}
+                </div>
+              </div>
             </th>
-            <th>{{ 'evaluate-absences.list.header.total' | translate }}</th>
-            <th>
-              {{ 'evaluate-absences.list.header.valid-excuse' | translate }}
-            </th>
-            <th>
-              {{ 'evaluate-absences.list.header.without-excuse' | translate }}
-            </th>
-            <th>
-              {{ 'evaluate-absences.list.header.unconfirmed' | translate }}
-            </th>
-            <th>{{ 'evaluate-absences.list.header.late' | translate }}</th>
-            <th>{{ 'evaluate-absences.list.header.halfday' | translate }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="data.entries && data.entries.length > 0">
           <tr *ngFor="let entry of data.entries">
             <td
+              *ngFor="let column of columns"
               [attr.data-label]="
-                'evaluate-absences.list.header.student' | translate
+                'evaluate-absences.list.header.' + column.label | translate
               "
             >
-              {{ entry.StudentFullName }}
-            </td>
-            <td
-              [attr.data-label]="
-                'evaluate-absences.list.header.total' | translate
-              "
-            >
-              {{ entry.TotalAbsences }}
-            </td>
-            <td
-              [attr.data-label]="
-                'evaluate-absences.list.header.valid-excuse' | translate
-              "
-            >
-              {{ entry.TotalAbsencesValidExcuse }}
-            </td>
-            <td
-              [attr.data-label]="
-                'evaluate-absences.list.header.without-excuse' | translate
-              "
-            >
-              {{ entry.TotalAbsencesWithoutExcuse }}
-            </td>
-            <td
-              [attr.data-label]="
-                'evaluate-absences.list.header.unconfirmed' | translate
-              "
-            >
-              {{ entry.TotalAbsencesUnconfirmed }}
-            </td>
-            <td
-              [attr.data-label]="
-                'evaluate-absences.list.header.late' | translate
-              "
-            >
-              {{ entry.TotalIncidents }}
-            </td>
-            <td
-              [attr.data-label]="
-                'evaluate-absences.list.header.halfday' | translate
-              "
-            >
-              {{ entry.TotalHalfDays }}
+              {{ entry[column.key] }}
             </td>
           </tr>
         </tbody>

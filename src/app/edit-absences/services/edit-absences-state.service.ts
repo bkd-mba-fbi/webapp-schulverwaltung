@@ -17,9 +17,9 @@ import { spreadTriplet } from 'src/app/shared/utils/function';
 import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 import {
-  PaginatedFilteredEntriesService,
+  PaginatedEntriesService,
   PAGE_LOADING_CONTEXT,
-} from 'src/app/shared/services/paginated-filtered-entries.service';
+} from 'src/app/shared/services/paginated-entries.service';
 import { Paginated } from 'src/app/shared/utils/pagination';
 import { SETTINGS, Settings } from 'src/app/settings';
 
@@ -34,7 +34,7 @@ export interface EditAbsencesFilter {
 }
 
 @Injectable()
-export class EditAbsencesStateService extends PaginatedFilteredEntriesService<
+export class EditAbsencesStateService extends PaginatedEntriesService<
   LessonPresence,
   EditAbsencesFilter
 > {
@@ -103,6 +103,7 @@ export class EditAbsencesStateService extends PaginatedFilteredEntriesService<
 
   protected loadEntries(
     filterValue: EditAbsencesFilter,
+    _sorting: null,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     return this.loadingService.load(

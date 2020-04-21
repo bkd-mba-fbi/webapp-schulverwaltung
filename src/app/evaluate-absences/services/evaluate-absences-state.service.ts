@@ -9,9 +9,10 @@ import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-s
 import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 import { Paginated } from 'src/app/shared/utils/pagination';
 import {
-  PaginatedFilteredEntriesService,
+  PaginatedEntriesService,
   PAGE_LOADING_CONTEXT,
-} from 'src/app/shared/services/paginated-filtered-entries.service';
+  Sorting,
+} from 'src/app/shared/services/paginated-entries.service';
 import { SETTINGS, Settings } from 'src/app/settings';
 
 export interface EvaluateAbsencesFilter {
@@ -21,7 +22,7 @@ export interface EvaluateAbsencesFilter {
 }
 
 @Injectable()
-export class EvaluateAbsencesStateService extends PaginatedFilteredEntriesService<
+export class EvaluateAbsencesStateService extends PaginatedEntriesService<
   LessonPresenceStatistic,
   EvaluateAbsencesFilter
 > {
@@ -50,12 +51,20 @@ export class EvaluateAbsencesStateService extends PaginatedFilteredEntriesServic
     );
   }
 
+  protected getInitialSorting(): Option<Sorting<LessonPresenceStatistic>> {
+    return {
+      key: 'StudentFullName',
+      ascending: true,
+    };
+  }
+
   protected loadEntries(
     filterValue: EvaluateAbsencesFilter,
+    sorting: Option<Sorting<LessonPresenceStatistic>>,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     return this.loadingService.load(
-      this.lessonPresenceService.getStatistics(filterValue, offset),
+      this.lessonPresenceService.getStatistics(filterValue, sorting, offset),
       PAGE_LOADING_CONTEXT
     );
   }
