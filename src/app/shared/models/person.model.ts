@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Option, Maybe, Gender } from './common-types';
+import { Option, Maybe } from './common-types';
 
 const Person = t.type({
   Id: t.number,
@@ -20,7 +20,7 @@ const Person = t.type({
   // Email: Option(t.string),
   // Email2: Option(t.string),
   FirstName: Option(t.string),
-  Gender, // t.union([t.literal('M'), t.literal('F')]),
+  Gender: t.union([t.literal('M'), t.literal('F'), t.literal('X')]),
   // HomeTown: Option(t.string),
   // IsEditable: t.boolean,
   // IsEmployee: t.boolean,
