@@ -218,7 +218,7 @@ export function buildPerson(id: number): Person {
     // Email: null,
     // Email2: null,
     FirstName: '',
-    Gender: 'F',
+    Gender: 'X',
     // HomeTown: null,
     // IsEditable: false,
     // IsEmployee: false,
