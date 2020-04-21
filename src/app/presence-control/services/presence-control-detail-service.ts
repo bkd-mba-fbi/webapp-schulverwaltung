@@ -93,6 +93,9 @@ export class PresenceControlDetailService {
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
     apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
   ): Observable<ReadonlyArray<Person>> {
+    if ([...legalRepresentatives, ...apprenticeshipContracts].length === 0) {
+      return of([]);
+    }
     return this.personsService.getListForIds(
       this.getPersonIds(legalRepresentatives, apprenticeshipContracts)
     );
