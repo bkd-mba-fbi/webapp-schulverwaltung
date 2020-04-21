@@ -229,54 +229,22 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     let requests: ReadonlyArray<Observable<void>> = [];
     this.saving$.next(true);
 
-    // TODO: Remove workaround. Due to a backend bug, a request for
-    // each lessonId/personId pair has to be done (see #92, #100). Use
-    // the create*BulkRequests functions and remove the
-    // create*BulkRequestsWorkaround functions, if this issue is fixed
-    // in the backend.
     if (category === Category.Present) {
-      // requests = this.createResetBulkRequests();
-      requests = this.createResetBulkRequestsWorkaround();
+      requests = this.createResetBulkRequests();
     } else {
-      // requests = this.createEditBulkRequests(confirmationValue, absenceTypeId);
-      requests = this.createEditBulkRequestsWorkaround(
-        confirmationValue,
-        absenceTypeId
-      );
+      requests = this.createEditBulkRequests(confirmationValue, absenceTypeId);
     }
     combineLatest(requests)
       .pipe(finalize(() => this.saving$.next(false)))
       .subscribe(this.onSaveSuccess.bind(this));
   }
 
-  /**
-   * TODO: Use me when backend is fixed (see #100)
-   */
   private createResetBulkRequests(): ReadonlyArray<Observable<void>> {
     return this.state.selected.map(({ lessonIds, personIds }) =>
       this.updateService.removeLessonPresences(lessonIds, personIds)
     );
   }
 
-  /**
-   * TODO: Remove me when backend is fixed (see #100)
-   */
-  private createResetBulkRequestsWorkaround(): ReadonlyArray<Observable<void>> {
-    const selected = (flattenDeep(
-      this.state.selected.map(({ lessonIds, personIds }) =>
-        lessonIds.map(lessonId =>
-          personIds.map(personId => ({ lessonId, personId }))
-        )
-      )
-    ) as unknown) as { lessonId: number; personId: number }[];
-    return selected.map(({ lessonId, personId }) =>
-      this.updateService.removeLessonPresences([lessonId], [personId])
-    );
-  }
-
-  /**
-   * TODO: Use me when backend is fixed (see #100)
-   */
   private createEditBulkRequests(
     confirmationValue: Option<number>,
     absenceTypeId: number
@@ -286,32 +254,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
         lessonIds,
         personIds,
         absenceTypeId,
-        // TODO: Workaround since backend can't handle null values, see #110
-        confirmationValue || undefined
-      )
-    );
-  }
-
-  /**
-   * TODO: Remove me when backend is fixed (see #100)
-   */
-  private createEditBulkRequestsWorkaround(
-    confirmationValue: Option<number>,
-    absenceTypeId: number
-  ): ReadonlyArray<Observable<void>> {
-    const selected = (flattenDeep(
-      this.state.selected.map(({ lessonIds, personIds }) =>
-        lessonIds.map(lessonId =>
-          personIds.map(personId => ({ lessonId, personId }))
-        )
-      )
-    ) as unknown) as { lessonId: number; personId: number }[];
-    return selected.map(({ lessonId, personId }) =>
-      this.updateService.editLessonPresences(
-        [lessonId],
-        [personId],
-        absenceTypeId,
-        // TODO: Workaround since backend can't handle null values, see #110
         confirmationValue || undefined
       )
     );

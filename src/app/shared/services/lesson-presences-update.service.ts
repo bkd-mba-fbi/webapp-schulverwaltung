@@ -153,7 +153,6 @@ export class LessonPresencesUpdateService implements OnDestroy {
         [lessonId],
         personIds,
         newPresenceTypeId,
-        // TODO: Workaround since backend can't handle null values, see #110
         getNewConfirmationStateId(newPresenceTypeId, this.settings) ||
           undefined,
         undefined,
