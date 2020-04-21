@@ -18,6 +18,7 @@ describe('EvaluateAbsencesListComponent', () => {
 
     stateServiceMock = ({
       entries$: of([statistic]),
+      sorting$: of({ key: 'StudentFullName', ascending: true }),
     } as unknown) as EvaluateAbsencesStateService;
 
     TestBed.configureTestingModule(

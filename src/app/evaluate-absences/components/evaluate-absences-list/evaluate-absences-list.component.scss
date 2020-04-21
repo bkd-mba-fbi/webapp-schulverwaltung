@@ -1,0 +1,13 @@
+th {
+  cursor: pointer;
+}
+
+th.student {
+  width: 30%;
+}
+
+.column-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

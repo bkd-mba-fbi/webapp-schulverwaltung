@@ -5,6 +5,8 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresencesRestService } from './lesson-presences-rest.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
+import { Sorting } from './paginated-entries.service';
+import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 
 describe('LessonPresencesRestService', () => {
   let service: LessonPresencesRestService;
@@ -135,6 +137,7 @@ describe('LessonPresencesRestService', () => {
   describe('.getStatistics', () => {
     const data: any[] = [];
     let filter: EvaluateAbsencesFilter;
+    let sorting: Sorting<LessonPresenceStatistic>;
 
     beforeEach(() => {
       filter = {
@@ -142,17 +145,22 @@ describe('LessonPresencesRestService', () => {
         moduleInstance: null,
         studyClass: null,
       };
+
+      sorting = {
+        key: 'StudentFullName',
+        ascending: true,
+      };
     });
 
-    it('fetches statistics based with the given filter, all filter criteria set', () => {
+    it('fetches statistics based with the given filter (all filter criteria set) and sorting', () => {
       filter.student = 123;
       filter.moduleInstance = 333;
       filter.studyClass = 678;
       const url =
-        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&offset=0&limit=1000';
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&sort=StudentFullName.asc&offset=0&limit=1000';
 
       service
-        .getStatistics(filter, 0)
+        .getStatistics(filter, sorting, 0)
         .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController
@@ -160,13 +168,13 @@ describe('LessonPresencesRestService', () => {
         .flush(data);
     });
 
-    it('fetches statistics based with the given filter, only student set', () => {
+    it('fetches statistics based with the given filter (only student set) and sorting', () => {
       filter.student = 123;
       const url =
-        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&offset=0&limit=1000';
+        'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&sort=StudentFullName.asc&offset=0&limit=1000';
 
       service
-        .getStatistics(filter, 0)
+        .getStatistics(filter, sorting, 0)
         .subscribe((result) => expect(result.entries).toBe(data));
 
       httpTestingController

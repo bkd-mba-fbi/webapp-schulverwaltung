@@ -17,6 +17,7 @@ import {
   paginatedParams,
   paginatedHeaders,
 } from '../utils/pagination';
+import { Sorting } from './paginated-entries.service';
 
 @Injectable({
   providedIn: 'root',
@@ -75,16 +76,20 @@ export class LessonPresencesRestService extends RestService<
 
   getStatistics(
     absencesFilter: EvaluateAbsencesFilter,
+    absencesSorting: Option<Sorting<LessonPresenceStatistic>>,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
-    const params = buildHttpParamsForFilter([
+    let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
       [absencesFilter.moduleInstance, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef'],
     ]);
+    params = sortedParams(absencesSorting, params);
+    params = paginatedParams(offset, this.settings.paginationLimit, params);
+
     return this.http
       .get<unknown>(`${this.baseUrl}/Statistics`, {
-        params: paginatedParams(offset, this.settings.paginationLimit, params),
+        params,
         headers: paginatedHeaders(),
         observe: 'response',
       })
@@ -95,7 +100,7 @@ export class LessonPresencesRestService extends RestService<
     absencesFilter: EditAbsencesFilter,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
-    let params = buildHttpParamsForFilter([
+    let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
       [absencesFilter.moduleInstance, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef'],
@@ -142,13 +147,27 @@ export class LessonPresencesRestService extends RestService<
  * of item/field tuples). All non-Id values have to be
  * custom added to the returned `HttpParams`.
  */
-function buildHttpParamsForFilter(
-  filterValues: ReadonlyArray<[Option<number>, string]>
+function filteredParams(
+  filterValues: ReadonlyArray<[Option<number>, string]>,
+  params = new HttpParams()
 ): HttpParams {
   return filterValues.reduce((acc, [item, field]) => {
     if (item && field) {
       return acc.set(`filter.${field}`, `=${item}`);
     }
     return acc;
-  }, new HttpParams());
+  }, params);
+}
+
+function sortedParams<T>(
+  sorting: Option<Sorting<T>>,
+  params = new HttpParams()
+): HttpParams {
+  if (!sorting) {
+    return params;
+  }
+  return params.set(
+    'sort',
+    `${sorting.key}.${sorting.ascending ? 'asc' : 'desc'}`
+  );
 }
