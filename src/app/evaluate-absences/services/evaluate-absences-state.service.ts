@@ -17,7 +17,7 @@ import { SETTINGS, Settings } from 'src/app/settings';
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
-  moduleInstance: Option<number>;
+  educationalEvent: Option<number>;
   studyClass: Option<number>;
 }
 
@@ -38,7 +38,7 @@ export class EvaluateAbsencesStateService extends PaginatedEntriesService<
   protected getInitialFilter(): EvaluateAbsencesFilter {
     return {
       student: null,
-      moduleInstance: null,
+      educationalEvent: null,
       studyClass: null,
     };
   }
@@ -46,7 +46,7 @@ export class EvaluateAbsencesStateService extends PaginatedEntriesService<
   protected isValidFilter(filterValue: EvaluateAbsencesFilter): boolean {
     return Boolean(
       filterValue.student ||
-        filterValue.moduleInstance ||
+        filterValue.educationalEvent ||
         filterValue.studyClass
     );
   }
