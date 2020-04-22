@@ -43,3 +43,16 @@ When using CSS Grid, add the following comment at the top of the .scss file to e
 ```
 
 Checkout the following table for the supported features: https://css-tricks.com/css-grid-in-ie-css-grid-and-the-new-autoprefixer/#article-header-id-1
+
+## Testing with BrowserStack
+
+When testing browser compatiblity with [BrowserStack](https://www.browserstack.com/), consider the following combination of Dev Server and URL to use.
+
+| OS        | Browser               | Dev Server                   | URL                        |
+| --------- | --------------------- | ---------------------------- | -------------------------- |
+| Windows   | Chrome, Firefox, Edge | `npm start`                  | `http://localhost:4200`    |
+| Android   | Chrome                | `npm start`                  | `http://localhost:4200`    |
+| Windows   | IE11                  | `npm run start:es5`          | `http://localhost:4200`    |
+| macOS/iOS | Safari                | `npm run start:browserstack` | `http://bs-local.com:8000` |
+
+With all browsers you must store a valid token in localStorage to be able to use the app.

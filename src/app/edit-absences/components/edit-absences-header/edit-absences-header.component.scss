@@ -1,4 +1,5 @@
 @import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
 
 :host {
   display: flex;
@@ -8,23 +9,20 @@
 }
 
 .filters {
-  display: block;
-  flex-direction: row;
-  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
 }
-
 .form-group {
   flex: 1;
+  min-width: 15rem;
+  max-width: 30rem;
   margin-right: $spacer;
-  margin-bottom: 0.5rem;
-  float: left;
+  margin-bottom: $spacer / 2;
 }
 .buttons {
   flex: none;
+  margin-top: $font-size-base * $line-height-base + $label-margin-bottom;
   margin-right: 0;
-  padding-top: 31px;
-  float: left;
-  margin-bottom: 1rem;
 }
 
 .extended-filters-header {
@@ -34,4 +32,15 @@
 .extended-filters-header button {
   color: $body-color;
   text-decoration: none;
+}
+
+/**
+ * Wrap button to separate line on small screens
+ */
+@include media-breakpoint-down(sm) {
+  .buttons {
+    width: 100%;
+    margin-top: $spacer;
+    margin-bottom: $spacer;
+  }
 }
