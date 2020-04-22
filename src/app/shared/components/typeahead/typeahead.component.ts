@@ -5,10 +5,9 @@ import {
   Output,
   Input,
   OnChanges,
-  SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -33,16 +32,17 @@ const MINIMAL_TERM_LENGTH = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TypeaheadComponent implements OnInit, OnChanges {
-  private selectIdSource$ = new BehaviorSubject<Option<number>>(null);
+  selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = 'shared.typeahead.default-placeholder';
-  @Input() value: number;
+  @Input() value: Option<number>;
 
   @Output()
-  valueChange = this.selectIdSource$.pipe(distinctUntilChanged());
-
-  selectedItem$ = new Subject<DropDownItem>();
+  valueChange = this.selectedItem$.pipe(
+    map((item) => (item ? item.Key : null)),
+    distinctUntilChanged()
+  );
 
   componentId = uniqueId('erz-typeahead-');
   loading$ = new BehaviorSubject(false);
@@ -52,9 +52,12 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value && changes.value.currentValue) {
+    if (
+      changes.value &&
+      changes.value.currentValue &&
+      changes.value.currentValue !== this.selectedItemId
+    ) {
       this.fetchItem(changes.value.currentValue).subscribe((item) => {
-        this.selectedItem$.next(item);
         this.modelChange(item);
       });
     }
@@ -72,9 +75,13 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   }
 
   modelChange(value: unknown): void {
-    this.selectIdSource$.next(
-      value instanceof Object ? (value as DropDownItem).Key : null
+    this.selectedItem$.next(
+      value instanceof Object ? (value as DropDownItem) : null
     );
+  }
+
+  private get selectedItemId(): Option<number> {
+    return this.selectedItem$.value ? this.selectedItem$.value.Key : null;
   }
 
   private fetchItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
