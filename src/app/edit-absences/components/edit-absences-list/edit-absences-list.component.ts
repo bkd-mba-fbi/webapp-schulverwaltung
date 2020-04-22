@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil, take, map } from 'rxjs/operators';
+import { takeUntil, take, map, pluck, filter } from 'rxjs/operators';
 
 import {
   EditAbsencesStateService,
@@ -16,6 +16,7 @@ import {
 import { EditAbsencesSelectionService } from '../../services/edit-absences-selection.service';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
+import { isTruthy } from 'src/app/shared/utils/filter';
 
 @Component({
   selector: 'erz-edit-absences-list',
@@ -27,6 +28,7 @@ import { parseISOLocalDate } from 'src/app/shared/utils/date';
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy {
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
+  profileReturnParams$ = this.state.queryParams$;
 
   private destroy$ = new Subject();
 
@@ -41,7 +43,7 @@ export class EditAbsencesListComponent
     // Load list with filter from query params
     this.filterFromParams$
       .pipe(take(1))
-      .subscribe((filter) => this.state.setFilter(filter));
+      .subscribe((filterValue) => this.state.setFilter(filterValue));
 
     // Clear selection when filter changes and new entries are being loaded
     this.state.validFilter$
@@ -52,6 +54,11 @@ export class EditAbsencesListComponent
     this.selectionService.selectedIds$
       .pipe(takeUntil(this.destroy$))
       .subscribe((ids) => (this.state.selected = ids));
+
+    // Reload entries for current filter when ?reload=true
+    this.route.queryParams
+      .pipe(take(1), pluck('reload'), filter(isTruthy))
+      .subscribe(() => this.state.resetEntries());
   }
 
   ngAfterViewInit(): void {

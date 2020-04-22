@@ -1,7 +1,7 @@
 <erz-avatar
   *ngIf="!isListViewMode"
   [studentId]="studentId$ | async"
-  [link]="['/presence-control/detail', entry.lessonPresence.StudentRef.Id]"
+  [link]="['/presence-control/student', entry.lessonPresence.StudentRef.Id]"
   class="avatar mr-3 large"
 ></erz-avatar>
 <button
@@ -21,7 +21,7 @@
 </button>
 <a
   [routerLink]="[
-    '/presence-control/detail',
+    '/presence-control/student',
     entry.lessonPresence.StudentRef.Id
   ]"
   class="student-name"

@@ -45,13 +45,6 @@
       "comment": "Kommentar...",
       "update-warning": "Statuswechsel nicht möglich"
     },
-    "detail": {
-      "legal-representation": "Gesetzliche Vertretung",
-      "apprenticeship-company": "Lehrbetrieb",
-      "apprenticeship-period": "Lehrzeit",
-      "job-trainer": "Berufsbildner/in",
-      "no-profile": "Profil wurde nicht gefunden"
-    },
     "comment": {
       "placeholder": "Kommentar...",
       "cancel": "Abbrechen",
@@ -175,6 +168,13 @@
     },
     "lesson-presences-update": {
       "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
+    },
+    "profile": {
+      "legal-representation": "Gesetzliche Vertretung",
+      "apprenticeship-company": "Lehrbetrieb",
+      "apprenticeship-period": "Lehrzeit",
+      "job-trainer": "Berufsbildner/in",
+      "no-profile": "Profil wurde nicht gefunden"
     },
     "select": {
       "empty-option": "Wählen..."

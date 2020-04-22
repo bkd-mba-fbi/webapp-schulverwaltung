@@ -9,10 +9,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { ViewMode } from '../../services/presence-control-state.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
+import { ViewMode } from '../../services/presence-control-state.service';
 
 @Component({
   selector: 'erz-presence-control-entry',

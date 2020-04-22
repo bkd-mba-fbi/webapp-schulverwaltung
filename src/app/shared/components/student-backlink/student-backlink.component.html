@@ -1,11 +1,11 @@
-<a class="btn btn-link" [routerLink]="link">
+<a class="btn btn-link" [routerLink]="link" [queryParams]="queryParams">
   <i class="material-icons">navigate_before</i>
 </a>
 <erz-avatar [studentId]="studentId" class="mr-3 small"></erz-avatar>
-<div class="detail-header-info" *ngIf="student">
+<div *ngIf="student">
   {{ student.FullName }} ({{ student.Gender }})
   <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
 </div>
-<div class="detail-header-info" *ngIf="!student && studentName">
+<div *ngIf="!student && studentName">
   {{ studentName }}
 </div>

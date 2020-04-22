@@ -45,13 +45,6 @@
       "comment": "Commentaire...",
       "update-warning": "Il n'est pas possible de modifier le statut."
     },
-    "detail": {
-      "legal-representation": "Représentants légaux",
-      "apprenticeship-company": "Entreprise formatrice",
-      "apprenticeship-period": "Durée de l'apprentissage",
-      "job-trainer": "Formateur/trice",
-      "no-profile": "Le profil n'a pas été trouvé."
-    },
     "comment": {
       "placeholder": "Commentaire...",
       "cancel": "Annuler",
@@ -175,6 +168,13 @@
     },
     "lesson-presences-update": {
       "error": "Une erreur s'est produite lors de l'enregistrement des modifications."
+    },
+    "profile": {
+      "legal-representation": "Représentants légaux",
+      "apprenticeship-company": "Entreprise formatrice",
+      "apprenticeship-period": "Durée de l'apprentissage",
+      "job-trainer": "Formateur/trice",
+      "no-profile": "Le profil n'a pas été trouvé."
     },
     "select": {
       "empty-option": "Sélectionner..."

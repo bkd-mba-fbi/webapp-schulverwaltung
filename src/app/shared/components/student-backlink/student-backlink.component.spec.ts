@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { PresenceControlBackComponent } from './presence-control-back.component';
+import { StudentBacklinkComponent } from './student-backlink.component';
 
-describe('PresenceControlBackComponent', () => {
-  let component: PresenceControlBackComponent;
-  let fixture: ComponentFixture<PresenceControlBackComponent>;
+describe('StudentBacklinkComponent', () => {
+  let component: StudentBacklinkComponent;
+  let fixture: ComponentFixture<StudentBacklinkComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlBackComponent],
+        declarations: [StudentBacklinkComponent],
       })
     ).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PresenceControlBackComponent);
+    fixture = TestBed.createComponent(StudentBacklinkComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

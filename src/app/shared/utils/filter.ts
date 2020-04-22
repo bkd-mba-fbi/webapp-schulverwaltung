@@ -15,3 +15,9 @@ export function longerOrEqual<T extends { length: number }>(
 ): (value: T) => boolean {
   return (value) => value.length >= length;
 }
+
+type Falsy = null | undefined | '' | false | 0 | void | never;
+
+export function isTruthy<T>(value: T): value is Exclude<T, Falsy> {
+  return Boolean(value);
+}

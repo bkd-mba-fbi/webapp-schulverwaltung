@@ -15,6 +15,9 @@ import { RestErrorInterceptor } from '../rest-error-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { DateSelectComponent } from './components/date-select/date-select.component';
 import { SelectComponent } from './components/select/select.component';
+import { StudentBacklinkComponent } from './components/student-backlink/student-backlink.component';
+import { StudentProfileComponent } from './components/student-profile/student-profile.component';
+import { PersonEmailPipe } from './pipes/person-email.pipe';
 
 const components = [
   LetDirective,
@@ -23,6 +26,9 @@ const components = [
   TypeaheadComponent,
   DateSelectComponent,
   SelectComponent,
+  StudentBacklinkComponent,
+  StudentProfileComponent,
+  PersonEmailPipe,
 ];
 
 @NgModule({

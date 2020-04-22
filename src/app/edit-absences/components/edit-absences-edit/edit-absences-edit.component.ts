@@ -6,9 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { flattenDeep } from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import {
@@ -28,6 +27,7 @@ import { getValidationErrors } from 'src/app/shared/utils/form';
 import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
+import { parseQueryString } from 'src/app/shared/utils/url';
 
 enum Category {
   Absent = 'absent',
@@ -260,13 +260,16 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     this.toastr.success(
       this.translate.instant('edit-absences.edit.save-success')
     );
-    this.navigateBack();
+    this.navigateBack(true);
   }
 
-  private navigateBack(): void {
+  private navigateBack(reload?: true): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.router.navigate(['/edit-absences'], {
-        queryParams: convertQueryStringToParams(params.returnparams),
+        queryParams: {
+          ...parseQueryString(params.returnparams),
+          reload, // Make sure the entries get reloaded when returning to the list
+        },
       });
     });
   }
@@ -284,13 +287,4 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       return a.Value.localeCompare(b.Value);
     });
   }
-}
-
-function convertQueryStringToParams(queryString: any): Params {
-  return String(queryString || '')
-    .split('&')
-    .reduce((acc, pair) => {
-      const [key, value] = pair.split('=');
-      return { ...acc, [key]: value };
-    }, {});
 }

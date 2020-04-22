@@ -4,16 +4,18 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { Params } from '@angular/router';
 import { Student } from 'src/app/shared/models/student.model';
 
 @Component({
-  selector: 'erz-presence-control-back',
-  templateUrl: './presence-control-back.component.html',
-  styleUrls: ['./presence-control-back.component.scss'],
+  selector: 'erz-student-backlink',
+  templateUrl: './student-backlink.component.html',
+  styleUrls: ['./student-backlink.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresenceControlBackComponent implements OnInit {
-  @Input() link: any[] | string = '/presence-control';
+export class StudentBacklinkComponent implements OnInit {
+  @Input() link: any[] | string = '/';
+  @Input() queryParams?: Params;
   @Input() studentId: number;
   @Input() studentName?: string;
   @Input() student?: Student;

@@ -27,7 +27,7 @@ export interface ApprenticeshipCompany {
 @Injectable({
   providedIn: 'root',
 })
-export class PresenceControlDetailService {
+export class StudentProfileService {
   loading$ = this.loadingService.loading$;
 
   constructor(

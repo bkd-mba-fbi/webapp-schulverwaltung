@@ -1,12 +1,13 @@
 <div class="erz-container erz-container-padding-y">
-  <erz-presence-control-back
+  <erz-student-backlink
     class="mb-2"
+    link="/presence-control"
     [studentId]="studentId$ | async"
     [student]="student$ | async"
     [studentName]="
       (presenceControlEntry$ | async)?.lessonPresence?.StudentFullName
     "
-  ></erz-presence-control-back>
+  ></erz-student-backlink>
 
   <form [formGroup]="formGroup$ | async" (ngSubmit)="onSubmit()" class="mt-5">
     <div class="d-flex mb-5">

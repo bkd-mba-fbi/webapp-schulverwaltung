@@ -1,9 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  AfterViewInit,
+} from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
-import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
+import {
+  EvaluateAbsencesStateService,
+  EvaluateAbsencesFilter,
+} from '../../services/evaluate-absences-state.service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
+import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 
 interface Column {
   key: keyof LessonPresenceStatistic;
@@ -16,7 +26,7 @@ interface Column {
   styleUrls: ['./evaluate-absences-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EvaluateAbsencesListComponent implements OnInit {
+export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   columns: ReadonlyArray<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
@@ -27,9 +37,24 @@ export class EvaluateAbsencesListComponent implements OnInit {
     { key: 'TotalHalfDays', label: 'halfday' },
   ];
 
-  constructor(public state: EvaluateAbsencesStateService) {}
+  filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
+  profileReturnParams$ = this.state.queryParams$;
 
-  ngOnInit(): void {}
+  constructor(
+    public state: EvaluateAbsencesStateService,
+    private scrollPosition: ScrollPositionService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.filterFromParams$
+      .pipe(take(1))
+      .subscribe((filterValue) => this.state.setFilter(filterValue));
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollPosition.restore();
+  }
 
   onScroll(): void {
     this.state.nextPage();
@@ -45,4 +70,14 @@ export class EvaluateAbsencesListComponent implements OnInit {
       })
     );
   }
+}
+
+function createFilterFromParams(params: Params): EvaluateAbsencesFilter {
+  return {
+    student: params.student ? Number(params.student) : null,
+    educationalEvent: params.educationalEvent
+      ? Number(params.educationalEvent)
+      : null,
+    studyClass: params.studyClass ? Number(params.studyClass) : null,
+  };
 }

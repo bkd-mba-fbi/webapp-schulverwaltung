@@ -12,6 +12,7 @@ import {
   NgbDateParserFormatter,
 } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
+import { startOfDay } from 'date-fns';
 
 import { not } from 'src/app/shared/utils/filter';
 import { isComment } from 'src/app/presence-control/utils/presence-types';
@@ -66,6 +67,16 @@ export class EditAbsencesHeaderComponent implements OnInit {
   ngOnInit(): void {}
 
   show(): void {
-    this.filterChange.emit(this.filter);
+    this.filterChange.emit({
+      ...this.filter,
+
+      // Normalize the dates' times to 00:00 to be comparable
+      dateFrom: normalizeDate(this.filter.dateFrom),
+      dateTo: normalizeDate(this.filter.dateTo),
+    });
   }
+}
+
+function normalizeDate(date: Option<Date>): Option<Date> {
+  return date ? startOfDay(date) : null;
 }

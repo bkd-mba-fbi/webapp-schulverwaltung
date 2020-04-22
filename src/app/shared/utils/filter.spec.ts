@@ -1,4 +1,4 @@
-import { nonZero, not, notNull } from './filter';
+import { nonZero, not, notNull, isTruthy } from './filter';
 
 describe('filter utils', () => {
   describe('nonZero', () => {
@@ -51,6 +51,27 @@ describe('filter utils', () => {
           return false;
         })(123)
       ).toBe(true);
+    });
+  });
+
+  describe('isTruthy', () => {
+    it('returns true for truthy value', () => {
+      expect(isTruthy(true)).toEqual(true);
+      expect(isTruthy('true')).toEqual(true);
+      expect(isTruthy(1)).toEqual(true);
+      expect(isTruthy('1')).toEqual(true);
+      expect(isTruthy('foo')).toEqual(true);
+      expect(isTruthy('0')).toEqual(true);
+      expect(isTruthy('undefined')).toEqual(true);
+      expect(isTruthy('null')).toEqual(true);
+    });
+
+    it('returns false for falsy value', () => {
+      expect(isTruthy(false)).toEqual(false);
+      expect(isTruthy(0)).toEqual(false);
+      expect(isTruthy('')).toEqual(false);
+      expect(isTruthy(null)).toEqual(false);
+      expect(isTruthy(undefined)).toEqual(false);
     });
   });
 });

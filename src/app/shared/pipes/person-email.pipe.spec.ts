@@ -1,7 +1,7 @@
-import { PersonEmailPipe } from './person-email-pipe';
+import { PersonEmailPipe } from './person-email.pipe';
 import { buildPersonWithEmails } from '../../../spec-builders';
 
-describe('person email pipe', () => {
+describe('PersonEmailPipe', () => {
   let personEmailPipe: PersonEmailPipe;
 
   beforeEach(() => {

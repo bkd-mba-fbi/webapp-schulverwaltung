@@ -115,7 +115,13 @@
                     | translate
                 "
               >
-                {{ entry.lessonPresence.StudentFullName }}
+                <a
+                  class="student"
+                  [routerLink]="['student', entry.lessonPresence.StudentRef.Id]"
+                  [queryParams]="{ returnparams: profileReturnParams$ | async }"
+                >
+                  {{ entry.lessonPresence.StudentFullName }}
+                </a>
                 <br />
                 {{ entry.lessonPresence.EventDesignation }},
                 {{ entry.lessonPresence.StudyClassNumber }}

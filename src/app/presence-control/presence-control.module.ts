@@ -6,11 +6,9 @@ import { PresenceControlComponent } from './components/presence-control/presence
 import { PresenceControlHeaderComponent } from './components/presence-control-header/presence-control-header.component';
 import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
 import { PresenceControlCommentComponent } from './components/presence-control-comment/presence-control-comment.component';
-import { PresenceControlDetailComponent } from './components/presence-control-detail/presence-control-detail.component';
 import { PresenceControlEntryComponent } from './components/presence-control-entry/presence-control-entry.component';
-import { PresenceControlBackComponent } from './components/presence-control-back/presence-control-back.component';
 import { PresenceControlDialogComponent } from './components/presence-control-dialog/presence-control-dialog.component';
-import { PersonEmailPipe } from './utils/person-email-pipe';
+import { STUDENT_PROFILE_BACKLINK } from '../shared/tokens/student-profile-backlink';
 
 @NgModule({
   declarations: [
@@ -18,11 +16,11 @@ import { PersonEmailPipe } from './utils/person-email-pipe';
     PresenceControlHeaderComponent,
     PresenceControlListComponent,
     PresenceControlCommentComponent,
-    PresenceControlDetailComponent,
     PresenceControlEntryComponent,
-    PresenceControlBackComponent,
     PresenceControlDialogComponent,
-    PersonEmailPipe,
+  ],
+  providers: [
+    { provide: STUDENT_PROFILE_BACKLINK, useValue: '/presence-control' },
   ],
   imports: [SharedModule, PresenceControlRoutingModule],
   entryComponents: [PresenceControlDialogComponent],

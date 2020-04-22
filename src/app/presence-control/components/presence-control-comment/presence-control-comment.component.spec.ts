@@ -15,8 +15,8 @@ import {
 import { ActivatedRouteMock, buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { PresenceControlBackComponent } from '../presence-control-back/presence-control-back.component';
 import { PresenceControlCommentComponent } from './presence-control-comment.component';
+import { StudentBacklinkComponent } from 'src/app/shared/components/student-backlink/student-backlink.component';
 
 describe('PresenceControlCommentComponent', () => {
   let component: PresenceControlCommentComponent;
@@ -59,7 +59,7 @@ describe('PresenceControlCommentComponent', () => {
       buildTestModuleMetadata({
         declarations: [
           PresenceControlCommentComponent,
-          PresenceControlBackComponent,
+          StudentBacklinkComponent,
         ],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteMock },

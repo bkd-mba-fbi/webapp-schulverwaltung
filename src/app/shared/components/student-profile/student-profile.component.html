@@ -1,14 +1,16 @@
 <div class="erz-container erz-container-padding-y">
   <ng-container *erzLet="profile$ | async as profile">
-    <ng-container *ngIf="!(detailService.loading$ | async); else loading">
-      <erz-presence-control-back
+    <ng-container *ngIf="!(profileService.loading$ | async); else loading">
+      <erz-student-backlink
         class="mb-2"
+        [link]="backlink"
+        [queryParams]="backlinkQueryParams$ | async"
         [studentId]="studentId$ | async"
         [student]="profile && profile.student"
-      ></erz-presence-control-back>
+      ></erz-student-backlink>
 
-      <div class="detail-content" *ngIf="profile; else noProfile">
-        <div class="detail-entry">
+      <div class="profile-content" *ngIf="profile; else noProfile">
+        <div class="profile-entry">
           <address>
             {{ profile.student.AddressLine1 }}<br />
             <ng-container *ngIf="profile.student.AddressLine2">
@@ -41,17 +43,15 @@
               let legalPerson of profile.legalRepresentativePersons;
               let i = index
             "
-            [id]="'detail-entry-' + i"
+            [id]="'profile-entry-' + i"
           >
             <ng-template ngbPanelHeader let-opened="opened">
               <div
-                (click)="acc.toggle('detail-entry-' + i)"
-                class="detail-entry-header d-flex align-items-center justify-content-between"
+                (click)="acc.toggle('profile-entry-' + i)"
+                class="profile-entry-header d-flex align-items-center justify-content-between"
               >
                 <h5 class="m-0">
-                  {{
-                    'presence-control.detail.legal-representation' | translate
-                  }}
+                  {{ 'shared.profile.legal-representation' | translate }}
                   <ng-container
                     *ngIf="profile.legalRepresentativePersons > 1"
                     >{{ i + 1 }}</ng-container
@@ -67,7 +67,7 @@
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <div class="detail-entry">
+              <div class="profile-entry">
                 <address>
                   {{ legalPerson.LastName }} {{ legalPerson.FirstName }}<br />
                   <ng-container *ngIf="legalPerson.AddressLine1"
@@ -103,23 +103,21 @@
               let i = index
             "
             [id]="
-              'detail-entry-' + (i + profile.legalRepresentativePersons.length)
+              'profile-entry-' + (i + profile.legalRepresentativePersons.length)
             "
           >
             <ng-template ngbPanelHeader let-opened="opened">
               <div
                 (click)="
                   acc.toggle(
-                    'detail-entry-' +
+                    'profile-entry-' +
                       (i + profile.legalRepresentativePersons.length)
                   )
                 "
-                class="detail-entry-header d-flex align-items-center justify-content-between"
+                class="profile-entry-header d-flex align-items-center justify-content-between"
               >
                 <h5 class="m-0">
-                  {{
-                    'presence-control.detail.apprenticeship-company' | translate
-                  }}
+                  {{ 'shared.profile.apprenticeship-company' | translate }}
                   <ng-container
                     *ngIf="profile.apprenticeshipCompanies.length > 1"
                     >{{ i + 1 }}</ng-container
@@ -135,7 +133,7 @@
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <div class="detail-entry">
+              <div class="profile-entry">
                 <address>
                   <ng-container
                     *ngIf="
@@ -229,14 +227,14 @@
                   >
                 </address>
                 <div
-                  class="detail-subentry"
+                  class="profile-subentry"
                   *ngIf="
                     apprenticeshipCompany.apprenticeshipContract
                       .ContractDateFrom
                   "
                 >
                   {{
-                    'presence-control.detail.apprenticeship-period' | translate
+                    'shared.profile.apprenticeship-period' | translate
                   }}:<br />
 
                   {{
@@ -249,9 +247,9 @@
                 </div>
                 <div
                   *ngIf="apprenticeshipCompany.jobTrainerPerson"
-                  class="detail-subentry"
+                  class="profile-subentry"
                 >
-                  {{ 'presence-control.detail.job-trainer' | translate }}:
+                  {{ 'shared.profile.job-trainer' | translate }}:
                   <address>
                     {{ apprenticeshipCompany.jobTrainerPerson.LastName }}
                     {{ apprenticeshipCompany.jobTrainerPerson.FirstName }}<br />
@@ -303,7 +301,7 @@
       </div>
 
       <ng-template #noProfile>
-        <p>{{ 'presence-control.detail.no-profile' | translate }}</p>
+        <p>{{ 'shared.profile.no-profile' | translate }}</p>
       </ng-template>
     </ng-container>
 

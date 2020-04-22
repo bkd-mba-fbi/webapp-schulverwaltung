@@ -19,7 +19,9 @@ import {
   debounceTime,
   pluck,
   take,
+  distinctUntilChanged,
 } from 'rxjs/operators';
+import { isEqual, cloneDeep } from 'lodash-es';
 
 import { LoadingService } from './loading-service';
 import { Settings } from 'src/app/settings';
@@ -51,18 +53,27 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
 
   private filter$ = new BehaviorSubject<F>(this.getInitialFilter());
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));
-  validFilter$ = this.filter$.pipe(filter(this.isValidFilter.bind(this)));
+  validFilter$ = this.filter$.pipe(
+    filter(this.isValidFilter.bind(this)),
+    distinctUntilChanged(isEqual), // Only cause a reload if the filter changes
+    shareReplay(1)
+  );
 
   private sortingSubject$ = new BehaviorSubject<Option<Sorting<T>>>(
     this.getInitialSorting()
   );
-  sorting$ = this.sortingSubject$.asObservable();
+  sorting$ = this.sortingSubject$.asObservable().pipe(
+    distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
+    shareReplay(1)
+  );
 
+  private resetEntries$ = new Subject();
   private nextPage$ = new Subject();
   private page$ = merge(
     this.nextPage$.pipe(mapTo('next')),
-    this.validFilter$.pipe(mapTo('reset')),
-    this.sorting$.pipe(mapTo('reset'))
+    merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
+      mapTo('reset')
+    )
   ).pipe(scan((page, action) => (action === 'next' ? page + 1 : 0), 0));
   private offset$ = this.page$.pipe(
     map((page) => page * this.settings.paginationLimit)
@@ -78,9 +89,8 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   );
 
   entries$ = merge(
-    // Reset list if filter or sorting changes
-    merge(this.validFilter$, this.sorting$).pipe(
-      debounceTime(15), // Avoid flickering of table header on sorting change
+    // Restart with empty list on reset or if filter/sorting changes
+    merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
       mapTo({ action: 'reset' } as ResetEntriesAction<T>)
     ),
 
@@ -133,7 +143,10 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   }
 
   setFilter(filterValue: F): void {
-    this.filter$.next(filterValue);
+    // Make a copy of the filter object to be sure the distinct check
+    // in the `validFilter$` observable works, even if the filter
+    // object gets modified in place (non-immutable) in the component.
+    this.filter$.next(cloneDeep(filterValue));
   }
 
   setSorting(sorting: Option<Sorting<T>>): void {
@@ -156,6 +169,10 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
         this.nextPage$.next();
       }
     });
+  }
+
+  resetEntries(): void {
+    this.resetEntries$.next();
   }
 
   protected abstract getInitialFilter(): F;

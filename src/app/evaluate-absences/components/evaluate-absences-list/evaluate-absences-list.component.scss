@@ -1,3 +1,5 @@
+@import "../../../../bootstrap-variables";
+
 th {
   cursor: pointer;
 }
@@ -10,4 +12,8 @@ th.student {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+a.student {
+  color: $body-color;
 }

@@ -14,13 +14,13 @@ import {
 } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import {
-  PresenceControlDetailService,
+  StudentProfileService,
   Profile,
-} from './presence-control-detail-service';
+} from '../../shared/services/student-profile.service';
 
-describe('PresenceControlDetailService', () => {
+describe('StudentProfileService', () => {
   let httpTestingController: HttpTestingController;
-  let service: PresenceControlDetailService;
+  let service: StudentProfileService;
 
   let student: Student;
   let legalRepresentatives: LegalRepresentative[];
@@ -35,7 +35,7 @@ describe('PresenceControlDetailService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
     httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(PresenceControlDetailService);
+    service = TestBed.inject(StudentProfileService);
 
     student = buildStudent(39405);
     legalRepresentatives = [

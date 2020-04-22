@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EvaluateAbsencesListComponent } from './evaluate-absences-list.component';
+import { EvaluateAbsencesHeaderComponent } from '../evaluate-absences-header/evaluate-absences-header.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
 import { of } from 'rxjs';
@@ -17,13 +18,18 @@ describe('EvaluateAbsencesListComponent', () => {
     statistic = buildLessonPresenceStatistic(333);
 
     stateServiceMock = ({
+      setFilter: jasmine.createSpy('setFilter'),
+      isFilterValid$: of(true),
       entries$: of([statistic]),
       sorting$: of({ key: 'StudentFullName', ascending: true }),
     } as unknown) as EvaluateAbsencesStateService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EvaluateAbsencesListComponent],
+        declarations: [
+          EvaluateAbsencesHeaderComponent,
+          EvaluateAbsencesListComponent,
+        ],
         providers: [
           { provide: EvaluateAbsencesStateService, useValue: stateServiceMock },
         ],

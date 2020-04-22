@@ -1,20 +1,20 @@
 @import "../../../../bootstrap-variables";
 
-.detail-entry {
+.profile-entry {
   padding: 0 $spacer;
 }
 
-.detail-entry-header {
+.profile-entry-header {
   padding: $spacer;
   border-top: 1px solid $gray-200;
   cursor: pointer;
 }
 
-.detail-entry-header button {
+.profile-entry-header button {
   color: $body-color;
   text-decoration: none;
 }
 
-.detail-subentry {
+.profile-subentry {
   padding-bottom: $spacer;
 }
