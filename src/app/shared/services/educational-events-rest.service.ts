@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { DropDownItem } from '../models/drop-down-item.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EducationalEventsRestService extends TypeaheadRestService<
   typeof EducationalEvent
@@ -24,13 +24,13 @@ export class EducationalEventsRestService extends TypeaheadRestService<
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
           fields: [this.idAttr, this.labelAttr].join(','),
-          [`filter.${this.labelAttr}`]: `~*${term}*`
-        }
+          [`filter.${this.labelAttr}`]: `~*${term}*`,
+        },
       })
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
-        map(items =>
-          items.map(i => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
+        map((items) =>
+          items.map((i) => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
         )
       );
   }
@@ -40,18 +40,18 @@ export class EducationalEventsRestService extends TypeaheadRestService<
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
           fields: [this.idAttr, this.labelAttr].join(','),
-          ['filter.Id']: `=${id}`
-        }
+          ['filter.Id']: `=${id}`,
+        },
       })
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
-        map(items => {
+        map((items) => {
           if (items.length === 0) {
             throw new Error('educational event not found');
           }
           return items[0];
         }),
-        map(item => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
+        map((item) => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
       );
   }
 }
