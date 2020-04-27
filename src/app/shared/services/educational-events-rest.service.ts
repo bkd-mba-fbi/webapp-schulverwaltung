@@ -2,42 +2,52 @@ import { Injectable, Inject, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { SETTINGS, Settings } from '../../settings';
-import { TypeaheadRestService } from './typeahead-rest.service';
+import { TypeaheadService } from './typeahead-rest.service';
 import { EducationalEvent } from '../models/educational-event.model';
 import { switchMap, map } from 'rxjs/operators';
 import { decodeArray } from '../utils/decode';
-import { Observable, of, EMPTY } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { DropDownItem } from '../models/drop-down-item.model';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { pick } from '../utils/types';
+import { RestService } from './rest.service';
+import * as t from 'io-ts';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EducationalEventsRestService extends TypeaheadRestService<
-  typeof EducationalEvent
-> {
+export class EducationalEventsRestService
+  extends RestService<typeof EducationalEvent>
+  implements TypeaheadService {
+  protected typeaheadCodec = t.type(
+    pick(this.codec.props, ['Id', 'Designation', 'Number'])
+  );
+
   constructor(
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
     private translate: TranslateService,
     private injector: Injector
   ) {
-    super(http, settings, EducationalEvent, 'EducationalEvents', 'Designation');
+    super(http, settings, EducationalEvent, 'EducationalEvents');
   }
 
   getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
-          fields: [this.idAttr, this.labelAttr].join(','),
-          [`filter.${this.labelAttr}`]: `~*${term}*`,
+          fields: ['Id', 'Designation', 'Number'].join(','),
+          ['filter.Designation']: `~*${term}*`,
         },
       })
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
         map((items) =>
-          items.map((i) => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
+          items.map((i) => ({
+            Key: i.Id,
+            Value: `${i.Designation} (${i.Number})`,
+          }))
         )
       );
   }
@@ -46,23 +56,25 @@ export class EducationalEventsRestService extends TypeaheadRestService<
     return this.http
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
-          fields: [this.idAttr, this.labelAttr].join(','),
+          fields: ['Id', 'Designation', 'Number'].join(','),
           ['filter.Id']: `=${id}`,
         },
       })
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
-        map((items) => {
+        switchMap((items) => {
           if (items.length === 0) {
             this.toastr.error(
               this.translate.instant(`global.rest-errors.notfound-message`),
               this.translate.instant(`global.rest-errors.notfound-title`)
             );
-            return EMPTY;
+            return EMPTY as Observable<DropDownItem>;
           }
-          return items[0];
-        }),
-        map((item) => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
+          return of({
+            Key: items[0].Id,
+            Value: `${items[0].Designation} (${items[0].Number})`,
+          });
+        })
       );
   }
 
