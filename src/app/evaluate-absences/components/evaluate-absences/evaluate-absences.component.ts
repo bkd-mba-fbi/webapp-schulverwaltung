@@ -32,8 +32,8 @@ export class EvaluateAbsencesComponent implements OnInit {
 function createFilterFromParams(params: Params): EvaluateAbsencesFilter {
   return {
     student: params.student ? Number(params.student) : null,
-    moduleInstance: params.moduleInstance
-      ? Number(params.moduleInstance)
+    educationalEvent: params.educationalEvent
+      ? Number(params.educationalEvent)
       : null,
     studyClass: params.studyClass ? Number(params.studyClass) : null,
   };

@@ -17,7 +17,7 @@ import { not } from 'src/app/shared/utils/filter';
 import { isComment } from 'src/app/presence-control/utils/presence-types';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { createPresenceTypesDropdownItems } from 'src/app/shared/utils/presence-types';
-import { ModuleInstancesRestService } from 'src/app/shared/services/module-instances-rest.service';
+import { EducationalEventsRestService } from '../../../shared/services/educational-events-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import {
@@ -39,7 +39,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
   @Input()
   filter: EditAbsencesFilter = {
     student: null,
-    moduleInstance: null,
+    educationalEvent: null,
     studyClass: null,
     dateFrom: null,
     dateTo: null,
@@ -58,7 +58,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
 
   constructor(
     public studentsService: StudentsRestService,
-    public moduleInstancesService: ModuleInstancesRestService,
+    public educationalEventsService: EducationalEventsRestService,
     public studyClassService: StudyClassesRestService,
     private state: EditAbsencesStateService
   ) {}

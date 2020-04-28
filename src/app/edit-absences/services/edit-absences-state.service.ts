@@ -25,7 +25,7 @@ import { SETTINGS, Settings } from 'src/app/settings';
 
 export interface EditAbsencesFilter {
   student: Option<number>;
-  moduleInstance: Option<number>;
+  educationalEvent: Option<number>;
   studyClass: Option<number>;
   dateFrom: Option<Date>;
   dateTo: Option<Date>;
@@ -80,7 +80,7 @@ export class EditAbsencesStateService extends PaginatedEntriesService<
   protected getInitialFilter(): EditAbsencesFilter {
     return {
       student: null,
-      moduleInstance: null,
+      educationalEvent: null,
       studyClass: null,
       dateFrom: null,
       dateTo: null,
@@ -92,7 +92,7 @@ export class EditAbsencesStateService extends PaginatedEntriesService<
   protected isValidFilter(filterValue: EditAbsencesFilter): boolean {
     return Boolean(
       filterValue.student ||
-        filterValue.moduleInstance ||
+        filterValue.educationalEvent ||
         filterValue.studyClass ||
         filterValue.dateFrom ||
         filterValue.dateTo ||

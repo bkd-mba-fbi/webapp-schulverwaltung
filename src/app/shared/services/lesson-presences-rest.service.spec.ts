@@ -142,7 +142,7 @@ describe('LessonPresencesRestService', () => {
     beforeEach(() => {
       filter = {
         student: null,
-        moduleInstance: null,
+        educationalEvent: null,
         studyClass: null,
       };
 
@@ -154,7 +154,7 @@ describe('LessonPresencesRestService', () => {
 
     it('fetches statistics based with the given filter (all filter criteria set) and sorting', () => {
       filter.student = 123;
-      filter.moduleInstance = 333;
+      filter.educationalEvent = 333;
       filter.studyClass = 678;
       const url =
         'https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&sort=StudentFullName.asc&offset=0&limit=1000';
@@ -190,7 +190,7 @@ describe('LessonPresencesRestService', () => {
     beforeEach(() => {
       filter = {
         student: null,
-        moduleInstance: null,
+        educationalEvent: null,
         studyClass: null,
         dateFrom: null,
         dateTo: null,
@@ -201,7 +201,7 @@ describe('LessonPresencesRestService', () => {
 
     it('fetches lesson presences with the given basic filters', () => {
       filter.student = 123;
-      filter.moduleInstance = 333;
+      filter.educationalEvent = 333;
       filter.studyClass = 678;
 
       const url =
@@ -218,7 +218,7 @@ describe('LessonPresencesRestService', () => {
 
     it('fetches lesson presences with all given filters', () => {
       filter.student = 123;
-      filter.moduleInstance = 333;
+      filter.educationalEvent = 333;
       filter.studyClass = 678;
       filter.dateFrom = new Date(2000, 0, 23);
       filter.dateTo = new Date(2000, 0, 25);

@@ -81,7 +81,7 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
-      [absencesFilter.moduleInstance, 'EventRef'],
+      [absencesFilter.educationalEvent, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef'],
     ]);
     params = sortedParams(absencesSorting, params);
@@ -102,7 +102,7 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
-      [absencesFilter.moduleInstance, 'EventRef'],
+      [absencesFilter.educationalEvent, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef'],
       [absencesFilter.presenceType, 'TypeRef'],
       [absencesFilter.confirmationState, 'ConfirmationStateId'],

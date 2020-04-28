@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { ModuleInstancesRestService } from 'src/app/shared/services/module-instances-rest.service';
+import { EducationalEventsRestService } from '../../../shared/services/educational-events-rest.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { EvaluateAbsencesFilter } from '../../services/evaluate-absences-state.service';
 
@@ -22,7 +22,7 @@ export class EvaluateAbsencesHeaderComponent implements OnInit {
   @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
-    moduleInstance: null,
+    educationalEvent: null,
     studyClass: null,
   };
 
@@ -30,7 +30,7 @@ export class EvaluateAbsencesHeaderComponent implements OnInit {
 
   constructor(
     public studentsService: StudentsRestService,
-    public moduleInstancesService: ModuleInstancesRestService,
+    public educationalEventsService: EducationalEventsRestService,
     public studyClassesService: StudyClassesRestService
   ) {}
 
