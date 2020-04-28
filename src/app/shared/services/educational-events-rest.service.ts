@@ -1,4 +1,4 @@
-import { Injectable, Inject, Injector } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { SETTINGS, Settings } from '../../settings';
@@ -28,7 +28,7 @@ export class EducationalEventsRestService
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
     private translate: TranslateService,
-    private injector: Injector
+    private toastr: ToastrService
   ) {
     super(http, settings, EducationalEvent, 'EducationalEvents');
   }
@@ -76,9 +76,5 @@ export class EducationalEventsRestService
           });
         })
       );
-  }
-
-  private get toastr(): ToastrService {
-    return this.injector.get(ToastrService);
   }
 }
