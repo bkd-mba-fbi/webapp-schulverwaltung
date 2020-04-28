@@ -244,10 +244,10 @@ export function buildPersonWithEmails(
   displayEmail?: string,
   email?: string,
   email2?: string
-) {
+): Person {
   const person = buildPerson(id);
   person.DisplayEmail = displayEmail || null;
-  person.Email = email || null;
-  person.Email2 = email2 || null;
+  person.Email = email;
+  person.Email2 = email2;
   return person;
 }
