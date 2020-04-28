@@ -238,3 +238,16 @@ export function buildPerson(id: number): Person {
     // HRef: ''
   };
 }
+
+export function buildPersonWithEmails(
+  id: number,
+  displayEmail?: string,
+  email?: string,
+  email2?: string
+) {
+  const person = buildPerson(id);
+  person.DisplayEmail = displayEmail || null;
+  person.Email = email || null;
+  person.Email2 = email2 || null;
+  return person;
+}

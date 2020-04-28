@@ -10,6 +10,7 @@ import { PresenceControlDetailComponent } from './components/presence-control-de
 import { PresenceControlEntryComponent } from './components/presence-control-entry/presence-control-entry.component';
 import { PresenceControlBackComponent } from './components/presence-control-back/presence-control-back.component';
 import { PresenceControlDialogComponent } from './components/presence-control-dialog/presence-control-dialog.component';
+import { PersonEmailPipe } from './utils/person-email-pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { PresenceControlDialogComponent } from './components/presence-control-di
     PresenceControlEntryComponent,
     PresenceControlBackComponent,
     PresenceControlDialogComponent,
+    PersonEmailPipe,
   ],
   imports: [SharedModule, PresenceControlRoutingModule],
   entryComponents: [PresenceControlDialogComponent],
