@@ -215,8 +215,8 @@ export function buildPerson(id: number): Person {
     // Birthdate: null,
     // CorrespondenceAddress: '',
     DisplayEmail: null,
-    // Email: null,
-    // Email2: null,
+    Email: null,
+    Email2: null,
     FirstName: '',
     Gender: 'X',
     // HomeTown: null,
@@ -237,4 +237,17 @@ export function buildPerson(id: number): Person {
     Zip: null,
     // HRef: ''
   };
+}
+
+export function buildPersonWithEmails(
+  id: number,
+  displayEmail?: string,
+  email?: string,
+  email2?: string
+): Person {
+  const person = buildPerson(id);
+  person.DisplayEmail = displayEmail || null;
+  person.Email = email;
+  person.Email2 = email2;
+  return person;
 }

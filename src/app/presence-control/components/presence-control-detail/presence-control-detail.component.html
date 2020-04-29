@@ -87,9 +87,9 @@
                     <a href="tel:{{ legalPerson.PhoneMobile }}"
                       >{{ legalPerson.PhoneMobile }}<br /></a
                   ></ng-container>
-                  <ng-container *ngIf="legalPerson.DisplayEmail">
-                    <a href="mailto:{{ legalPerson.DisplayEmail }}">{{
-                      legalPerson.DisplayEmail
+                  <ng-container *ngIf="legalPerson | erzPersonEmail">
+                    <a href="mailto:{{ legalPerson | erzPersonEmail }}">{{
+                      legalPerson | erzPersonEmail
                     }}</a></ng-container
                   >
                 </address>
@@ -213,17 +213,17 @@
                   <ng-container
                     *ngIf="
                       apprenticeshipCompany.apprenticeshipManagerPerson
-                        .DisplayEmail
+                        | erzPersonEmail
                     "
                   >
                     <a
                       href="mailto:{{
                         apprenticeshipCompany.apprenticeshipManagerPerson
-                          .DisplayEmail
+                          | erzPersonEmail
                       }}"
                       >{{
                         apprenticeshipCompany.apprenticeshipManagerPerson
-                          .DisplayEmail
+                          | erzPersonEmail
                       }}</a
                     ></ng-container
                   >
@@ -280,15 +280,17 @@
                     ></ng-container>
                     <ng-container
                       *ngIf="
-                        apprenticeshipCompany.jobTrainerPerson.DisplayEmail
+                        apprenticeshipCompany.jobTrainerPerson | erzPersonEmail
                       "
                     >
                       <a
                         href="mailto:{{
-                          apprenticeshipCompany.jobTrainerPerson.DisplayEmail
+                          apprenticeshipCompany.jobTrainerPerson
+                            | erzPersonEmail
                         }}"
                         >{{
-                          apprenticeshipCompany.jobTrainerPerson.DisplayEmail
+                          apprenticeshipCompany.jobTrainerPerson
+                            | erzPersonEmail
                         }}</a
                       ></ng-container
                     >

@@ -10,6 +10,7 @@ import {
   buildLegalRepresentative,
   buildPerson,
   buildStudent,
+  buildPersonWithEmails,
 } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import {
@@ -50,11 +51,17 @@ describe('PresenceControlDetailService', () => {
     legalRepresentative1 = buildPerson(
       legalRepresentatives[0].RepresentativeId
     );
-    legalRepresentative2 = buildPerson(
-      legalRepresentatives[1].RepresentativeId
+    legalRepresentative2 = buildPersonWithEmails(
+      legalRepresentatives[1].RepresentativeId,
+      'display@email.ch'
     );
-    jobTrainer = buildPerson(35468);
-    apprenticeshipManager = buildPerson(38223);
+    jobTrainer = buildPersonWithEmails(35468, undefined, 'email1@email.ch');
+    apprenticeshipManager = buildPersonWithEmails(
+      38223,
+      undefined,
+      'email1@email.ch',
+      'email2@email.ch'
+    );
     persons = [
       legalRepresentative1,
       legalRepresentative2,
