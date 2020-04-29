@@ -28,6 +28,7 @@ import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
 import { parseQueryString } from 'src/app/shared/utils/url';
+import { isHalfDay } from '../../../presence-control/utils/presence-types';
 
 enum Category {
   Absent = 'absent',
@@ -118,6 +119,21 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
     }
+
+    // Remove Category HalfDay if the corresponding PresenceType is inactive
+    this.absenceTypes$
+      .pipe(
+        map((types) =>
+          types.filter((t) => isHalfDay(t, this.settings) && t.Active)
+        )
+      )
+      .subscribe((types) => {
+        if (types.length === 0) {
+          this.categories = this.categories.filter(
+            (c) => c !== Category.HalfDay
+          );
+        }
+      });
   }
 
   ngOnDestroy(): void {

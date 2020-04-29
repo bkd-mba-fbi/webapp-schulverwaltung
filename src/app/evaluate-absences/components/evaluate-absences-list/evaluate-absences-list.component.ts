@@ -3,10 +3,11 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
+  Inject,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, shareReplay } from 'rxjs/operators';
 
 import {
   EvaluateAbsencesStateService,
@@ -14,6 +15,9 @@ import {
 } from '../../services/evaluate-absences-state.service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
+import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
+import { SETTINGS, Settings } from '../../../settings';
+import { isHalfDay } from '../../../presence-control/utils/presence-types';
 
 interface Column {
   key: keyof LessonPresenceStatistic;
@@ -27,6 +31,8 @@ interface Column {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
+  presenceTypes$ = this.presenceTypesService.getList().pipe(shareReplay(1));
+
   columns: ReadonlyArray<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
@@ -43,13 +49,28 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   constructor(
     public state: EvaluateAbsencesStateService,
     private scrollPosition: ScrollPositionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private presenceTypesService: PresenceTypesRestService,
+    @Inject(SETTINGS) private settings: Settings
   ) {}
 
   ngOnInit(): void {
     this.filterFromParams$
       .pipe(take(1))
       .subscribe((filterValue) => this.state.setFilter(filterValue));
+
+    // Remove Column TotalHalfDays if the corresponding PresenceType is inactive
+    this.presenceTypes$
+      .pipe(
+        map((types) =>
+          types.filter((t) => isHalfDay(t, this.settings) && t.Active)
+        )
+      )
+      .subscribe((types) => {
+        if (types.length === 0) {
+          this.columns = this.columns.filter((c) => c.key !== 'TotalHalfDays');
+        }
+      });
   }
 
   ngAfterViewInit(): void {

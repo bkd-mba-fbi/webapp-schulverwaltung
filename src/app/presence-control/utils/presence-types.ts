@@ -19,6 +19,17 @@ export function isAbsent(presenceType: Option<PresenceType>): boolean {
   );
 }
 
+export function isHalfDay(
+  presenceType: Option<PresenceType>,
+  settings: Settings
+): boolean {
+  return Boolean(
+    presenceType &&
+      settings &&
+      presenceType.Id === settings.halfDayPresenceTypeId
+  );
+}
+
 export function isDefaultAbsence(
   presenceType: Option<PresenceType>,
   settings: Settings
