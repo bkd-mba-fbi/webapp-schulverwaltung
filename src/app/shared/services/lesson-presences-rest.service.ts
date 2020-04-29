@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { format, isSameDay, addDays, subDays } from 'date-fns';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../models/lesson-presence.model';
@@ -18,6 +18,10 @@ import {
   paginatedHeaders,
 } from '../utils/pagination';
 import { Sorting } from './paginated-entries.service';
+import { spreadTuple } from '../utils/function';
+import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-absences-entries';
+import { StorageService } from './storage.service';
+import { log } from '../utils/observable';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +29,11 @@ import { Sorting } from './paginated-entries.service';
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
 > {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor(
+    http: HttpClient,
+    @Inject(SETTINGS) settings: Settings,
+    private storage: StorageService
+  ) {
     super(http, settings, LessonPresence, 'LessonPresences');
   }
 
@@ -46,32 +54,22 @@ export class LessonPresencesRestService extends RestService<
       .pipe(switchMap(decodeArray(this.codec)));
   }
 
-  getListOfUnconfirmedLessonTeacher(): Observable<
-    ReadonlyArray<LessonPresence>
-  > {
-    return this.getList({
-      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
-      params: {
-        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
-        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-        'filter.HasStudyCourseConfirmationCode': '=false',
-      },
-    });
-  }
-
-  getListOfUnconfirmedClassTeacher(): Observable<
-    ReadonlyArray<LessonPresence>
-  > {
-    return this.getList({
-      headers: {
-        'X-Role-Restriction': 'ClassTeacherRole',
-      },
-      params: {
-        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
-        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-        'filter.HasStudyCourseConfirmationCode': '=true',
-      },
-    });
+  /**
+   * Returns the list of unconfirmed absences, considering the user's
+   * role (merges the presences from two requests for class teachers
+   * or uses a single request for lesson teachers).
+   */
+  getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {
+    const tokenPayload = this.storage.getPayload();
+    const roles = tokenPayload ? tokenPayload.roles : '';
+    const classTeacher = roles.indexOf('ClassTeacherRole') > 0;
+    if (classTeacher) {
+      return forkJoin([
+        this.getListOfUnconfirmedClassTeacher(),
+        this.getListOfUnconfirmedLessonTeacher(),
+      ]).pipe(map(spreadTuple(mergeUniqueLessonPresences)));
+    }
+    return this.getListOfUnconfirmedLessonTeacher();
   }
 
   getStatistics(
@@ -139,6 +137,34 @@ export class LessonPresencesRestService extends RestService<
         observe: 'response',
       })
       .pipe(decodePaginatedResponse(LessonPresence));
+  }
+
+  private getListOfUnconfirmedLessonTeacher(): Observable<
+    ReadonlyArray<LessonPresence>
+  > {
+    return this.getList({
+      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+      params: {
+        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
+        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
+        'filter.HasStudyCourseConfirmationCode': '=false',
+      },
+    });
+  }
+
+  private getListOfUnconfirmedClassTeacher(): Observable<
+    ReadonlyArray<LessonPresence>
+  > {
+    return this.getList({
+      headers: {
+        'X-Role-Restriction': 'ClassTeacherRole',
+      },
+      params: {
+        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
+        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
+        'filter.HasStudyCourseConfirmationCode': '=true',
+      },
+    });
   }
 }
 

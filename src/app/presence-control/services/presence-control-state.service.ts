@@ -5,6 +5,7 @@ import {
   merge,
   Observable,
   Subject,
+  timer,
 } from 'rxjs';
 import {
   map,
@@ -14,6 +15,8 @@ import {
   withLatestFrom,
   distinctUntilChanged,
 } from 'rxjs/operators';
+import { uniq } from 'lodash-es';
+
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { Lesson } from '../../shared/models/lesson.model';
 import { PresenceType } from '../../shared/models/presence-type.model';
@@ -71,6 +74,11 @@ export class PresenceControlStateService {
   private currentLesson$ = this.lessons$.pipe(
     map(getCurrentLesson),
     distinctUntilChanged(lessonsEqual)
+  );
+
+  studentIdsWithUnconfirmedAbsences$ = this.selectedDateSubject$.pipe(
+    switchMap(() => this.loadStudentIdsWithUnconfirmedAbsences()),
+    shareReplay(1)
   );
 
   loading$ = this.loadingService.loading$;
@@ -216,6 +224,12 @@ export class PresenceControlStateService {
     );
   }
 
+  hasUnconfirmedAbsences(entry: PresenceControlEntry): Observable<boolean> {
+    return this.studentIdsWithUnconfirmedAbsences$.pipe(
+      map((ids) => ids.indexOf(entry.lessonPresence.StudentRef.Id) > 0)
+    );
+  }
+
   /**
    * Lesson presences for which the presence type cannot be updated are filtered from the list of block lesson presences
    */
@@ -257,5 +271,22 @@ export class PresenceControlStateService {
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
     return this.loadingService.load(this.presenceTypesService.getList());
+  }
+
+  /**
+   * Starts polling the unconfirmed absences, returns an array with
+   * student ids that have unconfirmed absences.
+   */
+  private loadStudentIdsWithUnconfirmedAbsences(): Observable<
+    ReadonlyArray<number>
+  > {
+    return timer(
+      0,
+      // Only start polling if a refresh time is defined
+      this.settings.unconfirmedAbsencesRefreshTime || undefined
+    ).pipe(
+      switchMap(() => this.lessonPresencesService.getListOfUnconfirmed()),
+      map((unconfirmed) => uniq(unconfirmed.map((p) => p.StudentRef.Id)))
+    );
   }
 }

@@ -7,10 +7,10 @@
   background-color: $body-bg;
   display: grid;
   grid-template-areas:
-    "avatar designation status"
+    "avatar status designation"
     "avatar student-name student-name"
     "avatar comment comment";
-  grid-template-columns: min-content 1fr min-content;
+  grid-template-columns: min-content min-content 1fr;
 }
 
 :host > * {
@@ -49,23 +49,44 @@ a.comment,
 
 .avatar {
   grid-area: avatar;
-}
-
-.designation {
-  padding-top: 0;
-  padding-bottom: 0;
-  grid-area: designation;
+  margin-right: 1.5 * $spacer;
 }
 
 .status {
-  padding-left: 0;
   grid-area: status;
+}
+.status .material-icons {
+  font-size: 2rem;
+}
+
+.designation {
+  grid-area: designation;
+  text-align: left;
+  line-height: 2rem + $btn-padding-y;
 }
 
 .student-name {
   color: $body-color;
   grid-area: student-name;
   display: flex;
+  flex-direction: column;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+}
+a:hover,
+a:active {
+  .student-name-inner {
+    text-decoration: underline;
+  }
+}
+
+.unconfirmed-absences {
+  color: $absent-color;
+  font-size: 0.8rem;
+  line-height: 1;
 }
 
 .comment {
@@ -79,7 +100,21 @@ a.comment,
   margin-right: 0.3em;
 }
 
-// List layout
+// Grid layout specifics
+:host.grid {
+  .status,
+  .designation {
+    align-self: start;
+    margin-left: -$btn-padding-x;
+    margin-top: -$btn-padding-y;
+  }
+
+  .unconfirmed-absences {
+    height: 0.8rem; // Always occupy space, event if hint is not present
+  }
+}
+
+// List layout overrides
 :host.list {
   grid-template-areas: "student-name commentordesignation status";
   grid-template-columns: 1fr 2fr min-content;
@@ -89,26 +124,14 @@ a.comment,
   .designation {
     grid-area: commentordesignation;
   }
+  .designation {
+    text-align: right;
+  }
 
   @media (max-width: 750px) {
     grid-template-areas:
       "student-name status"
       "commentordesignation commentordesignation";
     grid-template-columns: 1fr min-content;
-  }
-}
-
-:host-context(.ie11) {
-  // To force generation of missing -ms-grid-column-span property
-  .comment,
-  .designation {
-    grid-column: span 1;
-  }
-
-  @media (max-width: 750px) {
-    .comment,
-    .designation {
-      grid-column: span 2;
-    }
   }
 }

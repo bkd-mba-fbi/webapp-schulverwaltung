@@ -2,13 +2,13 @@
   *ngIf="!isListViewMode"
   [studentId]="studentId$ | async"
   [link]="['/presence-control/student', entry.lessonPresence.StudentRef.Id]"
-  class="avatar mr-3 large"
+  class="avatar large"
 ></erz-avatar>
 <button
   type="button"
   *ngIf="!entry.canChangePresenceType"
   (click)="updatePresenceType(entry)"
-  class="presence-category designation btn btn-link text-right"
+  class="presence-category designation btn btn-link"
 >
   {{ entry.presenceType?.Designation }}
 </button>
@@ -25,8 +25,18 @@
     entry.lessonPresence.StudentRef.Id
   ]"
   class="student-name"
-  >{{ entry.lessonPresence.StudentFullName }}</a
 >
+  <span class="student-name-inner">
+    {{ entry.lessonPresence.StudentFullName }}
+  </span>
+  <span class="unconfirmed-absences">
+    {{
+      hasUnconfirmedAbsences
+        ? ('presence-control.entry.unconfirmed-absences' | translate)
+        : ''
+    }}
+  </span>
+</a>
 <a
   *ngIf="entry.canChangePresenceType"
   class="comment"

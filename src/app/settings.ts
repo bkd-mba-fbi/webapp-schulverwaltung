@@ -1,6 +1,8 @@
 import { InjectionToken } from '@angular/core';
 import * as t from 'io-ts';
 
+import { Option } from './shared/models/common-types';
+
 const Settings = t.type({
   apiUrl: t.string,
   scriptsAndAssetsPath: t.string,
@@ -12,6 +14,7 @@ const Settings = t.type({
   unconfirmedAbsenceStateId: t.number,
   unexcusedAbsenceStateId: t.number,
   excusedAbsenceStateId: t.number,
+  unconfirmedAbsencesRefreshTime: Option(t.number),
 });
 
 type Settings = t.TypeOf<typeof Settings>;

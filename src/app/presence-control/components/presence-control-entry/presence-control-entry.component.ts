@@ -22,6 +22,7 @@ import { ViewMode } from '../../services/presence-control-state.service';
 })
 export class PresenceControlEntryComponent implements OnInit, OnChanges {
   @Input() entry: PresenceControlEntry;
+  @Input() hasUnconfirmedAbsences = false;
   @Input() viewMode: ViewMode;
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();

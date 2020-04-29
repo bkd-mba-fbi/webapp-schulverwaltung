@@ -37,6 +37,9 @@
             <erz-presence-control-entry
               *ngFor="let entry of data.previouslyAbsentEntries"
               [entry]="entry"
+              [hasUnconfirmedAbsences]="
+                state.hasUnconfirmedAbsences(entry) | async
+              "
               [viewMode]="state.viewMode$ | async"
               (togglePresenceType)="togglePresenceType($event)"
             ></erz-presence-control-entry>
@@ -50,6 +53,9 @@
           <erz-presence-control-entry
             *ngFor="let entry of data.previouslyPresentEntries"
             [entry]="entry"
+            [hasUnconfirmedAbsences]="
+              state.hasUnconfirmedAbsences(entry) | async
+            "
             [viewMode]="state.viewMode$ | async"
             (togglePresenceType)="togglePresenceType($event)"
           ></erz-presence-control-entry>

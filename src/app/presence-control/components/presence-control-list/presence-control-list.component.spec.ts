@@ -65,6 +65,7 @@ describe('PresenceControlListComponent', () => {
       getBlockLessonPresences: jasmine
         .createSpy('getBlockLessonPresences')
         .and.callFake(() => of(blockLessons)),
+      hasUnconfirmedAbsences: () => of(false),
     } as unknown) as PresenceControlStateService;
 
     lessonPresencesUpdateServiceMock = ({

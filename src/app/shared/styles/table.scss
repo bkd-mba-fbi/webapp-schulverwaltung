@@ -9,18 +9,6 @@
 }
 
 @media screen and (max-width: 820px) {
-  .presence-category {
-    text-align: right !important;
-  }
-
-  .designation-comment {
-    max-width: initial !important;
-  }
-
-  .edit-absences-checkbox {
-    text-align: left;
-  }
-
   erz-evaluate-absences-list > div > table thead,
   erz-edit-absences-list > div > table thead {
     border: none;

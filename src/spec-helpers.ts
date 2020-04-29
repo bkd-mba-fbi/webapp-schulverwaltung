@@ -29,6 +29,7 @@ export const settings: Settings = {
   unconfirmedAbsenceStateId: 219,
   unexcusedAbsenceStateId: 225,
   excusedAbsenceStateId: 220,
+  unconfirmedAbsencesRefreshTime: null,
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {

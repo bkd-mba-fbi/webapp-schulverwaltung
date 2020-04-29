@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
+import * as t from 'io-ts/lib/index';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresencesRestService } from './lesson-presences-rest.service';
@@ -7,6 +8,14 @@ import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evalu
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 import { Sorting } from './paginated-entries.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
+import { LessonPresence } from '../models/lesson-presence.model';
+import { buildLessonPresence } from 'src/spec-builders';
+
+const CLASS_TEACHER_TOKEN =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlRlc3QiLCJjb25zdW1lcl9pZCI6ImRldiIsInVzZXJuYW1lIjoiam9obiIsImluc3RhbmNlX2lkIjoiVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjEyMyIsImlkX3BlcnNvbiI6IjQ1NiIsImZ1bGxuYW1lIjoiSm9obiBEb2UiLCJyb2xlcyI6Ikxlc3NvblRlYWNoZXJSb2xlO0NsYXNzVGVhY2hlclJvbGUiLCJ0b2tlbl9pZCI6IjEyMzQ1NiJ9.erGO0ORYWA7LAjuWSrz924rkgC2Gqg6_Wu3GUZiMOyI';
+
+const LESSON_TEACHER_TOKEN =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlRlc3QiLCJjb25zdW1lcl9pZCI6ImRldiIsInVzZXJuYW1lIjoiam9obiIsImluc3RhbmNlX2lkIjoiVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjEyMyIsImlkX3BlcnNvbiI6IjQ1NiIsImZ1bGxuYW1lIjoiSm9obiBEb2UiLCJyb2xlcyI6Ikxlc3NvblRlYWNoZXJSb2xlIiwidG9rZW5faWQiOiIxMjM0NTYifQ.w2j7_k48rm1gY6RAieS0KG8-wFvK9T-y731w8Lun5Nk';
 
 describe('LessonPresencesRestService', () => {
   let service: LessonPresencesRestService;
@@ -102,35 +111,89 @@ describe('LessonPresencesRestService', () => {
     });
   });
 
-  describe('.getListOfUnconfirmedLessonTeacher', () => {
-    it('fetches list for lesson teacher filtered by unconfirmed state from settings', () => {
-      const data: any[] = [];
-      service
-        .getListOfUnconfirmedLessonTeacher()
-        .subscribe((result) => expect(result).toBe(data));
+  describe('.getListOfUnconfirmed', () => {
+    const classTeacherRequestUrl =
+      'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
+    const lessonTeacherRequestUrl =
+      'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
 
-      const url =
-        'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
-      httpTestingController
-        .expectOne((req) => req.urlWithParams === url, url)
-        .flush(data);
+    let presence1: LessonPresence;
+    let presence2: LessonPresence;
+    let presence3: LessonPresence;
+
+    beforeEach(() => {
+      presence1 = buildLessonPresence(1, new Date(), new Date(), 'Mathematik');
+      presence1.Id = '1';
+      presence2 = buildLessonPresence(2, new Date(), new Date(), 'Französisch');
+      presence2.Id = '2';
+      presence3 = buildLessonPresence(3, new Date(), new Date(), 'Turnen');
+      presence3.Id = '3';
     });
-  });
 
-  describe('.getListOfUnconfirmedClassTeacher', () => {
-    it('fetches list for class teacher filtered by unconfirmed state from settings', () => {
-      storeMock['CLX.LoginToken'] =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlR1dG9yaW5nIiwiY29uc3VtZXJfaWQiOiJkZXY0MjAwIiwidXNlcm5hbWUiOiJMMjQzMSIsImluc3RhbmNlX2lkIjoiR1ltVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjIxMCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsInRva2VuX2lkIjoiMzc0OSJ9.9lDju5CIIUaISRSz0x8k-kcF7Q6IhN_6HEMOlnsiDRA';
-      const data: any[] = [];
-      service
-        .getListOfUnconfirmedClassTeacher()
-        .subscribe((result) => expect(result).toBe(data));
+    describe('for lesson teacher', () => {
+      beforeEach(() => {
+        storeMock['CLX.LoginToken'] = LESSON_TEACHER_TOKEN;
+      });
 
-      const url =
-        'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
-      httpTestingController
-        .expectOne((req) => req.urlWithParams === url, url)
-        .flush(data);
+      it('return unconfirmed absences for lesson teacher role', () => {
+        service.getListOfUnconfirmed().subscribe((result) => {
+          expect(result.map((p) => p.Id)).toEqual([presence1.Id]);
+        });
+
+        httpTestingController
+          .expectOne(
+            (req) =>
+              req.urlWithParams === lessonTeacherRequestUrl &&
+              req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
+            lessonTeacherRequestUrl
+          )
+          .flush(t.array(LessonPresence).encode([presence1]));
+      });
+    });
+
+    describe('for class teacher', () => {
+      beforeEach(() => {
+        storeMock['CLX.LoginToken'] = CLASS_TEACHER_TOKEN;
+      });
+
+      it('returns unconfirmed absences for both class teacher and lesson teacher roles', () => {
+        service.getListOfUnconfirmed().subscribe((result) => {
+          expect(result.map((p) => p.Id)).toEqual([
+            presence1.Id,
+            presence2.Id,
+            presence3.Id,
+          ]);
+        });
+
+        const calls = httpTestingController.match(
+          (request) =>
+            request.urlWithParams === classTeacherRequestUrl ||
+            request.urlWithParams === lessonTeacherRequestUrl
+        );
+        expect(calls.length).toBe(2);
+
+        const classTeacherRequest = calls.find(
+          (r) => r.request.urlWithParams === classTeacherRequestUrl
+        );
+        expect(classTeacherRequest).toBeDefined();
+        expect(
+          classTeacherRequest?.request.headers.get('X-Role-Restriction')
+        ).toBe('ClassTeacherRole');
+        classTeacherRequest?.flush(
+          t.array(LessonPresence).encode([presence1, presence2])
+        );
+
+        const lessonTeacherRequest = calls.find(
+          (r) => r.request.urlWithParams === lessonTeacherRequestUrl
+        );
+        expect(lessonTeacherRequest).toBeDefined();
+        expect(
+          lessonTeacherRequest?.request.headers.get('X-Role-Restriction')
+        ).toBe('LessonTeacherRole');
+        lessonTeacherRequest?.flush(
+          t.array(LessonPresence).encode([presence2, presence3])
+        );
+      });
     });
   });
 

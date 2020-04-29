@@ -43,7 +43,8 @@
     },
     "entry": {
       "comment": "Kommentar...",
-      "update-warning": "Statuswechsel nicht möglich"
+      "update-warning": "Statuswechsel nicht möglich",
+      "unconfirmed-absences": "Offene Absenzen"
     },
     "comment": {
       "placeholder": "Kommentar...",
