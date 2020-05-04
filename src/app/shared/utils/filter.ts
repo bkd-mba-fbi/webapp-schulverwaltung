@@ -21,3 +21,12 @@ type Falsy = null | undefined | '' | false | 0 | void | never;
 export function isTruthy<T>(value: T): value is Exclude<T, Falsy> {
   return Boolean(value);
 }
+
+export function isInstanceOf<T>(
+  type: Constructor<T>
+): (value: any) => value is T {
+  // tslint:disable-next-line
+  return function (value: any): value is T {
+    return value instanceof type;
+  };
+}

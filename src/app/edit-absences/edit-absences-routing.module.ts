@@ -4,6 +4,7 @@ import { EditAbsencesComponent } from './components/edit-absences/edit-absences.
 import { EditAbsencesListComponent } from './components/edit-absences-list/edit-absences-list.component';
 import { EditAbsencesEditComponent } from './components/edit-absences-edit/edit-absences-edit.component';
 import { StudentProfileComponent } from '../shared/components/student-profile/student-profile.component';
+import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,16 @@ const routes: Routes = [
       },
       {
         path: 'student/:id',
-        component: StudentProfileComponent,
+        children: [
+          {
+            path: '',
+            component: StudentProfileComponent,
+          },
+          {
+            path: 'edit',
+            component: ConfirmAbsencesComponent,
+          },
+        ],
       },
     ],
   },

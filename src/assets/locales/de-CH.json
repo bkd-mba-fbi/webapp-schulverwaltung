@@ -69,13 +69,6 @@
         "lessonsCount": {
           "singular": "{{count}} Lektion",
           "plural": "{{count}} Lektionen"
-        },
-        "daysDifference": {
-          "today": "Heute",
-          "tomorrow": "Morgen",
-          "yesterday": "Gestern",
-          "ago": "vor {{count}} Tagen",
-          "in": "in {{count}} Tagen"
         }
       }
     },
@@ -162,15 +155,29 @@
     "date-select": {
       "default-placeholder": "Datum wählen..."
     },
+    "daysDifference": {
+      "today": "Heute",
+      "tomorrow": "Morgen",
+      "yesterday": "Gestern",
+      "ago": "vor {{count}} Tagen",
+      "in": "in {{count}} Tagen"
+    },
     "lesson-presences-update": {
       "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
     },
     "profile": {
+      "student-address": "Adresse",
       "legal-representation": "Gesetzliche Vertretung",
       "apprenticeship-company": "Lehrbetrieb",
       "apprenticeship-period": "Lehrzeit",
       "job-trainer": "Berufsbildner/in",
-      "no-profile": "Profil wurde nicht gefunden"
+      "open-absences": "Offene Absenzen",
+      "excused-absences": "Entschuldigte Absenzen",
+      "unexcused-absences": "Unentschuldigte Absenzen",
+      "incidents": "Vorfälle",
+      "half-days": "Halbtage",
+      "no-profile": "Profil wurde nicht gefunden",
+      "no-absences": "Keine Einträge vorhanden"
     },
     "select": {
       "empty-option": "Wählen..."

@@ -6,7 +6,6 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import {
   OpenAbsencesService,
@@ -14,14 +13,13 @@ import {
   PrimarySortKey,
 } from '../../services/open-absences.service';
 import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
-import { OpenAbsencesEntriesSelectionService } from '../../services/open-absences-entries-selection.service';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
 @Component({
   selector: 'erz-open-absences-list',
   templateUrl: './open-absences-list.component.html',
   styleUrls: ['./open-absences-list.component.scss'],
-  providers: [OpenAbsencesEntriesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesListComponent
@@ -30,16 +28,13 @@ export class OpenAbsencesListComponent
 
   constructor(
     public openAbsencesService: OpenAbsencesService,
-    public selectionService: OpenAbsencesEntriesSelectionService,
+    public selectionService: ConfirmAbsencesSelectionService,
     private scrollPosition: ScrollPositionService
   ) {}
 
   ngOnInit(): void {
     this.openAbsencesService.currentDetail = null;
-
-    this.selectionService.selectedIds$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((ids) => (this.openAbsencesService.selected = ids));
+    this.selectionService.clearNonOpenAbsencesEntries();
   }
 
   ngAfterViewInit(): void {
@@ -69,19 +64,5 @@ export class OpenAbsencesListComponent
   getLessonsCountKey(entry: OpenAbsencesEntry): string {
     const suffix = entry.lessonsCount === 1 ? 'singular' : 'plural';
     return `open-absences.list.content.lessonsCount.${suffix}`;
-  }
-
-  getDaysDifferenceKey(entry: OpenAbsencesEntry): string {
-    let suffix = 'ago';
-    if (entry.daysDifference === 0) {
-      suffix = 'today';
-    } else if (entry.daysDifference === 1) {
-      suffix = 'tomorrow';
-    } else if (entry.daysDifference === -1) {
-      suffix = 'yesterday';
-    } else if (entry.daysDifference > 0) {
-      suffix = 'in';
-    }
-    return `open-absences.list.content.daysDifference.${suffix}`;
   }
 }

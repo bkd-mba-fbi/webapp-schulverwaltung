@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
+import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
@@ -14,6 +16,7 @@ import {
   Sorting,
 } from 'src/app/shared/services/paginated-entries.service';
 import { SETTINGS, Settings } from 'src/app/settings';
+import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
@@ -22,10 +25,14 @@ export interface EvaluateAbsencesFilter {
 }
 
 @Injectable()
-export class EvaluateAbsencesStateService extends PaginatedEntriesService<
-  LessonPresenceStatistic,
-  EvaluateAbsencesFilter
-> {
+export class EvaluateAbsencesStateService
+  extends PaginatedEntriesService<
+    LessonPresenceStatistic,
+    EvaluateAbsencesFilter
+  >
+  implements IConfirmAbsencesService {
+  editBackLinkParams?: Params;
+
   constructor(
     location: Location,
     loadingService: LoadingService,
@@ -33,6 +40,12 @@ export class EvaluateAbsencesStateService extends PaginatedEntriesService<
     private lessonPresenceService: LessonPresencesRestService
   ) {
     super(location, loadingService, settings, '/evaluate-absences');
+
+    this.queryParams$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (returnparams) => (this.editBackLinkParams = { returnparams })
+      );
   }
 
   protected getInitialFilter(): EvaluateAbsencesFilter {

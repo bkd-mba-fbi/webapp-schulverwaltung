@@ -1,12 +1,18 @@
-import { Subject, Observable } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  ReplaySubject,
+  ConnectableObservable,
+  Subscription,
+} from 'rxjs';
 import {
   scan,
   map,
   startWith,
-  shareReplay,
   distinctUntilChanged,
+  multicast,
 } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 enum SelectionActionTypes {
   ToggleSelection = 'TOGGLE',
@@ -26,15 +32,25 @@ interface ClearSelectionAction<T> {
 type SelectionAction<T> = ToggleSelectionAction<T> | ClearSelectionAction<T>;
 
 @Injectable()
-export abstract class SelectionService<T> {
-  private action$ = new Subject<SelectionAction<T>>();
+export abstract class SelectionService<T> implements OnDestroy {
+  protected action$ = new Subject<SelectionAction<T>>();
   selection$ = this.action$.pipe(
     scan(this.reduceSelection.bind(this), [] as ReadonlyArray<T>),
     startWith([] as ReadonlyArray<T>),
-    shareReplay(1)
+    multicast(() => new ReplaySubject<ReadonlyArray<T>>(1)) // Make it hot
   );
 
-  constructor() {}
+  private selectionSub: Subscription;
+
+  constructor() {
+    this.selectionSub = (this.selection$ as ConnectableObservable<
+      ReadonlyArray<T>
+    >).connect();
+  }
+
+  ngOnDestroy(): void {
+    this.selectionSub.unsubscribe();
+  }
 
   toggle(entry: T): void {
     this.action$.next({

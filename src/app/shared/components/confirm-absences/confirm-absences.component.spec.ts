@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { OpenAbsencesEditComponent } from './open-absences-edit.component';
-import { OpenAbsencesService } from '../../services/open-absences.service';
+import { ConfirmAbsencesComponent } from './confirm-absences.component';
+import { OpenAbsencesService } from 'src/app/open-absences/services/open-absences.service';
 
-describe('OpenAbsencesEditComponent', () => {
-  let component: OpenAbsencesEditComponent;
-  let fixture: ComponentFixture<OpenAbsencesEditComponent>;
+describe('ConfirmAbsencesComponent', () => {
+  let component: ConfirmAbsencesComponent;
+  let fixture: ComponentFixture<ConfirmAbsencesComponent>;
   let storeMock: any;
 
   beforeEach(async(() => {
@@ -24,12 +24,20 @@ describe('OpenAbsencesEditComponent', () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [OpenAbsencesEditComponent],
+        declarations: [ConfirmAbsencesComponent],
         providers: [
           OpenAbsencesService,
           {
             provide: Router,
             useValue: jasmine.createSpyObj('Router', ['navigate']),
+          },
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              root(): any {
+                return {};
+              },
+            },
           },
         ],
       })
@@ -37,7 +45,7 @@ describe('OpenAbsencesEditComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OpenAbsencesEditComponent);
+    fixture = TestBed.createComponent(ConfirmAbsencesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

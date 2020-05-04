@@ -39,7 +39,7 @@
             }}
           </div>
           <a
-            class="edit btn btn-link pr-1"
+            class="edit btn btn-primary mt-1 mb-2"
             [class.disabled]="data.selection.length === 0"
             routerLink="/open-absences/edit"
           >
@@ -49,7 +49,6 @@
       </div>
       <div class="content">
         <div class="absence-header">
-          <div class="checkbox"></div>
           <div
             *ngFor="let key of ['name', 'date']"
             (click)="openAbsencesService.toggleSort(key)"
@@ -97,10 +96,7 @@
               }}
             </div>
             <div class="days-ago">
-              {{
-                getDaysDifferenceKey(entry)
-                  | translate: { count: entry.daysDifferenceAbsolute }
-              }}
+              {{ entry.date | erzDaysDifference }}
             </div>
             <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
           </div>

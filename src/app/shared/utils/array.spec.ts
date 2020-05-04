@@ -1,4 +1,10 @@
-import { previousElement, nextElement, isEmptyArray } from './array';
+import {
+  previousElement,
+  nextElement,
+  isEmptyArray,
+  length,
+  isArray,
+} from './array';
 
 describe('array utils', () => {
   describe('previousElement', () => {
@@ -64,6 +70,35 @@ describe('array utils', () => {
       expect(isEmptyArray([1, 2, 3])).toBe(false);
       expect(isEmptyArray([null])).toBe(false);
       expect(isEmptyArray(['foobar'])).toBe(false);
+    });
+  });
+
+  describe('length', () => {
+    it('returns 0 if array is empty', () => {
+      expect(length([])).toBe(0);
+    });
+
+    it('returns 1 if array has one element', () => {
+      expect(length([1])).toBe(1);
+    });
+
+    it('returns 3 if array has three elements', () => {
+      expect(length([1, 2, 3])).toBe(3);
+    });
+  });
+
+  describe('isArray', () => {
+    it('returns false if is no array', () => {
+      expect(isArray(undefined)).toBe(false);
+      expect(isArray(null)).toBe(false);
+      expect(isArray(1)).toBe(false);
+      expect(isArray(true)).toBe(false);
+      expect(isArray('foo')).toBe(false);
+    });
+
+    it('returns true if is array', () => {
+      expect(isArray([])).toBe(true);
+      expect(isArray([1, 2, 3])).toBe(true);
     });
   });
 });

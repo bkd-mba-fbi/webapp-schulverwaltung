@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { withConfig } from 'src/app/rest-error-interceptor';
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';

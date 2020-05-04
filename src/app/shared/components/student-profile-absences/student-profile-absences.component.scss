@@ -1,0 +1,112 @@
+@import "../../../../bootstrap-variables";
+
+/* autoprefixer grid: on */
+
+.absence-all {
+  padding: (0.5 * $spacer) 0;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template-areas: "checkbox all buttons";
+  grid-template-columns: min-content 1fr min-content;
+}
+
+// IE11 workaround for `align-items: center`
+.absence-all > * {
+  align-self: center;
+}
+
+.absence-entry {
+  padding: 1em 0;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template-areas:
+    "checkbox lesson-class time teacher"
+    "checkbox comment date days-ago";
+  grid-template-columns: minmax(1rem, min-content) 3fr 1fr 1fr;
+}
+
+.checkbox {
+  padding: 0.2rem 0.75rem 0 1rem;
+  grid-area: checkbox;
+}
+
+.checkbox input.form-check-input {
+  position: static;
+  margin: 0;
+}
+
+.all {
+  grid-area: all;
+}
+
+.buttons {
+  grid-area: buttons;
+  margin-right: $spacer;
+
+  .btn {
+    line-height: 1;
+    font-size: $icon-size;
+  }
+}
+
+.lesson-class {
+  grid-area: lesson-class;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.time {
+  grid-area: time;
+}
+
+.teacher {
+  grid-area: teacher;
+}
+
+.time-teacher {
+  grid-area: time-teacher;
+  display: none;
+}
+
+.comment {
+  color: $gray-500;
+  grid-area: comment;
+}
+
+.date {
+  grid-area: date;
+}
+
+.days-ago {
+  color: $gray-600;
+  grid-area: days-ago;
+}
+
+.date-days-ago {
+  grid-area: date-days-ago;
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .absence-entry {
+    grid-template-areas:
+      "checkbox lesson-class"
+      "checkbox time-teacher"
+      "checkbox date-days-ago"
+      "checkbox comment";
+    grid-template-columns: minmax(1rem, min-content) 1fr;
+  }
+
+  .time-teacher,
+  .date-days-ago {
+    display: block;
+  }
+
+  .time,
+  .teacher,
+  .date,
+  .days-ago {
+    display: none;
+  }
+}

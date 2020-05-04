@@ -1,4 +1,4 @@
-import { startOfDay, differenceInCalendarDays, format } from 'date-fns';
+import { startOfDay, format } from 'date-fns';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { Searchable } from 'src/app/shared/utils/search';
 
@@ -10,8 +10,6 @@ import { Searchable } from 'src/app/shared/utils/search';
 export class OpenAbsencesEntry implements Searchable {
   readonly date: Date;
   readonly dateString: string;
-  readonly daysDifference: number;
-  readonly daysDifferenceAbsolute: number;
   readonly studentId: number;
   readonly studentFullName: string;
   readonly studyClassNumber: string;
@@ -23,8 +21,6 @@ export class OpenAbsencesEntry implements Searchable {
     }
     this.date = startOfDay(this.absences[0].LessonDateTimeFrom);
     this.dateString = format(this.date, 'yyyy-MM-dd');
-    this.daysDifference = differenceInCalendarDays(this.date, new Date());
-    this.daysDifferenceAbsolute = Math.abs(this.daysDifference);
     this.studentId = this.absences[0].StudentRef.Id;
     this.studentFullName = this.absences[0].StudentFullName;
     this.studyClassNumber = this.absences[0].StudyClassNumber;

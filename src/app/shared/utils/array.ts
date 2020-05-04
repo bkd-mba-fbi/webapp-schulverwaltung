@@ -55,3 +55,11 @@ export function isLastElement<T>(
 export function isEmptyArray(array: any[] | ReadonlyArray<any>): boolean {
   return array.length === 0;
 }
+
+export function length<T extends { length: number }>(array: T): number {
+  return array.length;
+}
+
+export function isArray(value: any): boolean {
+  return Array.isArray(value);
+}

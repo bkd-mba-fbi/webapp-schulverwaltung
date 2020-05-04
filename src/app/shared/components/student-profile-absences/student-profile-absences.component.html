@@ -1,0 +1,83 @@
+<ng-container *ngIf="!(loading$ | async); else loading">
+  <ng-container *ngIf="(lessonPresences$ | async)?.length > 0; else noAbsences">
+    <div
+      *ngIf="editable$ | async"
+      class="absence-all"
+      (click)="onRowClick($event, allCheckbox)"
+    >
+      <div class="checkbox">
+        <input
+          #allCheckbox
+          type="checkbox"
+          class="form-check-input"
+          [checked]="allSelected$ | async"
+          (change)="toggleAll($event.target.checked)"
+        />
+      </div>
+      <div class="all">{{ 'open-absences.detail.all' | translate }}</div>
+
+      <div class="buttons">
+        <a
+          class="edit btn btn-primary"
+          [class.disabled]="(selectionService.selection$ | async).length === 0"
+          routerLink="edit"
+        >
+          <i class="material-icons">edit</i>
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="absence-entry"
+      *ngFor="let absence of lessonPresences$ | async; index as i"
+      (click)="onRowClick($event, i)"
+    >
+      <div *ngIf="editable$ | async" class="checkbox">
+        <input
+          #checkbox
+          type="checkbox"
+          class="form-check-input"
+          [checked]="selectionService.isSelected$(absence) | async"
+          (change)="selectionService.toggle(absence)"
+        />
+      </div>
+      <div class="lesson-class">
+        {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
+      </div>
+      <div class="time pr-2">
+        {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+          absence.LessonDateTimeTo | date: 'HH:mm'
+        }}
+      </div>
+      <div class="teacher">
+        {{ absence.TeacherInformation }}
+      </div>
+      <div class="time-teacher">
+        {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+          absence.LessonDateTimeTo | date: 'HH:mm'
+        }}, {{ absence.TeacherInformation }}
+      </div>
+      <div class="comment" *ngIf="absence.Comment">
+        {{ absence.Comment }}
+      </div>
+      <div class="date">
+        {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }}
+      </div>
+      <div class="days-ago">
+        {{ absence.LessonDateTimeFrom | erzDaysDifference }}
+      </div>
+      <div class="date-days-ago">
+        {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }},
+        {{ absence.LessonDateTimeFrom | erzDaysDifference }}
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noAbsences>
+    <p class="mx-3">{{ 'shared.profile.no-absences' | translate }}</p>
+  </ng-template>
+</ng-container>
+
+<ng-template #loading>
+  <erz-spinner class="inline d-block mb-3"></erz-spinner>
+</ng-template>

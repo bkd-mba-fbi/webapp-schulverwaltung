@@ -24,11 +24,9 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { getValidationErrors } from 'src/app/shared/utils/form';
-import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
-import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
 import { parseQueryString } from 'src/app/shared/utils/url';
-import { isHalfDay } from '../../../presence-control/utils/presence-types';
+import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
 
 enum Category {
   Absent = 'absent',
@@ -80,17 +78,12 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     .getAbsenceConfirmationStates()
     .pipe(map(this.sortAbsenceConfirmationStates.bind(this)), shareReplay(1));
 
-  absenceTypes$ = this.presenceTypesService
-    .getConfirmationTypes()
-    .pipe(map(sortPresenceTypes), shareReplay(1));
+  absenceTypes$ = this.presenceTypesService.confirmationTypes$;
 
   // Remove Category HalfDay if the corresponding PresenceType is inactive
-  activeCategories$ = this.presenceTypesService.getList().pipe(
-    map((types) =>
-      Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
-    ),
-    map((isActive) =>
-      isActive
+  activeCategories$ = this.presenceTypesService.halfDayActive$.pipe(
+    map((halfDayActive) =>
+      halfDayActive
         ? this.availableCategories
         : this.availableCategories.filter((c) => c !== Category.HalfDay)
     )
@@ -106,7 +99,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private state: EditAbsencesStateService,
     private dropDownItemsService: DropDownItemsRestService,
-    private presenceTypesService: PresenceTypesRestService,
+    private presenceTypesService: PresenceTypesService,
     private updateService: LessonPresencesUpdateRestService,
     @Inject(SETTINGS) private settings: Settings
   ) {}

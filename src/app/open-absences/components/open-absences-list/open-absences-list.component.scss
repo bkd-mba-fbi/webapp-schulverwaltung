@@ -11,14 +11,19 @@
   max-width: 500px;
 }
 
+.edit {
+  line-height: 1;
+  font-size: $icon-size;
+}
+
 .absence-header {
   cursor: pointer;
-  padding: 0.5em 0;
+  padding: $spacer 0;
   display: grid;
   grid-template-areas: "checkbox name date";
-  grid-template-columns: 50px 5fr 1fr;
-  border-top: 1px solid #dee2e6;
-  border-bottom: 2px solid #dee2e6;
+  grid-template-columns: 1rem 5fr 1fr;
+  border-top: 1px solid $gray-300;
+  border-bottom: 2px solid $gray-300;
 }
 
 .absence-entry {
@@ -26,15 +31,16 @@
   border-bottom: 1px solid $gray-200;
   display: grid;
   grid-template-areas: "checkbox name study-class lessons-count days-ago date";
-  grid-template-columns: 50px 2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: min-content 2fr 1fr 1fr 1fr 1fr;
 }
 
 .checkbox {
-  padding: 0.25em 0 0 1em;
+  padding: 0.2rem 0.75rem 0 1rem;
   grid-area: checkbox;
 }
 
 .checkbox input.form-check-input {
+  position: static;
   margin: 0;
 }
 
@@ -79,14 +85,14 @@
 
   .absence-header {
     grid-template-areas: "checkbox name date";
-    grid-template-columns: 50px 3fr 2fr;
+    grid-template-columns: 1rem 3fr 2fr;
   }
 
   .absence-entry {
     grid-template-areas:
       "checkbox name date"
       "checkbox study-class-lessons-count days-ago";
-    grid-template-columns: 50px 3fr 2fr;
+    grid-template-columns: min-content 3fr 2fr;
   }
 
   .study-class-lessons-count {

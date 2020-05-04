@@ -58,17 +58,19 @@ export class LessonPresencesRestService extends RestService<
    * role (merges the presences from two requests for class teachers
    * or uses a single request for lesson teachers).
    */
-  getListOfUnconfirmed(): Observable<ReadonlyArray<LessonPresence>> {
+  getListOfUnconfirmed(
+    params?: Dict<string>
+  ): Observable<ReadonlyArray<LessonPresence>> {
     const tokenPayload = this.storage.getPayload();
     const roles = tokenPayload ? tokenPayload.roles : '';
     const classTeacher = roles.indexOf('ClassTeacherRole') > 0;
     if (classTeacher) {
       return forkJoin([
-        this.getListOfUnconfirmedClassTeacher(),
-        this.getListOfUnconfirmedLessonTeacher(),
+        this.getListOfUnconfirmedClassTeacher(params),
+        this.getListOfUnconfirmedLessonTeacher(params),
       ]).pipe(map(spreadTuple(mergeUniqueLessonPresences)));
     }
-    return this.getListOfUnconfirmedLessonTeacher();
+    return this.getListOfUnconfirmedLessonTeacher(params);
   }
 
   getStatistics(
@@ -142,12 +144,13 @@ export class LessonPresencesRestService extends RestService<
       .pipe(decodePaginatedResponse(LessonPresence));
   }
 
-  private getListOfUnconfirmedLessonTeacher(): Observable<
-    ReadonlyArray<LessonPresence>
-  > {
+  private getListOfUnconfirmedLessonTeacher(
+    params?: Dict<string>
+  ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
       params: {
+        ...params,
         'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
         'filter.HasStudyCourseConfirmationCode': '=false',
@@ -155,14 +158,15 @@ export class LessonPresencesRestService extends RestService<
     });
   }
 
-  private getListOfUnconfirmedClassTeacher(): Observable<
-    ReadonlyArray<LessonPresence>
-  > {
+  private getListOfUnconfirmedClassTeacher(
+    params?: Dict<string>
+  ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       headers: {
         'X-Role-Restriction': 'ClassTeacherRole',
       },
       params: {
+        ...params,
         'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
         'filter.HasStudyCourseConfirmationCode': '=true',

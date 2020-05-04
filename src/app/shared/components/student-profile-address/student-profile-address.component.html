@@ -1,0 +1,20 @@
+<address>
+  {{ student.AddressLine1 }}<br />
+  <ng-container *ngIf="student.AddressLine2">
+    {{ student.AddressLine2 }}<br />
+  </ng-container>
+  {{ student.PostalCode }} {{ student.Location }}<br />
+  <ng-container *ngIf="student.PhonePrivate">
+    <a href="tel:{{ student.PhonePrivate }}">
+      {{ student.PhonePrivate }}
+    </a>
+    <br />
+  </ng-container>
+  <a href="tel:{{ student.PhoneMobile }}">
+    {{ student.PhoneMobile }}
+  </a>
+  <br />
+  <a *ngIf="student.DisplayEmail" href="mailto:{{ student.DisplayEmail }}">
+    {{ student.DisplayEmail }}
+  </a>
+</address>

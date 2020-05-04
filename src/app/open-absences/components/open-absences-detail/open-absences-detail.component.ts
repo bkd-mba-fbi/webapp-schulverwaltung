@@ -10,7 +10,7 @@ import { Observable, combineLatest, Subject } from 'rxjs';
 import { switchMap, map, take, takeUntil, filter } from 'rxjs/operators';
 
 import { OpenAbsencesService } from '../../services/open-absences.service';
-import { AbsencesSelectionService } from '../../services/absences-selection.service';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { longerOrEqual, isTruthy } from 'src/app/shared/utils/filter';
@@ -20,7 +20,6 @@ import { not } from 'fp-ts/lib/function';
   selector: 'erz-open-absences-detail',
   templateUrl: './open-absences-detail.component.html',
   styleUrls: ['./open-absences-detail.component.scss'],
-  providers: [AbsencesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesDetailComponent
@@ -43,14 +42,12 @@ export class OpenAbsencesDetailComponent
     private router: Router,
     private route: ActivatedRoute,
     private openAbsencesService: OpenAbsencesService,
-    public selectionService: AbsencesSelectionService,
+    public selectionService: ConfirmAbsencesSelectionService,
     private scrollPosition: ScrollPositionService
   ) {}
 
   ngOnInit(): void {
-    this.selectionService.selectedIds$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((ids) => (this.openAbsencesService.selected = ids));
+    this.selectionService.clearNonLessonPresences();
 
     // Set detail params on service to be able to navigate back to
     // here after edit

@@ -3,11 +3,10 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
-  Inject,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take, shareReplay } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import {
   EvaluateAbsencesStateService,
@@ -15,9 +14,7 @@ import {
 } from '../../services/evaluate-absences-state.service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
-import { SETTINGS, Settings } from '../../../settings';
-import { isHalfDay } from '../../../presence-control/utils/presence-types';
+import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 
 interface Column {
   key: keyof LessonPresenceStatistic;
@@ -31,8 +28,6 @@ interface Column {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
-  presenceTypes$ = this.presenceTypesService.getList().pipe(shareReplay(1));
-
   columns: ReadonlyArray<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
@@ -49,8 +44,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     public state: EvaluateAbsencesStateService,
     private scrollPosition: ScrollPositionService,
     private route: ActivatedRoute,
-    private presenceTypesService: PresenceTypesRestService,
-    @Inject(SETTINGS) private settings: Settings
+    private presenceTypesService: PresenceTypesService
   ) {}
 
   ngOnInit(): void {
@@ -59,20 +53,14 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       .subscribe((filterValue) => this.state.setFilter(filterValue));
 
     // Add Column TotalHalfDays if the corresponding PresenceType is active
-    this.presenceTypes$
-      .pipe(
-        map((types) =>
-          Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
-        )
-      )
-      .subscribe((activeHalfDay) => {
-        if (activeHalfDay) {
-          this.columns = [
-            ...this.columns,
-            { key: 'TotalHalfDays', label: 'halfday' },
-          ];
-        }
-      });
+    this.presenceTypesService.halfDayActive$.subscribe((halfDayActive) => {
+      if (halfDayActive) {
+        this.columns = [
+          ...this.columns,
+          { key: 'TotalHalfDays', label: 'halfday' },
+        ];
+      }
+    });
   }
 
   ngAfterViewInit(): void {

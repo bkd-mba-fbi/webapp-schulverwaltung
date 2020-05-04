@@ -1,4 +1,4 @@
-import { nonZero, not, notNull, isTruthy } from './filter';
+import { nonZero, not, notNull, isTruthy, isInstanceOf } from './filter';
 
 describe('filter utils', () => {
   describe('nonZero', () => {
@@ -72,6 +72,19 @@ describe('filter utils', () => {
       expect(isTruthy('')).toEqual(false);
       expect(isTruthy(null)).toEqual(false);
       expect(isTruthy(undefined)).toEqual(false);
+    });
+  });
+
+  describe('isInstanceOf', () => {
+    class Foo {}
+    class Bar {}
+
+    it('returns true if is instance of given class', () => {
+      expect(isInstanceOf(Foo)(new Foo())).toBe(true);
+    });
+
+    it('returns false if is not instance of given class', () => {
+      expect(isInstanceOf(Foo)(new Bar())).toBe(false);
     });
   });
 });

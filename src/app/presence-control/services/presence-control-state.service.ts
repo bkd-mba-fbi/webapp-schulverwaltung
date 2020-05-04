@@ -21,7 +21,7 @@ import { Lesson } from '../../shared/models/lesson.model';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
 import { LoadingService } from '../../shared/services/loading-service';
-import { PresenceTypesRestService } from '../../shared/services/presence-types-rest.service';
+import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { spreadTriplet } from '../../shared/utils/function';
 import {
   extractLessons,
@@ -101,7 +101,7 @@ export class PresenceControlStateService {
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
-    private presenceTypesService: PresenceTypesRestService,
+    private presenceTypesService: PresenceTypesService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings
   ) {}
@@ -238,7 +238,7 @@ export class PresenceControlStateService {
   }
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
-    return this.loadingService.load(this.presenceTypesService.getList());
+    return this.loadingService.load(this.presenceTypesService.presenceTypes$);
   }
 
   /**

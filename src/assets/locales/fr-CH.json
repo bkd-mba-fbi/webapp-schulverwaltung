@@ -69,13 +69,6 @@
         "lessonsCount": {
           "singular": "{{count}} leçon",
           "plural": "{{count}} leçons"
-        },
-        "daysDifference": {
-          "today": "Ajourd'hui",
-          "tomorrow": "Demain",
-          "yesterday": "Hier",
-          "ago": "il y a {{count}} jours",
-          "in": "dans {{count}} jours"
         }
       }
     },
@@ -161,6 +154,13 @@
   "shared": {
     "date-select": {
       "default-placeholder": "Sélectionner la date..."
+    },
+    "daysDifference": {
+      "today": "Ajourd'hui",
+      "tomorrow": "Demain",
+      "yesterday": "Hier",
+      "ago": "il y a {{count}} jours",
+      "in": "dans {{count}} jours"
     },
     "lesson-presences-update": {
       "error": "Une erreur s'est produite lors de l'enregistrement des modifications."

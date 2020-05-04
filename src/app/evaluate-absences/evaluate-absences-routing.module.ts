@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EvaluateAbsencesComponent } from './components/evaluate-absences/evaluate-absences.component';
 import { EvaluateAbsencesListComponent } from './components/evaluate-absences-list/evaluate-absences-list.component';
 import { StudentProfileComponent } from '../shared/components/student-profile/student-profile.component';
+import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,16 @@ const routes: Routes = [
       },
       {
         path: 'student/:id',
-        component: StudentProfileComponent,
+        children: [
+          {
+            path: '',
+            component: StudentProfileComponent,
+          },
+          {
+            path: 'edit',
+            component: ConfirmAbsencesComponent,
+          },
+        ],
       },
     ],
   },

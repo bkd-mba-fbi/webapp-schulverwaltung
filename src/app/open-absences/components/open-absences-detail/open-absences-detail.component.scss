@@ -19,12 +19,17 @@
   }
 }
 
+.edit {
+  line-height: 1;
+  font-size: $icon-size;
+}
+
 .absence-all {
-  padding: 0.5em 0;
+  padding: $spacer 0;
   border-bottom: 1px solid $gray-200;
   display: grid;
   grid-template-areas: "checkbox all";
-  grid-template-columns: 50px 1fr;
+  grid-template-columns: min-content 1fr;
 }
 
 .absence-entry {
@@ -34,15 +39,16 @@
   grid-template-areas:
     "checkbox lesson-class time teacher"
     "checkbox comment comment comment";
-  grid-template-columns: 50px 3fr 1fr 1fr;
+  grid-template-columns: min-content 3fr 1fr 1fr;
 }
 
 .checkbox {
-  padding: 0.25em 0 0 1em;
+  padding: 0.2rem 0.75rem 0 1rem;
   grid-area: checkbox;
 }
 
 .checkbox input.form-check-input {
+  position: static;
   margin: 0;
 }
 
@@ -83,7 +89,7 @@
 
   .absence-all {
     grid-template-areas: "checkbox all";
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: min-content 1fr;
   }
 
   .absence-entry {
@@ -91,11 +97,11 @@
       "checkbox lesson-class"
       "checkbox time-teacher"
       "checkbox comment";
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: min-content 1fr;
   }
 
   .time-teacher {
-    display: grid;
+    display: block;
   }
 
   .time,

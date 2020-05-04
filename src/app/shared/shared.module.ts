@@ -17,8 +17,16 @@ import { DateSelectComponent } from './components/date-select/date-select.compon
 import { SelectComponent } from './components/select/select.component';
 import { StudentBacklinkComponent } from './components/student-backlink/student-backlink.component';
 import { StudentProfileComponent } from './components/student-profile/student-profile.component';
+import { StudentProfileEntryHeaderComponent } from './components/student-profile-entry-header/student-profile-entry-header.component';
+import { StudentProfileAddressComponent } from './components/student-profile-address/student-profile-address.component';
+import { StudentProfileLegalRepresentativeComponent } from './components/student-profile-legal-representative/student-profile-legal-representative.component';
+import { StudentProfileApprenticeshipCompanyComponent } from './components/student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
+import { StudentProfileAbsencesComponent } from './components/student-profile-absences/student-profile-absences.component';
+import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-absences.component';
 import { PersonEmailPipe } from './pipes/person-email.pipe';
+import { DaysDifferencePipe } from './pipes/days-difference.pipe';
 
+// Components that will be exported
 const components = [
   LetDirective,
   SpinnerComponent,
@@ -28,11 +36,22 @@ const components = [
   SelectComponent,
   StudentBacklinkComponent,
   StudentProfileComponent,
+  ConfirmAbsencesComponent,
   PersonEmailPipe,
+  DaysDifferencePipe,
+];
+
+// Components only used within the shared module
+const internalComponents = [
+  StudentProfileEntryHeaderComponent,
+  StudentProfileAddressComponent,
+  StudentProfileLegalRepresentativeComponent,
+  StudentProfileApprenticeshipCompanyComponent,
+  StudentProfileAbsencesComponent,
 ];
 
 @NgModule({
-  declarations: [...components],
+  declarations: [...components, internalComponents],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },

@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { buildLessonPresenceWithIds } from 'src/spec-builders';
 import { OpenAbsencesListComponent } from './open-absences-list.component';
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
-import { OpenAbsencesEntriesSelectionService } from '../../services/open-absences-entries-selection.service';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
 describe('OpenAbsencesListComponent', () => {
   let component: OpenAbsencesListComponent;
@@ -14,6 +15,7 @@ describe('OpenAbsencesListComponent', () => {
   let element: HTMLElement;
 
   let openAbsencesService: OpenAbsencesService;
+  let selectionService: ConfirmAbsencesSelectionService;
   let entryA: OpenAbsencesEntry;
   let entryB: OpenAbsencesEntry;
   let storeMock: any;
@@ -50,23 +52,17 @@ describe('OpenAbsencesListComponent', () => {
               toggleSort: jasmine.createSpy('toggleSort'),
               sortedEntries$: of([entryA, entryB]),
               filteredEntries$: of([entryA, entryB]),
-              selected: [],
             },
           },
-          OpenAbsencesEntriesSelectionService,
         ],
       })
     ).compileComponents();
 
     openAbsencesService = TestBed.inject(OpenAbsencesService);
+    selectionService = TestBed.inject(ConfirmAbsencesSelectionService);
   }));
 
-  afterEach(() => jasmine.clock().uninstall());
-
   beforeEach(() => {
-    jasmine.clock().install();
-    jasmine.clock().mockDate(new Date(2000, 0, 23, 8, 30));
-
     fixture = TestBed.createComponent(OpenAbsencesListComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
@@ -90,22 +86,20 @@ describe('OpenAbsencesListComponent', () => {
     });
 
     it('updates selected ids', () => {
-      expect(openAbsencesService.selected).toEqual([]);
+      expectSelection([]);
 
       toggleCheckbox(0);
-      expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10, 11] },
-      ]);
+      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
 
       toggleCheckbox(1);
-      expect(openAbsencesService.selected).toEqual([
+      expectSelection([
         { personIds: [21], lessonIds: [10, 11] },
         { personIds: [22], lessonIds: [10, 12] },
       ]);
 
       toggleCheckbox(0);
       toggleCheckbox(1);
-      expect(openAbsencesService.selected).toEqual([]);
+      expectSelection([]);
     });
 
     function toggleCheckbox(index: number): void {
@@ -114,54 +108,11 @@ describe('OpenAbsencesListComponent', () => {
       ] as HTMLInputElement).click();
       fixture.detectChanges();
     }
-  });
 
-  describe('.getDaysDifferenceKey', () => {
-    it('it returns key for today', () => {
-      const result = component.getDaysDifferenceKey(
-        new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 23)),
-        ])
-      );
-      expect(result).toBe('open-absences.list.content.daysDifference.today');
-    });
-
-    it('it returns key for tomorrow', () => {
-      const result = component.getDaysDifferenceKey(
-        new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 24)),
-        ])
-      );
-      expect(result).toBe('open-absences.list.content.daysDifference.tomorrow');
-    });
-
-    it('it returns key for yesterday', () => {
-      const result = component.getDaysDifferenceKey(
-        new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 22)),
-        ])
-      );
-      expect(result).toBe(
-        'open-absences.list.content.daysDifference.yesterday'
-      );
-    });
-
-    it('it returns key for past date', () => {
-      const result = component.getDaysDifferenceKey(
-        new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 1)),
-        ])
-      );
-      expect(result).toBe('open-absences.list.content.daysDifference.ago');
-    });
-
-    it('it returns key for future date', () => {
-      const result = component.getDaysDifferenceKey(
-        new OpenAbsencesEntry([
-          buildLessonPresenceWithIds(1, 2, new Date(2000, 0, 31)),
-        ])
-      );
-      expect(result).toBe('open-absences.list.content.daysDifference.in');
-    });
+    function expectSelection(expected: any): void {
+      selectionService.selectedIds$
+        .pipe(take(1))
+        .subscribe((selection) => expect(selection).toEqual(expected));
+    }
   });
 });

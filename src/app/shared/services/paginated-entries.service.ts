@@ -123,7 +123,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     map(this.buildHttpParamsFromFilter.bind(this))
   );
 
-  private destroy$ = new Subject<void>();
+  protected destroy$ = new Subject<void>();
 
   constructor(
     protected location: Location,

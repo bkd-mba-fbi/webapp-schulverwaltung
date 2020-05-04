@@ -1,6 +1,13 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Inject,
+  ChangeDetectionStrategy,
+  Optional,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import {
   takeUntil,
@@ -10,27 +17,31 @@ import {
   shareReplay,
   take,
   startWith,
+  switchMap,
 } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { flattenDeep } from 'lodash-es';
 
 import { notNull } from 'src/app/shared/utils/filter';
 import { getValidationErrors } from 'src/app/shared/utils/form';
-import { OpenAbsencesService } from '../../services/open-absences.service';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { findDropDownItem$ } from 'src/app/shared/utils/drop-down-items';
-import { PresenceTypesRestService } from 'src/app/shared/services/presence-types-rest.service';
-import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
+import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
+import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
+import {
+  CONFIRM_ABSENCES_SERVICE,
+  IConfirmAbsencesService,
+} from '../../tokens/confirm-absences-service';
 
 @Component({
-  selector: 'erz-open-absences-edit',
-  templateUrl: './open-absences-edit.component.html',
-  styleUrls: ['./open-absences-edit.component.scss'],
+  selector: 'erz-confirm-absences',
+  templateUrl: './confirm-absences.component.html',
+  styleUrls: ['./confirm-absences.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
+export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   formGroup = this.createFormGroup();
 
   saving$ = new BehaviorSubject(false);
@@ -67,29 +78,35 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
     this.settings.unexcusedAbsenceStateId
   );
 
-  absenceTypes$ = this.presenceTypesService
-    .getConfirmationTypes()
-    .pipe(map(sortPresenceTypes), shareReplay(1));
+  absenceTypes$ = this.presenceTypesService.confirmationTypes$;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private openAbsencesService: OpenAbsencesService,
+    private selectionService: ConfirmAbsencesSelectionService,
     private dropDownItemsService: DropDownItemsRestService,
-    private presenceTypesService: PresenceTypesRestService,
+    private presenceTypesService: PresenceTypesService,
     private updateService: LessonPresencesUpdateRestService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
+    @Optional()
+    @Inject(CONFIRM_ABSENCES_SERVICE)
+    private openAbsencesEditService?: IConfirmAbsencesService
   ) {}
 
   ngOnInit(): void {
-    if (this.openAbsencesService.selected.length === 0) {
-      // Nothing to confirm if no entries are selected
-      this.navigateBack();
-    }
+    this.selectionService.selectedIds$
+      .pipe(take(1))
+      .subscribe((selectedIds) => {
+        if (selectedIds.length === 0) {
+          // Nothing to confirm if no entries are selected
+          this.navigateBack();
+        }
+      });
 
     const confirmationValueControl = this.formGroup.get('confirmationValue');
     const absenceTypeIdControl = this.formGroup.get('absenceTypeId');
@@ -167,23 +184,30 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
   private save(confirmationValue: number, absenceTypeId: number): void {
     this.saving$.next(true);
 
-    const requests = this.openAbsencesService.selected.map(
-      ({ lessonIds, personIds }) =>
-        this.updateService.confirmLessonPresences(
-          lessonIds,
-          personIds,
-          absenceTypeId,
-          confirmationValue
-        )
-    );
-
-    combineLatest(requests)
-      .pipe(finalize(() => this.saving$.next(false)))
+    this.selectionService.selectedIds$
+      .pipe(
+        take(1),
+        switchMap((selectedIds) =>
+          combineLatest(
+            selectedIds.map(({ lessonIds, personIds }) =>
+              this.updateService.confirmLessonPresences(
+                lessonIds,
+                personIds,
+                absenceTypeId,
+                confirmationValue
+              )
+            )
+          )
+        ),
+        finalize(() => this.saving$.next(false))
+      )
       .subscribe(this.onSaveSuccess.bind(this));
   }
 
   private onSaveSuccess(): void {
-    this.openAbsencesService.removeSelectedEntries();
+    if (this.openAbsencesEditService?.updateAfterSave) {
+      this.openAbsencesEditService.updateAfterSave();
+    }
     this.toastr.success(
       this.translate.instant('open-absences.edit.save-success')
     );
@@ -191,14 +215,9 @@ export class OpenAbsencesEditComponent implements OnInit, OnDestroy {
   }
 
   private navigateBack(): void {
-    if (this.openAbsencesService.currentDetail) {
-      this.router.navigate([
-        '/open-absences/detail',
-        this.openAbsencesService.currentDetail.personId,
-        this.openAbsencesService.currentDetail.date,
-      ]);
-    } else {
-      this.router.navigate(['/open-absences']);
-    }
+    this.router.navigate(this.openAbsencesEditService?.editBackLink || ['..'], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.openAbsencesEditService?.editBackLinkParams,
+    });
   }
 }

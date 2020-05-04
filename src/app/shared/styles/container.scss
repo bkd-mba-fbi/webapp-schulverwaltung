@@ -1,9 +1,25 @@
+/**
+ * Container with horizontal padding
+ */
 .erz-container {
   margin: 0 auto;
   padding: 0 $erz-container-padding-x;
 }
 
+/**
+ * Add vertical padding
+ */
 .erz-container-padding-y {
   padding-top: $erz-container-padding-y;
   padding-bottom: $erz-container-padding-y;
+}
+
+/**
+ * Remove horizontal padding on small screens
+ */
+@include media-breakpoint-down(sm) {
+  .erz-container-padding-x-responsive {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }

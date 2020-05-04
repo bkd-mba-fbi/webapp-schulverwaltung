@@ -7,6 +7,8 @@ import { buildLessonPresenceWithIds } from 'src/spec-builders';
 import { OpenAbsencesDetailComponent } from './open-absences-detail.component';
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { take } from 'rxjs/operators';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
 describe('OpenAbsencesDetailComponent', () => {
   let component: OpenAbsencesDetailComponent;
@@ -16,6 +18,7 @@ describe('OpenAbsencesDetailComponent', () => {
   let activatedRouteMock: ActivatedRouteMock;
   let router: Router;
   let openAbsencesService: OpenAbsencesService;
+  let selectionService: ConfirmAbsencesSelectionService;
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
 
@@ -42,7 +45,6 @@ describe('OpenAbsencesDetailComponent', () => {
               getUnconfirmedAbsences: jasmine
                 .createSpy('getUnconfirmedAbsences')
                 .and.returnValue(of([presenceA, presenceB])),
-              selected: [],
             },
           },
         ],
@@ -50,6 +52,7 @@ describe('OpenAbsencesDetailComponent', () => {
     ).compileComponents();
 
     openAbsencesService = TestBed.inject(OpenAbsencesService);
+    selectionService = TestBed.inject(ConfirmAbsencesSelectionService);
 
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
@@ -101,32 +104,26 @@ describe('OpenAbsencesDetailComponent', () => {
     });
 
     it('updates selected ids', () => {
-      expect(openAbsencesService.selected).toEqual([]);
+      expectSelection([]);
 
       toggleCheckbox(1);
-      expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10] },
-      ]);
+      expectSelection([{ personIds: [21], lessonIds: [10] }]);
 
       toggleCheckbox(2);
-      expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10, 11] },
-      ]);
+      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
 
       toggleCheckbox(1);
       toggleCheckbox(2);
-      expect(openAbsencesService.selected).toEqual([]);
+      expectSelection([]);
     });
 
     it('toggles all entries', () => {
       const selectAllCheckbox = getCheckbox(0);
       toggleCheckbox(0);
-      expect(openAbsencesService.selected).toEqual([
-        { personIds: [21], lessonIds: [10, 11] },
-      ]);
+      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
 
       toggleCheckbox(0);
-      expect(openAbsencesService.selected).toEqual([]);
+      expectSelection([]);
 
       toggleCheckbox(1);
       toggleCheckbox(2);
@@ -145,6 +142,12 @@ describe('OpenAbsencesDetailComponent', () => {
       return element.querySelectorAll('input[type="checkbox"]')[
         index
       ] as HTMLInputElement;
+    }
+
+    function expectSelection(expected: any): void {
+      selectionService.selectedIds$
+        .pipe(take(1))
+        .subscribe((selection) => expect(selection).toEqual(expected));
     }
   });
 });

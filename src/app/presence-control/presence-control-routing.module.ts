@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PresenceControlComponent } from './components/presence-control/presence-control.component';
 import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
 import { PresenceControlCommentComponent } from './components/presence-control-comment/presence-control-comment.component';
+import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
 import { StudentProfileComponent } from '../shared/components/student-profile/student-profile.component';
 
 const routes: Routes = [
@@ -23,7 +24,16 @@ const routes: Routes = [
       },
       {
         path: 'student/:id',
-        component: StudentProfileComponent,
+        children: [
+          {
+            path: '',
+            component: StudentProfileComponent,
+          },
+          {
+            path: 'edit',
+            component: ConfirmAbsencesComponent,
+          },
+        ],
       },
       {
         path: 'comment/:studentId/:lessonId',

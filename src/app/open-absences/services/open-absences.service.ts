@@ -17,6 +17,8 @@ import {
   sortOpenAbsencesEntries,
   removeOpenAbsences,
 } from '../utils/open-absences-entries';
+import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -26,7 +28,7 @@ export interface SortCriteria {
 }
 
 @Injectable()
-export class OpenAbsencesService {
+export class OpenAbsencesService implements IConfirmAbsencesService {
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>('');
 
@@ -57,15 +59,11 @@ export class OpenAbsencesService {
     shareReplay(1)
   );
 
-  selected: ReadonlyArray<{
-    lessonIds: ReadonlyArray<number>;
-    personIds: ReadonlyArray<number>;
-  }> = [];
-
   currentDetail: Option<{ date: string; personId: number }> = null;
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
+    private selectionService: ConfirmAbsencesSelectionService,
     private loadingService: LoadingService
   ) {}
 
@@ -105,20 +103,29 @@ export class OpenAbsencesService {
     });
   }
 
+  get editBackLink(): any[] {
+    if (this.currentDetail) {
+      return [
+        '/open-absences/detail',
+        this.currentDetail.personId,
+        this.currentDetail.date,
+      ];
+    }
+    return ['/open-absences'];
+  }
+
   /**
    * Removes selected entries from unconfirmed absences and cleans
    * selection.
    */
-  removeSelectedEntries(): void {
-    this.unconfirmedAbsences$
-      .pipe(
-        take(1),
-        map((unconfirmedAbsences) =>
-          removeOpenAbsences(unconfirmedAbsences, this.selected)
-        )
-      )
+  updateAfterSave(): void {
+    combineLatest([
+      this.unconfirmedAbsences$.pipe(take(1)),
+      this.selectionService.selectedIds$.pipe(take(1)),
+    ])
+      .pipe(map(spreadTuple(removeOpenAbsences)))
       .subscribe((unconfirmedAbsences) => {
-        this.selected = [];
+        this.selectionService.clear();
         this.updateUnconfirmedAbsences$.next(unconfirmedAbsences);
       });
   }
