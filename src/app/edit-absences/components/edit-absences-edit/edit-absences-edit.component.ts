@@ -71,7 +71,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   categories = [
     Category.Absent,
     Category.Dispensation,
-    Category.HalfDay,
     Category.Late,
     Category.Present,
   ];
@@ -120,18 +119,16 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
         .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
     }
 
-    // Remove Category HalfDay if the corresponding PresenceType is inactive
+    // Add Category HalfDay if the corresponding PresenceType is active
     this.absenceTypes$
       .pipe(
         map((types) =>
-          types.filter((t) => isHalfDay(t, this.settings) && t.Active)
+          Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
         )
       )
-      .subscribe((types) => {
-        if (types.length === 0) {
-          this.categories = this.categories.filter(
-            (c) => c !== Category.HalfDay
-          );
+      .subscribe((activeHalfDay) => {
+        if (activeHalfDay) {
+          this.categories.push(Category.HalfDay);
         }
       });
   }

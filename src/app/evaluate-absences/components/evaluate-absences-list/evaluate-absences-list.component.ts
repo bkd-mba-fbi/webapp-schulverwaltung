@@ -33,14 +33,13 @@ interface Column {
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   presenceTypes$ = this.presenceTypesService.getList().pipe(shareReplay(1));
 
-  columns: ReadonlyArray<Column> = [
+  columns: Array<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
     { key: 'TotalAbsencesValidExcuse', label: 'valid-excuse' },
     { key: 'TotalAbsencesWithoutExcuse', label: 'without-excuse' },
     { key: 'TotalAbsencesUnconfirmed', label: 'unconfirmed' },
     { key: 'TotalIncidents', label: 'late' },
-    { key: 'TotalHalfDays', label: 'halfday' },
   ];
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
@@ -59,16 +58,16 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       .pipe(take(1))
       .subscribe((filterValue) => this.state.setFilter(filterValue));
 
-    // Remove Column TotalHalfDays if the corresponding PresenceType is inactive
+    // Add Column TotalHalfDays if the corresponding PresenceType is active
     this.presenceTypes$
       .pipe(
         map((types) =>
-          types.filter((t) => isHalfDay(t, this.settings) && t.Active)
+          Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
         )
       )
-      .subscribe((types) => {
-        if (types.length === 0) {
-          this.columns = this.columns.filter((c) => c.key !== 'TotalHalfDays');
+      .subscribe((activeHalfDay) => {
+        if (activeHalfDay) {
+          this.columns.push({ key: 'TotalHalfDays', label: 'halfday' });
         }
       });
   }
