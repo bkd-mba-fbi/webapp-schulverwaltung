@@ -105,8 +105,7 @@
       "date-to": "Date au",
       "presence-type": "Motif",
       "confirmation-state": "Statut",
-      "show": "Afficher",
-      "extended-filters": "Autres critères"
+      "show": "Afficher"
     },
     "list": {
       "total": "{{count}} résultats",

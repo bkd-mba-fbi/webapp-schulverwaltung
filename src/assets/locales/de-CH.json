@@ -106,8 +106,7 @@
       "date-to": "Datum bis",
       "presence-type": "Grund",
       "confirmation-state": "Status",
-      "show": "Anzeigen",
-      "extended-filters": "Weitere Kriterien"
+      "show": "Anzeigen"
     },
     "list": {
       "total": "{{count}} Resultate",
