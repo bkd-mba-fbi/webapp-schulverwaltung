@@ -83,6 +83,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     .getConfirmationTypes()
     .pipe(map(sortPresenceTypes), shareReplay(1));
 
+  presenceTypes$ = this.presenceTypesService.getList().pipe(shareReplay(1));
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -120,7 +122,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     }
 
     // Add Category HalfDay if the corresponding PresenceType is active
-    this.absenceTypes$
+    this.presenceTypes$
       .pipe(
         map((types) =>
           Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
