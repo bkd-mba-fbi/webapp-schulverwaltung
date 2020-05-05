@@ -68,9 +68,10 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     startWith([])
   );
 
-  categories = [
+  availableCategories = [
     Category.Absent,
     Category.Dispensation,
+    Category.HalfDay,
     Category.Late,
     Category.Present,
   ];
@@ -83,7 +84,17 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     .getConfirmationTypes()
     .pipe(map(sortPresenceTypes), shareReplay(1));
 
-  presenceTypes$ = this.presenceTypesService.getList().pipe(shareReplay(1));
+  // Remove Category HalfDay if the corresponding PresenceType is inactive
+  activeCategories$ = this.presenceTypesService.getList().pipe(
+    map((types) =>
+      Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
+    ),
+    map((isActive) =>
+      isActive
+        ? this.availableCategories
+        : this.availableCategories.filter((c) => c !== Category.HalfDay)
+    )
+  );
 
   private destroy$ = new Subject<void>();
 
@@ -120,19 +131,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
     }
-
-    // Add Category HalfDay if the corresponding PresenceType is active
-    this.presenceTypes$
-      .pipe(
-        map((types) =>
-          Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
-        )
-      )
-      .subscribe((activeHalfDay) => {
-        if (activeHalfDay) {
-          this.categories.push(Category.HalfDay);
-        }
-      });
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,8 @@
 <div
   class="erz-container erz-container-padding-y"
   *erzLet="{
-    confirmationStates: confirmationStates$ | async
+    confirmationStates: confirmationStates$ | async,
+    categories: activeCategories$ | async
   } as data"
 >
   <form
@@ -14,7 +15,10 @@
     </div>
 
     <div class="form-group pb-4">
-      <div *ngFor="let category of categories" class="form-check mt-2 mb-3">
+      <div
+        *ngFor="let category of data.categories"
+        class="form-check mt-2 mb-3"
+      >
         <input
           type="radio"
           class="form-check-input"
