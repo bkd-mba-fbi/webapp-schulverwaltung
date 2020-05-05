@@ -33,7 +33,7 @@ interface Column {
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   presenceTypes$ = this.presenceTypesService.getList().pipe(shareReplay(1));
 
-  columns: Array<Column> = [
+  columns: ReadonlyArray<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
     { key: 'TotalAbsencesValidExcuse', label: 'valid-excuse' },
@@ -67,7 +67,10 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       )
       .subscribe((activeHalfDay) => {
         if (activeHalfDay) {
-          this.columns.push({ key: 'TotalHalfDays', label: 'halfday' });
+          this.columns = [
+            ...this.columns,
+            { key: 'TotalHalfDays', label: 'halfday' },
+          ];
         }
       });
   }
