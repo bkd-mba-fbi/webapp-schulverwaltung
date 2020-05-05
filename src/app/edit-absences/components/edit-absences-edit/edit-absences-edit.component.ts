@@ -28,6 +28,7 @@ import { sortPresenceTypes } from 'src/app/shared/utils/presence-types';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { PresenceTypesRestService } from '../../../shared/services/presence-types-rest.service';
 import { parseQueryString } from 'src/app/shared/utils/url';
+import { isHalfDay } from '../../../presence-control/utils/presence-types';
 
 enum Category {
   Absent = 'absent',
@@ -67,7 +68,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     startWith([])
   );
 
-  categories = [
+  availableCategories = [
     Category.Absent,
     Category.Dispensation,
     Category.HalfDay,
@@ -82,6 +83,18 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   absenceTypes$ = this.presenceTypesService
     .getConfirmationTypes()
     .pipe(map(sortPresenceTypes), shareReplay(1));
+
+  // Remove Category HalfDay if the corresponding PresenceType is inactive
+  activeCategories$ = this.presenceTypesService.getList().pipe(
+    map((types) =>
+      Boolean(types.find((t) => isHalfDay(t, this.settings))?.Active)
+    ),
+    map((isActive) =>
+      isActive
+        ? this.availableCategories
+        : this.availableCategories.filter((c) => c !== Category.HalfDay)
+    )
+  );
 
   private destroy$ = new Subject<void>();
 
