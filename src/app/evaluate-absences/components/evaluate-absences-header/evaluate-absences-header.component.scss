@@ -21,7 +21,10 @@
 }
 .buttons {
   flex: none;
-  margin-top: $font-size-base * $line-height-base + $label-margin-bottom;
+  // Attempt to calculate size dynamically failed, since they have
+  // 1.5rem as base font size in production
+  // margin-top: $font-size-base * $line-height-base + $label-margin-bottom;
+  margin-top: 31px;
   margin-right: 0;
 }
 
