@@ -29,7 +29,7 @@ export class SelectComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value) {
+    if (changes.value && this.options) {
       this.value$.next(
         this.options.find((o) => o.Key === changes.value.currentValue) || null
       );
