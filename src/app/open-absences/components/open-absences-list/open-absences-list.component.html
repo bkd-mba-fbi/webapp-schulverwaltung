@@ -78,7 +78,17 @@
                 entry.studentFullName
               }}</a>
             </div>
+            <div class="study-class">
+              {{ entry.studyClassNumber }}
+            </div>
             <div class="lessons-count">
+              {{
+                getLessonsCountKey(entry)
+                  | translate: { count: entry.lessonsCount }
+              }}
+            </div>
+            <div class="study-class-lessons-count">
+              {{ entry.studyClassNumber }},
               {{
                 getLessonsCountKey(entry)
                   | translate: { count: entry.lessonsCount }
