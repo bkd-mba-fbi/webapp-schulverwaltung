@@ -106,8 +106,12 @@ export class EditAbsencesStateService extends PaginatedEntriesService<
     _sorting: null,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
+    const params: Dict<string> = {
+      sort: 'StudentFullName.asc,LessonDateTimeFrom.asc',
+    };
+
     return this.loadingService.load(
-      this.lessonPresencesService.getFilteredList(filterValue, offset),
+      this.lessonPresencesService.getFilteredList(filterValue, offset, params),
       PAGE_LOADING_CONTEXT
     );
   }

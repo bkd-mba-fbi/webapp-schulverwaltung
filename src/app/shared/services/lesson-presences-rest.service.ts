@@ -96,7 +96,8 @@ export class LessonPresencesRestService extends RestService<
 
   getFilteredList(
     absencesFilter: EditAbsencesFilter,
-    offset: number
+    offset: number,
+    additionalParams?: Dict<string>
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
@@ -128,6 +129,11 @@ export class LessonPresencesRestService extends RestService<
           `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`
         );
       }
+    }
+    if (additionalParams) {
+      Object.keys(additionalParams).forEach(
+        (key) => (params = params.set(key, additionalParams[key]))
+      );
     }
 
     return this.http
