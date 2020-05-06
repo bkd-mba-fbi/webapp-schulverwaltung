@@ -23,7 +23,9 @@
           <input
             type="text"
             class="form-control"
-            [attr.placeholder]="'open-absences.search-by-name' | translate"
+            [attr.placeholder]="
+              'open-absences.search-by-name-or-class' | translate
+            "
             [attr.aria-label]="'open-absences.search' | translate"
             aria-describedby="search-addon"
             (keyup)="openAbsencesService.search$.next($event.target.value)"

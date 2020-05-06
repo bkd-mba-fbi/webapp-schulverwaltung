@@ -2,6 +2,7 @@ import { deburr } from 'lodash-es';
 
 export interface Searchable {
   readonly studentFullName: string;
+  readonly studyClassNumber?: string;
 }
 
 export function searchEntries<T extends Searchable>(
@@ -18,7 +19,10 @@ export function searchEntries<T extends Searchable>(
 function matchesEntry(term: string): (entry: Searchable) => boolean {
   const preparedTerm = normalizeSearchValue(term);
   return (entry) =>
-    normalizeSearchValue(entry.studentFullName).includes(preparedTerm);
+    normalizeSearchValue(entry.studentFullName).includes(preparedTerm) ||
+    (entry.studyClassNumber
+      ? normalizeSearchValue(entry.studyClassNumber).includes(preparedTerm)
+      : false);
 }
 
 function normalizeSearchValue(value: string): string {
