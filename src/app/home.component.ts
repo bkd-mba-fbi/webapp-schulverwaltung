@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'erz-home',
   template: `
-    <ul>
+    <ul class="mt-3">
       <li *ngFor="let section of sections">
         <h2>
           <a [routerLink]="'/' + section">

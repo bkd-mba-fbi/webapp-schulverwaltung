@@ -14,17 +14,14 @@
 }
 .form-group {
   flex: 1;
-  min-width: 15rem;
-  max-width: 30rem;
+  min-width: 20rem;
+  max-width: 40rem;
   margin-right: $spacer;
   margin-bottom: $spacer / 2;
 }
 .buttons {
   flex: none;
-  // Attempt to calculate size dynamically failed, since they have
-  // 1.5rem as base font size in production
-  // margin-top: $font-size-base * $line-height-base + $label-margin-bottom;
-  margin-top: 31px;
+  margin-top: $font-size-base * $line-height-base + $label-margin-bottom;
   margin-right: 0;
 }
 

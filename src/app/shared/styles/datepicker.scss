@@ -1,0 +1,22 @@
+ngb-datepicker-navigation-select > .custom-select {
+  font-size: 1rem !important;
+}
+
+$datepicker-cell-size: 2.5rem;
+.ngb-dp-day,
+.ngb-dp-week-number,
+.ngb-dp-weekday {
+  width: $datepicker-cell-size !important;
+  height: $datepicker-cell-size !important;
+}
+
+[ngbDatepickerDayView] {
+  width: $datepicker-cell-size !important;
+  height: $datepicker-cell-size !important;
+  line-height: $datepicker-cell-size !important;
+}
+
+.ngb-dp-months {
+  padding: (0.5 * $spacer) (2 * $spacer);
+  background: $gray-100;
+}

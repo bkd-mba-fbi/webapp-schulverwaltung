@@ -10,5 +10,9 @@
 @import "~ngx-toastr/toastr-bs4-alert";
 
 // Shared application styles
+@import "src/app/shared/styles/typography";
 @import "src/app/shared/styles/container";
 @import "src/app/shared/styles/table";
+@import "src/app/shared/styles/form";
+@import "src/app/shared/styles/datepicker";
+@import "src/app/shared/styles/icons";

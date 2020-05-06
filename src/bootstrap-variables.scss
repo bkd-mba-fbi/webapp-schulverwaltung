@@ -13,12 +13,16 @@ $blue: #005189;
 $primary: $blue;
 $secondary: $gray;
 
-// font
-$font-family-sans-serif: "Open Sans", sans-serif;
-
 $present-color: #28a745;
 $absent-color: #dc3545;
 $late-color: $yellow;
+
+// Font
+$font-family-sans-serif: "Open Sans", sans-serif;
+$font-size-base: 1.5rem; // See app/shared/styles/typography.scss
+
+// Spacing
+$spacer: 1.5rem; // Compensate for the base font
 
 @import "node_modules/bootstrap/scss/variables";
 
@@ -27,7 +31,6 @@ $table-head-bg: $table-border-color;
 $table-head-color: $gray-600;
 
 // Custom variables
-$erz-container-max-width: 600px;
 $erz-container-padding-x: $spacer;
 $erz-container-padding-y: $spacer;
 
