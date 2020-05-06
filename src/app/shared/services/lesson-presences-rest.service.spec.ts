@@ -345,5 +345,23 @@ describe('LessonPresencesRestService', () => {
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
     });
+
+    it('fetches lesson presences with additional sort params', () => {
+      const additionalParams: Dict<string> = {
+        sort: 'StudentFullName.asc,LessonDateTimeFrom.asc',
+      };
+      filter.educationalEvent = 333;
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.EventRef==333&sort=StudentFullName.asc,LessonDateTimeFrom.asc&offset=0&limit=1000';
+
+      service
+        .getFilteredList(filter, 0, additionalParams)
+        .subscribe((result) => expect(result.entries).toBe(data));
+
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+    });
   });
 });
