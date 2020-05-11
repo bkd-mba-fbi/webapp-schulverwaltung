@@ -12,7 +12,6 @@ import {
   shareReplay,
   switchMap,
   take,
-  withLatestFrom,
   distinctUntilChanged,
 } from 'rxjs/operators';
 import { uniq } from 'lodash-es';
@@ -23,13 +22,7 @@ import { PresenceType } from '../../shared/models/presence-type.model';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
 import { LoadingService } from '../../shared/services/loading-service';
 import { PresenceTypesRestService } from '../../shared/services/presence-types-rest.service';
-import {
-  isFirstElement,
-  isLastElement,
-  nextElement,
-  previousElement,
-} from '../../shared/utils/array';
-import { spreadTriplet, spreadTuple } from '../../shared/utils/function';
+import { spreadTriplet } from '../../shared/utils/function';
 import {
   extractLessons,
   getCurrentLesson,
@@ -67,10 +60,8 @@ export class PresenceControlStateService {
     this.updateLessonPresences$
   ).pipe(shareReplay(1));
   private presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
-  private lessons$ = this.lessonPresences$.pipe(
-    map(extractLessons),
-    shareReplay(1)
-  );
+
+  lessons$ = this.lessonPresences$.pipe(map(extractLessons), shareReplay(1));
   private currentLesson$ = this.lessons$.pipe(
     map(getCurrentLesson),
     distinctUntilChanged(lessonsEqual)
@@ -105,13 +96,6 @@ export class PresenceControlStateService {
     map(getCategoryCount('late'))
   );
 
-  isFirstLesson$ = combineLatest([this.selectedLesson$, this.lessons$]).pipe(
-    map(spreadTuple(isFirstElement(lessonsEqual)))
-  );
-  isLastLesson$ = combineLatest([this.selectedLesson$, this.lessons$]).pipe(
-    map(spreadTuple(isLastElement(lessonsEqual)))
-  );
-
   viewMode$ = this.viewModeSubject$.asObservable();
   selectedDate$ = this.selectedDateSubject$.asObservable();
 
@@ -126,24 +110,8 @@ export class PresenceControlStateService {
     this.selectedDateSubject$.next(date);
   }
 
-  previousLesson(): void {
-    this.selectedLesson$
-      .pipe(
-        take(1),
-        withLatestFrom(this.lessons$),
-        map(spreadTuple(previousElement(lessonsEqual)))
-      )
-      .subscribe((lesson) => this.selectLesson$.next(lesson));
-  }
-
-  nextLesson(): void {
-    this.selectedLesson$
-      .pipe(
-        take(1),
-        withLatestFrom(this.lessons$),
-        map(spreadTuple(nextElement(lessonsEqual)))
-      )
-      .subscribe((lesson) => this.selectLesson$.next(lesson));
+  setLesson(lesson: Lesson): void {
+    this.selectLesson$.next(lesson);
   }
 
   setViewMode(mode: ViewMode): void {

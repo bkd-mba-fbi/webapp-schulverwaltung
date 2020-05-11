@@ -34,12 +34,8 @@
     "no-lesson-presences": "Keine Lernenden vorhanden",
     "previously-absent": "In Vorlektion abwesend",
     "header": {
-      "previous-lesson": "Vorherige Lektion",
-      "next-lesson": "Nächste Lektion",
       "search": "Suchen",
-      "search-by-name": "Name suchen...",
-      "no-previous-lesson": "Es ist keine vorherige Lektion am gewählten Tag vorhanden, bitte benutzen Sie den Kalender.",
-      "no-next-lesson": "Es ist keine nachfolgende Lektion am gewählten Tag vorhanden, bitte benutzen Sie den Kalender."
+      "search-by-name": "Name suchen..."
     },
     "entry": {
       "comment": "Kommentar...",

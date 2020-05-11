@@ -1,6 +1,7 @@
 <ng-container
   *erzLet="{
     lesson: state.selectedLesson$ | async,
+    lessons: state.lessons$ | async,
     entries: entries$ | async,
     previouslyPresentEntries: previouslyPresentEntries$ | async,
     previouslyAbsentEntries: previouslyAbsentEntries$ | async
@@ -8,20 +9,18 @@
 >
   <ng-container *ngIf="!(state.loading$ | async); else loading">
     <erz-presence-control-header
-      [lesson]="data.lesson"
-      [hasPreviousLesson]="!(state.isFirstLesson$ | async)"
-      [hasNextLesson]="!(state.isLastLesson$ | async)"
+      [selectedLesson]="data.lesson"
+      [lessons]="data.lessons"
       [presentCount]="state.presentCount$ | async"
       [absentCount]="state.absentCount$ | async"
       [lateCount]="state.lateCount$ | async"
       [viewMode]="state.viewMode$ | async"
       [selectDate]="state.selectedDate$ | async"
       [search]="search$ | async"
-      (previousLesson)="state.previousLesson()"
-      (nextLesson)="state.nextLesson()"
       (searchChange)="search$.next($event)"
       (viewModeChange)="state.setViewMode($event)"
       (selectDateChange)="state.setDate($event)"
+      (selectLessonChange)="state.setLesson($event)"
     ></erz-presence-control-header>
 
     <ng-container *ngIf="data.lesson; else noLessons">

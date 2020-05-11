@@ -55,10 +55,9 @@ describe('PresenceControlListComponent', () => {
 
     stateServiceMock = ({
       loading$: of(false),
+      lessons$: of([lesson]),
       selectedLesson$: of(lesson),
       selectedPresenceControlEntries$,
-      isFirstLesson$: of(true),
-      isLastLesson$: of(true),
       getNextPresenceType: jasmine
         .createSpy('getNextPresenceType')
         .and.callFake(() => of(absence)),

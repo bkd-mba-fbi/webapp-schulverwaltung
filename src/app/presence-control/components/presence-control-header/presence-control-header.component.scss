@@ -14,44 +14,13 @@
 .navigation {
   display: grid;
   grid-template-areas:
-    "previous date        time        next"
-    "previous description description next";
+    ". date time dropdown-caret"
+    ". description description dropdown-caret";
   grid-template-columns: 1fr auto auto 1fr;
 
   // I11 workaround for `align-items: center;`
   > * {
     align-self: center;
-  }
-}
-
-// In IE 11 the description does not overflow with `auto`, therefore
-// we're using `1fr` for these columns
-:host-context(.ie11) .navigation {
-  grid-template-columns: minmax(50px, 20%) 1fr 1fr minmax(50px, 20%);
-}
-
-.previous-lesson {
-  grid-area: previous;
-}
-.next-lesson {
-  grid-area: next;
-  justify-self: flex-end;
-}
-.previous-lesson,
-.next-lesson {
-  width: 50px;
-  height: 50px;
-  line-height: 1;
-  color: $body-color;
-
-  &.disabled {
-    pointer-events: initial;
-  }
-}
-:host-context(.ie11) {
-  .previous-lesson,
-  .next-lesson {
-    justify-self: center;
   }
 }
 
@@ -87,14 +56,53 @@
 
 .lesson-time {
   grid-area: time;
+  cursor: pointer;
+}
+
+.lesson-time-class {
+  display: flex;
+  justify-content: space-between;
 }
 
 .lesson-description {
   grid-area: description;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   text-align: center;
+  cursor: pointer;
+}
+
+.dropdown-toggle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-toggle::after {
+  // Hide the original caret icon in favor of our separate .dropdown-caret button
+  display: none;
+}
+
+.dropdown-caret {
+  grid-area: dropdown-caret;
+  line-height: 100%;
+  text-align: left;
+  color: $body-color;
+}
+
+.dropdown-menu {
+  width: 50ch;
+  padding: 0;
+  box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 800px) {
+  .dropdown-menu {
+    width: 100vw;
+    border-top: 0;
+  }
+}
+
+.dropdown-item {
+  padding: $spacer;
+  border-bottom: 1px solid $gray-300;
 }
 
 /**
@@ -170,43 +178,21 @@
     padding-right: 0.5 * $spacer;
   }
 
-  .previous-lesson,
-  .next-lesson {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-  }
-
   #search-addon {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
 }
 @media (max-width: 365px) {
+  // Wrap time to, to be even more compact on small phones
   .lesson-time {
     line-height: 1;
   }
-
   .lesson-time-to {
     display: block;
   }
-}
 
-/**
- * Optimizations for large screens
- */
-
-// Make sure the previous/next buttons don't stick at the edges.
-// But still, the position should not depend on the content, to
-// stay in the same place when switching lessons.
-:host-context(:not(.ie11)) {
-  @for $i from 0 through 5 {
-    @media (min-width: 800px + $i * 200px) {
-      .previous-lesson {
-        margin-left: ($i + 1) * 100px;
-      }
-      .next-lesson {
-        margin-right: ($i + 1) * 100px;
-      }
-    }
+  .dropdown-caret {
+    padding-left: 0;
   }
 }

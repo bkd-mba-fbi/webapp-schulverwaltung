@@ -34,12 +34,8 @@
     "no-lesson-presences": "Aucun-e élève n'a été sélectionné-e.",
     "previously-absent": "Absent-e la leçon précédente",
     "header": {
-      "previous-lesson": "Leçon précédente",
-      "next-lesson": "Leçon suivante",
       "search": "Rechercher",
-      "search-by-name": "Rechercher un nom...",
-      "no-previous-lesson": "Il n'y a pas de leçon précédente à la date sélectionnée. Veuillez utiliser le calendrier.",
-      "no-next-lesson": "Il n'y a pas de leçon suivante à la date sélectionnée. Veuillez utiliser le calendrier."
+      "search-by-name": "Rechercher un nom..."
     },
     "entry": {
       "comment": "Commentaire...",

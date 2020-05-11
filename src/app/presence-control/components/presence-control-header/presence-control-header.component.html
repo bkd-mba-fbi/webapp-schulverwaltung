@@ -1,15 +1,4 @@
 <div class="navigation">
-  <button
-    type="button"
-    class="previous-lesson btn btn-link"
-    [class.disabled]="!hasPreviousLesson"
-    (click)="selectPreviousLesson()"
-    [disabled]="!lesson"
-    [attr.aria-label]="'presence-control.header.previous-lesson' | translate"
-  >
-    <i class="material-icons">navigate_before</i>
-  </button>
-
   <div class="lesson-date">
     <button type="button" class="btn btn-link" (click)="d.toggle()">
       <i class="material-icons">calendar_today</i>
@@ -23,26 +12,58 @@
     />
   </div>
 
-  <div *ngIf="lesson" class="lesson-time">
-    {{ lesson.LessonDateTimeFrom | date: 'HH:mm' }}–<span
+  <div
+    *ngIf="selectedLesson"
+    class="lesson-time"
+    (click)="lessonDropdown.toggle()"
+  >
+    {{ selectedLesson.LessonDateTimeFrom | date: 'HH:mm' }}–<span
       class="lesson-time-to"
-      >{{ lesson.LessonDateTimeTo | date: 'HH:mm' }}</span
+      >{{ selectedLesson.LessonDateTimeTo | date: 'HH:mm' }}</span
     >
   </div>
 
-  <div *ngIf="lesson" class="lesson-description">
-    {{ lesson.EventDesignation }}, {{ lesson.StudyClassNumber }}
-  </div>
-
-  <button
-    type="button"
-    class="next-lesson btn btn-link"
-    [class.disabled]="!hasNextLesson"
-    (click)="selectNextLesson()"
-    [disabled]="!lesson"
-    [attr.aria-label]="'presence-control.header.next-lesson' | translate"
+  <div
+    *ngIf="selectedLesson"
+    ngbDropdown
+    class="lesson-description"
+    container="body"
+    display="dynamic"
+    placement="bottom"
   >
-    <i class="material-icons">navigate_next</i>
+    <div id="lesson-dropdown" ngbDropdownToggle>
+      {{ selectedLesson.EventDesignation }},
+      {{ selectedLesson.StudyClassNumber }}
+    </div>
+    <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
+      <div
+        *ngFor="let lesson of lessons"
+        [class.active]="lesson.LessonRef.Id === selectedLesson.LessonRef.Id"
+        ngbDropdownItem
+        (click)="selectLessonChange.emit(lesson)"
+      >
+        <div class="lesson-time-class">
+          <span>
+            {{ lesson.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+              lesson.LessonDateTimeTo | date: 'HH:mm'
+            }}
+          </span>
+          {{ lesson.StudyClassNumber }}
+        </div>
+        {{ lesson.EventDesignation }}
+      </div>
+    </div>
+  </div>
+  <button
+    *ngIf="lessons.length > 0"
+    class="dropdown-caret btn btn-link"
+    (click)="lessonDropdown?.toggle()"
+  >
+    <i class="material-icons">
+      {{
+        lessonDropdown?.isOpen() ? 'keyboard_arrow_up' : 'keyboard_arrow_down'
+      }}
+    </i>
   </button>
 </div>
 
@@ -72,7 +93,7 @@
       type="text"
       class="form-control"
       [value]="search"
-      [disabled]="!lesson"
+      [disabled]="!selectedLesson"
       [attr.placeholder]="'presence-control.header.search-by-name' | translate"
       [attr.aria-label]="'presence-control.header.search' | translate"
       aria-describedby="search-addon"
@@ -84,7 +105,7 @@
       type="button"
       *ngFor="let option of viewModeOptions"
       class="view btn"
-      [disabled]="!lesson"
+      [disabled]="!selectedLesson"
       [class.btn-secondary]="option.viewMode === viewMode"
       [class.btn-link]="option.viewMode !== viewMode"
       [class.active]="option.viewMode === viewMode"

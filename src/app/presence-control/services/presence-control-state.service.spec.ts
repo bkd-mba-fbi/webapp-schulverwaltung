@@ -18,8 +18,6 @@ describe('PresenceControlStateService', () => {
   let httpTestingController: HttpTestingController;
   let selectedLessonCb: jasmine.Spy;
   let selectedPresenceControlEntriesCb: jasmine.Spy;
-  let isFirstLessonCb: jasmine.Spy;
-  let isLastLessonCb: jasmine.Spy;
 
   let presenceTypes: PresenceType[];
   let absent: PresenceType;
@@ -51,12 +49,6 @@ describe('PresenceControlStateService', () => {
     service.selectedPresenceControlEntries$.subscribe(
       selectedPresenceControlEntriesCb
     );
-
-    isFirstLessonCb = jasmine.createSpy('isFirstLesson$ callback');
-    service.isFirstLesson$.subscribe(isFirstLessonCb);
-
-    isLastLessonCb = jasmine.createSpy('isLastLesson$ callback');
-    service.isLastLesson$.subscribe(isLastLessonCb);
 
     absent = buildPresenceType(11, true, false);
     absent.Designation = 'Abwesend';
@@ -125,8 +117,6 @@ describe('PresenceControlStateService', () => {
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
-    expect(isFirstLessonCb).toHaveBeenCalledWith(false);
-    expect(isLastLessonCb).toHaveBeenCalledWith(false);
   });
 
   it('initially selects the current lesson', () => {
@@ -145,8 +135,6 @@ describe('PresenceControlStateService', () => {
       buildPresenceControlEntry(deutschEinsteinAbwesend, absent),
       buildPresenceControlEntry(deutschFrisch),
     ]);
-    expect(isFirstLessonCb).toHaveBeenCalledWith(false);
-    expect(isLastLessonCb).toHaveBeenCalledWith(false);
   });
 
   describe('.setDate', () => {
@@ -176,54 +164,6 @@ describe('PresenceControlStateService', () => {
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
         buildPresenceControlEntry(werkenFrisch),
       ]);
-      expect(isFirstLessonCb).toHaveBeenCalledWith(true);
-      expect(isLastLessonCb).toHaveBeenCalledWith(true);
-    });
-  });
-
-  describe('.previousLesson', () => {
-    it('emits presences for previous lesson', () => {
-      expectLessonPresencesRequest();
-      expectPresenceTypesRequest();
-      resetCallbackSpies();
-      service.previousLesson();
-
-      expect(selectedLessonCb).toHaveBeenCalledWith(
-        buildLesson(
-          1,
-          new Date(2000, 0, 23, 7, 0),
-          new Date(2000, 0, 23, 8, 0),
-          'Turnen'
-        )
-      );
-      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(turnenFrisch),
-      ]);
-      expect(isFirstLessonCb).toHaveBeenCalledWith(true);
-      expect(isLastLessonCb).toHaveBeenCalledWith(false);
-    });
-  });
-
-  describe('.nextLesson', () => {
-    it('emits presences for next lesson', () => {
-      expectLessonPresencesRequest(lessonPresences.slice(0, 4));
-      expectPresenceTypesRequest();
-      resetCallbackSpies();
-      service.nextLesson();
-
-      expect(selectedLessonCb).toHaveBeenCalledWith(
-        buildLesson(
-          3,
-          new Date(2000, 0, 23, 9, 0),
-          new Date(2000, 0, 23, 10, 0),
-          'Mathematik'
-        )
-      );
-      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
-        buildPresenceControlEntry(mathEinstein1),
-      ]);
-      expect(isFirstLessonCb).toHaveBeenCalledWith(false);
-      expect(isLastLessonCb).toHaveBeenCalledWith(true);
     });
   });
 
@@ -231,7 +171,14 @@ describe('PresenceControlStateService', () => {
     it('updates the lesson presences with the new presence type', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
-      service.nextLesson();
+      service.setLesson(
+        buildLesson(
+          3,
+          new Date(2000, 0, 23, 9, 0),
+          new Date(2000, 0, 23, 10, 0),
+          'Mathematik'
+        )
+      );
       resetCallbackSpies();
 
       service.updateLessonPresencesTypes([
@@ -253,7 +200,14 @@ describe('PresenceControlStateService', () => {
     it('updates the comment of the affected lesson presence', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
-      service.nextLesson();
+      service.setLesson(
+        buildLesson(
+          3,
+          new Date(2000, 0, 23, 9, 0),
+          new Date(2000, 0, 23, 10, 0),
+          'Mathematik'
+        )
+      );
       resetCallbackSpies();
 
       service.updateLessonPresenceComment(mathEinstein1, 'e = mc^2');
