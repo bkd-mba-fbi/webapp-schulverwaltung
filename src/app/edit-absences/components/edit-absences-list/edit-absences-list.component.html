@@ -69,6 +69,9 @@
                 {{ 'edit-absences.list.header.module-instance' | translate }},
                 {{ 'edit-absences.list.header.study-class' | translate }}
               </th>
+              <th>
+                {{ 'edit-absences.list.header.date' | translate }}
+              </th>
               <th>{{ 'edit-absences.list.header.time' | translate }}</th>
               <th>
                 {{ 'edit-absences.list.header.confirmation-state' | translate }}
@@ -77,9 +80,6 @@
                 {{ 'edit-absences.list.header.presence-type' | translate
                 }}<br />
                 {{ 'edit-absences.list.header.comment' | translate }}
-              </th>
-              <th>
-                {{ 'edit-absences.list.header.date' | translate }}
               </th>
               <th>{{ 'edit-absences.list.header.teacher' | translate }}</th>
             </tr>
@@ -127,6 +127,13 @@
                 {{ entry.lessonPresence.StudyClassNumber }}
               </td>
               <td
+                [attr.data-label]="'edit-absences.list.header.date' | translate"
+              >
+                {{
+                  entry.lessonPresence.LessonDateTimeFrom | date: 'mediumDate'
+                }}
+              </td>
+              <td
                 [attr.data-label]="'edit-absences.list.header.time' | translate"
               >
                 {{
@@ -154,13 +161,6 @@
                 }}</ng-container
                 ><br />
                 <span class="comment">{{ entry.lessonPresence.Comment }}</span>
-              </td>
-              <td
-                [attr.data-label]="'edit-absences.list.header.date' | translate"
-              >
-                {{
-                  entry.lessonPresence.LessonDateTimeFrom | date: 'mediumDate'
-                }}
               </td>
               <td
                 [attr.data-label]="
