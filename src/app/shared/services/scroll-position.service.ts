@@ -190,7 +190,7 @@ export class ScrollPositionService implements OnDestroy {
       Array.isArray(storeRoute.routeConfig.data.restoreScrollPositionFrom)
         ? storeRoute.routeConfig.data.restoreScrollPositionFrom
         : [];
-    return restoreScrollPositionFrom.indexOf(this.getPath(forRoute)) !== -1;
+    return restoreScrollPositionFrom.includes(this.getPath(forRoute));
   }
 }
 

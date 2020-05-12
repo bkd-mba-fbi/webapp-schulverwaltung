@@ -226,7 +226,7 @@ export class PresenceControlStateService {
 
   hasUnconfirmedAbsences(entry: PresenceControlEntry): Observable<boolean> {
     return this.studentIdsWithUnconfirmedAbsences$.pipe(
-      map((ids) => ids.indexOf(entry.lessonPresence.StudentRef.Id) > 0)
+      map((ids) => ids.includes(entry.lessonPresence.StudentRef.Id))
     );
   }
 

@@ -60,6 +60,7 @@ import '@angular/localize/init';
  * Polyfills for IE 11
  */
 import 'core-js/es/array';
+import 'core-js/es/string';
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.

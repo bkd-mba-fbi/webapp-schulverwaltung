@@ -18,7 +18,7 @@ export function searchEntries<T extends Searchable>(
 function matchesEntry(term: string): (entry: Searchable) => boolean {
   const preparedTerm = normalizeSearchValue(term);
   return (entry) =>
-    normalizeSearchValue(entry.studentFullName).indexOf(preparedTerm) > -1;
+    normalizeSearchValue(entry.studentFullName).includes(preparedTerm);
 }
 
 function normalizeSearchValue(value: string): string {

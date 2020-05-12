@@ -52,7 +52,7 @@ export abstract class SelectionService<T> {
 
   isSelected$(entry: T): Observable<boolean> {
     return this.selection$.pipe(
-      map((selection) => selection.indexOf(entry) !== -1),
+      map((selection) => selection.includes(entry)),
       distinctUntilChanged()
     );
   }
@@ -63,7 +63,7 @@ export abstract class SelectionService<T> {
   ): ReadonlyArray<T> {
     switch (action.type) {
       case SelectionActionTypes.ToggleSelection:
-        if (selection.indexOf(action.payload) === -1) {
+        if (!selection.includes(action.payload)) {
           return [...selection, action.payload];
         }
         return selection.filter((e) => e !== action.payload);

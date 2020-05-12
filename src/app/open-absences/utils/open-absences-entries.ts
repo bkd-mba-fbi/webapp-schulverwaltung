@@ -49,8 +49,8 @@ export function removeOpenAbsences(
     (e) =>
       !affectedIds.some(
         ({ lessonIds, personIds }) =>
-          lessonIds.indexOf(e.LessonRef.Id) !== -1 &&
-          personIds.indexOf(e.StudentRef.Id) !== -1
+          lessonIds.includes(e.LessonRef.Id) &&
+          personIds.includes(e.StudentRef.Id)
       )
   );
 }
