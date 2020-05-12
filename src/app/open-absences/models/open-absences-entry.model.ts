@@ -14,6 +14,7 @@ export class OpenAbsencesEntry implements Searchable {
   readonly daysDifferenceAbsolute: number;
   readonly studentId: number;
   readonly studentFullName: string;
+  readonly studyClassNumber: string;
   readonly lessonsCount: number;
 
   constructor(public absences: ReadonlyArray<LessonPresence>) {
@@ -26,6 +27,7 @@ export class OpenAbsencesEntry implements Searchable {
     this.daysDifferenceAbsolute = Math.abs(this.daysDifference);
     this.studentId = this.absences[0].StudentRef.Id;
     this.studentFullName = this.absences[0].StudentFullName;
+    this.studyClassNumber = this.absences[0].StudyClassNumber;
     this.lessonsCount = this.absences.length;
   }
 }

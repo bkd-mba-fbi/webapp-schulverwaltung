@@ -16,7 +16,7 @@
   padding: 0.5em 0;
   display: grid;
   grid-template-areas: "checkbox name date";
-  grid-template-columns: 50px 4fr 2fr;
+  grid-template-columns: 50px 5fr 1fr;
   border-top: 1px solid #dee2e6;
   border-bottom: 2px solid #dee2e6;
 }
@@ -25,8 +25,8 @@
   padding: 1em 0;
   border-bottom: 1px solid $gray-200;
   display: grid;
-  grid-template-areas: "checkbox name lessons-count days-ago date";
-  grid-template-columns: 50px 3fr 1fr 1fr 1fr;
+  grid-template-areas: "checkbox name study-class lessons-count days-ago date";
+  grid-template-columns: 50px 2fr 1fr 1fr 1fr 1fr;
 }
 
 .checkbox {
@@ -53,6 +53,15 @@
   grid-area: lessons-count;
 }
 
+.study-class {
+  grid-area: study-class;
+}
+
+.study-class-lessons-count {
+  grid-area: study-class-lessons-count;
+  display: none;
+}
+
 .days-ago {
   color: $gray-600;
   grid-area: days-ago;
@@ -76,12 +85,21 @@
   .absence-entry {
     grid-template-areas:
       "checkbox name date"
-      "checkbox lessons-count days-ago";
+      "checkbox study-class-lessons-count days-ago";
     grid-template-columns: 50px 3fr 2fr;
   }
 
-  .days-ago,
+  .study-class-lessons-count {
+    display: block;
+  }
+
+  .study-class,
   .lessons-count {
+    display: none;
+  }
+
+  .days-ago,
+  .study-class-lessons-count {
     font-size: $font-size-sm;
     color: $gray-500;
   }
