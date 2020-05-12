@@ -9,6 +9,7 @@
 .spinner-border {
   width: 4rem;
   height: 4rem;
+
   :host:not(.inline) & {
     margin-top: 100px;
   }
