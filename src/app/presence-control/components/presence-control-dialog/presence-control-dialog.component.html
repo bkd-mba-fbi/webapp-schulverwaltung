@@ -13,10 +13,6 @@
         id="lesson-presence-{{ i }}"
         [checked]="option.selected"
         (change)="option.selected = !option.selected"
-        [disabled]="
-          option.lessonPresence.LessonRef.Id ===
-          entry.lessonPresence.LessonRef.Id
-        "
       />
       <label class="form-check-label" for="lesson-presence-{{ i }}">
         {{ option.lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
@@ -34,6 +30,7 @@
     type="button"
     class="btn btn-primary"
     (click)="activeModal.close(getSelectedLessonPresences())"
+    [disabled]="getSelectedLessonPresences().length === 0"
   >
     {{ 'presence-control.dialog.save' | translate }}
   </button>

@@ -35,8 +35,7 @@ export class PresenceControlDialogComponent implements OnInit {
   ): LessonPresenceOption {
     return {
       lessonPresence,
-      selected:
-        lessonPresence.LessonRef.Id === this.entry.lessonPresence.LessonRef.Id,
+      selected: true,
     };
   }
 }
