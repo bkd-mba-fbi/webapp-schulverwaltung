@@ -353,7 +353,7 @@ describe('LessonPresencesRestService', () => {
       filter.educationalEvent = 333;
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.EventRef==333&sort=StudentFullName.asc,LessonDateTimeFrom.asc&offset=0&limit=1000';
+        'https://eventotest.api/LessonPresences/?sort=StudentFullName.asc,LessonDateTimeFrom.asc&filter.EventRef==333&offset=0&limit=1000';
 
       service
         .getFilteredList(filter, 0, additionalParams)

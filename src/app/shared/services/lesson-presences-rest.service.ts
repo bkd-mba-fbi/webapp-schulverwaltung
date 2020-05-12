@@ -21,7 +21,6 @@ import { Sorting } from './paginated-entries.service';
 import { spreadTuple } from '../utils/function';
 import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-absences-entries';
 import { StorageService } from './storage.service';
-import { log } from '../utils/observable';
 
 @Injectable({
   providedIn: 'root',
@@ -99,13 +98,16 @@ export class LessonPresencesRestService extends RestService<
     offset: number,
     additionalParams?: Dict<string>
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
-    let params = filteredParams([
-      [absencesFilter.student, 'StudentRef'],
-      [absencesFilter.educationalEvent, 'EventRef'],
-      [absencesFilter.studyClass, 'StudyClassRef'],
-      [absencesFilter.presenceType, 'TypeRef'],
-      [absencesFilter.confirmationState, 'ConfirmationStateId'],
-    ]);
+    let params = filteredParams(
+      [
+        [absencesFilter.student, 'StudentRef'],
+        [absencesFilter.educationalEvent, 'EventRef'],
+        [absencesFilter.studyClass, 'StudyClassRef'],
+        [absencesFilter.presenceType, 'TypeRef'],
+        [absencesFilter.confirmationState, 'ConfirmationStateId'],
+      ],
+      new HttpParams({ fromObject: additionalParams })
+    );
 
     if (
       absencesFilter.dateFrom &&
@@ -129,11 +131,6 @@ export class LessonPresencesRestService extends RestService<
           `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`
         );
       }
-    }
-    if (additionalParams) {
-      Object.keys(additionalParams).forEach(
-        (key) => (params = params.set(key, additionalParams[key]))
-      );
     }
 
     return this.http
