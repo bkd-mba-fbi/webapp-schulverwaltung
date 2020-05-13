@@ -32,12 +32,6 @@
     <label>{{ 'edit-absences.header.date-to' | translate }}</label>
     <erz-date-select [(value)]="filter.dateTo"></erz-date-select>
   </div>
-
-  <div class="buttons">
-    <button type="button" class="btn btn-primary" (click)="show()">
-      {{ 'edit-absences.header.show' | translate }}
-    </button>
-  </div>
 </div>
 
 <div class="filters mt-2">
@@ -55,5 +49,11 @@
       [options]="absenceConfirmationStates$ | async"
       [(value)]="filter.confirmationState"
     ></erz-select>
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="btn btn-primary" (click)="show()">
+      {{ 'edit-absences.header.show' | translate }}
+    </button>
   </div>
 </div>
