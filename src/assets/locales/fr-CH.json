@@ -44,6 +44,7 @@
     "entry": {
       "comment": "Commentaire...",
       "update-warning": "Il n'est pas possible de modifier le statut."
+      "unconfirmed-absences": "Absences en suspens"
     },
     "comment": {
       "placeholder": "Commentaire...",
@@ -58,7 +59,7 @@
     }
   },
   "open-absences": {
-    "title": "Absences actuelles",
+    "title": "Absences en suspens",
     "noEntries": "Aucune donnée disponible",
     "selected": "{{count}} sélectionné(s)",
     "search": "Rechercher",
