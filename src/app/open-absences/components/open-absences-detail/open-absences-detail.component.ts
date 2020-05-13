@@ -5,14 +5,16 @@ import {
   OnDestroy,
   AfterViewInit,
 } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable, combineLatest, Subject } from 'rxjs';
-import { switchMap, map, take, takeUntil } from 'rxjs/operators';
+import { switchMap, map, take, takeUntil, filter } from 'rxjs/operators';
 
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { AbsencesSelectionService } from '../../services/absences-selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
+import { longerOrEqual, isTruthy } from 'src/app/shared/utils/filter';
+import { not } from 'fp-ts/lib/function';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -26,6 +28,7 @@ export class OpenAbsencesDetailComponent
   absences$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForParams.bind(this))
   );
+  hasAbsences$ = this.absences$.pipe(map(longerOrEqual(1)));
   studentFullName$ = this.absences$.pipe(
     map((absences) => (absences[0] && absences[0].StudentFullName) || null)
   );
@@ -37,6 +40,7 @@ export class OpenAbsencesDetailComponent
   private destroy$ = new Subject<void>();
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private openAbsencesService: OpenAbsencesService,
     public selectionService: AbsencesSelectionService,
@@ -57,6 +61,11 @@ export class OpenAbsencesDetailComponent
           personId: Number(params.get('personId')),
         })
     );
+
+    // If there are no entries, return to main list
+    this.hasAbsences$
+      .pipe(takeUntil(this.destroy$), filter(not(isTruthy)))
+      .subscribe(() => this.router.navigate(['/open-absences']));
   }
 
   ngAfterViewInit(): void {

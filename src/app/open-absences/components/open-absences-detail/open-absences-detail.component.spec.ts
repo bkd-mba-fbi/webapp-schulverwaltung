@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 
 import { buildTestModuleMetadata, ActivatedRouteMock } from 'src/spec-helpers';
@@ -14,6 +14,7 @@ describe('OpenAbsencesDetailComponent', () => {
   let element: HTMLElement;
 
   let activatedRouteMock: ActivatedRouteMock;
+  let router: Router;
   let openAbsencesService: OpenAbsencesService;
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
@@ -49,6 +50,9 @@ describe('OpenAbsencesDetailComponent', () => {
     ).compileComponents();
 
     openAbsencesService = TestBed.inject(OpenAbsencesService);
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
   }));
 
   beforeEach(() => {
@@ -69,6 +73,19 @@ describe('OpenAbsencesDetailComponent', () => {
   it('renders the student name', () => {
     const nameElement = element.querySelector('.back span');
     expect(nameElement && nameElement.textContent).toBe('Einstein Albert');
+  });
+
+  describe('redirection', () => {
+    it('does not redirect to main list if entries are available', () => {
+      component.ngOnInit();
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
+    it('redirects to main list if no entries are available', () => {
+      openAbsencesService.getUnconfirmedAbsences = () => of([]);
+      component.ngOnInit();
+      expect(router.navigate).toHaveBeenCalledWith(['/open-absences']);
+    });
   });
 
   describe('selection', () => {
