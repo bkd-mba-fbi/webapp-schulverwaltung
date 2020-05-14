@@ -63,7 +63,7 @@
     "noEntries": "Aucune donnée disponible",
     "selected": "{{count}} sélectionné(s)",
     "search": "Rechercher",
-    "search-by-name": "Rechercher un nom...",
+    "search-by-name-or-class": "Rechercher un nom ou une classe...",
     "list": {
       "header": {
         "name": "Nom",
