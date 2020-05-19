@@ -39,7 +39,7 @@
     },
     "entry": {
       "comment": "Commentaire...",
-      "update-warning": "Il n'est pas possible de modifier le statut."
+      "update-warning": "Il n'est pas possible de modifier le statut.",
       "unconfirmed-absences": "Absences en suspens"
     },
     "comment": {
