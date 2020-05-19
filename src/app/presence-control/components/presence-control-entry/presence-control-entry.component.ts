@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { ViewMode } from '../../services/presence-control-state.service';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -24,6 +25,7 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   @Input() entry: PresenceControlEntry;
   @Input() hasUnconfirmedAbsences = false;
   @Input() viewMode: ViewMode;
+  @Input() profileReturnParams?: Params;
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
 

@@ -17,17 +17,17 @@ const routes: Routes = [
         data: {
           restoreScrollPositionFrom: [
             '/open-absences/detail/:personId/:date',
-            '/open-absences/edit',
+            '/open-absences/confirm',
           ],
         },
       },
       {
         path: 'detail/:personId/:date',
         component: OpenAbsencesDetailComponent,
-        data: { restoreScrollPositionFrom: ['/open-absences/edit'] },
+        data: { restoreScrollPositionFrom: ['/open-absences/confirm'] },
       },
       {
-        path: 'edit',
+        path: 'confirm',
         component: ConfirmAbsencesComponent,
       },
     ],

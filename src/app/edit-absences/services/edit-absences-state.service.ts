@@ -38,7 +38,7 @@ export interface EditAbsencesFilter {
 export class EditAbsencesStateService
   extends PaginatedEntriesService<LessonPresence, EditAbsencesFilter>
   implements IConfirmAbsencesService {
-  editBackLinkParams?: Params;
+  confirmBackLinkParams?: Params;
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
   absenceConfirmationStates$ = this.loadAbsenceConfirmationStates().pipe(
@@ -70,7 +70,7 @@ export class EditAbsencesStateService
     this.queryParams$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (returnparams) => (this.editBackLinkParams = { returnparams })
+        (returnparams) => (this.confirmBackLinkParams = { returnparams })
       );
   }
 

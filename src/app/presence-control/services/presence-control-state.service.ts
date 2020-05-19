@@ -1,4 +1,6 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
+import { Params } from '@angular/router';
 import {
   BehaviorSubject,
   combineLatest,
@@ -13,8 +15,10 @@ import {
   switchMap,
   take,
   distinctUntilChanged,
+  takeUntil,
 } from 'rxjs/operators';
-import { uniq } from 'lodash-es';
+import { isEqual, uniq } from 'lodash-es';
+import { format } from 'date-fns';
 
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { Lesson } from '../../shared/models/lesson.model';
@@ -39,14 +43,22 @@ import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-upd
 import { Settings, SETTINGS } from 'src/app/settings';
 import { canChangePresenceType } from '../utils/presence-types';
 import { isToday } from 'date-fns';
+import { HttpParams } from '@angular/common/http';
+import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 
 export enum ViewMode {
   Grid = 'grid',
   List = 'list',
 }
+export const VIEW_MODES: ReadonlyArray<string> = Object.keys(ViewMode).map(
+  (k) => (ViewMode as any)[k]
+);
 
 @Injectable()
-export class PresenceControlStateService {
+export class PresenceControlStateService
+  implements OnDestroy, IConfirmAbsencesService {
+  confirmBackLinkParams?: Params;
+
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<Lesson>>();
   private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
@@ -55,6 +67,7 @@ export class PresenceControlStateService {
 
   private lessonPresences$ = merge(
     this.selectedDateSubject$.pipe(
+      distinctUntilChanged(isEqual),
       switchMap(this.loadLessonPresencesByDate.bind(this))
     ),
     this.updateLessonPresences$
@@ -99,12 +112,30 @@ export class PresenceControlStateService {
   viewMode$ = this.viewModeSubject$.asObservable();
   selectedDate$ = this.selectedDateSubject$.asObservable();
 
+  queryParams$ = combineLatest([
+    this.selectedDate$,
+    this.selectedLesson$,
+    this.viewMode$,
+  ]).pipe(map(spreadTriplet(this.buildQueryParams.bind(this))));
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
     private loadingService: LoadingService,
-    @Inject(SETTINGS) private settings: Settings
-  ) {}
+    @Inject(SETTINGS) private settings: Settings,
+    private location: Location
+  ) {
+    this.queryParams$.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      this.location.replaceState('/presence-control', params.toString());
+      this.confirmBackLinkParams = { returnparams: params };
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
 
   setDate(date: Date): void {
     this.selectedDateSubject$.next(date);
@@ -256,5 +287,22 @@ export class PresenceControlStateService {
       switchMap(() => this.lessonPresencesService.getListOfUnconfirmed()),
       map((unconfirmed) => uniq(unconfirmed.map((p) => p.StudentRef.Id)))
     );
+  }
+
+  private buildQueryParams(
+    date: Date,
+    lesson: Option<Lesson>,
+    viewMode: ViewMode
+  ): HttpParams {
+    let params = new HttpParams({
+      fromObject: {
+        date: format(date, 'yyyy-MM-dd'),
+        viewMode,
+      },
+    });
+    if (lesson) {
+      params = params.set('lesson', String(lesson.LessonRef.Id));
+    }
+    return params;
   }
 }

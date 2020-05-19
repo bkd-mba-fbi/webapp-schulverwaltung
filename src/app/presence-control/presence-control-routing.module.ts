@@ -30,7 +30,7 @@ const routes: Routes = [
             component: StudentProfileComponent,
           },
           {
-            path: 'edit',
+            path: 'confirm',
             component: ConfirmAbsencesComponent,
           },
         ],

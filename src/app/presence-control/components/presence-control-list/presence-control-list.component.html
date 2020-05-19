@@ -40,6 +40,9 @@
                 state.hasUnconfirmedAbsences(entry) | async
               "
               [viewMode]="state.viewMode$ | async"
+              [profileReturnParams]="{
+                returnparams: (state.queryParams$ | async)?.toString()
+              }"
               (togglePresenceType)="togglePresenceType($event)"
             ></erz-presence-control-entry>
           </div>
@@ -56,6 +59,9 @@
               state.hasUnconfirmedAbsences(entry) | async
             "
             [viewMode]="state.viewMode$ | async"
+            [profileReturnParams]="{
+              returnparams: (state.queryParams$ | async)?.toString()
+            }"
             (togglePresenceType)="togglePresenceType($event)"
           ></erz-presence-control-entry>
         </div>

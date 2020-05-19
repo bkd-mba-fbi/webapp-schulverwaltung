@@ -103,7 +103,7 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     });
   }
 
-  get editBackLink(): any[] {
+  get confirmBackLink(): any[] {
     if (this.currentDetail) {
       return [
         '/open-absences/detail',
@@ -118,7 +118,7 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
    * Removes selected entries from unconfirmed absences and cleans
    * selection.
    */
-  updateAfterSave(): void {
+  updateAfterConfirm(): void {
     combineLatest([
       this.unconfirmedAbsences$.pipe(take(1)),
       this.selectionService.selectedIds$.pipe(take(1)),

@@ -9,12 +9,19 @@ import { takeUntil } from 'rxjs/operators';
 
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
+import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
 
 @Component({
   selector: 'erz-presence-control',
   template: '<router-outlet></router-outlet>',
   styleUrls: ['./presence-control.component.scss'],
-  providers: [PresenceControlStateService],
+  providers: [
+    PresenceControlStateService,
+    {
+      provide: CONFIRM_ABSENCES_SERVICE,
+      useExisting: PresenceControlStateService,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlComponent implements OnInit, OnDestroy {

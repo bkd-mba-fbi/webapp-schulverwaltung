@@ -31,7 +31,7 @@ export class EvaluateAbsencesStateService
     EvaluateAbsencesFilter
   >
   implements IConfirmAbsencesService {
-  editBackLinkParams?: Params;
+  confirmBackLinkParams?: Params;
 
   constructor(
     location: Location,
@@ -44,7 +44,7 @@ export class EvaluateAbsencesStateService
     this.queryParams$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (returnparams) => (this.editBackLinkParams = { returnparams })
+        (returnparams) => (this.confirmBackLinkParams = { returnparams })
       );
   }
 

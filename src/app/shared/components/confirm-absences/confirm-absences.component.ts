@@ -205,8 +205,8 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   }
 
   private onSaveSuccess(): void {
-    if (this.openAbsencesEditService?.updateAfterSave) {
-      this.openAbsencesEditService.updateAfterSave();
+    if (this.openAbsencesEditService?.updateAfterConfirm) {
+      this.openAbsencesEditService.updateAfterConfirm();
     }
     this.toastr.success(
       this.translate.instant('open-absences.edit.save-success')
@@ -215,9 +215,12 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   }
 
   private navigateBack(): void {
-    this.router.navigate(this.openAbsencesEditService?.editBackLink || ['..'], {
-      relativeTo: this.activatedRoute,
-      queryParams: this.openAbsencesEditService?.editBackLinkParams,
-    });
+    this.router.navigate(
+      this.openAbsencesEditService?.confirmBackLink || ['..'],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: this.openAbsencesEditService?.confirmBackLinkParams,
+      }
+    );
   }
 }

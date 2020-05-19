@@ -2,13 +2,13 @@ import { InjectionToken } from '@angular/core';
 import { Params } from '@angular/router';
 
 export interface IConfirmAbsencesService {
-  editBackLink?: any[];
-  editBackLinkParams?: Params;
-  updateAfterSave?: () => void;
+  confirmBackLink?: any[];
+  confirmBackLinkParams?: Params;
+  updateAfterConfirm?: () => void;
 }
 
 /**
- * Provide the service with the necessary functions the edit
+ * Provide the service with the necessary functions the confirm
  * component uses:
  *   providers: [
  *     MyService,

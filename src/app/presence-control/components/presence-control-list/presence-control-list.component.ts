@@ -3,23 +3,29 @@ import {
   Component,
   OnInit,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, shareReplay, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
 
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { searchEntries } from 'src/app/shared/utils/search';
 import { spreadTuple } from '../../../shared/utils/function';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import {
+  PresenceControlStateService,
+  VIEW_MODES,
+} from '../../services/presence-control-state.service';
 import {
   filterPreviouslyAbsentEntries,
   filterPreviouslyPresentEntries,
 } from '../../utils/presence-control-entries';
 import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
+import { parseISOLocalDate } from 'src/app/shared/utils/date';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -27,7 +33,8 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
   styleUrls: ['./presence-control-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PresenceControlListComponent implements OnInit, AfterViewInit {
+export class PresenceControlListComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   search$ = new BehaviorSubject<string>('');
   entries$ = combineLatest([
     this.state.selectedPresenceControlEntries$,
@@ -42,17 +49,28 @@ export class PresenceControlListComponent implements OnInit, AfterViewInit {
     map(filterPreviouslyAbsentEntries)
   );
 
+  private destroy$ = new Subject();
+
   constructor(
     public state: PresenceControlStateService,
     private lessonPresencesUpdateService: LessonPresencesUpdateService,
     private modalService: NgbModal,
-    private scrollPosition: ScrollPositionService
+    private scrollPosition: ScrollPositionService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.restoreStateFromParams.bind(this));
+  }
 
   ngAfterViewInit(): void {
     this.scrollPosition.restore();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   doTogglePresenceType(
@@ -92,5 +110,25 @@ export class PresenceControlListComponent implements OnInit, AfterViewInit {
           );
         }
       });
+  }
+
+  private restoreStateFromParams(params: Params): void {
+    if (params.date) {
+      this.state.setDate(parseISOLocalDate(params.date));
+    }
+
+    const lessonId = Number(params.lesson);
+    if (lessonId) {
+      this.state.lessons$.pipe(take(1)).subscribe((lessons) => {
+        const lesson = lessons.find((l) => l.LessonRef.Id === lessonId);
+        if (lesson) {
+          this.state.setLesson(lesson);
+        }
+      });
+    }
+
+    if (params.viewMode && VIEW_MODES.includes(params.viewMode)) {
+      this.state.setViewMode(params.viewMode);
+    }
   }
 }
