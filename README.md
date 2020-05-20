@@ -40,8 +40,8 @@ To configure the app, you have to rename the file
 ### Authorization
 
 The website integrating this application has to make sure the OAuth
-access token is available in localStorage under the key
-`CLX.LoginToken` (e.g. by setting
+access token is available in localStorage (or sessionStorage) under
+the key `CLX.LoginToken` (e.g. by setting
 `localStorage.setItem('CLX.LoginToken', '...')`). If not provided, the
 application displays a unauthenticated message to the user.
 
