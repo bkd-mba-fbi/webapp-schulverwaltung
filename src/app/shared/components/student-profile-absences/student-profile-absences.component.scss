@@ -104,7 +104,7 @@
       "checkbox time-teacher"
       "checkbox date-days-ago"
       "checkbox comment";
-    grid-template-columns: minmax(1rem, min-content) 1fr;
+    grid-template-columns: min-content 1fr;
   }
 
   .time-teacher,
