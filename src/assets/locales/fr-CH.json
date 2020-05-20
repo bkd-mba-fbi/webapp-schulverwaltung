@@ -166,11 +166,18 @@
       "error": "Une erreur s'est produite lors de l'enregistrement des modifications."
     },
     "profile": {
+      "student-address": "Adresse",
       "legal-representation": "Représentants légaux",
       "apprenticeship-company": "Entreprise formatrice",
       "apprenticeship-period": "Durée de l'apprentissage",
       "job-trainer": "Formateur/trice",
-      "no-profile": "Le profil n'a pas été trouvé."
+      "open-absences": "Absences en suspens",
+      "excused-absences": "Absences excusées",
+      "unexcused-absences": "Absences non excusées",
+      "incidents": "Incidents",
+      "half-days": "Demi-journées libres",
+      "no-profile": "Le profil n'a pas été trouvé.",
+      "no-absences": "Aucune donnée disponible"
     },
     "select": {
       "empty-option": "Sélectionner..."
