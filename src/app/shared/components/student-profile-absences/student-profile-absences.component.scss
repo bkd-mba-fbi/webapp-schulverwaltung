@@ -33,8 +33,12 @@
 }
 
 .checkbox {
-  padding: 0.2rem $spacer/2 0 0;
   grid-area: checkbox;
+  margin: 0;
+  padding: 0.6rem $spacer/2 0 0;
+}
+.absence-all .checkbox {
+  padding-top: 0.2rem;
 }
 
 .checkbox input.form-check-input {
@@ -42,6 +46,7 @@
   // overwritten in Evento as such
   position: static !important;
   margin: 0 !important;
+  display: block;
 }
 
 .all {
