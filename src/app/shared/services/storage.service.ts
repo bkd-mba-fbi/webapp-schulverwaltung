@@ -37,6 +37,6 @@ export class StorageService {
   }
 
   private getValue(key: string): Option<string> {
-    return localStorage.getItem(key);
+    return sessionStorage.getItem(key) || localStorage.getItem(key);
   }
 }

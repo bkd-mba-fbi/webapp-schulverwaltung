@@ -5,18 +5,27 @@ import { StorageService } from './storage.service';
 
 describe('StorageService', () => {
   let service: StorageService;
-  let storeMock: any;
+  let localStoreMock: any;
+  let sessionStoreMock: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(StorageService);
 
-    storeMock = {};
+    localStoreMock = {};
     spyOn(localStorage, 'getItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => localStoreMock[key] || null
     );
     spyOn(localStorage, 'setItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => localStoreMock[key] || null
+    );
+
+    sessionStoreMock = {};
+    spyOn(sessionStorage, 'getItem').and.callFake(
+      (key: string) => sessionStoreMock[key] || null
+    );
+    spyOn(sessionStorage, 'setItem').and.callFake(
+      (key: string) => sessionStoreMock[key] || null
     );
   });
 
@@ -26,7 +35,7 @@ describe('StorageService', () => {
     });
 
     it('returns value', () => {
-      storeMock.uiCulture = 'de-CH';
+      localStoreMock.uiCulture = 'de-CH';
       expect(service.getLanguage()).toBe('de-CH');
     });
   });
@@ -36,13 +45,25 @@ describe('StorageService', () => {
       expect(service.getAccessToken()).toBeNull();
     });
 
-    it('returns value', () => {
-      storeMock['CLX.LoginToken'] = 'asdf';
+    it('returns value from session storage', () => {
+      sessionStoreMock['CLX.LoginToken'] = 'asdf';
+      expect(service.getAccessToken()).toBe('asdf');
+    });
+
+    it('returns value from session storage with local storage value present', () => {
+      sessionStoreMock['CLX.LoginToken'] = 'asdf';
+      localStoreMock['CLX.LoginToken'] = 'qwer';
+      expect(service.getAccessToken()).toBe('asdf');
+    });
+
+    it('returns value from local storage (fallback)', () => {
+      sessionStoreMock['CLX.LoginToken'] = 'asdf';
+      localStoreMock['CLX.LoginToken'] = 'qwer';
       expect(service.getAccessToken()).toBe('asdf');
     });
 
     it('returns value with trailing double quotes removed', () => {
-      storeMock['CLX.LoginToken'] = '"asdf"';
+      localStoreMock['CLX.LoginToken'] = '"asdf"';
       expect(service.getAccessToken()).toBe('asdf');
     });
   });
@@ -53,7 +74,7 @@ describe('StorageService', () => {
     });
 
     it('returns value', () => {
-      storeMock['CLX.RefreshToken'] = 'asdf';
+      localStoreMock['CLX.RefreshToken'] = 'asdf';
       expect(service.getRefreshToken()).toBe('asdf');
     });
   });
@@ -64,7 +85,7 @@ describe('StorageService', () => {
     });
 
     it('returns value', () => {
-      storeMock['CLX.TokenExpire'] = 'asdf';
+      localStoreMock['CLX.TokenExpire'] = 'asdf';
       expect(service.getTokenExpire()).toBe('asdf');
     });
   });
