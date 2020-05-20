@@ -26,13 +26,16 @@
     <div class="checkbox" (click)="onRowClick($event, allCheckbox)">
       <input
         #allCheckbox
+        id="all-checkbox"
         type="checkbox"
         class="form-check-input"
         [checked]="allSelected$ | async"
         (change)="toggleAll($event.target.checked)"
       />
     </div>
-    <div class="all">{{ 'open-absences.detail.all' | translate }}</div>
+    <label for="all-checkbox" class="all">{{
+      'open-absences.detail.all' | translate
+    }}</label>
   </div>
   <div
     class="absence-entry"

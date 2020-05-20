@@ -3,7 +3,7 @@
 /* autoprefixer grid: on */
 
 .absence-all {
-  padding: (0.5 * $spacer) 0;
+  padding: 0 $spacer (0.5 * $spacer) $spacer;
   border-bottom: 1px solid $gray-200;
   display: grid;
   grid-template-areas: "checkbox all buttons";
@@ -16,23 +16,32 @@
 }
 
 .absence-entry {
-  padding: 1em 0;
+  padding: $spacer;
   border-bottom: 1px solid $gray-200;
   display: grid;
   grid-template-areas:
     "checkbox lesson-class time teacher"
     "checkbox comment date days-ago";
-  grid-template-columns: minmax(1rem, min-content) 3fr 1fr 1fr;
+  grid-template-columns: min-content 3fr 1fr 1fr;
+}
+
+.absence-entry:first-child {
+  padding-top: 0;
+}
+.absence-all + .absence-entry {
+  padding-top: $spacer;
 }
 
 .checkbox {
-  padding: 0.2rem 0.75rem 0 1rem;
+  padding: 0.2rem $spacer/2 0 0;
   grid-area: checkbox;
 }
 
 .checkbox input.form-check-input {
-  position: static;
-  margin: 0;
+  // Make the following statements !important since the are
+  // overwritten in Evento as such
+  position: static !important;
+  margin: 0 !important;
 }
 
 .all {
