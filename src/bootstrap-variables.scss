@@ -1,5 +1,10 @@
 @import "node_modules/bootstrap/scss/functions";
 
+/**
+ * Bootstrap variables overrides
+ */
+
+// Colors
 $body-bg: rgb(255, 255, 255);
 $body-color: rgb(51, 51, 61);
 $yellow: rgb(255, 168, 20);
@@ -26,12 +31,19 @@ $spacer: 1.5rem; // Compensate for the base font
 
 @import "node_modules/bootstrap/scss/variables";
 
+// Dropdown
+$dropdown-link-hover-bg: $gray-200;
+
 // Tables
 $table-head-bg: $table-border-color;
 $table-head-color: $gray-600;
 
+/**
+ * Custom Variables
+ */
+
 // Icons
-$icon-size: 2.2rem;
+$erz-icon-size: 2.2rem;
 
 // Custom variables
 $erz-container-padding-x: $spacer;
