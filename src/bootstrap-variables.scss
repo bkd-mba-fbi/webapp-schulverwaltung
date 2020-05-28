@@ -29,6 +29,9 @@ $font-size-base: 1.5rem; // See app/shared/styles/typography.scss
 // Spacing
 $spacer: 1.5rem; // Compensate for the base font
 
+// Buttons
+$input-btn-focus-box-shadow: none;
+
 @import "node_modules/bootstrap/scss/variables";
 
 // Dropdown
