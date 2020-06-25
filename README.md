@@ -1,15 +1,15 @@
 # Absenzenmanagement
 
-[![Build Status](https://travis-ci.org/erz-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.org/erz-mba-fbi/absenzenmanagement)
+[![Build Status](https://travis-ci.org/bkd-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.org/bkd-mba-fbi/absenzenmanagement)
 
 JavaScript web module to implement the process "Absenzenverwaltung"
 using the CLX.Evento backend (REST API).
 
-[Demo](https://erz-mba-fbi.github.io/absenzenmanagement/app)
+[Demo](https://bkd-mba-fbi.github.io/absenzenmanagement/app)
 
 ## Integration
 
-Download the [latest build](https://erz-mba-fbi.github.io/absenzenmanagement/absenzenmanagement.zip).
+Download the [latest build](https://bkd-mba-fbi.github.io/absenzenmanagement/absenzenmanagement.zip).
 
 To integrate this application in your website, you have to copy and
 paste the import of the `settings.js` and the CSS file from
@@ -54,7 +54,7 @@ application displays a unauthenticated message to the user.
 
 ## Development
 
-- Common aspects are documented in the [Wiki](https://github.com/erz-mba-fbi/absenzenmanagement/wiki)
+- Common aspects are documented in the [Wiki](https://github.com/bkd-mba-fbi/absenzenmanagement/wiki)
 - [Setup development environment](doc/setup-dev-environment.md)
 - [Prettier](doc/prettier.md)
 - [Browser support](doc/browser-support.md)
