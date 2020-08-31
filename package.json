@@ -36,7 +36,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "bootstrap": "^4.5.2",
     "core-js": "~3.6.5",
-    "date-fns": "^2.14.0",
+    "date-fns": "^2.16.0",
     "fp-ts": "^2.6.1",
     "io-ts": "^2.2.2",
     "io-ts-types": "^0.5.6",
@@ -45,7 +45,7 @@
     "newtype-ts": "^0.3.4",
     "ngx-infinite-scroll": "^9.0.0",
     "ngx-toastr": "^13.0.0",
-    "rxjs": "~6.5.5",
+    "rxjs": "~6.6.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
