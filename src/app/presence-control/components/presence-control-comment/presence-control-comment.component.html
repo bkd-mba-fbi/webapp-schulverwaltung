@@ -31,7 +31,6 @@
           class="comment-field form-control"
           [class.is-invalid]="(commentErrors$ | async).length > 0"
           #commentField
-          autogrow
           [attr.placeholder]="
             'presence-control.comment.placeholder' | translate
           "

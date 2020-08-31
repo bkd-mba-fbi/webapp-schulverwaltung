@@ -43,7 +43,6 @@
     "lodash-es": "^4.17.15",
     "monocle-ts": "^2.1.0",
     "newtype-ts": "^0.3.4",
-    "ngx-autogrow": "^4.0.0",
     "ngx-infinite-scroll": "^9.0.0",
     "ngx-toastr": "^12.0.1",
     "rxjs": "~6.5.5",

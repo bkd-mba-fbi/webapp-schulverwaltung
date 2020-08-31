@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LetDirective } from './directives/let.directive';
-import { NgxAutogrowModule } from 'ngx-autogrow';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RestAuthInterceptor } from '../rest-auth-interceptor';
 import { RestErrorInterceptor } from '../rest-error-interceptor';
@@ -64,7 +63,6 @@ const internalComponents = [
     HttpClientModule,
     TranslateModule.forChild(),
     NgbModule,
-    NgxAutogrowModule,
     InfiniteScrollModule,
   ],
   exports: [
@@ -75,7 +73,6 @@ const internalComponents = [
     HttpClientModule,
     TranslateModule,
     NgbModule,
-    NgxAutogrowModule,
     InfiniteScrollModule,
     ...components,
   ],
