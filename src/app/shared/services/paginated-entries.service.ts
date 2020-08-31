@@ -1,4 +1,4 @@
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import {
@@ -47,6 +47,7 @@ type EntriesAction<T> = ResetEntriesAction<T> | AppendEntriesAction<T>;
 
 export const PAGE_LOADING_CONTEXT = 'page';
 
+@Injectable()
 export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
