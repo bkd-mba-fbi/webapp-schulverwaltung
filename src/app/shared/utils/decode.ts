@@ -1,7 +1,7 @@
-import * as t from 'io-ts/lib/index';
-import { pipe } from 'fp-ts/lib/pipeable';
-import { fold, left } from 'fp-ts/lib/Either';
-import { PathReporter } from 'io-ts/lib/PathReporter';
+import * as t from 'io-ts';
+import { pipe } from 'fp-ts/es6/pipeable';
+import { fold, left } from 'fp-ts/es6/Either';
+import { PathReporter } from 'io-ts/es6/PathReporter';
 import { Observable, throwError, of } from 'rxjs';
 
 export class DecodeError extends Error {

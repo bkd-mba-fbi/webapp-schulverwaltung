@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { either } from 'fp-ts/lib/Either';
+import { either } from 'fp-ts/es6/Either';
 import {
   parseISOLocalDateTime,
   formatISOLocalDateTime,
