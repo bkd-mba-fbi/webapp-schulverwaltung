@@ -17,8 +17,7 @@
     "e2e": "ng e2e",
     "preanalyze": "ng build --stats-json",
     "analyze": "npx webpack-bundle-analyzer dist/$(ng config defaultProject)/stats.json",
-    "postanalyze": "rm dist/$(ng config defaultProject)/stats.json",
-    "postinstall": "ngcc"
+    "postanalyze": "rm dist/$(ng config defaultProject)/stats.json"
   },
   "private": true,
   "dependencies": {
