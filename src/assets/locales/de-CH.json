@@ -19,7 +19,8 @@
     "validation-errors": {
       "required": "Dieses Feld muss ausgefüllt werden.",
       "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
-      "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus."
+      "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus.",
+      "email": "Keine gültige E-Mail Adresse."
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
@@ -153,11 +154,26 @@
   },
   "my-profile": {
     "title": "Mein Profil",
-    "social-security-number": "Sozialversicherungsnummer",
-    "hometown-nationality": "Heimatort / Nationalität",
-    "native-language": "Erstsprache",
-    "stay-permit": "Aufenthaltsbewilligung",
-    "stay-permit-expiry": "Ablauf der Aufenthaltsbewilligung"
+    "show": {
+      "social-security-number": "Sozialversicherungsnummer",
+      "hometown-nationality": "Heimatort / Nationalität",
+      "native-language": "Erstsprache",
+      "stay-permit": "Aufenthaltsbewilligung",
+      "stay-permit-expiry": "Ablauf der Aufenthaltsbewilligung"
+    },
+    "edit": {
+      "address-changes-remark": "Für Änderungen an Namen und Adresse wenden Sie sich bitte an das Sekretariat.",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die Felder wurden erfolgreich geändert.",
+      "fields": {
+        "phone-private": "Telefon",
+        "phone-mobile": "Mobiltelefon",
+        "phone-mobile-hint": "Achtung: Diese Nummer kann für die Anmeldung in Evento Web verwendet werden (Zustellung des Codes)",
+        "email2": "E-Mail privat",
+        "email2-hint": "Achtung: Diese E-Mail Adresse kann für die Anmeldung in Evento Web verwendet werden (Zustellung des Codes)"
+      }
+    }
   },
   "shared": {
     "date-select": {

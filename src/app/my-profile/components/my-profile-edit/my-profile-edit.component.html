@@ -1,0 +1,98 @@
+<div
+  *erzLet="{ formGroup: formGroup$ | async, student: student$ | async } as data"
+  class="erz-container erz-container-padding-y"
+>
+  <form
+    *ngIf="data.formGroup"
+    [formGroup]="data.formGroup"
+    (ngSubmit)="onSubmit()"
+  >
+    <p>{{ 'my-profile.edit.address-changes-remark' | translate }}</p>
+    <address class="text-muted">
+      <div>{{ data.student.AddressLine1 }}</div>
+      <div *ngIf="data.student.AddressLine2">
+        {{ data.student.AddressLine2 }}
+      </div>
+      <div>{{ data.student.Zip || '' }} {{ data.student.Location }}</div>
+    </address>
+
+    <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">
+      {{ 'global.validation-errors.' + error.error | translate: error.params }}
+    </div>
+
+    <div class="form-group">
+      <label id="my-profile-phone-private">
+        {{ 'my-profile.edit.fields.phone-private' | translate }}
+      </label>
+      <input
+        id="my-profile-phone-private"
+        formControlName="phonePrivate"
+        type="tel"
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label id="my-profile-phone-mobile">
+        {{ 'my-profile.edit.fields.phone-mobile' | translate }}
+      </label>
+      <input
+        id="my-profile-phone-mobile"
+        formControlName="phoneMobile"
+        type="tel"
+        class="form-control"
+        aria-describedby="my-profile-phone-mobile-hint"
+      />
+      <small id="my-profile-phone-mobile-hint" class="form-text text-muted">{{
+        'my-profile.edit.fields.phone-mobile-hint' | translate
+      }}</small>
+    </div>
+
+    <div class="form-group">
+      <label id="my-profile-email2">
+        {{ 'my-profile.edit.fields.email2' | translate }}
+      </label>
+      <input
+        id="my-profile-email2"
+        formControlName="email2"
+        type="email"
+        class="form-control"
+        [class.is-invalid]="(email2Errors$ | async).length > 0"
+        aria-describedby="my-profile-email2-hint"
+      />
+      <div class="invalid-feedback" *ngFor="let error of email2Errors$ | async">
+        {{
+          'global.validation-errors.' + error.error | translate: error.params
+        }}
+      </div>
+      <small id="my-profile-email2-hint" class="form-text text-muted">{{
+        'my-profile.edit.fields.email2-hint' | translate
+      }}</small>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="saving$ | async"
+        (click)="cancel()"
+      >
+        {{ 'my-profile.edit.cancel' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary ml-2"
+        [disabled]="saving$ | async"
+      >
+        {{ 'my-profile.edit.save' | translate }}
+        <div
+          *ngIf="saving$ | async"
+          class="spinner-border spinner-border-sm align-middle"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </button>
+    </div>
+  </form>
+</div>

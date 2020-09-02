@@ -1,0 +1,14 @@
+@import "../../../../bootstrap-variables";
+
+.profile-content {
+  padding-top: $spacer;
+}
+
+.profile-entry {
+  display: block;
+  padding: 0 $spacer;
+}
+
+.profile-entries:not(:empty) {
+  border-top: 1px solid #e9ecef;
+}

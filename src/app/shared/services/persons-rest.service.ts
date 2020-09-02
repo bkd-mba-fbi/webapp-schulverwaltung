@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, mapTo } from 'rxjs/operators';
 
 import { RestService } from './rest.service';
 import { SETTINGS, Settings } from '../../settings';
@@ -26,5 +26,21 @@ export class PersonsRestService extends RestService<typeof Person> {
     return this.http
       .get<unknown>(`${this.baseUrl}/me`)
       .pipe(switchMap(decode(this.codec)));
+  }
+
+  update(
+    personId: number,
+    phonePrivate: Option<string>,
+    phoneMobile: Option<string>,
+    email2: Maybe<string>
+  ): Observable<void> {
+    const body = {
+      PhonePrivate: phonePrivate,
+      PhoneMobile: phoneMobile,
+      Email2: email2,
+    };
+    return this.http
+      .put<void>(`${this.baseUrl}/${personId}`, body)
+      .pipe(mapTo(undefined));
   }
 }

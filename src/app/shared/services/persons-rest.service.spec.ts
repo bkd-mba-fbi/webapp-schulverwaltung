@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import * as t from 'io-ts/lib/index';
+import { isEqual } from 'lodash-es';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PersonsRestService } from './persons-rest.service';
@@ -44,6 +45,30 @@ describe('PersonsRestService', () => {
 
       const url = 'https://eventotest.api/Persons/me';
       httpTestingController.expectOne(url).flush(Person.encode(person));
+    });
+  });
+
+  describe('.update', () => {
+    it('updates the phone numbers and email', () => {
+      service
+        .update(
+          38608,
+          '+41 31 123 45 67',
+          '+41 79 123 45 67',
+          'john@example.com'
+        )
+        .subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === 'PUT' &&
+          req.urlWithParams === 'https://eventotest.api/Persons/38608' &&
+          isEqual(req.body, {
+            PhonePrivate: '+41 31 123 45 67',
+            PhoneMobile: '+41 79 123 45 67',
+            Email2: 'john@example.com',
+          })
+      );
     });
   });
 });

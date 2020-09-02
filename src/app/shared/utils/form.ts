@@ -14,6 +14,24 @@ export function getValidationErrors(
   return of([]);
 }
 
+/**
+ * Emits the validation errors of the control with the given name.
+ *
+ * Example:
+ *   emailErrors$ = this.formGroup$.pipe(
+ *     switchMap(getControlValidationErrors('email'))
+ *   );
+ */
+export function getControlValidationErrors(
+  controlName: string
+): (
+  group: Option<AbstractControl>
+) => Observable<ReadonlyArray<{ error: string; params: any }>> {
+  return (group) => {
+    return getValidationErrors(group?.get(controlName) || null);
+  };
+}
+
 function validatationErrorsToArray(
   control: AbstractControl | null
 ): ReadonlyArray<{ error: string; params: any }> {
