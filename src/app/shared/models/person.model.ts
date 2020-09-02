@@ -20,7 +20,7 @@ const Person = t.type({
   Email: Maybe(t.string),
   Email2: Maybe(t.string),
   FirstName: Option(t.string),
-  Gender: t.union([t.literal('M'), t.literal('F'), t.literal('X')]),
+  Gender: Option(t.union([t.literal('M'), t.literal('F'), t.literal('X')])),
   // HomeTown: Option(t.string),
   // IsEditable: t.boolean,
   // IsEmployee: t.boolean,
