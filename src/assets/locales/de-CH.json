@@ -152,7 +152,12 @@
     }
   },
   "my-profile": {
-    "title": "Mein Profil"
+    "title": "Mein Profil",
+    "social-security-number": "Sozialversicherungsnummer",
+    "hometown-nationality": "Heimatort / Nationalität",
+    "native-language": "Erstsprache",
+    "stay-permit": "Aufenthaltsbewilligung",
+    "stay-permit-expiry": "Ablauf der Aufenthaltsbewilligung"
   },
   "shared": {
     "date-select": {

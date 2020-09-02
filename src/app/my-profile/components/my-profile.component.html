@@ -8,7 +8,22 @@
   >
     <ng-container *ngIf="!(profileService.loading$ | async); else loading"
       ><div class="profile-content" *ngIf="data.profile; else noProfile">
-        {{ data.profile.student.Id }}
+        <dl>
+          <dt>{{ 'my-profile.social-security-number' | translate }}</dt>
+          <dd>{{ data.profile.student.SocialSecurityNumber }}</dd>
+          <dt>{{ 'my-profile.hometown-nationality' | translate }}</dt>
+          <dd>
+            {{ data.profile.student.HomeTown }}/{{
+              data.profile.student.Nationality
+            }}
+          </dd>
+          <dt>{{ 'my-profile.native-language' | translate }}</dt>
+          <dd>{{ data.profile.student.NativeLanguage }}</dd>
+          <dt>{{ 'my-profile.stay-permit' | translate }}</dt>
+          <dd>{{ data.profile.student.StayPermit }}</dd>
+          <dt>{{ 'my-profile.stay-permit-expiry' | translate }}</dt>
+          <dd>{{ data.profile.student.StayPermitExpiry }}</dd>
+        </dl>
       </div>
 
       <ng-template #noProfile>
