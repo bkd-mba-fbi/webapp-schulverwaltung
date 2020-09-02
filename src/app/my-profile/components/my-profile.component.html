@@ -8,35 +8,48 @@
   >
     <ng-container *ngIf="!(profileService.loading$ | async); else loading"
       ><div class="profile-content" *ngIf="data.profile; else noProfile">
-        <dl>
-          <div *ngIf="data.profile.student.SocialSecurityNumber">
-            <dt>{{ 'my-profile.social-security-number' | translate }}</dt>
-            <dd>{{ data.profile.student.SocialSecurityNumber }}</dd>
-          </div>
+        <dl class="row">
+          <dt
+            class="col-md-6"
+            *ngIf="data.profile.student.SocialSecurityNumber"
+          >
+            {{ 'my-profile.social-security-number' | translate }}
+          </dt>
+          <dd
+            class="col-md-6"
+            *ngIf="data.profile.student.SocialSecurityNumber"
+          >
+            {{ data.profile.student.SocialSecurityNumber }}
+          </dd>
 
-          <div
+          <dt
+            class="col-md-6"
             *ngIf="
               data.profile.student.HomeTown || data.profile.student.Nationality
             "
           >
-            <dt>{{ 'my-profile.hometown-nationality' | translate }}</dt>
-            <dd *ngIf="data.profile.student.HomeTown">
-              {{ data.profile.student.HomeTown }}
-            </dd>
-            <dd *ngIf="!data.profile.student.HomeTown">
-              {{ data.profile.student.Nationality }}
-            </dd>
-          </div>
+            {{ 'my-profile.hometown-nationality' | translate }}
+          </dt>
+          <dd class="col-md-6" *ngIf="data.profile.student.HomeTown">
+            {{ data.profile.student.HomeTown }}
+          </dd>
+          <dd class="col-md-6" *ngIf="!data.profile.student.HomeTown">
+            {{ data.profile.student.Nationality }}
+          </dd>
 
-          <div *ngIf="data.profile.student.NativeLanguage">
-            <dt>{{ 'my-profile.native-language' | translate }}</dt>
-            <dd>{{ data.profile.student.NativeLanguage }}</dd>
-          </div>
+          <dt class="col-md-6" *ngIf="data.profile.student.NativeLanguage">
+            {{ 'my-profile.native-language' | translate }}
+          </dt>
+          <dd class="col-md-6" *ngIf="data.profile.student.NativeLanguage">
+            {{ data.profile.student.NativeLanguage }}
+          </dd>
 
-          <div *ngIf="data.profile.student.StayPermit">
-            <dt>{{ 'my-profile.stay-permit' | translate }}</dt>
-            <dd>{{ data.profile.student.StayPermit }}</dd>
-          </div>
+          <dt class="col-md-6" *ngIf="data.profile.student.StayPermit">
+            {{ 'my-profile.stay-permit' | translate }}
+          </dt>
+          <dd class="col-md-6" *ngIf="data.profile.student.StayPermit">
+            {{ data.profile.student.StayPermit }}
+          </dd>
 
           <div *ngIf="data.profile.student.StayPermitExpiry">
             <dt>{{ 'my-profile.stay-permit-expiry' | translate }}</dt>
