@@ -20,7 +20,7 @@ describe('PersonsRestService', () => {
   afterEach(() => httpTestingController.verify());
 
   describe('.getListForIds', () => {
-    it('should request all the persons in the given list of ids', () => {
+    it('requests all the persons in the given list of ids', () => {
       const persons = [buildPerson(38608), buildPerson(38610)];
 
       service.getListForIds([38608, 38610]).subscribe((result) => {
@@ -31,6 +31,19 @@ describe('PersonsRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(t.array(Person).encode(persons));
+    });
+  });
+
+  describe('.getMyself', () => {
+    it("requests the current user's person", () => {
+      const person = buildPerson(38608);
+
+      service.getMyself().subscribe((result) => {
+        expect(result).toEqual(person);
+      });
+
+      const url = 'https://eventotest.api/Persons/me';
+      httpTestingController.expectOne(url).flush(Person.encode(person));
     });
   });
 });

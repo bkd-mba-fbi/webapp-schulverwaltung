@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, filter } from 'rxjs/operators';
 
 import { withConfig } from 'src/app/rest-error-interceptor';
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
@@ -12,9 +12,10 @@ import { PersonsRestService } from 'src/app/shared/services/persons-rest.service
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { spreadTriplet } from 'src/app/shared/utils/function';
 import { catch404 } from 'src/app/shared/utils/observable';
+import { notNull } from '../utils/filter';
 
-export interface Profile {
-  student: Student;
+export interface Profile<T extends Student | Person> {
+  student: T;
   legalRepresentativePersons: ReadonlyArray<Person>;
   apprenticeshipCompanies: ReadonlyArray<ApprenticeshipCompany>;
 }
@@ -37,13 +38,39 @@ export class StudentProfileService {
     private loadingService: LoadingService
   ) {}
 
-  getProfile(studentId: number): Observable<Option<Profile>> {
+  /**
+   * Returns the profile of the student with the given id.
+   */
+  getProfile(studentId: number): Observable<Option<Profile<Student>>> {
     return this.loadingService.load(
       combineLatest([
         this.loadStudent(studentId),
         this.loadLegalRepresentatives(studentId),
         this.loadApprenticeshipContracts(studentId),
       ]).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))))
+    );
+  }
+
+  /**
+   * Returns the profile of the current user.
+   */
+  getMyProfile(): Observable<Profile<Person>> {
+    return this.loadingService.load(
+      this.personsService
+        .getMyself()
+        .pipe(
+          switchMap((person) =>
+            combineLatest(
+              of(person),
+              this.loadLegalRepresentatives(person.Id),
+              this.loadApprenticeshipContracts(person.Id)
+            )
+          )
+        )
+        .pipe(
+          switchMap(spreadTriplet(this.mapToProfile.bind(this))),
+          filter(notNull) // For (type-)safety, should never be null
+        )
     );
   }
 
@@ -70,11 +97,11 @@ export class StudentProfileService {
       .pipe(catch404([]));
   }
 
-  private mapToProfile(
-    student: Option<Student>,
+  private mapToProfile<T extends Student | Person>(
+    student: Option<T>,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
     apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
-  ): Observable<Option<Profile>> {
+  ): Observable<Option<Profile<T>>> {
     if (!student) {
       return of(null);
     }
@@ -119,13 +146,13 @@ export class StudentProfileService {
     ];
   }
 
-  private createProfile(
-    student: Student,
+  private createProfile<T extends Student | Person>(
+    student: T,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
     apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>,
     persons: ReadonlyArray<Person>
-  ): Profile {
-    const profile: Profile = {
+  ): Profile<T> {
+    const profile: Profile<T> = {
       student,
       legalRepresentativePersons: legalRepresentatives.map(
         (legalRepresentative) =>

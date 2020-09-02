@@ -23,6 +23,7 @@ describe('StudentProfileService', () => {
   let service: StudentProfileService;
 
   let student: Student;
+  let myself: Person;
   let legalRepresentatives: LegalRepresentative[];
   let apprenticeshipContract: ApprenticeshipContract;
   let jobTrainer: Person;
@@ -30,7 +31,8 @@ describe('StudentProfileService', () => {
   let legalRepresentative1: Person;
   let legalRepresentative2: Person;
   let persons: Person[];
-  let profile: Profile;
+  let profile: Profile<Student>;
+  let myProfile: Profile<Person>;
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
@@ -38,6 +40,7 @@ describe('StudentProfileService', () => {
     service = TestBed.inject(StudentProfileService);
 
     student = buildStudent(39405);
+    myself = buildPerson(39405);
     legalRepresentatives = [
       buildLegalRepresentative(56248, 22080),
       buildLegalRepresentative(56249, 39403),
@@ -80,6 +83,17 @@ describe('StudentProfileService', () => {
         },
       ],
     };
+    myProfile = {
+      student: myself,
+      legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
+      apprenticeshipCompanies: [
+        {
+          apprenticeshipContract,
+          jobTrainerPerson: jobTrainer,
+          apprenticeshipManagerPerson: apprenticeshipManager,
+        },
+      ],
+    };
   });
 
   afterEach(() => {
@@ -88,9 +102,11 @@ describe('StudentProfileService', () => {
 
   describe('.getProfile', () => {
     it('gets the profile for the given student', () => {
-      service.getProfile(student.Id).subscribe((result: Option<Profile>) => {
-        expect(result).toEqual(profile);
-      });
+      service
+        .getProfile(student.Id)
+        .subscribe((result: Option<Profile<Student>>) => {
+          expect(result).toEqual(profile);
+        });
       expectStudentRequest(student.Id);
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
@@ -98,9 +114,26 @@ describe('StudentProfileService', () => {
     });
   });
 
+  describe('.getMyProfile', () => {
+    it('gets the profile for the current user', () => {
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result).toEqual(myProfile);
+      });
+      expectMyPersonRequest();
+      expectLegalRepresentativesRequest(myself.Id);
+      expectApprenticeshipContractRequest(myself.Id);
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+  });
+
   function expectStudentRequest(id: number, response = student): void {
     const url = `https://eventotest.api/Students/${id}`;
     httpTestingController.expectOne(url).flush(Student.encode(response));
+  }
+
+  function expectMyPersonRequest(response = myself): void {
+    const url = 'https://eventotest.api/Persons/me';
+    httpTestingController.expectOne(url).flush(Person.encode(response));
   }
 
   function expectLegalRepresentativesRequest(
