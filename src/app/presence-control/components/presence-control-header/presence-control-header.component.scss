@@ -64,6 +64,12 @@
   justify-content: space-between;
 }
 
+.lesson-designation {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .lesson-description {
   grid-area: description;
   overflow: hidden;
@@ -73,6 +79,7 @@
 
 .dropdown-toggle {
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
