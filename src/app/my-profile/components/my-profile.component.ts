@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentProfileService } from '../../shared/services/student-profile.service';
 
 @Component({
   selector: 'erz-my-profile',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-profile.component.scss'],
 })
 export class MyProfileComponent implements OnInit {
-  constructor() {}
+  profile$ = this.profileService.getMyProfile();
+
+  constructor(public profileService: StudentProfileService) {}
 
   ngOnInit(): void {}
 }
