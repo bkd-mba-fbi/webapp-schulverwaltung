@@ -151,6 +151,9 @@
       }
     }
   },
+  "my-profile": {
+    "title": "Mein Profil"
+  },
   "shared": {
     "date-select": {
       "default-placeholder": "Datum wählen..."
