@@ -3,7 +3,7 @@
   <ng-container *ngIf="student.AddressLine2">
     {{ student.AddressLine2 }}<br />
   </ng-container>
-  {{ student.PostalCode }} {{ student.Location }}<br />
+  {{ postalCode || '' }} {{ student.Location }}<br />
   <ng-container *ngIf="student.PhonePrivate">
     <a href="tel:{{ student.PhonePrivate }}">
       {{ student.PhonePrivate }}
