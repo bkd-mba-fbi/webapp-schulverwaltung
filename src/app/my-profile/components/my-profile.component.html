@@ -9,20 +9,39 @@
     <ng-container *ngIf="!(profileService.loading$ | async); else loading"
       ><div class="profile-content" *ngIf="data.profile; else noProfile">
         <dl>
-          <dt>{{ 'my-profile.social-security-number' | translate }}</dt>
-          <dd>{{ data.profile.student.SocialSecurityNumber }}</dd>
-          <dt>{{ 'my-profile.hometown-nationality' | translate }}</dt>
-          <dd>
-            {{ data.profile.student.HomeTown }}/{{
-              data.profile.student.Nationality
-            }}
-          </dd>
-          <dt>{{ 'my-profile.native-language' | translate }}</dt>
-          <dd>{{ data.profile.student.NativeLanguage }}</dd>
-          <dt>{{ 'my-profile.stay-permit' | translate }}</dt>
-          <dd>{{ data.profile.student.StayPermit }}</dd>
-          <dt>{{ 'my-profile.stay-permit-expiry' | translate }}</dt>
-          <dd>{{ data.profile.student.StayPermitExpiry }}</dd>
+          <div *ngIf="data.profile.student.SocialSecurityNumber">
+            <dt>{{ 'my-profile.social-security-number' | translate }}</dt>
+            <dd>{{ data.profile.student.SocialSecurityNumber }}</dd>
+          </div>
+
+          <div
+            *ngIf="
+              data.profile.student.HomeTown || data.profile.student.Nationality
+            "
+          >
+            <dt>{{ 'my-profile.hometown-nationality' | translate }}</dt>
+            <dd *ngIf="data.profile.student.HomeTown">
+              {{ data.profile.student.HomeTown }}
+            </dd>
+            <dd *ngIf="!data.profile.student.HomeTown">
+              {{ data.profile.student.Nationality }}
+            </dd>
+          </div>
+
+          <div *ngIf="data.profile.student.NativeLanguage">
+            <dt>{{ 'my-profile.native-language' | translate }}</dt>
+            <dd>{{ data.profile.student.NativeLanguage }}</dd>
+          </div>
+
+          <div *ngIf="data.profile.student.StayPermit">
+            <dt>{{ 'my-profile.stay-permit' | translate }}</dt>
+            <dd>{{ data.profile.student.StayPermit }}</dd>
+          </div>
+
+          <div *ngIf="data.profile.student.StayPermitExpiry">
+            <dt>{{ 'my-profile.stay-permit-expiry' | translate }}</dt>
+            <dd>{{ data.profile.student.StayPermitExpiry }}</dd>
+          </div>
         </dl>
       </div>
 
