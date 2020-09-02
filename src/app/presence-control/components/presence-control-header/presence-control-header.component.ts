@@ -30,8 +30,8 @@ const positionMenuOriginal = (NgbDropdown.prototype as any)._positionMenu;
   const result = positionMenuOriginal.apply(this, args);
 
   // Correct horizontal translation to 0 if is negative
-  if (this._anchor.anchorEl.id === 'lesson-dropdown') {
-    const container = this._bodyContainer || this._menuElement.nativeElement;
+  if (this._anchor.nativeElement.id === 'lesson-dropdown') {
+    const container = this._bodyContainer || this._menu.nativeElement;
     const matches = container.style.transform?.match(
       /translate\(([0-9-\.]+)px, ([0-9-\.]+)px\)/
     );

@@ -3,11 +3,11 @@
   [ngModel]="value$ | async"
   (ngModelChange)="valueChange.emit($event && $event.Key)"
 >
-  <option *ngIf="allowEmpty" [ngValue]="null">{{
-    'shared.select.empty-option' | translate
-  }}</option>
-  <option *ngFor="let option of options" [ngValue]="option">{{
-    option.Value
-  }}</option>
+  <option *ngIf="allowEmpty" [ngValue]="null">
+    {{ 'shared.select.empty-option' | translate }}
+  </option>
+  <option *ngFor="let option of options" [ngValue]="option">
+    {{ option.Value }}
+  </option>
   >
 </select>

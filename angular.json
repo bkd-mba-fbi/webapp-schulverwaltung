@@ -28,12 +28,19 @@
               "src/settings.js",
               "src/settings.example.js",
               "src/assets",
-              { "glob": "README.md", "input": ".", "output": "." },
-              { "glob": "**/*.md", "input": "doc", "output": "doc" }
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              },
+              {
+                "glob": "**/*.md",
+                "input": "doc",
+                "output": "doc"
+              }
             ],
             "styles": ["src/styles.scss"],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
