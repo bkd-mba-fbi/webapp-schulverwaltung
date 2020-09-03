@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyProfileComponent } from './my-profile.component';
-import { buildTestModuleMetadata } from '../../../spec-helpers';
+import { buildTestModuleMetadata } from '../../../../spec-helpers';
 
 describe('MyProfileComponent', () => {
   let component: MyProfileComponent;

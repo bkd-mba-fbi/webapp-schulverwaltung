@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentProfileService } from '../../shared/services/student-profile.service';
+import { StudentProfileService } from '../../../shared/services/student-profile.service';
 
 @Component({
   selector: 'erz-my-profile',
