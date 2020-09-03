@@ -35,6 +35,8 @@ const components = [
   SelectComponent,
   StudentBacklinkComponent,
   StudentProfileComponent,
+  StudentProfileEntryHeaderComponent,
+  StudentProfileAddressComponent,
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,
@@ -42,8 +44,6 @@ const components = [
 
 // Components only used within the shared module
 const internalComponents = [
-  StudentProfileEntryHeaderComponent,
-  StudentProfileAddressComponent,
   StudentProfileLegalRepresentativeComponent,
   StudentProfileApprenticeshipCompanyComponent,
   StudentProfileAbsencesComponent,

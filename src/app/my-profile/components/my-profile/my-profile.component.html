@@ -6,8 +6,8 @@
       profile: profile$ | async
     } as data"
   >
-    <ng-container *ngIf="!(profileService.loading$ | async); else loading"
-      ><div class="profile-content" *ngIf="data.profile; else noProfile">
+    <ng-container *ngIf="!(profileService.loading$ | async); else loading">
+      <div class="profile-content" *ngIf="data.profile; else noProfile">
         <erz-my-profile-entry
           label="my-profile.social-security-number"
           value="{{ data.profile.student.SocialSecurityNumber }}"
@@ -39,6 +39,25 @@
           value="{{ data.profile.student.StayPermitExpiry }}"
         >
         </erz-my-profile-entry>
+
+        <ngb-accordion ngb-accordion #acc="ngbAccordion">
+          <ngb-panel id="student-address">
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-profile-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('student-address')"
+              >
+                {{ 'shared.profile.student-address' | translate }}
+              </erz-student-profile-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-student-profile-address
+                class="profile-entry"
+                [student]="data.profile.student"
+              ></erz-student-profile-address>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </div>
 
       <ng-template #noProfile>
