@@ -63,6 +63,46 @@
           </ngb-panel>
 
           <ngb-panel
+            id="correspondence-address"
+            *ngIf="data.profile.student.CorrespondenceAddress"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-profile-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('correspondence-address')"
+              >
+                {{ 'shared.profile.correspondence-address' | translate }}
+              </erz-student-profile-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-my-profile-address
+                class="profile-entry"
+                [address]="data.profile.student.CorrespondenceAddress"
+              ></erz-my-profile-address>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel
+            id="billing-address"
+            *ngIf="data.profile.student.BillingAddress"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-profile-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('billing-address')"
+              >
+                {{ 'shared.profile.billing-address' | translate }}
+              </erz-student-profile-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-my-profile-address
+                class="profile-entry"
+                [address]="data.profile.student.BillingAddress"
+              ></erz-my-profile-address>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel
             *ngIf="data.profile.legalRepresentativePersons.length > 0"
             id="legal-representatives"
           >

@@ -175,6 +175,8 @@
     },
     "profile": {
       "student-address": "Adresse",
+      "correspondence-address": "Korrespondenzadresse",
+      "billing-address": "Rechnungsadresse",
       "legal-representation": "Gesetzliche Vertretung",
       "apprenticeship-company": "Lehrbetrieb",
       "apprenticeship-period": "Lehrzeit",
