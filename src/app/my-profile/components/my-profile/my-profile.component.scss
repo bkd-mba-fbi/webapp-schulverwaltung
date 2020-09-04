@@ -1,5 +1,9 @@
 @import "../../../../bootstrap-variables";
 
+.profile-content {
+  padding-top: $spacer;
+}
+
 .profile-entry {
   display: block;
   padding: 0 $spacer;

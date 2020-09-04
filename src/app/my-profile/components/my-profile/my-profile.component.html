@@ -7,6 +7,10 @@
     } as data"
   >
     <ng-container *ngIf="!(profileService.loading$ | async); else loading">
+      <erz-my-profile-header
+        [student]="data.profile && data.profile.student"
+      ></erz-my-profile-header>
+
       <div class="profile-content" *ngIf="data.profile; else noProfile">
         <erz-my-profile-entry
           label="my-profile.social-security-number"
