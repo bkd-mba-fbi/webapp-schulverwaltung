@@ -82,6 +82,33 @@
               ></erz-student-profile-legal-representative>
             </ng-template>
           </ngb-panel>
+
+          <ngb-panel
+            *ngFor="
+              let company of data.profile.apprenticeshipCompanies;
+              let i = index
+            "
+            [id]="'apprenticeship-company-' + i"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-profile-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('apprenticeship-company-' + i)"
+              >
+                {{ 'shared.profile.apprenticeship-company' | translate }}
+                <ng-container
+                  *ngIf="data.profile.apprenticeshipCompanies.length > 1"
+                  >{{ i + 1 }}</ng-container
+                >
+              </erz-student-profile-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-student-profile-apprenticeship-company
+                class="profile-entry"
+                [company]="company"
+              ></erz-student-profile-apprenticeship-company>
+            </ng-template>
+          </ngb-panel>
         </ngb-accordion>
       </div>
 
