@@ -17,6 +17,7 @@ import {
   StudentProfileService,
   Profile,
 } from '../../shared/services/student-profile.service';
+import { DropDownItem } from '../models/drop-down-item.model';
 
 describe('StudentProfileService', () => {
   let httpTestingController: HttpTestingController;
@@ -33,6 +34,7 @@ describe('StudentProfileService', () => {
   let persons: Person[];
   let profile: Profile<Student>;
   let myProfile: Profile<Person>;
+  let dropDownItems: DropDownItem[];
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
@@ -41,6 +43,8 @@ describe('StudentProfileService', () => {
 
     student = buildStudent(39405);
     myself = buildPerson(39405);
+    myself.StayPermit = 123456798;
+
     legalRepresentatives = [
       buildLegalRepresentative(56248, 22080),
       buildLegalRepresentative(56249, 39403),
@@ -74,6 +78,7 @@ describe('StudentProfileService', () => {
 
     profile = {
       student,
+      stayPermitValue: undefined,
       legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
       apprenticeshipCompanies: [
         {
@@ -85,6 +90,7 @@ describe('StudentProfileService', () => {
     };
     myProfile = {
       student: myself,
+      stayPermitValue: 'Permit Value',
       legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
       apprenticeshipCompanies: [
         {
@@ -94,6 +100,8 @@ describe('StudentProfileService', () => {
         },
       ],
     };
+
+    dropDownItems = [{ Key: myself.StayPermit, Value: 'Permit Value' }];
   });
 
   afterEach(() => {
@@ -122,6 +130,7 @@ describe('StudentProfileService', () => {
       expectMyPersonRequest();
       expectLegalRepresentativesRequest(myself.Id);
       expectApprenticeshipContractRequest(myself.Id);
+      expectLoadStayPermitValueRequest();
       expectPersonsRequest(persons.map((person) => person.Id));
     });
   });
@@ -159,5 +168,12 @@ describe('StudentProfileService', () => {
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
       .flush(t.array(Person).encode(response));
+  }
+
+  function expectLoadStayPermitValueRequest(response = dropDownItems): void {
+    const url = 'https://eventotest.api/DropDownItems/StayPermits';
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(DropDownItem).encode(response));
   }
 });

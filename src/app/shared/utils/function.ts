@@ -22,3 +22,9 @@ export function spreadTriplet<A, B, C, T>(
 ): (args: [A, B, C]) => T {
   return ([a, b, c]) => fn(a, b, c);
 }
+
+export function spreadQuadruple<A, B, C, D, T>(
+  fn: (a: A, b: B, c: C, d: D) => T
+): (args: [A, B, C, D]) => T {
+  return ([a, b, c, d]) => fn(a, b, c, d);
+}

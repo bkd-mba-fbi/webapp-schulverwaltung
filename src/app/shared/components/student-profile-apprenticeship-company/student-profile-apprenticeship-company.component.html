@@ -4,28 +4,28 @@
   /></ng-container>
   <ng-container
     *ngIf="
-      company.apprenticeshipManagerPerson.LastName &&
-      company.apprenticeshipManagerPerson.FirstName
+      company.apprenticeshipManagerPerson?.LastName &&
+      company.apprenticeshipManagerPerson?.FirstName
     "
   >
     {{ company.apprenticeshipManagerPerson.LastName }}
     {{ company.apprenticeshipManagerPerson.FirstName }}<br />
   </ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson.AddressLine1"
+  <ng-container *ngIf="company.apprenticeshipManagerPerson?.AddressLine1"
     >{{ company.apprenticeshipManagerPerson.AddressLine1 }}<br
   /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson.AddressLine2"
+  <ng-container *ngIf="company.apprenticeshipManagerPerson?.AddressLine2"
     >{{ company.apprenticeshipManagerPerson.AddressLine2 }}<br
   /></ng-container>
   <ng-container
     *ngIf="
-      company.apprenticeshipManagerPerson.Zip &&
-      company.apprenticeshipManagerPerson.Zip
+      company.apprenticeshipManagerPerson?.Zip &&
+      company.apprenticeshipManagerPerson?.Location
     "
     >{{ company.apprenticeshipManagerPerson.Zip }}
     {{ company.apprenticeshipManagerPerson.Location }}<br
   /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson.PhoneBusiness">
+  <ng-container *ngIf="company.apprenticeshipManagerPerson?.PhoneBusiness">
     <a href="tel:{{ company.apprenticeshipManagerPerson.PhoneBusiness }}"
       >{{ company.apprenticeshipManagerPerson.PhoneBusiness }}<br /></a
   ></ng-container>

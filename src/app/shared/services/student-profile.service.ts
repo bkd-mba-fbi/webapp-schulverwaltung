@@ -10,12 +10,14 @@ import { Student } from 'src/app/shared/models/student.model';
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { spreadTriplet } from 'src/app/shared/utils/function';
+import { DropDownItemsRestService } from './drop-down-items-rest.service';
+import { spreadTriplet, spreadQuadruple } from 'src/app/shared/utils/function';
 import { catch404 } from 'src/app/shared/utils/observable';
 import { notNull } from '../utils/filter';
 
 export interface Profile<T extends Student | Person> {
   student: T;
+  stayPermitValue?: string;
   legalRepresentativePersons: ReadonlyArray<Person>;
   apprenticeshipCompanies: ReadonlyArray<ApprenticeshipCompany>;
 }
@@ -23,7 +25,7 @@ export interface Profile<T extends Student | Person> {
 export interface ApprenticeshipCompany {
   apprenticeshipContract: ApprenticeshipContract;
   jobTrainerPerson: Option<Person>;
-  apprenticeshipManagerPerson: Person;
+  apprenticeshipManagerPerson: Option<Person>;
 }
 
 @Injectable({
@@ -35,7 +37,8 @@ export class StudentProfileService {
   constructor(
     private studentService: StudentsRestService,
     private personsService: PersonsRestService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private dropDownItemsService: DropDownItemsRestService
   ) {}
 
   /**
@@ -63,12 +66,13 @@ export class StudentProfileService {
             combineLatest(
               of(person),
               this.loadLegalRepresentatives(person.Id),
-              this.loadApprenticeshipContracts(person.Id)
+              this.loadApprenticeshipContracts(person.Id),
+              this.loadStayPermitValue(person.StayPermit)
             )
           )
         )
         .pipe(
-          switchMap(spreadTriplet(this.mapToProfile.bind(this))),
+          switchMap(spreadQuadruple(this.mapToProfile.bind(this))),
           filter(notNull) // For (type-)safety, should never be null
         )
     );
@@ -97,10 +101,17 @@ export class StudentProfileService {
       .pipe(catch404([]));
   }
 
+  private loadStayPermitValue(id: Option<number>): Observable<Option<string>> {
+    return this.dropDownItemsService
+      .getStayPermits()
+      .pipe(map((items) => items.find((i) => i.Key === id)?.Value || null));
+  }
+
   private mapToProfile<T extends Student | Person>(
     student: Option<T>,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
-    apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>
+    apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>,
+    stayPermitValue: Option<string> = null
   ): Observable<Option<Profile<T>>> {
     if (!student) {
       return of(null);
@@ -109,6 +120,7 @@ export class StudentProfileService {
       map((persons) =>
         this.createProfile(
           student,
+          stayPermitValue,
           legalRepresentatives,
           apprenticeshipContracts,
           persons
@@ -148,16 +160,19 @@ export class StudentProfileService {
 
   private createProfile<T extends Student | Person>(
     student: T,
+    stayPermitValue: Option<string>,
     legalRepresentatives: ReadonlyArray<LegalRepresentative>,
     apprenticeshipContracts: ReadonlyArray<ApprenticeshipContract>,
     persons: ReadonlyArray<Person>
   ): Profile<T> {
     const profile: Profile<T> = {
       student,
-      legalRepresentativePersons: legalRepresentatives.map(
-        (legalRepresentative) =>
+      stayPermitValue: stayPermitValue || undefined,
+      legalRepresentativePersons: legalRepresentatives
+        .map((legalRepresentative) =>
           this.findPerson(legalRepresentative.RepresentativeId, persons)
-      ),
+        )
+        .filter(notNull),
       apprenticeshipCompanies: apprenticeshipContracts.map((contract) =>
         this.createApprenticeshipCompany(contract, persons)
       ),
@@ -171,9 +186,7 @@ export class StudentProfileService {
   ): ApprenticeshipCompany {
     const apprenticeshipCompany: ApprenticeshipCompany = {
       apprenticeshipContract: contract,
-      jobTrainerPerson: contract.JobTrainer
-        ? this.findPerson(contract.JobTrainer, persons)
-        : null,
+      jobTrainerPerson: this.findPerson(contract.JobTrainer, persons),
       apprenticeshipManagerPerson: this.findPerson(
         contract.ApprenticeshipManagerId,
         persons
@@ -182,12 +195,10 @@ export class StudentProfileService {
     return apprenticeshipCompany;
   }
 
-  private findPerson(id: number, persons: ReadonlyArray<Person>): Person {
-    const person = persons.find((p) => p.Id === id);
-    if (person) {
-      return person;
-    } else {
-      throw new Error('person not found in list');
-    }
+  private findPerson(
+    id: Maybe<number>,
+    persons: ReadonlyArray<Person>
+  ): Option<Person> {
+    return id ? persons.find((p) => p.Id === id) || null : null;
   }
 }

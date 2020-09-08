@@ -39,16 +39,18 @@
           </erz-my-profile-entry>
 
           <erz-my-profile-entry
-            *ngIf="data.profile.student.StayPermit"
+            *ngIf="data.profile.stayPermitValue"
             label="my-profile.stay-permit"
-            value="{{ data.profile.student.StayPermit }}"
+            value="{{ data.profile.stayPermitValue }}"
           >
           </erz-my-profile-entry>
 
           <erz-my-profile-entry
             *ngIf="data.profile.student.StayPermitExpiry"
             label="my-profile.stay-permit-expiry"
-            value="{{ data.profile.student.StayPermitExpiry }}"
+            value="{{
+              data.profile.student.StayPermitExpiry | date: 'mediumDate'
+            }}"
           >
           </erz-my-profile-entry>
         </div>

@@ -34,7 +34,7 @@ const Person = t.type({
   PhoneBusiness: Maybe(t.string),
   // Profession: Option(t.string),
   SocialSecurityNumber: Option(t.string),
-  StayPermit: Option(t.string),
+  StayPermit: Option(t.number),
   StayPermitExpiry: Option(LocalDateTimeFromString),
   Zip: Option(t.string),
   // HRef: t.string
