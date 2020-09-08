@@ -7,7 +7,7 @@
       <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
     </div>
   </div>
-  <a class="report btn btn-primary">
+  <a class="report btn btn-primary" [href]="reportUrl" target="_blank">
     <i class="material-icons">description</i>
   </a>
 </div>
