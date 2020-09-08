@@ -14,3 +14,9 @@
   padding: $spacer 0 $spacer $spacer;
   border-bottom: 1px solid #e9ecef;
 }
+
+.report {
+  align-self: flex-start;
+  line-height: 1;
+  font-size: $erz-icon-size;
+}

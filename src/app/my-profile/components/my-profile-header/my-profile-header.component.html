@@ -7,6 +7,8 @@
       <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
     </div>
   </div>
-  <i class="material-icons">description</i>
+  <a class="report btn btn-primary">
+    <i class="material-icons">description</i>
+  </a>
 </div>
 <div class="email" *ngIf="student">{{ student.Email }}</div>
