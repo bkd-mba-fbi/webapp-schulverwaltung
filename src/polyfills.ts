@@ -61,11 +61,16 @@ import '@angular/localize/init';
  */
 import 'core-js/es/array';
 import 'core-js/es/string';
+import 'core-js/es/object';
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone'; // Included with Angular CLI.
+// import 'zone.js/dist/zone'; // Included with Angular CLI.
+
+// Workaround for IE 11, see https://github.com/angular/angular/issues/38561
+// (use above import once fixed or irrelevant)
+import 'zone.js/bundles/zone.umd';
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
