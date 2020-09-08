@@ -12,37 +12,46 @@
       ></erz-my-profile-header>
 
       <div class="profile-content" *ngIf="data.profile; else noProfile">
-        <erz-my-profile-entry
-          label="my-profile.social-security-number"
-          value="{{ data.profile.student.SocialSecurityNumber }}"
-        >
-        </erz-my-profile-entry>
+        <div class="profile-entries pt-3">
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.SocialSecurityNumber"
+            label="my-profile.social-security-number"
+            value="{{ data.profile.student.SocialSecurityNumber }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          label="my-profile.hometown-nationality"
-          value="{{
-            data.profile.student.HomeTown || data.profile.student.Nationality
-          }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="
+              data.profile.student.HomeTown || data.profile.student.Nationality
+            "
+            label="my-profile.hometown-nationality"
+            value="{{
+              data.profile.student.HomeTown || data.profile.student.Nationality
+            }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          label="my-profile.native-language"
-          value="{{ data.profile.student.NativeLanguage }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.NativeLanguage"
+            label="my-profile.native-language"
+            value="{{ data.profile.student.NativeLanguage }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          label="my-profile.stay-permit"
-          value="{{ data.profile.student.StayPermit }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.StayPermit"
+            label="my-profile.stay-permit"
+            value="{{ data.profile.student.StayPermit }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          label="my-profile.stay-permit-expiry"
-          value="{{ data.profile.student.StayPermitExpiry }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.StayPermitExpiry"
+            label="my-profile.stay-permit-expiry"
+            value="{{ data.profile.student.StayPermitExpiry }}"
+          >
+          </erz-my-profile-entry>
+        </div>
 
         <ngb-accordion ngb-accordion #acc="ngbAccordion">
           <ngb-panel id="student-address">
