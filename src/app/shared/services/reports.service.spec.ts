@@ -27,8 +27,8 @@ describe('ReportsService', () => {
 
   describe('personMasterDataReportUrl', () => {
     it('returns the report url', () => {
-      expect(service.personMasterDataReportUrl).toBe(
-        'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290026?token=SOMETOKEN'
+      expect(service.getPersonMasterDataReportUrl(123)).toBe(
+        'https://eventotest.api/Files/CrystalReports/Person/290026?ids=123&token=SOMETOKEN'
       );
     });
   });
