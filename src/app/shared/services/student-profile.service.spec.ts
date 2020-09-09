@@ -1,6 +1,7 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import * as t from 'io-ts/lib/index';
+
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
 import { Person } from 'src/app/shared/models/person.model';
@@ -32,8 +33,6 @@ describe('StudentProfileService', () => {
   let legalRepresentative1: Person;
   let legalRepresentative2: Person;
   let persons: Person[];
-  let profile: Profile<Student>;
-  let myProfile: Profile<Person>;
   let dropDownItems: DropDownItem[];
 
   beforeEach(() => {
@@ -42,7 +41,10 @@ describe('StudentProfileService', () => {
     service = TestBed.inject(StudentProfileService);
 
     student = buildStudent(39405);
+    student.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
+
     myself = buildPerson(39405);
+    myself.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
     myself.StayPermit = 123456798;
 
     legalRepresentatives = [
@@ -76,31 +78,6 @@ describe('StudentProfileService', () => {
       apprenticeshipManager,
     ];
 
-    profile = {
-      student,
-      stayPermitValue: undefined,
-      legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
-      apprenticeshipCompanies: [
-        {
-          apprenticeshipContract,
-          jobTrainerPerson: jobTrainer,
-          apprenticeshipManagerPerson: apprenticeshipManager,
-        },
-      ],
-    };
-    myProfile = {
-      student: myself,
-      stayPermitValue: 'Permit Value',
-      legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
-      apprenticeshipCompanies: [
-        {
-          apprenticeshipContract,
-          jobTrainerPerson: jobTrainer,
-          apprenticeshipManagerPerson: apprenticeshipManager,
-        },
-      ],
-    };
-
     dropDownItems = [{ Key: myself.StayPermit, Value: 'Permit Value' }];
   });
 
@@ -109,11 +86,56 @@ describe('StudentProfileService', () => {
   });
 
   describe('.getProfile', () => {
-    it('gets the profile for the given student', () => {
+    it('returns the profile for the given student', () => {
       service
         .getProfile(student.Id)
         .subscribe((result: Option<Profile<Student>>) => {
-          expect(result).toEqual(profile);
+          expect(result).toEqual({
+            student,
+            stayPermitValue: undefined,
+            legalRepresentativePersons: [
+              legalRepresentative1,
+              legalRepresentative2,
+            ],
+            apprenticeshipCompanies: [
+              {
+                apprenticeshipContract,
+                jobTrainerPerson: jobTrainer,
+                apprenticeshipManagerPerson: apprenticeshipManager,
+              },
+            ],
+          });
+        });
+      expectStudentRequest(student.Id);
+      expectLegalRepresentativesRequest(student.Id);
+      expectApprenticeshipContractRequest(student.Id);
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile without legal representatives for adult student', () => {
+      student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+
+      service
+        .getProfile(student.Id)
+        .subscribe((result: Option<Profile<Student>>) => {
+          expect(result?.legalRepresentativePersons).toEqual([]);
+        });
+      expectStudentRequest(student.Id);
+      expectLegalRepresentativesRequest(student.Id);
+      expectApprenticeshipContractRequest(student.Id);
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile only with legal representatives with flag for adult student', () => {
+      student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+      legalRepresentatives[0].RepresentativeAfterMajority = true;
+
+      service
+        .getProfile(student.Id)
+        .subscribe((result: Option<Profile<Student>>) => {
+          expect(result?.legalRepresentativePersons).toEqual([
+            legalRepresentative1,
+          ]);
         });
       expectStudentRequest(student.Id);
       expectLegalRepresentativesRequest(student.Id);
@@ -123,9 +145,52 @@ describe('StudentProfileService', () => {
   });
 
   describe('.getMyProfile', () => {
-    it('gets the profile for the current user', () => {
+    it('returns the profile for the current user', () => {
       service.getMyProfile().subscribe((result: Profile<Person>) => {
-        expect(result).toEqual(myProfile);
+        expect(result).toEqual({
+          student: myself,
+          stayPermitValue: 'Permit Value',
+          legalRepresentativePersons: [
+            legalRepresentative1,
+            legalRepresentative2,
+          ],
+          apprenticeshipCompanies: [
+            {
+              apprenticeshipContract,
+              jobTrainerPerson: jobTrainer,
+              apprenticeshipManagerPerson: apprenticeshipManager,
+            },
+          ],
+        });
+      });
+      expectMyPersonRequest();
+      expectLegalRepresentativesRequest(myself.Id);
+      expectApprenticeshipContractRequest(myself.Id);
+      expectLoadStayPermitValueRequest();
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile without legal representatives for adult user', () => {
+      myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result.legalRepresentativePersons).toEqual([]);
+      });
+      expectMyPersonRequest();
+      expectLegalRepresentativesRequest(myself.Id);
+      expectApprenticeshipContractRequest(myself.Id);
+      expectLoadStayPermitValueRequest();
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile only with legal representatives with flag for adult', () => {
+      myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+      legalRepresentatives[0].RepresentativeAfterMajority = true;
+
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result.legalRepresentativePersons).toEqual([
+          legalRepresentative1,
+        ]);
       });
       expectMyPersonRequest();
       expectLegalRepresentativesRequest(myself.Id);

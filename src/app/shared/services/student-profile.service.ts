@@ -11,9 +11,10 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { DropDownItemsRestService } from './drop-down-items-rest.service';
-import { spreadTriplet, spreadQuadruple } from 'src/app/shared/utils/function';
+import { spreadTriplet, spreadQuadruplet } from 'src/app/shared/utils/function';
 import { catch404 } from 'src/app/shared/utils/observable';
 import { notNull } from '../utils/filter';
+import { isAdult } from '../utils/persons';
 
 export interface Profile<T extends Student | Person> {
   student: T;
@@ -72,7 +73,7 @@ export class StudentProfileService {
           )
         )
         .pipe(
-          switchMap(spreadQuadruple(this.mapToProfile.bind(this))),
+          switchMap(spreadQuadruplet(this.mapToProfile.bind(this))),
           filter(notNull) // For (type-)safety, should never be null
         )
     );
@@ -168,7 +169,10 @@ export class StudentProfileService {
     const profile: Profile<T> = {
       student,
       stayPermitValue: stayPermitValue || undefined,
-      legalRepresentativePersons: legalRepresentatives
+      legalRepresentativePersons: this.getRelevantLegalRepresentatives(
+        student,
+        legalRepresentatives
+      )
         .map((legalRepresentative) =>
           this.findPerson(legalRepresentative.RepresentativeId, persons)
         )
@@ -178,6 +182,16 @@ export class StudentProfileService {
       ),
     };
     return profile;
+  }
+
+  private getRelevantLegalRepresentatives<T extends Student | Person>(
+    person: T,
+    legalRepresentatives: ReadonlyArray<LegalRepresentative>
+  ): ReadonlyArray<LegalRepresentative> {
+    const adult = isAdult(person);
+    return legalRepresentatives.filter(
+      (representative) => !adult || representative.RepresentativeAfterMajority
+    );
   }
 
   private createApprenticeshipCompany(

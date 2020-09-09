@@ -183,7 +183,7 @@ export function buildLegalRepresentative(
     // StudentId: 0,
     // DateFrom: null,
     // DateTo: null,
-    // RepresentativeAfterMajority: false
+    RepresentativeAfterMajority: false,
   };
 }
 
