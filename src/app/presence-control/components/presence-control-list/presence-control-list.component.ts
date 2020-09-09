@@ -26,6 +26,7 @@ import {
 import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
+import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -110,6 +111,10 @@ export class PresenceControlListComponent
           );
         }
       });
+  }
+
+  saveIncident(entry: PresenceControlEntry): void {
+    this.modalService.open(PresenceControlIncidentComponent);
   }
 
   private restoreStateFromParams(params: Params): void {

@@ -38,16 +38,9 @@
 </a>
 <a
   *ngIf="entry.canChangePresenceType"
-  class="comment"
-  [routerLink]="[
-    '/presence-control/comment',
-    entry.lessonPresence.StudentRef.Id,
-    entry.lessonPresence.LessonRef.Id
-  ]"
+  class="incident btn btn-link"
+  (click)="updateIncident(entry)"
 >
-  <i class="material-icons">notes</i>
-  <span>{{
-    entry.lessonPresence.Comment ||
-      ('presence-control.entry.comment' | translate)
-  }}</span>
+  <i class="material-icons">edit</i>
+  <span>{{ 'presence-control.entry.incident' | translate }}</span>
 </a>

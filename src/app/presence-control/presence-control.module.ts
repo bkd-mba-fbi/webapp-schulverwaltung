@@ -9,6 +9,7 @@ import { PresenceControlCommentComponent } from './components/presence-control-c
 import { PresenceControlEntryComponent } from './components/presence-control-entry/presence-control-entry.component';
 import { PresenceControlDialogComponent } from './components/presence-control-dialog/presence-control-dialog.component';
 import { STUDENT_PROFILE_BACKLINK } from '../shared/tokens/student-profile-backlink';
+import { PresenceControlIncidentComponent } from './components/presence-control-incident/presence-control-incident.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { STUDENT_PROFILE_BACKLINK } from '../shared/tokens/student-profile-backl
     PresenceControlCommentComponent,
     PresenceControlEntryComponent,
     PresenceControlDialogComponent,
+    PresenceControlIncidentComponent,
   ],
   providers: [
     { provide: STUDENT_PROFILE_BACKLINK, useValue: '/presence-control' },
