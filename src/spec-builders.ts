@@ -53,7 +53,7 @@ export function buildLessonPresence(
     StudentFullName: studentName,
     // StudyClassDesignation: '',
     StudyClassNumber: '9a',
-    // TeacherInformation: '',
+    TeacherInformation: '',
     WasAbsentInPrecedingLesson: null,
   };
 }

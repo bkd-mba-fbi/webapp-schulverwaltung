@@ -138,6 +138,7 @@
             <ng-template ngbPanelContent>
               <erz-student-profile-absences
                 [absences$]="absencesService.unexcusedAbsences$"
+                [displayPresenceType]="false"
               ></erz-student-profile-absences>
             </ng-template>
           </ngb-panel>
@@ -176,6 +177,7 @@
             <ng-template ngbPanelContent>
               <erz-student-profile-absences
                 [absences$]="absencesService.halfDays$"
+                [displayPresenceType]="false"
               ></erz-student-profile-absences>
             </ng-template>
           </ngb-panel>

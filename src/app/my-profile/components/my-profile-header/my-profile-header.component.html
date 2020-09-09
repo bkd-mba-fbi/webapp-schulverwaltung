@@ -7,13 +7,15 @@
       <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
     </div>
   </div>
-  <a
-    *ngIf="reportUrl"
-    [href]="reportUrl"
-    class="report btn btn-primary mr-2"
-    target="_blank"
-  >
-    <i class="material-icons">description</i>
-  </a>
+  <ng-container *erzLet="reportUrl$ | async as reportUrl">
+    <a
+      *ngIf="reportUrl"
+      [href]="reportUrl"
+      class="report btn btn-primary mr-2"
+      target="_blank"
+    >
+      <i class="material-icons">description</i>
+    </a>
+  </ng-container>
 </div>
 <div class="email" *ngIf="student">{{ student.Email }}</div>

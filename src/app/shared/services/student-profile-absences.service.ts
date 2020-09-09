@@ -42,6 +42,22 @@ export class StudentProfileAbsencesService {
     this.studentId$.next(id);
   }
 
+  private getAbsences(
+    loadFn: (
+      studentId: number
+    ) => Observable<Option<ReadonlyArray<LessonPresence>>>
+  ): Observable<Option<ReadonlyArray<LessonPresence>>> {
+    return this.studentId$.pipe(
+      switchMap(loadFn),
+      startWith(null),
+      // Clear the cache if all subscribers disconnect (don't replay the previous value)
+      multicast(
+        () => new ReplaySubject<Option<ReadonlyArray<LessonPresence>>>(1)
+      ),
+      refCount()
+    );
+  }
+
   private getCounts(): Observable<StudentProfileAbsencesCounts> {
     return this.studentId$.pipe(
       switchMap((studentId) => {
@@ -57,22 +73,6 @@ export class StudentProfileAbsencesService {
         incidents: statistics?.TotalIncidents ?? null,
         halfDays: statistics?.TotalHalfDays ?? null,
       }))
-    );
-  }
-
-  private getAbsences(
-    loadFn: (
-      studentId: number
-    ) => Observable<Option<ReadonlyArray<LessonPresence>>>
-  ): Observable<Option<ReadonlyArray<LessonPresence>>> {
-    return this.studentId$.pipe(
-      switchMap(loadFn),
-      startWith(null),
-      // Clear the cache if all subscribers disconnect (don't replay the previous value)
-      multicast(
-        () => new ReplaySubject<Option<ReadonlyArray<LessonPresence>>>(1)
-      ),
-      refCount()
     );
   }
 

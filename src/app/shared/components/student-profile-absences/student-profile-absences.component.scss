@@ -3,10 +3,12 @@
 /* autoprefixer grid: on */
 
 .absence-all {
-  padding: 0 $spacer (0.5 * $spacer) $spacer;
+  padding: 0 0 (0.5 * $spacer) $spacer;
   border-bottom: 1px solid $gray-200;
   display: grid;
-  grid-template-areas: "checkbox all buttons";
+  grid-template-areas:
+    "checkbox all buttons"
+    "validation validation validation";
   grid-template-columns: min-content 1fr min-content;
 }
 
@@ -21,7 +23,7 @@
   display: grid;
   grid-template-areas:
     "checkbox lesson-class time teacher"
-    "checkbox comment date days-ago";
+    "checkbox presence-type date days-ago";
   grid-template-columns: min-content 3fr 1fr 1fr;
 }
 
@@ -55,12 +57,20 @@
 
 .buttons {
   grid-area: buttons;
-  margin-right: $spacer;
+  display: flex;
 
   .btn {
     line-height: 1;
     font-size: $erz-icon-size;
   }
+}
+
+.validation {
+  grid-area: validation;
+}
+.validation,
+.presence-type.confirm {
+  color: $form-feedback-invalid-color;
 }
 
 .lesson-class {
@@ -78,14 +88,9 @@
   grid-area: teacher;
 }
 
-.time-teacher {
-  grid-area: time-teacher;
-  display: none;
-}
-
-.comment {
+.presence-type {
   color: $gray-500;
-  grid-area: comment;
+  grid-area: presence-type;
 }
 
 .date {
@@ -93,7 +98,7 @@
 }
 
 .days-ago {
-  color: $gray-600;
+  color: $gray-500;
   grid-area: days-ago;
 }
 
@@ -106,19 +111,17 @@
   .absence-entry {
     grid-template-areas:
       "checkbox lesson-class"
-      "checkbox time-teacher"
+      "checkbox teacher"
       "checkbox date-days-ago"
-      "checkbox comment";
+      "checkbox time"
+      "checkbox presence-type";
     grid-template-columns: min-content 1fr;
   }
 
-  .time-teacher,
   .date-days-ago {
     display: block;
   }
 
-  .time,
-  .teacher,
   .date,
   .days-ago {
     display: none;

@@ -60,4 +60,8 @@ window.absenzenmanagement.settings = {
    */
   // Id of the report that contains a user's master data (used in my profile)
   personMasterDataReportId: 290026,
+
+  // Id of the report that contains the open absences with
+  // confirmation values to sign (used in my absences)
+  studentConfirmationReportId: 30,
 };

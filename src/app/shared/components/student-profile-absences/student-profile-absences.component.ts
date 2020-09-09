@@ -9,7 +9,13 @@ import {
   QueryList,
   ElementRef,
 } from '@angular/core';
-import { Observable, combineLatest, ReplaySubject } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  ReplaySubject,
+  BehaviorSubject,
+  of,
+} from 'rxjs';
 import {
   switchMap,
   filter,
@@ -25,6 +31,7 @@ import { LessonPresence } from '../../models/lesson-presence.model';
 import { notNull, not } from '../../utils/filter';
 import { isArray } from '../../utils/array';
 import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
+import { PresenceTypesService } from '../../services/presence-types.service';
 
 @Component({
   selector: 'erz-student-profile-absences',
@@ -35,6 +42,27 @@ import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences
 export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
   @Input() absences$?: Observable<ReadonlyArray<LessonPresence>>;
   @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
+
+  /**
+   * Whether display the presence type's designation (but only if is
+   * not the default absence type).
+   */
+  @Input() displayPresenceType = true;
+
+  /**
+   * If set to a string, this message will be displayed, if the
+   * selection contains absences that have no absence type (i.e. the
+   * default absence type). Also, entries without absence type will be
+   * annotated.
+   */
+  @Input() defaultAbsenceSelectionMessage: Option<string> = null;
+
+  /**
+   * The report button be shown disabled if `reportAvailable` is true
+   * but no `reportUrl` is given.
+   */
+  @Input() reportUrl: Option<string> = null;
+  @Input() reportAvailable = false;
 
   @ViewChildren('checkbox') checkboxes: QueryList<ElementRef<HTMLInputElement>>;
 
@@ -51,6 +79,8 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
   selectionService$ = new ReplaySubject<ConfirmAbsencesSelectionService>(1);
   editable$ = this.selectionService$.pipe(mapTo(true), startWith(false));
 
+  private displayPresenceType$ = new BehaviorSubject<boolean>(true);
+
   allSelected$ = combineLatest([
     this.lessonPresences$.pipe(filter(notNull)),
     this.selectionService$.pipe(switchMap((service) => service.selection$)),
@@ -61,7 +91,7 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
     )
   );
 
-  constructor() {}
+  constructor(private presenceTypesService: PresenceTypesService) {}
 
   ngOnInit(): void {}
 
@@ -72,6 +102,9 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
     if (changes.selectionService && changes.selectionService.currentValue) {
       changes.selectionService.currentValue.clear();
       this.selectionService$.next(changes.selectionService.currentValue);
+    }
+    if (changes.displayPresenceType) {
+      this.displayPresenceType$.next(changes.displayPresenceType.currentValue);
     }
   }
 
@@ -99,8 +132,26 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
     } else {
       checkbox = indexOrCheckbox;
     }
-    if (event.target !== checkbox) {
+    if (
+      event.target !== checkbox &&
+      !Boolean((event.target as HTMLElement).closest('.buttons'))
+    ) {
       checkbox.click();
     }
+  }
+
+  getPresenceTypeDesignation(
+    absence: LessonPresence
+  ): Observable<Option<string>> {
+    return this.displayPresenceType$.pipe(
+      switchMap((display) =>
+        display ? this.presenceTypesService.displayedTypes$ : of([])
+      ),
+      map((types) =>
+        absence.TypeRef.Id
+          ? types.find((t) => t.Id === absence.TypeRef.Id)?.Designation || null
+          : null
+      )
+    );
   }
 }

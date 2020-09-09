@@ -1,0 +1,14 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacer;
+  cursor: pointer;
+}
+
+.btn {
+  color: $body-color;
+  text-decoration: none;
+}

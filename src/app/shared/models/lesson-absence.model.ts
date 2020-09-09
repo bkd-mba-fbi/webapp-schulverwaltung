@@ -2,6 +2,7 @@ import * as t from 'io-ts';
 import { Reference, Option } from './common-types';
 
 const LessonAbsence = t.type({
+  Id: t.string,
   LessonRef: Reference,
   StudentRef: Reference,
   TypeRef: Reference,
@@ -10,6 +11,9 @@ const LessonAbsence = t.type({
   Comment: Option(t.string),
   StudentFullName: t.string,
   Type: Option(t.string),
+  // IsHalfDayAbsence: t.boolean,
+  // HalfDayPoint: Option(/* number maybe? */),
+  RegistrationId: t.number,
   HRef: t.string,
 });
 type LessonAbsence = t.TypeOf<typeof LessonAbsence>;

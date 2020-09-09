@@ -9,6 +9,9 @@ import { decodeArray } from '../utils/decode';
 import { Student } from '../models/student.model';
 import { LegalRepresentative } from '../models/legal-representative.model';
 import { ApprenticeshipContract } from '../models/apprenticeship-contract.model';
+import { TimetableEntry } from '../models/timetable-entry.model';
+import { LessonAbsence } from '../models/lesson-absence.model';
+import { LessonIncident } from '../models/lesson-incident.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +26,7 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<LegalRepresentative>> {
     return this.http
-      .get<any[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives`, {
+      .get<unknown[]>(`${this.baseUrl}/${studentId}/LegalRepresentatives`, {
         params,
       })
       .pipe(switchMap(decodeArray(LegalRepresentative)));
@@ -34,12 +37,45 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<ApprenticeshipContract>> {
     return this.http
-      .get<any>(
+      .get<unknown>(
         `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current`,
         {
           params,
         }
       )
       .pipe(switchMap(decodeArray(ApprenticeshipContract)));
+  }
+
+  getLessonAbsences(
+    studentId: number,
+    params?: HttpParams | Dict<string>
+  ): Observable<ReadonlyArray<LessonAbsence>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${studentId}/LessonAbsences`, {
+        params,
+      })
+      .pipe(switchMap(decodeArray(LessonAbsence)));
+  }
+
+  getLessonIncidents(
+    studentId: number,
+    params?: HttpParams | Dict<string>
+  ): Observable<ReadonlyArray<LessonIncident>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${studentId}/LessonIncidents`, {
+        params,
+      })
+      .pipe(switchMap(decodeArray(LessonIncident)));
+  }
+
+  getTimetableEntries(
+    studentId: number,
+    params?: HttpParams | Dict<string>
+  ): Observable<ReadonlyArray<TimetableEntry>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${studentId}/TimetableEntries`, {
+        params,
+      })
+      .pipe(switchMap(decodeArray(TimetableEntry)));
   }
 }

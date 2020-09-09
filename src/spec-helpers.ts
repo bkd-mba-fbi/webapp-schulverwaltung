@@ -31,6 +31,7 @@ export const settings: Settings = {
   excusedAbsenceStateId: 220,
   unconfirmedAbsencesRefreshTime: null,
   personMasterDataReportId: 290026,
+  studentConfirmationReportId: 30,
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {

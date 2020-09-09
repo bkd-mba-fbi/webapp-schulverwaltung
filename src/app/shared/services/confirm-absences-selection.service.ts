@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { map, shareReplay, take } from 'rxjs/operators';
 import { not } from 'fp-ts/lib/function';
 
@@ -8,6 +8,7 @@ import { getIdsGroupedByPerson } from 'src/app/shared/utils/lesson-presences';
 import { isInstanceOf } from 'src/app/shared/utils/filter';
 import { OpenAbsencesEntry } from 'src/app/open-absences/models/open-absences-entry.model';
 import { flattenOpenAbsencesEntries } from 'src/app/open-absences/utils/open-absences-entries';
+import { SETTINGS, Settings } from 'src/app/settings';
 
 @Injectable({
   providedIn: 'any', // Every module should have its own instance
@@ -25,6 +26,23 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
     ),
     shareReplay(1)
   );
+
+  /**
+   * Selected lesson presences that have no absence type (i.e. the
+   * default absence type).
+   */
+  selectedWithoutPresenceType$ = this.selection$.pipe(
+    map(getEntriesByType),
+    map(({ lessonPresences }) =>
+      lessonPresences.filter(
+        (p) => p.TypeRef.Id === this.settings.absencePresenceTypeId
+      )
+    )
+  );
+
+  constructor(@Inject(SETTINGS) private settings: Settings) {
+    super();
+  }
 
   clearNonOpenAbsencesEntries(): void {
     this.selection$

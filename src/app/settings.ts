@@ -16,6 +16,7 @@ const Settings = t.type({
   excusedAbsenceStateId: t.number,
   unconfirmedAbsencesRefreshTime: Option(t.number),
   personMasterDataReportId: t.number,
+  studentConfirmationReportId: t.number,
 });
 
 type Settings = t.TypeOf<typeof Settings>;

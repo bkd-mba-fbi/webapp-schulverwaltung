@@ -41,3 +41,13 @@ export function getIdsGroupedByLesson(
     };
   });
 }
+
+export function sortLessonPresencesByDate(
+  lessonPresences: ReadonlyArray<LessonPresence>
+): ReadonlyArray<LessonPresence> {
+  return lessonPresences
+    .slice()
+    .sort(
+      (a, b) => a.LessonDateTimeFrom.getTime() - b.LessonDateTimeFrom.getTime()
+    );
+}

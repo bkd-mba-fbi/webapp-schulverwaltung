@@ -23,21 +23,42 @@ import { sortPresenceTypes } from '../utils/presence-types';
 export class PresenceTypesService {
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
+  /**
+   * All currently active presence types
+   */
   activePresenceTypes$ = this.presenceTypes$.pipe(
     map(this.filterActiveTypes.bind(this)),
     shareReplay(1)
   );
 
+  /**
+   * Currently active presence types that need confirmation
+   */
   confirmationTypes$ = this.presenceTypes$.pipe(
     map(this.filterConfirmationTypes.bind(this)),
     shareReplay(1)
   );
 
+  /**
+   * Presence types that represent an incident
+   */
   incidentTypes$ = this.presenceTypes$.pipe(
     map(this.filterIncidentTypes.bind(this)),
     shareReplay(1)
   );
 
+  /**
+   * Presence types that should be displayed in profile and in my
+   * absences
+   */
+  displayedTypes$ = this.presenceTypes$.pipe(
+    map(this.filterDisplayedTypes.bind(this)),
+    shareReplay(1)
+  );
+
+  /**
+   * Boolean whether half day type is active for current tenant
+   */
   halfDayActive$ = this.presenceTypes$.pipe(
     map(this.isHalfDayActive.bind(this)),
     startWith(false),
@@ -75,6 +96,14 @@ export class PresenceTypesService {
     presenceTypes: ReadonlyArray<PresenceType>
   ): ReadonlyArray<PresenceType> {
     return presenceTypes.filter((t) => t.IsIncident && t.Active);
+  }
+
+  private filterDisplayedTypes(
+    presenceTypes: ReadonlyArray<PresenceType>
+  ): ReadonlyArray<PresenceType> {
+    return presenceTypes.filter(
+      (t) => t.Id !== this.settings.absencePresenceTypeId
+    );
   }
 
   private isHalfDayActive(presenceTypes: ReadonlyArray<PresenceType>): boolean {

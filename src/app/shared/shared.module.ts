@@ -39,16 +39,14 @@ const components = [
   StudentProfileAddressComponent,
   StudentProfileLegalRepresentativeComponent,
   StudentProfileApprenticeshipCompanyComponent,
+  StudentProfileAbsencesComponent,
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,
 ];
 
-// Components only used within the shared module
-const internalComponents = [StudentProfileAbsencesComponent];
-
 @NgModule({
-  declarations: [...components, internalComponents],
+  declarations: [...components],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },

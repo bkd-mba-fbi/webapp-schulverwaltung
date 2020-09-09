@@ -1,0 +1,98 @@
+<div
+  class="erz-container erz-container-limited erz-container-padding-y erz-container-padding-x-responsive"
+  *erzLet="{
+    absenceCounts: myAbsencesService.counts$ | async
+  } as data"
+>
+  <ngb-accordion ngb-accordion #acc="ngbAccordion">
+    <ngb-panel id="report-absence">
+      <ng-template ngbPanelHeader>
+        <erz-my-absences-report-link></erz-my-absences-report-link>
+      </ng-template>
+      <ng-template ngbPanelContent></ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="open-absences">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('open-absences')"
+        >
+          {{ 'shared.profile.open-absences' | translate }}
+          <ng-container *ngIf="data.absenceCounts.openAbsences != null"
+            >({{ data.absenceCounts.openAbsences }})</ng-container
+          >
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-absences
+          [absences$]="myAbsencesService.openAbsences$"
+          [selectionService]="absencesSelectionService"
+          [defaultAbsenceSelectionMessage]="
+            'my-absences.show.default-absence-selection-message' | translate
+          "
+          [reportUrl]="reportUrl$ | async"
+          [reportAvailable]="reportAvailable$ | async"
+        ></erz-student-profile-absences>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="excused-absences">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('excused-absences')"
+        >
+          {{ 'shared.profile.excused-absences' | translate }}
+          <ng-container *ngIf="data.absenceCounts.excusedAbsences != null"
+            >({{ data.absenceCounts.excusedAbsences }})</ng-container
+          >
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-absences
+          [absences$]="myAbsencesService.excusedAbsences$"
+        ></erz-student-profile-absences>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="unexcused-absences">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('unexcused-absences')"
+        >
+          {{ 'shared.profile.unexcused-absences' | translate }}
+          <ng-container *ngIf="data.absenceCounts.unexcusedAbsences != null"
+            >({{ data.absenceCounts.unexcusedAbsences }})</ng-container
+          >
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-absences
+          [absences$]="myAbsencesService.unexcusedAbsences$"
+          [displayPresenceType]="false"
+        ></erz-student-profile-absences>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="incidents">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('incidents')"
+        >
+          {{ 'shared.profile.incidents' | translate }}
+          <ng-container *ngIf="data.absenceCounts.incidents != null"
+            >({{ data.absenceCounts.incidents }})</ng-container
+          >
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-absences
+          [absences$]="myAbsencesService.incidents$"
+        ></erz-student-profile-absences>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

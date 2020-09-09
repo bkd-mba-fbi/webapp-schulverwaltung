@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -24,6 +24,7 @@ import { getControlValidationErrors } from 'src/app/shared/utils/form';
   selector: 'erz-my-profile-edit',
   templateUrl: './my-profile-edit.component.html',
   styleUrls: ['./my-profile-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileEditComponent implements OnInit {
   student$ = this.profileService.profile$.pipe(pluck('student'));

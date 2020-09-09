@@ -38,6 +38,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'my-absences',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./my-absences/my-absences.module').then(
+        (m) => m.MyAbsencesModule
+      ),
+  },
+  {
     path: 'my-profile',
     canActivate: [AuthGuard],
     loadChildren: () =>

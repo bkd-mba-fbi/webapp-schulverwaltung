@@ -153,6 +153,23 @@
       }
     }
   },
+  "my-absences": {
+    "title": "Meine Absenzen",
+    "show": {
+      "report-absence-link": "Absenz melden",
+      "default-absence-selection-message": "Sie müssen bei allen offenen Absenzen einen Grund erfassen, bevor Sie das Entschuldigungsformular herunterladen können.",
+      "confirm-presence-type": "Grund erfassen"
+    },
+    "confirm": {
+      "lesson-selected": "{{count}} Lektion ausgewählt",
+      "lessons-selected": "{{count}} Lektionen ausgewählt",
+      "choose-presence-type": "Absenzgrund auswählen",
+      "remark": "Bereits erfasste Absenzgründe werden überschrieben.",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
+    }
+  },
   "my-profile": {
     "title": "Mein Profil",
     "show": {

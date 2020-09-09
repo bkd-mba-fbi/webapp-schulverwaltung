@@ -3,6 +3,7 @@ import { LessonPresence } from '../models/lesson-presence.model';
 import {
   getIdsGroupedByPerson,
   getIdsGroupedByLesson,
+  sortLessonPresencesByDate,
 } from './lesson-presences';
 
 describe('lesson presences utils', () => {
@@ -33,6 +34,21 @@ describe('lesson presences utils', () => {
         { lessonIds: [10], personIds: [20, 21] },
         { lessonIds: [11], personIds: [21] },
       ]);
+    });
+  });
+
+  describe('sortLessonPresencesByDate', () => {
+    it('sorts lesson presences by LessonDateTimeFrom attribute', () => {
+      presenceA.LessonDateTimeFrom = new Date(2000, 1, 23, 12, 30);
+      presenceB.LessonDateTimeFrom = new Date(2000, 1, 23, 9, 0);
+      presenceC.LessonDateTimeFrom = new Date(2000, 1, 23, 12, 0);
+
+      const result = sortLessonPresencesByDate([
+        presenceA,
+        presenceB,
+        presenceC,
+      ]);
+      expect(result).toEqual([presenceB, presenceC, presenceA]);
     });
   });
 });

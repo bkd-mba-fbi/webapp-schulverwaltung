@@ -18,12 +18,31 @@
 
       <div class="buttons">
         <a
-          class="edit btn btn-primary"
+          class="edit btn btn-primary mr-2"
           [class.disabled]="(selectionService.selection$ | async).length === 0"
           routerLink="confirm"
         >
           <i class="material-icons">edit</i>
         </a>
+        <a
+          *ngIf="reportAvailable"
+          class="report btn btn-primary mr-2"
+          [class.disabled]="!reportUrl"
+          [href]="reportUrl"
+          target="_blank"
+        >
+          <i class="material-icons">description</i>
+        </a>
+      </div>
+
+      <div
+        *ngIf="
+          defaultAbsenceSelectionMessage &&
+          (selectionService.selectedWithoutPresenceType$ | async)?.length > 0
+        "
+        class="validation"
+      >
+        {{ defaultAbsenceSelectionMessage }}
       </div>
     </div>
 
@@ -42,7 +61,10 @@
         />
       </div>
       <div class="lesson-class">
-        {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
+        {{ absence.EventDesignation
+        }}<ng-container *ngIf="absence.StudyClassNumber"
+          >, {{ absence.StudyClassNumber }}</ng-container
+        >
       </div>
       <div class="time pr-2">
         {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
@@ -52,14 +74,25 @@
       <div class="teacher">
         {{ absence.TeacherInformation }}
       </div>
-      <div class="time-teacher">
-        {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-          absence.LessonDateTimeTo | date: 'HH:mm'
-        }}, {{ absence.TeacherInformation }}
-      </div>
-      <div class="comment" *ngIf="absence.Comment">
-        {{ absence.Comment }}
-      </div>
+      <ng-container
+        *erzLet="
+          getPresenceTypeDesignation(absence) | async as presenceTypeDesignation
+        "
+      >
+        <div *ngIf="presenceTypeDesignation" class="presence-type">
+          {{ presenceTypeDesignation }}
+        </div>
+        <div
+          *ngIf="
+            displayPresenceType &&
+            !presenceTypeDesignation &&
+            defaultAbsenceSelectionMessage
+          "
+          class="presence-type confirm"
+        >
+          {{ 'my-absences.show.confirm-presence-type' | translate }}
+        </div>
+      </ng-container>
       <div class="date">
         {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }}
       </div>
