@@ -50,7 +50,8 @@
       "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten."
     },
     "incident": {
-      "text": "Vorfall erfassen",
+      "text": "Vorfall erfassen:",
+      "no-incident": "Kein Vorfall",
       "cancel": "Abbrechen",
       "save": "Übernehmen"
     },

@@ -2,6 +2,36 @@
   <p>
     {{ 'presence-control.incident.text' | translate }}
   </p>
+  <form>
+    <div class="form-group form-check mb-4">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="incident"
+        value=""
+        id="incident-empty"
+        checked
+      />
+      <label class="form-check-label" for="incident-empty">
+        {{ 'presence-control.incident.no-incident' | translate }}
+      </label>
+    </div>
+    <div
+      *ngFor="let type of incidentTypes$ | async; let i = index"
+      class="form-group form-check"
+    >
+      <input
+        class="form-check-input"
+        type="radio"
+        name="incident"
+        value="{{ type.Id }}"
+        id="incident-{{ i }}"
+      />
+      <label class="form-check-label" for="incident-{{ i }}">
+        {{ type.Designation }}
+      </label>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
