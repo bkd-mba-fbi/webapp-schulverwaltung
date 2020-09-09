@@ -151,6 +151,14 @@
       }
     }
   },
+  "my-profile": {
+    "title": "Mein Profil",
+    "social-security-number": "Sozialversicherungsnummer",
+    "hometown-nationality": "Heimatort / Nationalität",
+    "native-language": "Erstsprache",
+    "stay-permit": "Aufenthaltsbewilligung",
+    "stay-permit-expiry": "Ablauf der Aufenthaltsbewilligung"
+  },
   "shared": {
     "date-select": {
       "default-placeholder": "Datum wählen..."
@@ -167,6 +175,8 @@
     },
     "profile": {
       "student-address": "Adresse",
+      "correspondence-address": "Korrespondenzadresse",
+      "billing-address": "Rechnungsadresse",
       "legal-representation": "Gesetzliche Vertretung",
       "apprenticeship-company": "Lehrbetrieb",
       "apprenticeship-period": "Lehrzeit",

@@ -1,6 +1,7 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import * as t from 'io-ts/lib/index';
+
 import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
 import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
 import { Person } from 'src/app/shared/models/person.model';
@@ -17,12 +18,14 @@ import {
   StudentProfileService,
   Profile,
 } from '../../shared/services/student-profile.service';
+import { DropDownItem } from '../models/drop-down-item.model';
 
 describe('StudentProfileService', () => {
   let httpTestingController: HttpTestingController;
   let service: StudentProfileService;
 
   let student: Student;
+  let myself: Person;
   let legalRepresentatives: LegalRepresentative[];
   let apprenticeshipContract: ApprenticeshipContract;
   let jobTrainer: Person;
@@ -30,7 +33,7 @@ describe('StudentProfileService', () => {
   let legalRepresentative1: Person;
   let legalRepresentative2: Person;
   let persons: Person[];
-  let profile: Profile;
+  let dropDownItems: DropDownItem[];
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
@@ -38,6 +41,12 @@ describe('StudentProfileService', () => {
     service = TestBed.inject(StudentProfileService);
 
     student = buildStudent(39405);
+    student.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
+
+    myself = buildPerson(39405);
+    myself.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
+    myself.StayPermit = 123456798;
+
     legalRepresentatives = [
       buildLegalRepresentative(56248, 22080),
       buildLegalRepresentative(56249, 39403),
@@ -69,17 +78,7 @@ describe('StudentProfileService', () => {
       apprenticeshipManager,
     ];
 
-    profile = {
-      student,
-      legalRepresentativePersons: [legalRepresentative1, legalRepresentative2],
-      apprenticeshipCompanies: [
-        {
-          apprenticeshipContract,
-          jobTrainerPerson: jobTrainer,
-          apprenticeshipManagerPerson: apprenticeshipManager,
-        },
-      ],
-    };
+    dropDownItems = [{ Key: myself.StayPermit, Value: 'Permit Value' }];
   });
 
   afterEach(() => {
@@ -87,10 +86,57 @@ describe('StudentProfileService', () => {
   });
 
   describe('.getProfile', () => {
-    it('gets the profile for the given student', () => {
-      service.getProfile(student.Id).subscribe((result: Option<Profile>) => {
-        expect(result).toEqual(profile);
-      });
+    it('returns the profile for the given student', () => {
+      service
+        .getProfile(student.Id)
+        .subscribe((result: Option<Profile<Student>>) => {
+          expect(result).toEqual({
+            student,
+            stayPermitValue: undefined,
+            legalRepresentativePersons: [
+              legalRepresentative1,
+              legalRepresentative2,
+            ],
+            apprenticeshipCompanies: [
+              {
+                apprenticeshipContract,
+                jobTrainerPerson: jobTrainer,
+                apprenticeshipManagerPerson: apprenticeshipManager,
+              },
+            ],
+          });
+        });
+      expectStudentRequest(student.Id);
+      expectLegalRepresentativesRequest(student.Id);
+      expectApprenticeshipContractRequest(student.Id);
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile without legal representatives for adult student', () => {
+      student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+
+      service
+        .getProfile(student.Id)
+        .subscribe((result: Option<Profile<Student>>) => {
+          expect(result?.legalRepresentativePersons).toEqual([]);
+        });
+      expectStudentRequest(student.Id);
+      expectLegalRepresentativesRequest(student.Id);
+      expectApprenticeshipContractRequest(student.Id);
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile only with legal representatives with flag for adult student', () => {
+      student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+      legalRepresentatives[0].RepresentativeAfterMajority = true;
+
+      service
+        .getProfile(student.Id)
+        .subscribe((result: Option<Profile<Student>>) => {
+          expect(result?.legalRepresentativePersons).toEqual([
+            legalRepresentative1,
+          ]);
+        });
       expectStudentRequest(student.Id);
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
@@ -98,9 +144,70 @@ describe('StudentProfileService', () => {
     });
   });
 
+  describe('.getMyProfile', () => {
+    it('returns the profile for the current user', () => {
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result).toEqual({
+          student: myself,
+          stayPermitValue: 'Permit Value',
+          legalRepresentativePersons: [
+            legalRepresentative1,
+            legalRepresentative2,
+          ],
+          apprenticeshipCompanies: [
+            {
+              apprenticeshipContract,
+              jobTrainerPerson: jobTrainer,
+              apprenticeshipManagerPerson: apprenticeshipManager,
+            },
+          ],
+        });
+      });
+      expectMyPersonRequest();
+      expectLegalRepresentativesRequest(myself.Id);
+      expectApprenticeshipContractRequest(myself.Id);
+      expectLoadStayPermitValueRequest();
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile without legal representatives for adult user', () => {
+      myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result.legalRepresentativePersons).toEqual([]);
+      });
+      expectMyPersonRequest();
+      expectLegalRepresentativesRequest(myself.Id);
+      expectApprenticeshipContractRequest(myself.Id);
+      expectLoadStayPermitValueRequest();
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+
+    it('returns the profile only with legal representatives with flag for adult', () => {
+      myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+      legalRepresentatives[0].RepresentativeAfterMajority = true;
+
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result.legalRepresentativePersons).toEqual([
+          legalRepresentative1,
+        ]);
+      });
+      expectMyPersonRequest();
+      expectLegalRepresentativesRequest(myself.Id);
+      expectApprenticeshipContractRequest(myself.Id);
+      expectLoadStayPermitValueRequest();
+      expectPersonsRequest(persons.map((person) => person.Id));
+    });
+  });
+
   function expectStudentRequest(id: number, response = student): void {
     const url = `https://eventotest.api/Students/${id}`;
     httpTestingController.expectOne(url).flush(Student.encode(response));
+  }
+
+  function expectMyPersonRequest(response = myself): void {
+    const url = 'https://eventotest.api/Persons/me';
+    httpTestingController.expectOne(url).flush(Person.encode(response));
   }
 
   function expectLegalRepresentativesRequest(
@@ -126,5 +233,12 @@ describe('StudentProfileService', () => {
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
       .flush(t.array(Person).encode(response));
+  }
+
+  function expectLoadStayPermitValueRequest(response = dropDownItems): void {
+    const url = 'https://eventotest.api/DropDownItems/StayPermits';
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(DropDownItem).encode(response));
   }
 });

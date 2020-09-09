@@ -3,6 +3,9 @@
 window.absenzenmanagement = window.absenzenmanagement || {};
 
 window.absenzenmanagement.settings = {
+  /**
+   * General settings
+   */
   // API base URL (without trailing slash)
   apiUrl: 'https://eventotest.api',
 
@@ -14,6 +17,9 @@ window.absenzenmanagement.settings = {
   // Maximum loaded entries per page, where pagination is in place
   paginationLimit: 200,
 
+  /**
+   * Presence types
+   */
   // Id of the PresenceType that represents an absence without cause
   // (i.e. the default absence that will be used when changing state
   // in the presence control module)
@@ -28,6 +34,9 @@ window.absenzenmanagement.settings = {
   // Id of the PresenceType that represents the "half day" absence
   halfDayPresenceTypeId: 17,
 
+  /**
+   * Absence states
+   */
   // Id of the confirmation state for absences that need to be
   // confirmed
   unconfirmedAbsenceStateId: 219,
@@ -45,4 +54,10 @@ window.absenzenmanagement.settings = {
   // may be set to `null` to disable polling (5 * 60 * 1000 = refresh
   // every 5 minutes).
   unconfirmedAbsencesRefreshTime: 5 * 60 * 1000,
+
+  /**
+   * Reports
+   */
+  // Id of the report that contains a user's master data (used in my profile)
+  personMasterDataReportId: 290026,
 };

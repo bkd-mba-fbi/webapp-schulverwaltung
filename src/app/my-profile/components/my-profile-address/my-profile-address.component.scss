@@ -1,0 +1,9 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  padding: $spacer;
+}
+
+address {
+  white-space: pre-wrap;
+}

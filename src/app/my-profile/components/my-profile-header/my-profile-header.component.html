@@ -1,0 +1,19 @@
+<div class="avatar-person" *ngIf="student">
+  <div class="d-flex">
+    <erz-avatar [studentId]="student.Id" class="mr-3 avatar large"></erz-avatar>
+    <div class="person">
+      {{ student.LastName }} {{ student.MiddleName }} {{ student.FirstName }}
+      <span *ngIf="student.Gender">({{ student.Gender }})</span>
+      <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
+    </div>
+  </div>
+  <a
+    *ngIf="reportUrl"
+    [href]="reportUrl"
+    class="report btn btn-primary"
+    target="_blank"
+  >
+    <i class="material-icons">description</i>
+  </a>
+</div>
+<div class="email" *ngIf="student">{{ student.Email }}</div>

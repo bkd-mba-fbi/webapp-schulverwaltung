@@ -35,19 +35,17 @@ const components = [
   SelectComponent,
   StudentBacklinkComponent,
   StudentProfileComponent,
+  StudentProfileEntryHeaderComponent,
+  StudentProfileAddressComponent,
+  StudentProfileLegalRepresentativeComponent,
+  StudentProfileApprenticeshipCompanyComponent,
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,
 ];
 
 // Components only used within the shared module
-const internalComponents = [
-  StudentProfileEntryHeaderComponent,
-  StudentProfileAddressComponent,
-  StudentProfileLegalRepresentativeComponent,
-  StudentProfileApprenticeshipCompanyComponent,
-  StudentProfileAbsencesComponent,
-];
+const internalComponents = [StudentProfileAbsencesComponent];
 
 @NgModule({
   declarations: [...components, internalComponents],

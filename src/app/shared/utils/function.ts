@@ -22,3 +22,13 @@ export function spreadTriplet<A, B, C, T>(
 ): (args: [A, B, C]) => T {
   return ([a, b, c]) => fn(a, b, c);
 }
+
+/**
+ * Type-safe utility to wrap a quaternary function and spread a
+ * quadruplet argument to it.
+ */
+export function spreadQuadruplet<A, B, C, D, T>(
+  fn: (a: A, b: B, c: C, d: D) => T
+): (args: [A, B, C, D]) => T {
+  return ([a, b, c, d]) => fn(a, b, c, d);
+}

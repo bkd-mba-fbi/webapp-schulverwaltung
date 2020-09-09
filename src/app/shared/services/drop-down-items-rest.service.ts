@@ -22,6 +22,12 @@ export class DropDownItemsRestService {
       .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
   }
 
+  getStayPermits(): Observable<ReadonlyArray<DropDownItem>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/StayPermits`)
+      .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
+  }
+
   private get baseUrl(): string {
     return `${this.settings.apiUrl}/DropDownItems`;
   }

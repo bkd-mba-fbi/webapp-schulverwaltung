@@ -1,0 +1,21 @@
+@import "../../../../bootstrap-variables";
+
+.avatar-person {
+  display: flex;
+  justify-content: space-between;
+  padding-left: $spacer;
+}
+
+.person {
+  align-self: center;
+}
+
+.email {
+  padding: $spacer 0 0 $spacer;
+}
+
+.report {
+  align-self: flex-start;
+  line-height: 1;
+  font-size: $erz-icon-size;
+}

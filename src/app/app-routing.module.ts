@@ -37,6 +37,12 @@ const routes: Routes = [
         (m) => m.EvaluateAbsencesModule
       ),
   },
+  {
+    path: 'my-profile',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./my-profile/my-profile.module').then((m) => m.MyProfileModule),
+  },
   { path: 'unauthenticated', component: UnauthenticatedComponent },
   {
     path: '',
