@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StudentProfileAddressComponent } from './student-profile-address.component';
 import { buildStudent, buildPerson } from 'src/spec-builders';
+import { Person } from '../../models/person.model';
 
 describe('StudentProfileAddressComponent', () => {
   let component: StudentProfileAddressComponent;
@@ -67,6 +68,17 @@ describe('StudentProfileAddressComponent', () => {
     it('renders address without optional fields', () => {
       fixture.detectChanges();
       expectText('Spitalgasse 1 3000 Bern +41 79 123 45 67');
+    });
+
+    it('renders alternative email', () => {
+      component.student.DisplayEmail = 'fritz@example.com';
+      (component.student as Person).Email2 = 'alternative@example.com';
+      component.emailProperty = 'Email2';
+      fixture.detectChanges();
+
+      expectText(
+        'Spitalgasse 1 3000 Bern +41 79 123 45 67 alternative@example.com'
+      );
     });
   });
 
