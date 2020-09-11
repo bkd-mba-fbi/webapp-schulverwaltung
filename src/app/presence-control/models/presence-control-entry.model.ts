@@ -8,6 +8,7 @@ import {
   isDefaultAbsence,
   canChangePresenceType,
   isPresent,
+  isIncident,
 } from '../utils/presence-types';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
@@ -75,7 +76,7 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get canChangeIncident(): boolean {
-    return isPresent(this.presenceType);
+    return !isAbsent(this.presenceType);
   }
 
   get presenceCategoryIcon(): string {

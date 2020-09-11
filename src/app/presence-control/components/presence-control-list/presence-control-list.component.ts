@@ -131,9 +131,7 @@ export class PresenceControlListComponent
       modalRef.componentInstance.incidentTypes = incidentTypes;
       modalRef.result.then(
         (selectedIncident) => {
-          if (selectedIncident) {
-            this.doSaveIncident(entry, selectedIncident.Id);
-          }
+          this.doSaveIncident(entry, selectedIncident?.Id || null);
         },
         () => {}
       );

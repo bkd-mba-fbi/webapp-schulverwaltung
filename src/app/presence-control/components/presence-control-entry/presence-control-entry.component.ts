@@ -66,11 +66,7 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   }
 
   updateIncident(entry: PresenceControlEntry): void {
-    if (!entry.canChangeIncident) {
-      this.toastr.warning(
-        this.translate.instant('presence-control.entry.update-warning')
-      );
-    } else {
+    if (entry.canChangeIncident) {
       this.saveIncident.emit(entry);
     }
   }
