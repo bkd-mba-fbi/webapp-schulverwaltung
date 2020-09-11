@@ -20,6 +20,7 @@ describe('PresenceControlIncidentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlIncidentComponent);
     component = fixture.componentInstance;
+    component.incidentTypes = [];
     fixture.detectChanges();
   });
 

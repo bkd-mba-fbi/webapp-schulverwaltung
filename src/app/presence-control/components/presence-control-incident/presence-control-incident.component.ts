@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
+import { PresenceType } from '../../../shared/models/presence-type.model';
+import { TranslateService } from '@ngx-translate/core';
+
+interface IncidentOption {
+  id: Option<number>;
+  label: Option<string>;
+}
 
 @Component({
   selector: 'erz-presence-control-incident',
@@ -8,12 +14,38 @@ import { PresenceTypesService } from 'src/app/shared/services/presence-types.ser
   styleUrls: ['./presence-control-incident.component.scss'],
 })
 export class PresenceControlIncidentComponent implements OnInit {
-  incidentTypes$ = this.presenceTypesService.incidentTypes$;
+  @Input() incidentTypes: ReadonlyArray<PresenceType>;
+  incidentOptions: Array<IncidentOption> = [];
+  selected: Option<IncidentOption> = null;
 
   constructor(
     public activeModal: NgbActiveModal,
-    private presenceTypesService: PresenceTypesService
+    private translate: TranslateService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.incidentOptions = this.incidentTypes.map((incidentType) =>
+      this.createIncidentOption(incidentType)
+    );
+
+    this.incidentOptions.unshift({
+      id: null,
+      label: this.translate.instant('presence-control.incident.no-incident'),
+    });
+  }
+
+  createIncidentOption(incidentType: PresenceType): IncidentOption {
+    return {
+      id: incidentType.Id,
+      label: incidentType.Designation,
+    };
+  }
+
+  onSelectionChange(option: IncidentOption): void {
+    this.selected = option;
+  }
+
+  getSelectedIncident(): Maybe<PresenceType> {
+    return this.incidentTypes.find((type) => type.Id === this.selected?.id);
+  }
 }

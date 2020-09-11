@@ -27,6 +27,7 @@ import { PresenceControlDialogComponent } from '../presence-control-dialog/prese
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
 import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
+import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -55,6 +56,7 @@ export class PresenceControlListComponent
   constructor(
     public state: PresenceControlStateService,
     private lessonPresencesUpdateService: LessonPresencesUpdateService,
+    private presenceTypesService: PresenceTypesService,
     private modalService: NgbModal,
     private scrollPosition: ScrollPositionService,
     private route: ActivatedRoute
@@ -113,8 +115,26 @@ export class PresenceControlListComponent
       });
   }
 
+  doSaveIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
+    this.lessonPresencesUpdateService.updatePresenceTypes(
+      [entry.lessonPresence],
+      presenceTypeId
+    );
+  }
+
   saveIncident(entry: PresenceControlEntry): void {
-    this.modalService.open(PresenceControlIncidentComponent);
+    this.presenceTypesService.incidentTypes$.subscribe((incidentTypes) => {
+      const modalRef = this.modalService.open(PresenceControlIncidentComponent);
+      modalRef.componentInstance.incidentTypes = incidentTypes;
+      modalRef.result.then(
+        (selectedIncident) => {
+          if (selectedIncident) {
+            this.doSaveIncident(entry, selectedIncident.Id);
+          }
+        },
+        () => {}
+      );
+    });
   }
 
   private restoreStateFromParams(params: Params): void {
