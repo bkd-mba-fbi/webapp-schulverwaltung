@@ -21,11 +21,11 @@
   color: $late-color;
 }
 
-.designation-comment {
+.designation-incident {
   max-width: 50ch;
 }
 
-.comment {
+.incident {
   color: $gray-500;
 }
 
@@ -42,7 +42,7 @@
     text-align: right;
   }
 
-  .designation-comment {
+  .designation-incident {
     max-width: initial;
   }
 }

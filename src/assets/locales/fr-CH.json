@@ -38,7 +38,7 @@
       "search-by-name": "Rechercher un nom..."
     },
     "entry": {
-      "comment": "Commentaire...",
+      "incident": "Enregistrer incident",
       "update-warning": "Il n'est pas possible de modifier le statut.",
       "unconfirmed-absences": "Absences en suspens"
     },
@@ -102,11 +102,11 @@
         "time": "Période",
         "confirmation-state": "Statut",
         "presence-type": "Motif",
-        "comment": "Commentaire",
+        "incident": "Incident",
         "date": "Date",
         "teacher": "Enseignant-e",
         "mobil-student-module-instance-study-class": "Nom, Discipline, Classe",
-        "mobil-presence-type-comment": "Commentaire, Motif"
+        "mobil-presence-type-incident": "Motif, Incident"
       }
     },
     "edit": {
