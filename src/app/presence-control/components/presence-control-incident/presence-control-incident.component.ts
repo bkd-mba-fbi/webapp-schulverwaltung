@@ -14,9 +14,10 @@ interface IncidentOption {
   styleUrls: ['./presence-control-incident.component.scss'],
 })
 export class PresenceControlIncidentComponent implements OnInit {
+  @Input() incident: Option<PresenceType>;
   @Input() incidentTypes: ReadonlyArray<PresenceType>;
   incidentOptions: Array<IncidentOption> = [];
-  selected: Option<IncidentOption> = null;
+  selected: IncidentOption;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -24,20 +25,24 @@ export class PresenceControlIncidentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const emptyOption = this.createIncidentOption();
+
     this.incidentOptions = this.incidentTypes.map((incidentType) =>
       this.createIncidentOption(incidentType)
     );
+    this.incidentOptions.unshift(emptyOption);
 
-    this.incidentOptions.unshift({
-      id: null,
-      label: this.translate.instant('presence-control.incident.no-incident'),
-    });
+    this.selected =
+      this.incidentOptions.find((option) => option.id === this.incident?.Id) ||
+      emptyOption;
   }
 
-  createIncidentOption(incidentType: PresenceType): IncidentOption {
+  createIncidentOption(incidentType?: PresenceType): IncidentOption {
     return {
-      id: incidentType.Id,
-      label: incidentType.Designation,
+      id: incidentType ? incidentType.Id : null,
+      label: incidentType
+        ? incidentType.Designation
+        : this.translate.instant('presence-control.incident.no-incident'),
     };
   }
 
@@ -45,7 +50,9 @@ export class PresenceControlIncidentComponent implements OnInit {
     this.selected = option;
   }
 
-  getSelectedIncident(): Maybe<PresenceType> {
-    return this.incidentTypes.find((type) => type.Id === this.selected?.id);
+  getSelectedIncident(): Option<PresenceType> {
+    return (
+      this.incidentTypes.find((type) => type.Id === this.selected?.id) || null
+    );
   }
 }

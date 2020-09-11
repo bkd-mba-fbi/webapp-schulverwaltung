@@ -12,7 +12,7 @@
         type="radio"
         name="incident"
         id="incident-{{ i }}"
-        [checked]="i === 0"
+        [checked]="option.id === selected.id"
         [value]="option.id"
         (change)="onSelectionChange(option)"
       />

@@ -125,6 +125,9 @@ export class PresenceControlListComponent
   saveIncident(entry: PresenceControlEntry): void {
     this.presenceTypesService.incidentTypes$.subscribe((incidentTypes) => {
       const modalRef = this.modalService.open(PresenceControlIncidentComponent);
+      modalRef.componentInstance.incident =
+        incidentTypes.find((type) => type.Id === entry.presenceType?.Id) ||
+        null;
       modalRef.componentInstance.incidentTypes = incidentTypes;
       modalRef.result.then(
         (selectedIncident) => {
