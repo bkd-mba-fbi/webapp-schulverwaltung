@@ -43,12 +43,6 @@
       "update-warning": "Statuswechsel nicht möglich",
       "unconfirmed-absences": "Offene Absenzen"
     },
-    "comment": {
-      "placeholder": "Kommentar...",
-      "cancel": "Abbrechen",
-      "save": "Übernehmen",
-      "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten."
-    },
     "incident": {
       "text": "Vorfall erfassen:",
       "no-incident": "Kein Vorfall",
