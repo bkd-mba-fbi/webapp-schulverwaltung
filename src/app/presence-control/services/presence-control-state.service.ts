@@ -34,10 +34,7 @@ import {
   lessonsEqual,
 } from '../utils/lessons';
 import { getCategoryCount } from '../utils/presence-control-entries';
-import {
-  updatePresenceTypeForPresences,
-  updateCommentForPresence,
-} from '../utils/lesson-presences';
+import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
 import { Settings, SETTINGS } from 'src/app/settings';
@@ -163,29 +160,6 @@ export class PresenceControlStateService
             updates,
             presenceTypes,
             this.settings
-          )
-        )
-      )
-      .subscribe((lessonPresences) =>
-        this.updateLessonPresences$.next(lessonPresences)
-      );
-  }
-
-  updateLessonPresenceComment(
-    lessonPresence: LessonPresence,
-    newComment: Option<string>
-  ): void {
-    combineLatest([
-      this.lessonPresences$.pipe(take(1)),
-      this.presenceTypes$.pipe(take(1)),
-    ])
-      .pipe(
-        map(([lessonPresences, presenceTypes]) =>
-          updateCommentForPresence(
-            lessonPresences,
-            lessonPresence,
-            newComment,
-            presenceTypes
           )
         )
       )

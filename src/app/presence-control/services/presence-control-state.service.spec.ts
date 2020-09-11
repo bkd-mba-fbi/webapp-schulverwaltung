@@ -196,31 +196,6 @@ describe('PresenceControlStateService', () => {
     });
   });
 
-  describe('.updateLessonPresenceComment', () => {
-    it('updates the comment of the affected lesson presence', () => {
-      expectLessonPresencesRequest();
-      expectPresenceTypesRequest();
-      service.setLesson(
-        buildLesson(
-          3,
-          new Date(2000, 0, 23, 9, 0),
-          new Date(2000, 0, 23, 10, 0),
-          'Mathematik'
-        )
-      );
-      resetCallbackSpies();
-
-      service.updateLessonPresenceComment(mathEinstein1, 'e = mc^2');
-
-      expect(selectedLessonCb).not.toHaveBeenCalled();
-      expect(selectedPresenceControlEntriesCb).toHaveBeenCalledTimes(1);
-
-      const [entries] = selectedPresenceControlEntriesCb.calls.argsFor(0);
-      expect(entries.length).toBe(1);
-      expect(entries[0].lessonPresence.Comment).toBe('e = mc^2');
-    });
-  });
-
   describe('.getBlockLessonPresences', () => {
     it('returns all block lessons for the given entry', () => {
       expectLessonPresencesRequest();
