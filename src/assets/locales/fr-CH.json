@@ -106,7 +106,7 @@
         "date": "Date",
         "teacher": "Enseignant-e",
         "mobil-student-module-instance-study-class": "Nom, Discipline, Classe",
-        "mobil-presence-type-incident": "Motif, Incident"
+        "mobil-presence-type-incident": "Motif / Incident"
       }
     },
     "edit": {

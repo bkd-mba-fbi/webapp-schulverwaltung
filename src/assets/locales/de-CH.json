@@ -113,7 +113,7 @@
         "date": "Datum",
         "teacher": "Lehrkraft",
         "mobil-student-module-instance-study-class": "Name, Fach, Klasse",
-        "mobil-presence-type-incident": "Grund, Vorfall"
+        "mobil-presence-type-incident": "Grund / Vorfall"
       }
     },
     "edit": {

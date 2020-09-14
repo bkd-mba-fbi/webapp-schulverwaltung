@@ -77,8 +77,7 @@
                 {{ 'edit-absences.list.header.confirmation-state' | translate }}
               </th>
               <th>
-                {{ 'edit-absences.list.header.presence-type' | translate
-                }}<br />
+                {{ 'edit-absences.list.header.presence-type' | translate }} /
                 {{ 'edit-absences.list.header.incident' | translate }}
               </th>
               <th>{{ 'edit-absences.list.header.teacher' | translate }}</th>
@@ -158,11 +157,7 @@
               >
                 <ng-container *ngIf="!entry.canChangePresenceType">{{
                   entry.presenceType?.Designation
-                }}</ng-container
-                ><br />
-                <span class="incident">{{
-                  entry.presenceType?.Designation
-                }}</span>
+                }}</ng-container>
               </td>
               <td
                 [attr.data-label]="
