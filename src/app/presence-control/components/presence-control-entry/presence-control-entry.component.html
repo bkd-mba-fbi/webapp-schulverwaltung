@@ -10,7 +10,9 @@
   (click)="updatePresenceType(entry)"
   class="presence-category designation btn btn-link"
 >
-  {{ entry.presenceType?.Designation }}
+  <span *ngIf="!entry.presenceType?.IsIncident">{{
+    entry.presenceType?.Designation
+  }}</span>
 </button>
 <button
   type="button"
@@ -42,5 +44,11 @@
   (click)="updateIncident(entry)"
 >
   <i class="material-icons">edit</i>
-  <span>{{ 'presence-control.entry.incident' | translate }}</span>
+  <span *ngIf="entry.presenceType?.IsIncident">{{
+    entry.presenceType?.Designation || 'presence-control.entry.incident'
+      | translate
+  }}</span>
+  <span *ngIf="!entry.presenceType?.IsIncident">
+    {{ 'presence-control.entry.incident' | translate }}</span
+  >
 </a>
