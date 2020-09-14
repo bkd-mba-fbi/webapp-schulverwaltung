@@ -28,7 +28,7 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   @Input() profileReturnParams?: Params;
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
-  @Output() saveIncident = new EventEmitter<PresenceControlEntry>();
+  @Output() changeIncident = new EventEmitter<PresenceControlEntry>();
 
   @HostBinding('class') get classNames(): string {
     return [this.entry.presenceCategory, this.viewMode].join(' ');
@@ -67,7 +67,7 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
 
   updateIncident(entry: PresenceControlEntry): void {
     if (entry.canChangeIncident) {
-      this.saveIncident.emit(entry);
+      this.changeIncident.emit(entry);
     }
   }
 }

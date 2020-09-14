@@ -44,7 +44,7 @@
                 returnparams: (state.queryParams$ | async)?.toString()
               }"
               (togglePresenceType)="togglePresenceType($event)"
-              (saveIncident)="saveIncident($event)"
+              (changeIncident)="changeIncident($event)"
             ></erz-presence-control-entry>
           </div>
         </div>
@@ -64,7 +64,7 @@
               returnparams: (state.queryParams$ | async)?.toString()
             }"
             (togglePresenceType)="togglePresenceType($event)"
-            (saveIncident)="saveIncident($event)"
+            (changeIncident)="changeIncident($event)"
           ></erz-presence-control-entry>
         </div>
       </ng-container>

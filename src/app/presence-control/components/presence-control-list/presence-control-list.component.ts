@@ -115,14 +115,14 @@ export class PresenceControlListComponent
       });
   }
 
-  doSaveIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
+  updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
     this.lessonPresencesUpdateService.updatePresenceTypes(
       [entry.lessonPresence],
       presenceTypeId
     );
   }
 
-  saveIncident(entry: PresenceControlEntry): void {
+  changeIncident(entry: PresenceControlEntry): void {
     this.presenceTypesService.incidentTypes$.subscribe((incidentTypes) => {
       const modalRef = this.modalService.open(PresenceControlIncidentComponent);
       modalRef.componentInstance.incident =
@@ -131,7 +131,7 @@ export class PresenceControlListComponent
       modalRef.componentInstance.incidentTypes = incidentTypes;
       modalRef.result.then(
         (selectedIncident) => {
-          this.doSaveIncident(entry, selectedIncident?.Id || null);
+          this.updateIncident(entry, selectedIncident?.Id || null);
         },
         () => {}
       );
