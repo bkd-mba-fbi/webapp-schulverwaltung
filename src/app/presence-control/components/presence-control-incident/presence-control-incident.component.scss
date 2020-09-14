@@ -1,5 +1,6 @@
 @import "../../../../bootstrap-variables";
 
 form > div:first-child {
-  padding-bottom: $spacer;
+  padding-bottom: $spacer / 2;
+  border-bottom: 1px solid $gray-200;
 }
