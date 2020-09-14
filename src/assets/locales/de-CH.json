@@ -96,6 +96,7 @@
       "date-to": "Datum bis",
       "presence-type": "Grund",
       "confirmation-state": "Status",
+      "incident": "Vorfall",
       "show": "Anzeigen"
     },
     "list": {

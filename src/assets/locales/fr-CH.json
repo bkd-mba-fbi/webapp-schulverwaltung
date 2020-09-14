@@ -88,6 +88,7 @@
       "date-from": "Date du",
       "date-to": "Date au",
       "presence-type": "Motif",
+      "incident": "Incident",
       "confirmation-state": "Statut",
       "show": "Afficher"
     },

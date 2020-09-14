@@ -15,7 +15,10 @@ import { map } from 'rxjs/operators';
 import { startOfDay } from 'date-fns';
 
 import { not } from 'src/app/shared/utils/filter';
-import { isComment } from 'src/app/presence-control/utils/presence-types';
+import {
+  isComment,
+  isIncident,
+} from 'src/app/presence-control/utils/presence-types';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { createPresenceTypesDropdownItems } from 'src/app/shared/utils/presence-types';
 import { EducationalEventsRestService } from '../../../shared/services/educational-events-rest.service';
@@ -46,6 +49,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
     dateTo: null,
     presenceType: null,
     confirmationState: null,
+    incidentType: null,
   };
 
   @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
@@ -53,7 +57,14 @@ export class EditAbsencesHeaderComponent implements OnInit {
   absenceConfirmationStates$ = this.state.absenceConfirmationStates$;
 
   presenceTypes$ = this.state.presenceTypes$.pipe(
-    map((presenceTypes) => presenceTypes.filter(not(isComment))),
+    map((presenceTypes) =>
+      presenceTypes.filter(not(isComment)).filter(not(isIncident))
+    ),
+    map(createPresenceTypesDropdownItems)
+  );
+
+  incidentTypes$ = this.state.presenceTypes$.pipe(
+    map((presenceTypes) => presenceTypes.filter(isIncident)),
     map(createPresenceTypesDropdownItems)
   );
 
