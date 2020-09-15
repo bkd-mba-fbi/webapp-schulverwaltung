@@ -74,7 +74,7 @@ export class PresenceTypesService {
   private filterIncidentTypes(
     presenceTypes: ReadonlyArray<PresenceType>
   ): ReadonlyArray<PresenceType> {
-    return presenceTypes.filter((t) => t.IsIncident);
+    return presenceTypes.filter((t) => t.IsIncident && t.Active);
   }
 
   private isHalfDayActive(presenceTypes: ReadonlyArray<PresenceType>): boolean {

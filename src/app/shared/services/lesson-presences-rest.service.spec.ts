@@ -259,6 +259,7 @@ describe('LessonPresencesRestService', () => {
         dateTo: null,
         presenceType: null,
         confirmationState: null,
+        incidentType: null,
       };
     });
 

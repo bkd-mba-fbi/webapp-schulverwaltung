@@ -77,9 +77,8 @@
                 {{ 'edit-absences.list.header.confirmation-state' | translate }}
               </th>
               <th>
-                {{ 'edit-absences.list.header.presence-type' | translate
-                }}<br />
-                {{ 'edit-absences.list.header.comment' | translate }}
+                {{ 'edit-absences.list.header.presence-type' | translate }} /
+                {{ 'edit-absences.list.header.incident' | translate }}
               </th>
               <th>{{ 'edit-absences.list.header.teacher' | translate }}</th>
             </tr>
@@ -151,16 +150,12 @@
               </td>
               <td
                 [attr.data-label]="
-                  'edit-absences.list.header.mobil-presence-type-comment'
+                  'edit-absences.list.header.mobil-presence-type-incident'
                     | translate
                 "
-                class="designation-comment"
+                class="designation-incident"
               >
-                <ng-container *ngIf="!entry.canChangePresenceType">{{
-                  entry.presenceType?.Designation
-                }}</ng-container
-                ><br />
-                <span class="comment">{{ entry.lessonPresence.Comment }}</span>
+                {{ entry.presenceType?.Designation }}
               </td>
               <td
                 [attr.data-label]="

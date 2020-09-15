@@ -11,6 +11,7 @@ describe('presence types', () => {
   let absenceType: PresenceType;
   let lateType: PresenceType;
   let commentType: PresenceType;
+  let incidentType: PresenceType;
 
   let lessonPresenceConfirmed: LessonPresence;
   let lessonPresence: LessonPresence;
@@ -43,6 +44,7 @@ describe('presence types', () => {
     );
     lateType = buildPresenceType(settings.latePresenceTypeId, false, true);
     commentType = buildPresenceType(6, false, false, true);
+    incidentType = buildPresenceType(14, false, true, false);
   });
 
   describe('.getNewConfirmationStateId', () => {
@@ -85,6 +87,12 @@ describe('presence types', () => {
     it('should return true if absence type is null, e.g. present', () => {
       expect(
         canChangePresenceType(lessonPresence, null, settings)
+      ).toBeTruthy();
+    });
+
+    it('should return true if is incident type', () => {
+      expect(
+        canChangePresenceType(lessonPresence, incidentType, settings)
       ).toBeTruthy();
     });
   });

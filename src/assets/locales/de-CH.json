@@ -39,15 +39,15 @@
       "search-by-name": "Name suchen..."
     },
     "entry": {
-      "comment": "Kommentar...",
+      "incident": "Vorfall erfassen",
       "update-warning": "Statuswechsel nicht möglich",
       "unconfirmed-absences": "Offene Absenzen"
     },
-    "comment": {
-      "placeholder": "Kommentar...",
+    "incident": {
+      "text": "Vorfall erfassen:",
+      "no-incident": "Kein Vorfall",
       "cancel": "Abbrechen",
-      "save": "Übernehmen",
-      "save-error": "Beim Speichern des Kommentars ist ein Fehler aufgetreten."
+      "save": "Übernehmen"
     },
     "dialog": {
       "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie den Präsenzstatus ändern?",
@@ -96,6 +96,7 @@
       "date-to": "Datum bis",
       "presence-type": "Grund",
       "confirmation-state": "Status",
+      "incident": "Vorfall",
       "show": "Anzeigen"
     },
     "list": {
@@ -109,11 +110,11 @@
         "time": "Zeit",
         "confirmation-state": "Status",
         "presence-type": "Grund",
-        "comment": "Kommentar",
+        "incident": "Vorfall",
         "date": "Datum",
         "teacher": "Lehrkraft",
         "mobil-student-module-instance-study-class": "Name, Fach, Klasse",
-        "mobil-presence-type-comment": "Kommentar, Grund"
+        "mobil-presence-type-incident": "Grund / Vorfall"
       }
     },
     "edit": {

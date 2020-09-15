@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PresenceControlComponent } from './components/presence-control/presence-control.component';
 import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
-import { PresenceControlCommentComponent } from './components/presence-control-comment/presence-control-comment.component';
 import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
 import { StudentProfileComponent } from '../shared/components/student-profile/student-profile.component';
 
@@ -16,10 +15,7 @@ const routes: Routes = [
         path: '',
         component: PresenceControlListComponent,
         data: {
-          restoreScrollPositionFrom: [
-            '/presence-control/student/:id',
-            '/presence-control/comment/:studentId/:lessonId',
-          ],
+          restoreScrollPositionFrom: ['/presence-control/student/:id'],
         },
       },
       {
@@ -34,10 +30,6 @@ const routes: Routes = [
             component: ConfirmAbsencesComponent,
           },
         ],
-      },
-      {
-        path: 'comment/:studentId/:lessonId',
-        component: PresenceControlCommentComponent,
       },
     ],
   },

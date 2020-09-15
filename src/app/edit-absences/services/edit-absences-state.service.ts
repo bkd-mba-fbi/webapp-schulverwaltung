@@ -32,6 +32,7 @@ export interface EditAbsencesFilter {
   dateTo: Option<Date>;
   presenceType: Option<number>;
   confirmationState: Option<number>;
+  incidentType: Option<number>;
 }
 
 @Injectable()
@@ -90,6 +91,7 @@ export class EditAbsencesStateService
       dateTo: null,
       presenceType: null,
       confirmationState: null,
+      incidentType: null,
     };
   }
 
@@ -101,7 +103,8 @@ export class EditAbsencesStateService
         filterValue.dateFrom ||
         filterValue.dateTo ||
         filterValue.presenceType ||
-        filterValue.confirmationState
+        filterValue.confirmationState ||
+        filterValue.incidentType
     );
   }
 

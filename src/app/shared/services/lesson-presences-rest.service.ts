@@ -106,6 +106,7 @@ export class LessonPresencesRestService extends RestService<
         [absencesFilter.educationalEvent, 'EventRef'],
         [absencesFilter.studyClass, 'StudyClassRef'],
         [absencesFilter.presenceType, 'TypeRef'],
+        [absencesFilter.incidentType, 'TypeRef'],
         [absencesFilter.confirmationState, 'ConfirmationStateId'],
       ],
       new HttpParams({ fromObject: additionalParams })
@@ -133,6 +134,13 @@ export class LessonPresencesRestService extends RestService<
           `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`
         );
       }
+    }
+
+    if (absencesFilter.incidentType && absencesFilter.presenceType) {
+      params = params.set(
+        'filter.TypeRef',
+        `=${absencesFilter.presenceType},${absencesFilter.incidentType}`
+      );
     }
 
     return this.http

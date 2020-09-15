@@ -6,10 +6,7 @@ import {
   buildReference,
 } from 'src/spec-builders';
 import { settings } from 'src/spec-helpers';
-import {
-  updateCommentForPresence,
-  updatePresenceTypeForPresences,
-} from './lesson-presences';
+import { updatePresenceTypeForPresences } from './lesson-presences';
 
 describe('lesson presences utils', () => {
   let absent: PresenceType;
@@ -135,89 +132,6 @@ describe('lesson presences utils', () => {
 
       expect(result[4].TypeRef).toEqual({ Id: null, HRef: null });
       expect(result[4].Type).toBeNull();
-    });
-  });
-
-  describe('updateCommentForPresence', () => {
-    it('updates comment of absent lesson presence', () => {
-      const result = updateCommentForPresence(
-        presences,
-        deutschEinsteinAbwesend,
-        'Heureka!',
-        presenceTypes
-      );
-      expect(result.length).toBe(5);
-      expect(result[0]).toBe(presences[0]);
-      expect(result[2]).toBe(presences[2]);
-      expect(result[3]).toBe(presences[3]);
-      expect(result[4]).toBe(presences[4]);
-
-      expect(result[1].Comment).toBe('Heureka!');
-      expect(result[1].Type).toBe('Abwesend');
-      expect(result[1].TypeRef).toEqual({
-        Id: absent.Id,
-        HRef: null,
-      });
-    });
-
-    it('removes comment of absent lesson presence', () => {
-      const result = updateCommentForPresence(
-        presences,
-        deutschEinsteinAbwesend,
-        null,
-        presenceTypes
-      );
-      expect(result.length).toBe(5);
-      expect(result[0]).toBe(presences[0]);
-      expect(result[2]).toBe(presences[2]);
-      expect(result[3]).toBe(presences[3]);
-      expect(result[4]).toBe(presences[4]);
-
-      expect(result[1].Comment).toBeNull();
-      expect(result[1].Type).toBe('Abwesend');
-      expect(result[1].TypeRef).toEqual({
-        Id: absent.Id,
-        HRef: null,
-      });
-    });
-
-    it('adds comment to present lesson presence', () => {
-      const result = updateCommentForPresence(
-        presences,
-        deutschFrisch,
-        'Meetings sind meist Zeiträuber.',
-        presenceTypes
-      );
-      expect(result.length).toBe(5);
-      expect(result[0]).toEqual(presences[0]);
-      expect(result[1]).toEqual(presences[1]);
-      expect(result[3]).toEqual(presences[3]);
-      expect(result[4]).toEqual(presences[4]);
-
-      expect(result[2].Comment).toBe('Meetings sind meist Zeiträuber.');
-      expect(result[2].Type).toBeNull();
-      expect(result[2].TypeRef).toEqual({
-        Id: comment.Id,
-        HRef: null,
-      });
-    });
-
-    it('removes comment from present lesson presence', () => {
-      const result = updateCommentForPresence(
-        presences,
-        deutschWalser,
-        null,
-        presenceTypes
-      );
-      expect(result.length).toBe(5);
-      expect(result[0]).toEqual(presences[0]);
-      expect(result[1]).toEqual(presences[1]);
-      expect(result[2]).toEqual(presences[2]);
-      expect(result[4]).toEqual(presences[4]);
-
-      expect(result[3].Comment).toBeNull();
-      // expect(result[3].Type).toBeNull();
-      // expect(result[3].TypeRef).toBeNull();
     });
   });
 });

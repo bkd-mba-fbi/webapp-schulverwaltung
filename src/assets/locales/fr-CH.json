@@ -38,15 +38,9 @@
       "search-by-name": "Rechercher un nom..."
     },
     "entry": {
-      "comment": "Commentaire...",
+      "incident": "Enregistrer incident",
       "update-warning": "Il n'est pas possible de modifier le statut.",
       "unconfirmed-absences": "Absences en suspens"
-    },
-    "comment": {
-      "placeholder": "Commentaire...",
-      "cancel": "Annuler",
-      "save": "Valider",
-      "save-error": "Une erreur s'est produite lors de l'enregistrement du commentaire."
     },
     "dialog": {
       "text": "La leçon sélectionnée fait partie d'un bloc. Pour quelle(s) période(s) voulez-vous changer le statut de présence ?",
@@ -94,6 +88,7 @@
       "date-from": "Date du",
       "date-to": "Date au",
       "presence-type": "Motif",
+      "incident": "Incident",
       "confirmation-state": "Statut",
       "show": "Afficher"
     },
@@ -108,11 +103,11 @@
         "time": "Période",
         "confirmation-state": "Statut",
         "presence-type": "Motif",
-        "comment": "Commentaire",
+        "incident": "Incident",
         "date": "Date",
         "teacher": "Enseignant-e",
         "mobil-student-module-instance-study-class": "Nom, Discipline, Classe",
-        "mobil-presence-type-comment": "Commentaire, Motif"
+        "mobil-presence-type-incident": "Motif / Incident"
       }
     },
     "edit": {

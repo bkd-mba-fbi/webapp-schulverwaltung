@@ -101,5 +101,6 @@ function createFilterFromParams(params: Params): EditAbsencesFilter {
     confirmationState: params.confirmationState
       ? Number(params.confirmationState)
       : null,
+    incidentType: params.incidentType ? Number(params.presenceType) : null,
   };
 }

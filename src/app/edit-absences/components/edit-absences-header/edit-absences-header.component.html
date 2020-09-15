@@ -36,6 +36,14 @@
 
 <div class="filters mt-2">
   <div class="form-group">
+    <label>{{ 'edit-absences.header.confirmation-state' | translate }}</label>
+    <erz-select
+      [options]="absenceConfirmationStates$ | async"
+      [(value)]="filter.confirmationState"
+    ></erz-select>
+  </div>
+
+  <div class="form-group">
     <label>{{ 'edit-absences.header.presence-type' | translate }}</label>
     <erz-select
       [options]="presenceTypes$ | async"
@@ -44,10 +52,10 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.confirmation-state' | translate }}</label>
+    <label>{{ 'edit-absences.header.incident' | translate }}</label>
     <erz-select
-      [options]="absenceConfirmationStates$ | async"
-      [(value)]="filter.confirmationState"
+      [options]="incidentTypes$ | async"
+      [(value)]="filter.incidentType"
     ></erz-select>
   </div>
 

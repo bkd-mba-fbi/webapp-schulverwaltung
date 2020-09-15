@@ -1,0 +1,36 @@
+<div class="modal-body">
+  <p>
+    {{ 'presence-control.incident.text' | translate }}
+  </p>
+  <form>
+    <div
+      *ngFor="let option of incidentOptions; let i = index"
+      class="form-group form-check"
+    >
+      <input
+        class="form-check-input"
+        type="radio"
+        name="incident"
+        id="incident-{{ i }}"
+        [checked]="option.id === selected.id"
+        [value]="option.id"
+        (change)="onSelectionChange(option)"
+      />
+      <label class="form-check-label" for="incident-{{ i }}">
+        {{ option.label }}
+      </label>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+    {{ 'presence-control.incident.cancel' | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close(getSelectedIncident())"
+  >
+    {{ 'presence-control.incident.save' | translate }}
+  </button>
+</div>

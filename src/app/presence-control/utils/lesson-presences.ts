@@ -40,41 +40,6 @@ export function updatePresenceTypeForPresences(
   });
 }
 
-export function updateCommentForPresence(
-  allLessonPresences: ReadonlyArray<LessonPresence>,
-  affectedLessonPresence: LessonPresence,
-  newComment: Option<string>,
-  presenceTypes: ReadonlyArray<PresenceType>
-): ReadonlyArray<LessonPresence> {
-  return allLessonPresences.map((lessonPresence) => {
-    if (lessonPresenceEquals(lessonPresence, affectedLessonPresence)) {
-      let presenceTypeRef = lessonPresence.TypeRef;
-      let presenceDesignation = lessonPresence.Type;
-      let newPresenceType: Maybe<PresenceType>;
-      if (newComment && !presenceTypeRef.Id) {
-        // Set to comment presence type
-        newPresenceType = presenceTypes.find((p) => p.IsComment);
-      } else if (!newComment && presenceTypeRef) {
-        // TODO: Unset presence type if it has `IsComment=1`?
-      }
-      if (newPresenceType) {
-        presenceTypeRef = {
-          Id: newPresenceType.Id,
-          HRef: null,
-        };
-        presenceDesignation = newPresenceType.Designation;
-      }
-      return {
-        ...lessonPresence,
-        Comment: newComment,
-        TypeRef: presenceTypeRef,
-        Type: presenceDesignation,
-      };
-    }
-    return lessonPresence;
-  });
-}
-
 function lessonPresenceEquals(a: LessonPresence, b: LessonPresence): boolean {
   return (
     a.LessonRef.Id === b.LessonRef.Id && a.StudentRef.Id === b.StudentRef.Id

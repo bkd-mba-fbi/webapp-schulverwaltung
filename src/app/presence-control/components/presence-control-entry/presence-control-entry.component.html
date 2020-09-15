@@ -10,7 +10,9 @@
   (click)="updatePresenceType(entry)"
   class="presence-category designation btn btn-link"
 >
-  {{ entry.presenceType?.Designation }}
+  <span *ngIf="!entry.presenceType?.IsIncident">{{
+    entry.presenceType?.Designation
+  }}</span>
 </button>
 <button
   type="button"
@@ -37,17 +39,13 @@
   </span>
 </a>
 <a
-  *ngIf="entry.canChangePresenceType"
-  class="comment"
-  [routerLink]="[
-    '/presence-control/comment',
-    entry.lessonPresence.StudentRef.Id,
-    entry.lessonPresence.LessonRef.Id
-  ]"
+  *ngIf="entry.canChangeIncident"
+  class="incident btn btn-link"
+  (click)="updateIncident(entry)"
 >
-  <i class="material-icons">notes</i>
+  <i class="material-icons">edit</i>
   <span>{{
-    entry.lessonPresence.Comment ||
-      ('presence-control.entry.comment' | translate)
+    (entry.presenceType?.IsIncident && entry.presenceType?.Designation) ||
+      'presence-control.entry.incident' | translate
   }}</span>
 </a>

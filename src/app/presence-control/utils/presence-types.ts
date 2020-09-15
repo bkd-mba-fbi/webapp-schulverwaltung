@@ -10,6 +10,10 @@ export function isComment(presenceType: Option<PresenceType>): boolean {
   return Boolean(presenceType && presenceType.IsComment);
 }
 
+export function isIncident(presenceType: Option<PresenceType>): boolean {
+  return Boolean(presenceType && presenceType.IsIncident);
+}
+
 export function isAbsent(presenceType: Option<PresenceType>): boolean {
   return Boolean(
     presenceType &&
@@ -46,7 +50,8 @@ export function canChangePresenceType(
 ): boolean {
   if (
     (isPresent(presenceType) && lessonPresence.ConfirmationStateId === null) ||
-    isComment(presenceType)
+    isComment(presenceType) ||
+    isIncident(presenceType)
   ) {
     return true;
   }

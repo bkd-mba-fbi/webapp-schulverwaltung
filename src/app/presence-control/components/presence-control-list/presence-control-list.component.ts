@@ -26,6 +26,8 @@ import {
 import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
+import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
+import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -54,6 +56,7 @@ export class PresenceControlListComponent
   constructor(
     public state: PresenceControlStateService,
     private lessonPresencesUpdateService: LessonPresencesUpdateService,
+    private presenceTypesService: PresenceTypesService,
     private modalService: NgbModal,
     private scrollPosition: ScrollPositionService,
     private route: ActivatedRoute
@@ -110,6 +113,29 @@ export class PresenceControlListComponent
           );
         }
       });
+  }
+
+  updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
+    this.lessonPresencesUpdateService.updatePresenceTypes(
+      [entry.lessonPresence],
+      presenceTypeId
+    );
+  }
+
+  changeIncident(entry: PresenceControlEntry): void {
+    this.presenceTypesService.incidentTypes$.subscribe((incidentTypes) => {
+      const modalRef = this.modalService.open(PresenceControlIncidentComponent);
+      modalRef.componentInstance.incident =
+        incidentTypes.find((type) => type.Id === entry.presenceType?.Id) ||
+        null;
+      modalRef.componentInstance.incidentTypes = incidentTypes;
+      modalRef.result.then(
+        (selectedIncident) => {
+          this.updateIncident(entry, selectedIncident?.Id || null);
+        },
+        () => {}
+      );
+    });
   }
 
   private restoreStateFromParams(params: Params): void {

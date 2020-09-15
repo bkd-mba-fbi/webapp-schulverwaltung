@@ -21,12 +21,8 @@
   color: $late-color;
 }
 
-.designation-comment {
+.designation-incident {
   max-width: 50ch;
-}
-
-.comment {
-  color: $gray-500;
 }
 
 .student {
@@ -42,7 +38,7 @@
     text-align: right;
   }
 
-  .designation-comment {
+  .designation-incident {
     max-width: initial;
   }
 }
