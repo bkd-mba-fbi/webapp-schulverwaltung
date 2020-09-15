@@ -34,10 +34,6 @@
   color: $present-color;
 }
 
-:host.late .presence-category {
-  color: $late-color;
-}
-
 :host.checkable .presence-category {
   color: $checkable-color;
 }
