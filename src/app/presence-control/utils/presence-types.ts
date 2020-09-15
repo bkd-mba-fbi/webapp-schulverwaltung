@@ -34,6 +34,17 @@ export function isDefaultAbsence(
   );
 }
 
+export function isCheckableAbsence(
+  settings: Settings,
+  confirmationStateId: Maybe<number>
+): boolean {
+  return Boolean(
+    settings &&
+      confirmationStateId &&
+      confirmationStateId === settings.checkableAbsenceStateId
+  );
+}
+
 export function isLate(
   presenceType: Option<PresenceType>,
   settings: Settings

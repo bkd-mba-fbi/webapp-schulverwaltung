@@ -4,6 +4,7 @@ import { Lesson } from '../../shared/models/lesson.model';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
+import { DropDownItem } from '../../shared/models/drop-down-item.model';
 
 export function lessonsEqual(a: Option<Lesson>, b: Option<Lesson>): boolean {
   return (
@@ -94,7 +95,8 @@ export function getLessonPresencesForLesson(
 export function getPresenceControlEntriesForLesson(
   lesson: Option<Lesson>,
   lessonPresences: ReadonlyArray<LessonPresence>,
-  presenceTypes: ReadonlyArray<PresenceType>
+  presenceTypes: ReadonlyArray<PresenceType>,
+  confirmationStates: ReadonlyArray<DropDownItem>
 ): ReadonlyArray<PresenceControlEntry> {
   return getLessonPresencesForLesson(lesson, lessonPresences).map(
     (lessonPresence) => {
@@ -103,7 +105,17 @@ export function getPresenceControlEntriesForLesson(
         presenceType =
           presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
       }
-      return new PresenceControlEntry(lessonPresence, presenceType);
+      let confirmationState;
+      if (lessonPresence.ConfirmationStateId) {
+        confirmationState = confirmationStates.find(
+          (s) => s.Key === lessonPresence.ConfirmationStateId
+        );
+      }
+      return new PresenceControlEntry(
+        lessonPresence,
+        presenceType,
+        confirmationState
+      );
     }
   );
 }

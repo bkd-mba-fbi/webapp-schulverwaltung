@@ -7,8 +7,7 @@ import {
   isLate,
   isDefaultAbsence,
   canChangePresenceType,
-  isPresent,
-  isIncident,
+  isCheckableAbsence,
 } from '../utils/presence-types';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
@@ -16,6 +15,7 @@ export enum PresenceCategory {
   Present = 'present',
   Absent = 'absent',
   Late = 'late',
+  Checkable = 'checkable',
 }
 
 export class PresenceControlEntry implements Searchable {
@@ -29,6 +29,10 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get presenceCategory(): PresenceCategory {
+    if (isCheckableAbsence(this.settings, this.confirmationState?.Key)) {
+      return PresenceCategory.Checkable;
+    }
+
     if (isAbsent(this.presenceType)) {
       return PresenceCategory.Absent;
     }
@@ -83,6 +87,8 @@ export class PresenceControlEntry implements Searchable {
     switch (this.presenceCategory) {
       case 'absent':
         return 'cancel';
+      case 'checkable':
+        return 'help';
       case 'late':
         return 'watch_later';
       default:

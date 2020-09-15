@@ -42,6 +42,7 @@ import { canChangePresenceType } from '../utils/presence-types';
 import { isToday } from 'date-fns';
 import { HttpParams } from '@angular/common/http';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
+import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -87,11 +88,20 @@ export class PresenceControlStateService
   selectedLesson$ = merge(this.currentLesson$, this.selectLesson$).pipe(
     shareReplay(1)
   );
+
+  absenceConfirmationStates$ = this.dropDownItemsService
+    .getAbsenceConfirmationStates()
+    .pipe(shareReplay(1));
+
   selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$,
-  ]).pipe(map(spread(getPresenceControlEntriesForLesson)), shareReplay(1));
+    this.absenceConfirmationStates$,
+  ]).pipe(
+    map(spread(getPresenceControlEntriesForLesson)),
+    shareReplay(1)
+  );
 
   presentCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getCategoryCount('present'))
@@ -117,6 +127,7 @@ export class PresenceControlStateService
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
+    private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,
     private location: Location

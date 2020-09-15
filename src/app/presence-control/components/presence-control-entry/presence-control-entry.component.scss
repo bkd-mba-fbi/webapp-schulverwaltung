@@ -38,6 +38,10 @@
   color: $late-color;
 }
 
+:host.checkable .presence-category {
+  color: $checkable-color;
+}
+
 .designation,
 .student-name,
 a.incident,
