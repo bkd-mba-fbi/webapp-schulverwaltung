@@ -41,9 +41,7 @@
   padding: $spacer;
   border-bottom: 1px solid $gray-200;
   display: grid;
-  grid-template-areas:
-    "checkbox lesson-class time teacher"
-    "checkbox comment comment comment";
+  grid-template-areas: "checkbox lesson-class time teacher";
   grid-template-columns: min-content 3fr 1fr 1fr;
 }
 
@@ -88,11 +86,6 @@
   display: none;
 }
 
-.comment {
-  color: $gray-500;
-  grid-area: comment;
-}
-
 @media (max-width: 750px) {
   .content {
     padding-left: 0;
@@ -107,8 +100,7 @@
   .absence-entry {
     grid-template-areas:
       "checkbox lesson-class"
-      "checkbox time-teacher"
-      "checkbox comment";
+      "checkbox time-teacher";
     grid-template-columns: min-content 1fr;
   }
 

@@ -50,7 +50,8 @@ export function canChangePresenceType(
 ): boolean {
   if (
     (isPresent(presenceType) && lessonPresence.ConfirmationStateId === null) ||
-    isComment(presenceType)
+    isComment(presenceType) ||
+    isIncident(presenceType)
   ) {
     return true;
   }

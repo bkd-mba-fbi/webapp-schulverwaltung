@@ -44,11 +44,8 @@
   (click)="updateIncident(entry)"
 >
   <i class="material-icons">edit</i>
-  <span *ngIf="entry.presenceType?.IsIncident">{{
-    entry.presenceType?.Designation || 'presence-control.entry.incident'
-      | translate
+  <span>{{
+    (entry.presenceType?.IsIncident && entry.presenceType?.Designation) ||
+      'presence-control.entry.incident' | translate
   }}</span>
-  <span *ngIf="!entry.presenceType?.IsIncident">
-    {{ 'presence-control.entry.incident' | translate }}</span
-  >
 </a>

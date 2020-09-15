@@ -124,6 +124,9 @@ $presence-control-unconfimed-absences-size: 1.1rem;
   .designation {
     text-align: right;
   }
+  .incident {
+    margin-left: -$btn-padding-x;
+  }
 
   @media (max-width: 750px) {
     grid-template-areas:

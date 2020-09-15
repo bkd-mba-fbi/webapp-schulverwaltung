@@ -155,9 +155,7 @@
                 "
                 class="designation-incident"
               >
-                <ng-container *ngIf="!entry.canChangePresenceType">{{
-                  entry.presenceType?.Designation
-                }}</ng-container>
+                {{ entry.presenceType?.Designation }}
               </td>
               <td
                 [attr.data-label]="
