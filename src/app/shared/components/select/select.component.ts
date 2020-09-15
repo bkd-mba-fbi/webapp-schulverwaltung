@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 
 import { DropDownItem } from '../../models/drop-down-item.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'erz-select',
@@ -22,17 +23,26 @@ export class SelectComponent implements OnInit, OnChanges {
   @Input() value: Option<number> = null;
   @Output() valueChange = new EventEmitter<Option<number>>();
 
-  value$ = new BehaviorSubject<Option<DropDownItem>>(null);
+  options$ = new BehaviorSubject<ReadonlyArray<DropDownItem>>([]);
+  rawValue$ = new BehaviorSubject<Option<number>>(null);
+
+  value$ = combineLatest([this.rawValue$, this.options$]).pipe(
+    map(
+      ([rawValue, options]) =>
+        (options && options.find((o) => o.Key === rawValue)) || null
+    )
+  );
 
   constructor() {}
 
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value && this.options) {
-      this.value$.next(
-        this.options.find((o) => o.Key === changes.value.currentValue) || null
-      );
+    if (changes.value) {
+      this.rawValue$.next(changes.value.currentValue);
+    }
+    if (changes.options) {
+      this.options$.next(changes.options.currentValue);
     }
   }
 }
