@@ -4,7 +4,6 @@ import { Settings } from 'src/app/settings';
 import { Searchable } from 'src/app/shared/utils/search';
 import {
   isAbsent,
-  isLate,
   isDefaultAbsence,
   canChangePresenceType,
   isCheckableAbsence,
@@ -13,9 +12,8 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 export enum PresenceCategory {
   Present = 'present',
-  Absent = 'absent',
-  Late = 'late',
   Checkable = 'checkable',
+  Absent = 'absent',
 }
 
 export class PresenceControlEntry implements Searchable {
@@ -37,20 +35,13 @@ export class PresenceControlEntry implements Searchable {
       return PresenceCategory.Absent;
     }
 
-    if (isLate(this.presenceType, this.settings)) {
-      return PresenceCategory.Late;
-    }
-
     return PresenceCategory.Present;
   }
 
   get nextPresenceCategory(): PresenceCategory {
-    const categories = Object.keys(PresenceCategory).map(
-      (c) => PresenceCategory[c as keyof typeof PresenceCategory]
-    );
-    const currentCategory = this.presenceCategory;
-    const index = categories.findIndex((c) => c === currentCategory);
-    return categories[(index + 1) % categories.length] as PresenceCategory;
+    return this.presenceCategory === PresenceCategory.Absent
+      ? PresenceCategory.Present
+      : PresenceCategory.Absent;
   }
 
   getNextPresenceType(
@@ -61,10 +52,6 @@ export class PresenceControlEntry implements Searchable {
         return (
           presenceTypes.find((type) => isDefaultAbsence(type, this.settings)) ||
           null
-        );
-      case PresenceCategory.Late:
-        return (
-          presenceTypes.find((type) => isLate(type, this.settings)) || null
         );
       default:
         return null;
@@ -89,8 +76,6 @@ export class PresenceControlEntry implements Searchable {
         return 'cancel';
       case 'checkable':
         return 'help';
-      case 'late':
-        return 'watch_later';
       default:
         return 'check_circle';
     }
