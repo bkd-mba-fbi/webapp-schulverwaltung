@@ -9,11 +9,11 @@ import { settings } from 'src/spec-helpers';
 
 describe('presence types', () => {
   let absenceType: PresenceType;
-  let lateType: PresenceType;
   let commentType: PresenceType;
   let incidentType: PresenceType;
 
   let lessonPresenceConfirmed: LessonPresence;
+  let lessonPresenceCheckable: LessonPresence;
   let lessonPresence: LessonPresence;
 
   beforeEach(() => {
@@ -29,6 +29,18 @@ describe('presence types', () => {
       settings.unconfirmedAbsenceStateId
     );
 
+    lessonPresenceCheckable = buildLessonPresence(
+      1,
+      new Date(2000, 0, 23, 7, 0),
+      new Date(2000, 0, 23, 8, 0),
+      'Zeichnen',
+      'Vincent van Gogh',
+      undefined,
+      undefined,
+      undefined,
+      settings.checkableAbsenceStateId
+    );
+
     lessonPresence = buildLessonPresence(
       1,
       new Date(2000, 0, 23, 7, 0),
@@ -42,7 +54,6 @@ describe('presence types', () => {
       true,
       false
     );
-    lateType = buildPresenceType(settings.latePresenceTypeId, false, true);
     commentType = buildPresenceType(6, false, false, true);
     incidentType = buildPresenceType(14, false, true, false);
   });
@@ -66,9 +77,9 @@ describe('presence types', () => {
   });
 
   describe('.canChangePresenceType', () => {
-    it('should return true if is late absence type', () => {
+    it('should return true if is checkable absence type', () => {
       expect(
-        canChangePresenceType(lessonPresence, lateType, settings)
+        canChangePresenceType(lessonPresenceCheckable, absenceType, settings)
       ).toBeTruthy();
     });
 

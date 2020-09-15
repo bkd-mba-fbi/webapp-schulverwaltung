@@ -72,7 +72,7 @@ export function canChangePresenceType(
   ) {
     return true;
   }
-  if (isLate(presenceType, settings)) {
+  if (isCheckableAbsence(settings, lessonPresence.ConfirmationStateId)) {
     return true;
   }
   return false;
