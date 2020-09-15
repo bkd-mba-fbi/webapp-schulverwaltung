@@ -109,8 +109,8 @@ export class PresenceControlStateService
   absentCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getCategoryCount('absent'))
   );
-  lateCount$ = this.selectedPresenceControlEntries$.pipe(
-    map(getCategoryCount('late'))
+  checkableCount$ = this.selectedPresenceControlEntries$.pipe(
+    map(getCategoryCount('checkable'))
   );
 
   viewMode$ = this.viewModeSubject$.asObservable();

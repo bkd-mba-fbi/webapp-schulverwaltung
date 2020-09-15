@@ -63,7 +63,7 @@ export class PresenceControlHeaderComponent implements OnInit {
   @Input() lessons: ReadonlyArray<Lesson>;
   @Input() presentCount: Option<number> = null;
   @Input() absentCount: Option<number> = null;
-  @Input() lateCount: Option<number> = null;
+  @Input() checkableCount: Option<number> = null;
   @Input() viewMode: ViewMode;
   @Input() selectDate: Date;
   @Input() search = '';

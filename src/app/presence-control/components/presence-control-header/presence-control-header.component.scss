@@ -112,7 +112,7 @@
 }
 
 /**
- * State counts (present, absent, late)
+ * State counts (present, absent, checkable)
  */
 .states {
   margin: 0.75 * $spacer 0;
@@ -139,8 +139,8 @@
 .state.absent i {
   color: $absent-color;
 }
-.state.late i {
-  color: $late-color;
+.state.checkable i {
+  color: $checkable-color;
 }
 
 .state .count {
