@@ -13,6 +13,7 @@
     ngbDatepicker
     #dp="ngbDatepicker"
     (click)="dp.toggle()"
+    [minDate]="minDate"
     [ngModel]="value"
     (ngModelChange)="valueChange.emit($event)"
   />

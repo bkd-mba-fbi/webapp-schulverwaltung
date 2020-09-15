@@ -1,19 +1,19 @@
-import { HttpParams } from '@angular/common/http';
+import { Params } from '@angular/router';
 import { format } from 'date-fns';
 
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 
-export function buildHttpParamsFromAbsenceFilter(
+export function buildParamsFromAbsenceFilter(
   filter: EditAbsencesFilter | EvaluateAbsencesFilter
-): HttpParams {
+): Params {
   return Object.keys(filter).reduce((acc, name) => {
     const value = serializeFilterValue((filter as any)[name]);
     if (value) {
-      return acc.set(name, value);
+      return { ...acc, [name]: value };
     }
     return acc;
-  }, new HttpParams());
+  }, {});
 }
 
 function serializeFilterValue(value: any): Option<string> {

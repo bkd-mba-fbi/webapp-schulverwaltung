@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
-import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
+import { buildParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 import { Paginated } from 'src/app/shared/utils/pagination';
 import {
   PaginatedEntriesService,
@@ -41,7 +41,7 @@ export class EvaluateAbsencesStateService
   ) {
     super(location, loadingService, settings, '/evaluate-absences');
 
-    this.queryParams$
+    this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (returnparams) => (this.confirmBackLinkParams = { returnparams })
@@ -82,9 +82,7 @@ export class EvaluateAbsencesStateService
     );
   }
 
-  protected buildHttpParamsFromFilter(
-    filterValue: EvaluateAbsencesFilter
-  ): HttpParams {
-    return buildHttpParamsFromAbsenceFilter(filterValue);
+  protected buildParamsFromFilter(filterValue: EvaluateAbsencesFilter): Params {
+    return buildParamsFromAbsenceFilter(filterValue);
   }
 }

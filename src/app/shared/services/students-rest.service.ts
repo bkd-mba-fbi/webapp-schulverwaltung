@@ -12,6 +12,7 @@ import { ApprenticeshipContract } from '../models/apprenticeship-contract.model'
 import { TimetableEntry } from '../models/timetable-entry.model';
 import { LessonAbsence } from '../models/lesson-absence.model';
 import { LessonIncident } from '../models/lesson-incident.model';
+import { LessonDispensation } from '../models/lesson-dispensation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,17 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
         params,
       })
       .pipe(switchMap(decodeArray(LessonIncident)));
+  }
+
+  getLessonDispensations(
+    studentId: number,
+    params?: HttpParams | Dict<string>
+  ): Observable<ReadonlyArray<LessonDispensation>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${studentId}/LessonDispensations`, {
+        params,
+      })
+      .pipe(switchMap(decodeArray(LessonDispensation)));
   }
 
   getTimetableEntries(

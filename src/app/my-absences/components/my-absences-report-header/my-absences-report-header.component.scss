@@ -1,0 +1,48 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+:host {
+  display: block;
+  padding: $spacer;
+  border-bottom: 1px solid $border-color;
+}
+
+.backlink {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacer;
+
+  a {
+    margin-left: -$spacer;
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 20rem;
+  max-width: 40rem;
+  margin-right: $spacer;
+  margin-bottom: $spacer / 2;
+}
+
+.buttons {
+  flex: none;
+  margin-top: $font-size-base * $line-height-base + $label-margin-bottom;
+  margin-right: 0;
+}
+
+/**
+ * Wrap button to separate line on small screens
+ */
+@include media-breakpoint-down(sm) {
+  .buttons {
+    width: 100%;
+    margin-top: $spacer;
+    margin-bottom: $spacer;
+  }
+}

@@ -9,9 +9,11 @@ describe('MyAbsencesEditLinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [MyAbsencesReportLinkComponent],
-      })
+      buildTestModuleMetadata(
+        buildTestModuleMetadata({
+          declarations: [MyAbsencesReportLinkComponent],
+        })
+      )
     ).compileComponents();
   }));
 

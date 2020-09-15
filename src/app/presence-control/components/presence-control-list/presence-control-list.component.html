@@ -41,7 +41,7 @@
               "
               [viewMode]="state.viewMode$ | async"
               [profileReturnParams]="{
-                returnparams: (state.queryParams$ | async)?.toString()
+                returnparams: (state.queryParamsString$ | async)
               }"
               (togglePresenceType)="togglePresenceType($event)"
               (changeIncident)="changeIncident($event)"
@@ -61,7 +61,7 @@
             "
             [viewMode]="state.viewMode$ | async"
             [profileReturnParams]="{
-              returnparams: (state.queryParams$ | async)?.toString()
+              returnparams: (state.queryParamsString$ | async)
             }"
             (togglePresenceType)="togglePresenceType($event)"
             (changeIncident)="changeIncident($event)"

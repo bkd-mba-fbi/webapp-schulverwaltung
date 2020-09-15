@@ -156,7 +156,6 @@
   "my-absences": {
     "title": "Meine Absenzen",
     "show": {
-      "report-absence-link": "Absenz melden",
       "default-absence-selection-message": "Sie müssen bei allen offenen Absenzen einen Grund erfassen, bevor Sie das Entschuldigungsformular herunterladen können.",
       "confirm-presence-type": "Grund erfassen"
     },
@@ -168,6 +167,19 @@
       "cancel": "Abbrechen",
       "save": "Übernehmen",
       "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
+    },
+    "report": {
+      "title": "Absenz melden",
+      "no-filter": "Hier können Sie alle Lektionen von heute und in der Zukunft anzeigen, um Awesenheiten zu melden. Wählen Sie ein Start- und Enddatum aus und klicken Sie danach auf «Anzeigen».",
+      "no-entries": "Keine Resultate gefunden.",
+      "header": {
+        "date-from": "Datum von",
+        "date-to": "Datum bis",
+        "show": "Anzeigen"
+      },
+      "list": {
+        "all": "Alle"
+      }
     }
   },
   "my-profile": {

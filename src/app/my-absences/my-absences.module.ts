@@ -6,6 +6,9 @@ import { MyAbsencesShowComponent } from './components/my-absences-show/my-absenc
 import { MyAbsencesReportComponent } from './components/my-absences-report/my-absences-report.component';
 import { MyAbsencesReportLinkComponent } from './components/my-absences-report-link/my-absences-report-link.component';
 import { MyAbsencesConfirmComponent } from './components/my-absences-confirm/my-absences-confirm.component';
+import { MyAbsencesReportHeaderComponent } from './components/my-absences-report-header/my-absences-report-header.component';
+import { MyAbsencesReportListComponent } from './components/my-absences-report-list/my-absences-report-list.component';
+import { MyAbsencesReportConfirmComponent } from './components/my-absences-confirm/my-absences-report-confirm.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +17,9 @@ import { MyAbsencesConfirmComponent } from './components/my-absences-confirm/my-
     MyAbsencesReportComponent,
     MyAbsencesReportLinkComponent,
     MyAbsencesConfirmComponent,
+    MyAbsencesReportHeaderComponent,
+    MyAbsencesReportListComponent,
+    MyAbsencesReportConfirmComponent,
   ],
   imports: [SharedModule, MyAbsencesRoutingModule],
 })

@@ -1,11 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
 import { Params } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, takeUntil } from 'rxjs/operators';
 
-import { PresenceControlEntry } from 'src/app/presence-control/models/presence-control-entry.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
@@ -15,7 +13,7 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
 import { sortDropDownItemsByValue } from 'src/app/shared/utils/drop-down-items';
 import { spread } from 'src/app/shared/utils/function';
-import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
+import { buildParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 import {
   PaginatedEntriesService,
   PAGE_LOADING_CONTEXT,
@@ -23,6 +21,7 @@ import {
 import { Paginated } from 'src/app/shared/utils/pagination';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
+import { buildPresenceControlEntries } from '../../shared/utils/presence-control-entries';
 
 export interface EditAbsencesFilter {
   student: Option<number>;
@@ -51,7 +50,7 @@ export class EditAbsencesStateService
     this.entries$,
     this.presenceTypes$,
     this.absenceConfirmationStates$,
-  ]).pipe(map(spread(getPresenceControlEntries)), shareReplay(1));
+  ]).pipe(map(spread(buildPresenceControlEntries)), shareReplay(1));
 
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
@@ -68,7 +67,7 @@ export class EditAbsencesStateService
   ) {
     super(location, loadingService, settings, '/edit-absences');
 
-    this.queryParams$
+    this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (returnparams) => (this.confirmBackLinkParams = { returnparams })
@@ -123,10 +122,8 @@ export class EditAbsencesStateService
     );
   }
 
-  protected buildHttpParamsFromFilter(
-    filterValue: EditAbsencesFilter
-  ): HttpParams {
-    return buildHttpParamsFromAbsenceFilter(filterValue);
+  protected buildParamsFromFilter(filterValue: EditAbsencesFilter): Params {
+    return buildParamsFromAbsenceFilter(filterValue);
   }
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
@@ -142,29 +139,4 @@ export class EditAbsencesStateService
       this.dropDownItemsService.getAbsenceConfirmationStates()
     );
   }
-}
-
-function getPresenceControlEntries(
-  lessonPresences: ReadonlyArray<LessonPresence>,
-  presenceTypes: ReadonlyArray<PresenceType>,
-  confirmationStates: ReadonlyArray<DropDownItem>
-): ReadonlyArray<PresenceControlEntry> {
-  return lessonPresences.map((lessonPresence) => {
-    let presenceType = null;
-    if (lessonPresence.TypeRef.Id) {
-      presenceType =
-        presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
-    }
-    let confirmationState;
-    if (lessonPresence.ConfirmationStateId) {
-      confirmationState = confirmationStates.find(
-        (s) => s.Key === lessonPresence.ConfirmationStateId
-      );
-    }
-    return new PresenceControlEntry(
-      lessonPresence,
-      presenceType,
-      confirmationState
-    );
-  });
 }

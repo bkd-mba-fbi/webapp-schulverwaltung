@@ -1,0 +1,131 @@
+@import "../../../../bootstrap-variables";
+
+/* autoprefixer grid: on */
+
+.entries-all {
+  padding: 0 0 (0.5 * $spacer) $spacer;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template-areas: "checkbox all buttons";
+  grid-template-columns: min-content 1fr min-content;
+}
+
+// IE11 workaround for `align-items: center`
+.entries-all > * {
+  align-self: center;
+}
+
+.entry {
+  padding: $spacer;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template-areas:
+    "checkbox lesson-class time teacher"
+    "checkbox presence-type date days-ago";
+  grid-template-columns: min-content 3fr 1fr 1fr;
+}
+
+.entry:first-child {
+  padding-top: 0;
+}
+.entries-all + .entry {
+  padding-top: $spacer;
+}
+
+.presence-category.absent {
+  color: $absent-color;
+}
+
+.presence-category.unapproved {
+  color: $unapproved-color;
+}
+
+.checkbox {
+  grid-area: checkbox;
+  margin: 0;
+  padding: 0.6rem $spacer/2 0 0;
+}
+.presence-category .material-icons {
+  display: block;
+  font-size: 16px;
+}
+.entries-all .checkbox {
+  padding-top: 0.2rem;
+}
+
+.checkbox input.form-check-input {
+  // Make the following statements !important since the are
+  // overwritten in Evento as such
+  position: static !important;
+  margin: 0 !important;
+  display: block;
+}
+
+.all {
+  grid-area: all;
+}
+
+.buttons {
+  grid-area: buttons;
+  display: flex;
+
+  .btn {
+    line-height: 1;
+    font-size: $erz-icon-size;
+  }
+}
+
+.lesson-class {
+  grid-area: lesson-class;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.time {
+  grid-area: time;
+}
+
+.teacher {
+  grid-area: teacher;
+}
+
+.presence-type {
+  color: $gray-500;
+  grid-area: presence-type;
+}
+
+.date {
+  grid-area: date;
+}
+
+.days-ago {
+  color: $gray-500;
+  grid-area: days-ago;
+}
+
+.date-days-ago {
+  grid-area: date-days-ago;
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .entry {
+    grid-template-areas:
+      "checkbox lesson-class"
+      "checkbox teacher"
+      "checkbox date-days-ago"
+      "checkbox time"
+      "checkbox presence-type";
+    grid-template-columns: min-content 1fr;
+  }
+
+  .date-days-ago {
+    display: block;
+  }
+
+  .date,
+  .days-ago {
+    display: none;
+  }
+}

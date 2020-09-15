@@ -2,6 +2,7 @@
   *ngIf="!isListViewMode"
   [studentId]="studentId$ | async"
   [link]="['/presence-control/student', entry.lessonPresence.StudentRef.Id]"
+  [linkParams]="profileReturnParams"
   class="avatar large"
 ></erz-avatar>
 <button

@@ -16,6 +16,20 @@ export enum PresenceCategory {
   Absent = 'absent',
 }
 
+/**
+ * Returns the name of the icon for the given presence category
+ */
+export function getPresenceCategoryIcon(category: PresenceCategory): string {
+  switch (category) {
+    case PresenceCategory.Absent:
+      return 'cancel';
+    case PresenceCategory.Unapproved:
+      return 'help';
+    default:
+      return 'check_circle';
+  }
+}
+
 export class PresenceControlEntry implements Searchable {
   readonly studentFullName: string;
   constructor(
@@ -81,14 +95,7 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get presenceCategoryIcon(): string {
-    switch (this.presenceCategory) {
-      case 'absent':
-        return 'cancel';
-      case 'unapproved':
-        return 'help';
-      default:
-        return 'check_circle';
-    }
+    return getPresenceCategoryIcon(this.presenceCategory);
   }
 
   private get settings(): Settings {

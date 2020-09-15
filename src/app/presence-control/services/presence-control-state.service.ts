@@ -40,9 +40,9 @@ import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-upd
 import { Settings, SETTINGS } from 'src/app/settings';
 import { canChangePresenceType } from '../utils/presence-types';
 import { isToday } from 'date-fns';
-import { HttpParams } from '@angular/common/http';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
+import { serializeParams } from 'src/app/shared/utils/url';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -118,6 +118,11 @@ export class PresenceControlStateService
     this.selectedLesson$,
     this.viewMode$,
   ]).pipe(map(spread(this.buildQueryParams.bind(this))));
+  queryParamsString$ = combineLatest([
+    this.selectedDate$,
+    this.selectedLesson$,
+    this.viewMode$,
+  ]).pipe(map(spread(this.buildQueryParams.bind(this))), map(serializeParams));
 
   private destroy$ = new Subject<void>();
 
@@ -129,10 +134,12 @@ export class PresenceControlStateService
     @Inject(SETTINGS) private settings: Settings,
     private location: Location
   ) {
-    this.queryParams$.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.location.replaceState('/presence-control', params.toString());
-      this.confirmBackLinkParams = { returnparams: params };
-    });
+    this.queryParamsString$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((returnparams) => {
+        this.location.replaceState('/presence-control', returnparams);
+        this.confirmBackLinkParams = { returnparams };
+      });
   }
 
   ngOnDestroy(): void {
@@ -272,15 +279,13 @@ export class PresenceControlStateService
     date: Date,
     lesson: Option<Lesson>,
     viewMode: ViewMode
-  ): HttpParams {
-    let params = new HttpParams({
-      fromObject: {
-        date: format(date, 'yyyy-MM-dd'),
-        viewMode,
-      },
-    });
+  ): Params {
+    const params: Params = {
+      date: format(date, 'yyyy-MM-dd'),
+      viewMode,
+    };
     if (lesson) {
-      params = params.set('lesson', String(lesson.LessonRef.Id));
+      params.lesson = String(lesson.LessonRef.Id);
     }
     return params;
   }

@@ -28,7 +28,7 @@ import { isTruthy } from 'src/app/shared/utils/filter';
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy {
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
-  profileReturnParams$ = this.state.queryParams$;
+  profileReturnParams$ = this.state.queryParamsString$;
 
   private destroy$ = new Subject();
 

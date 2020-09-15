@@ -1,0 +1,128 @@
+<ng-container
+  *erzLet="{
+    selection: selectionService.selection$ | async,
+    entries: state.entries$ | async,
+    loadingPage: state.loadingPage$ | async
+  } as data"
+>
+  <erz-my-absences-report-header
+    [filter]="filterFromParams$ | async"
+    (filterChange)="state.setFilter($event)"
+  ></erz-my-absences-report-header>
+
+  <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
+    <ng-container *ngIf="!(state.loading$ | async); else loading">
+      <div
+        *ngIf="
+          (data.entries && data.entries.length > 0) || data.loadingPage;
+          else noEntries
+        "
+        class="p-3"
+      >
+        <div *ngIf="data.entries && data.entries.length > 0">
+          <div class="entries-all" #all (click)="onRowClick($event, all)">
+            <div class="checkbox">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [checked]="allSelected$ | async"
+                (change)="toggleAll($event.target.checked)"
+              />
+            </div>
+            <div class="all">
+              {{ 'my-absences.report.list.all' | translate }}
+            </div>
+
+            <div class="buttons">
+              <a
+                class="edit btn btn-primary mr-2"
+                [class.disabled]="
+                  (selectionService.selection$ | async).length === 0
+                "
+                routerLink="confirm"
+              >
+                <i class="material-icons">edit</i>
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="entry"
+            *ngFor="let entry of data.entries"
+            #row
+            (click)="onRowClick($event, row)"
+          >
+            <ng-container
+              *erzLet="getPresenceCategory(entry) | async as category"
+            >
+              <div *ngIf="!category; else categoryIcon" class="checkbox">
+                <input
+                  #checkbox
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="selectionService.isSelected$(entry) | async"
+                  (change)="selectionService.toggle(entry)"
+                />
+              </div>
+              <ng-template #categoryIcon>
+                <div class="checkbox presence-category {{ category.category }}">
+                  <i class="material-icons">{{ category.icon }}</i>
+                </div>
+              </ng-template>
+            </ng-container>
+            <div class="lesson-class">
+              {{ entry.EventDesignation
+              }}<ng-container *ngIf="entry.StudyClassNumber"
+                >, {{ entry.StudyClassNumber }}</ng-container
+              >
+            </div>
+            <div class="time pr-2">
+              {{ entry.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+                entry.LessonDateTimeTo | date: 'HH:mm'
+              }}
+            </div>
+            <div class="teacher">
+              {{ entry.TeacherInformation }}
+            </div>
+            <ng-container
+              *erzLet="
+                getPresenceTypeDesignation(entry)
+                  | async as presenceTypeDesignation
+              "
+            >
+              <div *ngIf="presenceTypeDesignation" class="presence-type">
+                {{ presenceTypeDesignation }}
+              </div>
+            </ng-container>
+            <div class="date">
+              {{ entry.LessonDateTimeFrom | date: 'dd.MM.yyyy' }}
+            </div>
+            <div class="days-ago">
+              {{ entry.LessonDateTimeFrom | erzDaysDifference }}
+            </div>
+            <div class="date-days-ago">
+              {{ entry.LessonDateTimeFrom | date: 'dd.MM.yyyy' }},
+              {{ entry.LessonDateTimeFrom | erzDaysDifference }}
+            </div>
+          </div>
+        </div>
+
+        <erz-spinner class="inline" *ngIf="data.loadingPage"></erz-spinner>
+      </div>
+
+      <ng-template #noEntries>
+        <p class="mt-3 px-3">
+          {{ 'my-absences.report.no-entries' | translate }}
+        </p>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loading>
+      <erz-spinner></erz-spinner>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #noFilter>
+    <p class="mt-3 px-3">{{ 'my-absences.report.no-filter' | translate }}</p>
+  </ng-template>
+</ng-container>

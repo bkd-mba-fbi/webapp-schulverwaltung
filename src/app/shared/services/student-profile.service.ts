@@ -64,12 +64,12 @@ export class StudentProfileService {
         .getMyself()
         .pipe(
           switchMap((person) =>
-            combineLatest(
+            combineLatest([
               of(person),
               this.loadLegalRepresentatives(person.Id),
               this.loadApprenticeshipContracts(person.Id),
-              this.loadStayPermitValue(person.StayPermit)
-            )
+              this.loadStayPermitValue(person.StayPermit),
+            ])
           )
         )
         .pipe(

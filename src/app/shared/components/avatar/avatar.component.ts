@@ -6,6 +6,8 @@ import {
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
+import { Params } from '@angular/router';
+
 import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from '../../services/storage.service';
 
@@ -17,6 +19,7 @@ import { StorageService } from '../../services/storage.service';
 export class AvatarComponent implements OnInit, OnChanges {
   @Input() studentId: number;
   @Input() link: string[];
+  @Input() linkParams?: Params;
 
   avatarStyles: Dict<string> = {};
 

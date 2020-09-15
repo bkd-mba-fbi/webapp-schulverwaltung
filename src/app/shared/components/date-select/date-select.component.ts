@@ -9,6 +9,7 @@ import { uniqueId } from 'lodash-es';
 export class DateSelectComponent implements OnInit {
   @Input() value: Option<Date> = null;
   @Input() placeholder = 'shared.date-select.default-placeholder';
+  @Input() minDate: Option<{ year: number; month: number; day: number }> = null;
   @Output() valueChange = new EventEmitter<Option<Date>>();
 
   componentId = uniqueId('erz-date-select-');

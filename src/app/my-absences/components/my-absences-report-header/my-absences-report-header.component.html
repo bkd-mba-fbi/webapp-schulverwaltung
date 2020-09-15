@@ -1,0 +1,30 @@
+<div class="backlink">
+  <a class="btn btn-link py-2 text-body" [routerLink]="['/my-absences']">
+    <i class="material-icons d-block">navigate_before</i>
+  </a>
+  <div>{{ 'my-absences.report.title' | translate }}</div>
+</div>
+
+<div class="filters">
+  <div class="form-group">
+    <label>{{ 'my-absences.report.header.date-from' | translate }}</label>
+    <erz-date-select
+      [minDate]="minDate"
+      [value]="filter.dateFrom"
+      (valueChange)="updateDateFrom($event)"
+    ></erz-date-select>
+  </div>
+  <div class="form-group">
+    <label>{{ 'my-absences.report.header.date-to' | translate }}</label>
+    <erz-date-select
+      [minDate]="minDate"
+      [(value)]="filter.dateTo"
+    ></erz-date-select>
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="btn btn-primary" (click)="show()">
+      {{ 'my-absences.report.header.show' | translate }}
+    </button>
+  </div>
+</div>

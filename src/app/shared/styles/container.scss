@@ -7,6 +7,14 @@
 }
 
 /**
+ * Limit the container on large screens
+  */
+.erz-container-limited {
+  max-width: $erz-container-max-width;
+  margin-left: 0; // Should be left aligned because of the Evento integration
+}
+
+/**
  * Add vertical padding
  */
 .erz-container-padding-y {

@@ -38,7 +38,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   ];
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
-  profileReturnParams$ = this.state.queryParams$;
+  profileReturnParams$ = this.state.queryParamsString$;
 
   constructor(
     public state: EvaluateAbsencesStateService,

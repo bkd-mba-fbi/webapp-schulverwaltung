@@ -1,6 +1,6 @@
 import { OnDestroy, Injectable } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
+import { Params } from '@angular/router';
 import {
   BehaviorSubject,
   Observable,
@@ -27,6 +27,7 @@ import { LoadingService } from './loading-service';
 import { Settings } from 'src/app/settings';
 import { Paginated } from '../utils/pagination';
 import { spread } from '../utils/function';
+import { serializeParams } from '../utils/url';
 
 interface ResetEntriesAction<T> {
   action: 'reset';
@@ -120,9 +121,8 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     map(({ offset, total }) => offset < total - this.settings.paginationLimit)
   );
 
-  queryParams$ = this.filter$.pipe(
-    map(this.buildHttpParamsFromFilter.bind(this))
-  );
+  queryParams$ = this.filter$.pipe(map(this.buildParamsFromFilter.bind(this)));
+  queryParamsString$ = this.queryParams$.pipe(map(serializeParams));
 
   protected destroy$ = new Subject<void>();
 
@@ -132,11 +132,9 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     protected settings: Settings,
     pageUrl: string
   ) {
-    this.queryParams$
+    this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params) =>
-        this.location.replaceState(pageUrl, params.toString())
-      );
+      .subscribe((params) => this.location.replaceState(pageUrl, params));
   }
 
   ngOnDestroy(): void {
@@ -190,7 +188,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     offset: number
   ): Observable<Paginated<ReadonlyArray<T>>>;
 
-  protected abstract buildHttpParamsFromFilter(filterValue: F): HttpParams;
+  protected abstract buildParamsFromFilter(filterValue: F): Params;
 
   private entriesActionReducer(
     entries: ReadonlyArray<T>,
