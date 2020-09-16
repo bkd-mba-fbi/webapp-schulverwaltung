@@ -6,7 +6,7 @@
 ></erz-avatar>
 <button
   type="button"
-  *ngIf="!entry.canChangePresenceType"
+  *ngIf="entry.showDesignation"
   (click)="updatePresenceType(entry)"
   class="presence-category designation btn btn-link"
 >

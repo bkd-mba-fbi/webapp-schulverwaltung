@@ -70,6 +70,13 @@ export class PresenceControlEntry implements Searchable {
     return !isAbsent(this.presenceType);
   }
 
+  get showDesignation(): boolean {
+    return (
+      !this.canChangePresenceType ||
+      this.presenceCategory === PresenceCategory.Checkable
+    );
+  }
+
   get presenceCategoryIcon(): string {
     switch (this.presenceCategory) {
       case 'absent':
