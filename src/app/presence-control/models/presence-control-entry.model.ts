@@ -49,10 +49,11 @@ export class PresenceControlEntry implements Searchable {
   ): Option<PresenceType> {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
-        return (
-          presenceTypes.find((type) => isDefaultAbsence(type, this.settings)) ||
-          null
-        );
+        return this.presenceCategory === PresenceCategory.Checkable
+          ? this.presenceType
+          : presenceTypes.find((type) =>
+              isDefaultAbsence(type, this.settings)
+            ) || null;
       default:
         return null;
     }
