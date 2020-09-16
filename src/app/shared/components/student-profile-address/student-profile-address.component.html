@@ -10,10 +10,12 @@
     </a>
     <br />
   </ng-container>
-  <a href="tel:{{ student.PhoneMobile }}">
-    {{ student.PhoneMobile }}
-  </a>
-  <br />
+  <ng-container *ngIf="student.PhoneMobile">
+    <a href="tel:{{ student.PhoneMobile }}">
+      {{ student.PhoneMobile }}
+    </a>
+    <br />
+  </ng-container>
   <a *ngIf="email" href="mailto:{{ email }}">
     {{ email }}
   </a>
