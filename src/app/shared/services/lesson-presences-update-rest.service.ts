@@ -19,7 +19,6 @@ export class LessonPresencesUpdateRestService {
     personIds: ReadonlyArray<number>,
     presenceTypeId?: Option<number>,
     confirmationValue?: Option<number>,
-    comment?: Option<string>,
     params?: HttpParams
   ): Observable<void> {
     const body: Dict<any> = {
@@ -31,9 +30,6 @@ export class LessonPresencesUpdateRestService {
     }
     if (confirmationValue !== undefined) {
       body.ConfirmationValue = confirmationValue;
-    }
-    if (comment !== undefined) {
-      body.Comment = comment;
     }
 
     return this.http

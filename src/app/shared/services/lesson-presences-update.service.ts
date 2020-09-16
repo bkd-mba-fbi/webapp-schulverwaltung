@@ -155,7 +155,6 @@ export class LessonPresencesUpdateService implements OnDestroy {
         newPresenceTypeId,
         getNewConfirmationStateId(newPresenceTypeId, this.settings) ||
           undefined,
-        undefined,
         withConfig({ disableErrorHandling: true })
       );
     }
