@@ -8,6 +8,7 @@ import {
   debounceTime,
   filter,
   mapTo,
+  switchMap,
   scan,
   share,
   takeUntil,
@@ -19,6 +20,8 @@ import { isEmptyArray } from '../utils/array';
 import { not } from '../utils/filter';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
 import { getNewConfirmationStateId } from 'src/app/presence-control/utils/presence-types';
+import { PresenceTypesService } from './presence-types.service';
+import { PresenceType } from '../models/presence-type.model';
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
@@ -86,6 +89,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     private toastr: ToastrService,
     private translate: TranslateService,
     private restService: LessonPresencesUpdateRestService,
+    private presenceTypesService: PresenceTypesService,
     @Inject(SETTINGS) private settings: Settings
   ) {
     this.performUpdates$.pipe(takeUntil(this.destroy$)).subscribe();
@@ -149,13 +153,19 @@ export class LessonPresencesUpdateService implements OnDestroy {
     newPresenceTypeId: Option<number> = null
   ): Observable<void> {
     if (newPresenceTypeId) {
-      return this.restService.editLessonPresences(
-        [lessonId],
-        personIds,
-        newPresenceTypeId,
-        getNewConfirmationStateId(newPresenceTypeId, this.settings) ||
-          undefined,
-        withConfig({ disableErrorHandling: true })
+      const presenceType$: Observable<Option<PresenceType>> = newPresenceTypeId
+        ? this.presenceTypesService.getPresenceType(newPresenceTypeId)
+        : of(null);
+      return presenceType$.pipe(
+        switchMap((type) =>
+          this.restService.editLessonPresences(
+            [lessonId],
+            personIds,
+            type?.Id,
+            getNewConfirmationStateId(type, this.settings) || undefined,
+            withConfig({ disableErrorHandling: true })
+          )
+        )
       );
     }
     return this.restService.removeLessonPresences(

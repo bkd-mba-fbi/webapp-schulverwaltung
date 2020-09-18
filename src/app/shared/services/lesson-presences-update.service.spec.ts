@@ -16,11 +16,13 @@ import {
   UPDATE_REQUEST_DEBOUNCE_TIME,
   UPDATE_STATE_DEBOUNCE_TIME,
 } from './lesson-presences-update.service';
+import { PresenceTypesService } from './presence-types.service';
 
 describe('LessonPresencesUpdateService', () => {
   let service: LessonPresencesUpdateService;
   let restServiceMock: LessonPresencesUpdateRestService;
   let toastrServiceMock: ToastrService;
+  let presenceTypeServiceMock: PresenceTypesService;
   let stateUpdatesCallback: jasmine.Spy;
 
   let absent: PresenceType;
@@ -31,6 +33,9 @@ describe('LessonPresencesUpdateService', () => {
   let deutschFrisch: LessonPresence;
   let deutschWalser: LessonPresence;
 
+  absent = buildPresenceType(11, true, false);
+  late = buildPresenceType(12, false, true);
+
   beforeEach(() => {
     restServiceMock = ({
       editLessonPresences: jasmine
@@ -40,6 +45,15 @@ describe('LessonPresencesUpdateService', () => {
         .createSpy('removeLessonPresences')
         .and.callFake(() => of()),
     } as unknown) as LessonPresencesUpdateRestService;
+
+    presenceTypeServiceMock = ({
+      getPresenceType: jasmine
+        .createSpy('getPresenceType')
+        .withArgs(absent.Id)
+        .and.callFake(() => of(absent))
+        .withArgs(late.Id)
+        .and.callFake(() => of(late)),
+    } as unknown) as PresenceTypesService;
 
     toastrServiceMock = ({
       error: jasmine.createSpy('error'),
@@ -52,6 +66,7 @@ describe('LessonPresencesUpdateService', () => {
             provide: LessonPresencesUpdateRestService,
             useValue: restServiceMock,
           },
+          { provide: PresenceTypesService, useValue: presenceTypeServiceMock },
           { provide: ToastrService, useValue: toastrServiceMock },
         ],
       })
@@ -60,9 +75,6 @@ describe('LessonPresencesUpdateService', () => {
 
     stateUpdatesCallback = jasmine.createSpy('stateUpdates$');
     service.stateUpdates$.subscribe(stateUpdatesCallback);
-
-    absent = buildPresenceType(11, true, false);
-    late = buildPresenceType(12, false, true);
 
     turnenFrisch = buildLessonPresence(
       1,

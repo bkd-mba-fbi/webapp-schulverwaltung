@@ -60,15 +60,13 @@ describe('presence types', () => {
 
   describe('.getNewConfirmationStateId', () => {
     it('should return unconfirmedAbsenceStateId if given absence presence type matches absencePresenceTypeId', () => {
-      expect(
-        getNewConfirmationStateId(settings.absencePresenceTypeId, settings)
-      ).toBe(settings.unconfirmedAbsenceStateId);
+      expect(getNewConfirmationStateId(absenceType, settings)).toBe(
+        settings.unconfirmedAbsenceStateId
+      );
     });
 
     it('should return null if given absence presence type does not match absencePresenceTypeId', () => {
-      expect(
-        getNewConfirmationStateId(settings.latePresenceTypeId, settings)
-      ).toBe(null);
+      expect(getNewConfirmationStateId(incidentType, settings)).toBe(null);
     });
 
     it('should return null if given absence presence type is null', () => {

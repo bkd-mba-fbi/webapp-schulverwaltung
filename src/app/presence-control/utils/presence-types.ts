@@ -79,10 +79,8 @@ export function canChangePresenceType(
 }
 
 export function getNewConfirmationStateId(
-  presenceTypeId: Option<number>,
+  presenceType: Option<PresenceType>,
   settings: Settings
 ): Option<number> {
-  return presenceTypeId === settings.absencePresenceTypeId
-    ? settings.unconfirmedAbsenceStateId
-    : null;
+  return presenceType?.IsAbsence ? settings.unconfirmedAbsenceStateId : null;
 }

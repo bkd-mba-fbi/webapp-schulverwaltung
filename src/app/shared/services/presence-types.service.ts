@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import {
   shareReplay,
   map,
@@ -70,6 +70,18 @@ export class PresenceTypesService {
     private restService: PresenceTypesRestService,
     @Inject(SETTINGS) private settings: Settings
   ) {}
+
+  public getPresenceType(id: number): Observable<PresenceType> {
+    return this.presenceTypes$.pipe(
+      map((types) => {
+        const type = types.find((t) => t.Id === id);
+        if (!type) {
+          throw new Error('presence type not found');
+        }
+        return type;
+      })
+    );
+  }
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
     return this.restService.getList().pipe(map(sortPresenceTypes));
