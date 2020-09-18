@@ -34,8 +34,8 @@
   color: $present-color;
 }
 
-:host.checkable .presence-category {
-  color: $checkable-color;
+:host.unapproved .presence-category {
+  color: $unapproved-color;
 }
 
 .designation,

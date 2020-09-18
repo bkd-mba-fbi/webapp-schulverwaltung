@@ -6,13 +6,13 @@ import {
   isAbsent,
   isDefaultAbsence,
   canChangePresenceType,
-  isCheckableAbsence,
+  isUnapprovedAbsence,
 } from '../utils/presence-types';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 export enum PresenceCategory {
   Present = 'present',
-  Checkable = 'checkable',
+  Unapproved = 'unapproved',
   Absent = 'absent',
 }
 
@@ -27,8 +27,8 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get presenceCategory(): PresenceCategory {
-    if (isCheckableAbsence(this.settings, this.confirmationState?.Key)) {
-      return PresenceCategory.Checkable;
+    if (isUnapprovedAbsence(this.settings, this.confirmationState?.Key)) {
+      return PresenceCategory.Unapproved;
     }
 
     if (isAbsent(this.presenceType)) {
@@ -49,7 +49,7 @@ export class PresenceControlEntry implements Searchable {
   ): Option<PresenceType> {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
-        return this.presenceCategory === PresenceCategory.Checkable
+        return this.presenceCategory === PresenceCategory.Unapproved
           ? this.presenceType
           : presenceTypes.find((type) =>
               isDefaultAbsence(type, this.settings)
@@ -74,7 +74,7 @@ export class PresenceControlEntry implements Searchable {
   get showDesignation(): boolean {
     return (
       !this.canChangePresenceType ||
-      this.presenceCategory === PresenceCategory.Checkable
+      this.presenceCategory === PresenceCategory.Unapproved
     );
   }
 
@@ -82,7 +82,7 @@ export class PresenceControlEntry implements Searchable {
     switch (this.presenceCategory) {
       case 'absent':
         return 'cancel';
-      case 'checkable':
+      case 'unapproved':
         return 'help';
       default:
         return 'check_circle';

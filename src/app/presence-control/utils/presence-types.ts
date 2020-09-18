@@ -34,7 +34,7 @@ export function isDefaultAbsence(
   );
 }
 
-export function isCheckableAbsence(
+export function isUnapprovedAbsence(
   settings: Settings,
   confirmationStateId: Maybe<number>
 ): boolean {
@@ -72,7 +72,7 @@ export function canChangePresenceType(
   ) {
     return true;
   }
-  if (isCheckableAbsence(settings, lessonPresence.ConfirmationStateId)) {
+  if (isUnapprovedAbsence(settings, lessonPresence.ConfirmationStateId)) {
     return true;
   }
   return false;
