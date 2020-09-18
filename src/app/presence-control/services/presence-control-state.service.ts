@@ -98,10 +98,7 @@ export class PresenceControlStateService
     this.lessonPresences$,
     this.presenceTypes$,
     this.absenceConfirmationStates$,
-  ]).pipe(
-    map(spread(getPresenceControlEntriesForLesson)),
-    shareReplay(1)
-  );
+  ]).pipe(map(spread(getPresenceControlEntriesForLesson)), shareReplay(1));
 
   presentCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getCategoryCount('present'))

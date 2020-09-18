@@ -67,7 +67,7 @@ export function canChangePresenceType(
     return true;
   }
   if (
-    isDefaultAbsence(presenceType, settings) &&
+    isAbsent(presenceType) &&
     lessonPresence.ConfirmationStateId === settings.unconfirmedAbsenceStateId
   ) {
     return true;

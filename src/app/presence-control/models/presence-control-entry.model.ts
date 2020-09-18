@@ -74,6 +74,8 @@ export class PresenceControlEntry implements Searchable {
   get showDesignation(): boolean {
     return (
       !this.canChangePresenceType ||
+      (this.presenceCategory === PresenceCategory.Absent &&
+        !isDefaultAbsence(this.presenceType, this.settings)) ||
       this.presenceCategory === PresenceCategory.Unapproved
     );
   }
