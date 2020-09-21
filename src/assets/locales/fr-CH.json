@@ -70,7 +70,6 @@
       "all": "Tout"
     },
     "edit": {
-      "state": "Statut",
       "absence-type-placeholder": "Sélectionner un motif d'absence...",
       "cancel": "Annuler",
       "save": "Valider",

@@ -26,7 +26,6 @@
     </div>
 
     <div class="form-group pb-4">
-      <label>{{ 'open-absences.edit.state' | translate }}</label>
       <div class="form-check mt-2 mb-3">
         <input
           type="radio"
@@ -52,6 +51,12 @@
           {{ type.Designation }}
         </option>
       </select>
+      <div class="remark">
+        {{ 'open-absences.edit.remark' | translate }}
+        <a [routerLink]="['/edit-absences']">
+          {{ 'edit-absences.title' | translate }}
+        </a>
+      </div>
       <div
         class="invalid-feedback"
         *ngFor="let error of absenceTypeIdErrors$ | async"
