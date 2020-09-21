@@ -9,11 +9,11 @@ import { settings } from 'src/spec-helpers';
 
 describe('presence types', () => {
   let absenceType: PresenceType;
-  let lateType: PresenceType;
   let commentType: PresenceType;
   let incidentType: PresenceType;
 
   let lessonPresenceConfirmed: LessonPresence;
+  let lessonPresenceUnapproved: LessonPresence;
   let lessonPresence: LessonPresence;
 
   beforeEach(() => {
@@ -29,6 +29,18 @@ describe('presence types', () => {
       settings.unconfirmedAbsenceStateId
     );
 
+    lessonPresenceUnapproved = buildLessonPresence(
+      1,
+      new Date(2000, 0, 23, 7, 0),
+      new Date(2000, 0, 23, 8, 0),
+      'Zeichnen',
+      'Vincent van Gogh',
+      undefined,
+      undefined,
+      undefined,
+      settings.checkableAbsenceStateId
+    );
+
     lessonPresence = buildLessonPresence(
       1,
       new Date(2000, 0, 23, 7, 0),
@@ -42,22 +54,19 @@ describe('presence types', () => {
       true,
       false
     );
-    lateType = buildPresenceType(settings.latePresenceTypeId, false, true);
     commentType = buildPresenceType(6, false, false, true);
     incidentType = buildPresenceType(14, false, true, false);
   });
 
   describe('.getNewConfirmationStateId', () => {
     it('should return unconfirmedAbsenceStateId if given absence presence type matches absencePresenceTypeId', () => {
-      expect(
-        getNewConfirmationStateId(settings.absencePresenceTypeId, settings)
-      ).toBe(settings.unconfirmedAbsenceStateId);
+      expect(getNewConfirmationStateId(absenceType, settings)).toBe(
+        settings.unconfirmedAbsenceStateId
+      );
     });
 
     it('should return null if given absence presence type does not match absencePresenceTypeId', () => {
-      expect(
-        getNewConfirmationStateId(settings.latePresenceTypeId, settings)
-      ).toBe(null);
+      expect(getNewConfirmationStateId(incidentType, settings)).toBe(null);
     });
 
     it('should return null if given absence presence type is null', () => {
@@ -66,9 +75,9 @@ describe('presence types', () => {
   });
 
   describe('.canChangePresenceType', () => {
-    it('should return true if is late absence type', () => {
+    it('should return true if is unapproved absence type', () => {
       expect(
-        canChangePresenceType(lessonPresence, lateType, settings)
+        canChangePresenceType(lessonPresenceUnapproved, absenceType, settings)
       ).toBeTruthy();
     });
 

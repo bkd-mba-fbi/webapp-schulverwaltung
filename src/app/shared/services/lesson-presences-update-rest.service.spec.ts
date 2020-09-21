@@ -20,7 +20,7 @@ describe('LessonPresencesUpdateRestService', () => {
   describe('.editLessonPresences', () => {
     it('executes PUT request with JSON body', () => {
       service
-        .editLessonPresences([1, 2, 3], [4, 5, 6], 10, 20, 'comment')
+        .editLessonPresences([1, 2, 3], [4, 5, 6], 10, 20)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
@@ -30,13 +30,12 @@ describe('LessonPresencesUpdateRestService', () => {
         PersonIds: [4, 5, 6],
         PresenceTypeId: 10,
         ConfirmationValue: 20,
-        Comment: 'comment',
       });
     });
 
     it('executes PUT request with JSON body with explicit null values', () => {
       service
-        .editLessonPresences([1, 2, 3], [4, 5, 6], null, null, null)
+        .editLessonPresences([1, 2, 3], [4, 5, 6], null, null)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
@@ -46,11 +45,10 @@ describe('LessonPresencesUpdateRestService', () => {
         PersonIds: [4, 5, 6],
         PresenceTypeId: null,
         ConfirmationValue: null,
-        Comment: null,
       });
     });
 
-    it('omits PresenceTypeId, ConfirmationValue and Comment if not set', () => {
+    it('omits PresenceTypeId and ConfirmationValue if not set', () => {
       service.editLessonPresences([1, 2, 3], [4, 5, 6]).subscribe((result) => {
         expect(result).toBeUndefined();
       });
@@ -61,15 +59,9 @@ describe('LessonPresencesUpdateRestService', () => {
       });
     });
 
-    it('omits PresenceTypeId, ConfirmationValue and Comment if set to undefined', () => {
+    it('omits PresenceTypeId and ConfirmationValue if set to undefined', () => {
       service
-        .editLessonPresences(
-          [1, 2, 3],
-          [4, 5, 6],
-          undefined,
-          undefined,
-          undefined
-        )
+        .editLessonPresences([1, 2, 3], [4, 5, 6], undefined, undefined)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });

@@ -77,9 +77,11 @@
     <i class="material-icons">cancel</i>
     <span class="count">{{ absentCount != null ? absentCount : '?' }}</span>
   </div>
-  <div class="state late">
-    <i class="material-icons">watch_later</i>
-    <span class="count">{{ lateCount != null ? lateCount : '?' }}</span>
+  <div class="state unapproved">
+    <i class="material-icons">help</i>
+    <span class="count">{{
+      unapprovedCount != null ? unapprovedCount : '?'
+    }}</span>
   </div>
 </div>
 

@@ -34,8 +34,8 @@
   color: $present-color;
 }
 
-:host.late .presence-category {
-  color: $late-color;
+:host.unapproved .presence-category {
+  color: $unapproved-color;
 }
 
 .designation,

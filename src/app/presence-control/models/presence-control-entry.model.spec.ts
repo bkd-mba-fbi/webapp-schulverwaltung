@@ -9,7 +9,6 @@ describe('PresenceControlEntry', () => {
   let absenceType: PresenceType;
   let dispensationType: PresenceType;
   let halfDayType: PresenceType;
-  let lateType: PresenceType;
   let incidentType: PresenceType;
   let commentType: PresenceType;
   let presenceTypes: ReadonlyArray<PresenceType>;
@@ -21,7 +20,6 @@ describe('PresenceControlEntry', () => {
     dispensationType.IsDispensation = true;
     halfDayType = buildPresenceType(3, false, false);
     halfDayType.IsHalfDay = true;
-    lateType = buildPresenceType(4, false, true);
     incidentType = buildPresenceType(5, false, true);
     commentType = buildPresenceType(6, false, false);
     commentType.IsComment = true;
@@ -30,7 +28,6 @@ describe('PresenceControlEntry', () => {
       absenceType,
       dispensationType,
       halfDayType,
-      lateType,
       incidentType,
       commentType,
     ];
@@ -62,11 +59,6 @@ describe('PresenceControlEntry', () => {
       expect(entry.presenceCategory).toBe(PresenceCategory.Absent);
     });
 
-    it('returns Late for late type', () => {
-      entry = buildPresenceControlEntry(lateType);
-      expect(entry.presenceCategory).toBe(PresenceCategory.Late);
-    });
-
     it('returns Present for other incident type', () => {
       entry = buildPresenceControlEntry(incidentType);
       expect(entry.presenceCategory).toBe(PresenceCategory.Present);
@@ -84,23 +76,18 @@ describe('PresenceControlEntry', () => {
       expect(entry.nextPresenceCategory).toBe(PresenceCategory.Absent);
     });
 
-    it('returns Late for absence type', () => {
+    it('returns Present for absence type', () => {
       entry = buildPresenceControlEntry(absenceType);
-      expect(entry.nextPresenceCategory).toBe(PresenceCategory.Late);
+      expect(entry.nextPresenceCategory).toBe(PresenceCategory.Present);
     });
 
-    it('returns Late for dispensation type', () => {
+    it('returns Present for dispensation type', () => {
       entry = buildPresenceControlEntry(dispensationType);
-      expect(entry.nextPresenceCategory).toBe(PresenceCategory.Late);
+      expect(entry.nextPresenceCategory).toBe(PresenceCategory.Present);
     });
 
-    it('returns Late for half day type', () => {
+    it('returns Present for half day type', () => {
       entry = buildPresenceControlEntry(halfDayType);
-      expect(entry.nextPresenceCategory).toBe(PresenceCategory.Late);
-    });
-
-    it('returns Present for late type', () => {
-      entry = buildPresenceControlEntry(lateType);
       expect(entry.nextPresenceCategory).toBe(PresenceCategory.Present);
     });
 
@@ -116,13 +103,8 @@ describe('PresenceControlEntry', () => {
       expect(entry.getNextPresenceType(presenceTypes)).toBe(absenceType);
     });
 
-    it('returns late type for absence type', () => {
+    it('returns presence type for absence type', () => {
       entry = buildPresenceControlEntry(absenceType);
-      expect(entry.getNextPresenceType(presenceTypes)).toBe(lateType);
-    });
-
-    it('returns null for late type', () => {
-      entry = buildPresenceControlEntry(lateType);
       expect(entry.getNextPresenceType(presenceTypes)).toBeNull();
     });
   });
@@ -145,7 +127,6 @@ describe('PresenceControlEntry', () => {
     Object.defineProperty(presenceControlEntry, 'settings', {
       // only returns odd die sides
       get: () => ({
-        latePresenceTypeId: lateType.Id,
         absencePresenceTypeId: absenceType.Id,
       }),
     });

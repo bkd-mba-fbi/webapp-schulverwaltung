@@ -29,6 +29,7 @@ export const settings: Settings = {
   unconfirmedAbsenceStateId: 219,
   unexcusedAbsenceStateId: 225,
   excusedAbsenceStateId: 220,
+  checkableAbsenceStateId: 1080,
   unconfirmedAbsencesRefreshTime: null,
   personMasterDataReportId: 290026,
   studentConfirmationReportId: 30,

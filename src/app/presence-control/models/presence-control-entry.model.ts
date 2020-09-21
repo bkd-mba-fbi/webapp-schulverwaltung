@@ -4,18 +4,16 @@ import { Settings } from 'src/app/settings';
 import { Searchable } from 'src/app/shared/utils/search';
 import {
   isAbsent,
-  isLate,
   isDefaultAbsence,
   canChangePresenceType,
-  isPresent,
-  isIncident,
+  isUnapprovedAbsence,
 } from '../utils/presence-types';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 export enum PresenceCategory {
   Present = 'present',
+  Unapproved = 'unapproved',
   Absent = 'absent',
-  Late = 'late',
 }
 
 export class PresenceControlEntry implements Searchable {
@@ -29,24 +27,21 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get presenceCategory(): PresenceCategory {
-    if (isAbsent(this.presenceType)) {
-      return PresenceCategory.Absent;
+    if (isUnapprovedAbsence(this.settings, this.confirmationState?.Key)) {
+      return PresenceCategory.Unapproved;
     }
 
-    if (isLate(this.presenceType, this.settings)) {
-      return PresenceCategory.Late;
+    if (isAbsent(this.presenceType)) {
+      return PresenceCategory.Absent;
     }
 
     return PresenceCategory.Present;
   }
 
   get nextPresenceCategory(): PresenceCategory {
-    const categories = Object.keys(PresenceCategory).map(
-      (c) => PresenceCategory[c as keyof typeof PresenceCategory]
-    );
-    const currentCategory = this.presenceCategory;
-    const index = categories.findIndex((c) => c === currentCategory);
-    return categories[(index + 1) % categories.length] as PresenceCategory;
+    return this.presenceCategory === PresenceCategory.Absent
+      ? PresenceCategory.Present
+      : PresenceCategory.Absent;
   }
 
   getNextPresenceType(
@@ -54,14 +49,11 @@ export class PresenceControlEntry implements Searchable {
   ): Option<PresenceType> {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
-        return (
-          presenceTypes.find((type) => isDefaultAbsence(type, this.settings)) ||
-          null
-        );
-      case PresenceCategory.Late:
-        return (
-          presenceTypes.find((type) => isLate(type, this.settings)) || null
-        );
+        return this.presenceCategory === PresenceCategory.Unapproved
+          ? this.presenceType
+          : presenceTypes.find((type) =>
+              isDefaultAbsence(type, this.settings)
+            ) || null;
       default:
         return null;
     }
@@ -79,12 +71,21 @@ export class PresenceControlEntry implements Searchable {
     return !isAbsent(this.presenceType);
   }
 
+  get showDesignation(): boolean {
+    return (
+      !this.canChangePresenceType ||
+      (this.presenceCategory === PresenceCategory.Absent &&
+        !isDefaultAbsence(this.presenceType, this.settings)) ||
+      this.presenceCategory === PresenceCategory.Unapproved
+    );
+  }
+
   get presenceCategoryIcon(): string {
     switch (this.presenceCategory) {
       case 'absent':
         return 'cancel';
-      case 'late':
-        return 'watch_later';
+      case 'unapproved':
+        return 'help';
       default:
         return 'check_circle';
     }

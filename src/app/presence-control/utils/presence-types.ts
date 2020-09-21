@@ -34,6 +34,17 @@ export function isDefaultAbsence(
   );
 }
 
+export function isUnapprovedAbsence(
+  settings: Settings,
+  confirmationStateId: Maybe<number>
+): boolean {
+  return Boolean(
+    settings &&
+      confirmationStateId &&
+      confirmationStateId === settings.checkableAbsenceStateId
+  );
+}
+
 export function isLate(
   presenceType: Option<PresenceType>,
   settings: Settings
@@ -56,22 +67,20 @@ export function canChangePresenceType(
     return true;
   }
   if (
-    isDefaultAbsence(presenceType, settings) &&
+    isAbsent(presenceType) &&
     lessonPresence.ConfirmationStateId === settings.unconfirmedAbsenceStateId
   ) {
     return true;
   }
-  if (isLate(presenceType, settings)) {
+  if (isUnapprovedAbsence(settings, lessonPresence.ConfirmationStateId)) {
     return true;
   }
   return false;
 }
 
 export function getNewConfirmationStateId(
-  presenceTypeId: Option<number>,
+  presenceType: Option<PresenceType>,
   settings: Settings
 ): Option<number> {
-  return presenceTypeId === settings.absencePresenceTypeId
-    ? settings.unconfirmedAbsenceStateId
-    : null;
+  return presenceType?.IsAbsence ? settings.unconfirmedAbsenceStateId : null;
 }

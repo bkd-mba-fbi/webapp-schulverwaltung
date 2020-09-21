@@ -12,6 +12,7 @@ import {
   buildPresenceControlEntry,
 } from 'src/spec-builders';
 import { PresenceType } from '../../shared/models/presence-type.model';
+import { DropDownItem } from '../../shared/models/drop-down-item.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -22,6 +23,8 @@ describe('PresenceControlStateService', () => {
   let presenceTypes: PresenceType[];
   let absent: PresenceType;
   let late: PresenceType;
+
+  let confirmationStates: DropDownItem[];
 
   let lessonPresences: LessonPresence[];
   let turnenFrisch: LessonPresence;
@@ -54,6 +57,8 @@ describe('PresenceControlStateService', () => {
     absent.Designation = 'Abwesend';
     late = buildPresenceType(12, false, true);
     presenceTypes = [absent, late];
+
+    confirmationStates = [{ Key: 1080, Value: 'zu kontrollieren' }];
 
     turnenFrisch = buildLessonPresence(
       1,
@@ -114,6 +119,7 @@ describe('PresenceControlStateService', () => {
   it('emits null/empty array if no lesson presences are available', () => {
     expectLessonPresencesRequest([]);
     expectPresenceTypesRequest();
+    expectAbsenceConfirmationStatesRequest();
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
@@ -122,6 +128,7 @@ describe('PresenceControlStateService', () => {
   it('initially selects the current lesson', () => {
     expectLessonPresencesRequest();
     expectPresenceTypesRequest();
+    expectAbsenceConfirmationStatesRequest();
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
       buildLesson(
@@ -141,6 +148,7 @@ describe('PresenceControlStateService', () => {
     it('loads lessons and presences of given day', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
+      expectAbsenceConfirmationStatesRequest();
 
       resetCallbackSpies();
       service.setDate(new Date(2000, 0, 10, 12, 0));
@@ -171,6 +179,8 @@ describe('PresenceControlStateService', () => {
     it('updates the lesson presences with the new presence type', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
+      expectAbsenceConfirmationStatesRequest();
+
       service.setLesson(
         buildLesson(
           3,
@@ -200,6 +210,7 @@ describe('PresenceControlStateService', () => {
     it('returns all block lessons for the given entry', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
+      expectAbsenceConfirmationStatesRequest();
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
@@ -232,5 +243,15 @@ describe('PresenceControlStateService', () => {
     httpTestingController
       .expectOne(url)
       .flush(t.array(PresenceType).encode(response));
+  }
+
+  function expectAbsenceConfirmationStatesRequest(
+    response = confirmationStates
+  ): void {
+    const url =
+      'https://eventotest.api/DropDownItems/AbsenceConfirmationStates';
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(DropDownItem).encode(response));
   }
 });

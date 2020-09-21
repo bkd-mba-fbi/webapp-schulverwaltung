@@ -31,7 +31,7 @@ export function updatePresenceTypeForPresences(
         Date: null, // TODO: where does this value come from?
         Type: newPresenceType ? newPresenceType.Designation : null,
         ConfirmationStateId: getNewConfirmationStateId(
-          newPresenceType ? newPresenceType.Id : null,
+          newPresenceType,
           settings
         ),
       };
