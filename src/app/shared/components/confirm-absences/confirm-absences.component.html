@@ -37,36 +37,42 @@
         <label class="form-check-label" for="excused">
           {{ data.excusedState.Value }}
         </label>
+        <div
+          *ngFor="let type of absenceTypes$ | async; index as i"
+          class="form-check my-3"
+        >
+          <input
+            type="radio"
+            class="form-check-input"
+            [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
+            [id]="'absence-type-' + i"
+            formControlName="absenceTypeId"
+            [value]="type.Id"
+          />
+          <label class="form-check-label" [for]="'absence-type-' + i">
+            {{ type.Designation }}
+          </label>
+          <ng-container *ngIf="(absenceTypes$ | async)?.length - 1 === i">
+            <div
+              *ngFor="let error of absenceTypeIdErrors$ | async"
+              class="invalid-feedback"
+            >
+              {{
+                'global.validation-errors.' + error.error
+                  | translate: error.params
+              }}
+            </div>
+          </ng-container>
+        </div>
       </div>
-
-      <select
-        class="form-control"
-        [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
-        formControlName="absenceTypeId"
-      >
-        <option [ngValue]="null">
-          {{ 'open-absences.edit.absence-type-placeholder' | translate }}
-        </option>
-        <option *ngFor="let type of absenceTypes$ | async" [ngValue]="type.Id">
-          {{ type.Designation }}
-        </option>
-      </select>
-      <div class="remark">
+      <div class="remark mb-3 pb-3 border-bottom">
         {{ 'open-absences.edit.remark' | translate }}
         <a [routerLink]="['/edit-absences']">
           {{ 'edit-absences.title' | translate }}
         </a>
       </div>
-      <div
-        class="invalid-feedback"
-        *ngFor="let error of absenceTypeIdErrors$ | async"
-      >
-        {{
-          'global.validation-errors.' + error.error | translate: error.params
-        }}
-      </div>
 
-      <div class="form-check mt-4">
+      <div class="form-check mt-3 mb-3 pb-3 border-bottom">
         <input
           type="radio"
           class="form-check-input"
