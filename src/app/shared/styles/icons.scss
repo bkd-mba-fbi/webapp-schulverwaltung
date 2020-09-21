@@ -1,3 +1,7 @@
 .material-icons {
   font-size: $erz-icon-size;
 }
+
+.btn .material-icons {
+  display: block;
+}
