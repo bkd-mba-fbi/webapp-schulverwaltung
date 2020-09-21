@@ -18,7 +18,7 @@ import {
   paginatedHeaders,
 } from '../utils/pagination';
 import { Sorting } from './paginated-entries.service';
-import { spreadTuple } from '../utils/function';
+import { spread } from '../utils/function';
 import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-absences-entries';
 import { StorageService } from './storage.service';
 
@@ -68,7 +68,7 @@ export class LessonPresencesRestService extends RestService<
       return forkJoin([
         this.getListOfUnconfirmedClassTeacher(params),
         this.getListOfUnconfirmedLessonTeacher(params),
-      ]).pipe(map(spreadTuple(mergeUniqueLessonPresences)));
+      ]).pipe(map(spread(mergeUniqueLessonPresences)));
     }
     return this.getListOfUnconfirmedLessonTeacher(params);
   }

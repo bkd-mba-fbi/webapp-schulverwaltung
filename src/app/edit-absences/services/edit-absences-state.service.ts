@@ -14,7 +14,7 @@ import { LessonPresencesRestService } from 'src/app/shared/services/lesson-prese
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
 import { sortDropDownItemsByValue } from 'src/app/shared/utils/drop-down-items';
-import { spreadTriplet } from 'src/app/shared/utils/function';
+import { spread } from 'src/app/shared/utils/function';
 import { buildHttpParamsFromAbsenceFilter } from 'src/app/shared/utils/absences-filter';
 import {
   PaginatedEntriesService,
@@ -51,7 +51,7 @@ export class EditAbsencesStateService
     this.entries$,
     this.presenceTypes$,
     this.absenceConfirmationStates$,
-  ]).pipe(map(spreadTriplet(getPresenceControlEntries)), shareReplay(1));
+  ]).pipe(map(spread(getPresenceControlEntries)), shareReplay(1));
 
   selected: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;

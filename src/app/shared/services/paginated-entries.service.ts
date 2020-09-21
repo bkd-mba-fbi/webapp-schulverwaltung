@@ -26,7 +26,7 @@ import { isEqual, cloneDeep } from 'lodash-es';
 import { LoadingService } from './loading-service';
 import { Settings } from 'src/app/settings';
 import { Paginated } from '../utils/pagination';
-import { spreadTriplet } from '../utils/function';
+import { spread } from '../utils/function';
 
 interface ResetEntriesAction<T> {
   action: 'reset';
@@ -85,7 +85,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     this.offset$,
   ]).pipe(
     debounceTime(10),
-    concatMap(spreadTriplet(this.loadEntries.bind(this))),
+    concatMap(spread(this.loadEntries.bind(this))),
     shareReplay(1)
   );
 

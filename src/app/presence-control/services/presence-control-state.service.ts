@@ -26,7 +26,7 @@ import { PresenceType } from '../../shared/models/presence-type.model';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
 import { LoadingService } from '../../shared/services/loading-service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
-import { spreadTriplet } from '../../shared/utils/function';
+import { spread } from '../../shared/utils/function';
 import {
   extractLessons,
   getCurrentLesson,
@@ -91,10 +91,7 @@ export class PresenceControlStateService
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$,
-  ]).pipe(
-    map(spreadTriplet(getPresenceControlEntriesForLesson)),
-    shareReplay(1)
-  );
+  ]).pipe(map(spread(getPresenceControlEntriesForLesson)), shareReplay(1));
 
   presentCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getCategoryCount('present'))
@@ -113,7 +110,7 @@ export class PresenceControlStateService
     this.selectedDate$,
     this.selectedLesson$,
     this.viewMode$,
-  ]).pipe(map(spreadTriplet(this.buildQueryParams.bind(this))));
+  ]).pipe(map(spread(this.buildQueryParams.bind(this))));
 
   private destroy$ = new Subject<void>();
 

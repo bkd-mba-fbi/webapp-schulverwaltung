@@ -13,7 +13,7 @@ import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { searchEntries } from 'src/app/shared/utils/search';
-import { spreadTuple } from '../../../shared/utils/function';
+import { spread } from '../../../shared/utils/function';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import {
   PresenceControlStateService,
@@ -41,7 +41,7 @@ export class PresenceControlListComponent
   entries$ = combineLatest([
     this.state.selectedPresenceControlEntries$,
     this.search$,
-  ]).pipe(map(spreadTuple(searchEntries)), shareReplay(1));
+  ]).pipe(map(spread(searchEntries)), shareReplay(1));
 
   previouslyPresentEntries$ = this.entries$.pipe(
     map(filterPreviouslyPresentEntries)

@@ -10,7 +10,7 @@ import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
-import { spreadTuple } from 'src/app/shared/utils/function';
+import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
 import {
   buildOpenAbsencesEntries,
@@ -51,11 +51,11 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
 
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
   sortedEntries$ = combineLatest([this.entries$, this.sortCriteria$]).pipe(
-    map(spreadTuple(sortOpenAbsencesEntries))
+    map(spread(sortOpenAbsencesEntries))
   );
 
   filteredEntries$ = combineLatest([this.sortedEntries$, this.search$]).pipe(
-    map(spreadTuple(searchEntries)),
+    map(spread(searchEntries)),
     shareReplay(1)
   );
 
@@ -123,7 +123,7 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
       this.unconfirmedAbsences$.pipe(take(1)),
       this.selectionService.selectedIds$.pipe(take(1)),
     ])
-      .pipe(map(spreadTuple(removeOpenAbsences)))
+      .pipe(map(spread(removeOpenAbsences)))
       .subscribe((unconfirmedAbsences) => {
         this.selectionService.clear();
         this.updateUnconfirmedAbsences$.next(unconfirmedAbsences);

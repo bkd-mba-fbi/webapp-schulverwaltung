@@ -11,7 +11,7 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { DropDownItemsRestService } from './drop-down-items-rest.service';
-import { spreadTriplet, spreadQuadruplet } from 'src/app/shared/utils/function';
+import { spread } from 'src/app/shared/utils/function';
 import { catch404 } from 'src/app/shared/utils/observable';
 import { notNull } from '../utils/filter';
 import { isAdult } from '../utils/persons';
@@ -51,7 +51,7 @@ export class StudentProfileService {
         this.loadStudent(studentId),
         this.loadLegalRepresentatives(studentId),
         this.loadApprenticeshipContracts(studentId),
-      ]).pipe(switchMap(spreadTriplet(this.mapToProfile.bind(this))))
+      ]).pipe(switchMap(spread(this.mapToProfile.bind(this))))
     );
   }
 
@@ -73,7 +73,7 @@ export class StudentProfileService {
           )
         )
         .pipe(
-          switchMap(spreadQuadruplet(this.mapToProfile.bind(this))),
+          switchMap(spread(this.mapToProfile.bind(this))),
           filter(notNull) // For (type-)safety, should never be null
         )
     );
