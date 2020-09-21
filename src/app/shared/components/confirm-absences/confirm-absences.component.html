@@ -5,6 +5,17 @@
     excusedState: excusedState$ | async
   } as data"
 >
+  <div
+    class="mb-3 pb-3 border-bottom"
+    *erzLet="(selectionService.selection$ | async)?.length as selectedCount"
+  >
+    {{
+      (selectedCount === 1
+        ? 'open-absences.edit.lesson-selected'
+        : 'open-absences.edit.lessons-selected'
+      ) | translate: { count: selectedCount }
+    }}
+  </div>
   <form
     *ngIf="data.unexcusedState && data.excusedState"
     [formGroup]="formGroup"

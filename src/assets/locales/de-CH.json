@@ -79,6 +79,8 @@
     "edit": {
       "state": "Status",
       "absence-type-placeholder": "Absenzgrund auswählen...",
+      "lesson-selected": "{{count}} Lektion ausgewählt",
+      "lessons-selected": "{{count}} Lektionen ausgewählt",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
       "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
