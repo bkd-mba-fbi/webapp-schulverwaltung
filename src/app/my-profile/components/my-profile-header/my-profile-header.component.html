@@ -2,7 +2,7 @@
   <div class="d-flex">
     <erz-avatar [studentId]="student.Id" class="mr-3 avatar large"></erz-avatar>
     <div class="person">
-      {{ student.LastName }} {{ student.MiddleName }} {{ student.FirstName }}
+      {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
       <span *ngIf="student.Gender">({{ student.Gender }})</span>
       <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
     </div>
