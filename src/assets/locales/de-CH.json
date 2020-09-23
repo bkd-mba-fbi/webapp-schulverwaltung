@@ -27,7 +27,7 @@
     }
   },
   "unauthenticated": {
-    "message": "Sie sind keine Lehrkraft."
+    "message": "Nicht angemeldet oder kein Zugriff."
   },
   "presence-control": {
     "title": "Präsenzkontrolle",
@@ -148,7 +148,7 @@
         "valid-excuse": "Entschuldigt",
         "without-excuse": "Unentschuldigt",
         "unconfirmed": "Offen",
-        "late": "Verspätung",
+        "late": "Vorfälle",
         "halfday": "Halbtage"
       }
     }
@@ -156,7 +156,7 @@
   "my-absences": {
     "title": "Meine Absenzen",
     "show": {
-      "default-absence-selection-message": "Sie müssen bei allen offenen Absenzen einen Grund erfassen, bevor Sie das Entschuldigungsformular herunterladen können.",
+      "default-absence-selection-message": "Sie müssen bei allen ausgewählten Absenzen einen Grund erfassen, bevor Sie das Entschuldigungsformular herunterladen können.",
       "confirm-presence-type": "Grund erfassen"
     },
     "confirm": {
@@ -169,8 +169,8 @@
       "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
     },
     "report": {
-      "title": "Absenz melden",
-      "no-filter": "Hier können Sie alle Lektionen von heute und in der Zukunft anzeigen, um Awesenheiten zu melden. Wählen Sie ein Start- und Enddatum aus und klicken Sie danach auf «Anzeigen».",
+      "title": "Absenzen melden",
+      "no-filter": "Hier können Sie alle Lektionen von heute und in der Zukunft anzeigen, um Absenzen zu melden. Wählen Sie ein Start- und Enddatum aus und klicken Sie danach auf «Anzeigen».",
       "no-entries": "Keine Resultate gefunden.",
       "header": {
         "date-from": "Datum von",
@@ -199,9 +199,9 @@
       "fields": {
         "phone-private": "Telefon",
         "phone-mobile": "Mobiltelefon",
-        "phone-mobile-hint": "Achtung: Diese Nummer kann für die Anmeldung in Evento Web verwendet werden (Zustellung des Codes)",
+        "phone-mobile-hint": "Achtung: Diese Nummer verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)",
         "email2": "E-Mail privat",
-        "email2-hint": "Achtung: Diese E-Mail Adresse kann für die Anmeldung in Evento Web verwendet werden (Zustellung des Codes)"
+        "email2-hint": "Achtung: Diese E-Mail-Adresse verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)"
       }
     }
   },
