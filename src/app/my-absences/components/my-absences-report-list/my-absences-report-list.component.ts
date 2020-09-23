@@ -48,6 +48,7 @@ export class MyAbsencesReportListComponent
   ]).pipe(
     map(
       ([selection, presenceTypes]) =>
+        selection.length > 0 &&
         selection.length === presenceTypes.filter(not(isAbsent)).length
     )
   );
@@ -143,7 +144,11 @@ export class MyAbsencesReportListComponent
 
   onRowClick(event: Event, row: HTMLElement): void {
     const checkbox = row.querySelector('input[type="checkbox"]');
-    if (checkbox && event.target !== checkbox) {
+    if (
+      checkbox &&
+      event.target !== checkbox &&
+      !Boolean((event.target as HTMLElement).closest('.buttons'))
+    ) {
       (checkbox as HTMLInputElement).click();
     }
   }

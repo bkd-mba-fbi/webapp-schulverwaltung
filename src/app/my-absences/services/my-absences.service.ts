@@ -149,6 +149,7 @@ export class MyAbsencesService {
       'filter.Id': `;${[...absences, ...incidents]
         .map((e) => e.LessonRef.Id)
         .join(';')}`,
+      fields: 'Id,From,To,EventNumber,EventDesignation,EventManagerInformation',
     });
   }
 
@@ -178,7 +179,7 @@ export class MyAbsencesService {
       Id: '',
       LessonRef: absence.LessonRef,
       StudentRef: absence.StudentRef,
-      EventRef: { Id: entry?.EventId || 0, HRef: null },
+      EventRef: { Id: 0, HRef: null },
       TypeRef: absence.TypeRef,
       ConfirmationStateId:
         'ConfirmationStateId' in absence ? absence.ConfirmationStateId : null,
@@ -191,9 +192,7 @@ export class MyAbsencesService {
       Type: absence.Type,
       StudentFullName: absence.StudentFullName,
       StudyClassNumber: '', // Currently not available on timetable entry
-      TeacherInformation: entry
-        ? `${entry.LessonTeacherLastname} ${entry.LessonTeacherFirstname}`
-        : '',
+      TeacherInformation: entry?.EventManagerInformation || '',
       WasAbsentInPrecedingLesson: false,
     };
   }

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, of } from 'rxjs';
 import {
   finalize,
   map,
@@ -32,7 +32,14 @@ export abstract class MyAbsencesAbstractConfirmComponent
   saving$ = new BehaviorSubject(false);
   protected submitted$ = new BehaviorSubject(false);
 
-  abstract absenceTypes$: Observable<ReadonlyArray<PresenceType>>;
+  absenceTypes$ = combineLatest([
+    this.getConfirmationTypes(),
+    this.getHalfDayType(),
+  ]).pipe(
+    map(([confirmationTypes, halfDayType]) =>
+      halfDayType ? [...confirmationTypes, halfDayType] : confirmationTypes
+    )
+  );
 
   absenceTypeIdErrors$ = combineLatest([
     getValidationErrors(this.formGroup.get('absenceTypeId')),
@@ -84,6 +91,20 @@ export abstract class MyAbsencesAbstractConfirmComponent
 
   getSelectedCount(): Observable<number> {
     return this.selectedLessonIds$.pipe(pluck('length'));
+  }
+
+  protected getConfirmationTypes(): Observable<ReadonlyArray<PresenceType>> {
+    return this.presenceTypesService.confirmationTypes$.pipe(
+      map((types) =>
+        types.filter(
+          (t) => t.IsAbsence && t.Id !== this.settings.halfDayPresenceTypeId
+        )
+      )
+    );
+  }
+
+  protected getHalfDayType(): Observable<Option<PresenceType>> {
+    return of(null);
   }
 
   protected createFormGroup(): FormGroup {

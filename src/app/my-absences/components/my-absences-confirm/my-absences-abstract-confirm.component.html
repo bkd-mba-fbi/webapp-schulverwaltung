@@ -19,6 +19,7 @@
         *ngFor="let type of absenceTypes$ | async; index as i"
         class="form-check my-3"
       >
+        <hr *ngIf="type.IsHalfDay" />
         <input
           type="radio"
           class="form-check-input"
@@ -33,7 +34,7 @@
         <ng-container *ngIf="(absenceTypes$ | async)?.length - 1 === i">
           <div
             *ngFor="let error of absenceTypeIdErrors$ | async"
-            class="invalid-feedback"
+            class="invalid-feedback mt-4"
           >
             {{
               'global.validation-errors.' + error.error

@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { MyAbsencesAbstractConfirmComponent } from './my-absences-abstract-confirm.component';
@@ -12,6 +13,7 @@ import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { MyAbsencesReportStateService } from '../../services/my-absences-report-state.service';
 import { MyAbsencesReportSelectionService } from '../../services/my-absences-report-selection.service';
+import { PresenceType } from 'src/app/shared/models/presence-type.model';
 
 @Component({
   selector: 'erz-my-absences-confirm',
@@ -20,15 +22,6 @@ import { MyAbsencesReportSelectionService } from '../../services/my-absences-rep
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
-  // All absence types including half days
-  absenceTypes$ = this.presenceTypesService.confirmationTypes$.pipe(
-    map((types) =>
-      types.filter(
-        (t) => t.IsAbsence || t.Id === this.settings.halfDayPresenceTypeId
-      )
-    )
-  );
-
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => selectedIds[0]?.lessonIds || [])
   );
@@ -56,6 +49,12 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
       storageService,
       settings
     );
+  }
+
+  protected getHalfDayType(): Observable<Option<PresenceType>> {
+    return this.presenceTypesService
+      .getPresenceType(this.settings.halfDayPresenceTypeId)
+      .pipe(map((t) => (t.Active ? t : null)));
   }
 
   protected onSaveSuccess(): void {

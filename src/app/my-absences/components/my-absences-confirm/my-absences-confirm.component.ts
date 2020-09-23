@@ -20,15 +20,6 @@ import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmComponent {
-  // All absence types except half days
-  absenceTypes$ = this.presenceTypesService.confirmationTypes$.pipe(
-    map((types) =>
-      types.filter(
-        (t) => t.IsAbsence && t.Id !== this.settings.halfDayPresenceTypeId
-      )
-    )
-  );
-
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => selectedIds[0]?.lessonIds || [])
   );

@@ -57,10 +57,12 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     _sorting: null,
     _offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
-    const params = this.buildRequestParamsFromFilter(filterValue).set(
-      'sort',
-      'From.asc'
-    );
+    const params = this.buildRequestParamsFromFilter(filterValue)
+      .set('sort', 'From.asc')
+      .set(
+        'fields',
+        'Id,From,To,EventNumber,EventDesignation,EventManagerInformation'
+      );
     return this.loadingService.load(
       this.loadTimetableEntries(params).pipe(
         switchMap((entries) =>
@@ -172,7 +174,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
         Id: this.studentId,
         HRef: null,
       },
-      EventRef: { Id: timetableEntry.EventId, HRef: null },
+      EventRef: { Id: 0, HRef: null },
       TypeRef: typeRef,
       ConfirmationStateId:
         absence?.ConfirmationStateId ||
@@ -187,7 +189,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       Type: (absence || dispensation)?.Type || null,
       StudentFullName: (absence || dispensation)?.StudentFullName || '',
       StudyClassNumber: '', // Currently not available on timetable entry
-      TeacherInformation: `${timetableEntry.LessonTeacherLastname} ${timetableEntry.LessonTeacherFirstname}`,
+      TeacherInformation: timetableEntry.EventManagerInformation,
       WasAbsentInPrecedingLesson: false,
     };
   }
