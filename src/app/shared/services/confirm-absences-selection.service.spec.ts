@@ -13,20 +13,24 @@ describe('ConfirmAbsencesSelectionService', () => {
   let presenceB: LessonPresence;
   let presenceC: LessonPresence;
   let presenceD: LessonPresence;
+  let presenceE: LessonPresence;
   let entryA: OpenAbsencesEntry;
   let entryB: OpenAbsencesEntry;
+  let entryC: OpenAbsencesEntry;
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
     service = TestBed.inject(ConfirmAbsencesSelectionService);
 
-    presenceA = buildLessonPresenceWithIds(10, 21);
-    presenceB = buildLessonPresenceWithIds(11, 21);
-    presenceC = buildLessonPresenceWithIds(10, 22);
-    presenceD = buildLessonPresenceWithIds(12, 22);
+    presenceA = buildLessonPresenceWithIds(10, 21, 11);
+    presenceB = buildLessonPresenceWithIds(11, 21, 11);
+    presenceC = buildLessonPresenceWithIds(10, 22, 11);
+    presenceD = buildLessonPresenceWithIds(12, 22, 11);
+    presenceE = buildLessonPresenceWithIds(11, 22, 12);
 
     entryA = new OpenAbsencesEntry([presenceA, presenceB]);
     entryB = new OpenAbsencesEntry([presenceC, presenceD]);
+    entryC = new OpenAbsencesEntry([presenceE]);
   });
 
   describe('selectedIds$', () => {
@@ -34,12 +38,14 @@ describe('ConfirmAbsencesSelectionService', () => {
       expectSelection([]);
 
       service.toggle(entryA);
-      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
+      expectSelection([
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+      ]);
 
       service.toggle(entryB);
       expectSelection([
-        { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10, 12] },
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+        { personId: 22, presenceTypeId: 11, lessonIds: [10, 12] },
       ]);
 
       service.clear();
@@ -50,16 +56,39 @@ describe('ConfirmAbsencesSelectionService', () => {
       expectSelection([]);
 
       service.toggle(presenceA);
-      expectSelection([{ personIds: [21], lessonIds: [10] }]);
+      expectSelection([{ personId: 21, presenceTypeId: 11, lessonIds: [10] }]);
 
       service.toggle(presenceB);
-      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
+      expectSelection([
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+      ]);
 
       service.toggle(presenceC);
       expectSelection([
-        { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10] },
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+        { personId: 22, presenceTypeId: 11, lessonIds: [10] },
       ]);
+
+      service.clear();
+      expectSelection([]);
+    });
+  });
+
+  describe('selectedWithoutPresenceType$', () => {
+    it('emits presences with default absence type for selected lesson presences', () => {
+      expectSelectionWithoutPresenceType([]);
+
+      service.toggle(presenceA);
+      expectSelectionWithoutPresenceType([presenceA]);
+
+      service.toggle(entryB);
+      expectSelectionWithoutPresenceType([presenceC, presenceD, presenceA]);
+
+      service.toggle(presenceE);
+      expectSelectionWithoutPresenceType([presenceC, presenceD, presenceA]);
+
+      service.toggle(entryC);
+      expectSelectionWithoutPresenceType([presenceC, presenceD, presenceA]);
 
       service.clear();
       expectSelection([]);
@@ -71,12 +100,14 @@ describe('ConfirmAbsencesSelectionService', () => {
       service.toggle(entryA);
       service.toggle(presenceC);
       expectSelection([
-        { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10] },
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+        { personId: 22, presenceTypeId: 11, lessonIds: [10] },
       ]);
 
       service.clearNonOpenAbsencesEntries();
-      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
+      expectSelection([
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+      ]);
     });
 
     it('does nothing if nothing is selected', () => {
@@ -90,12 +121,12 @@ describe('ConfirmAbsencesSelectionService', () => {
       service.toggle(entryA);
       service.toggle(presenceC);
       expectSelection([
-        { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10] },
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+        { personId: 22, presenceTypeId: 11, lessonIds: [10] },
       ]);
 
       service.clearNonLessonPresences();
-      expectSelection([{ personIds: [22], lessonIds: [10] }]);
+      expectSelection([{ personId: 22, presenceTypeId: 11, lessonIds: [10] }]);
     });
 
     it('does nothing if nothing is selected', () => {
@@ -106,6 +137,12 @@ describe('ConfirmAbsencesSelectionService', () => {
 
   function expectSelection(expected: any): void {
     service.selectedIds$
+      .pipe(take(1))
+      .subscribe((selection) => expect(selection).toEqual(expected));
+  }
+
+  function expectSelectionWithoutPresenceType(expected: any): void {
+    service.selectedWithoutPresenceType$
       .pipe(take(1))
       .subscribe((selection) => expect(selection).toEqual(expected));
   }

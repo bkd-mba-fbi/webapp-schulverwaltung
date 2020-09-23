@@ -7,8 +7,18 @@ describe('OpenAbsencesEntry', () => {
   let presenceB: LessonPresence;
 
   beforeEach(() => {
-    presenceA = buildLessonPresenceWithIds(10, 21, new Date(2000, 0, 23, 12));
-    presenceB = buildLessonPresenceWithIds(11, 21, new Date(2000, 0, 23, 13));
+    presenceA = buildLessonPresenceWithIds(
+      10,
+      21,
+      11,
+      new Date(2000, 0, 23, 12)
+    );
+    presenceB = buildLessonPresenceWithIds(
+      11,
+      21,
+      11,
+      new Date(2000, 0, 23, 13)
+    );
     [presenceA, presenceB].forEach(
       (p) => (p.StudentFullName = 'Albert Einstein')
     );

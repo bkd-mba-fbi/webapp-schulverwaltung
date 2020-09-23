@@ -28,8 +28,18 @@ describe('OpenAbsencesDetailComponent', () => {
       personId: 21,
     });
 
-    presenceA = buildLessonPresenceWithIds(10, 21, new Date(2000, 0, 23, 12));
-    presenceB = buildLessonPresenceWithIds(11, 21, new Date(2000, 0, 23, 13));
+    presenceA = buildLessonPresenceWithIds(
+      10,
+      21,
+      11,
+      new Date(2000, 0, 23, 12)
+    );
+    presenceB = buildLessonPresenceWithIds(
+      11,
+      21,
+      11,
+      new Date(2000, 0, 23, 13)
+    );
     [presenceA, presenceB].forEach(
       (p) => (p.StudentFullName = 'Einstein Albert')
     );
@@ -107,10 +117,12 @@ describe('OpenAbsencesDetailComponent', () => {
       expectSelection([]);
 
       toggleCheckbox(1);
-      expectSelection([{ personIds: [21], lessonIds: [10] }]);
+      expectSelection([{ personId: 21, presenceTypeId: 11, lessonIds: [10] }]);
 
       toggleCheckbox(2);
-      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
+      expectSelection([
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+      ]);
 
       toggleCheckbox(1);
       toggleCheckbox(2);
@@ -120,7 +132,9 @@ describe('OpenAbsencesDetailComponent', () => {
     it('toggles all entries', () => {
       const selectAllCheckbox = getCheckbox(0);
       toggleCheckbox(0);
-      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
+      expectSelection([
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+      ]);
 
       toggleCheckbox(0);
       expectSelection([]);

@@ -4,7 +4,10 @@ import { not } from 'fp-ts/lib/function';
 
 import { SelectionService } from 'src/app/shared/services/selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { getIdsGroupedByPerson } from 'src/app/shared/utils/lesson-presences';
+import {
+  getIdsGroupedByPerson,
+  getIdsGroupedByPersonAndPresenceType,
+} from 'src/app/shared/utils/lesson-presences';
 import { isInstanceOf } from 'src/app/shared/utils/filter';
 import { OpenAbsencesEntry } from 'src/app/open-absences/models/open-absences-entry.model';
 import { flattenOpenAbsencesEntries } from 'src/app/open-absences/utils/open-absences-entries';
@@ -19,7 +22,7 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
   selectedIds$ = this.selection$.pipe(
     map(getEntriesByType),
     map(({ openAbsencesEntries, lessonPresences }) =>
-      getIdsGroupedByPerson([
+      getIdsGroupedByPersonAndPresenceType([
         ...flattenOpenAbsencesEntries(openAbsencesEntries),
         ...lessonPresences,
       ])
@@ -33,10 +36,11 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
    */
   selectedWithoutPresenceType$ = this.selection$.pipe(
     map(getEntriesByType),
-    map(({ lessonPresences }) =>
-      lessonPresences.filter(
-        (p) => p.TypeRef.Id === this.settings.absencePresenceTypeId
-      )
+    map(({ openAbsencesEntries, lessonPresences }) =>
+      [
+        ...flattenOpenAbsencesEntries(openAbsencesEntries),
+        ...lessonPresences,
+      ].filter((p) => p.TypeRef.Id === this.settings.absencePresenceTypeId)
     )
   );
 
