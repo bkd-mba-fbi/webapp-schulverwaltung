@@ -15,6 +15,7 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { longerOrEqual, isTruthy } from 'src/app/shared/utils/filter';
 import { not } from 'fp-ts/lib/function';
+import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -42,6 +43,7 @@ export class OpenAbsencesDetailComponent
     private router: Router,
     private route: ActivatedRoute,
     private openAbsencesService: OpenAbsencesService,
+    private presenceTypesService: PresenceTypesService,
     public selectionService: ConfirmAbsencesSelectionService,
     private scrollPosition: ScrollPositionService
   ) {}
@@ -87,6 +89,20 @@ export class OpenAbsencesDetailComponent
     if (event.target !== checkbox) {
       checkbox.click();
     }
+  }
+
+  getPresenceTypeDesignation(
+    lessonPresence: LessonPresence
+  ): Observable<Option<string>> {
+    return this.presenceTypesService.displayedTypes$.pipe(
+      map(
+        (types) =>
+          (lessonPresence.TypeRef.Id &&
+            types.find((t) => t.Id === lessonPresence.TypeRef.Id)
+              ?.Designation) ||
+          null
+      )
+    );
   }
 
   private getAbsencesForParams(
