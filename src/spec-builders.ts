@@ -61,11 +61,13 @@ export function buildLessonPresence(
 export function buildLessonPresenceWithIds(
   lessonId: number,
   studentId: number,
+  presenceTypeId: number,
   dateFrom = new Date(),
   dateTo = new Date()
 ): LessonPresence {
   const presence = buildLessonPresence(lessonId, dateFrom, dateTo, '');
   presence.StudentRef = buildReference(studentId);
+  presence.TypeRef = buildReference(presenceTypeId);
   return presence;
 }
 

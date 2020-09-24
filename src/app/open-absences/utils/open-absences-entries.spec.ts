@@ -19,26 +19,31 @@ describe('open absences entries utils', () => {
     presenceA = buildLessonPresenceWithIds(
       10,
       21,
+      11,
       new Date(2000, 0, 23, 8, 15, 0)
     );
     presenceB = buildLessonPresenceWithIds(
       11,
       21,
+      11,
       new Date(2000, 0, 23, 12, 30, 0)
     );
     presenceC = buildLessonPresenceWithIds(
       12,
       21,
+      11,
       new Date(2000, 0, 24, 8, 15, 0)
     );
     presenceD = buildLessonPresenceWithIds(
       10,
       22,
+      11,
       new Date(2000, 0, 23, 12, 30, 0)
     );
     presenceE = buildLessonPresenceWithIds(
       10,
       21,
+      11,
       new Date(2000, 0, 23, 9, 0, 0)
     );
 
@@ -144,7 +149,7 @@ describe('open absences entries utils', () => {
     it('removes entries matching the affected ids', () => {
       const result = removeOpenAbsences(
         [presenceA, presenceB, presenceC, presenceD],
-        [{ lessonIds: [10, 11], personIds: [21] }]
+        [{ lessonIds: [10, 11], personId: 21 }]
       );
 
       expect(result).toEqual([presenceC, presenceD]);

@@ -1,13 +1,25 @@
 <div
   class="erz-container erz-container-limited erz-container-padding-y"
   *erzLet="{
+    formGroup: formGroup$ | async,
     unexcusedState: unexcusedState$ | async,
     excusedState: excusedState$ | async
   } as data"
 >
+  <div
+    class="mb-3 pb-3 border-bottom"
+    *erzLet="(selectionService.selection$ | async)?.length as selectedCount"
+  >
+    {{
+      (selectedCount === 1
+        ? 'open-absences.edit.lesson-selected'
+        : 'open-absences.edit.lessons-selected'
+      ) | translate: { count: selectedCount }
+    }}
+  </div>
   <form
-    *ngIf="data.unexcusedState && data.excusedState"
-    [formGroup]="formGroup"
+    *ngIf="data.formGroup && data.unexcusedState && data.excusedState"
+    [formGroup]="data.formGroup"
     (ngSubmit)="onSubmit()"
   >
     <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">
@@ -15,8 +27,7 @@
     </div>
 
     <div class="form-group pb-4">
-      <label>{{ 'open-absences.edit.state' | translate }}</label>
-      <div class="form-check mt-2 mb-3">
+      <div class="form-check mt-2 mb-3 pb-3 border-bottom">
         <input
           type="radio"
           class="form-check-input"
@@ -27,30 +38,44 @@
         <label class="form-check-label" for="excused">
           {{ data.excusedState.Value }}
         </label>
+        <ng-container *ngIf="data.formGroup.get('absenceTypeId')">
+          <div
+            *ngFor="let type of absenceTypes$ | async; index as i"
+            class="form-check my-3"
+          >
+            <input
+              type="radio"
+              class="form-check-input"
+              [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
+              [id]="'absence-type-' + i"
+              formControlName="absenceTypeId"
+              [value]="type.Id"
+            />
+            <label class="form-check-label" [for]="'absence-type-' + i">
+              {{ type.Designation }}
+            </label>
+            <ng-container *ngIf="(absenceTypes$ | async)?.length - 1 === i">
+              <div
+                *ngFor="let error of absenceTypeIdErrors$ | async"
+                class="invalid-feedback"
+              >
+                {{
+                  'global.validation-errors.' + error.error
+                    | translate: error.params
+                }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="remark">
+            {{ 'open-absences.edit.remark' | translate }}
+            <a [routerLink]="['/edit-absences']">
+              {{ 'edit-absences.title' | translate }}
+            </a>
+          </div>
+        </ng-container>
       </div>
 
-      <select
-        class="form-control"
-        [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
-        formControlName="absenceTypeId"
-      >
-        <option [ngValue]="null">
-          {{ 'open-absences.edit.absence-type-placeholder' | translate }}
-        </option>
-        <option *ngFor="let type of absenceTypes$ | async" [ngValue]="type.Id">
-          {{ type.Designation }}
-        </option>
-      </select>
-      <div
-        class="invalid-feedback"
-        *ngFor="let error of absenceTypeIdErrors$ | async"
-      >
-        {{
-          'global.validation-errors.' + error.error | translate: error.params
-        }}
-      </div>
-
-      <div class="form-check mt-4">
+      <div class="form-check mt-3 mb-3 pb-3 border-bottom">
         <input
           type="radio"
           class="form-check-input"

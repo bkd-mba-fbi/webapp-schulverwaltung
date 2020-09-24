@@ -21,6 +21,45 @@ export function getIdsGroupedByPerson(
   });
 }
 
+export function getIdsGroupedByPersonAndPresenceType(
+  lessonPresences: ReadonlyArray<LessonPresence>
+): ReadonlyArray<{
+  personId: number;
+  presenceTypeId: Option<number>;
+  lessonIds: ReadonlyArray<number>;
+}> {
+  const grouped: Dict<Dict<number[]>> = {};
+
+  lessonPresences.forEach((lp) => {
+    if (!grouped[lp.StudentRef.Id]) {
+      grouped[lp.StudentRef.Id] = {};
+    }
+    if (!grouped[lp.StudentRef.Id][String(lp.TypeRef.Id)]) {
+      grouped[lp.StudentRef.Id][String(lp.TypeRef.Id)] = [];
+    }
+    grouped[lp.StudentRef.Id][String(lp.TypeRef.Id)].push(lp.LessonRef.Id);
+  });
+
+  return Object.keys(grouped).reduce(
+    (acc, personId) => [
+      ...acc,
+      ...Object.keys(grouped[personId]).map((presenceTypeId) => {
+        return {
+          personId: Number(personId),
+          presenceTypeId:
+            presenceTypeId === 'null' ? null : Number(presenceTypeId),
+          lessonIds: grouped[personId][String(presenceTypeId)],
+        };
+      }),
+    ],
+    [] as ReadonlyArray<{
+      personId: number;
+      presenceTypeId: Option<number>;
+      lessonIds: ReadonlyArray<number>;
+    }>
+  );
+}
+
 export function getIdsGroupedByLesson(
   lessonPresences: ReadonlyArray<LessonPresence>
 ): ReadonlyArray<{

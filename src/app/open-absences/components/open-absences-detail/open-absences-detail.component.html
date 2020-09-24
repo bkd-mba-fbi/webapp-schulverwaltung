@@ -72,5 +72,14 @@
         absence.LessonDateTimeTo | date: 'HH:mm'
       }}, {{ absence.TeacherInformation }}
     </div>
+    <ng-container
+      *erzLet="
+        getPresenceTypeDesignation(absence) | async as presenceTypeDesignation
+      "
+    >
+      <div *ngIf="presenceTypeDesignation" class="presence-type">
+        {{ presenceTypeDesignation }}
+      </div>
+    </ng-container>
   </div>
 </div>

@@ -159,7 +159,6 @@ export class LessonPresencesRestService extends RestService<
       headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
       params: {
         ...params,
-        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
         'filter.HasStudyCourseConfirmationCode': '=false',
       },
@@ -175,7 +174,6 @@ export class LessonPresencesRestService extends RestService<
       },
       params: {
         ...params,
-        'filter.TypeRef': `=${this.settings.absencePresenceTypeId}`,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
         'filter.HasStudyCourseConfirmationCode': '=true',
       },

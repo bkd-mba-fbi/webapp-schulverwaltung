@@ -113,9 +113,9 @@ describe('LessonPresencesRestService', () => {
 
   describe('.getListOfUnconfirmed', () => {
     const classTeacherRequestUrl =
-      'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
+      'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
     const lessonTeacherRequestUrl =
-      'https://eventotest.api/LessonPresences/?filter.TypeRef==11&filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
+      'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
 
     let presence1: LessonPresence;
     let presence2: LessonPresence;

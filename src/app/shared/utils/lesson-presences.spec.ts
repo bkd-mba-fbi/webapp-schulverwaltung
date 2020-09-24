@@ -4,17 +4,22 @@ import {
   getIdsGroupedByPerson,
   getIdsGroupedByLesson,
   sortLessonPresencesByDate,
+  getIdsGroupedByPersonAndPresenceType,
 } from './lesson-presences';
 
 describe('lesson presences utils', () => {
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
   let presenceC: LessonPresence;
+  let presenceD: LessonPresence;
+  let presenceE: LessonPresence;
 
   beforeEach(() => {
-    presenceA = buildLessonPresenceWithIds(10, 20);
-    presenceB = buildLessonPresenceWithIds(10, 21);
-    presenceC = buildLessonPresenceWithIds(11, 21);
+    presenceA = buildLessonPresenceWithIds(10, 20, 11);
+    presenceB = buildLessonPresenceWithIds(10, 21, 11);
+    presenceC = buildLessonPresenceWithIds(11, 21, 11);
+    presenceD = buildLessonPresenceWithIds(11, 20, 12);
+    presenceE = buildLessonPresenceWithIds(12, 21, 12);
   });
 
   describe('getIdsGroupedByPerson', () => {
@@ -23,6 +28,24 @@ describe('lesson presences utils', () => {
       expect(result).toEqual([
         { personIds: [20], lessonIds: [10] },
         { personIds: [21], lessonIds: [10, 11] },
+      ]);
+    });
+  });
+
+  describe('getIdsGroupedByPersonAndPresenceType', () => {
+    it('groups lesson ids by student and presence type ids', () => {
+      const result = getIdsGroupedByPersonAndPresenceType([
+        presenceA,
+        presenceB,
+        presenceC,
+        presenceD,
+        presenceE,
+      ]);
+      expect(result).toEqual([
+        { personId: 20, presenceTypeId: 11, lessonIds: [10] },
+        { personId: 20, presenceTypeId: 12, lessonIds: [11] },
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+        { personId: 21, presenceTypeId: 12, lessonIds: [12] },
       ]);
     });
   });

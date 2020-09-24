@@ -42,15 +42,14 @@ export function removeOpenAbsences(
   entries: ReadonlyArray<LessonPresence>,
   affectedIds: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
-    personIds: ReadonlyArray<number>;
+    personId: number;
   }>
 ): ReadonlyArray<LessonPresence> {
   return entries.filter(
     (e) =>
       !affectedIds.some(
-        ({ lessonIds, personIds }) =>
-          lessonIds.includes(e.LessonRef.Id) &&
-          personIds.includes(e.StudentRef.Id)
+        ({ lessonIds, personId }) =>
+          lessonIds.includes(e.LessonRef.Id) && personId === e.StudentRef.Id
       )
   );
 }

@@ -77,8 +77,10 @@
       "all": "Alle"
     },
     "edit": {
-      "state": "Status",
+      "remark": "Die Auswahl wird nur für Absenzen übernommen, bei denen noch kein Grund erfasst wurde. Bereits erfasste Absenzgründe können Sie ändern unter ",
       "absence-type-placeholder": "Absenzgrund auswählen...",
+      "lesson-selected": "{{count}} Lektion ausgewählt",
+      "lessons-selected": "{{count}} Lektionen ausgewählt",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
       "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."

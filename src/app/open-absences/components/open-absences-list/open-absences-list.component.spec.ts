@@ -22,12 +22,12 @@ describe('OpenAbsencesListComponent', () => {
 
   beforeEach(async(() => {
     entryA = new OpenAbsencesEntry([
-      buildLessonPresenceWithIds(10, 21),
-      buildLessonPresenceWithIds(11, 21),
+      buildLessonPresenceWithIds(10, 21, 11),
+      buildLessonPresenceWithIds(11, 21, 11),
     ]);
     entryB = new OpenAbsencesEntry([
-      buildLessonPresenceWithIds(10, 22),
-      buildLessonPresenceWithIds(12, 22),
+      buildLessonPresenceWithIds(10, 22, 11),
+      buildLessonPresenceWithIds(12, 22, 11),
     ]);
 
     storeMock = {};
@@ -89,12 +89,14 @@ describe('OpenAbsencesListComponent', () => {
       expectSelection([]);
 
       toggleCheckbox(0);
-      expectSelection([{ personIds: [21], lessonIds: [10, 11] }]);
+      expectSelection([
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+      ]);
 
       toggleCheckbox(1);
       expectSelection([
-        { personIds: [21], lessonIds: [10, 11] },
-        { personIds: [22], lessonIds: [10, 12] },
+        { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
+        { personId: 22, presenceTypeId: 11, lessonIds: [10, 12] },
       ]);
 
       toggleCheckbox(0);
