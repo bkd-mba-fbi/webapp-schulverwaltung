@@ -24,7 +24,7 @@
   grid-template-areas:
     "checkbox lesson-class time teacher"
     "checkbox presence-type date days-ago";
-  grid-template-columns: min-content 3fr 1fr 1fr;
+  grid-template-columns: min-content 2fr 1fr 2fr;
 }
 
 .absence-entry:first-child {
