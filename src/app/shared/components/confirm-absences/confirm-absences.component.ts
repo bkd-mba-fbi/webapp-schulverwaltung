@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Subject, combineLatest } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
 import {
   takeUntil,
   filter,
@@ -26,6 +26,8 @@ import { notNull } from 'src/app/shared/utils/filter';
 import {
   getValidationErrors,
   getControlValidationErrors,
+  getControl,
+  getControlValueChanges,
 } from 'src/app/shared/utils/form';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
@@ -117,34 +119,41 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
-      const confirmationValueControl = formGroup.get('confirmationValue');
-      const absenceTypeIdControl = formGroup.get('absenceTypeId');
-      if (confirmationValueControl) {
-        // Disable confirmation value select when unexcused
-        confirmationValueControl.valueChanges
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
+    // Disable confirmation value select when unexcused
+    getControlValueChanges(this.formGroup$, 'confirmationValue')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        if (typeof value === 'number') {
+          this.updateAbsenceTypeIdDisabled(value);
+        }
+      });
 
-        // Disable form when saving
-        this.saving$.pipe(takeUntil(this.destroy$)).subscribe((saving) => {
-          if (saving) {
-            confirmationValueControl.disable();
-            absenceTypeIdControl?.disable();
-          } else {
-            confirmationValueControl.enable();
-            this.updateAbsenceTypeIdDisabled(confirmationValueControl.value);
-          }
-        });
+    // Disable form when saving
+    combineLatest([
+      getControl(this.formGroup$, 'confirmationValue').pipe(filter(notNull)),
+      getControl(this.formGroup$, 'absenceTypeId').pipe(filter(notNull)),
+      this.saving$,
+    ])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([confirmationValueControl, absenceTypeIdControl, saving]) => {
+        if (saving) {
+          confirmationValueControl.disable();
+          absenceTypeIdControl.disable();
+        } else {
+          confirmationValueControl.enable();
+          this.updateAbsenceTypeIdDisabled(confirmationValueControl.value);
+        }
+      });
 
-        // Initially select excused state radio button
-        this.excusedState$
-          .pipe(take(1), filter(notNull))
-          .subscribe((excusedState) =>
-            confirmationValueControl.setValue(excusedState.Key)
-          );
-      }
-    });
+    // Initially select excused state radio button
+    combineLatest([
+      getControl(this.formGroup$, 'confirmationValue').pipe(filter(notNull)),
+      this.excusedState$.pipe(take(1), filter(notNull)),
+    ])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([confirmationValueControl, excusedState]) =>
+        confirmationValueControl.setValue(excusedState.Key)
+      );
   }
 
   ngOnDestroy(): void {
@@ -155,12 +164,8 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     this.submitted$.next(true);
     this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
       if (formGroup.valid) {
-        this.excusedState$
-          .pipe(take(1), filter(notNull))
-          .subscribe((confirmedState) => {
-            const { confirmationValue, absenceTypeId } = formGroup.value;
-            this.save(confirmationValue, absenceTypeId);
-          });
+        const { confirmationValue, absenceTypeId } = formGroup.value;
+        this.save(confirmationValue, absenceTypeId);
       }
     });
   }
@@ -183,17 +188,16 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   }
 
   private updateAbsenceTypeIdDisabled(confirmationValue: number): void {
-    this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
-      const absenceTypeIdControl = formGroup.get('absenceTypeId');
-      if (absenceTypeIdControl) {
-        this.excusedState$
-          .pipe(take(1), filter(notNull))
-          .subscribe((excusedState) =>
-            confirmationValue === excusedState.Key
-              ? absenceTypeIdControl.enable()
-              : absenceTypeIdControl.disable()
-          );
-      }
+    combineLatest([
+      getControl(this.formGroup$, 'absenceTypeId').pipe(
+        take(1),
+        filter(notNull)
+      ),
+      this.excusedState$.pipe(take(1), filter(notNull)),
+    ]).subscribe(([absenceTypeIdControl, excusedState]) => {
+      confirmationValue === excusedState.Key
+        ? absenceTypeIdControl.enable()
+        : absenceTypeIdControl.disable();
     });
   }
 

@@ -1,6 +1,6 @@
-import { AbstractControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { Observable, of, empty } from 'rxjs';
+import { startWith, map, switchMap } from 'rxjs/operators';
 
 export function getValidationErrors(
   control: Option<AbstractControl>
@@ -45,4 +45,25 @@ function validatationErrorsToArray(
         ? control.errors[e]
         : null,
   }));
+}
+
+export function getControl(
+  formGroup$: Observable<FormGroup>,
+  controlName: string
+): Observable<Option<AbstractControl>> {
+  return formGroup$.pipe(
+    map((formGroup) => {
+      const control = formGroup.get(controlName);
+      return control || null;
+    })
+  );
+}
+
+export function getControlValueChanges<T>(
+  formGroup$: Observable<FormGroup>,
+  controlName: string
+): Observable<T> {
+  return getControl(formGroup$, controlName).pipe(
+    switchMap((control) => (control ? control.valueChanges : empty()))
+  );
 }
