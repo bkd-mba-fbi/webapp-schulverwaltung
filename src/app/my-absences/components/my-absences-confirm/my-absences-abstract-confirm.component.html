@@ -11,15 +11,15 @@
     }}
   </div>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    <div class="form-group mb-4">
+    <div class="form-group mb-3 border-bottom">
       <label
         >{{ 'my-absences.confirm.choose-presence-type' | translate }}:</label
       >
       <div
         *ngFor="let type of absenceTypes$ | async; index as i"
         class="form-check my-3"
+        [ngClass]="{ 'border-top pt-3': type.IsHalfDay }"
       >
-        <hr *ngIf="type.IsHalfDay" />
         <input
           type="radio"
           class="form-check-input"
