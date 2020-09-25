@@ -8,7 +8,7 @@
 >
   <div
     class="mb-3 pb-3 border-bottom"
-    *erzLet="(selectionService.selection$ | async)?.length as selectedCount"
+    *erzLet="getSelectedCount() | async as selectedCount"
   >
     {{
       (selectedCount === 1

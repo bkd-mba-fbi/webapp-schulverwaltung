@@ -30,6 +30,15 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
     shareReplay(1)
   );
 
+  selectedLessons$ = this.selection$.pipe(
+    map(getEntriesByType),
+    map(({ openAbsencesEntries, lessonPresences }) => [
+      ...flattenOpenAbsencesEntries(openAbsencesEntries),
+      ...lessonPresences,
+    ]),
+    shareReplay(1)
+  );
+
   /**
    * Selected lesson presences that have no absence type (i.e. the
    * default absence type).

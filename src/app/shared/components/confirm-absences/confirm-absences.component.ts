@@ -18,6 +18,7 @@ import {
   take,
   startWith,
   switchMap,
+  pluck,
 } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -172,6 +173,10 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
 
   cancel(): void {
     this.navigateBack();
+  }
+
+  getSelectedCount(): Observable<number> {
+    return this.selectionService.selectedLessons$.pipe(pluck('length'));
   }
 
   private createFormGroup(
