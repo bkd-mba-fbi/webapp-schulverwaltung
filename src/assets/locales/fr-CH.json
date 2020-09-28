@@ -20,6 +20,7 @@
       "required": "Ce champ doit être rempli.",
       "maxlength": "Le texte ne peut pas dépasser {{requiredLength}} caractères ; il en contient actuellement {{actualLength}}.",
       "confirmationvaluerequired": "Veuillez sélectionner un motif d'absence."
+      "email": "Pas d'adresse électronique valide"
     },
     "pagination": {
       "load-more": "Charger plus de données"
@@ -38,9 +39,15 @@
       "search-by-name": "Rechercher un nom..."
     },
     "entry": {
-      "incident": "Enregistrer incident",
+      "incident": "Saisir incident",
       "update-warning": "Il n'est pas possible de modifier le statut.",
       "unconfirmed-absences": "Absences en suspens"
+    },
+    "incident": {
+      "text": "Saisir incident :",
+      "no-incident": "Aucun incident",
+      "cancel": "Annuler",
+      "save": "Valider"
     },
     "dialog": {
       "text": "La leçon sélectionnée fait partie d'un bloc. Pour quelle(s) période(s) voulez-vous changer le statut de présence ?",
@@ -70,7 +77,10 @@
       "all": "Tout"
     },
     "edit": {
+      "remark": "La sélection n'est prise en charge que pour les absences pour lesquelles aucun motif n'a encore été saisi. Vous pouvez modifier les motifs d'absence qui ont déjà été saisis sous ",
       "absence-type-placeholder": "Sélectionner un motif d'absence...",
+      "lesson-selected": "{{count}} leçon sélectionnée",
+      "lessons-selected": "{{count}} leçons sélectionnées",
       "cancel": "Annuler",
       "save": "Valider",
       "save-success": "Les données sélectionnées ont été enregistrées avec succès."
@@ -140,8 +150,60 @@
         "valid-excuse": "Excusé-e",
         "without-excuse": "Non excusé-e",
         "unconfirmed": "En cours",
-        "late": "Retard",
+        "late": "Incidents",
         "halfday": "Demi-journées"
+      }
+    }
+  },
+  "my-absences": {
+    "title": "Mes absences",
+    "show": {
+      "default-absence-selection-message": "Vous devez saisir un motif pour toutes les absences sélectionnées avant de pouvoir télécharger le formulaire d'excuses.",
+      "confirm-presence-type": "Saisir un motif"
+    },
+    "confirm": {
+      "lesson-selected": "{{count}} leçon sélectionnée",
+      "lessons-selected": "{{count}} leçons sélectionnées",
+      "choose-presence-type": "Sélectionner un motif d'absence",
+      "remark": "Les motifs d'absence déjà saisis sont écrasés.",
+      "cancel": "Annuler",
+      "save": "Valider",
+      "save-success": "Les données sélectionnées ont été enregistrées avec succès."
+    },
+    "report": {
+      "title": "Annoncer des absences",
+      "no-filter": "Vous pouver afficher toutes les leçons d'aujourd'hui et à l'avenir pour annoncer des absences. Sélectionnez une date de début et de fin, puis cliquez sur « Afficher ».",
+      "no-entries": "Aucun résultat n'a été trouvé.",
+      "header": {
+        "date-from": "Date du",
+        "date-to": "Date ",
+        "show": "Afficher"
+      },
+      "list": {
+        "all": "Tout"
+      }
+    }
+  },
+  "my-profile": {
+    "title": "Mon profil",
+    "show": {
+      "social-security-number": "Numéro d’assurance sociale",
+      "hometown-nationality": "Lieu d'origine / nationalité",
+      "native-language": "Première langue",
+      "stay-permit": "Permis de séjour",
+      "stay-permit-expiry": "Expiration du permis de séjour"
+    },
+    "edit": {
+      "address-changes-remark": "Pour tout changement de nom et d'adresse, veuillez vous adresser au secrétariat.",
+      "cancel": "Annuler",
+      "save": "Valider",
+      "save-success": "Les données ont été enregistrées avec succès.",
+      "fields": {
+        "phone-private": "Téléphone",
+        "phone-mobile": "Téléphone portable",
+        "phone-mobile-hint": "Attention : Vous pouvez utiliser ce numéro de téléphone pour vous connecter à Evento Web (obtenir le code)",
+        "email2": "Adresse électronique privée",
+        "email2-hint": "Attention : Vous pouvez utiliser cette adresse électronique pour vous connecter à Evento Web (obtenir le code)"
       }
     }
   },
@@ -161,6 +223,8 @@
     },
     "profile": {
       "student-address": "Adresse",
+      "correspondence-address": "Adresse de correspondance",
+      "billing-address": "Adresse de facturation",
       "legal-representation": "Représentants légaux",
       "apprenticeship-company": "Entreprise formatrice",
       "apprenticeship-period": "Durée de l'apprentissage",
