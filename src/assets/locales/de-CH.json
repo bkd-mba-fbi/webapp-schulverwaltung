@@ -8,7 +8,7 @@
       "noaccess-title": "Kein Zugriff",
       "noaccess-message": "Auf eine Ressource konnte nicht zugegriffen werden.",
       "notfound-title": "Nicht gefunden",
-      "notfound-message": "Eine Ressource konnte nicht gefunden werden",
+      "notfound-message": "Eine Ressource konnte nicht gefunden werden.",
       "unavailable-title": "Server nicht verfügbar",
       "unavailable-message": "Der Server ist momentan nicht verfügbar oder überlastet, bitte erneut versuchen.",
       "conflict-title": "Ungültige Daten",
@@ -20,7 +20,7 @@
       "required": "Dieses Feld muss ausgefüllt werden.",
       "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
       "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus.",
-      "email": "Keine gültige E-Mail Adresse."
+      "email": "Keine gültige E-Mail-Adresse"
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
@@ -197,11 +197,11 @@
       "address-changes-remark": "Für Änderungen an Namen und Adresse wenden Sie sich bitte an das Sekretariat.",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
-      "save-success": "Die Felder wurden erfolgreich geändert.",
+      "save-success": "Die Einträge wurden erfolgreich geändert.",
       "fields": {
         "phone-private": "Telefon",
         "phone-mobile": "Mobiltelefon",
-        "phone-mobile-hint": "Achtung: Diese Nummer verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)",
+        "phone-mobile-hint": "Achtung: Diese Telefonnummer verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)",
         "email2": "E-Mail privat",
         "email2-hint": "Achtung: Diese E-Mail-Adresse verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)"
       }
