@@ -19,7 +19,7 @@
     "validation-errors": {
       "required": "Ce champ doit être rempli.",
       "maxlength": "Le texte ne peut pas dépasser {{requiredLength}} caractères ; il en contient actuellement {{actualLength}}.",
-      "confirmationvaluerequired": "Veuillez sélectionner un motif d'absence."
+      "confirmationvaluerequired": "Veuillez sélectionner un motif d'absence.",
       "email": "Adresse électronique non valide"
     },
     "pagination": {
