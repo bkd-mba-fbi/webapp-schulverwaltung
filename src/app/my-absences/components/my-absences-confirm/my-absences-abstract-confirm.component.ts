@@ -123,8 +123,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
           this.updateService.editLessonPresences(
             selectedLessonIds,
             [Number(this.storageService.getPayload()?.id_person)],
-            absenceTypeId,
-            this.confirmationStateId
+            absenceTypeId
           )
         ),
         finalize(() => this.saving$.next(false))
