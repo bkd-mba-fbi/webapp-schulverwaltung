@@ -8,6 +8,7 @@ import {
   map,
   take,
   shareReplay,
+  filter,
 } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from 'src/app/settings';
@@ -20,14 +21,18 @@ import { StudentsRestService } from 'src/app/shared/services/students-rest.servi
 import { TimetableEntry } from 'src/app/shared/models/timetable-entry.model';
 import { sortLessonPresencesByDate } from 'src/app/shared/utils/lesson-presences';
 import { notNull } from 'src/app/shared/utils/filter';
+import { spread } from 'src/app/shared/utils/function';
 
 @Injectable()
 export class MyAbsencesService {
   private studentId$ = new ReplaySubject<number>(1);
-  lessonAbsences$ = this.studentId$.pipe(
-    switchMap(this.loadLessonAbsences.bind(this)),
-    shareReplay(1)
-  );
+  private rawLessonAbsences$ =
+    // Includes lesson absences without a corresponding timetable
+    // entry (i.e. for which no lesson presence entry will be built)
+    this.studentId$.pipe(
+      switchMap(this.loadLessonAbsences.bind(this)),
+      shareReplay(1)
+    );
   private lessonIncidents$ = this.studentId$.pipe(
     switchMap(this.loadLessonIncidents.bind(this)),
     shareReplay(1)
@@ -41,6 +46,17 @@ export class MyAbsencesService {
 
   // The halfDays are not provided by intention, since there is no
   // reliable method for counting them.
+
+  // Only lesson absences with a corresponding timetable entry
+  lessonAbsences$ = combineLatest([
+    this.rawLessonAbsences$,
+    this.openAbsences$.pipe(filter(notNull)),
+    this.excusedAbsences$.pipe(filter(notNull)),
+    this.unexcusedAbsences$.pipe(filter(notNull)),
+  ]).pipe(
+    map(spread(this.getLessonAbsencesWithTimetableEntry.bind(this))),
+    shareReplay(1)
+  );
 
   counts$ = this.getCounts();
 
@@ -67,7 +83,7 @@ export class MyAbsencesService {
     return this.getCached(
       combineLatest([
         this.studentId$,
-        this.lessonAbsences$,
+        this.rawLessonAbsences$,
         this.lessonIncidents$,
       ]).pipe(
         switchMap(([studentId, absences, incidents]) =>
@@ -198,5 +214,24 @@ export class MyAbsencesService {
       TeacherInformation: entry.EventManagerInformation,
       WasAbsentInPrecedingLesson: false,
     };
+  }
+
+  /**
+   * To not have to cache the timetable entries, we use the lesson
+   * presences to get only the lesson presences that have a corresponding
+   * timetable entry.
+   */
+  private getLessonAbsencesWithTimetableEntry(
+    lessonAbsences: ReadonlyArray<LessonAbsence>,
+    openAbsences: ReadonlyArray<LessonPresence>,
+    excusedAbsences: ReadonlyArray<LessonPresence>,
+    unexcusedAbsences: ReadonlyArray<LessonPresence>
+  ): ReadonlyArray<LessonAbsence> {
+    const presenceIds = [
+      ...openAbsences,
+      ...excusedAbsences,
+      ...unexcusedAbsences,
+    ].map((p) => p.LessonRef.Id);
+    return lessonAbsences.filter((a) => presenceIds.includes(a.LessonRef.Id));
   }
 }
