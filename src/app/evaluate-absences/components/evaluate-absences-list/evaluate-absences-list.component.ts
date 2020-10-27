@@ -34,7 +34,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     { key: 'TotalAbsencesValidExcuse', label: 'valid-excuse' },
     { key: 'TotalAbsencesWithoutExcuse', label: 'without-excuse' },
     { key: 'TotalAbsencesUnconfirmed', label: 'unconfirmed' },
-    { key: 'TotalIncidents', label: 'late' },
+    { key: 'TotalIncidents', label: 'incident' },
   ];
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
