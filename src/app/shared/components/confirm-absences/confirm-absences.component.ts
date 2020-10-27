@@ -26,7 +26,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { notNull } from 'src/app/shared/utils/filter';
 import {
   getValidationErrors,
-  getControlValidationErrors,
   getControl,
   getControlValueChanges,
 } from 'src/app/shared/utils/form';
@@ -57,24 +56,11 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = combineLatest([
-    this.formGroup$.pipe(switchMap(getValidationErrors)),
+  formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
+  absenceTypeIdErrors$ = getValidationErrors(
+    this.formGroup$,
     this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([])
-  );
-
-  absenceTypeIdErrors$ = combineLatest([
-    this.formGroup$.pipe(
-      switchMap(getControlValidationErrors('absenceTypeId'))
-    ),
-    this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([])
+    'absenceTypeId'
   );
 
   private confirmationStates$ = this.dropDownItemsService

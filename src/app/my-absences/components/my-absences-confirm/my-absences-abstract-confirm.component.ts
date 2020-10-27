@@ -4,15 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, of } from 'rxjs';
-import {
-  finalize,
-  map,
-  filter,
-  startWith,
-  switchMap,
-  take,
-  pluck,
-} from 'rxjs/operators';
+import { finalize, map, filter, switchMap, take, pluck } from 'rxjs/operators';
 
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
@@ -41,13 +33,10 @@ export abstract class MyAbsencesAbstractConfirmComponent
     )
   );
 
-  absenceTypeIdErrors$ = combineLatest([
-    getValidationErrors(this.formGroup.get('absenceTypeId')),
+  absenceTypeIdErrors$ = getValidationErrors(
+    of(this.formGroup),
     this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([])
+    'absenceTypeId'
   );
 
   abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;

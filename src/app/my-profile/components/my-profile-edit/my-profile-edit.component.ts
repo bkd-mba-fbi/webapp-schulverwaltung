@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   pluck,
   map,
@@ -11,14 +11,12 @@ import {
   switchMap,
   finalize,
   shareReplay,
-  filter,
-  startWith,
 } from 'rxjs/operators';
 
 import { Person } from 'src/app/shared/models/person.model';
 import { MyProfileService } from '../../services/my-profile.service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
-import { getControlValidationErrors } from 'src/app/shared/utils/form';
+import { getValidationErrors } from 'src/app/shared/utils/form';
 
 @Component({
   selector: 'erz-my-profile-edit',
@@ -36,14 +34,10 @@ export class MyProfileEditComponent implements OnInit {
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
 
-  email2Errors$ = combineLatest([
-    this.formGroup$.pipe(switchMap(getControlValidationErrors('email2'))),
+  email2Errors$ = getValidationErrors(
+    this.formGroup$,
     this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([]),
-    shareReplay(1)
+    'email2'
   );
 
   constructor(
