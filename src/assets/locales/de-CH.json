@@ -124,10 +124,11 @@
         "absent": "Absenz",
         "dispensation": "Dispensation",
         "half-day": "Freier Halbtag",
-        "late": "Verspätung",
+        "incident": "Vorfall",
         "present": "Anwesend"
       },
       "absence-type-placeholder": "Absenzgrund auswählen...",
+      "incident-placeholder": "Vorfall auswählen...",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
       "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
