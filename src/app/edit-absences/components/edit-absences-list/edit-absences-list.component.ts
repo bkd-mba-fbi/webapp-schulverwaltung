@@ -51,9 +51,9 @@ export class EditAbsencesListComponent
       .subscribe(() => this.selectionService.clear());
 
     // Remember selected entries
-    this.selectionService.selectedIds$
+    this.selectionService.selection$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((ids) => (this.state.selected = ids));
+      .subscribe((selected) => (this.state.selected = selected));
 
     // Reload entries for current filter when ?reload=true
     this.route.queryParams

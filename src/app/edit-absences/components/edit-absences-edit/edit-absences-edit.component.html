@@ -2,12 +2,13 @@
   class="erz-container erz-container-limited erz-container-padding-y"
   *erzLet="{
     confirmationStates: confirmationStates$ | async,
-    categories: activeCategories$ | async
+    categories: activeCategories$ | async,
+    formGroup: formGroup$ | async
   } as data"
 >
   <form
-    *ngIf="data.confirmationStates"
-    [formGroup]="formGroup"
+    *ngIf="data.formGroup && data.confirmationStates"
+    [formGroup]="data.formGroup"
     (ngSubmit)="onSubmit()"
   >
     <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">

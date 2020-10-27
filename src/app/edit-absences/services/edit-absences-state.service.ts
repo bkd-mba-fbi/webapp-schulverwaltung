@@ -52,10 +52,7 @@ export class EditAbsencesStateService
     this.absenceConfirmationStates$,
   ]).pipe(map(spread(buildPresenceControlEntries)), shareReplay(1));
 
-  selected: ReadonlyArray<{
-    lessonIds: ReadonlyArray<number>;
-    personIds: ReadonlyArray<number>;
-  }> = [];
+  selected: ReadonlyArray<LessonPresence> = [];
 
   constructor(
     location: Location,

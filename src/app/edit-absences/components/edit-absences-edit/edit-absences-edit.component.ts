@@ -9,32 +9,31 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import {
-  filter,
   finalize,
   map,
   shareReplay,
-  startWith,
   take,
   takeUntil,
+  switchMap,
 } from 'rxjs/operators';
+import { uniq } from 'lodash-es';
+
 import { SETTINGS, Settings } from 'src/app/settings';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
-import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
-import { getValidationErrors } from 'src/app/shared/utils/form';
+import {
+  EditAbsencesUpdateService,
+  Category,
+} from '../../services/edit-absences-update.service';
+import {
+  getValidationErrors,
+  getControlValueChanges,
+} from 'src/app/shared/utils/form';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { parseQueryString } from 'src/app/shared/utils/url';
 import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-
-enum Category {
-  Absent = 'absent',
-  Dispensation = 'dispensation',
-  HalfDay = 'half-day',
-  Incident = 'incident',
-  Present = 'present',
-}
 
 @Component({
   selector: 'erz-edit-absences-edit',
@@ -43,36 +42,24 @@ enum Category {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
-  formGroup = this.createFormGroup();
+  absenceTypes$ = this.presenceTypesService.confirmationTypes$;
+  incidents$ = this.presenceTypesService.incidentTypes$;
+
+  formGroup$ = this.createFormGroup();
 
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = combineLatest([
-    getValidationErrors(this.formGroup),
+  formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
+  absenceTypeIdErrors$ = getValidationErrors(
+    this.formGroup$,
     this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([])
+    'absenceTypeId'
   );
-
-  absenceTypeIdErrors$ = combineLatest([
-    getValidationErrors(this.formGroup.get('absenceTypeId')),
+  incidentIdErrors$ = getValidationErrors(
+    this.formGroup$,
     this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([])
-  );
-
-  incidentIdErrors$ = combineLatest([
-    getValidationErrors(this.formGroup.get('incidentId')),
-    this.submitted$,
-  ]).pipe(
-    filter((v) => v[1]),
-    map((v) => v[0]),
-    startWith([])
+    'incidentId'
   );
 
   availableCategories = [
@@ -86,10 +73,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   confirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
     .pipe(map(this.sortAbsenceConfirmationStates.bind(this)), shareReplay(1));
-
-  absenceTypes$ = this.presenceTypesService.confirmationTypes$;
-
-  incidents$ = this.presenceTypesService.incidentTypes$;
 
   // Remove Category HalfDay if the corresponding PresenceType is inactive
   activeCategories$ = this.presenceTypesService.halfDayActive$.pipe(
@@ -111,7 +94,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     private state: EditAbsencesStateService,
     private dropDownItemsService: DropDownItemsRestService,
     private presenceTypesService: PresenceTypesService,
-    private updateService: LessonPresencesUpdateRestService,
+    private updateService: EditAbsencesUpdateService,
     @Inject(SETTINGS) private settings: Settings
   ) {}
 
@@ -121,20 +104,16 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       this.navigateBack();
     }
 
-    const categoryControl = this.formGroup.get('category');
-    const confirmationValueControl = this.formGroup.get('confirmationValue');
-    if (categoryControl && confirmationValueControl) {
-      // Disable confirmation value radios and absence type/incident
-      // select when not absent
-      categoryControl.valueChanges
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(this.updateConfirmationValueDisabled.bind(this));
+    // Disable confirmation value radios and absence type/incident
+    // select when not absent
+    getControlValueChanges(this.formGroup$, 'category')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.updateConfirmationValueDisabled.bind(this));
 
-      // Disable absence type select when not excused
-      confirmationValueControl.valueChanges
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
-    }
+    // Disable absence type select when not excused
+    getControlValueChanges(this.formGroup$, 'confirmationValue')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
   }
 
   ngOnDestroy(): void {
@@ -155,144 +134,115 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitted$.next(true);
-    if (this.formGroup.valid) {
-      const {
-        category,
-        confirmationValue,
-        absenceTypeId,
-      } = this.fetchAndProcessFormValues();
-      this.save(category, confirmationValue, absenceTypeId);
-    }
+    this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
+      if (formGroup.valid) {
+        this.save(formGroup);
+      }
+    });
   }
 
   cancel(): void {
     this.navigateBack();
   }
 
-  private createFormGroup(): FormGroup {
-    return this.fb.group({
-      category: [Category.Absent, Validators.required],
-      confirmationValue: [
-        this.settings.excusedAbsenceStateId,
-        Validators.required,
-      ],
-      absenceTypeId: [null, Validators.required],
-      incidentId: [{ value: null, disabled: true }, Validators.required],
-    });
+  private createFormGroup(): Observable<FormGroup> {
+    return this.getInitialAbsenceTypeId().pipe(
+      map((initialAbsenceTypeId) =>
+        this.fb.group({
+          category: [Category.Absent, Validators.required],
+          confirmationValue: [
+            this.settings.excusedAbsenceStateId,
+            Validators.required,
+          ],
+          absenceTypeId: [initialAbsenceTypeId, Validators.required],
+          incidentId: [{ value: null, disabled: true }, Validators.required],
+        })
+      ),
+      shareReplay(1)
+    );
+  }
+
+  private getInitialAbsenceTypeId(): Observable<Option<number>> {
+    return this.absenceTypes$.pipe(
+      take(1),
+      map((absenceTypes) => {
+        const availableTypeIds = absenceTypes.map((t) => t.Id);
+        const selectedTypeIds = uniq(
+          this.state.selected.map((e) => e.TypeRef.Id)
+        );
+        return selectedTypeIds.length === 1 &&
+          selectedTypeIds[0] != null &&
+          availableTypeIds.includes(selectedTypeIds[0])
+          ? selectedTypeIds[0]
+          : null;
+      })
+    );
   }
 
   private updateConfirmationValueDisabled(): void {
-    const categoryControl = this.formGroup.get('category');
-    const confirmationValueControl = this.formGroup.get('confirmationValue');
-    const absenceTypeIdControl = this.formGroup.get('absenceTypeId');
-    const incidentIdControl = this.formGroup.get('incidentId');
-    if (
-      categoryControl &&
-      confirmationValueControl &&
-      absenceTypeIdControl &&
-      incidentIdControl
-    ) {
-      if (categoryControl.value === Category.Absent) {
-        confirmationValueControl.enable();
-        this.updateAbsenceTypeIdDisabled();
-      } else {
-        confirmationValueControl.disable();
-        absenceTypeIdControl.disable();
-      }
+    this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
+      const categoryControl = formGroup.get('category');
+      const confirmationValueControl = formGroup.get('confirmationValue');
+      const absenceTypeIdControl = formGroup.get('absenceTypeId');
+      const incidentIdControl = formGroup.get('incidentId');
+      if (
+        categoryControl &&
+        confirmationValueControl &&
+        absenceTypeIdControl &&
+        incidentIdControl
+      ) {
+        if (categoryControl.value === Category.Absent) {
+          confirmationValueControl.enable();
+          this.updateAbsenceTypeIdDisabled();
+        } else {
+          confirmationValueControl.disable();
+          absenceTypeIdControl.disable();
+        }
 
-      if (categoryControl.value === Category.Incident) {
-        incidentIdControl.enable();
-      } else {
-        incidentIdControl.disable();
+        if (categoryControl.value === Category.Incident) {
+          incidentIdControl.enable();
+        } else {
+          incidentIdControl.disable();
+        }
       }
-    }
+    });
   }
 
   private updateAbsenceTypeIdDisabled(): void {
-    const confirmationValueControl = this.formGroup.get('confirmationValue');
-    const absenceTypeIdControl = this.formGroup.get('absenceTypeId');
-    if (confirmationValueControl && absenceTypeIdControl) {
-      confirmationValueControl.value === this.settings.excusedAbsenceStateId
-        ? absenceTypeIdControl.enable()
-        : absenceTypeIdControl.disable();
-    }
+    this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
+      const confirmationValueControl = formGroup.get('confirmationValue');
+      const absenceTypeIdControl = formGroup.get('absenceTypeId');
+      if (confirmationValueControl && absenceTypeIdControl) {
+        confirmationValueControl.value === this.settings.excusedAbsenceStateId
+          ? absenceTypeIdControl.enable()
+          : absenceTypeIdControl.disable();
+      }
+    });
   }
 
-  private fetchAndProcessFormValues(): {
-    category: Category;
-    confirmationValue: Option<number>;
-    absenceTypeId: number;
-  } {
-    // tslint:disable:prefer-const
-    let {
+  private save(formGroup: FormGroup): void {
+    this.saving$.next(true);
+    const {
       category,
       confirmationValue,
       absenceTypeId,
       incidentId,
-    } = this.formGroup.value;
-    // tslint:enable:prefer-const
-    switch (category) {
-      case Category.Absent:
-        if (confirmationValue !== this.settings.excusedAbsenceStateId) {
-          absenceTypeId = this.settings.absencePresenceTypeId;
-        }
-        break;
-      case Category.Dispensation:
-        absenceTypeId = this.settings.dispensationPresenceTypeId;
-        confirmationValue = null;
-        break;
-      case Category.HalfDay:
-        absenceTypeId = this.settings.halfDayPresenceTypeId;
-        confirmationValue = null;
-        break;
-      case Category.Incident:
-        absenceTypeId = incidentId;
-        confirmationValue = null;
-        break;
-    }
-    return {
-      category,
-      confirmationValue,
-      absenceTypeId,
-    };
-  }
-
-  private save(
-    category: Category,
-    confirmationValue: Option<number>,
-    absenceTypeId: number
-  ): void {
-    let requests: ReadonlyArray<Observable<void>> = [];
-    this.saving$.next(true);
-
-    if (category === Category.Present) {
-      requests = this.createResetBulkRequests();
-    } else {
-      requests = this.createEditBulkRequests(confirmationValue, absenceTypeId);
-    }
-    combineLatest(requests) // tslint:disable-line
-      .pipe(finalize(() => this.saving$.next(false)))
-      .subscribe(this.onSaveSuccess.bind(this));
-  }
-
-  private createResetBulkRequests(): ReadonlyArray<Observable<void>> {
-    return this.state.selected.map(({ lessonIds, personIds }) =>
-      this.updateService.removeLessonPresences(lessonIds, personIds)
-    );
-  }
-
-  private createEditBulkRequests(
-    confirmationValue: Option<number>,
-    absenceTypeId: number
-  ): ReadonlyArray<Observable<void>> {
-    return this.state.selected.map(({ lessonIds, personIds }) =>
-      this.updateService.editLessonPresences(
-        lessonIds,
-        personIds,
-        absenceTypeId,
-        confirmationValue || undefined
+    } = formGroup.value;
+    this.presenceTypesService.presenceTypes$
+      .pipe(
+        switchMap((presenceTypes) =>
+          this.updateService.update(
+            this.state.selected,
+            presenceTypes,
+            category,
+            confirmationValue,
+            absenceTypeId,
+            incidentId
+          )
+        ),
+        finalize(() => this.saving$.next(false))
       )
-    );
+      .subscribe(this.onSaveSuccess.bind(this));
   }
 
   private onSaveSuccess(): void {
