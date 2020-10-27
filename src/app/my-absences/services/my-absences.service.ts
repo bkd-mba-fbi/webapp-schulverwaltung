@@ -19,6 +19,7 @@ import { LessonIncident } from 'src/app/shared/models/lesson-incident.model';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { TimetableEntry } from 'src/app/shared/models/timetable-entry.model';
 import { sortLessonPresencesByDate } from 'src/app/shared/utils/lesson-presences';
+import { notNull } from 'src/app/shared/utils/filter';
 
 @Injectable()
 export class MyAbsencesService {
@@ -158,9 +159,9 @@ export class MyAbsencesService {
     incidents: ReadonlyArray<LessonIncident>,
     timetableEntries: ReadonlyArray<TimetableEntry>
   ): ReadonlyArray<LessonPresence> {
-    return [...absences, ...incidents].map((absence) =>
-      this.buildLessonPresence(absence, timetableEntries)
-    );
+    return [...absences, ...incidents]
+      .map((absence) => this.buildLessonPresence(absence, timetableEntries))
+      .filter(notNull);
   }
 
   /**
@@ -170,11 +171,13 @@ export class MyAbsencesService {
   private buildLessonPresence(
     absence: LessonAbsence | LessonIncident,
     timetableEntries: ReadonlyArray<TimetableEntry>
-  ): LessonPresence {
-    // There is always a timetable entry for the given lesson
-    // absence/incident, handle it gracefully if not (should not
-    // happen in real life)
+  ): Option<LessonPresence> {
     const entry = timetableEntries.find((e) => e.Id === absence.LessonRef.Id);
+    if (!entry) {
+      // Ignore absences without corresponding timetable entry
+      return null;
+    }
+
     return {
       Id: '',
       LessonRef: absence.LessonRef,
@@ -183,16 +186,16 @@ export class MyAbsencesService {
       TypeRef: absence.TypeRef,
       ConfirmationStateId:
         'ConfirmationStateId' in absence ? absence.ConfirmationStateId : null,
-      EventDesignation: entry?.EventDesignation || '',
+      EventDesignation: entry.EventDesignation,
       HasStudyCourseConfirmationCode: false,
-      LessonDateTimeFrom: entry?.From || new Date(),
-      LessonDateTimeTo: entry?.To || new Date(),
+      LessonDateTimeFrom: entry.From,
+      LessonDateTimeTo: entry.To,
       Comment: null,
-      Date: entry?.From || new Date(),
+      Date: entry.From,
       Type: absence.Type,
       StudentFullName: absence.StudentFullName,
       StudyClassNumber: '', // Currently not available on timetable entry
-      TeacherInformation: entry?.EventManagerInformation || '',
+      TeacherInformation: entry.EventManagerInformation,
       WasAbsentInPrecedingLesson: false,
     };
   }
