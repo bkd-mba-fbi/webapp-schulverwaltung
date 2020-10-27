@@ -32,7 +32,7 @@ enum Category {
   Absent = 'absent',
   Dispensation = 'dispensation',
   HalfDay = 'half-day',
-  Late = 'late',
+  Incident = 'incident',
   Present = 'present',
 }
 
@@ -66,11 +66,20 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     startWith([])
   );
 
+  incidentIdErrors$ = combineLatest([
+    getValidationErrors(this.formGroup.get('incidentId')),
+    this.submitted$,
+  ]).pipe(
+    filter((v) => v[1]),
+    map((v) => v[0]),
+    startWith([])
+  );
+
   availableCategories = [
     Category.Absent,
     Category.Dispensation,
     Category.HalfDay,
-    Category.Late,
+    Category.Incident,
     Category.Present,
   ];
 
@@ -79,6 +88,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     .pipe(map(this.sortAbsenceConfirmationStates.bind(this)), shareReplay(1));
 
   absenceTypes$ = this.presenceTypesService.confirmationTypes$;
+
+  incidents$ = this.presenceTypesService.incidentTypes$;
 
   // Remove Category HalfDay if the corresponding PresenceType is inactive
   activeCategories$ = this.presenceTypesService.halfDayActive$.pipe(
@@ -113,8 +124,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     const categoryControl = this.formGroup.get('category');
     const confirmationValueControl = this.formGroup.get('confirmationValue');
     if (categoryControl && confirmationValueControl) {
-      // Disable confirmation value radios and absence type select
-      // when not absent
+      // Disable confirmation value radios and absence type/incident
+      // select when not absent
       categoryControl.valueChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.updateConfirmationValueDisabled.bind(this));
@@ -136,6 +147,10 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   isExcused(state: DropDownItem): boolean {
     return state.Key === this.settings.excusedAbsenceStateId;
+  }
+
+  isIncident(category: Category): boolean {
+    return category === Category.Incident;
   }
 
   onSubmit(): void {
@@ -162,6 +177,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
         Validators.required,
       ],
       absenceTypeId: [null, Validators.required],
+      incidentId: [{ value: null, disabled: true }, Validators.required],
     });
   }
 
@@ -169,13 +185,25 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     const categoryControl = this.formGroup.get('category');
     const confirmationValueControl = this.formGroup.get('confirmationValue');
     const absenceTypeIdControl = this.formGroup.get('absenceTypeId');
-    if (categoryControl && confirmationValueControl && absenceTypeIdControl) {
+    const incidentIdControl = this.formGroup.get('incidentId');
+    if (
+      categoryControl &&
+      confirmationValueControl &&
+      absenceTypeIdControl &&
+      incidentIdControl
+    ) {
       if (categoryControl.value === Category.Absent) {
         confirmationValueControl.enable();
         this.updateAbsenceTypeIdDisabled();
       } else {
         confirmationValueControl.disable();
         absenceTypeIdControl.disable();
+      }
+
+      if (categoryControl.value === Category.Incident) {
+        incidentIdControl.enable();
+      } else {
+        incidentIdControl.disable();
       }
     }
   }
@@ -195,8 +223,14 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     confirmationValue: Option<number>;
     absenceTypeId: number;
   } {
-    // tslint:disable-next-line:prefer-const
-    let { category, confirmationValue, absenceTypeId } = this.formGroup.value;
+    // tslint:disable:prefer-const
+    let {
+      category,
+      confirmationValue,
+      absenceTypeId,
+      incidentId,
+    } = this.formGroup.value;
+    // tslint:enable:prefer-const
     switch (category) {
       case Category.Absent:
         if (confirmationValue !== this.settings.excusedAbsenceStateId) {
@@ -211,8 +245,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
         absenceTypeId = this.settings.halfDayPresenceTypeId;
         confirmationValue = null;
         break;
-      case Category.Late:
-        absenceTypeId = this.settings.latePresenceTypeId;
+      case Category.Incident:
+        absenceTypeId = incidentId;
         confirmationValue = null;
         break;
     }

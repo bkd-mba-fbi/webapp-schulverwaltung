@@ -77,6 +77,34 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="isIncident(category)" class="ml-5">
+          <select
+            class="form-control mt-1"
+            [class.is-invalid]="(incidentIdErrors$ | async).length > 0"
+            formControlName="incidentId"
+          >
+            <option [ngValue]="null">
+              {{ 'edit-absences.edit.incident-placeholder' | translate }}
+            </option>
+            <option
+              *ngFor="let incident of incidents$ | async"
+              [ngValue]="incident.Id"
+            >
+              {{ incident.Designation }}
+            </option>
+          </select>
+
+          <div
+            class="invalid-feedback"
+            *ngFor="let error of incidentIdErrors$ | async"
+          >
+            {{
+              'global.validation-errors.' + error.error
+                | translate: error.params
+            }}
+          </div>
+        </div>
       </div>
     </div>
 
