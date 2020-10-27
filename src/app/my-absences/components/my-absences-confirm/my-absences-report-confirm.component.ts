@@ -14,6 +14,7 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { MyAbsencesReportStateService } from '../../services/my-absences-report-state.service';
 import { MyAbsencesReportSelectionService } from '../../services/my-absences-report-selection.service';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
+import { flatten, uniq } from 'lodash-es';
 
 @Component({
   selector: 'erz-my-absences-confirm',
@@ -23,7 +24,7 @@ import { PresenceType } from 'src/app/shared/models/presence-type.model';
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
-    map((selectedIds) => selectedIds[0]?.lessonIds || [])
+    map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds))))
   );
   protected confirmationStateId = this.settings.checkableAbsenceStateId;
 
