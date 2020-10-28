@@ -20,7 +20,7 @@ describe('MyAbsencesShowComponent', () => {
             provide: MyAbsencesService,
             useValue: {
               openAbsences$: of([]),
-              lessonAbsences$: of([]),
+              openLessonAbsences$: of([]),
               counts$: of({}),
             },
           },

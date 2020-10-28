@@ -26,7 +26,7 @@ import { spread } from 'src/app/shared/utils/function';
 @Injectable()
 export class MyAbsencesService {
   private studentId$ = new ReplaySubject<number>(1);
-  private rawLessonAbsences$ =
+  private lessonAbsences$ =
     // Includes lesson absences without a corresponding timetable
     // entry (i.e. for which no lesson presence entry will be built)
     this.studentId$.pipe(
@@ -47,16 +47,11 @@ export class MyAbsencesService {
   // The halfDays are not provided by intention, since there is no
   // reliable method for counting them.
 
-  // Only lesson absences with a corresponding timetable entry
-  lessonAbsences$ = combineLatest([
-    this.rawLessonAbsences$,
+  // The open absences as full lesson absence models
+  openLessonAbsences$ = combineLatest([
     this.openAbsences$.pipe(filter(notNull)),
-    this.excusedAbsences$.pipe(filter(notNull)),
-    this.unexcusedAbsences$.pipe(filter(notNull)),
-  ]).pipe(
-    map(spread(this.getLessonAbsencesWithTimetableEntry.bind(this))),
-    shareReplay(1)
-  );
+    this.lessonAbsences$,
+  ]).pipe(map(spread(this.getOpenLessonAbsences.bind(this))), shareReplay(1));
 
   counts$ = this.getCounts();
 
@@ -83,7 +78,7 @@ export class MyAbsencesService {
     return this.getCached(
       combineLatest([
         this.studentId$,
-        this.rawLessonAbsences$,
+        this.lessonAbsences$,
         this.lessonIncidents$,
       ]).pipe(
         switchMap(([studentId, absences, incidents]) =>
@@ -111,6 +106,14 @@ export class MyAbsencesService {
         )
       )
     );
+  }
+
+  private getOpenLessonAbsences(
+    openAbsences: ReadonlyArray<LessonPresence>,
+    lessonAbsences: ReadonlyArray<LessonAbsence>
+  ): ReadonlyArray<LessonAbsence> {
+    const lessonIds = openAbsences.map((a) => a.LessonRef.Id);
+    return lessonAbsences.filter((a) => lessonIds.includes(a.LessonRef.Id));
   }
 
   private getCounts(): Observable<StudentProfileAbsencesCounts> {
@@ -214,24 +217,5 @@ export class MyAbsencesService {
       TeacherInformation: entry.EventManagerInformation,
       WasAbsentInPrecedingLesson: false,
     };
-  }
-
-  /**
-   * To not have to cache the timetable entries, we use the lesson
-   * presences to get only the lesson presences that have a corresponding
-   * timetable entry.
-   */
-  private getLessonAbsencesWithTimetableEntry(
-    lessonAbsences: ReadonlyArray<LessonAbsence>,
-    openAbsences: ReadonlyArray<LessonPresence>,
-    excusedAbsences: ReadonlyArray<LessonPresence>,
-    unexcusedAbsences: ReadonlyArray<LessonPresence>
-  ): ReadonlyArray<LessonAbsence> {
-    const presenceIds = [
-      ...openAbsences,
-      ...excusedAbsences,
-      ...unexcusedAbsences,
-    ].map((p) => p.LessonRef.Id);
-    return lessonAbsences.filter((a) => presenceIds.includes(a.LessonRef.Id));
   }
 }
