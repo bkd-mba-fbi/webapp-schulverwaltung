@@ -11,12 +11,13 @@ cache: npm
 jobs:
   include:
     - stage: lint
-      script: npm run lint
-      script: npm run lint:format
+      script:
+        - npm run lint
+        - npm run lint:format
     - stage: test
       script: npm run test:headless
     - stage: deploy
-      script: 
+      script:
         - npm run build:prod
         - cp README.md dist && cp -r doc dist
         - (cd dist && zip --recurse-paths absenzenmanagement.zip *)
@@ -25,7 +26,7 @@ jobs:
       deploy:
         provider: pages
         local-dir: dist
-        skip-cleanup: true
+        cleanup: false
         github-token: $GITHUB_TOKEN
         keep-history: false
         on:
