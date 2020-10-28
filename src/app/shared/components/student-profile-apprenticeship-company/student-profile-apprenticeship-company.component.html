@@ -4,36 +4,35 @@
   /></ng-container>
   <ng-container
     *ngIf="
-      company.apprenticeshipManagerPerson?.LastName &&
-      company.apprenticeshipManagerPerson?.FirstName
+      company.apprenticeshipManager?.Lastname &&
+      company.apprenticeshipManager?.Firstname
     "
   >
-    {{ company.apprenticeshipManagerPerson.LastName }}
-    {{ company.apprenticeshipManagerPerson.FirstName }}<br />
+    {{ company.apprenticeshipManager.Lastname }}
+    {{ company.apprenticeshipManager.Firstname }}<br />
   </ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson?.AddressLine1"
-    >{{ company.apprenticeshipManagerPerson.AddressLine1 }}<br
+  <ng-container *ngIf="company.apprenticeshipManager?.AddressLine1"
+    >{{ company.apprenticeshipManager.AddressLine1 }}<br
   /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson?.AddressLine2"
-    >{{ company.apprenticeshipManagerPerson.AddressLine2 }}<br
+  <ng-container *ngIf="company.apprenticeshipManager?.AddressLine2"
+    >{{ company.apprenticeshipManager.AddressLine2 }}<br
   /></ng-container>
   <ng-container
     *ngIf="
-      company.apprenticeshipManagerPerson?.Zip &&
-      company.apprenticeshipManagerPerson?.Location
+      company.apprenticeshipManager?.PostalCode &&
+      company.apprenticeshipManager?.Location
     "
-    >{{ company.apprenticeshipManagerPerson.Zip }}
-    {{ company.apprenticeshipManagerPerson.Location }}<br
+    >{{ company.apprenticeshipManager.PostalCode }}
+    {{ company.apprenticeshipManager.Location }}<br
   /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson?.PhoneBusiness">
-    <a href="tel:{{ company.apprenticeshipManagerPerson.PhoneBusiness }}"
-      >{{ company.apprenticeshipManagerPerson.PhoneBusiness }}<br /></a
+  <ng-container *ngIf="company.apprenticeshipManager?.PhoneBusiness">
+    <a href="tel:{{ company.apprenticeshipManager.PhoneBusiness }}"
+      >{{ company.apprenticeshipManager.PhoneBusiness }}<br /></a
   ></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManagerPerson | erzPersonEmail">
-    <a
-      href="mailto:{{ company.apprenticeshipManagerPerson | erzPersonEmail }}"
-      >{{ company.apprenticeshipManagerPerson | erzPersonEmail }}</a
-    ></ng-container
+  <ng-container *ngIf="company.apprenticeshipManager | erzPersonEmail">
+    <a href="mailto:{{ company.apprenticeshipManager | erzPersonEmail }}">{{
+      company.apprenticeshipManager | erzPersonEmail
+    }}</a></ng-container
   >
 </address>
 <div class="subentry" *ngIf="company.apprenticeshipContract.ContractDateFrom">
@@ -43,22 +42,22 @@
     company.apprenticeshipContract.ContractDateTo | date: 'dd.MM.yyyy'
   }}
 </div>
-<div *ngIf="company.jobTrainerPerson" class="subentry">
+<div *ngIf="company.jobTrainer" class="subentry">
   {{ 'shared.profile.job-trainer' | translate }}:
   <address>
-    {{ company.jobTrainerPerson.LastName }}
-    {{ company.jobTrainerPerson.FirstName }}<br />
-    <ng-container *ngIf="company.jobTrainerPerson.PhoneBusiness">
-      <a href="tel:{{ company.jobTrainerPerson.PhoneBusiness }}"
-        >{{ company.jobTrainerPerson.PhoneBusiness }}<br /></a
+    {{ company.jobTrainer.Lastname }}
+    {{ company.jobTrainer.Firstname }}<br />
+    <ng-container *ngIf="company.jobTrainer.PhoneBusiness">
+      <a href="tel:{{ company.jobTrainer.PhoneBusiness }}"
+        >{{ company.jobTrainer.PhoneBusiness }}<br /></a
     ></ng-container>
-    <ng-container *ngIf="company.jobTrainerPerson.PhoneMobile">
-      <a href="tel:{{ company.jobTrainerPerson.PhoneMobile }}"
-        >{{ company.jobTrainerPerson.PhoneMobile }}<br /></a
+    <ng-container *ngIf="company.jobTrainer.PhoneMobile">
+      <a href="tel:{{ company.jobTrainer.PhoneMobile }}"
+        >{{ company.jobTrainer.PhoneMobile }}<br /></a
     ></ng-container>
-    <ng-container *ngIf="company.jobTrainerPerson | erzPersonEmail">
-      <a href="mailto:{{ company.jobTrainerPerson | erzPersonEmail }}">{{
-        company.jobTrainerPerson | erzPersonEmail
+    <ng-container *ngIf="company.jobTrainer | erzPersonEmail">
+      <a href="mailto:{{ company.jobTrainer | erzPersonEmail }}">{{
+        company.jobTrainer | erzPersonEmail
       }}</a></ng-container
     >
   </address>

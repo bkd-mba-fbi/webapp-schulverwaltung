@@ -8,6 +8,8 @@ import { ApprenticeshipContract } from './app/shared/models/apprenticeship-contr
 import { LegalRepresentative } from './app/shared/models/legal-representative.model';
 import { Person } from './app/shared/models/person.model';
 import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-statistic';
+import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manager.model';
+import { JobTrainer } from './app/shared/models/job-trainer.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -189,6 +191,56 @@ export function buildLegalRepresentative(
   };
 }
 
+export function buildApprenticeshipManager(id: number): ApprenticeshipManager {
+  return {
+    // HRef: '',
+    Email: '',
+    Email2: null,
+    PhoneBusiness: '',
+    // PhoneMobile: null,
+    CompanyName: '',
+    // CompanyNameAddition: null,
+    Firstname: null,
+    // MiddleName: null,
+    Lastname: null,
+    // FormOfAddress: null,
+    // Gender: 'X',
+    AddressLine1: '',
+    AddressLine2: undefined,
+    PostalCode: '',
+    Location: '',
+    // Country: null,
+    // CountryId: '',
+    // CorrespondenceAddress: null,
+    // CorrespondencePersonId: 0,
+    Id: id,
+  };
+}
+
+export function buildJobTrainer(id: number): JobTrainer {
+  return {
+    // HRef: '',
+    Email: null,
+    Email2: null,
+    PhoneBusiness: null,
+    PhoneMobile: null,
+    Firstname: '',
+    // MiddleName: null,
+    Lastname: '',
+    // FormOfAddress: null,
+    // Gender: 'X',
+    // AddressLine1: undefined,
+    // AddressLine2: undefined,
+    // PostalCode: null,
+    // Location: null,
+    // Country: null,
+    // CountryId: '',
+    // CorrespondenceAddress: null,
+    // CorrespondencePersonId: 0,
+    Id: id,
+  };
+}
+
 /*
 export function buildPayLoad(): TokenPayload {
   return {
@@ -252,4 +304,26 @@ export function buildPersonWithEmails(
   person.Email = email;
   person.Email2 = email2;
   return person;
+}
+
+export function buildJobTrainerWithEmails(
+  id: number,
+  email: string,
+  email2: Option<string> = null
+): JobTrainer {
+  const trainer = buildJobTrainer(id);
+  trainer.Email = email;
+  trainer.Email2 = email2;
+  return trainer;
+}
+
+export function buildApprenticeshipManagerWithEmails(
+  id: number,
+  email: string,
+  email2: Option<string> = null
+): ApprenticeshipManager {
+  const manager = buildApprenticeshipManager(id);
+  manager.Email = email;
+  manager.Email2 = email2;
+  return manager;
 }
