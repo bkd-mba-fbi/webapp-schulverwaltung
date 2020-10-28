@@ -26,7 +26,6 @@ jobs:
       deploy:
         provider: pages
         local-dir: dist
-        cleanup: false
         github-token: $GITHUB_TOKEN
         keep-history: false
         on:
