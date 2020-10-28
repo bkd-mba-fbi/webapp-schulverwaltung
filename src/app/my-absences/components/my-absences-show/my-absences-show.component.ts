@@ -12,6 +12,7 @@ import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm
 import { ReportsService } from 'src/app/shared/services/reports.service';
 import { not } from 'src/app/shared/utils/filter';
 import { isEmptyArray } from 'src/app/shared/utils/array';
+import { flatten, uniq } from 'lodash-es';
 
 @Component({
   selector: 'erz-my-absences-show',
@@ -54,7 +55,9 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     ]).pipe(
       switchMap(([selectedWithout, selectedIds]) =>
         selectedWithout.length === 0 && selectedIds.length > 0
-          ? this.getReportRecordIds(selectedIds[0].lessonIds)
+          ? this.getReportRecordIds(
+              uniq(flatten(selectedIds.map((s) => s.lessonIds)))
+            )
           : of(null)
       ),
       map((recordIds) =>

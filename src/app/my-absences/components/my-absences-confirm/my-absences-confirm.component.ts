@@ -12,6 +12,7 @@ import { SETTINGS, Settings } from 'src/app/settings';
 import { MyAbsencesService } from '../../services/my-absences.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { uniq, flatten } from 'lodash-es';
 
 @Component({
   selector: 'erz-my-absences-confirm',
@@ -21,7 +22,7 @@ import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm
 })
 export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmComponent {
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
-    map((selectedIds) => selectedIds[0]?.lessonIds || [])
+    map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds))))
   );
   protected confirmationStateId = this.settings.unconfirmedAbsencesRefreshTime;
 
