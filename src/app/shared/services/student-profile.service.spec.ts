@@ -12,13 +12,17 @@ import {
   buildPerson,
   buildStudent,
   buildPersonWithEmails,
+  buildJobTrainerWithEmails,
+  buildApprenticeshipManagerWithEmails,
 } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import {
   StudentProfileService,
   Profile,
 } from '../../shared/services/student-profile.service';
+import { ApprenticeshipManager } from '../models/apprenticeship-manager.model';
 import { DropDownItem } from '../models/drop-down-item.model';
+import { JobTrainer } from '../models/job-trainer.model';
 
 describe('StudentProfileService', () => {
   let httpTestingController: HttpTestingController;
@@ -28,8 +32,8 @@ describe('StudentProfileService', () => {
   let myself: Person;
   let legalRepresentatives: LegalRepresentative[];
   let apprenticeshipContract: ApprenticeshipContract;
-  let jobTrainer: Person;
-  let apprenticeshipManager: Person;
+  let jobTrainer: JobTrainer;
+  let apprenticeshipManager: ApprenticeshipManager;
   let legalRepresentative1: Person;
   let legalRepresentative2: Person;
   let persons: Person[];
@@ -64,19 +68,13 @@ describe('StudentProfileService', () => {
       legalRepresentatives[1].RepresentativeId,
       'display@email.ch'
     );
-    jobTrainer = buildPersonWithEmails(35468, undefined, 'email1@email.ch');
-    apprenticeshipManager = buildPersonWithEmails(
+    jobTrainer = buildJobTrainerWithEmails(35468, 'email1@email.ch');
+    apprenticeshipManager = buildApprenticeshipManagerWithEmails(
       38223,
-      undefined,
       'email1@email.ch',
       'email2@email.ch'
     );
-    persons = [
-      legalRepresentative1,
-      legalRepresentative2,
-      jobTrainer,
-      apprenticeshipManager,
-    ];
+    persons = [legalRepresentative1, legalRepresentative2];
 
     dropDownItems = [{ Key: myself.StayPermit, Value: 'Permit Value' }];
   });
@@ -100,8 +98,8 @@ describe('StudentProfileService', () => {
             apprenticeshipCompanies: [
               {
                 apprenticeshipContract,
-                jobTrainerPerson: jobTrainer,
-                apprenticeshipManagerPerson: apprenticeshipManager,
+                jobTrainer,
+                apprenticeshipManager,
               },
             ],
           });
@@ -110,6 +108,12 @@ describe('StudentProfileService', () => {
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
       expectPersonsRequest(persons.map((person) => person.Id));
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
 
     it('returns the profile without legal representatives for adult student', () => {
@@ -123,7 +127,12 @@ describe('StudentProfileService', () => {
       expectStudentRequest(student.Id);
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
-      expectPersonsRequest(persons.map((person) => person.Id));
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
 
     it('returns the profile only with legal representatives with flag for adult student', () => {
@@ -140,7 +149,13 @@ describe('StudentProfileService', () => {
       expectStudentRequest(student.Id);
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
-      expectPersonsRequest(persons.map((person) => person.Id));
+      expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
   });
 
@@ -157,8 +172,8 @@ describe('StudentProfileService', () => {
           apprenticeshipCompanies: [
             {
               apprenticeshipContract,
-              jobTrainerPerson: jobTrainer,
-              apprenticeshipManagerPerson: apprenticeshipManager,
+              jobTrainer,
+              apprenticeshipManager,
             },
           ],
         });
@@ -168,6 +183,12 @@ describe('StudentProfileService', () => {
       expectApprenticeshipContractRequest(myself.Id);
       expectLoadStayPermitValueRequest();
       expectPersonsRequest(persons.map((person) => person.Id));
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
 
     it('returns the profile without legal representatives for adult user', () => {
@@ -180,7 +201,12 @@ describe('StudentProfileService', () => {
       expectLegalRepresentativesRequest(myself.Id);
       expectApprenticeshipContractRequest(myself.Id);
       expectLoadStayPermitValueRequest();
-      expectPersonsRequest(persons.map((person) => person.Id));
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
 
     it('returns the profile only with legal representatives with flag for adult', () => {
@@ -196,7 +222,13 @@ describe('StudentProfileService', () => {
       expectLegalRepresentativesRequest(myself.Id);
       expectApprenticeshipContractRequest(myself.Id);
       expectLoadStayPermitValueRequest();
-      expectPersonsRequest(persons.map((person) => person.Id));
+      expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
   });
 
@@ -223,6 +255,16 @@ describe('StudentProfileService', () => {
   function expectApprenticeshipContractRequest(id: number): void {
     const url = `https://eventotest.api/Students/${id}/ApprenticeshipContracts/Current`;
     httpTestingController.expectOne(url).flush([apprenticeshipContract]);
+  }
+
+  function expectApprenticeshipManagerRequest(id: number): void {
+    const url = `https://eventotest.api/ApprenticeshipManagers/${id}`;
+    httpTestingController.expectOne(url).flush(apprenticeshipManager);
+  }
+
+  function expectJobTrainerRequest(id: number): void {
+    const url = `https://eventotest.api/JobTrainers/${id}`;
+    httpTestingController.expectOne(url).flush(jobTrainer);
   }
 
   function expectPersonsRequest(personIds: number[], response = persons): void {
