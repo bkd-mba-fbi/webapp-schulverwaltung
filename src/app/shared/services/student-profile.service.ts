@@ -167,6 +167,10 @@ export class StudentProfileService {
       .map((contract) => contract.JobTrainer)
       .filter((id): id is number => typeof id === 'number');
 
+    if (ids.length === 0) {
+      return of([]);
+    }
+
     return combineLatest(ids.map((id) => this.jobTrainersService.get(id)));
   }
 
@@ -174,6 +178,10 @@ export class StudentProfileService {
     contracts: ReadonlyArray<ApprenticeshipContract>
   ): Observable<ReadonlyArray<ApprenticeshipManager>> {
     const ids = contracts.map((contract) => contract.ApprenticeshipManagerId);
+
+    if (ids.length === 0) {
+      return of([]);
+    }
 
     return combineLatest(
       ids.map((id) => this.apprenticeshipManagersService.get(id))
