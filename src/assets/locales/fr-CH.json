@@ -97,8 +97,8 @@
       "date-from": "Date du",
       "date-to": "Date au",
       "presence-type": "Motif",
-      "incident": "Incident",
       "confirmation-state": "Statut",
+      "incident": "Incident",
       "show": "Afficher"
     },
     "list": {
@@ -124,10 +124,11 @@
         "absent": "Absence",
         "dispensation": "Dispense",
         "half-day": "Demi-journée libre",
-        "late": "Retard",
+        "incident": "Incident",
         "present": "Présence"
       },
       "absence-type-placeholder": "Sélectionner le motif d'absence...",
+      "incident-placeholder": "Sélectionner l'incident...",
       "cancel": "Annuler",
       "save": "Valider",
       "save-success": "Les données sélectionnées ont été enregistrées avec succès."
@@ -150,7 +151,7 @@
         "valid-excuse": "Excusé-e",
         "without-excuse": "Non excusé-e",
         "unconfirmed": "En cours",
-        "late": "Incidents",
+        "incident": "Incidents",
         "halfday": "Demi-journées"
       }
     }
