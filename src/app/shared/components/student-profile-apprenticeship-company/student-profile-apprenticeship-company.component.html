@@ -1,6 +1,9 @@
 <address>
-  <ng-container *ngIf="company.apprenticeshipContract.CompanyName"
-    >{{ company.apprenticeshipContract.CompanyName }}<br
+  <ng-container *ngIf="company.apprenticeshipManager?.CompanyName"
+    >{{ company.apprenticeshipManager?.CompanyName }}<br
+  /></ng-container>
+  <ng-container *ngIf="company.apprenticeshipManager?.CompanyNameAddition"
+    >{{ company.apprenticeshipManager?.CompanyNameAddition }}<br
   /></ng-container>
   <ng-container
     *ngIf="
