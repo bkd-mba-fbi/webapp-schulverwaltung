@@ -48,8 +48,12 @@
 <div *ngIf="company.jobTrainer" class="subentry">
   {{ 'shared.profile.job-trainer' | translate }}:
   <address>
-    {{ company.jobTrainer.Lastname }}
-    {{ company.jobTrainer.Firstname }}<br />
+    <ng-container
+      *ngIf="company.jobTrainer.Lastname && company.jobTrainer.Firstname"
+    >
+      {{ company.jobTrainer.Lastname }}
+      {{ company.jobTrainer.Firstname }}<br />
+    </ng-container>
     <ng-container *ngIf="company.jobTrainer.PhoneBusiness">
       <a href="tel:{{ company.jobTrainer.PhoneBusiness }}"
         >{{ company.jobTrainer.PhoneBusiness }}<br /></a
