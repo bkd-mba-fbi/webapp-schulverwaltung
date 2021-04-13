@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { MyAbsencesConfirmComponent } from './my-absences-confirm.component';
@@ -10,28 +10,30 @@ describe('MyAbsencesConfirmComponent', () => {
   let component: MyAbsencesConfirmComponent;
   let fixture: ComponentFixture<MyAbsencesConfirmComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [MyAbsencesConfirmComponent],
-        providers: [
-          {
-            provide: MyAbsencesService,
-            useValue: {
-              openAbsences$: of([]),
-              counts$: of({}),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [MyAbsencesConfirmComponent],
+          providers: [
+            {
+              provide: MyAbsencesService,
+              useValue: {
+                openAbsences$: of([]),
+                counts$: of({}),
+              },
             },
-          },
-          {
-            provide: ConfirmAbsencesSelectionService,
-            useValue: {
-              selectedIds$: of([{ lessonIds: [1], personIds: [1] }]),
+            {
+              provide: ConfirmAbsencesSelectionService,
+              useValue: {
+                selectedIds$: of([{ lessonIds: [1], personIds: [1] }]),
+              },
             },
-          },
-        ],
-      })
-    ).compileComponents();
-  }));
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesConfirmComponent);

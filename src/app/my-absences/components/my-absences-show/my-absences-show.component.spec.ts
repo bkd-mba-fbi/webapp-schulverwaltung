@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { MyAbsencesShowComponent } from './my-absences-show.component';
@@ -11,31 +11,36 @@ describe('MyAbsencesShowComponent', () => {
   let component: MyAbsencesShowComponent;
   let fixture: ComponentFixture<MyAbsencesShowComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [MyAbsencesShowComponent, MyAbsencesReportLinkComponent],
-        providers: [
-          {
-            provide: MyAbsencesService,
-            useValue: {
-              openAbsences$: of([]),
-              openLessonAbsences$: of([]),
-              counts$: of({}),
-            },
-          },
-          {
-            provide: StorageService,
-            useValue: {
-              getPayload(): Option<object> {
-                return { id_person: 42 };
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [
+            MyAbsencesShowComponent,
+            MyAbsencesReportLinkComponent,
+          ],
+          providers: [
+            {
+              provide: MyAbsencesService,
+              useValue: {
+                openAbsences$: of([]),
+                openLessonAbsences$: of([]),
+                counts$: of({}),
               },
             },
-          },
-        ],
-      })
-    ).compileComponents();
-  }));
+            {
+              provide: StorageService,
+              useValue: {
+                getPayload(): Option<object> {
+                  return { id_person: 42 };
+                },
+              },
+            },
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesShowComponent);

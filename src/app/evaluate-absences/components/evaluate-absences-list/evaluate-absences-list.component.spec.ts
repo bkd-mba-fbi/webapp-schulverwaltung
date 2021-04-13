@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EvaluateAbsencesListComponent } from './evaluate-absences-list.component';
 import { EvaluateAbsencesHeaderComponent } from '../evaluate-absences-header/evaluate-absences-header.component';
@@ -14,28 +14,33 @@ describe('EvaluateAbsencesListComponent', () => {
   let stateServiceMock: EvaluateAbsencesStateService;
   let statistic: LessonPresenceStatistic;
 
-  beforeEach(async(() => {
-    statistic = buildLessonPresenceStatistic(333);
+  beforeEach(
+    waitForAsync(() => {
+      statistic = buildLessonPresenceStatistic(333);
 
-    stateServiceMock = ({
-      setFilter: jasmine.createSpy('setFilter'),
-      isFilterValid$: of(true),
-      entries$: of([statistic]),
-      sorting$: of({ key: 'StudentFullName', ascending: true }),
-    } as unknown) as EvaluateAbsencesStateService;
+      stateServiceMock = ({
+        setFilter: jasmine.createSpy('setFilter'),
+        isFilterValid$: of(true),
+        entries$: of([statistic]),
+        sorting$: of({ key: 'StudentFullName', ascending: true }),
+      } as unknown) as EvaluateAbsencesStateService;
 
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [
-          EvaluateAbsencesHeaderComponent,
-          EvaluateAbsencesListComponent,
-        ],
-        providers: [
-          { provide: EvaluateAbsencesStateService, useValue: stateServiceMock },
-        ],
-      })
-    ).compileComponents();
-  }));
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [
+            EvaluateAbsencesHeaderComponent,
+            EvaluateAbsencesListComponent,
+          ],
+          providers: [
+            {
+              provide: EvaluateAbsencesStateService,
+              useValue: stateServiceMock,
+            },
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesListComponent);

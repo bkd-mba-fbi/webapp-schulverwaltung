@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -15,36 +15,38 @@ describe('StudentProfileComponent', () => {
   let component: StudentProfileComponent;
   let fixture: ComponentFixture<StudentProfileComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [
-          StudentProfileComponent,
-          StudentBacklinkComponent,
-          StudentProfileEntryHeaderComponent,
-          StudentProfileAddressComponent,
-          StudentProfileLegalRepresentativeComponent,
-          StudentProfileApprenticeshipCompanyComponent,
-        ],
-        providers: [{ provide: STUDENT_PROFILE_BACKLINK, useValue: '/' }],
-      })
-    )
-      .overrideComponent(StudentProfileComponent, {
-        set: {
-          providers: [
-            {
-              provide: StudentProfileAbsencesService,
-              useValue: {
-                openAbsences$: of([]),
-                openAbsencesCount$: of(null),
-                setStudentId: jasmine.createSpy('setStudentId'),
-              },
-            },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [
+            StudentProfileComponent,
+            StudentBacklinkComponent,
+            StudentProfileEntryHeaderComponent,
+            StudentProfileAddressComponent,
+            StudentProfileLegalRepresentativeComponent,
+            StudentProfileApprenticeshipCompanyComponent,
           ],
-        },
-      })
-      .compileComponents();
-  }));
+          providers: [{ provide: STUDENT_PROFILE_BACKLINK, useValue: '/' }],
+        })
+      )
+        .overrideComponent(StudentProfileComponent, {
+          set: {
+            providers: [
+              {
+                provide: StudentProfileAbsencesService,
+                useValue: {
+                  openAbsences$: of([]),
+                  openAbsencesCount$: of(null),
+                  setStudentId: jasmine.createSpy('setStudentId'),
+                },
+              },
+            ],
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentProfileComponent);

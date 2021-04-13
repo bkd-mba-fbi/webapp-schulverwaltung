@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EvaluateAbsencesHeaderComponent } from './evaluate-absences-header.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -8,14 +8,16 @@ describe('EvaluateAbsencesHeaderComponent', () => {
   let component: EvaluateAbsencesHeaderComponent;
   let fixture: ComponentFixture<EvaluateAbsencesHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [EvaluateAbsencesHeaderComponent],
-        providers: [EvaluateAbsencesStateService],
-      })
-    ).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [EvaluateAbsencesHeaderComponent],
+          providers: [EvaluateAbsencesStateService],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesHeaderComponent);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PresenceControlIncidentComponent } from './presence-control-incident.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -8,14 +8,16 @@ describe('PresenceControlIncidentComponent', () => {
   let component: PresenceControlIncidentComponent;
   let fixture: ComponentFixture<PresenceControlIncidentComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [PresenceControlIncidentComponent],
-        providers: [NgbActiveModal],
-      })
-    ).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [PresenceControlIncidentComponent],
+          providers: [NgbActiveModal],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlIncidentComponent);

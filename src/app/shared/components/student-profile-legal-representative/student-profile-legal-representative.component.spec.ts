@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StudentProfileLegalRepresentativeComponent } from './student-profile-legal-representative.component';
@@ -8,13 +8,15 @@ describe('StudentProfileLegalRepresentativeComponent', () => {
   let component: StudentProfileLegalRepresentativeComponent;
   let fixture: ComponentFixture<StudentProfileLegalRepresentativeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [StudentProfileLegalRepresentativeComponent],
-      })
-    ).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [StudentProfileLegalRepresentativeComponent],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

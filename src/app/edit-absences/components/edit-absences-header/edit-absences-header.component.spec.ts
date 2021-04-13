@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -9,24 +9,28 @@ describe('EditAbsencesHeaderComponent', () => {
   let component: EditAbsencesHeaderComponent;
   let fixture: ComponentFixture<EditAbsencesHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [EditAbsencesHeaderComponent],
-        providers: [
-          {
-            provide: EditAbsencesStateService,
-            useValue: {
-              absenceConfirmationStates$: of([]),
-              presenceTypes$: of([]),
-              selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
-              removeSelectedEntries: jasmine.createSpy('removeSelectedEntries'),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [EditAbsencesHeaderComponent],
+          providers: [
+            {
+              provide: EditAbsencesStateService,
+              useValue: {
+                absenceConfirmationStates$: of([]),
+                presenceTypes$: of([]),
+                selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
+                removeSelectedEntries: jasmine.createSpy(
+                  'removeSelectedEntries'
+                ),
+              },
             },
-          },
-        ],
-      })
-    ).compileComponents();
-  }));
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesHeaderComponent);

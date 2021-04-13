@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -22,51 +22,53 @@ describe('OpenAbsencesDetailComponent', () => {
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
 
-  beforeEach(async(() => {
-    activatedRouteMock = new ActivatedRouteMock({
-      date: '2000-01-23',
-      personId: 21,
-    });
+  beforeEach(
+    waitForAsync(() => {
+      activatedRouteMock = new ActivatedRouteMock({
+        date: '2000-01-23',
+        personId: 21,
+      });
 
-    presenceA = buildLessonPresenceWithIds(
-      10,
-      21,
-      11,
-      new Date(2000, 0, 23, 12)
-    );
-    presenceB = buildLessonPresenceWithIds(
-      11,
-      21,
-      11,
-      new Date(2000, 0, 23, 13)
-    );
-    [presenceA, presenceB].forEach(
-      (p) => (p.StudentFullName = 'Einstein Albert')
-    );
+      presenceA = buildLessonPresenceWithIds(
+        10,
+        21,
+        11,
+        new Date(2000, 0, 23, 12)
+      );
+      presenceB = buildLessonPresenceWithIds(
+        11,
+        21,
+        11,
+        new Date(2000, 0, 23, 13)
+      );
+      [presenceA, presenceB].forEach(
+        (p) => (p.StudentFullName = 'Einstein Albert')
+      );
 
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [OpenAbsencesDetailComponent],
-        providers: [
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
-          {
-            provide: OpenAbsencesService,
-            useValue: {
-              getUnconfirmedAbsences: jasmine
-                .createSpy('getUnconfirmedAbsences')
-                .and.returnValue(of([presenceA, presenceB])),
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [OpenAbsencesDetailComponent],
+          providers: [
+            { provide: ActivatedRoute, useValue: activatedRouteMock },
+            {
+              provide: OpenAbsencesService,
+              useValue: {
+                getUnconfirmedAbsences: jasmine
+                  .createSpy('getUnconfirmedAbsences')
+                  .and.returnValue(of([presenceA, presenceB])),
+              },
             },
-          },
-        ],
-      })
-    ).compileComponents();
+          ],
+        })
+      ).compileComponents();
 
-    openAbsencesService = TestBed.inject(OpenAbsencesService);
-    selectionService = TestBed.inject(ConfirmAbsencesSelectionService);
+      openAbsencesService = TestBed.inject(OpenAbsencesService);
+      selectionService = TestBed.inject(ConfirmAbsencesSelectionService);
 
-    router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
-  }));
+      router = TestBed.inject(Router);
+      spyOn(router, 'navigate');
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenAbsencesDetailComponent);

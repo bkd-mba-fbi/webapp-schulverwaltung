@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StudentProfileApprenticeshipCompanyComponent } from './student-profile-apprenticeship-company.component';
@@ -12,13 +12,15 @@ describe('StudentProfileApprenticeshipCompanyComponent', () => {
   let component: StudentProfileApprenticeshipCompanyComponent;
   let fixture: ComponentFixture<StudentProfileApprenticeshipCompanyComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [StudentProfileApprenticeshipCompanyComponent],
-      })
-    ).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [StudentProfileApprenticeshipCompanyComponent],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

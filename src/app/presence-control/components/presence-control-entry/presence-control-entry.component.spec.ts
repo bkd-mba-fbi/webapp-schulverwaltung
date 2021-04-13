@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { buildLessonPresence } from 'src/spec-builders';
 import {
   buildTestModuleMetadata,
@@ -12,13 +12,15 @@ describe('PresenceControlEntryComponent', () => {
   let component: PresenceControlEntryComponent;
   let fixture: ComponentFixture<PresenceControlEntryComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [PresenceControlEntryComponent],
-      })
-    ).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [PresenceControlEntryComponent],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlEntryComponent);
