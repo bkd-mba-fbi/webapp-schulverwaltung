@@ -44,7 +44,7 @@
     "newtype-ts": "^0.3.4",
     "ngx-infinite-scroll": "^9.0.0",
     "ngx-toastr": "^13.0.0",
-    "rxjs": "~6.6.2",
+    "rxjs": "~6.6.7",
     "tslib": "^2.0.0",
     "watchpack": "^1.6.1",
     "zone.js": "~0.11.4"
