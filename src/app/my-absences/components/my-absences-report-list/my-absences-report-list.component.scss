@@ -1,18 +1,11 @@
 @import "../../../../bootstrap-variables";
 
-/* autoprefixer grid: on */
-
 .entries-all {
   padding: 0 0 (0.5 * $spacer) $spacer;
   border-bottom: 1px solid $gray-200;
   display: grid;
   grid-template-areas: "checkbox all buttons";
   grid-template-columns: min-content 1fr min-content;
-}
-
-// IE11 workaround for `align-items: center`
-.entries-all > * {
-  align-self: center;
 }
 
 .entry {

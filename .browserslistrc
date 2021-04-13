@@ -3,4 +3,4 @@
 # https://github.com/browserslist/browserslist#queries
 
 defaults
-IE 11
+not IE 11

@@ -1,7 +1,5 @@
 @import "../../../../bootstrap-variables";
 
-/* autoprefixer grid: on */
-
 .absence-all {
   padding: 0 0 (0.5 * $spacer) $spacer;
   border-bottom: 1px solid $gray-200;
@@ -10,11 +8,6 @@
     "checkbox all buttons"
     "validation validation validation";
   grid-template-columns: min-content 1fr min-content;
-}
-
-// IE11 workaround for `align-items: center`
-.absence-all > * {
-  align-self: center;
 }
 
 .absence-entry {
