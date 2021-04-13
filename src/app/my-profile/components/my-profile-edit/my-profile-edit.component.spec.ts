@@ -129,9 +129,9 @@ describe('MyProfileEditComponent', () => {
   }
 
   function clickSubmitButton(): void {
-    const button = element.querySelector('.btn-primary') as Option<
-      HTMLButtonElement
-    >;
+    const button = element.querySelector(
+      '.btn-primary'
+    ) as Option<HTMLButtonElement>;
     if (button) {
       button.click();
       fixture.detectChanges();

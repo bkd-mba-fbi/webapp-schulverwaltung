@@ -6,8 +6,6 @@ import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { getIdsGroupedByPerson } from '../../shared/utils/lesson-presences';
 
 @Injectable()
-export class MyAbsencesReportSelectionService extends SelectionService<
-  LessonPresence
-> {
+export class MyAbsencesReportSelectionService extends SelectionService<LessonPresence> {
   selectedIds$ = this.selection$.pipe(map(getIdsGroupedByPerson));
 }

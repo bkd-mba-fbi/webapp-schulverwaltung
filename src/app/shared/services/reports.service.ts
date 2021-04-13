@@ -70,9 +70,7 @@ export class ReportsService implements OnDestroy {
     private http: HttpClient
   ) {
     this.studentConfirmationAvailabilitySub = (this
-      .studentConfirmationAvailability$ as ConnectableObservable<
-      boolean
-    >).connect();
+      .studentConfirmationAvailability$ as ConnectableObservable<boolean>).connect();
   }
 
   ngOnDestroy(): void {

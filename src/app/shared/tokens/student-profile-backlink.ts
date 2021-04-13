@@ -7,6 +7,6 @@ export type StudentProfileBacklink = any[] | string;
  * the module you are using the profile):
  *   { provide: STUDENT_PROFILE_BACK_URL, useValue: '/example' }
  */
-export const STUDENT_PROFILE_BACKLINK = new InjectionToken<
-  StudentProfileBacklink
->('Student Profile backlink');
+export const STUDENT_PROFILE_BACKLINK = new InjectionToken<StudentProfileBacklink>(
+  'Student Profile backlink'
+);
