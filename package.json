@@ -35,7 +35,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "bootstrap": "^4.6.0",
     "core-js": "~3.10.1",
-    "date-fns": "^2.20.2",
+    "date-fns": "^2.20.3",
     "fp-ts": "^2.9.5",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
