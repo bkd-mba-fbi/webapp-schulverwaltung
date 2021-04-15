@@ -208,6 +208,17 @@
       }
     }
   },
+  "my-settings": {
+    "title": "Mes paramètres",
+    "notifications": {
+      "title": "Notifications",
+      "gui": "Représenter sur le web",
+      "mail": "e-mail",
+      "phoneMobile": "SMS",
+      "save": "Actualiser",
+      "save-success": "Les paramètres de notification ont été enregistrées a avec succès"
+    }
+  },
   "shared": {
     "date-select": {
       "default-placeholder": "Sélectionner la date..."

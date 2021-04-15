@@ -51,6 +51,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./my-profile/my-profile.module').then((m) => m.MyProfileModule),
   },
+  {
+    path: 'my-settings',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./my-settings/my-settings.module').then(
+        (m) => m.MySettingsModule
+      ),
+  },
   { path: 'unauthenticated', component: UnauthenticatedComponent },
   {
     path: '',

@@ -208,6 +208,17 @@
       }
     }
   },
+  "my-settings": {
+    "title": "Meine Einstellungen",
+    "notifications": {
+      "title": "Benachrichtigungen",
+      "gui": "Anzeige im Web",
+      "mail": "E-Mail",
+      "phoneMobile": "SMS",
+      "save": "Aktualisieren",
+      "save-success": "Einstellungen zu Benachrichtigungen erfolgreich aktualisiert"
+    }
+  },
   "shared": {
     "date-select": {
       "default-placeholder": "Datum wählen..."
