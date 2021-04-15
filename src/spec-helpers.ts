@@ -33,6 +33,12 @@ export const settings: Settings = {
   unconfirmedAbsencesRefreshTime: null,
   personMasterDataReportId: 290026,
   studentConfirmationReportId: 30,
+  headerRoleRestriction: {
+    myAbsences: 'StudentRole',
+    presenceControl: 'LessonTeacherRole',
+    openAbsences: 'LessonTeacherRole,ClassTeacherRole',
+    editAbsences: 'LessonTeacherRole,ClassTeacherRole',
+  },
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {
