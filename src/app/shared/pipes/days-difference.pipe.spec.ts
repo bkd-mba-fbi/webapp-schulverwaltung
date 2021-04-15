@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -7,12 +7,14 @@ import { DaysDifferencePipe } from './days-difference.pipe';
 describe('DaysDifferencePipe', () => {
   let pipe: DaysDifferencePipe;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
-    ).compileComponents();
-    pipe = new DaysDifferencePipe(TestBed.inject(TranslateService));
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({})
+      ).compileComponents();
+      pipe = new DaysDifferencePipe(TestBed.inject(TranslateService));
+    })
+  );
 
   beforeEach(() => {
     jasmine.clock().install();

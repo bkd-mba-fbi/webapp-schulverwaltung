@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -14,39 +14,41 @@ describe('MyProfileEditComponent', () => {
   let profileService: MyProfileService;
   let personsService: jasmine.SpyObj<PersonsRestService>;
 
-  beforeEach(async(() => {
-    const person = buildPerson(123);
-    person.AddressLine1 = 'Postfach';
-    person.AddressLine2 = 'Industriegasse 123';
-    person.Zip = '3000';
-    person.Location = 'Bern';
-    person.PhonePrivate = '+41 31 123 45 67';
-    person.PhoneMobile = '+41 79 123 45 67';
-    person.Email2 = 'john@example.com';
+  beforeEach(
+    waitForAsync(() => {
+      const person = buildPerson(123);
+      person.AddressLine1 = 'Postfach';
+      person.AddressLine2 = 'Industriegasse 123';
+      person.Zip = '3000';
+      person.Location = 'Bern';
+      person.PhonePrivate = '+41 31 123 45 67';
+      person.PhoneMobile = '+41 79 123 45 67';
+      person.Email2 = 'john@example.com';
 
-    profileService = ({
-      profile$: of({
-        student: person,
-        legalRepresentativePersons: [],
-        apprenticeshipCompanies: [],
-      }),
-      loading$: of(false),
-      reset: jasmine.createSpy('reset'),
-    } as unknown) as MyProfileService;
+      profileService = ({
+        profile$: of({
+          student: person,
+          legalRepresentativePersons: [],
+          apprenticeshipCompanies: [],
+        }),
+        loading$: of(false),
+        reset: jasmine.createSpy('reset'),
+      } as unknown) as MyProfileService;
 
-    personsService = jasmine.createSpyObj('PersonsRestService', ['update']);
-    personsService.update.and.returnValue(of());
+      personsService = jasmine.createSpyObj('PersonsRestService', ['update']);
+      personsService.update.and.returnValue(of());
 
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [MyProfileEditComponent],
-        providers: [
-          { provide: MyProfileService, useValue: profileService },
-          { provide: PersonsRestService, useValue: personsService },
-        ],
-      })
-    ).compileComponents();
-  }));
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [MyProfileEditComponent],
+          providers: [
+            { provide: MyProfileService, useValue: profileService },
+            { provide: PersonsRestService, useValue: personsService },
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileEditComponent);
@@ -127,9 +129,9 @@ describe('MyProfileEditComponent', () => {
   }
 
   function clickSubmitButton(): void {
-    const button = element.querySelector('.btn-primary') as Option<
-      HTMLButtonElement
-    >;
+    const button = element.querySelector(
+      '.btn-primary'
+    ) as Option<HTMLButtonElement>;
     if (button) {
       button.click();
       fixture.detectChanges();

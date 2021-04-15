@@ -55,9 +55,8 @@ export class LoadingService implements OnDestroy {
   loading$ = this.loading();
 
   constructor() {
-    this.loadingCountsSub = (this.loadingCounts$ as ConnectableObservable<
-      LoadingCounts
-    >).connect();
+    this.loadingCountsSub = (this
+      .loadingCounts$ as ConnectableObservable<LoadingCounts>).connect();
   }
 
   ngOnDestroy(): void {

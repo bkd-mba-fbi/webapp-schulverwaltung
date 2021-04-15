@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MyProfileHeaderComponent } from './my-profile-header.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
@@ -8,19 +8,21 @@ describe('MyProfileHeaderComponent', () => {
   let component: MyProfileHeaderComponent;
   let fixture: ComponentFixture<MyProfileHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [MyProfileHeaderComponent],
-        providers: [
-          {
-            provide: ReportsService,
-            useValue: { personMasterDataReportUrl: '/report' },
-          },
-        ],
-      })
-    ).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [MyProfileHeaderComponent],
+          providers: [
+            {
+              provide: ReportsService,
+              useValue: { personMasterDataReportUrl: '/report' },
+            },
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileHeaderComponent);

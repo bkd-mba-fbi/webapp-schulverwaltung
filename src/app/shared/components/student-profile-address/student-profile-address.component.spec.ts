@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StudentProfileAddressComponent } from './student-profile-address.component';
 import { buildStudent, buildPerson } from 'src/spec-builders';
@@ -8,11 +8,13 @@ describe('StudentProfileAddressComponent', () => {
   let component: StudentProfileAddressComponent;
   let fixture: ComponentFixture<StudentProfileAddressComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [StudentProfileAddressComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [StudentProfileAddressComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentProfileAddressComponent);

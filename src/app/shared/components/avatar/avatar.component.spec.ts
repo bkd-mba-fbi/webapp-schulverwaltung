@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { buildTestModuleMetadata, changeInput } from 'src/spec-helpers';
 import { StorageService } from '../../services/storage.service';
 import { AvatarComponent } from './avatar.component';
@@ -7,22 +7,24 @@ describe('AvatarComponent', () => {
   let component: AvatarComponent;
   let fixture: ComponentFixture<AvatarComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        providers: [
-          {
-            provide: StorageService,
-            useValue: {
-              getAccessToken(): string {
-                return 'asdf';
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          providers: [
+            {
+              provide: StorageService,
+              useValue: {
+                getAccessToken(): string {
+                  return 'asdf';
+                },
               },
             },
-          },
-        ],
-      })
-    ).compileComponents();
-  }));
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AvatarComponent);

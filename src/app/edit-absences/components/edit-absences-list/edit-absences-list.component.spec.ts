@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { buildLessonPresence } from 'src/spec-builders';
@@ -13,29 +13,34 @@ describe('EditAbsencesListComponent', () => {
   let element: HTMLElement;
   let stateServiceMock: EditAbsencesStateService;
 
-  beforeEach(async(() => {
-    const entry = buildPresenceControlEntry();
-    stateServiceMock = ({
-      loading$: of(false),
-      loadingPage$: of(false),
-      entries$: of([entry.lessonPresence]),
-      presenceControlEntries$: of([entry]),
-      presenceTypes$: of([]),
-      selected: [],
-      setFilter: jasmine.createSpy('setFilter'),
-      isFilterValid$: of(true),
-      validFilter$: of({}),
-    } as unknown) as EditAbsencesStateService;
+  beforeEach(
+    waitForAsync(() => {
+      const entry = buildPresenceControlEntry();
+      stateServiceMock = ({
+        loading$: of(false),
+        loadingPage$: of(false),
+        entries$: of([entry.lessonPresence]),
+        presenceControlEntries$: of([entry]),
+        presenceTypes$: of([]),
+        selected: [],
+        setFilter: jasmine.createSpy('setFilter'),
+        isFilterValid$: of(true),
+        validFilter$: of({}),
+      } as unknown) as EditAbsencesStateService;
 
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        declarations: [EditAbsencesListComponent, EditAbsencesHeaderComponent],
-        providers: [
-          { provide: EditAbsencesStateService, useValue: stateServiceMock },
-        ],
-      })
-    ).compileComponents();
-  }));
+      TestBed.configureTestingModule(
+        buildTestModuleMetadata({
+          declarations: [
+            EditAbsencesListComponent,
+            EditAbsencesHeaderComponent,
+          ],
+          providers: [
+            { provide: EditAbsencesStateService, useValue: stateServiceMock },
+          ],
+        })
+      ).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesListComponent);
