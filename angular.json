@@ -70,15 +70,6 @@
                   "maximumWarning": "6kb"
                 }
               ]
-            },
-            "es5": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "tsConfig": "src/tsconfig-es5.app.json"
             }
           }
         },
@@ -90,9 +81,6 @@
           "configurations": {
             "production": {
               "browserTarget": "absenzenmanagement:build:production"
-            },
-            "es5": {
-              "browserTarget": "absenzenmanagement:build:es5"
             }
           }
         },
@@ -150,5 +138,8 @@
       }
     }
   },
-  "defaultProject": "absenzenmanagement"
+  "defaultProject": "absenzenmanagement",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -20,10 +20,6 @@ import { NAVIGATOR } from './shared/tokens/dom-apis';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  @HostBinding('class.ie11') get isIE11(): boolean {
-    return /Trident.*rv:11\./.test(this.navigator.userAgent);
-  }
-
   constructor(
     i18n: I18nService,
     private toastrService: ToastrService,

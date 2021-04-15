@@ -17,8 +17,3 @@
 .spinner-border {
   color: $gray-600;
 }
-
-// Avoid overlapping with cross-icon that is displayed in IE 11
-:host-context(.ie11) .spinner-container {
-  right: 2.25 * $spacer;
-}
