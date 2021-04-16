@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "element-required-attributes": "error"
+  },
+  "elements": [
+    {
+      "button": {
+        "requiredAttributes": ["type"]
+      }
+    }
+  ]
+}
