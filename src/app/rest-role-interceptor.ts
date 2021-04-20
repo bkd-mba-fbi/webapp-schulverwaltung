@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpHandler,
@@ -7,10 +7,16 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SETTINGS, Settings } from './settings';
+import { Router } from '@angular/router';
+import { kebabToCamelCase } from 'codelyzer/util/utils';
+import { getFirstSegment } from './shared/utils/url';
 
 @Injectable()
 export class RestRoleInterceptor implements HttpInterceptor {
-  constructor(@Inject(SETTINGS) private settings: Settings) {}
+  constructor(
+    private router: Router,
+    @Inject(SETTINGS) private settings: Settings
+  ) {}
 
   /**
    * Adds the X-Role-Restriction custom HTTP header for the given module to API requests.
@@ -23,11 +29,22 @@ export class RestRoleInterceptor implements HttpInterceptor {
       !req.headers.has('X-Role-Restriction') &&
       this.settings.headerRoleRestriction
     ) {
-      // TODO get header value for module
-      const headers = req.headers.set('X-Role-Restriction', 'TODO');
-      return next.handle(req.clone({ headers }));
+      const module = this.getCurrentModuleName();
+
+      if (module && this.settings.headerRoleRestriction[module]) {
+        const headers = req.headers.set(
+          'X-Role-Restriction',
+          this.settings.headerRoleRestriction[module]
+        );
+        return next.handle(req.clone({ headers }));
+      }
     }
 
     return next.handle(req);
+  }
+
+  private getCurrentModuleName(): string | null {
+    const urlSegment = getFirstSegment(this.router.parseUrl(this.router.url));
+    return urlSegment ? kebabToCamelCase(urlSegment) : null;
   }
 }
