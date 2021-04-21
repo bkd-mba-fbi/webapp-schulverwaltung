@@ -36,8 +36,8 @@ export const settings: Settings = {
   headerRoleRestriction: {
     myAbsences: 'StudentRole',
     presenceControl: 'LessonTeacherRole',
-    openAbsences: 'LessonTeacherRole,ClassTeacherRole',
-    editAbsences: 'LessonTeacherRole,ClassTeacherRole',
+    openAbsences: 'LessonTeacherRole;ClassTeacherRole',
+    editAbsences: 'LessonTeacherRole;ClassTeacherRole',
   },
 };
 
