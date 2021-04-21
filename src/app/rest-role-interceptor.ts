@@ -43,7 +43,9 @@ export class RestRoleInterceptor implements HttpInterceptor {
   }
 
   private getCurrentModuleName(): string | null {
-    const urlSegment = getFirstSegment(this.router.url);
+    const urlSegment = this.router.url
+      ? getFirstSegment(this.router.url)
+      : null;
     return urlSegment ? kebabToCamelCase(urlSegment) : null;
   }
 }
