@@ -30,7 +30,6 @@ export class RestRoleInterceptor implements HttpInterceptor {
       this.settings.headerRoleRestriction
     ) {
       const module = this.getCurrentModuleName();
-
       if (module && this.settings.headerRoleRestriction[module]) {
         const headers = req.headers.set(
           'X-Role-Restriction',
@@ -44,7 +43,7 @@ export class RestRoleInterceptor implements HttpInterceptor {
   }
 
   private getCurrentModuleName(): string | null {
-    const urlSegment = getFirstSegment(this.router.parseUrl(this.router.url));
+    const urlSegment = getFirstSegment(this.router.url);
     return urlSegment ? kebabToCamelCase(urlSegment) : null;
   }
 }
