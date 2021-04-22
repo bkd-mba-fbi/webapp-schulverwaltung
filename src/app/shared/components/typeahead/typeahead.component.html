@@ -16,6 +16,15 @@
     [ngModel]="selectedItem$ | async"
     (ngModelChange)="modelChange($event)"
   />
+  <div class="input-group-append">
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      (click)="modelChange($event)"
+    >
+      <i class="material-icons">clear</i>
+    </button>
+  </div>
 </div>
 <div *ngIf="loading$ | async" class="spinner-container">
   <div class="spinner-border spinner-border-sm" role="status">
