@@ -11,6 +11,7 @@ import { LetDirective } from './directives/let.directive';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RestAuthInterceptor } from '../rest-auth-interceptor';
 import { RestErrorInterceptor } from '../rest-error-interceptor';
+import { RestRoleInterceptor } from '../rest-role-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { DateSelectComponent } from './components/date-select/date-select.component';
 import { SelectComponent } from './components/select/select.component';
@@ -50,6 +51,7 @@ const components = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RestRoleInterceptor, multi: true },
   ],
   imports: [
     CommonModule,

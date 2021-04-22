@@ -1,4 +1,10 @@
-import { Params } from '@angular/router';
+import {
+  DefaultUrlSerializer,
+  Params,
+  PRIMARY_OUTLET,
+  UrlSegment,
+  UrlSegmentGroup,
+} from '@angular/router';
 
 /**
  * Parses given query string to params object
@@ -22,4 +28,15 @@ export function serializeParams(params: Params): string {
       return [...acc, value == null ? key : `${key}=${value}`];
     }, [] as ReadonlyArray<string>)
     .join('&');
+}
+
+/**
+ * Returns the first segment of the given url
+ */
+export function getFirstSegment(url: string): string | null {
+  const serializer = new DefaultUrlSerializer();
+  const tree = serializer.parse(url);
+  const g: UrlSegmentGroup = tree?.root.children[PRIMARY_OUTLET];
+  const s: UrlSegment[] = g?.segments;
+  return s ? s[0].path : null;
 }
