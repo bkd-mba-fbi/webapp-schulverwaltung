@@ -102,15 +102,14 @@
       aria-describedby="search-addon"
       (keyup)="searchChange.emit($event.target.value)"
     />
-    <div class="input-group-append">
-      <button
-        class="btn btn-outline-secondary"
-        type="button"
-        (click)="searchChange.emit('')"
-      >
-        <i class="material-icons">clear</i>
-      </button>
-    </div>
+    <button
+      *ngIf="search"
+      class="btn btn-link text-decoration-none"
+      type="button"
+      (click)="searchChange.emit('')"
+    >
+      <i class="material-icons">clear</i>
+    </button>
   </div>
   <div class="views">
     <button

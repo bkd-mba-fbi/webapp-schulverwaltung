@@ -5,8 +5,18 @@
   padding-right: $spacer;
 }
 
-.header-search input.form-control {
+.header-search {
   max-width: 500px;
+}
+
+.header-search input {
+  padding-right: 2.5em;
+}
+
+.header-search button {
+  position: absolute;
+  right: 0;
+  z-index: 3;
 }
 
 .edit {
