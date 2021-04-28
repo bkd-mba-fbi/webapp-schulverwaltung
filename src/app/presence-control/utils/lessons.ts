@@ -6,10 +6,25 @@ import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
 
+interface LessonGroup {
+  TeacherInformation: string;
+  LessonDateTimeTo: Date;
+  LessonDateTimeFrom: Date;
+  lessons: ReadonlyArray<Lesson>;
+}
+
+/**
+ * Two lessons belong to the same group if they have the same teacher and occur at the same time
+ */
+// TODO naming
 export function lessonsEqual(a: Option<Lesson>, b: Option<Lesson>): boolean {
   return (
     (a === null && b === null) ||
-    (a !== null && b !== null && a.LessonRef.Id === b.LessonRef.Id)
+    (a !== null &&
+      b !== null &&
+      a.TeacherInformation === b.TeacherInformation &&
+      a.LessonDateTimeFrom.getTime() === b.LessonDateTimeFrom.getTime() &&
+      a.LessonDateTimeTo.getTime() === b.LessonDateTimeTo.getTime())
   );
 }
 
@@ -37,11 +52,13 @@ export function extractLessons(
   return lessonPresences
     .reduce((lessons, lessonPresence) => {
       if (lessons.some((l) => l.LessonRef.Id === lessonPresence.LessonRef.Id)) {
+        // TODO welche presences behalten
         return lessons;
       }
       return [...lessons, extractLesson(lessonPresence)];
     }, [] as Lesson[])
     .sort(lessonsComparator);
+  // TODO gruppieren
 }
 
 /**

@@ -135,7 +135,8 @@ describe('PresenceControlStateService', () => {
         2,
         new Date(2000, 0, 23, 8, 0),
         new Date(2000, 0, 23, 9, 0),
-        'Deutsch'
+        'Deutsch',
+        ''
       )
     );
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
@@ -166,7 +167,8 @@ describe('PresenceControlStateService', () => {
           99,
           new Date(2000, 0, 10, 16, 0),
           new Date(2000, 0, 10, 17, 0),
-          'Werken'
+          'Werken',
+          ''
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
@@ -186,7 +188,8 @@ describe('PresenceControlStateService', () => {
           3,
           new Date(2000, 0, 23, 9, 0),
           new Date(2000, 0, 23, 10, 0),
-          'Mathematik'
+          'Mathematik',
+          'Monika Muster'
         )
       );
       resetCallbackSpies();

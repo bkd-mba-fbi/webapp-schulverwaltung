@@ -22,7 +22,8 @@ describe('lessons utils', () => {
         1,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Mathematik',
+        `Monika Muster`
       );
       expect(lessonsEqual(null, lesson)).toBe(false);
       expect(lessonsEqual(lesson, null)).toBe(false);
@@ -33,39 +34,62 @@ describe('lessons utils', () => {
         1,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Mathematik',
+        `Monika Muster`
       );
       expect(lessonsEqual(lesson, lesson)).toBe(true);
     });
 
-    it('returns true for different objects with same id', () => {
+    it('returns true for different objects with same teacher and time', () => {
       const lesson1 = buildLesson(
         1,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Mathematik',
+        `Monika Muster`
       );
       const lesson2 = buildLesson(
         1,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Mathematik',
+        `Monika Muster`
       );
       expect(lessonsEqual(lesson1, lesson2)).toBe(true);
     });
 
-    it('returns false for different objects with different ids', () => {
+    it('returns false for different objects with different teachers', () => {
       const lesson1 = buildLesson(
         1,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Mathematik',
+        `Monika Muster`
       );
       const lesson2 = buildLesson(
         2,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Deutsch',
+        `Dora Durrer`
+      );
+      expect(lessonsEqual(lesson1, lesson2)).toBe(false);
+    });
+
+    it('returns false for different objects with different times', () => {
+      const lesson1 = buildLesson(
+        1,
+        new Date(2000, 0, 23, 9, 0),
+        new Date(2000, 0, 23, 10, 0),
+        'Mathematik',
+        `Monika Muster`
+      );
+      const lesson2 = buildLesson(
+        2,
+        new Date(2000, 0, 23, 10, 0),
+        new Date(2000, 0, 23, 11, 0),
+        'Mathematik',
+        `Monika Muster`
       );
       expect(lessonsEqual(lesson1, lesson2)).toBe(false);
     });
@@ -165,25 +189,29 @@ describe('lessons utils', () => {
         1,
         new Date(2000, 0, 23, 8, 0),
         new Date(2000, 0, 23, 9, 0),
-        'Deutsch'
+        'Deutsch',
+        `Dora Durrer`
       );
       math = buildLesson(
         2,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
-        'Mathematik'
+        'Mathematik',
+        `Monika Muster`
       );
       singen = buildLesson(
         3,
         new Date(2000, 0, 23, 11, 0),
         new Date(2000, 0, 23, 12, 0),
-        'Singen'
+        'Singen',
+        'Sandra Schmid'
       );
       werken = buildLesson(
         4,
         new Date(2000, 0, 23, 13, 0),
         new Date(2000, 0, 23, 14, 0),
-        'Werken'
+        'Werken',
+        'Wanda Wehrli'
       );
 
       lessons = [deutsch, math, singen, werken];
@@ -251,7 +279,8 @@ describe('lessons utils', () => {
           2,
           new Date(2000, 0, 23, 8, 0),
           new Date(2000, 0, 23, 9, 0),
-          'Deutsch'
+          'Deutsch',
+          'Dora Durrer'
         ),
         [
           buildLessonPresence(
