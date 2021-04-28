@@ -5,6 +5,7 @@ export type Lesson = Pick<
   | 'LessonRef'
   | 'EventDesignation'
   | 'StudyClassNumber'
+  | 'TeacherInformation'
   | 'LessonDateTimeFrom'
   | 'LessonDateTimeTo'
 >;

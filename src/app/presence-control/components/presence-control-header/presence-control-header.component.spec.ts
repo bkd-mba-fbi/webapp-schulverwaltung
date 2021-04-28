@@ -26,6 +26,7 @@ describe('PresenceControlHeaderComponent', () => {
       LessonRef: buildReference(),
       EventDesignation: 'Deutsch',
       StudyClassNumber: 'DHF2018a',
+      TeacherInformation: 'Monika Muster',
       LessonDateTimeFrom: new Date(),
       LessonDateTimeTo: new Date(),
     };

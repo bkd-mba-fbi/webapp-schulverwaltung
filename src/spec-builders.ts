@@ -86,6 +86,7 @@ export function buildLesson(
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
     StudyClassNumber: '9a',
+    TeacherInformation: '',
   };
 }
 
