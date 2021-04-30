@@ -1,0 +1,25 @@
+<div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="resettable-input"
+      ><i class="material-icons">search</i></span
+    >
+  </div>
+  <input
+    type="text"
+    class="form-control"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.placeholder]="placeholder"
+    [attr.aria-label]="label"
+    aria-describedby="resettable-input"
+    (keyup)="valueChange.emit($event.target.value)"
+  />
+  <button
+    *ngIf="value"
+    class="btn btn-link text-decoration-none"
+    type="button"
+    (click)="valueChange.emit('')"
+  >
+    <i class="material-icons">clear</i>
+  </button>
+</div>

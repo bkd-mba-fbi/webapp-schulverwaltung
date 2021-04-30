@@ -14,32 +14,13 @@
       "
     >
       <div class="pt-3 pl-3 pr-3">
-        <div class="header-search input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="search-addon"
-              ><i class="material-icons">search</i></span
-            >
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            [attr.placeholder]="
-              'open-absences.search-by-name-or-class' | translate
-            "
-            [attr.aria-label]="'open-absences.search' | translate"
-            aria-describedby="search-addon"
-            [value]="openAbsencesService.search$ | async"
-            (keyup)="openAbsencesService.search$.next($event.target.value)"
-          />
-          <button
-            *ngIf="openAbsencesService.search$ | async"
-            class="btn btn-link text-decoration-none"
-            type="button"
-            (click)="openAbsencesService.search$.next('')"
-          >
-            <i class="material-icons">clear</i>
-          </button>
-        </div>
+        <erz-resettable-input
+          class="d-flex header-search"
+          [value]="openAbsencesService.search$ | async"
+          [placeholder]="'open-absences.search-by-name-or-class' | translate"
+          [label]="'open-absences.search' | translate"
+          (valueChange)="openAbsencesService.search$.next($event)"
+        ></erz-resettable-input>
         <div class="d-flex align-items-center justify-content-between mt-1">
           <div class="selection-count pl-1">
             {{

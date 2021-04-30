@@ -25,6 +25,7 @@ import { StudentProfileAbsencesComponent } from './components/student-profile-ab
 import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-absences.component';
 import { PersonEmailPipe } from './pipes/person-email.pipe';
 import { DaysDifferencePipe } from './pipes/days-difference.pipe';
+import { ResettableInputComponent } from './components/resettable-input/resettable-input.component';
 
 // Components that will be exported
 const components = [
@@ -47,7 +48,7 @@ const components = [
 ];
 
 @NgModule({
-  declarations: [...components],
+  declarations: [...components, ResettableInputComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },
@@ -73,6 +74,7 @@ const components = [
     NgbModule,
     InfiniteScrollModule,
     ...components,
+    ResettableInputComponent,
   ],
 })
 export class SharedModule {}
