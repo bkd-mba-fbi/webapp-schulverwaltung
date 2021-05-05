@@ -34,8 +34,8 @@
     placement="bottom"
   >
     <div id="lesson-dropdown" ngbDropdownToggle>
-      {{ selectedLesson.studyClassNumbers }},
-      {{ selectedLesson.eventDesignations }}
+      <div class="text-truncate">{{ selectedLesson.eventDesignations }}</div>
+      <div class="text-truncate">{{ selectedLesson.studyClassNumbers }}</div>
     </div>
     <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
       <div
@@ -44,15 +44,15 @@
         ngbDropdownItem
         (click)="selectLessonChange.emit(lesson)"
       >
-        <div class="lesson-time-class">
-          <span>
+        <div class="lesson-entry">
+          <div>
             {{ lesson.LessonDateTimeFrom | date: 'HH:mm' }}–{{
               lesson.LessonDateTimeTo | date: 'HH:mm'
             }}
-          </span>
-          {{ lesson.studyClassNumbers }}
+          </div>
+          <div class="text-truncate">{{ lesson.eventDesignations }}</div>
+          <div class="text-truncate">{{ lesson.studyClassNumbers }}</div>
         </div>
-        <div class="lesson-designation">{{ lesson.eventDesignations }}</div>
       </div>
     </div>
   </div>
