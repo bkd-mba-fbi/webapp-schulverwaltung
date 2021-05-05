@@ -75,4 +75,10 @@ window.absenzenmanagement.settings = {
     openAbsences: 'LessonTeacherRole;ClassTeacherRole',
     editAbsences: 'LessonTeacherRole;ClassTeacherRole',
   },
+
+  /**
+   * Notifications
+   */
+  // refresh time for notifications
+  notificationRefreshTime: 30 * 1000,
 };

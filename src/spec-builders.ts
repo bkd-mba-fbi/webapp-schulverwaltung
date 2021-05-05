@@ -10,7 +10,9 @@ import { Person } from './app/shared/models/person.model';
 import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-statistic';
 import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manager.model';
 import { JobTrainer } from './app/shared/models/job-trainer.model';
-import { UserSetting } from './app/shared/models/user-setting.model';
+import {
+  UserSetting,
+} from './app/shared/models/user-setting.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -346,6 +348,20 @@ export function buildUserSettingWithNotificationSetting(
   const notification = {
     Key: 'notification',
     Value: JSON.stringify({ mail, gui, phoneMobile }),
+  };
+  setting.Settings.push(notification);
+  return setting;
+}
+
+export function buildUserWithNotificationData(
+  id: number,
+  subject: string,
+  body: string
+): UserSetting {
+  const setting = buildUserSetting();
+  const notification = {
+    Key: 'notificationData',
+    Value: JSON.stringify([{ id, subject, body }]),
   };
   setting.Settings.push(notification);
   return setting;

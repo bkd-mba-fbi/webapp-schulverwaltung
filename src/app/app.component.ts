@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Inject,
   HostBinding,
+  Injector,
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
@@ -12,6 +13,9 @@ import { SETTINGS, Settings } from './settings';
 import { I18nService } from './shared/services/i18n.service';
 import { decode } from './shared/utils/decode';
 import { NAVIGATOR } from './shared/tokens/dom-apis';
+import { MyNotificationsService } from './my-notifications/services/my-notifications.service';
+import { createCustomElement } from '@angular/elements';
+import { MyNotificationsShowComponent } from './my-notifications/components/my-notifications-show/my-notifications-show.component';
 
 @Component({
   selector: 'erz-app',
@@ -24,10 +28,17 @@ export class AppComponent {
     i18n: I18nService,
     private toastrService: ToastrService,
     @Inject(SETTINGS) private settings: Settings,
-    @Inject(NAVIGATOR) private navigator: Navigator
+    @Inject(NAVIGATOR) private navigator: Navigator,
+    injector: Injector,
+    private notificationService: MyNotificationsService
   ) {
     i18n.initialize();
     this.checkSettings();
+    const notificationsElement = createCustomElement(
+      MyNotificationsShowComponent,
+      { injector }
+    );
+    customElements.define('erz-notifications', notificationsElement);
   }
 
   private checkSettings(): void {

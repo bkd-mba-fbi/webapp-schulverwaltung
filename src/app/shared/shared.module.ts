@@ -26,6 +26,7 @@ import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-
 import { PersonEmailPipe } from './pipes/person-email.pipe';
 import { DaysDifferencePipe } from './pipes/days-difference.pipe';
 import { ResettableInputComponent } from './components/resettable-input/resettable-input.component';
+import { SafePipe } from './pipes/safe.pipe';
 
 // Components that will be exported
 const components = [
@@ -45,10 +46,11 @@ const components = [
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,
+  SafePipe,
 ];
 
 @NgModule({
-  declarations: [...components, ResettableInputComponent],
+  declarations: [...components, ResettableInputComponent, SafePipe],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },

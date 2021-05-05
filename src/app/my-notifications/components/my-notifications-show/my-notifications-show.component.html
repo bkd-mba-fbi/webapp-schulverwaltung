@@ -1,0 +1,76 @@
+<div
+  class="notifications-container"
+  *erzLet="{
+    notifications: notifications$ | async,
+    numNotifications: (notifications$ | async)?.length || 0,
+    isAuthenticated: (isAuthenticatedSubject | async)
+  } as data"
+>
+  DATA: {{ data.isAuthenticated }}
+
+  <div id="notifications-button" class="notifications-button">
+    <i
+      (click)="toggleNotificationsPopup()"
+      class="material-icons notifications-bell"
+      [ngClass]="data.isAuthenticated ? '' : 'notifications-bell-hidden'"
+      >notifications</i
+    >
+    <span
+      id="notifications-bell-counter"
+      class="notifications-bell-counter"
+      [ngClass]="
+        data.isAuthenticated
+          ? 'notifications-bell-counter-visible'
+          : 'notifications-bell-counter-hidden'
+      "
+      >{{ data.numNotifications }}</span
+    >
+  </div>
+  <div
+    class="notifications-popup"
+    id="notifications-popup"
+    style="display: none"
+  >
+    <div>
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="m-2">{{ 'my-notifications.title' | translate }}</h5>
+        <button
+          type="button"
+          class="btn btn-primary m-2"
+          [disabled]="data.numNotifications < 1"
+          (click)="deleteAll()"
+          id="notifications-delete-all"
+        >
+          {{ 'my-notifications.deleteAll' | translate }}
+        </button>
+      </div>
+      <div class="notifications-popup-data">
+        <div *ngIf="data.numNotifications > 0; else noNotifications">
+          <div *ngFor="let entry of data.notifications">
+            <hr />
+            <div class="row p-2 w-100">
+              <div class="col-md text-left" [innerHTML]="entry.subject"></div>
+              <div
+                class="col-md text-right"
+                [innerHTML]="entry.body | safe: 'html'"
+              ></div>
+              <div class="col-sm-2 align-items-center text-right">
+                <a
+                  class="notifications-delete-notification"
+                  (click)="deleteNotification(entry.id)"
+                  [routerLink]=""
+                  >{{ 'my-notifications.delete' | translate }}</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noNotifications>
+          <div class="d-flex align-items-center p-2">
+            {{ 'my-notifications.none' | translate }}
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

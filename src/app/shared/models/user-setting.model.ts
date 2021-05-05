@@ -29,7 +29,7 @@ const UserSetting = t.type({
 //
 
 //
-// START Special Types used for Module Service
+// START Special Types used for Module Services
 //
 
 const NotificationSettingPropertyValueType = t.type({
@@ -38,8 +38,14 @@ const NotificationSettingPropertyValueType = t.type({
   phoneMobile: withFallback(t.boolean, false),
 });
 
+const NotificationDataPropertyValueType = t.type({
+  id: t.number,
+  subject: t.string,
+  body: t.string,
+});
+
 //
-// END Special Types used for Module Service
+// END Special Types used for Module Services
 //
 
 type BaseProperty = t.TypeOf<typeof BaseProperty>;
@@ -47,5 +53,13 @@ type UserSetting = t.TypeOf<typeof UserSetting>;
 type NotificationSettingPropertyValueType = t.TypeOf<
   typeof NotificationSettingPropertyValueType
 >;
+type NotificationDataPropertyValueType = t.TypeOf<
+  typeof NotificationDataPropertyValueType
+>;
 
-export { UserSetting, BaseProperty, NotificationSettingPropertyValueType };
+export {
+  UserSetting,
+  BaseProperty,
+  NotificationSettingPropertyValueType,
+  NotificationDataPropertyValueType,
+};

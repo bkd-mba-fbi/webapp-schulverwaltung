@@ -1,7 +1,18 @@
+<<<<<<< HEAD
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+=======
+import { Injectable, Inject, Type } from '@angular/core';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
+>>>>>>> fc291c0... initial version of notifications element/module
 
 import { RestService } from './rest.service';
 import { SETTINGS, Settings } from '../../settings';
@@ -16,9 +27,19 @@ export class UserSettingsRestService extends RestService<typeof UserSetting> {
     super(http, settings, UserSetting, 'UserSettings');
   }
 
+<<<<<<< HEAD
   getUserSettingsCst(): Observable<UserSetting> {
+=======
+  get refetch(): Observable<any> {
+    return this.refetchSubject.asObservable();
+  }
+
+  getUserSettingsCst(
+    params?: HttpParams | Dict<string>
+  ): Observable<UserSetting> {
+>>>>>>> fc291c0... initial version of notifications element/module
     return this.http
-      .get<UserSetting>(`${this.baseUrl}/Cst`)
+      .get<UserSetting>(`${this.baseUrl}/Cst`, { params })
       .pipe(switchMap(decode(this.codec)));
   }
 

@@ -22,11 +22,12 @@ paste the import of the `settings.js` and the CSS file from
 </head>
 ```
 
-In addition, you have to copy and paste the app tag and all `<script>`
+In addition, you have to copy and paste the root-tags and all `<script>`
 tags from `index.html`'s `<body>`:
 
 ```
 <body>
+  <erz-notifications></erz-notifications>
   <erz-app></erz-app>
   <script type="text/javascript" src="runtime.xyz.js"></script>
   ...

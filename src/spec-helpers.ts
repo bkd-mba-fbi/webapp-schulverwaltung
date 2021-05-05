@@ -39,6 +39,7 @@ export const settings: Settings = {
     openAbsences: 'LessonTeacherRole;ClassTeacherRole',
     editAbsences: 'LessonTeacherRole;ClassTeacherRole',
   },
+  notificationRefreshTime: 30,
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {

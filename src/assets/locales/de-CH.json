@@ -219,6 +219,12 @@
       "save-success": "Einstellungen zu Benachrichtigungen erfolgreich aktualisiert"
     }
   },
+  "my-notifications": {
+    "title": "Benachrichtigungen",
+    "delete": "löschen",
+    "deleteAll": "Alle löschen",
+    "none": "Keine Benachrichtigungen"
+  },
   "shared": {
     "date-select": {
       "default-placeholder": "Datum wählen..."
