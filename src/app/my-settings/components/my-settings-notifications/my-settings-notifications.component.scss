@@ -1,21 +1,6 @@
 @import "../../../../bootstrap-variables";
 
-.setting-header {
-  padding-bottom: 1rem;
-}
-
-.checkbox-setting {
-  margin: 0;
-  padding: 0.6rem $spacer/2 0 0;
-}
-
-.checkbox-setting-label {
-  margin: 0;
-  padding: 0.6rem $spacer/2 0 0;
-  padding-left: 1.2rem;
-}
-
-.checkbox-setting input.checkbox-setting-input {
+.checkbox input.form-check-input {
   // Make the following statements !important since the are
   // overwritten in Evento as such
   position: static !important;

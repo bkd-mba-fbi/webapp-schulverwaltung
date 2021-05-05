@@ -11,8 +11,6 @@ import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-sta
 import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manager.model';
 import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
-import { number, string } from 'io-ts';
-import { Json } from 'io-ts-types';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -332,20 +330,19 @@ export function buildApprenticeshipManagerWithEmails(
   return manager;
 }
 
-export function buildUserSetting(id: string): UserSetting {
+export function buildUserSetting(): UserSetting {
   return {
-    Id: id,
+    Id: 'Cst',
     Settings: [],
-    HRef: null,
   };
 }
 
-export function buildUserSettingWithNotification(
+export function buildUserSettingWithNotificationSetting(
   gui: boolean,
   mail: boolean,
   phoneMobile: boolean
 ): UserSetting {
-  const setting = buildUserSetting('Cst');
+  const setting = buildUserSetting();
   const notification = {
     Key: 'notification',
     Value: JSON.stringify({ mail, gui, phoneMobile }),

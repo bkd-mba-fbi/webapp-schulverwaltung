@@ -1,15 +1,13 @@
-import { either } from 'fp-ts/lib/Either';
 import * as t from 'io-ts';
-import { withFallback, withValidate } from 'io-ts-types';
+import { withFallback } from 'io-ts-types';
 
 /*
  There are separated base and special Types defined.
- These are not combined directly within this model because 
+ Some are not combined directly within this model because 
  there are several drawbacks when using io-ts (specially 
- branded types, JsonFromString which are used for nested
- JSON) and their TS compatibility. Thus the binding of
- the base and special types is done within the data service
- `my-settins.service`.
+ branded types, JsonFromString which are used for *nested
+ JSON*) and their TS compatibility. Thus the binding of 
+ Value-Type (nested JSON) is solved within the module services
  */
 
 //
@@ -24,7 +22,6 @@ const BaseProperty = t.interface({
 const UserSetting = t.type({
   Id: t.string,
   Settings: t.array(BaseProperty),
-  HRef: t.any,
 });
 
 //
@@ -32,44 +29,23 @@ const UserSetting = t.type({
 //
 
 //
-// START Special Types used for Service
+// START Special Types used for Module Service
 //
 
-// Workaround, because io-ts branded is not accepted by TS
-const NotificationPropertyKey = withValidate(t.string, (u, c) =>
-  either.chain(t.string.validate(u, c), (s) => {
-    return s === 'notification' ? t.success(s) : t.failure(u, c);
-  })
-);
-
-const NotificationPropertyValueType = t.type({
+const NotificationSettingPropertyValueType = t.type({
   mail: withFallback(t.boolean, false),
   gui: withFallback(t.boolean, false),
   phoneMobile: withFallback(t.boolean, false),
 });
 
-const NotificationProperty = t.intersection([
-  BaseProperty,
-  t.type({
-    Key: NotificationPropertyKey,
-    Value: t.string,
-  }),
-]);
-
 //
-// END Special Types used for Service
+// END Special Types used for Module Service
 //
 
 type BaseProperty = t.TypeOf<typeof BaseProperty>;
 type UserSetting = t.TypeOf<typeof UserSetting>;
-type NotificationProperty = t.TypeOf<typeof NotificationProperty>;
-type NotificationPropertyValueType = t.TypeOf<
-  typeof NotificationPropertyValueType
+type NotificationSettingPropertyValueType = t.TypeOf<
+  typeof NotificationSettingPropertyValueType
 >;
 
-export {
-  UserSetting,
-  BaseProperty,
-  NotificationProperty,
-  NotificationPropertyValueType,
-};
+export { UserSetting, BaseProperty, NotificationSettingPropertyValueType };

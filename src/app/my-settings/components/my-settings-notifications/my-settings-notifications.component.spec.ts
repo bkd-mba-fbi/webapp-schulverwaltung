@@ -19,6 +19,7 @@ describe('MySettingsNotificationsComponent', () => {
   settingsService.updateCurrentNotificationSettingsPropertyValue.and.returnValue(
     of({})
   );
+  (settingsService as any).refetch = of({});
 
   beforeEach(
     waitForAsync(() => {
@@ -56,6 +57,9 @@ describe('MySettingsNotificationsComponent', () => {
 
     expect(
       settingsService.updateCurrentNotificationSettingsPropertyValue
+    ).toHaveBeenCalled();
+    expect(
+      settingsService.getCurrentNotificationSettingsPropertyValue
     ).toHaveBeenCalled();
   });
 

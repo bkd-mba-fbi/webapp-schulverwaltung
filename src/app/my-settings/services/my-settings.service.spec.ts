@@ -3,31 +3,19 @@ import { TestBed } from '@angular/core/testing';
 import { MySettingsService } from './my-settings.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
-import { buildUserSettingWithNotification } from 'src/spec-builders';
-import { Observable, of } from 'rxjs';
-import {
-  map,
-  mergeAll,
-  filter,
-  defaultIfEmpty,
-  first,
-  tap,
-  take,
-} from 'rxjs/operators';
-import {
-  BaseProperty,
-  NotificationProperty,
-  NotificationPropertyValueType,
-  UserSetting,
-} from 'src/app/shared/models/user-setting.model';
-import { decode } from 'src/app/shared/utils/decode';
-import { switchMap } from 'rxjs/operators';
+import { buildUserSettingWithNotificationSetting } from 'src/spec-builders';
+import { of } from 'rxjs';
+import { NotificationSettingPropertyValueType } from 'src/app/shared/models/user-setting.model';
 
 describe('MySettingsService', () => {
   let settingsService: jasmine.SpyObj<UserSettingsRestService>;
   let service: MySettingsService;
 
-  const userSetting = buildUserSettingWithNotification(false, false, true);
+  const userSetting = buildUserSettingWithNotificationSetting(
+    false,
+    false,
+    true
+  );
 
   settingsService = jasmine.createSpyObj('UserSettingsRestService', [
     'getUserSettingsCst',
@@ -35,7 +23,6 @@ describe('MySettingsService', () => {
   ]);
   settingsService.getUserSettingsCst.and.returnValue(of(userSetting));
   settingsService.updateUserSettingsCst.and.returnValue(of({}));
-  (settingsService as any).refetch = of({});
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
@@ -43,9 +30,8 @@ describe('MySettingsService', () => {
   });
 
   it('get notification settings', (done) => {
-    const source = service.getCurrentNotificationSettingsPropertyValue();
-    const result: NotificationPropertyValueType[] = [];
-    source.subscribe({
+    const result: NotificationSettingPropertyValueType[] = [];
+    service.getCurrentNotificationSettingsPropertyValue().subscribe({
       next: (value) => result.push(value),
       complete: () => {
         expect(result.length).toBe(1);
@@ -55,12 +41,13 @@ describe('MySettingsService', () => {
         done();
       },
     });
+    expect(settingsService.getUserSettingsCst).toHaveBeenCalled();
   });
 
   it('update notification settings', () => {
     service
       .updateCurrentNotificationSettingsPropertyValue(true, false, false)
       .subscribe();
-    expect(settingsService.updateUserSettingsCst).toHaveBeenCalled();
+    expect(settingsService.updateUserSettingsCst).toHaveBeenCalledTimes(1);
   });
 });
