@@ -30,26 +30,24 @@ export function fromLesson(lesson: Lesson): LessonEntry {
  * Represents a grouping of Lessons by time/teacher.
  */
 export class LessonEntry {
-  readonly id: string;
   lessons = [] as Array<Lesson>;
 
   constructor(
     public TeacherInformation: string,
     public LessonDateTimeFrom: Date,
     public LessonDateTimeTo: Date
-  ) {
-    this.id = [
-      // TODO hash?
-      TeacherInformation.split(' ').join('-'),
-      LessonDateTimeFrom.getTime(),
-      LessonDateTimeTo.getTime(),
-    ].join('-');
-  }
+  ) {}
 
   addLesson(lesson: Lesson): void {
     if (!this.lessons.some((l) => lessonsEqual(l, lesson))) {
       this.lessons.push(lesson);
     }
+  }
+
+  get id(): string {
+    return [...new Set(this.lessons.map((l) => l.LessonRef.Id).sort())].join(
+      '-'
+    );
   }
 
   get studyClassNumbers(): string {

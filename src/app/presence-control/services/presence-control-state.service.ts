@@ -26,10 +26,7 @@ import { LessonPresencesRestService } from '../../shared/services/lesson-presenc
 import { LoadingService } from '../../shared/services/loading-service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { spread } from '../../shared/utils/function';
-import {
-  getCurrentLesson,
-  getPresenceControlEntriesForLesson,
-} from '../utils/lessons';
+import { getPresenceControlEntriesForLesson } from '../utils/lessons';
 import { getCategoryCount } from '../utils/presence-control-entries';
 import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
@@ -41,7 +38,10 @@ import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-
 import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
 import { serializeParams } from 'src/app/shared/utils/url';
 import { LessonEntry, lessonsEntryEqual } from '../utils/lesson-entry';
-import { extractLessonEntries } from '../utils/lesson-entries';
+import {
+  extractLessonEntries,
+  getCurrentLessonEntry,
+} from '../utils/lesson-entries';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -77,7 +77,7 @@ export class PresenceControlStateService
     shareReplay(1)
   );
   private currentLesson$ = this.lessons$.pipe(
-    map(getCurrentLesson),
+    map(getCurrentLessonEntry),
     distinctUntilChanged(lessonsEntryEqual)
   );
 

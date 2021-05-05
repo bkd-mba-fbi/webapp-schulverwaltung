@@ -39,19 +39,19 @@
     </div>
     <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
       <div
-        *ngFor="let lesson of lessons"
-        [class.active]="lesson.id === selectedLesson.id"
+        *ngFor="let lessonEntry of lessons"
+        [class.active]="lessonEntry.id === selectedLesson.id"
         ngbDropdownItem
-        (click)="selectLessonChange.emit(lesson)"
+        (click)="selectLessonChange.emit(lessonEntry)"
       >
         <div class="lesson-entry">
           <div>
-            {{ lesson.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-              lesson.LessonDateTimeTo | date: 'HH:mm'
+            {{ lessonEntry.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+              lessonEntry.LessonDateTimeTo | date: 'HH:mm'
             }}
           </div>
-          <div class="text-truncate">{{ lesson.eventDesignations }}</div>
-          <div class="text-truncate">{{ lesson.studyClassNumbers }}</div>
+          <div class="text-truncate">{{ lessonEntry.eventDesignations }}</div>
+          <div class="text-truncate">{{ lessonEntry.studyClassNumbers }}</div>
         </div>
       </div>
     </div>

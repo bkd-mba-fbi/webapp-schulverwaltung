@@ -1,11 +1,9 @@
-import { isSameDay, isBefore, isWithinInterval } from 'date-fns';
-
 import { Lesson } from '../../shared/models/lesson.model';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
-import { fromLesson, LessonEntry, lessonsEntryEqual } from './lesson-entry';
+import { LessonEntry } from './lesson-entry';
 
 export function lessonsEqual(
   a: Option<Lesson | LessonPresence>,
@@ -36,38 +34,6 @@ export function extractLesson(lessonPresence: LessonPresence): Lesson {
     LessonDateTimeFrom: lessonPresence.LessonDateTimeFrom,
     LessonDateTimeTo: lessonPresence.LessonDateTimeTo,
   };
-}
-
-/**
- * Operates on an array of lessons that are all on the same
- * day. Returns the currently ongoing, upcoming or the last lesson if
- * the lessons are scheduled today. Otherwise (if lessons take place
- * before or after today) it returns the first lesson.
- */
-export function getCurrentLesson(
-  lessons: ReadonlyArray<LessonEntry>
-): Option<LessonEntry> {
-  if (lessons.length === 0) {
-    return null;
-  }
-
-  const currentDate = new Date();
-  lessons = [...lessons].sort(lessonsComparator);
-  if (isSameDay(currentDate, lessons[0].LessonDateTimeFrom)) {
-    for (const lesson of lessons) {
-      if (
-        isBefore(currentDate, lesson.LessonDateTimeFrom) ||
-        isWithinInterval(currentDate, {
-          start: lesson.LessonDateTimeFrom,
-          end: lesson.LessonDateTimeTo,
-        })
-      ) {
-        return lesson;
-      }
-    }
-    return lessons[lessons.length - 1];
-  }
-  return lessons[0];
 }
 
 /**
