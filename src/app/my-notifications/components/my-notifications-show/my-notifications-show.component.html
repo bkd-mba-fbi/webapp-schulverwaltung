@@ -6,8 +6,6 @@
     isAuthenticated: (isAuthenticatedSubject | async)
   } as data"
 >
-  DATA: {{ data.isAuthenticated }}
-
   <div id="notifications-button" class="notifications-button">
     <i
       (click)="toggleNotificationsPopup()"
@@ -45,22 +43,25 @@
         </button>
       </div>
       <div class="notifications-popup-data">
-        <div *ngIf="data.numNotifications > 0; else noNotifications">
-          <div *ngFor="let entry of data.notifications">
+        <div
+          class="w-100"
+          *ngIf="data.numNotifications > 0; else noNotifications"
+        >
+          <div class="w-100" *ngFor="let entry of data.notifications">
             <hr />
             <div class="row p-2 w-100">
-              <div class="col-md text-left" [innerHTML]="entry.subject"></div>
+              <div
+                class="col-md text-left"
+                [innerHTML]="entry.subject | safe: 'html'"
+              ></div>
               <div
                 class="col-md text-right"
                 [innerHTML]="entry.body | safe: 'html'"
               ></div>
-              <div class="col-sm-2 align-items-center text-right">
-                <a
-                  class="notifications-delete-notification"
-                  (click)="deleteNotification(entry.id)"
-                  [routerLink]=""
-                  >{{ 'my-notifications.delete' | translate }}</a
-                >
+              <div class="col-sm-2 text-right align-middle">
+                <a (click)="deleteNotification(entry.id)" [routerLink]="">{{
+                  'my-notifications.delete' | translate
+                }}</a>
               </div>
             </div>
           </div>
