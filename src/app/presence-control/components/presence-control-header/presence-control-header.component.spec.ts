@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PresenceControlHeaderComponent } from './presence-control-header.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { buildReference } from 'src/spec-builders';
+import { fromLesson } from '../../utils/lesson-entry';
 
 describe('PresenceControlHeaderComponent', () => {
   let component: PresenceControlHeaderComponent;
@@ -30,8 +31,11 @@ describe('PresenceControlHeaderComponent', () => {
       LessonDateTimeFrom: new Date(),
       LessonDateTimeTo: new Date(),
     };
-    component.lessons = [lesson];
-    component.selectedLesson = lesson;
+
+    const lessonEntry = fromLesson(lesson);
+
+    component.lessons = [lessonEntry];
+    component.selectedLesson = lessonEntry;
     fixture.detectChanges();
   });
 

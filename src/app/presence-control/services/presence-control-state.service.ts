@@ -21,17 +21,14 @@ import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
 
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { Lesson } from '../../shared/models/lesson.model';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
 import { LoadingService } from '../../shared/services/loading-service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { spread } from '../../shared/utils/function';
 import {
-  extractLessons,
   getCurrentLesson,
   getPresenceControlEntriesForLesson,
-  lessonsEqual,
 } from '../utils/lessons';
 import { getCategoryCount } from '../utils/presence-control-entries';
 import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
@@ -43,11 +40,14 @@ import { isToday } from 'date-fns';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
 import { serializeParams } from 'src/app/shared/utils/url';
+import { LessonEntry, lessonsEntryEqual } from '../utils/lesson-entry';
+import { extractLessonEntries } from '../utils/lesson-entries';
 
 export enum ViewMode {
   Grid = 'grid',
   List = 'list',
 }
+
 export const VIEW_MODES: ReadonlyArray<string> = Object.keys(ViewMode).map(
   (k) => (ViewMode as any)[k]
 );
@@ -58,7 +58,7 @@ export class PresenceControlStateService
   confirmBackLinkParams?: Params;
 
   private selectedDateSubject$ = new BehaviorSubject(new Date());
-  private selectLesson$ = new Subject<Option<Lesson>>();
+  private selectLesson$ = new Subject<Option<LessonEntry>>();
   private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
 
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
@@ -72,10 +72,13 @@ export class PresenceControlStateService
   ).pipe(shareReplay(1));
   private presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
-  lessons$ = this.lessonPresences$.pipe(map(extractLessons), shareReplay(1));
+  lessons$ = this.lessonPresences$.pipe(
+    map(extractLessonEntries),
+    shareReplay(1)
+  );
   private currentLesson$ = this.lessons$.pipe(
     map(getCurrentLesson),
-    distinctUntilChanged(lessonsEqual)
+    distinctUntilChanged(lessonsEntryEqual)
   );
 
   studentIdsWithUnconfirmedAbsences$ = this.selectedDateSubject$.pipe(
@@ -150,7 +153,7 @@ export class PresenceControlStateService
     this.selectedDateSubject$.next(date);
   }
 
-  setLesson(lesson: Lesson): void {
+  setLesson(lesson: LessonEntry): void {
     this.selectLesson$.next(lesson);
   }
 
@@ -277,15 +280,15 @@ export class PresenceControlStateService
 
   private buildQueryParams(
     date: Date,
-    lesson: Option<Lesson>,
+    lessonEntry: Option<LessonEntry>,
     viewMode: ViewMode
   ): Params {
     const params: Params = {
       date: format(date, 'yyyy-MM-dd'),
       viewMode,
     };
-    if (lesson) {
-      params.lesson = String(lesson.LessonRef.Id);
+    if (lessonEntry) {
+      params.lesson = String(lessonEntry.id);
     }
     return params;
   }

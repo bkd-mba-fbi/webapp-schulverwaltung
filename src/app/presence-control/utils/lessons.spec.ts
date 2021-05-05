@@ -3,10 +3,11 @@ import { Lesson } from '../../shared/models/lesson.model';
 import {
   lessonsEqual,
   extractLesson,
-  extractLessons,
   getLessonPresencesForLesson,
   getCurrentLesson,
 } from './lessons';
+import { fromLesson, LessonEntry } from './lesson-entry';
+import { extractLessonEntries } from './lesson-entries';
 
 describe('lessons utils', () => {
   beforeEach(() => jasmine.clock().install());
@@ -116,69 +117,8 @@ describe('lessons utils', () => {
     });
   });
 
-  describe('extractLessons', () => {
-    it('returns a sorted array of unique lessons', () => {
-      const result = extractLessons([
-        buildLessonPresence(
-          1,
-          new Date(2000, 0, 23, 9, 0),
-          new Date(2000, 0, 23, 10, 0),
-          'Mathematik'
-        ),
-        buildLessonPresence(
-          2,
-          new Date(2000, 0, 23, 8, 0),
-          new Date(2000, 0, 23, 9, 0),
-          'Deutsch'
-        ),
-        buildLessonPresence(
-          2,
-          new Date(2000, 0, 23, 8, 0),
-          new Date(2000, 0, 23, 9, 0),
-          'Deutsch'
-        ),
-        buildLessonPresence(
-          3,
-          new Date(2000, 0, 23, 10, 0),
-          new Date(2000, 0, 23, 11, 0),
-          'Mathematik'
-        ),
-      ]);
-      expect(result).toEqual([
-        {
-          LessonRef: { Id: 2, HRef: '/2' },
-          EventDesignation: 'Deutsch',
-          StudyClassNumber: '9a',
-          TeacherInformation: '',
-          LessonDateTimeFrom: new Date(2000, 0, 23, 8, 0),
-          LessonDateTimeTo: new Date(2000, 0, 23, 9, 0),
-        },
-        {
-          LessonRef: { Id: 1, HRef: '/1' },
-          EventDesignation: 'Mathematik',
-          StudyClassNumber: '9a',
-          TeacherInformation: '',
-          LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
-          LessonDateTimeTo: new Date(2000, 0, 23, 10, 0),
-        },
-        {
-          LessonRef: { Id: 3, HRef: '/3' },
-          EventDesignation: 'Mathematik',
-          StudyClassNumber: '9a',
-          TeacherInformation: '',
-          LessonDateTimeFrom: new Date(2000, 0, 23, 10, 0),
-          LessonDateTimeTo: new Date(2000, 0, 23, 11, 0),
-        },
-      ]);
-    });
-
-    it('returns empty array for empty array', () => {
-      expect(extractLessons([])).toEqual([]);
-    });
-  });
-
   describe('getCurrentLesson', () => {
-    let lessons: Lesson[];
+    let lessons: LessonEntry[];
     let deutsch: Lesson;
     let math: Lesson;
     let singen: Lesson;
@@ -214,7 +154,12 @@ describe('lessons utils', () => {
         'Wanda Wehrli'
       );
 
-      lessons = [deutsch, math, singen, werken];
+      lessons = [
+        fromLesson(deutsch),
+        fromLesson(math),
+        fromLesson(singen),
+        fromLesson(werken),
+      ];
     });
 
     describe('same day', () => {
@@ -225,27 +170,27 @@ describe('lessons utils', () => {
 
       it('returns first lesson if time is before its start', () => {
         jasmine.clock().mockDate(new Date(2000, 0, 23, 6, 0));
-        expect(getCurrentLesson(lessons)).toBe(deutsch);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(deutsch));
       });
 
       it('returns last lesson if time is after its end', () => {
         jasmine.clock().mockDate(new Date(2000, 0, 23, 17, 0));
-        expect(getCurrentLesson(lessons)).toBe(werken);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(werken));
       });
 
       it('returns ongoing lesson if time is within', () => {
         jasmine.clock().mockDate(new Date(2000, 0, 23, 9, 30));
-        expect(getCurrentLesson(lessons)).toBe(math);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(math));
       });
 
       it('returns ongoing lesson if the exactly equals lesson start', () => {
         jasmine.clock().mockDate(new Date(2000, 0, 23, 11, 0));
-        expect(getCurrentLesson(lessons)).toBe(singen);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(singen));
       });
 
       it('returns upcoming lesson if time is after a lesson and before another', () => {
         jasmine.clock().mockDate(new Date(2000, 0, 23, 10, 30));
-        expect(getCurrentLesson(lessons)).toBe(singen);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(singen));
       });
     });
 
@@ -255,7 +200,7 @@ describe('lessons utils', () => {
       });
 
       it('returns first lesson', () => {
-        expect(getCurrentLesson(lessons)).toBe(deutsch);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(deutsch));
       });
     });
 
@@ -265,7 +210,7 @@ describe('lessons utils', () => {
       });
 
       it('returns first lesson', () => {
-        expect(getCurrentLesson(lessons)).toBe(deutsch);
+        expect(getCurrentLesson(lessons)).toEqual(fromLesson(deutsch));
       });
     });
   });
@@ -275,12 +220,14 @@ describe('lessons utils', () => {
 
     it('returns lesson presences of given lesson, alphabetically sorted by student name', () => {
       const result = getLessonPresencesForLesson(
-        buildLesson(
-          2,
-          new Date(2000, 0, 23, 8, 0),
-          new Date(2000, 0, 23, 9, 0),
-          'Deutsch',
-          'Dora Durrer'
+        fromLesson(
+          buildLesson(
+            2,
+            new Date(2000, 0, 23, 8, 0),
+            new Date(2000, 0, 23, 9, 0),
+            'Deutsch',
+            'Dora Durrer'
+          )
         ),
         [
           buildLessonPresence(

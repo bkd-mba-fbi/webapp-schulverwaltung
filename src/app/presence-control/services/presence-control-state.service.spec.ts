@@ -13,6 +13,7 @@ import {
 } from 'src/spec-builders';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
+import { fromLesson } from '../utils/lesson-entry';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -131,12 +132,14 @@ describe('PresenceControlStateService', () => {
     expectAbsenceConfirmationStatesRequest();
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
-      buildLesson(
-        2,
-        new Date(2000, 0, 23, 8, 0),
-        new Date(2000, 0, 23, 9, 0),
-        'Deutsch',
-        ''
+      fromLesson(
+        buildLesson(
+          2,
+          new Date(2000, 0, 23, 8, 0),
+          new Date(2000, 0, 23, 9, 0),
+          'Deutsch',
+          ''
+        )
       )
     );
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
@@ -163,12 +166,14 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest([werkenFrisch], '2000-01-10');
 
       expect(selectedLessonCb).toHaveBeenCalledWith(
-        buildLesson(
-          99,
-          new Date(2000, 0, 10, 16, 0),
-          new Date(2000, 0, 10, 17, 0),
-          'Werken',
-          ''
+        fromLesson(
+          buildLesson(
+            99,
+            new Date(2000, 0, 10, 16, 0),
+            new Date(2000, 0, 10, 17, 0),
+            'Werken',
+            ''
+          )
         )
       );
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
@@ -184,12 +189,14 @@ describe('PresenceControlStateService', () => {
       expectAbsenceConfirmationStatesRequest();
 
       service.setLesson(
-        buildLesson(
-          3,
-          new Date(2000, 0, 23, 9, 0),
-          new Date(2000, 0, 23, 10, 0),
-          'Mathematik',
-          'Monika Muster'
+        fromLesson(
+          buildLesson(
+            3,
+            new Date(2000, 0, 23, 9, 0),
+            new Date(2000, 0, 23, 10, 0),
+            'Mathematik',
+            'Monika Muster'
+          )
         )
       );
       resetCallbackSpies();

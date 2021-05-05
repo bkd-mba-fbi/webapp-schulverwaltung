@@ -34,13 +34,13 @@
     placement="bottom"
   >
     <div id="lesson-dropdown" ngbDropdownToggle>
-      {{ selectedLesson.EventDesignation }},
-      {{ selectedLesson.StudyClassNumber }}
+      {{ selectedLesson.studyClassNumbers }},
+      {{ selectedLesson.eventDesignations }}
     </div>
     <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
       <div
         *ngFor="let lesson of lessons"
-        [class.active]="lesson.LessonRef.Id === selectedLesson.LessonRef.Id"
+        [class.active]="lesson.id === selectedLesson.id"
         ngbDropdownItem
         (click)="selectLessonChange.emit(lesson)"
       >
@@ -50,9 +50,9 @@
               lesson.LessonDateTimeTo | date: 'HH:mm'
             }}
           </span>
-          {{ lesson.StudyClassNumber }}
+          {{ lesson.studyClassNumbers }}
         </div>
-        <div class="lesson-designation">{{ lesson.EventDesignation }}</div>
+        <div class="lesson-designation">{{ lesson.eventDesignations }}</div>
       </div>
     </div>
   </div>
