@@ -221,7 +221,6 @@
   },
   "my-notifications": {
     "title": "Notifications",
-    "delete": "effacer",
     "deleteAll": "Tout effacer",
     "none": "Aucune notification"
   },
