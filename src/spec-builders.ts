@@ -351,7 +351,7 @@ export function buildUserSettingWithNotificationSetting(
   return setting;
 }
 
-export function buildUserWithNotificationData(
+export function buildUserSettingWithNotificationData(
   id: number,
   subject: string,
   body: string

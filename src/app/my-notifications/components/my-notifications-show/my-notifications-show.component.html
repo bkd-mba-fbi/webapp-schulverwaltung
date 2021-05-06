@@ -30,11 +30,11 @@
     style="display: none"
   >
     <div>
-      <div class="d-flex justify-content-between align-items-center">
-        <h5 class="m-2">{{ 'my-notifications.title' | translate }}</h5>
+      <div class="d-flex p-3 justify-content-between align-items-center">
+        <h5>{{ 'my-notifications.title' | translate }}</h5>
         <button
           type="button"
-          class="btn btn-primary m-2"
+          class="btn btn-primary"
           [disabled]="data.numNotifications < 1"
           (click)="deleteAll()"
           id="notifications-delete-all"
@@ -49,25 +49,27 @@
         >
           <div class="w-100" *ngFor="let entry of data.notifications">
             <hr />
-            <div class="row p-2 w-100">
+            <div class="d-flex justify-content-between p-3">
               <div
-                class="col-md text-left"
+                class="text-left"
                 [innerHTML]="entry.subject | safe: 'html'"
               ></div>
               <div
-                class="col-md text-right"
+                class="text-right"
                 [innerHTML]="entry.body | safe: 'html'"
               ></div>
-              <div class="col-sm-2 text-right align-middle">
-                <a (click)="deleteNotification(entry.id)" [routerLink]="">{{
-                  'my-notifications.delete' | translate
-                }}</a>
-              </div>
+            </div>
+            <div class="text-right pr-3 pb-3">
+              <i
+                (click)="deleteNotification(entry.id)"
+                class="material-icons notifications-delete-notification"
+                >clear</i
+              >
             </div>
           </div>
         </div>
         <ng-template #noNotifications>
-          <div class="d-flex align-items-center p-2">
+          <div class="d-flex p-3 align-items-center p-2">
             {{ 'my-notifications.none' | translate }}
           </div>
         </ng-template>

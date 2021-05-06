@@ -4,18 +4,21 @@
   z-index: 1000;
   margin-top: 20px; /* position from top */
   right: 14px; /* position from right */
-  width: 30%;
+  width: 400px;
   background-color: white;
   border: 1px solid #ccc;
-  min-width: 350px;
-  max-width: 450px;
+  min-width: 300px;
+}
+@media (max-width: 800px) {
+  // use full width for small screen width
+  .notifications-popup {
+    width: 100vw;
+    right: 0;
+  }
 }
 
 .notifications-popup-data {
   position: relative;
-  overflow: scroll;
-  max-height: 50vh; /* max. 50% of view height */
-  min-height: 60px; /* min. one notification visible */
 }
 
 /* white triangle */
@@ -42,6 +45,15 @@
   height: 10px;
   right: 30px;
   top: -20px;
+}
+@media (max-width: 800px) {
+  // don't show triangle for small screen width
+  .notifications-popup:before {
+    display: none;
+  }
+  .notifications-popup:after {
+    display: none;
+  }
 }
 
 .notifications-bell {
@@ -73,6 +85,12 @@
 
 .notifications-bell-counter-visible {
   display: inline;
+}
+
+.notifications-delete-notification {
+  color: #fff;
+  background-color: #005189;
+  border-radius: 10%;
 }
 
 hr {

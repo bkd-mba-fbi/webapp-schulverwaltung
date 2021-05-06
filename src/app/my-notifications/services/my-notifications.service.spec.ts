@@ -2,10 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NotificationDataPropertyValueType } from 'src/app/shared/models/user-setting.model';
 import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
-import {
-  buildCstWithNotificationData,
-  buildUserSettingWithNotification,
-} from 'src/spec-builders';
+import { buildUserSettingWithNotificationData } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { MyNotificationsService } from './my-notifications.service';
@@ -14,7 +11,11 @@ describe('MyNotificationsService', () => {
   let settingsService: jasmine.SpyObj<UserSettingsRestService>;
   let service: MyNotificationsService;
 
-  const notificationData = buildCstWithNotificationData(1, 'subject', 'body');
+  const notificationData = buildUserSettingWithNotificationData(
+    1,
+    'subject',
+    'body'
+  );
 
   settingsService = jasmine.createSpyObj('UserSettingsRestService', [
     'getUserSettingsCst',
