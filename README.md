@@ -47,7 +47,7 @@ application displays a unauthenticated message to the user.
 
 ### Important Notes
 
-- When integrated in the Evento Application, the App is wrapped in a
+- When integrated into the Evento Application, the App is wrapped in a
   `<form>` tag. It is therefore important, that all `<button>`'s are
   defined with `type="button"` attribute, otherwise the global form
   will get submitted which results in a page reload.

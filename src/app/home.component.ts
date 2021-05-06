@@ -24,5 +24,6 @@ export class HomeComponent {
     'evaluate-absences',
     'my-absences',
     'my-profile',
+    'my-settings',
   ];
 }
