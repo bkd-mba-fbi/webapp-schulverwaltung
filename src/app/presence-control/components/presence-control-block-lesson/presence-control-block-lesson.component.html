@@ -16,6 +16,10 @@
       />
       <label
         class="form-check-label d-block text-truncate"
+        [class.font-weight-bold]="
+          option.lessonPresence.LessonDateTimeFrom ===
+          entry.lessonPresence.LessonDateTimeFrom
+        "
         for="lesson-presence-{{ i }}"
       >
         {{ option.lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
