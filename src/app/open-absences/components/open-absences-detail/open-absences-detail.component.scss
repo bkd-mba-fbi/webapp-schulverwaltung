@@ -36,8 +36,8 @@
   display: grid;
   grid-template-areas:
     "checkbox lesson-class time teacher"
-    "checkbox presence-type presence-type presence-type";
-  grid-template-columns: min-content 3fr 1fr 1fr;
+    "checkbox presence-type date days-ago";
+  grid-template-columns: min-content 2fr 1fr 2fr;
 }
 
 .checkbox {
@@ -76,14 +76,23 @@
   grid-area: teacher;
 }
 
-.time-teacher {
-  grid-area: time-teacher;
-  display: none;
-}
-
 .presence-type {
   color: $gray-500;
   grid-area: presence-type;
+}
+
+.date {
+  grid-area: date;
+}
+
+.days-ago {
+  color: $gray-500;
+  grid-area: days-ago;
+}
+
+.date-days-ago {
+  grid-area: date-days-ago;
+  display: none;
 }
 
 @media (max-width: 750px) {
@@ -100,17 +109,19 @@
   .absence-entry {
     grid-template-areas:
       "checkbox lesson-class"
-      "checkbox time-teacher"
+      "checkbox teacher"
+      "checkbox date-days-ago"
+      "checkbox time"
       "checkbox presence-type";
     grid-template-columns: min-content 1fr;
   }
 
-  .time-teacher {
+  .date-days-ago {
     display: block;
   }
 
-  .time,
-  .teacher {
+  .date,
+  .days-ago {
     display: none;
   }
 }
