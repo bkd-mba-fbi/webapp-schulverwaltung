@@ -12,74 +12,10 @@
       <span class="ml-3">{{ studentFullName$ | async }}</span>
     </div>
   </button>
-  <a
-    class="edit btn btn-primary mt-1 mb-2 mr-3"
-    [class.disabled]="selection.length === 0"
-    routerLink="/open-absences/confirm"
-  >
-    <i class="material-icons">edit</i>
-  </a>
 </div>
 
-<div class="content">
-  <div class="absence-all">
-    <div class="checkbox" (click)="onRowClick($event, allCheckbox)">
-      <input
-        #allCheckbox
-        id="all-checkbox"
-        type="checkbox"
-        class="form-check-input"
-        [checked]="allSelected$ | async"
-        (change)="toggleAll($event.target.checked)"
-      />
-    </div>
-    <label for="all-checkbox" class="all">{{
-      'open-absences.detail.all' | translate
-    }}</label>
-  </div>
-  <div
-    class="absence-entry"
-    *ngFor="let absence of absences$ | async"
-    (click)="onRowClick($event, checkbox)"
-  >
-    <div class="checkbox">
-      <input
-        #checkbox
-        type="checkbox"
-        class="form-check-input"
-        [checked]="selectionService.isSelected$(absence) | async"
-        (change)="selectionService.toggle(absence)"
-      />
-    </div>
-    <div class="lesson-class">
-      {{ absence.EventDesignation }}, {{ absence.StudyClassNumber }}
-    </div>
-    <div class="time pr-2">
-      {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-        absence.LessonDateTimeTo | date: 'HH:mm'
-      }}
-    </div>
-    <div class="teacher">
-      {{ absence.TeacherInformation }}
-    </div>
-    <ng-container
-      *erzLet="
-        getPresenceTypeDesignation(absence) | async as presenceTypeDesignation
-      "
-    >
-      <div *ngIf="presenceTypeDesignation" class="presence-type">
-        {{ presenceTypeDesignation }}
-      </div>
-    </ng-container>
-    <div class="date">
-      {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }}
-    </div>
-    <div class="days-ago">
-      {{ absence.LessonDateTimeFrom | erzDaysDifference }}
-    </div>
-    <div class="date-days-ago">
-      {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }},
-      {{ absence.LessonDateTimeFrom | erzDaysDifference }}
-    </div>
-  </div>
-</div>
+<erz-student-profile-absences
+  [absences$]="absences$"
+  [selectionService]="selectionService"
+  [confirmLink]="'/open-absences/confirm'"
+></erz-student-profile-absences>
