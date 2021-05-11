@@ -20,7 +20,7 @@
         <a
           class="edit btn btn-primary mr-2"
           [class.disabled]="(selectionService.selection$ | async).length === 0"
-          routerLink="confirm"
+          routerLink="{{ confirmLink }}"
         >
           <i class="material-icons">edit</i>
         </a>

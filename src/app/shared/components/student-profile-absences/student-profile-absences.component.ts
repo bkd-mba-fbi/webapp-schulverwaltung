@@ -64,6 +64,8 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
   @Input() reportUrl: Option<string> = null;
   @Input() reportAvailable = false;
 
+  @Input() confirmLink = 'confirm';
+
   @ViewChildren('checkbox') checkboxes: QueryList<ElementRef<HTMLInputElement>>;
 
   lessonPresences$$ = new ReplaySubject<

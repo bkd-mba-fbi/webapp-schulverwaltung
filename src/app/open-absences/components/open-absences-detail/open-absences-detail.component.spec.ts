@@ -80,7 +80,7 @@ describe('OpenAbsencesDetailComponent', () => {
   it('renders two entries and the select all row', () => {
     expect(element.querySelectorAll('div.absence-entry').length).toBe(2);
     expect(element.querySelectorAll('div.absence-all').length).toBe(1);
-    expect(element.querySelectorAll('div.absence-all')[0].textContent).toBe(
+    expect(element.querySelectorAll('div.all')[0].textContent).toBe(
       'open-absences.detail.all'
     );
   });
