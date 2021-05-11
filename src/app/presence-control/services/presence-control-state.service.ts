@@ -37,7 +37,7 @@ import { isToday } from 'date-fns';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
 import { serializeParams } from 'src/app/shared/utils/url';
-import { LessonEntry, lessonsEntryEqual } from '../utils/lesson-entry';
+import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
 import {
   extractLessonEntries,
   getCurrentLessonEntry,

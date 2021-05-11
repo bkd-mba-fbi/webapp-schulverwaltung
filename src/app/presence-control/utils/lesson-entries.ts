@@ -1,5 +1,9 @@
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { fromLesson, LessonEntry, lessonsEntryEqual } from './lesson-entry';
+import {
+  fromLesson,
+  LessonEntry,
+  lessonsEntryEqual,
+} from '../models/lesson-entry.model';
 import { extractLesson, lessonsComparator, lessonsEqual } from './lessons';
 import { isBefore, isSameDay, isWithinInterval } from 'date-fns';
 

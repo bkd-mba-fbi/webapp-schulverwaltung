@@ -1,6 +1,6 @@
 import { extractLessonEntries, getCurrentLessonEntry } from './lesson-entries';
 import { buildLesson, buildLessonPresence } from '../../../spec-builders';
-import { fromLesson, LessonEntry } from './lesson-entry';
+import { fromLesson, LessonEntry } from '../models/lesson-entry.model';
 import { Lesson } from '../../shared/models/lesson.model';
 
 describe('lessons entries', () => {

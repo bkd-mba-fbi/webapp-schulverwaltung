@@ -14,7 +14,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { ViewMode } from '../../services/presence-control-state.service';
-import { LessonEntry } from '../../utils/lesson-entry';
+import { LessonEntry } from '../../models/lesson-entry.model';
 
 /**
  * On small screens, the `.dropdown` element gets translated

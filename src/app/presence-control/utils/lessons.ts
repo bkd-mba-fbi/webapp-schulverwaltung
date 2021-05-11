@@ -3,7 +3,7 @@ import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
-import { LessonEntry } from './lesson-entry';
+import { LessonEntry } from '../models/lesson-entry.model';
 
 export function lessonsEqual(
   a: Option<Lesson | LessonPresence>,

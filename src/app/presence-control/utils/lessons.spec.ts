@@ -4,7 +4,7 @@ import {
   extractLesson,
   getLessonPresencesForLesson,
 } from './lessons';
-import { fromLesson } from './lesson-entry';
+import { fromLesson } from '../models/lesson-entry.model';
 
 describe('lessons utils', () => {
   beforeEach(() => jasmine.clock().install());

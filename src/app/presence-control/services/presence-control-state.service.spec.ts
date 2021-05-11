@@ -13,7 +13,7 @@ import {
 } from 'src/spec-builders';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
-import { fromLesson } from '../utils/lesson-entry';
+import { fromLesson } from '../models/lesson-entry.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
