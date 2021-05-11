@@ -186,7 +186,6 @@ describe('MyNotificationsShowComponent-WithoutAuthorization', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);
     element = fixture.debugElement.nativeElement;
-    fixture.componentInstance.isAuthenticatedSubject.next(false);
     fixture.detectChanges();
   });
 

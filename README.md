@@ -12,13 +12,14 @@ using the CLX.Evento backend (REST API).
 Download the [latest build](https://bkd-mba-fbi.github.io/absenzenmanagement/absenzenmanagement.zip).
 
 To integrate this application in your website, you have to copy and
-paste the import of the `settings.js` and the CSS file from
+paste the import of the `settings.js` and the CSS files from
 `index.html`'s `<head>`:
 
 ```
 <head>
   <script src="settings.js"></script>
   <link rel="stylesheet" href="styles.xyz.css"></head>
+  <link rel="stylesheet" href="styles-notifications.xyz.css"></head>
 </head>
 ```
 
@@ -37,6 +38,8 @@ tags from `index.html`'s `<body>`:
 
 To configure the app, you have to rename the file
 `settings.example.js` to `settings.js` and adjust its contents.
+
+To configure the position of the notification bell and popup, you may want to edit `styles-notifications.scss`.
 
 ### Authorization
 

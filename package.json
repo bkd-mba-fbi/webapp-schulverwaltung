@@ -51,6 +51,7 @@
     "rxjs": "~6.6.7",
     "tslib": "^2.2.0",
     "watchpack": "^2.1.1",
+    "xss": "^1.0.9",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

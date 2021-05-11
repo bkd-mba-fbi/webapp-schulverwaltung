@@ -16,54 +16,9 @@ import { buildUserSetting } from 'src/spec-builders';
   providedIn: 'root',
 })
 export class MyNotificationsService {
-  /* TODO: remove this after review */
-  private testData = [
-    {
-      id: 1,
-      subject:
-        'Absenzmeldung<br>Schnurri Max<br> <div style="background-color: red;">08.04.2021 17:31</div>',
-      body: '15.03.2021 <br> 23b, 1 Lektion <br>Freier Halbtag',
-    },
-    {
-      id: 2,
-      subject:
-        'Absenzmeldung<br>Muster Max<br> <div style="opacity: 0.5;">08.04.2021 17:31</div>',
-      body: '18.03.2021 <br> 23b, 2 Lektionen <br>Abwesend',
-    },
-    {
-      id: 3,
-      subject:
-        'Absenzmeldung<br>Muster Max<br> <div style="opacity: 0.5;">08.04.2021 17:31</div>',
-      body: '22.03.2021 <br> 23b, 1 Lektion <br>Freier Halbtag',
-    },
-    {
-      id: 4,
-      subject:
-        'Absenzmeldung<br>Schnurri Max<br> <div style="background-color: red;">08.04.2021 17:31</div>',
-      body: '15.03.2021 <br> 23b, 1 Lektion <br>Freier Halbtag',
-    },
-    {
-      id: 5,
-      subject:
-        'Absenzmeldung<br>Muster Max<br> <div style="opacity: 0.5;">08.04.2021 17:31</div>',
-      body: '18.03.2021 <br> 23b, 2 Lektionen <br>Abwesend',
-    },
-    {
-      id: 6,
-      subject:
-        'Absenzmeldung<br>Muster Max<br> <div style="opacity: 0.5;">08.04.2021 17:31</div>',
-      body: '22.03.2021 <br> 23b, 1 Lektion <br>Freier Halbtag',
-    },
-  ];
-
   notifications$: Observable<NotificationDataPropertyValueType[]> = of();
 
   constructor(private settingsService: UserSettingsRestService) {}
-
-  /* TODO: remove this after review */
-  applyTestdata(): void {
-    this.updateCurrentNotificationDataPropertyValue(this.testData).subscribe();
-  }
 
   getCurrentUserSettingsCst(
     params?: HttpParams | Dict<string>

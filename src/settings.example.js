@@ -80,5 +80,5 @@ window.absenzenmanagement.settings = {
    * Notifications
    */
   // refresh time for notifications
-  notificationRefreshTime: 30 * 1000,
+  notificationRefreshTime: 30,
 };

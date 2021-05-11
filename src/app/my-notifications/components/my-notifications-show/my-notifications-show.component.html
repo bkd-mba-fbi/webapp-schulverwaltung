@@ -2,13 +2,16 @@
   class="notifications-container"
   *erzLet="{
     notifications: notifications$ | async,
-    numNotifications: (notifications$ | async)?.length || 0,
-    isAuthenticated: (isAuthenticatedSubject | async)
+    notificationsCount: (notifications$ | async)?.length || 0,
+    isAuthenticated: (isAuthenticated$ | async)
   } as data"
 >
-  <div id="notifications-button" class="notifications-button">
+  <div
+    (click)="toggleNotificationsPopup()"
+    id="notifications-button"
+    class="btn notifications-button p-0 m-0"
+  >
     <i
-      (click)="toggleNotificationsPopup()"
       class="material-icons notifications-bell"
       [ngClass]="data.isAuthenticated ? '' : 'notifications-bell-hidden'"
       >notifications</i
@@ -21,7 +24,7 @@
           ? 'notifications-bell-counter-visible'
           : 'notifications-bell-counter-hidden'
       "
-      >{{ data.numNotifications }}</span
+      >{{ data.notificationsCount }}</span
     >
   </div>
   <div
@@ -30,12 +33,14 @@
     style="display: none"
   >
     <div>
-      <div class="d-flex p-3 justify-content-between align-items-center">
-        <h5>{{ 'my-notifications.title' | translate }}</h5>
+      <div
+        class="d-sm-flex flex-sm-row justify-content-between p-3 align-items-center"
+      >
+        <h5 class="pr-3">{{ 'my-notifications.title' | translate }}</h5>
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="data.numNotifications < 1"
+          [disabled]="data.notificationsCount < 1"
           (click)="deleteAll()"
           id="notifications-delete-all"
         >
@@ -43,26 +48,23 @@
         </button>
       </div>
       <div class="notifications-popup-data">
-        <div
-          class="w-100"
-          *ngIf="data.numNotifications > 0; else noNotifications"
-        >
-          <div class="w-100" *ngFor="let entry of data.notifications">
+        <div *ngIf="data.notificationsCount > 0; else noNotifications">
+          <div *ngFor="let entry of data.notifications">
             <hr />
-            <div class="d-flex justify-content-between p-3">
+            <div class="d-sm-flex flex-sm-row justify-content-between p-3">
               <div
                 class="text-left"
-                [innerHTML]="entry.subject | safe: 'html'"
+                [innerHTML]="entry.subject | xss: xssOptions | safe: 'html'"
               ></div>
               <div
                 class="text-right"
-                [innerHTML]="entry.body | safe: 'html'"
+                [innerHTML]="entry.body | xss: xssOptions | safe: 'html'"
               ></div>
             </div>
             <div class="text-right pr-3 pb-3">
               <i
                 (click)="deleteNotification(entry.id)"
-                class="material-icons notifications-delete-notification"
+                class="btn p-0 material-icons notifications-delete-notification"
                 >delete</i
               >
             </div>
