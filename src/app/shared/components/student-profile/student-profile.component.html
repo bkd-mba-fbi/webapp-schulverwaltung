@@ -83,6 +83,26 @@
             </ng-template>
           </ngb-panel>
 
+          <ngb-panel id="checkable-absences">
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-profile-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('checkable-absences')"
+              >
+                {{ 'shared.profile.checkable-absences' | translate }}
+                <ng-container
+                  *ngIf="data.absenceCounts.checkableAbsences != null"
+                  >({{ data.absenceCounts.checkableAbsences }})</ng-container
+                >
+              </erz-student-profile-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-student-profile-absences
+                [absences$]="absencesService.checkableAbsences$"
+              ></erz-student-profile-absences>
+            </ng-template>
+          </ngb-panel>
+
           <ngb-panel id="open-absences">
             <ng-template ngbPanelHeader let-opened="opened">
               <erz-student-profile-entry-header

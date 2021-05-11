@@ -22,6 +22,7 @@ export interface StudentProfileAbsencesCounts {
 export class StudentProfileAbsencesService {
   private studentId$ = new ReplaySubject<number>(1);
 
+  checkableAbsences$ = this.getAbsences(this.loadCheckableAbsences.bind(this));
   openAbsences$ = this.getAbsences(this.loadOpenAbsences.bind(this));
   excusedAbsences$ = this.getAbsences(this.loadExcusedAbsences.bind(this));
   unexcusedAbsences$ = this.getAbsences(this.loadUnexcusedAbsences.bind(this));
@@ -64,10 +65,14 @@ export class StudentProfileAbsencesService {
         return combineLatest([
           this.loadStatistics(studentId).pipe(startWith(null)),
           this.openAbsences$.pipe(map((absences) => absences?.length ?? null)),
+          this.checkableAbsences$.pipe(
+            map((absences) => absences?.length ?? null)
+          ),
         ]);
       }),
-      map(([statistics, openAbsencesCount]) => ({
+      map(([statistics, openAbsencesCount, checkableAbsencesCount]) => ({
         openAbsences: openAbsencesCount,
+        checkableAbsences: checkableAbsencesCount,
         excusedAbsences: statistics?.TotalAbsencesValidExcuse ?? null,
         unexcusedAbsences: statistics?.TotalAbsencesWithoutExcuse ?? null,
         incidents: statistics?.TotalIncidents ?? null,
@@ -105,6 +110,17 @@ export class StudentProfileAbsencesService {
     return this.lessonPresencesService.getListOfUnconfirmed(
       this.getBaseParams(studentId)
     );
+  }
+
+  private loadCheckableAbsences(
+    studentId: number
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    return this.lessonPresencesService.getList({
+      params: {
+        ...this.getBaseParams(studentId),
+        'filter.ConfirmationStateId': `=${this.settings.checkableAbsenceStateId}`,
+      },
+    });
   }
 
   private loadExcusedAbsences(
