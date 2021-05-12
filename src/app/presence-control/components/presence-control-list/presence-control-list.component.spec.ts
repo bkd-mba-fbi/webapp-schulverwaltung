@@ -39,7 +39,8 @@ describe('PresenceControlListComponent', () => {
         1,
         new Date(2000, 0, 23, 8, 0),
         new Date(2000, 0, 23, 9, 0),
-        'Deutsch'
+        'Deutsch',
+        'Dora Durrer'
       );
       bichsel = buildPresenceControlEntry('Bichsel Peter');
       frisch = buildPresenceControlEntry('Frisch Max');

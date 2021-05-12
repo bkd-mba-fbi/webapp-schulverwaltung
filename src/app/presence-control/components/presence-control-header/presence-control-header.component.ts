@@ -13,8 +13,8 @@ import {
   NgbDropdown,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
-import { Lesson } from 'src/app/shared/models/lesson.model';
 import { ViewMode } from '../../services/presence-control-state.service';
+import { LessonEntry } from '../../models/lesson-entry.model';
 
 /**
  * On small screens, the `.dropdown` element gets translated
@@ -59,8 +59,8 @@ interface ViewModeOption {
   ], // TODO: move to (app-)module?
 })
 export class PresenceControlHeaderComponent implements OnInit {
-  @Input() selectedLesson: Lesson;
-  @Input() lessons: ReadonlyArray<Lesson>;
+  @Input() selectedLesson: LessonEntry;
+  @Input() lessons: ReadonlyArray<LessonEntry>;
   @Input() presentCount: Option<number> = null;
   @Input() absentCount: Option<number> = null;
   @Input() unapprovedCount: Option<number> = null;
@@ -68,7 +68,7 @@ export class PresenceControlHeaderComponent implements OnInit {
   @Input() selectDate: Date;
   @Input() search = '';
 
-  @Output() selectLessonChange = new EventEmitter<Lesson>();
+  @Output() selectLessonChange = new EventEmitter<LessonEntry>();
   @Output() selectDateChange = new EventEmitter<Date>();
   @Output() searchChange = new EventEmitter<string>();
   @Output() viewModeChange = new EventEmitter<ViewMode>();

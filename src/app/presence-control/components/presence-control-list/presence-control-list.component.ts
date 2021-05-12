@@ -143,10 +143,10 @@ export class PresenceControlListComponent
       this.state.setDate(parseISOLocalDate(params.date));
     }
 
-    const lessonId = Number(params.lesson);
+    const lessonId = String(params.lesson);
     if (lessonId) {
       this.state.lessons$.pipe(take(1)).subscribe((lessons) => {
-        const lesson = lessons.find((l) => l.LessonRef.Id === lessonId);
+        const lesson = lessons.find((l) => l.id === lessonId);
         if (lesson) {
           this.state.setLesson(lesson);
         }
