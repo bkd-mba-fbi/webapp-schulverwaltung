@@ -71,8 +71,8 @@ window.absenzenmanagement.settings = {
   // X-Role-Restriction custom HTTP header values by module
   headerRoleRestriction: {
     myAbsences: 'StudentRole',
-    presenceControl: 'LessonTeacherRole',
+    presenceControl: 'LessonTeacherRole;TeacherRole',
     openAbsences: 'LessonTeacherRole;ClassTeacherRole',
-    editAbsences: 'LessonTeacherRole;ClassTeacherRole',
+    editAbsences: 'LessonTeacherRole;ClassTeacherRole;TeacherRole',
   },
 };
