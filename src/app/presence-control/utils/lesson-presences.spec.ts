@@ -49,6 +49,7 @@ describe('lesson presences utils', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Einstein Albert',
+      'Dora Durrer',
       absent.Id
     );
     deutschEinsteinAbwesend.StudentRef = buildReference(20);
@@ -71,6 +72,7 @@ describe('lesson presences utils', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Walser Robert',
+      'Dora Durrer',
       comment.Id
     );
     deutschWalser.StudentRef = buildReference(30);
@@ -83,6 +85,7 @@ describe('lesson presences utils', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Currie Marie',
+      'Dora Durrer',
       absent.Id
     );
     deutschCurrieAbwesend.StudentRef = buildReference(40);
