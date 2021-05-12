@@ -30,6 +30,10 @@ export function fromLesson(lesson: Lesson): LessonEntry {
  * Represents a grouping of Lessons by time/teacher.
  */
 export class LessonEntry {
+  readonly id: string;
+  readonly studyClassNumbers: string;
+  readonly eventDesignations: string;
+
   lessons = [] as Array<Lesson>;
 
   constructor(
@@ -41,23 +45,26 @@ export class LessonEntry {
   addLesson(lesson: Lesson): void {
     if (!this.lessons.some((l) => lessonsEqual(l, lesson))) {
       this.lessons.push(lesson);
+      this.updateId();
+      this.updateStudyClassNumbers();
+      this.updateEventDesignations();
     }
   }
 
-  get id(): string {
-    return [...new Set(this.lessons.map((l) => l.LessonRef.Id).sort())].join(
-      '-'
-    );
+  private updateId(): void {
+    (this.id as string) = [
+      ...new Set(this.lessons.map((l) => l.LessonRef.Id).sort()),
+    ].join('-');
   }
 
-  get studyClassNumbers(): string {
-    return [
+  private updateStudyClassNumbers(): void {
+    (this.studyClassNumbers as string) = [
       ...new Set(this.lessons.map((l) => l.StudyClassNumber).sort()),
     ].join(', ');
   }
 
-  get eventDesignations(): string {
-    return [
+  private updateEventDesignations(): void {
+    (this.eventDesignations as string) = [
       ...new Set(this.lessons.map((l) => l.EventDesignation).sort()),
     ].join(', ');
   }
