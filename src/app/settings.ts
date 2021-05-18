@@ -19,6 +19,7 @@ const Settings = t.type({
   personMasterDataReportId: t.number,
   studentConfirmationReportId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
+  notificationRefreshTime: t.number,
 });
 
 type Settings = t.TypeOf<typeof Settings>;

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -16,9 +16,11 @@ export class UserSettingsRestService extends RestService<typeof UserSetting> {
     super(http, settings, UserSetting, 'UserSettings');
   }
 
-  getUserSettingsCst(): Observable<UserSetting> {
+  getUserSettingsCst(
+    params?: HttpParams | Dict<string>
+  ): Observable<UserSetting> {
     return this.http
-      .get<UserSetting>(`${this.baseUrl}/Cst`)
+      .get<UserSetting>(`${this.baseUrl}/Cst`, { params })
       .pipe(switchMap(decode(this.codec)));
   }
 

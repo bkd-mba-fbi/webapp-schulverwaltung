@@ -12,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GlobalErrorHandler } from './global-error-handler';
 import { HomeComponent } from './home.component';
+import { MyNotificationsShowComponent } from './my-notifications/components/my-notifications-show/my-notifications-show.component';
+import { MyNotificationsService } from './my-notifications/services/my-notifications.service';
 import { Settings, SETTINGS } from './settings';
 import { I18nService } from './shared/services/i18n.service';
 import { SharedModule } from './shared/shared.module';
@@ -33,7 +35,12 @@ registerLocaleData(localeDECH);
 registerLocaleData(localeFRCH);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, UnauthenticatedComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    UnauthenticatedComponent,
+    MyNotificationsShowComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -59,7 +66,9 @@ registerLocaleData(localeFRCH);
       useFactory: (i18nService: I18nService) => i18nService.detectLanguage(),
       deps: [I18nService],
     },
+    MyNotificationsService,
   ],
   bootstrap: [AppComponent],
+  entryComponents: [MyNotificationsShowComponent],
 })
 export class AppModule {}

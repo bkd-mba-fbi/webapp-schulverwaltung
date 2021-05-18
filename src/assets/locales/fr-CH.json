@@ -219,6 +219,11 @@
       "save-success": "Les paramètres de notification ont été enregistrées a avec succès"
     }
   },
+  "my-notifications": {
+    "title": "Notifications",
+    "deleteAll": "Tout effacer",
+    "none": "Aucune notification"
+  },
   "shared": {
     "date-select": {
       "default-placeholder": "Sélectionner la date..."

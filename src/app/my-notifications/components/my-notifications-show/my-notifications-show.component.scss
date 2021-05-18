@@ -1,0 +1,78 @@
+// import extracted styles to allow positioning of notification bell and popup in evento
+@import "src/styles-notifications.scss";
+
+.notifications-popup {
+  display: none;
+  z-index: 1000;
+  min-width: 25vw;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+
+.notifications-popup-data {
+  position: relative;
+}
+
+/* white triangle */
+.notifications-popup:after {
+  border-left: solid transparent 10px;
+  border-right: solid transparent 10px;
+  border-bottom: solid 10px white;
+  content: " ";
+  position: absolute;
+  width: 0;
+  top: -8px;
+}
+
+/* Gray triangle / Border triangle */
+.notifications-popup:before {
+  border-color: transparent transparent #cccc transparent;
+  border-style: solid;
+  border-width: 10px;
+  display: block;
+  content: " ";
+  position: absolute;
+  height: 10px;
+}
+
+@media (max-width: 800px) {
+  .notifications-popup {
+    min-width: auto;
+    width: 100vw;
+    right: 0;
+  }
+  // don't show triangle for small screen width
+  .notifications-popup:before {
+    display: none;
+  }
+  .notifications-popup:after {
+    display: none;
+  }
+}
+
+.notifications-bell-counter {
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  padding: 2px 6px;
+  background-color: #da3225;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #005189;
+}
+
+.notifications-bell-counter-hidden {
+  display: none;
+}
+
+.notifications-bell-counter-visible {
+  display: inline;
+}
+
+.notifications-delete-notification {
+  color: #005189;
+}
+
+hr {
+  margin: 0;
+}

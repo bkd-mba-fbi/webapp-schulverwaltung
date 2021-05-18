@@ -353,3 +353,17 @@ export function buildUserSettingWithNotificationSetting(
   setting.Settings.push(notification);
   return setting;
 }
+
+export function buildUserSettingWithNotificationData(
+  id: number,
+  subject: string,
+  body: string
+): UserSetting {
+  const setting = buildUserSetting();
+  const notification = {
+    Key: 'notificationData',
+    Value: JSON.stringify([{ id, subject, body }]),
+  };
+  setting.Settings.push(notification);
+  return setting;
+}

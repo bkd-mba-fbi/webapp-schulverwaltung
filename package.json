@@ -10,7 +10,7 @@
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
-    "lint:format": "ng lint $(ng config defaultProject) --tslint-config tslint-prettier.json --files \"src/**/*.ts\" --exclude src/environments/environment.prod.ts",
+    "lint:format": "ng lint $(ng config defaultProject) --tslint-config tslint-prettier.json --files \"src/**/*.ts\" --exclude src/environments/environment.prod.ts --exclude src/app/my-notifications/my-notifications.module.ts",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
     "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
     "e2e": "ng e2e",
@@ -23,9 +23,11 @@
   "dependencies": {
     "-": "0.0.1",
     "@angular/animations": "^11.2.9",
+    "@angular/cdk": "^11.2.10",
     "@angular/common": "^11.2.9",
     "@angular/compiler": "^11.2.9",
     "@angular/core": "^11.2.9",
+    "@angular/elements": "^11.2.11",
     "@angular/forms": "^11.2.9",
     "@angular/localize": "^11.2.9",
     "@angular/platform-browser": "^11.2.9",
@@ -37,6 +39,7 @@
     "bootstrap": "^4.6.0",
     "core-js": "~3.10.1",
     "date-fns": "^2.20.3",
+    "document-register-element": "^1.7.2",
     "fp-ts": "^2.9.5",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
@@ -48,6 +51,7 @@
     "rxjs": "~6.6.7",
     "tslib": "^2.2.0",
     "watchpack": "^2.1.1",
+    "xss": "^1.0.9",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

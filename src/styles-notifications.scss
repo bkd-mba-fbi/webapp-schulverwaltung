@@ -1,0 +1,27 @@
+.notifications-popup {
+  position: absolute;
+  margin-top: 20px; // position from top
+  right: 14px; // position from right
+}
+
+/* Popup border triangle */
+.notifications-popup:after,
+.notifications-popup:before {
+  right: 11px; // position from right
+  top: -20px; // position from top
+}
+
+.notifications-bell {
+  color: white;
+  font-size: 45px;
+}
+
+.notifications-bell-hidden {
+  color: #ccc;
+}
+
+.notifications-bell-counter {
+  position: absolute;
+  top: 20px; // position from top
+  right: 10px; // position from right
+}

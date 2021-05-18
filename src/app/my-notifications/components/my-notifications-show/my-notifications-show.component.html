@@ -1,0 +1,81 @@
+<div
+  class="notifications-container"
+  *erzLet="{
+    notifications: notifications$ | async,
+    notificationsCount: (notifications$ | async)?.length || 0,
+    isAuthenticated: (isAuthenticated$ | async)
+  } as data"
+>
+  <div
+    (click)="toggleNotificationsPopup()"
+    id="notifications-button"
+    class="btn notifications-button p-0 m-0"
+  >
+    <i
+      class="material-icons notifications-bell"
+      [ngClass]="data.isAuthenticated ? '' : 'notifications-bell-hidden'"
+      >notifications</i
+    >
+    <span
+      id="notifications-bell-counter"
+      class="notifications-bell-counter"
+      [ngClass]="
+        data.isAuthenticated
+          ? 'notifications-bell-counter-visible'
+          : 'notifications-bell-counter-hidden'
+      "
+      >{{ data.notificationsCount }}</span
+    >
+  </div>
+  <div
+    class="notifications-popup"
+    id="notifications-popup"
+    style="display: none"
+  >
+    <div>
+      <div
+        class="d-sm-flex flex-sm-row justify-content-between p-3 align-items-center"
+      >
+        <h5 class="pr-3">{{ 'my-notifications.title' | translate }}</h5>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="data.notificationsCount < 1"
+          (click)="deleteAll()"
+          id="notifications-delete-all"
+        >
+          {{ 'my-notifications.deleteAll' | translate }}
+        </button>
+      </div>
+      <div class="notifications-popup-data">
+        <div *ngIf="data.notificationsCount > 0; else noNotifications">
+          <div *ngFor="let entry of data.notifications">
+            <hr />
+            <div class="d-sm-flex flex-sm-row justify-content-between p-3">
+              <div
+                class="text-left"
+                [innerHTML]="entry.subject | xss: xssOptions | safe: 'html'"
+              ></div>
+              <div
+                class="text-right"
+                [innerHTML]="entry.body | xss: xssOptions | safe: 'html'"
+              ></div>
+            </div>
+            <div class="text-right pr-3 pb-3">
+              <i
+                (click)="deleteNotification(entry.id)"
+                class="btn p-0 material-icons notifications-delete-notification"
+                >delete</i
+              >
+            </div>
+          </div>
+        </div>
+        <ng-template #noNotifications>
+          <div class="d-flex p-3 align-items-center p-2">
+            {{ 'my-notifications.none' | translate }}
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
