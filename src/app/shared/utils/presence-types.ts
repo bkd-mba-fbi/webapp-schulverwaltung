@@ -1,5 +1,6 @@
 import { PresenceType } from '../models/presence-type.model';
 import { DropDownItem } from '../models/drop-down-item.model';
+import { DropDownGroupedItem } from '../models/drop-down-grouped-item.model';
 
 /**
  * Sorts an array of presence types by the `Sort` attribute.
@@ -21,4 +22,18 @@ export function createPresenceTypesDropdownItems(
     Key: presenceType.Id,
     Value: presenceType.Designation || '',
   }));
+}
+
+/**
+ * Adds an all group element to dropdown item
+ */
+export function addGroupToDropdownItem(
+  items: ReadonlyArray<DropDownItem>,
+  group: string
+): ReadonlyArray<DropDownGroupedItem> {
+  return items.map((i) =>
+    Object.assign(i, {
+      Group: group,
+    })
+  );
 }

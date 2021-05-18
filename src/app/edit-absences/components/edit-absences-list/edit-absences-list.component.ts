@@ -97,10 +97,14 @@ function createFilterFromParams(params: Params): EditAbsencesFilter {
     studyClass: params.studyClass ? Number(params.studyClass) : null,
     dateFrom: params.dateFrom ? parseISOLocalDate(params.dateFrom) : null,
     dateTo: params.dateTo ? parseISOLocalDate(params.dateTo) : null,
-    presenceType: params.presenceType ? Number(params.presenceType) : null,
-    confirmationState: params.confirmationState
-      ? Number(params.confirmationState)
+    presenceTypes: params.presenceTypes
+      ? params.presenceTypes.split(',').map(Number)
       : null,
-    incidentType: params.incidentType ? Number(params.presenceType) : null,
+    confirmationStates: params.confirmationStates
+      ? params.confirmationStates.split(',').map(Number)
+      : null,
+    incidentTypes: params.incidentTypes
+      ? params.incidentTypes.split(',').map(Number)
+      : null,
   };
 }

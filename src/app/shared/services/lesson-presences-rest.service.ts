@@ -105,9 +105,6 @@ export class LessonPresencesRestService extends RestService<
         [absencesFilter.student, 'StudentRef'],
         [absencesFilter.educationalEvent, 'EventRef'],
         [absencesFilter.studyClass, 'StudyClassRef'],
-        [absencesFilter.presenceType, 'TypeRef'],
-        [absencesFilter.incidentType, 'TypeRef'],
-        [absencesFilter.confirmationState, 'ConfirmationStateId'],
       ],
       new HttpParams({ fromObject: additionalParams })
     );
@@ -136,10 +133,33 @@ export class LessonPresencesRestService extends RestService<
       }
     }
 
-    if (absencesFilter.incidentType && absencesFilter.presenceType) {
+    if (absencesFilter.confirmationStates) {
+      params = params.set(
+        'filter.ConfirmationStateId',
+        `;${absencesFilter.confirmationStates.join(';')}`
+      );
+    }
+
+    if (absencesFilter.incidentTypes) {
       params = params.set(
         'filter.TypeRef',
-        `=${absencesFilter.presenceType},${absencesFilter.incidentType}`
+        `;${absencesFilter.incidentTypes.join(';')}`
+      );
+    }
+
+    if (absencesFilter.presenceTypes) {
+      params = params.set(
+        'filter.TypeRef',
+        `;${absencesFilter.presenceTypes.join(';')}`
+      );
+    }
+
+    if (absencesFilter.incidentTypes && absencesFilter.presenceTypes) {
+      params = params.set(
+        'filter.TypeRef',
+        `;${absencesFilter.presenceTypes.join(
+          ';'
+        )};${absencesFilter.incidentTypes.join(';')}`
       );
     }
 

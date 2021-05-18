@@ -37,26 +37,26 @@
 <div class="filters mt-2">
   <div class="form-group">
     <label>{{ 'edit-absences.header.confirmation-state' | translate }}</label>
-    <erz-select
-      [options]="absenceConfirmationStates$ | async"
-      [(value)]="filter.confirmationState"
-    ></erz-select>
+    <erz-multiselect
+      [options]="absenceConfirmationStatesGrouped$ | async"
+      [(values)]="filter.confirmationStates"
+    ></erz-multiselect>
   </div>
 
   <div class="form-group">
     <label>{{ 'edit-absences.header.presence-type' | translate }}</label>
-    <erz-select
-      [options]="presenceTypes$ | async"
-      [(value)]="filter.presenceType"
-    ></erz-select>
+    <erz-multiselect
+      [options]="presenceTypesGrouped$ | async"
+      [(values)]="filter.presenceTypes"
+    ></erz-multiselect>
   </div>
 
   <div class="form-group">
     <label>{{ 'edit-absences.header.incident' | translate }}</label>
-    <erz-select
-      [options]="incidentTypes$ | async"
-      [(value)]="filter.incidentType"
-    ></erz-select>
+    <erz-multiselect
+      [options]="incidentTypesGrouped$ | async"
+      [(values)]="filter.incidentTypes"
+    ></erz-multiselect>
   </div>
 
   <div class="buttons">

@@ -27,6 +27,8 @@ import { Settings, SETTINGS } from './settings';
 import { I18nService } from './shared/services/i18n.service';
 import { SharedModule } from './shared/shared.module';
 import { UnauthenticatedComponent } from './unauthenticated.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(
@@ -68,6 +70,8 @@ registerLocaleData(localeFRCH);
       preventDuplicates: true,
     }),
     SharedModule,
+    NgSelectModule,
+    FormsModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
