@@ -17,6 +17,7 @@ import { NotificationDataPropertyValueType } from 'src/app/shared/models/user-se
 import { MyNotificationsService } from '../../services/my-notifications.service';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { HttpErrorResponse } from '@angular/common/http';
+import { I18nService } from 'src/app/shared/services/i18n.service';
 
 @Component({
   templateUrl: './my-notifications-show.component.html',
@@ -52,9 +53,12 @@ export class MyNotificationsShowComponent implements OnDestroy {
   };
 
   constructor(
+    i18n: I18nService,
     @Inject(SETTINGS) private settings: Settings,
     public notificationService: MyNotificationsService
   ) {
+    i18n.initialize();
+
     // stream of notifications
     this.notifications$ = this.refetch$.pipe(
       switchMap(() =>
@@ -91,7 +95,6 @@ export class MyNotificationsShowComponent implements OnDestroy {
     // refetch notifications
     this.trigger$.pipe(takeUntil(this.destroyed$)).subscribe(() => {
       this.refetch$.next(null);
-      console.log('trigger');
     });
 
     this.deleteNotificationId$
