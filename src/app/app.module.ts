@@ -2,9 +2,18 @@ import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeDECH from '@angular/common/locales/de-CH';
 import localeFRCH from '@angular/common/locales/fr-CH';
-import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import {
+  ApplicationRef,
+  DoBootstrap,
+  ErrorHandler,
+  Injector,
+  LOCALE_ID,
+  NgModule,
+} from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToastrModule } from 'ngx-toastr';
@@ -44,6 +53,7 @@ registerLocaleData(localeFRCH);
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     HttpClientModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
@@ -68,7 +78,22 @@ registerLocaleData(localeFRCH);
     },
     MyNotificationsService,
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [MyNotificationsShowComponent],
+  bootstrap: [],
+  entryComponents: [AppComponent, MyNotificationsShowComponent],
 })
-export class AppModule {}
+export class AppModule implements DoBootstrap {
+  constructor(private injector: Injector) {
+    const notificationsElement = createCustomElement(
+      MyNotificationsShowComponent,
+      { injector: this.injector }
+    );
+    customElements.define('erz-notifications', notificationsElement);
+
+    const appElement = createCustomElement(AppComponent, {
+      injector: this.injector,
+    });
+    customElements.define('erz-app', appElement);
+  }
+
+  ngDoBootstrap(appRef: ApplicationRef): void {}
+}
