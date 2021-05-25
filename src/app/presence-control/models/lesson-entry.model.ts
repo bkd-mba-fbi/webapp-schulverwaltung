@@ -59,7 +59,11 @@ export class LessonEntry {
 
   private updateStudyClassNumbers(): void {
     (this.studyClassNumbers as string) = [
-      ...new Set(this.lessons.map((l) => l.StudyClassNumber).sort()),
+      ...new Set(
+        this.lessons
+          .map((l) => l.StudyClassNumber)
+          .sort((a, b) => a.localeCompare(b))
+      ),
     ].join(', ');
   }
 
