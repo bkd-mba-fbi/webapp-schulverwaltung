@@ -45,7 +45,6 @@ describe('PresenceControlListComponent', () => {
       bichsel = buildPresenceControlEntry('Bichsel Peter');
       frisch = buildPresenceControlEntry('Frisch Max');
       jenni = buildPresenceControlEntry('Zoë Jenny');
-      jenni.lessonPresence.WasAbsentInPrecedingLesson = true;
       selectedPresenceControlEntries$ = new BehaviorSubject([
         bichsel,
         frisch,
@@ -105,10 +104,10 @@ describe('PresenceControlListComponent', () => {
 
   describe('.presenceControlEntries$', () => {
     it('emits all entries initially', () => {
-      expect(getRenderedPreviouslyAbsentStudentNames()).toEqual(['Zoë Jenny']);
       expect(getRenderedStudentNames()).toEqual([
         'Bichsel Peter',
         'Frisch Max',
+        'Zoë Jenny',
       ]);
     });
 
@@ -124,7 +123,6 @@ describe('PresenceControlListComponent', () => {
         jenni,
       ]);
       fixture.detectChanges();
-      expect(getRenderedPreviouslyAbsentStudentNames()).toEqual([]);
       expect(getRenderedStudentNames()).toEqual(['Frisch Max', 'Frisch Peter']);
     });
   });
@@ -150,14 +148,6 @@ describe('PresenceControlListComponent', () => {
   function getRenderedStudentNames(): string[] {
     return Array.prototype.slice
       .call(element.querySelectorAll('.default-entries .student-name'))
-      .map((e) => e.textContent.trim());
-  }
-
-  function getRenderedPreviouslyAbsentStudentNames(): string[] {
-    return Array.prototype.slice
-      .call(
-        element.querySelectorAll('.previously-absent-entries .student-name')
-      )
       .map((e) => e.textContent.trim());
   }
 

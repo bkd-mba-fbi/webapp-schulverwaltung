@@ -226,7 +226,6 @@ export class MyAbsencesService {
       StudentFullName: absence.StudentFullName,
       StudyClassNumber: '', // Currently not available on timetable entry
       TeacherInformation: entry.EventManagerInformation,
-      WasAbsentInPrecedingLesson: false,
     };
   }
 }

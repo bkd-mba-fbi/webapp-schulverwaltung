@@ -2,9 +2,7 @@
   *erzLet="{
     lesson: state.selectedLesson$ | async,
     lessons: state.lessons$ | async,
-    entries: entries$ | async,
-    previouslyPresentEntries: previouslyPresentEntries$ | async,
-    previouslyAbsentEntries: previouslyAbsentEntries$ | async
+    entries: entries$ | async
   } as data"
 >
   <ng-container *ngIf="!(state.loading$ | async); else loading">
@@ -26,35 +24,12 @@
     <ng-container *ngIf="data.lesson; else noLessons">
       <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">
         <div
-          *ngIf="data.previouslyAbsentEntries.length > 0"
-          class="previously-absent-entries pt-1 px-2 pb-3"
-        >
-          <label class="mb-1">
-            {{ 'presence-control.previously-absent' | translate }}
-          </label>
-          <div class="entries view-mode-{{ state.viewMode$ | async }}">
-            <erz-presence-control-entry
-              *ngFor="let entry of data.previouslyAbsentEntries"
-              [entry]="entry"
-              [hasUnconfirmedAbsences]="
-                state.hasUnconfirmedAbsences(entry) | async
-              "
-              [viewMode]="state.viewMode$ | async"
-              [profileReturnParams]="{
-                returnparams: (state.queryParamsString$ | async)
-              }"
-              (togglePresenceType)="togglePresenceType($event)"
-              (changeIncident)="changeIncident($event)"
-            ></erz-presence-control-entry>
-          </div>
-        </div>
-        <div
           class="default-entries entries view-mode-{{
             state.viewMode$ | async
           }}"
         >
           <erz-presence-control-entry
-            *ngFor="let entry of data.previouslyPresentEntries"
+            *ngFor="let entry of data.entries"
             [entry]="entry"
             [hasUnconfirmedAbsences]="
               state.hasUnconfirmedAbsences(entry) | async

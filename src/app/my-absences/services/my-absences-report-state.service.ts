@@ -190,7 +190,6 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       StudentFullName: (absence || dispensation)?.StudentFullName || '',
       StudyClassNumber: '', // Currently not available on timetable entry
       TeacherInformation: timetableEntry.EventManagerInformation,
-      WasAbsentInPrecedingLesson: false,
     };
   }
 

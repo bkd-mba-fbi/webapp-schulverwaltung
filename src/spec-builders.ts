@@ -57,7 +57,6 @@ export function buildLessonPresence(
     // StudyClassDesignation: '',
     StudyClassNumber: '9a',
     TeacherInformation: '',
-    WasAbsentInPrecedingLesson: null,
   };
 }
 

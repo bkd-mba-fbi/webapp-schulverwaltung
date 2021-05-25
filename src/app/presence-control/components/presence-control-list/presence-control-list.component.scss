@@ -4,33 +4,6 @@ erz-presence-control-entry {
   border-bottom: 1px solid $gray-200;
 }
 
-.previously-absent-entries {
-  background-color: lighten($absent-color, 40%);
-
-  > label {
-    color: $absent-color;
-    padding-left: 0.5rem;
-  }
-
-  > .entries {
-    background-color: $body-bg;
-  }
-}
-
-.previously-absent-entries > .entries > .present.list,
-.previously-absent-entries > .entries > .absent.list {
-  padding: 0 0 0 0.5rem;
-}
-
-@media only screen and (max-device-width: 800px),
-  only screen and (max-width: 800px) {
-  .previously-absent-entries > .entries > .present.grid,
-  .previously-absent-entries > .entries > .absent.grid {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-  }
-}
-
 /**
  * Grid view mode (default layout is list view mode)
  */

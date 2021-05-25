@@ -10,15 +10,3 @@ export function getCategoryCount(
       0
     );
 }
-
-export function filterPreviouslyPresentEntries(
-  entries: ReadonlyArray<PresenceControlEntry>
-): ReadonlyArray<PresenceControlEntry> {
-  return entries.filter((e) => !e.lessonPresence.WasAbsentInPrecedingLesson);
-}
-
-export function filterPreviouslyAbsentEntries(
-  entries: ReadonlyArray<PresenceControlEntry>
-): ReadonlyArray<PresenceControlEntry> {
-  return entries.filter((e) => e.lessonPresence.WasAbsentInPrecedingLesson);
-}
