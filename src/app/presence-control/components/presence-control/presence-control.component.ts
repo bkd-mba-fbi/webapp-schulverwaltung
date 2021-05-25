@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
+import { STUDENT_PROFILE_BACKLINK } from 'src/app/shared/tokens/student-profile-backlink';
 
 @Component({
   selector: 'erz-presence-control',
@@ -21,6 +22,7 @@ import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences
       provide: CONFIRM_ABSENCES_SERVICE,
       useExisting: PresenceControlStateService,
     },
+    { provide: STUDENT_PROFILE_BACKLINK, useValue: '/presence-control' },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
