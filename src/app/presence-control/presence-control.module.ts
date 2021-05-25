@@ -19,9 +19,6 @@ import { PresenceControlIncidentComponent } from './components/presence-control-
     PresenceControlDialogComponent,
     PresenceControlIncidentComponent,
   ],
-  providers: [
-    { provide: STUDENT_PROFILE_BACKLINK, useValue: '/presence-control' },
-  ],
   imports: [SharedModule, PresenceControlRoutingModule],
   entryComponents: [PresenceControlDialogComponent],
 })
