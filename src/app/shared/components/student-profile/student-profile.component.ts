@@ -23,10 +23,7 @@ import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences
   selector: 'erz-student-profile',
   templateUrl: './student-profile.component.html',
   styleUrls: ['./student-profile.component.scss'],
-  providers: [
-    StudentProfileAbsencesService,
-    { provide: STUDENT_PROFILE_BACKLINK, useValue: '/presence-control' },
-  ],
+  providers: [StudentProfileAbsencesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentProfileComponent implements OnInit, OnDestroy {

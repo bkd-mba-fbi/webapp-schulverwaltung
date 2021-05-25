@@ -7,7 +7,6 @@ import { PresenceControlHeaderComponent } from './components/presence-control-he
 import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
 import { PresenceControlEntryComponent } from './components/presence-control-entry/presence-control-entry.component';
 import { PresenceControlDialogComponent } from './components/presence-control-dialog/presence-control-dialog.component';
-import { STUDENT_PROFILE_BACKLINK } from '../shared/tokens/student-profile-backlink';
 import { PresenceControlIncidentComponent } from './components/presence-control-incident/presence-control-incident.component';
 
 @NgModule({
