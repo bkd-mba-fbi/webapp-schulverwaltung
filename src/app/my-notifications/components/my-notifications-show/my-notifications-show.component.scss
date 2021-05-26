@@ -3,14 +3,8 @@
 
 .notifications-popup {
   display: none;
-  z-index: 1000;
-  min-width: 25vw;
+  min-width: 33vw;
   background-color: white;
-  border: 1px solid #ccc;
-}
-
-.notifications-popup-data {
-  position: relative;
 }
 
 /* white triangle */

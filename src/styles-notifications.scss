@@ -1,7 +1,8 @@
 .notifications-popup {
-  position: absolute;
+  position: fixed;
   margin-top: 20px; // position from top
-  right: 14px; // position from right
+  right: 12px; // position from right
+  z-index: 1000;
 }
 
 /* Popup border triangle */
@@ -9,6 +10,12 @@
 .notifications-popup:before {
   right: 11px; // position from right
   top: -20px; // position from top
+}
+
+// used to enable scrollbar for popup-data (notifications), when view port height is small
+.notifications-popup-data {
+  max-height: calc(100vh - 145px); // 145px ≃ distance to popup-data from top
+  overflow: auto;
 }
 
 .notifications-bell {
