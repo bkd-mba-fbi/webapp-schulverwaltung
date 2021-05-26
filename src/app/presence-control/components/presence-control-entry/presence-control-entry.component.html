@@ -37,7 +37,7 @@
   [queryParams]="profileReturnParams"
   class="student-name"
 >
-  {{ entry.lessonPresence.StudentFullName }}
+  <span class="text-truncate">{{ entry.lessonPresence.StudentFullName }}</span>
   <span class="unconfirmed-absences">
     {{
       hasUnconfirmedAbsences
