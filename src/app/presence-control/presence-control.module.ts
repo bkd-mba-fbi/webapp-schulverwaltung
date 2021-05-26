@@ -8,6 +8,7 @@ import { PresenceControlListComponent } from './components/presence-control-list
 import { PresenceControlEntryComponent } from './components/presence-control-entry/presence-control-entry.component';
 import { PresenceControlBlockLessonComponent } from './components/presence-control-block-lesson/presence-control-block-lesson.component';
 import { PresenceControlIncidentComponent } from './components/presence-control-incident/presence-control-incident.component';
+import { PresenceControlPrecedingAbsenceComponent } from './components/presence-control-preceding-absence/presence-control-preceding-absence.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PresenceControlIncidentComponent } from './components/presence-control-
     PresenceControlEntryComponent,
     PresenceControlBlockLessonComponent,
     PresenceControlIncidentComponent,
+    PresenceControlPrecedingAbsenceComponent,
   ],
   imports: [SharedModule, PresenceControlRoutingModule],
   entryComponents: [PresenceControlBlockLessonComponent],

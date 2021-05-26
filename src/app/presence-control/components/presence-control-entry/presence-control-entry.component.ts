@@ -15,6 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { ViewMode } from '../../services/presence-control-state.service';
 import { Params } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PresenceControlPrecedingAbsenceComponent } from '../presence-control-preceding-absence/presence-control-preceding-absence.component';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -38,7 +40,8 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
 
   constructor(
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {}
@@ -72,7 +75,8 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
   }
 
   showPrecedingAbsences(entry: PresenceControlEntry): void {
-    // TODO
-    alert('show dialog');
+    const modalRef = this.modalService.open(
+      PresenceControlPrecedingAbsenceComponent
+    );
   }
 }
