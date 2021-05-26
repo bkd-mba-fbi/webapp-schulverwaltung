@@ -3,11 +3,13 @@ import { RestService } from './rest.service';
 import { LessonAbsence } from '../models/lesson-absence.model';
 import { HttpClient } from '@angular/common/http';
 import { Settings, SETTINGS } from '../../settings';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { decodeArray } from '../utils/decode';
-import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class LessonTeachersRestService extends RestService<
   typeof LessonAbsence
 > {
