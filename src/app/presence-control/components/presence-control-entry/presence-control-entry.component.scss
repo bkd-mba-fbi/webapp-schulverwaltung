@@ -5,10 +5,10 @@
   background-color: $body-bg;
   display: grid;
   grid-template-areas:
-    "avatar status designation"
-    "avatar student-name student-name"
-    "avatar incident incident";
-  grid-template-columns: min-content min-content 1fr;
+    "avatar status designation previously-absent"
+    "avatar student-name student-name student-name"
+    "avatar incident incident incident";
+  grid-template-columns: min-content min-content 3fr 1fr;
 }
 
 :host > * {
@@ -61,6 +61,15 @@ $presence-control-status-size: 2.75rem;
   grid-area: designation;
   text-align: left;
   line-height: $presence-control-status-size + $btn-padding-y;
+}
+
+.previously-absent {
+  grid-area: previously-absent;
+  text-decoration: none;
+  color: rgba($body-color, 0.5);
+  justify-self: end;
+  align-self: start;
+  padding-right: 0;
 }
 
 .student-name {

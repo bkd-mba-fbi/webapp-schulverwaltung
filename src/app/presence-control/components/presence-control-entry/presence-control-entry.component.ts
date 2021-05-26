@@ -70,4 +70,9 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
       this.changeIncident.emit(entry);
     }
   }
+
+  showPrecedingAbsences(entry: PresenceControlEntry): void {
+    // TODO
+    alert('show dialog');
+  }
 }
