@@ -48,7 +48,7 @@
       "cancel": "Annuler",
       "save": "Valider"
     },
-    "dialog": {
+    "block-lesson": {
       "text": "La leçon sélectionnée fait partie d'un bloc. Pour quelle(s) période(s) voulez-vous changer le statut de présence ?",
       "cancel": "Annuler",
       "save": "Valider"

@@ -48,7 +48,7 @@
       "cancel": "Abbrechen",
       "save": "Übernehmen"
     },
-    "dialog": {
+    "block-lesson": {
       "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie den Präsenzstatus ändern?",
       "cancel": "Abbrechen",
       "save": "Übernehmen"

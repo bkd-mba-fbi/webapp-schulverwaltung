@@ -6,7 +6,7 @@ import { PresenceControlComponent } from './components/presence-control/presence
 import { PresenceControlHeaderComponent } from './components/presence-control-header/presence-control-header.component';
 import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
 import { PresenceControlEntryComponent } from './components/presence-control-entry/presence-control-entry.component';
-import { PresenceControlDialogComponent } from './components/presence-control-dialog/presence-control-dialog.component';
+import { PresenceControlBlockLessonComponent } from './components/presence-control-block-lesson/presence-control-block-lesson.component';
 import { PresenceControlIncidentComponent } from './components/presence-control-incident/presence-control-incident.component';
 
 @NgModule({
@@ -15,10 +15,10 @@ import { PresenceControlIncidentComponent } from './components/presence-control-
     PresenceControlHeaderComponent,
     PresenceControlListComponent,
     PresenceControlEntryComponent,
-    PresenceControlDialogComponent,
+    PresenceControlBlockLessonComponent,
     PresenceControlIncidentComponent,
   ],
   imports: [SharedModule, PresenceControlRoutingModule],
-  entryComponents: [PresenceControlDialogComponent],
+  entryComponents: [PresenceControlBlockLessonComponent],
 })
 export class PresenceControlModule {}
