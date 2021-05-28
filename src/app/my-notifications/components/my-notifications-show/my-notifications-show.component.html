@@ -27,22 +27,17 @@
       >{{ data.notificationsCount }}</span
     >
   </div>
-  <div
-    class="notifications-popup border"
-    id="notifications-popup"
-    style="display: none"
-  >
+  <div class="notifications-popup border" id="notifications-popup">
     <div>
       <div
-        class="border-bottom p-3 align-items-center"
-        style="overflow: hidden"
+        class="d-flex justify-content-between border-bottom p-3 align-items-center"
       >
-        <h5 class="float-left pr-3">
+        <h5 class="pr-3">
           {{ 'my-notifications.title' | translate }}
         </h5>
         <button
           type="button"
-          class="float-sm-right btn btn-primary"
+          class="btn btn-primary"
           [disabled]="data.notificationsCount < 1"
           (click)="deleteAll()"
           id="notifications-delete-all"
@@ -55,13 +50,13 @@
         class="notifications-popup-data"
       >
         <div *ngFor="let entry of data.notifications" class="border-bottom p-3">
-          <div class="clearfix">
+          <div class="d-flex justify-content-between">
             <div
-              class="float-left text-left"
+              class="text-left pr-3"
               [innerHTML]="entry.subject | xss: xssOptions | safe: 'html'"
             ></div>
             <div
-              class="float-right text-right"
+              class="text-right"
               [innerHTML]="entry.body | xss: xssOptions | safe: 'html'"
             ></div>
           </div>
