@@ -4,6 +4,7 @@ import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
 import { LessonEntry } from '../models/lesson-entry.model';
+import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 
 export function lessonsEqual(
   a: Option<Lesson | LessonPresence>,
@@ -62,7 +63,8 @@ export function getPresenceControlEntriesForLesson(
   lesson: Option<LessonEntry>,
   lessonPresences: ReadonlyArray<LessonPresence>,
   presenceTypes: ReadonlyArray<PresenceType>,
-  confirmationStates: ReadonlyArray<DropDownItem>
+  confirmationStates: ReadonlyArray<DropDownItem>,
+  otherTeachersAbsences: ReadonlyArray<LessonAbsence>
 ): ReadonlyArray<PresenceControlEntry> {
   return getLessonPresencesForLesson(lesson, lessonPresences).map(
     (lessonPresence) => {
@@ -71,6 +73,14 @@ export function getPresenceControlEntriesForLesson(
         presenceType =
           presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
       }
+      const precedingAbsences = otherTeachersAbsences.filter(
+        (absence) =>
+          absence.StudentRef.Id === lessonPresence.StudentRef.Id &&
+          absence.LessonRef.From &&
+          absence.LessonRef.From.toDateString() ===
+            lesson?.LessonDateTimeFrom.toDateString() &&
+          absence.LessonRef.From < lesson?.LessonDateTimeFrom
+      );
       let confirmationState;
       if (lessonPresence.ConfirmationStateId) {
         confirmationState = confirmationStates.find(
@@ -80,6 +90,7 @@ export function getPresenceControlEntriesForLesson(
       return new PresenceControlEntry(
         lessonPresence,
         presenceType,
+        precedingAbsences,
         confirmationState
       );
     }

@@ -9,6 +9,7 @@ import {
   isUnapprovedAbsence,
 } from '../utils/presence-types';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
+import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 
 export enum PresenceCategory {
   Present = 'present',
@@ -35,6 +36,7 @@ export class PresenceControlEntry implements Searchable {
   constructor(
     public lessonPresence: LessonPresence,
     public presenceType: Option<PresenceType>,
+    public precedingAbsences: Option<ReadonlyArray<LessonAbsence>>,
     public confirmationState?: DropDownItem
   ) {
     this.studentFullName = lessonPresence.StudentFullName;

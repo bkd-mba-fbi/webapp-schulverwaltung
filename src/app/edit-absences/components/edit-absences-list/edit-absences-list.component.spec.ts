@@ -61,6 +61,7 @@ function buildPresenceControlEntry(): PresenceControlEntry {
       new Date('2019-08-12T15:20:00'),
       '2-1-Biologie-MNW-2019/20-22a'
     ),
+    null,
     null
   );
 

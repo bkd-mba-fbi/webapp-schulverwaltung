@@ -10,3 +10,15 @@ export function getCategoryCount(
       0
     );
 }
+
+export function getPrecedingAbsencesCount(): (
+  entries: ReadonlyArray<PresenceControlEntry>
+) => number {
+  return (entries) =>
+    entries.reduce(
+      (count, entry) =>
+        count +
+        (entry.precedingAbsences && entry.precedingAbsences.length > 0 ? 1 : 0),
+      0
+    );
+}

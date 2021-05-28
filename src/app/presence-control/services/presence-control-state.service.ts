@@ -27,7 +27,10 @@ import { LoadingService } from '../../shared/services/loading-service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { spread } from '../../shared/utils/function';
 import { getPresenceControlEntriesForLesson } from '../utils/lessons';
-import { getCategoryCount } from '../utils/presence-control-entries';
+import {
+  getCategoryCount,
+  getPrecedingAbsencesCount,
+} from '../utils/presence-control-entries';
 import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
@@ -42,6 +45,8 @@ import {
   extractLessonEntries,
   getCurrentLessonEntry,
 } from '../utils/lesson-entries';
+import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
+import { PersonsRestService } from '../../shared/services/persons-rest.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -96,11 +101,19 @@ export class PresenceControlStateService
     .getAbsenceConfirmationStates()
     .pipe(shareReplay(1));
 
+  otherTeachersAbsences$ = this.personsService.getMyself().pipe(
+    switchMap((person) =>
+      this.lessonTeacherService.loadOtherLessonAbsences(person.Id)
+    ),
+    shareReplay(1)
+  );
+
   selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$,
     this.absenceConfirmationStates$,
+    this.otherTeachersAbsences$,
   ]).pipe(map(spread(getPresenceControlEntriesForLesson)), shareReplay(1));
 
   presentCount$ = this.selectedPresenceControlEntries$.pipe(
@@ -111,6 +124,9 @@ export class PresenceControlStateService
   );
   unapprovedCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getCategoryCount('unapproved'))
+  );
+  absentPrecedingCount$ = this.selectedPresenceControlEntries$.pipe(
+    map(getPrecedingAbsencesCount())
   );
 
   viewMode$ = this.viewModeSubject$.asObservable();
@@ -131,7 +147,9 @@ export class PresenceControlStateService
 
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
+    private lessonTeacherService: LessonTeachersRestService,
     private presenceTypesService: PresenceTypesService,
+    private personsService: PersonsRestService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,

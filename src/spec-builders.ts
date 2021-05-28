@@ -11,6 +11,7 @@ import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-sta
 import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manager.model';
 import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
+import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -93,9 +94,14 @@ export function buildLesson(
 
 export function buildPresenceControlEntry(
   lessonPresence: LessonPresence,
-  presenceType?: Option<PresenceType>
+  presenceType?: Option<PresenceType>,
+  precedingAbsences?: ReadonlyArray<LessonAbsence>
 ): PresenceControlEntry {
-  return new PresenceControlEntry(lessonPresence, presenceType || null);
+  return new PresenceControlEntry(
+    lessonPresence,
+    presenceType || null,
+    precedingAbsences || []
+  );
 }
 
 export function buildPresenceType(

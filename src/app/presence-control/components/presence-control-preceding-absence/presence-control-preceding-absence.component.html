@@ -2,6 +2,12 @@
   <p>
     {{ 'presence-control.preceding-absence.text' | translate }}
   </p>
+  <div *ngFor="let absence of precedingAbsences">
+    {{ absence.LessonRef.From | date: 'HH:mm' }}–{{
+      absence.LessonRef.To | date: 'HH:mm'
+    }}, {{ absence.LessonRef.Designation }}:
+    {{ absence.Type }}
+  </div>
 </div>
 <div class="modal-footer">
   <button

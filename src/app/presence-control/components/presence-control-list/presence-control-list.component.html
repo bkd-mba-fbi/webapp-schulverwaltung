@@ -12,6 +12,7 @@
       [presentCount]="state.presentCount$ | async"
       [absentCount]="state.absentCount$ | async"
       [unapprovedCount]="state.unapprovedCount$ | async"
+      [absentPrecedingCount]="state.absentPrecedingCount$ | async"
       [viewMode]="state.viewMode$ | async"
       [selectDate]="state.selectedDate$ | async"
       [search]="search$ | async"
@@ -22,7 +23,7 @@
     ></erz-presence-control-header>
 
     <ng-container *ngIf="data.lesson; else noLessons">
-      <ng-container *ngIf="data.entries.length > 0; else noLessonPresences">
+      <ng-container *ngIf="data.entries?.length > 0; else noLessonPresences">
         <div
           class="default-entries entries view-mode-{{
             state.viewMode$ | async

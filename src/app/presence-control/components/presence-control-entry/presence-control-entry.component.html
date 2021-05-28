@@ -23,6 +23,7 @@
   <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
 </button>
 <button
+  *ngIf="entry.precedingAbsences?.length > 0"
   type="button"
   (click)="showPrecedingAbsences(entry)"
   class="previously-absent btn btn-link"

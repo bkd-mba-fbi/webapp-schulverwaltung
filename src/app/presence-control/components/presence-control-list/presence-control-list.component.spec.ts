@@ -162,6 +162,7 @@ describe('PresenceControlListComponent', () => {
         lesson.EventDesignation,
         studentName
       ),
+      null,
       null
     );
 

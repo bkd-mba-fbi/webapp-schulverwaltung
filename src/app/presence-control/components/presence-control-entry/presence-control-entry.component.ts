@@ -78,5 +78,6 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
     const modalRef = this.modalService.open(
       PresenceControlPrecedingAbsenceComponent
     );
+    modalRef.componentInstance.precedingAbsences = entry.precedingAbsences;
   }
 }

@@ -46,6 +46,7 @@ describe('presence control entries utils', () => {
         'Deutsch',
         studentName
       ),
+      null,
       null
     );
   }
