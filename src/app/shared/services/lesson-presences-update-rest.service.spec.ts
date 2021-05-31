@@ -84,6 +84,7 @@ describe('LessonPresencesUpdateRestService', () => {
       expectRequestWithBody('https://eventotest.api/LessonPresences/Reset', {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
+        WithComment: true,
       });
     });
   });
