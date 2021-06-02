@@ -19,11 +19,7 @@ import {
   PresenceControlStateService,
   VIEW_MODES,
 } from '../../services/presence-control-state.service';
-import {
-  filterPreviouslyAbsentEntries,
-  filterPreviouslyPresentEntries,
-} from '../../utils/presence-control-entries';
-import { PresenceControlDialogComponent } from '../presence-control-dialog/presence-control-dialog.component';
+import { PresenceControlBlockLessonComponent } from '../presence-control-block-lesson/presence-control-block-lesson.component';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
 import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
@@ -42,14 +38,6 @@ export class PresenceControlListComponent
     this.state.selectedPresenceControlEntries$,
     this.search$,
   ]).pipe(map(spread(searchEntries)), shareReplay(1));
-
-  previouslyPresentEntries$ = this.entries$.pipe(
-    map(filterPreviouslyPresentEntries)
-  );
-
-  previouslyAbsentEntries$ = this.entries$.pipe(
-    map(filterPreviouslyAbsentEntries)
-  );
 
   private destroy$ = new Subject();
 
@@ -99,7 +87,7 @@ export class PresenceControlListComponent
           this.doTogglePresenceType(entry);
         } else {
           const modalRef = this.modalService.open(
-            PresenceControlDialogComponent
+            PresenceControlBlockLessonComponent
           );
           modalRef.componentInstance.entry = entry;
           modalRef.componentInstance.blockLessonPresences = lessonPresences;

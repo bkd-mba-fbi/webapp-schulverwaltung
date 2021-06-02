@@ -210,7 +210,10 @@ export class MyAbsencesService {
 
     return {
       Id: '',
-      LessonRef: absence.LessonRef,
+      LessonRef: {
+        Id: absence.LessonRef.Id,
+        HRef: absence.LessonRef.HRef ? absence.LessonRef.HRef : null,
+      },
       StudentRef: absence.StudentRef,
       EventRef: { Id: 0, HRef: null },
       TypeRef: absence.TypeRef,
@@ -226,7 +229,6 @@ export class MyAbsencesService {
       StudentFullName: absence.StudentFullName,
       StudyClassNumber: '', // Currently not available on timetable entry
       TeacherInformation: entry.EventManagerInformation,
-      WasAbsentInPrecedingLesson: false,
     };
   }
 }

@@ -22,6 +22,14 @@
 >
   <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
 </button>
+<button
+  *ngIf="entry.precedingAbsences?.length > 0"
+  type="button"
+  (click)="showPrecedingAbsences(entry)"
+  class="previously-absent btn btn-link"
+>
+  <i class="material-icons">info</i>
+</button>
 <a
   [routerLink]="[
     '/presence-control/student',
@@ -30,7 +38,7 @@
   [queryParams]="profileReturnParams"
   class="student-name"
 >
-  {{ entry.lessonPresence.StudentFullName }}
+  <span class="text-truncate">{{ entry.lessonPresence.StudentFullName }}</span>
   <span class="unconfirmed-absences">
     {{
       hasUnconfirmedAbsences

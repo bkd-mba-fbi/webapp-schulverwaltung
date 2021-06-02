@@ -43,6 +43,7 @@ function buildPresenceControlEntry(): PresenceControlEntry {
       'Physik',
       'Marie Curie'
     ),
+    null,
     null
   );
 

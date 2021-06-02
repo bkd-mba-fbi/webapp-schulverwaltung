@@ -64,6 +64,7 @@ export class PresenceControlHeaderComponent implements OnInit {
   @Input() presentCount: Option<number> = null;
   @Input() absentCount: Option<number> = null;
   @Input() unapprovedCount: Option<number> = null;
+  @Input() absentPrecedingCount: Option<number> = null;
   @Input() viewMode: ViewMode;
   @Input() selectDate: Date;
   @Input() search = '';

@@ -23,6 +23,7 @@ export function buildPresenceControlEntries(
     return new PresenceControlEntry(
       lessonPresence,
       presenceType,
+      null,
       confirmationState
     );
   });

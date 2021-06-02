@@ -11,14 +11,14 @@ export function getCategoryCount(
     );
 }
 
-export function filterPreviouslyPresentEntries(
+export function getPrecedingAbsencesCount(): (
   entries: ReadonlyArray<PresenceControlEntry>
-): ReadonlyArray<PresenceControlEntry> {
-  return entries.filter((e) => !e.lessonPresence.WasAbsentInPrecedingLesson);
-}
-
-export function filterPreviouslyAbsentEntries(
-  entries: ReadonlyArray<PresenceControlEntry>
-): ReadonlyArray<PresenceControlEntry> {
-  return entries.filter((e) => e.lessonPresence.WasAbsentInPrecedingLesson);
+) => number {
+  return (entries) =>
+    entries.reduce(
+      (count, entry) =>
+        count +
+        (entry.precedingAbsences && entry.precedingAbsences.length > 0 ? 1 : 0),
+      0
+    );
 }

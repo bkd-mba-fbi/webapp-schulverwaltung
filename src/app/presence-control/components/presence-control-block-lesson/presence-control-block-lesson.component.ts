@@ -9,10 +9,10 @@ interface LessonPresenceOption {
 }
 
 @Component({
-  selector: 'erz-presence-control-dialog-component',
-  templateUrl: './presence-control-dialog.component.html',
+  selector: 'erz-presence-control-block-lesson-component',
+  templateUrl: './presence-control-block-lesson.component.html',
 })
-export class PresenceControlDialogComponent implements OnInit {
+export class PresenceControlBlockLessonComponent implements OnInit {
   @Input() entry: PresenceControlEntry;
   @Input() blockLessonPresences: ReadonlyArray<LessonPresence>;
   lessonPresenceOptions: ReadonlyArray<LessonPresenceOption> = [];

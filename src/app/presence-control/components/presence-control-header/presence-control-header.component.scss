@@ -89,7 +89,7 @@
 }
 
 /**
- * State counts (present, absent, unapproved)
+ * State counts (present, absent, unapproved, previously absent)
  */
 .states {
   margin: 0.75 * $spacer 0;
@@ -118,6 +118,10 @@
 }
 .state.unapproved i {
   color: $unapproved-color;
+}
+
+.state.previously-absent i {
+  color: rgba($body-color, 0.5);
 }
 
 .state .count {

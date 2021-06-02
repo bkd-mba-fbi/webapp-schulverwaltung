@@ -121,7 +121,8 @@ describe('PresenceControlEntry', () => {
         'Einstein Albert',
         presenceType ? presenceType.Id : undefined
       ),
-      presenceType
+      presenceType,
+      null
     );
 
     Object.defineProperty(presenceControlEntry, 'settings', {

@@ -1,6 +1,6 @@
 <div class="modal-body">
   <p>
-    {{ 'presence-control.dialog.text' | translate }}
+    {{ 'presence-control.block-lesson.text' | translate }}
   </p>
   <form>
     <div
@@ -24,7 +24,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
-    {{ 'presence-control.dialog.cancel' | translate }}
+    {{ 'presence-control.block-lesson.cancel' | translate }}
   </button>
   <button
     type="button"
@@ -32,6 +32,6 @@
     (click)="activeModal.close(getSelectedLessonPresences())"
     [disabled]="getSelectedLessonPresences().length === 0"
   >
-    {{ 'presence-control.dialog.save' | translate }}
+    {{ 'presence-control.block-lesson.save' | translate }}
   </button>
 </div>

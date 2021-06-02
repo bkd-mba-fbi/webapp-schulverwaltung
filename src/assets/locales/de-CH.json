@@ -33,7 +33,6 @@
     "title": "Präsenzkontrolle",
     "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",
     "no-lesson-presences": "Keine Lernenden vorhanden",
-    "previously-absent": "In Vorlektion abwesend",
     "header": {
       "search": "Suchen",
       "search-by-name": "Name suchen..."
@@ -49,10 +48,14 @@
       "cancel": "Abbrechen",
       "save": "Übernehmen"
     },
-    "dialog": {
+    "block-lesson": {
       "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie den Präsenzstatus ändern?",
       "cancel": "Abbrechen",
       "save": "Übernehmen"
+    },
+    "preceding-absence": {
+      "text": "In den Vorlektionen des Tages sind folgende Informationen eingetragen:",
+      "cancel": "Schliessen"
     }
   },
   "open-absences": {

@@ -33,7 +33,6 @@
     "title": "Contrôle des présences",
     "no-lessons": "Aucune leçon n'a lieu à la date sélectionnée.",
     "no-lesson-presences": "Aucun-e élève n'a été sélectionné-e.",
-    "previously-absent": "Absent-e la leçon précédente",
     "header": {
       "search": "Rechercher",
       "search-by-name": "Rechercher un nom..."
@@ -49,7 +48,7 @@
       "cancel": "Annuler",
       "save": "Valider"
     },
-    "dialog": {
+    "block-lesson": {
       "text": "La leçon sélectionnée fait partie d'un bloc. Pour quelle(s) période(s) voulez-vous changer le statut de présence ?",
       "cancel": "Annuler",
       "save": "Valider"

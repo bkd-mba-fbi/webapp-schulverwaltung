@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { PresenceControlDialogComponent } from './presence-control-dialog.component';
+import { PresenceControlBlockLessonComponent } from './presence-control-block-lesson.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-describe('PresenceControlDialogComponent', () => {
-  let component: PresenceControlDialogComponent;
-  let fixture: ComponentFixture<PresenceControlDialogComponent>;
+describe('PresenceControlBlockLessonComponent', () => {
+  let component: PresenceControlBlockLessonComponent;
+  let fixture: ComponentFixture<PresenceControlBlockLessonComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
-          declarations: [PresenceControlDialogComponent],
+          declarations: [PresenceControlBlockLessonComponent],
           providers: [NgbActiveModal],
         })
       ).compileComponents();
@@ -20,7 +20,7 @@ describe('PresenceControlDialogComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PresenceControlDialogComponent);
+    fixture = TestBed.createComponent(PresenceControlBlockLessonComponent);
     component = fixture.componentInstance;
     component.blockLessonPresences = [];
     fixture.detectChanges();

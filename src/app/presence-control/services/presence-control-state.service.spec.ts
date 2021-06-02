@@ -10,10 +10,13 @@ import {
   buildLesson,
   buildPresenceType,
   buildPresenceControlEntry,
+  buildPerson,
 } from 'src/spec-builders';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
 import { fromLesson } from '../models/lesson-entry.model';
+import { LessonAbsence } from '../../shared/models/lesson-absence.model';
+import { Person } from '../../shared/models/person.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -26,6 +29,9 @@ describe('PresenceControlStateService', () => {
   let late: PresenceType;
 
   let confirmationStates: DropDownItem[];
+
+  let otherAbsences: LessonAbsence[];
+  let person: Person;
 
   let lessonPresences: LessonPresence[];
   let turnenFrisch: LessonPresence;
@@ -60,6 +66,9 @@ describe('PresenceControlStateService', () => {
     presenceTypes = [absent, late];
 
     confirmationStates = [{ Key: 1080, Value: 'zu kontrollieren' }];
+
+    otherAbsences = [];
+    person = buildPerson(3);
 
     turnenFrisch = buildLessonPresence(
       1,
@@ -121,6 +130,8 @@ describe('PresenceControlStateService', () => {
     expectLessonPresencesRequest([]);
     expectPresenceTypesRequest();
     expectAbsenceConfirmationStatesRequest();
+    expectGetMyselfRequest();
+    expectLoadOtherAbsencesRequest([], person.Id);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
@@ -130,6 +141,8 @@ describe('PresenceControlStateService', () => {
     expectLessonPresencesRequest();
     expectPresenceTypesRequest();
     expectAbsenceConfirmationStatesRequest();
+    expectGetMyselfRequest();
+    expectLoadOtherAbsencesRequest([], person.Id);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
       fromLesson(
@@ -153,6 +166,8 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
+      expectGetMyselfRequest();
+      expectLoadOtherAbsencesRequest([], person.Id);
 
       resetCallbackSpies();
       service.setDate(new Date(2000, 0, 10, 12, 0));
@@ -187,6 +202,8 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
+      expectGetMyselfRequest();
+      expectLoadOtherAbsencesRequest([], person.Id);
 
       service.setLesson(
         fromLesson(
@@ -221,6 +238,8 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
+      expectGetMyselfRequest();
+      expectLoadOtherAbsencesRequest([], person.Id);
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
@@ -263,5 +282,20 @@ describe('PresenceControlStateService', () => {
     httpTestingController
       .expectOne(url)
       .flush(t.array(DropDownItem).encode(response));
+  }
+
+  function expectLoadOtherAbsencesRequest(
+    response = otherAbsences,
+    personId: number
+  ): void {
+    const url = `https://eventotest.api/LessonTeachers/except/${personId}/LessonAbsences?expand=LessonRef`;
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(LessonAbsence).encode(response));
+  }
+
+  function expectGetMyselfRequest(response = person): void {
+    const url = 'https://eventotest.api/Persons/me';
+    httpTestingController.expectOne(url).flush(Person.encode(response));
   }
 });

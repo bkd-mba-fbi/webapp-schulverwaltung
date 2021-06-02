@@ -5,10 +5,10 @@
   background-color: $body-bg;
   display: grid;
   grid-template-areas:
-    "avatar status designation"
-    "avatar student-name student-name"
-    "avatar incident incident";
-  grid-template-columns: min-content min-content 1fr;
+    "avatar status designation previously-absent"
+    "avatar student-name student-name student-name"
+    "avatar incident incident incident";
+  grid-template-columns: min-content min-content 3fr 1fr;
 }
 
 :host > * {
@@ -63,6 +63,13 @@ $presence-control-status-size: 2.75rem;
   line-height: $presence-control-status-size + $btn-padding-y;
 }
 
+.previously-absent {
+  grid-area: previously-absent;
+  text-decoration: none;
+  color: rgba($body-color, 0.5);
+  justify-self: end;
+}
+
 .student-name {
   color: $body-color;
   grid-area: student-name;
@@ -103,6 +110,11 @@ $presence-control-unconfimed-absences-size: 1.1rem;
     margin-bottom: -$btn-padding-y;
   }
 
+  .previously-absent {
+    padding-right: 0;
+    align-self: start;
+  }
+
   .unconfirmed-absences {
     height: $presence-control-unconfimed-absences-size; // Always occupy space, even if hint is not present
   }
@@ -110,25 +122,33 @@ $presence-control-unconfimed-absences-size: 1.1rem;
 
 // List layout overrides
 :host.list {
-  grid-template-areas: "student-name incidentordesignation status";
-  grid-template-columns: 1fr 2fr min-content;
+  grid-template-areas: "student-name status designation incident previously-absent";
+  grid-template-columns: 3fr min-content 2fr 2fr 1fr;
   padding: 0.5rem 0.5rem 0.5rem 1rem; //  $spacer / 2;
 
-  .incident,
-  .designation {
-    grid-area: incidentordesignation;
-  }
-  .designation {
-    text-align: right;
-  }
-  .incident {
-    margin-left: -$btn-padding-x;
+  .status {
+    justify-self: start;
   }
 
   @media (max-width: 750px) {
     grid-template-areas:
-      "student-name status"
-      "incidentordesignation incidentordesignation";
-    grid-template-columns: 1fr min-content;
+      "student-name student-name student-name previously-absent"
+      "status designation incident incident";
+    grid-template-columns: min-content 1fr 1fr min-content;
+    row-gap: $spacer;
+
+    .status {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .incident {
+      justify-self: end;
+    }
+
+    .previously-absent {
+      padding-top: 0;
+      align-self: start;
+    }
   }
 }
