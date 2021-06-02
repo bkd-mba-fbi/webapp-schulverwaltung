@@ -283,6 +283,8 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
+      expectGetMyselfRequest();
+      expectLoadOtherAbsencesRequest([], person.Id);
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
