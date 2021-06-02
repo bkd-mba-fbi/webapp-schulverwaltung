@@ -21,11 +21,12 @@ describe('EditAbsencesListComponent', () => {
         loadingPage$: of(false),
         entries$: of([entry.lessonPresence]),
         presenceControlEntries$: of([entry]),
-        presenceTypes$: of([]),
         selected: [],
         setFilter: jasmine.createSpy('setFilter'),
         isFilterValid$: of(true),
         validFilter$: of({}),
+        presenceTypes$: of([]),
+        absenceConfirmationStates$: of([]),
       } as unknown) as EditAbsencesStateService;
 
       TestBed.configureTestingModule(

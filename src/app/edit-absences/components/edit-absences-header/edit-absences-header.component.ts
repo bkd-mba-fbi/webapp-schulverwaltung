@@ -20,7 +20,10 @@ import {
   isIncident,
 } from 'src/app/presence-control/utils/presence-types';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
-import { createPresenceTypesDropdownItems } from 'src/app/shared/utils/presence-types';
+import {
+  addGroupToDropdownItem,
+  createPresenceTypesDropdownItems,
+} from 'src/app/shared/utils/presence-types';
 import { EducationalEventsRestService } from '../../../shared/services/educational-events-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
@@ -28,6 +31,7 @@ import {
   EditAbsencesFilter,
   EditAbsencesStateService,
 } from '../../services/edit-absences-state.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'erz-edit-absences-header',
@@ -47,32 +51,52 @@ export class EditAbsencesHeaderComponent implements OnInit {
     studyClass: null,
     dateFrom: null,
     dateTo: null,
-    presenceType: null,
-    confirmationState: null,
-    incidentType: null,
+    presenceTypes: null,
+    confirmationStates: null,
+    incidentTypes: null,
   };
 
   @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
 
-  absenceConfirmationStates$ = this.state.absenceConfirmationStates$;
+  absenceConfirmationStatesGrouped$ = this.state.absenceConfirmationStates$.pipe(
+    map((i) =>
+      addGroupToDropdownItem(
+        i,
+        this.translate.instant('shared.multiselect.all-option')
+      )
+    )
+  );
 
-  presenceTypes$ = this.state.presenceTypes$.pipe(
+  presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) =>
       presenceTypes.filter(not(isComment)).filter(not(isIncident))
     ),
-    map(createPresenceTypesDropdownItems)
+    map(createPresenceTypesDropdownItems),
+    map((i) =>
+      addGroupToDropdownItem(
+        i,
+        this.translate.instant('shared.multiselect.all-option')
+      )
+    )
   );
 
-  incidentTypes$ = this.state.presenceTypes$.pipe(
+  incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) => presenceTypes.filter(isIncident)),
-    map(createPresenceTypesDropdownItems)
+    map(createPresenceTypesDropdownItems),
+    map((i) =>
+      addGroupToDropdownItem(
+        i,
+        this.translate.instant('shared.multiselect.all-option')
+      )
+    )
   );
 
   constructor(
     public studentsService: StudentsRestService,
     public educationalEventsService: EducationalEventsRestService,
     public studyClassService: StudyClassesRestService,
-    private state: EditAbsencesStateService
+    private state: EditAbsencesStateService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {}

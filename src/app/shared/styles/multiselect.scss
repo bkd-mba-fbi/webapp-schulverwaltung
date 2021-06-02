@@ -1,0 +1,19 @@
+// ng-select default theme improvements
+.ng-select-container {
+  border-radius: 0.25rem !important;
+}
+.ng-optgroup {
+  border-bottom: 1px solid #ccc;
+  color: inherit !important;
+}
+.ng-option {
+  padding-left: 10px !important;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+.ng-placeholder {
+  color: #495057 !important;
+}
+.ng-value {
+  padding-left: 4px !important;
+}

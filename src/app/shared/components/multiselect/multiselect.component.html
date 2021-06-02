@@ -1,0 +1,44 @@
+<ng-select
+  class="multiselect"
+  [items]="options"
+  [multiple]="true"
+  groupBy="Group"
+  [selectableGroup]="true"
+  [selectableGroupAsModel]="false"
+  [closeOnSelect]="false"
+  [ngModel]="values$ | async"
+  (change)="onChange($event)"
+  placeholder="{{ 'shared.select.empty-option' | translate }}"
+>
+  <!-- selected items -->
+  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+    <div class="ng-value" *ngFor="let item of items">
+      {{ item.Value }}
+      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"
+        >×</span
+      >
+    </div>
+  </ng-template>
+
+  <!-- groups -->
+  <ng-template
+    ng-optgroup-tmp
+    let-item="item"
+    let-item$="item$"
+    let-index="index"
+  >
+    <input id="{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    {{ item.Group }}
+  </ng-template>
+
+  <!-- items -->
+  <ng-template
+    ng-option-tmp
+    let-item="item"
+    let-item$="item$"
+    let-index="index"
+  >
+    <input id="{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    {{ item.Value }}
+  </ng-template>
+</ng-select>

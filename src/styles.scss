@@ -16,3 +16,8 @@
 @import "src/app/shared/styles/form";
 @import "src/app/shared/styles/datepicker";
 @import "src/app/shared/styles/icons";
+
+// Import ng-select default theme
+@import "~@ng-select/ng-select/themes/default.theme.css";
+// ng-select default theme improvements
+@import "src/app/shared/styles/multiselect";

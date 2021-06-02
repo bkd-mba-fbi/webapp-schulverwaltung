@@ -28,6 +28,8 @@ import { DaysDifferencePipe } from './pipes/days-difference.pipe';
 import { ResettableInputComponent } from './components/resettable-input/resettable-input.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { XssPipe } from './pipes/xss.pipe';
+import { MultiselectComponent } from './components/multiselect/multiselect.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 // Components that will be exported
 const components = [
@@ -37,6 +39,7 @@ const components = [
   TypeaheadComponent,
   DateSelectComponent,
   SelectComponent,
+  MultiselectComponent,
   StudentBacklinkComponent,
   StudentProfileComponent,
   StudentProfileEntryHeaderComponent,
@@ -52,7 +55,13 @@ const components = [
 ];
 
 @NgModule({
-  declarations: [...components, ResettableInputComponent, SafePipe, XssPipe],
+  declarations: [
+    ...components,
+    ResettableInputComponent,
+    SafePipe,
+    XssPipe,
+    MultiselectComponent,
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RestAuthInterceptor, multi: true },
@@ -67,6 +76,7 @@ const components = [
     TranslateModule.forChild(),
     NgbModule,
     InfiniteScrollModule,
+    NgSelectModule,
   ],
   exports: [
     CommonModule,
@@ -79,6 +89,7 @@ const components = [
     InfiniteScrollModule,
     ...components,
     ResettableInputComponent,
+    NgSelectModule,
   ],
 })
 export class SharedModule {}
