@@ -50,6 +50,7 @@ export class LessonPresencesUpdateRestService {
         {
           LessonIds: lessonIds,
           PersonIds: personIds,
+          WithComment: true,
         },
         { params }
       )
