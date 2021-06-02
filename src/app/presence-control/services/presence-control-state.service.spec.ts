@@ -39,6 +39,8 @@ describe('PresenceControlStateService', () => {
   let deutschFrisch: LessonPresence;
   let mathEinstein1: LessonPresence;
   let mathEinstein2: LessonPresence;
+  let mathEinstein3: LessonPresence;
+  let mathEinstein4: LessonPresence;
 
   beforeEach(() => {
     jasmine.clock().install();
@@ -75,7 +77,8 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 7, 0),
       new Date(2000, 0, 23, 8, 0),
       'Turnen',
-      'Frisch Max'
+      'Frisch Max',
+      'Tina Tran'
     );
     deutschEinsteinAbwesend = buildLessonPresence(
       2,
@@ -83,6 +86,7 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Einstein Albert',
+      'Dora Durrer',
       absent.Id
     );
     deutschFrisch = buildLessonPresence(
@@ -90,7 +94,8 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
-      'Frisch Max'
+      'Frisch Max',
+      'Dora Durrer'
     );
     mathEinstein1 = buildLessonPresence(
       3,
@@ -98,6 +103,7 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 10, 0),
       'Mathematik',
       'Einstein Albert',
+      'Martina Moser',
       undefined,
       33,
       66
@@ -108,8 +114,31 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 11, 0),
       'Mathematik',
       'Einstein Albert',
+      'Martina Moser',
       undefined,
       33,
+      66
+    );
+    mathEinstein3 = buildLessonPresence(
+      5,
+      new Date(2000, 0, 23, 11, 0),
+      new Date(2000, 0, 23, 12, 0),
+      'Mathematik II',
+      'Einstein Albert',
+      'Martina Moser',
+      undefined,
+      34,
+      66
+    );
+    mathEinstein4 = buildLessonPresence(
+      6,
+      new Date(2000, 0, 23, 13, 0),
+      new Date(2000, 0, 23, 14, 0),
+      'Mathematik',
+      'Einstein Albert',
+      'Martina Moser',
+      undefined,
+      35,
       66
     );
     lessonPresences = [
@@ -118,6 +147,8 @@ describe('PresenceControlStateService', () => {
       deutschFrisch,
       mathEinstein1,
       mathEinstein2,
+      mathEinstein3,
+      mathEinstein4,
     ];
   });
 
@@ -151,7 +182,7 @@ describe('PresenceControlStateService', () => {
           new Date(2000, 0, 23, 8, 0),
           new Date(2000, 0, 23, 9, 0),
           'Deutsch',
-          ''
+          'Dora Durrer'
         )
       )
     );
@@ -244,8 +275,20 @@ describe('PresenceControlStateService', () => {
       service
         .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
         .subscribe((result) =>
-          expect(result).toEqual([mathEinstein1, mathEinstein2])
+          expect(result).toEqual([mathEinstein1, mathEinstein2, mathEinstein3])
         );
+    });
+
+    it('returns single lesson for the given entry', () => {
+      expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
+      expectAbsenceConfirmationStatesRequest();
+      expectGetMyselfRequest();
+      expectLoadOtherAbsencesRequest([], person.Id);
+
+      service
+        .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
+        .subscribe((result) => expect(result).toEqual([deutschFrisch]));
     });
   });
 

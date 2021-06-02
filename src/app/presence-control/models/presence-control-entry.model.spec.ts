@@ -119,6 +119,7 @@ describe('PresenceControlEntry', () => {
         new Date(),
         'Math',
         'Einstein Albert',
+        'Martina Moser',
         presenceType ? presenceType.Id : undefined
       ),
       presenceType,

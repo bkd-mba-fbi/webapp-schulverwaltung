@@ -26,6 +26,7 @@ describe('presence types', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
       settings.unconfirmedAbsenceStateId
     );
 
@@ -35,6 +36,7 @@ describe('presence types', () => {
       new Date(2000, 0, 23, 8, 0),
       'Zeichnen',
       'Vincent van Gogh',
+      undefined,
       undefined,
       undefined,
       undefined,

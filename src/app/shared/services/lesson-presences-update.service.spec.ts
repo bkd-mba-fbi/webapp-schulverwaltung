@@ -91,6 +91,7 @@ describe('LessonPresencesUpdateService', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Einstein Albert',
+      'Dora Durrer',
       absent.Id
     );
     deutschEinsteinAbwesend.StudentRef = buildReference(20);

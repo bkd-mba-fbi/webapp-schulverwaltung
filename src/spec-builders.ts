@@ -30,13 +30,14 @@ export function buildLessonPresence(
   dateTo: Date,
   eventDesignation: string,
   studentName = '',
+  teacherInformation = '',
   presenceTypeId?: number,
   eventRefId?: number,
   studentRefId?: number,
   confirmationStateId?: number
 ): LessonPresence {
   return {
-    Id: '1',
+    Id: lessonId && studentRefId ? [lessonId, studentRefId].join('_') : '1',
     LessonRef: buildReference(lessonId),
     StudentRef: buildReference(studentRefId),
     EventRef: buildReference(eventRefId),
@@ -57,7 +58,7 @@ export function buildLessonPresence(
     StudentFullName: studentName,
     // StudyClassDesignation: '',
     StudyClassNumber: '9a',
-    TeacherInformation: '',
+    TeacherInformation: teacherInformation,
   };
 }
 

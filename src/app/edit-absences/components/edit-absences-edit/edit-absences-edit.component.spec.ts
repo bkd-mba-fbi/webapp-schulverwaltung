@@ -137,6 +137,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           'Math',
           undefined,
+          undefined,
           ill.Id
         ),
         buildLessonPresence(
@@ -144,6 +145,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           new Date(),
           'Deutsch',
+          undefined,
           undefined,
           ill.Id
         ),
@@ -160,6 +162,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           'Math',
           undefined,
+          undefined,
           doctor.Id
         ),
         buildLessonPresence(
@@ -167,6 +170,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           new Date(),
           'Deutsch',
+          undefined,
           undefined,
           ill.Id
         ),
@@ -188,6 +192,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           undefined,
           undefined,
+          undefined,
           100
         ),
         buildLessonPresence(
@@ -195,6 +200,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           new Date(),
           'Französisch',
+          undefined,
           undefined,
           absence.Id,
           undefined,
@@ -206,6 +212,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           'Math',
           undefined,
+          undefined,
           doctor.Id,
           undefined,
           100
@@ -215,6 +222,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           new Date(),
           'Englisch',
+          undefined,
           undefined,
           ill.Id,
           undefined,
@@ -226,6 +234,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           'Chemie',
           undefined,
+          undefined,
           late.Id,
           undefined,
           100
@@ -236,6 +245,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           'Zeichnen',
           undefined,
+          undefined,
           dispensation.Id,
           undefined,
           100
@@ -245,6 +255,7 @@ describe('EditAbsencesEditComponent', () => {
           new Date(),
           new Date(),
           'Turnen',
+          undefined,
           undefined,
           halfDay.Id,
           undefined,

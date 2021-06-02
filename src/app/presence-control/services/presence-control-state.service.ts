@@ -45,6 +45,7 @@ import {
   extractLessonEntries,
   getCurrentLessonEntry,
 } from '../utils/lesson-entries';
+import { isEmptyArray } from '../../shared/utils/array';
 import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
 import { PersonsRestService } from '../../shared/services/persons-rest.service';
 
@@ -237,6 +238,8 @@ export class PresenceControlStateService
   }
 
   /**
+   * Block lesson presences are defined as a set of lesson presences on the same day, with the same teacher and not more than half an hour apart
+   *
    * Lesson presences for which the presence type cannot be updated are filtered from the list of block lesson presences
    */
   getBlockLessonPresences(
@@ -250,7 +253,8 @@ export class PresenceControlStateService
         presences
           .filter(
             (presence) =>
-              presence.EventRef.Id === entry.lessonPresence.EventRef.Id &&
+              presence.TeacherInformation ===
+                entry.lessonPresence.TeacherInformation &&
               presence.StudentRef.Id === entry.lessonPresence.StudentRef.Id &&
               canChangePresenceType(
                 presence,
@@ -261,7 +265,38 @@ export class PresenceControlStateService
           .sort((a, b) =>
             a.LessonDateTimeFrom > b.LessonDateTimeFrom ? 1 : -1
           )
+          .reduce((blockLessons, presence) => {
+            const previousPresence = blockLessons[blockLessons.length - 1];
+            if (this.isPartOfBlock(presence, previousPresence)) {
+              blockLessons.push(presence);
+              return blockLessons;
+            } else {
+              return blockLessons.find(
+                (bl) => bl.Id === entry.lessonPresence.Id
+              )
+                ? blockLessons
+                : [presence];
+            }
+          }, [] as Array<LessonPresence>)
       )
+    );
+  }
+
+  /**
+   * Lesson presences that are apart half an hour or less are considered as part of a block
+   */
+  private isPartOfBlock(
+    presence: LessonPresence,
+    previousPresence: LessonPresence
+  ): boolean {
+    if (!previousPresence) {
+      return true;
+    }
+
+    return (
+      presence.LessonDateTimeFrom.getTime() -
+        previousPresence.LessonDateTimeTo.getTime() <=
+      30 * 60 * 1000
     );
   }
 
