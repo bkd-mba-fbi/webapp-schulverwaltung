@@ -5,7 +5,7 @@ const Person = t.type({
   Id: t.number,
   // Country: Option(t.string),
   // CountryId: t.string,
-  // FormOfAddress: t.string,
+  FormOfAddress: t.string,
   // FormOfAddressId: Option(t.number),
   // HomeCountry: Option(t.string),
   // HomeCountryId: Option(t.string),

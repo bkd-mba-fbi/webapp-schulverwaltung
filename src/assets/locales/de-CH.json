@@ -77,7 +77,11 @@
       }
     },
     "detail": {
-      "all": "Alle"
+      "all": "Alle",
+      "mail": {
+        "subject": "Erinnerung offene Absenzen",
+        "body": "Bitte entschuldigen Sie folgende offenen Absenzen:"
+      }
     },
     "edit": {
       "remark": "Die Auswahl wird nur für Absenzen übernommen, bei denen noch kein Grund erfasst wurde. Bereits erfasste Absenzgründe können Sie ändern unter ",
