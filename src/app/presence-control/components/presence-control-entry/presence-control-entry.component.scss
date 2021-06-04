@@ -8,7 +8,7 @@
     "avatar status designation previously-absent"
     "avatar student-name student-name student-name"
     "avatar incident incident incident";
-  grid-template-columns: min-content min-content 3fr 1fr;
+  grid-template-columns: min-content min-content 3fr min-content;
 }
 
 :host > * {
@@ -123,7 +123,7 @@ $presence-control-unconfimed-absences-size: 1.1rem;
 // List layout overrides
 :host.list {
   grid-template-areas: "student-name status designation incident previously-absent";
-  grid-template-columns: 3fr min-content 2fr 2fr 1fr;
+  grid-template-columns: 3fr min-content 3fr 2fr 3em;
   padding: 0.5rem 0.5rem 0.5rem 1rem; //  $spacer / 2;
 
   .status {
@@ -133,13 +133,18 @@ $presence-control-unconfimed-absences-size: 1.1rem;
   @media (max-width: 750px) {
     grid-template-areas:
       "student-name student-name student-name previously-absent"
-      "status designation incident incident";
+      "status incidentordesignation incidentordesignation incidentordesignation";
     grid-template-columns: min-content 1fr 1fr min-content;
     row-gap: $spacer;
 
     .status {
       padding-left: 0;
       padding-right: 0;
+    }
+
+    .incident,
+    .designation {
+      grid-area: incidentordesignation;
     }
 
     .incident {
