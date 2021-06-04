@@ -162,7 +162,7 @@ describe('PresenceControlStateService', () => {
     expectPresenceTypesRequest();
     expectAbsenceConfirmationStatesRequest();
     expectGetMyselfRequest();
-    expectLoadOtherAbsencesRequest([], person.Id);
+    expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
@@ -173,7 +173,7 @@ describe('PresenceControlStateService', () => {
     expectPresenceTypesRequest();
     expectAbsenceConfirmationStatesRequest();
     expectGetMyselfRequest();
-    expectLoadOtherAbsencesRequest([], person.Id);
+    expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
       fromLesson(
@@ -198,7 +198,7 @@ describe('PresenceControlStateService', () => {
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
       expectGetMyselfRequest();
-      expectLoadOtherAbsencesRequest([], person.Id);
+      expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       resetCallbackSpies();
       service.setDate(new Date(2000, 0, 10, 12, 0));
@@ -234,7 +234,7 @@ describe('PresenceControlStateService', () => {
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
       expectGetMyselfRequest();
-      expectLoadOtherAbsencesRequest([], person.Id);
+      expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service.setLesson(
         fromLesson(
@@ -270,7 +270,7 @@ describe('PresenceControlStateService', () => {
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
       expectGetMyselfRequest();
-      expectLoadOtherAbsencesRequest([], person.Id);
+      expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
@@ -284,7 +284,7 @@ describe('PresenceControlStateService', () => {
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
       expectGetMyselfRequest();
-      expectLoadOtherAbsencesRequest([], person.Id);
+      expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
@@ -327,7 +327,7 @@ describe('PresenceControlStateService', () => {
       .flush(t.array(DropDownItem).encode(response));
   }
 
-  function expectLoadOtherAbsencesRequest(
+  function expectLoadOtherTeachersAbsencesRequest(
     response = otherAbsences,
     personId: number
   ): void {

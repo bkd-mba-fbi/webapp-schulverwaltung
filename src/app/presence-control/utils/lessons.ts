@@ -5,6 +5,7 @@ import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
 import { LessonEntry } from '../models/lesson-entry.model';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
+import { uniqBy } from 'lodash-es';
 
 export function lessonsEqual(
   a: Option<Lesson | LessonPresence>,
@@ -59,6 +60,28 @@ export function getLessonPresencesForLesson(
     .sort(lessonPresencesComparator);
 }
 
+/**
+ * Returns a sorted list of unique lesson absences for the given student,
+ * which take place on the same day before the given lesson.
+ */
+function getPrecedingAbsences(
+  otherTeachersAbsences: ReadonlyArray<LessonAbsence>,
+  lessonPresence: LessonPresence,
+  lesson: Option<LessonEntry>
+): ReadonlyArray<LessonAbsence> {
+  return uniqBy(
+    otherTeachersAbsences.filter(
+      (absence) =>
+        absence.StudentRef.Id === lessonPresence.StudentRef.Id &&
+        absence.LessonRef.From &&
+        absence.LessonRef.From.toDateString() ===
+          lesson?.LessonDateTimeFrom.toDateString() &&
+        absence.LessonRef.From < lesson?.LessonDateTimeFrom
+    ),
+    'Id'
+  ).sort();
+}
+
 export function getPresenceControlEntriesForLesson(
   lesson: Option<LessonEntry>,
   lessonPresences: ReadonlyArray<LessonPresence>,
@@ -73,14 +96,13 @@ export function getPresenceControlEntriesForLesson(
         presenceType =
           presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
       }
-      const precedingAbsences = otherTeachersAbsences.filter(
-        (absence) =>
-          absence.StudentRef.Id === lessonPresence.StudentRef.Id &&
-          absence.LessonRef.From &&
-          absence.LessonRef.From.toDateString() ===
-            lesson?.LessonDateTimeFrom.toDateString() &&
-          absence.LessonRef.From < lesson?.LessonDateTimeFrom
+
+      const precedingAbsences = getPrecedingAbsences(
+        otherTeachersAbsences,
+        lessonPresence,
+        lesson
       );
+
       let confirmationState;
       if (lessonPresence.ConfirmationStateId) {
         confirmationState = confirmationStates.find(

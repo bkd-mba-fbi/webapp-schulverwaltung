@@ -104,7 +104,7 @@ export class PresenceControlStateService
 
   otherTeachersAbsences$ = this.personsService.getMyself().pipe(
     switchMap((person) =>
-      this.lessonTeacherService.loadOtherLessonAbsences(person.Id)
+      this.lessonTeacherService.loadOtherTeachersLessonAbsences(person.Id)
     ),
     shareReplay(1)
   );

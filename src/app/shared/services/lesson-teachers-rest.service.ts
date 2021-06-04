@@ -17,7 +17,10 @@ export class LessonTeachersRestService extends RestService<
     super(http, settings, LessonAbsence, 'LessonTeachers');
   }
 
-  loadOtherLessonAbsences(
+  /**
+   * Returns all lesson absences for all teachers expect for the given teacher
+   */
+  loadOtherTeachersLessonAbsences(
     personId: number,
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<LessonAbsence>> {
