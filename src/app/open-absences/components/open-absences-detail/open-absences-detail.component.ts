@@ -1,26 +1,28 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnDestroy,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable, combineLatest, Subject, of, empty, EMPTY } from 'rxjs';
-import { switchMap, map, take, takeUntil, filter } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable, of, Subject } from 'rxjs';
+import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { longerOrEqual, isTruthy } from 'src/app/shared/utils/filter';
+import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
 import { not } from 'fp-ts/lib/function';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 import { PersonsRestService } from '../../../shared/services/persons-rest.service';
 import { Person } from '../../../shared/models/person.model';
 import { TranslateService } from '@ngx-translate/core';
 import { spread } from '../../../shared/utils/function';
-import { format } from 'date-fns';
+import { toDesignationDateTimeTypeString } from '../../../shared/utils/lesson-presences';
+import { I18nService } from '../../../shared/services/i18n.service';
+import { getPersonLanguage } from '../../../shared/utils/persons';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -63,7 +65,8 @@ export class OpenAbsencesDetailComponent
     private personService: PersonsRestService,
     public selectionService: ConfirmAbsencesSelectionService,
     private scrollPosition: ScrollPositionService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private i18n: I18nService
   ) {}
 
   ngOnInit(): void {
@@ -123,43 +126,25 @@ export class OpenAbsencesDetailComponent
     );
   }
 
-  buildMailToString(
+  private buildMailToString(
     person: Person,
     absences: ReadonlyArray<LessonPresence>
   ): Observable<string> {
-    const formattedAbsences = this.getFormattedAbsenceList(absences);
+    return this.translate
+      .getTranslation(this.i18n.getLocalizedLanguage(getPersonLanguage(person)))
+      .pipe(
+        switchMap((translation) => {
+          const address = person.Email;
+          const subject = translation['open-absences'].detail.mail.subject;
+          const formattedAbsences = absences
+            .map((absence) => toDesignationDateTimeTypeString(absence))
+            .join('%0D%0A');
 
-    return this.translate.getTranslation(this.getLanguage(person)).pipe(
-      switchMap((translation) => {
-        const address = person.Email;
-        const subject = translation['open-absences'].detail.mail.subject;
-        const body = `${
-          translation['open-absences'].detail.mail.body
-        }%0D%0A${formattedAbsences.join('%0D%0A')}`;
-        return of(`${address}?subject=${subject}&body=${body}`);
-      })
-    );
-  }
+          const body = `${translation['open-absences'].detail.mail.body}%0D%0A${formattedAbsences}`;
 
-  // TODO refactor, validate
-  private getLanguage(person: Person): string {
-    const language = person.FormOfAddress.split(':')[0];
-    return `${language}-CH`;
-  }
-
-  private getFormattedAbsenceList(
-    absences: ReadonlyArray<LessonPresence>
-  ): ReadonlyArray<string> {
-    return absences.map(
-      (a) =>
-        `${a.EventDesignation}, ${format(
-          a.LessonDateTimeFrom,
-          'dd.MM.yyyy'
-        )}, ${format(a.LessonDateTimeFrom, 'HH:mm')}-${format(
-          a.LessonDateTimeTo,
-          'HH:mm'
-        )}: ${a.Type}`
-    );
+          return of(`${address}?subject=${subject}&body=${body}`);
+        })
+      );
   }
 
   private getAbsencesForParams(

@@ -9,3 +9,7 @@ export function isAdult<T extends Student | Person>(person: T): boolean {
     differenceInYears(new Date(), person.Birthdate || new Date()) >= ADULT_AGE
   );
 }
+
+export function getPersonLanguage(person: Person): string {
+  return person.FormOfAddress.split(':')[0];
+}
