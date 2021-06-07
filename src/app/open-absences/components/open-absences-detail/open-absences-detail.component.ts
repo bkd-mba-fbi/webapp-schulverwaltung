@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { combineLatest, EMPTY, Observable, of, Subject } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { OpenAbsencesService } from '../../services/open-absences.service';
@@ -17,10 +17,7 @@ import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
 import { not } from 'fp-ts/lib/function';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 import { PersonsRestService } from '../../../shared/services/persons-rest.service';
-import { Person } from '../../../shared/models/person.model';
 import { TranslateService } from '@ngx-translate/core';
-import { spread } from '../../../shared/utils/function';
-import { toDesignationDateTimeTypeString } from '../../../shared/utils/lesson-presences';
 import { I18nService } from '../../../shared/services/i18n.service';
 import { getLanguagePrefix } from '../../../shared/utils/persons';
 
@@ -50,9 +47,21 @@ export class OpenAbsencesDetailComponent
       id ? this.personService.getByIdWithEmailInfos(id) : EMPTY
     )
   );
-
-  mailTo$ = combineLatest([this.studentEmail$, this.absences$]).pipe(
-    switchMap(spread(this.buildMailToString.bind(this)))
+  translation$ = this.studentEmail$.pipe(
+    switchMap((person) =>
+      this.translate.getTranslation(
+        this.i18n.getLocalizedLanguage(getLanguagePrefix(person))
+      )
+    )
+  );
+  mailTo$ = combineLatest([
+    this.studentEmail$,
+    this.absences$,
+    this.translation$,
+  ]).pipe(
+    map(([email, absences, translation]) =>
+      this.openAbsencesService.buildMailToString(email, absences, translation)
+    )
   );
 
   private destroy$ = new Subject<void>();
@@ -124,27 +133,6 @@ export class OpenAbsencesDetailComponent
           null
       )
     );
-  }
-
-  private buildMailToString(
-    person: Person,
-    absences: ReadonlyArray<LessonPresence>
-  ): Observable<string> {
-    return this.translate
-      .getTranslation(this.i18n.getLocalizedLanguage(getLanguagePrefix(person)))
-      .pipe(
-        switchMap((translation) => {
-          const address = person.Email;
-          const subject = translation['open-absences'].detail.mail.subject;
-          const formattedAbsences = absences
-            .map((absence) => toDesignationDateTimeTypeString(absence))
-            .join('%0D%0A');
-
-          const body = `${translation['open-absences'].detail.mail.body}%0D%0A${formattedAbsences}`;
-
-          return of(`${address}?subject=${subject}&body=${body}`);
-        })
-      );
   }
 
   private getAbsencesForParams(
