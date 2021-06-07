@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { spread } from '../../../shared/utils/function';
 import { toDesignationDateTimeTypeString } from '../../../shared/utils/lesson-presences';
 import { I18nService } from '../../../shared/services/i18n.service';
-import { getPersonLanguage } from '../../../shared/utils/persons';
+import { getLanguagePrefix } from '../../../shared/utils/persons';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -131,7 +131,7 @@ export class OpenAbsencesDetailComponent
     absences: ReadonlyArray<LessonPresence>
   ): Observable<string> {
     return this.translate
-      .getTranslation(this.i18n.getLocalizedLanguage(getPersonLanguage(person)))
+      .getTranslation(this.i18n.getLocalizedLanguage(getLanguagePrefix(person)))
       .pipe(
         switchMap((translation) => {
           const address = person.Email;

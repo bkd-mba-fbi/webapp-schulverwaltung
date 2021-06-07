@@ -10,6 +10,7 @@ export function isAdult<T extends Student | Person>(person: T): boolean {
   );
 }
 
-export function getPersonLanguage(person: Person): string {
-  return person.FormOfAddress.split(':')[0];
+export function getLanguagePrefix(person: Person): string {
+  const prefix = person.FormOfAddress.split(':');
+  return prefix.length > 1 ? prefix[0] : '';
 }
