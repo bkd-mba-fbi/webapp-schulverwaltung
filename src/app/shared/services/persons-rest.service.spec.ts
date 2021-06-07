@@ -71,4 +71,17 @@ describe('PersonsRestService', () => {
       );
     });
   });
+
+  describe('.getByIdWithEmailInfos', () => {
+    it('returns the given person with only email information fields', () => {
+      service.getByIdWithEmailInfos(4515).subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === 'GET' &&
+          req.urlWithParams ===
+            'https://eventotest.api/Persons/?filter.Id==4515&fields=FormOfAddress,Email'
+      );
+    });
+  });
 });
