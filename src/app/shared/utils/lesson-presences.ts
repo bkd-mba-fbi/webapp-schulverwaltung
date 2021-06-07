@@ -101,5 +101,5 @@ export function toDesignationDateTimeTypeString(
   )}, ${format(lessonPresence.LessonDateTimeFrom, 'HH:mm')}-${format(
     lessonPresence.LessonDateTimeTo,
     'HH:mm'
-  )}: ${lessonPresence.Type}`;
+  )}: ${lessonPresence.Type ? lessonPresence.Type : ''}`;
 }

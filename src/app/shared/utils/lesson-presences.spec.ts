@@ -1,10 +1,14 @@
-import { buildLessonPresenceWithIds } from 'src/spec-builders';
+import {
+  buildLessonPresence,
+  buildLessonPresenceWithIds,
+} from 'src/spec-builders';
 import { LessonPresence } from '../models/lesson-presence.model';
 import {
   getIdsGroupedByPerson,
   getIdsGroupedByLesson,
   sortLessonPresencesByDate,
   getIdsGroupedByPersonAndPresenceType,
+  toDesignationDateTimeTypeString,
 } from './lesson-presences';
 
 describe('lesson presences utils', () => {
@@ -72,6 +76,35 @@ describe('lesson presences utils', () => {
         presenceC,
       ]);
       expect(result).toEqual([presenceB, presenceC, presenceA]);
+    });
+  });
+
+  describe('toDesignationDateTimeTypeString', () => {
+    it('returns the formatted information as string for the given lesson presence', () => {
+      const presence = buildLessonPresence(
+        1,
+        new Date(2021, 3, 22, 9, 0),
+        new Date(2021, 3, 22, 9, 45),
+        'Deutsch-S1'
+      );
+      presence.Type = 'Andere Gründe';
+
+      expect(toDesignationDateTimeTypeString(presence)).toBe(
+        'Deutsch-S1, 22.04.2021, 09:00-09:45: Andere Gründe'
+      );
+    });
+
+    it('returns the formatted information as string for the given lesson presence with missing type', () => {
+      const presence = buildLessonPresence(
+        1,
+        new Date(2021, 3, 22, 9, 0),
+        new Date(2021, 3, 22, 9, 45),
+        'Deutsch-S1'
+      );
+
+      expect(toDesignationDateTimeTypeString(presence)).toBe(
+        'Deutsch-S1, 22.04.2021, 09:00-09:45: '
+      );
     });
   });
 });
