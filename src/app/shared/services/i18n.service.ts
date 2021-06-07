@@ -41,7 +41,9 @@ export class I18nService {
   }
 
   getLocalizedLanguage(language: Maybe<string>): string {
-    language = LANGUAGES.find((l) => l === `${language}-CH`);
+    language = LANGUAGES.find(
+      (l) => l === `${(language || '').toLowerCase()}-CH`
+    );
     return language ? language : FALLBACK_LANGUAGE;
   }
 
