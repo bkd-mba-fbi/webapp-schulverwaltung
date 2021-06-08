@@ -5,6 +5,7 @@ import { PresenceControlComponent } from './components/presence-control/presence
 import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
 import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
 import { StudentProfileComponent } from '../shared/components/student-profile/student-profile.component';
+import { PresenceControlGroupComponent } from './components/presence-control-group/presence-control-group.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
             component: ConfirmAbsencesComponent,
           },
         ],
+      },
+      {
+        path: 'groups',
+        component: PresenceControlGroupComponent,
       },
     ],
   },

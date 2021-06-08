@@ -103,7 +103,11 @@
     (valueChange)="searchChange.emit($event)"
   ></erz-resettable-input>
   <div class="group-and-views d-flex">
-    <a href="#" type="button" class="group btn btn-link pr-xs-0 pr-sm-4">
+    <a
+      type="button"
+      class="group btn btn-link pr-xs-0 pr-sm-4"
+      [routerLink]="'groups'"
+    >
       <i class="material-icons align-middle">groups</i>
     </a>
     <div class="views">
