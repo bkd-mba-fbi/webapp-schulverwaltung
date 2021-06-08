@@ -11,3 +11,30 @@
     text-decoration: underline;
   }
 }
+
+.group-list {
+  padding-left: $spacer;
+  padding-right: $spacer;
+}
+
+.group-list-header {
+  cursor: pointer;
+  padding: $spacer;
+  display: grid;
+  grid-template-areas: "name group";
+  grid-template-columns: 3fr 2fr;
+  border-top: 1px solid $gray-300;
+  border-bottom: 2px solid $gray-300;
+}
+
+@media (max-width: 750px) {
+  .group-list {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .group-list-header {
+    grid-template-areas: "name group";
+    grid-template-columns: 5fr 1fr;
+  }
+}

@@ -58,7 +58,15 @@
       "cancel": "Schliessen"
     },
     "groups": {
-      "title": "Gruppe einteilen"
+      "title": "Gruppe einteilen",
+      "show": "Anzeige:",
+      "all": "Alle Gruppen",
+      "list": {
+        "header": {
+          "name": "Name",
+          "group": "Gruppe"
+        }
+      }
     }
   },
   "open-absences": {
