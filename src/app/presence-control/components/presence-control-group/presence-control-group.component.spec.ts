@@ -1,15 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PresenceControlGroupComponent } from './presence-control-group.component';
+import { buildTestModuleMetadata } from '../../../../spec-helpers';
 
 describe('PresenceControlGroupComponent', () => {
   let component: PresenceControlGroupComponent;
   let fixture: ComponentFixture<PresenceControlGroupComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PresenceControlGroupComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [PresenceControlGroupComponent],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {

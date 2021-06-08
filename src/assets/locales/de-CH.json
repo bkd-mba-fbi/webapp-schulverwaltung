@@ -56,6 +56,9 @@
     "preceding-absence": {
       "text": "In den Vorlektionen dieses Tages sind folgende Informationen eingetragen:",
       "cancel": "Schliessen"
+    },
+    "groups": {
+      "title": "Gruppe einteilen"
     }
   },
   "open-absences": {
