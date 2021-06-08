@@ -44,6 +44,10 @@ const NotificationDataPropertyValueType = t.type({
   body: t.string,
 });
 
+const ViewModeType = t.type({
+  presenceControl: t.string,
+});
+
 //
 // END Special Types used for Module Services
 //
@@ -56,10 +60,12 @@ type NotificationSettingPropertyValueType = t.TypeOf<
 type NotificationDataPropertyValueType = t.TypeOf<
   typeof NotificationDataPropertyValueType
 >;
+type ViewModeType = t.TypeOf<typeof ViewModeType>;
 
 export {
   UserSetting,
   BaseProperty,
   NotificationSettingPropertyValueType,
   NotificationDataPropertyValueType,
+  ViewModeType,
 };

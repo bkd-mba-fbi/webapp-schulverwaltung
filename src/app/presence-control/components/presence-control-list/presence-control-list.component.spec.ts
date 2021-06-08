@@ -16,6 +16,7 @@ import { Lesson } from 'src/app/shared/models/lesson.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
 
 describe('PresenceControlListComponent', () => {
   let component: PresenceControlListComponent;
@@ -66,6 +67,7 @@ describe('PresenceControlListComponent', () => {
           .createSpy('getBlockLessonPresences')
           .and.callFake(() => of(blockLessons)),
         hasUnconfirmedAbsences: () => of(false),
+        viewMode$: of(),
       } as unknown) as PresenceControlStateService;
 
       lessonPresencesUpdateServiceMock = ({

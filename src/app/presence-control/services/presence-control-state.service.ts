@@ -45,7 +45,6 @@ import {
   extractLessonEntries,
   getCurrentLessonEntry,
 } from '../utils/lesson-entries';
-import { isEmptyArray } from '../../shared/utils/array';
 import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
 import { PersonsRestService } from '../../shared/services/persons-rest.service';
 
@@ -66,7 +65,6 @@ export class PresenceControlStateService
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<LessonEntry>>();
   private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
-
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
 
   private lessonPresences$ = merge(
