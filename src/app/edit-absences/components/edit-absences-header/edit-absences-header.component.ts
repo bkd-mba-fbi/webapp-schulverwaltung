@@ -23,6 +23,7 @@ import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatt
 import {
   addGroupToDropdownItem,
   createPresenceTypesDropdownItems,
+  sortPresenceTypes,
 } from 'src/app/shared/utils/presence-types';
 import { EducationalEventsRestService } from '../../../shared/services/educational-events-rest.service';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
@@ -71,6 +72,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
     map((presenceTypes) =>
       presenceTypes.filter(not(isComment)).filter(not(isIncident))
     ),
+    map(sortPresenceTypes),
     map(createPresenceTypesDropdownItems),
     map((i) =>
       addGroupToDropdownItem(
@@ -82,6 +84,7 @@ export class EditAbsencesHeaderComponent implements OnInit {
 
   incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) => presenceTypes.filter(isIncident)),
+    map(sortPresenceTypes),
     map(createPresenceTypesDropdownItems),
     map((i) =>
       addGroupToDropdownItem(
