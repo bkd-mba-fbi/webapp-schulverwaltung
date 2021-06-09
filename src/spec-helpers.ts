@@ -33,7 +33,7 @@ export const settings: Settings = {
   checkableAbsenceStateId: 1080,
   unconfirmedAbsencesRefreshTime: null,
   personMasterDataReportId: 290026,
-  studentConfirmationReportId: 30,
+  studentConfirmationReportId: 290036,
   headerRoleRestriction: {
     myAbsences: 'StudentRole',
     presenceControl: 'LessonTeacherRole',

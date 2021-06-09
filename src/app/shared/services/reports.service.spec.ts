@@ -92,9 +92,9 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=30&keys=123_456,456_789'
+              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789'
           )
-          .flush({ Id: 30 });
+          .flush({ Id: 290036 });
 
         expect(callback.calls.allArgs()).toEqual([[false], [true]]);
       });
@@ -104,7 +104,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=30&keys=123_456,456_789'
+              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789'
           )
           .flush(null);
 
@@ -115,7 +115,7 @@ describe('ReportsService', () => {
     describe('getStudentConfirmationUrl', () => {
       it('returns the report url', () => {
         expect(service.getStudentConfirmationUrl(['123_456', '789_012'])).toBe(
-          'https://eventotest.api/Files/CrystalReports/Praesenzinformation/30?ids=123_456,789_012&token=SOMETOKEN'
+          'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456,789_012&token=SOMETOKEN'
         );
       });
     });
