@@ -6,9 +6,11 @@
   [selectableGroup]="true"
   [selectableGroupAsModel]="false"
   [closeOnSelect]="false"
-  [ngModel]="values$ | async"
-  (change)="onChange($event)"
+  [(ngModel)]="values"
   placeholder="{{ 'shared.select.empty-option' | translate }}"
+  bindValue="Key"
+  bindLabel="Value"
+  (click)="itemsChanged()"
 >
   <!-- selected items -->
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
@@ -27,7 +29,7 @@
     let-item$="item$"
     let-index="index"
   >
-    <input id="{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
     {{ item.Group }}
   </ng-template>
 
@@ -38,7 +40,7 @@
     let-item$="item$"
     let-index="index"
   >
-    <input id="{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
     {{ item.Value }}
   </ng-template>
 </ng-select>
