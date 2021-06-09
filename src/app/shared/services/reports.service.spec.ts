@@ -80,7 +80,10 @@ describe('ReportsService', () => {
       let callback: jasmine.Spy;
       beforeEach(() => {
         callback = jasmine.createSpy('callback');
-        service.setStudentConfirmationAvailabilityRecordId('123_456');
+        service.setStudentConfirmationAvailabilityRecordIds([
+          '123_456',
+          '456_789',
+        ]);
         service.studentConfirmationAvailability$.subscribe(callback);
       });
 
@@ -89,7 +92,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=30&keys=123_456'
+              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=30&keys=123_456,456_789'
           )
           .flush({ Id: 30 });
 
@@ -101,7 +104,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=30&keys=123_456'
+              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=30&keys=123_456,456_789'
           )
           .flush(null);
 
