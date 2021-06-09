@@ -66,7 +66,7 @@ window.absenzenmanagement.settings = {
 
   // Id of the report that contains the open absences with
   // confirmation values to sign (used in my absences)
-  studentConfirmationReportId: 30,
+  studentConfirmationReportId: 290036,
 
   // X-Role-Restriction custom HTTP header values by module
   headerRoleRestriction: {

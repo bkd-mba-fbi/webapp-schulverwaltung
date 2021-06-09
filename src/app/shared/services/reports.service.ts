@@ -48,7 +48,9 @@ import { notNull } from '../utils/filter';
   providedIn: 'root',
 })
 export class ReportsService implements OnDestroy {
-  studentConfirmationAvailabilityRecordId$ = new Subject<string>();
+  studentConfirmationAvailabilityRecordIds$ = new Subject<
+    ReadonlyArray<string>
+  >();
 
   personMasterDataAvailability$ = this.loadReportAvailability(
     'Person',
@@ -56,10 +58,10 @@ export class ReportsService implements OnDestroy {
     [Number(this.storageService.getPayload()?.id_person)]
   ).pipe(shareReplay(1));
 
-  studentConfirmationAvailability$ = this.loadReportAvailabilityByAsyncRecordId(
+  studentConfirmationAvailability$ = this.loadReportAvailabilityByAsyncRecordIds(
     'Praesenzinformation',
     this.settings.studentConfirmationReportId,
-    this.studentConfirmationAvailabilityRecordId$
+    this.studentConfirmationAvailabilityRecordIds$
   );
 
   private studentConfirmationAvailabilitySub: Subscription;
@@ -100,8 +102,10 @@ export class ReportsService implements OnDestroy {
     );
   }
 
-  setStudentConfirmationAvailabilityRecordId(recordId: string): void {
-    this.studentConfirmationAvailabilityRecordId$.next(recordId);
+  setStudentConfirmationAvailabilityRecordIds(
+    recordIds: ReadonlyArray<string>
+  ): void {
+    this.studentConfirmationAvailabilityRecordIds$.next(recordIds);
   }
 
   private getReportUrl(
@@ -132,15 +136,15 @@ export class ReportsService implements OnDestroy {
       .pipe(map(notNull), startWith(false), distinctUntilChanged());
   }
 
-  private loadReportAvailabilityByAsyncRecordId(
+  private loadReportAvailabilityByAsyncRecordIds(
     context: string,
     reportId: number,
-    recordId$: Observable<number | string>
+    recordIds$: Observable<ReadonlyArray<number | string>>
   ): Observable<boolean> {
-    return recordId$.pipe(
+    return recordIds$.pipe(
       filter((_, i) => i === 0), // Fetch the availability only once and cache it afterwards (but don't complete)
-      switchMap((recordId) =>
-        this.loadReportAvailability(context, reportId, [recordId])
+      switchMap((recordIds) =>
+        this.loadReportAvailability(context, reportId, recordIds)
       ),
       multicast(() => new ReplaySubject<boolean>(1))
     );
