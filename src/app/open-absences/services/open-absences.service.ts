@@ -19,6 +19,8 @@ import {
 } from '../utils/open-absences-entries';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { Person } from '../../shared/models/person.model';
+import { toDesignationDateTimeTypeString } from '../../shared/utils/lesson-presences';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -128,6 +130,28 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
         this.selectionService.clear();
         this.updateUnconfirmedAbsences$.next(unconfirmedAbsences);
       });
+  }
+
+  /**
+   * Returns a mailto string in the following format: <email>?subject=<subject>&body=<body>
+   *
+   * The email is addressed to the given person and contains a list of their open absences
+   * in the body content. The receiver's language is used to translate the content.
+   */
+  buildMailToString(
+    person: Person,
+    absences: ReadonlyArray<LessonPresence>,
+    translation: any
+  ): string {
+    const address = person.Email;
+    const subject = translation['open-absences'].detail.mail.subject;
+    const formattedAbsences = absences
+      .map((absence) => toDesignationDateTimeTypeString(absence))
+      .join('%0D%0A');
+
+    const body = `${translation['open-absences'].detail.mail.body}%0D%0A${formattedAbsences}`;
+
+    return `${address}?subject=${subject}&body=${body}`;
   }
 
   private loadUnconfirmedAbsences(): Observable<ReadonlyArray<LessonPresence>> {

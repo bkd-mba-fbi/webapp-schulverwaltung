@@ -268,7 +268,7 @@ export function buildPerson(id: number): Person {
     Id: id,
     // Country: '',
     // CountryId: '',
-    // FormOfAddress: 'Frau',
+    FormOfAddress: 'Frau',
     // FormOfAddressId: 1,
     // HomeCountry: null,
     // HomeCountryId: null,

@@ -1,4 +1,4 @@
-import { isAdult } from './persons';
+import { getLanguagePrefix, isAdult } from './persons';
 import { buildPerson, buildStudent } from 'src/spec-builders';
 import { Person } from '../models/person.model';
 import { Student } from '../models/student.model';
@@ -31,6 +31,32 @@ describe('persons utilities', () => {
     });
   });
 
+  describe('getLanguagePrefix', () => {
+    it('returns "de" if the corresponding language prefix is set', () => {
+      expect(
+        getLanguagePrefix(buildPersonWithFormOfAddress('de: Frau (Du-Form)'))
+      ).toBe('de');
+    });
+
+    it('returns "fr" if the corresponding language prefix is set', () => {
+      expect(
+        getLanguagePrefix(buildPersonWithFormOfAddress('fr: Madame (tutoyer)'))
+      ).toBe('fr');
+    });
+
+    it('returns empty string if the corresponding language prefix is not set', () => {
+      expect(
+        getLanguagePrefix(buildPersonWithFormOfAddress('Madame (tutoyer)'))
+      ).toBe('');
+    });
+
+    it('returns "de" if the corresponding language prefix is set and the string contains multiple colons', () => {
+      expect(
+        getLanguagePrefix(buildPersonWithFormOfAddress('de: Frau: Du-Form'))
+      ).toBe('de');
+    });
+  });
+
   function buildPersonWithAge(birthday: Option<Date>): Person {
     const person = buildPerson(123);
     person.Birthdate = birthday;
@@ -41,5 +67,11 @@ describe('persons utilities', () => {
     const student = buildStudent(123);
     student.Birthdate = birthday;
     return student;
+  }
+
+  function buildPersonWithFormOfAddress(formOfAddress: string): Person {
+    const person = buildPerson(123);
+    person.FormOfAddress = formOfAddress;
+    return person;
   }
 });

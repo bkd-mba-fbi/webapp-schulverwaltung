@@ -40,6 +40,13 @@ export class I18nService {
     return this.detectedLanguage;
   }
 
+  getLocalizedLanguage(language: Maybe<string>): string {
+    language = LANGUAGES.find(
+      (l) => l === `${(language || '').toLowerCase()}-CH`
+    );
+    return language ? language : FALLBACK_LANGUAGE;
+  }
+
   private getDocumentLanguage(): Option<string> {
     const langElement = document.querySelector('[lang]') as HTMLElement | null;
     return this.normalizeLanguage(langElement && langElement.lang);

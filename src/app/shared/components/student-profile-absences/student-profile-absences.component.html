@@ -33,6 +33,14 @@
         >
           <i class="material-icons">description</i>
         </a>
+        <a
+          *ngIf="displayEmail"
+          class="mail btn btn-primary mr-2"
+          href="mailto:{{ mailTo$ | async }}"
+          target="_blank"
+        >
+          <i class="material-icons">mail</i>
+        </a>
       </div>
 
       <div

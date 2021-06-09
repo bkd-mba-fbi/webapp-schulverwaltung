@@ -66,6 +66,13 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
 
   @Input() confirmLink = 'confirm';
 
+  /**
+   * Whether to show a button opening the the user's email client
+   * The receiver address, subject and body is set in the mailto string
+   */
+  @Input() displayEmail = false;
+  @Input() mailTo$: Observable<string>;
+
   @ViewChildren('checkbox') checkboxes: QueryList<ElementRef<HTMLInputElement>>;
 
   lessonPresences$$ = new ReplaySubject<

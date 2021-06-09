@@ -1,21 +1,25 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnDestroy,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable, combineLatest, Subject } from 'rxjs';
-import { switchMap, map, take, takeUntil, filter } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
+import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { longerOrEqual, isTruthy } from 'src/app/shared/utils/filter';
+import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
 import { not } from 'fp-ts/lib/function';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
+import { PersonsRestService } from '../../../shared/services/persons-rest.service';
+import { TranslateService } from '@ngx-translate/core';
+import { I18nService } from '../../../shared/services/i18n.service';
+import { getLanguagePrefix } from '../../../shared/utils/persons';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -37,6 +41,29 @@ export class OpenAbsencesDetailComponent
     this.selectionService.selection$,
   ]).pipe(map(([absences, selection]) => absences.length === selection.length));
 
+  studentEmail$ = this.absences$.pipe(
+    map((absences) => (absences[0] && absences[0].StudentRef.Id) || null),
+    switchMap((id) =>
+      id ? this.personService.getByIdWithEmailInfos(id) : EMPTY
+    )
+  );
+  translation$ = this.studentEmail$.pipe(
+    switchMap((person) =>
+      this.translate.getTranslation(
+        this.i18n.getLocalizedLanguage(getLanguagePrefix(person))
+      )
+    )
+  );
+  mailTo$ = combineLatest([
+    this.studentEmail$,
+    this.absences$,
+    this.translation$,
+  ]).pipe(
+    map(([email, absences, translation]) =>
+      this.openAbsencesService.buildMailToString(email, absences, translation)
+    )
+  );
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -44,8 +71,11 @@ export class OpenAbsencesDetailComponent
     private route: ActivatedRoute,
     private openAbsencesService: OpenAbsencesService,
     private presenceTypesService: PresenceTypesService,
+    private personService: PersonsRestService,
     public selectionService: ConfirmAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService
+    private scrollPosition: ScrollPositionService,
+    private translate: TranslateService,
+    private i18n: I18nService
   ) {}
 
   ngOnInit(): void {

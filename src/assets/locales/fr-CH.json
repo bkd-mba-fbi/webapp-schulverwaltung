@@ -77,7 +77,11 @@
       }
     },
     "detail": {
-      "all": "Tout"
+      "all": "Tout",
+      "mail": {
+        "subject": "Rappel sur les absences en suspens",
+        "body": "Veuillez excuser les absences en suspens suivantes:"
+      }
     },
     "edit": {
       "remark": "La sélection n'est prise en charge que pour les absences pour lesquelles aucun motif n'a encore été saisi. Vous pouvez modifier les motifs d'absence qui ont déjà été saisis sous ",

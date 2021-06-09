@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './app/shared/shared.module';
 import { Settings, SETTINGS } from './app/settings';
 import { AuthService } from './app/shared/services/auth.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/locales/', '.json');
@@ -47,6 +48,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
     RouterTestingModule,
     HttpClientTestingModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

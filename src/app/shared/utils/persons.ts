@@ -9,3 +9,8 @@ export function isAdult<T extends Student | Person>(person: T): boolean {
     differenceInYears(new Date(), person.Birthdate || new Date()) >= ADULT_AGE
   );
 }
+
+export function getLanguagePrefix(person: Person): string {
+  const prefix = person.FormOfAddress.split(':');
+  return prefix.length > 1 ? prefix[0] : '';
+}

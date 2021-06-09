@@ -112,6 +112,33 @@ describe('I18nService', () => {
     });
   });
 
+  describe('getLocalizedLanguage', () => {
+    it('returns "de-CH" for input "de"', () => {
+      expect(service.getLocalizedLanguage('de')).toBe('de-CH');
+    });
+    it('returns "de-CH" for input "DE"', () => {
+      expect(service.getLocalizedLanguage('DE')).toBe('de-CH');
+    });
+    it('returns "fr-CH" for input "fr"', () => {
+      expect(service.getLocalizedLanguage('fr')).toBe('fr-CH');
+    });
+    it('returns "fr-CH" for input "FR"', () => {
+      expect(service.getLocalizedLanguage('FR')).toBe('fr-CH');
+    });
+    it('returns "de-CH" for input "it"', () => {
+      expect(service.getLocalizedLanguage('it')).toBe('de-CH');
+    });
+    it('returns "de-CH" for empty input', () => {
+      expect(service.getLocalizedLanguage('')).toBe('de-CH');
+    });
+    it('returns "de-CH" for undefined input', () => {
+      expect(service.getLocalizedLanguage(undefined)).toBe('de-CH');
+    });
+    it('returns "de-CH" for null input', () => {
+      expect(service.getLocalizedLanguage(null)).toBe('de-CH');
+    });
+  });
+
   function setHtmlLang(lang: string): void {
     (document.firstElementChild as HTMLElement).lang = lang;
   }

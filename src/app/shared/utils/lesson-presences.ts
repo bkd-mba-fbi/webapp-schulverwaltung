@@ -1,4 +1,5 @@
 import { LessonPresence } from '../models/lesson-presence.model';
+import { format } from 'date-fns';
 
 export function getIdsGroupedByPerson(
   lessonPresences: ReadonlyArray<LessonPresence>
@@ -89,4 +90,16 @@ export function sortLessonPresencesByDate(
     .sort(
       (a, b) => a.LessonDateTimeFrom.getTime() - b.LessonDateTimeFrom.getTime()
     );
+}
+
+export function toDesignationDateTimeTypeString(
+  lessonPresence: LessonPresence
+): string {
+  return `${lessonPresence.EventDesignation}, ${format(
+    lessonPresence.LessonDateTimeFrom,
+    'dd.MM.yyyy'
+  )}, ${format(lessonPresence.LessonDateTimeFrom, 'HH:mm')}-${format(
+    lessonPresence.LessonDateTimeTo,
+    'HH:mm'
+  )}: ${lessonPresence.Type ? lessonPresence.Type : ''}`;
 }
