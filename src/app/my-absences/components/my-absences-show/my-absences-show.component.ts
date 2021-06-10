@@ -1,11 +1,11 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { Observable, combineLatest, Subject, of } from 'rxjs';
-import { map, switchMap, take, filter } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 import { MyAbsencesService } from '../../services/my-absences.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
@@ -13,6 +13,7 @@ import { ReportsService } from 'src/app/shared/services/reports.service';
 import { not } from 'src/app/shared/utils/filter';
 import { isEmptyArray } from 'src/app/shared/utils/array';
 import { flatten, uniq } from 'lodash-es';
+import { LessonAbsence } from '../../../shared/models/lesson-absence.model';
 
 @Component({
   selector: 'erz-my-absences-show',
@@ -33,13 +34,13 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // When the absences have been loaded, set the record ID to
+    // When the absences have been loaded, set the record IDs to
     // initiate the loading of the report's availability state
     this.myAbsencesService.openLessonAbsences$
       .pipe(take(1), filter(not(isEmptyArray)))
-      .subscribe((absences) =>
-        this.reportsService.setStudentConfirmationAvailabilityRecordId(
-          `${absences[0].LessonRef.Id}_${absences[0].RegistrationId}`
+      .subscribe((absences: ReadonlyArray<LessonAbsence>) =>
+        this.reportsService.setStudentConfirmationAvailabilityRecordIds(
+          absences.map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`)
         )
       );
   }
