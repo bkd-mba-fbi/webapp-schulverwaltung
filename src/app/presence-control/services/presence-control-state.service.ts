@@ -16,6 +16,9 @@ import {
   take,
   distinctUntilChanged,
   takeUntil,
+  mergeAll,
+  filter,
+  first,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -47,6 +50,14 @@ import {
 } from '../utils/lesson-entries';
 import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
 import { PersonsRestService } from '../../shared/services/persons-rest.service';
+import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
+import {
+  BaseProperty,
+  UserSetting,
+  ViewModeType,
+} from 'src/app/shared/models/user-setting.model';
+import { decode } from 'src/app/shared/utils/decode';
+import { buildUserSetting } from 'src/spec-builders';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -64,7 +75,7 @@ export class PresenceControlStateService
 
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<LessonEntry>>();
-  private viewModeSubject$ = new BehaviorSubject(ViewMode.Grid);
+  private viewModeSubject$ = new Subject<ViewMode>();
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
 
   private lessonPresences$ = merge(
@@ -128,7 +139,10 @@ export class PresenceControlStateService
     map(getPrecedingAbsencesCount())
   );
 
-  viewMode$ = this.viewModeSubject$.asObservable();
+  viewMode$ = merge(
+    this.viewModeSubject$,
+    this.getSavedViewMode().pipe(take(1))
+  );
   selectedDate$ = this.selectedDateSubject$.asObservable();
 
   queryParams$ = combineLatest([
@@ -136,6 +150,7 @@ export class PresenceControlStateService
     this.selectedLesson$,
     this.viewMode$,
   ]).pipe(map(spread(this.buildQueryParams.bind(this))));
+
   queryParamsString$ = combineLatest([
     this.selectedDate$,
     this.selectedLesson$,
@@ -145,6 +160,7 @@ export class PresenceControlStateService
   private destroy$ = new Subject<void>();
 
   constructor(
+    private settingsService: UserSettingsRestService,
     private lessonPresencesService: LessonPresencesRestService,
     private lessonTeacherService: LessonTeachersRestService,
     private presenceTypesService: PresenceTypesService,
@@ -160,6 +176,14 @@ export class PresenceControlStateService
         this.location.replaceState('/presence-control', returnparams);
         this.confirmBackLinkParams = { returnparams };
       });
+
+    this.viewModeSubject$
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(),
+        switchMap((v) => this.updateSavedViewMode(v))
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -342,5 +366,38 @@ export class PresenceControlStateService
       params.lesson = String(lessonEntry.id);
     }
     return params;
+  }
+
+  private getSavedViewMode(): Observable<ViewMode> {
+    return this.settingsService.getUserSettingsCst().pipe(
+      map<UserSetting, BaseProperty[]>((i) => i.Settings),
+      mergeAll(),
+      filter((i) => i.Key === 'presenceControlViewMode'),
+      first(),
+      map((v) => JSON.parse(v.Value)),
+      switchMap(decode(ViewModeType)),
+      map((v) => this.getViewModeForString(v.presenceControl))
+    );
+  }
+
+  private getViewModeForString(viewMode: string): ViewMode {
+    if (viewMode === ViewMode.List) {
+      return ViewMode.List;
+    } else {
+      return ViewMode.Grid; // default
+    }
+  }
+
+  private updateSavedViewMode(viewMode: ViewMode): Observable<any> {
+    const propertyBody: ViewModeType = {
+      presenceControl: viewMode,
+    };
+    const body: BaseProperty = {
+      Key: 'presenceControlViewMode',
+      Value: JSON.stringify(propertyBody),
+    };
+    const cst = Object.assign({}, buildUserSetting());
+    cst.Settings.push(body);
+    return this.settingsService.updateUserSettingsCst(cst);
   }
 }
