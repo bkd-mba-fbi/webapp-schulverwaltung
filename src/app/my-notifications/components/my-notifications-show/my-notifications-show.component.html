@@ -19,6 +19,7 @@
     <span
       id="notifications-bell-counter"
       class="notifications-bell-counter"
+      [hidden]="data.notificationsCount < 1"
       [ngClass]="
         data.isAuthenticated
           ? 'notifications-bell-counter-visible'
