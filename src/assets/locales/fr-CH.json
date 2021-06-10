@@ -265,6 +265,9 @@
     "select": {
       "empty-option": "Sélectionner..."
     },
+    "multiselect": {
+      "all-option": "Tous"
+    },
     "typeahead": {
       "default-placeholder": "Rechercher..."
     }
