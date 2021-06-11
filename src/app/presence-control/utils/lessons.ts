@@ -79,7 +79,7 @@ function getPrecedingAbsences(
         absence.LessonRef.From < lesson?.LessonDateTimeFrom
     ),
     'Id'
-  ).sort();
+  ).sort(lessonAbsenceTimeComparator);
 }
 
 export function getPresenceControlEntriesForLesson(
@@ -142,4 +142,25 @@ function lessonPresencesComparator(
   b: LessonPresence
 ): number {
   return a.StudentFullName.localeCompare(b.StudentFullName);
+}
+
+/**
+ * Sorts by LessonRef.From and LessonRef.To, if present.
+ */
+function lessonAbsenceTimeComparator(
+  a: LessonAbsence,
+  b: LessonAbsence
+): number {
+  if (
+    a.LessonRef.From &&
+    a.LessonRef.To &&
+    b.LessonRef.From &&
+    b.LessonRef.To
+  ) {
+    if (a.LessonRef.From.getTime() - b.LessonRef.From.getTime() === 0) {
+      return a.LessonRef.To.getTime() - b.LessonRef.To.getTime();
+    }
+    return a.LessonRef.From.getTime() - b.LessonRef.From.getTime();
+  }
+  return 0;
 }
