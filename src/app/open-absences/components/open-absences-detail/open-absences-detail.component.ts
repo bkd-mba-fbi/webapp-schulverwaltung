@@ -54,9 +54,12 @@ export class OpenAbsencesDetailComponent
       )
     )
   );
+  allUnconfirmedAbsencesForStudent$ = this.route.paramMap.pipe(
+    switchMap(this.getAbsencesForStudentParam.bind(this))
+  );
   mailTo$ = combineLatest([
     this.studentEmail$,
-    this.absences$,
+    this.allUnconfirmedAbsencesForStudent$,
     this.translation$,
   ]).pipe(
     map(([email, absences, translation]) =>
@@ -140,6 +143,14 @@ export class OpenAbsencesDetailComponent
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.openAbsencesService.getUnconfirmedAbsences(
       String(params.get('date')),
+      Number(params.get('personId'))
+    );
+  }
+
+  private getAbsencesForStudentParam(
+    params: ParamMap
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    return this.openAbsencesService.getAllUnconfirmedAbsencesForStudent(
       Number(params.get('personId'))
     );
   }

@@ -21,6 +21,7 @@ import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { Person } from '../../shared/models/person.model';
 import { toDesignationDateTimeTypeString } from '../../shared/utils/lesson-presences';
+import { reduce } from 'fp-ts/Set';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -79,6 +80,18 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
           (e) => e.dateString === dateString && e.studentId === studentId
         );
         return entry ? entry.absences : [];
+      })
+    );
+  }
+
+  getAllUnconfirmedAbsencesForStudent(
+    studentId: number
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    return this.entries$.pipe(
+      map((entries) => {
+        return entries
+          .filter((e) => e.studentId === studentId)
+          .reduce((a: LessonPresence[], e) => a.concat(e.absences), []);
       })
     );
   }

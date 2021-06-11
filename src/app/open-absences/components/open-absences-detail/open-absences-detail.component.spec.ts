@@ -21,6 +21,7 @@ describe('OpenAbsencesDetailComponent', () => {
   let selectionService: ConfirmAbsencesSelectionService;
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
+  let presenceC: LessonPresence;
 
   beforeEach(
     waitForAsync(() => {
@@ -41,7 +42,13 @@ describe('OpenAbsencesDetailComponent', () => {
         11,
         new Date(2000, 0, 23, 13)
       );
-      [presenceA, presenceB].forEach(
+      presenceC = buildLessonPresenceWithIds(
+        11,
+        21,
+        11,
+        new Date(2000, 0, 24, 13)
+      );
+      [presenceA, presenceB, presenceC].forEach(
         (p) => (p.StudentFullName = 'Einstein Albert')
       );
 
@@ -56,6 +63,9 @@ describe('OpenAbsencesDetailComponent', () => {
                 getUnconfirmedAbsences: jasmine
                   .createSpy('getUnconfirmedAbsences')
                   .and.returnValue(of([presenceA, presenceB])),
+                getAllUnconfirmedAbsencesForStudent: jasmine
+                  .createSpy('getAllUnconfirmedAbsencesForStudent')
+                  .and.returnValue(of([presenceA, presenceB, presenceC])),
               },
             },
           ],
