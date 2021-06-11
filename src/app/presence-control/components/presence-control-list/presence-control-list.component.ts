@@ -8,17 +8,7 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  first,
-  map,
-  mergeAll,
-  shareReplay,
-  switchMap,
-  take,
-  takeUntil,
-} from 'rxjs/operators';
+import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
 
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
@@ -28,21 +18,12 @@ import { PresenceControlEntry } from '../../models/presence-control-entry.model'
 import {
   PresenceControlStateService,
   VIEW_MODES,
-  ViewMode,
 } from '../../services/presence-control-state.service';
 import { PresenceControlBlockLessonComponent } from '../presence-control-block-lesson/presence-control-block-lesson.component';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
 import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
-import {
-  BaseProperty,
-  UserSetting,
-  ViewModeType,
-} from 'src/app/shared/models/user-setting.model';
-import { buildUserSetting } from 'src/spec-builders';
-import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
-import { decode } from 'src/app/shared/utils/decode';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -61,21 +42,13 @@ export class PresenceControlListComponent
   private destroy$ = new Subject();
 
   constructor(
-    private settingsService: UserSettingsRestService,
     public state: PresenceControlStateService,
     private lessonPresencesUpdateService: LessonPresencesUpdateService,
     private presenceTypesService: PresenceTypesService,
     private modalService: NgbModal,
     private scrollPosition: ScrollPositionService,
     private route: ActivatedRoute
-  ) {
-    this.state.viewMode$
-      .pipe(
-        distinctUntilChanged(),
-        switchMap((v) => this.updateSavedViewMode(v))
-      )
-      .subscribe();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams
@@ -170,45 +143,6 @@ export class PresenceControlListComponent
 
     if (params.viewMode && VIEW_MODES.includes(params.viewMode)) {
       this.state.setViewMode(params.viewMode);
-    } else {
-      this.getSavedViewMode()
-        .pipe(take(1))
-        .subscribe((v) => {
-          this.state.setViewMode(v);
-        });
-    }
-  }
-
-  private updateSavedViewMode(viewMode: ViewMode): Observable<any> {
-    const propertyBody: ViewModeType = {
-      presenceControl: viewMode,
-    };
-    const body: BaseProperty = {
-      Key: 'presenceControlViewMode',
-      Value: JSON.stringify(propertyBody),
-    };
-    const cst = Object.assign({}, buildUserSetting());
-    cst.Settings.push(body);
-    return this.settingsService.updateUserSettingsCst(cst);
-  }
-
-  private getSavedViewMode(): Observable<ViewMode> {
-    return this.settingsService.getUserSettingsCst().pipe(
-      map<UserSetting, BaseProperty[]>((i) => i.Settings),
-      mergeAll(),
-      filter((i) => i.Key === 'presenceControlViewMode'),
-      first(),
-      map((v) => JSON.parse(v.Value)),
-      switchMap(decode(ViewModeType)),
-      map((v) => this.getViewModeForString(v.presenceControl))
-    );
-  }
-
-  private getViewModeForString(viewMode: string): ViewMode {
-    if (viewMode === ViewMode.List) {
-      return ViewMode.List;
-    } else {
-      return ViewMode.Grid; // default
     }
   }
 }

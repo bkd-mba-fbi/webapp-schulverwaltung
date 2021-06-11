@@ -17,6 +17,7 @@ import { DropDownItem } from '../../shared/models/drop-down-item.model';
 import { fromLesson } from '../models/lesson-entry.model';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { Person } from '../../shared/models/person.model';
+import { UserSetting } from 'src/app/shared/models/user-setting.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -41,6 +42,8 @@ describe('PresenceControlStateService', () => {
   let mathEinstein2: LessonPresence;
   let mathEinstein3: LessonPresence;
   let mathEinstein4: LessonPresence;
+
+  let userSettings: UserSetting[];
 
   beforeEach(() => {
     jasmine.clock().install();
@@ -71,6 +74,8 @@ describe('PresenceControlStateService', () => {
 
     otherAbsences = [];
     person = buildPerson(3);
+
+    userSettings = [];
 
     turnenFrisch = buildLessonPresence(
       1,
@@ -166,6 +171,8 @@ describe('PresenceControlStateService', () => {
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
+
+    expectCstRequest();
   });
 
   it('initially selects the current lesson', () => {
@@ -190,6 +197,8 @@ describe('PresenceControlStateService', () => {
       buildPresenceControlEntry(deutschEinsteinAbwesend, absent),
       buildPresenceControlEntry(deutschFrisch),
     ]);
+
+    expectCstRequest();
   });
 
   describe('.setDate', () => {
@@ -225,6 +234,8 @@ describe('PresenceControlStateService', () => {
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
         buildPresenceControlEntry(werkenFrisch),
       ]);
+
+      expectCstRequest();
     });
   });
 
@@ -261,6 +272,8 @@ describe('PresenceControlStateService', () => {
       expect(entries[0].lessonPresence.TypeRef.Id).toBe(absent.Id);
       expect(entries[0].lessonPresence.Type).toBe('Abwesend');
       expect(entries[0].presenceType).toBe(absent);
+
+      expectCstRequest();
     });
   });
 
@@ -277,6 +290,8 @@ describe('PresenceControlStateService', () => {
         .subscribe((result) =>
           expect(result).toEqual([mathEinstein1, mathEinstein2, mathEinstein3])
         );
+
+      expectCstRequest();
     });
 
     it('returns single lesson for the given entry', () => {
@@ -289,6 +304,8 @@ describe('PresenceControlStateService', () => {
       service
         .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
         .subscribe((result) => expect(result).toEqual([deutschFrisch]));
+
+      expectCstRequest();
     });
   });
 
@@ -308,6 +325,13 @@ describe('PresenceControlStateService', () => {
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
       .flush(t.array(LessonPresence).encode(response));
+  }
+
+  function expectCstRequest(response = userSettings): void {
+    const url = 'https://eventotest.api/UserSettings/Cst';
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(UserSetting).encode(response));
   }
 
   function expectPresenceTypesRequest(response = presenceTypes): void {

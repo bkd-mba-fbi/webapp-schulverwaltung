@@ -5,7 +5,8 @@
   <div *ngFor="let absence of precedingAbsences">
     {{ absence.LessonRef.From | date: 'HH:mm' }}–{{
       absence.LessonRef.To | date: 'HH:mm'
-    }}, {{ absence.LessonRef.EventDesignation }}:
+    }}
+    {{ absence.LessonRef.EventDesignation }}:
     {{ absence.Type }}
   </div>
 </div>
