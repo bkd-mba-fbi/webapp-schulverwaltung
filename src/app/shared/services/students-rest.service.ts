@@ -85,9 +85,12 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<TimetableEntry>> {
     return this.http
-      .get<unknown>(`${this.baseUrl}/${studentId}/TimetableEntries`, {
-        params,
-      })
+      .get<unknown>(
+        `${this.baseUrl}/${studentId}/TimetableEntries/CurrentSemester`,
+        {
+          params,
+        }
+      )
       .pipe(switchMap(decodeArray(TimetableEntry)));
   }
 }
