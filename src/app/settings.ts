@@ -18,6 +18,7 @@ const Settings = t.type({
   unconfirmedAbsencesRefreshTime: Option(t.number),
   personMasterDataReportId: t.number,
   studentConfirmationReportId: t.number,
+  evaluateAbsencesReportId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
   notificationRefreshTime: t.number,
 });
