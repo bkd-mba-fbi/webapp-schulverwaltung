@@ -3,6 +3,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
+  Input,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -28,6 +29,13 @@ interface Column {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
+  /**
+   * The report button should be shown disabled if `reportAvailable` is true
+   * but no `reportUrl` is given.
+   */
+  @Input() reportUrl: Option<string> = null;
+  @Input() reportAvailable = true;
+
   columns: ReadonlyArray<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
