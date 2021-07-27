@@ -34,6 +34,13 @@ export class EvaluateAbsencesHeaderComponent implements OnInit {
     public studyClassesService: StudyClassesRestService
   ) {}
 
+  classesHttpFilter = {
+    params: {
+      fields: 'IsActive',
+      ['filter.IsActive']: '=true',
+    },
+  };
+
   ngOnInit(): void {}
 
   show(): void {

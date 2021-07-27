@@ -20,6 +20,7 @@
     <erz-typeahead
       [typeaheadService]="studyClassesService"
       [(value)]="filter.studyClass"
+      [additionalHttpParams]="this.classesHttpFilter"
     ></erz-typeahead>
   </div>
 

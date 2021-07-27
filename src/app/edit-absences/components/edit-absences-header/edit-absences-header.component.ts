@@ -102,6 +102,13 @@ export class EditAbsencesHeaderComponent implements OnInit {
     private translate: TranslateService
   ) {}
 
+  classesHttpFilter = {
+    params: {
+      fields: 'IsActive',
+      ['filter.IsActive']: '=true',
+    },
+  };
+
   ngOnInit(): void {}
 
   show(): void {

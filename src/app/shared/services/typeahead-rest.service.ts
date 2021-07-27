@@ -9,8 +9,15 @@ import { decodeArray, decode } from '../utils/decode';
 import { RestService } from '../services/rest.service';
 import { DropDownItem } from '../models/drop-down-item.model';
 
+export class HttpParams {
+  params: { [param: string]: string };
+}
+
 export interface TypeaheadService {
-  getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>>;
+  getTypeaheadItems(
+    term: string,
+    additionalParams?: HttpParams
+  ): Observable<ReadonlyArray<DropDownItem>>;
   getTypeaheadItemById(id: number): Observable<DropDownItem>;
 }
 
@@ -32,14 +39,24 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     super(http, settings, codec, resourcePath);
   }
 
-  getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
+  getTypeaheadItems(
+    term: string,
+    additionalParams?: HttpParams
+  ): Observable<ReadonlyArray<DropDownItem>> {
+    const params = {
+      params: {
+        fields: [this.idAttr, this.labelAttr].join(','),
+        [`filter.${this.labelAttr}`]: `~*${term}*`,
+      },
+    };
+
     return this.http
-      .get<unknown>(`${this.baseUrl}/`, {
-        params: {
-          fields: [this.idAttr, this.labelAttr].join(','),
-          [`filter.${this.labelAttr}`]: `~*${term}*`,
-        },
-      })
+      .get<unknown>(
+        `${this.baseUrl}/`,
+        additionalParams
+          ? this.mergeHttpParams(params, additionalParams)
+          : params
+      )
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
         map((items) =>
@@ -59,5 +76,21 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
         switchMap(decode(this.typeaheadCodec)),
         map((item) => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
       );
+  }
+
+  private mergeHttpParams(
+    typeaheadParams: HttpParams,
+    additionalParams: HttpParams
+  ): HttpParams {
+    const merged = {
+      params: { ...typeaheadParams.params, ...additionalParams.params },
+    };
+    if (additionalParams.params.fields) {
+      merged.params.fields = typeaheadParams.params.fields.concat(
+        ',',
+        additionalParams.params.fields
+      );
+    }
+    return merged;
   }
 }
