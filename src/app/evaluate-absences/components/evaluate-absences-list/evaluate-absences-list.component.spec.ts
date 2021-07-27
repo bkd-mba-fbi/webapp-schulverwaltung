@@ -7,6 +7,7 @@ import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-s
 import { of } from 'rxjs';
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
 import { buildLessonPresenceStatistic } from 'src/spec-builders';
+import { StorageService } from '../../../shared/services/storage.service';
 
 describe('EvaluateAbsencesListComponent', () => {
   let fixture: ComponentFixture<EvaluateAbsencesListComponent>;
@@ -35,6 +36,14 @@ describe('EvaluateAbsencesListComponent', () => {
             {
               provide: EvaluateAbsencesStateService,
               useValue: stateServiceMock,
+            },
+            {
+              provide: StorageService,
+              useValue: {
+                getPayload(): Option<object> {
+                  return { id_person: 42 };
+                },
+              },
             },
           ],
         })

@@ -3,7 +3,6 @@ import {
   Reference,
   OptionalReference,
   Option,
-  Maybe,
   LocalDateTimeFromString,
   LocalDateFromString,
 } from './common-types';
@@ -14,7 +13,8 @@ const LessonPresence = t.type({
   StudentRef: Reference,
   EventRef: Reference,
   TypeRef: OptionalReference,
-  // StudyClassRef: Reference,
+  RegistrationRef: OptionalReference,
+  StudyClassRef: OptionalReference,
   // EventTypeId: t.number,
   // ConfirmationState: Option(t.string),
   ConfirmationStateId: Option(t.number),

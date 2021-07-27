@@ -21,10 +21,10 @@
       >
         <div class="buttons">
           <a
-            *ngIf="reportAvailable"
+            *ngIf="!data.loadingPage"
             class="report btn btn-primary mb-2"
-            [class.disabled]="!reportUrl"
-            [href]="reportUrl"
+            [class.disabled]="!reportUrl$ | async"
+            [href]="reportUrl$ | async"
             target="_blank"
           >
             <i class="material-icons">description</i>

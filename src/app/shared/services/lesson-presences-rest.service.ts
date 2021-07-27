@@ -1,25 +1,26 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { format, isSameDay, addDays, subDays } from 'date-fns';
-import { Observable, forkJoin } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
-
+import { addDays, format, isSameDay, subDays } from 'date-fns';
+import * as t from 'io-ts';
+import { forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
+import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
+import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-absences-entries';
 import { SETTINGS, Settings } from '../../settings';
+import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { decodeArray } from '../utils/decode';
-import { RestService } from './rest.service';
-import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
-import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
-import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
+import { spread } from '../utils/function';
 import {
   decodePaginatedResponse,
   Paginated,
-  paginatedParams,
   paginatedHeaders,
+  paginatedParams,
 } from '../utils/pagination';
+import { pick } from '../utils/types';
 import { Sorting } from './paginated-entries.service';
-import { spread } from '../utils/function';
-import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-absences-entries';
+import { RestService } from './rest.service';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -28,6 +29,16 @@ import { StorageService } from './storage.service';
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
 > {
+  protected lessonPresenceRefCodec = t.type(
+    pick(this.codec.props, [
+      'LessonRef',
+      'RegistrationRef',
+      'StudentRef',
+      'EventRef',
+      'StudyClassRef',
+    ])
+  );
+
   constructor(
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
@@ -93,6 +104,39 @@ export class LessonPresencesRestService extends RestService<
         observe: 'response',
       })
       .pipe(decodePaginatedResponse(LessonPresenceStatistic));
+  }
+
+  getLessonRefs(
+    absencesFilter: EvaluateAbsencesFilter,
+    absencesSorting: Option<Sorting<LessonPresenceStatistic>>
+  ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
+    let params = filteredParams([
+      [absencesFilter.student, 'StudentRef'],
+      [absencesFilter.educationalEvent, 'EventRef'],
+      [absencesFilter.studyClass, 'StudyClassRef'],
+    ]);
+
+    params = sortedParams(absencesSorting, params);
+    params = paginatedParams(0, this.settings.paginationLimit, params);
+
+    params = params.append(
+      'fields',
+      [
+        'LessonRef',
+        'RegistrationRef',
+        'StudentRef',
+        'EventRef',
+        'StudyClassRef',
+      ].join(',')
+    );
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params,
+        headers: paginatedHeaders(),
+        observe: 'response',
+      })
+      .pipe(decodePaginatedResponse(this.lessonPresenceRefCodec));
   }
 
   getFilteredList(
