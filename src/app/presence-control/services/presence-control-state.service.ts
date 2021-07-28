@@ -6,6 +6,7 @@ import {
   combineLatest,
   merge,
   Observable,
+  of,
   Subject,
   timer,
 } from 'rxjs';
@@ -18,6 +19,9 @@ import {
   takeUntil,
   mergeAll,
   filter,
+  tap,
+  takeLast,
+  share,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -375,7 +379,8 @@ export class PresenceControlStateService
       take(1),
       map((v) => JSON.parse(v.Value)),
       switchMap(decode(ViewModeType)),
-      map((v) => this.getViewModeForString(v.presenceControl))
+      map((v) => this.getViewModeForString(v.presenceControl)),
+      share()
     );
   }
 
