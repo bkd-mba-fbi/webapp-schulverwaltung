@@ -18,12 +18,12 @@
 
   <div class="group-header mb-2">
     <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
-    <button type="button" class="show btn btn-link">
+    <button type="button" class="show btn btn-link" (click)="selectGroup()">
       {{ 'presence-control.groups.all' | translate }}
     </button>
     <a
       class="btn btn-primary float-right mr-2"
-      routerLink="edit"
+      (click)="assignGroup()"
       aria-label="edit"
     >
       <i class="material-icons">edit</i>

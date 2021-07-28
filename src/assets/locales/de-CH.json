@@ -61,11 +61,20 @@
       "title": "Gruppe einteilen",
       "show": "Anzeige:",
       "all": "Alle Gruppen",
+      "none": "Keine Gruppe",
+      "save": "Übernehmen",
+      "cancel": "Abbrechen",
       "list": {
         "header": {
           "name": "Name",
           "group": "Gruppe"
         }
+      },
+      "select": {
+        "title": "Anzeige in der Präsenzkontrolle:"
+      },
+      "assign": {
+        "title": "Gruppe einteilen:"
       }
     }
   },
