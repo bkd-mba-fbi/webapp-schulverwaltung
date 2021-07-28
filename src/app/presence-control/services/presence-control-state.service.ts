@@ -18,7 +18,6 @@ import {
   takeUntil,
   mergeAll,
   filter,
-  first,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -373,7 +372,7 @@ export class PresenceControlStateService
       map<UserSetting, BaseProperty[]>((i) => i.Settings),
       mergeAll(),
       filter((i) => i.Key === 'presenceControlViewMode'),
-      first(),
+      take(1),
       map((v) => JSON.parse(v.Value)),
       switchMap(decode(ViewModeType)),
       map((v) => this.getViewModeForString(v.presenceControl))
