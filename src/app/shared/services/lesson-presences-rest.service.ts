@@ -36,6 +36,7 @@ export class LessonPresencesRestService extends RestService<
       'StudentRef',
       'EventRef',
       'StudyClassRef',
+      'TypeRef',
     ])
   );
 
@@ -115,7 +116,8 @@ export class LessonPresencesRestService extends RestService<
       [absencesFilter.studyClass, 'StudyClassRef'],
     ]);
 
-    params = params.append(
+    params = params.set('filter.TypeRef', '>0');
+    params = params.set(
       'fields',
       [
         'LessonRef',
@@ -123,6 +125,7 @@ export class LessonPresencesRestService extends RestService<
         'StudentRef',
         'EventRef',
         'StudyClassRef',
+        'TypeRef',
       ].join(',')
     );
 
