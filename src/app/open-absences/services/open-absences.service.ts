@@ -21,7 +21,7 @@ import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { Person } from '../../shared/models/person.model';
 import { toDesignationDateTimeTypeString } from '../../shared/utils/lesson-presences';
-import { reduce } from 'fp-ts/Set';
+import { TranslateService } from '@ngx-translate/core';
 
 export type PrimarySortKey = 'date' | 'name';
 
@@ -67,7 +67,8 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
   constructor(
     private lessonPresencesService: LessonPresencesRestService,
     private selectionService: ConfirmAbsencesSelectionService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private translate: TranslateService
   ) {}
 
   getUnconfirmedAbsences(
@@ -149,20 +150,21 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
    * Returns a mailto string in the following format: <email>?subject=<subject>&body=<body>
    *
    * The email is addressed to the given person and contains a list of their open absences
-   * in the body content. The receiver's language is used to translate the content.
+   * in the body content. The senders's default language is used to translate the content.
    */
   buildMailToString(
     person: Person,
-    absences: ReadonlyArray<LessonPresence>,
-    translation: any
+    absences: ReadonlyArray<LessonPresence>
   ): string {
     const address = person.Email;
-    const subject = translation['open-absences'].detail.mail.subject;
+    const subject = this.translate.instant('open-absences.detail.mail.subject');
     const formattedAbsences = absences
       .map((absence) => toDesignationDateTimeTypeString(absence))
       .join('%0D%0A');
 
-    const body = `${translation['open-absences'].detail.mail.body}%0D%0A${formattedAbsences}`;
+    const body = `${this.translate.instant(
+      'open-absences.detail.mail.body'
+    )}%0D%0A${formattedAbsences}`;
 
     return `${address}?subject=${subject}&body=${body}`;
   }
