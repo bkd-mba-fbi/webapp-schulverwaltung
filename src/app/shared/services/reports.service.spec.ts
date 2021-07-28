@@ -120,4 +120,12 @@ describe('ReportsService', () => {
       });
     });
   });
+
+  describe('Auswertung der Absenzen', () => {
+    it('returns the report url', () => {
+      expect(service.getEvaluateAbsencesUrl(['123_456', '789_012'])).toBe(
+        'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456,789_012&token=SOMETOKEN'
+      );
+    });
+  });
 });

@@ -46,6 +46,7 @@ describe('LessonPresencesRestService', () => {
       StudentRef: ref,
       EventRef: ref,
       TypeRef: { Id: null, HRef: null },
+      RegistrationRef: { Id: null, HRef: null },
       StudyClassRef: ref,
       EventTypeId: 123,
       ConfirmationState: null,
@@ -239,6 +240,51 @@ describe('LessonPresencesRestService', () => {
       service
         .getStatistics(filter, sorting, 0)
         .subscribe((result) => expect(result.entries).toBe(data));
+
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+    });
+  });
+
+  describe('.getLessonRefs', () => {
+    const data: any[] = [];
+    let filter: EvaluateAbsencesFilter;
+
+    beforeEach(() => {
+      filter = {
+        student: null,
+        educationalEvent: null,
+        studyClass: null,
+      };
+    });
+
+    it('fetches lesson refs with all filter values set', () => {
+      filter.student = 123;
+      filter.educationalEvent = 333;
+      filter.studyClass = 678;
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef';
+
+      service
+        .getLessonRefs(filter)
+        .subscribe((result) => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+    });
+
+    it('fetches lesson refs with one filter value set', () => {
+      filter.studyClass = 678;
+
+      const url =
+        'https://eventotest.api/LessonPresences/?filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef';
+
+      service
+        .getLessonRefs(filter)
+        .subscribe((result) => expect(result).toBe(data));
 
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
