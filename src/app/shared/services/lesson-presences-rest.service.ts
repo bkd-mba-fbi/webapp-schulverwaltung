@@ -107,17 +107,13 @@ export class LessonPresencesRestService extends RestService<
   }
 
   getLessonRefs(
-    absencesFilter: EvaluateAbsencesFilter,
-    absencesSorting: Option<Sorting<LessonPresenceStatistic>>
-  ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
+    absencesFilter: EvaluateAbsencesFilter
+  ): Observable<ReadonlyArray<LessonPresence>> {
     let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
       [absencesFilter.educationalEvent, 'EventRef'],
       [absencesFilter.studyClass, 'StudyClassRef'],
     ]);
-
-    params = sortedParams(absencesSorting, params);
-    params = paginatedParams(0, this.settings.paginationLimit, params);
 
     params = params.append(
       'fields',
@@ -131,12 +127,8 @@ export class LessonPresencesRestService extends RestService<
     );
 
     return this.http
-      .get<unknown>(`${this.baseUrl}/`, {
-        params,
-        headers: paginatedHeaders(),
-        observe: 'response',
-      })
-      .pipe(decodePaginatedResponse(this.lessonPresenceRefCodec));
+      .get<unknown>(`${this.baseUrl}/`, { params })
+      .pipe(switchMap(decodeArray(this.lessonPresenceRefCodec)));
   }
 
   getFilteredList(

@@ -22,6 +22,11 @@ describe('EvaluateAbsencesListComponent', () => {
       stateServiceMock = ({
         setFilter: jasmine.createSpy('setFilter'),
         isFilterValid$: of(true),
+        validFilter$: of({
+          student: null,
+          educationalEvent: null,
+          studyClass: 5976,
+        }),
         entries$: of([statistic]),
         sorting$: of({ key: 'StudentFullName', ascending: true }),
       } as unknown) as EvaluateAbsencesStateService;

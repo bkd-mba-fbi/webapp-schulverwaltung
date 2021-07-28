@@ -3,10 +3,9 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
-  Input,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
 import {
@@ -91,14 +90,12 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   }
 
   private loadReportUrl(): Observable<Option<string>> {
-    return combineLatest([this.state.validFilter$, this.state.sorting$]).pipe(
-      switchMap(([filter, sort]) =>
-        this.lessonPresencesService.getLessonRefs(filter, sort)
-      ),
-      map((result) =>
-        result
+    return this.state.validFilter$.pipe(
+      switchMap((filter) => this.lessonPresencesService.getLessonRefs(filter)),
+      map((lessonPresences) =>
+        lessonPresences
           ? this.reportsService.getEvaluateAbsencesUrl(
-              this.getReportRecordIds(result.entries)
+              this.getReportRecordIds(lessonPresences)
             )
           : null
       )
