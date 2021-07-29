@@ -17,9 +17,6 @@ import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
 import { not } from 'fp-ts/lib/function';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 import { PersonsRestService } from '../../../shared/services/persons-rest.service';
-import { TranslateService } from '@ngx-translate/core';
-import { I18nService } from '../../../shared/services/i18n.service';
-import { getLanguagePrefix } from '../../../shared/utils/persons';
 
 @Component({
   selector: 'erz-open-absences-detail',
@@ -47,23 +44,16 @@ export class OpenAbsencesDetailComponent
       id ? this.personService.getByIdWithEmailInfos(id) : EMPTY
     )
   );
-  translation$ = this.studentEmail$.pipe(
-    switchMap((person) =>
-      this.translate.getTranslation(
-        this.i18n.getLocalizedLanguage(getLanguagePrefix(person))
-      )
-    )
-  );
+
   allUnconfirmedAbsencesForStudent$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForStudentParam.bind(this))
   );
   mailTo$ = combineLatest([
     this.studentEmail$,
     this.allUnconfirmedAbsencesForStudent$,
-    this.translation$,
   ]).pipe(
-    map(([email, absences, translation]) =>
-      this.openAbsencesService.buildMailToString(email, absences, translation)
+    map(([email, absences]) =>
+      this.openAbsencesService.buildMailToString(email, absences)
     )
   );
 
@@ -76,9 +66,7 @@ export class OpenAbsencesDetailComponent
     private presenceTypesService: PresenceTypesService,
     private personService: PersonsRestService,
     public selectionService: ConfirmAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService,
-    private translate: TranslateService,
-    private i18n: I18nService
+    private scrollPosition: ScrollPositionService
   ) {}
 
   ngOnInit(): void {
