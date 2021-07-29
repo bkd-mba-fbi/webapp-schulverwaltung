@@ -19,6 +19,17 @@
         "
         class="p-3"
       >
+        <div class="buttons">
+          <a
+            *ngIf="!data.loadingPage"
+            class="report btn btn-primary mb-2"
+            [class.disabled]="!reportUrl$ | async"
+            [href]="reportUrl$ | async"
+            target="_blank"
+          >
+            <i class="material-icons">description</i>
+          </a>
+        </div>
         <table
           class="table table-striped table-fixed"
           infiniteScroll

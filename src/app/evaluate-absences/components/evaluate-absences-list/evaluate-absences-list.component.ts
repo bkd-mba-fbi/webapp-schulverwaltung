@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 import {
   EvaluateAbsencesStateService,
@@ -15,6 +15,9 @@ import {
 import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
+import { ReportsService } from '../../../shared/services/reports.service';
+import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
+import { LessonPresence } from '../../../shared/models/lesson-presence.model';
 
 interface Column {
   key: keyof LessonPresenceStatistic;
@@ -28,6 +31,8 @@ interface Column {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
+  reportUrl$ = this.loadReportUrl();
+
   columns: ReadonlyArray<Column> = [
     { key: 'StudentFullName', label: 'student' },
     { key: 'TotalAbsences', label: 'total' },
@@ -44,7 +49,9 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     public state: EvaluateAbsencesStateService,
     private scrollPosition: ScrollPositionService,
     private route: ActivatedRoute,
-    private presenceTypesService: PresenceTypesService
+    private presenceTypesService: PresenceTypesService,
+    private reportsService: ReportsService,
+    private lessonPresencesService: LessonPresencesRestService
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +87,25 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
         return '';
       })
     );
+  }
+
+  private loadReportUrl(): Observable<Option<string>> {
+    return this.state.validFilter$.pipe(
+      switchMap((filter) => this.lessonPresencesService.getLessonRefs(filter)),
+      map((lessonPresences) =>
+        lessonPresences
+          ? this.reportsService.getEvaluateAbsencesUrl(
+              this.getReportRecordIds(lessonPresences)
+            )
+          : null
+      )
+    );
+  }
+
+  private getReportRecordIds(
+    presences: ReadonlyArray<LessonPresence>
+  ): ReadonlyArray<string> {
+    return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationRef.Id}`);
   }
 }
 

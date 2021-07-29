@@ -102,6 +102,20 @@ export class ReportsService implements OnDestroy {
     );
   }
 
+  /**
+   * Report: Auswertung der Absenzen
+   *
+   * The record IDs are the string
+   * {LessonPresence.LessonRef.Id}_{LessonPresence.RegistrationRef.Id}
+   */
+  getEvaluateAbsencesUrl(recordIds: ReadonlyArray<string>): string {
+    return this.getReportUrl(
+      'Praesenzinformation',
+      this.settings.evaluateAbsencesReportId,
+      recordIds
+    );
+  }
+
   setStudentConfirmationAvailabilityRecordIds(
     recordIds: ReadonlyArray<string>
   ): void {

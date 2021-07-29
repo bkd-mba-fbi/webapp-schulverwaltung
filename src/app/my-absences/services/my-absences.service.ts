@@ -217,6 +217,8 @@ export class MyAbsencesService {
       StudentRef: absence.StudentRef,
       EventRef: { Id: 0, HRef: null },
       TypeRef: absence.TypeRef,
+      RegistrationRef: { Id: 0, HRef: null },
+      StudyClassRef: { Id: 0, HRef: null },
       ConfirmationStateId:
         'ConfirmationStateId' in absence ? absence.ConfirmationStateId : null,
       EventDesignation: entry.EventDesignation,

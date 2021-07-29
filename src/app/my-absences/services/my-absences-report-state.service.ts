@@ -176,6 +176,8 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       },
       EventRef: { Id: 0, HRef: null },
       TypeRef: typeRef,
+      RegistrationRef: { Id: 0, HRef: null },
+      StudyClassRef: { Id: 0, HRef: null },
       ConfirmationStateId:
         absence?.ConfirmationStateId ||
         (dispensation && this.settings.excusedAbsenceStateId) ||
