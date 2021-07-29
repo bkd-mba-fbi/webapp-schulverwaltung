@@ -19,7 +19,10 @@ import {
 import { uniqueId } from 'lodash-es';
 
 import { longerOrEqual } from '../../utils/filter';
-import { TypeaheadService } from '../../services/typeahead-rest.service';
+import {
+  HttpParams,
+  TypeaheadService,
+} from '../../services/typeahead-rest.service';
 import { DropDownItem } from '../../models/drop-down-item.model';
 
 const FETCH_DEBOUNCE_TIME = 300;
@@ -37,6 +40,7 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = 'shared.typeahead.default-placeholder';
   @Input() value: Option<number>;
+  @Input() additionalHttpParams: HttpParams;
 
   @Output()
   valueChange = this.selectedItem$.pipe(
@@ -87,7 +91,7 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   private fetchItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
     this.loading$.next(true);
     return this.typeaheadService
-      .getTypeaheadItems(term)
+      .getTypeaheadItems(term, this.additionalHttpParams)
       .pipe(finalize(() => this.loading$.next(false)));
   }
 
