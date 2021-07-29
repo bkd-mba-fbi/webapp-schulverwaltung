@@ -9,6 +9,7 @@ import {
 } from 'rxjs';
 import {
   catchError,
+  shareReplay,
   switchMap,
   takeUntil,
   withLatestFrom,
@@ -27,7 +28,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
   notifications$: Observable<ReadonlyArray<NotificationDataPropertyValueType>>;
 
   trigger$ = interval(this.settings.notificationRefreshTime * 1000);
-  refetch$ = new BehaviorSubject(null);
+  refetch$ = new BehaviorSubject('INITIAL FETCH');
   isAuthenticated$ = new BehaviorSubject(false);
   deleteAllNotifications$ = new Subject<null>();
   deleteNotificationId$ = new Subject<number>();
@@ -71,7 +72,8 @@ export class MyNotificationsShowComponent implements OnDestroy {
             return throwError(err);
           })
         )
-      )
+      ),
+      shareReplay()
     );
 
     // check authentication
@@ -94,7 +96,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
 
     // refetch notifications
     this.trigger$.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.refetch$.next(null);
+      this.refetch$.next('REFETCH');
     });
 
     this.deleteNotificationId$
@@ -106,7 +108,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
           )
         )
       )
-      .subscribe(() => this.refetch$.next(null));
+      .subscribe(() => this.refetch$.next('DELETED ONE'));
 
     this.deleteAllNotifications$
       .pipe(
@@ -117,7 +119,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
           )
         )
       )
-      .subscribe(() => this.refetch$.next(null));
+      .subscribe(() => this.refetch$.next('DELETED ALL'));
   }
 
   ngOnDestroy(): void {
