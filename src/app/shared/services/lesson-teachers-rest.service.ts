@@ -18,17 +18,19 @@ export class LessonTeachersRestService extends RestService<
   }
 
   /**
-   * Returns all lesson absences for all teachers expect for the given teacher
+   * Returns all lesson absences for all teachers expect for the given teacher for the current lesson corresponding students
    */
   loadOtherTeachersLessonAbsences(
     personId: number,
+    students: number[],
     params?: HttpParams | Dict<string>
   ): Observable<ReadonlyArray<LessonAbsence>> {
+    let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef`;
+    if (students && students.length > 0) {
+      url = url.concat('&filter.StudentRef=;' + students.join(';'));
+    }
     return this.http
-      .get<unknown>(
-        `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef`,
-        { params }
-      )
+      .get<unknown>(url, { params })
       .pipe(switchMap(decodeArray(LessonAbsence)));
   }
 }
