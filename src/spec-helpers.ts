@@ -35,6 +35,7 @@ export const settings: Settings = {
   personMasterDataReportId: 290026,
   studentConfirmationReportId: 290036,
   evaluateAbsencesReportId: 290048,
+  subscriptionDetailGroupId: 3843,
   headerRoleRestriction: {
     myAbsences: 'StudentRole',
     presenceControl: 'LessonTeacherRole',
