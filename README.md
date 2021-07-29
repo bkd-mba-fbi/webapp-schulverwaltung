@@ -1,6 +1,6 @@
 # Absenzenmanagement
 
-[![Build Status](https://travis-ci.org/bkd-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.org/bkd-mba-fbi/absenzenmanagement)
+[![Build Status](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement)
 
 JavaScript web module to implement the process "Absenzenverwaltung"
 using the CLX.Evento backend (REST API).
