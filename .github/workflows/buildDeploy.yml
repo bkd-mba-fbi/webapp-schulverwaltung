@@ -1,0 +1,32 @@
+name: build deploy
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+
+    - name: deploy
+      run: |
+        npm install
+        npm run build:prod
+        cp README.md dist && cp -r doc dist
+        (cd dist && zip --recurse-paths absenzenmanagementGitHub.zip *)
+        mv dist/absenzenmanagement dist/app
+        sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
