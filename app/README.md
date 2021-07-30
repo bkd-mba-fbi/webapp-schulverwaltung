@@ -1,7 +1,8 @@
 # Absenzenmanagement
 
 [![Build Status](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement)
-[![lint test](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml/badge.svg?branch=master)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml)
+[![lint test ✨](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml/badge.svg?branch=master)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml)
+[![build 🏭 deploy 🚀](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/buildDeploy.yml/badge.svg)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/buildDeploy.yml)
 
 JavaScript web module to implement the process "Absenzenverwaltung"
 using the CLX.Evento backend (REST API).
