@@ -1,4 +1,4 @@
-name: lint test
+name: lint test ✨
 
 on:
   push:
