@@ -23,6 +23,7 @@ jobs:
         
     - name: lint
       run: |
+        mpm install
         npm run lint
         npm run lint:format
     
