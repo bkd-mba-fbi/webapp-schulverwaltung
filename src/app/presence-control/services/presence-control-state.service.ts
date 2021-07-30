@@ -4,6 +4,7 @@ import { Params } from '@angular/router';
 import {
   BehaviorSubject,
   combineLatest,
+  forkJoin,
   merge,
   Observable,
   Subject,
@@ -20,6 +21,7 @@ import {
   filter,
   startWith,
   defaultIfEmpty,
+  tap,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -59,6 +61,8 @@ import {
 } from 'src/app/shared/models/user-setting.model';
 import { decode } from 'src/app/shared/utils/decode';
 import { buildUserSetting } from 'src/spec-builders';
+import { EventsRestService } from '../../shared/services/events-rest.service';
+import { flattenDeep } from 'lodash-es';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -177,6 +181,7 @@ export class PresenceControlStateService
     private lessonTeacherService: LessonTeachersRestService,
     private presenceTypesService: PresenceTypesService,
     private personsService: PersonsRestService,
+    private eventService: EventsRestService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,
@@ -312,6 +317,44 @@ export class PresenceControlStateService
                 : [presence];
             }
           }, [] as Array<LessonPresence>)
+      )
+    );
+  }
+
+  /**
+   * Check if all events in the selected lesson have groups available
+   * Groups are available if the subscriptionDetailGroupId is found on the subscription detail of the given event
+   *
+   */
+  loadGroupAvailability(): Observable<boolean> {
+    const eventIds$ = this.selectedLesson$.pipe(
+      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
+    );
+
+    return eventIds$.pipe(
+      switchMap((ids) =>
+        forkJoin(
+          ids.map((id) =>
+            this.eventService
+              .getSubscriptionDetails(id)
+              .pipe(
+                map((details) =>
+                  details.reduce(
+                    (acc, detail) =>
+                      acc ||
+                      detail.VssId === this.settings.subscriptionDetailGroupId,
+                    false
+                  )
+                )
+              )
+          )
+        )
+      ),
+      map((groupAvailabilities) =>
+        groupAvailabilities.reduce(
+          (acc, isAvailable) => acc && isAvailable,
+          true
+        )
       )
     );
   }

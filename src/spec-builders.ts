@@ -86,6 +86,7 @@ export function buildLesson(
 ): Lesson {
   return {
     LessonRef: buildReference(lessonId),
+    EventRef: buildReference(),
     EventDesignation: eventDesignation,
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
