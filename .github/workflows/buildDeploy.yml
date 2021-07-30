@@ -22,7 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: npm
 
-    - name: deploy
+    - name: Build
       run: |
         npm install
         npm run build:prod
@@ -30,3 +30,9 @@ jobs:
         (cd dist && zip --recurse-paths absenzenmanagementGitHub.zip *)
         mv dist/absenzenmanagement dist/app
         sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
+        
+    - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
