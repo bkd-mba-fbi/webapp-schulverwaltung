@@ -1,0 +1,275 @@
+{
+  "global": {
+    "app-errors": {
+      "exception-title": "Fehler",
+      "exception-message": "Ein Fehler ist aufgetreten, versuchen Sie es erneut oder laden Sie die Applikation neu."
+    },
+    "rest-errors": {
+      "noaccess-title": "Kein Zugriff",
+      "noaccess-message": "Auf eine Ressource konnte nicht zugegriffen werden.",
+      "notfound-title": "Nicht gefunden",
+      "notfound-message": "Eine Ressource konnte nicht gefunden werden.",
+      "unavailable-title": "Server nicht verfügbar",
+      "unavailable-message": "Der Server ist momentan nicht verfügbar oder überlastet, bitte erneut versuchen.",
+      "conflict-title": "Ungültige Daten",
+      "conflict-message": "Die zu speichernden Daten sind nicht valide.",
+      "server-title": "Serverfehler",
+      "server-message": "Beim Zugriff auf den Server ist ein Fehler aufgetreten."
+    },
+    "validation-errors": {
+      "required": "Dieses Feld muss ausgefüllt werden.",
+      "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
+      "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus.",
+      "email": "Keine gültige E-Mail-Adresse"
+    },
+    "pagination": {
+      "load-more": "Weitere Einträge laden"
+    }
+  },
+  "unauthenticated": {
+    "message": "Nicht angemeldet oder kein Zugriff."
+  },
+  "presence-control": {
+    "title": "Präsenzkontrolle",
+    "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",
+    "no-lesson-presences": "Keine Lernenden vorhanden",
+    "header": {
+      "search": "Suchen",
+      "search-by-name": "Name suchen..."
+    },
+    "entry": {
+      "incident": "Vorfall erfassen",
+      "update-warning": "Statuswechsel nicht möglich",
+      "unconfirmed-absences": "Offene Absenzen"
+    },
+    "incident": {
+      "text": "Vorfall erfassen:",
+      "no-incident": "Kein Vorfall",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen"
+    },
+    "block-lesson": {
+      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie den Präsenzstatus ändern?",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen"
+    },
+    "preceding-absence": {
+      "text": "In den Vorlektionen dieses Tages sind folgende Informationen eingetragen:",
+      "cancel": "Schliessen"
+    }
+  },
+  "open-absences": {
+    "title": "Offene Absenzen",
+    "noEntries": "Keine Einträge vorhanden",
+    "selected": "{{count}} ausgewählt",
+    "search": "Suchen",
+    "search-by-name-or-class": "Name oder Klasse suchen...",
+    "list": {
+      "header": {
+        "name": "Name",
+        "date": "Datum"
+      },
+      "content": {
+        "lessonsCount": {
+          "singular": "{{count}} Lektion",
+          "plural": "{{count}} Lektionen"
+        }
+      }
+    },
+    "detail": {
+      "all": "Alle",
+      "mail": {
+        "subject": "Erinnerung offene Absenzen",
+        "body": "Bitte entschuldigen Sie folgende offenen Absenzen:"
+      }
+    },
+    "edit": {
+      "remark": "Die Auswahl wird nur für Absenzen übernommen, bei denen noch kein Grund erfasst wurde. Bereits erfasste Absenzgründe können Sie ändern unter ",
+      "absence-type-placeholder": "Absenzgrund auswählen...",
+      "lesson-selected": "{{count}} Lektion ausgewählt",
+      "lessons-selected": "{{count}} Lektionen ausgewählt",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
+    }
+  },
+  "edit-absences": {
+    "title": "Absenzen bearbeiten",
+    "no-filter": "Hier können Sie alle vergangenen und zukünftigen Absenzen anzeigen, erfassen, bearbeiten oder löschen. Wählen Sie mindestens ein Kriterium aus und klicken Sie danach auf «Anzeigen».",
+    "no-entries": "Keine Resultate gefunden.",
+    "header": {
+      "student": "Name",
+      "module-instance": "Fach",
+      "study-class": "Klasse",
+      "date-from": "Datum von",
+      "date-to": "Datum bis",
+      "presence-type": "Grund",
+      "confirmation-state": "Status",
+      "incident": "Vorfall",
+      "show": "Anzeigen"
+    },
+    "list": {
+      "total": "{{count}} Resultate",
+      "selected": "{{count}} ausgewählt",
+      "header": {
+        "presence": "Präsenz",
+        "student": "Name",
+        "module-instance": "Fach",
+        "study-class": "Klasse",
+        "time": "Zeit",
+        "confirmation-state": "Status",
+        "presence-type": "Grund",
+        "incident": "Vorfall",
+        "date": "Datum",
+        "teacher": "Lehrkraft",
+        "mobil-student-module-instance-study-class": "Name, Fach, Klasse",
+        "mobil-presence-type-incident": "Grund / Vorfall"
+      }
+    },
+    "edit": {
+      "categories": {
+        "absent": "Absenz",
+        "dispensation": "Dispensation",
+        "half-day": "Freier Halbtag",
+        "incident": "Vorfall",
+        "present": "Anwesend"
+      },
+      "absence-type-placeholder": "Absenzgrund auswählen...",
+      "incident-placeholder": "Vorfall auswählen...",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
+    }
+  },
+  "evaluate-absences": {
+    "title": "Absenzen auswerten",
+    "no-filter": "Wählen Sie mindestens ein Kriterium aus und klicken Sie danach auf «Anzeigen».",
+    "no-entries": "Keine Resultate gefunden.",
+    "header": {
+      "student": "Name",
+      "module-instance": "Fach",
+      "study-class": "Klasse",
+      "show": "Anzeigen"
+    },
+    "list": {
+      "header": {
+        "student": "Name",
+        "total": "Total",
+        "valid-excuse": "Entschuldigt",
+        "without-excuse": "Unentschuldigt",
+        "unconfirmed": "Offen",
+        "incident": "Vorfälle",
+        "halfday": "Halbtage"
+      }
+    }
+  },
+  "my-absences": {
+    "title": "Meine Absenzen",
+    "show": {
+      "default-absence-selection-message": "Sie müssen bei allen ausgewählten Absenzen einen Grund erfassen, bevor Sie das Entschuldigungsformular herunterladen können.",
+      "confirm-presence-type": "Grund erfassen"
+    },
+    "confirm": {
+      "lesson-selected": "{{count}} Lektion ausgewählt",
+      "lessons-selected": "{{count}} Lektionen ausgewählt",
+      "choose-presence-type": "Absenzgrund auswählen",
+      "remark": "Bereits erfasste Absenzgründe werden überschrieben.",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
+    },
+    "report": {
+      "title": "Absenzen melden",
+      "no-filter": "Hier können Sie alle Lektionen von heute und in der Zukunft anzeigen, um Absenzen zu melden. Wählen Sie ein Start- und Enddatum aus und klicken Sie danach auf «Anzeigen».",
+      "no-entries": "Keine Resultate gefunden.",
+      "header": {
+        "date-from": "Datum von",
+        "date-to": "Datum bis",
+        "show": "Anzeigen"
+      },
+      "list": {
+        "all": "Alle"
+      }
+    }
+  },
+  "my-profile": {
+    "title": "Mein Profil",
+    "show": {
+      "social-security-number": "Sozialversicherungsnummer",
+      "hometown-nationality": "Heimatort / Nationalität",
+      "native-language": "Erstsprache",
+      "stay-permit": "Aufenthaltsbewilligung",
+      "stay-permit-expiry": "Ablauf der Aufenthaltsbewilligung"
+    },
+    "edit": {
+      "address-changes-remark": "Für Änderungen an Namen und Adresse wenden Sie sich bitte an das Sekretariat.",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die Einträge wurden erfolgreich geändert.",
+      "fields": {
+        "phone-private": "Telefon",
+        "phone-mobile": "Mobiltelefon",
+        "phone-mobile-hint": "Achtung: Diese Telefonnummer verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)",
+        "email2": "E-Mail privat",
+        "email2-hint": "Achtung: Diese E-Mail-Adresse verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)"
+      }
+    }
+  },
+  "my-settings": {
+    "title": "Meine Einstellungen",
+    "notifications": {
+      "title": "Benachrichtigungen",
+      "gui": "Anzeige im Web",
+      "mail": "E-Mail",
+      "phoneMobile": "SMS",
+      "save": "Aktualisieren",
+      "save-success": "Einstellungen zu Benachrichtigungen erfolgreich aktualisiert"
+    }
+  },
+  "my-notifications": {
+    "title": "Benachrichtigungen",
+    "deleteAll": "Alle löschen",
+    "none": "Keine Benachrichtigungen"
+  },
+  "shared": {
+    "date-select": {
+      "default-placeholder": "Datum wählen..."
+    },
+    "daysDifference": {
+      "today": "Heute",
+      "tomorrow": "Morgen",
+      "yesterday": "Gestern",
+      "ago": "vor {{count}} Tagen",
+      "in": "in {{count}} Tagen"
+    },
+    "lesson-presences-update": {
+      "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten."
+    },
+    "profile": {
+      "student-address": "Adresse",
+      "correspondence-address": "Korrespondenzadresse",
+      "billing-address": "Rechnungsadresse",
+      "legal-representation": "Gesetzliche Vertretung",
+      "apprenticeship-company": "Lehrbetrieb",
+      "apprenticeship-period": "Lehrzeit",
+      "job-trainer": "Berufsbildner/in",
+      "checkable-absences": "Gemeldete Absenzen",
+      "open-absences": "Offene Absenzen",
+      "excused-absences": "Entschuldigte Absenzen",
+      "unexcused-absences": "Unentschuldigte Absenzen",
+      "incidents": "Vorfälle",
+      "half-days": "Halbtage",
+      "no-profile": "Profil wurde nicht gefunden",
+      "no-absences": "Keine Einträge vorhanden"
+    },
+    "select": {
+      "empty-option": "Wählen..."
+    },
+    "multiselect": {
+      "all-option": "Alle"
+    },
+    "typeahead": {
+      "default-placeholder": "Suchen..."
+    }
+  }
+}
