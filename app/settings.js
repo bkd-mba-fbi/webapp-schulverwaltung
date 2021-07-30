@@ -7,7 +7,7 @@ window.absenzenmanagement.settings = {
    * General settings
    */
   // API base URL (without trailing slash)
-  apiUrl: 'https://925e0071-d502-4c0b-912f-06bfa3de9bea.mock.pstmn.io',
+  apiUrl: '',
 
   // Path (without trailing slash, relative to the index.html) to the
   // JavaScript bundles and the assets directory containing image and
