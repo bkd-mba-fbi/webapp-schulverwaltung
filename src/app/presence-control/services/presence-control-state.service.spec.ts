@@ -11,6 +11,7 @@ import {
   buildPresenceType,
   buildPresenceControlEntry,
   buildPerson,
+  buildSubscriptionDetail,
 } from 'src/spec-builders';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
@@ -18,6 +19,7 @@ import { fromLesson } from '../models/lesson-entry.model';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { Person } from '../../shared/models/person.model';
 import { UserSetting } from 'src/app/shared/models/user-setting.model';
+import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -44,6 +46,8 @@ describe('PresenceControlStateService', () => {
   let mathEinstein4: LessonPresence;
 
   let userSettings: UserSetting[];
+
+  let subscriptionDetails: SubscriptionDetail[];
 
   beforeEach(() => {
     jasmine.clock().install();
@@ -92,7 +96,8 @@ describe('PresenceControlStateService', () => {
       'Deutsch',
       'Einstein Albert',
       'Dora Durrer',
-      absent.Id
+      absent.Id,
+      333
     );
     deutschFrisch = buildLessonPresence(
       2,
@@ -100,7 +105,9 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Frisch Max',
-      'Dora Durrer'
+      'Dora Durrer',
+      undefined,
+      333
     );
     mathEinstein1 = buildLessonPresence(
       3,
@@ -313,6 +320,39 @@ describe('PresenceControlStateService', () => {
     });
   });
 
+  describe('.loadGroupAvailability', () => {
+    beforeEach(() => {
+      expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
+      expectAbsenceConfirmationStatesRequest();
+      expectGetMyselfRequest();
+      expectLoadOtherTeachersAbsencesRequest([], person.Id);
+      expectCstRequest();
+    });
+
+    it('returns true if the selected lesson has groups available', () => {
+      const subscriptionDetailWithGroups = buildSubscriptionDetail(3843);
+      subscriptionDetails = [subscriptionDetailWithGroups];
+
+      service
+        .loadGroupAvailability()
+        .subscribe((result) => expect(result).toBeTruthy());
+
+      expectSubscriptionDetailRequest(333);
+    });
+
+    it('returns false if the selected lesson does not have groups available', () => {
+      const subscriptionDetailWithoutGroups = buildSubscriptionDetail(3333);
+      subscriptionDetails = [subscriptionDetailWithoutGroups];
+
+      service
+        .loadGroupAvailability()
+        .subscribe((result) => expect(result).toBeFalsy());
+
+      expectSubscriptionDetailRequest(333);
+    });
+  });
+
   function resetCallbackSpies(): void {
     selectedLessonCb.calls.reset();
     selectedPresenceControlEntriesCb.calls.reset();
@@ -372,5 +412,15 @@ describe('PresenceControlStateService', () => {
   function expectGetMyselfRequest(response = person): void {
     const url = 'https://eventotest.api/Persons/me';
     httpTestingController.expectOne(url).flush(Person.encode(response));
+  }
+
+  function expectSubscriptionDetailRequest(
+    eventId: number,
+    response = subscriptionDetails
+  ): void {
+    const url = `https://eventotest.api/Events/${eventId}/SubscriptionDetails`;
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(SubscriptionDetail).encode(response));
   }
 });

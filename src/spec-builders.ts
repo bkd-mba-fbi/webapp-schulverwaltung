@@ -12,6 +12,7 @@ import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manage
 import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
+import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -373,4 +374,13 @@ export function buildUserSettingWithNotificationData(
   };
   setting.Settings.push(notification);
   return setting;
+}
+
+export function buildSubscriptionDetail(vssId: number): SubscriptionDetail {
+  return {
+    Id: '1',
+    SubscriptionId: 1,
+    VssId: vssId,
+    EventId: 1,
+  };
 }
