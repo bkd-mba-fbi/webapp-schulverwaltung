@@ -384,5 +384,7 @@ export function buildSubscriptionDetail(vssId: number): SubscriptionDetail {
     SubscriptionId: 1,
     VssId: vssId,
     EventId: 1,
+    ShowAsRadioButtons: false,
+    DropdownItems: null,
   };
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { take } from 'rxjs/operators';
 import {
   PresenceControlGroupService,
   PrimarySortKey,
   SortCriteria,
 } from '../../services/presence-control-group.service';
+import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { PresenceControlGroupDialogComponent } from '../presence-control-group-dialog/presence-control-group-dialog.component';
 
 @Component({
@@ -15,6 +17,7 @@ import { PresenceControlGroupDialogComponent } from '../presence-control-group-d
 export class PresenceControlGroupComponent implements OnInit {
   constructor(
     public groupService: PresenceControlGroupService,
+    public state: PresenceControlStateService,
     private modalService: NgbModal
   ) {}
 
@@ -31,11 +34,18 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   selectGroup(): void {
-    const modalRef = this.modalService.open(
-      PresenceControlGroupDialogComponent
-    );
-    modalRef.componentInstance.title = 'presence-control.groups.select.title';
-    modalRef.componentInstance.emptyLabel = 'presence-control.groups.all';
+    this.state
+      .loadSubscriptionDetailForEventWithGroups()
+      .pipe(take(1))
+      .subscribe((subscriptionDetail) => {
+        const modalRef = this.modalService.open(
+          PresenceControlGroupDialogComponent
+        );
+        modalRef.componentInstance.title =
+          'presence-control.groups.select.title';
+        modalRef.componentInstance.emptyLabel = 'presence-control.groups.all';
+        modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
+      });
   }
 
   assignGroup(): void {

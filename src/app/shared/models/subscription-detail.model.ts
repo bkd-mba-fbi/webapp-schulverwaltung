@@ -1,4 +1,10 @@
 import * as t from 'io-ts';
+import { Option } from './common-types';
+
+const DropDownItem = t.type({
+  Key: t.string,
+  Value: t.string,
+});
 
 const SubscriptionDetail = t.type({
   Id: t.string,
@@ -7,14 +13,14 @@ const SubscriptionDetail = t.type({
   EventId: t.number,
   // OpenInvoiceBookingId: Option(t.number),
   // BookingType: Option(t.string),
-  // DropdownItems: Option(t.string),
+  DropdownItems: Option(t.array(DropDownItem)),
   // EnteringType: t.string,
   // IdPerson: t.number,
   // IsValidated: t.boolean,
   // IsValidationMessage: t.boolean,
   // IsValidationStatus: t.boolean,
   // Required: t.boolean,
-  // ShowAsRadioButtons: t.boolean,
+  ShowAsRadioButtons: t.boolean,
   // Sort: t.string,
   // Tooltip: Option(t.string),
   // Value: Option(t.string),

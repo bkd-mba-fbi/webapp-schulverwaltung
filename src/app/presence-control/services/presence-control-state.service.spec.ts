@@ -322,7 +322,7 @@ describe('PresenceControlStateService', () => {
     });
   });
 
-  describe('.loadGroupAvailability', () => {
+  describe('.loadGroupsAvailability', () => {
     beforeEach(() => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
@@ -337,7 +337,7 @@ describe('PresenceControlStateService', () => {
       subscriptionDetails = [subscriptionDetailWithGroups];
 
       service
-        .loadGroupAvailability()
+        .loadGroupsAvailability()
         .subscribe((result) => expect(result).toBeTruthy());
 
       expectSubscriptionDetailRequest(333);
@@ -348,7 +348,7 @@ describe('PresenceControlStateService', () => {
       subscriptionDetails = [subscriptionDetailWithoutGroups];
 
       service
-        .loadGroupAvailability()
+        .loadGroupsAvailability()
         .subscribe((result) => expect(result).toBeFalsy());
 
       expectSubscriptionDetailRequest(333);

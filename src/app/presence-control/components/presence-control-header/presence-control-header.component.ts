@@ -83,7 +83,7 @@ export class PresenceControlHeaderComponent implements OnInit {
     { viewMode: ViewMode.List, icon: 'list' },
     { viewMode: ViewMode.Grid, icon: 'view_module' },
   ];
-  groupsAvailable$ = this.state.loadGroupAvailability();
+  groupsAvailable$ = this.state.loadGroupsAvailability();
 
   constructor(public state: PresenceControlStateService) {}
 

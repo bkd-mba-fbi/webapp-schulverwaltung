@@ -61,6 +61,7 @@ import {
 import { decode } from 'src/app/shared/utils/decode';
 import { buildUserSetting } from 'src/spec-builders';
 import { EventsRestService } from '../../shared/services/events-rest.service';
+import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -170,6 +171,17 @@ export class PresenceControlStateService
     this.selectedLesson$,
     this.viewMode$,
   ]).pipe(map(spread(this.buildQueryParams.bind(this))), map(serializeParams));
+
+  subscriptionsDetailsByEvents$ = this.selectedLesson$
+    .pipe(
+      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
+    )
+    .pipe(
+      switchMap((ids) =>
+        forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
+      ),
+      shareReplay(1)
+    );
 
   private destroy$ = new Subject<void>();
 
@@ -324,35 +336,25 @@ export class PresenceControlStateService
    * Groups are available if the subscriptionDetailGroupId is found on the subscription detail of the given event
    *
    */
-  loadGroupAvailability(): Observable<boolean> {
-    const eventIds$ = this.selectedLesson$.pipe(
-      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
-    );
-
-    return eventIds$.pipe(
-      switchMap((ids) =>
-        forkJoin(
-          ids.map((id) =>
-            this.eventService
-              .getSubscriptionDetails(id)
-              .pipe(
-                map((details) =>
-                  details.reduce(
-                    (acc, detail) =>
-                      acc ||
-                      detail.VssId === this.settings.subscriptionDetailGroupId,
-                    false
-                  )
-                )
-              )
+  loadGroupsAvailability(): Observable<boolean> {
+    return this.subscriptionsDetailsByEvents$.pipe(
+      map((details) =>
+        details.every((detail) =>
+          detail.find(
+            (d) => d.VssId === this.settings.subscriptionDetailGroupId
           )
         )
-      ),
-      map((groupAvailabilities) =>
-        groupAvailabilities.reduce(
-          (acc, isAvailable) => acc && isAvailable,
-          true
-        )
+      )
+    );
+  }
+
+  loadSubscriptionDetailForEventWithGroups(): Observable<
+    Maybe<SubscriptionDetail>
+  > {
+    return this.subscriptionsDetailsByEvents$.pipe(
+      map((details) => ([] as SubscriptionDetail[]).concat(...details)),
+      map((details) =>
+        details.find((d) => d.VssId === this.settings.subscriptionDetailGroupId)
       )
     );
   }

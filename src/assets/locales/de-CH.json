@@ -58,6 +58,7 @@
       "cancel": "Schliessen"
     },
     "groups": {
+      "group": "Gruppe",
       "title": "Gruppe einteilen",
       "show": "Anzeige:",
       "all": "Alle Gruppen",

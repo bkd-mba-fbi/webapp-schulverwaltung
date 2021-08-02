@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { SubscriptionDetail } from '../../../shared/models/subscription-detail.model';
 
 interface GroupOptions {
-  id: Option<number>;
+  id: Option<string>;
   label: Option<string>;
 }
 
@@ -13,8 +14,9 @@ interface GroupOptions {
   styleUrls: ['./presence-control-group-dialog.component.scss'],
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
-  title: string;
-  emptyLabel: string;
+  @Input() title: string;
+  @Input() emptyLabel: string;
+  @Input() subscriptionDetail: SubscriptionDetail;
   groupOptions: Array<GroupOptions> = [];
   selected: GroupOptions;
 
@@ -24,19 +26,31 @@ export class PresenceControlGroupDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const emptyOption = this.createGroupOption(this.emptyLabel);
+    const emptyOption = {
+      id: null,
+      label: this.translate.instant(this.emptyLabel),
+    };
+    this.groupOptions = this.createGroupOptions(this.subscriptionDetail);
     this.groupOptions.unshift(emptyOption);
     this.selected = emptyOption;
   }
 
-  createGroupOption(emptyLabel: string): GroupOptions {
-    return {
-      id: null,
-      label: this.translate.instant(emptyLabel),
-    };
+  createGroupOptions(detail: SubscriptionDetail): Array<GroupOptions> {
+    return detail.DropdownItems
+      ? detail.DropdownItems.map((item) => ({
+          id: item.Key,
+          label: `${this.translate.instant('presence-control.groups.group')} ${
+            item.Value
+          }`,
+        }))
+      : [];
   }
 
   getSelectedGroup(): void {
     console.log(this.selected);
+  }
+
+  onSelectionChange(option: GroupOptions): void {
+    this.selected = option;
   }
 }

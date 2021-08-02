@@ -67,8 +67,8 @@ describe('PresenceControlListComponent', () => {
           .and.callFake(() => of(blockLessons)),
         hasUnconfirmedAbsences: () => of(false),
         viewMode$: of(),
-        loadGroupAvailability: jasmine
-          .createSpy('loadGroupAvailability')
+        loadGroupsAvailability: jasmine
+          .createSpy('loadGroupsAvailability')
           .and.callFake(() => of(false)),
       } as unknown) as PresenceControlStateService;
 
