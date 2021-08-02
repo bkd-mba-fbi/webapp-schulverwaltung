@@ -31,6 +31,7 @@ export function extractLesson(lessonPresence: LessonPresence): Lesson {
   return {
     LessonRef: lessonPresence.LessonRef,
     EventDesignation: lessonPresence.EventDesignation,
+    EventRef: lessonPresence.EventRef,
     StudyClassNumber: lessonPresence.StudyClassNumber,
     TeacherInformation: lessonPresence.TeacherInformation,
     LessonDateTimeFrom: lessonPresence.LessonDateTimeFrom,

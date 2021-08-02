@@ -28,6 +28,7 @@ describe('PresenceControlHeaderComponent', () => {
     const lesson = {
       LessonRef: buildReference(),
       EventDesignation: 'Deutsch',
+      EventRef: buildReference(),
       StudyClassNumber: 'DHF2018a',
       TeacherInformation: 'Monika Muster',
       LessonDateTimeFrom: new Date(),

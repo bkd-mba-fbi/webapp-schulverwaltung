@@ -83,11 +83,13 @@ export function buildLesson(
   dateTo: Date,
   eventDesignation: string,
   teacherInformation: string,
-  studyClassNumber?: string
+  studyClassNumber?: string,
+  eventId?: number
 ): Lesson {
   return {
     LessonRef: buildReference(lessonId),
     EventDesignation: eventDesignation,
+    EventRef: buildReference(eventId),
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
     StudyClassNumber: studyClassNumber || '9a',

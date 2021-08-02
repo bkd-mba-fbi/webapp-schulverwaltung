@@ -1,4 +1,8 @@
-import { buildLessonPresence, buildLesson } from '../../../spec-builders';
+import {
+  buildLessonPresence,
+  buildLesson,
+  buildReference,
+} from '../../../spec-builders';
 import {
   lessonsEqual,
   extractLesson,
@@ -106,6 +110,7 @@ describe('lessons utils', () => {
       expect(result).toEqual({
         LessonRef: { Id: 1, HRef: '/1' },
         EventDesignation: 'Mathematik',
+        EventRef: buildReference(),
         StudyClassNumber: '9a',
         TeacherInformation: '',
         LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),

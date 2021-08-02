@@ -61,7 +61,6 @@ import {
 import { decode } from 'src/app/shared/utils/decode';
 import { buildUserSetting } from 'src/spec-builders';
 import { EventsRestService } from '../../shared/services/events-rest.service';
-import { flattenDeep } from 'lodash-es';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -158,17 +157,6 @@ export class PresenceControlStateService
   );
   absentPrecedingCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getPrecedingAbsencesCount())
-  );
-
-  selectedLessonEventIds$ = combineLatest([
-    this.selectedLesson$,
-    this.lessonPresences$,
-  ]).pipe(
-    map(([lesson, presences]) => {
-      return presences.filter((p) => p.LessonRef.Id === Number(lesson?.id));
-    }),
-    map((presences) => [...new Set(presences.map((p) => p.EventRef.Id))]),
-    shareReplay(1)
   );
 
   viewMode$ = merge(
@@ -337,7 +325,11 @@ export class PresenceControlStateService
    *
    */
   loadGroupAvailability(): Observable<boolean> {
-    return this.selectedLessonEventIds$.pipe(
+    const eventIds$ = this.selectedLesson$.pipe(
+      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
+    );
+
+    return eventIds$.pipe(
       switchMap((ids) =>
         forkJoin(
           ids.map((id) =>

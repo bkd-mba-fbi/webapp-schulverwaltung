@@ -196,7 +196,9 @@ describe('PresenceControlStateService', () => {
           new Date(2000, 0, 23, 8, 0),
           new Date(2000, 0, 23, 9, 0),
           'Deutsch',
-          'Dora Durrer'
+          'Dora Durrer',
+          undefined,
+          333
         )
       )
     );
