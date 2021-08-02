@@ -93,7 +93,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     return this.state.validFilter$.pipe(
       switchMap((filter) => this.lessonPresencesService.getLessonRefs(filter)),
       map((lessonPresences) =>
-        lessonPresences
+        lessonPresences.length > 0
           ? this.reportsService.getEvaluateAbsencesUrl(
               this.getReportRecordIds(lessonPresences)
             )

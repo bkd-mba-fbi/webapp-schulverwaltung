@@ -21,9 +21,8 @@
       >
         <div class="buttons">
           <a
-            *ngIf="!data.loadingPage"
+            *ngIf="!data.loadingPage && reportUrl$ | async"
             class="report btn btn-primary mb-2"
-            [class.disabled]="!reportUrl$ | async"
             [href]="reportUrl$ | async"
             target="_blank"
           >
