@@ -21,7 +21,6 @@ import {
   filter,
   startWith,
   defaultIfEmpty,
-  tap,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -159,6 +158,17 @@ export class PresenceControlStateService
   );
   absentPrecedingCount$ = this.selectedPresenceControlEntries$.pipe(
     map(getPrecedingAbsencesCount())
+  );
+
+  selectedLessonEventIds$ = combineLatest([
+    this.selectedLesson$,
+    this.lessonPresences$,
+  ]).pipe(
+    map(([lesson, presences]) => {
+      return presences.filter((p) => p.LessonRef.Id === Number(lesson?.id));
+    }),
+    map((presences) => [...new Set(presences.map((p) => p.EventRef.Id))]),
+    shareReplay(1)
   );
 
   viewMode$ = merge(
@@ -327,11 +337,7 @@ export class PresenceControlStateService
    *
    */
   loadGroupAvailability(): Observable<boolean> {
-    const eventIds$ = this.selectedLesson$.pipe(
-      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
-    );
-
-    return eventIds$.pipe(
+    return this.selectedLessonEventIds$.pipe(
       switchMap((ids) =>
         forkJoin(
           ids.map((id) =>

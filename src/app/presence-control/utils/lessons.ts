@@ -30,7 +30,6 @@ export function lessonsEqual(
 export function extractLesson(lessonPresence: LessonPresence): Lesson {
   return {
     LessonRef: lessonPresence.LessonRef,
-    EventRef: lessonPresence.EventRef,
     EventDesignation: lessonPresence.EventDesignation,
     StudyClassNumber: lessonPresence.StudyClassNumber,
     TeacherInformation: lessonPresence.TeacherInformation,
