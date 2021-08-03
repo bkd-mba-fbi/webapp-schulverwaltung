@@ -34,6 +34,14 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   selectGroup(): void {
+    this.openGroupModal('presence-control.groups.all');
+  }
+
+  assignGroup(): void {
+    this.openGroupModal('presence-control.groups.none');
+  }
+
+  openGroupModal(emtpyLabel: string): void {
     this.state
       .loadSubscriptionDetailForEventWithGroups()
       .pipe(take(1))
@@ -42,17 +50,16 @@ export class PresenceControlGroupComponent implements OnInit {
           PresenceControlGroupDialogComponent
         );
         modalRef.componentInstance.title =
-          'presence-control.groups.select.title';
-        modalRef.componentInstance.emptyLabel = 'presence-control.groups.all';
+          'presence-control.groups.assign.title';
+        modalRef.componentInstance.emptyLabel = emtpyLabel;
         modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
-      });
-  }
 
-  assignGroup(): void {
-    const modalRef = this.modalService.open(
-      PresenceControlGroupDialogComponent
-    );
-    modalRef.componentInstance.title = 'presence-control.groups.assign.title';
-    modalRef.componentInstance.emptyLabel = 'presence-control.groups.none';
+        modalRef.result.then(
+          (selectedGroup) => {
+            console.log(selectedGroup);
+          },
+          () => {}
+        );
+      });
   }
 }

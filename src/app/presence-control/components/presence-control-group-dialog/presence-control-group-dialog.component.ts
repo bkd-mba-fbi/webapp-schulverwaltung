@@ -46,8 +46,8 @@ export class PresenceControlGroupDialogComponent implements OnInit {
       : [];
   }
 
-  getSelectedGroup(): void {
-    console.log(this.selected);
+  getSelectedGroup(): Option<GroupOptions> {
+    return this.selected;
   }
 
   onSelectionChange(option: GroupOptions): void {
