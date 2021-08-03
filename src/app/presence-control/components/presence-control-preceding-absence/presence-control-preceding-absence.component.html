@@ -6,7 +6,7 @@
     {{ absence.LessonRef.From | date: 'HH:mm' }}–{{
       absence.LessonRef.To | date: 'HH:mm'
     }}
-    {{ absence.LessonRef.EventDesignation }}:
+    {{ absence.LessonRef.EventDesignation }}{{ ':' | addSpace }}
     {{ absence.Type }}
   </div>
 </div>
