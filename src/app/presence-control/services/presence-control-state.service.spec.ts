@@ -258,6 +258,8 @@ describe('PresenceControlStateService', () => {
           )
         )
       );
+      expectLoadOtherTeachersAbsencesRequest([], person.Id, [66]);
+
       resetCallbackSpies();
 
       service.updateLessonPresencesTypes([
@@ -272,6 +274,8 @@ describe('PresenceControlStateService', () => {
       expect(entries[0].lessonPresence.TypeRef.Id).toBe(absent.Id);
       expect(entries[0].lessonPresence.Type).toBe('Abwesend');
       expect(entries[0].presenceType).toBe(absent);
+
+      expectLoadOtherTeachersAbsencesRequest([], person.Id, [66]);
 
       expectCstRequest();
     });
@@ -353,9 +357,13 @@ describe('PresenceControlStateService', () => {
 
   function expectLoadOtherTeachersAbsencesRequest(
     response = otherAbsences,
-    personId: number
+    personId: number,
+    students?: number[]
   ): void {
-    const url = `https://eventotest.api/LessonTeachers/except/${personId}/LessonAbsences?expand=LessonRef`;
+    let url = `https://eventotest.api/LessonTeachers/except/${personId}/LessonAbsences?expand=LessonRef`;
+    if (students && students.length > 0) {
+      url = url.concat('&filter.StudentRef=;', students.join(';'));
+    }
     httpTestingController
       .expectOne(url)
       .flush(t.array(LessonAbsence).encode(response));

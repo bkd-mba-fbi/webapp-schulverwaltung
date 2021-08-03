@@ -18,6 +18,7 @@ import {
   takeUntil,
   mergeAll,
   filter,
+  startWith,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -110,9 +111,26 @@ export class PresenceControlStateService
     .getAbsenceConfirmationStates()
     .pipe(shareReplay(1));
 
-  otherTeachersAbsences$ = this.personsService.getMyself().pipe(
-    switchMap((person) =>
-      this.lessonTeacherService.loadOtherTeachersLessonAbsences(person.Id)
+  selectedLessonStudentIds$ = combineLatest([
+    this.selectLesson$,
+    this.lessonPresences$,
+  ]).pipe(
+    map(([lesson, presences]) => {
+      return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
+    }),
+    map((p) => p.map((i) => i.StudentRef.Id)),
+    shareReplay(1)
+  );
+
+  otherTeachersAbsences$ = combineLatest([
+    this.personsService.getMyself(),
+    this.selectedLessonStudentIds$.pipe(startWith([])),
+  ]).pipe(
+    switchMap(([person, students]) =>
+      this.lessonTeacherService.loadOtherTeachersLessonAbsences(
+        person.Id,
+        students
+      )
     ),
     shareReplay(1)
   );
