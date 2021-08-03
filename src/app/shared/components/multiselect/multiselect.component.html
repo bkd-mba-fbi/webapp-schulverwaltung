@@ -11,6 +11,9 @@
   bindValue="Key"
   bindLabel="Value"
   (click)="itemsChanged()"
+  (clear)="itemsChanged()"
+  dropdownPosition="bottom"
+  [clearable]="true"
 >
   <!-- selected items -->
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
