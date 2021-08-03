@@ -18,7 +18,8 @@ export class LessonTeachersRestService extends RestService<
   }
 
   /**
-   * Returns all lesson absences for all teachers expect for the given teacher for the current lesson corresponding students
+   * Returns all lesson absences for the current lesson and the specified students
+   * for all teachers except the specified teacher.
    */
   loadOtherTeachersLessonAbsences(
     personId: number,
