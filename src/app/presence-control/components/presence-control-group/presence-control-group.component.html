@@ -50,7 +50,7 @@
           <input #checkbox type="checkbox" class="form-check-input" />
         </div>
         <div class="name pr-2">
-          {{ entry.name }}
+          {{ getName(entry.id) | async }}
         </div>
         <div class="group">
           {{ entry.group }}

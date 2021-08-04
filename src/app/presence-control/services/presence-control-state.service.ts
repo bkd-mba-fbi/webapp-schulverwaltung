@@ -62,6 +62,7 @@ import { decode } from 'src/app/shared/utils/decode';
 import { buildUserSetting } from 'src/spec-builders';
 import { EventsRestService } from '../../shared/services/events-rest.service';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
+import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -126,6 +127,17 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
+  selectedLessonRegistrationRefIds$ = combineLatest([
+    this.selectedLesson$,
+    this.lessonPresences$,
+  ]).pipe(
+    map(([lesson, presences]) => {
+      return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
+    }),
+    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[]),
+    shareReplay(1)
+  );
+
   otherTeachersAbsences$ = combineLatest([
     this.personsService.getMyself(),
     this.selectedLessonStudentIds$.pipe(startWith([])),
@@ -183,6 +195,14 @@ export class PresenceControlStateService
       shareReplay(1)
     );
 
+  subscriptionsDetailsByRegistrations$ = this.selectedLessonRegistrationRefIds$.pipe(
+    switchMap((ids) =>
+      forkJoin(
+        ids.map((id) => this.subscriptionService.getListByRegistrationId(id))
+      )
+    )
+  );
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -192,6 +212,7 @@ export class PresenceControlStateService
     private presenceTypesService: PresenceTypesService,
     private personsService: PersonsRestService,
     private eventService: EventsRestService,
+    private subscriptionService: SubscriptionsRestService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,
@@ -356,6 +377,27 @@ export class PresenceControlStateService
       map((details) =>
         details.find((d) => d.VssId === this.settings.subscriptionDetailGroupId)
       )
+    );
+  }
+
+  loadSubscriptionDetailForRegistrationWithGroups(): Observable<
+    ReadonlyArray<SubscriptionDetail>
+  > {
+    return this.subscriptionsDetailsByRegistrations$.pipe(
+      map((details) => ([] as SubscriptionDetail[]).concat(...details)),
+      map((details) =>
+        details.filter(
+          (d) => d.VssId === this.settings.subscriptionDetailGroupId
+        )
+      )
+    );
+  }
+
+  // TODO
+  getStudentFullName(studentId: number): Observable<Maybe<string>> {
+    return this.lessonPresences$.pipe(
+      map((presences) => presences.find((p) => p.StudentRef.Id === studentId)),
+      map((presence) => presence?.StudentFullName)
     );
   }
 

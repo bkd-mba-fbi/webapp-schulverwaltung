@@ -134,6 +134,28 @@ export class LessonPresencesRestService extends RestService<
       .pipe(switchMap(decodeArray(this.lessonPresenceRefCodec)));
   }
 
+  getRegistrationRefsByEventIds(
+    eventIds: ReadonlyArray<number>
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    let params = new HttpParams();
+    params.set('filter.EventRef', `;${eventIds.join(';')}`);
+    params = params.set(
+      'fields',
+      [
+        'LessonRef',
+        'RegistrationRef',
+        'StudentRef',
+        'EventRef',
+        'StudyClassRef',
+        'TypeRef',
+      ].join(',')
+    );
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, { params })
+      .pipe(switchMap(decodeArray(this.lessonPresenceRefCodec)));
+  }
+
   getFilteredList(
     absencesFilter: EditAbsencesFilter,
     offset: number,
