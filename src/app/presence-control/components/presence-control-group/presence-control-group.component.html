@@ -1,5 +1,6 @@
 <div
   *erzLet="{
+    entries: students$ | async,
     sortCriteria: groupService.sortCriteria$ | async
   } as data"
 >
@@ -43,5 +44,18 @@
         }}</span>
       </div>
     </div>
+    <ng-container *ngFor="let entry of data.entries">
+      <div class="group-list-entry">
+        <div class="checkbox">
+          <input #checkbox type="checkbox" class="form-check-input" />
+        </div>
+        <div class="name pr-2">
+          {{ entry.name }}
+        </div>
+        <div class="group">
+          {{ entry.group }}
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

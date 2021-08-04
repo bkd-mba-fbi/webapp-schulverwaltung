@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import {
   PresenceControlGroupService,
   PrimarySortKey,
@@ -9,12 +10,22 @@ import {
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { PresenceControlGroupDialogComponent } from '../presence-control-group-dialog/presence-control-group-dialog.component';
 
+interface Student {
+  name: string;
+  group: Option<string>;
+}
+
 @Component({
   selector: 'erz-presence-control-group',
   templateUrl: './presence-control-group.component.html',
   styleUrls: ['./presence-control-group.component.scss'],
 })
 export class PresenceControlGroupComponent implements OnInit {
+  // TODO
+  students$ = this.state.selectedPresenceControlEntries$.pipe(
+    map((entries) => entries.map((entry) => this.createStudent(entry)))
+  );
+
   constructor(
     public groupService: PresenceControlGroupService,
     public state: PresenceControlStateService,
@@ -31,6 +42,13 @@ export class PresenceControlGroupComponent implements OnInit {
       return '';
     }
     return sortCriteria.ascending ? '↓' : '↑';
+  }
+
+  createStudent(entry: PresenceControlEntry): Student {
+    return {
+      name: entry.studentFullName,
+      group: null,
+    };
   }
 
   selectGroup(): void {

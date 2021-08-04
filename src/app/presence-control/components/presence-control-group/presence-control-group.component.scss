@@ -27,6 +27,39 @@
   border-bottom: 2px solid $gray-300;
 }
 
+.group-list-entry {
+  padding: $spacer;
+  border-bottom: 1px solid $gray-200;
+  display: grid;
+  grid-template-areas: "checkbox name group";
+  grid-template-columns: min-content 3fr 2fr;
+}
+
+.checkbox {
+  grid-area: checkbox;
+  margin: 0;
+  padding: 0.6rem $spacer/2 0 0;
+}
+
+.checkbox input.form-check-input {
+  // Make the following statements !important since the are
+  // overwritten in Evento as such
+  position: static !important;
+  margin: 0 !important;
+  display: block;
+}
+
+.name {
+  grid-area: name;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.group {
+  grid-area: group;
+}
+
 @media (max-width: 750px) {
   .group-list {
     padding-left: 0;
@@ -34,7 +67,10 @@
   }
 
   .group-list-header {
-    grid-template-areas: "name group";
     grid-template-columns: 5fr 1fr;
+  }
+
+  .group-list-entry {
+    grid-template-columns: min-content 5fr 1fr;
   }
 }
