@@ -19,6 +19,7 @@ import {
   mergeAll,
   filter,
   startWith,
+  defaultIfEmpty,
 } from 'rxjs/operators';
 import { isEqual, uniq } from 'lodash-es';
 import { format } from 'date-fns';
@@ -158,15 +159,9 @@ export class PresenceControlStateService
 
   viewMode$ = merge(
     this.viewModeSubject$,
-    this.getSavedViewMode().pipe(take(1))
+    this.getSavedViewMode().pipe(take(1), defaultIfEmpty(ViewMode.Grid))
   );
   selectedDate$ = this.selectedDateSubject$.asObservable();
-
-  queryParams$ = combineLatest([
-    this.selectedDate$,
-    this.selectedLesson$,
-    this.viewMode$,
-  ]).pipe(map(spread(this.buildQueryParams.bind(this))));
 
   queryParamsString$ = combineLatest([
     this.selectedDate$,
@@ -402,7 +397,7 @@ export class PresenceControlStateService
     if (viewMode === ViewMode.List) {
       return ViewMode.List;
     } else {
-      return ViewMode.Grid; // default
+      return ViewMode.Grid;
     }
   }
 
