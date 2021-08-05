@@ -21,7 +21,7 @@
       >
         <div class="buttons">
           <a
-            *ngIf="!data.loadingPage && reportUrl$ | async"
+            *ngIf="reportUrl$ | async"
             class="report btn btn-primary mb-2"
             [href]="reportUrl$ | async"
             target="_blank"
