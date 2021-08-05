@@ -1,6 +1,8 @@
-import { Injectable, Inject, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { Params } from '@angular/router';
+import { format, isToday } from 'date-fns';
+import { isEqual, uniq } from 'lodash-es';
 import {
   BehaviorSubject,
   combineLatest,
@@ -11,58 +13,56 @@ import {
   timer,
 } from 'rxjs';
 import {
+  defaultIfEmpty,
+  distinctUntilChanged,
+  filter,
   map,
+  mergeAll,
   shareReplay,
+  startWith,
   switchMap,
   take,
-  distinctUntilChanged,
   takeUntil,
-  mergeAll,
-  filter,
-  startWith,
-  defaultIfEmpty,
+  tap,
 } from 'rxjs/operators';
-import { isEqual, uniq } from 'lodash-es';
-import { format } from 'date-fns';
-
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { PresenceType } from '../../shared/models/presence-type.model';
-import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
-import { LoadingService } from '../../shared/services/loading-service';
-import { PresenceTypesService } from '../../shared/services/presence-types.service';
-import { spread } from '../../shared/utils/function';
-import { getPresenceControlEntriesForLesson } from '../utils/lessons';
-import {
-  getCategoryCount,
-  getPrecedingAbsencesCount,
-} from '../utils/presence-control-entries';
-import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
-import { PresenceControlEntry } from '../models/presence-control-entry.model';
-import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
 import { Settings, SETTINGS } from 'src/app/settings';
-import { canChangePresenceType } from '../utils/presence-types';
-import { isToday } from 'date-fns';
-import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
-import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
-import { serializeParams } from 'src/app/shared/utils/url';
-import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
-import {
-  extractLessonEntries,
-  getCurrentLessonEntry,
-} from '../utils/lesson-entries';
-import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
-import { PersonsRestService } from '../../shared/services/persons-rest.service';
-import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
 import {
   BaseProperty,
   UserSetting,
   ViewModeType,
 } from 'src/app/shared/models/user-setting.model';
+import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
+import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { decode } from 'src/app/shared/utils/decode';
+import { serializeParams } from 'src/app/shared/utils/url';
 import { buildUserSetting } from 'src/spec-builders';
-import { EventsRestService } from '../../shared/services/events-rest.service';
+import { LessonPresence } from '../../shared/models/lesson-presence.model';
+import { PresenceType } from '../../shared/models/presence-type.model';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
+import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
+import { EventsRestService } from '../../shared/services/events-rest.service';
+import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
+import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
+import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
+import { LoadingService } from '../../shared/services/loading-service';
+import { PersonsRestService } from '../../shared/services/persons-rest.service';
+import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
+import { spread } from '../../shared/utils/function';
+import { SubscriptionDetailWithName } from '../components/presence-control-group/presence-control-group.component';
+import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import {
+  extractLessonEntries,
+  getCurrentLessonEntry,
+} from '../utils/lesson-entries';
+import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
+import { getPresenceControlEntriesForLesson } from '../utils/lessons';
+import {
+  getCategoryCount,
+  getPrecedingAbsencesCount,
+} from '../utils/presence-control-entries';
+import { canChangePresenceType } from '../utils/presence-types';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -380,10 +380,10 @@ export class PresenceControlStateService
     );
   }
 
-  loadSubscriptionDetailForRegistrationWithGroups(): Observable<
-    ReadonlyArray<SubscriptionDetail>
+  loadSubscriptionDetailsForRegistrationWithGroups(): Observable<
+    ReadonlyArray<SubscriptionDetailWithName>
   > {
-    return this.subscriptionsDetailsByRegistrations$.pipe(
+    const details$ = this.subscriptionsDetailsByRegistrations$.pipe(
       map((details) => ([] as SubscriptionDetail[]).concat(...details)),
       map((details) =>
         details.filter(
@@ -391,13 +391,32 @@ export class PresenceControlStateService
         )
       )
     );
+
+    return combineLatest([details$, this.lessonPresences$]).pipe(
+      map(spread(this.getSubscriptionDetails.bind(this)))
+    );
   }
 
-  // TODO
-  getStudentFullName(studentId: number): Observable<Maybe<string>> {
-    return this.lessonPresences$.pipe(
-      map((presences) => presences.find((p) => p.StudentRef.Id === studentId)),
-      map((presence) => presence?.StudentFullName)
+  // TODO move to helper
+  mapToSubscriptionDetailWithName(
+    detail: SubscriptionDetail,
+    presences: ReadonlyArray<LessonPresence>
+  ): SubscriptionDetailWithName {
+    return {
+      id: detail.IdPerson,
+      name: presences.find((p) => p.StudentRef.Id === detail.IdPerson)
+        ?.StudentFullName,
+      detail,
+    };
+  }
+
+  // TODO move to helper
+  getSubscriptionDetails(
+    details: ReadonlyArray<SubscriptionDetail>,
+    presences: ReadonlyArray<LessonPresence>
+  ): ReadonlyArray<SubscriptionDetailWithName> {
+    return details.map((d) =>
+      this.mapToSubscriptionDetailWithName(d, presences)
     );
   }
 

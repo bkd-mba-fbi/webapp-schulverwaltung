@@ -1,6 +1,6 @@
 <div
   *erzLet="{
-    entries: students$ | async,
+    entries: subscriptions$ | async,
     sortCriteria: groupService.sortCriteria$ | async
   } as data"
 >
@@ -50,10 +50,10 @@
           <input #checkbox type="checkbox" class="form-check-input" />
         </div>
         <div class="name pr-2">
-          {{ getName(entry.id) | async }}
+          {{ entry.name || '' }}
         </div>
         <div class="group">
-          {{ entry.group }}
+          {{ entry.detail ? entry.detail.value : '' }}
         </div>
       </div>
     </ng-container>

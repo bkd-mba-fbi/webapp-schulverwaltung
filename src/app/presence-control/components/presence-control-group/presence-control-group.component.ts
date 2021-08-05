@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { SubscriptionDetail } from '../../../shared/models/subscription-detail.model';
 import {
   PresenceControlGroupService,
@@ -11,11 +11,11 @@ import {
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { PresenceControlGroupDialogComponent } from '../presence-control-group-dialog/presence-control-group-dialog.component';
 
-interface Student {
+export type SubscriptionDetailWithName = {
   id: number;
-  eventId: number;
-  group: Option<string>;
-}
+  name: Maybe<string>;
+  detail: SubscriptionDetail;
+};
 
 @Component({
   selector: 'erz-presence-control-group',
@@ -23,10 +23,7 @@ interface Student {
   styleUrls: ['./presence-control-group.component.scss'],
 })
 export class PresenceControlGroupComponent implements OnInit {
-  subscriptions$ = this.state.loadSubscriptionDetailForRegistrationWithGroups();
-  students$ = this.subscriptions$.pipe(
-    map((subscriptions) => subscriptions.map((s) => this.createStudent(s)))
-  );
+  subscriptions$ = this.state.loadSubscriptionDetailsForRegistrationWithGroups(); // TODO load in state service or loading spinner
 
   constructor(
     public groupService: PresenceControlGroupService,
@@ -44,19 +41,6 @@ export class PresenceControlGroupComponent implements OnInit {
       return '';
     }
     return sortCriteria.ascending ? '↓' : '↑';
-  }
-
-  createStudent(detail: SubscriptionDetail): Student {
-    return {
-      id: detail.IdPerson,
-      eventId: detail.EventId,
-      group: detail.Value,
-    };
-  }
-
-  // TODO add person name to subscription detail in state service
-  getName(personId: number): Observable<Maybe<string>> {
-    return this.state.getStudentFullName(personId);
   }
 
   selectGroup(): void {
