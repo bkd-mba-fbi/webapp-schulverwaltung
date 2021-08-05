@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, shareReplay } from 'rxjs/operators';
 
 import {
   EvaluateAbsencesStateService,
@@ -98,7 +98,8 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
               this.getReportRecordIds(lessonPresences)
             )
           : null
-      )
+      ),
+      shareReplay(1)
     );
   }
 
