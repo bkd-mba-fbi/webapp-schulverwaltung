@@ -1,47 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { SubscriptionDetail } from '../../../shared/models/subscription-detail.model';
-import {
-  PresenceControlGroupService,
-  PrimarySortKey,
-  SortCriteria,
-} from '../../services/presence-control-group.service';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { spread } from '../../../shared/utils/function';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
 import { PresenceControlGroupDialogComponent } from '../presence-control-group-dialog/presence-control-group-dialog.component';
 
-export type SubscriptionDetailWithName = {
-  id: number;
-  name: Maybe<string>;
-  detail: SubscriptionDetail;
-};
+export type PrimarySortKey = 'name' | 'group';
 
+export interface SortCriteria {
+  primarySortKey: PrimarySortKey;
+  ascending: boolean;
+}
 @Component({
   selector: 'erz-presence-control-group',
   templateUrl: './presence-control-group.component.html',
   styleUrls: ['./presence-control-group.component.scss'],
 })
 export class PresenceControlGroupComponent implements OnInit {
+  private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
+    primarySortKey: 'name',
+    ascending: false,
+  });
+  sortCriteria$ = this.sortCriteriaSubject$.asObservable();
+
   subscriptions$ = this.state.getStudentsWithGroupInfo();
 
+  sortedEntries$ = combineLatest([
+    this.subscriptions$,
+    this.sortCriteria$,
+  ]).pipe(map(spread(sortSubscriptionDetails)));
+
   constructor(
-    public groupService: PresenceControlGroupService,
     public state: PresenceControlStateService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {}
-
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria,
-    sortKey: PrimarySortKey
-  ): string {
-    if (sortCriteria.primarySortKey !== sortKey) {
-      return '';
-    }
-    return sortCriteria.ascending ? '↓' : '↑';
-  }
 
   selectGroup(): void {
     this.openGroupModal('presence-control.groups.all');
@@ -71,5 +67,37 @@ export class PresenceControlGroupComponent implements OnInit {
           () => {}
         );
       });
+  }
+
+  getSortDirectionCharacter(
+    sortCriteria: SortCriteria,
+    sortKey: PrimarySortKey
+  ): string {
+    if (sortCriteria.primarySortKey !== sortKey) {
+      return '';
+    }
+    return sortCriteria.ascending ? '↓' : '↑';
+  }
+
+  /**
+   * Switches primary sort key or toggles sort direction, if already
+   * sorted by given key.
+   */
+  toggleSort(primarySortKey: PrimarySortKey): void {
+    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
+      if (criteria.primarySortKey === primarySortKey) {
+        // Change sort direction
+        this.sortCriteriaSubject$.next({
+          primarySortKey,
+          ascending: !criteria.ascending,
+        });
+      } else {
+        // Change sort key
+        this.sortCriteriaSubject$.next({
+          primarySortKey,
+          ascending: primarySortKey === 'name',
+        });
+      }
+    });
   }
 }

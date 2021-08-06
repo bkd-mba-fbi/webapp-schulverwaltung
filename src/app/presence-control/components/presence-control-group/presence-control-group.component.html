@@ -1,7 +1,7 @@
 <div
   *erzLet="{
-    entries: subscriptions$ | async,
-    sortCriteria: groupService.sortCriteria$ | async
+    sortCriteria: sortCriteria$ | async,
+    sortedEntries: sortedEntries$ | async
   } as data"
 >
   <button
@@ -35,7 +35,7 @@
     <div class="group-list-header">
       <div
         *ngFor="let key of ['name', 'group']"
-        (click)="groupService.toggleSort(key)"
+        (click)="toggleSort(key)"
         [className]="key"
       >
         {{ 'presence-control.groups.list.header.' + key | translate }}
@@ -45,7 +45,7 @@
       </div>
     </div>
     <ng-container *ngIf="!(state.loading$ | async); else loading">
-      <ng-container *ngFor="let entry of data.entries">
+      <ng-container *ngFor="let entry of data.sortedEntries">
         <div class="group-list-entry">
           <div class="checkbox">
             <input #checkbox type="checkbox" class="form-check-input" />

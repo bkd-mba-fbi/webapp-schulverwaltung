@@ -23,7 +23,6 @@ import {
   switchMap,
   take,
   takeUntil,
-  tap,
 } from 'rxjs/operators';
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
@@ -49,7 +48,6 @@ import { PersonsRestService } from '../../shared/services/persons-rest.service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
-import { SubscriptionDetailWithName } from '../components/presence-control-group/presence-control-group.component';
 import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import {
@@ -63,6 +61,13 @@ import {
   getPrecedingAbsencesCount,
 } from '../utils/presence-control-entries';
 import { canChangePresenceType } from '../utils/presence-types';
+import {
+  filterSubscriptionDetailsByGroupId,
+  findSubscriptionDetailByGroupId,
+  flattenSubscriptionDetails,
+  getSubscriptionDetailsWithName,
+  SubscriptionDetailWithName,
+} from '../utils/subscriptions-details';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -359,11 +364,9 @@ export class PresenceControlStateService
    */
   loadGroupsAvailability(): Observable<boolean> {
     return this.subscriptionsDetailsByEvents$.pipe(
-      map((details) =>
-        details.every((detail) =>
-          detail.find(
-            (d) => d.VssId === this.settings.subscriptionDetailGroupId
-          )
+      map((detailsList) =>
+        detailsList.every((details) =>
+          findSubscriptionDetailByGroupId(details, this.settings)
         )
       )
     );
@@ -373,57 +376,35 @@ export class PresenceControlStateService
     Maybe<SubscriptionDetail>
   > {
     return this.subscriptionsDetailsByEvents$.pipe(
-      map((details) => ([] as SubscriptionDetail[]).concat(...details)),
-      map((details) =>
-        details.find((d) => d.VssId === this.settings.subscriptionDetailGroupId)
-      )
+      map(flattenSubscriptionDetails),
+      map((details) => findSubscriptionDetailByGroupId(details, this.settings))
     );
   }
 
-  loadSubscriptionDetailsForRegistrationWithGroups(): Observable<
+  loadSubscriptionDetailsForRegistrationsWithGroups(): Observable<
     ReadonlyArray<SubscriptionDetail>
   > {
     return this.subscriptionsDetailsByRegistrations$.pipe(
-      map((details) => ([] as SubscriptionDetail[]).concat(...details)),
+      map(flattenSubscriptionDetails),
       map((details) =>
-        details.filter(
-          (d) => d.VssId === this.settings.subscriptionDetailGroupId
-        )
+        filterSubscriptionDetailsByGroupId(details, this.settings)
       )
     );
   }
 
+  /**
+   * Load all subscription details with groups for the selected students and mapped the details with the student's name
+   * Groups are available if the subscriptionDetailGroupId is found on the given subscription detail
+   *
+   */
   getStudentsWithGroupInfo(): Observable<
     ReadonlyArray<SubscriptionDetailWithName>
   > {
     return this.loadingService.load(
       combineLatest([
-        this.loadSubscriptionDetailsForRegistrationWithGroups().pipe(take(1)),
+        this.loadSubscriptionDetailsForRegistrationsWithGroups().pipe(take(1)),
         this.lessonPresences$.pipe(take(1)),
-      ]).pipe(map(spread(this.getSubscriptionDetails.bind(this))))
-    );
-  }
-
-  // TODO move to helper
-  mapToSubscriptionDetailWithName(
-    detail: SubscriptionDetail,
-    presences: ReadonlyArray<LessonPresence>
-  ): SubscriptionDetailWithName {
-    return {
-      id: detail.IdPerson,
-      name: presences.find((p) => p.StudentRef.Id === detail.IdPerson)
-        ?.StudentFullName,
-      detail,
-    };
-  }
-
-  // TODO move to helper
-  getSubscriptionDetails(
-    details: ReadonlyArray<SubscriptionDetail>,
-    presences: ReadonlyArray<LessonPresence>
-  ): ReadonlyArray<SubscriptionDetailWithName> {
-    return details.map((d) =>
-      this.mapToSubscriptionDetailWithName(d, presences)
+      ]).pipe(map(spread(getSubscriptionDetailsWithName)))
     );
   }
 
