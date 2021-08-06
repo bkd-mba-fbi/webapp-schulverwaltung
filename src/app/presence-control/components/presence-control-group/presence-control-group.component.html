@@ -1,7 +1,8 @@
 <div
   *erzLet="{
     sortCriteria: sortCriteria$ | async,
-    sortedEntries: sortedEntries$ | async
+    sortedEntries: sortedEntries$ | async,
+    selection: selectionService.selection$ | async
   } as data"
 >
   <button
@@ -25,6 +26,7 @@
     <a
       class="btn btn-primary float-right mr-2"
       (click)="assignGroup()"
+      [class.disabled]="data.selection.length === 0"
       aria-label="edit"
     >
       <i class="material-icons">edit</i>
@@ -48,7 +50,13 @@
       <ng-container *ngFor="let entry of data.sortedEntries">
         <div class="group-list-entry">
           <div class="checkbox">
-            <input #checkbox type="checkbox" class="form-check-input" />
+            <input
+              #checkbox
+              type="checkbox"
+              class="form-check-input"
+              [checked]="selectionService.isSelected$(entry) | async"
+              (change)="selectionService.toggle(entry)"
+            />
           </div>
           <div class="name pr-2">
             {{ entry.name || '' }}

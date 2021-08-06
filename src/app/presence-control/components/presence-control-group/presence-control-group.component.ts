@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { spread } from '../../../shared/utils/function';
+import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
 import { PresenceControlGroupDialogComponent } from '../presence-control-group-dialog/presence-control-group-dialog.component';
@@ -17,6 +18,7 @@ export interface SortCriteria {
   selector: 'erz-presence-control-group',
   templateUrl: './presence-control-group.component.html',
   styleUrls: ['./presence-control-group.component.scss'],
+  providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
@@ -34,6 +36,7 @@ export class PresenceControlGroupComponent implements OnInit {
 
   constructor(
     public state: PresenceControlStateService,
+    public selectionService: PresenceControlGroupSelectionService,
     private modalService: NgbModal
   ) {}
 
