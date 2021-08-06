@@ -381,9 +381,9 @@ export class PresenceControlStateService
   }
 
   loadSubscriptionDetailsForRegistrationWithGroups(): Observable<
-    ReadonlyArray<SubscriptionDetailWithName>
+    ReadonlyArray<SubscriptionDetail>
   > {
-    const details$ = this.subscriptionsDetailsByRegistrations$.pipe(
+    return this.subscriptionsDetailsByRegistrations$.pipe(
       map((details) => ([] as SubscriptionDetail[]).concat(...details)),
       map((details) =>
         details.filter(
@@ -391,9 +391,16 @@ export class PresenceControlStateService
         )
       )
     );
+  }
 
-    return combineLatest([details$, this.lessonPresences$]).pipe(
-      map(spread(this.getSubscriptionDetails.bind(this)))
+  getStudentsWithGroupInfo(): Observable<
+    ReadonlyArray<SubscriptionDetailWithName>
+  > {
+    return this.loadingService.load(
+      combineLatest([
+        this.loadSubscriptionDetailsForRegistrationWithGroups().pipe(take(1)),
+        this.lessonPresences$.pipe(take(1)),
+      ]).pipe(map(spread(this.getSubscriptionDetails.bind(this))))
     );
   }
 

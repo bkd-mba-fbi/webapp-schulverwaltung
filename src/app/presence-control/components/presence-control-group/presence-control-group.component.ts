@@ -23,7 +23,7 @@ export type SubscriptionDetailWithName = {
   styleUrls: ['./presence-control-group.component.scss'],
 })
 export class PresenceControlGroupComponent implements OnInit {
-  subscriptions$ = this.state.loadSubscriptionDetailsForRegistrationWithGroups(); // TODO load in state service or loading spinner
+  subscriptions$ = this.state.getStudentsWithGroupInfo();
 
   constructor(
     public groupService: PresenceControlGroupService,

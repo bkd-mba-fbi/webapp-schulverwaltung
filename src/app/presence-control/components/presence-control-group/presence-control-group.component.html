@@ -44,18 +44,24 @@
         }}</span>
       </div>
     </div>
-    <ng-container *ngFor="let entry of data.entries">
-      <div class="group-list-entry">
-        <div class="checkbox">
-          <input #checkbox type="checkbox" class="form-check-input" />
+    <ng-container *ngIf="!(state.loading$ | async); else loading">
+      <ng-container *ngFor="let entry of data.entries">
+        <div class="group-list-entry">
+          <div class="checkbox">
+            <input #checkbox type="checkbox" class="form-check-input" />
+          </div>
+          <div class="name pr-2">
+            {{ entry.name || '' }}
+          </div>
+          <div class="group">
+            {{ entry.detail ? entry.detail.value : '' }}
+          </div>
         </div>
-        <div class="name pr-2">
-          {{ entry.name || '' }}
-        </div>
-        <div class="group">
-          {{ entry.detail ? entry.detail.value : '' }}
-        </div>
-      </div>
+      </ng-container>
     </ng-container>
+
+    <ng-template #loading>
+      <erz-spinner></erz-spinner>
+    </ng-template>
   </div>
 </div>
