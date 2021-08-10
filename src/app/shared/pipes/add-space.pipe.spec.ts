@@ -18,7 +18,17 @@ describe('AddSpacePipe', () => {
   });
 
   it('return space before colon for french', () => {
-    const pipe = new AddSpacePipe(i18nService).transform('Test:');
+    const pipe = new AddSpacePipe(i18nService).transform('Test:', ':');
     expect(pipe).toBe('Test :');
+  });
+
+  it('return space before question mark for french', () => {
+    const pipe = new AddSpacePipe(i18nService).transform('Test?', '?');
+    expect(pipe).toBe('Test ?');
+  });
+
+  it('return space before colon and question mark for french', () => {
+    const pipe = new AddSpacePipe(i18nService).transform('Test: Test?', ':?');
+    expect(pipe).toBe('Test : Test ?');
   });
 });

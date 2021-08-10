@@ -7,12 +7,13 @@ import { I18nService } from '../services/i18n.service';
 export class AddSpacePipe implements PipeTransform {
   constructor(protected i18n: I18nService) {}
 
-  transform(value: string): string {
+  transform(value: string, chars: string): string {
     const lang = this.i18n.detectLanguage();
 
     switch (lang) {
       case 'fr-CH':
-        return value.replace(':', ' :');
+        Array.from(chars).map((c) => (value = value.replace(c, ' '.concat(c))));
+        return value;
 
       default:
         return value;
