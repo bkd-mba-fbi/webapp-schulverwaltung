@@ -76,7 +76,7 @@ window.absenzenmanagement.settings = {
     myAbsences: 'StudentRole',
     presenceControl: 'LessonTeacherRole;TeacherRole;ClassTeacherRole',
     openAbsences: 'LessonTeacherRole;ClassTeacherRole',
-    editAbsences: 'LessonTeacherRole;ClassTeacherRole;TeacherRole;AbsenceAdministratorRole',
+    editAbsences: 'LessonTeacherRole;ClassTeacherRole;TeacherRole,AbsenceAdministratorRole',
   },
 
   /**
