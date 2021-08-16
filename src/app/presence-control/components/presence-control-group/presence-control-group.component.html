@@ -5,10 +5,10 @@
     selection: selectionService.selection$ | async
   } as data"
 >
-  <button
-    type="button"
+  <a
     class="back btn btn-link p-3"
     [routerLink]="['/presence-control']"
+    [queryParams]="backlinkQueryParams$ | async"
   >
     <div class="d-flex align-items-center">
       <i class="material-icons">navigate_before</i>
@@ -16,7 +16,7 @@
         'presence-control.groups.title' | translate
       }}</span>
     </div>
-  </button>
+  </a>
 
   <div class="group-header mb-2">
     <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>

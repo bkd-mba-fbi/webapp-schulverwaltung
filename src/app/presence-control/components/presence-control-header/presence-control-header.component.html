@@ -108,6 +108,9 @@
       type="button"
       class="group btn btn-link pr-xs-0 pr-sm-4"
       [routerLink]="'groups'"
+      [queryParams]="{
+        returnparams: (state.queryParamsString$ | async)
+      }"
     >
       <i class="material-icons align-middle">groups</i>
     </a>

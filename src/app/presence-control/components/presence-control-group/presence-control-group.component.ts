@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { finalize, map, take } from 'rxjs/operators';
+import { finalize, map, pluck, take } from 'rxjs/operators';
 import { spread } from '../../../shared/utils/function';
+import { parseQueryString } from '../../../shared/utils/url';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
@@ -22,9 +24,15 @@ export interface SortCriteria {
   templateUrl: './presence-control-group.component.html',
   styleUrls: ['./presence-control-group.component.scss'],
   providers: [PresenceControlGroupSelectionService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlGroupComponent implements OnInit {
   saving$ = new BehaviorSubject(false);
+
+  backlinkQueryParams$ = this.route.queryParams.pipe(
+    pluck('returnparams'),
+    map(parseQueryString)
+  );
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
     primarySortKey: 'name',
@@ -40,6 +48,7 @@ export class PresenceControlGroupComponent implements OnInit {
   ]).pipe(map(spread(sortSubscriptionDetails)));
 
   constructor(
+    private route: ActivatedRoute,
     public state: PresenceControlStateService,
     public selectionService: PresenceControlGroupSelectionService,
     private modalService: NgbModal
