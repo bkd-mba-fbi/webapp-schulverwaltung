@@ -20,17 +20,15 @@ function getSubscriptionDetailComparator(
   sortCriteria: SortCriteria
 ): (a: SubscriptionDetailWithName, b: SubscriptionDetailWithName) => number {
   return (a, b) => {
-    const nameComparator = a.name.localeCompare(b.name);
     switch (sortCriteria.primarySortKey) {
       case 'name':
+        const nameComparator = a.name.localeCompare(b.name);
         return sortCriteria.ascending ? nameComparator * -1 : nameComparator;
       case 'group':
         const groupComparator = (a.detail.Value || '').localeCompare(
           b.detail.Value || ''
         );
-        return sortCriteria.ascending
-          ? (nameComparator + groupComparator) * -1
-          : nameComparator + groupComparator;
+        return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
     }
   };
 }

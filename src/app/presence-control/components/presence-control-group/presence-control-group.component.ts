@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
-import { SubscriptionsRestService } from '../../../shared/services/subscriptions-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
@@ -43,7 +42,6 @@ export class PresenceControlGroupComponent implements OnInit {
   constructor(
     public state: PresenceControlStateService,
     public selectionService: PresenceControlGroupSelectionService,
-    private subscriptionService: SubscriptionsRestService,
     private modalService: NgbModal
   ) {}
 
