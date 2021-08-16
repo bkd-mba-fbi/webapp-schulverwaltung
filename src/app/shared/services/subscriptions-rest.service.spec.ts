@@ -1,7 +1,6 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { buildTestModuleMetadata } from '../../../spec-helpers';
-import { isEqual } from 'lodash-es';
 
 import { SubscriptionsRestService } from './subscriptions-rest.service';
 
@@ -29,21 +28,6 @@ describe('SubscriptionsRestService', () => {
       httpTestingController
         .expectOne((req) => req.url === url, url)
         .flush(data);
-    });
-  });
-
-  describe('.update', () => {
-    it('updates the given subscription', () => {
-      const url = 'https://eventotest.api/Subscriptions/1234';
-      const body = {};
-
-      service.update(1234).subscribe((result) => expect(result).toBeFalse());
-
-      httpTestingController.expectOne(
-        (req) =>
-          req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-        url
-      );
     });
   });
 });

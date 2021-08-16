@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { SubscriptionDetail } from '../../../shared/models/subscription-detail.model';
 
-interface GroupOptions {
+export interface GroupOptions {
   id: Option<string>;
   label: Option<string>;
 }

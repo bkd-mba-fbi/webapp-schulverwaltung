@@ -378,13 +378,16 @@ export function buildUserSettingWithNotificationData(
   return setting;
 }
 
-export function buildSubscriptionDetail(vssId: number): SubscriptionDetail {
+export function buildSubscriptionDetail(
+  vssId: number,
+  value?: string
+): SubscriptionDetail {
   return {
     Id: '1',
     SubscriptionId: 1,
     IdPerson: 1,
     VssId: vssId,
-    Value: '',
+    Value: value || '',
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: null,

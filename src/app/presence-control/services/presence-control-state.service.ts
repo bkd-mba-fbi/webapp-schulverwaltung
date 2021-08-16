@@ -46,6 +46,7 @@ import { LessonTeachersRestService } from '../../shared/services/lesson-teachers
 import { LoadingService } from '../../shared/services/loading-service';
 import { PersonsRestService } from '../../shared/services/persons-rest.service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
+import { SubscriptionDetailsRestService } from '../../shared/services/subscription-details-rest.service';
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
 import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
@@ -218,6 +219,7 @@ export class PresenceControlStateService
     private personsService: PersonsRestService,
     private eventService: EventsRestService,
     private subscriptionService: SubscriptionsRestService,
+    private subscriptionDetailService: SubscriptionDetailsRestService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,
@@ -406,6 +408,15 @@ export class PresenceControlStateService
         this.lessonPresences$.pipe(take(1)),
       ]).pipe(map(spread(getSubscriptionDetailsWithName)))
     );
+  }
+
+  updateSubscriptionDetails(
+    group: Option<string>,
+    students: ReadonlyArray<SubscriptionDetailWithName>
+  ): void {
+    students.forEach((s) => {
+      this.subscriptionDetailService.update(group, s.detail).subscribe();
+    });
   }
 
   /**

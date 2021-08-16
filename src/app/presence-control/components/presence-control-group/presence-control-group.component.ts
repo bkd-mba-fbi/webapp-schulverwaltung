@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { finalize, map, take } from 'rxjs/operators';
+import { SubscriptionsRestService } from '../../../shared/services/subscriptions-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
-import { PresenceControlGroupDialogComponent } from '../presence-control-group-dialog/presence-control-group-dialog.component';
+import {
+  GroupOptions,
+  PresenceControlGroupDialogComponent,
+} from '../presence-control-group-dialog/presence-control-group-dialog.component';
 
 export type PrimarySortKey = 'name' | 'group';
 
@@ -21,6 +25,8 @@ export interface SortCriteria {
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
+  saving$ = new BehaviorSubject(false);
+
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
     primarySortKey: 'name',
     ascending: false,
@@ -37,20 +43,30 @@ export class PresenceControlGroupComponent implements OnInit {
   constructor(
     public state: PresenceControlStateService,
     public selectionService: PresenceControlGroupSelectionService,
+    private subscriptionService: SubscriptionsRestService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {}
 
   selectGroup(): void {
-    this.openGroupModal('presence-control.groups.all');
+    this.openGroupModal(
+      'presence-control.groups.all',
+      this.selectCallback.bind(this)
+    );
   }
 
   assignGroup(): void {
-    this.openGroupModal('presence-control.groups.none');
+    this.openGroupModal(
+      'presence-control.groups.none',
+      this.assignCallback.bind(this)
+    );
   }
 
-  openGroupModal(emtpyLabel: string): void {
+  openGroupModal(
+    emtpyLabel: string,
+    callback: (selectedGroup: GroupOptions) => void
+  ): void {
     this.state
       .loadSubscriptionDetailForEventWithGroups()
       .pipe(take(1))
@@ -65,11 +81,37 @@ export class PresenceControlGroupComponent implements OnInit {
 
         modalRef.result.then(
           (selectedGroup) => {
-            console.log(selectedGroup);
+            callback(selectedGroup);
           },
           () => {}
         );
       });
+  }
+
+  selectCallback(selectedGroup: GroupOptions): void {
+    console.log('selected:', selectedGroup);
+  }
+
+  assignCallback(selectedGroup: GroupOptions): void {
+    this.saving$.next(true);
+
+    this.selectionService.selection$
+      .pipe(
+        map((selectedStudents) =>
+          this.state.updateSubscriptionDetails(
+            selectedGroup.id,
+            selectedStudents
+          )
+        ),
+        finalize(() => this.saving$.next(false))
+      )
+      .subscribe(this.onSaveSuccess.bind(this));
+  }
+
+  private onSaveSuccess(): void {
+    console.log('onSaveSuccess');
+    // TODO reload
+    // TODO success toast
   }
 
   getSortDirectionCharacter(
