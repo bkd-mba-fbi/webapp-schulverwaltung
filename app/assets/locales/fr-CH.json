@@ -80,7 +80,7 @@
       "all": "Tout",
       "mail": {
         "subject": "Rappel sur les absences en suspens",
-        "body": "Veuillez excuser les absences en suspens suivantes:"
+        "body": "Veuillez excuser les absences en suspens suivantes :"
       }
     },
     "edit": {
