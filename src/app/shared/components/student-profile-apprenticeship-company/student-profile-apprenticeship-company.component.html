@@ -39,14 +39,15 @@
   >
 </address>
 <div class="subentry" *ngIf="company.apprenticeshipContract.ContractDateFrom">
-  {{ 'shared.profile.apprenticeship-period' | translate }}:<br />
+  {{ 'shared.profile.apprenticeship-period' | translate
+  }}{{ ':' | addSpace: ':' }}<br />
 
   {{ company.apprenticeshipContract.ContractDateFrom | date: 'dd.MM.yyyy' }}–{{
     company.apprenticeshipContract.ContractDateTo | date: 'dd.MM.yyyy'
   }}
 </div>
 <div *ngIf="company.jobTrainer" class="subentry">
-  {{ 'shared.profile.job-trainer' | translate }}:
+  {{ 'shared.profile.job-trainer' | translate }}{{ ':' | addSpace: ':' }}
   <address>
     <ng-container
       *ngIf="company.jobTrainer.Lastname || company.jobTrainer.Firstname"

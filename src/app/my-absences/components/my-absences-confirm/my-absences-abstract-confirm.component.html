@@ -13,7 +13,8 @@
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div class="form-group mb-3 border-bottom">
       <label
-        >{{ 'my-absences.confirm.choose-presence-type' | translate }}:</label
+        >{{ 'my-absences.confirm.choose-presence-type' | translate
+        }}{{ ':' | addSpace: ':' }}</label
       >
       <div
         *ngFor="let type of absenceTypes$ | async; index as i"

@@ -28,6 +28,7 @@ import { DaysDifferencePipe } from './pipes/days-difference.pipe';
 import { ResettableInputComponent } from './components/resettable-input/resettable-input.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { XssPipe } from './pipes/xss.pipe';
+import { AddSpacePipe } from './pipes/add-space.pipe';
 import { MultiselectComponent } from './components/multiselect/multiselect.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -52,6 +53,7 @@ const components = [
   DaysDifferencePipe,
   SafePipe,
   XssPipe,
+  AddSpacePipe,
 ];
 
 @NgModule({
@@ -60,6 +62,7 @@ const components = [
     ResettableInputComponent,
     SafePipe,
     XssPipe,
+    AddSpacePipe,
     MultiselectComponent,
   ],
   providers: [
