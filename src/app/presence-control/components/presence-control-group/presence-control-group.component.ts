@@ -96,7 +96,7 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   selectCallback(selectedGroup: GroupOptions): void {
-    console.log('selected:', selectedGroup);
+    this.state.updateSelectedGroup(selectedGroup.id);
   }
 
   assignCallback(selectedGroup: GroupOptions): void {

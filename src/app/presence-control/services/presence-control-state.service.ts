@@ -419,6 +419,30 @@ export class PresenceControlStateService
     });
   }
 
+  // TODO helper method?
+  updateSelectedGroup(group: Option<string>): void {
+    this.selectedLesson$
+      .pipe(
+        map((lesson) => {
+          if (lesson) {
+            const propertyBody = {
+              lessonId: lesson.id,
+              group,
+            };
+            const body: BaseProperty = {
+              Key: 'presenceControlGroupView',
+              Value: JSON.stringify(propertyBody),
+            };
+
+            const cst = Object.assign({}, buildUserSetting());
+            cst.Settings.push(body);
+            this.settingsService.updateUserSettingsCst(cst).subscribe();
+          }
+        })
+      )
+      .subscribe();
+  }
+
   /**
    * Lesson presences that are apart half an hour or less are considered as part of a block
    */
