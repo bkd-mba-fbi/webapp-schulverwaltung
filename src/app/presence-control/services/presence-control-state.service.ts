@@ -27,6 +27,7 @@ import {
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   BaseProperty,
+  GroupViewType,
   UserSetting,
   ViewModeType,
 } from 'src/app/shared/models/user-setting.model';
@@ -49,6 +50,7 @@ import { PresenceTypesService } from '../../shared/services/presence-types.servi
 import { SubscriptionDetailsRestService } from '../../shared/services/subscription-details-rest.service';
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
+import { filterByGroup } from '../../shared/utils/presence-control-entries';
 import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import {
@@ -133,17 +135,6 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
-  selectedLessonRegistrationRefIds$ = combineLatest([
-    this.selectedLesson$,
-    this.lessonPresences$,
-  ]).pipe(
-    map(([lesson, presences]) => {
-      return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
-    }),
-    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[]),
-    shareReplay(1)
-  );
-
   otherTeachersAbsences$ = combineLatest([
     this.personsService.getMyself(),
     this.selectedLessonStudentIds$.pipe(startWith([])),
@@ -157,24 +148,79 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
+  subscriptionsDetailsByEvents$ = this.selectedLesson$
+    .pipe(
+      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
+    )
+    .pipe(
+      switchMap((ids) =>
+        forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
+      ),
+      shareReplay(1)
+    );
+
+  /**
+   * Check if all events in the selected lesson have groups available
+   * Groups are available if the subscriptionDetailGroupId is found on the subscription detail of the given event
+   *
+   */
+  groupsAvailability$ = this.subscriptionsDetailsByEvents$.pipe(
+    map((detailsList) =>
+      detailsList.every((details) =>
+        findSubscriptionDetailByGroupId(details, this.settings)
+      )
+    ),
+    shareReplay(1)
+  );
+
+  selectedLessonRegistrationRefIds$ = combineLatest([
+    this.selectedLesson$,
+    this.lessonPresences$,
+  ]).pipe(
+    map(([lesson, presences]) => {
+      return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
+    }),
+    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[]),
+    shareReplay(1)
+  );
+
+  subscriptionsDetailsByRegistrations$ = this.selectedLessonRegistrationRefIds$.pipe(
+    switchMap((ids) =>
+      forkJoin(
+        ids.map((id) => this.subscriptionService.getListByRegistrationId(id))
+      )
+    )
+  );
+
+  subscriptionDetails$ = this.loadSubscriptionDetailsForRegistrationsWithGroups().pipe(
+    shareReplay(1)
+  );
+
   selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$,
     this.absenceConfirmationStates$,
     this.otherTeachersAbsences$,
-  ]).pipe(map(spread(getPresenceControlEntriesForLesson)), shareReplay(1));
+  ]).pipe(map(spread(getPresenceControlEntriesForLesson)));
 
-  presentCount$ = this.selectedPresenceControlEntries$.pipe(
+  selectedPresenceControlEntriesByGroup$ = combineLatest([
+    this.getSavedGroupView().pipe(take(1)),
+    this.selectedPresenceControlEntries$,
+    this.subscriptionDetails$,
+    this.groupsAvailability$,
+  ]).pipe(map(spread(filterByGroup)), shareReplay(1));
+
+  presentCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getCategoryCount('present'))
   );
-  absentCount$ = this.selectedPresenceControlEntries$.pipe(
+  absentCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getCategoryCount('absent'))
   );
-  unapprovedCount$ = this.selectedPresenceControlEntries$.pipe(
+  unapprovedCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getCategoryCount('unapproved'))
   );
-  absentPrecedingCount$ = this.selectedPresenceControlEntries$.pipe(
+  absentPrecedingCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getPrecedingAbsencesCount())
   );
 
@@ -189,25 +235,6 @@ export class PresenceControlStateService
     this.selectedLesson$,
     this.viewMode$,
   ]).pipe(map(spread(this.buildQueryParams.bind(this))), map(serializeParams));
-
-  subscriptionsDetailsByEvents$ = this.selectedLesson$
-    .pipe(
-      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
-    )
-    .pipe(
-      switchMap((ids) =>
-        forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
-      ),
-      shareReplay(1)
-    );
-
-  subscriptionsDetailsByRegistrations$ = this.selectedLessonRegistrationRefIds$.pipe(
-    switchMap((ids) =>
-      forkJoin(
-        ids.map((id) => this.subscriptionService.getListByRegistrationId(id))
-      )
-    )
-  );
 
   private destroy$ = new Subject<void>();
 
@@ -288,26 +315,6 @@ export class PresenceControlStateService
     );
   }
 
-  /**
-   * Looks up presence control entry within current lesson.
-   */
-  getPresenceControlEntry(
-    studentId: number,
-    lessonId: number
-  ): Observable<Option<PresenceControlEntry>> {
-    return this.selectedPresenceControlEntries$.pipe(
-      take(1),
-      map(
-        (entries) =>
-          entries.find(
-            (e) =>
-              e.lessonPresence.StudentRef.Id === studentId &&
-              e.lessonPresence.LessonRef.Id === lessonId
-          ) || null
-      )
-    );
-  }
-
   hasUnconfirmedAbsences(entry: PresenceControlEntry): Observable<boolean> {
     return this.studentIdsWithUnconfirmedAbsences$.pipe(
       map((ids) => ids.includes(entry.lessonPresence.StudentRef.Id))
@@ -359,21 +366,6 @@ export class PresenceControlStateService
     );
   }
 
-  /**
-   * Check if all events in the selected lesson have groups available
-   * Groups are available if the subscriptionDetailGroupId is found on the subscription detail of the given event
-   *
-   */
-  loadGroupsAvailability(): Observable<boolean> {
-    return this.subscriptionsDetailsByEvents$.pipe(
-      map((detailsList) =>
-        detailsList.every((details) =>
-          findSubscriptionDetailByGroupId(details, this.settings)
-        )
-      )
-    );
-  }
-
   loadSubscriptionDetailForEventWithGroups(): Observable<
     Maybe<SubscriptionDetail>
   > {
@@ -404,7 +396,7 @@ export class PresenceControlStateService
   > {
     return this.loadingService.load(
       combineLatest([
-        this.loadSubscriptionDetailsForRegistrationsWithGroups().pipe(take(1)),
+        this.subscriptionDetails$.pipe(take(1)),
         this.lessonPresences$.pipe(take(1)),
       ]).pipe(map(spread(getSubscriptionDetailsWithName)))
     );
@@ -425,7 +417,7 @@ export class PresenceControlStateService
       .pipe(
         map((lesson) => {
           if (lesson) {
-            const propertyBody = {
+            const propertyBody: GroupViewType = {
               lessonId: lesson.id,
               group,
             };
@@ -516,6 +508,20 @@ export class PresenceControlStateService
       map((v) => JSON.parse(v.Value)),
       switchMap(decode(ViewModeType)),
       map((v) => this.getViewModeForString(v.presenceControl)),
+      shareReplay()
+    );
+  }
+
+  // TODO helper
+  private getSavedGroupView(): Observable<Option<string>> {
+    return this.settingsService.getUserSettingsCst().pipe(
+      map<UserSetting, BaseProperty[]>((i) => i.Settings),
+      mergeAll(),
+      filter((i) => i.Key === 'presenceControlGroupView'),
+      take(1),
+      map((v) => JSON.parse(v.Value)),
+      switchMap(decode(GroupViewType)),
+      map((groupView) => groupView.group),
       shareReplay()
     );
   }

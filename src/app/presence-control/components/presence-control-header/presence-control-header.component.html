@@ -104,7 +104,7 @@
   ></erz-resettable-input>
   <div class="group-and-views d-flex">
     <a
-      *ngIf="groupsAvailable$ | async"
+      *ngIf="state.groupsAvailability$ | async"
       type="button"
       class="group btn btn-link pr-xs-0 pr-sm-4"
       [routerLink]="'groups'"

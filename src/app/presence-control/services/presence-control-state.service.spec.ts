@@ -336,9 +336,9 @@ describe('PresenceControlStateService', () => {
       const subscriptionDetailWithGroups = buildSubscriptionDetail(3843);
       subscriptionDetails = [subscriptionDetailWithGroups];
 
-      service
-        .loadGroupsAvailability()
-        .subscribe((result) => expect(result).toBeTruthy());
+      service.groupsAvailability$.subscribe((result) =>
+        expect(result).toBeTruthy()
+      );
 
       expectSubscriptionDetailRequest(333);
     });
@@ -347,9 +347,9 @@ describe('PresenceControlStateService', () => {
       const subscriptionDetailWithoutGroups = buildSubscriptionDetail(3333);
       subscriptionDetails = [subscriptionDetailWithoutGroups];
 
-      service
-        .loadGroupsAvailability()
-        .subscribe((result) => expect(result).toBeFalsy());
+      service.groupsAvailability$.subscribe((result) =>
+        expect(result).toBeFalsy()
+      );
 
       expectSubscriptionDetailRequest(333);
     });

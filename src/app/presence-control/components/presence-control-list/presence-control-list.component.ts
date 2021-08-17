@@ -35,7 +35,7 @@ export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy {
   search$ = new BehaviorSubject<string>('');
   entries$ = combineLatest([
-    this.state.selectedPresenceControlEntries$,
+    this.state.selectedPresenceControlEntriesByGroup$,
     this.search$,
   ]).pipe(map(spread(searchEntries)), shareReplay(1));
 
