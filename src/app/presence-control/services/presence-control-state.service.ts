@@ -90,7 +90,9 @@ export class PresenceControlStateService
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<LessonEntry>>();
   private viewModeSubject$ = new Subject<ViewMode>();
+  private selectGroupView$ = new Subject<Option<string>>();
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
+  private reloadSubscriptionDetails$ = new Subject();
 
   private lessonPresences$ = merge(
     this.selectedDateSubject$.pipe(
@@ -117,9 +119,7 @@ export class PresenceControlStateService
 
   loading$ = this.loadingService.loading$;
 
-  selectedLesson$ = merge(this.currentLesson$, this.selectLesson$).pipe(
-    shareReplay(1)
-  );
+  selectedLesson$ = merge(this.currentLesson$, this.selectLesson$);
 
   absenceConfirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
@@ -174,6 +174,7 @@ export class PresenceControlStateService
   subscriptionsDetailsByRegistrations$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
+    this.reloadSubscriptionDetails$.pipe(startWith(undefined)),
   ]).pipe(
     map(([lesson, presences]) => {
       return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
@@ -194,7 +195,10 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
-  savedGroupView$ = this.getSavedGroupView().pipe(take(1), shareReplay(1));
+  savedGroupView$ = merge(
+    this.selectGroupView$,
+    this.getSavedGroupView().pipe(take(1))
+  );
 
   selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
@@ -414,6 +418,14 @@ export class PresenceControlStateService
         })
       )
       .subscribe();
+  }
+
+  selectGroupView(view: Option<string>): void {
+    this.selectGroupView$.next(view);
+  }
+
+  reloadSubscriptionDetails(): void {
+    this.reloadSubscriptionDetails$.next(undefined);
   }
 
   /**
