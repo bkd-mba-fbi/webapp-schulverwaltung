@@ -17,6 +17,7 @@ export class PresenceControlGroupDialogComponent implements OnInit {
   @Input() title: string;
   @Input() emptyLabel: string;
   @Input() subscriptionDetail: SubscriptionDetail;
+  @Input() savedGroup: Option<string>;
   groupOptions: Array<GroupOptions> = [];
   selected: GroupOptions;
 
@@ -32,7 +33,10 @@ export class PresenceControlGroupDialogComponent implements OnInit {
     };
     this.groupOptions = this.createGroupOptions(this.subscriptionDetail);
     this.groupOptions.unshift(emptyOption);
-    this.selected = emptyOption;
+
+    this.selected =
+      this.groupOptions.find((option) => option.id === this.savedGroup) ||
+      emptyOption;
   }
 
   createGroupOptions(detail: SubscriptionDetail): Array<GroupOptions> {

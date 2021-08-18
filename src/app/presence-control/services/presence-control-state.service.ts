@@ -51,7 +51,6 @@ import { SubscriptionDetailsRestService } from '../../shared/services/subscripti
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
 import { filterByGroup } from '../../shared/utils/presence-control-entries';
-import { getUserSetting } from '../../shared/utils/user-settings';
 import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import {
@@ -389,35 +388,6 @@ export class PresenceControlStateService
       this.subscriptionDetails$.pipe(take(1)),
       this.lessonPresences$.pipe(take(1)),
     ]).pipe(map(spread(getSubscriptionDetailsWithName)));
-  }
-
-  updateSubscriptionDetails(
-    group: Option<string>,
-    students: ReadonlyArray<SubscriptionDetailWithName>
-  ): void {
-    students.forEach((s) => {
-      this.subscriptionDetailService.update(group, s.detail).subscribe();
-    });
-  }
-
-  updateSelectedGroup(group: Option<string>): void {
-    this.selectedLesson$
-      .pipe(
-        map((lesson) => {
-          if (lesson) {
-            const propertyBody: GroupViewType = {
-              lessonId: lesson.id,
-              group,
-            };
-            const cst = getUserSetting(
-              'presenceControlGroupView',
-              propertyBody
-            );
-            this.settingsService.updateUserSettingsCst(cst).subscribe();
-          }
-        })
-      )
-      .subscribe();
   }
 
   selectGroupView(view: Option<string>): void {

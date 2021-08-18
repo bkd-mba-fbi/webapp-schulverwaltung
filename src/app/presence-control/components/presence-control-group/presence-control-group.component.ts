@@ -3,11 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { finalize, map, pluck, take } from 'rxjs/operators';
+import { GroupViewType } from '../../../shared/models/user-setting.model';
+import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
+import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
+import { getUserSetting } from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
+import {
+  sortSubscriptionDetails,
+  SubscriptionDetailWithName,
+} from '../../utils/subscriptions-details';
 import {
   GroupOptions,
   PresenceControlGroupDialogComponent,
@@ -51,6 +58,8 @@ export class PresenceControlGroupComponent implements OnInit {
     private route: ActivatedRoute,
     public state: PresenceControlStateService,
     public selectionService: PresenceControlGroupSelectionService,
+    private settingsService: UserSettingsRestService,
+    private subscriptionDetailService: SubscriptionDetailsRestService,
     private modalService: NgbModal
   ) {}
 
@@ -74,10 +83,12 @@ export class PresenceControlGroupComponent implements OnInit {
     emtpyLabel: string,
     callback: (selectedGroup: GroupOptions) => void
   ): void {
-    this.state
-      .getSubscriptionDetailForGroupEvent()
+    combineLatest([
+      this.state.getSubscriptionDetailForGroupEvent(),
+      this.state.savedGroupView$,
+    ])
       .pipe(take(1))
-      .subscribe((subscriptionDetail) => {
+      .subscribe(([subscriptionDetail, group]) => {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent
         );
@@ -85,6 +96,7 @@ export class PresenceControlGroupComponent implements OnInit {
           'presence-control.groups.assign.title';
         modalRef.componentInstance.emptyLabel = emtpyLabel;
         modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
+        modalRef.componentInstance.savedGroup = group;
 
         modalRef.result.then(
           (selectedGroup) => {
@@ -96,8 +108,25 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   selectCallback(selectedGroup: GroupOptions): void {
-    this.state.updateSelectedGroup(selectedGroup.id);
-    this.state.selectGroupView(selectedGroup.id); // TODO on save success?
+    this.state.selectedLesson$
+      .pipe(
+        map((lesson) => {
+          if (lesson) {
+            const propertyBody: GroupViewType = {
+              lessonId: lesson.id,
+              group: selectedGroup.id,
+            };
+            const cst = getUserSetting(
+              'presenceControlGroupView',
+              propertyBody
+            );
+            this.settingsService
+              .updateUserSettingsCst(cst)
+              .subscribe(() => this.state.selectGroupView(selectedGroup.id));
+          }
+        })
+      )
+      .subscribe(this.onSaveSuccess.bind(this));
   }
 
   assignCallback(selectedGroup: GroupOptions): void {
@@ -106,10 +135,11 @@ export class PresenceControlGroupComponent implements OnInit {
     this.selectionService.selection$
       .pipe(
         map((selectedStudents) =>
-          this.state.updateSubscriptionDetails(
-            selectedGroup.id,
-            selectedStudents
-          )
+          selectedStudents.forEach((s) => {
+            this.subscriptionDetailService
+              .update(selectedGroup.id, s.detail)
+              .subscribe();
+          })
         ),
         finalize(() => this.saving$.next(false))
       )
@@ -117,8 +147,7 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   private onSaveSuccess(): void {
-    console.log('onSaveSuccess');
-    // TODO reload
+    this.state.reloadSubscriptionDetails();
     // TODO success toast
   }
 
