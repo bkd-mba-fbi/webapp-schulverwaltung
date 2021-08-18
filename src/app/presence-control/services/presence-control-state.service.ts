@@ -51,6 +51,7 @@ import { SubscriptionDetailsRestService } from '../../shared/services/subscripti
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
 import { filterByGroup } from '../../shared/utils/presence-control-entries';
+import { getUserSetting } from '../../shared/utils/user-settings';
 import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
 import { PresenceControlEntry } from '../models/presence-control-entry.model';
 import {
@@ -148,16 +149,13 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
-  subscriptionsDetailsByEvents$ = this.selectedLesson$
-    .pipe(
-      map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))])
-    )
-    .pipe(
-      switchMap((ids) =>
-        forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
-      ),
-      shareReplay(1)
-    );
+  subscriptionsDetailsByEvents$ = this.selectedLesson$.pipe(
+    map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))]),
+    switchMap((ids) =>
+      forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
+    ),
+    shareReplay(1)
+  );
 
   /**
    * Check if all events in the selected lesson have groups available
@@ -165,15 +163,15 @@ export class PresenceControlStateService
    *
    */
   groupsAvailability$ = this.subscriptionsDetailsByEvents$.pipe(
-    map((detailsList) =>
-      detailsList.every((details) =>
+    map((detailsByEvent) =>
+      detailsByEvent.every((details) =>
         findSubscriptionDetailByGroupId(details, this.settings)
       )
     ),
     shareReplay(1)
   );
 
-  selectedLessonRegistrationRefIds$ = combineLatest([
+  subscriptionsDetailsByRegistrations$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
   ]).pipe(
@@ -181,10 +179,6 @@ export class PresenceControlStateService
       return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
     }),
     map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[]),
-    shareReplay(1)
-  );
-
-  subscriptionsDetailsByRegistrations$ = this.selectedLessonRegistrationRefIds$.pipe(
     switchMap((ids) =>
       forkJoin(
         ids.map((id) => this.subscriptionService.getListByRegistrationId(id))
@@ -192,7 +186,11 @@ export class PresenceControlStateService
     )
   );
 
-  subscriptionDetails$ = this.loadSubscriptionDetailsForRegistrationsWithGroups().pipe(
+  subscriptionDetails$ = this.subscriptionsDetailsByRegistrations$.pipe(
+    map(flattenSubscriptionDetails),
+    map((details) =>
+      filterSubscriptionDetailsByGroupId(details, this.settings)
+    ),
     shareReplay(1)
   );
 
@@ -366,40 +364,25 @@ export class PresenceControlStateService
     );
   }
 
-  loadSubscriptionDetailForEventWithGroups(): Observable<
-    Maybe<SubscriptionDetail>
-  > {
+  getSubscriptionDetailForGroupEvent(): Observable<Maybe<SubscriptionDetail>> {
     return this.subscriptionsDetailsByEvents$.pipe(
       map(flattenSubscriptionDetails),
       map((details) => findSubscriptionDetailByGroupId(details, this.settings))
     );
   }
 
-  loadSubscriptionDetailsForRegistrationsWithGroups(): Observable<
-    ReadonlyArray<SubscriptionDetail>
-  > {
-    return this.subscriptionsDetailsByRegistrations$.pipe(
-      map(flattenSubscriptionDetails),
-      map((details) =>
-        filterSubscriptionDetailsByGroupId(details, this.settings)
-      )
-    );
-  }
-
   /**
-   * Load all subscription details with groups for the selected students and mapped the details with the student's name
+   * Get all subscription details with groups for the selected students and mapped the details with the student's name
    * Groups are available if the subscriptionDetailGroupId is found on the given subscription detail
    *
    */
-  getStudentsWithGroupInfo(): Observable<
+  getSubscriptionDetailsForStudents(): Observable<
     ReadonlyArray<SubscriptionDetailWithName>
   > {
-    return this.loadingService.load(
-      combineLatest([
-        this.subscriptionDetails$.pipe(take(1)),
-        this.lessonPresences$.pipe(take(1)),
-      ]).pipe(map(spread(getSubscriptionDetailsWithName)))
-    );
+    return combineLatest([
+      this.subscriptionDetails$.pipe(take(1)),
+      this.lessonPresences$.pipe(take(1)),
+    ]).pipe(map(spread(getSubscriptionDetailsWithName)));
   }
 
   updateSubscriptionDetails(
@@ -411,7 +394,6 @@ export class PresenceControlStateService
     });
   }
 
-  // TODO helper method?
   updateSelectedGroup(group: Option<string>): void {
     this.selectedLesson$
       .pipe(
@@ -421,13 +403,10 @@ export class PresenceControlStateService
               lessonId: lesson.id,
               group,
             };
-            const body: BaseProperty = {
-              Key: 'presenceControlGroupView',
-              Value: JSON.stringify(propertyBody),
-            };
-
-            const cst = Object.assign({}, buildUserSetting());
-            cst.Settings.push(body);
+            const cst = getUserSetting(
+              'presenceControlGroupView',
+              propertyBody
+            );
             this.settingsService.updateUserSettingsCst(cst).subscribe();
           }
         })
@@ -512,20 +491,6 @@ export class PresenceControlStateService
     );
   }
 
-  // TODO helper
-  private getSavedGroupView(): Observable<Option<string>> {
-    return this.settingsService.getUserSettingsCst().pipe(
-      map<UserSetting, BaseProperty[]>((i) => i.Settings),
-      mergeAll(),
-      filter((i) => i.Key === 'presenceControlGroupView'),
-      take(1),
-      map((v) => JSON.parse(v.Value)),
-      switchMap(decode(GroupViewType)),
-      map((groupView) => groupView.group),
-      shareReplay()
-    );
-  }
-
   private getViewModeForString(viewMode: string): ViewMode {
     if (viewMode === ViewMode.List) {
       return ViewMode.List;
@@ -545,5 +510,18 @@ export class PresenceControlStateService
     const cst = Object.assign({}, buildUserSetting());
     cst.Settings.push(body);
     return this.settingsService.updateUserSettingsCst(cst);
+  }
+
+  private getSavedGroupView(): Observable<Option<string>> {
+    return this.settingsService.getUserSettingsCst().pipe(
+      map<UserSetting, BaseProperty[]>((i) => i.Settings),
+      mergeAll(),
+      filter((i) => i.Key === 'presenceControlGroupView'),
+      take(1),
+      map((v) => JSON.parse(v.Value)),
+      switchMap(decode(GroupViewType)),
+      map((groupView) => groupView.group),
+      shareReplay()
+    );
   }
 }

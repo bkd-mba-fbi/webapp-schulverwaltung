@@ -40,7 +40,7 @@ export class PresenceControlGroupComponent implements OnInit {
   });
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
-  subscriptions$ = this.state.getStudentsWithGroupInfo();
+  subscriptions$ = this.state.getSubscriptionDetailsForStudents();
 
   sortedEntries$ = combineLatest([
     this.subscriptions$,
@@ -75,7 +75,7 @@ export class PresenceControlGroupComponent implements OnInit {
     callback: (selectedGroup: GroupOptions) => void
   ): void {
     this.state
-      .loadSubscriptionDetailForEventWithGroups()
+      .getSubscriptionDetailForGroupEvent()
       .pipe(take(1))
       .subscribe((subscriptionDetail) => {
         const modalRef = this.modalService.open(
