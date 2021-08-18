@@ -2,7 +2,8 @@
   *erzLet="{
     sortCriteria: sortCriteria$ | async,
     sortedEntries: sortedEntries$ | async,
-    selection: selectionService.selection$ | async
+    selection: selectionService.selection$ | async,
+    group: state.savedGroupView$ | async
   } as data"
 >
   <a
@@ -21,7 +22,11 @@
   <div class="group-header mb-2">
     <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
     <button type="button" class="show btn btn-link" (click)="selectGroup()">
-      {{ 'presence-control.groups.all' | translate }}
+      {{
+        data.group
+          ? ('presence-control.groups.group' | translate) + ' ' + data.group
+          : ('presence-control.groups.all' | translate)
+      }}
     </button>
     <a
       class="btn btn-primary float-right mr-2"
