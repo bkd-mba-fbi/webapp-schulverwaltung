@@ -118,7 +118,9 @@ export class PresenceControlStateService
 
   loading$ = this.loadingService.loading$;
 
-  selectedLesson$ = merge(this.currentLesson$, this.selectLesson$);
+  selectedLesson$ = merge(this.currentLesson$, this.selectLesson$).pipe(
+    shareReplay(1)
+  );
 
   absenceConfirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
