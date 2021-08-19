@@ -27,7 +27,6 @@ import {
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   BaseProperty,
-  GroupViewType,
   UserSetting,
   ViewModeType,
 } from 'src/app/shared/models/user-setting.model';
@@ -47,7 +46,6 @@ import { LessonTeachersRestService } from '../../shared/services/lesson-teachers
 import { LoadingService } from '../../shared/services/loading-service';
 import { PersonsRestService } from '../../shared/services/persons-rest.service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
-import { SubscriptionDetailsRestService } from '../../shared/services/subscription-details-rest.service';
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
 import { filterByGroup } from '../../shared/utils/presence-control-entries';
@@ -71,6 +69,7 @@ import {
   getSubscriptionDetailsWithName,
   SubscriptionDetailWithName,
 } from '../utils/subscriptions-details';
+import { PresenceControlGroupService } from './presence-control-group.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -89,7 +88,6 @@ export class PresenceControlStateService
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<LessonEntry>>();
   private viewModeSubject$ = new Subject<ViewMode>();
-  private selectGroupView$ = new Subject<GroupViewType>();
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
 
@@ -196,11 +194,6 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
-  savedGroupView$ = merge(
-    this.selectGroupView$,
-    this.getSavedGroupView().pipe(take(1))
-  );
-
   selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
@@ -210,7 +203,7 @@ export class PresenceControlStateService
   ]).pipe(map(spread(getPresenceControlEntriesForLesson)));
 
   selectedPresenceControlEntriesByGroup$ = combineLatest([
-    this.savedGroupView$,
+    this.groupService.savedGroupView$,
     this.selectedPresenceControlEntries$,
     this.subscriptionDetails$,
     this.selectedLesson$,
@@ -251,7 +244,7 @@ export class PresenceControlStateService
     private personsService: PersonsRestService,
     private eventService: EventsRestService,
     private subscriptionService: SubscriptionsRestService,
-    private subscriptionDetailService: SubscriptionDetailsRestService,
+    private groupService: PresenceControlGroupService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,
@@ -392,10 +385,6 @@ export class PresenceControlStateService
     ]).pipe(map(spread(getSubscriptionDetailsWithName)));
   }
 
-  selectGroupView(view: GroupViewType): void {
-    this.selectGroupView$.next(view);
-  }
-
   reloadSubscriptionDetails(): void {
     this.reloadSubscriptionDetails$.next(undefined);
   }
@@ -496,16 +485,5 @@ export class PresenceControlStateService
     const cst = Object.assign({}, buildUserSetting());
     cst.Settings.push(body);
     return this.settingsService.updateUserSettingsCst(cst);
-  }
-
-  private getSavedGroupView(): Observable<GroupViewType> {
-    return this.settingsService.getUserSettingsCst().pipe(
-      map<UserSetting, BaseProperty[]>((i) => i.Settings),
-      mergeAll(),
-      filter((i) => i.Key === 'presenceControlGroupView'),
-      take(1),
-      map((v) => JSON.parse(v.Value)),
-      switchMap(decode(GroupViewType))
-    );
   }
 }

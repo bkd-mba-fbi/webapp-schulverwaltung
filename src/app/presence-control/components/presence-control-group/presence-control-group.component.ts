@@ -10,6 +10,7 @@ import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
 import { getUserSetting } from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
+import { PresenceControlGroupService } from '../../services/presence-control-group.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import {
   sortSubscriptionDetails,
@@ -62,6 +63,7 @@ export class PresenceControlGroupComponent implements OnInit {
     private route: ActivatedRoute,
     public state: PresenceControlStateService,
     public selectionService: PresenceControlGroupSelectionService,
+    public groupService: PresenceControlGroupService,
     private settingsService: UserSettingsRestService,
     private subscriptionDetailService: SubscriptionDetailsRestService,
     private modalService: NgbModal
@@ -93,7 +95,7 @@ export class PresenceControlGroupComponent implements OnInit {
   ): void {
     combineLatest([
       this.state.getSubscriptionDetailForGroupEvent(),
-      this.state.savedGroupView$,
+      this.groupService.savedGroupView$,
     ])
       .pipe(take(1))
       .subscribe(([subscriptionDetail, groupView]) => {
@@ -129,7 +131,7 @@ export class PresenceControlGroupComponent implements OnInit {
               propertyBody
             );
             this.settingsService.updateUserSettingsCst(cst).subscribe();
-            this.state.selectGroupView(propertyBody);
+            this.groupService.selectGroupView(propertyBody);
           }
         })
       )
