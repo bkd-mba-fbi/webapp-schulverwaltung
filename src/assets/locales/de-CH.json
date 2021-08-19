@@ -76,6 +76,9 @@
       },
       "assign": {
         "title": "Gruppe einteilen:"
+      },
+      "notifications": {
+        "save-success": "Die Gruppeneinteilung wurde gespeichert"
       }
     }
   },

@@ -170,19 +170,22 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
-  subscriptionsDetailsByRegistrations$ = combineLatest([
+  selectedLessonRegistrationIds$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
-    this.reloadSubscriptionDetails$.pipe(startWith(undefined)),
   ]).pipe(
     map(([lesson, presences]) => {
       return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
     }),
-    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[]),
-    switchMap((ids) =>
-      forkJoin(
-        ids.map((id) => this.subscriptionService.getListByRegistrationId(id))
-      )
+    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[])
+  );
+
+  subscriptionsDetailsByRegistrations$ = combineLatest([
+    this.selectedLessonRegistrationIds$,
+    this.reloadSubscriptionDetails$.pipe(startWith(undefined)),
+  ]).pipe(
+    switchMap(([ids]) =>
+      forkJoin(ids.map((id) => this.loadSubscriptionDetails(id)))
     )
   );
 
@@ -383,6 +386,14 @@ export class PresenceControlStateService
       this.subscriptionDetails$,
       this.lessonPresences$,
     ]).pipe(map(spread(getSubscriptionDetailsWithName)));
+  }
+
+  loadSubscriptionDetails(
+    id: number
+  ): Observable<ReadonlyArray<SubscriptionDetail>> {
+    return this.loadingService.load(
+      this.subscriptionService.getListByRegistrationId(id)
+    );
   }
 
   reloadSubscriptionDetails(): void {

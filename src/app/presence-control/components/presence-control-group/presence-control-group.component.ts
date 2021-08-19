@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, pluck, take } from 'rxjs/operators';
 import { GroupViewType } from '../../../shared/models/user-setting.model';
@@ -66,6 +68,8 @@ export class PresenceControlGroupComponent implements OnInit {
     public groupService: PresenceControlGroupService,
     private settingsService: UserSettingsRestService,
     private subscriptionDetailService: SubscriptionDetailsRestService,
+    private toastr: ToastrService,
+    private translate: TranslateService,
     private modalService: NgbModal
   ) {}
 
@@ -149,6 +153,12 @@ export class PresenceControlGroupComponent implements OnInit {
   private onSaveSuccess(): void {
     this.state.reloadSubscriptionDetails();
     this.selectionService.clear();
+
+    this.toastr.success(
+      this.translate.instant(
+        'presence-control.groups.notifications.save-success'
+      )
+    );
   }
 
   getSortDirectionCharacter(
