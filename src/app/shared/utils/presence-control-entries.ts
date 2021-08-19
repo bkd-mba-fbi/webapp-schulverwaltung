@@ -3,6 +3,8 @@ import { PresenceType } from '../models/presence-type.model';
 import { DropDownItem } from '../models/drop-down-item.model';
 import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
 import { SubscriptionDetail } from '../models/subscription-detail.model';
+import { GroupViewType } from '../models/user-setting.model';
+import { LessonEntry } from '../../presence-control/models/lesson-entry.model';
 
 export function buildPresenceControlEntries(
   lessonPresences: ReadonlyArray<LessonPresence>,
@@ -30,21 +32,20 @@ export function buildPresenceControlEntries(
   });
 }
 
-// TODO test
 export function filterByGroup(
-  group: Option<string>,
+  groupView: Option<GroupViewType>,
   entries: ReadonlyArray<PresenceControlEntry>,
   details: ReadonlyArray<SubscriptionDetail>,
-  groupAvailability: boolean
+  lesson: Option<LessonEntry>
 ): ReadonlyArray<PresenceControlEntry> {
-  if (!groupAvailability) {
-    return entries;
+  if (details.length > 0 && lesson?.id === groupView?.lessonId) {
+    const personIds = details
+      .filter((d) => d.Value === groupView?.group)
+      .map((d) => d.IdPerson);
+    return entries.filter((e) =>
+      personIds.find((id) => id === e.lessonPresence.StudentRef.Id)
+    );
   }
 
-  const personIds = details
-    .filter((d) => d.Value === group)
-    .map((d) => d.IdPerson);
-  return entries.filter((e) =>
-    personIds.find((id) => id === e.lessonPresence.StudentRef.Id)
-  );
+  return entries;
 }

@@ -11,10 +11,7 @@ import { parseQueryString } from '../../../shared/utils/url';
 import { getUserSetting } from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import {
-  sortSubscriptionDetails,
-  SubscriptionDetailWithName,
-} from '../../utils/subscriptions-details';
+import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
 import {
   GroupOptions,
   PresenceControlGroupDialogComponent,
@@ -39,6 +36,10 @@ export class PresenceControlGroupComponent implements OnInit {
   backlinkQueryParams$ = this.route.queryParams.pipe(
     pluck('returnparams'),
     map(parseQueryString)
+  );
+
+  lessonId$ = this.route.paramMap.pipe(
+    map((params) => Number(params.get('id')))
   );
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
@@ -88,7 +89,7 @@ export class PresenceControlGroupComponent implements OnInit {
       this.state.savedGroupView$,
     ])
       .pipe(take(1))
-      .subscribe(([subscriptionDetail, group]) => {
+      .subscribe(([subscriptionDetail, groupView]) => {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent
         );
@@ -96,7 +97,7 @@ export class PresenceControlGroupComponent implements OnInit {
           'presence-control.groups.assign.title';
         modalRef.componentInstance.emptyLabel = emtpyLabel;
         modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
-        modalRef.componentInstance.savedGroup = group;
+        modalRef.componentInstance.savedGroupView = groupView;
 
         modalRef.result.then(
           (selectedGroup) => {
@@ -108,25 +109,24 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   selectCallback(selectedGroup: GroupOptions): void {
-    this.state.selectedLesson$
+    this.lessonId$
       .pipe(
-        map((lesson) => {
-          if (lesson) {
+        map((lessonId) => {
+          if (lessonId) {
             const propertyBody: GroupViewType = {
-              lessonId: lesson.id,
+              lessonId: String(lessonId),
               group: selectedGroup.id,
             };
             const cst = getUserSetting(
               'presenceControlGroupView',
               propertyBody
             );
-            this.settingsService
-              .updateUserSettingsCst(cst)
-              .subscribe(() => this.state.selectGroupView(selectedGroup.id));
+            this.settingsService.updateUserSettingsCst(cst).subscribe();
+            this.state.selectGroupView(propertyBody);
           }
         })
       )
-      .subscribe(this.onSaveSuccess.bind(this));
+      .subscribe();
   }
 
   assignCallback(selectedGroup: GroupOptions): void {
@@ -143,12 +143,7 @@ export class PresenceControlGroupComponent implements OnInit {
         ),
         finalize(() => this.saving$.next(false))
       )
-      .subscribe(this.onSaveSuccess.bind(this));
-  }
-
-  private onSaveSuccess(): void {
-    this.state.reloadSubscriptionDetails();
-    // TODO success toast
+      .subscribe(() => this.state.reloadSubscriptionDetails());
   }
 
   getSortDirectionCharacter(

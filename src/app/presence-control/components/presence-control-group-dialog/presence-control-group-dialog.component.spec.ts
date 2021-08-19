@@ -24,6 +24,7 @@ describe('PresenceControlGroupDialogComponent', () => {
     component.title = 'title';
     component.emptyLabel = 'empty';
     component.subscriptionDetail = buildSubscriptionDetail(3843);
+    component.savedGroupView = { lessonId: '1', group: null };
     fixture.detectChanges();
   });
 

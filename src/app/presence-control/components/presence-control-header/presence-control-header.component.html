@@ -107,7 +107,7 @@
       *ngIf="state.groupsAvailability$ | async"
       type="button"
       class="group btn btn-link pr-xs-0 pr-sm-4"
-      [routerLink]="'groups'"
+      [routerLink]="['groups', selectedLesson.id]"
       [queryParams]="{
         returnparams: (state.queryParamsString$ | async)
       }"

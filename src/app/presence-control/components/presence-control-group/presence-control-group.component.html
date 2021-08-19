@@ -3,7 +3,7 @@
     sortCriteria: sortCriteria$ | async,
     sortedEntries: sortedEntries$ | async,
     selection: selectionService.selection$ | async,
-    group: state.savedGroupView$ | async
+    groupView: state.savedGroupView$ | async
   } as data"
 >
   <a
@@ -23,8 +23,10 @@
     <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
     <button type="button" class="show btn btn-link" (click)="selectGroup()">
       {{
-        data.group
-          ? ('presence-control.groups.group' | translate) + ' ' + data.group
+        data.groupView
+          ? ('presence-control.groups.group' | translate) +
+            ' ' +
+            data.groupView.group
           : ('presence-control.groups.all' | translate)
       }}
     </button>

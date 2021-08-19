@@ -89,7 +89,7 @@ export class PresenceControlStateService
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<LessonEntry>>();
   private viewModeSubject$ = new Subject<ViewMode>();
-  private selectGroupView$ = new Subject<Option<string>>();
+  private selectGroupView$ = new Subject<GroupViewType>();
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
 
@@ -213,7 +213,7 @@ export class PresenceControlStateService
     this.savedGroupView$,
     this.selectedPresenceControlEntries$,
     this.subscriptionDetails$,
-    this.groupsAvailability$,
+    this.selectedLesson$,
   ]).pipe(map(spread(filterByGroup)), shareReplay(1));
 
   presentCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
@@ -392,7 +392,7 @@ export class PresenceControlStateService
     ]).pipe(map(spread(getSubscriptionDetailsWithName)));
   }
 
-  selectGroupView(view: Option<string>): void {
+  selectGroupView(view: GroupViewType): void {
     this.selectGroupView$.next(view);
   }
 
@@ -498,16 +498,14 @@ export class PresenceControlStateService
     return this.settingsService.updateUserSettingsCst(cst);
   }
 
-  private getSavedGroupView(): Observable<Option<string>> {
+  private getSavedGroupView(): Observable<GroupViewType> {
     return this.settingsService.getUserSettingsCst().pipe(
       map<UserSetting, BaseProperty[]>((i) => i.Settings),
       mergeAll(),
       filter((i) => i.Key === 'presenceControlGroupView'),
       take(1),
       map((v) => JSON.parse(v.Value)),
-      switchMap(decode(GroupViewType)),
-      map((groupView) => groupView.group),
-      shareReplay()
+      switchMap(decode(GroupViewType))
     );
   }
 }

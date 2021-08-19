@@ -30,6 +30,9 @@ describe('PresenceControlListComponent', () => {
   let blockLessons: Array<LessonPresence>;
 
   let selectedPresenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
+  let selectedPresenceControlEntriesByGroup$: BehaviorSubject<
+    PresenceControlEntry[]
+  >;
   let stateServiceMock: PresenceControlStateService;
   let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
 
@@ -51,6 +54,8 @@ describe('PresenceControlListComponent', () => {
         jenni,
       ]);
 
+      selectedPresenceControlEntriesByGroup$ = selectedPresenceControlEntries$;
+
       absence = buildPresenceType(2, true, false);
       blockLessons = [jenni.lessonPresence];
 
@@ -59,6 +64,7 @@ describe('PresenceControlListComponent', () => {
         lessons$: of([lesson]),
         selectedLesson$: of(lesson),
         selectedPresenceControlEntries$,
+        selectedPresenceControlEntriesByGroup$,
         getNextPresenceType: jasmine
           .createSpy('getNextPresenceType')
           .and.callFake(() => of(absence)),

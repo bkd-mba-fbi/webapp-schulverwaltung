@@ -33,7 +33,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'groups',
+        path: 'groups/:id',
         component: PresenceControlGroupComponent,
       },
     ],
