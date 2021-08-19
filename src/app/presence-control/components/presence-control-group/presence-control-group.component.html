@@ -23,7 +23,7 @@
     <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
     <button type="button" class="show btn btn-link" (click)="selectGroup()">
       {{
-        data.groupView
+        data.groupView && data.groupView.group
           ? ('presence-control.groups.group' | translate) +
             ' ' +
             data.groupView.group
