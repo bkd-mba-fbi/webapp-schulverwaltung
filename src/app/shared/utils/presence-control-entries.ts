@@ -38,7 +38,7 @@ export function filterByGroup(
   details: ReadonlyArray<SubscriptionDetail>,
   lesson: Option<LessonEntry>
 ): ReadonlyArray<PresenceControlEntry> {
-  if (details.length > 0 && lesson?.id === groupView?.lessonId) {
+  if (groupView?.group && groupView?.lessonId === lesson?.id) {
     const personIds = details
       .filter((d) => d.Value === groupView?.group)
       .map((d) => d.IdPerson);
