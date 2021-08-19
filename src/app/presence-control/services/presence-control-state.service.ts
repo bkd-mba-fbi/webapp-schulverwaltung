@@ -387,8 +387,8 @@ export class PresenceControlStateService
     ReadonlyArray<SubscriptionDetailWithName>
   > {
     return combineLatest([
-      this.subscriptionDetails$.pipe(take(1)),
-      this.lessonPresences$.pipe(take(1)),
+      this.subscriptionDetails$,
+      this.lessonPresences$,
     ]).pipe(map(spread(getSubscriptionDetailsWithName)));
   }
 

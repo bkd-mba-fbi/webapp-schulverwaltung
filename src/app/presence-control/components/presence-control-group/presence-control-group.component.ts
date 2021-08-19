@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { finalize, map, pluck, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, pluck, take } from 'rxjs/operators';
 import { GroupViewType } from '../../../shared/models/user-setting.model';
 import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
 import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
@@ -11,7 +11,10 @@ import { parseQueryString } from '../../../shared/utils/url';
 import { getUserSetting } from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { sortSubscriptionDetails } from '../../utils/subscriptions-details';
+import {
+  sortSubscriptionDetails,
+  SubscriptionDetailWithName,
+} from '../../utils/subscriptions-details';
 import {
   GroupOptions,
   PresenceControlGroupDialogComponent,
@@ -48,12 +51,12 @@ export class PresenceControlGroupComponent implements OnInit {
   });
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
-  subscriptions$ = this.state.getSubscriptionDetailsForStudents();
-
   sortedEntries$ = combineLatest([
-    this.subscriptions$,
+    this.state.getSubscriptionDetailsForStudents(),
     this.sortCriteria$,
   ]).pipe(map(spread(sortSubscriptionDetails)));
+
+  selected: ReadonlyArray<SubscriptionDetailWithName> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -64,7 +67,11 @@ export class PresenceControlGroupComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.selectionService.selection$.subscribe(
+      (selected) => (this.selected = selected as SubscriptionDetailWithName[])
+    );
+  }
 
   selectGroup(): void {
     this.openGroupModal(
@@ -130,20 +137,16 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   assignCallback(selectedGroup: GroupOptions): void {
-    this.saving$.next(true);
+    this.selected.forEach((s) => {
+      this.subscriptionDetailService
+        .update(selectedGroup.id, s.detail)
+        .subscribe(this.onSaveSuccess.bind(this));
+    });
+  }
 
-    this.selectionService.selection$
-      .pipe(
-        map((selectedStudents) =>
-          selectedStudents.forEach((s) => {
-            this.subscriptionDetailService
-              .update(selectedGroup.id, s.detail)
-              .subscribe();
-          })
-        ),
-        finalize(() => this.saving$.next(false))
-      )
-      .subscribe(() => this.state.reloadSubscriptionDetails());
+  private onSaveSuccess(): void {
+    this.state.reloadSubscriptionDetails();
+    this.selectionService.clear();
   }
 
   getSortDirectionCharacter(

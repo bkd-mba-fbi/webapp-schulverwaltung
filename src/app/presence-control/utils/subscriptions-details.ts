@@ -6,6 +6,7 @@ import { SortCriteria } from '../components/presence-control-group/presence-cont
 export type SubscriptionDetailWithName = {
   id: number;
   name: string;
+  group: Option<string>;
   detail: SubscriptionDetail;
 };
 
@@ -49,6 +50,7 @@ function mapToSubscriptionDetailWithName(
     name:
       presences.find((p) => p.StudentRef.Id === detail.IdPerson)
         ?.StudentFullName || '',
+    group: detail.Value,
     detail,
   };
 }
