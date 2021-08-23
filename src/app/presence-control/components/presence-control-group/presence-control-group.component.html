@@ -3,7 +3,7 @@
     sortCriteria: sortCriteria$ | async,
     sortedEntries: sortedEntries$ | async,
     selection: selectionService.selection$ | async,
-    groupView: groupService.savedGroupView$ | async
+    groupView: groupService.groupView$ | async
   } as data"
 >
   <a
@@ -19,19 +19,21 @@
     </div>
   </a>
 
-  <div class="group-header mb-2">
-    <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
-    <button type="button" class="show btn btn-link" (click)="selectGroup()">
-      {{
-        data.groupView && data.groupView.group
-          ? ('presence-control.groups.group' | translate) +
-            ' ' +
-            data.groupView.group
-          : ('presence-control.groups.all' | translate)
-      }}
-    </button>
+  <div class="group-header mb-2 d-flex justify-content-between">
+    <div class="d-flex align-items-baseline">
+      <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
+      <button type="button" class="show btn btn-link" (click)="selectGroup()">
+        {{
+          data.groupView && data.groupView.group
+            ? ('presence-control.groups.group' | translate) +
+              ' ' +
+              data.groupView.group
+            : ('presence-control.groups.all' | translate)
+        }}
+      </button>
+    </div>
     <a
-      class="btn btn-primary float-right mr-2"
+      class="btn btn-primary mr-2"
       (click)="assignGroup()"
       [class.disabled]="data.selection.length === 0"
       aria-label="edit"
@@ -53,6 +55,7 @@
         }}</span>
       </div>
     </div>
+
     <ng-container *ngIf="!(state.loading$ | async); else loading">
       <ng-container *ngFor="let entry of data.sortedEntries">
         <div class="group-list-entry">

@@ -3,12 +3,12 @@ import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
 import { SortCriteria } from '../components/presence-control-group/presence-control-group.component';
 
-export type SubscriptionDetailWithName = {
+export interface SubscriptionDetailWithName {
   id: number;
   name: string;
   group: Option<string>;
   detail: SubscriptionDetail;
-};
+}
 
 export function sortSubscriptionDetails(
   details: ReadonlyArray<SubscriptionDetailWithName>,
@@ -53,12 +53,6 @@ function mapToSubscriptionDetailWithName(
     group: detail.Value,
     detail,
   };
-}
-
-export function flattenSubscriptionDetails(
-  details: ReadonlyArray<ReadonlyArray<SubscriptionDetail>>
-): ReadonlyArray<SubscriptionDetail> {
-  return ([] as SubscriptionDetail[]).concat(...(details || []));
 }
 
 export function filterSubscriptionDetailsByGroupId(

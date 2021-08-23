@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, pluck, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, EMPTY, forkJoin, of } from 'rxjs';
+import { map, mapTo, pluck, switchMap, take } from 'rxjs/operators';
 import { GroupViewType } from '../../../shared/models/user-setting.model';
 import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
 import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
@@ -55,7 +55,7 @@ export class PresenceControlGroupComponent implements OnInit {
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
   sortedEntries$ = combineLatest([
-    this.state.getSubscriptionDetailsForStudents(),
+    this.groupService.getSubscriptionDetailsForStudents(),
     this.sortCriteria$,
   ]).pipe(map(spread(sortSubscriptionDetails)));
 
@@ -93,13 +93,13 @@ export class PresenceControlGroupComponent implements OnInit {
     );
   }
 
-  openGroupModal(
+  private openGroupModal(
     emtpyLabel: string,
     callback: (selectedGroup: GroupOptions) => void
   ): void {
     combineLatest([
-      this.state.getSubscriptionDetailForGroupEvent(),
-      this.groupService.savedGroupView$,
+      this.groupService.getSubscriptionDetailForGroupEvent(),
+      this.groupService.groupView$,
     ])
       .pipe(take(1))
       .subscribe(([subscriptionDetail, groupView]) => {
@@ -121,10 +121,11 @@ export class PresenceControlGroupComponent implements OnInit {
       });
   }
 
-  selectCallback(selectedGroup: GroupOptions): void {
+  private selectCallback(selectedGroup: GroupOptions): void {
     this.lessonId$
       .pipe(
-        map((lessonId) => {
+        take(1),
+        switchMap((lessonId) => {
           if (lessonId) {
             const propertyBody: GroupViewType = {
               lessonId: String(lessonId),
@@ -134,24 +135,29 @@ export class PresenceControlGroupComponent implements OnInit {
               'presenceControlGroupView',
               propertyBody
             );
-            this.settingsService.updateUserSettingsCst(cst).subscribe();
-            this.groupService.selectGroupView(propertyBody);
+            return this.settingsService
+              .updateUserSettingsCst(cst)
+              .pipe(mapTo(propertyBody));
           }
+          return EMPTY;
         })
       )
-      .subscribe();
+      .subscribe(
+        (propertyBody) =>
+          propertyBody && this.groupService.selectGroupView(propertyBody)
+      );
   }
 
-  assignCallback(selectedGroup: GroupOptions): void {
-    this.selected.forEach((s) => {
-      this.subscriptionDetailService
-        .update(selectedGroup.id, s.detail)
-        .subscribe(this.onSaveSuccess.bind(this));
-    });
+  private assignCallback(selectedGroup: GroupOptions): void {
+    forkJoin(
+      this.selected.map((s) =>
+        this.subscriptionDetailService.update(selectedGroup.id, s.detail)
+      )
+    ).subscribe(this.onSaveSuccess.bind(this));
   }
 
   private onSaveSuccess(): void {
-    this.state.reloadSubscriptionDetails();
+    this.groupService.reloadSubscriptionDetails();
     this.selectionService.clear();
 
     this.toastr.success(
