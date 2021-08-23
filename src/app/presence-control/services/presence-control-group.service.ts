@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, Subject } from 'rxjs';
-import { filter, map, mergeAll, switchMap, take } from 'rxjs/operators';
+import { filter, map, mergeAll, switchMap, shareReplay } from 'rxjs/operators';
 import {
   GroupViewType,
   UserSetting,
@@ -16,9 +16,9 @@ export class PresenceControlGroupService {
   private selectGroupView$ = new Subject<GroupViewType>();
 
   savedGroupView$ = merge(
-    this.selectGroupView$,
-    this.getSavedGroupView().pipe(take(1))
-  );
+    this.selectGroupView$.pipe(shareReplay(1)),
+    this.getSavedGroupView()
+  ).pipe(shareReplay(1));
 
   constructor(private settingsService: UserSettingsRestService) {}
 
@@ -31,9 +31,9 @@ export class PresenceControlGroupService {
       map<UserSetting, BaseProperty[]>((i) => i.Settings),
       mergeAll(),
       filter((i) => i.Key === 'presenceControlGroupView'),
-      take(1),
       map((v) => JSON.parse(v.Value)),
-      switchMap(decode(GroupViewType))
+      switchMap(decode(GroupViewType)),
+      shareReplay(1)
     );
   }
 }
