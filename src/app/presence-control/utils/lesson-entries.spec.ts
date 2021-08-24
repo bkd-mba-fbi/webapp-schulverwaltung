@@ -1,5 +1,9 @@
 import { extractLessonEntries, getCurrentLessonEntry } from './lesson-entries';
-import { buildLesson, buildLessonPresence } from '../../../spec-builders';
+import {
+  buildLesson,
+  buildLessonPresence,
+  buildReference,
+} from '../../../spec-builders';
 import { fromLesson, LessonEntry } from '../models/lesson-entry.model';
 import { Lesson } from '../../shared/models/lesson.model';
 
@@ -36,6 +40,7 @@ describe('lessons entries', () => {
       const math1 = {
         LessonRef: { Id: 1, HRef: '/1' },
         EventDesignation: 'Mathematik',
+        EventRef: buildReference(),
         StudyClassNumber: '9a',
         TeacherInformation: '',
         LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
@@ -45,6 +50,7 @@ describe('lessons entries', () => {
       const deutsch2 = {
         LessonRef: { Id: 2, HRef: '/2' },
         EventDesignation: 'Deutsch',
+        EventRef: buildReference(),
         StudyClassNumber: '9a',
         TeacherInformation: '',
         LessonDateTimeFrom: new Date(2000, 0, 23, 8, 0),
@@ -54,6 +60,7 @@ describe('lessons entries', () => {
       const math3 = {
         LessonRef: { Id: 3, HRef: '/3' },
         EventDesignation: 'Mathematik',
+        EventRef: buildReference(),
         StudyClassNumber: '9a',
         TeacherInformation: '',
         LessonDateTimeFrom: new Date(2000, 0, 23, 10, 0),

@@ -18,6 +18,7 @@ import { fromLesson } from '../models/lesson-entry.model';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { Person } from '../../shared/models/person.model';
 import { UserSetting } from 'src/app/shared/models/user-setting.model';
+import { PresenceControlGroupService } from './presence-control-group.service';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -50,7 +51,9 @@ describe('PresenceControlStateService', () => {
     jasmine.clock().mockDate(new Date(2000, 0, 23, 8, 30));
 
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ providers: [PresenceControlStateService] })
+      buildTestModuleMetadata({
+        providers: [PresenceControlStateService, PresenceControlGroupService],
+      })
     );
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(PresenceControlStateService);
@@ -92,7 +95,8 @@ describe('PresenceControlStateService', () => {
       'Deutsch',
       'Einstein Albert',
       'Dora Durrer',
-      absent.Id
+      absent.Id,
+      333
     );
     deutschFrisch = buildLessonPresence(
       2,
@@ -100,7 +104,9 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
       'Frisch Max',
-      'Dora Durrer'
+      'Dora Durrer',
+      undefined,
+      333
     );
     mathEinstein1 = buildLessonPresence(
       3,
@@ -189,7 +195,9 @@ describe('PresenceControlStateService', () => {
           new Date(2000, 0, 23, 8, 0),
           new Date(2000, 0, 23, 9, 0),
           'Deutsch',
-          'Dora Durrer'
+          'Dora Durrer',
+          undefined,
+          333
         )
       )
     );

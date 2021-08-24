@@ -1,5 +1,6 @@
 import * as t from 'io-ts';
 import { withFallback } from 'io-ts-types';
+import { Option } from './common-types';
 
 /*
  There are separated base and special Types defined.
@@ -48,6 +49,11 @@ const ViewModeType = t.type({
   presenceControl: t.string,
 });
 
+const GroupViewType = t.type({
+  lessonId: t.string,
+  group: Option(t.string),
+});
+
 //
 // END Special Types used for Module Services
 //
@@ -61,6 +67,7 @@ type NotificationDataPropertyValueType = t.TypeOf<
   typeof NotificationDataPropertyValueType
 >;
 type ViewModeType = t.TypeOf<typeof ViewModeType>;
+type GroupViewType = t.TypeOf<typeof GroupViewType>;
 
 export {
   UserSetting,
@@ -68,4 +75,5 @@ export {
   NotificationSettingPropertyValueType,
   NotificationDataPropertyValueType,
   ViewModeType,
+  GroupViewType,
 };

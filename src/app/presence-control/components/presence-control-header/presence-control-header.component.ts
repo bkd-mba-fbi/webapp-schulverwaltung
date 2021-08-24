@@ -13,7 +13,10 @@ import {
   NgbDropdown,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
-import { ViewMode } from '../../services/presence-control-state.service';
+import {
+  PresenceControlStateService,
+  ViewMode,
+} from '../../services/presence-control-state.service';
 import { LessonEntry } from '../../models/lesson-entry.model';
 
 /**
@@ -80,8 +83,7 @@ export class PresenceControlHeaderComponent implements OnInit {
     { viewMode: ViewMode.List, icon: 'list' },
     { viewMode: ViewMode.Grid, icon: 'view_module' },
   ];
-
-  constructor() {}
+  constructor(public state: PresenceControlStateService) {}
 
   ngOnInit(): void {}
 }

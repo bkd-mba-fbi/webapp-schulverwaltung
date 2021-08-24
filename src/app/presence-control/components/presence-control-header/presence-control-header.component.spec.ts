@@ -4,6 +4,8 @@ import { PresenceControlHeaderComponent } from './presence-control-header.compon
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { buildReference } from 'src/spec-builders';
 import { fromLesson } from '../../models/lesson-entry.model';
+import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { PresenceControlGroupService } from '../../services/presence-control-group.service';
 
 describe('PresenceControlHeaderComponent', () => {
   let component: PresenceControlHeaderComponent;
@@ -14,6 +16,7 @@ describe('PresenceControlHeaderComponent', () => {
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
           declarations: [PresenceControlHeaderComponent],
+          providers: [PresenceControlStateService, PresenceControlGroupService],
         })
       ).compileComponents();
     })
@@ -26,6 +29,7 @@ describe('PresenceControlHeaderComponent', () => {
     const lesson = {
       LessonRef: buildReference(),
       EventDesignation: 'Deutsch',
+      EventRef: buildReference(),
       StudyClassNumber: 'DHF2018a',
       TeacherInformation: 'Monika Muster',
       LessonDateTimeFrom: new Date(),

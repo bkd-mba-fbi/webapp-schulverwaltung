@@ -1,6 +1,8 @@
-import { Injectable, Inject, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { Params } from '@angular/router';
+import { format, isToday } from 'date-fns';
+import { isEqual, uniq } from 'lodash-es';
 import {
   BehaviorSubject,
   combineLatest,
@@ -10,55 +12,53 @@ import {
   timer,
 } from 'rxjs';
 import {
+  defaultIfEmpty,
+  distinctUntilChanged,
+  filter,
   map,
+  mergeAll,
   shareReplay,
+  startWith,
   switchMap,
   take,
-  distinctUntilChanged,
   takeUntil,
-  mergeAll,
-  filter,
-  startWith,
-  defaultIfEmpty,
 } from 'rxjs/operators';
-import { isEqual, uniq } from 'lodash-es';
-import { format } from 'date-fns';
-
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { PresenceType } from '../../shared/models/presence-type.model';
-import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
-import { LoadingService } from '../../shared/services/loading-service';
-import { PresenceTypesService } from '../../shared/services/presence-types.service';
-import { spread } from '../../shared/utils/function';
-import { getPresenceControlEntriesForLesson } from '../utils/lessons';
-import {
-  getCategoryCount,
-  getPrecedingAbsencesCount,
-} from '../utils/presence-control-entries';
-import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
-import { PresenceControlEntry } from '../models/presence-control-entry.model';
-import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
 import { Settings, SETTINGS } from 'src/app/settings';
-import { canChangePresenceType } from '../utils/presence-types';
-import { isToday } from 'date-fns';
-import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
-import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
-import { serializeParams } from 'src/app/shared/utils/url';
-import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
-import {
-  extractLessonEntries,
-  getCurrentLessonEntry,
-} from '../utils/lesson-entries';
-import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
-import { PersonsRestService } from '../../shared/services/persons-rest.service';
-import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
 import {
   BaseProperty,
   UserSetting,
   ViewModeType,
 } from 'src/app/shared/models/user-setting.model';
+import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
+import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { decode } from 'src/app/shared/utils/decode';
+import { serializeParams } from 'src/app/shared/utils/url';
 import { buildUserSetting } from 'src/spec-builders';
+import { LessonPresence } from '../../shared/models/lesson-presence.model';
+import { PresenceType } from '../../shared/models/presence-type.model';
+import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
+import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
+import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
+import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
+import { LoadingService } from '../../shared/services/loading-service';
+import { PersonsRestService } from '../../shared/services/persons-rest.service';
+import { PresenceTypesService } from '../../shared/services/presence-types.service';
+import { spread } from '../../shared/utils/function';
+import { filterByGroup } from '../../shared/utils/presence-control-entries';
+import { LessonEntry, lessonsEntryEqual } from '../models/lesson-entry.model';
+import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import {
+  extractLessonEntries,
+  getCurrentLessonEntry,
+} from '../utils/lesson-entries';
+import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
+import { getPresenceControlEntriesForLesson } from '../utils/lessons';
+import {
+  getCategoryCount,
+  getPrecedingAbsencesCount,
+} from '../utils/presence-control-entries';
+import { canChangePresenceType } from '../utils/presence-types';
+import { PresenceControlGroupService } from './presence-control-group.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -136,24 +136,33 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
+  groupsAvailability$ = this.groupService.groupsAvailability$;
+
   selectedPresenceControlEntries$ = combineLatest([
     this.selectedLesson$,
     this.lessonPresences$,
     this.presenceTypes$,
     this.absenceConfirmationStates$,
     this.otherTeachersAbsences$,
-  ]).pipe(map(spread(getPresenceControlEntriesForLesson)), shareReplay(1));
+  ]).pipe(map(spread(getPresenceControlEntriesForLesson)));
 
-  presentCount$ = this.selectedPresenceControlEntries$.pipe(
+  selectedPresenceControlEntriesByGroup$ = combineLatest([
+    this.groupService.groupView$,
+    this.selectedPresenceControlEntries$,
+    this.groupService.subscriptionDetailPersonIds$,
+    this.selectedLesson$,
+  ]).pipe(map(spread(filterByGroup)), shareReplay(1));
+
+  presentCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getCategoryCount('present'))
   );
-  absentCount$ = this.selectedPresenceControlEntries$.pipe(
+  absentCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getCategoryCount('absent'))
   );
-  unapprovedCount$ = this.selectedPresenceControlEntries$.pipe(
+  unapprovedCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getCategoryCount('unapproved'))
   );
-  absentPrecedingCount$ = this.selectedPresenceControlEntries$.pipe(
+  absentPrecedingCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
     map(getPrecedingAbsencesCount())
   );
 
@@ -177,6 +186,7 @@ export class PresenceControlStateService
     private lessonTeacherService: LessonTeachersRestService,
     private presenceTypesService: PresenceTypesService,
     private personsService: PersonsRestService,
+    private groupService: PresenceControlGroupService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,
@@ -196,6 +206,16 @@ export class PresenceControlStateService
         switchMap((v) => this.updateSavedViewMode(v))
       )
       .subscribe();
+
+    this.selectedLesson$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((lesson) => this.groupService.setSelectedLesson(lesson));
+
+    this.lessonPresences$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((presences) =>
+        this.groupService.setLessonPresences(presences)
+      );
   }
 
   ngOnDestroy(): void {
@@ -242,26 +262,6 @@ export class PresenceControlStateService
     return this.presenceTypes$.pipe(
       take(1),
       map((presenceTypes) => entry.getNextPresenceType(presenceTypes))
-    );
-  }
-
-  /**
-   * Looks up presence control entry within current lesson.
-   */
-  getPresenceControlEntry(
-    studentId: number,
-    lessonId: number
-  ): Observable<Option<PresenceControlEntry>> {
-    return this.selectedPresenceControlEntries$.pipe(
-      take(1),
-      map(
-        (entries) =>
-          entries.find(
-            (e) =>
-              e.lessonPresence.StudentRef.Id === studentId &&
-              e.lessonPresence.LessonRef.Id === lessonId
-          ) || null
-      )
     );
   }
 

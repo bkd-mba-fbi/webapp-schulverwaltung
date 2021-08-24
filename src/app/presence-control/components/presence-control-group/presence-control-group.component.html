@@ -1,0 +1,85 @@
+<div
+  *erzLet="{
+    sortCriteria: sortCriteria$ | async,
+    sortedEntries: sortedEntries$ | async,
+    selection: selectionService.selection$ | async,
+    groupView: groupService.groupView$ | async
+  } as data"
+>
+  <a
+    class="back btn btn-link p-3"
+    [routerLink]="['/presence-control']"
+    [queryParams]="backlinkQueryParams$ | async"
+  >
+    <div class="d-flex align-items-center">
+      <i class="material-icons">navigate_before</i>
+      <span class="ml-3">{{
+        'presence-control.groups.title' | translate
+      }}</span>
+    </div>
+  </a>
+
+  <div class="group-header mb-2 d-flex justify-content-between">
+    <div class="d-flex align-items-baseline">
+      <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
+      <button type="button" class="show btn btn-link" (click)="selectGroup()">
+        {{
+          data.groupView && data.groupView.group
+            ? ('presence-control.groups.group' | translate) +
+              ' ' +
+              data.groupView.group
+            : ('presence-control.groups.all' | translate)
+        }}
+      </button>
+    </div>
+    <a
+      class="btn btn-primary mr-2"
+      (click)="assignGroup()"
+      [class.disabled]="data.selection.length === 0"
+      aria-label="edit"
+    >
+      <i class="material-icons">edit</i>
+    </a>
+  </div>
+
+  <div class="group-list">
+    <div class="group-list-header">
+      <div
+        *ngFor="let key of ['name', 'group']"
+        (click)="toggleSort(key)"
+        [className]="key"
+      >
+        {{ 'presence-control.groups.list.header.' + key | translate }}
+        <span class="sort-direction">{{
+          getSortDirectionCharacter(data.sortCriteria, key)
+        }}</span>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!(state.loading$ | async); else loading">
+      <ng-container *ngFor="let entry of data.sortedEntries">
+        <div class="group-list-entry">
+          <div class="checkbox">
+            <input
+              #checkbox
+              type="checkbox"
+              class="form-check-input"
+              [checked]="selectionService.isSelected$(entry) | async"
+              (change)="selectionService.toggle(entry)"
+            />
+          </div>
+          <div class="name pr-2">
+            {{ entry.name }}
+          </div>
+          <div class="group">
+            {{ entry.group ? entry.group : '' }}
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #loading>
+      <erz-spinner></erz-spinner>
+    </ng-template>
+  </div>
+</div>

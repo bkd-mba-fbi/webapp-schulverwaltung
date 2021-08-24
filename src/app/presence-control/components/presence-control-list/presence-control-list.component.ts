@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
 
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -35,7 +35,7 @@ export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy {
   search$ = new BehaviorSubject<string>('');
   entries$ = combineLatest([
-    this.state.selectedPresenceControlEntries$,
+    this.state.selectedPresenceControlEntriesByGroup$,
     this.search$,
   ]).pipe(map(spread(searchEntries)), shareReplay(1));
 

@@ -12,6 +12,7 @@ import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manage
 import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
+import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -82,11 +83,13 @@ export function buildLesson(
   dateTo: Date,
   eventDesignation: string,
   teacherInformation: string,
-  studyClassNumber?: string
+  studyClassNumber?: string,
+  eventId?: number
 ): Lesson {
   return {
     LessonRef: buildReference(lessonId),
     EventDesignation: eventDesignation,
+    EventRef: buildReference(eventId),
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
     StudyClassNumber: studyClassNumber || '9a',
@@ -373,4 +376,20 @@ export function buildUserSettingWithNotificationData(
   };
   setting.Settings.push(notification);
   return setting;
+}
+
+export function buildSubscriptionDetail(
+  vssId: number,
+  value?: string
+): SubscriptionDetail {
+  return {
+    Id: '1',
+    SubscriptionId: 1,
+    IdPerson: 1,
+    VssId: vssId,
+    Value: value || '',
+    EventId: 1,
+    ShowAsRadioButtons: false,
+    DropdownItems: null,
+  };
 }

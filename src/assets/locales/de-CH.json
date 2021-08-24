@@ -56,6 +56,30 @@
     "preceding-absence": {
       "text": "In den Vorlektionen dieses Tages sind folgende Informationen eingetragen:",
       "cancel": "Schliessen"
+    },
+    "groups": {
+      "group": "Gruppe",
+      "title": "Gruppe einteilen",
+      "show": "Anzeige:",
+      "all": "Alle Gruppen",
+      "none": "Keine Gruppe",
+      "save": "Übernehmen",
+      "cancel": "Abbrechen",
+      "list": {
+        "header": {
+          "name": "Name",
+          "group": "Gruppe"
+        }
+      },
+      "select": {
+        "title": "Anzeige in der Präsenzkontrolle:"
+      },
+      "assign": {
+        "title": "Gruppe einteilen:"
+      },
+      "notifications": {
+        "save-success": "Die Gruppeneinteilung wurde gespeichert"
+      }
     }
   },
   "open-absences": {
