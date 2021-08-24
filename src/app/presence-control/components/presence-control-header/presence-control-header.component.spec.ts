@@ -5,6 +5,7 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { buildReference } from 'src/spec-builders';
 import { fromLesson } from '../../models/lesson-entry.model';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { PresenceControlGroupService } from '../../services/presence-control-group.service';
 
 describe('PresenceControlHeaderComponent', () => {
   let component: PresenceControlHeaderComponent;
@@ -15,7 +16,7 @@ describe('PresenceControlHeaderComponent', () => {
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
           declarations: [PresenceControlHeaderComponent],
-          providers: [PresenceControlStateService],
+          providers: [PresenceControlStateService, PresenceControlGroupService],
         })
       ).compileComponents();
     })
