@@ -71,6 +71,12 @@ window.absenzenmanagement.settings = {
   // Id of the report used in evaluate absences
   evaluateAbsencesReportId: 290048,
 
+  /**
+   * Groups
+   */
+  // Id that determines if the group icon is shown on the presence control
+  subscriptionDetailGroupId: 3843,
+
   // X-Role-Restriction custom HTTP header values by module
   headerRoleRestriction: {
     myAbsences: 'StudentRole',
