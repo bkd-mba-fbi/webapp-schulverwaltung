@@ -29,14 +29,9 @@ describe('PresenceControlGroupService', () => {
     httpTestingController.verify();
   });
 
-  describe('.loadGroupsAvailability', () => {
+  describe('groupsAvailability$', () => {
     beforeEach(() => {
       selectedLesson$ = new Subject();
-    });
-
-    it('returns true if the selected lesson has groups available', () => {
-      const subscriptionDetailWithGroups = buildSubscriptionDetail(3843);
-      subscriptionDetails = [subscriptionDetailWithGroups];
 
       selectedLesson = fromLesson(
         buildLesson(
@@ -49,6 +44,11 @@ describe('PresenceControlGroupService', () => {
           333
         )
       );
+    });
+
+    it('returns true if the selected lesson has groups available', () => {
+      const subscriptionDetailWithGroups = buildSubscriptionDetail(3843);
+      subscriptionDetails = [subscriptionDetailWithGroups];
 
       service.groupsAvailability$.subscribe((result) =>
         expect(result).toBeTruthy()

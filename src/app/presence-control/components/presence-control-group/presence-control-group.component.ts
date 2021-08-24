@@ -37,14 +37,12 @@ export interface SortCriteria {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlGroupComponent implements OnInit {
-  saving$ = new BehaviorSubject(false);
-
   backlinkQueryParams$ = this.route.queryParams.pipe(
     pluck('returnparams'),
     map(parseQueryString)
   );
 
-  lessonId$ = this.route.paramMap.pipe(
+  private lessonId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id')))
   );
 
@@ -59,7 +57,7 @@ export class PresenceControlGroupComponent implements OnInit {
     this.sortCriteria$,
   ]).pipe(map(spread(sortSubscriptionDetails)));
 
-  selected: ReadonlyArray<SubscriptionDetailWithName> = [];
+  private selected: ReadonlyArray<SubscriptionDetailWithName> = [];
 
   constructor(
     private route: ActivatedRoute,
