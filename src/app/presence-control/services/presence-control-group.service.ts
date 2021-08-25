@@ -37,7 +37,7 @@ import { flatten } from 'lodash-es';
 @Injectable()
 export class PresenceControlGroupService {
   private selectGroupView$ = new Subject<GroupViewType>();
-  private selectedLesson$ = new Subject<Option<LessonEntry>>();
+  private selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
 
