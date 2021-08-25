@@ -41,7 +41,10 @@ export class PresenceControlGroupService {
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
 
-  private savedGroupView$ = this.loadSavedGroupView();
+  private defaultGroupView: GroupViewType = { lessonId: null, group: null };
+  private savedGroupView$ = this.loadSavedGroupView().pipe(
+    startWith(this.defaultGroupView)
+  );
 
   private subscriptionsDetailsByEvents$ = this.selectedLesson$.pipe(
     map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))]),

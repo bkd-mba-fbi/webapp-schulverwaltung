@@ -50,7 +50,7 @@ const ViewModeType = t.type({
 });
 
 const GroupViewType = t.type({
-  lessonId: t.string,
+  lessonId: Option(t.string),
   group: Option(t.string),
 });
 
