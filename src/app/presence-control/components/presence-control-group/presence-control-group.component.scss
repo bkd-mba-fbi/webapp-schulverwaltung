@@ -67,10 +67,10 @@
   }
 
   .group-list-header {
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 3fr 1fr;
   }
 
   .group-list-entry {
-    grid-template-columns: min-content 5fr 1fr;
+    grid-template-columns: min-content 3fr 1fr;
   }
 }
