@@ -10,7 +10,10 @@ import { SubscriptionDetailsRestService } from '../../../shared/services/subscri
 import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
-import { getUserSetting } from '../../../shared/utils/user-settings';
+import {
+  updateGroupViews,
+  getUserSetting,
+} from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlGroupService } from '../../services/presence-control-group.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
@@ -120,21 +123,25 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   private selectCallback(selectedGroup: GroupOptions): void {
-    this.lessonId$
+    combineLatest([this.lessonId$, this.groupService.savedGroupViews$])
       .pipe(
         take(1),
-        switchMap((lessonId) => {
+        switchMap(([lessonId, groupViews]) => {
           if (lessonId) {
-            const propertyBody: GroupViewType = {
+            const groupView: GroupViewType = {
               lessonId: String(lessonId),
               group: selectedGroup.id,
             };
-            const cst = getUserSetting('presenceControlGroupView', [
-              propertyBody,
-            ]);
+
+            const propertyBody = updateGroupViews(groupView, groupViews);
+            const cst = getUserSetting(
+              'presenceControlGroupView',
+              propertyBody
+            );
+
             return this.settingsService
               .updateUserSettingsCst(cst)
-              .pipe(mapTo(propertyBody));
+              .pipe(mapTo(groupView));
           }
           return EMPTY;
         })

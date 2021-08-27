@@ -43,9 +43,11 @@ export class PresenceControlGroupService {
 
   private defaultGroupView: GroupViewType = { lessonId: null, group: null };
 
+  savedGroupViews$ = this.loadSavedGroupViews();
+
   private savedGroupView$ = this.selectedLesson$.pipe(
     switchMap((lesson) =>
-      this.loadSavedGroupViews().pipe(
+      this.savedGroupViews$.pipe(
         map(
           (views) =>
             views.find((view) => view.lessonId === lesson?.id) ||
