@@ -23,7 +23,7 @@ import {
 } from '../utils/subscriptions-details';
 import { EventsRestService } from '../../shared/services/events-rest.service';
 import { UserSettingsRestService } from '../../shared/services/user-settings-rest.service';
-import { decode } from '../../shared/utils/decode';
+import { decodeArray } from '../../shared/utils/decode';
 import { LessonEntry } from '../models/lesson-entry.model';
 import {
   findSubscriptionDetailByGroupId,
@@ -42,8 +42,17 @@ export class PresenceControlGroupService {
   private reloadSubscriptionDetails$ = new Subject();
 
   private defaultGroupView: GroupViewType = { lessonId: null, group: null };
-  private savedGroupView$ = this.loadSavedGroupView().pipe(
-    startWith(this.defaultGroupView)
+
+  private savedGroupView$ = this.selectedLesson$.pipe(
+    switchMap((lesson) =>
+      this.loadSavedGroupViews().pipe(
+        map(
+          (views) =>
+            views.find((view) => view.lessonId === lesson?.id) ||
+            this.defaultGroupView
+        )
+      )
+    )
   );
 
   private subscriptionsDetailsByEvents$ = this.selectedLesson$.pipe(
@@ -162,13 +171,13 @@ export class PresenceControlGroupService {
     );
   }
 
-  private loadSavedGroupView(): Observable<GroupViewType> {
+  private loadSavedGroupViews(): Observable<ReadonlyArray<GroupViewType>> {
     return this.settingsService.getUserSettingsCst().pipe(
       map<UserSetting, BaseProperty[]>((i) => i.Settings),
       mergeAll(),
       filter((i) => i.Key === 'presenceControlGroupView'),
       map((v) => JSON.parse(v.Value)),
-      switchMap(decode(GroupViewType))
+      switchMap(decodeArray(GroupViewType))
     );
   }
 }

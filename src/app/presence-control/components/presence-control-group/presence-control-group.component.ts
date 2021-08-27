@@ -129,10 +129,9 @@ export class PresenceControlGroupComponent implements OnInit {
               lessonId: String(lessonId),
               group: selectedGroup.id,
             };
-            const cst = getUserSetting(
-              'presenceControlGroupView',
-              propertyBody
-            );
+            const cst = getUserSetting('presenceControlGroupView', [
+              propertyBody,
+            ]);
             return this.settingsService
               .updateUserSettingsCst(cst)
               .pipe(mapTo(propertyBody));

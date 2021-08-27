@@ -34,10 +34,9 @@ export function buildPresenceControlEntries(
 export function filterByGroup(
   groupView: Option<GroupViewType>,
   entries: ReadonlyArray<PresenceControlEntry>,
-  personIds: ReadonlyArray<number>,
-  lesson: Option<LessonEntry>
+  personIds: ReadonlyArray<number>
 ): ReadonlyArray<PresenceControlEntry> {
-  if (groupView?.group && groupView?.lessonId === lesson?.id) {
+  if (groupView?.group) {
     return entries.filter((e) =>
       personIds.find((id) => id === e.lessonPresence.StudentRef.Id)
     );

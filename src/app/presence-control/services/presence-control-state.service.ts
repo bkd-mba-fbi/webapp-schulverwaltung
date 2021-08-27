@@ -150,7 +150,6 @@ export class PresenceControlStateService
     this.groupService.groupView$,
     this.selectedPresenceControlEntries$,
     this.groupService.subscriptionDetailPersonIds$,
-    this.selectedLesson$,
   ]).pipe(map(spread(filterByGroup)), shareReplay(1));
 
   presentCount$ = this.selectedPresenceControlEntriesByGroup$.pipe(
