@@ -91,7 +91,8 @@ export class PresenceControlGroupService {
   ]).pipe(
     map(([groupView, details]) =>
       details.filter((d) => d.Value === groupView?.group).map((d) => d.IdPerson)
-    )
+    ),
+    startWith([])
   );
 
   /**
