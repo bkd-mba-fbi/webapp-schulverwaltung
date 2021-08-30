@@ -41,7 +41,7 @@ export class PresenceControlGroupService {
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
 
-  private defaultGroupView: GroupViewType = { lessonId: null, group: null };
+  private defaultGroupView: GroupViewType = { eventId: null, group: null };
 
   savedGroupViews$ = this.loadSavedGroupViews();
 
@@ -50,7 +50,7 @@ export class PresenceControlGroupService {
       this.savedGroupViews$.pipe(
         map(
           (views) =>
-            views.find((view) => view.lessonId === lesson?.id) ||
+            views.find((view) => view.eventId === lesson?.eventId) ||
             this.defaultGroupView
         )
       )
@@ -58,28 +58,24 @@ export class PresenceControlGroupService {
   );
 
   groupView$ = merge(this.selectGroupView$, this.savedGroupView$).pipe(
+    startWith(this.defaultGroupView),
     shareReplay(1)
   );
 
-  private subscriptionsDetailsByEvents$ = this.selectedLesson$.pipe(
-    map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))]),
-    switchMap((ids) =>
-      forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
+  private subscriptionsDetailsByEvent$ = this.selectedLesson$.pipe(
+    switchMap((lesson) =>
+      lesson ? this.eventService.getSubscriptionDetails(lesson?.eventId) : []
     ),
     shareReplay(1)
   );
 
   /**
-   * Check if all events in the selected lesson have groups available
+   * Check if the event of the selected lesson has groups available
    * Groups are available if the subscriptionDetailGroupId is found on the subscription detail of the given event
    *
    */
-  groupsAvailability$ = this.subscriptionsDetailsByEvents$.pipe(
-    map((detailsByEvent) =>
-      detailsByEvent.every((details) =>
-        findSubscriptionDetailByGroupId(details, this.settings)
-      )
-    ),
+  groupsAvailability$ = this.subscriptionsDetailsByEvent$.pipe(
+    map((details) => findSubscriptionDetailByGroupId(details, this.settings)),
     shareReplay(1)
   );
 
@@ -146,7 +142,7 @@ export class PresenceControlGroupService {
   }
 
   getSubscriptionDetailForGroupEvent(): Observable<Maybe<SubscriptionDetail>> {
-    return this.subscriptionsDetailsByEvents$.pipe(
+    return this.subscriptionsDetailsByEvent$.pipe(
       map(flatten),
       map((details) => findSubscriptionDetailByGroupId(details, this.settings))
     );

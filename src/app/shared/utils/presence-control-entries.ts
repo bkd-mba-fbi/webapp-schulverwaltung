@@ -3,7 +3,6 @@ import { PresenceType } from '../models/presence-type.model';
 import { DropDownItem } from '../models/drop-down-item.model';
 import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
 import { GroupViewType } from '../models/user-setting.model';
-import { LessonEntry } from '../../presence-control/models/lesson-entry.model';
 
 export function buildPresenceControlEntries(
   lessonPresences: ReadonlyArray<LessonPresence>,

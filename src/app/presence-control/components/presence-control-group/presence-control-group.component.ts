@@ -45,7 +45,7 @@ export class PresenceControlGroupComponent implements OnInit {
     map(parseQueryString)
   );
 
-  private lessonId$ = this.route.paramMap.pipe(
+  private eventId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id')))
   );
 
@@ -123,13 +123,13 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   private selectCallback(selectedGroup: GroupOptions): void {
-    combineLatest([this.lessonId$, this.groupService.savedGroupViews$])
+    combineLatest([this.eventId$, this.groupService.savedGroupViews$])
       .pipe(
         take(1),
-        switchMap(([lessonId, groupViews]) => {
-          if (lessonId) {
+        switchMap(([eventId, groupViews]) => {
+          if (eventId) {
             const groupView: GroupViewType = {
-              lessonId: String(lessonId),
+              eventId,
               group: selectedGroup.id,
             };
 

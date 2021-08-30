@@ -20,7 +20,7 @@ export function updateGroupViews(
   groupsViews: ReadonlyArray<GroupViewType>
 ): ReadonlyArray<GroupViewType> {
   const updatedGroupViews = [...groupsViews].filter(
-    (gv) => gv.lessonId !== groupView.lessonId
+    (gv) => gv.eventId !== groupView.eventId
   );
   if (groupView.group) {
     updatedGroupViews.push(groupView);
