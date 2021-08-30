@@ -57,53 +57,16 @@ export class PresenceControlGroupService {
     )
   );
 
+  groupView$ = merge(this.selectGroupView$, this.savedGroupView$).pipe(
+    shareReplay(1)
+  );
+
   private subscriptionsDetailsByEvents$ = this.selectedLesson$.pipe(
     map((lesson) => [...new Set(lesson?.lessons.map((l) => l.EventRef.Id))]),
     switchMap((ids) =>
       forkJoin(ids.map((id) => this.eventService.getSubscriptionDetails(id)))
     ),
     shareReplay(1)
-  );
-
-  private selectedLessonRegistrationIds$ = combineLatest([
-    this.selectedLesson$,
-    this.lessonPresences$,
-  ]).pipe(
-    map(([lesson, presences]) => {
-      return presences.filter((i) => i.LessonRef.Id === Number(lesson?.id));
-    }),
-    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[])
-  );
-
-  private subscriptionsDetailsByRegistrations$ = combineLatest([
-    this.selectedLessonRegistrationIds$,
-    this.reloadSubscriptionDetails$.pipe(startWith(undefined)),
-  ]).pipe(
-    switchMap(([ids]) =>
-      forkJoin(ids.map((id) => this.loadSubscriptionDetails(id)))
-    )
-  );
-
-  private subscriptionDetails$ = this.subscriptionsDetailsByRegistrations$.pipe(
-    map(flatten),
-    map((details) =>
-      filterSubscriptionDetailsByGroupId(details, this.settings)
-    ),
-    shareReplay(1)
-  );
-
-  groupView$ = merge(this.selectGroupView$, this.savedGroupView$).pipe(
-    shareReplay(1)
-  );
-
-  subscriptionDetailPersonIds$ = combineLatest([
-    this.groupView$,
-    this.subscriptionDetails$,
-  ]).pipe(
-    map(([groupView, details]) =>
-      details.filter((d) => d.Value === groupView?.group).map((d) => d.IdPerson)
-    ),
-    startWith([])
   );
 
   /**
@@ -118,6 +81,48 @@ export class PresenceControlGroupService {
       )
     ),
     shareReplay(1)
+  );
+
+  private selectedLessonRegistrationIds$ = combineLatest([
+    this.selectedLesson$,
+    this.lessonPresences$,
+  ]).pipe(
+    map(([lesson, presences]) =>
+      presences.filter((i) => i.LessonRef.Id === Number(lesson?.id))
+    ),
+    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[])
+  );
+
+  private subscriptionsDetailsByRegistrations$ = combineLatest([
+    this.selectedLessonRegistrationIds$,
+    this.groupsAvailability$,
+    this.reloadSubscriptionDetails$.pipe(startWith(undefined)),
+  ]).pipe(
+    switchMap(([ids, groupsAvailable]) =>
+      forkJoin(
+        ids.map((id) =>
+          groupsAvailable ? this.loadSubscriptionDetails(id) : []
+        )
+      )
+    )
+  );
+
+  private subscriptionDetails$ = this.subscriptionsDetailsByRegistrations$.pipe(
+    map(flatten),
+    map((details) =>
+      filterSubscriptionDetailsByGroupId(details, this.settings)
+    ),
+    shareReplay(1)
+  );
+
+  subscriptionDetailPersonIds$ = combineLatest([
+    this.groupView$,
+    this.subscriptionDetails$,
+  ]).pipe(
+    map(([groupView, details]) =>
+      details.filter((d) => d.Value === groupView?.group).map((d) => d.IdPerson)
+    ),
+    startWith([])
   );
 
   constructor(
