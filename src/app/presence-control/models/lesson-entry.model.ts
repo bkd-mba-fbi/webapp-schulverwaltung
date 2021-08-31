@@ -31,6 +31,7 @@ export function fromLesson(lesson: Lesson): LessonEntry {
  */
 export class LessonEntry {
   readonly id: string;
+  readonly eventId: number;
   readonly studyClassNumbers: string;
   readonly eventDesignations: string;
 
@@ -46,6 +47,7 @@ export class LessonEntry {
     if (!this.lessons.some((l) => lessonsEqual(l, lesson))) {
       this.lessons.push(lesson);
       this.updateId();
+      this.updateEventId(lesson);
       this.updateStudyClassNumbers();
       this.updateEventDesignations();
     }
@@ -55,6 +57,10 @@ export class LessonEntry {
     (this.id as string) = [
       ...new Set(this.lessons.map((l) => l.LessonRef.Id).sort()),
     ].join('-');
+  }
+
+  private updateEventId(lesson: Lesson): void {
+    (this.eventId as number) = lesson.EventRef.Id;
   }
 
   private updateStudyClassNumbers(): void {

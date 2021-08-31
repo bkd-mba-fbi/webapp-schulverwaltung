@@ -10,7 +10,10 @@ import { SubscriptionDetailsRestService } from '../../../shared/services/subscri
 import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
-import { getUserSetting } from '../../../shared/utils/user-settings';
+import {
+  updateGroupViews,
+  getUserSetting,
+} from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlGroupService } from '../../services/presence-control-group.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
@@ -42,7 +45,7 @@ export class PresenceControlGroupComponent implements OnInit {
     map(parseQueryString)
   );
 
-  private lessonId$ = this.route.paramMap.pipe(
+  private eventId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id')))
   );
 
@@ -120,22 +123,25 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   private selectCallback(selectedGroup: GroupOptions): void {
-    this.lessonId$
+    combineLatest([this.eventId$, this.groupService.savedGroupViews$])
       .pipe(
         take(1),
-        switchMap((lessonId) => {
-          if (lessonId) {
-            const propertyBody: GroupViewType = {
-              lessonId: String(lessonId),
+        switchMap(([eventId, groupViews]) => {
+          if (eventId) {
+            const groupView: GroupViewType = {
+              eventId,
               group: selectedGroup.id,
             };
+
+            const propertyBody = updateGroupViews(groupView, groupViews);
             const cst = getUserSetting(
               'presenceControlGroupView',
               propertyBody
             );
+
             return this.settingsService
               .updateUserSettingsCst(cst)
-              .pipe(mapTo(propertyBody));
+              .pipe(mapTo(groupView));
           }
           return EMPTY;
         })

@@ -3,7 +3,6 @@ import { PresenceType } from '../models/presence-type.model';
 import { DropDownItem } from '../models/drop-down-item.model';
 import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
 import { GroupViewType } from '../models/user-setting.model';
-import { LessonEntry } from '../../presence-control/models/lesson-entry.model';
 
 export function buildPresenceControlEntries(
   lessonPresences: ReadonlyArray<LessonPresence>,
@@ -34,10 +33,9 @@ export function buildPresenceControlEntries(
 export function filterByGroup(
   groupView: Option<GroupViewType>,
   entries: ReadonlyArray<PresenceControlEntry>,
-  personIds: ReadonlyArray<number>,
-  lesson: Option<LessonEntry>
+  personIds: ReadonlyArray<number>
 ): ReadonlyArray<PresenceControlEntry> {
-  if (groupView?.group && groupView?.lessonId === lesson?.id) {
+  if (groupView?.group) {
     return entries.filter((e) =>
       personIds.find((id) => id === e.lessonPresence.StudentRef.Id)
     );
