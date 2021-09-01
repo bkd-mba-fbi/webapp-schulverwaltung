@@ -24,6 +24,7 @@ import {
 import {
   GroupOptions,
   PresenceControlGroupDialogComponent,
+  DialogMode,
 } from '../presence-control-group-dialog/presence-control-group-dialog.component';
 
 export type PrimarySortKey = 'name' | 'group';
@@ -81,21 +82,15 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   selectGroup(): void {
-    this.openGroupModal(
-      'presence-control.groups.all',
-      this.selectCallback.bind(this)
-    );
+    this.openGroupModal(DialogMode.Select, this.selectCallback.bind(this));
   }
 
   assignGroup(): void {
-    this.openGroupModal(
-      'presence-control.groups.none',
-      this.assignCallback.bind(this)
-    );
+    this.openGroupModal(DialogMode.Assign, this.assignCallback.bind(this));
   }
 
   private openGroupModal(
-    emtpyLabel: string,
+    dialogMode: DialogMode,
     callback: (selectedGroup: GroupOptions) => void
   ): void {
     combineLatest([
@@ -107,9 +102,7 @@ export class PresenceControlGroupComponent implements OnInit {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent
         );
-        modalRef.componentInstance.title =
-          'presence-control.groups.assign.title';
-        modalRef.componentInstance.emptyLabel = emtpyLabel;
+        modalRef.componentInstance.dialogMode = dialogMode;
         modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
         modalRef.componentInstance.savedGroupView = groupView;
 
