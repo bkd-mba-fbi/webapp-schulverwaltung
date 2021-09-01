@@ -56,6 +56,30 @@
     "preceding-absence": {
       "text": "Les informations suivantes sont saisies dans les leçons précédentes de cette journée :",
       "cancel": "Fermer"
+    },
+    "groups": {
+      "group": "Groupe",
+      "title": "Diviser en groupes",
+      "show": "Affichage :",
+      "all": "Tous les groupes",
+      "none": "Aucun groupe",
+      "save": "Valider",
+      "cancel": "Annuler",
+      "list": {
+        "header": {
+          "name": "Nom",
+          "group": "Groupe"
+        }
+      },
+      "select": {
+        "title": "Affichage dans le contrôle des présences :"
+      },
+      "assign": {
+        "title": "Diviser en groupes :"
+      },
+      "notifications": {
+        "save-success": "La division en groupes a été enregistrée."
+      }
     }
   },
   "open-absences": {
