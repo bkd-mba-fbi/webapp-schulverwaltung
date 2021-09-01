@@ -180,7 +180,8 @@ export class PresenceControlGroupService {
       mergeAll(),
       filter((i) => i.Key === 'presenceControlGroupView'),
       map((v) => JSON.parse(v.Value)),
-      switchMap(decodeArray(GroupViewType))
+      switchMap(decodeArray(GroupViewType)),
+      startWith([])
     );
   }
 }
