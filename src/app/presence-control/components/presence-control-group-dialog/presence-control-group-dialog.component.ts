@@ -9,18 +9,23 @@ export interface GroupOptions {
   label: Option<string>;
 }
 
+export enum DialogMode {
+  Select = 'select',
+  Assign = 'assign',
+}
+
 @Component({
   selector: 'erz-presence-control-group-dialog',
   templateUrl: './presence-control-group-dialog.component.html',
   styleUrls: ['./presence-control-group-dialog.component.scss'],
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
-  @Input() title: string;
-  @Input() emptyLabel: string;
+  @Input() dialogMode: DialogMode;
   @Input() subscriptionDetail: SubscriptionDetail;
   @Input() savedGroupView: GroupViewType;
   groupOptions: Array<GroupOptions> = [];
   selected: GroupOptions;
+  title: string;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -28,10 +33,10 @@ export class PresenceControlGroupDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const emptyOption = {
-      id: null,
-      label: this.translate.instant(this.emptyLabel),
-    };
+    this.title = `presence-control.groups.${this.dialogMode}.title`;
+
+    const emptyOption = this.createEmtpyOption();
+
     this.groupOptions = this.createGroupOptions(this.subscriptionDetail);
     this.groupOptions.unshift(emptyOption);
 
@@ -41,7 +46,19 @@ export class PresenceControlGroupDialogComponent implements OnInit {
       ) || emptyOption;
   }
 
-  createGroupOptions(detail: SubscriptionDetail): Array<GroupOptions> {
+  private createEmtpyOption(): GroupOptions {
+    const emptyLabel =
+      this.dialogMode === DialogMode.Select
+        ? 'presence-control.groups.all'
+        : 'presence-control.groups.none';
+
+    return {
+      id: null,
+      label: this.translate.instant(emptyLabel),
+    };
+  }
+
+  private createGroupOptions(detail: SubscriptionDetail): Array<GroupOptions> {
     return detail.DropdownItems
       ? detail.DropdownItems.map((item) => ({
           id: item.Key,

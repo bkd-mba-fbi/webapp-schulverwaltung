@@ -3,7 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { buildSubscriptionDetail } from '../../../../spec-builders';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 
-import { PresenceControlGroupDialogComponent } from './presence-control-group-dialog.component';
+import {
+  PresenceControlGroupDialogComponent,
+  DialogMode,
+} from './presence-control-group-dialog.component';
 
 describe('PresenceControlGroupDialogComponent', () => {
   let component: PresenceControlGroupDialogComponent;
@@ -21,8 +24,7 @@ describe('PresenceControlGroupDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlGroupDialogComponent);
     component = fixture.componentInstance;
-    component.title = 'title';
-    component.emptyLabel = 'empty';
+    component.dialogMode = DialogMode.Select;
     component.subscriptionDetail = buildSubscriptionDetail(3843);
     component.savedGroupView = { eventId: 1, group: null };
     fixture.detectChanges();
@@ -30,5 +32,10 @@ describe('PresenceControlGroupDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.title).toBe('presence-control.groups.select.title');
+    expect(component.selected).toEqual({
+      id: null,
+      label: 'presence-control.groups.all',
+    });
   });
 });
