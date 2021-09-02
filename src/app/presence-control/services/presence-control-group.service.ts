@@ -8,6 +8,7 @@ import {
   switchMap,
   shareReplay,
   startWith,
+  defaultIfEmpty,
 } from 'rxjs/operators';
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
@@ -181,7 +182,7 @@ export class PresenceControlGroupService {
       filter((i) => i.Key === 'presenceControlGroupView'),
       map((v) => JSON.parse(v.Value)),
       switchMap(decodeArray(GroupViewType)),
-      startWith([])
+      defaultIfEmpty([] as ReadonlyArray<GroupViewType>)
     );
   }
 }
