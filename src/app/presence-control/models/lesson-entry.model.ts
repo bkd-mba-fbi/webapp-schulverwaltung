@@ -53,6 +53,10 @@ export class LessonEntry {
     }
   }
 
+  getIds(): ReadonlyArray<number> {
+    return [...new Set(this.lessons.map((l) => l.LessonRef.Id))];
+  }
+
   private updateId(): void {
     (this.id as string) = [
       ...new Set(this.lessons.map((l) => l.LessonRef.Id).sort()),

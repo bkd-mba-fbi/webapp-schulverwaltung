@@ -85,9 +85,16 @@ export class PresenceControlGroupService {
     this.lessonPresences$,
   ]).pipe(
     map(([lesson, presences]) =>
-      presences.filter((i) => i.LessonRef.Id === Number(lesson?.id))
+      presences.filter((presence) =>
+        lesson?.getIds().includes(presence.LessonRef.Id)
+      )
     ),
-    map((p) => p.map((i) => i.RegistrationRef.Id).filter((i) => i) as number[])
+    map(
+      (presences) =>
+        presences
+          .map((presence) => presence.RegistrationRef.Id)
+          .filter((i) => i) as number[]
+    )
   );
 
   private subscriptionsDetailsByRegistrations$ = combineLatest([
