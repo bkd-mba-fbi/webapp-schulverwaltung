@@ -90,7 +90,7 @@ describe('lesson presences utils', () => {
       presence.Type = 'Andere Gründe';
 
       expect(toDesignationDateTimeTypeString(presence)).toBe(
-        'Deutsch-S1, 22.04.2021, 09:00-09:45: Andere Gründe'
+        'Deutsch-S1, 22.04.2021, 09:00-09:45, Andere Gründe'
       );
     });
 
@@ -103,7 +103,7 @@ describe('lesson presences utils', () => {
       );
 
       expect(toDesignationDateTimeTypeString(presence)).toBe(
-        'Deutsch-S1, 22.04.2021, 09:00-09:45: '
+        'Deutsch-S1, 22.04.2021, 09:00-09:45, '
       );
     });
   });
