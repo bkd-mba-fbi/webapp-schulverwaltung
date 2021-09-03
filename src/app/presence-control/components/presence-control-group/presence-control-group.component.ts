@@ -48,6 +48,10 @@ export class PresenceControlGroupComponent implements OnInit {
 
   private eventId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id')))
+  ); // TODO remove?, pass multiple event ids in url?
+
+  eventIds$ = this.state.selectedLesson$.pipe(
+    map((lesson) => lesson?.getEventIds() || [])
   );
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
@@ -116,13 +120,13 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   private selectCallback(selectedGroup: GroupOptions): void {
-    combineLatest([this.eventId$, this.groupService.savedGroupViews$])
+    combineLatest([this.eventIds$, this.groupService.savedGroupViews$])
       .pipe(
         take(1),
-        switchMap(([eventId, groupViews]) => {
-          if (eventId) {
+        switchMap(([eventIds, groupViews]) => {
+          if (eventIds.length > 0) {
             const groupView: GroupViewType = {
-              eventId,
+              eventId: eventIds[0], // TODO send all event ids
               group: selectedGroup.id,
             };
 
