@@ -37,29 +37,25 @@ import { flatten } from 'lodash-es';
 
 @Injectable()
 export class PresenceControlGroupService {
-  private selectGroupView$ = new Subject<GroupViewType>();
+  private selectGroup$ = new Subject<Option<string>>();
   private selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
 
-  private defaultGroupView: GroupViewType = { eventId: null, group: null };
+  private defaultGroup: Option<string> = null;
 
   savedGroupViews$ = this.loadSavedGroupViews();
 
-  private savedGroupView$ = this.selectedLesson$.pipe(
+  private savedGroup$ = this.selectedLesson$.pipe(
     switchMap((lesson) =>
       this.savedGroupViews$.pipe(
-        map(
-          (views) =>
-            views.find((view) => view.eventId === lesson?.getEventIds()[0]) ||
-            this.defaultGroupView // TODO helper
-        )
+        map((views) => this.findGroupByLesson(views, lesson))
       )
     )
   );
 
-  groupView$ = merge(this.selectGroupView$, this.savedGroupView$).pipe(
-    startWith(this.defaultGroupView),
+  group$ = merge(this.selectGroup$, this.savedGroup$).pipe(
+    startWith(this.defaultGroup),
     shareReplay(1)
   );
 
@@ -125,11 +121,11 @@ export class PresenceControlGroupService {
   );
 
   subscriptionDetailPersonIds$ = combineLatest([
-    this.groupView$,
+    this.group$,
     this.subscriptionDetails$,
   ]).pipe(
-    map(([groupView, details]) =>
-      details.filter((d) => d.Value === groupView?.group).map((d) => d.IdPerson)
+    map(([group, details]) =>
+      details.filter((d) => d.Value === group).map((d) => d.IdPerson)
     ),
     startWith([])
   );
@@ -142,8 +138,8 @@ export class PresenceControlGroupService {
     @Inject(SETTINGS) private settings: Settings
   ) {}
 
-  selectGroupView(view: GroupViewType): void {
-    this.selectGroupView$.next(view);
+  selectGroup(groupId: Option<string>): void {
+    this.selectGroup$.next(groupId);
   }
 
   setSelectedLesson(selected: Option<LessonEntry>): void {
@@ -196,5 +192,16 @@ export class PresenceControlGroupService {
       switchMap(decodeArray(GroupViewType)),
       defaultIfEmpty([] as ReadonlyArray<GroupViewType>)
     );
+  }
+
+  private findGroupByLesson(
+    groupViews: ReadonlyArray<GroupViewType>,
+    lesson: Option<LessonEntry>
+  ): Option<string> {
+    const groupView = groupViews.find(
+      (gv) => gv.eventId === lesson?.getEventIds()[0] // All event ids of a lesson share the same group
+    );
+
+    return groupView?.group || this.defaultGroup;
   }
 }

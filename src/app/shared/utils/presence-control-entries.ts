@@ -31,11 +31,11 @@ export function buildPresenceControlEntries(
 }
 
 export function filterByGroup(
-  groupView: Option<GroupViewType>,
+  group: Option<string>,
   entries: ReadonlyArray<PresenceControlEntry>,
   personIds: ReadonlyArray<number>
 ): ReadonlyArray<PresenceControlEntry> {
-  if (groupView?.group) {
+  if (group) {
     return entries.filter((e) =>
       personIds.find((id) => id === e.lessonPresence.StudentRef.Id)
     );

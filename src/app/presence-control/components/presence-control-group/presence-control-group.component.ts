@@ -3,15 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, combineLatest, EMPTY, forkJoin, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { map, mapTo, pluck, switchMap, take } from 'rxjs/operators';
-import { GroupViewType } from '../../../shared/models/user-setting.model';
 import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
 import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
 import {
-  updateGroupViews,
+  updateGroupViewSettings,
   getUserSetting,
 } from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
@@ -46,11 +45,7 @@ export class PresenceControlGroupComponent implements OnInit {
     map(parseQueryString)
   );
 
-  private eventId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('id')))
-  ); // TODO remove?, pass multiple event ids in url?
-
-  eventIds$ = this.state.selectedLesson$.pipe(
+  private eventIds$ = this.state.selectedLesson$.pipe(
     map((lesson) => lesson?.getEventIds() || [])
   );
 
@@ -99,16 +94,16 @@ export class PresenceControlGroupComponent implements OnInit {
   ): void {
     combineLatest([
       this.groupService.getSubscriptionDetailForGroupEvent(),
-      this.groupService.groupView$,
+      this.groupService.group$,
     ])
       .pipe(take(1))
-      .subscribe(([subscriptionDetail, groupView]) => {
+      .subscribe(([subscriptionDetail, group]) => {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent
         );
         modalRef.componentInstance.dialogMode = dialogMode;
         modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
-        modalRef.componentInstance.savedGroupView = groupView;
+        modalRef.componentInstance.group = group;
 
         modalRef.result.then(
           (selectedGroup) => {
@@ -123,30 +118,20 @@ export class PresenceControlGroupComponent implements OnInit {
     combineLatest([this.eventIds$, this.groupService.savedGroupViews$])
       .pipe(
         take(1),
-        switchMap(([eventIds, groupViews]) => {
-          if (eventIds.length > 0) {
-            const groupView: GroupViewType = {
-              eventId: eventIds[0], // TODO send all event ids
-              group: selectedGroup.id,
-            };
+        switchMap(([eventIds, savedGroupViews]) => {
+          const propertyBody = updateGroupViewSettings(
+            selectedGroup.id,
+            eventIds,
+            savedGroupViews
+          );
+          const cst = getUserSetting('presenceControlGroupView', propertyBody);
 
-            const propertyBody = updateGroupViews(groupView, groupViews);
-            const cst = getUserSetting(
-              'presenceControlGroupView',
-              propertyBody
-            );
-
-            return this.settingsService
-              .updateUserSettingsCst(cst)
-              .pipe(mapTo(groupView));
-          }
-          return EMPTY;
+          return this.settingsService
+            .updateUserSettingsCst(cst)
+            .pipe(mapTo(selectedGroup.id));
         })
       )
-      .subscribe(
-        (propertyBody) =>
-          propertyBody && this.groupService.selectGroupView(propertyBody)
-      );
+      .subscribe((groupId) => this.groupService.selectGroup(groupId));
   }
 
   private assignCallback(selectedGroup: GroupOptions): void {

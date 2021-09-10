@@ -21,10 +21,9 @@ describe('PresenceControlEntries', () => {
     });
 
     it('does not filter entries if group is null', () => {
-      const groupView = { eventId: 333, group: null };
       const personIds = [1, 2, 3];
 
-      expect(filterByGroup(groupView, entries, personIds)).toEqual([
+      expect(filterByGroup(null, entries, personIds)).toEqual([
         entry1,
         entry2,
         entry3,
@@ -32,10 +31,9 @@ describe('PresenceControlEntries', () => {
     });
 
     it('does filter entries - given all student ids', () => {
-      const groupView = { eventId: 333, group: 'A' };
       const personIds = [1, 2, 3];
 
-      expect(filterByGroup(groupView, entries, personIds)).toEqual([
+      expect(filterByGroup('A', entries, personIds)).toEqual([
         entry1,
         entry2,
         entry3,
@@ -43,17 +41,15 @@ describe('PresenceControlEntries', () => {
     });
 
     it('does filter entries - given one student id', () => {
-      const groupView = { eventId: 333, group: 'A' };
       const personIds = [2];
 
-      expect(filterByGroup(groupView, entries, personIds)).toEqual([entry2]);
+      expect(filterByGroup('A', entries, personIds)).toEqual([entry2]);
     });
 
     it('does filter entries - given empty student ids', () => {
-      const groupView = { eventId: 333, group: 'A' };
       const personIds: ReadonlyArray<number> = [];
 
-      expect(filterByGroup(groupView, entries, personIds)).toEqual([]);
+      expect(filterByGroup('A', entries, personIds)).toEqual([]);
     });
   });
 });
