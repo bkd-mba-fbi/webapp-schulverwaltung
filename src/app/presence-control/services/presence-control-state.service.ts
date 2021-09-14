@@ -147,7 +147,7 @@ export class PresenceControlStateService
   ]).pipe(map(spread(getPresenceControlEntriesForLesson)));
 
   selectedPresenceControlEntriesByGroup$ = combineLatest([
-    this.groupService.groupView$,
+    this.groupService.group$,
     this.selectedPresenceControlEntries$,
     this.groupService.subscriptionDetailPersonIds$,
   ]).pipe(map(spread(filterByGroup)), shareReplay(1));

@@ -26,7 +26,7 @@ describe('PresenceControlGroupDialogComponent', () => {
     component = fixture.componentInstance;
     component.dialogMode = DialogMode.Select;
     component.subscriptionDetail = buildSubscriptionDetail(3843);
-    component.savedGroupView = { eventId: 1, group: null };
+    component.group = null;
     fixture.detectChanges();
   });
 

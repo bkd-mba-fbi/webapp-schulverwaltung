@@ -15,15 +15,20 @@ export function getUserSetting(key: string, propertyBody: any): UserSetting {
   return cst;
 }
 
-export function updateGroupViews(
-  groupView: GroupViewType,
-  groupsViews: ReadonlyArray<GroupViewType>
+export function updateGroupViewSettings(
+  group: Option<string>,
+  eventIds: ReadonlyArray<number>,
+  existingSettings: ReadonlyArray<GroupViewType>
 ): ReadonlyArray<GroupViewType> {
-  const updatedGroupViews = [...groupsViews].filter(
-    (gv) => gv.eventId !== groupView.eventId
+  const newSettings: ReadonlyArray<GroupViewType> = eventIds.map((eventId) => {
+    return { eventId, group };
+  });
+
+  const updatedSettings = existingSettings.map(
+    (es) => newSettings.find((ns) => ns.eventId === es.eventId) || es
   );
-  if (groupView.group) {
-    updatedGroupViews.push(groupView);
-  }
-  return updatedGroupViews;
+
+  return [...new Set([...updatedSettings, ...newSettings])].filter(
+    (settings) => settings.group !== null
+  );
 }
