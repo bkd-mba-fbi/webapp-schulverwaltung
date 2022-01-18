@@ -1,17 +1,17 @@
-# Absenzenmanagement
+# webapp-schulverwaltung
 
 [![Build Status](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement)
 [![lint test ✨](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml/badge.svg?branch=master)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml)
 [![build 🏭 deploy 🚀](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/buildDeploy.yml/badge.svg)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/buildDeploy.yml)
 
-JavaScript web module to implement the process "Absenzenverwaltung"
-using the CLX.Evento backend (REST API).
+JavaScript web module to implement processes for school administration.
+using the SLH.Evento backend (REST API).
 
-[Demo](https://bkd-mba-fbi.github.io/absenzenmanagement/app)
+[Demo](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/app)
 
 ## Integration
 
-Download the [latest build](https://bkd-mba-fbi.github.io/absenzenmanagement/absenzenmanagement.zip).
+Download the [latest build](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/webapp-schulverwaltung.zip).
 
 To integrate this application in your website, you have to copy and
 paste the import of the `settings.js` and the CSS files from
@@ -60,7 +60,7 @@ application displays a unauthenticated message to the user.
 
 ## Development
 
-- Common aspects are documented in the [Wiki](https://github.com/bkd-mba-fbi/absenzenmanagement/wiki)
+- Common aspects are documented in the [Wiki](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/wiki)
 - [Setup development environment](doc/setup-dev-environment.md)
 - [Prettier](doc/prettier.md)
 - [Browser support](doc/browser-support.md)
