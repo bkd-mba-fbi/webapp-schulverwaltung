@@ -28,7 +28,7 @@ jobs:
         npm install
         npm run build:prod
         cp README.md dist && cp -r doc dist
-        (cd dist && zip --recurse-paths absenzenmanagement.zip *)
+        (cd dist && zip --recurse-paths webapp-schulverwaltung.zip *)
         mv dist/absenzenmanagement dist/app
         sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
         
