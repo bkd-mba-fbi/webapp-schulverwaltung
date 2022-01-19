@@ -1,6 +1,5 @@
 # webapp-schulverwaltung
 
-[![Build Status](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement.svg?branch=master)](https://travis-ci.com/bkd-mba-fbi/absenzenmanagement)
 [![lint test ✨](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml/badge.svg?branch=master)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/lintAndTest.yml)
 [![build 🏭 deploy 🚀](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/buildDeploy.yml/badge.svg)](https://github.com/bkd-mba-fbi/absenzenmanagement/actions/workflows/buildDeploy.yml)
 
