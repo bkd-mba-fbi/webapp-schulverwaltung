@@ -7,7 +7,9 @@
       absenceCounts: absencesService.counts$ | async
     } as data"
   >
-    <ng-container *ngIf="!(profileService.loading$ | async); else loading">
+    <ng-container
+      *ngIf="(profileService.loading$ | async) === false; else loading"
+    >
       <erz-student-backlink
         class="mb-2"
         [link]="backlink"

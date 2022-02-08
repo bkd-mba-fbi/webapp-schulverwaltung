@@ -4,7 +4,9 @@
     profile: profileService.profile$ | async
   } as data"
 >
-  <ng-container *ngIf="!(profileService.loading$ | async); else loading">
+  <ng-container
+    *ngIf="(profileService.loading$ | async) === false; else loading"
+  >
     <erz-my-profile-header
       [student]="data.profile && data.profile.student"
     ></erz-my-profile-header>
