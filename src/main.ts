@@ -5,7 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 __webpack_public_path__ =
-  window.absenzenmanagement.settings.scriptsAndAssetsPath + '/';
+  window.schulverwaltung.settings.scriptsAndAssetsPath + '/';
 
 if (environment.production) {
   enableProdMode();
