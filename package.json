@@ -22,7 +22,7 @@
   "dependencies": {
     "-": "0.0.1",
     "@angular/animations": "^12.2.16",
-    "@angular/cdk": "^11.2.10",
+    "@angular/cdk": "^12.2.13",
     "@angular/common": "^12.2.16",
     "@angular/compiler": "^12.2.16",
     "@angular/core": "^12.2.16",
