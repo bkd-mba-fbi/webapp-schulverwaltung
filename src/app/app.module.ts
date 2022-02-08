@@ -84,7 +84,7 @@ registerLocaleData(localeFRCH);
   ],
   bootstrap: [],
 })
-export class AppModule {
+export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {
     const notificationsElement = createCustomElement(
       MyNotificationsShowComponent,
@@ -97,4 +97,7 @@ export class AppModule {
     });
     customElements.define('erz-app', appElement);
   }
+
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngDoBootstrap(appRef: ApplicationRef): void {}
 }
