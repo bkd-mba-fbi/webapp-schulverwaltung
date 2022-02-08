@@ -3,8 +3,7 @@
 [![lint test ✨](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/lintAndTest.yml/badge.svg?branch=master)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/lintAndTest.yml)
 [![build 🏭 deploy 🚀](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/buildDeploy.yml/badge.svg)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/buildDeploy.yml)
 
-JavaScript web module to implement processes for school administration.
-using the SLH.Evento backend (REST API).
+JavaScript web module to implement processes for school administration using the SLH.Evento backend (REST API).
 
 [Demo](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/app)
 
