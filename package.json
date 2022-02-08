@@ -13,7 +13,6 @@
     "lint:format": "ng lint $(ng config defaultProject) --tslint-config tslint-prettier.json --files \"src/**/*.ts\" --exclude src/environments/environment.prod.ts --exclude src/app/my-notifications/my-notifications.module.ts",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
     "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
-    "e2e": "ng e2e",
     "preanalyze": "ng build --stats-json",
     "analyze": "npx webpack-bundle-analyzer dist/$(ng config defaultProject)/stats.json",
     "postanalyze": "rm dist/$(ng config defaultProject)/stats.json",
