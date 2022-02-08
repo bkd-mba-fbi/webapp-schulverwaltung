@@ -20,7 +20,7 @@
 }
 
 .presence-category i {
-  top: $btn-padding-y / 2;
+  top: $btn-padding-y * 0.5;
 }
 
 :host.absent .presence-category {
