@@ -1,5 +1,5 @@
 {
-  "name": "absenzenmanagement",
+  "name": "webapp-schulverwaltung",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
