@@ -187,6 +187,9 @@
       }
     }
   },
+  "events": {
+    "title": "Anlassliste"
+  },
   "my-absences": {
     "title": "Meine Absenzen",
     "show": {

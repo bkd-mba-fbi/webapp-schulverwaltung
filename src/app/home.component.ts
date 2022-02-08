@@ -22,6 +22,7 @@ export class HomeComponent {
     'open-absences',
     'edit-absences',
     'evaluate-absences',
+    'events',
     'my-absences',
     'my-profile',
     'my-settings',
