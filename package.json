@@ -91,12 +91,14 @@
   },
   "lint-staged": {
     "./src/app/**/*.ts": [
+      "eslint",
       "prettier --write"
     ],
     "./**/*.{js,json,css,scss,html,md,yaml}": [
       "prettier --write"
     ],
     "./src/app/**/*.html": [
+      "eslint",
       "html-validate"
     ]
   }
