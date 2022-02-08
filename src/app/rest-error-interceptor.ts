@@ -95,7 +95,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
     error: any,
     caught: Observable<HttpEvent<any>>
   ) => Observable<HttpEvent<any>> {
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     return (
       error: any,
       caught: Observable<HttpEvent<any>>

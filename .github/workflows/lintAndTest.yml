@@ -25,7 +25,6 @@ jobs:
       run: |
         npm install
         npm run lint
-        npm run lint:format
 
     - name: test
       run: npm run test:headless
