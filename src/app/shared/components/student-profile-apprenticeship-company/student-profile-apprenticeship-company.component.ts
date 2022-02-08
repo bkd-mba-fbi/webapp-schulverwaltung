@@ -12,10 +12,8 @@ import { ApprenticeshipCompany } from '../../services/student-profile.service';
   styleUrls: ['./student-profile-apprenticeship-company.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileApprenticeshipCompanyComponent implements OnInit {
+export class StudentProfileApprenticeshipCompanyComponent {
   @Input() company: ApprenticeshipCompany;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

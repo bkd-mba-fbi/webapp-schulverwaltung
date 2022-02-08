@@ -11,10 +11,8 @@ import {
   styleUrls: ['./student-profile-entry-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileEntryHeaderComponent implements OnInit {
+export class StudentProfileEntryHeaderComponent {
   @Input() opened = false;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

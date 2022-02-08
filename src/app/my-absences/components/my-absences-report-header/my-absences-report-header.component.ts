@@ -26,7 +26,7 @@ import { ReportAbsencesFilter } from '../../services/my-absences-report-state.se
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyAbsencesReportHeaderComponent implements OnInit {
+export class MyAbsencesReportHeaderComponent {
   @Input()
   filter: ReportAbsencesFilter = {
     dateFrom: null,
@@ -45,8 +45,6 @@ export class MyAbsencesReportHeaderComponent implements OnInit {
   };
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   /**
    * Update date to to the same date, if date from changes.

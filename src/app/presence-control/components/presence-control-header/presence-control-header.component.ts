@@ -61,7 +61,7 @@ interface ViewModeOption {
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ], // TODO: move to (app-)module?
 })
-export class PresenceControlHeaderComponent implements OnInit {
+export class PresenceControlHeaderComponent {
   @Input() selectedLesson: LessonEntry;
   @Input() lessons: ReadonlyArray<LessonEntry>;
   @Input() presentCount: Option<number> = null;
@@ -84,6 +84,4 @@ export class PresenceControlHeaderComponent implements OnInit {
     { viewMode: ViewMode.Grid, icon: 'view_module' },
   ];
   constructor(public state: PresenceControlStateService) {}
-
-  ngOnInit(): void {}
 }

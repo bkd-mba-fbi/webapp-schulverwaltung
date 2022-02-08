@@ -16,7 +16,7 @@ import { StorageService } from '../../services/storage.service';
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
 })
-export class AvatarComponent implements OnInit, OnChanges {
+export class AvatarComponent implements OnChanges {
   @Input() studentId: number;
   @Input() link: string[];
   @Input() linkParams?: Params;
@@ -27,8 +27,6 @@ export class AvatarComponent implements OnInit, OnChanges {
     @Inject(SETTINGS) private settings: Settings,
     private storageService: StorageService
   ) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.studentId) {

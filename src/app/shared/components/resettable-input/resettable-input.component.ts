@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './resettable-input.component.html',
   styleUrls: ['./resettable-input.component.scss'],
 })
-export class ResettableInputComponent implements OnInit {
+export class ResettableInputComponent {
   @Input() value = '';
   @Input() disabled = false;
   @Input() placeholder: string;
@@ -14,6 +14,4 @@ export class ResettableInputComponent implements OnInit {
   @Output() valueChange = new EventEmitter<string>();
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

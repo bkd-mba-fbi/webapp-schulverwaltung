@@ -34,7 +34,7 @@ const MINIMAL_TERM_LENGTH = 3;
   styleUrls: ['./typeahead.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TypeaheadComponent implements OnInit, OnChanges {
+export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
   @Input() typeaheadService: TypeaheadService;
@@ -52,8 +52,6 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   loading$ = new BehaviorSubject(false);
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (

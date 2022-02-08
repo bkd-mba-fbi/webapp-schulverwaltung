@@ -11,10 +11,8 @@ import {
   styleUrls: ['./my-profile-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyProfileAddressComponent implements OnInit {
+export class MyProfileAddressComponent {
   @Input() address: string;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

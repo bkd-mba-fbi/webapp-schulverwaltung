@@ -13,7 +13,7 @@ import {
   styleUrls: ['./my-absences-report-link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyAbsencesReportLinkComponent implements OnInit {
+export class MyAbsencesReportLinkComponent {
   @ViewChild('link') link: ElementRef<HTMLElement>;
 
   @HostListener('click', ['$event'])
@@ -22,6 +22,4 @@ export class MyAbsencesReportLinkComponent implements OnInit {
   }
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

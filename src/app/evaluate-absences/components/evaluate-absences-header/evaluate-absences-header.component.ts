@@ -18,7 +18,7 @@ import { EvaluateAbsencesFilter } from '../../services/evaluate-absences-state.s
   styleUrls: ['./evaluate-absences-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EvaluateAbsencesHeaderComponent implements OnInit {
+export class EvaluateAbsencesHeaderComponent {
   @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
@@ -40,8 +40,6 @@ export class EvaluateAbsencesHeaderComponent implements OnInit {
       ['filter.IsActive']: '=true',
     },
   };
-
-  ngOnInit(): void {}
 
   show(): void {
     this.filterChange.emit(this.filter);

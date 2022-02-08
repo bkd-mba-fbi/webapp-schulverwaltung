@@ -23,7 +23,7 @@ import { PresenceControlPrecedingAbsenceComponent } from '../presence-control-pr
   templateUrl: './presence-control-entry.component.html',
   styleUrls: ['./presence-control-entry.component.scss'],
 })
-export class PresenceControlEntryComponent implements OnInit, OnChanges {
+export class PresenceControlEntryComponent implements OnChanges {
   @Input() entry: PresenceControlEntry;
   @Input() hasUnconfirmedAbsences = false;
   @Input() viewMode: ViewMode;
@@ -43,8 +43,6 @@ export class PresenceControlEntryComponent implements OnInit, OnChanges {
     private translate: TranslateService,
     private modalService: NgbModal
   ) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.entry) {

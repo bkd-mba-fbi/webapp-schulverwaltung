@@ -11,11 +11,9 @@ import {
   styleUrls: ['./my-profile-entry.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyProfileEntryComponent implements OnInit {
+export class MyProfileEntryComponent {
   @Input() label: string;
   @Input() value: Option<string | Date>;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

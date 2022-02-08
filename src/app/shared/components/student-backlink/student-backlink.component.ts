@@ -13,7 +13,7 @@ import { Student } from 'src/app/shared/models/student.model';
   styleUrls: ['./student-backlink.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentBacklinkComponent implements OnInit {
+export class StudentBacklinkComponent {
   @Input() link: any[] | string = '/';
   @Input() queryParams?: Params;
   @Input() studentId: number;
@@ -21,6 +21,4 @@ export class StudentBacklinkComponent implements OnInit {
   @Input() student?: Student;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

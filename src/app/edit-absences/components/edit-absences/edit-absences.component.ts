@@ -17,8 +17,6 @@ import { STUDENT_PROFILE_BACKLINK } from 'src/app/shared/tokens/student-profile-
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditAbsencesComponent implements OnInit {
+export class EditAbsencesComponent {
   constructor(public state: EditAbsencesStateService) {}
-
-  ngOnInit(): void {}
 }

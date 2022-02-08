@@ -18,7 +18,7 @@ import { ReportsService } from '../../../shared/services/reports.service';
   styleUrls: ['./my-profile-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyProfileHeaderComponent implements OnInit, OnChanges {
+export class MyProfileHeaderComponent implements OnChanges {
   @Input() student?: Person;
 
   private studentId$ = new ReplaySubject<Option<number>>(1);
@@ -35,8 +35,6 @@ export class MyProfileHeaderComponent implements OnInit, OnChanges {
   );
 
   constructor(private reportsService: ReportsService) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.student) {

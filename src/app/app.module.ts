@@ -84,7 +84,7 @@ registerLocaleData(localeFRCH);
   ],
   bootstrap: [],
 })
-export class AppModule implements DoBootstrap {
+export class AppModule {
   constructor(private injector: Injector) {
     const notificationsElement = createCustomElement(
       MyNotificationsShowComponent,
@@ -97,6 +97,4 @@ export class AppModule implements DoBootstrap {
     });
     customElements.define('erz-app', appElement);
   }
-
-  ngDoBootstrap(appRef: ApplicationRef): void {}
 }

@@ -7,10 +7,8 @@ import { LessonAbsence } from '../../../shared/models/lesson-absence.model';
   templateUrl: './presence-control-preceding-absence.component.html',
   styleUrls: ['./presence-control-preceding-absence.component.scss'],
 })
-export class PresenceControlPrecedingAbsenceComponent implements OnInit {
+export class PresenceControlPrecedingAbsenceComponent {
   @Input() precedingAbsences: ReadonlyArray<LessonAbsence>;
 
   constructor(public activeModal: NgbActiveModal) {}
-
-  ngOnInit(): void {}
 }
