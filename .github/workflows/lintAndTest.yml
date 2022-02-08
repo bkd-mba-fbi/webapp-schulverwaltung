@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [lts/fermium, lts/gallium] # support the 2 latest lts versions
+        node-version: [lts/erbium, lts/fermium]
 
     steps:
     - uses: actions/checkout@v2
