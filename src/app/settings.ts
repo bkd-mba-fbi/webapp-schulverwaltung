@@ -29,7 +29,7 @@ export { Settings };
 
 declare global {
   interface Window {
-    absenzenmanagement: {
+    schulverwaltung: {
       settings: Settings;
     };
   }
@@ -37,5 +37,5 @@ declare global {
 
 export const SETTINGS = new InjectionToken<Settings>('Application Settings', {
   providedIn: 'root',
-  factory: () => window.absenzenmanagement.settings,
+  factory: () => window.schulverwaltung.settings,
 });

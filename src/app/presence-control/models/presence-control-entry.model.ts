@@ -101,6 +101,6 @@ export class PresenceControlEntry implements Searchable {
   }
 
   private get settings(): Settings {
-    return window.absenzenmanagement.settings;
+    return window.schulverwaltung.settings;
   }
 }
