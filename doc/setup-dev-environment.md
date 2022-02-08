@@ -8,6 +8,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 - Install Node.js (preferably using [NVM](https://github.com/creationix/nvm))
 - Clone this repository
+- Execute `nvm use` to choose the correct Node version
 - Execute `npm install`
 - You're good to go
 
