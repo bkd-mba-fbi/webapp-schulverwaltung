@@ -8,7 +8,7 @@ The module is integrated threefold:
 
 - Format on save in the editor, see https://prettier.io/docs/en/editors.html
 - Pre-commit hook in Git
-- Linting step in the CI pipeline: The build fails when a (TypeScript) file is not properly formatted (`npm run lint:format`)
+- Linting step in the CI pipeline: The build fails when a (TypeScript) file is not properly formatted (part of `npm run lint`)
 
 ## Update Prettier version
 
