@@ -4,10 +4,10 @@
  * setup to match this production environment. We also set bootstrap's
  * `$font-size-base` to 1.5rem for the calculations to be correct.
  */
-html#erz-absenzenmanagement-dev {
+html#bkd-webapp-schulverwaltung-dev {
   font-size: 11px;
 }
-#erz-absenzenmanagement-dev body {
+#bkd-webapp-schulverwaltung-dev body {
   font-size: 1.5rem;
 }
 
@@ -16,7 +16,7 @@ html#erz-absenzenmanagement-dev {
  * underlines, we apply this for our development environment as well
  * to match production.
  */
-#erz-absenzenmanagement-dev {
+#bkd-webapp-schulverwaltung-dev {
   a,
   a:hover,
   a:active {
