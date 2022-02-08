@@ -93,7 +93,7 @@
               >
                 {{ 'shared.profile.checkable-absences' | translate }}
                 <ng-container
-                  *ngIf="data.absenceCounts.checkableAbsences != null"
+                  *ngIf="data.absenceCounts.checkableAbsences !== null"
                   >({{ data.absenceCounts.checkableAbsences }})</ng-container
                 >
               </erz-student-profile-entry-header>
@@ -112,7 +112,7 @@
                 (click)="acc.toggle('open-absences')"
               >
                 {{ 'shared.profile.open-absences' | translate }}
-                <ng-container *ngIf="data.absenceCounts.openAbsences != null"
+                <ng-container *ngIf="data.absenceCounts.openAbsences !== null"
                   >({{ data.absenceCounts.openAbsences }})</ng-container
                 >
               </erz-student-profile-entry-header>
@@ -132,7 +132,8 @@
                 (click)="acc.toggle('excused-absences')"
               >
                 {{ 'shared.profile.excused-absences' | translate }}
-                <ng-container *ngIf="data.absenceCounts.excusedAbsences != null"
+                <ng-container
+                  *ngIf="data.absenceCounts.excusedAbsences !== null"
                   >({{ data.absenceCounts.excusedAbsences }})</ng-container
                 >
               </erz-student-profile-entry-header>
@@ -152,7 +153,7 @@
               >
                 {{ 'shared.profile.unexcused-absences' | translate }}
                 <ng-container
-                  *ngIf="data.absenceCounts.unexcusedAbsences != null"
+                  *ngIf="data.absenceCounts.unexcusedAbsences !== null"
                   >({{ data.absenceCounts.unexcusedAbsences }})</ng-container
                 >
               </erz-student-profile-entry-header>
@@ -172,7 +173,7 @@
                 (click)="acc.toggle('incidents')"
               >
                 {{ 'shared.profile.incidents' | translate }}
-                <ng-container *ngIf="data.absenceCounts.incidents != null"
+                <ng-container *ngIf="data.absenceCounts.incidents !== null"
                   >({{ data.absenceCounts.incidents }})</ng-container
                 >
               </erz-student-profile-entry-header>
@@ -191,7 +192,7 @@
                 (click)="acc.toggle('half-days')"
               >
                 {{ 'shared.profile.half-days' | translate }}
-                <ng-container *ngIf="data.absenceCounts.halfDays != null"
+                <ng-container *ngIf="data.absenceCounts.halfDays !== null"
                   >({{ data.absenceCounts.halfDays }})</ng-container
                 >
               </erz-student-profile-entry-header>

@@ -73,22 +73,22 @@
 <div class="states">
   <div class="state present">
     <i class="material-icons">check_circle</i>
-    <span class="count">{{ presentCount != null ? presentCount : '?' }}</span>
+    <span class="count">{{ presentCount !== null ? presentCount : '?' }}</span>
   </div>
   <div class="state absent">
     <i class="material-icons">cancel</i>
-    <span class="count">{{ absentCount != null ? absentCount : '?' }}</span>
+    <span class="count">{{ absentCount !== null ? absentCount : '?' }}</span>
   </div>
   <div class="state unapproved">
     <i class="material-icons">help</i>
     <span class="count">{{
-      unapprovedCount != null ? unapprovedCount : '?'
+      unapprovedCount !== null ? unapprovedCount : '?'
     }}</span>
   </div>
   <div class="state previously-absent">
     <i class="material-icons-outlined">info</i>
     <span class="count">{{
-      absentPrecedingCount != null ? absentPrecedingCount : '?'
+      absentPrecedingCount !== null ? absentPrecedingCount : '?'
     }}</span>
   </div>
 </div>
