@@ -1,8 +1,8 @@
 // Rename this file to settings.js and adjust the settings
 
-window.absenzenmanagement = window.absenzenmanagement || {};
+window.schulverwaltung = window.schulverwaltung || {};
 
-window.absenzenmanagement.settings = {
+window.schulverwaltung.settings = {
   /**
    * General settings
    */
@@ -82,7 +82,8 @@ window.absenzenmanagement.settings = {
     myAbsences: 'StudentRole',
     presenceControl: 'LessonTeacherRole;TeacherRole;ClassTeacherRole',
     openAbsences: 'LessonTeacherRole;ClassTeacherRole',
-    editAbsences: 'LessonTeacherRole;ClassTeacherRole;TeacherRole;AbsenceAdministratorRole',
+    editAbsences:
+      'LessonTeacherRole;ClassTeacherRole;TeacherRole;AbsenceAdministratorRole',
   },
 
   /**
