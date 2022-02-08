@@ -83,7 +83,6 @@ registerLocaleData(localeFRCH);
     MyNotificationsService,
   ],
   bootstrap: [],
-  entryComponents: [AppComponent, MyNotificationsShowComponent],
 })
 export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {

@@ -25,6 +25,5 @@ import { PresenceControlGroupDialogComponent } from './components/presence-contr
     PresenceControlGroupDialogComponent,
   ],
   imports: [SharedModule, PresenceControlRoutingModule],
-  entryComponents: [PresenceControlBlockLessonComponent],
 })
 export class PresenceControlModule {}
