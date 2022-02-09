@@ -5,7 +5,9 @@
     sortCriteria: openAbsencesService.sortCriteria$ | async
   } as data"
 >
-  <ng-container *ngIf="!(openAbsencesService.loading$ | async); else loading">
+  <ng-container
+    *ngIf="(openAbsencesService.loading$ | async) === false; else loading"
+  >
     <ng-container
       *ngIf="
         (openAbsencesService.sortedEntries$ | async)?.length > 0 ||

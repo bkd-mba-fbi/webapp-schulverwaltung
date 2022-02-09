@@ -30,7 +30,7 @@ export class EditAbsencesListComponent
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
   profileReturnParams$ = this.state.queryParamsString$;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     public state: EditAbsencesStateService,

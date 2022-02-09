@@ -25,7 +25,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   reportUrl$ = this.loadReportUrl();
   reportAvailable$ = this.reportsService.studentConfirmationAvailability$;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private reportsService: ReportsService,

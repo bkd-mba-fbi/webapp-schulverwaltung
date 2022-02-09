@@ -10,8 +10,6 @@ import { Component, OnInit } from '@angular/core';
     </div>
   `,
 })
-export class UnauthenticatedComponent implements OnInit {
+export class UnauthenticatedComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

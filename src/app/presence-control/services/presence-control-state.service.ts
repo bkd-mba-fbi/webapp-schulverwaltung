@@ -357,7 +357,8 @@ export class PresenceControlStateService
     return timer(
       0,
       // Only start polling if a refresh time is defined
-      this.settings.unconfirmedAbsencesRefreshTime || undefined
+      // with rxjs 7.5 it's not possible to pass undefined - according to the documentation negative numbers means the same as not passing an intervalduration at all
+      this.settings.unconfirmedAbsencesRefreshTime || -1
     ).pipe(
       switchMap(() => this.lessonPresencesService.getListOfUnconfirmed()),
       map((unconfirmed) => uniq(unconfirmed.map((p) => p.StudentRef.Id)))

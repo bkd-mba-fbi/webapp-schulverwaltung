@@ -19,7 +19,7 @@
           (click)="acc.toggle('checkable-absences')"
         >
           {{ 'shared.profile.checkable-absences' | translate }}
-          <ng-container *ngIf="data.absenceCounts.checkableAbsences != null"
+          <ng-container *ngIf="data.absenceCounts.checkableAbsences !== null"
             >({{ data.absenceCounts.checkableAbsences }})</ng-container
           >
         </erz-student-profile-entry-header>
@@ -38,7 +38,7 @@
           (click)="acc.toggle('open-absences')"
         >
           {{ 'shared.profile.open-absences' | translate }}
-          <ng-container *ngIf="data.absenceCounts.openAbsences != null"
+          <ng-container *ngIf="data.absenceCounts.openAbsences !== null"
             >({{ data.absenceCounts.openAbsences }})</ng-container
           >
         </erz-student-profile-entry-header>
@@ -63,7 +63,7 @@
           (click)="acc.toggle('excused-absences')"
         >
           {{ 'shared.profile.excused-absences' | translate }}
-          <ng-container *ngIf="data.absenceCounts.excusedAbsences != null"
+          <ng-container *ngIf="data.absenceCounts.excusedAbsences !== null"
             >({{ data.absenceCounts.excusedAbsences }})</ng-container
           >
         </erz-student-profile-entry-header>
@@ -82,7 +82,7 @@
           (click)="acc.toggle('unexcused-absences')"
         >
           {{ 'shared.profile.unexcused-absences' | translate }}
-          <ng-container *ngIf="data.absenceCounts.unexcusedAbsences != null"
+          <ng-container *ngIf="data.absenceCounts.unexcusedAbsences !== null"
             >({{ data.absenceCounts.unexcusedAbsences }})</ng-container
           >
         </erz-student-profile-entry-header>
@@ -102,7 +102,7 @@
           (click)="acc.toggle('incidents')"
         >
           {{ 'shared.profile.incidents' | translate }}
-          <ng-container *ngIf="data.absenceCounts.incidents != null"
+          <ng-container *ngIf="data.absenceCounts.incidents !== null"
             >({{ data.absenceCounts.incidents }})</ng-container
           >
         </erz-student-profile-entry-header>

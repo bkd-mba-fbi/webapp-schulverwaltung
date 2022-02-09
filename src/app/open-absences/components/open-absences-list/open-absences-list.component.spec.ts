@@ -53,6 +53,7 @@ describe('OpenAbsencesListComponent', () => {
                 toggleSort: jasmine.createSpy('toggleSort'),
                 sortedEntries$: of([entryA, entryB]),
                 filteredEntries$: of([entryA, entryB]),
+                loading$: of(false),
               },
             },
           ],

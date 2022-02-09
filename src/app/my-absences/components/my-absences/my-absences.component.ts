@@ -8,8 +8,6 @@ import { MyAbsencesService } from '../../services/my-absences.service';
   providers: [MyAbsencesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyAbsencesComponent implements OnInit {
+export class MyAbsencesComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -8,8 +8,6 @@ import { MyProfileService } from '../../services/my-profile.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MyProfileService],
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

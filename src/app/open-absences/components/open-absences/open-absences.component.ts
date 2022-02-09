@@ -15,8 +15,6 @@ import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpenAbsencesComponent implements OnInit {
+export class OpenAbsencesComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

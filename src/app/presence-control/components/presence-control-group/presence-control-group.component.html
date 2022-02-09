@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <ng-container *ngIf="!(state.loading$ | async); else loading">
+    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
       <ng-container *ngFor="let entry of data.sortedEntries">
         <div class="group-list-entry">
           <div class="checkbox">

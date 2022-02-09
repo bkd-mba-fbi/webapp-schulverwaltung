@@ -25,7 +25,7 @@ export function isTruthy<T>(value: T): value is Exclude<T, Falsy> {
 export function isInstanceOf<T>(
   type: Constructor<T>
 ): (value: any) => value is T {
-  // tslint:disable-next-line
+  // eslint-disable-next-line
   return function (value: any): value is T {
     return value instanceof type;
   };

@@ -44,7 +44,7 @@ import { TranslateService } from '@ngx-translate/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditAbsencesHeaderComponent implements OnInit {
+export class EditAbsencesHeaderComponent {
   @Input()
   filter: EditAbsencesFilter = {
     student: null,
@@ -108,8 +108,6 @@ export class EditAbsencesHeaderComponent implements OnInit {
       ['filter.IsActive']: '=true',
     },
   };
-
-  ngOnInit(): void {}
 
   show(): void {
     this.filterChange.emit({

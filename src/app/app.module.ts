@@ -83,7 +83,6 @@ registerLocaleData(localeFRCH);
     MyNotificationsService,
   ],
   bootstrap: [],
-  entryComponents: [AppComponent, MyNotificationsShowComponent],
 })
 export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {
@@ -99,5 +98,6 @@ export class AppModule implements DoBootstrap {
     customElements.define('erz-app', appElement);
   }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngDoBootstrap(appRef: ApplicationRef): void {}
 }

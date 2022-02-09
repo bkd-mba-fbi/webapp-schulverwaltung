@@ -5,7 +5,7 @@
     entries: entries$ | async
   } as data"
 >
-  <ng-container *ngIf="!(state.loading$ | async); else loading">
+  <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <erz-presence-control-header
       [selectedLesson]="data.lesson"
       [lessons]="data.lessons"

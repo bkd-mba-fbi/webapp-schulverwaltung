@@ -9,8 +9,6 @@ import { MyAbsencesReportSelectionService } from '../../services/my-absences-rep
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MyAbsencesReportStateService, MyAbsencesReportSelectionService],
 })
-export class MyAbsencesReportComponent implements OnInit {
+export class MyAbsencesReportComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
 })
-export class SelectComponent implements OnInit, OnChanges {
+export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];
   @Input() allowEmpty = true;
   @Input() value: Option<number> = null;
@@ -34,8 +34,6 @@ export class SelectComponent implements OnInit, OnChanges {
   );
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.value) {

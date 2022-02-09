@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(loading$ | async); else loading">
+<ng-container *ngIf="(loading$ | async) === false; else loading">
   <ng-container *ngIf="(lessonPresences$ | async)?.length > 0; else noAbsences">
     <div
       *ngIf="editable$ | async"

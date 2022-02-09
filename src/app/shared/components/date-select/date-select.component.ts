@@ -6,7 +6,7 @@ import { uniqueId } from 'lodash-es';
   templateUrl: './date-select.component.html',
   styleUrls: ['./date-select.component.scss'],
 })
-export class DateSelectComponent implements OnInit {
+export class DateSelectComponent {
   @Input() value: Option<Date> = null;
   @Input() placeholder = 'shared.date-select.default-placeholder';
   @Input() minDate: Option<{ year: number; month: number; day: number }> = null;
@@ -15,6 +15,4 @@ export class DateSelectComponent implements OnInit {
   componentId = uniqueId('erz-date-select-');
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

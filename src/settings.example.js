@@ -52,7 +52,7 @@ window.schulverwaltung.settings = {
 
   // In presence control, a hint is shown if the student has
   // unconfirmed absences (in any lesson). These unconfirmed absences
-  // are refreshed each time the use changes the date and in fixed
+  // are refreshed each time the user changes the date and in fixed
   // intervals afterwards (polling). Refresh time is in seconds and
   // may be set to `null` to disable polling (5 * 60 * 1000 = refresh
   // every 5 minutes).

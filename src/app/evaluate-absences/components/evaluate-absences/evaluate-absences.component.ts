@@ -18,8 +18,6 @@ import { STUDENT_PROFILE_BACKLINK } from 'src/app/shared/tokens/student-profile-
     { provide: STUDENT_PROFILE_BACKLINK, useValue: '/evaluate-absences' },
   ],
 })
-export class EvaluateAbsencesComponent implements OnInit {
+export class EvaluateAbsencesComponent {
   constructor(public state: EvaluateAbsencesStateService) {}
-
-  ngOnInit(): void {}
 }

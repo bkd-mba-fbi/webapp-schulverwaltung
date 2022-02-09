@@ -11,7 +11,7 @@
   ></erz-evaluate-absences-header>
 
   <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
-    <ng-container *ngIf="!(state.loading$ | async); else loading">
+    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
       <div
         *ngIf="
           (data.entries && data.entries.length > 0) || data.loadingPage;

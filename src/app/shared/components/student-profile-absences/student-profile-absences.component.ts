@@ -39,7 +39,7 @@ import { PresenceTypesService } from '../../services/presence-types.service';
   styleUrls: ['./student-profile-absences.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
+export class StudentProfileAbsencesComponent implements OnChanges {
   @Input() absences$?: Observable<ReadonlyArray<LessonPresence>>;
   @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
 
@@ -101,8 +101,6 @@ export class StudentProfileAbsencesComponent implements OnInit, OnChanges {
   );
 
   constructor(private presenceTypesService: PresenceTypesService) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.absences$) {

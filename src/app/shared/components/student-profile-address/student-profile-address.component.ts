@@ -13,13 +13,11 @@ import { Person } from '../../models/person.model';
   styleUrls: ['./student-profile-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileAddressComponent implements OnInit {
+export class StudentProfileAddressComponent {
   @Input() student: Student | Person;
   @Input() emailProperty: 'DisplayEmail' | 'Email2' = 'DisplayEmail';
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   get postalCode(): Option<string> {
     return 'PostalCode' in this.student

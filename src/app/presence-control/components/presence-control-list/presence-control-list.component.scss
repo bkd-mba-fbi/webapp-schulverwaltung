@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../../../bootstrap-variables";
 
 erz-presence-control-entry {
@@ -16,7 +18,7 @@ erz-presence-control-entry {
 
     @for $i from 1 through 6 {
       @media (min-width: $erz-presence-control-entry-min-width*$i) {
-        width: percentage(1 / $i);
+        width: percentage(math.div(1, $i));
         border-right: 1px solid $gray-200;
       }
     }

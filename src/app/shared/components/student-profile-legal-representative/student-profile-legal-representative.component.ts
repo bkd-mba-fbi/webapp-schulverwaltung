@@ -12,10 +12,8 @@ import { Person } from '../../models/person.model';
   styleUrls: ['./student-profile-legal-representative.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileLegalRepresentativeComponent implements OnInit {
+export class StudentProfileLegalRepresentativeComponent {
   @Input() person: Person;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

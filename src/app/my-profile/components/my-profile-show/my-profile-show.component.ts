@@ -7,8 +7,6 @@ import { MyProfileService } from '../../services/my-profile.service';
   styleUrls: ['./my-profile-show.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyProfileShowComponent implements OnInit {
+export class MyProfileShowComponent {
   constructor(public profileService: MyProfileService) {}
-
-  ngOnInit(): void {}
 }

@@ -24,7 +24,7 @@ import { getValidationErrors } from 'src/app/shared/utils/form';
   styleUrls: ['./my-profile-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyProfileEditComponent implements OnInit {
+export class MyProfileEditComponent {
   student$ = this.profileService.profile$.pipe(pluck('student'));
   formGroup$ = this.student$.pipe(
     map(this.createFormGroup.bind(this)),
@@ -48,8 +48,6 @@ export class MyProfileEditComponent implements OnInit {
     private profileService: MyProfileService,
     private personsService: PersonsRestService
   ) {}
-
-  ngOnInit(): void {}
 
   cancel(): void {
     this.navigateBack();

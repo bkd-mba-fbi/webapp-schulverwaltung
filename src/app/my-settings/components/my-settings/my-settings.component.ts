@@ -8,8 +8,6 @@ import { MySettingsService } from '../../services/my-settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MySettingsService],
 })
-export class MySettingsComponent implements OnInit {
+export class MySettingsComponent {
   constructor() {}
-
-  ngOnInit(): void {}
 }

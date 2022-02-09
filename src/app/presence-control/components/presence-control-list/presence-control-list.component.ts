@@ -39,7 +39,7 @@ export class PresenceControlListComponent
     this.search$,
   ]).pipe(map(spread(searchEntries)), shareReplay(1));
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     public state: PresenceControlStateService,

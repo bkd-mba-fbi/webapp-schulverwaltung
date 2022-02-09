@@ -42,7 +42,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     map(parseQueryString)
   );
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
