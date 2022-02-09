@@ -69,8 +69,8 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     shareReplay(1)
   );
 
-  private resetEntries$ = new Subject();
-  private nextPage$ = new Subject();
+  private resetEntries$ = new Subject<void>();
+  private nextPage$ = new Subject<void>();
   private page$ = merge(
     this.nextPage$.pipe(mapTo('next')),
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(

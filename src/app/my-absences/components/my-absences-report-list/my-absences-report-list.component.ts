@@ -53,7 +53,7 @@ export class MyAbsencesReportListComponent
     )
   );
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
 
   constructor(
     public state: MyAbsencesReportStateService,
