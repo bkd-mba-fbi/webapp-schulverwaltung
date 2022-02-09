@@ -89,15 +89,16 @@
     "typescript": "~4.5.5"
   },
   "lint-staged": {
+    "./src/app/**/*.{ts,html}": [
+      "eslint"
+    ],
     "./src/app/**/*.ts": [
-      "eslint",
       "prettier --write"
     ],
     "./**/*.{js,json,css,scss,html,md,yaml}": [
       "prettier --write"
     ],
     "./src/app/**/*.html": [
-      "eslint",
       "html-validate"
     ]
   }
