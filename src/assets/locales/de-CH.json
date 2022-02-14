@@ -190,6 +190,9 @@
   "events": {
     "title": "Anlassliste"
   },
+  "tests": {
+    "title": "Tests"
+  },
   "my-absences": {
     "title": "Meine Absenzen",
     "show": {
