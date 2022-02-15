@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'erz-tests',
@@ -7,5 +6,5 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./tests.component.scss'],
 })
 export class TestsComponent {
-  constructor(private route: ActivatedRoute) {}
+  constructor() {}
 }
