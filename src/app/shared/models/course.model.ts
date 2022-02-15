@@ -7,42 +7,42 @@ import {
 import { StudyClass } from './study-class.model';
 import { Test } from './test.model';
 
+const id = t.type({
+  Id: t.number,
+});
+
+const HRef = t.partial({
+  HRef: Option(t.string),
+});
+
+const ExpandedEvaluationStatusRef = t.partial({
+  HasEvaluationStarted: t.boolean,
+  EvaluationUntil: Option(LocalDateFromString),
+  HasReviewOfEvaluationStarted: t.boolean,
+  HasTestGrading: t.boolean,
+  Id: t.number,
+});
+
 const EvaluationStatusRef = t.intersection([
-  t.type({
-    Id: t.number,
-  }),
-  t.type({
-    HRef: Option(t.string),
-  }),
-  t.partial({
-    HasEvaluationStarted: t.boolean,
-    EvaluationUntil: Option(LocalDateFromString),
-    HasReviewOfEvaluationStarted: t.boolean,
-    HasTestGrading: t.boolean,
-    Id: t.number,
-  }),
+  id,
+  HRef,
+  ExpandedEvaluationStatusRef,
 ]);
 
-const AttendanceRef = t.intersection([
-  t.type({
-    Id: t.number,
-  }),
-  t.type({
-    HRef: Option(t.string),
-  }),
-  t.partial({
-    Id: t.number,
-    // EventId: t.number,
-    StudentCount: t.number,
-    // MaxStudents: t.number,
-    // MinStudents: t.number,
-  }),
-]);
+const ExpandedAttendanceRef = t.partial({
+  Id: t.number,
+  // EventId: t.number,
+  StudentCount: t.number,
+  // MaxStudents: t.number,
+  // MinStudents: t.number,
+});
+
+const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
 const Course = t.type({
   HRef: t.string,
   Id: t.number,
-  Number: t.number,
+  Number: t.string,
   Designation: t.string,
   // HostId: t.string,
   // Host: t.string,

@@ -1,4 +1,4 @@
-import {Reference, OptionalReference, Option} from './app/shared/models/common-types';
+import { Reference, OptionalReference } from './app/shared/models/common-types';
 import { LessonPresence } from './app/shared/models/lesson-presence.model';
 import { Lesson } from './app/shared/models/lesson.model';
 import { PresenceType } from './app/shared/models/presence-type.model';
@@ -13,7 +13,7 @@ import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
-import {Course} from "./app/shared/models/course.model";
+import { Course } from './app/shared/models/course.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -399,7 +399,7 @@ export function buildCourse(id: number): Course {
   return {
     HRef: '',
     Id: id,
-    Number: 1,
+    Number: '1',
     Designation: '',
     // HostId: t.string,
     // Host: t.string,
@@ -438,6 +438,5 @@ export function buildCourse(id: number): Course {
     AttendanceRef: buildReference(),
     // ParticipatingStudents: null,
     Classes: null,
-  }
-
+  };
 }
