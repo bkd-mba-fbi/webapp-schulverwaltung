@@ -1,4 +1,4 @@
-import { Reference, OptionalReference } from './app/shared/models/common-types';
+import {Reference, OptionalReference, Option} from './app/shared/models/common-types';
 import { LessonPresence } from './app/shared/models/lesson-presence.model';
 import { Lesson } from './app/shared/models/lesson.model';
 import { PresenceType } from './app/shared/models/presence-type.model';
@@ -13,6 +13,7 @@ import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
+import {Course} from "./app/shared/models/course.model";
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -392,4 +393,51 @@ export function buildSubscriptionDetail(
     ShowAsRadioButtons: false,
     DropdownItems: null,
   };
+}
+
+export function buildCourse(id: number): Course {
+  return {
+    HRef: '',
+    Id: id,
+    Number: 1,
+    Designation: '',
+    // HostId: t.string,
+    // Host: t.string,
+    // Management: t.string,
+    // MaxParticipants: t.number,
+    // MinParticipants: t.number,
+    // Weekday: t.string,
+    DateFrom: new Date('2022-02-09T00:00:00'),
+    DateTo: new Date('2022-06-30T00:00:00'),
+    // LessonFrequency: t.number,
+    // Location: t.string,
+    // TimeFrom: LocalDateTimeFromString,
+    // TimeTo: LocalDateTimeFromString,
+    // ConductOfCourse: null,
+    // RegistrationFrom: null,
+    // RegistrationTo: null,
+    // Price: 0.0000,
+    // Credits: 2.0,
+    // LanguageOfInstruction: null,
+    // Url: null,
+    // Color: null,
+    // IsPublished: t.boolean,
+    // LevelId: t.number,
+    // Level: t.string,
+    // StatusId: t.number,
+    // Status: t.string,
+    // Lessons: null,
+    // EventManagers: null,
+    // MainEventManagers: null,
+    // TimetableEntries: null,
+    // GradingScaleId: t.number,
+    // FinalGrades: null,
+    // Gradings: null,
+    Tests: null,
+    EvaluationStatusRef: buildReference(),
+    AttendanceRef: buildReference(),
+    // ParticipatingStudents: null,
+    Classes: null,
+  }
+
 }

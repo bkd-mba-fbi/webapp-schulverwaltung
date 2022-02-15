@@ -1,6 +1,11 @@
 import * as t from 'io-ts';
-import { LocalDateFromString, Option } from './common-types';
+import {
+  LocalDateFromString,
+  LocalDateTimeFromString,
+  Option,
+} from './common-types';
 import { StudyClass } from './study-class.model';
+import { Test } from './test.model';
 
 const EvaluationStatusRef = t.intersection([
   t.type({
@@ -45,8 +50,8 @@ const Course = t.type({
   // MaxParticipants: t.number,
   // MinParticipants: t.number,
   // Weekday: t.string,
-  DateFrom: LocalDateFromString,
-  DateTo: LocalDateFromString,
+  DateFrom: LocalDateTimeFromString,
+  DateTo: LocalDateTimeFromString,
   // LessonFrequency: t.number,
   // Location: t.string,
   // TimeFrom: LocalDateTimeFromString,
@@ -71,7 +76,7 @@ const Course = t.type({
   // GradingScaleId: t.number,
   // FinalGrades: null,
   // Gradings: null,
-  // Tests: null,
+  Tests: Option(t.array(Test)),
   EvaluationStatusRef,
   AttendanceRef,
   // ParticipatingStudents: null,

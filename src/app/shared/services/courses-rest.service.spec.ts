@@ -3,8 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { CoursesRestService } from './courses-rest.service';
+import { buildCourse } from '../../../spec-builders';
 
-describe('CoursesRestService', () => {
+fdescribe('CoursesRestService', () => {
   let service: CoursesRestService;
   let httpTestingController: HttpTestingController;
 
@@ -27,6 +28,24 @@ describe('CoursesRestService', () => {
             'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes'
         )
         .flush([]);
+    });
+  });
+
+  describe('getExpandedCourse', () => {
+    const id = 9248;
+    const mockCourse = buildCourse(id);
+    it('should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades', () => {
+      service.getExpandedCourse(id).subscribe((result) => {
+        expect(result).toEqual(mockCourse);
+      });
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.url ===
+            `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades`
+        )
+        .flush(mockCourse);
     });
   });
 });

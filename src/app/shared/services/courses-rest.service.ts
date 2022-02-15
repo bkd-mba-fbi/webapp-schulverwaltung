@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from '../models/course.model';
-import { decodeArray } from '../utils/decode';
+import { decode, decodeArray } from '../utils/decode';
 import { RestService } from './rest.service';
 
 @Injectable({
@@ -20,5 +20,13 @@ export class CoursesRestService extends RestService<typeof Course> {
         `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes`
       )
       .pipe(switchMap(decodeArray(Course)));
+  }
+
+  getExpandedCourse(courseId: number): Observable<Course> {
+    return this.http
+      .get<unknown>(
+        `${this.baseUrl}/${courseId}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades`
+      )
+      .pipe(switchMap(decode(Course)));
   }
 }
