@@ -5,7 +5,7 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { CoursesRestService } from './courses-rest.service';
 import { buildCourse } from '../../../spec-builders';
 
-fdescribe('CoursesRestService', () => {
+describe('CoursesRestService', () => {
   let service: CoursesRestService;
   let httpTestingController: HttpTestingController;
 
