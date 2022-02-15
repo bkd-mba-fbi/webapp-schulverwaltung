@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'erz-tests-list',
@@ -6,5 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tests-list.component.scss'],
 })
 export class TestsListComponent {
-  constructor() {}
+  courseId$: Observable<number> = this.route.paramMap.pipe(
+    map((params) => Number(params.get('id')))
+  );
+
+  constructor(private route: ActivatedRoute) {}
 }
