@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import { Option } from './common-types';
 
 const Test = t.type({
   CourseId: t.number,
@@ -7,8 +8,8 @@ const Test = t.type({
   Weight: t.number,
   WeightPercent: t.number,
   IsPointGrading: t.boolean,
-  MaxPoints: t.boolean,
-  MaxPointsAdjusted: t.boolean,
+  MaxPoints: Option(t.boolean),
+  MaxPointsAdjusted: Option(t.boolean),
   IsPublished: t.boolean,
   IsOwner: t.boolean,
   // Owner: null,

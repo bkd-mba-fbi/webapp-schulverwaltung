@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { TestStateService } from '../../services/test-state.service';
 
 @Component({
   selector: 'erz-tests-list',
@@ -13,5 +14,7 @@ export class TestsListComponent {
     map((params) => Number(params.get('id')))
   );
 
-  constructor(private route: ActivatedRoute) {}
+  course$ = this.courseId$.pipe(switchMap((id) => this.state.getCourse(id)));
+
+  constructor(public state: TestStateService, private route: ActivatedRoute) {}
 }
