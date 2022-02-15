@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventsComponent } from './components/events/events.component';
+import { CoursesComponent } from './components/courses/courses.component';
 import { TestsComponent } from './components/tests/tests.component';
 import { TestsListComponent } from './components/tests-list/tests-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: EventsComponent,
+    component: CoursesComponent,
   },
   {
     path: ':id/tests',
