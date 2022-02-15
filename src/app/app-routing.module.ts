@@ -44,12 +44,6 @@ const routes: Routes = [
       import('./events/events.module').then((m) => m.EventsModule),
   },
   {
-    path: 'tests',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./tests/tests.module').then((m) => m.TestsModule),
-  },
-  {
     path: 'my-absences',
     canActivate: [AuthGuard],
     loadChildren: () =>
