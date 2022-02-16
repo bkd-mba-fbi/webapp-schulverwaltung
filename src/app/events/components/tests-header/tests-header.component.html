@@ -1,1 +1,20 @@
-<p>tests-header works!</p>
+<div class="row justify-content-around">
+  <div class="col-form-label-sm">
+    <h6>{{ course.Designation }}</h6>
+    <p>
+      {{
+        (course.ParticipatingStudents.length === 1
+          ? 'courses.registration'
+          : 'courses.registrations'
+        ) | translate: { count: course.ParticipatingStudents.length }
+      }}
+    </p>
+  </div>
+  <div class="col-form-label-sm">
+    <span>
+      <i class="material-icons">edit_note</i>
+      <i class="material-icons">description</i>
+    </span>
+  </div>
+</div>
+<hr />

@@ -6,6 +6,7 @@ import {
 } from './common-types';
 import { StudyClass } from './study-class.model';
 import { Test } from './test.model';
+import { Student } from './student.model';
 
 const id = t.type({
   Id: t.number,
@@ -79,7 +80,7 @@ const Course = t.type({
   Tests: Option(t.array(Test)),
   EvaluationStatusRef,
   AttendanceRef,
-  // ParticipatingStudents: null,
+  ParticipatingStudents: t.array(Student),
   Classes: Option(t.array(StudyClass)),
 });
 type Course = t.TypeOf<typeof Course>;

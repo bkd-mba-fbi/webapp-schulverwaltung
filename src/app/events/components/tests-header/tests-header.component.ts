@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Course } from '../../../shared/models/course.model';
 
 @Component({
   selector: 'erz-tests-header',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./tests-header.component.scss'],
 })
 export class TestsHeaderComponent {
+  @Input() course: Course;
   constructor() {}
 }

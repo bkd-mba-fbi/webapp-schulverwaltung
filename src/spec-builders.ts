@@ -437,7 +437,7 @@ export function buildCourse(id: number): Course {
     Tests: null,
     EvaluationStatusRef: buildReference(),
     AttendanceRef: buildReference(),
-    // ParticipatingStudents: null,
+    ParticipatingStudents: [buildStudent(100)],
     Classes: null,
   };
 }
