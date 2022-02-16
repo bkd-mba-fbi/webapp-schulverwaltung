@@ -8,6 +8,10 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 export class TestStateService {
   loading$ = this.loadingService.loading$;
 
+  // course$ = this.courseId$.pipe(switchMap((id) => this.state.getCourse(id)));
+
+  // tests$ = this.course$.pipe(map((course) => course.Tests ?? []));
+
   constructor(
     private coursesRestService: CoursesRestService,
     private loadingService: LoadingService
