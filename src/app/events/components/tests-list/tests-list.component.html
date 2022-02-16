@@ -19,7 +19,7 @@
         <erz-select
           [options]="data.testOptions"
           [value]="data.selectedTestId"
-          [allow-empty]="false"
+          [allowEmpty]="false"
           (valueChange)="testSelected($event)"
         ></erz-select>
         <erz-test-edit-grades [test]="data.selectedTest"></erz-test-edit-grades>
