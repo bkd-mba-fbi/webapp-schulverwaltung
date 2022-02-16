@@ -191,7 +191,8 @@
     "title": "Anlassliste"
   },
   "tests": {
-    "title": "Tests"
+    "title": "Tests",
+    "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten."
   },
   "my-absences": {
     "title": "Meine Absenzen",
