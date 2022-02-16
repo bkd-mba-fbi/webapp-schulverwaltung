@@ -191,7 +191,11 @@
     "title": "Anlassliste"
   },
   "courses": {
-    "no-courses": "Keine Anlässe vorhanden"
+    "no-courses": "Keine Anlässe vorhanden",
+    "designation": "Bezeichnung",
+    "date": "Datum",
+    "registrations": "Anmeldungen",
+    "rating": "Bewertung"
   },
   "tests": {
     "title": "Tests",

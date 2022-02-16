@@ -1,5 +1,5 @@
 <div
-  class="erz-container erz-container-limited erz-container-padding-y erz-container-padding-x-responsive"
+  class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
   *erzLet="{ courses: state.courses$ | async } as data"
 >
   <p>
@@ -9,8 +9,34 @@
 
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <ng-container *ngIf="data.courses?.length > 0; else noCourses">
-      <div *ngFor="let course of data.courses">
-        {{ course.Designation }}
+      <div class="course-header">
+        <div class="designation">{{ 'courses.designation' | translate }}</div>
+        <div class="date">{{ 'courses.date' | translate }}</div>
+        <div class="registrations">
+          {{ 'courses.registrations' | translate }}
+        </div>
+        <div class="rating">{{ 'courses.rating' | translate }}</div>
+      </div>
+      <div class="course-entry" *ngFor="let course of data.courses">
+        <div class="designation">
+          <a href=""
+            >{{ course.Designation
+            }}<span *ngFor="let class of course.Classes"
+              >, {{ class.Designation }}</span
+            ></a
+          >
+        </div>
+        <div class="date">
+          {{ course.DateFrom | date: 'MM.dd.yyyy' }} -
+          {{ course.DateTo | date: 'MM.dd.yyyy' }}
+        </div>
+        <div class="registrations">{{ course.AttendanceRef.StudentCount }}</div>
+        <div class="rating">
+          <a class="d-flex" [routerLink]="[course.Id, 'tests']">
+            <i class="material-icons">arrow_right_alt</i>
+            <span class="pl-2">{{ course.Id }}</span>
+          </a>
+        </div>
       </div>
     </ng-container>
 

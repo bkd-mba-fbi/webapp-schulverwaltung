@@ -1,0 +1,39 @@
+@import "../../../../bootstrap-variables";
+
+.course-header {
+  display: grid;
+  padding: $spacer;
+  border-bottom: 2px solid $border-color;
+  grid-template-areas: "designation date registrations rating";
+  grid-template-columns: 3fr 2fr 1fr 2fr;
+}
+
+.course-entry {
+  display: grid;
+  border-bottom: 1px solid $border-color;
+  padding: $spacer;
+  grid-template-areas: "designation date registrations rating";
+  grid-template-columns: 3fr 2fr 1fr 2fr;
+}
+
+.designation {
+  grid-area: designation;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 750px) {
+  .course-header {
+    display: none;
+  }
+
+  .course-entry {
+    grid-template-areas:
+      "designation"
+      "date"
+      "registrations"
+      "rating";
+    grid-template-columns: 1fr;
+  }
+}
