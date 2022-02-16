@@ -14,6 +14,7 @@ import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
 import { Course } from './app/shared/models/course.model';
+import { Test } from './app/shared/models/test.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -438,5 +439,26 @@ export function buildCourse(id: number): Course {
     AttendanceRef: buildReference(),
     // ParticipatingStudents: null,
     Classes: null,
+  };
+}
+
+export function buildTest(id: number): Test {
+  return {
+    Id: id,
+    CourseId: 1234,
+    Date: '2022-02-09T00:00:00',
+    Designation: 'Test Designation',
+    Weight: 100,
+    WeightPercent: 100,
+    IsPointGrading: false,
+    MaxPoints: false,
+    MaxPointsAdjusted: false,
+    IsPublished: false,
+    IsOwner: true,
+    // Owner: null,
+    Creation: '2022-02-14T16:58:18.89',
+    GradingScaleId: 1106,
+    GradingScale: 'Zehntelnoten bes. disp. keine Note',
+    // Results: null
   };
 }

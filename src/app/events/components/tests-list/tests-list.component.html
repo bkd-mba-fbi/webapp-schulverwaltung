@@ -19,8 +19,7 @@
           [allow-empty]="false"
           (valueChange)="testSelected($event)"
         ></erz-select>
-
-        <p>Selected Test: {{ data.selectedTest.Designation }}</p>
+        <erz-test-edit-grades [test]="data.selectedTest"></erz-test-edit-grades>
       </ng-container>
     </ng-container>
   </ng-container>
