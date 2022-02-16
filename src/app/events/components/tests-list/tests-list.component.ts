@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { merge, Observable, Subject } from 'rxjs';
+import { shareReplay, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, first } from 'rxjs/operators';
 import { Test } from 'src/app/shared/models/test.model';
 import { TestStateService } from '../../services/test-state.service';
@@ -20,7 +20,7 @@ export class TestsListComponent {
 
   course$ = this.courseId$.pipe(
     switchMap((id) => this.state.getCourse(id)),
-    distinctUntilChanged()
+    shareReplay(1)
   );
 
   tests$: Observable<Test[]> = this.course$.pipe(
