@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CoursesStateService } from '../../services/courses-state.service';
 
 @Component({
   selector: 'erz-courses-list',
@@ -6,5 +7,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./courses-list.component.scss'],
 })
 export class CoursesListComponent {
-  constructor() {}
+  constructor(public state: CoursesStateService) {}
 }

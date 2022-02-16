@@ -9,9 +9,9 @@ import { CoursesListComponent } from './components/courses-list/courses-list.com
 
 @NgModule({
   declarations: [
-    CoursesComponent,
     TestsComponent,
     TestsListComponent,
+    CoursesComponent,
     CoursesListComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],

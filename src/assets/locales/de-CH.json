@@ -190,6 +190,9 @@
   "events": {
     "title": "Anlassliste"
   },
+  "courses": {
+    "no-courses": "Keine Anlässe vorhanden"
+  },
   "tests": {
     "title": "Tests",
     "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten."

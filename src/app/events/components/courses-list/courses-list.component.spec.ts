@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { CoursesStateService } from '../../services/courses-state.service';
 
 import { CoursesListComponent } from './courses-list.component';
 
@@ -7,9 +9,12 @@ describe('CoursesListComponent', () => {
   let fixture: ComponentFixture<CoursesListComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CoursesListComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [CoursesListComponent],
+        providers: [CoursesStateService],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {
