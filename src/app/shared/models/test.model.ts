@@ -2,6 +2,7 @@ import * as t from 'io-ts';
 import { Option } from './common-types';
 
 const Test = t.type({
+  Id: t.number,
   CourseId: t.number,
   Date: t.string,
   Designation: t.string,
