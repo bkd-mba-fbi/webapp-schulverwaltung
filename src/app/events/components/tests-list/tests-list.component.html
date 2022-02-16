@@ -6,7 +6,8 @@
       course: course$ | async,
       tests: tests$ | async,
       testOptions: testOptions$ | async,
-      selectedTestId: selectedTestId$ | async
+      selectedTestId: selectedTestId$ | async,
+      selectedTest: selectedTest$ | async
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -16,7 +17,10 @@
           [options]="data.testOptions"
           [value]="data.selectedTestId"
           [allow-empty]="false"
+          (valueChange)="testSelected($event)"
         ></erz-select>
+
+        <p>Selected Test: {{ data.selectedTest.Designation }}</p>
       </ng-container>
     </ng-container>
   </ng-container>
