@@ -33,7 +33,7 @@ describe('CoursesRestService', () => {
     });
   });
 
-  describe('getExpandedCourse', () => {
+  xdescribe('getExpandedCourse', () => {
     const id = 9248;
     const mockCourse = buildCourse(id);
     it('should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades', () => {
