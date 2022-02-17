@@ -21,7 +21,7 @@ export interface Event {
   dateFrom?: Date;
   dateTo?: Date;
   studentCount: number;
-  state: EventState;
+  state: Option<EventState>;
   evaluationLink: Option<string>;
 }
 @Injectable()
@@ -94,7 +94,7 @@ export class EventsStateService {
     return classes ? course.Designation + ', ' + classes : course.Designation;
   }
 
-  getState(course: Course): EventState {
+  getState(course: Course): Option<EventState> {
     const courseStatus = course.EvaluationStatusRef;
 
     if (courseStatus.HasTestGrading === true) {
@@ -111,13 +111,13 @@ export class EventsStateService {
       }
     }
 
-    return EventState.Rating; // TODO default state? refactor
+    return null;
   }
 
-  getEvaluationLink(course: Course, state: EventState): Option<string> {
-    return state !== EventState.Tests
-      ? this.getLink(course, 'evaluation')
-      : null;
+  getEvaluationLink(course: Course, state: Option<EventState>): Option<string> {
+    return state === null || state === EventState.Tests
+      ? null
+      : this.getLink(course, 'evaluation');
   }
 
   getLink(event: StudyClass | Course, linkTo: string): string {

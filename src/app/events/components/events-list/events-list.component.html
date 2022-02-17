@@ -31,7 +31,7 @@
         <div class="registrations">{{ event.studentCount }}</div>
         <div class="rating">
           <a
-            *ngIf="event.evaluationLink === null"
+            *ngIf="event.evaluationLink === null && event.status !== null"
             class="d-flex"
             [routerLink]="[event.id, 'tests']"
           >
