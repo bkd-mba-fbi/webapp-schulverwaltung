@@ -194,7 +194,8 @@
     "no-courses": "Keine Anlässe vorhanden",
     "designation": "Bezeichnung",
     "date": "Datum",
-    "registrations": "Anmeldungen",
+    "registration": "{{count}} Anmeldung",
+    "registrations": "{{count}} Anmeldungen",
     "rating": "Bewertung"
   },
   "tests": {
