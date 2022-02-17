@@ -43,6 +43,10 @@ export const settings: Settings = {
     editAbsences: 'LessonTeacherRole;ClassTeacherRole',
   },
   notificationRefreshTime: 30,
+  eventlist: {
+    eventdetail: 'link-to-event-detail-module.aspx?IDAnlass',
+    evaluation: 'link-to-evaluation-module.aspx?IDAnlass',
+  },
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {

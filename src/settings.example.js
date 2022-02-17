@@ -91,4 +91,15 @@ window.schulverwaltung.settings = {
    */
   // refresh time for notifications
   notificationRefreshTime: 30,
+
+  /**
+   * Events
+   */
+  // Link to the external event detail and evaluation modules.
+  // The application will add the event id (IDAnlass) and the preceding equal sign,
+  // e.g. link-to-event-detail-module.aspx?IDAnlass=1234
+  eventlist: {
+    eventdetail: 'link-to-event-detail-module.aspx?IDAnlass',
+    evaluation: 'link-to-evaluation-module.aspx?IDAnlass',
+  },
 };

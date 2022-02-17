@@ -22,6 +22,7 @@ const Settings = t.type({
   subscriptionDetailGroupId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
   notificationRefreshTime: t.number,
+  eventlist: t.record(t.string, t.string),
 });
 
 type Settings = t.TypeOf<typeof Settings>;
