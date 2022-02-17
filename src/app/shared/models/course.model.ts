@@ -80,7 +80,7 @@ const Course = t.type({
   Tests: Option(t.array(Test)),
   EvaluationStatusRef,
   AttendanceRef,
-  ParticipatingStudents: t.array(Student),
+  ParticipatingStudents: Option(t.array(Student)),
   Classes: Option(t.array(StudyClass)),
 });
 type Course = t.TypeOf<typeof Course>;
