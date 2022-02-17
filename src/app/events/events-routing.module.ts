@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CoursesComponent } from './components/courses/courses.component';
+import { EventsComponent } from './components/events/events.component';
 import { TestsComponent } from './components/tests/tests.component';
 import { TestsListComponent } from './components/tests-list/tests-list.component';
-import { CoursesListComponent } from './components/courses-list/courses-list.component';
+import { EventsListComponent } from './components/events-list/events-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CoursesComponent,
+    component: EventsComponent,
     children: [
       {
         path: '',
-        component: CoursesListComponent,
+        component: EventsListComponent,
       },
     ],
   },

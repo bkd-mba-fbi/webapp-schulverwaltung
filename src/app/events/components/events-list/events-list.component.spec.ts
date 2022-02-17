@@ -1,24 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { CoursesStateService } from '../../services/courses-state.service';
+import { EventsStateService } from '../../services/events-state.service';
 
-import { CoursesListComponent } from './courses-list.component';
+import { EventsListComponent } from './events-list.component';
 
-describe('CoursesListComponent', () => {
-  let component: CoursesListComponent;
-  let fixture: ComponentFixture<CoursesListComponent>;
+describe('EventsListComponent', () => {
+  let component: EventsListComponent;
+  let fixture: ComponentFixture<EventsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [CoursesListComponent],
-        providers: [CoursesStateService],
+        declarations: [EventsListComponent],
+        providers: [EventsStateService],
       })
     ).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CoursesListComponent);
+    fixture = TestBed.createComponent(EventsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

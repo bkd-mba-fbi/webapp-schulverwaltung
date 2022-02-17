@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
-import { CoursesStateService } from './courses-state.service';
+import { EventsStateService } from './events-state.service';
 
-describe('CoursesStateService', () => {
-  let service: CoursesStateService;
+describe('EventsStateService', () => {
+  let service: EventsStateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ providers: [CoursesStateService] })
+      buildTestModuleMetadata({ providers: [EventsStateService] })
     );
-    service = TestBed.inject(CoursesStateService);
+    service = TestBed.inject(EventsStateService);
   });
 
   it('should be created', () => {

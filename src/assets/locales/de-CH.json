@@ -188,15 +188,16 @@
     }
   },
   "events": {
-    "title": "Anlassliste"
-  },
-  "courses": {
-    "no-courses": "Keine Anlässe vorhanden",
+    "title": "Anlassliste",
+    "no-events": "Keine Anlässe vorhanden",
     "designation": "Bezeichnung",
     "date": "Datum",
-    "registration": "{{count}} Anmeldung",
-    "registrations": "{{count}} Anmeldungen",
+    "registrations": "Anmeldungen",
     "rating": "Bewertung"
+  },
+  "courses": {
+    "registration": "{{count}} Anmeldung",
+    "registrations": "{{count}} Anmeldungen"
   },
   "tests": {
     "title": "Tests",

@@ -1,6 +1,6 @@
 @import "../../../../bootstrap-variables";
 
-.course-header {
+.event-header {
   display: grid;
   padding: $spacer;
   border-bottom: 2px solid $border-color;
@@ -8,7 +8,7 @@
   grid-template-columns: 3fr 2fr 1fr 2fr;
 }
 
-.course-entry {
+.event-entry {
   display: grid;
   border-bottom: 1px solid $border-color;
   padding: $spacer;
@@ -24,11 +24,11 @@
 }
 
 @media (max-width: 750px) {
-  .course-header {
+  .event-header {
     display: none;
   }
 
-  .course-entry {
+  .event-entry {
     grid-template-areas:
       "designation"
       "date"

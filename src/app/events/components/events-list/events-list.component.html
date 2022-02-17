@@ -9,15 +9,15 @@
 
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <ng-container *ngIf="data.courses?.length > 0; else noCourses">
-      <div class="course-header">
-        <div class="designation">{{ 'courses.designation' | translate }}</div>
-        <div class="date">{{ 'courses.date' | translate }}</div>
+      <div class="event-header">
+        <div class="designation">{{ 'events.designation' | translate }}</div>
+        <div class="date">{{ 'events.date' | translate }}</div>
         <div class="registrations">
-          {{ 'courses.registrations' | translate }}
+          {{ 'events.registrations' | translate }}
         </div>
-        <div class="rating">{{ 'courses.rating' | translate }}</div>
+        <div class="rating">{{ 'events.rating' | translate }}</div>
       </div>
-      <div class="course-entry" *ngFor="let course of data.courses">
+      <div class="event-entry" *ngFor="let course of data.courses">
         <div class="designation">
           <a href=""
             >{{ course.Designation
@@ -40,8 +40,8 @@
       </div>
     </ng-container>
 
-    <ng-template #noCourses>
-      <p>{{ 'courses.no-courses' | translate }}</p>
+    <ng-template #noEvents>
+      <p>{{ 'event.no-events' | translate }}</p>
     </ng-template>
   </ng-container>
 

@@ -5,7 +5,7 @@ import { CoursesRestService } from 'src/app/shared/services/courses-rest.service
 import { LoadingService } from 'src/app/shared/services/loading-service';
 
 @Injectable()
-export class CoursesStateService {
+export class EventsStateService {
   loading$ = this.loadingService.loading$;
 
   courses$ = this.loadCourses();
