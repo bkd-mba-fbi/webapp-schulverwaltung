@@ -1,6 +1,16 @@
 import * as t from 'io-ts';
 import { Option } from './common-types';
 
+const Result = t.type({
+  TestId: t.number,
+  GradeId: t.number,
+  GradeValue: t.number,
+  GradeDesignation: t.string,
+  Points: Option(t.number),
+  StudentId: t.number,
+  Id: t.string,
+});
+
 const Test = t.type({
   Id: t.number,
   CourseId: t.number,
@@ -17,7 +27,7 @@ const Test = t.type({
   Creation: t.string,
   GradingScaleId: t.number,
   GradingScale: t.string,
-  // Results: null
+  Results: Option(t.array(Result)),
 });
 
 type Test = t.TypeOf<typeof Test>;

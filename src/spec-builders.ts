@@ -447,7 +447,7 @@ export function buildTest(id: number): Test {
     Id: id,
     CourseId: 1234,
     Date: '2022-02-09T00:00:00',
-    Designation: 'Test Designation',
+    Designation: `Test Designation for test with id ${id}`,
     Weight: 100,
     WeightPercent: 100,
     IsPointGrading: false,
@@ -459,6 +459,6 @@ export function buildTest(id: number): Test {
     Creation: '2022-02-14T16:58:18.89',
     GradingScaleId: 1106,
     GradingScale: 'Zehntelnoten bes. disp. keine Note',
-    // Results: null
+    Results: null,
   };
 }
