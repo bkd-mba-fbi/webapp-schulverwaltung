@@ -193,7 +193,13 @@
     "designation": "Bezeichnung",
     "date": "Datum",
     "registrations": "Anmeldungen",
-    "rating": "Bewertung"
+    "rating": "Bewertung",
+    "state": {
+      "rating": "Bewertung",
+      "rating-until": "Bewertung bis",
+      "intermediate-rating": "Zwischenbewertung",
+      "add-tests": "Tests erfassen"
+    }
   },
   "courses": {
     "registration": "{{count}} Anmeldung",

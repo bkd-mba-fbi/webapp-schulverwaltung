@@ -1,6 +1,6 @@
 <div
   class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
-  *erzLet="{ courses: state.courses$ | async } as data"
+  *erzLet="{ events: state.events$ | async } as data"
 >
   <p>
     <a [routerLink]="['9248', 'tests']">Kurs mit ID 9248 - enthält Tests</a>
@@ -8,7 +8,7 @@
   <p><a [routerLink]="['9457', 'tests']">Kurs mit ID 9457 - ohne Tests</a></p>
 
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-    <ng-container *ngIf="data.courses?.length > 0; else noCourses">
+    <ng-container *ngIf="data.events?.length > 0; else noEvents">
       <div class="event-header">
         <div class="designation">{{ 'events.designation' | translate }}</div>
         <div class="date">{{ 'events.date' | translate }}</div>
@@ -17,24 +17,25 @@
         </div>
         <div class="rating">{{ 'events.rating' | translate }}</div>
       </div>
-      <div class="event-entry" *ngFor="let course of data.courses">
+      <div class="event-entry" *ngFor="let event of data.events">
         <div class="designation">
-          <a href=""
-            >{{ course.Designation
-            }}<span *ngFor="let class of course.Classes"
-              >, {{ class.Designation }}</span
-            ></a
-          >
+          <a href="">{{ event.designation }}</a>
         </div>
         <div class="date">
-          {{ course.DateFrom | date: 'MM.dd.yyyy' }} -
-          {{ course.DateTo | date: 'MM.dd.yyyy' }}
+          <span *ngIf="event.dateFrom && event.dateTo"
+            >{{ event.dateFrom | date: 'MM.dd.yyyy' }}–{{
+              event.dateTo | date: 'MM.dd.yyyy'
+            }}</span
+          >
         </div>
-        <div class="registrations">{{ course.AttendanceRef.StudentCount }}</div>
+        <div class="registrations">{{ event.studentCount }}</div>
         <div class="rating">
-          <a class="d-flex" [routerLink]="[course.Id, 'tests']">
+          <!-- TODO links to other modules with href -->
+          <a class="d-flex" [routerLink]="[event.id, 'tests']">
             <i class="material-icons">arrow_right_alt</i>
-            <span class="pl-2">{{ course.Id }}</span>
+            <span class="pl-2">{{
+              'events.state.' + event.state | translate
+            }}</span>
           </a>
         </div>
       </div>
