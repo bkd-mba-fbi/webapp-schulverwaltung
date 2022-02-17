@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
@@ -16,11 +17,12 @@ export enum EventState {
 export interface Event {
   id: number;
   designation: string;
+  detailLink: string;
   dateFrom?: Date;
   dateTo?: Date;
   studentCount: number;
   state: EventState;
-  link: string;
+  evaluationLink: Option<string>;
 }
 @Injectable()
 export class EventsStateService {
@@ -32,7 +34,8 @@ export class EventsStateService {
     private coursesRestService: CoursesRestService,
     private studyClassRestService: StudyClassesRestService,
     private loadingService: LoadingService,
-    private storage: StorageService
+    private storage: StorageService,
+    @Inject(SETTINGS) private settings: Settings
   ) {}
 
   /**
@@ -47,37 +50,77 @@ export class EventsStateService {
     return hasRoleClassTeacher
       ? this.studyClassRestService
           .getFormativeAssessments()
-          .pipe(map(this.mapStudyClassesToEvents.bind(this)))
+          .pipe(map(this.createFromStudyClasses.bind(this)))
       : this.coursesRestService
           .getExpandedCourses()
-          .pipe(map(this.mapCoursesToEvents.bind(this)));
+          .pipe(map(this.createFromCourses.bind(this)));
   }
 
-  mapStudyClassesToEvents(
+  createFromStudyClasses(
     studyClasses: ReadonlyArray<StudyClass>
   ): ReadonlyArray<Event> {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
       designation: studyClass.Designation,
+      detailLink: this.getLink(studyClass, 'eventdetail'),
       studentCount: studyClass.StudentCount,
       state: EventState.Rating,
-      link: 'settings.eventlist.Evaluation', // TODO
+      evaluationLink: this.getLink(studyClass, 'evaluation'),
     }));
   }
 
-  mapCoursesToEvents(courses: ReadonlyArray<Course>): ReadonlyArray<Event> {
-    return courses.map((course) => ({
-      id: course.Id,
-      designation:
-        course.Designation +
-        (course.Classes
-          ? ', ' + course.Classes.map((c) => c.Designation).join(', ')
-          : ''),
-      studentCount: course.AttendanceRef.StudentCount || 0,
-      dateFrom: course.DateFrom,
-      dateTo: course.DateTo,
-      state: EventState.Tests, // TODO or other states
-      link: 'settings.eventlist.Evaluation', // TODO or to module tests
-    }));
+  createFromCourses(courses: ReadonlyArray<Course>): ReadonlyArray<Event> {
+    return courses.map((course) => {
+      const state = this.getState(course);
+
+      return {
+        id: course.Id,
+        designation: this.getDesignation(course),
+        detailLink: this.getLink(course, 'eventdetail'),
+        studentCount: course.AttendanceRef.StudentCount || 0,
+        dateFrom: course.DateFrom,
+        dateTo: course.DateTo,
+        state: state,
+        evaluationLink: this.getEvaluationLink(course, state),
+      };
+    });
+  }
+
+  getDesignation(course: Course): string {
+    const classes = course.Classes
+      ? course.Classes.map((c) => c.Designation).join(', ')
+      : null;
+
+    return classes ? course.Designation + ', ' + classes : course.Designation;
+  }
+
+  getState(course: Course): EventState {
+    const courseStatus = course.EvaluationStatusRef;
+
+    if (courseStatus.HasTestGrading === true) {
+      return EventState.Tests;
+    }
+
+    if (courseStatus.HasEvaluationStarted === true) {
+      if (courseStatus.EvaluationUntil == null) {
+        return EventState.IntermediateRating;
+      }
+
+      if (courseStatus.EvaluationUntil >= new Date()) {
+        return EventState.RatingUntil;
+      }
+    }
+
+    return EventState.Rating; // TODO default state? refactor
+  }
+
+  getEvaluationLink(course: Course, state: EventState): Option<string> {
+    return state !== EventState.Tests
+      ? this.getLink(course, 'evaluation')
+      : null;
+  }
+
+  getLink(event: StudyClass | Course, linkTo: string): string {
+    return `${this.settings.eventlist[linkTo]}=${event.Id}`;
   }
 }
