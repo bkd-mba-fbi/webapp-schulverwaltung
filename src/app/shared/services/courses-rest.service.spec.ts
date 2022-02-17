@@ -4,6 +4,7 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { CoursesRestService } from './courses-rest.service';
 import { buildCourse } from '../../../spec-builders';
+import { Course } from '../models/course.model';
 
 describe('CoursesRestService', () => {
   let service: CoursesRestService;
@@ -30,10 +31,12 @@ describe('CoursesRestService', () => {
             'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes'
         )
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
-  xdescribe('getExpandedCourse', () => {
+  describe('getExpandedCourse', () => {
     const id = 9248;
     const mockCourse = buildCourse(id);
     it('should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades', () => {
@@ -47,7 +50,9 @@ describe('CoursesRestService', () => {
             req.url ===
             `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades`
         )
-        .flush(mockCourse);
+        .flush(Course.encode(mockCourse));
+
+      httpTestingController.verify();
     });
   });
 });

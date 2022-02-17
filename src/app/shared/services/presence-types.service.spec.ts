@@ -210,6 +210,8 @@ describe('PresenceTypesService', () => {
             comment,
           ])
       );
+
+    httpTestingController.verify();
   });
 
   describe('.presenceTypes$', () => {

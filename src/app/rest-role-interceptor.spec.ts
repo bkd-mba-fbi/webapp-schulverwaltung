@@ -28,6 +28,9 @@ describe('RestRoleInterceptor', () => {
   });
 
   describe('.intercept', () => {
+    afterEach(() => {
+      httpTestingController.verify();
+    });
     it('should not add header on root module', () => {
       mockRouter.url = '/';
       http.get('/').subscribe(successCallback, errorCallback);

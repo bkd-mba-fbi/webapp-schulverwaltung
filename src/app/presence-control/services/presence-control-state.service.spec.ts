@@ -210,6 +210,9 @@ describe('PresenceControlStateService', () => {
   });
 
   describe('.setDate', () => {
+    afterEach(() => {
+      httpTestingController.verify();
+    });
     it('loads lessons and presences of given day', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
@@ -248,6 +251,9 @@ describe('PresenceControlStateService', () => {
   });
 
   describe('.updateLessonPresencesTypes', () => {
+    afterEach(() => {
+      httpTestingController.verify();
+    });
     it('updates the lesson presences with the new presence type', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
@@ -290,6 +296,9 @@ describe('PresenceControlStateService', () => {
   });
 
   describe('.getBlockLessonPresences', () => {
+    afterEach(() => {
+      httpTestingController.verify();
+    });
     it('returns all block lessons for the given entry', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();

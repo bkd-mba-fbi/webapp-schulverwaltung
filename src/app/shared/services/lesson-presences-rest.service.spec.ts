@@ -80,6 +80,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne('https://eventotest.api/LessonPresences/123')
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
@@ -95,6 +97,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
@@ -109,6 +113,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
@@ -149,6 +155,8 @@ describe('LessonPresencesRestService', () => {
             lessonTeacherRequestUrl
           )
           .flush(t.array(LessonPresence).encode([presence1]));
+
+        httpTestingController.verify();
       });
     });
 
@@ -230,6 +238,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+
+      httpTestingController.verify();
     });
 
     it('fetches statistics based with the given filter (only student set) and sorting', () => {
@@ -244,6 +254,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 
@@ -274,6 +285,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson refs with one filter value set', () => {
@@ -289,6 +301,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 
@@ -324,6 +337,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with all given filters', () => {
@@ -345,6 +359,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with with only date from', () => {
@@ -360,6 +375,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with with only date to', () => {
@@ -375,6 +391,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with with equal date from/to', () => {
@@ -391,6 +408,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with additional sort params', () => {
@@ -409,6 +427,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 });

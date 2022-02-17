@@ -39,6 +39,9 @@ describe('RestErrorInterceptor', () => {
   });
 
   describe('.intercept', () => {
+    afterEach(() => {
+      httpTestingController.verify();
+    });
     it('does nothing if request is successful', () => {
       http.get('/').subscribe(successCallback, errorCallback);
       httpTestingController

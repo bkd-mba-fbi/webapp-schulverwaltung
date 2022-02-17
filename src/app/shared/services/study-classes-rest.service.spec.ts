@@ -27,6 +27,8 @@ describe('StudyClassesRestService', () => {
             req.headers.get('X-Role-Restriction') === 'ClassTeacherRole'
         )
         .flush([]);
+
+      httpTestingController.verify();
     });
   });
 });
