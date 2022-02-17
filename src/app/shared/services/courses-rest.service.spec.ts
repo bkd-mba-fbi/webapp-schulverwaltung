@@ -17,8 +17,10 @@ describe('CoursesRestService', () => {
 
   describe('getExpandedCourses', () => {
     it('should request all courses expanding EvaluationStatusRef, AttendanceRef and Classes fields', () => {
+      const data: any[] = [];
+
       service.getExpandedCourses().subscribe((result) => {
-        expect(result).toEqual([]);
+        expect(result).toEqual(data);
       });
 
       httpTestingController
@@ -27,7 +29,7 @@ describe('CoursesRestService', () => {
             req.url ===
             'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes'
         )
-        .flush([]);
+        .flush(data);
     });
   });
 
