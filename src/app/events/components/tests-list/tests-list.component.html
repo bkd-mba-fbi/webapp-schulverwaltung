@@ -11,11 +11,8 @@
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <ng-container>
-        <erz-tests-header [course]="data.course"></erz-tests-header>
-      </ng-container>
+      <erz-tests-header [course]="data.course"></erz-tests-header>
       <ng-container *ngIf="data.tests.length > 0; else noTests">
-        Kurstitel: {{ data.course.Designation }}
         <erz-select
           [options]="data.testOptions"
           [value]="data.selectedTestId"
