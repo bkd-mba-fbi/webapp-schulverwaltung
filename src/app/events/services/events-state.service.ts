@@ -25,6 +25,7 @@ export interface Event {
   dateTo?: Date;
   studentCount: number;
   state: Option<EventState>;
+  ratingUntil?: Option<Date>;
   evaluationLink: Option<string>;
 }
 @Injectable()
@@ -95,6 +96,7 @@ export class EventsStateService {
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
         state: state,
+        ratingUntil: course.EvaluationStatusRef.EvaluationUntil,
         evaluationLink: this.getEvaluationLink(course, state),
       };
     });

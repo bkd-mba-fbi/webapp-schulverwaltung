@@ -23,8 +23,8 @@
         </div>
         <div class="date">
           <span *ngIf="event.dateFrom && event.dateTo"
-            >{{ event.dateFrom | date: 'MM.dd.yyyy' }}–{{
-              event.dateTo | date: 'MM.dd.yyyy'
+            >{{ event.dateFrom | date: 'dd.MM.yyyy' }}–{{
+              event.dateTo | date: 'dd.MM.yyyy'
             }}</span
           >
         </div>
@@ -44,9 +44,12 @@
             [href]="event.evaluationLink"
           >
             <i class="material-icons">arrow_right_alt</i>
-            <span class="pl-2">{{
-              'events.state.' + event.state | translate
-            }}</span>
+            <span class="pl-2"
+              >{{ 'events.state.' + event.state | translate }}
+              <span *ngIf="event.state === 'rating-until'">
+                {{ event.ratingUntil | date: 'dd.MM.yyyy' }}</span
+              >
+            </span>
           </a>
         </div>
       </div>
