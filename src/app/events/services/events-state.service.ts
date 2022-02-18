@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
@@ -7,6 +7,7 @@ import { CoursesRestService } from 'src/app/shared/services/courses-rest.service
 import { LoadingService } from 'src/app/shared/services/loading-service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
+import { spread } from 'src/app/shared/utils/function';
 
 export enum EventState {
   Rating = 'rating',
@@ -14,6 +15,8 @@ export enum EventState {
   IntermediateRating = 'intermediate-rating',
   Tests = 'add-tests',
 }
+
+type LinkType = 'evaluation' | 'eventdetail';
 export interface Event {
   id: number;
   designation: string;
@@ -28,7 +31,10 @@ export interface Event {
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
 
-  events$ = this.loadingService.load(this.loadEvents());
+  courses$ = this.coursesRestService.getExpandedCourses();
+  studyClasses$ = this.studyClassRestService.getFormativeAssessments();
+
+  events$ = this.loadEvents();
 
   constructor(
     private coursesRestService: CoursesRestService,
@@ -39,24 +45,30 @@ export class EventsStateService {
   ) {}
 
   /**
-   * Depending on the current user's roles the events are derived either from courses or study classes
+   * Events are derived either from courses or study classes.
+   * If the current user has the role 'ClassTeacherRole', an additional request to get study classes is made.
    */
   loadEvents(): Observable<ReadonlyArray<Event>> {
-    const tokenPayload = this.storage.getPayload();
-    const hasRoleClassTeacher = tokenPayload
-      ? tokenPayload.roles.indexOf('ClassTeacherRole') > 0
-      : false;
-
-    return hasRoleClassTeacher
-      ? this.studyClassRestService
-          .getFormativeAssessments()
-          .pipe(map(this.createFromStudyClasses.bind(this)))
-      : this.coursesRestService
-          .getExpandedCourses()
-          .pipe(map(this.createFromCourses.bind(this)));
+    return this.loadingService.load(
+      this.hasClassTeacherRole()
+        ? combineLatest([this.courses$, this.studyClasses$]).pipe(
+            map(spread(this.createEvents.bind(this)))
+          )
+        : this.courses$.pipe(map((course) => this.createEvents(course)))
+    );
   }
 
-  createFromStudyClasses(
+  private createEvents(
+    courses: ReadonlyArray<Course>,
+    studyClasses: ReadonlyArray<StudyClass> = []
+  ): ReadonlyArray<Event> {
+    return [
+      ...this.createFromCourses(courses),
+      ...this.createFromStudyClasses(studyClasses),
+    ];
+  }
+
+  private createFromStudyClasses(
     studyClasses: ReadonlyArray<StudyClass>
   ): ReadonlyArray<Event> {
     return studyClasses.map((studyClass) => ({
@@ -69,7 +81,9 @@ export class EventsStateService {
     }));
   }
 
-  createFromCourses(courses: ReadonlyArray<Course>): ReadonlyArray<Event> {
+  private createFromCourses(
+    courses: ReadonlyArray<Course>
+  ): ReadonlyArray<Event> {
     return courses.map((course) => {
       const state = this.getState(course);
 
@@ -86,7 +100,7 @@ export class EventsStateService {
     });
   }
 
-  getDesignation(course: Course): string {
+  private getDesignation(course: Course): string {
     const classes = course.Classes
       ? course.Classes.map((c) => c.Designation).join(', ')
       : null;
@@ -94,7 +108,7 @@ export class EventsStateService {
     return classes ? course.Designation + ', ' + classes : course.Designation;
   }
 
-  getState(course: Course): Option<EventState> {
+  private getState(course: Course): Option<EventState> {
     const courseStatus = course.EvaluationStatusRef;
 
     if (courseStatus.HasTestGrading === true) {
@@ -114,13 +128,23 @@ export class EventsStateService {
     return null;
   }
 
-  getEvaluationLink(course: Course, state: Option<EventState>): Option<string> {
+  private getEvaluationLink(
+    course: Course,
+    state: Option<EventState>
+  ): Option<string> {
     return state === null || state === EventState.Tests
       ? null
       : this.getLink(course, 'evaluation');
   }
 
-  getLink(event: StudyClass | Course, linkTo: string): string {
-    return `${this.settings.eventlist[linkTo]}=${event.Id}`;
+  private getLink(event: StudyClass | Course, linkType: LinkType): string {
+    return `${this.settings.eventlist[linkType]}=${event.Id}`;
+  }
+
+  private hasClassTeacherRole(): boolean {
+    const tokenPayload = this.storage.getPayload();
+    return tokenPayload
+      ? tokenPayload.roles.indexOf('ClassTeacherRole') > 0
+      : false;
   }
 }
