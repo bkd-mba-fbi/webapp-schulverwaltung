@@ -124,10 +124,11 @@ describe('EditAbsencesEditComponent', () => {
     (component as any).onSaveSuccess = jasmine.createSpy('onSaveSuccess');
   });
 
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
   describe('initial absence type', () => {
-    afterEach(() => {
-      httpTestingController.verify();
-    });
     it('preselects the absence type if all selected entries have the same', () => {
       state.selected = [
         buildLessonPresence(
@@ -264,10 +265,6 @@ describe('EditAbsencesEditComponent', () => {
       fixture.detectChanges();
     });
 
-    afterEach(() => {
-      httpTestingController.verify();
-    });
-
     it('resets all entries if updating to present', () => {
       clickRadio('present');
       clickSave();
@@ -277,6 +274,8 @@ describe('EditAbsencesEditComponent', () => {
         PersonIds: [100],
         WithComment: true,
       });
+
+      expect().nothing();
     });
 
     it('updates all entries to chosen absence type if excused', () => {
@@ -290,6 +289,8 @@ describe('EditAbsencesEditComponent', () => {
         PresenceTypeId: ill.Id,
         ConfirmationValue: settings.excusedAbsenceStateId,
       });
+
+      expect().nothing();
     });
 
     it('updates all entries to default absence type if unexcused', () => {
@@ -302,6 +303,8 @@ describe('EditAbsencesEditComponent', () => {
         PresenceTypeId: settings.absencePresenceTypeId,
         ConfirmationValue: settings.unexcusedAbsenceStateId,
       });
+
+      expect().nothing();
     });
 
     it('marks all entries as unconfirmed but preserves absence type if available', () => {
@@ -319,6 +322,8 @@ describe('EditAbsencesEditComponent', () => {
         PersonIds: [100],
         ConfirmationValue: settings.unconfirmedAbsenceStateId,
       });
+
+      expect().nothing;
     });
 
     it('marks all entries as checkable but preserves absence type if available', () => {
@@ -336,6 +341,8 @@ describe('EditAbsencesEditComponent', () => {
         PersonIds: [100],
         ConfirmationValue: settings.checkableAbsenceStateId,
       });
+
+      expect().nothing();
     });
 
     it('updates entries to dispensation', () => {
@@ -347,6 +354,8 @@ describe('EditAbsencesEditComponent', () => {
         PersonIds: [100],
         PresenceTypeId: settings.dispensationPresenceTypeId,
       });
+
+      expect().nothing();
     });
 
     it('updates entries to half day', () => {
@@ -358,6 +367,8 @@ describe('EditAbsencesEditComponent', () => {
         PersonIds: [100],
         PresenceTypeId: settings.halfDayPresenceTypeId,
       });
+
+      expect().nothing();
     });
 
     it('updates entries to incident', () => {
@@ -370,6 +381,7 @@ describe('EditAbsencesEditComponent', () => {
         PersonIds: [100],
         PresenceTypeId: settings.latePresenceTypeId,
       });
+      expect().nothing();
     });
   });
 
