@@ -9,6 +9,7 @@
     "build:prod": "ng build --configuration production",
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:watch": "ng test --browsers=ChromeHeadless",
     "lint": "ng lint",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
     "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
