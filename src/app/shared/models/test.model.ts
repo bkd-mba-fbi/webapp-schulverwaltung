@@ -11,6 +11,9 @@ const Result = t.type({
   Id: t.string,
 });
 
+type Result = t.TypeOf<typeof Result>;
+export { Result };
+
 const Test = t.type({
   Id: t.number,
   CourseId: t.number,
