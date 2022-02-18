@@ -14,7 +14,7 @@ import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
 import { Course } from './app/shared/models/course.model';
-import { Test } from './app/shared/models/test.model';
+import { Result, Test } from './app/shared/models/test.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -442,12 +442,16 @@ export function buildCourse(id: number): Course {
   };
 }
 
-export function buildTest(id: number): Test {
+export function buildTest(
+  courseId: number,
+  testId: number,
+  results: Result[]
+): Test {
   return {
-    Id: id,
-    CourseId: 1234,
+    Id: testId,
+    CourseId: courseId,
     Date: '2022-02-09T00:00:00',
-    Designation: `Test Designation for test with id ${id}`,
+    Designation: `Test Designation for test with id ${testId}`,
     Weight: 100,
     WeightPercent: 100,
     IsPointGrading: false,
@@ -459,6 +463,18 @@ export function buildTest(id: number): Test {
     Creation: '2022-02-14T16:58:18.89',
     GradingScaleId: 1106,
     GradingScale: 'Zehntelnoten bes. disp. keine Note',
-    Results: null,
+    Results: results,
+  };
+}
+
+export function buildResult(testId: number, studentId: number): Result {
+  return {
+    TestId: testId,
+    GradeId: 2349,
+    GradeValue: 3.7,
+    GradeDesignation: '3.7',
+    Points: null,
+    StudentId: studentId,
+    Id: `${testId}_126713`,
   };
 }
