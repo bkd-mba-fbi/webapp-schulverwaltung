@@ -14,6 +14,5 @@ export class TestEditGradesComponent implements OnInit {
   constructor(private studentGradesService: StudentGradesService) {}
   ngOnInit(): void {
     this.studentGrades = this.studentGradesService.transform(this.course);
-    console.log(this.studentGrades);
   }
 }
