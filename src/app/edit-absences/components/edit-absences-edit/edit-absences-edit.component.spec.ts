@@ -124,11 +124,10 @@ describe('EditAbsencesEditComponent', () => {
     (component as any).onSaveSuccess = jasmine.createSpy('onSaveSuccess');
   });
 
-  afterEach(() => {
-    httpTestingController.verify();
-  });
-
   describe('initial absence type', () => {
+    afterEach(() => {
+      httpTestingController.verify();
+    });
     it('preselects the absence type if all selected entries have the same', () => {
       state.selected = [
         buildLessonPresence(
@@ -263,6 +262,10 @@ describe('EditAbsencesEditComponent', () => {
         ),
       ];
       fixture.detectChanges();
+    });
+
+    afterEach(() => {
+      httpTestingController.verify();
     });
 
     it('resets all entries if updating to present', () => {
