@@ -69,6 +69,7 @@ describe('PersonsRestService', () => {
             Email2: 'john@example.com',
           })
       );
+      expect().nothing();
     });
   });
 
@@ -82,6 +83,7 @@ describe('PersonsRestService', () => {
           req.urlWithParams ===
             'https://eventotest.api/Persons/?filter.Id==4515&fields=FormOfAddress,Email'
       );
+      expect().nothing();
     });
   });
 });

@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import { Course } from 'src/app/shared/models/course.model';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestStateService } from '../../services/test-state.service';
+import { TestsHeaderComponent } from '../tests-header/tests-header.component';
 
 import { TestsListComponent } from './tests-list.component';
 
@@ -21,7 +22,7 @@ describe('TestsListComponent', () => {
 
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
-          declarations: [TestsListComponent],
+          declarations: [TestsListComponent, TestsHeaderComponent],
           providers: [
             { provide: TestStateService, useValue: stateServiceMock },
           ],

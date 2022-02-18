@@ -5,6 +5,7 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { UserSettingsRestService } from './user-settings-rest.service';
 import { buildUserSettingWithNotificationSetting } from 'src/spec-builders';
 import { isEqual } from 'lodash';
+import { UserSetting } from '../models/user-setting.model';
 
 describe('UserSettingsRestService', () => {
   let service: UserSettingsRestService;
@@ -23,35 +24,37 @@ describe('UserSettingsRestService', () => {
 
     service.updateUserSettingsCst(settings);
 
-    httpTestingController
-      .match(
-        (req) =>
-          req.method === 'PATCH' &&
-          req.urlWithParams === 'https://eventotest.api/UserSettings/Cst' &&
-          isEqual(req.body, {
-            Id: 'Cst',
-            Values: [
-              {
-                Key: 'notification',
-                Value: JSON.stringify({
-                  gui: true,
-                  mail: true,
-                  phoneMobile: true,
-                }),
-              },
-            ],
-            HRef: null,
-          })
-      )
-      .forEach((r) => r.flush([]));
+    httpTestingController.match(
+      (req) =>
+        req.method === 'PATCH' &&
+        req.urlWithParams === 'https://eventotest.api/UserSettings/Cst' &&
+        isEqual(req.body, {
+          Id: 'Cst',
+          Values: [
+            {
+              Key: 'notification',
+              Value: JSON.stringify({
+                gui: true,
+                mail: true,
+                phoneMobile: true,
+              }),
+            },
+          ],
+          HRef: null,
+        })
+    );
+
+    expect().nothing();
   });
 
   it('request cst settings of the current user', () => {
-    service.getUserSettingsCst().subscribe((result) => {});
+    const settings = buildUserSettingWithNotificationSetting(true, true, true);
+    service.getUserSettingsCst().subscribe((result) => {
+      expect(result).toBe(settings);
+    });
     const url = 'https://eventotest.api/UserSettings/Cst';
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
-      .flush([]);
-    httpTestingController.verify();
+      .flush(UserSetting.encode(settings));
   });
 });
