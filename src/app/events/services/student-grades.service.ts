@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Course } from 'src/app/shared/models/course.model';
 import { Student } from 'src/app/shared/models/student.model';
-import { Result, Test } from 'src/app/shared/models/test.model';
-import { buildStudent } from 'src/spec-builders';
+import { Test } from 'src/app/shared/models/test.model';
 
-type StudentsResultMap = {
-  [key: string]: {
-    [key: string]: {
-      result: Result | 'NoResult';
-    };
-  };
-};
 @Injectable({
   providedIn: 'root',
 })
@@ -31,7 +23,7 @@ export class StudentGradesService {
     return studentsWithGrades;
   }
 
-  getGrades(student: Student, tests: Test[]) {
+  private getGrades(student: Student, tests: Test[]) {
     return tests.map((test) => {
       if (test.Results === undefined || test.Results?.length === 0) {
         return 'NoResult';
