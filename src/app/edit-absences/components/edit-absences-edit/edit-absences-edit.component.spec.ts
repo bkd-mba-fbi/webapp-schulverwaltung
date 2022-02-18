@@ -323,7 +323,7 @@ describe('EditAbsencesEditComponent', () => {
         ConfirmationValue: settings.unconfirmedAbsenceStateId,
       });
 
-      expect().nothing;
+      expect().nothing();
     });
 
     it('marks all entries as checkable but preserves absence type if available', () => {
