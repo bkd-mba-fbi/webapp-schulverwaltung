@@ -18,7 +18,7 @@ const HRef = t.partial({
 
 const ExpandedEvaluationStatusRef = t.partial({
   HasEvaluationStarted: t.boolean,
-  EvaluationUntil: Option(LocalDateFromString),
+  EvaluationUntil: Option(LocalDateTimeFromString),
   HasReviewOfEvaluationStarted: t.boolean,
   HasTestGrading: t.boolean,
   Id: t.number,
@@ -84,4 +84,6 @@ const Course = t.type({
   Classes: Option(t.array(StudyClass)),
 });
 type Course = t.TypeOf<typeof Course>;
-export { Course };
+type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
+type EvaluationStatusRef = t.TypeOf<typeof EvaluationStatusRef>;
+export { Course, AttendanceRef, EvaluationStatusRef };

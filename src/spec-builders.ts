@@ -13,8 +13,13 @@ import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
-import { Course } from './app/shared/models/course.model';
+import {
+  Course,
+  AttendanceRef,
+  EvaluationStatusRef,
+} from './app/shared/models/course.model';
 import { Result, Test } from './app/shared/models/test.model';
+import { StudyClass } from './app/shared/models/study-class.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -396,12 +401,25 @@ export function buildSubscriptionDetail(
   };
 }
 
-export function buildCourse(id: number): Course {
+export function buildStudyClass(id: number): StudyClass {
+  return {
+    Id: id,
+    Designation: '22a',
+    StudentCount: 0,
+    Number: '22a',
+  };
+}
+
+export function buildCourse(
+  id: number,
+  attendance?: AttendanceRef,
+  evaluationStatus?: EvaluationStatusRef
+): Course {
   return {
     HRef: '',
     Id: id,
     Number: '1',
-    Designation: '',
+    Designation: 'Physik-22a',
     // HostId: t.string,
     // Host: t.string,
     // Management: t.string,
@@ -435,8 +453,8 @@ export function buildCourse(id: number): Course {
     // FinalGrades: null,
     // Gradings: null,
     Tests: null,
-    EvaluationStatusRef: buildReference(),
-    AttendanceRef: buildReference(),
+    EvaluationStatusRef: evaluationStatus || buildReference(),
+    AttendanceRef: attendance || buildReference(),
     ParticipatingStudents: [buildStudent(100)],
     Classes: null,
   };
