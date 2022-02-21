@@ -52,23 +52,23 @@ describe('EventsStateService', () => {
     };
 
     courses = [
-      buildCourse(1, attendance, evaluationStatus),
-      buildCourse(2, attendance, {
+      buildCourse(1, 'Physik-22a', attendance, evaluationStatus),
+      buildCourse(2, 'Bio-22a', attendance, {
         ...evaluationStatus,
         HasEvaluationStarted: true,
         EvaluationUntil: new Date(2022, 5, 3),
       }),
-      buildCourse(3, attendance, {
+      buildCourse(3, 'Zeichnen-22a', attendance, {
         ...evaluationStatus,
         HasEvaluationStarted: true,
       }),
-      buildCourse(4, attendance, {
+      buildCourse(4, 'Franz-22a', attendance, {
         ...evaluationStatus,
         HasTestGrading: true,
       }),
     ];
 
-    studyClasses = [buildStudyClass(5)];
+    studyClasses = [buildStudyClass(5, '22a')];
     studyClassEvents = [
       {
         id: 5,
@@ -93,10 +93,10 @@ describe('EventsStateService', () => {
     };
 
     courseEvents = [
-      courseEvent,
       {
         ...courseEvent,
         id: 2,
+        designation: 'Bio-22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=2',
         state: EventState.RatingUntil,
         ratingUntil: new Date(2022, 5, 3),
@@ -104,16 +104,19 @@ describe('EventsStateService', () => {
       },
       {
         ...courseEvent,
+        id: 4,
+        designation: 'Franz-22a',
+        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
+        state: EventState.Tests,
+      },
+      courseEvent,
+      {
+        ...courseEvent,
         id: 3,
+        designation: 'Zeichnen-22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
         state: EventState.IntermediateRating,
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',
-      },
-      {
-        ...courseEvent,
-        id: 4,
-        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
-        state: EventState.Tests,
       },
     ];
   });
@@ -134,7 +137,7 @@ describe('EventsStateService', () => {
       service
         .loadEvents()
         .subscribe((result) =>
-          expect(result).toEqual([...courseEvents, ...studyClassEvents])
+          expect(result).toEqual([...studyClassEvents, ...courseEvents])
         );
 
       expectCoursesRequest();

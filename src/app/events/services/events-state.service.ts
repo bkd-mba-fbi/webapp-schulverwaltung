@@ -53,20 +53,20 @@ export class EventsStateService {
     return this.loadingService.load(
       this.hasClassTeacherRole()
         ? combineLatest([this.courses$, this.studyClasses$]).pipe(
-            map(spread(this.createEvents.bind(this)))
+            map(spread(this.createAndSortEvents.bind(this)))
           )
-        : this.courses$.pipe(map((course) => this.createEvents(course)))
+        : this.courses$.pipe(map((course) => this.createAndSortEvents(course)))
     );
   }
 
-  private createEvents(
+  private createAndSortEvents(
     courses: ReadonlyArray<Course>,
     studyClasses: ReadonlyArray<StudyClass> = []
   ): ReadonlyArray<Event> {
     return [
       ...this.createFromCourses(courses),
       ...this.createFromStudyClasses(studyClasses),
-    ];
+    ].sort((a, b) => a.designation.localeCompare(b.designation));
   }
 
   private createFromStudyClasses(

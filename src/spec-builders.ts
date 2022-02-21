@@ -401,17 +401,18 @@ export function buildSubscriptionDetail(
   };
 }
 
-export function buildStudyClass(id: number): StudyClass {
+export function buildStudyClass(id: number, designation?: string): StudyClass {
   return {
     Id: id,
-    Designation: '22a',
+    Designation: designation || '22a',
     StudentCount: 0,
-    Number: '22a',
+    Number: designation || '22a',
   };
 }
 
 export function buildCourse(
   id: number,
+  designation?: string,
   attendance?: AttendanceRef,
   evaluationStatus?: EvaluationStatusRef
 ): Course {
@@ -419,7 +420,7 @@ export function buildCourse(
     HRef: '',
     Id: id,
     Number: '1',
-    Designation: 'Physik-22a',
+    Designation: designation || 'Physik-22a',
     // HostId: t.string,
     // Host: t.string,
     // Management: t.string,
