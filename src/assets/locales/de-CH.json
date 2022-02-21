@@ -190,6 +190,8 @@
   "events": {
     "title": "Anlassliste",
     "no-events": "Keine Anlässe vorhanden",
+    "search": "Suchen",
+    "search-by": "Suchen...",
     "designation": "Bezeichnung",
     "date": "Datum",
     "registrations": "Anmeldungen",

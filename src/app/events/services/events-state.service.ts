@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { spread } from 'src/app/shared/utils/function';
+import { searchEntries } from 'src/app/shared/utils/search';
 
 export enum EventState {
   Rating = 'rating',
@@ -31,11 +32,15 @@ export interface Event {
 @Injectable()
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
+  search$ = new BehaviorSubject<string>('');
 
-  courses$ = this.coursesRestService.getExpandedCourses();
-  studyClasses$ = this.studyClassRestService.getFormativeAssessments();
+  private courses$ = this.coursesRestService.getExpandedCourses();
+  private studyClasses$ = this.studyClassRestService.getFormativeAssessments();
 
-  events$ = this.loadEvents();
+  private events$ = this.loadEvents();
+  filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
+    map(spread(searchEntries))
+  );
 
   constructor(
     private coursesRestService: CoursesRestService,

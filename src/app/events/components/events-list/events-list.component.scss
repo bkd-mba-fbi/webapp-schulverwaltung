@@ -1,5 +1,9 @@
 @import "../../../../bootstrap-variables";
 
+.search {
+  max-width: 500px;
+}
+
 .event-header {
   display: grid;
   padding: $spacer;
@@ -23,9 +27,21 @@
   text-overflow: ellipsis;
 }
 
+.registrations-label {
+  display: none;
+}
+
 @media (max-width: 750px) {
+  .search {
+    padding: 0 $spacer;
+  }
+
   .event-header {
     display: none;
+  }
+
+  .registrations-label {
+    display: inline;
   }
 
   .event-entry {

@@ -1,11 +1,14 @@
 <div
   class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
-  *erzLet="{ events: state.events$ | async } as data"
+  *erzLet="{ events: state.filteredEvents$ | async } as data"
 >
-  <p>
-    <a [routerLink]="['9248', 'tests']">Kurs mit ID 9248 - enthält Tests</a>
-  </p>
-  <p><a [routerLink]="['9457', 'tests']">Kurs mit ID 9457 - ohne Tests</a></p>
+  <erz-resettable-input
+    class="d-flex search"
+    [value]="state.search$ | async"
+    [placeholder]="'events.search-by' | translate"
+    [label]="'events.search' | translate"
+    (valueChange)="state.search$.next($event)"
+  ></erz-resettable-input>
 
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <ng-container *ngIf="data.events?.length > 0; else noEvents">
@@ -28,7 +31,12 @@
             }}</span
           >
         </div>
-        <div class="registrations">{{ event.studentCount }}</div>
+        <div class="registrations">
+          {{ event.studentCount }}
+          <span class="registrations-label">{{
+            'events.registrations' | translate
+          }}</span>
+        </div>
         <div class="rating">
           <a
             *ngIf="event.evaluationLink === null && event.status !== null"
@@ -36,7 +44,7 @@
             [routerLink]="[event.id, 'tests']"
           >
             <i class="material-icons">arrow_right_alt</i>
-            <span class="pl-2">{{ 'events.state.add-tests' | translate }}</span>
+            <span class="pl-1">{{ 'events.state.add-tests' | translate }}</span>
           </a>
           <a
             *ngIf="event.evaluationLink !== null"
@@ -44,7 +52,7 @@
             [href]="event.evaluationLink"
           >
             <i class="material-icons">arrow_right_alt</i>
-            <span class="pl-2"
+            <span class="pl-1"
               >{{ 'events.state.' + event.state | translate }}
               <span *ngIf="event.state === 'rating-until'">
                 {{ event.ratingUntil | date: 'dd.MM.yyyy' }}</span
