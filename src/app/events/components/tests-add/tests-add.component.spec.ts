@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { TestsAddComponent } from './tests-add.component';
 
@@ -7,9 +8,11 @@ describe('TestsAddComponent', () => {
   let fixture: ComponentFixture<TestsAddComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TestsAddComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [TestsAddComponent],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {
