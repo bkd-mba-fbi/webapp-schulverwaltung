@@ -4,6 +4,7 @@ import { EventsComponent } from './components/events/events.component';
 import { TestsComponent } from './components/tests/tests.component';
 import { TestsListComponent } from './components/tests-list/tests-list.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
+import { TestsAddComponent } from './components/tests-add/tests-add.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,10 @@ const routes: Routes = [
   {
     path: ':id/tests',
     component: TestsComponent,
-    children: [{ path: '', component: TestsListComponent }],
+    children: [
+      { path: '', component: TestsListComponent },
+      { path: 'add', component: TestsAddComponent }, // TODO route/component naming?
+    ],
   },
 ];
 

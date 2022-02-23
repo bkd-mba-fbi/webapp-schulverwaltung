@@ -9,6 +9,7 @@ import { EventsListComponent } from './components/events-list/events-list.compon
 import { TestsHeaderComponent } from './components/tests-header/tests-header.component';
 import { TestEditGradesComponent } from './components/test-edit-grades/test-edit-grades.component';
 import { GradeComponent } from './components/grade/grade.component';
+import { TestsAddComponent } from './components/tests-add/tests-add.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { GradeComponent } from './components/grade/grade.component';
     EventsListComponent,
     TestsHeaderComponent,
     TestEditGradesComponent,
+    TestsAddComponent,
     GradeComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],
