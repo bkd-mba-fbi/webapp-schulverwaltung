@@ -128,4 +128,12 @@ describe('ReportsService', () => {
       );
     });
   });
+
+  describe('Auswertung Events', () => {
+    it('returns the report url', () => {
+      expect(service.getEventReportUrl(123)).toBe(
+        'https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=123&token=SOMETOKEN'
+      );
+    });
+  });
 });
