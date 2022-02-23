@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Course } from '../../../shared/models/course.model';
+import { ReportsService } from '../../../shared/services/reports.service';
 
 @Component({
   selector: 'erz-tests-header',
@@ -8,5 +9,10 @@ import { Course } from '../../../shared/models/course.model';
 })
 export class TestsHeaderComponent {
   @Input() course: Course;
-  constructor() {}
+
+  constructor(private reportsService: ReportsService) {}
+
+  loadReportUrl(): string {
+    return this.reportsService.getEventReportUrl(this.course.Id);
+  }
 }
