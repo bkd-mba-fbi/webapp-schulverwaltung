@@ -1,9 +1,9 @@
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Name</th>
       <th>Note</th>
-      <th>Mittelwert</th>
+      <th class="border-right">Mittelwert</th>
       <th *ngFor="let test of course.Tests">
         {{ test.Designation }}
       </th>
@@ -13,7 +13,7 @@
     <tr *ngFor="let studentGrade of studentGrades">
       <td>{{ studentGrade.student.FullName }}</td>
       <td></td>
-      <td></td>
+      <td class="border-right"></td>
       <td *ngFor="let grade of studentGrade.grades">
         {{ grade.GradeValue }}
       </td>
