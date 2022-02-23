@@ -1,0 +1,25 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.header {
+  border-bottom: 1px solid $border-color;
+  padding-bottom: $spacer;
+}
+
+.back {
+  color: $body-color;
+  text-decoration: none;
+}
+
+.back:hover,
+.back:active {
+  span {
+    text-decoration: underline;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .add {
+    margin-right: $spacer;
+  }
+}
