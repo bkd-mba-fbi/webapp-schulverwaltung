@@ -13,11 +13,12 @@ export class TestEditGradesComponent implements OnInit {
 
   studentGrades: any;
   displayTests: any;
+  isFiltered: boolean;
 
   constructor(private studentGradesService: StudentGradesService) {}
 
   ngOnInit(): void {
-    this.displayAllTests();
+    this.resetFilter();
   }
 
   filterOwnedTests() {
@@ -31,15 +32,18 @@ export class TestEditGradesComponent implements OnInit {
         this.course.ParticipatingStudents ?? [],
         ownedTests
       );
+      this.isFiltered = true;
     });
   }
 
-  displayAllTests() {
+  resetFilter() {
     this.displayTests = this.course.Tests;
 
     this.studentGrades = this.studentGradesService.transform(
       this.course.ParticipatingStudents ?? [],
       this.course.Tests ?? []
     );
+    this.isFiltered = false;
+    console.log(this.studentGrades);
   }
 }

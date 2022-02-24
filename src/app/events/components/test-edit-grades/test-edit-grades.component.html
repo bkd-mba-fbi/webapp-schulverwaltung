@@ -1,9 +1,23 @@
-<div class="d-flex text-justify justify-content-start">
-  <p class="d-flex p-3 m-2 filter-hover" (click)="filterOwnedTests()">
-    Meine Tests
-  </p>
-  <p class="d-flex p-3 m-2 filter-hover" (click)="displayAllTests()">
+<div class="d-flex text-justify justify-content-start mt-3 mb-2">
+  <p
+    class="d-flex btn"
+    (click)="resetFilter()"
+    [ngClass]="{
+      'btn-primary': !isFiltered,
+      'btn-outline-primary': isFiltered
+    }"
+  >
     Alle Tests
+  </p>
+  <p
+    class="d-flex btn ml-3"
+    (click)="filterOwnedTests()"
+    [ngClass]="{
+      'btn-primary': isFiltered,
+      'btn-outline-primary': !isFiltered
+    }"
+  >
+    Meine Tests
   </p>
 </div>
 <table class="table table-hover">
