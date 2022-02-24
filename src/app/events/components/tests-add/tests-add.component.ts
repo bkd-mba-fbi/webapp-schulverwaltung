@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
-import { Course } from 'src/app/shared/models/course.model';
+import { map, Observable, switchMap } from 'rxjs';
+import { Test } from 'src/app/shared/models/test.model';
 import { TestStateService } from '../../services/test-state.service';
 
 @Component({
@@ -10,16 +10,17 @@ import { TestStateService } from '../../services/test-state.service';
   styleUrls: ['./tests-add.component.scss'],
 })
 export class TestsAddComponent implements OnInit {
-  course$: Observable<Course>;
+  ownTests$: Observable<Maybe<ReadonlyArray<Test>>>;
 
   constructor(public state: TestStateService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.course$ = this.route.paramMap.pipe(
+    this.ownTests$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const id = Number(params.get('id'));
         return this.state.getCourse(id);
-      })
+      }),
+      map((course) => course.Tests?.filter((test) => test.IsOwner))
     );
   }
 }
