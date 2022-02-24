@@ -1,11 +1,14 @@
 <div
   class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
 >
-  <ng-container *erzLet="{ course: course$ | async } as data">
+  <ng-container *erzLet="{ tests: ownTests$ | async } as data">
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <erz-tests-add-header [tests]="data.course.Tests"></erz-tests-add-header>
+      <erz-tests-add-header [tests]="data.tests"></erz-tests-add-header>
 
-      <ng-container *ngIf="data.course.Tests?.length > 0; else addHint">
+      <ng-container *ngIf="data.tests?.length > 0; else addHint">
+        <div *ngFor="let test of data.tests" class="py-3">
+          {{ test.Designation }}
+        </div>
       </ng-container>
       <ng-template #addHint>
         <p class="py-3">{{ 'tests.add.hint' | translate }}</p>
