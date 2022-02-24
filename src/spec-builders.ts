@@ -478,7 +478,7 @@ export function buildTest(
     MaxPointsAdjusted: 0,
     IsPublished: false,
     IsOwner: true,
-    // Owner: null,
+    Owner: null,
     Creation: '2022-02-14T16:58:18.89',
     GradingScaleId: 1106,
     GradingScale: 'Zehntelnoten bes. disp. keine Note',

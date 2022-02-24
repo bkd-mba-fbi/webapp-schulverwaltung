@@ -26,7 +26,7 @@ const Test = t.type({
   MaxPointsAdjusted: Option(t.number),
   IsPublished: t.boolean,
   IsOwner: t.boolean,
-  // Owner: null,
+  Owner: Option(t.string),
   Creation: t.string,
   GradingScaleId: t.number,
   GradingScale: t.string,

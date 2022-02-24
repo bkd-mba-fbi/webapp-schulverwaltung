@@ -11,6 +11,7 @@ import { TestEditGradesComponent } from './components/test-edit-grades/test-edit
 import { GradeComponent } from './components/grade/grade.component';
 import { TestsAddComponent } from './components/tests-add/tests-add.component';
 import { TestsAddHeaderComponent } from './components/tests-add-header/tests-add-header.component';
+import { TestsAddEntryComponent } from './components/tests-add-entry/tests-add-entry.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { TestsAddHeaderComponent } from './components/tests-add-header/tests-add
     TestEditGradesComponent,
     TestsAddComponent,
     TestsAddHeaderComponent,
+    TestsAddEntryComponent,
     GradeComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],
