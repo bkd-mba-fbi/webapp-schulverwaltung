@@ -3,23 +3,8 @@
 >
   <ng-container *erzLet="{ course: course$ | async } as data">
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <div class="header">
-        <div class="d-flex justify-content-between">
-          <a [routerLink]="['..']" class="back btn btn-link">
-            <div class="d-flex align-items-center">
-              <i class="material-icons">navigate_before</i>
-              <span class="ml-3">{{ 'tests.add.title' | translate }}</span>
-            </div>
-          </a>
-          <a class="add btn btn-primary">
-            <i class="material-icons">add</i>
-          </a>
-        </div>
-        <p *ngIf="data.course.Tests?.length > 0" class="mb-0 mt-3">
-          {{ 'tests.add.grading-scale' | translate }}:
-          {{ data.course.Tests[0].GradingScale }}
-        </p>
-      </div>
+      <erz-tests-add-header [tests]="data.course.Tests"></erz-tests-add-header>
+
       <ng-container *ngIf="data.course.Tests?.length > 0; else addHint">
       </ng-container>
       <ng-template #addHint>
