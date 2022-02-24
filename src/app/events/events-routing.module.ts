@@ -20,10 +20,12 @@ const routes: Routes = [
   {
     path: ':id/tests',
     component: TestsComponent,
-    children: [
-      { path: '', component: TestsListComponent },
-      { path: 'add', component: TestsAddComponent }, // TODO route/component naming?
-    ],
+    children: [{ path: '', component: TestsListComponent }],
+  },
+  {
+    path: ':id/tests/add', // TODO route/component naming?
+    component: TestsComponent,
+    children: [{ path: '', component: TestsAddComponent }],
   },
 ];
 
