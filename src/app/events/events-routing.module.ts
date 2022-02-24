@@ -18,14 +18,18 @@ const routes: Routes = [
     ],
   },
   {
-    path: ':id/tests',
+    path: '',
     component: TestsComponent,
-    children: [{ path: '', component: TestsListComponent }],
-  },
-  {
-    path: ':id/tests/add', // TODO route/component naming?
-    component: TestsComponent,
-    children: [{ path: '', component: TestsAddComponent }],
+    children: [
+      {
+        path: ':id/tests',
+        component: TestsListComponent,
+      },
+      {
+        path: ':id/tests/add', // TODO route/component naming?
+        component: TestsAddComponent,
+      },
+    ],
   },
 ];
 
