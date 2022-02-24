@@ -19,7 +19,7 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .add {
-    margin-right: $spacer;
+  .header {
+    padding: 0 $spacer $spacer $spacer;
   }
 }
