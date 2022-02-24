@@ -1,10 +1,18 @@
+<div class="d-flex text-justify justify-content-start">
+  <p class="d-flex p-3 m-2 filter-hover" (click)="filterOwnedTests()">
+    Meine Tests
+  </p>
+  <p class="d-flex p-3 m-2 filter-hover" (click)="displayAllTests()">
+    Alle Tests
+  </p>
+</div>
 <table class="table table-hover">
   <thead>
     <tr>
       <th>Name</th>
       <th>Note</th>
       <th class="border-right">Mittelwert</th>
-      <th *ngFor="let test of course.Tests">
+      <th *ngFor="let test of displayTests">
         {{ test.Designation }}
       </th>
     </tr>

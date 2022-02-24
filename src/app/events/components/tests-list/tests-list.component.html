@@ -19,14 +19,6 @@
           [allowEmpty]="false"
           (valueChange)="testSelected($event)"
         ></erz-select>
-        <ng-container>
-          <a class="edit btn btn-primary mr-2 my-2">
-            <p>Alle Tests</p>
-          </a>
-          <a class="edit btn btn-secondary mr-2 my-2">
-            <p>Meine Tests</p>
-          </a>
-        </ng-container>
         <erz-test-edit-grades [course]="data.course"></erz-test-edit-grades>
       </ng-container>
     </ng-container>

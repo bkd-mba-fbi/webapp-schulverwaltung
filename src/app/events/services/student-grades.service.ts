@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Course } from 'src/app/shared/models/course.model';
 import { Student } from 'src/app/shared/models/student.model';
 import { Test } from 'src/app/shared/models/test.model';
 
@@ -9,18 +8,13 @@ import { Test } from 'src/app/shared/models/test.model';
 export class StudentGradesService {
   constructor() {}
 
-  transform(course: Course) {
-    const students = course.ParticipatingStudents ?? [];
-    const tests = course.Tests ?? [];
-
-    const studentsWithGrades = students?.map((student) => {
+  transform(students: Student[], tests: Test[]) {
+    return students?.map((student) => {
       return {
         student: student,
         grades: this.getGrades(student, tests),
       };
     });
-
-    return studentsWithGrades;
   }
 
   private getGrades(student: Student, tests: Test[]) {

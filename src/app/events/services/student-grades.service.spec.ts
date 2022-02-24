@@ -33,7 +33,10 @@ describe('StudentGradesService', () => {
     );
 
     // when
-    const results = service.transform(course);
+    const results = service.transform(
+      course.ParticipatingStudents,
+      course.Tests
+    );
 
     // then
     expect(results).toBeDefined();
@@ -73,7 +76,10 @@ describe('StudentGradesService', () => {
     course.Tests = [1, 2, 3].map((id) => buildTest(course.Id, id, []));
 
     // when
-    const results = service.transform(course);
+    const results = service.transform(
+      course.ParticipatingStudents,
+      course.Tests
+    );
 
     // then
     expect(
@@ -97,7 +103,10 @@ describe('StudentGradesService', () => {
     );
 
     // when
-    const results = service.transform(course);
+    const results = service.transform(
+      course.ParticipatingStudents,
+      course.Tests
+    );
     // then
 
     expect(
@@ -124,7 +133,10 @@ describe('StudentGradesService', () => {
       buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : [])
     );
     // when
-    const results = service.transform(course);
+    const results = service.transform(
+      course.ParticipatingStudents,
+      course.Tests
+    );
 
     // then
 
