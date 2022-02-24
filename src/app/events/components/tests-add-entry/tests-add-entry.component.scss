@@ -1,0 +1,14 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+:host {
+  display: flex;
+  padding: $spacer 0;
+  border-bottom: 1px solid $border-color;
+}
+
+@include media-breakpoint-down(sm) {
+  :host {
+    flex-direction: column;
+  }
+}
