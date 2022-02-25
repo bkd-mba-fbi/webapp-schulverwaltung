@@ -26,4 +26,37 @@ describe('TestsAddEntryComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('shoud get the factor', () => {
+    component.test.Weight = 50;
+    component.test.WeightPercent = 12.5;
+
+    expect(component.factor).toBe('tests.add.factor 50 (12.5%)');
+  });
+
+  it('shoud get the grade type - grades', () => {
+    component.test.IsPointGrading = false;
+    component.test.MaxPoints = null;
+    component.test.MaxPointsAdjusted = null;
+
+    expect(component.gradeType).toBe('tests.add.grades');
+  });
+
+  it('shoud get the grade type - points', () => {
+    component.test.IsPointGrading = true;
+    component.test.MaxPoints = 30;
+    component.test.MaxPointsAdjusted = null;
+
+    expect(component.gradeType).toBe('tests.add.points (30)');
+  });
+
+  it('shoud get the grade type - points adjusted', () => {
+    component.test.IsPointGrading = true;
+    component.test.MaxPoints = 20.5;
+    component.test.MaxPointsAdjusted = 18;
+
+    expect(component.gradeType).toBe(
+      'tests.add.points (18, tests.add.adjusted)'
+    );
+  });
 });

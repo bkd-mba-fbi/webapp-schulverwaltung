@@ -1,7 +1,4 @@
 <div>{{ test.Designation }}</div>
-<div>{{ test.Date }}</div>
-<div>{{ test.Weight }} {{ test.WeightPercent }}</div>
-<div>
-  {{ test.IsPointGrading }} {{ test.MaxPoints }} {{ test.MaxPointsAdjusted }}
-</div>
-<div>{{ test.Owner || '' }}</div>
+<div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+<div>{{ factor }}, {{ gradeType }}</div>
+<div>{{ test.IsPublished }}</div>
