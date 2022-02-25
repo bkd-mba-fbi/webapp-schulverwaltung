@@ -6,9 +6,10 @@
       <erz-tests-add-header [tests]="data.tests"></erz-tests-add-header>
 
       <ng-container *ngIf="data.tests?.length > 0; else addHint">
-        <ng-container *ngFor="let test of data.tests">
-          <erz-tests-add-entry [test]="test"></erz-tests-add-entry>
-        </ng-container>
+        <erz-tests-add-entry
+          *ngFor="let test of data.tests"
+          [test]="test"
+        ></erz-tests-add-entry>
       </ng-container>
       <ng-template #addHint>
         <p class="py-3">{{ 'tests.add.hint' | translate }}</p>

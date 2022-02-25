@@ -2,14 +2,41 @@
 @import "node_modules/bootstrap/scss/mixins";
 
 :host {
-  display: flex;
+  display: grid;
+  grid-template-areas: "designation date factor published edit";
+  grid-template-columns: 3fr 1fr 3fr 1fr min-content;
   padding: $spacer 0;
   border-bottom: 1px solid $border-color;
 }
 
+.designation {
+  grid-area: designation;
+}
+
+.date {
+  grid-area: date;
+}
+
+.factor {
+  grid-area: factor;
+}
+
+.published {
+  grid-area: published;
+}
+
+.edit {
+  grid-area: edit;
+}
+
 @include media-breakpoint-down(sm) {
   :host {
-    flex-direction: column;
+    grid-template-areas:
+      "designation edit"
+      "date date"
+      "factor factor"
+      "published published";
+    grid-template-columns: 1fr min-content;
     padding: $spacer;
   }
 }
