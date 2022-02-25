@@ -23,7 +23,7 @@ export class TestEditGradesComponent implements OnInit {
 
   filterOwnedTests() {
     let ownedTests: Test[] = [];
-    this.course.Tests?.map((test) => {
+    this.course.Tests?.map((test: Test) => {
       if (test.IsOwner === true) {
         ownedTests.push(test);
       }
@@ -44,6 +44,5 @@ export class TestEditGradesComponent implements OnInit {
       this.course.Tests ?? []
     );
     this.isFiltered = false;
-    console.log(this.studentGrades);
   }
 }
