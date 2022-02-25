@@ -1,0 +1,14 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.entry-header {
+  display: grid;
+  grid-template-areas: "designation date weight type state edit";
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr min-content;
+}
+
+@include media-breakpoint-down(sm) {
+  .entry-header {
+    display: none;
+  }
+}
