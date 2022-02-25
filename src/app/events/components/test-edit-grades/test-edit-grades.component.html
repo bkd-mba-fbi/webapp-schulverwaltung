@@ -26,8 +26,28 @@
       <th>Name</th>
       <th>Note</th>
       <th class="border-right">Mittelwert</th>
-      <th *ngFor="let test of displayTests">
+      <th
+        *ngFor="let test of displayTests"
+        container="body"
+        [ngbTooltip]="tooltipTests"
+        tooltipClass="tooltip-template"
+      >
         {{ test.Designation }}
+
+        <ng-template #tooltipTests>
+          <div>{{ test.Designation }}</div>
+          <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+          <div>{{ factor(test) }}, {{ gradeType(test) }}</div>
+
+          <div *ngIf="test.IsPublished; else notPublished">
+            <i class="material-icons">lock</i>
+            {{ 'tests.published' | translate }}
+          </div>
+          <ng-template #notPublished>
+            <i class="material-icons">lock_open</i>
+            {{ 'tests.not-published' | translate }}
+          </ng-template>
+        </ng-template>
       </th>
     </tr>
   </thead>

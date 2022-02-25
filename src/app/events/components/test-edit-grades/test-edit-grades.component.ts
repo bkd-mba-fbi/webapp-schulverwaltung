@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/shared/models/course.model';
 import { StudentGradesService } from '../../services/student-grades.service';
 import { Test } from '../../../shared/models/test.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -15,10 +16,31 @@ export class TestEditGradesComponent implements OnInit {
   displayTests: any;
   isFiltered: boolean;
 
-  constructor(private studentGradesService: StudentGradesService) {}
+  constructor(
+    private studentGradesService: StudentGradesService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.resetFilter();
+  }
+
+  factor(test: Test): string {
+    return `${this.translateService.instant('tests.add.factor')} ${
+      test.Weight
+    } (${test.WeightPercent}%)`;
+  }
+
+  gradeType(test: Test): string {
+    const points = test.MaxPointsAdjusted
+      ? `${test.MaxPointsAdjusted}, ${this.translateService.instant(
+          'tests.add.adjusted'
+        )}`
+      : test.MaxPoints;
+
+    return test.IsPointGrading
+      ? `${this.translateService.instant('tests.add.points')} (${points})`
+      : this.translateService.instant('tests.add.grades');
   }
 
   filterOwnedTests() {

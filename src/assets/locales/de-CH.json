@@ -209,7 +209,18 @@
   },
   "tests": {
     "title": "Tests",
-    "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten."
+    "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten.",
+    "published": "Freigegeben",
+    "not-published": "Nicht freigegeben",
+    "add": {
+      "grading-scale": "Notenskala",
+      "title": "Tests definieren",
+      "hint": "Erfassen Sie Tests mit Klick auf +",
+      "factor": "Faktor",
+      "points": "Typ Punkte",
+      "grades": "Typ Noten",
+      "adjusted": "korrigiert"
+    }
   },
   "my-absences": {
     "title": "Meine Absenzen",
