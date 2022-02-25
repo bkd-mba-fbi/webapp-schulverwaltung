@@ -10,5 +10,6 @@
 @include media-breakpoint-down(sm) {
   :host {
     flex-direction: column;
+    padding: $spacer;
   }
 }
