@@ -12,7 +12,7 @@ export class TestsAddEntryComponent {
 
   constructor(private translate: TranslateService) {}
 
-  get gradeType(): string {
+  get gradingType(): string {
     const points = this.test.MaxPointsAdjusted
       ? `${this.test.MaxPointsAdjusted}, ${this.translate.instant(
           'tests.add.adjusted'
@@ -20,11 +20,11 @@ export class TestsAddEntryComponent {
       : this.test.MaxPoints;
 
     return this.test.IsPointGrading
-      ? `${this.translate.instant('tests.add.points')} (${points})`
-      : this.translate.instant('tests.add.grades');
+      ? `${this.translate.instant('tests.add.type-points')} (${points})`
+      : this.translate.instant('tests.add.type-grades');
   }
 
-  get factor(): string {
+  get weight(): string {
     return `${this.translate.instant('tests.add.factor')} ${
       this.test.Weight
     } (${this.test.WeightPercent}%)`;

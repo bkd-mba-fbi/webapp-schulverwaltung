@@ -223,9 +223,14 @@
       "grading-scale": "Notenskala",
       "title": "Tests definieren",
       "hint": "Erfassen Sie Tests mit Klick auf +",
+      "designation": "Bezeichnung",
+      "date": "Datum",
+      "weight": "Gewichtung",
+      "grading-type": "Typ",
+      "state": "Status",
       "factor": "Faktor",
-      "points": "Typ Punkte",
-      "grades": "Typ Noten",
+      "type-points": "Typ Punkte",
+      "type-grades": "Typ Noten",
       "adjusted": "korrigiert"
     }
   },
