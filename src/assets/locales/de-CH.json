@@ -231,7 +231,9 @@
       "factor": "Faktor",
       "type-points": "Typ Punkte",
       "type-grades": "Typ Noten",
-      "adjusted": "korrigiert"
+      "adjusted": "korrigiert",
+      "published": "Publiziert",
+      "not-published": "In Arbeit"
     }
   },
   "my-absences": {
