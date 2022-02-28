@@ -66,7 +66,7 @@
       <td></td>
       <td class="border-right"></td>
       <td *ngFor="let grade of studentGrade.grades">
-        {{ grade.GradeValue }}
+        {{ grade?.result?.GradeValue }}
       </td>
     </tr>
   </tbody>

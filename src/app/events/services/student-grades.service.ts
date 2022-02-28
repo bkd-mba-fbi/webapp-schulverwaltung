@@ -1,6 +1,22 @@
 import { Injectable } from '@angular/core';
+import { rest } from 'lodash-es';
 import { Student } from 'src/app/shared/models/student.model';
-import { Test } from 'src/app/shared/models/test.model';
+import { Result, Test } from 'src/app/shared/models/test.model';
+
+export type StudentGrade = {
+  student: Student;
+  grades: (NoResult | Grade)[];
+};
+
+export type Grade = {
+  kind: 'grade';
+  result: Result;
+};
+
+export type NoResult = {
+  kind: 'no-result';
+  TestId: number;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +24,7 @@ import { Test } from 'src/app/shared/models/test.model';
 export class StudentGradesService {
   constructor() {}
 
-  transform(students: Student[], tests: Test[]) {
+  transform(students: Student[], tests: Test[]): StudentGrade[] {
     return students?.map((student) => {
       return {
         student: student,
@@ -17,16 +33,28 @@ export class StudentGradesService {
     });
   }
 
-  private getGrades(student: Student, tests: Test[]) {
+  private getGrades(student: Student, tests: Test[]): (Grade | NoResult)[] {
     return tests.map((test) => {
       if (test.Results === undefined || test.Results?.length === 0) {
-        return 'NoResult';
+        return {
+          kind: 'no-result',
+          TestId: test.Id,
+        };
       }
 
-      return (
-        test.Results?.find((result) => result.StudentId === student.Id) ??
-        'NoResult'
+      const result: Result | undefined = test.Results?.find(
+        (result) => result.StudentId === student.Id
       );
+
+      return result !== undefined
+        ? {
+            kind: 'grade',
+            result: result,
+          }
+        : {
+            kind: 'no-result',
+            TestId: test.Id,
+          };
     });
   }
 }

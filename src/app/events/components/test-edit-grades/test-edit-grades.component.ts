@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/shared/models/course.model';
-import { StudentGradesService } from '../../services/student-grades.service';
+import {
+  StudentGrade,
+  StudentGradesService,
+} from '../../services/student-grades.service';
 import { Test } from '../../../shared/models/test.model';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -12,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class TestEditGradesComponent implements OnInit {
   @Input() course: Course;
 
-  studentGrades: any;
+  studentGrades: StudentGrade[];
   displayTests: any;
   isFiltered: boolean;
 

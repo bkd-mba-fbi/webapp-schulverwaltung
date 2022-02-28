@@ -6,7 +6,7 @@ import {
   buildStudent,
   buildTest,
 } from 'src/spec-builders';
-import { StudentGradesService } from './student-grades.service';
+import { StudentGrade, StudentGradesService } from './student-grades.service';
 
 describe('StudentGradesService', () => {
   let service: StudentGradesService;
@@ -33,7 +33,7 @@ describe('StudentGradesService', () => {
     );
 
     // when
-    const results = service.transform(
+    const results: StudentGrade[] = service.transform(
       course.ParticipatingStudents,
       course.Tests
     );
@@ -46,12 +46,18 @@ describe('StudentGradesService', () => {
     expect(results[0].grades.length).toBe(3);
     expect(results[1].grades.length).toBe(3);
 
-    expect(results[0].grades.some((grade) => grade === 'NoResult')).toBeFalsy();
-    expect(results[1].grades.some((grade) => grade === 'NoResult')).toBeFalsy();
+    expect(
+      results[0].grades.some((grade) => grade.kind === 'no-result')
+    ).toBeFalsy();
+    expect(
+      results[1].grades.some((grade) => grade.kind === 'no-result')
+    ).toBeFalsy();
 
     expect(
       results[0].grades.map((grade) =>
-        grade !== 'NoResult' ? [grade.TestId, grade.StudentId] : ''
+        grade.kind !== 'no-result'
+          ? [grade.result.TestId, grade.result.StudentId]
+          : ''
       )
     ).toEqual([
       [1, 100],
@@ -60,7 +66,9 @@ describe('StudentGradesService', () => {
     ]);
     expect(
       results[1].grades.map((grade) =>
-        grade !== 'NoResult' ? [grade.TestId, grade.StudentId] : ''
+        grade.kind !== 'no-result'
+          ? [grade.result.TestId, grade.result.StudentId]
+          : ''
       )
     ).toEqual([
       [1, 200],
@@ -83,10 +91,10 @@ describe('StudentGradesService', () => {
 
     // then
     expect(
-      results[0].grades.every((grade) => grade === 'NoResult')
+      results[0].grades.every((grade) => grade.kind === 'no-result')
     ).toBeTruthy();
     expect(
-      results[1].grades.every((grade) => grade === 'NoResult')
+      results[1].grades.every((grade) => grade.kind === 'no-result')
     ).toBeTruthy();
   });
 
@@ -111,7 +119,9 @@ describe('StudentGradesService', () => {
 
     expect(
       results[0].grades.map((grade) =>
-        grade !== 'NoResult' ? [grade.TestId, grade.StudentId] : 'NoResult'
+        grade.kind !== 'no-result'
+          ? [grade.result.TestId, grade.result.StudentId]
+          : 'no-result'
       )
     ).toEqual([
       [1, 100],
@@ -120,12 +130,14 @@ describe('StudentGradesService', () => {
     ]);
     expect(
       results[1].grades.map((grade) =>
-        grade !== 'NoResult' ? [grade.TestId, grade.StudentId] : 'NoResult'
+        grade.kind !== 'no-result'
+          ? [grade.result.TestId, grade.result.StudentId]
+          : 'no-result'
       )
-    ).toEqual([`NoResult`, `NoResult`, `NoResult`]);
+    ).toEqual([`no-result`, `no-result`, `no-result`]);
   });
 
-  it('should fill up holes with missing grades as NoResult', () => {
+  it('should fill up holes with missing grades as no-result', () => {
     // given
     const course = buildCourse(123);
     course.ParticipatingStudents = [buildStudent(99)];
@@ -144,8 +156,10 @@ describe('StudentGradesService', () => {
     expect(results[0].grades.length).toBe(3);
     expect(
       results[0].grades.map((grade) =>
-        grade !== 'NoResult' ? [grade.TestId, grade.StudentId] : 'NoResult'
+        grade.kind !== 'no-result'
+          ? [grade.result.TestId, grade.result.StudentId]
+          : 'no-result'
       )
-    ).toEqual(['NoResult', [2, 99], 'NoResult']);
+    ).toEqual(['no-result', [2, 99], 'no-result']);
   });
 });
