@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TestEditGradesComponent implements OnInit {
   @Input() course: Course;
+  @Input() selectedTest: Test;
 
   studentGrades: StudentGrade[];
   displayTests: any;

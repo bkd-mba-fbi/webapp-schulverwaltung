@@ -35,6 +35,7 @@
         container="body"
         [ngbTooltip]="tooltipTests"
         tooltipClass="tooltip-template"
+        [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
       >
         {{ test.Designation }}
 
