@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
-import { rest } from 'lodash-es';
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 
 export type StudentGrade = {
   student: Student;
-  grades: (NoResult | Grade)[];
+  grades: GradeOrNoResult[];
 };
 
 export type Grade = {
   kind: 'grade';
   result: Result;
+  test: Test;
 };
 
 export type NoResult = {
   kind: 'no-result';
   TestId: number;
 };
+
+export type GradeOrNoResult = Grade | NoResult;
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +35,7 @@ export class StudentGradesService {
     });
   }
 
-  private getGrades(student: Student, tests: Test[]): (Grade | NoResult)[] {
+  private getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
     return tests.map((test) => {
       if (test.Results === undefined || test.Results?.length === 0) {
         return {
@@ -50,6 +52,7 @@ export class StudentGradesService {
         ? {
             kind: 'grade',
             result: result,
+            test: test,
           }
         : {
             kind: 'no-result',
