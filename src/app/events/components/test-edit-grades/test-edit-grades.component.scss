@@ -6,31 +6,37 @@
   background-color: lightgray;
 }
 
-.primary-column-width {
-  width: 15%;
-}
-
-.secondary-column-width {
-  width: 5%;
-}
-
 table th.grade.selected,
 table td.grade.selected {
   display: table-cell !important;
 }
 
-.mobile {
+table th.grade,
+table td.grade,
+.desktop {
   display: none !important;
 }
 
-@media (max-width: 750px) {
+.mobile {
+  display: block !important;
+}
+
+@media (min-width: 750px) {
   table th.grade,
   table td.grade,
   .desktop {
-    display: none !important;
+    display: table-cell !important;
   }
 
   .mobile {
-    display: block !important;
+    display: none !important;
+  }
+
+  .primary-column-width {
+    width: 15%;
+  }
+
+  .secondary-column-width {
+    width: 5%;
   }
 }
