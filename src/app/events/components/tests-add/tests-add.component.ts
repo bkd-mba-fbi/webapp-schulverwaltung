@@ -9,18 +9,21 @@ import { TestStateService } from '../../services/test-state.service';
   templateUrl: './tests-add.component.html',
   styleUrls: ['./tests-add.component.scss'],
 })
-export class TestsAddComponent implements OnInit {
-  ownTests$: Observable<Maybe<ReadonlyArray<Test>>>;
+export class TestsAddComponent {
+  private course$ = this.route.paramMap.pipe(
+    switchMap((params) => {
+      const id = Number(params.get('id'));
+      return this.state.getCourse(id);
+    })
+  );
+
+  tests$ = this.course$.pipe(
+    map((course) =>
+      course.Tests?.filter((test) => test.IsOwner).sort(
+        (a, b) => b.Date.getTime() - a.Date.getTime()
+      )
+    )
+  );
 
   constructor(public state: TestStateService, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.ownTests$ = this.route.paramMap.pipe(
-      switchMap((params) => {
-        const id = Number(params.get('id'));
-        return this.state.getCourse(id);
-      }),
-      map((course) => course.Tests?.filter((test) => test.IsOwner))
-    );
-  }
 }
