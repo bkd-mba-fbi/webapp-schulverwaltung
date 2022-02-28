@@ -190,8 +190,8 @@
   "events": {
     "title": "Anlassliste",
     "no-events": "Keine Anlässe vorhanden",
-    "search": "Suchen",
-    "search-by": "Suchen...",
+    "search": "Anlass suchen",
+    "search-by": "Bezeichnung suchen...",
     "designation": "Bezeichnung",
     "date": "Datum",
     "registrations": "Anmeldungen",
@@ -233,7 +233,9 @@
       "type-grades": "Typ Noten",
       "adjusted": "korrigiert",
       "published": "Publiziert",
-      "not-published": "In Arbeit"
+      "not-published": "In Arbeit",
+      "search": "Test suchen",
+      "search-by": "Bezeichnung suchen..."
     }
   },
   "my-absences": {

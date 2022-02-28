@@ -72,7 +72,7 @@ describe('EventsStateService', () => {
     studyClassEvents = [
       {
         id: 5,
-        designation: '22a',
+        Designation: '22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=5',
         studentCount: 0,
         state: EventState.Rating,
@@ -82,7 +82,7 @@ describe('EventsStateService', () => {
 
     const courseEvent: Event = {
       id: 1,
-      designation: 'Physik-22a',
+      Designation: 'Physik-22a',
       detailLink: 'link-to-event-detail-module.aspx?IDAnlass=1',
       dateFrom: new Date('2022-02-09T00:00:00'),
       dateTo: new Date('2022-06-30T00:00:00'),
@@ -96,7 +96,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 2,
-        designation: 'Bio-22a',
+        Designation: 'Bio-22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=2',
         state: EventState.RatingUntil,
         ratingUntil: new Date(2022, 5, 3),
@@ -105,7 +105,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 4,
-        designation: 'Franz-22a',
+        Designation: 'Franz-22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
         state: EventState.Tests,
       },
@@ -113,7 +113,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 3,
-        designation: 'Zeichnen-22a',
+        Designation: 'Zeichnen-22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
         state: EventState.IntermediateRating,
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',
