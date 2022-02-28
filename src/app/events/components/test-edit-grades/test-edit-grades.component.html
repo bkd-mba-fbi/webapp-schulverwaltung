@@ -23,9 +23,13 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>{{ 'tests.student.name' | translate }}</th>
-      <th>{{ 'tests.grade' | translate }}</th>
-      <th class="border-right">{{ 'tests.average' | translate }}</th>
+      <th class="primary-column-width">
+        {{ 'tests.student.name' | translate }}
+      </th>
+      <th class="secondary-column-width">{{ 'tests.grade' | translate }}</th>
+      <th class="secondary-column-width border-right">
+        {{ 'tests.average' | translate }}
+      </th>
       <th
         *ngFor="let test of displayTests"
         container="body"
