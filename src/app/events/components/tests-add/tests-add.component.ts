@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
-import { Test } from 'src/app/shared/models/test.model';
+import { spread } from 'lodash-es';
+import { combineLatest, map, switchMap } from 'rxjs';
+import { searchEntries } from 'src/app/shared/utils/search';
 import { TestStateService } from '../../services/test-state.service';
 
 @Component({
@@ -17,12 +18,16 @@ export class TestsAddComponent {
     })
   );
 
-  tests$ = this.course$.pipe(
+  private tests$ = this.course$.pipe(
     map((course) =>
       course.Tests?.filter((test) => test.IsOwner).sort(
         (a, b) => b.Date.getTime() - a.Date.getTime()
       )
     )
+  );
+
+  filteredTests$ = combineLatest([this.tests$, this.state.search$]).pipe(
+    map(spread(searchEntries))
   );
 
   constructor(public state: TestStateService, private route: ActivatedRoute) {}

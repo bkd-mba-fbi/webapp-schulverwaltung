@@ -9,7 +9,16 @@
   border-bottom: 2px solid $border-color;
 }
 
+.search {
+  padding: $spacer 0;
+  max-width: 500px;
+}
+
 @include media-breakpoint-down(sm) {
+  .search {
+    padding: $spacer;
+  }
+
   .entry-header {
     display: none;
   }

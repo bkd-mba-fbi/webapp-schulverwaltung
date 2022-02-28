@@ -5,9 +5,8 @@
 <div class="weight-type">{{ weight }}, {{ gradingType }}</div>
 <div class="state">
   {{
-    test.IsPublished
-      ? ('tests.add.published' | translate)
-      : ('tests.add.not-published' | translate)
+    (test.IsPublished ? 'tests.add.published' : 'tests.add.not-published')
+      | translate
   }}
 </div>
 <div class="edit">

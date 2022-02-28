@@ -20,7 +20,7 @@ export enum EventState {
 type LinkType = 'evaluation' | 'eventdetail';
 export interface Event {
   id: number;
-  designation: string;
+  Designation: string;
   detailLink: string;
   dateFrom?: Date;
   dateTo?: Date;
@@ -71,7 +71,7 @@ export class EventsStateService {
     return [
       ...this.createFromCourses(courses),
       ...this.createFromStudyClasses(studyClasses),
-    ].sort((a, b) => a.designation.localeCompare(b.designation));
+    ].sort((a, b) => a.Designation.localeCompare(b.Designation));
   }
 
   private createFromStudyClasses(
@@ -79,7 +79,7 @@ export class EventsStateService {
   ): ReadonlyArray<Event> {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
-      designation: studyClass.Designation,
+      Designation: studyClass.Designation,
       detailLink: this.getLink(studyClass, 'eventdetail'),
       studentCount: studyClass.StudentCount,
       state: EventState.Rating,
@@ -95,7 +95,7 @@ export class EventsStateService {
 
       return {
         id: course.Id,
-        designation: this.getDesignation(course),
+        Designation: this.getDesignation(course),
         detailLink: this.getLink(course, 'eventdetail'),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,

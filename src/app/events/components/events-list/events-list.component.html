@@ -7,6 +7,7 @@
     [value]="state.search$ | async"
     [placeholder]="'events.search-by' | translate"
     [label]="'events.search' | translate"
+    [disabled]="!data.events"
     (valueChange)="state.search$.next($event)"
   ></erz-resettable-input>
 
@@ -22,7 +23,7 @@
       </div>
       <div class="event-entry" *ngFor="let event of data.events">
         <div class="designation">
-          <a [href]="event.detailLink">{{ event.designation }}</a>
+          <a [href]="event.detailLink">{{ event.Designation }}</a>
         </div>
         <div class="date">
           <span *ngIf="event.dateFrom && event.dateTo"
