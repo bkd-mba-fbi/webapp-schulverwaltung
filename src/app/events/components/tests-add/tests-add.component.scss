@@ -4,7 +4,9 @@
 .entry-header {
   display: grid;
   grid-template-areas: "designation date weight type state edit";
-  grid-template-columns: 3fr 1fr 1fr 1fr 1fr min-content;
+  grid-template-columns: 3fr 2fr 2fr 2fr 2fr 0.5fr;
+  padding: $spacer 0;
+  border-bottom: 2px solid $border-color;
 }
 
 @include media-breakpoint-down(sm) {

@@ -3,5 +3,15 @@
 <div class="weight">{{ weight }}</div>
 <div class="type">{{ gradingType }}</div>
 <div class="weight-type">{{ weight }}, {{ gradingType }}</div>
-<div class="state">{{ test.IsPublished }}</div>
-<div class="edit">edit</div>
+<div class="state">
+  {{
+    test.IsPublished
+      ? ('tests.add.published' | translate)
+      : ('tests.add.not-published' | translate)
+  }}
+</div>
+<div class="edit">
+  <button type="button" class="btn btn-primary">
+    <i class="material-icons">edit</i>
+  </button>
+</div>
