@@ -14,6 +14,7 @@
       <erz-tests-header [course]="data.course"></erz-tests-header>
       <ng-container *ngIf="data.tests.length > 0; else noTests">
         <erz-select
+          class="tests-dropdown"
           [options]="data.testOptions"
           [value]="data.selectedTestId"
           [allowEmpty]="false"
