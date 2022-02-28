@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Option } from './common-types';
+import { LocalDateTimeFromString, Option } from './common-types';
 
 const Result = t.type({
   TestId: t.number,
@@ -17,7 +17,7 @@ export { Result };
 const Test = t.type({
   Id: t.number,
   CourseId: t.number,
-  Date: t.string,
+  Date: LocalDateTimeFromString,
   Designation: t.string,
   Weight: t.number,
   WeightPercent: t.number,

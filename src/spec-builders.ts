@@ -469,7 +469,7 @@ export function buildTest(
   return {
     Id: testId,
     CourseId: courseId,
-    Date: '2022-02-09T00:00:00',
+    Date: new Date('2022-02-09T00:00:00'),
     Designation: `Test Designation for test with id ${testId}`,
     Weight: 100,
     WeightPercent: 100,
