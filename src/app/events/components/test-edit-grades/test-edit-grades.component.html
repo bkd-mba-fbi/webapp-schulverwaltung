@@ -1,6 +1,6 @@
 <div class="d-flex text-justify justify-content-start mt-3 mb-2">
   <p
-    class="d-flex btn"
+    class="d-flex btn desktop"
     (click)="resetFilter()"
     [ngClass]="{
       'btn-primary': !isFiltered,
@@ -10,7 +10,7 @@
     {{ 'tests.all-tests' | translate }}
   </p>
   <p
-    class="d-flex btn ml-3"
+    class="d-flex btn ml-3 desktop"
     (click)="filterOwnedTests()"
     [ngClass]="{
       'btn-primary': isFiltered,
@@ -26,8 +26,8 @@
       <th class="primary-column-width">
         {{ 'tests.student.name' | translate }}
       </th>
-      <th class="secondary-column-width">{{ 'tests.grade' | translate }}</th>
-      <th class="secondary-column-width border-right">
+      <th class="secondary-column-width desktop">{{ 'tests.grade' | translate }}</th>
+      <th class="secondary-column-width border-right desktop">
         {{ 'tests.average' | translate }}
       </th>
       <th
@@ -35,9 +35,11 @@
         container="body"
         [ngbTooltip]="tooltipTests"
         tooltipClass="tooltip-template"
+        class="grade"
         [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
       >
-        {{ test.Designation }}
+        <span class="desktop">{{ test.Designation }}</span>
+        <span class="mobile">{{ 'tests.grade' | translate }}</span>
 
         <ng-template #tooltipTests>
           <div class="d-flex flex-column align-items-start">
@@ -63,11 +65,23 @@
   </thead>
   <tbody>
     <tr *ngFor="let studentGrade of studentGrades">
-      <td>{{ studentGrade.student.FullName }}</td>
-      <td></td>
-      <td class="border-right"></td>
-      <td *ngFor="let grade of studentGrade.grades">
-        {{ grade?.result?.GradeValue }}
+      <td>
+        {{ studentGrade.student.FullName }}
+        <p class="mobile">Mittelwert: 5.15</p>
+      </td>
+      <td class="grade"></td>
+      <td class="grade border-right"></td>
+      <td
+        *ngFor="let grade of studentGrade.grades"
+        class="grade"
+        [ngClass]="
+          grade.result?.TestId === selectedTest.Id ||
+          grade.TestId === selectedTest.Id
+            ? 'selected'
+            : ''
+        "
+      >
+        {{ grade.result?.GradeValue }}
       </td>
     </tr>
   </tbody>

@@ -13,3 +13,24 @@
 .secondary-column-width {
   width: 5%;
 }
+
+table th.grade.selected,
+table td.grade.selected {
+  display: table-cell !important;
+}
+
+.mobile {
+  display: none !important;
+}
+
+@media (max-width: 750px) {
+  table th.grade,
+  table td.grade,
+  .desktop {
+    display: none !important;
+  }
+
+  .mobile {
+    display: block !important;
+  }
+}
