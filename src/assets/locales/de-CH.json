@@ -212,6 +212,13 @@
     "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten.",
     "published": "Freigegeben",
     "not-published": "Nicht freigegeben",
+    "all-tests": "Alle Tests",
+    "owned-tests": "Meine Tests",
+    "grade": "Note",
+    "average": "Mittelwert",
+    "student": {
+      "name": "Name"
+    },
     "add": {
       "grading-scale": "Notenskala",
       "title": "Tests definieren",
