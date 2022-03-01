@@ -9,12 +9,12 @@ import { Subject } from 'rxjs';
 
 import {
   OpenAbsencesService,
-  SortCriteria,
   PrimarySortKey,
 } from '../../services/open-absences.service';
 import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { SortCriteria } from 'src/app/shared/utils/sort';
 
 @Component({
   selector: 'erz-open-absences-list',
@@ -52,7 +52,7 @@ export class OpenAbsencesListComponent
   }
 
   getSortDirectionCharacter(
-    sortCriteria: SortCriteria,
+    sortCriteria: SortCriteria<PrimarySortKey>,
     sortKey: PrimarySortKey
   ): string {
     if (sortCriteria.primarySortKey !== sortKey) {

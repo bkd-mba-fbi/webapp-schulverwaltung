@@ -2,9 +2,10 @@ import { format } from 'date-fns';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
 import { lessonsComparator } from 'src/app/presence-control/utils/lessons';
-import { SortCriteria } from '../services/open-absences.service';
 import { UnreachableError } from 'src/app/shared/utils/error';
 import { uniqBy } from 'lodash-es';
+import { SortCriteria } from 'src/app/shared/utils/sort';
+import { PrimarySortKey } from '../services/open-absences.service';
 
 export function buildOpenAbsencesEntries(
   absences: ReadonlyArray<LessonPresence>
@@ -25,7 +26,7 @@ export function buildOpenAbsencesEntries(
 
 export function sortOpenAbsencesEntries(
   entries: ReadonlyArray<OpenAbsencesEntry>,
-  sortCriteria: SortCriteria
+  sortCriteria: SortCriteria<PrimarySortKey>
 ): ReadonlyArray<OpenAbsencesEntry> {
   return [...entries].sort(getOpenAbsencesComparator(sortCriteria));
 }
@@ -62,7 +63,7 @@ export function mergeUniqueLessonPresences(
 }
 
 function getOpenAbsencesComparator(
-  sortCriteria: SortCriteria
+  sortCriteria: SortCriteria<PrimarySortKey>
 ): (a: OpenAbsencesEntry, b: OpenAbsencesEntry) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {

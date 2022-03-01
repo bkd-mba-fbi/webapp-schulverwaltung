@@ -1,34 +1,30 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import {
   BehaviorSubject,
   combineLatest,
+  merge,
   Observable,
   Subject,
-  merge,
 } from 'rxjs';
 import { map, shareReplay, take } from 'rxjs/operators';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
+import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
-import {
-  buildOpenAbsencesEntries,
-  sortOpenAbsencesEntries,
-  removeOpenAbsences,
-} from '../utils/open-absences-entries';
-import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { SortCriteria } from 'src/app/shared/utils/sort';
 import { Person } from '../../shared/models/person.model';
 import { toDesignationDateTimeTypeString } from '../../shared/utils/lesson-presences';
-import { TranslateService } from '@ngx-translate/core';
+import {
+  buildOpenAbsencesEntries,
+  removeOpenAbsences,
+  sortOpenAbsencesEntries,
+} from '../utils/open-absences-entries';
 
 export type PrimarySortKey = 'date' | 'name';
-
-export interface SortCriteria {
-  primarySortKey: PrimarySortKey;
-  ascending: boolean;
-}
 
 @Injectable()
 export class OpenAbsencesService implements IConfirmAbsencesService {
@@ -47,7 +43,9 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     shareReplay(1)
   );
 
-  private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
+  private sortCriteriaSubject$ = new BehaviorSubject<
+    SortCriteria<PrimarySortKey>
+  >({
     primarySortKey: 'date',
     ascending: false,
   });
