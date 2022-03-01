@@ -219,6 +219,10 @@
     "student": {
       "name": "Name"
     },
+    "adjusted": "korrigiert",
+    "type-points": "Typ Punkte",
+    "type-grades": "Typ Noten",
+    "factor": "Faktor",
     "add": {
       "grading-scale": "Notenskala",
       "title": "Tests definieren",
@@ -228,10 +232,6 @@
       "weight": "Gewichtung",
       "grading-type": "Typ",
       "state": "Status",
-      "factor": "Faktor",
-      "type-points": "Typ Punkte",
-      "type-grades": "Typ Noten",
-      "adjusted": "korrigiert",
       "published": "Publiziert",
       "not-published": "In Arbeit",
       "search": "Test suchen",
