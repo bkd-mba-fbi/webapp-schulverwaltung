@@ -1,3 +1,6 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
 .border-right {
   border-right: 2px solid #dee2e6;
 }
@@ -17,6 +20,11 @@ table td.grade,
   display: none !important;
 }
 
+thead tr th {
+  padding-top: $spacer;
+  padding-bottom: $spacer;
+}
+
 .mobile {
   display: block !important;
 }
@@ -26,6 +34,12 @@ table td.grade,
   table td.grade,
   .desktop {
     display: table-cell !important;
+  }
+
+  thead tr th {
+    border-top: none;
+    padding-top: $spacer / 4;
+    padding-bottom: $spacer / 4;
   }
 
   .mobile {
