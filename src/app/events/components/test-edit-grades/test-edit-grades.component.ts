@@ -1,74 +1,46 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Course } from 'src/app/shared/models/course.model';
-import {
-  StudentGrade,
-  StudentGradesService,
-} from '../../services/student-grades.service';
 import { Test } from '../../../shared/models/test.model';
-import { TranslateService } from '@ngx-translate/core';
+import { StudentGradesService } from '../../services/student-grades.service';
+
+type Filter = 'all-tests' | 'my-tests';
 
 @Component({
   selector: 'erz-test-edit-grades',
   templateUrl: './test-edit-grades.component.html',
   styleUrls: ['./test-edit-grades.component.scss'],
 })
-export class TestEditGradesComponent implements OnInit {
+export class TestEditGradesComponent {
   @Input() course: Course;
   @Input() selectedTest: Test;
 
-  studentGrades: StudentGrade[];
-  displayTests: any;
-  isFiltered: boolean;
+  filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
-  constructor(
-    private studentGradesService: StudentGradesService,
-    private translateService: TranslateService
-  ) {}
+  tests$: Observable<Test[] | undefined> = this.filter$.pipe(
+    map((filter) =>
+      this.course.Tests?.filter((test) => {
+        if (filter === 'all-tests') {
+          return true;
+        } else {
+          return test.IsOwner;
+        }
+      })
+    )
+  );
 
-  ngOnInit(): void {
-    this.resetFilter();
-  }
-
-  factor(test: Test): string {
-    return `${this.translateService.instant('tests.add.factor')} ${
-      test.Weight
-    } (${test.WeightPercent}%)`;
-  }
-
-  gradeType(test: Test): string {
-    const points = test.MaxPointsAdjusted
-      ? `${test.MaxPointsAdjusted}, ${this.translateService.instant(
-          'tests.add.adjusted'
-        )}`
-      : test.MaxPoints;
-
-    return test.IsPointGrading
-      ? `${this.translateService.instant('tests.add.points')} (${points})`
-      : this.translateService.instant('tests.add.grades');
-  }
-
-  filterOwnedTests() {
-    let ownedTests: Test[] = [];
-    this.course.Tests?.map((test: Test) => {
-      if (test.IsOwner === true) {
-        ownedTests.push(test);
-      }
-      this.displayTests = ownedTests;
-      this.studentGrades = this.studentGradesService.transform(
+  studentGrades$ = this.tests$.pipe(
+    map((tests) =>
+      this.studentGradesService.transform(
         this.course.ParticipatingStudents ?? [],
-        ownedTests
-      );
-      this.isFiltered = true;
-    });
-  }
+        tests ?? []
+      )
+    )
+  );
 
-  resetFilter() {
-    this.displayTests = this.course.Tests;
+  constructor(private studentGradesService: StudentGradesService) {}
 
-    this.studentGrades = this.studentGradesService.transform(
-      this.course.ParticipatingStudents ?? [],
-      this.course.Tests ?? []
-    );
-    this.isFiltered = false;
+  changeFilter(filter: Filter) {
+    this.filter$.next(filter);
   }
 }

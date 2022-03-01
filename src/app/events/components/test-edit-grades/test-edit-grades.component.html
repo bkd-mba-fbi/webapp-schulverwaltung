@@ -1,92 +1,99 @@
-<div class="d-flex text-justify justify-content-start mt-3 mb-2">
-  <p
-    class="d-flex btn desktop"
-    (click)="resetFilter()"
-    [ngClass]="{
-      'btn-primary': !isFiltered,
-      'btn-outline-primary': isFiltered
-    }"
-  >
-    {{ 'tests.all-tests' | translate }}
-  </p>
-  <p
-    class="d-flex btn ml-3 desktop"
-    (click)="filterOwnedTests()"
-    [ngClass]="{
-      'btn-primary': isFiltered,
-      'btn-outline-primary': !isFiltered
-    }"
-  >
-    {{ 'tests.owned-tests' | translate }}
-  </p>
-</div>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th class="primary-column-width">
-        {{ 'tests.student.name' | translate }}
-      </th>
-      <th class="secondary-column-width desktop">
-        {{ 'tests.grade' | translate }}
-      </th>
-      <th class="secondary-column-width border-right desktop">
-        {{ 'tests.average' | translate }}
-      </th>
-      <th
-        *ngFor="let test of displayTests"
-        container="body"
-        [ngbTooltip]="tooltipTests"
-        tooltipClass="tooltip-template"
-        class="grade"
-        [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
-      >
-        <span class="desktop">{{ test.Designation }}</span>
-        <span class="mobile">{{ 'tests.grade' | translate }}</span>
+<ng-container
+  *erzLet="{
+    tests: tests$ | async,
+    studentGrades: studentGrades$ | async
+  } as data"
+>
+  <div class="d-flex text-justify justify-content-start mt-3 mb-2">
+    <p
+      class="d-flex btn desktop"
+      (click)="changeFilter('all-tests')"
+      [ngClass]="{
+        'btn-primary': (filter$ | async) === 'all-tests',
+        'btn-outline-primary': (filter$ | async) !== 'all-tests'
+      }"
+    >
+      {{ 'tests.all-tests' | translate }}
+    </p>
+    <p
+      class="d-flex btn ml-3 desktop"
+      (click)="changeFilter('my-tests')"
+      [ngClass]="{
+        'btn-primary': (filter$ | async) === 'my-tests',
+        'btn-outline-primary': (filter$ | async) !== 'my-tests'
+      }"
+    >
+      {{ 'tests.owned-tests' | translate }}
+    </p>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="primary-column-width">
+          {{ 'tests.student.name' | translate }}
+        </th>
+        <th class="secondary-column-width desktop">
+          {{ 'tests.grade' | translate }}
+        </th>
+        <th class="secondary-column-width border-right desktop">
+          {{ 'tests.average' | translate }}
+        </th>
+        <th
+          *ngFor="let test of data.tests"
+          container="body"
+          [ngbTooltip]="tooltipTests"
+          tooltipClass="tooltip-template"
+          class="grade"
+          [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
+        >
+          <span class="desktop">{{ test.Designation }}</span>
+          <span class="mobile">{{ 'tests.grade' | translate }}</span>
 
-        <ng-template #tooltipTests>
-          <div class="d-flex flex-column align-items-start">
-            <div>{{ test.Designation }}</div>
-            <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-            <div>
-              {{ test | erzTestWeight }}, {{ test | erzTestGradingType }}
-            </div>
-            <div *ngIf="test.IsPublished; else notPublished">
-              <div class="d-flex align-items-end">
-                <i class="material-icons tooltip-published-icon">lock</i>
-                {{ 'tests.published' | translate }}
+          <ng-template #tooltipTests>
+            <div class="d-flex flex-column align-items-start">
+              <div>{{ test.Designation }}</div>
+              <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+              <div>
+                {{ test | erzTestWeight }}, {{ test | erzTestGradingType }}
               </div>
-            </div>
-            <ng-template #notPublished>
-              <div class="d-flex align-items-end">
-                <i class="material-icons tooltip-published-icon">lock_open</i>
-                {{ 'tests.not-published' | translate }}
+              <div *ngIf="test.IsPublished; else notPublished">
+                <div class="d-flex align-items-end">
+                  <i class="material-icons tooltip-published-icon">lock</i>
+                  {{ 'tests.published' | translate }}
+                </div>
               </div>
-            </ng-template>
-          </div>
-        </ng-template>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let studentGrade of studentGrades">
-      <td>
-        {{ studentGrade.student.FullName }}
-        <p class="mobile">Mittelwert: 5.15</p>
-      </td>
-      <td class="grade"></td>
-      <td class="grade border-right"></td>
-      <td
-        *ngFor="let grade of studentGrade.grades"
-        class="grade"
-        [ngClass]="
-          grade.result?.TestId === selectedTest.Id ||
-          grade.TestId === selectedTest.Id
-            ? 'selected'
-            : ''
-        "
-      >
-        <erz-grade [grade]="grade"></erz-grade>
-      </td>
-    </tr>
-  </tbody>
-</table>
+              <ng-template #notPublished>
+                <div class="d-flex align-items-end">
+                  <i class="material-icons tooltip-published-icon">lock_open</i>
+                  {{ 'tests.not-published' | translate }}
+                </div>
+              </ng-template>
+            </div>
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let studentGrade of data.studentGrades">
+        <td>
+          {{ studentGrade.student.FullName }}
+          <p class="mobile">Mittelwert: 5.15</p>
+        </td>
+        <td class="grade"></td>
+        <td class="grade border-right"></td>
+        <td
+          *ngFor="let grade of studentGrade.grades"
+          class="grade"
+          [ngClass]="
+            grade.result?.TestId === selectedTest.Id ||
+            grade.TestId === selectedTest.Id
+              ? 'selected'
+              : ''
+          "
+        >
+          <erz-grade [grade]="grade"></erz-grade>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
