@@ -38,8 +38,8 @@ thead tr th {
 
   thead tr th {
     border-top: none;
-    padding-top: $spacer / 4;
-    padding-bottom: $spacer / 4;
+    padding-top: calc($spacer / 4);
+    padding-bottom: calc($spacer / 4);
   }
 
   .mobile {
