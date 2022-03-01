@@ -1,4 +1,12 @@
-@media (min-width: 750px) {
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.tests-dropdown {
+  display: block;
+  padding: $spacer;
+}
+
+@include media-breakpoint-up(sm) {
   .tests-dropdown {
     display: none;
   }
