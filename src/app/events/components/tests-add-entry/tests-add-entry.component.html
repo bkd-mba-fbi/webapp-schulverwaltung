@@ -1,8 +1,10 @@
 <div class="designation">{{ test.Designation }}</div>
 <div class="date">{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-<div class="weight">{{ weight }}</div>
-<div class="type">{{ gradingType }}</div>
-<div class="weight-type">{{ weight }}, {{ gradingType }}</div>
+<div class="weight">{{ test | erzTestWeight }}</div>
+<div class="type">{{ test | erzTestGradingType }}</div>
+<div class="weight-type">
+  {{ test | erzTestWeight }}, {{ test | erzTestGradingType }}
+</div>
 <div class="state">
   {{
     (test.IsPublished ? 'tests.add.published' : 'tests.add.not-published')

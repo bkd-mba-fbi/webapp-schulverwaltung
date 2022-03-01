@@ -47,7 +47,9 @@
           <div class="d-flex flex-column align-items-start">
             <div>{{ test.Designation }}</div>
             <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-            <div>{{ factor(test) }}, {{ gradeType(test) }}</div>
+            <div>
+              {{ test | erzTestWeight }}, {{ test | erzTestGradingType }}
+            </div>
             <div *ngIf="test.IsPublished; else notPublished">
               <div class="d-flex align-items-end">
                 <i class="material-icons tooltip-published-icon">lock</i>
