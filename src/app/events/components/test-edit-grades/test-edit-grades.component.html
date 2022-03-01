@@ -94,6 +94,17 @@
           <erz-grade [grade]="grade"></erz-grade>
         </td>
       </tr>
+      <tr>
+        <td>{{ 'tests.average' | translate }}</td>
+        <td>4.75</td>
+        <td class="border-right">4.805</td>
+        <td *ngFor="let test of data.tests">
+          <div class="d-flex flex-row w-100">
+            <span *ngIf="test.IsPointGrading" class="w-25">20.16</span>
+            <span>4.733</span>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </ng-container>
