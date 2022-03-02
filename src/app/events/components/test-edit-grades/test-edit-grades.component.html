@@ -1,7 +1,8 @@
 <ng-container
   *erzLet="{
-    tests: tests$ | async,
-    studentGrades: studentGrades$ | async
+    tests: state.tests$ | async,
+    studentGrades: state.studentGrades$ | async,
+    filter: state.filter$ | async
   } as data"
 >
   <div class="d-flex text-justify justify-content-start mt-3 mb-2">
@@ -9,8 +10,8 @@
       class="d-flex btn desktop"
       (click)="changeFilter('all-tests')"
       [ngClass]="{
-        'btn-primary': (filter$ | async) === 'all-tests',
-        'btn-outline-primary': (filter$ | async) !== 'all-tests'
+        'btn-primary': data.filter === 'all-tests',
+        'btn-outline-primary': data.filter !== 'all-tests'
       }"
     >
       {{ 'tests.all-tests' | translate }}
@@ -19,8 +20,8 @@
       class="d-flex btn ml-3 desktop"
       (click)="changeFilter('my-tests')"
       [ngClass]="{
-        'btn-primary': (filter$ | async) === 'my-tests',
-        'btn-outline-primary': (filter$ | async) !== 'my-tests'
+        'btn-primary': data.filter === 'my-tests',
+        'btn-outline-primary': data.filter !== 'my-tests'
       }"
     >
       {{ 'tests.owned-tests' | translate }}

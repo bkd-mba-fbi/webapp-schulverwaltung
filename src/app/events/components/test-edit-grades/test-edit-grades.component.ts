@@ -1,46 +1,27 @@
-import { Component, Input } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/shared/models/course.model';
 import { Test } from '../../../shared/models/test.model';
-import { StudentGradesService } from '../../services/student-grades.service';
-
-type Filter = 'all-tests' | 'my-tests';
+import {
+  Filter,
+  TestEditGradesStateService,
+} from '../../services/test-edit-grades-state.service';
 
 @Component({
   selector: 'erz-test-edit-grades',
   templateUrl: './test-edit-grades.component.html',
   styleUrls: ['./test-edit-grades.component.scss'],
 })
-export class TestEditGradesComponent {
+export class TestEditGradesComponent implements OnInit {
   @Input() course: Course;
   @Input() selectedTest: Test;
 
-  filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
+  constructor(public state: TestEditGradesStateService) {}
 
-  tests$: Observable<Test[] | undefined> = this.filter$.pipe(
-    map((filter) =>
-      this.course.Tests?.filter((test) => {
-        if (filter === 'all-tests') {
-          return true;
-        } else {
-          return test.IsOwner;
-        }
-      })
-    )
-  );
-
-  studentGrades$ = this.tests$.pipe(
-    map((tests) =>
-      this.studentGradesService.transform(
-        this.course.ParticipatingStudents ?? [],
-        tests ?? []
-      )
-    )
-  );
-
-  constructor(private studentGradesService: StudentGradesService) {}
+  ngOnInit(): void {
+    this.state.course = this.course;
+  }
 
   changeFilter(filter: Filter) {
-    this.filter$.next(filter);
+    this.state.filter$.next(filter);
   }
 }
