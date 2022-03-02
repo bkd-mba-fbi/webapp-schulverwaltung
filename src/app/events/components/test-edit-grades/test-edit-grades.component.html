@@ -77,8 +77,12 @@
     <tbody>
       <tr *ngFor="let studentGrade of data.studentGrades">
         <td>
-          {{ studentGrade.student.FullName }}
-          <p class="mobile">Mittelwert: 5.15</p>
+          <a [routerLink]="'#'">
+            {{ studentGrade.student.FullName }}
+            <p class="mobile">
+              <a href=""> Mittelwert: 5.15 </a>
+            </p>
+          </a>
         </td>
         <td class="grade"></td>
         <td class="grade border-right"></td>
