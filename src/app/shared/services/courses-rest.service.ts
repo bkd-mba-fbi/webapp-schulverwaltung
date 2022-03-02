@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { mapTo, Observable, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from '../models/course.model';
 import { decode, decodeArray } from '../utils/decode';
@@ -29,5 +29,54 @@ export class CoursesRestService extends RestService<typeof Course> {
         `${this.baseUrl}/${courseId}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades`
       )
       .pipe(switchMap(decode(Course)));
+  }
+
+  add(
+    courseId: number,
+    date: Date,
+    designation: string,
+    weight: number,
+    isPointGrading: boolean,
+    maxPoints: number,
+    maxPointsAdjusted: number
+  ): Observable<void> {
+    const body = {
+      Tests: [
+        {
+          Date: date,
+          Designation: designation,
+          Weight: weight,
+          IsPointGrading: isPointGrading,
+          MaxPoints: maxPoints,
+          MaxPointsAdjusted: maxPointsAdjusted,
+        },
+      ],
+    };
+    return this.http
+      .put<void>(`${this.baseUrl}/${courseId}/Tests/New`, body)
+      .pipe(mapTo(undefined));
+  }
+
+  update(
+    courseId: number,
+    id: number,
+    designation: string,
+    weight: number
+  ): Observable<void> {
+    const body = {
+      Tests: [{ Id: id, Designation: designation, Weight: weight }],
+    };
+    return this.http
+      .put<void>(`${this.baseUrl}/${courseId}/Tests/Update`, body)
+      .pipe(mapTo(undefined));
+  }
+
+  delete(courseId: number, testId: number): Observable<void> {
+    const body = {
+      TestIds: [testId],
+    };
+    return this.http
+      .put<void>(`${this.baseUrl}/${courseId}/Tests/Delete`, body)
+      .pipe(mapTo(undefined));
   }
 }
