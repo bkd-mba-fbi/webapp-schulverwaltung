@@ -1,10 +1,10 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { isEqual } from 'lodash-es';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-
-import { CoursesRestService } from './courses-rest.service';
 import { buildCourse } from '../../../spec-builders';
 import { Course } from '../models/course.model';
+import { CoursesRestService } from './courses-rest.service';
 
 describe('CoursesRestService', () => {
   let service: CoursesRestService;
@@ -15,6 +15,8 @@ describe('CoursesRestService', () => {
     service = TestBed.inject(CoursesRestService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
+
+  afterEach(() => httpTestingController.verify());
 
   describe('getExpandedCourses', () => {
     it('should request all courses expanding EvaluationStatusRef, AttendanceRef and Classes fields', () => {
@@ -32,8 +34,6 @@ describe('CoursesRestService', () => {
             req.headers.get('X-Role-Restriction') === 'TeacherRole'
         )
         .flush(data);
-
-      httpTestingController.verify();
     });
   });
 
@@ -52,8 +52,88 @@ describe('CoursesRestService', () => {
             `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades`
         )
         .flush(Course.encode(mockCourse));
+    });
+  });
 
-      httpTestingController.verify();
+  describe('manage tests', () => {
+    it('should add a new test', () => {
+      const courseId = 1234;
+
+      service
+        .add(
+          courseId,
+          new Date('2022-02-09T00:00:00'),
+          'designation',
+          33,
+          false,
+          44,
+          55
+        )
+        .subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === 'PUT' &&
+          req.url === `https://eventotest.api/Courses/${courseId}/Tests/New` &&
+          isEqual(req.body, {
+            Tests: [
+              {
+                Date: new Date('2022-02-09T00:00:00'),
+                Designation: 'designation',
+                Weight: 33,
+                IsPointGrading: false,
+                MaxPoints: 44,
+                MaxPointsAdjusted: 55,
+              },
+            ],
+          })
+      );
+
+      expect().nothing();
+    });
+
+    it('should update an existing test', () => {
+      const courseId = 1234;
+      const testId = 4321;
+
+      service.update(courseId, testId, 'updated designation', 33).subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === 'PUT' &&
+          req.url ===
+            `https://eventotest.api/Courses/${courseId}/Tests/Update` &&
+          isEqual(req.body, {
+            Tests: [
+              {
+                Id: testId,
+                Designation: 'updated designation',
+                Weight: 33,
+              },
+            ],
+          })
+      );
+
+      expect().nothing();
+    });
+
+    it('should delete an existing test', () => {
+      const courseId = 1234;
+      const testId = 4321;
+
+      service.delete(courseId, testId).subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === 'PUT' &&
+          req.url ===
+            `https://eventotest.api/Courses/${courseId}/Tests/Delete` &&
+          isEqual(req.body, {
+            TestIds: [testId],
+          })
+      );
+
+      expect().nothing();
     });
   });
 });
