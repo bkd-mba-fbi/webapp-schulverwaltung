@@ -240,6 +240,10 @@
       "not-published": "In Arbeit",
       "search": "Test suchen",
       "search-by": "Bezeichnung suchen..."
+    },
+    "edit": {
+      "save": "Übernehmen",
+      "cancel": "Abbrechen"
     }
   },
   "my-absences": {
