@@ -28,6 +28,7 @@ import { Settings } from 'src/app/settings';
 import { Paginated } from '../utils/pagination';
 import { spread } from '../utils/function';
 import { serializeParams } from '../utils/url';
+import { Sorting, SortService } from './sort.service';
 
 interface ResetEntriesAction<T> {
   action: 'reset';
@@ -39,11 +40,6 @@ interface AppendEntriesAction<T> {
   entries: ReadonlyArray<T>;
 }
 
-export interface Sorting<T> {
-  key: keyof T;
-  ascending: boolean;
-}
-
 type EntriesAction<T> = ResetEntriesAction<T> | AppendEntriesAction<T>;
 
 export const PAGE_LOADING_CONTEXT = 'page';
@@ -52,20 +48,13 @@ export const PAGE_LOADING_CONTEXT = 'page';
 export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
+  sorting$ = this.sortService.sorting$;
 
   private filter$ = new BehaviorSubject<F>(this.getInitialFilter());
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));
   validFilter$ = this.filter$.pipe(
     filter(this.isValidFilter.bind(this)),
     distinctUntilChanged(isEqual), // Only cause a reload if the filter changes
-    shareReplay(1)
-  );
-
-  private sortingSubject$ = new BehaviorSubject<Option<Sorting<T>>>(
-    this.getInitialSorting()
-  );
-  sorting$ = this.sortingSubject$.asObservable().pipe(
-    distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
     shareReplay(1)
   );
 
@@ -129,6 +118,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   constructor(
     protected location: Location,
     protected loadingService: LoadingService,
+    protected sortService: SortService<T>,
     protected settings: Settings,
     pageUrl: string
   ) {
@@ -148,20 +138,6 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     this.filter$.next(cloneDeep(filterValue));
   }
 
-  setSorting(sorting: Option<Sorting<T>>): void {
-    this.sortingSubject$.next(sorting);
-  }
-
-  toggleSorting(key: keyof T): void {
-    this.sorting$.pipe(take(1)).subscribe((sorting) => {
-      if (sorting && sorting.key === key) {
-        this.sortingSubject$.next({ key, ascending: !sorting.ascending });
-      } else {
-        this.sortingSubject$.next({ key, ascending: true });
-      }
-    });
-  }
-
   nextPage(): void {
     this.hasMore$.pipe(take(1)).subscribe((hasMore) => {
       if (hasMore) {
@@ -177,10 +153,6 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   protected abstract getInitialFilter(): F;
 
   protected abstract isValidFilter(filterValue: F): boolean;
-
-  protected getInitialSorting(): Option<Sorting<T>> {
-    return null;
-  }
 
   protected abstract loadEntries(
     filterValue: F,

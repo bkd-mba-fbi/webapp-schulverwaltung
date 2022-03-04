@@ -22,6 +22,7 @@ import { Paginated } from 'src/app/shared/utils/pagination';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
 import { buildPresenceControlEntries } from '../../shared/utils/presence-control-entries';
+import { SortService } from 'src/app/shared/services/sort.service';
 
 export interface EditAbsencesFilter {
   student: Option<number>;
@@ -57,12 +58,13 @@ export class EditAbsencesStateService
   constructor(
     location: Location,
     loadingService: LoadingService,
+    sortService: SortService<LessonPresence>,
     @Inject(SETTINGS) settings: Settings,
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
     private dropDownItemsService: DropDownItemsRestService
   ) {
-    super(location, loadingService, settings, '/edit-absences');
+    super(location, loadingService, sortService, settings, '/edit-absences');
 
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))

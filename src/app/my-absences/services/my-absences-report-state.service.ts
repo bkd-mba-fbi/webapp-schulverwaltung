@@ -20,6 +20,7 @@ import { LessonDispensation } from 'src/app/shared/models/lesson-dispensation.mo
 import { OptionalReference } from 'src/app/shared/models/common-types';
 import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
+import { SortService } from 'src/app/shared/services/sort.service';
 
 export interface ReportAbsencesFilter {
   dateFrom: Option<Date>;
@@ -36,9 +37,16 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     loadingService: LoadingService,
     @Inject(SETTINGS) settings: Settings,
     private studentsService: StudentsRestService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    sortService: SortService<LessonPresence>
   ) {
-    super(location, loadingService, settings, '/my-absences/report');
+    super(
+      location,
+      loadingService,
+      sortService,
+      settings,
+      '/my-absences/report'
+    );
   }
 
   protected getInitialFilter(): ReportAbsencesFilter {
