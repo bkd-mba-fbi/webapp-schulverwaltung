@@ -48,4 +48,55 @@ describe('SortService', () => {
       done();
     });
   });
+
+  describe('get sorting chars', () => {
+    it('should get no char if no sorting is specified', (done) => {
+      // given
+
+      // when
+      service.getSortingChar$({ key: 2, label: 'test' }).subscribe((char) => {
+        // then
+        expect(char).toBe('');
+        done();
+      });
+    });
+
+    it('should get no char if different column is sorted', (done) => {
+      // given
+      const sorting: Sorting<string[]> = { key: 1, ascending: true };
+
+      // when
+      service.getSortingChar$({ key: 2, label: 'test' }).subscribe((char) => {
+        // then
+        expect(char).toBe('');
+        done();
+      });
+    });
+
+    it('should get arrow down if column is sorted ascending', (done) => {
+      // given
+      const sorting: Sorting<string[]> = { key: 1, ascending: true };
+      service.setSorting(sorting);
+
+      // when
+      service.getSortingChar$({ key: 1, label: 'test' }).subscribe((char) => {
+        // then
+        expect(char).toBe('↓');
+        done();
+      });
+    });
+
+    it('should get arrow up if column is sorted descending', (done) => {
+      // given
+      const sorting: Sorting<string[]> = { key: 1, ascending: false };
+      service.setSorting(sorting);
+
+      // when
+      service.getSortingChar$({ key: 1, label: 'test' }).subscribe((char) => {
+        // then
+        expect(char).toBe('↑');
+        done();
+      });
+    });
+  });
 });

@@ -50,7 +50,7 @@
                     }}
                   </div>
                   <div class="sort-direction">
-                    {{ getSortingChar$(column) | async }}
+                    {{ state.sortService.getSortingChar$(column) | async }}
                   </div>
                 </div>
               </th>

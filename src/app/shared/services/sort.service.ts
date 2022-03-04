@@ -1,9 +1,22 @@
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
-import { BehaviorSubject, distinctUntilChanged, shareReplay, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  map,
+  Observable,
+  shareReplay,
+  take,
+  tap,
+} from 'rxjs';
 export interface Sorting<T> {
   key: keyof T;
   ascending: boolean;
+}
+
+interface Column<T> {
+  key: keyof T;
+  label: string;
 }
 
 @Injectable({
@@ -16,6 +29,17 @@ export class SortService<T> {
     distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
     shareReplay(1)
   );
+
+  getSortingChar$(column: Column<T>): Observable<string> {
+    return this.sorting$.pipe(
+      map((sorting) => {
+        if (sorting && column.key === sorting.key) {
+          return sorting.ascending ? '↓' : '↑';
+        }
+        return '';
+      })
+    );
+  }
 
   constructor() {}
 

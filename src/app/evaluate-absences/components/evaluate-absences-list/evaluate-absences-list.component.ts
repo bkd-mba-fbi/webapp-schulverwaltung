@@ -78,17 +78,6 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     this.state.nextPage();
   }
 
-  getSortingChar$(column: Column): Observable<string> {
-    return this.state.sorting$.pipe(
-      map((sorting) => {
-        if (sorting && column.key === sorting.key) {
-          return sorting.ascending ? '↓' : '↑';
-        }
-        return '';
-      })
-    );
-  }
-
   private loadReportUrl(): Observable<Option<string>> {
     return this.state.validFilter$.pipe(
       switchMap((filter) => this.lessonPresencesService.getLessonRefs(filter)),
