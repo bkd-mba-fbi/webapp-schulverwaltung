@@ -156,7 +156,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
 
   protected abstract loadEntries(
     filterValue: F,
-    sorting: Option<Sorting<T>>,
+    sorting: Option<Sorting<keyof T>>,
     offset: number
   ): Observable<Paginated<ReadonlyArray<T>>>;
 

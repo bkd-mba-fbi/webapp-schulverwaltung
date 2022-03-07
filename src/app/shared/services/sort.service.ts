@@ -7,10 +7,10 @@ import {
   Observable,
   shareReplay,
   take,
-  tap,
 } from 'rxjs';
+
 export interface Sorting<T> {
-  key: keyof T;
+  key: T;
   ascending: boolean;
 }
 
@@ -30,10 +30,11 @@ export class SortService<T> {
     shareReplay(1)
   );
 
-  getSortingChar$(column: Column<T>): Observable<string> {
+  getSortingChar$(key: T): Observable<string> {
+    console.log('try to get sorting key for', key);
     return this.sorting$.pipe(
       map((sorting) => {
-        if (sorting && column.key === sorting.key) {
+        if (sorting && key === sorting.key) {
           return sorting.ascending ? '↓' : '↑';
         }
         return '';
@@ -47,8 +48,8 @@ export class SortService<T> {
     this.sortingSubject$.next(sorting);
   }
 
-  toggleSorting(key: keyof T): void {
-    this.sorting$.pipe(take(1)).subscribe((sorting) => {
+  toggleSorting(key: T): void {
+    this.sorting$.pipe(take(1)).subscribe((sorting: Sorting<T>) => {
       if (sorting && sorting.key === key) {
         this.sortingSubject$.next({ key, ascending: !sorting.ascending });
       } else {

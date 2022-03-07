@@ -209,7 +209,7 @@ describe('LessonPresencesRestService', () => {
   describe('.getStatistics', () => {
     const data: any[] = [];
     let filter: EvaluateAbsencesFilter;
-    let sorting: Sorting<LessonPresenceStatistic>;
+    let sorting: Sorting<keyof LessonPresenceStatistic>;
 
     beforeEach(() => {
       filter = {

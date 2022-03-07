@@ -87,7 +87,7 @@ export class LessonPresencesRestService extends RestService<
 
   getStatistics(
     absencesFilter: EvaluateAbsencesFilter,
-    absencesSorting: Option<Sorting<LessonPresenceStatistic>>,
+    absencesSorting: Option<Sorting<keyof LessonPresenceStatistic>>,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([

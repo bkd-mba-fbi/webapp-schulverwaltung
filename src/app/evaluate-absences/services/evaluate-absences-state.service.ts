@@ -69,7 +69,9 @@ export class EvaluateAbsencesStateService
     );
   }
 
-  protected getInitialSorting(): Option<Sorting<LessonPresenceStatistic>> {
+  protected getInitialSorting(): Option<
+    Sorting<keyof LessonPresenceStatistic>
+  > {
     return {
       key: 'StudentFullName',
       ascending: true,
@@ -78,7 +80,7 @@ export class EvaluateAbsencesStateService
 
   protected loadEntries(
     filterValue: EvaluateAbsencesFilter,
-    sorting: Option<Sorting<LessonPresenceStatistic>>,
+    sorting: Option<Sorting<keyof LessonPresenceStatistic>>,
     offset: number
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     return this.loadingService.load(
