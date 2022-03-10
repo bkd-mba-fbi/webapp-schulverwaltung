@@ -214,6 +214,7 @@
     "not-published": "Nicht freigegeben",
     "all-tests": "Alle Tests",
     "owned-tests": "Meine Tests",
+    "points": "Punkte",
     "grade": "Note",
     "average": "Mittelwert",
     "student": {

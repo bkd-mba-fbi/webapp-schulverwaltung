@@ -1,0 +1,30 @@
+<div class="d-flex flex-column align-items-start">
+  <div>{{ test.Designation }}</div>
+  <div>
+    <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+    <div>{{ test | erzTestWeight }}, {{ test | erzTestGradingType }}</div>
+    <div *ngIf="test.IsPublished; else notPublished">
+      <div class="d-flex align-items-end">
+        <i class="material-icons tooltip-published-icon">lock</i>
+        {{ 'tests.published' | translate }}
+      </div>
+    </div>
+    <ng-template #notPublished>
+      <div class="d-flex align-items-end">
+        <i class="material-icons tooltip-published-icon">lock_open</i>
+        {{ 'tests.not-published' | translate }}
+      </div>
+    </ng-template>
+  </div>
+  <div class="d-flex">
+    <div class="column-title">
+      <span (click)="sortBy(test)">{{ 'tests.points' | translate }}</span>
+    </div>
+    <div class="column-title">
+      <span (click)="sortBy(test)">{{ 'tests.grade' | translate }}</span>
+    </div>
+    <div class="sort-direction">
+      {{ sortIndicator }}
+    </div>
+  </div>
+</div>

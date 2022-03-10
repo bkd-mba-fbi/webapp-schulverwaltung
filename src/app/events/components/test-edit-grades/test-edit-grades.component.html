@@ -49,43 +49,14 @@
         <th
           *ngFor="let test of data.tests"
           container="body"
-          (click)="state.sortBy(test)"
-          [ngbTooltip]="tooltipTests"
-          tooltipClass="tooltip-template"
           class="grade"
           [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
         >
-          <div class="d-flex">
-            <div class="column-title">
-              <span class="desktop">{{ test.Designation }}</span>
-              <span class="mobile">{{ 'tests.grade' | translate }}</span>
-            </div>
-            <div class="sort-direction">
-              {{ state.getSortingChar$(test) | async }}
-            </div>
-          </div>
-
-          <ng-template #tooltipTests>
-            <div class="d-flex flex-column align-items-start">
-              <div>{{ test.Designation }}</div>
-              <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-              <div>
-                {{ test | erzTestWeight }}, {{ test | erzTestGradingType }}
-              </div>
-              <div *ngIf="test.IsPublished; else notPublished">
-                <div class="d-flex align-items-end">
-                  <i class="material-icons tooltip-published-icon">lock</i>
-                  {{ 'tests.published' | translate }}
-                </div>
-              </div>
-              <ng-template #notPublished>
-                <div class="d-flex align-items-end">
-                  <i class="material-icons tooltip-published-icon">lock_open</i>
-                  {{ 'tests.not-published' | translate }}
-                </div>
-              </ng-template>
-            </div>
-          </ng-template>
+          <erz-test-table-header
+            [test]="test"
+            [sortIndicator]="state.getSortingChar$(test) | async"
+            (changeSort)="state.sortBy(test)"
+          ></erz-test-table-header>
         </th>
       </tr>
     </thead>

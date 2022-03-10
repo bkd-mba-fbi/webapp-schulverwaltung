@@ -12,6 +12,7 @@ import { GradeComponent } from './components/grade/grade.component';
 import { TestsAddComponent } from './components/tests-add/tests-add.component';
 import { TestsAddHeaderComponent } from './components/tests-add-header/tests-add-header.component';
 import { TestsAddEntryComponent } from './components/tests-add-entry/tests-add-entry.component';
+import { TestTableHeaderComponent } from './components/test-table-header/test-table-header.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TestsAddEntryComponent } from './components/tests-add-entry/tests-add-e
     TestsAddHeaderComponent,
     TestsAddEntryComponent,
     GradeComponent,
+    TestTableHeaderComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],
 })
