@@ -6,20 +6,9 @@ import {
   buildStudent,
   buildTest,
 } from 'src/spec-builders';
-import { StudentGrade, StudentGradesService } from './student-grades.service';
+import { StudentGrade, transform } from './student-grades';
 
 describe('StudentGradesService', () => {
-  let service: StudentGradesService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(StudentGradesService);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   it('should create a list of students with tests and grades - all grades available for all students', () => {
     // given
     const course: Course = buildCourse(123);
@@ -33,7 +22,7 @@ describe('StudentGradesService', () => {
     );
 
     // when
-    const results: StudentGrade[] = service.transform(
+    const results: StudentGrade[] = transform(
       course.ParticipatingStudents,
       course.Tests
     );
@@ -84,10 +73,7 @@ describe('StudentGradesService', () => {
     course.Tests = [1, 2, 3].map((id) => buildTest(course.Id, id, []));
 
     // when
-    const results = service.transform(
-      course.ParticipatingStudents,
-      course.Tests
-    );
+    const results = transform(course.ParticipatingStudents, course.Tests);
 
     // then
     expect(
@@ -111,10 +97,7 @@ describe('StudentGradesService', () => {
     );
 
     // when
-    const results = service.transform(
-      course.ParticipatingStudents,
-      course.Tests
-    );
+    const results = transform(course.ParticipatingStudents, course.Tests);
     // then
 
     expect(
@@ -145,10 +128,7 @@ describe('StudentGradesService', () => {
       buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : [])
     );
     // when
-    const results = service.transform(
-      course.ParticipatingStudents,
-      course.Tests
-    );
+    const results = transform(course.ParticipatingStudents, course.Tests);
 
     // then
 

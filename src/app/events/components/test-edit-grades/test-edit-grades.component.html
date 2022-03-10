@@ -30,8 +30,15 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th class="primary-column-width">
-          {{ 'tests.student.name' | translate }}
+        <th class="primary-column-width" (click)="state.sortBy('FullName')">
+          <div class="d-flex">
+            <div class="column-title">
+              {{ 'tests.student.name' | translate }}
+            </div>
+            <div class="sort-direction">
+              {{ state.getSortingChar$('FullName') | async }}
+            </div>
+          </div>
         </th>
         <th class="secondary-column-width desktop">
           {{ 'tests.grade' | translate }}
@@ -42,13 +49,21 @@
         <th
           *ngFor="let test of data.tests"
           container="body"
+          (click)="state.sortBy(test)"
           [ngbTooltip]="tooltipTests"
           tooltipClass="tooltip-template"
           class="grade"
           [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
         >
-          <span class="desktop">{{ test.Designation }}</span>
-          <span class="mobile">{{ 'tests.grade' | translate }}</span>
+          <div class="d-flex">
+            <div class="column-title">
+              <span class="desktop">{{ test.Designation }}</span>
+              <span class="mobile">{{ 'tests.grade' | translate }}</span>
+            </div>
+            <div class="sort-direction">
+              {{ state.getSortingChar$(test) | async }}
+            </div>
+          </div>
 
           <ng-template #tooltipTests>
             <div class="d-flex flex-column align-items-start">

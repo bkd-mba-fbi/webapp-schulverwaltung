@@ -31,7 +31,6 @@ export class SortService<T> {
   );
 
   getSortingChar$(key: T): Observable<string> {
-    console.log('try to get sorting key for', key);
     return this.sorting$.pipe(
       map((sorting) => {
         if (sorting && key === sorting.key) {

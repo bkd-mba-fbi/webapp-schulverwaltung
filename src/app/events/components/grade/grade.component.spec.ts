@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GradeComponent } from './grade.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 import { buildResult, buildTest } from '../../../../spec-builders';
-import { GradeOrNoResult } from '../../services/student-grades.service';
+import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
 
 describe('GradeComponent', () => {
   let component: GradeComponent;
