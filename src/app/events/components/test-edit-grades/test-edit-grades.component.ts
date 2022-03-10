@@ -19,6 +19,7 @@ export class TestEditGradesComponent implements OnInit {
 
   ngOnInit(): void {
     this.state.course = this.course;
+    this.state.setSorting({ key: 'FullName', ascending: true });
   }
 
   changeFilter(filter: Filter) {
