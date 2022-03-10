@@ -22,8 +22,8 @@ export interface Event {
   id: number;
   Designation: string;
   detailLink: string;
-  dateFrom?: Date;
-  dateTo?: Date;
+  dateFrom?: Option<Date>;
+  dateTo?: Option<Date>;
   studentCount: number;
   state: Option<EventState>;
   ratingUntil?: Option<Date>;
