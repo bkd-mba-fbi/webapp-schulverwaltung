@@ -2,7 +2,8 @@
   *erzLet="{
     tests: state.tests$ | async,
     studentGrades: state.studentGrades$ | async,
-    filter: state.filter$ | async
+    filter: state.filter$ | async,
+    expanded: state.expandedHeader$ | async
   } as data"
 >
   <div class="d-flex text-justify justify-content-start mt-3 mb-2">
@@ -27,8 +28,25 @@
       {{ 'tests.owned-tests' | translate }}
     </p>
   </div>
-  <table class="table table-hover">
-    <thead>
+  <table class="table table-hover h-100">
+    <thead class="h-100">
+      <tr class="h-100">
+        <th class="primary-column-width"></th>
+        <th class="secondary-column-width desktop"></th>
+        <th class="secondary-column-width border-right desktop"></th>
+        <th
+          *ngFor="let test of data.tests"
+          container="body"
+          class="grade h-100"
+          [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
+        >
+          <erz-test-table-header
+            [test]="test"
+            [expanded]="data.expanded"
+            (toggle)="state.toggleHeader($event)"
+          ></erz-test-table-header>
+        </th>
+      </tr>
       <tr>
         <th class="primary-column-width" (click)="state.sortBy('FullName')">
           <div class="d-flex">
@@ -49,14 +67,24 @@
         <th
           *ngFor="let test of data.tests"
           container="body"
-          class="grade"
+          class="grade h-100"
           [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
         >
-          <erz-test-table-header
-            [test]="test"
-            [sortIndicator]="state.getSortingChar$(test) | async"
-            (changeSort)="state.sortBy(test)"
-          ></erz-test-table-header>
+          <div class="d-flex">
+            <div class="column-title">
+              <span (click)="state.sortBy(test)">{{
+                'tests.points' | translate
+              }}</span>
+            </div>
+            <div class="column-title">
+              <span (click)="state.sortBy(test)">{{
+                'tests.grade' | translate
+              }}</span>
+            </div>
+            <div class="sort-direction">
+              {{ state.getSortingChar$(test) | async }}
+            </div>
+          </div>
         </th>
       </tr>
     </thead>

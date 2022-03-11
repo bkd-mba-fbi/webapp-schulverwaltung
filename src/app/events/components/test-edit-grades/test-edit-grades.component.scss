@@ -43,6 +43,11 @@ thead tr th {
     padding-bottom: calc($spacer / 4);
   }
 
+  thead tr th.grade {
+    min-width: 300px;
+    max-width: 300px;
+  }
+
   .mobile {
     display: none !important;
   }

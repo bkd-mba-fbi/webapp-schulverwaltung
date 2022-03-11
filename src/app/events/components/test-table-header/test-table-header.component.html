@@ -1,9 +1,15 @@
-<div class="d-flex flex-column align-items-start">
-  <div>{{ test.Designation }}</div>
-  <div>
+<div class="d-flex flex-column justify-content-between h-100">
+  <div class="test-designation mb-3" (click)="toggleHeader()">
+    {{ test.Designation }}
+  </div>
+  <div *ngIf="expanded" class="d-flex flex-column">
     <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-    <div>{{ test | erzTestWeight }}, {{ test | erzTestGradingType }}</div>
-    <div *ngIf="test.IsPublished; else notPublished">
+    <div>
+      {{ test.Weight }} ({{ test.WeightPercent }}%),
+      {{ test.MaxPointsAdjusted }} Punkte
+    </div>
+    <div>{{ test.Owner }}</div>
+    <!-- <div *ngIf="test.IsPublished; else notPublished">
       <div class="d-flex align-items-end">
         <i class="material-icons tooltip-published-icon">lock</i>
         {{ 'tests.published' | translate }}
@@ -14,17 +20,6 @@
         <i class="material-icons tooltip-published-icon">lock_open</i>
         {{ 'tests.not-published' | translate }}
       </div>
-    </ng-template>
-  </div>
-  <div class="d-flex">
-    <div class="column-title">
-      <span (click)="sortBy(test)">{{ 'tests.points' | translate }}</span>
-    </div>
-    <div class="column-title">
-      <span (click)="sortBy(test)">{{ 'tests.grade' | translate }}</span>
-    </div>
-    <div class="sort-direction">
-      {{ sortIndicator }}
-    </div>
+    </ng-template> -->
   </div>
 </div>

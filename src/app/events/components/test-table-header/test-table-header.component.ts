@@ -8,13 +8,13 @@ import { Test } from 'src/app/shared/models/test.model';
 })
 export class TestTableHeaderComponent {
   @Input() test: Test;
-  @Input() sortIndicator: string;
+  @Input() expanded: boolean;
 
-  @Output() changeSort = new EventEmitter<Test>();
+  @Output() toggle = new EventEmitter<boolean>();
 
   constructor() {}
 
-  sortBy(test: Test) {
-    this.changeSort.emit(test);
+  toggleHeader() {
+    this.toggle.emit(!this.expanded);
   }
 }

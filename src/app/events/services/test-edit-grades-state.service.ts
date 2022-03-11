@@ -22,6 +22,10 @@ export class TestEditGradesStateService {
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
+  expandedHeader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
   tests$: Observable<Test[] | undefined> = this.filter$.pipe(
     map((filter) =>
       this.course.Tests?.filter((test) => {
@@ -56,6 +60,11 @@ export class TestEditGradesStateService {
 
   sortBy(columnName: SortKeys) {
     this.sortService.toggleSorting(columnName);
+  }
+
+  toggleHeader(expanded: boolean) {
+    console.log(expanded);
+    this.expandedHeader$.next(expanded);
   }
 
   constructor(private sortService: SortService<SortKeys>) {}
