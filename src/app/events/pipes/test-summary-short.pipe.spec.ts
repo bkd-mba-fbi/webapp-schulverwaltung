@@ -5,7 +5,7 @@ import { buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestSummaryShortPipe } from './test-summary-short.pipe';
 
-fdescribe('TestSummaryShortPipe', () => {
+describe('TestSummaryShortPipe', () => {
   let test: Test;
 
   let pipe: TestSummaryShortPipe;
