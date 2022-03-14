@@ -27,17 +27,29 @@
     </div>
     <div
       *ngIf="test.IsPublished; else notPublished"
-      class="d-flex align-items-end"
+      class="d-flex align-items-end justify-content-between"
     >
       <div class="d-flex justify-end">
         <i class="material-icons tooltip-published-icon mr-2">lock</i>
         {{ 'tests.published' | translate }}
       </div>
+      <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
+        expanded ? 'expand_more' : 'expand_less'
+      }}</i>
     </div>
     <ng-template #notPublished>
-      <div class="d-flex align-items-end">
-        <i class="material-icons tooltip-published-icon mr-2">lock_open</i>
-        {{ 'tests.not-published' | translate }}
+      <div class="d-flex align-items-end justify-content-between">
+        <div class="d-flex justify-end">
+          <i
+            class="material-icons tooltip-published-icon mr-2"
+            (click)="toggleHeader()"
+            >lock_open</i
+          >
+          {{ 'tests.not-published' | translate }}
+        </div>
+        <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
+          expanded ? 'expand_more' : 'expand_less'
+        }}</i>
       </div>
     </ng-template>
   </div>
