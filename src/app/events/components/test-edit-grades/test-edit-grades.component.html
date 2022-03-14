@@ -6,34 +6,33 @@
     expanded: state.expandedHeader$ | async
   } as data"
 >
-  <div class="d-flex text-justify justify-content-start mt-3 mb-2">
-    <p
-      class="d-flex btn desktop"
-      (click)="changeFilter('all-tests')"
-      [ngClass]="{
-        'btn-primary': data.filter === 'all-tests',
-        'btn-outline-primary': data.filter !== 'all-tests'
-      }"
-    >
-      {{ 'tests.all-tests' | translate }}
-    </p>
-    <p
-      class="d-flex btn ml-3 desktop"
-      (click)="changeFilter('my-tests')"
-      [ngClass]="{
-        'btn-primary': data.filter === 'my-tests',
-        'btn-outline-primary': data.filter !== 'my-tests'
-      }"
-    >
-      {{ 'tests.owned-tests' | translate }}
-    </p>
-  </div>
   <table class="table table-hover h-100">
     <thead class="h-100">
       <tr class="h-100">
-        <th class="primary-column-width desktop"></th>
-        <th class="secondary-column-width desktop"></th>
-        <th class="secondary-column-width border-right desktop"></th>
+        <th class="desktop" colspan="3">
+          <button
+            type="button"
+            class="btn desktop"
+            (click)="changeFilter('all-tests')"
+            [ngClass]="{
+              'btn-primary': data.filter === 'all-tests',
+              'btn-outline-primary': data.filter !== 'all-tests'
+            }"
+          >
+            {{ 'tests.all-tests' | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn ml-2 desktop"
+            (click)="changeFilter('my-tests')"
+            [ngClass]="{
+              'btn-primary': data.filter === 'my-tests',
+              'btn-outline-primary': data.filter !== 'my-tests'
+            }"
+          >
+            {{ 'tests.owned-tests' | translate }}
+          </button>
+        </th>
         <th
           *ngFor="let test of data.tests"
           container="body"
@@ -66,7 +65,7 @@
             <div class="column-title">
               {{ 'tests.student.name' | translate }}
             </div>
-            <div class="sort-direction">
+            <div class="sort-direction ml-1">
               {{ state.getSortingChar$('FullName') | async }}
             </div>
           </div>
@@ -94,7 +93,7 @@
                 'tests.grade' | translate
               }}</span>
             </div>
-            <div class="sort-direction">
+            <div class="sort-direction ml-1">
               {{ state.getSortingChar$(test) | async }}
             </div>
           </div>
