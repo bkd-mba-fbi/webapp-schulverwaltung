@@ -13,6 +13,7 @@ import { TestsAddComponent } from './components/tests-add/tests-add.component';
 import { TestsAddHeaderComponent } from './components/tests-add-header/tests-add-header.component';
 import { TestsAddEntryComponent } from './components/tests-add-entry/tests-add-entry.component';
 import { TestTableHeaderComponent } from './components/test-table-header/test-table-header.component';
+import { TestSummaryShortPipe } from './pipes/test-summary-short.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TestTableHeaderComponent } from './components/test-table-header/test-ta
     TestsAddEntryComponent,
     GradeComponent,
     TestTableHeaderComponent,
+    TestSummaryShortPipe,
   ],
   imports: [SharedModule, EventsRoutingModule],
 })

@@ -11,8 +11,7 @@
   <div *ngIf="expanded" class="d-flex flex-column">
     <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
     <div>
-      {{ test.Weight }} ({{ test.WeightPercent }}%),
-      {{ test.MaxPointsAdjusted }} Punkte
+      {{ test | testSummaryShort }}
     </div>
     <div>{{ test.Owner }}</div>
   </div>
