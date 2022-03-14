@@ -9,7 +9,9 @@
     >
       {{ test.Designation }}
     </div>
-    <i class="material-icons">{{ expanded ? 'expand_more' : 'expand_less' }}</i>
+    <i class="material-icons align-self-start">{{
+      expanded ? 'expand_more' : 'expand_less'
+    }}</i>
   </div>
   <div *ngIf="expanded" class="d-flex flex-column">
     <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
