@@ -1,4 +1,4 @@
-<div class="d-flex flex-column justify-content-between h-100">
+<div class="d-flex flex-column h-100 justify-content-between">
   <div
     (click)="toggleHeader()"
     class="d-flex flex-row mb-3 align-items-end justify-content-between pr-2"
@@ -13,23 +13,28 @@
       expanded ? 'expand_more' : 'expand_less'
     }}</i>
   </div>
-  <div *ngIf="expanded" class="d-flex flex-column">
-    <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-    <div>
-      {{ test | testSummaryShort }}
+  <div>
+    <div *ngIf="expanded" class="d-flex flex-column mb-3">
+      <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+      <div>
+        {{ test | testSummaryShort }}
+      </div>
+      <div class="test-owner">{{ test.Owner }}</div>
     </div>
-    <div>{{ test.Owner }}</div>
+    <div
+      *ngIf="test.IsPublished; else notPublished"
+      class="d-flex align-items-end"
+    >
+      <div class="d-flex justify-end">
+        <i class="material-icons tooltip-published-icon mr-2">lock</i>
+        {{ 'tests.published' | translate }}
+      </div>
+    </div>
+    <ng-template #notPublished>
+      <div class="d-flex align-items-end">
+        <i class="material-icons tooltip-published-icon mr-2">lock_open</i>
+        {{ 'tests.not-published' | translate }}
+      </div>
+    </ng-template>
   </div>
-  <div *ngIf="test.IsPublished; else notPublished">
-    <div class="d-flex align-items-end">
-      <i class="material-icons tooltip-published-icon">lock</i>
-      {{ 'tests.published' | translate }}
-    </div>
-  </div>
-  <ng-template #notPublished>
-    <div class="d-flex align-items-end">
-      <i class="material-icons tooltip-published-icon">lock_open</i>
-      {{ 'tests.not-published' | translate }}
-    </div>
-  </ng-template>
 </div>
