@@ -209,7 +209,7 @@
   },
   "tests": {
     "title": "Tests",
-    "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten.",
+    "no-tests": "Keine Tests vorhanden",
     "published": "publiziert",
     "not-published": "in Arbeit",
     "all-tests": "Alle Tests",
