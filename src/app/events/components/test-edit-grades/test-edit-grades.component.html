@@ -37,7 +37,20 @@
         <th
           *ngFor="let test of data.tests"
           container="body"
-          class="grade h-100"
+          class="grade h-100 test-info-desktop"
+          [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
+        >
+          <erz-test-table-header
+            [test]="test"
+            [expanded]="data.expanded"
+            (toggle)="state.toggleHeader($event)"
+          ></erz-test-table-header>
+        </th>
+        <th
+          *ngFor="let test of data.tests"
+          container="body"
+          class="grade h-100 header-mobile test-info-mobile"
+          colspan="3"
           [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
         >
           <erz-test-table-header

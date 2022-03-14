@@ -30,7 +30,19 @@ thead tr th {
   display: block !important;
 }
 
+thead tr th.test-info-desktop {
+  display: none !important;
+}
+
 @media (min-width: 750px) {
+  thead tr th.test-info-mobile {
+    display: none !important;
+  }
+
+  thead tr th.test-info-desktop {
+    display: table-cell !important;
+  }
+
   table th.grade,
   table td.grade,
   .desktop {
