@@ -210,8 +210,8 @@
   "tests": {
     "title": "Tests",
     "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten.",
-    "published": "Freigegeben",
-    "not-published": "Nicht freigegeben",
+    "published": "publiziert",
+    "not-published": "in Arbeit",
     "all-tests": "Alle Tests",
     "owned-tests": "Meine Tests",
     "points": "Punkte",

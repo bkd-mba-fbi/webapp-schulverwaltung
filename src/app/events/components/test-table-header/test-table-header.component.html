@@ -1,6 +1,12 @@
 <div class="d-flex flex-column justify-content-between h-100">
-  <div class="test-designation mb-3" (click)="toggleHeader()">
-    {{ test.Designation }}
+  <div
+    (click)="toggleHeader()"
+    class="d-flex flex-row mb-3 align-items-end justify-content-between pr-2"
+  >
+    <div class="test-designation">
+      {{ test.Designation }}
+    </div>
+    <i class="material-icons">{{ expanded ? 'expand_more' : 'expand_less' }}</i>
   </div>
   <div *ngIf="expanded" class="d-flex flex-column">
     <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
@@ -9,17 +15,17 @@
       {{ test.MaxPointsAdjusted }} Punkte
     </div>
     <div>{{ test.Owner }}</div>
-    <!-- <div *ngIf="test.IsPublished; else notPublished">
-      <div class="d-flex align-items-end">
-        <i class="material-icons tooltip-published-icon">lock</i>
-        {{ 'tests.published' | translate }}
-      </div>
-    </div>
-    <ng-template #notPublished>
-      <div class="d-flex align-items-end">
-        <i class="material-icons tooltip-published-icon">lock_open</i>
-        {{ 'tests.not-published' | translate }}
-      </div>
-    </ng-template> -->
   </div>
+  <div *ngIf="test.IsPublished; else notPublished">
+    <div class="d-flex align-items-end">
+      <i class="material-icons tooltip-published-icon">lock</i>
+      {{ 'tests.published' | translate }}
+    </div>
+  </div>
+  <ng-template #notPublished>
+    <div class="d-flex align-items-end">
+      <i class="material-icons tooltip-published-icon">lock_open</i>
+      {{ 'tests.not-published' | translate }}
+    </div>
+  </ng-template>
 </div>
