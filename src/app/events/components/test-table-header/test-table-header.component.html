@@ -1,12 +1,9 @@
 <div class="d-flex flex-column h-100 justify-content-between">
   <div
     (click)="toggleHeader()"
-    class="d-flex flex-row mb-3 align-items-end justify-content-between pr-2"
+    class="test-designation d-flex flex-row mb-3 align-items-end justify-content-between pr-2"
   >
-    <div
-      class="test-designation"
-      [ngClass]="expanded ? 'expanded' : 'collapsed'"
-    >
+    <div [ngClass]="expanded ? 'expanded' : 'collapsed'">
       {{ test.Designation }}
     </div>
     <i class="material-icons align-self-start">{{
