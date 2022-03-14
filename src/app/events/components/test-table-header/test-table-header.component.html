@@ -3,7 +3,10 @@
     (click)="toggleHeader()"
     class="d-flex flex-row mb-3 align-items-end justify-content-between pr-2"
   >
-    <div class="test-designation">
+    <div
+      class="test-designation"
+      [ngClass]="expanded ? 'expanded' : 'collapsed'"
+    >
       {{ test.Designation }}
     </div>
     <i class="material-icons">{{ expanded ? 'expand_more' : 'expand_less' }}</i>
