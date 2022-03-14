@@ -187,6 +187,58 @@
       }
     }
   },
+  "events": {
+    "title": "Anlassliste",
+    "no-events": "Keine Anlässe vorhanden",
+    "search": "Anlass suchen",
+    "search-by": "Bezeichnung suchen...",
+    "designation": "Bezeichnung",
+    "date": "Datum",
+    "registrations": "Anmeldungen",
+    "rating": "Bewertung",
+    "state": {
+      "rating": "Bewertung",
+      "rating-until": "Bewertung bis",
+      "intermediate-rating": "Zwischenbewertung",
+      "add-tests": "Tests erfassen"
+    }
+  },
+  "courses": {
+    "registration": "{{count}} Anmeldung",
+    "registrations": "{{count}} Anmeldungen"
+  },
+  "tests": {
+    "title": "Tests",
+    "no-tests": "Klicken sie auf den Stift, um Tests zu erfassen und zu bearbeiten.",
+    "published": "publiziert",
+    "not-published": "in Arbeit",
+    "all-tests": "Alle Tests",
+    "owned-tests": "Meine Tests",
+    "points": "Punkte",
+    "grade": "Note",
+    "average": "Mittelwert",
+    "student": {
+      "name": "Name"
+    },
+    "adjusted": "korrigiert",
+    "type-points": "Typ Punkte",
+    "type-grades": "Typ Noten",
+    "factor": "Faktor",
+    "add": {
+      "grading-scale": "Notenskala",
+      "title": "Tests definieren",
+      "hint": "Erfassen Sie Tests mit Klick auf +",
+      "designation": "Bezeichnung",
+      "date": "Datum",
+      "weight": "Gewichtung",
+      "grading-type": "Typ",
+      "state": "Status",
+      "published": "Publiziert",
+      "not-published": "In Arbeit",
+      "search": "Test suchen",
+      "search-by": "Bezeichnung suchen..."
+    }
+  },
   "my-absences": {
     "title": "Meine Absenzen",
     "show": {
