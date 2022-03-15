@@ -27,26 +27,30 @@
     </div>
     <div
       *ngIf="test.IsPublished; else notPublished"
-      class="d-flex align-items-end justify-content-between test-status"
+      class="d-flex align-items-center justify-content-between test-status published"
     >
-      <div class="d-flex justify-end">
-        <i class="material-icons tooltip-published-icon mr-2">lock</i>
-        {{ 'tests.published' | translate }}
-      </div>
+      <a
+        class="d-flex btn btn-link pl-0"
+        title="{{ 'tests.edit' | translate }}"
+      >
+        <i class="material-icons mr-1">lock</i>
+        <span>{{ 'tests.published' | translate }}</span>
+      </a>
       <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
         expanded ? 'expand_more' : 'expand_less'
       }}</i>
     </div>
     <ng-template #notPublished>
-      <div class="d-flex align-items-end justify-content-between test-status">
-        <div class="d-flex justify-end">
-          <i
-            class="material-icons tooltip-published-icon mr-2"
-            (click)="toggleHeader()"
-            >lock_open</i
-          >
-          {{ 'tests.not-published' | translate }}
-        </div>
+      <div
+        class="d-flex align-items-center justify-content-between test-status"
+      >
+        <a
+          class="d-flex btn btn-link pl-0"
+          title="{{ 'tests.publish' | translate }}"
+        >
+          <i class="material-icons mr-1">lock_open</i>
+          <span>{{ 'tests.not-published' | translate }}</span>
+        </a>
         <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
           expanded ? 'expand_more' : 'expand_less'
         }}</i>
