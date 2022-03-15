@@ -2,11 +2,11 @@
 @import "node_modules/bootstrap/scss/mixins";
 
 .border-right {
-  border-right: 2px solid #dee2e6;
+  border-right: 2px solid $border-color;
 }
 
 .filter-hover:hover {
-  background-color: lightgray;
+  background-color: $gray;
 }
 
 table th.grade.selected,
@@ -21,9 +21,14 @@ table td.grade,
 }
 
 thead tr th {
+  border-top: none;
   vertical-align: top;
   padding-top: $spacer;
   padding-bottom: $spacer;
+}
+
+.header-collapsible th {
+  border-bottom: 1px solid $border-color;
 }
 
 .mobile {
@@ -50,7 +55,6 @@ thead tr th.test-info-desktop {
   }
 
   thead tr th {
-    border-top: none;
     padding-top: calc($spacer / 4);
     padding-bottom: calc($spacer / 4);
   }
