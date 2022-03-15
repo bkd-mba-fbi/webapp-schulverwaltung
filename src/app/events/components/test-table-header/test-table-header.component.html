@@ -1,7 +1,7 @@
 <div class="d-flex flex-column h-100 justify-content-between">
   <div
     (click)="toggleHeader()"
-    class="test-designation d-flex flex-row mb-3 align-items-end justify-content-between pr-2"
+    class="test-designation d-flex flex-row my-3 align-items-end justify-content-between pr-2"
   >
     <div [ngClass]="expanded ? 'expanded' : 'collapsed'">
       {{ test.Designation }}
@@ -27,7 +27,7 @@
     </div>
     <div
       *ngIf="test.IsPublished; else notPublished"
-      class="d-flex align-items-end justify-content-between mb-3 test-status"
+      class="d-flex align-items-end justify-content-between test-status"
     >
       <div class="d-flex justify-end">
         <i class="material-icons tooltip-published-icon mr-2">lock</i>
@@ -38,9 +38,7 @@
       }}</i>
     </div>
     <ng-template #notPublished>
-      <div
-        class="d-flex align-items-end justify-content-between mb-3 test-status"
-      >
+      <div class="d-flex align-items-end justify-content-between test-status">
         <div class="d-flex justify-end">
           <i
             class="material-icons tooltip-published-icon mr-2"

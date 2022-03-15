@@ -23,12 +23,11 @@ table td.grade,
 thead tr th {
   border-top: none;
   vertical-align: top;
-  padding-top: $spacer;
-  padding-bottom: $spacer;
 }
 
 .header-collapsible th {
   border-bottom: 1px solid $border-color;
+  padding: 0 $spacer;
 }
 
 .mobile {
@@ -37,6 +36,11 @@ thead tr th {
 
 thead tr th.test-info-desktop {
   display: none !important;
+}
+
+table td,
+table th {
+  padding: $spacer;
 }
 
 @include media-breakpoint-up(sm) {
@@ -52,11 +56,6 @@ thead tr th.test-info-desktop {
   table td.grade,
   .desktop {
     display: table-cell !important;
-  }
-
-  thead tr th {
-    padding-top: calc($spacer / 4);
-    padding-bottom: calc($spacer / 4);
   }
 
   thead tr th.grade {

@@ -9,7 +9,7 @@
   <table class="table table-hover h-100">
     <thead class="h-100">
       <tr class="h-100 header-collapsible">
-        <th class="desktop" colspan="3">
+        <th class="desktop pt-3" colspan="3">
           <button
             type="button"
             class="btn desktop"
@@ -105,10 +105,8 @@
         <td>
           <a [routerLink]="'#'">
             {{ studentGrade.student.FullName }}
-            <p class="mobile">
-              <a href=""> Mittelwert: 5.15 </a>
-            </p>
           </a>
+          <a href="" class="mobile"> Mittelwert: 5.15 </a>
         </td>
         <td class="grade"></td>
         <td class="grade border-right"></td>

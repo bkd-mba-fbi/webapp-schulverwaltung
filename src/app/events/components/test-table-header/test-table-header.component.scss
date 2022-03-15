@@ -1,3 +1,5 @@
+@import "../../../../bootstrap-variables";
+
 .test-owner,
 .collapsed {
   white-space: nowrap;
@@ -11,6 +13,7 @@
 
 .test-status {
   order: -1;
+  padding-bottom: $spacer;
 }
 
 @media (min-width: 750px) {
