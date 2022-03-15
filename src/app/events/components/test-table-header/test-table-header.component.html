@@ -10,7 +10,7 @@
       expanded ? 'expand_more' : 'expand_less'
     }}</i>
   </div>
-  <div>
+  <div class="d-flex flex-column">
     <div *ngIf="expanded" class="d-flex flex-column mb-3">
       <div class="d-flex flex-row justify-content-between">
         <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
@@ -27,7 +27,7 @@
     </div>
     <div
       *ngIf="test.IsPublished; else notPublished"
-      class="d-flex align-items-end justify-content-between mb-3"
+      class="d-flex align-items-end justify-content-between mb-3 test-status"
     >
       <div class="d-flex justify-end">
         <i class="material-icons tooltip-published-icon mr-2">lock</i>
@@ -38,7 +38,9 @@
       }}</i>
     </div>
     <ng-template #notPublished>
-      <div class="d-flex align-items-end justify-content-between mb-3">
+      <div
+        class="d-flex align-items-end justify-content-between mb-3 test-status"
+      >
         <div class="d-flex justify-end">
           <i
             class="material-icons tooltip-published-icon mr-2"
