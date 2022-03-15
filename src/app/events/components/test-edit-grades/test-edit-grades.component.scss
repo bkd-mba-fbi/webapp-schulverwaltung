@@ -58,6 +58,13 @@ table th {
     display: table-cell !important;
   }
 
+  thead tr th {
+    border-top: none;
+    padding-top: calc($spacer / 4);
+    padding-bottom: calc($spacer / 4);
+    border-top: initial;
+  }
+
   thead tr th.grade {
     min-width: 300px;
     max-width: 300px;
