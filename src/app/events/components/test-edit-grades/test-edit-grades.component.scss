@@ -34,7 +34,7 @@ thead tr th.test-info-desktop {
   display: none !important;
 }
 
-@media (min-width: 750px) {
+@include media-breakpoint-up(sm) {
   thead tr th.test-info-mobile {
     display: none !important;
   }
