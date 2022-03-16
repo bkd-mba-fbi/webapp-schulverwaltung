@@ -1,10 +1,6 @@
 @import "../../../../bootstrap-variables";
 @import "node_modules/bootstrap/scss/mixins";
 
-.grades-border-right {
-  border-right: 1px solid $border-color;
-}
-
 .filter-hover:hover {
   background-color: $gray;
 }
@@ -47,6 +43,8 @@ table th {
   table {
     display: block;
     overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
   }
 
   thead tr th.test-info-mobile {
