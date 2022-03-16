@@ -2,18 +2,11 @@
   class="erz-container erz-container-limited erz-container-padding-y"
   *erzLet="{ courseId: courseId$ | async } as data"
 >
-  <form>
-    <div class="d-flex justify-content-end">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        [routerLink]="['/events', data.courseId, 'tests']"
-      >
-        {{ 'tests.edit.cancel' | translate }}
-      </button>
-      <button type="submit" class="btn btn-primary ml-2">
-        {{ 'tests.edit.save' | translate }}
-      </button>
-    </div>
-  </form>
+  <div class="d-flex justify-content-between mb-3">
+    <h6>TBD: Testname</h6>
+    <button type="button" class="btn btn-primary">
+      <i class="material-icons">delete</i>
+    </button>
+  </div>
+  <erz-tests-edit-form [courseId]="data.courseId"></erz-tests-edit-form>
 </div>
