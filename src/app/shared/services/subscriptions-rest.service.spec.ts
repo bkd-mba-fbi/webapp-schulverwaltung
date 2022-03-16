@@ -28,6 +28,7 @@ describe('SubscriptionsRestService', () => {
       httpTestingController
         .expectOne((req) => req.url === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 });

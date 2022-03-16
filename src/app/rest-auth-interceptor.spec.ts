@@ -25,6 +25,9 @@ describe('RestAuthInterceptor', () => {
 
   describe('.intercept', () => {
     describe('authenticated', () => {
+      afterEach(() => {
+        httpTestingController.verify();
+      });
       it('adds CLX-Authorization header to request for API requests', () => {
         http
           .get('https://eventotest.api/foo')
@@ -66,6 +69,7 @@ describe('RestAuthInterceptor', () => {
       });
 
       afterEach(() => {
+        httpTestingController.verify();
         (authServiceMock as any).isAuthenticated = true;
         (authServiceMock as any).accessToken = 'abcdefghijklmnopqrstuvwxyz';
       });

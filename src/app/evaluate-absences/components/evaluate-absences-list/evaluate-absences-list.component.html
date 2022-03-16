@@ -38,7 +38,7 @@
             <tr>
               <th
                 *ngFor="let column of columns"
-                (click)="state.toggleSorting(column.key)"
+                (click)="state.sortService.toggleSorting(column.key)"
                 scope="col"
                 [ngClass]="column.label"
               >
@@ -50,7 +50,7 @@
                     }}
                   </div>
                   <div class="sort-direction">
-                    {{ getSortingChar$(column) | async }}
+                    {{ state.sortService.getSortingChar$(column) | async }}
                   </div>
                 </div>
               </th>

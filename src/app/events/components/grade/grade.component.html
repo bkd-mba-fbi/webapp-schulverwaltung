@@ -1,0 +1,8 @@
+<div *ngIf="grade.kind === 'grade'" class="d-flex flex-row w-100">
+  <div *ngIf="grade.test.IsPointGrading" class="w-25">
+    {{ grade.result.Points }}
+  </div>
+  <div>
+    {{ grade.result.GradeValue }}
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="d-flex align-items-center justify-content-between header">
+  <button
+    type="button"
+    class="back btn btn-link py-0 px-0"
+    [routerLink]="['/events']"
+  >
+    <div class="d-flex">
+      <i class="material-icons btn">navigate_before</i>
+      <div class="text-justify">
+        <div>{{ course.Designation }}</div>
+        <div class="font-color-light-gray" *ngIf="course.ParticipatingStudents">
+          {{
+            (course.ParticipatingStudents.length === 1
+              ? 'courses.registration'
+              : 'courses.registrations'
+            ) | translate: { count: course.ParticipatingStudents.length }
+          }}
+        </div>
+      </div>
+    </div>
+  </button>
+  <div class="d-flex">
+    <a routerLink="add" class="edit btn btn-primary ml-2">
+      <i class="material-icons">add</i>
+    </a>
+    <a class="edit btn btn-primary ml-2" [href]="loadReportUrl()">
+      <i class="material-icons">description</i>
+    </a>
+  </div>
+</div>

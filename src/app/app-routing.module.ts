@@ -38,6 +38,12 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'events',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./events/events.module').then((m) => m.EventsModule),
+  },
+  {
     path: 'my-absences',
     canActivate: [AuthGuard],
     loadChildren: () =>

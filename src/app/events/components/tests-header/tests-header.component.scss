@@ -1,0 +1,21 @@
+@import "../../../../bootstrap-variables";
+
+.back {
+  color: $body-color;
+  text-decoration: none;
+}
+
+.font-color-light-gray {
+  color: $gray-500;
+}
+
+.header {
+  padding-bottom: $spacer;
+  border-bottom: 1px solid $gray-200;
+}
+
+@media (max-width: 750px) {
+  .header {
+    padding-right: $spacer;
+  }
+}

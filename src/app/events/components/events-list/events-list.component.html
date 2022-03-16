@@ -1,0 +1,75 @@
+<div
+  class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
+  *erzLet="{ events: state.filteredEvents$ | async } as data"
+>
+  <erz-resettable-input
+    class="d-flex search"
+    [value]="state.search$ | async"
+    [placeholder]="'events.search-by' | translate"
+    [label]="'events.search' | translate"
+    [disabled]="!data.events"
+    (valueChange)="state.search$.next($event)"
+  ></erz-resettable-input>
+
+  <ng-container *ngIf="(state.loading$ | async) === false; else loading">
+    <ng-container *ngIf="data.events?.length > 0; else noEvents">
+      <div class="event-header">
+        <div class="designation">{{ 'events.designation' | translate }}</div>
+        <div class="date">{{ 'events.date' | translate }}</div>
+        <div class="registrations">
+          {{ 'events.registrations' | translate }}
+        </div>
+        <div class="rating">{{ 'events.rating' | translate }}</div>
+      </div>
+      <div class="event-entry" *ngFor="let event of data.events">
+        <div class="designation">
+          <a [href]="event.detailLink">{{ event.Designation }}</a>
+        </div>
+        <div class="date">
+          <span *ngIf="event.dateFrom && event.dateTo"
+            >{{ event.dateFrom | date: 'dd.MM.yyyy' }}–{{
+              event.dateTo | date: 'dd.MM.yyyy'
+            }}</span
+          >
+        </div>
+        <div class="registrations">
+          {{ event.studentCount }}
+          <span class="registrations-label">{{
+            'events.registrations' | translate
+          }}</span>
+        </div>
+        <div class="rating">
+          <a
+            *ngIf="event.evaluationLink === null && event.status !== null"
+            class="d-flex"
+            [routerLink]="[event.id, 'tests']"
+          >
+            <i class="material-icons">arrow_right_alt</i>
+            <span class="pl-1">{{ 'events.state.add-tests' | translate }}</span>
+          </a>
+          <a
+            *ngIf="event.evaluationLink !== null"
+            class="d-flex"
+            [href]="event.evaluationLink"
+          >
+            <i class="material-icons">arrow_right_alt</i>
+            <span class="pl-1"
+              >{{ 'events.state.' + event.state | translate }}
+              <span *ngIf="event.state === 'rating-until'">
+                {{ event.ratingUntil | date: 'dd.MM.yyyy' }}</span
+              >
+            </span>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noEvents>
+      <p>{{ 'events.no-events' | translate }}</p>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loading>
+    <erz-spinner></erz-spinner>
+  </ng-template>
+</div>

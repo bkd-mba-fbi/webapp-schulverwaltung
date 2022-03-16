@@ -1,0 +1,108 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.filter-hover:hover {
+  background-color: $gray;
+}
+
+table th.grade.selected,
+table td.grade.selected {
+  display: table-cell !important;
+}
+
+table th.grade,
+table td.grade,
+.desktop {
+  display: none !important;
+}
+
+thead tr th {
+  border-top: none;
+  vertical-align: top;
+}
+
+.header-collapsible th {
+  border-bottom: 1px solid $border-color;
+  padding: 0 $spacer;
+}
+
+.mobile {
+  display: block !important;
+}
+
+thead tr th.test-info-desktop {
+  display: none !important;
+}
+
+table td,
+table th {
+  padding: $spacer;
+}
+
+@include media-breakpoint-up(sm) {
+  table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  thead tr th.test-info-mobile {
+    display: none !important;
+  }
+
+  thead tr th.test-info-desktop {
+    display: table-cell !important;
+  }
+
+  table th.grade,
+  table td.grade,
+  .desktop {
+    display: table-cell !important;
+  }
+
+  thead tr th {
+    border-top: none;
+    padding-top: calc($spacer / 4);
+    padding-bottom: calc($spacer / 4);
+    border-top: initial;
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  thead tr th.grade {
+    min-width: 300px;
+    max-width: 300px;
+  }
+
+  .mobile {
+    display: none !important;
+  }
+
+  .primary-column-width {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 200px;
+    max-width: 200px;
+  }
+
+  .secondary-column-width {
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  table .sticky {
+    position: sticky;
+    left: 0;
+    background-color: $white;
+  }
+
+  table .sticky.sticky-col-2 {
+    left: 200px;
+  }
+
+  table .sticky.sticky-col-3 {
+    left: 300px;
+  }
+}

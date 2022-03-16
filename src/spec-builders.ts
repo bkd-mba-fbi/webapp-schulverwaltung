@@ -13,6 +13,13 @@ import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
+import {
+  Course,
+  AttendanceRef,
+  EvaluationStatusRef,
+} from './app/shared/models/course.model';
+import { Result, Test } from './app/shared/models/test.model';
+import { StudyClass } from './app/shared/models/study-class.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -391,5 +398,102 @@ export function buildSubscriptionDetail(
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: null,
+  };
+}
+
+export function buildStudyClass(id: number, designation?: string): StudyClass {
+  return {
+    Id: id,
+    Designation: designation || '22a',
+    StudentCount: 0,
+    Number: designation || '22a',
+  };
+}
+
+export function buildCourse(
+  id: number,
+  designation?: string,
+  attendance?: AttendanceRef,
+  evaluationStatus?: EvaluationStatusRef
+): Course {
+  return {
+    HRef: '',
+    Id: id,
+    Number: '1',
+    Designation: designation || 'Physik-22a',
+    // HostId: t.string,
+    // Host: t.string,
+    // Management: t.string,
+    // MaxParticipants: t.number,
+    // MinParticipants: t.number,
+    // Weekday: t.string,
+    DateFrom: new Date('2022-02-09T00:00:00'),
+    DateTo: new Date('2022-06-30T00:00:00'),
+    // LessonFrequency: t.number,
+    // Location: t.string,
+    // TimeFrom: LocalDateTimeFromString,
+    // TimeTo: LocalDateTimeFromString,
+    // ConductOfCourse: null,
+    // RegistrationFrom: null,
+    // RegistrationTo: null,
+    // Price: 0.0000,
+    // Credits: 2.0,
+    // LanguageOfInstruction: null,
+    // Url: null,
+    // Color: null,
+    // IsPublished: t.boolean,
+    // LevelId: t.number,
+    // Level: t.string,
+    // StatusId: t.number,
+    // Status: t.string,
+    // Lessons: null,
+    // EventManagers: null,
+    // MainEventManagers: null,
+    // TimetableEntries: null,
+    // GradingScaleId: t.number,
+    // FinalGrades: null,
+    // Gradings: null,
+    Tests: null,
+    EvaluationStatusRef: evaluationStatus || buildReference(),
+    AttendanceRef: attendance || buildReference(),
+    ParticipatingStudents: [buildStudent(100)],
+    Classes: null,
+  };
+}
+
+export function buildTest(
+  courseId: number,
+  testId: number,
+  results: Result[]
+): Test {
+  return {
+    Id: testId,
+    CourseId: courseId,
+    Date: new Date('2022-02-09T00:00:00'),
+    Designation: `Test Designation for test with id ${testId}`,
+    Weight: 100,
+    WeightPercent: 100,
+    IsPointGrading: false,
+    MaxPoints: 0,
+    MaxPointsAdjusted: 0,
+    IsPublished: false,
+    IsOwner: true,
+    Owner: null,
+    Creation: '2022-02-14T16:58:18.89',
+    GradingScaleId: 1106,
+    GradingScale: 'Zehntelnoten bes. disp. keine Note',
+    Results: results,
+  };
+}
+
+export function buildResult(testId: number, studentId: number): Result {
+  return {
+    TestId: testId,
+    GradeId: 2349,
+    GradeValue: 3.7,
+    GradeDesignation: '3.7',
+    Points: null,
+    StudentId: studentId,
+    Id: `${testId}_126713`,
   };
 }

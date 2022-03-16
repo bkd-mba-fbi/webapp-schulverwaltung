@@ -30,6 +30,9 @@ describe('EvaluateAbsencesListComponent', () => {
         entries$: of([statistic]),
         sorting$: of({ key: 'StudentFullName', ascending: true }),
         loading$: of(false),
+        sortService: {
+          getSortingChar$: () => of('↑'),
+        },
       } as unknown) as EvaluateAbsencesStateService;
 
       TestBed.configureTestingModule(

@@ -27,13 +27,16 @@ describe('SubscriptionDetailsRestService', () => {
       };
       service
         .update('A', detail)
-        .subscribe((result) => expect(result).toBeFalse());
+        .subscribe((result) => expect(result).toBeUndefined());
 
-      httpTestingController.expectOne(
-        (req) =>
-          req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-        url
-      );
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.url === url && req.method === 'PUT' && isEqual(req.body, body),
+          url
+        )
+        .flush(body);
+      httpTestingController.verify();
     });
 
     it('removes the group from the given subscription', () => {
@@ -46,13 +49,16 @@ describe('SubscriptionDetailsRestService', () => {
       };
       service
         .update(null, detail)
-        .subscribe((result) => expect(result).toBeFalse());
+        .subscribe((result) => expect(result).toBeUndefined());
 
-      httpTestingController.expectOne(
-        (req) =>
-          req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-        url
-      );
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.url === url && req.method === 'PUT' && isEqual(req.body, body),
+          url
+        )
+        .flush(body);
+      httpTestingController.verify();
     });
   });
 });

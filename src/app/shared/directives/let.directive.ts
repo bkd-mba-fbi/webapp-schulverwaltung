@@ -1,6 +1,6 @@
 /**
  * This directive is part of the ngrx-utils collection, see:
- * https://github.com/ngrx-utils/ngrx-utils/blob/master/projects/store/src/directives/ngLet.ts
+ * https://github.com/ngrx-utils/ngrx-utils/blob/master/libs/store/src/lib/directives/ngLet.ts
  *
  * Usage:
  *   <ng-container *erzLet="(user$ | async) as task">

@@ -31,6 +31,8 @@ import { XssPipe } from './pipes/xss.pipe';
 import { AddSpacePipe } from './pipes/add-space.pipe';
 import { MultiselectComponent } from './components/multiselect/multiselect.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TestsWeightPipe } from './pipes/test-weight.pipe';
+import { TestsGradingTypePipe } from './pipes/test-grading-type.pipe';
 
 // Components that will be exported
 const components = [
@@ -54,6 +56,8 @@ const components = [
   SafePipe,
   XssPipe,
   AddSpacePipe,
+  TestsWeightPipe,
+  TestsGradingTypePipe,
 ];
 
 @NgModule({

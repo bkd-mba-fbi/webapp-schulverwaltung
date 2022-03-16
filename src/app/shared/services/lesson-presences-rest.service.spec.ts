@@ -6,10 +6,10 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresencesRestService } from './lesson-presences-rest.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
-import { Sorting } from './paginated-entries.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { LessonPresence } from '../models/lesson-presence.model';
 import { buildLessonPresence } from 'src/spec-builders';
+import { Sorting } from './sort.service';
 
 const CLASS_TEACHER_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlRlc3QiLCJjb25zdW1lcl9pZCI6ImRldiIsInVzZXJuYW1lIjoiam9obiIsImluc3RhbmNlX2lkIjoiVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjEyMyIsImlkX3BlcnNvbiI6IjQ1NiIsImZ1bGxuYW1lIjoiSm9obiBEb2UiLCJyb2xlcyI6Ikxlc3NvblRlYWNoZXJSb2xlO0NsYXNzVGVhY2hlclJvbGUiLCJ0b2tlbl9pZCI6IjEyMzQ1NiJ9.erGO0ORYWA7LAjuWSrz924rkgC2Gqg6_Wu3GUZiMOyI';
@@ -80,6 +80,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne('https://eventotest.api/LessonPresences/123')
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
@@ -95,6 +97,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
@@ -109,6 +113,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+
+      httpTestingController.verify();
     });
   });
 
@@ -149,6 +155,8 @@ describe('LessonPresencesRestService', () => {
             lessonTeacherRequestUrl
           )
           .flush(t.array(LessonPresence).encode([presence1]));
+
+        httpTestingController.verify();
       });
     });
 
@@ -201,7 +209,7 @@ describe('LessonPresencesRestService', () => {
   describe('.getStatistics', () => {
     const data: any[] = [];
     let filter: EvaluateAbsencesFilter;
-    let sorting: Sorting<LessonPresenceStatistic>;
+    let sorting: Sorting<keyof LessonPresenceStatistic>;
 
     beforeEach(() => {
       filter = {
@@ -230,6 +238,8 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+
+      httpTestingController.verify();
     });
 
     it('fetches statistics based with the given filter (only student set) and sorting', () => {
@@ -244,6 +254,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 
@@ -274,6 +285,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson refs with one filter value set', () => {
@@ -289,6 +301,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 
@@ -324,6 +337,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with all given filters', () => {
@@ -345,6 +359,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with with only date from', () => {
@@ -360,6 +375,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with with only date to', () => {
@@ -375,6 +391,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with with equal date from/to', () => {
@@ -391,6 +408,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
 
     it('fetches lesson presences with additional sort params', () => {
@@ -409,6 +427,7 @@ describe('LessonPresencesRestService', () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);
+      httpTestingController.verify();
     });
   });
 });

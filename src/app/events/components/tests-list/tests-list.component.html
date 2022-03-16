@@ -1,0 +1,36 @@
+<div
+  class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
+>
+  <ng-container
+    *erzLet="{
+      course: course$ | async,
+      tests: tests$ | async,
+      testOptions: testOptions$ | async,
+      selectedTestId: selectedTestId$ | async,
+      selectedTest: selectedTest$ | async
+    } as data"
+  >
+    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
+      <erz-tests-header [course]="data.course"></erz-tests-header>
+      <ng-container *ngIf="data.tests.length > 0; else noTests">
+        <erz-select
+          class="tests-dropdown"
+          [options]="data.testOptions"
+          [value]="data.selectedTestId"
+          [allowEmpty]="false"
+          (valueChange)="testSelected($event)"
+        ></erz-select>
+        <erz-test-edit-grades
+          [course]="data.course"
+          [selectedTest]="data.selectedTest"
+        ></erz-test-edit-grades>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-template #noTests>
+    <p class="mt-3 px-3">{{ 'tests.no-tests' | translate }}</p>
+  </ng-template>
+  <ng-template #loading>
+    <erz-spinner></erz-spinner>
+  </ng-template>
+</div>

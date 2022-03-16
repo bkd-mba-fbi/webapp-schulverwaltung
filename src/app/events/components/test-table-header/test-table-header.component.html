@@ -1,0 +1,66 @@
+<div class="d-flex flex-column h-100 justify-content-between">
+  <div
+    (click)="toggleHeader()"
+    class="test-designation d-flex flex-row my-3 align-items-end justify-content-between"
+    role="button"
+  >
+    <div [ngClass]="expanded ? 'expanded' : 'collapsed'">
+      {{ test.Designation }}
+    </div>
+    <i class="material-icons align-self-start">{{
+      expanded ? 'expand_more' : 'expand_less'
+    }}</i>
+  </div>
+  <div class="d-flex flex-column">
+    <div *ngIf="expanded" class="d-flex flex-column mb-3">
+      <div class="d-flex flex-row justify-content-between">
+        <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+        <a class="btn btn-link p-0 edit">
+          <i
+            *ngIf="test.IsOwner && test.IsPublished === false"
+            class="material-icons"
+            >edit</i
+          >
+        </a>
+      </div>
+      <div>
+        {{ test | testSummaryShort }}
+      </div>
+      <div class="test-owner">{{ test.Owner }}</div>
+    </div>
+    <div
+      *ngIf="test.IsPublished; else notPublished"
+      class="d-flex align-items-center justify-content-between test-status"
+    >
+      <a
+        class="d-flex btn btn-link pl-0 edit"
+        title="{{ 'tests.edit' | translate }}"
+      >
+        <i class="material-icons mr-1">lock</i>
+        <span>{{ 'tests.published' | translate }}</span>
+      </a>
+      <i
+        class="material-icons expand-mobile"
+        (click)="toggleHeader()"
+        role="button"
+        >{{ expanded ? 'expand_more' : 'expand_less' }}</i
+      >
+    </div>
+    <ng-template #notPublished>
+      <div
+        class="d-flex align-items-center justify-content-between test-status"
+      >
+        <a
+          class="d-flex btn btn-link pl-0"
+          title="{{ 'tests.publish' | translate }}"
+        >
+          <i class="material-icons mr-1">lock_open</i>
+          <span>{{ 'tests.not-published' | translate }}</span>
+        </a>
+        <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
+          expanded ? 'expand_more' : 'expand_less'
+        }}</i>
+      </div>
+    </ng-template>
+  </div>
+</div>

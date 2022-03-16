@@ -116,6 +116,16 @@ export class ReportsService implements OnDestroy {
     );
   }
 
+  /**
+   * @param recordId
+   * The ID of the course/event
+   */
+  getEventReportUrl(recordId: number): string {
+    return this.getReportUrl('Anlass', this.settings.testsByCourseReportId, [
+      recordId,
+    ]);
+  }
+
   setStudentConfirmationAvailabilityRecordIds(
     recordIds: ReadonlyArray<string>
   ): void {
