@@ -4,7 +4,7 @@ import { LocalDateTimeFromString, Option } from './common-types';
 const Result = t.type({
   TestId: t.number,
   GradeId: t.number,
-  GradeValue: t.number,
+  GradeValue: Option(t.number),
   GradeDesignation: t.string,
   Points: Option(t.number),
   StudentId: t.number,
