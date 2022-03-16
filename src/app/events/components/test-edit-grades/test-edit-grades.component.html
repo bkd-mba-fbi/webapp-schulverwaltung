@@ -9,7 +9,7 @@
   <table class="table table-hover h-100">
     <thead class="h-100">
       <tr class="h-100 header-collapsible">
-        <th class="desktop pt-3" colspan="3">
+        <th class="desktop pt-3 sticky" colspan="3">
           <button
             type="button"
             class="btn desktop"
@@ -60,7 +60,10 @@
         </th>
       </tr>
       <tr>
-        <th class="primary-column-width" (click)="state.sortBy('FullName')">
+        <th
+          class="primary-column-width sticky"
+          (click)="state.sortBy('FullName')"
+        >
           <div class="d-flex">
             <div class="column-title">
               {{ 'tests.student.name' | translate }}
@@ -70,10 +73,12 @@
             </div>
           </div>
         </th>
-        <th class="secondary-column-width desktop">
+        <th class="secondary-column-width sticky sticky-col-2 desktop">
           {{ 'tests.grade' | translate }}
         </th>
-        <th class="secondary-column-width border-right desktop">
+        <th
+          class="secondary-column-width border-right sticky sticky-col-3 desktop"
+        >
           {{ 'tests.average' | translate }}
         </th>
         <th
@@ -102,14 +107,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let studentGrade of data.studentGrades">
-        <td>
+        <td class="primary-column-width sticky">
           <a [routerLink]="'#'">
             {{ studentGrade.student.FullName }}
           </a>
           <a href="" class="mobile"> Mittelwert: 5.15 </a>
         </td>
-        <td class="grade"></td>
-        <td class="grade border-right"></td>
+        <td class="grade sticky sticky-col-2"></td>
+        <td class="grade border-right sticky sticky-col-3"></td>
         <td
           *ngFor="let grade of studentGrade.grades"
           class="grade"
@@ -124,9 +129,9 @@
         </td>
       </tr>
       <tr>
-        <td>{{ 'tests.average' | translate }}</td>
-        <td class="desktop">4.75</td>
-        <td class="desktop border-right">4.805</td>
+        <td class="sticky">{{ 'tests.average' | translate }}</td>
+        <td class="desktop sticky sticky sticky-col-2">4.75</td>
+        <td class="desktop border-right sticky sticky-col-3">4.805</td>
         <td
           *ngFor="let test of data.tests"
           class="grade"

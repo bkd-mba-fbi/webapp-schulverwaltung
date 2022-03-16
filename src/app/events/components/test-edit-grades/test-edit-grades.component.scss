@@ -44,6 +44,11 @@ table th {
 }
 
 @include media-breakpoint-up(sm) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
   thead tr th.test-info-mobile {
     display: none !important;
   }
@@ -63,6 +68,8 @@ table th {
     padding-top: calc($spacer / 4);
     padding-bottom: calc($spacer / 4);
     border-top: initial;
+    min-width: 100px;
+    max-width: 100px;
   }
 
   thead tr th.grade {
@@ -75,10 +82,31 @@ table th {
   }
 
   .primary-column-width {
-    width: 15%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 200px;
+    max-width: 200px;
   }
 
   .secondary-column-width {
-    width: 5%;
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  table .sticky {
+    position: sticky;
+    left: 0;
+    background-color: $white;
+    color: #373737;
+  }
+
+  table .sticky.sticky-col-2 {
+    left: 200px;
+  }
+
+  table .sticky.sticky-col-3 {
+    left: 300px;
+    margin-right: 1px;
   }
 }
