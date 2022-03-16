@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'erz-tests-edit',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./tests-edit.component.scss'],
 })
 export class TestsEditComponent {
-  constructor() {}
+  courseId$ = this.route.paramMap.pipe(
+    map((params) => Number(params.get('id')))
+  );
+
+  constructor(private route: ActivatedRoute) {}
 }
