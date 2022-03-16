@@ -1,8 +1,8 @@
 @import "../../../../bootstrap-variables";
 @import "node_modules/bootstrap/scss/mixins";
 
-.border-right {
-  border-right: 2px solid $border-color;
+.grades-border-right {
+  border-right: 1px solid $border-color;
 }
 
 .filter-hover:hover {
@@ -98,7 +98,6 @@ table th {
     position: sticky;
     left: 0;
     background-color: $white;
-    color: #373737;
   }
 
   table .sticky.sticky-col-2 {
@@ -107,6 +106,5 @@ table th {
 
   table .sticky.sticky-col-3 {
     left: 300px;
-    margin-right: 1px;
   }
 }
