@@ -2,6 +2,7 @@
   <div
     (click)="toggleHeader()"
     class="test-designation d-flex flex-row my-3 align-items-end justify-content-between"
+    role="button"
   >
     <div [ngClass]="expanded ? 'expanded' : 'collapsed'">
       {{ test.Designation }}
@@ -38,9 +39,12 @@
         <i class="material-icons mr-1">lock</i>
         <span>{{ 'tests.published' | translate }}</span>
       </a>
-      <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
-        expanded ? 'expand_more' : 'expand_less'
-      }}</i>
+      <i
+        class="material-icons expand-mobile"
+        (click)="toggleHeader()"
+        role="button"
+        >{{ expanded ? 'expand_more' : 'expand_less' }}</i
+      >
     </div>
     <ng-template #notPublished>
       <div
