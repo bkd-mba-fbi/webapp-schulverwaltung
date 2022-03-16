@@ -40,9 +40,12 @@ table th {
 }
 
 @include media-breakpoint-up(sm) {
-  table {
+  .table-responsive-wrapper {
     display: block;
     overflow-x: auto;
+  }
+
+  table {
     border-collapse: separate;
     border-spacing: 0;
   }
