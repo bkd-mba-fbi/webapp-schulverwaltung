@@ -4,8 +4,8 @@ import { EventsComponent } from './components/events/events.component';
 import { TestsComponent } from './components/tests/tests.component';
 import { TestsListComponent } from './components/tests-list/tests-list.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
-import { TestsAddComponent } from './components/tests-add/tests-add.component';
 import { TestsEditComponent } from './components/tests-edit/tests-edit.component';
+import { TestsAddComponent } from './components/tests-add/tests-add.component';
 
 const routes: Routes = [
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
         component: TestsAddComponent,
       },
       {
-        path: ':id/tests/edit',
+        path: ':id/tests/edit/:testId',
         component: TestsEditComponent,
       },
     ],
