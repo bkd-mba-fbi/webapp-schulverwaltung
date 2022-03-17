@@ -241,7 +241,18 @@
       "search": "Test suchen",
       "search-by": "Bezeichnung suchen..."
     },
-    "edit": {
+    "form": {
+      "designation": "Bezeichnung",
+      "designation-placeholder": "Bezeichnung erfassen...",
+      "date": "Datum",
+      "weight": "Gewichtung",
+      "factor": "Faktor",
+      "percentage": "Verhältnis zu allen Tests",
+      "grading-type": "Typ",
+      "points": "Punkte",
+      "max-points": "Maximal",
+      "max-points-adjusted": "Korrigiert",
+      "grades": "Noten",
       "save": "Übernehmen",
       "cancel": "Abbrechen"
     }
