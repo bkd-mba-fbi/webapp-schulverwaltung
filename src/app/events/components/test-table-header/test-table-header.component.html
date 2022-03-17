@@ -57,9 +57,12 @@
           <i class="material-icons mr-1">lock_open</i>
           <span>{{ 'tests.not-published' | translate }}</span>
         </a>
-        <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
-          expanded ? 'expand_more' : 'expand_less'
-        }}</i>
+        <i
+          class="material-icons expand-mobile"
+          (click)="toggleHeader()"
+          role="button"
+          >{{ expanded ? 'expand_more' : 'expand_less' }}</i
+        >
       </div>
     </ng-template>
   </div>
