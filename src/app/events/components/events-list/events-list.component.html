@@ -40,7 +40,7 @@
         </div>
         <div class="rating">
           <a
-            *ngIf="event.evaluationLink === null && event.status !== null"
+            *ngIf="event.state === 'add-tests'"
             class="d-flex"
             [routerLink]="[event.id, 'tests']"
           >
@@ -48,7 +48,7 @@
             <span class="pl-1">{{ 'events.state.add-tests' | translate }}</span>
           </a>
           <a
-            *ngIf="event.evaluationLink !== null"
+            *ngIf="event.state !== null && event.evaluationLink !== null"
             class="d-flex"
             [href]="event.evaluationLink"
           >
