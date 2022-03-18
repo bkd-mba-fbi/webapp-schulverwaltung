@@ -51,23 +51,6 @@ describe('EventsStateService', () => {
       StudentCount: 20,
     };
 
-    courses = [
-      buildCourse(1, 'Physik-22a', attendance, evaluationStatus),
-      buildCourse(2, 'Bio-22a', attendance, {
-        ...evaluationStatus,
-        HasEvaluationStarted: true,
-        EvaluationUntil: new Date(2022, 5, 3),
-      }),
-      buildCourse(3, 'Zeichnen-22a', attendance, {
-        ...evaluationStatus,
-        HasEvaluationStarted: true,
-      }),
-      buildCourse(4, 'Franz-22a', attendance, {
-        ...evaluationStatus,
-        HasTestGrading: true,
-      }),
-    ];
-
     studyClasses = [buildStudyClass(5, '22a')];
     studyClassEvents = [
       {
@@ -80,9 +63,44 @@ describe('EventsStateService', () => {
       },
     ];
 
+    courses = [
+      buildCourse(1, 'Physik', attendance, evaluationStatus, studyClasses),
+      buildCourse(
+        2,
+        'Bio',
+        attendance,
+        {
+          ...evaluationStatus,
+          HasEvaluationStarted: true,
+          EvaluationUntil: new Date(2022, 5, 3),
+        },
+        studyClasses
+      ),
+      buildCourse(
+        3,
+        'Zeichnen',
+        attendance,
+        {
+          ...evaluationStatus,
+          HasEvaluationStarted: true,
+        },
+        studyClasses
+      ),
+      buildCourse(
+        4,
+        'Franz',
+        attendance,
+        {
+          ...evaluationStatus,
+          HasTestGrading: true,
+        },
+        studyClasses
+      ),
+    ];
+
     const courseEvent: Event = {
       id: 1,
-      Designation: 'Physik-22a',
+      Designation: 'Physik, 22a',
       detailLink: 'link-to-event-detail-module.aspx?IDAnlass=1',
       dateFrom: new Date('2022-02-09T00:00:00'),
       dateTo: new Date('2022-06-30T00:00:00'),
@@ -96,7 +114,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 2,
-        Designation: 'Bio-22a',
+        Designation: 'Bio, 22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=2',
         state: EventState.RatingUntil,
         ratingUntil: new Date(2022, 5, 3),
@@ -105,7 +123,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 4,
-        Designation: 'Franz-22a',
+        Designation: 'Franz, 22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
         state: EventState.Tests,
       },
@@ -113,7 +131,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 3,
-        Designation: 'Zeichnen-22a',
+        Designation: 'Zeichnen, 22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
         state: EventState.IntermediateRating,
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',

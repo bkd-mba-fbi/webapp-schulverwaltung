@@ -414,7 +414,8 @@ export function buildCourse(
   id: number,
   designation?: string,
   attendance?: AttendanceRef,
-  evaluationStatus?: EvaluationStatusRef
+  evaluationStatus?: EvaluationStatusRef,
+  classes?: StudyClass[]
 ): Course {
   return {
     HRef: '',
@@ -457,7 +458,7 @@ export function buildCourse(
     EvaluationStatusRef: evaluationStatus || buildReference(),
     AttendanceRef: attendance || buildReference(),
     ParticipatingStudents: [buildStudent(100)],
-    Classes: null,
+    Classes: classes || null,
   };
 }
 
