@@ -35,7 +35,8 @@ export class EventsStateService {
   search$ = new BehaviorSubject<string>('');
 
   private courses$ = this.coursesRestService.getExpandedCourses();
-  private studyClasses$ = this.studyClassRestService.getFormativeAssessments();
+  private formativeAssessments$ = this.studyClassRestService.getActiveFormativeAssessments();
+  private studyClasses$ = this.studyClassRestService.getActive();
 
   private events$ = this.loadEvents();
   filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
@@ -52,25 +53,32 @@ export class EventsStateService {
 
   /**
    * Events are derived either from courses or study classes.
-   * If the current user has the role 'ClassTeacherRole', an additional request to get study classes is made.
+   * If the current user has the role 'ClassTeacherRole', additional requests to get study classes/formative assessments are made.
    */
   loadEvents(): Observable<ReadonlyArray<Event>> {
     return this.loadingService.load(
       this.hasClassTeacherRole()
-        ? combineLatest([this.courses$, this.studyClasses$]).pipe(
-            map(spread(this.createAndSortEvents.bind(this)))
-          )
+        ? combineLatest([
+            this.courses$,
+            this.formativeAssessments$,
+            this.studyClasses$,
+          ]).pipe(map(spread(this.createAndSortEvents.bind(this))))
         : this.courses$.pipe(map((course) => this.createAndSortEvents(course)))
     );
   }
 
   private createAndSortEvents(
     courses: ReadonlyArray<Course>,
+    formativeAssessments: ReadonlyArray<StudyClass> = [],
     studyClasses: ReadonlyArray<StudyClass> = []
   ): ReadonlyArray<Event> {
+    const classesWithoutAssessments = studyClasses.filter(
+      (c) => !formativeAssessments.map((fa) => fa.Id).includes(c.Id)
+    );
     return [
       ...this.createFromCourses(courses),
-      ...this.createFromStudyClasses(studyClasses),
+      ...this.createFromAssessments(formativeAssessments),
+      ...this.createFromStudyClasses(classesWithoutAssessments),
     ].sort((a, b) => a.Designation.localeCompare(b.Designation));
   }
 
@@ -80,10 +88,21 @@ export class EventsStateService {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
       Designation: studyClass.Designation,
-      detailLink: this.getLink(studyClass, 'eventdetail'),
+      detailLink: this.buildLink(studyClass.Id, 'eventdetail'),
       studentCount: studyClass.StudentCount,
       state: EventState.Rating,
-      evaluationLink: this.getLink(studyClass, 'evaluation'),
+      evaluationLink: null,
+    }));
+  }
+
+  private createFromAssessments(
+    studyClasses: ReadonlyArray<StudyClass>
+  ): ReadonlyArray<Event> {
+    const events = this.createFromStudyClasses(studyClasses);
+
+    return events.map((e) => ({
+      ...e,
+      evaluationLink: this.buildLink(e.id, 'evaluation'),
     }));
   }
 
@@ -96,7 +115,7 @@ export class EventsStateService {
       return {
         id: course.Id,
         Designation: this.getDesignation(course),
-        detailLink: this.getLink(course, 'eventdetail'),
+        detailLink: this.buildLink(course.Id, 'eventdetail'),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
@@ -141,11 +160,11 @@ export class EventsStateService {
   ): Option<string> {
     return state === null || state === EventState.Tests
       ? null
-      : this.getLink(course, 'evaluation');
+      : this.buildLink(course.Id, 'evaluation');
   }
 
-  private getLink(event: StudyClass | Course, linkType: LinkType): string {
-    return `${this.settings.eventlist[linkType]}=${event.Id}`;
+  private buildLink(id: number, linkType: LinkType): string {
+    return `${this.settings.eventlist[linkType]}=${id}`;
   }
 
   private hasClassTeacherRole(): boolean {

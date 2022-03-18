@@ -17,6 +17,8 @@ describe('EventsStateService', () => {
   let courses: Course[];
   let studyClassEvents: Event[];
   let studyClasses: StudyClass[];
+  let assessments: StudyClass[];
+  let assessmentEvents: Event[];
 
   beforeEach(() => {
     TestBed.configureTestingModule(
@@ -51,7 +53,7 @@ describe('EventsStateService', () => {
       StudentCount: 20,
     };
 
-    studyClasses = [buildStudyClass(5, '22a')];
+    studyClasses = [buildStudyClass(5, '22a'), buildStudyClass(6, '22b')];
     studyClassEvents = [
       {
         id: 5,
@@ -59,7 +61,19 @@ describe('EventsStateService', () => {
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=5',
         studentCount: 0,
         state: EventState.Rating,
-        evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=5',
+        evaluationLink: null,
+      },
+    ];
+
+    assessments = [studyClasses[1]];
+    assessmentEvents = [
+      {
+        id: 6,
+        Designation: '22b',
+        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=6',
+        studentCount: 0,
+        state: EventState.Rating,
+        evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=6',
       },
     ];
 
@@ -74,7 +88,7 @@ describe('EventsStateService', () => {
           HasEvaluationStarted: true,
           EvaluationUntil: new Date(2022, 5, 3),
         },
-        studyClasses
+        [studyClasses[0]]
       ),
       buildCourse(
         3,
@@ -84,7 +98,7 @@ describe('EventsStateService', () => {
           ...evaluationStatus,
           HasEvaluationStarted: true,
         },
-        studyClasses
+        [studyClasses[1]]
       ),
       buildCourse(
         4,
@@ -100,7 +114,7 @@ describe('EventsStateService', () => {
 
     const courseEvent: Event = {
       id: 1,
-      Designation: 'Physik, 22a',
+      Designation: 'Physik, 22a, 22b',
       detailLink: 'link-to-event-detail-module.aspx?IDAnlass=1',
       dateFrom: new Date('2022-02-09T00:00:00'),
       dateTo: new Date('2022-06-30T00:00:00'),
@@ -123,7 +137,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 4,
-        Designation: 'Franz, 22a',
+        Designation: 'Franz, 22a, 22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
         state: EventState.Tests,
       },
@@ -131,7 +145,7 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 3,
-        Designation: 'Zeichnen, 22a',
+        Designation: 'Zeichnen, 22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
         state: EventState.IntermediateRating,
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',
@@ -155,10 +169,15 @@ describe('EventsStateService', () => {
       service
         .loadEvents()
         .subscribe((result) =>
-          expect(result).toEqual([...studyClassEvents, ...courseEvents])
+          expect(result).toEqual([
+            ...studyClassEvents,
+            ...assessmentEvents,
+            ...courseEvents,
+          ])
         );
 
       expectCoursesRequest();
+      expectFormativeAssessmentsRequest();
       expectStudyClassesRequest();
     });
   });
@@ -188,8 +207,17 @@ describe('EventsStateService', () => {
       .flush(t.array(Course).encode(response));
   }
 
+  function expectFormativeAssessmentsRequest(response = assessments): void {
+    const url =
+      'https://eventotest.api/StudyClasses/FormativeAssessments?filter.IsActive==true';
+
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(StudyClass).encode(response));
+  }
+
   function expectStudyClassesRequest(response = studyClasses): void {
-    const url = 'https://eventotest.api/StudyClasses/FormativeAssessments';
+    const url = 'https://eventotest.api/StudyClasses/?filter.IsActive==true';
 
     httpTestingController
       .expectOne(url)
