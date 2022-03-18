@@ -35,7 +35,10 @@
         <div class="registrations">
           {{ event.studentCount }}
           <span class="registrations-label">{{
-            'events.registrations' | translate
+            (event.studentCount === 1
+              ? 'events.registration'
+              : 'events.registrations'
+            ) | translate
           }}</span>
         </div>
         <div class="rating">
