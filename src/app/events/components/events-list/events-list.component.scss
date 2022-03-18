@@ -10,7 +10,7 @@
   padding: $spacer;
   border-bottom: 2px solid $border-color;
   grid-template-areas: "designation date registrations rating";
-  grid-template-columns: 3fr 2fr 1fr 2fr;
+  grid-template-columns: 4fr 2fr 1fr 2fr;
 }
 
 .event-entry {
@@ -18,14 +18,11 @@
   border-bottom: 1px solid $border-color;
   padding: $spacer;
   grid-template-areas: "designation date registrations rating";
-  grid-template-columns: 3fr 2fr 1fr 2fr;
+  grid-template-columns: 4fr 2fr 1fr 2fr;
 }
 
 .designation {
   grid-area: designation;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .registrations-label {
