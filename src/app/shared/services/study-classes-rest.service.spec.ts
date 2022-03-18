@@ -13,9 +13,13 @@ describe('StudyClassesRestService', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
   describe('getFormativeAssessments', () => {
-    it('should request the formative assessments with class teacher role', () => {
-      service.getFormativeAssessments().subscribe((result) => {
+    it('should request the active formative assessments for role class teacher', () => {
+      service.getActiveFormativeAssessments().subscribe((result) => {
         expect(result).toEqual([]);
       });
 
@@ -23,12 +27,27 @@ describe('StudyClassesRestService', () => {
         .expectOne(
           (req) =>
             req.url ===
-              'https://eventotest.api/StudyClasses/FormativeAssessments' &&
+              'https://eventotest.api/StudyClasses/FormativeAssessments?filter.IsActive==true' &&
             req.headers.get('X-Role-Restriction') === 'ClassTeacherRole'
         )
         .flush([]);
+    });
+  });
 
-      httpTestingController.verify();
+  describe('getActive', () => {
+    it('should request the the active study classes for role class teacher', () => {
+      service.getActive().subscribe((result) => {
+        expect(result).toEqual([]);
+      });
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.url ===
+              'https://eventotest.api/StudyClasses/?filter.IsActive==true' &&
+            req.headers.get('X-Role-Restriction') === 'ClassTeacherRole'
+        )
+        .flush([]);
     });
   });
 });

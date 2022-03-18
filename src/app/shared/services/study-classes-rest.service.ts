@@ -17,11 +17,22 @@ export class StudyClassesRestService extends TypeaheadRestService<
     super(http, settings, StudyClass, 'StudyClasses', 'Number');
   }
 
-  getFormativeAssessments(): Observable<ReadonlyArray<StudyClass>> {
+  getActive(): Observable<ReadonlyArray<StudyClass>> {
     return this.http
-      .get<unknown[]>(`${this.baseUrl}/FormativeAssessments`, {
+      .get<unknown[]>(`${this.baseUrl}/?filter.IsActive==true`, {
         headers: { 'X-Role-Restriction': 'ClassTeacherRole' },
       })
+      .pipe(switchMap(decodeArray(StudyClass)));
+  }
+
+  getActiveFormativeAssessments(): Observable<ReadonlyArray<StudyClass>> {
+    return this.http
+      .get<unknown[]>(
+        `${this.baseUrl}/FormativeAssessments?filter.IsActive==true`,
+        {
+          headers: { 'X-Role-Restriction': 'ClassTeacherRole' },
+        }
+      )
       .pipe(switchMap(decodeArray(StudyClass)));
   }
 }
