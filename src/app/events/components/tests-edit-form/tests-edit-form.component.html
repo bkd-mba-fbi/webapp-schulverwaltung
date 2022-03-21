@@ -89,54 +89,64 @@
         }}</label>
       </div>
 
-      <div
-        *ngIf="data.formGroup.get('isPointGrading').value"
-        class="form-row ml-4"
-      >
-        <div class="col-sm-6 col-md-4">
-          <div class="form-group row">
-            <label for="max-points" class="col-4 col-form-label">{{
-              'tests.form.max-points' | translate
-            }}</label>
-            <div class="col-6">
-              <input
-                type="text"
-                name="maxPoints"
-                id="max-points"
-                formControlName="maxPoints"
-                class="form-control"
-                step="0.01"
-                min="0"
-                max="10"
-                placeholder="1.0"
-              />
+      <ng-container *ngIf="data.formGroup.get('isPointGrading').value">
+        <div class="form-row ml-4 mb-3">
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group row">
+              <label for="max-points" class="col-4 col-form-label">{{
+                'tests.form.max-points' | translate
+              }}</label>
+              <div class="col-6">
+                <input
+                  type="text"
+                  name="maxPoints"
+                  id="max-points"
+                  formControlName="maxPoints"
+                  class="form-control"
+                  step="0.01"
+                  min="0"
+                  max="10"
+                  placeholder="1.0"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group row">
+              <label for="max-points-adjusted" class="col-4 col-form-label">{{
+                'tests.form.max-points-adjusted' | translate
+              }}</label>
+              <div class="col-6">
+                <input
+                  type="text"
+                  name="maxPointsAdjusted"
+                  id="max-points-adjusted"
+                  formControlName="maxPointsAdjusted"
+                  class="form-control"
+                  step="0.01"
+                  min="0"
+                  max="10"
+                  placeholder="1.0"
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="form-group row">
-            <label for="max-points-adjusted" class="col-4 col-form-label">{{
-              'tests.form.max-points-adjusted' | translate
-            }}</label>
-            <div class="col-6">
-              <input
-                type="text"
-                name="maxPointsAdjusted"
-                id="max-points-adjusted"
-                formControlName="maxPointsAdjusted"
-                class="form-control"
-                step="0.01"
-                min="0"
-                max="10"
-                placeholder="1.0"
-              />
-            </div>
-          </div>
+
+        <div class="ml-4 pl-2">
+          <math>
+            <mi>Note</mi><mo>=</mo>
+            <mfrac>
+              <mrow><mi>Erreichte Punkte</mi><mo>×</mo><mn>5</mn></mrow>
+              <mi>Mögliche Punkte</mi>
+            </mfrac>
+            <mo>+</mo><mn>1</mn>
+          </math>
         </div>
-      </div>
+      </ng-container>
     </div>
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-4">
       <button
         type="button"
         class="btn btn-secondary"
