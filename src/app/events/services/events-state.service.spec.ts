@@ -60,8 +60,7 @@ describe('EventsStateService', () => {
         Designation: '22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=5',
         studentCount: 0,
-        state: EventState.Rating,
-        evaluationLink: null,
+        state: null,
       },
     ];
 
@@ -73,6 +72,7 @@ describe('EventsStateService', () => {
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=6',
         studentCount: 0,
         state: EventState.Rating,
+        evaluationText: 'events.state.rating',
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=6',
       },
     ];
@@ -120,7 +120,7 @@ describe('EventsStateService', () => {
       dateTo: new Date('2022-06-30T00:00:00'),
       studentCount: 20,
       state: null,
-      ratingUntil: null,
+      evaluationText: '',
       evaluationLink: null,
     };
 
@@ -131,7 +131,7 @@ describe('EventsStateService', () => {
         Designation: 'Bio, 22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=2',
         state: EventState.RatingUntil,
-        ratingUntil: new Date(2022, 5, 3),
+        evaluationText: 'events.state.rating-until 03.06.2022',
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=2',
       },
       {
@@ -140,6 +140,7 @@ describe('EventsStateService', () => {
         Designation: 'Franz, 22a, 22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
         state: EventState.Tests,
+        evaluationText: 'events.state.add-tests',
       },
       courseEvent,
       {
@@ -148,6 +149,7 @@ describe('EventsStateService', () => {
         Designation: 'Zeichnen, 22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
         state: EventState.IntermediateRating,
+        evaluationText: 'events.state.intermediate-rating',
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',
       },
     ];

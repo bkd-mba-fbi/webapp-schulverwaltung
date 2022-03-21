@@ -4,6 +4,7 @@ export interface Searchable {
   readonly studentFullName?: string;
   readonly studyClassNumber?: string;
   readonly Designation?: string;
+  readonly evaluationText?: string;
 }
 
 export function searchEntries<T extends Searchable>(
@@ -22,7 +23,8 @@ function matchesEntry(term: string): (entry: Searchable) => boolean {
   return (entry) =>
     matches(entry.studentFullName, preparedTerm) ||
     matches(entry.studyClassNumber, preparedTerm) ||
-    matches(entry.Designation, preparedTerm);
+    matches(entry.Designation, preparedTerm) ||
+    matches(entry.evaluationText, preparedTerm);
 }
 
 function matches(field: Maybe<string>, preparedTerm: string): boolean {

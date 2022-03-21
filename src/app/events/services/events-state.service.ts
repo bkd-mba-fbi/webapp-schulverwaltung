@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { format } from 'date-fns';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from 'src/app/shared/models/course.model';
@@ -26,8 +28,8 @@ export interface Event {
   dateTo?: Option<Date>;
   studentCount: number;
   state: Option<EventState>;
-  ratingUntil?: Option<Date>;
-  evaluationLink: Option<string>;
+  evaluationText?: string;
+  evaluationLink?: Option<string>;
 }
 @Injectable()
 export class EventsStateService {
@@ -48,6 +50,7 @@ export class EventsStateService {
     private studyClassRestService: StudyClassesRestService,
     private loadingService: LoadingService,
     private storage: StorageService,
+    private translate: TranslateService,
     @Inject(SETTINGS) private settings: Settings
   ) {}
 
@@ -90,8 +93,7 @@ export class EventsStateService {
       Designation: studyClass.Designation,
       detailLink: this.buildLink(studyClass.Id, 'eventdetail'),
       studentCount: studyClass.StudentCount,
-      state: EventState.Rating,
-      evaluationLink: null,
+      state: null,
     }));
   }
 
@@ -102,6 +104,8 @@ export class EventsStateService {
 
     return events.map((e) => ({
       ...e,
+      state: EventState.Rating,
+      evaluationText: this.translate.instant('events.state.rating'),
       evaluationLink: this.buildLink(e.id, 'evaluation'),
     }));
   }
@@ -120,7 +124,10 @@ export class EventsStateService {
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
         state: state,
-        ratingUntil: course.EvaluationStatusRef.EvaluationUntil,
+        evaluationText: this.getEvaluationText(
+          state,
+          course.EvaluationStatusRef.EvaluationUntil
+        ),
         evaluationLink: this.getEvaluationLink(course, state),
       };
     });
@@ -152,6 +159,18 @@ export class EventsStateService {
     }
 
     return null;
+  }
+
+  private getEvaluationText(
+    state: Option<EventState>,
+    date?: Maybe<Date>
+  ): string {
+    return state === null
+      ? ''
+      : this.translate.instant(`events.state.${state}`) +
+          (state === EventState.RatingUntil
+            ? ` ${date ? format(date, 'dd.MM.yyyy') : ''}`
+            : '');
   }
 
   private getEvaluationLink(
