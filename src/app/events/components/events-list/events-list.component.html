@@ -48,27 +48,22 @@
             [routerLink]="[event.id, 'tests']"
           >
             <i class="material-icons">arrow_right_alt</i>
-            <span class="pl-1">{{ 'events.state.add-tests' | translate }}</span>
+            <span class="pl-1">{{ event.evaluationText }}</span>
           </a>
           <a
-            *ngIf="event.state !== null && event.evaluationLink !== null"
+            *ngIf="event.evaluationText && event.evaluationLink"
             class="d-flex"
             [href]="event.evaluationLink"
           >
             <i class="material-icons">arrow_right_alt</i>
-            <span class="pl-1"
-              >{{ 'events.state.' + event.state | translate }}
-              <span *ngIf="event.state === 'rating-until'">
-                {{ event.ratingUntil | date: 'dd.MM.yyyy' }}</span
-              >
-            </span>
+            <span class="pl-1">{{ event.evaluationText }} </span>
           </a>
         </div>
       </div>
     </ng-container>
 
     <ng-template #noEvents>
-      <p>{{ 'events.no-events' | translate }}</p>
+      <p class="mt-3">{{ 'events.no-events' | translate }}</p>
     </ng-template>
   </ng-container>
 
