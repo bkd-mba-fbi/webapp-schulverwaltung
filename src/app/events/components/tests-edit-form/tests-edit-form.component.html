@@ -1,10 +1,10 @@
-<ng-container *erzLet="{ formGroup: formGroup$ | async } as data">
+<ng-container *erzLet="{ formGroup } as data">
   <form
     *ngIf="data.formGroup"
     [formGroup]="data.formGroup"
     (ngSubmit)="onSubmit()"
   >
-    <div class="form-row mb-3">
+    <div class="form-row my-3">
       <div class="form-group col-md-6">
         <label for="designation">{{
           'tests.form.designation' | translate
@@ -13,14 +13,16 @@
           id="designation"
           name="designation"
           type="text"
-          formControlName="designation"
+          formControlName="Designation"
           class="form-control"
           [placeholder]="'tests.form.designation-placeholder' | translate"
         />
       </div>
       <div class="form-group col-md-6">
         <label for="date">{{ 'tests.form.date' | translate }}</label>
-        <erz-date-select></erz-date-select>
+        <erz-date-select
+          [(value)]="data.formGroup.value.Date"
+        ></erz-date-select>
       </div>
     </div>
 
@@ -36,7 +38,7 @@
               id="factor"
               name="factor"
               type="number"
-              formControlName="factor"
+              formControlName="Weight"
               class="form-control"
               step="0.05"
               min="0"
@@ -55,7 +57,7 @@
               readonly
               class="form-control-plaintext"
               id="percentage"
-              [value]="data.formGroup.get('percentage').value | percent"
+              [value]="data.formGroup.get('WeightPercent').value | percent"
             />
           </div>
         </div>
@@ -68,7 +70,7 @@
         <input
           type="radio"
           class="form-check-input"
-          formControlName="isPointGrading"
+          formControlName="IsPointGrading"
           id="type-grades"
           [value]="false"
         />
@@ -80,7 +82,7 @@
         <input
           type="radio"
           class="form-check-input"
-          formControlName="isPointGrading"
+          formControlName="IsPointGrading"
           id="type-points"
           [value]="true"
         />
@@ -89,7 +91,7 @@
         }}</label>
       </div>
 
-      <ng-container *ngIf="data.formGroup.get('isPointGrading').value">
+      <ng-container *ngIf="data.formGroup.get('IsPointGrading').value">
         <div class="form-row ml-4 mb-3">
           <div class="col-sm-6 col-md-4">
             <div class="form-group row">
@@ -98,10 +100,10 @@
               }}</label>
               <div class="col-6">
                 <input
-                  type="text"
+                  type="number"
                   name="maxPoints"
                   id="max-points"
-                  formControlName="maxPoints"
+                  formControlName="MaxPoints"
                   class="form-control"
                   step="0.01"
                   min="0"
@@ -118,10 +120,10 @@
               }}</label>
               <div class="col-6">
                 <input
-                  type="text"
+                  type="number"
                   name="maxPointsAdjusted"
                   id="max-points-adjusted"
-                  formControlName="maxPointsAdjusted"
+                  formControlName="MaxPointsAdjusted"
                   class="form-control"
                   step="0.01"
                   min="0"
