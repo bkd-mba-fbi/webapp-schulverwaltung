@@ -1,32 +1,44 @@
-import { formatPercent, PercentPipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { of } from 'rxjs';
 import { Test } from 'src/app/shared/models/test.model';
-import { I18nService } from 'src/app/shared/services/i18n.service';
 
 @Component({
   selector: 'erz-tests-edit-form',
   templateUrl: './tests-edit-form.component.html',
   styleUrls: ['./tests-edit-form.component.scss'],
 })
-export class TestsEditFormComponent {
+export class TestsEditFormComponent implements OnInit {
   @Input() courseId: Number;
   @Input() test: Option<Test>;
 
-  formGroup$ = of(this.createFormGroup());
+  formGroup: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
-  private createFormGroup(): FormGroup {
-    return this.fb.group({
-      designation: ['', Validators.required],
-      date: [null, Validators.required],
-      factor: [1, Validators.required],
-      percentage: [1],
-      isPointGrading: [false, Validators.required],
-      maxPoints: [null],
-      maxPointsAdjusted: [null],
+  ngOnInit(): void {
+    this.formGroup = this.createFormGroup(this.test);
+  }
+
+  private createFormGroup(test: Option<Test>): FormGroup {
+    let fg = this.fb.group({
+      Designation: ['', Validators.required],
+      Date: [null, Validators.required],
+      Weight: [1, Validators.required],
+      WeightPercent: [1],
+      IsPointGrading: [false, Validators.required],
+      MaxPoints: [null],
+      MaxPointsAdjusted: [null],
     });
+
+    if (test) {
+      fg.patchValue(test);
+      fg.controls.Date.setValue({
+        day: test.Date.getDate(),
+        month: test.Date.getMonth() + 1,
+        year: test.Date.getFullYear(),
+      });
+    }
+
+    return fg;
   }
 }

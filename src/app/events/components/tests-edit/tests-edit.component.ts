@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { combineLatest, map, switchMap } from 'rxjs';
+import { TestStateService } from '../../services/test-state.service';
 
 @Component({
   selector: 'erz-tests-edit',
@@ -12,5 +13,16 @@ export class TestsEditComponent {
     map((params) => Number(params.get('id')))
   );
 
-  constructor(private route: ActivatedRoute) {}
+  private testId$ = this.route.paramMap.pipe(
+    map((params) => Number(params.get('testId')))
+  );
+  private tests$ = this.courseId$.pipe(
+    switchMap((id) => this.state.getCourse(id)),
+    map((course) => course.Tests ?? [])
+  );
+  test$ = combineLatest([this.tests$, this.testId$]).pipe(
+    map(([tests, id]) => tests.find((t) => t.Id === id))
+  );
+
+  constructor(private state: TestStateService, private route: ActivatedRoute) {}
 }
