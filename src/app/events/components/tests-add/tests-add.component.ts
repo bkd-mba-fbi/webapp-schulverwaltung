@@ -3,7 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, distinctUntilChanged, finalize, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  finalize,
+  map,
+  switchMap,
+} from 'rxjs';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 
 @Component({
@@ -39,7 +45,7 @@ export class TestsAddComponent {
     } = formGroup.value;
     this.courseId$
       .pipe(
-        map((courseId) =>
+        switchMap((courseId) =>
           this.courseService.add(
             courseId,
             new Date(date.year, date.month - 1, date.day), // TODO
