@@ -74,7 +74,7 @@ export class TestsEditFormComponent implements OnInit {
     this.courseService
       .add(
         this.courseId,
-        new Date(date),
+        new Date(date.year, date.month - 1, date.day), // TODO
         designation,
         weight,
         isPointGrading,
