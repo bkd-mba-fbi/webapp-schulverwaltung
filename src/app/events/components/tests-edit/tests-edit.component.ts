@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -44,6 +45,10 @@ export class TestsEditComponent {
         .delete(test.CourseId, test.Id)
         .subscribe(this.onDeleteSuccess.bind(this));
     }
+  }
+
+  save(test: FormGroup): void {
+    console.log('update ', test);
   }
 
   private onDeleteSuccess(): void {
