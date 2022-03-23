@@ -257,7 +257,12 @@
       "grades": "Noten",
       "save": "Übernehmen",
       "cancel": "Abbrechen",
-      "save-success": "Der Test wurde gespeichert"
+      "save-success": "Der Test wurde gespeichert",
+      "math": {
+        "grade": "Note",
+        "points": "Erreichte Punkte",
+        "max-points": "Mögliche Punkte"
+      }
     }
   },
   "my-absences": {
