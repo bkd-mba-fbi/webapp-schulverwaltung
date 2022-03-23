@@ -3,7 +3,14 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { combineLatest, distinctUntilChanged, map, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  finalize,
+  map,
+  switchMap,
+} from 'rxjs';
 import { Test } from 'src/app/shared/models/test.model';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { TestStateService } from '../../services/test-state.service';
@@ -14,13 +21,16 @@ import { TestStateService } from '../../services/test-state.service';
   styleUrls: ['./tests-edit.component.scss'],
 })
 export class TestsEditComponent {
+  saving$ = new BehaviorSubject(false);
+
   courseId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id'))),
     distinctUntilChanged()
   );
 
   private testId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('testId')))
+    map((params) => Number(params.get('testId'))),
+    distinctUntilChanged()
   );
   private tests$ = this.courseId$.pipe(
     switchMap((id) => this.state.getCourse(id)),
@@ -47,8 +57,22 @@ export class TestsEditComponent {
     }
   }
 
-  save(test: FormGroup): void {
-    console.log('update ', test);
+  save(formGroup: FormGroup): void {
+    this.saving$.next(true);
+    const { designation, weight } = formGroup.value;
+    combineLatest([this.courseId$, this.testId$])
+      .pipe(
+        switchMap(([courseId, testId]) =>
+          this.courseService.update(courseId, testId, designation, weight)
+        ),
+        finalize(() => this.saving$.next(false))
+      )
+      .subscribe(this.onSaveSuccess.bind(this));
+  }
+
+  private onSaveSuccess(): void {
+    this.toastr.success(this.translate.instant('tests.form.save-success'));
+    this.navigateBack();
   }
 
   private onDeleteSuccess(): void {
