@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, finalize, of } from 'rxjs';
 import { Test } from 'src/app/shared/models/test.model';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { getValidationErrors } from 'src/app/shared/utils/form';
@@ -81,6 +81,7 @@ export class TestsEditFormComponent implements OnInit {
         maxPoints,
         maxPointsAdjusted
       )
+      .pipe(finalize(() => this.saving$.next(false)))
       .subscribe(this.onSaveSuccess.bind(this));
   }
 
