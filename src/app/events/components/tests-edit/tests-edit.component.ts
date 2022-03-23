@@ -39,9 +39,11 @@ export class TestsEditComponent {
   ) {}
 
   delete(test: Test): void {
-    this.courseService
-      .delete(test.CourseId, test.Id)
-      .subscribe(this.onDeleteSuccess.bind(this));
+    if (confirm(this.translate.instant('tests.form.confirm'))) {
+      this.courseService
+        .delete(test.CourseId, test.Id)
+        .subscribe(this.onDeleteSuccess.bind(this));
+    }
   }
 
   private onDeleteSuccess(): void {
