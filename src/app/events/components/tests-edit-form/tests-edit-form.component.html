@@ -32,7 +32,7 @@
       <div class="form-group col-md-6">
         <label for="date">{{ 'tests.form.date' | translate }}</label>
         <erz-date-select
-          [(value)]="data.formGroup.value.Date"
+          [(value)]="data.formGroup.value.date"
         ></erz-date-select>
         <div class="invalid-feedback" *ngFor="let error of dateErrors$ | async">
           {{

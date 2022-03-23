@@ -106,11 +106,18 @@ export class TestsEditFormComponent implements OnInit {
   }
 
   private setInitialValues(test: Test) {
-    this.formGroup.patchValue(test);
-    this.formGroup.controls.date.setValue({
-      day: test.Date.getDate(),
-      month: test.Date.getMonth() + 1,
-      year: test.Date.getFullYear(),
+    this.formGroup.patchValue({
+      designation: test.Designation,
+      date: {
+        day: test.Date.getDate(),
+        month: test.Date.getMonth() + 1,
+        year: test.Date.getFullYear(),
+      },
+      weight: test.Weight,
+      weightPercent: test.WeightPercent,
+      isPointGrading: test.IsPointGrading,
+      maxPoints: test.MaxPoints,
+      maxPointsAdjusted: test.MaxPointsAdjusted,
     });
   }
 }
