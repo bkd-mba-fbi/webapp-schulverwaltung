@@ -259,6 +259,7 @@
       "cancel": "Abbrechen",
       "save-success": "Der Test wurde gespeichert",
       "delete-success": "Der Test wurde gelöscht",
+      "confirm": "Wollen Sie diesen Test löschen?",
       "math": {
         "grade": "Note",
         "points": "Erreichte Punkte",
