@@ -164,10 +164,18 @@
 
         <div class="ml-4 pl-2">
           <math>
-            <mi>Note</mi><mo>=</mo>
+            <mi>
+              {{ 'tests.form.math.grade' | translate }}
+            </mi>
+            <mo>=</mo>
             <mfrac>
-              <mrow><mi>Erreichte Punkte</mi><mo>×</mo><mn>5</mn></mrow>
-              <mi>Mögliche Punkte</mi>
+              <mrow>
+                <mi>
+                  {{ 'tests.form.math.points' | translate }}
+                </mi>
+                <mo>×</mo><mn>5</mn>
+              </mrow>
+              <mi>{{ 'tests.form.math.max-points' | translate }}</mi>
             </mfrac>
             <mo>+</mo><mn>1</mn>
           </math>
