@@ -20,7 +20,9 @@
       "required": "Dieses Feld muss ausgefüllt werden.",
       "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
       "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus.",
-      "email": "Keine gültige E-Mail-Adresse"
+      "email": "Keine gültige E-Mail-Adresse",
+      "max": "Bitte geben Sie eine Zahl kleiner oder gleich {{max}} ein",
+      "min": "Bitte geben Sie eine Zahl grösser oder gleich {{min}} ein"
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
@@ -254,7 +256,8 @@
       "max-points-adjusted": "Korrigiert",
       "grades": "Noten",
       "save": "Übernehmen",
-      "cancel": "Abbrechen"
+      "cancel": "Abbrechen",
+      "save-success": "Der Test wurde gespeichert"
     }
   },
   "my-absences": {
