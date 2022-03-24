@@ -1,15 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject, takeUntil } from 'rxjs';
 import { Test } from 'src/app/shared/models/test.model';
-import { getValidationErrors } from 'src/app/shared/utils/form';
+import {
+  getControlValueChanges,
+  getValidationErrors,
+} from 'src/app/shared/utils/form';
 
 @Component({
   selector: 'erz-tests-edit-form',
   templateUrl: './tests-edit-form.component.html',
   styleUrls: ['./tests-edit-form.component.scss'],
 })
-export class TestsEditFormComponent implements OnInit {
+export class TestsEditFormComponent implements OnInit, OnDestroy {
   @Input() courseId: number;
   @Input() test: Option<Test>;
 
@@ -17,6 +27,7 @@ export class TestsEditFormComponent implements OnInit {
 
   formGroup: FormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
+  private destroy$ = new Subject<void>();
   saving$ = new BehaviorSubject(false);
 
   designationErrors$ = getValidationErrors(
@@ -43,6 +54,15 @@ export class TestsEditFormComponent implements OnInit {
     if (this.test) {
       this.setInitialValues(this.test);
     }
+
+    // Disable max points and max points adjusted when not point grading
+    getControlValueChanges(of(this.formGroup), 'isPointGrading')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.updatePointsDisabled.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   onSubmit(): void {
@@ -59,8 +79,8 @@ export class TestsEditFormComponent implements OnInit {
       weight: [1],
       weightPercent: [1],
       isPointGrading: [false],
-      maxPoints: [null], // TODO required if is point grading
-      maxPointsAdjusted: [null],
+      maxPoints: [{ value: null, disabled: true }, Validators.required],
+      maxPointsAdjusted: [{ value: null, disabled: true }, null],
     });
   }
 
@@ -78,5 +98,23 @@ export class TestsEditFormComponent implements OnInit {
       maxPoints: test.MaxPoints,
       maxPointsAdjusted: test.MaxPointsAdjusted,
     });
+    this.updatePointsDisabled();
+  }
+
+  private updatePointsDisabled(): void {
+    const maxPoints = this.formGroup.get('maxPoints');
+    const maxPointsAdjusted = this.formGroup.get('maxPointsAdjusted');
+
+    const isPointGrading = this.formGroup.get('isPointGrading')?.value;
+
+    if (maxPoints && maxPointsAdjusted) {
+      if (isPointGrading) {
+        maxPoints.enable();
+        maxPointsAdjusted.enable();
+      } else {
+        maxPoints.reset({ value: null, disabled: true });
+        maxPointsAdjusted.reset({ value: null, disabled: true });
+      }
+    }
   }
 }
