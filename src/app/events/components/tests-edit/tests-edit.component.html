@@ -1,6 +1,10 @@
 <div
   class="erz-container erz-container-limited erz-container-padding-y"
-  *erzLet="{ courseId: courseId$ | async, test: test$ | async } as data"
+  *erzLet="{
+    courseId: courseId$ | async,
+    test: test$ | async,
+    saving: saving$ | async
+  } as data"
 >
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <div class="d-flex justify-content-between align-items-center">
@@ -12,6 +16,7 @@
     <erz-tests-edit-form
       [courseId]="data.courseId"
       [test]="data.test"
+      [saving]="data.saving"
       (save)="save($event)"
     ></erz-tests-edit-form>
   </ng-container>
