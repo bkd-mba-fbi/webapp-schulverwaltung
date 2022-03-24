@@ -96,7 +96,18 @@ describe('CoursesRestService', () => {
       const courseId = 1234;
       const testId = 4321;
 
-      service.update(courseId, testId, 'updated designation', 33).subscribe();
+      service
+        .update(
+          courseId,
+          testId,
+          'updated designation',
+          new Date('2022-02-09T00:00:00'),
+          33,
+          false,
+          null,
+          null
+        )
+        .subscribe();
 
       httpTestingController.match(
         (req) =>
@@ -108,7 +119,11 @@ describe('CoursesRestService', () => {
               {
                 Id: testId,
                 Designation: 'updated designation',
+                Date: new Date('2022-02-09T00:00:00'),
                 Weight: 33,
+                IsPointGrading: false,
+                MaxPoints: null,
+                MaxPointsAdjusted: null,
               },
             ],
           })
