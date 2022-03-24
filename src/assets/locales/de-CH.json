@@ -21,8 +21,9 @@
       "maxlength": "Der Text darf nur {{requiredLength}} Zeichen lang sein, umfasst jedoch {{actualLength}} Zeichen.",
       "confirmationvaluerequired": "Bitte wählen Sie einen Absenzgrund aus.",
       "email": "Keine gültige E-Mail-Adresse",
-      "max": "Bitte geben Sie eine Zahl kleiner oder gleich {{max}} ein",
-      "min": "Bitte geben Sie eine Zahl grösser oder gleich {{min}} ein"
+      "max": "Bitte geben Sie eine Zahl kleiner oder gleich {{max}} ein.",
+      "min": "Bitte geben Sie eine Zahl grösser oder gleich {{min}} ein.",
+      "ngbDate": "Bitte geben Sie ein gültiges Datum ein."
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"

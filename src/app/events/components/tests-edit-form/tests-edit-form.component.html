@@ -31,13 +31,34 @@
 
       <div class="form-group col-md-6">
         <label for="date">{{ 'tests.form.date' | translate }}</label>
-        <erz-date-select
-          [(value)]="data.formGroup.value.date"
-        ></erz-date-select>
-        <div class="invalid-feedback" *ngFor="let error of dateErrors$ | async">
-          {{
-            'global.validation-errors.' + error.error | translate: error.params
-          }}
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" [id]="componentId"
+              ><i class="material-icons">calendar_today</i></span
+            >
+          </div>
+          <input
+            id="date"
+            name="date"
+            type="text"
+            class="form-control"
+            [class.is-invalid]="(dateErrors$ | async).length > 0"
+            ngbDatepicker
+            [placeholder]="'shared.date-select.default-placeholder' | translate"
+            #dp="ngbDatepicker"
+            (click)="dp.toggle()"
+            formControlName="date"
+            required
+          />
+          <div
+            class="invalid-feedback"
+            *ngFor="let error of dateErrors$ | async"
+          >
+            {{
+              'global.validation-errors.' + error.error
+                | translate: error.params
+            }}
+          </div>
         </div>
       </div>
     </div>
@@ -59,6 +80,7 @@
               class="form-control"
               step="0.05"
               min="0"
+              required
             />
             <div
               class="invalid-feedback"
@@ -135,7 +157,6 @@
                   step="0.01"
                   min="0"
                   max="10"
-                  placeholder="1.0"
                   required
                 />
                 <div
@@ -165,7 +186,6 @@
                   step="0.01"
                   min="0"
                   max="10"
-                  placeholder="1.0"
                 />
               </div>
             </div>
@@ -197,19 +217,15 @@
       <button
         type="button"
         class="btn btn-secondary"
-        [disabled]="saving$ | async"
+        [disabled]="saving"
         [routerLink]="['/events', courseId, 'tests']"
       >
         {{ 'tests.form.cancel' | translate }}
       </button>
-      <button
-        type="submit"
-        class="btn btn-primary ml-2"
-        [disabled]="saving$ | async"
-      >
+      <button type="submit" class="btn btn-primary ml-2" [disabled]="saving">
         {{ 'tests.form.save' | translate }}
         <div
-          *ngIf="saving$ | async"
+          *ngIf="saving"
           class="spinner-border spinner-border-sm align-middle"
           role="status"
         >

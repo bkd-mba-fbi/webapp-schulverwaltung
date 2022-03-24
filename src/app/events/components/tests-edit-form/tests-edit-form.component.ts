@@ -22,13 +22,13 @@ import {
 export class TestsEditFormComponent implements OnInit, OnDestroy {
   @Input() courseId: number;
   @Input() test: Option<Test>;
+  @Input() saving: boolean;
 
   @Output() save = new EventEmitter<FormGroup>(); // TODO map to test model?
 
   formGroup: FormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
   private destroy$ = new Subject<void>();
-  saving$ = new BehaviorSubject(false);
 
   designationErrors$ = getValidationErrors(
     of(this.formGroup),
@@ -81,7 +81,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   private createFormGroup(): FormGroup {
     return this.fb.group({
       designation: ['', Validators.required],
-      date: [null], // TODO required, enable validation for date select component
+      date: [null, Validators.required],
       weight: [1, Validators.required],
       weightPercent: [1],
       isPointGrading: [false],
@@ -110,7 +110,6 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   private updatePointsDisabled(): void {
     const maxPoints = this.formGroup.get('maxPoints');
     const maxPointsAdjusted = this.formGroup.get('maxPointsAdjusted');
-
     const isPointGrading = this.formGroup.get('isPointGrading')?.value;
 
     if (maxPoints && maxPointsAdjusted) {
