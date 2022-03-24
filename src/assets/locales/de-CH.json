@@ -260,6 +260,7 @@
       "cancel": "Abbrechen",
       "save-success": "Der Test wurde gespeichert",
       "delete-success": "Der Test wurde gelöscht",
+      "delete-not-allowed": "Dieser Test kann nicht gelöscht werden, weil noch Noten eingetragen sind.",
       "confirm": "Wollen Sie diesen Test löschen?",
       "math": {
         "grade": "Note",

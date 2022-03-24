@@ -50,6 +50,11 @@ export class TestsEditComponent {
   ) {}
 
   delete(test: Test): void {
+    if (test.Results && test.Results.length > 0) {
+      alert(this.translate.instant('tests.form.delete-not-allowed'));
+      return;
+    }
+
     if (confirm(this.translate.instant('tests.form.confirm'))) {
       this.courseService
         .delete(test.CourseId, test.Id)
