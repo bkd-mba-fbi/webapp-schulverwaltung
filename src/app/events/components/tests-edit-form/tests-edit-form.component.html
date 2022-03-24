@@ -55,10 +55,20 @@
               name="factor"
               type="number"
               formControlName="weight"
+              [class.is-invalid]="(weightErrors$ | async).length > 0"
               class="form-control"
               step="0.05"
               min="0"
             />
+            <div
+              class="invalid-feedback"
+              *ngFor="let error of weightErrors$ | async"
+            >
+              {{
+                'global.validation-errors.' + error.error
+                  | translate: error.params
+              }}
+            </div>
           </div>
         </div>
       </div>
