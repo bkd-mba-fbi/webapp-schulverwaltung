@@ -7,8 +7,14 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+  NgbDateParserFormatter,
+} from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, of, Subject, takeUntil } from 'rxjs';
 import { Test } from 'src/app/shared/models/test.model';
+import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import {
   getControlValueChanges,
   getValidationErrors,
@@ -18,13 +24,17 @@ import {
   selector: 'erz-tests-edit-form',
   templateUrl: './tests-edit-form.component.html',
   styleUrls: ['./tests-edit-form.component.scss'],
+  providers: [
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
+  ],
 })
 export class TestsEditFormComponent implements OnInit, OnDestroy {
   @Input() courseId: number;
   @Input() test: Option<Test>;
   @Input() saving: boolean;
 
-  @Output() save = new EventEmitter<FormGroup>(); // TODO map to test model?
+  @Output() save = new EventEmitter<FormGroup>();
 
   formGroup: FormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
@@ -93,11 +103,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   private setInitialValues(test: Test) {
     this.formGroup.patchValue({
       designation: test.Designation,
-      date: {
-        day: test.Date.getDate(),
-        month: test.Date.getMonth() + 1,
-        year: test.Date.getFullYear(),
-      },
+      date: test.Date,
       weight: test.Weight,
       weightPercent: test.WeightPercent,
       isPointGrading: test.IsPointGrading,

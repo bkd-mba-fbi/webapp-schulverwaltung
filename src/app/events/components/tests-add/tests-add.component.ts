@@ -48,7 +48,7 @@ export class TestsAddComponent {
         switchMap((courseId) =>
           this.courseService.add(
             courseId,
-            new Date(date.year, date.month - 1, date.day), // TODO
+            date,
             designation,
             weight,
             isPointGrading,
