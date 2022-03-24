@@ -12,6 +12,7 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject, takeUntil } from 'rxjs';
 import { Test } from 'src/app/shared/models/test.model';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
@@ -64,17 +65,17 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     'weight'
   );
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private translate: TranslateService) {}
 
   ngOnInit(): void {
     if (this.test) {
       this.setInitialValues(this.test);
     }
 
-    // Disable max points and max points adjusted when not point grading
+    // Disable max points and max points adjusted fields when not point grading type
     getControlValueChanges(of(this.formGroup), 'isPointGrading')
       .pipe(takeUntil(this.destroy$))
-      .subscribe(this.updatePointsDisabled.bind(this));
+      .subscribe(this.togglePointFieldsDisability.bind(this));
   }
 
   ngOnDestroy(): void {
@@ -110,22 +111,27 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
       maxPoints: test.MaxPoints,
       maxPointsAdjusted: test.MaxPointsAdjusted,
     });
-    this.updatePointsDisabled();
+
+    // Disable type selection if test already contains results
+    if (test.Results && test.Results.length > 0) {
+      this.formGroup.get('isPointGrading')?.disable();
+      this.formGroup.get('maxPoints')?.disable();
+      this.formGroup.get('maxPointsAdjusted')?.disable();
+    }
+    this.togglePointFieldsDisability();
   }
 
-  private updatePointsDisabled(): void {
+  private togglePointFieldsDisability(): void {
     const maxPoints = this.formGroup.get('maxPoints');
     const maxPointsAdjusted = this.formGroup.get('maxPointsAdjusted');
     const isPointGrading = this.formGroup.get('isPointGrading')?.value;
 
-    if (maxPoints && maxPointsAdjusted) {
-      if (isPointGrading) {
-        maxPoints.enable();
-        maxPointsAdjusted.enable();
-      } else {
-        maxPoints.reset({ value: null, disabled: true });
-        maxPointsAdjusted.reset({ value: null, disabled: true });
-      }
+    if (isPointGrading) {
+      maxPoints?.enable();
+      maxPointsAdjusted?.enable();
+    } else {
+      maxPoints?.reset({ value: null, disabled: true });
+      maxPointsAdjusted?.reset({ value: null, disabled: true });
     }
   }
 }
