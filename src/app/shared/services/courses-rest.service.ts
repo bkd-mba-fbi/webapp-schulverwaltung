@@ -61,10 +61,24 @@ export class CoursesRestService extends RestService<typeof Course> {
     courseId: number,
     id: number,
     designation: string,
-    weight: number
+    date: Date,
+    weight: number,
+    isPointGrading: boolean,
+    maxPoints: Option<number>,
+    maxPointsAdjusted: Option<number>
   ): Observable<void> {
     const body = {
-      Tests: [{ Id: id, Designation: designation, Weight: weight }],
+      Tests: [
+        {
+          Id: id,
+          Designation: designation,
+          Date: date,
+          Weight: weight,
+          IsPointGrading: isPointGrading,
+          MaxPoints: maxPoints,
+          MaxPointsAdjusted: maxPointsAdjusted,
+        },
+      ],
     };
     return this.http
       .put<void>(`${this.baseUrl}/${courseId}/Tests/Update`, body)

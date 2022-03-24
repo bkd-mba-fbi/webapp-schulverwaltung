@@ -59,11 +59,27 @@ export class TestsEditComponent {
 
   save(formGroup: FormGroup): void {
     this.saving$.next(true);
-    const { designation, weight } = formGroup.value;
+    const {
+      designation,
+      date,
+      weight,
+      isPointGrading,
+      maxPoints,
+      maxPointsAdjusted,
+    } = formGroup.value;
     combineLatest([this.courseId$, this.testId$])
       .pipe(
         switchMap(([courseId, testId]) =>
-          this.courseService.update(courseId, testId, designation, weight)
+          this.courseService.update(
+            courseId,
+            testId,
+            designation,
+            new Date(date.year, date.month - 1, date.day), // TODO,
+            weight,
+            isPointGrading,
+            maxPoints,
+            maxPointsAdjusted
+          )
         ),
         finalize(() => this.saving$.next(false))
       )
