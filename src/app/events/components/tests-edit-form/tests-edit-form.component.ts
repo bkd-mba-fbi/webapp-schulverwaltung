@@ -48,6 +48,12 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     'maxPoints'
   );
 
+  weightErrors$ = getValidationErrors(
+    of(this.formGroup),
+    this.submitted$,
+    'weight'
+  );
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -76,7 +82,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     return this.fb.group({
       designation: ['', Validators.required],
       date: [null], // TODO required, enable validation for date select component
-      weight: [1],
+      weight: [1, Validators.required],
       weightPercent: [1],
       isPointGrading: [false],
       maxPoints: [{ value: null, disabled: true }, Validators.required],
