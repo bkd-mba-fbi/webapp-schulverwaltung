@@ -18,6 +18,10 @@ table td.grade,
   display: none !important;
 }
 
+.desktop.selected {
+  display: table-cell !important;
+}
+
 thead tr th {
   border-top: none;
   vertical-align: top;
