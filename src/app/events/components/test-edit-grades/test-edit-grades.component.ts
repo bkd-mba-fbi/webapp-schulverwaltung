@@ -14,7 +14,7 @@ import {
 export class TestEditGradesComponent implements OnInit {
   @Input() course: Course;
   @Input() tests: Test[];
-  @Input() selectedTest: Test;
+  @Input() selectedTest: Test | undefined;
 
   constructor(public state: TestEditGradesStateService) {}
 

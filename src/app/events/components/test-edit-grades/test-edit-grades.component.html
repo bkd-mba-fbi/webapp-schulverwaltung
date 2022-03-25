@@ -38,7 +38,7 @@
             *ngFor="let test of data.tests"
             container="body"
             class="grade h-100 test-info-desktop"
-            [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
+            [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
           >
             <erz-test-table-header
               [test]="test"
@@ -51,7 +51,7 @@
             container="body"
             class="grade h-100 header-mobile test-info-mobile"
             colspan="3"
-            [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
+            [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
           >
             <erz-test-table-header
               [test]="test"
@@ -74,19 +74,39 @@
               </div>
             </div>
           </th>
-          <th class="secondary-column-width sticky sticky-col-2 desktop">
-            {{ 'tests.grade' | translate }}
+          <th
+            class="secondary-column-width sticky sticky-col-2 desktop"
+            [ngClass]="{ selected: selectedTest === undefined }"
+            (click)="state.sortBy('Grade')"
+          >
+            <div class="d-flex">
+              <div class="column-title">
+                {{ 'tests.grade' | translate }}
+              </div>
+              <div class="sort-direction ml-1">
+                {{ state.getSortingChar$('Grade') | async }}
+              </div>
+            </div>
           </th>
           <th
             class="secondary-column-width border-right sticky sticky-col-3 desktop"
+            [ngClass]="{ selected: selectedTest === undefined }"
+            (click)="state.sortBy('Mean')"
           >
-            {{ 'tests.mean' | translate }}
+            <div class="d-flex">
+              <div class="column-title">
+                {{ 'tests.mean' | translate }}
+              </div>
+              <div class="sort-direction ml-1">
+                {{ state.getSortingChar$('Mean') | async }}
+              </div>
+            </div>
           </th>
           <th
             *ngFor="let test of data.tests"
             container="body"
             class="grade h-100"
-            [ngClass]="test.Id === selectedTest.Id ? 'selected' : ''"
+            [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
           >
             <div class="d-flex">
               <div class="w-25 column-title" *ngIf="test.IsPointGrading">
@@ -116,14 +136,21 @@
               {{ 'tests.mean' | translate }}: 5.15
             </a>
           </td>
-          <td class="grade sticky sticky-col-2"></td>
-          <td class="grade border-right sticky sticky-col-3"></td>
+          <td
+            class="grade sticky sticky-col-2"
+            [ngClass]="{ selected: selectedTest === undefined }"
+          ></td>
+          <td
+            class="grade border-right sticky sticky-col-3"
+            [ngClass]="{ selected: selectedTest === undefined }"
+          ></td>
           <td
             *ngFor="let grade of studentGrade.grades"
             class="grade"
             [ngClass]="
-              grade.result?.TestId === selectedTest.Id ||
-              grade.TestId === selectedTest.Id
+              selectedTest !== undefined &&
+              (grade.result?.TestId === selectedTest?.Id ||
+                grade.TestId === selectedTest?.Id)
                 ? 'selected'
                 : ''
             "
@@ -146,7 +173,7 @@
             *ngFor="let test of data.tests"
             class="grade"
             [ngClass]="
-              test.Id === selectedTest.Id || test.Id === selectedTest.Id
+              test.Id === selectedTest?.Id || test.Id === selectedTest?.Id
                 ? 'selected'
                 : ''
             "
