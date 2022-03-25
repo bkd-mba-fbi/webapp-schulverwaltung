@@ -28,17 +28,8 @@
       </div>
       <div class="test-owner">{{ test.Owner }}</div>
     </div>
-    <div
-      *ngIf="test.IsPublished; else notPublished"
-      class="d-flex align-items-center justify-content-between test-status"
-    >
-      <a
-        class="d-flex btn btn-link pl-0 edit"
-        title="{{ 'tests.edit' | translate }}"
-      >
-        <i class="material-icons mr-1">lock</i>
-        <span>{{ 'tests.published' | translate }}</span>
-      </a>
+    <div class="d-flex align-items-center justify-content-between test-status">
+      <erz-test-state [published]="test.IsPublished"></erz-test-state>
       <i
         class="material-icons expand-mobile"
         (click)="toggleHeader()"
@@ -46,24 +37,5 @@
         >{{ expanded ? 'expand_more' : 'expand_less' }}</i
       >
     </div>
-    <ng-template #notPublished>
-      <div
-        class="d-flex align-items-center justify-content-between test-status"
-      >
-        <a
-          class="d-flex btn btn-link pl-0"
-          title="{{ 'tests.publish' | translate }}"
-        >
-          <i class="material-icons mr-1">lock_open</i>
-          <span>{{ 'tests.not-published' | translate }}</span>
-        </a>
-        <i
-          class="material-icons expand-mobile"
-          (click)="toggleHeader()"
-          role="button"
-          >{{ expanded ? 'expand_more' : 'expand_less' }}</i
-        >
-      </div>
-    </ng-template>
   </div>
 </div>

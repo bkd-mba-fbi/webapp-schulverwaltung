@@ -14,6 +14,7 @@ import { TestsAddHeaderComponent } from './components/tests-add-header/tests-add
 import { TestsAddEntryComponent } from './components/tests-add-entry/tests-add-entry.component';
 import { TestTableHeaderComponent } from './components/test-table-header/test-table-header.component';
 import { TestSummaryShortPipe } from './pipes/test-summary-short.pipe';
+import { TestStateComponent } from './components/test-state/test-state.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TestSummaryShortPipe } from './pipes/test-summary-short.pipe';
     GradeComponent,
     TestTableHeaderComponent,
     TestSummaryShortPipe,
+    TestStateComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],
 })
