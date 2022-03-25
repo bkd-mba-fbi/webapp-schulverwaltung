@@ -80,7 +80,7 @@
           <th
             class="secondary-column-width border-right sticky sticky-col-3 desktop"
           >
-            {{ 'tests.average' | translate }}
+            {{ 'tests.mean' | translate }}
           </th>
           <th
             *ngFor="let test of data.tests"
@@ -112,7 +112,7 @@
             <a [routerLink]="'#'">
               {{ studentGrade.student.FullName }}
             </a>
-            <a href="" class="mobile"> Mittelwert: 5.15 </a>
+            <a href="" class="mobile"> {{ 'tests.mean' | translate }}: 5.15 </a>
           </td>
           <td class="grade sticky sticky-col-2"></td>
           <td class="grade border-right sticky sticky-col-3"></td>
@@ -130,7 +130,12 @@
           </td>
         </tr>
         <tr>
-          <td class="sticky">{{ 'tests.average' | translate }}</td>
+          <td class="sticky">
+            <div class="d-flex flex-column">
+              <div>{{ 'tests.average' | translate }}</div>
+              <div class="mobile">{{ 'tests.mean' | translate }}: 4.75</div>
+            </div>
+          </td>
           <td class="desktop sticky sticky sticky-col-2">4.75</td>
           <td class="desktop border-right sticky sticky-col-3">4.805</td>
           <td
