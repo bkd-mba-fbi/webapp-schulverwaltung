@@ -112,7 +112,9 @@
             <a [routerLink]="'#'">
               {{ studentGrade.student.FullName }}
             </a>
-            <a href="" class="mobile"> {{ 'tests.mean' | translate }}: 5.15 </a>
+            <a href="" class="mobile mean">
+              {{ 'tests.mean' | translate }}: 5.15
+            </a>
           </td>
           <td class="grade sticky sticky-col-2"></td>
           <td class="grade border-right sticky sticky-col-3"></td>
@@ -133,7 +135,9 @@
           <td class="sticky">
             <div class="d-flex flex-column">
               <div>{{ 'tests.average' | translate }}</div>
-              <div class="mobile">{{ 'tests.mean' | translate }}: 4.75</div>
+              <div class="mobile mean">
+                {{ 'tests.mean' | translate }}: 4.75
+              </div>
             </div>
           </td>
           <td class="desktop sticky sticky sticky-col-2">4.75</td>
