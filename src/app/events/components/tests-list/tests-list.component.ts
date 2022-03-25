@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { merge, Observable, shareReplay, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { Course } from 'src/app/shared/models/course.model';
@@ -35,11 +36,12 @@ export class TestsListComponent {
   );
 
   testOptions$ = this.tests$.pipe(
-    map((test) =>
-      test.map((test) => {
+    map((test) => [
+      { Key: -1, Value: this.translate.instant('tests.grade') },
+      ...test.map((test) => {
         return { Key: test.Id, Value: test.Designation };
-      })
-    ),
+      }),
+    ]),
     distinctUntilChanged()
   );
 
@@ -48,14 +50,18 @@ export class TestsListComponent {
     this.tests$.pipe(map((tests) => tests[0]?.Id))
   ).pipe(distinctUntilChanged());
 
-  selectedTest$ = this.selectedTestId$.pipe(
-    switchMap((id) =>
+  selectedTest$: Observable<Test | undefined> = this.selectedTestId$.pipe(
+    switchMap((id: number) =>
       this.tests$.pipe(map((tests) => tests.find((test) => test.Id === id)))
     ),
     distinctUntilChanged()
   );
 
-  constructor(public state: TestStateService, private route: ActivatedRoute) {}
+  constructor(
+    public state: TestStateService,
+    private translate: TranslateService,
+    private route: ActivatedRoute
+  ) {}
 
   testSelected(id: number) {
     this.selectTest$.next(id);

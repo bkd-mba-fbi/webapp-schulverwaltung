@@ -16,6 +16,8 @@
         <erz-select
           class="tests-dropdown"
           [options]="data.testOptions"
+          [additionalOption]="gradeOption"
+          [additionalOptionKey]="'tests.grade'"
           [value]="data.selectedTestId"
           (valueChange)="testSelected($event)"
         ></erz-select>
