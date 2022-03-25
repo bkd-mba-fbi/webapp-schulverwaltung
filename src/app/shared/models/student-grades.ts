@@ -87,6 +87,9 @@ const compareGrades = (
     .find((g: Grade) => g.test.Id === test.Id);
 
   // oh boy - typescript is really nice /s
+  if (test.IsPointGrading) {
+    return (grades2?.result?.Points ?? 0) - (grades1?.result?.Points ?? 0);
+  }
   return (
     (grades2?.result?.GradeValue?.valueOf() ?? 0) -
     (grades1?.result?.GradeValue?.valueOf() ?? 0)
