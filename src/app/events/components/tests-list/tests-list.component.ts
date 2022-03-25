@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { shareReplay, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, first } from 'rxjs/operators';
+import { merge, Observable, shareReplay, Subject } from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { Course } from 'src/app/shared/models/course.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { TestStateService } from '../../services/test-state.service';
 
@@ -24,7 +25,12 @@ export class TestsListComponent {
   );
 
   tests$: Observable<Test[]> = this.course$.pipe(
-    map((course) => course.Tests ?? []),
+    map((course: Course) => course.Tests ?? []),
+    map((tests: Test[]) => {
+      return tests
+        .slice()
+        .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
+    }),
     distinctUntilChanged()
   );
 

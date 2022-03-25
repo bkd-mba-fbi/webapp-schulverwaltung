@@ -19,6 +19,7 @@ export type Filter = 'all-tests' | 'my-tests';
 })
 export class TestEditGradesStateService {
   course: Course;
+  tests: Test[];
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
@@ -28,7 +29,7 @@ export class TestEditGradesStateService {
 
   tests$: Observable<Test[] | undefined> = this.filter$.pipe(
     map((filter) =>
-      this.course.Tests?.filter((test) => {
+      this.tests.filter((test) => {
         if (filter === 'all-tests') {
           return true;
         } else {
