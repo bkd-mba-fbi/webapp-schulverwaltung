@@ -90,7 +90,7 @@ export class EventsStateService {
   ): ReadonlyArray<Event> {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
-      Designation: studyClass.Designation,
+      Designation: studyClass.Number,
       detailLink: this.buildLink(studyClass.Id, 'eventdetail'),
       studentCount: studyClass.StudentCount,
       state: null,
