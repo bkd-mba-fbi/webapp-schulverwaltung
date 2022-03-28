@@ -230,20 +230,6 @@
     "type-points": "Typ Punkte",
     "type-grades": "Typ Noten",
     "factor": "Faktor",
-    "add": {
-      "grading-scale": "Notenskala",
-      "title": "Tests definieren",
-      "hint": "Erfassen Sie Tests mit Klick auf +",
-      "designation": "Bezeichnung",
-      "date": "Datum",
-      "weight": "Gewichtung",
-      "grading-type": "Typ",
-      "state": "Status",
-      "published": "Publiziert",
-      "not-published": "In Arbeit",
-      "search": "Test suchen",
-      "search-by": "Bezeichnung suchen..."
-    },
     "form": {
       "designation": "Bezeichnung",
       "designation-placeholder": "Bezeichnung erfassen...",
