@@ -33,7 +33,7 @@ export class TestsAddComponent {
     private router: Router
   ) {}
 
-  save(formGroup: FormGroup): void {
+  save(formGroupValue: any): void {
     this.saving$.next(true);
     const {
       designation,
@@ -42,7 +42,7 @@ export class TestsAddComponent {
       isPointGrading,
       maxPoints,
       maxPointsAdjusted,
-    } = formGroup.value;
+    } = formGroupValue;
     this.courseId$
       .pipe(
         switchMap((courseId) =>

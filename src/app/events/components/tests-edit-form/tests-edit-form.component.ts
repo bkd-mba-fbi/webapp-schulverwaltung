@@ -85,7 +85,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted$.next(true);
     if (this.formGroup.valid) {
-      this.save.emit(this.formGroup);
+      this.save.emit(this.formGroup.value);
     }
   }
 

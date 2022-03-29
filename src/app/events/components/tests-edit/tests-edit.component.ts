@@ -62,7 +62,7 @@ export class TestsEditComponent {
     }
   }
 
-  save(formGroup: FormGroup): void {
+  save(formGroupValue: any): void {
     this.saving$.next(true);
     const {
       designation,
@@ -71,7 +71,7 @@ export class TestsEditComponent {
       isPointGrading,
       maxPoints,
       maxPointsAdjusted,
-    } = formGroup.value;
+    } = formGroupValue;
     combineLatest([this.courseId$, this.testId$])
       .pipe(
         switchMap(([courseId, testId]) =>
