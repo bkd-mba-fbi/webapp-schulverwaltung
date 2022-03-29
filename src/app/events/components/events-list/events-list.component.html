@@ -27,7 +27,7 @@
         </div>
         <div class="date">
           <span *ngIf="event.dateFrom && event.dateTo"
-            >{{ event.dateFrom | date: 'dd.MM.yyyy' }}–{{
+            >{{ event.dateFrom | date: 'dd.MM.yyyy' }}–<wbr />{{
               event.dateTo | date: 'dd.MM.yyyy'
             }}</span
           >

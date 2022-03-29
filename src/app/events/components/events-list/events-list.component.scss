@@ -10,19 +10,34 @@
   padding: $spacer;
   border-bottom: 2px solid $border-color;
   grid-template-areas: "designation date registrations rating";
-  grid-template-columns: 4fr 2fr 1fr 2fr;
+  grid-template-columns: 4fr 2fr 2fr 3fr;
 }
 
 .event-entry {
   display: grid;
-  border-bottom: 1px solid $border-color;
   padding: $spacer;
+  border-bottom: 1px solid $border-color;
   grid-template-areas: "designation date registrations rating";
-  grid-template-columns: 4fr 2fr 1fr 2fr;
+  grid-template-columns: 4fr 2fr 2fr 3fr;
 }
 
 .designation {
   grid-area: designation;
+  padding-right: $spacer;
+}
+
+.date {
+  grid-area: date;
+  padding-right: $spacer;
+}
+
+.registrations {
+  grid-area: registrations;
+  padding-right: $spacer;
+}
+
+.rating {
+  grid-area: rating;
 }
 
 .registrations-label {
@@ -40,6 +55,12 @@
 
   .registrations-label {
     display: inline;
+  }
+
+  .designation,
+  .date,
+  .registrations {
+    padding-right: 0;
   }
 
   .event-entry {
