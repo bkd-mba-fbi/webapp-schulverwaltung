@@ -8,7 +8,7 @@ import { TestStateService } from '../../services/test-state.service';
 
 import { TestsAddComponent } from './tests-add.component';
 
-fdescribe('TestsAddComponent', () => {
+describe('TestsAddComponent', () => {
   let component: TestsAddComponent;
   let fixture: ComponentFixture<TestsAddComponent>;
   let activatedRouteMock: ActivatedRouteMock;

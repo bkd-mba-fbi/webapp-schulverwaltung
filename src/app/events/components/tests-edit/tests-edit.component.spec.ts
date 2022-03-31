@@ -9,7 +9,7 @@ import { TestStateService } from '../../services/test-state.service';
 
 import { TestsEditComponent } from './tests-edit.component';
 
-fdescribe('TestsEditComponent', () => {
+describe('TestsEditComponent', () => {
   let component: TestsEditComponent;
   let fixture: ComponentFixture<TestsEditComponent>;
   let stateServiceMock: TestStateService;
