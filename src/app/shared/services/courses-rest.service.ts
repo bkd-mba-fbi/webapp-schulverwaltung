@@ -37,8 +37,8 @@ export class CoursesRestService extends RestService<typeof Course> {
     designation: string,
     weight: number,
     isPointGrading: boolean,
-    maxPoints: number,
-    maxPointsAdjusted: number
+    maxPoints: Maybe<number>,
+    maxPointsAdjusted: Maybe<number>
   ): Observable<void> {
     const body = {
       Tests: [
@@ -64,8 +64,8 @@ export class CoursesRestService extends RestService<typeof Course> {
     date: Date,
     weight: number,
     isPointGrading: boolean,
-    maxPoints: Option<number>,
-    maxPointsAdjusted: Option<number>
+    maxPoints: Maybe<number>,
+    maxPointsAdjusted: Maybe<number>
   ): Observable<void> {
     const body = {
       Tests: [
