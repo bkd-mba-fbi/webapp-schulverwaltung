@@ -28,6 +28,13 @@
             "style": "camelCase",
             "type": "attribute"
           }
+        ],
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "fdescribe",
+            "message": "Do not commit fdescribe. Use describe instead."
+          }
         ]
       }
     },
