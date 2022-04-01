@@ -1,8 +1,7 @@
-import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { isEqual } from 'lodash-es';
 import { of } from 'rxjs';
+import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { buildCourse, buildResult, buildTest } from 'src/spec-builders';
 import { ActivatedRouteMock, buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestStateService } from '../../services/test-state.service';
@@ -14,7 +13,7 @@ describe('TestsEditComponent', () => {
   let fixture: ComponentFixture<TestsEditComponent>;
   let stateServiceMock: TestStateService;
   let activatedRouteMock: ActivatedRouteMock;
-  let httpTestingController: HttpTestingController;
+  let courseService: jasmine.SpyObj<CoursesRestService>;
 
   beforeEach(async () => {
     let course = buildCourse(1);
@@ -30,17 +29,23 @@ describe('TestsEditComponent', () => {
       getCourse: () => of(course),
     } as unknown) as TestStateService;
 
+    courseService = jasmine.createSpyObj('CoursesRestService', [
+      'update',
+      'delete',
+    ]);
+    courseService.update.and.returnValue(of());
+    courseService.delete.and.returnValue(of());
+
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [TestsEditComponent],
         providers: [
           { provide: TestStateService, useValue: stateServiceMock },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: CoursesRestService, useValue: courseService },
         ],
       })
     ).compileComponents();
-
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   beforeEach(() => {
@@ -56,7 +61,7 @@ describe('TestsEditComponent', () => {
   it('should update existing test', () => {
     const formGroupValue = {
       designation: 'an updated test',
-      date: '2022-02-09T00:00:00',
+      date: new Date(),
       weight: 2,
       weightPercent: 0.75,
       isPointGrading: true,
@@ -66,30 +71,16 @@ describe('TestsEditComponent', () => {
 
     component.save(formGroupValue);
 
-    const body = {
-      Tests: [
-        {
-          Id: 1,
-          Date: formGroupValue.date,
-          Designation: formGroupValue.designation,
-          Weight: formGroupValue.weight,
-          IsPointGrading: formGroupValue.isPointGrading,
-          MaxPoints: formGroupValue.maxPoints,
-          MaxPointsAdjusted: formGroupValue.maxPointsAdjusted,
-        },
-      ],
-    };
-    const url = `https://eventotest.api/Courses/1/Tests/Update`;
-
-    httpTestingController
-      .expectOne(
-        (req) =>
-          req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-        url
-      )
-      .flush(body);
-
-    httpTestingController.verify();
+    expect(courseService.update).toHaveBeenCalledWith(
+      1,
+      1,
+      formGroupValue.designation,
+      formGroupValue.date,
+      formGroupValue.weight,
+      formGroupValue.isPointGrading,
+      formGroupValue.maxPoints,
+      formGroupValue.maxPointsAdjusted
+    );
   });
 
   it('should delete an existing test without results', () => {
@@ -98,21 +89,7 @@ describe('TestsEditComponent', () => {
 
     component.delete(test);
 
-    const url = `https://eventotest.api/Courses/1/Tests/Delete`;
-    const body = {
-      TestIds: [test.Id],
-    };
-
-    httpTestingController
-      .expectOne(
-        (req) =>
-          req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-        url
-      )
-      .flush(body);
-
-    httpTestingController.verify();
-
+    expect(courseService.delete).toHaveBeenCalledWith(1, 1);
     expect(window.confirm).toHaveBeenCalledWith('tests.form.confirm');
   });
 
@@ -122,19 +99,7 @@ describe('TestsEditComponent', () => {
 
     component.delete(test);
 
-    const url = `https://eventotest.api/Courses/1/Tests/Delete`;
-    const body = {
-      TestIds: [test.Id],
-    };
-
-    httpTestingController.expectNone(
-      (req) =>
-        req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-      url
-    );
-
-    httpTestingController.verify();
-
+    expect(courseService.delete).not.toHaveBeenCalledWith(1, 1);
     expect(window.alert).toHaveBeenCalledWith('tests.form.delete-not-allowed');
   });
 });
