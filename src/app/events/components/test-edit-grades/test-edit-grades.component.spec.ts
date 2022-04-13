@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildCourse } from 'src/spec-builders';
+import { buildCourse, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
 
@@ -22,6 +22,7 @@ describe('TestEditGradesComponentComponent', () => {
     component = fixture.componentInstance;
 
     component.course = buildCourse(1);
+    component.tests = [buildTest(1, 12, [])];
     fixture.detectChanges();
   });
 
