@@ -14,7 +14,9 @@
   <div class="d-flex flex-column">
     <div *ngIf="expanded" class="d-flex flex-column mb-3">
       <div class="d-flex flex-row justify-content-between">
-        <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
+        <erz-preserve-line-height>{{
+          test.Date | date: 'dd.MM.yyyy'
+        }}</erz-preserve-line-height>
         <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
           <i
             *ngIf="test.IsOwner && test.IsPublished === false"
@@ -23,10 +25,10 @@
           >
         </a>
       </div>
-      <div>
+      <erz-preserve-line-height>
         {{ test | testSummaryShort }}
-      </div>
-      <div class="test-owner">{{ test.Owner }}</div>
+      </erz-preserve-line-height>
+      <erz-preserve-line-height>{{ test.Owner }}</erz-preserve-line-height>
     </div>
     <div
       *ngIf="test.IsPublished; else notPublished"

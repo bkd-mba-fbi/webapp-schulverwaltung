@@ -16,11 +16,14 @@
         <erz-select
           class="tests-dropdown"
           [options]="data.testOptions"
+          [additionalOption]="gradeOption"
+          [additionalOptionKey]="'tests.grade'"
           [value]="data.selectedTestId"
           (valueChange)="testSelected($event)"
         ></erz-select>
         <erz-test-edit-grades
           [course]="data.course"
+          [tests]="data.tests"
           [selectedTest]="data.selectedTest"
         ></erz-test-edit-grades>
       </ng-container>

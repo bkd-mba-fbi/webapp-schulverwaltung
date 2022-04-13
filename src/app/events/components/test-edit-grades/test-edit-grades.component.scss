@@ -1,6 +1,8 @@
 @import "../../../../bootstrap-variables";
 @import "node_modules/bootstrap/scss/mixins";
 
+$mean-font-size: 1.1rem;
+
 .filter-hover:hover {
   background-color: $gray;
 }
@@ -16,6 +18,10 @@ table td.grade,
   display: none !important;
 }
 
+.desktop.selected {
+  display: table-cell !important;
+}
+
 thead tr th {
   border-top: none;
   vertical-align: top;
@@ -28,6 +34,10 @@ thead tr th {
 
 .mobile {
   display: block !important;
+}
+
+.mean {
+  font-size: $mean-font-size;
 }
 
 thead tr th.test-info-desktop {
@@ -86,8 +96,8 @@ table th {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 300px;
+    max-width: 300px;
   }
 
   .secondary-column-width {
@@ -102,10 +112,10 @@ table th {
   }
 
   table .sticky.sticky-col-2 {
-    left: 200px;
+    left: 300px;
   }
 
   table .sticky.sticky-col-3 {
-    left: 300px;
+    left: 400px;
   }
 }

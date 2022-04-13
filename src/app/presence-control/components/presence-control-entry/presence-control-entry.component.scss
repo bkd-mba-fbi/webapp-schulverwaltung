@@ -77,10 +77,10 @@ $presence-control-status-size: 2.75rem;
   flex-direction: column;
 }
 
-$presence-control-unconfimed-absences-size: 1.1rem;
+$presence-control-unconfirmed-absences-size: 1.1rem;
 .unconfirmed-absences {
   color: $absent-color;
-  font-size: $presence-control-unconfimed-absences-size;
+  font-size: $presence-control-unconfirmed-absences-size;
   line-height: 1;
 }
 
@@ -116,7 +116,7 @@ $presence-control-unconfimed-absences-size: 1.1rem;
   }
 
   .unconfirmed-absences {
-    height: $presence-control-unconfimed-absences-size; // Always occupy space, even if hint is not present
+    height: $presence-control-unconfirmed-absences-size; // Always occupy space, even if hint is not present
   }
 }
 

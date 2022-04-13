@@ -13,12 +13,14 @@ import {
 })
 export class TestEditGradesComponent implements OnInit {
   @Input() course: Course;
-  @Input() selectedTest: Test;
+  @Input() tests: Test[];
+  @Input() selectedTest: Test | undefined;
 
   constructor(public state: TestEditGradesStateService) {}
 
   ngOnInit(): void {
     this.state.course = this.course;
+    this.state.tests = this.tests;
     this.state.setSorting({ key: 'FullName', ascending: true });
   }
 

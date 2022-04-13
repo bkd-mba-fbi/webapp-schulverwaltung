@@ -33,6 +33,7 @@ import { MultiselectComponent } from './components/multiselect/multiselect.compo
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TestsWeightPipe } from './pipes/test-weight.pipe';
 import { TestsGradingTypePipe } from './pipes/test-grading-type.pipe';
+import { PreserveLineHeightComponent } from './components/text/line/preserve-line-height.component';
 
 // Components that will be exported
 const components = [
@@ -58,6 +59,7 @@ const components = [
   AddSpacePipe,
   TestsWeightPipe,
   TestsGradingTypePipe,
+  PreserveLineHeightComponent,
 ];
 
 @NgModule({
