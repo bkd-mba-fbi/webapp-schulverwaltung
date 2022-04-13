@@ -20,7 +20,7 @@ export type NoResult = {
 
 export type GradeOrNoResult = Grade | NoResult;
 
-export type SortKeys = 'FullName' | 'Grade' | 'Mean' | Test;
+export type SortKeys = 'FullName' | Test;
 
 export function transform(students: Student[], tests: Test[]): StudentGrade[] {
   return students?.map((student) => {
@@ -65,15 +65,6 @@ export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
 
   switch (key) {
     case 'FullName':
-      return (
-        modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
-      );
-    case 'Grade':
-      return (
-        modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
-      );
-
-    case 'Mean':
       return (
         modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
       );
