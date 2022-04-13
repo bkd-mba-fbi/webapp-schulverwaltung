@@ -31,7 +31,7 @@ const routes: Routes = [
         component: TestsAddComponent,
       },
       {
-        path: ':id/tests/edit/:testId',
+        path: ':id/tests/:testId/edit',
         component: TestsEditComponent,
       },
     ],

@@ -15,7 +15,7 @@
     <div *ngIf="expanded" class="d-flex flex-column mb-3">
       <div class="d-flex flex-row justify-content-between">
         <div>{{ test.Date | date: 'dd.MM.yyyy' }}</div>
-        <a [routerLink]="['edit', test.Id]" class="btn btn-link p-0 edit">
+        <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
           <i
             *ngIf="test.IsOwner && test.IsPublished === false"
             class="material-icons"
