@@ -222,8 +222,7 @@
     "owned-tests": "Meine Tests",
     "points": "Punkte",
     "grade": "Note",
-    "average": "Durchschnitt",
-    "mean": "Mittelwert",
+    "average": "Mittelwert",
     "student": {
       "name": "Name"
     },
