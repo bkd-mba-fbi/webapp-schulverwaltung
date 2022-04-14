@@ -6,7 +6,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
+import {
+  GradeOrNoResult,
+  toMaxPoints,
+} from 'src/app/shared/models/student-grades';
 
 @Component({
   selector: 'erz-grade',
@@ -32,9 +35,7 @@ export class GradeComponent implements OnInit {
 
   maxPointValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      return Number(value) >
-        (this.grade?.test.MaxPointsAdjusted || this.grade?.test.MaxPoints!)
+      return Number(control.value) > toMaxPoints(this.grade)
         ? { customMax: true }
         : null;
     };

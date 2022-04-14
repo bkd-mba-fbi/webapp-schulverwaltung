@@ -99,3 +99,7 @@ const compareGrades = (
 function isGrade(g: GradeOrNoResult): g is Grade {
   return g.kind === 'grade';
 }
+
+export function toMaxPoints(grade: GradeOrNoResult | null): number {
+  return grade?.test.MaxPointsAdjusted || grade?.test.MaxPoints!;
+}

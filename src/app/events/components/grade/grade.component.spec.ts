@@ -29,12 +29,11 @@ describe('GradeComponent', () => {
   });
 
   it('should create', () => {
-    const grade: GradeOrNoResult = {
+    component.grade = {
       kind: 'grade',
       result,
       test,
     };
-    component.grade = grade;
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -70,7 +69,7 @@ describe('GradeComponent', () => {
     expect(input.value).toContain(11);
   });
 
-  it('should show validation error if points is greater than maxPointsAdjusted', () => {
+  it('should show validation error if points are greater than maxPointsAdjusted', () => {
     const grade: GradeOrNoResult = {
       kind: 'grade',
       result,
@@ -80,6 +79,26 @@ describe('GradeComponent', () => {
     grade.test.IsPointGrading = true;
     grade.test.MaxPoints = 13;
     grade.test.MaxPointsAdjusted = 11;
+    grade.result.Points = 12;
+
+    component.grade = grade;
+    fixture.detectChanges();
+
+    const error = fixture.nativeElement.querySelector('.invalid-feedback');
+
+    expect(error.textContent).toContain('global.validation-errors.maxValue');
+  });
+
+  it('should show validation error if points are greater than maxPoints', () => {
+    const grade: GradeOrNoResult = {
+      kind: 'grade',
+      result,
+      test,
+    };
+
+    grade.test.IsPointGrading = true;
+    grade.test.MaxPoints = 11;
+    grade.test.MaxPointsAdjusted = null;
     grade.result.Points = 12;
 
     component.grade = grade;
