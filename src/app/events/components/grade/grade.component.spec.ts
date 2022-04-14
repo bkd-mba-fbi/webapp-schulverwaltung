@@ -9,6 +9,8 @@ describe('GradeComponent', () => {
   let component: GradeComponent;
   let fixture: ComponentFixture<GradeComponent>;
 
+  let element: HTMLElement;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule(
@@ -22,7 +24,7 @@ describe('GradeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GradeComponent);
     component = fixture.componentInstance;
-
+    element = fixture.nativeElement;
     const grade: GradeOrNoResult = {
       kind: 'grade',
       result: buildResult(120, 140),
@@ -47,5 +49,23 @@ describe('GradeComponent', () => {
 
     expect(component).toBeTruthy();
     expect(component.grade).toBe(noResult);
+  });
+
+  it('should show points', () => {
+    const grade: GradeOrNoResult = {
+      kind: 'grade',
+      result: buildResult(120, 140),
+      test: buildTest(100, 120, [buildResult(120, 140)]),
+    };
+
+    grade.test.IsPointGrading = true;
+    grade.result.Points = 11;
+
+    component.grade = grade;
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('.point-input');
+
+    expect(input.value).toContain(11);
   });
 });
