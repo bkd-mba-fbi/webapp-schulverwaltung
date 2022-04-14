@@ -25,12 +25,16 @@ export class GradeComponent implements OnInit {
     this.maxPointValidator(),
   ]);
 
+  maxPoints: number = 0;
+
   constructor() {}
 
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
     }
+
+    this.maxPoints = toMaxPoints(this.grade);
   }
 
   maxPointValidator(): ValidatorFn {
