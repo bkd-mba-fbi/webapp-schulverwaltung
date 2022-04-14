@@ -2,7 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GradeComponent } from './grade.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { buildResult, buildTest } from '../../../../spec-builders';
+import {
+  buildResult,
+  buildStudent,
+  buildTest,
+} from '../../../../spec-builders';
 import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
 import { By } from '@angular/platform-browser';
 
@@ -12,6 +16,7 @@ describe('GradeComponent', () => {
 
   const result = buildResult(120, 140);
   const test = buildTest(100, 120, [buildResult(120, 140)]);
+  const student = buildStudent(5);
 
   beforeEach(
     waitForAsync(() => {
@@ -26,6 +31,7 @@ describe('GradeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GradeComponent);
     component = fixture.componentInstance;
+    component.student = student;
   });
 
   it('should create', () => {

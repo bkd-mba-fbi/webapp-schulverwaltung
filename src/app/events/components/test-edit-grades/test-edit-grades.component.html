@@ -147,7 +147,11 @@
                 : ''
             "
           >
-            <erz-grade [grade]="grade"></erz-grade>
+            <erz-grade
+              [grade]="grade"
+              [student]="studentGrade.student"
+              (savePoints)="savePoints($event)"
+            ></erz-grade>
           </td>
         </tr>
         <tr>

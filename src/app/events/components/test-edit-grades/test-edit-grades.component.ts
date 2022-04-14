@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Course } from 'src/app/shared/models/course.model';
+import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
 import { Test } from '../../../shared/models/test.model';
 import {
   Filter,
@@ -26,5 +26,9 @@ export class TestEditGradesComponent implements OnInit {
 
   changeFilter(filter: Filter) {
     this.state.filter$.next(filter);
+  }
+
+  savePoints(requestBody: TestPointsResult) {
+    this.state.savePoints(requestBody);
   }
 }

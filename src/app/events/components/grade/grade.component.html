@@ -6,9 +6,11 @@
   >
     <div *ngIf="grade.test.IsPointGrading" class="w-25 mr-1">
       <input
+        #pointInput
         class="point-input form-control"
         type="text"
         [formControl]="pointsInput"
+        (input)="onChange(pointInput.value)"
       />
     </div>
     <div>
