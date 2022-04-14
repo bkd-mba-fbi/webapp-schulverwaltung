@@ -1,8 +1,21 @@
-<div *ngIf="grade.kind === 'grade'" class="d-flex flex-row w-100">
-  <div *ngIf="grade.test.IsPointGrading" class="w-25 mr-1">
-    <input class="point-input form-control" value="{{ grade.result.Points }}" />
+<div class="d-flex flex-column w-100">
+  <div
+    *ngIf="grade.kind === 'grade'"
+    class="d-flex flex-row"
+    [class.is-invalid]="pointsInput.errors"
+  >
+    <div *ngIf="grade.test.IsPointGrading" class="w-25 mr-1">
+      <input
+        class="point-input form-control"
+        type="text"
+        [formControl]="pointsInput"
+      />
+    </div>
+    <div>
+      {{ grade.result.GradeValue }}
+    </div>
   </div>
-  <div class="w-50">
-    {{ grade.result.GradeValue }}
+  <div *ngIf="pointsInput.errors" class="invalid-feedback">
+    {{ 'global.validation-errors.maxValue' | translate }}
   </div>
 </div>
