@@ -50,7 +50,6 @@ describe('TestsAddComponent', () => {
       designation: 'a new test',
       date: new Date(),
       weight: 1,
-      weightPercent: 1,
       isPointGrading: false,
       maxPoints: undefined,
       maxPointsAdjusted: undefined,
