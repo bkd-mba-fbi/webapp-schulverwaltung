@@ -15,7 +15,7 @@ export type Grade = {
 
 export type NoResult = {
   kind: 'no-result';
-  TestId: number;
+  test: Test;
 };
 
 export type GradeOrNoResult = Grade | NoResult;
@@ -36,7 +36,7 @@ function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
     if (test.Results === undefined || test.Results?.length === 0) {
       return {
         kind: 'no-result',
-        TestId: test.Id,
+        test,
       };
     }
 
@@ -52,7 +52,7 @@ function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
         }
       : {
           kind: 'no-result',
-          TestId: test.Id,
+          test,
         };
   });
 }

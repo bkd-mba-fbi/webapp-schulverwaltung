@@ -9,7 +9,8 @@ describe('GradeComponent', () => {
   let component: GradeComponent;
   let fixture: ComponentFixture<GradeComponent>;
 
-  let element: HTMLElement;
+  const result = buildResult(120, 140);
+  const test = buildTest(100, 120, [buildResult(120, 140)]);
 
   beforeEach(
     waitForAsync(() => {
@@ -24,11 +25,10 @@ describe('GradeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GradeComponent);
     component = fixture.componentInstance;
-    element = fixture.nativeElement;
     const grade: GradeOrNoResult = {
       kind: 'grade',
-      result: buildResult(120, 140),
-      test: buildTest(100, 120, [buildResult(120, 140)]),
+      result,
+      test,
     };
 
     component.grade = grade;
@@ -42,7 +42,7 @@ describe('GradeComponent', () => {
   it('should create with noResult', () => {
     const noResult: GradeOrNoResult = {
       kind: 'no-result',
-      TestId: 120,
+      test,
     };
 
     component.grade = noResult;
