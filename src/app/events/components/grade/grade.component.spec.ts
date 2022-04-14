@@ -4,6 +4,7 @@ import { GradeComponent } from './grade.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 import { buildResult, buildTest } from '../../../../spec-builders';
 import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
+import { By } from '@angular/platform-browser';
 
 describe('GradeComponent', () => {
   let component: GradeComponent;
@@ -25,17 +26,16 @@ describe('GradeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GradeComponent);
     component = fixture.componentInstance;
+  });
+
+  it('should create', () => {
     const grade: GradeOrNoResult = {
       kind: 'grade',
       result,
       test,
     };
-
     component.grade = grade;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -54,8 +54,8 @@ describe('GradeComponent', () => {
   it('should show points', () => {
     const grade: GradeOrNoResult = {
       kind: 'grade',
-      result: buildResult(120, 140),
-      test: buildTest(100, 120, [buildResult(120, 140)]),
+      result,
+      test,
     };
 
     grade.test.IsPointGrading = true;
@@ -64,8 +64,29 @@ describe('GradeComponent', () => {
     component.grade = grade;
     fixture.detectChanges();
 
-    const input = fixture.nativeElement.querySelector('.point-input');
+    const input = fixture.debugElement.query(By.css('.point-input'))
+      .nativeElement;
 
     expect(input.value).toContain(11);
+  });
+
+  it('should show validation error if points is greater than maxPointsAdjusted', () => {
+    const grade: GradeOrNoResult = {
+      kind: 'grade',
+      result,
+      test,
+    };
+
+    grade.test.IsPointGrading = true;
+    grade.test.MaxPoints = 13;
+    grade.test.MaxPointsAdjusted = 11;
+    grade.result.Points = 12;
+
+    component.grade = grade;
+    fixture.detectChanges();
+
+    const error = fixture.nativeElement.querySelector('.invalid-feedback');
+
+    expect(error.textContent).toContain('global.validation-errors.maxValue');
   });
 });
