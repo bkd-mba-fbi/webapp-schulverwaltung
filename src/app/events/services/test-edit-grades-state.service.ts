@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { console } from 'fp-ts';
-import { cons } from 'fp-ts/lib/ReadonlyNonEmptyArray';
-import { BehaviorSubject, combineLatest, map, Observable, tap } from 'rxjs';
-import { Course } from 'src/app/shared/models/course.model';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
 import {
   compareFn,
   SortKeys,
@@ -11,6 +10,7 @@ import {
 import { Test } from 'src/app/shared/models/test.model';
 import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
+import { CoursesRestService } from '../../shared/services/courses-rest.service';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -68,5 +68,14 @@ export class TestEditGradesStateService {
     this.expandedHeader$.next(expanded);
   }
 
-  constructor(private sortService: SortService<SortKeys>) {}
+  constructor(
+    private sortService: SortService<SortKeys>,
+    private courseRestService: CoursesRestService
+  ) {}
+
+  savePoints(requestBody: TestPointsResult) {
+    this.courseRestService
+      .updateTestResult(this.course, requestBody)
+      .subscribe(console.log);
+  }
 }

@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { mapTo, Observable, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
-import { Course } from '../models/course.model';
+import {
+  Course,
+  TestPointsResult,
+  UpdatedTestResultResponse,
+} from '../models/course.model';
 import { decode, decodeArray } from '../utils/decode';
 import { RestService } from './rest.service';
 
@@ -92,5 +96,14 @@ export class CoursesRestService extends RestService<typeof Course> {
     return this.http
       .put<void>(`${this.baseUrl}/${courseId}/Tests/Delete`, body)
       .pipe(mapTo(undefined));
+  }
+
+  updateTestResult(
+    course: Course,
+    body: TestPointsResult
+  ): Observable<UpdatedTestResultResponse> {
+    return this.http
+      .put(`${this.baseUrl}/${course.Id}/SetTestResult`, body)
+      .pipe(switchMap(decode(UpdatedTestResultResponse)));
   }
 }

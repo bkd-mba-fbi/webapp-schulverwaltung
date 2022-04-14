@@ -453,7 +453,7 @@ export function buildCourse(
     // TimetableEntries: null,
     // GradingScaleId: t.number,
     // FinalGrades: null,
-    // Gradings: null,
+    Gradings: null,
     Tests: null,
     EvaluationStatusRef: evaluationStatus || buildReference(),
     AttendanceRef: attendance || buildReference(),

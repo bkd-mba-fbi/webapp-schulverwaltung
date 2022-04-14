@@ -1,9 +1,5 @@
 import * as t from 'io-ts';
-import {
-  LocalDateFromString,
-  LocalDateTimeFromString,
-  Option,
-} from './common-types';
+import { LocalDateTimeFromString, Option } from './common-types';
 import { StudyClass } from './study-class.model';
 import { Test } from './test.model';
 import { Student } from './student.model';
@@ -39,6 +35,23 @@ const ExpandedAttendanceRef = t.partial({
 });
 
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
+
+const Grading = t.type({
+  AverageGrade: t.number,
+  CanGrade: t.boolean,
+  EventDesignation: t.string,
+  EventId: t.number,
+  EventNumber: t.string,
+  GradeComment: Option(t.string),
+  GradeId: Option(t.number),
+  GradeValue: Option(t.number),
+  // HRef: t.string,
+  Id: t.number,
+  StudentFullName: t.string,
+  StudentId: t.number,
+  StudentMatriculationNumber: Option(t.number),
+  StudentNameTooltip: t.string,
+});
 
 const Course = t.type({
   HRef: t.string,
@@ -76,14 +89,41 @@ const Course = t.type({
   // TimetableEntries: null,
   // GradingScaleId: t.number,
   // FinalGrades: null,
-  // Gradings: null,
+  Gradings: Option(t.array(Grading)),
   Tests: Option(t.array(Test)),
   EvaluationStatusRef,
   AttendanceRef,
   ParticipatingStudents: Option(t.array(Student)),
   Classes: Option(t.array(StudyClass)),
 });
+
+const TestPointsResult = t.type({
+  StudentIds: t.array(t.number),
+  TestId: t.number,
+  Points: Option(t.number),
+});
+
+const TestResultResponse = t.type({
+  StudentId: t.number,
+  TestId: t.number,
+  Points: Option(t.number),
+  GradeId: t.number,
+});
+
+const UpdatedTestResultResponse = t.type({
+  TestResults: t.array(TestResultResponse),
+  Gradings: t.array(Grading),
+});
+
 type Course = t.TypeOf<typeof Course>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
 type EvaluationStatusRef = t.TypeOf<typeof EvaluationStatusRef>;
-export { Course, AttendanceRef, EvaluationStatusRef };
+type TestPointsResult = t.TypeOf<typeof TestPointsResult>;
+type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
+export {
+  Course,
+  AttendanceRef,
+  EvaluationStatusRef,
+  TestPointsResult,
+  UpdatedTestResultResponse,
+};
