@@ -23,7 +23,8 @@
       "email": "Keine gültige E-Mail-Adresse",
       "max": "Bitte geben Sie eine Zahl kleiner oder gleich {{max}} ein.",
       "min": "Bitte geben Sie eine Zahl grösser oder gleich {{min}} ein.",
-      "ngbDate": "Bitte geben Sie ein gültiges Datum ein."
+      "ngbDate": "Bitte geben Sie ein gültiges Datum ein.",
+      "invalidPoints": "Bitte Wert von 0 bis {{ maxPoints }} eingeben."
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"

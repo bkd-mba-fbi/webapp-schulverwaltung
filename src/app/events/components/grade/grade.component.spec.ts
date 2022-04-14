@@ -86,7 +86,9 @@ describe('GradeComponent', () => {
 
     const error = fixture.nativeElement.querySelector('.invalid-feedback');
 
-    expect(error.textContent).toContain('global.validation-errors.maxValue');
+    expect(error.textContent).toContain(
+      'global.validation-errors.invalidPoints'
+    );
   });
 
   it('should show validation error if points are greater than maxPoints', () => {
@@ -106,6 +108,8 @@ describe('GradeComponent', () => {
 
     const error = fixture.nativeElement.querySelector('.invalid-feedback');
 
-    expect(error.textContent).toContain('global.validation-errors.maxValue');
+    expect(error.textContent).toContain(
+      'global.validation-errors.invalidPoints'
+    );
   });
 });

@@ -16,6 +16,6 @@
     </div>
   </div>
   <div *ngIf="pointsInput.errors" class="invalid-feedback">
-    {{ 'global.validation-errors.maxValue' | translate }}
+    {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
   </div>
 </div>
