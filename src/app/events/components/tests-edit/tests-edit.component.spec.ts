@@ -63,7 +63,6 @@ describe('TestsEditComponent', () => {
       designation: 'an updated test',
       date: new Date(),
       weight: 2,
-      weightPercent: 0.75,
       isPointGrading: true,
       maxPoints: 25,
       maxPointsAdjusted: 20,
