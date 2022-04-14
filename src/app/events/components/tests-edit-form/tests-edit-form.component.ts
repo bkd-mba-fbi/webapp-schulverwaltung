@@ -128,8 +128,11 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
       maxPoints?.enable();
       maxPointsAdjusted?.enable();
     } else {
-      maxPoints?.reset({ value: null, disabled: true });
-      maxPointsAdjusted?.reset({ value: null, disabled: true });
+      maxPoints?.reset({ value: this.test?.MaxPoints, disabled: true });
+      maxPointsAdjusted?.reset({
+        value: this.test?.MaxPointsAdjusted,
+        disabled: true,
+      });
     }
   }
 }
