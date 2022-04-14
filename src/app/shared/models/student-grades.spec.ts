@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { Course } from 'src/app/shared/models/course.model';
 import {
   buildCourse,
@@ -6,7 +5,12 @@ import {
   buildStudent,
   buildTest,
 } from 'src/spec-builders';
-import { StudentGrade, transform } from './student-grades';
+import {
+  NoResult,
+  StudentGrade,
+  toMaxPoints,
+  transform,
+} from './student-grades';
 
 describe('StudentGradesService', () => {
   it('should create a list of students with tests and grades - all grades available for all students', () => {
@@ -141,5 +145,31 @@ describe('StudentGradesService', () => {
           : 'no-result'
       )
     ).toEqual(['no-result', [2, 99], 'no-result']);
+  });
+
+  describe('MaxPoints from grades', () => {
+    let studentGrade: NoResult;
+
+    beforeEach(() => {
+      let test = buildTest(1, 1, []);
+      studentGrade = {
+        kind: 'no-result',
+        test: test,
+      };
+    });
+
+    it('should get MaxPoints for test', () => {
+      studentGrade.test.MaxPointsAdjusted = null;
+      studentGrade.test.MaxPoints = 20;
+
+      expect(toMaxPoints(studentGrade)).toEqual(20);
+    });
+
+    it('should get MaxPointsAdjusted for test', () => {
+      studentGrade.test.MaxPointsAdjusted = 19;
+      studentGrade.test.MaxPoints = 20;
+
+      expect(toMaxPoints(studentGrade)).toEqual(19);
+    });
   });
 });
