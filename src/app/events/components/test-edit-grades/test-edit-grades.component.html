@@ -122,6 +122,7 @@
         <tr
           *ngFor="
             let studentGrade of data.studentGrades;
+            let studentGradeIndex = index;
             trackBy: trackStudentGrade
           "
         >
@@ -144,6 +145,7 @@
           <td
             *ngFor="
               let grade of studentGrade.grades;
+              let gradeIndex = index;
               trackBy: trackGradeOf(studentGrade.student)
             "
             class="grade"
@@ -158,6 +160,7 @@
             <erz-grade
               [grade]="grade"
               [student]="studentGrade.student"
+              [tabIndex]="(1 + gradeIndex) * 1000 + studentGradeIndex"
               (savePoints)="savePoints($event)"
             ></erz-grade>
           </td>
