@@ -26,11 +26,4 @@ describe('SelectComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should emit value', () => {
-    spyOn(component.valueChange, 'emit');
-    component.value = 1;
-    component.itemChanged();
-    expect(component.valueChange.emit).toHaveBeenCalledWith(1);
-  });
 });
