@@ -8,7 +8,10 @@
       <input
         #pointInput
         class="point-input form-control"
-        type="text"
+        type="number"
+        step="0.01"
+        min="0"
+        max="{{ maxPoints }}"
         [formControl]="pointsInput"
         (input)="onChange(pointInput.value)"
       />
