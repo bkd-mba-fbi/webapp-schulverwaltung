@@ -61,7 +61,6 @@ export class GradeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
-      console.log(this.grade.result);
     }
 
     this.maxPoints = toMaxPoints(this.grade);
