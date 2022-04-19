@@ -237,7 +237,6 @@
       "date": "Datum",
       "weight": "Gewichtung",
       "factor": "Faktor",
-      "percentage": "Verhältnis zu allen Tests",
       "grading-type": "Typ",
       "points": "Punkte",
       "max-points": "Maximal",
