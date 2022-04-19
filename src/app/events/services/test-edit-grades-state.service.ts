@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  map,
-  Observable,
-  startWith,
-  Subject,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, map, ReplaySubject, scan } from 'rxjs';
 import {
   Course,
   TestPointsResult,
@@ -17,20 +10,37 @@ import {
   SortKeys,
   transform,
 } from 'src/app/shared/models/student-grades';
-import { Test } from 'src/app/shared/models/test.model';
+import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { replaceResult } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
+type TestsAction =
+  | { type: 'reset'; payload: Test[] }
+  | { type: 'updateResult'; payload: Result };
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestEditGradesStateService {
   course: Course;
-  tests: Test[];
+
+  action$ = new ReplaySubject<TestsAction>(1);
+
+  tests$ = this.action$.pipe(
+    scan((tests, action) => {
+      switch (action.type) {
+        case 'updateResult':
+          return replaceResult(action.payload, tests);
+        case 'reset':
+          return action.payload;
+        default:
+          return tests;
+      }
+    }, [] as Test[])
+  );
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
@@ -38,14 +48,9 @@ export class TestEditGradesStateService {
     false
   );
 
-  private newTests$: Subject<void> = new Subject();
-
-  tests$: Observable<Test[] | undefined> = combineLatest([
-    this.filter$,
-    this.newTests$.pipe(startWith(undefined)),
-  ]).pipe(
-    map(([filter, _]) =>
-      this.tests.filter((test) => {
+  filteredTests$ = combineLatest([this.tests$, this.filter$]).pipe(
+    map(([tests, filter]) =>
+      tests.filter((test) => {
         if (filter === 'all-tests') {
           return true;
         } else {
@@ -57,7 +62,7 @@ export class TestEditGradesStateService {
 
   sorting$ = this.sortService.sorting$;
 
-  studentGrades$ = combineLatest([this.tests$, this.sorting$]).pipe(
+  studentGrades$ = combineLatest([this.filteredTests$, this.sorting$]).pipe(
     map(spread(this.toStudentGrades.bind(this)))
   );
 
@@ -65,6 +70,10 @@ export class TestEditGradesStateService {
     private sortService: SortService<SortKeys>,
     private courseRestService: CoursesRestService
   ) {}
+
+  setTests(tests: Test[]): void {
+    this.action$.next({ type: 'reset', payload: tests });
+  }
 
   toStudentGrades(tests: Test[] = [], sorting: Sorting<SortKeys>) {
     return transform(this.course.ParticipatingStudents ?? [], tests).sort(
@@ -95,7 +104,9 @@ export class TestEditGradesStateService {
   }
 
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
-    this.tests = replaceResult(newGrades.TestResults[0], this.tests);
-    this.newTests$.next();
+    this.action$.next({
+      type: 'updateResult',
+      payload: newGrades.TestResults[0],
+    });
   }
 }
