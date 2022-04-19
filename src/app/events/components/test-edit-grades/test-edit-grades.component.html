@@ -119,7 +119,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let studentGrade of data.studentGrades">
+        <tr
+          *ngFor="
+            let studentGrade of data.studentGrades;
+            trackBy: trackStudentGrade
+          "
+        >
           <td class="primary-column-width sticky">
             <a class="text-body" [routerLink]="'#'">
               {{ studentGrade.student.FullName }}
@@ -137,7 +142,10 @@
             [ngClass]="{ selected: selectedTest === undefined }"
           ></td>
           <td
-            *ngFor="let grade of studentGrade.grades"
+            *ngFor="
+              let grade of studentGrade.grades;
+              trackBy: trackGradeOf(studentGrade.student)
+            "
             class="grade"
             [ngClass]="
               selectedTest !== undefined &&
