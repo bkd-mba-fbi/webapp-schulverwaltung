@@ -41,4 +41,19 @@ describe('Test utils', () => {
     expect(newResults.length).toBe(1);
     expect(newResults).toContain(newResult);
   });
+
+  it('add new result to test that already has results', () => {
+    // given
+    const test = buildTest(1, 1, [buildResult(1, 1)]);
+    const newResult = buildResult(1, 2, 12345);
+
+    // when
+    const newTests = replaceResult(newResult, [test]);
+
+    // then1
+    expect(newTests.length).toBe(1);
+    const newResults: Result[] = newTests[0].Results!;
+    expect(newResults.length).toBe(2);
+    expect(newResults).toContain(newResult);
+  });
 });
