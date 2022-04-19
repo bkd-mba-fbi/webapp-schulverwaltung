@@ -150,9 +150,7 @@
             "
             class="grade"
             [ngClass]="
-              selectedTest !== undefined &&
-              (grade.result?.TestId === selectedTest?.Id ||
-                grade.TestId === selectedTest?.Id)
+              selectedTest !== undefined && grade.test.Id === selectedTest?.Id
                 ? 'selected'
                 : ''
             "
