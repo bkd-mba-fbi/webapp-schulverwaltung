@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
-import { console } from 'fp-ts';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
-import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  startWith,
+  Subject,
+} from 'rxjs';
+import {
+  Course,
+  TestPointsResult,
+  UpdatedTestResultResponse,
+} from 'src/app/shared/models/course.model';
 import {
   compareFn,
   SortKeys,
@@ -11,6 +21,7 @@ import { Test } from 'src/app/shared/models/test.model';
 import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
+import { replaceResult } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -27,8 +38,13 @@ export class TestEditGradesStateService {
     false
   );
 
-  tests$: Observable<Test[] | undefined> = this.filter$.pipe(
-    map((filter) =>
+  private newTests$: Subject<void> = new Subject();
+
+  tests$: Observable<Test[] | undefined> = combineLatest([
+    this.filter$,
+    this.newTests$.pipe(startWith(undefined)),
+  ]).pipe(
+    map(([filter, _]) =>
       this.tests.filter((test) => {
         if (filter === 'all-tests') {
           return true;
@@ -44,6 +60,11 @@ export class TestEditGradesStateService {
   studentGrades$ = combineLatest([this.tests$, this.sorting$]).pipe(
     map(spread(this.toStudentGrades.bind(this)))
   );
+
+  constructor(
+    private sortService: SortService<SortKeys>,
+    private courseRestService: CoursesRestService
+  ) {}
 
   toStudentGrades(tests: Test[] = [], sorting: Sorting<SortKeys>) {
     return transform(this.course.ParticipatingStudents ?? [], tests).sort(
@@ -64,18 +85,17 @@ export class TestEditGradesStateService {
   }
 
   toggleHeader(expanded: boolean) {
-    console.log(expanded);
     this.expandedHeader$.next(expanded);
   }
-
-  constructor(
-    private sortService: SortService<SortKeys>,
-    private courseRestService: CoursesRestService
-  ) {}
 
   savePoints(requestBody: TestPointsResult) {
     this.courseRestService
       .updateTestResult(this.course, requestBody)
-      .subscribe(console.log);
+      .subscribe((response) => this.updateStudentGrades(response));
+  }
+
+  private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
+    this.tests = replaceResult(newGrades.TestResults[0], this.tests);
+    this.newTests$.next();
   }
 }
