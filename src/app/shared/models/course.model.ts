@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
 import { LocalDateTimeFromString, Option } from './common-types';
 import { StudyClass } from './study-class.model';
-import { Test } from './test.model';
+import { Result, Test } from './test.model';
 import { Student } from './student.model';
 
 const id = t.type({
@@ -103,15 +103,8 @@ const TestPointsResult = t.type({
   Points: Option(t.number),
 });
 
-const TestResultResponse = t.type({
-  StudentId: t.number,
-  TestId: t.number,
-  Points: Option(t.number),
-  GradeId: t.number,
-});
-
 const UpdatedTestResultResponse = t.type({
-  TestResults: t.array(TestResultResponse),
+  TestResults: t.array(Result),
   Gradings: t.array(Grading),
 });
 

@@ -465,7 +465,7 @@ export function buildCourse(
 export function buildTest(
   courseId: number,
   testId: number,
-  results: Result[]
+  results: Result[] | null
 ): Test {
   return {
     Id: testId,
@@ -487,14 +487,19 @@ export function buildTest(
   };
 }
 
-export function buildResult(testId: number, studentId: number): Result {
+export function buildResult(
+  testId: number,
+  studentId: number,
+  courseRegistrationId: number = 123456
+): Result {
   return {
     TestId: testId,
+    CourseRegistrationId: courseRegistrationId,
     GradeId: 2349,
     GradeValue: 3.7,
     GradeDesignation: '3.7',
     Points: null,
     StudentId: studentId,
-    Id: `${testId}_126713`,
+    Id: `${testId}_${courseRegistrationId}`,
   };
 }
