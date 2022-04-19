@@ -43,6 +43,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   maxPoints: number = 0;
 
   private pointsSubject$: Subject<string> = new Subject<string>();
+
   points$: Observable<number> = this.pointsSubject$.pipe(
     debounceTime(500),
     filter(this.isValid.bind(this)),
@@ -50,11 +51,6 @@ export class GradeComponent implements OnInit, OnDestroy {
   );
 
   destroy$ = new Subject<void>();
-
-  private isValid(points: string): boolean {
-    if (isNaN(Number(points))) return false;
-    return !(Number(points) < 0 || Number(points) > this.maxPoints);
-  }
 
   constructor() {}
 
@@ -65,11 +61,19 @@ export class GradeComponent implements OnInit, OnDestroy {
 
     this.maxPoints = toMaxPoints(this.grade);
     this.points$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(this.buildRequestBody.bind(this));
+      .pipe(takeUntil(this.destroy$), map(this.buildRequestBody.bind(this)))
+      .subscribe((body) => this.savePoints.emit(body));
   }
 
-  maxPointValidator(): ValidatorFn {
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  onChange(points: string) {
+    this.pointsSubject$.next(points);
+  }
+
+  private maxPointValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       return Number(control.value) > toMaxPoints(this.grade)
         ? { customMax: true }
@@ -77,21 +81,16 @@ export class GradeComponent implements OnInit, OnDestroy {
     };
   }
 
-  onChange(points: string) {
-    this.pointsSubject$.next(points);
+  private isValid(points: string): boolean {
+    if (isNaN(Number(points))) return false;
+    return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }
 
-  private buildRequestBody(points: number) {
-    const body: TestPointsResult = {
+  private buildRequestBody(points: number): TestPointsResult {
+    return {
       StudentIds: [this.student.Id],
       TestId: this.grade.test.Id,
       Points: points,
     };
-
-    this.savePoints.emit(body);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
   }
 }
