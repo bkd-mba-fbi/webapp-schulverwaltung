@@ -30,6 +30,7 @@ import { Student } from '../../../shared/models/student.model';
 export class GradeComponent implements OnInit, OnDestroy {
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
+  @Input() tabIndex: number;
 
   @Output()
   savePoints = new EventEmitter<TestPointsResult>();
