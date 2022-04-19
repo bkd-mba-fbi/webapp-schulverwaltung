@@ -7,8 +7,7 @@ export function replaceResult(result: Result, tests: Test[]): Test[] {
 }
 
 function replaceResultInTest(newResult: Result, test: Test) {
-  const newResults = test.Results?.map((oldResult) =>
-    newResult.Id === oldResult.Id ? newResult : oldResult
-  ) || [newResult];
-  return { ...test, Results: newResults };
+  const filteredResults =
+    test.Results?.filter((result) => newResult.Id !== result.Id) || [];
+  return { ...test, Results: [...filteredResults, newResult] };
 }

@@ -1,9 +1,5 @@
 <div class="d-flex flex-column w-100">
-  <div
-    *ngIf="grade.kind === 'grade'"
-    class="d-flex flex-row"
-    [class.is-invalid]="pointsInput.errors"
-  >
+  <div class="d-flex flex-row" [class.is-invalid]="pointsInput.errors">
     <div *ngIf="grade.test.IsPointGrading" class="point-input-container mr-3">
       <input
         #pointInput
@@ -16,9 +12,10 @@
         (input)="onChange(pointInput.value)"
       />
     </div>
-    <div>
+    <div *ngIf="grade.kind === 'grade'">
       {{ grade.result.GradeDesignation }}
     </div>
+    <div *ngIf="grade.kind === 'no-result'">-</div>
   </div>
   <div *ngIf="pointsInput.errors" class="invalid-feedback">
     {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
