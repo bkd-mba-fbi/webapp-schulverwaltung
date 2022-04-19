@@ -19,6 +19,7 @@
           [additionalOption]="gradeOption"
           [additionalOptionKey]="'tests.grade'"
           [value]="data.selectedTestId"
+          [allowEmpty]="false"
           (valueChange)="testSelected($event)"
         ></erz-select>
         <erz-test-edit-grades

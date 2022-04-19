@@ -1,9 +1,13 @@
-<ng-select
-  [items]="options"
-  [(ngModel)]="value"
-  bindLabel="Value"
-  bindValue="Key"
-  (click)="itemChanged()"
-  [clearable]="false"
+<select
+  class="form-control"
+  [ngModel]="value$ | async"
+  (ngModelChange)="valueChange.emit($event && $event.Key)"
 >
-</ng-select>
+  <option *ngIf="allowEmpty" [ngValue]="null">
+    {{ 'shared.select.empty-option' | translate }}
+  </option>
+  <option *ngFor="let option of options" [ngValue]="option">
+    {{ option.Value }}
+  </option>
+  >
+</select>
