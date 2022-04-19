@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
+import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
+import { Student } from 'src/app/shared/models/student.model';
 import { Test } from '../../../shared/models/test.model';
 import {
   Filter,
@@ -30,5 +32,15 @@ export class TestEditGradesComponent implements OnInit {
 
   savePoints(requestBody: TestPointsResult) {
     this.state.savePoints(requestBody);
+  }
+
+  trackStudentGrade(index: number) {
+    return index;
+  }
+
+  trackGradeOf(student: Student) {
+    return function (_: number, grade: GradeOrNoResult) {
+      return `${student.Id}_${grade.test.Id}`;
+    };
   }
 }
