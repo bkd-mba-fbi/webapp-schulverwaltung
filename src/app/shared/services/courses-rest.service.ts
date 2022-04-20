@@ -107,17 +107,13 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(switchMap(decode(UpdatedTestResultResponse)));
   }
 
-  publishTest(id: number) {
+  publishTest(id: number): Observable<number> {
     const body = { TestIds: [id] };
-    return this.http
-      .put(`${this.baseUrl}/PublishTest`, body)
-      .pipe(mapTo(undefined));
+    return this.http.put(`${this.baseUrl}/PublishTest`, body).pipe(mapTo(id));
   }
 
-  unpublishTest(id: number) {
+  unpublishTest(id: number): Observable<number> {
     const body = { TestIds: [id] };
-    return this.http
-      .put(`${this.baseUrl}/UnpublishTest`, body)
-      .pipe(mapTo(undefined));
+    return this.http.put(`${this.baseUrl}/UnpublishTest`, body).pipe(mapTo(id));
   }
 }

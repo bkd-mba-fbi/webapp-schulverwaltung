@@ -156,19 +156,21 @@ describe('CoursesRestService', () => {
       const testId = 123;
 
       // when
-      service.publishTest(testId).subscribe();
+      service
+        .publishTest(testId)
+        .subscribe((result) => expect(result).toEqual(testId));
 
       // then
-      httpTestingController.match(
-        ({ method, url, body }) =>
-          method === 'PUT' &&
-          url === `https://eventotest.api/Courses/PublishTest` &&
-          isEqual(body, {
-            TestIds: [testId],
-          })
-      );
-
-      expect().nothing();
+      httpTestingController
+        .expectOne(
+          ({ method, url, body }) =>
+            method === 'PUT' &&
+            url === `https://eventotest.api/Courses/PublishTest` &&
+            isEqual(body, {
+              TestIds: [testId],
+            })
+        )
+        .flush(testId);
     });
 
     it('should unpublish a test', () => {
@@ -176,19 +178,21 @@ describe('CoursesRestService', () => {
       const testId = 123;
 
       // when
-      service.unpublishTest(testId).subscribe();
+      service
+        .unpublishTest(testId)
+        .subscribe((result) => expect(result).toEqual(testId));
 
       // then
-      httpTestingController.match(
-        ({ method, url, body }) =>
-          method === 'PUT' &&
-          url === `https://eventotest.api/Courses/UnpublishTest` &&
-          isEqual(body, {
-            TestIds: [testId],
-          })
-      );
-
-      expect().nothing();
+      httpTestingController
+        .expectOne(
+          ({ method, url, body }) =>
+            method === 'PUT' &&
+            url === `https://eventotest.api/Courses/UnpublishTest` &&
+            isEqual(body, {
+              TestIds: [testId],
+            })
+        )
+        .flush(testId);
     });
   });
 });
