@@ -21,6 +21,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { TestPointsResult } from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
+import { DropDownItem } from '../../../shared/models/drop-down-item.model';
 
 @Component({
   selector: 'erz-grade',
@@ -31,6 +32,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
   @Input() tabIndex: number;
+  @Input() gradingScaleOptions: ReadonlyArray<DropDownItem> = [];
 
   @Output()
   savePoints = new EventEmitter<TestPointsResult>();
