@@ -503,3 +503,19 @@ export function buildResult(
     Id: `${testId}_${courseRegistrationId}`,
   };
 }
+
+export function buildGradingScale(id: number) {
+  return {
+    Id: id,
+    Designation: 'Zehntelnoten bes. disp. keine Note',
+    MinGrade: 0.0,
+    MaxGrade: 0.0,
+    CommentsAllowed: false,
+    LowestSufficientGrade: 4.0,
+    RisingGrades: true,
+    Grades: [],
+    IdObject: 1106,
+    FreeGrading: false,
+    HRef: '/restApi/GradingScales/1106',
+  };
+}
