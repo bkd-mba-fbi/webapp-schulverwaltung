@@ -37,7 +37,9 @@ const ExpandedAttendanceRef = t.partial({
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
 const Grading = t.type({
-  AverageGrade: t.number,
+  // The property AverageGrade was renamed to AverageTestResult with a recent backend hotfix -
+  // enable the new property when the hotfix reaches the development backend and we need it to implement story #338
+  //AverageTestResult: t.number,
   CanGrade: t.boolean,
   EventDesignation: t.string,
   EventId: t.number,
