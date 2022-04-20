@@ -106,4 +106,11 @@ export class CoursesRestService extends RestService<typeof Course> {
       .put(`${this.baseUrl}/${course.Id}/SetTestResult`, body)
       .pipe(switchMap(decode(UpdatedTestResultResponse)));
   }
+
+  publishTest(id: number) {
+    const body = { TestIds: [id] };
+    return this.http
+      .put(`${this.baseUrl}/PublishTest`, body)
+      .pipe(mapTo(undefined));
+  }
 }

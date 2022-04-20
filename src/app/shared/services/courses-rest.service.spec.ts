@@ -150,5 +150,25 @@ describe('CoursesRestService', () => {
 
       expect().nothing();
     });
+
+    it('should publish a test', () => {
+      // given
+      const testId = 123;
+
+      // when
+      service.publishTest(testId).subscribe();
+
+      // then
+      httpTestingController.match(
+        (req) =>
+          req.method === 'PUT' &&
+          req.url === `https://eventotest.api/Courses/PublishTest` &&
+          isEqual(req.body, {
+            TestIds: [testId],
+          })
+      );
+
+      expect().nothing();
+    });
   });
 });
