@@ -103,6 +103,13 @@ export class TestEditGradesStateService {
       .subscribe((response) => this.updateStudentGrades(response));
   }
 
+  publish(test: Test) {
+    this.courseRestService.publishTest(test.Id).subscribe(
+      // the backend returns "null" - ignore the response for now
+      () => {}
+    );
+  }
+
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
     this.action$.next({
       type: 'updateResult',

@@ -160,10 +160,10 @@ describe('CoursesRestService', () => {
 
       // then
       httpTestingController.match(
-        (req) =>
-          req.method === 'PUT' &&
-          req.url === `https://eventotest.api/Courses/PublishTest` &&
-          isEqual(req.body, {
+        ({ method, url, body }) =>
+          method === 'PUT' &&
+          url === `https://eventotest.api/Courses/PublishTest` &&
+          isEqual(body, {
             TestIds: [testId],
           })
       );

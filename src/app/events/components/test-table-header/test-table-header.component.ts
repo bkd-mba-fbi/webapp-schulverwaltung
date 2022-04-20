@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Test } from 'src/app/shared/models/test.model';
 
 @Component({
@@ -11,10 +11,15 @@ export class TestTableHeaderComponent {
   @Input() expanded: boolean;
 
   @Output() toggle = new EventEmitter<boolean>();
+  @Output() publish = new EventEmitter<Test>();
 
   constructor() {}
 
   toggleHeader() {
     this.toggle.emit(!this.expanded);
+  }
+
+  publishTest() {
+    this.publish.emit(this.test);
   }
 }

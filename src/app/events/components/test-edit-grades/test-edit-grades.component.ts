@@ -49,6 +49,10 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     this.state.savePoints(requestBody);
   }
 
+  publish(test: Test) {
+    this.state.publish(test);
+  }
+
   trackStudentGrade(index: number) {
     return index;
   }
