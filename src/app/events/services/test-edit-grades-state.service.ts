@@ -14,12 +14,13 @@ import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
-import { replaceResult } from '../utils/tests';
+import { replaceResult, toggleIsPublished } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
 type TestsAction =
   | { type: 'reset'; payload: Test[] }
-  | { type: 'updateResult'; payload: Result };
+  | { type: 'updateResult'; payload: Result }
+  | { type: 'toggle-test-state'; payload: number };
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,8 @@ export class TestEditGradesStateService {
           return replaceResult(action.payload, tests);
         case 'reset':
           return action.payload;
+        case 'toggle-test-state':
+          return toggleIsPublished(action.payload, tests);
         default:
           return tests;
       }
@@ -104,17 +107,28 @@ export class TestEditGradesStateService {
   }
 
   publish(test: Test) {
-    this.courseRestService.publishTest(test.Id).subscribe(() => {});
+    this.courseRestService
+      .publishTest(test.Id)
+      .subscribe(this.toggleTestPublishedState.bind(this));
   }
 
   unpublish(test: Test) {
-    this.courseRestService.unpublishTest(test.Id).subscribe(() => {});
+    this.courseRestService
+      .unpublishTest(test.Id)
+      .subscribe(this.toggleTestPublishedState.bind(this));
   }
 
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
     this.action$.next({
       type: 'updateResult',
       payload: newGrades.TestResults[0],
+    });
+  }
+
+  private toggleTestPublishedState(testId: number) {
+    this.action$.next({
+      type: 'toggle-test-state',
+      payload: testId,
     });
   }
 }
