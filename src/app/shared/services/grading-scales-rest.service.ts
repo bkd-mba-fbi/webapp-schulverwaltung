@@ -15,7 +15,6 @@ export class GradingScalesRestService extends RestService<typeof GradingScale> {
   }
 
   getGradingScale(id: number): Observable<GradingScale> {
-    const scale = {} as GradingScale;
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`)
       .pipe(switchMap(decode(GradingScale)));

@@ -1,7 +1,7 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { buildGradingScale } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { GradingScale } from '../models/grading-scale.model';
 
 import { GradingScalesRestService } from './grading-scales-rest.service';
 
@@ -19,12 +19,8 @@ describe('GradingScalesRestService', () => {
     httpTestingController.verify();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   it('should request a grading scale by id', () => {
-    const data: GradingScale = {} as GradingScale;
+    const data = buildGradingScale(1234);
 
     service
       .getGradingScale(1234)
