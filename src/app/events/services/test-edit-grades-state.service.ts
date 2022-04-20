@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, map, ReplaySubject, scan } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  map,
+  ReplaySubject,
+  scan,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 import {
   Course,
   TestPointsResult,
@@ -15,6 +24,7 @@ import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
+import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 
 export type Filter = 'all-tests' | 'my-tests';
 type TestsAction =
@@ -69,9 +79,38 @@ export class TestEditGradesStateService {
     map(spread(this.toStudentGrades.bind(this)))
   );
 
+  // TODO: Do nice
+  private gradingScaleIds$ = this.filteredTests$.pipe(
+    map((tests: Test[]) =>
+      [...tests.map((test: Test) => test.GradingScaleId), 1105].filter(
+        (value, index, array) => array.indexOf(value) === index
+      )
+    ),
+    shareReplay(1)
+  );
+
+  // TODO merge with gradingScaleIds$?
+  private gradingScales$ = this.gradingScaleIds$.pipe(
+    switchMap((ids) =>
+      forkJoin(
+        ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
+      )
+    )
+  );
+
+  // TODO mapping is wrong
+  gradingScalesOptions$ = this.gradingScales$.pipe(
+    map((scales) =>
+      scales.map((scale) => {
+        return { Key: scale.Id, Value: scale.Designation };
+      })
+    )
+  );
+
   constructor(
     private sortService: SortService<SortKeys>,
-    private courseRestService: CoursesRestService
+    private courseRestService: CoursesRestService,
+    private gradingScalesRestService: GradingScalesRestService
   ) {}
 
   setTests(tests: Test[]): void {

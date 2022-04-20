@@ -22,6 +22,7 @@ import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { TestPointsResult } from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
 import { DropDownItem } from '../../../shared/models/drop-down-item.model';
+import { TestEditGradesStateService } from '../../services/test-edit-grades-state.service';
 
 @Component({
   selector: 'erz-grade',
@@ -53,9 +54,15 @@ export class GradeComponent implements OnInit, OnDestroy {
     map(Number)
   );
 
+  options$ = this.state.gradingScalesOptions$.pipe(
+    map((options) =>
+      options.filter((option) => option.Key === this.grade.test.GradingScaleId)
+    )
+  );
+
   destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor(public state: TestEditGradesStateService) {}
 
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {
