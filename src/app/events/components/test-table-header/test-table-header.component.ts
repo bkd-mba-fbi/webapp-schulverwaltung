@@ -12,6 +12,7 @@ export class TestTableHeaderComponent {
 
   @Output() toggle = new EventEmitter<boolean>();
   @Output() publish = new EventEmitter<Test>();
+  @Output() unpublish = new EventEmitter<Test>();
 
   constructor() {}
 
@@ -21,5 +22,9 @@ export class TestTableHeaderComponent {
 
   publishTest() {
     this.publish.emit(this.test);
+  }
+
+  unpublishTest() {
+    this.unpublish.emit(this.test);
   }
 }

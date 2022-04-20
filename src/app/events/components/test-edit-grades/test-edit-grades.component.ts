@@ -53,6 +53,10 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     this.state.publish(test);
   }
 
+  unpublish(test: Test) {
+    this.state.unpublish(test);
+  }
+
   trackStudentGrade(index: number) {
     return index;
   }
