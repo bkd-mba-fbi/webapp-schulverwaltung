@@ -170,5 +170,25 @@ describe('CoursesRestService', () => {
 
       expect().nothing();
     });
+
+    it('should unpublish a test', () => {
+      // given
+      const testId = 123;
+
+      // when
+      service.unpublishTest(testId).subscribe();
+
+      // then
+      httpTestingController.match(
+        ({ method, url, body }) =>
+          method === 'PUT' &&
+          url === `https://eventotest.api/Courses/UnpublishTest` &&
+          isEqual(body, {
+            TestIds: [testId],
+          })
+      );
+
+      expect().nothing();
+    });
   });
 });

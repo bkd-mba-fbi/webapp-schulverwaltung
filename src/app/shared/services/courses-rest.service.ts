@@ -113,4 +113,11 @@ export class CoursesRestService extends RestService<typeof Course> {
       .put(`${this.baseUrl}/PublishTest`, body)
       .pipe(mapTo(undefined));
   }
+
+  unpublishTest(id: number) {
+    const body = { TestIds: [id] };
+    return this.http
+      .put(`${this.baseUrl}/UnpublishTest`, body)
+      .pipe(mapTo(undefined));
+  }
 }
