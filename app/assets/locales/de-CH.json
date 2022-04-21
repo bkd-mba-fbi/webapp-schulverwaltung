@@ -254,6 +254,12 @@
         "points": "Erreichte Punkte",
         "max-points": "Mögliche Punkte"
       }
+    },
+    "publishing": {
+      "publish": "Möchten sie den Test '{{designation}}' publizieren?",
+      "unpublish": "Möchten sie den Test '{{designation}}' wieder in Arbeit setzen?",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen"
     }
   },
   "my-absences": {
