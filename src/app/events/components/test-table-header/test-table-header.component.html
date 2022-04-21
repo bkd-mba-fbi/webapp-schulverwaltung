@@ -37,6 +37,7 @@
       <a
         class="d-flex btn btn-link pl-0 edit"
         title="{{ 'tests.edit' | translate }}"
+        (click)="unpublishTest()"
       >
         <i class="material-icons mr-1">lock</i>
         <span>{{ 'tests.published' | translate }}</span>
@@ -54,6 +55,7 @@
       >
         <a
           class="d-flex btn btn-link pl-0"
+          (click)="publishTest()"
           title="{{ 'tests.publish' | translate }}"
         >
           <i class="material-icons mr-1">lock_open</i>

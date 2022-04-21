@@ -29,6 +29,7 @@ import { SharedModule } from './shared/shared.module';
 import { UnauthenticatedComponent } from './unauthenticated.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { PublishTestComponent } from './src/app/events/components/tests-publication/publish-test/publish-test.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(
@@ -51,6 +52,7 @@ registerLocaleData(localeFRCH);
     HomeComponent,
     UnauthenticatedComponent,
     MyNotificationsShowComponent,
+    PublishTestComponent,
   ],
   imports: [
     BrowserModule,

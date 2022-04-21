@@ -5,9 +5,11 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
 import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
 import { Student } from 'src/app/shared/models/student.model';
+import { PublishTestComponent } from 'src/app/src/app/events/components/tests-publication/publish-test/publish-test.component';
 import { Test } from '../../../shared/models/test.model';
 import {
   Filter,
@@ -24,7 +26,10 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   @Input() tests: Test[];
   @Input() selectedTest: Test | undefined;
 
-  constructor(public state: TestEditGradesStateService) {}
+  constructor(
+    public state: TestEditGradesStateService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     // TODO move to sort implementation
@@ -49,6 +54,16 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     this.state.savePoints(requestBody);
   }
 
+  publish(test: Test) {
+    const modalRef = this.openModal(test);
+    this.onCloseModal(modalRef, () => this.state.publish(test));
+  }
+
+  unpublish(test: Test) {
+    const modalRef = this.openModal(test);
+    this.onCloseModal(modalRef, () => this.state.unpublish(test));
+  }
+
   trackStudentGrade(index: number) {
     return index;
   }
@@ -57,5 +72,20 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     return function (_: number, grade: GradeOrNoResult) {
       return `${student.Id}_${grade.test.Id}`;
     };
+  }
+
+  private openModal(test: Test) {
+    const modalRef = this.modalService.open(PublishTestComponent);
+    modalRef.componentInstance.test = test;
+    return modalRef;
+  }
+
+  private onCloseModal(modalRef: NgbModalRef, action: () => void) {
+    modalRef.result.then(
+      (result) => {
+        if (result) action();
+      },
+      () => {}
+    );
   }
 }
