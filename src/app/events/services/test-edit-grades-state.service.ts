@@ -90,20 +90,11 @@ export class TestEditGradesStateService {
   );
 
   // TODO merge with gradingScaleIds$?
-  private gradingScales$ = this.gradingScaleIds$.pipe(
+  gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
         ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
       )
-    )
-  );
-
-  // TODO mapping is wrong
-  gradingScalesOptions$ = this.gradingScales$.pipe(
-    map((scales) =>
-      scales.map((scale) => {
-        return { Key: scale.Id, Value: scale.Designation };
-      })
     )
   );
 

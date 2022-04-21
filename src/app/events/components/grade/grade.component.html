@@ -15,14 +15,21 @@
     </div>
     <div *ngIf="grade.kind === 'grade'">
       <erz-select
-        [options]="options$ | async"
+        [options]="gradeOptions$ | async"
         [allowEmpty]="false"
         [value]="grade.result.GradeId"
       >
       </erz-select>
-      {{ grade.result.GradeDesignation }}
     </div>
-    <div *ngIf="grade.kind === 'no-result'">-</div>
+    <!-- // TODO: No Magic Number -->
+    <div *ngIf="grade.kind === 'no-result'">
+      <erz-select
+        [options]="gradeOptions$ | async"
+        [allowEmpty]="false"
+        [value]="2379"
+      >
+      </erz-select>
+    </div>
   </div>
   <div *ngIf="pointsInput.errors" class="invalid-feedback">
     {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}

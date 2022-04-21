@@ -54,9 +54,19 @@ export class GradeComponent implements OnInit, OnDestroy {
     map(Number)
   );
 
-  options$ = this.state.gradingScalesOptions$.pipe(
-    map((options) =>
-      options.filter((option) => option.Key === this.grade.test.GradingScaleId)
+  private gradingScale$ = this.state.gradingScales$.pipe(
+    map((gradingScales) =>
+      gradingScales.find(
+        (gradingScale) => gradingScale.Id === this.grade.test.GradingScaleId
+      )
+    )
+  );
+
+  gradeOptions$ = this.gradingScale$.pipe(
+    map((gradingScale) =>
+      gradingScale?.Grades.map((grade) => {
+        return { Key: grade.Id, Value: grade.Designation };
+      })
     )
   );
 
