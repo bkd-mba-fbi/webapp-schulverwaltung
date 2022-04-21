@@ -1,10 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { fi } from 'date-fns/locale';
 import { buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { byTestId } from 'src/specs/spec-utils';
 
 import { PublishTestComponent } from './publish-test.component';
 
@@ -64,6 +63,39 @@ describe('PublishTestComponent', () => {
       expectConfirmationMessage(debugElement, 'tests.publishing.unpublish');
     });
   });
+
+  describe('click buttons', () => {
+    let activeModal: NgbActiveModal;
+
+    beforeEach(() => {
+      activeModal = component.activeModal;
+      component.test = buildTest(1, 1, []);
+    });
+    it('should close modal with result true when confirmation button is clicked', () => {
+      // given
+      spyOn(activeModal, 'close');
+      const confirmationButton = debugElement.query(byTestId('confirm-button'));
+      // when
+      confirmationButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      // then
+      expect(activeModal.close).toHaveBeenCalledWith(true);
+    });
+
+    it('should dismiss modal without a reason', () => {
+      // given
+      spyOn(activeModal, 'dismiss');
+      const cancelButton = debugElement.query(byTestId('cancel-button'));
+
+      // when
+      cancelButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      // then
+      expect(activeModal.dismiss).toHaveBeenCalledWith();
+    });
+  });
 });
 
 function expectConfirmationMessage(
@@ -71,7 +103,7 @@ function expectConfirmationMessage(
   expected: string
 ) {
   const confirmationMessageElement = debugElement.query(
-    By.css('[data-testid="confirmation-message"]')
+    byTestId('confirmation-message')
   );
   expect(confirmationMessageElement.nativeElement.textContent.trim()).toBe(
     expected

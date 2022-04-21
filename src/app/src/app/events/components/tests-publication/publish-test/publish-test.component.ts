@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Test } from 'src/app/shared/models/test.model';
 
@@ -17,6 +17,7 @@ import { Test } from 'src/app/shared/models/test.model';
     </div>
     <div class="modal-footer">
       <button
+        data-testid="cancel-button"
         type="button"
         class="btn btn-secondary"
         (click)="activeModal.dismiss()"
@@ -25,6 +26,7 @@ import { Test } from 'src/app/shared/models/test.model';
       </button>
 
       <button
+        data-testid="confirm-button"
         type="button"
         class="btn btn-primary"
         (click)="activeModal.close(true)"
