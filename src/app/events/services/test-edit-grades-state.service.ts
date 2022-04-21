@@ -79,23 +79,22 @@ export class TestEditGradesStateService {
     map(spread(this.toStudentGrades.bind(this)))
   );
 
-  // TODO: Do nice
+  // TODO: Do nice, magic number
   private gradingScaleIds$ = this.filteredTests$.pipe(
     map((tests: Test[]) =>
       [...tests.map((test: Test) => test.GradingScaleId), 1105].filter(
         (value, index, array) => array.indexOf(value) === index
       )
-    ),
-    shareReplay(1)
+    )
   );
 
-  // TODO merge with gradingScaleIds$?
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
         ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
       )
-    )
+    ),
+    shareReplay(1)
   );
 
   constructor(
