@@ -1,4 +1,3 @@
-import { number } from 'fp-ts';
 import { Result, Test } from 'src/app/shared/models/test.model';
 
 export function replaceResult(result: Result, tests: Test[]): Test[] {
