@@ -21,13 +21,8 @@
       >
       </erz-select>
     </div>
-    <!-- // TODO: No Magic Number -->
     <div *ngIf="grade.kind === 'no-result'">
-      <erz-select
-        [options]="gradeOptions$ | async"
-        [allowEmpty]="false"
-        [value]="2379"
-      >
+      <erz-select [options]="gradeOptions$ | async" [allowEmpty]="true">
       </erz-select>
     </div>
   </div>

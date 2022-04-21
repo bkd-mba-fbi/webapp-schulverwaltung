@@ -19,6 +19,7 @@ import { map } from 'rxjs/operators';
 export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];
   @Input() allowEmpty = true;
+  @Input() emptyLabel: string = '';
   @Input() value: Option<number> = null;
   @Output() valueChange = new EventEmitter<Option<number>>();
 

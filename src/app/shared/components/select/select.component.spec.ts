@@ -23,7 +23,30 @@ describe('SelectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create default select component', () => {
+    // then
     expect(component).toBeTruthy();
+    expect(component.allowEmpty).toBeTruthy();
+    expect(component.emptyLabel).toBe('');
+    expect(component.options).toEqual([]);
+    expect(component.value).toBeNull();
+  });
+
+  it('should create select component without element', () => {
+    // given
+    component.allowEmpty = false;
+
+    // then
+    expect(component.allowEmpty).toBeFalsy();
+  });
+
+  it('should create select component with custom empty element', () => {
+    // given
+    component.allowEmpty = true;
+    component.emptyLabel = 'Choose option...';
+
+    // then
+    expect(component.emptyLabel).toBe('Choose option...');
+    expect(component.allowEmpty).toBeTruthy();
   });
 });
