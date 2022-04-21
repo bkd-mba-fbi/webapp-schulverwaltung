@@ -4,18 +4,16 @@ import {
   HostBinding,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
-
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { ViewMode } from '../../services/presence-control-state.service';
 import { Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { ReplaySubject } from 'rxjs';
+import { PresenceControlEntry } from '../../models/presence-control-entry.model';
+import { ViewMode } from '../../services/presence-control-state.service';
 import { PresenceControlPrecedingAbsenceComponent } from '../presence-control-preceding-absence/presence-control-preceding-absence.component';
 
 @Component({
