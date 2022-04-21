@@ -6,7 +6,7 @@ import { Test } from 'src/app/shared/models/test.model';
   selector: 'erz-publish-test',
   template: `
     <div class="modal-body">
-      <p>
+      <p data-testid="confirmation-message">
         {{
           (test.IsPublished
             ? 'tests.publishing.unpublish'
