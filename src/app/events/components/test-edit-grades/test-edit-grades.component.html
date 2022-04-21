@@ -127,11 +127,13 @@
           "
         >
           <td class="primary-column-width sticky">
-            <a class="text-body" [routerLink]="'#'">
-              {{ studentGrade.student.FullName }}
-            </a>
-            <a href="" class="mobile mean">
-              {{ 'tests.mean' | translate }}: 5.15
+            <a [routerLink]="'#'">
+              <span class="text-body text-truncate">{{
+                studentGrade.student.FullName
+              }}</span>
+              <span class="mobile mean">
+                {{ 'tests.mean' | translate }}: 5.15
+              </span>
             </a>
           </td>
           <td
