@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +13,8 @@ import {
 import { Test } from 'src/app/shared/models/test.model';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { TestStateService } from '../../services/test-state.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TestsDeleteComponent } from './tests-delete/tests-delete.component';
 
 @Component({
   selector: 'erz-tests-edit',
@@ -41,12 +42,13 @@ export class TestsEditComponent {
   );
 
   constructor(
-    private state: TestStateService,
+    public state: TestStateService,
     private courseService: CoursesRestService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
   delete(test: Test): void {
@@ -60,6 +62,10 @@ export class TestsEditComponent {
         .delete(test.CourseId, test.Id)
         .subscribe(this.onDeleteSuccess.bind(this));
     }
+  }
+
+  openDeleteModal() {
+    return this.modalService.open(TestsDeleteComponent);
   }
 
   save(formGroupValue: any): void {
