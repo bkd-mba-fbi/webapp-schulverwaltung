@@ -65,9 +65,21 @@ export class TestsEditComponent {
   }
 
   openDeleteModal(test: Test) {
-    return (this.modalService.open(
-      TestsDeleteComponent
-    ).componentInstance.test = test);
+    const modalRef = this.modalService.open(TestsDeleteComponent);
+    modalRef.componentInstance.test = test;
+    modalRef.componentInstance.canConfirm = !(
+      test.Results && test.Results.length > 0
+    );
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.courseService
+            .delete(test.CourseId, test.Id)
+            .subscribe(this.onDeleteSuccess.bind(this));
+        }
+      },
+      () => {}
+    );
   }
 
   save(formGroupValue: any): void {

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Test } from '../../../../shared/models/test.model';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'erz-tests-delete',
@@ -8,6 +9,7 @@ import { Test } from '../../../../shared/models/test.model';
 })
 export class TestsDeleteComponent {
   @Input() test: Test;
+  @Input() canConfirm: boolean;
 
-  constructor() {}
+  constructor(public activeModal: NgbActiveModal) {}
 }

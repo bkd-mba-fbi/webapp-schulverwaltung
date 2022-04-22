@@ -1,15 +1,30 @@
 <div class="modal-body">
-  <p data-testid="confirmation-message">
-    {{ 'tests.form.confirm' | translate }}
-    {{ test.Designation }}
+  <p data-testid="confirmation-message" *ngIf="!canConfirm; else canBeConfirm">
+    {{ 'tests.form.delete-not-allowed' | translate }}
   </p>
+  <ng-template #canBeConfirm>
+    <p data-testid="confirmation-message">
+      {{ 'tests.form.confirm' | translate }}
+    </p>
+  </ng-template>
 </div>
 <div class="modal-footer">
-  <button data-testid="cancel-button" type="button" class="btn btn-secondary">
+  <button
+    data-testid="cancel-button"
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.dismiss()"
+  >
     {{ 'global.edit.cancel' | translate }}
   </button>
 
-  <button data-testid="confirm-button" type="button" class="btn btn-primary">
+  <button
+    data-testid="confirm-button"
+    type="button"
+    class="btn btn-primary"
+    [disabled]="!canConfirm"
+    (click)="activeModal.close(test)"
+  >
     {{ 'global.edit.confirm' | translate }}
   </button>
 </div>
