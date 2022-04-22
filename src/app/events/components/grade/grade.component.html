@@ -19,11 +19,16 @@
         [options]="gradeOptions$ | async"
         [allowEmpty]="false"
         [value]="grade.result.GradeId"
+        data-testid="grade-select"
       >
       </erz-select>
     </div>
     <div *ngIf="grade.kind === 'no-result'">
-      <erz-select [options]="gradeOptions$ | async" [allowEmpty]="true">
+      <erz-select
+        [options]="gradeOptions$ | async"
+        [allowEmpty]="true"
+        data-testid="grade-select"
+      >
       </erz-select>
     </div>
   </div>

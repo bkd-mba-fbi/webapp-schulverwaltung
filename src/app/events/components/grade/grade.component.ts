@@ -33,7 +33,6 @@ export class GradeComponent implements OnInit, OnDestroy {
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
   @Input() tabIndex: number;
-  @Input() gradingScaleOptions: ReadonlyArray<DropDownItem> = [];
 
   @Output()
   savePoints = new EventEmitter<TestPointsResult>();

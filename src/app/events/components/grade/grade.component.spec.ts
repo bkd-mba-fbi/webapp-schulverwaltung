@@ -15,6 +15,8 @@ import {
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { byTestId } from 'src/specs/spec-utils';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
+import { of } from 'rxjs';
 
 describe('GradeComponent', () => {
   let component: GradeComponent;
@@ -56,7 +58,89 @@ describe('GradeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('should show values (points and grade)', () => {
+  describe('tests without point grading', () => {
+    let gradingScaleOptions: DropDownItem[];
+    let grade: Grade;
+
+    beforeEach(() => {
+      gradingScaleOptions = [
+        { Key: 1, Value: '1.0' },
+        { Key: 2, Value: '2.0' },
+        { Key: 3, Value: '3.0' },
+        { Key: 4, Value: '4.0' },
+        { Key: 5, Value: '5.0' },
+        { Key: 6, Value: '6.0' },
+      ];
+
+      grade = {
+        kind: 'grade',
+        result,
+        test,
+      };
+      grade.test.IsPointGrading = false;
+      grade.result.Points = null;
+      grade.result.GradeId = 4;
+    });
+
+    it('should show grading options and select grade from options', () => {
+      // given
+      component.grade = grade;
+      component.gradeOptions$ = of(gradingScaleOptions);
+
+      // when
+      fixture.detectChanges();
+
+      // then
+
+      const select = debugElement.query(byTestId('grade-select')).nativeElement
+        .firstChild;
+
+      expect(select.options.length).toBe(6);
+      expect(select.options[0].textContent?.trim()).toBe('1.0');
+      expect(select.options[1].textContent?.trim()).toBe('2.0');
+      expect(select.options[2].textContent?.trim()).toBe('3.0');
+      expect(select.options[3].textContent?.trim()).toBe('4.0');
+      expect(select.options[4].textContent?.trim()).toBe('5.0');
+      expect(select.options[5].textContent?.trim()).toBe('6.0');
+
+      fixture.whenStable().then(() => {
+        expect(select.selectedIndex).toBe(3);
+      });
+    });
+
+    it('should show grading options without selection if there is no result yet', () => {
+      // given
+      const noResult: NoResult = {
+        kind: 'no-result',
+        test,
+      };
+
+      component.grade = noResult;
+      component.gradeOptions$ = of(gradingScaleOptions);
+
+      // when
+      fixture.detectChanges();
+
+      // then
+      const select = debugElement.query(byTestId('grade-select')).nativeElement
+        .firstChild;
+
+      expect(select.options.length).toBe(7);
+      expect(select.options[0].textContent.trim()).toBe('');
+      expect(select.options[1].textContent.trim()).toBe('1.0');
+      expect(select.options[2].textContent.trim()).toBe('2.0');
+      expect(select.options[3].textContent.trim()).toBe('3.0');
+      expect(select.options[4].textContent.trim()).toBe('4.0');
+      expect(select.options[5].textContent.trim()).toBe('5.0');
+      expect(select.options[6].textContent.trim()).toBe('6.0');
+
+      fixture.whenStable().then(() => {
+        expect(select.selectedIndex).toBe(0);
+      });
+    });
+  });
+
+  describe('tests with point gradings', () => {
     it('should create with noResult', () => {
       // given
       const noResult: NoResult = {
@@ -73,7 +157,7 @@ describe('GradeComponent', () => {
       expectPointsInputValue(debugElement, '');
     });
 
-    it('should show points', () => {
+    it('should show points in input field', () => {
       // given
       const grade: Grade = {
         kind: 'grade',
@@ -144,4 +228,15 @@ function expectValidationErrorMessage(debugElement: DebugElement) {
     .nativeElement;
 
   expect(error.textContent).toContain('global.validation-errors.invalidPoints');
+}
+
+function expectOptions(select: HTMLSelectElement) {
+  expect(select.options.length).toBe(6);
+  const options = select.options!;
+  expect(options[0]?.textContent?.trim()).toBe('1.0');
+  expect(options[1]?.textContent?.trim()).toBe('2.0');
+  expect(options[2]?.textContent?.trim()).toBe('3.0');
+  expect(options[3]?.textContent?.trim()).toBe('4.0');
+  expect(options[4]?.textContent?.trim()).toBe('5.0');
+  expect(options[5]?.textContent?.trim()).toBe('6.0');
 }
