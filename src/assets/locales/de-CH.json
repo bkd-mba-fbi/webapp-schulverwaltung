@@ -28,6 +28,10 @@
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
+    },
+    "edit": {
+      "cancel": "Abbrechen",
+      "confirm": "Übernehmen"
     }
   },
   "unauthenticated": {
