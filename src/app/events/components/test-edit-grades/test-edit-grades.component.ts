@@ -9,7 +9,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
 import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
 import { Student } from 'src/app/shared/models/student.model';
-import { PublishTestComponent } from 'src/app/src/app/events/components/tests-publication/publish-test/publish-test.component';
+import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
 import { Test } from '../../../shared/models/test.model';
 import {
   Filter,

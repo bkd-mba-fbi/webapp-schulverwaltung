@@ -14,6 +14,7 @@ import { TestTableHeaderComponent } from './components/test-table-header/test-ta
 import { TestSummaryShortPipe } from './pipes/test-summary-short.pipe';
 import { TestsEditComponent } from './components/tests-edit/tests-edit.component';
 import { TestsEditFormComponent } from './components/tests-edit-form/tests-edit-form.component';
+import { PublishTestComponent } from './components/tests-publish/publish-test.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TestsEditFormComponent } from './components/tests-edit-form/tests-edit-
     TestSummaryShortPipe,
     TestsEditComponent,
     TestsEditFormComponent,
+    PublishTestComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],
 })
