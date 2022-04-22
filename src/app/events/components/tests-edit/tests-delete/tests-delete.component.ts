@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Test } from '../../../../shared/models/test.model';
 
 @Component({
   selector: 'erz-tests-delete',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./tests-delete.component.scss'],
 })
 export class TestsDeleteComponent {
+  @Input() test: Test;
+
   constructor() {}
 }

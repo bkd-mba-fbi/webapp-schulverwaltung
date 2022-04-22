@@ -64,8 +64,10 @@ export class TestsEditComponent {
     }
   }
 
-  openDeleteModal() {
-    return this.modalService.open(TestsDeleteComponent);
+  openDeleteModal(test: Test) {
+    return (this.modalService.open(
+      TestsDeleteComponent
+    ).componentInstance.test = test);
   }
 
   save(formGroupValue: any): void {
