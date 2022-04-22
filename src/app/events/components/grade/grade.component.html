@@ -3,7 +3,7 @@
     <div *ngIf="grade.test.IsPointGrading" class="point-input-container mr-3">
       <input
         #pointInput
-        class="point-input form-control"
+        class="form-control"
         type="number"
         step="0.01"
         min="0"
@@ -11,6 +11,7 @@
         tabindex="{{ tabIndex }}"
         [formControl]="pointsInput"
         (input)="onChange(pointInput.value)"
+        data-testid="point-input"
       />
     </div>
     <div *ngIf="grade.kind === 'grade'">
@@ -26,7 +27,11 @@
       </erz-select>
     </div>
   </div>
-  <div *ngIf="pointsInput.errors" class="invalid-feedback">
+  <div
+    *ngIf="pointsInput.errors"
+    class="invalid-feedback"
+    data-testid="validation-error-message"
+  >
     {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
   </div>
 </div>
