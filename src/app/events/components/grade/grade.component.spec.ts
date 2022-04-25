@@ -1,22 +1,15 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { GradeComponent } from './grade.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
+import { Grade, NoResult } from 'src/app/shared/models/student-grades';
+import { byTestId } from 'src/specs/spec-utils';
 import {
   buildResult,
   buildStudent,
   buildTest,
 } from '../../../../spec-builders';
-import {
-  Grade,
-  GradeOrNoResult,
-  NoResult,
-} from 'src/app/shared/models/student-grades';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { byTestId } from 'src/specs/spec-utils';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { of } from 'rxjs';
+import { buildTestModuleMetadata } from '../../../../spec-helpers';
+import { GradeComponent } from './grade.component';
 
 describe('GradeComponent', () => {
   let component: GradeComponent;
@@ -85,7 +78,7 @@ describe('GradeComponent', () => {
     it('should show grading options and select grade from options', () => {
       // given
       component.grade = grade;
-      component.gradeOptions$ = of(gradingScaleOptions);
+      component.gradeOptions = gradingScaleOptions;
 
       // when
       fixture.detectChanges();
@@ -116,7 +109,7 @@ describe('GradeComponent', () => {
       };
 
       component.grade = noResult;
-      component.gradeOptions$ = of(gradingScaleOptions);
+      component.gradeOptions = gradingScaleOptions;
 
       // when
       fixture.detectChanges();

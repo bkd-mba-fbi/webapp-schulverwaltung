@@ -16,16 +16,17 @@
     </div>
     <div *ngIf="grade.kind === 'grade'">
       <erz-select
-        [options]="gradeOptions$ | async"
+        [options]="gradeOptions"
         [allowEmpty]="false"
         [value]="grade.result.GradeId"
+        class="grade-select"
         data-testid="grade-select"
       >
       </erz-select>
     </div>
     <div *ngIf="grade.kind === 'no-result'">
       <erz-select
-        [options]="gradeOptions$ | async"
+        [options]="gradeOptions"
         [allowEmpty]="true"
         data-testid="grade-select"
       >

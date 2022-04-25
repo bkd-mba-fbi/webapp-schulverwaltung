@@ -4,16 +4,19 @@ import {
   combineLatest,
   forkJoin,
   map,
+  Observable,
   ReplaySubject,
   scan,
   shareReplay,
   switchMap,
+  tap,
 } from 'rxjs';
 import {
   Course,
   TestPointsResult,
   UpdatedTestResultResponse,
 } from 'src/app/shared/models/course.model';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
   compareFn,
   SortKeys,
@@ -23,10 +26,15 @@ import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
-import { replaceResult, toggleIsPublished } from '../utils/tests';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
+import { replaceResult, toggleIsPublished } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
+
+type GradingScaleOptions = {
+  [id: number]: DropDownItem[];
+};
+
 type TestsAction =
   | { type: 'reset'; payload: Test[] }
   | { type: 'updateResult'; payload: Result }
@@ -82,13 +90,13 @@ export class TestEditGradesStateService {
   // TODO: Add Course Grading Scale to list
   private gradingScaleIds$ = this.filteredTests$.pipe(
     map((tests: Test[]) =>
-      [...tests.map((test: Test) => test.GradingScaleId)].filter(
+      [...tests.map((test: Test) => test.GradingScaleId), 1105].filter(
         (value, index, array) => array.indexOf(value) === index
       )
     )
   );
 
-  gradingScales$ = this.gradingScaleIds$.pipe(
+  private gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
         ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
@@ -96,6 +104,38 @@ export class TestEditGradesStateService {
     ),
     shareReplay(1)
   );
+
+  private gradingScalesOptions$: Observable<GradingScaleOptions> = this.gradingScales$.pipe(
+    map((gradingScales) =>
+      gradingScales
+        .map((gradingScale) => {
+          return {
+            id: gradingScale.Id,
+            options: gradingScale.Grades.map((gradeOption) => {
+              return {
+                Key: gradeOption.Id,
+                Value: gradeOption.Designation,
+              };
+            }),
+          };
+        })
+        .reduce(
+          (gradingScaleOptions, option: any) => ({
+            ...gradingScaleOptions,
+            [option.id]: option.options,
+          }),
+          {}
+        )
+    ),
+    shareReplay(1)
+  );
+
+  gradingOptionsForTest$(test: Test) {
+    return this.gradingScalesOptions$.pipe(
+      map((gradingScaleOptions) => gradingScaleOptions[test.GradingScaleId]),
+      shareReplay(1)
+    );
+  }
 
   constructor(
     private sortService: SortService<SortKeys>,

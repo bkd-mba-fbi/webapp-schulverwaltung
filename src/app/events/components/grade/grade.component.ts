@@ -13,15 +13,15 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
   GradeOrNoResult,
   toMaxPoints,
 } from 'src/app/shared/models/student-grades';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { TestPointsResult } from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
-import { DropDownItem } from '../../../shared/models/drop-down-item.model';
 import { TestEditGradesStateService } from '../../services/test-edit-grades-state.service';
 
 @Component({
@@ -33,6 +33,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
   @Input() tabIndex: number;
+  @Input() gradeOptions: DropDownItem[];
 
   @Output()
   savePoints = new EventEmitter<TestPointsResult>();
@@ -51,22 +52,6 @@ export class GradeComponent implements OnInit, OnDestroy {
     debounceTime(500),
     filter(this.isValid.bind(this)),
     map(Number)
-  );
-
-  private gradingScale$ = this.state.gradingScales$.pipe(
-    map((gradingScales) =>
-      gradingScales.find(
-        (gradingScale) => gradingScale.Id === this.grade.test.GradingScaleId
-      )
-    )
-  );
-
-  gradeOptions$ = this.gradingScale$.pipe(
-    map((gradingScale) =>
-      gradingScale?.Grades.map((grade) => {
-        return { Key: grade.Id, Value: grade.Designation };
-      })
-    )
   );
 
   destroy$ = new Subject<void>();
