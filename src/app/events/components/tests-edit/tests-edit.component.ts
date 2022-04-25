@@ -54,9 +54,6 @@ export class TestsEditComponent {
   openDeleteModal(test: Test) {
     const modalRef = this.modalService.open(TestsDeleteComponent);
     modalRef.componentInstance.test = test;
-    modalRef.componentInstance.canDelete = !(
-      test.Results && test.Results.length > 0
-    );
     modalRef.result.then(
       (result) => {
         if (result) {

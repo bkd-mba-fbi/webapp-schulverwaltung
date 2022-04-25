@@ -9,7 +9,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TestsDeleteComponent {
   @Input() test: Test;
-  @Input() canDelete: boolean;
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  get canDeleteTest(): boolean {
+    return !(this.test?.Results && this.test.Results.length > 0);
+  }
 }
