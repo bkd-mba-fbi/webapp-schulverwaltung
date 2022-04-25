@@ -121,7 +121,7 @@ export class TestEditGradesStateService {
           };
         })
         .reduce(
-          (gradingScaleOptions, option: any) => ({
+          (gradingScaleOptions, option) => ({
             ...gradingScaleOptions,
             [option.id]: option.options,
           }),
