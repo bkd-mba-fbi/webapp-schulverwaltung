@@ -28,10 +28,6 @@
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
-    },
-    "edit": {
-      "cancel": "Abbrechen",
-      "confirm": "Übernehmen"
     }
   },
   "unauthenticated": {
@@ -264,6 +260,11 @@
       "unpublish": "Möchten sie den Test '{{designation}}' wieder in Arbeit setzen?",
       "confirm": "Bestätigen",
       "cancel": "Abbrechen"
+    },
+    "dialog": {
+      "no": "Nein",
+      "yes": "Ja",
+      "ok": "Ok"
     }
   },
   "my-absences": {

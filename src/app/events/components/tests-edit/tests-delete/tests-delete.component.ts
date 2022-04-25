@@ -9,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TestsDeleteComponent {
   @Input() test: Test;
-  @Input() canConfirm: boolean;
+  @Input() canDelete: boolean;
 
   constructor(public activeModal: NgbActiveModal) {}
 }
