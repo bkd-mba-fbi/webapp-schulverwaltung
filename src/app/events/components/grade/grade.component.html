@@ -14,24 +14,14 @@
         data-testid="point-input"
       />
     </div>
-    <div *ngIf="grade.kind === 'grade'">
-      <erz-select
-        [options]="gradeOptions"
-        [allowEmpty]="false"
-        [value]="grade.result.GradeId"
-        class="grade-select"
-        data-testid="grade-select"
-      >
-      </erz-select>
-    </div>
-    <div *ngIf="grade.kind === 'no-result'">
-      <erz-select
-        [options]="gradeOptions"
-        [allowEmpty]="true"
-        data-testid="grade-select"
-      >
-      </erz-select>
-    </div>
+    <erz-select
+      [options]="gradeOptions"
+      [allowEmpty]="grade.kind === 'no-result'"
+      [value]="grade.kind === 'grade' ? grade.result.GradeId : null"
+      class="grade-select"
+      data-testid="grade-select"
+    >
+    </erz-select>
   </div>
   <div
     *ngIf="pointsInput.errors"

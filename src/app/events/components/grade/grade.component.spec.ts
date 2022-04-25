@@ -27,15 +27,13 @@ describe('GradeComponent', () => {
           declarations: [GradeComponent],
         })
       ).compileComponents();
+
+      fixture = TestBed.createComponent(GradeComponent);
+      component = fixture.componentInstance;
+      component.student = student;
+      debugElement = fixture.debugElement;
     })
   );
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(GradeComponent);
-    component = fixture.componentInstance;
-    component.student = student;
-    debugElement = fixture.debugElement;
-  });
 
   it('should create', () => {
     // given
