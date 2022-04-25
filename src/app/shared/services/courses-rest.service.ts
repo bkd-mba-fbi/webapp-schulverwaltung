@@ -4,6 +4,7 @@ import { mapTo, Observable, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   Course,
+  TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
 } from '../models/course.model';
@@ -100,7 +101,7 @@ export class CoursesRestService extends RestService<typeof Course> {
 
   updateTestResult(
     course: Course,
-    body: TestPointsResult
+    body: TestPointsResult | TestGradesResult
   ): Observable<UpdatedTestResultResponse> {
     return this.http
       .put(`${this.baseUrl}/${course.Id}/SetTestResult`, body)
