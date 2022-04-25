@@ -33,23 +33,9 @@ describe('TestsDeleteComponent', () => {
 
     fixture.detectChanges();
 
-    expect(
-      debugElement
-        .query(byTestId('confirmation-message'))
-        .nativeElement.textContent.trim()
-    ).toBe('tests.form.confirm');
-
-    expect(
-      debugElement
-        .query(byTestId('cancel-button'))
-        .nativeElement.textContent.trim()
-    ).toBe('tests.dialog.no');
-
-    expect(
-      debugElement
-        .query(byTestId('confirm-button'))
-        .nativeElement.textContent.trim()
-    ).toBe('tests.dialog.yes');
+    expectMessage(debugElement, 'confirmation-message', 'tests.form.confirm');
+    expectMessage(debugElement, 'cancel-button', 'tests.dialog.no');
+    expectMessage(debugElement, 'confirm-button', 'tests.dialog.yes');
 
     expect(component.canDeleteTest).toBeTrue();
     expect(component).toBeTruthy();
@@ -60,19 +46,24 @@ describe('TestsDeleteComponent', () => {
 
     fixture.detectChanges();
 
-    expect(
-      debugElement
-        .query(byTestId('confirmation-message'))
-        .nativeElement.textContent.trim()
-    ).toBe('tests.form.delete-not-allowed');
-
-    expect(
-      debugElement
-        .query(byTestId('confirm-button'))
-        .nativeElement.textContent.trim()
-    ).toBe('tests.dialog.ok');
+    expectMessage(
+      debugElement,
+      'confirmation-message',
+      'tests.form.delete-not-allowed'
+    );
+    expectMessage(debugElement, 'confirm-button', 'tests.dialog.ok');
 
     expect(component.canDeleteTest).toBeFalse();
     expect(component).toBeTruthy();
   });
 });
+
+function expectMessage(
+  debugElement: DebugElement,
+  testId: string,
+  expectedMessage: string
+) {
+  expect(
+    debugElement.query(byTestId(testId)).nativeElement.textContent.trim()
+  ).toBe(expectedMessage);
+}
