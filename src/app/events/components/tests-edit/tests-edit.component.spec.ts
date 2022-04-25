@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
-import { buildCourse, buildResult, buildTest } from 'src/spec-builders';
+import { buildCourse, buildTest } from 'src/spec-builders';
 import { ActivatedRouteMock, buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestStateService } from '../../services/test-state.service';
 
@@ -80,25 +80,5 @@ describe('TestsEditComponent', () => {
       formGroupValue.maxPoints,
       formGroupValue.maxPointsAdjusted
     );
-  });
-
-  it('should delete an existing test without results', () => {
-    spyOn(window, 'confirm').and.returnValue(true);
-    const test = buildTest(1, 1, []);
-
-    component.delete(test);
-
-    expect(courseService.delete).toHaveBeenCalledWith(1, 1);
-    expect(window.confirm).toHaveBeenCalledWith('tests.form.confirm');
-  });
-
-  it('should not delete an existing test with results', () => {
-    spyOn(window, 'alert');
-    const test = buildTest(1, 1, [buildResult(1, 33)]);
-
-    component.delete(test);
-
-    expect(courseService.delete).not.toHaveBeenCalledWith(1, 1);
-    expect(window.alert).toHaveBeenCalledWith('tests.form.delete-not-allowed');
   });
 });
