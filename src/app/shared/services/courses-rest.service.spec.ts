@@ -5,6 +5,7 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { buildCourse, buildResult } from '../../../spec-builders';
 import {
   Course,
+  TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
 } from '../models/course.model';
@@ -60,6 +61,11 @@ describe('CoursesRestService', () => {
   });
 
   describe('manage tests', () => {
+    const responseBody: UpdatedTestResultResponse = {
+      TestResults: [buildResult(123, 20)],
+      Gradings: [],
+    };
+
     it('should add a new test', () => {
       const courseId = 1234;
 
@@ -207,25 +213,49 @@ describe('CoursesRestService', () => {
         Points: 10,
       };
 
-      const responseBody: UpdatedTestResultResponse = {
-        TestResults: [buildResult(123, 20)],
-        Gradings: [],
+      // when
+      updateTestResult(requestBody, responseBody);
+
+      // then
+      assertRequestAndFlush(requestBody, responseBody);
+    });
+
+    it('should update the result of a test with the gradingScale', () => {
+      // given
+      const requestBody: TestGradesResult = {
+        StudentIds: [20],
+        TestId: 123,
+        GradeId: 5,
       };
 
       // when
-      service
-        .updateTestResult(buildCourse(1), requestBody)
-        .subscribe((result) => expect(result).toEqual(responseBody));
+      updateTestResult(requestBody, responseBody);
 
       // then
-      httpTestingController
-        .expectOne(
-          ({ method, url, body }) =>
-            method === 'PUT' &&
-            url === `https://eventotest.api/Courses/1/SetTestResult` &&
-            isEqual(body, requestBody)
-        )
-        .flush(responseBody);
+      assertRequestAndFlush(requestBody, responseBody);
     });
   });
+
+  function updateTestResult(
+    requestBody: TestPointsResult | TestGradesResult,
+    responseBody: UpdatedTestResultResponse
+  ) {
+    service
+      .updateTestResult(buildCourse(1), requestBody)
+      .subscribe((result) => expect(result).toEqual(responseBody));
+  }
+
+  function assertRequestAndFlush(
+    requestBody: TestPointsResult | TestGradesResult,
+    responseBody: UpdatedTestResultResponse
+  ) {
+    httpTestingController
+      .expectOne(
+        ({ method, url, body }) =>
+          method === 'PUT' &&
+          url === `https://eventotest.api/Courses/1/SetTestResult` &&
+          isEqual(body, requestBody)
+      )
+      .flush(responseBody);
+  }
 });
