@@ -9,16 +9,13 @@
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <div class="d-flex justify-content-between align-items-center">
       {{ data.test.Designation }}
-      <button type="button" class="btn btn-primary" (click)="delete(data.test)">
-        <i class="material-icons">delete</i>
-      </button>
 
       <button
         type="button"
         class="btn btn-primary"
         (click)="openDeleteModal(data.test)"
       >
-        <p>Open Delete Modal</p>
+        <i class="material-icons">delete</i>
       </button>
     </div>
     <erz-tests-edit-form

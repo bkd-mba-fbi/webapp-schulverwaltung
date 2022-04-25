@@ -1,8 +1,8 @@
 <div class="modal-body">
-  <p data-testid="confirmation-message" *ngIf="!canConfirm; else canBeConfirm">
+  <p data-testid="confirmation-message" *ngIf="!canDelete; else canBeDeleted">
     {{ 'tests.form.delete-not-allowed' | translate }}
   </p>
-  <ng-template #canBeConfirm>
+  <ng-template #canBeDeleted>
     <p data-testid="confirmation-message">
       {{ 'tests.form.confirm' | translate }}
     </p>
@@ -13,18 +13,18 @@
     data-testid="cancel-button"
     type="button"
     class="btn btn-secondary"
+    [hidden]="!canDelete"
     (click)="activeModal.dismiss()"
   >
-    {{ 'global.edit.cancel' | translate }}
+    {{ 'tests.dialog.no' | translate }}
   </button>
 
   <button
     data-testid="confirm-button"
     type="button"
     class="btn btn-primary"
-    [disabled]="!canConfirm"
-    (click)="activeModal.close(test)"
+    (click)="activeModal.close(canDelete ? test : null)"
   >
-    {{ 'global.edit.confirm' | translate }}
+    {{ (canDelete ? 'tests.dialog.yes' : 'tests.dialog.ok') | translate }}
   </button>
 </div>
