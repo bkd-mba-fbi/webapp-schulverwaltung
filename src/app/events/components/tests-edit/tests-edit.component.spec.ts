@@ -29,12 +29,8 @@ describe('TestsEditComponent', () => {
       getCourse: () => of(course),
     } as unknown) as TestStateService;
 
-    courseService = jasmine.createSpyObj('CoursesRestService', [
-      'update',
-      'delete',
-    ]);
+    courseService = jasmine.createSpyObj('CoursesRestService', ['update']);
     courseService.update.and.returnValue(of());
-    courseService.delete.and.returnValue(of());
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
