@@ -20,10 +20,12 @@ import {
   GradeOrNoResult,
   toMaxPoints,
 } from 'src/app/shared/models/student-grades';
-import { TestPointsResult } from '../../../shared/models/course.model';
+import {
+  TestGradesResult,
+  TestPointsResult,
+} from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
 import { TestEditGradesStateService } from '../../services/test-edit-grades-state.service';
-
 @Component({
   selector: 'erz-grade',
   templateUrl: './grade.component.html',
@@ -36,7 +38,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   @Input() gradeOptions: DropDownItem[];
 
   @Output()
-  savePoints = new EventEmitter<TestPointsResult>();
+  gradeChanged = new EventEmitter<TestPointsResult | TestGradesResult>();
 
   pointsInput = new FormControl({ value: '', disabled: false }, [
     Validators.min(0),
@@ -66,15 +68,24 @@ export class GradeComponent implements OnInit, OnDestroy {
     this.maxPoints = toMaxPoints(this.grade);
     this.points$
       .pipe(takeUntil(this.destroy$), map(this.buildRequestBody.bind(this)))
-      .subscribe((body) => this.savePoints.emit(body));
+      .subscribe((body) => this.gradeChanged.emit(body));
   }
 
   ngOnDestroy() {
     this.destroy$.next();
   }
 
-  onChange(points: string) {
+  onPointsChange(points: string) {
     this.pointsSubject$.next(points);
+  }
+
+  onGradeChange(gradeId: number) {
+    const body: TestGradesResult = {
+      StudentIds: [this.student.Id],
+      TestId: this.grade.test.Id,
+      GradeId: gradeId,
+    };
+    this.gradeChanged.emit(body);
   }
 
   private maxPointValidator(): ValidatorFn {

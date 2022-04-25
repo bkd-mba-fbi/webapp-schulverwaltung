@@ -13,6 +13,7 @@ import {
 } from 'rxjs';
 import {
   Course,
+  TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
 } from 'src/app/shared/models/course.model';
@@ -169,7 +170,7 @@ export class TestEditGradesStateService {
     this.expandedHeader$.next(expanded);
   }
 
-  savePoints(requestBody: TestPointsResult) {
+  saveGrade(requestBody: TestGradesResult | TestPointsResult) {
     this.courseRestService
       .updateTestResult(this.course, requestBody)
       .subscribe((response) => this.updateStudentGrades(response));
