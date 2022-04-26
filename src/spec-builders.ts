@@ -511,6 +511,7 @@ export function buildGrading(
   gradeId: number = 3
 ): Grading {
   return {
+    AverageTestResult: averageGrade,
     AverageGrade: averageGrade,
     CanGrade: false,
     EventDesignation: 'Französisch-S2',
