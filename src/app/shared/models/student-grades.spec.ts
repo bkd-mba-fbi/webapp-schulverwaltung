@@ -1,6 +1,7 @@
 import { Course } from 'src/app/shared/models/course.model';
 import {
   buildCourse,
+  buildGrading,
   buildResult,
   buildStudent,
   buildTest,
@@ -24,11 +25,15 @@ describe('StudentGradesService', () => {
         [100, 200].map((studentid) => buildResult(id, studentid))
       )
     );
+    course.Gradings = course.ParticipatingStudents.map(
+      (student) => student.Id
+    ).map((studentId) => buildGrading(studentId));
 
     // when
     const results: StudentGrade[] = transform(
       course.ParticipatingStudents,
-      course.Tests
+      course.Tests,
+      course.Gradings
     );
 
     // then
@@ -36,6 +41,10 @@ describe('StudentGradesService', () => {
 
     expect(results[0].student).toEqual(course.ParticipatingStudents[0]);
     expect(results[1].student).toEqual(course.ParticipatingStudents[1]);
+    expect(results[0].finalGrade.average).toBe(2.275);
+    expect(results[1].finalGrade.average).toBe(2.275);
+    expect(results[0].finalGrade.finalGradeId).toBe(3);
+    expect(results[1].finalGrade.finalGradeId).toBe(3);
     expect(results[0].grades.length).toBe(3);
     expect(results[1].grades.length).toBe(3);
 
@@ -75,9 +84,14 @@ describe('StudentGradesService', () => {
     const course: Course = buildCourse(123);
     course.ParticipatingStudents = [100, 200].map((id) => buildStudent(id));
     course.Tests = [1, 2, 3].map((id) => buildTest(course.Id, id, []));
+    course.Gradings = [];
 
     // when
-    const results = transform(course.ParticipatingStudents, course.Tests);
+    const results = transform(
+      course.ParticipatingStudents,
+      course.Tests,
+      course.Gradings
+    );
 
     // then
     expect(
@@ -86,6 +100,9 @@ describe('StudentGradesService', () => {
     expect(
       results[1].grades.every((grade) => grade.kind === 'no-result')
     ).toBeTruthy();
+
+    expect(results[0].finalGrade).toBeUndefined;
+    expect(results[1].finalGrade).toBeUndefined;
   });
 
   it('should create list of students with grades with results only for one student', () => {
@@ -99,9 +116,14 @@ describe('StudentGradesService', () => {
         [100].map((studentid) => buildResult(id, studentid))
       )
     );
+    course.Gradings = [buildGrading(100)];
 
     // when
-    const results = transform(course.ParticipatingStudents, course.Tests);
+    const results = transform(
+      course.ParticipatingStudents,
+      course.Tests,
+      course.Gradings
+    );
     // then
 
     expect(
@@ -122,6 +144,11 @@ describe('StudentGradesService', () => {
           : 'no-result'
       )
     ).toEqual([`no-result`, `no-result`, `no-result`]);
+
+    expect(results[0].finalGrade.average).toBe(2.275);
+    expect(results[1].finalGrade.average).toBeUndefined;
+    expect(results[0].finalGrade.finalGradeId).toBe(3);
+    expect(results[1].finalGrade.finalGradeId).toBeUndefined;
   });
 
   it('should fill up holes with missing grades as no-result', () => {
@@ -131,8 +158,16 @@ describe('StudentGradesService', () => {
     course.Tests = [1, 2, 3].map((id) =>
       buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : [])
     );
+    course.Gradings = course.ParticipatingStudents.map(
+      (student) => student.Id
+    ).map((studentId) => buildGrading(studentId));
+
     // when
-    const results = transform(course.ParticipatingStudents, course.Tests);
+    const results = transform(
+      course.ParticipatingStudents,
+      course.Tests,
+      course.Gradings
+    );
 
     // then
 

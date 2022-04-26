@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { LocalDateTimeFromString, Option } from './common-types';
+import { LocalDateTimeFromString, Maybe, Option } from './common-types';
 import { StudyClass } from './study-class.model';
 import { Result, Test } from './test.model';
 import { Student } from './student.model';
@@ -37,9 +37,10 @@ const ExpandedAttendanceRef = t.partial({
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
 const Grading = t.type({
-  // The property AverageGrade was renamed to AverageTestResult with a recent backend hotfix -
-  // enable the new property when the hotfix reaches the development backend and we need it to implement story #338
-  //AverageTestResult: t.number,
+  // the property AverageGrade was renamed to AverageTestResult with a recent backend hotfix -
+  // change the property name when the hotfix reaches the development backend
+  AverageTestResult: Maybe(t.number),
+  AverageGrade: Maybe(t.number),
   CanGrade: t.boolean,
   EventDesignation: t.string,
   EventId: t.number,
@@ -89,7 +90,7 @@ const Course = t.type({
   // EventManagers: null,
   // MainEventManagers: null,
   // TimetableEntries: null,
-  // GradingScaleId: t.number,
+  GradingScaleId: t.number,
   // FinalGrades: null,
   Gradings: Option(t.array(Grading)),
   Tests: Option(t.array(Test)),
@@ -117,6 +118,7 @@ const UpdatedTestResultResponse = t.type({
 });
 
 type Course = t.TypeOf<typeof Course>;
+type Grading = t.TypeOf<typeof Grading>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
 type EvaluationStatusRef = t.TypeOf<typeof EvaluationStatusRef>;
 type TestPointsResult = t.TypeOf<typeof TestPointsResult>;
@@ -124,6 +126,7 @@ type TestGradesResult = t.TypeOf<typeof TestGradesResult>;
 type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
 export {
   Course,
+  Grading,
   AttendanceRef,
   EvaluationStatusRef,
   TestPointsResult,

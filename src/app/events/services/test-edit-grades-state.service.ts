@@ -88,13 +88,13 @@ export class TestEditGradesStateService {
     map(spread(this.toStudentGrades.bind(this)))
   );
 
-  // TODO: Add Course Grading Scale to list
   private gradingScaleIds$ = this.tests$.pipe(
     take(1),
     map((tests: Test[]) =>
-      [...tests.map((test: Test) => test.GradingScaleId), 1105].filter(
-        (value, index, array) => array.indexOf(value) === index
-      )
+      [
+        ...tests.map((test: Test) => test.GradingScaleId),
+        this.course.GradingScaleId,
+      ].filter((value, index, array) => array.indexOf(value) === index)
     )
   );
 
@@ -133,8 +133,16 @@ export class TestEditGradesStateService {
   );
 
   gradingOptionsForTest$(test: Test) {
+    return this.gradingOptions$(test.GradingScaleId);
+  }
+
+  gradingOptionsForCourse$() {
+    return this.gradingOptions$(this.course.GradingScaleId);
+  }
+
+  private gradingOptions$(gradingScaleId: number) {
     return this.gradingScalesOptions$.pipe(
-      map((gradingScaleOptions) => gradingScaleOptions[test.GradingScaleId]),
+      map((gradingScaleOptions) => gradingScaleOptions[gradingScaleId]),
       shareReplay(1)
     );
   }
@@ -150,9 +158,11 @@ export class TestEditGradesStateService {
   }
 
   toStudentGrades(tests: Test[] = [], sorting: Sorting<SortKeys>) {
-    return transform(this.course.ParticipatingStudents ?? [], tests).sort(
-      compareFn(sorting)
-    );
+    return transform(
+      this.course.ParticipatingStudents ?? [],
+      tests,
+      this.course.Gradings ?? []
+    ).sort(compareFn(sorting));
   }
 
   setSorting(sorting: Sorting<SortKeys>) {

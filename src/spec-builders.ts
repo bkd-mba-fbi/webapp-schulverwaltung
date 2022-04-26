@@ -17,6 +17,7 @@ import {
   Course,
   AttendanceRef,
   EvaluationStatusRef,
+  Grading,
 } from './app/shared/models/course.model';
 import { Result, Test } from './app/shared/models/test.model';
 import { StudyClass } from './app/shared/models/study-class.model';
@@ -451,7 +452,7 @@ export function buildCourse(
     // EventManagers: null,
     // MainEventManagers: null,
     // TimetableEntries: null,
-    // GradingScaleId: t.number,
+    GradingScaleId: 1105,
     // FinalGrades: null,
     Gradings: null,
     Tests: null,
@@ -501,6 +502,30 @@ export function buildResult(
     Points: null,
     StudentId: studentId,
     Id: `${testId}_${courseRegistrationId}`,
+  };
+}
+
+export function buildGrading(
+  studentId: number,
+  averageGrade: number = 2.275,
+  gradeId: number = 3
+): Grading {
+  return {
+    AverageTestResult: averageGrade,
+    AverageGrade: averageGrade,
+    CanGrade: false,
+    EventDesignation: 'Französisch-S2',
+    EventId: 9248,
+    EventNumber: '4-2-F-S2-GYM22-22a',
+    GradeComment: null,
+    GradeId: gradeId,
+    GradeValue: null,
+    // HRef: '/restApi/Gradings/126885',
+    Id: 126885,
+    StudentFullName: 'Michel Franziska',
+    StudentId: studentId,
+    StudentMatriculationNumber: null,
+    StudentNameTooltip: 'Michel Franziska',
   };
 }
 

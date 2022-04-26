@@ -17,6 +17,7 @@ import { TestsEditFormComponent } from './components/tests-edit-form/tests-edit-
 import { PublishTestComponent } from './components/tests-publish/publish-test.component';
 import { TestsDeleteComponent } from './components/tests-edit/tests-delete/tests-delete.component';
 import { AverageGradesComponent } from './components/grades/average-grades/average-grades.component';
+import { GradeSelectComponent } from './components/grades/grade-select/grade-select.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AverageGradesComponent } from './components/grades/average-grades/avera
     PublishTestComponent,
     TestsDeleteComponent,
     AverageGradesComponent,
+    GradeSelectComponent,
   ],
   imports: [SharedModule, EventsRoutingModule],
 })

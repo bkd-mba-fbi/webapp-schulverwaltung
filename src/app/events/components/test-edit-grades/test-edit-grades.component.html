@@ -136,18 +136,26 @@
                 studentGrade.student.FullName
               }}</span>
               <span class="mobile mean">
-                {{ 'tests.mean' | translate }}: 5.15
+                {{ 'tests.mean' | translate }}:
+                {{ studentGrade.finalGrade.average | number: '1.0-3' }}
               </span>
             </a>
           </td>
           <td
             class="grade sticky sticky-col-2"
             [ngClass]="{ selected: selectedTest === undefined }"
-          ></td>
+          >
+            <erz-grade-select
+              [options]="state.gradingOptionsForCourse$() | async"
+              [gradeId]="studentGrade.finalGrade.finalGradeId"
+            ></erz-grade-select>
+          </td>
           <td
             class="grade border-right sticky sticky-col-3"
             [ngClass]="{ selected: selectedTest === undefined }"
-          ></td>
+          >
+            {{ studentGrade.finalGrade.average | number: '1.0-3' }}
+          </td>
           <td
             *ngFor="
               let grade of studentGrade.grades;
