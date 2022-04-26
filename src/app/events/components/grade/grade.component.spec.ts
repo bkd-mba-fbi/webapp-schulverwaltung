@@ -257,6 +257,20 @@ describe('GradeComponent', () => {
       // then
       expect(component.isGradingScaleEnabled).toBe(true);
     });
+
+    it('should enable gradingScale when test is not point grading', () => {
+      // given
+      grade.test.IsPointGrading = false;
+      grade.result.Points = null;
+
+      component.grade = grade;
+
+      // when
+      fixture.detectChanges();
+
+      // then
+      expect(component.isGradingScaleEnabled).toBe(true);
+    });
   });
 });
 
