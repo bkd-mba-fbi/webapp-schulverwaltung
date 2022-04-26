@@ -1,4 +1,5 @@
 import { Result, Test } from 'src/app/shared/models/test.model';
+import { average } from 'src/app/shared/utils/math';
 
 export function replaceResult(result: Result, tests: Test[]): Test[] {
   return tests.map((test) =>
@@ -34,17 +35,6 @@ function replaceResultInTest(newResult: Result, test: Test) {
   const filteredResults =
     test.Results?.filter((result) => newResult.Id !== result.Id) || [];
   return { ...test, Results: [...filteredResults, newResult] };
-}
-
-function average(values: number[], fractionDigits: number) {
-  return Number((sum(values) / values.length).toFixed(fractionDigits));
-}
-
-function sum(numbers: number[]) {
-  return numbers.reduce(add, 0);
-}
-function add(a: number, b: number) {
-  return a + b;
 }
 
 function extractGrades(test: Test) {

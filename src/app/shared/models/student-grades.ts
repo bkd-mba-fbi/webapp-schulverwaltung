@@ -2,6 +2,7 @@ import { boolean } from 'fp-ts';
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
+import { average } from '../utils/math';
 import { Grading } from './course.model';
 
 export type StudentGrade = {
@@ -130,4 +131,15 @@ function isGrade(g: GradeOrNoResult): g is Grade {
 
 export function toMaxPoints(grade: GradeOrNoResult | null): number {
   return grade?.test.MaxPointsAdjusted || grade?.test.MaxPoints!;
+}
+
+export function meanOf(studentGrades: StudentGrade[]): number {
+  const averageGrades = studentGrades
+    .map((studentGrade) => studentGrade.finalGrade.average)
+    .map((maybeNumber) => maybeNumber?.valueOf())
+    .filter(
+      (averageGrade) => averageGrade !== null && averageGrade !== undefined
+    )
+    .map(Number);
+  return average(averageGrades, 3);
 }

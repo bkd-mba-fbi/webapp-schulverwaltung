@@ -19,6 +19,7 @@ import {
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
   compareFn,
+  meanOf,
   SortKeys,
   transform,
 } from 'src/app/shared/models/student-grades';
@@ -87,6 +88,10 @@ export class TestEditGradesStateService {
 
   studentGrades$ = combineLatest([this.filteredTests$, this.sorting$]).pipe(
     map(spread(this.toStudentGrades.bind(this)))
+  );
+
+  meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
+    map((studentGrades) => meanOf(studentGrades))
   );
 
   private gradingScaleIds$ = this.tests$.pipe(
