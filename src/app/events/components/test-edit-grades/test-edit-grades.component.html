@@ -191,8 +191,10 @@
             "
           >
             <div class="d-flex flex-row w-100">
-              <span *ngIf="test.IsPointGrading" class="w-25">20.16</span>
-              <span>4.733</span>
+              <span *ngIf="test.IsPointGrading" class="w-25">{{
+                calculatePointsAverage(test)
+              }}</span>
+              <span>{{ calculateGradeAverage(test) }}</span>
             </div>
           </td>
         </tr>
