@@ -207,6 +207,57 @@ describe('GradeComponent', () => {
       expectValidationErrorMessage(debugElement);
     });
   });
+
+  describe('enable and disable grading scale options', () => {
+    let grade: Grade;
+
+    beforeEach(() => {
+      grade = {
+        kind: 'grade',
+        result,
+        test,
+      };
+    });
+
+    it('should disable gradingScale when result has points', () => {
+      // given
+      grade.test.IsPointGrading = true;
+      grade.result.Points = 11;
+
+      // when
+      component.grade = grade;
+      fixture.detectChanges();
+
+      expect(component.isGradingScaleEnabled).toBe(false);
+    });
+
+    it('should enable gradingScale when result does not have points', () => {
+      // given
+      grade.test.IsPointGrading = true;
+      grade.result.Points = null;
+      component.grade = grade;
+
+      // when
+      fixture.detectChanges();
+
+      expect(component.isGradingScaleEnabled).toBe(true);
+    });
+
+    it('should enable gradingScale when input is changed to empty', () => {
+      // given
+      grade.test.IsPointGrading = true;
+      grade.result.Points = 11;
+
+      component.grade = grade;
+      fixture.detectChanges();
+
+      // when
+      component.onPointsChange('');
+
+      // then
+      expect(component.isGradingScaleEnabled).toBe(true);
+    });
+  });
 });
 
 function expectPointsInputValue(debugElement: DebugElement, expected: string) {

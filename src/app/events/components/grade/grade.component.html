@@ -18,6 +18,7 @@
       [options]="gradeOptions"
       [allowEmpty]="grade.kind === 'no-result'"
       [value]="grade.kind === 'grade' ? grade.result.GradeId : null"
+      [disabled]="!isGradingScaleEnabled"
       (valueChange)="onGradeChange($event)"
       class="grade-select"
       data-testid="grade-select"

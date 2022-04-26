@@ -21,6 +21,7 @@ export class SelectComponent implements OnChanges {
   @Input() allowEmpty = true;
   @Input() emptyLabel: string = '';
   @Input() value: Option<number> = null;
+  @Input() disabled: boolean = false;
   @Output() valueChange = new EventEmitter<Option<number>>();
 
   options$ = new BehaviorSubject<ReadonlyArray<DropDownItem>>([]);

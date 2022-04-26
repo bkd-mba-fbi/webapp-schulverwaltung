@@ -47,6 +47,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   ]);
 
   maxPoints: number = 0;
+  isGradingScaleEnabled: boolean = true;
 
   private pointsSubject$: Subject<string> = new Subject<string>();
 
@@ -63,6 +64,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
+      this.updateIsGradingScaleEnabled(this.grade.result.Points);
     }
 
     this.maxPoints = toMaxPoints(this.grade);
@@ -77,6 +79,7 @@ export class GradeComponent implements OnInit, OnDestroy {
 
   onPointsChange(points: string) {
     this.pointsSubject$.next(points);
+    this.updateIsGradingScaleEnabled(points);
   }
 
   onGradeChange(gradeId: number) {
@@ -108,5 +111,9 @@ export class GradeComponent implements OnInit, OnDestroy {
       TestId: this.grade.test.Id,
       Points: points,
     };
+  }
+
+  updateIsGradingScaleEnabled(points: number | string | null) {
+    this.isGradingScaleEnabled = !points;
   }
 }
