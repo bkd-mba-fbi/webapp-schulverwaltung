@@ -105,6 +105,12 @@ const TestPointsResult = t.type({
   Points: Option(t.number),
 });
 
+const TestGradesResult = t.type({
+  StudentIds: t.array(t.number),
+  TestId: t.number,
+  GradeId: Option(t.number),
+});
+
 const UpdatedTestResultResponse = t.type({
   TestResults: t.array(Result),
   Gradings: t.array(Grading),
@@ -114,6 +120,7 @@ type Course = t.TypeOf<typeof Course>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
 type EvaluationStatusRef = t.TypeOf<typeof EvaluationStatusRef>;
 type TestPointsResult = t.TypeOf<typeof TestPointsResult>;
+type TestGradesResult = t.TypeOf<typeof TestGradesResult>;
 type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
 export {
   Course,
@@ -121,4 +128,5 @@ export {
   EvaluationStatusRef,
   TestPointsResult,
   UpdatedTestResultResponse,
+  TestGradesResult,
 };

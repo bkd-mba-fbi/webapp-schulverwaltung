@@ -6,7 +6,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Course, TestPointsResult } from 'src/app/shared/models/course.model';
+import {
+  Course,
+  TestGradesResult,
+  TestPointsResult,
+} from 'src/app/shared/models/course.model';
 import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
 import { Student } from 'src/app/shared/models/student.model';
 import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
@@ -51,7 +55,11 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   }
 
   savePoints(requestBody: TestPointsResult) {
-    this.state.savePoints(requestBody);
+    this.state.saveGrade(requestBody);
+  }
+
+  saveGrade(requestBody: TestGradesResult) {
+    this.state.saveGrade(requestBody);
   }
 
   publish(test: Test) {

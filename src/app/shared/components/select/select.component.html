@@ -1,10 +1,11 @@
 <select
   class="form-control"
+  [disabled]="disabled"
   [ngModel]="value$ | async"
   (ngModelChange)="valueChange.emit($event && $event.Key)"
 >
   <option *ngIf="allowEmpty" [ngValue]="null">
-    {{ 'shared.select.empty-option' | translate }}
+    {{ emptyLabel | translate }}
   </option>
   <option *ngFor="let option of options" [ngValue]="option">
     {{ option.Value }}
