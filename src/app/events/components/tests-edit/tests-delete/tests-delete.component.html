@@ -1,9 +1,8 @@
 <div class="modal-body">
   <p data-testid="confirmation-message">
     {{
-      canDeleteTest
-        ? 'tests.form.confirm'
-        : ('tests.form.delete-not-allowed' | translate)
+      (canDeleteTest ? 'tests.form.confirm' : 'tests.form.delete-not-allowed')
+        | translate
     }}
   </p>
 </div>
@@ -15,7 +14,9 @@
     [hidden]="!canDeleteTest"
     (click)="activeModal.dismiss()"
   >
-    {{ 'tests.dialog.no' | translate }}
+    <span class="px-2">
+      {{ 'tests.dialog.no' | translate }}
+    </span>
   </button>
 
   <button
@@ -24,6 +25,8 @@
     class="btn btn-primary"
     (click)="activeModal.close(canDeleteTest ? test : null)"
   >
-    {{ (canDeleteTest ? 'tests.dialog.yes' : 'tests.dialog.ok') | translate }}
+    <span class="px-3">
+      {{ (canDeleteTest ? 'tests.dialog.yes' : 'tests.dialog.ok') | translate }}
+    </span>
   </button>
 </div>
