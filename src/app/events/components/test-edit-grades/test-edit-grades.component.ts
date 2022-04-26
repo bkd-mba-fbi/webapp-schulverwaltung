@@ -19,6 +19,7 @@ import {
   Filter,
   TestEditGradesStateService,
 } from '../../services/test-edit-grades-state.service';
+import { averageGrade, averagePoints } from '../../utils/tests';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -76,6 +77,22 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     return function (_: number, grade: GradeOrNoResult) {
       return `${student.Id}_${grade.test.Id}`;
     };
+  }
+
+  calculatePointsAverage(test: Test) {
+    return this.safeAverage(test, averagePoints);
+  }
+
+  calculateGradeAverage(test: Test) {
+    return this.safeAverage(test, averageGrade);
+  }
+
+  private safeAverage(test: Test, calculator: (test: Test) => number): string {
+    try {
+      return calculator(test).toString();
+    } catch {
+      return '-';
+    }
   }
 
   private openModal(test: Test) {
