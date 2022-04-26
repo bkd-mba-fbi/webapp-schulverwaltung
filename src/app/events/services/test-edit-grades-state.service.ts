@@ -88,13 +88,13 @@ export class TestEditGradesStateService {
     map(spread(this.toStudentGrades.bind(this)))
   );
 
-  // TODO: Add Course Grading Scale to list
   private gradingScaleIds$ = this.tests$.pipe(
     take(1),
     map((tests: Test[]) =>
-      [...tests.map((test: Test) => test.GradingScaleId), 1105].filter(
-        (value, index, array) => array.indexOf(value) === index
-      )
+      [
+        ...tests.map((test: Test) => test.GradingScaleId),
+        this.course.GradingScaleId,
+      ].filter((value, index, array) => array.indexOf(value) === index)
     )
   );
 
