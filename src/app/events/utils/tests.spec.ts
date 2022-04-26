@@ -1,6 +1,11 @@
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { buildResult, buildTest } from 'src/spec-builders';
-import { replaceResult, toggleIsPublished } from './tests';
+import {
+  averageGrade,
+  averagePoints,
+  replaceResult,
+  toggleIsPublished,
+} from './tests';
 
 describe('Test utils', () => {
   describe('update test results', () => {
@@ -98,4 +103,211 @@ describe('Test utils', () => {
       expect(result).toContain(test2);
     });
   });
+
+  describe('should calculate averages from test', () => {
+    it('should calculate points average', () => {
+      expect(() => averagePoints(buildTest(1, 1, []))).toThrow(
+        new Error('unable to calculate averages without results')
+      );
+      expect(averagePoints(test)).toBe(11.26);
+    });
+
+    it('should caclulate grade averages', () => {
+      expect(() => averageGrade(buildTest(1, 1, []))).toThrow(
+        new Error('unable to calculate averages without results')
+      );
+      expect(averageGrade(test)).toBe(3.8273);
+    });
+  });
 });
+
+// test taken from development/ test environment to match a real world test - 2022-04-26
+const test: Test = {
+  CourseId: 9248,
+  Date: new Date('2022-04-02T08:00:00'),
+  Designation: 'mbu test 2',
+  Weight: 1,
+  WeightPercent: 11.76,
+  IsPointGrading: true,
+  MaxPoints: 20,
+  MaxPointsAdjusted: null,
+  IsPublished: false,
+  IsOwner: true,
+  Owner: 'Stolz Zuzana',
+  Creation: '2022-04-26T10:11:53.427',
+  GradingScaleId: 1106,
+  GradingScale: 'Zehntelnoten bes. disp. keine Note',
+  Results: [
+    {
+      TestId: 33,
+      CourseRegistrationId: 126885,
+      GradeId: 2377,
+      GradeValue: null,
+      GradeDesignation: 'besucht',
+      Points: null,
+      StudentId: 4592,
+      Id: '33_126885',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 126911,
+      GradeId: 2379,
+      GradeValue: null,
+      GradeDesignation: 'keine Note',
+      Points: null,
+      StudentId: 6282,
+      Id: '33_126911',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 127866,
+      GradeId: 2378,
+      GradeValue: null,
+      GradeDesignation: 'dispensiert',
+      Points: null,
+      StudentId: 4600,
+      Id: '33_127866',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 128592,
+      GradeId: 2377,
+      GradeValue: null,
+      GradeDesignation: 'besucht',
+      Points: null,
+      StudentId: 4487,
+      Id: '33_128592',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 129221,
+      GradeId: 2378,
+      GradeValue: null,
+      GradeDesignation: 'dispensiert',
+      Points: null,
+      StudentId: 4508,
+      Id: '33_129221',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 129350,
+      GradeId: 2379,
+      GradeValue: null,
+      GradeDesignation: 'keine Note',
+      Points: null,
+      StudentId: 4515,
+      Id: '33_129350',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 131336,
+      GradeId: 2326,
+      GradeValue: null,
+      GradeDesignation: '6',
+      Points: 19.99,
+      StudentId: 3777,
+      Id: '33_131336',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 131878,
+      GradeId: 2346,
+      GradeValue: null,
+      GradeDesignation: '4',
+      Points: 12.01,
+      StudentId: 5758,
+      Id: '33_131878',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 132034,
+      GradeId: 2373,
+      GradeValue: null,
+      GradeDesignation: '1.3',
+      Points: 1,
+      StudentId: 4566,
+      Id: '33_132034',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 135207,
+      GradeId: 2373,
+      GradeValue: null,
+      GradeDesignation: '1.3',
+      Points: 1.2,
+      StudentId: 6871,
+      Id: '33_135207',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 135210,
+      GradeId: 2376,
+      GradeValue: null,
+      GradeDesignation: '1',
+      Points: 0,
+      StudentId: 6872,
+      Id: '33_135210',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 129442,
+      GradeId: 2351,
+      GradeValue: null,
+      GradeDesignation: '3.5',
+      Points: 10,
+      StudentId: 4519,
+      Id: '33_129442',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 130308,
+      GradeId: 2326,
+      GradeValue: null,
+      GradeDesignation: '6',
+      Points: 20,
+      StudentId: 4535,
+      Id: '33_130308',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 130574,
+      GradeId: 2338,
+      GradeValue: null,
+      GradeDesignation: '4.8',
+      Points: 15,
+      StudentId: 4543,
+      Id: '33_130574',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 130762,
+      GradeId: 2347,
+      GradeValue: null,
+      GradeDesignation: '3.9',
+      Points: 11.5,
+      StudentId: 4553,
+      Id: '33_130762',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 130951,
+      GradeId: 2343,
+      GradeValue: null,
+      GradeDesignation: '4.3',
+      Points: 13.2,
+      StudentId: 4557,
+      Id: '33_130951',
+    },
+    {
+      TestId: 33,
+      CourseRegistrationId: 131199,
+      GradeId: 2326,
+      GradeValue: null,
+      GradeDesignation: '6',
+      Points: 20,
+      StudentId: 4276,
+      Id: '33_131199',
+    },
+  ],
+  Id: 33,
+};
