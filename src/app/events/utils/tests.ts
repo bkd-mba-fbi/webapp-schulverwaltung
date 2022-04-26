@@ -27,7 +27,7 @@ export function averageGrade(test: Test): number {
   if (grades.length === 0)
     throw new Error('unable to calculate averages without results');
 
-  return average(grades, 4);
+  return average(grades, 3);
 }
 
 function replaceResultInTest(newResult: Result, test: Test) {
