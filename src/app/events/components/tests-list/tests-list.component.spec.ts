@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Course } from 'src/app/shared/models/course.model';
+import { ReportsService } from 'src/app/shared/services/reports.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestStateService } from '../../services/test-state.service';
+import { TestsHeaderComponent } from '../tests-header/tests-header.component';
 
 import { TestsListComponent } from './tests-list.component';
 
@@ -19,11 +21,18 @@ describe('TestsListComponent', () => {
         getCourse: () => of(course),
       } as unknown) as TestStateService;
 
+      const reportServiceMock = jasmine.createSpyObj('reportService', [
+        'getEventReportUrl',
+      ]);
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
-          declarations: [TestsListComponent],
+          declarations: [TestsListComponent, TestsHeaderComponent],
           providers: [
             { provide: TestStateService, useValue: stateServiceMock },
+            {
+              provide: ReportsService,
+              useValue: reportServiceMock as ReportsService,
+            },
           ],
         })
       ).compileComponents();
