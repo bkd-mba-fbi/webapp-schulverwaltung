@@ -9,7 +9,6 @@ import {
   scan,
   shareReplay,
   switchMap,
-  tap,
 } from 'rxjs';
 import {
   Course,
@@ -29,6 +28,7 @@ import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
+import { take } from 'rxjs/operators';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -89,7 +89,8 @@ export class TestEditGradesStateService {
   );
 
   // TODO: Add Course Grading Scale to list
-  private gradingScaleIds$ = this.filteredTests$.pipe(
+  private gradingScaleIds$ = this.tests$.pipe(
+    take(1),
     map((tests: Test[]) =>
       [...tests.map((test: Test) => test.GradingScaleId), 1105].filter(
         (value, index, array) => array.indexOf(value) === index
