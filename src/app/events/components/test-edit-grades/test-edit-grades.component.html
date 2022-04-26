@@ -136,7 +136,8 @@
                 studentGrade.student.FullName
               }}</span>
               <span class="mobile mean">
-                {{ 'tests.mean' | translate }}: 5.15
+                {{ 'tests.mean' | translate }}:
+                {{ studentGrade.average | number: '1.0-3' }}
               </span>
             </a>
           </td>
@@ -147,7 +148,9 @@
           <td
             class="grade border-right sticky sticky-col-3"
             [ngClass]="{ selected: selectedTest === undefined }"
-          ></td>
+          >
+            {{ studentGrade.average | number: '1.0-3' }}
+          </td>
           <td
             *ngFor="
               let grade of studentGrade.grades;

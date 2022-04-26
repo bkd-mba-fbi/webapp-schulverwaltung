@@ -150,9 +150,11 @@ export class TestEditGradesStateService {
   }
 
   toStudentGrades(tests: Test[] = [], sorting: Sorting<SortKeys>) {
-    return transform(this.course.ParticipatingStudents ?? [], tests).sort(
-      compareFn(sorting)
-    );
+    return transform(
+      this.course.ParticipatingStudents ?? [],
+      tests,
+      this.course.Gradings ?? []
+    ).sort(compareFn(sorting));
   }
 
   setSorting(sorting: Sorting<SortKeys>) {

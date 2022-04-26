@@ -1,9 +1,11 @@
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
+import { Grading } from './course.model';
 
 export type StudentGrade = {
   student: Student;
+  average: Maybe<number>;
   grades: GradeOrNoResult[];
 };
 
@@ -22,10 +24,15 @@ export type GradeOrNoResult = Grade | NoResult;
 
 export type SortKeys = 'FullName' | Test;
 
-export function transform(students: Student[], tests: Test[]): StudentGrade[] {
+export function transform(
+  students: Student[],
+  tests: Test[],
+  gradings: Grading[]
+): StudentGrade[] {
   return students?.map((student) => {
     return {
       student: student,
+      average: getAverage(student, gradings),
       grades: getGrades(student, tests),
     };
   });
@@ -55,6 +62,11 @@ function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
           test,
         };
   });
+}
+
+function getAverage(student: Student, gradings: Grading[]): Maybe<number> {
+  return gradings.find((grading) => grading.StudentId === student.Id)
+    ?.AverageGrade;
 }
 
 export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (

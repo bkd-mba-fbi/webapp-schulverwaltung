@@ -37,9 +37,9 @@ const ExpandedAttendanceRef = t.partial({
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
 const Grading = t.type({
-  // The property AverageGrade was renamed to AverageTestResult with a recent backend hotfix -
-  // enable the new property when the hotfix reaches the development backend and we need it to implement story #338
-  //AverageTestResult: t.number,
+  // the property AverageGrade was renamed to AverageTestResult with a recent backend hotfix -
+  // change the property name when the hotfix reaches the development backend
+  AverageGrade: t.number,
   CanGrade: t.boolean,
   EventDesignation: t.string,
   EventId: t.number,
@@ -117,6 +117,7 @@ const UpdatedTestResultResponse = t.type({
 });
 
 type Course = t.TypeOf<typeof Course>;
+type Grading = t.TypeOf<typeof Grading>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
 type EvaluationStatusRef = t.TypeOf<typeof EvaluationStatusRef>;
 type TestPointsResult = t.TypeOf<typeof TestPointsResult>;
@@ -124,6 +125,7 @@ type TestGradesResult = t.TypeOf<typeof TestGradesResult>;
 type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
 export {
   Course,
+  Grading,
   AttendanceRef,
   EvaluationStatusRef,
   TestPointsResult,
