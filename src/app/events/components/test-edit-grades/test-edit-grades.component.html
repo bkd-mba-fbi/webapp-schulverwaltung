@@ -145,7 +145,10 @@
             class="grade sticky sticky-col-2"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            {{ studentGrade.finalGrade.finalGradeId }}
+            <erz-grade-select
+              [options]="state.gradingOptionsForCourse$() | async"
+              [gradeId]="studentGrade.finalGrade.finalGradeId"
+            ></erz-grade-select>
           </td>
           <td
             class="grade border-right sticky sticky-col-3"

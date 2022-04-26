@@ -89,7 +89,7 @@ const Course = t.type({
   // EventManagers: null,
   // MainEventManagers: null,
   // TimetableEntries: null,
-  // GradingScaleId: t.number,
+  GradingScaleId: t.number,
   // FinalGrades: null,
   Gradings: Option(t.array(Grading)),
   Tests: Option(t.array(Test)),

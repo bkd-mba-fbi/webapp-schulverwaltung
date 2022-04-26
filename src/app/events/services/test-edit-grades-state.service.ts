@@ -133,8 +133,16 @@ export class TestEditGradesStateService {
   );
 
   gradingOptionsForTest$(test: Test) {
+    return this.gradingOptions$(test.GradingScaleId);
+  }
+
+  gradingOptionsForCourse$() {
+    return this.gradingOptions$(this.course.GradingScaleId);
+  }
+
+  private gradingOptions$(gradingScaleId: number) {
     return this.gradingScalesOptions$.pipe(
-      map((gradingScaleOptions) => gradingScaleOptions[test.GradingScaleId]),
+      map((gradingScaleOptions) => gradingScaleOptions[gradingScaleId]),
       shareReplay(1)
     );
   }
