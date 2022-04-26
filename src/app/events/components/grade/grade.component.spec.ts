@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { Grade, NoResult } from 'src/app/shared/models/student-grades';
-import { byTestId } from 'src/specs/spec-utils';
+import { byTestId } from 'src/specs/utils';
 import {
   buildResult,
   buildStudent,
