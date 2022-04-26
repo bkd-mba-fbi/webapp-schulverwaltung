@@ -54,11 +54,7 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     this.state.filter$.next(filter);
   }
 
-  savePoints(requestBody: TestPointsResult) {
-    this.state.saveGrade(requestBody);
-  }
-
-  saveGrade(requestBody: TestGradesResult) {
+  saveGrade(requestBody: TestGradesResult | TestPointsResult) {
     this.state.saveGrade(requestBody);
   }
 
