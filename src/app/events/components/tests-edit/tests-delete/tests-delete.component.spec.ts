@@ -4,8 +4,8 @@ import { TestsDeleteComponent } from './tests-delete.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { buildTestModuleMetadata } from '../../../../../spec-helpers';
 import { buildResult, buildTest } from 'src/spec-builders';
-import { byTestId } from '../../../../../specs/spec-utils';
 import { DebugElement } from '@angular/core';
+import { byTestId } from 'src/specs/utils';
 
 describe('TestsDeleteComponent', () => {
   let component: TestsDeleteComponent;
