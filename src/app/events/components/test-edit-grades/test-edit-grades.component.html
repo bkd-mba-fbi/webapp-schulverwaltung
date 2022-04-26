@@ -137,19 +137,21 @@
               }}</span>
               <span class="mobile mean">
                 {{ 'tests.mean' | translate }}:
-                {{ studentGrade.average | number: '1.0-3' }}
+                {{ studentGrade.finalGrade.average | number: '1.0-3' }}
               </span>
             </a>
           </td>
           <td
             class="grade sticky sticky-col-2"
             [ngClass]="{ selected: selectedTest === undefined }"
-          ></td>
+          >
+            {{ studentGrade.finalGrade.finalGradeId }}
+          </td>
           <td
             class="grade border-right sticky sticky-col-3"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            {{ studentGrade.average | number: '1.0-3' }}
+            {{ studentGrade.finalGrade.average | number: '1.0-3' }}
           </td>
           <td
             *ngFor="

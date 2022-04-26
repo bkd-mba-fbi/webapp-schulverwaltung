@@ -505,15 +505,19 @@ export function buildResult(
   };
 }
 
-export function buildGrading(studentId: number): Grading {
+export function buildGrading(
+  studentId: number,
+  averageGrade: number = 2.275,
+  gradeId: number = 3
+): Grading {
   return {
-    AverageGrade: 2.275,
+    AverageGrade: averageGrade,
     CanGrade: false,
     EventDesignation: 'Französisch-S2',
     EventId: 9248,
     EventNumber: '4-2-F-S2-GYM22-22a',
     GradeComment: null,
-    GradeId: null,
+    GradeId: gradeId,
     GradeValue: null,
     // HRef: '/restApi/Gradings/126885',
     Id: 126885,

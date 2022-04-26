@@ -5,8 +5,13 @@ import { Grading } from './course.model';
 
 export type StudentGrade = {
   student: Student;
-  average: Maybe<number>;
+  finalGrade: FinalGrade;
   grades: GradeOrNoResult[];
+};
+
+type FinalGrade = {
+  average: Maybe<number>;
+  finalGradeId: Maybe<number>;
 };
 
 export type Grade = {
@@ -32,7 +37,7 @@ export function transform(
   return students?.map((student) => {
     return {
       student: student,
-      average: getAverage(student, gradings),
+      finalGrade: getFinalGrade(student, gradings),
       grades: getGrades(student, tests),
     };
   });
@@ -64,9 +69,15 @@ function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
   });
 }
 
-function getAverage(student: Student, gradings: Grading[]): Maybe<number> {
-  return gradings.find((grading) => grading.StudentId === student.Id)
-    ?.AverageGrade;
+function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
+  const grading: Maybe<Grading> = gradings.find(
+    (grading) => grading.StudentId === student.Id
+  );
+
+  return {
+    average: grading?.AverageGrade,
+    finalGradeId: grading?.GradeId,
+  };
 }
 
 export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
