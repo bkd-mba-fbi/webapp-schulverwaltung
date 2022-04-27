@@ -137,8 +137,12 @@ export function meanOf(studentGrades: StudentGrade[]): number {
   const averageGrades = studentGrades
     .map((studentGrade) => studentGrade.finalGrade.average)
     .map((maybeNumber) => maybeNumber?.valueOf())
+
     .filter(
-      (averageGrade) => averageGrade !== null && averageGrade !== undefined
+      (averageGrade) =>
+        averageGrade !== null &&
+        averageGrade !== undefined &&
+        averageGrade !== 0
     )
     .map(Number);
   return average(averageGrades, 3);
