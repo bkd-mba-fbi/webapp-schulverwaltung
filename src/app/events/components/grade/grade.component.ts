@@ -13,8 +13,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { debounceTime, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
   GradeOrNoResult,
@@ -50,10 +50,14 @@ export class GradeComponent implements OnInit, OnDestroy {
   ]);
 
   maxPoints: number = 0;
-  isGradingScaleEnabled: boolean = true;
 
   private pointsSubject$: Subject<string> = new Subject<string>();
   private gradeSubject$: Subject<number> = new Subject<number>();
+  private _gradingScaleDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
+
+  gradingScaleDisabled$ = this._gradingScaleDisabled$.asObservable();
 
   points$: Observable<number> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
@@ -72,8 +76,8 @@ export class GradeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
-      this.updateIsGradingScaleEnabled(this.grade.result.Points);
     }
+    this._gradingScaleDisabled$.next(this.disableGradingScale());
 
     this.maxPoints = toMaxPoints(this.grade);
     this.points$
@@ -97,7 +101,7 @@ export class GradeComponent implements OnInit, OnDestroy {
 
   onPointsChange(points: string) {
     this.pointsSubject$.next(points);
-    this.updateIsGradingScaleEnabled(points);
+    this._gradingScaleDisabled$.next(points.length > 0);
   }
 
   onGradeChange(gradeId: number) {
@@ -134,7 +138,8 @@ export class GradeComponent implements OnInit, OnDestroy {
     };
   }
 
-  updateIsGradingScaleEnabled(points: number | string | null) {
-    this.isGradingScaleEnabled = !points;
+  private disableGradingScale() {
+    if (this.grade.kind === 'no-result') return false;
+    return this.grade.result.Points != null && this.grade.test.IsPointGrading;
   }
 }

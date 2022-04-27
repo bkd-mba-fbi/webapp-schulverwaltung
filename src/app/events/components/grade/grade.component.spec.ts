@@ -228,7 +228,9 @@ describe('GradeComponent', () => {
       component.grade = grade;
       fixture.detectChanges();
 
-      expect(component.isGradingScaleEnabled).toBe(false);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(true)
+      );
     });
 
     it('should enable gradingScale when result does not have points', () => {
@@ -240,7 +242,9 @@ describe('GradeComponent', () => {
       // when
       fixture.detectChanges();
 
-      expect(component.isGradingScaleEnabled).toBe(true);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(false)
+      );
     });
 
     it('should enable gradingScale when input is changed to empty', () => {
@@ -255,7 +259,9 @@ describe('GradeComponent', () => {
       component.onPointsChange('');
 
       // then
-      expect(component.isGradingScaleEnabled).toBe(true);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(false)
+      );
     });
 
     it('should enable gradingScale when test is not point grading', () => {
@@ -269,7 +275,9 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       // then
-      expect(component.isGradingScaleEnabled).toBe(true);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(false)
+      );
     });
   });
 });
