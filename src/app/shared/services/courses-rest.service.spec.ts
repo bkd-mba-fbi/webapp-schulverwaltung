@@ -45,7 +45,7 @@ describe('CoursesRestService', () => {
   describe('getExpandedCourse', () => {
     const id = 9248;
     const mockCourse = buildCourse(id);
-    it('should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades', () => {
+    it('should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades, Classes', () => {
       service.getExpandedCourse(id).subscribe((result) => {
         expect(result).toEqual(mockCourse);
       });
@@ -54,7 +54,7 @@ describe('CoursesRestService', () => {
         .expectOne(
           (req) =>
             req.url ===
-            `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades`
+            `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`
         )
         .flush(Course.encode(mockCourse));
     });
