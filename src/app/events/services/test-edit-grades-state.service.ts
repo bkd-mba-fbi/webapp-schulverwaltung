@@ -208,9 +208,9 @@ export class TestEditGradesStateService {
     id: number;
     selectedGradeId: number;
   }) {
-    this.gradingsRestService
-      .updateGrade(id, selectedGradeId)
-      .subscribe(console.log);
+    this.gradingsRestService.updateGrade(id, selectedGradeId).subscribe(() => {
+      // do nothing for now...
+    });
   }
 
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {

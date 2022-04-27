@@ -18,11 +18,7 @@ export class GradingsRestService extends RestService<typeof Grading> {
     selectedGradeId: number
   ): Observable<number> {
     return this.http
-      .put(`${this.baseUrl}/${finaleGradeId}`, this.createBody(selectedGradeId))
+      .put(`${this.baseUrl}/${finaleGradeId}`, { GradeId: selectedGradeId })
       .pipe(mapTo(finaleGradeId));
-  }
-
-  private createBody(id: number) {
-    return { IdGrade: id, GradeValue: null };
   }
 }
