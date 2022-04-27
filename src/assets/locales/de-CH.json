@@ -267,6 +267,9 @@
       "ok": "Ok"
     }
   },
+  "dossier": {
+    "title": "Dossier"
+  },
   "my-absences": {
     "title": "Meine Absenzen",
     "show": {

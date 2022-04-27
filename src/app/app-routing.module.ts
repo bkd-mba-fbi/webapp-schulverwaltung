@@ -44,6 +44,12 @@ const routes: Routes = [
       import('./events/events.module').then((m) => m.EventsModule),
   },
   {
+    path: 'dossier',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./dossier/dossier.module').then((m) => m.DossierModule),
+  },
+  {
     path: 'my-absences',
     canActivate: [AuthGuard],
     loadChildren: () =>
