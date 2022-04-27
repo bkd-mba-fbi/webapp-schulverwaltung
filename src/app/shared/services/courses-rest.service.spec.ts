@@ -4,6 +4,7 @@ import { isEqual } from 'lodash-es';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { buildCourse, buildResult } from '../../../spec-builders';
 import {
+  AverageTestResultResponse,
   Course,
   TestGradesResult,
   TestPointsResult,
@@ -40,12 +41,10 @@ describe('CoursesRestService', () => {
         )
         .flush(data);
     });
-  });
 
-  describe('getExpandedCourse', () => {
-    const id = 9248;
-    const mockCourse = buildCourse(id);
     it('should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades, Classes', () => {
+      const id = 9248;
+      const mockCourse = buildCourse(id);
       service.getExpandedCourse(id).subscribe((result) => {
         expect(result).toEqual(mockCourse);
       });
@@ -233,6 +232,41 @@ describe('CoursesRestService', () => {
 
       // then
       assertRequestAndFlush(requestBody, responseBody);
+    });
+  });
+
+  describe('manage grades', () => {
+    let averageTestResultResponse: AverageTestResultResponse = {
+      EventId: 1234,
+      EventDesignation: 'test',
+      EventNumber: 'Course',
+      StudentId: 20,
+      StudentMatriculationNumber: null,
+      StudentFullName: 'Max',
+      StudentNameTooltip: 'Muster',
+      GradeId: 5,
+      GradeValue: null,
+      GradeComment: null,
+      AverageGrade: 4.9,
+      CanGrade: false,
+      Id: 1,
+    };
+
+    it('PUT: SetAverageTestResult, should set student average as final grade', () => {
+      let requestBody = [1234];
+
+      service.setAverageAsFinalGrade(requestBody).subscribe((result) => {
+        expect(result).toEqual(averageTestResultResponse);
+      });
+
+      httpTestingController
+        .expectOne(
+          ({ method, url, body }) =>
+            method === 'PUT' &&
+            url === 'https://eventotest.api/Courses/SetAverageTestResult' &&
+            isEqual(body, requestBody)
+        )
+        .flush(averageTestResultResponse);
     });
   });
 

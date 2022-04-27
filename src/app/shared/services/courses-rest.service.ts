@@ -4,6 +4,7 @@ import { mapTo, Observable, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   Course,
+  AverageTestResultResponse,
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
@@ -106,6 +107,14 @@ export class CoursesRestService extends RestService<typeof Course> {
     return this.http
       .put(`${this.baseUrl}/${course.Id}/SetTestResult`, body)
       .pipe(switchMap(decode(UpdatedTestResultResponse)));
+  }
+
+  setAverageAsFinalGrade(
+    body: number[]
+  ): Observable<AverageTestResultResponse> {
+    return this.http
+      .put(`${this.baseUrl}/SetAverageTestResult`, body)
+      .pipe(switchMap(decode(AverageTestResultResponse)));
   }
 
   publishTest(id: number): Observable<number> {
