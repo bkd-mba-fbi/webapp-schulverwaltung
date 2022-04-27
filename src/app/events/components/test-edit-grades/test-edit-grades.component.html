@@ -190,7 +190,9 @@
               </div>
             </div>
           </td>
-          <td class="desktop sticky sticky sticky-col-2"></td>
+          <td class="desktop sticky sticky sticky-col-2">
+            {{ state.meanOfOverwrittenGradesForCourse$ | async }}
+          </td>
           <td class="desktop border-right sticky sticky-col-3">
             {{ state.meanOfStudentGradesForCourse$ | async }}
           </td>

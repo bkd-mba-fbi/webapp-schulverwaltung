@@ -5,6 +5,7 @@ import {
   forkJoin,
   map,
   Observable,
+  of,
   ReplaySubject,
   scan,
   shareReplay,
@@ -93,6 +94,8 @@ export class TestEditGradesStateService {
   meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
     map((studentGrades) => meanOf(studentGrades))
   );
+
+  meanOfOverwrittenGradesForCourse$: Observable<number> = of(1);
 
   private gradingScaleIds$ = this.tests$.pipe(
     take(1),
