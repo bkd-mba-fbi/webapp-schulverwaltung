@@ -149,6 +149,7 @@
               [options]="state.gradingOptionsForCourse$() | async"
               [selectedGradeId]="studentGrade.finalGrade.finalGradeId"
               [gradeId]="studentGrade.finalGrade.id"
+              (gradeIdSelected)="state.overwriteFinalGrade($event)"
             ></erz-grade-select>
           </td>
           <td

@@ -29,6 +29,7 @@ import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
 import { take } from 'rxjs/operators';
+import { GradingsRestService } from 'src/app/shared/services/gradings-rest.service';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -150,7 +151,8 @@ export class TestEditGradesStateService {
   constructor(
     private sortService: SortService<SortKeys>,
     private courseRestService: CoursesRestService,
-    private gradingScalesRestService: GradingScalesRestService
+    private gradingScalesRestService: GradingScalesRestService,
+    private gradingsRestService: GradingsRestService
   ) {}
 
   setTests(tests: Test[]): void {
@@ -197,6 +199,18 @@ export class TestEditGradesStateService {
     this.courseRestService
       .unpublishTest(test.Id)
       .subscribe(this.toggleTestPublishedState.bind(this));
+  }
+
+  overwriteFinalGrade({
+    id,
+    selectedGradeId,
+  }: {
+    id: number;
+    selectedGradeId: number;
+  }) {
+    this.gradingsRestService
+      .updateGrade(id, selectedGradeId)
+      .subscribe(console.log);
   }
 
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
