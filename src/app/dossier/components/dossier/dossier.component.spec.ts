@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { DossierComponent } from './dossier.component';
 
@@ -7,9 +8,11 @@ describe('DossierComponent', () => {
   let fixture: ComponentFixture<DossierComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DossierComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [DossierComponent],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {
