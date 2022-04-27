@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { number } from 'io-ts';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { FinalGrade } from 'src/app/shared/models/student-grades';
 
 @Component({
   selector: 'erz-grade-select',
