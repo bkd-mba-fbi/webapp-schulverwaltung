@@ -268,7 +268,10 @@
     }
   },
   "dossier": {
-    "title": "Dossier"
+    "title": "Dossier",
+    "addresses": "Adressen und Beziehungen",
+    "absences": "Absenzen",
+    "grades": "Noten"
   },
   "my-absences": {
     "title": "Meine Absenzen",
