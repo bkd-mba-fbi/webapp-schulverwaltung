@@ -7,7 +7,9 @@
     <div class="d-flex">
       <i class="material-icons btn">navigate_before</i>
       <div class="text-justify">
-        <div>{{ course.Designation }}</div>
+        <div>
+          {{ getDesignation() }}
+        </div>
         <div class="font-color-light-gray" *ngIf="course.ParticipatingStudents">
           {{
             (course.ParticipatingStudents.length === 1
