@@ -109,9 +109,9 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(switchMap(decode(UpdatedTestResultResponse)));
   }
 
-  setAverageAsFinalGrade(
-    body: number[]
-  ): Observable<AverageTestResultResponse> {
+  setAverageAsFinalGrade(body: {
+    CourseIds: number[];
+  }): Observable<AverageTestResultResponse> {
     return this.http
       .put(`${this.baseUrl}/SetAverageTestResult`, body)
       .pipe(switchMap(decode(AverageTestResultResponse)));

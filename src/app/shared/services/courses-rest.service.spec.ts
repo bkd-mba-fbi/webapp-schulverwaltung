@@ -9,6 +9,7 @@ import {
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
+  AverageFinalGrade,
 } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 
@@ -236,7 +237,7 @@ describe('CoursesRestService', () => {
   });
 
   describe('manage grades', () => {
-    let averageTestResultResponse: AverageTestResultResponse = {
+    let averageFinalGrade: AverageFinalGrade = {
       EventId: 1234,
       EventDesignation: 'test',
       EventNumber: 'Course',
@@ -247,13 +248,17 @@ describe('CoursesRestService', () => {
       GradeId: 5,
       GradeValue: null,
       GradeComment: null,
-      AverageGrade: 4.9,
+      AverageTestResult: 4.9,
       CanGrade: false,
       Id: 1,
     };
 
+    let averageTestResultResponse: AverageTestResultResponse = {
+      Gradings: [],
+    };
+
     it('PUT: SetAverageTestResult, should set student average as final grade', () => {
-      let requestBody = [1234];
+      let requestBody = { CourseIds: [1234] };
 
       service.setAverageAsFinalGrade(requestBody).subscribe((result) => {
         expect(result).toEqual(averageTestResultResponse);
