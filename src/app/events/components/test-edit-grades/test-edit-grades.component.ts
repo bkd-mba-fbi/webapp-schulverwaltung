@@ -37,8 +37,7 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   constructor(
     public state: TestEditGradesStateService,
     private modalService: NgbModal,
-    private coursesRestService: CoursesRestService,
-    public eventsStateService: EventsStateService
+    private coursesRestService: CoursesRestService
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +61,12 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
 
   saveGrade(requestBody: TestGradesResult | TestPointsResult) {
     this.state.saveGrade(requestBody);
+  }
+
+  setAverageAsFinalGrade() {
+    this.coursesRestService
+      .setAverageAsFinalGrade({ CourseIds: [this.course.Id] })
+      .subscribe(console.log);
   }
 
   publish(test: Test) {

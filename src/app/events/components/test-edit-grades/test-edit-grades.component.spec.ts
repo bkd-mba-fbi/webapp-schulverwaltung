@@ -2,32 +2,18 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { buildCourse, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
-import { EventsStateService } from '../../services/events-state.service';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
-import { StorageService } from '../../../shared/services/storage.service';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
-  let storageServiceMock: StorageService;
 
   beforeEach(
     waitForAsync(() => {
-      storageServiceMock = jasmine.createSpyObj('StorageService', [
-        'getPayload',
-      ]);
-
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
           declarations: [TestEditGradesComponent],
-          providers: [
-            CoursesRestService,
-            EventsStateService,
-            {
-              provide: StorageService,
-              useValue: storageServiceMock,
-            },
-          ],
+          providers: [CoursesRestService],
         })
       ).compileComponents();
     })

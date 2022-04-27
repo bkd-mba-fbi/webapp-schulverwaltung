@@ -208,6 +208,17 @@
             <erz-average-grades [test]="test"></erz-average-grades>
           </td>
         </tr>
+        <td class="sticky border-0">
+          <div class="d-flex flex-column">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="setAverageAsFinalGrade()"
+            >
+              Mittelwert als Note setzten
+            </button>
+          </div>
+        </td>
       </tbody>
     </table>
   </div>
