@@ -446,7 +446,7 @@ export function buildCourse(
     // IsPublished: t.boolean,
     // LevelId: t.number,
     // Level: t.string,
-    // StatusId: t.number,
+    StatusId: 2,
     // Status: t.string,
     // Lessons: null,
     // EventManagers: null,
