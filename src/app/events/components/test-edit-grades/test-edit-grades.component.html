@@ -147,7 +147,8 @@
           >
             <erz-grade-select
               [options]="state.gradingOptionsForCourse$() | async"
-              [gradeId]="studentGrade.finalGrade.finalGradeId"
+              [selectedGradeId]="studentGrade.finalGrade.finalGradeId"
+              [gradeId]="studentGrade.finalGrade.id"
             ></erz-grade-select>
           </td>
           <td
