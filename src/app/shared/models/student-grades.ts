@@ -78,7 +78,7 @@ function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
 
   return {
     id: grading?.Id,
-    average: grading?.AverageGrade || grading?.AverageTestResult,
+    average: grading?.AverageTestResult,
     finalGradeId: grading?.GradeId,
     canGrade: grading?.CanGrade || false,
   };
