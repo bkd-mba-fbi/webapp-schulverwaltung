@@ -189,7 +189,7 @@ describe('LessonPresencesUpdateService', () => {
       (restServiceMock.editLessonPresences as jasmine.Spy).and.callFake(
         (lessonIds, personIds, newPresenceTypeId) => {
           if (personIds.includes(deutschWalser.StudentRef.Id)) {
-            return throwError('oops');
+            return throwError('error thrown in mock');
           }
           return of();
         }
