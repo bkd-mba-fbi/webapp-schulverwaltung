@@ -21,22 +21,22 @@ describe('GradingsRestService', () => {
 
   it('should update final grade and return grade id', () => {
     // given
-    const id = 123;
-    const value = 4.5;
+    const gradeId = 123;
+    const selectedGradeId = 5555;
 
     // when
     service
-      .updateGrade(id, value)
-      .subscribe((result) => expect(result).toEqual(id));
+      .updateGrade(gradeId, selectedGradeId)
+      .subscribe((result) => expect(result).toEqual(gradeId));
 
     // then
     httpTestingController
       .expectOne(
         ({ method, url, body }) =>
           method === 'PUT' &&
-          url === `https://eventotest.api/Gradings/${id}` &&
-          isEqual(body, { IdGrade: 123, GradeValue: 4.5 })
+          url === `https://eventotest.api/Gradings/${gradeId}` &&
+          isEqual(body, { IdGrade: selectedGradeId, GradeValue: null })
       )
-      .flush(id);
+      .flush(gradeId);
   });
 });

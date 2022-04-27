@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { number } from 'fp-ts';
-import { mapTo, Observable, of } from 'rxjs';
+import { mapTo, Observable } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Grading } from '../models/course.model';
 import { RestService } from './rest.service';
@@ -14,13 +13,16 @@ export class GradingsRestService extends RestService<typeof Grading> {
     super(http, settings, Grading, 'Gradings');
   }
 
-  updateGrade(id: number, value: number): Observable<number> {
+  updateGrade(
+    finaleGradeId: number,
+    selectedGradeId: number
+  ): Observable<number> {
     return this.http
-      .put(`${this.baseUrl}/${id}`, this.createBody(id, value))
-      .pipe(mapTo(id));
+      .put(`${this.baseUrl}/${finaleGradeId}`, this.createBody(selectedGradeId))
+      .pipe(mapTo(finaleGradeId));
   }
 
-  private createBody(id: number, value: number) {
-    return { IdGrade: id, GradeValue: value };
+  private createBody(id: number) {
+    return { IdGrade: id, GradeValue: null };
   }
 }
