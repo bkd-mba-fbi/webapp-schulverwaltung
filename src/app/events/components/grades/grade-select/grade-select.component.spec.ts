@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { GradeSelectComponent } from './grade-select.component';
 
 describe('GradeSelectComponent', () => {
@@ -7,9 +7,11 @@ describe('GradeSelectComponent', () => {
   let fixture: ComponentFixture<GradeSelectComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [GradeSelectComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [GradeSelectComponent],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {
