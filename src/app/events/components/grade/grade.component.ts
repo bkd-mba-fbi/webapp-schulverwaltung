@@ -26,6 +26,9 @@ import {
 } from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
 import { TestEditGradesStateService } from '../../services/test-edit-grades-state.service';
+
+const DEBOUNCE_TIME = 500;
+
 @Component({
   selector: 'erz-grade',
   templateUrl: './grade.component.html',
@@ -50,11 +53,16 @@ export class GradeComponent implements OnInit, OnDestroy {
   isGradingScaleEnabled: boolean = true;
 
   private pointsSubject$: Subject<string> = new Subject<string>();
+  private gradeSubject$: Subject<number> = new Subject<number>();
 
   points$: Observable<number> = this.pointsSubject$.pipe(
-    debounceTime(500),
+    debounceTime(DEBOUNCE_TIME),
     filter(this.isValid.bind(this)),
     map(Number)
+  );
+
+  grade$: Observable<number> = this.gradeSubject$.pipe(
+    debounceTime(DEBOUNCE_TIME)
   );
 
   destroy$ = new Subject<void>();
@@ -69,7 +77,17 @@ export class GradeComponent implements OnInit, OnDestroy {
 
     this.maxPoints = toMaxPoints(this.grade);
     this.points$
-      .pipe(takeUntil(this.destroy$), map(this.buildRequestBody.bind(this)))
+      .pipe(
+        takeUntil(this.destroy$),
+        map(this.buildRequestBodyPointsChange.bind(this))
+      )
+      .subscribe((body) => this.gradeChanged.emit(body));
+
+    this.grade$
+      .pipe(
+        takeUntil(this.destroy$),
+        map(this.buildRuequestBodyForGradeChange.bind(this))
+      )
       .subscribe((body) => this.gradeChanged.emit(body));
   }
 
@@ -83,12 +101,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   }
 
   onGradeChange(gradeId: number) {
-    const body: TestGradesResult = {
-      StudentIds: [this.student.Id],
-      TestId: this.grade.test.Id,
-      GradeId: gradeId,
-    };
-    this.gradeChanged.emit(body);
+    this.gradeSubject$.next(gradeId);
   }
 
   private maxPointValidator(): ValidatorFn {
@@ -105,11 +118,19 @@ export class GradeComponent implements OnInit, OnDestroy {
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }
 
-  private buildRequestBody(points: number): TestPointsResult {
+  private buildRequestBodyPointsChange(points: number): TestPointsResult {
     return {
       StudentIds: [this.student.Id],
       TestId: this.grade.test.Id,
       Points: points,
+    };
+  }
+
+  private buildRuequestBodyForGradeChange(gradeId: number): TestGradesResult {
+    return {
+      StudentIds: [this.student.Id],
+      TestId: this.grade.test.Id,
+      GradeId: gradeId,
     };
   }
 
