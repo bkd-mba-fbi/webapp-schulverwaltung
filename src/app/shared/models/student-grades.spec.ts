@@ -151,6 +151,8 @@ describe('StudentGradesService', () => {
     expect(results[1].finalGrade.average).toBeUndefined;
     expect(results[0].finalGrade.finalGradeId).toBe(3);
     expect(results[1].finalGrade.finalGradeId).toBeUndefined;
+    expect(results[0].finalGrade.canGrade).toBe(false);
+    expect(results[1].finalGrade.canGrade).toBe(false);
   });
 
   it('should fill up holes with missing grades as no-result', () => {

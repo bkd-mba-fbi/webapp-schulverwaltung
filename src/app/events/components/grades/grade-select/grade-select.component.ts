@@ -10,6 +10,7 @@ export class GradeSelectComponent {
   @Input() options: DropDownItem[];
   @Input() selectedGradeId: Option<number>; // the selected grade - id from gradingscale
   @Input() gradeId: Option<number>; // the id of the grade itself
+  @Input() disabled: boolean = false;
 
   @Output() gradeIdSelected = new EventEmitter<{
     id: number;
