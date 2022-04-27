@@ -1,0 +1,5 @@
+<erz-avatar [studentId]="studentId" class="mr-3 small"></erz-avatar>
+<div *ngIf="student" data-testId="dossier-header-student">
+  {{ student.FullName }} ({{ student.Gender }})
+  <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
+</div>

@@ -1,0 +1,16 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  padding: $spacer;
+  border-bottom: 1px solid $border-color;
+}
+
+a {
+  color: $body-color;
+}
+
+.birthdate {
+  color: $gray-500;
+}
