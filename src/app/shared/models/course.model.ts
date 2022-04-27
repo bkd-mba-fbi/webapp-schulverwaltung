@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
-import { LocalDateTimeFromString, Maybe, Option } from './common-types';
+import { LocalDateTimeFromString, Option } from './common-types';
+import { Student } from './student.model';
 import { StudyClass } from './study-class.model';
 import { Result, Test } from './test.model';
-import { Student } from './student.model';
 
 const id = t.type({
   Id: t.number,
@@ -37,10 +37,7 @@ const ExpandedAttendanceRef = t.partial({
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
 const Grading = t.type({
-  // the property AverageGrade was renamed to AverageTestResult with a recent backend hotfix -
-  // change the property name when the hotfix reaches the development backend
-  AverageTestResult: Maybe(t.number),
-  AverageGrade: Maybe(t.number),
+  AverageTestResult: t.number,
   CanGrade: t.boolean,
   EventDesignation: t.string,
   EventId: t.number,

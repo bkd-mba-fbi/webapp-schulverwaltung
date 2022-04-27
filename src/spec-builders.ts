@@ -512,7 +512,6 @@ export function buildGrading(
 ): Grading {
   return {
     AverageTestResult: averageGrade,
-    AverageGrade: averageGrade,
     CanGrade: false,
     EventDesignation: 'Französisch-S2',
     EventId: 9248,
