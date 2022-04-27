@@ -20,11 +20,14 @@ import {
   TestEditGradesStateService,
 } from '../../services/test-edit-grades-state.service';
 import { averageGrade, averagePoints } from '../../utils/tests';
+import { CoursesRestService } from '../../../shared/services/courses-rest.service';
+import { EventsStateService } from '../../services/events-state.service';
 
 @Component({
   selector: 'erz-test-edit-grades',
   templateUrl: './test-edit-grades.component.html',
   styleUrls: ['./test-edit-grades.component.scss'],
+  providers: [EventsStateService],
 })
 export class TestEditGradesComponent implements OnInit, OnChanges {
   @Input() course: Course;
@@ -33,7 +36,9 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
 
   constructor(
     public state: TestEditGradesStateService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private coursesRestService: CoursesRestService,
+    public eventsStateService: EventsStateService
   ) {}
 
   ngOnInit(): void {
