@@ -22,6 +22,7 @@ import {
   compareFn,
   meanOf,
   SortKeys,
+  StudentGrade,
   transform,
 } from 'src/app/shared/models/student-grades';
 import { Result, Test } from 'src/app/shared/models/test.model';
@@ -31,6 +32,9 @@ import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
 import { take } from 'rxjs/operators';
+import { GradingScale } from 'src/app/shared/models/grading-scale.model';
+import { sum } from 'lodash-es';
+import { average } from 'src/app/shared/utils/math';
 import { GradingsRestService } from 'src/app/shared/services/gradings-rest.service';
 
 export type Filter = 'all-tests' | 'my-tests';
@@ -95,7 +99,27 @@ export class TestEditGradesStateService {
     map((studentGrades) => meanOf(studentGrades))
   );
 
-  meanOfOverwrittenGradesForCourse$: Observable<number> = of(1);
+  private meanOfOverwrittenGradesForCourse(
+    gradingScaleOptions: GradingScaleOptions,
+    studentGrades: StudentGrade[]
+  ) {
+    if (gradingScaleOptions[this.course.GradingScaleId] === undefined)
+      return -1;
+    const scale = gradingScaleOptions[this.course.GradingScaleId]!;
+    const values = studentGrades
+      .map((studentGrade) => studentGrade.finalGrade.finalGradeId)
+      .filter((finalGradeId) => finalGradeId !== null)
+      .map((finalGradeId) =>
+        scale.find((option) => option.Key === finalGradeId)
+      )
+      .filter((option) => option !== undefined)
+      .map((option) => option?.Value)
+      .filter((value) => value !== undefined)
+      .map(Number)
+      .filter((maybeNumber) => !isNaN(maybeNumber));
+
+    return average(values, 3);
+  }
 
   private gradingScaleIds$ = this.tests$.pipe(
     take(1),
@@ -140,6 +164,11 @@ export class TestEditGradesStateService {
     ),
     shareReplay(1)
   );
+
+  meanOfOverwrittenGradesForCourse$: Observable<number> = combineLatest([
+    this.gradingScalesOptions$,
+    this.studentGrades$,
+  ]).pipe(map(spread(this.meanOfOverwrittenGradesForCourse.bind(this))));
 
   gradingOptionsForTest$(test: Test) {
     return this.gradingOptions$(test.GradingScaleId);
