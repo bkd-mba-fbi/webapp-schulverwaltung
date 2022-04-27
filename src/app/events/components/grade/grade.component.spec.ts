@@ -293,14 +293,3 @@ function expectValidationErrorMessage(debugElement: DebugElement) {
 
   expect(error.textContent).toContain('global.validation-errors.invalidPoints');
 }
-
-function expectOptions(select: HTMLSelectElement) {
-  expect(select.options.length).toBe(6);
-  const options = select.options!;
-  expect(options[0]?.textContent?.trim()).toBe('1.0');
-  expect(options[1]?.textContent?.trim()).toBe('2.0');
-  expect(options[2]?.textContent?.trim()).toBe('3.0');
-  expect(options[3]?.textContent?.trim()).toBe('4.0');
-  expect(options[4]?.textContent?.trim()).toBe('5.0');
-  expect(options[5]?.textContent?.trim()).toBe('6.0');
-}
