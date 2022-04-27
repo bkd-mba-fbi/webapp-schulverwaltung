@@ -1,5 +1,6 @@
 <select
   class="form-control"
+  tabindex="{{ tabindex }}"
   [disabled]="disabled"
   [ngModel]="value$ | async"
   (ngModelChange)="valueChange.emit($event && $event.Key)"
