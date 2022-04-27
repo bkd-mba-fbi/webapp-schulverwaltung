@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DossierService } from '../../service/dossier.service';
 
 @Component({
   selector: 'erz-dossier-overview',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./dossier-overview.component.scss'],
 })
 export class DossierOverviewComponent {
-  constructor() {}
+  constructor(public service: DossierService) {}
 }
