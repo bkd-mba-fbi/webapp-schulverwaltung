@@ -9,7 +9,8 @@ export type StudentGrade = {
   grades: GradeOrNoResult[];
 };
 
-type FinalGrade = {
+export type FinalGrade = {
+  id: Maybe<number>;
   average: Maybe<number>;
   finalGradeId: Maybe<number>;
 };
@@ -75,6 +76,7 @@ function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
   );
 
   return {
+    id: grading?.Id,
     average: grading?.AverageGrade || grading?.AverageTestResult,
     finalGradeId: grading?.GradeId,
   };

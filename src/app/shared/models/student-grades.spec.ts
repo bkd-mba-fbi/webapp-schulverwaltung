@@ -41,6 +41,8 @@ describe('StudentGradesService', () => {
 
     expect(results[0].student).toEqual(course.ParticipatingStudents[0]);
     expect(results[1].student).toEqual(course.ParticipatingStudents[1]);
+    expect(results[0].finalGrade.id).toBe(126885);
+    expect(results[1].finalGrade.id).toBe(126885);
     expect(results[0].finalGrade.average).toBe(2.275);
     expect(results[1].finalGrade.average).toBe(2.275);
     expect(results[0].finalGrade.finalGradeId).toBe(3);
