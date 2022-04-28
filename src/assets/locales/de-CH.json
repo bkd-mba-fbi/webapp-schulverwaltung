@@ -225,6 +225,7 @@
     "grade": "Note",
     "average": "Durchschnitt",
     "mean": "Mittelwert",
+    "set-final-grade": "Mittelwert als Note setzen",
     "student": {
       "name": "Name"
     },
