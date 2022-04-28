@@ -1,5 +1,6 @@
 import {
   Component,
+  Inject,
   Input,
   OnChanges,
   OnInit,
@@ -22,6 +23,7 @@ import {
 import { averageGrade, averagePoints } from '../../utils/tests';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 import { EventsStateService } from '../../services/events-state.service';
+import { Settings, SETTINGS } from '../../../settings';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -35,6 +37,7 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   @Input() selectedTest: Test | undefined;
 
   constructor(
+    @Inject(SETTINGS) public settings: Settings,
     public state: TestEditGradesStateService,
     private modalService: NgbModal,
     private coursesRestService: CoursesRestService
