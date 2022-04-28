@@ -34,6 +34,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TestsWeightPipe } from './pipes/test-weight.pipe';
 import { TestsGradingTypePipe } from './pipes/test-grading-type.pipe';
 import { PreserveLineHeightComponent } from './components/text/line/preserve-line-height.component';
+import { DossierAbsencesComponent } from './components/dossier-absences/dossier-absences.component';
+import { DossierAddressesComponent } from './components/dossier-addresses/dossier-addresses.component';
+import { DossierOverviewComponent } from './components/dossier-overview/dossier-overview.component';
 
 // Components that will be exported
 const components = [
@@ -44,6 +47,9 @@ const components = [
   DateSelectComponent,
   SelectComponent,
   MultiselectComponent,
+  DossierOverviewComponent,
+  DossierAddressesComponent,
+  DossierAbsencesComponent,
   StudentBacklinkComponent,
   StudentProfileComponent,
   StudentProfileEntryHeaderComponent,
@@ -70,6 +76,8 @@ const components = [
     XssPipe,
     AddSpacePipe,
     MultiselectComponent,
+    DossierAbsencesComponent,
+    DossierAddressesComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },

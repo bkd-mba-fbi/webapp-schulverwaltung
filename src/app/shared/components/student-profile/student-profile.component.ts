@@ -1,66 +1,40 @@
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { map, switchMap } from 'rxjs';
+import { DossierStateService } from '../../services/dossier-state.service';
 import {
-  Component,
-  OnInit,
-  Inject,
-  ChangeDetectionStrategy,
-  OnDestroy,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { map, switchMap, pluck, takeUntil } from 'rxjs/operators';
-
-import { parseQueryString } from '../../utils/url';
-import {
-  STUDENT_PROFILE_BACKLINK,
   StudentProfileBacklink,
+  STUDENT_PROFILE_BACKLINK,
 } from '../../tokens/student-profile-backlink';
-import { StudentProfileService } from '../../services/student-profile.service';
-import { PresenceTypesService } from '../../services/presence-types.service';
-import { StudentProfileAbsencesService } from '../../services/student-profile-absences.service';
-import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
 
 @Component({
   selector: 'erz-student-profile',
   templateUrl: './student-profile.component.html',
   styleUrls: ['./student-profile.component.scss'],
-  providers: [StudentProfileAbsencesService],
+  providers: [DossierStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileComponent implements OnInit, OnDestroy {
-  studentId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('id')))
+export class StudentProfileComponent {
+  link$ = this.state.isOverview$.pipe(
+    map((isOverview) => (isOverview ? this.backlink : ['..'])) // TODO how to move one up, add return params
   );
 
-  profile$ = this.studentId$.pipe(
-    switchMap((id) => this.profileService.getProfile(id))
+  // TODO check if confirm absences still work
+
+  queryParams$ = this.state.isOverview$.pipe(
+    switchMap((isOverview) =>
+      isOverview
+        ? this.state.backlinkQueryParams$
+        : this.state.returnParams$.pipe(
+            map((returnparams) => {
+              returnparams;
+            })
+          )
+    )
   );
-
-  halfDayActive$ = this.presenceTypesService.halfDayActive$;
-
-  backlinkQueryParams$ = this.route.queryParams.pipe(
-    pluck('returnparams'),
-    map(parseQueryString)
-  );
-
-  private destroy$ = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
-    public profileService: StudentProfileService,
-    private presenceTypesService: PresenceTypesService,
     @Inject(STUDENT_PROFILE_BACKLINK)
     public backlink: StudentProfileBacklink,
-    public absencesService: StudentProfileAbsencesService,
-    public absencesSelectionService: ConfirmAbsencesSelectionService
+    public state: DossierStateService
   ) {}
-
-  ngOnInit(): void {
-    this.studentId$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((studentId) => this.absencesService.setStudentId(studentId));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
 }

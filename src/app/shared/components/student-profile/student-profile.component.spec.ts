@@ -10,6 +10,7 @@ import { StudentProfileLegalRepresentativeComponent } from '../student-profile-l
 import { StudentProfileApprenticeshipCompanyComponent } from '../student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
 import { STUDENT_PROFILE_BACKLINK } from '../../tokens/student-profile-backlink';
 import { StudentProfileAbsencesService } from '../../services/student-profile-absences.service';
+import { DossierStateService } from '../../services/dossier-state.service';
 
 describe('StudentProfileComponent', () => {
   let component: StudentProfileComponent;
@@ -27,7 +28,10 @@ describe('StudentProfileComponent', () => {
             StudentProfileLegalRepresentativeComponent,
             StudentProfileApprenticeshipCompanyComponent,
           ],
-          providers: [{ provide: STUDENT_PROFILE_BACKLINK, useValue: '/' }],
+          providers: [
+            { provide: STUDENT_PROFILE_BACKLINK, useValue: '/' },
+            DossierStateService,
+          ],
         })
       )
         .overrideComponent(StudentProfileComponent, {

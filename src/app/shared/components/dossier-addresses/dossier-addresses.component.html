@@ -1,0 +1,72 @@
+<ng-container
+  *erzLet="{
+    profile: state.profile$ | async
+  } as data"
+>
+  <ngb-accordion ngb-accordion #acc="ngbAccordion">
+    <ngb-panel id="student-address">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('student-address')"
+        >
+          {{ 'shared.profile.student-address' | translate }}
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-address
+          class="profile-entry"
+          [student]="data.profile.student"
+        ></erz-student-profile-address>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel
+      *ngIf="data.profile.legalRepresentativePersons.length > 0"
+      id="legal-representatives"
+    >
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('legal-representatives')"
+        >
+          {{ 'shared.profile.legal-representation' | translate }}
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-legal-representative
+          *ngFor="let person of data.profile.legalRepresentativePersons"
+          class="profile-entry"
+          [person]="person"
+        ></erz-student-profile-legal-representative>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel
+      *ngFor="
+        let company of data.profile.apprenticeshipCompanies;
+        let i = index
+      "
+      [id]="'apprenticeship-company-' + i"
+    >
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-profile-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('apprenticeship-company-' + i)"
+        >
+          {{ 'shared.profile.apprenticeship-company' | translate }}
+          <ng-container
+            *ngIf="data.profile.apprenticeshipCompanies.length > 1"
+            >{{ i + 1 }}</ng-container
+          >
+        </erz-student-profile-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-profile-apprenticeship-company
+          class="profile-entry"
+          [company]="company"
+        ></erz-student-profile-apprenticeship-company>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</ng-container>
