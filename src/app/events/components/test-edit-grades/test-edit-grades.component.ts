@@ -122,4 +122,8 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
       () => {}
     );
   }
+
+  buildLinkToRatingOverview() {
+    return `${this.settings.eventlist.evaluation}=${this.course.Id}`;
+  }
 }

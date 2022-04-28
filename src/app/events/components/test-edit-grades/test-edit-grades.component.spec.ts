@@ -12,6 +12,7 @@ import { byTestId } from '../../../../specs/utils';
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
+  const course = buildCourse(1234);
 
   beforeEach(
     waitForAsync(() => {
@@ -28,7 +29,7 @@ describe('TestEditGradesComponent', () => {
     fixture = TestBed.createComponent(TestEditGradesComponent);
     component = fixture.componentInstance;
 
-    component.course = buildCourse(1);
+    component.course = course;
     component.tests = [buildTest(1, 12, [])];
     fixture.detectChanges();
   });
@@ -48,7 +49,7 @@ describe('TestEditGradesComponent', () => {
 
     expect(field).not.toBeNull();
     expect(field.href).toBe(
-      'http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass'
+      `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`
     );
 
     expectText(
