@@ -3,6 +3,7 @@ import { buildCourse, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
+import { expectElementPresent } from '../../../../specs/expectations';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
@@ -30,5 +31,9 @@ describe('TestEditGradesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display button to set average as final grade', () => {
+    expectElementPresent(fixture.debugElement, 'apply-average-button');
   });
 });
