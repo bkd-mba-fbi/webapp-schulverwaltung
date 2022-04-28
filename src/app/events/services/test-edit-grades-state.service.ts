@@ -172,13 +172,6 @@ export class TestEditGradesStateService {
     return this.gradingOptions$(this.course.GradingScaleId);
   }
 
-  private gradingOptions$(gradingScaleId: number) {
-    return this.gradingScalesOptions$.pipe(
-      map((gradingScaleOptions) => gradingScaleOptions[gradingScaleId]),
-      shareReplay(1)
-    );
-  }
-
   constructor(
     private sortService: SortService<SortKeys>,
     private courseRestService: CoursesRestService,
@@ -256,5 +249,12 @@ export class TestEditGradesStateService {
       type: 'toggle-test-state',
       payload: testId,
     });
+  }
+
+  private gradingOptions$(gradingScaleId: number) {
+    return this.gradingScalesOptions$.pipe(
+      map((gradingScaleOptions) => gradingScaleOptions[gradingScaleId]),
+      shareReplay(1)
+    );
   }
 }
