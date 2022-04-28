@@ -17,3 +17,10 @@ export function expectNotInTheDocument(
 ) {
   expect(debugElement.query(byTestId(testId))).toBeNull();
 }
+
+export function expectElementPresent(
+  debugElement: DebugElement,
+  testId: string
+) {
+  expect(debugElement.query(byTestId(testId))).toBeTruthy();
+}
