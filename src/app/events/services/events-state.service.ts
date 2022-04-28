@@ -11,13 +11,7 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
-
-export enum EventState {
-  Rating = 'rating',
-  RatingUntil = 'rating-until',
-  IntermediateRating = 'intermediate-rating',
-  Tests = 'add-tests',
-}
+import { CourseState } from '../utils/courses';
 
 type LinkType = 'evaluation' | 'eventdetail';
 export interface Event {
@@ -27,7 +21,7 @@ export interface Event {
   dateFrom?: Option<Date>;
   dateTo?: Option<Date>;
   studentCount: number;
-  state: Option<EventState>;
+  state: Option<CourseState>;
   evaluationText?: string;
   evaluationLink?: Option<string>;
 }
@@ -104,7 +98,7 @@ export class EventsStateService {
 
     return events.map((e) => ({
       ...e,
-      state: EventState.Rating,
+      state: CourseState.Rating,
       evaluationText: this.translate.instant('events.state.rating'),
       evaluationLink: this.buildLink(e.id, 'evaluation'),
     }));
@@ -141,20 +135,20 @@ export class EventsStateService {
     return classes ? course.Designation + ', ' + classes : course.Designation;
   }
 
-  private getState(course: Course): Option<EventState> {
+  private getState(course: Course): Option<CourseState> {
     const courseStatus = course.EvaluationStatusRef;
 
     if (courseStatus.HasTestGrading === true) {
-      return EventState.Tests;
+      return CourseState.Tests;
     }
 
     if (courseStatus.HasEvaluationStarted === true) {
       if (courseStatus.EvaluationUntil == null) {
-        return EventState.IntermediateRating;
+        return CourseState.IntermediateRating;
       }
 
       if (courseStatus.EvaluationUntil >= new Date()) {
-        return EventState.RatingUntil;
+        return CourseState.RatingUntil;
       }
     }
 
@@ -162,22 +156,22 @@ export class EventsStateService {
   }
 
   private getEvaluationText(
-    state: Option<EventState>,
+    state: Option<CourseState>,
     date?: Maybe<Date>
   ): string {
     return state === null
       ? ''
       : this.translate.instant(`events.state.${state}`) +
-          (state === EventState.RatingUntil
+          (state === CourseState.RatingUntil
             ? ` ${date ? format(date, 'dd.MM.yyyy') : ''}`
             : '');
   }
 
   private getEvaluationLink(
     course: Course,
-    state: Option<EventState>
+    state: Option<CourseState>
   ): Option<string> {
-    return state === null || state === EventState.Tests
+    return state === null || state === CourseState.Tests
       ? null
       : this.buildLink(course.Id, 'evaluation');
   }
