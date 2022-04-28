@@ -11,7 +11,7 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
-import { CourseState } from '../utils/courses';
+import { CourseState, getState } from '../utils/courses';
 
 type LinkType = 'evaluation' | 'eventdetail';
 export interface Event {
@@ -108,7 +108,7 @@ export class EventsStateService {
     courses: ReadonlyArray<Course>
   ): ReadonlyArray<Event> {
     return courses.map((course) => {
-      const state = this.getState(course);
+      const state = getState(course);
 
       return {
         id: course.Id,
@@ -133,26 +133,6 @@ export class EventsStateService {
       : null;
 
     return classes ? course.Designation + ', ' + classes : course.Designation;
-  }
-
-  private getState(course: Course): Option<CourseState> {
-    const courseStatus = course.EvaluationStatusRef;
-
-    if (courseStatus.HasTestGrading === true) {
-      return CourseState.Tests;
-    }
-
-    if (courseStatus.HasEvaluationStarted === true) {
-      if (courseStatus.EvaluationUntil == null) {
-        return CourseState.IntermediateRating;
-      }
-
-      if (courseStatus.EvaluationUntil >= new Date()) {
-        return CourseState.RatingUntil;
-      }
-    }
-
-    return null;
   }
 
   private getEvaluationText(
