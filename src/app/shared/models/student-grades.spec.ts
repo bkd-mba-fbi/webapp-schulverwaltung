@@ -1,3 +1,4 @@
+import { GradingScaleOptions } from 'src/app/events/services/test-edit-grades-state.service';
 import { Course } from 'src/app/shared/models/course.model';
 import {
   buildCourse,
@@ -6,10 +7,12 @@ import {
   buildStudent,
   buildTest,
 } from 'src/spec-builders';
+import { GradingScale } from './grading-scale.model';
 import {
   FinalGrade,
   Grade,
   meanOf,
+  meanOfGradesFromScale,
   NoResult,
   StudentGrade,
   toMaxPoints,
@@ -222,7 +225,7 @@ describe('student-grade utils', () => {
     });
   });
   describe('calculate averages for finalGrades', () => {
-    let finalGrades: FinalGrade[] = [
+    const finalGrades: FinalGrade[] = [
       { id: 1, canGrade: true, average: 5, finalGradeId: 1005 },
       { id: 2, canGrade: true, average: 3, finalGradeId: 1003 },
       { id: 3, canGrade: true, average: 0, finalGradeId: null },
@@ -230,8 +233,25 @@ describe('student-grade utils', () => {
       { id: 5, canGrade: true, average: null, finalGradeId: null },
       { id: 6, canGrade: true, average: 6, finalGradeId: null },
     ];
+
+    const scale: {
+      Key: number;
+      Value: string;
+    }[] = [
+      { Key: 1001, Value: '1.0' },
+      { Key: 1002, Value: '2.0' },
+      { Key: 1003, Value: '3.0' },
+      { Key: 1004, Value: '4.0' },
+      { Key: 1005, Value: '5.0' },
+      { Key: 1006, Value: '6.0' },
+    ];
+
     it('should calculate mean of student grades final grade averages', () => {
       expect(meanOf(finalGrades)).toBe(4.625);
+    });
+
+    it('should calculate mean of student grades of overwritten final grades using a given scale', () => {
+      expect(meanOfGradesFromScale(scale, finalGrades)).toBe(4.333);
     });
   });
 });
