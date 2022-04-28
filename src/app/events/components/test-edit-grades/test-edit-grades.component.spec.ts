@@ -3,7 +3,11 @@ import { buildCourse, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
-import { expectElementPresent } from '../../../../specs/expectations';
+import {
+  expectElementPresent,
+  expectText,
+} from '../../../../specs/expectations';
+import { byTestId } from '../../../../specs/utils';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
@@ -35,5 +39,22 @@ describe('TestEditGradesComponent', () => {
 
   it('should display button to set average as final grade', () => {
     expectElementPresent(fixture.debugElement, 'apply-average-button');
+  });
+
+  it('should display external link to rating overview', () => {
+    const field = fixture.debugElement.query(
+      byTestId('link-to-rating-overview')
+    ).nativeElement as HTMLLinkElement;
+
+    expect(field).not.toBeNull();
+    expect(field.href).toBe(
+      'http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass'
+    );
+
+    expectText(
+      fixture.debugElement,
+      'link-to-rating-overview',
+      'tests.link-to-rating-overview'
+    );
   });
 });
