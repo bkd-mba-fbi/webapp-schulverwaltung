@@ -3,6 +3,8 @@ import { BehaviorSubject, of } from 'rxjs';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { DossierStateService } from '../../services/dossier-state.service';
 import { StudentProfileAbsencesService } from '../../services/student-profile-absences.service';
+import { StudentProfileAbsencesComponent } from '../student-profile-absences/student-profile-absences.component';
+import { StudentProfileEntryHeaderComponent } from '../student-profile-entry-header/student-profile-entry-header.component';
 import { DossierAbsencesComponent } from './dossier-absences.component';
 
 describe('DossierAbsencesComponent', () => {
@@ -15,7 +17,11 @@ describe('DossierAbsencesComponent', () => {
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierAbsencesComponent],
+        declarations: [
+          DossierAbsencesComponent,
+          StudentProfileEntryHeaderComponent,
+          StudentProfileAbsencesComponent,
+        ],
         providers: [DossierStateService],
       })
     )
@@ -26,8 +32,6 @@ describe('DossierAbsencesComponent', () => {
               provide: StudentProfileAbsencesService,
               useValue: {
                 counts$: of({ checkableAbsences: null }),
-                openAbsences$: of([]),
-                openAbsencesCount$: of(null),
                 setStudentId: jasmine.createSpy('setStudentId'),
               },
             },

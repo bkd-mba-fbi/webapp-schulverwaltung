@@ -3,6 +3,10 @@ import { BehaviorSubject, of } from 'rxjs';
 import { buildStudent } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { DossierStateService } from '../../services/dossier-state.service';
+import { StudentProfileAddressComponent } from '../student-profile-address/student-profile-address.component';
+import { StudentProfileApprenticeshipCompanyComponent } from '../student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
+import { StudentProfileEntryHeaderComponent } from '../student-profile-entry-header/student-profile-entry-header.component';
+import { StudentProfileLegalRepresentativeComponent } from '../student-profile-legal-representative/student-profile-legal-representative.component';
 import { DossierAddressesComponent } from './dossier-addresses.component';
 
 describe('DossierAddressesComponent', () => {
@@ -25,7 +29,13 @@ describe('DossierAddressesComponent', () => {
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierAddressesComponent],
+        declarations: [
+          DossierAddressesComponent,
+          StudentProfileEntryHeaderComponent,
+          StudentProfileAddressComponent,
+          StudentProfileLegalRepresentativeComponent,
+          StudentProfileApprenticeshipCompanyComponent,
+        ],
         providers: [
           { provide: DossierStateService, useValue: stateServiceMock },
         ],

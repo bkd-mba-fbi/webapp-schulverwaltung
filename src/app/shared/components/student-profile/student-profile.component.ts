@@ -18,8 +18,6 @@ export class StudentProfileComponent {
     map((isOverview) => (isOverview ? this.backlink : ['.']))
   );
 
-  // TODO check if confirm absences still work
-
   queryParams$ = this.state.isOverview$.pipe(
     switchMap((isOverview) =>
       isOverview
