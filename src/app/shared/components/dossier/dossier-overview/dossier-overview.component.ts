@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { DossierStateService } from '../../services/dossier-state.service';
+import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
 import {
   StudentProfileBacklink,
   STUDENT_PROFILE_BACKLINK,
-} from '../../tokens/student-profile-backlink';
+} from '../../../tokens/student-profile-backlink';
 
 @Component({
   selector: 'erz-dossier-overview',

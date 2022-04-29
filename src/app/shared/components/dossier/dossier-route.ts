@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
-import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-absences.component';
-import { DossierAbsencesComponent } from './components/dossier-absences/dossier-absences.component';
-import { DossierAddressesComponent } from './components/dossier-addresses/dossier-addresses.component';
-import { DossierOverviewComponent } from './components/dossier-overview/dossier-overview.component';
-import { StudentDossierComponent } from './components/student-dossier/student-dossier.component';
+import { ConfirmAbsencesComponent } from '../confirm-absences/confirm-absences.component';
+import { StudentDossierComponent } from './student-dossier/student-dossier.component';
+import { DossierAbsencesComponent } from './dossier-absences/dossier-absences.component';
+import { DossierAddressesComponent } from './dossier-addresses/dossier-addresses.component';
+import { DossierOverviewComponent } from './dossier-overview/dossier-overview.component';
 
 export const dossierRoute: Route = {
   path: 'student/:id',

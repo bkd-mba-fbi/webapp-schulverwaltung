@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
+import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
 import { buildStudent } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DossierStateService } from '../../services/dossier-state.service';
 import { StudentProfileAddressComponent } from '../student-profile-address/student-profile-address.component';
 import { StudentProfileApprenticeshipCompanyComponent } from '../student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
 import { StudentProfileEntryHeaderComponent } from '../student-profile-entry-header/student-profile-entry-header.component';

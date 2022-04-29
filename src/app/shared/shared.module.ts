@@ -15,13 +15,13 @@ import { RestRoleInterceptor } from '../rest-role-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { DateSelectComponent } from './components/date-select/date-select.component';
 import { SelectComponent } from './components/select/select.component';
-import { StudentBacklinkComponent } from './components/student-backlink/student-backlink.component';
-import { StudentDossierComponent } from './components/student-dossier/student-dossier.component';
-import { StudentProfileEntryHeaderComponent } from './components/student-profile-entry-header/student-profile-entry-header.component';
-import { StudentProfileAddressComponent } from './components/student-profile-address/student-profile-address.component';
-import { StudentProfileLegalRepresentativeComponent } from './components/student-profile-legal-representative/student-profile-legal-representative.component';
-import { StudentProfileApprenticeshipCompanyComponent } from './components/student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
-import { StudentProfileAbsencesComponent } from './components/student-profile-absences/student-profile-absences.component';
+import { StudentBacklinkComponent } from './components/dossier/student-backlink/student-backlink.component';
+import { StudentDossierComponent } from './components/dossier/student-dossier/student-dossier.component';
+import { StudentProfileEntryHeaderComponent } from './components/dossier/student-profile-entry-header/student-profile-entry-header.component';
+import { StudentProfileAddressComponent } from './components/dossier/student-profile-address/student-profile-address.component';
+import { StudentProfileLegalRepresentativeComponent } from './components/dossier/student-profile-legal-representative/student-profile-legal-representative.component';
+import { StudentProfileApprenticeshipCompanyComponent } from './components/dossier/student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
+import { StudentProfileAbsencesComponent } from './components/dossier/student-profile-absences/student-profile-absences.component';
 import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-absences.component';
 import { PersonEmailPipe } from './pipes/person-email.pipe';
 import { DaysDifferencePipe } from './pipes/days-difference.pipe';
@@ -34,9 +34,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TestsWeightPipe } from './pipes/test-weight.pipe';
 import { TestsGradingTypePipe } from './pipes/test-grading-type.pipe';
 import { PreserveLineHeightComponent } from './components/text/line/preserve-line-height.component';
-import { DossierAbsencesComponent } from './components/dossier-absences/dossier-absences.component';
-import { DossierAddressesComponent } from './components/dossier-addresses/dossier-addresses.component';
-import { DossierOverviewComponent } from './components/dossier-overview/dossier-overview.component';
+import { DossierAbsencesComponent } from './components/dossier/dossier-absences/dossier-absences.component';
+import { DossierOverviewComponent } from './components/dossier/dossier-overview/dossier-overview.component';
+import { DossierAddressesComponent } from './components/dossier/dossier-addresses/dossier-addresses.component';
 
 // Components that will be exported
 const components = [

@@ -5,10 +5,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
-import { DossierStateService } from '../../services/dossier-state.service';
-import { PresenceTypesService } from '../../services/presence-types.service';
-import { StudentProfileAbsencesService } from '../../services/student-profile-absences.service';
+import { ConfirmAbsencesSelectionService } from '../../../services/confirm-absences-selection.service';
+import { DossierStateService } from '../../../services/dossier-state.service';
+import { PresenceTypesService } from '../../../services/presence-types.service';
+import { StudentProfileAbsencesService } from '../../../services/student-profile-absences.service';
 
 @Component({
   selector: 'erz-dossier-absences',

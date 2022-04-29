@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StudentDossierComponent } from './student-dossier.component';
-import { STUDENT_PROFILE_BACKLINK } from '../../tokens/student-profile-backlink';
-import { DossierStateService } from '../../services/dossier-state.service';
+import { STUDENT_PROFILE_BACKLINK } from '../../../tokens/student-profile-backlink';
+import { DossierStateService } from '../../../services/dossier-state.service';
 
 describe('StudentDossierComponent', () => {
   let component: StudentDossierComponent;

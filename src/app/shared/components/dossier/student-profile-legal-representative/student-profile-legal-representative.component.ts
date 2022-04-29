@@ -4,7 +4,7 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Person } from '../../models/person.model';
+import { Person } from '../../../models/person.model';
 
 @Component({
   selector: 'erz-student-profile-legal-representative',

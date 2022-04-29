@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StudentProfileAddressComponent } from './student-profile-address.component';
 import { buildStudent, buildPerson } from 'src/spec-builders';
-import { Person } from '../../models/person.model';
+import { Person } from '../../../models/person.model';
 
 describe('StudentProfileAddressComponent', () => {
   let component: StudentProfileAddressComponent;

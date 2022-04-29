@@ -4,7 +4,7 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { ApprenticeshipCompany } from '../../services/student-profile.service';
+import { ApprenticeshipCompany } from '../../../services/student-profile.service';
 
 @Component({
   selector: 'erz-student-profile-apprenticeship-company',

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
+import { STUDENT_PROFILE_BACKLINK } from 'src/app/shared/tokens/student-profile-backlink';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DossierStateService } from '../../services/dossier-state.service';
-import { STUDENT_PROFILE_BACKLINK } from '../../tokens/student-profile-backlink';
 import { DossierOverviewComponent } from './dossier-overview.component';
 
 describe('DossierOverviewComponent', () => {

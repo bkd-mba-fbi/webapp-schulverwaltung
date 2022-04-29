@@ -27,11 +27,11 @@ import {
   shareReplay,
 } from 'rxjs/operators';
 
-import { LessonPresence } from '../../models/lesson-presence.model';
-import { notNull, not } from '../../utils/filter';
-import { isArray } from '../../utils/array';
-import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
-import { PresenceTypesService } from '../../services/presence-types.service';
+import { LessonPresence } from '../../../models/lesson-presence.model';
+import { notNull, not } from '../../../utils/filter';
+import { isArray } from '../../../utils/array';
+import { ConfirmAbsencesSelectionService } from '../../../services/confirm-absences-selection.service';
+import { PresenceTypesService } from '../../../services/presence-types.service';
 
 @Component({
   selector: 'erz-student-profile-absences',

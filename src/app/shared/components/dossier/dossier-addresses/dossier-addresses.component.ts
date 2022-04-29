@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DossierStateService } from '../../services/dossier-state.service';
+import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
 
 @Component({
   selector: 'erz-dossier-addresses',
