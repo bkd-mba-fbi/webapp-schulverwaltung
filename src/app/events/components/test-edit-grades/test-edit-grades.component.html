@@ -147,7 +147,7 @@
           >
             <erz-grade-select
               [options]="state.gradingOptionsForCourse$() | async"
-              [selectedGradeId]="studentGrade.finalGrade.finalGradeId"
+              [valueId]="studentGrade.finalGrade.finalGradeId"
               [gradeId]="studentGrade.finalGrade.id"
               [disabled]="!studentGrade.finalGrade.canGrade"
               (gradeIdSelected)="state.overwriteFinalGrade($event)"

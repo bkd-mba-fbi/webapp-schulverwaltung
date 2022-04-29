@@ -8,7 +8,7 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 })
 export class GradeSelectComponent {
   @Input() options: DropDownItem[];
-  @Input() selectedGradeId: Option<number>; // the selected grade - id from gradingscale
+  @Input() valueId: Option<number>; // the selected key from the options list
   @Input() gradeId: Option<number>; // the id of the grade itself
   @Input() disabled: boolean = false;
 
