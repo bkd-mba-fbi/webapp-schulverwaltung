@@ -135,8 +135,6 @@ export function toMaxPoints(grade: GradeOrNoResult | null): number {
 export function meanOf(finalGrades: FinalGrade[]): number {
   const averageGrades = finalGrades
     .map((finalGrade) => finalGrade.average)
-    .map((maybeNumber) => maybeNumber?.valueOf())
-
     .filter(
       (averageGrade) =>
         averageGrade !== null &&
@@ -144,7 +142,7 @@ export function meanOf(finalGrades: FinalGrade[]): number {
         averageGrade !== 0
     )
     .map(Number);
-  return average(averageGrades, 3);
+  return average(averageGrades);
 }
 
 export function averageOfGradesForScale(
@@ -161,5 +159,5 @@ export function averageOfGradesForScale(
     .map(Number)
     .filter((maybeNumber) => !isNaN(maybeNumber));
 
-  return average(values, 3);
+  return average(values);
 }

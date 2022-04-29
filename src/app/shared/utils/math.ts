@@ -1,5 +1,5 @@
-export function average(values: number[], fractionDigits: number) {
-  return Number((sum(values) / values.length).toFixed(fractionDigits));
+export function average(values: number[]) {
+  return Number(sum(values) / values.length);
 }
 
 function sum(numbers: number[]) {

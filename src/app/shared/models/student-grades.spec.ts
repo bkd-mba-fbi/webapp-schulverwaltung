@@ -244,7 +244,9 @@ describe('student-grade utils', () => {
     });
 
     it('should calculate mean of student grades of overwritten final grades using a given scale', () => {
-      expect(averageOfGradesForScale(finalGrades, scale)).toBe(4.333);
+      expect(averageOfGradesForScale(finalGrades, scale)).toBe(
+        4.333333333333333
+      );
     });
   });
 });

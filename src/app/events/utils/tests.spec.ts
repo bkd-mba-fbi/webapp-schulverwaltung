@@ -109,14 +109,14 @@ describe('Test utils', () => {
       expect(() => averagePoints(buildTest(1, 1, []))).toThrow(
         new Error('unable to calculate averages without results')
       );
-      expect(averagePoints(test)).toBe(11.26);
+      expect(averagePoints(test)).toBe(11.263636363636364);
     });
 
     it('should calculate grade averages', () => {
       expect(() => averageGrade(buildTest(1, 1, []))).toThrow(
         new Error('unable to calculate averages without results')
       );
-      expect(averageGrade(test)).toBe(3.827);
+      expect(averageGrade(test)).toBe(3.8272727272727276);
     });
   });
 });
