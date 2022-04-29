@@ -5,14 +5,16 @@ import { TestEditGradesComponent } from './test-edit-grades.component';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 import {
   expectElementPresent,
+  expectNotInTheDocument,
   expectText,
 } from '../../../../specs/expectations';
 import { byTestId } from '../../../../specs/utils';
+import { Course } from '../../../shared/models/course.model';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
-  const course = buildCourse(1234);
+  let course: Course;
 
   beforeEach(
     waitForAsync(() => {
@@ -29,9 +31,17 @@ describe('TestEditGradesComponent', () => {
     fixture = TestBed.createComponent(TestEditGradesComponent);
     component = fixture.componentInstance;
 
+    course = buildCourse(1234);
+    course.EvaluationStatusRef = {
+      HasEvaluationStarted: true,
+      EvaluationUntil: null,
+      HasReviewOfEvaluationStarted: false,
+      HasTestGrading: false,
+      Id: 6980,
+    };
+
     component.course = course;
-    component.tests = [buildTest(1, 12, [])];
-    fixture.detectChanges();
+    component.tests = [buildTest(1234, 12, [])];
   });
 
   it('should create', () => {
@@ -39,10 +49,18 @@ describe('TestEditGradesComponent', () => {
   });
 
   it('should display button to set average as final grade', () => {
+    fixture.detectChanges();
     expectElementPresent(fixture.debugElement, 'apply-average-button');
   });
 
+  it('should hide button to set average as final grade', () => {
+    course.EvaluationStatusRef.HasEvaluationStarted = false;
+    fixture.detectChanges();
+    expectNotInTheDocument(fixture.debugElement, 'apply-average-button');
+  });
+
   it('should display external link to rating overview', () => {
+    fixture.detectChanges();
     const link = fixture.debugElement.query(byTestId('link-to-rating-overview'))
       .nativeElement as HTMLLinkElement;
 
@@ -56,5 +74,17 @@ describe('TestEditGradesComponent', () => {
       'link-to-rating-overview',
       'tests.link-to-rating-overview'
     );
+  });
+
+  it('should hide external link to rating overview', () => {
+    course.EvaluationStatusRef.HasEvaluationStarted = false;
+
+    fixture.detectChanges();
+
+    const link = fixture.debugElement.query(
+      byTestId('link-to-rating-overview')
+    );
+
+    expect(link).toBeNull();
   });
 });
