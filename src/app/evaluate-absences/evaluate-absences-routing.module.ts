@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EvaluateAbsencesComponent } from './components/evaluate-absences/evaluate-absences.component';
 import { EvaluateAbsencesListComponent } from './components/evaluate-absences-list/evaluate-absences-list.component';
-import { StudentDossierComponent } from '../shared/components/dossier/student-dossier/student-dossier.component';
+import { StudentDossierComponent } from '../shared/components/student-dossier/student-dossier/student-dossier.component';
 import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
 
 const routes: Routes = [
