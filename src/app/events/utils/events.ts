@@ -20,3 +20,19 @@ export function getState(course: Course): Option<EventState> {
 
   return null;
 }
+
+export function canSetFinalGrade(course: Course): boolean {
+  const courseStatus = course.EvaluationStatusRef;
+  if (!courseStatus.EvaluationUntil) {
+    return courseStatus.HasEvaluationStarted === true;
+  }
+
+  if (!!courseStatus.EvaluationUntil) {
+    return (
+      courseStatus.HasEvaluationStarted === true &&
+      courseStatus.EvaluationUntil >= new Date()
+    );
+  }
+
+  return false;
+}
