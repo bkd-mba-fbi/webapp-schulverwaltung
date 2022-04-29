@@ -53,11 +53,11 @@ export class GradeComponent implements OnInit, OnDestroy {
 
   private pointsSubject$: Subject<string> = new Subject<string>();
   private gradeSubject$: Subject<number> = new Subject<number>();
-  private _gradingScaleDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+  private gradingScaleDisabledSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     true
   );
 
-  gradingScaleDisabled$ = this._gradingScaleDisabled$.asObservable();
+  gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
 
   points$: Observable<number> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
@@ -77,7 +77,7 @@ export class GradeComponent implements OnInit, OnDestroy {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
     }
-    this._gradingScaleDisabled$.next(this.disableGradingScale());
+    this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
 
     this.maxPoints = toMaxPoints(this.grade);
     this.points$
@@ -101,7 +101,7 @@ export class GradeComponent implements OnInit, OnDestroy {
 
   onPointsChange(points: string) {
     this.pointsSubject$.next(points);
-    this._gradingScaleDisabled$.next(points.length > 0);
+    this.gradingScaleDisabledSubject$.next(points.length > 0);
   }
 
   onGradeChange(gradeId: number) {
