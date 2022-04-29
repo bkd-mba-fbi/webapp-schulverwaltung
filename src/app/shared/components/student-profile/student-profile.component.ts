@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { map, share, shareReplay, switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { DossierStateService } from '../../services/dossier-state.service';
 import {
   StudentProfileBacklink,

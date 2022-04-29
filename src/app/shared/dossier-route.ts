@@ -18,7 +18,7 @@ export const dossierRoute: Route = {
       ],
     },
     {
-      path: 'confirm',
+      path: 'absences/confirm',
       component: ConfirmAbsencesComponent,
     },
   ],
