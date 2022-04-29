@@ -11,7 +11,14 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
-import { CourseState, getState } from '../utils/courses';
+import { getState } from '../utils/courses';
+
+export enum EventState {
+  Rating = 'rating',
+  RatingUntil = 'rating-until',
+  IntermediateRating = 'intermediate-rating',
+  Tests = 'add-tests',
+}
 
 type LinkType = 'evaluation' | 'eventdetail';
 export interface Event {
@@ -21,7 +28,7 @@ export interface Event {
   dateFrom?: Option<Date>;
   dateTo?: Option<Date>;
   studentCount: number;
-  state: Option<CourseState>;
+  state: Option<EventState>;
   evaluationText?: string;
   evaluationLink?: Option<string>;
 }
@@ -98,7 +105,7 @@ export class EventsStateService {
 
     return events.map((e) => ({
       ...e,
-      state: CourseState.Rating,
+      state: EventState.Rating,
       evaluationText: this.translate.instant('events.state.rating'),
       evaluationLink: this.buildLink(e.id, 'evaluation'),
     }));
@@ -136,22 +143,22 @@ export class EventsStateService {
   }
 
   private getEvaluationText(
-    state: Option<CourseState>,
+    state: Option<EventState>,
     date?: Maybe<Date>
   ): string {
     return state === null
       ? ''
       : this.translate.instant(`events.state.${state}`) +
-          (state === CourseState.RatingUntil
+          (state === EventState.RatingUntil
             ? ` ${date ? format(date, 'dd.MM.yyyy') : ''}`
             : '');
   }
 
   private getEvaluationLink(
     course: Course,
-    state: Option<CourseState>
+    state: Option<EventState>
   ): Option<string> {
-    return state === null || state === CourseState.Tests
+    return state === null || state === EventState.Tests
       ? null
       : this.buildLink(course.Id, 'evaluation');
   }

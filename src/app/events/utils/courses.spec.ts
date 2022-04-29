@@ -1,5 +1,6 @@
-import { CourseState, getState } from './courses';
+import { getState } from './courses';
 import { buildCourse } from '../../../spec-builders';
+import { EventState } from '../services/events-state.service';
 
 describe('Course utils', () => {
   describe('Get course state', () => {
@@ -51,7 +52,7 @@ describe('Course utils', () => {
       );
 
       // then
-      expect(getState(course)).toEqual(CourseState.Tests);
+      expect(getState(course)).toEqual(EventState.Tests);
     });
 
     it('should get state rating-until', () => {
@@ -72,7 +73,7 @@ describe('Course utils', () => {
       );
 
       // then
-      expect(getState(course)).toEqual(CourseState.RatingUntil);
+      expect(getState(course)).toEqual(EventState.RatingUntil);
     });
 
     it('should get state intermediate-rating', () => {
@@ -93,7 +94,7 @@ describe('Course utils', () => {
       );
 
       // then
-      expect(getState(course)).toEqual(CourseState.IntermediateRating);
+      expect(getState(course)).toEqual(EventState.IntermediateRating);
     });
   });
 });
