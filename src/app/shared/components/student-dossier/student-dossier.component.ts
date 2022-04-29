@@ -7,13 +7,13 @@ import {
 } from '../../tokens/student-profile-backlink';
 
 @Component({
-  selector: 'erz-student-profile',
-  templateUrl: './student-profile.component.html',
-  styleUrls: ['./student-profile.component.scss'],
+  selector: 'erz-student-dossier',
+  templateUrl: './student-dossier.component.html',
+  styleUrls: ['./student-dossier.component.scss'],
   providers: [DossierStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileComponent {
+export class StudentDossierComponent {
   link$ = this.state.isOverview$.pipe(
     map((isOverview) => (isOverview ? this.backlink : ['.']))
   );

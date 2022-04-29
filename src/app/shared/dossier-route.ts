@@ -3,14 +3,14 @@ import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-
 import { DossierAbsencesComponent } from './components/dossier-absences/dossier-absences.component';
 import { DossierAddressesComponent } from './components/dossier-addresses/dossier-addresses.component';
 import { DossierOverviewComponent } from './components/dossier-overview/dossier-overview.component';
-import { StudentProfileComponent } from './components/student-profile/student-profile.component';
+import { StudentDossierComponent } from './components/student-dossier/student-dossier.component';
 
 export const dossierRoute: Route = {
   path: 'student/:id',
   children: [
     {
       path: '',
-      component: StudentProfileComponent,
+      component: StudentDossierComponent,
       children: [
         { path: '', component: DossierOverviewComponent },
         { path: 'addresses', component: DossierAddressesComponent },

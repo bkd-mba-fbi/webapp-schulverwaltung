@@ -15,7 +15,7 @@
         [student]="data.profile && data.profile.student"
       ></erz-student-backlink>
 
-      <div class="profile-content" *ngIf="data.profile; else noProfile">
+      <div *ngIf="data.profile; else noProfile">
         <router-outlet></router-outlet>
       </div>
 

@@ -16,7 +16,7 @@ import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { DateSelectComponent } from './components/date-select/date-select.component';
 import { SelectComponent } from './components/select/select.component';
 import { StudentBacklinkComponent } from './components/student-backlink/student-backlink.component';
-import { StudentProfileComponent } from './components/student-profile/student-profile.component';
+import { StudentDossierComponent } from './components/student-dossier/student-dossier.component';
 import { StudentProfileEntryHeaderComponent } from './components/student-profile-entry-header/student-profile-entry-header.component';
 import { StudentProfileAddressComponent } from './components/student-profile-address/student-profile-address.component';
 import { StudentProfileLegalRepresentativeComponent } from './components/student-profile-legal-representative/student-profile-legal-representative.component';
@@ -51,7 +51,7 @@ const components = [
   DossierAddressesComponent,
   DossierAbsencesComponent,
   StudentBacklinkComponent,
-  StudentProfileComponent,
+  StudentDossierComponent,
   StudentProfileEntryHeaderComponent,
   StudentProfileAddressComponent,
   StudentProfileLegalRepresentativeComponent,
