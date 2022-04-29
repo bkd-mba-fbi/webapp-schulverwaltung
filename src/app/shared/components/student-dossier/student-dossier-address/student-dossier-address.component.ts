@@ -1,19 +1,14 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Student } from '../../../models/student.model';
 import { Person } from '../../../models/person.model';
 
 @Component({
-  selector: 'erz-student-profile-address',
-  templateUrl: './student-profile-address.component.html',
-  styleUrls: ['./student-profile-address.component.scss'],
+  selector: 'erz-student-dossier-address',
+  templateUrl: './student-dossier-address.component.html',
+  styleUrls: ['./student-dossier-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileAddressComponent {
+export class StudentDossierAddressComponent {
   @Input() student: Student | Person;
   @Input() emailProperty: 'DisplayEmail' | 'Email2' = 'DisplayEmail';
 

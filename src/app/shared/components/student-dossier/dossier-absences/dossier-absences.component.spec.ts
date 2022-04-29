@@ -3,8 +3,8 @@ import { BehaviorSubject, of } from 'rxjs';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { DossierStateService } from '../../../services/dossier-state.service';
 import { StudentProfileAbsencesService } from '../../../services/student-profile-absences.service';
-import { StudentProfileAbsencesComponent } from '../student-profile-absences/student-profile-absences.component';
-import { StudentProfileEntryHeaderComponent } from '../student-profile-entry-header/student-profile-entry-header.component';
+import { StudentDossierAbsencesComponent } from '../student-dossier-absences/student-dossier-absences.component';
+import { StudentDossierEntryHeaderComponent } from '../student-dossier-entry-header/student-dossier-entry-header.component';
 import { DossierAbsencesComponent } from './dossier-absences.component';
 
 describe('DossierAbsencesComponent', () => {
@@ -19,8 +19,8 @@ describe('DossierAbsencesComponent', () => {
       buildTestModuleMetadata({
         declarations: [
           DossierAbsencesComponent,
-          StudentProfileEntryHeaderComponent,
-          StudentProfileAbsencesComponent,
+          StudentDossierEntryHeaderComponent,
+          StudentDossierAbsencesComponent,
         ],
         providers: [DossierStateService],
       })

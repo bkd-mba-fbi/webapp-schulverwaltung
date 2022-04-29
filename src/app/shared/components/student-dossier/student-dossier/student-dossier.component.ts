@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { map, switchMap } from 'rxjs';
 import { DossierStateService } from '../../../services/dossier-state.service';
 import {
-  StudentProfileBacklink,
-  STUDENT_PROFILE_BACKLINK,
-} from '../../../tokens/student-profile-backlink';
+  StudentDossierBacklink,
+  STUDENT_DOSSIER_BACKLINK,
+} from '../../../tokens/student-dossier-backlink';
 
 @Component({
   selector: 'erz-student-dossier',
@@ -31,8 +31,8 @@ export class StudentDossierComponent {
   );
 
   constructor(
-    @Inject(STUDENT_PROFILE_BACKLINK)
-    public backlink: StudentProfileBacklink,
+    @Inject(STUDENT_DOSSIER_BACKLINK)
+    public backlink: StudentDossierBacklink,
     public state: DossierStateService
   ) {}
 }

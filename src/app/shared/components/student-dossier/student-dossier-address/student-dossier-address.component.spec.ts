@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { StudentProfileAddressComponent } from './student-profile-address.component';
+import { StudentDossierAddressComponent } from './student-dossier-address.component';
 import { buildStudent, buildPerson } from 'src/spec-builders';
 import { Person } from '../../../models/person.model';
 
-describe('StudentProfileAddressComponent', () => {
-  let component: StudentProfileAddressComponent;
-  let fixture: ComponentFixture<StudentProfileAddressComponent>;
+describe('StudentDossierAddressComponent', () => {
+  let component: StudentDossierAddressComponent;
+  let fixture: ComponentFixture<StudentDossierAddressComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [StudentProfileAddressComponent],
+        declarations: [StudentDossierAddressComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudentProfileAddressComponent);
+    fixture = TestBed.createComponent(StudentDossierAddressComponent);
     component = fixture.componentInstance;
   });
 

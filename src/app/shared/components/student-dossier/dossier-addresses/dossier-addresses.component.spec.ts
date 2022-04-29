@@ -3,10 +3,10 @@ import { BehaviorSubject, of } from 'rxjs';
 import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
 import { buildStudent } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentProfileAddressComponent } from '../student-profile-address/student-profile-address.component';
-import { StudentProfileApprenticeshipCompanyComponent } from '../student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
-import { StudentProfileEntryHeaderComponent } from '../student-profile-entry-header/student-profile-entry-header.component';
-import { StudentProfileLegalRepresentativeComponent } from '../student-profile-legal-representative/student-profile-legal-representative.component';
+import { StudentDossierAddressComponent } from '../student-dossier-address/student-dossier-address.component';
+import { StudentDossierEntryHeaderComponent } from '../student-dossier-entry-header/student-dossier-entry-header.component';
+import { StudentDossierApprenticeshipCompanyComponent } from '../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component';
+import { StudentDossierLegalRepresentativeComponent } from '../student-dossier-legal-representative/student-dossier-legal-representative.component';
 import { DossierAddressesComponent } from './dossier-addresses.component';
 
 describe('DossierAddressesComponent', () => {
@@ -31,10 +31,10 @@ describe('DossierAddressesComponent', () => {
       buildTestModuleMetadata({
         declarations: [
           DossierAddressesComponent,
-          StudentProfileEntryHeaderComponent,
-          StudentProfileAddressComponent,
-          StudentProfileLegalRepresentativeComponent,
-          StudentProfileApprenticeshipCompanyComponent,
+          StudentDossierEntryHeaderComponent,
+          StudentDossierAddressComponent,
+          StudentDossierLegalRepresentativeComponent,
+          StudentDossierApprenticeshipCompanyComponent,
         ],
         providers: [
           { provide: DossierStateService, useValue: stateServiceMock },

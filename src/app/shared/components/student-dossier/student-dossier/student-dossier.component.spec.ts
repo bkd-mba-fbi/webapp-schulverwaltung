@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StudentDossierComponent } from './student-dossier.component';
-import { STUDENT_PROFILE_BACKLINK } from '../../../tokens/student-profile-backlink';
+import { STUDENT_DOSSIER_BACKLINK } from '../../../tokens/student-dossier-backlink';
 import { DossierStateService } from '../../../services/dossier-state.service';
 
 describe('StudentDossierComponent', () => {
@@ -15,7 +15,7 @@ describe('StudentDossierComponent', () => {
         buildTestModuleMetadata({
           declarations: [StudentDossierComponent],
           providers: [
-            { provide: STUDENT_PROFILE_BACKLINK, useValue: '/' },
+            { provide: STUDENT_DOSSIER_BACKLINK, useValue: '/' },
             DossierStateService,
           ],
         })

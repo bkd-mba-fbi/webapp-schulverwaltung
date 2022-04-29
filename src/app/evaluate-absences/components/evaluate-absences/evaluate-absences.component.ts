@@ -1,8 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
 import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
-import { STUDENT_PROFILE_BACKLINK } from 'src/app/shared/tokens/student-profile-backlink';
+import { STUDENT_DOSSIER_BACKLINK } from 'src/app/shared/tokens/student-dossier-backlink';
 
 @Component({
   selector: 'erz-evaluate-absences',
@@ -15,7 +14,7 @@ import { STUDENT_PROFILE_BACKLINK } from 'src/app/shared/tokens/student-profile-
       provide: CONFIRM_ABSENCES_SERVICE,
       useExisting: EvaluateAbsencesStateService,
     },
-    { provide: STUDENT_PROFILE_BACKLINK, useValue: '/evaluate-absences' },
+    { provide: STUDENT_DOSSIER_BACKLINK, useValue: '/evaluate-absences' },
   ],
 })
 export class EvaluateAbsencesComponent {

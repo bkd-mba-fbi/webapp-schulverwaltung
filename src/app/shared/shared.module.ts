@@ -17,11 +17,11 @@ import { DateSelectComponent } from './components/date-select/date-select.compon
 import { SelectComponent } from './components/select/select.component';
 import { StudentBacklinkComponent } from './components/student-dossier/student-backlink/student-backlink.component';
 import { StudentDossierComponent } from './components/student-dossier/student-dossier/student-dossier.component';
-import { StudentProfileEntryHeaderComponent } from './components/student-dossier/student-profile-entry-header/student-profile-entry-header.component';
-import { StudentProfileAddressComponent } from './components/student-dossier/student-profile-address/student-profile-address.component';
-import { StudentProfileLegalRepresentativeComponent } from './components/student-dossier/student-profile-legal-representative/student-profile-legal-representative.component';
-import { StudentProfileApprenticeshipCompanyComponent } from './components/student-dossier/student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
-import { StudentProfileAbsencesComponent } from './components/student-dossier/student-profile-absences/student-profile-absences.component';
+import { StudentDossierEntryHeaderComponent } from './components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component';
+import { StudentDossierAddressComponent } from './components/student-dossier/student-dossier-address/student-dossier-address.component';
+import { StudentDossierLegalRepresentativeComponent } from './components/student-dossier/student-dossier-legal-representative/student-dossier-legal-representative.component';
+import { StudentDossierApprenticeshipCompanyComponent } from './components/student-dossier/student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component';
+import { StudentDossierAbsencesComponent } from './components/student-dossier/student-dossier-absences/student-dossier-absences.component';
 import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-absences.component';
 import { PersonEmailPipe } from './pipes/person-email.pipe';
 import { DaysDifferencePipe } from './pipes/days-difference.pipe';
@@ -52,11 +52,11 @@ const components = [
   DossierAbsencesComponent,
   StudentBacklinkComponent,
   StudentDossierComponent,
-  StudentProfileEntryHeaderComponent,
-  StudentProfileAddressComponent,
-  StudentProfileLegalRepresentativeComponent,
-  StudentProfileApprenticeshipCompanyComponent,
-  StudentProfileAbsencesComponent,
+  StudentDossierEntryHeaderComponent,
+  StudentDossierAddressComponent,
+  StudentDossierLegalRepresentativeComponent,
+  StudentDossierApprenticeshipCompanyComponent,
+  StudentDossierAbsencesComponent,
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,

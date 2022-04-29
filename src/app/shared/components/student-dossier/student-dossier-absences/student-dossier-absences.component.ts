@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   SimpleChanges,
   OnChanges,
@@ -34,12 +33,12 @@ import { ConfirmAbsencesSelectionService } from '../../../services/confirm-absen
 import { PresenceTypesService } from '../../../services/presence-types.service';
 
 @Component({
-  selector: 'erz-student-profile-absences',
-  templateUrl: './student-profile-absences.component.html',
-  styleUrls: ['./student-profile-absences.component.scss'],
+  selector: 'erz-student-dossier-absences',
+  templateUrl: './student-dossier-absences.component.html',
+  styleUrls: ['./student-dossier-absences.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileAbsencesComponent implements OnChanges {
+export class StudentDossierAbsencesComponent implements OnChanges {
   @Input() absences$?: Observable<ReadonlyArray<LessonPresence>>;
   @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
 

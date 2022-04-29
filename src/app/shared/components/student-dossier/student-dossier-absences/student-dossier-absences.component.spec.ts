@@ -1,24 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentProfileAbsencesComponent } from './student-profile-absences.component';
+import { StudentDossierAbsencesComponent } from './student-dossier-absences.component';
 
-describe('StudentProfileAbsencesComponent', () => {
-  let component: StudentProfileAbsencesComponent;
-  let fixture: ComponentFixture<StudentProfileAbsencesComponent>;
+describe('StudentDossierAbsencesComponent', () => {
+  let component: StudentDossierAbsencesComponent;
+  let fixture: ComponentFixture<StudentDossierAbsencesComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
-          declarations: [StudentProfileAbsencesComponent],
+          declarations: [StudentDossierAbsencesComponent],
         })
       ).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudentProfileAbsencesComponent);
+    fixture = TestBed.createComponent(StudentDossierAbsencesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

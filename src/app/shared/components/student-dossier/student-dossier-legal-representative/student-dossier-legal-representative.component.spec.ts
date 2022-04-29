@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentProfileLegalRepresentativeComponent } from './student-profile-legal-representative.component';
+import { StudentDossierLegalRepresentativeComponent } from './student-dossier-legal-representative.component';
 import { buildPerson } from 'src/spec-builders';
 
-describe('StudentProfileLegalRepresentativeComponent', () => {
-  let component: StudentProfileLegalRepresentativeComponent;
-  let fixture: ComponentFixture<StudentProfileLegalRepresentativeComponent>;
+describe('StudentDossierLegalRepresentativeComponent', () => {
+  let component: StudentDossierLegalRepresentativeComponent;
+  let fixture: ComponentFixture<StudentDossierLegalRepresentativeComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
-          declarations: [StudentProfileLegalRepresentativeComponent],
+          declarations: [StudentDossierLegalRepresentativeComponent],
         })
       ).compileComponents();
     })
@@ -20,7 +20,7 @@ describe('StudentProfileLegalRepresentativeComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      StudentProfileLegalRepresentativeComponent
+      StudentDossierLegalRepresentativeComponent
     );
     component = fixture.componentInstance;
     component.person = buildPerson(123);

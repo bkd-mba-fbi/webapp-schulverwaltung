@@ -6,18 +6,18 @@
   <ngb-accordion ngb-accordion #acc="ngbAccordion">
     <ngb-panel id="student-address">
       <ng-template ngbPanelHeader let-opened="opened">
-        <erz-student-profile-entry-header
+        <erz-student-dossier-entry-header
           [opened]="opened"
           (click)="acc.toggle('student-address')"
         >
           {{ 'shared.profile.student-address' | translate }}
-        </erz-student-profile-entry-header>
+        </erz-student-dossier-entry-header>
       </ng-template>
       <ng-template ngbPanelContent>
-        <erz-student-profile-address
+        <erz-student-dossier-address
           class="profile-entry"
           [student]="data.profile.student"
-        ></erz-student-profile-address>
+        ></erz-student-dossier-address>
       </ng-template>
     </ngb-panel>
 
@@ -26,19 +26,19 @@
       id="legal-representatives"
     >
       <ng-template ngbPanelHeader let-opened="opened">
-        <erz-student-profile-entry-header
+        <erz-student-dossier-entry-header
           [opened]="opened"
           (click)="acc.toggle('legal-representatives')"
         >
           {{ 'shared.profile.legal-representation' | translate }}
-        </erz-student-profile-entry-header>
+        </erz-student-dossier-entry-header>
       </ng-template>
       <ng-template ngbPanelContent>
-        <erz-student-profile-legal-representative
+        <erz-student-dossier-legal-representative
           *ngFor="let person of data.profile.legalRepresentativePersons"
           class="profile-entry"
           [person]="person"
-        ></erz-student-profile-legal-representative>
+        ></erz-student-dossier-legal-representative>
       </ng-template>
     </ngb-panel>
 
@@ -50,7 +50,7 @@
       [id]="'apprenticeship-company-' + i"
     >
       <ng-template ngbPanelHeader let-opened="opened">
-        <erz-student-profile-entry-header
+        <erz-student-dossier-entry-header
           [opened]="opened"
           (click)="acc.toggle('apprenticeship-company-' + i)"
         >
@@ -59,13 +59,13 @@
             *ngIf="data.profile.apprenticeshipCompanies.length > 1"
             >{{ i + 1 }}</ng-container
           >
-        </erz-student-profile-entry-header>
+        </erz-student-dossier-entry-header>
       </ng-template>
       <ng-template ngbPanelContent>
-        <erz-student-profile-apprenticeship-company
+        <erz-student-dossier-apprenticeship-company
           class="profile-entry"
           [company]="company"
-        ></erz-student-profile-apprenticeship-company>
+        ></erz-student-dossier-apprenticeship-company>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>

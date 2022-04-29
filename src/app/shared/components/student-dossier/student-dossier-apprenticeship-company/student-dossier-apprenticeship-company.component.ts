@@ -7,12 +7,12 @@ import {
 import { ApprenticeshipCompany } from '../../../services/student-profile.service';
 
 @Component({
-  selector: 'erz-student-profile-apprenticeship-company',
-  templateUrl: './student-profile-apprenticeship-company.component.html',
-  styleUrls: ['./student-profile-apprenticeship-company.component.scss'],
+  selector: 'erz-student-dossier-apprenticeship-company',
+  templateUrl: './student-dossier-apprenticeship-company.component.html',
+  styleUrls: ['./student-dossier-apprenticeship-company.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentProfileApprenticeshipCompanyComponent {
+export class StudentDossierApprenticeshipCompanyComponent {
   @Input() company: ApprenticeshipCompany;
 
   constructor() {}
