@@ -72,7 +72,7 @@ describe('TestEditGradesComponent', () => {
     expectText(
       fixture.debugElement,
       'link-to-rating-overview',
-      'tests.link-to-rating-overview'
+      'arrow_right_alt tests.link-to-rating-overview'
     );
   });
 

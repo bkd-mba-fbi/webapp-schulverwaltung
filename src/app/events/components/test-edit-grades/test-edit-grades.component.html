@@ -222,10 +222,12 @@
       </tbody>
     </table>
     <a
+      class="d-flex justify-content-end pr-3"
       *ngIf="canSetFinalGrade()"
       data-testId="link-to-rating-overview"
       href="{{ buildLinkToRatingOverview() }}"
     >
+      <i class="material-icons font-weight-bold">arrow_right_alt</i>
       {{ 'tests.link-to-rating-overview' | translate }}
     </a>
   </div>
