@@ -39,7 +39,7 @@ describe('AverageGradesComponent', () => {
   });
 
   it('should show averages', () => {
-    expectText(fixture.debugElement, 'average-points', '9.5');
+    expectText(fixture.debugElement, 'average-points', '9.50');
     expectText(fixture.debugElement, 'average-grade', '5.875');
   });
 

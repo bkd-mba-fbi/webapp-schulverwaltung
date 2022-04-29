@@ -1,6 +1,7 @@
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
+import { average } from '../utils/math';
 import { Grading } from './course.model';
 
 export type StudentGrade = {
@@ -135,4 +136,34 @@ function isGrade(g: GradeOrNoResult): g is Grade {
 
 export function toMaxPoints(grade: GradeOrNoResult | null): number {
   return grade?.test.MaxPointsAdjusted || grade?.test.MaxPoints!;
+}
+
+export function meanOf(finalGrades: FinalGrade[]): number {
+  const averageGrades = finalGrades
+    .map((finalGrade) => finalGrade.average)
+    .filter(
+      (averageGrade) =>
+        averageGrade !== null &&
+        averageGrade !== undefined &&
+        averageGrade !== 0
+    )
+    .map(Number);
+  return average(averageGrades);
+}
+
+export function averageOfGradesForScale(
+  finalGrades: FinalGrade[],
+  scale: { Key: number; Value: string }[]
+): number {
+  const values = finalGrades
+    .map((finalGrade) => finalGrade.finalGradeId)
+    .filter((finalGradeId) => finalGradeId !== null)
+    .map((finalGradeId) => scale.find((option) => option.Key === finalGradeId))
+    .filter((option) => option !== undefined)
+    .map((option) => option?.Value)
+    .filter((value) => value !== undefined)
+    .map(Number)
+    .filter((maybeNumber) => !isNaN(maybeNumber));
+
+  return average(values);
 }

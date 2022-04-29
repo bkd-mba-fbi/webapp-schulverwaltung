@@ -20,16 +20,20 @@ export class AverageGradesComponent {
   constructor() {}
 
   calculatePointsAverage(test: Test) {
-    return this.safeAverage(test, averagePoints);
+    return this.safeAverage(test, 2, averagePoints);
   }
 
   calculateGradeAverage(test: Test) {
-    return this.safeAverage(test, averageGrade);
+    return this.safeAverage(test, 3, averageGrade);
   }
 
-  private safeAverage(test: Test, calculator: (test: Test) => number): string {
+  private safeAverage(
+    test: Test,
+    fractionDigits: number,
+    strategy: (test: Test) => number
+  ): string {
     try {
-      return calculator(test).toString();
+      return strategy(test).toFixed(fractionDigits).toString();
     } catch {
       return '-';
     }

@@ -190,8 +190,12 @@
               </div>
             </div>
           </td>
-          <td class="desktop sticky sticky sticky-col-2">4.75</td>
-          <td class="desktop border-right sticky sticky-col-3">4.805</td>
+          <td class="desktop sticky sticky sticky-col-2">
+            {{ state.meanOfFinalGradesForCourse$ | async | number: '1.0-3' }}
+          </td>
+          <td class="desktop border-right sticky sticky-col-3">
+            {{ state.meanOfStudentGradesForCourse$ | async | number: '1.0-3' }}
+          </td>
           <td
             *ngFor="let test of data.tests"
             class="grade"
