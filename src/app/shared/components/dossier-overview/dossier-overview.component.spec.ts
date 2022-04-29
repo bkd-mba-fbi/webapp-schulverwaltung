@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { DossierStateService } from '../../services/dossier-state.service';
-
+import { STUDENT_PROFILE_BACKLINK } from '../../tokens/student-profile-backlink';
 import { DossierOverviewComponent } from './dossier-overview.component';
 
 describe('DossierOverviewComponent', () => {
@@ -12,7 +12,10 @@ describe('DossierOverviewComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [DossierOverviewComponent],
-        providers: [DossierStateService],
+        providers: [
+          { provide: STUDENT_PROFILE_BACKLINK, useValue: '/' },
+          DossierStateService,
+        ],
       })
     ).compileComponents();
   });
