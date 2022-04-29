@@ -228,7 +228,9 @@ describe('GradeComponent', () => {
       component.grade = grade;
       fixture.detectChanges();
 
-      expect(component.isGradingScaleEnabled).toBe(false);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(true)
+      );
     });
 
     it('should enable gradingScale when result does not have points', () => {
@@ -240,7 +242,9 @@ describe('GradeComponent', () => {
       // when
       fixture.detectChanges();
 
-      expect(component.isGradingScaleEnabled).toBe(true);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(false)
+      );
     });
 
     it('should enable gradingScale when input is changed to empty', () => {
@@ -255,7 +259,9 @@ describe('GradeComponent', () => {
       component.onPointsChange('');
 
       // then
-      expect(component.isGradingScaleEnabled).toBe(true);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(false)
+      );
     });
 
     it('should enable gradingScale when test is not point grading', () => {
@@ -269,7 +275,9 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       // then
-      expect(component.isGradingScaleEnabled).toBe(true);
+      component.gradingScaleDisabled$.subscribe((result) =>
+        expect(result).toBe(false)
+      );
     });
   });
 });
@@ -284,15 +292,4 @@ function expectValidationErrorMessage(debugElement: DebugElement) {
     .nativeElement;
 
   expect(error.textContent).toContain('global.validation-errors.invalidPoints');
-}
-
-function expectOptions(select: HTMLSelectElement) {
-  expect(select.options.length).toBe(6);
-  const options = select.options!;
-  expect(options[0]?.textContent?.trim()).toBe('1.0');
-  expect(options[1]?.textContent?.trim()).toBe('2.0');
-  expect(options[2]?.textContent?.trim()).toBe('3.0');
-  expect(options[3]?.textContent?.trim()).toBe('4.0');
-  expect(options[4]?.textContent?.trim()).toBe('5.0');
-  expect(options[5]?.textContent?.trim()).toBe('6.0');
 }

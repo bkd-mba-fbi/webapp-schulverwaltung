@@ -10,6 +10,7 @@ import {
 import { DropDownItem } from '../../models/drop-down-item.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { number } from 'fp-ts';
 
 @Component({
   selector: 'erz-select',
@@ -22,6 +23,7 @@ export class SelectComponent implements OnChanges {
   @Input() emptyLabel: string = '';
   @Input() value: Option<number> = null;
   @Input() disabled: boolean = false;
+  @Input() tabindex: number = 0;
   @Output() valueChange = new EventEmitter<Option<number>>();
 
   options$ = new BehaviorSubject<ReadonlyArray<DropDownItem>>([]);

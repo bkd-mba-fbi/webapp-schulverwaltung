@@ -1,4 +1,3 @@
-import { boolean } from 'fp-ts';
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
@@ -79,10 +78,16 @@ function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
 
   return {
     id: grading?.Id,
-    average: grading?.AverageGrade || grading?.AverageTestResult,
+    average: toAverage(grading),
     finalGradeId: grading?.GradeId,
     canGrade: grading?.CanGrade || false,
   };
+}
+
+function toAverage(grading: Grading | undefined) {
+  if (grading === undefined) return null;
+  if (grading.AverageTestResult === 0) return null;
+  return grading!.AverageTestResult;
 }
 
 export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (

@@ -13,8 +13,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { debounceTime, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
   GradeOrNoResult,
@@ -26,6 +26,9 @@ import {
 } from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
 import { TestEditGradesStateService } from '../../services/test-edit-grades-state.service';
+
+const DEBOUNCE_TIME = 500;
+
 @Component({
   selector: 'erz-grade',
   templateUrl: './grade.component.html',
@@ -47,14 +50,23 @@ export class GradeComponent implements OnInit, OnDestroy {
   ]);
 
   maxPoints: number = 0;
-  isGradingScaleEnabled: boolean = true;
 
   private pointsSubject$: Subject<string> = new Subject<string>();
+  private gradeSubject$: Subject<number> = new Subject<number>();
+  private gradingScaleDisabledSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
+
+  gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
 
   points$: Observable<number> = this.pointsSubject$.pipe(
-    debounceTime(500),
+    debounceTime(DEBOUNCE_TIME),
     filter(this.isValid.bind(this)),
     map(Number)
+  );
+
+  grade$: Observable<number> = this.gradeSubject$.pipe(
+    debounceTime(DEBOUNCE_TIME)
   );
 
   destroy$ = new Subject<void>();
@@ -64,12 +76,22 @@ export class GradeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
-      this.updateIsGradingScaleEnabled(this.grade.result.Points);
     }
+    this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
 
     this.maxPoints = toMaxPoints(this.grade);
     this.points$
-      .pipe(takeUntil(this.destroy$), map(this.buildRequestBody.bind(this)))
+      .pipe(
+        takeUntil(this.destroy$),
+        map(this.buildRequestBodyPointsChange.bind(this))
+      )
+      .subscribe((body) => this.gradeChanged.emit(body));
+
+    this.grade$
+      .pipe(
+        takeUntil(this.destroy$),
+        map(this.buildRuequestBodyForGradeChange.bind(this))
+      )
       .subscribe((body) => this.gradeChanged.emit(body));
   }
 
@@ -79,16 +101,11 @@ export class GradeComponent implements OnInit, OnDestroy {
 
   onPointsChange(points: string) {
     this.pointsSubject$.next(points);
-    this.updateIsGradingScaleEnabled(points);
+    this.gradingScaleDisabledSubject$.next(points.length > 0);
   }
 
   onGradeChange(gradeId: number) {
-    const body: TestGradesResult = {
-      StudentIds: [this.student.Id],
-      TestId: this.grade.test.Id,
-      GradeId: gradeId,
-    };
-    this.gradeChanged.emit(body);
+    this.gradeSubject$.next(gradeId);
   }
 
   private maxPointValidator(): ValidatorFn {
@@ -105,7 +122,7 @@ export class GradeComponent implements OnInit, OnDestroy {
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }
 
-  private buildRequestBody(points: number): TestPointsResult {
+  private buildRequestBodyPointsChange(points: number): TestPointsResult {
     return {
       StudentIds: [this.student.Id],
       TestId: this.grade.test.Id,
@@ -113,7 +130,16 @@ export class GradeComponent implements OnInit, OnDestroy {
     };
   }
 
-  updateIsGradingScaleEnabled(points: number | string | null) {
-    this.isGradingScaleEnabled = !points;
+  private buildRuequestBodyForGradeChange(gradeId: number): TestGradesResult {
+    return {
+      StudentIds: [this.student.Id],
+      TestId: this.grade.test.Id,
+      GradeId: gradeId,
+    };
+  }
+
+  private disableGradingScale() {
+    if (this.grade.kind === 'no-result') return false;
+    return this.grade.result.Points != null && this.grade.test.IsPointGrading;
   }
 }

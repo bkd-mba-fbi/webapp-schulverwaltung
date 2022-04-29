@@ -15,4 +15,12 @@ export class TestsHeaderComponent {
   loadReportUrl(): string {
     return this.reportsService.getEventReportUrl(this.course.Id);
   }
+
+  getDesignation() {
+    return this.course.Designation + this.getClassDesignation();
+  }
+
+  private getClassDesignation() {
+    return this.course.Classes ? `, ${this.course.Classes[0].Designation}` : '';
+  }
 }
