@@ -142,11 +142,10 @@ export class TestEditGradesStateService {
     )
   );
 
-  meanOfOverwrittenGradesForCourse$: Observable<
-    number | string
-  > = combineLatest([this.gradingScalesOptions$, this.studentGrades$]).pipe(
-    map(spread(this.meanOfOverwrittenGradesForCourse.bind(this)))
-  );
+  meanOfFinalGradesForCourse$: Observable<number | string> = combineLatest([
+    this.gradingScalesOptions$,
+    this.studentGrades$,
+  ]).pipe(map(spread(this.meanOfOverwrittenGradesForCourse.bind(this))));
 
   gradingOptionsForTest$(test: Test) {
     return this.gradingOptions$(test.GradingScaleId);
