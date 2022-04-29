@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  BehaviorSubject,
-  map,
-  pluck,
-  shareReplay,
-  Subject,
-  switchMap,
-} from 'rxjs';
+import { BehaviorSubject, map, pluck, shareReplay, switchMap } from 'rxjs';
 import { parseQueryString } from '../utils/url';
 import { StudentProfileService } from './student-profile.service';
 

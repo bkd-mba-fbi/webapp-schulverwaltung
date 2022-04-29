@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { map, switchMap } from 'rxjs';
+import { map, share, shareReplay, switchMap } from 'rxjs';
 import { DossierStateService } from '../../services/dossier-state.service';
 import {
   StudentProfileBacklink,
@@ -15,7 +15,7 @@ import {
 })
 export class StudentProfileComponent {
   link$ = this.state.isOverview$.pipe(
-    map((isOverview) => (isOverview ? this.backlink : ['..'])) // TODO how to move one up, add return params
+    map((isOverview) => (isOverview ? this.backlink : ['.']))
   );
 
   // TODO check if confirm absences still work
@@ -26,7 +26,7 @@ export class StudentProfileComponent {
         ? this.state.backlinkQueryParams$
         : this.state.returnParams$.pipe(
             map((returnparams) => {
-              returnparams;
+              return { returnparams };
             })
           )
     )
