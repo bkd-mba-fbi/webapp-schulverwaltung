@@ -6,8 +6,7 @@ import { StudyClass } from 'src/app/shared/models/study-class.model';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { buildCourse, buildStudyClass } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { Event, EventsStateService } from './events-state.service';
-import { CourseState } from '../utils/courses';
+import { Event, EventsStateService, EventState } from './events-state.service';
 
 describe('EventsStateService', () => {
   let service: EventsStateService;
@@ -72,7 +71,7 @@ describe('EventsStateService', () => {
         Designation: '22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=6',
         studentCount: 0,
-        state: CourseState.Rating,
+        state: EventState.Rating,
         evaluationText: 'events.state.rating',
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=6',
       },
@@ -131,7 +130,7 @@ describe('EventsStateService', () => {
         id: 2,
         Designation: 'Bio, 22a',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=2',
-        state: CourseState.RatingUntil,
+        state: EventState.RatingUntil,
         evaluationText: 'events.state.rating-until 03.06.2022',
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=2',
       },
@@ -140,7 +139,7 @@ describe('EventsStateService', () => {
         id: 4,
         Designation: 'Franz, 22a, 22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
-        state: CourseState.Tests,
+        state: EventState.Tests,
         evaluationText: 'events.state.add-tests',
       },
       courseEvent,
@@ -149,7 +148,7 @@ describe('EventsStateService', () => {
         id: 3,
         Designation: 'Zeichnen, 22b',
         detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
-        state: CourseState.IntermediateRating,
+        state: EventState.IntermediateRating,
         evaluationText: 'events.state.intermediate-rating',
         evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',
       },

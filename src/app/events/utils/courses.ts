@@ -1,26 +1,20 @@
 import { Course } from '../../shared/models/course.model';
+import { EventState } from '../services/events-state.service';
 
-export enum CourseState {
-  Rating = 'rating',
-  RatingUntil = 'rating-until',
-  IntermediateRating = 'intermediate-rating',
-  Tests = 'add-tests',
-}
-
-export function getState(course: Course): Option<CourseState> {
+export function getState(course: Course): Option<EventState> {
   const courseStatus = course.EvaluationStatusRef;
 
   if (courseStatus.HasTestGrading === true) {
-    return CourseState.Tests;
+    return EventState.Tests;
   }
 
   if (courseStatus.HasEvaluationStarted === true) {
     if (courseStatus.EvaluationUntil == null) {
-      return CourseState.IntermediateRating;
+      return EventState.IntermediateRating;
     }
 
     if (courseStatus.EvaluationUntil >= new Date()) {
-      return CourseState.RatingUntil;
+      return EventState.RatingUntil;
     }
   }
 
