@@ -43,12 +43,11 @@ describe('TestEditGradesComponent', () => {
   });
 
   it('should display external link to rating overview', () => {
-    const field = fixture.debugElement.query(
-      byTestId('link-to-rating-overview')
-    ).nativeElement as HTMLLinkElement;
+    const link = fixture.debugElement.query(byTestId('link-to-rating-overview'))
+      .nativeElement as HTMLLinkElement;
 
-    expect(field).not.toBeNull();
-    expect(field.href).toBe(
+    expect(link).not.toBeNull();
+    expect(link.href).toBe(
       `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`
     );
 
