@@ -210,6 +210,7 @@
         </tr>
         <td class="sticky border-0">
           <button
+            *ngIf="canSetFinalGrade()"
             data-testId="apply-average-button"
             class="btn btn-primary"
             type="button"
@@ -221,6 +222,7 @@
       </tbody>
     </table>
     <a
+      *ngIf="canSetFinalGrade()"
       data-testId="link-to-rating-overview"
       href="{{ buildLinkToRatingOverview() }}"
     >

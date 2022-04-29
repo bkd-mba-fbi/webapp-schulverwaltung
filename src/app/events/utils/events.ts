@@ -22,17 +22,12 @@ export function getState(course: Course): Option<EventState> {
 }
 
 export function canSetFinalGrade(course: Course): boolean {
-  const courseStatus = course.EvaluationStatusRef;
-  if (!courseStatus.EvaluationUntil) {
-    return courseStatus.HasEvaluationStarted === true;
-  }
+  const status = course.EvaluationStatusRef;
 
-  if (!!courseStatus.EvaluationUntil) {
-    return (
-      courseStatus.HasEvaluationStarted === true &&
-      courseStatus.EvaluationUntil >= new Date()
-    );
-  }
-
-  return false;
+  return (
+    status.HasEvaluationStarted === true &&
+    ((status?.EvaluationUntil && status?.EvaluationUntil >= new Date()) ||
+      status.EvaluationUntil === null ||
+      status.EvaluationUntil === undefined)
+  );
 }

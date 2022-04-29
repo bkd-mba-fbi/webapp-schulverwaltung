@@ -24,6 +24,7 @@ import { averageGrade, averagePoints } from '../../utils/tests';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 import { EventsStateService } from '../../services/events-state.service';
 import { Settings, SETTINGS } from '../../../settings';
+import { canSetFinalGrade } from '../../utils/events';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -56,6 +57,10 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     if (changes.tests) {
       this.state.setTests(this.tests);
     }
+  }
+
+  canSetFinalGrade() {
+    return canSetFinalGrade(this.course);
   }
 
   changeFilter(filter: Filter) {
