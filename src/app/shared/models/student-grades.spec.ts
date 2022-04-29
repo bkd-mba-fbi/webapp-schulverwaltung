@@ -1,4 +1,3 @@
-import { GradingScaleOptions } from 'src/app/events/services/test-edit-grades-state.service';
 import { Course } from 'src/app/shared/models/course.model';
 import {
   buildCourse,
@@ -7,12 +6,10 @@ import {
   buildStudent,
   buildTest,
 } from 'src/spec-builders';
-import { GradingScale } from './grading-scale.model';
 import {
   FinalGrade,
-  Grade,
   meanOf,
-  meanOfGradesFromScale,
+  averageOfGradesForScale,
   NoResult,
   StudentGrade,
   toMaxPoints,
@@ -21,7 +18,7 @@ import {
 
 describe('student-grade utils', () => {
   describe('student grades with results and final grades', () => {
-    let studentGrades: StudentGrade[];
+    let results: StudentGrade[];
     const course = buildCourse(123);
     beforeEach(() => {
       course.ParticipatingStudents = [100, 200].map((id) => buildStudent(id));
@@ -37,7 +34,7 @@ describe('student-grade utils', () => {
       ).map((studentId, index) => buildGrading(studentId, 5.75 - index));
 
       // when
-      studentGrades = transform(
+      results = transform(
         course.ParticipatingStudents,
         course.Tests,
         course.Gradings
@@ -47,30 +44,26 @@ describe('student-grade utils', () => {
       // given
 
       // then
-      expect(studentGrades).toBeDefined();
+      expect(results).toBeDefined();
 
-      expect(studentGrades[0].student).toEqual(
-        course.ParticipatingStudents![0]
-      );
-      expect(studentGrades[1].student).toEqual(
-        course.ParticipatingStudents![1]
-      );
-      expect(studentGrades[0].finalGrade.average).toBe(5.75);
-      expect(studentGrades[1].finalGrade.average).toBe(4.75);
-      expect(studentGrades[0].finalGrade.finalGradeId).toBe(3);
-      expect(studentGrades[1].finalGrade.finalGradeId).toBe(3);
-      expect(studentGrades[0].grades.length).toBe(3);
-      expect(studentGrades[1].grades.length).toBe(3);
+      expect(results[0].student).toEqual(course.ParticipatingStudents![0]);
+      expect(results[1].student).toEqual(course.ParticipatingStudents![1]);
+      expect(results[0].finalGrade.average).toBe(5.75);
+      expect(results[1].finalGrade.average).toBe(4.75);
+      expect(results[0].finalGrade.finalGradeId).toBe(3);
+      expect(results[1].finalGrade.finalGradeId).toBe(3);
+      expect(results[0].grades.length).toBe(3);
+      expect(results[1].grades.length).toBe(3);
 
       expect(
-        studentGrades[0].grades.some((grade) => grade.kind === 'no-result')
+        results[0].grades.some((grade) => grade.kind === 'no-result')
       ).toBeFalsy();
       expect(
-        studentGrades[1].grades.some((grade) => grade.kind === 'no-result')
+        results[1].grades.some((grade) => grade.kind === 'no-result')
       ).toBeFalsy();
 
       expect(
-        studentGrades[0].grades.map((grade) =>
+        results[0].grades.map((grade) =>
           grade.kind !== 'no-result'
             ? [grade.result.TestId, grade.result.StudentId]
             : ''
@@ -81,7 +74,7 @@ describe('student-grade utils', () => {
         [3, 100],
       ]);
       expect(
-        studentGrades[1].grades.map((grade) =>
+        results[1].grades.map((grade) =>
           grade.kind !== 'no-result'
             ? [grade.result.TestId, grade.result.StudentId]
             : ''
@@ -251,7 +244,7 @@ describe('student-grade utils', () => {
     });
 
     it('should calculate mean of student grades of overwritten final grades using a given scale', () => {
-      expect(meanOfGradesFromScale(scale, finalGrades)).toBe(4.333);
+      expect(averageOfGradesForScale(finalGrades, scale)).toBe(4.333);
     });
   });
 });

@@ -19,23 +19,20 @@ import {
 } from 'src/app/shared/models/course.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
+  averageOfGradesForScale,
   compareFn,
   meanOf,
-  meanOfGradesFromScale,
   SortKeys,
   StudentGrade,
   transform,
 } from 'src/app/shared/models/student-grades';
 import { Result, Test } from 'src/app/shared/models/test.model';
+import { GradingsRestService } from 'src/app/shared/services/gradings-rest.service';
 import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
-import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { sum } from 'lodash-es';
-import { average } from 'src/app/shared/utils/math';
-import { GradingsRestService } from 'src/app/shared/services/gradings-rest.service';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -95,26 +92,6 @@ export class TestEditGradesStateService {
     map(spread(this.toStudentGrades.bind(this)))
   );
 
-  meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
-    map((studentGrades) =>
-      meanOf(studentGrades.map((studentGrade) => studentGrade.finalGrade))
-    )
-  );
-
-  private meanOfOverwrittenGradesForCourse(
-    gradingScaleOptions: GradingScaleOptions,
-    studentGrades: StudentGrade[]
-  ) {
-    if (gradingScaleOptions[this.course.GradingScaleId] === undefined)
-      return -1;
-    const scale = gradingScaleOptions[this.course.GradingScaleId]!;
-    const finalGrades = studentGrades.map(
-      (studentGrade) => studentGrade.finalGrade
-    );
-
-    return meanOfGradesFromScale(scale, finalGrades);
-  }
-
   private gradingScaleIds$ = this.tests$.pipe(
     take(1),
     map((tests: Test[]) =>
@@ -159,10 +136,17 @@ export class TestEditGradesStateService {
     shareReplay(1)
   );
 
-  meanOfOverwrittenGradesForCourse$: Observable<number> = combineLatest([
-    this.gradingScalesOptions$,
-    this.studentGrades$,
-  ]).pipe(map(spread(this.meanOfOverwrittenGradesForCourse.bind(this))));
+  meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
+    map((studentGrades) =>
+      meanOf(studentGrades.map((studentGrade) => studentGrade.finalGrade))
+    )
+  );
+
+  meanOfOverwrittenGradesForCourse$: Observable<
+    number | string
+  > = combineLatest([this.gradingScalesOptions$, this.studentGrades$]).pipe(
+    map(spread(this.meanOfOverwrittenGradesForCourse.bind(this)))
+  );
 
   gradingOptionsForTest$(test: Test) {
     return this.gradingOptions$(test.GradingScaleId);
@@ -171,13 +155,6 @@ export class TestEditGradesStateService {
   gradingOptionsForCourse$() {
     return this.gradingOptions$(this.course.GradingScaleId);
   }
-
-  constructor(
-    private sortService: SortService<SortKeys>,
-    private courseRestService: CoursesRestService,
-    private gradingScalesRestService: GradingScalesRestService,
-    private gradingsRestService: GradingsRestService
-  ) {}
 
   setTests(tests: Test[]): void {
     this.action$.next({ type: 'reset', payload: tests });
@@ -257,4 +234,25 @@ export class TestEditGradesStateService {
       shareReplay(1)
     );
   }
+
+  private meanOfOverwrittenGradesForCourse(
+    gradingScaleOptions: GradingScaleOptions,
+    studentGrades: StudentGrade[]
+  ) {
+    if (gradingScaleOptions[this.course.GradingScaleId] === undefined)
+      return '';
+    const scale = gradingScaleOptions[this.course.GradingScaleId]!;
+    const finalGrades = studentGrades.map(
+      (studentGrade) => studentGrade.finalGrade
+    );
+
+    return averageOfGradesForScale(finalGrades, scale);
+  }
+
+  constructor(
+    private sortService: SortService<SortKeys>,
+    private courseRestService: CoursesRestService,
+    private gradingScalesRestService: GradingScalesRestService,
+    private gradingsRestService: GradingsRestService
+  ) {}
 }

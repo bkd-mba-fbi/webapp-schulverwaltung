@@ -1,4 +1,3 @@
-import { number } from 'fp-ts';
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
@@ -148,9 +147,9 @@ export function meanOf(finalGrades: FinalGrade[]): number {
   return average(averageGrades, 3);
 }
 
-export function meanOfGradesFromScale(
-  scale: { Key: number; Value: string }[],
-  finalGrades: FinalGrade[]
+export function averageOfGradesForScale(
+  finalGrades: FinalGrade[],
+  scale: { Key: number; Value: string }[]
 ): number {
   const values = finalGrades
     .map((finalGrade) => finalGrade.finalGradeId)
