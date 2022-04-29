@@ -7,6 +7,8 @@ import {
   buildTest,
 } from 'src/spec-builders';
 import {
+  FinalGrade,
+  Grade,
   meanOf,
   NoResult,
   StudentGrade,
@@ -86,10 +88,6 @@ describe('student-grade utils', () => {
         [2, 200],
         [3, 200],
       ]);
-    });
-
-    it('should calculate mean of student grades final grade averages', () => {
-      expect(meanOf(studentGrades)).toBe(5.25);
     });
   });
 
@@ -221,6 +219,19 @@ describe('student-grade utils', () => {
       studentGrade.test.MaxPoints = 20;
 
       expect(toMaxPoints(studentGrade)).toEqual(19);
+    });
+  });
+  describe('calculate averages for finalGrades', () => {
+    let finalGrades: FinalGrade[] = [
+      { id: 1, canGrade: true, average: 5, finalGradeId: 1005 },
+      { id: 2, canGrade: true, average: 3, finalGradeId: 1003 },
+      { id: 3, canGrade: true, average: 0, finalGradeId: null },
+      { id: 4, canGrade: true, average: 4.5, finalGradeId: 1005 },
+      { id: 5, canGrade: true, average: null, finalGradeId: null },
+      { id: 6, canGrade: true, average: 6, finalGradeId: null },
+    ];
+    it('should calculate mean of student grades final grade averages', () => {
+      expect(meanOf(finalGrades)).toBe(4.625);
     });
   });
 });

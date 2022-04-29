@@ -96,7 +96,9 @@ export class TestEditGradesStateService {
   );
 
   meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
-    map((studentGrades) => meanOf(studentGrades))
+    map((studentGrades) =>
+      meanOf(studentGrades.map((studentGrade) => studentGrade.finalGrade))
+    )
   );
 
   private meanOfOverwrittenGradesForCourse(
