@@ -1,4 +1,4 @@
-import { getState } from './courses';
+import { getState } from './events';
 import { buildCourse } from '../../../spec-builders';
 import { EventState } from '../services/events-state.service';
 

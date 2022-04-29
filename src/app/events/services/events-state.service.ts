@@ -11,7 +11,7 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
-import { getState } from '../utils/courses';
+import { getState } from '../utils/events';
 
 export enum EventState {
   Rating = 'rating',
