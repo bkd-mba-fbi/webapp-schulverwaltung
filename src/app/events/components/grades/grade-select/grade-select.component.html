@@ -1,7 +1,8 @@
 <erz-select
   [options]="options"
   [allowEmpty]="true"
-  [value]="gradeId"
+  [value]="valueId"
+  [disabled]="disabled"
   (valueChange)="onGradeChange($event)"
   data-testid="grade-select"
 >

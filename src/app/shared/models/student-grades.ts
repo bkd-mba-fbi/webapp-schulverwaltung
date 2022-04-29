@@ -1,3 +1,4 @@
+import { boolean } from 'fp-ts';
 import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
@@ -9,9 +10,11 @@ export type StudentGrade = {
   grades: GradeOrNoResult[];
 };
 
-type FinalGrade = {
+export type FinalGrade = {
+  id: Maybe<number>;
   average: Maybe<number>;
   finalGradeId: Maybe<number>;
+  canGrade: boolean;
 };
 
 export type Grade = {
@@ -75,8 +78,10 @@ function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
   );
 
   return {
+    id: grading?.Id,
     average: grading?.AverageGrade || grading?.AverageTestResult,
     finalGradeId: grading?.GradeId,
+    canGrade: grading?.CanGrade || false,
   };
 }
 

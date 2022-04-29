@@ -8,13 +8,19 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 })
 export class GradeSelectComponent {
   @Input() options: DropDownItem[];
-  @Input() gradeId: Option<number>;
+  @Input() valueId: Option<number>; // the selected key from the options list
+  @Input() gradeId: Option<number>; // the id of the grade itself
+  @Input() disabled: boolean = false;
 
-  @Output() selectedGradeId = new EventEmitter<number>();
+  @Output() gradeIdSelected = new EventEmitter<{
+    id: number;
+    selectedGradeId: number;
+  }>();
 
   constructor() {}
 
-  onGradeChange(gradeId: number): void {
-    this.selectedGradeId.emit(gradeId);
+  onGradeChange(selectedGradeId: number): void {
+    if (this.gradeId?.valueOf() === undefined) return;
+    this.gradeIdSelected.emit({ id: this.gradeId?.valueOf(), selectedGradeId });
   }
 }
