@@ -7,6 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
 import {
   Course,
   TestGradesResult,
@@ -17,17 +18,15 @@ import {
   StudentGrade,
 } from 'src/app/shared/models/student-grades';
 import { Student } from 'src/app/shared/models/student.model';
-import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
+import { Settings, SETTINGS } from '../../../settings';
 import { Test } from '../../../shared/models/test.model';
+import { EventsStateService } from '../../services/events-state.service';
 import {
   Filter,
   TestEditGradesStateService,
 } from '../../services/test-edit-grades-state.service';
-import { averageGrade, averagePoints } from '../../utils/tests';
-import { CoursesRestService } from '../../../shared/services/courses-rest.service';
-import { EventsStateService } from '../../services/events-state.service';
-import { Settings, SETTINGS } from '../../../settings';
 import { canSetFinalGrade, getState } from '../../utils/events';
+import { averageGrade, averagePoints } from '../../utils/tests';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -43,8 +42,7 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   constructor(
     @Inject(SETTINGS) public settings: Settings,
     public state: TestEditGradesStateService,
-    private modalService: NgbModal,
-    private coursesRestService: CoursesRestService
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +72,7 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   }
 
   setAverageAsFinalGrade() {
-    this.coursesRestService
-      .setAverageAsFinalGrade({ CourseIds: [this.course.Id] })
-      .subscribe(console.log);
+    this.state.setAveragesAsFinalGrades({ CourseIds: [this.course.Id] });
   }
 
   isEditFinalGradesAllowed(studentGrade: StudentGrade) {

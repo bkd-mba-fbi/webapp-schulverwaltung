@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { buildCourse, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
-import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 import {
   expectElementPresent,
   expectNotInTheDocument,
@@ -20,7 +19,6 @@ describe('TestEditGradesComponent', () => {
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
           declarations: [TestEditGradesComponent],
-          providers: [CoursesRestService],
         })
       ).compileComponents();
     })

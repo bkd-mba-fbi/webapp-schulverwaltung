@@ -262,6 +262,12 @@ export class TestEditGradesStateService {
     });
   }
 
+  setAveragesAsFinalGrades(courseIds: { CourseIds: number[] }) {
+    this.courseRestService
+      .setAverageAsFinalGrade(courseIds)
+      .subscribe(console.log);
+  }
+
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
     this.action$.next({
       type: 'updateResult',
