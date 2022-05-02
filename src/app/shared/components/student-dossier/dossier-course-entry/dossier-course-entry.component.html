@@ -1,1 +1,18 @@
-<p>{{ course.Designation }}</p>
+<div class="row mx-1">
+  <div class="col-6">{{ 'dossier.grade' | translate }}</div>
+  <div class="col-6">-</div>
+  <div class="col-6">{{ 'dossier.average' | translate }}</div>
+  <div class="col-6">-</div>
+</div>
+<div *ngIf="course.Tests; else noTests">
+  <div *ngFor="let test of course.Tests" class="test-entry">
+    {{ test.Designation }}
+    <div class="row">
+      <div class="col-6">{{ test.Date | date: 'mediumDate' }}</div>
+      <div class="col-6">-</div>
+    </div>
+  </div>
+</div>
+<ng-template #noTests>
+  <p class="p-3">{{ 'dossier.no-grades' | translate }}</p>
+</ng-template>

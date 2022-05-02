@@ -1,6 +1,9 @@
 @import "../../../../../bootstrap-variables";
 
 :host {
-  display: block;
-  padding: 0 $spacer;
+  padding: $spacer;
+}
+
+.test-entry {
+  padding: $spacer;
 }
