@@ -33,7 +33,7 @@ import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
-import { changeGrading, updateGradings } from '../utils/gradings';
+import { changeGrading, replaceGrading } from '../utils/gradings';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
@@ -69,7 +69,7 @@ export class TestEditGradesStateService {
           return {
             ...course,
             Tests: replaceResult(action.payload.testResult, course.Tests || []),
-            Gradings: updateGradings(
+            Gradings: replaceGrading(
               action.payload.grading,
               course.Gradings || []
             ),
