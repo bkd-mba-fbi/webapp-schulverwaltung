@@ -52,7 +52,8 @@ type TestsAction =
   | {
       type: 'final-grade-overwritten';
       payload: { id: number; selectedGradeId: number };
-    };
+    }
+  | { type: 'replace-grades'; payload: Grading[] };
 
 @Injectable({
   providedIn: 'root',
@@ -92,6 +93,12 @@ export class TestEditGradesStateService {
               course.Gradings || []
             ),
           };
+        case 'replace-grades': {
+          return {
+            ...course,
+            Gradings: action.payload,
+          };
+        }
         default:
           return course;
       }
@@ -265,7 +272,12 @@ export class TestEditGradesStateService {
   setAveragesAsFinalGrades(courseIds: { CourseIds: number[] }) {
     this.courseRestService
       .setAverageAsFinalGrade(courseIds)
-      .subscribe(console.log);
+      .subscribe((response) =>
+        this.action$.next({
+          type: 'replace-grades',
+          payload: response.Gradings,
+        })
+      );
   }
 
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
