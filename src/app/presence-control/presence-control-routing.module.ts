@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { PresenceControlComponent } from './components/presence-control/presence-control.component';
-import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
-import { ConfirmAbsencesComponent } from '../shared/components/confirm-absences/confirm-absences.component';
-import { StudentProfileComponent } from '../shared/components/student-profile/student-profile.component';
+import { RouterModule, Routes } from '@angular/router';
+import { dossierRoute } from '../shared/components/student-dossier/dossier-route';
 import { PresenceControlGroupComponent } from './components/presence-control-group/presence-control-group.component';
+import { PresenceControlListComponent } from './components/presence-control-list/presence-control-list.component';
+import { PresenceControlComponent } from './components/presence-control/presence-control.component';
 
 const routes: Routes = [
   {
@@ -19,19 +17,7 @@ const routes: Routes = [
           restoreScrollPositionFrom: ['/presence-control/student/:id'],
         },
       },
-      {
-        path: 'student/:id',
-        children: [
-          {
-            path: '',
-            component: StudentProfileComponent,
-          },
-          {
-            path: 'confirm',
-            component: ConfirmAbsencesComponent,
-          },
-        ],
-      },
+      dossierRoute,
       {
         path: 'groups/:id',
         component: PresenceControlGroupComponent,

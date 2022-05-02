@@ -1,17 +1,9 @@
-<div
-  class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
+<ng-container
   *erzLet="{
-    absenceCounts: myAbsencesService.counts$ | async
+    absenceCounts: absencesService.counts$ | async
   } as data"
 >
   <ngb-accordion ngb-accordion #acc="ngbAccordion">
-    <ngb-panel id="report-absence">
-      <ng-template ngbPanelHeader>
-        <erz-my-absences-report-link></erz-my-absences-report-link>
-      </ng-template>
-      <ng-template ngbPanelContent></ng-template>
-    </ngb-panel>
-
     <ngb-panel id="checkable-absences">
       <ng-template ngbPanelHeader let-opened="opened">
         <erz-student-dossier-entry-header
@@ -26,7 +18,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <erz-student-dossier-absences
-          [absences$]="myAbsencesService.checkableAbsences$"
+          [absences$]="absencesService.checkableAbsences$"
         ></erz-student-dossier-absences>
       </ng-template>
     </ngb-panel>
@@ -45,13 +37,8 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <erz-student-dossier-absences
-          [absences$]="myAbsencesService.openAbsences$"
+          [absences$]="absencesService.openAbsences$"
           [selectionService]="absencesSelectionService"
-          [defaultAbsenceSelectionMessage]="
-            'my-absences.show.default-absence-selection-message' | translate
-          "
-          [reportUrl]="reportUrl$ | async"
-          [reportAvailable]="reportAvailable$ | async"
         ></erz-student-dossier-absences>
       </ng-template>
     </ngb-panel>
@@ -70,7 +57,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <erz-student-dossier-absences
-          [absences$]="myAbsencesService.excusedAbsences$"
+          [absences$]="absencesService.excusedAbsences$"
         ></erz-student-dossier-absences>
       </ng-template>
     </ngb-panel>
@@ -89,7 +76,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <erz-student-dossier-absences
-          [absences$]="myAbsencesService.unexcusedAbsences$"
+          [absences$]="absencesService.unexcusedAbsences$"
           [displayPresenceType]="false"
         ></erz-student-dossier-absences>
       </ng-template>
@@ -109,9 +96,29 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <erz-student-dossier-absences
-          [absences$]="myAbsencesService.incidents$"
+          [absences$]="absencesService.incidents$"
+        ></erz-student-dossier-absences>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel *ngIf="halfDayActive$ | async" id="half-days">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <erz-student-dossier-entry-header
+          [opened]="opened"
+          (click)="acc.toggle('half-days')"
+        >
+          {{ 'shared.profile.half-days' | translate }}
+          <ng-container *ngIf="data.absenceCounts.halfDays !== null"
+            >({{ data.absenceCounts.halfDays }})</ng-container
+          >
+        </erz-student-dossier-entry-header>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <erz-student-dossier-absences
+          [absences$]="absencesService.halfDays$"
+          [displayPresenceType]="false"
         ></erz-student-dossier-absences>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
-</div>
+</ng-container>

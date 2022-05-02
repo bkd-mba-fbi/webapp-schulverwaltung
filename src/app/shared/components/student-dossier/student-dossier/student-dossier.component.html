@@ -1,0 +1,31 @@
+<div
+  class="erz-container erz-container-limited erz-container-padding-y erz-container-padding-x-responsive"
+>
+  <ng-container
+    *erzLet="{
+      profile: state.profile$ | async
+    } as data"
+  >
+    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
+      <erz-student-backlink
+        class="mb-2"
+        [link]="link$ | async"
+        [queryParams]="queryParams$ | async"
+        [studentId]="studentId$ | async"
+        [student]="data.profile && data.profile.student"
+      ></erz-student-backlink>
+
+      <div *ngIf="data.profile; else noProfile">
+        <router-outlet></router-outlet>
+      </div>
+
+      <ng-template #noProfile>
+        <p>{{ 'shared.profile.no-profile' | translate }}</p>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loading>
+      <erz-spinner></erz-spinner>
+    </ng-template>
+  </ng-container>
+</div>

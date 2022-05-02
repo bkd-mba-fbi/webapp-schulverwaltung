@@ -58,12 +58,12 @@
       <ngb-accordion ngb-accordion #acc="ngbAccordion">
         <ngb-panel id="student-address">
           <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-profile-entry-header
+            <erz-student-dossier-entry-header
               [opened]="opened"
               (click)="acc.toggle('student-address')"
             >
               {{ 'shared.profile.student-address' | translate }}
-            </erz-student-profile-entry-header>
+            </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
             <div class="clearfix">
@@ -74,11 +74,11 @@
               >
                 <i class="material-icons">edit</i>
               </a>
-              <erz-student-profile-address
+              <erz-student-dossier-address
                 class="profile-entry"
                 [student]="data.profile.student"
                 emailProperty="Email2"
-              ></erz-student-profile-address>
+              ></erz-student-dossier-address>
             </div>
           </ng-template>
         </ngb-panel>
@@ -88,12 +88,12 @@
           *ngIf="data.profile.student.CorrespondenceAddress"
         >
           <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-profile-entry-header
+            <erz-student-dossier-entry-header
               [opened]="opened"
               (click)="acc.toggle('correspondence-address')"
             >
               {{ 'shared.profile.correspondence-address' | translate }}
-            </erz-student-profile-entry-header>
+            </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
             <erz-my-profile-address
@@ -108,12 +108,12 @@
           *ngIf="data.profile.student.BillingAddress"
         >
           <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-profile-entry-header
+            <erz-student-dossier-entry-header
               [opened]="opened"
               (click)="acc.toggle('billing-address')"
             >
               {{ 'shared.profile.billing-address' | translate }}
-            </erz-student-profile-entry-header>
+            </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
             <erz-my-profile-address
@@ -128,19 +128,19 @@
           id="legal-representatives"
         >
           <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-profile-entry-header
+            <erz-student-dossier-entry-header
               [opened]="opened"
               (click)="acc.toggle('legal-representatives')"
             >
               {{ 'shared.profile.legal-representation' | translate }}
-            </erz-student-profile-entry-header>
+            </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
-            <erz-student-profile-legal-representative
+            <erz-student-dossier-legal-representative
               *ngFor="let person of data.profile.legalRepresentativePersons"
               class="profile-entry"
               [person]="person"
-            ></erz-student-profile-legal-representative>
+            ></erz-student-dossier-legal-representative>
           </ng-template>
         </ngb-panel>
 
@@ -152,7 +152,7 @@
           [id]="'apprenticeship-company-' + i"
         >
           <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-profile-entry-header
+            <erz-student-dossier-entry-header
               [opened]="opened"
               (click)="acc.toggle('apprenticeship-company-' + i)"
             >
@@ -161,13 +161,13 @@
                 *ngIf="data.profile.apprenticeshipCompanies.length > 1"
                 >{{ i + 1 }}</ng-container
               >
-            </erz-student-profile-entry-header>
+            </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
-            <erz-student-profile-apprenticeship-company
+            <erz-student-dossier-apprenticeship-company
               class="profile-entry"
               [company]="company"
-            ></erz-student-profile-apprenticeship-company>
+            ></erz-student-dossier-apprenticeship-company>
           </ng-template>
         </ngb-panel>
       </ngb-accordion>

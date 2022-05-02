@@ -1,0 +1,19 @@
+@import "../../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacer;
+  border-top: 1px solid $gray-200;
+  cursor: pointer;
+}
+
+button {
+  color: $body-color;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+}

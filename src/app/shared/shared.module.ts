@@ -15,13 +15,13 @@ import { RestRoleInterceptor } from '../rest-role-interceptor';
 import { TypeaheadComponent } from './components/typeahead/typeahead.component';
 import { DateSelectComponent } from './components/date-select/date-select.component';
 import { SelectComponent } from './components/select/select.component';
-import { StudentBacklinkComponent } from './components/student-backlink/student-backlink.component';
-import { StudentProfileComponent } from './components/student-profile/student-profile.component';
-import { StudentProfileEntryHeaderComponent } from './components/student-profile-entry-header/student-profile-entry-header.component';
-import { StudentProfileAddressComponent } from './components/student-profile-address/student-profile-address.component';
-import { StudentProfileLegalRepresentativeComponent } from './components/student-profile-legal-representative/student-profile-legal-representative.component';
-import { StudentProfileApprenticeshipCompanyComponent } from './components/student-profile-apprenticeship-company/student-profile-apprenticeship-company.component';
-import { StudentProfileAbsencesComponent } from './components/student-profile-absences/student-profile-absences.component';
+import { StudentBacklinkComponent } from './components/student-dossier/student-backlink/student-backlink.component';
+import { StudentDossierComponent } from './components/student-dossier/student-dossier/student-dossier.component';
+import { StudentDossierEntryHeaderComponent } from './components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component';
+import { StudentDossierAddressComponent } from './components/student-dossier/student-dossier-address/student-dossier-address.component';
+import { StudentDossierLegalRepresentativeComponent } from './components/student-dossier/student-dossier-legal-representative/student-dossier-legal-representative.component';
+import { StudentDossierApprenticeshipCompanyComponent } from './components/student-dossier/student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component';
+import { StudentDossierAbsencesComponent } from './components/student-dossier/student-dossier-absences/student-dossier-absences.component';
 import { ConfirmAbsencesComponent } from './components/confirm-absences/confirm-absences.component';
 import { PersonEmailPipe } from './pipes/person-email.pipe';
 import { DaysDifferencePipe } from './pipes/days-difference.pipe';
@@ -34,6 +34,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TestsWeightPipe } from './pipes/test-weight.pipe';
 import { TestsGradingTypePipe } from './pipes/test-grading-type.pipe';
 import { PreserveLineHeightComponent } from './components/text/line/preserve-line-height.component';
+import { DossierAbsencesComponent } from './components/student-dossier/dossier-absences/dossier-absences.component';
+import { DossierOverviewComponent } from './components/student-dossier/dossier-overview/dossier-overview.component';
+import { DossierAddressesComponent } from './components/student-dossier/dossier-addresses/dossier-addresses.component';
 
 // Components that will be exported
 const components = [
@@ -44,13 +47,16 @@ const components = [
   DateSelectComponent,
   SelectComponent,
   MultiselectComponent,
+  DossierOverviewComponent,
+  DossierAddressesComponent,
+  DossierAbsencesComponent,
   StudentBacklinkComponent,
-  StudentProfileComponent,
-  StudentProfileEntryHeaderComponent,
-  StudentProfileAddressComponent,
-  StudentProfileLegalRepresentativeComponent,
-  StudentProfileApprenticeshipCompanyComponent,
-  StudentProfileAbsencesComponent,
+  StudentDossierComponent,
+  StudentDossierEntryHeaderComponent,
+  StudentDossierAddressComponent,
+  StudentDossierLegalRepresentativeComponent,
+  StudentDossierApprenticeshipCompanyComponent,
+  StudentDossierAbsencesComponent,
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,
@@ -70,6 +76,8 @@ const components = [
     XssPipe,
     AddSpacePipe,
     MultiselectComponent,
+    DossierAbsencesComponent,
+    DossierAddressesComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
