@@ -9,7 +9,6 @@ import {
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
-  AverageFinalGrade,
 } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 
@@ -237,22 +236,6 @@ describe('CoursesRestService', () => {
   });
 
   describe('manage grades', () => {
-    let averageFinalGrade: AverageFinalGrade = {
-      EventId: 1234,
-      EventDesignation: 'test',
-      EventNumber: 'Course',
-      StudentId: 20,
-      StudentMatriculationNumber: null,
-      StudentFullName: 'Max',
-      StudentNameTooltip: 'Muster',
-      GradeId: 5,
-      GradeValue: null,
-      GradeComment: null,
-      AverageTestResult: 4.9,
-      CanGrade: false,
-      Id: 1,
-    };
-
     let averageTestResultResponse: AverageTestResultResponse = {
       Gradings: [],
     };

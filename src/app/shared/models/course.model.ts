@@ -114,24 +114,8 @@ const UpdatedTestResultResponse = t.type({
   Gradings: t.array(Grading),
 });
 
-const AverageFinalGrade = t.type({
-  EventId: t.number,
-  EventDesignation: t.string,
-  EventNumber: t.string,
-  StudentId: t.number,
-  StudentMatriculationNumber: Option(t.number),
-  StudentFullName: t.string,
-  StudentNameTooltip: t.string,
-  GradeId: t.number,
-  GradeValue: Option(t.number),
-  GradeComment: Option(t.string),
-  AverageTestResult: t.number,
-  CanGrade: t.boolean,
-  Id: t.number,
-});
-
 const AverageTestResultResponse = t.type({
-  Gradings: t.array(AverageFinalGrade),
+  Gradings: t.array(Grading),
 });
 
 type Course = t.TypeOf<typeof Course>;
@@ -142,7 +126,6 @@ type TestPointsResult = t.TypeOf<typeof TestPointsResult>;
 type TestGradesResult = t.TypeOf<typeof TestGradesResult>;
 type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
 type AverageTestResultResponse = t.TypeOf<typeof AverageTestResultResponse>;
-type AverageFinalGrade = t.TypeOf<typeof AverageFinalGrade>;
 export {
   Course,
   Grading,
@@ -152,5 +135,4 @@ export {
   UpdatedTestResultResponse,
   TestGradesResult,
   AverageTestResultResponse,
-  AverageFinalGrade,
 };
