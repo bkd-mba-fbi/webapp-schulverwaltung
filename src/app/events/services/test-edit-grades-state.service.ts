@@ -41,7 +41,7 @@ export type GradingScaleOptions = {
 };
 
 type TestsAction =
-  | { type: 'reset'; payload: Test[] }
+  | { type: 'reset'; payload: Course }
   | { type: 'updateResult'; payload: Result }
   | { type: 'toggle-test-state'; payload: number };
 
@@ -51,24 +51,30 @@ type TestsAction =
 export class TestEditGradesStateService {
   course: Course;
 
-  course$ = new ReplaySubject<Course>(1);
-
   action$ = new ReplaySubject<TestsAction>(1);
 
-  tests$ = this.action$.pipe(
-    scan((tests, action) => {
+  course$ = this.action$.pipe(
+    scan((course, action) => {
       switch (action.type) {
         case 'updateResult':
-          return replaceResult(action.payload, tests);
+          return {
+            ...course,
+            Tests: replaceResult(action.payload, course.Tests || []),
+          };
         case 'reset':
           return action.payload;
         case 'toggle-test-state':
-          return toggleIsPublished(action.payload, tests);
+          return {
+            ...course,
+            Tests: toggleIsPublished(action.payload, course.Tests || []),
+          };
         default:
-          return tests;
+          return course;
       }
-    }, [] as Test[])
+    }, {} as Course)
   );
+
+  tests$ = this.course$.pipe(map((course) => course.Tests || []));
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
@@ -160,7 +166,7 @@ export class TestEditGradesStateService {
   }
 
   setCourse(course: Course): void {
-    this.action$.next({ type: 'reset', payload: course.Tests || [] });
+    this.action$.next({ type: 'reset', payload: course || [] });
   }
 
   toStudentGrades(
