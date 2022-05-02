@@ -8,7 +8,6 @@ import {
   ReplaySubject,
   scan,
   shareReplay,
-  Subject,
   switchMap,
 } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -160,8 +159,8 @@ export class TestEditGradesStateService {
     return this.gradingOptions$(this.course.GradingScaleId);
   }
 
-  setTests(tests: Test[]): void {
-    this.action$.next({ type: 'reset', payload: tests });
+  setCourse(course: Course): void {
+    this.action$.next({ type: 'reset', payload: course.Tests || [] });
   }
 
   toStudentGrades(

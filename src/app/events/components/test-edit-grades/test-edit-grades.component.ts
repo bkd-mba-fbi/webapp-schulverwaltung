@@ -57,11 +57,8 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     if (changes.course) {
       // TODO: migrage everything to the observable/ subject
       this.state.course = this.course;
-
       this.state.course$.next(this.course);
-    }
-    if (changes.tests) {
-      this.state.setTests(this.tests);
+      this.state.setCourse(this.course);
     }
   }
 
