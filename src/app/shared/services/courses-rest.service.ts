@@ -40,7 +40,7 @@ export class CoursesRestService extends RestService<typeof Course> {
   getExpandedCoursesForDossier(): Observable<ReadonlyArray<Course>> {
     return this.http
       .get<unknown>(
-        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
+        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
         { headers: { 'X-Role-Restriction': 'TeacherRole' } }
       )
       .pipe(switchMap(decodeArray(Course)));

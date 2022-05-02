@@ -1,1 +1,9 @@
-<p>dossier-grades works!</p>
+<ng-container
+  *erzLet="{
+    courses: dossierGradesService.studentCourses$ | async
+  } as data"
+>
+  <div *ngFor="let course of data.courses">
+    {{ course.Designation }}
+  </div>
+</ng-container>
