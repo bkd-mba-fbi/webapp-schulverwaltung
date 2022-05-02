@@ -3,7 +3,8 @@
     tests: state.tests$ | async,
     studentGrades: state.studentGrades$ | async,
     filter: state.filter$ | async,
-    expanded: state.expandedHeader$ | async
+    expanded: state.expandedHeader$ | async,
+    canSetFinalGrade: canSetFinalGrade$ | async
   } as data"
 >
   <div class="table-responsive-wrapper">
@@ -149,7 +150,9 @@
               [options]="state.gradingOptionsForCourse$() | async"
               [valueId]="studentGrade.finalGrade.finalGradeId"
               [gradeId]="studentGrade.finalGrade.id"
-              [disabled]="!isEditFinalGradesAllowed(studentGrade)"
+              [disabled]="
+                (isEditFinalGradesAllowed(studentGrade) | async) === false
+              "
               (gradeIdSelected)="state.overwriteFinalGrade($event)"
             ></erz-grade-select>
           </td>
@@ -210,7 +213,7 @@
         </tr>
         <td class="sticky">
           <button
-            *ngIf="canSetFinalGrade()"
+            *ngIf="data.canSetFinalGrade"
             data-testId="apply-average-button"
             class="btn btn-primary"
             type="button"
@@ -223,9 +226,9 @@
     </table>
     <a
       class="d-flex justify-content-end pr-3 border-top pt-3"
-      *ngIf="canSetFinalGrade()"
+      *ngIf="data.canSetFinalGrade"
       data-testId="link-to-rating-overview"
-      href="{{ buildLinkToRatingOverview() }}"
+      href="{{ buildLinkToRatingOverview() | async }}"
     >
       <i class="material-icons font-weight-bold">arrow_right_alt</i>
       <span class="pl-1">{{

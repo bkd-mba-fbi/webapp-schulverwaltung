@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildCourse, buildTest } from 'src/spec-builders';
+import { buildCourse } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
 import {
@@ -8,17 +8,41 @@ import {
 } from '../../../../specs/expectations';
 import { byTestId } from '../../../../specs/utils';
 import { Course } from '../../../shared/models/course.model';
+import { TestStateService } from '../../services/test-state.service';
+import { of } from 'rxjs';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
   let course: Course;
+  let testStateServiceMock: TestStateService;
+
+  course = buildCourse(1234);
+  course.EvaluationStatusRef = {
+    HasEvaluationStarted: true,
+    EvaluationUntil: null,
+    HasReviewOfEvaluationStarted: false,
+    HasTestGrading: false,
+    Id: 6980,
+  };
 
   beforeEach(
     waitForAsync(() => {
+      testStateServiceMock = ({
+        course$: of(course),
+        setSorting: () => of({ key: 'FullName', ascending: true }),
+        getSortingChar$: () => of('FullName'),
+      } as unknown) as TestStateService;
+
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
           declarations: [TestEditGradesComponent],
+          providers: [
+            {
+              provide: TestStateService,
+              useValue: testStateServiceMock,
+            },
+          ],
         })
       ).compileComponents();
     })
@@ -27,18 +51,6 @@ describe('TestEditGradesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestEditGradesComponent);
     component = fixture.componentInstance;
-
-    course = buildCourse(1234);
-    course.EvaluationStatusRef = {
-      HasEvaluationStarted: true,
-      EvaluationUntil: null,
-      HasReviewOfEvaluationStarted: false,
-      HasTestGrading: false,
-      Id: 6980,
-    };
-
-    component.course = course;
-    component.tests = [buildTest(1234, 12, [])];
   });
 
   it('should create', () => {

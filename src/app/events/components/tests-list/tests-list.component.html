@@ -3,8 +3,8 @@
 >
   <ng-container
     *erzLet="{
-      course: course$ | async,
-      tests: tests$ | async,
+      course: state.course$ | async,
+      tests: state.tests$ | async,
       testOptions: testOptions$ | async,
       selectedTestId: selectedTestId$ | async,
       selectedTest: selectedTest$ | async
@@ -23,8 +23,6 @@
           (valueChange)="testSelected($event)"
         ></erz-select>
         <erz-test-edit-grades
-          [course]="data.course"
-          [tests]="data.tests"
           [selectedTest]="data.selectedTest"
         ></erz-test-edit-grades>
       </ng-container>

@@ -1,15 +1,7 @@
-import {
-  Component,
-  Inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
 import {
-  Course,
   TestGradesResult,
   TestPointsResult,
 } from 'src/app/shared/models/course.model';
@@ -21,12 +13,11 @@ import { Student } from 'src/app/shared/models/student.model';
 import { Settings, SETTINGS } from '../../../settings';
 import { Test } from '../../../shared/models/test.model';
 import { EventsStateService } from '../../services/events-state.service';
-import {
-  Filter,
-  TestEditGradesStateService,
-} from '../../services/test-edit-grades-state.service';
+import { Filter, TestStateService } from '../../services/test-state.service';
 import { canSetFinalGrade, getState } from '../../utils/events';
 import { averageGrade, averagePoints } from '../../utils/tests';
+import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -34,31 +25,20 @@ import { averageGrade, averagePoints } from '../../utils/tests';
   styleUrls: ['./test-edit-grades.component.scss'],
   providers: [EventsStateService],
 })
-export class TestEditGradesComponent implements OnInit, OnChanges {
-  @Input() course: Course;
-  @Input() tests: Test[];
+export class TestEditGradesComponent implements OnInit {
   @Input() selectedTest: Test | undefined;
+
+  canSetFinalGrade$ = this.state.course$.pipe(map(canSetFinalGrade));
 
   constructor(
     @Inject(SETTINGS) public settings: Settings,
-    public state: TestEditGradesStateService,
+    public state: TestStateService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
     // TODO move to sort implementation
     this.state.setSorting({ key: 'FullName', ascending: true });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // TODO do this in the state service, where data is loaded
-    if (changes.course) {
-      this.state.setCourse(this.course);
-    }
-  }
-
-  canSetFinalGrade() {
-    return canSetFinalGrade(this.course);
   }
 
   changeFilter(filter: Filter) {
@@ -70,11 +50,19 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   }
 
   setAverageAsFinalGrade() {
-    this.state.setAveragesAsFinalGrades({ CourseIds: [this.course.Id] });
+    this.state.course$
+      .pipe(take(1))
+      .subscribe((course) =>
+        this.state.setAveragesAsFinalGrades({ CourseIds: [course.Id] })
+      );
   }
 
-  isEditFinalGradesAllowed(studentGrade: StudentGrade) {
-    return getState(this.course) && studentGrade.finalGrade.canGrade;
+  isEditFinalGradesAllowed(studentGrade: StudentGrade): Observable<boolean> {
+    return this.state.course$.pipe(
+      map((course) =>
+        Boolean(getState(course) && studentGrade.finalGrade.canGrade)
+      )
+    );
   }
 
   publish(test: Test) {
@@ -129,6 +117,9 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
   }
 
   buildLinkToRatingOverview() {
-    return `${this.settings.eventlist.evaluation}=${this.course.Id}`;
+    return this.state.course$.pipe(
+      take(1),
+      map((course) => `${this.settings.eventlist.evaluation}=${course.Id}`)
+    );
   }
 }
