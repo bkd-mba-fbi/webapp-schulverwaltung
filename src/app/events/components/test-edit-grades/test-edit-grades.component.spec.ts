@@ -6,7 +6,6 @@ import { CoursesRestService } from '../../../shared/services/courses-rest.servic
 import {
   expectElementPresent,
   expectNotInTheDocument,
-  expectText,
 } from '../../../../specs/expectations';
 import { byTestId } from '../../../../specs/utils';
 import { Course } from '../../../shared/models/course.model';
@@ -69,11 +68,7 @@ describe('TestEditGradesComponent', () => {
       `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`
     );
 
-    expectText(
-      fixture.debugElement,
-      'link-to-rating-overview',
-      'arrow_right_alt tests.link-to-rating-overview'
-    );
+    expectElementPresent(fixture.debugElement, 'link-to-rating-overview');
   });
 
   it('should hide external link to rating overview', () => {
