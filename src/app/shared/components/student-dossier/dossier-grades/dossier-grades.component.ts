@@ -18,12 +18,14 @@ import { DossierStateService } from 'src/app/shared/services/dossier-state.servi
 export class DossierGradesComponent implements OnInit, OnDestroy {
   constructor(
     private state: DossierStateService,
-    private dossierGradesService: DossierGradesService
+    public dossierGradesService: DossierGradesService
   ) {}
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.state.isOverview$.next(false);
+
     this.state.studentId$
       .pipe(takeUntil(this.destroy$))
       .subscribe((id) => this.dossierGradesService.setStudentId(id));
