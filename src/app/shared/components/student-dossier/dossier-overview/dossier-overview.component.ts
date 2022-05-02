@@ -1,9 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
-import {
-  StudentDossierBacklink,
-  STUDENT_DOSSIER_BACKLINK,
-} from '../../../tokens/student-dossier-backlink';
 
 @Component({
   selector: 'erz-dossier-overview',
@@ -12,11 +8,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DossierOverviewComponent {
-  constructor(
-    @Inject(STUDENT_DOSSIER_BACKLINK)
-    public backlink: StudentDossierBacklink,
-    public state: DossierStateService
-  ) {
+  constructor(public state: DossierStateService) {
     this.state.isOverview$.next(true);
   }
 }

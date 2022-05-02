@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
-import { STUDENT_DOSSIER_BACKLINK } from 'src/app/shared/tokens/student-dossier-backlink';
 
 @Component({
   selector: 'erz-edit-absences',
@@ -13,7 +12,6 @@ import { STUDENT_DOSSIER_BACKLINK } from 'src/app/shared/tokens/student-dossier-
       provide: CONFIRM_ABSENCES_SERVICE,
       useExisting: EditAbsencesStateService,
     },
-    { provide: STUDENT_DOSSIER_BACKLINK, useValue: '/edit-absences' },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

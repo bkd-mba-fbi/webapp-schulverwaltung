@@ -17,7 +17,6 @@ const routes: Routes = [
         path: '',
         component: EventsListComponent,
       },
-      dossierRoute,
     ],
   },
   {
@@ -36,6 +35,7 @@ const routes: Routes = [
         path: ':id/tests/:testId/edit',
         component: TestsEditComponent,
       },
+      { path: ':id/tests', children: [dossierRoute] },
     ],
   },
 ];
