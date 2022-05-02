@@ -3,7 +3,23 @@
     courses: dossierGradesService.studentCourses$ | async
   } as data"
 >
-  <div *ngFor="let course of data.courses">
-    <erz-dossier-course-entry [course]="course"></erz-dossier-course-entry>
+  <div *ngFor="let course of data.courses; let i = index">
+    <ngb-accordion ngb-accordion #acc="ngbAccordion">
+      <ngb-panel [id]="'course-' + i">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <erz-student-dossier-entry-header
+            [opened]="opened"
+            (click)="acc.toggle('course-' + i)"
+          >
+            {{ course.Designation }}, {{ course.Id }}
+          </erz-student-dossier-entry-header>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <erz-dossier-course-entry
+            [course]="course"
+          ></erz-dossier-course-entry>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
   </div>
 </ng-container>
