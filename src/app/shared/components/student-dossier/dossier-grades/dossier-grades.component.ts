@@ -1,12 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import {
-  distinctUntilChanged,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
 
