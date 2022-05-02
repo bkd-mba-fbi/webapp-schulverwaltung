@@ -4,6 +4,7 @@ import { StudentDossierComponent } from './student-dossier/student-dossier.compo
 import { DossierAbsencesComponent } from './dossier-absences/dossier-absences.component';
 import { DossierAddressesComponent } from './dossier-addresses/dossier-addresses.component';
 import { DossierOverviewComponent } from './dossier-overview/dossier-overview.component';
+import { DossierGradesComponent } from './dossier-grades/dossier-grades.component';
 
 export const dossierRoute: Route = {
   path: 'student/:id',
@@ -15,6 +16,7 @@ export const dossierRoute: Route = {
         { path: '', component: DossierOverviewComponent },
         { path: 'addresses', component: DossierAddressesComponent },
         { path: 'absences', component: DossierAbsencesComponent },
+        { path: 'grades', component: DossierGradesComponent },
       ],
     },
     {
