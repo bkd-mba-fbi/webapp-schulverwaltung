@@ -19,15 +19,16 @@ export class DossierGradesService {
   }
 
   private loadCourses(studentId: number) {
-    return this.coursesRestService.getExpandedCoursesForDossier().pipe(
-      map((courses) =>
-        courses.filter((course) =>
-          course.ParticipatingStudents?.find(
-            (student) => student.Id === studentId
+    return this.coursesRestService
+      .getExpandedCoursesForDossier()
+      .pipe(
+        map((courses) =>
+          courses.filter((course) =>
+            course.ParticipatingStudents?.find(
+              (student) => student.Id === studentId
+            )
           )
         )
-      ),
-      tap(console.log)
-    );
+      );
   }
 }
