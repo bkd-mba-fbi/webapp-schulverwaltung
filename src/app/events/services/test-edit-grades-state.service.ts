@@ -13,6 +13,7 @@ import {
 import { take } from 'rxjs/operators';
 import {
   Course,
+  Grading,
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
@@ -42,7 +43,10 @@ export type GradingScaleOptions = {
 
 type TestsAction =
   | { type: 'reset'; payload: Course }
-  | { type: 'updateResult'; payload: Result }
+  | {
+      type: 'updateResult';
+      payload: { testResult: Result; gradings: Grading[] };
+    }
   | { type: 'toggle-test-state'; payload: number };
 
 @Injectable({
@@ -59,7 +63,7 @@ export class TestEditGradesStateService {
         case 'updateResult':
           return {
             ...course,
-            Tests: replaceResult(action.payload, course.Tests || []),
+            Tests: replaceResult(action.payload.testResult, course.Tests || []),
           };
         case 'reset':
           return action.payload;
@@ -238,7 +242,10 @@ export class TestEditGradesStateService {
   private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
     this.action$.next({
       type: 'updateResult',
-      payload: newGrades.TestResults[0],
+      payload: {
+        testResult: newGrades.TestResults[0],
+        gradings: newGrades.Gradings,
+      },
     });
   }
 
