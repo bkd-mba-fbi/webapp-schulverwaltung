@@ -10,7 +10,6 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs';
-import { take } from 'rxjs/operators';
 import {
   Course,
   Grading,
@@ -35,6 +34,7 @@ import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 import { changeGrading, replaceGrading } from '../utils/gradings';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
+import { uniq } from 'lodash-es';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -59,9 +59,7 @@ type TestsAction =
   providedIn: 'root',
 })
 export class TestEditGradesStateService {
-  course: Course;
-
-  action$ = new ReplaySubject<TestsAction>(1);
+  private action$ = new ReplaySubject<TestsAction>(1);
 
   course$ = this.action$.pipe(
     scan((course, action) => {
@@ -141,13 +139,12 @@ export class TestEditGradesStateService {
     this.sorting$,
   ]).pipe(map(spread(this.toStudentGrades.bind(this))));
 
-  private gradingScaleIds$ = this.tests$.pipe(
-    take(1),
-    map((tests: Test[]) =>
-      [
-        ...tests.map((test: Test) => test.GradingScaleId),
-        this.course.GradingScaleId,
-      ].filter((value, index, array) => array.indexOf(value) === index)
+  private gradingScaleIds$ = this.course$.pipe(
+    map((course: Course) =>
+      uniq([
+        ...(course.Tests ?? []).map((test: Test) => test.GradingScaleId),
+        course.GradingScaleId,
+      ])
     )
   );
 
@@ -191,17 +188,19 @@ export class TestEditGradesStateService {
     )
   );
 
-  meanOfFinalGradesForCourse$: Observable<number | string> = combineLatest([
+  meanOfFinalGradesForCourse$: Observable<number | null> = combineLatest([
     this.gradingScalesOptions$,
     this.studentGrades$,
-  ]).pipe(map(spread(this.meanOfOverwrittenGradesForCourse.bind(this))));
+  ]).pipe(switchMap(spread(this.meanOfOverwrittenGradesForCourse.bind(this))));
 
   gradingOptionsForTest$(test: Test) {
     return this.gradingOptions$(test.GradingScaleId);
   }
 
   gradingOptionsForCourse$() {
-    return this.gradingOptions$(this.course.GradingScaleId);
+    return this.course$.pipe(
+      switchMap((course: Course) => this.gradingOptions$(course.GradingScaleId))
+    );
   }
 
   setCourse(course: Course): void {
@@ -237,8 +236,12 @@ export class TestEditGradesStateService {
   }
 
   saveGrade(requestBody: TestGradesResult | TestPointsResult) {
-    this.courseRestService
-      .updateTestResult(this.course, requestBody)
+    this.course$
+      .pipe(
+        switchMap((course: Course) =>
+          this.courseRestService.updateTestResult(course, requestBody)
+        )
+      )
       .subscribe((response) => this.updateStudentGrades(response));
   }
 
@@ -307,15 +310,18 @@ export class TestEditGradesStateService {
   private meanOfOverwrittenGradesForCourse(
     gradingScaleOptions: GradingScaleOptions,
     studentGrades: StudentGrade[]
-  ) {
-    if (gradingScaleOptions[this.course.GradingScaleId] === undefined)
-      return '';
-    const scale = gradingScaleOptions[this.course.GradingScaleId]!;
-    const finalGrades = studentGrades.map(
-      (studentGrade) => studentGrade.finalGrade
+  ): Observable<number | null> {
+    return this.course$.pipe(
+      map((course: Course) => {
+        if (gradingScaleOptions[course.GradingScaleId] === undefined)
+          return null;
+        const scale = gradingScaleOptions[course.GradingScaleId]!;
+        const finalGrades = studentGrades.map(
+          (studentGrade) => studentGrade.finalGrade
+        );
+        return averageOfGradesForScale(finalGrades, scale);
+      })
     );
-
-    return averageOfGradesForScale(finalGrades, scale);
   }
 
   constructor(
