@@ -33,7 +33,7 @@ import { Sorting, SortService } from 'src/app/shared/services/sort.service';
 import { spread } from 'src/app/shared/utils/function';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
-import { updateGradings } from '../utils/gradings';
+import { changeGrading, updateGradings } from '../utils/gradings';
 import { replaceResult, toggleIsPublished } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
@@ -48,7 +48,11 @@ type TestsAction =
       type: 'updateResult';
       payload: { testResult: Result; grading: Grading };
     }
-  | { type: 'toggle-test-state'; payload: number };
+  | { type: 'toggle-test-state'; payload: number }
+  | {
+      type: 'final-grade-overwritten';
+      payload: { id: number; selectedGradeId: number };
+    };
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +80,17 @@ export class TestEditGradesStateService {
           return {
             ...course,
             Tests: toggleIsPublished(action.payload, course.Tests || []),
+          };
+        case 'final-grade-overwritten':
+          return {
+            ...course,
+            Gradings: changeGrading(
+              {
+                id: action.payload.id,
+                selectedGradeId: action.payload.selectedGradeId,
+              },
+              course.Gradings || []
+            ),
           };
         default:
           return course;
@@ -240,7 +255,10 @@ export class TestEditGradesStateService {
     selectedGradeId: number;
   }) {
     this.gradingsRestService.updateGrade(id, selectedGradeId).subscribe(() => {
-      // do nothing for now...
+      this.action$.next({
+        type: 'final-grade-overwritten',
+        payload: { id, selectedGradeId },
+      });
     });
   }
 
