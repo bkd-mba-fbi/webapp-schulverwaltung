@@ -4,6 +4,6 @@
   } as data"
 >
   <div *ngFor="let course of data.courses">
-    {{ course.Designation }}
+    <erz-dossier-course-entry [course]="course"></erz-dossier-course-entry>
   </div>
 </ng-container>

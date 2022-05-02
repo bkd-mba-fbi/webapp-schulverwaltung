@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { map, ReplaySubject, switchMap, tap } from 'rxjs';
-import { Course } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 
 @Injectable({

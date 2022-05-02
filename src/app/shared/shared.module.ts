@@ -38,6 +38,7 @@ import { DossierAbsencesComponent } from './components/student-dossier/dossier-a
 import { DossierOverviewComponent } from './components/student-dossier/dossier-overview/dossier-overview.component';
 import { DossierAddressesComponent } from './components/student-dossier/dossier-addresses/dossier-addresses.component';
 import { DossierGradesComponent } from './components/student-dossier/dossier-grades/dossier-grades.component';
+import { DossierCourseEntryComponent } from './components/student-dossier/dossier-course-entry/dossier-course-entry.component';
 
 // Components that will be exported
 const components = [
@@ -80,6 +81,7 @@ const components = [
     DossierAbsencesComponent,
     DossierAddressesComponent,
     DossierGradesComponent,
+    DossierCourseEntryComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
