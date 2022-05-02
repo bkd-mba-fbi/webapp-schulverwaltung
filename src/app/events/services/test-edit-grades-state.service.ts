@@ -8,6 +8,7 @@ import {
   ReplaySubject,
   scan,
   shareReplay,
+  Subject,
   switchMap,
 } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -51,6 +52,8 @@ type TestsAction =
 export class TestEditGradesStateService {
   course: Course;
 
+  course$ = new ReplaySubject<Course>(1);
+
   action$ = new ReplaySubject<TestsAction>(1);
 
   tests$ = this.action$.pipe(
@@ -88,9 +91,11 @@ export class TestEditGradesStateService {
 
   sorting$ = this.sortService.sorting$;
 
-  studentGrades$ = combineLatest([this.filteredTests$, this.sorting$]).pipe(
-    map(spread(this.toStudentGrades.bind(this)))
-  );
+  studentGrades$ = combineLatest([
+    this.course$,
+    this.filteredTests$,
+    this.sorting$,
+  ]).pipe(map(spread(this.toStudentGrades.bind(this))));
 
   private gradingScaleIds$ = this.tests$.pipe(
     take(1),
@@ -159,11 +164,15 @@ export class TestEditGradesStateService {
     this.action$.next({ type: 'reset', payload: tests });
   }
 
-  toStudentGrades(tests: Test[] = [], sorting: Sorting<SortKeys>) {
+  toStudentGrades(
+    course: Course,
+    tests: Test[] = [],
+    sorting: Sorting<SortKeys>
+  ) {
     return transform(
-      this.course.ParticipatingStudents ?? [],
+      course.ParticipatingStudents ?? [],
       tests,
-      this.course.Gradings ?? []
+      course.Gradings ?? []
     ).sort(compareFn(sorting));
   }
 
