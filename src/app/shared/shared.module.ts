@@ -37,6 +37,7 @@ import { PreserveLineHeightComponent } from './components/text/line/preserve-lin
 import { DossierAbsencesComponent } from './components/student-dossier/dossier-absences/dossier-absences.component';
 import { DossierOverviewComponent } from './components/student-dossier/dossier-overview/dossier-overview.component';
 import { DossierAddressesComponent } from './components/student-dossier/dossier-addresses/dossier-addresses.component';
+import { DossierGradesComponent } from './components/student-dossier/dossier-grades/dossier-grades.component';
 
 // Components that will be exported
 const components = [
@@ -78,6 +79,7 @@ const components = [
     MultiselectComponent,
     DossierAbsencesComponent,
     DossierAddressesComponent,
+    DossierGradesComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
