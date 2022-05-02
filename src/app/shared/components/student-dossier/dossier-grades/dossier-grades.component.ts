@@ -7,6 +7,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
+import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
 
 @Component({
@@ -15,12 +16,17 @@ import { DossierStateService } from 'src/app/shared/services/dossier-state.servi
   styleUrls: ['./dossier-grades.component.scss'],
 })
 export class DossierGradesComponent implements OnInit, OnDestroy {
-  constructor(public state: DossierStateService) {}
+  constructor(
+    private state: DossierStateService,
+    private dossierGradesService: DossierGradesService
+  ) {}
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.state.studentId$.pipe(takeUntil(this.destroy$)).subscribe(console.log);
+    this.state.studentId$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((id) => this.dossierGradesService.setStudentId(id));
   }
 
   ngOnDestroy(): void {
