@@ -8,14 +8,16 @@ import { CoursesRestService } from './courses-rest.service';
 export class DossierGradesService {
   private studentId$ = new ReplaySubject<number>(1);
 
-  studentCourses$ = this.studentId$.pipe(
-    switchMap(this.loadCourses.bind(this))
-  );
+  studentCourses$ = this.loadCoursesForStudent();
 
   constructor(private coursesRestService: CoursesRestService) {}
 
   setStudentId(id: number) {
     this.studentId$.next(id);
+  }
+
+  private loadCoursesForStudent() {
+    return this.studentId$.pipe(switchMap(this.loadCourses.bind(this)));
   }
 
   private loadCourses(studentId: number) {
