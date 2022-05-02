@@ -31,10 +31,7 @@
   <i class="material-icons-outlined">info</i>
 </button>
 <a
-  [routerLink]="[
-    '/presence-control/student',
-    entry.lessonPresence.StudentRef.Id
-  ]"
+  [routerLink]="['student', entry.lessonPresence.StudentRef.Id]"
   [queryParams]="profileReturnParams"
   class="student-name"
 >

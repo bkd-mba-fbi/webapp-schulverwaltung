@@ -1,10 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, switchMap } from 'rxjs';
 import { DossierStateService } from '../../../services/dossier-state.service';
-import {
-  StudentDossierBacklink,
-  STUDENT_DOSSIER_BACKLINK,
-} from '../../../tokens/student-dossier-backlink';
 
 @Component({
   selector: 'erz-student-dossier',
@@ -15,7 +11,7 @@ import {
 })
 export class StudentDossierComponent {
   link$ = this.state.isOverview$.pipe(
-    map((isOverview) => (isOverview ? this.backlink : ['.']))
+    map((isOverview) => (isOverview ? ['../..'] : ['.']))
   );
 
   queryParams$ = this.state.isOverview$.pipe(
@@ -30,9 +26,5 @@ export class StudentDossierComponent {
     )
   );
 
-  constructor(
-    @Inject(STUDENT_DOSSIER_BACKLINK)
-    public backlink: StudentDossierBacklink,
-    public state: DossierStateService
-  ) {}
+  constructor(public state: DossierStateService) {}
 }

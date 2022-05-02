@@ -6,6 +6,7 @@ import { TestsListComponent } from './components/tests-list/tests-list.component
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { TestsEditComponent } from './components/tests-edit/tests-edit.component';
 import { TestsAddComponent } from './components/tests-add/tests-add.component';
+import { dossierRoute } from '../shared/components/student-dossier/dossier-route';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
         path: ':id/tests/:testId/edit',
         component: TestsEditComponent,
       },
+      { path: ':id/tests', children: [dossierRoute] },
     ],
   },
 ];
