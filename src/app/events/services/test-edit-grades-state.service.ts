@@ -74,7 +74,15 @@ export class TestEditGradesStateService {
     }, {} as Course)
   );
 
-  tests$ = this.course$.pipe(map((course) => course.Tests || []));
+  // TODO: this is a duplication from test list component
+  tests$ = this.course$.pipe(
+    map((course: Course) => course.Tests || []),
+    map((tests: Test[]) => {
+      return tests
+        .slice()
+        .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
+    })
+  );
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
