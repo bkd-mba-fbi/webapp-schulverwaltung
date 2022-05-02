@@ -12,7 +12,10 @@ import {
   TestGradesResult,
   TestPointsResult,
 } from 'src/app/shared/models/course.model';
-import { GradeOrNoResult } from 'src/app/shared/models/student-grades';
+import {
+  GradeOrNoResult,
+  StudentGrade,
+} from 'src/app/shared/models/student-grades';
 import { Student } from 'src/app/shared/models/student.model';
 import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
 import { Test } from '../../../shared/models/test.model';
@@ -24,7 +27,7 @@ import { averageGrade, averagePoints } from '../../utils/tests';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 import { EventsStateService } from '../../services/events-state.service';
 import { Settings, SETTINGS } from '../../../settings';
-import { canSetFinalGrade } from '../../utils/events';
+import { canSetFinalGrade, getState } from '../../utils/events';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -75,6 +78,10 @@ export class TestEditGradesComponent implements OnInit, OnChanges {
     this.coursesRestService
       .setAverageAsFinalGrade({ CourseIds: [this.course.Id] })
       .subscribe(console.log);
+  }
+
+  isEditFinalGradesAllowed(studentGrade: StudentGrade) {
+    return getState(this.course) && studentGrade.finalGrade.canGrade;
   }
 
   publish(test: Test) {
