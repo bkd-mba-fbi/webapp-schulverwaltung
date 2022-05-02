@@ -273,7 +273,9 @@
     "title": "Dossier",
     "addresses": "Adressen und Beziehungen",
     "absences": "Absenzen",
-    "grades": "Noten"
+    "grades": "Noten",
+    "grade": "Note",
+    "average": "Mittelwert"
   },
   "my-absences": {
     "title": "Meine Absenzen",
