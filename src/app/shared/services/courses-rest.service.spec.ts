@@ -61,7 +61,7 @@ describe('CoursesRestService', () => {
     it('should request all courses expanding Tests, Gradings, FinalGrades and EvaluationStatusRef', () => {
       const data: any[] = [];
 
-      service.getExpandedCourseForDossier().subscribe((result) => {
+      service.getExpandedCoursesForDossier().subscribe((result) => {
         expect(result).toEqual(data);
       });
 
