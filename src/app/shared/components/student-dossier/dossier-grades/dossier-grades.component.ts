@@ -10,7 +10,7 @@ import { DossierStateService } from 'src/app/shared/services/dossier-state.servi
 })
 export class DossierGradesComponent implements OnInit, OnDestroy {
   constructor(
-    private state: DossierStateService,
+    public state: DossierStateService,
     public dossierGradesService: DossierGradesService
   ) {}
 
