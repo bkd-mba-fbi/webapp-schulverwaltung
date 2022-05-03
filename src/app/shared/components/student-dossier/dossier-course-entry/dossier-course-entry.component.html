@@ -4,7 +4,7 @@
   <div class="col-6">{{ 'dossier.average' | translate }}</div>
   <div class="col-6">-</div>
 </div>
-<div *ngIf="course.Tests; else noTests">
+<div *ngIf="course.Tests?.length > 0; else noTests">
   <div *ngFor="let test of course.Tests" class="test-entry">
     {{ test.Designation }}
     <div class="row">
@@ -14,5 +14,7 @@
   </div>
 </div>
 <ng-template #noTests>
-  <p class="p-3">{{ 'dossier.no-grades' | translate }}</p>
+  <p class="p-3" data-testid="message-no-tests">
+    {{ 'dossier.no-tests' | translate }}
+  </p>
 </ng-template>
