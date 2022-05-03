@@ -38,7 +38,7 @@ import { DossierAbsencesComponent } from './components/student-dossier/dossier-a
 import { DossierOverviewComponent } from './components/student-dossier/dossier-overview/dossier-overview.component';
 import { DossierAddressesComponent } from './components/student-dossier/dossier-addresses/dossier-addresses.component';
 import { DossierGradesComponent } from './components/student-dossier/dossier-grades/dossier-grades.component';
-import { DossierCourseEntryComponent } from './components/student-dossier/dossier-course-entry/dossier-course-entry.component';
+import { DossierCourseTestsComponent } from './components/student-dossier/dossier-course-tests/dossier-course-tests.component';
 import { DossierGradesViewComponent } from './components/student-dossier/dossier-grades-view/dossier-grades-view.component';
 
 // Components that will be exported
@@ -82,7 +82,7 @@ const components = [
     DossierAbsencesComponent,
     DossierAddressesComponent,
     DossierGradesComponent,
-    DossierCourseEntryComponent,
+    DossierCourseTestsComponent,
     DossierGradesViewComponent,
   ],
   providers: [
