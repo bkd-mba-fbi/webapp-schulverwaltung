@@ -4,23 +4,23 @@ import { Course } from 'src/app/shared/models/course.model';
 import { buildCourse } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { expectText } from 'src/specs/expectations';
-import { DossierCourseEntryComponent } from './dossier-course-entry.component';
+import { DossierCourseTestsComponent } from './dossier-course-tests.component';
 
-describe('DossierCourseEntryComponent', () => {
-  let component: DossierCourseEntryComponent;
-  let fixture: ComponentFixture<DossierCourseEntryComponent>;
+describe('DossierCourseTestsComponent', () => {
+  let component: DossierCourseTestsComponent;
+  let fixture: ComponentFixture<DossierCourseTestsComponent>;
   let debugElement: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierCourseEntryComponent],
+        declarations: [DossierCourseTestsComponent],
       })
     ).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DossierCourseEntryComponent);
+    fixture = TestBed.createComponent(DossierCourseTestsComponent);
     component = fixture.componentInstance;
     component.course = buildCourse(1234);
     fixture.detectChanges();
