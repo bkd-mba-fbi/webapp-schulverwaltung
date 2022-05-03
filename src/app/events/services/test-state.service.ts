@@ -8,7 +8,6 @@ import {
   ReplaySubject,
   scan,
   shareReplay,
-  Subject,
 } from 'rxjs';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
@@ -49,7 +48,7 @@ export class TestStateService {
 
   loading$ = this.loadingService.loading$;
 
-  private _courseId$ = new Subject<number>();
+  private _courseId$ = new ReplaySubject<number>(1);
 
   courseId$ = this._courseId$.asObservable();
 
@@ -62,7 +61,7 @@ export class TestStateService {
     shareReplay(1)
   );
 
-  course$ = merge(this.action$, this.fetchedCourse$).pipe(
+  course$: Observable<Course> = merge(this.action$, this.fetchedCourse$).pipe(
     map<TestsAction | Course, TestsAction>((actionOrFetchedCourse) => {
       if ('type' in actionOrFetchedCourse) {
         return actionOrFetchedCourse;
