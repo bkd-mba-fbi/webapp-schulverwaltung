@@ -6,9 +6,16 @@ export function expectText(
   testId: string,
   expected: string
 ) {
-  expect(
-    debugElement.query(byTestId(testId)).nativeElement.textContent.trim()
-  ).toBe(expected);
+  const element = debugElement.query(byTestId(testId));
+
+  if (!element) {
+    console.error(debugElement.nativeElement.innerHTML);
+    throw new Error(
+      `unable to locate element with attribute [data-testid]=${testId} - see console to see an unformatted output of your current html`
+    );
+  }
+
+  expect(element.nativeElement.textContent.trim()).toBe(expected);
 }
 
 export function expectNotInTheDocument(
