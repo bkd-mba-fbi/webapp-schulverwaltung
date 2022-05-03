@@ -8,6 +8,7 @@ import { Course } from 'src/app/shared/models/course.model';
 })
 export class DossierGradesViewComponent {
   @Input() courses: Course[];
+  @Input() studentId: number;
 
   constructor() {}
 }
