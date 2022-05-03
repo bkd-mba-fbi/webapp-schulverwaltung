@@ -36,6 +36,22 @@ const ExpandedAttendanceRef = t.partial({
 
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
+const FinalGrading = t.type({
+  EventDesignation: t.string,
+  EventId: t.number,
+  EventNumber: t.string,
+  Grade: t.string,
+  GradeComment: Option(t.string),
+  GradeValue: Option(t.number),
+  // HRef: t.string,
+  Id: t.number,
+  IsAdequate: t.boolean,
+  StudentFullName: t.string,
+  StudentId: t.number,
+  StudentMatriculationNumber: Option(t.number),
+  StudentNameTooltip: t.string,
+});
+
 const Grading = t.type({
   AverageTestResult: t.number,
   CanGrade: t.boolean,
@@ -88,7 +104,7 @@ const Course = t.type({
   // MainEventManagers: null,
   // TimetableEntries: null,
   GradingScaleId: t.number,
-  FinalGrades: Option(t.array(Grading)),
+  FinalGrades: Option(t.array(FinalGrading)),
   Gradings: Option(t.array(Grading)),
   Tests: Option(t.array(Test)),
   EvaluationStatusRef,
@@ -120,6 +136,7 @@ const AverageTestResultResponse = t.type({
 
 type Course = t.TypeOf<typeof Course>;
 type Grading = t.TypeOf<typeof Grading>;
+type FinalGrading = t.TypeOf<typeof FinalGrading>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
 type EvaluationStatusRef = t.TypeOf<typeof EvaluationStatusRef>;
 type TestPointsResult = t.TypeOf<typeof TestPointsResult>;
@@ -129,6 +146,7 @@ type AverageTestResultResponse = t.TypeOf<typeof AverageTestResultResponse>;
 export {
   Course,
   Grading,
+  FinalGrading,
   AttendanceRef,
   EvaluationStatusRef,
   TestPointsResult,
