@@ -1,6 +1,10 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Course, FinalGrading } from 'src/app/shared/models/course.model';
+import {
+  Course,
+  FinalGrading,
+  Grading,
+} from 'src/app/shared/models/course.model';
 import { FinalGrade } from 'src/app/shared/models/student-grades';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { expectText } from 'src/specs/expectations';
@@ -42,7 +46,7 @@ describe('DossierCourseTestsComponent', () => {
     expectText(debugElement, 'message-no-tests', 'dossier.no-tests');
   });
 
-  it('should get final grade for current student', () => {
+  describe('get gradings for the current student', () => {
     const expectedFinalGrading: FinalGrading = ({
       StudentId: 3,
       Grade: '5.0',
@@ -53,11 +57,50 @@ describe('DossierCourseTestsComponent', () => {
       ({ StudentId: 2, Grade: '4.0' } as unknown) as FinalGrading,
       expectedFinalGrading,
     ];
-    course = ({ FinalGrades: finalGrades } as unknown) as Course;
-    component.course = course;
-    component.studentId = expectedFinalGrading.StudentId;
-    fixture.detectChanges();
 
-    expect(component.getFinalGradeForStudent()).toEqual(expectedFinalGrading);
+    const expectedGrading: Grading = ({
+      StudentId: 44,
+    } as unknown) as Grading;
+    const gradings: Grading[] = [
+      ({ StudentId: 33 } as unknown) as Grading,
+      ({ StudentId: 55 } as unknown) as Grading,
+      expectedGrading,
+    ];
+
+    beforeEach(() => {
+      course = ({
+        FinalGrades: finalGrades,
+        Gradings: gradings,
+      } as unknown) as Course;
+      component.course = course;
+    });
+
+    it('should not find a final grade if studentid does not match', () => {
+      component.studentId = -1;
+      fixture.detectChanges();
+
+      expect(component.getFinalGradeForStudent()).toBeUndefined();
+    });
+
+    it('should not find a grading if studentid does not match', () => {
+      component.studentId = -1;
+      fixture.detectChanges();
+
+      expect(component.getGradingForStudent()).toBeUndefined();
+    });
+
+    it('should get final grade for current student', () => {
+      component.studentId = expectedFinalGrading.StudentId;
+      fixture.detectChanges();
+
+      expect(component.getFinalGradeForStudent()).toEqual(expectedFinalGrading);
+    });
+
+    it('should get the grading for the current student', () => {
+      component.studentId = expectedGrading.StudentId;
+      fixture.detectChanges();
+
+      expect(component.getGradingForStudent()).toEqual(expectedGrading);
+    });
   });
 });
