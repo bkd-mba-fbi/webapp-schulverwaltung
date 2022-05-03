@@ -1,0 +1,29 @@
+<ng-container *ngIf="courses?.length > 0; else noCourses">
+  <div *ngFor="let course of courses; let i = index">
+    <ngb-accordion ngb-accordion #acc="ngbAccordion">
+      <ngb-panel [id]="'course-' + i">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <erz-student-dossier-entry-header
+            [opened]="opened"
+            (click)="acc.toggle('course-' + i)"
+          >
+            <span [attr.data-testid]="'course-designation-' + course.Id"
+              >{{ course.Designation }}, {{ course.Id }}</span
+            >
+          </erz-student-dossier-entry-header>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <erz-dossier-course-entry
+            [course]="course"
+          ></erz-dossier-course-entry>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</ng-container>
+
+<ng-template #noCourses
+  ><p class="p-3" data-testid="message-no-courses">
+    {{ 'dossier.no-courses' | translate }}
+  </p></ng-template
+>
