@@ -1,9 +1,7 @@
-<div class="row mx-1">
-  <div class="col-6">{{ 'dossier.grade' | translate }}</div>
-  <div class="col-6">-</div>
-  <div class="col-6">{{ 'dossier.average' | translate }}</div>
-  <div class="col-6">-</div>
-</div>
+<erz-dossier-grades-final-grade
+  [finalGrade]="getFinalGradeForStudent()"
+  [grading]="getGradingForStudent()"
+></erz-dossier-grades-final-grade>
 <div *ngIf="course.Tests?.length > 0; else noTests">
   <div *ngFor="let test of course.Tests" class="test-entry">
     {{ test.Designation }}
