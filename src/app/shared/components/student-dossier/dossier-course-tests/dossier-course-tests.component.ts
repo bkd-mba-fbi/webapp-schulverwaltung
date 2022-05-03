@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Course, FinalGrading } from 'src/app/shared/models/course.model';
+import {
+  Course,
+  FinalGrading,
+  Grading,
+} from 'src/app/shared/models/course.model';
 
 @Component({
   selector: 'erz-dossier-course-entry',
@@ -15,6 +19,12 @@ export class DossierCourseTestsComponent {
   public getFinalGradeForStudent(): FinalGrading | undefined {
     return this.course?.FinalGrades?.find(
       (finaleGrade) => finaleGrade.StudentId === this.studentId
+    );
+  }
+
+  public getGradingForStudent(): Grading | undefined {
+    return this.course?.Gradings?.find(
+      (grade) => grade.StudentId === this.studentId
     );
   }
 }
