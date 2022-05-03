@@ -7,6 +7,7 @@ import { Course } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 
 import { DossierGradesService } from './dossier-grades.service';
+import { LoadingService } from './loading-service';
 
 describe('DossierGradesService', () => {
   let service: DossierGradesService;
@@ -16,14 +17,15 @@ describe('DossierGradesService', () => {
     coursesRestService = jasmine.createSpyObj('CoursesRestService', [
       'getExpandedCoursesForDossier',
     ]);
-
-    service = new DossierGradesService(coursesRestService);
   });
 
   describe('studentCourses$', () => {
     it('should return empty list if there are no courses', () => {
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
-      service = new DossierGradesService(coursesRestService);
+      service = new DossierGradesService(
+        coursesRestService,
+        new LoadingService()
+      );
 
       let result: Course[] = [];
       service.studentCourses$.subscribe((courses) => (result = courses));
@@ -50,7 +52,10 @@ describe('DossierGradesService', () => {
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(
         of(courses)
       );
-      service = new DossierGradesService(coursesRestService);
+      service = new DossierGradesService(
+        coursesRestService,
+        new LoadingService()
+      );
 
       let result: Course[] = [];
       service.studentCourses$.subscribe((courses) => (result = courses));

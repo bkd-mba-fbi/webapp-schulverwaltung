@@ -1,25 +1,14 @@
 <ng-container
   *erzLet="{
-    courses: dossierGradesService.studentCourses$ | async
+    courses: dossierGradesService.studentCourses$ | async,
+    loading: dossierGradesService.loading$ | async
   } as data"
 >
-  <div *ngFor="let course of data.courses; let i = index">
-    <ngb-accordion ngb-accordion #acc="ngbAccordion">
-      <ngb-panel [id]="'course-' + i">
-        <ng-template ngbPanelHeader let-opened="opened">
-          <erz-student-dossier-entry-header
-            [opened]="opened"
-            (click)="acc.toggle('course-' + i)"
-          >
-            {{ course.Designation }}, {{ course.Id }}
-          </erz-student-dossier-entry-header>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <erz-dossier-course-entry
-            [course]="course"
-          ></erz-dossier-course-entry>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  </div>
+  <erz-dossier-grades-view
+    *ngIf="!data.loading"
+    [courses]="data.courses"
+  ></erz-dossier-grades-view>
+  <ng-container *ngIf="data.loading">
+    <erz-spinner></erz-spinner>
+  </ng-container>
 </ng-container>
