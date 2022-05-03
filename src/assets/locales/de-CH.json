@@ -275,7 +275,8 @@
     "absences": "Absenzen",
     "grades": "Noten",
     "grade": "Note",
-    "average": "Mittelwert"
+    "average": "Mittelwert",
+    "no-grades": "Keine Noten vorhanden"
   },
   "my-absences": {
     "title": "Meine Absenzen",
