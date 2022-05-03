@@ -36,6 +36,8 @@ export class TestEditGradesComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
+  canSetFinalGrade = this.canSetFinalGrade$;
+
   ngOnInit(): void {
     // TODO move to sort implementation
     this.state.setSorting({ key: 'FullName', ascending: true });

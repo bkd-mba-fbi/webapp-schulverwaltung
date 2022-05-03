@@ -2,10 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { buildCourse } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { TestEditGradesComponent } from './test-edit-grades.component';
-import {
-  expectElementPresent,
-  expectNotInTheDocument,
-} from '../../../../specs/expectations';
+import { expectElementPresent } from '../../../../specs/expectations';
 import { byTestId } from '../../../../specs/utils';
 import { Course } from '../../../shared/models/course.model';
 import { TestStateService } from '../../services/test-state.service';
@@ -62,12 +59,6 @@ describe('TestEditGradesComponent', () => {
     expectElementPresent(fixture.debugElement, 'apply-average-button');
   });
 
-  it('should hide button to set average as final grade', () => {
-    course.EvaluationStatusRef.HasEvaluationStarted = false;
-    fixture.detectChanges();
-    expectNotInTheDocument(fixture.debugElement, 'apply-average-button');
-  });
-
   it('should display external link to rating overview', () => {
     fixture.detectChanges();
     const link = fixture.debugElement.query(byTestId('link-to-rating-overview'))
@@ -79,17 +70,5 @@ describe('TestEditGradesComponent', () => {
     );
 
     expectElementPresent(fixture.debugElement, 'link-to-rating-overview');
-  });
-
-  it('should hide external link to rating overview', () => {
-    course.EvaluationStatusRef.HasEvaluationStarted = false;
-
-    fixture.detectChanges();
-
-    const link = fixture.debugElement.query(
-      byTestId('link-to-rating-overview')
-    );
-
-    expect(link).toBeNull();
   });
 });

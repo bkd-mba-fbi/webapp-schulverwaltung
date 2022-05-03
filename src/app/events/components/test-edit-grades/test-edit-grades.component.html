@@ -3,8 +3,7 @@
     tests: state.tests$ | async,
     studentGrades: state.studentGrades$ | async,
     filter: state.filter$ | async,
-    expanded: state.expandedHeader$ | async,
-    canSetFinalGrade: canSetFinalGrade$ | async
+    expanded: state.expandedHeader$ | async
   } as data"
 >
   <div class="table-responsive-wrapper">
@@ -213,7 +212,7 @@
         </tr>
         <td class="sticky">
           <button
-            *ngIf="data.canSetFinalGrade"
+            *ngIf="canSetFinalGrade"
             data-testId="apply-average-button"
             class="btn btn-primary"
             type="button"
@@ -226,7 +225,7 @@
     </table>
     <a
       class="d-flex justify-content-end pr-3 border-top pt-3"
-      *ngIf="data.canSetFinalGrade"
+      *ngIf="canSetFinalGrade"
       data-testId="link-to-rating-overview"
       href="{{ buildLinkToRatingOverview() | async }}"
     >
