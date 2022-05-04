@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { LoadingService } from 'src/app/shared/services/loading-service';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import {
   Course,
   TestGradesResult,
@@ -217,6 +217,7 @@ export class TestStateService {
   saveGrade(requestBody: TestGradesResult | TestPointsResult) {
     this.course$
       .pipe(
+        take(1),
         switchMap((course: Course) =>
           this.coursesRestService.updateTestResult(course, requestBody)
         )
