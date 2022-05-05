@@ -1,6 +1,18 @@
 import { Injectable } from '@angular/core';
-import { map, ReplaySubject, switchMap, tap } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  map,
+  ReplaySubject,
+  shareReplay,
+  switchMap,
+  take,
+} from 'rxjs';
+import { Course } from '../models/course.model';
+import { Test } from '../models/test.model';
+import { notNull, unique } from '../utils/filter';
 import { CoursesRestService } from './courses-rest.service';
+import { GradingScalesRestService } from './grading-scales-rest.service';
 import { LoadingService } from './loading-service';
 
 @Injectable({
@@ -14,7 +26,8 @@ export class DossierGradesService {
 
   constructor(
     private coursesRestService: CoursesRestService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private gradingScalesRestService: GradingScalesRestService
   ) {}
 
   setStudentId(id: number) {
@@ -40,4 +53,48 @@ export class DossierGradesService {
         )
     );
   }
+
+  // TODO: code below this is a duplication from the test-edit-state service that
+  // was refactored by mfehlmann and hupf on another branch.
+  // if it is merged, integrate changes and dry it up.
+
+  private tests$ = this.studentCourses$.pipe(
+    map((courses: Course[]) =>
+      courses.flatMap((course: Course) => course.Tests).filter(notNull)
+    )
+  );
+
+  private gradingScaleIdsFromTests$ = this.tests$.pipe(
+    take(1),
+    map((tests: Test[]) =>
+      [...tests.map((test: Test) => test.GradingScaleId)].filter(unique)
+    )
+  );
+
+  private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
+    map((courses: Course[]) =>
+      courses
+        .flatMap((course: Course) => course.GradingScaleId)
+        .filter(notNull)
+        .filter(unique)
+    )
+  );
+
+  private gradingScaleIds$ = combineLatest([
+    this.gradingScaleIdsFromCourses$,
+    this.gradingScaleIdsFromTests$,
+  ]).pipe(
+    map(([courseGradingsScaleIds, testGradingScaleIds]: [number[], number[]]) =>
+      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique)
+    )
+  );
+
+  gradingScales$ = this.gradingScaleIds$.pipe(
+    switchMap((ids) =>
+      forkJoin(
+        ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
+      )
+    ),
+    shareReplay(1)
+  );
 }

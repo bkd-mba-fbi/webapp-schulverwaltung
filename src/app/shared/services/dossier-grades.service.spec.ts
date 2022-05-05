@@ -1,22 +1,25 @@
-import { TestBed } from '@angular/core/testing';
-import * as exp from 'constants';
 import { of } from 'rxjs';
 import { buildCourse, buildStudent } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { Course } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
-
 import { DossierGradesService } from './dossier-grades.service';
+import { GradingScalesRestService } from './grading-scales-rest.service';
 import { LoadingService } from './loading-service';
 
 describe('DossierGradesService', () => {
   let service: DossierGradesService;
   let coursesRestService: jasmine.SpyObj<CoursesRestService>;
+  let gradingScalesRestService: jasmine.SpyObj<GradingScalesRestService>;
 
   beforeEach(() => {
     coursesRestService = jasmine.createSpyObj('CoursesRestService', [
       'getExpandedCoursesForDossier',
     ]);
+
+    gradingScalesRestService = jasmine.createSpyObj(
+      'GradingScalesRestService',
+      ['getGradingScale']
+    );
   });
 
   describe('studentCourses$', () => {
@@ -24,7 +27,8 @@ describe('DossierGradesService', () => {
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
       service = new DossierGradesService(
         coursesRestService,
-        new LoadingService()
+        new LoadingService(),
+        gradingScalesRestService
       );
 
       let result: Course[] = [];
@@ -54,7 +58,8 @@ describe('DossierGradesService', () => {
       );
       service = new DossierGradesService(
         coursesRestService,
-        new LoadingService()
+        new LoadingService(),
+        gradingScalesRestService
       );
 
       let result: Course[] = [];
