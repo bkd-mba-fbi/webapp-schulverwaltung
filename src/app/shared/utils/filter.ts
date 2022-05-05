@@ -30,3 +30,7 @@ export function isInstanceOf<T>(
     return value instanceof type;
   };
 }
+
+export function unique<T>(value: T, index: number, array: T[]): boolean {
+  return array.indexOf(value) === index;
+}
