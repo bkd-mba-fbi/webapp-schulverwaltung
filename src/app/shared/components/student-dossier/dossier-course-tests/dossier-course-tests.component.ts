@@ -5,6 +5,7 @@ import {
   Grading,
 } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
+import { Test } from 'src/app/shared/models/test.model';
 
 @Component({
   selector: 'erz-dossier-course-tests',
@@ -33,6 +34,12 @@ export class DossierCourseTestsComponent {
   public getGradingScaleOfCourse() {
     return this.gradingScales?.find(
       (gradingScale) => gradingScale.Id === this.course.GradingScaleId
+    );
+  }
+
+  getGradingScaleOfTest(test: Test) {
+    return this.gradingScales.find(
+      (gradingScale) => gradingScale.Id === test.GradingScaleId
     );
   }
 }
