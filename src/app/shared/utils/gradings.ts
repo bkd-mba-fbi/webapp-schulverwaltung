@@ -11,19 +11,19 @@ import { Grade, GradingScale } from '../models/grading-scale.model';
  * @returns
  */
 export function evaluate(
-  grading: Grading,
+  grading: Option<Grading>,
   finalGrade: Option<FinalGrading>,
-  gradingScale: GradingScale
-): Option<number> {
+  gradingScale: Option<GradingScale>
+): Maybe<number> {
   if (finalGrade && finalGrade.GradeValue) return finalGrade.GradeValue;
-  return findInScale(grading, gradingScale) || grading.GradeValue;
+  return findInScale(grading, gradingScale) || grading?.GradeValue;
 }
 
 function findInScale(
-  grading: Grading,
-  gradingScale: GradingScale
+  grading: Option<Grading>,
+  gradingScale: Option<GradingScale>
 ): Maybe<number> {
-  return gradingScale.Grades.find(
-    (grade: Grade) => grade.Id === grading.GradeId
+  return gradingScale?.Grades.find(
+    (grade: Grade) => grade.Id === grading?.GradeId
   )?.Value;
 }

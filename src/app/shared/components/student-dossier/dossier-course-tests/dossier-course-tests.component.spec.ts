@@ -5,6 +5,7 @@ import {
   FinalGrading,
   Grading,
 } from 'src/app/shared/models/course.model';
+import { Grade, GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { FinalGrade } from 'src/app/shared/models/student-grades';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { expectText } from 'src/specs/expectations';
@@ -16,6 +17,7 @@ describe('DossierCourseTestsComponent', () => {
   let debugElement: DebugElement;
 
   let course: Course;
+  let gradingScale: GradingScale;
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -26,10 +28,13 @@ describe('DossierCourseTestsComponent', () => {
 
   beforeEach(() => {
     course = ({ Tests: [] } as unknown) as Course;
-
+    gradingScale = ({
+      Grades: [],
+    } as unknown) as GradingScale;
     fixture = TestBed.createComponent(DossierCourseTestsComponent);
     component = fixture.componentInstance;
     component.course = course;
+    component.gradingScales = [gradingScale];
 
     fixture.detectChanges();
     debugElement = fixture.debugElement;

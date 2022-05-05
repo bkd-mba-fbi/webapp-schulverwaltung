@@ -13,10 +13,11 @@
           </erz-student-dossier-entry-header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <erz-dossier-course-entry
+          <erz-dossier-course-tests
             [course]="course"
             [studentId]="studentId"
-          ></erz-dossier-course-entry>
+            [gradingScales]="gradingScales"
+          ></erz-dossier-course-tests>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
