@@ -4,9 +4,11 @@ import {
   forkJoin,
   map,
   ReplaySubject,
+  share,
   shareReplay,
   switchMap,
   take,
+  tap,
 } from 'rxjs';
 import { Course } from '../models/course.model';
 import { Test } from '../models/test.model';
@@ -35,7 +37,10 @@ export class DossierGradesService {
   }
 
   private loadCoursesForStudent() {
-    return this.studentId$.pipe(switchMap(this.loadCourses.bind(this)));
+    return this.studentId$.pipe(
+      switchMap(this.loadCourses.bind(this)),
+      shareReplay(1)
+    );
   }
 
   private loadCourses(studentId: number) {
@@ -65,7 +70,6 @@ export class DossierGradesService {
   );
 
   private gradingScaleIdsFromTests$ = this.tests$.pipe(
-    take(1),
     map((tests: Test[]) =>
       [...tests.map((test: Test) => test.GradingScaleId)].filter(unique)
     )
@@ -92,9 +96,10 @@ export class DossierGradesService {
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
-        ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
+        ids.map((id: number) =>
+          this.gradingScalesRestService.getGradingScale(id)
+        )
       )
-    ),
-    shareReplay(1)
+    )
   );
 }
