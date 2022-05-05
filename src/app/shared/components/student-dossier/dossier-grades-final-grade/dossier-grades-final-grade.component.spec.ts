@@ -27,9 +27,7 @@ describe('DossierGradesFinalGradeComponent', () => {
     fixture.detectChanges();
     debugElement = fixture.debugElement;
 
-    finalGrade = ({
-      Grade: '4.5',
-    } as unknown) as FinalGrading;
+    finalGrade = ({ GradeValue: 4.5 } as unknown) as FinalGrading;
 
     grading = ({ AverageTestResult: 4.233333 } as unknown) as Grading;
     component.finalGrade = finalGrade;
@@ -41,7 +39,7 @@ describe('DossierGradesFinalGradeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show values from finalGrade', () => {
+  it('should show values from finalGrade - GradeValue from FinalGrade', () => {
     expectText(debugElement, 'final-grade', '4.5');
   });
 
