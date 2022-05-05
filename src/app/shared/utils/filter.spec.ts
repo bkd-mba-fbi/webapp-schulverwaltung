@@ -1,4 +1,11 @@
-import { nonZero, not, notNull, isTruthy, isInstanceOf } from './filter';
+import {
+  nonZero,
+  not,
+  notNull,
+  isTruthy,
+  isInstanceOf,
+  unique,
+} from './filter';
 
 describe('filter utils', () => {
   describe('nonZero', () => {
@@ -85,6 +92,18 @@ describe('filter utils', () => {
 
     it('returns false if is not instance of given class', () => {
       expect(isInstanceOf(Foo)(new Bar())).toBe(false);
+    });
+  });
+
+  describe('unique', () => {
+    it('filters list of primitives and keeps only unique value in array', () => {
+      expect([1, 2, 3, 4, 4, 3, 5].filter(unique)).toEqual([1, 2, 3, 4, 5]);
+      expect(['a', 'b', 'c', 'a', 'b', 'c', 'd'].filter(unique)).toEqual([
+        'a',
+        'b',
+        'c',
+        'd',
+      ]);
     });
   });
 });
