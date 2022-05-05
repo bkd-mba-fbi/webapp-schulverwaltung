@@ -11,7 +11,7 @@
         class="mb-2"
         [link]="link$ | async"
         [queryParams]="queryParams$ | async"
-        [studentId]="studentId$ | async"
+        [studentId]="state.studentId$ | async"
         [student]="data.profile && data.profile.student"
       ></erz-student-backlink>
 
