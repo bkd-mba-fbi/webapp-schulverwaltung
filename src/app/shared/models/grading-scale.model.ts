@@ -27,4 +27,5 @@ const GradingScale = t.type({
 });
 
 type GradingScale = t.TypeOf<typeof GradingScale>;
-export { GradingScale };
+type Grade = t.TypeOf<typeof Grade>;
+export { GradingScale, Grade };
