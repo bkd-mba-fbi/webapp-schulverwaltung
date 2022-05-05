@@ -4,6 +4,7 @@ import {
   averageGrade,
   averagePoints,
   replaceResult,
+  resultOfStudent,
   toggleIsPublished,
 } from './tests';
 
@@ -117,6 +118,16 @@ describe('Test utils', () => {
         new Error('unable to calculate averages without results')
       );
       expect(averageGrade(test)).toBe(3.8272727272727276);
+    });
+  });
+
+  describe('get result for student', () => {
+    it('should not get result for student that is not in test', () => {
+      expect(resultOfStudent(-1, test)).toBeUndefined();
+    });
+
+    it('should get result of student', () => {
+      expect(resultOfStudent(3777, test)?.Points).toBe(19.99);
     });
   });
 });

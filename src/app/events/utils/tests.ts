@@ -31,6 +31,10 @@ export function averageGrade(test: Test): number {
   return average(grades);
 }
 
+export function resultOfStudent(studentId: number, test: Test): Maybe<Result> {
+  return test.Results?.find((result) => result.StudentId === studentId);
+}
+
 function replaceResultInTest(newResult: Result, test: Test) {
   const filteredResults =
     test.Results?.filter((result) => newResult.Id !== result.Id) || [];
