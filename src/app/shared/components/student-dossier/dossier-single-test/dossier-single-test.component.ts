@@ -23,6 +23,13 @@ import { Test } from 'src/app/shared/models/test.model';
       <div class="col-6" data-testid="test-teacher">
         {{ test?.Owner }}
       </div>
+      <div class="col-6"></div>
+      <div class="col-6" data-testid="test-status">
+        {{
+          (test?.IsPublished ? 'tests.published' : 'tests.not-published')
+            | translate
+        }}
+      </div>
     </div>
   </div>`,
   styleUrls: ['./dossier-single-test.component.scss'],
