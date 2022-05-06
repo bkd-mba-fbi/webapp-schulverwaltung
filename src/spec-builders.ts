@@ -12,7 +12,10 @@ import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manage
 import { JobTrainer } from './app/shared/models/job-trainer.model';
 import { UserSetting } from './app/shared/models/user-setting.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
-import { SubscriptionDetail } from './app/shared/models/subscription-detail.model';
+import {
+  IdSubscription,
+  SubscriptionDetail,
+} from './app/shared/models/subscription-detail.model';
 import {
   Course,
   AttendanceRef,
@@ -400,6 +403,44 @@ export function buildSubscriptionDetail(
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: null,
+  };
+}
+
+export function buildIdSubscription(
+  id: number,
+  eventId: number,
+  personId: number
+): IdSubscription {
+  return {
+    Id: id,
+    CurrentWorkProgressId: 'current-work-progress-id',
+    EventId: eventId,
+    PersonId: personId,
+    Status: 'closed',
+    StatusId: null,
+    IsOkay: null,
+    IsQueued: null,
+    EventDesignation: null,
+    EventInformation: null,
+    EventNotes: null,
+    CheckPersonalInformation: null,
+    CorrespondencePersonId: null,
+    CorrespondenceAddressTypeId: null,
+    Billing1PersonId: null,
+    Billing1AddressTypeId: null,
+    Billing2PersonId: null,
+    Billing2AddressTypeId: null,
+    KindOfPaymentId1: null,
+    KindOfPaymentEmail1: null,
+    KindOfPaymentId2: null,
+    KindOfPaymentEmail2: null,
+    IdObject: null,
+    IdSubscription: null,
+    IdStatus: null,
+    AnsweredQuestions: null,
+    Messages: null,
+    SubscriptionDetails: null,
+    HRef: null,
   };
 }
 

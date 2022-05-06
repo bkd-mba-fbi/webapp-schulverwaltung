@@ -3,7 +3,10 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Settings, SETTINGS } from '../../settings';
-import { SubscriptionDetail } from '../models/subscription-detail.model';
+import {
+  IdSubscription,
+  SubscriptionDetail,
+} from '../models/subscription-detail.model';
 import { decodeArray } from '../utils/decode';
 import { RestService } from './rest.service';
 
@@ -23,5 +26,16 @@ export class SubscriptionsRestService extends RestService<
     return this.http
       .get<unknown>(`${this.baseUrl}/${registrationId}/SubscriptionDetails`)
       .pipe(switchMap(decodeArray(this.codec)));
+  }
+
+  getIdSubscriptionsByStudentAndCourse(
+    personId: number,
+    eventIds: number[]
+  ): Observable<ReadonlyArray<IdSubscription>> {
+    return this.http
+      .get<unknown>(
+        `${this.settings.apiUrl}/Subscriptions/?filter.PersonId==${personId}&filter.EventId==${eventIds}`
+      )
+      .pipe(switchMap(decodeArray(IdSubscription)));
   }
 }

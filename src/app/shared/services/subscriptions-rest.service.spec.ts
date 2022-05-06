@@ -1,6 +1,8 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { buildIdSubscription } from 'src/spec-builders';
 import { buildTestModuleMetadata } from '../../../spec-helpers';
+import { IdSubscription } from '../models/subscription-detail.model';
 
 import { SubscriptionsRestService } from './subscriptions-rest.service';
 
@@ -29,6 +31,35 @@ describe('SubscriptionsRestService', () => {
         .expectOne((req) => req.url === url, url)
         .flush(data);
       httpTestingController.verify();
+    });
+  });
+
+  describe('getIdSubscriptionsByStudentAndCourse', () => {
+    it('should get list of IdSubscriptions for a students and its courses', () => {
+      const personId = 1;
+      const courseIds = [11, 12, 13];
+      const data: ReadonlyArray<IdSubscription> = [
+        buildIdSubscription(1, 11, personId),
+        buildIdSubscription(2, 12, personId),
+      ];
+
+      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId==11,12,13`;
+
+      let result: ReadonlyArray<IdSubscription> | undefined;
+      service
+        .getIdSubscriptionsByStudentAndCourse(personId, courseIds)
+        .subscribe((response) => {
+          result = response;
+        });
+
+      const request = httpTestingController.expectOne(
+        ({ url }) => url === expectedUrl,
+        expectedUrl
+      );
+      request.flush(data);
+
+      httpTestingController.verify();
+      expect(result).toEqual(data);
     });
   });
 });
