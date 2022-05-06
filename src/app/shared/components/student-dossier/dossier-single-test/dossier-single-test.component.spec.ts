@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Grade, GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { buildResult, buildTest } from 'src/spec-builders';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { expectText } from 'src/specs/expectations';
 
 import { DossierSingleTestComponent } from './dossier-single-test.component';
@@ -14,9 +15,11 @@ describe('DossierSingleTestComponent', () => {
   let test: Test;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DossierSingleTestComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [DossierSingleTestComponent],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {
@@ -71,5 +74,9 @@ describe('DossierSingleTestComponent', () => {
     fixture.detectChanges();
 
     expectText(debugElement, 'test-grade', '4');
+  });
+
+  it('should show test summary (factor, weight)', () => {
+    expectText(debugElement, 'test-factor', 'tests.factor 2 (50%)');
   });
 });
