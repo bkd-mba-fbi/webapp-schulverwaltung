@@ -5,19 +5,20 @@ import { Test } from 'src/app/shared/models/test.model';
 
 @Component({
   selector: 'erz-dossier-single-test',
-  template: `
-    <div>
-      <span data-testid="test-designation">{{ test?.Designation }}</span>
-      <div class="row">
-        <div class="col-6" data-testid="test-date">
-          {{ test?.Date | date: 'mediumDate' }}
-        </div>
-        <div class="col-6" data-testid="test-grade">
-          {{ getGrading() || '-' }}
-        </div>
+  template: ` <div>
+    <span data-testid="test-designation">{{ test?.Designation }}</span>
+    <div class="row">
+      <div class="col-6" data-testid="test-date">
+        {{ test?.Date | date: 'mediumDate' }}
+      </div>
+      <div class="col-6" data-testid="test-grade">
+        {{ getGrading() || '-' }}
+      </div>
+      <div class="col-6" data-testid="test-factor">
+        {{ test | erzTestWeight }}
       </div>
     </div>
-  `,
+  </div>`,
   styles: [],
 })
 export class DossierSingleTestComponent {
