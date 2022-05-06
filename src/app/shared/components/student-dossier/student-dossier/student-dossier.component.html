@@ -19,6 +19,7 @@
 
         <div class="mr-3">
           <a
+            *ngIf="data.reportUrl"
             class="edit btn btn-primary ml-2"
             target="_blank"
             [href]="data.reportUrl"
