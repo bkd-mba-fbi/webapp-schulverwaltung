@@ -71,8 +71,11 @@ window.schulverwaltung.settings = {
   // Id of the report used in evaluate absences
   evaluateAbsencesReportId: 290048,
 
-  // Id of the course used for the tests report
+  // Id of the report used for the course report
   testsByCourseReportId: 290044,
+
+  // Id of the report used for the tests report for a single student
+  testsBySubscriptionReportId: 290042,
 
   /**
    * Groups

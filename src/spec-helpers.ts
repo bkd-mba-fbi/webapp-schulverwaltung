@@ -36,6 +36,7 @@ export const settings: Settings = {
   studentConfirmationReportId: 290036,
   evaluateAbsencesReportId: 290048,
   testsByCourseReportId: 290044,
+  testsBySubscriptionReportId: 290042,
   subscriptionDetailGroupId: 3843,
   headerRoleRestriction: {
     myAbsences: 'StudentRole',
