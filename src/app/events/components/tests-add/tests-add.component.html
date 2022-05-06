@@ -3,7 +3,6 @@
   *erzLet="{ courseId: courseId$ | async, saving: saving$ | async } as data"
 >
   <erz-tests-edit-form
-    [courseId]="data.courseId"
     [saving]="data.saving"
     (save)="save($event)"
   ></erz-tests-edit-form>

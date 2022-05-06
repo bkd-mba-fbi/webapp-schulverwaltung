@@ -15,6 +15,7 @@ import { CoursesRestService } from 'src/app/shared/services/courses-rest.service
 import { TestStateService } from '../../services/test-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TestsDeleteComponent } from './tests-delete/tests-delete.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'erz-tests-edit',
@@ -24,20 +25,12 @@ import { TestsDeleteComponent } from './tests-delete/tests-delete.component';
 export class TestsEditComponent {
   saving$ = new BehaviorSubject(false);
 
-  courseId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('id'))),
-    distinctUntilChanged()
-  );
-
   private testId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('testId'))),
     distinctUntilChanged()
   );
-  private tests$ = this.courseId$.pipe(
-    switchMap((id) => this.state.getCourse(id)),
-    map((course) => course.Tests ?? [])
-  );
-  test$ = combineLatest([this.tests$, this.testId$]).pipe(
+
+  test$ = combineLatest([this.state.tests$, this.testId$]).pipe(
     map(([tests, id]) => tests.find((t) => t.Id === id))
   );
 
@@ -76,8 +69,9 @@ export class TestsEditComponent {
       maxPoints,
       maxPointsAdjusted,
     } = formGroupValue;
-    combineLatest([this.courseId$, this.testId$])
+    combineLatest([this.state.courseId$, this.testId$])
       .pipe(
+        take(1),
         switchMap(([courseId, testId]) =>
           this.courseService.update(
             courseId,
@@ -106,8 +100,8 @@ export class TestsEditComponent {
   }
 
   private navigateBack(): void {
-    this.courseId$.subscribe((id) =>
-      this.router.navigate(['events', id, 'tests'])
-    );
+    this.state.courseId$
+      .pipe(take(1))
+      .subscribe((id) => this.router.navigate(['events', id, 'tests']));
   }
 }

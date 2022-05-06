@@ -1,7 +1,7 @@
 <div
   class="erz-container erz-container-limited erz-container-padding-y"
   *erzLet="{
-    courseId: courseId$ | async,
+    courseId: state.courseId$ | async,
     test: test$ | async,
     saving: saving$ | async
   } as data"
@@ -19,7 +19,6 @@
       </button>
     </div>
     <erz-tests-edit-form
-      [courseId]="data.courseId"
       [test]="data.test"
       [saving]="data.saving"
       (save)="save($event)"

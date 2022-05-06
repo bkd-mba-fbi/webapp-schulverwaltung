@@ -1,26 +1,43 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildCourse, buildTest } from 'src/spec-builders';
+import { of } from 'rxjs';
+import { buildCourse } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { TestEditGradesComponent } from './test-edit-grades.component';
-import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 import {
   expectElementPresent,
   expectNotInTheDocument,
 } from '../../../../specs/expectations';
 import { byTestId } from '../../../../specs/utils';
-import { Course } from '../../../shared/models/course.model';
+import { TestStateService } from '../../services/test-state.service';
+import { TestEditGradesComponent } from './test-edit-grades.component';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
-  let course: Course;
+
+  let testStateServiceMock: jasmine.SpyObj<TestStateService>;
+
+  const course = buildCourse(1234);
 
   beforeEach(
     waitForAsync(() => {
+      testStateServiceMock = jasmine.createSpyObj('TestStateService', [
+        'canSetFinalGrade$',
+        'setSorting',
+        'getSortingChar$',
+        'course$',
+      ]);
+
+      testStateServiceMock.course$ = of(course);
+
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
           declarations: [TestEditGradesComponent],
-          providers: [CoursesRestService],
+          providers: [
+            {
+              provide: TestStateService,
+              useValue: testStateServiceMock,
+            },
+          ],
         })
       ).compileComponents();
     })
@@ -29,18 +46,6 @@ describe('TestEditGradesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestEditGradesComponent);
     component = fixture.componentInstance;
-
-    course = buildCourse(1234);
-    course.EvaluationStatusRef = {
-      HasEvaluationStarted: true,
-      EvaluationUntil: null,
-      HasReviewOfEvaluationStarted: false,
-      HasTestGrading: false,
-      Id: 6980,
-    };
-
-    component.course = course;
-    component.tests = [buildTest(1234, 12, [])];
   });
 
   it('should create', () => {
@@ -48,17 +53,19 @@ describe('TestEditGradesComponent', () => {
   });
 
   it('should display button to set average as final grade', () => {
+    testStateServiceMock.canSetFinalGrade$ = of(true);
     fixture.detectChanges();
     expectElementPresent(fixture.debugElement, 'apply-average-button');
   });
 
-  it('should hide button to set average as final grade', () => {
-    course.EvaluationStatusRef.HasEvaluationStarted = false;
+  it('should not show button to set average as final grade', () => {
+    testStateServiceMock.canSetFinalGrade$ = of(false);
     fixture.detectChanges();
     expectNotInTheDocument(fixture.debugElement, 'apply-average-button');
   });
 
   it('should display external link to rating overview', () => {
+    testStateServiceMock.canSetFinalGrade$ = of(true);
     fixture.detectChanges();
     const link = fixture.debugElement.query(byTestId('link-to-rating-overview'))
       .nativeElement as HTMLLinkElement;
@@ -69,17 +76,5 @@ describe('TestEditGradesComponent', () => {
     );
 
     expectElementPresent(fixture.debugElement, 'link-to-rating-overview');
-  });
-
-  it('should hide external link to rating overview', () => {
-    course.EvaluationStatusRef.HasEvaluationStarted = false;
-
-    fixture.detectChanges();
-
-    const link = fixture.debugElement.query(
-      byTestId('link-to-rating-overview')
-    );
-
-    expect(link).toBeNull();
   });
 });

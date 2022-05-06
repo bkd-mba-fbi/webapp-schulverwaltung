@@ -17,23 +17,23 @@ const routes: Routes = [
         path: '',
         component: EventsListComponent,
       },
-    ],
-  },
-  {
-    path: '',
-    component: TestsComponent,
-    children: [
       {
-        path: ':id/tests',
-        component: TestsListComponent,
-      },
-      {
-        path: ':id/tests/add',
-        component: TestsAddComponent,
-      },
-      {
-        path: ':id/tests/:testId/edit',
-        component: TestsEditComponent,
+        path: ':id',
+        component: TestsComponent,
+        children: [
+          {
+            path: 'tests',
+            component: TestsListComponent,
+          },
+          {
+            path: 'tests/add',
+            component: TestsAddComponent,
+          },
+          {
+            path: 'tests/:testId/edit',
+            component: TestsEditComponent,
+          },
+        ],
       },
       { path: ':id/tests', children: [dossierRoute] },
     ],

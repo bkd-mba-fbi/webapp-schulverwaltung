@@ -23,7 +23,6 @@ export function getState(course: Course): Option<EventState> {
 
 export function canSetFinalGrade(course: Course): boolean {
   const status = course.EvaluationStatusRef;
-
   return (
     status.HasEvaluationStarted === true &&
     ((status?.EvaluationUntil && status?.EvaluationUntil >= new Date()) ||

@@ -14,11 +14,12 @@ describe('TestsEditComponent', () => {
   let fixture: ComponentFixture<TestsEditComponent>;
   let stateServiceMock: TestStateService;
   let activatedRouteMock: ActivatedRouteMock;
-  let courseService: jasmine.SpyObj<CoursesRestService>;
+  let courseRestServiceMock: jasmine.SpyObj<CoursesRestService>;
 
   beforeEach(async () => {
-    let course = buildCourse(1);
-    course.Tests = [buildTest(1, 1, [])];
+    let course = buildCourse(1234);
+    let test = buildTest(1234, 1, []);
+    course.Tests = [test];
 
     activatedRouteMock = new ActivatedRouteMock({
       id: course.Id,
@@ -27,11 +28,16 @@ describe('TestsEditComponent', () => {
 
     stateServiceMock = ({
       loading$: of(false),
+      courseId$: of(course.Id),
+      tests$: of([test]),
+      testsId$: of(test.Id),
       getCourse: () => of(course),
     } as unknown) as TestStateService;
 
-    courseService = jasmine.createSpyObj('CoursesRestService', ['update']);
-    courseService.update.and.returnValue(of());
+    courseRestServiceMock = jasmine.createSpyObj('CoursesRestService', [
+      'update',
+    ]);
+    courseRestServiceMock.update.and.returnValue(of());
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -39,7 +45,7 @@ describe('TestsEditComponent', () => {
         providers: [
           { provide: TestStateService, useValue: stateServiceMock },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
-          { provide: CoursesRestService, useValue: courseService },
+          { provide: CoursesRestService, useValue: courseRestServiceMock },
         ],
       })
     ).compileComponents();
@@ -67,8 +73,8 @@ describe('TestsEditComponent', () => {
 
     component.save(formGroupValue);
 
-    expect(courseService.update).toHaveBeenCalledWith(
-      1,
+    expect(courseRestServiceMock.update).toHaveBeenCalledWith(
+      1234,
       1,
       formGroupValue.designation,
       formGroupValue.date,

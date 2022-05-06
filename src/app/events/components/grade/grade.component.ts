@@ -14,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import {
   GradeOrNoResult,
@@ -25,7 +25,6 @@ import {
   TestPointsResult,
 } from '../../../shared/models/course.model';
 import { Student } from '../../../shared/models/student.model';
-import { TestEditGradesStateService } from '../../services/test-edit-grades-state.service';
 
 const DEBOUNCE_TIME = 500;
 
@@ -71,7 +70,7 @@ export class GradeComponent implements OnInit, OnDestroy {
 
   destroy$ = new Subject<void>();
 
-  constructor(public state: TestEditGradesStateService) {}
+  constructor() {}
 
   ngOnInit(): void {
     if (this.grade.kind === 'grade') {

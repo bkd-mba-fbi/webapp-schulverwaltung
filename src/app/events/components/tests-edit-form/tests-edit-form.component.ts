@@ -20,6 +20,8 @@ import {
   getControlValueChanges,
   getValidationErrors,
 } from 'src/app/shared/utils/form';
+import { TestStateService } from '../../services/test-state.service';
+import { uniqueId } from 'lodash-es';
 
 @Component({
   selector: 'erz-tests-edit-form',
@@ -31,11 +33,12 @@ import {
   ],
 })
 export class TestsEditFormComponent implements OnInit, OnDestroy {
-  @Input() courseId: number;
   @Input() test: Option<Test>;
   @Input() saving: boolean;
 
   @Output() save = new EventEmitter<FormGroup>();
+
+  componentId = uniqueId('erz-tests-edit-form');
 
   formGroup: FormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
@@ -65,7 +68,13 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     'weight'
   );
 
-  constructor(private fb: FormBuilder, private translate: TranslateService) {}
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    private testStateService: TestStateService
+  ) {}
+
+  courseId$ = this.testStateService.courseId$;
 
   ngOnInit(): void {
     if (this.test) {

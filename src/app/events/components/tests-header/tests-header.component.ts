@@ -8,6 +8,7 @@ import { ReportsService } from '../../../shared/services/reports.service';
   styleUrls: ['./tests-header.component.scss'],
 })
 export class TestsHeaderComponent {
+  // TODO: Get course over state service
   @Input() course: Course;
 
   constructor(private reportsService: ReportsService) {}
