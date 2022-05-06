@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import {
   combineLatest,
+  distinctUntilChanged,
   map,
   ReplaySubject,
   shareReplay,
@@ -22,6 +23,7 @@ export class DossierGradesService {
   private studentId$ = new ReplaySubject<number>(1);
 
   studentCourses$ = this.studentId$.pipe(
+    distinctUntilChanged(),
     switchMap(this.loadCourses.bind(this)),
     shareReplay(1)
   );
@@ -48,7 +50,7 @@ export class DossierGradesService {
     map((subscriptions) => subscriptions.map((s) => s.Id))
   );
 
-  testReportUrl$ = this.ids$?.pipe(
+  testReportUrl$ = this.ids$.pipe(
     map((ids) =>
       this.reportsService.getSubscriptionReportUrl(
         this.settings.testsBySubscriptionReportId,
