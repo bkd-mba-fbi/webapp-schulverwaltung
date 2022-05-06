@@ -136,4 +136,12 @@ describe('ReportsService', () => {
       );
     });
   });
+
+  describe('Subscription Report Url', () => {
+    it('returns the report url', () => {
+      expect(service.getSubscriptionReportUrl(123, [11, 12, 13])).toBe(
+        `https://eventotest.api/Files/CrystalReports/Anmeldung/123?ids=11,12,13&token=SOMETOKEN`
+      );
+    });
+  });
 });

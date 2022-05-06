@@ -20,6 +20,9 @@ import {
 import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from './storage.service';
 import { notNull } from '../utils/filter';
+import { decodeArray } from '../utils/decode';
+import { IdSubscription } from '../models/subscription-detail.model';
+import { SubscriptionsRestService } from './subscriptions-rest.service';
 
 /**
  * Reports are PDFs that are served under a special URL. They can be
@@ -69,6 +72,7 @@ export class ReportsService implements OnDestroy {
   constructor(
     @Inject(SETTINGS) private settings: Settings,
     private storageService: StorageService,
+    private subscriptionService: SubscriptionsRestService,
     private http: HttpClient
   ) {
     this.studentConfirmationAvailabilitySub = (this
@@ -124,6 +128,15 @@ export class ReportsService implements OnDestroy {
     return this.getReportUrl('Anlass', this.settings.testsByCourseReportId, [
       recordId,
     ]);
+  }
+
+  getSubscriptionReportUrl(
+    settingReportId: number,
+    idSubscriptionIds: number[]
+  ): string {
+    return `${
+      this.settings.apiUrl
+    }/Files/CrystalReports/Anmeldung/${settingReportId}?ids=${idSubscriptionIds}&token=${this.storageService.getAccessToken()}`;
   }
 
   setStudentConfirmationAvailabilityRecordIds(
