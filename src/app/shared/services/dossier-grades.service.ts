@@ -10,7 +10,8 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { Course } from '../models/course.model';
+import { Course, FinalGrading, Grading } from '../models/course.model';
+import { GradingScale } from '../models/grading-scale.model';
 import { Test } from '../models/test.model';
 import { notNull, unique } from '../utils/filter';
 import { CoursesRestService } from './courses-rest.service';
@@ -34,6 +35,25 @@ export class DossierGradesService {
 
   setStudentId(id: number) {
     this.studentId$.next(id);
+  }
+
+  getFinalGradeForStudent(
+    course: Course,
+    studentId: number
+  ): FinalGrading | undefined {
+    return course?.FinalGrades?.find(
+      (finaleGrade) => finaleGrade.StudentId === studentId
+    );
+  }
+
+  getGradingForStudent(course: Course, studentId: number): Grading | undefined {
+    return course?.Gradings?.find((grade) => grade.StudentId === studentId);
+  }
+
+  getGradingScaleOfCourse(course: Course, gradingScales: GradingScale[]) {
+    return gradingScales?.find(
+      (gradingScale) => gradingScale.Id === course.GradingScaleId
+    );
   }
 
   private loadCoursesForStudent() {
