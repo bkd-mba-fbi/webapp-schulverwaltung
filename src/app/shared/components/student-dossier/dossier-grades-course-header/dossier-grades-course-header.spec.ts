@@ -5,23 +5,23 @@ import { Grade } from 'src/app/shared/models/grading-scale.model';
 import { buildGradingScale } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
-import { DossierGradesFinalGradeSummaryComponent } from './dossier-grades-final-grade-summary.component';
+import { DossierGradesCourseHeaderComponent } from './dossier-grades-course-header.component';
 
-describe('DossierGradesFinalGradeSummaryComponent', () => {
-  let component: DossierGradesFinalGradeSummaryComponent;
-  let fixture: ComponentFixture<DossierGradesFinalGradeSummaryComponent>;
+describe('DossierGradesCourseHeaderComponent', () => {
+  let component: DossierGradesCourseHeaderComponent;
+  let fixture: ComponentFixture<DossierGradesCourseHeaderComponent>;
   let debugElement: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierGradesFinalGradeSummaryComponent],
+        declarations: [DossierGradesCourseHeaderComponent],
       })
     ).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DossierGradesFinalGradeSummaryComponent);
+    fixture = TestBed.createComponent(DossierGradesCourseHeaderComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
     fixture.detectChanges();
