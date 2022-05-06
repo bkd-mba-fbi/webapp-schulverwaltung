@@ -1,3 +1,5 @@
-{{ course.Designation }}
-<span *ngIf="true" class="grade">(5)</span>
-<span *ngIf="true" class="average">(5.25)</span>
+{{ designation
+}}<span *ngIf="grade" class="grade" data-testId="grade"> ({{ grade }})</span
+><span *ngIf="average" class="average" data-testId="average">
+  ({{ average | number: '1.0-3' }})</span
+>
