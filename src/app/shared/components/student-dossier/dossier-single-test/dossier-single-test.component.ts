@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { resultOfStudent } from 'src/app/events/utils/tests';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { Result, Test } from 'src/app/shared/models/test.model';
+import { Test } from 'src/app/shared/models/test.model';
 
 @Component({
   selector: 'erz-dossier-single-test',
@@ -29,9 +29,9 @@ export class DossierSingleTestComponent {
 
   getGrading() {
     if (!this.test) return '-';
-    const result: Maybe<Result> = resultOfStudent(this.studentId, this.test);
     return this.gradingScale?.Grades.find(
-      (grade) => grade.Id === result?.GradeId
+      (grade) =>
+        grade.Id === resultOfStudent(this.studentId, this.test!)?.GradeId
     )?.Value;
   }
 }
