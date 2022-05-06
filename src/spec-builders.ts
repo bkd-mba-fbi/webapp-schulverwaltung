@@ -476,7 +476,7 @@ export function buildTest(
     Weight: 2,
     WeightPercent: 50,
     IsPointGrading: false,
-    MaxPoints: 0,
+    MaxPoints: 27,
     MaxPointsAdjusted: 0,
     IsPublished: false,
     IsOwner: true,

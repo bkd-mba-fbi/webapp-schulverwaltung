@@ -32,7 +32,7 @@ import { AddSpacePipe } from './pipes/add-space.pipe';
 import { MultiselectComponent } from './components/multiselect/multiselect.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TestsWeightPipe } from './pipes/test-weight.pipe';
-import { TestsGradingTypePipe } from './pipes/test-grading-type.pipe';
+import { TestPointsPipe } from './pipes/test-points.pipe';
 import { PreserveLineHeightComponent } from './components/text/line/preserve-line-height.component';
 import { DossierAbsencesComponent } from './components/student-dossier/dossier-absences/dossier-absences.component';
 import { DossierOverviewComponent } from './components/student-dossier/dossier-overview/dossier-overview.component';
@@ -69,7 +69,7 @@ const components = [
   XssPipe,
   AddSpacePipe,
   TestsWeightPipe,
-  TestsGradingTypePipe,
+  TestPointsPipe,
   PreserveLineHeightComponent,
 ];
 
