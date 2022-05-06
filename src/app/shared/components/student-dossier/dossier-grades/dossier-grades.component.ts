@@ -18,6 +18,7 @@ export class DossierGradesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.state.isOverview$.next(false);
+    this.state.currentDossier$.next('grades');
 
     this.state.studentId$
       .pipe(takeUntil(this.destroy$))
