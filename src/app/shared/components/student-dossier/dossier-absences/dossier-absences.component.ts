@@ -29,6 +29,7 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
     public absencesSelectionService: ConfirmAbsencesSelectionService
   ) {
     this.state.isOverview$.next(false);
+    this.state.currentDossier$.next('absences');
   }
 
   ngOnInit(): void {
