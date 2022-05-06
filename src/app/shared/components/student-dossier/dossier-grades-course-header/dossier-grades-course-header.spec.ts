@@ -56,4 +56,24 @@ describe('DossierGradesCourseHeaderComponent', () => {
 
     expect(debugElement.nativeElement.textContent).toBe('course 3 (5.256)');
   });
+
+  it('should show designation and only grade if both average and grade are set', () => {
+    component.designation = 'course 4';
+    component.grading = ({ AverageTestResult: 5.2555 } as unknown) as Grading;
+    component.finalGrade = ({ Grade: '5.5' } as unknown) as FinalGrading;
+    component.gradingScale = buildGradingScale(1, [
+      ({ Value: 5.5 } as unknown) as Grade,
+    ]);
+    fixture.detectChanges();
+
+    expect(debugElement.nativeElement.textContent).toBe('course 4 (5.5)');
+  });
+
+  it('should only show designation if average is 0', () => {
+    component.designation = 'course 5';
+    component.grading = ({ AverageTestResult: 0 } as unknown) as Grading;
+    fixture.detectChanges();
+
+    expect(debugElement.nativeElement.textContent).toBe('course 5');
+  });
 });
