@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
+import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 
 @Component({
   selector: 'erz-dossier-grades-view',
@@ -11,4 +12,6 @@ export class DossierGradesViewComponent {
   @Input() courses: Course[];
   @Input() studentId: number;
   @Input() gradingScales: GradingScale[];
+
+  constructor(private dossierGradeService: DossierGradesService) {}
 }

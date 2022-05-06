@@ -20,6 +20,12 @@ describe('DossierGradesService', () => {
       'GradingScalesRestService',
       ['getGradingScale']
     );
+
+    service = new DossierGradesService(
+      coursesRestService,
+      new LoadingService(),
+      gradingScalesRestService
+    );
   });
 
   describe('studentCourses$', () => {

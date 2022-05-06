@@ -7,13 +7,21 @@
             [opened]="opened"
             (click)="acc.toggle('course-' + i)"
           >
-            <span [attr.data-testid]="'course-designation-' + course.Id"
-              ><erz-dossier-grades-final-grade-summary
-                [course]="course"
-                [studentId]="studentId"
-                [gradingScales]="gradingScales"
-              ></erz-dossier-grades-final-grade-summary
-            ></span>
+            <erz-dossier-grades-final-grade-summary
+              [designation]="course.Designation"
+              [finalGrade]="
+                dossierGradeService.getFinalGradeForStudent(course, studentId)
+              "
+              [grading]="
+                dossierGradeService.getGradingForStudent(course, studentId)
+              "
+              [gradingScale]="
+                dossierGradeService.getGradingScaleOfCourse(
+                  course,
+                  gradingScales
+                )
+              "
+            ></erz-dossier-grades-final-grade-summary>
           </erz-student-dossier-entry-header>
         </ng-template>
         <ng-template ngbPanelContent>

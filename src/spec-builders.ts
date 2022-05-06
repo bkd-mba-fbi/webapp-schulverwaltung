@@ -21,6 +21,7 @@ import {
 } from './app/shared/models/course.model';
 import { Result, Test } from './app/shared/models/test.model';
 import { StudyClass } from './app/shared/models/study-class.model';
+import { Grade } from './app/shared/models/grading-scale.model';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -528,7 +529,7 @@ export function buildGrading(
   };
 }
 
-export function buildGradingScale(id: number) {
+export function buildGradingScale(id: number, grades: Grade[] = []) {
   return {
     Id: id,
     Designation: 'Zehntelnoten bes. disp. keine Note',
@@ -537,7 +538,7 @@ export function buildGradingScale(id: number) {
     CommentsAllowed: false,
     LowestSufficientGrade: 4.0,
     RisingGrades: true,
-    Grades: [],
+    Grades: grades,
     IdObject: 1106,
     FreeGrading: false,
     HRef: '/restApi/GradingScales/1106',
