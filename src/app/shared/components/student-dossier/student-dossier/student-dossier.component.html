@@ -3,7 +3,8 @@
 >
   <ng-container
     *erzLet="{
-      profile: state.profile$ | async
+      profile: state.profile$ | async,
+      reportUrl: dossierGradesService.testReportUrl$ | async
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -17,7 +18,11 @@
         ></erz-student-backlink>
 
         <div class="mr-3">
-          <a class="edit btn btn-primary ml-2" target="_blank" href="#">
+          <a
+            class="edit btn btn-primary ml-2"
+            target="_blank"
+            [href]="data.reportUrl"
+          >
             <i class="material-icons">description</i>
           </a>
         </div>
