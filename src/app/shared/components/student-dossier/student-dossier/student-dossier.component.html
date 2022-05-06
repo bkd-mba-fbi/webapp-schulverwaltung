@@ -7,14 +7,21 @@
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <erz-student-backlink
-        class="mb-2"
-        [link]="link$ | async"
-        [queryParams]="queryParams$ | async"
-        [studentId]="state.studentId$ | async"
-        [student]="data.profile && data.profile.student"
-      ></erz-student-backlink>
+      <div class="d-flex w-100 justify-content-between">
+        <erz-student-backlink
+          class="mb-2"
+          [link]="link$ | async"
+          [queryParams]="queryParams$ | async"
+          [studentId]="state.studentId$ | async"
+          [student]="data.profile && data.profile.student"
+        ></erz-student-backlink>
 
+        <div class="mr-3">
+          <a class="edit btn btn-primary ml-2" target="_blank" href="#">
+            <i class="material-icons">description</i>
+          </a>
+        </div>
+      </div>
       <div *ngIf="data.profile; else noProfile">
         <router-outlet></router-outlet>
       </div>
