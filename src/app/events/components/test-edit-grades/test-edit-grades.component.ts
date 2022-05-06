@@ -18,6 +18,7 @@ import { canSetFinalGrade, getState } from '../../utils/events';
 import { averageGrade, averagePoints } from '../../utils/tests';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { log } from 'src/app/shared/utils/observable';
 
 @Component({
   selector: 'erz-test-edit-grades',
@@ -28,15 +29,11 @@ import { Observable } from 'rxjs';
 export class TestEditGradesComponent implements OnInit {
   @Input() selectedTest: Test | undefined;
 
-  canSetFinalGrade$ = this.state.course$.pipe(map(canSetFinalGrade));
-
   constructor(
     @Inject(SETTINGS) public settings: Settings,
     public state: TestStateService,
     private modalService: NgbModal
   ) {}
-
-  canSetFinalGrade = this.canSetFinalGrade$;
 
   ngOnInit(): void {
     // TODO move to sort implementation

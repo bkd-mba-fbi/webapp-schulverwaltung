@@ -35,6 +35,7 @@ import { Sorting, SortService } from '../../shared/services/sort.service';
 import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 import { GradingsRestService } from '../../shared/services/gradings-rest.service';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
+import { canSetFinalGrade } from '../utils/events';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -109,6 +110,8 @@ export class TestStateService {
     this.filteredTests$,
     this.sorting$,
   ]).pipe(map(spread(this.toStudentGrades.bind(this))));
+
+  canSetFinalGrade$ = this.course$.pipe(map(canSetFinalGrade));
 
   private gradingScaleIds$ = this.course$.pipe(
     map((course: Course) =>

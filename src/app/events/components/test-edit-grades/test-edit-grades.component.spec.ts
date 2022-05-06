@@ -1,35 +1,33 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { buildCourse } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { TestEditGradesComponent } from './test-edit-grades.component';
-import { expectElementPresent } from '../../../../specs/expectations';
+import {
+  expectElementPresent,
+  expectNotInTheDocument,
+} from '../../../../specs/expectations';
 import { byTestId } from '../../../../specs/utils';
-import { Course } from '../../../shared/models/course.model';
 import { TestStateService } from '../../services/test-state.service';
-import { of } from 'rxjs';
+import { TestEditGradesComponent } from './test-edit-grades.component';
 
 describe('TestEditGradesComponent', () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
-  let course: Course;
-  let testStateServiceMock: TestStateService;
 
-  course = buildCourse(1234);
-  course.EvaluationStatusRef = {
-    HasEvaluationStarted: true,
-    EvaluationUntil: null,
-    HasReviewOfEvaluationStarted: false,
-    HasTestGrading: false,
-    Id: 6980,
-  };
+  let testStateServiceMock: jasmine.SpyObj<TestStateService>;
+
+  const course = buildCourse(1234);
 
   beforeEach(
     waitForAsync(() => {
-      testStateServiceMock = ({
-        course$: of(course),
-        setSorting: () => of({ key: 'FullName', ascending: true }),
-        getSortingChar$: () => of('FullName'),
-      } as unknown) as TestStateService;
+      testStateServiceMock = jasmine.createSpyObj('TestStateService', [
+        'canSetFinalGrade$',
+        'setSorting',
+        'getSortingChar$',
+        'course$',
+      ]);
+
+      testStateServiceMock.course$ = of(course);
 
       TestBed.configureTestingModule(
         buildTestModuleMetadata({
@@ -55,11 +53,19 @@ describe('TestEditGradesComponent', () => {
   });
 
   it('should display button to set average as final grade', () => {
+    testStateServiceMock.canSetFinalGrade$ = of(true);
     fixture.detectChanges();
     expectElementPresent(fixture.debugElement, 'apply-average-button');
   });
 
+  it('should not show button to set average as final grade', () => {
+    testStateServiceMock.canSetFinalGrade$ = of(false);
+    fixture.detectChanges();
+    expectNotInTheDocument(fixture.debugElement, 'apply-average-button');
+  });
+
   it('should display external link to rating overview', () => {
+    testStateServiceMock.canSetFinalGrade$ = of(true);
     fixture.detectChanges();
     const link = fixture.debugElement.query(byTestId('link-to-rating-overview'))
       .nativeElement as HTMLLinkElement;
