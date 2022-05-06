@@ -102,4 +102,18 @@ describe('DossierSingleTestComponent', () => {
     fixture.detectChanges();
     expectText(debugElement, 'test-teacher', 'Stolz Zusanna');
   });
+
+  it('should show the state of a published test', () => {
+    test.IsPublished = true;
+
+    fixture.detectChanges();
+    expectText(debugElement, 'test-status', 'tests.published');
+  });
+
+  it('should show the state of a test not published yet', () => {
+    test.IsPublished = false;
+
+    fixture.detectChanges();
+    expectText(debugElement, 'test-status', 'tests.not-published');
+  });
 });
