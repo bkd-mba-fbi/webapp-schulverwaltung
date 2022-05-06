@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, switchMap } from 'rxjs';
+import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { DossierStateService } from '../../../services/dossier-state.service';
+import { ReportsService } from '../../../services/reports.service';
 
 @Component({
   selector: 'erz-student-dossier',
   templateUrl: './student-dossier.component.html',
   styleUrls: ['./student-dossier.component.scss'],
-  providers: [DossierStateService],
+  providers: [DossierStateService, DossierGradesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
+// TODO: on Destroy
 export class StudentDossierComponent {
   link$ = this.state.isOverview$.pipe(
     map((isOverview) => (isOverview ? ['../..'] : ['.']))
@@ -26,5 +30,9 @@ export class StudentDossierComponent {
     )
   );
 
-  constructor(public state: DossierStateService) {}
+  constructor(
+    public state: DossierStateService,
+    public dossierGradesService: DossierGradesService,
+    public reportsService: ReportsService
+  ) {}
 }

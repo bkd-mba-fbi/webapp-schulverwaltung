@@ -1,10 +1,12 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { buildCourse, buildStudent } from 'src/spec-builders';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { Course, FinalGrading, Grading } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 import { DossierGradesService } from './dossier-grades.service';
 import { GradingScalesRestService } from './grading-scales-rest.service';
-import { LoadingService } from './loading-service';
+import { StorageService } from './storage.service';
 
 describe('DossierGradesService', () => {
   let service: DossierGradesService;
@@ -21,21 +23,24 @@ describe('DossierGradesService', () => {
       ['getGradingScale']
     );
 
-    service = new DossierGradesService(
-      coursesRestService,
-      new LoadingService(),
-      gradingScalesRestService
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [
+          DossierGradesService,
+          { provide: CoursesRestService, useValue: coursesRestService },
+          {
+            provide: StorageService,
+            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+          },
+        ],
+      })
     );
+    service = TestBed.inject(DossierGradesService);
   });
 
   describe('studentCourses$', () => {
     it('should return empty list if there are no courses', () => {
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
-      service = new DossierGradesService(
-        coursesRestService,
-        new LoadingService(),
-        gradingScalesRestService
-      );
 
       let result: Course[] = [];
       service.studentCourses$.subscribe((courses) => (result = courses));
@@ -61,11 +66,6 @@ describe('DossierGradesService', () => {
       const courses = [course1, course2, course3];
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(
         of(courses)
-      );
-      service = new DossierGradesService(
-        coursesRestService,
-        new LoadingService(),
-        gradingScalesRestService
       );
 
       let result: Course[] = [];

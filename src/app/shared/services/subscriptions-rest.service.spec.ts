@@ -52,7 +52,7 @@ describe('SubscriptionsRestService', () => {
       buildIdSubscription(2, 12, personId),
     ];
 
-    const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId==11,12,13`;
+    const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId=;11,12,13`;
 
     let result: ReadonlyArray<IdSubscription> | undefined;
     service

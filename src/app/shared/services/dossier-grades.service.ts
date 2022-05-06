@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   combineLatest,
   forkJoin,
   map,
   ReplaySubject,
-  share,
   shareReplay,
   switchMap,
-  take,
-  tap,
 } from 'rxjs';
+import { Settings, SETTINGS } from 'src/app/settings';
 import { Course, FinalGrading, Grading } from '../models/course.model';
 import { GradingScale } from '../models/grading-scale.model';
 import { Test } from '../models/test.model';
@@ -17,20 +15,56 @@ import { notNull, unique } from '../utils/filter';
 import { CoursesRestService } from './courses-rest.service';
 import { GradingScalesRestService } from './grading-scales-rest.service';
 import { LoadingService } from './loading-service';
+import { ReportsService } from './reports.service';
+import { SubscriptionsRestService } from './subscriptions-rest.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DossierGradesService {
   private studentId$ = new ReplaySubject<number>(1);
 
-  studentCourses$ = this.loadCoursesForStudent();
+  studentCourses$ = this.studentId$.pipe(
+    switchMap(this.loadCourses.bind(this)),
+    shareReplay(1)
+  );
+
   loading$ = this.loadingService.loading$;
+
+  private studentCourseIds$ = this.studentCourses$.pipe(
+    map((courses: Course[]) => courses.flatMap((course) => course.Id))
+  );
+
+  private idSubscriptions$ = combineLatest([
+    this.studentId$,
+    this.studentCourseIds$,
+  ]).pipe(
+    switchMap(([studentId, courseIds]) =>
+      this.subscriptionRestService.getIdSubscriptionsByStudentAndCourse(
+        studentId,
+        courseIds
+      )
+    )
+  );
+
+  private ids$ = this.idSubscriptions$.pipe(
+    map((subscriptions) => subscriptions.map((s) => s.Id))
+  );
+
+  testReportUrl$ = this.ids$?.pipe(
+    map((ids) =>
+      this.reportsService.getSubscriptionReportUrl(
+        this.settings.testsBySubscriptionReportId,
+        ids
+      )
+    )
+  );
 
   constructor(
     private coursesRestService: CoursesRestService,
+    private subscriptionRestService: SubscriptionsRestService,
+    private reportsService: ReportsService,
     private loadingService: LoadingService,
-    private gradingScalesRestService: GradingScalesRestService
+    private gradingScalesRestService: GradingScalesRestService,
+    @Inject(SETTINGS) private settings: Settings
   ) {}
 
   setStudentId(id: number) {
