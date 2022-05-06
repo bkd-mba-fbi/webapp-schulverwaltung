@@ -95,4 +95,11 @@ describe('DossierSingleTestComponent', () => {
     fixture.detectChanges();
     expectText(debugElement, 'test-points', '22.5 / 27 tests.points');
   });
+
+  it("should show the teacher's name", () => {
+    test.Owner = 'Stolz Zusanna';
+
+    fixture.detectChanges();
+    expectText(debugElement, 'test-teacher', 'Stolz Zusanna');
+  });
 });
