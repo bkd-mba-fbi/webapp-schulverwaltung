@@ -8,8 +8,12 @@
             (click)="acc.toggle('course-' + i)"
           >
             <span [attr.data-testid]="'course-designation-' + course.Id"
-              >{{ course.Designation }}, {{ course.Id }}</span
-            >
+              ><erz-dossier-grades-final-grade-summary
+                [course]="course"
+                [studentId]="studentId"
+                [gradingScales]="gradingScales"
+              ></erz-dossier-grades-final-grade-summary
+            ></span>
           </erz-student-dossier-entry-header>
         </ng-template>
         <ng-template ngbPanelContent>
