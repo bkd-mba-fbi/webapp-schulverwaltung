@@ -14,6 +14,10 @@ describe('DossierSingleTestComponent', () => {
   let debugElement: DebugElement;
   let test: Test;
 
+  const testId = 123;
+  const studentId = 10;
+  const courseId = 12;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -23,12 +27,14 @@ describe('DossierSingleTestComponent', () => {
   });
 
   beforeEach(() => {
-    test = buildTest(1, 123, []);
+    test = buildTest(1, testId, []);
+
     (test.Date = new Date('2022-02-22T00:00:00')),
       (fixture = TestBed.createComponent(DossierSingleTestComponent));
     debugElement = fixture.debugElement;
     component = fixture.componentInstance;
     component.test = test;
+    component.studentId = studentId;
 
     fixture.detectChanges();
   });
@@ -54,7 +60,6 @@ describe('DossierSingleTestComponent', () => {
   });
 
   it('should show grade from student', () => {
-    const studentId = 999;
     const result = buildResult(123, studentId);
     result.GradeId = 1004;
     test.Results = [result, buildResult(123, 998)];
@@ -69,7 +74,6 @@ describe('DossierSingleTestComponent', () => {
       ],
     } as unknown) as GradingScale;
 
-    component.studentId = studentId;
     component.gradingScale = gradingScale;
     fixture.detectChanges();
 
@@ -78,5 +82,17 @@ describe('DossierSingleTestComponent', () => {
 
   it('should show test summary (factor, weight)', () => {
     expectText(debugElement, 'test-factor', 'tests.factor 2 (50%)');
+  });
+
+  it('should show achieved and max points', () => {
+    const result = buildResult(testId, studentId);
+    result.Points = 22.5;
+    test = buildTest(courseId, testId, [result]);
+    test.IsPointGrading = true;
+    test.MaxPoints = 27;
+    component.test = test;
+
+    fixture.detectChanges();
+    expectText(debugElement, 'test-points', '22.5 / 27 tests.points');
   });
 });

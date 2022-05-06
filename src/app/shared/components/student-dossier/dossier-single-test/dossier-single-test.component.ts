@@ -3,6 +3,8 @@ import { resultOfStudent } from 'src/app/events/utils/tests';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 
+//import * as v from '../../../../../';
+
 @Component({
   selector: 'erz-dossier-single-test',
   template: ` <div>
@@ -17,9 +19,12 @@ import { Test } from 'src/app/shared/models/test.model';
       <div class="col-6" data-testid="test-factor">
         {{ test | erzTestWeight }}
       </div>
+      <div class="col-6 points" data-testid="test-points">
+        {{ test | erzTestPoints: studentId }}
+      </div>
     </div>
   </div>`,
-  styles: [],
+  styleUrls: ['./dossier-single-test.component.scss'],
 })
 export class DossierSingleTestComponent {
   @Input() test: Option<Test>;
