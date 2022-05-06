@@ -122,13 +122,8 @@ export class TestStateService {
     )
   );
 
-  private gradingScales$ = this.gradingScaleIds$.pipe(
-    switchMap((ids) =>
-      forkJoin(
-        ids.map((id) => this.gradingScalesRestService.getGradingScale(id))
-      )
-    ),
-    shareReplay(1)
+  private gradingScales$ = this.gradingScalesRestService.loadGradingScales(
+    this.gradingScaleIds$
   );
 
   private gradingScalesOptions$: Observable<GradingScaleOptions> = this.gradingScales$.pipe(
