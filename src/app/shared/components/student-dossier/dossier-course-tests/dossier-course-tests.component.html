@@ -1,7 +1,9 @@
 <erz-dossier-grades-final-grade
-  [finalGrade]="getFinalGradeForStudent()"
-  [grading]="getGradingForStudent()"
-  [gradingScale]="getGradingScaleOfCourse()"
+  [finalGrade]="dossierGradeService.getFinalGradeForStudent(course, studentId)"
+  [grading]="dossierGradeService.getGradingForStudent(course, studentId)"
+  [gradingScale]="
+    dossierGradeService.getGradingScaleOfCourse(course, gradingScales)
+  "
 ></erz-dossier-grades-final-grade>
 <div *ngIf="course.Tests?.length > 0; else noTests">
   <div *ngFor="let test of course.Tests" class="test-entry">
