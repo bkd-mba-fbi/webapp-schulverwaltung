@@ -7,7 +7,7 @@
             [opened]="opened"
             (click)="acc.toggle('course-' + i)"
           >
-            <erz-dossier-grades-final-grade-summary
+            <erz-dossier-grades-course-header
               [designation]="course.Designation"
               [finalGrade]="
                 dossierGradeService.getFinalGradeForStudent(course, studentId)
@@ -21,7 +21,7 @@
                   gradingScales
                 )
               "
-            ></erz-dossier-grades-final-grade-summary>
+            ></erz-dossier-grades-course-header>
           </erz-student-dossier-entry-header>
         </ng-template>
         <ng-template ngbPanelContent>
