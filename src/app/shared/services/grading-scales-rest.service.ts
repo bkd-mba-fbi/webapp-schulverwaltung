@@ -20,7 +20,9 @@ export class GradingScalesRestService extends RestService<typeof GradingScale> {
       .pipe(switchMap(decode(GradingScale)));
   }
 
-  loadGradingScales(observable: Observable<number[]>) {
+  loadGradingScales(
+    observable: Observable<number[]>
+  ): Observable<ReadonlyArray<GradingScale>> {
     return observable.pipe(
       switchMap((ids) =>
         forkJoin(ids.map((id: number) => this.getGradingScale(id)))
