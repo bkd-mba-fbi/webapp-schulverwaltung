@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, switchMap } from 'rxjs';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { DossierStateService } from '../../../services/dossier-state.service';
-import { ReportsService } from '../../../services/reports.service';
 
 @Component({
   selector: 'erz-student-dossier',
@@ -32,7 +31,6 @@ export class StudentDossierComponent {
 
   constructor(
     public state: DossierStateService,
-    public dossierGradesService: DossierGradesService,
-    public reportsService: ReportsService
+    public dossierGradesService: DossierGradesService
   ) {}
 }
