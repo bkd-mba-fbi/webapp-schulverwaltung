@@ -5,31 +5,30 @@ import { Test } from 'src/app/shared/models/test.model';
 
 @Component({
   selector: 'erz-dossier-single-test',
-  template: ` <div>
-    <span data-testid="test-designation">{{ test?.Designation }}</span>
-    <div class="row">
-      <div class="col-6" data-testid="test-date">
-        {{ test?.Date | date: 'mediumDate' }}
-      </div>
-      <div class="col-6" data-testid="test-grade">
-        {{ getGrading() || '-' }}
-      </div>
-      <div class="col-6" data-testid="test-factor">
-        {{ test | erzTestWeight }}
-      </div>
-      <div class="col-6 points" data-testid="test-points">
-        {{ test | erzTestPoints: studentId }}
-      </div>
-      <div class="col-6" data-testid="test-teacher">
-        {{ test?.Owner }}
-      </div>
-      <div class="col-6"></div>
-      <div class="col-6" data-testid="test-status">
-        {{
-          (test?.IsPublished ? 'tests.published' : 'tests.not-published')
-            | translate
-        }}
-      </div>
+  template: ` <div class="test-entry">
+    <div class="designation" data-testid="test-designation">
+      {{ test?.Designation }}
+    </div>
+    <div class="date" data-testid="test-date">
+      {{ test?.Date | date: 'mediumDate' }}
+    </div>
+    <div class="grade" data-testid="test-grade">
+      {{ getGrading() || '-' }}
+    </div>
+    <div class="factor" data-testid="test-factor">
+      {{ test | erzTestWeight }}
+    </div>
+    <div class="points" data-testid="test-points">
+      {{ test | erzTestPoints: studentId }}
+    </div>
+    <div class="teacher" data-testid="test-teacher">
+      {{ test?.Owner }}
+    </div>
+    <div class="state" data-testid="test-status">
+      {{
+        (test?.IsPublished ? 'tests.published' : 'tests.not-published')
+          | translate
+      }}
     </div>
   </div>`,
   styleUrls: ['./dossier-single-test.component.scss'],

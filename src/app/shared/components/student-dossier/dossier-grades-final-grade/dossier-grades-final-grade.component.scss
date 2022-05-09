@@ -1,0 +1,7 @@
+@import "../../../../../bootstrap-variables";
+
+.final-entry {
+  padding: $spacer;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
