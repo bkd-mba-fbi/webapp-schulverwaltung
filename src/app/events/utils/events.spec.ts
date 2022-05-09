@@ -1,6 +1,7 @@
-import { canSetFinalGrade, getState } from './events';
+import { canSetFinalGrade, getState, isRated } from './events';
 import { buildCourse } from '../../../spec-builders';
 import { EventState } from '../services/events-state.service';
+import { EvaluationStatusRef } from 'src/app/shared/models/course.model';
 
 describe('Course utils', () => {
   describe('Get course state', () => {
@@ -235,6 +236,24 @@ describe('Course utils', () => {
       expect(canSetFinalGrade(course)).toEqual(true);
 
       jasmine.clock().uninstall();
+    });
+  });
+
+  describe('is course rated', () => {
+    it('should return true if review of evaluation has started', () => {
+      // given
+      const evaluationStatusRef = ({
+        HasReviewOfEvaluationStarted: true,
+      } as unknown) as EvaluationStatusRef;
+      const course = buildCourse(
+        1,
+        'rated course',
+        undefined,
+        evaluationStatusRef
+      );
+
+      // then
+      expect(isRated(course)).toBeTruthy();
     });
   });
 });
