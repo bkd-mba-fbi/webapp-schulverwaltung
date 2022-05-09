@@ -36,7 +36,7 @@ describe('CoursesRestService', () => {
         .expectOne(
           (req) =>
             req.url ===
-              'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300' &&
+              'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300' &&
             req.headers.get('X-Role-Restriction') === 'TeacherRole'
         )
         .flush(data);
