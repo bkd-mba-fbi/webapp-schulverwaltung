@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
-import { DossierStateService } from 'src/app/shared/services/dossier-state.service';
+import {
+  DossierPage,
+  DossierStateService,
+} from 'src/app/shared/services/dossier-state.service';
 import { buildStudent } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StudentDossierAddressComponent } from '../student-dossier-address/student-dossier-address.component';
@@ -15,8 +18,6 @@ describe('DossierAddressesComponent', () => {
   let stateServiceMock: DossierStateService;
   let isOverview$: BehaviorSubject<boolean>;
   let currentDossier$: BehaviorSubject<DossierPage>;
-
-  type DossierPage = 'overview' | 'addresses' | 'absences' | 'grades';
 
   beforeEach(async () => {
     isOverview$ = new BehaviorSubject<boolean>(false);
