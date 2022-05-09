@@ -1,7 +1,10 @@
 import { canSetFinalGrade, getState, isRated } from './events';
 import { buildCourse } from '../../../spec-builders';
 import { EventState } from '../services/events-state.service';
-import { EvaluationStatusRef } from 'src/app/shared/models/course.model';
+import {
+  EvaluationStatusRef,
+  FinalGrading,
+} from 'src/app/shared/models/course.model';
 
 describe('Course utils', () => {
   describe('Get course state', () => {
@@ -240,20 +243,72 @@ describe('Course utils', () => {
   });
 
   describe('is course rated', () => {
-    it('should return true if review of evaluation has started', () => {
+    it('should return true if review of evaluation has started and final grades are null', () => {
       // given
       const evaluationStatusRef = ({
         HasReviewOfEvaluationStarted: true,
       } as unknown) as EvaluationStatusRef;
-      const course = buildCourse(
+      let course = buildCourse(
         1,
         'rated course',
         undefined,
         evaluationStatusRef
       );
+      course.FinalGrades = null;
 
       // then
-      expect(isRated(course)).toBeTruthy();
+      expect(isRated(course)).toBeTrue();
+    });
+
+    it('should return false if final grades are not null', () => {
+      // given
+      const evaluationStatusRef = ({
+        HasReviewOfEvaluationStarted: true,
+      } as unknown) as EvaluationStatusRef;
+      let course = buildCourse(
+        1,
+        'rated course',
+        undefined,
+        evaluationStatusRef
+      );
+      course.FinalGrades = [({ Id: 3 } as unknown) as FinalGrading];
+
+      // then
+      expect(isRated(course)).toBeFalse();
+    });
+
+    it('should return false if review of evaluation has not started', () => {
+      // given
+      const evaluationStatusRef = ({
+        HasReviewOfEvaluationStarted: false,
+      } as unknown) as EvaluationStatusRef;
+      let course = buildCourse(
+        1,
+        'rated course',
+        undefined,
+        evaluationStatusRef
+      );
+      course.FinalGrades = null;
+
+      // then
+      expect(isRated(course)).toBeFalse();
+    });
+
+    it('should false if review of evaluation has started and final grades are emtpy', () => {
+      // given
+      const evaluationStatusRef = ({
+        HasReviewOfEvaluationStarted: true,
+      } as unknown) as EvaluationStatusRef;
+      let course = buildCourse(
+        1,
+        'rated course',
+        undefined,
+        evaluationStatusRef
+      );
+      course.FinalGrades = [];
+
+      // then
+      expect(isRated(course)).toBeFalse();
     });
   });
 });
