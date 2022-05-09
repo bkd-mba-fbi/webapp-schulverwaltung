@@ -110,6 +110,16 @@ describe('EventsStateService', () => {
         },
         studyClasses
       ),
+      buildCourse(
+        5,
+        'Deutsch',
+        attendance,
+        {
+          ...evaluationStatus,
+          HasReviewOfEvaluationStarted: true,
+        },
+        studyClasses
+      ),
     ];
 
     const courseEvent: Event = {

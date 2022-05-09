@@ -11,7 +11,7 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
 import { spread } from 'src/app/shared/utils/function';
 import { searchEntries } from 'src/app/shared/utils/search';
-import { getState } from '../utils/events';
+import { getState, isRated } from '../utils/events';
 
 export enum EventState {
   Rating = 'rating',
@@ -37,7 +37,9 @@ export class EventsStateService {
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>('');
 
-  private courses$ = this.coursesRestService.getExpandedCourses();
+  private coursesNotRated$ = this.coursesRestService
+    .getExpandedCourses()
+    .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   private formativeAssessments$ = this.studyClassRestService.getActiveFormativeAssessments();
   private studyClasses$ = this.studyClassRestService.getActive();
 
@@ -63,11 +65,13 @@ export class EventsStateService {
     return this.loadingService.load(
       this.hasClassTeacherRole()
         ? combineLatest([
-            this.courses$,
+            this.coursesNotRated$,
             this.formativeAssessments$,
             this.studyClasses$,
           ]).pipe(map(spread(this.createAndSortEvents.bind(this))))
-        : this.courses$.pipe(map((course) => this.createAndSortEvents(course)))
+        : this.coursesNotRated$.pipe(
+            map((course) => this.createAndSortEvents(course))
+          )
     );
   }
 
