@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import {
   combineLatest,
   distinctUntilChanged,
+  forkJoin,
   map,
   ReplaySubject,
   shareReplay,
