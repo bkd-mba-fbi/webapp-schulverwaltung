@@ -14,9 +14,13 @@ describe('DossierAddressesComponent', () => {
   let fixture: ComponentFixture<DossierAddressesComponent>;
   let stateServiceMock: DossierStateService;
   let isOverview$: BehaviorSubject<boolean>;
+  let currentDossier$: BehaviorSubject<DossierPage>;
+
+  type DossierPage = 'overview' | 'addresses' | 'absences' | 'grades';
 
   beforeEach(async () => {
     isOverview$ = new BehaviorSubject<boolean>(false);
+    currentDossier$ = new BehaviorSubject<DossierPage>('addresses');
 
     stateServiceMock = ({
       profile$: of({
@@ -25,6 +29,7 @@ describe('DossierAddressesComponent', () => {
         apprenticeshipCompanies: [],
       }),
       isOverview$,
+      currentDossier$,
     } as unknown) as DossierStateService;
 
     await TestBed.configureTestingModule(
