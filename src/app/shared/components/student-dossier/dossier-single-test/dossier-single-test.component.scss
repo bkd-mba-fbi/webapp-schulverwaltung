@@ -1,5 +1,51 @@
 @import "../../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.test-entry {
+  border-top: 1px solid $border-color;
+  padding: $spacer;
+  display: grid;
+  grid-template-areas:
+    "designation designation grade factor"
+    "date date points ."
+    "teacher teacher . ."
+    "state state . .";
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.designation {
+  grid-area: designation;
+}
+
+.date {
+  grid-area: date;
+}
+
+.grade {
+  grid-area: grade;
+}
 
 .points {
+  grid-area: points;
   color: rgba($body-color, 0.5);
+}
+
+.teacher {
+  grid-area: teacher;
+}
+
+.state {
+  grid-area: state;
+}
+
+@include media-breakpoint-down(sm) {
+  .test-entry {
+    grid-template-areas:
+      "designation designation"
+      "date grade"
+      "factor points"
+      "teacher teacher"
+      "state state";
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

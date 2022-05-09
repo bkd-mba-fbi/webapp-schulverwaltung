@@ -4,19 +4,15 @@ import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import * as Gradings from 'src/app/shared/utils/gradings';
 @Component({
   selector: 'erz-dossier-grades-final-grade',
-  template: `<div class="row mx-1">
-    <div class="col-6">{{ 'dossier.grade' | translate }}</div>
-    <div class="col-6">
-      <span data-testid="final-grade">{{ getGradeForStudent() || '-' }}</span>
-    </div>
-    <div class="col-6">{{ 'dossier.average' | translate }}</div>
-    <div class="col-6">
-      <span data-testid="average-test-results">{{
-        grading?.AverageTestResult | number: '1.0-3'
-      }}</span>
+  template: `<div class="final-entry">
+    <div>{{ 'dossier.grade' | translate }}</div>
+    <div data-testid="final-grade">{{ getGradeForStudent() || '-' }}</div>
+    <div>{{ 'dossier.average' | translate }}</div>
+    <div data-testid="average-test-results">
+      {{ grading?.AverageTestResult | number: '1.0-3' }}
     </div>
   </div>`,
-  styles: [],
+  styleUrls: ['./dossier-grades-final-grade.component.scss'],
 })
 export class DossierGradesFinalGradeComponent {
   @Input() finalGrade: Option<FinalGrading>;
