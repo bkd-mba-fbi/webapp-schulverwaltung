@@ -30,3 +30,8 @@ export function canSetFinalGrade(course: Course): boolean {
       status.EvaluationUntil === undefined)
   );
 }
+
+export function isRated(course: Course): boolean {
+  // TODO other condition, see https://github.com/bkd-mba-fbi/webapp-schulverwaltung/issues/332#issuecomment-1121227594
+  return course.EvaluationStatusRef.HasReviewOfEvaluationStarted === true;
+}
