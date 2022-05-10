@@ -12,14 +12,17 @@ import { Test } from 'src/app/shared/models/test.model';
     <div class="date" data-testid="test-date">
       {{ test?.Date | date: 'mediumDate' }}
     </div>
-    <div class="grade" data-testid="test-grade">
-      {{ getGrading() || '-' }}
+    <div class="grade">
+      <a class="btn btn-link" aria-label="edit grade">
+        <i class="material-icons">edit</i>
+        <span data-testid="test-grade">{{ getGrading() || '-' }}</span>
+      </a>
     </div>
     <div class="factor" data-testid="test-factor">
       {{ test | erzTestWeight }}
     </div>
     <div class="points" data-testid="test-points">
-      {{ test | erzTestPoints: studentId }}
+      <span>{{ test | erzTestPoints: studentId }}</span>
     </div>
     <div class="teacher" data-testid="test-teacher">
       {{ test?.Owner }}

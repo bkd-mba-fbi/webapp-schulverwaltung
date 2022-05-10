@@ -13,6 +13,10 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+span {
+  margin-left: 2em;
+}
+
 .designation {
   grid-area: designation;
 }
@@ -23,6 +27,16 @@
 
 .grade {
   grid-area: grade;
+
+  a {
+    display: flex;
+    color: rgba($body-color, 0.5);
+    padding-left: 0;
+  }
+
+  i {
+    margin-right: -1em;
+  }
 }
 
 .points {
