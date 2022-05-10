@@ -116,7 +116,11 @@
               >
                 <a
                   class="student"
-                  [routerLink]="['student', entry.lessonPresence.StudentRef.Id]"
+                  [routerLink]="[
+                    'student',
+                    entry.lessonPresence.StudentRef.Id,
+                    'absences'
+                  ]"
                   [queryParams]="{ returnparams: profileReturnParams$ | async }"
                 >
                   {{ entry.lessonPresence.StudentFullName }}

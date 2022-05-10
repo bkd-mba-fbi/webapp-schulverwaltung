@@ -67,7 +67,7 @@
                 <a
                   *ngIf="column.key === 'StudentFullName'; else noLink"
                   class="student"
-                  [routerLink]="['student', entry.StudentRef.Id]"
+                  [routerLink]="['student', entry.StudentRef.Id, 'absences']"
                   [queryParams]="{ returnparams: profileReturnParams$ | async }"
                 >
                   {{ entry[column.key] }}
