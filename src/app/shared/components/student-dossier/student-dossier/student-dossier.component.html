@@ -12,8 +12,8 @@
       <div class="d-flex w-100 justify-content-between">
         <erz-student-backlink
           class="mb-2"
-          [link]="link$ | async"
-          [queryParams]="queryParams$ | async"
+          [link]="'../..'"
+          [queryParams]="state.backlinkQueryParams$ | async"
           [studentId]="state.studentId$ | async"
           [student]="data.profile && data.profile.student"
         ></erz-student-backlink>

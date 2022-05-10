@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { of } from 'rxjs';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { DossierStateService } from '../../../services/dossier-state.service';
 
@@ -10,13 +9,7 @@ import { DossierStateService } from '../../../services/dossier-state.service';
   providers: [DossierStateService, DossierGradesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-// TODO: on Destroy
 export class StudentDossierComponent {
-  link$ = of('../..');
-
-  queryParams$ = this.state.backlinkQueryParams$;
-
   constructor(
     public state: DossierStateService,
     public dossierGradesService: DossierGradesService
