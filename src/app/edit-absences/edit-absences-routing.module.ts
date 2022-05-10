@@ -16,7 +16,9 @@ const routes: Routes = [
         data: {
           restoreScrollPositionFrom: [
             '/edit-absences/edit',
-            '/edit-absences/student/:id',
+            '/edit-absences/student/:id/addresses',
+            '/edit-absences/student/:id/absences',
+            '/edit-absences/student/:id/grades',
           ],
         },
       },
