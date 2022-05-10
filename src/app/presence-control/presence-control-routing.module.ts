@@ -14,7 +14,11 @@ const routes: Routes = [
         path: '',
         component: PresenceControlListComponent,
         data: {
-          restoreScrollPositionFrom: ['/presence-control/student/:id'],
+          restoreScrollPositionFrom: [
+            '/presence-control/student/:id/addresses',
+            '/presence-control/student/:id/absences',
+            '/presence-control/student/:id/grades',
+          ],
         },
       },
       dossierRoute,
