@@ -16,11 +16,9 @@ describe('DossierAddressesComponent', () => {
   let component: DossierAddressesComponent;
   let fixture: ComponentFixture<DossierAddressesComponent>;
   let stateServiceMock: DossierStateService;
-  let isOverview$: BehaviorSubject<boolean>;
   let currentDossier$: BehaviorSubject<DossierPage>;
 
   beforeEach(async () => {
-    isOverview$ = new BehaviorSubject<boolean>(false);
     currentDossier$ = new BehaviorSubject<DossierPage>('addresses');
 
     stateServiceMock = ({
@@ -29,7 +27,6 @@ describe('DossierAddressesComponent', () => {
         legalRepresentativePersons: [],
         apprenticeshipCompanies: [],
       }),
-      isOverview$,
       currentDossier$,
     } as unknown) as DossierStateService;
 

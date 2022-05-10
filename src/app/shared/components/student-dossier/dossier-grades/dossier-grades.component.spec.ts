@@ -18,7 +18,6 @@ describe('DossierGradesComponent', () => {
   let fixture: ComponentFixture<DossierGradesComponent>;
 
   let dossierStateServiceMock: DossierStateService;
-  let isOverview$: BehaviorSubject<boolean>;
   let currentDossier$: BehaviorSubject<DossierPage>;
 
   let dossierGradesServiceMock: DossierGradesService;
@@ -30,11 +29,9 @@ describe('DossierGradesComponent', () => {
   const gradingScales = [buildGradingScale(1)];
 
   beforeEach(async () => {
-    isOverview$ = new BehaviorSubject<boolean>(false);
     currentDossier$ = new BehaviorSubject<DossierPage>('grades');
 
     dossierStateServiceMock = ({
-      isOverview$,
       currentDossier$,
       studentId$: of(123),
     } as unknown) as DossierStateService;
