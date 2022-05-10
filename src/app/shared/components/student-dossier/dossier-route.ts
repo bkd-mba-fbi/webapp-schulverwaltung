@@ -12,6 +12,7 @@ export const dossierRoute: Route = {
       path: '',
       component: StudentDossierComponent,
       children: [
+        { path: '', component: DossierAddressesComponent },
         { path: 'addresses', component: DossierAddressesComponent },
         { path: 'absences', component: DossierAbsencesComponent },
         { path: 'grades', component: DossierGradesComponent },
