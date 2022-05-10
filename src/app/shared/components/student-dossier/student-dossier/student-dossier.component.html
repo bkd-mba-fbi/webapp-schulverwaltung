@@ -28,6 +28,22 @@
           </a>
         </div>
       </div>
+      <div class="py-3">
+        <a
+          [queryParams]="{ returnparams: state.returnParams$ | async }"
+          [routerLink]="[section]"
+          class="pl-3"
+          *ngFor="let section of ['addresses', 'absences', 'grades']"
+        >
+          <button
+            data-test-id="dossier-section-button"
+            type="button"
+            class="btn btn-outline-primary"
+          >
+            {{ 'dossier.' + section | translate }}
+          </button>
+        </a>
+      </div>
       <div *ngIf="data.profile; else noProfile">
         <router-outlet></router-outlet>
       </div>

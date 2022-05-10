@@ -32,5 +32,8 @@ export class StudentDossierComponent {
   constructor(
     public state: DossierStateService,
     public dossierGradesService: DossierGradesService
-  ) {}
+  ) {
+    this.state.isOverview$.next(true);
+    this.state.currentDossier$.next('overview');
+  }
 }
