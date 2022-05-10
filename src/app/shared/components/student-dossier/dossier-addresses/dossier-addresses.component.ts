@@ -9,7 +9,6 @@ import { DossierStateService } from 'src/app/shared/services/dossier-state.servi
 })
 export class DossierAddressesComponent {
   constructor(public state: DossierStateService) {
-    this.state.isOverview$.next(false);
     this.state.currentDossier$.next('addresses');
   }
 }
