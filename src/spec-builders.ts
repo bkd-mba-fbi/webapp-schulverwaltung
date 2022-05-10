@@ -21,6 +21,7 @@ import {
   AttendanceRef,
   EvaluationStatusRef,
   Grading,
+  FinalGrading,
 } from './app/shared/models/course.model';
 import { Result, Test } from './app/shared/models/test.model';
 import { StudyClass } from './app/shared/models/study-class.model';
@@ -583,5 +584,22 @@ export function buildGradingScale(id: number, grades: Grade[] = []) {
     IdObject: 1106,
     FreeGrading: false,
     HRef: '/restApi/GradingScales/1106',
+  };
+}
+
+export function buildFinalGrading(id: number): FinalGrading {
+  return {
+    EventId: 9457,
+    EventDesignation: 'Französisch-S2',
+    EventNumber: '1-2-F-S2-GYM22-25a',
+    StudentId: 6231,
+    StudentMatriculationNumber: null,
+    StudentFullName: 'Scheidegger Mona',
+    StudentNameTooltip: 'Scheidegger Mona',
+    Grade: '4.5',
+    GradeValue: 4.5,
+    IsAdequate: true,
+    GradeComment: null,
+    Id: id,
   };
 }
