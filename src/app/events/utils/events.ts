@@ -34,6 +34,6 @@ export function canSetFinalGrade(course: Course): boolean {
 export function isRated(course: Course): boolean {
   return (
     course.EvaluationStatusRef.HasReviewOfEvaluationStarted === true &&
-    course.FinalGrades === null
+    !!course.FinalGrades?.length
   );
 }

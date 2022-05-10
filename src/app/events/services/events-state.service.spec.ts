@@ -1,10 +1,14 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import * as t from 'io-ts/lib/index';
-import { Course } from 'src/app/shared/models/course.model';
+import { Course, FinalGrading } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { buildCourse, buildStudyClass } from 'src/spec-builders';
+import {
+  buildCourse,
+  buildFinalGrading,
+  buildStudyClass,
+} from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { Event, EventsStateService, EventState } from './events-state.service';
 
@@ -77,6 +81,22 @@ describe('EventsStateService', () => {
       },
     ];
 
+    const ratedCourse = Object.assign(
+      buildCourse(
+        5,
+        'Deutsch',
+        attendance,
+        {
+          ...evaluationStatus,
+          HasReviewOfEvaluationStarted: true,
+        },
+        studyClasses
+      ),
+      {
+        FinalGrades: [buildFinalGrading(45)],
+      }
+    );
+
     courses = [
       buildCourse(1, 'Physik', attendance, evaluationStatus, studyClasses),
       buildCourse(
@@ -110,16 +130,7 @@ describe('EventsStateService', () => {
         },
         studyClasses
       ),
-      buildCourse(
-        5,
-        'Deutsch',
-        attendance,
-        {
-          ...evaluationStatus,
-          HasReviewOfEvaluationStarted: true,
-        },
-        studyClasses
-      ),
+      ratedCourse,
     ];
 
     const courseEvent: Event = {
