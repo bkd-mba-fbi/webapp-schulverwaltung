@@ -35,7 +35,6 @@ import { TestsWeightPipe } from './pipes/test-weight.pipe';
 import { TestPointsPipe } from './pipes/test-points.pipe';
 import { PreserveLineHeightComponent } from './components/text/line/preserve-line-height.component';
 import { DossierAbsencesComponent } from './components/student-dossier/dossier-absences/dossier-absences.component';
-import { DossierOverviewComponent } from './components/student-dossier/dossier-overview/dossier-overview.component';
 import { DossierAddressesComponent } from './components/student-dossier/dossier-addresses/dossier-addresses.component';
 import { DossierGradesComponent } from './components/student-dossier/dossier-grades/dossier-grades.component';
 import { DossierCourseTestsComponent } from './components/student-dossier/dossier-course-tests/dossier-course-tests.component';
@@ -53,7 +52,6 @@ const components = [
   DateSelectComponent,
   SelectComponent,
   MultiselectComponent,
-  DossierOverviewComponent,
   DossierAddressesComponent,
   DossierAbsencesComponent,
   StudentBacklinkComponent,
