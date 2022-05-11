@@ -282,7 +282,7 @@ describe('CoursesRestService', () => {
     responseBody: UpdatedTestResultResponse
   ) {
     service
-      .updateTestResult(buildCourse(1), requestBody)
+      .updateTestResult(buildCourse(1).Id, requestBody)
       .subscribe((result) => expect(result).toEqual(responseBody));
   }
 

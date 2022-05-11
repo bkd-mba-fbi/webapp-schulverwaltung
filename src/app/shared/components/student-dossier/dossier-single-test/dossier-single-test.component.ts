@@ -1,19 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { resultOfStudent } from 'src/app/events/utils/tests';
+import { TestGradesResult } from 'src/app/shared/models/course.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
+import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
 
 @Component({
   selector: 'erz-dossier-single-test',
   template: ` <div class="test-entry">
     <div class="designation" data-testid="test-designation">
-      {{ test?.Designation }}
+      {{ test.Designation }}
     </div>
     <div class="date" data-testid="test-date">
-      {{ test?.Date | date: 'mediumDate' }}
+      {{ test.Date | date: 'mediumDate' }}
     </div>
     <div class="grade">
       <a
@@ -32,11 +34,11 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
       <span>{{ test | erzTestPoints: studentId }}</span>
     </div>
     <div class="teacher" data-testid="test-teacher">
-      {{ test?.Owner }}
+      {{ test.Owner }}
     </div>
     <div class="state" data-testid="test-status">
       {{
-        (test?.IsPublished ? 'tests.published' : 'tests.not-published')
+        (test.IsPublished ? 'tests.published' : 'tests.not-published')
           | translate
       }}
     </div>
@@ -44,11 +46,14 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
   styleUrls: ['./dossier-single-test.component.scss'],
 })
 export class DossierSingleTestComponent {
-  @Input() test: Option<Test>;
+  @Input() test: Test;
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private courseService: CoursesRestService
+  ) {}
 
   get grading(): string {
     return (
@@ -57,23 +62,30 @@ export class DossierSingleTestComponent {
     );
   }
 
-  editGrading(test: Option<Test>): void {
+  editGrading(test: Test): void {
     const modalRef = this.modalService.open(DossierGradesEditComponent);
-    modalRef.componentInstance.designation = test?.Designation;
+    modalRef.componentInstance.designation = test.Designation;
     modalRef.componentInstance.gradeId = this.getGradeId();
     modalRef.componentInstance.gradeOptions = this.mapToOptions(
       this.gradingScale
     );
     modalRef.result.then(
       (selectedGrade) => {
-        console.log(selectedGrade);
+        const result: TestGradesResult = {
+          StudentIds: [this.studentId],
+          TestId: test.Id,
+          GradeId: selectedGrade,
+        };
+        this.courseService
+          .updateTestResult(test.CourseId, result)
+          .subscribe((result) => console.log(result)); // TODO update list
       },
       () => {}
     );
   }
 
   private getGradeId(): Option<number> {
-    return resultOfStudent(this.studentId, this.test!)?.GradeId || null;
+    return resultOfStudent(this.studentId, this.test)?.GradeId || null;
   }
 
   private mapToOptions(

@@ -110,11 +110,11 @@ export class CoursesRestService extends RestService<typeof Course> {
   }
 
   updateTestResult(
-    course: Course,
+    courseId: number,
     body: TestPointsResult | TestGradesResult
   ): Observable<UpdatedTestResultResponse> {
     return this.http
-      .put(`${this.baseUrl}/${course.Id}/SetTestResult`, body)
+      .put(`${this.baseUrl}/${courseId}/SetTestResult`, body)
       .pipe(switchMap(decode(UpdatedTestResultResponse)));
   }
 

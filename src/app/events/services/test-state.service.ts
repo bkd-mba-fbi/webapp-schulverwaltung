@@ -216,7 +216,7 @@ export class TestStateService {
       .pipe(
         take(1),
         switchMap((course: Course) =>
-          this.coursesRestService.updateTestResult(course, requestBody)
+          this.coursesRestService.updateTestResult(course.Id, requestBody)
         )
       )
       .subscribe((response) => this.updateStudentGrades(response));
