@@ -30,7 +30,7 @@ export type NoResult = {
 
 export type GradeOrNoResult = Grade | NoResult;
 
-export type SortKeys = 'FullName' | Test;
+export type SortKeys = 'FullName' | Test | 'FinalGrade';
 
 export function transform(
   students: Student[],
@@ -96,11 +96,19 @@ export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
   sg2: StudentGrade
 ): number => {
   const modificator = ascending ? 1 : -1;
+  console.log('SORTING: compareFn: ', sg1, sg2);
 
   switch (key) {
     case 'FullName':
       return (
         modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
+      );
+    case 'FinalGrade':
+      if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
+        return 0;
+      return (
+        modificator *
+        compareNumbers(sg1.finalGrade.finalGradeId, sg2.finalGrade.finalGradeId)
       );
   }
 
@@ -129,6 +137,12 @@ const compareGrades = (
     (grades1?.result?.GradeValue?.valueOf() ?? 0)
   );
 };
+
+function compareNumbers(nr1: number, nr2: number) {
+  if (nr1 === nr2) return 0;
+  if (nr1 < nr2) return -1;
+  return 1;
+}
 
 function isGrade(g: GradeOrNoResult): g is Grade {
   return g.kind === 'grade';
