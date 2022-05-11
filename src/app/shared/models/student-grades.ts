@@ -133,14 +133,15 @@ const compareGrades = (
     .filter(isGrade)
     .find((g: Grade) => g.test.Id === test.Id);
 
-  // oh boy - typescript is really nice /s
-  if (test.IsPointGrading) {
+  const sorting =
+    (grades1?.result?.GradeId?.valueOf() ?? 0) -
+    (grades2?.result?.GradeId?.valueOf() ?? 0);
+
+  if (sorting === 0 && test.IsPointGrading) {
     return (grades2?.result?.Points ?? 0) - (grades1?.result?.Points ?? 0);
   }
-  return (
-    (grades2?.result?.GradeValue?.valueOf() ?? 0) -
-    (grades1?.result?.GradeValue?.valueOf() ?? 0)
-  );
+
+  return sorting;
 };
 
 function compareNumbers(nr1: number, nr2: number) {
