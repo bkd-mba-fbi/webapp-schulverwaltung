@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { resultOfStudent } from 'src/app/events/utils/tests';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
+import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
 
 @Component({
   selector: 'erz-dossier-single-test',
@@ -45,7 +47,7 @@ export class DossierSingleTestComponent {
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
 
-  constructor() {}
+  constructor(private modalService: NgbModal) {}
 
   getGrading() {
     if (!this.test) return '-';
@@ -56,6 +58,7 @@ export class DossierSingleTestComponent {
   }
 
   editGrading(test: Option<Test>): void {
-    console.log('test', test);
+    const modalRef = this.modalService.open(DossierGradesEditComponent);
+    modalRef.componentInstance.test = test;
   }
 }
