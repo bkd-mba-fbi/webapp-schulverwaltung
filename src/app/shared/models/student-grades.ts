@@ -104,13 +104,14 @@ export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
       );
     case 'FinalGrade':
       if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
-        return -1;
+        return modificator * -1;
       return (
         modificator *
         compareNumbers(sg1.finalGrade.finalGradeId, sg2.finalGrade.finalGradeId)
       );
     case 'TestsMean':
-      if (!sg1.finalGrade.average || !sg2.finalGrade.average) return -1;
+      if (!sg1.finalGrade.average || !sg2.finalGrade.average)
+        return modificator * -1;
       return (
         modificator *
         compareNumbers(sg1.finalGrade.average, sg2.finalGrade.average)
