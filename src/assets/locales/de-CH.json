@@ -277,7 +277,11 @@
     "grade": "Note",
     "average": "Mittelwert",
     "no-tests": "Keine Tests vorhanden",
-    "no-grades": "Keine Noten vorhanden"
+    "no-grades": "Keine Noten vorhanden",
+    "dialog": {
+      "save": "Übernehmen",
+      "cancel": "Abbrechen"
+    }
   },
   "my-absences": {
     "title": "Meine Absenzen",

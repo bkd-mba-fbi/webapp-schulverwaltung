@@ -1,0 +1,25 @@
+<div class="modal-body">
+  <p>{{ test.Designation }}</p>
+  <form>
+    <div class="form-group row">
+      <label for="grading" class="col-sm-5 col-form-label">{{
+        'dossier.grade' | translate
+      }}</label>
+      <div class="col-sm-5">
+        <erz-select></erz-select>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="activeModal.dismiss()"
+    >
+      {{ 'dossier.dialog.cancel' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="activeModal.close()">
+      {{ 'dossier.dialog.save' | translate }}
+    </button>
+  </div>
+</div>
