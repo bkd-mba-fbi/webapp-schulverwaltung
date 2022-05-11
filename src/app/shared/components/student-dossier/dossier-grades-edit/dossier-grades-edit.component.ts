@@ -9,8 +9,18 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 })
 export class DossierGradesEditComponent {
   @Input() designation: string;
-  @Input() gradeId: Maybe<number>;
-  @Input() gradeOptions: Maybe<DropDownItem[]>;
+  @Input() gradeId: Option<number>;
+  @Input() gradeOptions: Option<DropDownItem[]>;
+
+  selected: number;
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  onSelectionChange(selected: number): void {
+    this.selected = selected;
+  }
+
+  get selectedGradeId(): number {
+    return this.selected;
+  }
 }

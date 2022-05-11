@@ -64,20 +64,28 @@ export class DossierSingleTestComponent {
     modalRef.componentInstance.gradeOptions = this.mapToOptions(
       this.gradingScale
     );
+    modalRef.result.then(
+      (selectedGrade) => {
+        console.log(selectedGrade);
+      },
+      () => {}
+    );
   }
 
-  private getGradeId(): Maybe<number> {
-    return resultOfStudent(this.studentId, this.test!)?.GradeId;
+  private getGradeId(): Option<number> {
+    return resultOfStudent(this.studentId, this.test!)?.GradeId || null;
   }
 
   private mapToOptions(
     gradingScale: Option<GradingScale>
-  ): Maybe<DropDownItem[]> {
-    return gradingScale?.Grades.map((gradeOption) => {
-      return {
-        Key: gradeOption.Id,
-        Value: gradeOption.Designation,
-      };
-    });
+  ): Option<DropDownItem[]> {
+    return (
+      gradingScale?.Grades.map((gradeOption) => {
+        return {
+          Key: gradeOption.Id,
+          Value: gradeOption.Designation,
+        };
+      }) || null
+    );
   }
 }

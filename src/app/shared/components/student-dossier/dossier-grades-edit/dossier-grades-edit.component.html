@@ -6,7 +6,12 @@
         'dossier.grade' | translate
       }}</label>
       <div class="col-6">
-        <erz-select [options]="gradeOptions" [value]="gradeId"> </erz-select>
+        <erz-select
+          [options]="gradeOptions"
+          [value]="gradeId"
+          (valueChange)="onSelectionChange($event)"
+        >
+        </erz-select>
       </div>
     </div>
   </form>
@@ -19,7 +24,11 @@
   >
     {{ 'dossier.dialog.cancel' | translate }}
   </button>
-  <button type="button" class="btn btn-primary" (click)="activeModal.close()">
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close(selectedGradeId)"
+  >
     {{ 'dossier.dialog.save' | translate }}
   </button>
 </div>
