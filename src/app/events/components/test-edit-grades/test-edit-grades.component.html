@@ -94,11 +94,15 @@
           </th>
           <th
             class="secondary-column-width border-right sticky sticky-col-3 desktop"
+            (click)="state.sortBy('TestsMean')"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
             <div class="d-flex">
               <div class="column-title">
                 {{ 'tests.mean' | translate }}
+              </div>
+              <div class="sort-direction ml-1">
+                {{ state.getSortingChar$('TestsMean') | async }}
               </div>
             </div>
           </th>

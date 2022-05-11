@@ -30,7 +30,7 @@ export type NoResult = {
 
 export type GradeOrNoResult = Grade | NoResult;
 
-export type SortKeys = 'FullName' | Test | 'FinalGrade';
+export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
 
 export function transform(
   students: Student[],
@@ -96,7 +96,6 @@ export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
   sg2: StudentGrade
 ): number => {
   const modificator = ascending ? 1 : -1;
-  console.log('SORTING: compareFn: ', sg1, sg2);
 
   switch (key) {
     case 'FullName':
@@ -105,10 +104,16 @@ export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
       );
     case 'FinalGrade':
       if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
-        return 0;
+        return -1;
       return (
         modificator *
         compareNumbers(sg1.finalGrade.finalGradeId, sg2.finalGrade.finalGradeId)
+      );
+    case 'TestsMean':
+      if (!sg1.finalGrade.average || !sg2.finalGrade.average) return -1;
+      return (
+        modificator *
+        compareNumbers(sg1.finalGrade.average, sg2.finalGrade.average)
       );
   }
 
