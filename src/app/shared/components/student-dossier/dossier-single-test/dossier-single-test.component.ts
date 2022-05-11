@@ -22,7 +22,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
         (click)="editGrading(test)"
       >
         <i class="material-icons">edit</i>
-        <span data-testid="test-grade">{{ grading || '-' }}</span>
+        <span data-testid="test-grade">{{ grading }}</span>
       </a>
     </div>
     <div class="factor" data-testid="test-factor">
@@ -50,10 +50,11 @@ export class DossierSingleTestComponent {
 
   constructor(private modalService: NgbModal) {}
 
-  get grading(): Maybe<number> {
-    return this.gradingScale?.Grades.find(
-      (grade) => grade.Id === this.getGradeId()
-    )?.Value;
+  get grading(): string {
+    return (
+      this.gradingScale?.Grades.find((grade) => grade.Id === this.getGradeId())
+        ?.Designation || '-'
+    );
   }
 
   editGrading(test: Option<Test>): void {
@@ -69,7 +70,6 @@ export class DossierSingleTestComponent {
     return resultOfStudent(this.studentId, this.test!)?.GradeId;
   }
 
-  // TODO move to helper
   private mapToOptions(
     gradingScale: Option<GradingScale>
   ): Maybe<DropDownItem[]> {
