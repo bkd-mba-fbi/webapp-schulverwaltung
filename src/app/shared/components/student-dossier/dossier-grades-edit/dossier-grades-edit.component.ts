@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Test } from 'src/app/shared/models/test.model';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
 @Component({
   selector: 'erz-dossier-grades-edit',
@@ -8,7 +8,9 @@ import { Test } from 'src/app/shared/models/test.model';
   styleUrls: ['./dossier-grades-edit.component.scss'],
 })
 export class DossierGradesEditComponent {
-  @Input() test: Test;
+  @Input() designation: string;
+  @Input() gradeId: Maybe<number>;
+  @Input() gradeOptions: Maybe<DropDownItem[]>;
 
   constructor(public activeModal: NgbActiveModal) {}
 }

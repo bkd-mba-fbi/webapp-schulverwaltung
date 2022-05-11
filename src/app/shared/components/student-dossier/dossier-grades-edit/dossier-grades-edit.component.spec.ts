@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { DossierGradesEditComponent } from './dossier-grades-edit.component';
@@ -21,7 +20,9 @@ describe('DossierGradesEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DossierGradesEditComponent);
     component = fixture.componentInstance;
-    component.test = buildTest(1, 1, []);
+    component.designation = 'test';
+    component.gradeId = 1234;
+    component.gradeOptions = [{ Key: 1234, Value: '4.5' }];
     fixture.detectChanges();
   });
 

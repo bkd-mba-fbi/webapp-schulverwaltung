@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { resultOfStudent } from 'src/app/events/utils/tests';
+import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
@@ -21,7 +22,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
         (click)="editGrading(test)"
       >
         <i class="material-icons">edit</i>
-        <span data-testid="test-grade">{{ getGrading() || '-' }}</span>
+        <span data-testid="test-grade">{{ grading || '-' }}</span>
       </a>
     </div>
     <div class="factor" data-testid="test-factor">
@@ -49,16 +50,34 @@ export class DossierSingleTestComponent {
 
   constructor(private modalService: NgbModal) {}
 
-  getGrading() {
-    if (!this.test) return '-';
+  get grading(): Maybe<number> {
     return this.gradingScale?.Grades.find(
-      (grade) =>
-        grade.Id === resultOfStudent(this.studentId, this.test!)?.GradeId
+      (grade) => grade.Id === this.getGradeId()
     )?.Value;
   }
 
   editGrading(test: Option<Test>): void {
     const modalRef = this.modalService.open(DossierGradesEditComponent);
-    modalRef.componentInstance.test = test;
+    modalRef.componentInstance.designation = test?.Designation;
+    modalRef.componentInstance.gradeId = this.getGradeId();
+    modalRef.componentInstance.gradeOptions = this.mapToOptions(
+      this.gradingScale
+    );
+  }
+
+  private getGradeId(): Maybe<number> {
+    return resultOfStudent(this.studentId, this.test!)?.GradeId;
+  }
+
+  // TODO move to helper
+  private mapToOptions(
+    gradingScale: Option<GradingScale>
+  ): Maybe<DropDownItem[]> {
+    return gradingScale?.Grades.map((gradeOption) => {
+      return {
+        Key: gradeOption.Id,
+        Value: gradeOption.Designation,
+      };
+    });
   }
 }

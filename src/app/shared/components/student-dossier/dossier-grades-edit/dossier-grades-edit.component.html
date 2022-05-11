@@ -1,12 +1,12 @@
 <div class="modal-body">
-  <p>{{ test.Designation }}</p>
+  <p>{{ designation }}</p>
   <form>
     <div class="form-group row">
       <label for="grading" class="col-6 col-form-label">{{
         'dossier.grade' | translate
       }}</label>
       <div class="col-6">
-        <erz-select></erz-select>
+        <erz-select [options]="gradeOptions" [value]="gradeId"> </erz-select>
       </div>
     </div>
   </form>
