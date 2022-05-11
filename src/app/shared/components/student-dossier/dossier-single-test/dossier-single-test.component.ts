@@ -13,7 +13,11 @@ import { Test } from 'src/app/shared/models/test.model';
       {{ test?.Date | date: 'mediumDate' }}
     </div>
     <div class="grade">
-      <a class="btn btn-link" aria-label="edit grade">
+      <a
+        class="btn btn-link"
+        aria-label="edit grade"
+        (click)="editGrading(test)"
+      >
         <i class="material-icons">edit</i>
         <span data-testid="test-grade">{{ getGrading() || '-' }}</span>
       </a>
@@ -49,5 +53,9 @@ export class DossierSingleTestComponent {
       (grade) =>
         grade.Id === resultOfStudent(this.studentId, this.test!)?.GradeId
     )?.Value;
+  }
+
+  editGrading(test: Option<Test>): void {
+    console.log('test', test);
   }
 }
