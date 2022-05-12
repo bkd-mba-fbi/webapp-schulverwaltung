@@ -98,6 +98,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     if (this.grade.kind === 'grade')
       this.pointsInput.setValue(this.grade.result.Points);
+    if (this.grade.kind === 'no-result') this.pointsInput.setValue(null);
   }
 
   ngOnDestroy() {

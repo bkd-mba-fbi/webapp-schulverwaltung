@@ -134,15 +134,10 @@ const compareGrades = (
     .filter(isGrade)
     .find((g: Grade) => g.test.Id === test.Id);
 
-  const sorting =
-    (grades1?.result?.GradeId?.valueOf() ?? 0) -
-    (grades2?.result?.GradeId?.valueOf() ?? 0);
+  if (test.IsPointGrading)
+    return (grades1?.result.Points ?? 0) - (grades2?.result.Points ?? 0);
 
-  if (sorting === 0 && test.IsPointGrading) {
-    return (grades2?.result?.Points ?? 0) - (grades1?.result?.Points ?? 0);
-  }
-
-  return sorting;
+  return (grades1?.result.GradeId ?? 0) - (grades2?.result.GradeId ?? 0);
 };
 
 function compareNumbers(nr1: number, nr2: number) {
