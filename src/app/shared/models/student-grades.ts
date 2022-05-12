@@ -137,7 +137,11 @@ const compareGrades = (
   if (test.IsPointGrading)
     return (grades1?.result.Points ?? 0) - (grades2?.result.Points ?? 0);
 
-  return (grades1?.result.GradeId ?? 0) - (grades2?.result.GradeId ?? 0);
+  return (
+    ((grades1?.result.GradeId ?? Number.POSITIVE_INFINITY) -
+      (grades2?.result.GradeId ?? Number.POSITIVE_INFINITY)) *
+    -1
+  );
 };
 
 function compareNumbers(nr1: number, nr2: number) {
