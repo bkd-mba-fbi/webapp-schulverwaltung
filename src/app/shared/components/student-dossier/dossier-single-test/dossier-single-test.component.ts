@@ -1,10 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { resultOfStudent } from 'src/app/events/utils/tests';
-import { TestGradesResult } from 'src/app/shared/models/course.model';
+import {
+  replaceResultInTest,
+  resultOfStudent,
+} from 'src/app/events/utils/tests';
+import {
+  TestGradesResult,
+  UpdatedTestResultResponse,
+} from 'src/app/shared/models/course.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { Test } from 'src/app/shared/models/test.model';
+import { Result, Test } from 'src/app/shared/models/test.model';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
 
@@ -78,10 +84,14 @@ export class DossierSingleTestComponent {
         };
         this.courseService
           .updateTestResult(test.CourseId, result)
-          .subscribe((result) => console.log(result)); // TODO update list
+          .subscribe((response) => this.updateStudentGrade(response));
       },
       () => {}
     );
+  }
+  private updateStudentGrade(newGrades: UpdatedTestResultResponse): void {
+    const result: Result = newGrades.TestResults[0];
+    this.test = replaceResultInTest(newGrades.TestResults[0], this.test);
   }
 
   private getGradeId(): Option<number> {

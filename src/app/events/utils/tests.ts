@@ -43,7 +43,7 @@ export function removeTestById(
   return tests.filter((test) => test.Id !== testId);
 }
 
-function replaceResultInTest(newResult: Result, test: Test) {
+export function replaceResultInTest(newResult: Result, test: Test) {
   const filteredResults =
     test.Results?.filter((result) => newResult.Id !== result.Id) || [];
   return { ...test, Results: [...filteredResults, newResult] };
