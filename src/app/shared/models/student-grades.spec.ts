@@ -14,7 +14,12 @@ import {
   StudentGrade,
   toMaxPoints,
   transform,
+  compareFn,
+  SortKeys,
 } from './student-grades';
+import { Sorting } from '../services/sort.service';
+import { Student } from './student.model';
+import { Grade } from './student-grades';
 
 describe('student-grade utils', () => {
   describe('student grades with results and final grades', () => {
@@ -246,6 +251,73 @@ describe('student-grade utils', () => {
     it('should calculate mean of student grades of overwritten final grades using a given scale', () => {
       expect(averageOfGradesForScale(finalGrades, scale)).toBe(
         4.333333333333333
+      );
+    });
+
+    it('should sort tests by points', () => {
+      let student: Student = buildStudent(1234);
+
+      let thisFinalGrade: FinalGrade = {
+        id: 12,
+        average: 4,
+        finalGradeId: 20,
+        canGrade: true,
+      };
+
+      let thatFinalGrade: FinalGrade = {
+        id: 13,
+        average: 5,
+        finalGradeId: 21,
+        canGrade: true,
+      };
+
+      let resultA = buildResult(123, 456);
+      resultA.Points = 100;
+
+      let test = buildTest(1234, 123, [resultA]);
+
+      let gradeA: Grade = {
+        kind: 'grade',
+        result: resultA,
+        test: test,
+      };
+
+      let resultB = buildResult(123, 456);
+      resultB.Points = 50;
+
+      let testB = buildTest(1234, 123, [resultA]);
+
+      let gradeB: Grade = {
+        kind: 'grade',
+        result: resultA,
+        test: testB,
+      };
+
+      let thisStudentGrade: StudentGrade = {
+        student: student,
+        finalGrade: thisFinalGrade,
+        grades: [gradeA],
+      };
+      let thatStudentGrade: StudentGrade = {
+        student: student,
+        finalGrade: thatFinalGrade,
+        grades: [gradeB],
+      };
+
+      let thisResult = buildResult(123, 12);
+      thisResult.Points = 100;
+      let thisTest = buildTest(1234, 123, [thisResult]);
+      thisTest.IsPointGrading = true;
+
+      let sorting: Sorting<SortKeys> = { key: thisTest, ascending: true };
+
+      const studentGrades = [thisStudentGrade, thatStudentGrade];
+
+      // when
+
+      // then
+      expect(studentGrades.sort(compareFn(sorting))).toContain(
+        thisStudentGrade
       );
     });
   });
