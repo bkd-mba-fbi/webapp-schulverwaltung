@@ -1,11 +1,9 @@
 import { Course } from 'src/app/shared/models/course.model';
 import {
   buildCourse,
-  buildGradeKind,
   buildGrading,
   buildResult,
   buildStudent,
-  buildStudentGrade,
   buildTest,
 } from 'src/spec-builders';
 import {
@@ -16,12 +14,7 @@ import {
   StudentGrade,
   toMaxPoints,
   transform,
-  compareFn,
-  SortKeys,
 } from './student-grades';
-import { Sorting } from '../services/sort.service';
-import { Student } from './student.model';
-import { GradeKind } from './student-grades';
 
 describe('student-grade utils', () => {
   describe('student grades with results and final grades', () => {
@@ -254,39 +247,6 @@ describe('student-grade utils', () => {
       expect(averageOfGradesForScale(finalGrades, scale)).toBe(
         4.333333333333333
       );
-    });
-
-    describe('test table sorting', () => {
-      it('should sort tests by points', () => {
-        let student: Student = buildStudent(1234);
-
-        let result = buildResult(123, 456);
-        result.Points = 100;
-        let otherResult = buildResult(123, 456);
-        result.Points = 50;
-
-        let test = buildTest(1234, 123, [result, otherResult]);
-        let gradeKind: GradeKind = buildGradeKind('grade', result, test);
-        let otherGradeKind: GradeKind = buildGradeKind(
-          'grade',
-          otherResult,
-          test
-        );
-        let studentGrade = buildStudentGrade(student, [
-          gradeKind,
-          otherGradeKind,
-        ]);
-        let otherStudentGrade = buildStudentGrade(student, [otherGradeKind]);
-
-        let sorting: Sorting<SortKeys> = { key: test, ascending: true };
-
-        const studentGrades = [studentGrade, otherStudentGrade];
-
-        // then
-        expect(studentGrades.sort(compareFn(sorting))).toContain(
-          otherStudentGrade
-        );
-      });
     });
   });
 });
