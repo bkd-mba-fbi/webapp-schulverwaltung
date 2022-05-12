@@ -19,7 +19,7 @@ import {
 } from './student-grades';
 import { Sorting } from '../services/sort.service';
 import { Student } from './student.model';
-import { Grade } from './student-grades';
+import { GradeKind } from './student-grades';
 
 describe('student-grade utils', () => {
   describe('student grades with results and final grades', () => {
@@ -277,7 +277,7 @@ describe('student-grade utils', () => {
 
         let test = buildTest(1234, 123, [resultA]);
 
-        let gradeA: Grade = {
+        let gradeA: GradeKind = {
           kind: 'grade',
           result: resultA,
           test: test,
@@ -288,7 +288,7 @@ describe('student-grade utils', () => {
 
         let testB = buildTest(1234, 123, [resultA]);
 
-        let gradeB: Grade = {
+        let gradeB: GradeKind = {
           kind: 'grade',
           result: resultA,
           test: testB,

@@ -17,7 +17,7 @@ export type FinalGrade = {
   canGrade: boolean;
 };
 
-export type Grade = {
+export type GradeKind = {
   kind: 'grade';
   result: Result;
   test: Test;
@@ -28,7 +28,7 @@ export type NoResult = {
   test: Test;
 };
 
-export type GradeOrNoResult = Grade | NoResult;
+export type GradeOrNoResult = GradeKind | NoResult;
 
 export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
 
@@ -126,13 +126,13 @@ const compareGrades = (
   sg1: StudentGrade,
   sg2: StudentGrade
 ): number => {
-  const grades1: Grade | undefined = sg1.grades
+  const grades1: GradeKind | undefined = sg1.grades
     .filter(isGrade)
-    .find((g: Grade) => g.test.Id === test.Id);
+    .find((g: GradeKind) => g.test.Id === test.Id);
 
-  const grades2: Grade | undefined = sg2.grades
+  const grades2: GradeKind | undefined = sg2.grades
     .filter(isGrade)
-    .find((g: Grade) => g.test.Id === test.Id);
+    .find((g: GradeKind) => g.test.Id === test.Id);
 
   if (test.IsPointGrading)
     return (grades1?.result.Points ?? 0) - (grades2?.result.Points ?? 0);
@@ -150,7 +150,7 @@ function compareNumbers(nr1: number, nr2: number) {
   return 1;
 }
 
-function isGrade(g: GradeOrNoResult): g is Grade {
+function isGrade(g: GradeOrNoResult): g is GradeKind {
   return g.kind === 'grade';
 }
 

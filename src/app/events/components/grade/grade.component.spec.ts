@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { Grade, NoResult } from 'src/app/shared/models/student-grades';
+import { GradeKind, NoResult } from 'src/app/shared/models/student-grades';
 import { byTestId } from 'src/specs/utils';
 import {
   buildResult,
@@ -51,7 +51,7 @@ describe('GradeComponent', () => {
 
   describe('tests without point grading', () => {
     let gradingScaleOptions: DropDownItem[];
-    let grade: Grade;
+    let grade: GradeKind;
 
     beforeEach(() => {
       gradingScaleOptions = [
@@ -150,7 +150,7 @@ describe('GradeComponent', () => {
 
     it('should show points in input field', () => {
       // given
-      const grade: Grade = {
+      const grade: GradeKind = {
         kind: 'grade',
         result,
         test,
@@ -168,7 +168,7 @@ describe('GradeComponent', () => {
     });
   });
   describe('points input validation', () => {
-    let grade: Grade;
+    let grade: GradeKind;
 
     beforeEach(() => {
       grade = {
@@ -209,7 +209,7 @@ describe('GradeComponent', () => {
   });
 
   describe('enable and disable grading scale options', () => {
-    let grade: Grade;
+    let grade: GradeKind;
 
     beforeEach(() => {
       grade = {
