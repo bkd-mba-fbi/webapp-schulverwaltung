@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map, ReplaySubject, tap } from 'rxjs';
 import {
   replaceResultInTest,
   resultOfStudent,
@@ -10,13 +11,13 @@ import {
 } from 'src/app/shared/models/course.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { Result, Test } from 'src/app/shared/models/test.model';
+import { Test } from 'src/app/shared/models/test.model';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
 import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
 
 @Component({
   selector: 'erz-dossier-single-test',
-  template: ` <div class="test-entry">
+  template: ` <div class="test-entry" *erzLet="test$ | async as test">
     <div class="designation" data-testid="test-designation">
       {{ test.Designation }}
     </div>
@@ -30,7 +31,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
         (click)="editGrading(test)"
       >
         <i class="material-icons">edit</i>
-        <span data-testid="test-grade">{{ grading }}</span>
+        <span data-testid="test-grade">{{ grading$ | async }}</span>
       </a>
     </div>
     <div class="factor" data-testid="test-factor">
@@ -51,27 +52,28 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
   </div>`,
   styleUrls: ['./dossier-single-test.component.scss'],
 })
-export class DossierSingleTestComponent {
+export class DossierSingleTestComponent implements OnInit {
   @Input() test: Test;
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
+
+  test$ = new ReplaySubject<Test>(1);
+  grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
 
   constructor(
     private modalService: NgbModal,
     private courseService: CoursesRestService
   ) {}
 
-  get grading(): string {
-    return (
-      this.gradingScale?.Grades.find((grade) => grade.Id === this.getGradeId())
-        ?.Designation || '-'
-    );
+  ngOnInit(): void {
+    debugger;
+    this.test$.next(this.test);
   }
 
   editGrading(test: Test): void {
     const modalRef = this.modalService.open(DossierGradesEditComponent);
     modalRef.componentInstance.designation = test.Designation;
-    modalRef.componentInstance.gradeId = this.getGradeId();
+    modalRef.componentInstance.gradeId = this.getGradeId(test);
     modalRef.componentInstance.gradeOptions = this.mapToOptions(
       this.gradingScale
     );
@@ -84,18 +86,30 @@ export class DossierSingleTestComponent {
         };
         this.courseService
           .updateTestResult(test.CourseId, result)
-          .subscribe((response) => this.updateStudentGrade(response));
+          .subscribe((response) => this.updateStudentGrade(response, test));
       },
       () => {}
     );
   }
-  private updateStudentGrade(newGrades: UpdatedTestResultResponse): void {
-    const result: Result = newGrades.TestResults[0];
-    this.test = replaceResultInTest(newGrades.TestResults[0], this.test);
+
+  private updateStudentGrade(
+    newGrades: UpdatedTestResultResponse,
+    test: Test
+  ): void {
+    const updatedTest = replaceResultInTest(newGrades.TestResults[0], test);
+    this.test$.next(updatedTest);
   }
 
-  private getGradeId(): Option<number> {
-    return resultOfStudent(this.studentId, this.test)?.GradeId || null;
+  private getGrading(test: Test): string {
+    return (
+      this.gradingScale?.Grades.find(
+        (grade) => grade.Id === this.getGradeId(test)
+      )?.Designation || '-'
+    );
+  }
+
+  private getGradeId(test: Test): Option<number> {
+    return resultOfStudent(this.studentId, test)?.GradeId || null;
   }
 
   private mapToOptions(
