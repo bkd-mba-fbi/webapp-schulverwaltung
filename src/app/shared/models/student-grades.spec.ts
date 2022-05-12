@@ -254,71 +254,73 @@ describe('student-grade utils', () => {
       );
     });
 
-    it('should sort tests by points', () => {
-      let student: Student = buildStudent(1234);
+    describe('test table sorting', () => {
+      it('should sort tests by points', () => {
+        let student: Student = buildStudent(1234);
 
-      let thisFinalGrade: FinalGrade = {
-        id: 12,
-        average: 4,
-        finalGradeId: 20,
-        canGrade: true,
-      };
+        let thisFinalGrade: FinalGrade = {
+          id: 12,
+          average: 4,
+          finalGradeId: 20,
+          canGrade: true,
+        };
 
-      let thatFinalGrade: FinalGrade = {
-        id: 13,
-        average: 5,
-        finalGradeId: 21,
-        canGrade: true,
-      };
+        let thatFinalGrade: FinalGrade = {
+          id: 13,
+          average: 5,
+          finalGradeId: 21,
+          canGrade: true,
+        };
 
-      let resultA = buildResult(123, 456);
-      resultA.Points = 100;
+        let resultA = buildResult(123, 456);
+        resultA.Points = 100;
 
-      let test = buildTest(1234, 123, [resultA]);
+        let test = buildTest(1234, 123, [resultA]);
 
-      let gradeA: Grade = {
-        kind: 'grade',
-        result: resultA,
-        test: test,
-      };
+        let gradeA: Grade = {
+          kind: 'grade',
+          result: resultA,
+          test: test,
+        };
 
-      let resultB = buildResult(123, 456);
-      resultB.Points = 50;
+        let resultB = buildResult(123, 456);
+        resultB.Points = 50;
 
-      let testB = buildTest(1234, 123, [resultA]);
+        let testB = buildTest(1234, 123, [resultA]);
 
-      let gradeB: Grade = {
-        kind: 'grade',
-        result: resultA,
-        test: testB,
-      };
+        let gradeB: Grade = {
+          kind: 'grade',
+          result: resultA,
+          test: testB,
+        };
 
-      let thisStudentGrade: StudentGrade = {
-        student: student,
-        finalGrade: thisFinalGrade,
-        grades: [gradeA],
-      };
-      let thatStudentGrade: StudentGrade = {
-        student: student,
-        finalGrade: thatFinalGrade,
-        grades: [gradeB],
-      };
+        let thisStudentGrade: StudentGrade = {
+          student: student,
+          finalGrade: thisFinalGrade,
+          grades: [gradeA],
+        };
+        let thatStudentGrade: StudentGrade = {
+          student: student,
+          finalGrade: thatFinalGrade,
+          grades: [gradeB],
+        };
 
-      let thisResult = buildResult(123, 12);
-      thisResult.Points = 100;
-      let thisTest = buildTest(1234, 123, [thisResult]);
-      thisTest.IsPointGrading = true;
+        let thisResult = buildResult(123, 12);
+        thisResult.Points = 100;
+        let thisTest = buildTest(1234, 123, [thisResult]);
+        thisTest.IsPointGrading = true;
 
-      let sorting: Sorting<SortKeys> = { key: thisTest, ascending: true };
+        let sorting: Sorting<SortKeys> = { key: thisTest, ascending: true };
 
-      const studentGrades = [thisStudentGrade, thatStudentGrade];
+        const studentGrades = [thisStudentGrade, thatStudentGrade];
 
-      // when
+        // when
 
-      // then
-      expect(studentGrades.sort(compareFn(sorting))).toContain(
-        thisStudentGrade
-      );
+        // then
+        expect(studentGrades.sort(compareFn(sorting))).toContain(
+          thisStudentGrade
+        );
+      });
     });
   });
 });
