@@ -1,9 +1,11 @@
 import { Course } from 'src/app/shared/models/course.model';
 import {
   buildCourse,
+  buildGradeKind,
   buildGrading,
   buildResult,
   buildStudent,
+  buildStudentGrade,
   buildTest,
 } from 'src/spec-builders';
 import {
@@ -258,67 +260,31 @@ describe('student-grade utils', () => {
       it('should sort tests by points', () => {
         let student: Student = buildStudent(1234);
 
-        let thisFinalGrade: FinalGrade = {
-          id: 12,
-          average: 4,
-          finalGradeId: 20,
-          canGrade: true,
-        };
+        let result = buildResult(123, 456);
+        result.Points = 100;
+        let otherResult = buildResult(123, 456);
+        result.Points = 50;
 
-        let thatFinalGrade: FinalGrade = {
-          id: 13,
-          average: 5,
-          finalGradeId: 21,
-          canGrade: true,
-        };
+        let test = buildTest(1234, 123, [result, otherResult]);
+        let gradeKind: GradeKind = buildGradeKind('grade', result, test);
+        let otherGradeKind: GradeKind = buildGradeKind(
+          'grade',
+          otherResult,
+          test
+        );
+        let studentGrade = buildStudentGrade(student, [
+          gradeKind,
+          otherGradeKind,
+        ]);
+        let otherStudentGrade = buildStudentGrade(student, [otherGradeKind]);
 
-        let resultA = buildResult(123, 456);
-        resultA.Points = 100;
+        let sorting: Sorting<SortKeys> = { key: test, ascending: true };
 
-        let test = buildTest(1234, 123, [resultA]);
-
-        let gradeA: GradeKind = {
-          kind: 'grade',
-          result: resultA,
-          test: test,
-        };
-
-        let resultB = buildResult(123, 456);
-        resultB.Points = 50;
-
-        let testB = buildTest(1234, 123, [resultA]);
-
-        let gradeB: GradeKind = {
-          kind: 'grade',
-          result: resultA,
-          test: testB,
-        };
-
-        let thisStudentGrade: StudentGrade = {
-          student: student,
-          finalGrade: thisFinalGrade,
-          grades: [gradeA],
-        };
-        let thatStudentGrade: StudentGrade = {
-          student: student,
-          finalGrade: thatFinalGrade,
-          grades: [gradeB],
-        };
-
-        let thisResult = buildResult(123, 12);
-        thisResult.Points = 100;
-        let thisTest = buildTest(1234, 123, [thisResult]);
-        thisTest.IsPointGrading = true;
-
-        let sorting: Sorting<SortKeys> = { key: thisTest, ascending: true };
-
-        const studentGrades = [thisStudentGrade, thatStudentGrade];
-
-        // when
+        const studentGrades = [studentGrade, otherStudentGrade];
 
         // then
         expect(studentGrades.sort(compareFn(sorting))).toContain(
-          thisStudentGrade
+          otherStudentGrade
         );
       });
     });

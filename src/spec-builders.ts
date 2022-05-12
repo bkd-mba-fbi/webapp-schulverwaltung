@@ -26,6 +26,12 @@ import {
 import { Result, Test } from './app/shared/models/test.model';
 import { StudyClass } from './app/shared/models/study-class.model';
 import { Grade } from './app/shared/models/grading-scale.model';
+import {
+  FinalGrade,
+  GradeKind,
+  GradeOrNoResult,
+  StudentGrade,
+} from './app/shared/models/student-grades';
 /*import { TokenPayload } from './app/shared/models/token-payload.model';*/
 
 export function buildReference(id = 123, href?: string): Reference {
@@ -601,5 +607,37 @@ export function buildFinalGrading(id: number): FinalGrading {
     IsAdequate: true,
     GradeComment: null,
     Id: id,
+  };
+}
+
+export function buildStudentGrade(
+  student: Student,
+  gradesOrNoResults: GradeOrNoResult[]
+): StudentGrade {
+  return {
+    student: student,
+    finalGrade: buildFinalGrade(),
+    grades: gradesOrNoResults,
+  };
+}
+
+export function buildGradeKind(
+  kind: any,
+  result: Result,
+  test: Test
+): GradeKind {
+  return {
+    kind: kind,
+    result: result,
+    test: test,
+  };
+}
+
+function buildFinalGrade(): FinalGrade {
+  return {
+    id: 12,
+    average: 4,
+    finalGradeId: 20,
+    canGrade: true,
   };
 }
