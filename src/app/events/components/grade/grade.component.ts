@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -33,7 +34,7 @@ const DEBOUNCE_TIME = 500;
   templateUrl: './grade.component.html',
   styleUrls: ['./grade.component.scss'],
 })
-export class GradeComponent implements OnInit, OnDestroy {
+export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
   @Input() tabIndex: number;
@@ -92,6 +93,12 @@ export class GradeComponent implements OnInit, OnDestroy {
         map(this.buildRuequestBodyForGradeChange.bind(this))
       )
       .subscribe((body) => this.gradeChanged.emit(body));
+  }
+
+  ngOnChanges() {
+    if (this.grade.kind === 'grade')
+      this.pointsInput.setValue(this.grade.result.Points);
+    if (this.grade.kind === 'no-result') this.pointsInput.setValue(null);
   }
 
   ngOnDestroy() {

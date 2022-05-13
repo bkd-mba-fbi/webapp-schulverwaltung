@@ -17,7 +17,7 @@ export type FinalGrade = {
   canGrade: boolean;
 };
 
-export type Grade = {
+export type GradeKind = {
   kind: 'grade';
   result: Result;
   test: Test;
@@ -28,9 +28,9 @@ export type NoResult = {
   test: Test;
 };
 
-export type GradeOrNoResult = Grade | NoResult;
+export type GradeOrNoResult = GradeKind | NoResult;
 
-export type SortKeys = 'FullName' | Test;
+export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
 
 export function transform(
   students: Student[],
@@ -102,6 +102,20 @@ export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
       return (
         modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
       );
+    case 'FinalGrade':
+      if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
+        return modificator * -1;
+      return (
+        modificator *
+        compareNumbers(sg1.finalGrade.finalGradeId, sg2.finalGrade.finalGradeId)
+      );
+    case 'TestsMean':
+      if (!sg1.finalGrade.average || !sg2.finalGrade.average)
+        return modificator * -1;
+      return (
+        modificator *
+        compareNumbers(sg1.finalGrade.average, sg2.finalGrade.average)
+      );
   }
 
   return modificator * compareGrades(key, sg1, sg2);
@@ -112,25 +126,31 @@ const compareGrades = (
   sg1: StudentGrade,
   sg2: StudentGrade
 ): number => {
-  const grades1: Grade | undefined = sg1.grades
+  const grades1: GradeKind | undefined = sg1.grades
     .filter(isGrade)
-    .find((g: Grade) => g.test.Id === test.Id);
+    .find((g: GradeKind) => g.test.Id === test.Id);
 
-  const grades2: Grade | undefined = sg2.grades
+  const grades2: GradeKind | undefined = sg2.grades
     .filter(isGrade)
-    .find((g: Grade) => g.test.Id === test.Id);
+    .find((g: GradeKind) => g.test.Id === test.Id);
 
-  // oh boy - typescript is really nice /s
-  if (test.IsPointGrading) {
-    return (grades2?.result?.Points ?? 0) - (grades1?.result?.Points ?? 0);
-  }
+  if (test.IsPointGrading)
+    return (grades1?.result.Points ?? 0) - (grades2?.result.Points ?? 0);
+
   return (
-    (grades2?.result?.GradeValue?.valueOf() ?? 0) -
-    (grades1?.result?.GradeValue?.valueOf() ?? 0)
+    ((grades1?.result.GradeId ?? Number.POSITIVE_INFINITY) -
+      (grades2?.result.GradeId ?? Number.POSITIVE_INFINITY)) *
+    -1
   );
 };
 
-function isGrade(g: GradeOrNoResult): g is Grade {
+function compareNumbers(nr1: number, nr2: number) {
+  if (nr1 === nr2) return 0;
+  if (nr1 < nr2) return -1;
+  return 1;
+}
+
+function isGrade(g: GradeOrNoResult): g is GradeKind {
   return g.kind === 'grade';
 }
 
