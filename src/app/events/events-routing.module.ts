@@ -25,11 +25,12 @@ const routes: Routes = [
             path: 'tests',
             component: TestsListComponent,
           },
-          {
-            path: 'tests/:testId/edit',
-            component: TestsEditComponent,
-          },
         ],
+      },
+      {
+        path: ':id/tests/:testId/edit',
+        component: TestsComponent,
+        children: [{ path: '', component: TestsEditComponent }],
       },
       {
         path: ':id/tests/add',
