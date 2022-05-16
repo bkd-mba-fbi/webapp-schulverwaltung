@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
-  forkJoin,
   merge,
   Observable,
   ReplaySubject,
@@ -233,6 +232,10 @@ export class TestStateService {
     this.coursesRestService
       .unpublishTest(test.Id)
       .subscribe(this.toggleTestPublishedState.bind(this));
+  }
+
+  deleteTest(testId: number) {
+    this.action$.next({ type: 'delete-test', payload: testId });
   }
 
   overwriteFinalGrade({

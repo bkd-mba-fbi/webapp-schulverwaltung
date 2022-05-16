@@ -94,8 +94,9 @@ export class TestsEditComponent {
     this.navigateBack();
   }
 
-  private onDeleteSuccess(): void {
+  private onDeleteSuccess(deletedTestId: number): void {
     this.toastr.success(this.translate.instant('tests.form.delete-success'));
+    this.state.deleteTest(deletedTestId);
     this.navigateBack();
   }
 

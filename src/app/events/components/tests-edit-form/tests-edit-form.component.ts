@@ -62,6 +62,12 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     'maxPoints'
   );
 
+  maxPointsAdjustedErrors$ = getValidationErrors(
+    of(this.formGroup),
+    this.submitted$,
+    'maxPointsAdjusted'
+  );
+
   weightErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
