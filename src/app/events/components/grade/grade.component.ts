@@ -96,8 +96,12 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.grade.kind === 'grade')
+    if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
+    }
+
+    this.disablePointsInputIfTestIsPublished();
+
     if (this.grade.kind === 'no-result') this.pointsInput.setValue(null);
   }
 
@@ -146,6 +150,15 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   private disableGradingScale() {
     if (this.grade.kind === 'no-result') return false;
+    if (this.grade.test.IsPublished) return true;
     return this.grade.result.Points != null && this.grade.test.IsPointGrading;
+  }
+
+  private disablePointsInputIfTestIsPublished() {
+    if (this.grade.test.IsPublished) {
+      this.pointsInput.disable();
+    } else {
+      this.pointsInput.enable();
+    }
   }
 }
