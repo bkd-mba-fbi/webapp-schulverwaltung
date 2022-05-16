@@ -218,19 +218,18 @@
             <erz-average-grades [test]="test"></erz-average-grades>
           </td>
         </tr>
-        <td class="sticky">
-          <button
-            *ngIf="state.canSetFinalGrade$ | async"
-            data-testId="apply-average-button"
-            class="btn btn-primary"
-            type="button"
-            (click)="setAverageAsFinalGrade()"
-          >
-            {{ 'tests.set-final-grade' | translate }}
-          </button>
-        </td>
       </tbody>
     </table>
+    <button
+      *ngIf="state.canSetFinalGrade$ | async"
+      data-testId="apply-average-button"
+      class="btn btn-primary m-3"
+      type="button"
+      (click)="setAverageAsFinalGrade()"
+    >
+      {{ 'tests.set-final-grade' | translate }}
+    </button>
+
     <a
       class="d-flex justify-content-end pr-3 border-top pt-3"
       *ngIf="state.canSetFinalGrade$ | async"
