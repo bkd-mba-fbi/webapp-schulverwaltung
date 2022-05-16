@@ -65,12 +65,13 @@ export class DossierSingleTestComponent implements OnInit {
     const modalRef = this.modalService.open(DossierGradesEditComponent, {
       backdrop: 'static', // prevent closing by click outside of modal
     });
-    modalRef.componentInstance.test = test;
+    modalRef.componentInstance.test = test; // TODO
     modalRef.componentInstance.gradeId = this.getGradeId(test);
     modalRef.componentInstance.gradeOptions = this.mapToOptions(
       this.gradingScale
     );
     modalRef.componentInstance.studentId = this.studentId;
+    modalRef.componentInstance.points = this.getPoints(test);
 
     modalRef.result.then((updatedTestResult) => {
       if (updatedTestResult) this.updateStudentGrade(updatedTestResult, test);
@@ -92,6 +93,11 @@ export class DossierSingleTestComponent implements OnInit {
 
   private getGradeId(test: Test): Option<number> {
     return resultOfStudent(this.studentId, test)?.GradeId || null;
+  }
+
+  // TODO dry up
+  private getPoints(test: Test): Option<number> {
+    return resultOfStudent(this.studentId, test)?.Points || null;
   }
 
   private mapToOptions(

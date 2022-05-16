@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   TestGradesResult,
+  TestPointsResult,
   UpdatedTestResultResponse,
 } from 'src/app/shared/models/course.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
@@ -17,35 +18,47 @@ export class DossierGradesEditComponent {
   @Input() test: Test;
   @Input() gradeId: Option<number>;
   @Input() gradeOptions: Option<DropDownItem[]>;
+  @Input() points: number;
   @Input() studentId: number;
 
-  selected: number;
-  updated: UpdatedTestResultResponse;
+  selectedGrade: number;
+  response: UpdatedTestResultResponse;
 
   constructor(
     public activeModal: NgbActiveModal,
     private courseService: CoursesRestService
   ) {}
 
-  onSelectionChange(selected: number): void {
-    this.selected = selected;
-    this.updateTestResult(selected);
-  }
-
-  private updateTestResult(selected: number): void {
+  onGradeChange(selectedGradeId: number): void {
+    this.selectedGrade = selectedGradeId;
     const result: TestGradesResult = {
       StudentIds: [this.studentId],
       TestId: this.test.Id,
-      GradeId: selected,
+      GradeId: selectedGradeId,
     };
+    this.updateTestResult(result);
+  }
+
+  onPointsChange(points: string): void {
+    // TODO debounce
+    const result: TestPointsResult = {
+      StudentIds: [this.studentId],
+      TestId: this.test.Id,
+      Points: Number(points), // TODO validate
+    };
+
+    this.updateTestResult(result); // TODO update grade on modal
+  }
+
+  private updateTestResult(result: TestPointsResult | TestGradesResult): void {
     this.courseService
       .updateTestResult(this.test.CourseId, result)
       .subscribe((body) => {
-        this.updated = body;
+        this.response = body;
       });
   }
 
   get updatedTestResult(): Option<Result> {
-    return this.updated?.TestResults[0];
+    return this.response?.TestResults[0];
   }
 }

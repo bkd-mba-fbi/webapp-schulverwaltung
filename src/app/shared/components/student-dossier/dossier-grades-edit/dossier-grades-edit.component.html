@@ -1,16 +1,33 @@
 <div class="modal-body">
   <p class="mb-4">{{ test.Designation }}</p>
   <form>
-    <div *ngIf="!test.IsPointGrading" class="form-group row">
-      <label for="grading" class="col-6 col-form-label">{{
+    <div *ngIf="test.IsPointGrading" class="form-group row">
+      <label for="points" class="col-6 col-form-label">{{
+        'dossier.points' | translate
+      }}</label>
+      <div class="col-6">
+        <input
+          #pointInput
+          id="points"
+          type="number"
+          step="0.01"
+          min="0"
+          [value]="points"
+          (input)="onPointsChange(pointInput.value)"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="grade" class="col-6 col-form-label">{{
         'dossier.grade' | translate
       }}</label>
       <div class="col-6">
         <erz-select
+          id="grade"
           [options]="gradeOptions"
           [value]="gradeId"
           [allowEmpty]="false"
-          (valueChange)="onSelectionChange($event)"
+          (valueChange)="onGradeChange($event)"
         >
         </erz-select>
       </div>
