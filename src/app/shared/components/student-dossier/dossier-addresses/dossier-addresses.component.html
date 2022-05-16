@@ -3,24 +3,11 @@
     profile: state.profile$ | async
   } as data"
 >
+  <erz-student-dossier-address
+    class="profile-entry"
+    [student]="data.profile.student"
+  ></erz-student-dossier-address>
   <ngb-accordion ngb-accordion #acc="ngbAccordion">
-    <ngb-panel id="student-address">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <erz-student-dossier-entry-header
-          [opened]="opened"
-          (click)="acc.toggle('student-address')"
-        >
-          {{ 'shared.profile.student-address' | translate }}
-        </erz-student-dossier-entry-header>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <erz-student-dossier-address
-          class="profile-entry"
-          [student]="data.profile.student"
-        ></erz-student-dossier-address>
-      </ng-template>
-    </ngb-panel>
-
     <ngb-panel
       *ngIf="data.profile.legalRepresentativePersons.length > 0"
       id="legal-representatives"
