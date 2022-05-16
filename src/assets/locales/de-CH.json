@@ -279,8 +279,11 @@
     "no-tests": "Keine Tests vorhanden",
     "no-grades": "Keine Noten vorhanden",
     "dialog": {
-      "save": "Übernehmen",
-      "cancel": "Abbrechen"
+      "close": "Schliessen",
+      "hint": {
+        "grade": "Eine Änderung an der Note wird automatisch gespeichert.",
+        "points": "Bei der Änderung der Punkte wird die Note automatisch berechnet und gespeichert."
+      }
     }
   },
   "my-absences": {

@@ -1,18 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map, ReplaySubject, tap } from 'rxjs';
+import { map, ReplaySubject } from 'rxjs';
 import {
   replaceResultInTest,
   resultOfStudent,
 } from 'src/app/events/utils/tests';
-import {
-  TestGradesResult,
-  UpdatedTestResultResponse,
-} from 'src/app/shared/models/course.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { Test } from 'src/app/shared/models/test.model';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
+import { Result, Test } from 'src/app/shared/models/test.model';
 import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
 
 @Component({
@@ -60,43 +55,30 @@ export class DossierSingleTestComponent implements OnInit {
   test$ = new ReplaySubject<Test>(1);
   grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
 
-  constructor(
-    private modalService: NgbModal,
-    private courseService: CoursesRestService
-  ) {}
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    debugger;
     this.test$.next(this.test);
   }
 
   editGrading(test: Test): void {
-    const modalRef = this.modalService.open(DossierGradesEditComponent);
-    modalRef.componentInstance.designation = test.Designation;
+    const modalRef = this.modalService.open(DossierGradesEditComponent, {
+      backdrop: 'static', // prevent closing by click outside of modal
+    });
+    modalRef.componentInstance.test = test;
     modalRef.componentInstance.gradeId = this.getGradeId(test);
     modalRef.componentInstance.gradeOptions = this.mapToOptions(
       this.gradingScale
     );
-    modalRef.result.then(
-      (selectedGrade) => {
-        const result: TestGradesResult = {
-          StudentIds: [this.studentId],
-          TestId: test.Id,
-          GradeId: selectedGrade,
-        };
-        this.courseService
-          .updateTestResult(test.CourseId, result)
-          .subscribe((response) => this.updateStudentGrade(response, test));
-      },
-      () => {}
-    );
+    modalRef.componentInstance.studentId = this.studentId;
+
+    modalRef.result.then((updatedTestResult) => {
+      if (updatedTestResult) this.updateStudentGrade(updatedTestResult, test);
+    });
   }
 
-  private updateStudentGrade(
-    newGrades: UpdatedTestResultResponse,
-    test: Test
-  ): void {
-    const updatedTest = replaceResultInTest(newGrades.TestResults[0], test);
+  private updateStudentGrade(result: Result, test: Test): void {
+    const updatedTest = replaceResultInTest(result, test);
     this.test$.next(updatedTest);
   }
 

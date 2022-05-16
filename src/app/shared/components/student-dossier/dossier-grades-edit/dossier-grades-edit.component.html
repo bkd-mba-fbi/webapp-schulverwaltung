@@ -1,7 +1,7 @@
 <div class="modal-body">
-  <p>{{ designation }}</p>
+  <p class="mb-4">{{ test.Designation }}</p>
   <form>
-    <div class="form-group row">
+    <div *ngIf="!test.IsPointGrading" class="form-group row">
       <label for="grading" class="col-6 col-form-label">{{
         'dossier.grade' | translate
       }}</label>
@@ -15,20 +15,21 @@
       </div>
     </div>
   </form>
+  <p class="text-muted mt-4">
+    {{
+      (test.IsPointGrading
+        ? 'dossier.dialog.hint.points'
+        : 'dossier.dialog.hint.grade'
+      ) | translate
+    }}
+  </p>
 </div>
 <div class="modal-footer">
   <button
     type="button"
-    class="btn btn-secondary"
-    (click)="activeModal.dismiss()"
-  >
-    {{ 'dossier.dialog.cancel' | translate }}
-  </button>
-  <button
-    type="button"
     class="btn btn-primary"
-    (click)="activeModal.close(selectedGradeId)"
+    (click)="activeModal.close(updatedTestResult)"
   >
-    {{ 'dossier.dialog.save' | translate }}
+    {{ 'dossier.dialog.close' | translate }}
   </button>
 </div>
