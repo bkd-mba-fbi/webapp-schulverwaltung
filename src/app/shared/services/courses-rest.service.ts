@@ -100,13 +100,13 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(mapTo(undefined));
   }
 
-  delete(courseId: number, testId: number): Observable<void> {
+  delete(courseId: number, testId: number): Observable<number> {
     const body = {
       TestIds: [testId],
     };
     return this.http
-      .put<void>(`${this.baseUrl}/${courseId}/Tests/Delete`, body)
-      .pipe(mapTo(undefined));
+      .put<unknown>(`${this.baseUrl}/${courseId}/Tests/Delete`, body)
+      .pipe(mapTo(testId));
   }
 
   updateTestResult(

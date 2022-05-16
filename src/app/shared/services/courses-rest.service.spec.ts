@@ -162,19 +162,21 @@ describe('CoursesRestService', () => {
       const courseId = 1234;
       const testId = 4321;
 
-      service.delete(courseId, testId).subscribe();
+      service.delete(courseId, testId).subscribe((response) => {
+        expect(response).toBe(testId);
+      });
 
-      httpTestingController.match(
-        (req) =>
-          req.method === 'PUT' &&
-          req.url ===
-            `https://eventotest.api/Courses/${courseId}/Tests/Delete` &&
-          isEqual(req.body, {
-            TestIds: [testId],
-          })
-      );
-
-      expect().nothing();
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.method === 'PUT' &&
+            req.url ===
+              `https://eventotest.api/Courses/${courseId}/Tests/Delete` &&
+            isEqual(req.body, {
+              TestIds: [testId],
+            })
+        )
+        .flush(testId);
     });
 
     it('should publish a test', () => {
