@@ -18,7 +18,6 @@ import { canSetFinalGrade, getState } from '../../utils/events';
 import { averageGrade, averagePoints } from '../../utils/tests';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { log } from 'src/app/shared/utils/observable';
 
 @Component({
   selector: 'erz-test-edit-grades',
