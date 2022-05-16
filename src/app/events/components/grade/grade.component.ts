@@ -99,6 +99,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     if (this.grade.kind === 'grade') {
       this.pointsInput.setValue(this.grade.result.Points);
     }
+    this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
 
     this.disablePointsInputIfTestIsPublished();
 
@@ -149,8 +150,8 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private disableGradingScale() {
-    if (this.grade.kind === 'no-result') return false;
     if (this.grade.test.IsPublished) return true;
+    if (this.grade.kind === 'no-result') return false;
     return this.grade.result.Points != null && this.grade.test.IsPointGrading;
   }
 
