@@ -3,6 +3,7 @@ import { buildResult, buildTest } from 'src/spec-builders';
 import {
   averageGrade,
   averagePoints,
+  removeTestById,
   replaceResult,
   resultOfStudent,
   toggleIsPublished,
@@ -128,6 +129,24 @@ describe('Test utils', () => {
 
     it('should get result of student', () => {
       expect(resultOfStudent(3777, test)?.Points).toBe(19.99);
+    });
+  });
+
+  describe('remove tests by id', () => {
+    it('should do nothing if tests are empty', () => {
+      expect(removeTestById(1, [])).toEqual([]);
+    });
+
+    it('should return null if tests are null', () => {
+      expect(removeTestById(1, null)).toEqual(null);
+    });
+
+    it('should remove test by id', () => {
+      const otherTest = buildTest(1, 1, []);
+      const result = removeTestById(33, [test, otherTest]);
+
+      expect(result?.length).toBe(1);
+      expect(result).toContain(otherTest);
     });
   });
 });

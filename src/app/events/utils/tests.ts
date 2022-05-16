@@ -35,6 +35,14 @@ export function resultOfStudent(studentId: number, test: Test): Maybe<Result> {
   return test.Results?.find((result) => result.StudentId === studentId);
 }
 
+export function removeTestById(
+  testId: number,
+  tests: Test[] | null
+): Test[] | null {
+  if (tests === null) return null;
+  return tests.filter((test) => test.Id !== testId);
+}
+
 function replaceResultInTest(newResult: Result, test: Test) {
   const filteredResults =
     test.Results?.filter((result) => newResult.Id !== result.Id) || [];

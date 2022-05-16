@@ -1,6 +1,6 @@
 import { Course, Grading } from '../../shared/models/course.model';
 import { Result } from '../../shared/models/test.model';
-import { replaceResult, toggleIsPublished } from './tests';
+import { removeTestById, replaceResult, toggleIsPublished } from './tests';
 import { changeGrading, replaceGrading } from './gradings';
 
 export type TestsAction =
@@ -14,7 +14,8 @@ export type TestsAction =
       type: 'final-grade-overwritten';
       payload: { id: number; selectedGradeId: number };
     }
-  | { type: 'replace-grades'; payload: Grading[] };
+  | { type: 'replace-grades'; payload: Grading[] }
+  | { type: 'delete-test'; payload: number };
 
 export function courseReducer(
   course: Option<Course>,
@@ -62,6 +63,13 @@ export function courseReducer(
           }
         : null;
     }
+    case 'delete-test':
+      return course
+        ? {
+            ...course,
+            Tests: removeTestById(action.payload, course.Tests || []),
+          }
+        : null;
     default:
       return course;
   }
