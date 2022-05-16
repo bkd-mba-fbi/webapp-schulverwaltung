@@ -9,6 +9,7 @@
         <erz-select
           [options]="gradeOptions"
           [value]="gradeId"
+          [allowEmpty]="false"
           (valueChange)="onSelectionChange($event)"
         >
         </erz-select>
