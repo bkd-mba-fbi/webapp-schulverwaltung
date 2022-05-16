@@ -28,11 +28,11 @@
           </a>
         </div>
       </div>
-      <div class="py-3">
+      <div class="d-flex flex-row p-3 flex-wrap">
         <a
           [queryParams]="{ returnparams: state.returnParams$ | async }"
           [routerLink]="[section]"
-          class="pl-3"
+          class="mr-1 mt-1 mr-sm-2"
           *ngFor="let section of ['addresses', 'absences', 'grades']"
         >
           <button
