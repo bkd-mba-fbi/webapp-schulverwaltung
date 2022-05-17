@@ -24,7 +24,7 @@
       "max": "Bitte geben Sie eine Zahl kleiner oder gleich {{max}} ein.",
       "min": "Bitte geben Sie eine Zahl grösser oder gleich {{min}} ein.",
       "ngbDate": "Bitte geben Sie ein gültiges Datum ein.",
-      "invalidPoints": "Bitte Wert von 0 bis {{ maxPoints }} eingeben."
+      "invalidPoints": "Bitte einen Wert von 0 bis {{ maxPoints }} eingeben."
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
@@ -195,7 +195,7 @@
     "title": "Anlassliste",
     "no-events": "Keine Anlässe vorhanden",
     "search": "Anlass suchen",
-    "search-by": "Bezeichnung oder Bewertung suchen...",
+    "search-by": "Suchen...",
     "designation": "Bezeichnung",
     "date": "Datum",
     "registration": "Anmeldung",
@@ -258,8 +258,8 @@
       }
     },
     "publishing": {
-      "publish": "Möchten sie den Test '{{designation}}' publizieren?",
-      "unpublish": "Möchten sie den Test '{{designation}}' wieder in Arbeit setzen?",
+      "publish": "Möchten Sie den Test '{{designation}}' publizieren?",
+      "unpublish": "Möchten Sie den Test '{{designation}}' bearbeiten?",
       "confirm": "Bestätigen",
       "cancel": "Abbrechen"
     },
