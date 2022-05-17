@@ -51,6 +51,10 @@ table th {
   padding: $spacer;
 }
 
+.point-input-container {
+  width: 5em;
+}
+
 @include media-breakpoint-up(sm) {
   .table-responsive-wrapper {
     display: block;

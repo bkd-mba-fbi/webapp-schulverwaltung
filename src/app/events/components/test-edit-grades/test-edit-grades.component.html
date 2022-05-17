@@ -113,10 +113,13 @@
             [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
           >
             <div class="d-flex">
-              <div class="w-25 column-title" *ngIf="test.IsPointGrading">
-                <span (click)="state.sortBy(test)">{{
-                  'tests.points' | translate
-                }}</span>
+              <div
+                class="column-title mr-3 point-input-container"
+                *ngIf="test.IsPointGrading"
+              >
+                <span (click)="state.sortBy(test)"
+                  >{{ 'tests.points' | translate }}
+                </span>
               </div>
               <div class="column-title">
                 <span (click)="state.sortBy(test)">{{
