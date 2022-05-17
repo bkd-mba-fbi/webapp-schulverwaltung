@@ -12,10 +12,18 @@
           type="number"
           step="0.01"
           min="0"
+          max="{{ maxPoints }}"
           [value]="points"
           (input)="onPointsChange(pointInput.value)"
         />
       </div>
+      <!--       <div
+        *ngIf="pointsInput.errors"
+        class="invalid-feedback"
+        data-testid="validation-error-message"
+      >
+        {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
+      </div> -->
     </div>
     <div class="form-group row">
       <label for="grade" class="col-6 col-form-label">{{
