@@ -13,7 +13,6 @@
         step="0.01"
         min="0"
         max="{{ maxPoints }}"
-        [value]="points"
         [formControl]="pointsInput"
         [class.is-invalid]="pointsInput.errors"
         (input)="onPointsChange(pointInput.value)"
@@ -37,6 +36,7 @@
         [options]="gradeOptions"
         [value]="gradeId"
         [allowEmpty]="false"
+        [disabled]="gradingScaleDisabled$ | async"
         (valueChange)="onGradeChange($event)"
       >
       </erz-select>

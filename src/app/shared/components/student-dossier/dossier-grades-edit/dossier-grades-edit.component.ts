@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
+  BehaviorSubject,
   debounceTime,
   filter,
   map,
@@ -46,6 +47,10 @@ export class DossierGradesEditComponent implements OnInit {
   private gradeSubject$: Subject<number> = new Subject<number>();
   private pointsSubject$: Subject<string> = new Subject<string>();
 
+  gradingScaleDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
+
   grade$: Observable<number> = this.gradeSubject$.pipe(
     debounceTime(DEBOUNCE_TIME)
   );
@@ -65,11 +70,17 @@ export class DossierGradesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.maxPoints = this.toMaxPoints(this.test); // TODO dry up
-    this.pointsInput = new FormControl({ value: '', disabled: false }, [
-      Validators.min(0),
-      Validators.pattern('[0-9]+([\\.][0-9]+)?'),
-      this.maxPointValidator(),
-    ]);
+    this.pointsInput = new FormControl(
+      { value: this.points, disabled: false },
+      [
+        Validators.min(0),
+        Validators.pattern('[0-9]+([\\.][0-9]+)?'),
+        this.maxPointValidator(),
+      ]
+    );
+    this.gradingScaleDisabled$.next(
+      this.test.IsPointGrading && this.points > 0
+    );
 
     this.grade$
       .pipe(
@@ -92,6 +103,7 @@ export class DossierGradesEditComponent implements OnInit {
 
   onPointsChange(points: string): void {
     this.pointsSubject$.next(points);
+    this.gradingScaleDisabled$.next(points.length > 0);
   }
 
   get updatedTestResult(): Option<Result> {
