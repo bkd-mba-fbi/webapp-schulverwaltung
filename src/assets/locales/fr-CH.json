@@ -20,7 +20,7 @@
       "required": "Ce champ doit être rempli.",
       "maxlength": "Le texte ne peut pas dépasser {{requiredLength}} caractères ; il en contient actuellement {{actualLength}}.",
       "confirmationvaluerequired": "Veuillez sélectionner un motif d'absence.",
-      "email": "Adresse électronique non valide"
+      "email": "Adresse électronique non valide",
       "max": "Veuillez saisir un nombre inférieur ou égal à {{max}}.",
       "min": "Veuillez saisir un nombre supérieur ou égal à {{min}}.",
       "ngbDate": "Veuillez saisir une date valide.",
@@ -260,8 +260,8 @@
     "publishing": {
       "publish": "Voulez-vous publier le test '{{designation}}' ?",
       "unpublish": "Voulez-vous modifier le test '{{designation}}' ?",
-      "confirm": "Bestätigen",
-      "cancel": "Abbrechen"
+      "confirm": "Valider",
+      "cancel": "Annuler"
     },
     "dialog": {
       "no": "Non",
