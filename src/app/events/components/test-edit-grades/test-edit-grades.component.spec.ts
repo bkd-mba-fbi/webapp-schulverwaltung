@@ -6,7 +6,6 @@ import {
   expectElementPresent,
   expectNotInTheDocument,
 } from '../../../../specs/expectations';
-import { byTestId } from '../../../../specs/utils';
 import { TestStateService } from '../../services/test-state.service';
 import { TestEditGradesComponent } from './test-edit-grades.component';
 
@@ -62,19 +61,5 @@ describe('TestEditGradesComponent', () => {
     testStateServiceMock.canSetFinalGrade$ = of(false);
     fixture.detectChanges();
     expectNotInTheDocument(fixture.debugElement, 'apply-average-button');
-  });
-
-  it('should display external link to rating overview', () => {
-    testStateServiceMock.canSetFinalGrade$ = of(true);
-    fixture.detectChanges();
-    const link = fixture.debugElement.query(byTestId('link-to-rating-overview'))
-      .nativeElement as HTMLLinkElement;
-
-    expect(link).not.toBeNull();
-    expect(link.href).toBe(
-      `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`
-    );
-
-    expectElementPresent(fixture.debugElement, 'link-to-rating-overview');
   });
 });

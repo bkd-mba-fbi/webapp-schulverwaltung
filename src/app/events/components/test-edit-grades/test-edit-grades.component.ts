@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
 import {
@@ -10,11 +10,10 @@ import {
   StudentGrade,
 } from 'src/app/shared/models/student-grades';
 import { Student } from 'src/app/shared/models/student.model';
-import { Settings, SETTINGS } from '../../../settings';
 import { Test } from '../../../shared/models/test.model';
 import { EventsStateService } from '../../services/events-state.service';
 import { Filter, TestStateService } from '../../services/test-state.service';
-import { canSetFinalGrade, getState } from '../../utils/events';
+import { getState } from '../../utils/events';
 import { averageGrade, averagePoints } from '../../utils/tests';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -28,11 +27,7 @@ import { Observable } from 'rxjs';
 export class TestEditGradesComponent implements OnInit {
   @Input() selectedTest: Test | undefined;
 
-  constructor(
-    @Inject(SETTINGS) public settings: Settings,
-    public state: TestStateService,
-    private modalService: NgbModal
-  ) {}
+  constructor(public state: TestStateService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     // TODO move to sort implementation
@@ -111,13 +106,6 @@ export class TestEditGradesComponent implements OnInit {
         if (result) action();
       },
       () => {}
-    );
-  }
-
-  buildLinkToRatingOverview() {
-    return this.state.course$.pipe(
-      take(1),
-      map((course) => `${this.settings.eventlist.evaluation}=${course.Id}`)
     );
   }
 }
