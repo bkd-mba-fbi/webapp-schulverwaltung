@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { Test } from 'src/app/shared/models/test.model';
 import { TestStateService } from '../../services/test-state.service';
+import { Settings, SETTINGS } from '../../../settings';
 
 @Component({
   selector: 'erz-tests-list',
@@ -38,11 +39,19 @@ export class TestsListComponent {
   );
 
   constructor(
+    @Inject(SETTINGS) public settings: Settings,
     public state: TestStateService,
     private translate: TranslateService
   ) {}
 
   testSelected(id: number) {
     this.selectTest$.next(id);
+  }
+
+  buildLinkToRatingOverview() {
+    return this.state.course$.pipe(
+      take(1),
+      map((course) => `${this.settings.eventlist.evaluation}=${course.Id}`)
+    );
   }
 }
