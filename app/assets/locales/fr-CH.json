@@ -21,10 +21,6 @@
       "maxlength": "Le texte ne peut pas dépasser {{requiredLength}} caractères ; il en contient actuellement {{actualLength}}.",
       "confirmationvaluerequired": "Veuillez sélectionner un motif d'absence.",
       "email": "Adresse électronique non valide"
-      "max": "Veuillez saisir un nombre inférieur ou égal à {{max}}.",
-      "min": "Veuillez saisir un nombre supérieur ou égal à {{min}}.",
-      "ngbDate": "Veuillez saisir une date valide.",
-      "invalidPoints": "Veuillez saisir une valeur de 0 à {{ maxPoints }}."
     },
     "pagination": {
       "load-more": "Charger plus de données"
@@ -36,7 +32,7 @@
   "presence-control": {
     "title": "Contrôle des présences",
     "no-lessons": "Aucune leçon n'a lieu à la date sélectionnée.",
-    "no-lesson-presences": "Aucun-e élève disponible.",
+    "no-lesson-presences": "Aucun-e élève n'a été sélectionné-e.",
     "header": {
       "search": "Rechercher",
       "search-by-name": "Rechercher un nom..."
@@ -190,94 +186,6 @@
         "halfday": "Demi-journées"
       }
     }
-  },
-   "events": {
-    "title": "Liste des événements",
-    "no-events": "Aucun événement disponible",
-    "search": "Rechercher un événement",
-    "search-by": "Rechercher...",
-    "designation": "Désignation",
-    "date": "Date",
-    "registration": "Inscription",
-    "registrations": "Inscriptions",
-    "rating": "Évaluation",
-    "state": {
-      "rating": "Évaluation",
-      "rating-until": "Évaluation jusqu'au",
-      "intermediate-rating": "Évaluation intermédiaire",
-      "add-tests": "Saisir des tests"
-    }
-  },
-  "courses": {
-    "registration": "{{count}} inscription",
-    "registrations": "{{count}} inscriptions"
-  },
-  "tests": {
-    "title": "Tests",
-    "no-tests": "Aucun test disponible",
-    "published": "publié",
-    "publish": "publier",
-    "not-published": "en cours",
-    "edit": "traiter",
-    "all-tests": "Tous les tests",
-    "owned-tests": "Mes tests",
-    "points": "Points",
-    "grade": "Note",
-    "average": "Moyenne",
-    "mean": "Moyenne",
-    "set-final-grade": "Saisir la moyenne comme note",
-    "link-to-rating-overview": "Procédér à l'aperçu de l'évaluation",
-    "student": {
-      "name": "Nom"
-    },
-    "adjusted": "corrigé",
-    "type-points": "Type points",
-    "type-grades": "Type note",
-    "factor": "Facteur",
-    "form": {
-      "designation": "Désignation",
-      "designation-placeholder": "Saisir la désignation...",
-      "date": "Date",
-      "weight": "Pondération",
-      "factor": "Facteur",
-      "grading-type": "Type",
-      "points": "Points",
-      "max-points": "maximal",
-      "max-points-adjusted": "corrigé",
-      "grades": "Notes",
-      "save": "Valider",
-      "cancel": "Annuler",
-      "save-success": "Le test a été enregistré",
-      "delete-success": "Le test a été supprimé",
-      "delete-not-allowed": "Ce test ne peut pas être supprimé parce que des notes sont encore saisies.",
-      "confirm": "Voulez-vous supprimer ce test ?",
-      "math": {
-        "grade": "Note",
-        "points": "nb. de points atteints",
-        "max-points": "nb. de points possible"
-      }
-    },
-    "publishing": {
-      "publish": "Voulez-vous publier le test '{{designation}}' ?",
-      "unpublish": "Voulez-vous modifier le test '{{designation}}' ?",
-      "confirm": "Bestätigen",
-      "cancel": "Abbrechen"
-    },
-    "dialog": {
-      "no": "Non",
-      "yes": "Oui",
-      "ok": "Ok"
-    }
-  },
-  "dossier": {
-    "title": "Dossier",
-    "addresses": "Adresses",
-    "absences": "Absences",
-    "grades": "Notes",
-    "grade": "Note",
-    "average": "Moyenne",
-    "no-tests": "Aucun test disponible",
-    "no-grades": "Aucune note disponible"
   },
   "my-absences": {
     "title": "Mes absences",
