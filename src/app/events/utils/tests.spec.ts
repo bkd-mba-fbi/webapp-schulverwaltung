@@ -3,6 +3,7 @@ import { buildResult, buildTest } from 'src/spec-builders';
 import {
   averageGrade,
   averagePoints,
+  maxPoints,
   removeTestById,
   replaceResult,
   resultOfStudent,
@@ -119,6 +120,20 @@ describe('Test utils', () => {
         new Error('unable to calculate averages without results')
       );
       expect(averageGrade(test)).toBe(3.8272727272727276);
+    });
+  });
+
+  describe('should get max points from test', () => {
+    it('should return max points adjusted', () => {
+      test.MaxPoints = 2;
+      test.MaxPointsAdjusted = 3;
+      expect(maxPoints(test)).toBe(3);
+    });
+
+    it('should return max points', () => {
+      test.MaxPoints = 2;
+      test.MaxPointsAdjusted = null;
+      expect(maxPoints(test)).toBe(2);
     });
   });
 

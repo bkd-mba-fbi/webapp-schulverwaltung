@@ -22,6 +22,10 @@ export function averagePoints(test: Test): number {
   return average(points);
 }
 
+export function maxPoints(test: Test): number {
+  return test.MaxPointsAdjusted || test.MaxPoints!;
+}
+
 export function averageGrade(test: Test): number {
   const grades: number[] = extractGrades(test);
 

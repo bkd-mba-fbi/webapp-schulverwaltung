@@ -16,6 +16,7 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
+import { maxPoints } from 'src/app/events/utils/tests';
 import {
   TestGradesResult,
   TestPointsResult,
@@ -39,8 +40,7 @@ export class DossierGradesEditComponent implements OnInit {
   @Input() points: number;
   @Input() studentId: number;
 
-  response: UpdatedTestResultResponse;
-
+  updatedTest: UpdatedTestResultResponse;
   maxPoints: number = 0;
   pointsInput: FormControl;
 
@@ -50,11 +50,9 @@ export class DossierGradesEditComponent implements OnInit {
   gradingScaleDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     true
   );
-
   grade$: Observable<number> = this.gradeSubject$.pipe(
     debounceTime(DEBOUNCE_TIME)
   );
-
   points$: Observable<number> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
     filter(this.isValid.bind(this)),
@@ -69,7 +67,7 @@ export class DossierGradesEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.maxPoints = this.toMaxPoints(this.test); // TODO dry up
+    this.maxPoints = maxPoints(this.test);
     this.pointsInput = new FormControl(
       { value: this.points, disabled: false },
       [
@@ -107,18 +105,17 @@ export class DossierGradesEditComponent implements OnInit {
   }
 
   get updatedTestResult(): Option<Result> {
-    return this.response?.TestResults[0];
+    return this.updatedTest?.TestResults[0];
   }
 
   private updateTestResult(result: TestPointsResult | TestGradesResult): void {
     this.courseService
       .updateTestResult(this.test.CourseId, result)
-      .subscribe((body) => {
-        this.response = body;
+      .subscribe((response) => {
+        this.updatedTest = response;
       });
   }
 
-  // TODO dry up ---------------------------------------------------------
   private buildRuequestBodyForGradeChange(gradeId: number): TestGradesResult {
     return {
       StudentIds: [this.studentId],
@@ -143,13 +140,9 @@ export class DossierGradesEditComponent implements OnInit {
 
   private maxPointValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return Number(control.value) > this.toMaxPoints(this.test)
+      return Number(control.value) > maxPoints(this.test)
         ? { customMax: true }
         : null;
     };
-  }
-
-  private toMaxPoints(test: Test) {
-    return this.test.MaxPointsAdjusted! || this.test.MaxPoints!;
   }
 }
