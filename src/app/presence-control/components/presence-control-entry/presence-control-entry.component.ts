@@ -34,7 +34,7 @@ export class PresenceControlEntryComponent implements OnChanges {
     return [this.entry.presenceCategory, this.viewMode].join(' ');
   }
 
-  private studentId$ = new ReplaySubject<number>(1);
+  studentId$ = new ReplaySubject<number>(1);
 
   constructor(
     private toastr: ToastrService,
