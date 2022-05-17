@@ -1,4 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   debounceTime,
@@ -7,7 +14,6 @@ import {
   Observable,
   Subject,
   takeUntil,
-  tap,
 } from 'rxjs';
 import {
   TestGradesResult,
@@ -33,7 +39,9 @@ export class DossierGradesEditComponent implements OnInit {
   @Input() studentId: number;
 
   response: UpdatedTestResultResponse;
+
   maxPoints: number = 0;
+  pointsInput: FormControl;
 
   private gradeSubject$: Subject<number> = new Subject<number>();
   private pointsSubject$: Subject<string> = new Subject<string>();
@@ -43,13 +51,9 @@ export class DossierGradesEditComponent implements OnInit {
   );
 
   points$: Observable<number> = this.pointsSubject$.pipe(
-    tap((n) => console.log('a', n)),
     debounceTime(DEBOUNCE_TIME),
-    tap((n) => console.log('b', n)),
     filter(this.isValid.bind(this)),
-    tap((n) => console.log('c', n)),
-    map(Number),
-    tap((n) => console.log('z', n))
+    map(Number)
   );
 
   destroy$ = new Subject<void>();
@@ -60,7 +64,12 @@ export class DossierGradesEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.maxPoints = this.test.MaxPointsAdjusted || this.test.MaxPoints!; // TODO dry up
+    this.maxPoints = this.toMaxPoints(this.test); // TODO dry up
+    this.pointsInput = new FormControl({ value: '', disabled: false }, [
+      Validators.min(0),
+      Validators.pattern('[0-9]+([\\.][0-9]+)?'),
+      this.maxPointValidator(),
+    ]);
 
     this.grade$
       .pipe(
@@ -118,5 +127,17 @@ export class DossierGradesEditComponent implements OnInit {
     if (points === '') return false;
     if (isNaN(Number(points))) return false;
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
+  }
+
+  private maxPointValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return Number(control.value) > this.toMaxPoints(this.test)
+        ? { customMax: true }
+        : null;
+    };
+  }
+
+  private toMaxPoints(test: Test) {
+    return this.test.MaxPointsAdjusted! || this.test.MaxPoints!;
   }
 }
