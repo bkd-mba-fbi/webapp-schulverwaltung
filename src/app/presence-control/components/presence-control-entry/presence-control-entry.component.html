@@ -1,7 +1,11 @@
 <erz-avatar
   *ngIf="!isListViewMode"
   [studentId]="studentId$ | async"
-  [link]="['/presence-control/student', entry.lessonPresence.StudentRef.Id]"
+  [link]="[
+    '/presence-control/student',
+    entry.lessonPresence.StudentRef.Id.toString(),
+    'absences'
+  ]"
   [linkParams]="profileReturnParams"
   class="avatar large"
 ></erz-avatar>
