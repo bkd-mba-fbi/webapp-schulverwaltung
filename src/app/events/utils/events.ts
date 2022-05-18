@@ -4,7 +4,10 @@ import { EventState } from '../services/events-state.service';
 export function getState(course: Course): Option<EventState> {
   const courseStatus = course.EvaluationStatusRef;
 
-  if (courseStatus.HasTestGrading === true) {
+  if (
+    courseStatus.HasEvaluationStarted === false &&
+    courseStatus.HasTestGrading === true
+  ) {
     return EventState.Tests;
   }
 
