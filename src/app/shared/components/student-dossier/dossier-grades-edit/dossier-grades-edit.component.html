@@ -55,6 +55,7 @@
   <button
     type="button"
     class="btn btn-primary"
+    [disabled]="closeButtonDisabled$ | async"
     (click)="activeModal.close(updatedTestResult)"
   >
     {{ 'dossier.dialog.close' | translate }}

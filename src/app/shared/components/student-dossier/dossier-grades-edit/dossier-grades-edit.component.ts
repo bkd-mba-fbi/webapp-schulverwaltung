@@ -47,6 +47,8 @@ export class DossierGradesEditComponent implements OnInit {
   private gradeSubject$: Subject<number> = new Subject<number>();
   private pointsSubject$: Subject<string> = new Subject<string>();
 
+  closeButtonDisabled$ = new BehaviorSubject<boolean>(false);
+
   gradingScaleDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     true
   );
@@ -109,11 +111,13 @@ export class DossierGradesEditComponent implements OnInit {
   }
 
   private updateTestResult(result: TestPointsResult | TestGradesResult): void {
+    this.closeButtonDisabled$.next(true);
     this.courseService
       .updateTestResult(this.test.CourseId, result)
       .subscribe((response) => {
         this.gradeId = response.TestResults[0]?.GradeId;
         this.updatedTest = response;
+        this.closeButtonDisabled$.next(false);
       });
   }
 
