@@ -112,6 +112,7 @@ export class DossierGradesEditComponent implements OnInit {
     this.courseService
       .updateTestResult(this.test.CourseId, result)
       .subscribe((response) => {
+        this.gradeId = response.TestResults[0]?.GradeId;
         this.updatedTest = response;
       });
   }
