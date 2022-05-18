@@ -73,9 +73,12 @@ export class DossierSingleTestComponent implements OnInit {
     modalRef.componentInstance.studentId = this.studentId;
     modalRef.componentInstance.points = this.getPoints(test);
 
-    modalRef.result.then((updatedTestResult) => {
-      if (updatedTestResult) this.updateStudentGrade(updatedTestResult, test);
-    });
+    modalRef.result.then(
+      (updatedTestResult) => {
+        if (updatedTestResult) this.updateStudentGrade(updatedTestResult, test);
+      },
+      () => {}
+    );
   }
 
   private updateStudentGrade(result: Result, test: Test): void {
