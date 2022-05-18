@@ -7,13 +7,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
@@ -43,12 +36,6 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Output()
   gradeChanged = new EventEmitter<TestPointsResult | TestGradesResult>();
 
-  /*   pointsInput = new FormControl({ value: '', disabled: false }, [
-    Validators.min(0),
-    Validators.pattern('[0-9]+([\\.][0-9]+)?'),
-    this.maxPointValidator(),
-  ]); */
-
   maxPoints: number = 0;
 
   private pointsSubject$: Subject<string> = new Subject<string>();
@@ -74,9 +61,6 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   constructor() {}
 
   ngOnInit(): void {
-    /*     if (this.grade.kind === 'grade') {
-      this.pointsInput.setValue(this.grade.result.Points);
-    } */
     this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
 
     this.maxPoints = toMaxPoints(this.grade);
@@ -96,43 +80,22 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    /*     if (this.grade.kind === 'grade') {
-      this.pointsInput.setValue(this.grade.result.Points);
-    } */
     this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
-
-    //this.disablePointsInputIfTestIsPublished();
-
-    //if (this.grade.kind === 'no-result') this.pointsInput.setValue(null);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
   }
 
-  /*   onPointsChange(points: string) {
+  onPointsChange(points: string) {
     this.pointsSubject$.next(points);
-    this.gradingScaleDisabledSubject$.next(points.length > 0);
-  } */
+    this.gradingScaleDisabledSubject$.next(points?.length > 0);
+  }
 
   onGradeChange(gradeId: number) {
     this.gradeSubject$.next(gradeId);
   }
 
-  onChange(points: string) {
-    //console.log(points);
-    this.pointsSubject$.next(points);
-    this.gradingScaleDisabledSubject$.next(points?.length > 0);
-  }
-
-  /*   private maxPointValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return Number(control.value) > toMaxPoints(this.grade)
-        ? { customMax: true }
-        : null;
-    };
-  }
- */
   private isValid(points: string): boolean {
     if (points === '') return false;
     if (isNaN(Number(points))) return false;
@@ -160,12 +123,4 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     if (this.grade.kind === 'no-result') return false;
     return this.grade.result.Points != null && this.grade.test.IsPointGrading;
   }
-
-  /*   private disablePointsInputIfTestIsPublished() {
-    if (this.grade.test.IsPublished) {
-      this.pointsInput.disable();
-    } else {
-      this.pointsInput.enable();
-    }
-  } */
 }
