@@ -275,9 +275,17 @@
     "absences": "Absenzen",
     "grades": "Noten",
     "grade": "Note",
+    "points": "Punkte",
     "average": "Mittelwert",
     "no-tests": "Keine Tests vorhanden",
-    "no-grades": "Keine Noten vorhanden"
+    "no-grades": "Keine Noten vorhanden",
+    "dialog": {
+      "close": "Schliessen",
+      "hint": {
+        "grade": "Eine Änderung an der Note wird automatisch gespeichert.",
+        "points": "Bei der Änderung der Punkte wird die Note automatisch berechnet und gespeichert."
+      }
+    }
   },
   "my-absences": {
     "title": "Meine Absenzen",
