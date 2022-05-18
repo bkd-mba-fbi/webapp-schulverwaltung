@@ -7,13 +7,13 @@ import { Test } from 'src/app/shared/models/test.model';
   template: `<div class="d-flex flex-row w-100">
     <span
       *ngIf="test.IsPointGrading"
-      class="mr-3 average-points"
+      class="mr-2 mr-md-3 average-points"
       data-testid="average-points"
       >{{ calculatePointsAverage(test) }}</span
     >
     <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
   </div>`,
-  styles: ['.average-points {min-width: 9ch;}'],
+  styleUrls: ['./average-grades.component.scss'],
 })
 export class AverageGradesComponent {
   @Input() test: Test;

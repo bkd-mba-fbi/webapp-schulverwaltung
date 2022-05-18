@@ -1,7 +1,16 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
 .point-input-container {
-  width: 5em;
+  width: 4em;
 }
 
 :host ::ng-deep select {
   min-width: 13ch;
+}
+
+@include media-breakpoint-up(sm) {
+  .point-input-container {
+    width: 5em;
+  }
 }

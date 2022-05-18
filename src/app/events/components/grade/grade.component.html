@@ -1,6 +1,9 @@
 <div class="d-flex flex-column w-100">
   <div class="d-flex flex-row" [class.is-invalid]="pointsInput.errors">
-    <div *ngIf="grade.test.IsPointGrading" class="point-input-container mr-3">
+    <div
+      *ngIf="grade.test.IsPointGrading"
+      class="point-input-container mr-2 mr-md-3"
+    >
       <input
         #pointInput
         class="form-control"
