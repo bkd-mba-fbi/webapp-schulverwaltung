@@ -1,21 +1,30 @@
 <div class="d-flex flex-column w-100">
-  <div class="d-flex flex-row" [class.is-invalid]="pointsInput.errors">
+  <div class="d-flex flex-row">
     <div
       *ngIf="grade.test.IsPointGrading"
       class="point-input-container mr-2 mr-md-3"
     >
       <input
-        #pointInput
+        #points="ngModel"
         class="form-control"
         type="number"
         step="0.01"
         min="0"
         max="{{ maxPoints }}"
+        [disabled]="grade.test.IsPublished"
         tabindex="{{ tabIndex }}"
-        [formControl]="pointsInput"
-        (input)="onPointsChange(pointInput.value)"
+        [ngModel]="grade.kind === 'grade' ? grade.result.Points : null"
+        (ngModelChange)="onChange(points.value)"
+        [class.is-invalid]="points.errors"
         data-testid="point-input"
       />
+      <div
+        *ngIf="points.errors"
+        class="invalid-feedback"
+        data-testid="validation-error-message"
+      >
+        {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
+      </div>
     </div>
     <erz-select
       [options]="gradeOptions"
@@ -28,12 +37,5 @@
       data-testid="grade-select"
     >
     </erz-select>
-  </div>
-  <div
-    *ngIf="pointsInput.errors"
-    class="invalid-feedback"
-    data-testid="validation-error-message"
-  >
-    {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
   </div>
 </div>
