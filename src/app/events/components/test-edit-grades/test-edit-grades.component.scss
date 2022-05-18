@@ -51,6 +51,15 @@ table th {
   padding: $spacer;
 }
 
+table td.name,
+table td.average {
+  max-width: 18ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 0;
+}
+
 .point-input-container {
   width: 5em;
 }
@@ -78,6 +87,11 @@ table th {
   table td.grade,
   .desktop {
     display: table-cell !important;
+  }
+
+  table td.name {
+    max-width: auto;
+    overflow: visible;
   }
 
   thead tr th {
