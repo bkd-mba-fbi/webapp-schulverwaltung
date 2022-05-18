@@ -133,7 +133,7 @@ export class EventsStateService {
           state,
           course.EvaluationStatusRef.EvaluationUntil
         ),
-        evaluationLink: this.getEvaluationLink(course, state),
+        evaluationLink: this.getEvaluationLink(course),
       };
     });
   }
@@ -158,13 +158,11 @@ export class EventsStateService {
             : '');
   }
 
-  private getEvaluationLink(
-    course: Course,
-    state: Option<EventState>
-  ): Option<string> {
-    return state === null || state === EventState.Tests
-      ? null
-      : this.buildLink(course.Id, 'evaluation');
+  private getEvaluationLink(course: Course): Option<string> {
+    return course.EvaluationStatusRef.HasEvaluationStarted &&
+      !course.EvaluationStatusRef.HasTestGrading
+      ? this.buildLink(course.Id, 'evaluation')
+      : null;
   }
 
   private buildLink(id: number, linkType: LinkType): string {

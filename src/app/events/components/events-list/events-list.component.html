@@ -41,9 +41,9 @@
             ) | translate
           }}</span>
         </div>
-        <div class="rating">
+        <div class="rating" *ngIf="event.evaluationText">
           <a
-            *ngIf="event.state === 'add-tests'"
+            *ngIf="!event.evaluationLink"
             class="d-flex"
             [routerLink]="[event.id, 'tests']"
           >
@@ -51,7 +51,7 @@
             <span class="pl-1">{{ event.evaluationText }}</span>
           </a>
           <a
-            *ngIf="event.evaluationText && event.evaluationLink"
+            *ngIf="event.evaluationLink"
             class="d-flex"
             [href]="event.evaluationLink"
           >

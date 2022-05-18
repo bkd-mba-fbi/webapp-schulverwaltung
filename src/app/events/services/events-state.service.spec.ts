@@ -1,7 +1,7 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import * as t from 'io-ts/lib/index';
-import { Course, FinalGrading } from 'src/app/shared/models/course.model';
+import { Course } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import {
