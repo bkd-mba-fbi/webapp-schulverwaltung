@@ -6,10 +6,12 @@ import * as Gradings from 'src/app/shared/utils/gradings';
   selector: 'erz-dossier-grades-final-grade',
   template: `<div class="final-entry">
     <div>{{ 'dossier.grade' | translate }}</div>
-    <div data-testid="final-grade">{{ getGradeForStudent() || '-' }}</div>
+    <div data-testid="final-grade">
+      <span>{{ getGradeForStudent() || '-' }}</span>
+    </div>
     <div>{{ 'dossier.average' | translate }}</div>
     <div data-testid="average-test-results">
-      {{ grading?.AverageTestResult | number: '1.0-3' }}
+      <span>{{ grading?.AverageTestResult | number: '1.0-3' }}</span>
     </div>
   </div>`,
   styleUrls: ['./dossier-grades-final-grade.component.scss'],

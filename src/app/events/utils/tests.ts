@@ -22,6 +22,10 @@ export function averagePoints(test: Test): number {
   return average(points);
 }
 
+export function maxPoints(test: Test): number {
+  return test.MaxPointsAdjusted || test.MaxPoints!;
+}
+
 export function averageGrade(test: Test): number {
   const grades: number[] = extractGrades(test);
 
@@ -43,7 +47,7 @@ export function removeTestById(
   return tests.filter((test) => test.Id !== testId);
 }
 
-function replaceResultInTest(newResult: Result, test: Test) {
+export function replaceResultInTest(newResult: Result, test: Test) {
   const filteredResults =
     test.Results?.filter((result) => newResult.Id !== result.Id) || [];
   return { ...test, Results: [...filteredResults, newResult] };

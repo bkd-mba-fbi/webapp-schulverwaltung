@@ -1,0 +1,63 @@
+<div class="modal-body">
+  <p class="mb-4">{{ test.Designation }}</p>
+  <div *ngIf="test.IsPointGrading" class="form-group row">
+    <label for="points" class="col-6 col-form-label">{{
+      'dossier.points' | translate
+    }}</label>
+    <div class="col-6" [class.is-invalid]="pointsInput.errors">
+      <input
+        #pointInput
+        class="form-control"
+        id="points"
+        type="number"
+        step="0.01"
+        min="0"
+        max="{{ maxPoints }}"
+        [formControl]="pointsInput"
+        [class.is-invalid]="pointsInput.errors"
+        (input)="onPointsChange(pointInput.value)"
+      />
+    </div>
+    <div
+      *ngIf="pointsInput.errors"
+      class="invalid-feedback col-6 offset-6"
+      data-testid="validation-error-message"
+    >
+      {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="grade" class="col-6 col-form-label">{{
+      'dossier.grade' | translate
+    }}</label>
+    <div class="col-6">
+      <erz-select
+        id="grade"
+        [options]="gradeOptions"
+        [value]="gradeId"
+        [allowEmpty]="false"
+        [disabled]="gradingScaleDisabled$ | async"
+        (valueChange)="onGradeChange($event)"
+      >
+      </erz-select>
+    </div>
+  </div>
+  <p class="text-muted mt-4">
+    {{
+      (test.IsPointGrading
+        ? 'dossier.dialog.hint.points'
+        : 'dossier.dialog.hint.grade'
+      ) | translate
+    }}
+  </p>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="closeButtonDisabled$ | async"
+    (click)="activeModal.close(updatedTestResult)"
+  >
+    {{ 'dossier.dialog.close' | translate }}
+  </button>
+</div>
