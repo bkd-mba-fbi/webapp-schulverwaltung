@@ -14,7 +14,7 @@
         [disabled]="grade.test.IsPublished"
         tabindex="{{ tabIndex }}"
         [ngModel]="grade.kind === 'grade' ? grade.result.Points : null"
-        (ngModelChange)="onChange(points.value)"
+        (ngModelChange)="onPointsChange(points.value)"
         [class.is-invalid]="points.errors"
         data-testid="point-input"
       />
