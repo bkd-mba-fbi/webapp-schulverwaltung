@@ -134,7 +134,10 @@ const compareGrades = (
     .filter(isGrade)
     .find((g: GradeKind) => g.test.Id === test.Id);
 
-  if (test.IsPointGrading)
+  if (
+    test.IsPointGrading &&
+    grades1?.result.GradeId === grades2?.result.GradeId
+  )
     return (grades1?.result.Points ?? 0) - (grades2?.result.Points ?? 0);
 
   return (
