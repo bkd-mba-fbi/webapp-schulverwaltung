@@ -164,7 +164,10 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       // then
-      expectPointsInputValue(debugElement, '11');
+
+      fixture.whenStable().then(() => {
+        expectPointsInputValue(debugElement, '11');
+      });
     });
   });
   describe('points input validation', () => {
