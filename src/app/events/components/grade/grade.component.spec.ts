@@ -191,7 +191,9 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       // then
-      expectValidationErrorMessage(debugElement);
+      fixture.whenStable().then(() => {
+        expectValidationErrorMessage(debugElement);
+      });
     });
 
     it('should show validation error if points are greater than maxPoints', () => {
@@ -204,7 +206,9 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       // then
-      expectValidationErrorMessage(debugElement);
+      fixture.whenStable().then(() => {
+        expectValidationErrorMessage(debugElement);
+      });
     });
   });
 
