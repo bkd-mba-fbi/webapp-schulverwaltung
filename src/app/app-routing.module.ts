@@ -58,6 +58,12 @@ const routes: Routes = [
       import('./my-profile/my-profile.module').then((m) => m.MyProfileModule),
   },
   {
+    path: 'my-grades',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./my-grades/my-grades.module').then((m) => m.MyGradesModule),
+  },
+  {
     path: 'my-settings',
     canActivate: [AuthGuard],
     loadChildren: () =>
