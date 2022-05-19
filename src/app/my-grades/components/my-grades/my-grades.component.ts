@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { DossierStateService } from '../../../shared/services/dossier-state.service';
+import { DossierGradesService } from '../../../shared/services/dossier-grades.service';
 
 @Component({
   selector: 'erz-my-grades',
   templateUrl: './my-grades.component.html',
   styleUrls: ['./my-grades.component.scss'],
+  providers: [DossierStateService, DossierGradesService],
 })
-export class MyGradesComponent implements OnInit {
+export class MyGradesComponent {
   constructor() {}
-
-  ngOnInit(): void {
-    console.log('my-grades works!');
-  }
 }
