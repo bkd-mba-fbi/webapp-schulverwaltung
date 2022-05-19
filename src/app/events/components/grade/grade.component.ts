@@ -89,7 +89,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   onPointsChange(points: string) {
     this.pointsSubject$.next(points);
-    this.gradingScaleDisabledSubject$.next(points?.length > 0);
+    this.gradingScaleDisabledSubject$.next(points !== null);
   }
 
   onGradeChange(gradeId: number) {
