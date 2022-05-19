@@ -97,7 +97,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isValid(points: string): boolean {
-    if (points === '') return false;
+    if (points === '' || points === null) return false;
     if (isNaN(Number(points))) return false;
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }
