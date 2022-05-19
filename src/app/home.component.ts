@@ -25,6 +25,7 @@ export class HomeComponent {
     'events',
     'my-absences',
     'my-profile',
+    'my-grades',
     'my-settings',
   ];
 }

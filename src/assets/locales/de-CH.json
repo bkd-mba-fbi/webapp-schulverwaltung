@@ -339,6 +339,9 @@
       }
     }
   },
+  "my-grades": {
+    "title": "Meine Noten"
+  },
   "my-settings": {
     "title": "Meine Einstellungen",
     "notifications": {
