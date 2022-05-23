@@ -5,6 +5,7 @@
     courses: myGradesService.studentCourses$ | async
   } as data"
 >
+  <erz-my-grades-header></erz-my-grades-header>
   <erz-dossier-grades-view
     *ngIf="!data.loading"
     [courses]="data.courses"

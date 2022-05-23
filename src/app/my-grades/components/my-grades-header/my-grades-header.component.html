@@ -1,0 +1,14 @@
+<div
+  class="d-flex justify-content-between header erz-container erz-container-limited erz-container-padding-y erz-container-padding-x-responsive"
+>
+  <div>{{ 'my-grades.header' | translate }}</div>
+  <div>
+    <a
+      [href]="dossierGradesService.testReportUrl$ | async"
+      class="report btn btn-primary"
+      target="_blank"
+    >
+      <i class="material-icons">description</i>
+    </a>
+  </div>
+</div>
