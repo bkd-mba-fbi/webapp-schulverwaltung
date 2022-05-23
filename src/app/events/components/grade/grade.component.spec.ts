@@ -170,50 +170,6 @@ describe('GradeComponent', () => {
       });
     });
   });
-  describe('points input validation', () => {
-    let grade: GradeKind;
-
-    beforeEach(() => {
-      grade = {
-        kind: 'grade',
-        result,
-        test,
-      };
-
-      grade.test.IsPointGrading = true;
-      grade.result.Points = 12;
-    });
-
-    it('should show validation error if points are greater than maxPointsAdjusted', () => {
-      // given
-      grade.test.MaxPoints = 13;
-      grade.test.MaxPointsAdjusted = 11;
-      component.grade = grade;
-
-      // when
-      fixture.detectChanges();
-
-      // then
-      fixture.whenStable().then(() => {
-        expectValidationErrorMessage(debugElement);
-      });
-    });
-
-    it('should show validation error if points are greater than maxPoints', () => {
-      // given
-      grade.test.MaxPoints = 11;
-      grade.test.MaxPointsAdjusted = null;
-      component.grade = grade;
-
-      // when
-      fixture.detectChanges();
-
-      // then
-      fixture.whenStable().then(() => {
-        expectValidationErrorMessage(debugElement);
-      });
-    });
-  });
 
   describe('enable and disable grading scale options', () => {
     let grade: GradeKind;
