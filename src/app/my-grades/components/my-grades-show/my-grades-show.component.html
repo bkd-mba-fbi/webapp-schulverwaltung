@@ -1,1 +1,17 @@
-<p>my-grades-show works!</p>
+<ng-container
+  *erzLet="{
+    loading: myGradesService.loading$ | async,
+    studentId: myGradesService.studentId$ | async,
+    courses: myGradesService.studentCourses$ | async
+  } as data"
+>
+  <erz-dossier-grades-view
+    *ngIf="!data.loading"
+    [courses]="data.courses"
+    [studentId]="data.studentId"
+    [gradingScales]="[]"
+  ></erz-dossier-grades-view>
+  <ng-container *ngIf="data.loading">
+    <erz-spinner></erz-spinner>
+  </ng-container>
+</ng-container>
