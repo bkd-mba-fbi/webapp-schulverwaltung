@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '../../shared/services/storage.service';
-import {
-  distinctUntilChanged,
-  ReplaySubject,
-  shareReplay,
-  switchMap,
-} from 'rxjs';
+import { ReplaySubject, shareReplay } from 'rxjs';
 import { LoadingService } from '../../shared/services/loading-service';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 
@@ -15,12 +10,7 @@ export class MyGradesService {
 
   loading$ = this.loadingService.loading$;
 
-  studentCourses$ = this.studentId$.pipe(
-    distinctUntilChanged(),
-    switchMap(this.loadCourses.bind(this)),
-    shareReplay(1)
-  );
-
+  studentCourses$ = this.loadCourses().pipe(shareReplay(1));
   constructor(
     private storageService: StorageService,
     private loadingService: LoadingService,
