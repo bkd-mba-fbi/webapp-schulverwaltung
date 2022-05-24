@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { mapTo, Observable, switchMap } from 'rxjs';
+import { mapTo, Observable, switchMap, of } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   Course,
@@ -11,22 +11,35 @@ import {
 } from '../models/course.model';
 import { decode, decodeArray } from '../utils/decode';
 import { RestService } from './rest.service';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesRestService extends RestService<typeof Course> {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor(
+    http: HttpClient,
+    @Inject(SETTINGS) settings: Settings,
+    private storage: StorageService
+  ) {
     super(http, settings, Course, 'Courses');
   }
 
   getExpandedCourses(): Observable<ReadonlyArray<Course>> {
-    return this.http
-      .get<unknown[]>(
-        `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
-        { headers: { 'X-Role-Restriction': 'TeacherRole' } }
-      )
-      .pipe(switchMap(decodeArray(Course)));
+    const roleRestriction = 'TeacherRole';
+    const roles = this.storage.getPayload()?.roles.split(';') || [];
+    const commonRoles = roles.includes(roleRestriction);
+
+    if (commonRoles) {
+      return this.http
+        .get<unknown[]>(
+          `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
+          { headers: { 'X-Role-Restriction': roleRestriction } }
+        )
+        .pipe(switchMap(decodeArray(Course)));
+    }
+
+    return of([]);
   }
 
   getExpandedCourse(courseId: number): Observable<Course> {
