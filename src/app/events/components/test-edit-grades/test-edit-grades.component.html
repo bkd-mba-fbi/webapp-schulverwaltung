@@ -95,7 +95,6 @@
           <th
             class="secondary-column-width border-right sticky sticky-col-3 desktop"
             (click)="state.sortBy('TestsMean')"
-            [ngClass]="{ selected: selectedTest === undefined }"
           >
             <div class="d-flex">
               <div class="column-title">
@@ -164,10 +163,7 @@
               (gradeIdSelected)="state.overwriteFinalGrade($event)"
             ></erz-grade-select>
           </td>
-          <td
-            class="grade border-right sticky sticky-col-3"
-            [ngClass]="{ selected: selectedTest === undefined }"
-          >
+          <td class="grade border-right sticky sticky-col-3">
             {{ studentGrade.finalGrade.average | number: '1.0-3' }}
           </td>
           <td
@@ -192,13 +188,23 @@
             ></erz-grade>
           </td>
         </tr>
+        <!-- course and test averages -->
         <tr>
           <td class="sticky">
             <div class="d-flex flex-column">
               <div>{{ 'tests.average' | translate }}</div>
+              <div class="mobile mean">
+                {{ 'tests.mean' | translate }}:
+                {{
+                  state.meanOfStudentGradesForCourse$ | async | number: '1.0-3'
+                }}
+              </div>
             </div>
           </td>
-          <td class="desktop sticky sticky sticky-col-2">
+          <td
+            class="desktop sticky sticky sticky-col-2"
+            [ngClass]="{ selected: selectedTest === undefined }"
+          >
             {{ state.meanOfFinalGradesForCourse$ | async | number: '1.0-3' }}
           </td>
           <td class="desktop border-right sticky sticky-col-3">

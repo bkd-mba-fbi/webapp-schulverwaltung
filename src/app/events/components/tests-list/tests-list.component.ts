@@ -26,7 +26,10 @@ export class TestsListComponent {
 
   selectedTestId$ = merge(
     this.selectTest$,
-    this.state.tests$.pipe(map((tests) => tests[0]?.Id))
+    this.state.tests$.pipe(
+      take(1),
+      map((tests) => tests[0]?.Id)
+    )
   ).pipe(distinctUntilChanged());
 
   selectedTest$: Observable<Test | undefined> = this.selectedTestId$.pipe(
