@@ -176,9 +176,6 @@ export class EventsStateService {
   }
 
   private hasClassTeacherRole(): boolean {
-    const tokenPayload = this.storage.getPayload();
-    return tokenPayload
-      ? tokenPayload.roles.indexOf('ClassTeacherRole') >= 0
-      : false;
+    return hasRole(this.storage.getPayload()?.roles, 'ClassTeacherRole');
   }
 }
