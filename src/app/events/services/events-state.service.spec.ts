@@ -15,7 +15,10 @@ import { Event, EventsStateService, EventState } from './events-state.service';
 describe('EventsStateService', () => {
   let service: EventsStateService;
   let httpTestingController: HttpTestingController;
-  let storageServiceMock: StorageService;
+  let storageServiceMock: StorageService = jasmine.createSpyObj(
+    'StorageService',
+    ['getPayload']
+  );
 
   let courseEvents: Event[];
   let courses: Course[];
@@ -31,7 +34,7 @@ describe('EventsStateService', () => {
           EventsStateService,
           {
             provide: StorageService,
-            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+            useValue: storageServiceMock,
           },
         ],
       })
@@ -39,7 +42,6 @@ describe('EventsStateService', () => {
 
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(EventsStateService);
-    storageServiceMock = TestBed.inject(StorageService);
 
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date(2022, 2, 3));
@@ -184,7 +186,7 @@ describe('EventsStateService', () => {
   describe('with ClassTeacherRole', () => {
     beforeEach(() => {
       (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
-        roles: 'ClassTeacherRole',
+        roles: 'ClassTeacherRole;TeacherRole',
       });
     });
 
@@ -208,7 +210,7 @@ describe('EventsStateService', () => {
   describe('without ClassTeacherRole', () => {
     beforeEach(() => {
       (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
-        roles: '',
+        roles: 'TeacherRole',
       });
     });
 
