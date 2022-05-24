@@ -75,9 +75,8 @@ export class EventsStateService {
   }
 
   private loadCoursesNotRated(): Observable<ReadonlyArray<Course>> {
-    const roles = this.storage.getPayload()?.roles;
     return this.coursesRestService
-      .getExpandedCourses(roles)
+      .getExpandedCourses(this.storage.getPayload()?.roles)
       .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   }
 

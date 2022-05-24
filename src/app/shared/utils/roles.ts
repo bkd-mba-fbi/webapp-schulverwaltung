@@ -1,4 +1,4 @@
 export function hasRole(rolesString: Maybe<string>, role: string): boolean {
-  const roles = rolesString?.split(';') || [];
-  return roles.includes(role);
+  if (!rolesString) return false;
+  return rolesString.split(';').includes(role);
 }
