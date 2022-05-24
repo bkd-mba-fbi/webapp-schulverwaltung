@@ -5,14 +5,18 @@
     courses: myGradesService.studentCourses$ | async
   } as data"
 >
-  <erz-my-grades-header></erz-my-grades-header>
-  <erz-dossier-grades-view
-    *ngIf="!data.loading"
-    [courses]="data.courses"
-    [studentId]="data.studentId"
-    [gradingScales]="[]"
-  ></erz-dossier-grades-view>
-  <ng-container *ngIf="data.loading">
-    <erz-spinner></erz-spinner>
-  </ng-container>
+  <div
+    class="erz-container erz-container-limited erz-container-padding-x-responsive"
+  >
+    <erz-my-grades-header></erz-my-grades-header>
+    <erz-dossier-grades-view
+      *ngIf="!data.loading"
+      [courses]="data.courses"
+      [studentId]="data.studentId"
+      [gradingScales]="[]"
+    ></erz-dossier-grades-view>
+    <ng-container *ngIf="data.loading">
+      <erz-spinner></erz-spinner>
+    </ng-container>
+  </div>
 </ng-container>
