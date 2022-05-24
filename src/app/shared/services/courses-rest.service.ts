@@ -10,31 +10,23 @@ import {
   UpdatedTestResultResponse,
 } from '../models/course.model';
 import { decode, decodeArray } from '../utils/decode';
+import { hasRole } from '../utils/roles';
 import { RestService } from './rest.service';
-import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesRestService extends RestService<typeof Course> {
-  constructor(
-    http: HttpClient,
-    @Inject(SETTINGS) settings: Settings,
-    private storage: StorageService
-  ) {
+  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, Course, 'Courses');
   }
 
-  getExpandedCourses(): Observable<ReadonlyArray<Course>> {
-    const roleRestriction = 'TeacherRole';
-    const roles = this.storage.getPayload()?.roles.split(';') || [];
-    const commonRoles = roles.includes(roleRestriction);
-
-    if (commonRoles) {
+  getExpandedCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
+    if (hasRole(roles, 'TeacherRole')) {
       return this.http
         .get<unknown[]>(
           `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
-          { headers: { 'X-Role-Restriction': roleRestriction } }
+          { headers: { 'X-Role-Restriction': 'TeacherRole' } }
         )
         .pipe(switchMap(decodeArray(Course)));
     }
