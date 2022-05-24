@@ -27,6 +27,10 @@ describe('EventsStateService', () => {
   let assessments: StudyClass[];
   let assessmentEvents: Event[];
 
+  (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
+    roles: 'TeacherRole',
+  });
+
   beforeEach(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -180,17 +184,14 @@ describe('EventsStateService', () => {
 
   afterEach(() => {
     jasmine.clock().uninstall();
-    httpTestingController.verify();
   });
 
   describe('with ClassTeacherRole', () => {
-    beforeEach(() => {
+    it('loads events', () => {
       (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
         roles: 'ClassTeacherRole;TeacherRole',
       });
-    });
 
-    it('loads events', () => {
       service
         .loadEvents()
         .subscribe((result) =>
@@ -204,22 +205,24 @@ describe('EventsStateService', () => {
       expectCoursesRequest();
       expectFormativeAssessmentsRequest();
       expectStudyClassesRequest();
+
+      httpTestingController.verify();
     });
   });
 
   describe('without ClassTeacherRole', () => {
-    beforeEach(() => {
+    it('loads events', () => {
       (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
         roles: 'TeacherRole',
       });
-    });
 
-    it('loads events', () => {
       service
         .loadEvents()
         .subscribe((result) => expect(result).toEqual(courseEvents));
 
       expectCoursesRequest();
+
+      httpTestingController.verify();
     });
   });
 
