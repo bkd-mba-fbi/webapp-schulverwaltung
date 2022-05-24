@@ -5,7 +5,7 @@ import { DossierGradesService } from '../../../shared/services/dossier-grades.se
   selector: 'erz-my-grades-header',
   templateUrl: './my-grades-header.component.html',
   styleUrls: ['./my-grades-header.component.scss'],
-  // providers: [DossierGradesService],
+  providers: [DossierGradesService],
 })
 export class MyGradesHeaderComponent {
   constructor(public dossierGradesService: DossierGradesService) {}
