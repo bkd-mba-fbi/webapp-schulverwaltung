@@ -193,9 +193,18 @@
           <td class="sticky">
             <div class="d-flex flex-column">
               <div>{{ 'tests.average' | translate }}</div>
+              <div class="mobile mean">
+                {{ 'tests.mean' | translate }}:
+                {{
+                  state.meanOfStudentGradesForCourse$ | async | number: '1.0-3'
+                }}
+              </div>
             </div>
           </td>
-          <td class="desktop sticky sticky sticky-col-2">
+          <td
+            class="desktop sticky sticky sticky-col-2"
+            [ngClass]="{ selected: selectedTest === undefined }"
+          >
             {{ state.meanOfFinalGradesForCourse$ | async | number: '1.0-3' }}
           </td>
           <td class="desktop border-right sticky sticky-col-3">
