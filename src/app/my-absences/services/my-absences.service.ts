@@ -61,9 +61,9 @@ export class MyAbsencesService {
     private storageService: StorageService,
     private studentsService: StudentsRestService
   ) {
-    const studentId = this.storageService.getPayload()?.id_person || null;
+    const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
-      this.studentId$.next(studentId);
+      this.studentId$.next(Number(studentId));
     }
   }
 

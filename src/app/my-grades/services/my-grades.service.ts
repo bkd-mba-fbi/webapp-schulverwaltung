@@ -97,9 +97,9 @@ export class MyGradesService {
     private gradingScalesRestService: GradingScalesRestService,
     @Inject(SETTINGS) private settings: Settings
   ) {
-    const studentId = this.storageService.getPayload()?.id_person || null;
+    const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
-      this.studentId$.next(studentId);
+      this.studentId$.next(Number(studentId));
     }
   }
 
