@@ -5,7 +5,8 @@
     *erzLet="{
       loading: myGradesService.loading$ | async,
       studentId: myGradesService.studentId$ | async,
-      courses: myGradesService.studentCourses$ | async
+      courses: myGradesService.studentCourses$ | async,
+      gradingScales: myGradesService.gradingScales$ | async
     } as data"
   >
     <erz-my-grades-header></erz-my-grades-header>
@@ -13,7 +14,7 @@
       *ngIf="!data.loading"
       [courses]="data.courses"
       [studentId]="data.studentId"
-      [gradingScales]="[]"
+      [gradingScales]="data.gradingScales"
     ></erz-dossier-grades-view>
     <ng-container *ngIf="data.loading">
       <erz-spinner></erz-spinner>
