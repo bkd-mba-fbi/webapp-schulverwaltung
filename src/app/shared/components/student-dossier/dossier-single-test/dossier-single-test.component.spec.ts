@@ -72,6 +72,7 @@ describe('DossierSingleTestComponent', () => {
 
   it('should show the state of a published test', () => {
     test.IsPublished = true;
+    component.isEditable = true;
 
     fixture.detectChanges();
     expectText(debugElement, 'test-status', 'tests.published');
@@ -79,6 +80,7 @@ describe('DossierSingleTestComponent', () => {
 
   it('should show the state of a test not published yet', () => {
     test.IsPublished = false;
+    component.isEditable = true;
 
     fixture.detectChanges();
     expectText(debugElement, 'test-status', 'tests.not-published');
