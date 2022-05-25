@@ -9,6 +9,5 @@ import { DossierGradesService } from '../../../shared/services/dossier-grades.se
   providers: [DossierGradesService],
 })
 export class MyGradesShowComponent {
-  isEditable: boolean = false;
   constructor(public myGradesService: MyGradesService) {}
 }
