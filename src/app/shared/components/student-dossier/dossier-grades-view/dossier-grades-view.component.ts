@@ -14,5 +14,5 @@ export class DossierGradesViewComponent {
   @Input() gradingScales: GradingScale[];
   @Input() isEditable: boolean;
 
-  constructor(private dossierGradeService: DossierGradesService) {}
+  constructor(public dossierGradeService: DossierGradesService) {}
 }

@@ -3,7 +3,7 @@
     absenceCounts: absencesService.counts$ | async
   } as data"
 >
-  <ngb-accordion ngb-accordion #acc="ngbAccordion">
+  <ngb-accordion #acc="ngbAccordion">
     <ngb-panel id="checkable-absences">
       <ng-template ngbPanelHeader let-opened="opened">
         <erz-student-dossier-entry-header

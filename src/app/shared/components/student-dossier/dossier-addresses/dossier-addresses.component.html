@@ -7,7 +7,7 @@
     class="profile-entry"
     [student]="data.profile.student"
   ></erz-student-dossier-address>
-  <ngb-accordion ngb-accordion #acc="ngbAccordion">
+  <ngb-accordion #acc="ngbAccordion">
     <ngb-panel
       *ngIf="data.profile.legalRepresentativePersons.length > 0"
       id="legal-representatives"

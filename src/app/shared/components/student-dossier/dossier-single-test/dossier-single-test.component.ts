@@ -69,7 +69,7 @@ export class DossierSingleTestComponent implements OnInit {
     });
     modalRef.componentInstance.test = test; // TODO
     modalRef.componentInstance.gradeId = this.getGradeId(test);
-    modalRef.componentInstance.gradeOptions = this.mapToOptions(
+    modalRef.componentInstance.gradeOptions = DossierSingleTestComponent.mapToOptions(
       this.gradingScale
     );
     modalRef.componentInstance.studentId = this.studentId;
@@ -105,7 +105,7 @@ export class DossierSingleTestComponent implements OnInit {
     return resultOfStudent(this.studentId, test)?.Points || null;
   }
 
-  private mapToOptions(
+  private static mapToOptions(
     gradingScale: Option<GradingScale>
   ): Option<DropDownItem[]> {
     return (
