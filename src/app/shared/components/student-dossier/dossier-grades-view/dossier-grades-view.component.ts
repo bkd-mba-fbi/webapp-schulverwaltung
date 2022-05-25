@@ -12,6 +12,7 @@ export class DossierGradesViewComponent {
   @Input() courses: Course[];
   @Input() studentId: number;
   @Input() gradingScales: GradingScale[];
+  @Input() isEditable: boolean;
 
   constructor(private dossierGradeService: DossierGradesService) {}
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Course, Grading } from 'src/app/shared/models/course.model';
+import { Course } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
@@ -13,6 +13,7 @@ export class DossierCourseTestsComponent {
   @Input() studentId: number;
   @Input() course: Course;
   @Input() gradingScales: GradingScale[];
+  @Input() isEditable: boolean;
 
   constructor(public dossierGradeService: DossierGradesService) {}
 
