@@ -1,12 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
 import { StorageService } from '../../shared/services/storage.service';
-import { combineLatest, map, ReplaySubject, switchMap } from 'rxjs';
+import { combineLatest, forkJoin, map, ReplaySubject, switchMap } from 'rxjs';
 import { LoadingService } from '../../shared/services/loading-service';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { Course } from '../../shared/models/course.model';
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { ReportsService } from '../../shared/services/reports.service';
 import { Settings, SETTINGS } from '../../settings';
+import { notNull, unique } from '../../shared/utils/filter';
+import { Test } from '../../shared/models/test.model';
+import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
 
 @Injectable()
 export class MyGradesService {
@@ -45,12 +48,53 @@ export class MyGradesService {
     )
   );
 
+  private tests$ = this.studentCourses$.pipe(
+    map((courses) =>
+      courses.flatMap((course: Course) => course.Tests).filter(notNull)
+    )
+  );
+
+  private gradingScaleIdsFromTests$ = this.tests$.pipe(
+    map((tests: Test[]) =>
+      [...tests.map((test: Test) => test.GradingScaleId)].filter(unique)
+    )
+  );
+
+  private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
+    map((courses) =>
+      courses
+        .flatMap((course: Course) => course.GradingScaleId)
+        .filter(notNull)
+        .filter(unique)
+    )
+  );
+
+  private gradingScaleIds$ = combineLatest([
+    this.gradingScaleIdsFromCourses$,
+    this.gradingScaleIdsFromTests$,
+  ]).pipe(
+    map(([courseGradingsScaleIds, testGradingScaleIds]: [number[], number[]]) =>
+      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique)
+    )
+  );
+
+  gradingScales$ = this.gradingScaleIds$.pipe(
+    switchMap((ids) =>
+      forkJoin(
+        ids.map((id: number) =>
+          this.gradingScalesRestService.getGradingScale(id)
+        )
+      )
+    )
+  );
+
   constructor(
     private storageService: StorageService,
     private loadingService: LoadingService,
     private coursesRestService: CoursesRestService,
     private subscriptionRestService: SubscriptionsRestService,
     private reportsService: ReportsService,
+    private gradingScalesRestService: GradingScalesRestService,
     @Inject(SETTINGS) private settings: Settings
   ) {
     const studentId = this.storageService.getPayload()?.id_person || null;
