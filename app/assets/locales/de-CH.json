@@ -339,6 +339,10 @@
       }
     }
   },
+  "my-grades": {
+    "title": "Meine Noten",
+    "header": "Noten aus Tests sind sichtbar, sobald der Test von der Lehrperson publiziert wurde."
+  },
   "my-settings": {
     "title": "Meine Einstellungen",
     "notifications": {
