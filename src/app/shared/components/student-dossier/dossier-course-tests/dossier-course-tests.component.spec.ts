@@ -25,7 +25,7 @@ describe('DossierCourseTestsComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { id_person: 42 };
+                return { id_person: '42' };
               },
             },
           },

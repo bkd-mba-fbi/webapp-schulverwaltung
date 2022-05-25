@@ -16,7 +16,7 @@ describe('MyAbsencesService', () => {
             provide: StorageService,
             useValue: {
               getPayload(): any {
-                return { id_person: 123 };
+                return { id_person: '123' };
               },
             },
           },

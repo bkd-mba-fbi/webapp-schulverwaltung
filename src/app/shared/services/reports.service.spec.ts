@@ -20,7 +20,7 @@ describe('ReportsService', () => {
                 return 'SOMETOKEN';
               },
               getPayload(): Option<object> {
-                return { id_person: 42 };
+                return { id_person: '42' };
               },
             },
           },

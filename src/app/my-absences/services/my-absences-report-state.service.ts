@@ -126,7 +126,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     if (id == null) {
       throw new Error('No student id available');
     }
-    return id;
+    return Number(id);
   }
 
   private loadTimetableEntries(
