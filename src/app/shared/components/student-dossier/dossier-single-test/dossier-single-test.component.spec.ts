@@ -4,7 +4,7 @@ import { Grade, GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { buildResult, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { expectText } from 'src/specs/expectations';
+import { expectNotInTheDocument, expectText } from 'src/specs/expectations';
 
 import { DossierSingleTestComponent } from './dossier-single-test.component';
 
@@ -84,6 +84,14 @@ describe('DossierSingleTestComponent', () => {
 
     fixture.detectChanges();
     expectText(debugElement, 'test-status', 'tests.not-published');
+  });
+
+  it('should hide the state of a test if isEditable flag is false', () => {
+    test.IsPublished = false;
+    component.isEditable = false;
+
+    fixture.detectChanges();
+    expectNotInTheDocument(debugElement, 'test-status');
   });
 
   describe('grades and points', () => {
