@@ -21,7 +21,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
     </div>
     <div class="grade">
       <a
-        *ngIf="isEditable"
+        *ngIf="isEditable; else notEditable"
         class="btn btn-link"
         aria-label="edit grade"
         (click)="editGrading(test)"
@@ -29,6 +29,9 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
         <i class="material-icons">edit</i>
         <span data-testid="test-grade">{{ grading$ | async }}</span>
       </a>
+      <ng-template #notEditable>
+        <span data-testid="test-grade">{{ grading$ | async }}</span>
+      </ng-template>
     </div>
     <div class="factor" data-testid="test-factor">
       {{ test | erzTestWeight }}
@@ -52,7 +55,7 @@ export class DossierSingleTestComponent implements OnInit {
   @Input() test: Test;
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
-  @Input() isEditable: boolean = true;
+  @Input() isEditable: boolean;
 
   test$ = new ReplaySubject<Test>(1);
   grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
