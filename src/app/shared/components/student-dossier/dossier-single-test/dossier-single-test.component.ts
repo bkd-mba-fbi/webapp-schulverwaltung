@@ -21,6 +21,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
     </div>
     <div class="grade">
       <a
+        *ngIf="isEditable"
         class="btn btn-link"
         aria-label="edit grade"
         (click)="editGrading(test)"
@@ -38,7 +39,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
     <div class="teacher" data-testid="test-teacher">
       {{ test.Owner }}
     </div>
-    <div class="state" data-testid="test-status">
+    <div *ngIf="isEditable" class="state" data-testid="test-status">
       {{
         (test.IsPublished ? 'tests.published' : 'tests.not-published')
           | translate
@@ -51,6 +52,7 @@ export class DossierSingleTestComponent implements OnInit {
   @Input() test: Test;
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
+  @Input() isEditable: boolean = true;
 
   test$ = new ReplaySubject<Test>(1);
   grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
