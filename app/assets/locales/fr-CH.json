@@ -221,7 +221,7 @@
     "edit": "traiter",
     "all-tests": "Tous les tests",
     "owned-tests": "Mes tests",
-    "points": "Points",
+    "points": "points",
     "grade": "Note",
     "average": "Moyenne",
     "mean": "Moyenne",
@@ -275,7 +275,7 @@
     "absences": "Absences",
     "grades": "Notes",
     "grade": "Note",
-    "points": "points",
+    "points": "Points",
     "average": "Moyenne",
     "no-tests": "Aucun test disponible",
     "no-grades": "Aucune note disponible"
