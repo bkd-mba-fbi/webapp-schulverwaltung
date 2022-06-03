@@ -275,9 +275,17 @@
     "absences": "Absences",
     "grades": "Notes",
     "grade": "Note",
+    "points": "points",
     "average": "Moyenne",
     "no-tests": "Aucun test disponible",
     "no-grades": "Aucune note disponible"
+     "dialog": {
+      "close": "Fermer",
+      "hint": {
+        "grade": "Une modification de la note est automatiquement enregistrée.",
+        "points": "En cas de modification des points, la note est calculée et enregistrée automatiquement."
+      }
+    }
   },
   "my-absences": {
     "title": "Mes absences",
@@ -330,6 +338,10 @@
         "email2-hint": "Attention : Vous pouvez utiliser cette adresse électronique pour vous connecter à Evento Web (obtenir le code)"
       }
     }
+  },
+  "my-grades": {
+    "title": "Mes notes",
+    "header": "Les notes des tests sont visibles dès que le test a été publié par l'enseignant-e."
   },
   "my-settings": {
     "title": "Mes paramètres",
