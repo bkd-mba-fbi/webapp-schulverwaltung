@@ -7,6 +7,7 @@ import {
   removeTestById,
   replaceResult,
   resultOfStudent,
+  sortByDate,
   toggleIsPublished,
 } from './tests';
 
@@ -162,6 +163,24 @@ describe('Test utils', () => {
 
       expect(result?.length).toBe(1);
       expect(result).toContain(otherTest);
+    });
+  });
+
+  describe('sort tests by date descending', () => {
+    it('should not fail on empty array', () => {
+      expect(sortByDate([])).toEqual([]);
+    });
+
+    it('should sort tests by date descending', () => {
+      const t1 = buildTest(1, 1, []);
+      const t2 = buildTest(1, 2, []);
+      const t3 = buildTest(1, 3, []);
+
+      t1.Date = new Date('2022-04-02T08:00:00');
+      t2.Date = new Date('2022-04-03T08:00:00');
+      t3.Date = new Date('2022-04-04T08:00:00');
+
+      expect(sortByDate([t1, t2, t3])[0]).toBe(t3);
     });
   });
 });
