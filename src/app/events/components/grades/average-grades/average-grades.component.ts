@@ -9,9 +9,11 @@ import { Test } from 'src/app/shared/models/test.model';
       *ngIf="test.IsPointGrading"
       class="mr-2 mr-md-3 average-points"
       data-testid="average-points"
-      >{{ calculatePointsAverage(test) }}</span
+      >{{ calculatePointsAverage(test) | number: '1.2' }}</span
     >
-    <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
+    <span data-testid="average-grade">{{
+      calculateGradeAverage(test) | number: '1.3'
+    }}</span>
   </div>`,
   styleUrls: ['./average-grades.component.scss'],
 })
