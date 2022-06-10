@@ -42,7 +42,7 @@ describe('DossierGradesCourseHeaderComponent', () => {
     component.designation = 'course 2';
     component.finalGrade = ({ Grade: '5.5' } as unknown) as FinalGrading;
     component.gradingScale = buildGradingScale(1, [
-      ({ Value: 5.5 } as unknown) as Grade,
+      ({ Designation: 5.5 } as unknown) as Grade,
     ]);
     fixture.detectChanges();
 
@@ -62,7 +62,7 @@ describe('DossierGradesCourseHeaderComponent', () => {
     component.grading = ({ AverageTestResult: 5.2555 } as unknown) as Grading;
     component.finalGrade = ({ Grade: '5.5' } as unknown) as FinalGrading;
     component.gradingScale = buildGradingScale(1, [
-      ({ Value: 5.5 } as unknown) as Grade,
+      ({ Designation: 5.5 } as unknown) as Grade,
     ]);
     fixture.detectChanges();
 
