@@ -19,6 +19,13 @@ export class MyGradesService {
 
   studentCourses$ = this.loadCourses();
 
+  studentCoursesSorted$ = this.studentCourses$.pipe(
+    map((courses) =>
+      courses
+        .slice()
+        .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation))
+    )
+  );
   private studentCourseIds$ = this.studentCourses$.pipe(
     map((courses) => courses.flatMap((course: Course) => course.Id))
   );

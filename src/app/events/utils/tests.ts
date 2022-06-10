@@ -53,6 +53,12 @@ export function replaceResultInTest(newResult: Result, test: Test) {
   return { ...test, Results: [...filteredResults, newResult] };
 }
 
+export function sortByDate(tests: Test[]) {
+  return tests
+    .slice()
+    .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
+}
+
 function extractGrades(test: Test) {
   return (
     test.Results?.filter((result) => result.GradeDesignation !== null)
