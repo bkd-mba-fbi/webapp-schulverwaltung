@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { averageGrade, averagePoints } from 'src/app/events/utils/tests';
 import { Test } from 'src/app/shared/models/test.model';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'erz-average-grades',
@@ -17,7 +18,7 @@ import { Test } from 'src/app/shared/models/test.model';
 })
 export class AverageGradesComponent {
   @Input() test: Test;
-  constructor() {}
+  constructor(private decimalPipe: DecimalPipe) {}
 
   calculatePointsAverage(test: Test) {
     return this.safeAverage(test, 2, averagePoints);
@@ -33,7 +34,11 @@ export class AverageGradesComponent {
     strategy: (test: Test) => number
   ): string {
     try {
-      return strategy(test).toFixed(fractionDigits).toString();
+      return (
+        this.decimalPipe
+          .transform(strategy(test), `1.${fractionDigits}`)
+          ?.toString() ?? '-'
+      );
     } catch {
       return '-';
     }
