@@ -26,6 +26,9 @@ export class DossierGradesService {
   studentCourses$ = this.studentId$.pipe(
     distinctUntilChanged(),
     switchMap(this.loadCourses.bind(this)),
+    map((courses) =>
+      courses.sort((c1, c2) => c1.Designation.localeCompare(c2.Designation))
+    ),
     shareReplay(1)
   );
 
@@ -89,13 +92,6 @@ export class DossierGradesService {
   getGradingScaleOfCourse(course: Course, gradingScales: GradingScale[]) {
     return gradingScales?.find(
       (gradingScale) => gradingScale.Id === course.GradingScaleId
-    );
-  }
-
-  private loadCoursesForStudent() {
-    return this.studentId$.pipe(
-      switchMap(this.loadCourses.bind(this)),
-      shareReplay(1)
     );
   }
 
