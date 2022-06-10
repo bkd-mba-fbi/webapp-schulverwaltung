@@ -35,6 +35,7 @@ import { GradingScalesRestService } from '../../shared/services/grading-scales-r
 import { GradingsRestService } from '../../shared/services/gradings-rest.service';
 import { DropDownItem } from '../../shared/models/drop-down-item.model';
 import { canSetFinalGrade } from '../utils/events';
+import { sortByDate } from '../utils/tests';
 
 export type Filter = 'all-tests' | 'my-tests';
 
@@ -77,11 +78,7 @@ export class TestStateService {
 
   tests$ = this.course$.pipe(
     map((course: Course) => course.Tests || []),
-    map((tests: Test[]) => {
-      return tests
-        .slice()
-        .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
-    })
+    map(sortByDate)
   );
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
