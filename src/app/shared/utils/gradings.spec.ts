@@ -8,12 +8,12 @@ describe('gradings', () => {
   beforeEach(() => {
     gradingScale = ({
       Grades: [
-        ({ Id: 1001, Value: 1 } as unknown) as Grade,
-        ({ Id: 1002, Value: 2 } as unknown) as Grade,
-        ({ Id: 1003, Value: 3 } as unknown) as Grade,
-        ({ Id: 1004, Value: 4 } as unknown) as Grade,
-        ({ Id: 1005, Value: 5 } as unknown) as Grade,
-        ({ Id: 1006, Value: 6 } as unknown) as Grade,
+        ({ Id: 1001, Designation: 1 } as unknown) as Grade,
+        ({ Id: 1002, Designation: 2 } as unknown) as Grade,
+        ({ Id: 1003, Designation: 3 } as unknown) as Grade,
+        ({ Id: 1004, Designation: 4 } as unknown) as Grade,
+        ({ Id: 1005, Designation: 5 } as unknown) as Grade,
+        ({ Id: 1006, Designation: 6 } as unknown) as Grade,
       ],
     } as unknown) as GradingScale;
   });
