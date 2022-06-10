@@ -30,12 +30,13 @@ span {
 
   a {
     display: flex;
-    color: rgba($body-color, 0.5);
+    color: $body-color;
     padding-left: 0;
   }
 
   i {
     margin-right: -1em;
+    color: rgba($body-color, 0.5);
   }
 }
 
