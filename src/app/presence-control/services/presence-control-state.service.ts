@@ -59,6 +59,7 @@ import {
 } from '../utils/presence-control-entries';
 import { canChangePresenceType } from '../utils/presence-types';
 import { PresenceControlGroupService } from './presence-control-group.service';
+import { StorageService } from '../../shared/services/storage.service';
 
 export enum ViewMode {
   Grid = 'grid',
@@ -123,13 +124,11 @@ export class PresenceControlStateService
     shareReplay(1)
   );
 
-  otherTeachersAbsences$ = combineLatest([
-    this.personsService.getMyself(),
-    this.selectedLessonStudentIds$.pipe(startWith([])),
-  ]).pipe(
-    switchMap(([person, students]) =>
+  otherTeachersAbsences$ = this.selectedLessonStudentIds$.pipe(
+    startWith([]),
+    switchMap((students) =>
       this.lessonTeacherService.loadOtherTeachersLessonAbsences(
-        person.Id,
+        this.getMyself(),
         students
       )
     ),
@@ -188,6 +187,7 @@ export class PresenceControlStateService
     private groupService: PresenceControlGroupService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
+    private storageService: StorageService,
     @Inject(SETTINGS) private settings: Settings,
     private location: Location
   ) {
@@ -412,5 +412,10 @@ export class PresenceControlStateService
     const cst = Object.assign({}, buildUserSetting());
     cst.Settings.push(body);
     return this.settingsService.updateUserSettingsCst(cst);
+  }
+
+  private getMyself(): number {
+    const token = this.storageService.getPayload();
+    return Number(token?.holder_id || token?.id_person);
   }
 }
