@@ -4,6 +4,7 @@ import { buildResult, buildTest } from 'src/spec-builders';
 import { expectNotInTheDocument, expectText } from 'src/specs/expectations';
 
 import { AverageGradesComponent } from './average-grades.component';
+import { DecimalPipe } from '@angular/common';
 
 describe('AverageGradesComponent', () => {
   let component: AverageGradesComponent;
@@ -12,6 +13,7 @@ describe('AverageGradesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [DecimalPipe],
       declarations: [AverageGradesComponent],
     }).compileComponents();
   });

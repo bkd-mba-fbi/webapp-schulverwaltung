@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { averageGrade, averagePoints } from 'src/app/events/utils/tests';
 import { Test } from 'src/app/shared/models/test.model';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'erz-average-grades',
@@ -9,17 +10,15 @@ import { Test } from 'src/app/shared/models/test.model';
       *ngIf="test.IsPointGrading"
       class="mr-2 mr-md-3 average-points"
       data-testid="average-points"
-      >{{ calculatePointsAverage(test) | number: '1.2' }}</span
+      >{{ calculatePointsAverage(test) }}</span
     >
-    <span data-testid="average-grade">{{
-      calculateGradeAverage(test) | number: '1.3'
-    }}</span>
+    <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
   </div>`,
   styleUrls: ['./average-grades.component.scss'],
 })
 export class AverageGradesComponent {
   @Input() test: Test;
-  constructor() {}
+  constructor(private decimalPipe: DecimalPipe) {}
 
   calculatePointsAverage(test: Test) {
     return this.safeAverage(test, 2, averagePoints);
@@ -35,7 +34,11 @@ export class AverageGradesComponent {
     strategy: (test: Test) => number
   ): string {
     try {
-      return strategy(test).toFixed(fractionDigits).toString();
+      return (
+        this.decimalPipe
+          .transform(strategy(test), `1.${fractionDigits}`)
+          ?.toString() ?? '-'
+      );
     } catch {
       return '-';
     }
