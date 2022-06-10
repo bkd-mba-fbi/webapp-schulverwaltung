@@ -17,8 +17,7 @@ export class MyGradesService {
 
   loading$ = this.loadingService.loading$;
 
-  studentCourses$ = this.loadCourses();
-
+  private studentCourses$ = this.loadCourses();
   studentCoursesSorted$ = this.studentCourses$.pipe(
     map((courses) =>
       courses
