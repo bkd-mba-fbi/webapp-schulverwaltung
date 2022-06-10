@@ -19,6 +19,7 @@ import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { Person } from '../../shared/models/person.model';
 import { UserSetting } from 'src/app/shared/models/user-setting.model';
 import { PresenceControlGroupService } from './presence-control-group.service';
+import { StorageService } from '../../shared/services/storage.service';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -52,7 +53,19 @@ describe('PresenceControlStateService', () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        providers: [PresenceControlStateService, PresenceControlGroupService],
+        providers: [
+          PresenceControlStateService,
+          PresenceControlGroupService,
+          StorageService,
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): Option<object> {
+                return { id_person: '3' };
+              },
+            },
+          },
+        ],
       })
     );
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -172,7 +185,6 @@ describe('PresenceControlStateService', () => {
     expectLessonPresencesRequest([]);
     expectPresenceTypesRequest();
     expectAbsenceConfirmationStatesRequest();
-    expectGetMyselfRequest();
     expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
@@ -185,7 +197,6 @@ describe('PresenceControlStateService', () => {
     expectLessonPresencesRequest();
     expectPresenceTypesRequest();
     expectAbsenceConfirmationStatesRequest();
-    expectGetMyselfRequest();
     expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
@@ -217,7 +228,6 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
-      expectGetMyselfRequest();
       expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       resetCallbackSpies();
@@ -258,7 +268,6 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
-      expectGetMyselfRequest();
       expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service.setLesson(
@@ -303,7 +312,6 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
-      expectGetMyselfRequest();
       expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service
@@ -319,7 +327,6 @@ describe('PresenceControlStateService', () => {
       expectLessonPresencesRequest();
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
-      expectGetMyselfRequest();
       expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service
@@ -384,10 +391,5 @@ describe('PresenceControlStateService', () => {
     httpTestingController
       .expectOne(url)
       .flush(t.array(LessonAbsence).encode(response));
-  }
-
-  function expectGetMyselfRequest(response = person): void {
-    const url = 'https://eventotest.api/Persons/me';
-    httpTestingController.expectOne(url).flush(Person.encode(response));
   }
 });
