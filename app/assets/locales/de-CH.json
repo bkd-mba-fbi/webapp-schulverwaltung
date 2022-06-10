@@ -273,13 +273,14 @@
     "title": "Dossier",
     "addresses": "Adressen",
     "absences": "Absenzen",
-    "grades": "Noten",
     "grade": "Note",
     "points": "Punkte",
     "average": "Mittelwert",
     "no-tests": "Keine Tests vorhanden",
     "no-grades": "Keine Noten vorhanden",
     "dialog": {
+      "grade": "Note",
+      "points": "Punkte",
       "close": "Schliessen",
       "hint": {
         "grade": "Eine Änderung an der Note wird automatisch gespeichert.",
