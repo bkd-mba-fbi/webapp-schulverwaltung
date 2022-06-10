@@ -191,7 +191,7 @@
       }
     }
   },
-   "events": {
+  "events": {
     "title": "Liste des événements",
     "no-events": "Aucun événement disponible",
     "search": "Rechercher un événement",
@@ -273,13 +273,14 @@
     "title": "Dossier",
     "addresses": "Adresses",
     "absences": "Absences",
-    "grades": "Notes",
     "grade": "Note",
     "points": "points",
     "average": "Moyenne",
     "no-tests": "Aucun test disponible",
     "no-grades": "Aucune note disponible",
-     "dialog": {
+    "dialog": {
+      "grade": "Note",
+      "points": "Points",
       "close": "Fermer",
       "hint": {
         "grade": "Une modification de la note est automatiquement enregistrée.",

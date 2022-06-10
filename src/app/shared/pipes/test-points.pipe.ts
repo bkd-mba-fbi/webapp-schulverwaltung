@@ -9,10 +9,10 @@ import { Test } from 'src/app/shared/models/test.model';
 export class TestPointsPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
 
-  transform(input: Test, studentId: number): string {
+  transform(input: Test, studentId: number, label = 'tests.points'): string {
     if (!input.IsPointGrading) return '';
     return `${resultOfStudent(studentId, input)?.Points || '-'} / ${
       input.MaxPointsAdjusted || input.MaxPoints
-    } ${this.translate.instant('tests.points')}`;
+    } ${this.translate.instant(label)}`;
   }
 }

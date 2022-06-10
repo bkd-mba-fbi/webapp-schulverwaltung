@@ -2,7 +2,7 @@
   <p class="mb-4">{{ test.Designation }}</p>
   <div *ngIf="test.IsPointGrading" class="form-group row">
     <label for="points" class="col-6 col-form-label">{{
-      'dossier.points' | translate
+      'dossier.dialog.points' | translate
     }}</label>
     <div class="col-6" [class.is-invalid]="pointsInput.errors">
       <input
@@ -28,7 +28,7 @@
   </div>
   <div class="form-group row">
     <label for="grade" class="col-6 col-form-label">{{
-      'dossier.grade' | translate
+      'dossier.dialog.grade' | translate
     }}</label>
     <div class="col-6">
       <erz-select
