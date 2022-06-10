@@ -37,7 +37,8 @@ describe('student-grade utils', () => {
       results = transform(
         course.ParticipatingStudents,
         course.Tests,
-        course.Gradings
+        course.Gradings,
+        []
       );
     });
     it('should create a list of students with tests and grades - all grades available for all students', () => {
@@ -98,7 +99,8 @@ describe('student-grade utils', () => {
     const results = transform(
       course.ParticipatingStudents,
       course.Tests,
-      course.Gradings
+      course.Gradings,
+      []
     );
 
     // then
@@ -130,7 +132,8 @@ describe('student-grade utils', () => {
     const results = transform(
       course.ParticipatingStudents,
       course.Tests,
-      course.Gradings
+      course.Gradings,
+      []
     );
     // then
 
@@ -176,7 +179,8 @@ describe('student-grade utils', () => {
     const results = transform(
       course.ParticipatingStudents,
       course.Tests,
-      course.Gradings
+      course.Gradings,
+      []
     );
 
     // then
@@ -219,12 +223,48 @@ describe('student-grade utils', () => {
   });
   describe('calculate averages for finalGrades', () => {
     const finalGrades: FinalGrade[] = [
-      { id: 1, canGrade: true, average: 5, finalGradeId: 1005 },
-      { id: 2, canGrade: true, average: 3, finalGradeId: 1003 },
-      { id: 3, canGrade: true, average: 0, finalGradeId: null },
-      { id: 4, canGrade: true, average: 4.5, finalGradeId: 1005 },
-      { id: 5, canGrade: true, average: null, finalGradeId: null },
-      { id: 6, canGrade: true, average: 6, finalGradeId: null },
+      {
+        id: 1,
+        canGrade: true,
+        average: 5,
+        finalGradeId: 1005,
+        freeHandGrade: null,
+      },
+      {
+        id: 2,
+        canGrade: true,
+        average: 3,
+        finalGradeId: 1003,
+        freeHandGrade: null,
+      },
+      {
+        id: 3,
+        canGrade: true,
+        average: 0,
+        finalGradeId: null,
+        freeHandGrade: null,
+      },
+      {
+        id: 4,
+        canGrade: true,
+        average: 4.5,
+        finalGradeId: 1005,
+        freeHandGrade: null,
+      },
+      {
+        id: 5,
+        canGrade: true,
+        average: null,
+        finalGradeId: null,
+        freeHandGrade: null,
+      },
+      {
+        id: 6,
+        canGrade: true,
+        average: 6,
+        finalGradeId: null,
+        freeHandGrade: null,
+      },
     ];
 
     const scale: {

@@ -154,6 +154,7 @@
             [ngClass]="{ selected: selectedTest === undefined }"
           >
             <erz-grade-select
+              *ngIf="!studentGrade.finalGrade.freeHandGrade"
               [options]="state.gradingOptionsForCourse$() | async"
               [valueId]="studentGrade.finalGrade.finalGradeId"
               [gradeId]="studentGrade.finalGrade.id"
@@ -162,6 +163,9 @@
               "
               (gradeIdSelected)="state.overwriteFinalGrade($event)"
             ></erz-grade-select>
+            <div *ngIf="studentGrade.finalGrade.freeHandGrade">
+              {{ studentGrade.finalGrade.freeHandGrade }}
+            </div>
           </td>
           <td class="grade border-right sticky sticky-col-3">
             {{ studentGrade.finalGrade.average | number: '1.0-3' }}

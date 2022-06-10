@@ -638,6 +638,7 @@ function buildFinalGrade(): FinalGrade {
     id: 12,
     average: 4,
     finalGradeId: 20,
+    freeHandGrade: 5.5,
     canGrade: true,
   };
 }

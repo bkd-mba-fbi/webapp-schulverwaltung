@@ -184,11 +184,12 @@ export class TestStateService {
     course: Course,
     tests: Test[] = [],
     sorting: Sorting<SortKeys>
-  ) {
+  ): StudentGrade[] {
     return transform(
       course.ParticipatingStudents ?? [],
       tests,
-      course.Gradings ?? []
+      course.Gradings ?? [],
+      course.FinalGrades ?? []
     ).sort(compareFn(sorting));
   }
 
