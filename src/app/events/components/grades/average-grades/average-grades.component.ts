@@ -15,6 +15,7 @@ import { DecimalPipe } from '@angular/common';
     <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
   </div>`,
   styleUrls: ['./average-grades.component.scss'],
+  providers: [DecimalPipe],
 })
 export class AverageGradesComponent {
   @Input() test: Test;
