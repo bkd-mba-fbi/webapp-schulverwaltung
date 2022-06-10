@@ -2,7 +2,8 @@ import { Student } from 'src/app/shared/models/student.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
 import { average } from '../utils/math';
-import { Grading } from './course.model';
+import { FinalGrading, Grading } from './course.model';
+import { Grade } from './grading-scale.model';
 
 export type StudentGrade = {
   student: Student;
@@ -14,6 +15,7 @@ export type FinalGrade = {
   id: Maybe<number>;
   average: Maybe<number>;
   finalGradeId: Maybe<number>;
+  freeHandGrade: Maybe<number>;
   canGrade: boolean;
 };
 
@@ -35,12 +37,13 @@ export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
 export function transform(
   students: Student[],
   tests: Test[],
-  gradings: Grading[]
+  gradings: Grading[],
+  finalGrades: FinalGrading[]
 ): StudentGrade[] {
   return students?.map((student) => {
     return {
       student: student,
-      finalGrade: getFinalGrade(student, gradings),
+      finalGrade: getFinalGrade(student, gradings, finalGrades),
       grades: getGrades(student, tests),
     };
   });
@@ -72,8 +75,16 @@ function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
   });
 }
 
-function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
+function getFinalGrade(
+  student: Student,
+  gradings: Grading[],
+  finalGrades: FinalGrading[]
+): FinalGrade {
   const grading: Maybe<Grading> = gradings.find(
+    (grading) => grading.StudentId === student.Id
+  );
+
+  const finalGrading: Maybe<FinalGrading> = finalGrades.find(
     (grading) => grading.StudentId === student.Id
   );
 
@@ -81,6 +92,7 @@ function getFinalGrade(student: Student, gradings: Grading[]): FinalGrade {
     id: grading?.Id,
     average: toAverage(grading),
     finalGradeId: grading?.GradeId,
+    freeHandGrade: Number(finalGrading?.Grade),
     canGrade: grading?.CanGrade || false,
   };
 }
@@ -178,7 +190,11 @@ export function averageOfGradesForScale(
   finalGrades: FinalGrade[],
   scale: { Key: number; Value: string }[]
 ): number {
-  const values = finalGrades
+  const freeHandGrades: number[] = finalGrades
+    .map((finalGrade) => finalGrade.freeHandGrade)
+    .filter((finalGrade): finalGrade is number => !!finalGrade);
+
+  const grades: number[] = finalGrades
     .map((finalGrade) => finalGrade.finalGradeId)
     .filter((finalGradeId) => finalGradeId !== null)
     .map((finalGradeId) => scale.find((option) => option.Key === finalGradeId))
@@ -188,5 +204,5 @@ export function averageOfGradesForScale(
     .map(Number)
     .filter((maybeNumber) => !isNaN(maybeNumber));
 
-  return average(values);
+  return average([...grades, ...freeHandGrades]);
 }
