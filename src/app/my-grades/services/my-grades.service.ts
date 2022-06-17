@@ -1,6 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { StorageService } from '../../shared/services/storage.service';
-import { combineLatest, forkJoin, map, ReplaySubject, switchMap } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  map,
+  ReplaySubject,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 import { LoadingService } from '../../shared/services/loading-service';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { Course } from '../../shared/models/course.model';
@@ -17,23 +24,18 @@ export class MyGradesService {
 
   loading$ = this.loadingService.loading$;
 
-  private studentCourses$ = this.loadCourses();
-  private studentCoursesPublished$ = this.studentCourses$.pipe(
-    map((courses) =>
-      courses.map((course) => {
-        return {
-          ...course,
-          Tests: course.Tests?.filter((test) => test.IsPublished) || null,
-        };
-      })
-    )
-  );
-
-  studentCoursesSorted$ = this.studentCoursesPublished$.pipe(
+  private studentCourses$ = this.loadCourses().pipe(shareReplay(1));
+  studentCoursesSorted$ = this.studentCourses$.pipe(
     map((courses) =>
       courses
         .slice()
         .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation))
+        .map((course) => {
+          return {
+            ...course,
+            Tests: course.Tests?.filter((test) => test.IsPublished) || null,
+          };
+        })
     )
   );
   private studentCourseIds$ = this.studentCourses$.pipe(
