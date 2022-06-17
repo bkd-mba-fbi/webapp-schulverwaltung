@@ -18,7 +18,18 @@ export class MyGradesService {
   loading$ = this.loadingService.loading$;
 
   private studentCourses$ = this.loadCourses();
-  studentCoursesSorted$ = this.studentCourses$.pipe(
+  private studentCoursesPublished$ = this.studentCourses$.pipe(
+    map((courses) =>
+      courses.map((course) => {
+        return {
+          ...course,
+          Tests: course.Tests?.filter((test) => test.IsPublished) || null,
+        };
+      })
+    )
+  );
+
+  studentCoursesSorted$ = this.studentCoursesPublished$.pipe(
     map((courses) =>
       courses
         .slice()
