@@ -52,7 +52,7 @@ describe('DossierSingleTestComponent', () => {
   });
 
   it('should show test date', () => {
-    expectText(debugElement, 'test-date', 'Feb 22, 2022'); // not sure how the date pipe works or how locales are handled in tests
+    expectText(debugElement, 'test-date', '22.02.2022');
   });
 
   it("should show '-' if no results are available in test", () => {

@@ -17,7 +17,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
       {{ test.Designation }}
     </div>
     <div class="date" data-testid="test-date">
-      {{ test.Date | date: 'mediumDate' }}
+      {{ test.Date | date: 'dd.MM.yyyy' }}
     </div>
     <div class="grade">
       <a
