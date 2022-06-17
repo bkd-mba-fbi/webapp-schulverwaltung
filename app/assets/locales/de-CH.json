@@ -222,6 +222,9 @@
     "all-tests": "Alle Tests",
     "owned-tests": "Meine Tests",
     "points": "Punkte",
+    "summary": {
+      "points": "Punkte"
+    },
     "grade": "Note",
     "average": "Durchschnitt",
     "mean": "Mittelwert",

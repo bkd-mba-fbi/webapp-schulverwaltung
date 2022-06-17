@@ -222,6 +222,9 @@
     "all-tests": "Tous les tests",
     "owned-tests": "Mes tests",
     "points": "Points",
+    "summary": {
+      "points": "points"
+    },
     "grade": "Note",
     "average": "Moyenne",
     "mean": "Moyenne",
