@@ -41,7 +41,7 @@ describe('TestSummaryShortPipe', () => {
 
     const result = pipe.transform(test);
 
-    expect(result).toBe('2 (33.33%), 30 tests.points');
+    expect(result).toBe('2 (33.33%), 30 tests.summary.points');
   });
 
   it('should return the formatted grading info for points adjusted', () => {
@@ -51,6 +51,6 @@ describe('TestSummaryShortPipe', () => {
 
     const result = pipe.transform(test);
 
-    expect(result).toBe('2 (33.33%), 18 tests.points');
+    expect(result).toBe('2 (33.33%), 18 tests.summary.points');
   });
 });

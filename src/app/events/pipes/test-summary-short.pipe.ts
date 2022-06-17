@@ -15,7 +15,7 @@ export class TestSummaryShortPipe implements PipeTransform {
   private getPoints(test: Test): string {
     return test.IsPointGrading
       ? `, ${test.MaxPointsAdjusted ?? test.MaxPoints} ${this.translate.instant(
-          'tests.points'
+          'tests.summary.points'
         )}`
       : '';
   }
