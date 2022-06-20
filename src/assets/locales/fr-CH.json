@@ -261,8 +261,8 @@
       }
     },
     "publishing": {
-      "publish": "Voulez-vous publier le test '{{designation}}' ?",
-      "unpublish": "Voulez-vous modifier le test '{{designation}}' ?",
+      "publish": "Voulez-vous publier le test « {{designation}} » ? Cela déclenche une notification.",
+      "unpublish": "Voulez-vous modifier le test « {{designation}} » ?",
       "confirm": "Valider",
       "cancel": "Annuler"
     },
