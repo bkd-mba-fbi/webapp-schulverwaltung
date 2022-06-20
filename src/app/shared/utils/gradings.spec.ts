@@ -56,8 +56,9 @@ describe('gradings', () => {
 
     const finalGrade: FinalGrading = ({
       GradeValue: 4.5,
+      Grade: '4.5',
     } as unknown) as FinalGrading;
 
-    expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe(4.5);
+    expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe('4.5');
   });
 });
