@@ -261,8 +261,8 @@
       }
     },
     "publishing": {
-      "publish": "Möchten Sie den Test '{{designation}}' publizieren?",
-      "unpublish": "Möchten Sie den Test '{{designation}}' bearbeiten?",
+      "publish": "Möchten Sie den Test «{{designation}}» publizieren? Dies löst eine Benachrichtigung aus.",
+      "unpublish": "Möchten Sie den Test «{{designation}}» bearbeiten?",
       "confirm": "Bestätigen",
       "cancel": "Abbrechen"
     },
