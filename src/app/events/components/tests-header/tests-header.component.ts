@@ -22,6 +22,12 @@ export class TestsHeaderComponent {
   }
 
   getDesignation() {
-    return this.eventsStateService.getDesignation(this.course);
+    const classes = this.course.Classes
+      ? this.course.Classes.map((c) => c.Number).join(', ')
+      : null;
+
+    return classes
+      ? this.course.Designation + ', ' + classes
+      : this.course.Designation;
   }
 }

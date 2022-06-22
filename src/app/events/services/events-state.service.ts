@@ -143,7 +143,7 @@ export class EventsStateService {
     });
   }
 
-  getDesignation(course: Course): string {
+  private getDesignation(course: Course): string {
     const classes = course.Classes
       ? course.Classes.map((c) => c.Number).join(', ')
       : null;
