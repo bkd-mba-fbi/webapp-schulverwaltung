@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Course } from '../../../shared/models/course.model';
 import { ReportsService } from '../../../shared/services/reports.service';
-import { EventsStateService } from '../../services/events-state.service';
+import { EventsRestService } from 'src/app/shared/services/events-rest.service';
 
 @Component({
   selector: 'erz-tests-header',
@@ -14,7 +14,7 @@ export class TestsHeaderComponent {
 
   constructor(
     private reportsService: ReportsService,
-    private eventsStateService: EventsStateService
+    private eventsRestService: EventsRestService
   ) {}
 
   loadReportUrl(): string {
@@ -22,6 +22,6 @@ export class TestsHeaderComponent {
   }
 
   getDesignation() {
-    return this.eventsStateService.getDesignation(this.course);
+    return this.eventsRestService.getDesignation(this.course);
   }
 }

@@ -13,6 +13,7 @@ import { spread } from 'src/app/shared/utils/function';
 import { hasRole } from 'src/app/shared/utils/roles';
 import { searchEntries } from 'src/app/shared/utils/search';
 import { getState, isRated } from '../utils/events';
+import { EventsRestService } from 'src/app/shared/services/events-rest.service';
 
 export enum EventState {
   Rating = 'rating',
@@ -53,6 +54,7 @@ export class EventsStateService {
     private loadingService: LoadingService,
     private storage: StorageService,
     private translate: TranslateService,
+    private eventsRestService: EventsRestService,
     @Inject(SETTINGS) private settings: Settings
   ) {}
 
@@ -128,7 +130,7 @@ export class EventsStateService {
 
       return {
         id: course.Id,
-        Designation: this.getDesignation(course),
+        Designation: this.eventsRestService.getDesignation(course),
         detailLink: this.buildLink(course.Id, 'eventdetail'),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
@@ -141,14 +143,6 @@ export class EventsStateService {
         evaluationLink: this.getEvaluationLink(course),
       };
     });
-  }
-
-  getDesignation(course: Course): string {
-    const classes = course.Classes
-      ? course.Classes.map((c) => c.Number).join(', ')
-      : null;
-
-    return classes ? course.Designation + ', ' + classes : course.Designation;
   }
 
   private getEvaluationText(

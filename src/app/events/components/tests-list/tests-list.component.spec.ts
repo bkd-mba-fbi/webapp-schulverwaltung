@@ -12,7 +12,6 @@ import { TestTableHeaderComponent } from '../test-table-header/test-table-header
 import { AverageGradesComponent } from '../grades/average-grades/average-grades.component';
 import { byTestId } from '../../../../specs/utils';
 import { expectElementPresent } from '../../../../specs/expectations';
-import { EventsStateService } from '../../services/events-state.service';
 
 describe('TestsListComponent', () => {
   let component: TestsListComponent;
@@ -54,7 +53,6 @@ describe('TestsListComponent', () => {
             AverageGradesComponent,
           ],
           providers: [
-            EventsStateService,
             { provide: TestStateService, useValue: testStateServiceMock },
             {
               provide: ReportsService,
