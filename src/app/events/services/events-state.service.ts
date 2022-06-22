@@ -33,7 +33,7 @@ export interface Event {
   evaluationText?: string;
   evaluationLink?: Option<string>;
 }
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>('');
