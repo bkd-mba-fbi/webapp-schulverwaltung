@@ -54,11 +54,11 @@ describe('TestsListComponent', () => {
             AverageGradesComponent,
           ],
           providers: [
+            EventsStateService,
             { provide: TestStateService, useValue: testStateServiceMock },
             {
               provide: ReportsService,
               useValue: reportServiceMock as ReportsService,
-              EventsStateService,
             },
           ],
         })
