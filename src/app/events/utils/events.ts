@@ -1,23 +1,83 @@
 import { Course } from '../../shared/models/course.model';
 import { EventState } from '../services/events-state.service';
 
-export function getState(course: Course): Option<EventState> {
+export type EventStateWithLabel = {
+  value: EventState;
+  label?: string;
+};
+
+// To understand this logic see
+// https://github.com/bkd-mba-fbi/webapp-schulverwaltung/issues/427
+export function getEventState(course: Course): Option<EventStateWithLabel> {
   const courseStatus = course.EvaluationStatusRef;
 
   if (
-    courseStatus.HasEvaluationStarted === false &&
-    courseStatus.HasTestGrading === true
+    courseStatus.HasEvaluationStarted === true &&
+    (course.StatusId === 14030 || course.StatusId === 10350)
   ) {
-    return EventState.Tests;
+    // Bewertung
+    return {
+      value: EventState.Rating,
+    };
   }
 
-  if (courseStatus.HasEvaluationStarted === true) {
-    if (courseStatus.EvaluationUntil == null) {
-      return EventState.IntermediateRating;
+  if (
+    courseStatus.HasEvaluationStarted === true &&
+    courseStatus.HasTestGrading === false
+  ) {
+    if (
+      courseStatus.EvaluationUntil &&
+      courseStatus.EvaluationUntil >= new Date()
+    ) {
+      // Bewertung bis
+      return {
+        value: EventState.RatingUntil,
+      };
     }
 
-    if (courseStatus.EvaluationUntil >= new Date()) {
-      return EventState.RatingUntil;
+    if (
+      (courseStatus.EvaluationUntil === null ||
+        courseStatus.EvaluationUntil === undefined) &&
+      course.StatusId === 10300
+    ) {
+      // Zwischenbewertung
+      return {
+        value: EventState.IntermediateRating,
+      };
+    }
+  }
+
+  if (
+    courseStatus.HasEvaluationStarted === false &&
+    courseStatus.HasTestGrading === true &&
+    courseStatus.HasReviewOfEvaluationStarted === false &&
+    course.StatusId !== 10260
+  ) {
+    // Tests erfassen
+    return {
+      value: EventState.Tests,
+    };
+  }
+
+  if (
+    courseStatus.HasEvaluationStarted === true &&
+    courseStatus.HasTestGrading === true
+  ) {
+    if (
+      courseStatus.EvaluationUntil === null ||
+      courseStatus.EvaluationUntil === undefined
+    ) {
+      // Test erfassen, Label Zwischenbewertung
+      return {
+        value: EventState.Tests,
+        label: EventState.IntermediateRating,
+      };
+    } else if (courseStatus.EvaluationUntil >= new Date()) {
+      // Test erfassen, Label Bewertung bis
+      return {
+        value: EventState.Tests,
+        label: EventState.RatingUntil,
+      };
     }
   }
 

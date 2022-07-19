@@ -13,7 +13,7 @@ import { Student } from 'src/app/shared/models/student.model';
 import { Test } from '../../../shared/models/test.model';
 import { EventsStateService } from '../../services/events-state.service';
 import { Filter, TestStateService } from '../../services/test-state.service';
-import { getState } from '../../utils/events';
+import { getEventState } from '../../utils/events';
 import { averageGrade, averagePoints } from '../../utils/tests';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -53,7 +53,9 @@ export class TestEditGradesComponent implements OnInit {
   isEditFinalGradesAllowed(studentGrade: StudentGrade): Observable<boolean> {
     return this.state.course$.pipe(
       map((course) =>
-        Boolean(getState(course) && studentGrade.finalGrade.canGrade)
+        Boolean(
+          getEventState(course)?.value && studentGrade.finalGrade.canGrade
+        )
       )
     );
   }

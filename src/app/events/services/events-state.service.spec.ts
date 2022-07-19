@@ -124,7 +124,8 @@ describe('EventsStateService', () => {
           ...evaluationStatus,
           HasEvaluationStarted: true,
         },
-        [studyClasses[1]]
+        [studyClasses[1]],
+        10300
       ),
       buildCourse(
         4,

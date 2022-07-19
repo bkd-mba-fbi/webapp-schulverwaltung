@@ -465,7 +465,8 @@ export function buildCourse(
   designation?: string,
   attendance?: AttendanceRef,
   evaluationStatus?: EvaluationStatusRef,
-  classes?: StudyClass[]
+  classes?: StudyClass[],
+  statusId?: number
 ): Course {
   return {
     HRef: '',
@@ -495,7 +496,7 @@ export function buildCourse(
     // IsPublished: t.boolean,
     // LevelId: t.number,
     // Level: t.string,
-    StatusId: 2,
+    StatusId: statusId || 2,
     // Status: t.string,
     // Lessons: null,
     // EventManagers: null,

@@ -12,7 +12,7 @@ import { StudyClassesRestService } from 'src/app/shared/services/study-classes-r
 import { spread } from 'src/app/shared/utils/function';
 import { hasRole } from 'src/app/shared/utils/roles';
 import { searchEntries } from 'src/app/shared/utils/search';
-import { getState, isRated } from '../utils/events';
+import { EventStateWithLabel, getEventState, isRated } from '../utils/events';
 import { EventsRestService } from 'src/app/shared/services/events-rest.service';
 
 export enum EventState {
@@ -126,7 +126,7 @@ export class EventsStateService {
     courses: ReadonlyArray<Course>
   ): ReadonlyArray<Event> {
     return courses.map((course) => {
-      const state = getState(course);
+      const state = getEventState(course);
 
       return {
         id: course.Id,
@@ -135,31 +135,34 @@ export class EventsStateService {
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
-        state: state,
+        state: state?.value || null,
         evaluationText: this.getEvaluationText(
           state,
           course.EvaluationStatusRef.EvaluationUntil
         ),
-        evaluationLink: this.getEvaluationLink(course),
+        evaluationLink: this.getEvaluationLink(state?.value, course),
       };
     });
   }
 
   private getEvaluationText(
-    state: Option<EventState>,
+    state: Option<EventStateWithLabel>,
     date?: Maybe<Date>
   ): string {
-    return state === null
-      ? ''
-      : this.translate.instant(`events.state.${state}`) +
-          (state === EventState.RatingUntil
+    const label = state?.label || state?.value;
+    return label
+      ? this.translate.instant(`events.state.${label}`) +
+          (label === EventState.RatingUntil
             ? ` ${date ? format(date, 'dd.MM.yyyy') : ''}`
-            : '');
+            : '')
+      : '';
   }
 
-  private getEvaluationLink(course: Course): Option<string> {
-    return course.EvaluationStatusRef.HasEvaluationStarted &&
-      !course.EvaluationStatusRef.HasTestGrading
+  private getEvaluationLink(
+    state: Maybe<EventState>,
+    course: Course
+  ): Option<string> {
+    return state && state !== EventState.Tests
       ? this.buildLink(course.Id, 'evaluation')
       : null;
   }
