@@ -4,6 +4,7 @@ import {
   combineLatest,
   merge,
   Observable,
+  of,
   ReplaySubject,
   scan,
   shareReplay,
@@ -123,18 +124,22 @@ export class TestStateService {
     this.gradingScaleIds$
   );
 
+  private UNDEFINED_GRADINGSCALE_ID = -1;
   private gradingScalesOptions$: Observable<GradingScaleOptions> = this.gradingScales$.pipe(
     map((gradingScales) =>
       gradingScales
         .map((gradingScale) => {
-          return {
-            id: gradingScale.Id,
-            options: gradingScale.Grades.map((gradeOption) => {
+          const id = gradingScale?.Id || this.UNDEFINED_GRADINGSCALE_ID;
+          const options =
+            gradingScale?.Grades.map((gradeOption) => {
               return {
                 Key: gradeOption.Id,
                 Value: gradeOption.Designation,
               };
-            }),
+            }) || [];
+          return {
+            id,
+            options,
           };
         })
         .reduce(
@@ -287,7 +292,8 @@ export class TestStateService {
     });
   }
 
-  private gradingOptions$(gradingScaleId: number) {
+  private gradingOptions$(gradingScaleId: number | null) {
+    if (gradingScaleId === null) return of(null);
     return this.gradingScalesOptions$.pipe(
       map((gradingScaleOptions) => gradingScaleOptions[gradingScaleId]),
       shareReplay(1)
@@ -300,6 +306,7 @@ export class TestStateService {
   ): Observable<number | null> {
     return this.course$.pipe(
       map((course: Course) => {
+        if (course.GradingScaleId === null) return null;
         if (gradingScaleOptions[course.GradingScaleId] === undefined)
           return null;
         const scale = gradingScaleOptions[course.GradingScaleId]!;
