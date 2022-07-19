@@ -86,16 +86,17 @@ describe('GradeComponent', () => {
       const select = debugElement.query(byTestId('grade-select')).nativeElement
         .firstChild;
 
-      expect(select.options.length).toBe(6);
-      expect(select.options[0].textContent?.trim()).toBe('1.0');
-      expect(select.options[1].textContent?.trim()).toBe('2.0');
-      expect(select.options[2].textContent?.trim()).toBe('3.0');
-      expect(select.options[3].textContent?.trim()).toBe('4.0');
-      expect(select.options[4].textContent?.trim()).toBe('5.0');
-      expect(select.options[5].textContent?.trim()).toBe('6.0');
+      expect(select.options.length).toBe(7);
+      expect(select.options[0].textContent?.trim()).toBe('');
+      expect(select.options[1].textContent?.trim()).toBe('1.0');
+      expect(select.options[2].textContent?.trim()).toBe('2.0');
+      expect(select.options[3].textContent?.trim()).toBe('3.0');
+      expect(select.options[4].textContent?.trim()).toBe('4.0');
+      expect(select.options[5].textContent?.trim()).toBe('5.0');
+      expect(select.options[6].textContent?.trim()).toBe('6.0');
 
       fixture.whenStable().then(() => {
-        expect(select.selectedIndex).toBe(3);
+        expect(select.selectedIndex).toBe(4);
       });
     });
 
