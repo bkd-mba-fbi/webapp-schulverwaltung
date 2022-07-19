@@ -73,7 +73,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     this.grade$
       .pipe(
         takeUntil(this.destroy$),
-        map(this.buildRuequestBodyForGradeChange.bind(this))
+        map(this.buildRequestBodyForGradeChange.bind(this))
       )
       .subscribe((body) => this.gradeChanged.emit(body));
   }
@@ -112,7 +112,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
 
-  private buildRuequestBodyForGradeChange(gradeId: number): TestGradesResult {
+  private buildRequestBodyForGradeChange(gradeId: number): TestGradesResult {
     return {
       StudentIds: [this.student.Id],
       TestId: this.grade.test.Id,
