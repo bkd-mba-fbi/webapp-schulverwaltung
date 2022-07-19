@@ -1,10 +1,7 @@
-import { canSetFinalGrade, getState, isRated } from './events';
+import { canSetFinalGrade, getEventState, isRated } from './events';
 import { buildCourse, buildFinalGrading } from '../../../spec-builders';
 import { EventState } from '../services/events-state.service';
-import {
-  EvaluationStatusRef,
-  FinalGrading,
-} from 'src/app/shared/models/course.model';
+import { EvaluationStatusRef } from 'src/app/shared/models/course.model';
 
 describe('Course utils', () => {
   describe('Get course state', () => {
@@ -35,7 +32,7 @@ describe('Course utils', () => {
       );
 
       // then
-      expect(getState(course)).toEqual(null);
+      expect(getEventState(course)).toEqual(null);
     });
 
     it('should get state add-tests', () => {
@@ -56,7 +53,9 @@ describe('Course utils', () => {
       );
 
       // then
-      expect(getState(course)).toEqual(EventState.Tests);
+      expect(getEventState(course)).toEqual({
+        value: EventState.Tests,
+      });
     });
 
     it('should get state rating-until', () => {
@@ -64,7 +63,6 @@ describe('Course utils', () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
         EvaluationUntil: new Date(2022, 2, 3),
-        HasReviewOfEvaluationStarted: false,
         HasTestGrading: false,
         Id: 6980,
       };
@@ -77,7 +75,9 @@ describe('Course utils', () => {
       );
 
       // then
-      expect(getState(course)).toEqual(EventState.RatingUntil);
+      expect(getEventState(course)).toEqual({
+        value: EventState.RatingUntil,
+      });
     });
 
     it('should get state intermediate-rating', () => {
@@ -85,7 +85,6 @@ describe('Course utils', () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
         EvaluationUntil: null,
-        HasReviewOfEvaluationStarted: false,
         HasTestGrading: false,
         Id: 6980,
       };
@@ -94,11 +93,15 @@ describe('Course utils', () => {
         1234,
         'Course in state intermediate-rating',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
+        undefined,
+        10300
       );
 
       // then
-      expect(getState(course)).toEqual(EventState.IntermediateRating);
+      expect(getEventState(course)).toEqual({
+        value: EventState.IntermediateRating,
+      });
     });
   });
 
