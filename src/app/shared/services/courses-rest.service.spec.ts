@@ -299,7 +299,7 @@ describe('CoursesRestService', () => {
   ) {
     service
       .updateTestResult(buildCourse(1).Id, requestBody)
-      .subscribe((result) => expect(result).toEqual(responseBody));
+      .subscribe((result) => expect(result.body).toEqual(responseBody));
   }
 
   function assertRequestAndFlush(
