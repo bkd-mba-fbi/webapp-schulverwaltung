@@ -13,6 +13,7 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import {
   Course,
+  Grading,
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
@@ -262,12 +263,19 @@ export class TestStateService {
       );
   }
 
-  private updateStudentGrades(newGrades: UpdatedTestResultResponse) {
+  private updateStudentGrades(newGrades: {
+    courseId: number;
+    body: UpdatedTestResultResponse;
+  }) {
+    const grading: Grading | undefined = newGrades.body.Gradings.find(
+      (grading: Grading) => grading.EventId === newGrades.courseId
+    );
+    if (grading === undefined) return;
     this.action$.next({
       type: 'updateResult',
       payload: {
-        testResult: newGrades.TestResults[0],
-        grading: newGrades.Gradings[0],
+        testResult: newGrades.body.TestResults[0],
+        grading,
       },
     });
   }

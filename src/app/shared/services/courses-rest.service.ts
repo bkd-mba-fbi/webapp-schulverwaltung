@@ -127,10 +127,13 @@ export class CoursesRestService extends RestService<typeof Course> {
   updateTestResult(
     courseId: number,
     body: TestPointsResult | TestGradesResult
-  ): Observable<UpdatedTestResultResponse> {
+  ): Observable<{ courseId: number; body: UpdatedTestResultResponse }> {
     return this.http
       .put(`${this.baseUrl}/${courseId}/SetTestResult`, body)
-      .pipe(switchMap(decode(UpdatedTestResultResponse)));
+      .pipe(
+        switchMap(decode(UpdatedTestResultResponse)),
+        switchMap((value) => of({ courseId, body: value }))
+      );
   }
 
   setAverageAsFinalGrade(body: {
