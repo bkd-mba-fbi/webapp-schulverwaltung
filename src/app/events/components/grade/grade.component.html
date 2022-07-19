@@ -28,7 +28,7 @@
     </div>
     <erz-select
       [options]="gradeOptions"
-      [allowEmpty]="grade.kind === 'no-result'"
+      [allowEmpty]="true"
       [value]="grade.kind === 'grade' ? grade.result.GradeId : null"
       [disabled]="gradingScaleDisabled$ | async"
       [tabindex]="tabIndex"
