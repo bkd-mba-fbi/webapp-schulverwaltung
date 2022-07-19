@@ -46,10 +46,9 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
 
-  points$: Observable<number> = this.pointsSubject$.pipe(
+  points$: Observable<string | null> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
-    filter(this.isValid.bind(this)),
-    map(Number)
+    filter(this.isValid.bind(this))
   );
 
   grade$: Observable<number> = this.gradeSubject$.pipe(
@@ -97,16 +96,19 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isValid(points: string): boolean {
-    if (points === '' || points === null) return false;
+    if (points === '' || points === null) return true;
     if (isNaN(Number(points))) return false;
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }
 
-  private buildRequestBodyPointsChange(points: number): TestPointsResult {
+  private buildRequestBodyPointsChange(
+    points: string | null
+  ): TestPointsResult {
+    const newPoints = points === null || points === '' ? null : Number(points);
     return {
       StudentIds: [this.student.Id],
       TestId: this.grade.test.Id,
-      Points: points,
+      Points: newPoints,
     };
   }
 
