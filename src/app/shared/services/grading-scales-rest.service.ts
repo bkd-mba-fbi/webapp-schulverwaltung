@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { forkJoin, Observable, shareReplay, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { GradingScale } from '../models/grading-scale.model';
 import { decode } from '../utils/decode';
@@ -14,18 +14,19 @@ export class GradingScalesRestService extends RestService<typeof GradingScale> {
     super(http, settings, GradingScale, 'GradingScales');
   }
 
-  getGradingScale(id: number): Observable<GradingScale> {
+  getGradingScale(id: number | null): Observable<GradingScale | null> {
+    if (id === null) return of(null);
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`)
       .pipe(switchMap(decode(GradingScale)));
   }
 
   loadGradingScales(
-    observable: Observable<number[]>
-  ): Observable<ReadonlyArray<GradingScale>> {
+    observable: Observable<(number | null)[]>
+  ): Observable<ReadonlyArray<GradingScale | null>> {
     return observable.pipe(
       switchMap((ids) =>
-        forkJoin(ids.map((id: number) => this.getGradingScale(id)))
+        forkJoin(ids.map((id: number | null) => this.getGradingScale(id)))
       ),
       shareReplay(1)
     );
