@@ -29,7 +29,7 @@ const Test = t.type({
   IsOwner: t.boolean,
   Owner: Option(t.string),
   Creation: t.string,
-  GradingScaleId: t.number,
+  GradingScaleId: Option(t.number),
   GradingScale: t.string,
   Results: Option(t.array(Result)),
 });

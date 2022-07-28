@@ -75,7 +75,9 @@ export class MyGradesService {
 
   private gradingScaleIdsFromTests$ = this.tests$.pipe(
     map((tests: Test[]) =>
-      [...tests.map((test: Test) => test.GradingScaleId)].filter(unique)
+      [...tests.map((test: Test) => test.GradingScaleId)]
+        .filter(notNull)
+        .filter(unique)
     )
   );
 
