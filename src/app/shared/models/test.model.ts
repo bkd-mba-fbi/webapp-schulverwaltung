@@ -30,7 +30,7 @@ const Test = t.type({
   Owner: Option(t.string),
   Creation: t.string,
   GradingScaleId: Option(t.number),
-  GradingScale: t.string,
+  GradingScale: Option(t.string),
   Results: Option(t.array(Result)),
 });
 
