@@ -13,13 +13,12 @@ export class TestsDeleteComponent {
   constructor(public activeModal: NgbActiveModal) {}
 
   get canDeleteTest(): boolean {
-    return (
-      this.test.Results?.find(
-        (test) =>
-          test.GradeId !== null ||
-          test.GradeValue !== null ||
-          test.Points !== null
-      ) === undefined
+    let testsExists = this.test.Results?.find(
+      (test) =>
+        test.GradeId !== null ||
+        test.GradeValue !== null ||
+        test.Points !== null
     );
+    return testsExists === undefined ? true : false;
   }
 }
