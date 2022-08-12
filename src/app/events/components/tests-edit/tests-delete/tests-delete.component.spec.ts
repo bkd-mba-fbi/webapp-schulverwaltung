@@ -25,7 +25,6 @@ describe('TestsDeleteComponent', () => {
     fixture = TestBed.createComponent(TestsDeleteComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should create with no results', () => {
