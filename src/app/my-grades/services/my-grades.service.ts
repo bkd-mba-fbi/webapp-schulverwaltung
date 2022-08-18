@@ -61,7 +61,7 @@ export class MyGradesService {
   testReportUrl$ = this.ids$.pipe(
     map((ids) =>
       this.reportsService.getSubscriptionReportUrl(
-        this.settings.testsBySubscriptionReportId,
+        this.settings.testsBySubscriptionReportIdStudent,
         ids
       )
     )
