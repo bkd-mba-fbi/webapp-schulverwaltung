@@ -75,7 +75,8 @@ window.schulverwaltung.settings = {
   testsByCourseReportId: 290044,
 
   // Id of the report used for the tests report for a single student
-  testsBySubscriptionReportId: 290042,
+  testsBySubscriptionReportIdStudent: 290043,
+  testsBySubscriptionReportIdTeacher: 290042,
 
   /**
    * Groups
