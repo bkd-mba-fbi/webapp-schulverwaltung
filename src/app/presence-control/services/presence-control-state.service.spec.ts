@@ -346,6 +346,7 @@ describe('PresenceControlStateService', () => {
     response = lessonPresences,
     date?: string
   ): void {
+    date = date ? date : '2000-01-23';
     const url = `https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==${date}`;
     /*
     date
