@@ -337,9 +337,7 @@ export class PresenceControlStateService
     date: Date
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.loadingService.load(
-      isToday(date)
-        ? this.lessonPresencesService.getListForToday()
-        : this.lessonPresencesService.getListByDate(date)
+      this.lessonPresencesService.getListByDate(date)
     );
   }
 
