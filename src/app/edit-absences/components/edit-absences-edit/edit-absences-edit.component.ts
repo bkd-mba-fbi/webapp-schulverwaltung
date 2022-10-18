@@ -5,7 +5,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -86,7 +90,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
@@ -145,7 +149,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     this.navigateBack();
   }
 
-  private createFormGroup(): Observable<FormGroup> {
+  private createFormGroup(): Observable<UntypedFormGroup> {
     return this.getInitialAbsenceTypeId().pipe(
       map((initialAbsenceTypeId) =>
         this.fb.group({
@@ -220,7 +224,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  private save(formGroup: FormGroup): void {
+  private save(formGroup: UntypedFormGroup): void {
     this.saving$.next(true);
     const {
       category,

@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { Observable, of, empty, combineLatest } from 'rxjs';
 import { startWith, map, switchMap, filter, shareReplay } from 'rxjs/operators';
 
@@ -41,7 +41,7 @@ export function getValidationErrors(
 }
 
 export function getControl(
-  formGroup$: Observable<FormGroup>,
+  formGroup$: Observable<UntypedFormGroup>,
   controlName: string
 ): Observable<Option<AbstractControl>> {
   return formGroup$.pipe(
@@ -53,7 +53,7 @@ export function getControl(
 }
 
 export function getControlValueChanges<T>(
-  formGroup$: Observable<FormGroup>,
+  formGroup$: Observable<UntypedFormGroup>,
   controlName: string
 ): Observable<T> {
   return getControl(formGroup$, controlName).pipe(

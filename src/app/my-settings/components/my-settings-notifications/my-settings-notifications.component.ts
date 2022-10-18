@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { NotificationSettingPropertyValueType } from 'src/app/shared/models/user-setting.model';
 import { MySettingsService } from '../../services/my-settings.service';
@@ -29,14 +29,14 @@ export class MySettingsNotificationsComponent {
 
   constructor(
     private settingsService: MySettingsService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private toastr: ToastrService,
     private translate: TranslateService
   ) {}
 
   private createNotificationFormGroup(
     notifications: NotificationSettingPropertyValueType
-  ): FormGroup {
+  ): UntypedFormGroup {
     return this.formBuilder.group({
       notificationsGui: [notifications.gui],
       notificationsMail: [notifications.mail],

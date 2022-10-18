@@ -1,5 +1,9 @@
 import { OnInit, Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,7 +49,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
   protected destroy$ = new Subject<void>();
 
   constructor(
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected router: Router,
     protected toastr: ToastrService,
     protected translate: TranslateService,
@@ -96,7 +100,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
     return of(null);
   }
 
-  protected createFormGroup(): FormGroup {
+  protected createFormGroup(): UntypedFormGroup {
     return this.fb.group({
       absenceTypeId: [null, Validators.required],
     });

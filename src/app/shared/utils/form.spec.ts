@@ -1,4 +1,8 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import {
@@ -8,7 +12,7 @@ import {
 } from './form';
 
 describe('form utils', () => {
-  let formGroup$: Subject<FormGroup>;
+  let formGroup$: Subject<UntypedFormGroup>;
   let submitted$: Subject<boolean>;
   let callback: jasmine.Spy;
 
@@ -140,9 +144,9 @@ describe('form utils', () => {
   });
 });
 
-function buildFormGroup(): FormGroup {
-  return new FormGroup({
-    foo: new FormControl('123', Validators.required),
-    bar: new FormControl(),
+function buildFormGroup(): UntypedFormGroup {
+  return new UntypedFormGroup({
+    foo: new UntypedFormControl('123', Validators.required),
+    bar: new UntypedFormControl(),
   });
 }
