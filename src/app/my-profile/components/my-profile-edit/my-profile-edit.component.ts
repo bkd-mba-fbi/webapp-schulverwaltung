@@ -1,5 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -41,7 +45,7 @@ export class MyProfileEditComponent {
   );
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
@@ -67,7 +71,7 @@ export class MyProfileEditComponent {
     });
   }
 
-  private createFormGroup(profile: Person): FormGroup {
+  private createFormGroup(profile: Person): UntypedFormGroup {
     return this.fb.group({
       phonePrivate: [profile.PhonePrivate],
       phoneMobile: [profile.PhoneMobile],

@@ -6,7 +6,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
@@ -36,11 +40,11 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   @Input() test: Option<Test>;
   @Input() saving: boolean;
 
-  @Output() save = new EventEmitter<FormGroup>();
+  @Output() save = new EventEmitter<UntypedFormGroup>();
 
   componentId = uniqueId('erz-tests-edit-form');
 
-  formGroup: FormGroup = this.createFormGroup();
+  formGroup: UntypedFormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
   private destroy$ = new Subject<void>();
 
@@ -75,7 +79,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private translate: TranslateService,
     private testStateService: TestStateService
   ) {}
@@ -104,7 +108,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createFormGroup(): FormGroup {
+  private createFormGroup(): UntypedFormGroup {
     return this.fb.group({
       designation: ['', Validators.required],
       date: [null, Validators.required],

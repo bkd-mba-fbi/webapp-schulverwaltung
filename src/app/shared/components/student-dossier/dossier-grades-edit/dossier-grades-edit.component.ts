@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
+  UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -42,7 +42,7 @@ export class DossierGradesEditComponent implements OnInit {
 
   updatedTest: UpdatedTestResultResponse;
   maxPoints: number = 0;
-  pointsInput: FormControl;
+  pointsInput: UntypedFormControl;
 
   private gradeSubject$: Subject<number> = new Subject<number>();
   private pointsSubject$: Subject<string> = new Subject<string>();
@@ -70,7 +70,7 @@ export class DossierGradesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.maxPoints = maxPoints(this.test);
-    this.pointsInput = new FormControl(
+    this.pointsInput = new UntypedFormControl(
       { value: this.points, disabled: false },
       [
         Validators.min(0),

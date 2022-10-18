@@ -6,7 +6,11 @@ import {
   ChangeDetectionStrategy,
   Optional,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
 import {
@@ -81,7 +85,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
@@ -167,7 +171,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
 
   private createFormGroup(
     selectedWithoutPresenceType: ReadonlyArray<LessonPresence>
-  ): FormGroup {
+  ): UntypedFormGroup {
     return selectedWithoutPresenceType.length > 0
       ? this.fb.group({
           confirmationValue: [null],

@@ -1,5 +1,5 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
   protected confirmationStateId = this.settings.unconfirmedAbsencesRefreshTime;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     router: Router,
     toastr: ToastrService,
     translate: TranslateService,
