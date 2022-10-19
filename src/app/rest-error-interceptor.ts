@@ -37,9 +37,10 @@ export function withConfig(
   return httpParams.set('restConfig', JSON.stringify(config));
 }
 
-function extractConfig(
-  params: HttpParams
-): { config: RestConfig; params: HttpParams } {
+function extractConfig(params: HttpParams): {
+  config: RestConfig;
+  params: HttpParams;
+} {
   return {
     config: JSON.parse(params.get('restConfig') || '{}'),
     params: params.delete('restConfig'),

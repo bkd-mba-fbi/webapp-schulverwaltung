@@ -43,9 +43,9 @@ export abstract class SelectionService<T> implements OnDestroy {
   private selectionSub: Subscription;
 
   constructor() {
-    this.selectionSub = (this.selection$ as ConnectableObservable<
-      ReadonlyArray<T>
-    >).connect();
+    this.selectionSub = (
+      this.selection$ as ConnectableObservable<ReadonlyArray<T>>
+    ).connect();
   }
 
   ngOnDestroy(): void {

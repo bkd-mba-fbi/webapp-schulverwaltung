@@ -8,16 +8,14 @@ describe('PresenceControlIncidentComponent', () => {
   let component: PresenceControlIncidentComponent;
   let fixture: ComponentFixture<PresenceControlIncidentComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [PresenceControlIncidentComponent],
-          providers: [NgbActiveModal],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [PresenceControlIncidentComponent],
+        providers: [NgbActiveModal],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlIncidentComponent);

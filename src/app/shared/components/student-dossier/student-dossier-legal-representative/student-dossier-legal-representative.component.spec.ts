@@ -8,15 +8,13 @@ describe('StudentDossierLegalRepresentativeComponent', () => {
   let component: StudentDossierLegalRepresentativeComponent;
   let fixture: ComponentFixture<StudentDossierLegalRepresentativeComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [StudentDossierLegalRepresentativeComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [StudentDossierLegalRepresentativeComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

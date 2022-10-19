@@ -25,7 +25,8 @@ import { PersonsRestService } from '../../../shared/services/persons-rest.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesDetailComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   absences$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForParams.bind(this))
   );

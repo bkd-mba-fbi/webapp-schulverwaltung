@@ -103,35 +103,37 @@ function toAverage(grading: Grading | undefined) {
   return grading!.AverageTestResult;
 }
 
-export const compareFn = ({ key, ascending }: Sorting<SortKeys>) => (
-  sg1: StudentGrade,
-  sg2: StudentGrade
-): number => {
-  const modificator = ascending ? 1 : -1;
+export const compareFn =
+  ({ key, ascending }: Sorting<SortKeys>) =>
+  (sg1: StudentGrade, sg2: StudentGrade): number => {
+    const modificator = ascending ? 1 : -1;
 
-  switch (key) {
-    case 'FullName':
-      return (
-        modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
-      );
-    case 'FinalGrade':
-      if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
-        return modificator * -1;
-      return (
-        modificator *
-        compareNumbers(sg1.finalGrade.finalGradeId, sg2.finalGrade.finalGradeId)
-      );
-    case 'TestsMean':
-      if (!sg1.finalGrade.average || !sg2.finalGrade.average)
-        return modificator * -1;
-      return (
-        modificator *
-        compareNumbers(sg1.finalGrade.average, sg2.finalGrade.average)
-      );
-  }
+    switch (key) {
+      case 'FullName':
+        return (
+          modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
+        );
+      case 'FinalGrade':
+        if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
+          return modificator * -1;
+        return (
+          modificator *
+          compareNumbers(
+            sg1.finalGrade.finalGradeId,
+            sg2.finalGrade.finalGradeId
+          )
+        );
+      case 'TestsMean':
+        if (!sg1.finalGrade.average || !sg2.finalGrade.average)
+          return modificator * -1;
+        return (
+          modificator *
+          compareNumbers(sg1.finalGrade.average, sg2.finalGrade.average)
+        );
+    }
 
-  return modificator * compareGrades(key, sg1, sg2);
-};
+    return modificator * compareGrades(key, sg1, sg2);
+  };
 
 const compareGrades = (
   test: Test,

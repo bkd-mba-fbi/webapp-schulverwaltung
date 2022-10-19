@@ -20,20 +20,18 @@ describe('GradeComponent', () => {
   const test = buildTest(100, 120, [buildResult(120, 140)]);
   const student = buildStudent(5);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [GradeComponent],
-        })
-      ).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [GradeComponent],
+      })
+    ).compileComponents();
 
-      fixture = TestBed.createComponent(GradeComponent);
-      component = fixture.componentInstance;
-      component.student = student;
-      debugElement = fixture.debugElement;
-    })
-  );
+    fixture = TestBed.createComponent(GradeComponent);
+    component = fixture.componentInstance;
+    component.student = student;
+    debugElement = fixture.debugElement;
+  }));
 
   it('should create', () => {
     // given
@@ -252,8 +250,9 @@ function expectPointsInputValue(debugElement: DebugElement, expected: string) {
 }
 
 function expectValidationErrorMessage(debugElement: DebugElement) {
-  const error = debugElement.query(byTestId('validation-error-message'))
-    .nativeElement;
+  const error = debugElement.query(
+    byTestId('validation-error-message')
+  ).nativeElement;
 
   expect(error.textContent).toContain('global.validation-errors.invalidPoints');
 }

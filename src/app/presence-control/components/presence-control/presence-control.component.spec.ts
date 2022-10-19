@@ -7,15 +7,13 @@ describe('PresenceControlComponent', () => {
   let component: PresenceControlComponent;
   let fixture: ComponentFixture<PresenceControlComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [PresenceControlComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [PresenceControlComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlComponent);

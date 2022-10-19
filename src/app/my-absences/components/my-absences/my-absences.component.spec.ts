@@ -7,15 +7,13 @@ describe('MyAbsencesComponent', () => {
   let component: MyAbsencesComponent;
   let fixture: ComponentFixture<MyAbsencesComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyAbsencesComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyAbsencesComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesComponent);

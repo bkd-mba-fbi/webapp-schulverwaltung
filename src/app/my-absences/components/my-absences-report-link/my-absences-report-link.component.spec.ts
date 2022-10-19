@@ -7,17 +7,15 @@ describe('MyAbsencesEditLinkComponent', () => {
   let component: MyAbsencesReportLinkComponent;
   let fixture: ComponentFixture<MyAbsencesReportLinkComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata(
-          buildTestModuleMetadata({
-            declarations: [MyAbsencesReportLinkComponent],
-          })
-        )
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata(
+        buildTestModuleMetadata({
+          declarations: [MyAbsencesReportLinkComponent],
+        })
+      )
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesReportLinkComponent);

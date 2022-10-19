@@ -25,95 +25,93 @@ describe('EditAbsencesEditComponent', () => {
   let dispensation: PresenceType;
   let halfDay: PresenceType;
 
-  beforeEach(
-    waitForAsync(() => {
-      absence = buildPresenceType(settings.absencePresenceTypeId, true, false);
-      absence.NeedsConfirmation = true;
+  beforeEach(waitForAsync(() => {
+    absence = buildPresenceType(settings.absencePresenceTypeId, true, false);
+    absence.NeedsConfirmation = true;
 
-      doctor = buildPresenceType(13, true, false);
-      doctor.NeedsConfirmation = true;
-      doctor.Designation = 'Arzt';
+    doctor = buildPresenceType(13, true, false);
+    doctor.NeedsConfirmation = true;
+    doctor.Designation = 'Arzt';
 
-      ill = buildPresenceType(14, true, false);
-      ill.NeedsConfirmation = true;
-      ill.Designation = 'Krank';
+    ill = buildPresenceType(14, true, false);
+    ill.NeedsConfirmation = true;
+    ill.Designation = 'Krank';
 
-      late = buildPresenceType(settings.latePresenceTypeId, false, true);
-      late.Designation = 'Verspätung';
+    late = buildPresenceType(settings.latePresenceTypeId, false, true);
+    late.Designation = 'Verspätung';
 
-      dispensation = buildPresenceType(
-        settings.dispensationPresenceTypeId,
-        false,
-        false
-      );
-      dispensation.IsDispensation = true;
+    dispensation = buildPresenceType(
+      settings.dispensationPresenceTypeId,
+      false,
+      false
+    );
+    dispensation.IsDispensation = true;
 
-      halfDay = buildPresenceType(settings.halfDayPresenceTypeId, false, false);
-      halfDay.IsHalfDay = true;
+    halfDay = buildPresenceType(settings.halfDayPresenceTypeId, false, false);
+    halfDay.IsHalfDay = true;
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [EditAbsencesEditComponent],
-          providers: [
-            {
-              provide: EditAbsencesStateService,
-              useValue: {
-                presenceTypes$: of([]),
-                selected: [],
-                resetSelection: jasmine.createSpy('resetSelection'),
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [EditAbsencesEditComponent],
+        providers: [
+          {
+            provide: EditAbsencesStateService,
+            useValue: {
+              presenceTypes$: of([]),
+              selected: [],
+              resetSelection: jasmine.createSpy('resetSelection'),
+            },
+          },
+          {
+            provide: PresenceTypesService,
+            useValue: {
+              presenceTypes$: of([
+                absence,
+                doctor,
+                ill,
+                late,
+                dispensation,
+                halfDay,
+              ]),
+              confirmationTypes$: of([absence, doctor, ill]),
+              incidentTypes$: of([late]),
+              halfDayActive$: of(true),
+            },
+          },
+          {
+            provide: DropDownItemsRestService,
+            useValue: {
+              getAbsenceConfirmationStates(): Observable<
+                ReadonlyArray<DropDownItem>
+              > {
+                return of([
+                  {
+                    Key: settings.excusedAbsenceStateId,
+                    Value: 'entschuldigt',
+                  },
+                  {
+                    Key: settings.unexcusedAbsenceStateId,
+                    Value: 'unentschuldigt',
+                  },
+                  {
+                    Key: settings.unconfirmedAbsenceStateId,
+                    Value: 'zu bestätigen',
+                  },
+                  {
+                    Key: settings.checkableAbsenceStateId,
+                    Value: 'zu kontrollieren',
+                  },
+                ]);
               },
             },
-            {
-              provide: PresenceTypesService,
-              useValue: {
-                presenceTypes$: of([
-                  absence,
-                  doctor,
-                  ill,
-                  late,
-                  dispensation,
-                  halfDay,
-                ]),
-                confirmationTypes$: of([absence, doctor, ill]),
-                incidentTypes$: of([late]),
-                halfDayActive$: of(true),
-              },
-            },
-            {
-              provide: DropDownItemsRestService,
-              useValue: {
-                getAbsenceConfirmationStates(): Observable<
-                  ReadonlyArray<DropDownItem>
-                > {
-                  return of([
-                    {
-                      Key: settings.excusedAbsenceStateId,
-                      Value: 'entschuldigt',
-                    },
-                    {
-                      Key: settings.unexcusedAbsenceStateId,
-                      Value: 'unentschuldigt',
-                    },
-                    {
-                      Key: settings.unconfirmedAbsenceStateId,
-                      Value: 'zu bestätigen',
-                    },
-                    {
-                      Key: settings.checkableAbsenceStateId,
-                      Value: 'zu kontrollieren',
-                    },
-                  ]);
-                },
-              },
-            },
-          ],
-        })
-      ).compileComponents();
+          },
+        ],
+      })
+    ).compileComponents();
 
-      httpTestingController = TestBed.inject(HttpTestingController);
-      state = TestBed.inject(EditAbsencesStateService);
-    })
-  );
+    httpTestingController = TestBed.inject(HttpTestingController);
+    state = TestBed.inject(EditAbsencesStateService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesEditComponent);

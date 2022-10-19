@@ -7,15 +7,13 @@ describe('StudentBacklinkComponent', () => {
   let component: StudentBacklinkComponent;
   let fixture: ComponentFixture<StudentBacklinkComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [StudentBacklinkComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [StudentBacklinkComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentBacklinkComponent);

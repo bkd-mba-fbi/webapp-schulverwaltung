@@ -15,6 +15,5 @@ export interface IConfirmAbsencesService {
  *     { provide: CONFIRM_ABSENCES_SERVICE, useExisting: 'MyService' },
  *   ]
  */
-export const CONFIRM_ABSENCES_SERVICE = new InjectionToken<IConfirmAbsencesService>(
-  'Confirm Absences Service'
-);
+export const CONFIRM_ABSENCES_SERVICE =
+  new InjectionToken<IConfirmAbsencesService>('Confirm Absences Service');

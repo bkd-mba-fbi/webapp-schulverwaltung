@@ -35,7 +35,8 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesReportListComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
 
   allSelected$ = combineLatest([

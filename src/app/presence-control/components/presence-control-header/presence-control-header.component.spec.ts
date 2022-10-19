@@ -11,16 +11,14 @@ describe('PresenceControlHeaderComponent', () => {
   let component: PresenceControlHeaderComponent;
   let fixture: ComponentFixture<PresenceControlHeaderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [PresenceControlHeaderComponent],
-          providers: [PresenceControlStateService, PresenceControlGroupService],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [PresenceControlHeaderComponent],
+        providers: [PresenceControlStateService, PresenceControlGroupService],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlHeaderComponent);

@@ -2,14 +2,14 @@ import { Grading } from 'src/app/shared/models/course.model';
 import { changeGrading, replaceGrading } from './gradings';
 
 describe('Gradings utils', () => {
-  const gradingToReplace = ({
+  const gradingToReplace = {
     Id: 12345,
     GradeId: 111,
-  } as unknown) as Grading;
+  } as unknown as Grading;
   const gradings = [
     gradingToReplace,
-    ({ Id: 33333, GradeId: 113 } as unknown) as Grading,
-    ({ Id: 11111, GradeId: 123 } as unknown) as Grading,
+    { Id: 33333, GradeId: 113 } as unknown as Grading,
+    { Id: 11111, GradeId: 123 } as unknown as Grading,
   ];
   describe('replace grading in list of grading', () => {
     it('should add grading when gradings are empty', () => {

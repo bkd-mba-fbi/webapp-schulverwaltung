@@ -38,7 +38,8 @@ export interface EditAbsencesFilter {
 @Injectable()
 export class EditAbsencesStateService
   extends PaginatedEntriesService<LessonPresence, EditAbsencesFilter>
-  implements IConfirmAbsencesService {
+  implements IConfirmAbsencesService
+{
   confirmBackLinkParams?: Params;
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));

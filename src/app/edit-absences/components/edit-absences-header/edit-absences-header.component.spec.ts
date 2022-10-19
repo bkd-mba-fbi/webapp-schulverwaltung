@@ -9,28 +9,24 @@ describe('EditAbsencesHeaderComponent', () => {
   let component: EditAbsencesHeaderComponent;
   let fixture: ComponentFixture<EditAbsencesHeaderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [EditAbsencesHeaderComponent],
-          providers: [
-            {
-              provide: EditAbsencesStateService,
-              useValue: {
-                absenceConfirmationStates$: of([]),
-                presenceTypes$: of([]),
-                selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
-                removeSelectedEntries: jasmine.createSpy(
-                  'removeSelectedEntries'
-                ),
-              },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [EditAbsencesHeaderComponent],
+        providers: [
+          {
+            provide: EditAbsencesStateService,
+            useValue: {
+              absenceConfirmationStates$: of([]),
+              presenceTypes$: of([]),
+              selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
+              removeSelectedEntries: jasmine.createSpy('removeSelectedEntries'),
             },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesHeaderComponent);

@@ -9,14 +9,12 @@ describe('TestSummaryShortPipe', () => {
   let test: Test;
 
   let pipe: TestSummaryShortPipe;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({})
-      ).compileComponents();
-      pipe = new TestSummaryShortPipe(TestBed.inject(TranslateService));
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({})
+    ).compileComponents();
+    pipe = new TestSummaryShortPipe(TestBed.inject(TranslateService));
+  }));
 
   beforeEach(() => {
     test = buildTest(1234, 4567, []);

@@ -26,13 +26,13 @@ describe('TestsEditComponent', () => {
       testId: course.Tests[0].Id,
     });
 
-    stateServiceMock = ({
+    stateServiceMock = {
       loading$: of(false),
       courseId$: of(course.Id),
       tests$: of([test]),
       testsId$: of(test.Id),
       getCourse: () => of(course),
-    } as unknown) as TestStateService;
+    } as unknown as TestStateService;
 
     courseRestServiceMock = jasmine.createSpyObj('CoursesRestService', [
       'update',

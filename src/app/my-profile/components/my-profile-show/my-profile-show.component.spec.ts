@@ -8,16 +8,14 @@ describe('MyProfileShowComponent', () => {
   let component: MyProfileShowComponent;
   let fixture: ComponentFixture<MyProfileShowComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyProfileShowComponent],
-          providers: [MyProfileService],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyProfileShowComponent],
+        providers: [MyProfileService],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileShowComponent);

@@ -15,50 +15,48 @@ describe('EvaluateAbsencesListComponent', () => {
   let stateServiceMock: EvaluateAbsencesStateService;
   let statistic: LessonPresenceStatistic;
 
-  beforeEach(
-    waitForAsync(() => {
-      statistic = buildLessonPresenceStatistic(333);
+  beforeEach(waitForAsync(() => {
+    statistic = buildLessonPresenceStatistic(333);
 
-      stateServiceMock = ({
-        setFilter: jasmine.createSpy('setFilter'),
-        isFilterValid$: of(true),
-        validFilter$: of({
-          student: null,
-          educationalEvent: null,
-          studyClass: 5976,
-        }),
-        entries$: of([statistic]),
-        sorting$: of({ key: 'StudentFullName', ascending: true }),
-        loading$: of(false),
-        sortService: {
-          getSortingChar$: () => of('↑'),
-        },
-      } as unknown) as EvaluateAbsencesStateService;
+    stateServiceMock = {
+      setFilter: jasmine.createSpy('setFilter'),
+      isFilterValid$: of(true),
+      validFilter$: of({
+        student: null,
+        educationalEvent: null,
+        studyClass: 5976,
+      }),
+      entries$: of([statistic]),
+      sorting$: of({ key: 'StudentFullName', ascending: true }),
+      loading$: of(false),
+      sortService: {
+        getSortingChar$: () => of('↑'),
+      },
+    } as unknown as EvaluateAbsencesStateService;
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            EvaluateAbsencesHeaderComponent,
-            EvaluateAbsencesListComponent,
-          ],
-          providers: [
-            {
-              provide: EvaluateAbsencesStateService,
-              useValue: stateServiceMock,
-            },
-            {
-              provide: StorageService,
-              useValue: {
-                getPayload(): Option<object> {
-                  return { id_person: '42' };
-                },
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [
+          EvaluateAbsencesHeaderComponent,
+          EvaluateAbsencesListComponent,
+        ],
+        providers: [
+          {
+            provide: EvaluateAbsencesStateService,
+            useValue: stateServiceMock,
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): Option<object> {
+                return { id_person: '42' };
               },
             },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesListComponent);

@@ -19,21 +19,19 @@ describe('MyNotificationsShowComponent-WithData', () => {
   );
   service.updateCurrentNotificationDataPropertyValue.and.returnValue(of({}));
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyNotificationsShowComponent],
-          providers: [
-            {
-              provide: MyNotificationsService,
-              useValue: service,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyNotificationsShowComponent],
+        providers: [
+          {
+            provide: MyNotificationsService,
+            useValue: service,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);
@@ -103,21 +101,19 @@ describe('MyNotificationsShowComponent-WithoutData', () => {
   ]);
   service.getCurrentNotificationDataPropertyValue.and.returnValue(of([]));
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyNotificationsShowComponent],
-          providers: [
-            {
-              provide: MyNotificationsService,
-              useValue: service,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyNotificationsShowComponent],
+        providers: [
+          {
+            provide: MyNotificationsService,
+            useValue: service,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);
@@ -167,21 +163,19 @@ describe('MyNotificationsShowComponent-WithoutAuthorization', () => {
   ]);
   service.getCurrentNotificationDataPropertyValue.and.returnValue(of([]));
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyNotificationsShowComponent],
-          providers: [
-            {
-              provide: MyNotificationsService,
-              useValue: service,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyNotificationsShowComponent],
+        providers: [
+          {
+            provide: MyNotificationsService,
+            useValue: service,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);

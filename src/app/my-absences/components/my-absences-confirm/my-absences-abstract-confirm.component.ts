@@ -22,7 +22,8 @@ import { isEmptyArray } from 'src/app/shared/utils/array';
   template: '',
 })
 export abstract class MyAbsencesAbstractConfirmComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formGroup = this.createFormGroup();
 
   saving$ = new BehaviorSubject(false);

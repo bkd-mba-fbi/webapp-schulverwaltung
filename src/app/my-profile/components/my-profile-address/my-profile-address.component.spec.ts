@@ -6,13 +6,11 @@ describe('MyProfileAddressComponent', () => {
   let component: MyProfileAddressComponent;
   let fixture: ComponentFixture<MyProfileAddressComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MyProfileAddressComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MyProfileAddressComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileAddressComponent);

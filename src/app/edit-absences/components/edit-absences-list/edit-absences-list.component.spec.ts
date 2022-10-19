@@ -13,35 +13,30 @@ describe('EditAbsencesListComponent', () => {
   let element: HTMLElement;
   let stateServiceMock: EditAbsencesStateService;
 
-  beforeEach(
-    waitForAsync(() => {
-      const entry = buildPresenceControlEntry();
-      stateServiceMock = ({
-        loading$: of(false),
-        loadingPage$: of(false),
-        entries$: of([entry.lessonPresence]),
-        presenceControlEntries$: of([entry]),
-        selected: [],
-        setFilter: jasmine.createSpy('setFilter'),
-        isFilterValid$: of(true),
-        validFilter$: of({}),
-        presenceTypes$: of([]),
-        absenceConfirmationStates$: of([]),
-      } as unknown) as EditAbsencesStateService;
+  beforeEach(waitForAsync(() => {
+    const entry = buildPresenceControlEntry();
+    stateServiceMock = {
+      loading$: of(false),
+      loadingPage$: of(false),
+      entries$: of([entry.lessonPresence]),
+      presenceControlEntries$: of([entry]),
+      selected: [],
+      setFilter: jasmine.createSpy('setFilter'),
+      isFilterValid$: of(true),
+      validFilter$: of({}),
+      presenceTypes$: of([]),
+      absenceConfirmationStates$: of([]),
+    } as unknown as EditAbsencesStateService;
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            EditAbsencesListComponent,
-            EditAbsencesHeaderComponent,
-          ],
-          providers: [
-            { provide: EditAbsencesStateService, useValue: stateServiceMock },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [EditAbsencesListComponent, EditAbsencesHeaderComponent],
+        providers: [
+          { provide: EditAbsencesStateService, useValue: stateServiceMock },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesListComponent);

@@ -21,14 +21,14 @@ describe('DossierAddressesComponent', () => {
   beforeEach(async () => {
     currentDossier$ = new BehaviorSubject<DossierPage>('addresses');
 
-    stateServiceMock = ({
+    stateServiceMock = {
       profile$: of({
         student: buildStudent(123),
         legalRepresentativePersons: [],
         apprenticeshipCompanies: [],
       }),
       currentDossier$,
-    } as unknown) as DossierStateService;
+    } as unknown as DossierStateService;
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({

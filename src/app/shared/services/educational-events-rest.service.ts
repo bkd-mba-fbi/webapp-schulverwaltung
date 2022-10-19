@@ -19,7 +19,8 @@ import * as t from 'io-ts';
 })
 export class EducationalEventsRestService
   extends RestService<typeof EducationalEvent>
-  implements TypeaheadService {
+  implements TypeaheadService
+{
   protected typeaheadCodec = t.type(
     pick(this.codec.props, ['Id', 'Designation', 'Number'])
   );

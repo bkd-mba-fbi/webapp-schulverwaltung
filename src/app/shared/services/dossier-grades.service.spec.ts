@@ -81,31 +81,31 @@ describe('DossierGradesService', () => {
   describe('get gradings for the given student', () => {
     let course: Course;
 
-    const expectedFinalGrading: FinalGrading = ({
+    const expectedFinalGrading: FinalGrading = {
       StudentId: 3,
       Grade: '5.0',
-    } as unknown) as FinalGrading;
+    } as unknown as FinalGrading;
 
     const finalGrades = [
-      ({ StudentId: 1, Grade: '4.5' } as unknown) as FinalGrading,
-      ({ StudentId: 2, Grade: '4.0' } as unknown) as FinalGrading,
+      { StudentId: 1, Grade: '4.5' } as unknown as FinalGrading,
+      { StudentId: 2, Grade: '4.0' } as unknown as FinalGrading,
       expectedFinalGrading,
     ];
 
-    const expectedGrading: Grading = ({
+    const expectedGrading: Grading = {
       StudentId: 44,
-    } as unknown) as Grading;
+    } as unknown as Grading;
     const gradings: Grading[] = [
-      ({ StudentId: 33 } as unknown) as Grading,
-      ({ StudentId: 55 } as unknown) as Grading,
+      { StudentId: 33 } as unknown as Grading,
+      { StudentId: 55 } as unknown as Grading,
       expectedGrading,
     ];
 
     beforeEach(() => {
-      course = ({
+      course = {
         FinalGrades: finalGrades,
         Gradings: gradings,
-      } as unknown) as Course;
+      } as unknown as Course;
     });
 
     it('should not find a final grade if studentid does not match', () => {

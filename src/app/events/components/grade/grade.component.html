@@ -23,7 +23,9 @@
         class="invalid-feedback"
         data-testid="validation-error-message"
       >
-        {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
+        {{
+          'global.validation-errors.invalidPoints' | translate: { maxPoints }
+        }}
       </div>
     </div>
     <erz-select

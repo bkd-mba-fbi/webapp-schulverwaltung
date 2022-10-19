@@ -36,73 +36,71 @@ describe('PresenceControlListComponent', () => {
   let stateServiceMock: PresenceControlStateService;
   let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
 
-  beforeEach(
-    waitForAsync(() => {
-      lesson = buildLesson(
-        1,
-        new Date(2000, 0, 23, 8, 0),
-        new Date(2000, 0, 23, 9, 0),
-        'Deutsch',
-        'Dora Durrer'
-      );
-      bichsel = buildPresenceControlEntry('Bichsel Peter');
-      frisch = buildPresenceControlEntry('Frisch Max');
-      jenni = buildPresenceControlEntry('Zoë Jenny');
-      selectedPresenceControlEntries$ = new BehaviorSubject([
-        bichsel,
-        frisch,
-        jenni,
-      ]);
+  beforeEach(waitForAsync(() => {
+    lesson = buildLesson(
+      1,
+      new Date(2000, 0, 23, 8, 0),
+      new Date(2000, 0, 23, 9, 0),
+      'Deutsch',
+      'Dora Durrer'
+    );
+    bichsel = buildPresenceControlEntry('Bichsel Peter');
+    frisch = buildPresenceControlEntry('Frisch Max');
+    jenni = buildPresenceControlEntry('Zoë Jenny');
+    selectedPresenceControlEntries$ = new BehaviorSubject([
+      bichsel,
+      frisch,
+      jenni,
+    ]);
 
-      selectedPresenceControlEntriesByGroup$ = selectedPresenceControlEntries$;
+    selectedPresenceControlEntriesByGroup$ = selectedPresenceControlEntries$;
 
-      absence = buildPresenceType(2, true, false);
-      blockLessons = [jenni.lessonPresence];
+    absence = buildPresenceType(2, true, false);
+    blockLessons = [jenni.lessonPresence];
 
-      stateServiceMock = ({
-        loading$: of(false),
-        lessons$: of([lesson]),
-        selectedLesson$: of(lesson),
-        selectedPresenceControlEntries$,
-        selectedPresenceControlEntriesByGroup$,
-        getNextPresenceType: jasmine
-          .createSpy('getNextPresenceType')
-          .and.callFake(() => of(absence)),
-        getBlockLessonPresences: jasmine
-          .createSpy('getBlockLessonPresences')
-          .and.callFake(() => of(blockLessons)),
-        hasUnconfirmedAbsences: () => of(false),
-        viewMode$: of(),
-        loadGroupsAvailability: jasmine
-          .createSpy('loadGroupsAvailability')
-          .and.callFake(() => of(false)),
-      } as unknown) as PresenceControlStateService;
+    stateServiceMock = {
+      loading$: of(false),
+      lessons$: of([lesson]),
+      selectedLesson$: of(lesson),
+      selectedPresenceControlEntries$,
+      selectedPresenceControlEntriesByGroup$,
+      getNextPresenceType: jasmine
+        .createSpy('getNextPresenceType')
+        .and.callFake(() => of(absence)),
+      getBlockLessonPresences: jasmine
+        .createSpy('getBlockLessonPresences')
+        .and.callFake(() => of(blockLessons)),
+      hasUnconfirmedAbsences: () => of(false),
+      viewMode$: of(),
+      loadGroupsAvailability: jasmine
+        .createSpy('loadGroupsAvailability')
+        .and.callFake(() => of(false)),
+    } as unknown as PresenceControlStateService;
 
-      lessonPresencesUpdateServiceMock = ({
-        updatePresenceTypes: jasmine.createSpy('updatePresenceTypes'),
-      } as unknown) as LessonPresencesUpdateService;
+    lessonPresencesUpdateServiceMock = {
+      updatePresenceTypes: jasmine.createSpy('updatePresenceTypes'),
+    } as unknown as LessonPresencesUpdateService;
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            PresenceControlListComponent,
-            PresenceControlHeaderComponent,
-            PresenceControlEntryComponent,
-          ],
-          providers: [
-            {
-              provide: PresenceControlStateService,
-              useValue: stateServiceMock,
-            },
-            {
-              provide: LessonPresencesUpdateService,
-              useValue: lessonPresencesUpdateServiceMock,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [
+          PresenceControlListComponent,
+          PresenceControlHeaderComponent,
+          PresenceControlEntryComponent,
+        ],
+        providers: [
+          {
+            provide: PresenceControlStateService,
+            useValue: stateServiceMock,
+          },
+          {
+            provide: LessonPresencesUpdateService,
+            useValue: lessonPresencesUpdateServiceMock,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlListComponent);

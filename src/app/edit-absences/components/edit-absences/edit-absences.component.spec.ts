@@ -9,19 +9,17 @@ describe('EditAbsencesComponent', () => {
   let component: EditAbsencesComponent;
   let fixture: ComponentFixture<EditAbsencesComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            EditAbsencesComponent,
-            EditAbsencesHeaderComponent,
-            EditAbsencesListComponent,
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [
+          EditAbsencesComponent,
+          EditAbsencesHeaderComponent,
+          EditAbsencesListComponent,
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesComponent);

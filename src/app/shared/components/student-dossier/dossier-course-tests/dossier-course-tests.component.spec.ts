@@ -35,10 +35,10 @@ describe('DossierCourseTestsComponent', () => {
   });
 
   beforeEach(() => {
-    course = ({ Tests: [] } as unknown) as Course;
-    gradingScale = ({
+    course = { Tests: [] } as unknown as Course;
+    gradingScale = {
       Grades: [],
-    } as unknown) as GradingScale;
+    } as unknown as GradingScale;
     fixture = TestBed.createComponent(DossierCourseTestsComponent);
     component = fixture.componentInstance;
     component.course = course;
@@ -53,7 +53,7 @@ describe('DossierCourseTestsComponent', () => {
   });
 
   it('should show message course has no tests', () => {
-    course = ({ Tests: [] } as unknown) as Course;
+    course = { Tests: [] } as unknown as Course;
     component.course = course;
     fixture.detectChanges();
     expectText(debugElement, 'message-no-tests', 'dossier.no-tests');

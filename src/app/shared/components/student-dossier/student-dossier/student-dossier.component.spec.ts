@@ -11,24 +11,22 @@ describe('StudentDossierComponent', () => {
   let component: StudentDossierComponent;
   let fixture: ComponentFixture<StudentDossierComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [StudentDossierComponent],
-          providers: [
-            DossierStateService,
-            DossierGradesService,
-            ReportsService,
-            {
-              provide: StorageService,
-              useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [StudentDossierComponent],
+        providers: [
+          DossierStateService,
+          DossierGradesService,
+          ReportsService,
+          {
+            provide: StorageService,
+            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentDossierComponent);

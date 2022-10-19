@@ -8,21 +8,19 @@ describe('MyProfileHeaderComponent', () => {
   let component: MyProfileHeaderComponent;
   let fixture: ComponentFixture<MyProfileHeaderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyProfileHeaderComponent],
-          providers: [
-            {
-              provide: ReportsService,
-              useValue: { personMasterDataReportUrl: '/report' },
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyProfileHeaderComponent],
+        providers: [
+          {
+            provide: ReportsService,
+            useValue: { personMasterDataReportUrl: '/report' },
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileHeaderComponent);

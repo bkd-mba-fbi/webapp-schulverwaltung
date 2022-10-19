@@ -28,7 +28,8 @@ export class EvaluateAbsencesStateService
     LessonPresenceStatistic,
     EvaluateAbsencesFilter
   >
-  implements IConfirmAbsencesService {
+  implements IConfirmAbsencesService
+{
   confirmBackLinkParams?: Params;
 
   constructor(

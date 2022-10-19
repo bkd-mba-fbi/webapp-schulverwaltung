@@ -32,7 +32,8 @@ import { PresenceTypesService } from '../../../shared/services/presence-types.se
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlListComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   search$ = new BehaviorSubject<string>('');
   entries$ = combineLatest([
     this.state.selectedPresenceControlEntriesByGroup$,

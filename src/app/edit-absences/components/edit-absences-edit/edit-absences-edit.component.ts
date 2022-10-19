@@ -226,12 +226,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   private save(formGroup: UntypedFormGroup): void {
     this.saving$.next(true);
-    const {
-      category,
-      confirmationValue,
-      absenceTypeId,
-      incidentId,
-    } = formGroup.value;
+    const { category, confirmationValue, absenceTypeId, incidentId } =
+      formGroup.value;
     this.presenceTypesService.presenceTypes$
       .pipe(
         switchMap((presenceTypes) =>

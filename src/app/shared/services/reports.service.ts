@@ -61,11 +61,12 @@ export class ReportsService implements OnDestroy {
     [Number(this.storageService.getPayload()?.id_person)]
   ).pipe(shareReplay(1));
 
-  studentConfirmationAvailability$ = this.loadReportAvailabilityByAsyncRecordIds(
-    'Praesenzinformation',
-    this.settings.studentConfirmationReportId,
-    this.studentConfirmationAvailabilityRecordIds$
-  );
+  studentConfirmationAvailability$ =
+    this.loadReportAvailabilityByAsyncRecordIds(
+      'Praesenzinformation',
+      this.settings.studentConfirmationReportId,
+      this.studentConfirmationAvailabilityRecordIds$
+    );
 
   private studentConfirmationAvailabilitySub: Subscription;
 
@@ -75,8 +76,9 @@ export class ReportsService implements OnDestroy {
     private subscriptionService: SubscriptionsRestService,
     private http: HttpClient
   ) {
-    this.studentConfirmationAvailabilitySub = (this
-      .studentConfirmationAvailability$ as ConnectableObservable<boolean>).connect();
+    this.studentConfirmationAvailabilitySub = (
+      this.studentConfirmationAvailability$ as ConnectableObservable<boolean>
+    ).connect();
   }
 
   ngOnDestroy(): void {

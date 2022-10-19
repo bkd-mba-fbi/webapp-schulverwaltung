@@ -5,13 +5,11 @@ describe('StudentDossierEntryHeaderComponent', () => {
   let component: StudentDossierEntryHeaderComponent;
   let fixture: ComponentFixture<StudentDossierEntryHeaderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [StudentDossierEntryHeaderComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [StudentDossierEntryHeaderComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentDossierEntryHeaderComponent);

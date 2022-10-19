@@ -12,15 +12,13 @@ describe('StudentDossierApprenticeshipCompanyComponent', () => {
   let component: StudentDossierApprenticeshipCompanyComponent;
   let fixture: ComponentFixture<StudentDossierApprenticeshipCompanyComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [StudentDossierApprenticeshipCompanyComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [StudentDossierApprenticeshipCompanyComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

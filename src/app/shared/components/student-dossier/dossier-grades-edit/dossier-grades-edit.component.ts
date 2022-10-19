@@ -49,9 +49,8 @@ export class DossierGradesEditComponent implements OnInit {
 
   closeButtonDisabled$ = new BehaviorSubject<boolean>(false);
 
-  gradingScaleDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    true
-  );
+  gradingScaleDisabled$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
   grade$: Observable<number> = this.gradeSubject$.pipe(
     debounceTime(DEBOUNCE_TIME)
   );

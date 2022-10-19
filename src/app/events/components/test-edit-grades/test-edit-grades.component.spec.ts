@@ -17,30 +17,28 @@ describe('TestEditGradesComponent', () => {
 
   const course = buildCourse(1234);
 
-  beforeEach(
-    waitForAsync(() => {
-      testStateServiceMock = jasmine.createSpyObj('TestStateService', [
-        'canSetFinalGrade$',
-        'setSorting',
-        'getSortingChar$',
-        'course$',
-      ]);
+  beforeEach(waitForAsync(() => {
+    testStateServiceMock = jasmine.createSpyObj('TestStateService', [
+      'canSetFinalGrade$',
+      'setSorting',
+      'getSortingChar$',
+      'course$',
+    ]);
 
-      testStateServiceMock.course$ = of(course);
+    testStateServiceMock.course$ = of(course);
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [TestEditGradesComponent],
-          providers: [
-            {
-              provide: TestStateService,
-              useValue: testStateServiceMock,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [TestEditGradesComponent],
+        providers: [
+          {
+            provide: TestStateService,
+            useValue: testStateServiceMock,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestEditGradesComponent);

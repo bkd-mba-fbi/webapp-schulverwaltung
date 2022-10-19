@@ -21,21 +21,19 @@ describe('MySettingsNotificationsComponent', () => {
   );
   (settingsService as any).refetch = of({});
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MySettingsNotificationsComponent],
-          providers: [
-            {
-              provide: MySettingsService,
-              useValue: settingsService,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MySettingsNotificationsComponent],
+        providers: [
+          {
+            provide: MySettingsService,
+            useValue: settingsService,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MySettingsNotificationsComponent);

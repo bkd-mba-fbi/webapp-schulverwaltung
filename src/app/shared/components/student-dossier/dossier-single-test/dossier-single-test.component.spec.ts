@@ -107,16 +107,16 @@ describe('DossierSingleTestComponent', () => {
       component.test = test;
 
       component.studentId = studentId;
-      const gradingScale = ({
+      const gradingScale = {
         Grades: [
-          ({ Id: 1001, Value: 1, Designation: '1' } as unknown) as Grade,
-          ({ Id: 1002, Value: 2, Designation: '2' } as unknown) as Grade,
-          ({ Id: 1003, Value: 3, Designation: '3' } as unknown) as Grade,
-          ({ Id: 1004, Value: 4, Designation: '4' } as unknown) as Grade,
-          ({ Id: 1005, Value: 5, Designation: '5' } as unknown) as Grade,
-          ({ Id: 1006, Value: 6, Designation: '6' } as unknown) as Grade,
+          { Id: 1001, Value: 1, Designation: '1' } as unknown as Grade,
+          { Id: 1002, Value: 2, Designation: '2' } as unknown as Grade,
+          { Id: 1003, Value: 3, Designation: '3' } as unknown as Grade,
+          { Id: 1004, Value: 4, Designation: '4' } as unknown as Grade,
+          { Id: 1005, Value: 5, Designation: '5' } as unknown as Grade,
+          { Id: 1006, Value: 6, Designation: '6' } as unknown as Grade,
         ],
-      } as unknown) as GradingScale;
+      } as unknown as GradingScale;
       component.gradingScale = gradingScale;
 
       fixture.detectChanges();
