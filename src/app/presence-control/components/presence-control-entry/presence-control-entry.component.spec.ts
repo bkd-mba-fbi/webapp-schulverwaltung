@@ -12,15 +12,13 @@ describe('PresenceControlEntryComponent', () => {
   let component: PresenceControlEntryComponent;
   let fixture: ComponentFixture<PresenceControlEntryComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [PresenceControlEntryComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [PresenceControlEntryComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlEntryComponent);

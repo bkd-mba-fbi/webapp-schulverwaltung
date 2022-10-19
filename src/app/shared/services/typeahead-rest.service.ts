@@ -23,7 +23,8 @@ export interface TypeaheadService {
 
 export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
   extends RestService<T>
-  implements TypeaheadService {
+  implements TypeaheadService
+{
   protected typeaheadCodec = t.type(
     pick(this.codec.props, [this.idAttr, this.labelAttr])
   );

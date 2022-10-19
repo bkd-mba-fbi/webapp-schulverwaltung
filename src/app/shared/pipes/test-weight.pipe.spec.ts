@@ -9,14 +9,12 @@ describe('TestsWeightPipe', () => {
   let pipe: TestsWeightPipe;
   let test: Test;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({})
-      ).compileComponents();
-      pipe = new TestsWeightPipe(TestBed.inject(TranslateService));
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({})
+    ).compileComponents();
+    pipe = new TestsWeightPipe(TestBed.inject(TranslateService));
+  }));
 
   beforeEach(() => {
     test = buildTest(1, 2, []);

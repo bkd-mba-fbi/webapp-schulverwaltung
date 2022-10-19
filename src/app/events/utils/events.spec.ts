@@ -248,9 +248,9 @@ describe('Course utils', () => {
   describe('is course rated', () => {
     it('should return true if review of evaluation has started and final grades are set', () => {
       // given
-      const evaluationStatusRef = ({
+      const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
-      } as unknown) as EvaluationStatusRef;
+      } as unknown as EvaluationStatusRef;
       let course = buildCourse(
         1,
         'rated course',
@@ -265,9 +265,9 @@ describe('Course utils', () => {
 
     it('should return false if final grades are null', () => {
       // given
-      const evaluationStatusRef = ({
+      const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
-      } as unknown) as EvaluationStatusRef;
+      } as unknown as EvaluationStatusRef;
       let course = buildCourse(
         1,
         'rated course',
@@ -282,9 +282,9 @@ describe('Course utils', () => {
 
     it('should return false if final grades are emtpy', () => {
       // given
-      const evaluationStatusRef = ({
+      const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
-      } as unknown) as EvaluationStatusRef;
+      } as unknown as EvaluationStatusRef;
       let course = buildCourse(
         1,
         'rated course',
@@ -299,9 +299,9 @@ describe('Course utils', () => {
 
     it('should return false if review of evaluation has not started', () => {
       // given
-      const evaluationStatusRef = ({
+      const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: false,
-      } as unknown) as EvaluationStatusRef;
+      } as unknown as EvaluationStatusRef;
       let course = buildCourse(
         1,
         'rated course',

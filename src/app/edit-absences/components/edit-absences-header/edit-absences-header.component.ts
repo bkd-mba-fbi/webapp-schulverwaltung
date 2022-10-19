@@ -59,14 +59,15 @@ export class EditAbsencesHeaderComponent {
 
   @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
 
-  absenceConfirmationStatesGrouped$ = this.state.absenceConfirmationStates$.pipe(
-    map((i) =>
-      addGroupToDropdownItem(
-        i,
-        this.translate.instant('shared.multiselect.all-option')
+  absenceConfirmationStatesGrouped$ =
+    this.state.absenceConfirmationStates$.pipe(
+      map((i) =>
+        addGroupToDropdownItem(
+          i,
+          this.translate.instant('shared.multiselect.all-option')
+        )
       )
-    )
-  );
+    );
 
   presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) =>

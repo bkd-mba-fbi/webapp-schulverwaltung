@@ -8,15 +8,13 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
   let element: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [HomeComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [HomeComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);

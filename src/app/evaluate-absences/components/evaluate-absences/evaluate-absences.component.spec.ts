@@ -8,15 +8,13 @@ describe('EvaluateAbsencesComponent', () => {
   let component: EvaluateAbsencesComponent;
   let fixture: ComponentFixture<EvaluateAbsencesComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          imports: [EvaluateAbsencesModule],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        imports: [EvaluateAbsencesModule],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesComponent);

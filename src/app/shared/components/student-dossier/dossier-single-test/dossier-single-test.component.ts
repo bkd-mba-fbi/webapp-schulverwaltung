@@ -72,9 +72,8 @@ export class DossierSingleTestComponent implements OnInit {
     });
     modalRef.componentInstance.test = test; // TODO
     modalRef.componentInstance.gradeId = this.getGradeId(test);
-    modalRef.componentInstance.gradeOptions = DossierSingleTestComponent.mapToOptions(
-      this.gradingScale
-    );
+    modalRef.componentInstance.gradeOptions =
+      DossierSingleTestComponent.mapToOptions(this.gradingScale);
     modalRef.componentInstance.studentId = this.studentId;
     modalRef.componentInstance.points = this.getPoints(test);
 

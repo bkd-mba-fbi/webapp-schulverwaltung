@@ -7,24 +7,22 @@ describe('AvatarComponent', () => {
   let component: AvatarComponent;
   let fixture: ComponentFixture<AvatarComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          providers: [
-            {
-              provide: StorageService,
-              useValue: {
-                getAccessToken(): string {
-                  return 'asdf';
-                },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [
+          {
+            provide: StorageService,
+            useValue: {
+              getAccessToken(): string {
+                return 'asdf';
               },
             },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AvatarComponent);

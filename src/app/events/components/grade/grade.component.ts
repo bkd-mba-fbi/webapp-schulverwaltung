@@ -40,9 +40,8 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   private pointsSubject$: Subject<string> = new Subject<string>();
   private gradeSubject$: Subject<number> = new Subject<number>();
-  private gradingScaleDisabledSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    true
-  );
+  private gradingScaleDisabledSubject$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
 
   gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
 

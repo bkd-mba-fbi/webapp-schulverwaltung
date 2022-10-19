@@ -40,7 +40,8 @@ export class EventsStateService {
   search$ = new BehaviorSubject<string>('');
 
   private coursesNotRated$ = this.loadCoursesNotRated();
-  private formativeAssessments$ = this.studyClassRestService.getActiveFormativeAssessments();
+  private formativeAssessments$ =
+    this.studyClassRestService.getActiveFormativeAssessments();
   private studyClasses$ = this.studyClassRestService.getActive();
 
   private events$ = this.loadEvents();

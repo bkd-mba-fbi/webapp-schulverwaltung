@@ -33,8 +33,10 @@ export class StorageService {
     const base64 = base64Url
       ? base64Url.replace('-', '+').replace('_', '/')
       : null;
-    let payload = JSON.parse(window.atob(base64 ? base64 : ''))
-    payload.roles = payload.hasOwnProperty('holder_roles') ? payload.holder_roles : payload.roles; 
+    let payload = JSON.parse(window.atob(base64 ? base64 : ''));
+    payload.roles = payload.hasOwnProperty('holder_roles')
+      ? payload.holder_roles
+      : payload.roles;
     return payload;
   }
 

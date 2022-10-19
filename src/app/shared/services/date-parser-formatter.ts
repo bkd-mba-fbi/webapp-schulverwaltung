@@ -19,7 +19,7 @@ export class DateParserFormatter extends NgbDateParserFormatter {
         day: date.getDay(),
       };
     }
-    return (null as unknown) as NgbDateStruct;
+    return null as unknown as NgbDateStruct;
   }
   /**
    * The default implementation uses non-strict type checking and expects an empty string to be returned if the given date is `null`.

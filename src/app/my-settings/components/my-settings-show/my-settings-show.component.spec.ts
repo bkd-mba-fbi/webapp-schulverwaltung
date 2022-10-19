@@ -9,19 +9,17 @@ describe('MySettingsShowComponent', () => {
   let component: MySettingsShowComponent;
   let fixture: ComponentFixture<MySettingsShowComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          providers: [MySettingsService],
-          declarations: [
-            MySettingsShowComponent,
-            MySettingsNotificationsComponent,
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [MySettingsService],
+        declarations: [
+          MySettingsShowComponent,
+          MySettingsNotificationsComponent,
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MySettingsShowComponent);

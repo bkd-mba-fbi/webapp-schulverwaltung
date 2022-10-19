@@ -11,34 +11,32 @@ describe('MyAbsencesReportListComponent', () => {
   let component: MyAbsencesReportListComponent;
   let fixture: ComponentFixture<MyAbsencesReportListComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            MyAbsencesReportListComponent,
-            MyAbsencesReportHeaderComponent,
-          ],
-          providers: [
-            {
-              provide: MyAbsencesReportStateService,
-              useValue: {
-                loading$: of(false),
-                loadingPage$: of(false),
-                entries$: of([]),
-                presenceTypes$: of([]),
-                selected: [],
-                setFilter: jasmine.createSpy('setFilter'),
-                isFilterValid$: of(true),
-                validFilter$: of({}),
-              },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [
+          MyAbsencesReportListComponent,
+          MyAbsencesReportHeaderComponent,
+        ],
+        providers: [
+          {
+            provide: MyAbsencesReportStateService,
+            useValue: {
+              loading$: of(false),
+              loadingPage$: of(false),
+              entries$: of([]),
+              presenceTypes$: of([]),
+              selected: [],
+              setFilter: jasmine.createSpy('setFilter'),
+              isFilterValid$: of(true),
+              validFilter$: of({}),
             },
-            MyAbsencesReportSelectionService,
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+          },
+          MyAbsencesReportSelectionService,
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesReportListComponent);

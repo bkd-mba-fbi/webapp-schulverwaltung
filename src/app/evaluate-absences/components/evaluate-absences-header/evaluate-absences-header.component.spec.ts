@@ -8,16 +8,14 @@ describe('EvaluateAbsencesHeaderComponent', () => {
   let component: EvaluateAbsencesHeaderComponent;
   let fixture: ComponentFixture<EvaluateAbsencesHeaderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [EvaluateAbsencesHeaderComponent],
-          providers: [EvaluateAbsencesStateService],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [EvaluateAbsencesHeaderComponent],
+        providers: [EvaluateAbsencesStateService],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesHeaderComponent);

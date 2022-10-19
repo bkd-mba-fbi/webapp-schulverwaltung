@@ -7,15 +7,13 @@ describe('MyProfileEntryComponent', () => {
   let component: MyProfileEntryComponent;
   let fixture: ComponentFixture<MyProfileEntryComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [MyProfileEntryComponent],
-        })
-      ).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyProfileEntryComponent],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileEntryComponent);

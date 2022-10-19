@@ -11,36 +11,31 @@ describe('MyAbsencesShowComponent', () => {
   let component: MyAbsencesShowComponent;
   let fixture: ComponentFixture<MyAbsencesShowComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            MyAbsencesShowComponent,
-            MyAbsencesReportLinkComponent,
-          ],
-          providers: [
-            {
-              provide: MyAbsencesService,
-              useValue: {
-                openAbsences$: of([]),
-                openLessonAbsences$: of([]),
-                counts$: of({}),
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyAbsencesShowComponent, MyAbsencesReportLinkComponent],
+        providers: [
+          {
+            provide: MyAbsencesService,
+            useValue: {
+              openAbsences$: of([]),
+              openLessonAbsences$: of([]),
+              counts$: of({}),
+            },
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): Option<object> {
+                return { id_person: '42' };
               },
             },
-            {
-              provide: StorageService,
-              useValue: {
-                getPayload(): Option<object> {
-                  return { id_person: '42' };
-                },
-              },
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesShowComponent);

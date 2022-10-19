@@ -31,10 +31,10 @@ describe('DossierGradesComponent', () => {
   beforeEach(async () => {
     currentDossier$ = new BehaviorSubject<DossierPage>('grades');
 
-    dossierStateServiceMock = ({
+    dossierStateServiceMock = {
       currentDossier$,
       studentId$: of(123),
-    } as unknown) as DossierStateService;
+    } as unknown as DossierStateService;
 
     loading$ = new BehaviorSubject<any>(false);
     studentCourses$ = new BehaviorSubject<Course[]>(courses);
@@ -42,11 +42,11 @@ describe('DossierGradesComponent', () => {
       gradingScales
     );
 
-    dossierGradesServiceMock = ({
+    dossierGradesServiceMock = {
       loading$,
       studentCourses$,
       gradingScales$,
-    } as unknown) as DossierGradesService;
+    } as unknown as DossierGradesService;
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({

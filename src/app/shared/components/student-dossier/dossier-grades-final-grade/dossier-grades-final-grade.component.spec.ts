@@ -27,9 +27,9 @@ describe('DossierGradesFinalGradeComponent', () => {
     fixture.detectChanges();
     debugElement = fixture.debugElement;
 
-    finalGrade = ({ GradeValue: 4.5, Grade: '4.5' } as unknown) as FinalGrading;
+    finalGrade = { GradeValue: 4.5, Grade: '4.5' } as unknown as FinalGrading;
 
-    grading = ({ AverageTestResult: 4.233333 } as unknown) as Grading;
+    grading = { AverageTestResult: 4.233333 } as unknown as Grading;
     component.finalGrade = finalGrade;
     component.grading = grading;
     fixture.detectChanges();

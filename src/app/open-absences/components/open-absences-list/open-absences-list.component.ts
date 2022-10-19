@@ -23,7 +23,8 @@ import { SortCriteria } from 'src/app/shared/utils/sort';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesListComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private destroy$ = new Subject<void>();
 
   constructor(

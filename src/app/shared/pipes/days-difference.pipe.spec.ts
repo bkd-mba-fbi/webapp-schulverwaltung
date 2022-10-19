@@ -7,14 +7,12 @@ import { DaysDifferencePipe } from './days-difference.pipe';
 describe('DaysDifferencePipe', () => {
   let pipe: DaysDifferencePipe;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({})
-      ).compileComponents();
-      pipe = new DaysDifferencePipe(TestBed.inject(TranslateService));
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({})
+    ).compileComponents();
+    pipe = new DaysDifferencePipe(TestBed.inject(TranslateService));
+  }));
 
   beforeEach(() => {
     jasmine.clock().install();

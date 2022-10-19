@@ -37,27 +37,27 @@ describe('LessonPresencesUpdateService', () => {
   late = buildPresenceType(12, false, true);
 
   beforeEach(() => {
-    restServiceMock = ({
+    restServiceMock = {
       editLessonPresences: jasmine
         .createSpy('editLessonPresences')
         .and.callFake(() => of()),
       removeLessonPresences: jasmine
         .createSpy('removeLessonPresences')
         .and.callFake(() => of()),
-    } as unknown) as LessonPresencesUpdateRestService;
+    } as unknown as LessonPresencesUpdateRestService;
 
-    presenceTypeServiceMock = ({
+    presenceTypeServiceMock = {
       getPresenceType: jasmine
         .createSpy('getPresenceType')
         .withArgs(absent.Id)
         .and.callFake(() => of(absent))
         .withArgs(late.Id)
         .and.callFake(() => of(late)),
-    } as unknown) as PresenceTypesService;
+    } as unknown as PresenceTypesService;
 
-    toastrServiceMock = ({
+    toastrServiceMock = {
       error: jasmine.createSpy('error'),
-    } as unknown) as ToastrService;
+    } as unknown as ToastrService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({

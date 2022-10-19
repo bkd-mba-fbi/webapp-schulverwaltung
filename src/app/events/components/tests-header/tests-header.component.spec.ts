@@ -12,25 +12,21 @@ describe('TestsHeaderComponent', () => {
 
   const courseId = 123;
 
-  beforeEach(
-    waitForAsync(() => {
-      reportsServiceMock = ({
-        getEventReportUrl: jasmine
-          .createSpy('getEventReportUrl')
-          .withArgs(courseId)
-          .and.returnValue('url'),
-      } as unknown) as ReportsService;
+  beforeEach(waitForAsync(() => {
+    reportsServiceMock = {
+      getEventReportUrl: jasmine
+        .createSpy('getEventReportUrl')
+        .withArgs(courseId)
+        .and.returnValue('url'),
+    } as unknown as ReportsService;
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [TestsHeaderComponent],
-          providers: [
-            { provide: ReportsService, useValue: reportsServiceMock },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [TestsHeaderComponent],
+        providers: [{ provide: ReportsService, useValue: reportsServiceMock }],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsHeaderComponent);

@@ -125,33 +125,34 @@ export class TestStateService {
   );
 
   private UNDEFINED_GRADINGSCALE_ID = -1;
-  private gradingScalesOptions$: Observable<GradingScaleOptions> = this.gradingScales$.pipe(
-    map((gradingScales) =>
-      gradingScales
-        .map((gradingScale) => {
-          const id = gradingScale?.Id || this.UNDEFINED_GRADINGSCALE_ID;
-          const options =
-            gradingScale?.Grades.map((gradeOption) => {
-              return {
-                Key: gradeOption.Id,
-                Value: gradeOption.Designation,
-              };
-            }) || [];
-          return {
-            id,
-            options,
-          };
-        })
-        .reduce(
-          (gradingScaleOptions, option) => ({
-            ...gradingScaleOptions,
-            [option.id]: option.options,
-          }),
-          {}
-        )
-    ),
-    shareReplay(1)
-  );
+  private gradingScalesOptions$: Observable<GradingScaleOptions> =
+    this.gradingScales$.pipe(
+      map((gradingScales) =>
+        gradingScales
+          .map((gradingScale) => {
+            const id = gradingScale?.Id || this.UNDEFINED_GRADINGSCALE_ID;
+            const options =
+              gradingScale?.Grades.map((gradeOption) => {
+                return {
+                  Key: gradeOption.Id,
+                  Value: gradeOption.Designation,
+                };
+              }) || [];
+            return {
+              id,
+              options,
+            };
+          })
+          .reduce(
+            (gradingScaleOptions, option) => ({
+              ...gradingScaleOptions,
+              [option.id]: option.options,
+            }),
+            {}
+          )
+      ),
+      shareReplay(1)
+    );
 
   meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
     map((studentGrades) =>

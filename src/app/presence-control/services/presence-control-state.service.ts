@@ -72,7 +72,8 @@ export const VIEW_MODES: ReadonlyArray<string> = Object.keys(ViewMode).map(
 
 @Injectable()
 export class PresenceControlStateService
-  implements OnDestroy, IConfirmAbsencesService {
+  implements OnDestroy, IConfirmAbsencesService
+{
   confirmBackLinkParams?: Params;
 
   private selectedDateSubject$ = new BehaviorSubject(new Date());

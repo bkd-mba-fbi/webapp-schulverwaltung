@@ -7,13 +7,11 @@ describe('StudentDossierAddressComponent', () => {
   let component: StudentDossierAddressComponent;
   let fixture: ComponentFixture<StudentDossierAddressComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [StudentDossierAddressComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [StudentDossierAddressComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentDossierAddressComponent);

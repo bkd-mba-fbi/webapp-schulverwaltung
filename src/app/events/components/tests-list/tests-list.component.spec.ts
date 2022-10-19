@@ -22,47 +22,45 @@ describe('TestsListComponent', () => {
 
   const course = buildCourse(1234);
 
-  beforeEach(
-    waitForAsync(() => {
-      course.EvaluationStatusRef = {
-        HasEvaluationStarted: false,
-        EvaluationUntil: null,
-        HasReviewOfEvaluationStarted: false,
-        HasTestGrading: false,
-        Id: 6980,
-      };
-      testStateServiceMock = ({
-        getCourse: () => of(course),
-        setSorting: () => of({ key: 'FullName', ascending: true }),
-        getSortingChar$: () => of('FullName'),
-        loading$: of(false),
-        tests$: of([test]),
-        course$: of(course),
-      } as unknown) as TestStateService;
+  beforeEach(waitForAsync(() => {
+    course.EvaluationStatusRef = {
+      HasEvaluationStarted: false,
+      EvaluationUntil: null,
+      HasReviewOfEvaluationStarted: false,
+      HasTestGrading: false,
+      Id: 6980,
+    };
+    testStateServiceMock = {
+      getCourse: () => of(course),
+      setSorting: () => of({ key: 'FullName', ascending: true }),
+      getSortingChar$: () => of('FullName'),
+      loading$: of(false),
+      tests$: of([test]),
+      course$: of(course),
+    } as unknown as TestStateService;
 
-      const reportServiceMock = jasmine.createSpyObj('reportService', [
-        'getEventReportUrl',
-      ]);
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [
-            TestsListComponent,
-            TestsHeaderComponent,
-            TestEditGradesComponent,
-            TestTableHeaderComponent,
-            AverageGradesComponent,
-          ],
-          providers: [
-            { provide: TestStateService, useValue: testStateServiceMock },
-            {
-              provide: ReportsService,
-              useValue: reportServiceMock as ReportsService,
-            },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+    const reportServiceMock = jasmine.createSpyObj('reportService', [
+      'getEventReportUrl',
+    ]);
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [
+          TestsListComponent,
+          TestsHeaderComponent,
+          TestEditGradesComponent,
+          TestTableHeaderComponent,
+          AverageGradesComponent,
+        ],
+        providers: [
+          { provide: TestStateService, useValue: testStateServiceMock },
+          {
+            provide: ReportsService,
+            useValue: reportServiceMock as ReportsService,
+          },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsListComponent);

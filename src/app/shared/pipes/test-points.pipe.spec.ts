@@ -11,14 +11,12 @@ describe('TestsPointsPipe', () => {
   const testId = 2;
   const studentId = 3;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({})
-      ).compileComponents();
-      pipe = new TestPointsPipe(TestBed.inject(TranslateService));
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({})
+    ).compileComponents();
+    pipe = new TestPointsPipe(TestBed.inject(TranslateService));
+  }));
 
   beforeEach(() => {
     test = buildTest(1, testId, []);

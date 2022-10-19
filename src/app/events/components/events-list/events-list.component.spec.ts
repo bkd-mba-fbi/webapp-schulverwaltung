@@ -10,23 +10,21 @@ describe('EventsListComponent', () => {
   let fixture: ComponentFixture<EventsListComponent>;
   let stateServiceMock: EventsStateService;
 
-  beforeEach(
-    waitForAsync(() => {
-      stateServiceMock = ({
-        loading$: of(false),
-        events$: of([]),
-      } as unknown) as EventsStateService;
+  beforeEach(waitForAsync(() => {
+    stateServiceMock = {
+      loading$: of(false),
+      events$: of([]),
+    } as unknown as EventsStateService;
 
-      TestBed.configureTestingModule(
-        buildTestModuleMetadata({
-          declarations: [EventsListComponent],
-          providers: [
-            { provide: EventsStateService, useValue: stateServiceMock },
-          ],
-        })
-      ).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [EventsListComponent],
+        providers: [
+          { provide: EventsStateService, useValue: stateServiceMock },
+        ],
+      })
+    ).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventsListComponent);
