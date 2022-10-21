@@ -13,7 +13,7 @@
   >
     <div class="d-flex align-items-center">
       <i class="material-icons">navigate_before</i>
-      <span class="ml-3">{{
+      <span class="ms-3">{{
         'presence-control.groups.title' | translate
       }}</span>
     </div>
@@ -21,7 +21,7 @@
 
   <div class="group-header mb-2 d-flex justify-content-between">
     <div class="d-flex align-items-baseline">
-      <span class="pl-3">{{ 'presence-control.groups.show' | translate }}</span>
+      <span class="ps-3">{{ 'presence-control.groups.show' | translate }}</span>
       <button type="button" class="show btn btn-link" (click)="selectGroup()">
         {{
           data.group
@@ -31,7 +31,7 @@
       </button>
     </div>
     <a
-      class="btn btn-primary mr-2"
+      class="btn btn-primary me-2"
       (click)="assignGroup()"
       [class.disabled]="data.selection.length === 0"
       aria-label="edit"
@@ -66,7 +66,7 @@
               (change)="selectionService.toggle(entry)"
             />
           </div>
-          <div class="name pr-2">
+          <div class="name pe-2">
             {{ entry.name }}
           </div>
           <div class="group">

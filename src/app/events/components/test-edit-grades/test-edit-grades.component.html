@@ -24,7 +24,7 @@
             </button>
             <button
               type="button"
-              class="btn ml-2 desktop"
+              class="btn ms-2 desktop"
               (click)="changeFilter('my-tests')"
               [ngClass]="{
                 'btn-primary': data.filter === 'my-tests',
@@ -73,7 +73,7 @@
               <div class="column-title">
                 {{ 'tests.student.name' | translate }}
               </div>
-              <div class="sort-direction ml-1">
+              <div class="sort-direction ms-1">
                 {{ state.getSortingChar$('FullName') | async }}
               </div>
             </div>
@@ -87,7 +87,7 @@
               <div class="column-title">
                 {{ 'tests.grade' | translate }}
               </div>
-              <div class="sort-direction ml-1">
+              <div class="sort-direction ms-1">
                 {{ state.getSortingChar$('FinalGrade') | async }}
               </div>
             </div>
@@ -100,7 +100,7 @@
               <div class="column-title">
                 {{ 'tests.mean' | translate }}
               </div>
-              <div class="sort-direction ml-1">
+              <div class="sort-direction ms-1">
                 {{ state.getSortingChar$('TestsMean') | async }}
               </div>
             </div>
@@ -113,7 +113,7 @@
           >
             <div class="d-flex">
               <div
-                class="column-title mr-3 point-input-container"
+                class="column-title me-3 point-input-container"
                 *ngIf="test.IsPointGrading"
               >
                 <span (click)="state.sortBy(test)"
@@ -125,7 +125,7 @@
                   'tests.grade' | translate
                 }}</span>
               </div>
-              <div class="sort-direction ml-1">
+              <div class="sort-direction ms-1">
                 {{ state.getSortingChar$(test) | async }}
               </div>
             </div>

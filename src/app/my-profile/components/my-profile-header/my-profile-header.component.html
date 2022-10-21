@@ -1,6 +1,6 @@
 <div class="avatar-person" *ngIf="student">
   <div class="d-flex">
-    <erz-avatar [studentId]="student.Id" class="mr-3 avatar large"></erz-avatar>
+    <erz-avatar [studentId]="student.Id" class="me-3 avatar large"></erz-avatar>
     <div class="person">
       {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
       <span *ngIf="student.Gender">({{ student.Gender }})</span>
@@ -11,7 +11,7 @@
     <a
       *ngIf="reportUrl"
       [href]="reportUrl"
-      class="report btn btn-primary mr-2"
+      class="report btn btn-primary me-2"
       target="_blank"
     >
       <i class="material-icons">description</i>

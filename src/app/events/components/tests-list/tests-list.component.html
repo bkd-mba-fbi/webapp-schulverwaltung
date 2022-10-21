@@ -26,13 +26,13 @@
       </ng-container>
 
       <a
-        class="d-flex justify-content-end pr-3 border-top pt-3"
+        class="d-flex justify-content-end pe-3 border-top pt-3"
         *ngIf="state.canSetFinalGrade$ | async"
         data-testId="link-to-rating-overview"
         href="{{ buildLinkToRatingOverview() | async }}"
       >
         <i class="material-icons font-weight-bold">arrow_right_alt</i>
-        <span class="pl-1">{{
+        <span class="ps-1">{{
           'tests.link-to-rating-overview' | translate
         }}</span>
       </a>
