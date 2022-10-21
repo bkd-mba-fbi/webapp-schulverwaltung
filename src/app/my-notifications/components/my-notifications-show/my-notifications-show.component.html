@@ -33,7 +33,7 @@
       <div
         class="d-flex justify-content-between border-bottom p-3 align-items-center"
       >
-        <h5 class="pr-3">
+        <h5 class="pe-3">
           {{ 'my-notifications.title' | translate }}
         </h5>
         <button
@@ -53,7 +53,7 @@
         <div *ngFor="let entry of data.notifications" class="border-bottom p-3">
           <div class="d-flex justify-content-between">
             <div
-              class="text-left pr-3"
+              class="text-left pe-3"
               [innerHTML]="entry.subject | xss: xssOptions | safe: 'html'"
             ></div>
             <div

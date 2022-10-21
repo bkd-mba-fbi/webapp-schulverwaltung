@@ -18,10 +18,10 @@
           [student]="data.profile && data.profile.student"
         ></erz-student-backlink>
         <!---->
-        <div class="mr-3">
+        <div class="me-3">
           <a
             *ngIf="data.currentDossierSection === 'grades'"
-            class="edit btn btn-primary ml-2"
+            class="edit btn btn-primary ms-2"
             target="_blank"
             [href]="data.reportUrl"
           >
@@ -33,7 +33,7 @@
         <a
           [queryParams]="{ returnparams: state.returnParams$ | async }"
           [routerLink]="[section]"
-          class="mr-1 mt-1 mr-sm-2"
+          class="me-1 mt-1 me-sm-2"
           *ngFor="let section of ['addresses', 'absences', 'grades']"
         >
           <button

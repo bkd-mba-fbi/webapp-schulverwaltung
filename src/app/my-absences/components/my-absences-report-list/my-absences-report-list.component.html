@@ -35,7 +35,7 @@
 
             <div class="buttons">
               <a
-                class="edit btn btn-primary mr-2"
+                class="edit btn btn-primary me-2"
                 [class.disabled]="
                   (selectionService.selection$ | async).length === 0
                 "
@@ -76,7 +76,7 @@
                 >, {{ entry.StudyClassNumber }}</ng-container
               >
             </div>
-            <div class="time pr-2">
+            <div class="time pe-2">
               {{ entry.LessonDateTimeFrom | date: 'HH:mm' }}–{{
                 entry.LessonDateTimeTo | date: 'HH:mm'
               }}

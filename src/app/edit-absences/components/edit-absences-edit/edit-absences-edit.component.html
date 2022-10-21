@@ -31,7 +31,7 @@
           {{ 'edit-absences.edit.categories.' + category | translate }}
         </label>
 
-        <div *ngIf="isAbsent(category)" class="ml-5">
+        <div *ngIf="isAbsent(category)" class="ms-5">
           <div
             *ngFor="let confirmationState of data.confirmationStates"
             class="form-check mt-2 mb-2"
@@ -79,7 +79,7 @@
           </div>
         </div>
 
-        <div *ngIf="isIncident(category)" class="ml-5">
+        <div *ngIf="isIncident(category)" class="ms-5">
           <select
             class="form-control mt-1"
             [class.is-invalid]="(incidentIdErrors$ | async).length > 0"
@@ -120,7 +120,7 @@
       </button>
       <button
         type="submit"
-        class="btn btn-primary ml-2"
+        class="btn btn-primary ms-2"
         [disabled]="saving$ | async"
       >
         {{ 'edit-absences.edit.save' | translate }}

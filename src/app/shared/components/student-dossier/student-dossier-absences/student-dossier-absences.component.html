@@ -18,7 +18,7 @@
 
       <div class="buttons">
         <a
-          class="edit btn btn-primary mr-2"
+          class="edit btn btn-primary me-2"
           [class.disabled]="(selectionService.selection$ | async).length === 0"
           routerLink="{{ confirmLink }}"
         >
@@ -26,7 +26,7 @@
         </a>
         <a
           *ngIf="reportAvailable"
-          class="report btn btn-primary mr-2"
+          class="report btn btn-primary me-2"
           [class.disabled]="!reportUrl"
           [href]="reportUrl"
           target="_blank"
@@ -35,7 +35,7 @@
         </a>
         <a
           *ngIf="displayEmail"
-          class="mail btn btn-primary mr-2"
+          class="mail btn btn-primary me-2"
           href="mailto:{{ mailTo$ | async }}"
           target="_blank"
         >
@@ -74,7 +74,7 @@
           >, {{ absence.StudyClassNumber }}</ng-container
         >
       </div>
-      <div class="time pr-2">
+      <div class="time pe-2">
         {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
           absence.LessonDateTimeTo | date: 'HH:mm'
         }}

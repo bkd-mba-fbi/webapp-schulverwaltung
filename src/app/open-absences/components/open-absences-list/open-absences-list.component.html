@@ -15,7 +15,7 @@
         else noEntries
       "
     >
-      <div class="pt-3 pl-3 pr-3">
+      <div class="pt-3 ps-3 pe-3">
         <erz-resettable-input
           class="d-flex header-search"
           [value]="openAbsencesService.search$ | async"
@@ -24,7 +24,7 @@
           (valueChange)="openAbsencesService.search$.next($event)"
         ></erz-resettable-input>
         <div class="d-flex align-items-center justify-content-between mt-1">
-          <div class="selection-count pl-1">
+          <div class="selection-count ps-1">
             {{
               'open-absences.selected'
                 | translate: { count: data.selection.length }
@@ -66,7 +66,7 @@
                 (change)="selectionService.toggle(entry)"
               />
             </div>
-            <div class="name pr-2">
+            <div class="name pe-2">
               <a [routerLink]="['detail', entry.studentId, entry.dateString]">{{
                 entry.studentFullName
               }}</a>
