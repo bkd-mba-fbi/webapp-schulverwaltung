@@ -43,6 +43,7 @@ import { DossierGradesFinalGradeComponent } from './components/student-dossier/d
 import { DossierSingleTestComponent } from './components/student-dossier/dossier-single-test/dossier-single-test.component';
 import { DossierGradesCourseHeaderComponent } from './components/student-dossier/dossier-grades-course-header/dossier-grades-course-header.component';
 import { DossierGradesEditComponent } from './components/student-dossier/dossier-grades-edit/dossier-grades-edit.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 // Components that will be exported
 const components = [
@@ -90,6 +91,7 @@ const components = [
     DossierSingleTestComponent,
     DossierGradesCourseHeaderComponent,
     DossierGradesEditComponent,
+    ToastComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },
