@@ -93,7 +93,7 @@
             </div>
           </th>
           <th
-            class="secondary-column-width border-right sticky sticky-col-3 desktop"
+            class="secondary-column-width border-end sticky sticky-col-3 desktop"
             (click)="state.sortBy('TestsMean')"
           >
             <div class="d-flex">
@@ -167,7 +167,7 @@
               {{ studentGrade.finalGrade.freeHandGrade }}
             </div>
           </td>
-          <td class="grade border-right sticky sticky-col-3">
+          <td class="grade border-end sticky sticky-col-3">
             {{ studentGrade.finalGrade.average | number: '1.0-3' }}
           </td>
           <td
@@ -211,7 +211,7 @@
           >
             {{ state.meanOfFinalGradesForCourse$ | async | number: '1.0-3' }}
           </td>
-          <td class="desktop border-right sticky sticky-col-3">
+          <td class="desktop border-end sticky sticky-col-3">
             {{ state.meanOfStudentGradesForCourse$ | async | number: '1.0-3' }}
           </td>
           <td
