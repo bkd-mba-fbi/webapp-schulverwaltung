@@ -1,6 +1,8 @@
 <div class="filters mb-2">
   <div class="form-group">
-    <label>{{ 'edit-absences.header.student' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.student' | translate
+    }}</label>
     <erz-typeahead
       [typeaheadService]="studentsService"
       [(value)]="filter.student"
@@ -8,7 +10,9 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.module-instance' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.module-instance' | translate
+    }}</label>
     <erz-typeahead
       [typeaheadService]="educationalEventsService"
       [(value)]="filter.educationalEvent"
@@ -16,7 +20,9 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.study-class' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.study-class' | translate
+    }}</label>
     <erz-typeahead
       [typeaheadService]="studyClassService"
       [(value)]="filter.studyClass"
@@ -25,19 +31,25 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.date-from' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.date-from' | translate
+    }}</label>
     <erz-date-select [(value)]="filter.dateFrom"></erz-date-select>
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.date-to' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.date-to' | translate
+    }}</label>
     <erz-date-select [(value)]="filter.dateTo"></erz-date-select>
   </div>
 </div>
 
 <div class="filters mt-2">
   <div class="form-group">
-    <label>{{ 'edit-absences.header.confirmation-state' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.confirmation-state' | translate
+    }}</label>
     <erz-multiselect
       [options]="absenceConfirmationStatesGrouped$ | async"
       [(values)]="filter.confirmationStates"
@@ -45,7 +57,9 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.presence-type' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.presence-type' | translate
+    }}</label>
     <erz-multiselect
       [options]="presenceTypesGrouped$ | async"
       [(values)]="filter.presenceTypes"
@@ -53,7 +67,9 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'edit-absences.header.incident' | translate }}</label>
+    <label class="form-label">{{
+      'edit-absences.header.incident' | translate
+    }}</label>
     <erz-multiselect
       [options]="incidentTypesGrouped$ | async"
       [(values)]="filter.incidentTypes"
