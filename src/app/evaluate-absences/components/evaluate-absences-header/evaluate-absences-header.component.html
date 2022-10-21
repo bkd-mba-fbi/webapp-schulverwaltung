@@ -1,6 +1,8 @@
 <div class="filters mb-2">
   <div class="form-group">
-    <label>{{ 'evaluate-absences.header.student' | translate }}</label>
+    <label class="form-label">{{
+      'evaluate-absences.header.student' | translate
+    }}</label>
     <erz-typeahead
       [typeaheadService]="studentsService"
       [(value)]="filter.student"
@@ -8,7 +10,9 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'evaluate-absences.header.module-instance' | translate }}</label>
+    <label class="form-label">{{
+      'evaluate-absences.header.module-instance' | translate
+    }}</label>
     <erz-typeahead
       [typeaheadService]="educationalEventsService"
       [(value)]="filter.educationalEvent"
@@ -16,7 +20,9 @@
   </div>
 
   <div class="form-group">
-    <label>{{ 'evaluate-absences.header.study-class' | translate }}</label>
+    <label class="form-label">{{
+      'evaluate-absences.header.study-class' | translate
+    }}</label>
     <erz-typeahead
       [typeaheadService]="studyClassesService"
       [(value)]="filter.studyClass"

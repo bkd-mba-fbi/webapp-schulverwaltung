@@ -7,7 +7,9 @@
 
 <div class="filters">
   <div class="form-group">
-    <label>{{ 'my-absences.report.header.date-from' | translate }}</label>
+    <label class="form-label">{{
+      'my-absences.report.header.date-from' | translate
+    }}</label>
     <erz-date-select
       [minDate]="minDate"
       [value]="filter.dateFrom"
@@ -15,7 +17,9 @@
     ></erz-date-select>
   </div>
   <div class="form-group">
-    <label>{{ 'my-absences.report.header.date-to' | translate }}</label>
+    <label class="form-label">{{
+      'my-absences.report.header.date-to' | translate
+    }}</label>
     <erz-date-select
       [minDate]="minDate"
       [(value)]="filter.dateTo"
