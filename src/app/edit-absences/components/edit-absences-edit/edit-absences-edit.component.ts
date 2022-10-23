@@ -12,7 +12,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import {
   finalize,
@@ -94,7 +93,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService,
     private toastService: ToastService,
     private translate: TranslateService,
     private state: EditAbsencesStateService,
@@ -249,10 +247,9 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   private onSaveSuccess(): void {
     this.state.resetSelection();
-    /*    this.toastr.success(
+    this.toastService.success(
       this.translate.instant('edit-absences.edit.save-success')
-    );*/
-    this.toastService.show('edit-absences.edit.save-success');
+    );
     this.navigateBack(true);
   }
 

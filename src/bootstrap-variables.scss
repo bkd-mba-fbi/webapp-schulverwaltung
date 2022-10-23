@@ -8,14 +8,16 @@
 $body-bg: rgb(255, 255, 255);
 $body-color: rgb(51, 51, 61);
 $yellow: rgb(255, 168, 20);
+$red: #dc3545;
+$green: #28a745;
 $orange: rgb(239, 124, 0);
 $blue: #005189;
 $teal: rgb(19, 69, 97);
 $gray: rgb(138, 138, 138);
 $gray-dark: rgb(51, 51, 51);
 
-$present-color: #28a745;
-$absent-color: #dc3545;
+$present-color: $green;
+$absent-color: $red;
 $unapproved-color: $yellow;
 
 // Font
