@@ -122,6 +122,7 @@ const components = [
     ResettableInputComponent,
     NgSelectModule,
     DossierGradesViewComponent,
+    ToastComponent,
   ],
 })
 export class SharedModule {}

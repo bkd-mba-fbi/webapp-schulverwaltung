@@ -10,7 +10,8 @@ import { NAVIGATOR } from './shared/tokens/dom-apis';
 import { Router } from '@angular/router';
 
 @Component({
-  template: '<router-outlet></router-outlet>',
+  template:
+    '<erz-toast aria-live="polite" aria-atomic="true"></erz-toast><router-outlet></router-outlet>',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

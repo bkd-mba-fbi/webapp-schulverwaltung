@@ -38,6 +38,7 @@ import {
 import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
 import { parseQueryString } from 'src/app/shared/utils/url';
 import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-edit-absences-edit',
@@ -94,6 +95,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private state: EditAbsencesStateService,
     private dropDownItemsService: DropDownItemsRestService,
@@ -247,9 +249,10 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   private onSaveSuccess(): void {
     this.state.resetSelection();
-    this.toastr.success(
+    /*    this.toastr.success(
       this.translate.instant('edit-absences.edit.save-success')
-    );
+    );*/
+    this.toastService.show('edit-absences.edit.save-success');
     this.navigateBack(true);
   }
 
