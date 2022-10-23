@@ -5,7 +5,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -21,6 +20,7 @@ import { Person } from 'src/app/shared/models/person.model';
 import { MyProfileService } from '../../services/my-profile.service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 import { getValidationErrors } from 'src/app/shared/utils/form';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-my-profile-edit',
@@ -47,7 +47,7 @@ export class MyProfileEditComponent {
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private profileService: MyProfileService,
     private personsService: PersonsRestService
@@ -103,7 +103,9 @@ export class MyProfileEditComponent {
 
   private onSaveSuccess(): void {
     this.profileService.reset(); // Ensure the profile will be reloaded
-    this.toastr.success(this.translate.instant('my-profile.edit.save-success'));
+    this.toastService.success(
+      this.translate.instant('my-profile.edit.save-success')
+    );
     this.navigateBack();
   }
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 export interface ToastInfo {
   message: string;
   type: 'success' | 'error' | 'warning';
-  delay?: number;
+  header?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -12,8 +12,16 @@ export class ToastService {
 
   constructor() {}
 
-  success(message: string) {
-    this.toasts.push({ message, type: 'success' });
+  success(message: string, header?: string) {
+    this.toasts.push({ message, header, type: 'success' });
+  }
+
+  error(message: string, header?: string) {
+    this.toasts.push({ message, header, type: 'error' });
+  }
+
+  warning(message: string, header?: string) {
+    this.toasts.push({ message, header, type: 'warning' });
   }
 
   remove(toast: ToastInfo) {

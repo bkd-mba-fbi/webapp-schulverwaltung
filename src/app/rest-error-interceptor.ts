@@ -10,10 +10,10 @@ import {
 import { Router } from '@angular/router';
 import { Observable, EMPTY, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 import { HTTP_STATUS } from './shared/services/rest.service';
+import { ToastService } from './shared/services/toast.service';
 
 interface RestConfig {
   disableErrorHandling?: boolean;
@@ -51,7 +51,7 @@ function extractConfig(params: HttpParams): {
 export class RestErrorInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService
   ) {}
 
@@ -137,7 +137,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
   }
 
   private notifyError(messageKey: string): void {
-    this.toastr.error(
+    this.toastService.error(
       this.translate.instant(`global.rest-errors.${messageKey}-message`),
       this.translate.instant(`global.rest-errors.${messageKey}-title`)
     );

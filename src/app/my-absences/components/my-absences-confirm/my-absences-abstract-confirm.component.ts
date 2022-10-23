@@ -5,7 +5,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, of } from 'rxjs';
 import { finalize, map, filter, switchMap, take, pluck } from 'rxjs/operators';
@@ -17,6 +16,7 @@ import { Settings } from 'src/app/settings';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { isEmptyArray } from 'src/app/shared/utils/array';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   template: '',
@@ -52,7 +52,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
   constructor(
     protected fb: UntypedFormBuilder,
     protected router: Router,
-    protected toastr: ToastrService,
+    protected toastService: ToastService,
     protected translate: TranslateService,
     protected presenceTypesService: PresenceTypesService,
     protected updateService: LessonPresencesUpdateRestService,
@@ -126,7 +126,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
   }
 
   protected onSaveSuccess(): void {
-    this.toastr.success(
+    this.toastService.success(
       this.translate.instant('my-absences.confirm.save-success')
     );
     this.navigateBack();

@@ -1,7 +1,6 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 
@@ -13,6 +12,7 @@ import { MyAbsencesService } from '../../services/my-absences.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { uniq, flatten } from 'lodash-es';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-my-absences-confirm',
@@ -29,7 +29,7 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
   constructor(
     fb: UntypedFormBuilder,
     router: Router,
-    toastr: ToastrService,
+    toastService: ToastService,
     translate: TranslateService,
     presenceTypesService: PresenceTypesService,
     updateService: LessonPresencesUpdateRestService,
@@ -41,7 +41,7 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
     super(
       fb,
       router,
-      toastr,
+      toastService,
       translate,
       presenceTypesService,
       updateService,

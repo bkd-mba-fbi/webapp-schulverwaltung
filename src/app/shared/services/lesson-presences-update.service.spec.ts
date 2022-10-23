@@ -1,5 +1,4 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { withConfig } from 'src/app/rest-error-interceptor';
 import {
@@ -17,11 +16,12 @@ import {
   UPDATE_STATE_DEBOUNCE_TIME,
 } from './lesson-presences-update.service';
 import { PresenceTypesService } from './presence-types.service';
+import { ToastService } from './toast.service';
 
 describe('LessonPresencesUpdateService', () => {
   let service: LessonPresencesUpdateService;
   let restServiceMock: LessonPresencesUpdateRestService;
-  let toastrServiceMock: ToastrService;
+  let toastServiceMock: ToastService;
   let presenceTypeServiceMock: PresenceTypesService;
   let stateUpdatesCallback: jasmine.Spy;
 
@@ -55,9 +55,9 @@ describe('LessonPresencesUpdateService', () => {
         .and.callFake(() => of(late)),
     } as unknown as PresenceTypesService;
 
-    toastrServiceMock = {
+    toastServiceMock = {
       error: jasmine.createSpy('error'),
-    } as unknown as ToastrService;
+    } as unknown as ToastService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -67,7 +67,7 @@ describe('LessonPresencesUpdateService', () => {
             useValue: restServiceMock,
           },
           { provide: PresenceTypesService, useValue: presenceTypeServiceMock },
-          { provide: ToastrService, useValue: toastrServiceMock },
+          { provide: ToastService, useValue: toastServiceMock },
         ],
       })
     );
@@ -180,7 +180,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
-      expect(toastrServiceMock.error).not.toHaveBeenCalled();
+      expect(toastServiceMock.error).not.toHaveBeenCalled();
     }));
 
     it('it reverts state of lesson presence if request fails', fakeAsync(() => {
@@ -232,7 +232,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
         { presence: deutschWalser, newPresenceTypeId: 123 },
       ]);
-      expect(toastrServiceMock.error).toHaveBeenCalledWith(
+      expect(toastServiceMock.error).toHaveBeenCalledWith(
         'shared.lesson-presences-update.error'
       );
 
@@ -281,7 +281,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
-      expect(toastrServiceMock.error).not.toHaveBeenCalled();
+      expect(toastServiceMock.error).not.toHaveBeenCalled();
     }));
   });
 });

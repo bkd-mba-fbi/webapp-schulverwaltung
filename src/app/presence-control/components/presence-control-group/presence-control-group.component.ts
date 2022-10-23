@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { map, mapTo, pluck, switchMap, take } from 'rxjs/operators';
 import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
@@ -25,6 +24,7 @@ import {
   PresenceControlGroupDialogComponent,
   DialogMode,
 } from '../presence-control-group-dialog/presence-control-group-dialog.component';
+import { ToastService } from '../../../shared/services/toast.service';
 
 export type PrimarySortKey = 'name' | 'group';
 
@@ -69,7 +69,7 @@ export class PresenceControlGroupComponent implements OnInit {
     public groupService: PresenceControlGroupService,
     private settingsService: UserSettingsRestService,
     private subscriptionDetailService: SubscriptionDetailsRestService,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private modalService: NgbModal
   ) {}
@@ -146,7 +146,7 @@ export class PresenceControlGroupComponent implements OnInit {
     this.groupService.reloadSubscriptionDetails();
     this.selectionService.clear();
 
-    this.toastr.success(
+    this.toastService.success(
       this.translate.instant(
         'presence-control.groups.notifications.save-success'
       )

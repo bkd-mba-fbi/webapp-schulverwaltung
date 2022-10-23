@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from './app/shared/shared.module';
 import { Settings, SETTINGS } from './app/settings';
@@ -67,7 +66,6 @@ const baseTestModuleMetadata: TestModuleMetadata = {
         deps: [HttpClient],
       },
     }),
-    ToastrModule.forRoot(),
     SharedModule,
   ],
   providers: [

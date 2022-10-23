@@ -10,11 +10,11 @@ import {
 import { Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { ViewMode } from '../../services/presence-control-state.service';
 import { PresenceControlPrecedingAbsenceComponent } from '../presence-control-preceding-absence/presence-control-preceding-absence.component';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -37,7 +37,7 @@ export class PresenceControlEntryComponent implements OnChanges {
   studentId$ = new ReplaySubject<number>(1);
 
   constructor(
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private modalService: NgbModal
   ) {}
@@ -56,7 +56,7 @@ export class PresenceControlEntryComponent implements OnChanges {
 
   updatePresenceType(entry: PresenceControlEntry): void {
     if (!entry.canChangePresenceType) {
-      this.toastr.warning(
+      this.toastService.warning(
         this.translate.instant('presence-control.entry.update-warning')
       );
     } else {

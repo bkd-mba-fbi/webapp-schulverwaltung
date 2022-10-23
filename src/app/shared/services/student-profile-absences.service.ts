@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, ReplaySubject, EMPTY, of, combineLatest } from 'rxjs';
 import { map, switchMap, startWith, multicast, refCount } from 'rxjs/operators';
@@ -9,6 +8,7 @@ import { LessonPresence } from '../models/lesson-presence.model';
 import { LessonPresencesRestService } from './lesson-presences-rest.service';
 import { PresenceTypesService } from './presence-types.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
+import { ToastService } from './toast.service';
 
 export interface StudentProfileAbsencesCounts {
   openAbsences: Option<number>;
@@ -35,7 +35,7 @@ export class StudentProfileAbsencesService {
     @Inject(SETTINGS) private settings: Settings,
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService
   ) {}
 
@@ -95,7 +95,7 @@ export class StudentProfileAbsencesService {
           if (entries.length > 0) {
             return of(entries[0]);
           }
-          this.toastr.error(
+          this.toastService.error(
             this.translate.instant(`global.rest-errors.notfound-message`),
             this.translate.instant(`global.rest-errors.notfound-title`)
           );

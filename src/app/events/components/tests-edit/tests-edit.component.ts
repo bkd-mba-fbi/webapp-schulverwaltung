@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import {
   BehaviorSubject,
   combineLatest,
@@ -16,6 +15,7 @@ import { TestStateService } from '../../services/test-state.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TestsDeleteComponent } from './tests-delete/tests-delete.component';
 import { take } from 'rxjs/operators';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-tests-edit',
@@ -38,7 +38,7 @@ export class TestsEditComponent {
     public state: TestStateService,
     private courseService: CoursesRestService,
     private route: ActivatedRoute,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private router: Router,
     private modalService: NgbModal
@@ -90,12 +90,16 @@ export class TestsEditComponent {
   }
 
   private onSaveSuccess(): void {
-    this.toastr.success(this.translate.instant('tests.form.save-success'));
+    this.toastService.success(
+      this.translate.instant('tests.form.save-success')
+    );
     this.navigateBack();
   }
 
   private onDeleteSuccess(deletedTestId: number): void {
-    this.toastr.success(this.translate.instant('tests.form.delete-success'));
+    this.toastService.success(
+      this.translate.instant('tests.form.delete-success')
+    );
     this.state.deleteTest(deletedTestId);
     this.navigateBack();
   }

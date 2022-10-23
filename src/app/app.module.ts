@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GlobalErrorHandler } from './global-error-handler';
@@ -64,10 +63,6 @@ registerLocaleData(localeFRCH);
         useFactory: HttpLoaderFactory,
         deps: [HttpClient, SETTINGS],
       },
-    }),
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
     }),
     SharedModule,
     NgSelectModule,
