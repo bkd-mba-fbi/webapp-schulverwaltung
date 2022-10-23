@@ -48,7 +48,6 @@
     "monocle-ts": "^2.3.13",
     "newtype-ts": "^0.3.5",
     "ngx-infinite-scroll": "^14.0.0",
-    "ngx-toastr": "^15.2.1",
     "rxjs": "~7.5.7",
     "tslib": "^2.4.0",
     "watchpack": "^2.4.0",
