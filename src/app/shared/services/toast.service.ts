@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 export interface ToastInfo {
-  body: string;
+  message: string;
+  type: 'success' | 'error' | 'warning';
   delay?: number;
 }
 
@@ -10,11 +10,10 @@ export interface ToastInfo {
 export class ToastService {
   toasts: ToastInfo[] = [];
 
-  constructor(private translate: TranslateService) {}
+  constructor() {}
 
-  show(message: string) {
-    const body = this.translate.instant(message);
-    this.toasts.push({ body });
+  success(message: string) {
+    this.toasts.push({ message, type: 'success' });
   }
 
   remove(toast: ToastInfo) {
