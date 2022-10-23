@@ -8,11 +8,11 @@ import { switchMap, map } from 'rxjs/operators';
 import { decodeArray } from '../utils/decode';
 import { Observable, EMPTY, of } from 'rxjs';
 import { DropDownItem } from '../models/drop-down-item.model';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { pick } from '../utils/types';
 import { RestService } from './rest.service';
 import * as t from 'io-ts';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class EducationalEventsRestService
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastService: ToastService
   ) {
     super(http, settings, EducationalEvent, 'EducationalEvents');
   }
@@ -65,7 +65,7 @@ export class EducationalEventsRestService
         switchMap(decodeArray(this.typeaheadCodec)),
         switchMap((items) => {
           if (items.length === 0) {
-            this.toastr.error(
+            this.toastService.error(
               this.translate.instant(`global.rest-errors.notfound-message`),
               this.translate.instant(`global.rest-errors.notfound-title`)
             );

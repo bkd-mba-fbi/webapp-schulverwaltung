@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -11,6 +9,7 @@ import {
   switchMap,
 } from 'rxjs';
 import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-tests-add',
@@ -28,7 +27,7 @@ export class TestsAddComponent {
   constructor(
     private route: ActivatedRoute,
     private courseService: CoursesRestService,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private router: Router
   ) {}
@@ -62,7 +61,9 @@ export class TestsAddComponent {
   }
 
   private onSaveSuccess(): void {
-    this.toastr.success(this.translate.instant('tests.form.save-success'));
+    this.toastService.success(
+      this.translate.instant('tests.form.save-success')
+    );
     this.navigateBack();
   }
 

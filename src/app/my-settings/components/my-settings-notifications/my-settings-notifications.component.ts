@@ -4,8 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { NotificationSettingPropertyValueType } from 'src/app/shared/models/user-setting.model';
 import { MySettingsService } from '../../services/my-settings.service';
 import { shareReplay, map, take, finalize, switchMap } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'erz-my-settings-notifications',
@@ -30,7 +30,7 @@ export class MySettingsNotificationsComponent {
   constructor(
     private settingsService: MySettingsService,
     private formBuilder: UntypedFormBuilder,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService
   ) {}
 
@@ -53,7 +53,7 @@ export class MySettingsNotificationsComponent {
   }
 
   private onSaveSuccess(): void {
-    this.toastr.success(
+    this.toastService.success(
       this.translate.instant('my-settings.notifications.save-success')
     );
   }

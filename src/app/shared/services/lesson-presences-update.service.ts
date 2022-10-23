@@ -1,6 +1,5 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -22,6 +21,7 @@ import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest
 import { getNewConfirmationStateId } from 'src/app/presence-control/utils/presence-types';
 import { PresenceTypesService } from './presence-types.service';
 import { PresenceType } from '../models/presence-type.model';
+import { ToastService } from './toast.service';
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
@@ -86,7 +86,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
   );
 
   constructor(
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private restService: LessonPresencesUpdateRestService,
     private presenceTypesService: PresenceTypesService,
@@ -182,7 +182,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     console.error('Bulk-update of lesson presences failed');
     console.error(error);
 
-    this.toastr.error(
+    this.toastService.error(
       this.translate.instant('shared.lesson-presences-update.error')
     );
 

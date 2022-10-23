@@ -1,8 +1,8 @@
 <ngb-toast
   *ngFor="let toast of toastService.toasts"
+  [header]="toast.header"
   [class]="toast.type"
   [autohide]="true"
-  [delay]="toast.delay || 5000"
   (hiddden)="toastService.remove(toast)"
 >
   <div class="d-flex gap-2">

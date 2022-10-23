@@ -2,30 +2,30 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 import { withConfig } from './rest-error-interceptor';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ToastService } from './shared/services/toast.service';
 
 describe('RestErrorInterceptor', () => {
   let http: HttpClient;
   let httpTestingController: HttpTestingController;
   let routerMock: Router;
-  let toastrMock: ToastrService;
+  let toastServiceMock: ToastService;
   let successCallback: jasmine.Spy;
   let errorCallback: jasmine.Spy;
 
   beforeEach(() => {
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
-    toastrMock = jasmine.createSpyObj('ToastrService', ['error']);
+    toastServiceMock = jasmine.createSpyObj('ToastService', ['error']);
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [
           { provide: Router, useValue: routerMock },
           {
-            provide: ToastrService,
-            useValue: toastrMock,
+            provide: ToastService,
+            useValue: toastServiceMock,
           },
         ],
       })
@@ -202,11 +202,11 @@ describe('RestErrorInterceptor', () => {
     });
 
     function expectNoToast(): void {
-      expect(toastrMock.error).not.toHaveBeenCalled();
+      expect(toastServiceMock.error).not.toHaveBeenCalled();
     }
 
     function expectToast(messageKey: string): void {
-      expect(toastrMock.error).toHaveBeenCalledWith(
+      expect(toastServiceMock.error).toHaveBeenCalledWith(
         `global.rest-errors.${messageKey}-message`,
         `global.rest-errors.${messageKey}-title`
       );

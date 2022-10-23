@@ -20,11 +20,9 @@ import {
   finalize,
   shareReplay,
   take,
-  startWith,
   switchMap,
   pluck,
 } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 import { notNull } from 'src/app/shared/utils/filter';
@@ -44,6 +42,7 @@ import {
   IConfirmAbsencesService,
 } from '../../tokens/confirm-absences-service';
 import { LessonPresence } from '../../models/lesson-presence.model';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'erz-confirm-absences',
@@ -88,7 +87,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     private fb: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService,
+    private toastService: ToastService,
     private translate: TranslateService,
     private selectionService: ConfirmAbsencesSelectionService,
     private dropDownItemsService: DropDownItemsRestService,
@@ -249,7 +248,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     if (this.openAbsencesEditService?.updateAfterConfirm) {
       this.openAbsencesEditService.updateAfterConfirm();
     }
-    this.toastr.success(
+    this.toastService.success(
       this.translate.instant('open-absences.edit.save-success')
     );
     this.navigateBack();
