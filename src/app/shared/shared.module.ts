@@ -44,6 +44,7 @@ import { DossierSingleTestComponent } from './components/student-dossier/dossier
 import { DossierGradesCourseHeaderComponent } from './components/student-dossier/dossier-grades-course-header/dossier-grades-course-header.component';
 import { DossierGradesEditComponent } from './components/student-dossier/dossier-grades-edit/dossier-grades-edit.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { SwitchComponent } from './components/switch/switch.component';
 
 // Components that will be exported
 const components = [
@@ -54,6 +55,7 @@ const components = [
   DateSelectComponent,
   SelectComponent,
   MultiselectComponent,
+  SwitchComponent,
   DossierAddressesComponent,
   DossierAbsencesComponent,
   StudentBacklinkComponent,
@@ -92,6 +94,7 @@ const components = [
     DossierGradesCourseHeaderComponent,
     DossierGradesEditComponent,
     ToastComponent,
+    SwitchComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RestErrorInterceptor, multi: true },

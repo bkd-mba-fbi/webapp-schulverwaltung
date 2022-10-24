@@ -1,23 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MyNotificationsService } from '../../services/my-notifications.service';
 
 import { MyNotificationsShowComponent } from './my-notifications-show.component';
 
 describe('MyNotificationsShowComponent-WithData', () => {
   let fixture: ComponentFixture<MyNotificationsShowComponent>;
   let element: HTMLElement;
-  let service: jasmine.SpyObj<MyNotificationsService>;
+  let userSettings: jasmine.SpyObj<UserSettingsService>;
 
-  service = jasmine.createSpyObj('MyNotificationsService', [
-    'getCurrentNotificationDataPropertyValue',
-    'updateCurrentNotificationDataPropertyValue',
+  userSettings = jasmine.createSpyObj('UserSettingsService', [
+    'refetch',
+    'getNotificationData',
+    'saveNotificationData',
   ]);
-  service.getCurrentNotificationDataPropertyValue.and.returnValue(
+  userSettings.getNotificationData.and.returnValue(
     of([{ id: 1, subject: 'subject', body: 'body' }])
   );
-  service.updateCurrentNotificationDataPropertyValue.and.returnValue(of({}));
+  userSettings.saveNotificationData.and.returnValue(of({}));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
@@ -25,8 +26,8 @@ describe('MyNotificationsShowComponent-WithData', () => {
         declarations: [MyNotificationsShowComponent],
         providers: [
           {
-            provide: MyNotificationsService,
-            useValue: service,
+            provide: UserSettingsService,
+            useValue: userSettings,
           },
         ],
       })
@@ -69,37 +70,36 @@ describe('MyNotificationsShowComponent-WithData', () => {
     expect(fields.length).toBe(1);
   });
 
-  it('expect service call when deleteAll clicked', () => {
+  it('expect user settings call when deleteAll clicked', () => {
     const field = element.querySelector(
       `button[id="notifications-delete-all"]`
     ) as HTMLInputElement;
     field.click();
-    expect(
-      service.updateCurrentNotificationDataPropertyValue
-    ).toHaveBeenCalled();
+    expect(userSettings.saveNotificationData).toHaveBeenCalled();
+    expect(userSettings.refetch).toHaveBeenCalled();
   });
 
-  it('expect service call when delete clicked', () => {
+  it('expect user settings call when delete clicked', () => {
     const field = element.getElementsByClassName(
       'notifications-delete-notification'
     )[0] as HTMLInputElement;
     field.click();
-    expect(
-      service.updateCurrentNotificationDataPropertyValue
-    ).toHaveBeenCalled();
+    expect(userSettings.saveNotificationData).toHaveBeenCalled();
+    expect(userSettings.refetch).toHaveBeenCalled();
   });
 });
 
 describe('MyNotificationsShowComponent-WithoutData', () => {
   let fixture: ComponentFixture<MyNotificationsShowComponent>;
   let element: HTMLElement;
-  let service: jasmine.SpyObj<MyNotificationsService>;
+  let userSettings: jasmine.SpyObj<UserSettingsService>;
 
-  service = jasmine.createSpyObj('MyNotificationsService', [
-    'getCurrentNotificationDataPropertyValue',
-    'updateCurrentNotificationDataPropertyValue',
+  userSettings = jasmine.createSpyObj('MyNotificationsService', [
+    'refetch',
+    'getNotificationData',
+    'saveNotificationData',
   ]);
-  service.getCurrentNotificationDataPropertyValue.and.returnValue(of([]));
+  userSettings.getNotificationData.and.returnValue(of([]));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
@@ -107,8 +107,8 @@ describe('MyNotificationsShowComponent-WithoutData', () => {
         declarations: [MyNotificationsShowComponent],
         providers: [
           {
-            provide: MyNotificationsService,
-            useValue: service,
+            provide: UserSettingsService,
+            useValue: userSettings,
           },
         ],
       })
@@ -155,13 +155,14 @@ describe('MyNotificationsShowComponent-WithoutData', () => {
 describe('MyNotificationsShowComponent-WithoutAuthorization', () => {
   let fixture: ComponentFixture<MyNotificationsShowComponent>;
   let element: HTMLElement;
-  let service: jasmine.SpyObj<MyNotificationsService>;
+  let userSettings: jasmine.SpyObj<UserSettingsService>;
 
-  service = jasmine.createSpyObj('MyNotificationsService', [
-    'getCurrentNotificationDataPropertyValue',
-    'updateCurrentNotificationDataPropertyValue',
+  userSettings = jasmine.createSpyObj('MyNotificationsService', [
+    'refetch',
+    'getNotificationData',
+    'saveNotificationData',
   ]);
-  service.getCurrentNotificationDataPropertyValue.and.returnValue(of([]));
+  userSettings.getNotificationData.and.returnValue(of([]));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
@@ -169,8 +170,8 @@ describe('MyNotificationsShowComponent-WithoutAuthorization', () => {
         declarations: [MyNotificationsShowComponent],
         providers: [
           {
-            provide: MyNotificationsService,
-            useValue: service,
+            provide: UserSettingsService,
+            useValue: userSettings,
           },
         ],
       })

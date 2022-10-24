@@ -1,0 +1,72 @@
+@import "../../../../bootstrap-variables";
+
+$erz-switch-width: 35px;
+$erz-switch-height: calc($erz-switch-width / 2);
+$erz-switch-border-width: 1px;
+$erz-switch-toggle-padding: 1px;
+$erz-switch-toggle-width: calc(
+  $erz-switch-height - 2 * $erz-switch-border-width - 2 *
+    $erz-switch-toggle-padding
+);
+$erz-switch-active-bg: $primary;
+$erz-switch-active-border: $erz-switch-active-bg;
+$erz-switch-active-toggle: $body-bg;
+$erz-switch-inactive-bg: $body-bg;
+$erz-switch-inactive-border: $gray;
+$erz-switch-inactive-toggle: $gray;
+$erz-switch-disabled-bg: lighten($gray, 30%);
+$erz-switch-disabled-border: $gray;
+
+input {
+  opacity: 0;
+  position: absolute;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: $erz-switch-width;
+  height: $erz-switch-height;
+  border: $erz-switch-border-width solid $erz-switch-inactive-border;
+  background: $erz-switch-inactive-bg;
+  display: block;
+  border-radius: $erz-switch-height;
+  position: relative;
+}
+
+label:after {
+  content: "";
+  position: absolute;
+  top: $erz-switch-toggle-padding;
+  left: $erz-switch-toggle-padding;
+  width: $erz-switch-toggle-width;
+  height: $erz-switch-toggle-width;
+  background: $erz-switch-inactive-toggle;
+  border-radius: $erz-switch-toggle-width;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  border-color: $erz-switch-active-border;
+  background: $erz-switch-active-bg;
+}
+
+input:checked + label:after {
+  left: calc(100% - $erz-switch-toggle-padding);
+  transform: translateX(-100%);
+  background: $erz-switch-active-toggle;
+}
+
+input:focus + label {
+  border-color: $input-focus-border-color;
+}
+
+input:disabled + label {
+  opacity: 0.6;
+  background: $erz-switch-disabled-bg;
+  border-color: $erz-switch-disabled-border;
+}
+
+label:active:after {
+  width: calc($erz-switch-toggle-width * 1.3);
+}

@@ -13,11 +13,9 @@ import {
   NgbDropdown,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
-import {
-  PresenceControlStateService,
-  ViewMode,
-} from '../../services/presence-control-state.service';
+import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { LessonEntry } from '../../models/lesson-entry.model';
+import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
 
 /**
  * On small screens, the `.dropdown` element gets translated
@@ -48,7 +46,7 @@ const positionMenuOriginal = (NgbDropdown.prototype as any)._positionMenu;
 };
 
 interface ViewModeOption {
-  viewMode: ViewMode;
+  viewMode: PresenceControlViewMode;
   icon: string;
 }
 
@@ -68,20 +66,20 @@ export class PresenceControlHeaderComponent {
   @Input() absentCount: Option<number> = null;
   @Input() unapprovedCount: Option<number> = null;
   @Input() absentPrecedingCount: Option<number> = null;
-  @Input() viewMode: ViewMode;
+  @Input() viewMode: PresenceControlViewMode;
   @Input() selectDate: Date;
   @Input() search = '';
 
   @Output() selectLessonChange = new EventEmitter<LessonEntry>();
   @Output() selectDateChange = new EventEmitter<Date>();
   @Output() searchChange = new EventEmitter<string>();
-  @Output() viewModeChange = new EventEmitter<ViewMode>();
+  @Output() viewModeChange = new EventEmitter<PresenceControlViewMode>();
 
   @ViewChild(NgbDropdown) lessonDropdown?: NgbDropdown;
 
   viewModeOptions: ReadonlyArray<ViewModeOption> = [
-    { viewMode: ViewMode.List, icon: 'list' },
-    { viewMode: ViewMode.Grid, icon: 'view_module' },
+    { viewMode: PresenceControlViewMode.List, icon: 'list' },
+    { viewMode: PresenceControlViewMode.Grid, icon: 'view_module' },
   ];
   constructor(public state: PresenceControlStateService) {}
 }

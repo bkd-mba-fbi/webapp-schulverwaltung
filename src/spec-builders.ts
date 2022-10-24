@@ -10,7 +10,7 @@ import { Person } from './app/shared/models/person.model';
 import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-statistic';
 import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manager.model';
 import { JobTrainer } from './app/shared/models/job-trainer.model';
-import { UserSetting } from './app/shared/models/user-setting.model';
+import { UserSettings } from './app/shared/models/user-settings.model';
 import { LessonAbsence } from './app/shared/models/lesson-absence.model';
 import {
   IdSubscription,
@@ -421,39 +421,39 @@ export function buildApprenticeshipManagerWithEmails(
   return manager;
 }
 
-export function buildUserSetting(): UserSetting {
+export function buildUserSettings(
+  settings: UserSettings['Settings'] = []
+): UserSettings {
   return {
     Id: 'Cst',
-    Settings: [],
+    Settings: settings,
   };
 }
 
-export function buildUserSettingWithNotificationSetting(
+export function buildUserSettingsWithNotificationSetting(
   gui: boolean,
   mail: boolean,
   phoneMobile: boolean
-): UserSetting {
-  const setting = buildUserSetting();
+): UserSettings {
+  const setting = buildUserSettings();
   const notification = {
     Key: 'notification',
     Value: JSON.stringify({ mail, gui, phoneMobile }),
   };
-  setting.Settings.push(notification);
-  return setting;
+  return { ...setting, Settings: [notification] };
 }
 
-export function buildUserSettingWithNotificationData(
+export function buildUserSettingsWithNotificationData(
   id: number,
   subject: string,
   body: string
-): UserSetting {
-  const setting = buildUserSetting();
+): UserSettings {
+  const setting = buildUserSettings();
   const notification = {
     Key: 'notificationData',
     Value: JSON.stringify([{ id, subject, body }]),
   };
-  setting.Settings.push(notification);
-  return setting;
+  return { ...setting, Settings: [notification] };
 }
 
 export function buildSubscriptionDetail(

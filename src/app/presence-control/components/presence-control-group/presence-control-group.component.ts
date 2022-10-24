@@ -3,15 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
-import { map, mapTo, pluck, switchMap, take } from 'rxjs/operators';
+import { map, pluck, switchMap, take } from 'rxjs/operators';
 import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
-import { UserSettingsRestService } from '../../../shared/services/user-settings-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
-import {
-  updateGroupViewSettings,
-  getUserSetting,
-} from '../../../shared/utils/user-settings';
+import { updateGroupViewSettings } from '../../../shared/utils/user-settings';
 import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
 import { PresenceControlGroupService } from '../../services/presence-control-group.service';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
@@ -25,6 +21,7 @@ import {
   DialogMode,
 } from '../presence-control-group-dialog/presence-control-group-dialog.component';
 import { ToastService } from '../../../shared/services/toast.service';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 
 export type PrimarySortKey = 'name' | 'group';
 
@@ -67,7 +64,7 @@ export class PresenceControlGroupComponent implements OnInit {
     public state: PresenceControlStateService,
     public selectionService: PresenceControlGroupSelectionService,
     public groupService: PresenceControlGroupService,
-    private settingsService: UserSettingsRestService,
+    private userSettings: UserSettingsService,
     private subscriptionDetailService: SubscriptionDetailsRestService,
     private toastService: ToastService,
     private translate: TranslateService,
@@ -115,21 +112,18 @@ export class PresenceControlGroupComponent implements OnInit {
   }
 
   private selectCallback(selectedGroup: GroupOptions): void {
-    combineLatest([this.eventIds$, this.groupService.savedGroupViews$])
+    combineLatest([
+      this.eventIds$,
+      this.userSettings.getPresenceControlGroupView(),
+    ])
       .pipe(
         take(1),
-        switchMap(([eventIds, savedGroupViews]) => {
-          const propertyBody = updateGroupViewSettings(
-            selectedGroup.id,
-            eventIds,
-            savedGroupViews
-          );
-          const cst = getUserSetting('presenceControlGroupView', propertyBody);
-
-          return this.settingsService
-            .updateUserSettingsCst(cst)
-            .pipe(mapTo(selectedGroup.id));
-        })
+        switchMap(([eventIds, savedGroupViews]) =>
+          this.userSettings.savePresenceControlGroupView(
+            updateGroupViewSettings(selectedGroup.id, eventIds, savedGroupViews)
+          )
+        ),
+        map(() => selectedGroup.id)
       )
       .subscribe((groupId) => this.groupService.selectGroup(groupId));
   }

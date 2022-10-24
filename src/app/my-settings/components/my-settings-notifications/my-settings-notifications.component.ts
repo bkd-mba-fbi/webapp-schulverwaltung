@@ -1,11 +1,33 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { NotificationSettingPropertyValueType } from 'src/app/shared/models/user-setting.model';
-import { MySettingsService } from '../../services/my-settings.service';
-import { shareReplay, map, take, finalize, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import {
+  shareReplay,
+  map,
+  finalize,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
+
+import {
+  NotificationChannels,
+  NotificationTypesInactive,
+} from 'src/app/shared/models/user-settings.model';
 import { ToastService } from '../../../shared/services/toast.service';
+import { NotificationTypesService } from 'src/app/shared/services/notification-types.service';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+
+interface NotificationSetting {
+  key: string;
+  label: Observable<string>;
+  description?: Observable<string>;
+}
 
 @Component({
   selector: 'erz-my-settings-notifications',
@@ -13,41 +35,109 @@ import { ToastService } from '../../../shared/services/toast.service';
   styleUrls: ['./my-settings-notifications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MySettingsNotificationsComponent {
-  notificationSettings$ = this.settingsService.refetch.pipe(
-    switchMap(() =>
-      this.settingsService.getCurrentNotificationSettingsPropertyValue()
-    )
+export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
+  channelsSettings: ReadonlyArray<NotificationSetting> = [
+    {
+      key: 'gui',
+      label: this.translate.get('my-settings.notifications.gui'),
+    },
+    {
+      key: 'mail',
+      label: this.translate.get('my-settings.notifications.mail'),
+    },
+    {
+      key: 'phoneMobile',
+      label: this.translate.get('my-settings.notifications.phoneMobile'),
+    },
+  ];
+
+  typesSettings: ReadonlyArray<NotificationSetting> = this.notificationTypes
+    .getNotificationTypes()
+    .map((type) => {
+      const { label, description } =
+        this.translate.currentLang === 'fr' ? type.text.fr : type.text.de;
+      return {
+        key: type.key,
+        label: of(label),
+        description: of(description),
+      };
+    });
+
+  private channelsValue$ = this.userSettings.getNotificationChannels();
+  private typesValue$ = this.userSettings
+    .getNotificationTypesInactive()
+    .pipe(map(this.typesArrayToRecord.bind(this)));
+
+  channelsFormGroup$ = this.channelsValue$.pipe(
+    map((value) => this.createFormGroup(this.channelsSettings, value)),
+    shareReplay(1)
   );
-  notificationFormGroup$ = this.notificationSettings$.pipe(
-    map(this.createNotificationFormGroup.bind(this)),
+  typesFormGroup$ = this.typesValue$.pipe(
+    map((value) => this.createFormGroup(this.typesSettings, value, true)),
     shareReplay(1)
   );
 
   private saving$ = new BehaviorSubject(false);
-  private submitted$ = new BehaviorSubject(false);
+  private destroy$ = new Subject<void>();
 
   constructor(
-    private settingsService: MySettingsService,
+    private userSettings: UserSettingsService,
     private formBuilder: UntypedFormBuilder,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notificationTypes: NotificationTypesService
   ) {}
 
-  private createNotificationFormGroup(
-    notifications: NotificationSettingPropertyValueType
-  ): UntypedFormGroup {
-    return this.formBuilder.group({
-      notificationsGui: [notifications.gui],
-      notificationsMail: [notifications.mail],
-      notificationsPhoneMobile: [notifications.phoneMobile],
-    });
+  ngOnInit(): void {
+    // Make sure we have fresh settings, even if the have been loaded previously
+    this.userSettings.refetch();
+
+    // Autosave the notification channels setting on each change
+    this.channelsFormGroup$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((formGroup) => formGroup.valueChanges)
+      )
+      .subscribe(this.saveChannels.bind(this));
+
+    // Autosave the notification types setting on each change
+    this.typesFormGroup$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((formGroup) => formGroup.valueChanges)
+      )
+      .subscribe(this.saveTypes.bind(this));
   }
 
-  private save(gui: boolean, mail: boolean, phoneMobile: boolean): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  private createFormGroup(
+    settings: ReadonlyArray<NotificationSetting>,
+    record: Record<string, boolean>,
+    defaultValue = false
+  ): UntypedFormGroup {
+    return this.formBuilder.group(
+      settings.reduce(
+        (acc, { key }) => ({ ...acc, [key]: [record[key] ?? defaultValue] }),
+        {}
+      )
+    );
+  }
+
+  private saveChannels(channels: NotificationChannels): void {
     this.saving$.next(true);
-    this.settingsService
-      .updateCurrentNotificationSettingsPropertyValue(gui, mail, phoneMobile)
+    this.userSettings
+      .saveNotificationChannels(channels)
+      .pipe(finalize(() => this.saving$.next(false)))
+      .subscribe(this.onSaveSuccess.bind(this));
+  }
+
+  private saveTypes(record: Record<string, boolean>): void {
+    this.saving$.next(true);
+    this.userSettings
+      .saveNotificationTypesInactive(this.typesRecordToArray(record))
       .pipe(finalize(() => this.saving$.next(false)))
       .subscribe(this.onSaveSuccess.bind(this));
   }
@@ -58,21 +148,23 @@ export class MySettingsNotificationsComponent {
     );
   }
 
-  onSubmit(): void {
-    this.submitted$.next(true);
-    this.notificationFormGroup$.pipe(take(1)).subscribe((formGroup) => {
-      if (formGroup.valid) {
-        const {
-          notificationsGui,
-          notificationsMail,
-          notificationsPhoneMobile,
-        } = formGroup.value;
-        this.save(
-          notificationsGui,
-          notificationsMail,
-          notificationsPhoneMobile
-        );
-      }
-    });
+  private typesArrayToRecord(
+    inactiveTypes: NotificationTypesInactive
+  ): Record<string, boolean> {
+    const result = this.typesSettings.reduce(
+      (acc, { key }) => ({ ...acc, [key]: !inactiveTypes.includes(key) }),
+      {}
+    );
+    return result;
+  }
+
+  private typesRecordToArray(
+    record: Record<string, boolean>
+  ): NotificationTypesInactive {
+    const result = Object.keys(record).reduce(
+      (acc, key) => (!record[key] ? [...acc, key] : acc),
+      [] as NotificationTypesInactive
+    );
+    return result;
   }
 }

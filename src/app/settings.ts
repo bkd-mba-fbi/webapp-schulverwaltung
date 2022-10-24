@@ -3,6 +3,18 @@ import * as t from 'io-ts';
 
 import { Option } from './shared/models/common-types';
 
+const NotificationTypeText = t.type({
+  de: t.type({ label: t.string, description: t.string }),
+  fr: t.type({ label: t.string, description: t.string }),
+});
+
+const NotificationTypes = t.record(t.string, NotificationTypeText);
+
+const NotificationTypesAssignment = t.type({
+  roles: t.array(t.string),
+  types: t.array(t.string),
+});
+
 const Settings = t.type({
   apiUrl: t.string,
   scriptsAndAssetsPath: t.string,
@@ -25,12 +37,15 @@ const Settings = t.type({
   subscriptionDetailGroupId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
   notificationRefreshTime: t.number,
+  notificationTypes: NotificationTypes,
+  notificationTypesAssignments: t.array(NotificationTypesAssignment),
   eventlist: t.record(t.string, t.string),
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
 });
 
 type Settings = t.TypeOf<typeof Settings>;
-export { Settings };
+type NotificationTypeText = t.TypeOf<typeof NotificationTypeText>;
+export { Settings, NotificationTypeText };
 
 declare global {
   interface Window {

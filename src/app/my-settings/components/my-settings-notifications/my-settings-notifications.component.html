@@ -1,76 +1,45 @@
 <div
-  class="border-bottom mb-3 pb-3"
   *erzLet="{
-    notificationFormGroup: notificationFormGroup$ | async
+    channelsFormGroup: channelsFormGroup$ | async,
+    typesFormGroup: typesFormGroup$ | async
   } as data"
+  class="pb-4"
 >
-  <!-- setting-header -->
-  <h5 class="m-0 pb-3">
-    {{ 'my-settings.notifications.title' | translate }}
+  <h5 class="m-0 pb-3 flex align-items-center">
+    <span>{{ 'my-settings.notifications.title' | translate }}</span>
+    <erz-spinner
+      *ngIf="saving$ | async"
+      class="inline small d-inline-block ms-2"
+    ></erz-spinner>
   </h5>
 
-  <form
-    *ngIf="data.notificationFormGroup"
-    [formGroup]="data.notificationFormGroup"
-    (ngSubmit)="onSubmit()"
-  >
-    <!-- setting-entry -->
-    <div class="checkbox">
-      <input
-        id="my-settings-notifications-gui"
-        type="checkbox"
-        class="form-check-input"
-        formControlName="notificationsGui"
-      />
-      <label class="ps-2 form-label" for="my-settings-notifications-gui">
-        {{ 'my-settings.notifications.gui' | translate }}
-      </label>
-    </div>
+  <form *ngIf="data.channelsFormGroup" [formGroup]="data.channelsFormGroup">
+    <erz-my-settings-notifications-toggle
+      *ngFor="let setting of channelsSettings; index as i"
+      [id]="'notification-channels-' + setting.key"
+      [label]="setting.label | async"
+      [description]="setting.description | async"
+      [formControlName]="setting.key"
+      [class.mt-4]="i > 0"
+    >
+    </erz-my-settings-notifications-toggle>
+  </form>
 
-    <!-- setting-entry -->
-    <div class="checkbox">
-      <input
-        id="my-settings-notifications-mail"
-        type="checkbox"
-        class="form-check-input"
-        formControlName="notificationsMail"
-      />
-      <label class="ps-2 form-label" for="my-settings-notifications-mail">
-        {{ 'my-settings.notifications.mail' | translate }}
-      </label>
-    </div>
+  <p class="mt-4 form-text">
+    {{ 'my-settings.notifications.privacy-hint' | translate }}
+  </p>
 
-    <!-- setting-entry -->
-    <div class="checkbox">
-      <input
-        id="my-settings-notifications-phoneMobile"
-        type="checkbox"
-        class="form-check-input"
-        formControlName="notificationsPhoneMobile"
-      />
-      <label
-        class="ps-2 form-label"
-        for="my-settings-notifications-phoneMobile"
-      >
-        {{ 'my-settings.notifications.phoneMobile' | translate }}
-      </label>
-    </div>
+  <hr />
 
-    <div class="d-flex justify-content-end">
-      <button
-        type="submit"
-        class="btn btn-primary ms-2"
-        [disabled]="saving$ | async"
-      >
-        {{ 'my-settings.notifications.save' | translate }}
-        <div
-          *ngIf="saving$ | async"
-          class="spinner-border spinner-border-sm align-middle"
-          role="status"
-        >
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </button>
-    </div>
+  <form *ngIf="data.typesFormGroup" [formGroup]="data.typesFormGroup">
+    <erz-my-settings-notifications-toggle
+      *ngFor="let setting of typesSettings; index as i"
+      [id]="'notification-types-' + setting.key"
+      [label]="setting.label | async"
+      [description]="setting.description | async"
+      [formControlName]="setting.key"
+      [class.mt-4]="i > 0"
+    >
+    </erz-my-settings-notifications-toggle>
   </form>
 </div>

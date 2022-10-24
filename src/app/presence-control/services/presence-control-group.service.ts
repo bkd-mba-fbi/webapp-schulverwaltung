@@ -1,30 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { forkJoin, merge, Subject } from 'rxjs';
-import {
-  filter,
-  map,
-  mergeAll,
-  switchMap,
-  shareReplay,
-  startWith,
-  defaultIfEmpty,
-} from 'rxjs/operators';
+import { map, switchMap, shareReplay, startWith } from 'rxjs/operators';
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
-import {
-  GroupViewType,
-  UserSetting,
-  BaseProperty,
-} from '../../shared/models/user-setting.model';
 import {
   filterSubscriptionDetailsByGroupId,
   getSubscriptionDetailsWithName,
 } from '../utils/subscriptions-details';
 import { EventsRestService } from '../../shared/services/events-rest.service';
-import { UserSettingsRestService } from '../../shared/services/user-settings-rest.service';
-import { decodeArray } from '../../shared/utils/decode';
 import { LessonEntry } from '../models/lesson-entry.model';
 import {
   findSubscriptionDetailByGroupId,
@@ -34,6 +19,8 @@ import { SubscriptionsRestService } from '../../shared/services/subscriptions-re
 import { spread } from '../../shared/utils/function';
 import { LoadingService } from '../../shared/services/loading-service';
 import { flatten } from 'lodash-es';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+import { PresenceControlGroupViewEntry } from 'src/app/shared/models/user-settings.model';
 
 @Injectable()
 export class PresenceControlGroupService {
@@ -44,13 +31,11 @@ export class PresenceControlGroupService {
 
   private defaultGroup: Option<string> = null;
 
-  savedGroupViews$ = this.loadSavedGroupViews();
-
   private savedGroup$ = this.selectedLesson$.pipe(
     switchMap((lesson) =>
-      this.savedGroupViews$.pipe(
-        map((views) => this.findGroupByLesson(views, lesson))
-      )
+      this.userSettings
+        .getPresenceControlGroupView()
+        .pipe(map((views) => this.findGroupByLesson(views, lesson)))
     )
   );
 
@@ -131,7 +116,7 @@ export class PresenceControlGroupService {
   );
 
   constructor(
-    private settingsService: UserSettingsRestService,
+    private userSettings: UserSettingsService,
     private eventService: EventsRestService,
     private subscriptionService: SubscriptionsRestService,
     private loadingService: LoadingService,
@@ -183,19 +168,8 @@ export class PresenceControlGroupService {
     );
   }
 
-  private loadSavedGroupViews(): Observable<ReadonlyArray<GroupViewType>> {
-    return this.settingsService.getUserSettingsCst().pipe(
-      map<UserSetting, BaseProperty[]>((i) => i.Settings),
-      mergeAll(),
-      filter((i) => i.Key === 'presenceControlGroupView'),
-      map((v) => JSON.parse(v.Value)),
-      switchMap(decodeArray(GroupViewType)),
-      defaultIfEmpty([] as ReadonlyArray<GroupViewType>)
-    );
-  }
-
   private findGroupByLesson(
-    groupViews: ReadonlyArray<GroupViewType>,
+    groupViews: ReadonlyArray<PresenceControlGroupViewEntry>,
     lesson: Option<LessonEntry>
   ): Option<string> {
     const groupView = groupViews.find(

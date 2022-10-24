@@ -1,5 +1,6 @@
 import * as t from 'io-ts';
 import { either } from 'fp-ts/es6/Either';
+import { JsonFromString } from 'io-ts-types';
 import {
   parseISOLocalDateTime,
   formatISOLocalDateTime,
@@ -29,6 +30,8 @@ const OptionalReference = t.type({
 });
 type OptionalReference = t.TypeOf<typeof OptionalReference>;
 export { OptionalReference };
+
+export const JsonFromUnknown = t.string.pipe(JsonFromString, 'JsonFromUnknown');
 
 export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
   'LocalDateTimeFromString',

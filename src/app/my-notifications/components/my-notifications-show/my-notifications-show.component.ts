@@ -3,38 +3,43 @@ import {
   BehaviorSubject,
   interval,
   Observable,
-  ReplaySubject,
   Subject,
   throwError,
 } from 'rxjs';
 import {
   catchError,
   shareReplay,
+  startWith,
   switchMap,
   takeUntil,
   withLatestFrom,
 } from 'rxjs/operators';
-import { NotificationDataPropertyValueType } from 'src/app/shared/models/user-setting.model';
-import { MyNotificationsService } from '../../services/my-notifications.service';
+import {
+  NotificationData,
+  NotificationDataEntry,
+} from 'src/app/shared/models/user-settings.model';
 import { SETTINGS, Settings } from 'src/app/settings';
 import { HttpErrorResponse } from '@angular/common/http';
 import { I18nService } from 'src/app/shared/services/i18n.service';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 
 @Component({
   templateUrl: './my-notifications-show.component.html',
   styleUrls: ['./my-notifications-show.component.scss'],
 })
 export class MyNotificationsShowComponent implements OnDestroy {
-  notifications$: Observable<ReadonlyArray<NotificationDataPropertyValueType>>;
-
-  trigger$ = interval(this.settings.notificationRefreshTime * 1000);
-  refetch$ = new BehaviorSubject('INITIAL FETCH');
+  notifications$ = this.loadNotifications().pipe(shareReplay());
   isAuthenticated$ = new BehaviorSubject(false);
-  deleteAllNotifications$ = new Subject<null>();
-  deleteNotificationId$ = new Subject<number>();
-  toggleNotificationsPopup$ = new Subject<any>();
 
-  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private refetchTimer$ = interval(
+    this.settings.notificationRefreshTime * 1000
+  ).pipe(
+    startWith(null) // Make sure we have "fresh" notifications when this component gets rendered initially
+  );
+  private deleteAllNotifications$ = new Subject<void>();
+  private deleteNotification$ = new Subject<number>();
+  private toggleNotificationsPopup$ = new Subject<any>();
+  private destroy$ = new Subject<void>();
 
   public xssOptions = {
     whiteList: {
@@ -56,34 +61,18 @@ export class MyNotificationsShowComponent implements OnDestroy {
   constructor(
     i18n: I18nService,
     @Inject(SETTINGS) private settings: Settings,
-    public notificationService: MyNotificationsService
+    public userSettings: UserSettingsService
   ) {
     i18n.initialize();
 
-    // stream of notifications
-    this.notifications$ = this.refetch$.pipe(
-      switchMap(() =>
-        this.notificationService.getCurrentNotificationDataPropertyValue().pipe(
-          catchError((err: HttpErrorResponse) => {
-            if (err.status === 401) {
-              this.isAuthenticated$.next(false);
-              return [];
-            }
-            return throwError(err);
-          })
-        )
-      ),
-      shareReplay()
-    );
-
-    // check authentication
+    // Check authentication
     this.notifications$
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.isAuthenticated$.next(true));
 
-    // toggle notification popup
+    // Toggle notification popup
     this.toggleNotificationsPopup$
-      .pipe(withLatestFrom(this.isAuthenticated$), takeUntil(this.destroyed$))
+      .pipe(withLatestFrom(this.isAuthenticated$), takeUntil(this.destroy$))
       .subscribe(([el, a]) => {
         if (el && a === true) {
           if (el.style.display === 'block') {
@@ -94,37 +83,34 @@ export class MyNotificationsShowComponent implements OnDestroy {
         }
       });
 
-    // refetch notifications
-    this.trigger$.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.refetch$.next('REFETCH');
-    });
+    // Refetch notifications periodically (polling)
+    this.refetchTimer$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.userSettings.refetch());
 
-    this.deleteNotificationId$
+    this.deleteNotification$
       .pipe(
         withLatestFrom(this.notifications$),
         switchMap(([id, notifications]) =>
-          this.notificationService.updateCurrentNotificationDataPropertyValue(
-            this.deleteNotificationIdFromArray(id, notifications)
+          this.userSettings.saveNotificationData(
+            this.deleteNotificationFromArray(id, notifications)
           )
-        )
+        ),
+        takeUntil(this.destroy$)
       )
-      .subscribe(() => this.refetch$.next('DELETED ONE'));
+      .subscribe();
 
     this.deleteAllNotifications$
       .pipe(
-        withLatestFrom(this.notifications$),
-        switchMap(() =>
-          this.notificationService.updateCurrentNotificationDataPropertyValue(
-            []
-          )
-        )
+        switchMap(() => this.userSettings.saveNotificationData([])),
+        takeUntil(this.destroy$)
       )
-      .subscribe(() => this.refetch$.next('DELETED ALL'));
+      .subscribe();
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   toggleNotificationsPopup(): void {
@@ -133,17 +119,31 @@ export class MyNotificationsShowComponent implements OnDestroy {
   }
 
   deleteNotification(id: number): void {
-    this.deleteNotificationId$.next(id);
+    this.deleteNotification$.next(id);
   }
 
   deleteAll(): void {
-    this.deleteAllNotifications$.next(null);
+    this.deleteAllNotifications$.next();
   }
 
-  deleteNotificationIdFromArray(
+  deleteNotificationFromArray(
     id: number,
-    array: ReadonlyArray<NotificationDataPropertyValueType>
-  ): ReadonlyArray<NotificationDataPropertyValueType> {
-    return array.filter((item) => item.id !== id);
+    data: NotificationData
+  ): NotificationData {
+    return data.filter((entry) => entry.id !== id);
+  }
+
+  private loadNotifications(): Observable<
+    ReadonlyArray<NotificationDataEntry>
+  > {
+    return this.userSettings.getNotificationData().pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          this.isAuthenticated$.next(false);
+          return [];
+        }
+        return throwError(() => err);
+      })
+    );
   }
 }

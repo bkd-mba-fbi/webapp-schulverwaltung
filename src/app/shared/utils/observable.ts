@@ -9,7 +9,7 @@ import {
   Observable,
   defer,
 } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, tap, map } from 'rxjs/operators';
 
 export function catch404<T, O extends ObservableInput<any>>(
   returnValue?: any
@@ -18,7 +18,7 @@ export function catch404<T, O extends ObservableInput<any>>(
     if (error instanceof HttpErrorResponse && error.status === 404) {
       return of(returnValue || null);
     } else {
-      return throwError(error);
+      return throwError(() => error);
     }
   });
 }
@@ -49,4 +49,19 @@ export function prepare<T>(
       callback();
       return source;
     });
+}
+
+/**
+ * Converts emitted values to `defaultValue` if `undefined` or
+ * `null`. Also emits `defaultValue` if source Observable completes
+ * without having emitted any value.
+ */
+export function defaultValue<T>(
+  defaultValue: T
+): OperatorFunction<Maybe<T>, T> {
+  return ($input) =>
+    $input.pipe(
+      map((value) => (value == null ? defaultValue : value)),
+      defaultIfEmpty(defaultValue)
+    );
 }

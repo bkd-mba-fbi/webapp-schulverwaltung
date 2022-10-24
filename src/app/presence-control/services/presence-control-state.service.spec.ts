@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import * as t from 'io-ts/lib/index';
+import { of } from 'rxjs';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceControlStateService } from './presence-control-state.service';
@@ -17,9 +18,9 @@ import { DropDownItem } from '../../shared/models/drop-down-item.model';
 import { fromLesson } from '../models/lesson-entry.model';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { Person } from '../../shared/models/person.model';
-import { UserSetting } from 'src/app/shared/models/user-setting.model';
 import { PresenceControlGroupService } from './presence-control-group.service';
 import { StorageService } from '../../shared/services/storage.service';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 
 describe('PresenceControlStateService', () => {
   let service: PresenceControlStateService;
@@ -45,8 +46,6 @@ describe('PresenceControlStateService', () => {
   let mathEinstein3: LessonPresence;
   let mathEinstein4: LessonPresence;
 
-  let userSettings: UserSetting[];
-
   beforeEach(() => {
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date(2000, 0, 23, 8, 30));
@@ -62,6 +61,14 @@ describe('PresenceControlStateService', () => {
             useValue: {
               getPayload(): Option<object> {
                 return { id_person: '3' };
+              },
+            },
+          },
+          {
+            provide: UserSettingsService,
+            useValue: {
+              getPresenceControlViewMode() {
+                return of({ Id: 'Cst', Settings: [] });
               },
             },
           },
@@ -90,8 +97,6 @@ describe('PresenceControlStateService', () => {
 
     otherAbsences = [];
     person = buildPerson(3);
-
-    userSettings = [];
 
     turnenFrisch = buildLessonPresence(
       1,
@@ -189,8 +194,6 @@ describe('PresenceControlStateService', () => {
 
     expect(selectedLessonCb).toHaveBeenCalledWith(null);
     expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([]);
-
-    expectCstRequest();
   });
 
   it('initially selects the current lesson', () => {
@@ -216,8 +219,6 @@ describe('PresenceControlStateService', () => {
       buildPresenceControlEntry(deutschEinsteinAbwesend, absent),
       buildPresenceControlEntry(deutschFrisch),
     ]);
-
-    expectCstRequest();
   });
 
   describe('.setDate', () => {
@@ -255,8 +256,6 @@ describe('PresenceControlStateService', () => {
       expect(selectedPresenceControlEntriesCb).toHaveBeenCalledWith([
         buildPresenceControlEntry(werkenFrisch),
       ]);
-
-      expectCstRequest();
     });
   });
 
@@ -299,8 +298,6 @@ describe('PresenceControlStateService', () => {
       expect(entries[0].presenceType).toBe(absent);
 
       expectLoadOtherTeachersAbsencesRequest([], person.Id, [66]);
-
-      expectCstRequest();
     });
   });
 
@@ -319,8 +316,6 @@ describe('PresenceControlStateService', () => {
         .subscribe((result) =>
           expect(result).toEqual([mathEinstein1, mathEinstein2, mathEinstein3])
         );
-
-      expectCstRequest();
     });
 
     it('returns single lesson for the given entry', () => {
@@ -332,8 +327,6 @@ describe('PresenceControlStateService', () => {
       service
         .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
         .subscribe((result) => expect(result).toEqual([deutschFrisch]));
-
-      expectCstRequest();
     });
   });
 
@@ -352,13 +345,6 @@ describe('PresenceControlStateService', () => {
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
       .flush(t.array(LessonPresence).encode(response));
-  }
-
-  function expectCstRequest(response = userSettings): void {
-    const url = 'https://eventotest.api/UserSettings/Cst';
-    httpTestingController
-      .expectOne(url)
-      .flush(t.array(UserSetting).encode(response));
   }
 
   function expectPresenceTypesRequest(response = presenceTypes): void {
