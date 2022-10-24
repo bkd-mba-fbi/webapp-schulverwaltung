@@ -11,6 +11,7 @@ interface LessonPresenceOption {
 @Component({
   selector: 'erz-presence-control-block-lesson-component',
   templateUrl: './presence-control-block-lesson.component.html',
+  styleUrls: ['presence-control-block-lesson.component.scss'],
 })
 export class PresenceControlBlockLessonComponent implements OnInit {
   @Input() entry: PresenceControlEntry;

@@ -15,18 +15,25 @@
         (change)="option.selected = !option.selected"
       />
       <label
-        class="form-check-label d-block text-truncate"
+        class="form-check-label d-block"
         [class.fw-bold]="
           option.lessonPresence.LessonDateTimeFrom ===
           entry.lessonPresence.LessonDateTimeFrom
         "
         for="lesson-presence-{{ i }}"
       >
-        {{ option.lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-          option.lessonPresence.LessonDateTimeTo | date: 'HH:mm'
-        }}
-        {{ option.lessonPresence.EventDesignation }}</label
-      >
+        <div class="d-flex">
+          <i class="{{ entry.presenceCategory }} material-icons pe-2">{{
+            entry.presenceCategoryIcon
+          }}</i>
+          <div class="d-block text-truncate">
+            {{ option.lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
+              option.lessonPresence.LessonDateTimeTo | date: 'HH:mm'
+            }}
+            {{ option.lessonPresence.EventDesignation }}
+          </div>
+        </div>
+      </label>
     </div>
   </form>
 </div>

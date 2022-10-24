@@ -1,7 +1,21 @@
+@import "../../../../bootstrap-variables";
+
 .checkbox input.form-check-input {
   // Make the following statements !important since the are
   // overwritten in Evento as such
   position: static !important;
   margin: 0 !important;
   display: block;
+}
+
+.absent {
+  color: $absent-color;
+}
+
+.present {
+  color: $present-color;
+}
+
+.unapproved {
+  color: $unapproved-color;
 }
