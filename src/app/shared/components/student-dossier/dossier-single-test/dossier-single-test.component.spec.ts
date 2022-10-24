@@ -4,7 +4,11 @@ import { Grade, GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { buildResult, buildTest } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { expectNotInTheDocument, expectText } from 'src/specs/expectations';
+import {
+  expectElementPresent,
+  expectNotInTheDocument,
+  expectText,
+} from 'src/specs/expectations';
 
 import { DossierSingleTestComponent } from './dossier-single-test.component';
 
@@ -92,6 +96,22 @@ describe('DossierSingleTestComponent', () => {
 
     fixture.detectChanges();
     expectNotInTheDocument(debugElement, 'test-status');
+  });
+
+  it('should hide edit icon if teacher is not the owner', () => {
+    test.IsOwner = false;
+    component.isEditable = true;
+
+    fixture.detectChanges();
+    expectNotInTheDocument(debugElement, 'test-grade-edit-icon');
+  });
+
+  it('should show edit icon if teacher is the owner', () => {
+    test.IsOwner = true;
+    component.isEditable = true;
+
+    fixture.detectChanges();
+    expectElementPresent(fixture.debugElement, 'test-grade-edit-icon');
   });
 
   describe('grades and points', () => {
