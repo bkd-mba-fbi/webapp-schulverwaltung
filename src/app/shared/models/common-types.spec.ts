@@ -1,5 +1,5 @@
 import { LocalDateTimeFromString, LocalDateFromString } from './common-types';
-import { fold } from 'fp-ts/lib/Either';
+import { fold } from 'fp-ts/es6/Either';
 import { parseISOLocalDateTime, parseISOLocalDate } from '../utils/date';
 
 describe('common types', () => {

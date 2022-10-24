@@ -14,7 +14,7 @@ import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
-import { not } from 'fp-ts/lib/function';
+import { not } from 'fp-ts/es6/function';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 import { PersonsRestService } from '../../../shared/services/persons-rest.service';
 
