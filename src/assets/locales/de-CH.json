@@ -282,6 +282,7 @@
     "average": "Mittelwert",
     "no-tests": "Keine Tests vorhanden",
     "no-grades": "Keine Noten vorhanden",
+    "no-courses": "Keine Anlässe vorhanden",
     "dialog": {
       "grade": "Note",
       "points": "Punkte",
