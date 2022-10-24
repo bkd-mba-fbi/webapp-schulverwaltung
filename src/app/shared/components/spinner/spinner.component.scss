@@ -13,4 +13,10 @@
   :host:not(.inline) & {
     margin-top: 100px;
   }
+  :host(.small) & {
+    width: 2rem;
+    height: 2rem;
+    --bs-spinner-vertical-align: -0.2em;
+    --bs-spinner-border-width: 0.15em;
+  }
 }

@@ -1,0 +1,8 @@
+<input
+  type="checkbox"
+  [attr.id]="id ?? fallbackId"
+  [disabled]="disabled"
+  [ngModel]="value"
+  (ngModelChange)="valueChange.emit($event)"
+/>
+<label [attr.for]="id ?? fallbackId">{{ label }}</label>

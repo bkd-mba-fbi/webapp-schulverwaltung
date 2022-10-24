@@ -1,9 +1,9 @@
-import { GroupViewType } from '../models/user-setting.model';
+import { PresenceControlGroupViewEntry } from '../models/user-settings.model';
 import { updateGroupViewSettings } from './user-settings';
 
 describe('user settings', () => {
   describe('.updateGroupViewSettings', () => {
-    let existingSettings: ReadonlyArray<GroupViewType>;
+    let existingSettings: ReadonlyArray<PresenceControlGroupViewEntry>;
 
     it('adds new group view to empty settings', () => {
       existingSettings = [];

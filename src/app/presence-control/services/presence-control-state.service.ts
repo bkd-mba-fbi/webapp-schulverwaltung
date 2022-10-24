@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { Params } from '@angular/router';
-import { format, isToday } from 'date-fns';
+import { format } from 'date-fns';
 import { isEqual, uniq } from 'lodash-es';
 import {
   BehaviorSubject,
@@ -12,28 +12,18 @@ import {
   timer,
 } from 'rxjs';
 import {
-  defaultIfEmpty,
   distinctUntilChanged,
-  filter,
   map,
-  mergeAll,
   shareReplay,
+  skip,
   startWith,
   switchMap,
   take,
   takeUntil,
 } from 'rxjs/operators';
 import { Settings, SETTINGS } from 'src/app/settings';
-import {
-  BaseProperty,
-  UserSetting,
-  ViewModeType,
-} from 'src/app/shared/models/user-setting.model';
-import { UserSettingsRestService } from 'src/app/shared/services/user-settings-rest.service';
 import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
-import { decode } from 'src/app/shared/utils/decode';
 import { serializeParams } from 'src/app/shared/utils/url';
-import { buildUserSetting } from 'src/spec-builders';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { PresenceType } from '../../shared/models/presence-type.model';
 import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
@@ -41,7 +31,6 @@ import { LessonPresencesRestService } from '../../shared/services/lesson-presenc
 import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
 import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
 import { LoadingService } from '../../shared/services/loading-service';
-import { PersonsRestService } from '../../shared/services/persons-rest.service';
 import { PresenceTypesService } from '../../shared/services/presence-types.service';
 import { spread } from '../../shared/utils/function';
 import { filterByGroup } from '../../shared/utils/presence-control-entries';
@@ -60,14 +49,11 @@ import {
 import { canChangePresenceType } from '../utils/presence-types';
 import { PresenceControlGroupService } from './presence-control-group.service';
 import { StorageService } from '../../shared/services/storage.service';
+import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
+import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 
-export enum ViewMode {
-  Grid = 'grid',
-  List = 'list',
-}
-
-export const VIEW_MODES: ReadonlyArray<string> = Object.keys(ViewMode).map(
-  (k) => (ViewMode as any)[k]
+export const VIEW_MODES: ReadonlyArray<string> = Object.values(
+  PresenceControlViewMode
 );
 
 @Injectable()
@@ -78,7 +64,7 @@ export class PresenceControlStateService
 
   private selectedDateSubject$ = new BehaviorSubject(new Date());
   private selectLesson$ = new Subject<Option<LessonEntry>>();
-  private viewModeSubject$ = new Subject<ViewMode>();
+  private viewModeSubject$ = new Subject<PresenceControlViewMode>();
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
 
   private lessonPresences$ = merge(
@@ -167,8 +153,8 @@ export class PresenceControlStateService
 
   viewMode$ = merge(
     this.viewModeSubject$,
-    this.getSavedViewMode().pipe(take(1), defaultIfEmpty(ViewMode.Grid))
-  );
+    this.userSettings.getPresenceControlViewMode().pipe(take(1))
+  ).pipe(distinctUntilChanged());
   selectedDate$ = this.selectedDateSubject$.asObservable();
 
   queryParamsString$ = combineLatest([
@@ -180,11 +166,10 @@ export class PresenceControlStateService
   private destroy$ = new Subject<void>();
 
   constructor(
-    private settingsService: UserSettingsRestService,
+    private userSettings: UserSettingsService,
     private lessonPresencesService: LessonPresencesRestService,
     private lessonTeacherService: LessonTeachersRestService,
     private presenceTypesService: PresenceTypesService,
-    private personsService: PersonsRestService,
     private groupService: PresenceControlGroupService,
     private dropDownItemsService: DropDownItemsRestService,
     private loadingService: LoadingService,
@@ -199,11 +184,11 @@ export class PresenceControlStateService
         this.confirmBackLinkParams = { returnparams };
       });
 
-    this.viewModeSubject$
+    this.viewMode$
       .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged(),
-        switchMap((v) => this.updateSavedViewMode(v))
+        skip(1), // Only save the view mode setting when changed by user, not on initial loading
+        switchMap((v) => this.userSettings.savePresenceControlViewMode(v)),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
@@ -230,7 +215,7 @@ export class PresenceControlStateService
     this.selectLesson$.next(lesson);
   }
 
-  setViewMode(mode: ViewMode): void {
+  setViewMode(mode: PresenceControlViewMode): void {
     this.viewModeSubject$.next(mode);
   }
 
@@ -367,7 +352,7 @@ export class PresenceControlStateService
   private buildQueryParams(
     date: Date,
     lessonEntry: Option<LessonEntry>,
-    viewMode: ViewMode
+    viewMode: PresenceControlViewMode
   ): Params {
     const params: Params = {
       date: format(date, 'yyyy-MM-dd'),
@@ -377,40 +362,6 @@ export class PresenceControlStateService
       params.lesson = String(lessonEntry.id);
     }
     return params;
-  }
-
-  private getSavedViewMode(): Observable<ViewMode> {
-    return this.settingsService.getUserSettingsCst().pipe(
-      map<UserSetting, BaseProperty[]>((i) => i.Settings),
-      mergeAll(),
-      filter((i) => i.Key === 'presenceControlViewMode'),
-      take(1),
-      map((v) => JSON.parse(v.Value)),
-      switchMap(decode(ViewModeType)),
-      map((v) => this.getViewModeForString(v.presenceControl)),
-      shareReplay()
-    );
-  }
-
-  private getViewModeForString(viewMode: string): ViewMode {
-    if (viewMode === ViewMode.List) {
-      return ViewMode.List;
-    } else {
-      return ViewMode.Grid;
-    }
-  }
-
-  private updateSavedViewMode(viewMode: ViewMode): Observable<any> {
-    const propertyBody: ViewModeType = {
-      presenceControl: viewMode,
-    };
-    const body: BaseProperty = {
-      Key: 'presenceControlViewMode',
-      Value: JSON.stringify(propertyBody),
-    };
-    const cst = Object.assign({}, buildUserSetting());
-    cst.Settings.push(body);
-    return this.settingsService.updateUserSettingsCst(cst);
   }
 
   private getMyself(): number {

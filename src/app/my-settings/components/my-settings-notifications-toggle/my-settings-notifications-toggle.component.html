@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center">
+  <label [attr.for]="id" class="flex-fill">
+    {{ label }}
+  </label>
+  <erz-switch [id]="id" [(value)]="value" [disabled]="disabled"></erz-switch>
+</div>
+<div *ngIf="description" class="form-text">
+  <div *ngFor="let line of descriptionLines">
+    {{ line }}
+  </div>
+</div>

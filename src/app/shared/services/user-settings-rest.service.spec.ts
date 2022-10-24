@@ -3,9 +3,9 @@ import { HttpTestingController } from '@angular/common/http/testing';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { UserSettingsRestService } from './user-settings-rest.service';
-import { buildUserSettingWithNotificationSetting } from 'src/spec-builders';
+import { buildUserSettingsWithNotificationSetting } from 'src/spec-builders';
 import { isEqual } from 'lodash';
-import { UserSetting } from '../models/user-setting.model';
+import { UserSettings } from '../models/user-settings.model';
 
 describe('UserSettingsRestService', () => {
   let service: UserSettingsRestService;
@@ -20,7 +20,7 @@ describe('UserSettingsRestService', () => {
   afterEach(() => httpTestingController.verify());
 
   it('updates cst setting of the current user', () => {
-    const settings = buildUserSettingWithNotificationSetting(true, true, true);
+    const settings = buildUserSettingsWithNotificationSetting(true, true, true);
 
     service.updateUserSettingsCst(settings);
 
@@ -48,13 +48,13 @@ describe('UserSettingsRestService', () => {
   });
 
   it('request cst settings of the current user', () => {
-    const settings = buildUserSettingWithNotificationSetting(true, true, true);
+    const settings = buildUserSettingsWithNotificationSetting(true, true, true);
     service.getUserSettingsCst().subscribe((result) => {
       expect(result).toBe(settings);
     });
     const url = 'https://eventotest.api/UserSettings/Cst';
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
-      .flush(UserSetting.encode(settings));
+      .flush(UserSettings.encode(settings));
   });
 });

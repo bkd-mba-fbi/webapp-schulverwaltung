@@ -45,6 +45,43 @@ export const settings: Settings = {
     editAbsences: 'LessonTeacherRole;ClassTeacherRole',
   },
   notificationRefreshTime: 30,
+  notificationTypes: {
+    BM2Student: {
+      de: {
+        label: 'BM2Student label de',
+        description: 'BM2Student description de',
+      },
+      fr: {
+        label: 'BM2Student label fr',
+        description: 'BM2Student description fr',
+      },
+    },
+    gradePublish: {
+      de: {
+        label: 'gradePublish label de',
+        description: 'gradePublish description de',
+      },
+      fr: {
+        label: 'gradePublish label fr',
+        description: 'gradePublish description fr',
+      },
+    },
+  },
+  notificationTypesAssignments: [
+    {
+      roles: ['StudentRole'],
+      types: ['BM2Student', 'gradePublish'],
+    },
+    {
+      roles: ['LessonTeacherRole', 'ClassTeacherRole', 'TeacherRole'],
+      types: [
+        'BM2Teacher',
+        'absenceMessage',
+        'absenceMessageTeacher',
+        'teacherSubstitutions',
+      ],
+    },
+  ],
   eventlist: {
     eventdetail: 'link-to-event-detail-module.aspx?IDAnlass',
     evaluation: 'link-to-evaluation-module.aspx?IDAnlass',

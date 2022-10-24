@@ -12,9 +12,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject } from 'rxjs';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { ViewMode } from '../../services/presence-control-state.service';
 import { PresenceControlPrecedingAbsenceComponent } from '../presence-control-preceding-absence/presence-control-preceding-absence.component';
 import { ToastService } from '../../../shared/services/toast.service';
+import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -24,7 +24,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 export class PresenceControlEntryComponent implements OnChanges {
   @Input() entry: PresenceControlEntry;
   @Input() hasUnconfirmedAbsences = false;
-  @Input() viewMode: ViewMode;
+  @Input() viewMode: PresenceControlViewMode;
   @Input() profileReturnParams?: Params;
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
@@ -51,7 +51,7 @@ export class PresenceControlEntryComponent implements OnChanges {
   }
 
   get isListViewMode(): boolean {
-    return this.viewMode === ViewMode.List;
+    return this.viewMode === PresenceControlViewMode.List;
   }
 
   updatePresenceType(entry: PresenceControlEntry): void {

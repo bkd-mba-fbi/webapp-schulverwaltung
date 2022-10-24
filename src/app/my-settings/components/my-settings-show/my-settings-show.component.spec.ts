@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MySettingsService } from '../../services/my-settings.service';
-import { MySettingsNotificationsComponent } from '../my-settings-notifications/my-settings-notifications.component';
 
+import { StorageService } from 'src/app/shared/services/storage.service';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { MySettingsNotificationsComponent } from '../my-settings-notifications/my-settings-notifications.component';
 import { MySettingsShowComponent } from './my-settings-show.component';
 
 describe('MySettingsShowComponent', () => {
@@ -12,10 +12,19 @@ describe('MySettingsShowComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        providers: [MySettingsService],
         declarations: [
           MySettingsShowComponent,
           MySettingsNotificationsComponent,
+        ],
+        providers: [
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): any {
+                return { id_person: '123' };
+              },
+            },
+          },
         ],
       })
     ).compileComponents();
