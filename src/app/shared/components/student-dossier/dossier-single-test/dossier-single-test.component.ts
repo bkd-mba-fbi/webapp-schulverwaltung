@@ -21,12 +21,12 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
     </div>
     <div class="grade">
       <a
-        *ngIf="isEditable; else notEditable"
+        *ngIf="isEditable && this.test.IsOwner; else notEditable"
         class="btn btn-link"
         aria-label="edit grade"
         (click)="editGrading(test)"
       >
-        <i class="material-icons">edit</i>
+        <i class="material-icons" data-testid="test-grade-edit-icon">edit</i>
         <span data-testid="test-grade">{{ grading$ | async }}</span>
       </a>
       <ng-template #notEditable>
