@@ -62,11 +62,13 @@
             ></div>
           </div>
           <div class="pt-1 text-end">
-            <i
+            <button
+              type="button"
               (click)="deleteNotification(entry.id)"
-              class="btn p-0 material-icons notifications-delete-notification"
-              >delete</i
+              class="btn btn-link p-0 notifications-delete-notification"
             >
+              <i class="material-icons">delete</i>
+            </button>
           </div>
         </div>
       </div>
