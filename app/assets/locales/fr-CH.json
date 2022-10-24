@@ -282,6 +282,7 @@
     "average": "Moyenne",
     "no-tests": "Aucun test disponible",
     "no-grades": "Aucune note disponible",
+    "no-courses": "Aucun événement disponible",
     "dialog": {
       "grade": "Note",
       "points": "Points",
