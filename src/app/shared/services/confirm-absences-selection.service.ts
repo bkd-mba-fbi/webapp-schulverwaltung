@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { map, shareReplay, take } from 'rxjs/operators';
-import { not } from 'fp-ts/lib/function';
+import { not } from 'fp-ts/es6/function';
 
 import { SelectionService } from 'src/app/shared/services/selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
