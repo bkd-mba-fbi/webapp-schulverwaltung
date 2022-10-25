@@ -21,7 +21,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
     </div>
     <div class="grade">
       <a
-        *ngIf="isEditable && this.test.IsOwner; else notEditable"
+        *ngIf="isEditable && test.IsOwner; else notEditable"
         class="btn btn-link"
         aria-label="edit grade"
         (click)="editGrading(test)"
