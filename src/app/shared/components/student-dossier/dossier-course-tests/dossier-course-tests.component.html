@@ -7,8 +7,10 @@
     [gradingScale]="
       dossierGradeService.getGradingScaleOfCourse(course, gradingScales)
     "
+    [grades]="
+      dossierGradeService.getGradesForStudent(course, studentId, gradingScales)
+    "
   ></erz-dossier-grades-final-grade>
-
   <erz-dossier-single-test
     *ngFor="let test of sortedTests()"
     [test]="test"

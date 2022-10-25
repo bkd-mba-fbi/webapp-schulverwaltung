@@ -21,6 +21,13 @@
                   gradingScales
                 )
               "
+              [grades]="
+                dossierGradeService.getGradesForStudent(
+                  course,
+                  studentId,
+                  gradingScales
+                )
+              "
             ></erz-dossier-grades-course-header>
           </erz-student-dossier-entry-header>
         </ng-template>

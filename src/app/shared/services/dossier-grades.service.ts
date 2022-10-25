@@ -18,6 +18,7 @@ import { GradingScalesRestService } from './grading-scales-rest.service';
 import { LoadingService } from './loading-service';
 import { ReportsService } from './reports.service';
 import { SubscriptionsRestService } from './subscriptions-rest.service';
+import { gradingScaleOfTest, resultOfStudent } from '../../events/utils/tests';
 
 @Injectable()
 export class DossierGradesService {
@@ -92,6 +93,33 @@ export class DossierGradesService {
   getGradingScaleOfCourse(course: Course, gradingScales: GradingScale[]) {
     return gradingScales?.find(
       (gradingScale) => gradingScale.Id === course.GradingScaleId
+    );
+  }
+
+  getGradesForStudent(
+    course: Course,
+    studentId: number,
+    gradingScales: GradingScale[]
+  ): number[] {
+    return (
+      course.Tests?.flatMap((test) =>
+        this.getGrade(test, studentId, gradingScales)
+      ).filter((grade): grade is number => !!grade) || []
+    );
+  }
+
+  private getGrade(
+    test: Test,
+    studentId: number,
+    gradingScales: GradingScale[]
+  ): number | null {
+    return (
+      Number(
+        gradingScaleOfTest(test, gradingScales)?.Grades.find(
+          (grade) =>
+            grade.Id === (resultOfStudent(studentId, test)?.GradeId || null)
+        )?.Designation
+      ) || null
     );
   }
 
