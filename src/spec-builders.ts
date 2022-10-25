@@ -605,6 +605,7 @@ export function buildFinalGrading(id: number): FinalGrading {
     StudentNameTooltip: 'Scheidegger Mona',
     Grade: '4.5',
     GradeValue: 4.5,
+    AverageTestResult: 4.512,
     IsAdequate: true,
     GradeComment: null,
     Id: id,
