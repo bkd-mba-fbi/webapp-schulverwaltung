@@ -3,7 +3,7 @@
   [header]="toast.header"
   [class]="toast.type"
   [autohide]="true"
-  (hiddden)="toastService.remove(toast)"
+  (hidden)="toastService.remove(toast)"
 >
   <div class="d-flex gap-2">
     <i class="material-icons">{{ getIcon(toast) }}</i>
