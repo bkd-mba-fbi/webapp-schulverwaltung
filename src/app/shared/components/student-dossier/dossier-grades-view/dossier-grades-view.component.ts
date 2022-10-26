@@ -7,13 +7,14 @@ import {
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { Subject } from 'rxjs';
+import { average } from '../../../utils/math';
 
 export interface CourseWithGrades {
   course: Course;
   finalGrade?: FinalGrading;
   grading?: Grading;
   gradingScale?: GradingScale;
-  grades: number[];
+  average: number;
 }
 
 @Component({
@@ -39,12 +40,19 @@ export class DossierGradesViewComponent {
 
   private decorateCourses(): CourseWithGrades[] {
     return this.courses?.map((course) => {
+      const finalGrade = this.dossierGradeService.getFinalGradeForStudent(
+        course,
+        this.studentId
+      );
+      const grades = this.dossierGradeService.getGradesForStudent(
+        course,
+        this.studentId,
+        this.gradingScales
+      );
+
       return {
         course,
-        finalGrade: this.dossierGradeService.getFinalGradeForStudent(
-          course,
-          this.studentId
-        ),
+        finalGrade,
         grading: this.dossierGradeService.getGradingForStudent(
           course,
           this.studentId
@@ -53,11 +61,7 @@ export class DossierGradesViewComponent {
           course,
           this.gradingScales
         ),
-        grades: this.dossierGradeService.getGradesForStudent(
-          course,
-          this.studentId,
-          this.gradingScales
-        ),
+        average: finalGrade?.AverageTestResult || average(grades),
       };
     });
   }
