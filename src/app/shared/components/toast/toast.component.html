@@ -1,12 +1,12 @@
 <ngb-toast
   *ngFor="let toast of toastService.toasts"
   [header]="toast.header"
-  [class]="toast.type"
+  [class]="toast.classname"
   [autohide]="true"
   (hidden)="toastService.remove(toast)"
 >
   <div class="d-flex gap-2">
-    <i class="material-icons">{{ getIcon(toast) }}</i>
+    <i class="material-icons">{{ toast.icon }}</i>
     <span>{{ toast.message }}</span>
   </div>
 </ngb-toast>
