@@ -13,7 +13,7 @@ import { DecimalPipe } from '@angular/common';
     </div>
     <div>{{ 'dossier.average' | translate }}</div>
     <div data-testid="average-test-results">
-      <span>{{ average | number: '1.0-3' }}</span>
+      <span>{{ average === 0 ? '-' : (average | number: '1.0-3') }}</span>
     </div>
   </div>`,
   styleUrls: ['./dossier-grades-final-grade.component.scss'],

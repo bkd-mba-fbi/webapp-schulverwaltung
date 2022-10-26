@@ -47,4 +47,10 @@ describe('DossierGradesFinalGradeComponent', () => {
   it('should show average test result from gradings', () => {
     expectText(debugElement, 'average-test-results', '4.233');
   });
+
+  it('should show dash if average is zero', () => {
+    component.average = 0;
+    fixture.detectChanges();
+    expectText(debugElement, 'average-test-results', '-');
+  });
 });
