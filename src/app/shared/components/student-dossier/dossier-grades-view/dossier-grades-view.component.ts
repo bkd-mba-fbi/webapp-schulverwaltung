@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import {
   Course,
   FinalGrading,
@@ -22,7 +22,7 @@ export interface CourseWithGrades {
   templateUrl: './dossier-grades-view.component.html',
   styleUrls: ['./dossier-grades-view.component.scss'],
 })
-export class DossierGradesViewComponent {
+export class DossierGradesViewComponent implements OnChanges {
   @Input() courses: Course[];
   @Input() studentId: number;
   @Input() gradingScales: GradingScale[];
