@@ -32,6 +32,7 @@ describe('DossierGradesFinalGradeComponent', () => {
     grading = { AverageTestResult: 4.233333 } as unknown as Grading;
     component.finalGrade = finalGrade;
     component.grading = grading;
+    component.grades = [4.233333];
     fixture.detectChanges();
   });
 

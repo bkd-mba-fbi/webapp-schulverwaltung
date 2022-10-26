@@ -24,7 +24,7 @@ export class DossierGradesFinalGradeComponent {
   @Input() finalGrade: Option<FinalGrading>;
   @Input() grading: Option<Grading>;
   @Input() gradingScale: Option<GradingScale>;
-  @Input() grades: number[];
+  @Input() grades: number[] = [];
 
   constructor(private decimalPipe: DecimalPipe) {}
 
