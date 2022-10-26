@@ -1,11 +1,19 @@
 import { Component, Input } from '@angular/core';
-import { Course } from 'src/app/shared/models/course.model';
+import {
+  Course,
+  FinalGrading,
+  Grading,
+} from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { Subject } from 'rxjs';
 
-interface CourseWithGrades {
+export interface CourseWithGrades {
   course: Course;
+  finalGrade?: FinalGrading;
+  grading?: Grading;
+  gradingScale?: GradingScale;
+  grades: number[];
 }
 
 @Component({
@@ -21,7 +29,6 @@ export class DossierGradesViewComponent {
 
   constructor(public dossierGradeService: DossierGradesService) {}
 
-  // TODO change type
   decoratedCoursesSubject$: Subject<CourseWithGrades[]> = new Subject<
     CourseWithGrades[]
   >();
@@ -34,6 +41,23 @@ export class DossierGradesViewComponent {
     return this.courses?.map((course) => {
       return {
         course,
+        finalGrade: this.dossierGradeService.getFinalGradeForStudent(
+          course,
+          this.studentId
+        ),
+        grading: this.dossierGradeService.getGradingForStudent(
+          course,
+          this.studentId
+        ),
+        gradingScale: this.dossierGradeService.getGradingScaleOfCourse(
+          course,
+          this.gradingScales
+        ),
+        grades: this.dossierGradeService.getGradesForStudent(
+          course,
+          this.studentId,
+          this.gradingScales
+        ),
       };
     });
   }

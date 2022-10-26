@@ -14,37 +14,16 @@
           >
             <erz-dossier-grades-course-header
               [designation]="decoratedCourse.course.Designation"
-              [finalGrade]="
-                dossierGradeService.getFinalGradeForStudent(
-                  decoratedCourse.course,
-                  studentId
-                )
-              "
-              [grading]="
-                dossierGradeService.getGradingForStudent(
-                  decoratedCourse.course,
-                  studentId
-                )
-              "
-              [gradingScale]="
-                dossierGradeService.getGradingScaleOfCourse(
-                  decoratedCourse.course,
-                  gradingScales
-                )
-              "
-              [grades]="
-                dossierGradeService.getGradesForStudent(
-                  decoratedCourse.course,
-                  studentId,
-                  gradingScales
-                )
-              "
+              [finalGrade]="decoratedCourse.finalGrade"
+              [grading]="decoratedCourse.grading"
+              [gradingScale]="decoratedCourse.gradingScale"
+              [grades]="decoratedCourse.grades"
             ></erz-dossier-grades-course-header>
           </erz-student-dossier-entry-header>
         </ng-template>
         <ng-template ngbPanelContent>
           <erz-dossier-course-tests
-            [course]="decoratedCourse.course"
+            [decoratedCourse]="decoratedCourse"
             [studentId]="studentId"
             [gradingScales]="gradingScales"
             [isEditable]="isEditable"
