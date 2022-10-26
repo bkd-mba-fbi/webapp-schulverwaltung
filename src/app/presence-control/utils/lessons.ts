@@ -68,7 +68,7 @@ export function getLessonPresencesForLesson(
 function getPrecedingAbsences(
   otherTeachersAbsences: ReadonlyArray<LessonAbsence>,
   lessonPresence: LessonPresence,
-  lesson: Option<LessonEntry>
+  lesson: Option<LessonEntry> | undefined
 ): ReadonlyArray<LessonAbsence> {
   return uniqBy(
     otherTeachersAbsences.filter(
@@ -91,32 +91,47 @@ export function getPresenceControlEntriesForLesson(
   otherTeachersAbsences: ReadonlyArray<LessonAbsence>
 ): ReadonlyArray<PresenceControlEntry> {
   return getLessonPresencesForLesson(lesson, lessonPresences).map(
-    (lessonPresence) => {
-      let presenceType = null;
-      if (lessonPresence.TypeRef.Id) {
-        presenceType =
-          presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
-      }
-
-      const precedingAbsences = getPrecedingAbsences(
-        otherTeachersAbsences,
+    (lessonPresence) =>
+      getPresenceControlEntry(
+        lesson,
         lessonPresence,
-        lesson
-      );
+        presenceTypes,
+        confirmationStates,
+        otherTeachersAbsences
+      )
+  );
+}
 
-      let confirmationState;
-      if (lessonPresence.ConfirmationStateId) {
-        confirmationState = confirmationStates.find(
-          (s) => s.Key === lessonPresence.ConfirmationStateId
-        );
-      }
-      return new PresenceControlEntry(
-        lessonPresence,
-        presenceType,
-        precedingAbsences,
-        confirmationState
-      );
-    }
+export function getPresenceControlEntry(
+  lesson: Option<LessonEntry> | undefined,
+  lessonPresence: LessonPresence,
+  presenceTypes: ReadonlyArray<PresenceType>,
+  confirmationStates: ReadonlyArray<DropDownItem>,
+  otherTeachersAbsences: ReadonlyArray<LessonAbsence>
+): PresenceControlEntry {
+  let presenceType = null;
+  if (lessonPresence.TypeRef.Id) {
+    presenceType =
+      presenceTypes.find((t) => t.Id === lessonPresence.TypeRef.Id) || null;
+  }
+
+  const precedingAbsences = getPrecedingAbsences(
+    otherTeachersAbsences,
+    lessonPresence,
+    lesson
+  );
+
+  let confirmationState;
+  if (lessonPresence.ConfirmationStateId) {
+    confirmationState = confirmationStates.find(
+      (s) => s.Key === lessonPresence.ConfirmationStateId
+    );
+  }
+  return new PresenceControlEntry(
+    lessonPresence,
+    presenceType,
+    precedingAbsences,
+    confirmationState
   );
 }
 

@@ -314,7 +314,11 @@ describe('PresenceControlStateService', () => {
       service
         .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
         .subscribe((result) =>
-          expect(result).toEqual([mathEinstein1, mathEinstein2, mathEinstein3])
+          expect(result).toEqual([
+            buildPresenceControlEntry(mathEinstein1),
+            buildPresenceControlEntry(mathEinstein2),
+            buildPresenceControlEntry(mathEinstein3),
+          ])
         );
     });
 
@@ -326,7 +330,7 @@ describe('PresenceControlStateService', () => {
 
       service
         .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
-        .subscribe((result) => expect(result).toEqual([deutschFrisch]));
+        .subscribe((result) => expect(result).toEqual([buildPresenceControlEntry(deutschFrisch)]));
     });
   });
 
