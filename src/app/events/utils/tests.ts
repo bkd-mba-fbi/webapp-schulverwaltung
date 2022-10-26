@@ -60,10 +60,14 @@ export function sortByDate(tests: Test[]) {
     .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
 }
 
-// TODO replace in dossier course test component
-export function gradingScaleOfTest(test: Test, gradingScales: GradingScale[]) {
-  return gradingScales?.find(
-    (gradingScale) => gradingScale.Id === test.GradingScaleId
+export function gradingScaleOfTest(
+  test: Test,
+  gradingScales: GradingScale[]
+): Option<GradingScale> {
+  return (
+    gradingScales?.find(
+      (gradingScale) => gradingScale.Id === test.GradingScaleId
+    ) || null
   );
 }
 
