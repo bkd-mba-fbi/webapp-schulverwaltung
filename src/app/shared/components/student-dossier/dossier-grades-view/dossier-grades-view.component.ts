@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Course } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'erz-dossier-grades-view',
@@ -15,4 +16,16 @@ export class DossierGradesViewComponent {
   @Input() isEditable: boolean = true;
 
   constructor(public dossierGradeService: DossierGradesService) {}
+
+  // TODO change type
+  decoratedCoursesSubject$: Subject<Course[]> = new Subject<Course[]>();
+
+  ngOnChanges() {
+    this.decoratedCoursesSubject$.next(this.decorateCourses());
+  }
+
+  private decorateCourses() {
+    // TODO add data
+    return this.courses;
+  }
 }

@@ -1,5 +1,5 @@
 <ng-container *ngIf="courses?.length > 0; else noCourses">
-  <div *ngFor="let course of courses; let i = index">
+  <div *ngFor="let course of decoratedCoursesSubject$ | async; let i = index">
     <ngb-accordion #acc="ngbAccordion">
       <ngb-panel [id]="'course-' + i">
         <ng-template ngbPanelHeader let-opened="opened">
