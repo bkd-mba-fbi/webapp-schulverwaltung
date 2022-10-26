@@ -4,6 +4,10 @@ import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { Subject } from 'rxjs';
 
+interface CourseWithGrades {
+  course: Course;
+}
+
 @Component({
   selector: 'erz-dossier-grades-view',
   templateUrl: './dossier-grades-view.component.html',
@@ -18,14 +22,19 @@ export class DossierGradesViewComponent {
   constructor(public dossierGradeService: DossierGradesService) {}
 
   // TODO change type
-  decoratedCoursesSubject$: Subject<Course[]> = new Subject<Course[]>();
+  decoratedCoursesSubject$: Subject<CourseWithGrades[]> = new Subject<
+    CourseWithGrades[]
+  >();
 
   ngOnChanges() {
     this.decoratedCoursesSubject$.next(this.decorateCourses());
   }
 
-  private decorateCourses() {
-    // TODO add data
-    return this.courses;
+  private decorateCourses(): CourseWithGrades[] {
+    return this.courses?.map((course) => {
+      return {
+        course,
+      };
+    });
   }
 }

@@ -1,5 +1,10 @@
 <ng-container *ngIf="courses?.length > 0; else noCourses">
-  <div *ngFor="let course of decoratedCoursesSubject$ | async; let i = index">
+  <div
+    *ngFor="
+      let decoratedCourse of decoratedCoursesSubject$ | async;
+      let i = index
+    "
+  >
     <ngb-accordion #acc="ngbAccordion">
       <ngb-panel [id]="'course-' + i">
         <ng-template ngbPanelHeader let-opened="opened">
@@ -8,22 +13,28 @@
             (click)="acc.toggle('course-' + i)"
           >
             <erz-dossier-grades-course-header
-              [designation]="course.Designation"
+              [designation]="decoratedCourse.course.Designation"
               [finalGrade]="
-                dossierGradeService.getFinalGradeForStudent(course, studentId)
+                dossierGradeService.getFinalGradeForStudent(
+                  decoratedCourse.course,
+                  studentId
+                )
               "
               [grading]="
-                dossierGradeService.getGradingForStudent(course, studentId)
+                dossierGradeService.getGradingForStudent(
+                  decoratedCourse.course,
+                  studentId
+                )
               "
               [gradingScale]="
                 dossierGradeService.getGradingScaleOfCourse(
-                  course,
+                  decoratedCourse.course,
                   gradingScales
                 )
               "
               [grades]="
                 dossierGradeService.getGradesForStudent(
-                  course,
+                  decoratedCourse.course,
                   studentId,
                   gradingScales
                 )
@@ -33,7 +44,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <erz-dossier-course-tests
-            [course]="course"
+            [course]="decoratedCourse.course"
             [studentId]="studentId"
             [gradingScales]="gradingScales"
             [isEditable]="isEditable"
