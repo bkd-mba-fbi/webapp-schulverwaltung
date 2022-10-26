@@ -41,7 +41,10 @@ import {
   getCurrentLessonEntry,
 } from '../utils/lesson-entries';
 import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
-import { getPresenceControlEntriesForLesson } from '../utils/lessons';
+import {
+  getPresenceControlEntriesForLesson,
+  getPresenceControlEntry,
+} from '../utils/lessons';
 import {
   getCategoryCount,
   getPrecedingAbsencesCount,
@@ -263,12 +266,14 @@ export class PresenceControlStateService
    */
   getBlockLessonPresences(
     entry: PresenceControlEntry
-  ): Observable<ReadonlyArray<LessonPresence>> {
+  ): Observable<ReadonlyArray<PresenceControlEntry>> {
     return combineLatest([
       this.lessonPresences$.pipe(take(1)),
       this.presenceTypes$.pipe(take(1)),
+      this.absenceConfirmationStates$,
+      this.otherTeachersAbsences$,
     ]).pipe(
-      map(([presences, types]) =>
+      map(([presences, types, confirmationStates, otherTeachersAbsences]) =>
         presences
           .filter(
             (presence) =>
@@ -297,6 +302,17 @@ export class PresenceControlStateService
                 : [presence];
             }
           }, [] as Array<LessonPresence>)
+          .map((presence) =>
+            getPresenceControlEntry(
+              extractLessonEntries(presences).find(
+                (lesson) => lesson.id === presence.LessonRef.Id.toString()
+              ),
+              presence,
+              types,
+              confirmationStates,
+              otherTeachersAbsences
+            )
+          )
       )
     );
   }
