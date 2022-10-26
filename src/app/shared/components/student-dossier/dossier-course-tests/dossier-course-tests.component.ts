@@ -3,7 +3,7 @@ import { Course } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
-import { sortByDate } from '../../../../events/utils/tests';
+import { gradingScaleOfTest, sortByDate } from '../../../../events/utils/tests';
 
 @Component({
   selector: 'erz-dossier-course-tests',
@@ -22,9 +22,8 @@ export class DossierCourseTestsComponent {
     if (!this.course.Tests) return [];
     return sortByDate(this.course.Tests);
   }
+
   getGradingScaleOfTest(test: Test) {
-    return this.gradingScales.find(
-      (gradingScale) => gradingScale.Id === test.GradingScaleId
-    );
+    return gradingScaleOfTest(test, this.gradingScales);
   }
 }
