@@ -10,7 +10,7 @@ import {
 } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course, FinalGrading, Grading } from '../models/course.model';
-import { GradingScale } from '../models/grading-scale.model';
+import { Grade, GradingScale } from '../models/grading-scale.model';
 import { Test } from '../models/test.model';
 import { notNull, unique } from '../utils/filter';
 import { CoursesRestService } from './courses-rest.service';
@@ -102,24 +102,15 @@ export class DossierGradesService {
     gradingScales: GradingScale[]
   ): number[] {
     return (
-      course.Tests?.flatMap((test) =>
-        this.getGrade(test, studentId, gradingScales)
-      ).filter((grade): grade is number => !!grade) || []
-    );
-  }
-
-  private getGrade(
-    test: Test,
-    studentId: number,
-    gradingScales: GradingScale[]
-  ): number | null {
-    return (
-      Number(
-        gradingScaleOfTest(test, gradingScales)?.Grades.find(
-          (grade) =>
-            grade.Id === (resultOfStudent(studentId, test)?.GradeId || null)
-        )?.Designation
-      ) || null
+      course.Tests?.flatMap(
+        (test: Test) =>
+          gradingScaleOfTest(test, gradingScales)?.Grades.find(
+            (grade: Grade) =>
+              grade.Id === resultOfStudent(studentId, test)?.GradeId
+          )?.Designation
+      )
+        .map((gradeDesignation) => Number(gradeDesignation))
+        .filter((grade): grade is number => !!grade) || []
     );
   }
 
