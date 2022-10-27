@@ -8,16 +8,4 @@ import { ToastService } from '../../services/toast.service';
 })
 export class ToastComponent {
   constructor(public toastService: ToastService) {}
-
-  getIcon(toast: any): string {
-    switch (toast.type) {
-      case 'error':
-        return 'cancel';
-      case 'warning':
-        return 'help';
-      case 'success':
-      default:
-        return 'check_circle';
-    }
-  }
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-export interface ToastInfo {
+interface ToastInfo {
   message: string;
-  type: 'success' | 'error' | 'warning';
   header?: string;
+  classname?: string;
+  icon?: 'check_circle' | 'cancel' | 'help';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -13,18 +14,47 @@ export class ToastService {
   constructor() {}
 
   success(message: string, header?: string) {
-    this.toasts.push({ message, header, type: 'success' });
+    this.addUnique({
+      message,
+      header,
+      classname: 'bg-success text-light',
+      icon: 'check_circle',
+    });
   }
 
   error(message: string, header?: string) {
-    this.toasts.push({ message, header, type: 'error' });
+    this.addUnique({
+      message,
+      header,
+      classname: 'bg-danger text-light',
+      icon: 'cancel',
+    });
   }
 
   warning(message: string, header?: string) {
-    this.toasts.push({ message, header, type: 'warning' });
+    this.addUnique({
+      message,
+      header,
+      classname: 'bg-warning',
+      icon: 'help',
+    });
   }
 
   remove(toast: ToastInfo) {
     this.toasts = this.toasts.filter((t) => t != toast);
+  }
+
+  private addUnique(toast: ToastInfo): void {
+    if (!this.exists(toast)) {
+      this.toasts.push(toast);
+    }
+  }
+
+  private exists(toast: ToastInfo) {
+    return this.toasts.find(
+      (existingToast) =>
+        existingToast.message === toast.message &&
+        existingToast.header === toast.header
+    );
   }
 }
