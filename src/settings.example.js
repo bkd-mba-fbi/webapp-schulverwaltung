@@ -113,4 +113,9 @@ window.schulverwaltung.settings = {
     statusfilter:
       '14030;14025;14017;14020;10350;10335;10355;10315;10330;10325;10320;10340;10345;10230;10225;10240;10250;10260;10217;10235;10220;10226;10227;10250;10300;10305;10310',
   },
+  /**
+   * My absences
+   */
+  // Instance IDs of schools where students cannot report absences after lessons have started
+  preventStudentAbsenceAfterLessonStart: [],
 };
