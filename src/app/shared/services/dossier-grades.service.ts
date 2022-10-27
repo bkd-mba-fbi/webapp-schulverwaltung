@@ -110,7 +110,7 @@ export class DossierGradesService {
           )?.Designation
       )
         .map((gradeDesignation) => Number(gradeDesignation))
-        .filter((grade): grade is number => !!grade) || []
+        .filter((grade) => Boolean(grade)) || []
     );
   }
 
