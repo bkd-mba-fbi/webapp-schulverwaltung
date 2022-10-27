@@ -7,13 +7,14 @@ import { expectText } from 'src/specs/expectations';
 import { DossierCourseTestsComponent } from './dossier-course-tests.component';
 import { DossierGradesService } from '../../../services/dossier-grades.service';
 import { StorageService } from '../../../services/storage.service';
+import { CourseWithGrades } from '../dossier-grades-view/dossier-grades-view.component';
 
 describe('DossierCourseTestsComponent', () => {
   let component: DossierCourseTestsComponent;
   let fixture: ComponentFixture<DossierCourseTestsComponent>;
   let debugElement: DebugElement;
 
-  let course: Course;
+  let course: CourseWithGrades;
   let gradingScale: GradingScale;
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -35,13 +36,13 @@ describe('DossierCourseTestsComponent', () => {
   });
 
   beforeEach(() => {
-    course = { Tests: [] } as unknown as Course;
+    course = { course: { Tests: [] } } as unknown as CourseWithGrades;
     gradingScale = {
       Grades: [],
     } as unknown as GradingScale;
     fixture = TestBed.createComponent(DossierCourseTestsComponent);
     component = fixture.componentInstance;
-    component.course = course;
+    component.decoratedCourse = course;
     component.gradingScales = [gradingScale];
 
     fixture.detectChanges();
@@ -53,8 +54,8 @@ describe('DossierCourseTestsComponent', () => {
   });
 
   it('should show message course has no tests', () => {
-    course = { Tests: [] } as unknown as Course;
-    component.course = course;
+    course = { course: { Tests: [] } } as unknown as CourseWithGrades;
+    component.decoratedCourse = course;
     fixture.detectChanges();
     expectText(debugElement, 'message-no-tests', 'dossier.no-tests');
   });

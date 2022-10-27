@@ -1,8 +1,9 @@
 import { Result, Test } from 'src/app/shared/models/test.model';
-import { buildResult, buildTest } from 'src/spec-builders';
+import { buildGradingScale, buildResult, buildTest } from 'src/spec-builders';
 import {
   averageGrade,
   averagePoints,
+  gradingScaleOfTest,
   maxPoints,
   removeTestById,
   replaceResult,
@@ -10,6 +11,7 @@ import {
   sortByDate,
   toggleIsPublished,
 } from './tests';
+import { GradingScale } from '../../shared/models/grading-scale.model';
 
 describe('Test utils', () => {
   describe('update test results', () => {
@@ -181,6 +183,28 @@ describe('Test utils', () => {
       t3.Date = new Date('2022-04-04T08:00:00');
 
       expect(sortByDate([t1, t2, t3])[0]).toBe(t3);
+    });
+  });
+
+  describe('find grading scale', () => {
+    it('should return the grading scale for the given test', () => {
+      const gradingScales: GradingScale[] = [
+        buildGradingScale(1),
+        buildGradingScale(2),
+      ];
+      const test = buildTest(1, 1, []);
+      test.GradingScaleId = gradingScales[0].Id;
+      expect(gradingScaleOfTest(test, gradingScales)).toBe(gradingScales[0]);
+    });
+
+    it('should return null if scale is not found', () => {
+      const gradingScales: GradingScale[] = [
+        buildGradingScale(1),
+        buildGradingScale(2),
+      ];
+      const test = buildTest(1, 1, []);
+      test.GradingScaleId = 3;
+      expect(gradingScaleOfTest(test, gradingScales)).toBeNull();
     });
   });
 });

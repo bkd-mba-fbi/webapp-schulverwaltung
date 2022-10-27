@@ -43,6 +43,7 @@ const FinalGrading = t.type({
   Grade: t.string,
   GradeComment: Option(t.string),
   GradeValue: Option(t.number),
+  AverageTestResult: t.number,
   // HRef: t.string,
   Id: t.number,
   IsAdequate: t.boolean,

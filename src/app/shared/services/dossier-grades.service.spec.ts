@@ -1,12 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { buildCourse, buildStudent } from 'src/spec-builders';
+import {
+  buildCourse,
+  buildGradingScale,
+  buildResult,
+  buildStudent,
+  buildTest,
+} from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { Course, FinalGrading, Grading } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 import { DossierGradesService } from './dossier-grades.service';
 import { GradingScalesRestService } from './grading-scales-rest.service';
 import { StorageService } from './storage.service';
+import { Grade } from '../models/grading-scale.model';
 
 describe('DossierGradesService', () => {
   let service: DossierGradesService;
@@ -136,6 +143,23 @@ describe('DossierGradesService', () => {
       expect(service.getGradingForStudent(course, studentId)).toEqual(
         expectedGrading
       );
+    });
+  });
+
+  describe('getGradesForStudent', () => {
+    it('should return an array with student grade', () => {
+      const gradingScales = [
+        buildGradingScale(1106, [
+          { Designation: 5.5, Id: 2349 } as unknown as Grade,
+        ]),
+      ];
+      const studentId = 1234;
+      const course = buildCourse(333);
+      course.Tests = [buildTest(course.Id, 1, [buildResult(1, studentId)])];
+
+      expect(
+        service.getGradesForStudent(course, studentId, gradingScales)
+      ).toEqual([5.5]);
     });
   });
 });

@@ -1,5 +1,6 @@
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { average } from 'src/app/shared/utils/math';
+import { GradingScale } from '../../shared/models/grading-scale.model';
 
 export function replaceResult(result: Result, tests: Test[]): Test[] {
   return tests.map((test) =>
@@ -57,6 +58,17 @@ export function sortByDate(tests: Test[]) {
   return tests
     .slice()
     .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
+}
+
+export function gradingScaleOfTest(
+  test: Test,
+  gradingScales: GradingScale[]
+): Option<GradingScale> {
+  return (
+    gradingScales?.find(
+      (gradingScale) => gradingScale.Id === test.GradingScaleId
+    ) || null
+  );
 }
 
 function extractGrades(test: Test) {

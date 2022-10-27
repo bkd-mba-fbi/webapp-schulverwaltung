@@ -3,6 +3,7 @@ import { FinalGrading, Grading } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import * as Gradings from 'src/app/shared/utils/gradings';
 import { DecimalPipe } from '@angular/common';
+
 @Component({
   selector: 'erz-dossier-grades-final-grade',
   template: `<div class="final-entry">
@@ -12,7 +13,7 @@ import { DecimalPipe } from '@angular/common';
     </div>
     <div>{{ 'dossier.average' | translate }}</div>
     <div data-testid="average-test-results">
-      <span>{{ average }}</span>
+      <span>{{ average === 0 ? '-' : (average | number: '1.0-3') }}</span>
     </div>
   </div>`,
   styleUrls: ['./dossier-grades-final-grade.component.scss'],
@@ -22,18 +23,11 @@ export class DossierGradesFinalGradeComponent {
   @Input() finalGrade: Option<FinalGrading>;
   @Input() grading: Option<Grading>;
   @Input() gradingScale: Option<GradingScale>;
+  @Input() average: number;
 
-  constructor(private decimalPipe: DecimalPipe) {}
+  constructor() {}
 
   getGradeForStudent() {
     return Gradings.evaluate(this.grading, this.finalGrade, this.gradingScale);
-  }
-
-  get average(): string | number {
-    if (!this.grading) return '-';
-    if (this.grading?.AverageTestResult === 0) return '-';
-    return (
-      this.decimalPipe.transform(this.grading.AverageTestResult, '1.0-3') ?? '-'
-    );
   }
 }

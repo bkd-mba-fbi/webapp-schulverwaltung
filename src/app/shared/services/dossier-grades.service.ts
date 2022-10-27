@@ -10,7 +10,7 @@ import {
 } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course, FinalGrading, Grading } from '../models/course.model';
-import { GradingScale } from '../models/grading-scale.model';
+import { Grade, GradingScale } from '../models/grading-scale.model';
 import { Test } from '../models/test.model';
 import { notNull, unique } from '../utils/filter';
 import { CoursesRestService } from './courses-rest.service';
@@ -18,6 +18,7 @@ import { GradingScalesRestService } from './grading-scales-rest.service';
 import { LoadingService } from './loading-service';
 import { ReportsService } from './reports.service';
 import { SubscriptionsRestService } from './subscriptions-rest.service';
+import { gradingScaleOfTest, resultOfStudent } from '../../events/utils/tests';
 
 @Injectable()
 export class DossierGradesService {
@@ -92,6 +93,24 @@ export class DossierGradesService {
   getGradingScaleOfCourse(course: Course, gradingScales: GradingScale[]) {
     return gradingScales?.find(
       (gradingScale) => gradingScale.Id === course.GradingScaleId
+    );
+  }
+
+  getGradesForStudent(
+    course: Course,
+    studentId: number,
+    gradingScales: GradingScale[]
+  ): number[] {
+    return (
+      course.Tests?.flatMap(
+        (test: Test) =>
+          gradingScaleOfTest(test, gradingScales)?.Grades.find(
+            (grade: Grade) =>
+              grade.Id === resultOfStudent(studentId, test)?.GradeId
+          )?.Designation
+      )
+        .map((gradeDesignation) => Number(gradeDesignation))
+        .filter((grade) => Boolean(grade)) || []
     );
   }
 

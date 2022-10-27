@@ -13,15 +13,12 @@ export class DossierGradesCourseHeaderComponent {
   @Input() finalGrade: Option<FinalGrading>;
   @Input() grading: Option<Grading>;
   @Input() gradingScale: Option<GradingScale>;
+  @Input() average: number;
 
   constructor() {}
 
   get grade() {
     return this.getGradeForStudent();
-  }
-
-  get average() {
-    return this.grading?.AverageTestResult;
   }
 
   private getGradeForStudent() {

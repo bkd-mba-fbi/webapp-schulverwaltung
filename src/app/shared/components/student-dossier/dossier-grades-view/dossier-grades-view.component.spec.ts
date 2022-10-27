@@ -5,6 +5,7 @@ import { expectText } from 'src/specs/expectations';
 import { DossierGradesViewComponent } from './dossier-grades-view.component';
 import { DossierGradesService } from '../../../services/dossier-grades.service';
 import { StorageService } from '../../../services/storage.service';
+import { buildCourse } from '../../../../../spec-builders';
 
 describe('DossierGradesViewComponent', () => {
   let component: DossierGradesViewComponent;
@@ -36,6 +37,11 @@ describe('DossierGradesViewComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     debugElement = fixture.debugElement;
+  });
+
+  it('should render component', () => {
+    component.courses = [buildCourse(1)];
+    fixture.detectChanges();
   });
 
   it('should show message that indicates that there are no courses', () => {

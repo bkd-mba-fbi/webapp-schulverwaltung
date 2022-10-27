@@ -30,12 +30,6 @@ export class MyGradesService {
       courses
         .slice()
         .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation))
-        .map((course) => {
-          return {
-            ...course,
-            Tests: course.Tests?.filter((test) => test.IsPublished) || null,
-          };
-        })
     )
   );
   private studentCourseIds$ = this.studentCourses$.pipe(
