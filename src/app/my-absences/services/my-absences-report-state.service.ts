@@ -1,15 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { Params } from '@angular/router';
-import { Observable, of, combineLatest } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
-import { format, subDays, addDays } from 'date-fns';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { addDays, format, subDays } from 'date-fns';
 
 import { SETTINGS, Settings } from 'src/app/settings';
 import {
-  PaginatedEntriesService,
   PAGE_LOADING_CONTEXT,
+  PaginatedEntriesService,
 } from 'src/app/shared/services/paginated-entries.service';
 import { Paginated } from 'src/app/shared/utils/pagination';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -73,6 +73,11 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       );
     return this.loadingService.load(
       this.loadTimetableEntries(params).pipe(
+        map((entries) =>
+          this.preventAbsenceAfterStart()
+            ? entries.filter((entry) => entry.From >= new Date())
+            : entries
+        ),
         switchMap((entries) =>
           combineLatest([
             of(entries),
@@ -100,6 +105,12 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       params.dateTo = format(dateTo, 'yyyy-MM-dd');
     }
     return params;
+  }
+
+  private preventAbsenceAfterStart(): boolean {
+    const currentInstanceId = this.storageService.getPayload()?.instance_id;
+    const instanceIds = this.settings.preventStudentAbsenceAfterLessonStart;
+    return currentInstanceId ? instanceIds.includes(currentInstanceId) : false;
   }
 
   private buildRequestParamsFromFilter(
