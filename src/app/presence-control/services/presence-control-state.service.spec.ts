@@ -301,7 +301,7 @@ describe('PresenceControlStateService', () => {
     });
   });
 
-  describe('.getBlockLessonPresences', () => {
+  describe('.getBlockLessonPresenceControlEntries', () => {
     afterEach(() => {
       httpTestingController.verify();
     });
@@ -312,7 +312,9 @@ describe('PresenceControlStateService', () => {
       expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service
-        .getBlockLessonPresences(buildPresenceControlEntry(mathEinstein1))
+        .getBlockLessonPresenceControlEntries(
+          buildPresenceControlEntry(mathEinstein1)
+        )
         .subscribe((result) =>
           expect(result).toEqual([
             buildPresenceControlEntry(mathEinstein1),
@@ -329,8 +331,10 @@ describe('PresenceControlStateService', () => {
       expectLoadOtherTeachersAbsencesRequest([], person.Id);
 
       service
-        .getBlockLessonPresences(buildPresenceControlEntry(deutschFrisch))
-        .subscribe((result) => expect(result).toEqual([buildPresenceControlEntry(deutschFrisch)]));
+        .getBlockLessonPresenceControlEntries(buildPresenceControlEntry(deutschFrisch))
+        .subscribe((result) =>
+          expect(result).toEqual([buildPresenceControlEntry(deutschFrisch)])
+        );
     });
   });
 

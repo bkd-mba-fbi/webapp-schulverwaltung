@@ -10,7 +10,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
 
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { searchEntries } from 'src/app/shared/utils/search';
 import { spread } from '../../../shared/utils/function';
@@ -67,13 +66,15 @@ export class PresenceControlListComponent
 
   doTogglePresenceType(
     entry: PresenceControlEntry,
-    lessonPresences?: ReadonlyArray<LessonPresence>
+    selectedPresenceControlEntries?: ReadonlyArray<PresenceControlEntry>
   ): void {
     this.state
       .getNextPresenceType(entry)
       .subscribe((newPresenceType) =>
         this.lessonPresencesUpdateService.updatePresenceTypes(
-          lessonPresences ? lessonPresences : [entry.lessonPresence],
+          selectedPresenceControlEntries
+            ? selectedPresenceControlEntries
+            : [entry],
           newPresenceType ? newPresenceType.Id : null
         )
       );
@@ -81,32 +82,42 @@ export class PresenceControlListComponent
 
   togglePresenceType(entry: PresenceControlEntry): void {
     this.state
-      .getBlockLessonPresences(entry)
+      .getBlockLessonPresenceControlEntries(entry)
       .pipe(take(1))
-      .subscribe((lessonPresences) => {
-        if (lessonPresences.length === 1) {
-          this.doTogglePresenceType(entry);
-        } else {
-          const modalRef = this.modalService.open(
-            PresenceControlBlockLessonComponent
-          );
-          modalRef.componentInstance.entry = entry;
-          modalRef.componentInstance.blockLessonPresences = lessonPresences;
-          modalRef.result.then(
-            (selectedPresences) => {
-              if (selectedPresences) {
-                this.doTogglePresenceType(entry, selectedPresences);
-              }
-            },
-            () => {}
-          );
+      .subscribe(
+        (presenceControlEntries: ReadonlyArray<PresenceControlEntry>) => {
+          if (presenceControlEntries.length === 1) {
+            this.doTogglePresenceType(entry);
+          } else {
+            const modalRef = this.modalService.open(
+              PresenceControlBlockLessonComponent
+            );
+            modalRef.componentInstance.entry = entry;
+            modalRef.componentInstance.blockPresenceControlEntries =
+              presenceControlEntries;
+            modalRef.result.then(
+              (selectedPresenceControlEntries) => {
+                if (selectedPresenceControlEntries) {
+                  console.log(
+                    'selectedPresenceControlEntries',
+                    selectedPresenceControlEntries
+                  );
+                  this.doTogglePresenceType(
+                    entry,
+                    selectedPresenceControlEntries
+                  );
+                }
+              },
+              () => {}
+            );
+          }
         }
-      });
+      );
   }
 
   updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
     this.lessonPresencesUpdateService.updatePresenceTypes(
-      [entry.lessonPresence],
+      [entry],
       presenceTypeId
     );
   }

@@ -22,6 +22,7 @@ import { getNewConfirmationStateId } from 'src/app/presence-control/utils/presen
 import { PresenceTypesService } from './presence-types.service';
 import { PresenceType } from '../models/presence-type.model';
 import { ToastService } from './toast.service';
+import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
@@ -100,11 +101,13 @@ export class LessonPresencesUpdateService implements OnDestroy {
   }
 
   updatePresenceTypes(
-    lessonPresences: ReadonlyArray<LessonPresence>,
+    selectedPresenceControlEntries: ReadonlyArray<PresenceControlEntry>,
     newPresenceTypeId: Option<number> = null
   ): void {
-    lessonPresences.forEach((p) =>
-      this.dispatchAddUpdate(p, newPresenceTypeId)
+    selectedPresenceControlEntries.forEach(
+      (selectedEntry: PresenceControlEntry) => {
+        this.dispatchAddUpdate(selectedEntry.lessonPresence, newPresenceTypeId);
+      }
     );
   }
 
@@ -251,6 +254,8 @@ export class LessonPresencesUpdateService implements OnDestroy {
     presence: LessonPresence,
     newPresenceTypeId: Option<number>
   ): void {
+    console.log('presence', presence);
+    console.log('newPresenceTypeId', newPresenceTypeId);
     this.action$.next({
       type: UpdateActionTypes.AddUpdateAction,
       payload: { presence, newPresenceTypeId },

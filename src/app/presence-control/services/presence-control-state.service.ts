@@ -264,7 +264,7 @@ export class PresenceControlStateService
    *
    * Lesson presences for which the presence type cannot be updated are filtered from the list of block lesson presences
    */
-  getBlockLessonPresences(
+  getBlockLessonPresenceControlEntries(
     entry: PresenceControlEntry
   ): Observable<ReadonlyArray<PresenceControlEntry>> {
     return combineLatest([
