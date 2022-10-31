@@ -26,10 +26,17 @@ export class PresenceControlBlockLessonComponent implements OnInit {
     );
   }
 
-  getSelectedLessonPresences(): ReadonlyArray<LessonPresence> {
-    return this.lessonPresenceOptions
-      .filter((option: LessonPresenceOption) => option.selected)
-      .map((option: LessonPresenceOption) => option.lessonPresence);
+  getSelectedEntries(): ReadonlyArray<PresenceControlEntry> {
+    return this.blockPresenceControlEntries.filter(
+      (entry: PresenceControlEntry) => {
+        return this.lessonPresenceOptions
+          .filter((option: LessonPresenceOption) => option.selected)
+          .filter((option: LessonPresenceOption) => option.selected)
+          .map((option: LessonPresenceOption) => {
+            return entry.lessonPresence.Id == option.lessonPresence.Id;
+          });
+      }
+    );
   }
 
   createLessonPresenceOption(

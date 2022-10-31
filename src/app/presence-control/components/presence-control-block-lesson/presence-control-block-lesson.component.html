@@ -44,8 +44,8 @@
   <button
     type="button"
     class="btn btn-primary"
-    (click)="activeModal.close(getSelectedLessonPresences())"
-    [disabled]="getSelectedLessonPresences().length === 0"
+    (click)="activeModal.close(getSelectedEntries())"
+    [disabled]="getSelectedEntries().length === 0"
   >
     {{ 'presence-control.block-lesson.save' | translate }}
   </button>

@@ -3,6 +3,7 @@ import { of, throwError } from 'rxjs';
 import { withConfig } from 'src/app/rest-error-interceptor';
 import {
   buildLessonPresence,
+  buildPresenceControlEntry,
   buildPresenceType,
   buildReference,
 } from 'src/spec-builders';
@@ -17,6 +18,7 @@ import {
 } from './lesson-presences-update.service';
 import { PresenceTypesService } from './presence-types.service';
 import { ToastService } from './toast.service';
+import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
 
 describe('LessonPresencesUpdateService', () => {
   let service: LessonPresencesUpdateService;
@@ -32,6 +34,10 @@ describe('LessonPresencesUpdateService', () => {
   let deutschEinsteinAbwesend: LessonPresence;
   let deutschFrisch: LessonPresence;
   let deutschWalser: LessonPresence;
+
+  let entryDeutschEinsteinAbwesend: PresenceControlEntry;
+  let entryDeutschWalser: PresenceControlEntry;
+  let entryDeutschFrisch: PresenceControlEntry;
 
   absent = buildPresenceType(11, true, false);
   late = buildPresenceType(12, false, true);
@@ -113,13 +119,19 @@ describe('LessonPresencesUpdateService', () => {
       'Walser Robert'
     );
     deutschWalser.StudentRef = buildReference(30);
+
+    entryDeutschEinsteinAbwesend = buildPresenceControlEntry(
+      deutschEinsteinAbwesend
+    );
+    entryDeutschWalser = buildPresenceControlEntry(deutschWalser);
+    entryDeutschFrisch = buildPresenceControlEntry(deutschFrisch);
   });
 
   describe('.updatePresenceTypes', () => {
     it('updates presence type of given lesson presences, performing only one request if executed within debounce time', fakeAsync(() => {
       // Change Einstein & Frisch to 'late'
       service.updatePresenceTypes(
-        [deutschEinsteinAbwesend, deutschFrisch],
+        [entryDeutschEinsteinAbwesend, entryDeutschWalser],
         late.Id
       );
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
@@ -143,7 +155,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // Also change Walser to 'late' after half the debounce time, updates state
-      service.updatePresenceTypes([deutschWalser], late.Id);
+      service.updatePresenceTypes([entryDeutschWalser], late.Id);
       tick(UPDATE_STATE_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
@@ -187,7 +199,7 @@ describe('LessonPresencesUpdateService', () => {
       deutschWalser.TypeRef.Id = 123;
 
       (restServiceMock.editLessonPresences as jasmine.Spy).and.callFake(
-        (lessonIds, personIds, newPresenceTypeId) => {
+        (lessonIds, personIds) => {
           if (personIds.includes(deutschWalser.StudentRef.Id)) {
             return throwError('error thrown in mock');
           }
@@ -197,10 +209,10 @@ describe('LessonPresencesUpdateService', () => {
 
       // Change Einstein & Frisch to 'late', Walser to 'absent'
       service.updatePresenceTypes(
-        [deutschEinsteinAbwesend, deutschFrisch],
+        [entryDeutschEinsteinAbwesend, entryDeutschFrisch],
         late.Id
       );
-      service.updatePresenceTypes([deutschWalser], absent.Id);
+      service.updatePresenceTypes([entryDeutschWalser], absent.Id);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
@@ -247,7 +259,7 @@ describe('LessonPresencesUpdateService', () => {
 
     it('it executes remove request for entries set to "present"', fakeAsync(() => {
       // Change Einstein to 'present'
-      service.updatePresenceTypes([deutschEinsteinAbwesend], null);
+      service.updatePresenceTypes([entryDeutschEinsteinAbwesend], null);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
