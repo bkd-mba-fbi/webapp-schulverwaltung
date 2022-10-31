@@ -33,6 +33,7 @@ import {
   EditAbsencesStateService,
 } from '../../services/edit-absences-state.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TeacherResourcesRestService } from '../../../shared/services/teacher-resources-rest.service';
 
 @Component({
   selector: 'erz-edit-absences-header',
@@ -99,6 +100,7 @@ export class EditAbsencesHeaderComponent {
     public studentsService: StudentsRestService,
     public educationalEventsService: EducationalEventsRestService,
     public studyClassService: StudyClassesRestService,
+    public teacherResourcesService: TeacherResourcesRestService,
     private state: EditAbsencesStateService,
     private translate: TranslateService
   ) {}
