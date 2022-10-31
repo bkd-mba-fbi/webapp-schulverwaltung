@@ -28,6 +28,7 @@ describe('PresenceControlListComponent', () => {
   let jenni: PresenceControlEntry;
   let absence: PresenceType;
   let blockLessons: Array<LessonPresence>;
+  let lessonPresence: LessonPresence;
 
   let selectedPresenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
   let selectedPresenceControlEntriesByGroup$: BehaviorSubject<
@@ -58,6 +59,16 @@ describe('PresenceControlListComponent', () => {
     absence = buildPresenceType(2, true, false);
     blockLessons = [jenni.lessonPresence];
 
+    lessonPresence = buildLessonPresence(
+      2,
+      new Date(2000, 0, 23, 8, 0),
+      new Date(2000, 0, 23, 9, 0),
+      'Deutsch',
+      'Einstein Albert',
+      'Dora Durrer',
+      absence.Id
+    );
+
     stateServiceMock = {
       loading$: of(false),
       lessons$: of([lesson]),
@@ -67,8 +78,8 @@ describe('PresenceControlListComponent', () => {
       getNextPresenceType: jasmine
         .createSpy('getNextPresenceType')
         .and.callFake(() => of(absence)),
-      getBlockLessonPresences: jasmine
-        .createSpy('getBlockLessonPresences')
+      getBlockLessonPresenceControlEntries: jasmine
+        .createSpy('getBlockLessonPresenceControlEntries')
         .and.callFake(() => of(blockLessons)),
       hasUnconfirmedAbsences: () => of(false),
       viewMode$: of(),
@@ -139,6 +150,7 @@ describe('PresenceControlListComponent', () => {
     beforeEach(() => {});
 
     it('updates given entry without block lesson dialog', () => {
+      bichsel.lessonPresence = lessonPresence;
       component.togglePresenceType(bichsel);
       expect(
         lessonPresencesUpdateServiceMock.updatePresenceTypes
