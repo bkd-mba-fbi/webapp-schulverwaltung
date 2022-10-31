@@ -15,13 +15,14 @@ interface LessonPresenceOption {
 })
 export class PresenceControlBlockLessonComponent implements OnInit {
   @Input() entry: PresenceControlEntry;
-  @Input() blockLessonPresences: ReadonlyArray<LessonPresence>;
+  @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
   lessonPresenceOptions: ReadonlyArray<LessonPresenceOption> = [];
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
-    this.lessonPresenceOptions = this.blockLessonPresences.map(
-      (lessonPresence) => this.createLessonPresenceOption(lessonPresence)
+    this.lessonPresenceOptions = this.blockPresenceControlEntries.map(
+      (presenceControlEntry: PresenceControlEntry) =>
+        this.createLessonPresenceOption(presenceControlEntry.lessonPresence)
     );
   }
 

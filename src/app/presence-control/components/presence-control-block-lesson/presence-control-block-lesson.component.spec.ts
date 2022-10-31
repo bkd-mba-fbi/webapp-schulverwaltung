@@ -20,7 +20,7 @@ describe('PresenceControlBlockLessonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlBlockLessonComponent);
     component = fixture.componentInstance;
-    component.blockLessonPresences = [];
+    component.blockPresenceControlEntries = [];
     fixture.detectChanges();
   });
 
