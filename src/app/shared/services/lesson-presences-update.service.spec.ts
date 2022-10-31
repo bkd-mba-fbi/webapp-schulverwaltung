@@ -131,7 +131,7 @@ describe('LessonPresencesUpdateService', () => {
     it('updates presence type of given lesson presences, performing only one request if executed within debounce time', fakeAsync(() => {
       // Change Einstein & Frisch to 'late'
       service.updatePresenceTypes(
-        [entryDeutschEinsteinAbwesend, entryDeutschWalser],
+        [entryDeutschEinsteinAbwesend, entryDeutschFrisch],
         late.Id
       );
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
