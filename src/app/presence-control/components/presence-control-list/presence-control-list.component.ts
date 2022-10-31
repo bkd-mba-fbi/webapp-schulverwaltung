@@ -98,10 +98,6 @@ export class PresenceControlListComponent
             modalRef.result.then(
               (selectedPresenceControlEntries) => {
                 if (selectedPresenceControlEntries) {
-                  console.log(
-                    'selectedPresenceControlEntries',
-                    selectedPresenceControlEntries
-                  );
                   this.doTogglePresenceType(
                     entry,
                     selectedPresenceControlEntries

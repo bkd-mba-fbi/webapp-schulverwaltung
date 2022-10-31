@@ -254,8 +254,6 @@ export class LessonPresencesUpdateService implements OnDestroy {
     presence: LessonPresence,
     newPresenceTypeId: Option<number>
   ): void {
-    console.log('presence', presence);
-    console.log('newPresenceTypeId', newPresenceTypeId);
     this.action$.next({
       type: UpdateActionTypes.AddUpdateAction,
       payload: { presence, newPresenceTypeId },

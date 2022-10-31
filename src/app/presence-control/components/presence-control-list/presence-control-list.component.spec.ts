@@ -142,14 +142,14 @@ describe('PresenceControlListComponent', () => {
       component.togglePresenceType(bichsel);
       expect(
         lessonPresencesUpdateServiceMock.updatePresenceTypes
-      ).toHaveBeenCalledWith([bichsel.lessonPresence], absence.Id);
+      ).toHaveBeenCalledWith([bichsel], absence.Id);
     });
 
     it('updates given entry to next presence type', () => {
       component.doTogglePresenceType(bichsel);
       expect(
         lessonPresencesUpdateServiceMock.updatePresenceTypes
-      ).toHaveBeenCalledWith([bichsel.lessonPresence], absence.Id);
+      ).toHaveBeenCalledWith([bichsel], absence.Id);
     });
   });
 
