@@ -12,6 +12,7 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "plugins": ["deprecation"],
       "rules": {
         "@angular-eslint/component-selector": [
           "error",
@@ -39,12 +40,10 @@
         "no-restricted-imports": [
           "error",
           {
-            "patterns": [
-              // Use fp-ts/es6 instead of fp-ts/lib
-              "fp-ts/lib/*"
-            ]
+            "patterns": ["fp-ts/lib/*"]
           }
-        ]
+        ],
+        "deprecation/deprecation": "warn"
       }
     },
     {
