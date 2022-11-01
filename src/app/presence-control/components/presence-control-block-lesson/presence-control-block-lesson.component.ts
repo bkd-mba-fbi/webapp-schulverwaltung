@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 
-interface LessonPresenceOption {
-  lessonPresence: LessonPresence;
+interface BlockLessonOption {
+  entry: PresenceControlEntry;
   selected: boolean;
 }
 
@@ -16,35 +15,24 @@ interface LessonPresenceOption {
 export class PresenceControlBlockLessonComponent implements OnInit {
   @Input() entry: PresenceControlEntry;
   @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
-  lessonPresenceOptions: ReadonlyArray<LessonPresenceOption> = [];
+  blockLessonOptions: ReadonlyArray<BlockLessonOption> = [];
   constructor(public activeModal: NgbActiveModal) {}
 
+  // OnInit because input are set by modal and won't trigger the onChanges hook
   ngOnInit(): void {
-    this.lessonPresenceOptions = this.blockPresenceControlEntries.map(
-      (presenceControlEntry: PresenceControlEntry) =>
-        this.createLessonPresenceOption(presenceControlEntry.lessonPresence)
-    );
+    this.blockLessonOptions = this.buildLessonPresenceOptions();
   }
 
   getSelectedEntries(): ReadonlyArray<PresenceControlEntry> {
-    return this.blockPresenceControlEntries.filter(
-      (entry: PresenceControlEntry) => {
-        return this.lessonPresenceOptions
-          .filter((option: LessonPresenceOption) => option.selected)
-          .filter((option: LessonPresenceOption) => option.selected)
-          .map((option: LessonPresenceOption) => {
-            return entry.lessonPresence.Id == option.lessonPresence.Id;
-          });
-      }
-    );
+    return this.blockLessonOptions
+      .filter(({ selected }) => selected)
+      .map(({ entry }) => entry);
   }
 
-  createLessonPresenceOption(
-    lessonPresence: LessonPresence
-  ): LessonPresenceOption {
-    return {
-      lessonPresence,
+  private buildLessonPresenceOptions() {
+    return this.blockPresenceControlEntries.map((entry) => ({
+      entry,
       selected: true,
-    };
+    }));
   }
 }

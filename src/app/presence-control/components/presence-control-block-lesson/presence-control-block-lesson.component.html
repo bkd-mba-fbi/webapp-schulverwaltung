@@ -4,7 +4,7 @@
   </p>
   <form>
     <div
-      *ngFor="let option of lessonPresenceOptions; let i = index"
+      *ngFor="let option of blockLessonOptions; let i = index"
       class="form-group form-check"
     >
       <input
@@ -17,7 +17,7 @@
       <label
         class="form-check-label d-block"
         [class.fw-bold]="
-          option.lessonPresence.LessonDateTimeFrom ===
+          option.entry.lessonPresence.LessonDateTimeFrom ===
           entry.lessonPresence.LessonDateTimeFrom
         "
         for="lesson-presence-{{ i }}"
@@ -27,10 +27,12 @@
             entry.presenceCategoryIcon
           }}</i>
           <div class="d-block text-truncate">
-            {{ option.lessonPresence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-              option.lessonPresence.LessonDateTimeTo | date: 'HH:mm'
+            {{
+              option.entry.lessonPresence.LessonDateTimeFrom | date: 'HH:mm'
+            }}–{{
+              option.entry.lessonPresence.LessonDateTimeTo | date: 'HH:mm'
             }}
-            {{ option.lessonPresence.EventDesignation }}
+            {{ option.entry.lessonPresence.EventDesignation }}
           </div>
         </div>
       </label>
