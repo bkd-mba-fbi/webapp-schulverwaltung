@@ -170,6 +170,13 @@ export class LessonPresencesRestService extends RestService<
       new HttpParams({ fromObject: additionalParams })
     );
 
+    if (absencesFilter.teacher) {
+      params = params.set(
+        'filter.TeacherInformation',
+        `~*${absencesFilter.teacher}*`
+      );
+    }
+
     if (
       absencesFilter.dateFrom &&
       absencesFilter.dateTo &&

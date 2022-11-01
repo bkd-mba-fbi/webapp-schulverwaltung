@@ -51,6 +51,7 @@ export class EditAbsencesHeaderComponent {
     student: null,
     educationalEvent: null,
     studyClass: null,
+    teacher: null,
     dateFrom: null,
     dateTo: null,
     presenceTypes: null,

@@ -34,7 +34,10 @@
     <label class="form-label">{{
       'edit-absences.header.teacher' | translate
     }}</label>
-    <erz-typeahead [typeaheadService]="teacherResourcesService"></erz-typeahead>
+    <erz-typeahead
+      [typeaheadService]="teacherResourcesService"
+      [(value)]="filter.teacher"
+    ></erz-typeahead>
   </div>
 
   <div class="col-md-6 col-lg-3">

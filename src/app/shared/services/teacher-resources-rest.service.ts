@@ -11,6 +11,13 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
   typeof TeacherResource
 > {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, TeacherResource, 'TeacherResources', 'FullName');
+    super(
+      http,
+      settings,
+      TeacherResource,
+      'TeacherResources',
+      'FullName',
+      'FullName'
+    );
   }
 }

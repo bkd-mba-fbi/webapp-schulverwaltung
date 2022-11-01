@@ -212,7 +212,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
                 this.getNewAbsenceTypeId(
                   presenceTypeId,
                   confirmationValue,
-                  unexcusedState.Key,
+                  Number(unexcusedState.Key),
                   absenceTypeId
                 ),
                 confirmationValue
