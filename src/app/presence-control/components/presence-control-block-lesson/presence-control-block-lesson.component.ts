@@ -32,7 +32,7 @@ export class PresenceControlBlockLessonComponent implements OnInit {
   private buildLessonPresenceOptions() {
     return this.blockPresenceControlEntries.map((entry) => ({
       entry,
-      selected: true,
+      selected: this.entry.confirmationState === entry.confirmationState,
     }));
   }
 }
