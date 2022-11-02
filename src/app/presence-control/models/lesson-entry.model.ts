@@ -4,7 +4,7 @@ import { lessonsEqual } from '../utils/lessons';
 
 export function lessonsEntryEqual(
   a: Option<LessonEntry>,
-  b: Option<LessonEntry | LessonPresence>
+  b: Option<LessonEntry | LessonPresence | Lesson>
 ): boolean {
   return (
     (a === null && b === null) ||

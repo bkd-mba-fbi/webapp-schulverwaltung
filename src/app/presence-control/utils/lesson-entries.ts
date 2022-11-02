@@ -1,31 +1,29 @@
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import {
   fromLesson,
   LessonEntry,
   lessonsEntryEqual,
 } from '../models/lesson-entry.model';
-import { extractLesson, lessonsComparator, lessonsEqual } from './lessons';
+import { lessonsComparator, lessonsEqual } from './lessons';
 import { isBefore, isSameDay, isWithinInterval } from 'date-fns';
+import { Lesson } from 'src/app/shared/models/lesson.model';
 
 /**
  * Returns a sorted array of lesson entries for the given lesson presences.
  */
-export function extractLessonEntries(
-  lessonPresences: ReadonlyArray<LessonPresence>
+export function getLessonEntriesForLessons(
+  lessons: ReadonlyArray<Lesson>
 ): Array<LessonEntry> {
-  return uniqueLessonPresences(lessonPresences)
-    .reduce((entries, lessonPresence, index) => {
-      const existingEntry = entries.find((g) =>
-        lessonsEntryEqual(g, lessonPresence)
-      );
+  return uniqueLessons(lessons)
+    .reduce((entries, lesson) => {
+      const existingEntry = entries.find((g) => lessonsEntryEqual(g, lesson));
 
       if (existingEntry) {
-        existingEntry.addLesson(extractLesson(lessonPresence));
+        existingEntry.addLesson(lesson);
         return entries;
       }
 
-      const lessonEntry = fromLesson(extractLesson(lessonPresence));
-      return [...entries, lessonEntry];
+      const newEntry = fromLesson(lesson);
+      return [...entries, newEntry];
     }, [] as LessonEntry[])
     .sort(lessonsComparator);
 }
@@ -62,13 +60,11 @@ export function getCurrentLessonEntry(
   return lessons[0];
 }
 
-function uniqueLessonPresences(
-  lessonPresences: ReadonlyArray<LessonPresence>
-): ReadonlyArray<LessonPresence> {
-  return lessonPresences.reduce((presences, presence) => {
-    if (presences.some((l) => lessonsEqual(l, presence))) {
-      return presences;
+function uniqueLessons(lessons: ReadonlyArray<Lesson>): ReadonlyArray<Lesson> {
+  return lessons.reduce((acc, lesson) => {
+    if (acc.some((l) => lessonsEqual(l, lesson))) {
+      return acc;
     }
-    return [...presences, presence];
-  }, [] as LessonPresence[]);
+    return [...acc, lesson];
+  }, [] as Lesson[]);
 }

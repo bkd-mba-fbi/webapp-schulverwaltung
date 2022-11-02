@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { isEqual } from 'date-fns';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 
 interface BlockLessonOption {
@@ -27,6 +28,13 @@ export class PresenceControlBlockLessonComponent implements OnInit {
     return this.blockLessonOptions
       .filter(({ selected }) => selected)
       .map(({ entry }) => entry);
+  }
+
+  isCurrentLesson(option: BlockLessonOption): boolean {
+    return isEqual(
+      option.entry.lessonPresence.LessonDateTimeFrom,
+      this.entry.lessonPresence.LessonDateTimeFrom
+    );
   }
 
   private buildLessonPresenceOptions() {

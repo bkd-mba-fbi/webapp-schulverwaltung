@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { addDays, format, isSameDay, subDays } from 'date-fns';
 import * as t from 'io-ts';
-import { forkJoin, Observable } from 'rxjs';
+import { of, forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
@@ -10,6 +10,7 @@ import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-abs
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { LessonPresence } from '../models/lesson-presence.model';
+import { Lesson } from '../models/lesson.model';
 import { decodeArray } from '../utils/decode';
 import { spread } from '../utils/function';
 import {
@@ -48,11 +49,49 @@ export class LessonPresencesRestService extends RestService<
     super(http, settings, LessonPresence, 'LessonPresences');
   }
 
-  getListByDate(date: Date): Observable<ReadonlyArray<LessonPresence>> {
+  getLessonsByDate(date: Date): Observable<ReadonlyArray<Lesson>> {
+    const params: Dict<string> = {
+      fields: Object.keys(Lesson.props).join(','),
+      'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
+    };
+    const headers: Dict<string> = { 'X-Role-Restriction': 'LessonTeacherRole' };
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, { params, headers })
+      .pipe(switchMap(decodeArray(Lesson)));
+  }
+
+  getListByLessons(
+    lessons: ReadonlyArray<Lesson>
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    if (lessons.length === 0) {
+      return of([]);
+    }
+    const lessonIds = lessons.map((l) => l.LessonRef.Id);
+    const params: Record<string, string> = {
+      'filter.LessonRef': `;${lessonIds.join(';')}`,
+    };
+
     return this.getList({
-      params: {
-        'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
-      },
+      params,
+      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+    });
+  }
+
+  /**
+   * Fetch a list of lesson presences by date and student
+   */
+  getListByDateAndStudent(
+    date: Date,
+    studentId: number
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    const params: Record<string, string> = {
+      'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
+      'filter.StudentRef': `=${studentId}`,
+    };
+
+    return this.getList({
+      params,
       headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
     });
   }

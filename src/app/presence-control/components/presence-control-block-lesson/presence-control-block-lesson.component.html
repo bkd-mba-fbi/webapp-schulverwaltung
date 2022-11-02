@@ -16,10 +16,7 @@
       />
       <label
         class="form-check-label d-flex"
-        [class.fw-bold]="
-          option.entry.lessonPresence.LessonDateTimeFrom ===
-          entry.lessonPresence.LessonDateTimeFrom
-        "
+        [class.fw-bold]="isCurrentLesson(option)"
         for="lesson-presence-{{ i }}"
       >
         <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{

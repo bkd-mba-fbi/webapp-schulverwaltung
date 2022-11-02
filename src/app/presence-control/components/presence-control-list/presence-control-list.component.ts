@@ -23,6 +23,7 @@ import { ScrollPositionService } from 'src/app/shared/services/scroll-position.s
 import { parseISOLocalDate } from 'src/app/shared/utils/date';
 import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
+import { PresenceControlBlockLessonService } from '../../services/presence-control-block-lesson.service';
 
 @Component({
   selector: 'erz-presence-control-list',
@@ -35,7 +36,7 @@ export class PresenceControlListComponent
 {
   search$ = new BehaviorSubject<string>('');
   entries$ = combineLatest([
-    this.state.selectedPresenceControlEntriesByGroup$,
+    this.state.presenceControlEntriesByGroup$,
     this.search$,
   ]).pipe(map(spread(searchEntries)), shareReplay(1));
 
@@ -43,6 +44,7 @@ export class PresenceControlListComponent
 
   constructor(
     public state: PresenceControlStateService,
+    private blockLessons: PresenceControlBlockLessonService,
     private lessonPresencesUpdateService: LessonPresencesUpdateService,
     private presenceTypesService: PresenceTypesService,
     private modalService: NgbModal,
@@ -78,7 +80,7 @@ export class PresenceControlListComponent
   }
 
   togglePresenceType(entry: PresenceControlEntry): void {
-    this.state
+    this.blockLessons
       .getBlockLessonPresenceControlEntries(entry)
       .pipe(take(1))
       .subscribe(
@@ -132,12 +134,7 @@ export class PresenceControlListComponent
 
     const lessonId = String(params.lesson);
     if (lessonId) {
-      this.state.lessons$.pipe(take(1)).subscribe((lessons) => {
-        const lesson = lessons.find((l) => l.id === lessonId);
-        if (lesson) {
-          this.state.setLesson(lesson);
-        }
-      });
+      this.state.setLessonId(lessonId);
     }
 
     if (params.viewMode && VIEW_MODES.includes(params.viewMode)) {

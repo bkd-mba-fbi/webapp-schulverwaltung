@@ -16,6 +16,7 @@ import { Lesson } from 'src/app/shared/models/lesson.model';
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { PresenceControlBlockLessonService } from '../../services/presence-control-block-lesson.service';
 
 describe('PresenceControlListComponent', () => {
   let component: PresenceControlListComponent;
@@ -30,11 +31,10 @@ describe('PresenceControlListComponent', () => {
   let blockLessons: Array<LessonPresence>;
   let lessonPresence: LessonPresence;
 
-  let selectedPresenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
-  let selectedPresenceControlEntriesByGroup$: BehaviorSubject<
-    PresenceControlEntry[]
-  >;
+  let presenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
+  let presenceControlEntriesByGroup$: BehaviorSubject<PresenceControlEntry[]>;
   let stateServiceMock: PresenceControlStateService;
+  let blockLessonServiceMock: jasmine.SpyObj<PresenceControlBlockLessonService>;
   let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
 
   beforeEach(waitForAsync(() => {
@@ -48,13 +48,9 @@ describe('PresenceControlListComponent', () => {
     bichsel = buildPresenceControlEntry('Bichsel Peter');
     frisch = buildPresenceControlEntry('Frisch Max');
     jenni = buildPresenceControlEntry('Zoë Jenny');
-    selectedPresenceControlEntries$ = new BehaviorSubject([
-      bichsel,
-      frisch,
-      jenni,
-    ]);
+    presenceControlEntries$ = new BehaviorSubject([bichsel, frisch, jenni]);
 
-    selectedPresenceControlEntriesByGroup$ = selectedPresenceControlEntries$;
+    presenceControlEntriesByGroup$ = presenceControlEntries$;
 
     absence = buildPresenceType(2, true, false);
     blockLessons = [jenni.lessonPresence];
@@ -73,8 +69,8 @@ describe('PresenceControlListComponent', () => {
       loading$: of(false),
       lessons$: of([lesson]),
       selectedLesson$: of(lesson),
-      selectedPresenceControlEntries$,
-      selectedPresenceControlEntriesByGroup$,
+      presenceControlEntries$,
+      presenceControlEntriesByGroup$,
       getNextPresenceType: jasmine
         .createSpy('getNextPresenceType')
         .and.callFake(() => of(absence)),
@@ -86,7 +82,15 @@ describe('PresenceControlListComponent', () => {
       loadGroupsAvailability: jasmine
         .createSpy('loadGroupsAvailability')
         .and.callFake(() => of(false)),
+      setDate: jasmine.createSpy('setDate'),
+      setLessonId: jasmine.createSpy('setLessonId'),
+      setViewMode: jasmine.createSpy('setViewMode'),
     } as unknown as PresenceControlStateService;
+
+    blockLessonServiceMock = jasmine.createSpyObj(
+      'PresenceControlBlockLessonService',
+      ['getBlockLessonPresenceControlEntries']
+    );
 
     lessonPresencesUpdateServiceMock = {
       updatePresenceType: jasmine.createSpy('updatePresenceType'),
@@ -103,6 +107,10 @@ describe('PresenceControlListComponent', () => {
           {
             provide: PresenceControlStateService,
             useValue: stateServiceMock,
+          },
+          {
+            provide: PresenceControlBlockLessonService,
+            useValue: blockLessonServiceMock,
           },
           {
             provide: LessonPresencesUpdateService,
@@ -135,7 +143,7 @@ describe('PresenceControlListComponent', () => {
       fixture.detectChanges();
       expect(getRenderedStudentNames()).toEqual(['Frisch Max']);
 
-      selectedPresenceControlEntries$.next([
+      presenceControlEntries$.next([
         bichsel,
         frisch,
         buildPresenceControlEntry('Frisch Peter'),
@@ -147,7 +155,11 @@ describe('PresenceControlListComponent', () => {
   });
 
   describe('.doTogglePresenceType', () => {
-    beforeEach(() => {});
+    beforeEach(() => {
+      blockLessonServiceMock.getBlockLessonPresenceControlEntries.and.returnValue(
+        of([bichsel])
+      );
+    });
 
     it('updates given entry without block lesson dialog', () => {
       bichsel.lessonPresence = lessonPresence;
