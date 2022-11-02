@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { buildTestModuleMetadata } from 'src/spec-helpers';
 
 import { MyGradesComponent } from './my-grades.component';
 import { RouterModule } from '@angular/router';
@@ -8,10 +9,12 @@ describe('MyGradesComponent', () => {
   let fixture: ComponentFixture<MyGradesComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [MyGradesComponent],
-      imports: [RouterModule],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        declarations: [MyGradesComponent],
+        imports: [RouterModule],
+      })
+    ).compileComponents();
   });
 
   beforeEach(() => {

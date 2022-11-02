@@ -1,12 +1,14 @@
-import { LessonPresence } from './lesson-presence.model';
+import * as t from 'io-ts';
+import { Reference, LocalDateTimeFromString } from './common-types';
 
-export type Lesson = Pick<
-  LessonPresence,
-  | 'LessonRef'
-  | 'EventDesignation'
-  | 'EventRef'
-  | 'StudyClassNumber'
-  | 'TeacherInformation'
-  | 'LessonDateTimeFrom'
-  | 'LessonDateTimeTo'
->;
+const Lesson = t.type({
+  LessonRef: Reference,
+  EventRef: Reference,
+  EventDesignation: t.string,
+  StudyClassNumber: t.string,
+  TeacherInformation: t.string,
+  LessonDateTimeFrom: LocalDateTimeFromString,
+  LessonDateTimeTo: LocalDateTimeFromString,
+});
+type Lesson = t.TypeOf<typeof Lesson>;
+export { Lesson };

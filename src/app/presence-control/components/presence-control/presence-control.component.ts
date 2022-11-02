@@ -11,6 +11,7 @@ import { PresenceControlStateService } from '../../services/presence-control-sta
 import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
 import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
 import { PresenceControlGroupService } from '../../services/presence-control-group.service';
+import { PresenceControlBlockLessonService } from '../../services/presence-control-block-lesson.service';
 
 @Component({
   selector: 'erz-presence-control',
@@ -18,6 +19,7 @@ import { PresenceControlGroupService } from '../../services/presence-control-gro
   styleUrls: ['./presence-control.component.scss'],
   providers: [
     PresenceControlStateService,
+    PresenceControlBlockLessonService,
     PresenceControlGroupService,
     {
       provide: CONFIRM_ABSENCES_SERVICE,

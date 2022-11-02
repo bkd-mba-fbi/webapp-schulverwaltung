@@ -19,7 +19,7 @@
       (searchChange)="search$.next($event)"
       (viewModeChange)="state.setViewMode($event)"
       (selectDateChange)="state.setDate($event)"
-      (selectLessonChange)="state.setLesson($event)"
+      (selectLessonChange)="state.setLessonId($event.id)"
     ></erz-presence-control-header>
 
     <ng-container *ngIf="data.lesson; else noLessons">

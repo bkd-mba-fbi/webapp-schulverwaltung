@@ -91,7 +91,7 @@ describe('MyAbsencesReportStateService', () => {
       initializeServiceWithInstance('BsTest');
 
       service.setFilter({ dateFrom: new Date(), dateTo: new Date() });
-      tick(10);
+      tick(1000);
 
       expect(entriesCallback.calls.mostRecent().args[0]).toEqual([
         buildLessonPresenceFromTimetableEntry(afterLessonStart),

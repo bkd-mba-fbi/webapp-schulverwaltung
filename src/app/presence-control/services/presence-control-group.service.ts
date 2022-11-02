@@ -1,7 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { forkJoin, merge, Subject } from 'rxjs';
-import { map, switchMap, shareReplay, startWith } from 'rxjs/operators';
+import {
+  map,
+  switchMap,
+  shareReplay,
+  startWith,
+  distinctUntilChanged,
+} from 'rxjs/operators';
+import { flatten, isEqual } from 'lodash-es';
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
@@ -18,7 +25,6 @@ import {
 import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
 import { spread } from '../../shared/utils/function';
 import { LoadingService } from '../../shared/services/loading-service';
-import { flatten } from 'lodash-es';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 import { PresenceControlGroupViewEntry } from 'src/app/shared/models/user-settings.model';
 
@@ -70,17 +76,17 @@ export class PresenceControlGroupService {
     this.selectedLesson$,
     this.lessonPresences$,
   ]).pipe(
-    map(([lesson, presences]) =>
-      presences.filter((presence) =>
-        lesson?.getIds().includes(presence.LessonRef.Id)
-      )
-    ),
-    map(
-      (presences) =>
-        presences
-          .map((presence) => presence.RegistrationRef.Id)
-          .filter((i) => i) as number[]
-    )
+    map(([lesson, presences]) => {
+      const lessonIds = lesson?.getIds() ?? [];
+      return presences
+        .filter(
+          (presence) =>
+            lessonIds.includes(presence.LessonRef.Id) &&
+            presence.RegistrationRef.Id
+        )
+        .map((presence) => presence.RegistrationRef.Id!);
+    }),
+    distinctUntilChanged<number[]>(isEqual) // Avoid reloading of subscription details if registration ids do not change
   );
 
   private subscriptionsDetailsByRegistrations$ = combineLatest([

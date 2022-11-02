@@ -1,3 +1,4 @@
+import { uniq } from 'lodash-es';
 import { Settings } from 'src/app/settings';
 import { OptionalReference } from 'src/app/shared/models/common-types';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';

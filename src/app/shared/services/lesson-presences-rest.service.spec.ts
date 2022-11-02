@@ -8,8 +8,9 @@ import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evalu
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
 import { LessonPresence } from '../models/lesson-presence.model';
-import { buildLessonPresence } from 'src/spec-builders';
+import { buildLesson, buildLessonPresence } from 'src/spec-builders';
 import { Sorting } from './sort.service';
+import { format } from 'date-fns';
 
 const CLASS_TEACHER_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlRlc3QiLCJjb25zdW1lcl9pZCI6ImRldiIsInVzZXJuYW1lIjoiam9obiIsImluc3RhbmNlX2lkIjoiVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjEyMyIsImlkX3BlcnNvbiI6IjQ1NiIsImZ1bGxuYW1lIjoiSm9obiBEb2UiLCJyb2xlcyI6Ikxlc3NvblRlYWNoZXJSb2xlO0NsYXNzVGVhY2hlclJvbGUiLCJ0b2tlbl9pZCI6IjEyMzQ1NiJ9.erGO0ORYWA7LAjuWSrz924rkgC2Gqg6_Wu3GUZiMOyI';
@@ -85,15 +86,64 @@ describe('LessonPresencesRestService', () => {
     });
   });
 
-  describe('.getListByDate', () => {
-    it('fetches list filtered by given date', () => {
+  describe('.getLessonsByDate', () => {
+    it('fetches list filtered by given date and student', () => {
+      const data: any[] = [
+        buildLesson(
+          1,
+          new Date(2000, 0, 23, 9, 0),
+          new Date(2000, 0, 23, 10, 0),
+          'Mathematik',
+          ''
+        ),
+        buildLesson(
+          2,
+          new Date(2000, 0, 23, 10, 0),
+          new Date(2000, 0, 23, 11, 0),
+          'Französisch',
+          ''
+        ),
+        buildLesson(
+          3,
+          new Date(2000, 0, 23, 11, 0),
+          new Date(2000, 0, 23, 12, 0),
+          'Turnen',
+          ''
+        ),
+      ];
+
+      service
+        .getLessonsByDate(new Date(2000, 0, 23))
+        .subscribe((result) => expect(result).toEqual(data));
+
+      const url =
+        'https://eventotest.api/LessonPresences/?fields=LessonRef,EventRef,EventDesignation,StudyClassNumber,TeacherInformation,LessonDateTimeFrom,LessonDateTimeTo&filter.LessonDateTimeFrom==2000-01-23';
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(
+          data.map(({ LessonDateTimeFrom, LessonDateTimeTo, ...lesson }) => ({
+            ...lesson,
+            LessonDateTimeFrom: format(
+              LessonDateTimeFrom,
+              "yyyy-MM-dd'T'HH:mm:ss"
+            ),
+            LessonDateTimeTo: format(LessonDateTimeTo, "yyyy-MM-dd'T'HH:mm:ss"),
+          }))
+        );
+
+      httpTestingController.verify();
+    });
+  });
+
+  describe('.getListByDateAndStudent', () => {
+    it('fetches list filtered by given date and student', () => {
       const data: any[] = [];
       service
-        .getListByDate(new Date(2000, 0, 23))
+        .getListByDateAndStudent(new Date(2000, 0, 23), 123)
         .subscribe((result) => expect(result).toBe(data));
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23';
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23&filter.StudentRef==123';
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);

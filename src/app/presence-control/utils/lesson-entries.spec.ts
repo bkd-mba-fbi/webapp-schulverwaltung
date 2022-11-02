@@ -1,81 +1,63 @@
-import { extractLessonEntries, getCurrentLessonEntry } from './lesson-entries';
 import {
-  buildLesson,
-  buildLessonPresence,
-  buildReference,
-} from '../../../spec-builders';
+  getLessonEntriesForLessons,
+  getCurrentLessonEntry,
+} from './lesson-entries';
+import { buildLesson } from '../../../spec-builders';
 import { fromLesson, LessonEntry } from '../models/lesson-entry.model';
 import { Lesson } from '../../shared/models/lesson.model';
 
 describe('lessons entries', () => {
-  describe('extractLessonEntries', () => {
-    it('returns a sorted array of unique lesson entries', () => {
-      const result = extractLessonEntries([
-        buildLessonPresence(
-          1,
-          new Date(2000, 0, 23, 9, 0),
-          new Date(2000, 0, 23, 10, 0),
-          'Mathematik'
-        ),
-        buildLessonPresence(
-          2,
-          new Date(2000, 0, 23, 8, 0),
-          new Date(2000, 0, 23, 9, 0),
-          'Deutsch'
-        ),
-        buildLessonPresence(
-          2,
-          new Date(2000, 0, 23, 8, 0),
-          new Date(2000, 0, 23, 9, 0),
-          'Deutsch'
-        ),
-        buildLessonPresence(
-          3,
-          new Date(2000, 0, 23, 10, 0),
-          new Date(2000, 0, 23, 11, 0),
-          'Mathematik'
-        ),
+  describe('getLessonEntriesForLessons', () => {
+    it('groups the given lessons as a sorted array of lesson entries', () => {
+      const lesson1 = buildLesson(
+        1,
+        new Date(2000, 0, 23, 9, 0),
+        new Date(2000, 0, 23, 10, 0),
+        'Mathematik',
+        'Hans Lüdi',
+        '9a'
+      );
+      const lesson2 = buildLesson(
+        2,
+        new Date(2000, 0, 23, 8, 0),
+        new Date(2000, 0, 23, 9, 0),
+        'Deutsch',
+        'Hans Lüdi',
+        '9a'
+      );
+      const lesson3 = buildLesson(
+        3,
+        new Date(2000, 0, 23, 8, 0),
+        new Date(2000, 0, 23, 9, 0),
+        'Deutsch',
+        'Hans Lüdi',
+        '9b'
+      );
+      const lesson4 = buildLesson(
+        4,
+        new Date(2000, 0, 23, 8, 0),
+        new Date(2000, 0, 23, 9, 0),
+        'Deutsch',
+        'Christine Flückiger',
+        '9c'
+      );
+      const result = getLessonEntriesForLessons([
+        lesson1,
+        lesson2,
+        lesson3,
+        lesson4,
       ]);
 
-      const math1 = {
-        LessonRef: { Id: 1, HRef: '/1' },
-        EventDesignation: 'Mathematik',
-        EventRef: buildReference(),
-        StudyClassNumber: '9a',
-        TeacherInformation: '',
-        LessonDateTimeFrom: new Date(2000, 0, 23, 9, 0),
-        LessonDateTimeTo: new Date(2000, 0, 23, 10, 0),
-      };
+      expect(result).toHaveSize(3);
 
-      const deutsch2 = {
-        LessonRef: { Id: 2, HRef: '/2' },
-        EventDesignation: 'Deutsch',
-        EventRef: buildReference(),
-        StudyClassNumber: '9a',
-        TeacherInformation: '',
-        LessonDateTimeFrom: new Date(2000, 0, 23, 8, 0),
-        LessonDateTimeTo: new Date(2000, 0, 23, 9, 0),
-      };
-
-      const math3 = {
-        LessonRef: { Id: 3, HRef: '/3' },
-        EventDesignation: 'Mathematik',
-        EventRef: buildReference(),
-        StudyClassNumber: '9a',
-        TeacherInformation: '',
-        LessonDateTimeFrom: new Date(2000, 0, 23, 10, 0),
-        LessonDateTimeTo: new Date(2000, 0, 23, 11, 0),
-      };
-
-      expect(result).toEqual([
-        fromLesson(deutsch2),
-        fromLesson(math1),
-        fromLesson(math3),
-      ]);
+      const [entry1, entry2, entry3] = result;
+      expect(entry1.lessons).toEqual([lesson2, lesson3]);
+      expect(entry2.lessons).toEqual([lesson4]);
+      expect(entry3.lessons).toEqual([lesson1]);
     });
 
     it('returns empty array for empty array', () => {
-      expect(extractLessonEntries([])).toEqual([]);
+      expect(getLessonEntriesForLessons([])).toEqual([]);
     });
   });
 
