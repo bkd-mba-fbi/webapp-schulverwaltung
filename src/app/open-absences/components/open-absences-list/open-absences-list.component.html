@@ -41,11 +41,13 @@
       </div>
       <div class="content">
         <div class="absence-header">
-          <div
-            class="checkbox"
-            (click)="onToggleAll($event.currentTarget.checked)"
-          >
-            <input type="checkbox" class="form-check-input" />
+          <div class="checkbox">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [checked]="data.selection.length === data.entries.length"
+              (change)="onToggleAll($event.currentTarget.checked)"
+            />
           </div>
           <div
             *ngFor="let key of ['name', 'date']"

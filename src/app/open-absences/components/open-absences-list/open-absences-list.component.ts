@@ -15,6 +15,7 @@ import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { SortCriteria } from 'src/app/shared/utils/sort';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'erz-open-absences-list',
@@ -46,8 +47,12 @@ export class OpenAbsencesListComponent
     this.destroy$.next();
   }
 
-  onToggleAll(checked: Boolean): void {
-    console.log('toggle all...');
+  onToggleAll(checked: boolean): void {
+    this.openAbsencesService.filteredEntries$
+      .pipe(take(1))
+      .subscribe((entries) => {
+        this.selectionService.clear(checked ? entries : null);
+      });
   }
 
   onCheckboxCellClick(event: Event, checkbox: HTMLInputElement): void {
