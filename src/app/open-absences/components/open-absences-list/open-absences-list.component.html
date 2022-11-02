@@ -42,6 +42,12 @@
       <div class="content">
         <div class="absence-header">
           <div
+            class="checkbox"
+            (click)="onToggleAll($event.currentTarget.checked)"
+          >
+            <input type="checkbox" class="form-check-input" />
+          </div>
+          <div
             *ngFor="let key of ['name', 'date']"
             (click)="openAbsencesService.toggleSort(key)"
             [className]="key"

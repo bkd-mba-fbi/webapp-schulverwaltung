@@ -18,10 +18,11 @@
   cursor: pointer;
   padding: $spacer;
   display: grid;
-  grid-template-areas: "name date";
-  grid-template-columns: 5fr 1fr;
+  grid-template-areas: "checkbox name date";
+  grid-template-columns: min-content 5fr 1fr;
   border-top: 1px solid $gray-300;
   border-bottom: 2px solid $gray-300;
+  align-items: center;
 }
 
 .absence-entry {
@@ -30,12 +31,13 @@
   display: grid;
   grid-template-areas: "checkbox name study-class lessons-count days-ago date";
   grid-template-columns: min-content 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
 }
 
 .checkbox {
   grid-area: checkbox;
   margin: 0;
-  padding: 0.6rem $spacer * 0.5 0 0;
+  padding: 0 $spacer * 0.5 0 0;
 }
 .absence-all .checkbox {
   padding-top: 0.2rem;
@@ -89,8 +91,8 @@
   }
 
   .absence-header {
-    grid-template-areas: "name date";
-    grid-template-columns: 3fr 2fr;
+    grid-template-areas: "checkbox name date";
+    grid-template-columns: min-content 3fr 2fr;
   }
 
   .absence-entry {

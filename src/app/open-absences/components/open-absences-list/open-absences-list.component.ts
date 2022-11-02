@@ -46,6 +46,10 @@ export class OpenAbsencesListComponent
     this.destroy$.next();
   }
 
+  onToggleAll(checked: Boolean): void {
+    console.log('toggle all...');
+  }
+
   onCheckboxCellClick(event: Event, checkbox: HTMLInputElement): void {
     if (event.target !== checkbox) {
       checkbox.click();
