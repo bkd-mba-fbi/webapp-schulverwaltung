@@ -101,13 +101,12 @@ export class LessonPresencesUpdateService implements OnDestroy {
   }
 
   updatePresenceTypes(
-    selectedPresenceControlEntries: ReadonlyArray<PresenceControlEntry>,
+    selectedPresenceControlEntry: PresenceControlEntry,
     newPresenceTypeId: Option<number> = null
   ): void {
-    selectedPresenceControlEntries.forEach(
-      (selectedEntry: PresenceControlEntry) => {
-        this.dispatchAddUpdate(selectedEntry.lessonPresence, newPresenceTypeId);
-      }
+    this.dispatchAddUpdate(
+      selectedPresenceControlEntry.lessonPresence,
+      newPresenceTypeId
     );
   }
 

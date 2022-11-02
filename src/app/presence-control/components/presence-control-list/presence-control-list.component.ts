@@ -65,19 +65,18 @@ export class PresenceControlListComponent
   }
 
   doTogglePresenceType(
-    entry: PresenceControlEntry,
-    selectedPresenceControlEntries?: ReadonlyArray<PresenceControlEntry>
+    selectedPresenceControlEntries: ReadonlyArray<PresenceControlEntry>
   ): void {
-    this.state
-      .getNextPresenceType(entry)
-      .subscribe((newPresenceType) =>
-        this.lessonPresencesUpdateService.updatePresenceTypes(
-          selectedPresenceControlEntries
-            ? selectedPresenceControlEntries
-            : [entry],
-          newPresenceType ? newPresenceType.Id : null
+    selectedPresenceControlEntries.forEach((entry) =>
+      this.state
+        .getNextPresenceType(entry)
+        .subscribe((newPresenceType) =>
+          this.lessonPresencesUpdateService.updatePresenceTypes(
+            entry,
+            newPresenceType ? newPresenceType.Id : null
+          )
         )
-      );
+    );
   }
 
   togglePresenceType(entry: PresenceControlEntry): void {
@@ -87,7 +86,7 @@ export class PresenceControlListComponent
       .subscribe(
         (presenceControlEntries: ReadonlyArray<PresenceControlEntry>) => {
           if (presenceControlEntries.length === 1) {
-            this.doTogglePresenceType(entry);
+            this.doTogglePresenceType([entry]);
           } else {
             const modalRef = this.modalService.open(
               PresenceControlBlockLessonComponent
@@ -98,10 +97,7 @@ export class PresenceControlListComponent
             modalRef.result.then(
               (selectedPresenceControlEntries) => {
                 if (selectedPresenceControlEntries) {
-                  this.doTogglePresenceType(
-                    entry,
-                    selectedPresenceControlEntries
-                  );
+                  this.doTogglePresenceType(selectedPresenceControlEntries);
                 }
               },
               () => {}
@@ -113,7 +109,7 @@ export class PresenceControlListComponent
 
   updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
     this.lessonPresencesUpdateService.updatePresenceTypes(
-      [entry],
+      entry,
       presenceTypeId
     );
   }
