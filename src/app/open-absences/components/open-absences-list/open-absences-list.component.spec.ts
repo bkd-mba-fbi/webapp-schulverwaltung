@@ -79,29 +79,29 @@ describe('OpenAbsencesListComponent', () => {
       const editLink = element.querySelector('a.edit') as HTMLAnchorElement;
       expect(editLink.classList.contains('disabled')).toBe(true);
 
-      toggleCheckbox(0);
+      toggleCheckbox(1);
       expect(editLink.classList.contains('disabled')).toBe(false);
 
-      toggleCheckbox(0);
+      toggleCheckbox(1);
       expect(editLink.classList.contains('disabled')).toBe(true);
     });
 
     it('updates selected ids', () => {
       expectSelection([]);
 
-      toggleCheckbox(0);
+      toggleCheckbox(1);
       expectSelection([
         { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
       ]);
 
-      toggleCheckbox(1);
+      toggleCheckbox(2);
       expectSelection([
         { personId: 21, presenceTypeId: 11, lessonIds: [10, 11] },
         { personId: 22, presenceTypeId: 11, lessonIds: [10, 12] },
       ]);
 
-      toggleCheckbox(0);
       toggleCheckbox(1);
+      toggleCheckbox(2);
       expectSelection([]);
     });
 
