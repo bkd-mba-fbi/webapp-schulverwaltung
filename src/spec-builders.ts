@@ -32,7 +32,9 @@ import {
   GradeOrNoResult,
   StudentGrade,
 } from './app/shared/models/student-grades';
-/*import { TokenPayload } from './app/shared/models/token-payload.model';*/
+import { TimetableEntry } from './app/shared/models/timetable-entry.model';
+import { LessonDispensation } from './app/shared/models/lesson-dispensation.model';
+import { TokenPayload } from './app/shared/models/token-payload.model';
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
@@ -94,6 +96,60 @@ export function buildLessonPresenceWithIds(
   presence.StudentRef = buildReference(studentId);
   presence.TypeRef = buildReference(presenceTypeId);
   return presence;
+}
+
+export function buildLessonPresenceFromTimetableEntry(
+  timetableEntry: TimetableEntry
+): LessonPresence {
+  return {
+    Id: '',
+    LessonRef: { Id: timetableEntry.Id, HRef: null },
+    StudentRef: { Id: 42, HRef: null },
+    EventRef: { Id: 0, HRef: null },
+    TypeRef: { Id: null, HRef: null },
+    RegistrationRef: { Id: 0, HRef: null },
+    StudyClassRef: { Id: 0, HRef: null },
+    ConfirmationStateId: null,
+    EventDesignation: timetableEntry.EventDesignation,
+    HasStudyCourseConfirmationCode: false,
+    LessonDateTimeFrom: timetableEntry.From,
+    LessonDateTimeTo: timetableEntry.To,
+    Comment: null,
+    Date: timetableEntry.From,
+    Type: null,
+    StudentFullName: '',
+    StudyClassNumber: '',
+    TeacherInformation: timetableEntry.EventManagerInformation,
+  };
+}
+
+export function buildLessonAbsence(id: string): LessonAbsence {
+  return {
+    Id: id,
+    LessonRef: buildReference(),
+    StudentRef: buildReference(),
+    TypeRef: buildReference(),
+    Type: null,
+    ConfirmationState: null,
+    ConfirmationStateId: 0,
+    Comment: null,
+    StudentFullName: 'studentName',
+    RegistrationId: 0,
+    HRef: '',
+  };
+}
+
+export function buildLessonDispensation(id: string): LessonDispensation {
+  return {
+    Id: id,
+    LessonRef: buildReference(),
+    StudentRef: buildReference(),
+    TypeRef: buildReference(),
+    Type: null,
+    Comment: null,
+    StudentFullName: 'studentName',
+    HRef: '',
+  };
 }
 
 export function buildLesson(
@@ -275,16 +331,19 @@ export function buildJobTrainer(id: number): JobTrainer {
   };
 }
 
-/*
-export function buildPayLoad(): TokenPayload {
+export function buildPayLoad(
+  personId = '2431',
+  instanceId = 'GYmTEST'
+): TokenPayload {
   return {
     culture_info: 'de-CH',
     fullname: 'Test Rudy',
-    id_person: 2431,
-    instance_id: 'GYmTEST',
-    roles: 'LessonTeacherRole;ClassTeacherRole'
+    id_person: personId,
+    holder_id: '',
+    instance_id: instanceId,
+    roles: 'LessonTeacherRole;ClassTeacherRole',
   };
-}*/
+}
 
 export function buildPerson(id: number): Person {
   return {
@@ -510,6 +569,21 @@ export function buildCourse(
     AttendanceRef: attendance || buildReference(),
     ParticipatingStudents: [buildStudent(100)],
     Classes: classes || null,
+  };
+}
+
+export function buildTimetableEntry(
+  id: number,
+  from: Date,
+  to: Date
+): TimetableEntry {
+  return {
+    Id: id,
+    From: from,
+    To: to,
+    EventNumber: '',
+    EventDesignation: '',
+    EventManagerInformation: '',
   };
 }
 

@@ -32,6 +32,8 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   LessonPresence,
   ReportAbsencesFilter
 > {
+  private preventAbsencesAfterStart = false;
+
   constructor(
     location: Location,
     loadingService: LoadingService,
@@ -47,6 +49,12 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       settings,
       '/my-absences/report'
     );
+
+    const currentInstanceId = this.storageService.getPayload()?.instance_id;
+    const instanceIds = this.settings.preventStudentAbsenceAfterLessonStart;
+    this.preventAbsencesAfterStart = currentInstanceId
+      ? instanceIds.includes(currentInstanceId)
+      : false;
   }
 
   protected getInitialFilter(): ReportAbsencesFilter {
@@ -73,11 +81,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       );
     return this.loadingService.load(
       this.loadTimetableEntries(params).pipe(
-        map((entries) =>
-          this.preventAbsenceAfterStart()
-            ? entries.filter((entry) => entry.From >= new Date())
-            : entries
-        ),
+        map((entries) => this.filterAbsencesAfterLessonStart(entries)),
         switchMap((entries) =>
           combineLatest([
             of(entries),
@@ -95,6 +99,14 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     );
   }
 
+  private filterAbsencesAfterLessonStart(
+    entries: ReadonlyArray<TimetableEntry>
+  ): ReadonlyArray<TimetableEntry> {
+    return this.preventAbsencesAfterStart
+      ? entries.filter((entry) => entry.From >= new Date())
+      : entries;
+  }
+
   protected buildParamsFromFilter(filterValue: ReportAbsencesFilter): Params {
     const { dateFrom, dateTo } = filterValue;
     const params: Params = {};
@@ -105,12 +117,6 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       params.dateTo = format(dateTo, 'yyyy-MM-dd');
     }
     return params;
-  }
-
-  private preventAbsenceAfterStart(): boolean {
-    const currentInstanceId = this.storageService.getPayload()?.instance_id;
-    const instanceIds = this.settings.preventStudentAbsenceAfterLessonStart;
-    return currentInstanceId ? instanceIds.includes(currentInstanceId) : false;
   }
 
   private buildRequestParamsFromFilter(
