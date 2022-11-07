@@ -105,6 +105,21 @@ describe('OpenAbsencesListComponent', () => {
       expectSelection([]);
     });
 
+    it('toggle all checkboxes on checkbox header click', () => {
+      expectSelection([]);
+      toggleHeaderCheckbox();
+      expect(element.querySelectorAll('div.absence-entry').length).toBe(2);
+    });
+
+    function toggleHeaderCheckbox(): void {
+      (
+        element.querySelector(
+          'input[accesskey="header_checkbox"]'
+        ) as HTMLInputElement
+      ).click();
+      fixture.detectChanges();
+    }
+
     function toggleCheckbox(index: number): void {
       (
         element.querySelectorAll('input[type="checkbox"]')[
