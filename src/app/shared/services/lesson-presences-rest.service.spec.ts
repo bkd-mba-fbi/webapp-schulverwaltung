@@ -314,6 +314,7 @@ describe('LessonPresencesRestService', () => {
         student: null,
         educationalEvent: null,
         studyClass: null,
+        teacher: null,
         dateFrom: null,
         dateTo: null,
         presenceTypes: null,
@@ -344,13 +345,14 @@ describe('LessonPresencesRestService', () => {
       filter.student = 123;
       filter.educationalEvent = 333;
       filter.studyClass = 678;
+      filter.teacher = 'Bandi Victor';
       filter.dateFrom = new Date(2000, 0, 23);
       filter.dateTo = new Date(2000, 0, 25);
       filter.presenceTypes = [888];
       filter.confirmationStates = [999];
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-26&filter.ConfirmationStateId=;999&filter.TypeRef=;888&offset=0&limit=1000';
+        'https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TeacherInformation=~*Bandi%20Victor*&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-26&filter.ConfirmationStateId=;999&filter.TypeRef=;888&offset=0&limit=1000';
 
       service
         .getFilteredList(filter, 0)

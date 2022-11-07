@@ -43,7 +43,12 @@ export class PresenceControlEntry implements Searchable {
   }
 
   get presenceCategory(): PresenceCategory {
-    if (isUnapprovedAbsence(this.settings, this.confirmationState?.Key)) {
+    if (
+      isUnapprovedAbsence(
+        this.settings,
+        this.confirmationState && Number(this.confirmationState.Key)
+      )
+    ) {
       return PresenceCategory.Unapproved;
     }
 

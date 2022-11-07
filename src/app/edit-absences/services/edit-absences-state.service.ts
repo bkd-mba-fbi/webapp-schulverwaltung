@@ -28,6 +28,7 @@ export interface EditAbsencesFilter {
   student: Option<number>;
   educationalEvent: Option<number>;
   studyClass: Option<number>;
+  teacher: Option<string>;
   dateFrom: Option<Date>;
   dateTo: Option<Date>;
   presenceTypes: Option<number[]>;
@@ -86,6 +87,7 @@ export class EditAbsencesStateService
       student: null,
       educationalEvent: null,
       studyClass: null,
+      teacher: null,
       dateFrom: null,
       dateTo: null,
       presenceTypes: null,
@@ -99,6 +101,7 @@ export class EditAbsencesStateService
       filterValue.student ||
         filterValue.educationalEvent ||
         filterValue.studyClass ||
+        filterValue.teacher ||
         filterValue.dateFrom ||
         filterValue.dateTo ||
         filterValue.presenceTypes ||

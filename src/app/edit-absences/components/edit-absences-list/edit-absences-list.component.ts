@@ -96,6 +96,7 @@ function createFilterFromParams(params: Params): EditAbsencesFilter {
       ? Number(params.educationalEvent)
       : null,
     studyClass: params.studyClass ? Number(params.studyClass) : null,
+    teacher: params.teacher ?? null,
     dateFrom: params.dateFrom ? parseISOLocalDate(params.dateFrom) : null,
     dateTo: params.dateTo ? parseISOLocalDate(params.dateTo) : null,
     presenceTypes: params.presenceTypes

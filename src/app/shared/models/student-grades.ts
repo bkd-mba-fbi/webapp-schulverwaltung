@@ -4,6 +4,7 @@ import { Sorting } from '../services/sort.service';
 import { average } from '../utils/math';
 import { FinalGrading, Grading } from './course.model';
 import { Grade } from './grading-scale.model';
+import { DropDownItem } from './drop-down-item.model';
 
 export type StudentGrade = {
   student: Student;
@@ -190,7 +191,7 @@ export function meanOf(finalGrades: FinalGrade[]): number {
 
 export function averageOfGradesForScale(
   finalGrades: FinalGrade[],
-  scale: { Key: number; Value: string }[]
+  scale: DropDownItem[]
 ): number {
   const freeHandGrades: number[] = finalGrades
     .map((finalGrade) => finalGrade.freeHandGrade)

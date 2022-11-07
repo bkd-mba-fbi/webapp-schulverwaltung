@@ -1,8 +1,9 @@
 import * as t from 'io-ts';
+import { DropDownItem } from './drop-down-item.model';
 
 const DropDownGroupedItem = t.type({
-  Key: t.number,
-  Value: t.string,
+  Key: DropDownItem.props.Key,
+  Value: DropDownItem.props.Value,
   Group: t.string,
 });
 

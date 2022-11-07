@@ -129,6 +129,7 @@
       "student": "Name",
       "module-instance": "Fach",
       "study-class": "Klasse",
+      "teacher": "Lehrperson",
       "date-from": "Datum von",
       "date-to": "Datum bis",
       "presence-type": "Grund",

@@ -1,5 +1,5 @@
-<div class="filters mb-2">
-  <div class="form-group">
+<div class="row g-3 mb-5">
+  <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
       'edit-absences.header.student' | translate
     }}</label>
@@ -9,7 +9,7 @@
     ></erz-typeahead>
   </div>
 
-  <div class="form-group">
+  <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
       'edit-absences.header.module-instance' | translate
     }}</label>
@@ -19,7 +19,7 @@
     ></erz-typeahead>
   </div>
 
-  <div class="form-group">
+  <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
       'edit-absences.header.study-class' | translate
     }}</label>
@@ -30,14 +30,24 @@
     ></erz-typeahead>
   </div>
 
-  <div class="form-group">
+  <div class="col-md-6 col-lg-3">
+    <label class="form-label">{{
+      'edit-absences.header.teacher' | translate
+    }}</label>
+    <erz-typeahead
+      [typeaheadService]="teacherResourcesService"
+      [(value)]="filter.teacher"
+    ></erz-typeahead>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
       'edit-absences.header.date-from' | translate
     }}</label>
     <erz-date-select [(value)]="filter.dateFrom"></erz-date-select>
   </div>
 
-  <div class="form-group">
+  <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
       'edit-absences.header.date-to' | translate
     }}</label>
@@ -45,8 +55,8 @@
   </div>
 </div>
 
-<div class="filters mt-2">
-  <div class="form-group">
+<div class="row g-3 align-items-end">
+  <div class="col-sm-12 col-md">
     <label class="form-label">{{
       'edit-absences.header.confirmation-state' | translate
     }}</label>
@@ -56,7 +66,7 @@
     ></erz-multiselect>
   </div>
 
-  <div class="form-group">
+  <div class="col-sm-12 col-md">
     <label class="form-label">{{
       'edit-absences.header.presence-type' | translate
     }}</label>
@@ -66,7 +76,7 @@
     ></erz-multiselect>
   </div>
 
-  <div class="form-group">
+  <div class="col-sm-12 col-md">
     <label class="form-label">{{
       'edit-absences.header.incident' | translate
     }}</label>
@@ -76,7 +86,7 @@
     ></erz-multiselect>
   </div>
 
-  <div class="buttons">
+  <div class="col-auto">
     <button type="button" class="btn btn-primary" (click)="show()">
       {{ 'edit-absences.header.show' | translate }}
     </button>

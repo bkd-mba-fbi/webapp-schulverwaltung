@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   Output,
   Input,
@@ -39,7 +38,7 @@ export class TypeaheadComponent implements OnChanges {
 
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = 'shared.typeahead.default-placeholder';
-  @Input() value: Option<number>;
+  @Input() value: Option<DropDownItem['Key']>;
   @Input() additionalHttpParams: HttpParams;
 
   @Output()
@@ -57,7 +56,7 @@ export class TypeaheadComponent implements OnChanges {
     if (
       changes.value &&
       changes.value.currentValue &&
-      changes.value.currentValue !== this.selectedItemId
+      changes.value.currentValue !== this.selectedItemKey
     ) {
       this.fetchItem(changes.value.currentValue).subscribe((item) => {
         this.modelChange(item);
@@ -82,7 +81,7 @@ export class TypeaheadComponent implements OnChanges {
     );
   }
 
-  private get selectedItemId(): Option<number> {
+  private get selectedItemKey(): Option<DropDownItem['Key']> {
     return this.selectedItem$.value ? this.selectedItem$.value.Key : null;
   }
 
