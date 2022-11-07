@@ -26,6 +26,7 @@ const Settings = t.type({
   headerRoleRestriction: t.record(t.string, t.string),
   notificationRefreshTime: t.number,
   eventlist: t.record(t.string, t.string),
+  preventStudentAbsenceAfterLessonStart: t.array(t.string),
 });
 
 type Settings = t.TypeOf<typeof Settings>;
