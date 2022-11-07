@@ -356,6 +356,7 @@
       "gui": "Anzeige im Web",
       "mail": "E-Mail",
       "phoneMobile": "SMS",
+      "privacy-hint": "Hinweis: Datenschutzrelevante Informationen werden nicht per E-Mail und SMS verschickt.",
       "save": "Aktualisieren",
       "save-success": "Einstellungen zu Benachrichtigungen erfolgreich aktualisiert"
     }

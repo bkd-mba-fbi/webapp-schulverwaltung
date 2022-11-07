@@ -96,8 +96,99 @@ window.schulverwaltung.settings = {
   /**
    * Notifications
    */
-  // refresh time for notifications
+  // Refresh time for notifications
   notificationRefreshTime: 30,
+
+  // Types of notifications and their language-specific texts
+  // (the description may contain newlines '\n')
+  notificationTypes: {
+    BM2Student: {
+      de: {
+        label: 'Präsenz im BM-Unterricht',
+        description:
+          'Sie haben eine Präsenz von <= 85% in einem Fach erreicht.',
+      },
+      fr: {
+        label: 'Présence dans les cours de BM',
+        description:
+          'Vous avez atteint un taux de présence <= 85% dans une matière.',
+      },
+    },
+    gradePublish: {
+      de: {
+        label: 'Note publiziert',
+        description: 'Eine Note aus einem Test wurde publiziert.',
+      },
+      fr: {
+        label: 'Note publiée',
+        description: "Une note obtenue lors d'un test a été publiée.",
+      },
+    },
+    absenceMessage: {
+      de: {
+        label: 'Absenzenmeldung',
+        description:
+          'Fachlehrpersonen: Abwesenheit von Lernenden\nKlassenlehrperson: Antrag freier Halbtag',
+      },
+      fr: {
+        label: 'Déclaration des absences',
+        description:
+          "Fachlehrpersonen: Absence d'apprenants\nEnseignant de classe : demande de demi-journée libre",
+      },
+    },
+    absenceMessageTeacher: {
+      de: {
+        label: 'Absenz erfasst (Lehrperson)',
+        description:
+          'Klassenlehrperson: Jemand anderes als die Lernenden erfasst einen Absenz ohne Grund.',
+      },
+      fr: {
+        label: 'Absence saisie (enseignant)',
+        description:
+          "Enseignant(e) de classe : quelqu'un d'autre que les apprenants saisit un motif d'absence.",
+      },
+    },
+    teacherSubstitutions: {
+      de: {
+        label: 'Stellvertretung',
+        description:
+          'Lehrperson: Sie wurden als Stellvertretung für eine andere Lehrperson erfasst.',
+      },
+      fr: {
+        label: 'Suppléance',
+        description:
+          "Enseignant(e) : vous avez été saisi(e) en tant que remplaçant(e) d'un autre enseignant.",
+      },
+    },
+    BM2Teacher: {
+      de: {
+        label: 'Präsenz im BM-Unterricht',
+        description:
+          'Ein/e Lernende/r hat eine Präsenz von <= 85% in einem Fach erreicht.',
+      },
+      fr: {
+        label: 'Présence dans les cours de BM',
+        description:
+          'Un(e) apprenti(e) a atteint un taux de présence <= 85% dans une matière.',
+      },
+    },
+  },
+
+  notificationTypesAssignments: [
+    {
+      roles: ['StudentRole'],
+      types: ['BM2Student', 'gradePublish'],
+    },
+    {
+      roles: ['LessonTeacherRole', 'ClassTeacherRole', 'TeacherRole'],
+      types: [
+        'BM2Teacher',
+        'absenceMessage',
+        'absenceMessageTeacher',
+        'teacherSubstitutions',
+      ],
+    },
+  ],
 
   /**
    * Events
