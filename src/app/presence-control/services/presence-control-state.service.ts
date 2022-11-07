@@ -273,8 +273,9 @@ export class PresenceControlStateService
       this.absenceConfirmationStates$,
       this.otherTeachersAbsences$,
     ]).pipe(
-      map(([presences, types, confirmationStates, otherTeachersAbsences]) =>
-        presences
+      map(([presences, types, confirmationStates, otherTeachersAbsences]) => {
+        const lessons = extractLessonEntries(presences);
+        return presences
           .filter(
             (presence) =>
               presence.TeacherInformation ===
@@ -304,7 +305,7 @@ export class PresenceControlStateService
           }, [] as Array<LessonPresence>)
           .map((presence) =>
             getPresenceControlEntry(
-              extractLessonEntries(presences).find(
+              lessons.find(
                 (lesson) => lesson.id === presence.LessonRef.Id.toString()
               ),
               presence,
@@ -312,8 +313,8 @@ export class PresenceControlStateService
               confirmationStates,
               otherTeachersAbsences
             )
-          )
-      )
+          );
+      })
     );
   }
 

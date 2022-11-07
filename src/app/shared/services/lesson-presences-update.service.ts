@@ -100,7 +100,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     this.destroy$.next();
   }
 
-  updatePresenceTypes(
+  updatePresenceType(
     selectedPresenceControlEntry: PresenceControlEntry,
     newPresenceTypeId: Option<number> = null
   ): void {

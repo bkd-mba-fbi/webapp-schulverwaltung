@@ -14,6 +14,9 @@
         [checked]="option.selected"
         (change)="option.selected = !option.selected"
       />
+      <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{
+        option.entry.presenceCategoryIcon
+      }}</i>
       <label
         class="form-check-label d-block"
         [class.fw-bold]="
@@ -22,32 +25,25 @@
         "
         for="lesson-presence-{{ i }}"
       >
-        <div class="d-flex">
-          <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{
-            option.entry.presenceCategoryIcon
-          }}</i>
-          <div class="d-block text-truncate">
-            {{
-              option.entry.lessonPresence.LessonDateTimeFrom | date: 'HH:mm'
-            }}–{{
-              option.entry.lessonPresence.LessonDateTimeTo | date: 'HH:mm'
-            }}
-            {{ option.entry.lessonPresence.EventDesignation }}
-          </div>
+        <div class="d-block text-truncate">
+          {{
+            option.entry.lessonPresence.LessonDateTimeFrom | date: 'HH:mm'
+          }}–{{ option.entry.lessonPresence.LessonDateTimeTo | date: 'HH:mm' }}
+          {{ option.entry.lessonPresence.EventDesignation }}
         </div>
       </label>
     </div>
   </form>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" *erzLet="getSelectedEntries() as selectedEntries">
   <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
     {{ 'presence-control.block-lesson.cancel' | translate }}
   </button>
   <button
     type="button"
     class="btn btn-primary"
-    (click)="activeModal.close(getSelectedEntries())"
-    [disabled]="getSelectedEntries().length === 0"
+    (click)="activeModal.close(selectedEntries)"
+    [disabled]="selectedEntries.length === 0"
   >
     {{ 'presence-control.block-lesson.save' | translate }}
   </button>

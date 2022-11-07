@@ -64,14 +64,12 @@ export class PresenceControlListComponent
     this.destroy$.next();
   }
 
-  doTogglePresenceType(
-    selectedPresenceControlEntries: ReadonlyArray<PresenceControlEntry>
-  ): void {
-    selectedPresenceControlEntries.forEach((entry) =>
+  doTogglePresenceType(entries: ReadonlyArray<PresenceControlEntry>): void {
+    entries.forEach((entry) =>
       this.state
         .getNextPresenceType(entry)
         .subscribe((newPresenceType) =>
-          this.lessonPresencesUpdateService.updatePresenceTypes(
+          this.lessonPresencesUpdateService.updatePresenceType(
             entry,
             newPresenceType ? newPresenceType.Id : null
           )
@@ -95,9 +93,9 @@ export class PresenceControlListComponent
             modalRef.componentInstance.blockPresenceControlEntries =
               presenceControlEntries;
             modalRef.result.then(
-              (selectedPresenceControlEntries) => {
-                if (selectedPresenceControlEntries) {
-                  this.doTogglePresenceType(selectedPresenceControlEntries);
+              (entries) => {
+                if (entries) {
+                  this.doTogglePresenceType(entries);
                 }
               },
               () => {}
@@ -108,10 +106,7 @@ export class PresenceControlListComponent
   }
 
   updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
-    this.lessonPresencesUpdateService.updatePresenceTypes(
-      entry,
-      presenceTypeId
-    );
+    this.lessonPresencesUpdateService.updatePresenceType(entry, presenceTypeId);
   }
 
   changeIncident(entry: PresenceControlEntry): void {

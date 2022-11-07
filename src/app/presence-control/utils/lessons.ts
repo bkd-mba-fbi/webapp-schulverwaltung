@@ -68,7 +68,7 @@ export function getLessonPresencesForLesson(
 function getPrecedingAbsences(
   otherTeachersAbsences: ReadonlyArray<LessonAbsence>,
   lessonPresence: LessonPresence,
-  lesson: Option<LessonEntry> | undefined
+  lesson?: Option<LessonEntry>
 ): ReadonlyArray<LessonAbsence> {
   return uniqBy(
     otherTeachersAbsences.filter(

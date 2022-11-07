@@ -89,7 +89,7 @@ describe('PresenceControlListComponent', () => {
     } as unknown as PresenceControlStateService;
 
     lessonPresencesUpdateServiceMock = {
-      updatePresenceTypes: jasmine.createSpy('updatePresenceTypes'),
+      updatePresenceType: jasmine.createSpy('updatePresenceType'),
     } as unknown as LessonPresencesUpdateService;
 
     TestBed.configureTestingModule(
@@ -153,14 +153,14 @@ describe('PresenceControlListComponent', () => {
       bichsel.lessonPresence = lessonPresence;
       component.togglePresenceType(bichsel);
       expect(
-        lessonPresencesUpdateServiceMock.updatePresenceTypes
+        lessonPresencesUpdateServiceMock.updatePresenceType
       ).toHaveBeenCalledWith(bichsel, absence.Id);
     });
 
     it('updates given entry to next presence type', () => {
       component.doTogglePresenceType([bichsel]);
       expect(
-        lessonPresencesUpdateServiceMock.updatePresenceTypes
+        lessonPresencesUpdateServiceMock.updatePresenceType
       ).toHaveBeenCalledWith(bichsel, absence.Id);
     });
   });

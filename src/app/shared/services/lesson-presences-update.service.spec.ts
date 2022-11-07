@@ -127,11 +127,11 @@ describe('LessonPresencesUpdateService', () => {
     entryDeutschFrisch = buildPresenceControlEntry(deutschFrisch);
   });
 
-  describe('.updatePresenceTypes', () => {
+  describe('.updatePresenceType', () => {
     it('updates presence type of given lesson presences, performing only one request if executed within debounce time', fakeAsync(() => {
       // Change Einstein & Frisch to 'late'
       [entryDeutschEinsteinAbwesend, entryDeutschFrisch].forEach((entry) => {
-        service.updatePresenceTypes(entry, late.Id);
+        service.updatePresenceType(entry, late.Id);
       });
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
@@ -154,7 +154,7 @@ describe('LessonPresencesUpdateService', () => {
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
       // Also change Walser to 'late' after half the debounce time, updates state
-      service.updatePresenceTypes(entryDeutschWalser, late.Id);
+      service.updatePresenceType(entryDeutschWalser, late.Id);
       tick(UPDATE_STATE_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
@@ -208,10 +208,10 @@ describe('LessonPresencesUpdateService', () => {
 
       // Change Einstein & Frisch to 'late', Walser to 'absent'
       [entryDeutschEinsteinAbwesend, entryDeutschFrisch].forEach((entry) =>
-        service.updatePresenceTypes(entry, late.Id)
+        service.updatePresenceType(entry, late.Id)
       );
 
-      service.updatePresenceTypes(entryDeutschWalser, absent.Id);
+      service.updatePresenceType(entryDeutschWalser, absent.Id);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
@@ -258,7 +258,7 @@ describe('LessonPresencesUpdateService', () => {
 
     it('it executes remove request for entries set to "present"', fakeAsync(() => {
       // Change Einstein to 'present'
-      service.updatePresenceTypes(entryDeutschEinsteinAbwesend, null);
+      service.updatePresenceType(entryDeutschEinsteinAbwesend, null);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
