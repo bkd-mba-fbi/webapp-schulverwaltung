@@ -35,6 +35,7 @@ describe('HomeComponent', () => {
       '/edit-absences',
       '/evaluate-absences',
       '/events',
+      '/person-search',
       '/my-absences',
       '/my-profile',
       '/my-grades',
