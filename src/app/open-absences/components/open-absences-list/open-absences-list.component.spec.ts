@@ -114,7 +114,7 @@ describe('OpenAbsencesListComponent', () => {
     function toggleHeaderCheckbox(): void {
       (
         element.querySelector(
-          'input[accesskey="header_checkbox"]'
+          '.absence-header input[type="checkbox"]'
         ) as HTMLInputElement
       ).click();
       fixture.detectChanges();
