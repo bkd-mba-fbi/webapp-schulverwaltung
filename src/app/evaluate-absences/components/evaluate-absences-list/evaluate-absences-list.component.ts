@@ -39,6 +39,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     { key: 'TotalAbsencesValidExcuse', label: 'valid-excuse' },
     { key: 'TotalAbsencesWithoutExcuse', label: 'without-excuse' },
     { key: 'TotalAbsencesUnconfirmed', label: 'unconfirmed' },
+    { key: 'TotalAbsencesUnchecked', label: 'unchecked' },
     { key: 'TotalIncidents', label: 'incident' },
   ];
 
