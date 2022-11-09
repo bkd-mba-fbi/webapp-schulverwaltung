@@ -27,6 +27,7 @@ const Settings = t.type({
   unexcusedAbsenceStateId: t.number,
   excusedAbsenceStateId: t.number,
   checkableAbsenceStateId: t.number,
+  lessonPresencesRefreshTime: t.number,
   unconfirmedAbsencesRefreshTime: Option(t.number),
   personMasterDataReportId: t.number,
   studentConfirmationReportId: t.number,
