@@ -1,5 +1,5 @@
-<div class="filters mb-2">
-  <div class="form-group">
+<div class="row g-3 align-items-end">
+  <div class="col-sm-12 col-md">
     <label class="form-label">{{
       'evaluate-absences.header.student' | translate
     }}</label>
@@ -9,7 +9,7 @@
     ></erz-typeahead>
   </div>
 
-  <div class="form-group">
+  <div class="col-sm-12 col-md">
     <label class="form-label">{{
       'evaluate-absences.header.module-instance' | translate
     }}</label>
@@ -19,7 +19,7 @@
     ></erz-typeahead>
   </div>
 
-  <div class="form-group">
+  <div class="col-sm-12 col-md">
     <label class="form-label">{{
       'evaluate-absences.header.study-class' | translate
     }}</label>
@@ -30,7 +30,7 @@
     ></erz-typeahead>
   </div>
 
-  <div class="buttons">
+  <div class="col-auto">
     <button type="button" class="btn btn-primary" (click)="show()">
       {{ 'evaluate-absences.header.show' | translate }}
     </button>
