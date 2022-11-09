@@ -43,7 +43,13 @@
                 [ngClass]="column.label"
               >
                 <div class="d-flex">
-                  <div class="column-title">
+                  <div
+                    class="column-title"
+                    [ngbTooltip]="
+                      'evaluate-absences.list.header.' + column.label
+                        | translate
+                    "
+                  >
                     {{
                       'evaluate-absences.list.header.' + column.label
                         | translate

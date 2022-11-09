@@ -216,6 +216,7 @@ export function buildLessonPresenceStatistic(
     TotalAbsencesUnconfirmed: 0,
     TotalAbsencesValidExcuse: 0,
     TotalAbsencesWithoutExcuse: 0,
+    TotalAbsencesUnchecked: 0,
     TotalDispensations: 0,
     TotalHalfDays: 0,
     TotalIncidents: 0,
