@@ -1,0 +1,10 @@
+<div>
+  <div class="pt-3 ps-3 pe-3">
+    <erz-typeahead
+      [typeaheadService]="studentsRestService"
+      [value]="filter.student"
+      (valueChange)="$event && navigateToDossier($event)"
+    >
+    </erz-typeahead>
+  </div>
+</div>
