@@ -4,8 +4,8 @@
     [formGroup]="data.formGroup"
     (ngSubmit)="onSubmit()"
   >
-    <div class="form-row my-3">
-      <div class="form-group col-md-6">
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
         <label class="form-label" for="designation">{{
           'tests.form.designation' | translate
         }}</label>
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="form-group col-md-6">
+      <div class="col-md-6 mb-3">
         <label class="form-label" for="date">{{
           'tests.form.date' | translate
         }}</label>
@@ -63,10 +63,10 @@
       </div>
     </div>
 
-    <label class="form-label">{{ 'tests.form.weight' | translate }}</label>
-    <div class="form-row mb-3">
+    <div class="row mb-3">
+      <label class="form-label">{{ 'tests.form.weight' | translate }}</label>
       <div class="col-md-6">
-        <div class="form-group row">
+        <div class="row">
           <label for="factor" class="form-label col-3 col-sm-2">{{
             'tests.form.factor' | translate
           }}</label>
@@ -96,10 +96,10 @@
       </div>
     </div>
 
-    <label class="form-label">{{
-      'tests.form.grading-type' | translate
-    }}</label>
-    <div class="form-group mb-3">
+    <div>
+      <label class="form-label">{{
+        'tests.form.grading-type' | translate
+      }}</label>
       <div class="form-check">
         <input
           type="radio"
@@ -126,10 +126,10 @@
       </div>
 
       <ng-container *ngIf="data.formGroup.get('isPointGrading').value">
-        <div class="form-row ms-4 mb-3">
+        <div class="row ms-4 mb-3 g-3">
           <div class="col-sm-6 col-md-4">
-            <div class="form-group row">
-              <label for="max-points" class="col-4 col-form-label">{{
+            <div class="row">
+              <label for="max-points" class="ms-2 col-4 col-form-label">{{
                 'tests.form.max-points' | translate
               }}</label>
               <div class="col-6">
@@ -158,10 +158,12 @@
             </div>
           </div>
           <div class="col-sm-6 col-md-4">
-            <div class="form-group row">
-              <label for="max-points-adjusted" class="col-4 col-form-label">{{
-                'tests.form.max-points-adjusted' | translate
-              }}</label>
+            <div class="row">
+              <label
+                for="max-points-adjusted"
+                class="ms-2 col-4 col-form-label"
+                >{{ 'tests.form.max-points-adjusted' | translate }}</label
+              >
               <div class="col-6">
                 <input
                   type="number"
@@ -190,7 +192,7 @@
           </div>
         </div>
 
-        <div class="ms-4 ps-2">
+        <div class="ms-4 ps-3 py-3">
           <math>
             <mi>
               {{ 'tests.form.math.grade' | translate }}
