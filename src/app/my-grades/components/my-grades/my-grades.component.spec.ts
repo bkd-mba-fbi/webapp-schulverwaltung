@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyGradesComponent } from './my-grades.component';
+import { RouterModule } from '@angular/router';
 
 describe('MyGradesComponent', () => {
   let component: MyGradesComponent;
@@ -9,6 +10,7 @@ describe('MyGradesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MyGradesComponent],
+      imports: [RouterModule],
     }).compileComponents();
   });
 
