@@ -30,6 +30,7 @@ export const settings: Settings = {
   unexcusedAbsenceStateId: 225,
   excusedAbsenceStateId: 220,
   checkableAbsenceStateId: 1080,
+  lessonPresencesRefreshTime: 15 * 60 * 1000,
   unconfirmedAbsencesRefreshTime: null,
   personMasterDataReportId: 290026,
   studentConfirmationReportId: 290036,

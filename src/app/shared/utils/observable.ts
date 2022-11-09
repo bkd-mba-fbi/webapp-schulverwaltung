@@ -8,8 +8,18 @@ import {
   MonoTypeOperatorFunction,
   Observable,
   defer,
+  fromEvent,
+  interval,
+  merge,
 } from 'rxjs';
-import { catchError, defaultIfEmpty, tap, map } from 'rxjs/operators';
+import {
+  catchError,
+  defaultIfEmpty,
+  tap,
+  map,
+  switchMap,
+  startWith,
+} from 'rxjs/operators';
 
 export function catch404<T, O extends ObservableInput<any>>(
   returnValue?: any
@@ -64,4 +74,39 @@ export function defaultValue<T>(
       map((value) => (value == null ? defaultValue : value)),
       defaultIfEmpty(defaultValue)
     );
+}
+
+/**
+ * Returns an Observable that emits values of `source$`, or it
+ * emits the last (cached) value of `source$` when `trigger$` emits.
+ */
+export function reemitOnTrigger<T>(
+  source$: Observable<T>,
+  trigger$: Observable<unknown>
+): Observable<T> {
+  return source$.pipe(
+    switchMap((value) =>
+      trigger$.pipe(
+        startWith(value),
+        map(() => value)
+      )
+    )
+  );
+}
+
+/**
+ * Returns an Observable that emits every specified interval of time
+ * within periods of inactivity (i.e. no mouse clicks or key presses).
+ */
+export function intervalOnInactivity(
+  period: number,
+  eventSource: Node = window.document
+) {
+  return merge(
+    ...['click', 'keydown'].map((type) => fromEvent(eventSource, type))
+  ).pipe(
+    startWith(null),
+    switchMap(() => interval(period)),
+    map(() => undefined)
+  );
 }

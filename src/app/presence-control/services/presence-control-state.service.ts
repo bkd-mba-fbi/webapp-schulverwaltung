@@ -17,7 +17,6 @@ import {
   map,
   shareReplay,
   skip,
-  startWith,
   switchMap,
   take,
   takeUntil,
@@ -51,6 +50,10 @@ import { PresenceControlGroupService } from './presence-control-group.service';
 import { StorageService } from '../../shared/services/storage.service';
 import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+import {
+  intervalOnInactivity,
+  reemitOnTrigger,
+} from 'src/app/shared/utils/observable';
 
 export const VIEW_MODES: ReadonlyArray<string> = Object.values(
   PresenceControlViewMode
@@ -81,10 +84,10 @@ export class PresenceControlStateService
   private selectLesson$ = this.selectLessonId$.pipe(
     switchMap((id) => this.getLessonById(id))
   );
-  selectedLesson$ = this.selectLesson$.pipe(
-    distinctUntilChanged(isEqual),
-    shareReplay(1)
-  );
+  selectedLesson$ = reemitOnTrigger(
+    this.selectLesson$.pipe(distinctUntilChanged(isEqual)),
+    intervalOnInactivity(this.settings.lessonPresencesRefreshTime) // Trigger lesson reloading after periods of inactivity
+  ).pipe(shareReplay(1));
 
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
   private lessonPresences$ = merge(
@@ -96,8 +99,9 @@ export class PresenceControlStateService
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
-  studentIdsWithUnconfirmedAbsences$ = this.reloadOnLessonChange(
-    this.selectedDate$
+  studentIdsWithUnconfirmedAbsences$ = reemitOnTrigger(
+    this.selectedDate$,
+    this.selectedLesson$.pipe(skip(1))
   ).pipe(
     switchMap(() => this.loadStudentIdsWithUnconfirmedAbsences()),
     shareReplay(1)
@@ -323,18 +327,5 @@ export class PresenceControlStateService
   private getMyself(): number {
     const token = this.storageService.getPayload();
     return Number(token?.holder_id || token?.id_person);
-  }
-
-  private reloadOnLessonChange<T>(source$: Observable<T>): Observable<T> {
-    const reload$ = this.lessonPresences$;
-    return merge(source$).pipe(
-      switchMap((value) =>
-        reload$.pipe(
-          skip(1),
-          startWith(value),
-          map(() => value)
-        )
-      )
-    );
   }
 }
