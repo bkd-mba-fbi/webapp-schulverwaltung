@@ -14,14 +14,14 @@ describe('EventsRestService', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
-  describe('.getSubscriptionDetails', () => {
+  describe('.getSubscriptionDetailsDefinitions', () => {
     const data: any[] = [];
 
-    it('gets the list of subscription details for the given event id', () => {
+    it('gets the list of subscription details definitions for the given event id', () => {
       const url = 'https://eventotest.api/Events/1234/SubscriptionDetails';
 
       service
-        .getSubscriptionDetails(1234)
+        .getSubscriptionDetailsDefinitions(1234)
         .subscribe((result) => expect(result).toBe(data));
 
       httpTestingController

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Settings, SETTINGS } from '../../settings';
 import { SubscriptionDetail } from '../models/subscription-detail.model';
 import { RestService } from './rest.service';
@@ -16,6 +16,12 @@ export class SubscriptionDetailsRestService extends RestService<
     super(http, settings, SubscriptionDetail, 'SubscriptionDetails');
   }
 
+  getListForEvent(
+    eventId: number
+  ): Observable<ReadonlyArray<SubscriptionDetail>> {
+    return this.getList({ params: { IdEvent: String(eventId) } });
+  }
+
   update(group: Option<string>, detail: SubscriptionDetail): Observable<void> {
     const body = {
       IdPerson: detail.IdPerson,
@@ -24,6 +30,6 @@ export class SubscriptionDetailsRestService extends RestService<
     };
     return this.http
       .put<void>(`${this.baseUrl}/${detail.Id}`, body)
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 }

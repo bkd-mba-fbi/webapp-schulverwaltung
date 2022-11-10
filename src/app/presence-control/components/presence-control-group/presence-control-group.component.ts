@@ -90,16 +90,17 @@ export class PresenceControlGroupComponent implements OnInit {
     callback: (selectedGroup: GroupOptions) => void
   ): void {
     combineLatest([
-      this.groupService.getSubscriptionDetailForGroupEvent(),
+      this.groupService.getSubscriptionDetailsDefinitions(),
       this.groupService.group$,
     ])
       .pipe(take(1))
-      .subscribe(([subscriptionDetail, group]) => {
+      .subscribe(([subscriptionDetailsDefinitions, group]) => {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent
         );
         modalRef.componentInstance.dialogMode = dialogMode;
-        modalRef.componentInstance.subscriptionDetail = subscriptionDetail;
+        modalRef.componentInstance.subscriptionDetailsDefinitions =
+          subscriptionDetailsDefinitions;
         modalRef.componentInstance.group = group;
 
         modalRef.result.then(
