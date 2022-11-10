@@ -3,10 +3,7 @@
     {{ title | translate }}
   </p>
   <form>
-    <div
-      *ngFor="let option of groupOptions; let i = index"
-      class="form-group form-check"
-    >
+    <div *ngFor="let option of groupOptions; let i = index" class="form-check">
       <input
         class="form-check-input"
         type="radio"

@@ -5,7 +5,7 @@
   <form>
     <div
       *ngFor="let option of blockLessonOptions; let i = index"
-      class="form-group form-check"
+      class="form-check"
     >
       <input
         type="checkbox"
@@ -14,17 +14,17 @@
         [checked]="option.selected"
         (change)="option.selected = !option.selected"
       />
-      <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{
-        option.entry.presenceCategoryIcon
-      }}</i>
       <label
-        class="form-check-label d-block"
+        class="form-check-label d-flex"
         [class.fw-bold]="
           option.entry.lessonPresence.LessonDateTimeFrom ===
           entry.lessonPresence.LessonDateTimeFrom
         "
         for="lesson-presence-{{ i }}"
       >
+        <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{
+          option.entry.presenceCategoryIcon
+        }}</i>
         <div class="d-block text-truncate">
           {{
             option.entry.lessonPresence.LessonDateTimeFrom | date: 'HH:mm'

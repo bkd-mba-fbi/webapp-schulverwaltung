@@ -30,6 +30,9 @@ $spacer: 1.5rem; // Compensate for the base font
 // Buttons
 $input-btn-focus-box-shadow: none;
 
+// Checks and Radios
+$form-check-margin-bottom: $spacer;
+
 @import "node_modules/bootstrap/scss/variables";
 
 // Tables
