@@ -347,7 +347,7 @@
   },
   "my-grades": {
     "title": "Mes notes",
-    "header": "Les notes des tests sont visibles dès qu'elles ont été publiées par l'enseignant-e."
+    "header": "Les notes des tests sont visibles dès que le test a été publié par l'enseignant-e."
   },
   "my-settings": {
     "title": "Mes paramètres",
