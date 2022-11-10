@@ -53,7 +53,7 @@
       "save": "Valider"
     },
     "block-lesson": {
-      "text": "La leçon sélectionnée fait partie d'un bloc. Quelles leçons souhaitez-vous traiter (saisir ou supprimer une absence) ?",
+      "text": "La leçon sélectionnée fait partie d'un bloc. Pour quelle période souhaitez-vous saisir une absence ?",
       "cancel": "Annuler",
       "save": "Valider"
     },
@@ -261,7 +261,7 @@
       }
     },
     "publishing": {
-      "publish": "Voulez-vous publier les notes « {{designation}} » ? Cela déclenche une notification.",
+      "publish": "Voulez-vous publier le test « {{designation}} » ? Cela déclenche une notification.",
       "unpublish": "Voulez-vous modifier le test « {{designation}} » ?",
       "confirm": "Valider",
       "cancel": "Annuler"
