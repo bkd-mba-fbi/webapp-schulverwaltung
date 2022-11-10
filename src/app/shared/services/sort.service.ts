@@ -9,28 +9,25 @@ import {
   take,
 } from 'rxjs';
 
-export interface Sorting<T> {
-  key: T;
+export interface Sorting<SortingKey> {
+  key: SortingKey;
   ascending: boolean;
-}
-
-interface Column<T> {
-  key: keyof T;
-  label: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class SortService<T> {
-  private sortingSubject$ = new BehaviorSubject<Option<Sorting<T>>>(null);
+export class SortService<SortingKey> {
+  private sortingSubject$ = new BehaviorSubject<Option<Sorting<SortingKey>>>(
+    null
+  );
 
   sorting$ = this.sortingSubject$.asObservable().pipe(
     distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
     shareReplay(1)
   );
 
-  getSortingChar$(key: T): Observable<string> {
+  getSortingChar$(key: SortingKey): Observable<string> {
     return this.sorting$.pipe(
       map((sorting) => {
         if (sorting && key === sorting.key) {
@@ -43,17 +40,15 @@ export class SortService<T> {
 
   constructor() {}
 
-  setSorting(sorting: Option<Sorting<T>>): void {
+  setSorting(sorting: Option<Sorting<SortingKey>>): void {
     this.sortingSubject$.next(sorting);
   }
 
-  toggleSorting(key: T): void {
-    this.sorting$.pipe(take(1)).subscribe((sorting: Sorting<T>) => {
-      if (sorting && sorting.key === key) {
-        this.sortingSubject$.next({ key, ascending: !sorting.ascending });
-      } else {
-        this.sortingSubject$.next({ key, ascending: true });
-      }
+  toggleSorting(key: SortingKey): void {
+    this.sorting$.pipe(take(1)).subscribe((sorting) => {
+      const ascending =
+        sorting && sorting.key === key ? !sorting.ascending : true;
+      this.sortingSubject$.next({ key, ascending });
     });
   }
 }

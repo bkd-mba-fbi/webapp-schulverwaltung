@@ -11,10 +11,6 @@ describe('SortService', () => {
     service = TestBed.inject(SortService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   it('should set the sorting', (done) => {
     // given
     const newSorting: Sorting<SortableKeys> = {

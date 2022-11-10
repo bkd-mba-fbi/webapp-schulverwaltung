@@ -40,7 +40,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     @Inject(SETTINGS) settings: Settings,
     private studentsService: StudentsRestService,
     private storageService: StorageService,
-    sortService: SortService<LessonPresence>
+    sortService: SortService<keyof LessonPresence>
   ) {
     super(
       location,
