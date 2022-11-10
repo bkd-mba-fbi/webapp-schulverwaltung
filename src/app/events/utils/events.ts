@@ -26,8 +26,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
     courseStatus.HasTestGrading === false
   ) {
     if (
-      courseStatus.EvaluationUntil &&
-      courseStatus.EvaluationUntil >= new Date()
+      courseStatus.EvaluationUntil
     ) {
       // Bewertung bis
       return {
@@ -72,7 +71,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
         value: EventState.Tests,
         label: EventState.IntermediateRating,
       };
-    } else if (courseStatus.EvaluationUntil >= new Date()) {
+    } else if (courseStatus.EvaluationUntil) {
       // Test erfassen, Label Bewertung bis
       return {
         value: EventState.Tests,
