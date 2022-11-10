@@ -15,6 +15,7 @@
     ". date time dropdown-caret"
     ". description description dropdown-caret";
   grid-template-columns: 1fr auto auto 1fr;
+  align-items: center;
 }
 
 .lesson-date {
@@ -31,7 +32,6 @@
   i {
     color: $body-color;
     position: relative;
-    top: 2px;
   }
 }
 
