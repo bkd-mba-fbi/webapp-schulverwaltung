@@ -37,7 +37,7 @@ export class EvaluateAbsencesStateService
     loadingService: LoadingService,
     @Inject(SETTINGS) settings: Settings,
     private lessonPresenceService: LessonPresencesRestService,
-    sortService: SortService<LessonPresenceStatistic>
+    sortService: SortService<keyof LessonPresenceStatistic>
   ) {
     super(
       location,

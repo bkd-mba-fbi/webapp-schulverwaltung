@@ -43,12 +43,17 @@ type EntriesAction<T> = ResetEntriesAction<T> | AppendEntriesAction<T>;
 export const PAGE_LOADING_CONTEXT = 'page';
 
 @Injectable()
-export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
+export abstract class PaginatedEntriesService<
+  T,
+  FilterValue,
+  SortingKey = keyof T
+> implements OnDestroy
+{
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
   sorting$ = this.sortService.sorting$;
 
-  private filter$ = new BehaviorSubject<F>(this.getInitialFilter());
+  private filter$ = new BehaviorSubject<FilterValue>(this.getInitialFilter());
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));
   validFilter$ = this.filter$.pipe(
     filter(this.isValidFilter.bind(this)),
@@ -116,20 +121,22 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   constructor(
     protected location: Location,
     protected loadingService: LoadingService,
-    protected sortService: SortService<T>,
+    protected sortService: SortService<SortingKey>,
     protected settings: Settings,
     pageUrl: string
   ) {
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => this.location.replaceState(pageUrl, params));
+
+    this.sortService.setSorting(this.getInitialSorting());
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
   }
 
-  setFilter(filterValue: F): void {
+  setFilter(filterValue: FilterValue): void {
     // Make a copy of the filter object to be sure the distinct check
     // in the `validFilter$` observable works, even if the filter
     // object gets modified in place (non-immutable) in the component.
@@ -148,17 +155,21 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     this.resetEntries$.next();
   }
 
-  protected abstract getInitialFilter(): F;
+  protected abstract getInitialFilter(): FilterValue;
 
-  protected abstract isValidFilter(filterValue: F): boolean;
+  protected abstract isValidFilter(filterValue: FilterValue): boolean;
+
+  protected getInitialSorting(): Option<Sorting<SortingKey>> {
+    return null;
+  }
 
   protected abstract loadEntries(
-    filterValue: F,
+    filterValue: FilterValue,
     sorting: Option<Sorting<keyof T>>,
     offset: number
   ): Observable<Paginated<ReadonlyArray<T>>>;
 
-  protected abstract buildParamsFromFilter(filterValue: F): Params;
+  protected abstract buildParamsFromFilter(filterValue: FilterValue): Params;
 
   private entriesActionReducer(
     entries: ReadonlyArray<T>,

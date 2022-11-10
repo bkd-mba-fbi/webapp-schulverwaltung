@@ -60,7 +60,7 @@ export class EditAbsencesStateService
   constructor(
     location: Location,
     loadingService: LoadingService,
-    sortService: SortService<LessonPresence>,
+    sortService: SortService<keyof LessonPresence>,
     @Inject(SETTINGS) settings: Settings,
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
