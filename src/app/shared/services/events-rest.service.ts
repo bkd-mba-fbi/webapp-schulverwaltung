@@ -16,7 +16,7 @@ export class EventsRestService extends RestService<typeof SubscriptionDetail> {
     super(http, settings, SubscriptionDetail, 'Events');
   }
 
-  getSubscriptionDetails(
+  getSubscriptionDetailsDefinitions(
     eventId: number
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
     return this.http

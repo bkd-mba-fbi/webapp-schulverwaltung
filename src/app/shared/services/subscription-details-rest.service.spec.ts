@@ -5,6 +5,7 @@ import { isEqual } from 'lodash-es';
 
 import { SubscriptionDetailsRestService } from './subscription-details-rest.service';
 import { buildSubscriptionDetail } from '../../../spec-builders';
+import { SubscriptionDetail } from '../models/subscription-detail.model';
 
 describe('SubscriptionDetailsRestService', () => {
   let service: SubscriptionDetailsRestService;
@@ -14,6 +15,33 @@ describe('SubscriptionDetailsRestService', () => {
     TestBed.configureTestingModule(buildTestModuleMetadata({}));
     service = TestBed.inject(SubscriptionDetailsRestService);
     httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  describe('.getListForEvent', () => {
+    it('fetches the list of subscription details for the given event id', () => {
+      const data: ReadonlyArray<SubscriptionDetail> = [
+        buildSubscriptionDetail(1),
+        buildSubscriptionDetail(2),
+      ];
+
+      const expectedUrl =
+        'https://eventotest.api/SubscriptionDetails/?IdEvent=1234';
+
+      let result: ReadonlyArray<SubscriptionDetail> = [];
+      service
+        .getListForEvent(1234)
+        .subscribe((response) => (result = response));
+
+      httpTestingController
+        .expectOne(
+          ({ urlWithParams }) => urlWithParams === expectedUrl,
+          expectedUrl
+        )
+        .flush(data);
+
+      httpTestingController.verify();
+      expect(result).toEqual(data);
+    });
   });
 
   describe('.update', () => {

@@ -25,7 +25,7 @@ describe('PresenceControlGroupDialogComponent', () => {
     fixture = TestBed.createComponent(PresenceControlGroupDialogComponent);
     component = fixture.componentInstance;
     component.dialogMode = DialogMode.Select;
-    component.subscriptionDetail = buildSubscriptionDetail(3843);
+    component.subscriptionDetailsDefinitions = buildSubscriptionDetail(3843);
     component.group = null;
     fixture.detectChanges();
   });

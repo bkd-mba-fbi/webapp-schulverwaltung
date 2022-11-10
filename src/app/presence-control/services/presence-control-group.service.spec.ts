@@ -12,7 +12,6 @@ describe('PresenceControlGroupService', () => {
   let service: PresenceControlGroupService;
   let httpTestingController: HttpTestingController;
 
-  let subscriptionDetails: SubscriptionDetail[];
   let selectedLesson: Option<LessonEntry>;
 
   let selectedLesson$: Subject<Option<LessonEntry>>;
@@ -47,39 +46,39 @@ describe('PresenceControlGroupService', () => {
     });
 
     it('returns true if the selected lesson has groups available', () => {
-      const subscriptionDetailWithGroups = buildSubscriptionDetail(3843);
-      subscriptionDetails = [subscriptionDetailWithGroups];
-
       service.groupsAvailability$.subscribe((result) =>
         expect(result).toBeTruthy()
       );
 
       service.setSelectedLesson(selectedLesson);
 
-      expectSubscriptionDetailRequest(333);
+      expectSubscriptionDetailsDefinitionsRequest(333, [
+        buildSubscriptionDetail(3843),
+      ]);
     });
 
     it('returns false if the selected lesson does not have groups available', () => {
-      const subscriptionDetailWithoutGroups = buildSubscriptionDetail(3333);
-      subscriptionDetails = [subscriptionDetailWithoutGroups];
-
       service.groupsAvailability$.subscribe((result) =>
         expect(result).toBeFalsy()
       );
 
       service.setSelectedLesson(selectedLesson);
 
-      expectSubscriptionDetailRequest(333);
+      expectSubscriptionDetailsDefinitionsRequest(333, [
+        buildSubscriptionDetail(3333),
+      ]);
     });
   });
 
-  function expectSubscriptionDetailRequest(
+  function expectSubscriptionDetailsDefinitionsRequest(
     eventId: number,
-    response = subscriptionDetails
+    subscriptionDetailsDefinitions: SubscriptionDetail[]
   ): void {
     const url = `https://eventotest.api/Events/${eventId}/SubscriptionDetails`;
     httpTestingController
       .expectOne(url)
-      .flush(t.array(SubscriptionDetail).encode(response));
+      .flush(
+        t.array(SubscriptionDetail).encode(subscriptionDetailsDefinitions)
+      );
   }
 });

@@ -20,7 +20,7 @@ export enum DialogMode {
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
   @Input() dialogMode: DialogMode;
-  @Input() subscriptionDetail: SubscriptionDetail;
+  @Input() subscriptionDetailsDefinitions: SubscriptionDetail;
   @Input() group: Option<string>;
   groupOptions: Array<GroupOptions> = [];
   selected: GroupOptions;
@@ -36,7 +36,9 @@ export class PresenceControlGroupDialogComponent implements OnInit {
 
     const emptyOption = this.createEmtpyOption();
 
-    this.groupOptions = this.createGroupOptions(this.subscriptionDetail);
+    this.groupOptions = this.createGroupOptions(
+      this.subscriptionDetailsDefinitions
+    );
     this.groupOptions.unshift(emptyOption);
 
     this.selected =

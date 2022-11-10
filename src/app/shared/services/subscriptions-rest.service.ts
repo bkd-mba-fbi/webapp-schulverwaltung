@@ -20,14 +20,6 @@ export class SubscriptionsRestService extends RestService<
     super(http, settings, SubscriptionDetail, 'Subscriptions');
   }
 
-  getListByRegistrationId(
-    registrationId: number
-  ): Observable<ReadonlyArray<SubscriptionDetail>> {
-    return this.http
-      .get<unknown>(`${this.baseUrl}/${registrationId}/SubscriptionDetails`)
-      .pipe(switchMap(decodeArray(this.codec)));
-  }
-
   getIdSubscriptionsByStudentAndCourse(
     personId: number,
     eventIds: number[]
