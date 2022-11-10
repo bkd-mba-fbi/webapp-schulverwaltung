@@ -53,7 +53,7 @@
       "save": "Übernehmen"
     },
     "block-lesson": {
-      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie eine Absenz erfassen?",
+      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Welche Lektionen möchten Sie bearbeiten (Absenz erfassen oder austragen)?",
       "cancel": "Abbrechen",
       "save": "Übernehmen"
     },
@@ -262,7 +262,7 @@
       }
     },
     "publishing": {
-      "publish": "Möchten Sie den Test «{{designation}}» publizieren? Dies löst eine Benachrichtigung aus.",
+      "publish": "Möchten Sie die Noten «{{designation}}» publizieren? Dies löst eine Benachrichtigung aus.",
       "unpublish": "Möchten Sie den Test «{{designation}}» bearbeiten?",
       "confirm": "Bestätigen",
       "cancel": "Abbrechen"
