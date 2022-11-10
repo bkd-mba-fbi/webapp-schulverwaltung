@@ -4,7 +4,7 @@ import { PersonSearchHeaderComponent } from './person-search-header.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 import { Router } from '@angular/router';
 
-describe('PersonSearchHeaderComponent', () => {
+describe('PersonSearchHeaderComponent.navigateToDossier', () => {
   let component: PersonSearchHeaderComponent;
   let fixture: ComponentFixture<PersonSearchHeaderComponent>;
 
@@ -25,11 +25,7 @@ describe('PersonSearchHeaderComponent', () => {
     spyOn(router, 'navigate');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should build url', () => {
+  it('navigates to dossier with given id', () => {
     const key = 12;
     component.navigateToDossier(key);
     expect(router.navigate).toHaveBeenCalledWith([
