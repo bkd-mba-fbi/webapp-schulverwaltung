@@ -17,6 +17,6 @@
 @media (max-width: 750px) {
   .header {
     padding-right: $spacer;
-    padding-left: $spacer / 2;
+    padding-left: calc($spacer / 2);
   }
 }
