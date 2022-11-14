@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil, take, map, pluck, filter } from 'rxjs/operators';
+import { takeUntil, take, map, filter } from 'rxjs/operators';
 
 import {
   EditAbsencesStateService,
@@ -58,7 +58,11 @@ export class EditAbsencesListComponent
 
     // Reload entries for current filter when ?reload=true
     this.route.queryParams
-      .pipe(take(1), pluck('reload'), filter(isTruthy))
+      .pipe(
+        take(1),
+        map(({ reload }) => reload),
+        filter(isTruthy)
+      )
       .subscribe(() => this.state.resetEntries());
   }
 

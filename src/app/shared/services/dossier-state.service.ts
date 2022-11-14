@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, pluck, shareReplay, switchMap } from 'rxjs';
+import { BehaviorSubject, map, shareReplay, switchMap } from 'rxjs';
 import { parseQueryString } from '../utils/url';
 import { StudentProfileService } from './student-profile.service';
 
@@ -18,7 +18,9 @@ export class DossierStateService {
     shareReplay(1)
   );
 
-  returnParams$ = this.route.queryParams.pipe(pluck('returnparams'));
+  returnParams$ = this.route.queryParams.pipe(
+    map(({ returnparams }) => returnparams)
+  );
   backlinkQueryParams$ = this.returnParams$.pipe(map(parseQueryString));
 
   loading$ = this.profileService.loading$;

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -66,7 +66,7 @@ export class EditAbsencesUpdateService {
         break;
     }
 
-    return combineLatest(requests).pipe(mapTo(undefined));
+    return combineLatest(requests).pipe(map(() => undefined));
   }
 
   private createAbsentEditBulkRequests(

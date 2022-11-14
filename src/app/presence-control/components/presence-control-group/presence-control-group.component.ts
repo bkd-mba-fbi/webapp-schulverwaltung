@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
-import { map, pluck, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
 import { spread } from '../../../shared/utils/function';
 import { parseQueryString } from '../../../shared/utils/url';
@@ -38,7 +38,7 @@ export interface SortCriteria {
 })
 export class PresenceControlGroupComponent implements OnInit {
   backlinkQueryParams$ = this.route.queryParams.pipe(
-    pluck('returnparams'),
+    map(({ returnparams }) => returnparams),
     map(parseQueryString)
   );
 

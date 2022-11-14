@@ -6,7 +6,7 @@ import {
   concatMap,
   debounceTime,
   filter,
-  mapTo,
+  map,
   switchMap,
   scan,
   share,
@@ -123,7 +123,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
         });
         return result;
       }, [] as Observable<void>[])
-    ).pipe(mapTo(groupedUpdates));
+    ).pipe(map(() => groupedUpdates));
   }
 
   /**

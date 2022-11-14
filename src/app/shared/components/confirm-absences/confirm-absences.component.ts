@@ -21,7 +21,6 @@ import {
   shareReplay,
   take,
   switchMap,
-  pluck,
 } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -165,7 +164,9 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   }
 
   getSelectedCount(): Observable<number> {
-    return this.selectionService.selectedLessons$.pipe(pluck('length'));
+    return this.selectionService.selectedLessons$.pipe(
+      map((lessons) => lessons.length)
+    );
   }
 
   private createFormGroup(

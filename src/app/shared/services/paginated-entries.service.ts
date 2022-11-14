@@ -14,10 +14,8 @@ import {
   concatMap,
   shareReplay,
   takeUntil,
-  mapTo,
   scan,
   debounceTime,
-  pluck,
   take,
   distinctUntilChanged,
 } from 'rxjs/operators';
@@ -61,9 +59,9 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   private resetEntries$ = new Subject<void>();
   private nextPage$ = new Subject<void>();
   private page$ = merge(
-    this.nextPage$.pipe(mapTo('next')),
+    this.nextPage$.pipe(map(() => 'next')),
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
-      mapTo('reset')
+      map(() => 'reset')
     )
   ).pipe(scan((page, action) => (action === 'next' ? page + 1 : 0), 0));
   private offset$ = this.page$.pipe(
@@ -82,7 +80,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
   entries$ = merge(
     // Restart with empty list on reset or if filter/sorting changes
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
-      mapTo({ action: 'reset' } as ResetEntriesAction<T>)
+      map(() => ({ action: 'reset' } as ResetEntriesAction<T>))
     ),
 
     // Accumulate entries of loaded pages
@@ -105,7 +103,7 @@ export abstract class PaginatedEntriesService<T, F> implements OnDestroy {
     shareReplay(1)
   );
 
-  total$ = this.pageResult$.pipe(pluck('total'));
+  total$ = this.pageResult$.pipe(map(({ total }) => total));
   hasMore$ = this.pageResult$.pipe(
     map(({ offset, total }) => offset < total - this.settings.paginationLimit)
   );

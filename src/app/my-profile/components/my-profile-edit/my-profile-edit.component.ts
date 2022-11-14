@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -7,14 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
-import {
-  pluck,
-  map,
-  take,
-  switchMap,
-  finalize,
-  shareReplay,
-} from 'rxjs/operators';
+import { map, take, switchMap, finalize, shareReplay } from 'rxjs/operators';
 
 import { Person } from 'src/app/shared/models/person.model';
 import { MyProfileService } from '../../services/my-profile.service';
@@ -29,7 +22,7 @@ import { ToastService } from '../../../shared/services/toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileEditComponent {
-  student$ = this.profileService.profile$.pipe(pluck('student'));
+  student$ = this.profileService.profile$.pipe(map(({ student }) => student));
   formGroup$ = this.student$.pipe(
     map(this.createFormGroup.bind(this)),
     shareReplay(1)

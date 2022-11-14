@@ -10,7 +10,6 @@ import {
   map,
   finalize,
   scan,
-  pluck,
   startWith,
   distinctUntilChanged,
   multicast,
@@ -66,7 +65,7 @@ export class LoadingService implements OnDestroy {
 
   loading(context = DEFAULT_CONTEXT): Observable<boolean> {
     return this.loadingCounts$.pipe(
-      pluck(context),
+      map((counts) => counts[context]),
       map(nonZero),
       distinctUntilChanged()
     );

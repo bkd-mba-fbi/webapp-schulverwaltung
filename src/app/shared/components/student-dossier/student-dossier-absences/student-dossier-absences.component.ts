@@ -22,7 +22,6 @@ import {
   take,
   startWith,
   switchAll,
-  mapTo,
   shareReplay,
 } from 'rxjs/operators';
 
@@ -85,7 +84,10 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   loading$ = this.lessonPresences$.pipe(map(not(isArray)));
 
   selectionService$ = new ReplaySubject<ConfirmAbsencesSelectionService>(1);
-  editable$ = this.selectionService$.pipe(mapTo(true), startWith(false));
+  editable$ = this.selectionService$.pipe(
+    map(() => true),
+    startWith(false)
+  );
 
   private displayPresenceType$ = new BehaviorSubject<boolean>(true);
 

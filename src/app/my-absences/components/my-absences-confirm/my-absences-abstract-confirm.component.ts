@@ -7,7 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, of } from 'rxjs';
-import { finalize, map, filter, switchMap, take, pluck } from 'rxjs/operators';
+import { finalize, map, filter, switchMap, take } from 'rxjs/operators';
 
 import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
 import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
@@ -84,7 +84,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
   }
 
   getSelectedCount(): Observable<number> {
-    return this.selectedLessonIds$.pipe(pluck('length'));
+    return this.selectedLessonIds$.pipe(map((ids) => ids.length));
   }
 
   protected getConfirmationTypes(): Observable<ReadonlyArray<PresenceType>> {

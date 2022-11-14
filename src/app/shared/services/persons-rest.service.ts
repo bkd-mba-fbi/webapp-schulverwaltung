@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap, mapTo, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 
 import { RestService } from './rest.service';
 import { SETTINGS, Settings } from '../../settings';
@@ -61,6 +61,6 @@ export class PersonsRestService extends RestService<typeof Person> {
     };
     return this.http
       .put<void>(`${this.baseUrl}/${personId}`, body)
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 }

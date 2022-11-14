@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from 'src/app/settings';
 
@@ -36,7 +36,7 @@ export class LessonPresencesUpdateRestService {
       .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit`, body, {
         params,
       })
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 
   removeLessonPresences(
@@ -54,7 +54,7 @@ export class LessonPresencesUpdateRestService {
         },
         { params }
       )
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 
   confirmLessonPresences(
@@ -72,6 +72,6 @@ export class LessonPresencesUpdateRestService {
 
     return this.http
       .put<void>(`${this.settings.apiUrl}/LessonAbsences/Confirm`, body)
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 }

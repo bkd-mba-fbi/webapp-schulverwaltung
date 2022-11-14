@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { mapTo, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Grading } from '../models/course.model';
 import { RestService } from './rest.service';
@@ -19,6 +19,6 @@ export class GradingsRestService extends RestService<typeof Grading> {
   ): Observable<number> {
     return this.http
       .put(`${this.baseUrl}/${finaleGradeId}`, { GradeId: selectedGradeId })
-      .pipe(mapTo(finaleGradeId));
+      .pipe(map(() => finaleGradeId));
   }
 }

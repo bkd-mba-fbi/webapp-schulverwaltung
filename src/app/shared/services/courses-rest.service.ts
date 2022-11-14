@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { mapTo, Observable, switchMap, of } from 'rxjs';
+import { map, Observable, switchMap, of } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   Course,
@@ -84,7 +84,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     };
     return this.http
       .put<void>(`${this.baseUrl}/${courseId}/Tests/New`, body)
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 
   update(
@@ -112,7 +112,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     };
     return this.http
       .put<void>(`${this.baseUrl}/${courseId}/Tests/Update`, body)
-      .pipe(mapTo(undefined));
+      .pipe(map(() => undefined));
   }
 
   delete(courseId: number, testId: number): Observable<number> {
@@ -121,7 +121,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     };
     return this.http
       .put<unknown>(`${this.baseUrl}/${courseId}/Tests/Delete`, body)
-      .pipe(mapTo(testId));
+      .pipe(map(() => testId));
   }
 
   updateTestResult(
@@ -146,11 +146,15 @@ export class CoursesRestService extends RestService<typeof Course> {
 
   publishTest(id: number): Observable<number> {
     const body = { TestIds: [id] };
-    return this.http.put(`${this.baseUrl}/PublishTest`, body).pipe(mapTo(id));
+    return this.http
+      .put(`${this.baseUrl}/PublishTest`, body)
+      .pipe(map(() => id));
   }
 
   unpublishTest(id: number): Observable<number> {
     const body = { TestIds: [id] };
-    return this.http.put(`${this.baseUrl}/UnpublishTest`, body).pipe(mapTo(id));
+    return this.http
+      .put(`${this.baseUrl}/UnpublishTest`, body)
+      .pipe(map(() => id));
   }
 }
