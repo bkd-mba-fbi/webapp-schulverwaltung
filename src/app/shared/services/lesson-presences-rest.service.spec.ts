@@ -18,6 +18,10 @@ const CLASS_TEACHER_TOKEN =
 const LESSON_TEACHER_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlRlc3QiLCJjb25zdW1lcl9pZCI6ImRldiIsInVzZXJuYW1lIjoiam9obiIsImluc3RhbmNlX2lkIjoiVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjEyMyIsImlkX3BlcnNvbiI6IjQ1NiIsImZ1bGxuYW1lIjoiSm9obiBEb2UiLCJyb2xlcyI6Ikxlc3NvblRlYWNoZXJSb2xlIiwidG9rZW5faWQiOiIxMjM0NTYifQ.w2j7_k48rm1gY6RAieS0KG8-wFvK9T-y731w8Lun5Nk';
 
+// with roles 'AbsenceAdministratorRole;SubstituteAdministratorRole'
+const ABSENCE_ADMINISTRATOR_TOKEN =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjbHguYmt0Lmlzc3Vlci5ldmVudG8ub2F1dGgiLCJhdWQiOiJodHRwczovL1B1enpsZS8iLCJuYmYiOjE2Njg0MjA2NzUsImV4cCI6MTY2ODQzNTM3NSwidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlR1dG9yaW5nIiwiY29uc3VtZXJfaWQiOiJQdXp6bGUiLCJpbnN0YW5jZV9pZCI6Ikd5bUhvZndpbCIsInVzZXJuYW1lIjoiNjk5OCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwibG9naW5fdHlwZSI6IlBlcnNvbiIsImlkX21hbmRhbnQiOiIyMTciLCJpZF9wZXJzb24iOiI2OTk4IiwiZnVsbG5hbWUiOiJNYXJpYSBTdXBlcnVzZXJpbiIsInJvbGVzIjoiQWJzZW5jZUFkbWluaXN0cmF0b3JSb2xlO1N1YnN0aXR1dGVBZG1pbmlzdHJhdG9yUm9sZSIsInRva2VuX2lkIjoiMTA1NDUyIn0.peLj6jgOBBOuUjpxAmLEv9PCixjOFZug5hiPROv4oyw';
+
 describe('LessonPresencesRestService', () => {
   let service: LessonPresencesRestService;
   let httpTestingController: HttpTestingController;
@@ -173,6 +177,8 @@ describe('LessonPresencesRestService', () => {
       'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==true';
     const lessonTeacherRequestUrl =
       'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId==219&filter.HasStudyCourseConfirmationCode==false';
+    const absenceAdministratorRequestUrl =
+      'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId==219';
 
     let presence1: LessonPresence;
     let presence2: LessonPresence;
@@ -252,6 +258,30 @@ describe('LessonPresencesRestService', () => {
         lessonTeacherRequest?.flush(
           t.array(LessonPresence).encode([presence2, presence3])
         );
+      });
+    });
+
+    describe('for absence administrator', () => {
+      beforeEach(() => {
+        storeMock['CLX.LoginToken'] = ABSENCE_ADMINISTRATOR_TOKEN;
+      });
+
+      it('return unconfirmed absences for absence administrator role', () => {
+        service.getListOfUnconfirmed().subscribe((result) => {
+          expect(result.map((p) => p.Id)).toEqual([presence3.Id]);
+        });
+
+        httpTestingController
+          .expectOne(
+            (req) =>
+              req.urlWithParams === absenceAdministratorRequestUrl &&
+              req.headers.get('X-Role-Restriction') ===
+                'AbsenceAdministratorRole',
+            absenceAdministratorRequestUrl
+          )
+          .flush(t.array(LessonPresence).encode([presence3]));
+
+        httpTestingController.verify();
       });
     });
   });

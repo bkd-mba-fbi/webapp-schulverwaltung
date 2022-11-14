@@ -23,6 +23,7 @@ import { pick } from '../utils/types';
 import { RestService } from './rest.service';
 import { Sorting } from './sort.service';
 import { StorageService } from './storage.service';
+import { hasRole } from '../utils/roles';
 
 @Injectable({
   providedIn: 'root',
@@ -112,21 +113,24 @@ export class LessonPresencesRestService extends RestService<
   /**
    * Returns the list of unconfirmed absences, considering the user's
    * role (merges the presences from two requests for class teachers
-   * or uses a single request for lesson teachers).
+   * or uses a single request for lesson teachers and absence administrators).
    */
   getListOfUnconfirmed(
     params?: Dict<string>
   ): Observable<ReadonlyArray<LessonPresence>> {
-    const tokenPayload = this.storage.getPayload();
-    const roles = tokenPayload ? tokenPayload.roles : '';
-    const classTeacher = roles.indexOf('ClassTeacherRole') > 0;
-    if (classTeacher) {
+    if (hasRole(this.storage.getPayload()?.roles, 'ClassTeacherRole')) {
       return forkJoin([
         this.getListOfUnconfirmedClassTeacher(params),
         this.getListOfUnconfirmedLessonTeacher(params),
       ]).pipe(map(spread(mergeUniqueLessonPresences)));
     }
-    return this.getListOfUnconfirmedLessonTeacher(params);
+    if (hasRole(this.storage.getPayload()?.roles, 'LessonTeacherRole')) {
+      return this.getListOfUnconfirmedLessonTeacher(params);
+    }
+    if (hasRole(this.storage.getPayload()?.roles, 'AbsenceAdministratorRole')) {
+      return this.getListOfUnconfirmedAbsenceAdministrator(params);
+    }
+    return of([]);
   }
 
   getStatistics(
@@ -308,6 +312,18 @@ export class LessonPresencesRestService extends RestService<
         ...params,
         'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
         'filter.HasStudyCourseConfirmationCode': '=true',
+      },
+    });
+  }
+
+  private getListOfUnconfirmedAbsenceAdministrator(
+    params?: Dict<string>
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    return this.getList({
+      headers: { 'X-Role-Restriction': 'AbsenceAdministratorRole' },
+      params: {
+        ...params,
+        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
       },
     });
   }
