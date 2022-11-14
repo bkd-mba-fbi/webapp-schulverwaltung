@@ -79,16 +79,21 @@ export class LessonPresencesRestService extends RestService<
   }
 
   /**
-   * Fetch a list of lesson presences by date and student
+   * Fetch a list of lesson presences by date, student and study class
    */
-  getListByDateAndStudent(
+  getListByDateStudentClass(
     date: Date,
-    studentId: number
+    studentId: number,
+    studyClassId?: number
   ): Observable<ReadonlyArray<LessonPresence>> {
     const params: Record<string, string> = {
       'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
       'filter.StudentRef': `=${studentId}`,
     };
+
+    if (studyClassId != null) {
+      params['filter.StudyClassRef'] = `=${studyClassId}`;
+    }
 
     return this.getList({
       params,

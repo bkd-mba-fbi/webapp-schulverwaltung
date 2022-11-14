@@ -135,15 +135,15 @@ describe('LessonPresencesRestService', () => {
     });
   });
 
-  describe('.getListByDateAndStudent', () => {
+  describe('.getListByDateStudentClass', () => {
     it('fetches list filtered by given date and student', () => {
       const data: any[] = [];
       service
-        .getListByDateAndStudent(new Date(2000, 0, 23), 123)
+        .getListByDateStudentClass(new Date(2000, 0, 23), 123, 456)
         .subscribe((result) => expect(result).toBe(data));
 
       const url =
-        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23&filter.StudentRef==123';
+        'https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==2000-01-23&filter.StudentRef==123&filter.StudyClassRef==456';
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(data);

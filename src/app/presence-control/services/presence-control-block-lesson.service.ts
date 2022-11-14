@@ -22,8 +22,8 @@ export class PresenceControlBlockLessonService {
 
   /**
    * A block lesson is defined as a set of lesson presences of the
-   * same student, on the same day, with the same teacher and not more
-   * than half an hour apart.
+   * same day/student/teacher/class and not more than half an hour
+   * apart.
    *
    * Returns an array of presence control entries that are part of the
    * same block lesson as the given entry. Does not contain entries
@@ -112,8 +112,8 @@ export class PresenceControlBlockLessonService {
   ): Observable<ReadonlyArray<LessonPresence>> {
     return combineLatest([
       // To determine the block lessons, it is important to fetch all
-      // presences of therespective day for the student, since the
-      // state service loads only the presences of the selected lesson
+      // presences of the day, since the state service loads only the
+      // presences of the selected lesson
       this.loadLessonPresences(entry),
       this.state.presenceTypes$.pipe(take(1)),
     ]).pipe(
@@ -130,16 +130,17 @@ export class PresenceControlBlockLessonService {
   }
 
   /**
-   * Returns all lesson presences of same day, same student and same teacher.
+   * Returns all lesson presences of same day/student/teacher/class.
    */
   private loadLessonPresences(
     entry: PresenceControlEntry
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.loadingService.load(
       this.lessonPresencesService
-        .getListByDateAndStudent(
+        .getListByDateStudentClass(
           entry.lessonPresence.LessonDateTimeFrom,
-          entry.lessonPresence.StudentRef.Id
+          entry.lessonPresence.StudentRef.Id,
+          entry.lessonPresence.StudyClassRef.Id ?? undefined
         )
         .pipe(
           map((presences) =>

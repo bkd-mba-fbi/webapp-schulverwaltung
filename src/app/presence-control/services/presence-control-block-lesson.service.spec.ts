@@ -119,7 +119,8 @@ describe('PresenceControlBlockLessonService', () => {
 
       expectLessonPresencesRequest(
         lessonPresences[0].LessonDateTimeFrom,
-        lessonPresences[0].StudentRef.Id
+        lessonPresences[0].StudentRef.Id,
+        lessonPresences[0].StudyClassRef.Id ?? undefined
       );
     });
 
@@ -135,7 +136,8 @@ describe('PresenceControlBlockLessonService', () => {
 
       expectLessonPresencesRequest(
         lessonPresences[0].LessonDateTimeFrom,
-        lessonPresences[0].StudentRef.Id
+        lessonPresences[0].StudentRef.Id,
+        lessonPresences[0].StudyClassRef.Id ?? undefined
       );
     });
   });
@@ -143,12 +145,13 @@ describe('PresenceControlBlockLessonService', () => {
   function expectLessonPresencesRequest(
     date: Date,
     studentId: number,
+    studyClassId?: number,
     response = lessonPresences
   ): void {
     const url = `https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==${format(
       date,
       'yyyy-MM-dd'
-    )}&filter.StudentRef==${studentId}`;
+    )}&filter.StudentRef==${studentId}&filter.StudyClassRef==${studyClassId}`;
 
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
