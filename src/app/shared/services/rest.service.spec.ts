@@ -49,7 +49,7 @@ describe('RestService', () => {
     it('throws an error if JSON from server is not compliant', () => {
       const success = jasmine.createSpy('success');
       const error = jasmine.createSpy('error');
-      service.get(123).subscribe(success, error);
+      service.get(123).subscribe({ next: success, error });
 
       httpTestingController
         .expectOne('https://eventotest.api/Foo/123')
@@ -80,7 +80,7 @@ describe('RestService', () => {
     it('throws an error if JSON from server is not compliant', () => {
       const success = jasmine.createSpy('success');
       const error = jasmine.createSpy('error');
-      service.getList().subscribe(success, error);
+      service.getList().subscribe({ next: success, error });
 
       httpTestingController
         .expectOne('https://eventotest.api/Foo/')

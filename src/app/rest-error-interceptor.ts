@@ -132,7 +132,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
         }
       }
 
-      return throwError(error);
+      return throwError(() => error);
     };
   }
 

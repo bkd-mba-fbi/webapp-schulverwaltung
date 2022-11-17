@@ -1,5 +1,6 @@
 import * as t from 'io-ts';
-import { either } from 'fp-ts/es6/Either';
+import { pipe } from 'fp-ts/es6/function';
+import { chain } from 'fp-ts/es6/Either';
 import { JsonFromString } from 'io-ts-types';
 import {
   parseISOLocalDateTime,
@@ -37,10 +38,13 @@ export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
   'LocalDateTimeFromString',
   (u): u is Date => u instanceof Date,
   (u, c) =>
-    either.chain(t.string.validate(u, c), (s) => {
-      const d = parseISOLocalDateTime(s);
-      return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
-    }),
+    pipe(
+      t.string.validate(u, c),
+      chain((s) => {
+        const d = parseISOLocalDateTime(s);
+        return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
+      })
+    ),
   (a) => formatISOLocalDateTime(a)
 );
 
@@ -48,9 +52,12 @@ export const LocalDateFromString = new t.Type<Date, string, unknown>(
   'LocalDateTimeFromString',
   (u): u is Date => u instanceof Date,
   (u, c) =>
-    either.chain(t.string.validate(u, c), (s) => {
-      const d = parseISOLocalDate(s);
-      return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
-    }),
+    pipe(
+      t.string.validate(u, c),
+      chain((s) => {
+        const d = parseISOLocalDate(s);
+        return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
+      })
+    ),
   (a) => formatISOLocalDate(a)
 );

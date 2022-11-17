@@ -4,15 +4,15 @@ import {
   Observable,
   Subject,
   ReplaySubject,
-  ConnectableObservable,
   Subscription,
+  connectable,
+  Connectable,
 } from 'rxjs';
 import {
   shareReplay,
   map,
   switchMap,
   startWith,
-  multicast,
   filter,
   distinctUntilChanged,
 } from 'rxjs/operators';
@@ -20,8 +20,6 @@ import {
 import { SETTINGS, Settings } from 'src/app/settings';
 import { StorageService } from './storage.service';
 import { notNull } from '../utils/filter';
-import { decodeArray } from '../utils/decode';
-import { IdSubscription } from '../models/subscription-detail.model';
 import { SubscriptionsRestService } from './subscriptions-rest.service';
 
 /**
@@ -76,9 +74,8 @@ export class ReportsService implements OnDestroy {
     private subscriptionService: SubscriptionsRestService,
     private http: HttpClient
   ) {
-    this.studentConfirmationAvailabilitySub = (
-      this.studentConfirmationAvailability$ as ConnectableObservable<boolean>
-    ).connect();
+    this.studentConfirmationAvailabilitySub =
+      this.studentConfirmationAvailability$.connect();
   }
 
   ngOnDestroy(): void {
@@ -179,13 +176,15 @@ export class ReportsService implements OnDestroy {
     context: string,
     reportId: number,
     recordIds$: Observable<ReadonlyArray<number | string>>
-  ): Observable<boolean> {
-    return recordIds$.pipe(
-      filter((_, i) => i === 0), // Fetch the availability only once and cache it afterwards (but don't complete)
-      switchMap((recordIds) =>
-        this.loadReportAvailability(context, reportId, recordIds)
+  ): Connectable<boolean> {
+    return connectable(
+      recordIds$.pipe(
+        filter((_, i) => i === 0), // Fetch the availability only once and cache it afterwards (but don't complete)
+        switchMap((recordIds) =>
+          this.loadReportAvailability(context, reportId, recordIds)
+        )
       ),
-      multicast(() => new ReplaySubject<boolean>(1))
+      { connector: () => new ReplaySubject<boolean>(1) }
     );
   }
 }

@@ -8,13 +8,13 @@ import {
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { not } from 'fp-ts/es6/Predicate';
 
 import { OpenAbsencesService } from '../../services/open-absences.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
 import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
-import { not } from 'fp-ts/es6/function';
 import { PresenceTypesService } from '../../../shared/services/presence-types.service';
 import { PersonsRestService } from '../../../shared/services/persons-rest.service';
 

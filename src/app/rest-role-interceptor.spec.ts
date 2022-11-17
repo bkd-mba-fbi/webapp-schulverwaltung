@@ -33,7 +33,7 @@ describe('RestRoleInterceptor', () => {
     });
     it('should not add header on root module', () => {
       mockRouter.url = '/';
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
@@ -47,7 +47,9 @@ describe('RestRoleInterceptor', () => {
 
     it('should add header on presence control module', () => {
       mockRouter.url = '/presence-control';
-      http.get('/presence-control').subscribe(successCallback, errorCallback);
+      http
+        .get('/presence-control')
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
@@ -62,7 +64,9 @@ describe('RestRoleInterceptor', () => {
 
     it('should add header on my absences module', () => {
       mockRouter.url = '/my-absences';
-      http.get('/my-absences').subscribe(successCallback, errorCallback);
+      http
+        .get('/my-absences')
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
@@ -77,7 +81,9 @@ describe('RestRoleInterceptor', () => {
 
     it('should add header on open absences module', () => {
       mockRouter.url = '/open-absences';
-      http.get('/open-absences').subscribe(successCallback, errorCallback);
+      http
+        .get('/open-absences')
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
@@ -93,7 +99,9 @@ describe('RestRoleInterceptor', () => {
 
     it('should add header on edit absences module', () => {
       mockRouter.url = '/edit-absences';
-      http.get('/edit-absences').subscribe(successCallback, errorCallback);
+      http
+        .get('/edit-absences')
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
@@ -109,7 +117,9 @@ describe('RestRoleInterceptor', () => {
 
     it('should not add header on evaluate absences module', () => {
       mockRouter.url = '/evaluate-absences';
-      http.get('/evaluate-absences').subscribe(successCallback, errorCallback);
+      http
+        .get('/evaluate-absences')
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
@@ -124,7 +134,9 @@ describe('RestRoleInterceptor', () => {
 
     it('should not add header on my profile module', () => {
       mockRouter.url = '/my-profile';
-      http.get('/my-profile').subscribe(successCallback, errorCallback);
+      http
+        .get('/my-profile')
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne(
           (req) =>
