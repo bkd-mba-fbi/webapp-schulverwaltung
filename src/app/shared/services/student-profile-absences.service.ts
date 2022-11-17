@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, ReplaySubject, EMPTY, of, combineLatest } from 'rxjs';
-import { map, switchMap, startWith, multicast, refCount } from 'rxjs/operators';
+import { map, switchMap, startWith, share } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from 'src/app/settings';
 import { LessonPresence } from '../models/lesson-presence.model';
@@ -52,10 +52,10 @@ export class StudentProfileAbsencesService {
       switchMap(loadFn),
       startWith(null),
       // Clear the cache if all subscribers disconnect (don't replay the previous value)
-      multicast(
-        () => new ReplaySubject<Option<ReadonlyArray<LessonPresence>>>(1)
-      ),
-      refCount()
+      share({
+        connector: () =>
+          new ReplaySubject<Option<ReadonlyArray<LessonPresence>>>(1),
+      })
     );
   }
 

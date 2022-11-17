@@ -31,7 +31,7 @@ describe('RestAuthInterceptor', () => {
       it('adds CLX-Authorization header to request for API requests', () => {
         http
           .get('https://eventotest.api/foo')
-          .subscribe(successCallback, errorCallback);
+          .subscribe({ next: successCallback, error: errorCallback });
         httpTestingController
           .expectOne(
             (req) =>
@@ -48,7 +48,7 @@ describe('RestAuthInterceptor', () => {
       it('does not add CLX-Authorization header to request for non-API requests', () => {
         http
           .get('http://example.com')
-          .subscribe(successCallback, errorCallback);
+          .subscribe({ next: successCallback, error: errorCallback });
         httpTestingController
           .expectOne(
             (req) =>
@@ -77,7 +77,7 @@ describe('RestAuthInterceptor', () => {
       it('does not add CLX-Authorization header to request', () => {
         http
           .get('https://eventotest.api/foo')
-          .subscribe(successCallback, errorCallback);
+          .subscribe({ next: successCallback, error: errorCallback });
         httpTestingController
           .expectOne(
             (req) =>

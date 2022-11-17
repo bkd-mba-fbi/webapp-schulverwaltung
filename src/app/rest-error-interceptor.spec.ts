@@ -43,7 +43,7 @@ describe('RestErrorInterceptor', () => {
       httpTestingController.verify();
     });
     it('does nothing if request is successful', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 200, statusText: 'Success' });
@@ -55,7 +55,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches unknown error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 0, statusText: 'Unknown' });
@@ -67,7 +67,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches unauthorized error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 401, statusText: 'Unauthorized' });
@@ -79,7 +79,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches forbidden error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 403, statusText: 'Forbidden' });
@@ -91,7 +91,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches not found error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 404, statusText: 'Not found' });
@@ -103,7 +103,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches service unavailable error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 503, statusText: 'Service unavailable' });
@@ -115,7 +115,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches gateway timeout error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 504, statusText: 'Gateway timeout' });
@@ -127,7 +127,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches server error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 500, statusText: 'Internal server error' });
@@ -139,7 +139,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it('catches conflict error and displays notification', () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 409, statusText: 'Conflict' });
@@ -151,7 +151,7 @@ describe('RestErrorInterceptor', () => {
     });
 
     it("oh lovely, let's have a cup of tea, shall we?", () => {
-      http.get('/').subscribe(successCallback, errorCallback);
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 418, statusText: "I'm a teapot" });
@@ -164,7 +164,9 @@ describe('RestErrorInterceptor', () => {
 
     it('allows to disable error handling for "all" codes', () => {
       const params = withConfig({ disableErrorHandling: true });
-      http.get('/', { params }).subscribe(successCallback, errorCallback);
+      http
+        .get('/', { params })
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 502, statusText: 'Bad Gateway' });
@@ -177,7 +179,9 @@ describe('RestErrorInterceptor', () => {
 
     it('allows to disable error handling for certain status codes', () => {
       const params = withConfig({ disableErrorHandlingForStatus: [403, 404] });
-      http.get('/', { params }).subscribe(successCallback, errorCallback);
+      http
+        .get('/', { params })
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 403, statusText: 'Forbidden' });
@@ -190,7 +194,9 @@ describe('RestErrorInterceptor', () => {
 
     it('handles non-skipped errors codes', () => {
       const params = withConfig({ disableErrorHandlingForStatus: [403, 404] });
-      http.get('/', { params }).subscribe(successCallback, errorCallback);
+      http
+        .get('/', { params })
+        .subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
         .flush('hello', { status: 500, statusText: 'Internal server error' });

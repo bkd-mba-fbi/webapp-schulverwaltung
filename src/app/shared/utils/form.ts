@@ -1,5 +1,5 @@
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { Observable, of, empty, combineLatest } from 'rxjs';
+import { Observable, of, combineLatest, EMPTY } from 'rxjs';
 import { startWith, map, switchMap, filter, shareReplay } from 'rxjs/operators';
 
 /**
@@ -57,7 +57,7 @@ export function getControlValueChanges<T>(
   controlName: string
 ): Observable<T> {
   return getControl(formGroup$, controlName).pipe(
-    switchMap((control) => (control ? control.valueChanges : empty()))
+    switchMap((control) => (control ? control.valueChanges : EMPTY))
   );
 }
 

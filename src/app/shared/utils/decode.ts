@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { pipe } from 'fp-ts/es6/pipeable';
+import { pipe } from 'fp-ts/es6/function';
 import { fold, left } from 'fp-ts/es6/Either';
 import { PathReporter } from 'io-ts/es6/PathReporter';
 import { Observable, throwError, of } from 'rxjs';
@@ -30,7 +30,7 @@ export function decode<C extends t.Mixed>(
       fold(
         (error) =>
           throwError(
-            new DecodeError(PathReporter.report(left(error)).join('\n'))
+            () => new DecodeError(PathReporter.report(left(error)).join('\n'))
           ),
         (data) => of(data)
       )

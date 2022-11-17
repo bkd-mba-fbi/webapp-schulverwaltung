@@ -1,13 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { map, shareReplay, take } from 'rxjs/operators';
-import { not } from 'fp-ts/es6/function';
+import { not } from 'fp-ts/es6/Predicate';
 
 import { SelectionService } from 'src/app/shared/services/selection.service';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import {
-  getIdsGroupedByPerson,
-  getIdsGroupedByPersonAndPresenceType,
-} from 'src/app/shared/utils/lesson-presences';
+import { getIdsGroupedByPersonAndPresenceType } from 'src/app/shared/utils/lesson-presences';
 import { isInstanceOf } from 'src/app/shared/utils/filter';
 import { OpenAbsencesEntry } from 'src/app/open-absences/models/open-absences-entry.model';
 import { flattenOpenAbsencesEntries } from 'src/app/open-absences/utils/open-absences-entries';

@@ -3,8 +3,8 @@ import {
   Observable,
   Subject,
   ReplaySubject,
-  ConnectableObservable,
   Subscription,
+  connectable,
 } from 'rxjs';
 import {
   map,
@@ -12,7 +12,6 @@ import {
   scan,
   startWith,
   distinctUntilChanged,
-  multicast,
 } from 'rxjs/operators';
 import { prepare } from '../utils/observable';
 
@@ -34,29 +33,29 @@ export class LoadingService implements OnDestroy {
   private action$ = new Subject<LoadingAction>();
   private loadingCountsSub: Subscription;
 
-  loadingCounts$ = this.action$.pipe(
-    scan((counts, { action, context }) => {
-      switch (action) {
-        case 'increment':
-          counts[context] = (counts[context] || 0) + 1;
-          return counts;
-        case 'decrement':
-          counts[context] = Math.max(0, (counts[context] || 0) - 1);
-          return counts;
-        default:
-          return counts;
-      }
-    }, {} as LoadingCounts),
-    startWith({} as LoadingCounts),
-    multicast(() => new ReplaySubject<LoadingCounts>(1)) // Make it hot
+  loadingCounts$ = connectable(
+    this.action$.pipe(
+      scan((counts, { action, context }) => {
+        switch (action) {
+          case 'increment':
+            counts[context] = (counts[context] || 0) + 1;
+            return counts;
+          case 'decrement':
+            counts[context] = Math.max(0, (counts[context] || 0) - 1);
+            return counts;
+          default:
+            return counts;
+        }
+      }, {} as LoadingCounts),
+      startWith({} as LoadingCounts)
+    ),
+    { connector: () => new ReplaySubject<LoadingCounts>(1) } // Make it hot
   );
 
   loading$ = this.loading();
 
   constructor() {
-    this.loadingCountsSub = (
-      this.loadingCounts$ as ConnectableObservable<LoadingCounts>
-    ).connect();
+    this.loadingCountsSub = this.loadingCounts$.connect();
   }
 
   ngOnDestroy(): void {

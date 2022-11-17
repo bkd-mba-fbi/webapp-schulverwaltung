@@ -3,12 +3,11 @@ import { Observable, ReplaySubject, combineLatest } from 'rxjs';
 import {
   switchMap,
   startWith,
-  multicast,
-  refCount,
   map,
   take,
   shareReplay,
   filter,
+  share,
 } from 'rxjs/operators';
 
 import { SETTINGS, Settings } from 'src/app/settings';
@@ -148,8 +147,7 @@ export class MyAbsencesService {
     return source$.pipe(
       startWith(null),
       // Clear the cache if all subscribers disconnect (don't replay the previous value)
-      multicast(() => new ReplaySubject<Option<T>>(1)),
-      refCount()
+      share({ connector: () => new ReplaySubject<Option<T>>(1) })
     );
   }
 

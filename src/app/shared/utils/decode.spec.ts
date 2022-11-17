@@ -18,21 +18,21 @@ describe('decode utils', () => {
 
     it('decodes given data', () => {
       const data: unknown = { foo: 'bar' };
-      decoder(data).subscribe(success, error);
+      decoder(data).subscribe({ next: success, error });
       expect(success).toHaveBeenCalledWith({ foo: 'bar' });
       expect(error).not.toHaveBeenCalled();
     });
 
     it('ignores additional attributes', () => {
       const data: unknown = { foo: 'bar', baz: 123 };
-      decoder(data).subscribe(success, error);
+      decoder(data).subscribe({ next: success, error });
       expect(success).toHaveBeenCalledWith({ foo: 'bar', baz: 123 });
       expect(error).not.toHaveBeenCalled();
     });
 
     it('throws error if data is not valid', () => {
       const data: unknown = { foo: 123 };
-      decoder(data).subscribe(success, error);
+      decoder(data).subscribe({ next: success, error });
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
@@ -47,14 +47,14 @@ describe('decode utils', () => {
 
     it('decodes given data', () => {
       const data: unknown = [{ foo: 'bar' }, { foo: 'baz' }];
-      decoder(data).subscribe(success, error);
+      decoder(data).subscribe({ next: success, error });
       expect(success).toHaveBeenCalledWith([{ foo: 'bar' }, { foo: 'baz' }]);
       expect(error).not.toHaveBeenCalled();
     });
 
     it('throws error if data is not valid', () => {
       const data: unknown = [{ foo: 'bar' }, { bar: 'baz' }];
-      decoder(data).subscribe(success, error);
+      decoder(data).subscribe({ next: success, error });
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
