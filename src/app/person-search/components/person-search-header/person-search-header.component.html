@@ -1,11 +1,13 @@
 <div>
   <div class="pt-3 ps-3 pe-3">
+    <p class="mt-3">{{ 'person-search.name' | translate }}</p>
     <erz-typeahead
       [typeaheadService]="studentsRestService"
       [value]="filter.student"
       (valueChange)="$event && navigateToDossier($event)"
     >
     </erz-typeahead>
-    <p class="mt-3 px-3">{{ 'person-search.description' | translate }}</p>
+    <hr />
+    <p class="mt-3">{{ 'person-search.description' | translate }}</p>
   </div>
 </div>
