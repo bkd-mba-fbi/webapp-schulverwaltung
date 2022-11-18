@@ -22,14 +22,6 @@
   font-size: $erz-icon-size;
 }
 
-.absence-all {
-  padding: $spacer;
-  border-bottom: 1px solid $gray-200;
-  display: grid;
-  grid-template-areas: "checkbox all";
-  grid-template-columns: min-content 1fr;
-}
-
 .absence-entry {
   padding: $spacer;
   border-bottom: 1px solid $gray-200;
@@ -44,9 +36,6 @@
   grid-area: checkbox;
   margin: 0;
   padding: 0.6rem $spacer * 0.5 0 0;
-}
-.absence-all .checkbox {
-  padding-top: 0.2rem;
 }
 
 .checkbox input.form-check-input {
@@ -99,11 +88,6 @@
   .content {
     padding-left: 0;
     padding-right: 0;
-  }
-
-  .absence-all {
-    grid-template-areas: "checkbox all";
-    grid-template-columns: min-content 1fr;
   }
 
   .absence-entry {
