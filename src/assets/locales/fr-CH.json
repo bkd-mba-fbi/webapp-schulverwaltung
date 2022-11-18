@@ -324,8 +324,9 @@
       }
     }
   },
-    "person-search": {
-      "title": "Recherche des élèves"
+  "person-search": {
+    "title": "Recherche des élèves",
+    "description": "Hier können Sie nach Ihren Lernenden suchen, um mit Klick auf den Namen direkt zum Dossier zu gelangen."
   },
   "my-profile": {
     "title": "Mon profil",
