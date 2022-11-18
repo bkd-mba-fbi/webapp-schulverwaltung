@@ -35,9 +35,10 @@
 }
 
 .checkbox {
+  align-self: start;
   grid-area: checkbox;
   margin: 0;
-  padding: 0 $spacer 0 0;
+  padding: 0.3rem $spacer 0 0;
 }
 .absence-all .checkbox {
   padding-top: 0.2rem;
