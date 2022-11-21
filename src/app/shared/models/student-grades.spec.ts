@@ -49,10 +49,10 @@ describe('student-grade utils', () => {
 
       expect(results[0].student).toEqual(course.ParticipatingStudents![0]);
       expect(results[1].student).toEqual(course.ParticipatingStudents![1]);
-      expect(results[0].finalGrade.average).toBe(5.75);
-      expect(results[1].finalGrade.average).toBe(4.75);
-      expect(results[0].finalGrade.finalGradeId).toBe(3);
-      expect(results[1].finalGrade.finalGradeId).toBe(3);
+      expect(results[0].finalGrade?.average).toBe(5.75);
+      expect(results[1].finalGrade?.average).toBe(4.75);
+      expect(results[0].finalGrade?.finalGradeId).toBe(3);
+      expect(results[1].finalGrade?.finalGradeId).toBe(3);
       expect(results[0].grades.length).toBe(3);
       expect(results[1].grades.length).toBe(3);
 
@@ -111,20 +111,8 @@ describe('student-grade utils', () => {
       results[1].grades.every((grade) => grade.kind === 'no-result')
     ).toBeTruthy();
 
-    expect(results[0].finalGrade).toEqual({
-      id: undefined,
-      average: null,
-      finalGradeId: undefined,
-      freeHandGrade: NaN,
-      canGrade: false,
-    });
-    expect(results[1].finalGrade).toEqual({
-      id: undefined,
-      average: null,
-      finalGradeId: undefined,
-      freeHandGrade: NaN,
-      canGrade: false,
-    });
+    expect(results[0].finalGrade).toBeNull();
+    expect(results[1].finalGrade).toBeNull();
   });
 
   it('should create list of students with grades with results only for one student', () => {
@@ -168,12 +156,10 @@ describe('student-grade utils', () => {
       )
     ).toEqual([`no-result`, `no-result`, `no-result`]);
 
-    expect(results[0].finalGrade.average).toBe(2.275);
-    expect(results[1].finalGrade.average).toBeNull();
-    expect(results[0].finalGrade.finalGradeId).toBe(3);
-    expect(results[1].finalGrade.finalGradeId).toBeUndefined();
-    expect(results[0].finalGrade.canGrade).toBe(false);
-    expect(results[1].finalGrade.canGrade).toBe(false);
+    expect(results[0].finalGrade?.average).toBe(2.275);
+    expect(results[0].finalGrade?.finalGradeId).toBe(3);
+    expect(results[0].finalGrade?.canGrade).toBe(false);
+    expect(results[1].finalGrade).toBeNull();
   });
 
   it('should fill up holes with missing grades as no-result', () => {
@@ -240,42 +226,42 @@ describe('student-grade utils', () => {
         canGrade: true,
         average: 5,
         finalGradeId: 1005,
-        freeHandGrade: null,
+        freeHandGrade: 0,
       },
       {
         id: 2,
         canGrade: true,
         average: 3,
         finalGradeId: 1003,
-        freeHandGrade: null,
+        freeHandGrade: 0,
       },
       {
         id: 3,
         canGrade: true,
         average: 0,
         finalGradeId: null,
-        freeHandGrade: null,
+        freeHandGrade: 0,
       },
       {
         id: 4,
         canGrade: true,
         average: 4.5,
         finalGradeId: 1005,
-        freeHandGrade: null,
+        freeHandGrade: 0,
       },
       {
         id: 5,
         canGrade: true,
         average: null,
         finalGradeId: null,
-        freeHandGrade: null,
+        freeHandGrade: 0,
       },
       {
         id: 6,
         canGrade: true,
         average: 6,
         finalGradeId: null,
-        freeHandGrade: null,
+        freeHandGrade: 0,
       },
     ];
 

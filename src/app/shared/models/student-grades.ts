@@ -3,20 +3,19 @@ import { Result, Test } from 'src/app/shared/models/test.model';
 import { Sorting } from '../services/sort.service';
 import { average } from '../utils/math';
 import { FinalGrading, Grading } from './course.model';
-import { Grade } from './grading-scale.model';
 import { DropDownItem } from './drop-down-item.model';
 
 export type StudentGrade = {
   student: Student;
-  finalGrade: FinalGrade;
+  finalGrade: Option<FinalGrade>;
   grades: GradeOrNoResult[];
 };
 
 export type FinalGrade = {
-  id: Maybe<number>;
-  average: Maybe<number>;
-  finalGradeId: Maybe<number>;
-  freeHandGrade: Maybe<number>;
+  id: number;
+  average: Option<number>;
+  finalGradeId: Option<number>;
+  freeHandGrade: Option<number>;
   canGrade: boolean;
 };
 
@@ -35,11 +34,23 @@ export type GradeOrNoResult = GradeKind | NoResult;
 
 export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
 
+export function pluckFinalGrades(
+  studentGrades: ReadonlyArray<StudentGrade>
+): ReadonlyArray<FinalGrade> {
+  return studentGrades.map(({ finalGrade }) => finalGrade).filter(isFinalGrade);
+}
+
+function isFinalGrade(
+  finalGrade: Option<FinalGrade>
+): finalGrade is FinalGrade {
+  return finalGrade !== null;
+}
+
 export function transform(
-  students: Student[],
-  tests: Test[],
-  gradings: Grading[],
-  finalGrades: FinalGrading[]
+  students: ReadonlyArray<Student>,
+  tests: ReadonlyArray<Test>,
+  gradings: ReadonlyArray<Grading>,
+  finalGrades: ReadonlyArray<FinalGrading>
 ): StudentGrade[] {
   return students?.map((student) => {
     return {
@@ -50,7 +61,10 @@ export function transform(
   });
 }
 
-function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
+function getGrades(
+  student: Student,
+  tests: ReadonlyArray<Test>
+): GradeOrNoResult[] {
   return tests.map((test) => {
     if (test.Results === undefined || test.Results?.length === 0) {
       return {
@@ -78,9 +92,9 @@ function getGrades(student: Student, tests: Test[]): GradeOrNoResult[] {
 
 function getFinalGrade(
   student: Student,
-  gradings: Grading[],
-  finalGrades: FinalGrading[]
-): FinalGrade {
+  gradings: ReadonlyArray<Grading>,
+  finalGrades: ReadonlyArray<FinalGrading>
+): Option<FinalGrade> {
   const grading: Maybe<Grading> = gradings.find(
     (grading) => grading.StudentId === student.Id
   );
@@ -89,17 +103,18 @@ function getFinalGrade(
     (grading) => grading.StudentId === student.Id
   );
 
+  if (!grading) return null;
+
   return {
-    id: grading?.Id,
+    id: grading.Id,
     average: toAverage(grading),
-    finalGradeId: grading?.GradeId,
-    freeHandGrade: Number(finalGrading?.Grade),
-    canGrade: grading?.CanGrade || false,
+    finalGradeId: grading.GradeId,
+    freeHandGrade: finalGrading ? Number(finalGrading.Grade) : null,
+    canGrade: grading.CanGrade,
   };
 }
 
-function toAverage(grading: Grading | undefined) {
-  if (grading === undefined) return null;
+function toAverage(grading: Grading) {
   if (grading.AverageTestResult === 0) return null;
   return grading!.AverageTestResult;
 }
@@ -115,7 +130,7 @@ export const compareFn =
           modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
         );
       case 'FinalGrade':
-        if (!sg1.finalGrade.finalGradeId || !sg2.finalGrade.finalGradeId)
+        if (!sg1.finalGrade?.finalGradeId || !sg2.finalGrade?.finalGradeId)
           return modificator * -1;
         return (
           modificator *
@@ -125,7 +140,7 @@ export const compareFn =
           )
         );
       case 'TestsMean':
-        if (!sg1.finalGrade.average || !sg2.finalGrade.average)
+        if (!sg1.finalGrade?.average || !sg2.finalGrade?.average)
           return modificator * -1;
         return (
           modificator *
@@ -176,7 +191,7 @@ export function toMaxPoints(grade: GradeOrNoResult | null): number {
   return grade?.test.MaxPointsAdjusted || grade?.test.MaxPoints!;
 }
 
-export function meanOf(finalGrades: FinalGrade[]): number {
+export function meanOf(finalGrades: ReadonlyArray<FinalGrade>): number {
   const averageGrades = finalGrades
     .map((finalGrade) => finalGrade.average)
     .filter(
@@ -190,8 +205,8 @@ export function meanOf(finalGrades: FinalGrade[]): number {
 }
 
 export function averageOfGradesForScale(
-  finalGrades: FinalGrade[],
-  scale: DropDownItem[]
+  finalGrades: ReadonlyArray<FinalGrade>,
+  scale: ReadonlyArray<DropDownItem>
 ): number {
   const freeHandGrades: number[] = finalGrades
     .map((finalGrade) => finalGrade.freeHandGrade)

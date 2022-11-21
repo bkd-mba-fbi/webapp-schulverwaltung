@@ -28,6 +28,7 @@ import {
   averageOfGradesForScale,
   compareFn,
   meanOf,
+  pluckFinalGrades,
   SortKeys,
   StudentGrade,
   transform,
@@ -155,9 +156,7 @@ export class TestStateService {
     );
 
   meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
-    map((studentGrades) =>
-      meanOf(studentGrades.map((studentGrade) => studentGrade.finalGrade))
-    )
+    map((studentGrades) => meanOf(pluckFinalGrades(studentGrades)))
   );
 
   meanOfFinalGradesForCourse$: Observable<number | null> = combineLatest([
@@ -311,10 +310,7 @@ export class TestStateService {
         if (gradingScaleOptions[course.GradingScaleId] === undefined)
           return null;
         const scale = gradingScaleOptions[course.GradingScaleId]!;
-        const finalGrades = studentGrades.map(
-          (studentGrade) => studentGrade.finalGrade
-        );
-        return averageOfGradesForScale(finalGrades, scale);
+        return averageOfGradesForScale(pluckFinalGrades(studentGrades), scale);
       })
     );
   }
