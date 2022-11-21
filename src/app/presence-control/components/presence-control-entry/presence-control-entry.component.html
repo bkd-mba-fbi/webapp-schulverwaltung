@@ -24,7 +24,12 @@
   (click)="updatePresenceType(entry)"
   class="presence-category status btn btn-link"
 >
-  <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
+  <div class="position-relative" *erzLet="loading$ | async as statusLoading">
+    <i class="material-icons" [class.invisible]="statusLoading">{{
+      entry.presenceCategoryIcon
+    }}</i>
+    <erz-spinner *ngIf="statusLoading" class="inline small"></erz-spinner>
+  </div>
 </button>
 <button
   *ngIf="entry.precedingAbsences?.length > 0"

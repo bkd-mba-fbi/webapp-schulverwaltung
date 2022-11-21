@@ -10,11 +10,13 @@ import {
 import { Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { ReplaySubject } from 'rxjs';
+import { map, ReplaySubject, switchMap } from 'rxjs';
 import { PresenceControlEntry } from '../../models/presence-control-entry.model';
 import { PresenceControlPrecedingAbsenceComponent } from '../presence-control-preceding-absence/presence-control-preceding-absence.component';
 import { ToastService } from '../../../shared/services/toast.service';
 import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
+import { LoadingService } from 'src/app/shared/services/loading-service';
+import { getBlockLessonLoadingContext } from '../../services/presence-control-block-lesson.service';
 
 @Component({
   selector: 'erz-presence-control-entry',
@@ -34,19 +36,26 @@ export class PresenceControlEntryComponent implements OnChanges {
     return [this.entry.presenceCategory, this.viewMode].join(' ');
   }
 
-  studentId$ = new ReplaySubject<number>(1);
+  entry$ = new ReplaySubject<PresenceControlEntry>(1);
+  studentId$ = this.entry$.pipe(
+    map(({ lessonPresence }) => lessonPresence.StudentRef.Id)
+  );
+  loading$ = this.entry$.pipe(
+    switchMap((entry) =>
+      this.loadingService.loading(getBlockLessonLoadingContext(entry))
+    )
+  );
 
   constructor(
     private toastService: ToastService,
     private translate: TranslateService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private loadingService: LoadingService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.entry) {
-      this.studentId$.next(
-        changes.entry.currentValue.lessonPresence.StudentRef.Id
-      );
+      this.entry$.next(changes.entry.currentValue);
     }
   }
 

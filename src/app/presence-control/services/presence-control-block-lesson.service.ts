@@ -11,6 +11,12 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 
 const MAX_BLOCK_LESSION_MINUTES_GAP = 30;
 
+export function getBlockLessonLoadingContext(
+  entry: PresenceControlEntry
+): string {
+  return `blockLesson${entry.lessonPresence.Id}`;
+}
+
 @Injectable()
 export class PresenceControlBlockLessonService {
   constructor(
@@ -150,7 +156,8 @@ export class PresenceControlBlockLessonService {
                 entry.lessonPresence.TeacherInformation
             )
           )
-        )
+        ),
+      getBlockLessonLoadingContext(entry)
     );
   }
 }
