@@ -54,7 +54,7 @@ export class TestEditGradesComponent implements OnInit {
     return this.state.course$.pipe(
       map((course) =>
         Boolean(
-          getEventState(course)?.value && studentGrade.finalGrade.canGrade
+          getEventState(course)?.value && studentGrade.finalGrade?.canGrade
         )
       )
     );
