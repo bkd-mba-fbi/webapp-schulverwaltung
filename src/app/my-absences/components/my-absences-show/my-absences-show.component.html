@@ -4,6 +4,19 @@
     absenceCounts: myAbsencesService.counts$ | async
   } as data"
 >
+  <div class="d-flex justify-content-between">
+    <p>Hier können Sie Absenzen melden und Ihre offenen Absenzen bearbeiten.</p>
+    <div class="buttons">
+      <a
+        class="report btn btn-primary mb-2"
+        [href]="totalReportUrl$ | async"
+        target="_blank"
+      >
+        <i class="material-icons">description</i>
+      </a>
+    </div>
+  </div>
+
   <ngb-accordion #acc="ngbAccordion">
     <ngb-panel id="report-absence">
       <ng-template ngbPanelHeader>

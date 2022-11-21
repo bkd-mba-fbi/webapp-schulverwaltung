@@ -51,7 +51,30 @@ export class MyAbsencesService {
   openLessonAbsences$ = combineLatest([
     this.openAbsences$.pipe(filter(notNull)),
     this.lessonAbsences$,
-  ]).pipe(map(spread(this.getOpenLessonAbsences.bind(this))), shareReplay(1));
+  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
+
+  // The checkable absences as full lesson absence models
+  checkableLessonAbsences$ = combineLatest([
+    this.checkableAbsences$.pipe(filter(notNull)),
+    this.lessonAbsences$,
+  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
+
+  // Excused absences as full lesson absence models
+  excusedLessonAbsences$ = combineLatest([
+    this.excusedAbsences$.pipe(filter(notNull)),
+    this.lessonAbsences$,
+  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
+
+  // Unexcused absences as full lesson absence models
+  unexcusedLessonAbsences$ = combineLatest([
+    this.unexcusedAbsences$.pipe(filter(notNull)),
+    this.lessonAbsences$,
+  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
+
+  incidentsLessonAbsences$ = combineLatest([
+    this.incidents$.pipe(filter(notNull)),
+    this.lessonAbsences$,
+  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
 
   counts$ = this.getCounts();
 
@@ -108,11 +131,11 @@ export class MyAbsencesService {
     );
   }
 
-  private getOpenLessonAbsences(
-    openAbsences: ReadonlyArray<LessonPresence>,
+  private getLessonAbsences(
+    absences: ReadonlyArray<LessonPresence>,
     lessonAbsences: ReadonlyArray<LessonAbsence>
   ): ReadonlyArray<LessonAbsence> {
-    const lessonIds = openAbsences.map((a) => a.LessonRef.Id);
+    const lessonIds = absences.map((a) => a.LessonRef.Id);
     return lessonAbsences.filter((a) => lessonIds.includes(a.LessonRef.Id));
   }
 

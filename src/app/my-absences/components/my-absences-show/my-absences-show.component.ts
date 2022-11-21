@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap, take } from 'rxjs/operators';
 
 import { MyAbsencesService } from '../../services/my-absences.service';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
@@ -23,6 +23,7 @@ import { LessonAbsence } from '../../../shared/models/lesson-absence.model';
 })
 export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   reportUrl$ = this.loadReportUrl();
+  totalReportUrl$ = this.loadTotalReportUrl();
   reportAvailable$ = this.reportsService.studentConfirmationAvailability$;
 
   private destroy$ = new Subject<void>();
@@ -67,6 +68,50 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
           : null
       )
     );
+  }
+
+  loadTotalReportUrl(): Observable<Option<string>> {
+    const absences = combineLatest([
+      this.myAbsencesService.openLessonAbsences$,
+      this.myAbsencesService.checkableLessonAbsences$,
+      this.myAbsencesService.excusedLessonAbsences$,
+      this.myAbsencesService.unexcusedLessonAbsences$,
+      this.myAbsencesService.incidentsLessonAbsences$,
+    ]);
+
+    return absences.pipe(
+      map(
+        ([
+          lessonAbsences,
+          checkableAbsences,
+          excusedAbsences,
+          unexcusedAbsences,
+          incidents,
+        ]) =>
+          this.buildUrl([
+            ...lessonAbsences,
+            ...checkableAbsences,
+            ...excusedAbsences,
+            ...unexcusedAbsences,
+            ...incidents,
+          ])
+      ),
+      shareReplay(1)
+    );
+  }
+
+  private buildUrl(absences: LessonAbsence[]) {
+    return absences.length > 0
+      ? this.reportsService.getEvaluateAbsencesUrl(
+          this.getReportRecordIds_(absences)
+        )
+      : null;
+  }
+
+  private getReportRecordIds_(
+    presences: ReadonlyArray<any>
+  ): ReadonlyArray<string> {
+    return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationId}`);
   }
 
   private getReportRecordIds(
