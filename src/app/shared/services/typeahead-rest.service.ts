@@ -18,7 +18,7 @@ export interface TypeaheadService {
     term: string,
     additionalParams?: HttpParams
   ): Observable<ReadonlyArray<DropDownItem>>;
-  getTypeaheadItemById(id: number): Observable<DropDownItem>;
+  getTypeaheadItemById(id: DropDownItem['Key']): Observable<DropDownItem>;
 }
 
 export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
@@ -66,7 +66,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
       );
   }
 
-  getTypeaheadItemById(id: number): Observable<DropDownItem> {
+  getTypeaheadItemById(id: DropDownItem['Key']): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`, {
         params: {
