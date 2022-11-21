@@ -5,7 +5,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import {
   shareReplay,
@@ -72,6 +72,15 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     map((value) => this.createFormGroup(this.channelsSettings, value)),
     shareReplay(1)
   );
+  allChannelsInactive$ = merge(
+    this.channelsValue$,
+    this.channelsFormGroup$.pipe(
+      switchMap((formGroup) => formGroup.valueChanges)
+    )
+  ).pipe(
+    map((channels) => Object.values(channels).every((enabled) => !enabled))
+  );
+
   typesFormGroup$ = this.typesValue$.pipe(
     map((value) => this.createFormGroup(this.typesSettings, value, true)),
     shareReplay(1)

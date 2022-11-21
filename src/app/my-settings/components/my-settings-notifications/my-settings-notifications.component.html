@@ -1,7 +1,8 @@
 <div
   *erzLet="{
     channelsFormGroup: channelsFormGroup$ | async,
-    typesFormGroup: typesFormGroup$ | async
+    typesFormGroup: typesFormGroup$ | async,
+    allChannelsInactive: allChannelsInactive$ | async
   } as data"
   class="pb-4"
 >
@@ -39,6 +40,7 @@
       [description]="setting.description | async"
       [formControlName]="setting.key"
       [class.mt-4]="i > 0"
+      [disabled]="data.allChannelsInactive"
     >
     </erz-my-settings-notifications-toggle>
   </form>
