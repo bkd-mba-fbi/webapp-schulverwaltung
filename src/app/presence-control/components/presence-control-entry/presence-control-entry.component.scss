@@ -35,6 +35,13 @@
   color: $unapproved-color;
 }
 
+.presence-category erz-spinner {
+  color: black;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+}
+
 .designation,
 .student-name,
 a.incident,
