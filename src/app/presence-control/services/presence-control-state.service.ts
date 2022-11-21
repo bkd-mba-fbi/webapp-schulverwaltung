@@ -8,6 +8,7 @@ import {
   combineLatest,
   merge,
   Observable,
+  of,
   Subject,
   timer,
 } from 'rxjs';
@@ -84,15 +85,26 @@ export class PresenceControlStateService
   private selectLesson$ = this.selectLessonId$.pipe(
     switchMap((id) => this.getLessonById(id))
   );
-  selectedLesson$ = reemitOnTrigger(
-    this.selectLesson$.pipe(distinctUntilChanged(isEqual)),
-    intervalOnInactivity(this.settings.lessonPresencesRefreshTime) // Trigger lesson reloading after periods of inactivity
-  ).pipe(shareReplay(1));
+  selectedLesson$ = combineLatest([
+    reemitOnTrigger(
+      this.selectLesson$.pipe(distinctUntilChanged((a, b) => isEqual(a, b))),
+      intervalOnInactivity(this.settings.lessonPresencesRefreshTime) // Trigger lesson reloading after periods of inactivity
+    ),
+    this.lessons$,
+  ]).pipe(
+    map(([selectedLesson, lessons]) =>
+      // Reset selection if day changed
+      lessons.find((l) => l.id === selectedLesson.id) ? selectedLesson : null
+    ),
+    shareReplay(1)
+  );
 
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
   private lessonPresences$ = merge(
     this.selectedLesson$.pipe(
-      switchMap((lesson) => this.loadLessonPresencesByLesson(lesson))
+      switchMap((lesson) =>
+        lesson ? this.loadLessonPresencesByLesson(lesson) : of([])
+      )
     ),
     this.updateLessonPresences$
   ).pipe(shareReplay(1));
@@ -121,10 +133,12 @@ export class PresenceControlStateService
   otherTeachersAbsences$ = this.studentIds$.pipe(
     distinctUntilChanged(isEqual),
     switchMap((studentIds) =>
-      this.lessonTeacherService.loadOtherTeachersLessonAbsences(
-        this.getMyself(),
-        studentIds
-      )
+      studentIds.length > 0
+        ? this.lessonTeacherService.loadOtherTeachersLessonAbsences(
+            this.getMyself(),
+            studentIds
+          )
+        : of([])
     ),
     shareReplay(1)
   );
