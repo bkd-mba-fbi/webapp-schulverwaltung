@@ -6,6 +6,11 @@ export type EventStateWithLabel = {
   label?: string;
 };
 
+const INTERMEDIATE_RATING_STATUS_ID = 10300;
+const DEFINITIVELY_EVALUATED_STATUS_ID = 10260;
+const CAS_ACTIVE_STATUS_ID = 14030;
+const COURSE_ACTIVE_STATUS_ID = 10350;
+
 /**
  * Returns the event state with an optional label based on the given
  * course's evaluation and test status. See #427
@@ -20,7 +25,8 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
 
   if (
     HasEvaluationStarted === true &&
-    (course.StatusId === 14030 || course.StatusId === 10350)
+    (course.StatusId === CAS_ACTIVE_STATUS_ID ||
+      course.StatusId === COURSE_ACTIVE_STATUS_ID)
   ) {
     // Bewertung
     return {
@@ -34,7 +40,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
       return {
         value: EventState.RatingUntil,
       };
-    } else if (course.StatusId === 10300) {
+    } else if (course.StatusId === INTERMEDIATE_RATING_STATUS_ID) {
       // Zwischenbewertung
       return {
         value: EventState.IntermediateRating,
@@ -46,7 +52,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
     HasEvaluationStarted === false &&
     HasTestGrading === true &&
     HasReviewOfEvaluationStarted === false &&
-    course.StatusId !== 10260
+    course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID
   ) {
     // Tests erfassen
     return {
