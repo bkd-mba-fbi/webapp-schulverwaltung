@@ -76,6 +76,25 @@ describe('MySettingsNotificationsComponent', () => {
     it('renders gradePublish type form field with current value as active since not present in settings', () => {
       expect(getInput('notification-types-gradePublish').checked).toBe(true);
     });
+
+    it('disables types fields if all channels are inactive', async () => {
+      expect(getInput('notification-types-BM2Student').disabled).toBeFalsy();
+
+      // Toggle GUI (mail still active)
+      getInput('notification-channels-gui').click();
+      await waitForRender();
+      expect(getInput('notification-types-BM2Student').disabled).toBeFalsy();
+
+      // Toggle mail (all inactive)
+      getInput('notification-channels-mail').click();
+      await waitForRender();
+      expect(getInput('notification-types-BM2Student').disabled).toBeTruthy();
+
+      // Toggle mail again
+      getInput('notification-channels-mail').click();
+      await waitForRender();
+      expect(getInput('notification-types-BM2Student').disabled).toBeFalsy();
+    });
   });
 
   describe('auto-saving', () => {

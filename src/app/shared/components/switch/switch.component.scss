@@ -62,6 +62,7 @@ input:focus + label {
 }
 
 input:disabled + label {
+  cursor: default;
   opacity: 0.6;
   background: $erz-switch-disabled-bg;
   border-color: $erz-switch-disabled-border;
