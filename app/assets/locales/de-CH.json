@@ -325,7 +325,9 @@
     }
   },
   "person-search": {
-    "title": "Personensuche"
+    "title": "Personensuche",
+    "description": "Hier können Sie nach Ihren Lernenden suchen, um mit Klick auf den Namen direkt zum Dossier zu gelangen.",
+    "name": "Name"
   },
   "my-profile": {
     "title": "Mein Profil",
