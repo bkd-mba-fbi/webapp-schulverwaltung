@@ -100,7 +100,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     );
   }
 
-  private buildUrl(absences: LessonAbsence[]) {
+  private buildUrl(absences: any[]) {
     return absences.length > 0
       ? this.reportsService.getEvaluateAbsencesUrl(
           this.getReportRecordIds_(absences)
@@ -121,7 +121,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
       map((absences) =>
         absences
           .filter((a) => lessonIds.includes(a.LessonRef.Id))
-          .map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`)
+          .map((a) => `${a.LessonRef.Id}_${a.LessonRef.Id}`)
       )
     );
   }

@@ -19,8 +19,11 @@ describe('MyAbsencesShowComponent', () => {
           {
             provide: MyAbsencesService,
             useValue: {
-              openAbsences$: of([]),
               openLessonAbsences$: of([]),
+              checkableLessonAbsences$: of([]),
+              excusedLessonAbsences$: of([]),
+              unexcusedLessonAbsences$: of([]),
+              incidentsLessonAbsences$: of([]),
               counts$: of({}),
             },
           },
