@@ -198,7 +198,7 @@ describe('Course utils', () => {
       const pastDate = new Date(2022, 1, 1);
 
       const evaluationStatusRef = {
-        HasEvaluationStarted: true,
+        HasEvaluationStarted: false,
         EvaluationUntil: new Date(pastDate),
         HasReviewOfEvaluationStarted: false,
         HasTestGrading: false,

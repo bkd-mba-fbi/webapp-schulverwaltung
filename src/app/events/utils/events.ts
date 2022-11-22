@@ -6,14 +6,27 @@ export type EventStateWithLabel = {
   label?: string;
 };
 
-// To understand this logic see
-// https://github.com/bkd-mba-fbi/webapp-schulverwaltung/issues/427
+const INTERMEDIATE_RATING_STATUS_ID = 10300;
+const DEFINITIVELY_EVALUATED_STATUS_ID = 10260;
+const CAS_ACTIVE_STATUS_ID = 14030;
+const COURSE_ACTIVE_STATUS_ID = 10350;
+
+/**
+ * Returns the event state with an optional label based on the given
+ * course's evaluation and test status. See #427
+ */
 export function getEventState(course: Course): Option<EventStateWithLabel> {
-  const courseStatus = course.EvaluationStatusRef;
+  const {
+    HasEvaluationStarted,
+    HasReviewOfEvaluationStarted,
+    EvaluationUntil,
+    HasTestGrading,
+  } = course.EvaluationStatusRef;
 
   if (
-    courseStatus.HasEvaluationStarted === true &&
-    (course.StatusId === 14030 || course.StatusId === 10350)
+    HasEvaluationStarted === true &&
+    (course.StatusId === CAS_ACTIVE_STATUS_ID ||
+      course.StatusId === COURSE_ACTIVE_STATUS_ID)
   ) {
     // Bewertung
     return {
@@ -21,25 +34,13 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
     };
   }
 
-  if (
-    courseStatus.HasEvaluationStarted === true &&
-    courseStatus.HasTestGrading === false
-  ) {
-    if (
-      courseStatus.EvaluationUntil &&
-      courseStatus.EvaluationUntil >= new Date()
-    ) {
+  if (HasEvaluationStarted === true && HasTestGrading === false) {
+    if (EvaluationUntil) {
       // Bewertung bis
       return {
         value: EventState.RatingUntil,
       };
-    }
-
-    if (
-      (courseStatus.EvaluationUntil === null ||
-        courseStatus.EvaluationUntil === undefined) &&
-      course.StatusId === 10300
-    ) {
+    } else if (course.StatusId === INTERMEDIATE_RATING_STATUS_ID) {
       // Zwischenbewertung
       return {
         value: EventState.IntermediateRating,
@@ -48,10 +49,10 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
   }
 
   if (
-    courseStatus.HasEvaluationStarted === false &&
-    courseStatus.HasTestGrading === true &&
-    courseStatus.HasReviewOfEvaluationStarted === false &&
-    course.StatusId !== 10260
+    HasEvaluationStarted === false &&
+    HasTestGrading === true &&
+    HasReviewOfEvaluationStarted === false &&
+    course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID
   ) {
     // Tests erfassen
     return {
@@ -59,24 +60,18 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
     };
   }
 
-  if (
-    courseStatus.HasEvaluationStarted === true &&
-    courseStatus.HasTestGrading === true
-  ) {
-    if (
-      courseStatus.EvaluationUntil === null ||
-      courseStatus.EvaluationUntil === undefined
-    ) {
-      // Test erfassen, Label Zwischenbewertung
-      return {
-        value: EventState.Tests,
-        label: EventState.IntermediateRating,
-      };
-    } else if (courseStatus.EvaluationUntil >= new Date()) {
+  if (HasEvaluationStarted === true && HasTestGrading === true) {
+    if (EvaluationUntil) {
       // Test erfassen, Label Bewertung bis
       return {
         value: EventState.Tests,
         label: EventState.RatingUntil,
+      };
+    } else {
+      // Test erfassen, Label Zwischenbewertung
+      return {
+        value: EventState.Tests,
+        label: EventState.IntermediateRating,
       };
     }
   }
@@ -85,13 +80,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
 }
 
 export function canSetFinalGrade(course: Course): boolean {
-  const status = course.EvaluationStatusRef;
-  return (
-    status.HasEvaluationStarted === true &&
-    ((status?.EvaluationUntil && status?.EvaluationUntil >= new Date()) ||
-      status.EvaluationUntil === null ||
-      status.EvaluationUntil === undefined)
-  );
+  return course.EvaluationStatusRef.HasEvaluationStarted === true;
 }
 
 export function isRated(course: Course): boolean {
