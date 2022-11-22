@@ -8,6 +8,7 @@ export type EventStateWithLabel = {
 
 const INTERMEDIATE_RATING_STATUS_ID = 10300;
 const DEFINITIVELY_EVALUATED_STATUS_ID = 10260;
+const REVIEW_EVALUATED_STATUS_ID = 10250;
 const CAS_ACTIVE_STATUS_ID = 14030;
 const COURSE_ACTIVE_STATUS_ID = 10350;
 
@@ -51,7 +52,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
   if (
     HasEvaluationStarted === false &&
     HasTestGrading === true &&
-    course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID
+    (course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID && course.StatusId !== REVIEW_EVALUATED_STATUS_ID)
   ) {
     // Tests erfassen
     return {
