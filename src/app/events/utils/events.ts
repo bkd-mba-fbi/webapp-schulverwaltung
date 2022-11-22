@@ -52,7 +52,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
   if (
     HasEvaluationStarted === false &&
     HasTestGrading === true &&
-    (course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID || course.StatusId !== REVIEW_EVALUATED_STATUS_ID)
+    (course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID && course.StatusId !== REVIEW_EVALUATED_STATUS_ID)
   ) {
     // Tests erfassen
     return {
