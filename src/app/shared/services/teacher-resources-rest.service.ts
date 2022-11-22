@@ -25,12 +25,12 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
     );
   }
 
-  getTypeaheadItemById(id: string): Observable<DropDownItem> {
+  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
-          fields: [this.idAttr, this.labelAttr].join(','),
-          [`filter.${this.labelAttr}`]: `~*${id}*`,
+          fields: [this.keyAttr, this.labelAttr].join(','),
+          [`filter.${this.labelAttr}`]: `~*${key}*`,
         },
       })
       .pipe(

@@ -18,7 +18,7 @@ export interface TypeaheadService {
     term: string,
     additionalParams?: HttpParams
   ): Observable<ReadonlyArray<DropDownItem>>;
-  getTypeaheadItemById(id: DropDownItem['Key']): Observable<DropDownItem>;
+  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem>;
 }
 
 export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
@@ -26,7 +26,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
   implements TypeaheadService
 {
   protected typeaheadCodec = t.type(
-    pick(this.codec.props, [this.idAttr, this.labelAttr])
+    pick(this.codec.props, [this.keyAttr, this.labelAttr])
   );
 
   constructor(
@@ -35,7 +35,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     codec: T,
     resourcePath: string,
     protected labelAttr: string,
-    protected idAttr = 'Id'
+    protected keyAttr = 'Id'
   ) {
     super(http, settings, codec, resourcePath);
   }
@@ -46,7 +46,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
   ): Observable<ReadonlyArray<DropDownItem>> {
     const params = {
       params: {
-        fields: [this.idAttr, this.labelAttr].join(','),
+        fields: [this.keyAttr, this.labelAttr].join(','),
         [`filter.${this.labelAttr}`]: `~*${term}*`,
       },
     };
@@ -61,21 +61,24 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
         map((items) =>
-          items.map((i) => ({ Key: i[this.idAttr], Value: i[this.labelAttr] }))
+          items.map((i) => ({ Key: i[this.keyAttr], Value: i[this.labelAttr] }))
         )
       );
   }
 
-  getTypeaheadItemById(id: DropDownItem['Key']): Observable<DropDownItem> {
+  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem> {
     return this.http
-      .get<unknown>(`${this.baseUrl}/${id}`, {
+      .get<unknown>(`${this.baseUrl}/${key}`, {
         params: {
-          fields: [this.idAttr, this.labelAttr].join(','),
+          fields: [this.keyAttr, this.labelAttr].join(','),
         },
       })
       .pipe(
         switchMap(decode(this.typeaheadCodec)),
-        map((item) => ({ Key: item[this.idAttr], Value: item[this.labelAttr] }))
+        map((item) => ({
+          Key: item[this.keyAttr],
+          Value: item[this.labelAttr],
+        }))
       );
   }
 
