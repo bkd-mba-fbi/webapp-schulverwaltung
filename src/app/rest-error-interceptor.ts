@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { HTTP_STATUS } from './shared/services/rest.service';
 import { ToastService } from './shared/services/toast.service';
+import { nonEmptyString } from './shared/utils/filter';
 
 interface RestConfig {
   disableErrorHandling?: boolean;
@@ -124,7 +125,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
             this.notifyError('unavailable');
             return EMPTY;
           case HTTP_STATUS.CONFLICT: // Validation error
-            this.notifyError('conflict');
+            this.notifyConflictError(error);
             return EMPTY;
           default:
             this.notifyError('server');
@@ -141,5 +142,47 @@ export class RestErrorInterceptor implements HttpInterceptor {
       this.translate.instant(`global.rest-errors.${messageKey}-message`),
       this.translate.instant(`global.rest-errors.${messageKey}-title`)
     );
+  }
+
+  /**
+   * Displays an error notification containing the conflict response's
+   * issues. The conflict response may have a body like this:
+   *
+   * {
+   *   "HasErrors": true,
+   *   "HasQuestions": false,
+   *   "Issues": [
+   *     {
+   *       "ConflictDetail": null,
+   *       "ConflictingKey": null,
+   *       "ConflictingObject": null,
+   *       "ConflictingObjectType": null,
+   *       "Id": null,
+   *       "Message": "Person ist bereits angemeldet: Die Anmeldung kann nicht erstellt werden.",
+   *       "MessageId": null,
+   *       "MessageType": "Error",
+   *       "Property": null
+   *     }
+   *   ]
+   * }
+   */
+  private notifyConflictError(error: HttpErrorResponse): void {
+    const defaultMessage = this.translate.instant(
+      `global.rest-errors.conflict-message`
+    );
+    const issues = this.parseConflictIssues(error);
+    this.toastService.error(
+      issues.length > 0 ? issues.join('\n') : defaultMessage,
+      this.translate.instant(`global.rest-errors.conflict-title`)
+    );
+  }
+
+  private parseConflictIssues(error: HttpErrorResponse): ReadonlyArray<string> {
+    if (Array.isArray(error.error?.Issues)) {
+      return error.error.Issues.map((issue: any) => issue?.Message).filter(
+        nonEmptyString
+      );
+    }
+    return [];
   }
 }

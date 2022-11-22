@@ -6,6 +6,10 @@ export function notNull<T>(arg: T | null): arg is T {
   return arg !== null;
 }
 
+export function nonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0;
+}
+
 export function not<A>(fn: (arg: A) => boolean): (arg: A) => boolean {
   return (arg) => !fn(arg);
 }

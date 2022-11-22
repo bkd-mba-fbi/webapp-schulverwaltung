@@ -5,6 +5,7 @@ import {
   isTruthy,
   isInstanceOf,
   unique,
+  nonEmptyString,
 } from './filter';
 
 describe('filter utils', () => {
@@ -40,6 +41,42 @@ describe('filter utils', () => {
 
     it('returns false for null', () => {
       expect(notNull(null)).toBe(false);
+    });
+  });
+
+  describe('nonEmptyString', () => {
+    it('returns true for non empty string value', () => {
+      expect(nonEmptyString('x')).toBe(true);
+      expect(nonEmptyString(' ')).toBe(true);
+      expect(nonEmptyString('foo bar')).toBe(true);
+    });
+
+    it('returns false for undefined', () => {
+      expect(nonEmptyString(undefined)).toBe(false);
+    });
+
+    it('returns false for null', () => {
+      expect(nonEmptyString(null)).toBe(false);
+    });
+
+    it('returns false for empty string', () => {
+      expect(nonEmptyString('')).toBe(false);
+    });
+
+    it('returns false for false', () => {
+      expect(nonEmptyString(false)).toBe(false);
+    });
+
+    it('returns false for 0', () => {
+      expect(nonEmptyString(0)).toBe(false);
+    });
+
+    it('returns false for empty object', () => {
+      expect(nonEmptyString({})).toBe(false);
+    });
+
+    it('returns false for empty array', () => {
+      expect(nonEmptyString([])).toBe(false);
     });
   });
 

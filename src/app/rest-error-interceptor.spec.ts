@@ -138,7 +138,7 @@ describe('RestErrorInterceptor', () => {
       expectToast('server');
     });
 
-    it('catches conflict error and displays notification', () => {
+    it('catches conflict error without issues body and displays notification', () => {
       http.get('/').subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne('/')
@@ -148,6 +148,50 @@ describe('RestErrorInterceptor', () => {
       expect(errorCallback).not.toHaveBeenCalled();
       expect(routerMock.navigate).not.toHaveBeenCalled();
       expectToast('conflict');
+    });
+
+    it('catches conflict error with issues body and displays notification', () => {
+      http.get('/').subscribe({ next: successCallback, error: errorCallback });
+      httpTestingController.expectOne('/').flush(
+        {
+          HasErrors: true,
+          HasQuestions: false,
+          Issues: [
+            {
+              ConflictDetail: null,
+              ConflictingKey: null,
+              ConflictingObject: null,
+              ConflictingObjectType: null,
+              Id: null,
+              Message:
+                'Person ist bereits angemeldet: Die Anmeldung kann nicht erstellt werden.',
+              MessageId: null,
+              MessageType: 'Error',
+              Property: null,
+            },
+            {
+              ConflictDetail: null,
+              ConflictingKey: null,
+              ConflictingObject: null,
+              ConflictingObjectType: null,
+              Id: null,
+              Message: 'Ein weiteres Problem bla bla.',
+              MessageId: null,
+              MessageType: 'Error',
+              Property: null,
+            },
+          ],
+        },
+        { status: 409, statusText: 'Conflict' }
+      );
+
+      expect(successCallback).not.toHaveBeenCalled();
+      expect(errorCallback).not.toHaveBeenCalled();
+      expect(routerMock.navigate).not.toHaveBeenCalled();
+      expect(toastServiceMock.error).toHaveBeenCalledWith(
+        'Person ist bereits angemeldet: Die Anmeldung kann nicht erstellt werden.\nEin weiteres Problem bla bla.',
+        `global.rest-errors.conflict-title`
+      );
     });
 
     it("oh lovely, let's have a cup of tea, shall we?", () => {
