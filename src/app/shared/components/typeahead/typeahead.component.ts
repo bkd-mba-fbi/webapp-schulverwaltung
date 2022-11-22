@@ -92,10 +92,10 @@ export class TypeaheadComponent implements OnChanges {
       .pipe(finalize(() => this.loading$.next(false)));
   }
 
-  private fetchItem(id: DropDownItem['Key']): Observable<DropDownItem> {
+  private fetchItem(key: DropDownItem['Key']): Observable<DropDownItem> {
     this.loading$.next(true);
     return this.typeaheadService
-      .getTypeaheadItemById(id)
+      .getTypeaheadItemByKey(key)
       .pipe(finalize(() => this.loading$.next(false)));
   }
 }

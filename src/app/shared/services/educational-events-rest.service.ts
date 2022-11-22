@@ -53,12 +53,12 @@ export class EducationalEventsRestService
       );
   }
 
-  getTypeaheadItemById(id: number): Observable<DropDownItem> {
+  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
           fields: ['Id', 'Designation', 'Number'].join(','),
-          ['filter.Id']: `=${id}`,
+          ['filter.Id']: `=${key}`,
         },
       })
       .pipe(
