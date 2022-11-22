@@ -80,11 +80,7 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
 }
 
 export function canSetFinalGrade(course: Course): boolean {
-  const { HasEvaluationStarted, EvaluationUntil } = course.EvaluationStatusRef;
-  return (
-    HasEvaluationStarted === true &&
-    ((EvaluationUntil && EvaluationUntil >= new Date()) || !EvaluationUntil)
-  );
+  return course.EvaluationStatusRef.HasEvaluationStarted === true;
 }
 
 export function isRated(course: Course): boolean {
