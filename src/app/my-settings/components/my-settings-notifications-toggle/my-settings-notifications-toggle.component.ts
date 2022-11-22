@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   forwardRef,
   Input,
@@ -32,7 +33,7 @@ export class MySettingsNotificationsToggleComponent
 
   private _value = false;
 
-  constructor() {}
+  constructor(private cd: ChangeDetectorRef) {}
 
   get value(): boolean {
     return this._value;
@@ -61,5 +62,6 @@ export class MySettingsNotificationsToggleComponent
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cd.markForCheck();
   }
 }

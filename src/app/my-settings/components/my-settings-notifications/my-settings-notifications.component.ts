@@ -5,7 +5,14 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  merge,
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import {
   shareReplay,
@@ -13,6 +20,9 @@ import {
   finalize,
   switchMap,
   takeUntil,
+  withLatestFrom,
+  skip,
+  distinctUntilChanged,
 } from 'rxjs/operators';
 
 import {
@@ -78,11 +88,15 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
       switchMap((formGroup) => formGroup.valueChanges)
     )
   ).pipe(
-    map((channels) => Object.values(channels).every((enabled) => !enabled))
+    map((channels) => Object.values(channels).every((enabled) => !enabled)),
+    distinctUntilChanged()
   );
 
   typesFormGroup$ = this.typesValue$.pipe(
-    map((value) => this.createFormGroup(this.typesSettings, value, true)),
+    withLatestFrom(this.allChannelsInactive$),
+    map(([value, allChannelsInactive]) =>
+      this.createFormGroup(this.typesSettings, value, true, allChannelsInactive)
+    ),
     shareReplay(1)
   );
 
@@ -100,6 +114,19 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Make sure we have fresh settings, even if the have been loaded previously
     this.userSettings.refetch();
+
+    // Update disabled state of types fields
+    this.allChannelsInactive$
+      .pipe(
+        skip(1),
+        withLatestFrom(this.typesFormGroup$),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([allChannelsInactive, formGroup]) => {
+        Object.values(formGroup.controls).forEach((control) =>
+          allChannelsInactive ? control.disable() : control.enable()
+        );
+      });
 
     // Autosave the notification channels setting on each change
     this.channelsFormGroup$
@@ -125,11 +152,15 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
   private createFormGroup(
     settings: ReadonlyArray<NotificationSetting>,
     record: Record<string, boolean>,
-    defaultValue = false
+    defaultValue = false,
+    disabled = false
   ): UntypedFormGroup {
     return this.formBuilder.group(
       settings.reduce(
-        (acc, { key }) => ({ ...acc, [key]: [record[key] ?? defaultValue] }),
+        (acc, { key }) => ({
+          ...acc,
+          [key]: [{ value: record[key] ?? defaultValue, disabled }],
+        }),
         {}
       )
     );
