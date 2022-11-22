@@ -6,12 +6,13 @@
   } as data"
   class="pb-4"
 >
-  <h5 class="m-0 pb-3 flex align-items-center">
+  <h5 class="m-0 pb-3 d-flex align-items-stretch">
     <span>{{ 'my-settings.notifications.title' | translate }}</span>
-    <erz-spinner
-      *ngIf="saving$ | async"
-      class="inline small d-inline-block ms-2"
-    ></erz-spinner>
+    <div *ngIf="saving$ | async" class="position-relative">
+      <erz-spinner
+        class="position-absolute inline small d-inline-block ms-2"
+      ></erz-spinner>
+    </div>
   </h5>
 
   <form *ngIf="data.channelsFormGroup" [formGroup]="data.channelsFormGroup">
