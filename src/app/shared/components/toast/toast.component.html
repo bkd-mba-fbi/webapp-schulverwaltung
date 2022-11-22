@@ -1,5 +1,5 @@
 <ngb-toast
-  *ngFor="let toast of toastService.toasts"
+  *ngFor="let toast of toastService.toasts$ | async"
   [header]="toast.header"
   [class]="toast.classname"
   [autohide]="true"
