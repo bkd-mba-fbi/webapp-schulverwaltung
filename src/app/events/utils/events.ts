@@ -51,7 +51,6 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
   if (
     HasEvaluationStarted === false &&
     HasTestGrading === true &&
-    HasReviewOfEvaluationStarted === false &&
     course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID
   ) {
     // Tests erfassen
