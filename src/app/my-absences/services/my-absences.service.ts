@@ -73,8 +73,8 @@ export class MyAbsencesService {
 
   incidentsLessonAbsences$ = combineLatest([
     this.incidents$.pipe(filter(notNull)),
-    this.lessonAbsences$,
-  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
+    this.lessonIncidents$,
+  ]).pipe(map(spread(this.getLessonIncidents.bind(this))), shareReplay(1));
 
   counts$ = this.getCounts();
 
@@ -137,6 +137,14 @@ export class MyAbsencesService {
   ): ReadonlyArray<LessonAbsence> {
     const lessonIds = absences.map((a) => a.LessonRef.Id);
     return lessonAbsences.filter((a) => lessonIds.includes(a.LessonRef.Id));
+  }
+
+  private getLessonIncidents(
+    absences: ReadonlyArray<LessonPresence>,
+    lessonIncidents: ReadonlyArray<LessonIncident>
+  ): ReadonlyArray<LessonIncident> {
+    const incidentIds = absences.map((a) => a.LessonRef.Id);
+    return lessonIncidents.filter((i) => incidentIds.includes(i.LessonRef.Id));
   }
 
   private getCounts(): Observable<StudentProfileAbsencesCounts> {
