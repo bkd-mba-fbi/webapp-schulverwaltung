@@ -9,7 +9,8 @@
     <div class="buttons">
       <a
         class="report btn btn-primary mb-2"
-        [href]="totalReportUrl$ | async"
+        [class.disabled]="!allAbsencesReportUrl$"
+        [href]="allAbsencesReportUrl$ | async"
         target="_blank"
       >
         <i class="material-icons">description</i>
@@ -63,8 +64,8 @@
           [defaultAbsenceSelectionMessage]="
             'my-absences.show.default-absence-selection-message' | translate
           "
-          [reportUrl]="reportUrl$ | async"
-          [reportAvailable]="reportAvailable$ | async"
+          [reportUrl]="openAbsencesReportUrl$ | async"
+          [reportAvailable]="openAbsencesReportAvailable$ | async"
         ></erz-student-dossier-absences>
       </ng-template>
     </ngb-panel>

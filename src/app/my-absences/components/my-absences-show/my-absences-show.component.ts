@@ -22,9 +22,10 @@ import { LessonAbsence } from '../../../shared/models/lesson-absence.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesShowComponent implements OnInit, OnDestroy {
-  reportUrl$ = this.loadReportUrl();
-  totalReportUrl$ = this.loadTotalReportUrl();
-  reportAvailable$ = this.reportsService.studentConfirmationAvailability$;
+  openAbsencesReportUrl$ = this.loadOpenAbsencesReportUrl();
+  allAbsencesReportUrl$ = this.loadAllAbsencesReportUrl();
+  openAbsencesReportAvailable$ =
+    this.reportsService.studentConfirmationAvailability$;
 
   private destroy$ = new Subject<void>();
 
@@ -50,7 +51,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  private loadReportUrl(): Observable<Option<string>> {
+  private loadOpenAbsencesReportUrl(): Observable<Option<string>> {
     return combineLatest([
       this.absencesSelectionService.selectedWithoutPresenceType$,
       this.absencesSelectionService.selectedIds$,
@@ -70,7 +71,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     );
   }
 
-  loadTotalReportUrl(): Observable<Option<string>> {
+  loadAllAbsencesReportUrl(): Observable<Option<string>> {
     const absences = combineLatest([
       this.myAbsencesService.openLessonAbsences$,
       this.myAbsencesService.checkableLessonAbsences$,
