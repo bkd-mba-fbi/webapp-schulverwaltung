@@ -1,11 +1,11 @@
 <div
-  class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
+  class="erz-container erz-container-padding-y"
   *erzLet="{
     absenceCounts: myAbsencesService.counts$ | async
   } as data"
 >
-  <div class="d-flex justify-content-between">
-    <p>Hier können Sie Absenzen melden und Ihre offenen Absenzen bearbeiten.</p>
+  <div class="d-flex justify-content-between border-bottom">
+    <p>{{ 'my-absences.description' | translate }}</p>
     <div class="buttons">
       <a
         class="report btn btn-primary mb-2"

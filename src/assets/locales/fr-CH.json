@@ -297,6 +297,7 @@
   },
   "my-absences": {
     "title": "Mes absences",
+    "description": "Vous pouvez annoncer des absences et traiter vos absences en suspens.",
     "show": {
       "default-absence-selection-message": "Vous devez saisir un motif pour toutes les absences sélectionnées avant de pouvoir télécharger le formulaire d'excuses.",
       "confirm-presence-type": "Saisir un motif"

@@ -297,6 +297,7 @@
   },
   "my-absences": {
     "title": "Meine Absenzen",
+    "description": "Hier können Sie Absenzen melden und Ihre offenen Absenzen bearbeiten.",
     "show": {
       "default-absence-selection-message": "Sie müssen bei allen ausgewählten Absenzen einen Grund erfassen, bevor Sie das Entschuldigungsformular herunterladen können.",
       "confirm-presence-type": "Grund erfassen"
