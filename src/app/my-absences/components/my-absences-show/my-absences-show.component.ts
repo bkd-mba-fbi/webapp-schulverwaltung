@@ -14,6 +14,7 @@ import { not } from 'src/app/shared/utils/filter';
 import { isEmptyArray } from 'src/app/shared/utils/array';
 import { flatten, uniq } from 'lodash-es';
 import { LessonAbsence } from '../../../shared/models/lesson-absence.model';
+import { LessonIncident } from '../../../shared/models/lesson-incident.model';
 
 @Component({
   selector: 'erz-my-absences-show',
@@ -75,30 +76,17 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   }
 
   loadAllAbsencesReportUrl(): Observable<Option<string>> {
-    const absences = combineLatest([
+    return combineLatest([
       this.myAbsencesService.openLessonAbsences$,
       this.myAbsencesService.checkableLessonAbsences$,
       this.myAbsencesService.excusedLessonAbsences$,
       this.myAbsencesService.unexcusedLessonAbsences$,
       this.myAbsencesService.incidentsLessonAbsences$,
-    ]);
-
-    return absences.pipe(
+    ]).pipe(
       map(
-        ([
-          lessonAbsences,
-          checkableAbsences,
-          excusedAbsences,
-          unexcusedAbsences,
-          incidents,
-        ]) =>
-          this.buildUrl([
-            ...lessonAbsences,
-            ...checkableAbsences,
-            ...excusedAbsences,
-            ...unexcusedAbsences,
-            ...incidents,
-          ])
+        (
+          absences: ReadonlyArray<ReadonlyArray<LessonAbsence | LessonIncident>>
+        ) => this.buildUrl(flatten(absences))
       ),
       shareReplay(1)
     );
@@ -113,7 +101,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   }
 
   private getAllReportRecordIds(
-    presences: ReadonlyArray<any>
+    presences: ReadonlyArray<LessonAbsence | LessonIncident>
   ): ReadonlyArray<string> {
     return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationId}`);
   }
@@ -125,7 +113,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
       map((absences) =>
         absences
           .filter((a) => lessonIds.includes(a.LessonRef.Id))
-          .map((a) => `${a.LessonRef.Id}_${a.LessonRef.Id}`)
+          .map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`)
       )
     );
   }
