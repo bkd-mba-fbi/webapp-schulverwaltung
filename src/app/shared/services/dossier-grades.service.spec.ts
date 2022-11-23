@@ -147,19 +147,30 @@ describe('DossierGradesService', () => {
   });
 
   describe('getGradesForStudent', () => {
-    it('should return an array with student grade', () => {
+    it('should return an array with student grades', () => {
       const gradingScales = [
         buildGradingScale(1106, [
           { Designation: 5.5, Id: 2349 } as unknown as Grade,
+          { Designation: 5, Id: 2348 } as unknown as Grade,
         ]),
       ];
-      const studentId = 1234;
       const course = buildCourse(333);
-      course.Tests = [buildTest(course.Id, 1, [buildResult(1, studentId)])];
+      course.Tests = [
+        buildTest(course.Id, 1, [buildResult(1, 1234)]),
+        {
+          ...buildTest(course.Id, 2, [
+            { ...buildResult(2, 1234), GradeId: 2348 },
+          ]),
+          Weight: 0.5,
+        },
+        buildTest(course.Id, 3, [buildResult(3, 999)]),
+        buildTest(course.Id, 4, null),
+      ];
 
-      expect(
-        service.getGradesForStudent(course, studentId, gradingScales)
-      ).toEqual([5.5]);
+      expect(service.getGradesForStudent(course, 1234, gradingScales)).toEqual([
+        { value: 5.5, weight: 2 },
+        { value: 5, weight: 0.5 },
+      ]);
     });
   });
 });

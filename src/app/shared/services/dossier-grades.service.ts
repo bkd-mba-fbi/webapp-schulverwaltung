@@ -19,6 +19,8 @@ import { LoadingService } from './loading-service';
 import { ReportsService } from './reports.service';
 import { SubscriptionsRestService } from './subscriptions-rest.service';
 import { gradingScaleOfTest, resultOfStudent } from '../../events/utils/tests';
+import { FinalGrade } from '../models/student-grades';
+import { average, ValueWithWeight, weightedAverage } from '../utils/math';
 
 @Injectable()
 export class DossierGradesService {
@@ -100,17 +102,21 @@ export class DossierGradesService {
     course: Course,
     studentId: number,
     gradingScales: GradingScale[]
-  ): number[] {
+  ): ValueWithWeight[] {
     return (
-      course.Tests?.flatMap(
-        (test: Test) =>
+      course.Tests?.flatMap((test) => {
+        const grade = Number(
           gradingScaleOfTest(test, gradingScales)?.Grades.find(
             (grade: Grade) =>
               grade.Id === resultOfStudent(studentId, test)?.GradeId
           )?.Designation
-      )
-        .map((gradeDesignation) => Number(gradeDesignation))
-        .filter((grade) => Boolean(grade)) || []
+        );
+
+        return {
+          value: grade,
+          weight: test.Weight,
+        };
+      }).filter(({ value }) => Boolean(value)) || []
     );
   }
 
