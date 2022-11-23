@@ -25,7 +25,11 @@ import { ToastService } from './toast.service';
 import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
-export const UPDATE_REQUEST_DEBOUNCE_TIME = 3000;
+
+// Debouncing will be removed with issue https://github.com/bkd-mba-fbi/webapp-schulverwaltung/issues/492
+// Because disabling the debounce temporarily lead to unnecessary efforts in fixing the corresponding
+// tests, the debounce time is reduced from 3000 to 100 milliseconds instead
+export const UPDATE_REQUEST_DEBOUNCE_TIME = 100;
 
 export interface LessonPresenceUpdate {
   presence: LessonPresence;
