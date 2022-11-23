@@ -7,7 +7,7 @@ import {
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
 import { Subject } from 'rxjs';
-import { average } from '../../../utils/math';
+import { weightedAverage } from '../../../utils/math';
 
 export interface CourseWithGrades {
   course: Course;
@@ -61,7 +61,7 @@ export class DossierGradesViewComponent implements OnChanges {
           course,
           this.gradingScales
         ),
-        average: finalGrade?.AverageTestResult || average(grades),
+        average: finalGrade?.AverageTestResult || weightedAverage(grades),
       };
     });
   }
