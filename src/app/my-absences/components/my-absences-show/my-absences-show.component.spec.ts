@@ -1,17 +1,22 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { MyAbsencesShowComponent } from './my-absences-show.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { MyAbsencesService } from '../../services/my-absences.service';
 import { MyAbsencesReportLinkComponent } from '../my-absences-report-link/my-absences-report-link.component';
 import { StorageService } from 'src/app/shared/services/storage.service';
+import { buildLessonAbsence } from '../../../../spec-builders';
 
 describe('MyAbsencesShowComponent', () => {
   let component: MyAbsencesShowComponent;
   let fixture: ComponentFixture<MyAbsencesShowComponent>;
+  let element: HTMLElement;
+  let openLessonAbsences$: BehaviorSubject<any>;
 
   beforeEach(waitForAsync(() => {
+    openLessonAbsences$ = new BehaviorSubject<any>([]);
+
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [MyAbsencesShowComponent, MyAbsencesReportLinkComponent],
@@ -19,7 +24,7 @@ describe('MyAbsencesShowComponent', () => {
           {
             provide: MyAbsencesService,
             useValue: {
-              openLessonAbsences$: of([]),
+              openLessonAbsences$,
               checkableLessonAbsences$: of([]),
               excusedLessonAbsences$: of([]),
               unexcusedLessonAbsences$: of([]),
@@ -33,6 +38,9 @@ describe('MyAbsencesShowComponent', () => {
               getPayload(): Option<object> {
                 return { id_person: '42' };
               },
+              getAccessToken(): Option<string> {
+                return null;
+              },
             },
           },
         ],
@@ -43,10 +51,29 @@ describe('MyAbsencesShowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesShowComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    element = fixture.debugElement.nativeElement;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('without absences and incidents', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('has overall report disabled', () => {
+      const reportLink = element.querySelector('a');
+      expect(reportLink?.className.includes('disabled')).toBeTrue();
+    });
+  });
+
+  describe('with absences and/or incidents', () => {
+    beforeEach(() => {
+      openLessonAbsences$.next([buildLessonAbsence('12')]);
+      fixture.detectChanges();
+    });
+
+    it('has overall report disabled', () => {
+      const reportLink = element.querySelector('a');
+      expect(reportLink?.className.includes('disabled')).toBeFalse();
+    });
   });
 });
