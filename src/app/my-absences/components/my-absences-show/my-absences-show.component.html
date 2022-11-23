@@ -9,7 +9,7 @@
     <div class="buttons">
       <a
         class="report btn btn-primary mb-2"
-        [class.disabled]="!allAbsencesReportUrl$"
+        [class.disabled]="(allAbsencesReportUrlAvailable$ | async) === false"
         [href]="allAbsencesReportUrl$ | async"
         target="_blank"
       >
