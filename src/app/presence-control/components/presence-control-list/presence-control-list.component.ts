@@ -86,7 +86,12 @@ export class PresenceControlListComponent
       .subscribe(
         (presenceControlEntries: ReadonlyArray<PresenceControlEntry>) => {
           if (presenceControlEntries.length === 1) {
-            this.doTogglePresenceType([entry]);
+            // Use the refetched entry from `presenceControlEntries`
+            // instead of `entry` when mutating, to make sure we base
+            // the update on the newest data (that has possibly
+            // changed since we last fetched `entry`)
+            const refetchedEntry = presenceControlEntries[0];
+            this.doTogglePresenceType([refetchedEntry]);
           } else {
             const modalRef = this.modalService.open(
               PresenceControlBlockLessonComponent
