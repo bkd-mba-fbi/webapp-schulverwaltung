@@ -61,7 +61,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     ]).pipe(
       switchMap(([selectedWithout, selectedIds]) =>
         selectedWithout.length === 0 && selectedIds.length > 0
-          ? this.getReportRecordIds(
+          ? this.getOpenAbsencesReportRecordIds(
               uniq(flatten(selectedIds.map((s) => s.lessonIds)))
             )
           : of(null)
@@ -107,18 +107,18 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   private buildUrl(absences: any[]) {
     return absences.length > 0
       ? this.reportsService.getEvaluateAbsencesUrl(
-          this.getReportRecordIds_(absences)
+          this.getAllReportRecordIds(absences)
         )
       : null;
   }
 
-  private getReportRecordIds_(
+  private getAllReportRecordIds(
     presences: ReadonlyArray<any>
   ): ReadonlyArray<string> {
     return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationId}`);
   }
 
-  private getReportRecordIds(
+  private getOpenAbsencesReportRecordIds(
     lessonIds: ReadonlyArray<number>
   ): Observable<ReadonlyArray<string>> {
     return this.myAbsencesService.openLessonAbsences$.pipe(
