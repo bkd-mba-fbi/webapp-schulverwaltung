@@ -8,6 +8,7 @@ const LessonIncident = t.type({
   Comment: Option(t.string),
   StudentFullName: t.string,
   Type: Option(t.string),
+  RegistrationId: t.number,
   HRef: t.string,
 });
 type LessonIncident = t.TypeOf<typeof LessonIncident>;
