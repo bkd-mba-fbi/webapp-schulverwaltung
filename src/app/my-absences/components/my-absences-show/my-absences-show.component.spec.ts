@@ -54,24 +54,19 @@ describe('MyAbsencesShowComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  describe('without absences and incidents', () => {
+  describe('all absences and incident report', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
 
-    it('has overall report disabled', () => {
+    it('should have overall report disabled', () => {
       const reportLink = element.querySelector('a');
       expect(reportLink?.className.includes('disabled')).toBeTrue();
     });
-  });
 
-  describe('with absences and/or incidents', () => {
-    beforeEach(() => {
+    it('should have overall report enabled', () => {
       openLessonAbsences$.next([buildLessonAbsence('12')]);
       fixture.detectChanges();
-    });
-
-    it('has overall report disabled', () => {
       const reportLink = element.querySelector('a');
       expect(reportLink?.className.includes('disabled')).toBeFalse();
     });
