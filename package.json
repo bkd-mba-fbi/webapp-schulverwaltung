@@ -11,6 +11,7 @@
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "test:watch": "ng test --browsers=ChromeHeadless",
     "test:brief": "ng test --browsers=ChromeHeadless --reporters brief",
+    "test:coverage": "ng test --browsers=ChromeHeadless --code-coverage --reporters coverage-istanbul",
     "lint": "ng lint",
     "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
     "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
