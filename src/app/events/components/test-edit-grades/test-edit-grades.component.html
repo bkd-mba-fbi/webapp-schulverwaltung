@@ -145,7 +145,7 @@
               <span class="text-body">{{ studentGrade.student.FullName }}</span>
               <span class="mobile mean">
                 {{ 'tests.mean' | translate }}:
-                {{ studentGrade.finalGrade.average | number: '1.0-3' }}
+                {{ studentGrade.finalGrade?.average | number: '1.0-3' }}
               </span>
             </a>
           </td>
@@ -154,7 +154,10 @@
             [ngClass]="{ selected: selectedTest === undefined }"
           >
             <erz-grade-select
-              *ngIf="!studentGrade.finalGrade.freeHandGrade"
+              *ngIf="
+                studentGrade.finalGrade &&
+                !studentGrade.finalGrade.freeHandGrade
+              "
               [options]="state.gradingOptionsForCourse$() | async"
               [valueId]="studentGrade.finalGrade.finalGradeId"
               [gradeId]="studentGrade.finalGrade.id"
@@ -163,12 +166,16 @@
               "
               (gradeIdSelected)="state.overwriteFinalGrade($event)"
             ></erz-grade-select>
-            <div *ngIf="studentGrade.finalGrade.freeHandGrade">
+            <div
+              *ngIf="
+                studentGrade.finalGrade && studentGrade.finalGrade.freeHandGrade
+              "
+            >
               {{ studentGrade.finalGrade.freeHandGrade }}
             </div>
           </td>
           <td class="grade border-end sticky sticky-col-3">
-            {{ studentGrade.finalGrade.average | number: '1.0-3' }}
+            {{ studentGrade.finalGrade?.average | number: '1.0-3' }}
           </td>
           <td
             *ngFor="
