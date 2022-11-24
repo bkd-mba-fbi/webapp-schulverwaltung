@@ -20,11 +20,13 @@
   }}</span>
 </button>
 <button
+  *erzLet="loading$ | async as statusLoading"
   type="button"
   (click)="updatePresenceType(entry)"
   class="presence-category status btn btn-link"
+  [disabled]="statusLoading"
 >
-  <div class="position-relative" *erzLet="loading$ | async as statusLoading">
+  <div class="position-relative">
     <i class="material-icons" [class.invisible]="statusLoading">{{
       entry.presenceCategoryIcon
     }}</i>
