@@ -61,7 +61,7 @@ describe('MyAbsencesShowComponent', () => {
 
     it('should have all absences report disabled', () => {
       const reportLink = element.getElementsByClassName(
-        'report btn btn-primary mb-2'
+        'report'
       )[0] as HTMLElement;
       expect(reportLink?.className.includes('disabled')).toBeTrue();
     });
@@ -70,7 +70,7 @@ describe('MyAbsencesShowComponent', () => {
       openLessonAbsences$.next([buildLessonAbsence('12')]);
       fixture.detectChanges();
       const reportLink = element.getElementsByClassName(
-        'report btn btn-primary mb-2'
+        'report'
       )[0] as HTMLElement;
       expect(reportLink?.className.includes('disabled')).toBeFalse();
     });
