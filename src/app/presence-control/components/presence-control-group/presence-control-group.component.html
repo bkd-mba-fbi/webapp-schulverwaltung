@@ -69,8 +69,12 @@
           <div class="name pe-2">
             {{ entry.name }}
           </div>
-          <div class="group">
-            {{ entry.group ? entry.group : '' }}
+          <div class="group d-flex justify-content-between">
+            <span>{{ entry.group ? entry.group : '' }}</span>
+            <erz-spinner
+              class="inline small"
+              *ngIf="groupService.loading$ | async"
+            ></erz-spinner>
           </div>
         </div>
       </ng-container>

@@ -29,6 +29,8 @@ import { LoadingService } from '../../shared/services/loading-service';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 import { PresenceControlGroupViewEntry } from 'src/app/shared/models/user-settings.model';
 
+const GROUP_LOADING_CONTEXT = 'presence-control-group';
+
 @Injectable()
 export class PresenceControlGroupService {
   private selectGroup$ = new Subject<Option<string>>();
@@ -50,6 +52,8 @@ export class PresenceControlGroupService {
     startWith(this.defaultGroup),
     shareReplay(1)
   );
+
+  loading$ = this.loadingService.loading(GROUP_LOADING_CONTEXT);
 
   private subscriptionDetailsDefinitions$ = this.selectedLesson$.pipe(
     map((lesson) => lesson?.getEventIds() || []),
@@ -78,11 +82,14 @@ export class PresenceControlGroupService {
   private subscriptionDetails$ = combineLatest([
     this.selectedLesson$,
     this.groupsAvailability$,
+    this.reloadSubscriptionDetails$.pipe(
+      map(() => false),
+      startWith(true)
+    ),
   ]).pipe(
-    distinctUntilChanged(isEqual),
-    switchMap(([lesson, groupsAvailability]) =>
+    switchMap(([lesson, groupsAvailability, initial]) =>
       lesson && groupsAvailability
-        ? this.loadSubscriptionDetailsForLesson(lesson)
+        ? this.loadSubscriptionDetailsForLesson(lesson, initial)
         : of([])
     ),
     map((details) =>
@@ -148,7 +155,8 @@ export class PresenceControlGroupService {
   }
 
   private loadSubscriptionDetailsForLesson(
-    lesson: LessonEntry
+    lesson: LessonEntry,
+    initial = true
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
     return this.loadingService
       .load(
@@ -156,7 +164,8 @@ export class PresenceControlGroupService {
           uniq(lesson.getEventIds()).map((eventId) =>
             this.subscriptionDetailsService.getListForEvent(eventId)
           )
-        )
+        ),
+        !initial ? GROUP_LOADING_CONTEXT : undefined
       )
       .pipe(map(flatten));
   }
