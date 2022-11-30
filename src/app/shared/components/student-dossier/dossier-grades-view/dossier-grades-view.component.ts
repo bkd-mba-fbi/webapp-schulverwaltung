@@ -38,6 +38,10 @@ export class DossierGradesViewComponent implements OnChanges {
     this.decoratedCoursesSubject$.next(this.decorateCourses());
   }
 
+  trackByCourseId(index: number, item: CourseWithGrades): number {
+    return item.course.Id;
+  }
+
   private decorateCourses(): CourseWithGrades[] {
     return this.courses?.map((course) => {
       const finalGrade = this.dossierGradeService.getFinalGradeForStudent(
