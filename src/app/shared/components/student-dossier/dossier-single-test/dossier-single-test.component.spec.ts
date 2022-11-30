@@ -11,6 +11,8 @@ import {
 } from 'src/specs/expectations';
 
 import { DossierSingleTestComponent } from './dossier-single-test.component';
+import { DossierGradesService } from '../../../services/dossier-grades.service';
+import { StorageService } from '../../../services/storage.service';
 
 describe('DossierSingleTestComponent', () => {
   let component: DossierSingleTestComponent;
@@ -26,6 +28,13 @@ describe('DossierSingleTestComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [DossierSingleTestComponent],
+        providers: [
+          DossierGradesService,
+          {
+            provide: StorageService,
+            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+          },
+        ],
       })
     ).compileComponents();
   });
