@@ -2,7 +2,8 @@
   <div
     *ngFor="
       let decoratedCourse of decoratedCoursesSubject$ | async;
-      let i = index
+      let i = index;
+      trackBy: trackByCourseId
     "
   >
     <ngb-accordion #acc="ngbAccordion">

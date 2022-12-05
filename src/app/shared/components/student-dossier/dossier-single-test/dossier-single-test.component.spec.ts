@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Grade, GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Test } from 'src/app/shared/models/test.model';
 import { buildResult, buildTest } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { buildTestModuleMetadata, changeInput } from 'src/spec-helpers';
 import {
   expectElementPresent,
   expectNotInTheDocument,
@@ -11,6 +11,8 @@ import {
 } from 'src/specs/expectations';
 
 import { DossierSingleTestComponent } from './dossier-single-test.component';
+import { DossierGradesService } from '../../../services/dossier-grades.service';
+import { StorageService } from '../../../services/storage.service';
 
 describe('DossierSingleTestComponent', () => {
   let component: DossierSingleTestComponent;
@@ -26,6 +28,13 @@ describe('DossierSingleTestComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [DossierSingleTestComponent],
+        providers: [
+          DossierGradesService,
+          {
+            provide: StorageService,
+            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+          },
+        ],
       })
     ).compileComponents();
   });
@@ -37,9 +46,9 @@ describe('DossierSingleTestComponent', () => {
 
     test = buildTest(1, testId, []);
     test.Date = new Date('2022-02-22T00:00:00');
-    component.test = test;
     component.studentId = studentId;
 
+    changeInput(component, 'test', test);
     fixture.detectChanges();
   });
 
@@ -124,8 +133,6 @@ describe('DossierSingleTestComponent', () => {
       result.GradeId = 1004;
       test.Results = [result, buildResult(123, 998)];
 
-      component.test = test;
-
       component.studentId = studentId;
       const gradingScale = {
         Grades: [
@@ -139,6 +146,7 @@ describe('DossierSingleTestComponent', () => {
       } as unknown as GradingScale;
       component.gradingScale = gradingScale;
 
+      changeInput(component, 'test', test);
       fixture.detectChanges();
     });
 

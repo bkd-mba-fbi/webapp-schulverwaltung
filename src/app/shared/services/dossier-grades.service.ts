@@ -4,8 +4,10 @@ import {
   distinctUntilChanged,
   forkJoin,
   map,
+  merge,
   ReplaySubject,
   shareReplay,
+  Subject,
   switchMap,
 } from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
@@ -21,12 +23,15 @@ import { SubscriptionsRestService } from './subscriptions-rest.service';
 import { gradingScaleOfTest, resultOfStudent } from '../../events/utils/tests';
 import { FinalGrade } from '../models/student-grades';
 import { average, ValueWithWeight, weightedAverage } from '../utils/math';
+import { startWith, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class DossierGradesService {
   private studentId$ = new ReplaySubject<number>(1);
 
-  studentCourses$ = this.studentId$.pipe(
+  updateTest$ = new Subject<Test>();
+
+  private initialStudentCourses$ = this.studentId$.pipe(
     distinctUntilChanged(),
     switchMap(this.loadCourses.bind(this)),
     map((courses) =>
@@ -34,6 +39,16 @@ export class DossierGradesService {
     ),
     shareReplay(1)
   );
+
+  private updatedStudentCourses$ = this.updateTest$.pipe(
+    withLatestFrom(this.initialStudentCourses$),
+    map(([test, courses]) => this.updateCourses(courses, test))
+  );
+
+  studentCourses$ = merge(
+    this.initialStudentCourses$,
+    this.updatedStudentCourses$
+  ).pipe(shareReplay(1));
 
   loading$ = this.loadingService.loading$;
 
@@ -181,4 +196,16 @@ export class DossierGradesService {
       )
     )
   );
+
+  private updateCourses(courses: Course[], updatedTest: Test): Course[] {
+    return courses.map((course) => ({
+      ...course,
+      Tests:
+        course.Tests !== null
+          ? course.Tests.map((test) =>
+              test.Id === updatedTest.Id ? updatedTest : test
+            )
+          : null,
+    }));
+  }
 }

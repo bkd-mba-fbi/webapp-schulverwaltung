@@ -1,4 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, ReplaySubject } from 'rxjs';
 import {
@@ -9,6 +17,7 @@ import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { Result, Test } from 'src/app/shared/models/test.model';
 import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
+import { DossierGradesService } from '../../../services/dossier-grades.service';
 
 @Component({
   selector: 'erz-dossier-single-test',
@@ -51,7 +60,7 @@ import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grade
   </div>`,
   styleUrls: ['./dossier-single-test.component.scss'],
 })
-export class DossierSingleTestComponent implements OnInit {
+export class DossierSingleTestComponent implements OnChanges {
   @Input() test: Test;
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
@@ -60,10 +69,15 @@ export class DossierSingleTestComponent implements OnInit {
   test$ = new ReplaySubject<Test>(1);
   grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private gradeService: DossierGradesService,
+    private modalService: NgbModal
+  ) {}
 
-  ngOnInit(): void {
-    this.test$.next(this.test);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.test) {
+      this.test$.next(this.test);
+    }
   }
 
   editGrading(test: Test): void {
@@ -87,7 +101,7 @@ export class DossierSingleTestComponent implements OnInit {
 
   private updateStudentGrade(result: Result, test: Test): void {
     const updatedTest = replaceResultInTest(result, test);
-    this.test$.next(updatedTest);
+    this.gradeService.updateTest$.next(updatedTest);
   }
 
   private getGrading(test: Test): string {
