@@ -364,6 +364,7 @@
       "gui": "Affichage sur le web",
       "mail": "E-mail",
       "phoneMobile": "SMS",
+      "privacy-hint": "Remarque : les informations relatives à la protection des données ne sont pas envoyées par e-mail et SMS.",
       "save": "Mettre à jour",
       "save-success": "Les paramètres de notification ont été mis à jour avec succès"
     }
