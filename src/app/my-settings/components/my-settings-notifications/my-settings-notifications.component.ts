@@ -65,7 +65,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     .getNotificationTypes()
     .map((type) => {
       const { label, description } =
-        this.translate.currentLang === 'fr' ? type.text.fr : type.text.de;
+        this.translate.currentLang === 'fr-CH' ? type.text.fr : type.text.de;
       return {
         key: type.key,
         label: of(label),
