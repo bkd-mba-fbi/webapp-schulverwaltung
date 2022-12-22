@@ -165,8 +165,8 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     )}%0D%0A${formattedAbsences}`;
 
     
-    if (body.length >= 2000) {
-      body = `${body.substring(0,1850)}%0D%0A${this.translate.instant('open-absences.detail.mail.bodyToLargeForEmailTo')}` ;
+    if (body.length >= 1800) {
+      body = `${body.substring(0,1650)}%0D%0A${this.translate.instant('open-absences.detail.mail.bodyToLargeForEmailTo')}` ;
     } 
     
     return `${address}?subject=${subject}&body=${body}`;

@@ -85,7 +85,7 @@ describe('OpenAbsencesService', () => {
       );
 
       const absences2000: LessonPresence[] = [absence4];
-      expect(service.buildMailToString(person, absences2000).length).toBeLessThanOrEqual(2000);
+      expect(service.buildMailToString(person, absences2000).length).toBeLessThanOrEqual(1800);
 
     });
   });
