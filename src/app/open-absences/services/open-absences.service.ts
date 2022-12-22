@@ -160,10 +160,15 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
       .map((absence) => toDesignationDateTimeTypeString(absence))
       .join('%0D%0A');
 
-    const body = `${this.translate.instant(
+    let body = `${this.translate.instant(
       'open-absences.detail.mail.body'
     )}%0D%0A${formattedAbsences}`;
 
+    
+    if (body.length >= 2000) {
+      body = `${body.substring(0,1900)}%0D%0A${this.translate.instant('open-absences.detail.mail.bodyToLargeForEmailTo')}` ;
+    } 
+    
     return `${address}?subject=${subject}&body=${body}`;
   }
 

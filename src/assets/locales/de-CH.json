@@ -108,7 +108,8 @@
       "all": "Alle",
       "mail": {
         "subject": "Erinnerung offene Absenzen",
-        "body": "Bitte entschuldigen Sie folgende offenen Absenzen:"
+        "body": "Bitte entschuldigen Sie folgende offenen Absenzen:",
+        "bodyToLargeForEmailTo": "Text zu lang für übergabe an Mailprogramm."
       }
     },
     "edit": {

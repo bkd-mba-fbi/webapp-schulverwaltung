@@ -80,20 +80,6 @@ describe('lesson presences utils', () => {
   });
 
   describe('toDesignationDateTimeTypeString', () => {
-    it('returns the formatted information as string for the given lesson presence', () => {
-      const presence = buildLessonPresence(
-        1,
-        new Date(2021, 3, 22, 9, 0),
-        new Date(2021, 3, 22, 9, 45),
-        'Deutsch-S1'
-      );
-      presence.Type = 'Andere Gründe';
-
-      expect(toDesignationDateTimeTypeString(presence)).toBe(
-        'Deutsch-S1, 22.04.2021, 09:00-09:45, Andere Gründe'
-      );
-    });
-
     it('returns the formatted information as string for the given lesson presence with missing type', () => {
       const presence = buildLessonPresence(
         1,
