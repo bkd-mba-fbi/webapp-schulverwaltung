@@ -108,8 +108,8 @@
       "all": "Tout",
       "mail": {
         "subject": "Rappel sur les absences en suspens",
-        "body": "Veuillez excuser les absences en suspens suivantes :",
-        "bodyToLargeForEmailTo": ""
+        "body": "Veuillez excuser vos absences en suspens :",
+        "bodyToLargeForEmailTo": "Et d'autres (texte trop long pour être traité)"
       }
     },
     "edit": {
