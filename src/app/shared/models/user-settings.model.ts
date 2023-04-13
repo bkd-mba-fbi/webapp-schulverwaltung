@@ -1,6 +1,7 @@
 import * as t from 'io-ts';
 import { Json, withFallback } from 'io-ts-types';
 import { JsonFromUnknown, Option } from './common-types';
+import { DropDownItem } from './drop-down-item.model';
 
 /*
  There are separated base and special Types defined.
@@ -96,7 +97,7 @@ const PresenceControlViewModeObject = JsonFromUnknown.pipe(
 
 const PresenceControlGroupViewEntry = t.type({
   eventId: Option(t.number),
-  group: Option(t.string),
+  group: Option(DropDownItem.props.Key),
 });
 
 const PresenceControlGroupView = JsonFromUnknown.pipe(
