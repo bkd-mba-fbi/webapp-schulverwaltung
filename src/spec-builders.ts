@@ -35,6 +35,7 @@ import {
 import { TimetableEntry } from './app/shared/models/timetable-entry.model';
 import { LessonDispensation } from './app/shared/models/lesson-dispensation.model';
 import { TokenPayload } from './app/shared/models/token-payload.model';
+import {DropDownItem} from "./app/shared/models/drop-down-item.model";
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
@@ -469,9 +470,10 @@ export function buildSubscriptionDetail(
     Value: value || '',
     EventId: 1,
     ShowAsRadioButtons: false,
-    DropdownItems: null,
+    DropdownItems: [{Key: 1, Value: "item 1"}, {Key: "2", Value: "item 2"}],
   };
 }
+
 
 export function buildIdSubscription(
   id: number,
