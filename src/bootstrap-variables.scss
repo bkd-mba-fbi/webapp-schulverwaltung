@@ -28,6 +28,10 @@ $font-size-base: 1.5rem; // See app/shared/styles/typography.scss
 // Spacing
 $spacer: 1.5rem; // Compensate for the base font
 
+// Links
+$link-color: $body-color;
+$link-hover-color: $accent;
+
 // Buttons
 $input-btn-focus-box-shadow: none;
 $btn-disabled-opacity: 0.25;

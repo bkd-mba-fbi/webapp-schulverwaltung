@@ -10,16 +10,3 @@ html#bkd-webapp-schulverwaltung-dev {
 #bkd-webapp-schulverwaltung-dev body {
   font-size: 1.5rem;
 }
-
-/**
- * In the Evento application there is a global CSS rule to disable link
- * underlines, we apply this for our development environment as well
- * to match production.
- */
-#bkd-webapp-schulverwaltung-dev {
-  a,
-  a:hover,
-  a:active {
-    text-decoration: none;
-  }
-}
