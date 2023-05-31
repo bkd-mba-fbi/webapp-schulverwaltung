@@ -19,7 +19,7 @@ import { Test } from 'src/app/shared/models/test.model';
       <button
         data-testid="cancel-button"
         type="button"
-        class="btn btn-secondary"
+        class="btn btn-outline-primary"
         (click)="activeModal.dismiss()"
       >
         {{ 'tests.publishing.cancel' | translate }}

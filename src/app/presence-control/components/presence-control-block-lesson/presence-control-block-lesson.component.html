@@ -33,7 +33,11 @@
   </form>
 </div>
 <div class="modal-footer" *erzLet="getSelectedEntries() as selectedEntries">
-  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="activeModal.close()"
+  >
     {{ 'presence-control.block-lesson.cancel' | translate }}
   </button>
   <button

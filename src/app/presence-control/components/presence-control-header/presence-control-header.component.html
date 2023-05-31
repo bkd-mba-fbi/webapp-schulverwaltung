@@ -120,7 +120,7 @@
         *ngFor="let option of viewModeOptions"
         class="view btn"
         [disabled]="!selectedLesson"
-        [class.btn-secondary]="option.viewMode === viewMode"
+        [class.btn-outline-primary]="option.viewMode === viewMode"
         [class.btn-link]="option.viewMode !== viewMode"
         [class.active]="option.viewMode === viewMode"
         (click)="viewModeChange.emit(option.viewMode)"
