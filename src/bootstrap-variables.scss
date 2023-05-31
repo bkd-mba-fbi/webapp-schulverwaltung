@@ -22,7 +22,10 @@ $absent-color: $red;
 $unapproved-color: $yellow;
 
 // Font
-$font-family-sans-serif: "Open Sans", sans-serif;
+$font-family-sans-serif: "Roboto", sans-serif;
+$font-weight-base: 300;
+$font-weight-semibold: 500;
+$line-height-base: 1.625;
 $font-size-base: 1.5rem; // See app/shared/styles/typography.scss
 
 // Spacing
