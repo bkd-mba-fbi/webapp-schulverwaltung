@@ -2,7 +2,7 @@
 
 .absence-all {
   padding: 0 0 (0.5 * $spacer) $spacer;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $border-color;
   display: grid;
   grid-template-areas:
     "checkbox all buttons"
@@ -12,7 +12,7 @@
 
 .absence-entry {
   padding: $spacer;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $border-color;
   display: grid;
   grid-template-areas:
     "checkbox lesson-class time teacher"

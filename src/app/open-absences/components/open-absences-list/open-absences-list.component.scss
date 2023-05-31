@@ -20,14 +20,14 @@
   display: grid;
   grid-template-areas: "checkbox name date";
   grid-template-columns: min-content 5fr 1fr;
-  border-top: 1px solid $gray-300;
-  border-bottom: 2px solid $gray-300;
+  border-top: 1px solid $border-color;
+  border-bottom: 2px solid $border-color;
   align-items: center;
 }
 
 .absence-entry {
   padding: $spacer;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $border-color;
   display: grid;
   grid-template-areas: "checkbox name study-class lessons-count days-ago date";
   grid-template-columns: min-content 2fr 1fr 1fr 1fr 1fr;

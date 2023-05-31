@@ -23,13 +23,13 @@
   display: grid;
   grid-template-areas: "name group";
   grid-template-columns: 3fr 2fr;
-  border-top: 1px solid $gray-300;
-  border-bottom: 2px solid $gray-300;
+  border-top: 1px solid $border-color;
+  border-bottom: 2px solid $border-color;
 }
 
 .group-list-entry {
   padding: $spacer;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $border-color;
   display: grid;
   grid-template-areas: "checkbox name group";
   grid-template-columns: min-content 3fr 2fr;
