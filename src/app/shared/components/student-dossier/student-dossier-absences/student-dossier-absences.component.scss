@@ -48,11 +48,6 @@
 .buttons {
   grid-area: buttons;
   display: flex;
-
-  .btn {
-    line-height: 1;
-    font-size: $erz-icon-size;
-  }
 }
 
 .validation {
