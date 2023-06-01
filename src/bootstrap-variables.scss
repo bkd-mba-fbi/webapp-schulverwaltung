@@ -26,10 +26,6 @@ $font-family-sans-serif: "Roboto", sans-serif;
 $font-weight-base: 300;
 $font-weight-semibold: 500;
 $line-height-base: 1.625;
-$font-size-base: 1.5rem; // See app/shared/styles/typography.scss
-
-// Spacing
-$spacer: 1.5rem; // Compensate for the base font
 
 // Links
 $link-color: $body-color;
@@ -39,14 +35,14 @@ $link-hover-color: $accent; // See app/shared/styles/links.scss
 $input-btn-focus-box-shadow: none;
 $btn-disabled-opacity: 0.25;
 
-// Checks and Radios
-$form-check-margin-bottom: $spacer;
-
 @import "node_modules/bootstrap/scss/variables";
 
 // Tables
 $table-head-bg: $table-border-color;
 $table-head-color: $gray-600;
+
+// Checks and Radios
+$form-check-margin-bottom: $spacer;
 
 /**
  * Custom Variables
