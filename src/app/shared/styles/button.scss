@@ -1,3 +1,15 @@
+@import "../../../bootstrap-variables";
+
 .btn-link {
   text-decoration: none;
+}
+
+.btn-outline-secondary {
+  color: $body-color;
+  border-color: $body-color;
+}
+
+.btn-outline-secondary:hover {
+  border-color: $body-color;
+  background: darken(white, 10);
 }

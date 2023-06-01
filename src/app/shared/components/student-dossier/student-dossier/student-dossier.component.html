@@ -39,10 +39,10 @@
           <button
             data-test-id="dossier-section-button"
             type="button"
-            class="btn btn-outline-primary"
+            class="btn btn-outline-secondary"
             routerLinkActive="btn-primary"
             #rla="routerLinkActive"
-            [class.btn-outline-primary]="!rla.isActive"
+            [class.btn-outline-secondary]="!rla.isActive"
           >
             {{ 'dossier.' + section | translate }}
           </button>
