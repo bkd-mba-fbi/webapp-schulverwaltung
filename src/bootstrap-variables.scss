@@ -33,7 +33,7 @@ $spacer: 1.5rem; // Compensate for the base font
 
 // Links
 $link-color: $body-color;
-$link-hover-color: $accent;
+$link-hover-color: $accent; // See app/shared/styles/links.scss
 
 // Buttons
 $input-btn-focus-box-shadow: none;

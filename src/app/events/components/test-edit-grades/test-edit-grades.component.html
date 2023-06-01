@@ -142,7 +142,7 @@
         >
           <td class="primary-column-width sticky name">
             <a [routerLink]="['student', studentGrade.student.Id, 'grades']">
-              <span class="text-body">{{ studentGrade.student.FullName }}</span>
+              <span>{{ studentGrade.student.FullName }}</span>
               <span class="mobile mean">
                 {{ 'tests.mean' | translate }}:
                 {{ studentGrade.finalGrade?.average | number: '1.0-3' }}
