@@ -18,7 +18,7 @@
 
       <div class="buttons">
         <a
-          class="edit btn btn-primary me-2"
+          class="edit btn btn-primary btn-icon me-2"
           [class.disabled]="(selectionService.selection$ | async).length === 0"
           routerLink="{{ confirmLink }}"
         >
@@ -26,7 +26,7 @@
         </a>
         <a
           *ngIf="reportAvailable"
-          class="report btn btn-primary me-2"
+          class="report btn btn-primary btn-icon me-2"
           [class.disabled]="!reportUrl"
           [href]="reportUrl"
           target="_blank"
@@ -35,7 +35,7 @@
         </a>
         <a
           *ngIf="displayEmail"
-          class="mail btn btn-primary me-2"
+          class="mail btn btn-primary btn-icon me-2"
           href="mailto:{{ mailTo$ | async }}"
           target="_blank"
         >

@@ -13,3 +13,12 @@
   border-color: $body-color;
   background: darken(white, 10);
 }
+
+.btn-icon {
+  padding: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-icon:hover {
+  text-decoration: none;
+}

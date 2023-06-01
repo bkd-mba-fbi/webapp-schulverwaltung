@@ -8,7 +8,7 @@
     <div>{{ 'my-absences.description' | translate }}</div>
     <div>
       <a
-        class="report btn btn-primary"
+        class="report btn btn-primary btn-icon"
         [class.disabled]="(allAbsencesReportUrlAvailable$ | async) === false"
         [href]="allAbsencesReportUrl$ | async"
         target="_blank"
