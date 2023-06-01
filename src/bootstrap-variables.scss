@@ -35,6 +35,9 @@ $link-hover-color: $accent; // See app/shared/styles/links.scss
 $input-btn-focus-box-shadow: none;
 $btn-disabled-opacity: 0.25;
 
+// Input
+$input-border-radius: 0;
+
 @import "node_modules/bootstrap/scss/variables";
 
 // Tables
