@@ -3,6 +3,10 @@
 .back {
   color: $body-color;
   text-decoration: none;
+
+  i:hover {
+    color: $accent;
+  }
 }
 
 .font-color-light-gray {
