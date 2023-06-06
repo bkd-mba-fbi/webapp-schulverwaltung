@@ -1,6 +1,6 @@
 @import "../../../../bootstrap-variables";
 
-$erz-switch-width: 35px;
+$erz-switch-width: 36px;
 $erz-switch-height: calc($erz-switch-width / 2);
 $erz-switch-border-width: 1px;
 $erz-switch-toggle-padding: 1px;
@@ -8,12 +8,12 @@ $erz-switch-toggle-width: calc(
   $erz-switch-height - 2 * $erz-switch-border-width - 2 *
     $erz-switch-toggle-padding
 );
-$erz-switch-active-bg: $accent;
-$erz-switch-active-border: $accent;
+$erz-switch-active-bg: $body-color;
+$erz-switch-active-border: $body-color;
 $erz-switch-active-toggle: $white;
 $erz-switch-inactive-bg: $white;
-$erz-switch-inactive-border: $gray-dark;
-$erz-switch-inactive-toggle: $gray-dark;
+$erz-switch-inactive-border: $body-color;
+$erz-switch-inactive-toggle: $body-color;
 $erz-switch-disabled-bg: $white;
 $erz-switch-disabled-border: $gray;
 $erz-switch-disabled-toggle: $gray;
@@ -59,7 +59,8 @@ input:checked + label:after {
 }
 
 input:focus + label {
-  border-color: $input-focus-border-color;
+  box-shadow: 0 0 $input-btn-focus-blur $input-btn-focus-width
+    $input-btn-focus-color;
 }
 
 input:disabled + label {
