@@ -3,14 +3,17 @@
 // Include selected bootstrap components
 @import "bootstrap";
 
+//Fonts
+@import "styles-fonts";
+
 // Material Icons font
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
 
 // Shared application styles
-@import "src/app/shared/styles/typography";
 @import "src/app/shared/styles/container";
 @import "src/app/shared/styles/table";
 @import "src/app/shared/styles/form";
+@import "src/app/shared/styles/links";
 @import "src/app/shared/styles/button";
 @import "src/app/shared/styles/datepicker";
 @import "src/app/shared/styles/icons";

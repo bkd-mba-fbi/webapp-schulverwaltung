@@ -14,16 +14,7 @@ th.student {
   white-space: nowrap;
 }
 
-a.student {
-  color: $body-color;
-}
-
 .buttons {
   display: flex;
   justify-content: flex-end;
-
-  .btn {
-    line-height: 1;
-    font-size: $erz-icon-size;
-  }
 }

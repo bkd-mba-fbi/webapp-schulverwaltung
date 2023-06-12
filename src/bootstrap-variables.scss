@@ -5,33 +5,34 @@
  */
 
 // Colors
-$body-bg: rgb(255, 255, 255);
-$body-color: rgb(51, 51, 61);
+$body-bg: rgba(255, 255, 255, 0.42);
+$body-color: rgb(0, 0, 0);
 $yellow: rgb(255, 168, 20);
-$red: #dc3545;
-$green: #28a745;
+$red: rgb(208, 16, 24);
+$green: rgb(61, 134, 8);
 $orange: rgb(239, 124, 0);
-$blue: #005189;
-$teal: rgb(19, 69, 97);
-$gray: rgb(138, 138, 138);
-$gray-dark: rgb(51, 51, 51);
+$gray: rgb(222, 222, 222);
+$gray-dark: rgba(78, 78, 78, 0.95);
+$primary: $gray-dark;
+$secondary: $gray;
+$accent: rgb(234, 22, 31);
 
 $present-color: $green;
 $absent-color: $red;
 $unapproved-color: $yellow;
 
 // Font
-$font-family-sans-serif: "Open Sans", sans-serif;
-$font-size-base: 1.5rem; // See app/shared/styles/typography.scss
+$font-family-sans-serif: "Roboto", sans-serif;
+$font-weight-base: 300;
+$font-weight-semibold: 500;
+$line-height-base: 1.625;
 
-// Spacing
-$spacer: 1.5rem; // Compensate for the base font
+// Links
+$link-color: $body-color;
+$link-hover-color: $accent; // See app/shared/styles/links.scss
 
-// Buttons
-$input-btn-focus-box-shadow: none;
-
-// Checks and Radios
-$form-check-margin-bottom: $spacer;
+// Input
+$input-border-radius: 0;
 
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/variables-dark";
@@ -40,12 +41,19 @@ $form-check-margin-bottom: $spacer;
 $table-head-bg: $table-border-color;
 $table-head-color: $gray-600;
 
+// Checks and Radios
+$form-check-margin-bottom: $spacer;
+
+// Buttons
+$input-btn-focus-box-shadow: none;
+$btn-disabled-opacity: 0.25;
+$btn-padding-x: 1.5 * $spacer;
+$btn-border-radius: (($btn-line-height * $btn-font-size) + (2 * $btn-padding-y)) +
+  (2/16) /*border px to rem*/;
+
 /**
  * Custom Variables
  */
-
-// Icons
-$erz-icon-size: 2.2rem;
 
 // Custom variables
 $erz-container-max-width: 960px;

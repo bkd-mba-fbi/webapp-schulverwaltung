@@ -85,7 +85,7 @@
 
 .dropdown-item {
   padding: $spacer;
-  border-bottom: 1px solid $gray-300;
+  border-bottom: 1px solid $border-color;
 }
 
 /**
@@ -136,7 +136,7 @@
   padding-top: 0.75 * $spacer;
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid $gray-200;
+  border-top: 1px solid $border-color;
 }
 .search {
   flex: auto;

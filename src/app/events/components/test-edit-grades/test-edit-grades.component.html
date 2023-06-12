@@ -17,7 +17,7 @@
               (click)="changeFilter('all-tests')"
               [ngClass]="{
                 'btn-primary': data.filter === 'all-tests',
-                'btn-outline-primary': data.filter !== 'all-tests'
+                'btn-outline-secondary': data.filter !== 'all-tests'
               }"
             >
               {{ 'tests.all-tests' | translate }}
@@ -28,7 +28,7 @@
               (click)="changeFilter('my-tests')"
               [ngClass]="{
                 'btn-primary': data.filter === 'my-tests',
-                'btn-outline-primary': data.filter !== 'my-tests'
+                'btn-outline-secondary': data.filter !== 'my-tests'
               }"
             >
               {{ 'tests.owned-tests' | translate }}
@@ -142,7 +142,7 @@
         >
           <td class="primary-column-width sticky name">
             <a [routerLink]="['student', studentGrade.student.Id, 'grades']">
-              <span class="text-body">{{ studentGrade.student.FullName }}</span>
+              <span>{{ studentGrade.student.FullName }}</span>
               <span class="mobile mean">
                 {{ 'tests.mean' | translate }}:
                 {{ studentGrade.finalGrade?.average | number: '1.0-3' }}

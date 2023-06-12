@@ -13,6 +13,22 @@
 .test-status {
   order: -1;
   padding-bottom: $spacer;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $body-color;
+  }
+
+  span {
+    text-decoration: underline;
+  }
+
+  span:hover {
+    text-decoration-color: $accent;
+  }
 }
 
 .edit {

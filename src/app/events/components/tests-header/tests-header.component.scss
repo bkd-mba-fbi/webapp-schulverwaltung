@@ -3,6 +3,10 @@
 .back {
   color: $body-color;
   text-decoration: none;
+
+  i:hover {
+    color: $accent;
+  }
 }
 
 .font-color-light-gray {
@@ -11,7 +15,7 @@
 
 .header {
   padding-bottom: $spacer;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $border-color;
 }
 
 @media (max-width: 750px) {

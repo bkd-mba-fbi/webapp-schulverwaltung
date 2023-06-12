@@ -1,5 +1,6 @@
 // import extracted styles to allow positioning of notification bell and popup in evento
 @import "src/styles-notifications.scss";
+@import "../../../../bootstrap-variables";
 
 .notifications-popup {
   display: none;
@@ -20,7 +21,7 @@
 
 /* Gray triangle / Border triangle */
 .notifications-popup:before {
-  border-color: transparent transparent #cccc transparent;
+  border-color: transparent transparent $gray transparent;
   border-style: solid;
   border-width: 10px;
   display: block;
@@ -45,14 +46,14 @@
 }
 
 .notifications-bell-counter {
-  color: #fff;
+  color: white;
   font-weight: bold;
   text-align: center;
   line-height: 1;
   padding: 2px 6px;
-  background-color: #da3225;
+  background-color: $accent;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px #005189;
+  box-shadow: 0 0 0 2px $primary;
 }
 
 .notifications-bell-counter-hidden {
@@ -64,7 +65,7 @@
 }
 
 .notifications-delete-notification {
-  color: #005189;
+  color: $primary;
 }
 
 hr {

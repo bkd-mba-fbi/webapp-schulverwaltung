@@ -11,3 +11,15 @@
     display: none;
   }
 }
+
+a.rating-overview {
+  text-decoration: none;
+
+  span {
+    text-decoration: underline;
+  }
+
+  span:hover {
+    text-decoration-color: $accent;
+  }
+}
