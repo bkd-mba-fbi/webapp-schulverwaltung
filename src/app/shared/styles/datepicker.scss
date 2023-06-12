@@ -20,3 +20,7 @@ $datepicker-cell-size: 2.5rem;
   padding: (0.5 * $spacer) (2 * $spacer);
   background: $gray-100;
 }
+
+.ngb-dp-weekday {
+  color: $accent !important;
+}

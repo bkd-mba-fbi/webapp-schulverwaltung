@@ -22,7 +22,7 @@
         <div class="buttons">
           <a
             *ngIf="reportUrl$ | async"
-            class="report btn btn-primary mb-2"
+            class="report btn btn-primary btn-icon mb-2"
             [href]="reportUrl$ | async"
             target="_blank"
           >
@@ -90,7 +90,7 @@
         <button
           *ngIf="data.hasMore && !data.loadingPage"
           type="button"
-          class="btn btn-secondary btn-sm d-block mx-auto"
+          class="btn btn-outline-secondary btn-sm d-block mx-auto"
           (click)="state.nextPage()"
         >
           {{ 'global.pagination.load-more' | translate }}

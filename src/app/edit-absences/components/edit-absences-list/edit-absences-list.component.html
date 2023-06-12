@@ -37,7 +37,7 @@
             }}
           </div>
           <a
-            class="edit btn btn-primary mt-1 mb-2"
+            class="edit btn btn-primary btn-icon mt-1 mb-2"
             [class.disabled]="data.selection.length === 0"
             routerLink="/edit-absences/edit"
             [queryParams]="{
@@ -176,7 +176,7 @@
         <button
           *ngIf="data.hasMore && !data.loadingPage"
           type="button"
-          class="btn btn-secondary btn-sm d-block mx-auto"
+          class="btn btn-outline-secondary btn-sm d-block mx-auto"
           (click)="state.nextPage()"
         >
           {{ 'global.pagination.load-more' | translate }}

@@ -38,6 +38,18 @@
 
 .rating {
   grid-area: rating;
+
+  a {
+    text-decoration: none;
+  }
+
+  span {
+    text-decoration: underline;
+  }
+
+  span:hover {
+    text-decoration-color: $accent;
+  }
 }
 
 .registrations-label {
