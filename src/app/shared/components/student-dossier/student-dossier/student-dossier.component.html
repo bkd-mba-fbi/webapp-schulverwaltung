@@ -21,7 +21,7 @@
         <div class="me-3">
           <a
             *ngIf="data.currentDossierSection === 'grades'"
-            class="edit btn btn-primary ms-2"
+            class="edit btn btn-primary btn-icon ms-2"
             target="_blank"
             [href]="data.reportUrl"
           >
@@ -39,10 +39,10 @@
           <button
             data-test-id="dossier-section-button"
             type="button"
-            class="btn btn-outline-primary"
+            class="btn btn-outline-secondary"
             routerLinkActive="btn-primary"
             #rla="routerLinkActive"
-            [class.btn-outline-primary]="!rla.isActive"
+            [class.btn-outline-secondary]="!rla.isActive"
           >
             {{ 'dossier.' + section | translate }}
           </button>

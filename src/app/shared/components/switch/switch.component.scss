@@ -1,6 +1,6 @@
 @import "../../../../bootstrap-variables";
 
-$erz-switch-width: 35px;
+$erz-switch-width: 36px;
 $erz-switch-height: calc($erz-switch-width / 2);
 $erz-switch-border-width: 1px;
 $erz-switch-toggle-padding: 1px;
@@ -8,14 +8,15 @@ $erz-switch-toggle-width: calc(
   $erz-switch-height - 2 * $erz-switch-border-width - 2 *
     $erz-switch-toggle-padding
 );
-$erz-switch-active-bg: $primary;
-$erz-switch-active-border: $erz-switch-active-bg;
-$erz-switch-active-toggle: $body-bg;
-$erz-switch-inactive-bg: $body-bg;
-$erz-switch-inactive-border: $gray;
-$erz-switch-inactive-toggle: $gray;
-$erz-switch-disabled-bg: lighten($gray, 30%);
+$erz-switch-active-bg: $body-color;
+$erz-switch-active-border: $body-color;
+$erz-switch-active-toggle: $white;
+$erz-switch-inactive-bg: $white;
+$erz-switch-inactive-border: $body-color;
+$erz-switch-inactive-toggle: $body-color;
+$erz-switch-disabled-bg: $white;
 $erz-switch-disabled-border: $gray;
+$erz-switch-disabled-toggle: $gray;
 
 input {
   opacity: 0;
@@ -58,14 +59,18 @@ input:checked + label:after {
 }
 
 input:focus + label {
-  border-color: $input-focus-border-color;
+  box-shadow: 0 0 $input-btn-focus-blur $input-btn-focus-width
+    $input-btn-focus-color;
 }
 
 input:disabled + label {
   cursor: default;
-  opacity: 0.6;
   background: $erz-switch-disabled-bg;
   border-color: $erz-switch-disabled-border;
+}
+
+input:disabled + label:after {
+  background: $erz-switch-disabled-toggle;
 }
 
 label:active:after {
