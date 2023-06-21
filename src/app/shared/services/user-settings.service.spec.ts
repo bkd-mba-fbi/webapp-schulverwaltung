@@ -3,7 +3,7 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { isEqual } from 'lodash-es';
 import { buildUserSettings } from 'src/spec-builders';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { UserSettings } from '../models/user-settings.model';
+import { UserSettings, AccessInfo } from '../models/user-settings.model';
 import { UserSettingsRestService } from './user-settings-rest.service';
 import {
   REFETCH_DEBOUNCE_TIME,
@@ -88,6 +88,30 @@ describe('UserSettingsService', () => {
       expectReadRequest([{ Key: 'foo', Value: '456' }]);
       expect(callback).toHaveBeenCalledWith('456');
     }));
+  });
+
+  describe('getRolesAndPermissions', () => {
+    it("returns and array with the user's roles & permissions", () => {
+      const accessInfo: AccessInfo = {
+        AccessInfo: {
+          Roles: ['TeacherRole', 'ClassTeacherRole'],
+          Permissions: ['PersonRight'],
+        },
+      };
+
+      service.getRolesAndPermissions().subscribe(callback);
+
+      const url = 'https://eventotest.api/UserSettings/?expand=AccessInfo';
+      httpTestingController
+        .expectOne({ url, method: 'GET' })
+        .flush(AccessInfo.encode(accessInfo));
+
+      expect(callback).toHaveBeenCalledWith([
+        'TeacherRole',
+        'ClassTeacherRole',
+        'PersonRight',
+      ]);
+    });
   });
 
   function expectReadRequest(

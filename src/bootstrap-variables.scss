@@ -26,6 +26,31 @@ $font-family-sans-serif: "Roboto", sans-serif;
 $font-weight-base: 300;
 $font-weight-semibold: 500;
 $line-height-base: 1.625;
+$headings-font-weight: 300;
+
+$h1-font-size: 3.375rem;
+$h1-font-weight: 100;
+$h1-line-height: 3.875rem;
+
+$h2-font-size: 1.875rem;
+$h2-font-weight: $headings-font-weight;
+$h2-line-height: 2.25rem;
+
+$h3-font-size: 1.625rem;
+$h3-font-weight: $headings-font-weight;
+$h3-line-height: 2rem;
+
+$h4-font-size: 1.5rem;
+$h4-font-weight: $headings-font-weight;
+$h4-line-height: 1.75rem;
+
+$h5-font-size: 1.3125rem;
+$h5-font-weight: $headings-font-weight;
+$h5-line-height: 1.5625rem;
+
+$h6-font-size: 1.125rem;
+$h6-font-weight: $headings-font-weight;
+$h6-line-height: 1.3125rem;
 
 // Links
 $link-color: $body-color;
