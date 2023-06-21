@@ -33,6 +33,14 @@
   "unauthenticated": {
     "message": "Nicht angemeldet oder kein Zugriff."
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "heading": "Willkommen bei Evento",
+    "no-access": "Die Navigation zeigt Ihnen alle zur Verfügung stehenden Bereiche an.",
+    "search": "Suche",
+    "actions": "Aktionen",
+    "timetable": "Stundenplan"
+  },
   "presence-control": {
     "title": "Präsenzkontrolle",
     "no-lessons": "Am gewählten Tag finden keine Lektionen statt.",

@@ -18,6 +18,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 })
 export class HomeComponent {
   sections: ReadonlyArray<string> = [
+    'dashboard',
     'presence-control',
     'open-absences',
     'edit-absences',

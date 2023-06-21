@@ -1,0 +1,27 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.columns {
+  display: flex;
+  flex-direction: column;
+}
+.columns,
+.search-actions-column {
+  gap: 3 * $spacer;
+}
+
+.search-actions-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.timetable-column {
+  flex: 2;
+}
+
+@include media-breakpoint-up(lg) {
+  .columns {
+    flex-direction: row;
+    gap: 1.5 * $spacer;
+  }
+}
