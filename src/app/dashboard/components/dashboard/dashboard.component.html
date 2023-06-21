@@ -1,0 +1,35 @@
+<div
+  *erzLet="{
+    loading: loading$ | async,
+    hasSearch: hasSearch$ | async,
+    hasActions: hasActions$ | async,
+    hasTimetable: hasTimetable$ | async
+  } as data"
+>
+  <h1>{{ 'dashboard.heading' | translate }}</h1>
+  <erz-spinner *ngIf="data.loading"></erz-spinner>
+  <p
+    *ngIf="
+      !data.loading && !data.hasSearch && !data.hasActions && !data.hasTimetable
+    "
+  >
+    {{ 'dashboard.no-access' | translate }}
+  </p>
+
+  <div class="columns">
+    <div
+      class="search-actions-column"
+      *ngIf="data.hasSearch || data.hasActions"
+    >
+      <div *ngIf="data.hasSearch">
+        <h2>{{ 'dashboard.search' | translate }}</h2>
+      </div>
+      <div *ngIf="data.hasActions">
+        <h2>{{ 'dashboard.actions' | translate }}</h2>
+      </div>
+    </div>
+    <div *ngIf="data.hasTimetable" class="timetable-column">
+      <h2>{{ 'dashboard.timetable' | translate }}</h2>
+    </div>
+  </div>
+</div>

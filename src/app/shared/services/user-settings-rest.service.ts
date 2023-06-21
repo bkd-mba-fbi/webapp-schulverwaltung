@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { RestService } from './rest.service';
 import { SETTINGS, Settings } from '../../settings';
-import { UserSettings } from '../models/user-settings.model';
+import { UserSettings, AccessInfo } from '../models/user-settings.model';
 import { decode } from '../utils/decode';
 
 @Injectable({
@@ -26,5 +26,12 @@ export class UserSettingsRestService extends RestService<typeof UserSettings> {
 
   updateUserSettingsCst(updatedSettings: UserSettings): Observable<unknown> {
     return this.http.patch(`${this.baseUrl}/Cst`, updatedSettings);
+  }
+
+  getAccessInfo(): Observable<AccessInfo['AccessInfo']> {
+    return this.http.get<unknown>(`${this.baseUrl}/?expand=AccessInfo`).pipe(
+      switchMap(decode(AccessInfo)),
+      map(({ AccessInfo }) => AccessInfo)
+    );
   }
 }

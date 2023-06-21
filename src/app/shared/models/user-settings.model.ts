@@ -108,6 +108,13 @@ const PresenceControlGroupView = JsonFromUnknown.pipe(
 // END Special Types used for Module Services
 //
 
+const AccessInfo = t.type({
+  AccessInfo: t.type({
+    Roles: t.array(t.string),
+    Permissions: t.array(t.string),
+  }),
+});
+
 type UserSetting = t.TypeOf<typeof UserSetting>;
 type UserSettings = t.TypeOf<typeof UserSettings>;
 type NotificationChannels = t.TypeOf<typeof NotificationChannels>;
@@ -121,6 +128,7 @@ type PresenceControlGroupViewEntry = t.TypeOf<
   typeof PresenceControlGroupViewEntry
 >;
 type PresenceControlGroupView = t.TypeOf<typeof PresenceControlGroupView>;
+type AccessInfo = t.TypeOf<typeof AccessInfo>;
 
 export {
   UserSettings,
@@ -132,4 +140,5 @@ export {
   PresenceControlViewModeObject,
   PresenceControlGroupViewEntry,
   PresenceControlGroupView,
+  AccessInfo,
 };
