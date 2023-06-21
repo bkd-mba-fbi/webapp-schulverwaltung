@@ -6,6 +6,12 @@ import { UnauthenticatedComponent } from './unauthenticated.component';
 
 const routes: Routes = [
   {
+    path: 'dashboard',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
     path: 'presence-control',
     canActivate: [authGuard()],
     loadChildren: () =>

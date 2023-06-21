@@ -5,7 +5,7 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { UserSettingsRestService } from './user-settings-rest.service';
 import { buildUserSettingsWithNotificationSetting } from 'src/spec-builders';
 import { isEqual } from 'lodash';
-import { UserSettings } from '../models/user-settings.model';
+import { UserSettings, AccessInfo } from '../models/user-settings.model';
 
 describe('UserSettingsRestService', () => {
   let service: UserSettingsRestService;
@@ -56,5 +56,21 @@ describe('UserSettingsRestService', () => {
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
       .flush(UserSettings.encode(settings));
+  });
+
+  it('request access info of the current user', () => {
+    const accessInfo: AccessInfo = {
+      AccessInfo: {
+        Roles: ['TeacherRole', 'ClassTeacherRole'],
+        Permissions: ['PersonRight'],
+      },
+    };
+    service.getAccessInfo().subscribe((result) => {
+      expect(result).toBe(accessInfo['AccessInfo']);
+    });
+    const url = 'https://eventotest.api/UserSettings/?expand=AccessInfo';
+    httpTestingController
+      .expectOne((req) => req.urlWithParams === url, url)
+      .flush(AccessInfo.encode(accessInfo));
   });
 });

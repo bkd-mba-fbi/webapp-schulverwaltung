@@ -30,6 +30,7 @@ describe('HomeComponent', () => {
   it('renders a link for each section', () => {
     const links = getLinks();
     expect(links).toEqual([
+      '/dashboard',
       '/presence-control',
       '/open-absences',
       '/edit-absences',

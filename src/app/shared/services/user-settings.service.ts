@@ -48,6 +48,10 @@ export class UserSettingsService {
     shareReplay(1),
   );
 
+  private accessInfo$ = this.settingsRestService
+    .getAccessInfo()
+    .pipe(shareReplay(1));
+
   constructor(private settingsRestService: UserSettingsRestService) {}
 
   refetch(): void {
@@ -156,6 +160,13 @@ export class UserSettingsService {
     return this.saveSetting(
       NOTIFICATION_DATA_KEY,
       NotificationData.encode(value),
+    );
+  }
+
+  getRolesAndPermissions(): Observable<Option<ReadonlyArray<string>>> {
+    return this.accessInfo$.pipe(
+      map(({ Roles, Permissions }) => [...Roles, ...Permissions]),
+      startWith(null)
     );
   }
 
