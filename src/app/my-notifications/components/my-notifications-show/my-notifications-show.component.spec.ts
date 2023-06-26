@@ -7,7 +7,7 @@ import { MyNotificationsShowComponent } from './my-notifications-show.component'
 
 describe('MyNotificationsShowComponent-WithData', () => {
   let fixture: ComponentFixture<MyNotificationsShowComponent>;
-  let element: HTMLElement;
+  let shadowRoot: DocumentFragment;
   let userSettings: jasmine.SpyObj<UserSettingsService>;
 
   beforeEach(waitForAsync(() => {
@@ -36,42 +36,42 @@ describe('MyNotificationsShowComponent-WithData', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);
-    element = fixture.debugElement.nativeElement;
+    shadowRoot = fixture.debugElement.nativeElement.shadowRoot;
     fixture.detectChanges();
   });
 
   it('expect delete all to be enabled', () => {
-    const field = element.querySelector(
+    const field = shadowRoot.querySelector(
       `button[id="notifications-delete-all"]`,
     ) as HTMLInputElement;
     expect(field).not.toBeNull();
     expect(field.disabled).toBeFalsy();
   });
 
-  it('expect bell no to be "hidden"', () => {
-    const field = element.getElementsByClassName(
-      'notifications-bell-hidden',
+  it('expect bell not to be "hidden"', () => {
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-bell-hidden',
     )[0] as HTMLInputElement;
     expect(field).toBeUndefined();
   });
 
   it('expect counter to be "1"', () => {
-    const field = element.getElementsByClassName(
-      'notifications-bell-counter-visible',
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-bell-counter-visible',
     )[0] as HTMLInputElement;
     expect(field).not.toBeNull();
     expect(field.innerHTML).toBe('1');
   });
 
   it('expect one notifications to be listed', () => {
-    const fields = element.getElementsByClassName(
-      'notifications-delete-notification',
+    const fields = shadowRoot.querySelectorAll(
+      '.notifications-delete-notification',
     );
     expect(fields.length).toBe(1);
   });
 
   it('expect user settings call when deleteAll clicked', () => {
-    const field = element.querySelector(
+    const field = shadowRoot.querySelector(
       `button[id="notifications-delete-all"]`,
     ) as HTMLInputElement;
     field.click();
@@ -80,8 +80,8 @@ describe('MyNotificationsShowComponent-WithData', () => {
   });
 
   it('expect user settings call when delete clicked', () => {
-    const field = element.getElementsByClassName(
-      'notifications-delete-notification',
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-delete-notification',
     )[0] as HTMLInputElement;
     field.click();
     expect(userSettings.saveNotificationData).toHaveBeenCalled();
@@ -91,7 +91,7 @@ describe('MyNotificationsShowComponent-WithData', () => {
 
 describe('MyNotificationsShowComponent-WithoutData', () => {
   let fixture: ComponentFixture<MyNotificationsShowComponent>;
-  let element: HTMLElement;
+  let shadowRoot: DocumentFragment;
   let userSettings: jasmine.SpyObj<UserSettingsService>;
 
   beforeEach(waitForAsync(() => {
@@ -117,12 +117,12 @@ describe('MyNotificationsShowComponent-WithoutData', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);
-    element = fixture.debugElement.nativeElement;
+    shadowRoot = fixture.debugElement.nativeElement.shadowRoot;
     fixture.detectChanges();
   });
 
   it('expect delete all to be disabled', () => {
-    const field = element.querySelector(
+    const field = shadowRoot.querySelector(
       `button[id="notifications-delete-all"]`,
     ) as HTMLInputElement;
     expect(field).not.toBeNull();
@@ -130,23 +130,23 @@ describe('MyNotificationsShowComponent-WithoutData', () => {
   });
 
   it('expect bell to be shown', () => {
-    const field = element.getElementsByClassName(
-      'notifications-bell-hidden',
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-bell-hidden',
     )[0] as HTMLInputElement;
     expect(field).toBeUndefined();
   });
 
   it('expect counter to be zero', () => {
-    const field = element.getElementsByClassName(
-      'notifications-bell-counter-visible',
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-bell-counter-visible',
     )[0] as HTMLInputElement;
     expect(field).not.toBeNull();
     expect(field.innerHTML).toBe('0');
   });
 
   it('expect no notifications to be listed', () => {
-    const fields = element.getElementsByClassName(
-      'notifications-delete-notification',
+    const fields = shadowRoot.querySelectorAll(
+      '.notifications-delete-notification',
     );
     expect(fields.length).toBe(0);
   });
@@ -154,7 +154,7 @@ describe('MyNotificationsShowComponent-WithoutData', () => {
 
 describe('MyNotificationsShowComponent-WithoutAuthorization', () => {
   let fixture: ComponentFixture<MyNotificationsShowComponent>;
-  let element: HTMLElement;
+  let shadowRoot: DocumentFragment;
   let userSettings: jasmine.SpyObj<UserSettingsService>;
 
   beforeEach(waitForAsync(() => {
@@ -180,20 +180,20 @@ describe('MyNotificationsShowComponent-WithoutAuthorization', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyNotificationsShowComponent);
-    element = fixture.debugElement.nativeElement;
+    shadowRoot = fixture.debugElement.nativeElement.shadowRoot;
     fixture.detectChanges();
   });
 
   it('expect bell to be "hidden"', () => {
-    const field = element.getElementsByClassName(
-      'notifications-bell-hidden',
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-bell-hidden',
     )[0] as HTMLInputElement;
     expect(field).not.toBeNull();
   });
 
   it('expect counter not to be shown', () => {
-    const field = element.getElementsByClassName(
-      'notifications-bell-counter-hidden',
+    const field = shadowRoot.querySelectorAll(
+      '.notifications-bell-counter-hidden',
     )[0] as HTMLInputElement;
     expect(field).not.toBeNull();
   });
