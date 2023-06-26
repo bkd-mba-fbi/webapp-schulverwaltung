@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "node_modules/bootstrap/scss/functions";
 
 /**
@@ -73,7 +74,7 @@ $input-btn-focus-box-shadow: none;
 $btn-disabled-opacity: 0.25;
 $btn-padding-x: 1.5 * $spacer;
 $btn-border-radius: (($btn-line-height * $btn-font-size) + (2 * $btn-padding-y)) +
-  calc(2 / 16) /*border px to rem*/;
+  math.div(2, 16) /*border px to rem*/;
 
 /**
  * Custom Variables
