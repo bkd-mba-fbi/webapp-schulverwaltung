@@ -42,10 +42,6 @@
               {
                 "input": "src/styles.scss",
                 "bundleName": "styles"
-              },
-              {
-                "input": "src/styles-notifications.scss",
-                "bundleName": "styles-notifications"
               }
             ],
             "scripts": [],

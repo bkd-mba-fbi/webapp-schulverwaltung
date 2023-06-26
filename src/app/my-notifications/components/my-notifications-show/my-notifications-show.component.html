@@ -12,10 +12,20 @@
     class="btn notifications-button p-0 m-0"
   >
     <i
-      class="material-icons notifications-bell"
+      class="notifications-bell"
       [ngClass]="data.isAuthenticated ? '' : 'notifications-bell-hidden'"
-      >notifications</i
     >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="45"
+        viewBox="0 -960 960 960"
+        width="45"
+      >
+        <path
+          d="M160-200v-66.666h82.667V-564q0-83.667 49.666-148.833Q342-778 422.667-796v-28.667q0-23.666 16.833-39.5Q456.333-880 480-880t40.5 15.833q16.833 15.834 16.833 39.5V-796Q618-778 668-712.833 718-647.667 718-564v297.334h82V-200H160ZM480-80q-32.333 0-56.167-23.5Q400-127 400-160h160q0 33-23.5 56.5T480-80Z"
+        />
+      </svg>
+    </i>
     <span
       id="notifications-bell-counter"
       class="notifications-bell-counter"

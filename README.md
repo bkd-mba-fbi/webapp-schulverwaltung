@@ -19,7 +19,6 @@ paste the import of the `settings.js` and the CSS files from
 <head>
   <script src="settings.js"></script>
   <link rel="stylesheet" href="styles.xyz.css"></head>
-  <link rel="stylesheet" href="styles-notifications.xyz.css"></head>
 </head>
 ```
 
@@ -38,8 +37,6 @@ tags from `index.html`'s `<body>`:
 
 To configure the app, you have to rename the file
 `settings.example.js` to `settings.js` and adjust its contents.
-
-To configure the position of the notification bell and popup, you may want to edit `styles-notifications.scss`.
 
 ### Authorization
 
