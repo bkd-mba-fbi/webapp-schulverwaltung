@@ -4,6 +4,7 @@
     profile: profileService.profile$ | async
   } as data"
 >
+  <h1 class="mx-3">{{ 'my-profile.title' | translate }}</h1>
   <ng-container
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >

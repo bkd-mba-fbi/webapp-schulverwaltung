@@ -1,17 +1,6 @@
-<div
-  class="d-flex align-items-center justify-content-between"
-  *erzLet="selectionService.selection$ | async as selection"
->
-  <button
-    type="button"
-    class="back btn btn-link p-3"
-    [routerLink]="['/open-absences']"
-  >
-    <div class="d-flex align-items-center">
-      <i class="material-icons">navigate_before</i>
-      <span class="ms-3">{{ studentFullName$ | async }}</span>
-    </div>
-  </button>
+<div class="px-3">
+  <erz-backlink [routerLink]="['/open-absences']" class="mb-3"></erz-backlink>
+  <h1>{{ studentFullName$ | async }}</h1>
 </div>
 
 <erz-student-dossier-absences

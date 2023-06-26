@@ -7,21 +7,6 @@
   border-bottom: 1px solid $border-color;
 }
 
-.backlink {
-  display: flex;
-  align-items: center;
-  margin-bottom: $spacer;
-
-  a {
-    margin-left: -$spacer;
-    text-decoration: none;
-  }
-
-  a:hover {
-    color: $accent;
-  }
-}
-
 .filters {
   display: flex;
   flex-wrap: wrap;

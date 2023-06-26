@@ -97,8 +97,8 @@ describe('OpenAbsencesDetailComponent', () => {
   });
 
   it('renders the student name', () => {
-    const nameElement = element.querySelector('.back span');
-    expect(nameElement && nameElement.textContent).toBe('Einstein Albert');
+    const headingElement = element.querySelector('h1');
+    expect(headingElement?.textContent?.trim()).toBe('Einstein Albert');
   });
 
   describe('redirection', () => {
