@@ -8,7 +8,9 @@
 >
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <div class="d-flex justify-content-between align-items-center">
-      {{ data.test.Designation }}
+      <h1>
+        {{ 'tests.edit-title' | translate: { test: data.test.Designation } }}
+      </h1>
 
       <button
         type="button"

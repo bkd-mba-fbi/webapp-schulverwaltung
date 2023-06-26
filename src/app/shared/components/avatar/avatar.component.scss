@@ -10,6 +10,12 @@
   height: 50px;
 }
 
+:host.medium {
+  width: 58px;
+  min-width: 58px;
+  height: 75px;
+}
+
 :host.large {
   width: 100px;
   min-width: 100px;

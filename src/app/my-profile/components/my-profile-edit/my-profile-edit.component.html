@@ -2,6 +2,7 @@
   *erzLet="{ formGroup: formGroup$ | async, student: student$ | async } as data"
   class="erz-container erz-container-limited erz-container-padding-y"
 >
+  <h1>{{ 'my-profile.edit.title' | translate }}</h1>
   <form
     *ngIf="data.formGroup"
     [formGroup]="data.formGroup"

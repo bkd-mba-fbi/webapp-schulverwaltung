@@ -28,7 +28,8 @@
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
-    }
+    },
+    "back": "Zurück"
   },
   "unauthenticated": {
     "message": "Nicht angemeldet oder kein Zugriff."
@@ -121,6 +122,7 @@
       }
     },
     "edit": {
+      "title": "Absenzen bestätigen",
       "remark": "Die Auswahl wird nur für Absenzen übernommen, bei denen noch kein Grund erfasst wurde. Bereits erfasste Absenzgründe können Sie ändern unter ",
       "absence-type-placeholder": "Absenzgrund auswählen...",
       "lesson-selected": "{{count}} Lektion ausgewählt",
@@ -248,6 +250,8 @@
     "type-points": "Typ Punkte",
     "type-grades": "Typ Noten",
     "factor": "Faktor",
+    "add-title": "Test hinzufügen",
+    "edit-title": "{{test}} bearbeiten",
     "form": {
       "designation": "Bezeichnung",
       "designation-placeholder": "Bezeichnung erfassen...",
@@ -312,6 +316,7 @@
       "confirm-presence-type": "Grund erfassen"
     },
     "confirm": {
+      "title": "Absenzen bearbeiten",
       "lesson-selected": "{{count}} Lektion ausgewählt",
       "lessons-selected": "{{count}} Lektionen ausgewählt",
       "choose-presence-type": "Absenzgrund auswählen",
@@ -349,6 +354,7 @@
       "stay-permit-expiry": "Ablauf der Aufenthaltsbewilligung"
     },
     "edit": {
+      "title": "Mein Profil bearbeiten",
       "address-changes-remark": "Für Änderungen an Namen und Adresse wenden Sie sich bitte an das Sekretariat.",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
