@@ -1,11 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-
-// Include selected bootstrap components
-@import "bootstrap";
+/* As the styles are encapsulated in the notification component (via ViewEncapsulation.ShadowDom),
+ * the corresponding global styles must also be imported here.
+ */
 @import "../../../../bootstrap-variables";
-
-// Material Icons font
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
+@import "bootstrap";
 
 .notifications-popup {
   position: fixed;
@@ -76,17 +73,15 @@
 }
 
 .notifications-bell-counter {
-  position: absolute;
-  top: 20px; // position from top
-  right: 10px; // position from right
+  margin-left: -10px;
   color: white;
   font-weight: bold;
   text-align: center;
   line-height: 1;
-  padding: 2px 6px;
+  padding: 1.25px 6px;
   background-color: $accent;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px $primary;
+  box-shadow: 0 0 0 2px $white;
 }
 
 .notifications-bell-counter-hidden {
@@ -99,10 +94,6 @@
 
 .notifications-delete-notification {
   color: $primary;
-}
-
-#notifications-delete-all {
-  //background: $primary;
 }
 
 hr {
