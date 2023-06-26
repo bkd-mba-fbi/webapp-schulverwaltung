@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, ViewEncapsulation } from '@angular/core';
 import {
   BehaviorSubject,
   interval,
@@ -26,6 +26,7 @@ import { UserSettingsService } from 'src/app/shared/services/user-settings.servi
 @Component({
   templateUrl: './my-notifications-show.component.html',
   styleUrls: ['./my-notifications-show.component.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class MyNotificationsShowComponent implements OnDestroy {
   notifications$ = this.loadNotifications().pipe(shareReplay());
@@ -114,8 +115,13 @@ export class MyNotificationsShowComponent implements OnDestroy {
   }
 
   toggleNotificationsPopup(): void {
-    const el = document.getElementById('notifications-popup');
-    this.toggleNotificationsPopup$.next(el);
+    const el = document.querySelector('erz-notifications');
+    if (el) {
+      el.shadowRoot?.getElementById('notifications-popup');
+      this.toggleNotificationsPopup$.next(
+        el.shadowRoot?.getElementById('notifications-popup')
+      );
+    }
   }
 
   deleteNotification(id: number): void {
