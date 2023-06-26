@@ -1,24 +1,22 @@
 <div
   class="erz-container erz-container-limited erz-container-padding-y erz-container-padding-x-responsive"
+  *erzLet="{
+    loading: myGradesService.loading$ | async,
+    studentId: myGradesService.studentId$ | async,
+    courses: myGradesService.studentCoursesSorted$ | async,
+    gradingScales: myGradesService.gradingScales$ | async
+  } as data"
 >
-  <ng-container
-    *erzLet="{
-      loading: myGradesService.loading$ | async,
-      studentId: myGradesService.studentId$ | async,
-      courses: myGradesService.studentCoursesSorted$ | async,
-      gradingScales: myGradesService.gradingScales$ | async
-    } as data"
-  >
-    <erz-my-grades-header></erz-my-grades-header>
-    <erz-dossier-grades-view
-      *ngIf="!data.loading"
-      [courses]="data.courses"
-      [studentId]="data.studentId"
-      [gradingScales]="data.gradingScales"
-      [isEditable]="false"
-    ></erz-dossier-grades-view>
-    <ng-container *ngIf="data.loading">
-      <erz-spinner></erz-spinner>
-    </ng-container>
+  <h1 class="mx-3">{{ 'my-grades.title' | translate }}</h1>
+  <erz-my-grades-header></erz-my-grades-header>
+  <erz-dossier-grades-view
+    *ngIf="!data.loading"
+    [courses]="data.courses"
+    [studentId]="data.studentId"
+    [gradingScales]="data.gradingScales"
+    [isEditable]="false"
+  ></erz-dossier-grades-view>
+  <ng-container *ngIf="data.loading">
+    <erz-spinner></erz-spinner>
   </ng-container>
 </div>

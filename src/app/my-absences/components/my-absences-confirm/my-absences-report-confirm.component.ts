@@ -23,6 +23,7 @@ import { ToastService } from '../../../shared/services/toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
+  titleKey = 'my-absences.report.title';
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds))))
   );

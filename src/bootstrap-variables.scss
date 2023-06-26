@@ -31,27 +31,33 @@ $headings-font-weight: 300;
 
 $h1-font-size: 3.375rem;
 $h1-font-weight: 100;
-$h1-line-height: 3.875rem;
+$h1-line-height: 1.15;
+$h1-margin: 0 0 0.5em 0;
 
 $h2-font-size: 1.875rem;
 $h2-font-weight: $headings-font-weight;
-$h2-line-height: 2.25rem;
+$h2-line-height: 1.2;
+$h2-margin: 0 0 0.5em 0;
 
 $h3-font-size: 1.625rem;
 $h3-font-weight: $headings-font-weight;
-$h3-line-height: 2rem;
+$h3-line-height: 1.23;
+$h3-margin: 0 0 0.5em 0;
 
 $h4-font-size: 1.5rem;
 $h4-font-weight: $headings-font-weight;
-$h4-line-height: 1.75rem;
+$h4-line-height: 1.16;
+$h4-margin: 0 0 0.5em 0;
 
 $h5-font-size: 1.3125rem;
 $h5-font-weight: $headings-font-weight;
-$h5-line-height: 1.5625rem;
+$h5-line-height: 1.19;
+$h5-margin: 0 0 0.5em 0;
 
 $h6-font-size: 1.125rem;
 $h6-font-weight: $headings-font-weight;
-$h6-line-height: 1.3125rem;
+$h6-line-height: 1.16;
+$h6-margin: 0 0 0.5em 0;
 
 // Links
 $link-color: $body-color;

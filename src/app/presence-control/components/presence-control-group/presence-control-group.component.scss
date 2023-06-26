@@ -1,18 +1,7 @@
 @import "../../../../bootstrap-variables";
 
-.back {
-  color: $body-color;
-  text-decoration: none;
-}
-
-.back:hover,
-.back:active {
-  span {
-    text-decoration: underline;
-  }
-}
-
-.group-list {
+:host {
+  display: block;
   padding-left: $spacer;
   padding-right: $spacer;
 }

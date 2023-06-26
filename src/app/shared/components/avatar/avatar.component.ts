@@ -2,7 +2,6 @@ import {
   Component,
   Inject,
   Input,
-  OnInit,
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
