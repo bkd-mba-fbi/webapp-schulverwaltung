@@ -1,4 +1,11 @@
-import { Component, Inject, OnDestroy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   BehaviorSubject,
   interval,
@@ -29,6 +36,8 @@ import { UserSettingsService } from 'src/app/shared/services/user-settings.servi
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class MyNotificationsShowComponent implements OnDestroy {
+  @ViewChild('notificationspopup') popup: ElementRef<HTMLElement>;
+
   notifications$ = this.loadNotifications().pipe(shareReplay());
   isAuthenticated$ = new BehaviorSubject(false);
 
@@ -115,12 +124,8 @@ export class MyNotificationsShowComponent implements OnDestroy {
   }
 
   toggleNotificationsPopup(): void {
-    const el = document.querySelector('erz-notifications');
-    if (el) {
-      el.shadowRoot?.getElementById('notifications-popup');
-      this.toggleNotificationsPopup$.next(
-        el.shadowRoot?.getElementById('notifications-popup')
-      );
+    if (this.popup.nativeElement) {
+      this.toggleNotificationsPopup$.next(this.popup.nativeElement);
     }
   }
 
