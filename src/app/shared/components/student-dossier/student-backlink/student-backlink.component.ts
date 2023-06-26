@@ -14,6 +14,4 @@ export class StudentBacklinkComponent {
   @Input() studentId: number;
   @Input() studentName?: string;
   @Input() student?: Student;
-
-  constructor() {}
 }

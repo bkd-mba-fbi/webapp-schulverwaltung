@@ -45,6 +45,7 @@ import { DossierGradesCourseHeaderComponent } from './components/student-dossier
 import { DossierGradesEditComponent } from './components/student-dossier/dossier-grades-edit/dossier-grades-edit.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { BacklinkComponent } from './components/backlink/backlink.component';
 
 // Components that will be exported
 const components = [
@@ -74,6 +75,7 @@ const components = [
   TestsWeightPipe,
   TestPointsPipe,
   PreserveLineHeightComponent,
+  BacklinkComponent,
 ];
 
 @NgModule({

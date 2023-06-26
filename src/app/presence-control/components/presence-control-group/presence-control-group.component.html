@@ -6,18 +6,13 @@
     group: groupService.group$ | async
   } as data"
 >
-  <a
-    class="back btn btn-link p-3"
+  <erz-backlink
     [routerLink]="['/presence-control']"
     [queryParams]="backlinkQueryParams$ | async"
-  >
-    <div class="d-flex align-items-center">
-      <i class="material-icons">navigate_before</i>
-      <span class="ms-3">{{
-        'presence-control.groups.title' | translate
-      }}</span>
-    </div>
-  </a>
+    class="mb-3"
+  ></erz-backlink>
+
+  <h1>{{ 'presence-control.groups.title' | translate }}</h1>
 
   <div class="group-header mb-2 d-flex justify-content-between">
     <div class="d-flex align-items-baseline">

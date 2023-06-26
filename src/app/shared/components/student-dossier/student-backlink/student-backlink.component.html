@@ -1,15 +1,19 @@
-<a
-  class="btn btn-link text-decoration-none"
-  [routerLink]="link"
-  [queryParams]="queryParams"
->
-  <i class="material-icons">navigate_before</i>
-</a>
-<erz-avatar [studentId]="studentId" class="me-3 small"></erz-avatar>
-<div *ngIf="student">
-  {{ student.FullName }} ({{ student.Gender }})
-  <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
-</div>
-<div *ngIf="!student && studentName">
-  {{ studentName }}
+<div class="d-flex flex-column mx-3">
+  <erz-backlink
+    [routerLink]="link"
+    [queryParams]="queryParams"
+    class="mb-3"
+  ></erz-backlink>
+  <div class="d-flex flex-row align-items-center">
+    <erz-avatar [studentId]="studentId" class="me-3 medium"></erz-avatar>
+    <div class="d-flex flex-column">
+      <h1>
+        {{ student ? student.FullName : studentName }}
+        <span *ngIf="student" class="gender">({{ student.Gender }})</span>
+      </h1>
+      <div *ngIf="student" class="birthdate">
+        {{ student.Birthdate | date: 'dd.MM.yyyy' }}
+      </div>
+    </div>
+  </div>
 </div>

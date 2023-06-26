@@ -44,6 +44,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
     'absenceTypeId',
   );
 
+  abstract titleKey: string;
   abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
   protected abstract confirmationStateId: Option<number>;
 
