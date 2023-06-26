@@ -17,12 +17,13 @@
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        height="45"
-        viewBox="0 -960 960 960"
-        width="45"
+        height="48px"
+        viewBox="0 0 24 24"
+        width="48px"
+        fill="#000000"
       >
         <path
-          d="M160-200v-66.666h82.667V-564q0-83.667 49.666-148.833Q342-778 422.667-796v-28.667q0-23.666 16.833-39.5Q456.333-880 480-880t40.5 15.833q16.833 15.834 16.833 39.5V-796Q618-778 668-712.833 718-647.667 718-564v297.334h82V-200H160ZM480-80q-32.333 0-56.167-23.5Q400-127 400-160h160q0 33-23.5 56.5T480-80Z"
+          d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"
         />
       </svg>
     </i>
@@ -38,7 +39,11 @@
       >{{ data.notificationsCount }}</span
     >
   </div>
-  <div class="notifications-popup border" id="notifications-popup">
+  <div
+    class="notifications-popup border"
+    id="notifications-popup"
+    #notificationspopup
+  >
     <div>
       <div
         class="d-flex justify-content-between border-bottom p-3 align-items-center"
@@ -77,7 +82,19 @@
               (click)="deleteNotification(entry.id)"
               class="btn btn-link p-0 notifications-delete-notification"
             >
-              <i class="material-icons">delete</i>
+              <i class="material-icons">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  width="24px"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                </svg>
+              </i>
             </button>
           </div>
         </div>
