@@ -2,6 +2,13 @@
  * the corresponding global styles must also be imported here.
  */
 @import "../../../../bootstrap-variables";
+
+:host {
+  --bs-border-width: #{$border-width};
+  --bs-border-style: #{$border-style};
+  --bs-border-color: #{$border-color};
+}
+
 @import "bootstrap";
 
 .notifications-popup {
@@ -81,7 +88,7 @@
   padding: 1.25px 6px;
   background-color: $accent;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px $white;
+  box-shadow: 0 0 0 2px white;
 }
 
 .notifications-bell-counter-hidden {
