@@ -23,13 +23,15 @@
     >
       <div *ngIf="data.hasSearch">
         <h2>{{ 'dashboard.search.title' | translate }}</h2>
-        <erz-typeahead
-          [typeaheadService]="studentsRestService"
-          [placeholder]="'dashboard.search.placeholder'"
-          [value]="filter.student"
-          (valueChange)="$event && navigateToDossier($event)"
-        >
-        </erz-typeahead>
+        <div class="search-box">
+          <erz-typeahead
+            [typeaheadService]="studentsRestService"
+            [placeholder]="'dashboard.search.placeholder'"
+            [value]="filter.student"
+            (valueChange)="$event && navigateToDossier($event)"
+          >
+          </erz-typeahead>
+        </div>
       </div>
       <div *ngIf="data.hasActions">
         <h2>{{ 'dashboard.actions' | translate }}</h2>

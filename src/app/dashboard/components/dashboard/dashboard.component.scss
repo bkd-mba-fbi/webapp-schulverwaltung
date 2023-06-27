@@ -19,6 +19,11 @@
   flex: 2;
 }
 
+.search-box {
+  padding: $spacer * 0.75;
+  background: $dark-sand;
+}
+
 @include media-breakpoint-up(lg) {
   .columns {
     flex-direction: row;
