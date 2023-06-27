@@ -7,61 +7,40 @@
   --bs-border-width: #{$border-width};
   --bs-border-style: #{$border-style};
   --bs-border-color: #{$border-color};
+
+  position: relative;
 }
 
-@import "bootstrap";
+// Configuration
+@import "node_modules/bootstrap/scss/maps";
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/utilities";
+
+// Layout & components
+@import "node_modules/bootstrap/scss/root";
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/type";
+@import "node_modules/bootstrap/scss/buttons";
+
+// Utilities
+@import "node_modules/bootstrap/scss/utilities/api";
 
 .notifications-popup {
-  position: fixed;
-  margin-top: 20px; // position from top
-  right: 12px; // position from right
+  position: absolute;
+  margin-top: 10px;
+  right: 0;
   z-index: 1000;
   display: none;
   min-width: 33vw;
   background-color: white;
 }
 
-/* Popup border triangle */
-.notifications-popup:after,
-.notifications-popup:before {
-  right: 11px; // position from right
-  top: -20px; // position from top
-}
-
-/* white triangle */
-.notifications-popup:after {
-  border-left: solid transparent 10px;
-  border-right: solid transparent 10px;
-  border-bottom: solid 10px white;
-  content: " ";
-  position: absolute;
-  width: 0;
-  top: -8px;
-}
-
-/* Gray triangle / Border triangle */
-.notifications-popup:before {
-  border-color: transparent transparent $gray transparent;
-  border-style: solid;
-  border-width: 10px;
-  display: block;
-  content: " ";
-  position: absolute;
-  height: 10px;
-}
-
 @media (max-width: 800px) {
   .notifications-popup {
+    position: fixed;
     min-width: auto;
     width: 100vw;
     right: 0;
-  }
-  // don't show triangle for small screen width
-  .notifications-popup:before {
-    display: none;
-  }
-  .notifications-popup:after {
-    display: none;
   }
 }
 
