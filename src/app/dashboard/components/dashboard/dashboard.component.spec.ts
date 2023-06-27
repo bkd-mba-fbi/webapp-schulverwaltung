@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
@@ -9,6 +10,7 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let element: HTMLElement;
+  let router: Router;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
 
   beforeEach(async () => {
@@ -32,6 +34,9 @@ describe('DashboardComponent', () => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
   });
 
   describe('without roles', () => {
@@ -59,6 +64,17 @@ describe('DashboardComponent', () => {
       expect(element.textContent).toContain('dashboard.search');
       expect(element.textContent).toContain('dashboard.actions');
       expect(element.textContent).toContain('dashboard.timetable');
+    });
+
+    it('navigates to dossier with given id', () => {
+      const key = 12;
+      component.navigateToDossier(key);
+      expect(router.navigate).toHaveBeenCalledWith([
+        'dashboard',
+        'student',
+        key,
+        'addresses',
+      ]);
     });
   });
 
@@ -115,6 +131,23 @@ describe('DashboardComponent', () => {
       expect(element.textContent).not.toContain('dashboard.search');
       expect(element.textContent).toContain('dashboard.actions');
       expect(element.textContent).not.toContain('dashboard.timetable');
+    });
+  });
+
+  describe('search', () => {
+    beforeEach(() => {
+      roles$.next(['LessonTeacherRole']);
+    });
+
+    it('navigates to dossier with given id', () => {
+      const key = 12;
+      component.navigateToDossier(key);
+      expect(router.navigate).toHaveBeenCalledWith([
+        'dashboard',
+        'student',
+        key,
+        'addresses',
+      ]);
     });
   });
 });

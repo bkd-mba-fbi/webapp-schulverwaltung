@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+import {
+  StudentFilter,
+  StudentsRestService,
+} from '../../../shared/services/students-rest.service';
+import { DropDownItem } from '../../../shared/models/drop-down-item.model';
+import { Router } from '@angular/router';
 
 const SEARCH_ROLES = [
   'LessonTeacherRole',
@@ -27,6 +33,10 @@ const TIMETABLE_ROLES = ['LessonTeacherRole', 'StudentRole'];
 export class DashboardComponent {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
 
+  filter: StudentFilter = {
+    student: null,
+  };
+
   loading$ = this.rolesAndPermissions$.pipe(map((roles) => roles == null));
   hasSearch$ = this.rolesAndPermissions$.pipe(map(this.hasRoles(SEARCH_ROLES)));
   hasActions$ = this.rolesAndPermissions$.pipe(
@@ -36,7 +46,16 @@ export class DashboardComponent {
     map(this.hasRoles(TIMETABLE_ROLES))
   );
 
-  constructor(private settingsService: UserSettingsService) {}
+  constructor(
+    public studentsRestService: StudentsRestService,
+    private settingsService: UserSettingsService,
+    private router: Router
+  ) {}
+
+  navigateToDossier(key: DropDownItem['Key']) {
+    const id = Number(key);
+    this.router.navigate(['dashboard', 'student', id, 'addresses']);
+  }
 
   private hasRoles(
     requiredRoles: ReadonlyArray<string>
