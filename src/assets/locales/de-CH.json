@@ -37,7 +37,10 @@
     "title": "Dashboard",
     "heading": "Willkommen bei Evento",
     "no-access": "Die Navigation zeigt Ihnen alle zur Verfügung stehenden Bereiche an.",
-    "search": "Suche",
+    "search": {
+      "title": "Suche",
+      "placeholder": "Lernende suchen..."
+    },
     "actions": "Aktionen",
     "timetable": "Stundenplan"
   },
