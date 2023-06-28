@@ -1,0 +1,7 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+  padding: $spacer * 0.75;
+  background: $dark-sand;
+}
