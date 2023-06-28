@@ -23,14 +23,7 @@
     >
       <div *ngIf="data.hasSearch">
         <h2>{{ 'dashboard.search.title' | translate }}</h2>
-        <div class="search-box">
-          <erz-typeahead
-            [typeaheadService]="studentsRestService"
-            [placeholder]="'dashboard.search.placeholder'"
-            (valueChange)="$event && navigateToDossier($event)"
-          >
-          </erz-typeahead>
-        </div>
+        <erz-dashboard-search></erz-dashboard-search>
       </div>
       <div *ngIf="data.hasActions">
         <h2>{{ 'dashboard.actions' | translate }}</h2>

@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
-import { StudentsRestService } from '../../../shared/services/students-rest.service';
-import { DropDownItem } from '../../../shared/models/drop-down-item.model';
-import { Router } from '@angular/router';
 
 const SEARCH_ROLES = [
   'LessonTeacherRole',
@@ -39,16 +36,7 @@ export class DashboardComponent {
     map(this.hasRoles(TIMETABLE_ROLES))
   );
 
-  constructor(
-    public studentsRestService: StudentsRestService,
-    private settingsService: UserSettingsService,
-    private router: Router
-  ) {}
-
-  navigateToDossier(key: DropDownItem['Key']) {
-    const id = Number(key);
-    this.router.navigate(['dashboard', 'student', id, 'addresses']);
-  }
+  constructor(private settingsService: UserSettingsService) {}
 
   private hasRoles(
     requiredRoles: ReadonlyArray<string>
