@@ -6,7 +6,13 @@
     hasTimetable: hasTimetable$ | async
   } as data"
 >
-  <h1>{{ 'dashboard.heading' | translate }}</h1>
+  <h1
+    [class.visually-hidden]="
+      data.loading || data.hasSearch || data.hasActions || data.hasTimetable
+    "
+  >
+    {{ 'dashboard.heading' | translate }}
+  </h1>
   <erz-spinner *ngIf="data.loading"></erz-spinner>
   <p
     *ngIf="
