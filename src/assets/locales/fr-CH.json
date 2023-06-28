@@ -326,11 +326,6 @@
       }
     }
   },
-  "person-search": {
-    "title": "Recherche des élèves",
-    "description": "Vous pouvez rechercher vos élèves et accéder directement à leur dossier en cliquant sur le nom.",
-    "name": "Nom"
-  },
   "my-profile": {
     "title": "Mon profil",
     "show": {

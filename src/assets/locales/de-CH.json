@@ -38,7 +38,10 @@
     "title": "Dashboard",
     "heading": "Willkommen bei Evento",
     "no-access": "Die Navigation zeigt Ihnen alle zur Verfügung stehenden Bereiche an.",
-    "search": "Suche",
+    "search": {
+      "title": "Suche",
+      "placeholder": "Lernende suchen..."
+    },
     "actions": "Aktionen",
     "timetable": "Stundenplan"
   },
@@ -338,11 +341,6 @@
         "all": "Alle"
       }
     }
-  },
-  "person-search": {
-    "title": "Personensuche",
-    "description": "Hier können Sie nach Ihren Lernenden suchen, um mit Klick auf den Namen direkt zum Dossier zu gelangen.",
-    "name": "Name"
   },
   "my-profile": {
     "title": "Mein Profil",
