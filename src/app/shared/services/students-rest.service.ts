@@ -14,10 +14,6 @@ import { LessonAbsence } from '../models/lesson-absence.model';
 import { LessonIncident } from '../models/lesson-incident.model';
 import { LessonDispensation } from '../models/lesson-dispensation.model';
 
-export interface StudentFilter {
-  student: Option<number>;
-}
-
 @Injectable({
   providedIn: 'root',
 })

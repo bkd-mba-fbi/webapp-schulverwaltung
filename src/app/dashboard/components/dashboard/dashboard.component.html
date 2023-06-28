@@ -27,7 +27,6 @@
           <erz-typeahead
             [typeaheadService]="studentsRestService"
             [placeholder]="'dashboard.search.placeholder'"
-            [value]="filter.student"
             (valueChange)="$event && navigateToDossier($event)"
           >
           </erz-typeahead>
