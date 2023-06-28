@@ -50,14 +50,6 @@ const routes: Routes = [
       import('./events/events.module').then((m) => m.EventsModule),
   },
   {
-    path: 'person-search',
-    canActivate: [authGuard()],
-    loadChildren: () =>
-      import('./person-search/person-search.module').then(
-        (module) => module.PersonSearchModule,
-      ),
-  },
-  {
     path: 'my-absences',
     canActivate: [authGuard()],
     loadChildren: () =>
