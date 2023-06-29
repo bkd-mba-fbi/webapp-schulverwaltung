@@ -19,7 +19,9 @@
         <div class="registrations">
           {{ 'events.registrations' | translate }}
         </div>
-        <div class="rating">{{ 'events.rating' | translate }}</div>
+        <div *ngIf="withRatings" class="rating">
+          {{ 'events.rating' | translate }}
+        </div>
       </div>
       <div class="event-entry" *ngFor="let event of data.events">
         <div class="designation">
@@ -41,7 +43,7 @@
             ) | translate
           }}</span>
         </div>
-        <div class="rating" *ngIf="event.evaluationText">
+        <div class="rating" *ngIf="withRatings && event.evaluationText">
           <a
             *ngIf="!event.evaluationLink"
             class="d-flex"
