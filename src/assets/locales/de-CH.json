@@ -208,7 +208,8 @@
     }
   },
   "events": {
-    "title": "Anlassliste",
+    "title": "Tests und Bewertung",
+    "current.title": "Aktuelle Fächer",
     "no-events": "Keine Anlässe vorhanden",
     "search": "Anlass suchen",
     "search-by": "Suchen...",
