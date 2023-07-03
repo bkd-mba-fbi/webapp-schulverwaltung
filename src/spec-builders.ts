@@ -1,4 +1,4 @@
-import { Reference, OptionalReference } from './app/shared/models/common-types';
+import { OptionalReference, Reference } from './app/shared/models/common-types';
 import { LessonPresence } from './app/shared/models/lesson-presence.model';
 import { Lesson } from './app/shared/models/lesson.model';
 import { PresenceType } from './app/shared/models/presence-type.model';
@@ -35,6 +35,7 @@ import {
 import { TimetableEntry } from './app/shared/models/timetable-entry.model';
 import { LessonDispensation } from './app/shared/models/lesson-dispensation.model';
 import { TokenPayload } from './app/shared/models/token-payload.model';
+import { EventState, Event } from './app/events/services/events-state.service';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -590,6 +591,16 @@ export function buildTimetableEntry(
     EventNumber: '',
     EventDesignation: '',
     EventManagerInformation: '',
+  };
+}
+
+export function buildEvent(id: number): Event {
+  return {
+    Designation: 'Französisch-S2, 24a',
+    detailLink: '',
+    id: id,
+    state: EventState.Tests,
+    studentCount: 33,
   };
 }
 

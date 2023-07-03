@@ -1,4 +1,3 @@
-<h1 class="mx-3">{{ 'events.title' | translate }}</h1>
 <div
   class="erz-container erz-container-padding-y erz-container-padding-x-responsive"
   *erzLet="{ events: state.filteredEvents$ | async } as data"
@@ -20,7 +19,9 @@
         <div class="registrations">
           {{ 'events.registrations' | translate }}
         </div>
-        <div class="rating">{{ 'events.rating' | translate }}</div>
+        <div *ngIf="withRatings" class="rating">
+          {{ 'events.rating' | translate }}
+        </div>
       </div>
       <div class="event-entry" *ngFor="let event of data.events">
         <div class="designation">
@@ -42,7 +43,7 @@
             ) | translate
           }}</span>
         </div>
-        <div class="rating" *ngIf="event.evaluationText">
+        <div class="rating" *ngIf="withRatings && event.evaluationText">
           <a
             *ngIf="!event.evaluationLink"
             class="d-flex"

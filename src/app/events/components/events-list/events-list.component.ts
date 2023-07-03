@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EventsStateService } from '../../services/events-state.service';
 
 @Component({
@@ -7,5 +7,6 @@ import { EventsStateService } from '../../services/events-state.service';
   styleUrls: ['./events-list.component.scss'],
 })
 export class EventsListComponent {
+  @Input() withRatings: boolean = true;
   constructor(public state: EventsStateService) {}
 }
