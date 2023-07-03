@@ -7,6 +7,8 @@ import { EventsListComponent } from './components/events-list/events-list.compon
 import { TestsEditComponent } from './components/tests-edit/tests-edit.component';
 import { TestsAddComponent } from './components/tests-add/tests-add.component';
 import { dossierRoute } from '../shared/components/student-dossier/dossier-route';
+import { EventsTestsComponent } from './components/events-tests/events-tests.component';
+import { EventsCurrentComponent } from './components/events-current/events-current.component';
 
 const routes: Routes = [
   {
@@ -15,7 +17,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: EventsListComponent,
+        component: EventsTestsComponent,
+      },
+      {
+        path: 'current',
+        component: EventsCurrentComponent,
       },
       {
         path: ':id',
