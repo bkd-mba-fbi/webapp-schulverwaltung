@@ -1,13 +1,16 @@
 <a *ngIf="!externalLink" [routerLink]="link" [queryParams]="linkParams">
-  <ng-container *ngTemplateOutlet="linkContent"></ng-container>
+  <span>{{ title | translate }}</span>
+  <span *ngIf="count; then showCount; else showIcon"></span>
 </a>
 
 <a *ngIf="externalLink" [href]="externalLink">
-  <ng-container *ngTemplateOutlet="linkContent"></ng-container
-></a>
-
-<ng-template #linkContent>
   <span>{{ title | translate }}</span>
+  <ng-container *ngTemplateOutlet="showIcon"></ng-container>
+</a>
+<ng-template #showCount>
+  <span>{{ count }}</span></ng-template
+>
+<ng-template #showIcon>
   <svg
     width="24"
     height="24"
@@ -31,6 +34,5 @@
         d="M12 20L10.575 18.6L16.175 13H4V11H16.175L10.575 5.4L12 4L20 12L12 20Z"
         fill="#1C1B1F"
       />
-    </g>
-  </svg>
-</ng-template>
+    </g></svg
+></ng-template>
