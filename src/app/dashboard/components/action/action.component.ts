@@ -8,6 +8,7 @@ import { Params } from '@angular/router';
 })
 export class ActionComponent {
   @Input() title: string;
+  @Input() count?: number;
   @Input() link?: string[];
   @Input() linkParams?: Params;
   @Input() externalLink?: string;
