@@ -1,32 +1,36 @@
 <erz-action
   [title]="'dashboard.actions.presence-control'"
-  [path]="'/presence-control'"
+  [link]="['/presence-control']"
 ></erz-action>
 
 <erz-action
   [title]="'dashboard.actions.edit-absences'"
-  [path]="'/edit-absences'"
+  [link]="['/edit-absences']"
+  [linkParams]="editAbsencesParams"
 ></erz-action>
 
 <erz-action
   [title]="'dashboard.actions.open-absences'"
-  [path]="'/open-absences'"
+  [link]="['/open-absences']"
 ></erz-action>
 
-<erz-action [title]="'dashboard.actions.tests'" [path]="'/events'"></erz-action>
+<erz-action
+  [title]="'dashboard.actions.tests'"
+  [link]="['/events']"
+></erz-action>
 
 <erz-action
   [title]="'dashboard.actions.my-absences-report'"
-  [path]="'/my-absences/report'"
+  [link]="['/my-absences', 'report']"
 >
 </erz-action>
 
 <erz-action
   [title]="'dashboard.actions.my-absences'"
-  [path]="'/my-absences'"
+  [link]="['/my-absences']"
 ></erz-action>
 
 <erz-action
   [title]="'dashboard.actions.substitutions'"
-  [path]="'/tbd'"
+  [externalLink]="substitutionsAdminLink"
 ></erz-action>

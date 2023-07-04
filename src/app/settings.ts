@@ -41,6 +41,7 @@ const Settings = t.type({
   notificationTypes: NotificationTypes,
   notificationTypesAssignments: t.array(NotificationTypesAssignment),
   eventlist: t.record(t.string, t.string),
+  dashboard: t.record(t.string, t.string),
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
 });
 

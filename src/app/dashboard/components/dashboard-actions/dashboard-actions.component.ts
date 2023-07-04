@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { Settings, SETTINGS } from '../../../settings';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'erz-dashboard-actions',
@@ -6,5 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-actions.component.scss'],
 })
 export class DashboardActionsComponent {
-  constructor() {}
+  constructor(@Inject(SETTINGS) public settings: Settings) {}
+
+  get editAbsencesParams(): Params {
+    return { confirmationStates: this.settings.checkableAbsenceStateId };
+  }
+
+  get substitutionsAdminLink(): string {
+    return this.settings.dashboard.substitutionsAdminLink;
+  }
 }

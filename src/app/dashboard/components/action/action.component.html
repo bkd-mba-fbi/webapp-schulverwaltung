@@ -1,4 +1,12 @@
-<a [routerLink]="[path]">
+<a *ngIf="!externalLink" [routerLink]="link" [queryParams]="linkParams">
+  <ng-container *ngTemplateOutlet="linkContent"></ng-container>
+</a>
+
+<a *ngIf="externalLink" [href]="externalLink">
+  <ng-container *ngTemplateOutlet="linkContent"></ng-container
+></a>
+
+<ng-template #linkContent>
   <span>{{ title | translate }}</span>
   <svg
     width="24"
@@ -25,4 +33,4 @@
       />
     </g>
   </svg>
-</a>
+</ng-template>

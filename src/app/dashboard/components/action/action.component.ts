@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'erz-action',
@@ -7,6 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 export class ActionComponent {
   @Input() title: string;
-  @Input() path: string;
+  @Input() link?: string[];
+  @Input() linkParams?: Params;
+  @Input() externalLink?: string;
   constructor() {}
 }
