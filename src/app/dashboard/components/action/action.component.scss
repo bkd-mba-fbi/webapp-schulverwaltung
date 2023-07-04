@@ -1,8 +1,9 @@
 @import "../../../../bootstrap-variables";
 
-:host {
+a {
   display: flex;
   justify-content: space-between;
   padding: $spacer * 0.75;
   background: $dark-sand;
+  text-decoration: none;
 }

@@ -43,7 +43,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).toContain('dashboard.no-access');
       expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions');
+      expect(element.textContent).not.toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });
@@ -57,7 +57,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions');
+      expect(element.textContent).toContain('dashboard.actions.title');
       expect(element.textContent).toContain('dashboard.timetable');
     });
   });
@@ -71,7 +71,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions');
+      expect(element.textContent).not.toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });
@@ -85,7 +85,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions');
+      expect(element.textContent).toContain('dashboard.actions.title');
       expect(element.textContent).toContain('dashboard.timetable');
     });
   });
@@ -99,7 +99,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions');
+      expect(element.textContent).not.toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });
@@ -113,7 +113,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions');
+      expect(element.textContent).toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });

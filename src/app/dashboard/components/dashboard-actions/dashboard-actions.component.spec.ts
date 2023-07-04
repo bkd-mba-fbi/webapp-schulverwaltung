@@ -1,18 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardActionComponent } from './dashboard-action.component';
+import { DashboardActionsComponent } from './dashboard-actions.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 
-describe('DashboardActionComponent', () => {
-  let component: DashboardActionComponent;
-  let fixture: ComponentFixture<DashboardActionComponent>;
+describe('DashboardActionsComponent', () => {
+  let component: DashboardActionsComponent;
+  let fixture: ComponentFixture<DashboardActionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
-      buildTestModuleMetadata()
+      buildTestModuleMetadata({
+        declarations: [DashboardActionsComponent],
+      })
     ).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardActionComponent);
+    fixture = TestBed.createComponent(DashboardActionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

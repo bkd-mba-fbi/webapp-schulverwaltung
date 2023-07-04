@@ -32,8 +32,8 @@
         <erz-dashboard-search></erz-dashboard-search>
       </div>
       <div *ngIf="data.hasActions">
-        <h2>{{ 'dashboard.actions' | translate }}</h2>
-        <erz-dashboard-action></erz-dashboard-action>
+        <h2>{{ 'dashboard.actions.title' | translate }}</h2>
+        <erz-dashboard-actions></erz-dashboard-actions>
       </div>
     </div>
     <div *ngIf="data.hasTimetable" class="timetable-column">
