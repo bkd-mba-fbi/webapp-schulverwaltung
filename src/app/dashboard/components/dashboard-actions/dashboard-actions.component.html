@@ -1,37 +1,55 @@
-<erz-action
-  [title]="'dashboard.actions.presence-control'"
-  [link]="['/presence-control']"
-></erz-action>
-
-<erz-action
-  [title]="'dashboard.actions.edit-absences'"
-  [link]="['/edit-absences']"
-  [linkParams]="editAbsencesParams"
-></erz-action>
-
-<erz-action
-  [title]="'dashboard.actions.open-absences'"
-  [link]="['/open-absences']"
-  [count]="444"
-></erz-action>
-
-<erz-action
-  [title]="'dashboard.actions.tests'"
-  [link]="['/events']"
-></erz-action>
-
-<erz-action
-  [title]="'dashboard.actions.my-absences-report'"
-  [link]="['/my-absences', 'report']"
+<ng-container
+  *erzLet="{
+    hasLessonTeacherRole: hasLessonTeacherRole$ | async,
+    hasClassTeacherRole: hasClassTeacherRole$ | async,
+    hasTeacherRole: hasTeacherRole$ | async,
+    hasStudentRole: hasStudentRole$ | async,
+    hasSubstituteAdministratorRoleRole:
+      hasSubstituteAdministratorRoleRole$ | async
+  } as data"
 >
-</erz-action>
+  <erz-action
+    *ngIf="data.hasLessonTeacherRole"
+    [title]="'dashboard.actions.presence-control'"
+    [link]="['/presence-control']"
+  ></erz-action>
 
-<erz-action
-  [title]="'dashboard.actions.my-absences'"
-  [link]="['/my-absences']"
-></erz-action>
+  <erz-action
+    *ngIf="data.hasLessonTeacherRole"
+    [title]="'dashboard.actions.edit-absences'"
+    [link]="['/edit-absences']"
+    [linkParams]="editAbsencesParams"
+  ></erz-action>
 
-<erz-action
-  [title]="'dashboard.actions.substitutions'"
-  [externalLink]="substitutionsAdminLink"
-></erz-action>
+  <erz-action
+    *ngIf="data.hasLessonTeacherRole || data.hasClassTeacherRole"
+    [title]="'dashboard.actions.open-absences'"
+    [link]="['/open-absences']"
+    [count]="444"
+  ></erz-action>
+
+  <erz-action
+    *ngIf="data.hasTeacherRole"
+    [title]="'dashboard.actions.tests'"
+    [link]="['/events']"
+  ></erz-action>
+
+  <erz-action
+    *ngIf="data.hasStudentRole"
+    [title]="'dashboard.actions.my-absences-report'"
+    [link]="['/my-absences', 'report']"
+  >
+  </erz-action>
+
+  <erz-action
+    *ngIf="data.hasStudentRole"
+    [title]="'dashboard.actions.my-absences'"
+    [link]="['/my-absences']"
+  ></erz-action>
+
+  <erz-action
+    *ngIf="data.hasSubstituteAdministratorRoleRole"
+    [title]="'dashboard.actions.substitutions'"
+    [externalLink]="substitutionsAdminLink"
+  ></erz-action>
+</ng-container>

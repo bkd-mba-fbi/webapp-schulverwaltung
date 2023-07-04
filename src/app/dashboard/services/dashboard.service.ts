@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { Settings, SETTINGS } from '../../settings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
-  constructor() {}
+  constructor(@Inject(SETTINGS) private settings: Settings) {}
 }
