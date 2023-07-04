@@ -33,6 +33,7 @@
       </div>
       <div *ngIf="data.hasActions">
         <h2>{{ 'dashboard.actions' | translate }}</h2>
+        <erz-dashboard-action></erz-dashboard-action>
       </div>
     </div>
     <div *ngIf="data.hasTimetable" class="timetable-column">
