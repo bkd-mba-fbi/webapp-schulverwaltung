@@ -512,4 +512,41 @@ describe('LessonPresencesRestService', () => {
       httpTestingController.verify();
     });
   });
+
+  describe('.hasLessonsLessonTeacher', () => {
+    let url =
+      'https://eventotest.api/LessonPresences/?fields=Id&offset=0&limit=1';
+
+    it('returns true if a lesson teacher has at least on lesson presence', () => {
+      service
+        .hasLessonsLessonTeacher()
+        .subscribe((result) => expect(result).toBeTrue());
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.urlWithParams === url &&
+            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
+          url
+        )
+        .flush([{ Id: '197116_5597' }]);
+      httpTestingController.verify();
+    });
+
+    it('returns false if a lesson teacher has no lesson presences', () => {
+      service
+        .hasLessonsLessonTeacher()
+        .subscribe((result) => expect(result).toBeFalse());
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.urlWithParams === url &&
+            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
+          url
+        )
+        .flush([]);
+      httpTestingController.verify();
+    });
+  });
 });

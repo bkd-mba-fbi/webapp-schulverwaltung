@@ -41,6 +41,7 @@ export class LessonPresencesRestService extends RestService<
       'TypeRef',
     ])
   );
+  protected lessonPresenceIdCodec = t.type(pick(this.codec.props, ['Id']));
 
   constructor(
     http: HttpClient,
@@ -286,6 +287,19 @@ export class LessonPresencesRestService extends RestService<
         observe: 'response',
       })
       .pipe(decodePaginatedResponse(LessonPresence));
+  }
+
+  hasLessonsLessonTeacher(): Observable<boolean> {
+    let params = new HttpParams().set('fields', 'Id');
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(0, 1, params),
+        headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+      })
+      .pipe(
+        switchMap(decodeArray(this.lessonPresenceIdCodec)),
+        map((LessonPresenceIds: any) => LessonPresenceIds.length > 0)
+      );
   }
 
   private getListOfUnconfirmedLessonTeacher(
