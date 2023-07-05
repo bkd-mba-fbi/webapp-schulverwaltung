@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardActionsComponent } from './dashboard-actions.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 import { UserSettingsService } from '../../../shared/services/user-settings.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -22,6 +23,14 @@ describe('DashboardActionsComponent', () => {
             useValue: {
               getRolesAndPermissions() {
                 return roles$;
+              },
+            },
+          },
+          {
+            provide: LessonPresencesRestService,
+            useValue: {
+              hasLessonsLessonTeacher() {
+                return of(true);
               },
             },
           },

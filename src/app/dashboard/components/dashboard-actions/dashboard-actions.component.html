@@ -1,5 +1,6 @@
 <ng-container
   *erzLet="{
+    hasLessons: hasLessons$ | async,
     hasLessonTeacherRole: hasLessonTeacherRole$ | async,
     hasClassTeacherRole: hasClassTeacherRole$ | async,
     hasTeacherRole: hasTeacherRole$ | async,
@@ -9,7 +10,7 @@
   } as data"
 >
   <erz-action
-    *ngIf="data.hasLessonTeacherRole"
+    *ngIf="data.hasLessonTeacherRole && data.hasLessons"
     [title]="'dashboard.actions.presence-control'"
     [link]="['/presence-control']"
   ></erz-action>

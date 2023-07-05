@@ -1,8 +1,9 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Settings, SETTINGS } from '../../../settings';
 import { Params } from '@angular/router';
 import { UserSettingsService } from '../../../shared/services/user-settings.service';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
+import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
 
 @Component({
   selector: 'erz-dashboard-actions',
@@ -12,6 +13,7 @@ import { map, Observable } from 'rxjs';
 export class DashboardActionsComponent {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
 
+  hasLessons$ = this.lessonPresencesRestService.hasLessonsLessonTeacher();
   hasLessonTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['LessonTeacherRole']))
   );
@@ -30,6 +32,7 @@ export class DashboardActionsComponent {
 
   constructor(
     private settingsService: UserSettingsService,
+    private lessonPresencesRestService: LessonPresencesRestService,
     @Inject(SETTINGS) public settings: Settings
   ) {}
 
