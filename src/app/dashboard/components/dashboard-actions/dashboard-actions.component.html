@@ -1,6 +1,7 @@
 <ng-container
   *erzLet="{
     hasLessons: hasLessons$ | async,
+    checkableAbsencesCount: checkableAbsencesCount$ | async,
     hasLessonTeacherRole: hasLessonTeacherRole$ | async,
     hasClassTeacherRole: hasClassTeacherRole$ | async,
     hasTeacherRole: hasTeacherRole$ | async,
@@ -20,13 +21,13 @@
     [title]="'dashboard.actions.edit-absences'"
     [link]="['/edit-absences']"
     [linkParams]="editAbsencesParams"
+    [count]="data.checkableAbsencesCount"
   ></erz-action>
 
   <erz-action
     *ngIf="data.hasLessonTeacherRole || data.hasClassTeacherRole"
     [title]="'dashboard.actions.open-absences'"
     [link]="['/open-absences']"
-    [count]="444"
   ></erz-action>
 
   <erz-action

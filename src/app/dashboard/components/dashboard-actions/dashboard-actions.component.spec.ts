@@ -32,6 +32,9 @@ describe('DashboardActionsComponent', () => {
               hasLessonsLessonTeacher() {
                 return of(true);
               },
+              checkableAbsencesCount() {
+                return of(6);
+              },
             },
           },
         ],

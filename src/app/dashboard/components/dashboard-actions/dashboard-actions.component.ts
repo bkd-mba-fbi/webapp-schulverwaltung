@@ -14,6 +14,8 @@ export class DashboardActionsComponent {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
 
   hasLessons$ = this.lessonPresencesRestService.hasLessonsLessonTeacher();
+  checkableAbsencesCount$ =
+    this.lessonPresencesRestService.checkableAbsencesCount();
   hasLessonTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['LessonTeacherRole']))
   );

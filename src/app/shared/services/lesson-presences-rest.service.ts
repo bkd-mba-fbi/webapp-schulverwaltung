@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { addDays, format, isSameDay, subDays } from 'date-fns';
 import * as t from 'io-ts';
-import { of, forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
@@ -298,7 +298,21 @@ export class LessonPresencesRestService extends RestService<
       })
       .pipe(
         switchMap(decodeArray(this.lessonPresenceIdCodec)),
-        map((LessonPresenceIds: any) => LessonPresenceIds.length > 0)
+        map((LessonPresenceIds) => LessonPresenceIds.length > 0)
+      );
+  }
+
+  checkableAbsencesCount(): Observable<number> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          'filter.ConfirmationStateId': `;${this.settings.checkableAbsenceStateId}`,
+          fields: 'Id',
+        },
+      })
+      .pipe(
+        switchMap(decodeArray(this.lessonPresenceIdCodec)),
+        map((LessonPresenceIds) => LessonPresenceIds.length)
       );
   }
 
