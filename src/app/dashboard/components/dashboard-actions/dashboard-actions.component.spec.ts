@@ -7,6 +7,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
 import { StudentsRestService } from '../../../shared/services/students-rest.service';
 import { StorageService } from '../../../shared/services/storage.service';
+import { buildLessonPresence } from '../../../../spec-builders';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -36,6 +37,11 @@ describe('DashboardActionsComponent', () => {
               },
               checkableAbsencesCount() {
                 return of(6);
+              },
+              getListOfUnconfirmed() {
+                return of([
+                  buildLessonPresence(1, new Date(), new Date(), 'Math'),
+                ]);
               },
             },
           },

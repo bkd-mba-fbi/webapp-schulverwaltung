@@ -4,6 +4,7 @@
     checkableAbsencesCount: checkableAbsencesCount$ | async,
     hasLessonTeacherRole: hasLessonTeacherRole$ | async,
     hasClassTeacherRole: hasClassTeacherRole$ | async,
+    unconfirmedCount: unconfirmedCount$ | async,
     hasTeacherRole: hasTeacherRole$ | async,
     hasStudentRole: hasStudentRole$ | async,
     openAbsencesCount: openAbsencesCount$ | async,
@@ -26,9 +27,13 @@
   ></erz-action>
 
   <erz-action
-    *ngIf="data.hasLessonTeacherRole || data.hasClassTeacherRole"
+    *ngIf="
+      data.unconfirmedCount > 0 &&
+      (data.hasLessonTeacherRole || data.hasClassTeacherRole)
+    "
     [title]="'dashboard.actions.open-absences'"
     [link]="['/open-absences']"
+    [count]="data.unconfirmedCount"
   ></erz-action>
 
   <erz-action

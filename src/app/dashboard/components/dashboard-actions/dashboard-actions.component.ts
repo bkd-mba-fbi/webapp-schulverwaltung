@@ -46,6 +46,12 @@ export class DashboardActionsComponent {
   hasClassTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['ClassTeacherRole']))
   );
+  unconfirmedCount$ = this.rolesAndPermissions$.pipe(
+    map(this.hasRoles(['LessonTeacherRole', 'ClassTeacherRole'])),
+    filter(isTruthy),
+    switchMap(() => this.lessonPresencesService.getListOfUnconfirmed()),
+    map((presences) => presences.length)
+  );
 
   // Teacher
   hasTeacherRole$ = this.rolesAndPermissions$.pipe(
