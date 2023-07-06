@@ -41,6 +41,22 @@ describe('DashboardActionsComponent', () => {
               checkableAbsencesCount() {
                 return of(6);
               },
+            },
+          },
+          {
+            provide: StudentsRestService,
+            useValue: {
+              getLessonAbsences() {
+                return [];
+              },
+            },
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): any {
+                return { id_person: '123' };
+              },
               getListOfUnconfirmed() {
                 return of([
                   buildLessonPresence(1, new Date(), new Date(), 'Math'),
