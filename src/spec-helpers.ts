@@ -84,8 +84,8 @@ export const settings: Settings = {
     },
   ],
   eventlist: {
-    eventdetail: 'link-to-event-detail-module.aspx?IDAnlass',
-    evaluation: 'link-to-evaluation-module.aspx?IDAnlass',
+    eventdetail: 'link-to-event-detail-module/:id',
+    evaluation: 'link-to-evaluation-module/:id',
     statusfilter:
       '14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300',
   },

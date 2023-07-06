@@ -54,7 +54,9 @@ export class TestsListComponent {
   buildLinkToRatingOverview() {
     return this.state.course$.pipe(
       take(1),
-      map((course) => `${this.settings.eventlist.evaluation}=${course.Id}`)
+      map((course) =>
+        this.settings.eventlist.evaluation.replace(':id', String(course.Id))
+      )
     );
   }
 }
