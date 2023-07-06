@@ -80,7 +80,7 @@ describe('TestsListComponent', () => {
 
     expect(link).not.toBeNull();
     expect(link.href).toBe(
-      `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`,
+      `http://localhost:9876/link-to-evaluation-module/${course.Id}`,
     );
 
     expectElementPresent(fixture.debugElement, 'link-to-rating-overview');

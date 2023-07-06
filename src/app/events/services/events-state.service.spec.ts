@@ -68,7 +68,7 @@ describe('EventsStateService', () => {
       {
         id: 5,
         Designation: '22a',
-        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=5',
+        detailLink: 'link-to-event-detail-module/5',
         studentCount: 0,
         state: null,
       },
@@ -79,11 +79,11 @@ describe('EventsStateService', () => {
       {
         id: 6,
         Designation: '22b',
-        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=6',
+        detailLink: 'link-to-event-detail-module/6',
         studentCount: 0,
         state: EventState.Rating,
         evaluationText: 'events.state.rating',
-        evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=6',
+        evaluationLink: 'link-to-evaluation-module/6',
       },
     ];
 
@@ -143,7 +143,7 @@ describe('EventsStateService', () => {
     const courseEvent: Event = {
       id: 1,
       Designation: 'Physik, 22a, 22b',
-      detailLink: 'link-to-event-detail-module.aspx?IDAnlass=1',
+      detailLink: 'link-to-event-detail-module/1',
       dateFrom: new Date('2022-02-09T00:00:00'),
       dateTo: new Date('2022-06-30T00:00:00'),
       studentCount: 20,
@@ -157,16 +157,16 @@ describe('EventsStateService', () => {
         ...courseEvent,
         id: 2,
         Designation: 'Bio, 22a',
-        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=2',
+        detailLink: 'link-to-event-detail-module/2',
         state: EventState.RatingUntil,
         evaluationText: 'events.state.rating-until 03.06.2022',
-        evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=2',
+        evaluationLink: 'link-to-evaluation-module/2',
       },
       {
         ...courseEvent,
         id: 4,
         Designation: 'Franz, 22a, 22b',
-        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=4',
+        detailLink: 'link-to-event-detail-module/4',
         state: EventState.Tests,
         evaluationText: 'events.state.add-tests',
       },
@@ -175,10 +175,10 @@ describe('EventsStateService', () => {
         ...courseEvent,
         id: 3,
         Designation: 'Zeichnen, 22b',
-        detailLink: 'link-to-event-detail-module.aspx?IDAnlass=3',
+        detailLink: 'link-to-event-detail-module/3',
         state: EventState.IntermediateRating,
         evaluationText: 'events.state.intermediate-rating',
-        evaluationLink: 'link-to-evaluation-module.aspx?IDAnlass=3',
+        evaluationLink: 'link-to-evaluation-module/3',
       },
     ];
   });
