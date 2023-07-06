@@ -6,6 +6,7 @@
     hasClassTeacherRole: hasClassTeacherRole$ | async,
     hasTeacherRole: hasTeacherRole$ | async,
     hasStudentRole: hasStudentRole$ | async,
+    openAbsencesCount: openAbsencesCount$ | async,
     hasSubstituteAdministratorRoleRole:
       hasSubstituteAdministratorRoleRole$ | async
   } as data"
@@ -47,6 +48,7 @@
     *ngIf="data.hasStudentRole"
     [title]="'dashboard.actions.my-absences'"
     [link]="['/my-absences']"
+    [count]="data.openAbsencesCount"
   ></erz-action>
 
   <erz-action

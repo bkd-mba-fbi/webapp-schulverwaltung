@@ -5,6 +5,8 @@ import { buildTestModuleMetadata } from '../../../../spec-helpers';
 import { UserSettingsService } from '../../../shared/services/user-settings.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
+import { StudentsRestService } from '../../../shared/services/students-rest.service';
+import { StorageService } from '../../../shared/services/storage.service';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -34,6 +36,22 @@ describe('DashboardActionsComponent', () => {
               },
               checkableAbsencesCount() {
                 return of(6);
+              },
+            },
+          },
+          {
+            provide: StudentsRestService,
+            useValue: {
+              getLessonAbsences() {
+                return [];
+              },
+            },
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): any {
+                return { id_person: '123' };
               },
             },
           },
