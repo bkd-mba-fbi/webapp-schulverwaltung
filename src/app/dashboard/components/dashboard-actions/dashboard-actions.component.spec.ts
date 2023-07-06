@@ -41,6 +41,11 @@ describe('DashboardActionsComponent', () => {
               checkableAbsencesCount() {
                 return of(6);
               },
+              getListOfUnconfirmed() {
+                return of([
+                  buildLessonPresence(1, new Date(), new Date(), 'Math'),
+                ]);
+              },
             },
           },
           {
