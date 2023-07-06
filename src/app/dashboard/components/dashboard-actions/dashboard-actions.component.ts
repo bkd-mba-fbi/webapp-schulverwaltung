@@ -2,8 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { Settings, SETTINGS } from '../../../settings';
 import { Params } from '@angular/router';
 import { UserSettingsService } from '../../../shared/services/user-settings.service';
-import { map } from 'rxjs';
+import { map, switchMap, filter } from 'rxjs';
 import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
+import { isTruthy } from '../../../shared/utils/filter';
 
 @Component({
   selector: 'erz-dashboard-actions',
@@ -13,12 +14,22 @@ import { LessonPresencesRestService } from '../../../shared/services/lesson-pres
 export class DashboardActionsComponent {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
 
-  hasLessons$ = this.lessonPresencesRestService.hasLessonsLessonTeacher();
-  checkableAbsencesCount$ =
-    this.lessonPresencesRestService.checkableAbsencesCount();
   hasLessonTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['LessonTeacherRole']))
   );
+  checkableAbsencesCount$ = this.hasLessonTeacherRole$.pipe(
+    filter(isTruthy),
+    switchMap((hasRole) =>
+      this.lessonPresencesRestService.checkableAbsencesCount()
+    )
+  );
+  hasLessons$ = this.hasLessonTeacherRole$.pipe(
+    filter(isTruthy),
+    switchMap((hasRole) =>
+      this.lessonPresencesRestService.hasLessonsLessonTeacher()
+    )
+  );
+
   hasClassTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['ClassTeacherRole']))
   );
