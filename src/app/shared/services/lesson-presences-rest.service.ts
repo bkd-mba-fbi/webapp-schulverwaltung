@@ -307,7 +307,7 @@ export class LessonPresencesRestService extends RestService<
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
           'filter.ConfirmationStateId': `;${this.settings.checkableAbsenceStateId}`,
-          fields: 'Id',
+          fields: 'Id,ConfirmationStateId',
         },
       })
       .pipe(

@@ -558,7 +558,7 @@ describe('LessonPresencesRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId=;1080&fields=Id'
+          'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId=;1080&fields=Id,ConfirmationStateId'
         )
         .flush([{ Id: '197116_5597' }]);
       httpTestingController.verify();
