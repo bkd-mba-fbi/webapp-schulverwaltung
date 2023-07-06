@@ -169,7 +169,8 @@ export class EventsStateService {
   }
 
   private buildLink(id: number, linkType: LinkType): string {
-    return `${this.settings.eventlist[linkType]}=${id}`;
+    const link = this.settings.eventlist[linkType] ?? '';
+    return link.replace(':id', String(id));
   }
 
   private hasClassTeacherRole(): boolean {
