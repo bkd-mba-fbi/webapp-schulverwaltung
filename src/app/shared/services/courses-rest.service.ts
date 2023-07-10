@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { map, Observable, switchMap, of } from 'rxjs';
+import * as t from 'io-ts';
 import { Settings, SETTINGS } from 'src/app/settings';
 import {
   Course,
@@ -12,13 +13,25 @@ import {
 import { decode, decodeArray } from '../utils/decode';
 import { hasRole } from '../utils/roles';
 import { RestService } from './rest.service';
+import { pick } from '../utils/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesRestService extends RestService<typeof Course> {
+  protected idCodec = t.type(pick(this.codec.props, ['Id']));
+
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
     super(http, settings, Course, 'Courses');
+  }
+
+  getNumberOfCoursesForRating(): Observable<number> {
+    return this.http
+      .get<unknown[]>(`${this.baseUrl}/?StatusId=;10300;10240&fields=Id`)
+      .pipe(
+        switchMap(decodeArray(this.idCodec)),
+        map((ids) => ids.length)
+      );
   }
 
   getExpandedCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
