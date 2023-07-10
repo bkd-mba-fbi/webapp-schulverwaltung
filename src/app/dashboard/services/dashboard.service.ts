@@ -6,6 +6,7 @@ import { LessonPresencesRestService } from '../../shared/services/lesson-presenc
 import { StudentsRestService } from '../../shared/services/students-rest.service';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { StorageService } from '../../shared/services/storage.service';
+import { CoursesRestService } from '../../shared/services/courses-rest.service';
 
 const SEARCH_ROLES = [
   'LessonTeacherRole',
@@ -87,6 +88,7 @@ export class DashboardService {
     map(this.getMyAbsencesCount.bind(this)),
     shareReplay(1)
   );
+  coursesToRateCount$ = this.courseService.getNumberOfCoursesForRating();
 
   ///// Action Conditions /////
 
@@ -107,6 +109,7 @@ export class DashboardService {
     private settingsService: UserSettingsService,
     private lessonPresencesService: LessonPresencesRestService,
     private studentsService: StudentsRestService,
+    private courseService: CoursesRestService,
     private storageService: StorageService,
     @Inject(SETTINGS) private settings: Settings
   ) {

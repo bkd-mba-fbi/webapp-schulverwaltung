@@ -21,3 +21,9 @@ a:hover {
 .count {
   font-size: 1.5rem;
 }
+
+div {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacer;
+}

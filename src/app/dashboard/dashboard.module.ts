@@ -18,6 +18,7 @@ import { DashboardService } from './services/dashboard.service';
     DashboardActionComponent,
     DashboardTimetableComponent,
     DashboardTimetableTableComponent,
+    DashboardPillComponent,
   ],
   providers: [DashboardService],
   imports: [SharedModule, DashboardRoutingModule],

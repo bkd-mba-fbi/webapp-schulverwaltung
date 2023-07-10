@@ -23,7 +23,9 @@
   *ngIf="dashboardService.hasTeacherRole$ | async"
   [label]="'dashboard.actions.tests'"
   [link]="['/events']"
-></erz-dashboard-action>
+>
+    <erz-dashboard-pill></erz-dashboard-pill>
+</erz-dashboard-action>
 
 <erz-dashboard-action
   *ngIf="dashboardService.hasStudentRole$ | async"
