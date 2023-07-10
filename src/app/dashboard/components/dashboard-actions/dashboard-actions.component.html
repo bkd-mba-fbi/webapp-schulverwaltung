@@ -12,21 +12,21 @@
       hasSubstituteAdministratorRoleRole$ | async
   } as data"
 >
-  <erz-action
+  <erz-dashboard-action
     *ngIf="data.hasLessonTeacherRole && data.hasLessons"
     [title]="'dashboard.actions.presence-control'"
     [link]="['/presence-control']"
-  ></erz-action>
+  ></erz-dashboard-action>
 
-  <erz-action
+  <erz-dashboard-action
     *ngIf="data.hasLessonTeacherRole"
     [title]="'dashboard.actions.edit-absences'"
     [link]="['/edit-absences']"
     [linkParams]="editAbsencesParams"
     [count]="data.checkableAbsencesCount"
-  ></erz-action>
+  ></erz-dashboard-action>
 
-  <erz-action
+  <erz-dashboard-action
     *ngIf="
       data.unconfirmedCount > 0 &&
       (data.hasLessonTeacherRole || data.hasClassTeacherRole)
@@ -34,31 +34,31 @@
     [title]="'dashboard.actions.open-absences'"
     [link]="['/open-absences']"
     [count]="data.unconfirmedCount"
-  ></erz-action>
+  ></erz-dashboard-action>
 
-  <erz-action
+  <erz-dashboard-action
     *ngIf="data.hasTeacherRole"
     [title]="'dashboard.actions.tests'"
     [link]="['/events']"
-  ></erz-action>
+  ></erz-dashboard-action>
 
-  <erz-action
+  <erz-dashboard-action
     *ngIf="data.hasStudentRole"
     [title]="'dashboard.actions.my-absences-report'"
     [link]="['/my-absences', 'report']"
   >
-  </erz-action>
+  </erz-dashboard-action>
 
-  <erz-action
+  <erz-dashboard-action
     *ngIf="data.hasStudentRole"
     [title]="'dashboard.actions.my-absences'"
     [link]="['/my-absences']"
     [count]="data.openAbsencesCount"
-  ></erz-action>
+  ></erz-dashboard-action>
 
-  <erz-action
+  <erz-dashboard-action
     *ngIf="data.hasSubstituteAdministratorRoleRole"
     [title]="'dashboard.actions.substitutions'"
     [externalLink]="substitutionsAdminLink"
-  ></erz-action>
+  ></erz-dashboard-action>
 </ng-container>

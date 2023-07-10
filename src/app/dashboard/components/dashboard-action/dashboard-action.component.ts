@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { Params } from '@angular/router';
 
 @Component({
-  selector: 'erz-action',
-  templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss'],
+  selector: 'erz-dashboard-action',
+  templateUrl: './dashboard-action.component.html',
+  styleUrls: ['./dashboard-action.component.scss'],
 })
-export class ActionComponent {
+export class DashboardActionComponent {
   @Input() title: string;
   @Input() count?: number;
   @Input() link?: string[];

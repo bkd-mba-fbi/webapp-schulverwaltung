@@ -173,6 +173,6 @@ describe('DashboardActionsComponent', () => {
   });
 
   function getAction(title: string) {
-    return element.querySelector(`erz-action[title="${title}"]`);
+    return element.querySelector(`erz-dashboard-action[title="${title}"]`);
   }
 });
