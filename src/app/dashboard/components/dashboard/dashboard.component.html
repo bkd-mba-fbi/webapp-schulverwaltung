@@ -1,9 +1,9 @@
 <div
   *erzLet="{
-    loading: loading$ | async,
-    hasSearch: hasSearch$ | async,
-    hasActions: hasActions$ | async,
-    hasTimetable: hasTimetable$ | async
+    loading: dashboardService.loading$ | async,
+    hasSearch: dashboardService.hasSearch$ | async,
+    hasActions: dashboardService.hasActions$ | async,
+    hasTimetable: dashboardService.hasTimetable$ | async
   } as data"
 >
   <h1

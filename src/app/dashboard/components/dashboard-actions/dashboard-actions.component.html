@@ -1,19 +1,19 @@
 <ng-container
   *erzLet="{
-    hasLessons: hasLessons$ | async,
-    checkableAbsencesCount: checkableAbsencesCount$ | async,
-    hasLessonTeacherRole: hasLessonTeacherRole$ | async,
-    hasClassTeacherRole: hasClassTeacherRole$ | async,
-    unconfirmedCount: unconfirmedCount$ | async,
-    hasTeacherRole: hasTeacherRole$ | async,
-    hasStudentRole: hasStudentRole$ | async,
-    openAbsencesCount: openAbsencesCount$ | async,
-    hasSubstituteAdministratorRoleRole:
-      hasSubstituteAdministratorRoleRole$ | async
+    hasPresenceControl: dashboardService.hasPresenceControl$ | async,
+    hasLessonTeacherRole: dashboardService.hasLessonTeacherRole$ | async,
+    checkableAbsencesCount: dashboardService.checkableAbsencesCount$ | async,
+    hasOpenAbsences: dashboardService.hasOpenAbsences$ | async,
+    unconfirmedCount: dashboardService.unconfirmedCount$ | async,
+    hasTeacherRole: dashboardService.hasTeacherRole$ | async,
+    hasStudentRole: dashboardService.hasStudentRole$ | async,
+    openAbsencesCount: dashboardService.openAbsencesCount$ | async,
+    hasSubstituteAdministratorRole:
+      dashboardService.hasSubstituteAdministratorRole$ | async
   } as data"
 >
   <erz-dashboard-action
-    *ngIf="data.hasLessonTeacherRole && data.hasLessons"
+    *ngIf="data.hasPresenceControl"
     [title]="'dashboard.actions.presence-control'"
     [link]="['/presence-control']"
   ></erz-dashboard-action>
@@ -27,10 +27,7 @@
   ></erz-dashboard-action>
 
   <erz-dashboard-action
-    *ngIf="
-      data.unconfirmedCount > 0 &&
-      (data.hasLessonTeacherRole || data.hasClassTeacherRole)
-    "
+    *ngIf="data.hasOpenAbsences"
     [title]="'dashboard.actions.open-absences'"
     [link]="['/open-absences']"
     [count]="data.unconfirmedCount"
@@ -57,7 +54,7 @@
   ></erz-dashboard-action>
 
   <erz-dashboard-action
-    *ngIf="data.hasSubstituteAdministratorRoleRole"
+    *ngIf="data.hasSubstituteAdministratorRole"
     [title]="'dashboard.actions.substitutions'"
     [externalLink]="substitutionsAdminLink"
   ></erz-dashboard-action>

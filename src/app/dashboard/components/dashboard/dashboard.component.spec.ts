@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DashboardComponent } from './dashboard.component';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { StorageService } from '../../../shared/services/storage.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -22,6 +23,14 @@ describe('DashboardComponent', () => {
             useValue: {
               getRolesAndPermissions() {
                 return roles$;
+              },
+            },
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): any {
+                return { id_person: '123' };
               },
             },
           },
