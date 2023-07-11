@@ -9,6 +9,7 @@ import { StudentsRestService } from '../../../shared/services/students-rest.serv
 import { StorageService } from '../../../shared/services/storage.service';
 import { buildLessonPresence } from '../../../../spec-builders';
 import { DashboardService } from '../../services/dashboard.service';
+import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -20,7 +21,7 @@ describe('DashboardActionsComponent', () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardActionsComponent],
+        declarations: [DashboardActionsComponent, DashboardActionComponent],
         providers: [
           DashboardService,
           {
