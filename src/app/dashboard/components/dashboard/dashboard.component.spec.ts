@@ -4,6 +4,11 @@ import { BehaviorSubject } from 'rxjs';
 import { DashboardComponent } from './dashboard.component';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { StorageService } from '../../../shared/services/storage.service';
+import { DashboardService } from '../../services/dashboard.service';
+import { DashboardActionsComponent } from '../dashboard-actions/dashboard-actions.component';
+import { DashboardSearchComponent } from '../dashboard-search/dashboard-search.component';
+import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -15,13 +20,27 @@ describe('DashboardComponent', () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardComponent],
+        declarations: [
+          DashboardComponent,
+          DashboardSearchComponent,
+          DashboardActionsComponent,
+          DashboardActionComponent,
+        ],
         providers: [
+          DashboardService,
           {
             provide: UserSettingsService,
             useValue: {
               getRolesAndPermissions() {
                 return roles$;
+              },
+            },
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): any {
+                return { id_person: '123' };
               },
             },
           },
@@ -43,7 +62,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).toContain('dashboard.no-access');
       expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions');
+      expect(element.textContent).not.toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });
@@ -57,7 +76,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions');
+      expect(element.textContent).toContain('dashboard.actions.title');
       expect(element.textContent).toContain('dashboard.timetable');
     });
   });
@@ -71,7 +90,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions');
+      expect(element.textContent).not.toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });
@@ -85,7 +104,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions');
+      expect(element.textContent).toContain('dashboard.actions.title');
       expect(element.textContent).toContain('dashboard.timetable');
     });
   });
@@ -99,7 +118,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions');
+      expect(element.textContent).not.toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });
@@ -113,7 +132,7 @@ describe('DashboardComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain('dashboard.no-access');
       expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions');
+      expect(element.textContent).toContain('dashboard.actions.title');
       expect(element.textContent).not.toContain('dashboard.timetable');
     });
   });

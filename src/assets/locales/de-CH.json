@@ -42,7 +42,16 @@
       "title": "Suche",
       "placeholder": "Lernende suchen..."
     },
-    "actions": "Aktionen",
+    "actions": {
+      "title": "Aktionen",
+      "presence-control": "Präsenzkontrolle",
+      "edit-absences": "Gemeldete Absenzen kontrollieren",
+      "open-absences": "Offene Absenzen entschuldigen",
+      "tests": "Tests und Bewertung",
+      "my-absences-report": "Absenzen melden",
+      "my-absences": "Offene Absenzen entschuldigen",
+      "substitutions": "Stellvertretungen administrieren"
+    },
     "timetable": "Stundenplan"
   },
   "presence-control": {

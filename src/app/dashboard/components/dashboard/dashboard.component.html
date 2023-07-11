@@ -1,9 +1,9 @@
 <div
   *erzLet="{
-    loading: loading$ | async,
-    hasSearch: hasSearch$ | async,
-    hasActions: hasActions$ | async,
-    hasTimetable: hasTimetable$ | async
+    loading: dashboardService.loading$ | async,
+    hasSearch: dashboardService.hasSearch$ | async,
+    hasActions: dashboardService.hasActions$ | async,
+    hasTimetable: dashboardService.hasTimetable$ | async
   } as data"
 >
   <h1
@@ -32,7 +32,8 @@
         <erz-dashboard-search></erz-dashboard-search>
       </div>
       <div *ngIf="data.hasActions">
-        <h2>{{ 'dashboard.actions' | translate }}</h2>
+        <h2>{{ 'dashboard.actions.title' | translate }}</h2>
+        <erz-dashboard-actions></erz-dashboard-actions>
       </div>
     </div>
     <div *ngIf="data.hasTimetable" class="timetable-column">
