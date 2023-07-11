@@ -6,6 +6,7 @@ import { UserSettingsService } from 'src/app/shared/services/user-settings.servi
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StorageService } from '../../../shared/services/storage.service';
 import { DashboardService } from '../../services/dashboard.service';
+import { DashboardActionsComponent } from '../dashboard-actions/dashboard-actions.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -17,7 +18,7 @@ describe('DashboardComponent', () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardComponent],
+        declarations: [DashboardComponent, DashboardActionsComponent],
         providers: [
           DashboardService,
           {
