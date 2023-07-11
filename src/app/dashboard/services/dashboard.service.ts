@@ -24,9 +24,7 @@ const ACTIONS_ROLES = [
 
 const TIMETABLE_ROLES = ['LessonTeacherRole', 'StudentRole'];
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DashboardService {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
   private studentId$ = new ReplaySubject<number>(1);
