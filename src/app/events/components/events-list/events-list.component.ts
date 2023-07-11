@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { EventsStateService } from '../../services/events-state.service';
+import { StorageService } from '../../../shared/services/storage.service';
 
 @Component({
   selector: 'erz-events-list',
@@ -8,5 +9,10 @@ import { EventsStateService } from '../../services/events-state.service';
 })
 export class EventsListComponent {
   @Input() withRatings: boolean = true;
-  constructor(public state: EventsStateService) {}
+  constructor(
+    public state: EventsStateService,
+    private storage: StorageService
+  ) {
+    this.state.roles$.next(this.storage.getPayload()?.roles);
+  }
 }

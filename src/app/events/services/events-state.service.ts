@@ -1,7 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { format } from 'date-fns';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 import { Settings, SETTINGS } from 'src/app/settings';
 import { Course } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
@@ -38,17 +45,16 @@ export interface Event {
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>('');
+  roles$ = new BehaviorSubject<Maybe<string>>(undefined);
 
-  private coursesNotRated$ = this.loadCoursesNotRated();
   private formativeAssessments$ =
     this.studyClassRestService.getActiveFormativeAssessments();
   private studyClasses$ = this.studyClassRestService.getActive();
 
-  private events$ = this.loadEvents();
-  filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
+  private events$ = this.loadEvents().pipe(shareReplay(1));
+  private filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
     map(spread(searchEntries)),
   );
-
   constructor(
     private coursesRestService: CoursesRestService,
     private studyClassRestService: StudyClassesRestService,
@@ -59,27 +65,45 @@ export class EventsStateService {
     @Inject(SETTINGS) private settings: Settings,
   ) {}
 
+  getEvents(withRatings = false): Observable<ReadonlyArray<Event>> {
+    return this.filteredEvents$.pipe(
+      map((events) =>
+        withRatings ? events.filter((e) => e.evaluationText) : events,
+      ),
+    );
+  }
+
+  private loadEvents(): Observable<ReadonlyArray<Event>> {
+    return this.roles$.pipe(
+      switchMap((roles) =>
+        this.loadingService.load(this.loadEventsForRoles(roles)),
+      ),
+    );
+  }
+
   /**
    * Events are derived either from courses or study classes.
    * If the current user has the role 'ClassTeacherRole', additional requests to get study classes/formative assessments are made.
    */
-  loadEvents(): Observable<ReadonlyArray<Event>> {
-    return this.loadingService.load(
-      this.hasClassTeacherRole()
-        ? combineLatest([
-            this.coursesNotRated$,
-            this.formativeAssessments$,
-            this.studyClasses$,
-          ]).pipe(map(spread(this.createAndSortEvents.bind(this))))
-        : this.coursesNotRated$.pipe(
-            map((course) => this.createAndSortEvents(course)),
-          ),
-    );
+  private loadEventsForRoles(
+    roles: Maybe<string>,
+  ): Observable<ReadonlyArray<Event>> {
+    return hasRole(roles, 'ClassTeacherRole')
+      ? combineLatest([
+          this.loadCoursesNotRated(roles),
+          this.formativeAssessments$,
+          this.studyClasses$,
+        ]).pipe(map(spread(this.createAndSortEvents.bind(this))))
+      : this.loadCoursesNotRated(roles).pipe(
+          map((course) => this.createAndSortEvents(course)),
+        );
   }
 
-  private loadCoursesNotRated(): Observable<ReadonlyArray<Course>> {
+  private loadCoursesNotRated(
+    roles: Maybe<string>,
+  ): Observable<ReadonlyArray<Course>> {
     return this.coursesRestService
-      .getExpandedCourses(this.storage.getPayload()?.roles)
+      .getExpandedCourses(roles)
       .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   }
 
@@ -171,9 +195,5 @@ export class EventsStateService {
   private buildLink(id: number, linkType: LinkType): string {
     const link = this.settings.eventlist[linkType] ?? '';
     return link.replace(':id', String(id));
-  }
-
-  private hasClassTeacherRole(): boolean {
-    return hasRole(this.storage.getPayload()?.roles, 'ClassTeacherRole');
   }
 }
