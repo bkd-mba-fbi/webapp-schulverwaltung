@@ -7,7 +7,7 @@
 </a>
 
 <ng-template #actionContent>
-  <span class="title">{{ title | translate }}</span>
+  <span class="label">{{ label | translate }}</span>
   <div>
     <span class="count" *ngIf="count; else icon">{{ count }}</span>
     <ng-template #icon>

@@ -80,13 +80,25 @@ describe('DashboardActionsComponent', () => {
 
     it('displays no actions', () => {
       fixture.detectChanges();
-      expect(getAction('dashboard.actions.presence-control')).toBeNull();
-      expect(getAction('dashboard.actions.edit-absences')).toBeNull();
-      expect(getAction('dashboard.actions.open-absences')).toBeNull();
-      expect(getAction('dashboard.actions.tests')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences-report')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences')).toBeNull();
-      expect(getAction('dashboard.actions.substitutions')).toBeNull();
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.edit-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.open-absences'
+      );
+      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences-report'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.substitutions'
+      );
     });
   });
 
@@ -97,13 +109,24 @@ describe('DashboardActionsComponent', () => {
 
     it('displays presence control, edit and open absences', () => {
       fixture.detectChanges();
-      expect(getAction('dashboard.actions.presence-control')).not.toBeNull();
-      expect(getAction('dashboard.actions.edit-absences')).not.toBeNull();
-      expect(getAction('dashboard.actions.open-absences')).not.toBeNull();
-      expect(getAction('dashboard.actions.tests')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences-report')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences')).toBeNull();
-      expect(getAction('dashboard.actions.substitutions')).toBeNull();
+      expect(element.textContent).toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).toContain('dashboard.actions.edit-absences');
+      expect(element.textContent).toContain('dashboard.actions.open-absences');
+      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences-report'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.substitutions'
+      );
     });
   });
 
@@ -114,13 +137,23 @@ describe('DashboardActionsComponent', () => {
 
     it('displays open absences', () => {
       fixture.detectChanges();
-      expect(getAction('dashboard.actions.presence-control')).toBeNull();
-      expect(getAction('dashboard.actions.edit-absences')).toBeNull();
-      expect(getAction('dashboard.actions.open-absences')).not.toBeNull();
-      expect(getAction('dashboard.actions.tests')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences-report')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences')).toBeNull();
-      expect(getAction('dashboard.actions.substitutions')).toBeNull();
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.edit-absences'
+      );
+      expect(element.textContent).toContain('dashboard.actions.open-absences');
+      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences-report'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.substitutions'
+      );
     });
   });
 
@@ -131,13 +164,25 @@ describe('DashboardActionsComponent', () => {
 
     it('displays tests', () => {
       fixture.detectChanges();
-      expect(getAction('dashboard.actions.presence-control')).toBeNull();
-      expect(getAction('dashboard.actions.edit-absences')).toBeNull();
-      expect(getAction('dashboard.actions.open-absences')).toBeNull();
-      expect(getAction('dashboard.actions.tests')).not.toBeNull();
-      expect(getAction('dashboard.actions.my-absences-report')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences')).toBeNull();
-      expect(getAction('dashboard.actions.substitutions')).toBeNull();
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.edit-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.open-absences'
+      );
+      expect(element.textContent).toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences-report'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.substitutions'
+      );
     });
   });
 
@@ -148,13 +193,23 @@ describe('DashboardActionsComponent', () => {
 
     it('displays my absences, my absences report', () => {
       fixture.detectChanges();
-      expect(getAction('dashboard.actions.presence-control')).toBeNull();
-      expect(getAction('dashboard.actions.edit-absences')).toBeNull();
-      expect(getAction('dashboard.actions.open-absences')).toBeNull();
-      expect(getAction('dashboard.actions.tests')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences-report')).not.toBeNull();
-      expect(getAction('dashboard.actions.my-absences')).not.toBeNull();
-      expect(getAction('dashboard.actions.substitutions')).toBeNull();
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.edit-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.open-absences'
+      );
+      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).toContain(
+        'dashboard.actions.my-absences-report'
+      );
+      expect(element.textContent).toContain('dashboard.actions.my-absences');
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.substitutions'
+      );
     });
   });
 
@@ -165,17 +220,23 @@ describe('DashboardActionsComponent', () => {
 
     it('displays substitutions', () => {
       fixture.detectChanges();
-      expect(getAction('dashboard.actions.presence-control')).toBeNull();
-      expect(getAction('dashboard.actions.edit-absences')).toBeNull();
-      expect(getAction('dashboard.actions.open-absences')).toBeNull();
-      expect(getAction('dashboard.actions.tests')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences-report')).toBeNull();
-      expect(getAction('dashboard.actions.my-absences')).toBeNull();
-      expect(getAction('dashboard.actions.substitutions')).not.toBeNull();
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.presence-control'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.edit-absences'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.open-absences'
+      );
+      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences-report'
+      );
+      expect(element.textContent).not.toContain(
+        'dashboard.actions.my-absences'
+      );
+      expect(element.textContent).toContain('dashboard.actions.substitutions');
     });
   });
-
-  function getAction(title: string) {
-    return element.querySelector(`erz-dashboard-action[title="${title}"]`);
-  }
 });

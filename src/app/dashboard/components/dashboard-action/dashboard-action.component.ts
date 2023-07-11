@@ -7,7 +7,7 @@ import { Params } from '@angular/router';
   styleUrls: ['./dashboard-action.component.scss'],
 })
 export class DashboardActionComponent {
-  @Input() title: string;
+  @Input() label: string;
   @Input() count?: number;
   @Input() link?: string[];
   @Input() linkParams?: Params;
