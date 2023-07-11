@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import * as t from 'io-ts/lib/index';
 import { Course } from 'src/app/shared/models/course.model';
 import { StudyClass } from 'src/app/shared/models/study-class.model';
-import { StorageService } from 'src/app/shared/services/storage.service';
 import {
   buildCourse,
   buildFinalGrading,
@@ -15,10 +14,6 @@ import { Event, EventsStateService, EventState } from './events-state.service';
 describe('EventsStateService', () => {
   let service: EventsStateService;
   let httpTestingController: HttpTestingController;
-  let storageServiceMock: StorageService = jasmine.createSpyObj(
-    'StorageService',
-    ['getPayload']
-  );
 
   let courseEvents: Event[];
   let courses: Course[];
@@ -27,22 +22,8 @@ describe('EventsStateService', () => {
   let assessments: StudyClass[];
   let assessmentEvents: Event[];
 
-  (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
-    roles: 'TeacherRole',
-  });
-
   beforeEach(() => {
-    TestBed.configureTestingModule(
-      buildTestModuleMetadata({
-        providers: [
-          EventsStateService,
-          {
-            provide: StorageService,
-            useValue: storageServiceMock,
-          },
-        ],
-      })
-    );
+    TestBed.configureTestingModule(buildTestModuleMetadata());
 
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(EventsStateService);
@@ -188,20 +169,18 @@ describe('EventsStateService', () => {
   });
 
   describe('with ClassTeacherRole', () => {
-    it('loads events', () => {
-      (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
-        roles: 'ClassTeacherRole;TeacherRole',
-      });
+    beforeEach(() => {
+      service.roles$.next('ClassTeacherRole;TeacherRole');
+    });
 
-      service
-        .loadEvents()
-        .subscribe((result) =>
-          expect(result).toEqual([
-            ...studyClassEvents,
-            ...assessmentEvents,
-            ...courseEvents,
-          ])
-        );
+    it('loads events', () => {
+      service.getEvents().subscribe((result) => {
+        expect(result).toEqual([
+          ...studyClassEvents,
+          ...assessmentEvents,
+          ...courseEvents,
+        ]);
+      });
 
       expectCoursesRequest();
       expectFormativeAssessmentsRequest();
@@ -212,14 +191,28 @@ describe('EventsStateService', () => {
   });
 
   describe('without ClassTeacherRole', () => {
-    it('loads events', () => {
-      (storageServiceMock.getPayload as jasmine.Spy).and.returnValue({
-        roles: 'TeacherRole',
-      });
+    beforeEach(() => {
+      service.roles$.next('TeacherRole');
+    });
 
+    it('loads events', () => {
       service
-        .loadEvents()
-        .subscribe((result) => expect(result).toEqual(courseEvents));
+        .getEvents()
+        .subscribe((result) =>
+          expect(result.map((r) => r.id)).toEqual([2, 4, 1, 3])
+        );
+
+      expectCoursesRequest();
+
+      httpTestingController.verify();
+    });
+
+    it('loads events with ratings', () => {
+      service
+        .getEvents(true)
+        .subscribe((result) =>
+          expect(result.map((r) => r.id)).toEqual([2, 4, 3])
+        );
 
       expectCoursesRequest();
 
