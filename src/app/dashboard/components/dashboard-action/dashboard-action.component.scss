@@ -3,7 +3,21 @@
 a {
   display: flex;
   justify-content: space-between;
-  padding: $spacer * 0.75;
+  align-items: center;
+  padding: 1rem 1.5rem;
   background: $dark-sand;
   text-decoration: none;
+  line-height: 1;
+}
+
+a:hover {
+  background: $sand-hover;
+}
+
+.title {
+  font-weight: 400;
+}
+
+.count {
+  font-size: 1.5rem;
 }
