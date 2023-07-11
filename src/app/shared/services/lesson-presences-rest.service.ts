@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { addDays, format, isSameDay, subDays } from 'date-fns';
 import * as t from 'io-ts';
-import { of, forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
 import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
@@ -41,6 +41,7 @@ export class LessonPresencesRestService extends RestService<
       'TypeRef',
     ]),
   );
+  protected lessonPresenceIdCodec = t.type(pick(this.codec.props, ['Id']));
 
   constructor(
     http: HttpClient,
@@ -286,6 +287,33 @@ export class LessonPresencesRestService extends RestService<
         observe: 'response',
       })
       .pipe(decodePaginatedResponse(LessonPresence));
+  }
+
+  hasLessonsLessonTeacher(): Observable<boolean> {
+    let params = new HttpParams().set('fields', 'Id');
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(0, 1, params),
+        headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+      })
+      .pipe(
+        switchMap(decodeArray(this.lessonPresenceIdCodec)),
+        map((LessonPresenceIds) => LessonPresenceIds.length > 0)
+      );
+  }
+
+  checkableAbsencesCount(): Observable<number> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          'filter.ConfirmationStateId': `;${this.settings.checkableAbsenceStateId}`,
+          fields: 'Id,ConfirmationStateId',
+        },
+      })
+      .pipe(
+        switchMap(decodeArray(this.lessonPresenceIdCodec)),
+        map((LessonPresenceIds) => LessonPresenceIds.length)
+      );
   }
 
   private getListOfUnconfirmedLessonTeacher(

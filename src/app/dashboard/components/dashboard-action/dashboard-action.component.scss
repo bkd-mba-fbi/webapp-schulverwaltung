@@ -1,0 +1,23 @@
+@import "../../../../bootstrap-variables";
+
+a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: $dark-sand;
+  text-decoration: none;
+  line-height: 1;
+}
+
+a:hover {
+  background: $sand-hover;
+}
+
+.label {
+  font-weight: 400;
+}
+
+.count {
+  font-size: 1.5rem;
+}
