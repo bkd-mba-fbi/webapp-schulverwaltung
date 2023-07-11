@@ -1,22 +1,27 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { EventsStateService } from '../../services/events-state.service';
 
 import { EventsListComponent } from './events-list.component';
 import { buildEvent } from '../../../../spec-builders';
+import { StorageService } from '../../../shared/services/storage.service';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
   let stateServiceMock: EventsStateService;
   let element: HTMLElement;
+  let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
 
   beforeEach(waitForAsync(() => {
+    roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     stateServiceMock = {
       loading$: of(false),
       events$: of([buildEvent(1)]),
-      filteredEvents$: of([buildEvent(1)]),
+      search$: of(''),
+      roles$,
+      getEvents: () => of([buildEvent(1)]),
     } as unknown as EventsStateService;
 
     TestBed.configureTestingModule(
@@ -24,6 +29,14 @@ describe('EventsListComponent', () => {
         declarations: [EventsListComponent],
         providers: [
           { provide: EventsStateService, useValue: stateServiceMock },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): Option<object> {
+                return { roles: 'TeacherRole' };
+              },
+            },
+          },
         ],
       }),
     ).compileComponents();
