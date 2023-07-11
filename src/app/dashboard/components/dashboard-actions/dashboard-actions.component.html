@@ -24,7 +24,10 @@
   [label]="'dashboard.actions.tests'"
   [link]="['/events']"
 >
-    <erz-dashboard-pill></erz-dashboard-pill>
+  <erz-dashboard-pill
+    *ngIf="dashboardService.coursesToRateCount$ | async"
+    [count]="dashboardService.coursesToRateCount$ | async"
+  ></erz-dashboard-pill>
 </erz-dashboard-action>
 
 <erz-dashboard-action

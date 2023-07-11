@@ -88,7 +88,9 @@ export class DashboardService {
     map(this.getMyAbsencesCount.bind(this)),
     shareReplay(1)
   );
-  coursesToRateCount$ = this.courseService.getNumberOfCoursesForRating();
+  coursesToRateCount$ = this.courseService
+    .getNumberOfCoursesForRating()
+    .pipe(shareReplay(1));
 
   ///// Action Conditions /////
 

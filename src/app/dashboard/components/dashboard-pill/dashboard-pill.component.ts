@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'erz-dashboard-pill',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard-pill.component.scss'],
 })
 export class DashboardPillComponent {
+  @Input() count: number;
+
   constructor() {}
 }
