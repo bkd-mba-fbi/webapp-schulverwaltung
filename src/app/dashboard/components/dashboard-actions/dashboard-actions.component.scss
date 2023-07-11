@@ -1,0 +1,7 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer * 0.5;
+}

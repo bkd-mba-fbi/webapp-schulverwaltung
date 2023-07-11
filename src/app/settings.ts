@@ -15,6 +15,10 @@ const NotificationTypesAssignment = t.type({
   types: t.array(t.string),
 });
 
+const Dashboard = t.type({
+  substitutionsAdminLink: t.string,
+});
+
 const Settings = t.type({
   apiUrl: t.string,
   scriptsAndAssetsPath: t.string,
@@ -41,6 +45,7 @@ const Settings = t.type({
   notificationTypes: NotificationTypes,
   notificationTypesAssignments: t.array(NotificationTypesAssignment),
   eventlist: t.record(t.string, t.string),
+  dashboard: Dashboard,
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
 });
 

@@ -89,6 +89,9 @@ export const settings: Settings = {
     statusfilter:
       '14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300',
   },
+  dashboard: {
+    substitutionsAdminLink: 'link-to-substitutions-admin-module',
+  },
   preventStudentAbsenceAfterLessonStart: ['BsTest'],
 };
 
