@@ -16,7 +16,10 @@ a:hover {
 }
 
 div {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: $spacer;
 }
 
 .label {
@@ -25,10 +28,4 @@ div {
 
 .count {
   font-size: 1.5rem;
-}
-
-div {
-  display: flex;
-  justify-content: space-between;
-  gap: $spacer;
 }
