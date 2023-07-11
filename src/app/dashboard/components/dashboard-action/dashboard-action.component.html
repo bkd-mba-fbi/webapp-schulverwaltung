@@ -1,20 +1,27 @@
 <a *ngIf="!externalLink" [routerLink]="link" [queryParams]="linkParams">
-  <span>{{ title | translate }}</span>
-  <span *ngIf="count; then showCount; else showIcon"></span>
+  <ng-container *ngTemplateOutlet="actionContent"></ng-container>
 </a>
 
 <a *ngIf="externalLink" [href]="externalLink">
-  <span>{{ title | translate }}</span>
-  <ng-container *ngTemplateOutlet="showIcon"></ng-container>
+  <ng-container *ngTemplateOutlet="actionContent"></ng-container>
 </a>
-<ng-template #showCount>
-  <span>{{ count }}</span></ng-template
->
-<ng-template #showIcon>
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
-    <path
-      fill="currentColor"
-      d="m12 20-1.425-1.4 5.6-5.6H4v-2h12.175l-5.6-5.6L12 4l8 8-8 8Z"
-    />
-  </svg>
+
+<ng-template #actionContent>
+  <span>{{ title | translate }}</span>
+  <div>
+    <span *ngIf="count; else icon"> {{ count }}</span>
+    <ng-template #icon>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+      >
+        <path
+          fill="currentColor"
+          d="m12 20-1.425-1.4 5.6-5.6H4v-2h12.175l-5.6-5.6L12 4l8 8-8 8Z"
+        />
+      </svg>
+    </ng-template>
+  </div>
 </ng-template>
