@@ -11,6 +11,7 @@ describe('DashboardService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [
+          DashboardService,
           {
             provide: StorageService,
             useValue: {

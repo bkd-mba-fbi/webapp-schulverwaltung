@@ -8,6 +8,7 @@ import { LessonPresencesRestService } from '../../../shared/services/lesson-pres
 import { StudentsRestService } from '../../../shared/services/students-rest.service';
 import { StorageService } from '../../../shared/services/storage.service';
 import { buildLessonPresence } from '../../../../spec-builders';
+import { DashboardService } from '../../services/dashboard.service';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -21,6 +22,7 @@ describe('DashboardActionsComponent', () => {
       buildTestModuleMetadata({
         declarations: [DashboardActionsComponent],
         providers: [
+          DashboardService,
           {
             provide: UserSettingsService,
             useValue: {

@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard.component';
 import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { StorageService } from '../../../shared/services/storage.service';
+import { DashboardService } from '../../services/dashboard.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -18,6 +19,7 @@ describe('DashboardComponent', () => {
       buildTestModuleMetadata({
         declarations: [DashboardComponent],
         providers: [
+          DashboardService,
           {
             provide: UserSettingsService,
             useValue: {
