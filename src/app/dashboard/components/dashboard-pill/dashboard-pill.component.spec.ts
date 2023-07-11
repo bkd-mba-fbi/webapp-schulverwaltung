@@ -6,6 +6,7 @@ import { buildTestModuleMetadata } from '../../../../spec-helpers';
 describe('DashboardPillComponent', () => {
   let component: DashboardPillComponent;
   let fixture: ComponentFixture<DashboardPillComponent>;
+  let element: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -16,10 +17,12 @@ describe('DashboardPillComponent', () => {
 
     fixture = TestBed.createComponent(DashboardPillComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    element = fixture.debugElement.nativeElement;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render the component', () => {
+    component.count = 33;
+    fixture.detectChanges();
+    expect(element.textContent).toContain('dashboard.actions.deadline: 33');
   });
 });
