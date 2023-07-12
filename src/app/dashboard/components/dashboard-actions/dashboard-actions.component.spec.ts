@@ -10,6 +10,8 @@ import { StorageService } from '../../../shared/services/storage.service';
 import { buildLessonPresence } from '../../../../spec-builders';
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
+import { DashboardDeadlineComponent } from '../dashboard-deadline/dashboard-deadline.component';
+import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -21,7 +23,11 @@ describe('DashboardActionsComponent', () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardActionsComponent, DashboardActionComponent],
+        declarations: [
+          DashboardActionsComponent,
+          DashboardActionComponent,
+          DashboardDeadlineComponent,
+        ],
         providers: [
           DashboardService,
           {
@@ -40,6 +46,35 @@ describe('DashboardActionsComponent', () => {
               },
               checkableAbsencesCount() {
                 return of(6);
+              },
+              getListOfUnconfirmed() {
+                return of([
+                  buildLessonPresence(1, new Date(), new Date(), 'Math'),
+                ]);
+              },
+            },
+          },
+          {
+            provide: StudentsRestService,
+            useValue: {
+              getLessonAbsences() {
+                return [];
+              },
+            },
+          },
+          {
+            provide: CoursesRestService,
+            useValue: {
+              getNumberOfCoursesForRating() {
+                return of(123);
+              },
+            },
+          },
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload(): any {
+                return { id_person: '123' };
               },
               getListOfUnconfirmed() {
                 return of([
@@ -174,6 +209,7 @@ describe('DashboardActionsComponent', () => {
         'dashboard.actions.open-absences'
       );
       expect(element.textContent).toContain('dashboard.actions.tests');
+      expect(element.textContent).toContain('dashboard.actions.deadline: 123');
       expect(element.textContent).not.toContain(
         'dashboard.actions.my-absences-report'
       );
