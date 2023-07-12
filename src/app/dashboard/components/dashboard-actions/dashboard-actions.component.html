@@ -23,7 +23,12 @@
   *ngIf="dashboardService.hasTeacherRole$ | async"
   [label]="'dashboard.actions.tests'"
   [link]="['/events']"
-></erz-dashboard-action>
+>
+  <erz-dashboard-deadline
+    *ngIf="(dashboardService.coursesToRateCount$ | async) > 0"
+    [count]="dashboardService.coursesToRateCount$ | async"
+  ></erz-dashboard-deadline>
+</erz-dashboard-action>
 
 <erz-dashboard-action
   *ngIf="dashboardService.hasStudentRole$ | async"

@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { map, of, ReplaySubject, shareReplay, switchMap } from 'rxjs';
+import { map, of, ReplaySubject, shareReplay, switchMap, startWith } from 'rxjs';
 import { Settings, SETTINGS } from '../../settings';
 import { UserSettingsService } from '../../shared/services/user-settings.service';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
 import { StudentsRestService } from '../../shared/services/students-rest.service';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { StorageService } from '../../shared/services/storage.service';
+import { CoursesRestService } from '../../shared/services/courses-rest.service';
 
 const SEARCH_ROLES = [
   'LessonTeacherRole',
@@ -87,6 +88,9 @@ export class DashboardService {
     map(this.getMyAbsencesCount.bind(this)),
     shareReplay(1)
   );
+  coursesToRateCount$ = this.courseService
+    .getNumberOfCoursesForRating()
+    .pipe(startWith(0), shareReplay(1));
 
   ///// Action Conditions /////
 
@@ -107,6 +111,7 @@ export class DashboardService {
     private settingsService: UserSettingsService,
     private lessonPresencesService: LessonPresencesRestService,
     private studentsService: StudentsRestService,
+    private courseService: CoursesRestService,
     private storageService: StorageService,
     @Inject(SETTINGS) private settings: Settings
   ) {
