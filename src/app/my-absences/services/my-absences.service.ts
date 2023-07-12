@@ -209,7 +209,6 @@ export class MyAbsencesService {
       'filter.Id': `;${[...absences, ...incidents]
         .map((e) => e.LessonRef.Id)
         .join(';')}`,
-      fields: 'Id,From,To,EventNumber,EventDesignation,EventManagerInformation',
     });
   }
 

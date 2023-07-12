@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { combineLatest, filter, map, ReplaySubject, switchMap } from 'rxjs';
+import { map, of, ReplaySubject, shareReplay, switchMap } from 'rxjs';
 import { Settings, SETTINGS } from '../../settings';
 import { UserSettingsService } from '../../shared/services/user-settings.service';
-import { isTruthy } from '../../shared/utils/filter';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
 import { StudentsRestService } from '../../shared/services/students-rest.service';
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
@@ -27,7 +26,9 @@ const TIMETABLE_ROLES = ['LessonTeacherRole', 'StudentRole'];
 @Injectable()
 export class DashboardService {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
-  private studentId$ = new ReplaySubject<number>(1);
+  studentId$ = new ReplaySubject<number>(1);
+
+  ///// Dashboard Conditions /////
 
   loading$ = this.rolesAndPermissions$.pipe(map((roles) => roles == null));
   hasSearch$ = this.rolesAndPermissions$.pipe(map(this.hasRoles(SEARCH_ROLES)));
@@ -38,53 +39,68 @@ export class DashboardService {
     map(this.hasRoles(TIMETABLE_ROLES))
   );
 
+  ///// Roles /////
+
   hasLessonTeacherRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['LessonTeacherRole']))
+    map(this.hasRoles(['LessonTeacherRole'])),
+    shareReplay(1)
   );
-
-  // Presence control
-  hasPresenceControl$ = this.hasLessonTeacherRole$.pipe(
-    filter(isTruthy),
-    switchMap((hasRole) =>
-      this.lessonPresencesService.hasLessonsLessonTeacher()
-    )
-  );
-
-  // Edit absences
-  checkableAbsencesCount$ = this.hasLessonTeacherRole$.pipe(
-    filter(isTruthy),
-    switchMap((hasRole) => this.lessonPresencesService.checkableAbsencesCount())
-  );
-
-  // Open absences
-  unconfirmedCount$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['LessonTeacherRole', 'ClassTeacherRole'])),
-    filter(isTruthy),
-    switchMap(() => this.lessonPresencesService.getListOfUnconfirmed()),
-    map((presences) => presences.length)
-  );
-  hasOpenAbsences$ = this.unconfirmedCount$.pipe(map((count) => count > 0));
-
-  // Tests
   hasTeacherRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['TeacherRole']))
+    map(this.hasRoles(['TeacherRole'])),
+    shareReplay(1)
   );
-
-  // My absences
   hasStudentRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['StudentRole']))
+    map(this.hasRoles(['StudentRole'])),
+    shareReplay(1)
   );
-  openAbsencesCount$ = combineLatest([
-    this.studentId$,
-    this.hasStudentRole$.pipe(filter(isTruthy)),
-  ]).pipe(
-    switchMap(([id]) => this.studentsService.getLessonAbsences(id)),
-    map(this.openAbsencesCount.bind(this))
+  hasSubstituteAdministratorRole$ = this.rolesAndPermissions$.pipe(
+    map(this.hasRoles(['SubstituteAdministratorRole'])),
+    shareReplay(1)
   );
 
-  // Substitutions
-  hasSubstituteAdministratorRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['SubstituteAdministratorRole']))
+  ///// Action Counts /////
+
+  editAbsencesCount$ = this.hasLessonTeacherRole$.pipe(
+    switchMap((hasRole) =>
+      hasRole ? this.lessonPresencesService.checkableAbsencesCount() : of(false)
+    ),
+    shareReplay(1)
+  );
+
+  openAbsencesCount$ = this.rolesAndPermissions$.pipe(
+    map(this.hasRoles(['LessonTeacherRole', 'ClassTeacherRole'])),
+    switchMap((hasRoles) =>
+      hasRoles ? this.lessonPresencesService.getListOfUnconfirmed() : of([])
+    ),
+    map((presences) => presences.length),
+    shareReplay(1)
+  );
+
+  myAbsencesCount$ = this.hasStudentRole$.pipe(
+    switchMap((hasRole) =>
+      hasRole
+        ? this.studentId$.pipe(
+            switchMap((id) => this.studentsService.getLessonAbsences(id))
+          )
+        : of([])
+    ),
+    map(this.getMyAbsencesCount.bind(this)),
+    shareReplay(1)
+  );
+
+  ///// Action Conditions /////
+
+  hasPresenceControl$ = this.hasLessonTeacherRole$.pipe(
+    switchMap((hasRole) =>
+      hasRole
+        ? this.lessonPresencesService.hasLessonsLessonTeacher()
+        : of(false)
+    ),
+    shareReplay(1)
+  );
+  hasOpenAbsences$ = this.openAbsencesCount$.pipe(
+    map((count) => count > 0),
+    shareReplay(1)
   );
 
   constructor(
@@ -107,7 +123,7 @@ export class DashboardService {
       (actualRoles ?? []).some((role) => requiredRoles.includes(role));
   }
 
-  private openAbsencesCount(absences: ReadonlyArray<LessonAbsence>): number {
+  private getMyAbsencesCount(absences: ReadonlyArray<LessonAbsence>): number {
     return absences.filter(
       (absence) =>
         absence.ConfirmationStateId === this.settings.unconfirmedAbsenceStateId
