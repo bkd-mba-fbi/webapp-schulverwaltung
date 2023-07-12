@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { map, of, ReplaySubject, shareReplay, switchMap } from 'rxjs';
+import { map, of, ReplaySubject, shareReplay, switchMap, startWith } from 'rxjs';
 import { Settings, SETTINGS } from '../../settings';
 import { UserSettingsService } from '../../shared/services/user-settings.service';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
@@ -90,7 +90,7 @@ export class DashboardService {
   );
   coursesToRateCount$ = this.courseService
     .getNumberOfCoursesForRating()
-    .pipe(shareReplay(1));
+    .pipe(startWith(0), shareReplay(1));
 
   ///// Action Conditions /////
 
