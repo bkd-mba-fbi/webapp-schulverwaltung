@@ -9,14 +9,14 @@
   [label]="'dashboard.actions.edit-absences'"
   [link]="['/edit-absences']"
   [linkParams]="editAbsencesParams"
-  [count]="dashboardService.checkableAbsencesCount$ | async"
+  [count]="dashboardService.editAbsencesCount$ | async"
 ></erz-dashboard-action>
 
 <erz-dashboard-action
   *ngIf="dashboardService.hasOpenAbsences$ | async"
   [label]="'dashboard.actions.open-absences'"
   [link]="['/open-absences']"
-  [count]="dashboardService.unconfirmedCount$ | async"
+  [count]="dashboardService.openAbsencesCount$ | async"
 ></erz-dashboard-action>
 
 <erz-dashboard-action
@@ -36,7 +36,7 @@
   *ngIf="dashboardService.hasStudentRole$ | async"
   [label]="'dashboard.actions.my-absences'"
   [link]="['/my-absences']"
-  [count]="dashboardService.openAbsencesCount$ | async"
+  [count]="dashboardService.myAbsencesCount$ | async"
 ></erz-dashboard-action>
 
 <erz-dashboard-action

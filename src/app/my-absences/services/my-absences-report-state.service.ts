@@ -73,12 +73,10 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     _sorting: null,
     _offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
-    const params = this.buildRequestParamsFromFilter(filterValue)
-      .set('sort', 'From.asc')
-      .set(
-        'fields',
-        'Id,From,To,EventNumber,EventDesignation,EventManagerInformation',
-      );
+    const params = this.buildRequestParamsFromFilter(filterValue).set(
+      'sort',
+      'From.asc',
+    );
     return this.loadingService.load(
       this.loadTimetableEntries(params).pipe(
         map((entries) => this.filterAbsencesAfterLessonStart(entries)),

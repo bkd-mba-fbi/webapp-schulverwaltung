@@ -1,0 +1,49 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+:host {
+  display: block;
+  margin-bottom: $spacer;
+}
+
+.header {
+  margin-top: $spacer;
+  margin-bottom: 2 * $spacer;
+  display: flex;
+  align-items: center;
+  gap: $spacer;
+}
+
+.previous-day,
+.next-day {
+  padding-left: $btn-padding-y;
+  padding-right: $btn-padding-y;
+}
+
+.date {
+  font-size: calc(20 / 16 * $font-size-base);
+  font-weight: 600;
+}
+
+// On large screens, subscribe calendar button is visible in header
+.subscribe-calendar-header {
+  margin-left: auto;
+}
+.subscribe-calendar-bottom {
+  display: none;
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+@include media-breakpoint-down(md) {
+  // On smaller screens, subscribe calendar button is visible at bottom of table
+  .subscribe-calendar-header {
+    display: none;
+  }
+  .subscribe-calendar-bottom {
+    display: block;
+    margin-top: 2 * $spacer;
+  }
+}
