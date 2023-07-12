@@ -9,6 +9,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import { DashboardActionsComponent } from '../dashboard-actions/dashboard-actions.component';
 import { DashboardSearchComponent } from '../dashboard-search/dashboard-search.component';
 import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
+import { DashboardTimetableComponent } from '../dashboard-timetable/dashboard-timetable.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -25,12 +26,16 @@ describe('DashboardComponent', () => {
           DashboardSearchComponent,
           DashboardActionsComponent,
           DashboardActionComponent,
+          DashboardTimetableComponent,
         ],
         providers: [
           DashboardService,
           {
             provide: UserSettingsService,
             useValue: {
+              getSetting() {
+                return null;
+              },
               getRolesAndPermissions() {
                 return roles$;
               },

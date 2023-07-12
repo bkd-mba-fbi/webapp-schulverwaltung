@@ -1,0 +1,47 @@
+<table *ngIf="entries.length > 0; else noEntries" class="table">
+  <thead>
+    <tr>
+      <th>{{ 'dashboard.timetable.table.time' | translate }}</th>
+      <th>{{ 'dashboard.timetable.table.subject' | translate }}</th>
+      <th *ngIf="isStudent$ | async">
+        {{ 'dashboard.timetable.table.teacher' | translate }}
+      </th>
+      <th *ngIf="isStudent$ | async">
+        {{ 'dashboard.timetable.table.room' | translate }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of entries">
+      <td class="time">
+        {{ entry.from | date: 'HH:mm' }}–{{ entry.until | date: 'HH:mm' }}
+      </td>
+      <td class="subject">
+        <a [href]="buildLink(entry.eventId)" target="_parent">
+          {{ entry.subject
+          }}<span class="subject-study-class" *ngIf="isTeacher$ | async"
+            >, {{ entry.studyClass }}</span
+          >
+        </a>
+      </td>
+      <td class="study-class" *ngIf="isTeacher$ | async">
+        <!-- Only visible on mobile, styled via grid (not a column) -->
+        {{ 'dashboard.timetable.table.study-class' | translate }}:
+        {{ entry.studyClass }}
+      </td>
+      <td *ngIf="isStudent$ | async" class="teacher">
+        {{ entry.teacher }}
+      </td>
+      <td class="room" *ngIf="isStudent$ | async">
+        <span class="room-label">{{
+          'dashboard.timetable.table.room' | translate
+        }}</span>
+        {{ entry.room }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #noEntries>
+  <p>{{ 'dashboard.timetable.no-entries' | translate }}</p>
+</ng-template>

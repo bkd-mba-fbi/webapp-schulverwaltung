@@ -6,6 +6,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardSearchComponent } from './components/dashboard-search/dashboard-search.component';
 import { DashboardActionsComponent } from './components/dashboard-actions/dashboard-actions.component';
 import { DashboardActionComponent } from './components/dashboard-action/dashboard-action.component';
+import { DashboardTimetableComponent } from './components/dashboard-timetable/dashboard-timetable.component';
+import { DashboardTimetableTableComponent } from './components/dashboard-timetable-table/dashboard-timetable-table.component';
 import { DashboardService } from './services/dashboard.service';
 
 @NgModule({
@@ -14,6 +16,8 @@ import { DashboardService } from './services/dashboard.service';
     DashboardSearchComponent,
     DashboardActionsComponent,
     DashboardActionComponent,
+    DashboardTimetableComponent,
+    DashboardTimetableTableComponent,
   ],
   providers: [DashboardService],
   imports: [SharedModule, DashboardRoutingModule],
