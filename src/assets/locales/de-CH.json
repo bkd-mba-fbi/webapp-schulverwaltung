@@ -52,7 +52,19 @@
       "my-absences": "Offene Absenzen entschuldigen",
       "substitutions": "Stellvertretungen administrieren"
     },
-    "timetable": "Stundenplan"
+    "timetable": {
+      "title": "Stundenplan",
+      "no-entries": "An diesem Tag sind keine Stundenplaneinträge verfügbar.",
+      "today": "Heute",
+      "subscribe-calendar": "Kalender abonnieren",
+      "table": {
+        "time": "Zeit",
+        "subject": "Fach",
+        "teacher": "Lehrperson",
+        "room": "Raum",
+        "study-class": "Klasse"
+      }
+    }
   },
   "presence-control": {
     "title": "Präsenzkontrolle",

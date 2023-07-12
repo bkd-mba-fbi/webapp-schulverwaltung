@@ -36,6 +36,7 @@ import { TimetableEntry } from './app/shared/models/timetable-entry.model';
 import { LessonDispensation } from './app/shared/models/lesson-dispensation.model';
 import { TokenPayload } from './app/shared/models/token-payload.model';
 import { EventState, Event } from './app/events/services/events-state.service';
+import { LessonIncident } from './app/shared/models/lesson-incident.model';
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
@@ -149,6 +150,19 @@ export function buildLessonDispensation(id: string): LessonDispensation {
     Type: null,
     Comment: null,
     StudentFullName: 'studentName',
+    HRef: '',
+  };
+}
+
+export function buildLessonIncident(): LessonIncident {
+  return {
+    LessonRef: buildReference(),
+    StudentRef: buildReference(),
+    TypeRef: buildReference(),
+    Comment: null,
+    StudentFullName: '',
+    Type: null,
+    RegistrationId: 0,
     HRef: '',
   };
 }
@@ -586,9 +600,11 @@ export function buildTimetableEntry(
     Id: id,
     From: from,
     To: to,
+    EventId: 0,
     EventNumber: '',
     EventDesignation: '',
     EventManagerInformation: '',
+    EventLocation: '',
   };
 }
 

@@ -1,0 +1,80 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+// Hide elements only used on smaller devices
+.room-label,
+td.study-class {
+  display: none;
+}
+
+// Switch to compact layout on smaller devices
+@include media-breakpoint-down(md) {
+  table {
+    thead {
+      display: none;
+    }
+
+    tbody {
+      tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "time room"
+          "subject subject"
+          "study-class study-class"
+          "teacher teacher";
+        gap: 0.5 * $spacer;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid $table-border-color;
+      }
+
+      td {
+        border-bottom: 0;
+        padding: 0;
+      }
+
+      td.time {
+        grid-area: time;
+        font-size: calc(14 / 16 * $font-size-base);
+        font-weight: 300;
+      }
+
+      td.subject {
+        grid-area: subject;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+
+      td.teacher {
+        grid-area: teacher;
+        font-size: calc(13 / 16 * $font-size-base);
+        font-weight: 300;
+      }
+
+      td.room {
+        grid-area: room;
+        text-align: right;
+        font-size: calc(14 / 16 * $font-size-base);
+        font-weight: 300;
+      }
+
+      td.study-class {
+        grid-area: study-class;
+        font-size: calc(13 / 16 * $font-size-base);
+        font-weight: 300;
+      }
+    }
+  }
+
+  td.study-class {
+    display: block;
+  }
+
+  .subject-study-class {
+    display: none;
+  }
+
+  .room-label {
+    display: inline;
+  }
+}
