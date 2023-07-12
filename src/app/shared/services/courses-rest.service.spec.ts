@@ -26,6 +26,19 @@ describe('CoursesRestService', () => {
 
   afterEach(() => httpTestingController.verify());
 
+  describe('getNumberOfCoursesForRating', () => {
+    it('should return all course ids for the given status ids', () => {
+      service.getNumberOfCoursesForRating().subscribe((result) => {
+        expect(result).toEqual(1);
+      });
+      httpTestingController
+        .expectOne(
+          'https://eventotest.api/Courses/?StatusId=;10300;10240&fields=Id'
+        )
+        .flush([{ Id: 6402 }]);
+    });
+  });
+
   describe('getExpandedCourses', () => {
     it('should request all courses expanding EvaluationStatusRef, AttendanceRef and Classes fields if roles contain TeacherRole', () => {
       const data: any[] = [];

@@ -9,6 +9,7 @@
 <ng-template #actionContent>
   <span class="label">{{ label | translate }}</span>
   <div>
+    <ng-content></ng-content>
     <span class="count" *ngIf="count; else icon">{{ count }}</span>
     <ng-template #icon>
       <svg
