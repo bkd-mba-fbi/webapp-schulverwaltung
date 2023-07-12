@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardActionComponent } from './dashboard-action.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { DashboardPillComponent } from '../dashboard-pill/dashboard-pill.component';
+import { DashboardDeadlineComponent } from '../dashboard-deadline/dashboard-deadline.component';
 
 describe('DashboardActionComponent', () => {
   let component: DashboardActionComponent;
@@ -12,7 +12,7 @@ describe('DashboardActionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardActionComponent, DashboardPillComponent],
+        declarations: [DashboardActionComponent, DashboardDeadlineComponent],
       })
     ).compileComponents();
 

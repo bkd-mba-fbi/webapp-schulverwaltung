@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardPillComponent } from './dashboard-pill.component';
+import { DashboardDeadlineComponent } from './dashboard-deadline.component';
 import { buildTestModuleMetadata } from '../../../../spec-helpers';
 
-describe('DashboardPillComponent', () => {
-  let component: DashboardPillComponent;
-  let fixture: ComponentFixture<DashboardPillComponent>;
+describe('DashboardDeadlineComponent', () => {
+  let component: DashboardDeadlineComponent;
+  let fixture: ComponentFixture<DashboardDeadlineComponent>;
   let element: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardPillComponent],
+        declarations: [DashboardDeadlineComponent],
       })
     ).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardPillComponent);
+    fixture = TestBed.createComponent(DashboardDeadlineComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });

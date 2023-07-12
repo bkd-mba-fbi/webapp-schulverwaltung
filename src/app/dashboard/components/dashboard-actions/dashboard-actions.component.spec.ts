@@ -10,7 +10,7 @@ import { StorageService } from '../../../shared/services/storage.service';
 import { buildLessonPresence } from '../../../../spec-builders';
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
-import { DashboardPillComponent } from '../dashboard-pill/dashboard-pill.component';
+import { DashboardDeadlineComponent } from '../dashboard-deadline/dashboard-deadline.component';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
 
 describe('DashboardActionsComponent', () => {
@@ -26,7 +26,7 @@ describe('DashboardActionsComponent', () => {
         declarations: [
           DashboardActionsComponent,
           DashboardActionComponent,
-          DashboardPillComponent,
+          DashboardDeadlineComponent,
         ],
         providers: [
           DashboardService,
