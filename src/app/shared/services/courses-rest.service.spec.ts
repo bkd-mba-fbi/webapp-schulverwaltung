@@ -31,7 +31,10 @@ describe('CoursesRestService', () => {
       });
       httpTestingController
         .expectOne(
-          'https://eventotest.api/Courses/?StatusId=;10300;10240&fields=Id'
+          (req) =>
+            req.urlWithParams ===
+              'https://eventotest.api/Courses/?fields=Id,StatusId&filter.StatusId=;10300;10240' &&
+            req.headers.get('X-Role-Restriction') === 'TeacherRole'
         )
         .flush([{ Id: 6402 }]);
     });
