@@ -560,7 +560,10 @@ describe('LessonPresencesRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId=;1080&fields=Id,ConfirmationStateId'
+          (req) =>
+            req.urlWithParams ===
+              'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId=;1080&fields=Id,ConfirmationStateId' &&
+            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole'
         )
         .flush([{ Id: '197116_5597' }]);
       httpTestingController.verify();
