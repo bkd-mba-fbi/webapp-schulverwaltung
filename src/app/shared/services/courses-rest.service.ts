@@ -27,7 +27,10 @@ export class CoursesRestService extends RestService<typeof Course> {
 
   getNumberOfCoursesForRating(): Observable<number> {
     return this.http
-      .get<unknown[]>(`${this.baseUrl}/?StatusId=;10300;10240&fields=Id`)
+      .get<unknown[]>(
+        `${this.baseUrl}/?fields=Id,StatusId&filter.StatusId=;10300;10240`,
+        { headers: { 'X-Role-Restriction': 'TeacherRole' } }
+      )
       .pipe(
         switchMap(decodeArray(this.idCodec)),
         map((ids) => ids.length)
