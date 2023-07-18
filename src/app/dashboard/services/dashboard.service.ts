@@ -1,5 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { map, of, ReplaySubject, shareReplay, switchMap, startWith } from 'rxjs';
+import {
+  map,
+  of,
+  ReplaySubject,
+  shareReplay,
+  switchMap,
+  startWith,
+} from 'rxjs';
 import { Settings, SETTINGS } from '../../settings';
 import { UserSettingsService } from '../../shared/services/user-settings.service';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
