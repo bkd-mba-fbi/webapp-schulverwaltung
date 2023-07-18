@@ -1,12 +1,5 @@
 @import "../../../../bootstrap-variables";
 
 .header {
-  padding-left: $spacer;
   padding-bottom: $spacer;
-}
-
-@media (max-width: 750px) {
-  .header {
-    padding-right: $spacer;
-  }
 }

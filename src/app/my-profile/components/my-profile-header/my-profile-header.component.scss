@@ -3,7 +3,7 @@
 .avatar-person {
   display: flex;
   justify-content: space-between;
-  padding-left: $spacer;
+  padding-left: $spacer 0;
 }
 
 .person {
@@ -11,7 +11,7 @@
 }
 
 .email {
-  padding: $spacer 0 0 $spacer;
+  padding-top: $spacer;
 }
 
 .report {

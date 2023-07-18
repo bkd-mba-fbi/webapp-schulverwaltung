@@ -57,10 +57,6 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .search {
-    padding: 0 $spacer;
-  }
-
   .event-header {
     display: none;
   }

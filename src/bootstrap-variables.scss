@@ -91,7 +91,7 @@ $btn-border-radius: (($btn-line-height * $btn-font-size) + (2 * $btn-padding-y))
 
 // Custom variables
 $erz-container-max-width: 960px;
-$erz-container-padding-x: $spacer;
+$erz-container-padding-x: 0;
 $erz-container-padding-y: $spacer;
 
 $erz-presence-control-entry-min-width: 400px;

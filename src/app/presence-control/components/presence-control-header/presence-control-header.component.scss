@@ -3,7 +3,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding: 0.75 * $spacer $spacer;
+  padding: 0.75 * $spacer 0;
 }
 
 /**
