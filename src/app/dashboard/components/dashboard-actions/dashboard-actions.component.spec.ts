@@ -60,6 +60,12 @@ describe('DashboardActionsComponent', () => {
               getLessonAbsences() {
                 return of([]);
               },
+              getLessonIncidents() {
+                return of([]);
+              },
+              getTimetableEntries() {
+                return of([]);
+              },
             },
           },
           {
