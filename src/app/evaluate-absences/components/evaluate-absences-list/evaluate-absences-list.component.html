@@ -1,4 +1,4 @@
-<h1 class="mx-3">{{ 'evaluate-absences.title' | translate }}</h1>
+<h1>{{ 'evaluate-absences.title' | translate }}</h1>
 <ng-container
   *erzLet="{
     entries: state.entries$ | async,
@@ -18,7 +18,7 @@
           (data.entries && data.entries.length > 0) || data.loadingPage;
           else noEntries
         "
-        class="p-3"
+        class="py-3"
       >
         <div class="buttons">
           <a
@@ -99,7 +99,7 @@
       </div>
 
       <ng-template #noEntries>
-        <p class="mt-3 px-3">
+        <p class="mt-3">
           {{ 'evaluate-absences.no-entries' | translate }}
         </p>
       </ng-template>
@@ -111,6 +111,6 @@
   </ng-container>
 
   <ng-template #noFilter>
-    <p class="mt-3 px-3">{{ 'evaluate-absences.no-filter' | translate }}</p>
+    <p class="mt-3">{{ 'evaluate-absences.no-filter' | translate }}</p>
   </ng-template>
 </ng-container>

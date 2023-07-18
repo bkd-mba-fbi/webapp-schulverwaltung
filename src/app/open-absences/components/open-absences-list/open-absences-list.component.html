@@ -1,4 +1,4 @@
-<h1 class="mx-3">{{ 'open-absences.title' | translate }}</h1>
+<h1>{{ 'open-absences.title' | translate }}</h1>
 <div
   *erzLet="{
     selection: selectionService.selection$ | async,
@@ -16,7 +16,7 @@
         else noEntries
       "
     >
-      <div class="pt-3 ps-3 pe-3">
+      <div class="pt-3">
         <erz-resettable-input
           class="d-flex header-search"
           [value]="openAbsencesService.search$ | async"
