@@ -4,6 +4,6 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding: $spacer;
+  padding: $spacer 0;
   border-bottom: 1px solid $border-color;
 }

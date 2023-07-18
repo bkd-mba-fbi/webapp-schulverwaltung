@@ -12,10 +12,3 @@ h1 {
   padding-bottom: $spacer;
   border-bottom: 1px solid $border-color;
 }
-
-@media (max-width: 750px) {
-  .header {
-    padding-right: $spacer;
-    padding-left: calc($spacer / 2);
-  }
-}
