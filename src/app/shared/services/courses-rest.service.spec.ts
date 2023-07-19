@@ -33,10 +33,22 @@ describe('CoursesRestService', () => {
         .expectOne(
           (req) =>
             req.urlWithParams ===
-              'https://eventotest.api/Courses/?fields=Id,StatusId&filter.StatusId=;10300;10240' &&
+              'https://eventotest.api/Courses/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240' &&
             req.headers.get('X-Role-Restriction') === 'TeacherRole'
         )
-        .flush([{ Id: 6402 }]);
+        .flush([
+          {
+            Id: 6402,
+            StatusId: 10300,
+            EvaluationStatusRef: {
+              HasEvaluationStarted: true,
+              EvaluationUntil: null,
+              HasReviewOfEvaluationStarted: false,
+              HasTestGrading: false,
+              Id: 10101,
+            },
+          },
+        ]);
     });
   });
 
