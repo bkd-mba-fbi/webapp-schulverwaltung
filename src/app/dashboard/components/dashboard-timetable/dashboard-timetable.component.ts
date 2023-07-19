@@ -144,7 +144,7 @@ export class DashboardTimetableComponent {
       until: entry.To,
       eventId: entry.EventId,
       subject: entry.EventDesignation,
-      room: entry.EventLocation,
+      room: entry.EventLocation || undefined,
       teacher: entry.EventManagerInformation,
     };
   }
