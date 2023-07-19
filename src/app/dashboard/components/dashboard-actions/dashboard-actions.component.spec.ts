@@ -45,7 +45,7 @@ describe('DashboardActionsComponent', () => {
                 return of(true);
               },
               checkableAbsencesCount() {
-                return of(6);
+                return of(0);
               },
               getListOfUnconfirmed() {
                 return of([
@@ -58,7 +58,13 @@ describe('DashboardActionsComponent', () => {
             provide: StudentsRestService,
             useValue: {
               getLessonAbsences() {
-                return [];
+                return of([]);
+              },
+              getLessonIncidents() {
+                return of([]);
+              },
+              getTimetableEntries() {
+                return of([]);
               },
             },
           },
@@ -80,22 +86,6 @@ describe('DashboardActionsComponent', () => {
                 return of([
                   buildLessonPresence(1, new Date(), new Date(), 'Math'),
                 ]);
-              },
-            },
-          },
-          {
-            provide: StudentsRestService,
-            useValue: {
-              getLessonAbsences() {
-                return [];
-              },
-            },
-          },
-          {
-            provide: StorageService,
-            useValue: {
-              getPayload(): any {
-                return { id_person: '123' };
               },
             },
           },
@@ -150,8 +140,8 @@ describe('DashboardActionsComponent', () => {
       expect(element.textContent).toContain(
         'dashboard.actions.presence-control'
       );
-      expect(element.textContent).toContain('dashboard.actions.edit-absences');
-      expect(element.textContent).toContain('dashboard.actions.open-absences');
+      expect(element.textContent).toContain('dashboard.actions.edit-absences0');
+      expect(element.textContent).toContain('dashboard.actions.open-absences1');
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).not.toContain(
         'dashboard.actions.my-absences-report'
@@ -178,7 +168,7 @@ describe('DashboardActionsComponent', () => {
       expect(element.textContent).not.toContain(
         'dashboard.actions.edit-absences'
       );
-      expect(element.textContent).toContain('dashboard.actions.open-absences');
+      expect(element.textContent).toContain('dashboard.actions.open-absences1');
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).not.toContain(
         'dashboard.actions.my-absences-report'
@@ -242,7 +232,7 @@ describe('DashboardActionsComponent', () => {
       expect(element.textContent).toContain(
         'dashboard.actions.my-absences-report'
       );
-      expect(element.textContent).toContain('dashboard.actions.my-absences');
+      expect(element.textContent).toContain('dashboard.actions.my-absences0');
       expect(element.textContent).not.toContain(
         'dashboard.actions.substitutions'
       );
