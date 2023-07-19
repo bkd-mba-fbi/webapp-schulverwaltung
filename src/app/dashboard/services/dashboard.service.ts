@@ -1,5 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
-import { map, of, ReplaySubject, shareReplay, switchMap, startWith } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  of,
+  ReplaySubject,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { Settings, SETTINGS } from '../../settings';
 import { UserSettingsService } from '../../shared/services/user-settings.service';
 import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
@@ -7,6 +16,9 @@ import { StudentsRestService } from '../../shared/services/students-rest.service
 import { LessonAbsence } from '../../shared/models/lesson-absence.model';
 import { StorageService } from '../../shared/services/storage.service';
 import { CoursesRestService } from '../../shared/services/courses-rest.service';
+import { LessonIncident } from '../../shared/models/lesson-incident.model';
+import { TimetableEntry } from '../../shared/models/timetable-entry.model';
+import { notNull } from '../../shared/utils/filter';
 
 const SEARCH_ROLES = [
   'LessonTeacherRole',
@@ -28,6 +40,14 @@ const TIMETABLE_ROLES = ['LessonTeacherRole', 'StudentRole'];
 export class DashboardService {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
   studentId$ = new ReplaySubject<number>(1);
+  private lessonAbsences$ = this.studentId$.pipe(
+    switchMap((id) => this.studentsService.getLessonAbsences(id)),
+    shareReplay(1)
+  );
+  private lessonIncidents$ = this.studentId$.pipe(
+    switchMap((id) => this.studentsService.getLessonIncidents(id)),
+    shareReplay(1)
+  );
 
   ///// Dashboard Conditions /////
 
@@ -78,13 +98,7 @@ export class DashboardService {
   );
 
   myAbsencesCount$ = this.hasStudentRole$.pipe(
-    switchMap((hasRole) =>
-      hasRole
-        ? this.studentId$.pipe(
-            switchMap((id) => this.studentsService.getLessonAbsences(id))
-          )
-        : of([])
-    ),
+    switchMap((hasRole) => (hasRole ? this.getMyAbsences() : of([]))),
     map(this.getMyAbsencesCount.bind(this)),
     shareReplay(1)
   );
@@ -128,10 +142,59 @@ export class DashboardService {
       (actualRoles ?? []).some((role) => requiredRoles.includes(role));
   }
 
-  private getMyAbsencesCount(absences: ReadonlyArray<LessonAbsence>): number {
-    return absences.filter(
-      (absence) =>
-        absence.ConfirmationStateId === this.settings.unconfirmedAbsenceStateId
-    ).length;
+  private getMyAbsences(): Observable<
+    Option<ReadonlyArray<LessonAbsence | LessonIncident>>
+  > {
+    return combineLatest([
+      this.studentId$,
+      this.lessonAbsences$,
+      this.lessonIncidents$,
+    ]).pipe(
+      switchMap(([studentId, absences, incidents]) =>
+        this.loadTimetableEntries(studentId, absences, incidents).pipe(
+          map((timetableEntries) =>
+            [...absences, ...incidents]
+              .map((absence) =>
+                this.withTimetableEntry(absence, timetableEntries)
+              )
+              .filter(notNull)
+          )
+        )
+      )
+    );
+  }
+
+  private getMyAbsencesCount(
+    absences: Option<ReadonlyArray<LessonAbsence | LessonIncident>>
+  ): number {
+    return (
+      absences?.filter(
+        (absence) =>
+          ('ConfirmationStateId' in absence
+            ? absence.ConfirmationStateId
+            : null) === this.settings.unconfirmedAbsenceStateId
+      ).length || 0
+    );
+  }
+
+  private withTimetableEntry(
+    absence: LessonAbsence | LessonIncident,
+    timetableEntries: ReadonlyArray<TimetableEntry>
+  ): Option<LessonAbsence | LessonIncident> {
+    return timetableEntries.find((e) => e.Id === absence.LessonRef.Id)
+      ? absence
+      : null;
+  }
+
+  private loadTimetableEntries(
+    studentId: number,
+    absences: ReadonlyArray<LessonAbsence>,
+    incidents: ReadonlyArray<LessonIncident>
+  ): Observable<ReadonlyArray<TimetableEntry>> {
+    return this.studentsService.getTimetableEntries(studentId, {
+      'filter.Id': `;${[...absences, ...incidents]
+        .map((e) => e.LessonRef.Id)
+        .join(';')}`,
+    });
   }
 }
