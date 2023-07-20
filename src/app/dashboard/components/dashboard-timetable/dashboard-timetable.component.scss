@@ -10,6 +10,7 @@
   margin-top: $spacer;
   margin-bottom: 2 * $spacer;
   display: flex;
+  flex-wrap: wrap-reverse;
   align-items: center;
   gap: $spacer;
 }
