@@ -2,7 +2,11 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { isEqual } from 'lodash-es';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { buildCourse, buildResult } from '../../../spec-builders';
+import {
+  buildCourse,
+  buildReference,
+  buildResult,
+} from '../../../spec-builders';
 import {
   AverageTestResultResponse,
   Course,
@@ -25,7 +29,22 @@ describe('CoursesRestService', () => {
   afterEach(() => httpTestingController.verify());
 
   describe('getNumberOfCoursesForRating', () => {
-    it('should return all course ids for the given status ids', () => {
+    it('should return the number of courses where the evaluation has started', () => {
+      const ratingStarted = {
+        ...buildCourse(1001, 'Course with HasEvaluationStarted true'),
+        EvaluationStatusRef: {
+          ...buildReference(),
+          HasEvaluationStarted: true,
+        },
+      };
+      const ratingNotStarted = {
+        ...buildCourse(1002, 'Course with HasEvaluationStarted false'),
+        EvaluationStatusRef: {
+          ...buildReference(),
+          HasEvaluationStarted: false,
+        },
+      };
+
       service.getNumberOfCoursesForRating().subscribe((result) => {
         expect(result).toEqual(1);
       });
@@ -33,10 +52,10 @@ describe('CoursesRestService', () => {
         .expectOne(
           (req) =>
             req.urlWithParams ===
-              'https://eventotest.api/Courses/?fields=Id,StatusId&filter.StatusId=;10300;10240' &&
+              'https://eventotest.api/Courses/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240' &&
             req.headers.get('X-Role-Restriction') === 'TeacherRole'
         )
-        .flush([{ Id: 6402 }]);
+        .flush([ratingNotStarted, ratingStarted]);
     });
   });
 
