@@ -111,9 +111,6 @@ export class DashboardTimetableComponent {
         ]).pipe(
           switchMap(([absences, incidents, date]) =>
             this.studentsService.getTimetableEntries(studentId, {
-              'filter.Id': `;${[...absences, ...incidents]
-                .map((e) => e.LessonRef.Id)
-                .join(';')}`,
               'filter.From': `=${format(date, 'yyyy-MM-dd')}`,
               sort: 'From,To',
             })
