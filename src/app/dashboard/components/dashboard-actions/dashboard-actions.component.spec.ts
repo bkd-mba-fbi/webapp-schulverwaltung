@@ -80,7 +80,7 @@ describe('DashboardActionsComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): any {
-                return { id_person: '123' };
+                return { id_person: '123', fullName: 'Stolz Zuzana' };
               },
               getListOfUnconfirmed() {
                 return of([
@@ -134,9 +134,6 @@ describe('DashboardActionsComponent', () => {
 
     it('displays presence control, edit and open absences', () => {
       fixture.detectChanges();
-      expect(element.textContent).toContain(
-        'dashboard.actions.presence-control'
-      );
       expect(element.textContent).toContain(
         'dashboard.actions.presence-control'
       );
