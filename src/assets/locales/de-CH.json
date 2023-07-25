@@ -55,7 +55,7 @@
     },
     "timetable": {
       "title": "Stundenplan",
-      "no-entries": "An diesem Tag sind keine Stundenplaneinträge verfügbar.",
+      "no-entries": "Am gewählten Tag sind keine Stundenplaneinträge vorhanden.",
       "today": "Heute",
       "subscribe-calendar": "Kalender abonnieren",
       "table": {
@@ -186,7 +186,7 @@
         "presence-type": "Grund",
         "incident": "Vorfall",
         "date": "Datum",
-        "teacher": "Lehrkraft",
+        "teacher": "Lehrperson",
         "mobil-student-module-instance-study-class": "Name, Fach, Klasse",
         "mobil-presence-type-incident": "Grund / Vorfall"
       }
