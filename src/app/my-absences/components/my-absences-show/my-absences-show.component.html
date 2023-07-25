@@ -7,7 +7,7 @@
   <h1>{{ 'my-absences.title' | translate }}</h1>
   <div class="d-flex justify-content-between border-bottom header">
     <div>{{ 'my-absences.description' | translate }}</div>
-    <div>
+    <div class="ps-3">
       <a
         class="report btn btn-primary btn-icon"
         [class.disabled]="(allAbsencesReportUrlAvailable$ | async) === false"
