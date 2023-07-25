@@ -28,10 +28,44 @@
     },
     "pagination": {
       "load-more": "Charger plus de données"
-    }
+    },
+    "back": "Retour"
   },
   "unauthenticated": {
     "message": "Vous n'avez pas les droits d'accès de l'enseignant-e."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "heading": "Bienvenue sur Evento Web",
+    "no-access": "La navigation vous montre tous les domaines à disposition.",
+    "search": {
+      "title": "Recherche",
+      "placeholder": "Rechercher des élèves..."
+    },
+    "actions": {
+      "title": "Actions",
+      "presence-control": "Contrôle des présences",
+      "edit-absences": "Contrôler les absences annoncées",
+      "open-absences": "Excuser les absences en suspens",
+      "tests": "Tests et évaluation",
+      "deadline": "Délai de notes",
+      "my-absences-report": "Annoncer des absences",
+      "my-absences": "Excuser les absences en suspens",
+      "substitutions": "Gérer les remplacements"
+    },
+    "timetable": {
+      "title": "Horaire",
+      "no-entries": "Aucune entrée d'horaire n'est disponible à la date sélectionnée.",
+      "today": "Aujourd'hui",
+      "subscribe-calendar": "S'abonner au calendrier",
+      "table": {
+        "time": "Heure",
+        "subject": "Discipline",
+        "teacher": "Enseignant-e",
+        "room": "Salle",
+        "study-class": "Classe"
+      }
+    }
   },
   "presence-control": {
     "title": "Contrôle des présences",
@@ -113,6 +147,7 @@
       }
     },
     "edit": {
+      "title": "Confirmer les absences",
       "remark": "La sélection n'est prise en charge que pour les absences pour lesquelles aucun motif n'a encore été saisi. Vous pouvez modifier les motifs d'absence qui ont déjà été saisis sous ",
       "absence-type-placeholder": "Sélectionner un motif d'absence...",
       "lesson-selected": "{{count}} leçon sélectionnée",
@@ -195,7 +230,10 @@
     }
   },
   "events": {
-    "title": "Liste des événements",
+    "title": "Tests et évaluation",
+    "current": {
+      "title": "Disciplines actuelles"
+    },
     "no-events": "Aucun événement disponible",
     "search": "Rechercher un événement",
     "search-by": "Rechercher...",
@@ -240,6 +278,8 @@
     "type-points": "Type points",
     "type-grades": "Type note",
     "factor": "Facteur",
+    "add-title": "Ajouter un test",
+    "edit-title": "Modifier {{test}}",
     "form": {
       "designation": "Désignation",
       "designation-placeholder": "Saisir la désignation...",
@@ -304,6 +344,7 @@
       "confirm-presence-type": "Saisir un motif"
     },
     "confirm": {
+      "title": "Modifier les absences",
       "lesson-selected": "{{count}} leçon sélectionnée",
       "lessons-selected": "{{count}} leçons sélectionnées",
       "choose-presence-type": "Sélectionner un motif d'absence",
@@ -336,6 +377,7 @@
       "stay-permit-expiry": "Expiration du permis de séjour"
     },
     "edit": {
+      "title": "Modifier mon profil",
       "address-changes-remark": "Pour tout changement de nom et d'adresse, veuillez vous adresser au secrétariat.",
       "cancel": "Annuler",
       "save": "Valider",
