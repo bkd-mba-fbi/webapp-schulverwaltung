@@ -1,5 +1,9 @@
 @import "../../../../bootstrap-variables";
 
+:host {
+  font-weight: $font-weight-base;
+}
+
 .collapsed {
   white-space: nowrap;
   overflow: hidden;
