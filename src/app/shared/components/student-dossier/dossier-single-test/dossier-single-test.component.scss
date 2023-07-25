@@ -32,6 +32,15 @@ span {
     display: flex;
     color: $body-color;
     padding: 0;
+    text-decoration: none;
+
+    span {
+      text-decoration: underline;
+    }
+
+    span:hover {
+      text-decoration-color: $accent;
+    }
   }
 
   i {
