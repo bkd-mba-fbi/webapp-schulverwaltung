@@ -81,9 +81,18 @@ $presence-control-status-size: 2rem;
   grid-area: student-name;
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+
+  span:first-child {
+    text-decoration: underline;
+  }
+
+  span:first-child:hover {
+    text-decoration-color: $accent;
+  }
 }
 
-$presence-control-unconfirmed-absences-size: 1.1rem;
+$presence-control-unconfirmed-absences-size: $font-size-sm;
 .unconfirmed-absences {
   color: $absent-color;
   font-size: $presence-control-unconfirmed-absences-size;
