@@ -4,6 +4,7 @@
   </button>
   <button
     type="button"
+    [attr.aria-label]="'dashboard.timetable.previousDay' | translate"
     class="btn btn-secondary previous-day"
     (click)="gotoPreviousDay()"
   >
@@ -11,6 +12,7 @@
   </button>
   <button
     type="button"
+    [attr.aria-label]="'dashboard.timetable.nextDay' | translate"
     class="btn btn-secondary next-day"
     (click)="gotoNextDay()"
   >

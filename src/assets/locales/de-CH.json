@@ -57,6 +57,8 @@
       "title": "Stundenplan",
       "no-entries": "Am gewählten Tag sind keine Stundenplaneinträge vorhanden.",
       "today": "Heute",
+      "nextDay": "nächster Tag",
+      "previousDay": "vorheriger Tag",
       "subscribe-calendar": "Kalender abonnieren",
       "table": {
         "time": "Zeit",
