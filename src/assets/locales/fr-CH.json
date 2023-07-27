@@ -57,6 +57,8 @@
       "title": "Horaire",
       "no-entries": "Aucune entrée d'horaire n'est disponible à la date sélectionnée.",
       "today": "Aujourd'hui",
+      "nextDay": "jour suivant",
+      "previousDay": "jour précédent",
       "subscribe-calendar": "S'abonner au calendrier",
       "table": {
         "time": "Heure",

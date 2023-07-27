@@ -6,10 +6,12 @@
     isAuthenticated: (isAuthenticated$ | async)
   } as data"
 >
-  <div
+  <button
+    type="button"
+    [attr.aria-label]="'my-notifications.title' | translate"
     (click)="toggleNotificationsPopup()"
     id="notifications-button"
-    class="btn notifications-button p-0 m-0"
+    class="btn btn-link notifications-button p-0 m-0"
   >
     <span
       class="notifications-bell"
@@ -40,7 +42,7 @@
       "
       >{{ data.notificationsCount }}</span
     >
-  </div>
+  </button>
   <div
     class="notifications-popup border"
     id="notifications-popup"
