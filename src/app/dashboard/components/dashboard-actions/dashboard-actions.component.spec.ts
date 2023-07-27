@@ -87,6 +87,9 @@ describe('DashboardActionsComponent', () => {
                   buildLessonPresence(1, new Date(), new Date(), 'Math'),
                 ]);
               },
+              getLanguage() {
+                return 'de-CH';
+              },
             },
           },
         ],
