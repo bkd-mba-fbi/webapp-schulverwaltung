@@ -33,7 +33,7 @@
         {{ entry.teacher }}
       </td>
       <td class="room" *ngIf="isStudent$ | async">
-        <span class="room-label">{{
+        <span *ngIf="entry.room" class="room-label">{{
           'dashboard.timetable.table.room' | translate
         }}</span>
         {{ entry.room }}
