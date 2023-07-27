@@ -17,12 +17,17 @@
         {{ entry.from | date: 'HH:mm' }}–{{ entry.until | date: 'HH:mm' }}
       </td>
       <td class="subject">
-        <a [href]="buildLink(entry.eventId)" target="_parent">
+        <a
+          *ngIf="isTeacher$ | async; else noLink"
+          [href]="buildLink(entry.eventId)"
+          target="_parent"
+        >
           {{ entry.subject
-          }}<span class="subject-study-class" *ngIf="isTeacher$ | async"
-            >, {{ entry.studyClass }}</span
-          >
+          }}<span class="subject-study-class">, {{ entry.studyClass }}</span>
         </a>
+        <ng-template #noLink>
+          {{ entry.subject }}
+        </ng-template>
       </td>
       <td class="study-class" *ngIf="isTeacher$ | async">
         <!-- Only visible on mobile, styled via grid (not a column) -->
@@ -33,7 +38,7 @@
         {{ entry.teacher }}
       </td>
       <td class="room" *ngIf="isStudent$ | async">
-        <span class="room-label">{{
+        <span *ngIf="entry.room" class="room-label">{{
           'dashboard.timetable.table.room' | translate
         }}</span>
         {{ entry.room }}
