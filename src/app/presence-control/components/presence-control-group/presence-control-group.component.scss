@@ -6,6 +6,19 @@
   padding-right: $spacer;
 }
 
+.group-header {
+  button {
+    color: $body-color;
+    font-weight: $font-weight-base;
+    text-decoration: underline;
+    padding-left: $spacer / 2;
+  }
+
+  button:hover {
+    text-decoration-color: $accent;
+  }
+}
+
 .group-list-header {
   cursor: pointer;
   padding: $spacer;

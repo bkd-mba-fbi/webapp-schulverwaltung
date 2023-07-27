@@ -1,7 +1,7 @@
 @import "../../../../bootstrap-variables";
 @import "node_modules/bootstrap/scss/mixins";
 
-$mean-font-size: 1.1rem;
+$mean-font-size: $font-size-sm;
 
 .filter-hover:hover {
   background-color: $gray;
@@ -40,6 +40,20 @@ thead tr th {
   color: $gray-dark;
   font-size: $mean-font-size;
   line-height: 1;
+}
+
+td.name {
+  a {
+    text-decoration: none;
+  }
+
+  span:first-child {
+    text-decoration: underline;
+  }
+
+  span:first-child:hover {
+    text-decoration-color: $accent;
+  }
 }
 
 thead tr th.test-info-desktop {

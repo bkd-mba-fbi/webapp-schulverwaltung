@@ -148,16 +148,19 @@
   display: flex;
 }
 .view {
-  padding: 0.25rem;
-  color: $gray-600;
+  color: $gray-dark;
+  background-color: white;
 
   &.active {
-    color: $white;
+    color: white;
+    background-color: $gray-dark;
+    border: none;
   }
 }
 
 .group {
-  color: $gray-600;
+  color: $gray-dark;
+  text-decoration: none;
 }
 
 /**
