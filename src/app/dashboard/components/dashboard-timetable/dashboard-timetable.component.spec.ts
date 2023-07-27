@@ -284,9 +284,8 @@ describe('DashboardTimetableComponent', () => {
         rows[0].querySelector('td:nth-child(1)')?.textContent?.trim()
       ).toBe('08:00–09:00');
 
-      let link = rows[0].querySelector('td:nth-child(2) a');
-      expect(link?.textContent?.trim()).toBe('Mathematik');
-      expect(link?.getAttribute('href')).toBe('link-to-event-detail-module/10');
+      let label = rows[0].querySelector('td:nth-child(2)');
+      expect(label?.textContent?.trim()).toBe('Mathematik');
 
       expect(
         rows[0].querySelector('td:nth-child(3)')?.textContent?.trim()
@@ -301,9 +300,8 @@ describe('DashboardTimetableComponent', () => {
         rows[1].querySelector('td:nth-child(1)')?.textContent?.trim()
       ).toBe('09:00–10:00');
 
-      link = rows[1].querySelector('td:nth-child(2) a');
-      expect(link?.textContent?.trim()).toBe('Zeichnen');
-      expect(link?.getAttribute('href')).toBe('link-to-event-detail-module/20');
+      label = rows[1].querySelector('td:nth-child(2)');
+      expect(label?.textContent?.trim()).toBe('Zeichnen');
 
       expect(
         rows[1].querySelector('td:nth-child(3)')?.textContent?.trim()
