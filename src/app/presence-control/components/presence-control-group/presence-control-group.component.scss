@@ -11,7 +11,7 @@
     color: $body-color;
     font-weight: $font-weight-base;
     text-decoration: underline;
-    padding-left: $spacer / 2;
+    padding-left: calc($spacer / 2);
   }
 
   button:hover {
