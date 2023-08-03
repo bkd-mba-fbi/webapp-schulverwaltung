@@ -10,7 +10,6 @@
   margin-top: $spacer;
   margin-bottom: 2 * $spacer;
   display: flex;
-  flex-wrap: wrap-reverse;
   align-items: center;
   gap: $spacer;
 }
@@ -46,5 +45,15 @@ a.btn {
   .subscribe-calendar-bottom {
     display: block;
     margin-top: 2 * $spacer;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .header {
+      flex-wrap: wrap-reverse;
+
+      .date {
+        width: 100%;
+      }
+    }
   }
 }
