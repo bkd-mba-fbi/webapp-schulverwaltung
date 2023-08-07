@@ -5,10 +5,13 @@
 ></erz-dashboard-action>
 
 <erz-dashboard-action
-  *ngIf="dashboardService.hasLessonTeacherRole$ | async"
+  *ngIf="
+    (dashboardService.hasLessonTeacherRole$ | async) &&
+    (dashboardService.editAbsencesParams$ | async)
+  "
   [label]="'dashboard.actions.edit-absences'"
   [link]="['/edit-absences']"
-  [linkParams]="editAbsencesParams"
+  [linkParams]="dashboardService.editAbsencesParams$ | async"
   [count]="dashboardService.editAbsencesCount$ | async"
 ></erz-dashboard-action>
 
