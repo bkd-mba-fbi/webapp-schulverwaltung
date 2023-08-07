@@ -358,6 +358,7 @@ export function buildPayLoad(
     holder_id: '',
     instance_id: instanceId,
     roles: 'LessonTeacherRole;ClassTeacherRole',
+    substitution_id: undefined,
   };
 }
 
