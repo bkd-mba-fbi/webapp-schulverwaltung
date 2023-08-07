@@ -25,6 +25,7 @@ const Person = t.type({
   // IsEditable: t.boolean,
   // IsEmployee: t.boolean,
   LastName: Option(t.string),
+  FullName: Option(t.string),
   Location: Option(t.string),
   // MatriculationNumber: Option(t.string),
   MiddleName: Option(t.string),

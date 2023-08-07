@@ -7,11 +7,12 @@ import { BehaviorSubject, of } from 'rxjs';
 import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
 import { StudentsRestService } from '../../../shared/services/students-rest.service';
 import { StorageService } from '../../../shared/services/storage.service';
-import { buildLessonPresence } from '../../../../spec-builders';
+import { buildLessonPresence, buildPerson } from '../../../../spec-builders';
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
 import { DashboardDeadlineComponent } from '../dashboard-deadline/dashboard-deadline.component';
 import { CoursesRestService } from '../../../shared/services/courses-rest.service';
+import { PersonsRestService } from '../../../shared/services/persons-rest.service';
 
 describe('DashboardActionsComponent', () => {
   let component: DashboardActionsComponent;
@@ -73,6 +74,14 @@ describe('DashboardActionsComponent', () => {
             useValue: {
               getNumberOfCoursesForRating() {
                 return of(123);
+              },
+            },
+          },
+          {
+            provide: PersonsRestService,
+            useValue: {
+              getMyself() {
+                return of(buildPerson(3));
               },
             },
           },

@@ -387,6 +387,7 @@ export function buildPerson(id: number): Person {
     // IsEditable: false,
     // IsEmployee: false,
     LastName: '',
+    FullName: '',
     Location: null,
     // MatriculationNumber: null,
     MiddleName: null,

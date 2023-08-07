@@ -19,6 +19,8 @@ import { CoursesRestService } from '../../shared/services/courses-rest.service';
 import { LessonIncident } from '../../shared/models/lesson-incident.model';
 import { TimetableEntry } from '../../shared/models/timetable-entry.model';
 import { notNull } from '../../shared/utils/filter';
+import { TeacherSubstitutionsRestService } from '../../shared/services/teacher-substitutions-rest.service';
+import { PersonsRestService } from '../../shared/services/persons-rest.service';
 
 const SEARCH_ROLES = [
   'LessonTeacherRole',
@@ -121,11 +123,25 @@ export class DashboardService {
     shareReplay(1)
   );
 
+  ///// Action Params /////
+
+  editAbsencesParams$ = this.getFullName().pipe(
+    map((name) => {
+      return {
+        confirmationStates: this.settings.checkableAbsenceStateId,
+        teacher: name,
+      };
+    }),
+    shareReplay(1)
+  );
+
   constructor(
     private settingsService: UserSettingsService,
     private lessonPresencesService: LessonPresencesRestService,
     private studentsService: StudentsRestService,
     private courseService: CoursesRestService,
+    private teacherSubstitutionService: TeacherSubstitutionsRestService,
+    private personService: PersonsRestService,
     private storageService: StorageService,
     @Inject(SETTINGS) private settings: Settings
   ) {
@@ -175,6 +191,16 @@ export class DashboardService {
             : null) === this.settings.unconfirmedAbsenceStateId
       ).length || 0
     );
+  }
+
+  private getFullName(): Observable<Maybe<string>> {
+    const substitutionId =
+      Number(this.storageService.getPayload()?.substitution_id) || null;
+    return substitutionId
+      ? this.teacherSubstitutionService
+          .getTeacherSubstitution(substitutionId)
+          .pipe(map((substitute) => substitute?.Holder))
+      : this.personService.getMyself().pipe(map((me) => me.FullName));
   }
 
   private withTimetableEntry(
