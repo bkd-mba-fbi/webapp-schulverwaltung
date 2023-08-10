@@ -21,7 +21,7 @@
   <div class="date">{{ date$ | async | date: 'E, dd. MMMM yyyy' }}</div>
   <a
     *ngIf="getSubscribeCalendarUrl() | async as url"
-    [href]="url"
+    [href]="url | safe: 'url'"
     target="_parent"
     class="btn btn-secondary subscribe-calendar-header"
   >
@@ -37,7 +37,7 @@
 
     <a
       *ngIf="getSubscribeCalendarUrl() | async as url"
-      [href]="url"
+      [href]="url | safe: 'url'"
       target="_parent"
       class="btn btn-secondary subscribe-calendar-bottom"
     >
