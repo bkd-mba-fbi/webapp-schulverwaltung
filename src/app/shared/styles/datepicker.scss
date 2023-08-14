@@ -24,3 +24,9 @@ $datepicker-cell-size: 2.5rem;
 .ngb-dp-weekday {
   color: $accent !important;
 }
+
+@include media-breakpoint-down(sm) {
+  .ngb-dp-months {
+    padding: 0.5 * $spacer;
+  }
+}

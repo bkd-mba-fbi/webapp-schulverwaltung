@@ -10,11 +10,13 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
   NgbDropdown,
+  NgbInputDatepickerConfig,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
 import { PresenceControlStateService } from '../../services/presence-control-state.service';
 import { LessonEntry } from '../../models/lesson-entry.model';
 import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
+import { Options } from '@popperjs/core';
 
 /**
  * On small screens, the `.dropdown` element gets translated
@@ -56,6 +58,7 @@ interface ViewModeOption {
   templateUrl: './presence-control-header.component.html',
   styleUrls: ['./presence-control-header.component.scss'],
   providers: [
+    NgbInputDatepickerConfig,
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ], // TODO: move to (app-)module?
@@ -82,5 +85,33 @@ export class PresenceControlHeaderComponent {
     { viewMode: PresenceControlViewMode.List, icon: 'list' },
     { viewMode: PresenceControlViewMode.Grid, icon: 'view_module' },
   ];
-  constructor(public state: PresenceControlStateService) {}
+  constructor(
+    public state: PresenceControlStateService,
+    config: NgbInputDatepickerConfig
+  ) {
+    // place datepicker popup in center of viewport
+    config.popperOptions = (options: Partial<Options>) => {
+      return {
+        ...options,
+        modifiers: options.modifiers?.map((modifier) => {
+          if (modifier.name === 'offset') {
+            modifier.options = {
+              offset: ({ placement, reference, popper }: any) => {
+                if (placement === 'bottom-start') {
+                  return [
+                    // popper coordinates are relative to the reference (positionTarget)
+                    (window.innerWidth - popper.width) / 2 - reference.x,
+                    0,
+                  ];
+                } else {
+                  return [];
+                }
+              },
+            };
+          }
+          return modifier;
+        }),
+      };
+    };
+  }
 }
