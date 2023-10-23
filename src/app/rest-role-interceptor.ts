@@ -8,14 +8,14 @@ import {
 import { Observable } from 'rxjs';
 import { SETTINGS, Settings } from './settings';
 import { Router } from '@angular/router';
-import { kebabToCamelCase } from 'codelyzer/util/utils';
+import camelCase from 'lodash-es/camelCase';
 import { getFirstSegment } from './shared/utils/url';
 
 @Injectable()
 export class RestRoleInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   /**
@@ -23,7 +23,7 @@ export class RestRoleInterceptor implements HttpInterceptor {
    */
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (
       !req.headers.has('X-Role-Restriction') &&
@@ -33,7 +33,7 @@ export class RestRoleInterceptor implements HttpInterceptor {
       if (module && this.settings.headerRoleRestriction[module]) {
         const headers = req.headers.set(
           'X-Role-Restriction',
-          this.settings.headerRoleRestriction[module]
+          this.settings.headerRoleRestriction[module],
         );
         return next.handle(req.clone({ headers }));
       }
@@ -46,6 +46,6 @@ export class RestRoleInterceptor implements HttpInterceptor {
     const urlSegment = this.router.url
       ? getFirstSegment(this.router.url)
       : null;
-    return urlSegment ? kebabToCamelCase(urlSegment) : null;
+    return urlSegment ? camelCase(urlSegment) : null;
   }
 }

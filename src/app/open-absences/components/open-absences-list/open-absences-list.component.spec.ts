@@ -45,6 +45,7 @@ describe('OpenAbsencesListComponent', () => {
       buildTestModuleMetadata({
         declarations: [OpenAbsencesListComponent],
         providers: [
+          ConfirmAbsencesSelectionService,
           {
             provide: OpenAbsencesService,
             useValue: {

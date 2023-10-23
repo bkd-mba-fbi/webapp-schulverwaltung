@@ -18,6 +18,7 @@ import { PublishTestComponent } from './components/tests-publish/publish-test.co
 import { TestsDeleteComponent } from './components/tests-edit/tests-delete/tests-delete.component';
 import { AverageGradesComponent } from './components/grades/average-grades/average-grades.component';
 import { GradeSelectComponent } from './components/grades/grade-select/grade-select.component';
+import { ConfirmAbsencesSelectionService } from '../shared/services/confirm-absences-selection.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { GradeSelectComponent } from './components/grades/grade-select/grade-sel
     AverageGradesComponent,
     GradeSelectComponent,
   ],
+  providers: [ConfirmAbsencesSelectionService],
   imports: [SharedModule, EventsRoutingModule],
 })
 export class EventsModule {}

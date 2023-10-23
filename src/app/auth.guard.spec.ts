@@ -7,12 +7,11 @@ import {
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AuthGuard } from './auth.guard';
+import { authGuard } from './auth.guard';
 import { AuthService } from './shared/services/auth.service';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 
-describe('AuthGuard', () => {
-  let guard: AuthGuard;
+describe('authGuard', () => {
   let router: Router;
   let authServiceMock: AuthService;
   let activatedRouteSnapshotMock: jasmine.SpyObj<ActivatedRouteSnapshot>;
@@ -32,7 +31,6 @@ describe('AuthGuard', () => {
           ]),
         ],
         providers: [
-          AuthGuard,
           {
             provide: AuthService,
             useValue: {
@@ -44,7 +42,6 @@ describe('AuthGuard', () => {
         declarations: [DummyComponent],
       })
     );
-    guard = TestBed.inject(AuthGuard);
     router = TestBed.inject(Router);
     authServiceMock = TestBed.inject(AuthService);
 
@@ -60,9 +57,10 @@ describe('AuthGuard', () => {
 
   describe('authenticated', () => {
     it('allows to activate', fakeAsync(() => {
-      expect(
-        guard.canActivate(activatedRouteSnapshotMock, routerStateSnapshotMock)
-      ).toBe(true);
+      const result = TestBed.runInInjectionContext(() =>
+        authGuard()(activatedRouteSnapshotMock, routerStateSnapshotMock)
+      );
+      expect(result).toBe(true);
       tick();
       expect(router.url).not.toBe('/unauthenticated');
     }));
@@ -75,9 +73,10 @@ describe('AuthGuard', () => {
     });
 
     it('does not allow to activate and redirects to /unauthenticated', fakeAsync(() => {
-      expect(
-        guard.canActivate(activatedRouteSnapshotMock, routerStateSnapshotMock)
-      ).toBe(false);
+      const result = TestBed.runInInjectionContext(() =>
+        authGuard()(activatedRouteSnapshotMock, routerStateSnapshotMock)
+      );
+      expect(result).toBe(false);
       tick();
       expect(router.url).toBe('/unauthenticated');
     }));

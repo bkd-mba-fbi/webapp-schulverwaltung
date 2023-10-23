@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { ConfirmAbsencesComponent } from './confirm-absences.component';
 import { OpenAbsencesService } from 'src/app/open-absences/services/open-absences.service';
+import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
 
 describe('ConfirmAbsencesComponent', () => {
   let component: ConfirmAbsencesComponent;
@@ -27,6 +28,7 @@ describe('ConfirmAbsencesComponent', () => {
         declarations: [ConfirmAbsencesComponent],
         providers: [
           OpenAbsencesService,
+          ConfirmAbsencesSelectionService,
           {
             provide: Router,
             useValue: jasmine.createSpyObj('Router', ['navigate']),

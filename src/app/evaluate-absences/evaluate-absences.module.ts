@@ -5,6 +5,7 @@ import { EvaluateAbsencesRoutingModule } from './evaluate-absences-routing.modul
 import { EvaluateAbsencesComponent } from './components/evaluate-absences/evaluate-absences.component';
 import { EvaluateAbsencesHeaderComponent } from './components/evaluate-absences-header/evaluate-absences-header.component';
 import { EvaluateAbsencesListComponent } from './components/evaluate-absences-list/evaluate-absences-list.component';
+import { ConfirmAbsencesSelectionService } from '../shared/services/confirm-absences-selection.service';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { EvaluateAbsencesListComponent } from './components/evaluate-absences-li
     EvaluateAbsencesHeaderComponent,
     EvaluateAbsencesListComponent,
   ],
+  providers: [ConfirmAbsencesSelectionService],
   imports: [SharedModule, EvaluateAbsencesRoutingModule],
 })
 export class EvaluateAbsencesModule {}

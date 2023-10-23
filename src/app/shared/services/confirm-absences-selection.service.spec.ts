@@ -19,7 +19,9 @@ describe('ConfirmAbsencesSelectionService', () => {
   let entryC: OpenAbsencesEntry;
 
   beforeEach(() => {
-    TestBed.configureTestingModule(buildTestModuleMetadata({}));
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({ providers: [ConfirmAbsencesSelectionService] })
+    );
     service = TestBed.inject(ConfirmAbsencesSelectionService);
 
     presenceA = buildLessonPresenceWithIds(10, 21, 11);
