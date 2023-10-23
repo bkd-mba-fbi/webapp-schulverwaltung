@@ -11,6 +11,7 @@ import { PresenceControlIncidentComponent } from './components/presence-control-
 import { PresenceControlPrecedingAbsenceComponent } from './components/presence-control-preceding-absence/presence-control-preceding-absence.component';
 import { PresenceControlGroupComponent } from './components/presence-control-group/presence-control-group.component';
 import { PresenceControlGroupDialogComponent } from './components/presence-control-group-dialog/presence-control-group-dialog.component';
+import { ConfirmAbsencesSelectionService } from '../shared/services/confirm-absences-selection.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PresenceControlGroupDialogComponent } from './components/presence-contr
     PresenceControlGroupComponent,
     PresenceControlGroupDialogComponent,
   ],
+  providers: [ConfirmAbsencesSelectionService],
   imports: [SharedModule, PresenceControlRoutingModule],
 })
 export class PresenceControlModule {}

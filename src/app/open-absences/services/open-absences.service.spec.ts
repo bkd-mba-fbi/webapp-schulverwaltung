@@ -9,6 +9,7 @@ import {
   buildPersonWithEmails,
 } from '../../../spec-builders';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
 describe('OpenAbsencesService', () => {
   let service: OpenAbsencesService;
@@ -18,6 +19,7 @@ describe('OpenAbsencesService', () => {
       buildTestModuleMetadata({
         providers: [
           OpenAbsencesService,
+          ConfirmAbsencesSelectionService,
           {
             provide: LessonPresencesRestService,
             useValue: {
@@ -43,7 +45,7 @@ describe('OpenAbsencesService', () => {
           mail: {
             subject: 'Erinnerung offene Absenzen',
             body: 'Bitte entschuldigen Sie folgende offenen Absenzen:',
-            bodyToLargeForEmailTo: "Text zu lang für übergabe an Mailprogramm."
+            bodyToLargeForEmailTo: 'Text zu lang für übergabe an Mailprogramm.',
           },
         },
       },
@@ -85,8 +87,9 @@ describe('OpenAbsencesService', () => {
       );
 
       const absencesToMuchChar: LessonPresence[] = [absence4];
-      expect(service.buildMailToString(person, absencesToMuchChar).length).toBeLessThanOrEqual(1650);
-
+      expect(
+        service.buildMailToString(person, absencesToMuchChar).length
+      ).toBeLessThanOrEqual(1650);
     });
   });
 });

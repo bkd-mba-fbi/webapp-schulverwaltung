@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
-import { AuthGuard } from './auth.guard';
+import { authGuard } from './auth.guard';
 import { UnauthenticatedComponent } from './unauthenticated.component';
 
 const routes: Routes = [
   {
     path: 'presence-control',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./presence-control/presence-control.module').then(
         (m) => m.PresenceControlModule
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'open-absences',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./open-absences/open-absences.module').then(
         (m) => m.OpenAbsencesModule
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'edit-absences',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./edit-absences/edit-absences.module').then(
         (m) => m.EditAbsencesModule
@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'evaluate-absences',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./evaluate-absences/evaluate-absences.module').then(
         (m) => m.EvaluateAbsencesModule
@@ -39,13 +39,13 @@ const routes: Routes = [
   },
   {
     path: 'events',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./events/events.module').then((m) => m.EventsModule),
   },
   {
     path: 'person-search',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./person-search/person-search.module').then(
         (module) => module.PersonSearchModule
@@ -53,7 +53,7 @@ const routes: Routes = [
   },
   {
     path: 'my-absences',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./my-absences/my-absences.module').then(
         (m) => m.MyAbsencesModule
@@ -61,19 +61,19 @@ const routes: Routes = [
   },
   {
     path: 'my-profile',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./my-profile/my-profile.module').then((m) => m.MyProfileModule),
   },
   {
     path: 'my-grades',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./my-grades/my-grades.module').then((m) => m.MyGradesModule),
   },
   {
     path: 'my-settings',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./my-settings/my-settings.module').then(
         (m) => m.MySettingsModule

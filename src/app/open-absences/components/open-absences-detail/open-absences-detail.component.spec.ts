@@ -55,6 +55,7 @@ describe('OpenAbsencesDetailComponent', () => {
       buildTestModuleMetadata({
         declarations: [OpenAbsencesDetailComponent],
         providers: [
+          ConfirmAbsencesSelectionService,
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           {
             provide: OpenAbsencesService,

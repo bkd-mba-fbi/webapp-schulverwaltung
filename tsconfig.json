@@ -12,9 +12,10 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": ["node_modules/@types", "src/typings.d.ts"],
     "lib": ["es2019", "dom"],
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": false
   }
 }

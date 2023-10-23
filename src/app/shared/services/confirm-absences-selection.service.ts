@@ -10,9 +10,7 @@ import { OpenAbsencesEntry } from 'src/app/open-absences/models/open-absences-en
 import { flattenOpenAbsencesEntries } from 'src/app/open-absences/utils/open-absences-entries';
 import { SETTINGS, Settings } from 'src/app/settings';
 
-@Injectable({
-  providedIn: 'any', // Every module should have its own instance
-})
+@Injectable()
 export class ConfirmAbsencesSelectionService extends SelectionService<
   OpenAbsencesEntry | LessonPresence
 > {

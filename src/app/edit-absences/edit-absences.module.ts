@@ -6,6 +6,7 @@ import { EditAbsencesComponent } from './components/edit-absences/edit-absences.
 import { EditAbsencesHeaderComponent } from './components/edit-absences-header/edit-absences-header.component';
 import { EditAbsencesListComponent } from './components/edit-absences-list/edit-absences-list.component';
 import { EditAbsencesEditComponent } from './components/edit-absences-edit/edit-absences-edit.component';
+import { ConfirmAbsencesSelectionService } from '../shared/services/confirm-absences-selection.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { EditAbsencesEditComponent } from './components/edit-absences-edit/edit-
     EditAbsencesListComponent,
     EditAbsencesEditComponent,
   ],
+  providers: [ConfirmAbsencesSelectionService],
   imports: [SharedModule, EditAbsencesRoutingModule],
 })
 export class EditAbsencesModule {}

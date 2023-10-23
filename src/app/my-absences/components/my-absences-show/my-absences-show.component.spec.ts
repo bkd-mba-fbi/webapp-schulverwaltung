@@ -7,6 +7,7 @@ import { MyAbsencesService } from '../../services/my-absences.service';
 import { MyAbsencesReportLinkComponent } from '../my-absences-report-link/my-absences-report-link.component';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { buildLessonAbsence } from '../../../../spec-builders';
+import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
 describe('MyAbsencesShowComponent', () => {
   let component: MyAbsencesShowComponent;
@@ -21,6 +22,7 @@ describe('MyAbsencesShowComponent', () => {
       buildTestModuleMetadata({
         declarations: [MyAbsencesShowComponent, MyAbsencesReportLinkComponent],
         providers: [
+          ConfirmAbsencesSelectionService,
           {
             provide: MyAbsencesService,
             useValue: {
