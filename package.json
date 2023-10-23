@@ -1,6 +1,14 @@
 {
   "name": "webapp-schulverwaltung",
   "version": "0.0.0",
+  "homepage": "https://github.com/bkd-mba-fbi/webapp-schulverwaltung/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/bkd-mba-fbi/webapp-schulverwaltung/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https@github.com:bkd-mba-fbi/webapp-schulverwaltung.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
