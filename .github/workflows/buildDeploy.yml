@@ -2,7 +2,7 @@ name: build 🏭 deploy 🚀
 
 on:
   push:
-    branches: [main]
+# branches: [main]
   #pull_request:
   #  branches: [ main ]
 
@@ -34,11 +34,41 @@ jobs:
           npm run build:prod
           cp README.md dist && cp -r doc dist
 
+  integrate:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/cache@v2
+        with:
+          path: dist
+          key: build-${{ env.GITHUB_SHA }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: bkd-mba-fbi/evento-portal
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./evento-portal
+
+      - name: Commit
+        run: |
+          ls ./evento-portal
+          ls dist
+          # TODO löschen ohne settings
+          # cp -r ./webapp-schulverwaltung/dist/webapp-schulverwaltung ./evento-portal/public/apps
+          # git restore public/apps/webapp-schulverwaltung/settings.js
+          # git add .
+          # git commit -m "Add new webapp-schulverwaltung build #${{ env.GITHUB_SHA }}" // TODO add hash
+          # git push
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
+      - uses: actions/checkout@v2
+
       - uses: actions/cache@v2
         with:
           path: dist
