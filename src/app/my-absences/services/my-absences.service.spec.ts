@@ -15,13 +15,13 @@ describe('MyAbsencesService', () => {
           {
             provide: StorageService,
             useValue: {
-              getPayload(): any {
+              getPayload(): Dict<unknown> {
                 return { id_person: '123' };
               },
             },
           },
         ],
-      })
+      }),
     );
     service = TestBed.inject(MyAbsencesService);
   });

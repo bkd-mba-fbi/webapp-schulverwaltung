@@ -10,6 +10,8 @@ import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { take } from 'rxjs/operators';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('OpenAbsencesDetailComponent', () => {
   let component: OpenAbsencesDetailComponent;
   let fixture: ComponentFixture<OpenAbsencesDetailComponent>;
@@ -33,22 +35,22 @@ describe('OpenAbsencesDetailComponent', () => {
       10,
       21,
       11,
-      new Date(2000, 0, 23, 12)
+      new Date(2000, 0, 23, 12),
     );
     presenceB = buildLessonPresenceWithIds(
       11,
       21,
       11,
-      new Date(2000, 0, 23, 13)
+      new Date(2000, 0, 23, 13),
     );
     presenceC = buildLessonPresenceWithIds(
       11,
       21,
       11,
-      new Date(2000, 0, 24, 13)
+      new Date(2000, 0, 24, 13),
     );
     [presenceA, presenceB, presenceC].forEach(
-      (p) => (p.StudentFullName = 'Einstein Albert')
+      (p) => (p.StudentFullName = 'Einstein Albert'),
     );
 
     TestBed.configureTestingModule(
@@ -69,7 +71,7 @@ describe('OpenAbsencesDetailComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     openAbsencesService = TestBed.inject(OpenAbsencesService);
@@ -90,7 +92,7 @@ describe('OpenAbsencesDetailComponent', () => {
     expect(element.querySelectorAll('div.absence-entry').length).toBe(2);
     expect(element.querySelectorAll('div.absence-all').length).toBe(1);
     expect(element.querySelectorAll('div.all')[0].textContent).toBe(
-      'open-absences.detail.all'
+      'open-absences.detail.all',
     );
   });
 

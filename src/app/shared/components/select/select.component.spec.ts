@@ -6,17 +6,17 @@ import { SelectComponent } from './select.component';
 describe('SelectComponent', () => {
   let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
-  let element: HTMLElement;
+  // let element: HTMLElement;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectComponent);
-    element = fixture.debugElement.nativeElement;
+    // element = fixture.debugElement.nativeElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

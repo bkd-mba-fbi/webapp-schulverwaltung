@@ -7,18 +7,17 @@ import { Router } from '@angular/router';
 describe('PersonSearchHeaderComponent.navigateToDossier', () => {
   let component: PersonSearchHeaderComponent;
   let fixture: ComponentFixture<PersonSearchHeaderComponent>;
-
-  let element: HTMLElement;
+  // let element: HTMLElement;
   let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ declarations: [PersonSearchHeaderComponent] })
+      buildTestModuleMetadata({ declarations: [PersonSearchHeaderComponent] }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(PersonSearchHeaderComponent);
     component = fixture.componentInstance;
-    element = fixture.debugElement.nativeElement;
+    // element = fixture.debugElement.nativeElement;
     fixture.detectChanges();
 
     router = TestBed.inject(Router);

@@ -31,12 +31,12 @@ import { FormsModule } from '@angular/forms';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(
   http: HttpClient,
-  settings: Settings
+  settings: Settings,
 ): TranslateHttpLoader {
   return new TranslateHttpLoader(
     http,
     `${settings.scriptsAndAssetsPath}/assets/locales/`,
-    '.json'
+    '.json',
   );
 }
 
@@ -81,7 +81,7 @@ export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {
     const notificationsElement = createCustomElement(
       MyNotificationsShowComponent,
-      { injector: this.injector }
+      { injector: this.injector },
     );
     customElements.define('erz-notifications', notificationsElement);
 
@@ -92,5 +92,5 @@ export class AppModule implements DoBootstrap {
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngDoBootstrap(appRef: ApplicationRef): void {}
+  ngDoBootstrap(_appRef: ApplicationRef): void {}
 }

@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Maybe, Option } from './common-types';
+import { Option } from './common-types';
 
 const JobTrainer = t.type({
   // HRef: t.string,

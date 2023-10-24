@@ -1,0 +1,38 @@
+{
+  "entry": [
+    "src/main.ts",
+    "src/spec-builders.ts",
+    "src/spec-helpers.ts",
+    "src/specs/expectations.ts",
+    "src/specs/utils.ts",
+    "src/polyfills.ts"
+  ],
+  "project": ["src/**/*.{ts,js}"],
+  "ignore": [
+    "src/**/*.spec.ts",
+    "src/environments/environment.prod.ts",
+    "src/karma.conf.js",
+    "src/settings.example.js"
+  ],
+  "ignoreDependencies": [
+    "@angular-eslint/schematics",
+    "@angular-eslint/template-parser",
+    "@angular/language-service",
+    "@typescript-eslint/parser",
+    "bootstrap",
+    "jasmine-core",
+    "karma-brief-reporter",
+    "karma-chrome-launcher",
+    "karma-coverage-istanbul-reporter",
+    "karma-jasmine",
+    "karma-jasmine-html-reporter",
+    "karma-spec-reporter"
+  ],
+  "ignoreBinaries": ["knip", "webpack-bundle-analyzer"],
+  "rules": {
+    "exports": "warn",
+    "types": "warn",
+    "classMembers": "off",
+    "enumMembers": "off"
+  }
+}

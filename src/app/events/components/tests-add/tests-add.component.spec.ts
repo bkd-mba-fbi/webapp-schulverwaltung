@@ -15,7 +15,7 @@ describe('TestsAddComponent', () => {
   let courseService: jasmine.SpyObj<CoursesRestService>;
 
   beforeEach(async () => {
-    let course = buildCourse(1);
+    const course = buildCourse(1);
 
     activatedRouteMock = new ActivatedRouteMock({
       id: course.Id,
@@ -32,7 +32,7 @@ describe('TestsAddComponent', () => {
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: CoursesRestService, useValue: courseService },
         ],
-      })
+      }),
     ).compileComponents();
   });
 
@@ -65,7 +65,7 @@ describe('TestsAddComponent', () => {
       formGroupValue.weight,
       formGroupValue.isPointGrading,
       formGroupValue.maxPoints,
-      formGroupValue.maxPointsAdjusted
+      formGroupValue.maxPointsAdjusted,
     );
   });
 });

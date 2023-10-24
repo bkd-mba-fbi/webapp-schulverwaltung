@@ -21,8 +21,14 @@ import { startWith, map, switchMap, filter, shareReplay } from 'rxjs/operators';
 export function getValidationErrors(
   formGroup$: Observable<Option<AbstractControl>>,
   submitted$: Observable<boolean>,
-  controlName?: string
-): Observable<ReadonlyArray<{ error: string; params: any }>> {
+  controlName?: string,
+): Observable<
+  ReadonlyArray<{
+    error: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params: any;
+  }>
+> {
   return combineLatest([formGroup$, submitted$]).pipe(
     filter(([_, submitted]) => submitted),
     switchMap(([group, _]) => {
@@ -30,40 +36,44 @@ export function getValidationErrors(
       if (control) {
         return control.statusChanges.pipe(
           startWith(control.status),
-          map(() => validatationErrorsToArray(control))
+          map(() => validatationErrorsToArray(control)),
         );
       }
       return of([]);
     }),
     startWith([]),
-    shareReplay(1)
+    shareReplay(1),
   );
 }
 
 export function getControl(
   formGroup$: Observable<UntypedFormGroup>,
-  controlName: string
+  controlName: string,
 ): Observable<Option<AbstractControl>> {
   return formGroup$.pipe(
     map((formGroup) => {
       const control = formGroup.get(controlName);
       return control || null;
-    })
+    }),
   );
 }
 
 export function getControlValueChanges<T>(
   formGroup$: Observable<UntypedFormGroup>,
-  controlName: string
+  controlName: string,
 ): Observable<T> {
   return getControl(formGroup$, controlName).pipe(
-    switchMap((control) => (control ? control.valueChanges : EMPTY))
+    switchMap((control) => (control ? control.valueChanges : EMPTY)),
   );
 }
 
 function validatationErrorsToArray(
-  control: AbstractControl | null
-): ReadonlyArray<{ error: string; params: any }> {
+  control: AbstractControl | null,
+): ReadonlyArray<{
+  error: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params: any;
+}> {
   if (!control) {
     return [];
   }

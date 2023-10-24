@@ -9,8 +9,11 @@
         "createDefaultProgram": true
       },
       "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier"
       ],
       "plugins": ["deprecation"],
       "rules": {
@@ -25,9 +28,17 @@
         "@angular-eslint/directive-selector": [
           "error",
           {
+            "type": "attribute",
             "prefix": "erz",
-            "style": "camelCase",
-            "type": "attribute"
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "erz",
+            "style": "kebab-case"
           }
         ],
         "no-restricted-globals": [
@@ -43,21 +54,19 @@
             "patterns": ["fp-ts/lib/*"]
           }
         ],
-        "deprecation/deprecation": "warn"
+        "deprecation/deprecation": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "_.*"
+          }
+        ]
       }
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
       "rules": {}
-    },
-    {
-      "files": ["*.html"],
-      "excludedFiles": ["*inline-template-*.component.html"],
-      "extends": ["plugin:prettier/recommended"],
-      "rules": {
-        "prettier/prettier": ["error", { "parser": "angular" }]
-      }
     }
   ]
 }

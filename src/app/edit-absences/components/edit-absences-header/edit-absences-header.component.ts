@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnInit,
   Output,
   Input,
 } from '@angular/core';
@@ -66,23 +65,23 @@ export class EditAbsencesHeaderComponent {
       map((i) =>
         addGroupToDropdownItem(
           i,
-          this.translate.instant('shared.multiselect.all-option')
-        )
-      )
+          this.translate.instant('shared.multiselect.all-option'),
+        ),
+      ),
     );
 
   presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) =>
-      presenceTypes.filter(not(isComment)).filter(not(isIncident))
+      presenceTypes.filter(not(isComment)).filter(not(isIncident)),
     ),
     map(sortPresenceTypes),
     map(createPresenceTypesDropdownItems),
     map((i) =>
       addGroupToDropdownItem(
         i,
-        this.translate.instant('shared.multiselect.all-option')
-      )
-    )
+        this.translate.instant('shared.multiselect.all-option'),
+      ),
+    ),
   );
 
   incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
@@ -92,9 +91,9 @@ export class EditAbsencesHeaderComponent {
     map((i) =>
       addGroupToDropdownItem(
         i,
-        this.translate.instant('shared.multiselect.all-option')
-      )
-    )
+        this.translate.instant('shared.multiselect.all-option'),
+      ),
+    ),
   );
 
   constructor(
@@ -103,7 +102,7 @@ export class EditAbsencesHeaderComponent {
     public studyClassService: StudyClassesRestService,
     public teacherResourcesService: TeacherResourcesRestService,
     private state: EditAbsencesStateService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   classesHttpFilter = {

@@ -16,8 +16,9 @@ export class SafePipe implements PipeTransform {
   constructor(protected sanitizer: DomSanitizer) {}
 
   transform(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
-    type: string
+    type: string,
   ): SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl {
     switch (type) {
       case 'html':

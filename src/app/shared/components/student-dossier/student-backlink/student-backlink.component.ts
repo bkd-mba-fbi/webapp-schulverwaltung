@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, RouterLink } from '@angular/router';
 import { Student } from 'src/app/shared/models/student.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { Student } from 'src/app/shared/models/student.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentBacklinkComponent {
-  @Input() link: any[] | string = '/';
+  @Input() link: RouterLink['routerLink'] = '/';
   @Input() queryParams?: Params;
   @Input() studentId: number;
   @Input() studentName?: string;

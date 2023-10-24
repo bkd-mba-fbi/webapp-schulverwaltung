@@ -1,4 +1,3 @@
-import { uniq } from 'lodash-es';
 import { Settings } from 'src/app/settings';
 import { OptionalReference } from 'src/app/shared/models/common-types';
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
@@ -10,11 +9,11 @@ export function updatePresenceTypeForPresences(
   allLessonPresences: ReadonlyArray<LessonPresence>,
   updates: ReadonlyArray<LessonPresenceUpdate>,
   presenceTypes: ReadonlyArray<PresenceType>,
-  settings: Settings
+  settings: Settings,
 ): ReadonlyArray<LessonPresence> {
   return allLessonPresences.map((lessonPresence) => {
     const update = updates.find((u) =>
-      lessonPresenceEquals(u.presence, lessonPresence)
+      lessonPresenceEquals(u.presence, lessonPresence),
     );
     if (update) {
       let newPresenceType: Option<PresenceType>;
@@ -33,7 +32,7 @@ export function updatePresenceTypeForPresences(
         Type: newPresenceType ? newPresenceType.Designation : null,
         ConfirmationStateId: getNewConfirmationStateId(
           newPresenceType,
-          settings
+          settings,
         ),
       };
     }
@@ -48,7 +47,7 @@ function lessonPresenceEquals(a: LessonPresence, b: LessonPresence): boolean {
 }
 
 function buildPresenceTypeRef(
-  presenceType: Option<PresenceType>
+  presenceType: Option<PresenceType>,
 ): OptionalReference {
   return {
     Id: presenceType ? presenceType.Id : null,

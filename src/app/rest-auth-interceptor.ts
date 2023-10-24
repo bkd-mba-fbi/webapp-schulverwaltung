@@ -14,20 +14,20 @@ import { SETTINGS, Settings } from './settings';
 export class RestAuthInterceptor implements HttpInterceptor {
   constructor(
     private auth: AuthService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   /**
    * Adds the CLX-Authorization HTTP header to API requests.
    */
   intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+    req: HttpRequest<unknown>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<unknown>> {
     if (req.url.startsWith(this.settings.apiUrl) && this.auth.accessToken) {
       const headers = req.headers.set(
         'CLX-Authorization',
-        `token_type=urn:ietf:params:oauth:token-type:jwt-bearer, access_token=${this.auth.accessToken}`
+        `token_type=urn:ietf:params:oauth:token-type:jwt-bearer, access_token=${this.auth.accessToken}`,
       );
       return next.handle(req.clone({ headers }));
     }

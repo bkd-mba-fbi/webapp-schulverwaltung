@@ -27,7 +27,7 @@ export function withConfig(
     | HttpParams
     | {
         [param: string]: string | string[];
-      } = {}
+      } = {},
 ): HttpParams {
   let httpParams: HttpParams;
   if (params instanceof HttpParams) {
@@ -53,7 +53,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   /**
@@ -79,9 +79,9 @@ export class RestErrorInterceptor implements HttpInterceptor {
    *   this.http.get('/', { params }).pipe(catchError( handle 403/404 here... ))
    */
   intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+    req: HttpRequest<unknown>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<unknown>> {
     // TODO: there might be better ways of passing options to the
     // interceptor in the future, see:
     // https://github.com/angular/angular/issues/18155
@@ -92,16 +92,12 @@ export class RestErrorInterceptor implements HttpInterceptor {
   }
 
   private getErrorHandler(
-    config: RestConfig
+    config: RestConfig,
   ): (
-    error: any,
-    caught: Observable<HttpEvent<any>>
-  ) => Observable<HttpEvent<any>> {
-    // eslint-disable-next-line
-    return (
-      error: any,
-      caught: Observable<HttpEvent<any>>
-    ): Observable<HttpEvent<any>> => {
+    error: unknown,
+    caught: Observable<HttpEvent<unknown>>,
+  ) => Observable<HttpEvent<unknown>> {
+    return (error: unknown): Observable<HttpEvent<unknown>> => {
       if (
         error instanceof HttpErrorResponse &&
         !config.disableErrorHandling &&
@@ -140,7 +136,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
   private notifyError(messageKey: string): void {
     this.toastService.error(
       this.translate.instant(`global.rest-errors.${messageKey}-message`),
-      this.translate.instant(`global.rest-errors.${messageKey}-title`)
+      this.translate.instant(`global.rest-errors.${messageKey}-title`),
     );
   }
 
@@ -168,19 +164,20 @@ export class RestErrorInterceptor implements HttpInterceptor {
    */
   private notifyConflictError(error: HttpErrorResponse): void {
     const defaultMessage = this.translate.instant(
-      `global.rest-errors.conflict-message`
+      `global.rest-errors.conflict-message`,
     );
     const issues = this.parseConflictIssues(error);
     this.toastService.error(
       issues.length > 0 ? issues.join('\n') : defaultMessage,
-      this.translate.instant(`global.rest-errors.conflict-title`)
+      this.translate.instant(`global.rest-errors.conflict-title`),
     );
   }
 
   private parseConflictIssues(error: HttpErrorResponse): ReadonlyArray<string> {
     if (Array.isArray(error.error?.Issues)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return error.error.Issues.map((issue: any) => issue?.Message).filter(
-        nonEmptyString
+        nonEmptyString,
       );
     }
     return [];

@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Json, withFallback } from 'io-ts-types';
+import { withFallback } from 'io-ts-types';
 import { JsonFromUnknown, Option } from './common-types';
 import { DropDownItem } from './drop-down-item.model';
 
@@ -39,7 +39,7 @@ const NotificationChannels = JsonFromUnknown.pipe(
     mail: withFallback(t.boolean, false),
     gui: withFallback(t.boolean, false),
     phoneMobile: withFallback(t.boolean, false),
-  })
+  }),
 );
 
 /**
@@ -67,7 +67,7 @@ const NotificationTypesInactive = new t.Type<
       : t.failure(input, context),
 
   // encode:
-  (output) => output.join(';')
+  (output) => output.join(';'),
 );
 
 const NotificationDataEntry = t.type({
@@ -77,7 +77,7 @@ const NotificationDataEntry = t.type({
 });
 
 const NotificationData = JsonFromUnknown.pipe(
-  t.readonly(t.array(NotificationDataEntry))
+  t.readonly(t.array(NotificationDataEntry)),
 );
 
 export enum PresenceControlViewMode {
@@ -92,7 +92,7 @@ const PresenceControlViewModeObject = JsonFromUnknown.pipe(
       grid: null,
       list: null,
     }),
-  })
+  }),
 );
 
 const PresenceControlGroupViewEntry = t.type({
@@ -101,7 +101,7 @@ const PresenceControlGroupViewEntry = t.type({
 });
 
 const PresenceControlGroupView = JsonFromUnknown.pipe(
-  t.readonly(t.array(PresenceControlGroupViewEntry))
+  t.readonly(t.array(PresenceControlGroupViewEntry)),
 );
 
 //

@@ -10,8 +10,8 @@ describe('lessons entry', () => {
           new Date(2000, 0, 23, 9),
           new Date(2000, 0, 23, 10),
           'Math I',
-          'Monika Muster'
-        )
+          'Monika Muster',
+        ),
       );
 
       const math2 = fromLesson(
@@ -20,8 +20,8 @@ describe('lessons entry', () => {
           new Date(2000, 0, 23, 9),
           new Date(2000, 0, 23, 10),
           'Math II',
-          'Monika Muster'
-        )
+          'Monika Muster',
+        ),
       );
 
       expect(lessonsEntryEqual(math1, math2)).toBeTruthy();
@@ -37,7 +37,7 @@ describe('lessons entry', () => {
         'Deutsch',
         'Dora Durrer',
         'D4b',
-        333
+        333,
       );
 
       const lessonEntry = fromLesson(lesson);
@@ -59,7 +59,7 @@ describe('lessons entry', () => {
         'Deutsch I',
         'Dora Durrer',
         '9a',
-        333
+        333,
       );
 
       const deutsch2 = buildLesson(
@@ -69,7 +69,7 @@ describe('lessons entry', () => {
         'Deutsch II',
         'Dora Durrer',
         '9B',
-        333
+        333,
       );
 
       const lessonEntry = fromLesson(deutsch1);
@@ -77,13 +77,14 @@ describe('lessons entry', () => {
 
       expect(lessonEntry.TeacherInformation).toBe('Dora Durrer');
       expect(lessonEntry.LessonDateTimeFrom).toEqual(
-        deutsch1.LessonDateTimeFrom
+        deutsch1.LessonDateTimeFrom,
       );
       expect(lessonEntry.LessonDateTimeTo).toEqual(deutsch1.LessonDateTimeTo);
       expect(lessonEntry.id).toEqual('1-2');
       expect(lessonEntry.eventDesignations).toBe('Deutsch I, Deutsch II');
       expect(lessonEntry.studyClassNumbers).toBe('9a, 9B');
-      expect(lessonEntry.lessons).toContain(deutsch1, deutsch2);
+      expect(lessonEntry.lessons).toContain(deutsch1);
+      expect(lessonEntry.lessons).toContain(deutsch2);
     });
   });
 });

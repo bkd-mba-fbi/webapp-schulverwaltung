@@ -12,38 +12,40 @@ export interface SubscriptionDetailWithName {
 
 export function sortSubscriptionDetails(
   details: ReadonlyArray<SubscriptionDetailWithName>,
-  sortCriteria: SortCriteria
+  sortCriteria: SortCriteria,
 ): ReadonlyArray<SubscriptionDetailWithName> {
   return [...details].sort(getSubscriptionDetailComparator(sortCriteria));
 }
 
 function getSubscriptionDetailComparator(
-  sortCriteria: SortCriteria
+  sortCriteria: SortCriteria,
 ): (a: SubscriptionDetailWithName, b: SubscriptionDetailWithName) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
-      case 'name':
+      case 'name': {
         const nameComparator = a.name.localeCompare(b.name);
         return sortCriteria.ascending ? nameComparator * -1 : nameComparator;
-      case 'group':
+      }
+      case 'group': {
         const groupComparator = (a.detail.Value || '').localeCompare(
-          b.detail.Value || ''
+          b.detail.Value || '',
         );
         return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
+      }
     }
   };
 }
 
 export function getSubscriptionDetailsWithName(
   details: ReadonlyArray<SubscriptionDetail>,
-  presences: ReadonlyArray<LessonPresence>
+  presences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<SubscriptionDetailWithName> {
   return details.map((d) => mapToSubscriptionDetailWithName(d, presences));
 }
 
 function mapToSubscriptionDetailWithName(
   detail: SubscriptionDetail,
-  presences: ReadonlyArray<LessonPresence>
+  presences: ReadonlyArray<LessonPresence>,
 ): SubscriptionDetailWithName {
   return {
     id: detail.IdPerson,
@@ -57,14 +59,14 @@ function mapToSubscriptionDetailWithName(
 
 export function filterSubscriptionDetailsByGroupId(
   details: ReadonlyArray<SubscriptionDetail>,
-  settings: Settings
+  settings: Settings,
 ): ReadonlyArray<SubscriptionDetail> {
   return details.filter((d) => d.VssId === settings.subscriptionDetailGroupId);
 }
 
 export function findSubscriptionDetailByGroupId(
   details: ReadonlyArray<SubscriptionDetail>,
-  settings: Settings
+  settings: Settings,
 ): Maybe<SubscriptionDetail> {
   return details.find((d) => d.VssId === settings.subscriptionDetailGroupId);
 }

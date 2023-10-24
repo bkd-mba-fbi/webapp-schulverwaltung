@@ -12,7 +12,7 @@ import { PresenceTypesService } from 'src/app/shared/services/presence-types.ser
 
 describe('EvaluateAbsencesListComponent', () => {
   let fixture: ComponentFixture<EvaluateAbsencesListComponent>;
-  let component: EvaluateAbsencesListComponent;
+  // let component: EvaluateAbsencesListComponent;
   let element: HTMLElement;
   let stateServiceMock: EvaluateAbsencesStateService;
   let presenceTypesServiceMock: PresenceTypesService;
@@ -62,13 +62,13 @@ describe('EvaluateAbsencesListComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesListComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -84,7 +84,7 @@ describe('EvaluateAbsencesListComponent', () => {
       const headerCells = table!.querySelectorAll('th');
       expect(Array.from(headerCells)).toHaveSize(7);
       expect(headerCells[6].textContent).toContain(
-        'evaluate-absences.list.header.incident'
+        'evaluate-absences.list.header.incident',
       );
 
       const rows = table!.querySelectorAll('tbody tr');
@@ -110,10 +110,10 @@ describe('EvaluateAbsencesListComponent', () => {
       const headerCells = table!.querySelectorAll('th');
       expect(Array.from(headerCells)).toHaveSize(8);
       expect(headerCells[6].textContent).toContain(
-        'evaluate-absences.list.header.incident'
+        'evaluate-absences.list.header.incident',
       );
       expect(headerCells[7].textContent).toContain(
-        'evaluate-absences.list.header.halfday'
+        'evaluate-absences.list.header.halfday',
       );
 
       const rows = table!.querySelectorAll('tbody tr');

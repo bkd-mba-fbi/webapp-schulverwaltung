@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -23,6 +22,7 @@ import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.mod
  * avoid the dropdown to be placed off-screen. To avoid side-effects
  * in other contexts, we only do this for the lesson dropdown.
  */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const positionMenuOriginal = (NgbDropdown.prototype as any)._positionMenu;
 (NgbDropdown.prototype as any)._positionMenu = function _positionMenuPatched(
   ...args: any[]
@@ -34,7 +34,7 @@ const positionMenuOriginal = (NgbDropdown.prototype as any)._positionMenu;
   if (this._anchor.nativeElement.id === 'lesson-dropdown') {
     const container = this._bodyContainer || this._menu.nativeElement;
     const matches = container.style.transform?.match(
-      /translate\(([0-9-\.]+)px, ([0-9-\.]+)px\)/
+      /translate\(([0-9-.]+)px, ([0-9-.]+)px\)/,
     );
     if (matches && parseFloat(matches[1]) < 0) {
       container.style.transform = `translate(0px, ${matches[2]}px)`;
@@ -44,6 +44,7 @@ const positionMenuOriginal = (NgbDropdown.prototype as any)._positionMenu;
   // Return original return value
   return result;
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 interface ViewModeOption {
   viewMode: PresenceControlViewMode;

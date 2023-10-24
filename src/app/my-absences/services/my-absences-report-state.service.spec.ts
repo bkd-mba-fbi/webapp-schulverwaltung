@@ -18,9 +18,9 @@ import { addHours, subHours } from 'date-fns';
 describe('MyAbsencesReportStateService', () => {
   let service: MyAbsencesReportStateService;
   let entriesCallback: jasmine.Spy;
-  let storageMock: jasmine.SpyObj<StorageService> = jasmine.createSpyObj(
+  const storageMock: jasmine.SpyObj<StorageService> = jasmine.createSpyObj(
     'StorageService',
-    ['getPayload']
+    ['getPayload'],
   );
 
   let beforeLessonStart: TimetableEntry;
@@ -31,17 +31,17 @@ describe('MyAbsencesReportStateService', () => {
     beforeLessonStart = buildTimetableEntry(
       1,
       subHours(new Date(), 2),
-      subHours(new Date(), 1)
+      subHours(new Date(), 1),
     );
     onLessonStart = buildTimetableEntry(
       2,
       subHours(new Date(), 1),
-      addHours(new Date(), 1)
+      addHours(new Date(), 1),
     );
     afterLessonStart = buildTimetableEntry(
       3,
       addHours(new Date(), 1),
-      addHours(new Date(), 2)
+      addHours(new Date(), 2),
     );
 
     TestBed.configureTestingModule(
@@ -67,7 +67,7 @@ describe('MyAbsencesReportStateService', () => {
             },
           },
         ],
-      })
+      }),
     );
   });
 

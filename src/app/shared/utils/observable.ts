@@ -21,8 +21,9 @@ import {
   startWith,
 } from 'rxjs/operators';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function catch404<T, O extends ObservableInput<any>>(
-  returnValue?: any
+  returnValue?: any,
 ): OperatorFunction<T, Option<T | ObservedValueOf<O>>> {
   return catchError((error) => {
     if (error instanceof HttpErrorResponse && error.status === 404) {
@@ -32,6 +33,7 @@ export function catch404<T, O extends ObservableInput<any>>(
     }
   });
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * For debugging purposes, logs message an value for each value in the
@@ -39,11 +41,11 @@ export function catch404<T, O extends ObservableInput<any>>(
  *   foo$.pipe(log('foo$')).subscribe()
  */
 export function log<T>(
-  message: Option<string> = null
+  message: Option<string> = null,
 ): MonoTypeOperatorFunction<T> {
   return (input$) =>
     input$.pipe(
-      tap((x: T) => (message ? console.log(message, x) : console.log(x)))
+      tap((x: T) => (message ? console.log(message, x) : console.log(x))),
     );
 }
 
@@ -52,7 +54,7 @@ export function log<T>(
  *   foo$.pipe(prepare(() => console.log('subscribed')))
  */
 export function prepare<T>(
-  callback: () => void
+  callback: () => void,
 ): (source: Observable<T>) => Observable<T> {
   return (source: Observable<T>): Observable<T> =>
     defer(() => {
@@ -67,12 +69,12 @@ export function prepare<T>(
  * without having emitted any value.
  */
 export function defaultValue<T>(
-  defaultValue: T
+  defaultValue: T,
 ): OperatorFunction<Maybe<T>, T> {
   return ($input) =>
     $input.pipe(
       map((value) => (value == null ? defaultValue : value)),
-      defaultIfEmpty(defaultValue)
+      defaultIfEmpty(defaultValue),
     );
 }
 
@@ -82,15 +84,15 @@ export function defaultValue<T>(
  */
 export function reemitOnTrigger<T>(
   source$: Observable<T>,
-  trigger$: Observable<unknown>
+  trigger$: Observable<unknown>,
 ): Observable<T> {
   return source$.pipe(
     switchMap((value) =>
       trigger$.pipe(
         startWith(value),
-        map(() => value)
-      )
-    )
+        map(() => value),
+      ),
+    ),
   );
 }
 
@@ -100,13 +102,13 @@ export function reemitOnTrigger<T>(
  */
 export function intervalOnInactivity(
   period: number,
-  eventSource: Node = window.document
+  eventSource: Node = window.document,
 ) {
   return merge(
-    ...['click', 'keydown'].map((type) => fromEvent(eventSource, type))
+    ...['click', 'keydown'].map((type) => fromEvent(eventSource, type)),
   ).pipe(
     startWith(null),
     switchMap(() => interval(period)),
-    map(() => undefined)
+    map(() => undefined),
   );
 }

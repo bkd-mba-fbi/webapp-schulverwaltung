@@ -9,16 +9,17 @@ import { OpenAbsencesService } from '../../services/open-absences.service';
 import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('OpenAbsencesListComponent', () => {
-  let component: OpenAbsencesListComponent;
+  // let component: OpenAbsencesListComponent;
   let fixture: ComponentFixture<OpenAbsencesListComponent>;
   let element: HTMLElement;
 
-  let openAbsencesService: OpenAbsencesService;
   let selectionService: ConfirmAbsencesSelectionService;
   let entryA: OpenAbsencesEntry;
   let entryB: OpenAbsencesEntry;
-  let storeMock: any;
+  let storeMock: Dict<Option<string>>;
 
   beforeEach(waitForAsync(() => {
     entryA = new OpenAbsencesEntry([
@@ -32,10 +33,10 @@ describe('OpenAbsencesListComponent', () => {
 
     storeMock = {};
     spyOn(localStorage, 'getItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => storeMock[key] || null,
     );
     spyOn(localStorage, 'setItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => storeMock[key] || null,
     );
 
     storeMock['CLX.LoginToken'] =
@@ -57,16 +58,15 @@ describe('OpenAbsencesListComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
-    openAbsencesService = TestBed.inject(OpenAbsencesService);
     selectionService = TestBed.inject(ConfirmAbsencesSelectionService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenAbsencesListComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
@@ -115,7 +115,7 @@ describe('OpenAbsencesListComponent', () => {
     function toggleHeaderCheckbox(): void {
       (
         element.querySelector(
-          '.absence-header input[type="checkbox"]'
+          '.absence-header input[type="checkbox"]',
         ) as HTMLInputElement
       ).click();
       fixture.detectChanges();

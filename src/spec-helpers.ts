@@ -18,6 +18,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/locales/', '.json');
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const settings: Settings = {
   apiUrl: 'https://eventotest.api',
   scriptsAndAssetsPath: '.',
@@ -120,7 +122,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
 };
 
 export function buildTestModuleMetadata(
-  data: TestModuleMetadata = {}
+  data: TestModuleMetadata = {},
 ): TestModuleMetadata {
   const result: any = { ...data };
   Object.keys(baseTestModuleMetadata).forEach((key) => {
@@ -133,17 +135,17 @@ export function buildTestModuleMetadata(
 }
 
 export function changeInputs<
-  T extends { ngOnChanges?(changes?: SimpleChanges): void }
+  T extends { ngOnChanges?(changes?: SimpleChanges): void },
 >(
   component: T,
-  changes: { property: keyof T; value: T[keyof T]; firstChange?: boolean }[]
+  changes: { property: keyof T; value: T[keyof T]; firstChange?: boolean }[],
 ): void {
   const simpleChanges: SimpleChanges = changes.reduce(
     (acc, { property, value, firstChange }) =>
       Object.assign(acc, {
         [property]: createInputChange(component, property, value, firstChange),
       }),
-    {}
+    {},
   );
 
   if (typeof component.ngOnChanges === 'function') {
@@ -152,24 +154,24 @@ export function changeInputs<
 }
 
 export function changeInput<
-  T extends { ngOnChanges?(changes?: SimpleChanges): void }
+  T extends { ngOnChanges?(changes?: SimpleChanges): void },
 >(
   component: T,
   property: keyof T,
   value: T[keyof T],
-  firstChange = false
+  firstChange = false,
 ): T[keyof T] {
   changeInputs(component, [{ property, value, firstChange }]);
   return value;
 }
 
 function createInputChange<
-  T extends { ngOnChanges?(changes?: SimpleChanges): void }
+  T extends { ngOnChanges?(changes?: SimpleChanges): void },
 >(
   component: T,
   property: keyof T,
   value: T[keyof T],
-  firstChange = false
+  firstChange = false,
 ): SimpleChange {
   const previousValue = component[property];
   const change = new SimpleChange(previousValue, value, firstChange);

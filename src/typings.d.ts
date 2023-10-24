@@ -6,7 +6,8 @@ interface Dict<T> {
 }
 
 interface Constructor<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new (...args: any[]): T;
 }
 
-declare var __webpack_public_path__: string;
+declare let __webpack_public_path__: string;

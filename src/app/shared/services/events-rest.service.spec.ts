@@ -4,6 +4,8 @@ import { buildTestModuleMetadata } from '../../../spec-helpers';
 
 import { EventsRestService } from './events-rest.service';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('EventsRestService', () => {
   let service: EventsRestService;
   let httpTestingController: HttpTestingController;
@@ -15,9 +17,8 @@ describe('EventsRestService', () => {
   });
 
   describe('.getSubscriptionDetailsDefinitions', () => {
-    const data: any[] = [];
-
     it('gets the list of subscription details definitions for the given event id', () => {
+      const data: any[] = [];
       const url = 'https://eventotest.api/Events/1234/SubscriptionDetails';
 
       service

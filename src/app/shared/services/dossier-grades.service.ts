@@ -21,9 +21,8 @@ import { LoadingService } from './loading-service';
 import { ReportsService } from './reports.service';
 import { SubscriptionsRestService } from './subscriptions-rest.service';
 import { gradingScaleOfTest, resultOfStudent } from '../../events/utils/tests';
-import { FinalGrade } from '../models/student-grades';
-import { average, ValueWithWeight, weightedAverage } from '../utils/math';
-import { startWith, withLatestFrom } from 'rxjs/operators';
+import { ValueWithWeight } from '../utils/math';
+import { withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class DossierGradesService {
@@ -35,25 +34,25 @@ export class DossierGradesService {
     distinctUntilChanged(),
     switchMap(this.loadCourses.bind(this)),
     map((courses) =>
-      courses.sort((c1, c2) => c1.Designation.localeCompare(c2.Designation))
+      courses.sort((c1, c2) => c1.Designation.localeCompare(c2.Designation)),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private updatedStudentCourses$ = this.updateTest$.pipe(
     withLatestFrom(this.initialStudentCourses$),
-    map(([test, courses]) => this.updateCourses(courses, test))
+    map(([test, courses]) => this.updateCourses(courses, test)),
   );
 
   studentCourses$ = merge(
     this.initialStudentCourses$,
-    this.updatedStudentCourses$
+    this.updatedStudentCourses$,
   ).pipe(shareReplay(1));
 
   loading$ = this.loadingService.loading$;
 
   private studentCourseIds$ = this.studentCourses$.pipe(
-    map((courses: Course[]) => courses.flatMap((course) => course.Id))
+    map((courses: Course[]) => courses.flatMap((course) => course.Id)),
   );
 
   private idSubscriptions$ = combineLatest([
@@ -63,22 +62,22 @@ export class DossierGradesService {
     switchMap(([studentId, courseIds]) =>
       this.subscriptionRestService.getIdSubscriptionsByStudentAndCourse(
         studentId,
-        courseIds
-      )
-    )
+        courseIds,
+      ),
+    ),
   );
 
   private ids$ = this.idSubscriptions$.pipe(
-    map((subscriptions) => subscriptions.map((s) => s.Id))
+    map((subscriptions) => subscriptions.map((s) => s.Id)),
   );
 
   testReportUrl$ = this.ids$.pipe(
     map((ids) =>
       this.reportsService.getSubscriptionReportUrl(
         this.settings.testsBySubscriptionReportIdTeacher,
-        ids
-      )
-    )
+        ids,
+      ),
+    ),
   );
 
   constructor(
@@ -87,7 +86,7 @@ export class DossierGradesService {
     private reportsService: ReportsService,
     private loadingService: LoadingService,
     private gradingScalesRestService: GradingScalesRestService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   setStudentId(id: number) {
@@ -96,10 +95,10 @@ export class DossierGradesService {
 
   getFinalGradeForStudent(
     course: Course,
-    studentId: number
+    studentId: number,
   ): FinalGrading | undefined {
     return course?.FinalGrades?.find(
-      (finaleGrade) => finaleGrade.StudentId === studentId
+      (finaleGrade) => finaleGrade.StudentId === studentId,
     );
   }
 
@@ -109,22 +108,22 @@ export class DossierGradesService {
 
   getGradingScaleOfCourse(course: Course, gradingScales: GradingScale[]) {
     return gradingScales?.find(
-      (gradingScale) => gradingScale.Id === course.GradingScaleId
+      (gradingScale) => gradingScale.Id === course.GradingScaleId,
     );
   }
 
   getGradesForStudent(
     course: Course,
     studentId: number,
-    gradingScales: GradingScale[]
+    gradingScales: GradingScale[],
   ): ValueWithWeight[] {
     return (
       course.Tests?.flatMap((test) => {
         const grade = Number(
           gradingScaleOfTest(test, gradingScales)?.Grades.find(
             (grade: Grade) =>
-              grade.Id === resultOfStudent(studentId, test)?.GradeId
-          )?.Designation
+              grade.Id === resultOfStudent(studentId, test)?.GradeId,
+          )?.Designation,
         );
 
         return {
@@ -141,13 +140,14 @@ export class DossierGradesService {
         .getExpandedCoursesForDossier()
         .pipe(
           map((courses) =>
-            courses.filter((course) =>
-              course.ParticipatingStudents?.find(
-                (student) => student.Id === studentId
-              )
-            )
-          )
-        )
+            courses.filter(
+              (course) =>
+                course.ParticipatingStudents?.find(
+                  (student) => student.Id === studentId,
+                ),
+            ),
+          ),
+        ),
     );
   }
 
@@ -157,16 +157,16 @@ export class DossierGradesService {
 
   private tests$ = this.studentCourses$.pipe(
     map((courses: Course[]) =>
-      courses.flatMap((course: Course) => course.Tests).filter(notNull)
-    )
+      courses.flatMap((course: Course) => course.Tests).filter(notNull),
+    ),
   );
 
   private gradingScaleIdsFromTests$ = this.tests$.pipe(
     map((tests: Test[]) =>
       [...tests.map((test: Test) => test.GradingScaleId)]
         .filter(notNull)
-        .filter(unique)
-    )
+        .filter(unique),
+    ),
   );
 
   private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
@@ -174,8 +174,8 @@ export class DossierGradesService {
       courses
         .flatMap((course: Course) => course.GradingScaleId)
         .filter(notNull)
-        .filter(unique)
-    )
+        .filter(unique),
+    ),
   );
 
   private gradingScaleIds$ = combineLatest([
@@ -183,18 +183,18 @@ export class DossierGradesService {
     this.gradingScaleIdsFromTests$,
   ]).pipe(
     map(([courseGradingsScaleIds, testGradingScaleIds]: [number[], number[]]) =>
-      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique)
-    )
+      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique),
+    ),
   );
 
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
         ids.map((id: number) =>
-          this.gradingScalesRestService.getGradingScale(id)
-        )
-      )
-    )
+          this.gradingScalesRestService.getGradingScale(id),
+        ),
+      ),
+    ),
   );
 
   private updateCourses(courses: Course[], updatedTest: Test): Course[] {
@@ -203,7 +203,7 @@ export class DossierGradesService {
       Tests:
         course.Tests !== null
           ? course.Tests.map((test) =>
-              test.Id === updatedTest.Id ? updatedTest : test
+              test.Id === updatedTest.Id ? updatedTest : test,
             )
           : null,
     }));

@@ -1,7 +1,6 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import * as t from 'io-ts/lib/index';
-import { Subject } from 'rxjs';
 import { buildLesson, buildSubscriptionDetail } from '../../../spec-builders';
 import { buildTestModuleMetadata } from '../../../spec-helpers';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
@@ -14,11 +13,9 @@ describe('PresenceControlGroupService', () => {
 
   let selectedLesson: Option<LessonEntry>;
 
-  let selectedLesson$: Subject<Option<LessonEntry>>;
-
   beforeEach(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ providers: [PresenceControlGroupService] })
+      buildTestModuleMetadata({ providers: [PresenceControlGroupService] }),
     );
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(PresenceControlGroupService);
@@ -30,8 +27,6 @@ describe('PresenceControlGroupService', () => {
 
   describe('groupsAvailability$', () => {
     beforeEach(() => {
-      selectedLesson$ = new Subject();
-
       selectedLesson = fromLesson(
         buildLesson(
           2,
@@ -40,14 +35,14 @@ describe('PresenceControlGroupService', () => {
           'Deutsch',
           'Dora Durrer',
           undefined,
-          333
-        )
+          333,
+        ),
       );
     });
 
     it('returns true if the selected lesson has groups available', () => {
       service.groupsAvailability$.subscribe((result) =>
-        expect(result).toBeTruthy()
+        expect(result).toBeTruthy(),
       );
 
       service.setSelectedLesson(selectedLesson);
@@ -59,7 +54,7 @@ describe('PresenceControlGroupService', () => {
 
     it('returns false if the selected lesson does not have groups available', () => {
       service.groupsAvailability$.subscribe((result) =>
-        expect(result).toBeFalsy()
+        expect(result).toBeFalsy(),
       );
 
       service.setSelectedLesson(selectedLesson);
@@ -72,13 +67,13 @@ describe('PresenceControlGroupService', () => {
 
   function expectSubscriptionDetailsDefinitionsRequest(
     eventId: number,
-    subscriptionDetailsDefinitions: SubscriptionDetail[]
+    subscriptionDetailsDefinitions: SubscriptionDetail[],
   ): void {
     const url = `https://eventotest.api/Events/${eventId}/SubscriptionDetails`;
     httpTestingController
       .expectOne(url)
       .flush(
-        t.array(SubscriptionDetail).encode(subscriptionDetailsDefinitions)
+        t.array(SubscriptionDetail).encode(subscriptionDetailsDefinitions),
       );
   }
 });

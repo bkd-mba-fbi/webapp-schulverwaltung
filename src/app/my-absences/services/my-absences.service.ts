@@ -30,11 +30,11 @@ export class MyAbsencesService {
     // entry (i.e. for which no lesson presence entry will be built)
     this.studentId$.pipe(
       switchMap(this.loadLessonAbsences.bind(this)),
-      shareReplay(1)
+      shareReplay(1),
     );
   private lessonIncidents$ = this.studentId$.pipe(
     switchMap(this.loadLessonIncidents.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
   private lessonPresences$ = this.getLessonPresences();
 
@@ -81,7 +81,7 @@ export class MyAbsencesService {
   constructor(
     @Inject(SETTINGS) private settings: Settings,
     private storageService: StorageService,
-    private studentsService: StudentsRestService
+    private studentsService: StudentsRestService,
   ) {
     const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
@@ -107,33 +107,33 @@ export class MyAbsencesService {
         switchMap(([studentId, absences, incidents]) =>
           this.loadTimetableEntries(studentId, absences, incidents).pipe(
             map((timetableEntries) =>
-              this.buildLessonPresences(absences, incidents, timetableEntries)
-            )
-          )
+              this.buildLessonPresences(absences, incidents, timetableEntries),
+            ),
+          ),
         ),
-        map(sortLessonPresencesByDate)
-      )
+        map(sortLessonPresencesByDate),
+      ),
     );
   }
 
   private getAbsences(
-    confirmationStateId: Option<number>
+    confirmationStateId: Option<number>,
   ): Observable<Option<ReadonlyArray<LessonPresence>>> {
     return this.getCached(
       this.lessonPresences$.pipe(
         map(
           (presences) =>
             presences?.filter(
-              (p) => p.ConfirmationStateId === confirmationStateId
-            ) || null
-        )
-      )
+              (p) => p.ConfirmationStateId === confirmationStateId,
+            ) || null,
+        ),
+      ),
     );
   }
 
   private getLessonAbsences(
     absences: ReadonlyArray<LessonPresence>,
-    lessonAbsences: ReadonlyArray<LessonAbsence>
+    lessonAbsences: ReadonlyArray<LessonAbsence>,
   ): ReadonlyArray<LessonAbsence> {
     const lessonIds = absences.map((a) => a.LessonRef.Id);
     return lessonAbsences.filter((a) => lessonIds.includes(a.LessonRef.Id));
@@ -141,7 +141,7 @@ export class MyAbsencesService {
 
   private getLessonIncidents(
     absences: ReadonlyArray<LessonPresence>,
-    lessonIncidents: ReadonlyArray<LessonIncident>
+    lessonIncidents: ReadonlyArray<LessonIncident>,
   ): ReadonlyArray<LessonIncident> {
     const incidentIds = absences.map((a) => a.LessonRef.Id);
     return lessonIncidents.filter((i) => incidentIds.includes(i.LessonRef.Id));
@@ -169,8 +169,8 @@ export class MyAbsencesService {
           unexcusedAbsences,
           incidents,
           halfDays: null,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -178,24 +178,24 @@ export class MyAbsencesService {
     return source$.pipe(
       startWith(null),
       // Clear the cache if all subscribers disconnect (don't replay the previous value)
-      share({ connector: () => new ReplaySubject<Option<T>>(1) })
+      share({ connector: () => new ReplaySubject<Option<T>>(1) }),
     );
   }
 
   private getCount(
-    source$: Observable<Option<ReadonlyArray<any>>>
+    source$: Observable<Option<ReadonlyArray<unknown>>>,
   ): Observable<Option<number>> {
     return source$.pipe(map((absences) => absences?.length ?? null));
   }
 
   private loadLessonAbsences(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonAbsence>> {
     return this.studentsService.getLessonAbsences(studentId);
   }
 
   private loadLessonIncidents(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonIncident>> {
     return this.studentsService.getLessonIncidents(studentId);
   }
@@ -203,7 +203,7 @@ export class MyAbsencesService {
   private loadTimetableEntries(
     studentId: number,
     absences: ReadonlyArray<LessonAbsence>,
-    incidents: ReadonlyArray<LessonIncident>
+    incidents: ReadonlyArray<LessonIncident>,
   ): Observable<ReadonlyArray<TimetableEntry>> {
     return this.studentsService.getTimetableEntries(studentId, {
       'filter.Id': `;${[...absences, ...incidents]
@@ -216,7 +216,7 @@ export class MyAbsencesService {
   private buildLessonPresences(
     absences: ReadonlyArray<LessonAbsence>,
     incidents: ReadonlyArray<LessonIncident>,
-    timetableEntries: ReadonlyArray<TimetableEntry>
+    timetableEntries: ReadonlyArray<TimetableEntry>,
   ): ReadonlyArray<LessonPresence> {
     return [...absences, ...incidents]
       .map((absence) => this.buildLessonPresence(absence, timetableEntries))
@@ -229,7 +229,7 @@ export class MyAbsencesService {
    */
   private buildLessonPresence(
     absence: LessonAbsence | LessonIncident,
-    timetableEntries: ReadonlyArray<TimetableEntry>
+    timetableEntries: ReadonlyArray<TimetableEntry>,
   ): Option<LessonPresence> {
     const entry = timetableEntries.find((e) => e.Id === absence.LessonRef.Id);
     if (!entry) {

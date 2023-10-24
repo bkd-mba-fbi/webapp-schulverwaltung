@@ -11,21 +11,23 @@ describe('MySettingsNotificationsComponent', () => {
   let fixture: ComponentFixture<MySettingsNotificationsComponent>;
   let userSettings: jasmine.SpyObj<UserSettingsService>;
 
-  userSettings = jasmine.createSpyObj('UserSettingsService', [
-    'getNotificationChannels',
-    'saveNotificationChannels',
-    'getNotificationTypesInactive',
-    'saveNotificationTypesInactive',
-    'refetch',
-  ]);
-  userSettings.getNotificationChannels.and.returnValue(
-    of({ mail: true, gui: true, phoneMobile: false })
-  );
-  userSettings.saveNotificationChannels.and.returnValue(of({}));
-  userSettings.getNotificationTypesInactive.and.returnValue(of(['BM2Student']));
-  userSettings.saveNotificationTypesInactive.and.returnValue(of({}));
-
   beforeEach(waitForAsync(() => {
+    userSettings = jasmine.createSpyObj('UserSettingsService', [
+      'getNotificationChannels',
+      'saveNotificationChannels',
+      'getNotificationTypesInactive',
+      'saveNotificationTypesInactive',
+      'refetch',
+    ]);
+    userSettings.getNotificationChannels.and.returnValue(
+      of({ mail: true, gui: true, phoneMobile: false }),
+    );
+    userSettings.saveNotificationChannels.and.returnValue(of({}));
+    userSettings.getNotificationTypesInactive.and.returnValue(
+      of(['BM2Student']),
+    );
+    userSettings.saveNotificationTypesInactive.and.returnValue(of({}));
+
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [
@@ -47,7 +49,7 @@ describe('MySettingsNotificationsComponent', () => {
             useValue: userSettings,
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
@@ -128,7 +130,7 @@ describe('MySettingsNotificationsComponent', () => {
     it('updates settings and reloads on BM2Student types form field change', async () => {
       toggleInput('notification-types-BM2Student');
       expect(userSettings.saveNotificationTypesInactive).toHaveBeenCalledWith(
-        []
+        [],
       );
     });
 
@@ -153,7 +155,7 @@ describe('MySettingsNotificationsComponent', () => {
     fixture.detectChanges();
   }
 
-  function waitForRender(): Promise<any> {
+  function waitForRender() {
     fixture.detectChanges();
     return fixture.whenStable();
   }

@@ -11,7 +11,7 @@ import { ToastService } from '../../services/toast.service';
 import { ToastComponent } from './toast.component';
 
 describe('ToastComponent', () => {
-  let component: ToastComponent;
+  // let component: ToastComponent;
   let fixture: ComponentFixture<ToastComponent>;
   let element: HTMLElement;
   let service: ToastService;
@@ -27,11 +27,11 @@ describe('ToastComponent', () => {
             useValue: { delay: 5000, animation: false },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(ToastComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
     service = TestBed.inject(ToastService);
 

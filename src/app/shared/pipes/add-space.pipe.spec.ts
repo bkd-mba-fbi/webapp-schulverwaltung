@@ -1,4 +1,7 @@
 import { AddSpacePipe } from './add-space.pipe';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('AddSpacePipe', () => {
   let i18nService: any;
 

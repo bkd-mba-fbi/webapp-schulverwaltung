@@ -27,8 +27,8 @@ import {
 } from '@angular/core';
 
 export class LetContext {
-  $implicit: any = null;
-  erzLet: any = null;
+  $implicit: unknown = null;
+  erzLet: unknown = null;
 }
 
 @Directive({
@@ -38,13 +38,13 @@ export class LetDirective implements OnInit {
   private context = new LetContext();
 
   @Input()
-  set erzLet(value: any) {
+  set erzLet(value: unknown) {
     this.context.$implicit = this.context.erzLet = value;
   }
 
   constructor(
     private vcr: ViewContainerRef,
-    private templateRef: TemplateRef<LetContext>
+    private templateRef: TemplateRef<LetContext>,
   ) {}
 
   ngOnInit(): void {

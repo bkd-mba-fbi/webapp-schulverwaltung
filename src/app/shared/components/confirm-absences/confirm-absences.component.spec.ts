@@ -6,6 +6,8 @@ import { ConfirmAbsencesComponent } from './confirm-absences.component';
 import { OpenAbsencesService } from 'src/app/open-absences/services/open-absences.service';
 import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('ConfirmAbsencesComponent', () => {
   let component: ConfirmAbsencesComponent;
   let fixture: ComponentFixture<ConfirmAbsencesComponent>;
@@ -14,10 +16,10 @@ describe('ConfirmAbsencesComponent', () => {
   beforeEach(waitForAsync(() => {
     storeMock = {};
     spyOn(localStorage, 'getItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => storeMock[key] || null,
     );
     spyOn(localStorage, 'setItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => storeMock[key] || null,
     );
 
     storeMock['CLX.LoginToken'] =
@@ -42,7 +44,7 @@ describe('ConfirmAbsencesComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

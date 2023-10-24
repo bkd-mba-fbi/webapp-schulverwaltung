@@ -11,24 +11,17 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { Course, FinalGrading, Grading } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 import { DossierGradesService } from './dossier-grades.service';
-import { GradingScalesRestService } from './grading-scales-rest.service';
 import { StorageService } from './storage.service';
 import { Grade } from '../models/grading-scale.model';
 
 describe('DossierGradesService', () => {
   let service: DossierGradesService;
   let coursesRestService: jasmine.SpyObj<CoursesRestService>;
-  let gradingScalesRestService: jasmine.SpyObj<GradingScalesRestService>;
 
   beforeEach(() => {
     coursesRestService = jasmine.createSpyObj('CoursesRestService', [
       'getExpandedCoursesForDossier',
     ]);
-
-    gradingScalesRestService = jasmine.createSpyObj(
-      'GradingScalesRestService',
-      ['getGradingScale']
-    );
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -40,7 +33,7 @@ describe('DossierGradesService', () => {
             useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
           },
         ],
-      })
+      }),
     );
     service = TestBed.inject(DossierGradesService);
   });
@@ -72,7 +65,7 @@ describe('DossierGradesService', () => {
 
       const courses = [course1, course2, course3];
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(
-        of(courses)
+        of(courses),
       );
 
       let result: Course[] = [];
@@ -81,7 +74,8 @@ describe('DossierGradesService', () => {
       service.setStudentId(11);
 
       expect(result.length).toBe(2);
-      expect(result).toContain(course1, course3);
+      expect(result).toContain(course1);
+      expect(result).toContain(course3);
     });
   });
 
@@ -119,7 +113,7 @@ describe('DossierGradesService', () => {
       const studentId = -1;
 
       expect(
-        service.getFinalGradeForStudent(course, studentId)
+        service.getFinalGradeForStudent(course, studentId),
       ).toBeUndefined();
     });
 
@@ -133,7 +127,7 @@ describe('DossierGradesService', () => {
       const studentId = expectedFinalGrading.StudentId;
 
       expect(service.getFinalGradeForStudent(course, studentId)).toEqual(
-        expectedFinalGrading
+        expectedFinalGrading,
       );
     });
 
@@ -141,7 +135,7 @@ describe('DossierGradesService', () => {
       const studentId = expectedGrading.StudentId;
 
       expect(service.getGradingForStudent(course, studentId)).toEqual(
-        expectedGrading
+        expectedGrading,
       );
     });
   });

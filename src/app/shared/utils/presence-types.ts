@@ -1,12 +1,12 @@
 import { PresenceType } from '../models/presence-type.model';
-import { DropDownItem } from '../models/drop-down-item.model';
 import { DropDownGroupedItem } from '../models/drop-down-grouped-item.model';
+import { DropDownItem } from '../models/drop-down-item.model';
 
 /**
  * Sorts an array of presence types by the `Sort` attribute.
  */
 export function sortPresenceTypes(
-  presenceTypes: ReadonlyArray<PresenceType>
+  presenceTypes: ReadonlyArray<PresenceType>,
 ): ReadonlyArray<PresenceType> {
   return presenceTypes.slice().sort((a, b) => a.Sort - b.Sort);
 }
@@ -16,7 +16,7 @@ export function sortPresenceTypes(
  * types.
  */
 export function createPresenceTypesDropdownItems(
-  presenceTypes: ReadonlyArray<PresenceType>
+  presenceTypes: ReadonlyArray<PresenceType>,
 ): ReadonlyArray<DropDownItem> {
   return presenceTypes.map((presenceType) => ({
     Key: presenceType.Id,
@@ -29,11 +29,11 @@ export function createPresenceTypesDropdownItems(
  */
 export function addGroupToDropdownItem(
   items: ReadonlyArray<DropDownItem>,
-  group: string
+  group: string,
 ): ReadonlyArray<DropDownGroupedItem> {
   return items.map((i) =>
     Object.assign(i, {
       Group: group,
-    })
+    }),
   );
 }

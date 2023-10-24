@@ -12,6 +12,8 @@ import {
 } from '../models/course.model';
 import { CoursesRestService } from './courses-rest.service';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('CoursesRestService', () => {
   let service: CoursesRestService;
   let httpTestingController: HttpTestingController;
@@ -38,7 +40,7 @@ describe('CoursesRestService', () => {
           (req) =>
             req.url ===
               'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300' &&
-            req.headers.get('X-Role-Restriction') === 'TeacherRole'
+            req.headers.get('X-Role-Restriction') === 'TeacherRole',
         )
         .flush(data);
     });
@@ -55,7 +57,7 @@ describe('CoursesRestService', () => {
         (req) =>
           req.url ===
             'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300' &&
-          req.headers.get('X-Role-Restriction') === 'TeacherRole'
+          req.headers.get('X-Role-Restriction') === 'TeacherRole',
       );
     });
 
@@ -70,7 +72,7 @@ describe('CoursesRestService', () => {
         .expectOne(
           (req) =>
             req.url ===
-            `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`
+            `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`,
         )
         .flush(Course.encode(mockCourse));
     });
@@ -86,7 +88,7 @@ describe('CoursesRestService', () => {
         .expectOne(
           (req) =>
             req.url ===
-            'https://eventotest.api/Courses/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300'
+            'https://eventotest.api/Courses/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300',
         )
         .flush(data);
     });
@@ -109,7 +111,7 @@ describe('CoursesRestService', () => {
           33,
           false,
           44,
-          55
+          55,
         )
         .subscribe();
 
@@ -128,7 +130,7 @@ describe('CoursesRestService', () => {
                 MaxPointsAdjusted: 55,
               },
             ],
-          })
+          }),
       );
 
       expect().nothing();
@@ -147,7 +149,7 @@ describe('CoursesRestService', () => {
           33,
           false,
           null,
-          null
+          null,
         )
         .subscribe();
 
@@ -168,7 +170,7 @@ describe('CoursesRestService', () => {
                 MaxPointsAdjusted: null,
               },
             ],
-          })
+          }),
       );
 
       expect().nothing();
@@ -190,7 +192,7 @@ describe('CoursesRestService', () => {
               `https://eventotest.api/Courses/${courseId}/Tests/Delete` &&
             isEqual(req.body, {
               TestIds: [testId],
-            })
+            }),
         )
         .flush(testId);
     });
@@ -212,7 +214,7 @@ describe('CoursesRestService', () => {
             url === `https://eventotest.api/Courses/PublishTest` &&
             isEqual(body, {
               TestIds: [testId],
-            })
+            }),
         )
         .flush(testId);
     });
@@ -234,7 +236,7 @@ describe('CoursesRestService', () => {
             url === `https://eventotest.api/Courses/UnpublishTest` &&
             isEqual(body, {
               TestIds: [testId],
-            })
+            }),
         )
         .flush(testId);
     });
@@ -271,12 +273,12 @@ describe('CoursesRestService', () => {
   });
 
   describe('manage grades', () => {
-    let averageTestResultResponse: AverageTestResultResponse = {
+    const averageTestResultResponse: AverageTestResultResponse = {
       Gradings: [],
     };
 
     it('PUT: SetAverageTestResult, should set student average as final grade', () => {
-      let requestBody = { CourseIds: [1234] };
+      const requestBody = { CourseIds: [1234] };
 
       service.setAverageAsFinalGrade(requestBody).subscribe((result) => {
         expect(result).toEqual(averageTestResultResponse);
@@ -287,7 +289,7 @@ describe('CoursesRestService', () => {
           ({ method, url, body }) =>
             method === 'PUT' &&
             url === 'https://eventotest.api/Courses/SetAverageTestResult' &&
-            isEqual(body, requestBody)
+            isEqual(body, requestBody),
         )
         .flush(averageTestResultResponse);
     });
@@ -295,7 +297,7 @@ describe('CoursesRestService', () => {
 
   function updateTestResult(
     requestBody: TestPointsResult | TestGradesResult,
-    responseBody: UpdatedTestResultResponse
+    responseBody: UpdatedTestResultResponse,
   ) {
     service
       .updateTestResult(buildCourse(1).Id, requestBody)
@@ -304,14 +306,14 @@ describe('CoursesRestService', () => {
 
   function assertRequestAndFlush(
     requestBody: TestPointsResult | TestGradesResult,
-    responseBody: UpdatedTestResultResponse
+    responseBody: UpdatedTestResultResponse,
   ) {
     httpTestingController
       .expectOne(
         ({ method, url, body }) =>
           method === 'PUT' &&
           url === `https://eventotest.api/Courses/1/SetTestResult` &&
-          isEqual(body, requestBody)
+          isEqual(body, requestBody),
       )
       .flush(responseBody);
   }

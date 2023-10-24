@@ -2,7 +2,6 @@ import {
   Component,
   Inject,
   Input,
-  OnInit,
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
@@ -25,7 +24,7 @@ export class AvatarComponent implements OnChanges {
 
   constructor(
     @Inject(SETTINGS) private settings: Settings,
-    private storageService: StorageService
+    private storageService: StorageService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,7 +46,7 @@ export class AvatarComponent implements OnChanges {
 
   private buildAvatarUrl(studentId: number): string {
     const accessToken = this.storageService.getAccessToken() || '';
-    return `${this.settings.apiUrl}/Files\/personPictures/${studentId}?token=${accessToken}`;
+    return `${this.settings.apiUrl}/Files/personPictures/${studentId}?token=${accessToken}`;
   }
 
   private get fallbackAvatarUrl(): string {

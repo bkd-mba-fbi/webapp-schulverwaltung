@@ -8,7 +8,7 @@ import { MyProfileService } from '../../services/my-profile.service';
 import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
 
 describe('MyProfileEditComponent', () => {
-  let component: MyProfileEditComponent;
+  // let component: MyProfileEditComponent;
   let fixture: ComponentFixture<MyProfileEditComponent>;
   let element: HTMLElement;
   let profileService: MyProfileService;
@@ -44,20 +44,20 @@ describe('MyProfileEditComponent', () => {
           { provide: MyProfileService, useValue: profileService },
           { provide: PersonsRestService, useValue: personsService },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileEditComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
   it('renders address', () => {
     expect(element.querySelector('address')?.textContent).toBe(
-      'Postfach Industriegasse 123 3000 Bern'
+      'Postfach Industriegasse 123 3000 Bern',
     );
   });
 
@@ -99,7 +99,7 @@ describe('MyProfileEditComponent', () => {
       123,
       '+41 31 987 65 54',
       '+41 79 987 65 54',
-      'jane@example.com'
+      'jane@example.com',
     );
   });
 
@@ -119,7 +119,7 @@ describe('MyProfileEditComponent', () => {
     return field as HTMLInputElement;
   }
 
-  function changeValue(name: string, value: any): void {
+  function changeValue(name: string, value: string): void {
     const input = getInput(name);
     input.value = value;
     input.dispatchEvent(new Event('input'));
@@ -128,7 +128,7 @@ describe('MyProfileEditComponent', () => {
 
   function clickSubmitButton(): void {
     const button = element.querySelector(
-      '.btn-primary'
+      '.btn-primary',
     ) as Option<HTMLButtonElement>;
     if (button) {
       button.click();

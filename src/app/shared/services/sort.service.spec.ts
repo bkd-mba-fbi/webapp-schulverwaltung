@@ -61,6 +61,7 @@ describe('SortService', () => {
     it('should get no char if different column is sorted', (done) => {
       // given
       const sorting: Sorting<SortableKeys> = { key: 'one', ascending: true };
+      service.setSorting(sorting);
 
       // when
       service.getSortingChar$('two').subscribe((char) => {

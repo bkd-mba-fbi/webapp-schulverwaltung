@@ -35,13 +35,13 @@ export type GradeOrNoResult = GradeKind | NoResult;
 export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
 
 export function pluckFinalGrades(
-  studentGrades: ReadonlyArray<StudentGrade>
+  studentGrades: ReadonlyArray<StudentGrade>,
 ): ReadonlyArray<FinalGrade> {
   return studentGrades.map(({ finalGrade }) => finalGrade).filter(isFinalGrade);
 }
 
 function isFinalGrade(
-  finalGrade: Option<FinalGrade>
+  finalGrade: Option<FinalGrade>,
 ): finalGrade is FinalGrade {
   return finalGrade !== null;
 }
@@ -50,7 +50,7 @@ export function transform(
   students: ReadonlyArray<Student>,
   tests: ReadonlyArray<Test>,
   gradings: ReadonlyArray<Grading>,
-  finalGrades: ReadonlyArray<FinalGrading>
+  finalGrades: ReadonlyArray<FinalGrading>,
 ): StudentGrade[] {
   return students?.map((student) => {
     return {
@@ -63,7 +63,7 @@ export function transform(
 
 function getGrades(
   student: Student,
-  tests: ReadonlyArray<Test>
+  tests: ReadonlyArray<Test>,
 ): GradeOrNoResult[] {
   return tests.map((test) => {
     if (test.Results === undefined || test.Results?.length === 0) {
@@ -74,7 +74,7 @@ function getGrades(
     }
 
     const result: Result | undefined = test.Results?.find(
-      (result) => result.StudentId === student.Id
+      (result) => result.StudentId === student.Id,
     );
 
     return result !== undefined
@@ -93,14 +93,14 @@ function getGrades(
 function getFinalGrade(
   student: Student,
   gradings: ReadonlyArray<Grading>,
-  finalGrades: ReadonlyArray<FinalGrading>
+  finalGrades: ReadonlyArray<FinalGrading>,
 ): Option<FinalGrade> {
   const grading: Maybe<Grading> = gradings.find(
-    (grading) => grading.StudentId === student.Id
+    (grading) => grading.StudentId === student.Id,
   );
 
   const finalGrading: Maybe<FinalGrading> = finalGrades.find(
-    (grading) => grading.StudentId === student.Id
+    (grading) => grading.StudentId === student.Id,
   );
 
   if (!grading) return null;
@@ -136,7 +136,7 @@ export const compareFn =
           modificator *
           compareNumbers(
             sg1.finalGrade.finalGradeId,
-            sg2.finalGrade.finalGradeId
+            sg2.finalGrade.finalGradeId,
           )
         );
       case 'TestsMean':
@@ -154,7 +154,7 @@ export const compareFn =
 const compareGrades = (
   test: Test,
   sg1: StudentGrade,
-  sg2: StudentGrade
+  sg2: StudentGrade,
 ): number => {
   const grades1: GradeKind | undefined = sg1.grades
     .filter(isGrade)
@@ -188,7 +188,7 @@ function isGrade(g: GradeOrNoResult): g is GradeKind {
 }
 
 export function toMaxPoints(grade: GradeOrNoResult | null): number {
-  return grade?.test.MaxPointsAdjusted || grade?.test.MaxPoints!;
+  return (grade?.test?.MaxPointsAdjusted || grade?.test?.MaxPoints) ?? 0;
 }
 
 export function meanOf(finalGrades: ReadonlyArray<FinalGrade>): number {
@@ -198,7 +198,7 @@ export function meanOf(finalGrades: ReadonlyArray<FinalGrade>): number {
       (averageGrade) =>
         averageGrade !== null &&
         averageGrade !== undefined &&
-        averageGrade !== 0
+        averageGrade !== 0,
     )
     .map(Number);
   return average(averageGrades);
@@ -206,7 +206,7 @@ export function meanOf(finalGrades: ReadonlyArray<FinalGrade>): number {
 
 export function averageOfGradesForScale(
   finalGrades: ReadonlyArray<FinalGrade>,
-  scale: ReadonlyArray<DropDownItem>
+  scale: ReadonlyArray<DropDownItem>,
 ): number {
   const freeHandGrades: number[] = finalGrades
     .map((finalGrade) => finalGrade.freeHandGrade)

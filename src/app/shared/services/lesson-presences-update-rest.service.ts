@@ -11,7 +11,7 @@ import { SETTINGS, Settings } from 'src/app/settings';
 export class LessonPresencesUpdateRestService {
   constructor(
     private http: HttpClient,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   editLessonPresences(
@@ -19,9 +19,9 @@ export class LessonPresencesUpdateRestService {
     personIds: ReadonlyArray<number>,
     presenceTypeId?: Option<number>,
     confirmationValue?: Option<number>,
-    params?: HttpParams
+    params?: HttpParams,
   ): Observable<void> {
-    const body: Dict<any> = {
+    const body: Dict<unknown> = {
       LessonIds: lessonIds,
       PersonIds: personIds,
     };
@@ -42,7 +42,7 @@ export class LessonPresencesUpdateRestService {
   removeLessonPresences(
     lessonIds: ReadonlyArray<number>,
     personIds: ReadonlyArray<number>,
-    params?: HttpParams
+    params?: HttpParams,
   ): Observable<void> {
     return this.http
       .put<void>(
@@ -52,7 +52,7 @@ export class LessonPresencesUpdateRestService {
           PersonIds: personIds,
           WithComment: true,
         },
-        { params }
+        { params },
       )
       .pipe(map(() => undefined));
   }
@@ -61,9 +61,9 @@ export class LessonPresencesUpdateRestService {
     lessonIds: ReadonlyArray<number>,
     personIds: ReadonlyArray<number>,
     absenceTypeId: number,
-    confirmationValue: number
+    confirmationValue: number,
   ): Observable<void> {
-    const body: Dict<any> = {
+    const body: Dict<unknown> = {
       LessonIds: lessonIds,
       PersonIds: personIds,
       AbsenceTypeId: absenceTypeId,

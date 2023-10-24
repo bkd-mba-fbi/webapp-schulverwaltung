@@ -75,7 +75,7 @@ describe('PresenceControlStateService', () => {
             },
           },
         ],
-      })
+      }),
     );
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(PresenceControlStateService);
@@ -84,7 +84,7 @@ describe('PresenceControlStateService', () => {
     service.selectedLesson$.subscribe(selectedLessonCb);
 
     presenceControlEntriesCb = jasmine.createSpy(
-      'presenceControlEntries$ callback'
+      'presenceControlEntries$ callback',
     );
     service.presenceControlEntries$.subscribe(presenceControlEntriesCb);
 
@@ -104,7 +104,7 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 23, 8, 0),
       'Turnen',
       'Frisch Max',
-      'Tina Tran'
+      'Tina Tran',
     );
     deutschEinsteinAbwesend = buildLessonPresence(
       2,
@@ -114,7 +114,7 @@ describe('PresenceControlStateService', () => {
       'Einstein Albert',
       'Dora Durrer',
       absent.Id,
-      333
+      333,
     );
     deutschFrisch = buildLessonPresence(
       2,
@@ -124,7 +124,7 @@ describe('PresenceControlStateService', () => {
       'Frisch Max',
       'Dora Durrer',
       undefined,
-      333
+      333,
     );
     mathEinstein1 = buildLessonPresence(
       3,
@@ -135,7 +135,7 @@ describe('PresenceControlStateService', () => {
       'Martina Moser',
       undefined,
       33,
-      66
+      66,
     );
     mathEinstein2 = buildLessonPresence(
       4,
@@ -146,7 +146,7 @@ describe('PresenceControlStateService', () => {
       'Martina Moser',
       undefined,
       33,
-      66
+      66,
     );
     mathEinstein3 = buildLessonPresence(
       5,
@@ -157,7 +157,7 @@ describe('PresenceControlStateService', () => {
       'Martina Moser',
       undefined,
       34,
-      66
+      66,
     );
     mathEinstein4 = buildLessonPresence(
       6,
@@ -168,7 +168,7 @@ describe('PresenceControlStateService', () => {
       'Martina Moser',
       undefined,
       35,
-      66
+      66,
     );
     lessonPresences = [
       turnenFrisch,
@@ -204,9 +204,9 @@ describe('PresenceControlStateService', () => {
           'Deutsch',
           'Dora Durrer',
           undefined,
-          333
-        )
-      )
+          333,
+        ),
+      ),
     );
     expect(presenceControlEntriesCb).toHaveBeenCalledWith([
       buildPresenceControlEntry(deutschEinsteinAbwesend, absent),
@@ -229,7 +229,7 @@ describe('PresenceControlStateService', () => {
       new Date(2000, 0, 10, 16, 0),
       new Date(2000, 0, 10, 17, 0),
       'Werken',
-      'Frisch Max'
+      'Frisch Max',
     );
     expectLessonsRequest(lessonsFromPresences([werkenFrisch]), '2000-01-10');
     expectLessonPresencesRequest([werkenFrisch], [99]);
@@ -242,9 +242,9 @@ describe('PresenceControlStateService', () => {
           new Date(2000, 0, 10, 16, 0),
           new Date(2000, 0, 10, 17, 0),
           'Werken',
-          ''
-        )
-      )
+          '',
+        ),
+      ),
     );
     expect(presenceControlEntriesCb).toHaveBeenCalledWith([
       buildPresenceControlEntry(werkenFrisch),
@@ -257,7 +257,7 @@ describe('PresenceControlStateService', () => {
       expectLessonsRequest();
       expectLessonPresencesRequest(
         lessonPresences.filter((p) => p.LessonRef.Id === 3),
-        [3]
+        [3],
       );
       expectPresenceTypesRequest();
       expectAbsenceConfirmationStatesRequest();
@@ -296,10 +296,10 @@ describe('PresenceControlStateService', () => {
 
   function expectLessonPresencesRequest(
     response = lessonPresences,
-    lessionIds = [2]
+    lessionIds = [2],
   ): void {
     const url = `https://eventotest.api/LessonPresences/?filter.LessonRef=;${lessionIds.join(
-      ';'
+      ';',
     )}`;
 
     httpTestingController
@@ -315,7 +315,7 @@ describe('PresenceControlStateService', () => {
   }
 
   function expectAbsenceConfirmationStatesRequest(
-    response = confirmationStates
+    response = confirmationStates,
   ): void {
     const url =
       'https://eventotest.api/DropDownItems/AbsenceConfirmationStates';
@@ -327,7 +327,7 @@ describe('PresenceControlStateService', () => {
   function expectLoadOtherTeachersAbsencesRequest(
     response = otherAbsences,
     personId: number,
-    students?: number[]
+    students?: number[],
   ): void {
     let url = `https://eventotest.api/LessonTeachers/except/${personId}/LessonAbsences?expand=LessonRef`;
     if (students && students.length > 0) {
@@ -341,9 +341,10 @@ describe('PresenceControlStateService', () => {
   function lessonsFromPresences(presences: LessonPresence[]): Lesson[] {
     return presences.map((p) =>
       Object.keys(Lesson.props).reduce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (obj, key) => ({ ...obj, [key]: (p as any)[key] }),
-        {} as Lesson
-      )
+        {} as Lesson,
+      ),
     );
   }
 });

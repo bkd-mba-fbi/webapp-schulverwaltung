@@ -7,6 +7,8 @@ import { ConfirmAbsencesSelectionService } from './confirm-absences-selection.se
 import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
 import { OpenAbsencesEntry } from 'src/app/open-absences/models/open-absences-entry.model';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('ConfirmAbsencesSelectionService', () => {
   let service: ConfirmAbsencesSelectionService;
   let presenceA: LessonPresence;
@@ -20,7 +22,7 @@ describe('ConfirmAbsencesSelectionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ providers: [ConfirmAbsencesSelectionService] })
+      buildTestModuleMetadata({ providers: [ConfirmAbsencesSelectionService] }),
     );
     service = TestBed.inject(ConfirmAbsencesSelectionService);
 

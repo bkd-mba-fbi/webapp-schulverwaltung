@@ -12,6 +12,8 @@ import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-item
 import { PresenceType } from 'src/app/shared/models/presence-type.model';
 import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('EditAbsencesEditComponent', () => {
   let component: EditAbsencesEditComponent;
   let fixture: ComponentFixture<EditAbsencesEditComponent>;
@@ -43,7 +45,7 @@ describe('EditAbsencesEditComponent', () => {
     dispensation = buildPresenceType(
       settings.dispensationPresenceTypeId,
       false,
-      false
+      false,
     );
     dispensation.IsDispensation = true;
 
@@ -106,7 +108,7 @@ describe('EditAbsencesEditComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -136,7 +138,7 @@ describe('EditAbsencesEditComponent', () => {
           'Math',
           undefined,
           undefined,
-          ill.Id
+          ill.Id,
         ),
         buildLessonPresence(
           2,
@@ -145,7 +147,7 @@ describe('EditAbsencesEditComponent', () => {
           'Deutsch',
           undefined,
           undefined,
-          ill.Id
+          ill.Id,
         ),
       ];
       fixture.detectChanges();
@@ -161,7 +163,7 @@ describe('EditAbsencesEditComponent', () => {
           'Math',
           undefined,
           undefined,
-          doctor.Id
+          doctor.Id,
         ),
         buildLessonPresence(
           2,
@@ -170,7 +172,7 @@ describe('EditAbsencesEditComponent', () => {
           'Deutsch',
           undefined,
           undefined,
-          ill.Id
+          ill.Id,
         ),
       ];
       fixture.detectChanges();
@@ -191,7 +193,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           undefined,
           undefined,
-          100
+          100,
         ),
         buildLessonPresence(
           2,
@@ -202,7 +204,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           absence.Id,
           undefined,
-          100
+          100,
         ),
         buildLessonPresence(
           3,
@@ -213,7 +215,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           doctor.Id,
           undefined,
-          100
+          100,
         ),
         buildLessonPresence(
           4,
@@ -224,7 +226,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           ill.Id,
           undefined,
-          100
+          100,
         ),
         buildLessonPresence(
           5,
@@ -235,7 +237,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           late.Id,
           undefined,
-          100
+          100,
         ),
         buildLessonPresence(
           6,
@@ -246,7 +248,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           dispensation.Id,
           undefined,
-          100
+          100,
         ),
         buildLessonPresence(
           7,
@@ -257,7 +259,7 @@ describe('EditAbsencesEditComponent', () => {
           undefined,
           halfDay.Id,
           undefined,
-          100
+          100,
         ),
       ];
       fixture.detectChanges();
@@ -385,7 +387,7 @@ describe('EditAbsencesEditComponent', () => {
 
   function getSelect(controlName: string): HTMLSelectElement {
     const select = element.querySelector(
-      `select[formControlName="${controlName}"]`
+      `select[formControlName="${controlName}"]`,
     ) as HTMLSelectElement | undefined;
     expect(select).toBeDefined();
     return select as HTMLSelectElement;
@@ -402,7 +404,7 @@ describe('EditAbsencesEditComponent', () => {
 
   function clickRadio(labelText: string): void {
     const labels = Array.prototype.slice.call(
-      element.querySelectorAll('label')
+      element.querySelectorAll('label'),
     );
     const label = labels.find((l) => l.textContent.includes(labelText)) as
       | HTMLElement
@@ -423,7 +425,7 @@ describe('EditAbsencesEditComponent', () => {
     httpTestingController
       .expectOne(
         (req) => req.urlWithParams === url && isEqual(req.body, body),
-        url
+        url,
       )
       .flush('');
   }
@@ -434,7 +436,7 @@ describe('EditAbsencesEditComponent', () => {
     httpTestingController
       .expectOne(
         (req) => req.urlWithParams === url && isEqual(req.body, body),
-        url
+        url,
       )
       .flush('');
   }

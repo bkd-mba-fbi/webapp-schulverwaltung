@@ -16,17 +16,18 @@ export class HttpParams {
 export interface TypeaheadService {
   getTypeaheadItems(
     term: string,
-    additionalParams?: HttpParams
+    additionalParams?: HttpParams,
   ): Observable<ReadonlyArray<DropDownItem>>;
   getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
   extends RestService<T>
   implements TypeaheadService
 {
   protected typeaheadCodec = t.type(
-    pick(this.codec.props, [this.keyAttr, this.labelAttr])
+    pick(this.codec.props, [this.keyAttr, this.labelAttr]),
   );
 
   constructor(
@@ -35,14 +36,14 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     codec: T,
     resourcePath: string,
     protected labelAttr: string,
-    protected keyAttr = 'Id'
+    protected keyAttr = 'Id',
   ) {
     super(http, settings, codec, resourcePath);
   }
 
   getTypeaheadItems(
     term: string,
-    additionalParams?: HttpParams
+    additionalParams?: HttpParams,
   ): Observable<ReadonlyArray<DropDownItem>> {
     const params = {
       params: {
@@ -56,13 +57,16 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
         `${this.baseUrl}/`,
         additionalParams
           ? this.mergeHttpParams(params, additionalParams)
-          : params
+          : params,
       )
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
         map((items) =>
-          items.map((i) => ({ Key: i[this.keyAttr], Value: i[this.labelAttr] }))
-        )
+          items.map((i) => ({
+            Key: i[this.keyAttr],
+            Value: i[this.labelAttr],
+          })),
+        ),
       );
   }
 
@@ -78,13 +82,13 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
         map((item) => ({
           Key: item[this.keyAttr],
           Value: item[this.labelAttr],
-        }))
+        })),
       );
   }
 
   private mergeHttpParams(
     typeaheadParams: HttpParams,
-    additionalParams: HttpParams
+    additionalParams: HttpParams,
   ): HttpParams {
     const merged = {
       params: { ...typeaheadParams.params, ...additionalParams.params },
@@ -92,7 +96,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     if (additionalParams.params.fields) {
       merged.params.fields = typeaheadParams.params.fields.concat(
         ',',
-        additionalParams.params.fields
+        additionalParams.params.fields,
       );
     }
     return merged;

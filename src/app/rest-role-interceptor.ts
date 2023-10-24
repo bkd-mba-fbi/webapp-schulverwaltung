@@ -22,9 +22,9 @@ export class RestRoleInterceptor implements HttpInterceptor {
    * Adds the X-Role-Restriction custom HTTP header for the given module to API requests.
    */
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler,
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if (
       !req.headers.has('X-Role-Restriction') &&
       this.settings.headerRoleRestriction

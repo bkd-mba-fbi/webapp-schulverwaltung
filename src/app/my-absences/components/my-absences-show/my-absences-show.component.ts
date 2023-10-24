@@ -28,7 +28,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   openAbsencesReportAvailable$ =
     this.reportsService.studentConfirmationAvailability$;
   allAbsencesReportUrlAvailable$ = this.allAbsencesReportUrl$.pipe(
-    map((url) => (url ? url.length > 0 : false))
+    map((url) => (url ? url.length > 0 : false)),
   );
 
   private destroy$ = new Subject<void>();
@@ -36,7 +36,7 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
   constructor(
     private reportsService: ReportsService,
     public myAbsencesService: MyAbsencesService,
-    public absencesSelectionService: ConfirmAbsencesSelectionService
+    public absencesSelectionService: ConfirmAbsencesSelectionService,
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +46,8 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
       .pipe(take(1), filter(not(isEmptyArray)))
       .subscribe((absences: ReadonlyArray<LessonAbsence>) =>
         this.reportsService.setStudentConfirmationAvailabilityRecordIds(
-          absences.map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`)
-        )
+          absences.map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`),
+        ),
       );
   }
 
@@ -63,15 +63,15 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
       switchMap(([selectedWithout, selectedIds]) =>
         selectedWithout.length === 0 && selectedIds.length > 0
           ? this.getOpenAbsencesReportRecordIds(
-              uniq(flatten(selectedIds.map((s) => s.lessonIds)))
+              uniq(flatten(selectedIds.map((s) => s.lessonIds))),
             )
-          : of(null)
+          : of(null),
       ),
       map((recordIds) =>
         recordIds
           ? this.reportsService.getStudentConfirmationUrl(recordIds)
-          : null
-      )
+          : null,
+      ),
     );
   }
 
@@ -85,36 +85,38 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(
         (
-          absences: ReadonlyArray<ReadonlyArray<LessonAbsence | LessonIncident>>
-        ) => this.buildUrl(flatten(absences))
+          absences: ReadonlyArray<
+            ReadonlyArray<LessonAbsence | LessonIncident>
+          >,
+        ) => this.buildUrl(flatten(absences)),
       ),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
-  private buildUrl(absences: any[]) {
+  private buildUrl(absences: ReadonlyArray<LessonAbsence | LessonIncident>) {
     return absences.length > 0
       ? this.reportsService.getEvaluateAbsencesUrl(
-          this.getAllReportRecordIds(absences)
+          this.getAllReportRecordIds(absences),
         )
       : null;
   }
 
   private getAllReportRecordIds(
-    presences: ReadonlyArray<LessonAbsence | LessonIncident>
+    presences: ReadonlyArray<LessonAbsence | LessonIncident>,
   ): ReadonlyArray<string> {
     return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationId}`);
   }
 
   private getOpenAbsencesReportRecordIds(
-    lessonIds: ReadonlyArray<number>
+    lessonIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<string>> {
     return this.myAbsencesService.openLessonAbsences$.pipe(
       map((absences) =>
         absences
           .filter((a) => lessonIds.includes(a.LessonRef.Id))
-          .map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`)
-      )
+          .map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`),
+      ),
     );
   }
 }

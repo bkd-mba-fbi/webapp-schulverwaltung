@@ -32,13 +32,13 @@ export class MyNotificationsShowComponent implements OnDestroy {
   isAuthenticated$ = new BehaviorSubject(false);
 
   private refetchTimer$ = interval(
-    this.settings.notificationRefreshTime * 1000
+    this.settings.notificationRefreshTime * 1000,
   ).pipe(
-    startWith(null) // Make sure we have "fresh" notifications when this component gets rendered initially
+    startWith(null), // Make sure we have "fresh" notifications when this component gets rendered initially
   );
   private deleteAllNotifications$ = new Subject<void>();
   private deleteNotification$ = new Subject<number>();
-  private toggleNotificationsPopup$ = new Subject<any>();
+  private toggleNotificationsPopup$ = new Subject<Option<HTMLElement>>();
   private destroy$ = new Subject<void>();
 
   public xssOptions = {
@@ -61,7 +61,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
   constructor(
     i18n: I18nService,
     @Inject(SETTINGS) private settings: Settings,
-    public userSettings: UserSettingsService
+    public userSettings: UserSettingsService,
   ) {
     i18n.initialize();
 
@@ -93,17 +93,17 @@ export class MyNotificationsShowComponent implements OnDestroy {
         withLatestFrom(this.notifications$),
         switchMap(([id, notifications]) =>
           this.userSettings.saveNotificationData(
-            this.deleteNotificationFromArray(id, notifications)
-          )
+            this.deleteNotificationFromArray(id, notifications),
+          ),
         ),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe();
 
     this.deleteAllNotifications$
       .pipe(
         switchMap(() => this.userSettings.saveNotificationData([])),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe();
   }
@@ -128,7 +128,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
 
   deleteNotificationFromArray(
     id: number,
-    data: NotificationData
+    data: NotificationData,
   ): NotificationData {
     return data.filter((entry) => entry.id !== id);
   }
@@ -143,7 +143,7 @@ export class MyNotificationsShowComponent implements OnDestroy {
           return [];
         }
         return throwError(() => err);
-      })
+      }),
     );
   }
 }

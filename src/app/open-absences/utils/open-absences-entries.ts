@@ -8,7 +8,7 @@ import { SortCriteria } from 'src/app/shared/utils/sort';
 import { PrimarySortKey } from '../services/open-absences.service';
 
 export function buildOpenAbsencesEntries(
-  absences: ReadonlyArray<LessonPresence>
+  absences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<OpenAbsencesEntry> {
   const groupedAbsences = groupAbsences(absences);
   return Object.keys(groupedAbsences).reduce((acc, day) => {
@@ -16,7 +16,7 @@ export function buildOpenAbsencesEntries(
       acc = [
         ...acc,
         new OpenAbsencesEntry(
-          groupedAbsences[day][studentId].sort(lessonsComparator)
+          groupedAbsences[day][studentId].sort(lessonsComparator),
         ),
       ];
     });
@@ -26,13 +26,13 @@ export function buildOpenAbsencesEntries(
 
 export function sortOpenAbsencesEntries(
   entries: ReadonlyArray<OpenAbsencesEntry>,
-  sortCriteria: SortCriteria<PrimarySortKey>
+  sortCriteria: SortCriteria<PrimarySortKey>,
 ): ReadonlyArray<OpenAbsencesEntry> {
   return [...entries].sort(getOpenAbsencesComparator(sortCriteria));
 }
 
 export function flattenOpenAbsencesEntries(
-  entries: ReadonlyArray<OpenAbsencesEntry>
+  entries: ReadonlyArray<OpenAbsencesEntry>,
 ): ReadonlyArray<LessonPresence> {
   return entries.reduce((acc, e) => {
     return acc.concat(e.absences);
@@ -44,30 +44,30 @@ export function removeOpenAbsences(
   affectedIds: ReadonlyArray<{
     lessonIds: ReadonlyArray<number>;
     personId: number;
-  }>
+  }>,
 ): ReadonlyArray<LessonPresence> {
   return entries.filter(
     (e) =>
       !affectedIds.some(
         ({ lessonIds, personId }) =>
-          lessonIds.includes(e.LessonRef.Id) && personId === e.StudentRef.Id
-      )
+          lessonIds.includes(e.LessonRef.Id) && personId === e.StudentRef.Id,
+      ),
   );
 }
 
 export function mergeUniqueLessonPresences(
   a: ReadonlyArray<LessonPresence>,
-  b: ReadonlyArray<LessonPresence>
+  b: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<LessonPresence> {
   return uniqBy([...a, ...b], 'Id');
 }
 
 function getOpenAbsencesComparator(
-  sortCriteria: SortCriteria<PrimarySortKey>
+  sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: OpenAbsencesEntry, b: OpenAbsencesEntry) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
-      case 'date':
+      case 'date': {
         // First sort by time (ascending/descending), then by name (always ascending)
         const timeA = a.date.getTime();
         const timeB = b.date.getTime();
@@ -75,8 +75,9 @@ function getOpenAbsencesComparator(
           return a.studentFullName.localeCompare(b.studentFullName);
         }
         return sortCriteria.ascending ? timeA - timeB : timeB - timeA;
+      }
 
-      case 'name':
+      case 'name': {
         // First sort by name (ascending/descending), then by date (always descending)
         const nameDiff = sortCriteria.ascending
           ? a.studentFullName.localeCompare(b.studentFullName)
@@ -85,11 +86,14 @@ function getOpenAbsencesComparator(
           return b.date.getTime() - a.date.getTime();
         }
         return nameDiff;
+      }
+
+      default:
+        throw new UnreachableError(
+          sortCriteria.primarySortKey,
+          'Unhandled sort criteria',
+        );
     }
-    throw new UnreachableError(
-      sortCriteria.primarySortKey,
-      'Unhandled sort criteria'
-    );
   };
 }
 
@@ -97,18 +101,21 @@ function getOpenAbsencesComparator(
  * Groups lesson presences by day, then student id.
  */
 function groupAbsences(
-  absences: ReadonlyArray<LessonPresence>
+  absences: ReadonlyArray<LessonPresence>,
 ): Dict<Dict<LessonPresence[]>> {
-  return absences.reduce((acc, absence) => {
-    const day = format(absence.LessonDateTimeFrom, 'yyyy-MM-dd');
-    const studentId = absence.StudentRef.Id;
-    if (!acc[day]) {
-      acc[day] = {};
-    }
-    if (!acc[day][studentId]) {
-      acc[day][studentId] = [];
-    }
-    acc[day][studentId].push(absence);
-    return acc;
-  }, {} as Dict<Dict<LessonPresence[]>>);
+  return absences.reduce(
+    (acc, absence) => {
+      const day = format(absence.LessonDateTimeFrom, 'yyyy-MM-dd');
+      const studentId = absence.StudentRef.Id;
+      if (!acc[day]) {
+        acc[day] = {};
+      }
+      if (!acc[day][studentId]) {
+        acc[day][studentId] = [];
+      }
+      acc[day][studentId].push(absence);
+      return acc;
+    },
+    {} as Dict<Dict<LessonPresence[]>>,
+  );
 }

@@ -42,10 +42,4 @@ describe('persons utilities', () => {
     student.Birthdate = birthday;
     return student;
   }
-
-  function buildPersonWithFormOfAddress(formOfAddress: string): Person {
-    const person = buildPerson(123);
-    person.FormOfAddress = formOfAddress;
-    return person;
-  }
 });
