@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { OpenAbsencesComponent } from './open-absences.component';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { TestStateService } from '../../../events/services/test-state.service';
 
 describe('OpenAbsencesComponent', () => {
   let component: OpenAbsencesComponent;
@@ -12,7 +11,7 @@ describe('OpenAbsencesComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [OpenAbsencesComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

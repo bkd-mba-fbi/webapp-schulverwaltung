@@ -9,7 +9,7 @@ import {
 /**
  * Parses given query string to params object
  */
-export function parseQueryString(queryString: any): Params {
+export function parseQueryString(queryString: unknown): Params {
   return String(queryString || '')
     .split('&')
     .reduce((acc, pair) => {

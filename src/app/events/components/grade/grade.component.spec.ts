@@ -24,7 +24,7 @@ describe('GradeComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [GradeComponent],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(GradeComponent);
@@ -191,7 +191,7 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(true)
+        expect(result).toBe(true),
       );
     });
 
@@ -205,7 +205,7 @@ describe('GradeComponent', () => {
       fixture.detectChanges();
 
       component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(false)
+        expect(result).toBe(false),
       );
     });
 
@@ -222,7 +222,7 @@ describe('GradeComponent', () => {
 
       // then
       component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(false)
+        expect(result).toBe(false),
       );
     });
 
@@ -238,7 +238,7 @@ describe('GradeComponent', () => {
 
       // then
       component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(false)
+        expect(result).toBe(false),
       );
     });
   });
@@ -247,12 +247,4 @@ describe('GradeComponent', () => {
 function expectPointsInputValue(debugElement: DebugElement, expected: string) {
   const input = debugElement.query(byTestId('point-input')).nativeElement;
   expect(input.value).toBe(expected);
-}
-
-function expectValidationErrorMessage(debugElement: DebugElement) {
-  const error = debugElement.query(
-    byTestId('validation-error-message')
-  ).nativeElement;
-
-  expect(error.textContent).toContain('global.validation-errors.invalidPoints');
 }

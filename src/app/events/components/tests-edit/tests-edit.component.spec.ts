@@ -17,8 +17,8 @@ describe('TestsEditComponent', () => {
   let courseRestServiceMock: jasmine.SpyObj<CoursesRestService>;
 
   beforeEach(async () => {
-    let course = buildCourse(1234);
-    let test = buildTest(1234, 1, []);
+    const course = buildCourse(1234);
+    const test = buildTest(1234, 1, []);
     course.Tests = [test];
 
     activatedRouteMock = new ActivatedRouteMock({
@@ -47,7 +47,7 @@ describe('TestsEditComponent', () => {
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: CoursesRestService, useValue: courseRestServiceMock },
         ],
-      })
+      }),
     ).compileComponents();
   });
 
@@ -81,7 +81,7 @@ describe('TestsEditComponent', () => {
       formGroupValue.weight,
       formGroupValue.isPointGrading,
       formGroupValue.maxPoints,
-      formGroupValue.maxPointsAdjusted
+      formGroupValue.maxPointsAdjusted,
     );
   });
 });

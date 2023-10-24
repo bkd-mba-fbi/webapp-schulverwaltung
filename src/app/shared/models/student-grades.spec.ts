@@ -26,11 +26,11 @@ describe('student-grade utils', () => {
         buildTest(
           course.Id,
           id,
-          [100, 200].map((studentid) => buildResult(id, studentid))
-        )
+          [100, 200].map((studentid) => buildResult(id, studentid)),
+        ),
       );
       course.Gradings = course.ParticipatingStudents.map(
-        (student) => student.Id
+        (student) => student.Id,
       ).map((studentId, index) => buildGrading(studentId, 5.75 - index));
 
       // when
@@ -38,7 +38,7 @@ describe('student-grade utils', () => {
         course.ParticipatingStudents,
         course.Tests,
         course.Gradings,
-        []
+        [],
       );
     });
     it('should create a list of students with tests and grades - all grades available for all students', () => {
@@ -57,18 +57,18 @@ describe('student-grade utils', () => {
       expect(results[1].grades.length).toBe(3);
 
       expect(
-        results[0].grades.some((grade) => grade.kind === 'no-result')
+        results[0].grades.some((grade) => grade.kind === 'no-result'),
       ).toBeFalsy();
       expect(
-        results[1].grades.some((grade) => grade.kind === 'no-result')
+        results[1].grades.some((grade) => grade.kind === 'no-result'),
       ).toBeFalsy();
 
       expect(
         results[0].grades.map((grade) =>
           grade.kind !== 'no-result'
             ? [grade.result.TestId, grade.result.StudentId]
-            : ''
-        )
+            : '',
+        ),
       ).toEqual([
         [1, 100],
         [2, 100],
@@ -78,8 +78,8 @@ describe('student-grade utils', () => {
         results[1].grades.map((grade) =>
           grade.kind !== 'no-result'
             ? [grade.result.TestId, grade.result.StudentId]
-            : ''
-        )
+            : '',
+        ),
       ).toEqual([
         [1, 200],
         [2, 200],
@@ -100,15 +100,15 @@ describe('student-grade utils', () => {
       course.ParticipatingStudents,
       course.Tests,
       course.Gradings,
-      []
+      [],
     );
 
     // then
     expect(
-      results[0].grades.every((grade) => grade.kind === 'no-result')
+      results[0].grades.every((grade) => grade.kind === 'no-result'),
     ).toBeTruthy();
     expect(
-      results[1].grades.every((grade) => grade.kind === 'no-result')
+      results[1].grades.every((grade) => grade.kind === 'no-result'),
     ).toBeTruthy();
 
     expect(results[0].finalGrade).toBeNull();
@@ -123,8 +123,8 @@ describe('student-grade utils', () => {
       buildTest(
         course.Id,
         id,
-        [100].map((studentid) => buildResult(id, studentid))
-      )
+        [100].map((studentid) => buildResult(id, studentid)),
+      ),
     );
     course.Gradings = [buildGrading(100)];
 
@@ -133,7 +133,7 @@ describe('student-grade utils', () => {
       course.ParticipatingStudents,
       course.Tests,
       course.Gradings,
-      []
+      [],
     );
     // then
 
@@ -141,8 +141,8 @@ describe('student-grade utils', () => {
       results[0].grades.map((grade) =>
         grade.kind !== 'no-result'
           ? [grade.result.TestId, grade.result.StudentId]
-          : 'no-result'
-      )
+          : 'no-result',
+      ),
     ).toEqual([
       [1, 100],
       [2, 100],
@@ -152,8 +152,8 @@ describe('student-grade utils', () => {
       results[1].grades.map((grade) =>
         grade.kind !== 'no-result'
           ? [grade.result.TestId, grade.result.StudentId]
-          : 'no-result'
-      )
+          : 'no-result',
+      ),
     ).toEqual([`no-result`, `no-result`, `no-result`]);
 
     expect(results[0].finalGrade?.average).toBe(2.275);
@@ -167,10 +167,10 @@ describe('student-grade utils', () => {
     const course = buildCourse(123);
     course.ParticipatingStudents = [buildStudent(99)];
     course.Tests = [1, 2, 3].map((id) =>
-      buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : [])
+      buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : []),
     );
     course.Gradings = course.ParticipatingStudents.map(
-      (student) => student.Id
+      (student) => student.Id,
     ).map((studentId) => buildGrading(studentId));
 
     // when
@@ -178,7 +178,7 @@ describe('student-grade utils', () => {
       course.ParticipatingStudents,
       course.Tests,
       course.Gradings,
-      []
+      [],
     );
 
     // then
@@ -189,8 +189,8 @@ describe('student-grade utils', () => {
       results[0].grades.map((grade) =>
         grade.kind !== 'no-result'
           ? [grade.result.TestId, grade.result.StudentId]
-          : 'no-result'
-      )
+          : 'no-result',
+      ),
     ).toEqual(['no-result', [2, 99], 'no-result']);
   });
 
@@ -198,7 +198,7 @@ describe('student-grade utils', () => {
     let studentGrade: NoResult;
 
     beforeEach(() => {
-      let test = buildTest(1, 1, []);
+      const test = buildTest(1, 1, []);
       studentGrade = {
         kind: 'no-result',
         test: test,
@@ -283,7 +283,7 @@ describe('student-grade utils', () => {
 
     it('should calculate mean of student grades of overwritten final grades using a given scale', () => {
       expect(averageOfGradesForScale(finalGrades, scale)).toBe(
-        4.333333333333333
+        4.333333333333333,
       );
     });
   });

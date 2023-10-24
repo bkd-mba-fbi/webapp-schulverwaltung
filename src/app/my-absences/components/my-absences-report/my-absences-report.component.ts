@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MyAbsencesReportStateService } from '../../services/my-absences-report-state.service';
 import { MyAbsencesReportSelectionService } from '../../services/my-absences-report-selection.service';
 

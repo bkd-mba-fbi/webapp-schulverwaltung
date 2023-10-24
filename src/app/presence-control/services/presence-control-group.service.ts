@@ -1,14 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
 import { forkJoin, merge, Subject } from 'rxjs';
-import {
-  map,
-  switchMap,
-  shareReplay,
-  startWith,
-  distinctUntilChanged,
-} from 'rxjs/operators';
-import { flatten, isEqual, uniq } from 'lodash-es';
+import { map, switchMap, shareReplay, startWith } from 'rxjs/operators';
+import { flatten, uniq } from 'lodash-es';
 import { SETTINGS, Settings } from '../../settings';
 import { LessonPresence } from '../../shared/models/lesson-presence.model';
 import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
@@ -45,13 +39,13 @@ export class PresenceControlGroupService {
     switchMap((lesson) =>
       this.userSettings
         .getPresenceControlGroupView()
-        .pipe(map((views) => this.findGroupByLesson(views, lesson)))
-    )
+        .pipe(map((views) => this.findGroupByLesson(views, lesson))),
+    ),
   );
 
   group$ = merge(this.selectGroup$, this.savedGroup$).pipe(
     startWith(this.defaultGroup),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   loading$ = this.loadingService.loading(GROUP_LOADING_CONTEXT);
@@ -60,10 +54,12 @@ export class PresenceControlGroupService {
     map((lesson) => lesson?.getEventIds() || []),
     switchMap((ids) =>
       forkJoin(
-        ids.map((id) => this.eventService.getSubscriptionDetailsDefinitions(id))
-      )
+        ids.map((id) =>
+          this.eventService.getSubscriptionDetailsDefinitions(id),
+        ),
+      ),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /**
@@ -74,10 +70,10 @@ export class PresenceControlGroupService {
   groupsAvailability$ = this.subscriptionDetailsDefinitions$.pipe(
     map((detailsByEvent) =>
       detailsByEvent.every((details) =>
-        findSubscriptionDetailByGroupId(details, this.settings)
-      )
+        findSubscriptionDetailByGroupId(details, this.settings),
+      ),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private subscriptionDetails$ = combineLatest([
@@ -85,18 +81,18 @@ export class PresenceControlGroupService {
     this.groupsAvailability$,
     this.reloadSubscriptionDetails$.pipe(
       map(() => false),
-      startWith(true)
+      startWith(true),
     ),
   ]).pipe(
     switchMap(([lesson, groupsAvailability, initial]) =>
       lesson && groupsAvailability
         ? this.loadSubscriptionDetailsForLesson(lesson, initial)
-        : of([])
+        : of([]),
     ),
     map((details) =>
-      filterSubscriptionDetailsByGroupId(details, this.settings)
+      filterSubscriptionDetailsByGroupId(details, this.settings),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   subscriptionDetailPersonIds$ = combineLatest([
@@ -104,9 +100,9 @@ export class PresenceControlGroupService {
     this.subscriptionDetails$,
   ]).pipe(
     map(([group, details]) =>
-      details.filter((d) => d.Value === group).map((d) => d.IdPerson)
+      details.filter((d) => d.Value === group).map((d) => d.IdPerson),
     ),
-    startWith([])
+    startWith([]),
   );
 
   constructor(
@@ -115,7 +111,7 @@ export class PresenceControlGroupService {
     private subscriptionService: SubscriptionsRestService,
     private subscriptionDetailsService: SubscriptionDetailsRestService,
     private loadingService: LoadingService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   selectGroup(groupId: GroupOptions['id']): void {
@@ -133,7 +129,7 @@ export class PresenceControlGroupService {
   getSubscriptionDetailsDefinitions(): Observable<Maybe<SubscriptionDetail>> {
     return this.subscriptionDetailsDefinitions$.pipe(
       map(flatten),
-      map((details) => findSubscriptionDetailByGroupId(details, this.settings))
+      map((details) => findSubscriptionDetailByGroupId(details, this.settings)),
     );
   }
 
@@ -157,26 +153,26 @@ export class PresenceControlGroupService {
 
   private loadSubscriptionDetailsForLesson(
     lesson: LessonEntry,
-    initial = true
+    initial = true,
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
     return this.loadingService
       .load(
         forkJoin(
           uniq(lesson.getEventIds()).map((eventId) =>
-            this.subscriptionDetailsService.getListForEvent(eventId)
-          )
+            this.subscriptionDetailsService.getListForEvent(eventId),
+          ),
         ),
-        !initial ? GROUP_LOADING_CONTEXT : undefined
+        !initial ? GROUP_LOADING_CONTEXT : undefined,
       )
       .pipe(map(flatten));
   }
 
   private findGroupByLesson(
     groupViews: ReadonlyArray<PresenceControlGroupViewEntry>,
-    lesson: Option<LessonEntry>
+    lesson: Option<LessonEntry>,
   ): GroupOptions['id'] {
     const groupView = groupViews.find(
-      (gv) => gv.eventId === lesson?.getEventIds()[0] // All event ids of a lesson share the same group
+      (gv) => gv.eventId === lesson?.getEventIds()[0], // All event ids of a lesson share the same group
     );
 
     return groupView?.group || this.defaultGroup;

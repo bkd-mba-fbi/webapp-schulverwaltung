@@ -43,15 +43,15 @@ export class MyAbsencesReportListComponent
     this.selectionService.selection$,
     this.state.entries$.pipe(
       switchMap((entries) =>
-        combineLatest(entries.map((e) => this.getPresenceType(e)))
-      )
+        combineLatest(entries.map((e) => this.getPresenceType(e))),
+      ),
     ),
   ]).pipe(
     map(
       ([selection, presenceTypes]) =>
         selection.length > 0 &&
-        selection.length === presenceTypes.filter(not(isAbsent)).length
-    )
+        selection.length === presenceTypes.filter(not(isAbsent)).length,
+    ),
   );
 
   private destroy$ = new Subject<void>();
@@ -62,7 +62,7 @@ export class MyAbsencesReportListComponent
     private route: ActivatedRoute,
     private scrollPosition: ScrollPositionService,
     private presenceTypesService: PresenceTypesService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class MyAbsencesReportListComponent
   }
 
   getPresenceCategory(
-    lessonPresence: LessonPresence
+    lessonPresence: LessonPresence,
   ): Observable<Option<{ category: PresenceCategory; icon: string }>> {
     return this.getPresenceType(lessonPresence).pipe(
       map((type) => {
@@ -106,12 +106,12 @@ export class MyAbsencesReportListComponent
           };
         }
         return null;
-      })
+      }),
     );
   }
 
   getPresenceTypeDesignation(
-    lessonPresence: LessonPresence
+    lessonPresence: LessonPresence,
   ): Observable<Option<string>> {
     return this.presenceTypesService.displayedTypes$.pipe(
       map(
@@ -119,8 +119,8 @@ export class MyAbsencesReportListComponent
           (lessonPresence.TypeRef.Id &&
             types.find((t) => t.Id === lessonPresence.TypeRef.Id)
               ?.Designation) ||
-          null
-      )
+          null,
+      ),
     );
   }
 
@@ -136,9 +136,9 @@ export class MyAbsencesReportListComponent
         checked
           ? entries.filter(
               (e) =>
-                e.TypeRef.Id == null || !absentTypeIds.includes(e.TypeRef.Id)
+                e.TypeRef.Id == null || !absentTypeIds.includes(e.TypeRef.Id),
             )
-          : null
+          : null,
       );
     });
   }
@@ -148,22 +148,22 @@ export class MyAbsencesReportListComponent
     if (
       checkbox &&
       event.target !== checkbox &&
-      !Boolean((event.target as HTMLElement).closest('.buttons'))
+      !(event.target as HTMLElement).closest('.buttons')
     ) {
       (checkbox as HTMLInputElement).click();
     }
   }
 
   private getPresenceType(
-    lessonPresence: LessonPresence
+    lessonPresence: LessonPresence,
   ): Observable<Option<PresenceType>> {
     return this.presenceTypesService.presenceTypes$.pipe(
       map(
         (types) =>
           (lessonPresence.TypeRef.Id &&
             types.find((t) => t.Id === lessonPresence.TypeRef.Id)) ||
-          null
-      )
+          null,
+      ),
     );
   }
 }

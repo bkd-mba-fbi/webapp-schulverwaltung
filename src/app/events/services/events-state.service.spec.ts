@@ -15,9 +15,9 @@ import { Event, EventsStateService, EventState } from './events-state.service';
 describe('EventsStateService', () => {
   let service: EventsStateService;
   let httpTestingController: HttpTestingController;
-  let storageServiceMock: StorageService = jasmine.createSpyObj(
+  const storageServiceMock: StorageService = jasmine.createSpyObj(
     'StorageService',
-    ['getPayload']
+    ['getPayload'],
   );
 
   let courseEvents: Event[];
@@ -41,7 +41,7 @@ describe('EventsStateService', () => {
             useValue: storageServiceMock,
           },
         ],
-      })
+      }),
     );
 
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -96,11 +96,11 @@ describe('EventsStateService', () => {
           ...evaluationStatus,
           HasReviewOfEvaluationStarted: true,
         },
-        studyClasses
+        studyClasses,
       ),
       {
         FinalGrades: [buildFinalGrading(45)],
-      }
+      },
     );
 
     courses = [
@@ -114,7 +114,7 @@ describe('EventsStateService', () => {
           HasEvaluationStarted: true,
           EvaluationUntil: new Date(2022, 5, 3),
         },
-        [studyClasses[0]]
+        [studyClasses[0]],
       ),
       buildCourse(
         3,
@@ -125,7 +125,7 @@ describe('EventsStateService', () => {
           HasEvaluationStarted: true,
         },
         [studyClasses[1]],
-        10300
+        10300,
       ),
       buildCourse(
         4,
@@ -135,7 +135,7 @@ describe('EventsStateService', () => {
           ...evaluationStatus,
           HasTestGrading: true,
         },
-        studyClasses
+        studyClasses,
       ),
       ratedCourse,
     ];
@@ -200,7 +200,7 @@ describe('EventsStateService', () => {
             ...studyClassEvents,
             ...assessmentEvents,
             ...courseEvents,
-          ])
+          ]),
         );
 
       expectCoursesRequest();

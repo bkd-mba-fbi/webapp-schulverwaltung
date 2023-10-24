@@ -28,7 +28,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -49,7 +49,7 @@ describe('Course utils', () => {
         1234,
         'Course in state add-tests',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -71,7 +71,7 @@ describe('Course utils', () => {
         1234,
         'Course in state rating-until',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -95,7 +95,7 @@ describe('Course utils', () => {
         undefined,
         evaluationStatusRef,
         undefined,
-        10300
+        10300,
       );
 
       // then
@@ -120,7 +120,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -141,7 +141,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -162,7 +162,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -183,7 +183,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -209,7 +209,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -235,7 +235,7 @@ describe('Course utils', () => {
         1234,
         'Course in no state',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
 
       // then
@@ -251,11 +251,11 @@ describe('Course utils', () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
-      let course = buildCourse(
+      const course = buildCourse(
         1,
         'rated course',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
       course.FinalGrades = [buildFinalGrading(3)];
 
@@ -268,11 +268,11 @@ describe('Course utils', () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
-      let course = buildCourse(
+      const course = buildCourse(
         1,
         'rated course',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
       course.FinalGrades = null;
 
@@ -285,11 +285,11 @@ describe('Course utils', () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
-      let course = buildCourse(
+      const course = buildCourse(
         1,
         'rated course',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
       course.FinalGrades = [];
 
@@ -302,11 +302,11 @@ describe('Course utils', () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: false,
       } as unknown as EvaluationStatusRef;
-      let course = buildCourse(
+      const course = buildCourse(
         1,
         'rated course',
         undefined,
-        evaluationStatusRef
+        evaluationStatusRef,
       );
       course.FinalGrades = null;
 

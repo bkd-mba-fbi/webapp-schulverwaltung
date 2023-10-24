@@ -6,17 +6,17 @@ import { MultiselectComponent } from './multiselect.component';
 describe('MultiselectComponent', () => {
   let component: MultiselectComponent;
   let fixture: ComponentFixture<MultiselectComponent>;
-  let element: HTMLElement;
+  // let element: HTMLElement;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MultiselectComponent);
-    element = fixture.debugElement.nativeElement;
+    // element = fixture.debugElement.nativeElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,6 +13,8 @@ import { Course } from '../../../models/course.model';
 import { buildCourse, buildGradingScale } from '../../../../../spec-builders';
 import { GradingScale } from '../../../models/grading-scale.model';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('DossierGradesComponent', () => {
   let component: DossierGradesComponent;
   let fixture: ComponentFixture<DossierGradesComponent>;
@@ -25,7 +27,7 @@ describe('DossierGradesComponent', () => {
   let studentCourses$: BehaviorSubject<Course[]>;
   let gradingScales$: BehaviorSubject<readonly GradingScale[]>;
 
-  let courses = [buildCourse(1234)];
+  const courses = [buildCourse(1234)];
   const gradingScales = [buildGradingScale(1)];
 
   beforeEach(async () => {
@@ -39,7 +41,7 @@ describe('DossierGradesComponent', () => {
     loading$ = new BehaviorSubject<any>(false);
     studentCourses$ = new BehaviorSubject<Course[]>(courses);
     gradingScales$ = new BehaviorSubject<readonly GradingScale[]>(
-      gradingScales
+      gradingScales,
     );
 
     dossierGradesServiceMock = {
@@ -65,7 +67,7 @@ describe('DossierGradesComponent', () => {
             useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
           },
         ],
-      })
+      }),
     ).compileComponents();
   });
 

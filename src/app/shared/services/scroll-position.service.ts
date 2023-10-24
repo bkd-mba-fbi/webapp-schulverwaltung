@@ -68,7 +68,7 @@ export class ScrollPositionService implements OnDestroy {
   // "old" component is still correctly rendered
   private scrollPosition$ = this.router.events.pipe(
     filter(isNavigationStart),
-    map(this.getScrollPosition.bind(this))
+    map(this.getScrollPosition.bind(this)),
   );
 
   private activationEnd$ = this.router.events.pipe(filter(isActivationEnd));
@@ -80,17 +80,17 @@ export class ScrollPositionService implements OnDestroy {
     mergeMap((first) => [
       of(first),
       this.navigationEnd$.pipe(
-        switchMap(() => this.activationEnd$.pipe(take(1)))
+        switchMap(() => this.activationEnd$.pipe(take(1))),
       ),
     ]),
     switchAll(),
     map((event) => event.snapshot),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
     private router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
   ) {
     this.scrollPosition$
       .pipe(takeUntil(this.destroy$))
@@ -128,7 +128,7 @@ export class ScrollPositionService implements OnDestroy {
         skip(1),
         take(1),
         takeUntil(this.destroy$),
-        filter((nextRoute) => this.shouldStoreFor(currentRoute, nextRoute))
+        filter((nextRoute) => this.shouldStoreFor(currentRoute, nextRoute)),
       )
       .subscribe(() => {
         const storeRouteUrl = this.getPath(currentRoute);
@@ -170,7 +170,7 @@ export class ScrollPositionService implements OnDestroy {
         route.routeConfig &&
         route.routeConfig.data &&
         Array.isArray(route.routeConfig.data.restoreScrollPositionFrom) &&
-        route.routeConfig.data.restoreScrollPositionFrom.length > 0
+        route.routeConfig.data.restoreScrollPositionFrom.length > 0,
     );
   }
 
@@ -181,7 +181,7 @@ export class ScrollPositionService implements OnDestroy {
    */
   private shouldStoreFor(
     storeRoute: ActivatedRouteSnapshot,
-    forRoute: ActivatedRouteSnapshot
+    forRoute: ActivatedRouteSnapshot,
   ): boolean {
     const restoreScrollPositionFrom =
       storeRoute &&
@@ -194,14 +194,14 @@ export class ScrollPositionService implements OnDestroy {
   }
 }
 
-function isActivationEnd(event: any): event is ActivationEnd {
+function isActivationEnd(event: unknown): event is ActivationEnd {
   return event instanceof ActivationEnd;
 }
 
-function isNavigationStart(event: any): event is NavigationStart {
+function isNavigationStart(event: unknown): event is NavigationStart {
   return event instanceof NavigationStart;
 }
 
-function isNavigationEnd(event: any): event is NavigationEnd {
+function isNavigationEnd(event: unknown): event is NavigationEnd {
   return event instanceof NavigationEnd;
 }

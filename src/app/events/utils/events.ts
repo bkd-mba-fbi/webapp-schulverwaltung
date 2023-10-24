@@ -17,12 +17,8 @@ const COURSE_ACTIVE_STATUS_ID = 10350;
  * course's evaluation and test status. See #427
  */
 export function getEventState(course: Course): Option<EventStateWithLabel> {
-  const {
-    HasEvaluationStarted,
-    HasReviewOfEvaluationStarted,
-    EvaluationUntil,
-    HasTestGrading,
-  } = course.EvaluationStatusRef;
+  const { HasEvaluationStarted, EvaluationUntil, HasTestGrading } =
+    course.EvaluationStatusRef;
 
   if (
     HasEvaluationStarted === true &&
@@ -52,7 +48,8 @@ export function getEventState(course: Course): Option<EventStateWithLabel> {
   if (
     HasEvaluationStarted === false &&
     HasTestGrading === true &&
-    (course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID && course.StatusId !== REVIEW_EVALUATED_STATUS_ID)
+    course.StatusId !== DEFINITIVELY_EVALUATED_STATUS_ID &&
+    course.StatusId !== REVIEW_EVALUATED_STATUS_ID
   ) {
     // Tests erfassen
     return {

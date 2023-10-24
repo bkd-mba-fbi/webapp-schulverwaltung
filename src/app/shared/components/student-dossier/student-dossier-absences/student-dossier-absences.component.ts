@@ -79,14 +79,14 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   lessonPresences$ = this.lessonPresences$$.pipe(
     switchAll(),
     startWith(null),
-    shareReplay(1)
+    shareReplay(1),
   );
   loading$ = this.lessonPresences$.pipe(map(not(isArray)));
 
   selectionService$ = new ReplaySubject<ConfirmAbsencesSelectionService>(1);
   editable$ = this.selectionService$.pipe(
     map(() => true),
-    startWith(false)
+    startWith(false),
   );
 
   private displayPresenceType$ = new BehaviorSubject<boolean>(true);
@@ -97,8 +97,8 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   ]).pipe(
     map(
       ([lessonPresences, selection]) =>
-        lessonPresences.length === selection.length
-    )
+        lessonPresences.length === selection.length,
+    ),
   );
 
   constructor(private presenceTypesService: PresenceTypesService) {}
@@ -142,24 +142,24 @@ export class StudentDossierAbsencesComponent implements OnChanges {
     }
     if (
       event.target !== checkbox &&
-      !Boolean((event.target as HTMLElement).closest('.buttons'))
+      !(event.target as HTMLElement).closest('.buttons')
     ) {
       checkbox.click();
     }
   }
 
   getPresenceTypeDesignation(
-    absence: LessonPresence
+    absence: LessonPresence,
   ): Observable<Option<string>> {
     return this.displayPresenceType$.pipe(
       switchMap((display) =>
-        display ? this.presenceTypesService.displayedTypes$ : of([])
+        display ? this.presenceTypesService.displayedTypes$ : of([]),
       ),
       map((types) =>
         absence.TypeRef.Id
           ? types.find((t) => t.Id === absence.TypeRef.Id)?.Designation || null
-          : null
-      )
+          : null,
+      ),
     );
   }
 }

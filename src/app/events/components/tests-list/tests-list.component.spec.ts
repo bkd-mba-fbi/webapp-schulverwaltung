@@ -17,8 +17,8 @@ describe('TestsListComponent', () => {
   let component: TestsListComponent;
   let fixture: ComponentFixture<TestsListComponent>;
   let testStateServiceMock: TestStateService;
-  let result = buildResult(12, 1);
-  let test = buildTest(1234, 12, [result]);
+  const result = buildResult(12, 1);
+  const test = buildTest(1234, 12, [result]);
 
   const course = buildCourse(1234);
 
@@ -58,7 +58,7 @@ describe('TestsListComponent', () => {
             useValue: reportServiceMock as ReportsService,
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
@@ -80,7 +80,7 @@ describe('TestsListComponent', () => {
 
     expect(link).not.toBeNull();
     expect(link.href).toBe(
-      `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`
+      `http://localhost:9876/link-to-evaluation-module.aspx?IDAnlass=${course.Id}`,
     );
 
     expectElementPresent(fixture.debugElement, 'link-to-rating-overview');

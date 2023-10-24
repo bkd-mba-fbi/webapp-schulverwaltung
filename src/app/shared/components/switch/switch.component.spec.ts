@@ -12,7 +12,7 @@ describe('SwitchComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [SwitchComponent],
-      })
+      }),
     ).compileComponents();
   });
 
@@ -68,13 +68,13 @@ describe('SwitchComponent', () => {
 
   function getInput(): HTMLInputElement {
     const input = element.querySelector<HTMLInputElement>(
-      'input[type="checkbox"]'
+      'input[type="checkbox"]',
     );
     expect(input).toBeDefined();
     return input!;
   }
 
-  function waitForRender(): Promise<any> {
+  function waitForRender() {
     fixture.detectChanges();
     return fixture.whenStable();
   }

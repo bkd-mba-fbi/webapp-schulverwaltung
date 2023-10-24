@@ -20,13 +20,13 @@ describe('MySettingsShowComponent', () => {
           {
             provide: StorageService,
             useValue: {
-              getPayload(): any {
+              getPayload(): Dict<unknown> {
                 return { id_person: '123' };
               },
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

@@ -7,8 +7,8 @@
  *   function repeatStr(str: string, num: number): string { ... }
  *   tuples.map(spread(repeatStr))
  */
-export function spread<A extends any[], R>(
-  fn: (...args: A) => R
+export function spread<A extends unknown[], R>(
+  fn: (...args: A) => R,
 ): (args: A) => R {
   return (args) => fn(...args);
 }

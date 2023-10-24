@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
@@ -31,7 +30,7 @@ export class EvaluateAbsencesHeaderComponent {
   constructor(
     public studentsService: StudentsRestService,
     public educationalEventsService: EducationalEventsRestService,
-    public studyClassesService: StudyClassesRestService
+    public studyClassesService: StudyClassesRestService,
   ) {}
 
   classesHttpFilter = {

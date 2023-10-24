@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import * as t from 'io-ts/lib/index';
-import { skip, take } from 'rxjs/operators';
 
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { PresenceTypesService } from './presence-types.service';
@@ -208,7 +207,7 @@ describe('PresenceTypesService', () => {
             military,
             other,
             comment,
-          ])
+          ]),
       );
 
     httpTestingController.verify();

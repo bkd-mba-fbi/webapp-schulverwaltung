@@ -1,7 +1,6 @@
 import {
   Component,
   Input,
-  OnInit,
   SimpleChanges,
   OnChanges,
   ChangeDetectionStrategy,
@@ -30,8 +29,8 @@ export class MyProfileHeaderComponent implements OnChanges {
     map(([available, studentId]) =>
       available && studentId
         ? this.reportsService.getPersonMasterDataUrl(studentId)
-        : null
-    )
+        : null,
+    ),
   );
 
   constructor(private reportsService: ReportsService) {}

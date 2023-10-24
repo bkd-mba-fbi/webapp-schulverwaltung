@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { StorageService } from './storage.service';
-/*import { buildPayLoad } from 'src/spec-builders';*/
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe('StorageService', () => {
   let service: StorageService;
@@ -14,18 +15,18 @@ describe('StorageService', () => {
 
     localStoreMock = {};
     spyOn(localStorage, 'getItem').and.callFake(
-      (key: string) => localStoreMock[key] || null
+      (key: string) => localStoreMock[key] || null,
     );
     spyOn(localStorage, 'setItem').and.callFake(
-      (key: string) => localStoreMock[key] || null
+      (key: string) => localStoreMock[key] || null,
     );
 
     sessionStoreMock = {};
     spyOn(sessionStorage, 'getItem').and.callFake(
-      (key: string) => sessionStoreMock[key] || null
+      (key: string) => sessionStoreMock[key] || null,
     );
     spyOn(sessionStorage, 'setItem').and.callFake(
-      (key: string) => sessionStoreMock[key] || null
+      (key: string) => sessionStoreMock[key] || null,
     );
   });
 

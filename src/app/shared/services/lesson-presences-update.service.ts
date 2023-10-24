@@ -71,9 +71,9 @@ export class LessonPresencesUpdateService implements OnDestroy {
   private pendingUpdates$ = this.action$.pipe(
     scan(
       this.reduceUpdates.bind(this),
-      [] as ReadonlyArray<LessonPresenceUpdate>
+      [] as ReadonlyArray<LessonPresenceUpdate>,
     ),
-    share()
+    share(),
   );
   private revertUpdates$ = new Subject<ReadonlyArray<LessonPresenceUpdate>>();
 
@@ -81,13 +81,13 @@ export class LessonPresencesUpdateService implements OnDestroy {
   private performUpdates$ = this.pendingUpdates$.pipe(
     debounceTime(UPDATE_REQUEST_DEBOUNCE_TIME),
     filter(not(isEmptyArray)),
-    concatMap(this.performUpdates.bind(this)) // Execute each request after another to not DOS the backend
+    concatMap(this.performUpdates.bind(this)), // Execute each request after another to not DOS the backend
   );
 
   // Update the UI state right-away (latency-compensation)
   stateUpdates$ = merge(this.pendingUpdates$, this.revertUpdates$).pipe(
     debounceTime(UPDATE_STATE_DEBOUNCE_TIME), // Ensure removing of multiple items causes one event
-    filter(not(isEmptyArray))
+    filter(not(isEmptyArray)),
   );
 
   constructor(
@@ -95,7 +95,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     private translate: TranslateService,
     private restService: LessonPresencesUpdateRestService,
     private presenceTypesService: PresenceTypesService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {
     this.performUpdates$.pipe(takeUntil(this.destroy$)).subscribe();
   }
@@ -106,16 +106,16 @@ export class LessonPresencesUpdateService implements OnDestroy {
 
   updatePresenceType(
     selectedPresenceControlEntry: PresenceControlEntry,
-    newPresenceTypeId: Option<number> = null
+    newPresenceTypeId: Option<number> = null,
   ): void {
     this.dispatchAddUpdate(
       selectedPresenceControlEntry.lessonPresence,
-      newPresenceTypeId
+      newPresenceTypeId,
     );
   }
 
   private performUpdates(
-    updates: ReadonlyArray<LessonPresenceUpdate>
+    updates: ReadonlyArray<LessonPresenceUpdate>,
   ): Observable<GroupedLessonPresenceUpdates> {
     const groupedUpdates = this.groupUpdates(updates);
     return combineLatest(
@@ -126,7 +126,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
           result.push(this.performUpdateForGroup(lessonGroup));
         });
         return result;
-      }, [] as Observable<void>[])
+      }, [] as Observable<void>[]),
     ).pipe(map(() => groupedUpdates));
   }
 
@@ -135,7 +135,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
    * from the same lesson.
    */
   private performUpdateForGroup(
-    updates: ReadonlyArray<LessonPresenceUpdate>
+    updates: ReadonlyArray<LessonPresenceUpdate>,
   ): Observable<void> {
     // Remove (i.e. consume) entries from pending updates queue
     updates.forEach((u) => this.dispatchRemoveUpdate(u.presence));
@@ -144,7 +144,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     return this.performLessonPresencesUpdatesByIds(
       updates[0].presence.LessonRef.Id,
       updates.map((u) => u.presence.StudentRef.Id),
-      updates[0].newPresenceTypeId
+      updates[0].newPresenceTypeId,
     ).pipe(catchError((error) => this.revertUpdatesAfterError(updates, error)));
   }
 
@@ -156,7 +156,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
   private performLessonPresencesUpdatesByIds(
     lessonId: number,
     personIds: ReadonlyArray<number>,
-    newPresenceTypeId: Option<number> = null
+    newPresenceTypeId: Option<number> = null,
   ): Observable<void> {
     if (newPresenceTypeId) {
       const presenceType$: Observable<Option<PresenceType>> = newPresenceTypeId
@@ -169,27 +169,27 @@ export class LessonPresencesUpdateService implements OnDestroy {
             personIds,
             type?.Id,
             getNewConfirmationStateId(type, this.settings) || undefined,
-            withConfig({ disableErrorHandling: true })
-          )
-        )
+            withConfig({ disableErrorHandling: true }),
+          ),
+        ),
       );
     }
     return this.restService.removeLessonPresences(
       [lessonId],
       personIds,
-      withConfig({ disableErrorHandling: true })
+      withConfig({ disableErrorHandling: true }),
     );
   }
 
   private revertUpdatesAfterError(
     updates: ReadonlyArray<LessonPresenceUpdate>,
-    error: any
+    error: unknown,
   ): Observable<void> {
     console.error('Bulk-update of lesson presences failed');
     console.error(error);
 
     this.toastService.error(
-      this.translate.instant('shared.lesson-presences-update.error')
+      this.translate.instant('shared.lesson-presences-update.error'),
     );
 
     // Revert UI back to it's original state
@@ -197,7 +197,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
       updates.map((u) => ({
         ...u,
         newPresenceTypeId: u.presence.TypeRef.Id,
-      }))
+      })),
     );
     return of(undefined);
   }
@@ -206,11 +206,11 @@ export class LessonPresencesUpdateService implements OnDestroy {
    * Groups the updates array first by presence type, then by lesson.
    */
   private groupUpdates(
-    updates: ReadonlyArray<LessonPresenceUpdate>
+    updates: ReadonlyArray<LessonPresenceUpdate>,
   ): GroupedLessonPresenceUpdates {
     return updates.reduce((grouped, update) => {
       const presenceTypeId = String(
-        update.newPresenceTypeId && update.newPresenceTypeId
+        update.newPresenceTypeId && update.newPresenceTypeId,
       );
       if (!grouped[presenceTypeId]) {
         grouped[presenceTypeId] = {};
@@ -232,10 +232,10 @@ export class LessonPresencesUpdateService implements OnDestroy {
    */
   private reduceUpdates(
     updates: ReadonlyArray<LessonPresenceUpdate>,
-    action: UpdateAction
+    action: UpdateAction,
   ): ReadonlyArray<LessonPresenceUpdate> {
     switch (action.type) {
-      case UpdateActionTypes.AddUpdateAction:
+      case UpdateActionTypes.AddUpdateAction: {
         const { presence, newPresenceTypeId } = action.payload;
         const index = updates.findIndex(equalsUpdate(presence));
         if (index === -1) {
@@ -246,6 +246,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
           { presence: updates[index].presence, newPresenceTypeId },
           ...updates.slice(index + 1),
         ];
+      }
       case UpdateActionTypes.RemoveUpdateAction:
         return updates.filter(not(equalsUpdate(action.payload)));
       default:
@@ -255,7 +256,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
 
   private dispatchAddUpdate(
     presence: LessonPresence,
-    newPresenceTypeId: Option<number>
+    newPresenceTypeId: Option<number>,
   ): void {
     this.action$.next({
       type: UpdateActionTypes.AddUpdateAction,
@@ -272,7 +273,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
 }
 
 function equalsUpdate(
-  lessonPresence: LessonPresence
+  lessonPresence: LessonPresence,
 ): (update: LessonPresenceUpdate) => boolean {
   return (update) =>
     update.presence.LessonRef.Id === lessonPresence.LessonRef.Id &&

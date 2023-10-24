@@ -1,10 +1,12 @@
-import { DomSanitizer } from '@angular/platform-browser';
 import { SafePipe } from './safe.pipe';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('SafePipe', () => {
   let sanitizer: any;
 
   beforeEach(() => {
-    sanitizer = null;
+    sanitizer = {};
   });
 
   it('create an instance', () => {

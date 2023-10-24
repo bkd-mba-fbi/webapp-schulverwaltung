@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-  SimpleChanges,
-  OnChanges,
-} from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, ReplaySubject } from 'rxjs';
 import {
@@ -46,7 +38,7 @@ import { DossierGradesService } from '../../../services/dossier-grades.service';
       {{ test | erzTestWeight }}
     </div>
     <div class="points" data-testid="test-points">
-      <span>{{ test | erzTestPoints: studentId:'dossier.points' }}</span>
+      <span>{{ test | erzTestPoints: studentId : 'dossier.points' }}</span>
     </div>
     <div class="teacher" data-testid="test-teacher">
       {{ test.Owner }}
@@ -71,7 +63,7 @@ export class DossierSingleTestComponent implements OnChanges {
 
   constructor(
     private gradeService: DossierGradesService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -95,7 +87,7 @@ export class DossierSingleTestComponent implements OnChanges {
       (updatedTestResult) => {
         if (updatedTestResult) this.updateStudentGrade(updatedTestResult, test);
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -107,7 +99,7 @@ export class DossierSingleTestComponent implements OnChanges {
   private getGrading(test: Test): string {
     return (
       this.gradingScale?.Grades.find(
-        (grade) => grade.Id === this.getGradeId(test)
+        (grade) => grade.Id === this.getGradeId(test),
       )?.Designation || '-'
     );
   }
@@ -122,7 +114,7 @@ export class DossierSingleTestComponent implements OnChanges {
   }
 
   private static mapToOptions(
-    gradingScale: Option<GradingScale>
+    gradingScale: Option<GradingScale>,
   ): Option<DropDownItem[]> {
     return (
       gradingScale?.Grades.map((gradeOption) => {

@@ -17,14 +17,14 @@ export class UserSettingsRestService extends RestService<typeof UserSettings> {
   }
 
   getUserSettingsCst(
-    params?: HttpParams | Dict<string>
+    params?: HttpParams | Dict<string>,
   ): Observable<UserSettings> {
     return this.http
       .get<unknown>(`${this.baseUrl}/Cst`, { params })
       .pipe(switchMap(decode(this.codec)));
   }
 
-  updateUserSettingsCst(updatedSettings: UserSettings): Observable<any> {
+  updateUserSettingsCst(updatedSettings: UserSettings): Observable<unknown> {
     return this.http.patch(`${this.baseUrl}/Cst`, updatedSettings);
   }
 }

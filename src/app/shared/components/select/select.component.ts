@@ -10,7 +10,6 @@ import {
 import { DropDownItem } from '../../models/drop-down-item.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { number } from 'fp-ts';
 
 @Component({
   selector: 'erz-select',
@@ -32,8 +31,8 @@ export class SelectComponent implements OnChanges {
   value$ = combineLatest([this.rawValue$, this.options$]).pipe(
     map(
       ([rawValue, options]) =>
-        (options && options.find((o) => o.Key === rawValue)) || null
-    )
+        (options && options.find((o) => o.Key === rawValue)) || null,
+    ),
   );
 
   constructor() {}

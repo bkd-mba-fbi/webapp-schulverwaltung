@@ -12,6 +12,8 @@ import { buildLesson, buildLessonPresence } from 'src/spec-builders';
 import { Sorting } from './sort.service';
 import { format } from 'date-fns';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const CLASS_TEACHER_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlRlc3QiLCJjb25zdW1lcl9pZCI6ImRldiIsInVzZXJuYW1lIjoiam9obiIsImluc3RhbmNlX2lkIjoiVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjEyMyIsImlkX3BlcnNvbiI6IjQ1NiIsImZ1bGxuYW1lIjoiSm9obiBEb2UiLCJyb2xlcyI6Ikxlc3NvblRlYWNoZXJSb2xlO0NsYXNzVGVhY2hlclJvbGUiLCJ0b2tlbl9pZCI6IjEyMzQ1NiJ9.erGO0ORYWA7LAjuWSrz924rkgC2Gqg6_Wu3GUZiMOyI';
 
@@ -33,10 +35,10 @@ describe('LessonPresencesRestService', () => {
 
     storeMock = {};
     spyOn(localStorage, 'getItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => storeMock[key] || null,
     );
     spyOn(localStorage, 'setItem').and.callFake(
-      (key: string) => storeMock[key] || null
+      (key: string) => storeMock[key] || null,
     );
   });
 
@@ -74,10 +76,10 @@ describe('LessonPresencesRestService', () => {
     it('decodes ISO date strings to date objects', () => {
       service.get(123).subscribe((result) => {
         expect(result.LessonDateTimeFrom).toEqual(
-          new Date('2019-04-25T07:45:00')
+          new Date('2019-04-25T07:45:00'),
         );
         expect(result.LessonDateTimeTo).toEqual(
-          new Date('2019-04-25T08:30:00')
+          new Date('2019-04-25T08:30:00'),
         );
         expect(result.Date).toEqual(new Date('2019-04-18T00:00:00'));
       });
@@ -98,21 +100,21 @@ describe('LessonPresencesRestService', () => {
           new Date(2000, 0, 23, 9, 0),
           new Date(2000, 0, 23, 10, 0),
           'Mathematik',
-          ''
+          '',
         ),
         buildLesson(
           2,
           new Date(2000, 0, 23, 10, 0),
           new Date(2000, 0, 23, 11, 0),
           'Französisch',
-          ''
+          '',
         ),
         buildLesson(
           3,
           new Date(2000, 0, 23, 11, 0),
           new Date(2000, 0, 23, 12, 0),
           'Turnen',
-          ''
+          '',
         ),
       ];
 
@@ -129,10 +131,10 @@ describe('LessonPresencesRestService', () => {
             ...lesson,
             LessonDateTimeFrom: format(
               LessonDateTimeFrom,
-              "yyyy-MM-dd'T'HH:mm:ss"
+              "yyyy-MM-dd'T'HH:mm:ss",
             ),
             LessonDateTimeTo: format(LessonDateTimeTo, "yyyy-MM-dd'T'HH:mm:ss"),
-          }))
+          })),
         );
 
       httpTestingController.verify();
@@ -208,7 +210,7 @@ describe('LessonPresencesRestService', () => {
             (req) =>
               req.urlWithParams === lessonTeacherRequestUrl &&
               req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
-            lessonTeacherRequestUrl
+            lessonTeacherRequestUrl,
           )
           .flush(t.array(LessonPresence).encode([presence1]));
 
@@ -233,30 +235,30 @@ describe('LessonPresencesRestService', () => {
         const calls = httpTestingController.match(
           (request) =>
             request.urlWithParams === classTeacherRequestUrl ||
-            request.urlWithParams === lessonTeacherRequestUrl
+            request.urlWithParams === lessonTeacherRequestUrl,
         );
         expect(calls.length).toBe(2);
 
         const classTeacherRequest = calls.find(
-          (r) => r.request.urlWithParams === classTeacherRequestUrl
+          (r) => r.request.urlWithParams === classTeacherRequestUrl,
         );
         expect(classTeacherRequest).toBeDefined();
         expect(
-          classTeacherRequest?.request.headers.get('X-Role-Restriction')
+          classTeacherRequest?.request.headers.get('X-Role-Restriction'),
         ).toBe('ClassTeacherRole');
         classTeacherRequest?.flush(
-          t.array(LessonPresence).encode([presence1, presence2])
+          t.array(LessonPresence).encode([presence1, presence2]),
         );
 
         const lessonTeacherRequest = calls.find(
-          (r) => r.request.urlWithParams === lessonTeacherRequestUrl
+          (r) => r.request.urlWithParams === lessonTeacherRequestUrl,
         );
         expect(lessonTeacherRequest).toBeDefined();
         expect(
-          lessonTeacherRequest?.request.headers.get('X-Role-Restriction')
+          lessonTeacherRequest?.request.headers.get('X-Role-Restriction'),
         ).toBe('LessonTeacherRole');
         lessonTeacherRequest?.flush(
-          t.array(LessonPresence).encode([presence2, presence3])
+          t.array(LessonPresence).encode([presence2, presence3]),
         );
       });
     });
@@ -277,7 +279,7 @@ describe('LessonPresencesRestService', () => {
               req.urlWithParams === absenceAdministratorRequestUrl &&
               req.headers.get('X-Role-Restriction') ===
                 'AbsenceAdministratorRole',
-            absenceAdministratorRequestUrl
+            absenceAdministratorRequestUrl,
           )
           .flush(t.array(LessonPresence).encode([presence3]));
 

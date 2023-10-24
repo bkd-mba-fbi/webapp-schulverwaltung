@@ -1,6 +1,5 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Course } from 'src/app/shared/models/course.model';
 import { GradingScale } from 'src/app/shared/models/grading-scale.model';
 import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { expectText } from 'src/specs/expectations';
@@ -31,7 +30,7 @@ describe('DossierCourseTestsComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   });
 

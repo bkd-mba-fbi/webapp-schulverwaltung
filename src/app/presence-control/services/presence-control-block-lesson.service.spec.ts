@@ -36,7 +36,7 @@ describe('PresenceControlBlockLessonService', () => {
       'Martina Moser',
       undefined,
       undefined,
-      42
+      42,
     );
     mathEinstein2 = buildLessonPresence(
       2,
@@ -47,7 +47,7 @@ describe('PresenceControlBlockLessonService', () => {
       'Martina Moser',
       undefined,
       undefined,
-      42
+      42,
     );
     mathEinstein3 = buildLessonPresence(
       3,
@@ -58,7 +58,7 @@ describe('PresenceControlBlockLessonService', () => {
       'Martina Moser',
       undefined,
       undefined,
-      42
+      42,
     );
     mathEinstein4 = buildLessonPresence(
       4,
@@ -69,7 +69,7 @@ describe('PresenceControlBlockLessonService', () => {
       'Martina Moser',
       undefined,
       undefined,
-      42
+      42,
     );
     lessonPresences = [
       mathEinstein1,
@@ -92,7 +92,7 @@ describe('PresenceControlBlockLessonService', () => {
           PresenceControlBlockLessonService,
           { provide: PresenceControlStateService, useValue: stateMock },
         ],
-      })
+      }),
     );
     service = TestBed.inject(PresenceControlBlockLessonService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -106,7 +106,7 @@ describe('PresenceControlBlockLessonService', () => {
     it('returns all block lessons related to the given entry', (done) => {
       service
         .getBlockLessonPresenceControlEntries(
-          buildPresenceControlEntry(mathEinstein1)
+          buildPresenceControlEntry(mathEinstein1),
         )
         .subscribe((result) => {
           expect(result).toEqual([
@@ -120,14 +120,14 @@ describe('PresenceControlBlockLessonService', () => {
       expectLessonPresencesRequest(
         lessonPresences[0].LessonDateTimeFrom,
         lessonPresences[0].StudentRef.Id,
-        lessonPresences[0].StudyClassRef.Id ?? undefined
+        lessonPresences[0].StudyClassRef.Id ?? undefined,
       );
     });
 
     it('returns a single lesson if the given entry is not part of a block lesson', (done) => {
       service
         .getBlockLessonPresenceControlEntries(
-          buildPresenceControlEntry(mathEinstein4)
+          buildPresenceControlEntry(mathEinstein4),
         )
         .subscribe((result) => {
           expect(result).toEqual([buildPresenceControlEntry(mathEinstein4)]);
@@ -137,7 +137,7 @@ describe('PresenceControlBlockLessonService', () => {
       expectLessonPresencesRequest(
         lessonPresences[0].LessonDateTimeFrom,
         lessonPresences[0].StudentRef.Id,
-        lessonPresences[0].StudyClassRef.Id ?? undefined
+        lessonPresences[0].StudyClassRef.Id ?? undefined,
       );
     });
   });
@@ -146,11 +146,11 @@ describe('PresenceControlBlockLessonService', () => {
     date: Date,
     studentId: number,
     studyClassId?: number,
-    response = lessonPresences
+    response = lessonPresences,
   ): void {
     const url = `https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==${format(
       date,
-      'yyyy-MM-dd'
+      'yyyy-MM-dd',
     )}&filter.StudentRef==${studentId}&filter.StudyClassRef==${studyClassId}`;
 
     httpTestingController
@@ -161,9 +161,10 @@ describe('PresenceControlBlockLessonService', () => {
   function lessonsFromPresences(presences: LessonPresence[]): Lesson[] {
     return presences.map((p) =>
       Object.keys(Lesson.props).reduce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (obj, key) => ({ ...obj, [key]: (p as any)[key] }),
-        {} as Lesson
-      )
+        {} as Lesson,
+      ),
     );
   }
 });

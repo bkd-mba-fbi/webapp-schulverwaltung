@@ -21,7 +21,7 @@ export class TestsAddComponent {
 
   courseId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get('id'))),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   constructor(
@@ -29,9 +29,10 @@ export class TestsAddComponent {
     private courseService: CoursesRestService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
   ) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   save(formGroupValue: any): void {
     this.saving$.next(true);
     const {
@@ -52,24 +53,24 @@ export class TestsAddComponent {
             weight,
             isPointGrading,
             maxPoints,
-            maxPointsAdjusted
-          )
+            maxPointsAdjusted,
+          ),
         ),
-        finalize(() => this.saving$.next(false))
+        finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));
   }
 
   private onSaveSuccess(): void {
     this.toastService.success(
-      this.translate.instant('tests.form.save-success')
+      this.translate.instant('tests.form.save-success'),
     );
     this.navigateBack();
   }
 
   private navigateBack(): void {
     this.courseId$.subscribe((id) =>
-      this.router.navigate(['events', id, 'tests'])
+      this.router.navigate(['events', id, 'tests']),
     );
   }
 }

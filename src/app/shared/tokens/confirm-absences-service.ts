@@ -1,8 +1,8 @@
 import { InjectionToken } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 export interface IConfirmAbsencesService {
-  confirmBackLink?: any[];
+  confirmBackLink?: Parameters<Router['navigate']>[0];
   confirmBackLinkParams?: Params;
   updateAfterConfirm?: () => void;
 }

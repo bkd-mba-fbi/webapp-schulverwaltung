@@ -15,7 +15,7 @@ export function not<A>(fn: (arg: A) => boolean): (arg: A) => boolean {
 }
 
 export function longerOrEqual<T extends { length: number }>(
-  length: number
+  length: number,
 ): (value: T) => boolean {
   return (value) => value.length >= length;
 }
@@ -27,12 +27,9 @@ export function isTruthy<T>(value: T): value is Exclude<T, Falsy> {
 }
 
 export function isInstanceOf<T>(
-  type: Constructor<T>
-): (value: any) => value is T {
-  // eslint-disable-next-line
-  return function (value: any): value is T {
-    return value instanceof type;
-  };
+  type: Constructor<T>,
+): (value: unknown) => value is T {
+  return (value): value is T => value instanceof type;
 }
 
 export function unique<T>(value: T, index: number, array: T[]): boolean {

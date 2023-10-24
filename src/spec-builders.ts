@@ -35,14 +35,15 @@ import {
 import { TimetableEntry } from './app/shared/models/timetable-entry.model';
 import { LessonDispensation } from './app/shared/models/lesson-dispensation.model';
 import { TokenPayload } from './app/shared/models/token-payload.model';
-import {DropDownItem} from "./app/shared/models/drop-down-item.model";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export function buildReference(id = 123, href?: string): Reference {
   return { Id: id, HRef: href || `/${id}` };
 }
 
 export function buildOptionalReference(
-  id: Option<number> = null
+  id: Option<number> = null,
 ): OptionalReference {
   return { Id: id, HRef: null };
 }
@@ -57,7 +58,7 @@ export function buildLessonPresence(
   presenceTypeId?: number,
   eventRefId?: number,
   studentRefId?: number,
-  confirmationStateId?: number
+  confirmationStateId?: number,
 ): LessonPresence {
   return {
     Id: lessonId && studentRefId ? [lessonId, studentRefId].join('_') : '1',
@@ -91,7 +92,7 @@ export function buildLessonPresenceWithIds(
   studentId: number,
   presenceTypeId: number,
   dateFrom = new Date(),
-  dateTo = new Date()
+  dateTo = new Date(),
 ): LessonPresence {
   const presence = buildLessonPresence(lessonId, dateFrom, dateTo, '');
   presence.StudentRef = buildReference(studentId);
@@ -100,7 +101,7 @@ export function buildLessonPresenceWithIds(
 }
 
 export function buildLessonPresenceFromTimetableEntry(
-  timetableEntry: TimetableEntry
+  timetableEntry: TimetableEntry,
 ): LessonPresence {
   return {
     Id: '',
@@ -160,7 +161,7 @@ export function buildLesson(
   eventDesignation: string,
   teacherInformation: string,
   studyClassNumber?: string,
-  eventId?: number
+  eventId?: number,
 ): Lesson {
   return {
     LessonRef: buildReference(lessonId),
@@ -176,12 +177,12 @@ export function buildLesson(
 export function buildPresenceControlEntry(
   lessonPresence: LessonPresence,
   presenceType?: Option<PresenceType>,
-  precedingAbsences?: ReadonlyArray<LessonAbsence>
+  precedingAbsences?: ReadonlyArray<LessonAbsence>,
 ): PresenceControlEntry {
   return new PresenceControlEntry(
     lessonPresence,
     presenceType || null,
-    precedingAbsences || []
+    precedingAbsences || [],
   );
 }
 
@@ -189,7 +190,7 @@ export function buildPresenceType(
   id: number,
   isAbsence: boolean,
   isIncident: boolean,
-  isComment = false
+  isComment = false,
 ): PresenceType {
   return {
     Id: id,
@@ -208,7 +209,7 @@ export function buildPresenceType(
 }
 
 export function buildLessonPresenceStatistic(
-  studentId: number
+  studentId: number,
 ): LessonPresenceStatistic {
   return {
     StudentRef: buildReference(studentId),
@@ -246,7 +247,7 @@ export function buildStudent(id: number): Student {
 export function buildApprenticeshipContract(
   id: number,
   jobTrainerId = 0,
-  apprenticeshipManagerId = 0
+  apprenticeshipManagerId = 0,
 ): ApprenticeshipContract {
   return {
     Id: id,
@@ -270,7 +271,7 @@ export function buildApprenticeshipContract(
 
 export function buildLegalRepresentative(
   id: number,
-  representativeId?: number
+  representativeId?: number,
 ): LegalRepresentative {
   return {
     Id: id,
@@ -335,7 +336,7 @@ export function buildJobTrainer(id: number): JobTrainer {
 
 export function buildPayLoad(
   personId = '2431',
-  instanceId = 'GYmTEST'
+  instanceId = 'GYmTEST',
 ): TokenPayload {
   return {
     culture_info: 'de-CH',
@@ -392,7 +393,7 @@ export function buildPersonWithEmails(
   id: number,
   displayEmail?: string,
   email?: string,
-  email2?: string
+  email2?: string,
 ): Person {
   const person = buildPerson(id);
   person.DisplayEmail = displayEmail || null;
@@ -404,7 +405,7 @@ export function buildPersonWithEmails(
 export function buildJobTrainerWithEmails(
   id: number,
   email: string,
-  email2: Option<string> = null
+  email2: Option<string> = null,
 ): JobTrainer {
   const trainer = buildJobTrainer(id);
   trainer.Email = email;
@@ -415,7 +416,7 @@ export function buildJobTrainerWithEmails(
 export function buildApprenticeshipManagerWithEmails(
   id: number,
   email: string,
-  email2: Option<string> = null
+  email2: Option<string> = null,
 ): ApprenticeshipManager {
   const manager = buildApprenticeshipManager(id);
   manager.Email = email;
@@ -424,7 +425,7 @@ export function buildApprenticeshipManagerWithEmails(
 }
 
 export function buildUserSettings(
-  settings: UserSettings['Settings'] = []
+  settings: UserSettings['Settings'] = [],
 ): UserSettings {
   return {
     Id: 'Cst',
@@ -435,7 +436,7 @@ export function buildUserSettings(
 export function buildUserSettingsWithNotificationSetting(
   gui: boolean,
   mail: boolean,
-  phoneMobile: boolean
+  phoneMobile: boolean,
 ): UserSettings {
   const setting = buildUserSettings();
   const notification = {
@@ -448,7 +449,7 @@ export function buildUserSettingsWithNotificationSetting(
 export function buildUserSettingsWithNotificationData(
   id: number,
   subject: string,
-  body: string
+  body: string,
 ): UserSettings {
   const setting = buildUserSettings();
   const notification = {
@@ -460,7 +461,7 @@ export function buildUserSettingsWithNotificationData(
 
 export function buildSubscriptionDetail(
   vssId: number,
-  value?: string
+  value?: string,
 ): SubscriptionDetail {
   return {
     Id: '1',
@@ -470,15 +471,17 @@ export function buildSubscriptionDetail(
     Value: value || '',
     EventId: 1,
     ShowAsRadioButtons: false,
-    DropdownItems: [{Key: 1, Value: "item 1"}, {Key: "2", Value: "item 2"}],
+    DropdownItems: [
+      { Key: 1, Value: 'item 1' },
+      { Key: '2', Value: 'item 2' },
+    ],
   };
 }
-
 
 export function buildIdSubscription(
   id: number,
   eventId: number,
-  personId: number
+  personId: number,
 ): IdSubscription {
   return {
     Id: id,
@@ -528,7 +531,7 @@ export function buildCourse(
   attendance?: AttendanceRef,
   evaluationStatus?: EvaluationStatusRef,
   classes?: StudyClass[],
-  statusId?: number
+  statusId?: number,
 ): Course {
   return {
     HRef: '',
@@ -578,7 +581,7 @@ export function buildCourse(
 export function buildTimetableEntry(
   id: number,
   from: Date,
-  to: Date
+  to: Date,
 ): TimetableEntry {
   return {
     Id: id,
@@ -593,7 +596,7 @@ export function buildTimetableEntry(
 export function buildTest(
   courseId: number,
   testId: number,
-  results: Result[] | null
+  results: Result[] | null,
 ): Test {
   return {
     Id: testId,
@@ -618,7 +621,7 @@ export function buildTest(
 export function buildResult(
   testId: number,
   studentId: number,
-  courseRegistrationId: number = 123456
+  courseRegistrationId: number = 123456,
 ): Result {
   return {
     TestId: testId,
@@ -635,7 +638,7 @@ export function buildResult(
 export function buildGrading(
   studentId: number,
   averageGrade: number = 2.275,
-  gradeId: number = 3
+  gradeId: number = 3,
 ): Grading {
   return {
     AverageTestResult: averageGrade,
@@ -691,7 +694,7 @@ export function buildFinalGrading(id: number): FinalGrading {
 
 export function buildStudentGrade(
   student: Student,
-  gradesOrNoResults: GradeOrNoResult[]
+  gradesOrNoResults: GradeOrNoResult[],
 ): StudentGrade {
   return {
     student: student,
@@ -703,7 +706,7 @@ export function buildStudentGrade(
 export function buildGradeKind(
   kind: any,
   result: Result,
-  test: Test
+  test: Test,
 ): GradeKind {
   return {
     kind: kind,

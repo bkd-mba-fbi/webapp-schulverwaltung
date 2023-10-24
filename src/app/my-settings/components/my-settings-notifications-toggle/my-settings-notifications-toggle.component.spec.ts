@@ -13,7 +13,7 @@ describe('MySettingsNotificationsToggleComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [MySettingsNotificationsToggleComponent, SwitchComponent],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(MySettingsNotificationsToggleComponent);
@@ -25,7 +25,7 @@ describe('MySettingsNotificationsToggleComponent', () => {
     component.label = 'This is a label';
     await waitForRender();
     expect(element.querySelector('label')?.textContent).toContain(
-      'This is a label'
+      'This is a label',
     );
   });
 
@@ -79,7 +79,7 @@ describe('MySettingsNotificationsToggleComponent', () => {
     return input!;
   }
 
-  function waitForRender(): Promise<any> {
+  function waitForRender() {
     fixture.detectChanges();
     return fixture.whenStable();
   }

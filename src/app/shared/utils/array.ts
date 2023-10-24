@@ -4,7 +4,7 @@
  * equality function.
  */
 export function previousElement<T>(
-  equal: (a: T, b: T) => boolean = (a, b) => a === b
+  equal: (a: T, b: T) => boolean = (a, b) => a === b,
 ): (entry: Option<T>, entries: ReadonlyArray<T>) => Option<T> {
   return (entry, entries) => {
     if (entry && entries.length > 0) {
@@ -23,7 +23,7 @@ export function previousElement<T>(
  * equality function.
  */
 export function nextElement<T>(
-  equal: (a: T, b: T) => boolean = (a, b) => a === b
+  equal: (a: T, b: T) => boolean = (a, b) => a === b,
 ): (entry: Option<T>, entries: ReadonlyArray<T>) => Option<T> {
   return (entry, entries) => {
     if (entry && entries.length > 0) {
@@ -37,22 +37,22 @@ export function nextElement<T>(
 }
 
 export function isFirstElement<T>(
-  equal: (a: T, b: T) => boolean = (a, b) => a === b
+  equal: (a: T, b: T) => boolean = (a, b) => a === b,
 ): (entry: Option<T>, entries: ReadonlyArray<T>) => boolean {
   return (entry, entries) =>
     Boolean(entry && entries.length > 0 && equal(entry, entries[0]));
 }
 
 export function isLastElement<T>(
-  equal: (a: T, b: T) => boolean = (a, b) => a === b
+  equal: (a: T, b: T) => boolean = (a, b) => a === b,
 ): (entry: Option<T>, entries: ReadonlyArray<T>) => boolean {
   return (entry, entries) =>
     Boolean(
-      entry && entries.length > 0 && equal(entry, entries[entries.length - 1])
+      entry && entries.length > 0 && equal(entry, entries[entries.length - 1]),
     );
 }
 
-export function isEmptyArray(array: any[] | ReadonlyArray<any>): boolean {
+export function isEmptyArray<T>(array: Array<T> | ReadonlyArray<T>): boolean {
   return array.length === 0;
 }
 
@@ -60,6 +60,6 @@ export function length<T extends { length: number }>(array: T): number {
   return array.length;
 }
 
-export function isArray(value: any): boolean {
+export function isArray(value: unknown): boolean {
   return Array.isArray(value);
 }

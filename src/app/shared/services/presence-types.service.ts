@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   shareReplay,
   map,
@@ -28,7 +28,7 @@ export class PresenceTypesService {
    */
   activePresenceTypes$ = this.presenceTypes$.pipe(
     map(this.filterActiveTypes.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /**
@@ -36,7 +36,7 @@ export class PresenceTypesService {
    */
   confirmationTypes$ = this.presenceTypes$.pipe(
     map(this.filterConfirmationTypes.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /**
@@ -44,7 +44,7 @@ export class PresenceTypesService {
    */
   incidentTypes$ = this.presenceTypes$.pipe(
     map(this.filterIncidentTypes.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /**
@@ -53,7 +53,7 @@ export class PresenceTypesService {
    */
   displayedTypes$ = this.presenceTypes$.pipe(
     map(this.filterDisplayedTypes.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /**
@@ -63,12 +63,12 @@ export class PresenceTypesService {
     map(this.isHalfDayActive.bind(this)),
     startWith(false),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
     private restService: PresenceTypesRestService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   public getPresenceType(id: number): Observable<PresenceType> {
@@ -79,7 +79,7 @@ export class PresenceTypesService {
           throw new Error('presence type not found');
         }
         return type;
-      })
+      }),
     );
   }
 
@@ -88,40 +88,40 @@ export class PresenceTypesService {
   }
 
   private filterActiveTypes(
-    presenceTypes: ReadonlyArray<PresenceType>
+    presenceTypes: ReadonlyArray<PresenceType>,
   ): ReadonlyArray<PresenceType> {
     return presenceTypes.filter((t) => t.Active);
   }
 
   private filterConfirmationTypes(
-    presenceTypes: ReadonlyArray<PresenceType>
+    presenceTypes: ReadonlyArray<PresenceType>,
   ): ReadonlyArray<PresenceType> {
     return presenceTypes.filter(
       (t) =>
         t.NeedsConfirmation &&
         t.Active &&
-        t.Id !== this.settings.absencePresenceTypeId
+        t.Id !== this.settings.absencePresenceTypeId,
     );
   }
 
   private filterIncidentTypes(
-    presenceTypes: ReadonlyArray<PresenceType>
+    presenceTypes: ReadonlyArray<PresenceType>,
   ): ReadonlyArray<PresenceType> {
     return presenceTypes.filter((t) => t.IsIncident && t.Active);
   }
 
   private filterDisplayedTypes(
-    presenceTypes: ReadonlyArray<PresenceType>
+    presenceTypes: ReadonlyArray<PresenceType>,
   ): ReadonlyArray<PresenceType> {
     return presenceTypes.filter(
-      (t) => t.Id !== this.settings.absencePresenceTypeId
+      (t) => t.Id !== this.settings.absencePresenceTypeId,
     );
   }
 
   private isHalfDayActive(presenceTypes: ReadonlyArray<PresenceType>): boolean {
     return Boolean(
       presenceTypes.find((t) => t.Id === this.settings.halfDayPresenceTypeId)
-        ?.Active
+        ?.Active,
     );
   }
 }

@@ -6,6 +6,8 @@ import {
   isArray,
 } from './array';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('array utils', () => {
   describe('previousElement', () => {
     const array: ReadonlyArray<{ id: number }> = [
@@ -25,7 +27,7 @@ describe('array utils', () => {
 
     it('returns null if entries are empty', () => {
       expect(
-        previousElement(eq)({ id: 2 }, [] as ReadonlyArray<string>)
+        previousElement(eq)({ id: 2 }, [] as ReadonlyArray<string>),
       ).toBeNull();
     });
 
@@ -52,7 +54,7 @@ describe('array utils', () => {
 
     it('returns null if entries are empty', () => {
       expect(
-        nextElement(eq)({ id: 2 }, [] as ReadonlyArray<string>)
+        nextElement(eq)({ id: 2 }, [] as ReadonlyArray<string>),
       ).toBeNull();
     });
 

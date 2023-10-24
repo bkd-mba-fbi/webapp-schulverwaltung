@@ -9,8 +9,10 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { buildLessonAbsence } from '../../../../spec-builders';
 import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('MyAbsencesShowComponent', () => {
-  let component: MyAbsencesShowComponent;
+  // let component: MyAbsencesShowComponent;
   let fixture: ComponentFixture<MyAbsencesShowComponent>;
   let element: HTMLElement;
   let openLessonAbsences$: BehaviorSubject<any>;
@@ -46,13 +48,13 @@ describe('MyAbsencesShowComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesShowComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -63,7 +65,7 @@ describe('MyAbsencesShowComponent', () => {
 
     it('should have all absences report disabled', () => {
       const reportLink = element.getElementsByClassName(
-        'report'
+        'report',
       )[0] as HTMLElement;
       expect(reportLink?.className.includes('disabled')).toBeTrue();
     });
@@ -72,7 +74,7 @@ describe('MyAbsencesShowComponent', () => {
       openLessonAbsences$.next([buildLessonAbsence('12')]);
       fixture.detectChanges();
       const reportLink = element.getElementsByClassName(
-        'report'
+        'report',
       )[0] as HTMLElement;
       expect(reportLink?.className.includes('disabled')).toBeFalse();
     });

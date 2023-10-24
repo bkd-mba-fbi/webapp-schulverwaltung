@@ -5,14 +5,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import {
-  BehaviorSubject,
-  combineLatest,
-  merge,
-  Observable,
-  of,
-  Subject,
-} from 'rxjs';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import {
   shareReplay,
@@ -80,24 +73,29 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
 
   channelsFormGroup$ = this.channelsValue$.pipe(
     map((value) => this.createFormGroup(this.channelsSettings, value)),
-    shareReplay(1)
+    shareReplay(1),
   );
   allChannelsInactive$ = merge(
     this.channelsValue$,
     this.channelsFormGroup$.pipe(
-      switchMap((formGroup) => formGroup.valueChanges)
-    )
+      switchMap((formGroup) => formGroup.valueChanges),
+    ),
   ).pipe(
     map((channels) => Object.values(channels).every((enabled) => !enabled)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   typesFormGroup$ = this.typesValue$.pipe(
     withLatestFrom(this.allChannelsInactive$),
     map(([value, allChannelsInactive]) =>
-      this.createFormGroup(this.typesSettings, value, true, allChannelsInactive)
+      this.createFormGroup(
+        this.typesSettings,
+        value,
+        true,
+        allChannelsInactive,
+      ),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private saving$ = new BehaviorSubject(false);
@@ -108,7 +106,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     private formBuilder: UntypedFormBuilder,
     private toastService: ToastService,
     private translate: TranslateService,
-    private notificationTypes: NotificationTypesService
+    private notificationTypes: NotificationTypesService,
   ) {}
 
   ngOnInit(): void {
@@ -120,11 +118,11 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
       .pipe(
         skip(1),
         withLatestFrom(this.typesFormGroup$),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(([allChannelsInactive, formGroup]) => {
         Object.values(formGroup.controls).forEach((control) =>
-          allChannelsInactive ? control.disable() : control.enable()
+          allChannelsInactive ? control.disable() : control.enable(),
         );
       });
 
@@ -132,7 +130,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     this.channelsFormGroup$
       .pipe(
         takeUntil(this.destroy$),
-        switchMap((formGroup) => formGroup.valueChanges)
+        switchMap((formGroup) => formGroup.valueChanges),
       )
       .subscribe(this.saveChannels.bind(this));
 
@@ -140,7 +138,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     this.typesFormGroup$
       .pipe(
         takeUntil(this.destroy$),
-        switchMap((formGroup) => formGroup.valueChanges)
+        switchMap((formGroup) => formGroup.valueChanges),
       )
       .subscribe(this.saveTypes.bind(this));
   }
@@ -153,7 +151,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     settings: ReadonlyArray<NotificationSetting>,
     record: Record<string, boolean>,
     defaultValue = false,
-    disabled = false
+    disabled = false,
   ): UntypedFormGroup {
     return this.formBuilder.group(
       settings.reduce(
@@ -161,8 +159,8 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
           ...acc,
           [key]: [{ value: record[key] ?? defaultValue, disabled }],
         }),
-        {}
-      )
+        {},
+      ),
     );
   }
 
@@ -184,26 +182,26 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
 
   private onSaveSuccess(): void {
     this.toastService.success(
-      this.translate.instant('my-settings.notifications.save-success')
+      this.translate.instant('my-settings.notifications.save-success'),
     );
   }
 
   private typesArrayToRecord(
-    inactiveTypes: NotificationTypesInactive
+    inactiveTypes: NotificationTypesInactive,
   ): Record<string, boolean> {
     const result = this.typesSettings.reduce(
       (acc, { key }) => ({ ...acc, [key]: !inactiveTypes.includes(key) }),
-      {}
+      {},
     );
     return result;
   }
 
   private typesRecordToArray(
-    record: Record<string, boolean>
+    record: Record<string, boolean>,
   ): NotificationTypesInactive {
     const result = Object.keys(record).reduce(
       (acc, key) => (!record[key] ? [...acc, key] : acc),
-      [] as NotificationTypesInactive
+      [] as NotificationTypesInactive,
     );
     return result;
   }

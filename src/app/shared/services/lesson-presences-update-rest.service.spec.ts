@@ -5,6 +5,8 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
 import { HttpTestingController } from '@angular/common/http/testing';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('LessonPresencesUpdateRestService', () => {
   let service: LessonPresencesUpdateRestService;
   let httpTestingController: HttpTestingController;
@@ -109,12 +111,12 @@ describe('LessonPresencesUpdateRestService', () => {
   function expectRequestWithBody(
     url: string,
     body: any,
-    result: any = {}
+    result: any = {},
   ): void {
     httpTestingController
       .expectOne(
         (req) => req.urlWithParams === url && isEqual(req.body, body),
-        url
+        url,
       )
       .flush(result);
   }

@@ -17,12 +17,13 @@ export const enum HTTP_STATUS {
   GATEWAY_TIMEOUT = 504,
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export abstract class RestService<T extends t.InterfaceType<any>> {
   constructor(
     protected http: HttpClient,
     protected settings: Settings,
     protected codec: T,
-    protected resourcePath: string
+    protected resourcePath: string,
   ) {}
 
   get(
@@ -30,7 +31,7 @@ export abstract class RestService<T extends t.InterfaceType<any>> {
     options?: {
       headers?: HttpHeaders | Dict<string>;
       params?: HttpParams | Dict<string>;
-    }
+    },
   ): Observable<t.TypeOf<T>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}`, options)

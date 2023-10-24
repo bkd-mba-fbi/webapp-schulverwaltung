@@ -45,7 +45,7 @@ export class UserSettingsService {
     debounceTime(REFETCH_DEBOUNCE_TIME), // Avoid making two requests initially, when the component is triggering a refetch in `ngOnInit`
     switchMap(() => this.settingsRestService.getUserSettingsCst()),
     map((userSettings) => userSettings.Settings),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(private settingsRestService: UserSettingsRestService) {}
@@ -63,7 +63,7 @@ export class UserSettingsService {
    */
   getSetting(key: SettingKey): Observable<Option<SettingValue>> {
     return this.settings$.pipe(
-      map((settings) => settings.find((p) => p.Key === key)?.Value ?? null)
+      map((settings) => settings.find((p) => p.Key === key)?.Value ?? null),
     );
   }
 
@@ -72,7 +72,7 @@ export class UserSettingsService {
    *
    * The `Observable`s of the save* methods complete after one value.
    */
-  saveSetting(key: SettingKey, value: SettingValue): Observable<any> {
+  saveSetting(key: SettingKey, value: SettingValue): Observable<unknown> {
     return this.settingsRestService
       .updateUserSettingsCst(this.buildSettings(key, value))
       .pipe(tap(() => this.refetch$.next()));
@@ -86,74 +86,76 @@ export class UserSettingsService {
     return this.getSetting(PRESENCE_CONTROL_VIEW_MODE_KEY).pipe(
       defaultValue('{"presenceControl":"grid"}'), // Default view mode is grid if setting is not available
       switchMap(decode(PresenceControlViewModeObject)),
-      map(({ presenceControl }) => presenceControl as PresenceControlViewMode)
+      map(({ presenceControl }) => presenceControl as PresenceControlViewMode),
     );
   }
 
-  savePresenceControlViewMode(value: PresenceControlViewMode): Observable<any> {
+  savePresenceControlViewMode(
+    value: PresenceControlViewMode,
+  ): Observable<unknown> {
     return this.saveSetting(
       PRESENCE_CONTROL_VIEW_MODE_KEY,
-      PresenceControlViewModeObject.encode({ presenceControl: value })
+      PresenceControlViewModeObject.encode({ presenceControl: value }),
     );
   }
 
   getPresenceControlGroupView(): Observable<PresenceControlGroupView> {
     return this.getSetting(PRESENCE_CONTROL_GROUP_VIEW_KEY).pipe(
       defaultValue('[]'),
-      switchMap(decode(PresenceControlGroupView))
+      switchMap(decode(PresenceControlGroupView)),
     );
   }
 
   savePresenceControlGroupView(
-    value: PresenceControlGroupView
-  ): Observable<any> {
+    value: PresenceControlGroupView,
+  ): Observable<unknown> {
     return this.saveSetting(
       PRESENCE_CONTROL_GROUP_VIEW_KEY,
-      PresenceControlGroupView.encode(value)
+      PresenceControlGroupView.encode(value),
     );
   }
 
   getNotificationChannels(): Observable<NotificationChannels> {
     return this.getSetting(NOTIFICATION_CHANNELS_KEY).pipe(
       defaultValue('{}'), // Use empty object if not available, properties will be set to default value by decoder
-      switchMap(decode(NotificationChannels))
+      switchMap(decode(NotificationChannels)),
     );
   }
 
-  saveNotificationChannels(value: NotificationChannels): Observable<any> {
+  saveNotificationChannels(value: NotificationChannels): Observable<unknown> {
     return this.saveSetting(
       NOTIFICATION_CHANNELS_KEY,
-      NotificationChannels.encode(value)
+      NotificationChannels.encode(value),
     );
   }
 
   getNotificationTypesInactive(): Observable<NotificationTypesInactive> {
     return this.getSetting(NOTIFICATION_TYPES_INACTIVE_KEY).pipe(
       defaultValue(''), // Per default, no notification types are inactive (all are subscribed)
-      switchMap(decode(NotificationTypesInactive))
+      switchMap(decode(NotificationTypesInactive)),
     );
   }
 
   saveNotificationTypesInactive(
-    value: NotificationTypesInactive
-  ): Observable<any> {
+    value: NotificationTypesInactive,
+  ): Observable<unknown> {
     return this.saveSetting(
       NOTIFICATION_TYPES_INACTIVE_KEY,
-      NotificationTypesInactive.encode(value)
+      NotificationTypesInactive.encode(value),
     );
   }
 
   getNotificationData(): Observable<NotificationData> {
     return this.getSetting(NOTIFICATION_DATA_KEY).pipe(
       defaultValue('[]'),
-      switchMap(decode(NotificationData))
+      switchMap(decode(NotificationData)),
     );
   }
 
-  saveNotificationData(value: NotificationData): Observable<any> {
+  saveNotificationData(value: NotificationData): Observable<unknown> {
     return this.saveSetting(
       NOTIFICATION_DATA_KEY,
-      NotificationData.encode(value)
+      NotificationData.encode(value),
     );
   }
 
