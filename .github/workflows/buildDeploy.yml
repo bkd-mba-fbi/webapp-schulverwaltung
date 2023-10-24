@@ -53,13 +53,11 @@ jobs:
 
       - name: Commit
         run: |
-          ls ./evento-portal
-          ls dist
-          # TODO löschen ohne settings
-          # cp -r ./webapp-schulverwaltung/dist/webapp-schulverwaltung ./evento-portal/public/apps
-          # git restore public/apps/webapp-schulverwaltung/settings.js
-          # git add .
-          # git commit -m "Add new webapp-schulverwaltung build #${{ env.GITHUB_SHA }}" // TODO add hash
+          rsync -av --exclude=settings.js --delete dist/webapp-schulverwaltung/ evento-portal/public/apps/webapp-schulverwaltung/
+          cd ./evento-portal
+          git add .
+          git status
+          # git commit -m "Add new webapp-schulverwaltung build #${{ env.GITHUB_SHA }}"
           # git push
 
   deploy:
