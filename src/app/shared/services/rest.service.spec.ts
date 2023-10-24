@@ -27,7 +27,7 @@ describe('RestService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [FooService],
-      })
+      }),
     );
     service = TestBed.inject(FooService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -60,8 +60,8 @@ describe('RestService', () => {
 
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          'Invalid value 123 supplied to : { foo: string }/foo: string'
-        )
+          'Invalid value 123 supplied to : { foo: string }/foo: string',
+        ),
       );
     });
   });
@@ -91,8 +91,8 @@ describe('RestService', () => {
 
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          'Invalid value 123 supplied to : Array<{ foo: string }>/0: { foo: string }/foo: string'
-        )
+          'Invalid value 123 supplied to : Array<{ foo: string }>/0: { foo: string }/foo: string',
+        ),
       );
     });
   });

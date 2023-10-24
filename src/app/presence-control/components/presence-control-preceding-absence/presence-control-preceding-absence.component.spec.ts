@@ -13,7 +13,7 @@ describe('PresenceControlPreviousAbsenceComponent', () => {
       buildTestModuleMetadata({
         declarations: [PresenceControlPrecedingAbsenceComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   });
 

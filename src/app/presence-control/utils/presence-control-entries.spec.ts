@@ -36,7 +36,7 @@ describe('presence control entries utils', () => {
   });
 
   function buildPresenceControlEntry(
-    studentName: string
+    studentName: string,
   ): PresenceControlEntry {
     return new PresenceControlEntry(
       buildLessonPresence(
@@ -44,10 +44,10 @@ describe('presence control entries utils', () => {
         new Date(2000, 0, 23, 8, 0),
         new Date(2000, 0, 23, 9, 0),
         'Deutsch',
-        studentName
+        studentName,
       ),
       null,
-      null
+      null,
     );
   }
 });

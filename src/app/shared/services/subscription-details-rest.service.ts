@@ -18,14 +18,14 @@ export class SubscriptionDetailsRestService extends RestService<
   }
 
   getListForEvent(
-    eventId: number
+    eventId: number,
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
     return this.getList({ params: { IdEvent: String(eventId) } });
   }
 
   update(
     group: GroupOptions['id'],
-    detail: SubscriptionDetail
+    detail: SubscriptionDetail,
   ): Observable<void> {
     const body = {
       IdPerson: detail.IdPerson,

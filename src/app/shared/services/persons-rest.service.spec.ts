@@ -55,7 +55,7 @@ describe('PersonsRestService', () => {
           38608,
           '+41 31 123 45 67',
           '+41 79 123 45 67',
-          'john@example.com'
+          'john@example.com',
         )
         .subscribe();
 
@@ -67,7 +67,7 @@ describe('PersonsRestService', () => {
             PhonePrivate: '+41 31 123 45 67',
             PhoneMobile: '+41 79 123 45 67',
             Email2: 'john@example.com',
-          })
+          }),
       );
       expect().nothing();
     });
@@ -81,7 +81,7 @@ describe('PersonsRestService', () => {
         (req) =>
           req.method === 'GET' &&
           req.urlWithParams ===
-            'https://eventotest.api/Persons/?filter.Id==4515&fields=FormOfAddress,Email'
+            'https://eventotest.api/Persons/?filter.Id==4515&fields=FormOfAddress,Email',
       );
       expect().nothing();
     });

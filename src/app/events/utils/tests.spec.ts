@@ -113,14 +113,14 @@ describe('Test utils', () => {
   describe('should calculate averages from test', () => {
     it('should calculate points average', () => {
       expect(() => averagePoints(buildTest(1, 1, []))).toThrow(
-        new Error('unable to calculate averages without results')
+        new Error('unable to calculate averages without results'),
       );
       expect(averagePoints(test)).toBe(11.263636363636364);
     });
 
     it('should calculate grade averages', () => {
       expect(() => averageGrade(buildTest(1, 1, []))).toThrow(
-        new Error('unable to calculate averages without results')
+        new Error('unable to calculate averages without results'),
       );
       expect(averageGrade(test)).toBe(3.8272727272727276);
     });

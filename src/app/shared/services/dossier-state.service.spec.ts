@@ -8,7 +8,7 @@ describe('DossierStateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ providers: [DossierStateService] })
+      buildTestModuleMetadata({ providers: [DossierStateService] }),
     );
     service = TestBed.inject(DossierStateService);
   });

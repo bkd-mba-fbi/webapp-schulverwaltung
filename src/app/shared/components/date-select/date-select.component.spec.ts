@@ -9,7 +9,7 @@ describe('DateSelectComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
   }));
 

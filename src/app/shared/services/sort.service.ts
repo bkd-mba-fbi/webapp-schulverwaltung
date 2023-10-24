@@ -19,12 +19,12 @@ export interface Sorting<SortingKey> {
 })
 export class SortService<SortingKey> {
   private sortingSubject$ = new BehaviorSubject<Option<Sorting<SortingKey>>>(
-    null
+    null,
   );
 
   sorting$ = this.sortingSubject$.asObservable().pipe(
     distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
-    shareReplay(1)
+    shareReplay(1),
   );
 
   getSortingChar$(key: SortingKey): Observable<string> {
@@ -34,7 +34,7 @@ export class SortService<SortingKey> {
           return sorting.ascending ? '↓' : '↑';
         }
         return '';
-      })
+      }),
     );
   }
 

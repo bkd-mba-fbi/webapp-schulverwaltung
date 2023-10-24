@@ -12,8 +12,8 @@ describe('MyAbsencesEditLinkComponent', () => {
       buildTestModuleMetadata(
         buildTestModuleMetadata({
           declarations: [MyAbsencesReportLinkComponent],
-        })
-      )
+        }),
+      ),
     ).compileComponents();
   }));
 

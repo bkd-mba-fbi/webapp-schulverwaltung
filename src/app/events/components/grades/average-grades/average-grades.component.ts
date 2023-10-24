@@ -32,7 +32,7 @@ export class AverageGradesComponent {
   private safeAverage(
     test: Test,
     fractionDigits: number,
-    strategy: (test: Test) => number
+    strategy: (test: Test) => number,
   ): string {
     try {
       return (

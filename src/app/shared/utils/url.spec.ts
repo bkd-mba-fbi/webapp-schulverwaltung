@@ -9,7 +9,7 @@ describe('url utilities', () => {
           baz: '123',
           empty_value: '',
           no_value: undefined,
-        }
+        },
       );
     });
   });
@@ -22,7 +22,7 @@ describe('url utilities', () => {
           baz: '123',
           empty_value: '',
           no_value: undefined,
-        })
+        }),
       ).toBe('foo=bar&baz=123&empty_value=&no_value');
     });
   });
@@ -33,12 +33,12 @@ describe('url utilities', () => {
     });
     it('should get the first element of url with multiple segments', () => {
       expect(getFirstSegment('/presence-control/student/3')).toBe(
-        'presence-control'
+        'presence-control',
       );
     });
     it('should get the first element of url with params', () => {
       expect(getFirstSegment('/presence-control?date=2020-02-20')).toBe(
-        'presence-control'
+        'presence-control',
       );
     });
     it('should get the first element of root url', () => {

@@ -49,7 +49,7 @@ describe('StudentsRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current'
+          'https://eventotest.api/Students/39361/ApprenticeshipContracts/Current',
         )
         .flush([
           buildApprenticeshipContract(55905),

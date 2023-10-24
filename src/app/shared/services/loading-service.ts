@@ -47,9 +47,9 @@ export class LoadingService implements OnDestroy {
             return counts;
         }
       }, {} as LoadingCounts),
-      startWith({} as LoadingCounts)
+      startWith({} as LoadingCounts),
     ),
-    { connector: () => new ReplaySubject<LoadingCounts>(1) } // Make it hot
+    { connector: () => new ReplaySubject<LoadingCounts>(1) }, // Make it hot
   );
 
   loading$ = this.loading();
@@ -66,14 +66,14 @@ export class LoadingService implements OnDestroy {
     return this.loadingCounts$.pipe(
       map((counts) => counts[context]),
       map(nonZero),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
   load<T>(source$: Observable<T>, context = DEFAULT_CONTEXT): Observable<T> {
     return source$.pipe(
       prepare(this.incrementLoadingCount(context)),
-      finalize(this.decrementLoadingCount(context))
+      finalize(this.decrementLoadingCount(context)),
     );
   }
 

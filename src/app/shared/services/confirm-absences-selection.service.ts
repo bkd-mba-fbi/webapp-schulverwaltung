@@ -20,9 +20,9 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
       getIdsGroupedByPersonAndPresenceType([
         ...flattenOpenAbsencesEntries(openAbsencesEntries),
         ...lessonPresences,
-      ])
+      ]),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   selectedLessons$ = this.selection$.pipe(
@@ -31,7 +31,7 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
       ...flattenOpenAbsencesEntries(openAbsencesEntries),
       ...lessonPresences,
     ]),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /**
@@ -44,8 +44,8 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
       [
         ...flattenOpenAbsencesEntries(openAbsencesEntries),
         ...lessonPresences,
-      ].filter((p) => p.TypeRef.Id === this.settings.absencePresenceTypeId)
-    )
+      ].filter((p) => p.TypeRef.Id === this.settings.absencePresenceTypeId),
+    ),
   );
 
   constructor(@Inject(SETTINGS) private settings: Settings) {
@@ -66,7 +66,7 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
 }
 
 function getEntriesByType(
-  entries: ReadonlyArray<OpenAbsencesEntry | LessonPresence>
+  entries: ReadonlyArray<OpenAbsencesEntry | LessonPresence>,
 ): {
   openAbsencesEntries: ReadonlyArray<OpenAbsencesEntry>;
   lessonPresences: ReadonlyArray<LessonPresence>;
@@ -74,7 +74,7 @@ function getEntriesByType(
   return {
     openAbsencesEntries: entries.filter(isInstanceOf(OpenAbsencesEntry)),
     lessonPresences: entries.filter(
-      not(isInstanceOf(OpenAbsencesEntry))
+      not(isInstanceOf(OpenAbsencesEntry)),
     ) as ReadonlyArray<LessonPresence>,
   };
 }

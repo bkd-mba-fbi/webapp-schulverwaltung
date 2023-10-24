@@ -26,7 +26,7 @@ export class CoursesRestService extends RestService<typeof Course> {
       return this.http
         .get<unknown[]>(
           `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
-          { headers: { 'X-Role-Restriction': 'TeacherRole' } }
+          { headers: { 'X-Role-Restriction': 'TeacherRole' } },
         )
         .pipe(switchMap(decodeArray(Course)));
     }
@@ -37,7 +37,7 @@ export class CoursesRestService extends RestService<typeof Course> {
   getExpandedCourse(courseId: number): Observable<Course> {
     return this.http
       .get<unknown>(
-        `${this.baseUrl}/${courseId}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`
+        `${this.baseUrl}/${courseId}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`,
       )
       .pipe(switchMap(decode(Course)));
   }
@@ -45,7 +45,7 @@ export class CoursesRestService extends RestService<typeof Course> {
   getExpandedCoursesForDossier(): Observable<ReadonlyArray<Course>> {
     return this.http
       .get<unknown>(
-        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;${this.settings.eventlist.statusfilter}`
+        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
       )
       .pipe(switchMap(decodeArray(Course)));
   }
@@ -56,7 +56,7 @@ export class CoursesRestService extends RestService<typeof Course> {
         `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
         {
           headers: { 'X-Role-Restriction': 'StudentRole' },
-        }
+        },
       )
       .pipe(switchMap(decodeArray(Course)));
   }
@@ -68,7 +68,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     weight: number,
     isPointGrading: boolean,
     maxPoints: Maybe<number>,
-    maxPointsAdjusted: Maybe<number>
+    maxPointsAdjusted: Maybe<number>,
   ): Observable<void> {
     const body = {
       Tests: [
@@ -95,7 +95,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     weight: number,
     isPointGrading: boolean,
     maxPoints: Maybe<number>,
-    maxPointsAdjusted: Maybe<number>
+    maxPointsAdjusted: Maybe<number>,
   ): Observable<void> {
     const body = {
       Tests: [
@@ -126,13 +126,13 @@ export class CoursesRestService extends RestService<typeof Course> {
 
   updateTestResult(
     courseId: number,
-    body: TestPointsResult | TestGradesResult
+    body: TestPointsResult | TestGradesResult,
   ): Observable<{ courseId: number; body: UpdatedTestResultResponse }> {
     return this.http
       .put(`${this.baseUrl}/${courseId}/SetTestResult`, body)
       .pipe(
         switchMap(decode(UpdatedTestResultResponse)),
-        switchMap((value) => of({ courseId, body: value }))
+        switchMap((value) => of({ courseId, body: value })),
       );
   }
 

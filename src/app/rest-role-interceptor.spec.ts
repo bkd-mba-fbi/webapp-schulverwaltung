@@ -17,7 +17,7 @@ describe('RestRoleInterceptor', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [{ provide: Router, useValue: mockRouter }],
-      })
+      }),
     );
 
     http = TestBed.inject(HttpClient);
@@ -37,7 +37,7 @@ describe('RestRoleInterceptor', () => {
       httpTestingController
         .expectOne(
           (req) =>
-            req.url === '/' && req.headers.get('X-Role-Restriction') === null
+            req.url === '/' && req.headers.get('X-Role-Restriction') === null,
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 
@@ -54,7 +54,7 @@ describe('RestRoleInterceptor', () => {
         .expectOne(
           (req) =>
             req.url === '/presence-control' &&
-            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole'
+            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 
@@ -71,7 +71,7 @@ describe('RestRoleInterceptor', () => {
         .expectOne(
           (req) =>
             req.url === '/my-absences' &&
-            req.headers.get('X-Role-Restriction') === 'StudentRole'
+            req.headers.get('X-Role-Restriction') === 'StudentRole',
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 
@@ -89,7 +89,7 @@ describe('RestRoleInterceptor', () => {
           (req) =>
             req.url === '/open-absences' &&
             req.headers.get('X-Role-Restriction') ===
-              'LessonTeacherRole;ClassTeacherRole'
+              'LessonTeacherRole;ClassTeacherRole',
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 
@@ -107,7 +107,7 @@ describe('RestRoleInterceptor', () => {
           (req) =>
             req.url === '/edit-absences' &&
             req.headers.get('X-Role-Restriction') ===
-              'LessonTeacherRole;ClassTeacherRole'
+              'LessonTeacherRole;ClassTeacherRole',
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 
@@ -124,7 +124,7 @@ describe('RestRoleInterceptor', () => {
         .expectOne(
           (req) =>
             req.url === '/evaluate-absences' &&
-            req.headers.get('X-Role-Restriction') === null
+            req.headers.get('X-Role-Restriction') === null,
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 
@@ -141,7 +141,7 @@ describe('RestRoleInterceptor', () => {
         .expectOne(
           (req) =>
             req.url === '/my-profile' &&
-            req.headers.get('X-Role-Restriction') === null
+            req.headers.get('X-Role-Restriction') === null,
         )
         .flush('hello', { status: 200, statusText: 'Success' });
 

@@ -17,7 +17,7 @@ export class DaysDifferencePipe implements PipeTransform {
       `shared.daysDifference.${this.getKey(difference)}`,
       {
         count: Math.abs(difference),
-      }
+      },
     );
   }
 

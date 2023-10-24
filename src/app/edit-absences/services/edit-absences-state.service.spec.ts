@@ -6,13 +6,13 @@ import { buildTestModuleMetadata } from 'src/spec-helpers';
 describe('EditAbsencesStateService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({ providers: [EditAbsencesStateService] })
-    )
+      buildTestModuleMetadata({ providers: [EditAbsencesStateService] }),
+    ),
   );
 
   it('should be created', () => {
     const service: EditAbsencesStateService = TestBed.inject(
-      EditAbsencesStateService
+      EditAbsencesStateService,
     );
     expect(service).toBeTruthy();
   });

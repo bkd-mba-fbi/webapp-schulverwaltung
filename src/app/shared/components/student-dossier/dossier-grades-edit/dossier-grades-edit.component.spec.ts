@@ -14,7 +14,7 @@ describe('DossierGradesEditComponent', () => {
       buildTestModuleMetadata({
         declarations: [DossierGradesEditComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   });
 

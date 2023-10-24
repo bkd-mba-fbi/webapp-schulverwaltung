@@ -86,14 +86,14 @@ describe('filter utils', () => {
         not((arg) => {
           expect(arg).toBe(123);
           return true;
-        })(123)
+        })(123),
       ).toBe(false);
 
       expect(
         not((arg) => {
           expect(arg).toBe(123);
           return false;
-        })(123)
+        })(123),
       ).toBe(true);
     });
   });

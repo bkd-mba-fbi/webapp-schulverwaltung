@@ -29,11 +29,11 @@ export class MyGradesService {
     map((courses) =>
       courses
         .slice()
-        .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation))
-    )
+        .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation)),
+    ),
   );
   private studentCourseIds$ = this.studentCourses$.pipe(
-    map((courses) => courses.flatMap((course: Course) => course.Id))
+    map((courses) => courses.flatMap((course: Course) => course.Id)),
   );
 
   private idSubscriptions$ = combineLatest([
@@ -43,36 +43,36 @@ export class MyGradesService {
     switchMap(([studentId, courseIds]) =>
       this.subscriptionRestService.getIdSubscriptionsByStudentAndCourse(
         studentId,
-        courseIds
-      )
-    )
+        courseIds,
+      ),
+    ),
   );
 
   private ids$ = this.idSubscriptions$.pipe(
-    map((subscriptions) => subscriptions.map((s) => s.Id))
+    map((subscriptions) => subscriptions.map((s) => s.Id)),
   );
 
   testReportUrl$ = this.ids$.pipe(
     map((ids) =>
       this.reportsService.getSubscriptionReportUrl(
         this.settings.testsBySubscriptionReportIdStudent,
-        ids
-      )
-    )
+        ids,
+      ),
+    ),
   );
 
   private tests$ = this.studentCourses$.pipe(
     map((courses) =>
-      courses.flatMap((course: Course) => course.Tests).filter(notNull)
-    )
+      courses.flatMap((course: Course) => course.Tests).filter(notNull),
+    ),
   );
 
   private gradingScaleIdsFromTests$ = this.tests$.pipe(
     map((tests: Test[]) =>
       [...tests.map((test: Test) => test.GradingScaleId)]
         .filter(notNull)
-        .filter(unique)
-    )
+        .filter(unique),
+    ),
   );
 
   private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
@@ -80,8 +80,8 @@ export class MyGradesService {
       courses
         .flatMap((course: Course) => course.GradingScaleId)
         .filter(notNull)
-        .filter(unique)
-    )
+        .filter(unique),
+    ),
   );
 
   private gradingScaleIds$ = combineLatest([
@@ -89,18 +89,18 @@ export class MyGradesService {
     this.gradingScaleIdsFromTests$,
   ]).pipe(
     map(([courseGradingsScaleIds, testGradingScaleIds]: [number[], number[]]) =>
-      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique)
-    )
+      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique),
+    ),
   );
 
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
         ids.map((id: number) =>
-          this.gradingScalesRestService.getGradingScale(id)
-        )
-      )
-    )
+          this.gradingScalesRestService.getGradingScale(id),
+        ),
+      ),
+    ),
   );
 
   constructor(
@@ -110,7 +110,7 @@ export class MyGradesService {
     private subscriptionRestService: SubscriptionsRestService,
     private reportsService: ReportsService,
     private gradingScalesRestService: GradingScalesRestService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {
     const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
@@ -120,7 +120,7 @@ export class MyGradesService {
 
   private loadCourses() {
     return this.loadingService.load(
-      this.coursesRestService.getExpandedCoursesForStudent()
+      this.coursesRestService.getExpandedCoursesForStudent(),
     );
   }
 }

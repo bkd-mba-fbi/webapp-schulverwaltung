@@ -17,7 +17,7 @@ describe('EditAbsencesComponent', () => {
           EditAbsencesHeaderComponent,
           EditAbsencesListComponent,
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

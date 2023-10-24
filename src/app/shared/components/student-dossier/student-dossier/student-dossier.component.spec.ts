@@ -24,7 +24,7 @@ describe('StudentDossierComponent', () => {
             useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

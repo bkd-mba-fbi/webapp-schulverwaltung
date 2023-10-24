@@ -46,12 +46,12 @@ export class DossierGradesViewComponent implements OnChanges {
     return this.courses?.map((course) => {
       const finalGrade = this.dossierGradeService.getFinalGradeForStudent(
         course,
-        this.studentId
+        this.studentId,
       );
       const grades = this.dossierGradeService.getGradesForStudent(
         course,
         this.studentId,
-        this.gradingScales
+        this.gradingScales,
       );
 
       return {
@@ -59,11 +59,11 @@ export class DossierGradesViewComponent implements OnChanges {
         finalGrade,
         grading: this.dossierGradeService.getGradingForStudent(
           course,
-          this.studentId
+          this.studentId,
         ),
         gradingScale: this.dossierGradeService.getGradingScaleOfCourse(
           course,
-          this.gradingScales
+          this.gradingScales,
         ),
         average: finalGrade?.AverageTestResult || weightedAverage(grades),
       };

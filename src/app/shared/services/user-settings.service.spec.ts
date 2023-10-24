@@ -19,7 +19,7 @@ describe('UserSettingsService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [UserSettingsRestService],
-      })
+      }),
     );
     service = TestBed.inject(UserSettingsService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -91,7 +91,7 @@ describe('UserSettingsService', () => {
   });
 
   function expectReadRequest(
-    mockResponse: UserSettings['Settings'] = []
+    mockResponse: UserSettings['Settings'] = [],
   ): void {
     const url = 'https://eventotest.api/UserSettings/Cst';
     httpTestingController
@@ -100,7 +100,7 @@ describe('UserSettingsService', () => {
   }
 
   function expectWriteRequest(
-    expectedRequest: UserSettings['Settings'] = []
+    expectedRequest: UserSettings['Settings'] = [],
   ): void {
     const url = 'https://eventotest.api/UserSettings/Cst';
     httpTestingController
@@ -108,7 +108,7 @@ describe('UserSettingsService', () => {
         (req) =>
           req.url === url &&
           req.method === 'PATCH' &&
-          isEqual(req.body, buildUserSettings(expectedRequest))
+          isEqual(req.body, buildUserSettings(expectedRequest)),
       )
       .flush('{}');
   }

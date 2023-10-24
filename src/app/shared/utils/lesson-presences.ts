@@ -2,18 +2,21 @@ import { LessonPresence } from '../models/lesson-presence.model';
 import { format } from 'date-fns';
 
 export function getIdsGroupedByPerson(
-  lessonPresences: ReadonlyArray<LessonPresence>
+  lessonPresences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<{
   personIds: ReadonlyArray<number>;
   lessonIds: ReadonlyArray<number>;
 }> {
-  const grouped = lessonPresences.reduce((acc, p) => {
-    if (!acc[p.StudentRef.Id]) {
-      acc[p.StudentRef.Id] = [];
-    }
-    acc[p.StudentRef.Id].push(p.LessonRef.Id);
-    return acc;
-  }, {} as Dict<number[]>);
+  const grouped = lessonPresences.reduce(
+    (acc, p) => {
+      if (!acc[p.StudentRef.Id]) {
+        acc[p.StudentRef.Id] = [];
+      }
+      acc[p.StudentRef.Id].push(p.LessonRef.Id);
+      return acc;
+    },
+    {} as Dict<number[]>,
+  );
   return Object.keys(grouped).map((personId) => {
     return {
       personIds: [Number(personId)],
@@ -23,7 +26,7 @@ export function getIdsGroupedByPerson(
 }
 
 export function getIdsGroupedByPersonAndPresenceType(
-  lessonPresences: ReadonlyArray<LessonPresence>
+  lessonPresences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<{
   personId: number;
   presenceTypeId: Option<number>;
@@ -57,23 +60,26 @@ export function getIdsGroupedByPersonAndPresenceType(
       personId: number;
       presenceTypeId: Option<number>;
       lessonIds: ReadonlyArray<number>;
-    }>
+    }>,
   );
 }
 
 export function getIdsGroupedByLesson(
-  lessonPresences: ReadonlyArray<LessonPresence>
+  lessonPresences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<{
   lessonIds: ReadonlyArray<number>;
   personIds: ReadonlyArray<number>;
 }> {
-  const grouped = lessonPresences.reduce((acc, p) => {
-    if (!acc[p.LessonRef.Id]) {
-      acc[p.LessonRef.Id] = [];
-    }
-    acc[p.LessonRef.Id].push(p.StudentRef.Id);
-    return acc;
-  }, {} as Dict<number[]>);
+  const grouped = lessonPresences.reduce(
+    (acc, p) => {
+      if (!acc[p.LessonRef.Id]) {
+        acc[p.LessonRef.Id] = [];
+      }
+      acc[p.LessonRef.Id].push(p.StudentRef.Id);
+      return acc;
+    },
+    {} as Dict<number[]>,
+  );
   return Object.keys(grouped).map((lessonId) => {
     return {
       lessonIds: [Number(lessonId)],
@@ -83,23 +89,23 @@ export function getIdsGroupedByLesson(
 }
 
 export function sortLessonPresencesByDate(
-  lessonPresences: ReadonlyArray<LessonPresence>
+  lessonPresences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<LessonPresence> {
   return lessonPresences
     .slice()
     .sort(
-      (a, b) => a.LessonDateTimeFrom.getTime() - b.LessonDateTimeFrom.getTime()
+      (a, b) => a.LessonDateTimeFrom.getTime() - b.LessonDateTimeFrom.getTime(),
     );
 }
 
 export function toDesignationDateTimeTypeString(
-  lessonPresence: LessonPresence
+  lessonPresence: LessonPresence,
 ): string {
   return `${lessonPresence.EventDesignation}, ${format(
     lessonPresence.LessonDateTimeFrom,
-    'dd.MM.yyyy'
+    'dd.MM.yyyy',
   )}, ${format(lessonPresence.LessonDateTimeFrom, 'HH:mm')}-${format(
     lessonPresence.LessonDateTimeTo,
-    'HH:mm'
-  )}`; 
+    'HH:mm',
+  )}`;
 }

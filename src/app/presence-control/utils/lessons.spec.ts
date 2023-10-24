@@ -25,7 +25,7 @@ describe('lessons utils', () => {
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       expect(lessonsEqual(null, lesson)).toBe(false);
       expect(lessonsEqual(lesson, null)).toBe(false);
@@ -37,7 +37,7 @@ describe('lessons utils', () => {
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       expect(lessonsEqual(lesson, lesson)).toBe(true);
     });
@@ -48,14 +48,14 @@ describe('lessons utils', () => {
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       const lesson2 = buildLesson(
         1,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       expect(lessonsEqual(lesson1, lesson2)).toBe(true);
     });
@@ -66,14 +66,14 @@ describe('lessons utils', () => {
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       const lesson2 = buildLesson(
         2,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Deutsch',
-        `Dora Durrer`
+        `Dora Durrer`,
       );
       expect(lessonsEqual(lesson1, lesson2)).toBe(false);
     });
@@ -84,14 +84,14 @@ describe('lessons utils', () => {
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       const lesson2 = buildLesson(
         2,
         new Date(2000, 0, 23, 10, 0),
         new Date(2000, 0, 23, 11, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       expect(lessonsEqual(lesson1, lesson2)).toBe(false);
     });
@@ -104,8 +104,8 @@ describe('lessons utils', () => {
           1,
           new Date(2000, 0, 23, 9, 0),
           new Date(2000, 0, 23, 10, 0),
-          'Mathematik'
-        )
+          'Mathematik',
+        ),
       );
       expect(result).toEqual({
         LessonRef: { Id: 1, HRef: '/1' },
@@ -130,8 +130,8 @@ describe('lessons utils', () => {
             new Date(2000, 0, 23, 8, 0),
             new Date(2000, 0, 23, 9, 0),
             'Deutsch',
-            'Dora Durrer'
-          )
+            'Dora Durrer',
+          ),
         ),
         [
           buildLessonPresence(
@@ -139,30 +139,30 @@ describe('lessons utils', () => {
             new Date(2000, 0, 23, 8, 0),
             new Date(2000, 0, 23, 9, 0),
             'Deutsch',
-            'Max Frisch'
+            'Max Frisch',
           ),
           buildLessonPresence(
             2,
             new Date(2000, 0, 23, 8, 0),
             new Date(2000, 0, 23, 9, 0),
             'Deutsch',
-            'Einstein Albert'
+            'Einstein Albert',
           ),
           buildLessonPresence(
             1,
             new Date(2000, 0, 23, 9, 0),
             new Date(2000, 0, 23, 10, 0),
             'Mathematik',
-            'Einstein Albert'
+            'Einstein Albert',
           ),
           buildLessonPresence(
             3,
             new Date(2000, 0, 23, 10, 0),
             new Date(2000, 0, 23, 11, 0),
             'Mathematik',
-            'Einstein Albert'
+            'Einstein Albert',
           ),
-        ]
+        ],
       );
       expect(result.length).toEqual(2);
       expect(result.map((p) => p.StudentFullName)).toEqual([
@@ -178,7 +178,7 @@ describe('lessons utils', () => {
           new Date(2000, 0, 23, 8, 0),
           new Date(2000, 0, 23, 9, 0),
           'Deutsch',
-          'Max Frisch'
+          'Max Frisch',
         ),
       ]);
       expect(result).toEqual([]);

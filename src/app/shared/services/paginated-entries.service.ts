@@ -46,7 +46,7 @@ export const PAGE_LOADING_CONTEXT = 'page';
 export abstract class PaginatedEntriesService<
   T,
   FilterValue,
-  SortingKey = keyof T
+  SortingKey = keyof T,
 > implements OnDestroy
 {
   loading$ = this.loadingService.loading$;
@@ -58,7 +58,7 @@ export abstract class PaginatedEntriesService<
   validFilter$ = this.filter$.pipe(
     filter(this.isValidFilter.bind(this)),
     distinctUntilChanged(isEqual), // Only cause a reload if the filter changes
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private resetEntries$ = new Subject<void>();
@@ -66,11 +66,11 @@ export abstract class PaginatedEntriesService<
   private page$ = merge(
     this.nextPage$.pipe(map(() => 'next')),
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
-      map(() => 'reset')
-    )
+      map(() => 'reset'),
+    ),
   ).pipe(scan((page, action) => (action === 'next' ? page + 1 : 0), 0));
   private offset$ = this.page$.pipe(
-    map((page) => page * this.settings.paginationLimit)
+    map((page) => page * this.settings.paginationLimit),
   );
   private pageResult$ = combineLatest([
     this.validFilter$,
@@ -79,13 +79,13 @@ export abstract class PaginatedEntriesService<
   ]).pipe(
     debounceTime(10),
     concatMap(spread(this.loadEntries.bind(this))),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   entries$ = merge(
     // Restart with empty list on reset or if filter/sorting changes
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
-      map(() => ({ action: 'reset' } as ResetEntriesAction<T>))
+      map(() => ({ action: 'reset' }) as ResetEntriesAction<T>),
     ),
 
     // Accumulate entries of loaded pages
@@ -101,16 +101,16 @@ export abstract class PaginatedEntriesService<
           action: 'append',
           entries: result.entries,
         } as AppendEntriesAction<T>;
-      })
-    )
+      }),
+    ),
   ).pipe(
     scan(this.entriesActionReducer.bind(this), [] as ReadonlyArray<T>),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   total$ = this.pageResult$.pipe(map(({ total }) => total));
   hasMore$ = this.pageResult$.pipe(
-    map(({ offset, total }) => offset < total - this.settings.paginationLimit)
+    map(({ offset, total }) => offset < total - this.settings.paginationLimit),
   );
 
   queryParams$ = this.filter$.pipe(map(this.buildParamsFromFilter.bind(this)));
@@ -123,7 +123,7 @@ export abstract class PaginatedEntriesService<
     protected loadingService: LoadingService,
     protected sortService: SortService<SortingKey>,
     protected settings: Settings,
-    pageUrl: string
+    pageUrl: string,
   ) {
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
@@ -166,14 +166,14 @@ export abstract class PaginatedEntriesService<
   protected abstract loadEntries(
     filterValue: FilterValue,
     sorting: Option<Sorting<keyof T>>,
-    offset: number
+    offset: number,
   ): Observable<Paginated<ReadonlyArray<T>>>;
 
   protected abstract buildParamsFromFilter(filterValue: FilterValue): Params;
 
   private entriesActionReducer(
     entries: ReadonlyArray<T>,
-    event: EntriesAction<T>
+    event: EntriesAction<T>,
   ): ReadonlyArray<T> {
     switch (event.action) {
       case 'append':

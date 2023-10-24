@@ -60,15 +60,15 @@ export class ToastService {
       toasts.find(
         (existingToast) =>
           existingToast.message === toast.message &&
-          existingToast.header === toast.header
-      )
+          existingToast.header === toast.header,
+      ),
     );
   }
 
   private updateToasts(
     update: (
-      existingToasts: ReadonlyArray<ToastInfo>
-    ) => Array<ToastInfo> | undefined
+      existingToasts: ReadonlyArray<ToastInfo>,
+    ) => Array<ToastInfo> | undefined,
   ): void {
     this.toasts$.pipe(take(1)).subscribe((existingToasts) => {
       const newToasts = update(existingToasts);

@@ -22,14 +22,14 @@ export class EducationalEventsRestService
   implements TypeaheadService
 {
   protected typeaheadCodec = t.type(
-    pick(this.codec.props, ['Id', 'Designation', 'Number'])
+    pick(this.codec.props, ['Id', 'Designation', 'Number']),
   );
 
   constructor(
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
     private translate: TranslateService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
     super(http, settings, EducationalEvent, 'EducationalEvents');
   }
@@ -48,8 +48,8 @@ export class EducationalEventsRestService
           items.map((i) => ({
             Key: i.Id,
             Value: `${i.Designation} (${i.Number})`,
-          }))
-        )
+          })),
+        ),
       );
   }
 
@@ -67,7 +67,7 @@ export class EducationalEventsRestService
           if (items.length === 0) {
             this.toastService.error(
               this.translate.instant(`global.rest-errors.notfound-message`),
-              this.translate.instant(`global.rest-errors.notfound-title`)
+              this.translate.instant(`global.rest-errors.notfound-title`),
             );
             return EMPTY as Observable<DropDownItem>;
           }
@@ -75,7 +75,7 @@ export class EducationalEventsRestService
             Key: items[0].Id,
             Value: `${items[0].Designation} (${items[0].Number})`,
           });
-        })
+        }),
       );
   }
 }

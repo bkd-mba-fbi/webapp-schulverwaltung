@@ -20,7 +20,7 @@ describe('AvatarComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

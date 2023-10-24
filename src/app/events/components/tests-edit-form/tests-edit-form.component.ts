@@ -51,37 +51,37 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   designationErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'designation'
+    'designation',
   );
 
   dateErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'date'
+    'date',
   );
 
   maxPointsErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'maxPoints'
+    'maxPoints',
   );
 
   maxPointsAdjustedErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'maxPointsAdjusted'
+    'maxPointsAdjusted',
   );
 
   weightErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'weight'
+    'weight',
   );
 
   constructor(
     private fb: UntypedFormBuilder,
     private translate: TranslateService,
-    private testStateService: TestStateService
+    private testStateService: TestStateService,
   ) {}
 
   courseId$ = this.testStateService.courseId$;

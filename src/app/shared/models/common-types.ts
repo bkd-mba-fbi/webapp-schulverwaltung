@@ -10,13 +10,13 @@ import {
 } from '../utils/date';
 
 export function Option<T extends t.Any>(
-  optionalType: T
+  optionalType: T,
 ): t.UnionC<[t.NullC, T]> {
   return t.union([t.null, optionalType]);
 }
 
 export function Maybe<T extends t.Any>(
-  maybeType: T
+  maybeType: T,
 ): t.UnionC<[t.NullC, t.UndefinedC, T]> {
   return t.union([t.null, t.undefined, maybeType]);
 }
@@ -43,9 +43,9 @@ export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
       chain((s) => {
         const d = parseISOLocalDateTime(s);
         return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
-      })
+      }),
     ),
-  (a) => formatISOLocalDateTime(a)
+  (a) => formatISOLocalDateTime(a),
 );
 
 export const LocalDateFromString = new t.Type<Date, string, unknown>(
@@ -57,7 +57,7 @@ export const LocalDateFromString = new t.Type<Date, string, unknown>(
       chain((s) => {
         const d = parseISOLocalDate(s);
         return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
-      })
+      }),
     ),
-  (a) => formatISOLocalDate(a)
+  (a) => formatISOLocalDate(a),
 );

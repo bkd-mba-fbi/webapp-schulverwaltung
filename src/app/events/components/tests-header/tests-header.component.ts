@@ -14,7 +14,7 @@ export class TestsHeaderComponent {
 
   constructor(
     private reportsService: ReportsService,
-    private eventsRestService: EventsRestService
+    private eventsRestService: EventsRestService,
   ) {}
 
   loadReportUrl(): string {

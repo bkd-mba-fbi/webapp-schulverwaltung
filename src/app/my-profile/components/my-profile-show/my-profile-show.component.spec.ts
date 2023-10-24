@@ -13,7 +13,7 @@ describe('MyProfileShowComponent', () => {
       buildTestModuleMetadata({
         declarations: [MyProfileShowComponent],
         providers: [MyProfileService],
-      })
+      }),
     ).compileComponents();
   }));
 

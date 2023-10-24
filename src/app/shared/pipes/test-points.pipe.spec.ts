@@ -13,7 +13,7 @@ describe('TestsPointsPipe', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
     pipe = new TestPointsPipe(TestBed.inject(TranslateService));
   }));

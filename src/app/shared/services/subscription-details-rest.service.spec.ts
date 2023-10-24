@@ -35,7 +35,7 @@ describe('SubscriptionDetailsRestService', () => {
       httpTestingController
         .expectOne(
           ({ urlWithParams }) => urlWithParams === expectedUrl,
-          expectedUrl
+          expectedUrl,
         )
         .flush(data);
 
@@ -61,7 +61,7 @@ describe('SubscriptionDetailsRestService', () => {
         .expectOne(
           (req) =>
             req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-          url
+          url,
         )
         .flush(body);
       httpTestingController.verify();
@@ -83,7 +83,7 @@ describe('SubscriptionDetailsRestService', () => {
         .expectOne(
           (req) =>
             req.url === url && req.method === 'PUT' && isEqual(req.body, body),
-          url
+          url,
         )
         .flush(body);
       httpTestingController.verify();

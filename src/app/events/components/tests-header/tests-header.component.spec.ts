@@ -24,7 +24,7 @@ describe('TestsHeaderComponent', () => {
       buildTestModuleMetadata({
         declarations: [TestsHeaderComponent],
         providers: [{ provide: ReportsService, useValue: reportsServiceMock }],
-      })
+      }),
     ).compileComponents();
   }));
 

@@ -12,7 +12,7 @@ describe('EvaluateAbsencesComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EvaluateAbsencesModule],
-      })
+      }),
     ).compileComponents();
   }));
 

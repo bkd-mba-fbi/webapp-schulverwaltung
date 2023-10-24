@@ -12,7 +12,7 @@ import { LoadingService } from 'src/app/shared/services/loading-service';
 const MAX_BLOCK_LESSION_MINUTES_GAP = 30;
 
 export function getBlockLessonLoadingContext(
-  entry: PresenceControlEntry
+  entry: PresenceControlEntry,
 ): string {
   return `blockLesson${entry.lessonPresence.Id}`;
 }
@@ -23,7 +23,7 @@ export class PresenceControlBlockLessonService {
     private state: PresenceControlStateService,
     private lessonPresencesService: LessonPresencesRestService,
     private loadingService: LoadingService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class PresenceControlBlockLessonService {
    * for which the presence type cannot be updated.
    */
   getBlockLessonPresenceControlEntries(
-    entry: PresenceControlEntry
+    entry: PresenceControlEntry,
   ): Observable<ReadonlyArray<PresenceControlEntry>> {
     return combineLatest([
       this.state.lessons$.pipe(take(1)),
@@ -57,16 +57,16 @@ export class PresenceControlBlockLessonService {
             (presence) =>
               getPresenceControlEntry(
                 lessons.find(
-                  (lesson) => lesson.id === presence.LessonRef.Id.toString()
+                  (lesson) => lesson.id === presence.LessonRef.Id.toString(),
                 ),
                 presence,
                 types,
                 confirmationStates,
-                otherTeachersAbsences
-              )
+                otherTeachersAbsences,
+              ),
           );
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -75,7 +75,7 @@ export class PresenceControlBlockLessonService {
    */
   private filterBlockLessonPresences(
     entry: PresenceControlEntry,
-    lessonPresences: ReadonlyArray<LessonPresence>
+    lessonPresences: ReadonlyArray<LessonPresence>,
   ): ReadonlyArray<LessonPresence> {
     return [...lessonPresences]
       .sort((a, b) => (a.LessonDateTimeFrom > b.LessonDateTimeFrom ? 1 : -1))
@@ -97,7 +97,7 @@ export class PresenceControlBlockLessonService {
    */
   private isWithinBlockTime(
     presence: LessonPresence,
-    previousPresence: LessonPresence
+    previousPresence: LessonPresence,
   ): boolean {
     if (!previousPresence) {
       return true;
@@ -114,7 +114,7 @@ export class PresenceControlBlockLessonService {
    * Returns the changeable lesson presences, relevant to determine block lessons.
    */
   private loadChangeableLessonPresences(
-    entry: PresenceControlEntry
+    entry: PresenceControlEntry,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return combineLatest([
       // To determine the block lessons, it is important to fetch all
@@ -128,10 +128,10 @@ export class PresenceControlBlockLessonService {
           canChangePresenceType(
             presence,
             types.find((t) => t.Id === presence.TypeRef.Id) || null,
-            this.settings
-          )
-        )
-      )
+            this.settings,
+          ),
+        ),
+      ),
     );
   }
 
@@ -139,25 +139,25 @@ export class PresenceControlBlockLessonService {
    * Returns all lesson presences of same day/student/teacher/class.
    */
   private loadLessonPresences(
-    entry: PresenceControlEntry
+    entry: PresenceControlEntry,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.loadingService.load(
       this.lessonPresencesService
         .getListByDateStudentClass(
           entry.lessonPresence.LessonDateTimeFrom,
           entry.lessonPresence.StudentRef.Id,
-          entry.lessonPresence.StudyClassRef.Id ?? undefined
+          entry.lessonPresence.StudyClassRef.Id ?? undefined,
         )
         .pipe(
           map((presences) =>
             presences.filter(
               (presence) =>
                 presence.TeacherInformation ===
-                entry.lessonPresence.TeacherInformation
-            )
-          )
+                entry.lessonPresence.TeacherInformation,
+            ),
+          ),
         ),
-      getBlockLessonLoadingContext(entry)
+      getBlockLessonLoadingContext(entry),
     );
   }
 }

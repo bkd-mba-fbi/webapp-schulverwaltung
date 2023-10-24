@@ -36,8 +36,8 @@ describe('decode utils', () => {
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          'Invalid value 123 supplied to : { foo: string }/foo: string'
-        )
+          'Invalid value 123 supplied to : { foo: string }/foo: string',
+        ),
       );
     });
   });
@@ -58,8 +58,8 @@ describe('decode utils', () => {
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          'Invalid value undefined supplied to : Array<{ foo: string }>/1: { foo: string }/foo: string'
-        )
+          'Invalid value undefined supplied to : Array<{ foo: string }>/1: { foo: string }/foo: string',
+        ),
       );
     });
   });

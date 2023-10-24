@@ -26,7 +26,7 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
     private state: DossierStateService,
     private presenceTypesService: PresenceTypesService,
     public absencesService: StudentProfileAbsencesService,
-    public absencesSelectionService: ConfirmAbsencesSelectionService
+    public absencesSelectionService: ConfirmAbsencesSelectionService,
   ) {
     this.state.currentDossier$.next('absences');
   }

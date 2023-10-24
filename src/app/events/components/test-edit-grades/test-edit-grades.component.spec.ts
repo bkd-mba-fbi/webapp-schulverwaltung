@@ -36,7 +36,7 @@ describe('TestEditGradesComponent', () => {
             useValue: testStateServiceMock,
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

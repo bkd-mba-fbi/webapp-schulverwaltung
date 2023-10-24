@@ -8,7 +8,7 @@ describe('DropdownItemsRestService', () => {
 
   it('should be created', () => {
     const service: DropDownItemsRestService = TestBed.inject(
-      DropDownItemsRestService
+      DropDownItemsRestService,
     );
     expect(service).toBeTruthy();
   });

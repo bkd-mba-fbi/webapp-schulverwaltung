@@ -28,7 +28,7 @@ describe('DossierGradesViewComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   });
 

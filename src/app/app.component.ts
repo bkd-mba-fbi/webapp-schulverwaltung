@@ -21,7 +21,7 @@ export class AppComponent {
     i18n: I18nService,
     private toastService: ToastService,
     @Inject(SETTINGS) private settings: Settings,
-    @Inject(NAVIGATOR) private navigator: Navigator
+    @Inject(NAVIGATOR) private navigator: Navigator,
   ) {
     this.router.initialNavigation();
     i18n.initialize();
@@ -35,10 +35,10 @@ export class AppComponent {
           console.error(String(error));
           this.toastService.error(
             'Please check the contents of the settings.js file (see Console output for more details).',
-            'Invalid Settings'
+            'Invalid Settings',
           );
           return EMPTY;
-        })
+        }),
       )
       .subscribe();
   }

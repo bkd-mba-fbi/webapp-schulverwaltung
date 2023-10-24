@@ -21,7 +21,7 @@ describe('DossierAbsencesComponent', () => {
           StudentDossierAbsencesComponent,
         ],
         providers: [DossierStateService, ConfirmAbsencesSelectionService],
-      })
+      }),
     )
       .overrideComponent(DossierAbsencesComponent, {
         set: {

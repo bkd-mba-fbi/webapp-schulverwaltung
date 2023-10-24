@@ -12,7 +12,7 @@ import { DossierStateService } from '../../../services/dossier-state.service';
 export class StudentDossierComponent {
   constructor(
     public state: DossierStateService,
-    public dossierGradesService: DossierGradesService
+    public dossierGradesService: DossierGradesService,
   ) {
     this.state.currentDossier$.next('addresses');
   }

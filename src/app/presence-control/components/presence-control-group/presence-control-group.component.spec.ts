@@ -14,7 +14,7 @@ describe('PresenceControlGroupComponent', () => {
       buildTestModuleMetadata({
         declarations: [PresenceControlGroupComponent],
         providers: [PresenceControlStateService, PresenceControlGroupService],
-      })
+      }),
     ).compileComponents();
   });
 

@@ -27,7 +27,7 @@ describe('presence types', () => {
       undefined,
       undefined,
       undefined,
-      settings.unconfirmedAbsenceStateId
+      settings.unconfirmedAbsenceStateId,
     );
 
     lessonPresenceUnapproved = buildLessonPresence(
@@ -40,7 +40,7 @@ describe('presence types', () => {
       undefined,
       undefined,
       undefined,
-      settings.checkableAbsenceStateId
+      settings.checkableAbsenceStateId,
     );
 
     lessonPresence = buildLessonPresence(
@@ -48,13 +48,13 @@ describe('presence types', () => {
       new Date(2000, 0, 23, 7, 0),
       new Date(2000, 0, 23, 8, 0),
       'Zeichnen',
-      'Vincent van Gogh'
+      'Vincent van Gogh',
     );
 
     absenceType = buildPresenceType(
       settings.absencePresenceTypeId,
       true,
-      false
+      false,
     );
     commentType = buildPresenceType(6, false, false, true);
     incidentType = buildPresenceType(14, false, true, false);
@@ -63,7 +63,7 @@ describe('presence types', () => {
   describe('.getNewConfirmationStateId', () => {
     it('should return unconfirmedAbsenceStateId if given absence presence type matches absencePresenceTypeId', () => {
       expect(getNewConfirmationStateId(absenceType, settings)).toBe(
-        settings.unconfirmedAbsenceStateId
+        settings.unconfirmedAbsenceStateId,
       );
     });
 
@@ -79,31 +79,31 @@ describe('presence types', () => {
   describe('.canChangePresenceType', () => {
     it('should return true if is unapproved absence type', () => {
       expect(
-        canChangePresenceType(lessonPresenceUnapproved, absenceType, settings)
+        canChangePresenceType(lessonPresenceUnapproved, absenceType, settings),
       ).toBeTruthy();
     });
 
     it('should return true if is confirmed default absence type', () => {
       expect(
-        canChangePresenceType(lessonPresenceConfirmed, absenceType, settings)
+        canChangePresenceType(lessonPresenceConfirmed, absenceType, settings),
       ).toBeTruthy();
     });
 
     it('should return true if is comment absence type', () => {
       expect(
-        canChangePresenceType(lessonPresence, commentType, settings)
+        canChangePresenceType(lessonPresence, commentType, settings),
       ).toBeTruthy();
     });
 
     it('should return true if absence type is null, e.g. present', () => {
       expect(
-        canChangePresenceType(lessonPresence, null, settings)
+        canChangePresenceType(lessonPresence, null, settings),
       ).toBeTruthy();
     });
 
     it('should return true if is incident type', () => {
       expect(
-        canChangePresenceType(lessonPresence, incidentType, settings)
+        canChangePresenceType(lessonPresence, incidentType, settings),
       ).toBeTruthy();
     });
   });

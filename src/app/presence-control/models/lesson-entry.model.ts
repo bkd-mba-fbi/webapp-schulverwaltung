@@ -4,7 +4,7 @@ import { lessonsEqual } from '../utils/lessons';
 
 export function lessonsEntryEqual(
   a: Option<LessonEntry>,
-  b: Option<LessonEntry | LessonPresence | Lesson>
+  b: Option<LessonEntry | LessonPresence | Lesson>,
 ): boolean {
   return (
     (a === null && b === null) ||
@@ -20,7 +20,7 @@ export function fromLesson(lesson: Lesson): LessonEntry {
   const entry = new LessonEntry(
     lesson.TeacherInformation,
     lesson.LessonDateTimeFrom,
-    lesson.LessonDateTimeTo
+    lesson.LessonDateTimeTo,
   );
   entry.addLesson(lesson);
   return entry;
@@ -39,7 +39,7 @@ export class LessonEntry {
   constructor(
     public TeacherInformation: string,
     public LessonDateTimeFrom: Date,
-    public LessonDateTimeTo: Date
+    public LessonDateTimeTo: Date,
   ) {}
 
   addLesson(lesson: Lesson): void {
@@ -70,7 +70,7 @@ export class LessonEntry {
       ...new Set(
         this.lessons
           .map((l) => l.StudyClassNumber)
-          .sort((a, b) => a.localeCompare(b))
+          .sort((a, b) => a.localeCompare(b)),
       ),
     ].join(', ');
   }

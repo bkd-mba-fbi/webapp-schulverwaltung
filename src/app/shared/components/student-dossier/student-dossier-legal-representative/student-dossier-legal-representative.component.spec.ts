@@ -12,13 +12,13 @@ describe('StudentDossierLegalRepresentativeComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [StudentDossierLegalRepresentativeComponent],
-      })
+      }),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      StudentDossierLegalRepresentativeComponent
+      StudentDossierLegalRepresentativeComponent,
     );
     component = fixture.componentInstance;
     component.person = buildPerson(123);

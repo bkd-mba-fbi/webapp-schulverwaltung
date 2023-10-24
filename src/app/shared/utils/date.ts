@@ -11,7 +11,7 @@ export function parseISOLocalDateTime(dateString: string): Date {
     dateArray[2],
     dateArray[3],
     dateArray[4],
-    dateArray[5]
+    dateArray[5],
   );
 }
 
@@ -34,7 +34,7 @@ export function formatISOLocalDateTime(date: Date): string {
   return (
     formatISOLocalDate(date) +
     `T${zeroPadding(date.getHours())}:${zeroPadding(
-      date.getMinutes()
+      date.getMinutes(),
     )}:${zeroPadding(date.getSeconds())}`
   );
 }
@@ -46,7 +46,7 @@ export function formatISOLocalDateTime(date: Date): string {
  */
 export function formatISOLocalDate(date: Date): string {
   return `${date.getFullYear()}-${zeroPadding(
-    date.getMonth() + 1
+    date.getMonth() + 1,
   )}-${zeroPadding(date.getDate())}`;
 }
 

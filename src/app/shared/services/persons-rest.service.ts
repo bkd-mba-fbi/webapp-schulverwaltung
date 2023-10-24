@@ -15,7 +15,7 @@ import { pick } from '../utils/types';
 })
 export class PersonsRestService extends RestService<typeof Person> {
   protected personEmailCodec = t.type(
-    pick(this.codec.props, ['Email', 'FormOfAddress'])
+    pick(this.codec.props, ['Email', 'FormOfAddress']),
   );
 
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
@@ -23,7 +23,7 @@ export class PersonsRestService extends RestService<typeof Person> {
   }
 
   getListForIds(
-    personIds: ReadonlyArray<number>
+    personIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<Person>> {
     return this.getList({ params: { 'filter.Id': `;${personIds.join(';')}` } });
   }
@@ -44,7 +44,7 @@ export class PersonsRestService extends RestService<typeof Person> {
       })
       .pipe(
         switchMap(decodeArray(this.personEmailCodec)),
-        map((person) => person[0])
+        map((person) => person[0]),
       );
   }
 
@@ -52,7 +52,7 @@ export class PersonsRestService extends RestService<typeof Person> {
     personId: number,
     phonePrivate: Option<string>,
     phoneMobile: Option<string>,
-    email2: Maybe<string>
+    email2: Maybe<string>,
   ): Observable<void> {
     const body = {
       PhonePrivate: phonePrivate,

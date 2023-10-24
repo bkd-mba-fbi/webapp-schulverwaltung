@@ -4,7 +4,7 @@ import { GroupOptions } from '../../presence-control/components/presence-control
 export function updateGroupViewSettings(
   group: GroupOptions['id'],
   eventIds: ReadonlyArray<number>,
-  existingSettings: ReadonlyArray<PresenceControlGroupViewEntry>
+  existingSettings: ReadonlyArray<PresenceControlGroupViewEntry>,
 ): ReadonlyArray<PresenceControlGroupViewEntry> {
   const newSettings: ReadonlyArray<PresenceControlGroupViewEntry> =
     eventIds.map((eventId) => {
@@ -12,10 +12,10 @@ export function updateGroupViewSettings(
     });
 
   const updatedSettings = existingSettings.map(
-    (es) => newSettings.find((ns) => ns.eventId === es.eventId) || es
+    (es) => newSettings.find((ns) => ns.eventId === es.eventId) || es,
   );
 
   return [...new Set([...updatedSettings, ...newSettings])].filter(
-    (settings) => settings.group !== null
+    (settings) => settings.group !== null,
   );
 }

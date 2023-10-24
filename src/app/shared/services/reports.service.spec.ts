@@ -25,7 +25,7 @@ describe('ReportsService', () => {
             },
           },
         ],
-      })
+      }),
     );
     service = TestBed.inject(ReportsService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -46,7 +46,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42'
+              'https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42',
           )
           .flush({ Id: 290026 });
 
@@ -58,7 +58,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42'
+              'https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42',
           )
           .flush(null);
 
@@ -69,7 +69,7 @@ describe('ReportsService', () => {
     describe('getPersonMasterDataUrl', () => {
       it('returns the report url', () => {
         expect(service.getPersonMasterDataUrl(123)).toBe(
-          'https://eventotest.api/Files/CrystalReports/Person/290026?ids=123&token=SOMETOKEN'
+          'https://eventotest.api/Files/CrystalReports/Person/290026?ids=123&token=SOMETOKEN',
         );
       });
     });
@@ -92,7 +92,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789'
+              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789',
           )
           .flush({ Id: 290036 });
 
@@ -104,7 +104,7 @@ describe('ReportsService', () => {
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789'
+              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789',
           )
           .flush(null);
 
@@ -115,7 +115,7 @@ describe('ReportsService', () => {
     describe('getStudentConfirmationUrl', () => {
       it('returns the report url', () => {
         expect(service.getStudentConfirmationUrl(['123_456', '789_012'])).toBe(
-          'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456,789_012&token=SOMETOKEN'
+          'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456,789_012&token=SOMETOKEN',
         );
       });
     });
@@ -124,7 +124,7 @@ describe('ReportsService', () => {
   describe('Auswertung der Absenzen', () => {
     it('returns the report url', () => {
       expect(service.getEvaluateAbsencesUrl(['123_456', '789_012'])).toBe(
-        'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456,789_012&token=SOMETOKEN'
+        'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456,789_012&token=SOMETOKEN',
       );
     });
   });
@@ -132,7 +132,7 @@ describe('ReportsService', () => {
   describe('Auswertung Events', () => {
     it('returns the report url', () => {
       expect(service.getEventReportUrl(123)).toBe(
-        'https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=123&token=SOMETOKEN'
+        'https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=123&token=SOMETOKEN',
       );
     });
   });
@@ -140,7 +140,7 @@ describe('ReportsService', () => {
   describe('Subscription Report Url', () => {
     it('returns the report url', () => {
       expect(service.getSubscriptionReportUrl(123, [11, 12, 13])).toBe(
-        `https://eventotest.api/Files/CrystalReports/Anmeldung/123?ids=11,12,13&token=SOMETOKEN`
+        `https://eventotest.api/Files/CrystalReports/Anmeldung/123?ids=11,12,13&token=SOMETOKEN`,
       );
     });
   });

@@ -10,7 +10,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./presence-control/presence-control.module').then(
-        (m) => m.PresenceControlModule
+        (m) => m.PresenceControlModule,
       ),
   },
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./open-absences/open-absences.module').then(
-        (m) => m.OpenAbsencesModule
+        (m) => m.OpenAbsencesModule,
       ),
   },
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./edit-absences/edit-absences.module').then(
-        (m) => m.EditAbsencesModule
+        (m) => m.EditAbsencesModule,
       ),
   },
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./evaluate-absences/evaluate-absences.module').then(
-        (m) => m.EvaluateAbsencesModule
+        (m) => m.EvaluateAbsencesModule,
       ),
   },
   {
@@ -48,7 +48,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./person-search/person-search.module').then(
-        (module) => module.PersonSearchModule
+        (module) => module.PersonSearchModule,
       ),
   },
   {
@@ -56,7 +56,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./my-absences/my-absences.module').then(
-        (m) => m.MyAbsencesModule
+        (m) => m.MyAbsencesModule,
       ),
   },
   {
@@ -76,7 +76,7 @@ const routes: Routes = [
     canActivate: [authGuard()],
     loadChildren: () =>
       import('./my-settings/my-settings.module').then(
-        (m) => m.MySettingsModule
+        (m) => m.MySettingsModule,
       ),
   },
   { path: 'unauthenticated', component: UnauthenticatedComponent },

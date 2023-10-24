@@ -18,14 +18,14 @@ export class NotificationTypesService {
 
   constructor(
     @Inject(SETTINGS) private settings: Settings,
-    private storage: StorageService
+    private storage: StorageService,
   ) {}
 
   getNotificationTypes(): ReadonlyArray<NotificationType> {
     return this.getNotificationTypeKeys().map((key) => {
       if (!(key in this.settings.notificationTypes)) {
         throw new Error(
-          `Key '${key}' is missing in 'notificationTypes' setting`
+          `Key '${key}' is missing in 'notificationTypes' setting`,
         );
       }
 
@@ -41,8 +41,8 @@ export class NotificationTypesService {
       this.settings.notificationTypesAssignments.reduce(
         (acc, { roles, types }) =>
           this.hasAnyRole(roles) ? [...acc, ...types] : acc,
-        [] as ReadonlyArray<string>
-      )
+        [] as ReadonlyArray<string>,
+      ),
     );
   }
 

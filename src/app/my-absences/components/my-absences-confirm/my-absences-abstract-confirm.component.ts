@@ -34,14 +34,14 @@ export abstract class MyAbsencesAbstractConfirmComponent
     this.getHalfDayType(),
   ]).pipe(
     map(([confirmationTypes, halfDayType]) =>
-      halfDayType ? [...confirmationTypes, halfDayType] : confirmationTypes
-    )
+      halfDayType ? [...confirmationTypes, halfDayType] : confirmationTypes,
+    ),
   );
 
   absenceTypeIdErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'absenceTypeId'
+    'absenceTypeId',
   );
 
   abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
@@ -57,7 +57,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
     protected presenceTypesService: PresenceTypesService,
     protected updateService: LessonPresencesUpdateRestService,
     protected storageService: StorageService,
-    protected settings: Settings
+    protected settings: Settings,
   ) {}
 
   ngOnInit(): void {
@@ -91,9 +91,9 @@ export abstract class MyAbsencesAbstractConfirmComponent
     return this.presenceTypesService.confirmationTypes$.pipe(
       map((types) =>
         types.filter(
-          (t) => t.IsAbsence && t.Id !== this.settings.halfDayPresenceTypeId
-        )
-      )
+          (t) => t.IsAbsence && t.Id !== this.settings.halfDayPresenceTypeId,
+        ),
+      ),
     );
   }
 
@@ -117,17 +117,17 @@ export abstract class MyAbsencesAbstractConfirmComponent
           this.updateService.editLessonPresences(
             selectedLessonIds,
             [Number(this.storageService.getPayload()?.id_person)],
-            absenceTypeId
-          )
+            absenceTypeId,
+          ),
         ),
-        finalize(() => this.saving$.next(false))
+        finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));
   }
 
   protected onSaveSuccess(): void {
     this.toastService.success(
-      this.translate.instant('my-absences.confirm.save-success')
+      this.translate.instant('my-absences.confirm.save-success'),
     );
     this.navigateBack();
   }

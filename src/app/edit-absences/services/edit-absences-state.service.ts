@@ -46,7 +46,7 @@ export class EditAbsencesStateService
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
   absenceConfirmationStates$ = this.loadAbsenceConfirmationStates().pipe(
     map(sortDropDownItemsByValue),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   presenceControlEntries$ = combineLatest([
@@ -64,14 +64,14 @@ export class EditAbsencesStateService
     @Inject(SETTINGS) settings: Settings,
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
-    private dropDownItemsService: DropDownItemsRestService
+    private dropDownItemsService: DropDownItemsRestService,
   ) {
     super(location, loadingService, sortService, settings, '/edit-absences');
 
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (returnparams) => (this.confirmBackLinkParams = { returnparams })
+        (returnparams) => (this.confirmBackLinkParams = { returnparams }),
       );
   }
 
@@ -106,14 +106,14 @@ export class EditAbsencesStateService
         filterValue.dateTo ||
         filterValue.presenceTypes ||
         filterValue.confirmationStates ||
-        filterValue.incidentTypes
+        filterValue.incidentTypes,
     );
   }
 
   protected loadEntries(
     filterValue: EditAbsencesFilter,
     _sorting: null,
-    offset: number
+    offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     const params: Dict<string> = {
       sort: 'StudentFullName.asc,LessonDateTimeFrom.asc',
@@ -121,7 +121,7 @@ export class EditAbsencesStateService
 
     return this.loadingService.load(
       this.lessonPresencesService.getFilteredList(filterValue, offset, params),
-      PAGE_LOADING_CONTEXT
+      PAGE_LOADING_CONTEXT,
     );
   }
 
@@ -131,7 +131,7 @@ export class EditAbsencesStateService
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {
     return this.loadingService.load(
-      this.presenceTypesService.activePresenceTypes$
+      this.presenceTypesService.activePresenceTypes$,
     );
   }
 
@@ -139,7 +139,7 @@ export class EditAbsencesStateService
     ReadonlyArray<DropDownItem>
   > {
     return this.loadingService.load(
-      this.dropDownItemsService.getAbsenceConfirmationStates()
+      this.dropDownItemsService.getAbsenceConfirmationStates(),
     );
   }
 }

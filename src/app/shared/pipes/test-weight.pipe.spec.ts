@@ -11,7 +11,7 @@ describe('TestsWeightPipe', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
     pipe = new TestsWeightPipe(TestBed.inject(TranslateService));
   }));

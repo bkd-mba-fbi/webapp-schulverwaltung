@@ -11,7 +11,7 @@ import { DossierStateService } from 'src/app/shared/services/dossier-state.servi
 export class DossierGradesComponent implements OnInit, OnDestroy {
   constructor(
     public state: DossierStateService,
-    public dossierGradesService: DossierGradesService
+    public dossierGradesService: DossierGradesService,
   ) {}
 
   private destroy$ = new Subject<void>();

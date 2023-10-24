@@ -21,7 +21,7 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
       TeacherResource,
       'TeacherResources',
       'FullName',
-      'FullName'
+      'FullName',
     );
   }
 
@@ -40,7 +40,7 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
             Key: items[0].FullName,
             Value: `${items[0].FullName}`,
           });
-        })
+        }),
       );
   }
 }

@@ -22,13 +22,13 @@ export class GradingScalesRestService extends RestService<typeof GradingScale> {
   }
 
   loadGradingScales(
-    observable: Observable<(number | null)[]>
+    observable: Observable<(number | null)[]>,
   ): Observable<ReadonlyArray<GradingScale | null>> {
     return observable.pipe(
       switchMap((ids) =>
-        forkJoin(ids.map((id: number | null) => this.getGradingScale(id)))
+        forkJoin(ids.map((id: number | null) => this.getGradingScale(id))),
       ),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 }

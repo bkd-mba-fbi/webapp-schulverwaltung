@@ -18,7 +18,7 @@ describe('MyProfileHeaderComponent', () => {
             useValue: { personMasterDataReportUrl: '/report' },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

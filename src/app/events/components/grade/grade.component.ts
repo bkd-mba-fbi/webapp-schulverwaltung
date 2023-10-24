@@ -47,11 +47,11 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   points$: Observable<string | null> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
-    filter(this.isValid.bind(this))
+    filter(this.isValid.bind(this)),
   );
 
   grade$: Observable<number> = this.gradeSubject$.pipe(
-    debounceTime(DEBOUNCE_TIME)
+    debounceTime(DEBOUNCE_TIME),
   );
 
   destroy$ = new Subject<void>();
@@ -65,14 +65,14 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     this.points$
       .pipe(
         takeUntil(this.destroy$),
-        map(this.buildRequestBodyPointsChange.bind(this))
+        map(this.buildRequestBodyPointsChange.bind(this)),
       )
       .subscribe((body) => this.gradeChanged.emit(body));
 
     this.grade$
       .pipe(
         takeUntil(this.destroy$),
-        map(this.buildRequestBodyForGradeChange.bind(this))
+        map(this.buildRequestBodyForGradeChange.bind(this)),
       )
       .subscribe((body) => this.gradeChanged.emit(body));
   }
@@ -101,7 +101,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private buildRequestBodyPointsChange(
-    points: string | null
+    points: string | null,
   ): TestPointsResult {
     const newPoints = points === null || points === '' ? null : Number(points);
     return {

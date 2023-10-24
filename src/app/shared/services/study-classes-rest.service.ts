@@ -31,7 +31,7 @@ export class StudyClassesRestService extends TypeaheadRestService<
         `${this.baseUrl}/FormativeAssessments?filter.IsActive==true`,
         {
           headers: { 'X-Role-Restriction': 'ClassTeacherRole' },
-        }
+        },
       )
       .pipe(switchMap(decodeArray(StudyClass)));
   }

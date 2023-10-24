@@ -37,7 +37,7 @@ describe('Gradings utils', () => {
     it('should change to gradeId of the given grade', () => {
       const result = changeGrading(
         { id: 12345, selectedGradeId: 999 },
-        gradings
+        gradings,
       );
 
       expect(result.length).toBe(3);

@@ -42,7 +42,7 @@ describe('DossierAddressesComponent', () => {
         providers: [
           { provide: DossierStateService, useValue: stateServiceMock },
         ],
-      })
+      }),
     ).compileComponents();
   });
 

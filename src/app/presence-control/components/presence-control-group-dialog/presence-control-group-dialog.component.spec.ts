@@ -17,7 +17,7 @@ describe('PresenceControlGroupDialogComponent', () => {
       buildTestModuleMetadata({
         declarations: [PresenceControlGroupDialogComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   });
 

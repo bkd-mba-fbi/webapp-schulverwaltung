@@ -13,7 +13,7 @@ describe('PresenceControlBlockLessonComponent', () => {
       buildTestModuleMetadata({
         declarations: [PresenceControlBlockLessonComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   }));
 

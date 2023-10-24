@@ -58,21 +58,21 @@ describe('StudentProfileService', () => {
     apprenticeshipContract = buildApprenticeshipContract(
       student.Id,
       35468,
-      38223
+      38223,
     );
 
     legalRepresentative1 = buildPerson(
-      legalRepresentatives[0].RepresentativeId
+      legalRepresentatives[0].RepresentativeId,
     );
     legalRepresentative2 = buildPersonWithEmails(
       legalRepresentatives[1].RepresentativeId,
-      'display@email.ch'
+      'display@email.ch',
     );
     jobTrainer = buildJobTrainerWithEmails(35468, 'email1@email.ch');
     apprenticeshipManager = buildApprenticeshipManagerWithEmails(
       38223,
       'email1@email.ch',
-      'email2@email.ch'
+      'email2@email.ch',
     );
     persons = [legalRepresentative1, legalRepresentative2];
 
@@ -109,7 +109,7 @@ describe('StudentProfileService', () => {
       expectApprenticeshipContractRequest(student.Id);
       expectPersonsRequest(persons.map((person) => person.Id));
       expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId
+        apprenticeshipContract.ApprenticeshipManagerId,
       );
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
@@ -128,7 +128,7 @@ describe('StudentProfileService', () => {
       expectLegalRepresentativesRequest(student.Id);
       expectApprenticeshipContractRequest(student.Id);
       expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId
+        apprenticeshipContract.ApprenticeshipManagerId,
       );
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
@@ -151,7 +151,7 @@ describe('StudentProfileService', () => {
       expectApprenticeshipContractRequest(student.Id);
       expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
       expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId
+        apprenticeshipContract.ApprenticeshipManagerId,
       );
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
@@ -184,7 +184,7 @@ describe('StudentProfileService', () => {
       expectLoadStayPermitValueRequest();
       expectPersonsRequest(persons.map((person) => person.Id));
       expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId
+        apprenticeshipContract.ApprenticeshipManagerId,
       );
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
@@ -202,7 +202,7 @@ describe('StudentProfileService', () => {
       expectApprenticeshipContractRequest(myself.Id);
       expectLoadStayPermitValueRequest();
       expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId
+        apprenticeshipContract.ApprenticeshipManagerId,
       );
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
@@ -224,7 +224,7 @@ describe('StudentProfileService', () => {
       expectLoadStayPermitValueRequest();
       expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
       expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId
+        apprenticeshipContract.ApprenticeshipManagerId,
       );
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
@@ -244,7 +244,7 @@ describe('StudentProfileService', () => {
 
   function expectLegalRepresentativesRequest(
     id: number,
-    response = legalRepresentatives
+    response = legalRepresentatives,
   ): void {
     const url = `https://eventotest.api/Students/${id}/LegalRepresentatives`;
     httpTestingController
@@ -269,7 +269,7 @@ describe('StudentProfileService', () => {
 
   function expectPersonsRequest(personIds: number[], response = persons): void {
     const url = `https://eventotest.api/Persons/?filter.Id=;${personIds.join(
-      ';'
+      ';',
     )}`;
 
     httpTestingController

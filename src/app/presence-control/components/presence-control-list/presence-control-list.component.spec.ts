@@ -43,7 +43,7 @@ describe('PresenceControlListComponent', () => {
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
-      'Dora Durrer'
+      'Dora Durrer',
     );
     bichsel = buildPresenceControlEntry('Bichsel Peter');
     frisch = buildPresenceControlEntry('Frisch Max');
@@ -62,7 +62,7 @@ describe('PresenceControlListComponent', () => {
       'Deutsch',
       'Einstein Albert',
       'Dora Durrer',
-      absence.Id
+      absence.Id,
     );
 
     stateServiceMock = {
@@ -89,7 +89,7 @@ describe('PresenceControlListComponent', () => {
 
     blockLessonServiceMock = jasmine.createSpyObj(
       'PresenceControlBlockLessonService',
-      ['getBlockLessonPresenceControlEntries']
+      ['getBlockLessonPresenceControlEntries'],
     );
 
     lessonPresencesUpdateServiceMock = {
@@ -117,7 +117,7 @@ describe('PresenceControlListComponent', () => {
             useValue: lessonPresencesUpdateServiceMock,
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
@@ -157,7 +157,7 @@ describe('PresenceControlListComponent', () => {
   describe('.doTogglePresenceType', () => {
     beforeEach(() => {
       blockLessonServiceMock.getBlockLessonPresenceControlEntries.and.returnValue(
-        of([bichsel])
+        of([bichsel]),
       );
     });
 
@@ -165,14 +165,14 @@ describe('PresenceControlListComponent', () => {
       bichsel.lessonPresence = lessonPresence;
       component.togglePresenceType(bichsel);
       expect(
-        lessonPresencesUpdateServiceMock.updatePresenceType
+        lessonPresencesUpdateServiceMock.updatePresenceType,
       ).toHaveBeenCalledWith(bichsel, absence.Id);
     });
 
     it('updates given entry to next presence type', () => {
       component.doTogglePresenceType([bichsel]);
       expect(
-        lessonPresencesUpdateServiceMock.updatePresenceType
+        lessonPresencesUpdateServiceMock.updatePresenceType,
       ).toHaveBeenCalledWith(bichsel, absence.Id);
     });
   });
@@ -184,7 +184,7 @@ describe('PresenceControlListComponent', () => {
   }
 
   function buildPresenceControlEntry(
-    studentName: string
+    studentName: string,
   ): PresenceControlEntry {
     const presenceControlEntry = new PresenceControlEntry(
       buildLessonPresence(
@@ -192,10 +192,10 @@ describe('PresenceControlListComponent', () => {
         lesson.LessonDateTimeFrom,
         lesson.LessonDateTimeTo,
         lesson.EventDesignation,
-        studentName
+        studentName,
       ),
       null,
-      null
+      null,
     );
 
     Object.defineProperty(presenceControlEntry, 'settings', {

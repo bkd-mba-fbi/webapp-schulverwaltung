@@ -17,7 +17,7 @@ describe('TestsDeleteComponent', () => {
       buildTestModuleMetadata({
         declarations: [TestsDeleteComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   });
 
@@ -48,7 +48,7 @@ describe('TestsDeleteComponent', () => {
     expectMessage(
       debugElement,
       'confirmation-message',
-      'tests.form.delete-not-allowed'
+      'tests.form.delete-not-allowed',
     );
     expectMessage(debugElement, 'confirm-button', 'tests.dialog.ok');
 
@@ -60,9 +60,9 @@ describe('TestsDeleteComponent', () => {
 function expectMessage(
   debugElement: DebugElement,
   testId: string,
-  expectedMessage: string
+  expectedMessage: string,
 ) {
   expect(
-    debugElement.query(byTestId(testId)).nativeElement.textContent.trim()
+    debugElement.query(byTestId(testId)).nativeElement.textContent.trim(),
   ).toBe(expectedMessage);
 }

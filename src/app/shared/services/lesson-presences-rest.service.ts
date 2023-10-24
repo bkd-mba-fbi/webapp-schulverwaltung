@@ -39,13 +39,13 @@ export class LessonPresencesRestService extends RestService<
       'EventRef',
       'StudyClassRef',
       'TypeRef',
-    ])
+    ]),
   );
 
   constructor(
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
-    private storage: StorageService
+    private storage: StorageService,
   ) {
     super(http, settings, LessonPresence, 'LessonPresences');
   }
@@ -63,7 +63,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   getListByLessons(
-    lessons: ReadonlyArray<Lesson>
+    lessons: ReadonlyArray<Lesson>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     if (lessons.length === 0) {
       return of([]);
@@ -85,7 +85,7 @@ export class LessonPresencesRestService extends RestService<
   getListByDateStudentClass(
     date: Date,
     studentId: number,
-    studyClassId?: number
+    studyClassId?: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     const params: Record<string, string> = {
       'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
@@ -116,7 +116,7 @@ export class LessonPresencesRestService extends RestService<
    * or uses a single request for lesson teachers and absence administrators).
    */
   getListOfUnconfirmed(
-    params?: Dict<string>
+    params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     if (hasRole(this.storage.getPayload()?.roles, 'ClassTeacherRole')) {
       return forkJoin([
@@ -136,7 +136,7 @@ export class LessonPresencesRestService extends RestService<
   getStatistics(
     absencesFilter: EvaluateAbsencesFilter,
     absencesSorting: Option<Sorting<keyof LessonPresenceStatistic>>,
-    offset: number
+    offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
@@ -156,7 +156,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   getLessonRefs(
-    absencesFilter: EvaluateAbsencesFilter
+    absencesFilter: EvaluateAbsencesFilter,
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = filteredParams([
       [absencesFilter.student, 'StudentRef'],
@@ -174,7 +174,7 @@ export class LessonPresencesRestService extends RestService<
         'EventRef',
         'StudyClassRef',
         'TypeRef',
-      ].join(',')
+      ].join(','),
     );
 
     return this.http
@@ -183,7 +183,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   getRegistrationRefsByEventIds(
-    eventIds: ReadonlyArray<number>
+    eventIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = new HttpParams();
     params.set('filter.EventRef', `;${eventIds.join(';')}`);
@@ -196,7 +196,7 @@ export class LessonPresencesRestService extends RestService<
         'EventRef',
         'StudyClassRef',
         'TypeRef',
-      ].join(',')
+      ].join(','),
     );
 
     return this.http
@@ -207,7 +207,7 @@ export class LessonPresencesRestService extends RestService<
   getFilteredList(
     absencesFilter: EditAbsencesFilter,
     offset: number,
-    additionalParams?: Dict<string>
+    additionalParams?: Dict<string>,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     let params = filteredParams(
       [
@@ -215,13 +215,13 @@ export class LessonPresencesRestService extends RestService<
         [absencesFilter.educationalEvent, 'EventRef'],
         [absencesFilter.studyClass, 'StudyClassRef'],
       ],
-      new HttpParams({ fromObject: additionalParams })
+      new HttpParams({ fromObject: additionalParams }),
     );
 
     if (absencesFilter.teacher) {
       params = params.set(
         'filter.TeacherInformation',
-        `~*${absencesFilter.teacher}*`
+        `~*${absencesFilter.teacher}*`,
       );
     }
 
@@ -232,19 +232,19 @@ export class LessonPresencesRestService extends RestService<
     ) {
       params = params.set(
         'filter.LessonDateTimeFrom',
-        `=${format(absencesFilter.dateFrom, 'yyyy-MM-dd')}`
+        `=${format(absencesFilter.dateFrom, 'yyyy-MM-dd')}`,
       );
     } else {
       if (absencesFilter.dateFrom) {
         params = params.set(
           'filter.LessonDateTimeFrom',
-          `>${format(subDays(absencesFilter.dateFrom, 1), 'yyyy-MM-dd')}`
+          `>${format(subDays(absencesFilter.dateFrom, 1), 'yyyy-MM-dd')}`,
         );
       }
       if (absencesFilter.dateTo) {
         params = params.set(
           'filter.LessonDateTimeTo',
-          `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`
+          `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`,
         );
       }
     }
@@ -252,21 +252,21 @@ export class LessonPresencesRestService extends RestService<
     if (absencesFilter.confirmationStates) {
       params = params.set(
         'filter.ConfirmationStateId',
-        `;${absencesFilter.confirmationStates.join(';')}`
+        `;${absencesFilter.confirmationStates.join(';')}`,
       );
     }
 
     if (absencesFilter.incidentTypes) {
       params = params.set(
         'filter.TypeRef',
-        `;${absencesFilter.incidentTypes.join(';')}`
+        `;${absencesFilter.incidentTypes.join(';')}`,
       );
     }
 
     if (absencesFilter.presenceTypes) {
       params = params.set(
         'filter.TypeRef',
-        `;${absencesFilter.presenceTypes.join(';')}`
+        `;${absencesFilter.presenceTypes.join(';')}`,
       );
     }
 
@@ -274,8 +274,8 @@ export class LessonPresencesRestService extends RestService<
       params = params.set(
         'filter.TypeRef',
         `;${absencesFilter.presenceTypes.join(
-          ';'
-        )};${absencesFilter.incidentTypes.join(';')}`
+          ';',
+        )};${absencesFilter.incidentTypes.join(';')}`,
       );
     }
 
@@ -289,7 +289,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   private getListOfUnconfirmedLessonTeacher(
-    params?: Dict<string>
+    params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
@@ -302,7 +302,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   private getListOfUnconfirmedClassTeacher(
-    params?: Dict<string>
+    params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       headers: {
@@ -317,7 +317,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   private getListOfUnconfirmedAbsenceAdministrator(
-    params?: Dict<string>
+    params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       headers: { 'X-Role-Restriction': 'AbsenceAdministratorRole' },
@@ -336,7 +336,7 @@ export class LessonPresencesRestService extends RestService<
  */
 function filteredParams(
   filterValues: ReadonlyArray<[Option<number>, string]>,
-  params = new HttpParams()
+  params = new HttpParams(),
 ): HttpParams {
   return filterValues.reduce((acc, [item, field]) => {
     if (item && field) {
@@ -348,13 +348,13 @@ function filteredParams(
 
 function sortedParams<T>(
   sorting: Option<Sorting<T>>,
-  params = new HttpParams()
+  params = new HttpParams(),
 ): HttpParams {
   if (!sorting) {
     return params;
   }
   return params.set(
     'sort',
-    `${sorting.key}.${sorting.ascending ? 'asc' : 'desc'}`
+    `${sorting.key}.${sorting.ascending ? 'asc' : 'desc'}`,
   );
 }

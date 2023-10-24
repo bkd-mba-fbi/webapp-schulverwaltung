@@ -22,7 +22,7 @@ describe('EventsListComponent', () => {
         providers: [
           { provide: EventsStateService, useValue: stateServiceMock },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

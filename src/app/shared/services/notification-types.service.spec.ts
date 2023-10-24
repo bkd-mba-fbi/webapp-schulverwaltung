@@ -12,12 +12,12 @@ describe('NotificationTypesService', () => {
   beforeEach(() => {
     storageServiceMock = jasmine.createSpyObj('StorageService', ['getPayload']);
     storageServiceMock.getPayload = () =>
-      ({ roles: 'StudentRole' } as TokenPayload);
+      ({ roles: 'StudentRole' }) as TokenPayload;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [{ provide: StorageService, useValue: storageServiceMock }],
-      })
+      }),
     );
     service = TestBed.inject(NotificationTypesService);
   });

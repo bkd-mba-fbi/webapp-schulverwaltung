@@ -9,7 +9,7 @@ import { uniqBy } from 'lodash-es';
 
 export function lessonsEqual(
   a: Option<Lesson | LessonPresence>,
-  b: Option<Lesson | LessonPresence>
+  b: Option<Lesson | LessonPresence>,
 ): boolean {
   return (
     (a === null && b === null) ||
@@ -45,7 +45,7 @@ export function extractLesson(lessonPresence: LessonPresence): Lesson {
  */
 export function getLessonPresencesForLesson(
   lessonEntry: Option<LessonEntry>,
-  lessonPresences: ReadonlyArray<LessonPresence>
+  lessonPresences: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<LessonPresence> {
   if (!lessonEntry) {
     return [];
@@ -56,7 +56,7 @@ export function getLessonPresencesForLesson(
       (p) =>
         lessonEntry.lessons
           .map((l) => l.LessonRef.Id)
-          .indexOf(p.LessonRef.Id) >= 0
+          .indexOf(p.LessonRef.Id) >= 0,
     )
     .sort(lessonPresencesComparator);
 }
@@ -68,7 +68,7 @@ export function getLessonPresencesForLesson(
 function getPrecedingAbsences(
   otherTeachersAbsences: ReadonlyArray<LessonAbsence>,
   lessonPresence: LessonPresence,
-  lesson?: Option<LessonEntry>
+  lesson?: Option<LessonEntry>,
 ): ReadonlyArray<LessonAbsence> {
   return uniqBy(
     otherTeachersAbsences.filter(
@@ -77,9 +77,9 @@ function getPrecedingAbsences(
         absence.LessonRef.From &&
         absence.LessonRef.From.toDateString() ===
           lesson?.LessonDateTimeFrom.toDateString() &&
-        absence.LessonRef.From < lesson?.LessonDateTimeFrom
+        absence.LessonRef.From < lesson?.LessonDateTimeFrom,
     ),
-    'Id'
+    'Id',
   ).sort(lessonAbsenceTimeComparator);
 }
 
@@ -88,7 +88,7 @@ export function getPresenceControlEntriesForLesson(
   lessonPresences: ReadonlyArray<LessonPresence>,
   presenceTypes: ReadonlyArray<PresenceType>,
   confirmationStates: ReadonlyArray<DropDownItem>,
-  otherTeachersAbsences: ReadonlyArray<LessonAbsence>
+  otherTeachersAbsences: ReadonlyArray<LessonAbsence>,
 ): ReadonlyArray<PresenceControlEntry> {
   return getLessonPresencesForLesson(lesson, lessonPresences).map(
     (lessonPresence) =>
@@ -97,8 +97,8 @@ export function getPresenceControlEntriesForLesson(
         lessonPresence,
         presenceTypes,
         confirmationStates,
-        otherTeachersAbsences
-      )
+        otherTeachersAbsences,
+      ),
   );
 }
 
@@ -107,7 +107,7 @@ export function getPresenceControlEntry(
   lessonPresence: LessonPresence,
   presenceTypes: ReadonlyArray<PresenceType>,
   confirmationStates: ReadonlyArray<DropDownItem>,
-  otherTeachersAbsences: ReadonlyArray<LessonAbsence>
+  otherTeachersAbsences: ReadonlyArray<LessonAbsence>,
 ): PresenceControlEntry {
   let presenceType = null;
   if (lessonPresence.TypeRef.Id) {
@@ -118,20 +118,20 @@ export function getPresenceControlEntry(
   const precedingAbsences = getPrecedingAbsences(
     otherTeachersAbsences,
     lessonPresence,
-    lesson
+    lesson,
   );
 
   let confirmationState;
   if (lessonPresence.ConfirmationStateId) {
     confirmationState = confirmationStates.find(
-      (s) => s.Key === lessonPresence.ConfirmationStateId
+      (s) => s.Key === lessonPresence.ConfirmationStateId,
     );
   }
   return new PresenceControlEntry(
     lessonPresence,
     presenceType,
     precedingAbsences,
-    confirmationState
+    confirmationState,
   );
 }
 
@@ -140,7 +140,7 @@ export function getPresenceControlEntry(
  */
 export function lessonsComparator(
   a: Lesson | LessonPresence | LessonEntry,
-  b: Lesson | LessonPresence | LessonEntry
+  b: Lesson | LessonPresence | LessonEntry,
 ): number {
   const aFromTime = a.LessonDateTimeFrom.getTime();
   const bFromTime = b.LessonDateTimeFrom.getTime();
@@ -155,7 +155,7 @@ export function lessonsComparator(
  */
 function lessonPresencesComparator(
   a: LessonPresence,
-  b: LessonPresence
+  b: LessonPresence,
 ): number {
   return a.StudentFullName.localeCompare(b.StudentFullName);
 }
@@ -165,7 +165,7 @@ function lessonPresencesComparator(
  */
 function lessonAbsenceTimeComparator(
   a: LessonAbsence,
-  b: LessonAbsence
+  b: LessonAbsence,
 ): number {
   if (
     a.LessonRef.From &&

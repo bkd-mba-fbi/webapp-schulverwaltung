@@ -8,7 +8,7 @@ describe('PresenceTypesRestService', () => {
 
   it('should be created', () => {
     const service: PresenceTypesRestService = TestBed.inject(
-      PresenceTypesRestService
+      PresenceTypesRestService,
     );
     expect(service).toBeTruthy();
   });

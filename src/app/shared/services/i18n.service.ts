@@ -11,7 +11,7 @@ const FALLBACK_LANGUAGE = LANGUAGES[0];
 export class I18nService {
   constructor(
     private translate: TranslateService,
-    private storage: StorageService
+    private storage: StorageService,
   ) {}
 
   private detectedLanguage: Option<string>;
@@ -42,7 +42,7 @@ export class I18nService {
 
   getLocalizedLanguage(language: Maybe<string>): string {
     language = LANGUAGES.find(
-      (l) => l === `${(language || '').toLowerCase()}-CH`
+      (l) => l === `${(language || '').toLowerCase()}-CH`,
     );
     return language ? language : FALLBACK_LANGUAGE;
   }

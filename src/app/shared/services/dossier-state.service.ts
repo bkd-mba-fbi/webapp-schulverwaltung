@@ -10,16 +10,16 @@ export class DossierStateService {
   currentDossier$ = new BehaviorSubject<DossierPage>('addresses');
 
   studentId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('id')))
+    map((params) => Number(params.get('id'))),
   );
 
   profile$ = this.studentId$.pipe(
     switchMap((id) => this.profileService.getProfile(id)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   returnParams$ = this.route.queryParams.pipe(
-    map(({ returnparams }) => returnparams)
+    map(({ returnparams }) => returnparams),
   );
   backlinkQueryParams$ = this.returnParams$.pipe(map(parseQueryString));
 
@@ -27,6 +27,6 @@ export class DossierStateService {
 
   constructor(
     public profileService: StudentProfileService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 }

@@ -49,7 +49,7 @@ export class PresenceControlListComponent
     private presenceTypesService: PresenceTypesService,
     private modalService: NgbModal,
     private scrollPosition: ScrollPositionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -73,9 +73,9 @@ export class PresenceControlListComponent
         .subscribe((newPresenceType) =>
           this.lessonPresencesUpdateService.updatePresenceType(
             entry,
-            newPresenceType ? newPresenceType.Id : null
-          )
-        )
+            newPresenceType ? newPresenceType.Id : null,
+          ),
+        ),
     );
   }
 
@@ -94,7 +94,7 @@ export class PresenceControlListComponent
             this.doTogglePresenceType([refetchedEntry]);
           } else {
             const modalRef = this.modalService.open(
-              PresenceControlBlockLessonComponent
+              PresenceControlBlockLessonComponent,
             );
             modalRef.componentInstance.entry = entry;
             modalRef.componentInstance.blockPresenceControlEntries =
@@ -105,10 +105,10 @@ export class PresenceControlListComponent
                   this.doTogglePresenceType(entries);
                 }
               },
-              () => {}
+              () => {},
             );
           }
-        }
+        },
       );
   }
 
@@ -127,7 +127,7 @@ export class PresenceControlListComponent
         (selectedIncident) => {
           this.updateIncident(entry, selectedIncident?.Id || null);
         },
-        () => {}
+        () => {},
       );
     });
   }

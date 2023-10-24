@@ -56,14 +56,14 @@ export class ReportsService implements OnDestroy {
   personMasterDataAvailability$ = this.loadReportAvailability(
     'Person',
     this.settings.personMasterDataReportId,
-    [Number(this.storageService.getPayload()?.id_person)]
+    [Number(this.storageService.getPayload()?.id_person)],
   ).pipe(shareReplay(1));
 
   studentConfirmationAvailability$ =
     this.loadReportAvailabilityByAsyncRecordIds(
       'Praesenzinformation',
       this.settings.studentConfirmationReportId,
-      this.studentConfirmationAvailabilityRecordIds$
+      this.studentConfirmationAvailabilityRecordIds$,
     );
 
   private studentConfirmationAvailabilitySub: Subscription;
@@ -72,7 +72,7 @@ export class ReportsService implements OnDestroy {
     @Inject(SETTINGS) private settings: Settings,
     private storageService: StorageService,
     private subscriptionService: SubscriptionsRestService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.studentConfirmationAvailabilitySub =
       this.studentConfirmationAvailability$.connect();
@@ -101,7 +101,7 @@ export class ReportsService implements OnDestroy {
     return this.getReportUrl(
       'Praesenzinformation',
       this.settings.studentConfirmationReportId,
-      recordIds
+      recordIds,
     );
   }
 
@@ -115,7 +115,7 @@ export class ReportsService implements OnDestroy {
     return this.getReportUrl(
       'Praesenzinformation',
       this.settings.evaluateAbsencesReportId,
-      recordIds
+      recordIds,
     );
   }
 
@@ -131,7 +131,7 @@ export class ReportsService implements OnDestroy {
 
   getSubscriptionReportUrl(
     settingReportId: number,
-    idSubscriptionIds: number[]
+    idSubscriptionIds: number[],
   ): string {
     return `${
       this.settings.apiUrl
@@ -139,7 +139,7 @@ export class ReportsService implements OnDestroy {
   }
 
   setStudentConfirmationAvailabilityRecordIds(
-    recordIds: ReadonlyArray<string>
+    recordIds: ReadonlyArray<string>,
   ): void {
     this.studentConfirmationAvailabilityRecordIds$.next(recordIds);
   }
@@ -147,27 +147,27 @@ export class ReportsService implements OnDestroy {
   private getReportUrl(
     context: string,
     reportId: number,
-    recordIds: ReadonlyArray<number | string>
+    recordIds: ReadonlyArray<number | string>,
   ): string {
     return `${
       this.settings.apiUrl
     }/Files/CrystalReports/${context}/${reportId}?ids=${recordIds.join(
-      ','
+      ',',
     )}&token=${this.storageService.getAccessToken()}`;
   }
 
   private loadReportAvailability(
     context: string,
     reportId: number,
-    recordIds: ReadonlyArray<number | string>
+    recordIds: ReadonlyArray<number | string>,
   ): Observable<boolean> {
     return this.http
       .get<unknown>(
         `${
           this.settings.apiUrl
         }/CrystalReports/AvailableReports/${context}?ids=${reportId}&keys=${recordIds.join(
-          ','
-        )}`
+          ',',
+        )}`,
       )
       .pipe(map(notNull), startWith(false), distinctUntilChanged());
   }
@@ -175,16 +175,16 @@ export class ReportsService implements OnDestroy {
   private loadReportAvailabilityByAsyncRecordIds(
     context: string,
     reportId: number,
-    recordIds$: Observable<ReadonlyArray<number | string>>
+    recordIds$: Observable<ReadonlyArray<number | string>>,
   ): Connectable<boolean> {
     return connectable(
       recordIds$.pipe(
         filter((_, i) => i === 0), // Fetch the availability only once and cache it afterwards (but don't complete)
         switchMap((recordIds) =>
-          this.loadReportAvailability(context, reportId, recordIds)
-        )
+          this.loadReportAvailability(context, reportId, recordIds),
+        ),
       ),
-      { connector: () => new ReplaySubject<boolean>(1) }
+      { connector: () => new ReplaySubject<boolean>(1) },
     );
   }
 }

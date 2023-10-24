@@ -12,7 +12,7 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [HomeComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

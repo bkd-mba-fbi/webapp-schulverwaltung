@@ -25,7 +25,7 @@ export class MyProfileEditComponent {
   student$ = this.profileService.profile$.pipe(map(({ student }) => student));
   formGroup$ = this.student$.pipe(
     map(this.createFormGroup.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   saving$ = new BehaviorSubject(false);
@@ -34,7 +34,7 @@ export class MyProfileEditComponent {
   email2Errors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'email2'
+    'email2',
   );
 
   constructor(
@@ -43,7 +43,7 @@ export class MyProfileEditComponent {
     private toastService: ToastService,
     private translate: TranslateService,
     private profileService: MyProfileService,
-    private personsService: PersonsRestService
+    private personsService: PersonsRestService,
   ) {}
 
   cancel(): void {
@@ -58,7 +58,7 @@ export class MyProfileEditComponent {
         this.save(
           phonePrivate?.trim() || null,
           phoneMobile?.trim() || null,
-          email2 || null
+          email2 || null,
         );
       }
     });
@@ -75,7 +75,7 @@ export class MyProfileEditComponent {
   private save(
     phonePrivate: Option<string>,
     phoneMobile: Option<string>,
-    email2: Maybe<string>
+    email2: Maybe<string>,
   ): void {
     this.saving$.next(true);
     this.student$
@@ -86,10 +86,10 @@ export class MyProfileEditComponent {
             student.Id,
             phonePrivate,
             phoneMobile,
-            email2
-          )
+            email2,
+          ),
         ),
-        finalize(() => this.saving$.next(false))
+        finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));
   }
@@ -97,7 +97,7 @@ export class MyProfileEditComponent {
   private onSaveSuccess(): void {
     this.profileService.reset(); // Ensure the profile will be reloaded
     this.toastService.success(
-      this.translate.instant('my-profile.edit.save-success')
+      this.translate.instant('my-profile.edit.save-success'),
     );
     this.navigateBack();
   }

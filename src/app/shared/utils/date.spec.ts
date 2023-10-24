@@ -33,7 +33,7 @@ describe('date utils', () => {
   describe('.formatISOLocalDateTime', () => {
     it('returns the given date formatted as iso string without timezone', () => {
       const dateString = formatISOLocalDateTime(
-        new Date('2019-08-17T11:02:00')
+        new Date('2019-08-17T11:02:00'),
       );
       expect(dateString).toEqual('2019-08-17T11:02:00');
     });

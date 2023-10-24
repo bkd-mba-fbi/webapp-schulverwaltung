@@ -11,16 +11,16 @@ describe('OpenAbsencesEntry', () => {
       10,
       21,
       11,
-      new Date(2000, 0, 23, 12)
+      new Date(2000, 0, 23, 12),
     );
     presenceB = buildLessonPresenceWithIds(
       11,
       21,
       11,
-      new Date(2000, 0, 23, 13)
+      new Date(2000, 0, 23, 13),
     );
     [presenceA, presenceB].forEach(
-      (p) => (p.StudentFullName = 'Albert Einstein')
+      (p) => (p.StudentFullName = 'Albert Einstein'),
     );
 
     jasmine.clock().install();
@@ -31,7 +31,7 @@ describe('OpenAbsencesEntry', () => {
 
   it('throws an execption if initialized with an empty array', () => {
     expect(() => new OpenAbsencesEntry([])).toThrow(
-      new Error('Absences array is empty')
+      new Error('Absences array is empty'),
     );
   });
 });

@@ -9,7 +9,7 @@ export class MyProfileService {
   private reset$ = new BehaviorSubject<void>(undefined);
   profile$ = this.reset$.pipe(
     switchMap(() => this.profileService.getMyProfile()),
-    shareReplay(1)
+    shareReplay(1),
   );
   loading$ = this.profileService.loading$;
 

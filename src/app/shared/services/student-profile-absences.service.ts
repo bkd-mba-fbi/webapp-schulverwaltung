@@ -36,7 +36,7 @@ export class StudentProfileAbsencesService {
     private lessonPresencesService: LessonPresencesRestService,
     private presenceTypesService: PresenceTypesService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   setStudentId(id: number): void {
@@ -45,8 +45,8 @@ export class StudentProfileAbsencesService {
 
   private getAbsences(
     loadFn: (
-      studentId: number
-    ) => Observable<Option<ReadonlyArray<LessonPresence>>>
+      studentId: number,
+    ) => Observable<Option<ReadonlyArray<LessonPresence>>>,
   ): Observable<Option<ReadonlyArray<LessonPresence>>> {
     return this.studentId$.pipe(
       switchMap(loadFn),
@@ -55,7 +55,7 @@ export class StudentProfileAbsencesService {
       share({
         connector: () =>
           new ReplaySubject<Option<ReadonlyArray<LessonPresence>>>(1),
-      })
+      }),
     );
   }
 
@@ -66,7 +66,7 @@ export class StudentProfileAbsencesService {
           this.loadStatistics(studentId).pipe(startWith(null)),
           this.openAbsences$.pipe(map((absences) => absences?.length ?? null)),
           this.checkableAbsences$.pipe(
-            map((absences) => absences?.length ?? null)
+            map((absences) => absences?.length ?? null),
           ),
         ]);
       }),
@@ -77,18 +77,18 @@ export class StudentProfileAbsencesService {
         unexcusedAbsences: statistics?.TotalAbsencesWithoutExcuse ?? null,
         incidents: statistics?.TotalIncidents ?? null,
         halfDays: statistics?.TotalHalfDays ?? null,
-      }))
+      })),
     );
   }
 
   private loadStatistics(
-    studentId: number
+    studentId: number,
   ): Observable<LessonPresenceStatistic> {
     return this.lessonPresencesService
       .getStatistics(
         { student: studentId, educationalEvent: null, studyClass: null },
         null,
-        0
+        0,
       )
       .pipe(
         switchMap(({ entries }) => {
@@ -97,23 +97,23 @@ export class StudentProfileAbsencesService {
           }
           this.toastService.error(
             this.translate.instant(`global.rest-errors.notfound-message`),
-            this.translate.instant(`global.rest-errors.notfound-title`)
+            this.translate.instant(`global.rest-errors.notfound-title`),
           );
           return EMPTY;
-        })
+        }),
       );
   }
 
   private loadOpenAbsences(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.lessonPresencesService.getListOfUnconfirmed(
-      this.getBaseParams(studentId)
+      this.getBaseParams(studentId),
     );
   }
 
   private loadCheckableAbsences(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.lessonPresencesService.getList({
       params: {
@@ -124,7 +124,7 @@ export class StudentProfileAbsencesService {
   }
 
   private loadExcusedAbsences(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.lessonPresencesService.getList({
       params: {
@@ -135,7 +135,7 @@ export class StudentProfileAbsencesService {
   }
 
   private loadUnexcusedAbsences(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.lessonPresencesService.getList({
       params: {
@@ -146,19 +146,19 @@ export class StudentProfileAbsencesService {
   }
 
   private loadIncidents(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.presenceTypesService.incidentTypes$.pipe(
       map((incidents) => ({
         ...this.getBaseParams(studentId),
         'filter.TypeRef': `;${incidents.map((i) => i.Id).join(';')}`,
       })),
-      switchMap((params) => this.lessonPresencesService.getList({ params }))
+      switchMap((params) => this.lessonPresencesService.getList({ params })),
     );
   }
 
   private loadHalfDays(
-    studentId: number
+    studentId: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.lessonPresencesService.getList({
       params: {

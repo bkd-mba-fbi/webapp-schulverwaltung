@@ -11,7 +11,7 @@ describe('MyAbsencesReportComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [MyAbsencesReportComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

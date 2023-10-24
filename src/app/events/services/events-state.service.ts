@@ -46,7 +46,7 @@ export class EventsStateService {
 
   private events$ = this.loadEvents();
   filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
-    map(spread(searchEntries))
+    map(spread(searchEntries)),
   );
 
   constructor(
@@ -56,7 +56,7 @@ export class EventsStateService {
     private storage: StorageService,
     private translate: TranslateService,
     private eventsRestService: EventsRestService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   /**
@@ -72,8 +72,8 @@ export class EventsStateService {
             this.studyClasses$,
           ]).pipe(map(spread(this.createAndSortEvents.bind(this))))
         : this.coursesNotRated$.pipe(
-            map((course) => this.createAndSortEvents(course))
-          )
+            map((course) => this.createAndSortEvents(course)),
+          ),
     );
   }
 
@@ -86,10 +86,10 @@ export class EventsStateService {
   private createAndSortEvents(
     courses: ReadonlyArray<Course>,
     formativeAssessments: ReadonlyArray<StudyClass> = [],
-    studyClasses: ReadonlyArray<StudyClass> = []
+    studyClasses: ReadonlyArray<StudyClass> = [],
   ): ReadonlyArray<Event> {
     const classesWithoutAssessments = studyClasses.filter(
-      (c) => !formativeAssessments.map((fa) => fa.Id).includes(c.Id)
+      (c) => !formativeAssessments.map((fa) => fa.Id).includes(c.Id),
     );
     return [
       ...this.createFromCourses(courses),
@@ -99,7 +99,7 @@ export class EventsStateService {
   }
 
   private createFromStudyClasses(
-    studyClasses: ReadonlyArray<StudyClass>
+    studyClasses: ReadonlyArray<StudyClass>,
   ): ReadonlyArray<Event> {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
@@ -111,7 +111,7 @@ export class EventsStateService {
   }
 
   private createFromAssessments(
-    studyClasses: ReadonlyArray<StudyClass>
+    studyClasses: ReadonlyArray<StudyClass>,
   ): ReadonlyArray<Event> {
     const events = this.createFromStudyClasses(studyClasses);
 
@@ -124,7 +124,7 @@ export class EventsStateService {
   }
 
   private createFromCourses(
-    courses: ReadonlyArray<Course>
+    courses: ReadonlyArray<Course>,
   ): ReadonlyArray<Event> {
     return courses.map((course) => {
       const state = getEventState(course);
@@ -139,7 +139,7 @@ export class EventsStateService {
         state: state?.value || null,
         evaluationText: this.getEvaluationText(
           state,
-          course.EvaluationStatusRef.EvaluationUntil
+          course.EvaluationStatusRef.EvaluationUntil,
         ),
         evaluationLink: this.getEvaluationLink(state?.value, course),
       };
@@ -148,7 +148,7 @@ export class EventsStateService {
 
   private getEvaluationText(
     state: Option<EventStateWithLabel>,
-    date?: Maybe<Date>
+    date?: Maybe<Date>,
   ): string {
     const label = state?.label || state?.value;
     return label
@@ -161,7 +161,7 @@ export class EventsStateService {
 
   private getEvaluationLink(
     state: Maybe<EventState>,
-    course: Course
+    course: Course,
   ): Option<string> {
     return state && state !== EventState.Tests
       ? this.buildLink(course.Id, 'evaluation')
