@@ -34,7 +34,7 @@ describe('MyAbsencesReportListComponent', () => {
           },
           MyAbsencesReportSelectionService,
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

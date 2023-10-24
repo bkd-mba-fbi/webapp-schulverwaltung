@@ -16,7 +16,7 @@ describe('DossierGradesCourseHeaderComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [DossierGradesCourseHeaderComponent],
-      })
+      }),
     ).compileComponents();
   });
 

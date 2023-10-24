@@ -7,7 +7,7 @@ import { GroupOptions } from '../../presence-control/components/presence-control
 export function buildPresenceControlEntries(
   lessonPresences: ReadonlyArray<LessonPresence>,
   presenceTypes: ReadonlyArray<PresenceType>,
-  confirmationStates: ReadonlyArray<DropDownItem>
+  confirmationStates: ReadonlyArray<DropDownItem>,
 ): ReadonlyArray<PresenceControlEntry> {
   return lessonPresences.map((lessonPresence) => {
     let presenceType = null;
@@ -18,14 +18,14 @@ export function buildPresenceControlEntries(
     let confirmationState: DropDownItem | undefined;
     if (lessonPresence.ConfirmationStateId) {
       confirmationState = confirmationStates.find(
-        (s) => s.Key === lessonPresence.ConfirmationStateId
+        (s) => s.Key === lessonPresence.ConfirmationStateId,
       );
     }
     return new PresenceControlEntry(
       lessonPresence,
       presenceType,
       null,
-      confirmationState
+      confirmationState,
     );
   });
 }
@@ -33,11 +33,11 @@ export function buildPresenceControlEntries(
 export function filterByGroup(
   group: GroupOptions['id'],
   entries: ReadonlyArray<PresenceControlEntry>,
-  personIds: ReadonlyArray<number>
+  personIds: ReadonlyArray<number>,
 ): ReadonlyArray<PresenceControlEntry> {
   if (group) {
     return entries.filter((e) =>
-      personIds.find((id) => id === e.lessonPresence.StudentRef.Id)
+      personIds.find((id) => id === e.lessonPresence.StudentRef.Id),
     );
   }
 

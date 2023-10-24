@@ -13,7 +13,7 @@ describe('TestsEditFormComponent', () => {
       buildTestModuleMetadata({
         declarations: [TestsEditFormComponent],
         providers: [TestStateService],
-      })
+      }),
     ).compileComponents();
   });
 

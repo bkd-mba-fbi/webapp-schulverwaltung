@@ -41,7 +41,7 @@ describe('UserSettingsRestService', () => {
             },
           ],
           HRef: null,
-        })
+        }),
     );
 
     expect().nothing();

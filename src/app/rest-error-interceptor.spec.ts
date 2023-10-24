@@ -28,7 +28,7 @@ describe('RestErrorInterceptor', () => {
             useValue: toastServiceMock,
           },
         ],
-      })
+      }),
     );
 
     http = TestBed.inject(HttpClient);
@@ -182,7 +182,7 @@ describe('RestErrorInterceptor', () => {
             },
           ],
         },
-        { status: 409, statusText: 'Conflict' }
+        { status: 409, statusText: 'Conflict' },
       );
 
       expect(successCallback).not.toHaveBeenCalled();
@@ -190,7 +190,7 @@ describe('RestErrorInterceptor', () => {
       expect(routerMock.navigate).not.toHaveBeenCalled();
       expect(toastServiceMock.error).toHaveBeenCalledWith(
         'Person ist bereits angemeldet: Die Anmeldung kann nicht erstellt werden.\nEin weiteres Problem bla bla.',
-        `global.rest-errors.conflict-title`
+        `global.rest-errors.conflict-title`,
       );
     });
 
@@ -258,7 +258,7 @@ describe('RestErrorInterceptor', () => {
     function expectToast(messageKey: string): void {
       expect(toastServiceMock.error).toHaveBeenCalledWith(
         `global.rest-errors.${messageKey}-message`,
-        `global.rest-errors.${messageKey}-title`
+        `global.rest-errors.${messageKey}-title`,
       );
     }
   });

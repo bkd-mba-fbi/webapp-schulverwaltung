@@ -15,7 +15,7 @@ export interface StudentFilter {
 export class PersonSearchHeaderComponent {
   constructor(
     public studentsRestService: StudentsRestService,
-    private router: Router
+    private router: Router,
   ) {}
 
   filter: StudentFilter = {

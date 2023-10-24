@@ -34,7 +34,7 @@ describe('EditAbsencesListComponent', () => {
         providers: [
           { provide: EditAbsencesStateService, useValue: stateServiceMock },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 
@@ -55,10 +55,10 @@ function buildPresenceControlEntry(): PresenceControlEntry {
       5837_4508,
       new Date('2019-08-12T14:35:00'),
       new Date('2019-08-12T15:20:00'),
-      '2-1-Biologie-MNW-2019/20-22a'
+      '2-1-Biologie-MNW-2019/20-22a',
     ),
     null,
-    null
+    null,
   );
 
   Object.defineProperty(presenceControlEntry, 'settings', {

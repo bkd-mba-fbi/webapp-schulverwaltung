@@ -13,7 +13,7 @@ describe('MyGradesComponent', () => {
       buildTestModuleMetadata({
         declarations: [MyGradesComponent],
         imports: [RouterModule],
-      })
+      }),
     ).compileComponents();
   });
 

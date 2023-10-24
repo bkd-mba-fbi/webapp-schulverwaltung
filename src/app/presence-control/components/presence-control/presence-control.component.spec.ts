@@ -11,7 +11,7 @@ describe('PresenceControlComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [PresenceControlComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

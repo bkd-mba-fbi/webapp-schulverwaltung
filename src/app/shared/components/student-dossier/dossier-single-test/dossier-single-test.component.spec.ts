@@ -35,7 +35,7 @@ describe('DossierSingleTestComponent', () => {
             useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
           },
         ],
-      })
+      }),
     ).compileComponents();
   });
 
@@ -60,7 +60,7 @@ describe('DossierSingleTestComponent', () => {
     expectText(
       debugElement,
       'test-designation',
-      'Test Designation for test with id 123'
+      'Test Designation for test with id 123',
     );
   });
 

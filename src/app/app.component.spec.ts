@@ -11,7 +11,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [AppComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

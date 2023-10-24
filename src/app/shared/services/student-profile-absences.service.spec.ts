@@ -10,7 +10,7 @@ describe('StudentProfileAbsencesService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [StudentProfileAbsencesService],
-      })
+      }),
     );
     service = TestBed.inject(StudentProfileAbsencesService);
   });

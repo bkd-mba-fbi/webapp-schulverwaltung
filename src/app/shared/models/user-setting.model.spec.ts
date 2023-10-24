@@ -28,11 +28,11 @@ describe('user settings types', () => {
       it('converts JSON string with truthy values to object', () => {
         fold(
           left,
-          right
+          right,
         )(
           NotificationChannels.decode(
-            '{"mail":true,"gui":true,"phoneMobile":true}'
-          )
+            '{"mail":true,"gui":true,"phoneMobile":true}',
+          ),
         );
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith({
@@ -45,11 +45,11 @@ describe('user settings types', () => {
       it('converts JSON string with falsy values to object', () => {
         fold(
           left,
-          right
+          right,
         )(
           NotificationChannels.decode(
-            '{"mail":false,"gui":false,"phoneMobile":false}'
-          )
+            '{"mail":false,"gui":false,"phoneMobile":false}',
+          ),
         );
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith({
@@ -62,11 +62,11 @@ describe('user settings types', () => {
       it('falls back to default values for JSON string with invalid properties', () => {
         fold(
           left,
-          right
+          right,
         )(
           NotificationChannels.decode(
-            '{"mail":123,"gui":"foo","phoneMobile":{}}'
-          )
+            '{"mail":123,"gui":"foo","phoneMobile":{}}',
+          ),
         );
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith({
@@ -96,7 +96,7 @@ describe('user settings types', () => {
             mail: true,
             gui: false,
             phoneMobile: true,
-          })
+          }),
         ).toEqual('{"mail":true,"gui":false,"phoneMobile":true}');
       });
     });
@@ -115,11 +115,11 @@ describe('user settings types', () => {
       it('converts semicolon-separated string to array', () => {
         fold(
           left,
-          right
+          right,
         )(
           NotificationTypesInactive.decode(
-            'BM2Teacher;absenceMessage;teacherSubstitutions'
-          )
+            'BM2Teacher;absenceMessage;teacherSubstitutions',
+          ),
         );
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith([
@@ -150,13 +150,13 @@ describe('user settings types', () => {
       it('fails for array with invalid value', () => {
         fold(
           left,
-          right
+          right,
         )(
           NotificationTypesInactive.decode([
             'BM2Teacher',
             123,
             'absenceMessage',
-          ])
+          ]),
         );
         expect(left).toHaveBeenCalled();
         expect(right).not.toHaveBeenCalled();
@@ -170,13 +170,13 @@ describe('user settings types', () => {
             'BM2Teacher',
             'absenceMessage',
             'teacherSubstitutions',
-          ])
+          ]),
         ).toEqual('BM2Teacher;absenceMessage;teacherSubstitutions');
       });
 
       it('converts single-value array to string', () => {
         expect(NotificationTypesInactive.encode(['BM2Teacher'])).toEqual(
-          'BM2Teacher'
+          'BM2Teacher',
         );
       });
     });

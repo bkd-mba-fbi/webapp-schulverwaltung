@@ -21,30 +21,30 @@ export class TestsListComponent {
         return { Key: test.Id, Value: test.Designation };
       }),
     ]),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   selectedTestId$ = merge(
     this.selectTest$,
     this.state.tests$.pipe(
       take(1),
-      map((tests) => tests[0]?.Id)
-    )
+      map((tests) => tests[0]?.Id),
+    ),
   ).pipe(distinctUntilChanged());
 
   selectedTest$: Observable<Test | undefined> = this.selectedTestId$.pipe(
     switchMap((id: number) =>
       this.state.tests$.pipe(
-        map((tests) => tests.find((test) => test.Id === id))
-      )
+        map((tests) => tests.find((test) => test.Id === id)),
+      ),
     ),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   constructor(
     @Inject(SETTINGS) public settings: Settings,
     public state: TestStateService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   testSelected(id: number) {
@@ -54,7 +54,7 @@ export class TestsListComponent {
   buildLinkToRatingOverview() {
     return this.state.course$.pipe(
       take(1),
-      map((course) => `${this.settings.eventlist.evaluation}=${course.Id}`)
+      map((course) => `${this.settings.eventlist.evaluation}=${course.Id}`),
     );
   }
 }

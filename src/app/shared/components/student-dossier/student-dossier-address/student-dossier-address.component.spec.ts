@@ -34,7 +34,7 @@ describe('StudentDossierAddressComponent', () => {
 
       fixture.detectChanges();
       expectText(
-        'Spitalgasse 1 Postfach 3000 Bern +41 31 123 45 67 +41 79 123 45 67 fritz@example.com'
+        'Spitalgasse 1 Postfach 3000 Bern +41 31 123 45 67 +41 79 123 45 67 fritz@example.com',
       );
     });
 
@@ -60,7 +60,7 @@ describe('StudentDossierAddressComponent', () => {
 
       fixture.detectChanges();
       expectText(
-        'Spitalgasse 1 Postfach 3000 Bern +41 31 123 45 67 +41 79 123 45 67 fritz@example.com'
+        'Spitalgasse 1 Postfach 3000 Bern +41 31 123 45 67 +41 79 123 45 67 fritz@example.com',
       );
     });
 
@@ -76,7 +76,7 @@ describe('StudentDossierAddressComponent', () => {
       fixture.detectChanges();
 
       expectText(
-        'Spitalgasse 1 3000 Bern +41 79 123 45 67 alternative@example.com'
+        'Spitalgasse 1 3000 Bern +41 79 123 45 67 alternative@example.com',
       );
     });
   });

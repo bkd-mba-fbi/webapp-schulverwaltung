@@ -9,7 +9,7 @@ export interface Searchable {
 
 export function searchEntries<T extends Searchable>(
   entries: ReadonlyArray<T>,
-  term: string
+  term: string,
 ): ReadonlyArray<T> {
   if (!term) {
     return entries;

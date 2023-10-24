@@ -13,7 +13,7 @@ describe('EvaluateAbsencesHeaderComponent', () => {
       buildTestModuleMetadata({
         declarations: [EvaluateAbsencesHeaderComponent],
         providers: [EvaluateAbsencesStateService],
-      })
+      }),
     ).compileComponents();
   }));
 

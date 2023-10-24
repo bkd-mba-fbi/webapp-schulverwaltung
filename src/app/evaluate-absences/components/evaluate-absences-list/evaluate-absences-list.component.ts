@@ -52,7 +52,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private presenceTypesService: PresenceTypesService,
     private reportsService: ReportsService,
-    private lessonPresencesService: LessonPresencesRestService
+    private lessonPresencesService: LessonPresencesRestService,
   ) {}
 
   ngOnInit(): void {
@@ -85,16 +85,16 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       map((lessonPresences) =>
         lessonPresences.length > 0
           ? this.reportsService.getEvaluateAbsencesUrl(
-              this.getReportRecordIds(lessonPresences)
+              this.getReportRecordIds(lessonPresences),
             )
-          : null
+          : null,
       ),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
   private getReportRecordIds(
-    presences: ReadonlyArray<LessonPresence>
+    presences: ReadonlyArray<LessonPresence>,
   ): ReadonlyArray<string> {
     return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationRef.Id}`);
   }

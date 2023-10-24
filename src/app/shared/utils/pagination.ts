@@ -31,9 +31,9 @@ export interface Paginated<T> {
  *   }
  */
 export function decodePaginatedResponse<C extends t.Mixed>(
-  codec: C
+  codec: C,
 ): (
-  source: Observable<HttpResponse<unknown>>
+  source: Observable<HttpResponse<unknown>>,
 ) => Observable<Paginated<ReadonlyArray<t.TypeOf<C>>>> {
   return (source) => {
     return source.pipe(
@@ -41,9 +41,9 @@ export function decodePaginatedResponse<C extends t.Mixed>(
         const offset = Number(response.headers.get('X-Pagination-Offset'));
         const total = Number(response.headers.get('X-Pagination-Total'));
         return decodeArray(codec)(response.body).pipe(
-          map((entries) => ({ offset, total, entries }))
+          map((entries) => ({ offset, total, entries })),
         );
-      })
+      }),
     );
   };
 }
@@ -51,7 +51,7 @@ export function decodePaginatedResponse<C extends t.Mixed>(
 export function paginatedParams(
   offset: number,
   limit: number,
-  params = new HttpParams()
+  params = new HttpParams(),
 ): HttpParams {
   return params.set('offset', String(offset)).set('limit', String(limit));
 }

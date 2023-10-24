@@ -8,9 +8,9 @@ export function replaceGrading(newGrading: Grading, gradings: Grading[]) {
 }
 export function changeGrading(
   { id, selectedGradeId }: { id: number; selectedGradeId: number },
-  gradings: Grading[]
+  gradings: Grading[],
 ) {
   return gradings.map((grade) =>
-    grade.Id !== id ? grade : { ...grade, GradeId: selectedGradeId }
+    grade.Id !== id ? grade : { ...grade, GradeId: selectedGradeId },
   );
 }

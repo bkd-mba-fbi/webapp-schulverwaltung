@@ -13,12 +13,15 @@ import { ActivatedRoute } from '@angular/router';
 export class TestsComponent implements OnInit, OnDestroy {
   courseId$: Observable<number> = this.route.paramMap.pipe(
     map((params) => Number(params.get('id'))),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   destroy$ = new Subject<void>();
 
-  constructor(public state: TestStateService, private route: ActivatedRoute) {}
+  constructor(
+    public state: TestStateService,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
     this.courseId$

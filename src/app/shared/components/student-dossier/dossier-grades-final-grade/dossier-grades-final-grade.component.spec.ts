@@ -17,7 +17,7 @@ describe('DossierGradesFinalGradeComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [DossierGradesFinalGradeComponent],
-      })
+      }),
     ).compileComponents();
   });
 

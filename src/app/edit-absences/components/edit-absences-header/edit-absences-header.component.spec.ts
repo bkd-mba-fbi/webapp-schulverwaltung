@@ -24,7 +24,7 @@ describe('EditAbsencesHeaderComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   }));
 

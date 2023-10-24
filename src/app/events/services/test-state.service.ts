@@ -59,10 +59,10 @@ export class TestStateService {
   private fetchedCourse$ = this._courseId$.pipe(
     switchMap((courseId) =>
       this.loadingService.load(
-        this.coursesRestService.getExpandedCourse(courseId)
-      )
+        this.coursesRestService.getExpandedCourse(courseId),
+      ),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   course$: Observable<Course> = merge(this.action$, this.fetchedCourse$).pipe(
@@ -76,18 +76,18 @@ export class TestStateService {
       };
     }),
     scan(courseReducer, null as Option<Course>),
-    filter(notNull)
+    filter(notNull),
   );
 
   tests$ = this.course$.pipe(
     map((course: Course) => course.Tests || []),
-    map(sortByDate)
+    map(sortByDate),
   );
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
 
   expandedHeader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+    false,
   );
 
   filteredTests$ = combineLatest([this.tests$, this.filter$]).pipe(
@@ -98,8 +98,8 @@ export class TestStateService {
         } else {
           return test.IsOwner;
         }
-      })
-    )
+      }),
+    ),
   );
 
   sorting$ = this.sortService.sorting$;
@@ -117,12 +117,12 @@ export class TestStateService {
       uniq([
         ...(course.Tests ?? []).map((test: Test) => test.GradingScaleId),
         course.GradingScaleId,
-      ])
-    )
+      ]),
+    ),
   );
 
   private gradingScales$ = this.gradingScalesRestService.loadGradingScales(
-    this.gradingScaleIds$
+    this.gradingScaleIds$,
   );
 
   private UNDEFINED_GRADINGSCALE_ID = -1;
@@ -149,14 +149,14 @@ export class TestStateService {
               ...gradingScaleOptions,
               [option.id]: option.options,
             }),
-            {}
-          )
+            {},
+          ),
       ),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   meanOfStudentGradesForCourse$: Observable<number> = this.studentGrades$.pipe(
-    map((studentGrades) => meanOf(pluckFinalGrades(studentGrades)))
+    map((studentGrades) => meanOf(pluckFinalGrades(studentGrades))),
   );
 
   meanOfFinalGradesForCourse$: Observable<number | null> = combineLatest([
@@ -169,7 +169,7 @@ export class TestStateService {
     private gradingScalesRestService: GradingScalesRestService,
     private gradingsRestService: GradingsRestService,
     private loadingService: LoadingService,
-    private sortService: SortService<SortKeys>
+    private sortService: SortService<SortKeys>,
   ) {}
 
   setCourseId(id: number) {
@@ -182,20 +182,22 @@ export class TestStateService {
 
   gradingOptionsForCourse$() {
     return this.course$.pipe(
-      switchMap((course: Course) => this.gradingOptions$(course.GradingScaleId))
+      switchMap((course: Course) =>
+        this.gradingOptions$(course.GradingScaleId),
+      ),
     );
   }
 
   toStudentGrades(
     course: Course,
     tests: Test[] = [],
-    sorting: Sorting<SortKeys>
+    sorting: Sorting<SortKeys>,
   ): StudentGrade[] {
     return transform(
       course.ParticipatingStudents ?? [],
       tests,
       course.Gradings ?? [],
-      course.FinalGrades ?? []
+      course.FinalGrades ?? [],
     ).sort(compareFn(sorting));
   }
 
@@ -220,8 +222,8 @@ export class TestStateService {
       .pipe(
         take(1),
         switchMap((course: Course) =>
-          this.coursesRestService.updateTestResult(course.Id, requestBody)
-        )
+          this.coursesRestService.updateTestResult(course.Id, requestBody),
+        ),
       )
       .subscribe((response) => this.updateStudentGrades(response));
   }
@@ -264,7 +266,7 @@ export class TestStateService {
         this.action$.next({
           type: 'replace-grades',
           payload: response.Gradings,
-        })
+        }),
       );
   }
 
@@ -273,7 +275,7 @@ export class TestStateService {
     body: UpdatedTestResultResponse;
   }) {
     const grading: Grading | undefined = newGrades.body.Gradings.find(
-      (grading: Grading) => grading.EventId === newGrades.courseId
+      (grading: Grading) => grading.EventId === newGrades.courseId,
     );
     if (grading === undefined) return;
     this.action$.next({
@@ -296,13 +298,13 @@ export class TestStateService {
     if (gradingScaleId === null) return of(null);
     return this.gradingScalesOptions$.pipe(
       map((gradingScaleOptions) => gradingScaleOptions[gradingScaleId]),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
   private meanOfOverwrittenGradesForCourse(
     gradingScaleOptions: GradingScaleOptions,
-    studentGrades: StudentGrade[]
+    studentGrades: StudentGrade[],
   ): Observable<number | null> {
     return this.course$.pipe(
       map((course: Course) => {
@@ -311,7 +313,7 @@ export class TestStateService {
           return null;
         const scale = gradingScaleOptions[course.GradingScaleId]!;
         return averageOfGradesForScale(pluckFinalGrades(studentGrades), scale);
-      })
+      }),
     );
   }
 }

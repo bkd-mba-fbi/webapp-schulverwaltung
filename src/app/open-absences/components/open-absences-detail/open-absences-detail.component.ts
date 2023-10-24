@@ -28,11 +28,11 @@ export class OpenAbsencesDetailComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   absences$ = this.route.paramMap.pipe(
-    switchMap(this.getAbsencesForParams.bind(this))
+    switchMap(this.getAbsencesForParams.bind(this)),
   );
   hasAbsences$ = this.absences$.pipe(map(longerOrEqual(1)));
   studentFullName$ = this.absences$.pipe(
-    map((absences) => (absences[0] && absences[0].StudentFullName) || null)
+    map((absences) => (absences[0] && absences[0].StudentFullName) || null),
   );
   allSelected$ = combineLatest([
     this.absences$,
@@ -42,20 +42,20 @@ export class OpenAbsencesDetailComponent
   studentEmail$ = this.absences$.pipe(
     map((absences) => (absences[0] && absences[0].StudentRef.Id) || null),
     switchMap((id) =>
-      id ? this.personService.getByIdWithEmailInfos(id) : EMPTY
-    )
+      id ? this.personService.getByIdWithEmailInfos(id) : EMPTY,
+    ),
   );
 
   allUnconfirmedAbsencesForStudent$ = this.route.paramMap.pipe(
-    switchMap(this.getAbsencesForStudentParam.bind(this))
+    switchMap(this.getAbsencesForStudentParam.bind(this)),
   );
   mailTo$ = combineLatest([
     this.studentEmail$,
     this.allUnconfirmedAbsencesForStudent$,
   ]).pipe(
     map(([email, absences]) =>
-      this.openAbsencesService.buildMailToString(email, absences)
-    )
+      this.openAbsencesService.buildMailToString(email, absences),
+    ),
   );
 
   private destroy$ = new Subject<void>();
@@ -67,7 +67,7 @@ export class OpenAbsencesDetailComponent
     private presenceTypesService: PresenceTypesService,
     private personService: PersonsRestService,
     public selectionService: ConfirmAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService
+    private scrollPosition: ScrollPositionService,
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +80,7 @@ export class OpenAbsencesDetailComponent
         (this.openAbsencesService.currentDetail = {
           date: String(params.get('date')),
           personId: Number(params.get('personId')),
-        })
+        }),
     );
 
     // If there are no entries, return to main list
@@ -114,7 +114,7 @@ export class OpenAbsencesDetailComponent
   }
 
   getPresenceTypeDesignation(
-    lessonPresence: LessonPresence
+    lessonPresence: LessonPresence,
   ): Observable<Option<string>> {
     return this.presenceTypesService.displayedTypes$.pipe(
       map(
@@ -122,25 +122,25 @@ export class OpenAbsencesDetailComponent
           (lessonPresence.TypeRef.Id &&
             types.find((t) => t.Id === lessonPresence.TypeRef.Id)
               ?.Designation) ||
-          null
-      )
+          null,
+      ),
     );
   }
 
   private getAbsencesForParams(
-    params: ParamMap
+    params: ParamMap,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.openAbsencesService.getUnconfirmedAbsences(
       String(params.get('date')),
-      Number(params.get('personId'))
+      Number(params.get('personId')),
     );
   }
 
   private getAbsencesForStudentParam(
-    params: ParamMap
+    params: ParamMap,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.openAbsencesService.getAllUnconfirmedAbsencesForStudent(
-      Number(params.get('personId'))
+      Number(params.get('personId')),
     );
   }
 }

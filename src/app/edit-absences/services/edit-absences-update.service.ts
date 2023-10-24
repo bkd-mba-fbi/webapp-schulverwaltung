@@ -23,7 +23,7 @@ export enum Category {
 export class EditAbsencesUpdateService {
   constructor(
     private updateService: LessonPresencesUpdateRestService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   update(
@@ -32,7 +32,7 @@ export class EditAbsencesUpdateService {
     category: Category,
     confirmationValue: Option<number>,
     absenceTypeId: Option<number>,
-    incidentId: Option<number>
+    incidentId: Option<number>,
   ): Observable<void> {
     let requests: ReadonlyArray<Observable<void>> = [];
     switch (category) {
@@ -44,21 +44,21 @@ export class EditAbsencesUpdateService {
           entries,
           presenceTypes,
           confirmationValue,
-          absenceTypeId
+          absenceTypeId,
         );
         break;
       case Category.Dispensation:
         requests = this.createEditBulkRequests(
           entries,
           null,
-          this.settings.dispensationPresenceTypeId
+          this.settings.dispensationPresenceTypeId,
         );
         break;
       case Category.HalfDay:
         requests = this.createEditBulkRequests(
           entries,
           null,
-          this.settings.halfDayPresenceTypeId
+          this.settings.halfDayPresenceTypeId,
         );
         break;
       case Category.Incident:
@@ -73,14 +73,14 @@ export class EditAbsencesUpdateService {
     entries: ReadonlyArray<LessonPresence>,
     presenceTypes: ReadonlyArray<PresenceType>,
     confirmationValue: Option<number>,
-    absenceTypeId: Option<number>
+    absenceTypeId: Option<number>,
   ): ReadonlyArray<Observable<void>> {
     if (confirmationValue === this.settings.excusedAbsenceStateId) {
       // Update all entries to the absence type selected by the user
       return this.createEditBulkRequests(
         entries,
         confirmationValue,
-        absenceTypeId
+        absenceTypeId,
       );
     } else if (confirmationValue === this.settings.unexcusedAbsenceStateId) {
       // Update all entries to the default absence type (possibly
@@ -88,7 +88,7 @@ export class EditAbsencesUpdateService {
       return this.createEditBulkRequests(
         entries,
         confirmationValue,
-        this.settings.absencePresenceTypeId
+        this.settings.absencePresenceTypeId,
       );
     } else {
       return [
@@ -97,47 +97,47 @@ export class EditAbsencesUpdateService {
         ...this.createEditBulkRequests(
           entries.filter(overrideAbsenceType(presenceTypes, this.settings)),
           confirmationValue,
-          this.settings.absencePresenceTypeId
+          this.settings.absencePresenceTypeId,
         ),
         // Keep the existing absence type for all other entries
         ...this.createEditBulkRequests(
           entries.filter(
-            not(overrideAbsenceType(presenceTypes, this.settings))
+            not(overrideAbsenceType(presenceTypes, this.settings)),
           ),
           confirmationValue,
-          null
+          null,
         ),
       ];
     }
   }
 
   private createResetBulkRequests(
-    entries: ReadonlyArray<LessonPresence>
+    entries: ReadonlyArray<LessonPresence>,
   ): ReadonlyArray<Observable<void>> {
     return getIdsGroupedByPerson(entries).map(({ lessonIds, personIds }) =>
-      this.updateService.removeLessonPresences(lessonIds, personIds)
+      this.updateService.removeLessonPresences(lessonIds, personIds),
     );
   }
 
   private createEditBulkRequests(
     entries: ReadonlyArray<LessonPresence>,
     confirmationValue: Option<number>,
-    absenceTypeId: Option<number>
+    absenceTypeId: Option<number>,
   ): ReadonlyArray<Observable<void>> {
     return getIdsGroupedByPerson(entries).map(({ lessonIds, personIds }) =>
       this.updateService.editLessonPresences(
         lessonIds,
         personIds,
         absenceTypeId || undefined,
-        confirmationValue || undefined
-      )
+        confirmationValue || undefined,
+      ),
     );
   }
 }
 
 function overrideAbsenceType(
   presenceTypes: ReadonlyArray<PresenceType>,
-  settings: Settings
+  settings: Settings,
 ): (entry: LessonPresence) => boolean {
   return (entry) => {
     const presenceType = presenceTypes.find((t) => t.Id === entry.TypeRef.Id);

@@ -57,7 +57,7 @@ import {
 } from 'src/app/shared/utils/observable';
 
 export const VIEW_MODES: ReadonlyArray<string> = Object.values(
-  PresenceControlViewMode
+  PresenceControlViewMode,
 );
 
 @Injectable()
@@ -74,49 +74,49 @@ export class PresenceControlStateService
   private viewModeSubject$ = new Subject<PresenceControlViewMode>();
   viewMode$ = merge(
     this.viewModeSubject$,
-    this.userSettings.getPresenceControlViewMode().pipe(take(1))
+    this.userSettings.getPresenceControlViewMode().pipe(take(1)),
   );
 
   lessons$ = this.selectedDate$.pipe(
     switchMap((date) => this.loadLessonsByDate(date)),
-    shareReplay(1)
+    shareReplay(1),
   );
   private selectLessonId$ = new Subject<number | string | undefined>();
   private selectLesson$ = this.selectLessonId$.pipe(
-    switchMap((id) => this.getLessonById(id))
+    switchMap((id) => this.getLessonById(id)),
   );
   selectedLesson$ = combineLatest([
     reemitOnTrigger(
       this.selectLesson$.pipe(distinctUntilChanged((a, b) => isEqual(a, b))),
-      intervalOnInactivity(this.settings.lessonPresencesRefreshTime) // Trigger lesson reloading after periods of inactivity
+      intervalOnInactivity(this.settings.lessonPresencesRefreshTime), // Trigger lesson reloading after periods of inactivity
     ),
     this.lessons$,
   ]).pipe(
     map(([selectedLesson, lessons]) =>
       // Reset selection if day changed
-      lessons.find((l) => l.id === selectedLesson.id) ? selectedLesson : null
+      lessons.find((l) => l.id === selectedLesson.id) ? selectedLesson : null,
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
   private lessonPresences$ = merge(
     this.selectedLesson$.pipe(
       switchMap((lesson) =>
-        lesson ? this.loadLessonPresencesByLesson(lesson) : of([])
-      )
+        lesson ? this.loadLessonPresencesByLesson(lesson) : of([]),
+      ),
     ),
-    this.updateLessonPresences$
+    this.updateLessonPresences$,
   ).pipe(shareReplay(1));
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
   studentIdsWithUnconfirmedAbsences$ = reemitOnTrigger(
     this.selectedDate$,
-    this.selectedLesson$.pipe(skip(1))
+    this.selectedLesson$.pipe(skip(1)),
   ).pipe(
     switchMap(() => this.loadStudentIdsWithUnconfirmedAbsences()),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   loading$ = this.loadingService.loading$;
@@ -127,7 +127,7 @@ export class PresenceControlStateService
 
   private studentIds$ = this.lessonPresences$.pipe(
     map((p) => uniq(p.map((i) => i.StudentRef.Id))),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   otherTeachersAbsences$ = this.studentIds$.pipe(
@@ -136,11 +136,11 @@ export class PresenceControlStateService
       studentIds.length > 0
         ? this.lessonTeacherService.loadOtherTeachersLessonAbsences(
             this.getMyself(),
-            studentIds
+            studentIds,
           )
-        : of([])
+        : of([]),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   groupsAvailability$ = this.groupService.groupsAvailability$;
@@ -160,16 +160,16 @@ export class PresenceControlStateService
   ]).pipe(map(spread(filterByGroup)), shareReplay(1));
 
   presentCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount('present'))
+    map(getCategoryCount('present')),
   );
   absentCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount('absent'))
+    map(getCategoryCount('absent')),
   );
   unapprovedCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount('unapproved'))
+    map(getCategoryCount('unapproved')),
   );
   absentPrecedingCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getPrecedingAbsencesCount())
+    map(getPrecedingAbsencesCount()),
   );
 
   queryParamsString$ = combineLatest([
@@ -190,7 +190,7 @@ export class PresenceControlStateService
     private loadingService: LoadingService,
     private storageService: StorageService,
     @Inject(SETTINGS) private settings: Settings,
-    private location: Location
+    private location: Location,
   ) {
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
@@ -203,7 +203,7 @@ export class PresenceControlStateService
       .pipe(
         skip(1), // Only save the view mode setting when changed by user, not on initial loading
         switchMap((v) => this.userSettings.savePresenceControlViewMode(v)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe();
 
@@ -214,7 +214,7 @@ export class PresenceControlStateService
     this.lessonPresences$
       .pipe(takeUntil(this.destroy$))
       .subscribe((presences) =>
-        this.groupService.setLessonPresences(presences)
+        this.groupService.setLessonPresences(presences),
       );
   }
 
@@ -235,7 +235,7 @@ export class PresenceControlStateService
   }
 
   updateLessonPresencesTypes(
-    updates: ReadonlyArray<LessonPresenceUpdate>
+    updates: ReadonlyArray<LessonPresenceUpdate>,
   ): void {
     combineLatest([
       this.lessonPresences$.pipe(take(1)),
@@ -247,40 +247,40 @@ export class PresenceControlStateService
             lessonPresences,
             updates,
             presenceTypes,
-            this.settings
-          )
-        )
+            this.settings,
+          ),
+        ),
       )
       .subscribe((lessonPresences) =>
-        this.updateLessonPresences$.next(lessonPresences)
+        this.updateLessonPresences$.next(lessonPresences),
       );
   }
 
   getNextPresenceType(
-    entry: PresenceControlEntry
+    entry: PresenceControlEntry,
   ): Observable<Option<PresenceType>> {
     return this.presenceTypes$.pipe(
       take(1),
-      map((presenceTypes) => entry.getNextPresenceType(presenceTypes))
+      map((presenceTypes) => entry.getNextPresenceType(presenceTypes)),
     );
   }
 
   hasUnconfirmedAbsences(entry: PresenceControlEntry): Observable<boolean> {
     return this.studentIdsWithUnconfirmedAbsences$.pipe(
-      map((ids) => ids.includes(entry.lessonPresence.StudentRef.Id))
+      map((ids) => ids.includes(entry.lessonPresence.StudentRef.Id)),
     );
   }
 
   private loadLessonPresencesByLesson(
-    lesson: LessonEntry
+    lesson: LessonEntry,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.loadingService.load(
-      this.lessonPresencesService.getListByLessons(lesson.lessons)
+      this.lessonPresencesService.getListByLessons(lesson.lessons),
     );
   }
 
   private loadLessonsByDate(
-    date: Date
+    date: Date,
   ): Observable<ReadonlyArray<LessonEntry>> {
     return this.loadingService
       .load(this.lessonPresencesService.getLessonsByDate(date))
@@ -302,17 +302,17 @@ export class PresenceControlStateService
       0,
       // Only start polling if a refresh time is defined
       // with rxjs 7.5 it's not possible to pass undefined - according to the documentation negative numbers means the same as not passing an intervalduration at all
-      this.settings.unconfirmedAbsencesRefreshTime || -1
+      this.settings.unconfirmedAbsencesRefreshTime || -1,
     ).pipe(
       switchMap(() => this.lessonPresencesService.getListOfUnconfirmed()),
-      map((unconfirmed) => uniq(unconfirmed.map((p) => p.StudentRef.Id)))
+      map((unconfirmed) => uniq(unconfirmed.map((p) => p.StudentRef.Id))),
     );
   }
 
   private buildQueryParams(
     date: Date,
     lessonEntry: Option<LessonEntry>,
-    viewMode: PresenceControlViewMode
+    viewMode: PresenceControlViewMode,
   ): Params {
     const params: Params = {
       date: format(date, 'yyyy-MM-dd'),
@@ -332,9 +332,9 @@ export class PresenceControlStateService
           // Use lesson from id if available
           (id && lessons.find((l) => l.id === id)) ||
           // Or fallback to currently ongoing lesson as default
-          getCurrentLessonEntry(lessons)
+          getCurrentLessonEntry(lessons),
       ),
-      filter(Boolean)
+      filter(Boolean),
     );
   }
 

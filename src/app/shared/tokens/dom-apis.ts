@@ -5,5 +5,5 @@ export const NAVIGATOR: InjectionToken<Navigator> = new InjectionToken(
   {
     providedIn: 'root',
     factory: (): Navigator => navigator,
-  }
+  },
 );

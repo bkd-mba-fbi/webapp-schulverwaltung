@@ -4,7 +4,7 @@ import { byTestId } from './utils';
 export function expectText(
   debugElement: DebugElement,
   testId: string,
-  expected: string
+  expected: string,
 ) {
   assertDebugElement(debugElement);
 
@@ -12,7 +12,7 @@ export function expectText(
   if (!element) {
     console.error(debugElement.nativeElement.innerHTML);
     throw new Error(
-      `unable to locate element with attribute [data-testid]=${testId} - see console to see an unformatted output of your current html`
+      `unable to locate element with attribute [data-testid]=${testId} - see console to see an unformatted output of your current html`,
     );
   }
 
@@ -21,7 +21,7 @@ export function expectText(
 
 export function expectNotInTheDocument(
   debugElement: DebugElement,
-  testId: string
+  testId: string,
 ) {
   assertDebugElement(debugElement);
   expect(debugElement.query(byTestId(testId))).toBeNull();
@@ -29,7 +29,7 @@ export function expectNotInTheDocument(
 
 export function expectElementPresent(
   debugElement: DebugElement,
-  testId: string
+  testId: string,
 ) {
   assertDebugElement(debugElement);
   expect(debugElement.query(byTestId(testId))).toBeTruthy();

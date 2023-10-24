@@ -28,7 +28,7 @@ describe('StudyClassesRestService', () => {
           (req) =>
             req.url ===
               'https://eventotest.api/StudyClasses/FormativeAssessments?filter.IsActive==true' &&
-            req.headers.get('X-Role-Restriction') === 'ClassTeacherRole'
+            req.headers.get('X-Role-Restriction') === 'ClassTeacherRole',
         )
         .flush([]);
     });
@@ -45,7 +45,7 @@ describe('StudyClassesRestService', () => {
           (req) =>
             req.url ===
               'https://eventotest.api/StudyClasses/?filter.IsActive==true' &&
-            req.headers.get('X-Role-Restriction') === 'ClassTeacherRole'
+            req.headers.get('X-Role-Restriction') === 'ClassTeacherRole',
         )
         .flush([]);
     });

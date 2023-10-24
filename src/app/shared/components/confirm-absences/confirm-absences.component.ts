@@ -52,7 +52,7 @@ import { ToastService } from '../../services/toast.service';
 export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   formGroup$ = this.selectionService.selectedWithoutPresenceType$.pipe(
     map(this.createFormGroup.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   saving$ = new BehaviorSubject(false);
@@ -62,7 +62,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   absenceTypeIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'absenceTypeId'
+    'absenceTypeId',
   );
 
   private confirmationStates$ = this.dropDownItemsService
@@ -71,11 +71,11 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
 
   excusedState$ = findDropDownItem$(
     this.confirmationStates$,
-    this.settings.excusedAbsenceStateId
+    this.settings.excusedAbsenceStateId,
   );
   unexcusedState$ = findDropDownItem$(
     this.confirmationStates$,
-    this.settings.unexcusedAbsenceStateId
+    this.settings.unexcusedAbsenceStateId,
   );
 
   absenceTypes$ = this.presenceTypesService.confirmationTypes$;
@@ -95,7 +95,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     @Inject(SETTINGS) private settings: Settings,
     @Optional()
     @Inject(CONFIRM_ABSENCES_SERVICE)
-    private openAbsencesEditService?: IConfirmAbsencesService
+    private openAbsencesEditService?: IConfirmAbsencesService,
   ) {}
 
   ngOnInit(): void {
@@ -141,7 +141,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([confirmationValueControl, excusedState]) =>
-        confirmationValueControl.setValue(excusedState.Key)
+        confirmationValueControl.setValue(excusedState.Key),
       );
   }
 
@@ -165,12 +165,12 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
 
   getSelectedCount(): Observable<number> {
     return this.selectionService.selectedLessons$.pipe(
-      map((lessons) => lessons.length)
+      map((lessons) => lessons.length),
     );
   }
 
   private createFormGroup(
-    selectedWithoutPresenceType: ReadonlyArray<LessonPresence>
+    selectedWithoutPresenceType: ReadonlyArray<LessonPresence>,
   ): UntypedFormGroup {
     return selectedWithoutPresenceType.length > 0
       ? this.fb.group({
@@ -186,7 +186,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     combineLatest([
       getControl(this.formGroup$, 'absenceTypeId').pipe(
         take(1),
-        filter(notNull)
+        filter(notNull),
       ),
       this.excusedState$.pipe(take(1), filter(notNull)),
     ]).subscribe(([absenceTypeIdControl, excusedState]) => {
@@ -214,14 +214,14 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
                   presenceTypeId,
                   confirmationValue,
                   Number(unexcusedState.Key),
-                  absenceTypeId
+                  absenceTypeId,
                 ),
-                confirmationValue
-              )
-            )
-          )
+                confirmationValue,
+              ),
+            ),
+          ),
         ),
-        finalize(() => this.saving$.next(false))
+        finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));
   }
@@ -230,7 +230,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     currentAbsenceTypeId: Option<number>,
     confirmationValue: number,
     unexcusedState: number,
-    absenceTypeId: number
+    absenceTypeId: number,
   ): number {
     if (!currentAbsenceTypeId) {
       throw new Error('absence type id cannot be null');
@@ -250,7 +250,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
       this.openAbsencesEditService.updateAfterConfirm();
     }
     this.toastService.success(
-      this.translate.instant('open-absences.edit.save-success')
+      this.translate.instant('open-absences.edit.save-success'),
     );
     this.navigateBack();
   }
@@ -261,7 +261,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
       {
         relativeTo: this.activatedRoute,
         queryParams: this.openAbsencesEditService?.confirmBackLinkParams,
-      }
+      },
     );
   }
 }

@@ -85,11 +85,11 @@ describe('lesson presences utils', () => {
         1,
         new Date(2021, 3, 22, 9, 0),
         new Date(2021, 3, 22, 9, 45),
-        'Deutsch-S1'
+        'Deutsch-S1',
       );
 
       expect(toDesignationDateTimeTypeString(presence)).toBe(
-        'Deutsch-S1, 22.04.2021, 09:00-09:45'
+        'Deutsch-S1, 22.04.2021, 09:00-09:45',
       );
     });
   });

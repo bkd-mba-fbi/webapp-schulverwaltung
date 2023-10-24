@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 export class DropDownItemsRestService {
   constructor(
     private http: HttpClient,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   getAbsenceConfirmationStates(): Observable<ReadonlyArray<DropDownItem>> {

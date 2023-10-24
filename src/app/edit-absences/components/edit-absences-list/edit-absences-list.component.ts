@@ -37,7 +37,7 @@ export class EditAbsencesListComponent
     public state: EditAbsencesStateService,
     public selectionService: EditAbsencesSelectionService,
     private scrollPosition: ScrollPositionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +61,7 @@ export class EditAbsencesListComponent
       .pipe(
         take(1),
         map(({ reload }) => reload),
-        filter(isTruthy)
+        filter(isTruthy),
       )
       .subscribe(() => this.state.resetEntries());
   }
@@ -78,7 +78,7 @@ export class EditAbsencesListComponent
     this.state.entries$
       .pipe(take(1))
       .subscribe((entries) =>
-        this.selectionService.clear(checked ? entries : null)
+        this.selectionService.clear(checked ? entries : null),
       );
   }
 

@@ -14,7 +14,7 @@ import { Grade, GradingScale } from '../models/grading-scale.model';
 export function evaluate(
   grading: Option<Grading>,
   finalGrade: Option<FinalGrading>,
-  gradingScale: Option<GradingScale>
+  gradingScale: Option<GradingScale>,
 ): Maybe<string | number> {
   if (finalGrade) return finalGrade.Grade;
   return findInScale(grading, gradingScale) || grading?.GradeValue;
@@ -22,9 +22,9 @@ export function evaluate(
 
 function findInScale(
   grading: Option<Grading>,
-  gradingScale: Option<GradingScale>
+  gradingScale: Option<GradingScale>,
 ): Maybe<string> {
   return gradingScale?.Grades.find(
-    (grade: Grade) => grade.Id === grading?.GradeId
+    (grade: Grade) => grade.Id === grading?.GradeId,
   )?.Designation;
 }

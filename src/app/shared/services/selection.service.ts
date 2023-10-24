@@ -31,9 +31,9 @@ export abstract class SelectionService<T> implements OnDestroy {
   selection$ = connectable(
     this.action$.pipe(
       scan(this.reduceSelection.bind(this), [] as ReadonlyArray<T>),
-      startWith([] as ReadonlyArray<T>)
+      startWith([] as ReadonlyArray<T>),
     ),
-    { connector: () => new ReplaySubject<ReadonlyArray<T>>(1) } // Make it hot
+    { connector: () => new ReplaySubject<ReadonlyArray<T>>(1) }, // Make it hot
   );
 
   private selectionSub: Subscription;
@@ -63,13 +63,13 @@ export abstract class SelectionService<T> implements OnDestroy {
   isSelected$(entry: T): Observable<boolean> {
     return this.selection$.pipe(
       map((selection) => selection.includes(entry)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
   private reduceSelection(
     selection: ReadonlyArray<T>,
-    action: SelectionAction<T>
+    action: SelectionAction<T>,
   ): ReadonlyArray<T> {
     switch (action.type) {
       case SelectionActionTypes.ToggleSelection:

@@ -21,14 +21,14 @@ export class PresenceControlIncidentComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
     const emptyOption = this.createIncidentOption();
 
     this.incidentOptions = this.incidentTypes.map((incidentType) =>
-      this.createIncidentOption(incidentType)
+      this.createIncidentOption(incidentType),
     );
     this.incidentOptions.unshift(emptyOption);
 

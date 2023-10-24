@@ -28,7 +28,7 @@ describe('MyGradesShowComponent', () => {
             useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
           },
         ],
-      })
+      }),
     ).compileComponents();
   });
 

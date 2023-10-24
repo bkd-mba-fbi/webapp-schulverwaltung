@@ -10,7 +10,7 @@ describe('GradeSelectComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [GradeSelectComponent],
-      })
+      }),
     ).compileComponents();
   });
 

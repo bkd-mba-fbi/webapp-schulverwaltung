@@ -33,7 +33,7 @@ export class PresenceControlComponent implements OnInit, OnDestroy {
 
   constructor(
     private state: PresenceControlStateService,
-    private lessonPresencesUpdateService: LessonPresencesUpdateService
+    private lessonPresencesUpdateService: LessonPresencesUpdateService,
   ) {}
 
   ngOnInit(): void {

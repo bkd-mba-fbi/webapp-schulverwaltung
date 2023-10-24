@@ -22,7 +22,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 })
 export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmComponent {
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
-    map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds))))
+    map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
   protected confirmationStateId = this.settings.unconfirmedAbsencesRefreshTime;
 
@@ -36,7 +36,7 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
     storageService: StorageService,
     @Inject(SETTINGS) settings: Settings,
     private myAbsencesService: MyAbsencesService,
-    private selectionService: ConfirmAbsencesSelectionService
+    private selectionService: ConfirmAbsencesSelectionService,
   ) {
     super(
       fb,
@@ -46,7 +46,7 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
       presenceTypesService,
       updateService,
       storageService,
-      settings
+      settings,
     );
   }
 

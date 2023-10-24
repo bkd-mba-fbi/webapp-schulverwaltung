@@ -13,7 +13,7 @@ describe('PresenceControlIncidentComponent', () => {
       buildTestModuleMetadata({
         declarations: [PresenceControlIncidentComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   }));
 

@@ -11,7 +11,7 @@ describe('StudentBacklinkComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [StudentBacklinkComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

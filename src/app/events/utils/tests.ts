@@ -4,13 +4,13 @@ import { GradingScale } from '../../shared/models/grading-scale.model';
 
 export function replaceResult(result: Result, tests: Test[]): Test[] {
   return tests.map((test) =>
-    test.Id === result.TestId ? replaceResultInTest(result, test) : test
+    test.Id === result.TestId ? replaceResultInTest(result, test) : test,
   );
 }
 
 export function toggleIsPublished(id: number, tests: Test[]) {
   return tests.map((test) =>
-    test.Id === id ? { ...test, IsPublished: !test.IsPublished } : test
+    test.Id === id ? { ...test, IsPublished: !test.IsPublished } : test,
   );
 }
 
@@ -42,7 +42,7 @@ export function resultOfStudent(studentId: number, test: Test): Maybe<Result> {
 
 export function removeTestById(
   testId: number,
-  tests: Test[] | null
+  tests: Test[] | null,
 ): Test[] | null {
   if (tests === null) return null;
   return tests.filter((test) => test.Id !== testId);
@@ -62,11 +62,11 @@ export function sortByDate(tests: Test[]) {
 
 export function gradingScaleOfTest(
   test: Test,
-  gradingScales: GradingScale[]
+  gradingScales: GradingScale[],
 ): Option<GradingScale> {
   return (
     gradingScales?.find(
-      (gradingScale) => gradingScale.Id === test.GradingScaleId
+      (gradingScale) => gradingScale.Id === test.GradingScaleId,
     ) || null
   );
 }
@@ -82,7 +82,7 @@ function extractGrades(test: Test) {
 function extractPoints(test: Test) {
   return (
     test.Results?.map((result) =>
-      result.Points !== null ? result.Points : IMPOSSIBLE_POINTS
+      result.Points !== null ? result.Points : IMPOSSIBLE_POINTS,
     ).filter((point) => point > IMPOSSIBLE_POINTS) || []
   );
 }

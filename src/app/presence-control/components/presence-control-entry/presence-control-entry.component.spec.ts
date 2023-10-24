@@ -16,7 +16,7 @@ describe('PresenceControlEntryComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [PresenceControlEntryComponent],
-      })
+      }),
     ).compileComponents();
   }));
 
@@ -39,10 +39,10 @@ function buildPresenceControlEntry(): PresenceControlEntry {
       new Date(2019, 1, 1, 15, 0),
       new Date(2019, 1, 1, 16, 0),
       'Physik',
-      'Marie Curie'
+      'Marie Curie',
     ),
     null,
-    null
+    null,
   );
 
   Object.defineProperty(presenceControlEntry, 'settings', {

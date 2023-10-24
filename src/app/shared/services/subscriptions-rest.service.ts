@@ -22,11 +22,11 @@ export class SubscriptionsRestService extends RestService<
 
   getIdSubscriptionsByStudentAndCourse(
     personId: number,
-    eventIds: number[]
+    eventIds: number[],
   ): Observable<ReadonlyArray<IdSubscription>> {
     return this.http
       .get<unknown>(
-        `${this.settings.apiUrl}/Subscriptions/?filter.PersonId==${personId}&filter.EventId=;${eventIds}`
+        `${this.settings.apiUrl}/Subscriptions/?filter.PersonId==${personId}&filter.EventId=;${eventIds}`,
       )
       .pipe(switchMap(decodeArray(IdSubscription)));
   }

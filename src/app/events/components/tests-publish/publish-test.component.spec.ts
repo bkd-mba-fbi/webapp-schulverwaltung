@@ -17,7 +17,7 @@ describe('PublishTestComponent', () => {
       buildTestModuleMetadata({
         declarations: [PublishTestComponent],
         providers: [NgbActiveModal],
-      })
+      }),
     ).compileComponents();
   });
 
@@ -100,12 +100,12 @@ describe('PublishTestComponent', () => {
 
 function expectConfirmationMessage(
   debugElement: DebugElement,
-  expected: string
+  expected: string,
 ) {
   const confirmationMessageElement = debugElement.query(
-    byTestId('confirmation-message')
+    byTestId('confirmation-message'),
   );
   expect(confirmationMessageElement.nativeElement.textContent.trim()).toBe(
-    expected
+    expected,
   );
 }

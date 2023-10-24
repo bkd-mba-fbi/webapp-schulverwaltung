@@ -16,13 +16,13 @@ describe('StudentDossierApprenticeshipCompanyComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [StudentDossierApprenticeshipCompanyComponent],
-      })
+      }),
     ).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      StudentDossierApprenticeshipCompanyComponent
+      StudentDossierApprenticeshipCompanyComponent,
     );
     component = fixture.componentInstance;
     component.company = {

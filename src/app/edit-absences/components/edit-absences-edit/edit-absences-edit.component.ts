@@ -58,12 +58,12 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   absenceTypeIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'absenceTypeId'
+    'absenceTypeId',
   );
   incidentIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'incidentId'
+    'incidentId',
   );
 
   availableCategories = [
@@ -83,8 +83,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     map((halfDayActive) =>
       halfDayActive
         ? this.availableCategories
-        : this.availableCategories.filter((c) => c !== Category.HalfDay)
-    )
+        : this.availableCategories.filter((c) => c !== Category.HalfDay),
+    ),
   );
 
   private destroy$ = new Subject<void>();
@@ -99,7 +99,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     private dropDownItemsService: DropDownItemsRestService,
     private presenceTypesService: PresenceTypesService,
     private updateService: EditAbsencesUpdateService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   ngOnInit(): void {
@@ -160,9 +160,9 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
           ],
           absenceTypeId: [initialAbsenceTypeId, Validators.required],
           incidentId: [{ value: null, disabled: true }, Validators.required],
-        })
+        }),
       ),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
@@ -172,14 +172,14 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       map((absenceTypes) => {
         const availableTypeIds = absenceTypes.map((t) => t.Id);
         const selectedTypeIds = uniq(
-          this.state.selected.map((e) => e.TypeRef.Id)
+          this.state.selected.map((e) => e.TypeRef.Id),
         );
         return selectedTypeIds.length === 1 &&
           selectedTypeIds[0] != null &&
           availableTypeIds.includes(selectedTypeIds[0])
           ? selectedTypeIds[0]
           : null;
-      })
+      }),
     );
   }
 
@@ -237,10 +237,10 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
             category,
             confirmationValue,
             absenceTypeId,
-            incidentId
-          )
+            incidentId,
+          ),
         ),
-        finalize(() => this.saving$.next(false))
+        finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));
   }
@@ -248,7 +248,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   private onSaveSuccess(): void {
     this.state.resetSelection();
     this.toastService.success(
-      this.translate.instant('edit-absences.edit.save-success')
+      this.translate.instant('edit-absences.edit.save-success'),
     );
     this.navigateBack(true);
   }
@@ -265,7 +265,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   }
 
   private sortAbsenceConfirmationStates(
-    states: ReadonlyArray<DropDownItem>
+    states: ReadonlyArray<DropDownItem>,
   ): ReadonlyArray<DropDownItem> {
     return states.slice().sort((a, b) => {
       if (a.Key === this.settings.excusedAbsenceStateId) {

@@ -29,7 +29,7 @@ export class PresenceControlGroupDialogComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class PresenceControlGroupDialogComponent implements OnInit {
     const emptyOption = this.createEmtpyOption();
 
     this.groupOptions = this.createGroupOptions(
-      this.subscriptionDetailsDefinitions
+      this.subscriptionDetailsDefinitions,
     );
     this.groupOptions.unshift(emptyOption);
 

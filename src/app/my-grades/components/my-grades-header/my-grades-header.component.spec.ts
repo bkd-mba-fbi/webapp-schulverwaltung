@@ -22,7 +22,7 @@ describe('MyGradesHeaderComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
   });
 

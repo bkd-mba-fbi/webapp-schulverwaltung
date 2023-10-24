@@ -110,7 +110,7 @@ describe('PresenceControlEntry', () => {
   });
 
   function buildPresenceControlEntry(
-    presenceType: Option<PresenceType>
+    presenceType: Option<PresenceType>,
   ): PresenceControlEntry {
     const presenceControlEntry = new PresenceControlEntry(
       buildLessonPresence(
@@ -120,10 +120,10 @@ describe('PresenceControlEntry', () => {
         'Math',
         'Einstein Albert',
         'Martina Moser',
-        presenceType ? presenceType.Id : undefined
+        presenceType ? presenceType.Id : undefined,
       ),
       presenceType,
-      null
+      null,
     );
 
     Object.defineProperty(presenceControlEntry, 'settings', {

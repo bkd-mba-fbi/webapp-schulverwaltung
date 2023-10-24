@@ -24,7 +24,7 @@ export class LessonTeachersRestService extends RestService<
   loadOtherTeachersLessonAbsences(
     personId: number,
     students: number[],
-    params?: HttpParams | Dict<string>
+    params?: HttpParams | Dict<string>,
   ): Observable<ReadonlyArray<LessonAbsence>> {
     let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef`;
     if (students && students.length > 0) {

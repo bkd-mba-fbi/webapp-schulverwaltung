@@ -16,7 +16,7 @@ describe('PresenceControlHeaderComponent', () => {
       buildTestModuleMetadata({
         declarations: [PresenceControlHeaderComponent],
         providers: [PresenceControlStateService, PresenceControlGroupService],
-      })
+      }),
     ).compileComponents();
   }));
 

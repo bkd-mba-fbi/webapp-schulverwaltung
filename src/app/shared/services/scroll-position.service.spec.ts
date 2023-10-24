@@ -8,7 +8,7 @@ describe('ScrollPositionService', () => {
 
   it('should be created', () => {
     const service: ScrollPositionService = TestBed.inject(
-      ScrollPositionService
+      ScrollPositionService,
     );
     expect(service).toBeTruthy();
   });

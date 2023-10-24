@@ -12,7 +12,7 @@ describe('TestTableHeaderComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [TestTableHeaderComponent],
-      })
+      }),
     ).compileComponents();
   });
 

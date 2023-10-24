@@ -38,7 +38,7 @@ describe('lesson presences utils', () => {
       new Date(2000, 0, 23, 7, 0),
       new Date(2000, 0, 23, 8, 0),
       'Turnen',
-      'Frisch Max'
+      'Frisch Max',
     );
     turnenFrisch.StudentRef = buildReference(10);
     turnenFrisch.TypeRef = { Id: null, HRef: null };
@@ -50,7 +50,7 @@ describe('lesson presences utils', () => {
       'Deutsch',
       'Einstein Albert',
       'Dora Durrer',
-      absent.Id
+      absent.Id,
     );
     deutschEinsteinAbwesend.StudentRef = buildReference(20);
     deutschEinsteinAbwesend.Type = absent.Designation;
@@ -61,7 +61,7 @@ describe('lesson presences utils', () => {
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
       'Deutsch',
-      'Frisch Max'
+      'Frisch Max',
     );
     deutschFrisch.StudentRef = buildReference(10);
     deutschFrisch.TypeRef = { Id: null, HRef: null };
@@ -73,7 +73,7 @@ describe('lesson presences utils', () => {
       'Deutsch',
       'Walser Robert',
       'Dora Durrer',
-      comment.Id
+      comment.Id,
     );
     deutschWalser.StudentRef = buildReference(30);
     deutschWalser.Type = comment.Designation;
@@ -86,7 +86,7 @@ describe('lesson presences utils', () => {
       'Deutsch',
       'Currie Marie',
       'Dora Durrer',
-      absent.Id
+      absent.Id,
     );
     deutschCurrieAbwesend.StudentRef = buildReference(40);
     deutschCurrieAbwesend.Type = absent.Designation;
@@ -112,7 +112,7 @@ describe('lesson presences utils', () => {
           { presence: deutschCurrieAbwesend, newPresenceTypeId: null },
         ],
         presenceTypes,
-        settings
+        settings,
       );
       expect(result.length).toBe(5);
 

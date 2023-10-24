@@ -33,7 +33,7 @@ export class PresenceControlBlockLessonComponent implements OnInit {
   isCurrentLesson(option: BlockLessonOption): boolean {
     return isEqual(
       option.entry.lessonPresence.LessonDateTimeFrom,
-      this.entry.lessonPresence.LessonDateTimeFrom
+      this.entry.lessonPresence.LessonDateTimeFrom,
     );
   }
 

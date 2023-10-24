@@ -15,7 +15,7 @@ describe('lessons entries', () => {
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
         'Hans Lüdi',
-        '9a'
+        '9a',
       );
       const lesson2 = buildLesson(
         2,
@@ -23,7 +23,7 @@ describe('lessons entries', () => {
         new Date(2000, 0, 23, 9, 0),
         'Deutsch',
         'Hans Lüdi',
-        '9a'
+        '9a',
       );
       const lesson3 = buildLesson(
         3,
@@ -31,7 +31,7 @@ describe('lessons entries', () => {
         new Date(2000, 0, 23, 9, 0),
         'Deutsch',
         'Hans Lüdi',
-        '9b'
+        '9b',
       );
       const lesson4 = buildLesson(
         4,
@@ -39,7 +39,7 @@ describe('lessons entries', () => {
         new Date(2000, 0, 23, 9, 0),
         'Deutsch',
         'Christine Flückiger',
-        '9c'
+        '9c',
       );
       const result = getLessonEntriesForLessons([
         lesson1,
@@ -74,28 +74,28 @@ describe('lessons entries', () => {
         new Date(2000, 0, 23, 8, 0),
         new Date(2000, 0, 23, 9, 0),
         'Deutsch',
-        `Dora Durrer`
+        `Dora Durrer`,
       );
       math = buildLesson(
         2,
         new Date(2000, 0, 23, 9, 0),
         new Date(2000, 0, 23, 10, 0),
         'Mathematik',
-        `Monika Muster`
+        `Monika Muster`,
       );
       singen = buildLesson(
         3,
         new Date(2000, 0, 23, 11, 0),
         new Date(2000, 0, 23, 12, 0),
         'Singen',
-        'Sandra Schmid'
+        'Sandra Schmid',
       );
       werken = buildLesson(
         4,
         new Date(2000, 0, 23, 13, 0),
         new Date(2000, 0, 23, 14, 0),
         'Werken',
-        'Wanda Wehrli'
+        'Wanda Wehrli',
       );
 
       lessons = [

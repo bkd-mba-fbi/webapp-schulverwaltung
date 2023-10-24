@@ -28,7 +28,7 @@ describe('GradingScalesRestService', () => {
 
     httpTestingController
       .expectOne(
-        ({ url }) => url === 'https://eventotest.api/GradingScales/1234'
+        ({ url }) => url === 'https://eventotest.api/GradingScales/1234',
       )
       .flush(data);
   });

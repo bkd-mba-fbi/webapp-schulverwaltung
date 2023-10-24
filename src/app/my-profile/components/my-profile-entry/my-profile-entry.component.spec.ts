@@ -11,7 +11,7 @@ describe('MyProfileEntryComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [MyProfileEntryComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

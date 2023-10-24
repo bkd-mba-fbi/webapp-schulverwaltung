@@ -38,19 +38,19 @@ export class PresenceControlEntryComponent implements OnChanges {
 
   entry$ = new ReplaySubject<PresenceControlEntry>(1);
   studentId$ = this.entry$.pipe(
-    map(({ lessonPresence }) => lessonPresence.StudentRef.Id)
+    map(({ lessonPresence }) => lessonPresence.StudentRef.Id),
   );
   loading$ = this.entry$.pipe(
     switchMap((entry) =>
-      this.loadingService.loading(getBlockLessonLoadingContext(entry))
-    )
+      this.loadingService.loading(getBlockLessonLoadingContext(entry)),
+    ),
   );
 
   constructor(
     private toastService: ToastService,
     private translate: TranslateService,
     private modalService: NgbModal,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -66,7 +66,7 @@ export class PresenceControlEntryComponent implements OnChanges {
   updatePresenceType(entry: PresenceControlEntry): void {
     if (!entry.canChangePresenceType) {
       this.toastService.warning(
-        this.translate.instant('presence-control.entry.update-warning')
+        this.translate.instant('presence-control.entry.update-warning'),
       );
     } else {
       this.togglePresenceType.emit(entry);
@@ -81,7 +81,7 @@ export class PresenceControlEntryComponent implements OnChanges {
 
   showPrecedingAbsences(entry: PresenceControlEntry): void {
     const modalRef = this.modalService.open(
-      PresenceControlPrecedingAbsenceComponent
+      PresenceControlPrecedingAbsenceComponent,
     );
     modalRef.componentInstance.precedingAbsences = entry.precedingAbsences;
   }

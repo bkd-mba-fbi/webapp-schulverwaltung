@@ -22,7 +22,7 @@ export class DecodeError extends Error {
  *   this.http.get(...).pipe(switchMap(decode(Foo))).subscribe(...)
  */
 export function decode<C extends t.Mixed>(
-  codec: C
+  codec: C,
 ): (json: unknown) => Observable<t.TypeOf<C>> {
   return (json) => {
     return pipe(
@@ -30,10 +30,10 @@ export function decode<C extends t.Mixed>(
       fold(
         (error) =>
           throwError(
-            () => new DecodeError(PathReporter.report(left(error)).join('\n'))
+            () => new DecodeError(PathReporter.report(left(error)).join('\n')),
           ),
-        (data) => of(data)
-      )
+        (data) => of(data),
+      ),
     );
   };
 }
@@ -43,7 +43,7 @@ export function decode<C extends t.Mixed>(
  * but without having to import io-ts: `decodeArray(X)`.
  */
 export function decodeArray<C extends t.Mixed>(
-  codec: C
+  codec: C,
 ): (json: unknown) => Observable<ReadonlyArray<t.TypeOf<C>>> {
   return decode(t.array(codec));
 }

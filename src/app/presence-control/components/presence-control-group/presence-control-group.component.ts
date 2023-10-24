@@ -39,11 +39,11 @@ export interface SortCriteria {
 export class PresenceControlGroupComponent implements OnInit {
   backlinkQueryParams$ = this.route.queryParams.pipe(
     map(({ returnparams }) => returnparams),
-    map(parseQueryString)
+    map(parseQueryString),
   );
 
   private eventIds$ = this.state.selectedLesson$.pipe(
-    map((lesson) => lesson?.getEventIds() || [])
+    map((lesson) => lesson?.getEventIds() || []),
   );
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
@@ -68,12 +68,12 @@ export class PresenceControlGroupComponent implements OnInit {
     private subscriptionDetailService: SubscriptionDetailsRestService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
     this.selectionService.selection$.subscribe(
-      (selected) => (this.selected = selected as SubscriptionDetailWithName[])
+      (selected) => (this.selected = selected as SubscriptionDetailWithName[]),
     );
   }
 
@@ -87,7 +87,7 @@ export class PresenceControlGroupComponent implements OnInit {
 
   private openGroupModal(
     dialogMode: DialogMode,
-    callback: (selectedGroup: GroupOptions) => void
+    callback: (selectedGroup: GroupOptions) => void,
   ): void {
     combineLatest([
       this.groupService.getSubscriptionDetailsDefinitions(),
@@ -96,7 +96,7 @@ export class PresenceControlGroupComponent implements OnInit {
       .pipe(take(1))
       .subscribe(([subscriptionDetailsDefinitions, group]) => {
         const modalRef = this.modalService.open(
-          PresenceControlGroupDialogComponent
+          PresenceControlGroupDialogComponent,
         );
         modalRef.componentInstance.dialogMode = dialogMode;
         modalRef.componentInstance.subscriptionDetailsDefinitions =
@@ -107,7 +107,7 @@ export class PresenceControlGroupComponent implements OnInit {
           (selectedGroup) => {
             callback(selectedGroup);
           },
-          () => {}
+          () => {},
         );
       });
   }
@@ -121,10 +121,14 @@ export class PresenceControlGroupComponent implements OnInit {
         take(1),
         switchMap(([eventIds, savedGroupViews]) =>
           this.userSettings.savePresenceControlGroupView(
-            updateGroupViewSettings(selectedGroup.id, eventIds, savedGroupViews)
-          )
+            updateGroupViewSettings(
+              selectedGroup.id,
+              eventIds,
+              savedGroupViews,
+            ),
+          ),
         ),
-        map(() => selectedGroup.id)
+        map(() => selectedGroup.id),
       )
       .subscribe((groupId) => this.groupService.selectGroup(groupId));
   }
@@ -132,8 +136,8 @@ export class PresenceControlGroupComponent implements OnInit {
   private assignCallback(selectedGroup: GroupOptions): void {
     forkJoin(
       this.selected.map((s) =>
-        this.subscriptionDetailService.update(selectedGroup.id, s.detail)
-      )
+        this.subscriptionDetailService.update(selectedGroup.id, s.detail),
+      ),
     ).subscribe(this.onSaveSuccess.bind(this));
   }
 
@@ -143,14 +147,14 @@ export class PresenceControlGroupComponent implements OnInit {
 
     this.toastService.success(
       this.translate.instant(
-        'presence-control.groups.notifications.save-success'
-      )
+        'presence-control.groups.notifications.save-success',
+      ),
     );
   }
 
   getSortDirectionCharacter(
     sortCriteria: SortCriteria,
-    sortKey: PrimarySortKey
+    sortKey: PrimarySortKey,
   ): string {
     if (sortCriteria.primarySortKey !== sortKey) {
       return '';

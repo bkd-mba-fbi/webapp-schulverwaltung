@@ -11,7 +11,7 @@ describe('TestSummaryShortPipe', () => {
   let pipe: TestSummaryShortPipe;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
     pipe = new TestSummaryShortPipe(TestBed.inject(TranslateService));
   }));

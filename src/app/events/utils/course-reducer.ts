@@ -19,7 +19,7 @@ export type TestsAction =
 
 export function courseReducer(
   course: Option<Course>,
-  action: TestsAction
+  action: TestsAction,
 ): Option<Course> {
   switch (action.type) {
     case 'reset':
@@ -31,7 +31,7 @@ export function courseReducer(
             Tests: replaceResult(action.payload.testResult, course.Tests || []),
             Gradings: replaceGrading(
               action.payload.grading,
-              course.Gradings || []
+              course.Gradings || [],
             ),
           }
         : null;
@@ -51,7 +51,7 @@ export function courseReducer(
                 id: action.payload.id,
                 selectedGradeId: action.payload.selectedGradeId,
               },
-              course.Gradings || []
+              course.Gradings || [],
             ),
           }
         : null;

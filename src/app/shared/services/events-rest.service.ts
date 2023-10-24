@@ -17,7 +17,7 @@ export class EventsRestService extends RestService<typeof SubscriptionDetail> {
   }
 
   getSubscriptionDetailsDefinitions(
-    eventId: number
+    eventId: number,
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${eventId}/SubscriptionDetails`)

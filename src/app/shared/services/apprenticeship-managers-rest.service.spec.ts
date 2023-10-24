@@ -8,7 +8,7 @@ describe('ApprenticeshipManagerRestService', () => {
 
   it('should be created', () => {
     const service: ApprenticeshipManagersRestService = TestBed.inject(
-      ApprenticeshipManagersRestService
+      ApprenticeshipManagersRestService,
     );
     expect(service).toBeTruthy();
   });

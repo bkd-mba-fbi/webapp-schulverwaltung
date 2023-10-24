@@ -11,7 +11,7 @@ describe('EventsComponent', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [EventsComponent],
-      })
+      }),
     ).compileComponents();
   }));
 

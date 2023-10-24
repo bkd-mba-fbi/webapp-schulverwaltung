@@ -52,19 +52,19 @@ export class DossierGradesEditComponent implements OnInit {
   gradingScaleDisabled$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   grade$: Observable<number> = this.gradeSubject$.pipe(
-    debounceTime(DEBOUNCE_TIME)
+    debounceTime(DEBOUNCE_TIME),
   );
   points$: Observable<number> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
     filter(this.isValid.bind(this)),
-    map(Number)
+    map(Number),
   );
 
   destroy$ = new Subject<void>();
 
   constructor(
     public activeModal: NgbActiveModal,
-    private courseService: CoursesRestService
+    private courseService: CoursesRestService,
   ) {}
 
   ngOnInit(): void {
@@ -75,23 +75,23 @@ export class DossierGradesEditComponent implements OnInit {
         Validators.min(0),
         Validators.pattern('[0-9]+([\\.][0-9]+)?'),
         this.maxPointValidator(),
-      ]
+      ],
     );
     this.gradingScaleDisabled$.next(
-      this.test.IsPointGrading && this.points > 0
+      this.test.IsPointGrading && this.points > 0,
     );
 
     this.grade$
       .pipe(
         takeUntil(this.destroy$),
-        map(this.buildRuequestBodyForGradeChange.bind(this))
+        map(this.buildRuequestBodyForGradeChange.bind(this)),
       )
       .subscribe((body) => this.updateTestResult(body));
 
     this.points$
       .pipe(
         takeUntil(this.destroy$),
-        map(this.buildRequestBodyPointsChange.bind(this))
+        map(this.buildRequestBodyPointsChange.bind(this)),
       )
       .subscribe((body) => this.updateTestResult(body));
   }

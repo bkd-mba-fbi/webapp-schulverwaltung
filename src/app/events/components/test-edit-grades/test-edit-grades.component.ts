@@ -27,7 +27,10 @@ import { Observable } from 'rxjs';
 export class TestEditGradesComponent implements OnInit {
   @Input() selectedTest: Test | undefined;
 
-  constructor(public state: TestStateService, private modalService: NgbModal) {}
+  constructor(
+    public state: TestStateService,
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit(): void {
     // TODO move to sort implementation
@@ -46,7 +49,7 @@ export class TestEditGradesComponent implements OnInit {
     this.state.course$
       .pipe(take(1))
       .subscribe((course) =>
-        this.state.setAveragesAsFinalGrades({ CourseIds: [course.Id] })
+        this.state.setAveragesAsFinalGrades({ CourseIds: [course.Id] }),
       );
   }
 
@@ -54,9 +57,9 @@ export class TestEditGradesComponent implements OnInit {
     return this.state.course$.pipe(
       map((course) =>
         Boolean(
-          getEventState(course)?.value && studentGrade.finalGrade?.canGrade
-        )
-      )
+          getEventState(course)?.value && studentGrade.finalGrade?.canGrade,
+        ),
+      ),
     );
   }
 
@@ -107,7 +110,7 @@ export class TestEditGradesComponent implements OnInit {
       (result) => {
         if (result) action();
       },
-      () => {}
+      () => {},
     );
   }
 }

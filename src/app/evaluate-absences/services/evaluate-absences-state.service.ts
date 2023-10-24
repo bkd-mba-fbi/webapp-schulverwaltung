@@ -37,20 +37,20 @@ export class EvaluateAbsencesStateService
     loadingService: LoadingService,
     @Inject(SETTINGS) settings: Settings,
     private lessonPresenceService: LessonPresencesRestService,
-    sortService: SortService<keyof LessonPresenceStatistic>
+    sortService: SortService<keyof LessonPresenceStatistic>,
   ) {
     super(
       location,
       loadingService,
       sortService,
       settings,
-      '/evaluate-absences'
+      '/evaluate-absences',
     );
 
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (returnparams) => (this.confirmBackLinkParams = { returnparams })
+        (returnparams) => (this.confirmBackLinkParams = { returnparams }),
       );
   }
 
@@ -66,7 +66,7 @@ export class EvaluateAbsencesStateService
     return Boolean(
       filterValue.student ||
         filterValue.educationalEvent ||
-        filterValue.studyClass
+        filterValue.studyClass,
     );
   }
 
@@ -82,11 +82,11 @@ export class EvaluateAbsencesStateService
   protected loadEntries(
     filterValue: EvaluateAbsencesFilter,
     sorting: Option<Sorting<keyof LessonPresenceStatistic>>,
-    offset: number
+    offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     return this.loadingService.load(
       this.lessonPresenceService.getStatistics(filterValue, sorting, offset),
-      PAGE_LOADING_CONTEXT
+      PAGE_LOADING_CONTEXT,
     );
   }
 

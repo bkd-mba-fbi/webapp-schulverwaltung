@@ -44,7 +44,7 @@ export class TypeaheadComponent implements OnChanges {
   @Output()
   valueChange = this.selectedItem$.pipe(
     map((item) => (item ? item.Key : null)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   componentId = uniqueId('erz-typeahead-');
@@ -67,7 +67,7 @@ export class TypeaheadComponent implements OnChanges {
   search = (term$: Observable<string>) => {
     return term$.pipe(
       processTerm(MINIMAL_TERM_LENGTH, FETCH_DEBOUNCE_TIME),
-      switchMap(this.fetchItems.bind(this))
+      switchMap(this.fetchItems.bind(this)),
     );
   };
 
@@ -77,7 +77,7 @@ export class TypeaheadComponent implements OnChanges {
 
   modelChange(value: unknown): void {
     this.selectedItem$.next(
-      value instanceof Object ? (value as DropDownItem) : null
+      value instanceof Object ? (value as DropDownItem) : null,
     );
   }
 
@@ -102,14 +102,14 @@ export class TypeaheadComponent implements OnChanges {
 
 function processTerm(
   minimalTermLength: number,
-  fetchDebounceTime: number
+  fetchDebounceTime: number,
 ): (source$: Observable<string>) => Observable<string> {
   return (source$) =>
     source$.pipe(
       debounceTime(fetchDebounceTime),
       map(normalizeTerm),
       distinctUntilChanged(),
-      filter(longerOrEqual(minimalTermLength))
+      filter(longerOrEqual(minimalTermLength)),
     );
 }
 

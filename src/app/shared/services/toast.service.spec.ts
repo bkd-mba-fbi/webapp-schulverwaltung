@@ -13,7 +13,7 @@ describe('ToastService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [ToastService],
-      })
+      }),
     );
     service = TestBed.inject(ToastService);
     service.toasts$.subscribe(callback);

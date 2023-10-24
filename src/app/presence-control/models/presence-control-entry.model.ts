@@ -37,7 +37,7 @@ export class PresenceControlEntry implements Searchable {
     public lessonPresence: LessonPresence,
     public presenceType: Option<PresenceType>,
     public precedingAbsences: Option<ReadonlyArray<LessonAbsence>>,
-    public confirmationState?: DropDownItem
+    public confirmationState?: DropDownItem,
   ) {
     this.studentFullName = lessonPresence.StudentFullName;
   }
@@ -46,7 +46,7 @@ export class PresenceControlEntry implements Searchable {
     if (
       isUnapprovedAbsence(
         this.settings,
-        this.confirmationState && Number(this.confirmationState.Key)
+        this.confirmationState && Number(this.confirmationState.Key),
       )
     ) {
       return PresenceCategory.Unapproved;
@@ -66,14 +66,14 @@ export class PresenceControlEntry implements Searchable {
   }
 
   getNextPresenceType(
-    presenceTypes: ReadonlyArray<PresenceType>
+    presenceTypes: ReadonlyArray<PresenceType>,
   ): Option<PresenceType> {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
         return this.presenceCategory === PresenceCategory.Unapproved
           ? this.presenceType
           : presenceTypes.find((type) =>
-              isDefaultAbsence(type, this.settings)
+              isDefaultAbsence(type, this.settings),
             ) || null;
       default:
         return null;
@@ -84,7 +84,7 @@ export class PresenceControlEntry implements Searchable {
     return canChangePresenceType(
       this.lessonPresence,
       this.presenceType,
-      this.settings
+      this.settings,
     );
   }
 

@@ -10,7 +10,7 @@ describe('JobTrainersRestService', () => {
 
   it('should be created', () => {
     const service: JobTrainersRestService = TestBed.inject(
-      JobTrainersRestService
+      JobTrainersRestService,
     );
     expect(service).toBeTruthy();
   });

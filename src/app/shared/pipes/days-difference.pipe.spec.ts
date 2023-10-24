@@ -9,7 +9,7 @@ describe('DaysDifferencePipe', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({})
+      buildTestModuleMetadata({}),
     ).compileComponents();
     pipe = new DaysDifferencePipe(TestBed.inject(TranslateService));
   }));

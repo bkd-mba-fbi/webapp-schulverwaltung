@@ -35,7 +35,7 @@ describe('GradingsRestService', () => {
         ({ method, url, body }) =>
           method === 'PUT' &&
           url === `https://eventotest.api/Gradings/${gradeId}` &&
-          isEqual(body, { GradeId: selectedGradeId })
+          isEqual(body, { GradeId: selectedGradeId }),
       )
       .flush(gradeId);
   });

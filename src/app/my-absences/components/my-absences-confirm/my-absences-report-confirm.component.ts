@@ -24,7 +24,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
-    map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds))))
+    map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
   protected confirmationStateId = this.settings.checkableAbsenceStateId;
 
@@ -38,7 +38,7 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
     storageService: StorageService,
     @Inject(SETTINGS) settings: Settings,
     private state: MyAbsencesReportStateService,
-    private selectionService: MyAbsencesReportSelectionService
+    private selectionService: MyAbsencesReportSelectionService,
   ) {
     super(
       fb,
@@ -48,7 +48,7 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
       presenceTypesService,
       updateService,
       storageService,
-      settings
+      settings,
     );
   }
 

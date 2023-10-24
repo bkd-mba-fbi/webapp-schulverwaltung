@@ -31,7 +31,7 @@ export class OpenAbsencesListComponent
   constructor(
     public openAbsencesService: OpenAbsencesService,
     public selectionService: ConfirmAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService
+    private scrollPosition: ScrollPositionService,
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class OpenAbsencesListComponent
 
   getSortDirectionCharacter(
     sortCriteria: SortCriteria<PrimarySortKey>,
-    sortKey: PrimarySortKey
+    sortKey: PrimarySortKey,
   ): string {
     if (sortCriteria.primarySortKey !== sortKey) {
       return '';

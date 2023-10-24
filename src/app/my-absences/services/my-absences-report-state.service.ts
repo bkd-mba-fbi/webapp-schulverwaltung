@@ -40,14 +40,14 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     @Inject(SETTINGS) settings: Settings,
     private studentsService: StudentsRestService,
     private storageService: StorageService,
-    sortService: SortService<keyof LessonPresence>
+    sortService: SortService<keyof LessonPresence>,
   ) {
     super(
       location,
       loadingService,
       sortService,
       settings,
-      '/my-absences/report'
+      '/my-absences/report',
     );
 
     const currentInstanceId = this.storageService.getPayload()?.instance_id;
@@ -71,13 +71,13 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   protected loadEntries(
     filterValue: ReportAbsencesFilter,
     _sorting: null,
-    _offset: number
+    _offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     const params = this.buildRequestParamsFromFilter(filterValue)
       .set('sort', 'From.asc')
       .set(
         'fields',
-        'Id,From,To,EventNumber,EventDesignation,EventManagerInformation'
+        'Id,From,To,EventNumber,EventDesignation,EventManagerInformation',
       );
     return this.loadingService.load(
       this.loadTimetableEntries(params).pipe(
@@ -87,20 +87,20 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
             of(entries),
             this.loadLessonAbsences(entries),
             this.loadLessonDispensations(entries),
-          ])
+          ]),
         ),
         map(([entries, absences, dispensations]) =>
-          this.buildLessonPresences(entries, absences, dispensations)
+          this.buildLessonPresences(entries, absences, dispensations),
         ),
         // Pagination is ignored
-        map((entries) => ({ offset: 0, total: entries.length, entries }))
+        map((entries) => ({ offset: 0, total: entries.length, entries })),
       ),
-      PAGE_LOADING_CONTEXT
+      PAGE_LOADING_CONTEXT,
     );
   }
 
   private filterAbsencesAfterLessonStart(
-    entries: ReadonlyArray<TimetableEntry>
+    entries: ReadonlyArray<TimetableEntry>,
   ): ReadonlyArray<TimetableEntry> {
     return this.preventAbsencesAfterStart
       ? entries.filter((entry) => entry.From >= new Date())
@@ -120,19 +120,19 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   }
 
   private buildRequestParamsFromFilter(
-    filterValue: ReportAbsencesFilter
+    filterValue: ReportAbsencesFilter,
   ): HttpParams {
     let params = new HttpParams();
     if (filterValue.dateFrom) {
       params = params.set(
         'filter.From',
-        `>${format(subDays(filterValue.dateFrom, 1), 'yyyy-MM-dd')}`
+        `>${format(subDays(filterValue.dateFrom, 1), 'yyyy-MM-dd')}`,
       );
     }
     if (filterValue.dateTo) {
       params = params.set(
         'filter.To',
-        `<${format(addDays(filterValue.dateTo, 1), 'yyyy-MM-dd')}`
+        `<${format(addDays(filterValue.dateTo, 1), 'yyyy-MM-dd')}`,
       );
     }
     return params;
@@ -147,13 +147,13 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   }
 
   private loadTimetableEntries(
-    params: HttpParams | Dict<string>
+    params: HttpParams | Dict<string>,
   ): Observable<ReadonlyArray<TimetableEntry>> {
     return this.studentsService.getTimetableEntries(this.studentId, params);
   }
 
   private loadLessonAbsences(
-    timetableEntries: ReadonlyArray<TimetableEntry>
+    timetableEntries: ReadonlyArray<TimetableEntry>,
   ): Observable<ReadonlyArray<LessonAbsence>> {
     return timetableEntries.length > 0
       ? this.studentsService.getLessonAbsences(this.studentId, {
@@ -163,7 +163,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   }
 
   private loadLessonDispensations(
-    timetableEntries: ReadonlyArray<TimetableEntry>
+    timetableEntries: ReadonlyArray<TimetableEntry>,
   ): Observable<ReadonlyArray<LessonDispensation>> {
     return timetableEntries.length > 0
       ? this.studentsService.getLessonDispensations(this.studentId, {
@@ -175,21 +175,21 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   private buildLessonPresences(
     timetableEntries: ReadonlyArray<TimetableEntry>,
     absences: ReadonlyArray<LessonAbsence>,
-    dispensations: ReadonlyArray<LessonDispensation>
+    dispensations: ReadonlyArray<LessonDispensation>,
   ): ReadonlyArray<LessonPresence> {
     return timetableEntries.map((entry) =>
-      this.buildLessonPresence(entry, absences, dispensations)
+      this.buildLessonPresence(entry, absences, dispensations),
     );
   }
 
   private buildLessonPresence(
     timetableEntry: TimetableEntry,
     absences: ReadonlyArray<LessonAbsence>,
-    dispensations: ReadonlyArray<LessonDispensation>
+    dispensations: ReadonlyArray<LessonDispensation>,
   ): LessonPresence {
     const absence = absences.find((a) => a.LessonRef.Id === timetableEntry.Id);
     const dispensation = dispensations.find(
-      (d) => d.LessonRef.Id === timetableEntry.Id
+      (d) => d.LessonRef.Id === timetableEntry.Id,
     );
     const typeRef = this.buildLessonPresenceTypeRef(absence, dispensation);
     return {
@@ -222,7 +222,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
 
   private buildLessonPresenceTypeRef(
     absence?: LessonAbsence,
-    dispensation?: LessonDispensation
+    dispensation?: LessonDispensation,
   ): OptionalReference {
     if (absence) {
       return { ...absence.TypeRef };

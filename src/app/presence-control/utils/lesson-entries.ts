@@ -11,7 +11,7 @@ import { Lesson } from 'src/app/shared/models/lesson.model';
  * Returns a sorted array of lesson entries for the given lesson presences.
  */
 export function getLessonEntriesForLessons(
-  lessons: ReadonlyArray<Lesson>
+  lessons: ReadonlyArray<Lesson>,
 ): Array<LessonEntry> {
   return uniqueLessons(lessons)
     .reduce((entries, lesson) => {
@@ -35,7 +35,7 @@ export function getLessonEntriesForLessons(
  * before or after today) it returns the first lesson.
  */
 export function getCurrentLessonEntry(
-  lessons: ReadonlyArray<LessonEntry>
+  lessons: ReadonlyArray<LessonEntry>,
 ): Option<LessonEntry> {
   if (lessons.length === 0) {
     return null;

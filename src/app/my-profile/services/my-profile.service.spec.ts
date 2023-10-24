@@ -10,7 +10,7 @@ describe('MyProfileService', () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [MyProfileService],
-      })
+      }),
     );
     service = TestBed.inject(MyProfileService);
   });

@@ -20,35 +20,35 @@ describe('open absences entries utils', () => {
       10,
       21,
       11,
-      new Date(2000, 0, 23, 8, 15, 0)
+      new Date(2000, 0, 23, 8, 15, 0),
     );
     presenceB = buildLessonPresenceWithIds(
       11,
       21,
       11,
-      new Date(2000, 0, 23, 12, 30, 0)
+      new Date(2000, 0, 23, 12, 30, 0),
     );
     presenceC = buildLessonPresenceWithIds(
       12,
       21,
       11,
-      new Date(2000, 0, 24, 8, 15, 0)
+      new Date(2000, 0, 24, 8, 15, 0),
     );
     presenceD = buildLessonPresenceWithIds(
       10,
       22,
       11,
-      new Date(2000, 0, 23, 12, 30, 0)
+      new Date(2000, 0, 23, 12, 30, 0),
     );
     presenceE = buildLessonPresenceWithIds(
       10,
       21,
       11,
-      new Date(2000, 0, 23, 9, 0, 0)
+      new Date(2000, 0, 23, 9, 0, 0),
     );
 
     [presenceA, presenceB, presenceC, presenceE].forEach(
-      (p) => (p.StudentFullName = 'Max Frisch')
+      (p) => (p.StudentFullName = 'Max Frisch'),
     );
     presenceD.StudentFullName = 'Albert Einstein';
   });
@@ -149,7 +149,7 @@ describe('open absences entries utils', () => {
     it('removes entries matching the affected ids', () => {
       const result = removeOpenAbsences(
         [presenceA, presenceB, presenceC, presenceD],
-        [{ lessonIds: [10, 11], personId: 21 }]
+        [{ lessonIds: [10, 11], personId: 21 }],
       );
 
       expect(result).toEqual([presenceC, presenceD]);
@@ -159,7 +159,7 @@ describe('open absences entries utils', () => {
 
 function openAbsencesEntriesComparator(
   a: OpenAbsencesEntry,
-  b: OpenAbsencesEntry
+  b: OpenAbsencesEntry,
 ): number {
   const dateDiff = a.date.getTime() - b.date.getTime();
   if (dateDiff === 0) {
