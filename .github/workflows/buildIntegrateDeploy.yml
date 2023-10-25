@@ -1,4 +1,4 @@
-name: build 🏭 deploy 🚀
+name: build 🏭 integrate ⛙ deploy 🚀
 
 on:
   push:
