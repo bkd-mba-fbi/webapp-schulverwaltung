@@ -18,6 +18,8 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, of, Subject, takeUntil } from "rxjs";
+import { uniqueId } from "lodash-es";
+
 import { Test } from "src/app/shared/models/test.model";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import {
@@ -25,7 +27,7 @@ import {
   getValidationErrors,
 } from "src/app/shared/utils/form";
 import { TestStateService } from "../../services/test-state.service";
-import { uniqueId } from "lodash-es";
+import { greaterThanValidator } from "src/app/shared/validators/greater-than.validator";
 
 @Component({
   selector: "erz-tests-edit-form",
@@ -37,8 +39,8 @@ import { uniqueId } from "lodash-es";
   ],
 })
 export class TestsEditFormComponent implements OnInit, OnDestroy {
-  @Input() test: Option<Test>;
-  @Input() saving: boolean;
+  @Input() test: Option<Test> = null;
+  @Input() saving = false;
 
   @Output() save = new EventEmitter<UntypedFormGroup>();
 
@@ -112,7 +114,10 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     return this.fb.group({
       designation: ["", Validators.required],
       date: [null, Validators.required],
-      weight: [1, Validators.required],
+      weight: [
+        1,
+        Validators.compose([Validators.required, greaterThanValidator(0)]),
+      ],
       isPointGrading: [false],
       maxPoints: [{ value: null, disabled: true }, Validators.required],
       maxPointsAdjusted: [{ value: null, disabled: true }, null],

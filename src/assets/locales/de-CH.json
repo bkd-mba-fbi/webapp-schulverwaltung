@@ -24,7 +24,8 @@
       "max": "Bitte geben Sie eine Zahl kleiner oder gleich {{max}} ein.",
       "min": "Bitte geben Sie eine Zahl grösser oder gleich {{min}} ein.",
       "ngbDate": "Bitte geben Sie ein gültiges Datum ein.",
-      "invalidPoints": "Bitte einen Wert von 0 bis {{ maxPoints }} eingeben."
+      "invalidPoints": "Bitte einen Wert von 0 bis {{ maxPoints }} eingeben.",
+      "greaterThan": "Bitte geben Sie eine Zahl grösser {{ greaterThanValue }} ein."
     },
     "pagination": {
       "load-more": "Weitere Einträge laden"
