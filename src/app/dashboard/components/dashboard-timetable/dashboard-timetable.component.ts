@@ -51,7 +51,7 @@ export class DashboardTimetableComponent {
     private studentsService: StudentsRestService,
     private lessonPresencesService: LessonPresencesRestService,
     private userSettings: UserSettingsService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
   ) {}
 
   gotoToday(): void {
@@ -85,7 +85,7 @@ export class DashboardTimetableComponent {
         }
         return of([]);
       }),
-      tap(() => this.loading$.next(false))
+      tap(() => this.loading$.next(false)),
     );
   }
 
@@ -95,7 +95,7 @@ export class DashboardTimetableComponent {
     return this.date$.pipe(
       switchMap((date) => this.lessonPresencesService.getLessonsByDate(date)),
       map(uniqueLessons),
-      map((lessons) => lessons.map(this.convertLesson.bind(this)))
+      map((lessons) => lessons.map(this.convertLesson.bind(this))),
     );
   }
 
@@ -109,15 +109,15 @@ export class DashboardTimetableComponent {
           this.studentsService.getLessonIncidents(studentId),
           this.date$,
         ]).pipe(
-          switchMap(([absences, incidents, date]) =>
+          switchMap(([_absences, _incidents, date]) =>
             this.studentsService.getTimetableEntries(studentId, {
               'filter.From': `=${format(date, 'yyyy-MM-dd')}`,
               sort: 'From,To',
-            })
+            }),
           ),
-          map((entries) => entries.map(this.convertTimetableEntry.bind(this)))
-        )
-      )
+          map((entries) => entries.map(this.convertTimetableEntry.bind(this))),
+        ),
+      ),
     );
   }
 
@@ -133,7 +133,7 @@ export class DashboardTimetableComponent {
   }
 
   private convertTimetableEntry(
-    entry: TimetableEntry
+    entry: TimetableEntry,
   ): DashboardTimetableEntry {
     return {
       id: entry.Id,

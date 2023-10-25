@@ -290,7 +290,7 @@ export class LessonPresencesRestService extends RestService<
   }
 
   hasLessonsLessonTeacher(): Observable<boolean> {
-    let params = new HttpParams().set('fields', 'Id');
+    const params = new HttpParams().set('fields', 'Id');
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: paginatedParams(0, 1, params),
@@ -298,7 +298,7 @@ export class LessonPresencesRestService extends RestService<
       })
       .pipe(
         switchMap(decodeArray(this.lessonPresenceIdCodec)),
-        map((LessonPresenceIds) => LessonPresenceIds.length > 0)
+        map((LessonPresenceIds) => LessonPresenceIds.length > 0),
       );
   }
 
@@ -313,7 +313,7 @@ export class LessonPresencesRestService extends RestService<
       })
       .pipe(
         switchMap(decodeArray(this.lessonPresenceIdCodec)),
-        map((LessonPresenceIds) => LessonPresenceIds.length)
+        map((LessonPresenceIds) => LessonPresenceIds.length),
       );
   }
 

@@ -16,10 +16,10 @@ export class TeacherSubstitutionsRestService extends RestService<
   }
 
   getTeacherSubstitution(
-    substitutionId: number
+    substitutionId: number,
   ): Observable<Option<TeacherSubstitution>> {
     return this.getList({ params: { 'filter.Id': `=${substitutionId}` } }).pipe(
-      map((substitutions) => substitutions[0] || null)
+      map((substitutions) => substitutions[0] || null),
     );
   }
 }

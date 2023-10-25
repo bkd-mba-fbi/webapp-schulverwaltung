@@ -10,7 +10,7 @@ import { DashboardService } from '../../services/dashboard.service';
 export class DashboardActionsComponent {
   constructor(
     public dashboardService: DashboardService,
-    @Inject(SETTINGS) public settings: Settings
+    @Inject(SETTINGS) public settings: Settings,
   ) {}
 
   get substitutionsAdminLink(): string {

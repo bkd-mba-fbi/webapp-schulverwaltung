@@ -44,11 +44,11 @@ export class DashboardService {
   studentId$ = new ReplaySubject<number>(1);
   private lessonAbsences$ = this.studentId$.pipe(
     switchMap((id) => this.studentsService.getLessonAbsences(id)),
-    shareReplay(1)
+    shareReplay(1),
   );
   private lessonIncidents$ = this.studentId$.pipe(
     switchMap((id) => this.studentsService.getLessonIncidents(id)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   ///// Dashboard Conditions /////
@@ -56,53 +56,55 @@ export class DashboardService {
   loading$ = this.rolesAndPermissions$.pipe(map((roles) => roles == null));
   hasSearch$ = this.rolesAndPermissions$.pipe(map(this.hasRoles(SEARCH_ROLES)));
   hasActions$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(ACTIONS_ROLES))
+    map(this.hasRoles(ACTIONS_ROLES)),
   );
   hasTimetable$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(TIMETABLE_ROLES))
+    map(this.hasRoles(TIMETABLE_ROLES)),
   );
 
   ///// Roles /////
 
   hasLessonTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['LessonTeacherRole'])),
-    shareReplay(1)
+    shareReplay(1),
   );
   hasTeacherRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['TeacherRole'])),
-    shareReplay(1)
+    shareReplay(1),
   );
   hasStudentRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['StudentRole'])),
-    shareReplay(1)
+    shareReplay(1),
   );
   hasSubstituteAdministratorRole$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['SubstituteAdministratorRole'])),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   ///// Action Counts /////
 
   editAbsencesCount$ = this.hasLessonTeacherRole$.pipe(
     switchMap((hasRole) =>
-      hasRole ? this.lessonPresencesService.checkableAbsencesCount() : of(false)
+      hasRole
+        ? this.lessonPresencesService.checkableAbsencesCount()
+        : of(false),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   openAbsencesCount$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(['LessonTeacherRole', 'ClassTeacherRole'])),
     switchMap((hasRoles) =>
-      hasRoles ? this.lessonPresencesService.getListOfUnconfirmed() : of([])
+      hasRoles ? this.lessonPresencesService.getListOfUnconfirmed() : of([]),
     ),
     map((presences) => presences.length),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   myAbsencesCount$ = this.hasStudentRole$.pipe(
     switchMap((hasRole) => (hasRole ? this.getMyAbsences() : of([]))),
     map(this.getMyAbsencesCount.bind(this)),
-    shareReplay(1)
+    shareReplay(1),
   );
   coursesToRateCount$ = this.courseService
     .getNumberOfCoursesForRating()
@@ -114,13 +116,13 @@ export class DashboardService {
     switchMap((hasRole) =>
       hasRole
         ? this.lessonPresencesService.hasLessonsLessonTeacher()
-        : of(false)
+        : of(false),
     ),
-    shareReplay(1)
+    shareReplay(1),
   );
   hasOpenAbsences$ = this.openAbsencesCount$.pipe(
     map((count) => count > 0),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   ///// Action Params /////
@@ -132,7 +134,7 @@ export class DashboardService {
         teacher: name,
       };
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   constructor(
@@ -143,7 +145,7 @@ export class DashboardService {
     private teacherSubstitutionService: TeacherSubstitutionsRestService,
     private personService: PersonsRestService,
     private storageService: StorageService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {
     const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
@@ -152,7 +154,7 @@ export class DashboardService {
   }
 
   private hasRoles(
-    requiredRoles: ReadonlyArray<string>
+    requiredRoles: ReadonlyArray<string>,
   ): (actualRoles: Option<ReadonlyArray<string>>) => boolean {
     return (actualRoles) =>
       (actualRoles ?? []).some((role) => requiredRoles.includes(role));
@@ -171,24 +173,24 @@ export class DashboardService {
           map((timetableEntries) =>
             [...absences, ...incidents]
               .map((absence) =>
-                this.withTimetableEntry(absence, timetableEntries)
+                this.withTimetableEntry(absence, timetableEntries),
               )
-              .filter(notNull)
-          )
-        )
-      )
+              .filter(notNull),
+          ),
+        ),
+      ),
     );
   }
 
   private getMyAbsencesCount(
-    absences: Option<ReadonlyArray<LessonAbsence | LessonIncident>>
+    absences: Option<ReadonlyArray<LessonAbsence | LessonIncident>>,
   ): number {
     return (
       absences?.filter(
         (absence) =>
           ('ConfirmationStateId' in absence
             ? absence.ConfirmationStateId
-            : null) === this.settings.unconfirmedAbsenceStateId
+            : null) === this.settings.unconfirmedAbsenceStateId,
       ).length || 0
     );
   }
@@ -205,7 +207,7 @@ export class DashboardService {
 
   private withTimetableEntry(
     absence: LessonAbsence | LessonIncident,
-    timetableEntries: ReadonlyArray<TimetableEntry>
+    timetableEntries: ReadonlyArray<TimetableEntry>,
   ): Option<LessonAbsence | LessonIncident> {
     return timetableEntries.find((e) => e.Id === absence.LessonRef.Id)
       ? absence
@@ -215,7 +217,7 @@ export class DashboardService {
   private loadTimetableEntries(
     studentId: number,
     absences: ReadonlyArray<LessonAbsence>,
-    incidents: ReadonlyArray<LessonIncident>
+    incidents: ReadonlyArray<LessonIncident>,
   ): Observable<ReadonlyArray<TimetableEntry>> {
     return this.studentsService.getTimetableEntries(studentId, {
       'filter.Id': `;${[...absences, ...incidents]

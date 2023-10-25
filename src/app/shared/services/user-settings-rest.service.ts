@@ -31,7 +31,7 @@ export class UserSettingsRestService extends RestService<typeof UserSettings> {
   getAccessInfo(): Observable<AccessInfo['AccessInfo']> {
     return this.http.get<unknown>(`${this.baseUrl}/?expand=AccessInfo`).pipe(
       switchMap(decode(AccessInfo)),
-      map(({ AccessInfo }) => AccessInfo)
+      map(({ AccessInfo }) => AccessInfo),
     );
   }
 }

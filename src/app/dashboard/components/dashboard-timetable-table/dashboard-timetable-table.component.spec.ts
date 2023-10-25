@@ -23,7 +23,7 @@ describe('DashboardTimetableTableComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardTimetableTableComponent);

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'erz-backlink',
@@ -8,7 +8,7 @@ import { Params } from '@angular/router';
 })
 export class BacklinkComponent {
   @Input()
-  routerLink: string | any[] = [];
+  routerLink: RouterLink['routerLink'] = [];
 
   @Input()
   queryParams?: Params | null;

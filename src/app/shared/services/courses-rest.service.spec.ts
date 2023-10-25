@@ -55,7 +55,7 @@ describe('CoursesRestService', () => {
           (req) =>
             req.urlWithParams ===
               'https://eventotest.api/Courses/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240' &&
-            req.headers.get('X-Role-Restriction') === 'TeacherRole'
+            req.headers.get('X-Role-Restriction') === 'TeacherRole',
         )
         .flush([ratingNotStarted, ratingStarted]);
     });

@@ -11,7 +11,7 @@ export class EventsListComponent {
   @Input() withRatings: boolean = true;
   constructor(
     public state: EventsStateService,
-    private storage: StorageService
+    private storage: StorageService,
   ) {
     this.state.roles$.next(this.storage.getPayload()?.roles);
   }

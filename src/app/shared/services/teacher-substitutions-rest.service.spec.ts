@@ -45,7 +45,7 @@ describe('TeacherSubstitutionsRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/TeacherSubstitutions/?filter.Id==999'
+          'https://eventotest.api/TeacherSubstitutions/?filter.Id==999',
         )
         .flush([]);
     });
