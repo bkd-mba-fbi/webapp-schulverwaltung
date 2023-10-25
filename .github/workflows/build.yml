@@ -2,7 +2,7 @@ name: build 🏭 integrate ⛙ zip 🗜️
 
 on:
   push:
-    branches: [main]
+    branches: [feature/70-integrate-in-portal]
 
 jobs:
   build:
@@ -62,10 +62,12 @@ jobs:
       - name: Commit and push to evento-portal
         run: |
           cd ./evento-portal
+          git fetch
+          git checkout feature/70-integrate-webapp-schulverwaltung
           git add .
           git status
           git commit -m "Add webapp-schulverwaltung build #${{ env.GITHUB_SHA }}"
-          git push
+          # git push
 
   zip:
     runs-on: ubuntu-latest
