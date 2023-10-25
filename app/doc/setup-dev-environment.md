@@ -2,7 +2,7 @@
 
 [back](../README.md)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ## Preparation
 
@@ -27,6 +27,12 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 ## Running unit tests
 
 Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Linting & checks
+
+Run `npm run lint` to check source files with [ESLint](https://eslint.org/). For the configuration, see [.eslintrc.json](./.eslintrc.json).
+
+Run `npm run unused` to print a report of unused dependencies, files & exports using [Knip](https://github.com/webpro/knip). For the configuration, see [.knip.json](./.knip.json).
 
 ## Further help
 
