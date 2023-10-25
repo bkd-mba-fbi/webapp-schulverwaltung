@@ -2,7 +2,7 @@ name: build 🏭 integrate ⛙ deploy 🚀
 
 on:
   push:
-# branches: [main]
+   branches: [main]
   #pull_request:
   #  branches: [ main ]
 
@@ -66,8 +66,8 @@ jobs:
           cd ./evento-portal
           git add .
           git status
-          # git commit -m "Add new webapp-schulverwaltung build #${{ env.GITHUB_SHA }}"
-          # git push
+          git commit -m "Add new webapp-schulverwaltung build #${{ env.GITHUB_SHA }}"
+          git push
 
   deploy:
     runs-on: ubuntu-latest
