@@ -6,7 +6,7 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2020",
+    "module": "es2022",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "strict": true,
@@ -14,7 +14,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "typeRoots": ["node_modules/@types", "src/typings.d.ts"],
-    "lib": ["es2019", "dom"],
+    "lib": ["es2022", "dom"],
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": false
   }
