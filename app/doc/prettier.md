@@ -4,23 +4,23 @@
 
 We use Prettier to automatically format the source code.
 
-The module is integrated as follows:
+The module is integrated threefold:
 
 - Format on save in the editor, see https://prettier.io/docs/en/editors.html
 - Pre-commit hook in Git
+- Linting step in the CI pipeline: The build fails when a (TypeScript) file is not properly formatted (part of `npm run lint`)
 
 ## Update Prettier version
 
 Automatic Prettier updates are disabled, because the formatting rules can change in newer versions. Therefore an exact version of the Prettier module is installed.
 
-You can update it manually (will also reformat source with new Prettier version):
+You can update it manually:
 
 ```
-npm run format:upgrade
-git commit -a -m "Reformat sources after Prettier update"
+npm install --save-exact prettier@latest
 ```
 
-Or to just reformat the code:
+To reformat the code base afterwards:
 
 ```
 npm run format
