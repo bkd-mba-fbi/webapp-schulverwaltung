@@ -30,7 +30,7 @@ describe('EventsCurrentComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(EventsCurrentComponent);

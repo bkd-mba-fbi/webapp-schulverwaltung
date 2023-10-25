@@ -12,7 +12,7 @@ describe('DashboardDeadlineComponent', () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [DashboardDeadlineComponent],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardDeadlineComponent);

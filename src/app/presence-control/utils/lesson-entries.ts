@@ -61,7 +61,7 @@ export function getCurrentLessonEntry(
 }
 
 export function uniqueLessons(
-  lessons: ReadonlyArray<Lesson>
+  lessons: ReadonlyArray<Lesson>,
 ): ReadonlyArray<Lesson> {
   return lessons.reduce((acc, lesson) => {
     if (acc.some((l) => lessonsEqual(l, lesson))) {

@@ -20,7 +20,7 @@ import { pick } from '../utils/types';
 })
 export class CoursesRestService extends RestService<typeof Course> {
   protected statusCodec = t.type(
-    pick(this.codec.props, ['Id', 'StatusId', 'EvaluationStatusRef'])
+    pick(this.codec.props, ['Id', 'StatusId', 'EvaluationStatusRef']),
   );
 
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
@@ -31,16 +31,17 @@ export class CoursesRestService extends RestService<typeof Course> {
     return this.http
       .get<unknown[]>(
         `${this.baseUrl}/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240`,
-        { headers: { 'X-Role-Restriction': 'TeacherRole' } }
+        { headers: { 'X-Role-Restriction': 'TeacherRole' } },
       )
       .pipe(
         switchMap(decodeArray(this.statusCodec)),
         map((courses) =>
           courses.filter(
-            (course) => course.EvaluationStatusRef.HasEvaluationStarted === true
-          )
+            (course) =>
+              course.EvaluationStatusRef.HasEvaluationStarted === true,
+          ),
         ),
-        map((ids) => ids.length)
+        map((ids) => ids.length),
       );
   }
 

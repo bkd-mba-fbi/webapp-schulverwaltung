@@ -7,7 +7,7 @@ import { UnauthenticatedComponent } from './unauthenticated.component';
 const routes: Routes = [
   {
     path: 'dashboard',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard()],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },

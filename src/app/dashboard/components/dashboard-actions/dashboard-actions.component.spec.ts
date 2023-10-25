@@ -15,7 +15,7 @@ import { CoursesRestService } from '../../../shared/services/courses-rest.servic
 import { PersonsRestService } from '../../../shared/services/persons-rest.service';
 
 describe('DashboardActionsComponent', () => {
-  let component: DashboardActionsComponent;
+  // let component: DashboardActionsComponent;
   let fixture: ComponentFixture<DashboardActionsComponent>;
   let element: HTMLElement;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
@@ -88,7 +88,7 @@ describe('DashboardActionsComponent', () => {
           {
             provide: StorageService,
             useValue: {
-              getPayload(): any {
+              getPayload(): Option<object> {
                 return { id_person: '123', fullName: 'Stolz Zuzana' };
               },
               getListOfUnconfirmed() {
@@ -102,11 +102,11 @@ describe('DashboardActionsComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardActionsComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -118,23 +118,23 @@ describe('DashboardActionsComponent', () => {
     it('displays no actions', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control'
+        'dashboard.actions.presence-control',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences'
+        'dashboard.actions.edit-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences'
+        'dashboard.actions.open-absences',
       );
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report'
+        'dashboard.actions.my-absences-report',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences'
+        'dashboard.actions.my-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions'
+        'dashboard.actions.substitutions',
       );
     });
   });
@@ -147,19 +147,19 @@ describe('DashboardActionsComponent', () => {
     it('displays presence control, edit and open absences', () => {
       fixture.detectChanges();
       expect(element.textContent).toContain(
-        'dashboard.actions.presence-control'
+        'dashboard.actions.presence-control',
       );
       expect(element.textContent).toContain('dashboard.actions.edit-absences0');
       expect(element.textContent).toContain('dashboard.actions.open-absences1');
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report'
+        'dashboard.actions.my-absences-report',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences'
+        'dashboard.actions.my-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions'
+        'dashboard.actions.substitutions',
       );
     });
   });
@@ -172,21 +172,21 @@ describe('DashboardActionsComponent', () => {
     it('displays open absences', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control'
+        'dashboard.actions.presence-control',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences'
+        'dashboard.actions.edit-absences',
       );
       expect(element.textContent).toContain('dashboard.actions.open-absences1');
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report'
+        'dashboard.actions.my-absences-report',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences'
+        'dashboard.actions.my-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions'
+        'dashboard.actions.substitutions',
       );
     });
   });
@@ -199,24 +199,24 @@ describe('DashboardActionsComponent', () => {
     it('displays tests', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control'
+        'dashboard.actions.presence-control',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences'
+        'dashboard.actions.edit-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences'
+        'dashboard.actions.open-absences',
       );
       expect(element.textContent).toContain('dashboard.actions.tests');
       expect(element.textContent).toContain('dashboard.actions.deadline: 123');
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report'
+        'dashboard.actions.my-absences-report',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences'
+        'dashboard.actions.my-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions'
+        'dashboard.actions.substitutions',
       );
     });
   });
@@ -229,21 +229,21 @@ describe('DashboardActionsComponent', () => {
     it('displays my absences, my absences report', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control'
+        'dashboard.actions.presence-control',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences'
+        'dashboard.actions.edit-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences'
+        'dashboard.actions.open-absences',
       );
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).toContain(
-        'dashboard.actions.my-absences-report'
+        'dashboard.actions.my-absences-report',
       );
       expect(element.textContent).toContain('dashboard.actions.my-absences0');
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions'
+        'dashboard.actions.substitutions',
       );
     });
   });
@@ -256,20 +256,20 @@ describe('DashboardActionsComponent', () => {
     it('displays substitutions', () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control'
+        'dashboard.actions.presence-control',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences'
+        'dashboard.actions.edit-absences',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences'
+        'dashboard.actions.open-absences',
       );
       expect(element.textContent).not.toContain('dashboard.actions.tests');
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report'
+        'dashboard.actions.my-absences-report',
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences'
+        'dashboard.actions.my-absences',
       );
       expect(element.textContent).toContain('dashboard.actions.substitutions');
     });

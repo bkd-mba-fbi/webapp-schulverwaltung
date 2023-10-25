@@ -15,8 +15,10 @@ import { UserSettingsService } from 'src/app/shared/services/user-settings.servi
 import { DashboardService } from '../../services/dashboard.service';
 import { DashboardTimetableTableComponent } from '../dashboard-timetable-table/dashboard-timetable-table.component';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe('DashboardTimetableComponent', () => {
-  let component: DashboardTimetableComponent;
+  // let component: DashboardTimetableComponent;
   let fixture: ComponentFixture<DashboardTimetableComponent>;
   let element: HTMLElement;
   let lessonPresencesServiceMock: jasmine.SpyObj<LessonPresencesRestService>;
@@ -55,10 +57,10 @@ describe('DashboardTimetableComponent', () => {
             useFactory() {
               lessonPresencesServiceMock = jasmine.createSpyObj(
                 'LessonPresencesRestService',
-                ['getLessonsByDate']
+                ['getLessonsByDate'],
               );
               lessonPresencesServiceMock.getLessonsByDate.and.returnValue(
-                of([])
+                of([]),
               );
               return lessonPresencesServiceMock;
             },
@@ -72,14 +74,14 @@ describe('DashboardTimetableComponent', () => {
                   'getTimetableEntries',
                   'getLessonAbsences',
                   'getLessonIncidents',
-                ]
+                ],
               );
               studentsServiceMock.getTimetableEntries.and.returnValue(of([]));
               studentsServiceMock.getLessonAbsences.and.returnValue(
-                of([buildLessonAbsence('1')])
+                of([buildLessonAbsence('1')]),
               );
               studentsServiceMock.getLessonIncidents.and.returnValue(
-                of([buildLessonIncident()])
+                of([buildLessonIncident()]),
               );
               return studentsServiceMock;
             },
@@ -93,11 +95,11 @@ describe('DashboardTimetableComponent', () => {
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardTimetableComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -116,7 +118,7 @@ describe('DashboardTimetableComponent', () => {
             'Mathematik',
             'Leonhard Euler',
             '9a',
-            10
+            10,
           ),
           buildLesson(
             2,
@@ -125,15 +127,15 @@ describe('DashboardTimetableComponent', () => {
             'Zeichnen',
             'Pablo Picasso',
             '9a',
-            20
+            20,
           ),
-        ])
+        ]),
       );
 
       fixture.detectChanges();
       expect(element.textContent).toContain('Sun, 23. January 2000');
       expect(lessonPresencesServiceMock.getLessonsByDate).toHaveBeenCalledWith(
-        new Date(2000, 0, 23, 0, 0, 0)
+        new Date(2000, 0, 23, 0, 0, 0),
       );
       expect(studentsServiceMock.getTimetableEntries).not.toHaveBeenCalled();
 
@@ -142,7 +144,7 @@ describe('DashboardTimetableComponent', () => {
 
       // First row
       expect(
-        rows[0].querySelector('td:nth-child(1)')?.textContent?.trim()
+        rows[0].querySelector('td:nth-child(1)')?.textContent?.trim(),
       ).toBe('08:00–09:00');
 
       let link = rows[0].querySelector('td:nth-child(2) a');
@@ -150,7 +152,7 @@ describe('DashboardTimetableComponent', () => {
       expect(link?.getAttribute('href')).toBe('link-to-event-detail-module/10');
 
       expect(
-        rows[0].querySelector('td:nth-child(3)')?.textContent?.trim()
+        rows[0].querySelector('td:nth-child(3)')?.textContent?.trim(),
       ).toBe('dashboard.timetable.table.study-class: 9a'); // Only visible on mobile
 
       expect(rows[0].querySelector('td:nth-child(4)')).toBeNull(); // No teacher column for teachers
@@ -159,7 +161,7 @@ describe('DashboardTimetableComponent', () => {
 
       // Second row
       expect(
-        rows[1].querySelector('td:nth-child(1)')?.textContent?.trim()
+        rows[1].querySelector('td:nth-child(1)')?.textContent?.trim(),
       ).toBe('09:00–10:00');
 
       link = rows[1].querySelector('td:nth-child(2) a');
@@ -167,7 +169,7 @@ describe('DashboardTimetableComponent', () => {
       expect(link?.getAttribute('href')).toBe('link-to-event-detail-module/20');
 
       expect(
-        rows[1].querySelector('td:nth-child(3)')?.textContent?.trim()
+        rows[1].querySelector('td:nth-child(3)')?.textContent?.trim(),
       ).toBe('dashboard.timetable.table.study-class: 9a'); // Only visible on mobile
 
       expect(rows[1].querySelector('td:nth-child(4)')).toBeNull(); // No teacher column for teachers
@@ -184,7 +186,7 @@ describe('DashboardTimetableComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).toContain('Mon, 24. January 2000');
       expect(lessonPresencesServiceMock.getLessonsByDate).toHaveBeenCalledWith(
-        new Date(2000, 0, 24, 0, 0, 0)
+        new Date(2000, 0, 24, 0, 0, 0),
       );
       lessonPresencesServiceMock.getLessonsByDate.calls.reset();
 
@@ -192,7 +194,7 @@ describe('DashboardTimetableComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).toContain('Sun, 23. January 2000');
       expect(lessonPresencesServiceMock.getLessonsByDate).toHaveBeenCalledWith(
-        new Date(2000, 0, 23, 0, 0, 0)
+        new Date(2000, 0, 23, 0, 0, 0),
       );
     });
 
@@ -205,14 +207,14 @@ describe('DashboardTimetableComponent', () => {
       fixture.detectChanges();
       expect(element.textContent).toContain('Sat, 22. January 2000');
       expect(lessonPresencesServiceMock.getLessonsByDate).toHaveBeenCalledWith(
-        new Date(2000, 0, 22, 0, 0, 0)
+        new Date(2000, 0, 22, 0, 0, 0),
       );
     });
 
     it('does not render calendar subscribe button without user setting', () => {
       fixture.detectChanges();
       const subscribeButton = document.querySelector(
-        '.subscribe-calendar-header'
+        '.subscribe-calendar-header',
       );
       expect(subscribeButton).toBeNull();
     });
@@ -222,13 +224,13 @@ describe('DashboardTimetableComponent', () => {
       fixture.detectChanges();
 
       const subscribeButton = document.querySelector(
-        '.subscribe-calendar-header'
+        '.subscribe-calendar-header',
       );
       expect(subscribeButton?.textContent?.trim()).toBe(
-        'dashboard.timetable.subscribe-calendar'
+        'dashboard.timetable.subscribe-calendar',
       );
       expect(subscribeButton?.getAttribute('href')).toBe(
-        'https://subscribe/calendar'
+        'https://subscribe/calendar',
       );
     });
   });
@@ -242,7 +244,7 @@ describe('DashboardTimetableComponent', () => {
       const entry1 = buildTimetableEntry(
         1,
         new Date(2000, 0, 23, 8, 0),
-        new Date(2000, 0, 23, 9, 0)
+        new Date(2000, 0, 23, 9, 0),
       );
       entry1.EventId = 10;
       entry1.EventDesignation = 'Mathematik';
@@ -252,7 +254,7 @@ describe('DashboardTimetableComponent', () => {
       const entry2 = buildTimetableEntry(
         1,
         new Date(2000, 0, 23, 9, 0),
-        new Date(2000, 0, 23, 10, 0)
+        new Date(2000, 0, 23, 10, 0),
       );
       entry2.EventId = 20;
       entry2.EventDesignation = 'Zeichnen';
@@ -260,20 +262,20 @@ describe('DashboardTimetableComponent', () => {
       entry2.EventLocation = '502';
 
       studentsServiceMock.getTimetableEntries.and.returnValue(
-        of([entry1, entry2])
+        of([entry1, entry2]),
       );
 
       fixture.detectChanges();
       expect(element.textContent).toContain('Sun, 23. January 2000');
       expect(studentsServiceMock.getTimetableEntries).toHaveBeenCalledTimes(1);
       expect(
-        studentsServiceMock.getTimetableEntries.calls.mostRecent().args[0]
+        studentsServiceMock.getTimetableEntries.calls.mostRecent().args[0],
       ).toEqual(123);
       const params =
         studentsServiceMock.getTimetableEntries.calls.mostRecent().args[1];
       expect((params as any)['filter.From']).toEqual('=2000-01-23');
       expect(
-        lessonPresencesServiceMock.getLessonsByDate
+        lessonPresencesServiceMock.getLessonsByDate,
       ).not.toHaveBeenCalled();
 
       const rows = element.querySelectorAll('tbody tr');
@@ -281,34 +283,34 @@ describe('DashboardTimetableComponent', () => {
 
       // First row
       expect(
-        rows[0].querySelector('td:nth-child(1)')?.textContent?.trim()
+        rows[0].querySelector('td:nth-child(1)')?.textContent?.trim(),
       ).toBe('08:00–09:00');
 
       let label = rows[0].querySelector('td:nth-child(2)');
       expect(label?.textContent?.trim()).toBe('Mathematik');
 
       expect(
-        rows[0].querySelector('td:nth-child(3)')?.textContent?.trim()
+        rows[0].querySelector('td:nth-child(3)')?.textContent?.trim(),
       ).toBe('Leonhard Euler');
 
       expect(
-        rows[0].querySelector('td:nth-child(4)')?.textContent?.trim()
+        rows[0].querySelector('td:nth-child(4)')?.textContent?.trim(),
       ).toBe('dashboard.timetable.table.room 109');
 
       // Second row
       expect(
-        rows[1].querySelector('td:nth-child(1)')?.textContent?.trim()
+        rows[1].querySelector('td:nth-child(1)')?.textContent?.trim(),
       ).toBe('09:00–10:00');
 
       label = rows[1].querySelector('td:nth-child(2)');
       expect(label?.textContent?.trim()).toBe('Zeichnen');
 
       expect(
-        rows[1].querySelector('td:nth-child(3)')?.textContent?.trim()
+        rows[1].querySelector('td:nth-child(3)')?.textContent?.trim(),
       ).toBe('Pablo Picasso');
 
       expect(
-        rows[1].querySelector('td:nth-child(4)')?.textContent?.trim()
+        rows[1].querySelector('td:nth-child(4)')?.textContent?.trim(),
       ).toBe('dashboard.timetable.table.room 502');
     });
   });

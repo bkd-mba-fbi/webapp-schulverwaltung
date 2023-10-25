@@ -12,7 +12,6 @@ import { DashboardActionComponent } from '../dashboard-action/dashboard-action.c
 import { DashboardTimetableComponent } from '../dashboard-timetable/dashboard-timetable.component';
 
 describe('DashboardComponent', () => {
-  let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let element: HTMLElement;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
@@ -44,17 +43,17 @@ describe('DashboardComponent', () => {
           {
             provide: StorageService,
             useValue: {
-              getPayload(): any {
+              getPayload(): Option<object> {
                 return { id_person: '123' };
               },
             },
           },
         ],
-      })
+      }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 

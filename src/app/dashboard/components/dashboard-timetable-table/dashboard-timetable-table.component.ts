@@ -17,13 +17,13 @@ export class DashboardTimetableTableComponent {
 
   constructor(
     private dashboardService: DashboardService,
-    @Inject(SETTINGS) private settings: Settings
+    @Inject(SETTINGS) private settings: Settings,
   ) {}
 
   buildLink(eventId: number): string {
     return this.settings.eventlist['eventdetail'].replace(
       ':id',
-      String(eventId)
+      String(eventId),
     );
   }
 }

@@ -516,7 +516,7 @@ describe('LessonPresencesRestService', () => {
   });
 
   describe('.hasLessonsLessonTeacher', () => {
-    let url =
+    const url =
       'https://eventotest.api/LessonPresences/?fields=Id&offset=0&limit=1';
 
     it('returns true if a lesson teacher has at least on lesson presence', () => {
@@ -529,7 +529,7 @@ describe('LessonPresencesRestService', () => {
           (req) =>
             req.urlWithParams === url &&
             req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
-          url
+          url,
         )
         .flush([{ Id: '197116_5597' }]);
       httpTestingController.verify();
@@ -545,7 +545,7 @@ describe('LessonPresencesRestService', () => {
           (req) =>
             req.urlWithParams === url &&
             req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
-          url
+          url,
         )
         .flush([]);
       httpTestingController.verify();
@@ -563,7 +563,7 @@ describe('LessonPresencesRestService', () => {
           (req) =>
             req.urlWithParams ===
               'https://eventotest.api/LessonPresences/?filter.ConfirmationStateId=;1080&fields=Id,ConfirmationStateId' &&
-            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole'
+            req.headers.get('X-Role-Restriction') === 'LessonTeacherRole',
         )
         .flush([{ Id: '197116_5597' }]);
       httpTestingController.verify();

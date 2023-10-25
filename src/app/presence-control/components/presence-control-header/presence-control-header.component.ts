@@ -87,7 +87,7 @@ export class PresenceControlHeaderComponent {
   ];
   constructor(
     public state: PresenceControlStateService,
-    config: NgbInputDatepickerConfig
+    config: NgbInputDatepickerConfig,
   ) {
     // place datepicker popup in center of viewport
     config.popperOptions = (options: Partial<Options>) => {
@@ -96,6 +96,7 @@ export class PresenceControlHeaderComponent {
         modifiers: options.modifiers?.map((modifier) => {
           if (modifier.name === 'offset') {
             modifier.options = {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               offset: ({ placement, reference, popper }: any) => {
                 if (placement === 'bottom-start') {
                   return [

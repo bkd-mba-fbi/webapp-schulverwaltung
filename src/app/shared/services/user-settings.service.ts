@@ -166,7 +166,7 @@ export class UserSettingsService {
   getRolesAndPermissions(): Observable<Option<ReadonlyArray<string>>> {
     return this.accessInfo$.pipe(
       map(({ Roles, Permissions }) => [...Roles, ...Permissions]),
-      startWith(null)
+      startWith(null),
     );
   }
 

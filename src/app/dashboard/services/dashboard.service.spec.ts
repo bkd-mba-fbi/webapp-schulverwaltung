@@ -15,13 +15,13 @@ describe('DashboardService', () => {
           {
             provide: StorageService,
             useValue: {
-              getPayload(): any {
+              getPayload(): Option<object> {
                 return { id_person: '123' };
               },
             },
           },
         ],
-      })
+      }),
     );
     service = TestBed.inject(DashboardService);
   });
