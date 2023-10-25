@@ -13,15 +13,15 @@ jobs:
         node-version: [18]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: dist
           key: build-${{ env.GITHUB_SHA }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
@@ -37,13 +37,13 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: dist
           key: build-${{ env.GITHUB_SHA }}
 
       - name: Checkout evento-portal
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: bkd-mba-fbi/evento-portal
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -72,9 +72,9 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: dist
           key: build-${{ env.GITHUB_SHA }}
