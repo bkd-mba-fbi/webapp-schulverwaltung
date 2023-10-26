@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { ReportsService } from './reports.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StorageService } from './storage.service';
-import { HttpTestingController } from '@angular/common/http/testing';
+import { ReportsService } from "./reports.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StorageService } from "./storage.service";
+import { HttpTestingController } from "@angular/common/http/testing";
 
-describe('ReportsService', () => {
+describe("ReportsService", () => {
   let service: ReportsService;
   let httpTestingController: HttpTestingController;
 
@@ -17,10 +17,10 @@ describe('ReportsService', () => {
             provide: StorageService,
             useValue: {
               getAccessToken(): Option<string> {
-                return 'SOMETOKEN';
+                return "SOMETOKEN";
               },
               getPayload(): Option<object> {
-                return { id_person: '42' };
+                return { id_person: "42" };
               },
             },
           },
@@ -33,32 +33,32 @@ describe('ReportsService', () => {
 
   afterEach(() => httpTestingController.verify());
 
-  describe('Stammblatt', () => {
-    describe('personMasterDataAvailability$', () => {
+  describe("Stammblatt", () => {
+    describe("personMasterDataAvailability$", () => {
       let callback: jasmine.Spy;
       beforeEach(() => {
-        callback = jasmine.createSpy('callback');
+        callback = jasmine.createSpy("callback");
         service.personMasterDataAvailability$.subscribe(callback);
       });
 
-      it('emits true if the report is available', () => {
+      it("emits true if the report is available", () => {
         httpTestingController
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42',
+              "https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42",
           )
           .flush({ Id: 290026 });
 
         expect(callback.calls.allArgs()).toEqual([[false], [true]]);
       });
 
-      it('emits false if the report is unavailable', () => {
+      it("emits false if the report is unavailable", () => {
         httpTestingController
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42',
+              "https://eventotest.api/CrystalReports/AvailableReports/Person?ids=290026&keys=42",
           )
           .flush(null);
 
@@ -66,45 +66,45 @@ describe('ReportsService', () => {
       });
     });
 
-    describe('getPersonMasterDataUrl', () => {
-      it('returns the report url', () => {
+    describe("getPersonMasterDataUrl", () => {
+      it("returns the report url", () => {
         expect(service.getPersonMasterDataUrl(123)).toBe(
-          'https://eventotest.api/Files/CrystalReports/Person/290026?ids=123&token=SOMETOKEN',
+          "https://eventotest.api/Files/CrystalReports/Person/290026?ids=123&token=SOMETOKEN",
         );
       });
     });
   });
 
-  describe('Lektionsbuchungen', () => {
-    describe('studentConfirmationAvailability$', () => {
+  describe("Lektionsbuchungen", () => {
+    describe("studentConfirmationAvailability$", () => {
       let callback: jasmine.Spy;
       beforeEach(() => {
-        callback = jasmine.createSpy('callback');
+        callback = jasmine.createSpy("callback");
         service.setStudentConfirmationAvailabilityRecordIds([
-          '123_456',
-          '456_789',
+          "123_456",
+          "456_789",
         ]);
         service.studentConfirmationAvailability$.subscribe(callback);
       });
 
-      it('emits true if the report is available', () => {
+      it("emits true if the report is available", () => {
         httpTestingController
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789',
+              "https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789",
           )
           .flush({ Id: 290036 });
 
         expect(callback.calls.allArgs()).toEqual([[false], [true]]);
       });
 
-      it('emits false if the report is unavailable', () => {
+      it("emits false if the report is unavailable", () => {
         httpTestingController
           .expectOne(
             (req) =>
               req.urlWithParams ===
-              'https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789',
+              "https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290036&keys=123_456,456_789",
           )
           .flush(null);
 
@@ -112,33 +112,33 @@ describe('ReportsService', () => {
       });
     });
 
-    describe('getStudentConfirmationUrl', () => {
-      it('returns the report url', () => {
-        expect(service.getStudentConfirmationUrl(['123_456', '789_012'])).toBe(
-          'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456,789_012&token=SOMETOKEN',
+    describe("getStudentConfirmationUrl", () => {
+      it("returns the report url", () => {
+        expect(service.getStudentConfirmationUrl(["123_456", "789_012"])).toBe(
+          "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456,789_012&token=SOMETOKEN",
         );
       });
     });
   });
 
-  describe('Auswertung der Absenzen', () => {
-    it('returns the report url', () => {
-      expect(service.getEvaluateAbsencesUrl(['123_456', '789_012'])).toBe(
-        'https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456,789_012&token=SOMETOKEN',
+  describe("Auswertung der Absenzen", () => {
+    it("returns the report url", () => {
+      expect(service.getEvaluateAbsencesUrl(["123_456", "789_012"])).toBe(
+        "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456,789_012&token=SOMETOKEN",
       );
     });
   });
 
-  describe('Auswertung Events', () => {
-    it('returns the report url', () => {
+  describe("Auswertung Events", () => {
+    it("returns the report url", () => {
       expect(service.getEventReportUrl(123)).toBe(
-        'https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=123&token=SOMETOKEN',
+        "https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=123&token=SOMETOKEN",
       );
     });
   });
 
-  describe('Subscription Report Url', () => {
-    it('returns the report url', () => {
+  describe("Subscription Report Url", () => {
+    it("returns the report url", () => {
       expect(service.getSubscriptionReportUrl(123, [11, 12, 13])).toBe(
         `https://eventotest.api/Files/CrystalReports/Anmeldung/123?ids=11,12,13&token=SOMETOKEN`,
       );

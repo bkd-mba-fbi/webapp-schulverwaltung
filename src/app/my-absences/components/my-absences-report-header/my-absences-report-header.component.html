@@ -1,10 +1,10 @@
 <erz-backlink [routerLink]="['/my-absences']" class="mb-3"></erz-backlink>
-<h1>{{ 'my-absences.report.title' | translate }}</h1>
+<h1>{{ "my-absences.report.title" | translate }}</h1>
 
 <div class="filters">
   <div class="form-group">
     <label class="form-label">{{
-      'my-absences.report.header.date-from' | translate
+      "my-absences.report.header.date-from" | translate
     }}</label>
     <erz-date-select
       [minDate]="minDate"
@@ -14,7 +14,7 @@
   </div>
   <div class="form-group">
     <label class="form-label">{{
-      'my-absences.report.header.date-to' | translate
+      "my-absences.report.header.date-to" | translate
     }}</label>
     <erz-date-select
       [minDate]="minDate"
@@ -24,7 +24,7 @@
 
   <div class="buttons">
     <button type="button" class="btn btn-primary" (click)="show()">
-      {{ 'my-absences.report.header.show' | translate }}
+      {{ "my-absences.report.header.show" | translate }}
     </button>
   </div>
 </div>

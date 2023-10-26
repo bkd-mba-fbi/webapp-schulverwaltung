@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { MyProfileAddressComponent } from './my-profile-address.component';
+import { MyProfileAddressComponent } from "./my-profile-address.component";
 
-describe('MyProfileAddressComponent', () => {
+describe("MyProfileAddressComponent", () => {
   let component: MyProfileAddressComponent;
   let fixture: ComponentFixture<MyProfileAddressComponent>;
 
@@ -18,7 +18,7 @@ describe('MyProfileAddressComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

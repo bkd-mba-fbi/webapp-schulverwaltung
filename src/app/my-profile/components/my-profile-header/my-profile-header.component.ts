@@ -4,17 +4,17 @@ import {
   SimpleChanges,
   OnChanges,
   ChangeDetectionStrategy,
-} from '@angular/core';
-import { ReplaySubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+} from "@angular/core";
+import { ReplaySubject, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { Person } from '../../../shared/models/person.model';
-import { ReportsService } from '../../../shared/services/reports.service';
+import { Person } from "../../../shared/models/person.model";
+import { ReportsService } from "../../../shared/services/reports.service";
 
 @Component({
-  selector: 'erz-my-profile-header',
-  templateUrl: './my-profile-header.component.html',
-  styleUrls: ['./my-profile-header.component.scss'],
+  selector: "erz-my-profile-header",
+  templateUrl: "./my-profile-header.component.html",
+  styleUrls: ["./my-profile-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileHeaderComponent implements OnChanges {

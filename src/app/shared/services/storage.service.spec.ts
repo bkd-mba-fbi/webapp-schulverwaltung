@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { StorageService } from './storage.service';
+import { StorageService } from "./storage.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('StorageService', () => {
+describe("StorageService", () => {
   let service: StorageService;
   let localStoreMock: any;
   let sessionStoreMock: any;
@@ -14,80 +14,80 @@ describe('StorageService', () => {
     service = TestBed.inject(StorageService);
 
     localStoreMock = {};
-    spyOn(localStorage, 'getItem').and.callFake(
+    spyOn(localStorage, "getItem").and.callFake(
       (key: string) => localStoreMock[key] || null,
     );
-    spyOn(localStorage, 'setItem').and.callFake(
+    spyOn(localStorage, "setItem").and.callFake(
       (key: string) => localStoreMock[key] || null,
     );
 
     sessionStoreMock = {};
-    spyOn(sessionStorage, 'getItem').and.callFake(
+    spyOn(sessionStorage, "getItem").and.callFake(
       (key: string) => sessionStoreMock[key] || null,
     );
-    spyOn(sessionStorage, 'setItem').and.callFake(
+    spyOn(sessionStorage, "setItem").and.callFake(
       (key: string) => sessionStoreMock[key] || null,
     );
   });
 
-  describe('.getLanguage', () => {
-    it('returns null if no value is available', () => {
+  describe(".getLanguage", () => {
+    it("returns null if no value is available", () => {
       expect(service.getLanguage()).toBeNull();
     });
 
-    it('returns value', () => {
-      localStoreMock.uiCulture = 'de-CH';
-      expect(service.getLanguage()).toBe('de-CH');
+    it("returns value", () => {
+      localStoreMock.uiCulture = "de-CH";
+      expect(service.getLanguage()).toBe("de-CH");
     });
   });
 
-  describe('.getAccessToken', () => {
-    it('returns null if no value is available', () => {
+  describe(".getAccessToken", () => {
+    it("returns null if no value is available", () => {
       expect(service.getAccessToken()).toBeNull();
     });
 
-    it('returns value from session storage', () => {
-      sessionStoreMock['CLX.LoginToken'] = 'asdf';
-      expect(service.getAccessToken()).toBe('asdf');
+    it("returns value from session storage", () => {
+      sessionStoreMock["CLX.LoginToken"] = "asdf";
+      expect(service.getAccessToken()).toBe("asdf");
     });
 
-    it('returns value from session storage with local storage value present', () => {
-      sessionStoreMock['CLX.LoginToken'] = 'asdf';
-      localStoreMock['CLX.LoginToken'] = 'qwer';
-      expect(service.getAccessToken()).toBe('asdf');
+    it("returns value from session storage with local storage value present", () => {
+      sessionStoreMock["CLX.LoginToken"] = "asdf";
+      localStoreMock["CLX.LoginToken"] = "qwer";
+      expect(service.getAccessToken()).toBe("asdf");
     });
 
-    it('returns value from local storage (fallback)', () => {
-      sessionStoreMock['CLX.LoginToken'] = 'asdf';
-      localStoreMock['CLX.LoginToken'] = 'qwer';
-      expect(service.getAccessToken()).toBe('asdf');
+    it("returns value from local storage (fallback)", () => {
+      sessionStoreMock["CLX.LoginToken"] = "asdf";
+      localStoreMock["CLX.LoginToken"] = "qwer";
+      expect(service.getAccessToken()).toBe("asdf");
     });
 
-    it('returns value with trailing double quotes removed', () => {
-      localStoreMock['CLX.LoginToken'] = '"asdf"';
-      expect(service.getAccessToken()).toBe('asdf');
+    it("returns value with trailing double quotes removed", () => {
+      localStoreMock["CLX.LoginToken"] = '"asdf"';
+      expect(service.getAccessToken()).toBe("asdf");
     });
   });
 
-  describe('.getRefreshToken', () => {
-    it('returns null if no value is available', () => {
+  describe(".getRefreshToken", () => {
+    it("returns null if no value is available", () => {
       expect(service.getRefreshToken()).toBeNull();
     });
 
-    it('returns value', () => {
-      localStoreMock['CLX.RefreshToken'] = 'asdf';
-      expect(service.getRefreshToken()).toBe('asdf');
+    it("returns value", () => {
+      localStoreMock["CLX.RefreshToken"] = "asdf";
+      expect(service.getRefreshToken()).toBe("asdf");
     });
   });
 
-  describe('.getTokenExpire', () => {
-    it('returns null if no value is available', () => {
+  describe(".getTokenExpire", () => {
+    it("returns null if no value is available", () => {
       expect(service.getTokenExpire()).toBeNull();
     });
 
-    it('returns value', () => {
-      localStoreMock['CLX.TokenExpire'] = 'asdf';
-      expect(service.getTokenExpire()).toBe('asdf');
+    it("returns value", () => {
+      localStoreMock["CLX.TokenExpire"] = "asdf";
+      expect(service.getTokenExpire()).toBe("asdf");
     });
   });
   /*

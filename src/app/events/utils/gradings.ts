@@ -1,4 +1,4 @@
-import { Grading } from 'src/app/shared/models/course.model';
+import { Grading } from "src/app/shared/models/course.model";
 
 export function replaceGrading(newGrading: Grading, gradings: Grading[]) {
   return [

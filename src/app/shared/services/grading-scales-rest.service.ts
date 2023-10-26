@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { forkJoin, Observable, of, shareReplay, switchMap } from 'rxjs';
-import { Settings, SETTINGS } from 'src/app/settings';
-import { GradingScale } from '../models/grading-scale.model';
-import { decode } from '../utils/decode';
-import { RestService } from './rest.service';
+import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { forkJoin, Observable, of, shareReplay, switchMap } from "rxjs";
+import { Settings, SETTINGS } from "src/app/settings";
+import { GradingScale } from "../models/grading-scale.model";
+import { decode } from "../utils/decode";
+import { RestService } from "./rest.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GradingScalesRestService extends RestService<typeof GradingScale> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, GradingScale, 'GradingScales');
+    super(http, settings, GradingScale, "GradingScales");
   }
 
   getGradingScale(id: number | null): Observable<GradingScale | null> {

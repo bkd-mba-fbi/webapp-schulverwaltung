@@ -1,8 +1,8 @@
-import { FinalGrading, Grading } from '../models/course.model';
-import { GradingScale, Grade } from '../models/grading-scale.model';
-import * as Gradings from './gradings';
+import { FinalGrading, Grading } from "../models/course.model";
+import { GradingScale, Grade } from "../models/grading-scale.model";
+import * as Gradings from "./gradings";
 
-describe('gradings', () => {
+describe("gradings", () => {
   let gradingScale: GradingScale;
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('gradings', () => {
       ],
     } as unknown as GradingScale;
   });
-  it('should get grading value', () => {
+  it("should get grading value", () => {
     const grading: Grading = {
       GradeValue: 4.5,
     } as unknown as Grading;
@@ -27,7 +27,7 @@ describe('gradings', () => {
     expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe(4.5);
   });
 
-  it('should get null if no value is set', () => {
+  it("should get null if no value is set", () => {
     const grading: Grading = {
       GradeValue: null,
     } as unknown as Grading;
@@ -37,7 +37,7 @@ describe('gradings', () => {
     expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe(null);
   });
 
-  it('should get from scale if gradeId is set', () => {
+  it("should get from scale if gradeId is set", () => {
     const grading: Grading = {
       GradeValue: null,
       GradeId: 1003,
@@ -48,7 +48,7 @@ describe('gradings', () => {
     expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe(3);
   });
 
-  it('should evaluate from final grade', () => {
+  it("should evaluate from final grade", () => {
     const grading: Grading = {
       GradeValue: null,
       GradeId: 1003,
@@ -56,9 +56,9 @@ describe('gradings', () => {
 
     const finalGrade: FinalGrading = {
       GradeValue: 4.5,
-      Grade: '4.5',
+      Grade: "4.5",
     } as unknown as FinalGrading;
 
-    expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe('4.5');
+    expect(Gradings.evaluate(grading, finalGrade, gradingScale)).toBe("4.5");
   });
 });

@@ -1,24 +1,24 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map, ReplaySubject } from 'rxjs';
+import { Component, Input, SimpleChanges, OnChanges } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { map, ReplaySubject } from "rxjs";
 import {
   replaceResultInTest,
   resultOfStudent,
-} from 'src/app/events/utils/tests';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { Result, Test } from 'src/app/shared/models/test.model';
-import { DossierGradesEditComponent } from '../dossier-grades-edit/dossier-grades-edit.component';
-import { DossierGradesService } from '../../../services/dossier-grades.service';
+} from "src/app/events/utils/tests";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { GradingScale } from "src/app/shared/models/grading-scale.model";
+import { Result, Test } from "src/app/shared/models/test.model";
+import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grades-edit.component";
+import { DossierGradesService } from "../../../services/dossier-grades.service";
 
 @Component({
-  selector: 'erz-dossier-single-test',
+  selector: "erz-dossier-single-test",
   template: ` <div class="test-entry" *erzLet="test$ | async as test">
     <div class="designation" data-testid="test-designation">
       {{ test.Designation }}
     </div>
     <div class="date" data-testid="test-date">
-      {{ test.Date | date: 'dd.MM.yyyy' }}
+      {{ test.Date | date: "dd.MM.yyyy" }}
     </div>
     <div class="grade">
       <a
@@ -38,19 +38,19 @@ import { DossierGradesService } from '../../../services/dossier-grades.service';
       {{ test | erzTestWeight }}
     </div>
     <div class="points" data-testid="test-points">
-      <span>{{ test | erzTestPoints: studentId : 'dossier.points' }}</span>
+      <span>{{ test | erzTestPoints: studentId : "dossier.points" }}</span>
     </div>
     <div class="teacher" data-testid="test-teacher">
       {{ test.Owner }}
     </div>
     <div *ngIf="isEditable" class="state" data-testid="test-status">
       {{
-        (test.IsPublished ? 'tests.published' : 'tests.not-published')
+        (test.IsPublished ? "tests.published" : "tests.not-published")
           | translate
       }}
     </div>
   </div>`,
-  styleUrls: ['./dossier-single-test.component.scss'],
+  styleUrls: ["./dossier-single-test.component.scss"],
 })
 export class DossierSingleTestComponent implements OnChanges {
   @Input() test: Test;
@@ -74,7 +74,7 @@ export class DossierSingleTestComponent implements OnChanges {
 
   editGrading(test: Test): void {
     const modalRef = this.modalService.open(DossierGradesEditComponent, {
-      backdrop: 'static', // prevent closing by click outside of modal
+      backdrop: "static", // prevent closing by click outside of modal
     });
     modalRef.componentInstance.test = test; // TODO
     modalRef.componentInstance.gradeId = this.getGradeId(test);
@@ -100,7 +100,7 @@ export class DossierSingleTestComponent implements OnChanges {
     return (
       this.gradingScale?.Grades.find(
         (grade) => grade.Id === this.getGradeId(test),
-      )?.Designation || '-'
+      )?.Designation || "-"
     );
   }
 

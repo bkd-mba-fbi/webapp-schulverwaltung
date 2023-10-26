@@ -1,6 +1,6 @@
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { Observable, of, combineLatest, EMPTY } from 'rxjs';
-import { startWith, map, switchMap, filter, shareReplay } from 'rxjs/operators';
+import { AbstractControl, UntypedFormGroup } from "@angular/forms";
+import { Observable, of, combineLatest, EMPTY } from "rxjs";
+import { startWith, map, switchMap, filter, shareReplay } from "rxjs/operators";
 
 /**
  * Emits the validation errors of the form group or the control with

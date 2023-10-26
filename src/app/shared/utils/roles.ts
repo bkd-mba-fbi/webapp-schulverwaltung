@@ -6,5 +6,5 @@ export function getRoles(rolesString: Maybe<string>): ReadonlyArray<string> {
   if (!rolesString) {
     return [];
   }
-  return rolesString.split(';');
+  return rolesString.split(";");
 }

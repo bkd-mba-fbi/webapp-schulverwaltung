@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { TokenPayload } from 'src/app/shared/models/token-payload.model';
+import { Injectable } from "@angular/core";
+import { TokenPayload } from "src/app/shared/models/token-payload.model";
 
-const LANGUAGE_KEY = 'uiCulture';
-const ACCESS_TOKEN_KEY = 'CLX.LoginToken';
-const REFRESH_TOKEN_KEY = 'CLX.RefreshToken';
-const TOKEN_EXPIRE_KEY = 'CLX.TokenExpire';
+const LANGUAGE_KEY = "uiCulture";
+const ACCESS_TOKEN_KEY = "CLX.LoginToken";
+const REFRESH_TOKEN_KEY = "CLX.RefreshToken";
+const TOKEN_EXPIRE_KEY = "CLX.TokenExpire";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class StorageService {
   getLanguage(): Option<string> {
@@ -16,7 +16,7 @@ export class StorageService {
 
   getAccessToken(): Option<string> {
     const token = this.getValue(ACCESS_TOKEN_KEY);
-    return token ? token.replace(/^"+|"+$/g, '') : null;
+    return token ? token.replace(/^"+|"+$/g, "") : null;
   }
 
   getRefreshToken(): Option<string> {
@@ -29,13 +29,13 @@ export class StorageService {
 
   getPayload(): Option<TokenPayload> {
     const token = this.getAccessToken();
-    const base64Url = token ? token.split('.')[1] : null;
+    const base64Url = token ? token.split(".")[1] : null;
     const base64 = base64Url
-      ? base64Url.replace('-', '+').replace('_', '/')
+      ? base64Url.replace("-", "+").replace("_", "/")
       : null;
-    const payload = JSON.parse(window.atob(base64 ? base64 : ''));
+    const payload = JSON.parse(window.atob(base64 ? base64 : ""));
     payload.roles =
-      'holder_roles' in payload ? payload.holder_roles : payload.roles;
+      "holder_roles" in payload ? payload.holder_roles : payload.roles;
     return payload;
   }
 

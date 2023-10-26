@@ -1,9 +1,9 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken } from "@angular/core";
 
 export const NAVIGATOR: InjectionToken<Navigator> = new InjectionToken(
-  'Navigator API',
+  "Navigator API",
   {
-    providedIn: 'root',
+    providedIn: "root",
     factory: (): Navigator => navigator,
   },
 );

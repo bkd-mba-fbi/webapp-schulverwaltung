@@ -1,12 +1,12 @@
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { buildIdSubscription } from 'src/spec-builders';
-import { buildTestModuleMetadata } from '../../../spec-helpers';
-import { IdSubscription } from '../models/subscription-detail.model';
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { buildIdSubscription } from "src/spec-builders";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
+import { IdSubscription } from "../models/subscription-detail.model";
 
-import { SubscriptionsRestService } from './subscriptions-rest.service';
+import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
-describe('SubscriptionsRestService', () => {
+describe("SubscriptionsRestService", () => {
   let service: SubscriptionsRestService;
   let httpTestingController: HttpTestingController;
 
@@ -16,8 +16,8 @@ describe('SubscriptionsRestService', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
-  describe('.getIdSubscriptionsByStudentAndCourse', () => {
-    it('should get list of IdSubscriptions for a students and its courses', () => {
+  describe(".getIdSubscriptionsByStudentAndCourse", () => {
+    it("should get list of IdSubscriptions for a students and its courses", () => {
       const personId = 1;
       const courseIds = [11, 12, 13];
       const data: ReadonlyArray<IdSubscription> = [

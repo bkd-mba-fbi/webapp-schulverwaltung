@@ -4,13 +4,13 @@ import {
   Input,
   EventEmitter,
   Output,
-} from '@angular/core';
-import { uniqueId } from 'lodash-es';
+} from "@angular/core";
+import { uniqueId } from "lodash-es";
 
 @Component({
-  selector: 'erz-switch',
-  templateUrl: './switch.component.html',
-  styleUrls: ['./switch.component.scss'],
+  selector: "erz-switch",
+  templateUrl: "./switch.component.html",
+  styleUrls: ["./switch.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwitchComponent {
@@ -20,7 +20,7 @@ export class SwitchComponent {
   @Input() value = false;
   @Output() valueChange = new EventEmitter<boolean>();
 
-  fallbackId = uniqueId('erz-switch');
+  fallbackId = uniqueId("erz-switch");
 
   constructor() {}
 }

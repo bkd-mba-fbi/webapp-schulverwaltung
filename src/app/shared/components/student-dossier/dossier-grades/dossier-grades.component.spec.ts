@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import {
   DossierPage,
   DossierStateService,
-} from 'src/app/shared/services/dossier-state.service';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+} from "src/app/shared/services/dossier-state.service";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { DossierGradesComponent } from './dossier-grades.component';
-import { BehaviorSubject, of } from 'rxjs';
-import { Course } from '../../../models/course.model';
-import { buildCourse, buildGradingScale } from '../../../../../spec-builders';
-import { GradingScale } from '../../../models/grading-scale.model';
+import { DossierGradesComponent } from "./dossier-grades.component";
+import { BehaviorSubject, of } from "rxjs";
+import { Course } from "../../../models/course.model";
+import { buildCourse, buildGradingScale } from "../../../../../spec-builders";
+import { GradingScale } from "../../../models/grading-scale.model";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('DossierGradesComponent', () => {
+describe("DossierGradesComponent", () => {
   let component: DossierGradesComponent;
   let fixture: ComponentFixture<DossierGradesComponent>;
 
@@ -31,7 +31,7 @@ describe('DossierGradesComponent', () => {
   const gradingScales = [buildGradingScale(1)];
 
   beforeEach(async () => {
-    currentDossier$ = new BehaviorSubject<DossierPage>('grades');
+    currentDossier$ = new BehaviorSubject<DossierPage>("grades");
 
     dossierStateServiceMock = {
       currentDossier$,
@@ -59,12 +59,12 @@ describe('DossierGradesComponent', () => {
             provide: DossierGradesService,
             useValue: {
               dossierGradesServiceMock,
-              setStudentId: jasmine.createSpy('setStudentId'),
+              setStudentId: jasmine.createSpy("setStudentId"),
             },
           },
           {
             provide: StorageService,
-            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+            useValue: jasmine.createSpyObj("StorageService", ["getPayload"]),
           },
         ],
       }),
@@ -77,7 +77,7 @@ describe('DossierGradesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MyGradesComponent } from './components/my-grades/my-grades.component';
-import { MyGradesShowComponent } from './components/my-grades-show/my-grades-show.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { MyGradesComponent } from "./components/my-grades/my-grades.component";
+import { MyGradesShowComponent } from "./components/my-grades-show/my-grades-show.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: MyGradesComponent,
-    children: [{ path: '', component: MyGradesShowComponent }],
+    children: [{ path: "", component: MyGradesShowComponent }],
   },
 ];
 

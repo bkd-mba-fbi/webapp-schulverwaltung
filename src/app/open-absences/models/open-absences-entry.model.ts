@@ -1,6 +1,6 @@
-import { startOfDay, format } from 'date-fns';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { Searchable } from 'src/app/shared/utils/search';
+import { startOfDay, format } from "date-fns";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { Searchable } from "src/app/shared/utils/search";
 
 /**
  * Represents a grouping of LessonPresences by day/student. Make sure
@@ -17,10 +17,10 @@ export class OpenAbsencesEntry implements Searchable {
 
   constructor(public absences: ReadonlyArray<LessonPresence>) {
     if (absences.length === 0) {
-      throw new Error('Absences array is empty');
+      throw new Error("Absences array is empty");
     }
     this.date = startOfDay(this.absences[0].LessonDateTimeFrom);
-    this.dateString = format(this.date, 'yyyy-MM-dd');
+    this.dateString = format(this.date, "yyyy-MM-dd");
     this.studentId = this.absences[0].StudentRef.Id;
     this.studentFullName = this.absences[0].StudentFullName;
     this.studyClassNumber = this.absences[0].StudyClassNumber;

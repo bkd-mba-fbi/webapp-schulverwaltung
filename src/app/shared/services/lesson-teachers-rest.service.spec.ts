@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { LessonTeachersRestService } from './lesson-teachers-rest.service';
-import { buildTestModuleMetadata } from '../../../spec-helpers';
+import { LessonTeachersRestService } from "./lesson-teachers-rest.service";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
 
-describe('LessonTeachersService', () => {
+describe("LessonTeachersService", () => {
   let service: LessonTeachersRestService;
 
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('LessonTeachersService', () => {
     service = TestBed.inject(LessonTeachersRestService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

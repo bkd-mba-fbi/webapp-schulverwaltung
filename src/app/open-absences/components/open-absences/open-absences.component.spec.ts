@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { OpenAbsencesComponent } from './open-absences.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { OpenAbsencesComponent } from "./open-absences.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('OpenAbsencesComponent', () => {
+describe("OpenAbsencesComponent", () => {
   let component: OpenAbsencesComponent;
   let fixture: ComponentFixture<OpenAbsencesComponent>;
 
@@ -21,7 +21,7 @@ describe('OpenAbsencesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

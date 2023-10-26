@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable } from "@angular/core";
 import {
   combineLatest,
   map,
@@ -8,35 +8,35 @@ import {
   shareReplay,
   startWith,
   switchMap,
-} from 'rxjs';
-import { Settings, SETTINGS } from '../../settings';
-import { UserSettingsService } from '../../shared/services/user-settings.service';
-import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
-import { StudentsRestService } from '../../shared/services/students-rest.service';
-import { LessonAbsence } from '../../shared/models/lesson-absence.model';
-import { StorageService } from '../../shared/services/storage.service';
-import { CoursesRestService } from '../../shared/services/courses-rest.service';
-import { LessonIncident } from '../../shared/models/lesson-incident.model';
-import { TimetableEntry } from '../../shared/models/timetable-entry.model';
-import { notNull } from '../../shared/utils/filter';
-import { TeacherSubstitutionsRestService } from '../../shared/services/teacher-substitutions-rest.service';
-import { PersonsRestService } from '../../shared/services/persons-rest.service';
+} from "rxjs";
+import { Settings, SETTINGS } from "../../settings";
+import { UserSettingsService } from "../../shared/services/user-settings.service";
+import { LessonPresencesRestService } from "../../shared/services/lesson-presences-rest.service";
+import { StudentsRestService } from "../../shared/services/students-rest.service";
+import { LessonAbsence } from "../../shared/models/lesson-absence.model";
+import { StorageService } from "../../shared/services/storage.service";
+import { CoursesRestService } from "../../shared/services/courses-rest.service";
+import { LessonIncident } from "../../shared/models/lesson-incident.model";
+import { TimetableEntry } from "../../shared/models/timetable-entry.model";
+import { notNull } from "../../shared/utils/filter";
+import { TeacherSubstitutionsRestService } from "../../shared/services/teacher-substitutions-rest.service";
+import { PersonsRestService } from "../../shared/services/persons-rest.service";
 
 const SEARCH_ROLES = [
-  'LessonTeacherRole',
-  'ClassTeacherRole',
-  'TeacherRole',
-  'AbsenceAdministratorRole',
+  "LessonTeacherRole",
+  "ClassTeacherRole",
+  "TeacherRole",
+  "AbsenceAdministratorRole",
 ];
 
 const ACTIONS_ROLES = [
-  'LessonTeacherRole',
-  'TeacherRole',
-  'StudentRole',
-  'SubstituteAdministratorRole',
+  "LessonTeacherRole",
+  "TeacherRole",
+  "StudentRole",
+  "SubstituteAdministratorRole",
 ];
 
-const TIMETABLE_ROLES = ['LessonTeacherRole', 'StudentRole'];
+const TIMETABLE_ROLES = ["LessonTeacherRole", "StudentRole"];
 
 @Injectable()
 export class DashboardService {
@@ -65,19 +65,19 @@ export class DashboardService {
   ///// Roles /////
 
   hasLessonTeacherRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['LessonTeacherRole'])),
+    map(this.hasRoles(["LessonTeacherRole"])),
     shareReplay(1),
   );
   hasTeacherRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['TeacherRole'])),
+    map(this.hasRoles(["TeacherRole"])),
     shareReplay(1),
   );
   hasStudentRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['StudentRole'])),
+    map(this.hasRoles(["StudentRole"])),
     shareReplay(1),
   );
   hasSubstituteAdministratorRole$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['SubstituteAdministratorRole'])),
+    map(this.hasRoles(["SubstituteAdministratorRole"])),
     shareReplay(1),
   );
 
@@ -93,7 +93,7 @@ export class DashboardService {
   );
 
   openAbsencesCount$ = this.rolesAndPermissions$.pipe(
-    map(this.hasRoles(['LessonTeacherRole', 'ClassTeacherRole'])),
+    map(this.hasRoles(["LessonTeacherRole", "ClassTeacherRole"])),
     switchMap((hasRoles) =>
       hasRoles ? this.lessonPresencesService.getListOfUnconfirmed() : of([]),
     ),
@@ -188,7 +188,7 @@ export class DashboardService {
     return (
       absences?.filter(
         (absence) =>
-          ('ConfirmationStateId' in absence
+          ("ConfirmationStateId" in absence
             ? absence.ConfirmationStateId
             : null) === this.settings.unconfirmedAbsenceStateId,
       ).length || 0
@@ -220,9 +220,9 @@ export class DashboardService {
     incidents: ReadonlyArray<LessonIncident>,
   ): Observable<ReadonlyArray<TimetableEntry>> {
     return this.studentsService.getTimetableEntries(studentId, {
-      'filter.Id': `;${[...absences, ...incidents]
+      "filter.Id": `;${[...absences, ...incidents]
         .map((e) => e.LessonRef.Id)
-        .join(';')}`,
+        .join(";")}`,
     });
   }
 }

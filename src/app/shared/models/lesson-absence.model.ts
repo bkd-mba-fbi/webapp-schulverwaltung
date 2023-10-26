@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import { Reference, Option, LocalDateTimeFromString } from './common-types';
+import * as t from "io-ts";
+import { Reference, Option, LocalDateTimeFromString } from "./common-types";
 
 const id = t.type({
   Id: t.number,

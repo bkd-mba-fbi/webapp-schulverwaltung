@@ -1,4 +1,4 @@
-import * as t from 'io-ts';
+import * as t from "io-ts";
 
 const StudyClass = t.type({
   Id: t.number,

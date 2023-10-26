@@ -1,42 +1,42 @@
-import { OptionalReference, Reference } from './app/shared/models/common-types';
-import { LessonPresence } from './app/shared/models/lesson-presence.model';
-import { Lesson } from './app/shared/models/lesson.model';
-import { PresenceType } from './app/shared/models/presence-type.model';
-import { PresenceControlEntry } from './app/presence-control/models/presence-control-entry.model';
-import { Student } from './app/shared/models/student.model';
-import { ApprenticeshipContract } from './app/shared/models/apprenticeship-contract.model';
-import { LegalRepresentative } from './app/shared/models/legal-representative.model';
-import { Person } from './app/shared/models/person.model';
-import { LessonPresenceStatistic } from './app/shared/models/lesson-presence-statistic';
-import { ApprenticeshipManager } from './app/shared/models/apprenticeship-manager.model';
-import { JobTrainer } from './app/shared/models/job-trainer.model';
-import { UserSettings } from './app/shared/models/user-settings.model';
-import { LessonAbsence } from './app/shared/models/lesson-absence.model';
+import { OptionalReference, Reference } from "./app/shared/models/common-types";
+import { LessonPresence } from "./app/shared/models/lesson-presence.model";
+import { Lesson } from "./app/shared/models/lesson.model";
+import { PresenceType } from "./app/shared/models/presence-type.model";
+import { PresenceControlEntry } from "./app/presence-control/models/presence-control-entry.model";
+import { Student } from "./app/shared/models/student.model";
+import { ApprenticeshipContract } from "./app/shared/models/apprenticeship-contract.model";
+import { LegalRepresentative } from "./app/shared/models/legal-representative.model";
+import { Person } from "./app/shared/models/person.model";
+import { LessonPresenceStatistic } from "./app/shared/models/lesson-presence-statistic";
+import { ApprenticeshipManager } from "./app/shared/models/apprenticeship-manager.model";
+import { JobTrainer } from "./app/shared/models/job-trainer.model";
+import { UserSettings } from "./app/shared/models/user-settings.model";
+import { LessonAbsence } from "./app/shared/models/lesson-absence.model";
 import {
   IdSubscription,
   SubscriptionDetail,
-} from './app/shared/models/subscription-detail.model';
+} from "./app/shared/models/subscription-detail.model";
 import {
   Course,
   AttendanceRef,
   EvaluationStatusRef,
   Grading,
   FinalGrading,
-} from './app/shared/models/course.model';
-import { Result, Test } from './app/shared/models/test.model';
-import { StudyClass } from './app/shared/models/study-class.model';
-import { Grade } from './app/shared/models/grading-scale.model';
+} from "./app/shared/models/course.model";
+import { Result, Test } from "./app/shared/models/test.model";
+import { StudyClass } from "./app/shared/models/study-class.model";
+import { Grade } from "./app/shared/models/grading-scale.model";
 import {
   FinalGrade,
   GradeKind,
   GradeOrNoResult,
   StudentGrade,
-} from './app/shared/models/student-grades';
-import { TimetableEntry } from './app/shared/models/timetable-entry.model';
-import { LessonDispensation } from './app/shared/models/lesson-dispensation.model';
-import { TokenPayload } from './app/shared/models/token-payload.model';
-import { EventState, Event } from './app/events/services/events-state.service';
-import { LessonIncident } from './app/shared/models/lesson-incident.model';
+} from "./app/shared/models/student-grades";
+import { TimetableEntry } from "./app/shared/models/timetable-entry.model";
+import { LessonDispensation } from "./app/shared/models/lesson-dispensation.model";
+import { TokenPayload } from "./app/shared/models/token-payload.model";
+import { EventState, Event } from "./app/events/services/events-state.service";
+import { LessonIncident } from "./app/shared/models/lesson-incident.model";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -55,15 +55,15 @@ export function buildLessonPresence(
   dateFrom: Date,
   dateTo: Date,
   eventDesignation: string,
-  studentName = '',
-  teacherInformation = '',
+  studentName = "",
+  teacherInformation = "",
   presenceTypeId?: number,
   eventRefId?: number,
   studentRefId?: number,
   confirmationStateId?: number,
 ): LessonPresence {
   return {
-    Id: lessonId && studentRefId ? [lessonId, studentRefId].join('_') : '1',
+    Id: lessonId && studentRefId ? [lessonId, studentRefId].join("_") : "1",
     LessonRef: buildReference(lessonId),
     StudentRef: buildReference(studentRefId),
     EventRef: buildReference(eventRefId),
@@ -84,7 +84,7 @@ export function buildLessonPresence(
     Type: null,
     StudentFullName: studentName,
     // StudyClassDesignation: '',
-    StudyClassNumber: '9a',
+    StudyClassNumber: "9a",
     TeacherInformation: teacherInformation,
   };
 }
@@ -96,7 +96,7 @@ export function buildLessonPresenceWithIds(
   dateFrom = new Date(),
   dateTo = new Date(),
 ): LessonPresence {
-  const presence = buildLessonPresence(lessonId, dateFrom, dateTo, '');
+  const presence = buildLessonPresence(lessonId, dateFrom, dateTo, "");
   presence.StudentRef = buildReference(studentId);
   presence.TypeRef = buildReference(presenceTypeId);
   return presence;
@@ -106,7 +106,7 @@ export function buildLessonPresenceFromTimetableEntry(
   timetableEntry: TimetableEntry,
 ): LessonPresence {
   return {
-    Id: '',
+    Id: "",
     LessonRef: { Id: timetableEntry.Id, HRef: null },
     StudentRef: { Id: 42, HRef: null },
     EventRef: { Id: 0, HRef: null },
@@ -121,8 +121,8 @@ export function buildLessonPresenceFromTimetableEntry(
     Comment: null,
     Date: timetableEntry.From,
     Type: null,
-    StudentFullName: '',
-    StudyClassNumber: '',
+    StudentFullName: "",
+    StudyClassNumber: "",
     TeacherInformation: timetableEntry.EventManagerInformation,
   };
 }
@@ -137,9 +137,9 @@ export function buildLessonAbsence(id: string): LessonAbsence {
     ConfirmationState: null,
     ConfirmationStateId: 0,
     Comment: null,
-    StudentFullName: 'studentName',
+    StudentFullName: "studentName",
     RegistrationId: 0,
-    HRef: '',
+    HRef: "",
   };
 }
 
@@ -151,8 +151,8 @@ export function buildLessonDispensation(id: string): LessonDispensation {
     TypeRef: buildReference(),
     Type: null,
     Comment: null,
-    StudentFullName: 'studentName',
-    HRef: '',
+    StudentFullName: "studentName",
+    HRef: "",
   };
 }
 
@@ -162,10 +162,10 @@ export function buildLessonIncident(): LessonIncident {
     StudentRef: buildReference(),
     TypeRef: buildReference(),
     Comment: null,
-    StudentFullName: '',
+    StudentFullName: "",
     Type: null,
     RegistrationId: 0,
-    HRef: '',
+    HRef: "",
   };
 }
 
@@ -184,7 +184,7 @@ export function buildLesson(
     EventRef: buildReference(eventId),
     LessonDateTimeFrom: dateFrom,
     LessonDateTimeTo: dateTo,
-    StudyClassNumber: studyClassNumber || '9a',
+    StudyClassNumber: studyClassNumber || "9a",
     TeacherInformation: teacherInformation,
   };
 }
@@ -212,7 +212,7 @@ export function buildPresenceType(
     // TypeId: id * 10,
     Active: true,
     // Description: '',
-    Designation: '',
+    Designation: "",
     IsAbsence: isAbsence,
     IsComment: isComment,
     IsDispensation: false,
@@ -228,7 +228,7 @@ export function buildLessonPresenceStatistic(
 ): LessonPresenceStatistic {
   return {
     StudentRef: buildReference(studentId),
-    StudentFullName: 'Bachofner Roman',
+    StudentFullName: "Bachofner Roman",
     TotalAbsences: 0,
     TotalAbsencesUnconfirmed: 0,
     TotalAbsencesValidExcuse: 0,
@@ -243,18 +243,18 @@ export function buildLessonPresenceStatistic(
 export function buildStudent(id: number): Student {
   return {
     Id: id,
-    AddressLine1: '',
+    AddressLine1: "",
     AddressLine2: null,
-    Birthdate: new Date('2002-07-10T00:00:00'),
-    DisplayEmail: '',
+    Birthdate: new Date("2002-07-10T00:00:00"),
+    DisplayEmail: "",
     // FirstName: '',
-    FullName: 'T. Tux',
-    Gender: 'F',
+    FullName: "T. Tux",
+    Gender: "F",
     // LastName: '',
-    Location: '',
-    PhoneMobile: '',
-    PhonePrivate: '',
-    PostalCode: '',
+    Location: "",
+    PhoneMobile: "",
+    PhonePrivate: "",
+    PostalCode: "",
     // HRef: ''
   };
 }
@@ -302,11 +302,11 @@ export function buildLegalRepresentative(
 export function buildApprenticeshipManager(id: number): ApprenticeshipManager {
   return {
     // HRef: '',
-    Email: '',
+    Email: "",
     Email2: null,
     PhoneBusiness: null,
     // PhoneMobile: null,
-    CompanyName: '',
+    CompanyName: "",
     CompanyNameAddition: null,
     Firstname: null,
     // MiddleName: null,
@@ -315,8 +315,8 @@ export function buildApprenticeshipManager(id: number): ApprenticeshipManager {
     // Gender: 'X',
     AddressLine1: undefined,
     AddressLine2: undefined,
-    PostalCode: '',
-    Location: '',
+    PostalCode: "",
+    Location: "",
     // Country: null,
     // CountryId: '',
     // CorrespondenceAddress: null,
@@ -332,9 +332,9 @@ export function buildJobTrainer(id: number): JobTrainer {
     Email2: null,
     PhoneBusiness: null,
     PhoneMobile: null,
-    Firstname: '',
+    Firstname: "",
     // MiddleName: null,
-    Lastname: '',
+    Lastname: "",
     // FormOfAddress: null,
     // Gender: 'X',
     // AddressLine1: undefined,
@@ -350,16 +350,16 @@ export function buildJobTrainer(id: number): JobTrainer {
 }
 
 export function buildPayLoad(
-  personId = '2431',
-  instanceId = 'GYmTEST',
+  personId = "2431",
+  instanceId = "GYmTEST",
 ): TokenPayload {
   return {
-    culture_info: 'de-CH',
-    fullname: 'Test Rudy',
+    culture_info: "de-CH",
+    fullname: "Test Rudy",
     id_person: personId,
-    holder_id: '',
+    holder_id: "",
     instance_id: instanceId,
-    roles: 'LessonTeacherRole;ClassTeacherRole',
+    roles: "LessonTeacherRole;ClassTeacherRole",
     substitution_id: undefined,
   };
 }
@@ -369,7 +369,7 @@ export function buildPerson(id: number): Person {
     Id: id,
     // Country: '',
     // CountryId: '',
-    FormOfAddress: 'Frau',
+    FormOfAddress: "Frau",
     // FormOfAddressId: 1,
     // HomeCountry: null,
     // HomeCountryId: null,
@@ -377,19 +377,19 @@ export function buildPerson(id: number): Person {
     // NationalityId: null,
     AddressLine1: null,
     AddressLine2: null,
-    BillingAddress: '',
+    BillingAddress: "",
     Birthdate: null,
-    CorrespondenceAddress: '',
+    CorrespondenceAddress: "",
     DisplayEmail: null,
     Email: null,
     Email2: null,
-    FirstName: '',
-    Gender: 'X',
+    FirstName: "",
+    Gender: "X",
     HomeTown: null,
     // IsEditable: false,
     // IsEmployee: false,
-    LastName: '',
-    FullName: '',
+    LastName: "",
+    FullName: "",
     Location: null,
     // MatriculationNumber: null,
     MiddleName: null,
@@ -442,10 +442,10 @@ export function buildApprenticeshipManagerWithEmails(
 }
 
 export function buildUserSettings(
-  settings: UserSettings['Settings'] = [],
+  settings: UserSettings["Settings"] = [],
 ): UserSettings {
   return {
-    Id: 'Cst',
+    Id: "Cst",
     Settings: settings,
   };
 }
@@ -457,7 +457,7 @@ export function buildUserSettingsWithNotificationSetting(
 ): UserSettings {
   const setting = buildUserSettings();
   const notification = {
-    Key: 'notification',
+    Key: "notification",
     Value: JSON.stringify({ mail, gui, phoneMobile }),
   };
   return { ...setting, Settings: [notification] };
@@ -470,7 +470,7 @@ export function buildUserSettingsWithNotificationData(
 ): UserSettings {
   const setting = buildUserSettings();
   const notification = {
-    Key: 'notificationData',
+    Key: "notificationData",
     Value: JSON.stringify([{ id, subject, body }]),
   };
   return { ...setting, Settings: [notification] };
@@ -481,16 +481,16 @@ export function buildSubscriptionDetail(
   value?: string,
 ): SubscriptionDetail {
   return {
-    Id: '1',
+    Id: "1",
     SubscriptionId: 1,
     IdPerson: 1,
     VssId: vssId,
-    Value: value || '',
+    Value: value || "",
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: [
-      { Key: 1, Value: 'item 1' },
-      { Key: '2', Value: 'item 2' },
+      { Key: 1, Value: "item 1" },
+      { Key: "2", Value: "item 2" },
     ],
   };
 }
@@ -502,10 +502,10 @@ export function buildIdSubscription(
 ): IdSubscription {
   return {
     Id: id,
-    CurrentWorkProgressId: 'current-work-progress-id',
+    CurrentWorkProgressId: "current-work-progress-id",
     EventId: eventId,
     PersonId: personId,
-    Status: 'closed',
+    Status: "closed",
     StatusId: null,
     IsOkay: null,
     IsQueued: null,
@@ -536,9 +536,9 @@ export function buildIdSubscription(
 export function buildStudyClass(id: number, designation?: string): StudyClass {
   return {
     Id: id,
-    Designation: designation || '22a',
+    Designation: designation || "22a",
     StudentCount: 0,
-    Number: designation || '22a',
+    Number: designation || "22a",
   };
 }
 
@@ -551,18 +551,18 @@ export function buildCourse(
   statusId?: number,
 ): Course {
   return {
-    HRef: '',
+    HRef: "",
     Id: id,
-    Number: '1',
-    Designation: designation || 'Physik-22a',
+    Number: "1",
+    Designation: designation || "Physik-22a",
     // HostId: t.string,
     // Host: t.string,
     // Management: t.string,
     // MaxParticipants: t.number,
     // MinParticipants: t.number,
     // Weekday: t.string,
-    DateFrom: new Date('2022-02-09T00:00:00'),
-    DateTo: new Date('2022-06-30T00:00:00'),
+    DateFrom: new Date("2022-02-09T00:00:00"),
+    DateTo: new Date("2022-06-30T00:00:00"),
     // LessonFrequency: t.number,
     // Location: t.string,
     // TimeFrom: LocalDateTimeFromString,
@@ -605,17 +605,17 @@ export function buildTimetableEntry(
     From: from,
     To: to,
     EventId: 0,
-    EventNumber: '',
-    EventDesignation: '',
-    EventManagerInformation: '',
-    EventLocation: '',
+    EventNumber: "",
+    EventDesignation: "",
+    EventManagerInformation: "",
+    EventLocation: "",
   };
 }
 
 export function buildEvent(id: number): Event {
   return {
-    Designation: 'Französisch-S2, 24a',
-    detailLink: '',
+    Designation: "Französisch-S2, 24a",
+    detailLink: "",
     id: id,
     state: EventState.Tests,
     studentCount: 33,
@@ -630,7 +630,7 @@ export function buildTest(
   return {
     Id: testId,
     CourseId: courseId,
-    Date: new Date('2022-02-09T00:00:00'),
+    Date: new Date("2022-02-09T00:00:00"),
     Designation: `Test Designation for test with id ${testId}`,
     Weight: 2,
     WeightPercent: 50,
@@ -640,9 +640,9 @@ export function buildTest(
     IsPublished: false,
     IsOwner: true,
     Owner: null,
-    Creation: '2022-02-14T16:58:18.89',
+    Creation: "2022-02-14T16:58:18.89",
     GradingScaleId: 1106,
-    GradingScale: 'Zehntelnoten bes. disp. keine Note',
+    GradingScale: "Zehntelnoten bes. disp. keine Note",
     Results: results,
   };
 }
@@ -657,7 +657,7 @@ export function buildResult(
     CourseRegistrationId: courseRegistrationId,
     GradeId: 2349,
     GradeValue: 3.7,
-    GradeDesignation: '3.7',
+    GradeDesignation: "3.7",
     Points: null,
     StudentId: studentId,
     Id: `${testId}_${courseRegistrationId}`,
@@ -672,25 +672,25 @@ export function buildGrading(
   return {
     AverageTestResult: averageGrade,
     CanGrade: false,
-    EventDesignation: 'Französisch-S2',
+    EventDesignation: "Französisch-S2",
     EventId: 9248,
-    EventNumber: '4-2-F-S2-GYM22-22a',
+    EventNumber: "4-2-F-S2-GYM22-22a",
     GradeComment: null,
     GradeId: gradeId,
     GradeValue: null,
     // HRef: '/restApi/Gradings/126885',
     Id: 126885,
-    StudentFullName: 'Michel Franziska',
+    StudentFullName: "Michel Franziska",
     StudentId: studentId,
     StudentMatriculationNumber: null,
-    StudentNameTooltip: 'Michel Franziska',
+    StudentNameTooltip: "Michel Franziska",
   };
 }
 
 export function buildGradingScale(id: number, grades: Grade[] = []) {
   return {
     Id: id,
-    Designation: 'Zehntelnoten bes. disp. keine Note',
+    Designation: "Zehntelnoten bes. disp. keine Note",
     MinGrade: 0.0,
     MaxGrade: 0.0,
     CommentsAllowed: false,
@@ -699,20 +699,20 @@ export function buildGradingScale(id: number, grades: Grade[] = []) {
     Grades: grades,
     IdObject: 1106,
     FreeGrading: false,
-    HRef: '/restApi/GradingScales/1106',
+    HRef: "/restApi/GradingScales/1106",
   };
 }
 
 export function buildFinalGrading(id: number): FinalGrading {
   return {
     EventId: 9457,
-    EventDesignation: 'Französisch-S2',
-    EventNumber: '1-2-F-S2-GYM22-25a',
+    EventDesignation: "Französisch-S2",
+    EventNumber: "1-2-F-S2-GYM22-25a",
     StudentId: 6231,
     StudentMatriculationNumber: null,
-    StudentFullName: 'Scheidegger Mona',
-    StudentNameTooltip: 'Scheidegger Mona',
-    Grade: '4.5',
+    StudentFullName: "Scheidegger Mona",
+    StudentNameTooltip: "Scheidegger Mona",
+    Grade: "4.5",
     GradeValue: 4.5,
     AverageTestResult: 4.512,
     IsAdequate: true,

@@ -5,14 +5,14 @@ import {
   OnDestroy,
   ViewChild,
   ViewEncapsulation,
-} from '@angular/core';
+} from "@angular/core";
 import {
   BehaviorSubject,
   interval,
   Observable,
   Subject,
   throwError,
-} from 'rxjs';
+} from "rxjs";
 import {
   catchError,
   shareReplay,
@@ -20,23 +20,23 @@ import {
   switchMap,
   takeUntil,
   withLatestFrom,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 import {
   NotificationData,
   NotificationDataEntry,
-} from 'src/app/shared/models/user-settings.model';
-import { SETTINGS, Settings } from 'src/app/settings';
-import { HttpErrorResponse } from '@angular/common/http';
-import { I18nService } from 'src/app/shared/services/i18n.service';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+} from "src/app/shared/models/user-settings.model";
+import { SETTINGS, Settings } from "src/app/settings";
+import { HttpErrorResponse } from "@angular/common/http";
+import { I18nService } from "src/app/shared/services/i18n.service";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 
 @Component({
-  templateUrl: './my-notifications-show.component.html',
-  styleUrls: ['./my-notifications-show.component.scss'],
+  templateUrl: "./my-notifications-show.component.html",
+  styleUrls: ["./my-notifications-show.component.scss"],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class MyNotificationsShowComponent implements OnDestroy {
-  @ViewChild('notificationspopup') popup: ElementRef<HTMLElement>;
+  @ViewChild("notificationspopup") popup: ElementRef<HTMLElement>;
 
   notifications$ = this.loadNotifications().pipe(shareReplay());
   isAuthenticated$ = new BehaviorSubject(false);
@@ -54,9 +54,9 @@ export class MyNotificationsShowComponent implements OnDestroy {
   public xssOptions = {
     whiteList: {
       br: [],
-      div: ['style'],
-      span: ['style'],
-      a: ['href'],
+      div: ["style"],
+      span: ["style"],
+      a: ["href"],
       ul: [],
       ol: [],
       li: [],
@@ -85,10 +85,10 @@ export class MyNotificationsShowComponent implements OnDestroy {
       .pipe(withLatestFrom(this.isAuthenticated$), takeUntil(this.destroy$))
       .subscribe(([el, a]) => {
         if (el && a === true) {
-          if (el.style.display === 'block') {
-            el.style.display = 'none';
+          if (el.style.display === "block") {
+            el.style.display = "none";
           } else {
-            el.style.display = 'block';
+            el.style.display = "block";
           }
         }
       });

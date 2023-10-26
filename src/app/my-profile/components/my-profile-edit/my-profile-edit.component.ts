@@ -1,24 +1,24 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
-import { map, take, switchMap, finalize, shareReplay } from 'rxjs/operators';
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject } from "rxjs";
+import { map, take, switchMap, finalize, shareReplay } from "rxjs/operators";
 
-import { Person } from 'src/app/shared/models/person.model';
-import { MyProfileService } from '../../services/my-profile.service';
-import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
-import { getValidationErrors } from 'src/app/shared/utils/form';
-import { ToastService } from '../../../shared/services/toast.service';
+import { Person } from "src/app/shared/models/person.model";
+import { MyProfileService } from "../../services/my-profile.service";
+import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
+import { getValidationErrors } from "src/app/shared/utils/form";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Component({
-  selector: 'erz-my-profile-edit',
-  templateUrl: './my-profile-edit.component.html',
-  styleUrls: ['./my-profile-edit.component.scss'],
+  selector: "erz-my-profile-edit",
+  templateUrl: "./my-profile-edit.component.html",
+  styleUrls: ["./my-profile-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileEditComponent {
@@ -34,7 +34,7 @@ export class MyProfileEditComponent {
   email2Errors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'email2',
+    "email2",
   );
 
   constructor(
@@ -97,12 +97,12 @@ export class MyProfileEditComponent {
   private onSaveSuccess(): void {
     this.profileService.reset(); // Ensure the profile will be reloaded
     this.toastService.success(
-      this.translate.instant('my-profile.edit.save-success'),
+      this.translate.instant("my-profile.edit.save-success"),
     );
     this.navigateBack();
   }
 
   private navigateBack(): void {
-    this.router.navigate(['/my-profile']);
+    this.router.navigate(["/my-profile"]);
   }
 }

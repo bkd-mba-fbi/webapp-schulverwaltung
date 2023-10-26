@@ -1,13 +1,13 @@
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import * as t from 'io-ts/lib/index';
-import { buildLesson, buildSubscriptionDetail } from '../../../spec-builders';
-import { buildTestModuleMetadata } from '../../../spec-helpers';
-import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
-import { fromLesson, LessonEntry } from '../models/lesson-entry.model';
-import { PresenceControlGroupService } from './presence-control-group.service';
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import * as t from "io-ts/lib/index";
+import { buildLesson, buildSubscriptionDetail } from "../../../spec-builders";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
+import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
+import { fromLesson, LessonEntry } from "../models/lesson-entry.model";
+import { PresenceControlGroupService } from "./presence-control-group.service";
 
-describe('PresenceControlGroupService', () => {
+describe("PresenceControlGroupService", () => {
   let service: PresenceControlGroupService;
   let httpTestingController: HttpTestingController;
 
@@ -25,22 +25,22 @@ describe('PresenceControlGroupService', () => {
     httpTestingController.verify();
   });
 
-  describe('groupsAvailability$', () => {
+  describe("groupsAvailability$", () => {
     beforeEach(() => {
       selectedLesson = fromLesson(
         buildLesson(
           2,
           new Date(2000, 0, 23, 8, 0),
           new Date(2000, 0, 23, 9, 0),
-          'Deutsch',
-          'Dora Durrer',
+          "Deutsch",
+          "Dora Durrer",
           undefined,
           333,
         ),
       );
     });
 
-    it('returns true if the selected lesson has groups available', () => {
+    it("returns true if the selected lesson has groups available", () => {
       service.groupsAvailability$.subscribe((result) =>
         expect(result).toBeTruthy(),
       );
@@ -52,7 +52,7 @@ describe('PresenceControlGroupService', () => {
       ]);
     });
 
-    it('returns false if the selected lesson does not have groups available', () => {
+    it("returns false if the selected lesson does not have groups available", () => {
       service.groupsAvailability$.subscribe((result) =>
         expect(result).toBeFalsy(),
       );

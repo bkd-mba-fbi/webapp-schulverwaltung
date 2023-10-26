@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { DashboardService } from './dashboard.service';
-import { buildTestModuleMetadata } from '../../../spec-helpers';
-import { StorageService } from '../../shared/services/storage.service';
+import { DashboardService } from "./dashboard.service";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
+import { StorageService } from "../../shared/services/storage.service";
 
-describe('DashboardService', () => {
+describe("DashboardService", () => {
   let service: DashboardService;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('DashboardService', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { id_person: '123' };
+                return { id_person: "123" };
               },
             },
           },
@@ -26,7 +26,7 @@ describe('DashboardService', () => {
     service = TestBed.inject(DashboardService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

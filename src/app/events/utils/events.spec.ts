@@ -1,10 +1,10 @@
-import { canSetFinalGrade, getEventState, isRated } from './events';
-import { buildCourse, buildFinalGrading } from '../../../spec-builders';
-import { EventState } from '../services/events-state.service';
-import { EvaluationStatusRef } from 'src/app/shared/models/course.model';
+import { canSetFinalGrade, getEventState, isRated } from "./events";
+import { buildCourse, buildFinalGrading } from "../../../spec-builders";
+import { EventState } from "../services/events-state.service";
+import { EvaluationStatusRef } from "src/app/shared/models/course.model";
 
-describe('Course utils', () => {
-  describe('Get course state', () => {
+describe("Course utils", () => {
+  describe("Get course state", () => {
     beforeEach(() => {
       jasmine.clock().install();
       jasmine.clock().mockDate(new Date(2022, 1, 3));
@@ -14,7 +14,7 @@ describe('Course utils', () => {
       jasmine.clock().uninstall();
     });
 
-    it('should get no state', () => {
+    it("should get no state", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
@@ -26,7 +26,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -35,7 +35,7 @@ describe('Course utils', () => {
       expect(getEventState(course)).toEqual(null);
     });
 
-    it('should get state add-tests', () => {
+    it("should get state add-tests", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
@@ -47,7 +47,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in state add-tests',
+        "Course in state add-tests",
         undefined,
         evaluationStatusRef,
       );
@@ -58,7 +58,7 @@ describe('Course utils', () => {
       });
     });
 
-    it('should get state rating-until', () => {
+    it("should get state rating-until", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
@@ -69,7 +69,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in state rating-until',
+        "Course in state rating-until",
         undefined,
         evaluationStatusRef,
       );
@@ -80,7 +80,7 @@ describe('Course utils', () => {
       });
     });
 
-    it('should get state intermediate-rating', () => {
+    it("should get state intermediate-rating", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
@@ -91,7 +91,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in state intermediate-rating',
+        "Course in state intermediate-rating",
         undefined,
         evaluationStatusRef,
         undefined,
@@ -105,8 +105,8 @@ describe('Course utils', () => {
     });
   });
 
-  describe('Course has final grading enabled', () => {
-    it('should return false when HasEvaluationStarted is false and EvaluationUntil is null', () => {
+  describe("Course has final grading enabled", () => {
+    it("should return false when HasEvaluationStarted is false and EvaluationUntil is null", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
@@ -118,7 +118,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -127,7 +127,7 @@ describe('Course utils', () => {
       expect(canSetFinalGrade(course)).toEqual(false);
     });
 
-    it('should return false when HasEvaluationStarted is false and EvaluationUntil is undefined', () => {
+    it("should return false when HasEvaluationStarted is false and EvaluationUntil is undefined", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
@@ -139,7 +139,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -148,7 +148,7 @@ describe('Course utils', () => {
       expect(canSetFinalGrade(course)).toEqual(false);
     });
 
-    it('should return true when evaluation has started and EvaluationUntil is undefined', () => {
+    it("should return true when evaluation has started and EvaluationUntil is undefined", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
@@ -160,7 +160,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -169,7 +169,7 @@ describe('Course utils', () => {
       expect(canSetFinalGrade(course)).toEqual(true);
     });
 
-    it('should return true when evaluation has started and EvaluationUntil is null', () => {
+    it("should return true when evaluation has started and EvaluationUntil is null", () => {
       // given
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
@@ -181,7 +181,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -190,7 +190,7 @@ describe('Course utils', () => {
       expect(canSetFinalGrade(course)).toEqual(true);
     });
 
-    it('should return false when evaluation has started and EvaluationUntil is in the past', () => {
+    it("should return false when evaluation has started and EvaluationUntil is in the past", () => {
       // given
       jasmine.clock().install();
       jasmine.clock().mockDate(new Date(2022, 1, 8));
@@ -207,7 +207,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -217,7 +217,7 @@ describe('Course utils', () => {
       jasmine.clock().uninstall();
     });
 
-    it('should return true when evaluation has started and EvaluationUntil is in the future', () => {
+    it("should return true when evaluation has started and EvaluationUntil is in the future", () => {
       // given
       jasmine.clock().install();
       jasmine.clock().mockDate(new Date(2022, 1, 1));
@@ -233,7 +233,7 @@ describe('Course utils', () => {
 
       const course = buildCourse(
         1234,
-        'Course in no state',
+        "Course in no state",
         undefined,
         evaluationStatusRef,
       );
@@ -245,15 +245,15 @@ describe('Course utils', () => {
     });
   });
 
-  describe('is course rated', () => {
-    it('should return true if review of evaluation has started and final grades are set', () => {
+  describe("is course rated", () => {
+    it("should return true if review of evaluation has started and final grades are set", () => {
       // given
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
       const course = buildCourse(
         1,
-        'rated course',
+        "rated course",
         undefined,
         evaluationStatusRef,
       );
@@ -263,14 +263,14 @@ describe('Course utils', () => {
       expect(isRated(course)).toBeTrue();
     });
 
-    it('should return false if final grades are null', () => {
+    it("should return false if final grades are null", () => {
       // given
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
       const course = buildCourse(
         1,
-        'rated course',
+        "rated course",
         undefined,
         evaluationStatusRef,
       );
@@ -280,14 +280,14 @@ describe('Course utils', () => {
       expect(isRated(course)).toBeFalse();
     });
 
-    it('should return false if final grades are emtpy', () => {
+    it("should return false if final grades are emtpy", () => {
       // given
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
       const course = buildCourse(
         1,
-        'rated course',
+        "rated course",
         undefined,
         evaluationStatusRef,
       );
@@ -297,14 +297,14 @@ describe('Course utils', () => {
       expect(isRated(course)).toBeFalse();
     });
 
-    it('should return false if review of evaluation has not started', () => {
+    it("should return false if review of evaluation has not started", () => {
       // given
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: false,
       } as unknown as EvaluationStatusRef;
       const course = buildCourse(
         1,
-        'rated course',
+        "rated course",
         undefined,
         evaluationStatusRef,
       );

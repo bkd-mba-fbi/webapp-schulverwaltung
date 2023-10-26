@@ -1,11 +1,11 @@
-import { Lesson } from '../../shared/models/lesson.model';
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { PresenceControlEntry } from '../models/presence-control-entry.model';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { DropDownItem } from '../../shared/models/drop-down-item.model';
-import { LessonEntry } from '../models/lesson-entry.model';
-import { LessonAbsence } from '../../shared/models/lesson-absence.model';
-import { uniqBy } from 'lodash-es';
+import { Lesson } from "../../shared/models/lesson.model";
+import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { PresenceControlEntry } from "../models/presence-control-entry.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { DropDownItem } from "../../shared/models/drop-down-item.model";
+import { LessonEntry } from "../models/lesson-entry.model";
+import { LessonAbsence } from "../../shared/models/lesson-absence.model";
+import { uniqBy } from "lodash-es";
 
 export function lessonsEqual(
   a: Option<Lesson | LessonPresence>,
@@ -79,7 +79,7 @@ function getPrecedingAbsences(
           lesson?.LessonDateTimeFrom.toDateString() &&
         absence.LessonRef.From < lesson?.LessonDateTimeFrom,
     ),
-    'Id',
+    "Id",
   ).sort(lessonAbsenceTimeComparator);
 }
 

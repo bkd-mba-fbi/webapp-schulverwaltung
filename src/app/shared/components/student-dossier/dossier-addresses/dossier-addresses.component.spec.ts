@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { BehaviorSubject, of } from "rxjs";
 import {
   DossierPage,
   DossierStateService,
-} from 'src/app/shared/services/dossier-state.service';
-import { buildStudent } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentDossierAddressComponent } from '../student-dossier-address/student-dossier-address.component';
-import { StudentDossierEntryHeaderComponent } from '../student-dossier-entry-header/student-dossier-entry-header.component';
-import { StudentDossierApprenticeshipCompanyComponent } from '../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component';
-import { StudentDossierLegalRepresentativeComponent } from '../student-dossier-legal-representative/student-dossier-legal-representative.component';
-import { DossierAddressesComponent } from './dossier-addresses.component';
+} from "src/app/shared/services/dossier-state.service";
+import { buildStudent } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentDossierAddressComponent } from "../student-dossier-address/student-dossier-address.component";
+import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
+import { StudentDossierApprenticeshipCompanyComponent } from "../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
+import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-legal-representative/student-dossier-legal-representative.component";
+import { DossierAddressesComponent } from "./dossier-addresses.component";
 
-describe('DossierAddressesComponent', () => {
+describe("DossierAddressesComponent", () => {
   let component: DossierAddressesComponent;
   let fixture: ComponentFixture<DossierAddressesComponent>;
   let stateServiceMock: DossierStateService;
   let currentDossier$: BehaviorSubject<DossierPage>;
 
   beforeEach(async () => {
-    currentDossier$ = new BehaviorSubject<DossierPage>('addresses');
+    currentDossier$ = new BehaviorSubject<DossierPage>("addresses");
 
     stateServiceMock = {
       profile$: of({
@@ -52,7 +52,7 @@ describe('DossierAddressesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

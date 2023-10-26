@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MyGradesHeaderComponent } from './my-grades-header.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { MyGradesService } from '../../services/my-grades.service';
-import { of } from 'rxjs';
+import { MyGradesHeaderComponent } from "./my-grades-header.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { MyGradesService } from "../../services/my-grades.service";
+import { of } from "rxjs";
 
-describe('MyGradesHeaderComponent', () => {
+describe("MyGradesHeaderComponent", () => {
   let component: MyGradesHeaderComponent;
   let fixture: ComponentFixture<MyGradesHeaderComponent>;
 
@@ -32,7 +32,7 @@ describe('MyGradesHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

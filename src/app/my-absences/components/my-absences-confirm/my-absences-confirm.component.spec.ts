@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { of } from "rxjs";
 
-import { MyAbsencesConfirmComponent } from './my-absences-confirm.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MyAbsencesService } from '../../services/my-absences.service';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { MyAbsencesConfirmComponent } from "./my-absences-confirm.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyAbsencesService } from "../../services/my-absences.service";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 
-describe('MyAbsencesConfirmComponent', () => {
+describe("MyAbsencesConfirmComponent", () => {
   let component: MyAbsencesConfirmComponent;
   let fixture: ComponentFixture<MyAbsencesConfirmComponent>;
 
@@ -39,7 +39,7 @@ describe('MyAbsencesConfirmComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

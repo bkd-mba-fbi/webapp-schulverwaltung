@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { Injectable } from '@angular/core';
+import { TestBed } from "@angular/core/testing";
+import { Injectable } from "@angular/core";
 
-import { SelectionService } from './selection.service';
+import { SelectionService } from "./selection.service";
 
-describe('SelectionService', () => {
+describe("SelectionService", () => {
   let service: FooService;
   let selectionCallback: jasmine.Spy;
   const item1: Foo = { id: 1 };
@@ -21,16 +21,16 @@ describe('SelectionService', () => {
     TestBed.configureTestingModule({ providers: [FooService] });
     service = TestBed.inject(FooService);
 
-    selectionCallback = jasmine.createSpy('selection$');
+    selectionCallback = jasmine.createSpy("selection$");
     service.selection$.subscribe(selectionCallback);
   });
 
-  it('initially emits an empty array', () => {
+  it("initially emits an empty array", () => {
     expect(selectionCallback).toHaveBeenCalledWith([]);
   });
 
-  describe('.toggle', () => {
-    it('adds item to selection if not already selected, removes it otherwise', () => {
+  describe(".toggle", () => {
+    it("adds item to selection if not already selected, removes it otherwise", () => {
       service.toggle(item1);
       expect(selectionCallback).toHaveBeenCalledWith([item1]);
 
@@ -42,8 +42,8 @@ describe('SelectionService', () => {
     });
   });
 
-  describe('.clear', () => {
-    it('it clears the current selection', () => {
+  describe(".clear", () => {
+    it("it clears the current selection", () => {
       service.toggle(item1);
       service.toggle(item2);
       selectionCallback.calls.reset();
@@ -52,7 +52,7 @@ describe('SelectionService', () => {
       expect(selectionCallback).toHaveBeenCalledWith([]);
     });
 
-    it('resets the selection to the given items', () => {
+    it("resets the selection to the given items", () => {
       service.toggle(item1);
       service.toggle(item2);
       selectionCallback.calls.reset();
@@ -62,12 +62,12 @@ describe('SelectionService', () => {
     });
   });
 
-  describe('.isSelected$', () => {
-    it('emits true if item gets selected, false if it gets unselected', () => {
-      const isSelected1Callback = jasmine.createSpy('isSelected$ 1');
+  describe(".isSelected$", () => {
+    it("emits true if item gets selected, false if it gets unselected", () => {
+      const isSelected1Callback = jasmine.createSpy("isSelected$ 1");
       service.isSelected$(item1).subscribe(isSelected1Callback);
 
-      const isSelected2Callback = jasmine.createSpy('isSelected$ 2');
+      const isSelected2Callback = jasmine.createSpy("isSelected$ 2");
       service.isSelected$(item2).subscribe(isSelected2Callback);
 
       expect(isSelected1Callback).toHaveBeenCalledWith(false);

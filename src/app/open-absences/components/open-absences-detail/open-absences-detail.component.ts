@@ -4,24 +4,24 @@ import {
   Component,
   OnDestroy,
   OnInit,
-} from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { combineLatest, EMPTY, Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
-import { not } from 'fp-ts/es6/Predicate';
+} from "@angular/core";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { combineLatest, EMPTY, Observable, Subject } from "rxjs";
+import { filter, map, switchMap, take, takeUntil } from "rxjs/operators";
+import { not } from "fp-ts/es6/Predicate";
 
-import { OpenAbsencesService } from '../../services/open-absences.service';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { isTruthy, longerOrEqual } from 'src/app/shared/utils/filter';
-import { PresenceTypesService } from '../../../shared/services/presence-types.service';
-import { PersonsRestService } from '../../../shared/services/persons-rest.service';
+import { OpenAbsencesService } from "../../services/open-absences.service";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { isTruthy, longerOrEqual } from "src/app/shared/utils/filter";
+import { PresenceTypesService } from "../../../shared/services/presence-types.service";
+import { PersonsRestService } from "../../../shared/services/persons-rest.service";
 
 @Component({
-  selector: 'erz-open-absences-detail',
-  templateUrl: './open-absences-detail.component.html',
-  styleUrls: ['./open-absences-detail.component.scss'],
+  selector: "erz-open-absences-detail",
+  templateUrl: "./open-absences-detail.component.html",
+  styleUrls: ["./open-absences-detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesDetailComponent
@@ -78,15 +78,15 @@ export class OpenAbsencesDetailComponent
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(
       (params) =>
         (this.openAbsencesService.currentDetail = {
-          date: String(params.get('date')),
-          personId: Number(params.get('personId')),
+          date: String(params.get("date")),
+          personId: Number(params.get("personId")),
         }),
     );
 
     // If there are no entries, return to main list
     this.hasAbsences$
       .pipe(takeUntil(this.destroy$), filter(not(isTruthy)))
-      .subscribe(() => this.router.navigate(['/open-absences']));
+      .subscribe(() => this.router.navigate(["/open-absences"]));
   }
 
   ngAfterViewInit(): void {
@@ -131,8 +131,8 @@ export class OpenAbsencesDetailComponent
     params: ParamMap,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.openAbsencesService.getUnconfirmedAbsences(
-      String(params.get('date')),
-      Number(params.get('personId')),
+      String(params.get("date")),
+      Number(params.get("personId")),
     );
   }
 
@@ -140,7 +140,7 @@ export class OpenAbsencesDetailComponent
     params: ParamMap,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.openAbsencesService.getAllUnconfirmedAbsencesForStudent(
-      Number(params.get('personId')),
+      Number(params.get("personId")),
     );
   }
 }

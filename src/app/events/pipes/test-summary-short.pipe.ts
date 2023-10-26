@@ -1,9 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Test } from 'src/app/shared/models/test.model';
+import { Pipe, PipeTransform } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { Test } from "src/app/shared/models/test.model";
 
 @Pipe({
-  name: 'testSummaryShort',
+  name: "testSummaryShort",
 })
 export class TestSummaryShortPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
@@ -15,8 +15,8 @@ export class TestSummaryShortPipe implements PipeTransform {
   private getPoints(test: Test): string {
     return test.IsPointGrading
       ? `, ${test.MaxPointsAdjusted ?? test.MaxPoints} ${this.translate.instant(
-          'tests.summary.points',
+          "tests.summary.points",
         )}`
-      : '';
+      : "";
   }
 }

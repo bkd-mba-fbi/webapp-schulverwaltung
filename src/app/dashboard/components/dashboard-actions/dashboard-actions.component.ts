@@ -1,11 +1,11 @@
-import { Component, Inject } from '@angular/core';
-import { Settings, SETTINGS } from '../../../settings';
-import { DashboardService } from '../../services/dashboard.service';
+import { Component, Inject } from "@angular/core";
+import { Settings, SETTINGS } from "../../../settings";
+import { DashboardService } from "../../services/dashboard.service";
 
 @Component({
-  selector: 'erz-dashboard-actions',
-  templateUrl: './dashboard-actions.component.html',
-  styleUrls: ['./dashboard-actions.component.scss'],
+  selector: "erz-dashboard-actions",
+  templateUrl: "./dashboard-actions.component.html",
+  styleUrls: ["./dashboard-actions.component.scss"],
 })
 export class DashboardActionsComponent {
   constructor(

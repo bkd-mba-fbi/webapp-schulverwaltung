@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { buildTest } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTest } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { TestTableHeaderComponent } from './test-table-header.component';
+import { TestTableHeaderComponent } from "./test-table-header.component";
 
-describe('TestTableHeaderComponent', () => {
+describe("TestTableHeaderComponent", () => {
   let component: TestTableHeaderComponent;
   let fixture: ComponentFixture<TestTableHeaderComponent>;
 
@@ -24,7 +24,7 @@ describe('TestTableHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

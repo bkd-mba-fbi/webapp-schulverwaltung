@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { MyAbsencesReportHeaderComponent } from './my-absences-report-header.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { MyAbsencesReportHeaderComponent } from "./my-absences-report-header.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('MyAbsencesReportHeaderComponent', () => {
+describe("MyAbsencesReportHeaderComponent", () => {
   let component: MyAbsencesReportHeaderComponent;
   let fixture: ComponentFixture<MyAbsencesReportHeaderComponent>;
 
@@ -21,7 +21,7 @@ describe('MyAbsencesReportHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

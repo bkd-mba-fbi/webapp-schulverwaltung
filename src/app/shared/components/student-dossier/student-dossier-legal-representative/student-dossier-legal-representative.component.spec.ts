@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentDossierLegalRepresentativeComponent } from './student-dossier-legal-representative.component';
-import { buildPerson } from 'src/spec-builders';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentDossierLegalRepresentativeComponent } from "./student-dossier-legal-representative.component";
+import { buildPerson } from "src/spec-builders";
 
-describe('StudentDossierLegalRepresentativeComponent', () => {
+describe("StudentDossierLegalRepresentativeComponent", () => {
   let component: StudentDossierLegalRepresentativeComponent;
   let fixture: ComponentFixture<StudentDossierLegalRepresentativeComponent>;
 
@@ -25,7 +25,7 @@ describe('StudentDossierLegalRepresentativeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

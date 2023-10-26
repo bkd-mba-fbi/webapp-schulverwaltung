@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { buildTest } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildTest } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { DossierGradesEditComponent } from './dossier-grades-edit.component';
+import { DossierGradesEditComponent } from "./dossier-grades-edit.component";
 
-describe('DossierGradesEditComponent', () => {
+describe("DossierGradesEditComponent", () => {
   let component: DossierGradesEditComponent;
   let fixture: ComponentFixture<DossierGradesEditComponent>;
 
@@ -23,12 +23,12 @@ describe('DossierGradesEditComponent', () => {
     component = fixture.componentInstance;
     component.test = buildTest(1, 1, []);
     component.gradeId = 1234;
-    component.gradeOptions = [{ Key: 1234, Value: '4.5' }];
+    component.gradeOptions = [{ Key: 1234, Value: "4.5" }];
     component.studentId = 4321;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

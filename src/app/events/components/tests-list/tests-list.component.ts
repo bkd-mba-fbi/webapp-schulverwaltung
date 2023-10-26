@@ -1,22 +1,22 @@
-import { Component, Inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
-import { Test } from 'src/app/shared/models/test.model';
-import { TestStateService } from '../../services/test-state.service';
-import { Settings, SETTINGS } from '../../../settings';
+import { Component, Inject } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { merge, Observable, Subject } from "rxjs";
+import { distinctUntilChanged, map, switchMap, take } from "rxjs/operators";
+import { Test } from "src/app/shared/models/test.model";
+import { TestStateService } from "../../services/test-state.service";
+import { Settings, SETTINGS } from "../../../settings";
 
 @Component({
-  selector: 'erz-tests-list',
-  templateUrl: './tests-list.component.html',
-  styleUrls: ['./tests-list.component.scss'],
+  selector: "erz-tests-list",
+  templateUrl: "./tests-list.component.html",
+  styleUrls: ["./tests-list.component.scss"],
 })
 export class TestsListComponent {
   selectTest$: Subject<number> = new Subject();
 
   testOptions$ = this.state.tests$.pipe(
     map((test) => [
-      { Key: -1, Value: this.translate.instant('tests.grade') },
+      { Key: -1, Value: this.translate.instant("tests.grade") },
       ...test.map((test) => {
         return { Key: test.Id, Value: test.Designation };
       }),
@@ -55,7 +55,7 @@ export class TestsListComponent {
     return this.state.course$.pipe(
       take(1),
       map((course) =>
-        this.settings.eventlist.evaluation.replace(':id', String(course.Id)),
+        this.settings.eventlist.evaluation.replace(":id", String(course.Id)),
       ),
     );
   }

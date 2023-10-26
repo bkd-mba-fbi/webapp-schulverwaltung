@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 
 @Component({
-  selector: 'erz-grade-select',
-  templateUrl: './grade-select.component.html',
-  styleUrls: ['./grade-select.component.scss'],
+  selector: "erz-grade-select",
+  templateUrl: "./grade-select.component.html",
+  styleUrls: ["./grade-select.component.scss"],
 })
 export class GradeSelectComponent {
   @Input() options: DropDownItem[];

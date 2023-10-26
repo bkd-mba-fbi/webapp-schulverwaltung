@@ -1,13 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { isEqual } from 'lodash-es';
+import { TestBed } from "@angular/core/testing";
+import { isEqual } from "lodash-es";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { HttpTestingController } from '@angular/common/http/testing';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
+import { HttpTestingController } from "@angular/common/http/testing";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('LessonPresencesUpdateRestService', () => {
+describe("LessonPresencesUpdateRestService", () => {
   let service: LessonPresencesUpdateRestService;
   let httpTestingController: HttpTestingController;
 
@@ -19,15 +19,15 @@ describe('LessonPresencesUpdateRestService', () => {
 
   afterEach(() => httpTestingController.verify());
 
-  describe('.editLessonPresences', () => {
-    it('executes PUT request with JSON body', () => {
+  describe(".editLessonPresences", () => {
+    it("executes PUT request with JSON body", () => {
       service
         .editLessonPresences([1, 2, 3], [4, 5, 6], 10, 20)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit', {
+      expectRequestWithBody("https://eventotest.api/LessonPresences/Edit", {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
         PresenceTypeId: 10,
@@ -35,14 +35,14 @@ describe('LessonPresencesUpdateRestService', () => {
       });
     });
 
-    it('executes PUT request with JSON body with explicit null values', () => {
+    it("executes PUT request with JSON body with explicit null values", () => {
       service
         .editLessonPresences([1, 2, 3], [4, 5, 6], null, null)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit', {
+      expectRequestWithBody("https://eventotest.api/LessonPresences/Edit", {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
         PresenceTypeId: null,
@@ -50,40 +50,40 @@ describe('LessonPresencesUpdateRestService', () => {
       });
     });
 
-    it('omits PresenceTypeId and ConfirmationValue if not set', () => {
+    it("omits PresenceTypeId and ConfirmationValue if not set", () => {
       service.editLessonPresences([1, 2, 3], [4, 5, 6]).subscribe((result) => {
         expect(result).toBeUndefined();
       });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit', {
+      expectRequestWithBody("https://eventotest.api/LessonPresences/Edit", {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
       });
     });
 
-    it('omits PresenceTypeId and ConfirmationValue if set to undefined', () => {
+    it("omits PresenceTypeId and ConfirmationValue if set to undefined", () => {
       service
         .editLessonPresences([1, 2, 3], [4, 5, 6], undefined, undefined)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Edit', {
+      expectRequestWithBody("https://eventotest.api/LessonPresences/Edit", {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
       });
     });
   });
 
-  describe('.removeLessonPresences', () => {
-    it('executes PUT request with JSON body', () => {
+  describe(".removeLessonPresences", () => {
+    it("executes PUT request with JSON body", () => {
       service
         .removeLessonPresences([1, 2, 3], [4, 5, 6])
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/LessonPresences/Reset', {
+      expectRequestWithBody("https://eventotest.api/LessonPresences/Reset", {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
         WithComment: true,
@@ -91,15 +91,15 @@ describe('LessonPresencesUpdateRestService', () => {
     });
   });
 
-  describe('.confirmLessonPresences', () => {
-    it('executes PUT request with JSON body', () => {
+  describe(".confirmLessonPresences", () => {
+    it("executes PUT request with JSON body", () => {
       service
         .confirmLessonPresences([1, 2, 3], [4, 5, 6], 11, 220)
         .subscribe((result) => {
           expect(result).toBeUndefined();
         });
 
-      expectRequestWithBody('https://eventotest.api/LessonAbsences/Confirm', {
+      expectRequestWithBody("https://eventotest.api/LessonAbsences/Confirm", {
         LessonIds: [1, 2, 3],
         PersonIds: [4, 5, 6],
         AbsenceTypeId: 11,

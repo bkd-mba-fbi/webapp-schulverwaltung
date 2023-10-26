@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import * as t from 'io-ts/lib/index';
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { switchMap } from "rxjs/operators";
+import * as t from "io-ts/lib/index";
 
-import { Settings } from '../../settings';
-import { decode, decodeArray } from '../utils/decode';
+import { Settings } from "../../settings";
+import { decode, decodeArray } from "../utils/decode";
 
 export const enum HTTP_STATUS {
   UNKNOWN = 0,

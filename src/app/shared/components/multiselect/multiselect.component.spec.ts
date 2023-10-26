@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { MultiselectComponent } from './multiselect.component';
+import { MultiselectComponent } from "./multiselect.component";
 
-describe('MultiselectComponent', () => {
+describe("MultiselectComponent", () => {
   let component: MultiselectComponent;
   let fixture: ComponentFixture<MultiselectComponent>;
   // let element: HTMLElement;
@@ -21,12 +21,12 @@ describe('MultiselectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit values', () => {
-    spyOn(component.valuesChange, 'emit');
+  it("should emit values", () => {
+    spyOn(component.valuesChange, "emit");
     component.values = [1, 2];
     component.itemsChanged();
     expect(component.valuesChange.emit).toHaveBeenCalledWith([1, 2]);

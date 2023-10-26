@@ -1,10 +1,10 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { TranslateService } from "@ngx-translate/core";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DaysDifferencePipe } from './days-difference.pipe';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { DaysDifferencePipe } from "./days-difference.pipe";
 
-describe('DaysDifferencePipe', () => {
+describe("DaysDifferencePipe", () => {
   let pipe: DaysDifferencePipe;
 
   beforeEach(waitForAsync(() => {
@@ -21,28 +21,28 @@ describe('DaysDifferencePipe', () => {
 
   afterEach(() => jasmine.clock().uninstall());
 
-  it('it returns key for today', () => {
+  it("it returns key for today", () => {
     const result = pipe.transform(new Date(2000, 0, 23));
-    expect(result).toBe('shared.daysDifference.today');
+    expect(result).toBe("shared.daysDifference.today");
   });
 
-  it('it returns key for tomorrow', () => {
+  it("it returns key for tomorrow", () => {
     const result = pipe.transform(new Date(2000, 0, 24));
-    expect(result).toBe('shared.daysDifference.tomorrow');
+    expect(result).toBe("shared.daysDifference.tomorrow");
   });
 
-  it('it returns key for yesterday', () => {
+  it("it returns key for yesterday", () => {
     const result = pipe.transform(new Date(2000, 0, 22));
-    expect(result).toBe('shared.daysDifference.yesterday');
+    expect(result).toBe("shared.daysDifference.yesterday");
   });
 
-  it('it returns key for past date', () => {
+  it("it returns key for past date", () => {
     const result = pipe.transform(new Date(2000, 0, 1));
-    expect(result).toBe('shared.daysDifference.ago');
+    expect(result).toBe("shared.daysDifference.ago");
   });
 
-  it('it returns key for future date', () => {
+  it("it returns key for future date", () => {
     const result = pipe.transform(new Date(2000, 0, 31));
-    expect(result).toBe('shared.daysDifference.in');
+    expect(result).toBe("shared.daysDifference.in");
   });
 });

@@ -1,10 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Person } from '../../../models/person.model';
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { Person } from "../../../models/person.model";
 
 @Component({
-  selector: 'erz-student-dossier-legal-representative',
-  templateUrl: './student-dossier-legal-representative.component.html',
-  styleUrls: ['./student-dossier-legal-representative.component.scss'],
+  selector: "erz-student-dossier-legal-representative",
+  templateUrl: "./student-dossier-legal-representative.component.html",
+  styleUrls: ["./student-dossier-legal-representative.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierLegalRepresentativeComponent {

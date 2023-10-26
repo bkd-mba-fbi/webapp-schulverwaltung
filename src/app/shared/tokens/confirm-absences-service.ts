@@ -1,8 +1,8 @@
-import { InjectionToken } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { InjectionToken } from "@angular/core";
+import { Params, Router } from "@angular/router";
 
 export interface IConfirmAbsencesService {
-  confirmBackLink?: Parameters<Router['navigate']>[0];
+  confirmBackLink?: Parameters<Router["navigate"]>[0];
   confirmBackLinkParams?: Params;
   updateAfterConfirm?: () => void;
 }
@@ -16,4 +16,4 @@ export interface IConfirmAbsencesService {
  *   ]
  */
 export const CONFIRM_ABSENCES_SERVICE =
-  new InjectionToken<IConfirmAbsencesService>('Confirm Absences Service');
+  new InjectionToken<IConfirmAbsencesService>("Confirm Absences Service");

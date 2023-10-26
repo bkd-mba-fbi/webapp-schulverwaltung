@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { TestsComponent } from './tests.component';
+import { TestsComponent } from "./tests.component";
 
-describe('TestsComponent', () => {
+describe("TestsComponent", () => {
   let component: TestsComponent;
   let fixture: ComponentFixture<TestsComponent>;
 
@@ -21,7 +21,7 @@ describe('TestsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

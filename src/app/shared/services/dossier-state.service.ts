@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, shareReplay, switchMap } from 'rxjs';
-import { parseQueryString } from '../utils/url';
-import { StudentProfileService } from './student-profile.service';
+import { Injectable } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { BehaviorSubject, map, shareReplay, switchMap } from "rxjs";
+import { parseQueryString } from "../utils/url";
+import { StudentProfileService } from "./student-profile.service";
 
-export type DossierPage = 'addresses' | 'absences' | 'grades';
+export type DossierPage = "addresses" | "absences" | "grades";
 @Injectable()
 export class DossierStateService {
-  currentDossier$ = new BehaviorSubject<DossierPage>('addresses');
+  currentDossier$ = new BehaviorSubject<DossierPage>("addresses");
 
   studentId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('id'))),
+    map((params) => Number(params.get("id"))),
   );
 
   profile$ = this.studentId$.pipe(

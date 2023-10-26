@@ -4,7 +4,7 @@
     profile: profileService.profile$ | async
   } as data"
 >
-  <h1>{{ 'my-profile.title' | translate }}</h1>
+  <h1>{{ "my-profile.title" | translate }}</h1>
   <ng-container
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >
@@ -63,7 +63,7 @@
               [opened]="opened"
               (click)="acc.toggle('student-address')"
             >
-              {{ 'shared.profile.student-address' | translate }}
+              {{ "shared.profile.student-address" | translate }}
             </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
@@ -93,7 +93,7 @@
               [opened]="opened"
               (click)="acc.toggle('correspondence-address')"
             >
-              {{ 'shared.profile.correspondence-address' | translate }}
+              {{ "shared.profile.correspondence-address" | translate }}
             </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
@@ -113,7 +113,7 @@
               [opened]="opened"
               (click)="acc.toggle('billing-address')"
             >
-              {{ 'shared.profile.billing-address' | translate }}
+              {{ "shared.profile.billing-address" | translate }}
             </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
@@ -133,7 +133,7 @@
               [opened]="opened"
               (click)="acc.toggle('legal-representatives')"
             >
-              {{ 'shared.profile.legal-representation' | translate }}
+              {{ "shared.profile.legal-representation" | translate }}
             </erz-student-dossier-entry-header>
           </ng-template>
           <ng-template ngbPanelContent>
@@ -157,7 +157,7 @@
               [opened]="opened"
               (click)="acc.toggle('apprenticeship-company-' + i)"
             >
-              {{ 'shared.profile.apprenticeship-company' | translate }}
+              {{ "shared.profile.apprenticeship-company" | translate }}
               <ng-container
                 *ngIf="data.profile.apprenticeshipCompanies.length > 1"
                 >{{ i + 1 }}</ng-container
@@ -175,7 +175,7 @@
     </div>
 
     <ng-template #noProfile>
-      <p>{{ 'shared.profile.no-profile' | translate }}</p>
+      <p>{{ "shared.profile.no-profile" | translate }}</p>
     </ng-template>
   </ng-container>
 

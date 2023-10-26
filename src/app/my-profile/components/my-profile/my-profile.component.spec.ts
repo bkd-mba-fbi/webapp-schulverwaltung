@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { MyProfileComponent } from './my-profile.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
+import { MyProfileComponent } from "./my-profile.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
 
-describe('MyProfileComponent', () => {
+describe("MyProfileComponent", () => {
   let component: MyProfileComponent;
   let fixture: ComponentFixture<MyProfileComponent>;
 
@@ -21,7 +21,7 @@ describe('MyProfileComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

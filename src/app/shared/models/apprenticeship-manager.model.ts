@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import { Maybe, Option } from './common-types';
+import * as t from "io-ts";
+import { Maybe, Option } from "./common-types";
 
 const ApprenticeshipManager = t.type({
   // HRef: t.string,

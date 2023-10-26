@@ -1,4 +1,4 @@
-<h1>{{ 'open-absences.title' | translate }}</h1>
+<h1>{{ "open-absences.title" | translate }}</h1>
 <div
   *erzLet="{
     selection: selectionService.selection$ | async,
@@ -27,7 +27,7 @@
         <div class="d-flex align-items-center justify-content-between mt-1">
           <div class="selection-count ps-1">
             {{
-              'open-absences.selected'
+              "open-absences.selected"
                 | translate: { count: data.selection.length }
             }}
           </div>
@@ -55,7 +55,7 @@
             (click)="openAbsencesService.toggleSort(key)"
             [className]="key"
           >
-            {{ 'open-absences.list.header.' + key | translate }}
+            {{ "open-absences.list.header." + key | translate }}
             <span class="sort-direction">{{
               getSortDirectionCharacter(data.sortCriteria, key)
             }}</span>
@@ -99,14 +99,14 @@
             <div class="days-ago">
               {{ entry.date | erzDaysDifference }}
             </div>
-            <div class="date">{{ entry.date | date: 'dd.MM.yyyy' }}</div>
+            <div class="date">{{ entry.date | date: "dd.MM.yyyy" }}</div>
           </div>
         </div>
       </div>
     </ng-container>
 
     <ng-template #noEntries>
-      <p class="mt-3">{{ 'open-absences.noEntries' | translate }}</p>
+      <p class="mt-3">{{ "open-absences.noEntries" | translate }}</p>
     </ng-template>
   </ng-container>
 

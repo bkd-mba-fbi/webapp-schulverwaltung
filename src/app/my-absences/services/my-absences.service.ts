@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable, ReplaySubject, combineLatest } from 'rxjs';
+import { Injectable, Inject } from "@angular/core";
+import { Observable, ReplaySubject, combineLatest } from "rxjs";
 import {
   switchMap,
   startWith,
@@ -8,19 +8,19 @@ import {
   shareReplay,
   filter,
   share,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-import { SETTINGS, Settings } from 'src/app/settings';
-import { StudentProfileAbsencesCounts } from 'src/app/shared/services/student-profile-absences.service';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { LessonAbsence } from 'src/app/shared/models/lesson-absence.model';
-import { LessonIncident } from 'src/app/shared/models/lesson-incident.model';
-import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { TimetableEntry } from 'src/app/shared/models/timetable-entry.model';
-import { sortLessonPresencesByDate } from 'src/app/shared/utils/lesson-presences';
-import { notNull } from 'src/app/shared/utils/filter';
-import { spread } from 'src/app/shared/utils/function';
+import { SETTINGS, Settings } from "src/app/settings";
+import { StudentProfileAbsencesCounts } from "src/app/shared/services/student-profile-absences.service";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { LessonAbsence } from "src/app/shared/models/lesson-absence.model";
+import { LessonIncident } from "src/app/shared/models/lesson-incident.model";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
+import { sortLessonPresencesByDate } from "src/app/shared/utils/lesson-presences";
+import { notNull } from "src/app/shared/utils/filter";
+import { spread } from "src/app/shared/utils/function";
 
 @Injectable()
 export class MyAbsencesService {
@@ -206,9 +206,9 @@ export class MyAbsencesService {
     incidents: ReadonlyArray<LessonIncident>,
   ): Observable<ReadonlyArray<TimetableEntry>> {
     return this.studentsService.getTimetableEntries(studentId, {
-      'filter.Id': `;${[...absences, ...incidents]
+      "filter.Id": `;${[...absences, ...incidents]
         .map((e) => e.LessonRef.Id)
-        .join(';')}`,
+        .join(";")}`,
     });
   }
 
@@ -237,7 +237,7 @@ export class MyAbsencesService {
     }
 
     return {
-      Id: '',
+      Id: "",
       LessonRef: {
         Id: absence.LessonRef.Id,
         HRef: absence.LessonRef.HRef ? absence.LessonRef.HRef : null,
@@ -248,7 +248,7 @@ export class MyAbsencesService {
       RegistrationRef: { Id: 0, HRef: null },
       StudyClassRef: { Id: 0, HRef: null },
       ConfirmationStateId:
-        'ConfirmationStateId' in absence ? absence.ConfirmationStateId : null,
+        "ConfirmationStateId" in absence ? absence.ConfirmationStateId : null,
       EventDesignation: entry.EventDesignation,
       HasStudyCourseConfirmationCode: false,
       LessonDateTimeFrom: entry.From,
@@ -257,7 +257,7 @@ export class MyAbsencesService {
       Date: entry.From,
       Type: absence.Type,
       StudentFullName: absence.StudentFullName,
-      StudyClassNumber: '', // Currently not available on timetable entry
+      StudyClassNumber: "", // Currently not available on timetable entry
       TeacherInformation: entry.EventManagerInformation,
     };
   }

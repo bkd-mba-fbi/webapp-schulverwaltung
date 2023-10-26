@@ -1,4 +1,4 @@
-import * as t from 'io-ts';
+import * as t from "io-ts";
 
 const TeacherSubstitution = t.type({
   // HRef: t.string,

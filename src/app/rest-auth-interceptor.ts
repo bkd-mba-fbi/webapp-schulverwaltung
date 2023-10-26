@@ -1,14 +1,14 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject } from "@angular/core";
 import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
   HttpEvent,
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
+} from "@angular/common/http";
+import { Observable } from "rxjs";
 
-import { AuthService } from './shared/services/auth.service';
-import { SETTINGS, Settings } from './settings';
+import { AuthService } from "./shared/services/auth.service";
+import { SETTINGS, Settings } from "./settings";
 
 @Injectable()
 export class RestAuthInterceptor implements HttpInterceptor {
@@ -26,7 +26,7 @@ export class RestAuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     if (req.url.startsWith(this.settings.apiUrl) && this.auth.accessToken) {
       const headers = req.headers.set(
-        'CLX-Authorization',
+        "CLX-Authorization",
         `token_type=urn:ietf:params:oauth:token-type:jwt-bearer, access_token=${this.auth.accessToken}`,
       );
       return next.handle(req.clone({ headers }));

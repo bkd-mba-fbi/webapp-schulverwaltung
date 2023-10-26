@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { TypeaheadComponent } from './typeahead.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { TypeaheadComponent } from "./typeahead.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('TypeaheadComponent', () => {
+describe("TypeaheadComponent", () => {
   let component: TypeaheadComponent;
   let fixture: ComponentFixture<TypeaheadComponent>;
 
@@ -19,7 +19,7 @@ describe('TypeaheadComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

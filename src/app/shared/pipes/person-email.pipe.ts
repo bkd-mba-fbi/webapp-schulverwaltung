@@ -1,8 +1,8 @@
-import { PipeTransform, Pipe } from '@angular/core';
-import { Person } from '../../shared/models/person.model';
+import { PipeTransform, Pipe } from "@angular/core";
+import { Person } from "../../shared/models/person.model";
 
 @Pipe({
-  name: 'erzPersonEmail',
+  name: "erzPersonEmail",
 })
 export class PersonEmailPipe implements PipeTransform {
   transform(input: Maybe<Person>): Option<string> {

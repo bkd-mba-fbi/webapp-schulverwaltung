@@ -5,8 +5,8 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
-} from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+} from "@angular/core";
+import { Observable, BehaviorSubject } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -14,31 +14,31 @@ import {
   map,
   filter,
   finalize,
-} from 'rxjs/operators';
-import { uniqueId } from 'lodash-es';
+} from "rxjs/operators";
+import { uniqueId } from "lodash-es";
 
-import { longerOrEqual } from '../../utils/filter';
+import { longerOrEqual } from "../../utils/filter";
 import {
   HttpParams,
   TypeaheadService,
-} from '../../services/typeahead-rest.service';
-import { DropDownItem } from '../../models/drop-down-item.model';
+} from "../../services/typeahead-rest.service";
+import { DropDownItem } from "../../models/drop-down-item.model";
 
 const FETCH_DEBOUNCE_TIME = 300;
 const MINIMAL_TERM_LENGTH = 3;
 
 @Component({
-  selector: 'erz-typeahead',
-  templateUrl: './typeahead.component.html',
-  styleUrls: ['./typeahead.component.scss'],
+  selector: "erz-typeahead",
+  templateUrl: "./typeahead.component.html",
+  styleUrls: ["./typeahead.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
   @Input() typeaheadService: TypeaheadService;
-  @Input() placeholder = 'shared.typeahead.default-placeholder';
-  @Input() value: Option<DropDownItem['Key']>;
+  @Input() placeholder = "shared.typeahead.default-placeholder";
+  @Input() value: Option<DropDownItem["Key"]>;
   @Input() additionalHttpParams: HttpParams;
 
   @Output()
@@ -47,7 +47,7 @@ export class TypeaheadComponent implements OnChanges {
     distinctUntilChanged(),
   );
 
-  componentId = uniqueId('erz-typeahead-');
+  componentId = uniqueId("erz-typeahead-");
   loading$ = new BehaviorSubject(false);
 
   constructor() {}
@@ -81,7 +81,7 @@ export class TypeaheadComponent implements OnChanges {
     );
   }
 
-  private get selectedItemKey(): Option<DropDownItem['Key']> {
+  private get selectedItemKey(): Option<DropDownItem["Key"]> {
     return this.selectedItem$.value ? this.selectedItem$.value.Key : null;
   }
 
@@ -92,7 +92,7 @@ export class TypeaheadComponent implements OnChanges {
       .pipe(finalize(() => this.loading$.next(false)));
   }
 
-  private fetchItem(key: DropDownItem['Key']): Observable<DropDownItem> {
+  private fetchItem(key: DropDownItem["Key"]): Observable<DropDownItem> {
     this.loading$.next(true);
     return this.typeaheadService
       .getTypeaheadItemByKey(key)

@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-import { DropDownGroupedItem } from '../../models/drop-down-grouped-item.model';
+import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
 
 @Component({
-  selector: 'erz-multiselect',
-  templateUrl: './multiselect.component.html',
-  styleUrls: ['./multiselect.component.scss'],
+  selector: "erz-multiselect",
+  templateUrl: "./multiselect.component.html",
+  styleUrls: ["./multiselect.component.scss"],
 })
 export class MultiselectComponent {
   @Input() options: ReadonlyArray<DropDownGroupedItem> = [];

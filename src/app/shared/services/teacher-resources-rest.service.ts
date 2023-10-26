@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@angular/core';
-import { TeacherResource } from '../models/teacher-resource.model';
-import { HttpClient } from '@angular/common/http';
-import { Settings, SETTINGS } from '../../settings';
-import { TypeaheadRestService } from './typeahead-rest.service';
-import { DropDownItem } from '../models/drop-down-item.model';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { decodeArray } from '../utils/decode';
+import { Inject, Injectable } from "@angular/core";
+import { TeacherResource } from "../models/teacher-resource.model";
+import { HttpClient } from "@angular/common/http";
+import { Settings, SETTINGS } from "../../settings";
+import { TypeaheadRestService } from "./typeahead-rest.service";
+import { DropDownItem } from "../models/drop-down-item.model";
+import { Observable, of } from "rxjs";
+import { switchMap } from "rxjs/operators";
+import { decodeArray } from "../utils/decode";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TeacherResourcesRestService extends TypeaheadRestService<
   typeof TeacherResource
@@ -19,17 +19,17 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
       http,
       settings,
       TeacherResource,
-      'TeacherResources',
-      'FullName',
-      'FullName',
+      "TeacherResources",
+      "FullName",
+      "FullName",
     );
   }
 
-  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem> {
+  getTypeaheadItemByKey(key: DropDownItem["Key"]): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
-          fields: [this.keyAttr, this.labelAttr].join(','),
+          fields: [this.keyAttr, this.labelAttr].join(","),
           [`filter.${this.labelAttr}`]: `~*${key}*`,
         },
       })

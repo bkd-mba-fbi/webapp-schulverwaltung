@@ -2,30 +2,30 @@
   *erzLet="{ formGroup: formGroup$ | async, student: student$ | async } as data"
   class="erz-container erz-container-limited erz-container-padding-y"
 >
-  <h1>{{ 'my-profile.edit.title' | translate }}</h1>
+  <h1>{{ "my-profile.edit.title" | translate }}</h1>
   <form
     *ngIf="data.formGroup"
     [formGroup]="data.formGroup"
     (ngSubmit)="onSubmit()"
   >
     <div class="mb-3">
-      <p>{{ 'my-profile.edit.address-changes-remark' | translate }}</p>
+      <p>{{ "my-profile.edit.address-changes-remark" | translate }}</p>
       <address class="text-muted">
         <div>{{ data.student.AddressLine1 }}</div>
         <div *ngIf="data.student.AddressLine2">
           {{ data.student.AddressLine2 }}
         </div>
-        <div>{{ data.student.Zip || '' }} {{ data.student.Location }}</div>
+        <div>{{ data.student.Zip || "" }} {{ data.student.Location }}</div>
       </address>
     </div>
 
     <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">
-      {{ 'global.validation-errors.' + error.error | translate: error.params }}
+      {{ "global.validation-errors." + error.error | translate: error.params }}
     </div>
 
     <div class="mb-3">
       <label class="form-label" id="my-profile-phone-private">
-        {{ 'my-profile.edit.fields.phone-private' | translate }}
+        {{ "my-profile.edit.fields.phone-private" | translate }}
       </label>
       <input
         id="my-profile-phone-private"
@@ -37,7 +37,7 @@
 
     <div class="mb-3">
       <label class="form-label" id="my-profile-phone-mobile">
-        {{ 'my-profile.edit.fields.phone-mobile' | translate }}
+        {{ "my-profile.edit.fields.phone-mobile" | translate }}
       </label>
       <input
         id="my-profile-phone-mobile"
@@ -47,13 +47,13 @@
         aria-describedby="my-profile-phone-mobile-hint"
       />
       <small id="my-profile-phone-mobile-hint" class="form-text">{{
-        'my-profile.edit.fields.phone-mobile-hint' | translate
+        "my-profile.edit.fields.phone-mobile-hint" | translate
       }}</small>
     </div>
 
     <div class="mb-3">
       <label class="form-label" id="my-profile-email2">
-        {{ 'my-profile.edit.fields.email2' | translate }}
+        {{ "my-profile.edit.fields.email2" | translate }}
       </label>
       <input
         id="my-profile-email2"
@@ -65,11 +65,11 @@
       />
       <div class="invalid-feedback" *ngFor="let error of email2Errors$ | async">
         {{
-          'global.validation-errors.' + error.error | translate: error.params
+          "global.validation-errors." + error.error | translate: error.params
         }}
       </div>
       <small id="my-profile-email2-hint" class="form-text">{{
-        'my-profile.edit.fields.email2-hint' | translate
+        "my-profile.edit.fields.email2-hint" | translate
       }}</small>
     </div>
 
@@ -80,14 +80,14 @@
         [disabled]="saving$ | async"
         (click)="cancel()"
       >
-        {{ 'my-profile.edit.cancel' | translate }}
+        {{ "my-profile.edit.cancel" | translate }}
       </button>
       <button
         type="submit"
         class="btn btn-primary ms-2"
         [disabled]="saving$ | async"
       >
-        {{ 'my-profile.edit.save' | translate }}
+        {{ "my-profile.edit.save" | translate }}
         <div
           *ngIf="saving$ | async"
           class="spinner-border spinner-border-sm align-middle"

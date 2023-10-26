@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable } from "@angular/core";
 import {
   combineLatest,
   distinctUntilChanged,
@@ -9,20 +9,20 @@ import {
   shareReplay,
   Subject,
   switchMap,
-} from 'rxjs';
-import { Settings, SETTINGS } from 'src/app/settings';
-import { Course, FinalGrading, Grading } from '../models/course.model';
-import { Grade, GradingScale } from '../models/grading-scale.model';
-import { Test } from '../models/test.model';
-import { notNull, unique } from '../utils/filter';
-import { CoursesRestService } from './courses-rest.service';
-import { GradingScalesRestService } from './grading-scales-rest.service';
-import { LoadingService } from './loading-service';
-import { ReportsService } from './reports.service';
-import { SubscriptionsRestService } from './subscriptions-rest.service';
-import { gradingScaleOfTest, resultOfStudent } from '../../events/utils/tests';
-import { ValueWithWeight } from '../utils/math';
-import { withLatestFrom } from 'rxjs/operators';
+} from "rxjs";
+import { Settings, SETTINGS } from "src/app/settings";
+import { Course, FinalGrading, Grading } from "../models/course.model";
+import { Grade, GradingScale } from "../models/grading-scale.model";
+import { Test } from "../models/test.model";
+import { notNull, unique } from "../utils/filter";
+import { CoursesRestService } from "./courses-rest.service";
+import { GradingScalesRestService } from "./grading-scales-rest.service";
+import { LoadingService } from "./loading-service";
+import { ReportsService } from "./reports.service";
+import { SubscriptionsRestService } from "./subscriptions-rest.service";
+import { gradingScaleOfTest, resultOfStudent } from "../../events/utils/tests";
+import { ValueWithWeight } from "../utils/math";
+import { withLatestFrom } from "rxjs/operators";
 
 @Injectable()
 export class DossierGradesService {

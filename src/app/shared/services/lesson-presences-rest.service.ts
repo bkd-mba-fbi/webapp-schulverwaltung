@@ -1,62 +1,62 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { addDays, format, isSameDay, subDays } from 'date-fns';
-import * as t from 'io-ts';
-import { forkJoin, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
-import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
-import { mergeUniqueLessonPresences } from 'src/app/open-absences/utils/open-absences-entries';
-import { SETTINGS, Settings } from '../../settings';
-import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
-import { LessonPresence } from '../models/lesson-presence.model';
-import { Lesson } from '../models/lesson.model';
-import { decodeArray } from '../utils/decode';
-import { spread } from '../utils/function';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { addDays, format, isSameDay, subDays } from "date-fns";
+import * as t from "io-ts";
+import { forkJoin, Observable, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences-state.service";
+import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
+import { mergeUniqueLessonPresences } from "src/app/open-absences/utils/open-absences-entries";
+import { SETTINGS, Settings } from "../../settings";
+import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
+import { LessonPresence } from "../models/lesson-presence.model";
+import { Lesson } from "../models/lesson.model";
+import { decodeArray } from "../utils/decode";
+import { spread } from "../utils/function";
 import {
   decodePaginatedResponse,
   Paginated,
   paginatedHeaders,
   paginatedParams,
-} from '../utils/pagination';
-import { pick } from '../utils/types';
-import { RestService } from './rest.service';
-import { Sorting } from './sort.service';
-import { StorageService } from './storage.service';
-import { hasRole } from '../utils/roles';
+} from "../utils/pagination";
+import { pick } from "../utils/types";
+import { RestService } from "./rest.service";
+import { Sorting } from "./sort.service";
+import { StorageService } from "./storage.service";
+import { hasRole } from "../utils/roles";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
 > {
   protected lessonPresenceRefCodec = t.type(
     pick(this.codec.props, [
-      'LessonRef',
-      'RegistrationRef',
-      'StudentRef',
-      'EventRef',
-      'StudyClassRef',
-      'TypeRef',
+      "LessonRef",
+      "RegistrationRef",
+      "StudentRef",
+      "EventRef",
+      "StudyClassRef",
+      "TypeRef",
     ]),
   );
-  protected lessonPresenceIdCodec = t.type(pick(this.codec.props, ['Id']));
+  protected lessonPresenceIdCodec = t.type(pick(this.codec.props, ["Id"]));
 
   constructor(
     http: HttpClient,
     @Inject(SETTINGS) settings: Settings,
     private storage: StorageService,
   ) {
-    super(http, settings, LessonPresence, 'LessonPresences');
+    super(http, settings, LessonPresence, "LessonPresences");
   }
 
   getLessonsByDate(date: Date): Observable<ReadonlyArray<Lesson>> {
     const params: Dict<string> = {
-      fields: Object.keys(Lesson.props).join(','),
-      'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
+      fields: Object.keys(Lesson.props).join(","),
+      "filter.LessonDateTimeFrom": `=${format(date, "yyyy-MM-dd")}`,
     };
-    const headers: Dict<string> = { 'X-Role-Restriction': 'LessonTeacherRole' };
+    const headers: Dict<string> = { "X-Role-Restriction": "LessonTeacherRole" };
 
     return this.http
       .get<unknown>(`${this.baseUrl}/`, { params, headers })
@@ -71,12 +71,12 @@ export class LessonPresencesRestService extends RestService<
     }
     const lessonIds = lessons.map((l) => l.LessonRef.Id);
     const params: Record<string, string> = {
-      'filter.LessonRef': `;${lessonIds.join(';')}`,
+      "filter.LessonRef": `;${lessonIds.join(";")}`,
     };
 
     return this.getList({
       params,
-      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+      headers: { "X-Role-Restriction": "LessonTeacherRole" },
     });
   }
 
@@ -89,24 +89,24 @@ export class LessonPresencesRestService extends RestService<
     studyClassId?: number,
   ): Observable<ReadonlyArray<LessonPresence>> {
     const params: Record<string, string> = {
-      'filter.LessonDateTimeFrom': `=${format(date, 'yyyy-MM-dd')}`,
-      'filter.StudentRef': `=${studentId}`,
+      "filter.LessonDateTimeFrom": `=${format(date, "yyyy-MM-dd")}`,
+      "filter.StudentRef": `=${studentId}`,
     };
 
     if (studyClassId != null) {
-      params['filter.StudyClassRef'] = `=${studyClassId}`;
+      params["filter.StudyClassRef"] = `=${studyClassId}`;
     }
 
     return this.getList({
       params,
-      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+      headers: { "X-Role-Restriction": "LessonTeacherRole" },
     });
   }
 
   getListForToday(): Observable<ReadonlyArray<LessonPresence>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/Today`, {
-        headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+        headers: { "X-Role-Restriction": "LessonTeacherRole" },
       })
       .pipe(switchMap(decodeArray(this.codec)));
   }
@@ -119,16 +119,16 @@ export class LessonPresencesRestService extends RestService<
   getListOfUnconfirmed(
     params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
-    if (hasRole(this.storage.getPayload()?.roles, 'ClassTeacherRole')) {
+    if (hasRole(this.storage.getPayload()?.roles, "ClassTeacherRole")) {
       return forkJoin([
         this.getListOfUnconfirmedClassTeacher(params),
         this.getListOfUnconfirmedLessonTeacher(params),
       ]).pipe(map(spread(mergeUniqueLessonPresences)));
     }
-    if (hasRole(this.storage.getPayload()?.roles, 'LessonTeacherRole')) {
+    if (hasRole(this.storage.getPayload()?.roles, "LessonTeacherRole")) {
       return this.getListOfUnconfirmedLessonTeacher(params);
     }
-    if (hasRole(this.storage.getPayload()?.roles, 'AbsenceAdministratorRole')) {
+    if (hasRole(this.storage.getPayload()?.roles, "AbsenceAdministratorRole")) {
       return this.getListOfUnconfirmedAbsenceAdministrator(params);
     }
     return of([]);
@@ -140,9 +140,9 @@ export class LessonPresencesRestService extends RestService<
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([
-      [absencesFilter.student, 'StudentRef'],
-      [absencesFilter.educationalEvent, 'EventRef'],
-      [absencesFilter.studyClass, 'StudyClassRef'],
+      [absencesFilter.student, "StudentRef"],
+      [absencesFilter.educationalEvent, "EventRef"],
+      [absencesFilter.studyClass, "StudyClassRef"],
     ]);
     params = sortedParams(absencesSorting, params);
     params = paginatedParams(offset, this.settings.paginationLimit, params);
@@ -151,7 +151,7 @@ export class LessonPresencesRestService extends RestService<
       .get<unknown>(`${this.baseUrl}/Statistics`, {
         params,
         headers: paginatedHeaders(),
-        observe: 'response',
+        observe: "response",
       })
       .pipe(decodePaginatedResponse(LessonPresenceStatistic));
   }
@@ -160,22 +160,22 @@ export class LessonPresencesRestService extends RestService<
     absencesFilter: EvaluateAbsencesFilter,
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = filteredParams([
-      [absencesFilter.student, 'StudentRef'],
-      [absencesFilter.educationalEvent, 'EventRef'],
-      [absencesFilter.studyClass, 'StudyClassRef'],
+      [absencesFilter.student, "StudentRef"],
+      [absencesFilter.educationalEvent, "EventRef"],
+      [absencesFilter.studyClass, "StudyClassRef"],
     ]);
 
-    params = params.set('filter.TypeRef', '>0');
+    params = params.set("filter.TypeRef", ">0");
     params = params.set(
-      'fields',
+      "fields",
       [
-        'LessonRef',
-        'RegistrationRef',
-        'StudentRef',
-        'EventRef',
-        'StudyClassRef',
-        'TypeRef',
-      ].join(','),
+        "LessonRef",
+        "RegistrationRef",
+        "StudentRef",
+        "EventRef",
+        "StudyClassRef",
+        "TypeRef",
+      ].join(","),
     );
 
     return this.http
@@ -187,17 +187,17 @@ export class LessonPresencesRestService extends RestService<
     eventIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = new HttpParams();
-    params.set('filter.EventRef', `;${eventIds.join(';')}`);
+    params.set("filter.EventRef", `;${eventIds.join(";")}`);
     params = params.set(
-      'fields',
+      "fields",
       [
-        'LessonRef',
-        'RegistrationRef',
-        'StudentRef',
-        'EventRef',
-        'StudyClassRef',
-        'TypeRef',
-      ].join(','),
+        "LessonRef",
+        "RegistrationRef",
+        "StudentRef",
+        "EventRef",
+        "StudyClassRef",
+        "TypeRef",
+      ].join(","),
     );
 
     return this.http
@@ -212,16 +212,16 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     let params = filteredParams(
       [
-        [absencesFilter.student, 'StudentRef'],
-        [absencesFilter.educationalEvent, 'EventRef'],
-        [absencesFilter.studyClass, 'StudyClassRef'],
+        [absencesFilter.student, "StudentRef"],
+        [absencesFilter.educationalEvent, "EventRef"],
+        [absencesFilter.studyClass, "StudyClassRef"],
       ],
       new HttpParams({ fromObject: additionalParams }),
     );
 
     if (absencesFilter.teacher) {
       params = params.set(
-        'filter.TeacherInformation',
+        "filter.TeacherInformation",
         `~*${absencesFilter.teacher}*`,
       );
     }
@@ -232,51 +232,51 @@ export class LessonPresencesRestService extends RestService<
       isSameDay(absencesFilter.dateFrom, absencesFilter.dateTo)
     ) {
       params = params.set(
-        'filter.LessonDateTimeFrom',
-        `=${format(absencesFilter.dateFrom, 'yyyy-MM-dd')}`,
+        "filter.LessonDateTimeFrom",
+        `=${format(absencesFilter.dateFrom, "yyyy-MM-dd")}`,
       );
     } else {
       if (absencesFilter.dateFrom) {
         params = params.set(
-          'filter.LessonDateTimeFrom',
-          `>${format(subDays(absencesFilter.dateFrom, 1), 'yyyy-MM-dd')}`,
+          "filter.LessonDateTimeFrom",
+          `>${format(subDays(absencesFilter.dateFrom, 1), "yyyy-MM-dd")}`,
         );
       }
       if (absencesFilter.dateTo) {
         params = params.set(
-          'filter.LessonDateTimeTo',
-          `<${format(addDays(absencesFilter.dateTo, 1), 'yyyy-MM-dd')}`,
+          "filter.LessonDateTimeTo",
+          `<${format(addDays(absencesFilter.dateTo, 1), "yyyy-MM-dd")}`,
         );
       }
     }
 
     if (absencesFilter.confirmationStates) {
       params = params.set(
-        'filter.ConfirmationStateId',
-        `;${absencesFilter.confirmationStates.join(';')}`,
+        "filter.ConfirmationStateId",
+        `;${absencesFilter.confirmationStates.join(";")}`,
       );
     }
 
     if (absencesFilter.incidentTypes) {
       params = params.set(
-        'filter.TypeRef',
-        `;${absencesFilter.incidentTypes.join(';')}`,
+        "filter.TypeRef",
+        `;${absencesFilter.incidentTypes.join(";")}`,
       );
     }
 
     if (absencesFilter.presenceTypes) {
       params = params.set(
-        'filter.TypeRef',
-        `;${absencesFilter.presenceTypes.join(';')}`,
+        "filter.TypeRef",
+        `;${absencesFilter.presenceTypes.join(";")}`,
       );
     }
 
     if (absencesFilter.incidentTypes && absencesFilter.presenceTypes) {
       params = params.set(
-        'filter.TypeRef',
+        "filter.TypeRef",
         `;${absencesFilter.presenceTypes.join(
-          ';',
-        )};${absencesFilter.incidentTypes.join(';')}`,
+          ";",
+        )};${absencesFilter.incidentTypes.join(";")}`,
       );
     }
 
@@ -284,17 +284,17 @@ export class LessonPresencesRestService extends RestService<
       .get<unknown>(`${this.baseUrl}/`, {
         params: paginatedParams(offset, this.settings.paginationLimit, params),
         headers: paginatedHeaders(),
-        observe: 'response',
+        observe: "response",
       })
       .pipe(decodePaginatedResponse(LessonPresence));
   }
 
   hasLessonsLessonTeacher(): Observable<boolean> {
-    const params = new HttpParams().set('fields', 'Id');
+    const params = new HttpParams().set("fields", "Id");
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: paginatedParams(0, 1, params),
-        headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+        headers: { "X-Role-Restriction": "LessonTeacherRole" },
       })
       .pipe(
         switchMap(decodeArray(this.lessonPresenceIdCodec)),
@@ -305,10 +305,10 @@ export class LessonPresencesRestService extends RestService<
   checkableAbsencesCount(): Observable<number> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
-        headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+        headers: { "X-Role-Restriction": "LessonTeacherRole" },
         params: {
-          'filter.ConfirmationStateId': `;${this.settings.checkableAbsenceStateId}`,
-          fields: 'Id,ConfirmationStateId',
+          "filter.ConfirmationStateId": `;${this.settings.checkableAbsenceStateId}`,
+          fields: "Id,ConfirmationStateId",
         },
       })
       .pipe(
@@ -321,11 +321,11 @@ export class LessonPresencesRestService extends RestService<
     params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      headers: { 'X-Role-Restriction': 'LessonTeacherRole' },
+      headers: { "X-Role-Restriction": "LessonTeacherRole" },
       params: {
         ...params,
-        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-        'filter.HasStudyCourseConfirmationCode': '=false',
+        "filter.ConfirmationStateId": `=${this.settings.unconfirmedAbsenceStateId}`,
+        "filter.HasStudyCourseConfirmationCode": "=false",
       },
     });
   }
@@ -335,12 +335,12 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
       headers: {
-        'X-Role-Restriction': 'ClassTeacherRole',
+        "X-Role-Restriction": "ClassTeacherRole",
       },
       params: {
         ...params,
-        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
-        'filter.HasStudyCourseConfirmationCode': '=true',
+        "filter.ConfirmationStateId": `=${this.settings.unconfirmedAbsenceStateId}`,
+        "filter.HasStudyCourseConfirmationCode": "=true",
       },
     });
   }
@@ -349,10 +349,10 @@ export class LessonPresencesRestService extends RestService<
     params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      headers: { 'X-Role-Restriction': 'AbsenceAdministratorRole' },
+      headers: { "X-Role-Restriction": "AbsenceAdministratorRole" },
       params: {
         ...params,
-        'filter.ConfirmationStateId': `=${this.settings.unconfirmedAbsenceStateId}`,
+        "filter.ConfirmationStateId": `=${this.settings.unconfirmedAbsenceStateId}`,
       },
     });
   }
@@ -383,7 +383,7 @@ function sortedParams<T>(
     return params;
   }
   return params.set(
-    'sort',
-    `${sorting.key}.${sorting.ascending ? 'asc' : 'desc'}`,
+    "sort",
+    `${sorting.key}.${sorting.ascending ? "asc" : "desc"}`,
   );
 }

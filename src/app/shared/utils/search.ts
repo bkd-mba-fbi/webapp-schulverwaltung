@@ -1,4 +1,4 @@
-import { deburr } from 'lodash-es';
+import { deburr } from "lodash-es";
 
 export interface Searchable {
   readonly studentFullName?: string;

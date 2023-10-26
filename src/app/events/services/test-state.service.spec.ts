@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { TestStateService } from './test-state.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { TestStateService } from "./test-state.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('TestStateService', () => {
+describe("TestStateService", () => {
   let service: TestStateService;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('TestStateService', () => {
     service = TestBed.inject(TestStateService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

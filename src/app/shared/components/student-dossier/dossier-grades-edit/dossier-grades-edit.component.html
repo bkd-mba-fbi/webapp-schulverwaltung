@@ -2,7 +2,7 @@
   <p class="mb-4">{{ test.Designation }}</p>
   <div *ngIf="test.IsPointGrading" class="form-group row">
     <label for="points" class="col-6 col-form-label">{{
-      'dossier.dialog.points' | translate
+      "dossier.dialog.points" | translate
     }}</label>
     <div class="col-6" [class.is-invalid]="pointsInput.errors">
       <input
@@ -23,12 +23,12 @@
       class="invalid-feedback col-6 offset-6"
       data-testid="validation-error-message"
     >
-      {{ 'global.validation-errors.invalidPoints' | translate: { maxPoints } }}
+      {{ "global.validation-errors.invalidPoints" | translate: { maxPoints } }}
     </div>
   </div>
   <div class="form-group row">
     <label for="grade" class="col-6 col-form-label">{{
-      'dossier.dialog.grade' | translate
+      "dossier.dialog.grade" | translate
     }}</label>
     <div class="col-6">
       <erz-select
@@ -45,8 +45,8 @@
   <p class="text-muted mt-4">
     {{
       (test.IsPointGrading
-        ? 'dossier.dialog.hint.points'
-        : 'dossier.dialog.hint.grade'
+        ? "dossier.dialog.hint.points"
+        : "dossier.dialog.hint.grade"
       ) | translate
     }}
   </p>
@@ -58,6 +58,6 @@
     [disabled]="closeButtonDisabled$ | async"
     (click)="activeModal.close(updatedTestResult)"
   >
-    {{ 'dossier.dialog.close' | translate }}
+    {{ "dossier.dialog.close" | translate }}
   </button>
 </div>

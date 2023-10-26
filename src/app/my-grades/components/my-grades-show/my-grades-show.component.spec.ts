@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MyGradesShowComponent } from './my-grades-show.component';
-import { StorageService } from '../../../shared/services/storage.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MyGradesService } from '../../services/my-grades.service';
-import { of } from 'rxjs';
-import { MyGradesHeaderComponent } from '../my-grades-header/my-grades-header.component';
+import { MyGradesShowComponent } from "./my-grades-show.component";
+import { StorageService } from "../../../shared/services/storage.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyGradesService } from "../../services/my-grades.service";
+import { of } from "rxjs";
+import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.component";
 
-describe('MyGradesShowComponent', () => {
+describe("MyGradesShowComponent", () => {
   let component: MyGradesShowComponent;
   let fixture: ComponentFixture<MyGradesShowComponent>;
 
@@ -25,7 +25,7 @@ describe('MyGradesShowComponent', () => {
           },
           {
             provide: StorageService,
-            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+            useValue: jasmine.createSpyObj("StorageService", ["getPayload"]),
           },
         ],
       }),
@@ -38,7 +38,7 @@ describe('MyGradesShowComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

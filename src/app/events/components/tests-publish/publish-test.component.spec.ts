@@ -1,13 +1,13 @@
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { buildTest } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { byTestId } from 'src/specs/utils';
+import { DebugElement } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildTest } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { byTestId } from "src/specs/utils";
 
-import { PublishTestComponent } from './publish-test.component';
+import { PublishTestComponent } from "./publish-test.component";
 
-describe('PublishTestComponent', () => {
+describe("PublishTestComponent", () => {
   let component: PublishTestComponent;
   let fixture: ComponentFixture<PublishTestComponent>;
   let debugElement: DebugElement;
@@ -27,7 +27,7 @@ describe('PublishTestComponent', () => {
     debugElement = fixture.debugElement;
   });
 
-  it('should create', () => {
+  it("should create", () => {
     // given
     component.test = buildTest(1, 1, []);
 
@@ -38,8 +38,8 @@ describe('PublishTestComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('show correct confirmation messages', () => {
-    it('should show correct message for unpublished tests', () => {
+  describe("show correct confirmation messages", () => {
+    it("should show correct message for unpublished tests", () => {
       // given
       component.test = buildTest(1, 1, []);
 
@@ -47,10 +47,10 @@ describe('PublishTestComponent', () => {
       fixture.detectChanges();
 
       // then
-      expectConfirmationMessage(debugElement, 'tests.publishing.publish');
+      expectConfirmationMessage(debugElement, "tests.publishing.publish");
     });
 
-    it('should show correct message for published tests', () => {
+    it("should show correct message for published tests", () => {
       // given
       const publishedTest = buildTest(1, 1, []);
       publishedTest.IsPublished = true;
@@ -60,36 +60,36 @@ describe('PublishTestComponent', () => {
       fixture.detectChanges();
 
       // then
-      expectConfirmationMessage(debugElement, 'tests.publishing.unpublish');
+      expectConfirmationMessage(debugElement, "tests.publishing.unpublish");
     });
   });
 
-  describe('click buttons', () => {
+  describe("click buttons", () => {
     let activeModal: NgbActiveModal;
 
     beforeEach(() => {
       activeModal = component.activeModal;
       component.test = buildTest(1, 1, []);
     });
-    it('should close modal with result true when confirmation button is clicked', () => {
+    it("should close modal with result true when confirmation button is clicked", () => {
       // given
-      spyOn(activeModal, 'close');
-      const confirmationButton = debugElement.query(byTestId('confirm-button'));
+      spyOn(activeModal, "close");
+      const confirmationButton = debugElement.query(byTestId("confirm-button"));
       // when
-      confirmationButton.triggerEventHandler('click', null);
+      confirmationButton.triggerEventHandler("click", null);
       fixture.detectChanges();
 
       // then
       expect(activeModal.close).toHaveBeenCalledWith(true);
     });
 
-    it('should dismiss modal without a reason', () => {
+    it("should dismiss modal without a reason", () => {
       // given
-      spyOn(activeModal, 'dismiss');
-      const cancelButton = debugElement.query(byTestId('cancel-button'));
+      spyOn(activeModal, "dismiss");
+      const cancelButton = debugElement.query(byTestId("cancel-button"));
 
       // when
-      cancelButton.triggerEventHandler('click', null);
+      cancelButton.triggerEventHandler("click", null);
       fixture.detectChanges();
 
       // then
@@ -103,7 +103,7 @@ function expectConfirmationMessage(
   expected: string,
 ) {
   const confirmationMessageElement = debugElement.query(
-    byTestId('confirmation-message'),
+    byTestId("confirmation-message"),
   );
   expect(confirmationMessageElement.nativeElement.textContent.trim()).toBe(
     expected,

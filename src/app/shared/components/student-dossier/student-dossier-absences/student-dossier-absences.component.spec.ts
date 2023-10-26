@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentDossierAbsencesComponent } from './student-dossier-absences.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentDossierAbsencesComponent } from "./student-dossier-absences.component";
 
-describe('StudentDossierAbsencesComponent', () => {
+describe("StudentDossierAbsencesComponent", () => {
   let component: StudentDossierAbsencesComponent;
   let fixture: ComponentFixture<StudentDossierAbsencesComponent>;
 
@@ -21,7 +21,7 @@ describe('StudentDossierAbsencesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

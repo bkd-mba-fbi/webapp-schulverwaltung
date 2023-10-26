@@ -4,21 +4,21 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-} from '@angular/core';
+} from "@angular/core";
 import {
   NgbDateAdapter,
   NgbDateParserFormatter,
   NgbDateNativeAdapter,
-} from '@ng-bootstrap/ng-bootstrap';
-import { startOfDay } from 'date-fns';
+} from "@ng-bootstrap/ng-bootstrap";
+import { startOfDay } from "date-fns";
 
-import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
-import { ReportAbsencesFilter } from '../../services/my-absences-report-state.service';
+import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
+import { ReportAbsencesFilter } from "../../services/my-absences-report-state.service";
 
 @Component({
-  selector: 'erz-my-absences-report-header',
-  templateUrl: './my-absences-report-header.component.html',
-  styleUrls: ['./my-absences-report-header.component.scss'],
+  selector: "erz-my-absences-report-header",
+  templateUrl: "./my-absences-report-header.component.html",
+  styleUrls: ["./my-absences-report-header.component.scss"],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },

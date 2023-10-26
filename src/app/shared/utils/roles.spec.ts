@@ -1,76 +1,76 @@
-import { getRoles, hasRole } from './roles';
+import { getRoles, hasRole } from "./roles";
 
-describe('roles utility functions', () => {
-  describe('hasRole', () => {
-    it('should return true if it has role', () => {
+describe("roles utility functions", () => {
+  describe("hasRole", () => {
+    it("should return true if it has role", () => {
       // given
-      const roles = 'TeacherRole';
+      const roles = "TeacherRole";
 
       // then
-      expect(hasRole(roles, 'TeacherRole')).toBeTrue();
+      expect(hasRole(roles, "TeacherRole")).toBeTrue();
     });
 
-    it('should return true if it has role - multiple roles', () => {
+    it("should return true if it has role - multiple roles", () => {
       // given
-      const roles = 'ClassTeacherRole;TeacherRole';
+      const roles = "ClassTeacherRole;TeacherRole";
 
       // then
-      expect(hasRole(roles, 'TeacherRole')).toBeTrue();
+      expect(hasRole(roles, "TeacherRole")).toBeTrue();
     });
 
-    it('should return false if it does not have role', () => {
+    it("should return false if it does not have role", () => {
       // given
-      const roles = 'ClassTeacherRole';
+      const roles = "ClassTeacherRole";
 
       // then
-      expect(hasRole(roles, 'TeacherRole')).toBeFalse();
+      expect(hasRole(roles, "TeacherRole")).toBeFalse();
     });
 
-    it('should return false if it does not have role - multiple roles', () => {
+    it("should return false if it does not have role - multiple roles", () => {
       // given
-      const roles = 'ClassTeacherRole;TeacherRole';
+      const roles = "ClassTeacherRole;TeacherRole";
 
       // then
-      expect(hasRole(roles, 'StudentRole')).toBeFalse();
+      expect(hasRole(roles, "StudentRole")).toBeFalse();
     });
 
-    it('should return false if roles are empty', () => {
+    it("should return false if roles are empty", () => {
       // then
-      expect(hasRole('', 'StudentRole')).toBeFalse();
+      expect(hasRole("", "StudentRole")).toBeFalse();
     });
 
-    it('should return false if roles are null', () => {
+    it("should return false if roles are null", () => {
       // then
-      expect(hasRole(null, 'StudentRole')).toBeFalse();
+      expect(hasRole(null, "StudentRole")).toBeFalse();
     });
 
-    it('should return false if roles are undefined', () => {
+    it("should return false if roles are undefined", () => {
       // then
-      expect(hasRole(undefined, 'StudentRole')).toBeFalse();
+      expect(hasRole(undefined, "StudentRole")).toBeFalse();
     });
   });
 
-  describe('getRoles', () => {
-    it('returns an empty array for undefined', () => {
+  describe("getRoles", () => {
+    it("returns an empty array for undefined", () => {
       expect(getRoles(undefined)).toEqual([]);
     });
 
-    it('returns an empty array for null', () => {
+    it("returns an empty array for null", () => {
       expect(getRoles(null)).toEqual([]);
     });
 
-    it('returns an empty array for empty string', () => {
-      expect(getRoles('')).toEqual([]);
+    it("returns an empty array for empty string", () => {
+      expect(getRoles("")).toEqual([]);
     });
 
-    it('returns an array with single role', () => {
-      expect(getRoles('LessonTeacherRole')).toEqual(['LessonTeacherRole']);
+    it("returns an array with single role", () => {
+      expect(getRoles("LessonTeacherRole")).toEqual(["LessonTeacherRole"]);
     });
 
-    it('returns an array with multiple roles', () => {
-      expect(getRoles('LessonTeacherRole;ClassTeacherRole')).toEqual([
-        'LessonTeacherRole',
-        'ClassTeacherRole',
+    it("returns an array with multiple roles", () => {
+      expect(getRoles("LessonTeacherRole;ClassTeacherRole")).toEqual([
+        "LessonTeacherRole",
+        "ClassTeacherRole",
       ]);
     });
   });

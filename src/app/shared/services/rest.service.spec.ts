@@ -1,15 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { Injectable, Inject } from '@angular/core';
-import { HttpTestingController } from '@angular/common/http/testing';
-import * as t from 'io-ts';
+import { TestBed } from "@angular/core/testing";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, Inject } from "@angular/core";
+import { HttpTestingController } from "@angular/common/http/testing";
+import * as t from "io-ts";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { RestService } from './rest.service';
-import { DecodeError } from '../utils/decode';
-import { SETTINGS, Settings } from 'src/app/settings';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { RestService } from "./rest.service";
+import { DecodeError } from "../utils/decode";
+import { SETTINGS, Settings } from "src/app/settings";
 
-describe('RestService', () => {
+describe("RestService", () => {
   let service: FooService;
   let httpTestingController: HttpTestingController;
   const Foo = t.type({
@@ -19,7 +19,7 @@ describe('RestService', () => {
   @Injectable()
   class FooService extends RestService<typeof Foo> {
     constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-      super(http, settings, Foo, 'Foo');
+      super(http, settings, Foo, "Foo");
     }
   }
 
@@ -35,24 +35,24 @@ describe('RestService', () => {
 
   afterEach(() => httpTestingController.verify());
 
-  describe('.get', () => {
-    it('requests single instance with given id', () => {
+  describe(".get", () => {
+    it("requests single instance with given id", () => {
       service.get(123).subscribe((result) => {
-        expect(result).toEqual({ foo: 'bar' });
+        expect(result).toEqual({ foo: "bar" });
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo/123')
-        .flush({ foo: 'bar' });
+        .expectOne("https://eventotest.api/Foo/123")
+        .flush({ foo: "bar" });
     });
 
-    it('throws an error if JSON from server is not compliant', () => {
-      const success = jasmine.createSpy('success');
-      const error = jasmine.createSpy('error');
+    it("throws an error if JSON from server is not compliant", () => {
+      const success = jasmine.createSpy("success");
+      const error = jasmine.createSpy("error");
       service.get(123).subscribe({ next: success, error });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo/123')
+        .expectOne("https://eventotest.api/Foo/123")
         .flush({ foo: 123 });
 
       expect(success).not.toHaveBeenCalled();
@@ -60,38 +60,38 @@ describe('RestService', () => {
 
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          'Invalid value 123 supplied to : { foo: string }/foo: string',
+          "Invalid value 123 supplied to : { foo: string }/foo: string",
         ),
       );
     });
   });
 
-  describe('.getList', () => {
-    it('requests multiple instances', () => {
+  describe(".getList", () => {
+    it("requests multiple instances", () => {
       service.getList().subscribe((result) => {
-        expect(result).toEqual([{ foo: 'bar' }, { foo: 'baz' }]);
+        expect(result).toEqual([{ foo: "bar" }, { foo: "baz" }]);
       });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo/')
-        .flush([{ foo: 'bar' }, { foo: 'baz' }]);
+        .expectOne("https://eventotest.api/Foo/")
+        .flush([{ foo: "bar" }, { foo: "baz" }]);
     });
 
-    it('throws an error if JSON from server is not compliant', () => {
-      const success = jasmine.createSpy('success');
-      const error = jasmine.createSpy('error');
+    it("throws an error if JSON from server is not compliant", () => {
+      const success = jasmine.createSpy("success");
+      const error = jasmine.createSpy("error");
       service.getList().subscribe({ next: success, error });
 
       httpTestingController
-        .expectOne('https://eventotest.api/Foo/')
-        .flush([{ foo: 123 }, { foo: 'baz' }]);
+        .expectOne("https://eventotest.api/Foo/")
+        .flush([{ foo: 123 }, { foo: "baz" }]);
 
       expect(success).not.toHaveBeenCalled();
       expect(error).toHaveBeenCalled();
 
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          'Invalid value 123 supplied to : Array<{ foo: string }>/0: { foo: string }/foo: string',
+          "Invalid value 123 supplied to : Array<{ foo: string }>/0: { foo: string }/foo: string",
         ),
       );
     });

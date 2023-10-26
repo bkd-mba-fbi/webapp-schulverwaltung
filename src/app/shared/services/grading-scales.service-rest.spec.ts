@@ -1,11 +1,11 @@
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { buildGradingScale } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { buildGradingScale } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { GradingScalesRestService } from './grading-scales-rest.service';
+import { GradingScalesRestService } from "./grading-scales-rest.service";
 
-describe('GradingScalesRestService', () => {
+describe("GradingScalesRestService", () => {
   let service: GradingScalesRestService;
   let httpTestingController: HttpTestingController;
 
@@ -19,7 +19,7 @@ describe('GradingScalesRestService', () => {
     httpTestingController.verify();
   });
 
-  it('should request a grading scale by id', () => {
+  it("should request a grading scale by id", () => {
     const data = buildGradingScale(1234);
 
     service
@@ -28,7 +28,7 @@ describe('GradingScalesRestService', () => {
 
     httpTestingController
       .expectOne(
-        ({ url }) => url === 'https://eventotest.api/GradingScales/1234',
+        ({ url }) => url === "https://eventotest.api/GradingScales/1234",
       )
       .flush(data);
   });

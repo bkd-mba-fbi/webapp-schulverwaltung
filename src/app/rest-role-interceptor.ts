@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable } from "@angular/core";
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { SETTINGS, Settings } from './settings';
-import { Router } from '@angular/router';
-import camelCase from 'lodash-es/camelCase';
-import { getFirstSegment } from './shared/utils/url';
+} from "@angular/common/http";
+import { Observable } from "rxjs";
+import { SETTINGS, Settings } from "./settings";
+import { Router } from "@angular/router";
+import camelCase from "lodash-es/camelCase";
+import { getFirstSegment } from "./shared/utils/url";
 
 @Injectable()
 export class RestRoleInterceptor implements HttpInterceptor {
@@ -26,13 +26,13 @@ export class RestRoleInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     if (
-      !req.headers.has('X-Role-Restriction') &&
+      !req.headers.has("X-Role-Restriction") &&
       this.settings.headerRoleRestriction
     ) {
       const module = this.getCurrentModuleName();
       if (module && this.settings.headerRoleRestriction[module]) {
         const headers = req.headers.set(
-          'X-Role-Restriction',
+          "X-Role-Restriction",
           this.settings.headerRoleRestriction[module],
         );
         return next.handle(req.clone({ headers }));

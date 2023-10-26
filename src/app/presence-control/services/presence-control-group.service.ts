@@ -1,34 +1,34 @@
-import { Inject, Injectable } from '@angular/core';
-import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
-import { forkJoin, merge, Subject } from 'rxjs';
-import { map, switchMap, shareReplay, startWith } from 'rxjs/operators';
-import { flatten, uniq } from 'lodash-es';
-import { SETTINGS, Settings } from '../../settings';
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
+import { Inject, Injectable } from "@angular/core";
+import { combineLatest, Observable, of, ReplaySubject } from "rxjs";
+import { forkJoin, merge, Subject } from "rxjs";
+import { map, switchMap, shareReplay, startWith } from "rxjs/operators";
+import { flatten, uniq } from "lodash-es";
+import { SETTINGS, Settings } from "../../settings";
+import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
 import {
   filterSubscriptionDetailsByGroupId,
   getSubscriptionDetailsWithName,
-} from '../utils/subscriptions-details';
-import { EventsRestService } from '../../shared/services/events-rest.service';
-import { LessonEntry } from '../models/lesson-entry.model';
+} from "../utils/subscriptions-details";
+import { EventsRestService } from "../../shared/services/events-rest.service";
+import { LessonEntry } from "../models/lesson-entry.model";
 import {
   findSubscriptionDetailByGroupId,
   SubscriptionDetailWithName,
-} from '../utils/subscriptions-details';
-import { SubscriptionsRestService } from '../../shared/services/subscriptions-rest.service';
-import { SubscriptionDetailsRestService } from '../../shared/services/subscription-details-rest.service';
-import { spread } from '../../shared/utils/function';
-import { LoadingService } from '../../shared/services/loading-service';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
-import { PresenceControlGroupViewEntry } from 'src/app/shared/models/user-settings.model';
-import { GroupOptions } from '../components/presence-control-group-dialog/presence-control-group-dialog.component';
+} from "../utils/subscriptions-details";
+import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
+import { SubscriptionDetailsRestService } from "../../shared/services/subscription-details-rest.service";
+import { spread } from "../../shared/utils/function";
+import { LoadingService } from "../../shared/services/loading-service";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { PresenceControlGroupViewEntry } from "src/app/shared/models/user-settings.model";
+import { GroupOptions } from "../components/presence-control-group-dialog/presence-control-group-dialog.component";
 
-const GROUP_LOADING_CONTEXT = 'presence-control-group';
+const GROUP_LOADING_CONTEXT = "presence-control-group";
 
 @Injectable()
 export class PresenceControlGroupService {
-  private selectGroup$ = new Subject<GroupOptions['id']>();
+  private selectGroup$ = new Subject<GroupOptions["id"]>();
   private selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
@@ -114,7 +114,7 @@ export class PresenceControlGroupService {
     @Inject(SETTINGS) private settings: Settings,
   ) {}
 
-  selectGroup(groupId: GroupOptions['id']): void {
+  selectGroup(groupId: GroupOptions["id"]): void {
     this.selectGroup$.next(groupId);
   }
 
@@ -170,7 +170,7 @@ export class PresenceControlGroupService {
   private findGroupByLesson(
     groupViews: ReadonlyArray<PresenceControlGroupViewEntry>,
     lesson: Option<LessonEntry>,
-  ): GroupOptions['id'] {
+  ): GroupOptions["id"] {
     const groupView = groupViews.find(
       (gv) => gv.eventId === lesson?.getEventIds()[0], // All event ids of a lesson share the same group
     );

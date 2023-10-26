@@ -1,6 +1,6 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
+import { Inject, Injectable, OnDestroy } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { combineLatest, merge, Observable, of, Subject } from "rxjs";
 import {
   catchError,
   concatMap,
@@ -11,18 +11,18 @@ import {
   scan,
   share,
   takeUntil,
-} from 'rxjs/operators';
-import { withConfig } from 'src/app/rest-error-interceptor';
-import { Settings, SETTINGS } from 'src/app/settings';
-import { LessonPresence } from '../models/lesson-presence.model';
-import { isEmptyArray } from '../utils/array';
-import { not } from '../utils/filter';
-import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
-import { getNewConfirmationStateId } from 'src/app/presence-control/utils/presence-types';
-import { PresenceTypesService } from './presence-types.service';
-import { PresenceType } from '../models/presence-type.model';
-import { ToastService } from './toast.service';
-import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
+} from "rxjs/operators";
+import { withConfig } from "src/app/rest-error-interceptor";
+import { Settings, SETTINGS } from "src/app/settings";
+import { LessonPresence } from "../models/lesson-presence.model";
+import { isEmptyArray } from "../utils/array";
+import { not } from "../utils/filter";
+import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
+import { getNewConfirmationStateId } from "src/app/presence-control/utils/presence-types";
+import { PresenceTypesService } from "./presence-types.service";
+import { PresenceType } from "../models/presence-type.model";
+import { ToastService } from "./toast.service";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 
@@ -43,8 +43,8 @@ interface GroupedLessonPresenceUpdates {
 }
 
 enum UpdateActionTypes {
-  AddUpdateAction = 'ADD',
-  RemoveUpdateAction = 'REMOVE',
+  AddUpdateAction = "ADD",
+  RemoveUpdateAction = "REMOVE",
 }
 
 interface AddUpdateAction {
@@ -63,7 +63,7 @@ type UpdateAction = AddUpdateAction | RemoveUpdateAction;
  * Service to update lesson presences. Updates UI state optimistically, debounces requests and reverts state on error.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LessonPresencesUpdateService implements OnDestroy {
   private destroy$ = new Subject<void>();
@@ -185,11 +185,11 @@ export class LessonPresencesUpdateService implements OnDestroy {
     updates: ReadonlyArray<LessonPresenceUpdate>,
     error: unknown,
   ): Observable<void> {
-    console.error('Bulk-update of lesson presences failed');
+    console.error("Bulk-update of lesson presences failed");
     console.error(error);
 
     this.toastService.error(
-      this.translate.instant('shared.lesson-presences-update.error'),
+      this.translate.instant("shared.lesson-presences-update.error"),
     );
 
     // Revert UI back to it's original state

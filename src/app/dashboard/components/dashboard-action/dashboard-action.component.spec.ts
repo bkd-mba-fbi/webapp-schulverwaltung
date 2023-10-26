@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DashboardActionComponent } from './dashboard-action.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { DashboardDeadlineComponent } from '../dashboard-deadline/dashboard-deadline.component';
+import { DashboardActionComponent } from "./dashboard-action.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
 
-describe('DashboardActionComponent', () => {
+describe("DashboardActionComponent", () => {
   let component: DashboardActionComponent;
   let fixture: ComponentFixture<DashboardActionComponent>;
   let element: HTMLElement;
@@ -21,21 +21,21 @@ describe('DashboardActionComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  it('should render an action with label and icon', () => {
-    component.label = 'action.label';
+  it("should render an action with label and icon", () => {
+    component.label = "action.label";
     fixture.detectChanges();
 
-    expect(element.textContent).toContain('action.label');
-    expect(element.querySelector('svg')).not.toBeNull();
+    expect(element.textContent).toContain("action.label");
+    expect(element.querySelector("svg")).not.toBeNull();
   });
 
-  it('should render an action with label and count', () => {
-    component.label = 'action.label';
+  it("should render an action with label and count", () => {
+    component.label = "action.label";
     component.count = 77;
     fixture.detectChanges();
 
-    expect(element.textContent).toContain('action.label');
-    expect(element.textContent).toContain('77');
-    expect(element.querySelector('svg')).toBeNull();
+    expect(element.textContent).toContain("action.label");
+    expect(element.textContent).toContain("77");
+    expect(element.querySelector("svg")).toBeNull();
   });
 });

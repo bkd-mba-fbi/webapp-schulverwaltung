@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   BehaviorSubject,
   combineLatest,
@@ -8,22 +8,22 @@ import {
   ReplaySubject,
   scan,
   shareReplay,
-} from 'rxjs';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+} from "rxjs";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { LoadingService } from "src/app/shared/services/loading-service";
+import { filter, map, switchMap, take } from "rxjs/operators";
 import {
   Course,
   Grading,
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
-} from '../../shared/models/course.model';
-import { notNull } from '../../shared/utils/filter';
-import { courseReducer, TestsAction } from '../utils/course-reducer';
-import { Test } from '../../shared/models/test.model';
-import { spread } from '../../shared/utils/function';
-import { uniq } from 'lodash-es';
+} from "../../shared/models/course.model";
+import { notNull } from "../../shared/utils/filter";
+import { courseReducer, TestsAction } from "../utils/course-reducer";
+import { Test } from "../../shared/models/test.model";
+import { spread } from "../../shared/utils/function";
+import { uniq } from "lodash-es";
 import {
   averageOfGradesForScale,
   compareFn,
@@ -32,15 +32,15 @@ import {
   SortKeys,
   StudentGrade,
   transform,
-} from '../../shared/models/student-grades';
-import { Sorting, SortService } from '../../shared/services/sort.service';
-import { GradingScalesRestService } from '../../shared/services/grading-scales-rest.service';
-import { GradingsRestService } from '../../shared/services/gradings-rest.service';
-import { DropDownItem } from '../../shared/models/drop-down-item.model';
-import { canSetFinalGrade } from '../utils/events';
-import { sortByDate } from '../utils/tests';
+} from "../../shared/models/student-grades";
+import { Sorting, SortService } from "../../shared/services/sort.service";
+import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
+import { GradingsRestService } from "../../shared/services/gradings-rest.service";
+import { DropDownItem } from "../../shared/models/drop-down-item.model";
+import { canSetFinalGrade } from "../utils/events";
+import { sortByDate } from "../utils/tests";
 
-export type Filter = 'all-tests' | 'my-tests';
+export type Filter = "all-tests" | "my-tests";
 
 export type GradingScaleOptions = {
   [id: number]: DropDownItem[];
@@ -67,11 +67,11 @@ export class TestStateService {
 
   course$: Observable<Course> = merge(this.action$, this.fetchedCourse$).pipe(
     map<TestsAction | Course, TestsAction>((actionOrFetchedCourse) => {
-      if ('type' in actionOrFetchedCourse) {
+      if ("type" in actionOrFetchedCourse) {
         return actionOrFetchedCourse;
       }
       return {
-        type: 'reset',
+        type: "reset",
         payload: actionOrFetchedCourse,
       };
     }),
@@ -84,7 +84,7 @@ export class TestStateService {
     map(sortByDate),
   );
 
-  filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>('all-tests');
+  filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>("all-tests");
 
   expandedHeader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false,
@@ -93,7 +93,7 @@ export class TestStateService {
   filteredTests$ = combineLatest([this.tests$, this.filter$]).pipe(
     map(([tests, filter]) =>
       tests.filter((test) => {
-        if (filter === 'all-tests') {
+        if (filter === "all-tests") {
           return true;
         } else {
           return test.IsOwner;
@@ -241,7 +241,7 @@ export class TestStateService {
   }
 
   deleteTest(testId: number) {
-    this.action$.next({ type: 'delete-test', payload: testId });
+    this.action$.next({ type: "delete-test", payload: testId });
   }
 
   overwriteFinalGrade({
@@ -253,7 +253,7 @@ export class TestStateService {
   }) {
     this.gradingsRestService.updateGrade(id, selectedGradeId).subscribe(() => {
       this.action$.next({
-        type: 'final-grade-overwritten',
+        type: "final-grade-overwritten",
         payload: { id, selectedGradeId },
       });
     });
@@ -264,7 +264,7 @@ export class TestStateService {
       .setAverageAsFinalGrade(courseIds)
       .subscribe((response) =>
         this.action$.next({
-          type: 'replace-grades',
+          type: "replace-grades",
           payload: response.Gradings,
         }),
       );
@@ -279,7 +279,7 @@ export class TestStateService {
     );
     if (grading === undefined) return;
     this.action$.next({
-      type: 'updateResult',
+      type: "updateResult",
       payload: {
         testResult: newGrades.body.TestResults[0],
         grading,
@@ -289,7 +289,7 @@ export class TestStateService {
 
   private toggleTestPublishedState(testId: number) {
     this.action$.next({
-      type: 'toggle-test-state',
+      type: "toggle-test-state",
       payload: testId,
     });
   }

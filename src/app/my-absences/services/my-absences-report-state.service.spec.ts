@@ -1,26 +1,26 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from "@angular/core/testing";
 
-import { MyAbsencesReportStateService } from './my-absences-report-state.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { StudentsRestService } from '../../shared/services/students-rest.service';
-import { of } from 'rxjs';
-import { TimetableEntry } from '../../shared/models/timetable-entry.model';
+import { MyAbsencesReportStateService } from "./my-absences-report-state.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { StudentsRestService } from "../../shared/services/students-rest.service";
+import { of } from "rxjs";
+import { TimetableEntry } from "../../shared/models/timetable-entry.model";
 import {
   buildLessonAbsence,
   buildLessonDispensation,
   buildLessonPresenceFromTimetableEntry,
   buildPayLoad,
   buildTimetableEntry,
-} from '../../../spec-builders';
-import { addHours, subHours } from 'date-fns';
+} from "../../../spec-builders";
+import { addHours, subHours } from "date-fns";
 
-describe('MyAbsencesReportStateService', () => {
+describe("MyAbsencesReportStateService", () => {
   let service: MyAbsencesReportStateService;
   let entriesCallback: jasmine.Spy;
   const storageMock: jasmine.SpyObj<StorageService> = jasmine.createSpyObj(
-    'StorageService',
-    ['getPayload'],
+    "StorageService",
+    ["getPayload"],
   );
 
   let beforeLessonStart: TimetableEntry;
@@ -59,10 +59,10 @@ describe('MyAbsencesReportStateService', () => {
                 return of([beforeLessonStart, onLessonStart, afterLessonStart]);
               },
               getLessonAbsences() {
-                return of([buildLessonAbsence('1')]);
+                return of([buildLessonAbsence("1")]);
               },
               getLessonDispensations() {
-                return of([buildLessonDispensation('1')]);
+                return of([buildLessonDispensation("1")]);
               },
             },
           },
@@ -71,9 +71,9 @@ describe('MyAbsencesReportStateService', () => {
     );
   });
 
-  describe('with instance GymHofwil', () => {
-    it('should return all entries', fakeAsync(() => {
-      initializeServiceWithInstance('GymHofwil');
+  describe("with instance GymHofwil", () => {
+    it("should return all entries", fakeAsync(() => {
+      initializeServiceWithInstance("GymHofwil");
 
       service.setFilter({ dateFrom: new Date(), dateTo: new Date() });
       tick(10);
@@ -86,9 +86,9 @@ describe('MyAbsencesReportStateService', () => {
     }));
   });
 
-  describe('with instance BsTest', () => {
-    it('should only return entries starting after lesson start', fakeAsync(() => {
-      initializeServiceWithInstance('BsTest');
+  describe("with instance BsTest", () => {
+    it("should only return entries starting after lesson start", fakeAsync(() => {
+      initializeServiceWithInstance("BsTest");
 
       service.setFilter({ dateFrom: new Date(), dateTo: new Date() });
       tick(1000);
@@ -100,9 +100,9 @@ describe('MyAbsencesReportStateService', () => {
   });
 
   function initializeServiceWithInstance(instance: string) {
-    storageMock.getPayload.and.returnValue(buildPayLoad('42', instance));
+    storageMock.getPayload.and.returnValue(buildPayLoad("42", instance));
     service = TestBed.inject(MyAbsencesReportStateService);
-    entriesCallback = jasmine.createSpy('entries$ callback');
+    entriesCallback = jasmine.createSpy("entries$ callback");
     service.entries$.subscribe(entriesCallback);
   }
 });

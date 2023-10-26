@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
-import * as t from 'io-ts/lib/index';
+import { TestBed } from "@angular/core/testing";
+import { HttpTestingController } from "@angular/common/http/testing";
+import * as t from "io-ts/lib/index";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { PresenceTypesService } from './presence-types.service';
-import { PresenceType } from '../models/presence-type.model';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { PresenceTypesService } from "./presence-types.service";
+import { PresenceType } from "../models/presence-type.model";
 
-describe('PresenceTypesService', () => {
+describe("PresenceTypesService", () => {
   let service: PresenceTypesService;
   let httpTestingController: HttpTestingController;
 
@@ -30,7 +30,7 @@ describe('PresenceTypesService', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
 
     present = {
-      Designation: 'Abwesend',
+      Designation: "Abwesend",
       Active: true,
       Sort: 0,
       NeedsConfirmation: true,
@@ -42,7 +42,7 @@ describe('PresenceTypesService', () => {
       Id: 11,
     };
     comment = {
-      Designation: 'Kommentar',
+      Designation: "Kommentar",
       Active: true,
       Sort: 1,
       NeedsConfirmation: false,
@@ -54,7 +54,7 @@ describe('PresenceTypesService', () => {
       Id: 10000,
     };
     halfday = {
-      Designation: 'Freier Halbtag',
+      Designation: "Freier Halbtag",
       Active: true,
       Sort: 2,
       NeedsConfirmation: false,
@@ -66,7 +66,7 @@ describe('PresenceTypesService', () => {
       Id: 17,
     };
     dispensation = {
-      Designation: 'Dispensation',
+      Designation: "Dispensation",
       Active: true,
       Sort: 3,
       NeedsConfirmation: false,
@@ -78,7 +78,7 @@ describe('PresenceTypesService', () => {
       Id: 18,
     };
     doctor = {
-      Designation: 'Arzt- oder Zahnarztbesuch',
+      Designation: "Arzt- oder Zahnarztbesuch",
       Active: true,
       Sort: 4,
       NeedsConfirmation: true,
@@ -90,7 +90,7 @@ describe('PresenceTypesService', () => {
       Id: 12,
     };
     late = {
-      Designation: 'Verspätung',
+      Designation: "Verspätung",
       Active: true,
       Sort: 5,
       NeedsConfirmation: false,
@@ -102,7 +102,7 @@ describe('PresenceTypesService', () => {
       Id: 20,
     };
     illness = {
-      Designation: 'Krankheit',
+      Designation: "Krankheit",
       Active: true,
       Sort: 6,
       NeedsConfirmation: true,
@@ -114,7 +114,7 @@ describe('PresenceTypesService', () => {
       Id: 13,
     };
     military = {
-      Designation: 'Dienstpflicht',
+      Designation: "Dienstpflicht",
       Active: true,
       Sort: 7,
       NeedsConfirmation: true,
@@ -126,7 +126,7 @@ describe('PresenceTypesService', () => {
       Id: 23,
     };
     ek = {
-      Designation: 'Teilnahme an externen Kursen',
+      Designation: "Teilnahme an externen Kursen",
       Active: true,
       Sort: 8,
       NeedsConfirmation: true,
@@ -138,7 +138,7 @@ describe('PresenceTypesService', () => {
       Id: 16,
     };
     death = {
-      Designation: 'Todesfall in der Familie',
+      Designation: "Todesfall in der Familie",
       Active: true,
       Sort: 9,
       NeedsConfirmation: true,
@@ -150,7 +150,7 @@ describe('PresenceTypesService', () => {
       Id: 21,
     };
     uk = {
-      Designation: 'Überbetriebliche Kurse ÜK',
+      Designation: "Überbetriebliche Kurse ÜK",
       Active: false,
       Sort: 10,
       NeedsConfirmation: true,
@@ -162,7 +162,7 @@ describe('PresenceTypesService', () => {
       Id: 15,
     };
     accident = {
-      Designation: 'Unfall',
+      Designation: "Unfall",
       Active: true,
       Sort: 11,
       NeedsConfirmation: true,
@@ -174,7 +174,7 @@ describe('PresenceTypesService', () => {
       Id: 22,
     };
     other = {
-      Designation: 'Andere Gründe',
+      Designation: "Andere Gründe",
       Active: true,
       Sort: 50,
       NeedsConfirmation: true,
@@ -189,7 +189,7 @@ describe('PresenceTypesService', () => {
 
   afterEach(() => {
     httpTestingController
-      .expectOne('https://eventotest.api/PresenceTypes/')
+      .expectOne("https://eventotest.api/PresenceTypes/")
       .flush(
         t
           .array(PresenceType)
@@ -213,8 +213,8 @@ describe('PresenceTypesService', () => {
     httpTestingController.verify();
   });
 
-  describe('.presenceTypes$', () => {
-    it('emits all presence types, ordered by Sort attribute', () => {
+  describe(".presenceTypes$", () => {
+    it("emits all presence types, ordered by Sort attribute", () => {
       service.presenceTypes$.subscribe((result) => {
         expect(result).toEqual([
           present,
@@ -235,8 +235,8 @@ describe('PresenceTypesService', () => {
     });
   });
 
-  describe('.activePresenceTypes$', () => {
-    it('emits all presence types, ordered by Sort attribute', () => {
+  describe(".activePresenceTypes$", () => {
+    it("emits all presence types, ordered by Sort attribute", () => {
       service.activePresenceTypes$.subscribe((result) => {
         expect(result).toEqual([
           present,
@@ -256,8 +256,8 @@ describe('PresenceTypesService', () => {
     });
   });
 
-  describe('.confirmationTypes$', () => {
-    it('emits absences that are active and need confirmation', () => {
+  describe(".confirmationTypes$", () => {
+    it("emits absences that are active and need confirmation", () => {
       service.confirmationTypes$.subscribe((result) => {
         expect(result).toEqual([
           doctor,
@@ -272,22 +272,22 @@ describe('PresenceTypesService', () => {
     });
   });
 
-  describe('.incidentTypes$', () => {
-    it('emits presence types that are incidents', () => {
+  describe(".incidentTypes$", () => {
+    it("emits presence types that are incidents", () => {
       service.incidentTypes$.subscribe((result) => {
         expect(result).toEqual([late]);
       });
     });
   });
 
-  describe('.halfDayActive$', () => {
+  describe(".halfDayActive$", () => {
     let callback: jasmine.Spy;
 
     beforeEach(() => {
-      callback = jasmine.createSpy('callback');
+      callback = jasmine.createSpy("callback");
     });
 
-    it('emits true if half day presence type is active', () => {
+    it("emits true if half day presence type is active", () => {
       halfday.Active = true;
       service.halfDayActive$.subscribe({
         next: callback,
@@ -297,7 +297,7 @@ describe('PresenceTypesService', () => {
       });
     });
 
-    it('emits false if half day presence type is not active', () => {
+    it("emits false if half day presence type is not active", () => {
       halfday.Active = false;
       service.halfDayActive$.subscribe({
         next: callback,

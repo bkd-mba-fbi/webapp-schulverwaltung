@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import { Option } from './common-types';
+import * as t from "io-ts";
+import { Option } from "./common-types";
 
 const Grade = t.type({
   Id: t.number,

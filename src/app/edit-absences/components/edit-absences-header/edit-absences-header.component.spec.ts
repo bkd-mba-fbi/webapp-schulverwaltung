@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { of } from "rxjs";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { EditAbsencesHeaderComponent } from './edit-absences-header.component';
-import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { EditAbsencesHeaderComponent } from "./edit-absences-header.component";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
 
-describe('EditAbsencesHeaderComponent', () => {
+describe("EditAbsencesHeaderComponent", () => {
   let component: EditAbsencesHeaderComponent;
   let fixture: ComponentFixture<EditAbsencesHeaderComponent>;
 
@@ -20,7 +20,7 @@ describe('EditAbsencesHeaderComponent', () => {
               absenceConfirmationStates$: of([]),
               presenceTypes$: of([]),
               selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],
-              removeSelectedEntries: jasmine.createSpy('removeSelectedEntries'),
+              removeSelectedEntries: jasmine.createSpy("removeSelectedEntries"),
             },
           },
         ],
@@ -34,7 +34,7 @@ describe('EditAbsencesHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

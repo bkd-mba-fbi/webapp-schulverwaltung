@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { PresenceControlComponent } from './presence-control.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { PresenceControlComponent } from "./presence-control.component";
 
-describe('PresenceControlComponent', () => {
+describe("PresenceControlComponent", () => {
   let component: PresenceControlComponent;
   let fixture: ComponentFixture<PresenceControlComponent>;
 
@@ -21,7 +21,7 @@ describe('PresenceControlComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

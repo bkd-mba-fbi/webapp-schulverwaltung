@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'erz-events-tests',
-  templateUrl: './events-tests.component.html',
-  styleUrls: ['./events-tests.component.scss'],
+  selector: "erz-events-tests",
+  templateUrl: "./events-tests.component.html",
+  styleUrls: ["./events-tests.component.scss"],
 })
 export class EventsTestsComponent {
   constructor() {}

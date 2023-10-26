@@ -1,22 +1,22 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from "@angular/core";
 import {
   Observable,
   Subject,
   ReplaySubject,
   Subscription,
   connectable,
-} from 'rxjs';
+} from "rxjs";
 import {
   map,
   finalize,
   scan,
   startWith,
   distinctUntilChanged,
-} from 'rxjs/operators';
-import { prepare } from '../utils/observable';
+} from "rxjs/operators";
+import { prepare } from "../utils/observable";
 
 interface LoadingAction {
-  action: 'increment' | 'decrement';
+  action: "increment" | "decrement";
   context: string;
 }
 
@@ -24,10 +24,10 @@ interface LoadingCounts {
   [context: string]: number;
 }
 
-const DEFAULT_CONTEXT = 'default';
+const DEFAULT_CONTEXT = "default";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LoadingService implements OnDestroy {
   private action$ = new Subject<LoadingAction>();
@@ -37,10 +37,10 @@ export class LoadingService implements OnDestroy {
     this.action$.pipe(
       scan((counts, { action, context }) => {
         switch (action) {
-          case 'increment':
+          case "increment":
             counts[context] = (counts[context] || 0) + 1;
             return counts;
-          case 'decrement':
+          case "decrement":
             counts[context] = Math.max(0, (counts[context] || 0) - 1);
             return counts;
           default:
@@ -78,11 +78,11 @@ export class LoadingService implements OnDestroy {
   }
 
   private incrementLoadingCount(context: string): () => void {
-    return () => this.action$.next({ action: 'increment', context });
+    return () => this.action$.next({ action: "increment", context });
   }
 
   private decrementLoadingCount(context: string): () => void {
-    return () => this.action$.next({ action: 'decrement', context });
+    return () => this.action$.next({ action: "decrement", context });
   }
 }
 

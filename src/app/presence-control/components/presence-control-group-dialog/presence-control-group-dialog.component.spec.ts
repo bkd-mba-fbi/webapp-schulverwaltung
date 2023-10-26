@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { buildSubscriptionDetail } from '../../../../spec-builders';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildSubscriptionDetail } from "../../../../spec-builders";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
 
 import {
   PresenceControlGroupDialogComponent,
   DialogMode,
-} from './presence-control-group-dialog.component';
+} from "./presence-control-group-dialog.component";
 
-describe('PresenceControlGroupDialogComponent', () => {
+describe("PresenceControlGroupDialogComponent", () => {
   let component: PresenceControlGroupDialogComponent;
   let fixture: ComponentFixture<PresenceControlGroupDialogComponent>;
 
@@ -30,12 +30,12 @@ describe('PresenceControlGroupDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
-    expect(component.title).toBe('presence-control.groups.select.title');
+    expect(component.title).toBe("presence-control.groups.select.title");
     expect(component.selected).toEqual({
       id: null,
-      label: 'presence-control.groups.all',
+      label: "presence-control.groups.all",
     });
   });
 });

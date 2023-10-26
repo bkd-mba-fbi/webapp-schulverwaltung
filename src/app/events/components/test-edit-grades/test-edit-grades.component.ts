@@ -1,27 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { PublishTestComponent } from 'src/app/events/components/tests-publish/publish-test.component';
+import { Component, Input, OnInit } from "@angular/core";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
 import {
   TestGradesResult,
   TestPointsResult,
-} from 'src/app/shared/models/course.model';
+} from "src/app/shared/models/course.model";
 import {
   GradeOrNoResult,
   StudentGrade,
-} from 'src/app/shared/models/student-grades';
-import { Student } from 'src/app/shared/models/student.model';
-import { Test } from '../../../shared/models/test.model';
-import { EventsStateService } from '../../services/events-state.service';
-import { Filter, TestStateService } from '../../services/test-state.service';
-import { getEventState } from '../../utils/events';
-import { averageGrade, averagePoints } from '../../utils/tests';
-import { map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+} from "src/app/shared/models/student-grades";
+import { Student } from "src/app/shared/models/student.model";
+import { Test } from "../../../shared/models/test.model";
+import { EventsStateService } from "../../services/events-state.service";
+import { Filter, TestStateService } from "../../services/test-state.service";
+import { getEventState } from "../../utils/events";
+import { averageGrade, averagePoints } from "../../utils/tests";
+import { map, take } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Component({
-  selector: 'erz-test-edit-grades',
-  templateUrl: './test-edit-grades.component.html',
-  styleUrls: ['./test-edit-grades.component.scss'],
+  selector: "erz-test-edit-grades",
+  templateUrl: "./test-edit-grades.component.html",
+  styleUrls: ["./test-edit-grades.component.scss"],
   providers: [EventsStateService],
 })
 export class TestEditGradesComponent implements OnInit {
@@ -34,7 +34,7 @@ export class TestEditGradesComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO move to sort implementation
-    this.state.setSorting({ key: 'FullName', ascending: true });
+    this.state.setSorting({ key: "FullName", ascending: true });
   }
 
   changeFilter(filter: Filter) {
@@ -95,7 +95,7 @@ export class TestEditGradesComponent implements OnInit {
     try {
       return calculator(test).toString();
     } catch {
-      return '-';
+      return "-";
     }
   }
 

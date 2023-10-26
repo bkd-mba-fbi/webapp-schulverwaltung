@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   debounceTime,
   map,
@@ -8,7 +8,7 @@ import {
   Subject,
   switchMap,
   tap,
-} from 'rxjs';
+} from "rxjs";
 import {
   UserSetting,
   NotificationChannels,
@@ -18,24 +18,24 @@ import {
   PresenceControlViewMode,
   PresenceControlViewModeObject,
   PresenceControlGroupView,
-} from '../models/user-settings.model';
-import { decode } from '../utils/decode';
-import { defaultValue } from '../utils/observable';
-import { UserSettingsRestService } from './user-settings-rest.service';
+} from "../models/user-settings.model";
+import { decode } from "../utils/decode";
+import { defaultValue } from "../utils/observable";
+import { UserSettingsRestService } from "./user-settings-rest.service";
 
-type SettingKey = UserSetting['Key'];
-type SettingValue = UserSetting['Value'];
+type SettingKey = UserSetting["Key"];
+type SettingValue = UserSetting["Value"];
 
 export const REFETCH_DEBOUNCE_TIME = 100;
 
-const PRESENCE_CONTROL_VIEW_MODE_KEY = 'presenceControlViewMode';
-const PRESENCE_CONTROL_GROUP_VIEW_KEY = 'presenceControlGroupView';
-const NOTIFICATION_CHANNELS_KEY = 'notification';
-const NOTIFICATION_TYPES_INACTIVE_KEY = 'notificationTypesInactive';
-const NOTIFICATION_DATA_KEY = 'notificationData';
+const PRESENCE_CONTROL_VIEW_MODE_KEY = "presenceControlViewMode";
+const PRESENCE_CONTROL_GROUP_VIEW_KEY = "presenceControlGroupView";
+const NOTIFICATION_CHANNELS_KEY = "notification";
+const NOTIFICATION_TYPES_INACTIVE_KEY = "notificationTypesInactive";
+const NOTIFICATION_DATA_KEY = "notificationData";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserSettingsService {
   private refetch$ = new Subject<void>();
@@ -105,7 +105,7 @@ export class UserSettingsService {
 
   getPresenceControlGroupView(): Observable<PresenceControlGroupView> {
     return this.getSetting(PRESENCE_CONTROL_GROUP_VIEW_KEY).pipe(
-      defaultValue('[]'),
+      defaultValue("[]"),
       switchMap(decode(PresenceControlGroupView)),
     );
   }
@@ -121,7 +121,7 @@ export class UserSettingsService {
 
   getNotificationChannels(): Observable<NotificationChannels> {
     return this.getSetting(NOTIFICATION_CHANNELS_KEY).pipe(
-      defaultValue('{}'), // Use empty object if not available, properties will be set to default value by decoder
+      defaultValue("{}"), // Use empty object if not available, properties will be set to default value by decoder
       switchMap(decode(NotificationChannels)),
     );
   }
@@ -135,7 +135,7 @@ export class UserSettingsService {
 
   getNotificationTypesInactive(): Observable<NotificationTypesInactive> {
     return this.getSetting(NOTIFICATION_TYPES_INACTIVE_KEY).pipe(
-      defaultValue(''), // Per default, no notification types are inactive (all are subscribed)
+      defaultValue(""), // Per default, no notification types are inactive (all are subscribed)
       switchMap(decode(NotificationTypesInactive)),
     );
   }
@@ -151,7 +151,7 @@ export class UserSettingsService {
 
   getNotificationData(): Observable<NotificationData> {
     return this.getSetting(NOTIFICATION_DATA_KEY).pipe(
-      defaultValue('[]'),
+      defaultValue("[]"),
       switchMap(decode(NotificationData)),
     );
   }
@@ -172,7 +172,7 @@ export class UserSettingsService {
 
   private buildSettings(key: SettingKey, value: SettingValue): UserSettings {
     return {
-      Id: 'Cst',
+      Id: "Cst",
       Settings: [{ Key: key, Value: value }],
     };
   }

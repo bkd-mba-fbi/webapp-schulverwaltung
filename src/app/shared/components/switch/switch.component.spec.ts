@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { SwitchComponent } from './switch.component';
+import { SwitchComponent } from "./switch.component";
 
-describe('SwitchComponent', () => {
+describe("SwitchComponent", () => {
   let component: SwitchComponent;
   let fixture: ComponentFixture<SwitchComponent>;
   let element: HTMLElement;
@@ -22,27 +22,27 @@ describe('SwitchComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  it('renders a checkbox with auto generated id', async () => {
+  it("renders a checkbox with auto generated id", async () => {
     await waitForRender();
     const checkbox = getInput();
-    expect(checkbox.getAttribute('id')).toBeDefined();
+    expect(checkbox.getAttribute("id")).toBeDefined();
   });
 
-  it('renders a checkbox with custom id', async () => {
-    component.id = 'custom-id';
+  it("renders a checkbox with custom id", async () => {
+    component.id = "custom-id";
     await waitForRender();
     const checkbox = getInput();
-    expect(checkbox.id).toBe('custom-id');
+    expect(checkbox.id).toBe("custom-id");
   });
 
-  it('renders disabled checkbox', async () => {
+  it("renders disabled checkbox", async () => {
     component.disabled = true;
     await waitForRender();
     const checkbox = getInput();
     expect(checkbox.disabled).toBe(true);
   });
 
-  it('renders checkbox with given value', async () => {
+  it("renders checkbox with given value", async () => {
     await waitForRender();
     const checkbox = getInput();
 
@@ -55,8 +55,8 @@ describe('SwitchComponent', () => {
     expect(checkbox.checked).toBe(false);
   });
 
-  it('emits value change on checkbox click', async () => {
-    const callback = jasmine.createSpy('callback');
+  it("emits value change on checkbox click", async () => {
+    const callback = jasmine.createSpy("callback");
     component.value = false;
     component.valueChange.subscribe(callback);
     await waitForRender();

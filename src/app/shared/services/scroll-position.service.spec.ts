@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { ScrollPositionService } from './scroll-position.service';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { ScrollPositionService } from "./scroll-position.service";
 
-describe('ScrollPositionService', () => {
+describe("ScrollPositionService", () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
-  it('should be created', () => {
+  it("should be created", () => {
     const service: ScrollPositionService = TestBed.inject(
       ScrollPositionService,
     );

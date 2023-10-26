@@ -1,20 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Settings, SETTINGS } from '../../settings';
-import { SubscriptionDetail } from '../models/subscription-detail.model';
-import { RestService } from './rest.service';
-import { GroupOptions } from '../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component';
+import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Settings, SETTINGS } from "../../settings";
+import { SubscriptionDetail } from "../models/subscription-detail.model";
+import { RestService } from "./rest.service";
+import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SubscriptionDetailsRestService extends RestService<
   typeof SubscriptionDetail
 > {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, SubscriptionDetail, 'SubscriptionDetails');
+    super(http, settings, SubscriptionDetail, "SubscriptionDetails");
   }
 
   getListForEvent(
@@ -24,7 +24,7 @@ export class SubscriptionDetailsRestService extends RestService<
   }
 
   update(
-    group: GroupOptions['id'],
+    group: GroupOptions["id"],
     detail: SubscriptionDetail,
   ): Observable<void> {
     const body = {

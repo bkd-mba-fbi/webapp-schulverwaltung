@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { format } from 'date-fns';
+import { Inject, Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { format } from "date-fns";
 import {
   BehaviorSubject,
   combineLatest,
@@ -8,28 +8,28 @@ import {
   Observable,
   shareReplay,
   switchMap,
-} from 'rxjs';
-import { Settings, SETTINGS } from 'src/app/settings';
-import { Course } from 'src/app/shared/models/course.model';
-import { StudyClass } from 'src/app/shared/models/study-class.model';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
-import { spread } from 'src/app/shared/utils/function';
-import { hasRole } from 'src/app/shared/utils/roles';
-import { searchEntries } from 'src/app/shared/utils/search';
-import { EventStateWithLabel, getEventState, isRated } from '../utils/events';
-import { EventsRestService } from 'src/app/shared/services/events-rest.service';
+} from "rxjs";
+import { Settings, SETTINGS } from "src/app/settings";
+import { Course } from "src/app/shared/models/course.model";
+import { StudyClass } from "src/app/shared/models/study-class.model";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { LoadingService } from "src/app/shared/services/loading-service";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { spread } from "src/app/shared/utils/function";
+import { hasRole } from "src/app/shared/utils/roles";
+import { searchEntries } from "src/app/shared/utils/search";
+import { EventStateWithLabel, getEventState, isRated } from "../utils/events";
+import { EventsRestService } from "src/app/shared/services/events-rest.service";
 
 export enum EventState {
-  Rating = 'rating',
-  RatingUntil = 'rating-until',
-  IntermediateRating = 'intermediate-rating',
-  Tests = 'add-tests',
+  Rating = "rating",
+  RatingUntil = "rating-until",
+  IntermediateRating = "intermediate-rating",
+  Tests = "add-tests",
 }
 
-type LinkType = 'evaluation' | 'eventdetail';
+type LinkType = "evaluation" | "eventdetail";
 export interface Event {
   id: number;
   Designation: string;
@@ -41,10 +41,10 @@ export interface Event {
   evaluationText?: string;
   evaluationLink?: Option<string>;
 }
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
-  search$ = new BehaviorSubject<string>('');
+  search$ = new BehaviorSubject<string>("");
   roles$ = new BehaviorSubject<Maybe<string>>(undefined);
 
   private formativeAssessments$ =
@@ -88,7 +88,7 @@ export class EventsStateService {
   private loadEventsForRoles(
     roles: Maybe<string>,
   ): Observable<ReadonlyArray<Event>> {
-    return hasRole(roles, 'ClassTeacherRole')
+    return hasRole(roles, "ClassTeacherRole")
       ? combineLatest([
           this.loadCoursesNotRated(roles),
           this.formativeAssessments$,
@@ -128,7 +128,7 @@ export class EventsStateService {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
       Designation: studyClass.Number,
-      detailLink: this.buildLink(studyClass.Id, 'eventdetail'),
+      detailLink: this.buildLink(studyClass.Id, "eventdetail"),
       studentCount: studyClass.StudentCount,
       state: null,
     }));
@@ -142,8 +142,8 @@ export class EventsStateService {
     return events.map((e) => ({
       ...e,
       state: EventState.Rating,
-      evaluationText: this.translate.instant('events.state.rating'),
-      evaluationLink: this.buildLink(e.id, 'evaluation'),
+      evaluationText: this.translate.instant("events.state.rating"),
+      evaluationLink: this.buildLink(e.id, "evaluation"),
     }));
   }
 
@@ -156,7 +156,7 @@ export class EventsStateService {
       return {
         id: course.Id,
         Designation: this.eventsRestService.getDesignation(course),
-        detailLink: this.buildLink(course.Id, 'eventdetail'),
+        detailLink: this.buildLink(course.Id, "eventdetail"),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
@@ -178,9 +178,9 @@ export class EventsStateService {
     return label
       ? this.translate.instant(`events.state.${label}`) +
           (label === EventState.RatingUntil
-            ? ` ${date ? format(date, 'dd.MM.yyyy') : ''}`
-            : '')
-      : '';
+            ? ` ${date ? format(date, "dd.MM.yyyy") : ""}`
+            : "")
+      : "";
   }
 
   private getEvaluationLink(
@@ -188,12 +188,12 @@ export class EventsStateService {
     course: Course,
   ): Option<string> {
     return state && state !== EventState.Tests
-      ? this.buildLink(course.Id, 'evaluation')
+      ? this.buildLink(course.Id, "evaluation")
       : null;
   }
 
   private buildLink(id: number, linkType: LinkType): string {
-    const link = this.settings.eventlist[linkType] ?? '';
-    return link.replace(':id', String(id));
+    const link = this.settings.eventlist[linkType] ?? "";
+    return link.replace(":id", String(id));
   }
 }

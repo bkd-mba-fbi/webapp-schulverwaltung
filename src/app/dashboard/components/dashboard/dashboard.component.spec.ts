@@ -1,17 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { BehaviorSubject } from "rxjs";
 
-import { DashboardComponent } from './dashboard.component';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StorageService } from '../../../shared/services/storage.service';
-import { DashboardService } from '../../services/dashboard.service';
-import { DashboardActionsComponent } from '../dashboard-actions/dashboard-actions.component';
-import { DashboardSearchComponent } from '../dashboard-search/dashboard-search.component';
-import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
-import { DashboardTimetableComponent } from '../dashboard-timetable/dashboard-timetable.component';
+import { DashboardComponent } from "./dashboard.component";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StorageService } from "../../../shared/services/storage.service";
+import { DashboardService } from "../../services/dashboard.service";
+import { DashboardActionsComponent } from "../dashboard-actions/dashboard-actions.component";
+import { DashboardSearchComponent } from "../dashboard-search/dashboard-search.component";
+import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
+import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-timetable.component";
 
-describe('DashboardComponent', () => {
+describe("DashboardComponent", () => {
   let fixture: ComponentFixture<DashboardComponent>;
   let element: HTMLElement;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
@@ -44,7 +44,7 @@ describe('DashboardComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { id_person: '123' };
+                return { id_person: "123" };
               },
             },
           },
@@ -57,87 +57,87 @@ describe('DashboardComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  describe('without roles', () => {
+  describe("without roles", () => {
     beforeEach(() => {
       roles$.next([]);
     });
 
-    it('displays placeholder message', () => {
+    it("displays placeholder message", () => {
       fixture.detectChanges();
-      expect(element.textContent).toContain('dashboard.no-access');
-      expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions.title');
-      expect(element.textContent).not.toContain('dashboard.timetable');
+      expect(element.textContent).toContain("dashboard.no-access");
+      expect(element.textContent).not.toContain("dashboard.search");
+      expect(element.textContent).not.toContain("dashboard.actions.title");
+      expect(element.textContent).not.toContain("dashboard.timetable");
     });
   });
 
-  describe('as lesson teacher', () => {
+  describe("as lesson teacher", () => {
     beforeEach(() => {
-      roles$.next(['LessonTeacherRole']);
+      roles$.next(["LessonTeacherRole"]);
     });
 
-    it('displays search, actions & timetable', () => {
+    it("displays search, actions & timetable", () => {
       fixture.detectChanges();
-      expect(element.textContent).not.toContain('dashboard.no-access');
-      expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions.title');
-      expect(element.textContent).toContain('dashboard.timetable');
+      expect(element.textContent).not.toContain("dashboard.no-access");
+      expect(element.textContent).toContain("dashboard.search");
+      expect(element.textContent).toContain("dashboard.actions.title");
+      expect(element.textContent).toContain("dashboard.timetable");
     });
   });
 
-  describe('as class teacher', () => {
+  describe("as class teacher", () => {
     beforeEach(() => {
-      roles$.next(['ClassTeacherRole']);
+      roles$.next(["ClassTeacherRole"]);
     });
 
-    it('displays search', () => {
+    it("displays search", () => {
       fixture.detectChanges();
-      expect(element.textContent).not.toContain('dashboard.no-access');
-      expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions.title');
-      expect(element.textContent).not.toContain('dashboard.timetable');
+      expect(element.textContent).not.toContain("dashboard.no-access");
+      expect(element.textContent).toContain("dashboard.search");
+      expect(element.textContent).not.toContain("dashboard.actions.title");
+      expect(element.textContent).not.toContain("dashboard.timetable");
     });
   });
 
-  describe('as student', () => {
+  describe("as student", () => {
     beforeEach(() => {
-      roles$.next(['StudentRole']);
+      roles$.next(["StudentRole"]);
     });
 
-    it('displays actions & timetable', () => {
+    it("displays actions & timetable", () => {
       fixture.detectChanges();
-      expect(element.textContent).not.toContain('dashboard.no-access');
-      expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions.title');
-      expect(element.textContent).toContain('dashboard.timetable');
+      expect(element.textContent).not.toContain("dashboard.no-access");
+      expect(element.textContent).not.toContain("dashboard.search");
+      expect(element.textContent).toContain("dashboard.actions.title");
+      expect(element.textContent).toContain("dashboard.timetable");
     });
   });
 
-  describe('as absence administrator', () => {
+  describe("as absence administrator", () => {
     beforeEach(() => {
-      roles$.next(['AbsenceAdministratorRole']);
+      roles$.next(["AbsenceAdministratorRole"]);
     });
 
-    it('displays only search', () => {
+    it("displays only search", () => {
       fixture.detectChanges();
-      expect(element.textContent).not.toContain('dashboard.no-access');
-      expect(element.textContent).toContain('dashboard.search');
-      expect(element.textContent).not.toContain('dashboard.actions.title');
-      expect(element.textContent).not.toContain('dashboard.timetable');
+      expect(element.textContent).not.toContain("dashboard.no-access");
+      expect(element.textContent).toContain("dashboard.search");
+      expect(element.textContent).not.toContain("dashboard.actions.title");
+      expect(element.textContent).not.toContain("dashboard.timetable");
     });
   });
 
-  describe('as substitute administrator', () => {
+  describe("as substitute administrator", () => {
     beforeEach(() => {
-      roles$.next(['SubstituteAdministratorRole']);
+      roles$.next(["SubstituteAdministratorRole"]);
     });
 
-    it('displays actions', () => {
+    it("displays actions", () => {
       fixture.detectChanges();
-      expect(element.textContent).not.toContain('dashboard.no-access');
-      expect(element.textContent).not.toContain('dashboard.search');
-      expect(element.textContent).toContain('dashboard.actions.title');
-      expect(element.textContent).not.toContain('dashboard.timetable');
+      expect(element.textContent).not.toContain("dashboard.no-access");
+      expect(element.textContent).not.toContain("dashboard.search");
+      expect(element.textContent).toContain("dashboard.actions.title");
+      expect(element.textContent).not.toContain("dashboard.timetable");
     });
   });
 });

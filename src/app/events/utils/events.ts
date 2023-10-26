@@ -1,5 +1,5 @@
-import { Course } from '../../shared/models/course.model';
-import { EventState } from '../services/events-state.service';
+import { Course } from "../../shared/models/course.model";
+import { EventState } from "../services/events-state.service";
 
 export type EventStateWithLabel = {
   value: EventState;

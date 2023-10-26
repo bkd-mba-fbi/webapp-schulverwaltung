@@ -1,7 +1,7 @@
-import { registerLocaleData } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import localeDECH from '@angular/common/locales/de-CH';
-import localeFRCH from '@angular/common/locales/fr-CH';
+import { registerLocaleData } from "@angular/common";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import localeDECH from "@angular/common/locales/de-CH";
+import localeFRCH from "@angular/common/locales/fr-CH";
 import {
   ApplicationRef,
   DoBootstrap,
@@ -9,24 +9,24 @@ import {
   Injector,
   LOCALE_ID,
   NgModule,
-} from '@angular/core';
-import { createCustomElement } from '@angular/elements';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { GlobalErrorHandler } from './global-error-handler';
-import { HomeComponent } from './home.component';
-import { MyNotificationsShowComponent } from './my-notifications/components/my-notifications-show/my-notifications-show.component';
-import { Settings, SETTINGS } from './settings';
-import { I18nService } from './shared/services/i18n.service';
-import { SharedModule } from './shared/shared.module';
-import { UnauthenticatedComponent } from './unauthenticated.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+} from "@angular/core";
+import { createCustomElement } from "@angular/elements";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule } from "@angular/router";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { GlobalErrorHandler } from "./global-error-handler";
+import { HomeComponent } from "./home.component";
+import { MyNotificationsShowComponent } from "./my-notifications/components/my-notifications-show/my-notifications-show.component";
+import { Settings, SETTINGS } from "./settings";
+import { I18nService } from "./shared/services/i18n.service";
+import { SharedModule } from "./shared/shared.module";
+import { UnauthenticatedComponent } from "./unauthenticated.component";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { FormsModule } from "@angular/forms";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(
@@ -36,7 +36,7 @@ export function HttpLoaderFactory(
   return new TranslateHttpLoader(
     http,
     `${settings.scriptsAndAssetsPath}/assets/locales/`,
-    '.json',
+    ".json",
   );
 }
 
@@ -83,12 +83,12 @@ export class AppModule implements DoBootstrap {
       MyNotificationsShowComponent,
       { injector: this.injector },
     );
-    customElements.define('erz-notifications', notificationsElement);
+    customElements.define("erz-notifications", notificationsElement);
 
     const appElement = createCustomElement(AppComponent, {
       injector: this.injector,
     });
-    customElements.define('erz-app', appElement);
+    customElements.define("erz-app", appElement);
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method

@@ -1,13 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
-import * as t from 'io-ts';
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { switchMap, map } from "rxjs/operators";
+import * as t from "io-ts";
 
-import { Settings } from 'src/app/settings';
-import { pick } from '../utils/types';
-import { decodeArray, decode } from '../utils/decode';
-import { RestService } from '../services/rest.service';
-import { DropDownItem } from '../models/drop-down-item.model';
+import { Settings } from "src/app/settings";
+import { pick } from "../utils/types";
+import { decodeArray, decode } from "../utils/decode";
+import { RestService } from "../services/rest.service";
+import { DropDownItem } from "../models/drop-down-item.model";
 
 export class HttpParams {
   params: { [param: string]: string };
@@ -18,7 +18,7 @@ export interface TypeaheadService {
     term: string,
     additionalParams?: HttpParams,
   ): Observable<ReadonlyArray<DropDownItem>>;
-  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem>;
+  getTypeaheadItemByKey(key: DropDownItem["Key"]): Observable<DropDownItem>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,7 +36,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     codec: T,
     resourcePath: string,
     protected labelAttr: string,
-    protected keyAttr = 'Id',
+    protected keyAttr = "Id",
   ) {
     super(http, settings, codec, resourcePath);
   }
@@ -47,7 +47,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
   ): Observable<ReadonlyArray<DropDownItem>> {
     const params = {
       params: {
-        fields: [this.keyAttr, this.labelAttr].join(','),
+        fields: [this.keyAttr, this.labelAttr].join(","),
         [`filter.${this.labelAttr}`]: `~*${term}*`,
       },
     };
@@ -70,11 +70,11 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
       );
   }
 
-  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem> {
+  getTypeaheadItemByKey(key: DropDownItem["Key"]): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${key}`, {
         params: {
-          fields: [this.keyAttr, this.labelAttr].join(','),
+          fields: [this.keyAttr, this.labelAttr].join(","),
         },
       })
       .pipe(
@@ -95,7 +95,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     };
     if (additionalParams.params.fields) {
       merged.params.fields = typeaheadParams.params.fields.concat(
-        ',',
+        ",",
         additionalParams.params.fields,
       );
     }

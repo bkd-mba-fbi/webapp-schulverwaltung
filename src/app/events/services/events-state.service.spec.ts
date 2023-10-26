@@ -1,17 +1,17 @@
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import * as t from 'io-ts/lib/index';
-import { Course } from 'src/app/shared/models/course.model';
-import { StudyClass } from 'src/app/shared/models/study-class.model';
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import * as t from "io-ts/lib/index";
+import { Course } from "src/app/shared/models/course.model";
+import { StudyClass } from "src/app/shared/models/study-class.model";
 import {
   buildCourse,
   buildFinalGrading,
   buildStudyClass,
-} from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { Event, EventsStateService, EventState } from './events-state.service';
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { Event, EventsStateService, EventState } from "./events-state.service";
 
-describe('EventsStateService', () => {
+describe("EventsStateService", () => {
   let service: EventsStateService;
   let httpTestingController: HttpTestingController;
 
@@ -44,12 +44,12 @@ describe('EventsStateService', () => {
       StudentCount: 20,
     };
 
-    studyClasses = [buildStudyClass(5, '22a'), buildStudyClass(6, '22b')];
+    studyClasses = [buildStudyClass(5, "22a"), buildStudyClass(6, "22b")];
     studyClassEvents = [
       {
         id: 5,
-        Designation: '22a',
-        detailLink: 'link-to-event-detail-module/5',
+        Designation: "22a",
+        detailLink: "link-to-event-detail-module/5",
         studentCount: 0,
         state: null,
       },
@@ -59,19 +59,19 @@ describe('EventsStateService', () => {
     assessmentEvents = [
       {
         id: 6,
-        Designation: '22b',
-        detailLink: 'link-to-event-detail-module/6',
+        Designation: "22b",
+        detailLink: "link-to-event-detail-module/6",
         studentCount: 0,
         state: EventState.Rating,
-        evaluationText: 'events.state.rating',
-        evaluationLink: 'link-to-evaluation-module/6',
+        evaluationText: "events.state.rating",
+        evaluationLink: "link-to-evaluation-module/6",
       },
     ];
 
     const ratedCourse = Object.assign(
       buildCourse(
         5,
-        'Deutsch',
+        "Deutsch",
         attendance,
         {
           ...evaluationStatus,
@@ -85,10 +85,10 @@ describe('EventsStateService', () => {
     );
 
     courses = [
-      buildCourse(1, 'Physik', attendance, evaluationStatus, studyClasses),
+      buildCourse(1, "Physik", attendance, evaluationStatus, studyClasses),
       buildCourse(
         2,
-        'Bio',
+        "Bio",
         attendance,
         {
           ...evaluationStatus,
@@ -99,7 +99,7 @@ describe('EventsStateService', () => {
       ),
       buildCourse(
         3,
-        'Zeichnen',
+        "Zeichnen",
         attendance,
         {
           ...evaluationStatus,
@@ -110,7 +110,7 @@ describe('EventsStateService', () => {
       ),
       buildCourse(
         4,
-        'Franz',
+        "Franz",
         attendance,
         {
           ...evaluationStatus,
@@ -123,13 +123,13 @@ describe('EventsStateService', () => {
 
     const courseEvent: Event = {
       id: 1,
-      Designation: 'Physik, 22a, 22b',
-      detailLink: 'link-to-event-detail-module/1',
-      dateFrom: new Date('2022-02-09T00:00:00'),
-      dateTo: new Date('2022-06-30T00:00:00'),
+      Designation: "Physik, 22a, 22b",
+      detailLink: "link-to-event-detail-module/1",
+      dateFrom: new Date("2022-02-09T00:00:00"),
+      dateTo: new Date("2022-06-30T00:00:00"),
       studentCount: 20,
       state: null,
-      evaluationText: '',
+      evaluationText: "",
       evaluationLink: null,
     };
 
@@ -137,29 +137,29 @@ describe('EventsStateService', () => {
       {
         ...courseEvent,
         id: 2,
-        Designation: 'Bio, 22a',
-        detailLink: 'link-to-event-detail-module/2',
+        Designation: "Bio, 22a",
+        detailLink: "link-to-event-detail-module/2",
         state: EventState.RatingUntil,
-        evaluationText: 'events.state.rating-until 03.06.2022',
-        evaluationLink: 'link-to-evaluation-module/2',
+        evaluationText: "events.state.rating-until 03.06.2022",
+        evaluationLink: "link-to-evaluation-module/2",
       },
       {
         ...courseEvent,
         id: 4,
-        Designation: 'Franz, 22a, 22b',
-        detailLink: 'link-to-event-detail-module/4',
+        Designation: "Franz, 22a, 22b",
+        detailLink: "link-to-event-detail-module/4",
         state: EventState.Tests,
-        evaluationText: 'events.state.add-tests',
+        evaluationText: "events.state.add-tests",
       },
       courseEvent,
       {
         ...courseEvent,
         id: 3,
-        Designation: 'Zeichnen, 22b',
-        detailLink: 'link-to-event-detail-module/3',
+        Designation: "Zeichnen, 22b",
+        detailLink: "link-to-event-detail-module/3",
         state: EventState.IntermediateRating,
-        evaluationText: 'events.state.intermediate-rating',
-        evaluationLink: 'link-to-evaluation-module/3',
+        evaluationText: "events.state.intermediate-rating",
+        evaluationLink: "link-to-evaluation-module/3",
       },
     ];
   });
@@ -168,12 +168,12 @@ describe('EventsStateService', () => {
     jasmine.clock().uninstall();
   });
 
-  describe('with ClassTeacherRole', () => {
+  describe("with ClassTeacherRole", () => {
     beforeEach(() => {
-      service.roles$.next('ClassTeacherRole;TeacherRole');
+      service.roles$.next("ClassTeacherRole;TeacherRole");
     });
 
-    it('loads events', () => {
+    it("loads events", () => {
       service.getEvents().subscribe((result) => {
         expect(result).toEqual([
           ...studyClassEvents,
@@ -190,12 +190,12 @@ describe('EventsStateService', () => {
     });
   });
 
-  describe('without ClassTeacherRole', () => {
+  describe("without ClassTeacherRole", () => {
     beforeEach(() => {
-      service.roles$.next('TeacherRole');
+      service.roles$.next("TeacherRole");
     });
 
-    it('loads events', () => {
+    it("loads events", () => {
       service
         .getEvents()
         .subscribe((result) =>
@@ -207,7 +207,7 @@ describe('EventsStateService', () => {
       httpTestingController.verify();
     });
 
-    it('loads events with ratings', () => {
+    it("loads events with ratings", () => {
       service
         .getEvents(true)
         .subscribe((result) =>
@@ -222,7 +222,7 @@ describe('EventsStateService', () => {
 
   function expectCoursesRequest(response = courses): void {
     const url =
-      'https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300';
+      "https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300";
 
     httpTestingController
       .expectOne(url)
@@ -231,7 +231,7 @@ describe('EventsStateService', () => {
 
   function expectFormativeAssessmentsRequest(response = assessments): void {
     const url =
-      'https://eventotest.api/StudyClasses/FormativeAssessments?filter.IsActive==true';
+      "https://eventotest.api/StudyClasses/FormativeAssessments?filter.IsActive==true";
 
     httpTestingController
       .expectOne(url)
@@ -239,7 +239,7 @@ describe('EventsStateService', () => {
   }
 
   function expectStudyClassesRequest(response = studyClasses): void {
-    const url = 'https://eventotest.api/StudyClasses/?filter.IsActive==true';
+    const url = "https://eventotest.api/StudyClasses/?filter.IsActive==true";
 
     httpTestingController
       .expectOne(url)

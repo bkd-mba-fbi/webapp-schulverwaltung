@@ -4,37 +4,37 @@ import {
   OnInit,
   AfterViewInit,
   OnDestroy,
-} from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
+} from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { map, shareReplay, take, takeUntil } from "rxjs/operators";
 
-import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
-import { searchEntries } from 'src/app/shared/utils/search';
-import { spread } from '../../../shared/utils/function';
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
+import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
+import { searchEntries } from "src/app/shared/utils/search";
+import { spread } from "../../../shared/utils/function";
+import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import {
   PresenceControlStateService,
   VIEW_MODES,
-} from '../../services/presence-control-state.service';
-import { PresenceControlBlockLessonComponent } from '../presence-control-block-lesson/presence-control-block-lesson.component';
-import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { parseISOLocalDate } from 'src/app/shared/utils/date';
-import { PresenceControlIncidentComponent } from '../presence-control-incident/presence-control-incident.component';
-import { PresenceTypesService } from '../../../shared/services/presence-types.service';
-import { PresenceControlBlockLessonService } from '../../services/presence-control-block-lesson.service';
+} from "../../services/presence-control-state.service";
+import { PresenceControlBlockLessonComponent } from "../presence-control-block-lesson/presence-control-block-lesson.component";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { parseISOLocalDate } from "src/app/shared/utils/date";
+import { PresenceControlIncidentComponent } from "../presence-control-incident/presence-control-incident.component";
+import { PresenceTypesService } from "../../../shared/services/presence-types.service";
+import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 
 @Component({
-  selector: 'erz-presence-control-list',
-  templateUrl: './presence-control-list.component.html',
-  styleUrls: ['./presence-control-list.component.scss'],
+  selector: "erz-presence-control-list",
+  templateUrl: "./presence-control-list.component.html",
+  styleUrls: ["./presence-control-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  search$ = new BehaviorSubject<string>('');
+  search$ = new BehaviorSubject<string>("");
   entries$ = combineLatest([
     this.state.presenceControlEntriesByGroup$,
     this.search$,

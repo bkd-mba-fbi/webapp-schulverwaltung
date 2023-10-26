@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PresenceControlPrecedingAbsenceComponent } from './presence-control-preceding-absence.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PresenceControlPrecedingAbsenceComponent } from "./presence-control-preceding-absence.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
-describe('PresenceControlPreviousAbsenceComponent', () => {
+describe("PresenceControlPreviousAbsenceComponent", () => {
   let component: PresenceControlPrecedingAbsenceComponent;
   let fixture: ComponentFixture<PresenceControlPrecedingAbsenceComponent>;
 
@@ -23,7 +23,7 @@ describe('PresenceControlPreviousAbsenceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

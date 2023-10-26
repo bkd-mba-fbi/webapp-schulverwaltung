@@ -5,21 +5,21 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-} from '@angular/core';
+} from "@angular/core";
 
-import { DropDownItem } from '../../models/drop-down-item.model';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { DropDownItem } from "../../models/drop-down-item.model";
+import { BehaviorSubject, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
-  selector: 'erz-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
+  selector: "erz-select",
+  templateUrl: "./select.component.html",
+  styleUrls: ["./select.component.scss"],
 })
 export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];
   @Input() allowEmpty = true;
-  @Input() emptyLabel: string = '';
+  @Input() emptyLabel: string = "";
   @Input() value: Option<number> = null;
   @Input() disabled: boolean = false;
   @Input() tabindex: number = 0;

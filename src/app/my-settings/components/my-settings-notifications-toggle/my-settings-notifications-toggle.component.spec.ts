@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SwitchComponent } from 'src/app/shared/components/switch/switch.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { SwitchComponent } from "src/app/shared/components/switch/switch.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { MySettingsNotificationsToggleComponent } from './my-settings-notifications-toggle.component';
+import { MySettingsNotificationsToggleComponent } from "./my-settings-notifications-toggle.component";
 
-describe('MySettingsNotificationsToggleComponent', () => {
+describe("MySettingsNotificationsToggleComponent", () => {
   let component: MySettingsNotificationsToggleComponent;
   let fixture: ComponentFixture<MySettingsNotificationsToggleComponent>;
   let element: HTMLElement;
@@ -21,36 +21,36 @@ describe('MySettingsNotificationsToggleComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  it('renders a label with the given text', async () => {
-    component.label = 'This is a label';
+  it("renders a label with the given text", async () => {
+    component.label = "This is a label";
     await waitForRender();
-    expect(element.querySelector('label')?.textContent).toContain(
-      'This is a label',
+    expect(element.querySelector("label")?.textContent).toContain(
+      "This is a label",
     );
   });
 
-  it('renders the description if available', async () => {
-    component.description = 'This is a description';
+  it("renders the description if available", async () => {
+    component.description = "This is a description";
     await waitForRender();
-    expect(element.textContent).toContain('This is a description');
+    expect(element.textContent).toContain("This is a description");
   });
 
-  it('renders the toggle switch with the given id', async () => {
-    component.id = 'custom-id';
+  it("renders the toggle switch with the given id", async () => {
+    component.id = "custom-id";
     await waitForRender();
     const input = getInput();
-    expect(input?.id).toBe('custom-id');
+    expect(input?.id).toBe("custom-id");
     expect(input?.disabled).toBe(false);
   });
 
-  it('renders disabled toggle switch', async () => {
+  it("renders disabled toggle switch", async () => {
     component.setDisabledState(true);
     await waitForRender();
     const input = getInput();
     expect(input?.disabled).toBe(true);
   });
 
-  it('renders the toggle switch with given value', async () => {
+  it("renders the toggle switch with given value", async () => {
     await waitForRender();
     const input = getInput();
     expect(input?.checked).toBe(false);
@@ -64,7 +64,7 @@ describe('MySettingsNotificationsToggleComponent', () => {
     expect(input?.checked).toBe(false);
   });
 
-  it('updates the value on toggle switch click', async () => {
+  it("updates the value on toggle switch click", async () => {
     await waitForRender();
     const input = getInput();
     expect(input?.checked).toBe(false);
@@ -74,7 +74,7 @@ describe('MySettingsNotificationsToggleComponent', () => {
   });
 
   function getInput(): HTMLInputElement {
-    const input = element.querySelector<HTMLInputElement>('input');
+    const input = element.querySelector<HTMLInputElement>("input");
     expect(input).toBeDefined();
     return input!;
   }

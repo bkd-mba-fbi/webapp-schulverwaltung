@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DossierStateService } from '../../../services/dossier-state.service';
-import { StudentProfileAbsencesService } from '../../../services/student-profile-absences.service';
-import { StudentDossierAbsencesComponent } from '../student-dossier-absences/student-dossier-absences.component';
-import { StudentDossierEntryHeaderComponent } from '../student-dossier-entry-header/student-dossier-entry-header.component';
-import { DossierAbsencesComponent } from './dossier-absences.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { DossierStateService } from "../../../services/dossier-state.service";
+import { StudentProfileAbsencesService } from "../../../services/student-profile-absences.service";
+import { StudentDossierAbsencesComponent } from "../student-dossier-absences/student-dossier-absences.component";
+import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
+import { DossierAbsencesComponent } from "./dossier-absences.component";
 
-describe('DossierAbsencesComponent', () => {
+describe("DossierAbsencesComponent", () => {
   let component: DossierAbsencesComponent;
   let fixture: ComponentFixture<DossierAbsencesComponent>;
 
@@ -30,7 +30,7 @@ describe('DossierAbsencesComponent', () => {
               provide: StudentProfileAbsencesService,
               useValue: {
                 counts$: of({ checkableAbsences: null }),
-                setStudentId: jasmine.createSpy('setStudentId'),
+                setStudentId: jasmine.createSpy("setStudentId"),
               },
             },
           ],
@@ -45,7 +45,7 @@ describe('DossierAbsencesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

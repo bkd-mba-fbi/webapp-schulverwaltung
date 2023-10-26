@@ -1,14 +1,14 @@
-import { Injectable, Inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, ReplaySubject, EMPTY, of, combineLatest } from 'rxjs';
-import { map, switchMap, startWith, share } from 'rxjs/operators';
+import { Injectable, Inject } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { Observable, ReplaySubject, EMPTY, of, combineLatest } from "rxjs";
+import { map, switchMap, startWith, share } from "rxjs/operators";
 
-import { SETTINGS, Settings } from 'src/app/settings';
-import { LessonPresence } from '../models/lesson-presence.model';
-import { LessonPresencesRestService } from './lesson-presences-rest.service';
-import { PresenceTypesService } from './presence-types.service';
-import { LessonPresenceStatistic } from '../models/lesson-presence-statistic';
-import { ToastService } from './toast.service';
+import { SETTINGS, Settings } from "src/app/settings";
+import { LessonPresence } from "../models/lesson-presence.model";
+import { LessonPresencesRestService } from "./lesson-presences-rest.service";
+import { PresenceTypesService } from "./presence-types.service";
+import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
+import { ToastService } from "./toast.service";
 
 export interface StudentProfileAbsencesCounts {
   openAbsences: Option<number>;
@@ -118,7 +118,7 @@ export class StudentProfileAbsencesService {
     return this.lessonPresencesService.getList({
       params: {
         ...this.getBaseParams(studentId),
-        'filter.ConfirmationStateId': `=${this.settings.checkableAbsenceStateId}`,
+        "filter.ConfirmationStateId": `=${this.settings.checkableAbsenceStateId}`,
       },
     });
   }
@@ -129,7 +129,7 @@ export class StudentProfileAbsencesService {
     return this.lessonPresencesService.getList({
       params: {
         ...this.getBaseParams(studentId),
-        'filter.ConfirmationStateId': `=${this.settings.excusedAbsenceStateId}`,
+        "filter.ConfirmationStateId": `=${this.settings.excusedAbsenceStateId}`,
       },
     });
   }
@@ -140,7 +140,7 @@ export class StudentProfileAbsencesService {
     return this.lessonPresencesService.getList({
       params: {
         ...this.getBaseParams(studentId),
-        'filter.ConfirmationStateId': `=${this.settings.unexcusedAbsenceStateId}`,
+        "filter.ConfirmationStateId": `=${this.settings.unexcusedAbsenceStateId}`,
       },
     });
   }
@@ -151,7 +151,7 @@ export class StudentProfileAbsencesService {
     return this.presenceTypesService.incidentTypes$.pipe(
       map((incidents) => ({
         ...this.getBaseParams(studentId),
-        'filter.TypeRef': `;${incidents.map((i) => i.Id).join(';')}`,
+        "filter.TypeRef": `;${incidents.map((i) => i.Id).join(";")}`,
       })),
       switchMap((params) => this.lessonPresencesService.getList({ params })),
     );
@@ -163,15 +163,15 @@ export class StudentProfileAbsencesService {
     return this.lessonPresencesService.getList({
       params: {
         ...this.getBaseParams(studentId),
-        'filter.TypeRef': `=${this.settings.halfDayPresenceTypeId}`,
+        "filter.TypeRef": `=${this.settings.halfDayPresenceTypeId}`,
       },
     });
   }
 
   private getBaseParams(studentId: number): Dict<string> {
     return {
-      sort: 'LessonDateTimeFrom.asc',
-      'filter.StudentRef': `=${studentId}`,
+      sort: "LessonDateTimeFrom.asc",
+      "filter.StudentRef": `=${studentId}`,
     };
   }
 }

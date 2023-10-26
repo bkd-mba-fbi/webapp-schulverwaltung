@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { PresenceTypesRestService } from './presence-types-rest.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { PresenceTypesRestService } from "./presence-types-rest.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('PresenceTypesRestService', () => {
+describe("PresenceTypesRestService", () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
-  it('should be created', () => {
+  it("should be created", () => {
     const service: PresenceTypesRestService = TestBed.inject(
       PresenceTypesRestService,
     );

@@ -1,13 +1,13 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from "@angular/core";
 import {
   Course,
   FinalGrading,
   Grading,
-} from 'src/app/shared/models/course.model';
-import { GradingScale } from 'src/app/shared/models/grading-scale.model';
-import { DossierGradesService } from 'src/app/shared/services/dossier-grades.service';
-import { Subject } from 'rxjs';
-import { weightedAverage } from '../../../utils/math';
+} from "src/app/shared/models/course.model";
+import { GradingScale } from "src/app/shared/models/grading-scale.model";
+import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
+import { Subject } from "rxjs";
+import { weightedAverage } from "../../../utils/math";
 
 export interface CourseWithGrades {
   course: Course;
@@ -18,9 +18,9 @@ export interface CourseWithGrades {
 }
 
 @Component({
-  selector: 'erz-dossier-grades-view',
-  templateUrl: './dossier-grades-view.component.html',
-  styleUrls: ['./dossier-grades-view.component.scss'],
+  selector: "erz-dossier-grades-view",
+  templateUrl: "./dossier-grades-view.component.html",
+  styleUrls: ["./dossier-grades-view.component.scss"],
 })
 export class DossierGradesViewComponent implements OnChanges {
   @Input() courses: Course[];

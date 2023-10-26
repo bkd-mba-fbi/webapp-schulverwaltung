@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { EventsStateService } from '../../services/events-state.service';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { BehaviorSubject, of } from "rxjs";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { EventsStateService } from "../../services/events-state.service";
 
-import { EventsListComponent } from './events-list.component';
-import { buildEvent } from '../../../../spec-builders';
-import { StorageService } from '../../../shared/services/storage.service';
+import { EventsListComponent } from "./events-list.component";
+import { buildEvent } from "../../../../spec-builders";
+import { StorageService } from "../../../shared/services/storage.service";
 
-describe('EventsListComponent', () => {
+describe("EventsListComponent", () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
   let stateServiceMock: EventsStateService;
@@ -19,7 +19,7 @@ describe('EventsListComponent', () => {
     stateServiceMock = {
       loading$: of(false),
       events$: of([buildEvent(1)]),
-      search$: of(''),
+      search$: of(""),
       roles$,
       getEvents: () => of([buildEvent(1)]),
     } as unknown as EventsStateService;
@@ -33,7 +33,7 @@ describe('EventsListComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { roles: 'TeacherRole' };
+                return { roles: "TeacherRole" };
               },
             },
           },
@@ -49,21 +49,21 @@ describe('EventsListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not show the ratings column', () => {
+  it("should not show the ratings column", () => {
     component.withRatings = false;
 
     fixture.detectChanges();
-    expect(element.textContent).not.toContain('events.rating');
+    expect(element.textContent).not.toContain("events.rating");
   });
 
-  it('should show the ratings column', () => {
+  it("should show the ratings column", () => {
     component.withRatings = true;
 
     fixture.detectChanges();
-    expect(element.textContent).toContain('events.rating');
+    expect(element.textContent).toContain("events.rating");
   });
 });

@@ -12,16 +12,16 @@
     class="mb-3"
   ></erz-backlink>
 
-  <h1>{{ 'presence-control.groups.title' | translate }}</h1>
+  <h1>{{ "presence-control.groups.title" | translate }}</h1>
 
   <div class="group-header mb-2 d-flex justify-content-between">
     <div class="d-flex align-items-baseline">
-      <span class="ps-3">{{ 'presence-control.groups.show' | translate }}</span>
+      <span class="ps-3">{{ "presence-control.groups.show" | translate }}</span>
       <button type="button" class="show btn btn-link" (click)="selectGroup()">
         {{
           data.group
-            ? ('presence-control.groups.group' | translate) + ' ' + data.group
-            : ('presence-control.groups.all' | translate)
+            ? ("presence-control.groups.group" | translate) + " " + data.group
+            : ("presence-control.groups.all" | translate)
         }}
       </button>
     </div>
@@ -42,7 +42,7 @@
         (click)="toggleSort(key)"
         [className]="key"
       >
-        {{ 'presence-control.groups.list.header.' + key | translate }}
+        {{ "presence-control.groups.list.header." + key | translate }}
         <span class="sort-direction">{{
           getSortDirectionCharacter(data.sortCriteria, key)
         }}</span>
@@ -65,7 +65,7 @@
             {{ entry.name }}
           </div>
           <div class="group d-flex justify-content-between">
-            <span>{{ entry.group ? entry.group : '' }}</span>
+            <span>{{ entry.group ? entry.group : "" }}</span>
             <erz-spinner
               class="inline small"
               *ngIf="groupService.loading$ | async"

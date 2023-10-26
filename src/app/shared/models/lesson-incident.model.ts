@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import { Reference, Option } from './common-types';
+import * as t from "io-ts";
+import { Reference, Option } from "./common-types";
 
 const LessonIncident = t.type({
   LessonRef: Reference,

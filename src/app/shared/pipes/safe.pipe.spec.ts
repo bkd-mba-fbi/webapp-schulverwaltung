@@ -1,15 +1,15 @@
-import { SafePipe } from './safe.pipe';
+import { SafePipe } from "./safe.pipe";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('SafePipe', () => {
+describe("SafePipe", () => {
   let sanitizer: any;
 
   beforeEach(() => {
     sanitizer = {};
   });
 
-  it('create an instance', () => {
+  it("create an instance", () => {
     const pipe = new SafePipe(sanitizer);
     expect(pipe).toBeTruthy();
   });

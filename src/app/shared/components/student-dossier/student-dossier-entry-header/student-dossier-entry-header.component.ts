@@ -1,9 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
-  selector: 'erz-student-dossier-entry-header',
-  templateUrl: './student-dossier-entry-header.component.html',
-  styleUrls: ['./student-dossier-entry-header.component.scss'],
+  selector: "erz-student-dossier-entry-header",
+  templateUrl: "./student-dossier-entry-header.component.html",
+  styleUrls: ["./student-dossier-entry-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEntryHeaderComponent {

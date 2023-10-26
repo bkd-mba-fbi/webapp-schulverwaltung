@@ -1,20 +1,20 @@
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { Settings } from 'src/app/settings';
-import { Searchable } from 'src/app/shared/utils/search';
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { Settings } from "src/app/settings";
+import { Searchable } from "src/app/shared/utils/search";
 import {
   isAbsent,
   isDefaultAbsence,
   canChangePresenceType,
   isUnapprovedAbsence,
-} from '../utils/presence-types';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { LessonAbsence } from '../../shared/models/lesson-absence.model';
+} from "../utils/presence-types";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { LessonAbsence } from "../../shared/models/lesson-absence.model";
 
 export enum PresenceCategory {
-  Present = 'present',
-  Unapproved = 'unapproved',
-  Absent = 'absent',
+  Present = "present",
+  Unapproved = "unapproved",
+  Absent = "absent",
 }
 
 /**
@@ -23,11 +23,11 @@ export enum PresenceCategory {
 export function getPresenceCategoryIcon(category: PresenceCategory): string {
   switch (category) {
     case PresenceCategory.Absent:
-      return 'cancel';
+      return "cancel";
     case PresenceCategory.Unapproved:
-      return 'help';
+      return "help";
     default:
-      return 'check_circle';
+      return "check_circle";
   }
 }
 

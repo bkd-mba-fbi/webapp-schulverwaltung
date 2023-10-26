@@ -30,7 +30,7 @@
               />
             </div>
             <div class="all">
-              {{ 'my-absences.report.list.all' | translate }}
+              {{ "my-absences.report.list.all" | translate }}
             </div>
 
             <div class="buttons">
@@ -77,8 +77,8 @@
               >
             </div>
             <div class="time pe-2">
-              {{ entry.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-                entry.LessonDateTimeTo | date: 'HH:mm'
+              {{ entry.LessonDateTimeFrom | date: "HH:mm" }}–{{
+                entry.LessonDateTimeTo | date: "HH:mm"
               }}
             </div>
             <div class="teacher">
@@ -95,13 +95,13 @@
               </div>
             </ng-container>
             <div class="date">
-              {{ entry.LessonDateTimeFrom | date: 'dd.MM.yyyy' }}
+              {{ entry.LessonDateTimeFrom | date: "dd.MM.yyyy" }}
             </div>
             <div class="days-ago">
               {{ entry.LessonDateTimeFrom | erzDaysDifference }}
             </div>
             <div class="date-days-ago">
-              {{ entry.LessonDateTimeFrom | date: 'dd.MM.yyyy' }},
+              {{ entry.LessonDateTimeFrom | date: "dd.MM.yyyy" }},
               {{ entry.LessonDateTimeFrom | erzDaysDifference }}
             </div>
           </div>
@@ -112,7 +112,7 @@
 
       <ng-template #noEntries>
         <p class="mt-3">
-          {{ 'my-absences.report.no-entries' | translate }}
+          {{ "my-absences.report.no-entries" | translate }}
         </p>
       </ng-template>
     </ng-container>
@@ -123,6 +123,6 @@
   </ng-container>
 
   <ng-template #noFilter>
-    <p class="mt-3">{{ 'my-absences.report.no-filter' | translate }}</p>
+    <p class="mt-3">{{ "my-absences.report.no-filter" | translate }}</p>
   </ng-template>
 </ng-container>

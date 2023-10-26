@@ -1,13 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
+import { Injectable, OnDestroy } from "@angular/core";
+import { ViewportScroller } from "@angular/common";
 import {
   Router,
   ActivatedRouteSnapshot,
   ActivationEnd,
   NavigationStart,
   NavigationEnd,
-} from '@angular/router';
-import { Subject, of } from 'rxjs';
+} from "@angular/router";
+import { Subject, of } from "rxjs";
 import {
   filter,
   map,
@@ -18,7 +18,7 @@ import {
   switchAll,
   shareReplay,
   skip,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
 /**
  * This service stores and restores the scroll position of a certain
@@ -53,7 +53,7 @@ import {
  *   }
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ScrollPositionService implements OnDestroy {
   private scrollPositions: Dict<[number, number]> = {};
@@ -149,14 +149,14 @@ export class ScrollPositionService implements OnDestroy {
    */
   private getPath(route: Option<ActivatedRouteSnapshot>): string {
     if (!route) {
-      return '/';
+      return "/";
     }
     return (
-      '/' +
+      "/" +
       route.pathFromRoot
         .map((r) => r.routeConfig && r.routeConfig.path)
         .filter((r) => r)
-        .join('/')
+        .join("/")
     );
   }
 

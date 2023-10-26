@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { EventsComponent } from './events.component';
+import { EventsComponent } from "./events.component";
 
-describe('EventsComponent', () => {
+describe("EventsComponent", () => {
   let component: EventsComponent;
   let fixture: ComponentFixture<EventsComponent>;
 
@@ -21,7 +21,7 @@ describe('EventsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

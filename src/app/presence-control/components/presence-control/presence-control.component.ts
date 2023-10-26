@@ -3,20 +3,20 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   OnDestroy,
-} from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+} from "@angular/core";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { LessonPresencesUpdateService } from 'src/app/shared/services/lesson-presences-update.service';
-import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
-import { PresenceControlGroupService } from '../../services/presence-control-group.service';
-import { PresenceControlBlockLessonService } from '../../services/presence-control-block-lesson.service';
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
+import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
+import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
+import { PresenceControlGroupService } from "../../services/presence-control-group.service";
+import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 
 @Component({
-  selector: 'erz-presence-control',
-  template: '<router-outlet></router-outlet>',
-  styleUrls: ['./presence-control.component.scss'],
+  selector: "erz-presence-control",
+  template: "<router-outlet></router-outlet>",
+  styleUrls: ["./presence-control.component.scss"],
   providers: [
     PresenceControlStateService,
     PresenceControlBlockLessonService,

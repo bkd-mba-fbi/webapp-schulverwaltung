@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { PresenceType } from '../../../shared/models/presence-type.model';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, Input } from "@angular/core";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { PresenceType } from "../../../shared/models/presence-type.model";
+import { TranslateService } from "@ngx-translate/core";
 
 interface IncidentOption {
   id: Option<number>;
@@ -9,9 +9,9 @@ interface IncidentOption {
 }
 
 @Component({
-  selector: 'erz-presence-control-incident',
-  templateUrl: './presence-control-incident.component.html',
-  styleUrls: ['./presence-control-incident.component.scss'],
+  selector: "erz-presence-control-incident",
+  templateUrl: "./presence-control-incident.component.html",
+  styleUrls: ["./presence-control-incident.component.scss"],
 })
 export class PresenceControlIncidentComponent implements OnInit {
   @Input() incident: Option<PresenceType>;
@@ -42,7 +42,7 @@ export class PresenceControlIncidentComponent implements OnInit {
       id: incidentType ? incidentType.Id : null,
       label: incidentType
         ? incidentType.Designation
-        : this.translate.instant('presence-control.incident.no-incident'),
+        : this.translate.instant("presence-control.incident.no-incident"),
     };
   }
 

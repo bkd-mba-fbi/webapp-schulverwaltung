@@ -14,7 +14,7 @@
           (change)="toggleAll($event.target.checked)"
         />
       </div>
-      <div class="all">{{ 'open-absences.detail.all' | translate }}</div>
+      <div class="all">{{ "open-absences.detail.all" | translate }}</div>
 
       <div class="buttons">
         <a
@@ -75,8 +75,8 @@
         >
       </div>
       <div class="time pe-2">
-        {{ absence.LessonDateTimeFrom | date: 'HH:mm' }}–{{
-          absence.LessonDateTimeTo | date: 'HH:mm'
+        {{ absence.LessonDateTimeFrom | date: "HH:mm" }}–{{
+          absence.LessonDateTimeTo | date: "HH:mm"
         }}
       </div>
       <div class="teacher">
@@ -98,24 +98,24 @@
           "
           class="presence-type confirm"
         >
-          {{ 'my-absences.show.confirm-presence-type' | translate }}
+          {{ "my-absences.show.confirm-presence-type" | translate }}
         </div>
       </ng-container>
       <div class="date">
-        {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }}
+        {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }}
       </div>
       <div class="days-ago">
         {{ absence.LessonDateTimeFrom | erzDaysDifference }}
       </div>
       <div class="date-days-ago">
-        {{ absence.LessonDateTimeFrom | date: 'dd.MM.yyyy' }},
+        {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }},
         {{ absence.LessonDateTimeFrom | erzDaysDifference }}
       </div>
     </div>
   </ng-container>
 
   <ng-template #noAbsences>
-    <p class="mx-3">{{ 'shared.profile.no-absences' | translate }}</p>
+    <p class="mx-3">{{ "shared.profile.no-absences" | translate }}</p>
   </ng-template>
 </ng-container>
 

@@ -1,8 +1,8 @@
-import { Location } from '@angular/common';
-import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { Params } from '@angular/router';
-import { format, startOfDay } from 'date-fns';
-import { isEqual, uniq } from 'lodash-es';
+import { Location } from "@angular/common";
+import { Inject, Injectable, OnDestroy } from "@angular/core";
+import { Params } from "@angular/router";
+import { format, startOfDay } from "date-fns";
+import { isEqual, uniq } from "lodash-es";
 import {
   BehaviorSubject,
   combineLatest,
@@ -11,7 +11,7 @@ import {
   of,
   Subject,
   timer,
-} from 'rxjs';
+} from "rxjs";
 import {
   distinctUntilChanged,
   filter,
@@ -21,40 +21,40 @@ import {
   switchMap,
   take,
   takeUntil,
-} from 'rxjs/operators';
-import { Settings, SETTINGS } from 'src/app/settings';
-import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
-import { serializeParams } from 'src/app/shared/utils/url';
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { PresenceType } from '../../shared/models/presence-type.model';
-import { DropDownItemsRestService } from '../../shared/services/drop-down-items-rest.service';
-import { LessonPresencesRestService } from '../../shared/services/lesson-presences-rest.service';
-import { LessonPresenceUpdate } from '../../shared/services/lesson-presences-update.service';
-import { LessonTeachersRestService } from '../../shared/services/lesson-teachers-rest.service';
-import { LoadingService } from '../../shared/services/loading-service';
-import { PresenceTypesService } from '../../shared/services/presence-types.service';
-import { spread } from '../../shared/utils/function';
-import { filterByGroup } from '../../shared/utils/presence-control-entries';
-import { LessonEntry } from '../models/lesson-entry.model';
-import { PresenceControlEntry } from '../models/presence-control-entry.model';
+} from "rxjs/operators";
+import { Settings, SETTINGS } from "src/app/settings";
+import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
+import { serializeParams } from "src/app/shared/utils/url";
+import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { PresenceType } from "../../shared/models/presence-type.model";
+import { DropDownItemsRestService } from "../../shared/services/drop-down-items-rest.service";
+import { LessonPresencesRestService } from "../../shared/services/lesson-presences-rest.service";
+import { LessonPresenceUpdate } from "../../shared/services/lesson-presences-update.service";
+import { LessonTeachersRestService } from "../../shared/services/lesson-teachers-rest.service";
+import { LoadingService } from "../../shared/services/loading-service";
+import { PresenceTypesService } from "../../shared/services/presence-types.service";
+import { spread } from "../../shared/utils/function";
+import { filterByGroup } from "../../shared/utils/presence-control-entries";
+import { LessonEntry } from "../models/lesson-entry.model";
+import { PresenceControlEntry } from "../models/presence-control-entry.model";
 import {
   getCurrentLessonEntry,
   getLessonEntriesForLessons,
-} from '../utils/lesson-entries';
-import { updatePresenceTypeForPresences } from '../utils/lesson-presences';
-import { getPresenceControlEntriesForLesson } from '../utils/lessons';
+} from "../utils/lesson-entries";
+import { updatePresenceTypeForPresences } from "../utils/lesson-presences";
+import { getPresenceControlEntriesForLesson } from "../utils/lessons";
 import {
   getCategoryCount,
   getPrecedingAbsencesCount,
-} from '../utils/presence-control-entries';
-import { PresenceControlGroupService } from './presence-control-group.service';
-import { StorageService } from '../../shared/services/storage.service';
-import { PresenceControlViewMode } from 'src/app/shared/models/user-settings.model';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+} from "../utils/presence-control-entries";
+import { PresenceControlGroupService } from "./presence-control-group.service";
+import { StorageService } from "../../shared/services/storage.service";
+import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import {
   intervalOnInactivity,
   reemitOnTrigger,
-} from 'src/app/shared/utils/observable';
+} from "src/app/shared/utils/observable";
 
 export const VIEW_MODES: ReadonlyArray<string> = Object.values(
   PresenceControlViewMode,
@@ -160,13 +160,13 @@ export class PresenceControlStateService
   ]).pipe(map(spread(filterByGroup)), shareReplay(1));
 
   presentCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount('present')),
+    map(getCategoryCount("present")),
   );
   absentCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount('absent')),
+    map(getCategoryCount("absent")),
   );
   unapprovedCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount('unapproved')),
+    map(getCategoryCount("unapproved")),
   );
   absentPrecedingCount$ = this.presenceControlEntriesByGroup$.pipe(
     map(getPrecedingAbsencesCount()),
@@ -195,7 +195,7 @@ export class PresenceControlStateService
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe((returnparams) => {
-        this.location.replaceState('/presence-control', returnparams);
+        this.location.replaceState("/presence-control", returnparams);
         this.confirmBackLinkParams = { returnparams };
       });
 
@@ -315,7 +315,7 @@ export class PresenceControlStateService
     viewMode: PresenceControlViewMode,
   ): Params {
     const params: Params = {
-      date: format(date, 'yyyy-MM-dd'),
+      date: format(date, "yyyy-MM-dd"),
       viewMode,
     };
     if (lessonEntry) {

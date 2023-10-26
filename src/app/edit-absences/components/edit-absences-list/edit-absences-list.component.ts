@@ -4,24 +4,24 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   AfterViewInit,
-} from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil, take, map, filter } from 'rxjs/operators';
+} from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import { Subject } from "rxjs";
+import { takeUntil, take, map, filter } from "rxjs/operators";
 
 import {
   EditAbsencesStateService,
   EditAbsencesFilter,
-} from '../../services/edit-absences-state.service';
-import { EditAbsencesSelectionService } from '../../services/edit-absences-selection.service';
-import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { parseISOLocalDate } from 'src/app/shared/utils/date';
-import { isTruthy } from 'src/app/shared/utils/filter';
+} from "../../services/edit-absences-state.service";
+import { EditAbsencesSelectionService } from "../../services/edit-absences-selection.service";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { parseISOLocalDate } from "src/app/shared/utils/date";
+import { isTruthy } from "src/app/shared/utils/filter";
 
 @Component({
-  selector: 'erz-edit-absences-list',
-  templateUrl: './edit-absences-list.component.html',
-  styleUrls: ['./edit-absences-list.component.scss'],
+  selector: "erz-edit-absences-list",
+  templateUrl: "./edit-absences-list.component.html",
+  styleUrls: ["./edit-absences-list.component.scss"],
   providers: [EditAbsencesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -104,13 +104,13 @@ function createFilterFromParams(params: Params): EditAbsencesFilter {
     dateFrom: params.dateFrom ? parseISOLocalDate(params.dateFrom) : null,
     dateTo: params.dateTo ? parseISOLocalDate(params.dateTo) : null,
     presenceTypes: params.presenceTypes
-      ? params.presenceTypes.split(',').map(Number)
+      ? params.presenceTypes.split(",").map(Number)
       : null,
     confirmationStates: params.confirmationStates
-      ? params.confirmationStates.split(',').map(Number)
+      ? params.confirmationStates.split(",").map(Number)
       : null,
     incidentTypes: params.incidentTypes
-      ? params.incidentTypes.split(',').map(Number)
+      ? params.incidentTypes.split(",").map(Number)
       : null,
   };
 }

@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { EditAbsencesUpdateService } from './edit-absences-update.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { EditAbsencesUpdateService } from "./edit-absences-update.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('EditAbsencesUpdateService', () => {
+describe("EditAbsencesUpdateService", () => {
   let service: EditAbsencesUpdateService;
 
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('EditAbsencesUpdateService', () => {
     service = TestBed.inject(EditAbsencesUpdateService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

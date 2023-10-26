@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   HttpInterceptor,
   HttpRequest,
@@ -6,15 +6,15 @@ import {
   HttpEvent,
   HttpErrorResponse,
   HttpParams,
-} from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable, EMPTY, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+} from "@angular/common/http";
+import { Router } from "@angular/router";
+import { Observable, EMPTY, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 
-import { HTTP_STATUS } from './shared/services/rest.service';
-import { ToastService } from './shared/services/toast.service';
-import { nonEmptyString } from './shared/utils/filter';
+import { HTTP_STATUS } from "./shared/services/rest.service";
+import { ToastService } from "./shared/services/toast.service";
+import { nonEmptyString } from "./shared/utils/filter";
 
 interface RestConfig {
   disableErrorHandling?: boolean;
@@ -35,7 +35,7 @@ export function withConfig(
   } else {
     httpParams = new HttpParams({ fromObject: params });
   }
-  return httpParams.set('restConfig', JSON.stringify(config));
+  return httpParams.set("restConfig", JSON.stringify(config));
 }
 
 function extractConfig(params: HttpParams): {
@@ -43,8 +43,8 @@ function extractConfig(params: HttpParams): {
   params: HttpParams;
 } {
   return {
-    config: JSON.parse(params.get('restConfig') || '{}'),
-    params: params.delete('restConfig'),
+    config: JSON.parse(params.get("restConfig") || "{}"),
+    params: params.delete("restConfig"),
   };
 }
 
@@ -106,25 +106,25 @@ export class RestErrorInterceptor implements HttpInterceptor {
       ) {
         switch (error.status) {
           case HTTP_STATUS.UNAUTHORIZED:
-            this.notifyError('noaccess');
-            this.router.navigate(['/unauthenticated']);
+            this.notifyError("noaccess");
+            this.router.navigate(["/unauthenticated"]);
             return EMPTY;
           case HTTP_STATUS.FORBIDDEN:
-            this.notifyError('noaccess');
+            this.notifyError("noaccess");
             return EMPTY;
           case HTTP_STATUS.NOT_FOUND:
-            this.notifyError('notfound');
+            this.notifyError("notfound");
             return EMPTY;
           case HTTP_STATUS.UNKNOWN:
           case HTTP_STATUS.SERVICE_UNAVAILABLE:
           case HTTP_STATUS.GATEWAY_TIMEOUT:
-            this.notifyError('unavailable');
+            this.notifyError("unavailable");
             return EMPTY;
           case HTTP_STATUS.CONFLICT: // Validation error
             this.notifyConflictError(error);
             return EMPTY;
           default:
-            this.notifyError('server');
+            this.notifyError("server");
             return EMPTY;
         }
       }
@@ -168,7 +168,7 @@ export class RestErrorInterceptor implements HttpInterceptor {
     );
     const issues = this.parseConflictIssues(error);
     this.toastService.error(
-      issues.length > 0 ? issues.join('\n') : defaultMessage,
+      issues.length > 0 ? issues.join("\n") : defaultMessage,
       this.translate.instant(`global.rest-errors.conflict-title`),
     );
   }

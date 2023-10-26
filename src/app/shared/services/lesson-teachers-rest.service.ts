@@ -1,20 +1,20 @@
-import { Inject, Injectable } from '@angular/core';
-import { RestService } from './rest.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Settings, SETTINGS } from '../../settings';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { decodeArray } from '../utils/decode';
-import { LessonAbsence } from '../models/lesson-absence.model';
+import { Inject, Injectable } from "@angular/core";
+import { RestService } from "./rest.service";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Settings, SETTINGS } from "../../settings";
+import { Observable } from "rxjs";
+import { switchMap } from "rxjs/operators";
+import { decodeArray } from "../utils/decode";
+import { LessonAbsence } from "../models/lesson-absence.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LessonTeachersRestService extends RestService<
   typeof LessonAbsence
 > {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, LessonAbsence, 'LessonTeachers');
+    super(http, settings, LessonAbsence, "LessonTeachers");
   }
 
   /**
@@ -28,7 +28,7 @@ export class LessonTeachersRestService extends RestService<
   ): Observable<ReadonlyArray<LessonAbsence>> {
     let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef`;
     if (students && students.length > 0) {
-      url = url.concat('&filter.StudentRef=;' + students.join(';'));
+      url = url.concat("&filter.StudentRef=;" + students.join(";"));
     }
     return this.http
       .get<unknown>(url, { params })

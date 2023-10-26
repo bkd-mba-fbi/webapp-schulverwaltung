@@ -1,20 +1,20 @@
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { format } from 'date-fns';
-import { of } from 'rxjs';
-import * as t from 'io-ts';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { Lesson } from 'src/app/shared/models/lesson.model';
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { format } from "date-fns";
+import { of } from "rxjs";
+import * as t from "io-ts";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { Lesson } from "src/app/shared/models/lesson.model";
 import {
   buildLessonPresence,
   buildPresenceControlEntry,
-} from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { PresenceControlBlockLessonService } from './presence-control-block-lesson.service';
-import { PresenceControlStateService } from './presence-control-state.service';
+import { PresenceControlBlockLessonService } from "./presence-control-block-lesson.service";
+import { PresenceControlStateService } from "./presence-control-state.service";
 
-describe('PresenceControlBlockLessonService', () => {
+describe("PresenceControlBlockLessonService", () => {
   let service: PresenceControlBlockLessonService;
   let httpTestingController: HttpTestingController;
   let stateMock: PresenceControlStateService;
@@ -31,9 +31,9 @@ describe('PresenceControlBlockLessonService', () => {
       1,
       new Date(2000, 0, 23, 9, 0),
       new Date(2000, 0, 23, 10, 0),
-      'Mathematik',
-      'Einstein Albert',
-      'Martina Moser',
+      "Mathematik",
+      "Einstein Albert",
+      "Martina Moser",
       undefined,
       undefined,
       42,
@@ -42,9 +42,9 @@ describe('PresenceControlBlockLessonService', () => {
       2,
       new Date(2000, 0, 23, 10, 0),
       new Date(2000, 0, 23, 11, 0),
-      'Mathematik',
-      'Einstein Albert',
-      'Martina Moser',
+      "Mathematik",
+      "Einstein Albert",
+      "Martina Moser",
       undefined,
       undefined,
       42,
@@ -53,9 +53,9 @@ describe('PresenceControlBlockLessonService', () => {
       3,
       new Date(2000, 0, 23, 11, 0),
       new Date(2000, 0, 23, 12, 0),
-      'Mathematik',
-      'Einstein Albert',
-      'Martina Moser',
+      "Mathematik",
+      "Einstein Albert",
+      "Martina Moser",
       undefined,
       undefined,
       42,
@@ -64,9 +64,9 @@ describe('PresenceControlBlockLessonService', () => {
       4,
       new Date(2000, 0, 23, 13, 0),
       new Date(2000, 0, 23, 14, 0),
-      'Mathematik',
-      'Einstein Albert',
-      'Martina Moser',
+      "Mathematik",
+      "Einstein Albert",
+      "Martina Moser",
       undefined,
       undefined,
       42,
@@ -102,8 +102,8 @@ describe('PresenceControlBlockLessonService', () => {
     httpTestingController.verify();
   });
 
-  describe('.getBlockLessonPresenceControlEntries', () => {
-    it('returns all block lessons related to the given entry', (done) => {
+  describe(".getBlockLessonPresenceControlEntries", () => {
+    it("returns all block lessons related to the given entry", (done) => {
       service
         .getBlockLessonPresenceControlEntries(
           buildPresenceControlEntry(mathEinstein1),
@@ -124,7 +124,7 @@ describe('PresenceControlBlockLessonService', () => {
       );
     });
 
-    it('returns a single lesson if the given entry is not part of a block lesson', (done) => {
+    it("returns a single lesson if the given entry is not part of a block lesson", (done) => {
       service
         .getBlockLessonPresenceControlEntries(
           buildPresenceControlEntry(mathEinstein4),
@@ -150,7 +150,7 @@ describe('PresenceControlBlockLessonService', () => {
   ): void {
     const url = `https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom==${format(
       date,
-      'yyyy-MM-dd',
+      "yyyy-MM-dd",
     )}&filter.StudentRef==${studentId}&filter.StudyClassRef==${studyClassId}`;
 
     httpTestingController
