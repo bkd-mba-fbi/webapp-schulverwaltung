@@ -102,22 +102,14 @@ export class DashboardTimetableComponent {
   private loadStudentTimetableEntries(): Observable<
     ReadonlyArray<DashboardTimetableEntry>
   > {
-    return this.studentId$.pipe(
-      switchMap((studentId) =>
-        combineLatest([
-          this.studentsService.getLessonAbsences(studentId),
-          this.studentsService.getLessonIncidents(studentId),
-          this.date$,
-        ]).pipe(
-          switchMap(([_absences, _incidents, date]) =>
-            this.studentsService.getTimetableEntries(studentId, {
-              "filter.From": `=${format(date, "yyyy-MM-dd")}`,
-              sort: "From,To",
-            }),
-          ),
-          map((entries) => entries.map(this.convertTimetableEntry.bind(this))),
-        ),
+    return combineLatest([this.studentId$, this.date$]).pipe(
+      switchMap(([studentId, date]) =>
+        this.studentsService.getTimetableEntries(studentId, {
+          "filter.From": `=${format(date, "yyyy-MM-dd")}`,
+          sort: "From,To",
+        }),
       ),
+      map((entries) => entries.map(this.convertTimetableEntry.bind(this))),
     );
   }
 
