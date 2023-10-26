@@ -8,7 +8,7 @@
       {{ test.Designation }}
     </div>
     <i class="material-icons align-self-start">{{
-      expanded ? "expand_more" : "expand_less"
+      expanded ? "expand_less" : "expand_more"
     }}</i>
   </div>
   <div class="d-flex flex-column">
@@ -46,7 +46,7 @@
         class="material-icons expand-mobile"
         (click)="toggleHeader()"
         role="button"
-        >{{ expanded ? "expand_more" : "expand_less" }}</i
+        >{{ expanded ? "expand_less" : "expand_more" }}</i
       >
     </div>
     <ng-template #notPublished>
@@ -62,7 +62,7 @@
           <span>{{ "tests.not-published" | translate }}</span>
         </a>
         <i class="material-icons expand-mobile" (click)="toggleHeader()">{{
-          expanded ? "expand_more" : "expand_less"
+          expanded ? "expand_less" : "expand_more"
         }}</i>
       </div>
     </ng-template>
