@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildLessonPresence } from 'src/spec-builders';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { buildLessonPresence } from "src/spec-builders";
 import {
   buildTestModuleMetadata,
   changeInput,
   settings,
-} from 'src/spec-helpers';
-import { PresenceControlEntry } from '../../models/presence-control-entry.model';
-import { PresenceControlEntryComponent } from './presence-control-entry.component';
+} from "src/spec-helpers";
+import { PresenceControlEntry } from "../../models/presence-control-entry.model";
+import { PresenceControlEntryComponent } from "./presence-control-entry.component";
 
-describe('PresenceControlEntryComponent', () => {
+describe("PresenceControlEntryComponent", () => {
   let component: PresenceControlEntryComponent;
   let fixture: ComponentFixture<PresenceControlEntryComponent>;
 
@@ -23,11 +23,11 @@ describe('PresenceControlEntryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlEntryComponent);
     component = fixture.componentInstance;
-    changeInput(component, 'entry', buildPresenceControlEntry());
+    changeInput(component, "entry", buildPresenceControlEntry());
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
@@ -38,14 +38,14 @@ function buildPresenceControlEntry(): PresenceControlEntry {
       1,
       new Date(2019, 1, 1, 15, 0),
       new Date(2019, 1, 1, 16, 0),
-      'Physik',
-      'Marie Curie',
+      "Physik",
+      "Marie Curie",
     ),
     null,
     null,
   );
 
-  Object.defineProperty(presenceControlEntry, 'settings', {
+  Object.defineProperty(presenceControlEntry, "settings", {
     get: () => settings,
   });
   return presenceControlEntry;

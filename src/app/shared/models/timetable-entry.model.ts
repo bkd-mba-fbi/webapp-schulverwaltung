@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import { LocalDateTimeFromString, Option } from './common-types';
+import * as t from "io-ts";
+import { LocalDateTimeFromString, Option } from "./common-types";
 
 const TimetableEntry = t.type({
   Id: t.number,

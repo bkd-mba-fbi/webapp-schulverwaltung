@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { RestService } from './rest.service';
-import { SETTINGS, Settings } from '../../settings';
-import { PresenceType } from '../models/presence-type.model';
+import { RestService } from "./rest.service";
+import { SETTINGS, Settings } from "../../settings";
+import { PresenceType } from "../models/presence-type.model";
 
 /**
  * Don't use this service to load presence types in
@@ -12,10 +12,10 @@ import { PresenceType } from '../models/presence-type.model';
  * application.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PresenceTypesRestService extends RestService<typeof PresenceType> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, PresenceType, 'PresenceTypes');
+    super(http, settings, PresenceType, "PresenceTypes");
   }
 }

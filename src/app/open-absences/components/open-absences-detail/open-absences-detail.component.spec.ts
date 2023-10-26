@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ActivatedRoute, Router } from "@angular/router";
+import { of } from "rxjs";
 
-import { buildTestModuleMetadata, ActivatedRouteMock } from 'src/spec-helpers';
-import { buildLessonPresenceWithIds } from 'src/spec-builders';
-import { OpenAbsencesDetailComponent } from './open-absences-detail.component';
-import { OpenAbsencesService } from '../../services/open-absences.service';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { take } from 'rxjs/operators';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { buildTestModuleMetadata, ActivatedRouteMock } from "src/spec-helpers";
+import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { OpenAbsencesDetailComponent } from "./open-absences-detail.component";
+import { OpenAbsencesService } from "../../services/open-absences.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { take } from "rxjs/operators";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('OpenAbsencesDetailComponent', () => {
+describe("OpenAbsencesDetailComponent", () => {
   let component: OpenAbsencesDetailComponent;
   let fixture: ComponentFixture<OpenAbsencesDetailComponent>;
   let element: HTMLElement;
@@ -27,7 +27,7 @@ describe('OpenAbsencesDetailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     activatedRouteMock = new ActivatedRouteMock({
-      date: '2000-01-23',
+      date: "2000-01-23",
       personId: 21,
     });
 
@@ -50,7 +50,7 @@ describe('OpenAbsencesDetailComponent', () => {
       new Date(2000, 0, 24, 13),
     );
     [presenceA, presenceB, presenceC].forEach(
-      (p) => (p.StudentFullName = 'Einstein Albert'),
+      (p) => (p.StudentFullName = "Einstein Albert"),
     );
 
     TestBed.configureTestingModule(
@@ -63,10 +63,10 @@ describe('OpenAbsencesDetailComponent', () => {
             provide: OpenAbsencesService,
             useValue: {
               getUnconfirmedAbsences: jasmine
-                .createSpy('getUnconfirmedAbsences')
+                .createSpy("getUnconfirmedAbsences")
                 .and.returnValue(of([presenceA, presenceB])),
               getAllUnconfirmedAbsencesForStudent: jasmine
-                .createSpy('getAllUnconfirmedAbsencesForStudent')
+                .createSpy("getAllUnconfirmedAbsencesForStudent")
                 .and.returnValue(of([presenceA, presenceB, presenceC])),
             },
           },
@@ -78,7 +78,7 @@ describe('OpenAbsencesDetailComponent', () => {
     selectionService = TestBed.inject(ConfirmAbsencesSelectionService);
 
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    spyOn(router, "navigate");
   }));
 
   beforeEach(() => {
@@ -88,45 +88,45 @@ describe('OpenAbsencesDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders two entries and the select all row', () => {
-    expect(element.querySelectorAll('div.absence-entry').length).toBe(2);
-    expect(element.querySelectorAll('div.absence-all').length).toBe(1);
-    expect(element.querySelectorAll('div.all')[0].textContent).toBe(
-      'open-absences.detail.all',
+  it("renders two entries and the select all row", () => {
+    expect(element.querySelectorAll("div.absence-entry").length).toBe(2);
+    expect(element.querySelectorAll("div.absence-all").length).toBe(1);
+    expect(element.querySelectorAll("div.all")[0].textContent).toBe(
+      "open-absences.detail.all",
     );
   });
 
-  it('renders the student name', () => {
-    const headingElement = element.querySelector('h1');
-    expect(headingElement?.textContent?.trim()).toBe('Einstein Albert');
+  it("renders the student name", () => {
+    const headingElement = element.querySelector("h1");
+    expect(headingElement?.textContent?.trim()).toBe("Einstein Albert");
   });
 
-  describe('redirection', () => {
-    it('does not redirect to main list if entries are available', () => {
+  describe("redirection", () => {
+    it("does not redirect to main list if entries are available", () => {
       component.ngOnInit();
       expect(router.navigate).not.toHaveBeenCalled();
     });
 
-    it('redirects to main list if no entries are available', () => {
+    it("redirects to main list if no entries are available", () => {
       openAbsencesService.getUnconfirmedAbsences = () => of([]);
       component.ngOnInit();
-      expect(router.navigate).toHaveBeenCalledWith(['/open-absences']);
+      expect(router.navigate).toHaveBeenCalledWith(["/open-absences"]);
     });
   });
 
-  describe('selection', () => {
-    it('enables edit link if an entry is selected', () => {
-      const editLink = element.querySelector('a.edit') as HTMLAnchorElement;
-      expect(editLink.classList.contains('disabled')).toBe(true);
+  describe("selection", () => {
+    it("enables edit link if an entry is selected", () => {
+      const editLink = element.querySelector("a.edit") as HTMLAnchorElement;
+      expect(editLink.classList.contains("disabled")).toBe(true);
 
       toggleCheckbox(1);
-      expect(editLink.classList.contains('disabled')).toBe(false);
+      expect(editLink.classList.contains("disabled")).toBe(false);
 
       toggleCheckbox(1);
-      expect(editLink.classList.contains('disabled')).toBe(true);
+      expect(editLink.classList.contains("disabled")).toBe(true);
     });
 
-    it('updates selected ids', () => {
+    it("updates selected ids", () => {
       expectSelection([]);
 
       toggleCheckbox(1);
@@ -142,7 +142,7 @@ describe('OpenAbsencesDetailComponent', () => {
       expectSelection([]);
     });
 
-    it('toggles all entries', () => {
+    it("toggles all entries", () => {
       const selectAllCheckbox = getCheckbox(0);
       toggleCheckbox(0);
       expectSelection([

@@ -1,9 +1,9 @@
-import { Student } from 'src/app/shared/models/student.model';
-import { Result, Test } from 'src/app/shared/models/test.model';
-import { Sorting } from '../services/sort.service';
-import { average } from '../utils/math';
-import { FinalGrading, Grading } from './course.model';
-import { DropDownItem } from './drop-down-item.model';
+import { Student } from "src/app/shared/models/student.model";
+import { Result, Test } from "src/app/shared/models/test.model";
+import { Sorting } from "../services/sort.service";
+import { average } from "../utils/math";
+import { FinalGrading, Grading } from "./course.model";
+import { DropDownItem } from "./drop-down-item.model";
 
 export type StudentGrade = {
   student: Student;
@@ -20,19 +20,19 @@ export type FinalGrade = {
 };
 
 export type GradeKind = {
-  kind: 'grade';
+  kind: "grade";
   result: Result;
   test: Test;
 };
 
 export type NoResult = {
-  kind: 'no-result';
+  kind: "no-result";
   test: Test;
 };
 
 export type GradeOrNoResult = GradeKind | NoResult;
 
-export type SortKeys = 'FullName' | Test | 'FinalGrade' | 'TestsMean';
+export type SortKeys = "FullName" | Test | "FinalGrade" | "TestsMean";
 
 export function pluckFinalGrades(
   studentGrades: ReadonlyArray<StudentGrade>,
@@ -68,7 +68,7 @@ function getGrades(
   return tests.map((test) => {
     if (test.Results === undefined || test.Results?.length === 0) {
       return {
-        kind: 'no-result',
+        kind: "no-result",
         test,
       };
     }
@@ -79,12 +79,12 @@ function getGrades(
 
     return result !== undefined
       ? {
-          kind: 'grade',
+          kind: "grade",
           result: result,
           test: test,
         }
       : {
-          kind: 'no-result',
+          kind: "no-result",
           test,
         };
   });
@@ -125,11 +125,11 @@ export const compareFn =
     const modificator = ascending ? 1 : -1;
 
     switch (key) {
-      case 'FullName':
+      case "FullName":
         return (
           modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
         );
-      case 'FinalGrade':
+      case "FinalGrade":
         if (!sg1.finalGrade?.finalGradeId || !sg2.finalGrade?.finalGradeId)
           return modificator * -1;
         return (
@@ -139,7 +139,7 @@ export const compareFn =
             sg2.finalGrade.finalGradeId,
           )
         );
-      case 'TestsMean':
+      case "TestsMean":
         if (!sg1.finalGrade?.average || !sg2.finalGrade?.average)
           return modificator * -1;
         return (
@@ -184,7 +184,7 @@ function compareNumbers(nr1: number, nr2: number) {
 }
 
 function isGrade(g: GradeOrNoResult): g is GradeKind {
-  return g.kind === 'grade';
+  return g.kind === "grade";
 }
 
 export function toMaxPoints(grade: GradeOrNoResult | null): number {

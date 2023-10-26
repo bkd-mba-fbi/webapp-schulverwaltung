@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { PresenceControlIncidentComponent } from './presence-control-incident.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PresenceControlIncidentComponent } from "./presence-control-incident.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
-describe('PresenceControlIncidentComponent', () => {
+describe("PresenceControlIncidentComponent", () => {
   let component: PresenceControlIncidentComponent;
   let fixture: ComponentFixture<PresenceControlIncidentComponent>;
 
@@ -24,7 +24,7 @@ describe('PresenceControlIncidentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

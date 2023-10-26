@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PresenceControlGroupComponent } from './presence-control-group.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { PresenceControlGroupService } from '../../services/presence-control-group.service';
+import { PresenceControlGroupComponent } from "./presence-control-group.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
+import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 
-describe('PresenceControlGroupComponent', () => {
+describe("PresenceControlGroupComponent", () => {
   let component: PresenceControlGroupComponent;
   let fixture: ComponentFixture<PresenceControlGroupComponent>;
 
@@ -24,7 +24,7 @@ describe('PresenceControlGroupComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

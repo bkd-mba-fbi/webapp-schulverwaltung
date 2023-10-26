@@ -1,7 +1,7 @@
-import * as t from 'io-ts';
-import { withFallback } from 'io-ts-types';
-import { JsonFromUnknown, Option } from './common-types';
-import { DropDownItem } from './drop-down-item.model';
+import * as t from "io-ts";
+import { withFallback } from "io-ts-types";
+import { JsonFromUnknown, Option } from "./common-types";
+import { DropDownItem } from "./drop-down-item.model";
 
 /*
  There are separated base and special Types defined.
@@ -54,20 +54,20 @@ const NotificationTypesInactive = new t.Type<
   string,
   unknown
 >(
-  'NotificationTypesInactive',
+  "NotificationTypesInactive",
 
   // is (type guard):
   (input: unknown): input is ReadonlyArray<string> =>
-    Array.isArray(input) && input.every((v) => typeof v === 'string'),
+    Array.isArray(input) && input.every((v) => typeof v === "string"),
 
   // validate & decode:
   (input, context) =>
-    typeof input === 'string'
-      ? t.success(input.split(';').filter(Boolean))
+    typeof input === "string"
+      ? t.success(input.split(";").filter(Boolean))
       : t.failure(input, context),
 
   // encode:
-  (output) => output.join(';'),
+  (output) => output.join(";"),
 );
 
 const NotificationDataEntry = t.type({
@@ -81,8 +81,8 @@ const NotificationData = JsonFromUnknown.pipe(
 );
 
 export enum PresenceControlViewMode {
-  Grid = 'grid',
-  List = 'list',
+  Grid = "grid",
+  List = "list",
 }
 
 const PresenceControlViewModeObject = JsonFromUnknown.pipe(

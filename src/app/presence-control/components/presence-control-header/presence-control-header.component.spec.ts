@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { PresenceControlHeaderComponent } from './presence-control-header.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { buildReference } from 'src/spec-builders';
-import { fromLesson } from '../../models/lesson-entry.model';
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
-import { PresenceControlGroupService } from '../../services/presence-control-group.service';
+import { PresenceControlHeaderComponent } from "./presence-control-header.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { buildReference } from "src/spec-builders";
+import { fromLesson } from "../../models/lesson-entry.model";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
+import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 
-describe('PresenceControlHeaderComponent', () => {
+describe("PresenceControlHeaderComponent", () => {
   let component: PresenceControlHeaderComponent;
   let fixture: ComponentFixture<PresenceControlHeaderComponent>;
 
@@ -26,10 +26,10 @@ describe('PresenceControlHeaderComponent', () => {
 
     const lesson = {
       LessonRef: buildReference(),
-      EventDesignation: 'Deutsch',
+      EventDesignation: "Deutsch",
       EventRef: buildReference(),
-      StudyClassNumber: 'DHF2018a',
-      TeacherInformation: 'Monika Muster',
+      StudyClassNumber: "DHF2018a",
+      TeacherInformation: "Monika Muster",
       LessonDateTimeFrom: new Date(),
       LessonDateTimeTo: new Date(),
     };
@@ -41,7 +41,7 @@ describe('PresenceControlHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

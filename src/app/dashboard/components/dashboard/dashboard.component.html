@@ -11,7 +11,7 @@
       data.loading || data.hasSearch || data.hasActions || data.hasTimetable
     "
   >
-    {{ 'dashboard.heading' | translate }}
+    {{ "dashboard.heading" | translate }}
   </h1>
   <erz-spinner *ngIf="data.loading"></erz-spinner>
   <p
@@ -19,7 +19,7 @@
       !data.loading && !data.hasSearch && !data.hasActions && !data.hasTimetable
     "
   >
-    {{ 'dashboard.no-access' | translate }}
+    {{ "dashboard.no-access" | translate }}
   </p>
 
   <div class="columns">
@@ -28,16 +28,16 @@
       *ngIf="data.hasSearch || data.hasActions"
     >
       <div *ngIf="data.hasSearch">
-        <h2>{{ 'dashboard.search.title' | translate }}</h2>
+        <h2>{{ "dashboard.search.title" | translate }}</h2>
         <erz-dashboard-search></erz-dashboard-search>
       </div>
       <div *ngIf="data.hasActions">
-        <h2>{{ 'dashboard.actions.title' | translate }}</h2>
+        <h2>{{ "dashboard.actions.title" | translate }}</h2>
         <erz-dashboard-actions></erz-dashboard-actions>
       </div>
     </div>
     <div *ngIf="data.hasTimetable" class="timetable-column">
-      <h2>{{ 'dashboard.timetable.title' | translate }}</h2>
+      <h2>{{ "dashboard.timetable.title" | translate }}</h2>
       <erz-dashboard-timetable></erz-dashboard-timetable>
     </div>
   </div>

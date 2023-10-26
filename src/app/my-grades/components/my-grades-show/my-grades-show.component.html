@@ -7,7 +7,7 @@
     gradingScales: myGradesService.gradingScales$ | async
   } as data"
 >
-  <h1>{{ 'my-grades.title' | translate }}</h1>
+  <h1>{{ "my-grades.title" | translate }}</h1>
   <erz-my-grades-header></erz-my-grades-header>
   <erz-dossier-grades-view
     *ngIf="!data.loading"

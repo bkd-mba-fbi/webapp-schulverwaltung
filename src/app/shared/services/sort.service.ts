@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { isEqual } from 'lodash-es';
+import { Injectable } from "@angular/core";
+import { isEqual } from "lodash-es";
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -7,7 +7,7 @@ import {
   Observable,
   shareReplay,
   take,
-} from 'rxjs';
+} from "rxjs";
 
 export interface Sorting<SortingKey> {
   key: SortingKey;
@@ -15,7 +15,7 @@ export interface Sorting<SortingKey> {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SortService<SortingKey> {
   private sortingSubject$ = new BehaviorSubject<Option<Sorting<SortingKey>>>(
@@ -31,9 +31,9 @@ export class SortService<SortingKey> {
     return this.sorting$.pipe(
       map((sorting) => {
         if (sorting && key === sorting.key) {
-          return sorting.ascending ? '↓' : '↑';
+          return sorting.ascending ? "↓" : "↑";
         }
-        return '';
+        return "";
       }),
     );
   }

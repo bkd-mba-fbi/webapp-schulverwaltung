@@ -7,7 +7,7 @@
     <div class="row g-3 mb-3">
       <div class="col-md-6">
         <label class="form-label" for="designation">{{
-          'tests.form.designation' | translate
+          "tests.form.designation" | translate
         }}</label>
         <input
           id="designation"
@@ -24,14 +24,14 @@
           *ngFor="let error of designationErrors$ | async"
         >
           {{
-            'global.validation-errors.' + error.error | translate: error.params
+            "global.validation-errors." + error.error | translate: error.params
           }}
         </div>
       </div>
 
       <div class="col-md-6 mb-3">
         <label class="form-label" for="date">{{
-          'tests.form.date' | translate
+          "tests.form.date" | translate
         }}</label>
         <div class="input-group">
           <span class="input-group-text" [id]="componentId"
@@ -55,7 +55,7 @@
             *ngFor="let error of dateErrors$ | async"
           >
             {{
-              'global.validation-errors.' + error.error
+              "global.validation-errors." + error.error
                 | translate: error.params
             }}
           </div>
@@ -64,11 +64,11 @@
     </div>
 
     <div class="row mb-3">
-      <label class="form-label">{{ 'tests.form.weight' | translate }}</label>
+      <label class="form-label">{{ "tests.form.weight" | translate }}</label>
       <div class="col-md-6">
         <div class="row">
           <label for="factor" class="form-label col-3 col-sm-2">{{
-            'tests.form.factor' | translate
+            "tests.form.factor" | translate
           }}</label>
           <div class="col-9 col-sm-10">
             <input
@@ -87,7 +87,7 @@
               *ngFor="let error of weightErrors$ | async"
             >
               {{
-                'global.validation-errors.' + error.error
+                "global.validation-errors." + error.error
                   | translate: error.params
               }}
             </div>
@@ -98,7 +98,7 @@
 
     <div>
       <label class="form-label">{{
-        'tests.form.grading-type' | translate
+        "tests.form.grading-type" | translate
       }}</label>
       <div class="form-check">
         <input
@@ -109,7 +109,7 @@
           [value]="false"
         />
         <label for="type-grades" class="form-check-label">{{
-          'tests.form.grades' | translate
+          "tests.form.grades" | translate
         }}</label>
       </div>
       <div class="form-check">
@@ -121,7 +121,7 @@
           [value]="true"
         />
         <label for="type-points" class="form-check-label">{{
-          'tests.form.points' | translate
+          "tests.form.points" | translate
         }}</label>
       </div>
 
@@ -130,7 +130,7 @@
           <div class="col-sm-6 col-md-4">
             <div class="row">
               <label for="max-points" class="ms-2 col-4 col-form-label">{{
-                'tests.form.max-points' | translate
+                "tests.form.max-points" | translate
               }}</label>
               <div class="col-6">
                 <input
@@ -150,7 +150,7 @@
                   *ngFor="let error of maxPointsErrors$ | async"
                 >
                   {{
-                    'global.validation-errors.' + error.error
+                    "global.validation-errors." + error.error
                       | translate: error.params
                   }}
                 </div>
@@ -162,7 +162,7 @@
               <label
                 for="max-points-adjusted"
                 class="ms-2 col-4 col-form-label"
-                >{{ 'tests.form.max-points-adjusted' | translate }}</label
+                >{{ "tests.form.max-points-adjusted" | translate }}</label
               >
               <div class="col-6">
                 <input
@@ -183,7 +183,7 @@
                   *ngFor="let error of maxPointsAdjustedErrors$ | async"
                 >
                   {{
-                    'global.validation-errors.' + error.error
+                    "global.validation-errors." + error.error
                       | translate: error.params
                   }}
                 </div>
@@ -195,17 +195,17 @@
         <div class="ms-4 ps-3 py-3">
           <math>
             <mi>
-              {{ 'tests.form.math.grade' | translate }}
+              {{ "tests.form.math.grade" | translate }}
             </mi>
             <mo>=</mo>
             <mfrac>
               <mrow>
                 <mi>
-                  {{ 'tests.form.math.points' | translate }}
+                  {{ "tests.form.math.points" | translate }}
                 </mi>
                 <mo>×</mo><mn>5</mn>
               </mrow>
-              <mi>{{ 'tests.form.math.max-points' | translate }}</mi>
+              <mi>{{ "tests.form.math.max-points" | translate }}</mi>
             </mfrac>
             <mo>+</mo><mn>1</mn>
           </math>
@@ -220,10 +220,10 @@
         [disabled]="saving"
         [routerLink]="['/events', courseId$ | async, 'tests']"
       >
-        {{ 'tests.form.cancel' | translate }}
+        {{ "tests.form.cancel" | translate }}
       </button>
       <button type="submit" class="btn btn-primary ms-2" [disabled]="saving">
-        {{ 'tests.form.save' | translate }}
+        {{ "tests.form.save" | translate }}
         <div
           *ngIf="saving"
           class="spinner-border spinner-border-sm align-middle"

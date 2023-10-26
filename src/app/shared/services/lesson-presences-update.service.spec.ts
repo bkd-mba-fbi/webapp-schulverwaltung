@@ -1,26 +1,26 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
-import { withConfig } from 'src/app/rest-error-interceptor';
+import { fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { of, throwError } from "rxjs";
+import { withConfig } from "src/app/rest-error-interceptor";
 import {
   buildLessonPresence,
   buildPresenceControlEntry,
   buildPresenceType,
   buildReference,
-} from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { LessonPresence } from '../models/lesson-presence.model';
-import { PresenceType } from '../models/presence-type.model';
-import { LessonPresencesUpdateRestService } from './lesson-presences-update-rest.service';
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { LessonPresence } from "../models/lesson-presence.model";
+import { PresenceType } from "../models/presence-type.model";
+import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
 import {
   LessonPresencesUpdateService,
   UPDATE_REQUEST_DEBOUNCE_TIME,
   UPDATE_STATE_DEBOUNCE_TIME,
-} from './lesson-presences-update.service';
-import { PresenceTypesService } from './presence-types.service';
-import { ToastService } from './toast.service';
-import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
+} from "./lesson-presences-update.service";
+import { PresenceTypesService } from "./presence-types.service";
+import { ToastService } from "./toast.service";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 
-describe('LessonPresencesUpdateService', () => {
+describe("LessonPresencesUpdateService", () => {
   let service: LessonPresencesUpdateService;
   let restServiceMock: LessonPresencesUpdateRestService;
   let toastServiceMock: ToastService;
@@ -45,16 +45,16 @@ describe('LessonPresencesUpdateService', () => {
 
     restServiceMock = {
       editLessonPresences: jasmine
-        .createSpy('editLessonPresences')
+        .createSpy("editLessonPresences")
         .and.callFake(() => of()),
       removeLessonPresences: jasmine
-        .createSpy('removeLessonPresences')
+        .createSpy("removeLessonPresences")
         .and.callFake(() => of()),
     } as unknown as LessonPresencesUpdateRestService;
 
     presenceTypeServiceMock = {
       getPresenceType: jasmine
-        .createSpy('getPresenceType')
+        .createSpy("getPresenceType")
         .withArgs(absent.Id)
         .and.callFake(() => of(absent))
         .withArgs(late.Id)
@@ -62,7 +62,7 @@ describe('LessonPresencesUpdateService', () => {
     } as unknown as PresenceTypesService;
 
     toastServiceMock = {
-      error: jasmine.createSpy('error'),
+      error: jasmine.createSpy("error"),
     } as unknown as ToastService;
 
     TestBed.configureTestingModule(
@@ -79,15 +79,15 @@ describe('LessonPresencesUpdateService', () => {
     );
     service = TestBed.inject(LessonPresencesUpdateService);
 
-    stateUpdatesCallback = jasmine.createSpy('stateUpdates$');
+    stateUpdatesCallback = jasmine.createSpy("stateUpdates$");
     service.stateUpdates$.subscribe(stateUpdatesCallback);
 
     turnenFrisch = buildLessonPresence(
       1,
       new Date(2000, 0, 23, 7, 0),
       new Date(2000, 0, 23, 8, 0),
-      'Turnen',
-      'Frisch Max',
+      "Turnen",
+      "Frisch Max",
     );
     turnenFrisch.StudentRef = buildReference(10);
 
@@ -95,9 +95,9 @@ describe('LessonPresencesUpdateService', () => {
       2,
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
-      'Deutsch',
-      'Einstein Albert',
-      'Dora Durrer',
+      "Deutsch",
+      "Einstein Albert",
+      "Dora Durrer",
       absent.Id,
     );
     deutschEinsteinAbwesend.StudentRef = buildReference(20);
@@ -106,8 +106,8 @@ describe('LessonPresencesUpdateService', () => {
       2,
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
-      'Deutsch',
-      'Frisch Max',
+      "Deutsch",
+      "Frisch Max",
     );
     deutschFrisch.StudentRef = buildReference(10);
 
@@ -115,8 +115,8 @@ describe('LessonPresencesUpdateService', () => {
       2,
       new Date(2000, 0, 23, 8, 0),
       new Date(2000, 0, 23, 9, 0),
-      'Deutsch',
-      'Walser Robert',
+      "Deutsch",
+      "Walser Robert",
     );
     deutschWalser.StudentRef = buildReference(30);
 
@@ -127,8 +127,8 @@ describe('LessonPresencesUpdateService', () => {
     entryDeutschFrisch = buildPresenceControlEntry(deutschFrisch);
   });
 
-  describe('.updatePresenceType', () => {
-    it('updates presence type of given lesson presences, performing only one request if executed within debounce time', fakeAsync(() => {
+  describe(".updatePresenceType", () => {
+    it("updates presence type of given lesson presences, performing only one request if executed within debounce time", fakeAsync(() => {
       // Change Einstein & Frisch to 'late'
       [entryDeutschEinsteinAbwesend, entryDeutschFrisch].forEach((entry) => {
         service.updatePresenceType(entry, late.Id);
@@ -194,13 +194,13 @@ describe('LessonPresencesUpdateService', () => {
       expect(toastServiceMock.error).not.toHaveBeenCalled();
     }));
 
-    it('it reverts state of lesson presence if request fails', fakeAsync(() => {
+    it("it reverts state of lesson presence if request fails", fakeAsync(() => {
       deutschWalser.TypeRef.Id = 123;
 
       (restServiceMock.editLessonPresences as jasmine.Spy).and.callFake(
         (lessonIds, personIds) => {
           if (personIds.includes(deutschWalser.StudentRef.Id)) {
-            return throwError(() => 'error thrown in mock');
+            return throwError(() => "error thrown in mock");
           }
           return of();
         },
@@ -244,7 +244,7 @@ describe('LessonPresencesUpdateService', () => {
         { presence: deutschWalser, newPresenceTypeId: 123 },
       ]);
       expect(toastServiceMock.error).toHaveBeenCalledWith(
-        'shared.lesson-presences-update.error',
+        "shared.lesson-presences-update.error",
       );
 
       // Nothing happens afterwards

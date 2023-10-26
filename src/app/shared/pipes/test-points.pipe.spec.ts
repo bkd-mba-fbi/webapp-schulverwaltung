@@ -1,11 +1,11 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
-import { Test } from 'src/app/shared/models/test.model';
-import { buildResult, buildTest } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { TestPointsPipe } from './test-points.pipe';
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { TranslateService } from "@ngx-translate/core";
+import { Test } from "src/app/shared/models/test.model";
+import { buildResult, buildTest } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { TestPointsPipe } from "./test-points.pipe";
 
-describe('TestsPointsPipe', () => {
+describe("TestsPointsPipe", () => {
   let pipe: TestPointsPipe;
   let test: Test;
   const testId = 2;
@@ -22,10 +22,10 @@ describe('TestsPointsPipe', () => {
     test = buildTest(1, testId, []);
   });
 
-  it('should show empty string if is not point grading', () => {
+  it("should show empty string if is not point grading", () => {
     test.IsPointGrading = false;
 
-    expect(pipe.transform(test, studentId)).toBe('');
+    expect(pipe.transform(test, studentId)).toBe("");
   });
 
   it('should show "- / maxPoints" if student has no result', () => {
@@ -33,7 +33,7 @@ describe('TestsPointsPipe', () => {
     test.MaxPoints = 27;
     test.MaxPointsAdjusted = null;
 
-    expect(pipe.transform(test, studentId)).toBe('- / 27 tests.points');
+    expect(pipe.transform(test, studentId)).toBe("- / 27 tests.points");
   });
 
   it('should show "- / maxPointsAdjusted" if student has no result and test points are adjusted', () => {
@@ -41,7 +41,7 @@ describe('TestsPointsPipe', () => {
     test.MaxPoints = 27;
     test.MaxPointsAdjusted = 30;
 
-    expect(pipe.transform(test, studentId)).toBe('- / 30 tests.points');
+    expect(pipe.transform(test, studentId)).toBe("- / 30 tests.points");
   });
 
   it('should show "actual points / maxPoints" for student with a result', () => {
@@ -52,6 +52,6 @@ describe('TestsPointsPipe', () => {
     result.Points = 26;
     test.Results = [result];
 
-    expect(pipe.transform(test, studentId)).toBe('26 / 27 tests.points');
+    expect(pipe.transform(test, studentId)).toBe("26 / 27 tests.points");
   });
 });

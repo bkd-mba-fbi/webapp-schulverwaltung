@@ -1,22 +1,22 @@
-import { fold } from 'fp-ts/es6/Either';
+import { fold } from "fp-ts/es6/Either";
 import {
   NotificationChannels,
   NotificationTypesInactive,
-} from './user-settings.model';
+} from "./user-settings.model";
 
-describe('user settings types', () => {
-  describe('NotificationChannels', () => {
+describe("user settings types", () => {
+  describe("NotificationChannels", () => {
     let left: jasmine.Spy;
     let right: jasmine.Spy;
 
     beforeEach(() => {
-      left = jasmine.createSpy('left');
-      right = jasmine.createSpy('right');
+      left = jasmine.createSpy("left");
+      right = jasmine.createSpy("right");
     });
 
-    describe('decoding', () => {
-      it('converts JSON string to empty object', () => {
-        fold(left, right)(NotificationChannels.decode('{}'));
+    describe("decoding", () => {
+      it("converts JSON string to empty object", () => {
+        fold(left, right)(NotificationChannels.decode("{}"));
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith({
           mail: false,
@@ -25,7 +25,7 @@ describe('user settings types', () => {
         });
       });
 
-      it('converts JSON string with truthy values to object', () => {
+      it("converts JSON string with truthy values to object", () => {
         fold(
           left,
           right,
@@ -42,7 +42,7 @@ describe('user settings types', () => {
         });
       });
 
-      it('converts JSON string with falsy values to object', () => {
+      it("converts JSON string with falsy values to object", () => {
         fold(
           left,
           right,
@@ -59,7 +59,7 @@ describe('user settings types', () => {
         });
       });
 
-      it('falls back to default values for JSON string with invalid properties', () => {
+      it("falls back to default values for JSON string with invalid properties", () => {
         fold(
           left,
           right,
@@ -76,21 +76,21 @@ describe('user settings types', () => {
         });
       });
 
-      it('fails for invalid type', () => {
+      it("fails for invalid type", () => {
         fold(left, right)(NotificationChannels.decode({}));
         expect(left).toHaveBeenCalled();
         expect(right).not.toHaveBeenCalled();
       });
 
-      it('fails for invalid string', () => {
-        fold(left, right)(NotificationChannels.decode(''));
+      it("fails for invalid string", () => {
+        fold(left, right)(NotificationChannels.decode(""));
         expect(left).toHaveBeenCalled();
         expect(right).not.toHaveBeenCalled();
       });
     });
 
-    describe('encoding', () => {
-      it('converts object to JSON string', () => {
+    describe("encoding", () => {
+      it("converts object to JSON string", () => {
         expect(
           NotificationChannels.encode({
             mail: true,
@@ -102,60 +102,60 @@ describe('user settings types', () => {
     });
   });
 
-  describe('NotificationTypesInactive', () => {
+  describe("NotificationTypesInactive", () => {
     let left: jasmine.Spy;
     let right: jasmine.Spy;
 
     beforeEach(() => {
-      left = jasmine.createSpy('left');
-      right = jasmine.createSpy('right');
+      left = jasmine.createSpy("left");
+      right = jasmine.createSpy("right");
     });
 
-    describe('decoding', () => {
-      it('converts semicolon-separated string to array', () => {
+    describe("decoding", () => {
+      it("converts semicolon-separated string to array", () => {
         fold(
           left,
           right,
         )(
           NotificationTypesInactive.decode(
-            'BM2Teacher;absenceMessage;teacherSubstitutions',
+            "BM2Teacher;absenceMessage;teacherSubstitutions",
           ),
         );
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith([
-          'BM2Teacher',
-          'absenceMessage',
-          'teacherSubstitutions',
+          "BM2Teacher",
+          "absenceMessage",
+          "teacherSubstitutions",
         ]);
       });
 
-      it('converts single-value string to array', () => {
-        fold(left, right)(NotificationTypesInactive.decode('BM2Teacher'));
+      it("converts single-value string to array", () => {
+        fold(left, right)(NotificationTypesInactive.decode("BM2Teacher"));
         expect(left).not.toHaveBeenCalled();
-        expect(right).toHaveBeenCalledWith(['BM2Teacher']);
+        expect(right).toHaveBeenCalledWith(["BM2Teacher"]);
       });
 
-      it('converts empty string to empty array', () => {
-        fold(left, right)(NotificationTypesInactive.decode(''));
+      it("converts empty string to empty array", () => {
+        fold(left, right)(NotificationTypesInactive.decode(""));
         expect(left).not.toHaveBeenCalled();
         expect(right).toHaveBeenCalledWith([]);
       });
 
-      it('fails for invalid value', () => {
+      it("fails for invalid value", () => {
         fold(left, right)(NotificationTypesInactive.decode({}));
         expect(left).toHaveBeenCalled();
         expect(right).not.toHaveBeenCalled();
       });
 
-      it('fails for array with invalid value', () => {
+      it("fails for array with invalid value", () => {
         fold(
           left,
           right,
         )(
           NotificationTypesInactive.decode([
-            'BM2Teacher',
+            "BM2Teacher",
             123,
-            'absenceMessage',
+            "absenceMessage",
           ]),
         );
         expect(left).toHaveBeenCalled();
@@ -163,20 +163,20 @@ describe('user settings types', () => {
       });
     });
 
-    describe('encoding', () => {
-      it('converts array to semicolon-separated string', () => {
+    describe("encoding", () => {
+      it("converts array to semicolon-separated string", () => {
         expect(
           NotificationTypesInactive.encode([
-            'BM2Teacher',
-            'absenceMessage',
-            'teacherSubstitutions',
+            "BM2Teacher",
+            "absenceMessage",
+            "teacherSubstitutions",
           ]),
-        ).toEqual('BM2Teacher;absenceMessage;teacherSubstitutions');
+        ).toEqual("BM2Teacher;absenceMessage;teacherSubstitutions");
       });
 
-      it('converts single-value array to string', () => {
-        expect(NotificationTypesInactive.encode(['BM2Teacher'])).toEqual(
-          'BM2Teacher',
+      it("converts single-value array to string", () => {
+        expect(NotificationTypesInactive.encode(["BM2Teacher"])).toEqual(
+          "BM2Teacher",
         );
       });
     });

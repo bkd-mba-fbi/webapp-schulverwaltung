@@ -1,20 +1,20 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { of, Observable } from 'rxjs';
-import { isEqual } from 'lodash-es';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { HttpTestingController } from "@angular/common/http/testing";
+import { of, Observable } from "rxjs";
+import { isEqual } from "lodash-es";
 
-import { buildTestModuleMetadata, settings } from 'src/spec-helpers';
-import { EditAbsencesEditComponent } from './edit-absences-edit.component';
-import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-import { buildPresenceType, buildLessonPresence } from 'src/spec-builders';
-import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
+import { buildTestModuleMetadata, settings } from "src/spec-helpers";
+import { EditAbsencesEditComponent } from "./edit-absences-edit.component";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { buildPresenceType, buildLessonPresence } from "src/spec-builders";
+import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('EditAbsencesEditComponent', () => {
+describe("EditAbsencesEditComponent", () => {
   let component: EditAbsencesEditComponent;
   let fixture: ComponentFixture<EditAbsencesEditComponent>;
   let element: HTMLElement;
@@ -33,14 +33,14 @@ describe('EditAbsencesEditComponent', () => {
 
     doctor = buildPresenceType(13, true, false);
     doctor.NeedsConfirmation = true;
-    doctor.Designation = 'Arzt';
+    doctor.Designation = "Arzt";
 
     ill = buildPresenceType(14, true, false);
     ill.NeedsConfirmation = true;
-    ill.Designation = 'Krank';
+    ill.Designation = "Krank";
 
     late = buildPresenceType(settings.latePresenceTypeId, false, true);
-    late.Designation = 'Verspätung';
+    late.Designation = "Verspätung";
 
     dispensation = buildPresenceType(
       settings.dispensationPresenceTypeId,
@@ -61,7 +61,7 @@ describe('EditAbsencesEditComponent', () => {
             useValue: {
               presenceTypes$: of([]),
               selected: [],
-              resetSelection: jasmine.createSpy('resetSelection'),
+              resetSelection: jasmine.createSpy("resetSelection"),
             },
           },
           {
@@ -89,19 +89,19 @@ describe('EditAbsencesEditComponent', () => {
                 return of([
                   {
                     Key: settings.excusedAbsenceStateId,
-                    Value: 'entschuldigt',
+                    Value: "entschuldigt",
                   },
                   {
                     Key: settings.unexcusedAbsenceStateId,
-                    Value: 'unentschuldigt',
+                    Value: "unentschuldigt",
                   },
                   {
                     Key: settings.unconfirmedAbsenceStateId,
-                    Value: 'zu bestätigen',
+                    Value: "zu bestätigen",
                   },
                   {
                     Key: settings.checkableAbsenceStateId,
-                    Value: 'zu kontrollieren',
+                    Value: "zu kontrollieren",
                   },
                 ]);
               },
@@ -121,21 +121,21 @@ describe('EditAbsencesEditComponent', () => {
     element = fixture.debugElement.nativeElement;
 
     // Don't do any navigation
-    (component as any).onSaveSuccess = jasmine.createSpy('onSaveSuccess');
+    (component as any).onSaveSuccess = jasmine.createSpy("onSaveSuccess");
   });
 
   afterEach(() => {
     httpTestingController.verify();
   });
 
-  describe('initial absence type', () => {
-    it('preselects the absence type if all selected entries have the same', () => {
+  describe("initial absence type", () => {
+    it("preselects the absence type if all selected entries have the same", () => {
       state.selected = [
         buildLessonPresence(
           1,
           new Date(),
           new Date(),
-          'Math',
+          "Math",
           undefined,
           undefined,
           ill.Id,
@@ -144,23 +144,23 @@ describe('EditAbsencesEditComponent', () => {
           2,
           new Date(),
           new Date(),
-          'Deutsch',
+          "Deutsch",
           undefined,
           undefined,
           ill.Id,
         ),
       ];
       fixture.detectChanges();
-      expect(getSelect('absenceTypeId').value).toContain(String(ill.Id));
+      expect(getSelect("absenceTypeId").value).toContain(String(ill.Id));
     });
 
-    it('is empty if absence type of selected entries differs', () => {
+    it("is empty if absence type of selected entries differs", () => {
       state.selected = [
         buildLessonPresence(
           1,
           new Date(),
           new Date(),
-          'Math',
+          "Math",
           undefined,
           undefined,
           doctor.Id,
@@ -169,7 +169,7 @@ describe('EditAbsencesEditComponent', () => {
           2,
           new Date(),
           new Date(),
-          'Deutsch',
+          "Deutsch",
           undefined,
           undefined,
           ill.Id,
@@ -177,18 +177,18 @@ describe('EditAbsencesEditComponent', () => {
       ];
       fixture.detectChanges();
 
-      expect(getSelect('absenceTypeId').value).toContain('null');
+      expect(getSelect("absenceTypeId").value).toContain("null");
     });
   });
 
-  describe('form submission', () => {
+  describe("form submission", () => {
     beforeEach(() => {
       state.selected = [
         buildLessonPresence(
           1,
           new Date(),
           new Date(),
-          'Math',
+          "Math",
           undefined,
           undefined,
           undefined,
@@ -199,7 +199,7 @@ describe('EditAbsencesEditComponent', () => {
           2,
           new Date(),
           new Date(),
-          'Französisch',
+          "Französisch",
           undefined,
           undefined,
           absence.Id,
@@ -210,7 +210,7 @@ describe('EditAbsencesEditComponent', () => {
           3,
           new Date(),
           new Date(),
-          'Math',
+          "Math",
           undefined,
           undefined,
           doctor.Id,
@@ -221,7 +221,7 @@ describe('EditAbsencesEditComponent', () => {
           4,
           new Date(),
           new Date(),
-          'Englisch',
+          "Englisch",
           undefined,
           undefined,
           ill.Id,
@@ -232,7 +232,7 @@ describe('EditAbsencesEditComponent', () => {
           5,
           new Date(),
           new Date(),
-          'Chemie',
+          "Chemie",
           undefined,
           undefined,
           late.Id,
@@ -243,7 +243,7 @@ describe('EditAbsencesEditComponent', () => {
           6,
           new Date(),
           new Date(),
-          'Zeichnen',
+          "Zeichnen",
           undefined,
           undefined,
           dispensation.Id,
@@ -254,7 +254,7 @@ describe('EditAbsencesEditComponent', () => {
           7,
           new Date(),
           new Date(),
-          'Turnen',
+          "Turnen",
           undefined,
           undefined,
           halfDay.Id,
@@ -265,8 +265,8 @@ describe('EditAbsencesEditComponent', () => {
       fixture.detectChanges();
     });
 
-    it('resets all entries if updating to present', () => {
-      clickRadio('present');
+    it("resets all entries if updating to present", () => {
+      clickRadio("present");
       clickSave();
 
       expectResetRequest({
@@ -278,9 +278,9 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('updates all entries to chosen absence type if excused', () => {
-      clickRadio('entschuldigt');
-      selectOption('absenceTypeId', 'Krank');
+    it("updates all entries to chosen absence type if excused", () => {
+      clickRadio("entschuldigt");
+      selectOption("absenceTypeId", "Krank");
       clickSave();
 
       expectEditRequest({
@@ -293,8 +293,8 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('updates all entries to default absence type if unexcused', () => {
-      clickRadio('unentschuldigt');
+    it("updates all entries to default absence type if unexcused", () => {
+      clickRadio("unentschuldigt");
       clickSave();
 
       expectEditRequest({
@@ -307,8 +307,8 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('marks all entries as unconfirmed but preserves absence type if available', () => {
-      clickRadio('zu bestätigen');
+    it("marks all entries as unconfirmed but preserves absence type if available", () => {
+      clickRadio("zu bestätigen");
       clickSave();
 
       expectEditRequest({
@@ -326,8 +326,8 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('marks all entries as checkable but preserves absence type if available', () => {
-      clickRadio('zu kontrollieren');
+    it("marks all entries as checkable but preserves absence type if available", () => {
+      clickRadio("zu kontrollieren");
       clickSave();
 
       expectEditRequest({
@@ -345,8 +345,8 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('updates entries to dispensation', () => {
-      clickRadio('dispensation');
+    it("updates entries to dispensation", () => {
+      clickRadio("dispensation");
       clickSave();
 
       expectEditRequest({
@@ -358,8 +358,8 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('updates entries to half day', () => {
-      clickRadio('half-day');
+    it("updates entries to half day", () => {
+      clickRadio("half-day");
       clickSave();
 
       expectEditRequest({
@@ -371,9 +371,9 @@ describe('EditAbsencesEditComponent', () => {
       expect().nothing();
     });
 
-    it('updates entries to incident', () => {
-      clickRadio('incident');
-      selectOption('incidentId', 'Verspätung');
+    it("updates entries to incident", () => {
+      clickRadio("incident");
+      selectOption("incidentId", "Verspätung");
       clickSave();
 
       expectEditRequest({
@@ -399,17 +399,17 @@ describe('EditAbsencesEditComponent', () => {
       .call(select.options)
       .find((o) => o.label === optionLabel);
     select.value = option?.value;
-    select.dispatchEvent(new Event('change'));
+    select.dispatchEvent(new Event("change"));
   }
 
   function clickRadio(labelText: string): void {
     const labels = Array.prototype.slice.call(
-      element.querySelectorAll('label'),
+      element.querySelectorAll("label"),
     );
     const label = labels.find((l) => l.textContent.includes(labelText)) as
       | HTMLElement
       | undefined;
-    return label?.parentElement?.querySelector('input')?.click();
+    return label?.parentElement?.querySelector("input")?.click();
   }
 
   function clickSave(): void {
@@ -420,24 +420,24 @@ describe('EditAbsencesEditComponent', () => {
   }
 
   function expectResetRequest(body: any): void {
-    const url = 'https://eventotest.api/LessonPresences/Reset';
+    const url = "https://eventotest.api/LessonPresences/Reset";
 
     httpTestingController
       .expectOne(
         (req) => req.urlWithParams === url && isEqual(req.body, body),
         url,
       )
-      .flush('');
+      .flush("");
   }
 
   function expectEditRequest(body: any): void {
-    const url = 'https://eventotest.api/LessonPresences/Edit';
+    const url = "https://eventotest.api/LessonPresences/Edit";
 
     httpTestingController
       .expectOne(
         (req) => req.urlWithParams === url && isEqual(req.body, body),
         url,
       )
-      .flush('');
+      .flush("");
   }
 });

@@ -1,28 +1,28 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { SETTINGS, Settings } from '../../settings';
-import { TypeaheadService } from './typeahead-rest.service';
-import { EducationalEvent } from '../models/educational-event.model';
-import { switchMap, map } from 'rxjs/operators';
-import { decodeArray } from '../utils/decode';
-import { Observable, EMPTY, of } from 'rxjs';
-import { DropDownItem } from '../models/drop-down-item.model';
-import { TranslateService } from '@ngx-translate/core';
-import { pick } from '../utils/types';
-import { RestService } from './rest.service';
-import * as t from 'io-ts';
-import { ToastService } from './toast.service';
+import { SETTINGS, Settings } from "../../settings";
+import { TypeaheadService } from "./typeahead-rest.service";
+import { EducationalEvent } from "../models/educational-event.model";
+import { switchMap, map } from "rxjs/operators";
+import { decodeArray } from "../utils/decode";
+import { Observable, EMPTY, of } from "rxjs";
+import { DropDownItem } from "../models/drop-down-item.model";
+import { TranslateService } from "@ngx-translate/core";
+import { pick } from "../utils/types";
+import { RestService } from "./rest.service";
+import * as t from "io-ts";
+import { ToastService } from "./toast.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class EducationalEventsRestService
   extends RestService<typeof EducationalEvent>
   implements TypeaheadService
 {
   protected typeaheadCodec = t.type(
-    pick(this.codec.props, ['Id', 'Designation', 'Number']),
+    pick(this.codec.props, ["Id", "Designation", "Number"]),
   );
 
   constructor(
@@ -31,15 +31,15 @@ export class EducationalEventsRestService
     private translate: TranslateService,
     private toastService: ToastService,
   ) {
-    super(http, settings, EducationalEvent, 'EducationalEvents');
+    super(http, settings, EducationalEvent, "EducationalEvents");
   }
 
   getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
-          fields: ['Id', 'Designation', 'Number'].join(','),
-          ['filter.Designation']: `~*${term}*`,
+          fields: ["Id", "Designation", "Number"].join(","),
+          ["filter.Designation"]: `~*${term}*`,
         },
       })
       .pipe(
@@ -53,12 +53,12 @@ export class EducationalEventsRestService
       );
   }
 
-  getTypeaheadItemByKey(key: DropDownItem['Key']): Observable<DropDownItem> {
+  getTypeaheadItemByKey(key: DropDownItem["Key"]): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/CurrentSemester`, {
         params: {
-          fields: ['Id', 'Designation', 'Number'].join(','),
-          ['filter.Id']: `=${key}`,
+          fields: ["Id", "Designation", "Number"].join(","),
+          ["filter.Id"]: `=${key}`,
         },
       })
       .pipe(

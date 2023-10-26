@@ -5,14 +5,14 @@ import {
   Inject,
   ChangeDetectionStrategy,
   Optional,
-} from '@angular/core';
+} from "@angular/core";
 import {
   UntypedFormGroup,
   UntypedFormBuilder,
   Validators,
-} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Subject, combineLatest, Observable } from 'rxjs';
+} from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
+import { BehaviorSubject, Subject, combineLatest, Observable } from "rxjs";
 import {
   takeUntil,
   filter,
@@ -21,32 +21,32 @@ import {
   shareReplay,
   take,
   switchMap,
-} from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+} from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 
-import { notNull } from 'src/app/shared/utils/filter';
+import { notNull } from "src/app/shared/utils/filter";
 import {
   getValidationErrors,
   getControl,
   getControlValueChanges,
-} from 'src/app/shared/utils/form';
-import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
-import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
-import { SETTINGS, Settings } from 'src/app/settings';
-import { findDropDownItem$ } from 'src/app/shared/utils/drop-down-items';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-import { ConfirmAbsencesSelectionService } from '../../services/confirm-absences-selection.service';
+} from "src/app/shared/utils/form";
+import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
+import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
+import { SETTINGS, Settings } from "src/app/settings";
+import { findDropDownItem$ } from "src/app/shared/utils/drop-down-items";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { ConfirmAbsencesSelectionService } from "../../services/confirm-absences-selection.service";
 import {
   CONFIRM_ABSENCES_SERVICE,
   IConfirmAbsencesService,
-} from '../../tokens/confirm-absences-service';
-import { LessonPresence } from '../../models/lesson-presence.model';
-import { ToastService } from '../../services/toast.service';
+} from "../../tokens/confirm-absences-service";
+import { LessonPresence } from "../../models/lesson-presence.model";
+import { ToastService } from "../../services/toast.service";
 
 @Component({
-  selector: 'erz-confirm-absences',
-  templateUrl: './confirm-absences.component.html',
-  styleUrls: ['./confirm-absences.component.scss'],
+  selector: "erz-confirm-absences",
+  templateUrl: "./confirm-absences.component.html",
+  styleUrls: ["./confirm-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
@@ -62,7 +62,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   absenceTypeIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'absenceTypeId',
+    "absenceTypeId",
   );
 
   private confirmationStates$ = this.dropDownItemsService
@@ -109,18 +109,18 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
       });
 
     // Disable confirmation value select when unexcused
-    getControlValueChanges(this.formGroup$, 'confirmationValue')
+    getControlValueChanges(this.formGroup$, "confirmationValue")
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
-        if (typeof value === 'number') {
+        if (typeof value === "number") {
           this.updateAbsenceTypeIdDisabled(value);
         }
       });
 
     // Disable form when saving
     combineLatest([
-      getControl(this.formGroup$, 'confirmationValue').pipe(filter(notNull)),
-      getControl(this.formGroup$, 'absenceTypeId').pipe(filter(notNull)),
+      getControl(this.formGroup$, "confirmationValue").pipe(filter(notNull)),
+      getControl(this.formGroup$, "absenceTypeId").pipe(filter(notNull)),
       this.saving$,
     ])
       .pipe(takeUntil(this.destroy$))
@@ -136,7 +136,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
 
     // Initially select excused state radio button
     combineLatest([
-      getControl(this.formGroup$, 'confirmationValue').pipe(filter(notNull)),
+      getControl(this.formGroup$, "confirmationValue").pipe(filter(notNull)),
       this.excusedState$.pipe(take(1), filter(notNull)),
     ])
       .pipe(takeUntil(this.destroy$))
@@ -184,7 +184,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
 
   private updateAbsenceTypeIdDisabled(confirmationValue: number): void {
     combineLatest([
-      getControl(this.formGroup$, 'absenceTypeId').pipe(
+      getControl(this.formGroup$, "absenceTypeId").pipe(
         take(1),
         filter(notNull),
       ),
@@ -233,7 +233,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     absenceTypeId: number,
   ): number {
     if (!currentAbsenceTypeId) {
-      throw new Error('absence type id cannot be null');
+      throw new Error("absence type id cannot be null");
     }
 
     if (confirmationValue === unexcusedState) {
@@ -250,14 +250,14 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
       this.openAbsencesEditService.updateAfterConfirm();
     }
     this.toastService.success(
-      this.translate.instant('open-absences.edit.save-success'),
+      this.translate.instant("open-absences.edit.save-success"),
     );
     this.navigateBack();
   }
 
   private navigateBack(): void {
     this.router.navigate(
-      this.openAbsencesEditService?.confirmBackLink || ['..'],
+      this.openAbsencesEditService?.confirmBackLink || [".."],
       {
         relativeTo: this.activatedRoute,
         queryParams: this.openAbsencesEditService?.confirmBackLinkParams,

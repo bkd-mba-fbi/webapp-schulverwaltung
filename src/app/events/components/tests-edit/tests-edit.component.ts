@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   combineLatest,
@@ -8,25 +8,25 @@ import {
   finalize,
   map,
   switchMap,
-} from 'rxjs';
-import { Test } from 'src/app/shared/models/test.model';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
-import { TestStateService } from '../../services/test-state.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TestsDeleteComponent } from './tests-delete/tests-delete.component';
-import { take } from 'rxjs/operators';
-import { ToastService } from '../../../shared/services/toast.service';
+} from "rxjs";
+import { Test } from "src/app/shared/models/test.model";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { TestStateService } from "../../services/test-state.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
+import { take } from "rxjs/operators";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Component({
-  selector: 'erz-tests-edit',
-  templateUrl: './tests-edit.component.html',
-  styleUrls: ['./tests-edit.component.scss'],
+  selector: "erz-tests-edit",
+  templateUrl: "./tests-edit.component.html",
+  styleUrls: ["./tests-edit.component.scss"],
 })
 export class TestsEditComponent {
   saving$ = new BehaviorSubject(false);
 
   private testId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get('testId'))),
+    map((params) => Number(params.get("testId"))),
     distinctUntilChanged(),
   );
 
@@ -92,14 +92,14 @@ export class TestsEditComponent {
 
   private onSaveSuccess(): void {
     this.toastService.success(
-      this.translate.instant('tests.form.save-success'),
+      this.translate.instant("tests.form.save-success"),
     );
     this.navigateBack();
   }
 
   private onDeleteSuccess(deletedTestId: number): void {
     this.toastService.success(
-      this.translate.instant('tests.form.delete-success'),
+      this.translate.instant("tests.form.delete-success"),
     );
     this.state.deleteTest(deletedTestId);
     this.navigateBack();
@@ -108,6 +108,6 @@ export class TestsEditComponent {
   private navigateBack(): void {
     this.state.courseId$
       .pipe(take(1))
-      .subscribe((id) => this.router.navigate(['events', id, 'tests']));
+      .subscribe((id) => this.router.navigate(["events", id, "tests"]));
   }
 }

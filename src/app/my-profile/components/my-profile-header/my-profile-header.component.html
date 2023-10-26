@@ -4,7 +4,7 @@
     <div class="person">
       {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
       <span *ngIf="student.Gender">({{ student.Gender }})</span>
-      <div class="birthdate">{{ student.Birthdate | date: 'dd.MM.yyyy' }}</div>
+      <div class="birthdate">{{ student.Birthdate | date: "dd.MM.yyyy" }}</div>
     </div>
   </div>
   <ng-container *erzLet="reportUrl$ | async as reportUrl">

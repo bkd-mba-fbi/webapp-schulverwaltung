@@ -1,4 +1,4 @@
-<h1>{{ 'evaluate-absences.title' | translate }}</h1>
+<h1>{{ "evaluate-absences.title" | translate }}</h1>
 <ng-container
   *erzLet="{
     entries: state.entries$ | async,
@@ -52,7 +52,7 @@
                     "
                   >
                     {{
-                      'evaluate-absences.list.header.' + column.label
+                      "evaluate-absences.list.header." + column.label
                         | translate
                     }}
                   </div>
@@ -94,13 +94,13 @@
           class="btn btn-outline-secondary btn-sm d-block mx-auto"
           (click)="state.nextPage()"
         >
-          {{ 'global.pagination.load-more' | translate }}
+          {{ "global.pagination.load-more" | translate }}
         </button>
       </div>
 
       <ng-template #noEntries>
         <p class="mt-3">
-          {{ 'evaluate-absences.no-entries' | translate }}
+          {{ "evaluate-absences.no-entries" | translate }}
         </p>
       </ng-template>
     </ng-container>
@@ -111,6 +111,6 @@
   </ng-container>
 
   <ng-template #noFilter>
-    <p class="mt-3">{{ 'evaluate-absences.no-filter' | translate }}</p>
+    <p class="mt-3">{{ "evaluate-absences.no-filter" | translate }}</p>
   </ng-template>
 </ng-container>

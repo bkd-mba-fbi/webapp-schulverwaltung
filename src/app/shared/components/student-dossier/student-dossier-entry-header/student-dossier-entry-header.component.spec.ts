@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { StudentDossierEntryHeaderComponent } from './student-dossier-entry-header.component';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { StudentDossierEntryHeaderComponent } from "./student-dossier-entry-header.component";
 
-describe('StudentDossierEntryHeaderComponent', () => {
+describe("StudentDossierEntryHeaderComponent", () => {
   let component: StudentDossierEntryHeaderComponent;
   let fixture: ComponentFixture<StudentDossierEntryHeaderComponent>;
 
@@ -18,7 +18,7 @@ describe('StudentDossierEntryHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,15 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
-import { buildCourse, buildTest } from 'src/spec-builders';
-import { ActivatedRouteMock, buildTestModuleMetadata } from 'src/spec-helpers';
-import { TestStateService } from '../../services/test-state.service';
-import { TestsEditFormComponent } from '../tests-edit-form/tests-edit-form.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { of } from "rxjs";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { buildCourse, buildTest } from "src/spec-builders";
+import { ActivatedRouteMock, buildTestModuleMetadata } from "src/spec-helpers";
+import { TestStateService } from "../../services/test-state.service";
+import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
 
-import { TestsEditComponent } from './tests-edit.component';
+import { TestsEditComponent } from "./tests-edit.component";
 
-describe('TestsEditComponent', () => {
+describe("TestsEditComponent", () => {
   let component: TestsEditComponent;
   let fixture: ComponentFixture<TestsEditComponent>;
   let stateServiceMock: TestStateService;
@@ -34,8 +34,8 @@ describe('TestsEditComponent', () => {
       getCourse: () => of(course),
     } as unknown as TestStateService;
 
-    courseRestServiceMock = jasmine.createSpyObj('CoursesRestService', [
-      'update',
+    courseRestServiceMock = jasmine.createSpyObj("CoursesRestService", [
+      "update",
     ]);
     courseRestServiceMock.update.and.returnValue(of());
 
@@ -57,13 +57,13 @@ describe('TestsEditComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update existing test', () => {
+  it("should update existing test", () => {
     const formGroupValue = {
-      designation: 'an updated test',
+      designation: "an updated test",
       date: new Date(),
       weight: 2,
       isPointGrading: true,

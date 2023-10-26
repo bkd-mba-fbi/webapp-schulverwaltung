@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { MyGradesComponent } from './my-grades.component';
-import { RouterModule } from '@angular/router';
+import { MyGradesComponent } from "./my-grades.component";
+import { RouterModule } from "@angular/router";
 
-describe('MyGradesComponent', () => {
+describe("MyGradesComponent", () => {
   let component: MyGradesComponent;
   let fixture: ComponentFixture<MyGradesComponent>;
 
@@ -23,7 +23,7 @@ describe('MyGradesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

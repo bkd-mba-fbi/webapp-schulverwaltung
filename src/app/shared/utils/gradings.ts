@@ -1,5 +1,5 @@
-import { FinalGrading, Grading } from '../models/course.model';
-import { Grade, GradingScale } from '../models/grading-scale.model';
+import { FinalGrading, Grading } from "../models/course.model";
+import { Grade, GradingScale } from "../models/grading-scale.model";
 
 /**
  * The relevant grade value for a student dossier may be present either in the Grading or the FinalGrading,

@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
   UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
   Validators,
-} from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+} from "@angular/forms";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   BehaviorSubject,
   debounceTime,
@@ -15,23 +15,23 @@ import {
   Observable,
   Subject,
   takeUntil,
-} from 'rxjs';
-import { maxPoints } from 'src/app/events/utils/tests';
+} from "rxjs";
+import { maxPoints } from "src/app/events/utils/tests";
 import {
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
-} from 'src/app/shared/models/course.model';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { Result, Test } from 'src/app/shared/models/test.model';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
+} from "src/app/shared/models/course.model";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { Result, Test } from "src/app/shared/models/test.model";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 
 const DEBOUNCE_TIME = 500;
 
 @Component({
-  selector: 'erz-dossier-grades-edit',
-  templateUrl: './dossier-grades-edit.component.html',
-  styleUrls: ['./dossier-grades-edit.component.scss'],
+  selector: "erz-dossier-grades-edit",
+  templateUrl: "./dossier-grades-edit.component.html",
+  styleUrls: ["./dossier-grades-edit.component.scss"],
 })
 export class DossierGradesEditComponent implements OnInit {
   @Input() test: Test;
@@ -73,7 +73,7 @@ export class DossierGradesEditComponent implements OnInit {
       { value: this.points, disabled: false },
       [
         Validators.min(0),
-        Validators.pattern('[0-9]+([\\.][0-9]+)?'),
+        Validators.pattern("[0-9]+([\\.][0-9]+)?"),
         this.maxPointValidator(),
       ],
     );
@@ -137,7 +137,7 @@ export class DossierGradesEditComponent implements OnInit {
   }
 
   private isValid(points: string): boolean {
-    if (points === '') return false;
+    if (points === "") return false;
     if (isNaN(Number(points))) return false;
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }

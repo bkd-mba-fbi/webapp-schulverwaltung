@@ -1,5 +1,5 @@
-import { Injectable, Inject, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject, OnDestroy } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import {
   Observable,
   Subject,
@@ -7,7 +7,7 @@ import {
   Subscription,
   connectable,
   Connectable,
-} from 'rxjs';
+} from "rxjs";
 import {
   shareReplay,
   map,
@@ -15,12 +15,12 @@ import {
   startWith,
   filter,
   distinctUntilChanged,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-import { SETTINGS, Settings } from 'src/app/settings';
-import { StorageService } from './storage.service';
-import { notNull } from '../utils/filter';
-import { SubscriptionsRestService } from './subscriptions-rest.service';
+import { SETTINGS, Settings } from "src/app/settings";
+import { StorageService } from "./storage.service";
+import { notNull } from "../utils/filter";
+import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
 /**
  * Reports are PDFs that are served under a special URL. They can be
@@ -46,7 +46,7 @@ import { SubscriptionsRestService } from './subscriptions-rest.service';
  *     &keys={comma separated record ids (same as ?ids in the report url)}
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ReportsService implements OnDestroy {
   studentConfirmationAvailabilityRecordIds$ = new Subject<
@@ -54,14 +54,14 @@ export class ReportsService implements OnDestroy {
   >();
 
   personMasterDataAvailability$ = this.loadReportAvailability(
-    'Person',
+    "Person",
     this.settings.personMasterDataReportId,
     [Number(this.storageService.getPayload()?.id_person)],
   ).pipe(shareReplay(1));
 
   studentConfirmationAvailability$ =
     this.loadReportAvailabilityByAsyncRecordIds(
-      'Praesenzinformation',
+      "Praesenzinformation",
       this.settings.studentConfirmationReportId,
       this.studentConfirmationAvailabilityRecordIds$,
     );
@@ -86,7 +86,7 @@ export class ReportsService implements OnDestroy {
    * Report: Stammblatt
    */
   getPersonMasterDataUrl(personId: number): string {
-    return this.getReportUrl('Person', this.settings.personMasterDataReportId, [
+    return this.getReportUrl("Person", this.settings.personMasterDataReportId, [
       personId,
     ]);
   }
@@ -99,7 +99,7 @@ export class ReportsService implements OnDestroy {
    */
   getStudentConfirmationUrl(recordIds: ReadonlyArray<string>): string {
     return this.getReportUrl(
-      'Praesenzinformation',
+      "Praesenzinformation",
       this.settings.studentConfirmationReportId,
       recordIds,
     );
@@ -113,7 +113,7 @@ export class ReportsService implements OnDestroy {
    */
   getEvaluateAbsencesUrl(recordIds: ReadonlyArray<string>): string {
     return this.getReportUrl(
-      'Praesenzinformation',
+      "Praesenzinformation",
       this.settings.evaluateAbsencesReportId,
       recordIds,
     );
@@ -124,7 +124,7 @@ export class ReportsService implements OnDestroy {
    * The ID of the course/event
    */
   getEventReportUrl(recordId: number): string {
-    return this.getReportUrl('Anlass', this.settings.testsByCourseReportId, [
+    return this.getReportUrl("Anlass", this.settings.testsByCourseReportId, [
       recordId,
     ]);
   }
@@ -152,7 +152,7 @@ export class ReportsService implements OnDestroy {
     return `${
       this.settings.apiUrl
     }/Files/CrystalReports/${context}/${reportId}?ids=${recordIds.join(
-      ',',
+      ",",
     )}&token=${this.storageService.getAccessToken()}`;
   }
 
@@ -166,7 +166,7 @@ export class ReportsService implements OnDestroy {
         `${
           this.settings.apiUrl
         }/CrystalReports/AvailableReports/${context}?ids=${reportId}&keys=${recordIds.join(
-          ',',
+          ",",
         )}`,
       )
       .pipe(map(notNull), startWith(false), distinctUntilChanged());

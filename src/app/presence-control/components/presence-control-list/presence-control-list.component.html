@@ -1,4 +1,4 @@
-<h1>{{ 'presence-control.title' | translate }}</h1>
+<h1>{{ "presence-control.title" | translate }}</h1>
 <ng-container
   *erzLet="{
     lesson: state.selectedLesson$ | async,
@@ -48,13 +48,13 @@
 
       <ng-template #noLessonPresences>
         <p class="mt-3">
-          {{ 'presence-control.no-lesson-presences' | translate }}
+          {{ "presence-control.no-lesson-presences" | translate }}
         </p>
       </ng-template>
     </ng-container>
 
     <ng-template #noLessons>
-      <p class="mt-3">{{ 'presence-control.no-lessons' | translate }}</p>
+      <p class="mt-3">{{ "presence-control.no-lessons" | translate }}</p>
     </ng-template>
   </ng-container>
 

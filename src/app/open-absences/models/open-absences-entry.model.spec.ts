@@ -1,8 +1,8 @@
-import { OpenAbsencesEntry } from './open-absences-entry.model';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { buildLessonPresenceWithIds } from 'src/spec-builders';
+import { OpenAbsencesEntry } from "./open-absences-entry.model";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { buildLessonPresenceWithIds } from "src/spec-builders";
 
-describe('OpenAbsencesEntry', () => {
+describe("OpenAbsencesEntry", () => {
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
 
@@ -20,7 +20,7 @@ describe('OpenAbsencesEntry', () => {
       new Date(2000, 0, 23, 13),
     );
     [presenceA, presenceB].forEach(
-      (p) => (p.StudentFullName = 'Albert Einstein'),
+      (p) => (p.StudentFullName = "Albert Einstein"),
     );
 
     jasmine.clock().install();
@@ -29,9 +29,9 @@ describe('OpenAbsencesEntry', () => {
 
   afterEach(() => jasmine.clock().uninstall());
 
-  it('throws an execption if initialized with an empty array', () => {
+  it("throws an execption if initialized with an empty array", () => {
     expect(() => new OpenAbsencesEntry([])).toThrow(
-      new Error('Absences array is empty'),
+      new Error("Absences array is empty"),
     );
   });
 });

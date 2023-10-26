@@ -1,4 +1,4 @@
-import { PresenceControlEntry } from '../models/presence-control-entry.model';
+import { PresenceControlEntry } from "../models/presence-control-entry.model";
 
 export function getCategoryCount(
   presenceCategory: string,

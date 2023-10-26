@@ -1,4 +1,4 @@
-import * as t from 'io-ts';
+import * as t from "io-ts";
 
 const TeacherResource = t.type({
   HRef: t.string,

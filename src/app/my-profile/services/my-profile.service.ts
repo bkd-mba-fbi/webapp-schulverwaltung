@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { shareReplay, switchMap } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { shareReplay, switchMap } from "rxjs/operators";
 
-import { StudentProfileService } from 'src/app/shared/services/student-profile.service';
+import { StudentProfileService } from "src/app/shared/services/student-profile.service";
 
 @Injectable()
 export class MyProfileService {

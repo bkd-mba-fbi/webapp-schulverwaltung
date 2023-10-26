@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { SelectComponent } from './select.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { SelectComponent } from "./select.component";
 
-describe('SelectComponent', () => {
+describe("SelectComponent", () => {
   let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
   // let element: HTMLElement;
@@ -21,16 +21,16 @@ describe('SelectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create default select component', () => {
+  it("should create default select component", () => {
     // then
     expect(component).toBeTruthy();
     expect(component.allowEmpty).toBeTruthy();
-    expect(component.emptyLabel).toBe('');
+    expect(component.emptyLabel).toBe("");
     expect(component.options).toEqual([]);
     expect(component.value).toBeNull();
   });
 
-  it('should create select component without element', () => {
+  it("should create select component without element", () => {
     // given
     component.allowEmpty = false;
 
@@ -38,13 +38,13 @@ describe('SelectComponent', () => {
     expect(component.allowEmpty).toBeFalsy();
   });
 
-  it('should create select component with custom empty element', () => {
+  it("should create select component with custom empty element", () => {
     // given
     component.allowEmpty = true;
-    component.emptyLabel = 'Choose option...';
+    component.emptyLabel = "Choose option...";
 
     // then
-    expect(component.emptyLabel).toBe('Choose option...');
+    expect(component.emptyLabel).toBe("Choose option...");
     expect(component.allowEmpty).toBeTruthy();
   });
 });

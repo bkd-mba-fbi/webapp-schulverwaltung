@@ -51,5 +51,5 @@ export function formatISOLocalDate(date: Date): string {
 }
 
 function zeroPadding(value: number): string {
-  return ('0' + value).slice(-2);
+  return ("0" + value).slice(-2);
 }

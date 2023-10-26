@@ -6,82 +6,82 @@ import {
   isInstanceOf,
   unique,
   nonEmptyString,
-} from './filter';
+} from "./filter";
 
-describe('filter utils', () => {
-  describe('nonZero', () => {
-    it('returns true for positive numbers', () => {
+describe("filter utils", () => {
+  describe("nonZero", () => {
+    it("returns true for positive numbers", () => {
       expect(nonZero(1)).toBe(true);
       expect(nonZero(2)).toBe(true);
       expect(nonZero(1000)).toBe(true);
     });
 
-    it('returns false for zero', () => {
+    it("returns false for zero", () => {
       expect(nonZero(0)).toBe(false);
     });
 
-    it('returns false for negative numbers', () => {
+    it("returns false for negative numbers", () => {
       expect(nonZero(-1)).toBe(true);
       expect(nonZero(-2)).toBe(true);
       expect(nonZero(-1000)).toBe(true);
     });
   });
 
-  describe('notNull', () => {
-    it('returns true for non null value', () => {
+  describe("notNull", () => {
+    it("returns true for non null value", () => {
       expect(notNull(0)).toBe(true);
-      expect(notNull('')).toBe(true);
-      expect(notNull('null')).toBe(true);
+      expect(notNull("")).toBe(true);
+      expect(notNull("null")).toBe(true);
       expect(notNull({})).toBe(true);
     });
 
-    it('returns true for undefined', () => {
+    it("returns true for undefined", () => {
       expect(notNull(undefined)).toBe(true);
     });
 
-    it('returns false for null', () => {
+    it("returns false for null", () => {
       expect(notNull(null)).toBe(false);
     });
   });
 
-  describe('nonEmptyString', () => {
-    it('returns true for non empty string value', () => {
-      expect(nonEmptyString('x')).toBe(true);
-      expect(nonEmptyString(' ')).toBe(true);
-      expect(nonEmptyString('foo bar')).toBe(true);
+  describe("nonEmptyString", () => {
+    it("returns true for non empty string value", () => {
+      expect(nonEmptyString("x")).toBe(true);
+      expect(nonEmptyString(" ")).toBe(true);
+      expect(nonEmptyString("foo bar")).toBe(true);
     });
 
-    it('returns false for undefined', () => {
+    it("returns false for undefined", () => {
       expect(nonEmptyString(undefined)).toBe(false);
     });
 
-    it('returns false for null', () => {
+    it("returns false for null", () => {
       expect(nonEmptyString(null)).toBe(false);
     });
 
-    it('returns false for empty string', () => {
-      expect(nonEmptyString('')).toBe(false);
+    it("returns false for empty string", () => {
+      expect(nonEmptyString("")).toBe(false);
     });
 
-    it('returns false for false', () => {
+    it("returns false for false", () => {
       expect(nonEmptyString(false)).toBe(false);
     });
 
-    it('returns false for 0', () => {
+    it("returns false for 0", () => {
       expect(nonEmptyString(0)).toBe(false);
     });
 
-    it('returns false for empty object', () => {
+    it("returns false for empty object", () => {
       expect(nonEmptyString({})).toBe(false);
     });
 
-    it('returns false for empty array', () => {
+    it("returns false for empty array", () => {
       expect(nonEmptyString([])).toBe(false);
     });
   });
 
-  describe('not', () => {
-    it('returns function that calls given function and negates its result', () => {
+  describe("not", () => {
+    it("returns function that calls given function and negates its result", () => {
       expect(
         not((arg) => {
           expect(arg).toBe(123);
@@ -98,48 +98,48 @@ describe('filter utils', () => {
     });
   });
 
-  describe('isTruthy', () => {
-    it('returns true for truthy value', () => {
+  describe("isTruthy", () => {
+    it("returns true for truthy value", () => {
       expect(isTruthy(true)).toEqual(true);
-      expect(isTruthy('true')).toEqual(true);
+      expect(isTruthy("true")).toEqual(true);
       expect(isTruthy(1)).toEqual(true);
-      expect(isTruthy('1')).toEqual(true);
-      expect(isTruthy('foo')).toEqual(true);
-      expect(isTruthy('0')).toEqual(true);
-      expect(isTruthy('undefined')).toEqual(true);
-      expect(isTruthy('null')).toEqual(true);
+      expect(isTruthy("1")).toEqual(true);
+      expect(isTruthy("foo")).toEqual(true);
+      expect(isTruthy("0")).toEqual(true);
+      expect(isTruthy("undefined")).toEqual(true);
+      expect(isTruthy("null")).toEqual(true);
     });
 
-    it('returns false for falsy value', () => {
+    it("returns false for falsy value", () => {
       expect(isTruthy(false)).toEqual(false);
       expect(isTruthy(0)).toEqual(false);
-      expect(isTruthy('')).toEqual(false);
+      expect(isTruthy("")).toEqual(false);
       expect(isTruthy(null)).toEqual(false);
       expect(isTruthy(undefined)).toEqual(false);
     });
   });
 
-  describe('isInstanceOf', () => {
+  describe("isInstanceOf", () => {
     class Foo {}
     class Bar {}
 
-    it('returns true if is instance of given class', () => {
+    it("returns true if is instance of given class", () => {
       expect(isInstanceOf(Foo)(new Foo())).toBe(true);
     });
 
-    it('returns false if is not instance of given class', () => {
+    it("returns false if is not instance of given class", () => {
       expect(isInstanceOf(Foo)(new Bar())).toBe(false);
     });
   });
 
-  describe('unique', () => {
-    it('filters list of primitives and keeps only unique value in array', () => {
+  describe("unique", () => {
+    it("filters list of primitives and keeps only unique value in array", () => {
       expect([1, 2, 3, 4, 4, 3, 5].filter(unique)).toEqual([1, 2, 3, 4, 5]);
-      expect(['a', 'b', 'c', 'a', 'b', 'c', 'd'].filter(unique)).toEqual([
-        'a',
-        'b',
-        'c',
-        'd',
+      expect(["a", "b", "c", "a", "b", "c", "d"].filter(unique)).toEqual([
+        "a",
+        "b",
+        "c",
+        "d",
       ]);
     });
   });

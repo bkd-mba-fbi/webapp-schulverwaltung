@@ -1,7 +1,7 @@
-import { inject } from '@angular/core';
-import { Router, CanActivateFn } from '@angular/router';
+import { inject } from "@angular/core";
+import { Router, CanActivateFn } from "@angular/router";
 
-import { AuthService } from './shared/services/auth.service';
+import { AuthService } from "./shared/services/auth.service";
 
 export function authGuard(): CanActivateFn {
   return () => {
@@ -13,7 +13,7 @@ export function authGuard(): CanActivateFn {
     }
 
     // Redirect since not authenticated
-    router.navigate(['/unauthenticated']);
+    router.navigate(["/unauthenticated"]);
     return false;
   };
 }

@@ -1,12 +1,12 @@
 <div class="modal-body">
   <p>
-    {{ 'presence-control.preceding-absence.text' | translate }}
+    {{ "presence-control.preceding-absence.text" | translate }}
   </p>
   <div *ngFor="let absence of precedingAbsences">
-    {{ absence.LessonRef.From | date: 'HH:mm' }}–{{
-      absence.LessonRef.To | date: 'HH:mm'
+    {{ absence.LessonRef.From | date: "HH:mm" }}–{{
+      absence.LessonRef.To | date: "HH:mm"
     }}
-    {{ absence.LessonRef.EventDesignation }}{{ ':' | addSpace: ':' }}
+    {{ absence.LessonRef.EventDesignation }}{{ ":" | addSpace: ":" }}
     {{ absence.Type }}
   </div>
 </div>
@@ -16,6 +16,6 @@
     class="btn btn-outline-secondary"
     (click)="activeModal.dismiss()"
   >
-    {{ 'presence-control.preceding-absence.cancel' | translate }}
+    {{ "presence-control.preceding-absence.cancel" | translate }}
   </button>
 </div>

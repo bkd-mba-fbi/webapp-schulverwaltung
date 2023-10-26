@@ -1,30 +1,30 @@
-import { Course, Grading } from '../../shared/models/course.model';
-import { Result } from '../../shared/models/test.model';
-import { removeTestById, replaceResult, toggleIsPublished } from './tests';
-import { changeGrading, replaceGrading } from './gradings';
+import { Course, Grading } from "../../shared/models/course.model";
+import { Result } from "../../shared/models/test.model";
+import { removeTestById, replaceResult, toggleIsPublished } from "./tests";
+import { changeGrading, replaceGrading } from "./gradings";
 
 export type TestsAction =
-  | { type: 'reset'; payload: Course }
+  | { type: "reset"; payload: Course }
   | {
-      type: 'updateResult';
+      type: "updateResult";
       payload: { testResult: Result; grading: Grading };
     }
-  | { type: 'toggle-test-state'; payload: number }
+  | { type: "toggle-test-state"; payload: number }
   | {
-      type: 'final-grade-overwritten';
+      type: "final-grade-overwritten";
       payload: { id: number; selectedGradeId: number };
     }
-  | { type: 'replace-grades'; payload: Grading[] }
-  | { type: 'delete-test'; payload: number };
+  | { type: "replace-grades"; payload: Grading[] }
+  | { type: "delete-test"; payload: number };
 
 export function courseReducer(
   course: Option<Course>,
   action: TestsAction,
 ): Option<Course> {
   switch (action.type) {
-    case 'reset':
+    case "reset":
       return action.payload;
-    case 'updateResult':
+    case "updateResult":
       return course
         ? {
             ...course,
@@ -35,14 +35,14 @@ export function courseReducer(
             ),
           }
         : null;
-    case 'toggle-test-state':
+    case "toggle-test-state":
       return course
         ? {
             ...course,
             Tests: toggleIsPublished(action.payload, course.Tests || []),
           }
         : null;
-    case 'final-grade-overwritten':
+    case "final-grade-overwritten":
       return course
         ? {
             ...course,
@@ -55,7 +55,7 @@ export function courseReducer(
             ),
           }
         : null;
-    case 'replace-grades': {
+    case "replace-grades": {
       return course
         ? {
             ...course,
@@ -63,7 +63,7 @@ export function courseReducer(
           }
         : null;
     }
-    case 'delete-test':
+    case "delete-test":
       return course
         ? {
             ...course,

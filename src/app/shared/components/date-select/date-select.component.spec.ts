@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DateSelectComponent } from './date-select.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { DateSelectComponent } from "./date-select.component";
 
-describe('DateSelectComponent', () => {
+describe("DateSelectComponent", () => {
   let component: DateSelectComponent;
   let fixture: ComponentFixture<DateSelectComponent>;
 
@@ -19,7 +19,7 @@ describe('DateSelectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

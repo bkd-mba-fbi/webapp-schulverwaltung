@@ -1,16 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { Settings, SETTINGS } from 'src/app/settings';
-import { Grading } from '../models/course.model';
-import { RestService } from './rest.service';
+import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { map, Observable } from "rxjs";
+import { Settings, SETTINGS } from "src/app/settings";
+import { Grading } from "../models/course.model";
+import { RestService } from "./rest.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GradingsRestService extends RestService<typeof Grading> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, Grading, 'Gradings');
+    super(http, settings, Grading, "Gradings");
   }
 
   updateGrade(

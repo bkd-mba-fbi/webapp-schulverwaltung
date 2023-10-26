@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { GradeSelectComponent } from './grade-select.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { GradeSelectComponent } from "./grade-select.component";
 
-describe('GradeSelectComponent', () => {
+describe("GradeSelectComponent", () => {
   let component: GradeSelectComponent;
   let fixture: ComponentFixture<GradeSelectComponent>;
 
@@ -20,7 +20,7 @@ describe('GradeSelectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,14 +1,14 @@
-import { buildLessonPresenceWithIds } from 'src/spec-builders';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
+import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import {
   buildOpenAbsencesEntries,
   flattenOpenAbsencesEntries,
   sortOpenAbsencesEntries,
   removeOpenAbsences,
-} from './open-absences-entries';
-import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
+} from "./open-absences-entries";
+import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
 
-describe('open absences entries utils', () => {
+describe("open absences entries utils", () => {
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
   let presenceC: LessonPresence;
@@ -48,13 +48,13 @@ describe('open absences entries utils', () => {
     );
 
     [presenceA, presenceB, presenceC, presenceE].forEach(
-      (p) => (p.StudentFullName = 'Max Frisch'),
+      (p) => (p.StudentFullName = "Max Frisch"),
     );
-    presenceD.StudentFullName = 'Albert Einstein';
+    presenceD.StudentFullName = "Albert Einstein";
   });
 
-  describe('buildOpenAbsencesEntries', () => {
-    it('builds open absences entries for given lesson presences (absences)', () => {
+  describe("buildOpenAbsencesEntries", () => {
+    it("builds open absences entries for given lesson presences (absences)", () => {
       const result = buildOpenAbsencesEntries([
         presenceA,
         presenceB,
@@ -71,7 +71,7 @@ describe('open absences entries utils', () => {
     });
   });
 
-  describe('sortOpenAbsencesEntries', () => {
+  describe("sortOpenAbsencesEntries", () => {
     let openAbsenceEntryA: OpenAbsencesEntry;
     let openAbsenceEntryB: OpenAbsencesEntry;
     let openAbsenceEntryC: OpenAbsencesEntry;
@@ -85,9 +85,9 @@ describe('open absences entries utils', () => {
       entries = [openAbsenceEntryA, openAbsenceEntryB, openAbsenceEntryC];
     });
 
-    it('sorts open absences entries by student name ascending', () => {
+    it("sorts open absences entries by student name ascending", () => {
       const result = sortOpenAbsencesEntries(entries, {
-        primarySortKey: 'name',
+        primarySortKey: "name",
         ascending: true,
       });
       expect(result).toEqual([
@@ -97,9 +97,9 @@ describe('open absences entries utils', () => {
       ]);
     });
 
-    it('sorts open absences entries by student name descending', () => {
+    it("sorts open absences entries by student name descending", () => {
       const result = sortOpenAbsencesEntries(entries, {
-        primarySortKey: 'name',
+        primarySortKey: "name",
         ascending: false,
       });
       expect(result).toEqual([
@@ -109,9 +109,9 @@ describe('open absences entries utils', () => {
       ]);
     });
 
-    it('sorts open absences entries by date ascending', () => {
+    it("sorts open absences entries by date ascending", () => {
       const result = sortOpenAbsencesEntries(entries, {
-        primarySortKey: 'date',
+        primarySortKey: "date",
         ascending: true,
       });
       expect(result).toEqual([
@@ -121,9 +121,9 @@ describe('open absences entries utils', () => {
       ]);
     });
 
-    it('sorts open absences entries by date descending', () => {
+    it("sorts open absences entries by date descending", () => {
       const result = sortOpenAbsencesEntries(entries, {
-        primarySortKey: 'date',
+        primarySortKey: "date",
         ascending: false,
       });
       expect(result).toEqual([
@@ -134,8 +134,8 @@ describe('open absences entries utils', () => {
     });
   });
 
-  describe('flattenOpenAbsencesEntries', () => {
-    it('flattens an array of open absences entries to an array of lesson presences (absences)', () => {
+  describe("flattenOpenAbsencesEntries", () => {
+    it("flattens an array of open absences entries to an array of lesson presences (absences)", () => {
       const result = flattenOpenAbsencesEntries([
         new OpenAbsencesEntry([presenceA, presenceB]),
         new OpenAbsencesEntry([presenceC]),
@@ -145,8 +145,8 @@ describe('open absences entries utils', () => {
     });
   });
 
-  describe('removeOpenAbsences', () => {
-    it('removes entries matching the affected ids', () => {
+  describe("removeOpenAbsences", () => {
+    it("removes entries matching the affected ids", () => {
       const result = removeOpenAbsences(
         [presenceA, presenceB, presenceC, presenceD],
         [{ lessonIds: [10, 11], personId: 21 }],

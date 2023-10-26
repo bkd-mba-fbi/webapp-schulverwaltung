@@ -1,13 +1,13 @@
-import { OnDestroy, Injectable } from '@angular/core';
-import { Location } from '@angular/common';
-import { Params } from '@angular/router';
+import { OnDestroy, Injectable } from "@angular/core";
+import { Location } from "@angular/common";
+import { Params } from "@angular/router";
 import {
   BehaviorSubject,
   Observable,
   Subject,
   merge,
   combineLatest,
-} from 'rxjs';
+} from "rxjs";
 import {
   map,
   filter,
@@ -18,29 +18,29 @@ import {
   debounceTime,
   take,
   distinctUntilChanged,
-} from 'rxjs/operators';
-import { isEqual, cloneDeep } from 'lodash-es';
+} from "rxjs/operators";
+import { isEqual, cloneDeep } from "lodash-es";
 
-import { LoadingService } from './loading-service';
-import { Settings } from 'src/app/settings';
-import { Paginated } from '../utils/pagination';
-import { spread } from '../utils/function';
-import { serializeParams } from '../utils/url';
-import { Sorting, SortService } from './sort.service';
+import { LoadingService } from "./loading-service";
+import { Settings } from "src/app/settings";
+import { Paginated } from "../utils/pagination";
+import { spread } from "../utils/function";
+import { serializeParams } from "../utils/url";
+import { Sorting, SortService } from "./sort.service";
 
 interface ResetEntriesAction<T> {
-  action: 'reset';
+  action: "reset";
   entries?: ReadonlyArray<T>;
 }
 
 interface AppendEntriesAction<T> {
-  action: 'append';
+  action: "append";
   entries: ReadonlyArray<T>;
 }
 
 type EntriesAction<T> = ResetEntriesAction<T> | AppendEntriesAction<T>;
 
-export const PAGE_LOADING_CONTEXT = 'page';
+export const PAGE_LOADING_CONTEXT = "page";
 
 @Injectable()
 export abstract class PaginatedEntriesService<
@@ -64,11 +64,11 @@ export abstract class PaginatedEntriesService<
   private resetEntries$ = new Subject<void>();
   private nextPage$ = new Subject<void>();
   private page$ = merge(
-    this.nextPage$.pipe(map(() => 'next')),
+    this.nextPage$.pipe(map(() => "next")),
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
-      map(() => 'reset'),
+      map(() => "reset"),
     ),
-  ).pipe(scan((page, action) => (action === 'next' ? page + 1 : 0), 0));
+  ).pipe(scan((page, action) => (action === "next" ? page + 1 : 0), 0));
   private offset$ = this.page$.pipe(
     map((page) => page * this.settings.paginationLimit),
   );
@@ -85,7 +85,7 @@ export abstract class PaginatedEntriesService<
   entries$ = merge(
     // Restart with empty list on reset or if filter/sorting changes
     merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
-      map(() => ({ action: 'reset' }) as ResetEntriesAction<T>),
+      map(() => ({ action: "reset" }) as ResetEntriesAction<T>),
     ),
 
     // Accumulate entries of loaded pages
@@ -93,12 +93,12 @@ export abstract class PaginatedEntriesService<
       map((result) => {
         if (result.offset === 0) {
           return {
-            action: 'reset',
+            action: "reset",
             entries: result.entries,
           } as ResetEntriesAction<T>;
         }
         return {
-          action: 'append',
+          action: "append",
           entries: result.entries,
         } as AppendEntriesAction<T>;
       }),
@@ -176,9 +176,9 @@ export abstract class PaginatedEntriesService<
     event: EntriesAction<T>,
   ): ReadonlyArray<T> {
     switch (event.action) {
-      case 'append':
+      case "append":
         return [...entries, ...event.entries];
-      case 'reset':
+      case "reset":
         return event.entries ? event.entries : [];
       default:
         return entries;

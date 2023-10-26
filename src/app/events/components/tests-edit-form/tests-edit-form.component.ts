@@ -5,32 +5,32 @@ import {
   OnDestroy,
   OnInit,
   Output,
-} from '@angular/core';
+} from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-} from '@angular/forms';
+} from "@angular/forms";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
-} from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, of, Subject, takeUntil } from 'rxjs';
-import { Test } from 'src/app/shared/models/test.model';
-import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
+} from "@ng-bootstrap/ng-bootstrap";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, of, Subject, takeUntil } from "rxjs";
+import { Test } from "src/app/shared/models/test.model";
+import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import {
   getControlValueChanges,
   getValidationErrors,
-} from 'src/app/shared/utils/form';
-import { TestStateService } from '../../services/test-state.service';
-import { uniqueId } from 'lodash-es';
+} from "src/app/shared/utils/form";
+import { TestStateService } from "../../services/test-state.service";
+import { uniqueId } from "lodash-es";
 
 @Component({
-  selector: 'erz-tests-edit-form',
-  templateUrl: './tests-edit-form.component.html',
-  styleUrls: ['./tests-edit-form.component.scss'],
+  selector: "erz-tests-edit-form",
+  templateUrl: "./tests-edit-form.component.html",
+  styleUrls: ["./tests-edit-form.component.scss"],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
@@ -42,7 +42,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
 
   @Output() save = new EventEmitter<UntypedFormGroup>();
 
-  componentId = uniqueId('erz-tests-edit-form');
+  componentId = uniqueId("erz-tests-edit-form");
 
   formGroup: UntypedFormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
@@ -51,31 +51,31 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   designationErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'designation',
+    "designation",
   );
 
   dateErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'date',
+    "date",
   );
 
   maxPointsErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'maxPoints',
+    "maxPoints",
   );
 
   maxPointsAdjustedErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'maxPointsAdjusted',
+    "maxPointsAdjusted",
   );
 
   weightErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'weight',
+    "weight",
   );
 
   constructor(
@@ -92,7 +92,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     }
 
     // Disable max points and max points adjusted fields when not point grading type
-    getControlValueChanges(of(this.formGroup), 'isPointGrading')
+    getControlValueChanges(of(this.formGroup), "isPointGrading")
       .pipe(takeUntil(this.destroy$))
       .subscribe(this.togglePointFieldsDisability.bind(this));
   }
@@ -110,7 +110,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
 
   private createFormGroup(): UntypedFormGroup {
     return this.fb.group({
-      designation: ['', Validators.required],
+      designation: ["", Validators.required],
       date: [null, Validators.required],
       weight: [1, Validators.required],
       isPointGrading: [false],
@@ -131,17 +131,17 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
 
     // Disable type selection if test already contains results
     if (test.Results && test.Results.length > 0) {
-      this.formGroup.get('isPointGrading')?.disable();
-      this.formGroup.get('maxPoints')?.disable();
-      this.formGroup.get('maxPointsAdjusted')?.disable();
+      this.formGroup.get("isPointGrading")?.disable();
+      this.formGroup.get("maxPoints")?.disable();
+      this.formGroup.get("maxPointsAdjusted")?.disable();
     }
     this.togglePointFieldsDisability();
   }
 
   private togglePointFieldsDisability(): void {
-    const maxPoints = this.formGroup.get('maxPoints');
-    const maxPointsAdjusted = this.formGroup.get('maxPointsAdjusted');
-    const isPointGrading = this.formGroup.get('isPointGrading')?.value;
+    const maxPoints = this.formGroup.get("maxPoints");
+    const maxPointsAdjusted = this.formGroup.get("maxPointsAdjusted");
+    const isPointGrading = this.formGroup.get("isPointGrading")?.value;
 
     if (isPointGrading) {
       maxPoints?.enable();

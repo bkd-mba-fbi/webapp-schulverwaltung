@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { isEqual } from 'lodash-es';
-import { BehaviorSubject, take } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { isEqual } from "lodash-es";
+import { BehaviorSubject, take } from "rxjs";
 
 export interface ToastInfo {
   message: string;
   header?: string;
   classname?: string;
-  icon?: 'check_circle' | 'cancel' | 'help';
+  icon?: "check_circle" | "cancel" | "help";
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ToastService {
   private toastsSubject = new BehaviorSubject<ReadonlyArray<ToastInfo>>([]);
   toasts$ = this.toastsSubject.asObservable();
@@ -20,8 +20,8 @@ export class ToastService {
     this.addUnique({
       message,
       header,
-      classname: 'bg-success text-light',
-      icon: 'check_circle',
+      classname: "bg-success text-light",
+      icon: "check_circle",
     });
   }
 
@@ -29,8 +29,8 @@ export class ToastService {
     this.addUnique({
       message,
       header,
-      classname: 'bg-warning',
-      icon: 'help',
+      classname: "bg-warning",
+      icon: "help",
     });
   }
 
@@ -38,8 +38,8 @@ export class ToastService {
     this.addUnique({
       message,
       header,
-      classname: 'bg-danger text-light',
-      icon: 'cancel',
+      classname: "bg-danger text-light",
+      icon: "cancel",
     });
   }
 

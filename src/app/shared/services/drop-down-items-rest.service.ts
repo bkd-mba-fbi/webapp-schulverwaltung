@@ -1,14 +1,14 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { switchMap, shareReplay } from 'rxjs/operators';
-import { decodeArray } from '../utils/decode';
+import { Injectable, Inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { switchMap, shareReplay } from "rxjs/operators";
+import { decodeArray } from "../utils/decode";
 
-import { SETTINGS, Settings } from 'src/app/settings';
-import { DropDownItem } from '../models/drop-down-item.model';
-import { Observable } from 'rxjs';
+import { SETTINGS, Settings } from "src/app/settings";
+import { DropDownItem } from "../models/drop-down-item.model";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DropDownItemsRestService {
   constructor(

@@ -1,15 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { take } from 'rxjs/operators';
+import { TestBed } from "@angular/core/testing";
+import { take } from "rxjs/operators";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { buildLessonPresenceWithIds } from 'src/spec-builders';
-import { ConfirmAbsencesSelectionService } from './confirm-absences-selection.service';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { OpenAbsencesEntry } from 'src/app/open-absences/models/open-absences-entry.model';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { ConfirmAbsencesSelectionService } from "./confirm-absences-selection.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { OpenAbsencesEntry } from "src/app/open-absences/models/open-absences-entry.model";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('ConfirmAbsencesSelectionService', () => {
+describe("ConfirmAbsencesSelectionService", () => {
   let service: ConfirmAbsencesSelectionService;
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
@@ -37,8 +37,8 @@ describe('ConfirmAbsencesSelectionService', () => {
     entryC = new OpenAbsencesEntry([presenceE]);
   });
 
-  describe('selectedIds$', () => {
-    it('emits ids for selected open absences entries (list)', () => {
+  describe("selectedIds$", () => {
+    it("emits ids for selected open absences entries (list)", () => {
       expectSelection([]);
 
       service.toggle(entryA);
@@ -56,7 +56,7 @@ describe('ConfirmAbsencesSelectionService', () => {
       expectSelection([]);
     });
 
-    it('emits ids for selected lesson presences (detail)', () => {
+    it("emits ids for selected lesson presences (detail)", () => {
       expectSelection([]);
 
       service.toggle(presenceA);
@@ -78,8 +78,8 @@ describe('ConfirmAbsencesSelectionService', () => {
     });
   });
 
-  describe('selectedWithoutPresenceType$', () => {
-    it('emits presences with default absence type for selected lesson presences', () => {
+  describe("selectedWithoutPresenceType$", () => {
+    it("emits presences with default absence type for selected lesson presences", () => {
       expectSelectionWithoutPresenceType([]);
 
       service.toggle(presenceA);
@@ -99,8 +99,8 @@ describe('ConfirmAbsencesSelectionService', () => {
     });
   });
 
-  describe('.clearNonOpenAbsencesEntries', () => {
-    it('clears the selected lesson presences', () => {
+  describe(".clearNonOpenAbsencesEntries", () => {
+    it("clears the selected lesson presences", () => {
       service.toggle(entryA);
       service.toggle(presenceC);
       expectSelection([
@@ -114,14 +114,14 @@ describe('ConfirmAbsencesSelectionService', () => {
       ]);
     });
 
-    it('does nothing if nothing is selected', () => {
+    it("does nothing if nothing is selected", () => {
       service.clearNonOpenAbsencesEntries();
       expectSelection([]);
     });
   });
 
-  describe('.clearNonLessonPresences', () => {
-    it('clears the selected lesson presences', () => {
+  describe(".clearNonLessonPresences", () => {
+    it("clears the selected lesson presences", () => {
       service.toggle(entryA);
       service.toggle(presenceC);
       expectSelection([
@@ -133,7 +133,7 @@ describe('ConfirmAbsencesSelectionService', () => {
       expectSelection([{ personId: 22, presenceTypeId: 11, lessonIds: [10] }]);
     });
 
-    it('does nothing if nothing is selected', () => {
+    it("does nothing if nothing is selected", () => {
       service.clearNonLessonPresences();
       expectSelection([]);
     });

@@ -17,7 +17,7 @@
           [opened]="opened"
           (click)="acc.toggle('legal-representatives')"
         >
-          {{ 'shared.profile.legal-representation' | translate }}
+          {{ "shared.profile.legal-representation" | translate }}
         </erz-student-dossier-entry-header>
       </ng-template>
       <ng-template ngbPanelContent>
@@ -41,7 +41,7 @@
           [opened]="opened"
           (click)="acc.toggle('apprenticeship-company-' + i)"
         >
-          {{ 'shared.profile.apprenticeship-company' | translate }}
+          {{ "shared.profile.apprenticeship-company" | translate }}
           <ng-container
             *ngIf="data.profile.apprenticeshipCompanies.length > 1"
             >{{ i + 1 }}</ng-container

@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { LoadingService } from './loading-service';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { LoadingService } from "./loading-service";
 
-describe('LoadingService', () => {
+describe("LoadingService", () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));
 
-  it('should be created', () => {
+  it("should be created", () => {
     const service: LoadingService = TestBed.inject(LoadingService);
     expect(service).toBeTruthy();
   });

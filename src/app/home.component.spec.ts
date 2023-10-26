@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { HomeComponent } from './home.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { HomeComponent } from "./home.component";
 
-describe('HomeComponent', () => {
+describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let element: HTMLElement;
@@ -23,29 +23,29 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders a link for each section', () => {
+  it("renders a link for each section", () => {
     const links = getLinks();
     expect(links).toEqual([
-      '/dashboard',
-      '/presence-control',
-      '/open-absences',
-      '/edit-absences',
-      '/evaluate-absences',
-      '/events',
-      '/events/current',
-      '/my-absences',
-      '/my-profile',
-      '/my-grades',
-      '/my-settings',
+      "/dashboard",
+      "/presence-control",
+      "/open-absences",
+      "/edit-absences",
+      "/evaluate-absences",
+      "/events",
+      "/events/current",
+      "/my-absences",
+      "/my-profile",
+      "/my-grades",
+      "/my-settings",
     ]);
   });
 
   function getLinks(): string[] {
-    const anchors = Array.prototype.slice.call(element.querySelectorAll('a'));
-    return anchors.map((l) => l.getAttribute('href'));
+    const anchors = Array.prototype.slice.call(element.querySelectorAll("a"));
+    return anchors.map((l) => l.getAttribute("href"));
   }
 });

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
-import { CONFIRM_ABSENCES_SERVICE } from 'src/app/shared/tokens/confirm-absences-service';
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
+import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
 
 @Component({
-  selector: 'erz-edit-absences',
-  templateUrl: './edit-absences.component.html',
-  styleUrls: ['./edit-absences.component.scss'],
+  selector: "erz-edit-absences",
+  templateUrl: "./edit-absences.component.html",
+  styleUrls: ["./edit-absences.component.scss"],
   providers: [
     EditAbsencesStateService,
     {

@@ -4,13 +4,13 @@ import {
   ReplaySubject,
   Subscription,
   connectable,
-} from 'rxjs';
-import { scan, map, startWith, distinctUntilChanged } from 'rxjs/operators';
-import { Injectable, OnDestroy } from '@angular/core';
+} from "rxjs";
+import { scan, map, startWith, distinctUntilChanged } from "rxjs/operators";
+import { Injectable, OnDestroy } from "@angular/core";
 
 enum SelectionActionTypes {
-  ToggleSelection = 'TOGGLE',
-  ClearSelection = 'CLEAR',
+  ToggleSelection = "TOGGLE",
+  ClearSelection = "CLEAR",
 }
 
 interface ToggleSelectionAction<T> {

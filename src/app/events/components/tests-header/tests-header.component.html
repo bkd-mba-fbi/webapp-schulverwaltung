@@ -7,8 +7,8 @@
       <div class="font-color-light-gray" *ngIf="course.ParticipatingStudents">
         {{
           (course.ParticipatingStudents.length === 1
-            ? 'courses.registration'
-            : 'courses.registrations'
+            ? "courses.registration"
+            : "courses.registrations"
           ) | translate: { count: course.ParticipatingStudents.length }
         }}
       </div>

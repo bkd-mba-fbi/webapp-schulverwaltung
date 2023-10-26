@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { MyProfileShowComponent } from './my-profile-show.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { MyProfileService } from '../../services/my-profile.service';
+import { MyProfileShowComponent } from "./my-profile-show.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { MyProfileService } from "../../services/my-profile.service";
 
-describe('MyProfileShowComponent', () => {
+describe("MyProfileShowComponent", () => {
   let component: MyProfileShowComponent;
   let fixture: ComponentFixture<MyProfileShowComponent>;
 
@@ -23,7 +23,7 @@ describe('MyProfileShowComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

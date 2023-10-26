@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { StorageService } from './storage.service';
+import { Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { StorageService } from "./storage.service";
 
-const LANGUAGES: ReadonlyArray<string> = ['de-CH', 'fr-CH'];
+const LANGUAGES: ReadonlyArray<string> = ["de-CH", "fr-CH"];
 const FALLBACK_LANGUAGE = LANGUAGES[0];
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class I18nService {
   constructor(
@@ -42,13 +42,13 @@ export class I18nService {
 
   getLocalizedLanguage(language: Maybe<string>): string {
     language = LANGUAGES.find(
-      (l) => l === `${(language || '').toLowerCase()}-CH`,
+      (l) => l === `${(language || "").toLowerCase()}-CH`,
     );
     return language ? language : FALLBACK_LANGUAGE;
   }
 
   private getDocumentLanguage(): Option<string> {
-    const langElement = document.querySelector('[lang]') as HTMLElement | null;
+    const langElement = document.querySelector("[lang]") as HTMLElement | null;
     return this.normalizeLanguage(langElement && langElement.lang);
   }
 
@@ -61,7 +61,7 @@ export class I18nService {
   }
 
   private normalizeLanguage(lang: Maybe<string>): Option<string> {
-    lang = (lang || '').split('-')[0];
-    return (lang && LANGUAGES.find((l) => lang === l.split('-')[0])) || null;
+    lang = (lang || "").split("-")[0];
+    return (lang && LANGUAGES.find((l) => lang === l.split("-")[0])) || null;
   }
 }

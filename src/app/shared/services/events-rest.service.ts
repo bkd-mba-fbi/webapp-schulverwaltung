@@ -1,19 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { Settings, SETTINGS } from '../../settings';
-import { SubscriptionDetail } from '../models/subscription-detail.model';
-import { decodeArray } from '../utils/decode';
-import { RestService } from './rest.service';
-import { Course } from 'src/app/shared/models/course.model';
+import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { switchMap } from "rxjs/operators";
+import { Settings, SETTINGS } from "../../settings";
+import { SubscriptionDetail } from "../models/subscription-detail.model";
+import { decodeArray } from "../utils/decode";
+import { RestService } from "./rest.service";
+import { Course } from "src/app/shared/models/course.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class EventsRestService extends RestService<typeof SubscriptionDetail> {
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, SubscriptionDetail, 'Events');
+    super(http, settings, SubscriptionDetail, "Events");
   }
 
   getSubscriptionDetailsDefinitions(
@@ -26,9 +26,9 @@ export class EventsRestService extends RestService<typeof SubscriptionDetail> {
 
   getDesignation(course: Course): string {
     const classes = course.Classes
-      ? course.Classes.map((c) => c.Number).join(', ')
+      ? course.Classes.map((c) => c.Number).join(", ")
       : null;
 
-    return classes ? course.Designation + ', ' + classes : course.Designation;
+    return classes ? course.Designation + ", " + classes : course.Designation;
   }
 }

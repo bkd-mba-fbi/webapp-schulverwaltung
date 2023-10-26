@@ -1,11 +1,11 @@
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import * as t from 'io-ts/lib/index';
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import * as t from "io-ts/lib/index";
 
-import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
-import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
-import { Person } from 'src/app/shared/models/person.model';
-import { Student } from 'src/app/shared/models/student.model';
+import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
+import { LegalRepresentative } from "src/app/shared/models/legal-representative.model";
+import { Person } from "src/app/shared/models/person.model";
+import { Student } from "src/app/shared/models/student.model";
 import {
   buildApprenticeshipContract,
   buildLegalRepresentative,
@@ -14,17 +14,17 @@ import {
   buildPersonWithEmails,
   buildJobTrainerWithEmails,
   buildApprenticeshipManagerWithEmails,
-} from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   StudentProfileService,
   Profile,
-} from '../../shared/services/student-profile.service';
-import { ApprenticeshipManager } from '../models/apprenticeship-manager.model';
-import { DropDownItem } from '../models/drop-down-item.model';
-import { JobTrainer } from '../models/job-trainer.model';
+} from "../../shared/services/student-profile.service";
+import { ApprenticeshipManager } from "../models/apprenticeship-manager.model";
+import { DropDownItem } from "../models/drop-down-item.model";
+import { JobTrainer } from "../models/job-trainer.model";
 
-describe('StudentProfileService', () => {
+describe("StudentProfileService", () => {
   let httpTestingController: HttpTestingController;
   let service: StudentProfileService;
 
@@ -66,25 +66,25 @@ describe('StudentProfileService', () => {
     );
     legalRepresentative2 = buildPersonWithEmails(
       legalRepresentatives[1].RepresentativeId,
-      'display@email.ch',
+      "display@email.ch",
     );
-    jobTrainer = buildJobTrainerWithEmails(35468, 'email1@email.ch');
+    jobTrainer = buildJobTrainerWithEmails(35468, "email1@email.ch");
     apprenticeshipManager = buildApprenticeshipManagerWithEmails(
       38223,
-      'email1@email.ch',
-      'email2@email.ch',
+      "email1@email.ch",
+      "email2@email.ch",
     );
     persons = [legalRepresentative1, legalRepresentative2];
 
-    dropDownItems = [{ Key: myself.StayPermit, Value: 'Permit Value' }];
+    dropDownItems = [{ Key: myself.StayPermit, Value: "Permit Value" }];
   });
 
   afterEach(() => {
     httpTestingController.verify();
   });
 
-  describe('.getProfile', () => {
-    it('returns the profile for the given student', () => {
+  describe(".getProfile", () => {
+    it("returns the profile for the given student", () => {
       service
         .getProfile(student.Id)
         .subscribe((result: Option<Profile<Student>>) => {
@@ -116,7 +116,7 @@ describe('StudentProfileService', () => {
       }
     });
 
-    it('returns the profile without legal representatives for adult student', () => {
+    it("returns the profile without legal representatives for adult student", () => {
       student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
 
       service
@@ -135,7 +135,7 @@ describe('StudentProfileService', () => {
       }
     });
 
-    it('returns the profile only with legal representatives with flag for adult student', () => {
+    it("returns the profile only with legal representatives with flag for adult student", () => {
       student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
       legalRepresentatives[0].RepresentativeAfterMajority = true;
 
@@ -159,12 +159,12 @@ describe('StudentProfileService', () => {
     });
   });
 
-  describe('.getMyProfile', () => {
-    it('returns the profile for the current user', () => {
+  describe(".getMyProfile", () => {
+    it("returns the profile for the current user", () => {
       service.getMyProfile().subscribe((result: Profile<Person>) => {
         expect(result).toEqual({
           student: myself,
-          stayPermitValue: 'Permit Value',
+          stayPermitValue: "Permit Value",
           legalRepresentativePersons: [
             legalRepresentative1,
             legalRepresentative2,
@@ -191,7 +191,7 @@ describe('StudentProfileService', () => {
       }
     });
 
-    it('returns the profile without legal representatives for adult user', () => {
+    it("returns the profile without legal representatives for adult user", () => {
       myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
 
       service.getMyProfile().subscribe((result: Profile<Person>) => {
@@ -209,7 +209,7 @@ describe('StudentProfileService', () => {
       }
     });
 
-    it('returns the profile only with legal representatives with flag for adult', () => {
+    it("returns the profile only with legal representatives with flag for adult", () => {
       myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
       legalRepresentatives[0].RepresentativeAfterMajority = true;
 
@@ -238,7 +238,7 @@ describe('StudentProfileService', () => {
   }
 
   function expectMyPersonRequest(response = myself): void {
-    const url = 'https://eventotest.api/Persons/me';
+    const url = "https://eventotest.api/Persons/me";
     httpTestingController.expectOne(url).flush(Person.encode(response));
   }
 
@@ -269,7 +269,7 @@ describe('StudentProfileService', () => {
 
   function expectPersonsRequest(personIds: number[], response = persons): void {
     const url = `https://eventotest.api/Persons/?filter.Id=;${personIds.join(
-      ';',
+      ";",
     )}`;
 
     httpTestingController
@@ -278,7 +278,7 @@ describe('StudentProfileService', () => {
   }
 
   function expectLoadStayPermitValueRequest(response = dropDownItems): void {
-    const url = 'https://eventotest.api/DropDownItems/StayPermits';
+    const url = "https://eventotest.api/DropDownItems/StayPermits";
     httpTestingController
       .expectOne(url)
       .flush(t.array(DropDownItem).encode(response));

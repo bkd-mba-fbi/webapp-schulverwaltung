@@ -4,16 +4,16 @@ import {
   Input,
   SimpleChanges,
   OnChanges,
-} from '@angular/core';
-import { Params } from '@angular/router';
+} from "@angular/core";
+import { Params } from "@angular/router";
 
-import { SETTINGS, Settings } from 'src/app/settings';
-import { StorageService } from '../../services/storage.service';
+import { SETTINGS, Settings } from "src/app/settings";
+import { StorageService } from "../../services/storage.service";
 
 @Component({
-  selector: 'erz-avatar',
-  templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss'],
+  selector: "erz-avatar",
+  templateUrl: "./avatar.component.html",
+  styleUrls: ["./avatar.component.scss"],
 })
 export class AvatarComponent implements OnChanges {
   @Input() studentId: number;
@@ -35,17 +35,17 @@ export class AvatarComponent implements OnChanges {
 
   private buildAvatarStyles(studentId: number): { [key: string]: string } {
     return {
-      'background-image': [
+      "background-image": [
         this.buildAvatarUrl(studentId),
         this.fallbackAvatarUrl,
       ]
         .map((url) => `url(${url})`)
-        .join(', '),
+        .join(", "),
     };
   }
 
   private buildAvatarUrl(studentId: number): string {
-    const accessToken = this.storageService.getAccessToken() || '';
+    const accessToken = this.storageService.getAccessToken() || "";
     return `${this.settings.apiUrl}/Files/personPictures/${studentId}?token=${accessToken}`;
   }
 

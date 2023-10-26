@@ -50,8 +50,8 @@
   <span class="unconfirmed-absences">
     {{
       hasUnconfirmedAbsences
-        ? ('presence-control.entry.unconfirmed-absences' | translate)
-        : ''
+        ? ("presence-control.entry.unconfirmed-absences" | translate)
+        : ""
     }}
   </span>
 </a>
@@ -63,6 +63,6 @@
   <i class="material-icons">edit</i>
   <span>{{
     (entry.presenceType?.IsIncident && entry.presenceType?.Designation) ||
-      'presence-control.entry.incident' | translate
+      "presence-control.entry.incident" | translate
   }}</span>
 </a>

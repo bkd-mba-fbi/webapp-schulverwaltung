@@ -1,11 +1,11 @@
-import { format } from 'date-fns';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { OpenAbsencesEntry } from '../models/open-absences-entry.model';
-import { lessonsComparator } from 'src/app/presence-control/utils/lessons';
-import { UnreachableError } from 'src/app/shared/utils/error';
-import { uniqBy } from 'lodash-es';
-import { SortCriteria } from 'src/app/shared/utils/sort';
-import { PrimarySortKey } from '../services/open-absences.service';
+import { format } from "date-fns";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
+import { lessonsComparator } from "src/app/presence-control/utils/lessons";
+import { UnreachableError } from "src/app/shared/utils/error";
+import { uniqBy } from "lodash-es";
+import { SortCriteria } from "src/app/shared/utils/sort";
+import { PrimarySortKey } from "../services/open-absences.service";
 
 export function buildOpenAbsencesEntries(
   absences: ReadonlyArray<LessonPresence>,
@@ -59,7 +59,7 @@ export function mergeUniqueLessonPresences(
   a: ReadonlyArray<LessonPresence>,
   b: ReadonlyArray<LessonPresence>,
 ): ReadonlyArray<LessonPresence> {
-  return uniqBy([...a, ...b], 'Id');
+  return uniqBy([...a, ...b], "Id");
 }
 
 function getOpenAbsencesComparator(
@@ -67,7 +67,7 @@ function getOpenAbsencesComparator(
 ): (a: OpenAbsencesEntry, b: OpenAbsencesEntry) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
-      case 'date': {
+      case "date": {
         // First sort by time (ascending/descending), then by name (always ascending)
         const timeA = a.date.getTime();
         const timeB = b.date.getTime();
@@ -77,7 +77,7 @@ function getOpenAbsencesComparator(
         return sortCriteria.ascending ? timeA - timeB : timeB - timeA;
       }
 
-      case 'name': {
+      case "name": {
         // First sort by name (ascending/descending), then by date (always descending)
         const nameDiff = sortCriteria.ascending
           ? a.studentFullName.localeCompare(b.studentFullName)
@@ -91,7 +91,7 @@ function getOpenAbsencesComparator(
       default:
         throw new UnreachableError(
           sortCriteria.primarySortKey,
-          'Unhandled sort criteria',
+          "Unhandled sort criteria",
         );
     }
   };
@@ -105,7 +105,7 @@ function groupAbsences(
 ): Dict<Dict<LessonPresence[]>> {
   return absences.reduce(
     (acc, absence) => {
-      const day = format(absence.LessonDateTimeFrom, 'yyyy-MM-dd');
+      const day = format(absence.LessonDateTimeFrom, "yyyy-MM-dd");
       const studentId = absence.StudentRef.Id;
       if (!acc[day]) {
         acc[day] = {};

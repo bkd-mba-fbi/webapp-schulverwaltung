@@ -1,7 +1,7 @@
-import { Grading } from 'src/app/shared/models/course.model';
-import { changeGrading, replaceGrading } from './gradings';
+import { Grading } from "src/app/shared/models/course.model";
+import { changeGrading, replaceGrading } from "./gradings";
 
-describe('Gradings utils', () => {
+describe("Gradings utils", () => {
   const gradingToReplace = {
     Id: 12345,
     GradeId: 111,
@@ -11,14 +11,14 @@ describe('Gradings utils', () => {
     { Id: 33333, GradeId: 113 } as unknown as Grading,
     { Id: 11111, GradeId: 123 } as unknown as Grading,
   ];
-  describe('replace grading in list of grading', () => {
-    it('should add grading when gradings are empty', () => {
+  describe("replace grading in list of grading", () => {
+    it("should add grading when gradings are empty", () => {
       const grading = {} as Grading;
 
       expect(replaceGrading(grading, [])).toEqual([grading]);
     });
 
-    it('should replace grading by id', () => {
+    it("should replace grading by id", () => {
       const grading = { Id: 12345, GradeId: 333 } as Grading;
 
       const result = replaceGrading(grading, gradings);
@@ -29,12 +29,12 @@ describe('Gradings utils', () => {
     });
   });
 
-  describe('change gradings', () => {
-    it('should do nothing if no grading exists', () => {
+  describe("change gradings", () => {
+    it("should do nothing if no grading exists", () => {
       expect(changeGrading({ id: 1, selectedGradeId: 1 }, [])).toEqual([]);
     });
 
-    it('should change to gradeId of the given grade', () => {
+    it("should change to gradeId of the given grade", () => {
       const result = changeGrading(
         { id: 12345, selectedGradeId: 999 },
         gradings,

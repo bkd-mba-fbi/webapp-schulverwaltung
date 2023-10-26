@@ -1,8 +1,8 @@
-import * as t from 'io-ts';
-import { LocalDateTimeFromString, Option } from './common-types';
-import { Student } from './student.model';
-import { StudyClass } from './study-class.model';
-import { Result, Test } from './test.model';
+import * as t from "io-ts";
+import { LocalDateTimeFromString, Option } from "./common-types";
+import { Student } from "./student.model";
+import { StudyClass } from "./study-class.model";
+import { Result, Test } from "./test.model";
 
 const id = t.type({
   Id: t.number,

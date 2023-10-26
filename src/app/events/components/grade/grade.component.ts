@@ -6,26 +6,26 @@ import {
   OnDestroy,
   OnInit,
   Output,
-} from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
+} from "@angular/core";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { debounceTime, filter, map, takeUntil } from "rxjs/operators";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import {
   GradeOrNoResult,
   toMaxPoints,
-} from 'src/app/shared/models/student-grades';
+} from "src/app/shared/models/student-grades";
 import {
   TestGradesResult,
   TestPointsResult,
-} from '../../../shared/models/course.model';
-import { Student } from '../../../shared/models/student.model';
+} from "../../../shared/models/course.model";
+import { Student } from "../../../shared/models/student.model";
 
 const DEBOUNCE_TIME = 1250;
 
 @Component({
-  selector: 'erz-grade',
-  templateUrl: './grade.component.html',
-  styleUrls: ['./grade.component.scss'],
+  selector: "erz-grade",
+  templateUrl: "./grade.component.html",
+  styleUrls: ["./grade.component.scss"],
 })
 export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grade: GradeOrNoResult;
@@ -87,7 +87,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   onPointsChange(points: string) {
     this.pointsSubject$.next(points);
-    this.gradingScaleDisabledSubject$.next(!(points === null || points === ''));
+    this.gradingScaleDisabledSubject$.next(!(points === null || points === ""));
   }
 
   onGradeChange(gradeId: number) {
@@ -95,7 +95,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isValid(points: string): boolean {
-    if (points === '' || points === null) return true;
+    if (points === "" || points === null) return true;
     if (isNaN(Number(points))) return false;
     return !(Number(points) < 0 || Number(points) > this.maxPoints);
   }
@@ -103,7 +103,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   private buildRequestBodyPointsChange(
     points: string | null,
   ): TestPointsResult {
-    const newPoints = points === null || points === '' ? null : Number(points);
+    const newPoints = points === null || points === "" ? null : Number(points);
     return {
       StudentIds: [this.student.Id],
       TestId: this.grade.test.Id,
@@ -121,7 +121,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   private disableGradingScale() {
     if (this.grade.test.IsPublished) return true;
-    if (this.grade.kind === 'no-result') return false;
+    if (this.grade.kind === "no-result") return false;
     return this.grade.result.Points != null && this.grade.test.IsPointGrading;
   }
 }

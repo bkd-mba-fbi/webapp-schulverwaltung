@@ -1,26 +1,26 @@
-import { Inject, Injectable } from '@angular/core';
-import { Location } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
-import { Params } from '@angular/router';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { addDays, format, subDays } from 'date-fns';
+import { Inject, Injectable } from "@angular/core";
+import { Location } from "@angular/common";
+import { HttpParams } from "@angular/common/http";
+import { Params } from "@angular/router";
+import { combineLatest, Observable, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { addDays, format, subDays } from "date-fns";
 
-import { SETTINGS, Settings } from 'src/app/settings';
+import { SETTINGS, Settings } from "src/app/settings";
 import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
-} from 'src/app/shared/services/paginated-entries.service';
-import { Paginated } from 'src/app/shared/utils/pagination';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { TimetableEntry } from 'src/app/shared/models/timetable-entry.model';
-import { LessonAbsence } from 'src/app/shared/models/lesson-absence.model';
-import { LessonDispensation } from 'src/app/shared/models/lesson-dispensation.model';
-import { OptionalReference } from 'src/app/shared/models/common-types';
-import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { SortService } from 'src/app/shared/services/sort.service';
+} from "src/app/shared/services/paginated-entries.service";
+import { Paginated } from "src/app/shared/utils/pagination";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { LoadingService } from "src/app/shared/services/loading-service";
+import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
+import { LessonAbsence } from "src/app/shared/models/lesson-absence.model";
+import { LessonDispensation } from "src/app/shared/models/lesson-dispensation.model";
+import { OptionalReference } from "src/app/shared/models/common-types";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { SortService } from "src/app/shared/services/sort.service";
 
 export interface ReportAbsencesFilter {
   dateFrom: Option<Date>;
@@ -47,7 +47,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       loadingService,
       sortService,
       settings,
-      '/my-absences/report',
+      "/my-absences/report",
     );
 
     const currentInstanceId = this.storageService.getPayload()?.instance_id;
@@ -74,8 +74,8 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     _offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     const params = this.buildRequestParamsFromFilter(filterValue).set(
-      'sort',
-      'From.asc',
+      "sort",
+      "From.asc",
     );
     return this.loadingService.load(
       this.loadTimetableEntries(params).pipe(
@@ -109,10 +109,10 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     const { dateFrom, dateTo } = filterValue;
     const params: Params = {};
     if (dateFrom) {
-      params.dateFrom = format(dateFrom, 'yyyy-MM-dd');
+      params.dateFrom = format(dateFrom, "yyyy-MM-dd");
     }
     if (dateTo) {
-      params.dateTo = format(dateTo, 'yyyy-MM-dd');
+      params.dateTo = format(dateTo, "yyyy-MM-dd");
     }
     return params;
   }
@@ -123,14 +123,14 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     let params = new HttpParams();
     if (filterValue.dateFrom) {
       params = params.set(
-        'filter.From',
-        `>${format(subDays(filterValue.dateFrom, 1), 'yyyy-MM-dd')}`,
+        "filter.From",
+        `>${format(subDays(filterValue.dateFrom, 1), "yyyy-MM-dd")}`,
       );
     }
     if (filterValue.dateTo) {
       params = params.set(
-        'filter.To',
-        `<${format(addDays(filterValue.dateTo, 1), 'yyyy-MM-dd')}`,
+        "filter.To",
+        `<${format(addDays(filterValue.dateTo, 1), "yyyy-MM-dd")}`,
       );
     }
     return params;
@@ -139,7 +139,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   private get studentId(): number {
     const id = this.storageService.getPayload()?.id_person;
     if (id == null) {
-      throw new Error('No student id available');
+      throw new Error("No student id available");
     }
     return Number(id);
   }
@@ -155,7 +155,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   ): Observable<ReadonlyArray<LessonAbsence>> {
     return timetableEntries.length > 0
       ? this.studentsService.getLessonAbsences(this.studentId, {
-          'filter.Id': `;${timetableEntries.map((e) => e.Id).join(';')}`,
+          "filter.Id": `;${timetableEntries.map((e) => e.Id).join(";")}`,
         })
       : of([]);
   }
@@ -165,7 +165,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   ): Observable<ReadonlyArray<LessonDispensation>> {
     return timetableEntries.length > 0
       ? this.studentsService.getLessonDispensations(this.studentId, {
-          'filter.Id': `;${timetableEntries.map((e) => e.Id).join(';')}`,
+          "filter.Id": `;${timetableEntries.map((e) => e.Id).join(";")}`,
         })
       : of([]);
   }
@@ -191,7 +191,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     );
     const typeRef = this.buildLessonPresenceTypeRef(absence, dispensation);
     return {
-      Id: '',
+      Id: "",
       LessonRef: { Id: timetableEntry.Id, HRef: null },
       StudentRef: (absence || dispensation)?.StudentRef || {
         Id: this.studentId,
@@ -205,15 +205,15 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
         absence?.ConfirmationStateId ||
         (dispensation && this.settings.excusedAbsenceStateId) ||
         null,
-      EventDesignation: timetableEntry.EventDesignation || '',
+      EventDesignation: timetableEntry.EventDesignation || "",
       HasStudyCourseConfirmationCode: false,
       LessonDateTimeFrom: timetableEntry.From || new Date(),
       LessonDateTimeTo: timetableEntry.To || new Date(),
       Comment: null,
       Date: timetableEntry.From || new Date(),
       Type: (absence || dispensation)?.Type || null,
-      StudentFullName: (absence || dispensation)?.StudentFullName || '',
-      StudyClassNumber: '', // Currently not available on timetable entry
+      StudentFullName: (absence || dispensation)?.StudentFullName || "",
+      StudyClassNumber: "", // Currently not available on timetable entry
       TeacherInformation: timetableEntry.EventManagerInformation,
     };
   }

@@ -1,24 +1,24 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable, Inject } from "@angular/core";
+import { Observable, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { getIdsGroupedByPerson } from 'src/app/shared/utils/lesson-presences';
-import { SETTINGS, Settings } from 'src/app/settings';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { not } from 'src/app/shared/utils/filter';
+import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { getIdsGroupedByPerson } from "src/app/shared/utils/lesson-presences";
+import { SETTINGS, Settings } from "src/app/settings";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { not } from "src/app/shared/utils/filter";
 
 export enum Category {
-  Absent = 'absent',
-  Dispensation = 'dispensation',
-  HalfDay = 'half-day',
-  Incident = 'incident',
-  Present = 'present',
+  Absent = "absent",
+  Dispensation = "dispensation",
+  HalfDay = "half-day",
+  Incident = "incident",
+  Present = "present",
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class EditAbsencesUpdateService {
   constructor(

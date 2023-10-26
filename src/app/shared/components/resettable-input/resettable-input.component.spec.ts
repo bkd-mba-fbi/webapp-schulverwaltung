@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ResettableInputComponent } from './resettable-input.component';
+import { ResettableInputComponent } from "./resettable-input.component";
 
-describe('ResettableInputComponent', () => {
+describe("ResettableInputComponent", () => {
   let component: ResettableInputComponent;
   let fixture: ComponentFixture<ResettableInputComponent>;
 
@@ -18,7 +18,7 @@ describe('ResettableInputComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

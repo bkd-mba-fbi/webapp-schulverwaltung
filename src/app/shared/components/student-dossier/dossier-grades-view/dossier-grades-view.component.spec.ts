@@ -1,13 +1,13 @@
-import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { expectText } from 'src/specs/expectations';
-import { DossierGradesViewComponent } from './dossier-grades-view.component';
-import { DossierGradesService } from '../../../services/dossier-grades.service';
-import { StorageService } from '../../../services/storage.service';
-import { buildCourse } from '../../../../../spec-builders';
+import { DebugElement } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { expectText } from "src/specs/expectations";
+import { DossierGradesViewComponent } from "./dossier-grades-view.component";
+import { DossierGradesService } from "../../../services/dossier-grades.service";
+import { StorageService } from "../../../services/storage.service";
+import { buildCourse } from "../../../../../spec-builders";
 
-describe('DossierGradesViewComponent', () => {
+describe("DossierGradesViewComponent", () => {
   let component: DossierGradesViewComponent;
   let fixture: ComponentFixture<DossierGradesViewComponent>;
   let debugElement: DebugElement;
@@ -23,7 +23,7 @@ describe('DossierGradesViewComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { id_person: '42' };
+                return { id_person: "42" };
               },
             },
           },
@@ -39,16 +39,16 @@ describe('DossierGradesViewComponent', () => {
     debugElement = fixture.debugElement;
   });
 
-  it('should render component', () => {
+  it("should render component", () => {
     component.courses = [buildCourse(1)];
     fixture.detectChanges();
   });
 
-  it('should show message that indicates that there are no courses', () => {
+  it("should show message that indicates that there are no courses", () => {
     component.courses = [];
 
     fixture.detectChanges();
 
-    expectText(debugElement, 'message-no-courses', 'dossier.no-courses');
+    expectText(debugElement, "message-no-courses", "dossier.no-courses");
   });
 });

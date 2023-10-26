@@ -4,23 +4,23 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   AfterViewInit,
-} from '@angular/core';
-import { Subject } from 'rxjs';
+} from "@angular/core";
+import { Subject } from "rxjs";
 
 import {
   OpenAbsencesService,
   PrimarySortKey,
-} from '../../services/open-absences.service';
-import { OpenAbsencesEntry } from '../../models/open-absences-entry.model';
-import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
-import { SortCriteria } from 'src/app/shared/utils/sort';
-import { take } from 'rxjs/operators';
+} from "../../services/open-absences.service";
+import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { SortCriteria } from "src/app/shared/utils/sort";
+import { take } from "rxjs/operators";
 
 @Component({
-  selector: 'erz-open-absences-list',
-  templateUrl: './open-absences-list.component.html',
-  styleUrls: ['./open-absences-list.component.scss'],
+  selector: "erz-open-absences-list",
+  templateUrl: "./open-absences-list.component.html",
+  styleUrls: ["./open-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenAbsencesListComponent
@@ -66,13 +66,13 @@ export class OpenAbsencesListComponent
     sortKey: PrimarySortKey,
   ): string {
     if (sortCriteria.primarySortKey !== sortKey) {
-      return '';
+      return "";
     }
-    return sortCriteria.ascending ? '↓' : '↑';
+    return sortCriteria.ascending ? "↓" : "↑";
   }
 
   getLessonsCountKey(entry: OpenAbsencesEntry): string {
-    const suffix = entry.lessonsCount === 1 ? 'singular' : 'plural';
+    const suffix = entry.lessonsCount === 1 ? "singular" : "plural";
     return `open-absences.list.content.lessonsCount.${suffix}`;
   }
 }

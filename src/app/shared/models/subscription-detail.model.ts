@@ -1,6 +1,6 @@
-import * as t from 'io-ts';
-import { Option } from './common-types';
-import { DropDownItem } from './drop-down-item.model';
+import * as t from "io-ts";
+import { Option } from "./common-types";
+import { DropDownItem } from "./drop-down-item.model";
 
 const SubscriptionDetail = t.type({
   Id: t.string,

@@ -1,8 +1,8 @@
-import * as t from 'io-ts/lib/index';
-import { HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
-import { decodeArray } from './decode';
+import * as t from "io-ts/lib/index";
+import { HttpResponse, HttpParams, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { switchMap, map } from "rxjs/operators";
+import { decodeArray } from "./decode";
 
 export interface Paginated<T> {
   offset: number;
@@ -38,8 +38,8 @@ export function decodePaginatedResponse<C extends t.Mixed>(
   return (source) => {
     return source.pipe(
       switchMap((response) => {
-        const offset = Number(response.headers.get('X-Pagination-Offset'));
-        const total = Number(response.headers.get('X-Pagination-Total'));
+        const offset = Number(response.headers.get("X-Pagination-Offset"));
+        const total = Number(response.headers.get("X-Pagination-Total"));
         return decodeArray(codec)(response.body).pipe(
           map((entries) => ({ offset, total, entries })),
         );
@@ -53,10 +53,10 @@ export function paginatedParams(
   limit: number,
   params = new HttpParams(),
 ): HttpParams {
-  return params.set('offset', String(offset)).set('limit', String(limit));
+  return params.set("offset", String(offset)).set("limit", String(limit));
 }
 
 export function paginatedHeaders(headers = new HttpHeaders()): HttpHeaders {
   // Enable the `X-Pagination-Total` in the result
-  return headers.set('X-Pagination-Total', 'on');
+  return headers.set("X-Pagination-Total", "on");
 }

@@ -6,16 +6,16 @@
   >
     {{
       (selectedCount === 1
-        ? 'my-absences.confirm.lesson-selected'
-        : 'my-absences.confirm.lessons-selected'
+        ? "my-absences.confirm.lesson-selected"
+        : "my-absences.confirm.lessons-selected"
       ) | translate: { count: selectedCount }
     }}
   </div>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div class="form-group mb-3 border-bottom">
       <label class="form-label"
-        >{{ 'my-absences.confirm.choose-presence-type' | translate
-        }}{{ ':' | addSpace: ':' }}</label
+        >{{ "my-absences.confirm.choose-presence-type" | translate
+        }}{{ ":" | addSpace: ":" }}</label
       >
       <div
         *ngFor="let type of absenceTypes$ | async; index as i"
@@ -39,7 +39,7 @@
             class="invalid-feedback mt-4"
           >
             {{
-              'global.validation-errors.' + error.error
+              "global.validation-errors." + error.error
                 | translate: error.params
             }}
           </div>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="remark">
-      {{ 'my-absences.confirm.remark' | translate }}
+      {{ "my-absences.confirm.remark" | translate }}
     </div>
 
     <div class="d-flex justify-content-end">
@@ -57,14 +57,14 @@
         [disabled]="saving$ | async"
         (click)="cancel()"
       >
-        {{ 'my-absences.confirm.cancel' | translate }}
+        {{ "my-absences.confirm.cancel" | translate }}
       </button>
       <button
         type="submit"
         class="btn btn-primary ms-2"
         [disabled]="saving$ | async"
       >
-        {{ 'my-absences.confirm.save' | translate }}
+        {{ "my-absences.confirm.save" | translate }}
         <div
           *ngIf="saving$ | async"
           class="spinner-border spinner-border-sm align-middle"

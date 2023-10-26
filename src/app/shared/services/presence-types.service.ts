@@ -1,16 +1,16 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, Inject } from "@angular/core";
+import { Observable } from "rxjs";
 import {
   shareReplay,
   map,
   startWith,
   distinctUntilChanged,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-import { PresenceTypesRestService } from './presence-types-rest.service';
-import { PresenceType } from '../models/presence-type.model';
-import { SETTINGS, Settings } from 'src/app/settings';
-import { sortPresenceTypes } from '../utils/presence-types';
+import { PresenceTypesRestService } from "./presence-types-rest.service";
+import { PresenceType } from "../models/presence-type.model";
+import { SETTINGS, Settings } from "src/app/settings";
+import { sortPresenceTypes } from "../utils/presence-types";
 
 /**
  * This service provides the presence types and their variations. It
@@ -18,7 +18,7 @@ import { sortPresenceTypes } from '../utils/presence-types';
  * application.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PresenceTypesService {
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
@@ -76,7 +76,7 @@ export class PresenceTypesService {
       map((types) => {
         const type = types.find((t) => t.Id === id);
         if (!type) {
-          throw new Error('presence type not found');
+          throw new Error("presence type not found");
         }
         return type;
       }),

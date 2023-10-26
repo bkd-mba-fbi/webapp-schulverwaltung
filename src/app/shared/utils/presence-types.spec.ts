@@ -1,9 +1,9 @@
-import { sortPresenceTypes } from './presence-types';
-import { buildPresenceType } from 'src/spec-builders';
+import { sortPresenceTypes } from "./presence-types";
+import { buildPresenceType } from "src/spec-builders";
 
-describe('presence types utilities', () => {
-  describe('sortPresenceTypes', () => {
-    it('sorts presence types by Sort attribute', () => {
+describe("presence types utilities", () => {
+  describe("sortPresenceTypes", () => {
+    it("sorts presence types by Sort attribute", () => {
       const presenceA = buildPresenceType(1, false, false);
       presenceA.Sort = 3;
       const presenceB = buildPresenceType(2, false, false);

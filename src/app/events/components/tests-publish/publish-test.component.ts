@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Test } from 'src/app/shared/models/test.model';
+import { Component, Input } from "@angular/core";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Test } from "src/app/shared/models/test.model";
 
 @Component({
-  selector: 'erz-publish-test',
+  selector: "erz-publish-test",
   template: `
     <div class="modal-body">
       <p data-testid="confirmation-message">
         {{
           (test.IsPublished
-            ? 'tests.publishing.unpublish'
-            : 'tests.publishing.publish'
+            ? "tests.publishing.unpublish"
+            : "tests.publishing.publish"
           ) | translate: { designation: test.Designation }
         }}
       </p>
@@ -22,7 +22,7 @@ import { Test } from 'src/app/shared/models/test.model';
         class="btn btn-outline-secondary"
         (click)="activeModal.dismiss()"
       >
-        {{ 'tests.publishing.cancel' | translate }}
+        {{ "tests.publishing.cancel" | translate }}
       </button>
 
       <button
@@ -31,7 +31,7 @@ import { Test } from 'src/app/shared/models/test.model';
         class="btn btn-primary"
         (click)="activeModal.close(true)"
       >
-        {{ 'tests.publishing.confirm' | translate }}
+        {{ "tests.publishing.confirm" | translate }}
       </button>
     </div>
   `,

@@ -1,13 +1,13 @@
-import * as t from 'io-ts';
-import { pipe } from 'fp-ts/es6/function';
-import { chain } from 'fp-ts/es6/Either';
-import { JsonFromString } from 'io-ts-types';
+import * as t from "io-ts";
+import { pipe } from "fp-ts/es6/function";
+import { chain } from "fp-ts/es6/Either";
+import { JsonFromString } from "io-ts-types";
 import {
   parseISOLocalDateTime,
   formatISOLocalDateTime,
   parseISOLocalDate,
   formatISOLocalDate,
-} from '../utils/date';
+} from "../utils/date";
 
 export function Option<T extends t.Any>(
   optionalType: T,
@@ -32,10 +32,10 @@ const OptionalReference = t.type({
 type OptionalReference = t.TypeOf<typeof OptionalReference>;
 export { OptionalReference };
 
-export const JsonFromUnknown = t.string.pipe(JsonFromString, 'JsonFromUnknown');
+export const JsonFromUnknown = t.string.pipe(JsonFromString, "JsonFromUnknown");
 
 export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
-  'LocalDateTimeFromString',
+  "LocalDateTimeFromString",
   (u): u is Date => u instanceof Date,
   (u, c) =>
     pipe(
@@ -49,7 +49,7 @@ export const LocalDateTimeFromString = new t.Type<Date, string, unknown>(
 );
 
 export const LocalDateFromString = new t.Type<Date, string, unknown>(
-  'LocalDateTimeFromString',
+  "LocalDateTimeFromString",
   (u): u is Date => u instanceof Date,
   (u, c) =>
     pipe(

@@ -1,26 +1,26 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { Component } from "@angular/core";
 import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
   Router,
-} from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+} from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { authGuard } from './auth.guard';
-import { AuthService } from './shared/services/auth.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { authGuard } from "./auth.guard";
+import { AuthService } from "./shared/services/auth.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('authGuard', () => {
+describe("authGuard", () => {
   let router: Router;
   let authServiceMock: AuthService;
   let activatedRouteSnapshotMock: jasmine.SpyObj<ActivatedRouteSnapshot>;
   let routerStateSnapshotMock: jasmine.SpyObj<RouterStateSnapshot>;
 
   @Component({
-    template: '',
+    template: "",
   })
   class DummyComponent {}
 
@@ -29,7 +29,7 @@ describe('authGuard', () => {
       buildTestModuleMetadata({
         imports: [
           RouterTestingModule.withRoutes([
-            { path: 'unauthenticated', component: DummyComponent },
+            { path: "unauthenticated", component: DummyComponent },
           ]),
         ],
         providers: [
@@ -37,7 +37,7 @@ describe('authGuard', () => {
             provide: AuthService,
             useValue: {
               isAuthenticated: true,
-              accessToken: 'abcdefghijklmnopqrstuvwxyz',
+              accessToken: "abcdefghijklmnopqrstuvwxyz",
             },
           },
         ],
@@ -48,39 +48,39 @@ describe('authGuard', () => {
     authServiceMock = TestBed.inject(AuthService);
 
     activatedRouteSnapshotMock = jasmine.createSpyObj<ActivatedRouteSnapshot>(
-      'ActivatedRouteSnapshot',
-      ['toString'],
+      "ActivatedRouteSnapshot",
+      ["toString"],
     );
     routerStateSnapshotMock = jasmine.createSpyObj<RouterStateSnapshot>(
-      'RouterStateSnapshot',
-      ['toString'],
+      "RouterStateSnapshot",
+      ["toString"],
     );
   });
 
-  describe('authenticated', () => {
-    it('allows to activate', fakeAsync(() => {
+  describe("authenticated", () => {
+    it("allows to activate", fakeAsync(() => {
       const result = TestBed.runInInjectionContext(() =>
         authGuard()(activatedRouteSnapshotMock, routerStateSnapshotMock),
       );
       expect(result).toBe(true);
       tick();
-      expect(router.url).not.toBe('/unauthenticated');
+      expect(router.url).not.toBe("/unauthenticated");
     }));
   });
 
-  describe('unauthenticated', () => {
+  describe("unauthenticated", () => {
     beforeEach(() => {
       (authServiceMock as any).isAuthenticated = false;
       (authServiceMock as any).accessToken = null;
     });
 
-    it('does not allow to activate and redirects to /unauthenticated', fakeAsync(() => {
+    it("does not allow to activate and redirects to /unauthenticated", fakeAsync(() => {
       const result = TestBed.runInInjectionContext(() =>
         authGuard()(activatedRouteSnapshotMock, routerStateSnapshotMock),
       );
       expect(result).toBe(false);
       tick();
-      expect(router.url).toBe('/unauthenticated');
+      expect(router.url).toBe("/unauthenticated");
     }));
   });
 });

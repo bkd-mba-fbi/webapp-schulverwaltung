@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from "@angular/common/http";
 import {
   ObservableInput,
   ObservedValueOf,
@@ -11,7 +11,7 @@ import {
   fromEvent,
   interval,
   merge,
-} from 'rxjs';
+} from "rxjs";
 import {
   catchError,
   defaultIfEmpty,
@@ -19,7 +19,7 @@ import {
   map,
   switchMap,
   startWith,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function catch404<T, O extends ObservableInput<any>>(
@@ -105,7 +105,7 @@ export function intervalOnInactivity(
   eventSource: Node = window.document,
 ) {
   return merge(
-    ...['click', 'keydown'].map((type) => fromEvent(eventSource, type)),
+    ...["click", "keydown"].map((type) => fromEvent(eventSource, type)),
   ).pipe(
     startWith(null),
     switchMap(() => interval(period)),

@@ -10,7 +10,7 @@
           [opened]="opened"
           (click)="acc.toggle('checkable-absences')"
         >
-          {{ 'shared.profile.checkable-absences' | translate }}
+          {{ "shared.profile.checkable-absences" | translate }}
           <ng-container *ngIf="data.absenceCounts.checkableAbsences !== null"
             >({{ data.absenceCounts.checkableAbsences }})</ng-container
           >
@@ -29,7 +29,7 @@
           [opened]="opened"
           (click)="acc.toggle('open-absences')"
         >
-          {{ 'shared.profile.open-absences' | translate }}
+          {{ "shared.profile.open-absences" | translate }}
           <ng-container *ngIf="data.absenceCounts.openAbsences !== null"
             >({{ data.absenceCounts.openAbsences }})</ng-container
           >
@@ -49,7 +49,7 @@
           [opened]="opened"
           (click)="acc.toggle('excused-absences')"
         >
-          {{ 'shared.profile.excused-absences' | translate }}
+          {{ "shared.profile.excused-absences" | translate }}
           <ng-container *ngIf="data.absenceCounts.excusedAbsences !== null"
             >({{ data.absenceCounts.excusedAbsences }})</ng-container
           >
@@ -68,7 +68,7 @@
           [opened]="opened"
           (click)="acc.toggle('unexcused-absences')"
         >
-          {{ 'shared.profile.unexcused-absences' | translate }}
+          {{ "shared.profile.unexcused-absences" | translate }}
           <ng-container *ngIf="data.absenceCounts.unexcusedAbsences !== null"
             >({{ data.absenceCounts.unexcusedAbsences }})</ng-container
           >
@@ -88,7 +88,7 @@
           [opened]="opened"
           (click)="acc.toggle('incidents')"
         >
-          {{ 'shared.profile.incidents' | translate }}
+          {{ "shared.profile.incidents" | translate }}
           <ng-container *ngIf="data.absenceCounts.incidents !== null"
             >({{ data.absenceCounts.incidents }})</ng-container
           >
@@ -107,7 +107,7 @@
           [opened]="opened"
           (click)="acc.toggle('half-days')"
         >
-          {{ 'shared.profile.half-days' | translate }}
+          {{ "shared.profile.half-days" | translate }}
           <ng-container *ngIf="data.absenceCounts.halfDays !== null"
             >({{ data.absenceCounts.halfDays }})</ng-container
           >

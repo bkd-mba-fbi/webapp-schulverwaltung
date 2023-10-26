@@ -4,15 +4,15 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-} from '@angular/core';
+} from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
+} from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, Subject, Observable } from "rxjs";
 import {
   finalize,
   map,
@@ -20,29 +20,29 @@ import {
   take,
   takeUntil,
   switchMap,
-} from 'rxjs/operators';
-import { uniq } from 'lodash-es';
+} from "rxjs/operators";
+import { uniq } from "lodash-es";
 
-import { SETTINGS, Settings } from 'src/app/settings';
-import { DropDownItem } from 'src/app/shared/models/drop-down-item.model';
-import { DropDownItemsRestService } from 'src/app/shared/services/drop-down-items-rest.service';
+import { SETTINGS, Settings } from "src/app/settings";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
 import {
   EditAbsencesUpdateService,
   Category,
-} from '../../services/edit-absences-update.service';
+} from "../../services/edit-absences-update.service";
 import {
   getValidationErrors,
   getControlValueChanges,
-} from 'src/app/shared/utils/form';
-import { EditAbsencesStateService } from '../../services/edit-absences-state.service';
-import { parseQueryString } from 'src/app/shared/utils/url';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-import { ToastService } from '../../../shared/services/toast.service';
+} from "src/app/shared/utils/form";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
+import { parseQueryString } from "src/app/shared/utils/url";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Component({
-  selector: 'erz-edit-absences-edit',
-  templateUrl: './edit-absences-edit.component.html',
-  styleUrls: ['./edit-absences-edit.component.scss'],
+  selector: "erz-edit-absences-edit",
+  templateUrl: "./edit-absences-edit.component.html",
+  styleUrls: ["./edit-absences-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
@@ -58,12 +58,12 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   absenceTypeIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'absenceTypeId',
+    "absenceTypeId",
   );
   incidentIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
-    'incidentId',
+    "incidentId",
   );
 
   availableCategories = [
@@ -110,12 +110,12 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
     // Disable confirmation value radios and absence type/incident
     // select when not absent
-    getControlValueChanges(this.formGroup$, 'category')
+    getControlValueChanges(this.formGroup$, "category")
       .pipe(takeUntil(this.destroy$))
       .subscribe(this.updateConfirmationValueDisabled.bind(this));
 
     // Disable absence type select when not excused
-    getControlValueChanges(this.formGroup$, 'confirmationValue')
+    getControlValueChanges(this.formGroup$, "confirmationValue")
       .pipe(takeUntil(this.destroy$))
       .subscribe(this.updateAbsenceTypeIdDisabled.bind(this));
   }
@@ -185,10 +185,10 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   private updateConfirmationValueDisabled(): void {
     this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
-      const categoryControl = formGroup.get('category');
-      const confirmationValueControl = formGroup.get('confirmationValue');
-      const absenceTypeIdControl = formGroup.get('absenceTypeId');
-      const incidentIdControl = formGroup.get('incidentId');
+      const categoryControl = formGroup.get("category");
+      const confirmationValueControl = formGroup.get("confirmationValue");
+      const absenceTypeIdControl = formGroup.get("absenceTypeId");
+      const incidentIdControl = formGroup.get("incidentId");
       if (
         categoryControl &&
         confirmationValueControl &&
@@ -214,8 +214,8 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   private updateAbsenceTypeIdDisabled(): void {
     this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
-      const confirmationValueControl = formGroup.get('confirmationValue');
-      const absenceTypeIdControl = formGroup.get('absenceTypeId');
+      const confirmationValueControl = formGroup.get("confirmationValue");
+      const absenceTypeIdControl = formGroup.get("absenceTypeId");
       if (confirmationValueControl && absenceTypeIdControl) {
         confirmationValueControl.value === this.settings.excusedAbsenceStateId
           ? absenceTypeIdControl.enable()
@@ -248,14 +248,14 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   private onSaveSuccess(): void {
     this.state.resetSelection();
     this.toastService.success(
-      this.translate.instant('edit-absences.edit.save-success'),
+      this.translate.instant("edit-absences.edit.save-success"),
     );
     this.navigateBack(true);
   }
 
   private navigateBack(reload?: true): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      this.router.navigate(['/edit-absences'], {
+      this.router.navigate(["/edit-absences"], {
         queryParams: {
           ...parseQueryString(params.returnparams),
           reload, // Make sure the entries get reloaded when returning to the list

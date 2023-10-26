@@ -1,7 +1,7 @@
-import { InjectionToken } from '@angular/core';
-import * as t from 'io-ts';
+import { InjectionToken } from "@angular/core";
+import * as t from "io-ts";
 
-import { Option } from './shared/models/common-types';
+import { Option } from "./shared/models/common-types";
 
 const NotificationTypeText = t.type({
   de: t.type({ label: t.string, description: t.string }),
@@ -61,7 +61,7 @@ declare global {
   }
 }
 
-export const SETTINGS = new InjectionToken<Settings>('Application Settings', {
-  providedIn: 'root',
+export const SETTINGS = new InjectionToken<Settings>("Application Settings", {
+  providedIn: "root",
   factory: () => window.schulverwaltung.settings,
 });

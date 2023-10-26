@@ -1,5 +1,5 @@
-import { Result, Test } from 'src/app/shared/models/test.model';
-import { buildGradingScale, buildResult, buildTest } from 'src/spec-builders';
+import { Result, Test } from "src/app/shared/models/test.model";
+import { buildGradingScale, buildResult, buildTest } from "src/spec-builders";
 import {
   averageGrade,
   averagePoints,
@@ -10,12 +10,12 @@ import {
   resultOfStudent,
   sortByDate,
   toggleIsPublished,
-} from './tests';
-import { GradingScale } from '../../shared/models/grading-scale.model';
+} from "./tests";
+import { GradingScale } from "../../shared/models/grading-scale.model";
 
-describe('Test utils', () => {
-  describe('update test results', () => {
-    it('replace a result in a given test', () => {
+describe("Test utils", () => {
+  describe("update test results", () => {
+    it("replace a result in a given test", () => {
       // given
       const result = buildResult(1, 1, 55555);
 
@@ -39,7 +39,7 @@ describe('Test utils', () => {
       expect(newResult).not.toContain(result);
     });
 
-    it('add result to test that has no results yet', () => {
+    it("add result to test that has no results yet", () => {
       // given
       const test = buildTest(1, 1, null);
       const newResult = buildResult(1, 2, 12345);
@@ -54,7 +54,7 @@ describe('Test utils', () => {
       expect(newResults).toContain(newResult);
     });
 
-    it('add new result to test that already has results', () => {
+    it("add new result to test that already has results", () => {
       // given
       const test = buildTest(1, 1, [buildResult(1, 1)]);
       const newResult = buildResult(1, 2, 12345);
@@ -70,8 +70,8 @@ describe('Test utils', () => {
     });
   });
 
-  describe('toggle test states', () => {
-    it('should publish test', () => {
+  describe("toggle test states", () => {
+    it("should publish test", () => {
       // given
       const testId = 99;
       const test1 = buildTest(1, testId, []);
@@ -90,7 +90,7 @@ describe('Test utils', () => {
       expect(result).toContain(test2);
     });
 
-    it('should unpublish test', () => {
+    it("should unpublish test", () => {
       // given
       const testId = 99;
       const test1 = buildTest(1, testId, []);
@@ -110,56 +110,56 @@ describe('Test utils', () => {
     });
   });
 
-  describe('should calculate averages from test', () => {
-    it('should calculate points average', () => {
+  describe("should calculate averages from test", () => {
+    it("should calculate points average", () => {
       expect(() => averagePoints(buildTest(1, 1, []))).toThrow(
-        new Error('unable to calculate averages without results'),
+        new Error("unable to calculate averages without results"),
       );
       expect(averagePoints(test)).toBe(11.263636363636364);
     });
 
-    it('should calculate grade averages', () => {
+    it("should calculate grade averages", () => {
       expect(() => averageGrade(buildTest(1, 1, []))).toThrow(
-        new Error('unable to calculate averages without results'),
+        new Error("unable to calculate averages without results"),
       );
       expect(averageGrade(test)).toBe(3.8272727272727276);
     });
   });
 
-  describe('should get max points from test', () => {
-    it('should return max points adjusted', () => {
+  describe("should get max points from test", () => {
+    it("should return max points adjusted", () => {
       test.MaxPoints = 2;
       test.MaxPointsAdjusted = 3;
       expect(maxPoints(test)).toBe(3);
     });
 
-    it('should return max points', () => {
+    it("should return max points", () => {
       test.MaxPoints = 2;
       test.MaxPointsAdjusted = null;
       expect(maxPoints(test)).toBe(2);
     });
   });
 
-  describe('get result for student', () => {
-    it('should not get result for student that is not in test', () => {
+  describe("get result for student", () => {
+    it("should not get result for student that is not in test", () => {
       expect(resultOfStudent(-1, test)).toBeUndefined();
     });
 
-    it('should get result of student', () => {
+    it("should get result of student", () => {
       expect(resultOfStudent(3777, test)?.Points).toBe(19.99);
     });
   });
 
-  describe('remove tests by id', () => {
-    it('should do nothing if tests are empty', () => {
+  describe("remove tests by id", () => {
+    it("should do nothing if tests are empty", () => {
       expect(removeTestById(1, [])).toEqual([]);
     });
 
-    it('should return null if tests are null', () => {
+    it("should return null if tests are null", () => {
       expect(removeTestById(1, null)).toEqual(null);
     });
 
-    it('should remove test by id', () => {
+    it("should remove test by id", () => {
       const otherTest = buildTest(1, 1, []);
       const result = removeTestById(33, [test, otherTest]);
 
@@ -168,26 +168,26 @@ describe('Test utils', () => {
     });
   });
 
-  describe('sort tests by date descending', () => {
-    it('should not fail on empty array', () => {
+  describe("sort tests by date descending", () => {
+    it("should not fail on empty array", () => {
       expect(sortByDate([])).toEqual([]);
     });
 
-    it('should sort tests by date descending', () => {
+    it("should sort tests by date descending", () => {
       const t1 = buildTest(1, 1, []);
       const t2 = buildTest(1, 2, []);
       const t3 = buildTest(1, 3, []);
 
-      t1.Date = new Date('2022-04-02T08:00:00');
-      t2.Date = new Date('2022-04-03T08:00:00');
-      t3.Date = new Date('2022-04-04T08:00:00');
+      t1.Date = new Date("2022-04-02T08:00:00");
+      t2.Date = new Date("2022-04-03T08:00:00");
+      t3.Date = new Date("2022-04-04T08:00:00");
 
       expect(sortByDate([t1, t2, t3])[0]).toBe(t3);
     });
   });
 
-  describe('find grading scale', () => {
-    it('should return the grading scale for the given test', () => {
+  describe("find grading scale", () => {
+    it("should return the grading scale for the given test", () => {
       const gradingScales: GradingScale[] = [
         buildGradingScale(1),
         buildGradingScale(2),
@@ -197,7 +197,7 @@ describe('Test utils', () => {
       expect(gradingScaleOfTest(test, gradingScales)).toBe(gradingScales[0]);
     });
 
-    it('should return null if scale is not found', () => {
+    it("should return null if scale is not found", () => {
       const gradingScales: GradingScale[] = [
         buildGradingScale(1),
         buildGradingScale(2),
@@ -212,8 +212,8 @@ describe('Test utils', () => {
 // test taken from development/ test environment to match a real world test - 2022-04-26
 const test: Test = {
   CourseId: 9248,
-  Date: new Date('2022-04-02T08:00:00'),
-  Designation: 'mbu test 2',
+  Date: new Date("2022-04-02T08:00:00"),
+  Designation: "mbu test 2",
   Weight: 1,
   WeightPercent: 11.76,
   IsPointGrading: true,
@@ -221,180 +221,180 @@ const test: Test = {
   MaxPointsAdjusted: null,
   IsPublished: false,
   IsOwner: true,
-  Owner: 'Stolz Zuzana',
-  Creation: '2022-04-26T10:11:53.427',
+  Owner: "Stolz Zuzana",
+  Creation: "2022-04-26T10:11:53.427",
   GradingScaleId: 1106,
-  GradingScale: 'Zehntelnoten bes. disp. keine Note',
+  GradingScale: "Zehntelnoten bes. disp. keine Note",
   Results: [
     {
       TestId: 33,
       CourseRegistrationId: 126885,
       GradeId: 2377,
       GradeValue: null,
-      GradeDesignation: 'besucht',
+      GradeDesignation: "besucht",
       Points: null,
       StudentId: 4592,
-      Id: '33_126885',
+      Id: "33_126885",
     },
     {
       TestId: 33,
       CourseRegistrationId: 126911,
       GradeId: 2379,
       GradeValue: null,
-      GradeDesignation: 'keine Note',
+      GradeDesignation: "keine Note",
       Points: null,
       StudentId: 6282,
-      Id: '33_126911',
+      Id: "33_126911",
     },
     {
       TestId: 33,
       CourseRegistrationId: 127866,
       GradeId: 2378,
       GradeValue: null,
-      GradeDesignation: 'dispensiert',
+      GradeDesignation: "dispensiert",
       Points: null,
       StudentId: 4600,
-      Id: '33_127866',
+      Id: "33_127866",
     },
     {
       TestId: 33,
       CourseRegistrationId: 128592,
       GradeId: 2377,
       GradeValue: null,
-      GradeDesignation: 'besucht',
+      GradeDesignation: "besucht",
       Points: null,
       StudentId: 4487,
-      Id: '33_128592',
+      Id: "33_128592",
     },
     {
       TestId: 33,
       CourseRegistrationId: 129221,
       GradeId: 2378,
       GradeValue: null,
-      GradeDesignation: 'dispensiert',
+      GradeDesignation: "dispensiert",
       Points: null,
       StudentId: 4508,
-      Id: '33_129221',
+      Id: "33_129221",
     },
     {
       TestId: 33,
       CourseRegistrationId: 129350,
       GradeId: 2379,
       GradeValue: null,
-      GradeDesignation: 'keine Note',
+      GradeDesignation: "keine Note",
       Points: null,
       StudentId: 4515,
-      Id: '33_129350',
+      Id: "33_129350",
     },
     {
       TestId: 33,
       CourseRegistrationId: 131336,
       GradeId: 2326,
       GradeValue: null,
-      GradeDesignation: '6',
+      GradeDesignation: "6",
       Points: 19.99,
       StudentId: 3777,
-      Id: '33_131336',
+      Id: "33_131336",
     },
     {
       TestId: 33,
       CourseRegistrationId: 131878,
       GradeId: 2346,
       GradeValue: null,
-      GradeDesignation: '4',
+      GradeDesignation: "4",
       Points: 12.01,
       StudentId: 5758,
-      Id: '33_131878',
+      Id: "33_131878",
     },
     {
       TestId: 33,
       CourseRegistrationId: 132034,
       GradeId: 2373,
       GradeValue: null,
-      GradeDesignation: '1.3',
+      GradeDesignation: "1.3",
       Points: 1,
       StudentId: 4566,
-      Id: '33_132034',
+      Id: "33_132034",
     },
     {
       TestId: 33,
       CourseRegistrationId: 135207,
       GradeId: 2373,
       GradeValue: null,
-      GradeDesignation: '1.3',
+      GradeDesignation: "1.3",
       Points: 1.2,
       StudentId: 6871,
-      Id: '33_135207',
+      Id: "33_135207",
     },
     {
       TestId: 33,
       CourseRegistrationId: 135210,
       GradeId: 2376,
       GradeValue: null,
-      GradeDesignation: '1',
+      GradeDesignation: "1",
       Points: 0,
       StudentId: 6872,
-      Id: '33_135210',
+      Id: "33_135210",
     },
     {
       TestId: 33,
       CourseRegistrationId: 129442,
       GradeId: 2351,
       GradeValue: null,
-      GradeDesignation: '3.5',
+      GradeDesignation: "3.5",
       Points: 10,
       StudentId: 4519,
-      Id: '33_129442',
+      Id: "33_129442",
     },
     {
       TestId: 33,
       CourseRegistrationId: 130308,
       GradeId: 2326,
       GradeValue: null,
-      GradeDesignation: '6',
+      GradeDesignation: "6",
       Points: 20,
       StudentId: 4535,
-      Id: '33_130308',
+      Id: "33_130308",
     },
     {
       TestId: 33,
       CourseRegistrationId: 130574,
       GradeId: 2338,
       GradeValue: null,
-      GradeDesignation: '4.8',
+      GradeDesignation: "4.8",
       Points: 15,
       StudentId: 4543,
-      Id: '33_130574',
+      Id: "33_130574",
     },
     {
       TestId: 33,
       CourseRegistrationId: 130762,
       GradeId: 2347,
       GradeValue: null,
-      GradeDesignation: '3.9',
+      GradeDesignation: "3.9",
       Points: 11.5,
       StudentId: 4553,
-      Id: '33_130762',
+      Id: "33_130762",
     },
     {
       TestId: 33,
       CourseRegistrationId: 130951,
       GradeId: 2343,
       GradeValue: null,
-      GradeDesignation: '4.3',
+      GradeDesignation: "4.3",
       Points: 13.2,
       StudentId: 4557,
-      Id: '33_130951',
+      Id: "33_130951",
     },
     {
       TestId: 33,
       CourseRegistrationId: 131199,
       GradeId: 2326,
       GradeValue: null,
-      GradeDesignation: '6',
+      GradeDesignation: "6",
       Points: 20,
       StudentId: 4276,
-      Id: '33_131199',
+      Id: "33_131199",
     },
   ],
   Id: 33,

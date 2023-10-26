@@ -1,9 +1,9 @@
-import { Inject, Injectable } from '@angular/core';
-import { uniq } from 'lodash-es';
+import { Inject, Injectable } from "@angular/core";
+import { uniq } from "lodash-es";
 
-import { NotificationTypeText, Settings, SETTINGS } from 'src/app/settings';
-import { getRoles } from '../utils/roles';
-import { StorageService } from './storage.service';
+import { NotificationTypeText, Settings, SETTINGS } from "src/app/settings";
+import { getRoles } from "../utils/roles";
+import { StorageService } from "./storage.service";
 
 export interface NotificationType {
   key: string;
@@ -11,7 +11,7 @@ export interface NotificationType {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class NotificationTypesService {
   private currentRoles: Option<ReadonlyArray<string>> = null;

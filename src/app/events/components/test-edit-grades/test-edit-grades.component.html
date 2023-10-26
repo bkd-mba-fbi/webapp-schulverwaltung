@@ -20,7 +20,7 @@
                 'btn-outline-secondary': data.filter !== 'all-tests'
               }"
             >
-              {{ 'tests.all-tests' | translate }}
+              {{ "tests.all-tests" | translate }}
             </button>
             <button
               type="button"
@@ -31,7 +31,7 @@
                 'btn-outline-secondary': data.filter !== 'my-tests'
               }"
             >
-              {{ 'tests.owned-tests' | translate }}
+              {{ "tests.owned-tests" | translate }}
             </button>
           </th>
           <th
@@ -71,10 +71,10 @@
           >
             <div class="d-flex">
               <div class="column-title">
-                {{ 'tests.student.name' | translate }}
+                {{ "tests.student.name" | translate }}
               </div>
               <div class="sort-direction ms-1">
-                {{ state.getSortingChar$('FullName') | async }}
+                {{ state.getSortingChar$("FullName") | async }}
               </div>
             </div>
           </th>
@@ -85,10 +85,10 @@
           >
             <div class="d-flex">
               <div class="column-title">
-                {{ 'tests.grade' | translate }}
+                {{ "tests.grade" | translate }}
               </div>
               <div class="sort-direction ms-1">
-                {{ state.getSortingChar$('FinalGrade') | async }}
+                {{ state.getSortingChar$("FinalGrade") | async }}
               </div>
             </div>
           </th>
@@ -98,10 +98,10 @@
           >
             <div class="d-flex">
               <div class="column-title">
-                {{ 'tests.mean' | translate }}
+                {{ "tests.mean" | translate }}
               </div>
               <div class="sort-direction ms-1">
-                {{ state.getSortingChar$('TestsMean') | async }}
+                {{ state.getSortingChar$("TestsMean") | async }}
               </div>
             </div>
           </th>
@@ -117,12 +117,12 @@
                 *ngIf="test.IsPointGrading"
               >
                 <span (click)="state.sortBy(test)"
-                  >{{ 'tests.points' | translate }}
+                  >{{ "tests.points" | translate }}
                 </span>
               </div>
               <div class="column-title">
                 <span (click)="state.sortBy(test)">{{
-                  'tests.grade' | translate
+                  "tests.grade" | translate
                 }}</span>
               </div>
               <div class="sort-direction ms-1">
@@ -144,8 +144,8 @@
             <a [routerLink]="['student', studentGrade.student.Id, 'grades']">
               <span>{{ studentGrade.student.FullName }}</span>
               <span class="mobile mean">
-                {{ 'tests.mean' | translate }}:
-                {{ studentGrade.finalGrade?.average | number: '1.0-3' }}
+                {{ "tests.mean" | translate }}:
+                {{ studentGrade.finalGrade?.average | number: "1.0-3" }}
               </span>
             </a>
           </td>
@@ -175,7 +175,7 @@
             </div>
           </td>
           <td class="grade border-end sticky sticky-col-3">
-            {{ studentGrade.finalGrade?.average | number: '1.0-3' }}
+            {{ studentGrade.finalGrade?.average | number: "1.0-3" }}
           </td>
           <td
             *ngFor="
@@ -203,11 +203,11 @@
         <tr>
           <td class="sticky">
             <div class="d-flex flex-column">
-              <div>{{ 'tests.average' | translate }}</div>
+              <div>{{ "tests.average" | translate }}</div>
               <div class="mobile mean">
-                {{ 'tests.mean' | translate }}:
+                {{ "tests.mean" | translate }}:
                 {{
-                  state.meanOfStudentGradesForCourse$ | async | number: '1.0-3'
+                  state.meanOfStudentGradesForCourse$ | async | number: "1.0-3"
                 }}
               </div>
             </div>
@@ -216,10 +216,10 @@
             class="desktop sticky sticky sticky-col-2"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            {{ state.meanOfFinalGradesForCourse$ | async | number: '1.0-3' }}
+            {{ state.meanOfFinalGradesForCourse$ | async | number: "1.0-3" }}
           </td>
           <td class="desktop border-end sticky sticky-col-3">
-            {{ state.meanOfStudentGradesForCourse$ | async | number: '1.0-3' }}
+            {{ state.meanOfStudentGradesForCourse$ | async | number: "1.0-3" }}
           </td>
           <td
             *ngFor="let test of data.tests"
@@ -242,7 +242,7 @@
       type="button"
       (click)="setAverageAsFinalGrade()"
     >
-      {{ 'tests.set-final-grade' | translate }}
+      {{ "tests.set-final-grade" | translate }}
     </button>
   </div>
 </ng-container>

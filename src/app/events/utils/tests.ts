@@ -1,6 +1,6 @@
-import { Result, Test } from 'src/app/shared/models/test.model';
-import { average } from 'src/app/shared/utils/math';
-import { GradingScale } from '../../shared/models/grading-scale.model';
+import { Result, Test } from "src/app/shared/models/test.model";
+import { average } from "src/app/shared/utils/math";
+import { GradingScale } from "../../shared/models/grading-scale.model";
 
 export function replaceResult(result: Result, tests: Test[]): Test[] {
   return tests.map((test) =>
@@ -18,7 +18,7 @@ export function averagePoints(test: Test): number {
   const points: number[] = extractPoints(test);
 
   if (points.length === 0)
-    throw new Error('unable to calculate averages without results');
+    throw new Error("unable to calculate averages without results");
 
   return average(points);
 }
@@ -31,7 +31,7 @@ export function averageGrade(test: Test): number {
   const grades: number[] = extractGrades(test);
 
   if (grades.length === 0)
-    throw new Error('unable to calculate averages without results');
+    throw new Error("unable to calculate averages without results");
 
   return average(grades);
 }

@@ -24,7 +24,7 @@ import {
   TemplateRef,
   ViewContainerRef,
   OnInit,
-} from '@angular/core';
+} from "@angular/core";
 
 export class LetContext {
   $implicit: unknown = null;
@@ -32,7 +32,7 @@ export class LetContext {
 }
 
 @Directive({
-  selector: '[erzLet]',
+  selector: "[erzLet]",
 })
 export class LetDirective implements OnInit {
   private context = new LetContext();

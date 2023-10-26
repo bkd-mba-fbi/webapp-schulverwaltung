@@ -1,6 +1,6 @@
-import { DropDownItem } from '../models/drop-down-item.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { DropDownItem } from "../models/drop-down-item.model";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 export function findDropDownItem$(
   items$: Observable<ReadonlyArray<DropDownItem>>,

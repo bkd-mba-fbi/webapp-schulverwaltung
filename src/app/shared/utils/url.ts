@@ -4,16 +4,16 @@ import {
   PRIMARY_OUTLET,
   UrlSegment,
   UrlSegmentGroup,
-} from '@angular/router';
+} from "@angular/router";
 
 /**
  * Parses given query string to params object
  */
 export function parseQueryString(queryString: unknown): Params {
-  return String(queryString || '')
-    .split('&')
+  return String(queryString || "")
+    .split("&")
     .reduce((acc, pair) => {
-      const [key, value] = pair.split('=');
+      const [key, value] = pair.split("=");
       return { ...acc, [key]: value };
     }, {});
 }
@@ -27,7 +27,7 @@ export function serializeParams(params: Params): string {
       const value = params[key];
       return [...acc, value == null ? key : `${key}=${value}`];
     }, [] as ReadonlyArray<string>)
-    .join('&');
+    .join("&");
 }
 
 /**

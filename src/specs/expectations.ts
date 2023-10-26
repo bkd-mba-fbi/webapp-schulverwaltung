@@ -1,5 +1,5 @@
-import { DebugElement } from '@angular/core';
-import { byTestId } from './utils';
+import { DebugElement } from "@angular/core";
+import { byTestId } from "./utils";
 
 export function expectText(
   debugElement: DebugElement,

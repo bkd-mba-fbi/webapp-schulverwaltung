@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentBacklinkComponent } from './student-backlink.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentBacklinkComponent } from "./student-backlink.component";
 
-describe('StudentBacklinkComponent', () => {
+describe("StudentBacklinkComponent", () => {
   let component: StudentBacklinkComponent;
   let fixture: ComponentFixture<StudentBacklinkComponent>;
 
@@ -21,7 +21,7 @@ describe('StudentBacklinkComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

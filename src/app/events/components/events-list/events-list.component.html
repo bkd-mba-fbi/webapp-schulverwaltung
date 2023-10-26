@@ -14,13 +14,13 @@
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <ng-container *ngIf="data.events?.length > 0; else noEvents">
       <div class="event-header">
-        <div class="designation">{{ 'events.designation' | translate }}</div>
-        <div class="date">{{ 'events.date' | translate }}</div>
+        <div class="designation">{{ "events.designation" | translate }}</div>
+        <div class="date">{{ "events.date" | translate }}</div>
         <div class="registrations">
-          {{ 'events.registrations' | translate }}
+          {{ "events.registrations" | translate }}
         </div>
         <div *ngIf="withRatings" class="rating">
-          {{ 'events.rating' | translate }}
+          {{ "events.rating" | translate }}
         </div>
       </div>
       <div class="event-entry" *ngFor="let event of data.events">
@@ -29,8 +29,8 @@
         </div>
         <div class="date">
           <span *ngIf="event.dateFrom && event.dateTo"
-            >{{ event.dateFrom | date: 'dd.MM.yyyy' }}–<wbr />{{
-              event.dateTo | date: 'dd.MM.yyyy'
+            >{{ event.dateFrom | date: "dd.MM.yyyy" }}–<wbr />{{
+              event.dateTo | date: "dd.MM.yyyy"
             }}</span
           >
         </div>
@@ -38,8 +38,8 @@
           {{ event.studentCount }}
           <span class="registrations-label">{{
             (event.studentCount === 1
-              ? 'events.registration'
-              : 'events.registrations'
+              ? "events.registration"
+              : "events.registrations"
             ) | translate
           }}</span>
         </div>
@@ -65,7 +65,7 @@
     </ng-container>
 
     <ng-template #noEvents>
-      <p class="mt-3">{{ 'events.no-events' | translate }}</p>
+      <p class="mt-3">{{ "events.no-events" | translate }}</p>
     </ng-template>
   </ng-container>
 

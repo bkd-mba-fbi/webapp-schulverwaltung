@@ -4,13 +4,13 @@ import {
   Component,
   forwardRef,
   Input,
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
-  selector: 'erz-my-settings-notifications-toggle',
-  templateUrl: './my-settings-notifications-toggle.component.html',
-  styleUrls: ['./my-settings-notifications-toggle.component.scss'],
+  selector: "erz-my-settings-notifications-toggle",
+  templateUrl: "./my-settings-notifications-toggle.component.html",
+  styleUrls: ["./my-settings-notifications-toggle.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -23,8 +23,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class MySettingsNotificationsToggleComponent
   implements ControlValueAccessor
 {
-  @Input() id = '';
-  @Input() label = '';
+  @Input() id = "";
+  @Input() label = "";
   @Input() description: Option<string> = null;
   @Input() disabled = false;
 
@@ -45,7 +45,7 @@ export class MySettingsNotificationsToggleComponent
   }
 
   get descriptionLines(): ReadonlyArray<string> {
-    return this.description ? this.description.split('\n') : [];
+    return this.description ? this.description.split("\n") : [];
   }
 
   writeValue(value: boolean): void {

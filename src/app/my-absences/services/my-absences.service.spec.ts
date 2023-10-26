@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { MyAbsencesService } from './my-absences.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StorageService } from 'src/app/shared/services/storage.service';
+import { MyAbsencesService } from "./my-absences.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StorageService } from "src/app/shared/services/storage.service";
 
-describe('MyAbsencesService', () => {
+describe("MyAbsencesService", () => {
   let service: MyAbsencesService;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('MyAbsencesService', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Dict<unknown> {
-                return { id_person: '123' };
+                return { id_person: "123" };
               },
             },
           },
@@ -26,7 +26,7 @@ describe('MyAbsencesService', () => {
     service = TestBed.inject(MyAbsencesService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

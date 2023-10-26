@@ -1,6 +1,6 @@
-import { Lesson } from '../../shared/models/lesson.model';
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { lessonsEqual } from '../utils/lessons';
+import { Lesson } from "../../shared/models/lesson.model";
+import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { lessonsEqual } from "../utils/lessons";
 
 export function lessonsEntryEqual(
   a: Option<LessonEntry>,
@@ -62,7 +62,7 @@ export class LessonEntry {
   private updateId(): void {
     (this.id as string) = [
       ...new Set(this.lessons.map((l) => l.LessonRef.Id).sort()),
-    ].join('-');
+    ].join("-");
   }
 
   private updateStudyClassNumbers(): void {
@@ -72,12 +72,12 @@ export class LessonEntry {
           .map((l) => l.StudyClassNumber)
           .sort((a, b) => a.localeCompare(b)),
       ),
-    ].join(', ');
+    ].join(", ");
   }
 
   private updateEventDesignations(): void {
     (this.eventDesignations as string) = [
       ...new Set(this.lessons.map((l) => l.EventDesignation).sort()),
-    ].join(', ');
+    ].join(", ");
   }
 }

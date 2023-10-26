@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { DashboardService } from '../../services/dashboard.service';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { DashboardService } from "../../services/dashboard.service";
 
-import { DashboardTimetableTableComponent } from './dashboard-timetable-table.component';
+import { DashboardTimetableTableComponent } from "./dashboard-timetable-table.component";
 
-describe('DashboardTimetableTableComponent', () => {
+describe("DashboardTimetableTableComponent", () => {
   let component: DashboardTimetableTableComponent;
   let fixture: ComponentFixture<DashboardTimetableTableComponent>;
 
@@ -31,7 +31,7 @@ describe('DashboardTimetableTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

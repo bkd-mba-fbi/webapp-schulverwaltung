@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { EventsTestsComponent } from './events-tests.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { EventsListComponent } from '../events-list/events-list.component';
-import { StorageService } from 'src/app/shared/services/storage.service';
+import { EventsTestsComponent } from "./events-tests.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { EventsListComponent } from "../events-list/events-list.component";
+import { StorageService } from "src/app/shared/services/storage.service";
 
-describe('EventsTestsComponent', () => {
+describe("EventsTestsComponent", () => {
   let component: EventsTestsComponent;
   let fixture: ComponentFixture<EventsTestsComponent>;
 
@@ -19,12 +19,12 @@ describe('EventsTestsComponent', () => {
             useValue: {
               getPayload() {
                 return {
-                  culture_info: '',
-                  fullname: '',
-                  id_person: '123',
-                  holder_id: '',
-                  instance_id: '',
-                  roles: '',
+                  culture_info: "",
+                  fullname: "",
+                  id_person: "123",
+                  holder_id: "",
+                  instance_id: "",
+                  roles: "",
                 };
               },
             },
@@ -38,7 +38,7 @@ describe('EventsTestsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

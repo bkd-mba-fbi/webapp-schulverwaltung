@@ -1,12 +1,12 @@
 import {
   buildPresenceControlEntry,
   buildLessonPresenceWithIds,
-} from '../../../spec-builders';
-import { PresenceControlEntry } from '../../presence-control/models/presence-control-entry.model';
-import { filterByGroup } from './presence-control-entries';
+} from "../../../spec-builders";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
+import { filterByGroup } from "./presence-control-entries";
 
-describe('PresenceControlEntries', () => {
-  describe('.filterByGroup', () => {
+describe("PresenceControlEntries", () => {
+  describe(".filterByGroup", () => {
     let entries: ReadonlyArray<PresenceControlEntry>;
     let entry1: PresenceControlEntry;
     let entry2: PresenceControlEntry;
@@ -20,7 +20,7 @@ describe('PresenceControlEntries', () => {
       entries = [entry1, entry2, entry3];
     });
 
-    it('does not filter entries if group is null', () => {
+    it("does not filter entries if group is null", () => {
       const personIds = [1, 2, 3];
 
       expect(filterByGroup(null, entries, personIds)).toEqual([
@@ -30,26 +30,26 @@ describe('PresenceControlEntries', () => {
       ]);
     });
 
-    it('does filter entries - given all student ids', () => {
+    it("does filter entries - given all student ids", () => {
       const personIds = [1, 2, 3];
 
-      expect(filterByGroup('A', entries, personIds)).toEqual([
+      expect(filterByGroup("A", entries, personIds)).toEqual([
         entry1,
         entry2,
         entry3,
       ]);
     });
 
-    it('does filter entries - given one student id', () => {
+    it("does filter entries - given one student id", () => {
       const personIds = [2];
 
-      expect(filterByGroup('A', entries, personIds)).toEqual([entry2]);
+      expect(filterByGroup("A", entries, personIds)).toEqual([entry2]);
     });
 
-    it('does filter entries - given empty student ids', () => {
+    it("does filter entries - given empty student ids", () => {
       const personIds: ReadonlyArray<number> = [];
 
-      expect(filterByGroup('A', entries, personIds)).toEqual([]);
+      expect(filterByGroup("A", entries, personIds)).toEqual([]);
     });
   });
 });

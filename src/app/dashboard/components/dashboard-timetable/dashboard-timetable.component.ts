@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import {
   combineLatest,
   Observable,
@@ -7,19 +7,19 @@ import {
   of,
   BehaviorSubject,
   tap,
-} from 'rxjs';
-import startOfDay from 'date-fns/startOfDay';
-import format from 'date-fns/format';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
+} from "rxjs";
+import startOfDay from "date-fns/startOfDay";
+import format from "date-fns/format";
+import addDays from "date-fns/addDays";
+import subDays from "date-fns/subDays";
 
-import { Lesson } from 'src/app/shared/models/lesson.model';
-import { TimetableEntry } from 'src/app/shared/models/timetable-entry.model';
-import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
-import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { uniqueLessons } from 'src/app/presence-control/utils/lesson-entries';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
-import { DashboardService } from '../../services/dashboard.service';
+import { Lesson } from "src/app/shared/models/lesson.model";
+import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
+import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { uniqueLessons } from "src/app/presence-control/utils/lesson-entries";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { DashboardService } from "../../services/dashboard.service";
 
 export type DashboardTimetableEntry = {
   id: number;
@@ -32,12 +32,12 @@ export type DashboardTimetableEntry = {
   teacher?: string;
 };
 
-const CALENDAR_SUBSCRIBE_KEY = 'cal';
+const CALENDAR_SUBSCRIBE_KEY = "cal";
 
 @Component({
-  selector: 'erz-dashboard-timetable',
-  templateUrl: './dashboard-timetable.component.html',
-  styleUrls: ['./dashboard-timetable.component.scss'],
+  selector: "erz-dashboard-timetable",
+  templateUrl: "./dashboard-timetable.component.html",
+  styleUrls: ["./dashboard-timetable.component.scss"],
 })
 export class DashboardTimetableComponent {
   studentId$ = this.dashboardService.studentId$;
@@ -111,8 +111,8 @@ export class DashboardTimetableComponent {
         ]).pipe(
           switchMap(([_absences, _incidents, date]) =>
             this.studentsService.getTimetableEntries(studentId, {
-              'filter.From': `=${format(date, 'yyyy-MM-dd')}`,
-              sort: 'From,To',
+              "filter.From": `=${format(date, "yyyy-MM-dd")}`,
+              sort: "From,To",
             }),
           ),
           map((entries) => entries.map(this.convertTimetableEntry.bind(this))),

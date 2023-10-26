@@ -1,26 +1,26 @@
-import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
 import {
   buildCourse,
   buildGradingScale,
   buildResult,
   buildStudent,
   buildTest,
-} from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { Course, FinalGrading, Grading } from '../models/course.model';
-import { CoursesRestService } from './courses-rest.service';
-import { DossierGradesService } from './dossier-grades.service';
-import { StorageService } from './storage.service';
-import { Grade } from '../models/grading-scale.model';
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { Course, FinalGrading, Grading } from "../models/course.model";
+import { CoursesRestService } from "./courses-rest.service";
+import { DossierGradesService } from "./dossier-grades.service";
+import { StorageService } from "./storage.service";
+import { Grade } from "../models/grading-scale.model";
 
-describe('DossierGradesService', () => {
+describe("DossierGradesService", () => {
   let service: DossierGradesService;
   let coursesRestService: jasmine.SpyObj<CoursesRestService>;
 
   beforeEach(() => {
-    coursesRestService = jasmine.createSpyObj('CoursesRestService', [
-      'getExpandedCoursesForDossier',
+    coursesRestService = jasmine.createSpyObj("CoursesRestService", [
+      "getExpandedCoursesForDossier",
     ]);
 
     TestBed.configureTestingModule(
@@ -30,7 +30,7 @@ describe('DossierGradesService', () => {
           { provide: CoursesRestService, useValue: coursesRestService },
           {
             provide: StorageService,
-            useValue: jasmine.createSpyObj('StorageService', ['getPayload']),
+            useValue: jasmine.createSpyObj("StorageService", ["getPayload"]),
           },
         ],
       }),
@@ -38,8 +38,8 @@ describe('DossierGradesService', () => {
     service = TestBed.inject(DossierGradesService);
   });
 
-  describe('studentCourses$', () => {
-    it('should return empty list if there are no courses', () => {
+  describe("studentCourses$", () => {
+    it("should return empty list if there are no courses", () => {
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
 
       let result: Course[] = [];
@@ -50,7 +50,7 @@ describe('DossierGradesService', () => {
       expect(result.length).toBe(0);
     });
 
-    it('should return courses where the student participates', () => {
+    it("should return courses where the student participates", () => {
       const course1 = buildCourse(1);
       const course2 = buildCourse(2);
       const course3 = buildCourse(3);
@@ -79,17 +79,17 @@ describe('DossierGradesService', () => {
     });
   });
 
-  describe('get gradings for the given student', () => {
+  describe("get gradings for the given student", () => {
     let course: Course;
 
     const expectedFinalGrading: FinalGrading = {
       StudentId: 3,
-      Grade: '5.0',
+      Grade: "5.0",
     } as unknown as FinalGrading;
 
     const finalGrades = [
-      { StudentId: 1, Grade: '4.5' } as unknown as FinalGrading,
-      { StudentId: 2, Grade: '4.0' } as unknown as FinalGrading,
+      { StudentId: 1, Grade: "4.5" } as unknown as FinalGrading,
+      { StudentId: 2, Grade: "4.0" } as unknown as FinalGrading,
       expectedFinalGrading,
     ];
 
@@ -109,7 +109,7 @@ describe('DossierGradesService', () => {
       } as unknown as Course;
     });
 
-    it('should not find a final grade if studentid does not match', () => {
+    it("should not find a final grade if studentid does not match", () => {
       const studentId = -1;
 
       expect(
@@ -117,13 +117,13 @@ describe('DossierGradesService', () => {
       ).toBeUndefined();
     });
 
-    it('should not find a grading if studentid does not match', () => {
+    it("should not find a grading if studentid does not match", () => {
       const studentId = -1;
 
       expect(service.getGradingForStudent(course, studentId)).toBeUndefined();
     });
 
-    it('should get final grade for current student', () => {
+    it("should get final grade for current student", () => {
       const studentId = expectedFinalGrading.StudentId;
 
       expect(service.getFinalGradeForStudent(course, studentId)).toEqual(
@@ -131,7 +131,7 @@ describe('DossierGradesService', () => {
       );
     });
 
-    it('should get the grading for the current student', () => {
+    it("should get the grading for the current student", () => {
       const studentId = expectedGrading.StudentId;
 
       expect(service.getGradingForStudent(course, studentId)).toEqual(
@@ -140,8 +140,8 @@ describe('DossierGradesService', () => {
     });
   });
 
-  describe('getGradesForStudent', () => {
-    it('should return an array with student grades', () => {
+  describe("getGradesForStudent", () => {
+    it("should return an array with student grades", () => {
       const gradingScales = [
         buildGradingScale(1106, [
           { Designation: 5.5, Id: 2349 } as unknown as Grade,

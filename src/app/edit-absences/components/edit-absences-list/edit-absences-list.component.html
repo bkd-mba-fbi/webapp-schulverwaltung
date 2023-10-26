@@ -1,4 +1,4 @@
-<h1>{{ 'edit-absences.title' | translate }}</h1>
+<h1>{{ "edit-absences.title" | translate }}</h1>
 <ng-container
   *erzLet="{
     selection: selectionService.selection$ | async,
@@ -29,11 +29,11 @@
         >
           <div class="total">
             {{
-              'edit-absences.list.total'
+              "edit-absences.list.total"
                 | translate: { count: (state.total$ | async) || 0 }
             }},
             {{
-              'edit-absences.list.selected'
+              "edit-absences.list.selected"
                 | translate: { count: data.selection.length }
             }}
           </div>
@@ -62,26 +62,26 @@
                 />
               </th>
               <th class="presence-category">
-                {{ 'edit-absences.list.header.presence' | translate }}
+                {{ "edit-absences.list.header.presence" | translate }}
               </th>
               <th>
-                {{ 'edit-absences.list.header.student' | translate }}
+                {{ "edit-absences.list.header.student" | translate }}
                 <br />
-                {{ 'edit-absences.list.header.module-instance' | translate }},
-                {{ 'edit-absences.list.header.study-class' | translate }}
+                {{ "edit-absences.list.header.module-instance" | translate }},
+                {{ "edit-absences.list.header.study-class" | translate }}
               </th>
               <th>
-                {{ 'edit-absences.list.header.date' | translate }}
+                {{ "edit-absences.list.header.date" | translate }}
               </th>
-              <th>{{ 'edit-absences.list.header.time' | translate }}</th>
+              <th>{{ "edit-absences.list.header.time" | translate }}</th>
               <th>
-                {{ 'edit-absences.list.header.confirmation-state' | translate }}
+                {{ "edit-absences.list.header.confirmation-state" | translate }}
               </th>
               <th>
-                {{ 'edit-absences.list.header.presence-type' | translate }} /
-                {{ 'edit-absences.list.header.incident' | translate }}
+                {{ "edit-absences.list.header.presence-type" | translate }} /
+                {{ "edit-absences.list.header.incident" | translate }}
               </th>
-              <th>{{ 'edit-absences.list.header.teacher' | translate }}</th>
+              <th>{{ "edit-absences.list.header.teacher" | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -134,16 +134,16 @@
                 [attr.data-label]="'edit-absences.list.header.date' | translate"
               >
                 {{
-                  entry.lessonPresence.LessonDateTimeFrom | date: 'mediumDate'
+                  entry.lessonPresence.LessonDateTimeFrom | date: "mediumDate"
                 }}
               </td>
               <td
                 [attr.data-label]="'edit-absences.list.header.time' | translate"
               >
                 {{
-                  entry.lessonPresence.LessonDateTimeFrom | date: 'shortTime'
+                  entry.lessonPresence.LessonDateTimeFrom | date: "shortTime"
                 }}–{{
-                  entry.lessonPresence.LessonDateTimeTo | date: 'shortTime'
+                  entry.lessonPresence.LessonDateTimeTo | date: "shortTime"
                 }}
               </td>
               <td
@@ -180,12 +180,12 @@
           class="btn btn-outline-secondary btn-sm d-block mx-auto"
           (click)="state.nextPage()"
         >
-          {{ 'global.pagination.load-more' | translate }}
+          {{ "global.pagination.load-more" | translate }}
         </button>
       </div>
 
       <ng-template #noEntries>
-        <p class="mt-3">{{ 'edit-absences.no-entries' | translate }}</p>
+        <p class="mt-3">{{ "edit-absences.no-entries" | translate }}</p>
       </ng-template>
     </ng-container>
 
@@ -195,6 +195,6 @@
   </ng-container>
 
   <ng-template #noFilter>
-    <p class="mt-3">{{ 'edit-absences.no-filter' | translate }}</p>
+    <p class="mt-3">{{ "edit-absences.no-filter" | translate }}</p>
   </ng-template>
 </ng-container>

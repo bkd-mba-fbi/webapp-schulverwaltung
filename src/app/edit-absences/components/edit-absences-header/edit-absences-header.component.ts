@@ -4,40 +4,40 @@ import {
   EventEmitter,
   Output,
   Input,
-} from '@angular/core';
+} from "@angular/core";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
-} from '@ng-bootstrap/ng-bootstrap';
-import { map } from 'rxjs/operators';
-import { startOfDay } from 'date-fns';
+} from "@ng-bootstrap/ng-bootstrap";
+import { map } from "rxjs/operators";
+import { startOfDay } from "date-fns";
 
-import { not } from 'src/app/shared/utils/filter';
+import { not } from "src/app/shared/utils/filter";
 import {
   isComment,
   isIncident,
-} from 'src/app/presence-control/utils/presence-types';
-import { DateParserFormatter } from 'src/app/shared/services/date-parser-formatter';
+} from "src/app/presence-control/utils/presence-types";
+import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import {
   addGroupToDropdownItem,
   createPresenceTypesDropdownItems,
   sortPresenceTypes,
-} from 'src/app/shared/utils/presence-types';
-import { EducationalEventsRestService } from '../../../shared/services/educational-events-rest.service';
-import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { StudyClassesRestService } from 'src/app/shared/services/study-classes-rest.service';
+} from "src/app/shared/utils/presence-types";
+import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import {
   EditAbsencesFilter,
   EditAbsencesStateService,
-} from '../../services/edit-absences-state.service';
-import { TranslateService } from '@ngx-translate/core';
-import { TeacherResourcesRestService } from '../../../shared/services/teacher-resources-rest.service';
+} from "../../services/edit-absences-state.service";
+import { TranslateService } from "@ngx-translate/core";
+import { TeacherResourcesRestService } from "../../../shared/services/teacher-resources-rest.service";
 
 @Component({
-  selector: 'erz-edit-absences-header',
-  templateUrl: './edit-absences-header.component.html',
-  styleUrls: ['./edit-absences-header.component.scss'],
+  selector: "erz-edit-absences-header",
+  templateUrl: "./edit-absences-header.component.html",
+  styleUrls: ["./edit-absences-header.component.scss"],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
@@ -65,7 +65,7 @@ export class EditAbsencesHeaderComponent {
       map((i) =>
         addGroupToDropdownItem(
           i,
-          this.translate.instant('shared.multiselect.all-option'),
+          this.translate.instant("shared.multiselect.all-option"),
         ),
       ),
     );
@@ -79,7 +79,7 @@ export class EditAbsencesHeaderComponent {
     map((i) =>
       addGroupToDropdownItem(
         i,
-        this.translate.instant('shared.multiselect.all-option'),
+        this.translate.instant("shared.multiselect.all-option"),
       ),
     ),
   );
@@ -91,7 +91,7 @@ export class EditAbsencesHeaderComponent {
     map((i) =>
       addGroupToDropdownItem(
         i,
-        this.translate.instant('shared.multiselect.all-option'),
+        this.translate.instant("shared.multiselect.all-option"),
       ),
     ),
   );
@@ -107,8 +107,8 @@ export class EditAbsencesHeaderComponent {
 
   classesHttpFilter = {
     params: {
-      fields: 'IsActive',
-      ['filter.IsActive']: '=true',
+      fields: "IsActive",
+      ["filter.IsActive"]: "=true",
     },
   };
 

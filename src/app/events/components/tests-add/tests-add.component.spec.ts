@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { CoursesRestService } from 'src/app/shared/services/courses-rest.service';
-import { buildCourse } from 'src/spec-builders';
-import { ActivatedRouteMock, buildTestModuleMetadata } from 'src/spec-helpers';
-import { TestStateService } from '../../services/test-state.service';
-import { TestsEditFormComponent } from '../tests-edit-form/tests-edit-form.component';
-import { TestsAddComponent } from './tests-add.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { of } from "rxjs";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { buildCourse } from "src/spec-builders";
+import { ActivatedRouteMock, buildTestModuleMetadata } from "src/spec-helpers";
+import { TestStateService } from "../../services/test-state.service";
+import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
+import { TestsAddComponent } from "./tests-add.component";
 
-describe('TestsAddComponent', () => {
+describe("TestsAddComponent", () => {
   let component: TestsAddComponent;
   let fixture: ComponentFixture<TestsAddComponent>;
   let activatedRouteMock: ActivatedRouteMock;
@@ -21,7 +21,7 @@ describe('TestsAddComponent', () => {
       id: course.Id,
     });
 
-    courseService = jasmine.createSpyObj('CoursesRestService', ['add']);
+    courseService = jasmine.createSpyObj("CoursesRestService", ["add"]);
     courseService.add.and.returnValue(of());
 
     await TestBed.configureTestingModule(
@@ -42,13 +42,13 @@ describe('TestsAddComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should save new test', () => {
+  it("should save new test", () => {
     const formGroupValue = {
-      designation: 'a new test',
+      designation: "a new test",
       date: new Date(),
       weight: 1,
       isPointGrading: false,

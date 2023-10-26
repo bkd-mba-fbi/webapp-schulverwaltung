@@ -1,24 +1,24 @@
-import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, filter } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { combineLatest, Observable, of } from "rxjs";
+import { map, switchMap, filter } from "rxjs/operators";
 
-import { withConfig } from 'src/app/rest-error-interceptor';
-import { ApprenticeshipContract } from 'src/app/shared/models/apprenticeship-contract.model';
-import { LegalRepresentative } from 'src/app/shared/models/legal-representative.model';
-import { Person } from 'src/app/shared/models/person.model';
-import { Student } from 'src/app/shared/models/student.model';
-import { ApprenticeshipManager } from 'src/app/shared/models/apprenticeship-manager.model';
-import { JobTrainer } from 'src/app/shared/models/job-trainer.model';
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { PersonsRestService } from 'src/app/shared/services/persons-rest.service';
-import { StudentsRestService } from 'src/app/shared/services/students-rest.service';
-import { ApprenticeshipManagersRestService } from 'src/app/shared/services/apprenticeship-managers-rest.service';
-import { JobTrainersRestService } from 'src/app/shared/services/job-trainers-rest.service';
-import { DropDownItemsRestService } from './drop-down-items-rest.service';
-import { spread } from 'src/app/shared/utils/function';
-import { catch404 } from 'src/app/shared/utils/observable';
-import { notNull } from '../utils/filter';
-import { isAdult } from '../utils/persons';
+import { withConfig } from "src/app/rest-error-interceptor";
+import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
+import { LegalRepresentative } from "src/app/shared/models/legal-representative.model";
+import { Person } from "src/app/shared/models/person.model";
+import { Student } from "src/app/shared/models/student.model";
+import { ApprenticeshipManager } from "src/app/shared/models/apprenticeship-manager.model";
+import { JobTrainer } from "src/app/shared/models/job-trainer.model";
+import { LoadingService } from "src/app/shared/services/loading-service";
+import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { ApprenticeshipManagersRestService } from "src/app/shared/services/apprenticeship-managers-rest.service";
+import { JobTrainersRestService } from "src/app/shared/services/job-trainers-rest.service";
+import { DropDownItemsRestService } from "./drop-down-items-rest.service";
+import { spread } from "src/app/shared/utils/function";
+import { catch404 } from "src/app/shared/utils/observable";
+import { notNull } from "../utils/filter";
+import { isAdult } from "../utils/persons";
 
 export interface Profile<T extends Student | Person> {
   student: T;
@@ -34,7 +34,7 @@ export interface ApprenticeshipCompany {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class StudentProfileService {
   loading$ = this.loadingService.loading$;
@@ -165,7 +165,7 @@ export class StudentProfileService {
   ): Observable<ReadonlyArray<JobTrainer>> {
     const ids = contracts
       .map((contract) => contract.JobTrainer)
-      .filter((id): id is number => typeof id === 'number');
+      .filter((id): id is number => typeof id === "number");
 
     if (ids.length === 0) {
       return of([]);

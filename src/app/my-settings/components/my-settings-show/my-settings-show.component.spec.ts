@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MySettingsNotificationsComponent } from '../my-settings-notifications/my-settings-notifications.component';
-import { MySettingsShowComponent } from './my-settings-show.component';
+import { StorageService } from "src/app/shared/services/storage.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MySettingsNotificationsComponent } from "../my-settings-notifications/my-settings-notifications.component";
+import { MySettingsShowComponent } from "./my-settings-show.component";
 
-describe('MySettingsShowComponent', () => {
+describe("MySettingsShowComponent", () => {
   let component: MySettingsShowComponent;
   let fixture: ComponentFixture<MySettingsShowComponent>;
 
@@ -21,7 +21,7 @@ describe('MySettingsShowComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Dict<unknown> {
-                return { id_person: '123' };
+                return { id_person: "123" };
               },
             },
           },
@@ -36,7 +36,7 @@ describe('MySettingsShowComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

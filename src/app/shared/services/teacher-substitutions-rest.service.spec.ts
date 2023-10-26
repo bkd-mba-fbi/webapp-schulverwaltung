@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { TeacherSubstitutionsRestService } from './teacher-substitutions-rest.service';
-import { buildTestModuleMetadata } from '../../../spec-helpers';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { TeacherSubstitution } from '../models/teacher-substitution.model';
+import { TeacherSubstitutionsRestService } from "./teacher-substitutions-rest.service";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
+import { HttpTestingController } from "@angular/common/http/testing";
+import { TeacherSubstitution } from "../models/teacher-substitution.model";
 
-describe('TeacherSubstitutionsRestService', () => {
+describe("TeacherSubstitutionsRestService", () => {
   let service: TeacherSubstitutionsRestService;
   let httpTestingController: HttpTestingController;
 
@@ -19,12 +19,12 @@ describe('TeacherSubstitutionsRestService', () => {
     httpTestingController.verify();
   });
 
-  describe('getTeacherSubstitution', () => {
-    it('should get the teacher substitution for the given id', () => {
+  describe("getTeacherSubstitution", () => {
+    it("should get the teacher substitution for the given id", () => {
       const subscriptionId = 34;
       const teacherSubscription = {
         Id: subscriptionId,
-        Holder: 'Marie Curie',
+        Holder: "Marie Curie",
       } as TeacherSubstitution;
 
       service
@@ -32,11 +32,11 @@ describe('TeacherSubstitutionsRestService', () => {
         .subscribe((response) => expect(response).toEqual(teacherSubscription));
 
       httpTestingController
-        .expectOne('https://eventotest.api/TeacherSubstitutions/?filter.Id==34')
+        .expectOne("https://eventotest.api/TeacherSubstitutions/?filter.Id==34")
         .flush([teacherSubscription]);
     });
 
-    it('should return null for a non existing id', () => {
+    it("should return null for a non existing id", () => {
       const subscriptionId = 999;
 
       service
@@ -45,7 +45,7 @@ describe('TeacherSubstitutionsRestService', () => {
 
       httpTestingController
         .expectOne(
-          'https://eventotest.api/TeacherSubstitutions/?filter.Id==999',
+          "https://eventotest.api/TeacherSubstitutions/?filter.Id==999",
         )
         .flush([]);
     });

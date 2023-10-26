@@ -7,14 +7,14 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
-} from '@angular/core';
+} from "@angular/core";
 import {
   Observable,
   combineLatest,
   ReplaySubject,
   BehaviorSubject,
   of,
-} from 'rxjs';
+} from "rxjs";
 import {
   switchMap,
   filter,
@@ -23,18 +23,18 @@ import {
   startWith,
   switchAll,
   shareReplay,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-import { LessonPresence } from '../../../models/lesson-presence.model';
-import { notNull, not } from '../../../utils/filter';
-import { isArray } from '../../../utils/array';
-import { ConfirmAbsencesSelectionService } from '../../../services/confirm-absences-selection.service';
-import { PresenceTypesService } from '../../../services/presence-types.service';
+import { LessonPresence } from "../../../models/lesson-presence.model";
+import { notNull, not } from "../../../utils/filter";
+import { isArray } from "../../../utils/array";
+import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
+import { PresenceTypesService } from "../../../services/presence-types.service";
 
 @Component({
-  selector: 'erz-student-dossier-absences',
-  templateUrl: './student-dossier-absences.component.html',
-  styleUrls: ['./student-dossier-absences.component.scss'],
+  selector: "erz-student-dossier-absences",
+  templateUrl: "./student-dossier-absences.component.html",
+  styleUrls: ["./student-dossier-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierAbsencesComponent implements OnChanges {
@@ -62,7 +62,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   @Input() reportUrl: Option<string> = null;
   @Input() reportAvailable = false;
 
-  @Input() confirmLink = 'confirm';
+  @Input() confirmLink = "confirm";
 
   /**
    * Whether to show a button opening the the user's email client
@@ -71,7 +71,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   @Input() displayEmail = false;
   @Input() mailTo$: Observable<string>;
 
-  @ViewChildren('checkbox') checkboxes: QueryList<ElementRef<HTMLInputElement>>;
+  @ViewChildren("checkbox") checkboxes: QueryList<ElementRef<HTMLInputElement>>;
 
   lessonPresences$$ = new ReplaySubject<
     Observable<ReadonlyArray<LessonPresence>>
@@ -135,14 +135,14 @@ export class StudentDossierAbsencesComponent implements OnChanges {
     if (this.checkboxes.length === 0) return;
 
     let checkbox: HTMLInputElement;
-    if (typeof indexOrCheckbox === 'number') {
+    if (typeof indexOrCheckbox === "number") {
       checkbox = this.checkboxes.toArray()[indexOrCheckbox].nativeElement;
     } else {
       checkbox = indexOrCheckbox;
     }
     if (
       event.target !== checkbox &&
-      !(event.target as HTMLElement).closest('.buttons')
+      !(event.target as HTMLElement).closest(".buttons")
     ) {
       checkbox.click();
     }

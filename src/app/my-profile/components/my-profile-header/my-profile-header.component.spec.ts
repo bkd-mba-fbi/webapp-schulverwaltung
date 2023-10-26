@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { MyProfileHeaderComponent } from './my-profile-header.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { ReportsService } from 'src/app/shared/services/reports.service';
+import { MyProfileHeaderComponent } from "./my-profile-header.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { ReportsService } from "src/app/shared/services/reports.service";
 
-describe('MyProfileHeaderComponent', () => {
+describe("MyProfileHeaderComponent", () => {
   let component: MyProfileHeaderComponent;
   let fixture: ComponentFixture<MyProfileHeaderComponent>;
 
@@ -15,7 +15,7 @@ describe('MyProfileHeaderComponent', () => {
         providers: [
           {
             provide: ReportsService,
-            useValue: { personMasterDataReportUrl: '/report' },
+            useValue: { personMasterDataReportUrl: "/report" },
           },
         ],
       }),
@@ -28,7 +28,7 @@ describe('MyProfileHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

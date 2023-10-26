@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { MyAbsencesReportLinkComponent } from '../my-absences-report-link/my-absences-report-link.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-absences-report-link.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-describe('MyAbsencesEditLinkComponent', () => {
+describe("MyAbsencesEditLinkComponent", () => {
   let component: MyAbsencesReportLinkComponent;
   let fixture: ComponentFixture<MyAbsencesReportLinkComponent>;
 
@@ -23,7 +23,7 @@ describe('MyAbsencesEditLinkComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

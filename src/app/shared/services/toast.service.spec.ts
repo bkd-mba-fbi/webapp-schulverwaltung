@@ -1,14 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { ToastInfo, ToastService } from './toast.service';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { ToastInfo, ToastService } from "./toast.service";
 
-describe('ToastService', () => {
+describe("ToastService", () => {
   let service: ToastService;
   let callback: jasmine.Spy;
 
   beforeEach(() => {
-    callback = jasmine.createSpy('callback');
+    callback = jasmine.createSpy("callback");
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -22,51 +22,51 @@ describe('ToastService', () => {
     callback.calls.reset();
   });
 
-  it('adds a success toast', () => {
+  it("adds a success toast", () => {
     const toast: ToastInfo = {
-      message: 'This is good',
-      header: 'Good title',
-      classname: 'bg-success text-light',
-      icon: 'check_circle',
+      message: "This is good",
+      header: "Good title",
+      classname: "bg-success text-light",
+      icon: "check_circle",
     };
     service.success(toast.message, toast.header);
     expect(callback).toHaveBeenCalledWith([toast]);
   });
 
-  it('adds a warning toast', () => {
+  it("adds a warning toast", () => {
     const toast: ToastInfo = {
-      message: 'This is not so good',
-      header: 'Not so good title',
-      classname: 'bg-warning',
-      icon: 'help',
+      message: "This is not so good",
+      header: "Not so good title",
+      classname: "bg-warning",
+      icon: "help",
     };
     service.warning(toast.message, toast.header);
     expect(callback).toHaveBeenCalledWith([toast]);
   });
 
-  it('adds an error toast', () => {
+  it("adds an error toast", () => {
     const toast: ToastInfo = {
-      message: 'This is bad',
-      header: 'Bad title',
-      classname: 'bg-danger text-light',
-      icon: 'cancel',
+      message: "This is bad",
+      header: "Bad title",
+      classname: "bg-danger text-light",
+      icon: "cancel",
     };
     service.error(toast.message, toast.header);
     expect(callback).toHaveBeenCalledWith([toast]);
   });
 
-  it('adds multiple toasts but ignores duplicates', () => {
+  it("adds multiple toasts but ignores duplicates", () => {
     const toast1: ToastInfo = {
-      message: 'Toast 1',
+      message: "Toast 1",
       header: undefined,
-      classname: 'bg-success text-light',
-      icon: 'check_circle',
+      classname: "bg-success text-light",
+      icon: "check_circle",
     };
     const toast2: ToastInfo = {
-      message: 'Toast 2',
+      message: "Toast 2",
       header: undefined,
-      classname: 'bg-success text-light',
-      icon: 'check_circle',
+      classname: "bg-success text-light",
+      icon: "check_circle",
     };
 
     service.success(toast1.message);
@@ -81,18 +81,18 @@ describe('ToastService', () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it('adds & removes toast', () => {
+  it("adds & removes toast", () => {
     const toast1: ToastInfo = {
-      message: 'Toast A',
+      message: "Toast A",
       header: undefined,
-      classname: 'bg-success text-light',
-      icon: 'check_circle',
+      classname: "bg-success text-light",
+      icon: "check_circle",
     };
     const toast2: ToastInfo = {
-      message: 'Toast B',
+      message: "Toast B",
       header: undefined,
-      classname: 'bg-success text-light',
-      icon: 'check_circle',
+      classname: "bg-success text-light",
+      icon: "check_circle",
     };
 
     service.success(toast1.message);

@@ -1,6 +1,6 @@
 <div class="header">
   <button type="button" class="btn btn-primary today" (click)="gotoToday()">
-    {{ 'dashboard.timetable.today' | translate }}
+    {{ "dashboard.timetable.today" | translate }}
   </button>
   <button
     type="button"
@@ -18,14 +18,14 @@
   >
     <span class="material-icons">chevron_right</span>
   </button>
-  <div class="date">{{ date$ | async | date: 'E, dd. MMMM yyyy' }}</div>
+  <div class="date">{{ date$ | async | date: "E, dd. MMMM yyyy" }}</div>
   <a
     *ngIf="getSubscribeCalendarUrl() | async as url"
     [href]="url | safe: 'url'"
     target="_parent"
     class="btn btn-secondary subscribe-calendar-header"
   >
-    {{ 'dashboard.timetable.subscribe-calendar' | translate }}
+    {{ "dashboard.timetable.subscribe-calendar" | translate }}
   </a>
 </div>
 
@@ -41,7 +41,7 @@
       target="_parent"
       class="btn btn-secondary subscribe-calendar-bottom"
     >
-      {{ 'dashboard.timetable.subscribe-calendar' | translate }}
+      {{ "dashboard.timetable.subscribe-calendar" | translate }}
     </a>
   </ng-container>
 </ng-container>

@@ -3,10 +3,10 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
-} from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+} from "@angular/core";
+import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
+import { BehaviorSubject, merge, Observable, of, Subject } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 import {
   shareReplay,
   map,
@@ -16,15 +16,15 @@ import {
   withLatestFrom,
   skip,
   distinctUntilChanged,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
 import {
   NotificationChannels,
   NotificationTypesInactive,
-} from 'src/app/shared/models/user-settings.model';
-import { ToastService } from '../../../shared/services/toast.service';
-import { NotificationTypesService } from 'src/app/shared/services/notification-types.service';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+} from "src/app/shared/models/user-settings.model";
+import { ToastService } from "../../../shared/services/toast.service";
+import { NotificationTypesService } from "src/app/shared/services/notification-types.service";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 
 interface NotificationSetting {
   key: string;
@@ -33,24 +33,24 @@ interface NotificationSetting {
 }
 
 @Component({
-  selector: 'erz-my-settings-notifications',
-  templateUrl: './my-settings-notifications.component.html',
-  styleUrls: ['./my-settings-notifications.component.scss'],
+  selector: "erz-my-settings-notifications",
+  templateUrl: "./my-settings-notifications.component.html",
+  styleUrls: ["./my-settings-notifications.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
   channelsSettings: ReadonlyArray<NotificationSetting> = [
     {
-      key: 'gui',
-      label: this.translate.get('my-settings.notifications.gui'),
+      key: "gui",
+      label: this.translate.get("my-settings.notifications.gui"),
     },
     {
-      key: 'mail',
-      label: this.translate.get('my-settings.notifications.mail'),
+      key: "mail",
+      label: this.translate.get("my-settings.notifications.mail"),
     },
     {
-      key: 'phoneMobile',
-      label: this.translate.get('my-settings.notifications.phoneMobile'),
+      key: "phoneMobile",
+      label: this.translate.get("my-settings.notifications.phoneMobile"),
     },
   ];
 
@@ -58,7 +58,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     .getNotificationTypes()
     .map((type) => {
       const { label, description } =
-        this.translate.currentLang === 'fr-CH' ? type.text.fr : type.text.de;
+        this.translate.currentLang === "fr-CH" ? type.text.fr : type.text.de;
       return {
         key: type.key,
         label: of(label),
@@ -182,7 +182,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
 
   private onSaveSuccess(): void {
     this.toastService.success(
-      this.translate.instant('my-settings.notifications.save-success'),
+      this.translate.instant("my-settings.notifications.save-success"),
     );
   }
 

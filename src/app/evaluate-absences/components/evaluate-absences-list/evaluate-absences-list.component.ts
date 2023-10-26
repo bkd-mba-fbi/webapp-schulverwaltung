@@ -3,21 +3,21 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
-} from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, switchMap, take, shareReplay } from 'rxjs/operators';
+} from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import { Observable } from "rxjs";
+import { map, switchMap, take, shareReplay } from "rxjs/operators";
 
 import {
   EvaluateAbsencesStateService,
   EvaluateAbsencesFilter,
-} from '../../services/evaluate-absences-state.service';
-import { LessonPresenceStatistic } from 'src/app/shared/models/lesson-presence-statistic';
-import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
-import { PresenceTypesService } from '../../../shared/services/presence-types.service';
-import { ReportsService } from '../../../shared/services/reports.service';
-import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
-import { LessonPresence } from '../../../shared/models/lesson-presence.model';
+} from "../../services/evaluate-absences-state.service";
+import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { PresenceTypesService } from "../../../shared/services/presence-types.service";
+import { ReportsService } from "../../../shared/services/reports.service";
+import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
+import { LessonPresence } from "../../../shared/models/lesson-presence.model";
 
 interface Column {
   key: keyof LessonPresenceStatistic;
@@ -25,22 +25,22 @@ interface Column {
 }
 
 @Component({
-  selector: 'erz-evaluate-absences-list',
-  templateUrl: './evaluate-absences-list.component.html',
-  styleUrls: ['./evaluate-absences-list.component.scss'],
+  selector: "erz-evaluate-absences-list",
+  templateUrl: "./evaluate-absences-list.component.html",
+  styleUrls: ["./evaluate-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   reportUrl$ = this.loadReportUrl();
 
   columns: ReadonlyArray<Column> = [
-    { key: 'StudentFullName', label: 'student' },
-    { key: 'TotalAbsences', label: 'total' },
-    { key: 'TotalAbsencesValidExcuse', label: 'valid-excuse' },
-    { key: 'TotalAbsencesWithoutExcuse', label: 'without-excuse' },
-    { key: 'TotalAbsencesUnconfirmed', label: 'unconfirmed' },
-    { key: 'TotalAbsencesUnchecked', label: 'unchecked' },
-    { key: 'TotalIncidents', label: 'incident' },
+    { key: "StudentFullName", label: "student" },
+    { key: "TotalAbsences", label: "total" },
+    { key: "TotalAbsencesValidExcuse", label: "valid-excuse" },
+    { key: "TotalAbsencesWithoutExcuse", label: "without-excuse" },
+    { key: "TotalAbsencesUnconfirmed", label: "unconfirmed" },
+    { key: "TotalAbsencesUnchecked", label: "unchecked" },
+    { key: "TotalIncidents", label: "incident" },
   ];
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
@@ -65,7 +65,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       if (halfDayActive) {
         this.columns = [
           ...this.columns,
-          { key: 'TotalHalfDays', label: 'halfday' },
+          { key: "TotalHalfDays", label: "halfday" },
         ];
       }
     });

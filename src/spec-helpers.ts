@@ -1,28 +1,28 @@
-import { SimpleChanges, SimpleChange } from '@angular/core';
-import { TestModuleMetadata } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ParamMap, Params, convertToParamMap } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SimpleChanges, SimpleChange } from "@angular/core";
+import { TestModuleMetadata } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { ParamMap, Params, convertToParamMap } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { ReplaySubject } from "rxjs";
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
-import { SharedModule } from './app/shared/shared.module';
-import { Settings, SETTINGS } from './app/settings';
-import { AuthService } from './app/shared/services/auth.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from "./app/shared/shared.module";
+import { Settings, SETTINGS } from "./app/settings";
+import { AuthService } from "./app/shared/services/auth.service";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/locales/', '.json');
+  return new TranslateHttpLoader(http, "./assets/locales/", ".json");
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const settings: Settings = {
-  apiUrl: 'https://eventotest.api',
-  scriptsAndAssetsPath: '.',
+  apiUrl: "https://eventotest.api",
+  scriptsAndAssetsPath: ".",
   paginationLimit: 1000,
   absencePresenceTypeId: 11,
   latePresenceTypeId: 12,
@@ -42,59 +42,59 @@ export const settings: Settings = {
   testsBySubscriptionReportIdTeacher: 290041,
   subscriptionDetailGroupId: 3843,
   headerRoleRestriction: {
-    myAbsences: 'StudentRole',
-    presenceControl: 'LessonTeacherRole',
-    openAbsences: 'LessonTeacherRole;ClassTeacherRole',
-    editAbsences: 'LessonTeacherRole;ClassTeacherRole',
+    myAbsences: "StudentRole",
+    presenceControl: "LessonTeacherRole",
+    openAbsences: "LessonTeacherRole;ClassTeacherRole",
+    editAbsences: "LessonTeacherRole;ClassTeacherRole",
   },
   notificationRefreshTime: 30,
   notificationTypes: {
     BM2Student: {
       de: {
-        label: 'BM2Student label de',
-        description: 'BM2Student description de',
+        label: "BM2Student label de",
+        description: "BM2Student description de",
       },
       fr: {
-        label: 'BM2Student label fr',
-        description: 'BM2Student description fr',
+        label: "BM2Student label fr",
+        description: "BM2Student description fr",
       },
     },
     gradePublish: {
       de: {
-        label: 'gradePublish label de',
-        description: 'gradePublish description de',
+        label: "gradePublish label de",
+        description: "gradePublish description de",
       },
       fr: {
-        label: 'gradePublish label fr',
-        description: 'gradePublish description fr',
+        label: "gradePublish label fr",
+        description: "gradePublish description fr",
       },
     },
   },
   notificationTypesAssignments: [
     {
-      roles: ['StudentRole'],
-      types: ['BM2Student', 'gradePublish'],
+      roles: ["StudentRole"],
+      types: ["BM2Student", "gradePublish"],
     },
     {
-      roles: ['LessonTeacherRole', 'ClassTeacherRole', 'TeacherRole'],
+      roles: ["LessonTeacherRole", "ClassTeacherRole", "TeacherRole"],
       types: [
-        'BM2Teacher',
-        'absenceMessage',
-        'absenceMessageTeacher',
-        'teacherSubstitutions',
+        "BM2Teacher",
+        "absenceMessage",
+        "absenceMessageTeacher",
+        "teacherSubstitutions",
       ],
     },
   ],
   eventlist: {
-    eventdetail: 'link-to-event-detail-module/:id',
-    evaluation: 'link-to-evaluation-module/:id',
+    eventdetail: "link-to-event-detail-module/:id",
+    evaluation: "link-to-evaluation-module/:id",
     statusfilter:
-      '14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300',
+      "14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300",
   },
   dashboard: {
-    substitutionsAdminLink: 'link-to-substitutions-admin-module',
+    substitutionsAdminLink: "link-to-substitutions-admin-module",
   },
-  preventStudentAbsenceAfterLessonStart: ['BsTest'],
+  preventStudentAbsenceAfterLessonStart: ["BsTest"],
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {
@@ -118,7 +118,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
       provide: AuthService,
       useValue: {
         isAuthenticated: true,
-        accessToken: 'abcdefghijklmnopqrstuvwxyz',
+        accessToken: "abcdefghijklmnopqrstuvwxyz",
       },
     },
   ],
@@ -151,7 +151,7 @@ export function changeInputs<
     {},
   );
 
-  if (typeof component.ngOnChanges === 'function') {
+  if (typeof component.ngOnChanges === "function") {
     component.ngOnChanges(simpleChanges);
   }
 }

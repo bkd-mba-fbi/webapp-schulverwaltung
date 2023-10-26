@@ -1,17 +1,17 @@
 import {
   buildLessonPresence,
   buildLessonPresenceWithIds,
-} from 'src/spec-builders';
-import { LessonPresence } from '../models/lesson-presence.model';
+} from "src/spec-builders";
+import { LessonPresence } from "../models/lesson-presence.model";
 import {
   getIdsGroupedByPerson,
   getIdsGroupedByLesson,
   sortLessonPresencesByDate,
   getIdsGroupedByPersonAndPresenceType,
   toDesignationDateTimeTypeString,
-} from './lesson-presences';
+} from "./lesson-presences";
 
-describe('lesson presences utils', () => {
+describe("lesson presences utils", () => {
   let presenceA: LessonPresence;
   let presenceB: LessonPresence;
   let presenceC: LessonPresence;
@@ -26,8 +26,8 @@ describe('lesson presences utils', () => {
     presenceE = buildLessonPresenceWithIds(12, 21, 12);
   });
 
-  describe('getIdsGroupedByPerson', () => {
-    it('groups lesson ids by student ids', () => {
+  describe("getIdsGroupedByPerson", () => {
+    it("groups lesson ids by student ids", () => {
       const result = getIdsGroupedByPerson([presenceA, presenceB, presenceC]);
       expect(result).toEqual([
         { personIds: [20], lessonIds: [10] },
@@ -36,8 +36,8 @@ describe('lesson presences utils', () => {
     });
   });
 
-  describe('getIdsGroupedByPersonAndPresenceType', () => {
-    it('groups lesson ids by student and presence type ids', () => {
+  describe("getIdsGroupedByPersonAndPresenceType", () => {
+    it("groups lesson ids by student and presence type ids", () => {
       const result = getIdsGroupedByPersonAndPresenceType([
         presenceA,
         presenceB,
@@ -54,8 +54,8 @@ describe('lesson presences utils', () => {
     });
   });
 
-  describe('getIdsGroupedByLesson', () => {
-    it('groups student ids by lesson ids', () => {
+  describe("getIdsGroupedByLesson", () => {
+    it("groups student ids by lesson ids", () => {
       const result = getIdsGroupedByLesson([presenceA, presenceB, presenceC]);
       expect(result).toEqual([
         { lessonIds: [10], personIds: [20, 21] },
@@ -64,8 +64,8 @@ describe('lesson presences utils', () => {
     });
   });
 
-  describe('sortLessonPresencesByDate', () => {
-    it('sorts lesson presences by LessonDateTimeFrom attribute', () => {
+  describe("sortLessonPresencesByDate", () => {
+    it("sorts lesson presences by LessonDateTimeFrom attribute", () => {
       presenceA.LessonDateTimeFrom = new Date(2000, 1, 23, 12, 30);
       presenceB.LessonDateTimeFrom = new Date(2000, 1, 23, 9, 0);
       presenceC.LessonDateTimeFrom = new Date(2000, 1, 23, 12, 0);
@@ -79,17 +79,17 @@ describe('lesson presences utils', () => {
     });
   });
 
-  describe('toDesignationDateTimeTypeString', () => {
-    it('returns the formatted information as string for the given lesson presence with missing type', () => {
+  describe("toDesignationDateTimeTypeString", () => {
+    it("returns the formatted information as string for the given lesson presence with missing type", () => {
       const presence = buildLessonPresence(
         1,
         new Date(2021, 3, 22, 9, 0),
         new Date(2021, 3, 22, 9, 45),
-        'Deutsch-S1',
+        "Deutsch-S1",
       );
 
       expect(toDesignationDateTimeTypeString(presence)).toBe(
-        'Deutsch-S1, 22.04.2021, 09:00-09:45',
+        "Deutsch-S1, 22.04.2021, 09:00-09:45",
       );
     });
   });

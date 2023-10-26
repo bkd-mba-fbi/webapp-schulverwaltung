@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { StudentDossierApprenticeshipCompanyComponent } from './student-dossier-apprenticeship-company.component';
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentDossierApprenticeshipCompanyComponent } from "./student-dossier-apprenticeship-company.component";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManager,
   buildJobTrainer,
-} from 'src/spec-builders';
+} from "src/spec-builders";
 
-describe('StudentDossierApprenticeshipCompanyComponent', () => {
+describe("StudentDossierApprenticeshipCompanyComponent", () => {
   let component: StudentDossierApprenticeshipCompanyComponent;
   let fixture: ComponentFixture<StudentDossierApprenticeshipCompanyComponent>;
 
@@ -33,7 +33,7 @@ describe('StudentDossierApprenticeshipCompanyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

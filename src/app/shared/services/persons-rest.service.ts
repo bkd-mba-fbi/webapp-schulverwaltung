@@ -1,31 +1,31 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Injectable, Inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { switchMap, map } from "rxjs/operators";
 
-import { RestService } from './rest.service';
-import { SETTINGS, Settings } from '../../settings';
-import { Person } from '../models/person.model';
-import { decode, decodeArray } from '../utils/decode';
-import * as t from 'io-ts';
-import { pick } from '../utils/types';
+import { RestService } from "./rest.service";
+import { SETTINGS, Settings } from "../../settings";
+import { Person } from "../models/person.model";
+import { decode, decodeArray } from "../utils/decode";
+import * as t from "io-ts";
+import { pick } from "../utils/types";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PersonsRestService extends RestService<typeof Person> {
   protected personEmailCodec = t.type(
-    pick(this.codec.props, ['Email', 'FormOfAddress']),
+    pick(this.codec.props, ["Email", "FormOfAddress"]),
   );
 
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, Person, 'Persons');
+    super(http, settings, Person, "Persons");
   }
 
   getListForIds(
     personIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<Person>> {
-    return this.getList({ params: { 'filter.Id': `;${personIds.join(';')}` } });
+    return this.getList({ params: { "filter.Id": `;${personIds.join(";")}` } });
   }
 
   getMyself(): Observable<Person> {
@@ -38,8 +38,8 @@ export class PersonsRestService extends RestService<typeof Person> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
-          'filter.Id=': id.toString(),
-          fields: ['FormOfAddress', 'Email'].join(','),
+          "filter.Id=": id.toString(),
+          fields: ["FormOfAddress", "Email"].join(","),
         },
       })
       .pipe(

@@ -1,29 +1,29 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
+import { UntypedFormBuilder } from "@angular/forms";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { Observable } from "rxjs";
+import { map, take } from "rxjs/operators";
 
-import { MyAbsencesAbstractConfirmComponent } from './my-absences-abstract-confirm.component';
-import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-import { SETTINGS, Settings } from 'src/app/settings';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { MyAbsencesReportStateService } from '../../services/my-absences-report-state.service';
-import { MyAbsencesReportSelectionService } from '../../services/my-absences-report-selection.service';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { flatten, uniq } from 'lodash-es';
-import { ToastService } from '../../../shared/services/toast.service';
+import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
+import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { SETTINGS, Settings } from "src/app/settings";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
+import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { flatten, uniq } from "lodash-es";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Component({
-  selector: 'erz-my-absences-confirm',
-  templateUrl: './my-absences-abstract-confirm.component.html',
-  styleUrls: ['./my-absences-abstract-confirm.component.scss'],
+  selector: "erz-my-absences-confirm",
+  templateUrl: "./my-absences-abstract-confirm.component.html",
+  styleUrls: ["./my-absences-abstract-confirm.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
-  titleKey = 'my-absences.report.title';
+  titleKey = "my-absences.report.title";
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
@@ -67,7 +67,7 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
 
   protected navigateBack(): void {
     this.state.queryParams$.pipe(take(1)).subscribe((queryParams) => {
-      this.router.navigate(['/my-absences/report'], {
+      this.router.navigate(["/my-absences/report"], {
         queryParams,
       });
     });

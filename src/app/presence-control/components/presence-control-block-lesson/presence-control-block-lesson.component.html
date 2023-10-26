@@ -1,6 +1,6 @@
 <div class="modal-body">
   <p>
-    {{ 'presence-control.block-lesson.text' | translate }}
+    {{ "presence-control.block-lesson.text" | translate }}
   </p>
   <form>
     <div
@@ -24,8 +24,8 @@
         }}</i>
         <div class="d-block text-truncate">
           {{
-            option.entry.lessonPresence.LessonDateTimeFrom | date: 'HH:mm'
-          }}–{{ option.entry.lessonPresence.LessonDateTimeTo | date: 'HH:mm' }}
+            option.entry.lessonPresence.LessonDateTimeFrom | date: "HH:mm"
+          }}–{{ option.entry.lessonPresence.LessonDateTimeTo | date: "HH:mm" }}
           {{ option.entry.lessonPresence.EventDesignation }}
         </div>
       </label>
@@ -38,7 +38,7 @@
     class="btn btn-outline-secondary"
     (click)="activeModal.close()"
   >
-    {{ 'presence-control.block-lesson.cancel' | translate }}
+    {{ "presence-control.block-lesson.cancel" | translate }}
   </button>
   <button
     type="button"
@@ -46,6 +46,6 @@
     (click)="activeModal.close(selectedEntries)"
     [disabled]="selectedEntries.length === 0"
   >
-    {{ 'presence-control.block-lesson.save' | translate }}
+    {{ "presence-control.block-lesson.save" | translate }}
   </button>
 </div>

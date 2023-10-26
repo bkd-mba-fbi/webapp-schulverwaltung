@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DashboardDeadlineComponent } from './dashboard-deadline.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
+import { DashboardDeadlineComponent } from "./dashboard-deadline.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
 
-describe('DashboardDeadlineComponent', () => {
+describe("DashboardDeadlineComponent", () => {
   let component: DashboardDeadlineComponent;
   let fixture: ComponentFixture<DashboardDeadlineComponent>;
   let element: HTMLElement;
@@ -20,9 +20,9 @@ describe('DashboardDeadlineComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  it('should render the component', () => {
+  it("should render the component", () => {
     component.count = 33;
     fixture.detectChanges();
-    expect(element.textContent).toContain('dashboard.actions.deadline: 33');
+    expect(element.textContent).toContain("dashboard.actions.deadline: 33");
   });
 });

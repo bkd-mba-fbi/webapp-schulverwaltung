@@ -1,37 +1,37 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { map, Observable, switchMap, of } from 'rxjs';
-import * as t from 'io-ts';
-import { Settings, SETTINGS } from 'src/app/settings';
+import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { map, Observable, switchMap, of } from "rxjs";
+import * as t from "io-ts";
+import { Settings, SETTINGS } from "src/app/settings";
 import {
   Course,
   AverageTestResultResponse,
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
-} from '../models/course.model';
-import { decode, decodeArray } from '../utils/decode';
-import { hasRole } from '../utils/roles';
-import { RestService } from './rest.service';
-import { pick } from '../utils/types';
+} from "../models/course.model";
+import { decode, decodeArray } from "../utils/decode";
+import { hasRole } from "../utils/roles";
+import { RestService } from "./rest.service";
+import { pick } from "../utils/types";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CoursesRestService extends RestService<typeof Course> {
   protected statusCodec = t.type(
-    pick(this.codec.props, ['Id', 'StatusId', 'EvaluationStatusRef']),
+    pick(this.codec.props, ["Id", "StatusId", "EvaluationStatusRef"]),
   );
 
   constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
-    super(http, settings, Course, 'Courses');
+    super(http, settings, Course, "Courses");
   }
 
   getNumberOfCoursesForRating(): Observable<number> {
     return this.http
       .get<unknown[]>(
         `${this.baseUrl}/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240`,
-        { headers: { 'X-Role-Restriction': 'TeacherRole' } },
+        { headers: { "X-Role-Restriction": "TeacherRole" } },
       )
       .pipe(
         switchMap(decodeArray(this.statusCodec)),
@@ -46,11 +46,11 @@ export class CoursesRestService extends RestService<typeof Course> {
   }
 
   getExpandedCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
-    if (hasRole(roles, 'TeacherRole')) {
+    if (hasRole(roles, "TeacherRole")) {
       return this.http
         .get<unknown[]>(
           `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
-          { headers: { 'X-Role-Restriction': 'TeacherRole' } },
+          { headers: { "X-Role-Restriction": "TeacherRole" } },
         )
         .pipe(switchMap(decodeArray(Course)));
     }
@@ -79,7 +79,7 @@ export class CoursesRestService extends RestService<typeof Course> {
       .get<unknown>(
         `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
         {
-          headers: { 'X-Role-Restriction': 'StudentRole' },
+          headers: { "X-Role-Restriction": "StudentRole" },
         },
       )
       .pipe(switchMap(decodeArray(Course)));

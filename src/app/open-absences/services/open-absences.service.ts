@@ -1,36 +1,36 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   combineLatest,
   merge,
   Observable,
   Subject,
-} from 'rxjs';
-import { map, shareReplay, take } from 'rxjs/operators';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
-import { LessonPresencesRestService } from 'src/app/shared/services/lesson-presences-rest.service';
-import { LoadingService } from 'src/app/shared/services/loading-service';
-import { IConfirmAbsencesService } from 'src/app/shared/tokens/confirm-absences-service';
-import { spread } from 'src/app/shared/utils/function';
-import { searchEntries } from 'src/app/shared/utils/search';
-import { SortCriteria } from 'src/app/shared/utils/sort';
-import { Person } from '../../shared/models/person.model';
-import { toDesignationDateTimeTypeString } from '../../shared/utils/lesson-presences';
+} from "rxjs";
+import { map, shareReplay, take } from "rxjs/operators";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
+import { LoadingService } from "src/app/shared/services/loading-service";
+import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
+import { spread } from "src/app/shared/utils/function";
+import { searchEntries } from "src/app/shared/utils/search";
+import { SortCriteria } from "src/app/shared/utils/sort";
+import { Person } from "../../shared/models/person.model";
+import { toDesignationDateTimeTypeString } from "../../shared/utils/lesson-presences";
 import {
   buildOpenAbsencesEntries,
   removeOpenAbsences,
   sortOpenAbsencesEntries,
-} from '../utils/open-absences-entries';
+} from "../utils/open-absences-entries";
 
-export type PrimarySortKey = 'date' | 'name';
+export type PrimarySortKey = "date" | "name";
 
 @Injectable()
 export class OpenAbsencesService implements IConfirmAbsencesService {
   loading$ = this.loadingService.loading$;
-  search$ = new BehaviorSubject<string>('');
+  search$ = new BehaviorSubject<string>("");
 
   private updateUnconfirmedAbsences$ = new Subject<
     ReadonlyArray<LessonPresence>
@@ -47,7 +47,7 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
   private sortCriteriaSubject$ = new BehaviorSubject<
     SortCriteria<PrimarySortKey>
   >({
-    primarySortKey: 'date',
+    primarySortKey: "date",
     ascending: false,
   });
 
@@ -112,21 +112,21 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
         // Change sort key
         this.sortCriteriaSubject$.next({
           primarySortKey,
-          ascending: primarySortKey === 'name',
+          ascending: primarySortKey === "name",
         });
       }
     });
   }
 
-  get confirmBackLink(): Parameters<Router['navigate']>[0] {
+  get confirmBackLink(): Parameters<Router["navigate"]>[0] {
     if (this.currentDetail) {
       return [
-        '/open-absences/detail',
+        "/open-absences/detail",
         this.currentDetail.personId,
         this.currentDetail.date,
       ];
     }
-    return ['/open-absences'];
+    return ["/open-absences"];
   }
 
   /**
@@ -156,18 +156,18 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     absences: ReadonlyArray<LessonPresence>,
   ): string {
     const address = person.Email;
-    const subject = this.translate.instant('open-absences.detail.mail.subject');
+    const subject = this.translate.instant("open-absences.detail.mail.subject");
     const formattedAbsences = absences
       .map((absence) => toDesignationDateTimeTypeString(absence))
-      .join('%0D%0A');
+      .join("%0D%0A");
 
     let body = `${this.translate.instant(
-      'open-absences.detail.mail.body',
+      "open-absences.detail.mail.body",
     )}%0D%0A${formattedAbsences}`;
 
     if (body.length >= 1600) {
       body = `${body.substring(0, 1500)}%0D%0A${this.translate.instant(
-        'open-absences.detail.mail.bodyToLargeForEmailTo',
+        "open-absences.detail.mail.bodyToLargeForEmailTo",
       )}`;
     }
 

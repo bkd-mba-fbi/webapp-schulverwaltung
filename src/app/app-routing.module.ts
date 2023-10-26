@@ -1,87 +1,87 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home.component';
-import { authGuard } from './auth.guard';
-import { UnauthenticatedComponent } from './unauthenticated.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { HomeComponent } from "./home.component";
+import { authGuard } from "./auth.guard";
+import { UnauthenticatedComponent } from "./unauthenticated.component";
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: "dashboard",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
   },
   {
-    path: 'presence-control',
+    path: "presence-control",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./presence-control/presence-control.module').then(
+      import("./presence-control/presence-control.module").then(
         (m) => m.PresenceControlModule,
       ),
   },
   {
-    path: 'open-absences',
+    path: "open-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./open-absences/open-absences.module').then(
+      import("./open-absences/open-absences.module").then(
         (m) => m.OpenAbsencesModule,
       ),
   },
   {
-    path: 'edit-absences',
+    path: "edit-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./edit-absences/edit-absences.module').then(
+      import("./edit-absences/edit-absences.module").then(
         (m) => m.EditAbsencesModule,
       ),
   },
   {
-    path: 'evaluate-absences',
+    path: "evaluate-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./evaluate-absences/evaluate-absences.module').then(
+      import("./evaluate-absences/evaluate-absences.module").then(
         (m) => m.EvaluateAbsencesModule,
       ),
   },
   {
-    path: 'events',
+    path: "events",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./events/events.module').then((m) => m.EventsModule),
+      import("./events/events.module").then((m) => m.EventsModule),
   },
   {
-    path: 'my-absences',
+    path: "my-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./my-absences/my-absences.module').then(
+      import("./my-absences/my-absences.module").then(
         (m) => m.MyAbsencesModule,
       ),
   },
   {
-    path: 'my-profile',
+    path: "my-profile",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./my-profile/my-profile.module').then((m) => m.MyProfileModule),
+      import("./my-profile/my-profile.module").then((m) => m.MyProfileModule),
   },
   {
-    path: 'my-grades',
+    path: "my-grades",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./my-grades/my-grades.module').then((m) => m.MyGradesModule),
+      import("./my-grades/my-grades.module").then((m) => m.MyGradesModule),
   },
   {
-    path: 'my-settings',
+    path: "my-settings",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import('./my-settings/my-settings.module').then(
+      import("./my-settings/my-settings.module").then(
         (m) => m.MySettingsModule,
       ),
   },
-  { path: 'unauthenticated', component: UnauthenticatedComponent },
+  { path: "unauthenticated", component: UnauthenticatedComponent },
   {
-    path: '',
+    path: "",
     component: HomeComponent,
-    pathMatch: 'full',
+    pathMatch: "full",
   },
 ];
 

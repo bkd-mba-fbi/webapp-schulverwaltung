@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { of } from "rxjs";
 
-import { MyAbsencesReportListComponent } from './my-absences-report-list.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MyAbsencesReportStateService } from '../../services/my-absences-report-state.service';
-import { MyAbsencesReportSelectionService } from '../../services/my-absences-report-selection.service';
-import { MyAbsencesReportHeaderComponent } from '../my-absences-report-header/my-absences-report-header.component';
+import { MyAbsencesReportListComponent } from "./my-absences-report-list.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
+import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my-absences-report-header.component";
 
-describe('MyAbsencesReportListComponent', () => {
+describe("MyAbsencesReportListComponent", () => {
   let component: MyAbsencesReportListComponent;
   let fixture: ComponentFixture<MyAbsencesReportListComponent>;
 
@@ -27,7 +27,7 @@ describe('MyAbsencesReportListComponent', () => {
               entries$: of([]),
               presenceTypes$: of([]),
               selected: [],
-              setFilter: jasmine.createSpy('setFilter'),
+              setFilter: jasmine.createSpy("setFilter"),
               isFilterValid$: of(true),
               validFilter$: of({}),
             },
@@ -44,7 +44,7 @@ describe('MyAbsencesReportListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

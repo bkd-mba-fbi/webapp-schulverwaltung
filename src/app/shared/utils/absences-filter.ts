@@ -1,8 +1,8 @@
-import { Params } from '@angular/router';
-import { format } from 'date-fns';
+import { Params } from "@angular/router";
+import { format } from "date-fns";
 
-import { EditAbsencesFilter } from 'src/app/edit-absences/services/edit-absences-state.service';
-import { EvaluateAbsencesFilter } from 'src/app/evaluate-absences/services/evaluate-absences-state.service';
+import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences-state.service";
+import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
 
 export function buildParamsFromAbsenceFilter(
   filter: EditAbsencesFilter | EvaluateAbsencesFilter,
@@ -23,7 +23,7 @@ function serializeFilterValue(value: unknown): Option<string> {
     return null;
   }
   if (value instanceof Date) {
-    return format(value, 'yyyy-MM-dd');
+    return format(value, "yyyy-MM-dd");
   }
   return String(value);
 }

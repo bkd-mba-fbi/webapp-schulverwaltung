@@ -1,25 +1,25 @@
-import { OnInit, Component, OnDestroy } from '@angular/core';
+import { OnInit, Component, OnDestroy } from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, combineLatest, Observable, Subject, of } from 'rxjs';
-import { finalize, map, filter, switchMap, take } from 'rxjs/operators';
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, combineLatest, Observable, Subject, of } from "rxjs";
+import { finalize, map, filter, switchMap, take } from "rxjs/operators";
 
-import { LessonPresencesUpdateRestService } from 'src/app/shared/services/lesson-presences-update-rest.service';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-import { getValidationErrors } from 'src/app/shared/utils/form';
-import { Settings } from 'src/app/settings';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { isEmptyArray } from 'src/app/shared/utils/array';
-import { ToastService } from '../../../shared/services/toast.service';
+import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { getValidationErrors } from "src/app/shared/utils/form";
+import { Settings } from "src/app/settings";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { isEmptyArray } from "src/app/shared/utils/array";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Component({
-  template: '',
+  template: "",
 })
 export abstract class MyAbsencesAbstractConfirmComponent
   implements OnInit, OnDestroy
@@ -41,7 +41,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
   absenceTypeIdErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
-    'absenceTypeId',
+    "absenceTypeId",
   );
 
   abstract titleKey: string;
@@ -128,7 +128,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
 
   protected onSaveSuccess(): void {
     this.toastService.success(
-      this.translate.instant('my-absences.confirm.save-success'),
+      this.translate.instant("my-absences.confirm.save-success"),
     );
     this.navigateBack();
   }

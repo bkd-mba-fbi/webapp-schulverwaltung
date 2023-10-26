@@ -1,7 +1,7 @@
 <div class="row g-3 mb-5">
   <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
-      'edit-absences.header.student' | translate
+      "edit-absences.header.student" | translate
     }}</label>
     <erz-typeahead
       [typeaheadService]="studentsService"
@@ -11,7 +11,7 @@
 
   <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
-      'edit-absences.header.module-instance' | translate
+      "edit-absences.header.module-instance" | translate
     }}</label>
     <erz-typeahead
       [typeaheadService]="educationalEventsService"
@@ -21,7 +21,7 @@
 
   <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
-      'edit-absences.header.study-class' | translate
+      "edit-absences.header.study-class" | translate
     }}</label>
     <erz-typeahead
       [typeaheadService]="studyClassService"
@@ -32,7 +32,7 @@
 
   <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
-      'edit-absences.header.teacher' | translate
+      "edit-absences.header.teacher" | translate
     }}</label>
     <erz-typeahead
       [typeaheadService]="teacherResourcesService"
@@ -42,14 +42,14 @@
 
   <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
-      'edit-absences.header.date-from' | translate
+      "edit-absences.header.date-from" | translate
     }}</label>
     <erz-date-select [(value)]="filter.dateFrom"></erz-date-select>
   </div>
 
   <div class="col-md-6 col-lg-3">
     <label class="form-label">{{
-      'edit-absences.header.date-to' | translate
+      "edit-absences.header.date-to" | translate
     }}</label>
     <erz-date-select [(value)]="filter.dateTo"></erz-date-select>
   </div>
@@ -58,7 +58,7 @@
 <div class="row g-3 align-items-end">
   <div class="col-sm-12 col-md">
     <label class="form-label">{{
-      'edit-absences.header.confirmation-state' | translate
+      "edit-absences.header.confirmation-state" | translate
     }}</label>
     <erz-multiselect
       [options]="absenceConfirmationStatesGrouped$ | async"
@@ -68,7 +68,7 @@
 
   <div class="col-sm-12 col-md">
     <label class="form-label">{{
-      'edit-absences.header.presence-type' | translate
+      "edit-absences.header.presence-type" | translate
     }}</label>
     <erz-multiselect
       [options]="presenceTypesGrouped$ | async"
@@ -78,7 +78,7 @@
 
   <div class="col-sm-12 col-md">
     <label class="form-label">{{
-      'edit-absences.header.incident' | translate
+      "edit-absences.header.incident" | translate
     }}</label>
     <erz-multiselect
       [options]="incidentTypesGrouped$ | async"
@@ -88,7 +88,7 @@
 
   <div class="col-auto">
     <button type="button" class="btn btn-primary" (click)="show()">
-      {{ 'edit-absences.header.show' | translate }}
+      {{ "edit-absences.header.show" | translate }}
     </button>
   </div>
 </div>

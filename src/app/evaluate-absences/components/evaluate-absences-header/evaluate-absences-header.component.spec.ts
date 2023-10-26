@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { EvaluateAbsencesHeaderComponent } from './evaluate-absences-header.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { EvaluateAbsencesStateService } from '../../services/evaluate-absences-state.service';
+import { EvaluateAbsencesHeaderComponent } from "./evaluate-absences-header.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
 
-describe('EvaluateAbsencesHeaderComponent', () => {
+describe("EvaluateAbsencesHeaderComponent", () => {
   let component: EvaluateAbsencesHeaderComponent;
   let fixture: ComponentFixture<EvaluateAbsencesHeaderComponent>;
 
@@ -23,7 +23,7 @@ describe('EvaluateAbsencesHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

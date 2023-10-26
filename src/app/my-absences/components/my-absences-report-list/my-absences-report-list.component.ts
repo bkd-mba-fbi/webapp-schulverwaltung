@@ -5,33 +5,33 @@ import {
   AfterViewInit,
   OnDestroy,
   Inject,
-} from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Subject, Observable, combineLatest } from 'rxjs';
-import { map, take, takeUntil, switchMap } from 'rxjs/operators';
+} from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import { Subject, Observable, combineLatest } from "rxjs";
+import { map, take, takeUntil, switchMap } from "rxjs/operators";
 
-import { parseISOLocalDate } from 'src/app/shared/utils/date';
-import { not } from 'src/app/shared/utils/filter';
+import { parseISOLocalDate } from "src/app/shared/utils/date";
+import { not } from "src/app/shared/utils/filter";
 import {
   ReportAbsencesFilter,
   MyAbsencesReportStateService,
-} from '../../services/my-absences-report-state.service';
-import { LessonPresence } from 'src/app/shared/models/lesson-presence.model';
-import { PresenceTypesService } from 'src/app/shared/services/presence-types.service';
-import { isAbsent } from 'src/app/presence-control/utils/presence-types';
-import { SETTINGS, Settings } from 'src/app/settings';
+} from "../../services/my-absences-report-state.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { isAbsent } from "src/app/presence-control/utils/presence-types";
+import { SETTINGS, Settings } from "src/app/settings";
 import {
   PresenceCategory,
   getPresenceCategoryIcon,
-} from 'src/app/presence-control/models/presence-control-entry.model';
-import { PresenceType } from 'src/app/shared/models/presence-type.model';
-import { MyAbsencesReportSelectionService } from '../../services/my-absences-report-selection.service';
-import { ScrollPositionService } from 'src/app/shared/services/scroll-position.service';
+} from "src/app/presence-control/models/presence-control-entry.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 
 @Component({
-  selector: 'erz-my-absences-report-list',
-  templateUrl: './my-absences-report-list.component.html',
-  styleUrls: ['./my-absences-report-list.component.scss'],
+  selector: "erz-my-absences-report-list",
+  templateUrl: "./my-absences-report-list.component.html",
+  styleUrls: ["./my-absences-report-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesReportListComponent
@@ -148,7 +148,7 @@ export class MyAbsencesReportListComponent
     if (
       checkbox &&
       event.target !== checkbox &&
-      !(event.target as HTMLElement).closest('.buttons')
+      !(event.target as HTMLElement).closest(".buttons")
     ) {
       (checkbox as HTMLInputElement).click();
     }

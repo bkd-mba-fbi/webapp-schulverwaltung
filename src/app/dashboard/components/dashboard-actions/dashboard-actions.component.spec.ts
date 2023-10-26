@@ -1,20 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DashboardActionsComponent } from './dashboard-actions.component';
-import { buildTestModuleMetadata } from '../../../../spec-helpers';
-import { UserSettingsService } from '../../../shared/services/user-settings.service';
-import { BehaviorSubject, of } from 'rxjs';
-import { LessonPresencesRestService } from '../../../shared/services/lesson-presences-rest.service';
-import { StudentsRestService } from '../../../shared/services/students-rest.service';
-import { StorageService } from '../../../shared/services/storage.service';
-import { buildLessonPresence, buildPerson } from '../../../../spec-builders';
-import { DashboardService } from '../../services/dashboard.service';
-import { DashboardActionComponent } from '../dashboard-action/dashboard-action.component';
-import { DashboardDeadlineComponent } from '../dashboard-deadline/dashboard-deadline.component';
-import { CoursesRestService } from '../../../shared/services/courses-rest.service';
-import { PersonsRestService } from '../../../shared/services/persons-rest.service';
+import { DashboardActionsComponent } from "./dashboard-actions.component";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { UserSettingsService } from "../../../shared/services/user-settings.service";
+import { BehaviorSubject, of } from "rxjs";
+import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
+import { StudentsRestService } from "../../../shared/services/students-rest.service";
+import { StorageService } from "../../../shared/services/storage.service";
+import { buildLessonPresence, buildPerson } from "../../../../spec-builders";
+import { DashboardService } from "../../services/dashboard.service";
+import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
+import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
+import { CoursesRestService } from "../../../shared/services/courses-rest.service";
+import { PersonsRestService } from "../../../shared/services/persons-rest.service";
 
-describe('DashboardActionsComponent', () => {
+describe("DashboardActionsComponent", () => {
   // let component: DashboardActionsComponent;
   let fixture: ComponentFixture<DashboardActionsComponent>;
   let element: HTMLElement;
@@ -50,7 +50,7 @@ describe('DashboardActionsComponent', () => {
               },
               getListOfUnconfirmed() {
                 return of([
-                  buildLessonPresence(1, new Date(), new Date(), 'Math'),
+                  buildLessonPresence(1, new Date(), new Date(), "Math"),
                 ]);
               },
             },
@@ -89,15 +89,15 @@ describe('DashboardActionsComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { id_person: '123', fullName: 'Stolz Zuzana' };
+                return { id_person: "123", fullName: "Stolz Zuzana" };
               },
               getListOfUnconfirmed() {
                 return of([
-                  buildLessonPresence(1, new Date(), new Date(), 'Math'),
+                  buildLessonPresence(1, new Date(), new Date(), "Math"),
                 ]);
               },
               getLanguage() {
-                return 'de-CH';
+                return "de-CH";
               },
             },
           },
@@ -110,168 +110,168 @@ describe('DashboardActionsComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  describe('without roles', () => {
+  describe("without roles", () => {
     beforeEach(() => {
       roles$.next([]);
     });
 
-    it('displays no actions', () => {
+    it("displays no actions", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control',
+        "dashboard.actions.presence-control",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences',
+        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences',
+        "dashboard.actions.open-absences",
       );
-      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report',
-      );
-      expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences',
+        "dashboard.actions.my-absences-report",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions',
+        "dashboard.actions.my-absences",
+      );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.substitutions",
       );
     });
   });
 
-  describe('as lesson teacher', () => {
+  describe("as lesson teacher", () => {
     beforeEach(() => {
-      roles$.next(['LessonTeacherRole']);
+      roles$.next(["LessonTeacherRole"]);
     });
 
-    it('displays presence control, edit and open absences', () => {
+    it("displays presence control, edit and open absences", () => {
       fixture.detectChanges();
       expect(element.textContent).toContain(
-        'dashboard.actions.presence-control',
+        "dashboard.actions.presence-control",
       );
-      expect(element.textContent).toContain('dashboard.actions.edit-absences0');
-      expect(element.textContent).toContain('dashboard.actions.open-absences1');
-      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).toContain("dashboard.actions.edit-absences0");
+      expect(element.textContent).toContain("dashboard.actions.open-absences1");
+      expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report',
-      );
-      expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences',
+        "dashboard.actions.my-absences-report",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions',
+        "dashboard.actions.my-absences",
+      );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.substitutions",
       );
     });
   });
 
-  describe('as class teacher', () => {
+  describe("as class teacher", () => {
     beforeEach(() => {
-      roles$.next(['ClassTeacherRole']);
+      roles$.next(["ClassTeacherRole"]);
     });
 
-    it('displays open absences', () => {
+    it("displays open absences", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control',
+        "dashboard.actions.presence-control",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences',
+        "dashboard.actions.edit-absences",
       );
-      expect(element.textContent).toContain('dashboard.actions.open-absences1');
-      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).toContain("dashboard.actions.open-absences1");
+      expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report',
-      );
-      expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences',
+        "dashboard.actions.my-absences-report",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions',
+        "dashboard.actions.my-absences",
+      );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.substitutions",
       );
     });
   });
 
-  describe('as teacher', () => {
+  describe("as teacher", () => {
     beforeEach(() => {
-      roles$.next(['TeacherRole']);
+      roles$.next(["TeacherRole"]);
     });
 
-    it('displays tests', () => {
+    it("displays tests", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control',
+        "dashboard.actions.presence-control",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences',
+        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences',
+        "dashboard.actions.open-absences",
       );
-      expect(element.textContent).toContain('dashboard.actions.tests');
-      expect(element.textContent).toContain('dashboard.actions.deadline: 123');
+      expect(element.textContent).toContain("dashboard.actions.tests");
+      expect(element.textContent).toContain("dashboard.actions.deadline: 123");
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report',
-      );
-      expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences',
+        "dashboard.actions.my-absences-report",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions',
+        "dashboard.actions.my-absences",
+      );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.substitutions",
       );
     });
   });
 
-  describe('as student', () => {
+  describe("as student", () => {
     beforeEach(() => {
-      roles$.next(['StudentRole']);
+      roles$.next(["StudentRole"]);
     });
 
-    it('displays my absences, my absences report', () => {
+    it("displays my absences, my absences report", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control',
+        "dashboard.actions.presence-control",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences',
+        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences',
+        "dashboard.actions.open-absences",
       );
-      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).toContain(
-        'dashboard.actions.my-absences-report',
+        "dashboard.actions.my-absences-report",
       );
-      expect(element.textContent).toContain('dashboard.actions.my-absences0');
+      expect(element.textContent).toContain("dashboard.actions.my-absences0");
       expect(element.textContent).not.toContain(
-        'dashboard.actions.substitutions',
+        "dashboard.actions.substitutions",
       );
     });
   });
 
-  describe('as substitution admin', () => {
+  describe("as substitution admin", () => {
     beforeEach(() => {
-      roles$.next(['SubstituteAdministratorRole']);
+      roles$.next(["SubstituteAdministratorRole"]);
     });
 
-    it('displays substitutions', () => {
+    it("displays substitutions", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
-        'dashboard.actions.presence-control',
+        "dashboard.actions.presence-control",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.edit-absences',
+        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.open-absences',
+        "dashboard.actions.open-absences",
       );
-      expect(element.textContent).not.toContain('dashboard.actions.tests');
+      expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences-report',
+        "dashboard.actions.my-absences-report",
       );
       expect(element.textContent).not.toContain(
-        'dashboard.actions.my-absences',
+        "dashboard.actions.my-absences",
       );
-      expect(element.textContent).toContain('dashboard.actions.substitutions');
+      expect(element.textContent).toContain("dashboard.actions.substitutions");
     });
   });
 });

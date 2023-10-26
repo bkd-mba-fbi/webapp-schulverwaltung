@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { buildCourse } from 'src/spec-builders';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { buildCourse } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 
-import { TestsHeaderComponent } from './tests-header.component';
-import { ReportsService } from '../../../shared/services/reports.service';
+import { TestsHeaderComponent } from "./tests-header.component";
+import { ReportsService } from "../../../shared/services/reports.service";
 
-describe('TestsHeaderComponent', () => {
+describe("TestsHeaderComponent", () => {
   let component: TestsHeaderComponent;
   let fixture: ComponentFixture<TestsHeaderComponent>;
   let reportsServiceMock: ReportsService;
@@ -15,9 +15,9 @@ describe('TestsHeaderComponent', () => {
   beforeEach(waitForAsync(() => {
     reportsServiceMock = {
       getEventReportUrl: jasmine
-        .createSpy('getEventReportUrl')
+        .createSpy("getEventReportUrl")
         .withArgs(courseId)
-        .and.returnValue('url'),
+        .and.returnValue("url"),
     } as unknown as ReportsService;
 
     TestBed.configureTestingModule(
@@ -35,7 +35,7 @@ describe('TestsHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -3,23 +3,23 @@ import {
   Component,
   OnDestroy,
   OnInit,
-} from '@angular/core';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { filter, map, shareReplay, switchMap, take } from 'rxjs/operators';
+} from "@angular/core";
+import { combineLatest, Observable, of, Subject } from "rxjs";
+import { filter, map, shareReplay, switchMap, take } from "rxjs/operators";
 
-import { MyAbsencesService } from '../../services/my-absences.service';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
-import { ReportsService } from 'src/app/shared/services/reports.service';
-import { not } from 'src/app/shared/utils/filter';
-import { isEmptyArray } from 'src/app/shared/utils/array';
-import { flatten, uniq } from 'lodash-es';
-import { LessonAbsence } from '../../../shared/models/lesson-absence.model';
-import { LessonIncident } from '../../../shared/models/lesson-incident.model';
+import { MyAbsencesService } from "../../services/my-absences.service";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { ReportsService } from "src/app/shared/services/reports.service";
+import { not } from "src/app/shared/utils/filter";
+import { isEmptyArray } from "src/app/shared/utils/array";
+import { flatten, uniq } from "lodash-es";
+import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
+import { LessonIncident } from "../../../shared/models/lesson-incident.model";
 
 @Component({
-  selector: 'erz-my-absences-show',
-  templateUrl: './my-absences-show.component.html',
-  styleUrls: ['./my-absences-show.component.scss'],
+  selector: "erz-my-absences-show",
+  templateUrl: "./my-absences-show.component.html",
+  styleUrls: ["./my-absences-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAbsencesShowComponent implements OnInit, OnDestroy {

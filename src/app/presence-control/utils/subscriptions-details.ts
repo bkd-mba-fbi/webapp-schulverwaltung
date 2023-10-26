@@ -1,7 +1,7 @@
-import { Settings } from '../../settings';
-import { LessonPresence } from '../../shared/models/lesson-presence.model';
-import { SubscriptionDetail } from '../../shared/models/subscription-detail.model';
-import { SortCriteria } from '../components/presence-control-group/presence-control-group.component';
+import { Settings } from "../../settings";
+import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
+import { SortCriteria } from "../components/presence-control-group/presence-control-group.component";
 
 export interface SubscriptionDetailWithName {
   id: number;
@@ -22,13 +22,13 @@ function getSubscriptionDetailComparator(
 ): (a: SubscriptionDetailWithName, b: SubscriptionDetailWithName) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
-      case 'name': {
+      case "name": {
         const nameComparator = a.name.localeCompare(b.name);
         return sortCriteria.ascending ? nameComparator * -1 : nameComparator;
       }
-      case 'group': {
-        const groupComparator = (a.detail.Value || '').localeCompare(
-          b.detail.Value || '',
+      case "group": {
+        const groupComparator = (a.detail.Value || "").localeCompare(
+          b.detail.Value || "",
         );
         return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
       }
@@ -51,7 +51,7 @@ function mapToSubscriptionDetailWithName(
     id: detail.IdPerson,
     name:
       presences.find((p) => p.StudentRef.Id === detail.IdPerson)
-        ?.StudentFullName || '',
+        ?.StudentFullName || "",
     group: detail.Value,
     detail,
   };

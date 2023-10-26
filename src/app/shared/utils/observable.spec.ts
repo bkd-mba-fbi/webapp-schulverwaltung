@@ -1,18 +1,18 @@
-import { fakeAsync, tick } from '@angular/core/testing';
-import { Subject } from 'rxjs';
+import { fakeAsync, tick } from "@angular/core/testing";
+import { Subject } from "rxjs";
 import {
   defaultValue,
   intervalOnInactivity,
   reemitOnTrigger,
-} from './observable';
+} from "./observable";
 
-describe('observable utilities', () => {
+describe("observable utilities", () => {
   let callback: jasmine.Spy;
   beforeEach(() => {
-    callback = jasmine.createSpy('callback');
+    callback = jasmine.createSpy("callback");
   });
 
-  describe('defaultValue', () => {
+  describe("defaultValue", () => {
     let source$: Subject<Maybe<number>>;
     beforeEach(() => {
       source$ = new Subject<Maybe<number>>();
@@ -20,29 +20,29 @@ describe('observable utilities', () => {
       expect(callback).not.toHaveBeenCalled();
     });
 
-    it('emits default value if source completes without emitting value', () => {
+    it("emits default value if source completes without emitting value", () => {
       source$.complete();
       expect(callback).toHaveBeenCalledWith(42);
     });
 
-    it('emits default value for null source value', () => {
+    it("emits default value for null source value", () => {
       source$.next(null);
       expect(callback).toHaveBeenCalledWith(42);
     });
 
-    it('emits default value for undefined source value', () => {
+    it("emits default value for undefined source value", () => {
       source$.next(undefined);
       expect(callback).toHaveBeenCalledWith(42);
     });
 
-    it('emits actual source value if not null/undefined', () => {
+    it("emits actual source value if not null/undefined", () => {
       source$.next(0);
       expect(callback).toHaveBeenCalledWith(0);
     });
   });
 
-  describe('reemitOnTrigger', () => {
-    it('emits the values of source and the last value of source whenever trigger emits', () => {
+  describe("reemitOnTrigger", () => {
+    it("emits the values of source and the last value of source whenever trigger emits", () => {
       const source$ = new Subject<number>();
       const trigger$ = new Subject<void>();
       reemitOnTrigger(source$, trigger$).subscribe(callback);
@@ -73,8 +73,8 @@ describe('observable utilities', () => {
     });
   });
 
-  describe('intervalOnInactivity', () => {
-    it('emits value every specified interval of time within periods of inactivity', fakeAsync(() => {
+  describe("intervalOnInactivity", () => {
+    it("emits value every specified interval of time within periods of inactivity", fakeAsync(() => {
       const sub = intervalOnInactivity(2000).subscribe(callback);
       expect(callback).not.toHaveBeenCalled();
 
@@ -83,7 +83,7 @@ describe('observable utilities', () => {
       expect(callback).not.toHaveBeenCalled();
 
       // Mouse/keyboard activity restarts interval period
-      document.querySelector('body')!.click();
+      document.querySelector("body")!.click();
       tick(1000);
       expect(callback).not.toHaveBeenCalled();
 

@@ -1,4 +1,4 @@
-import * as t from 'io-ts';
+import * as t from "io-ts";
 
 const DropDownItem = t.type({
   Key: t.union([t.number, t.string]),

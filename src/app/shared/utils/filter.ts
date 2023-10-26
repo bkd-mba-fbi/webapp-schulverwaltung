@@ -7,7 +7,7 @@ export function notNull<T>(arg: T | null): arg is T {
 }
 
 export function nonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.length > 0;
+  return typeof value === "string" && value.length > 0;
 }
 
 export function not<A>(fn: (arg: A) => boolean): (arg: A) => boolean {
@@ -20,7 +20,7 @@ export function longerOrEqual<T extends { length: number }>(
   return (value) => value.length >= length;
 }
 
-type Falsy = null | undefined | '' | false | 0 | void | never;
+type Falsy = null | undefined | "" | false | 0 | void | never;
 
 export function isTruthy<T>(value: T): value is Exclude<T, Falsy> {
   return Boolean(value);

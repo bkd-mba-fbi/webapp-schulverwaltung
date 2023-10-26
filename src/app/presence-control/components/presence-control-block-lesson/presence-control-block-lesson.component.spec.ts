@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { PresenceControlBlockLessonComponent } from './presence-control-block-lesson.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PresenceControlBlockLessonComponent } from "./presence-control-block-lesson.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
-describe('PresenceControlBlockLessonComponent', () => {
+describe("PresenceControlBlockLessonComponent", () => {
   let component: PresenceControlBlockLessonComponent;
   let fixture: ComponentFixture<PresenceControlBlockLessonComponent>;
 
@@ -24,7 +24,7 @@ describe('PresenceControlBlockLessonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

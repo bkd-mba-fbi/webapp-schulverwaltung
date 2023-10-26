@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import { Maybe } from './common-types';
+import * as t from "io-ts";
+import { Maybe } from "./common-types";
 
 const TokenPayload = t.type({
   culture_info: t.string,

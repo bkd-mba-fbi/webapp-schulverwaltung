@@ -1,38 +1,38 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { SubscriptionDetailsRestService } from '../../../shared/services/subscription-details-rest.service';
-import { spread } from '../../../shared/utils/function';
-import { parseQueryString } from '../../../shared/utils/url';
-import { updateGroupViewSettings } from '../../../shared/utils/user-settings';
-import { PresenceControlGroupSelectionService } from '../../services/presence-control-group-selection.service';
-import { PresenceControlGroupService } from '../../services/presence-control-group.service';
-import { PresenceControlStateService } from '../../services/presence-control-state.service';
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
+import { map, switchMap, take } from "rxjs/operators";
+import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
+import { spread } from "../../../shared/utils/function";
+import { parseQueryString } from "../../../shared/utils/url";
+import { updateGroupViewSettings } from "../../../shared/utils/user-settings";
+import { PresenceControlGroupSelectionService } from "../../services/presence-control-group-selection.service";
+import { PresenceControlGroupService } from "../../services/presence-control-group.service";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
 import {
   sortSubscriptionDetails,
   SubscriptionDetailWithName,
-} from '../../utils/subscriptions-details';
+} from "../../utils/subscriptions-details";
 import {
   GroupOptions,
   PresenceControlGroupDialogComponent,
   DialogMode,
-} from '../presence-control-group-dialog/presence-control-group-dialog.component';
-import { ToastService } from '../../../shared/services/toast.service';
-import { UserSettingsService } from 'src/app/shared/services/user-settings.service';
+} from "../presence-control-group-dialog/presence-control-group-dialog.component";
+import { ToastService } from "../../../shared/services/toast.service";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 
-export type PrimarySortKey = 'name' | 'group';
+export type PrimarySortKey = "name" | "group";
 
 export interface SortCriteria {
   primarySortKey: PrimarySortKey;
   ascending: boolean;
 }
 @Component({
-  selector: 'erz-presence-control-group',
-  templateUrl: './presence-control-group.component.html',
-  styleUrls: ['./presence-control-group.component.scss'],
+  selector: "erz-presence-control-group",
+  templateUrl: "./presence-control-group.component.html",
+  styleUrls: ["./presence-control-group.component.scss"],
   providers: [PresenceControlGroupSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -47,7 +47,7 @@ export class PresenceControlGroupComponent implements OnInit {
   );
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
-    primarySortKey: 'name',
+    primarySortKey: "name",
     ascending: false,
   });
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
@@ -147,7 +147,7 @@ export class PresenceControlGroupComponent implements OnInit {
 
     this.toastService.success(
       this.translate.instant(
-        'presence-control.groups.notifications.save-success',
+        "presence-control.groups.notifications.save-success",
       ),
     );
   }
@@ -157,9 +157,9 @@ export class PresenceControlGroupComponent implements OnInit {
     sortKey: PrimarySortKey,
   ): string {
     if (sortCriteria.primarySortKey !== sortKey) {
-      return '';
+      return "";
     }
-    return sortCriteria.ascending ? '↓' : '↑';
+    return sortCriteria.ascending ? "↓" : "↑";
   }
 
   /**
@@ -178,7 +178,7 @@ export class PresenceControlGroupComponent implements OnInit {
         // Change sort key
         this.sortCriteriaSubject$.next({
           primarySortKey,
-          ascending: primarySortKey === 'name',
+          ascending: primarySortKey === "name",
         });
       }
     });

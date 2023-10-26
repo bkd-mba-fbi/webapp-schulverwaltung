@@ -1,17 +1,17 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { BehaviorSubject, of } from "rxjs";
 
-import { MyAbsencesShowComponent } from './my-absences-show.component';
-import { buildTestModuleMetadata } from 'src/spec-helpers';
-import { MyAbsencesService } from '../../services/my-absences.service';
-import { MyAbsencesReportLinkComponent } from '../my-absences-report-link/my-absences-report-link.component';
-import { StorageService } from 'src/app/shared/services/storage.service';
-import { buildLessonAbsence } from '../../../../spec-builders';
-import { ConfirmAbsencesSelectionService } from 'src/app/shared/services/confirm-absences-selection.service';
+import { MyAbsencesShowComponent } from "./my-absences-show.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyAbsencesService } from "../../services/my-absences.service";
+import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-absences-report-link.component";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { buildLessonAbsence } from "../../../../spec-builders";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-describe('MyAbsencesShowComponent', () => {
+describe("MyAbsencesShowComponent", () => {
   // let component: MyAbsencesShowComponent;
   let fixture: ComponentFixture<MyAbsencesShowComponent>;
   let element: HTMLElement;
@@ -40,7 +40,7 @@ describe('MyAbsencesShowComponent', () => {
             provide: StorageService,
             useValue: {
               getPayload(): Option<object> {
-                return { id_person: '42' };
+                return { id_person: "42" };
               },
               getAccessToken(): Option<string> {
                 return null;
@@ -58,25 +58,25 @@ describe('MyAbsencesShowComponent', () => {
     element = fixture.debugElement.nativeElement;
   });
 
-  describe('all absences report', () => {
+  describe("all absences report", () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
 
-    it('should have all absences report disabled', () => {
+    it("should have all absences report disabled", () => {
       const reportLink = element.getElementsByClassName(
-        'report',
+        "report",
       )[0] as HTMLElement;
-      expect(reportLink?.className.includes('disabled')).toBeTrue();
+      expect(reportLink?.className.includes("disabled")).toBeTrue();
     });
 
-    it('should have all absences report enabled', () => {
-      openLessonAbsences$.next([buildLessonAbsence('12')]);
+    it("should have all absences report enabled", () => {
+      openLessonAbsences$.next([buildLessonAbsence("12")]);
       fixture.detectChanges();
       const reportLink = element.getElementsByClassName(
-        'report',
+        "report",
       )[0] as HTMLElement;
-      expect(reportLink?.className.includes('disabled')).toBeFalse();
+      expect(reportLink?.className.includes("disabled")).toBeFalse();
     });
   });
 });
