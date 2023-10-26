@@ -17,10 +17,24 @@ erz-presence-control-entry {
     width: 100%;
 
     @for $i from 1 through 6 {
-      @media (min-width: $erz-presence-control-entry-min-width*$i) {
+      @media (min-width: $erz-presence-control-entry-min-width * $i) {
         width: percentage(math.div(1, $i));
         border-right: 1px solid $border-color;
       }
     }
   }
+}
+
+/**
+ * Hide the right-most border in grid view by overflowing the .entries
+ * container by the border width (1px)
+ */
+:host {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+
+.entries.view-mode-grid {
+  width: calc(100% + 1px); // Push right-most border outside of visible area
 }
