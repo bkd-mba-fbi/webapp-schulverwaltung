@@ -287,7 +287,7 @@ describe("PresenceControlStateService", () => {
 
   function expectLessonsRequest(response = lessons, date?: string): void {
     date = date ? date : "2000-01-23";
-    const url = `https://eventotest.api/LessonPresences/?fields=LessonRef,EventRef,EventDesignation,StudyClassNumber,TeacherInformation,LessonDateTimeFrom,LessonDateTimeTo&filter.LessonDateTimeFrom==${date}`;
+    const url = `https://eventotest.api/LessonPresences/?fields=LessonRef,EventRef,EventDesignation,StudyClassNumber,TeacherInformation,LessonDateTimeFrom,LessonDateTimeTo&filter.LessonDateTimeFrom==${date}&sort=LessonDateTimeFrom`;
 
     httpTestingController
       .expectOne((req) => req.urlWithParams === url, url)
