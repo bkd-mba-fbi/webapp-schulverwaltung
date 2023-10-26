@@ -100,7 +100,7 @@ export class DossierSingleTestComponent implements OnChanges {
     return (
       this.gradingScale?.Grades.find(
         (grade) => grade.Id === this.getGradeId(test),
-      )?.Designation || "-"
+      )?.Designation || "–"
     );
   }
 

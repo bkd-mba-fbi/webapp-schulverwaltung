@@ -145,7 +145,7 @@
               <span>{{ studentGrade.student.FullName }}</span>
               <span class="mobile mean">
                 {{ "tests.mean" | translate }}:
-                {{ studentGrade.finalGrade?.average | number: "1.0-3" }}
+                {{ studentGrade.finalGrade?.average | decimalOrDash: "1-3" }}
               </span>
             </a>
           </td>
@@ -175,7 +175,7 @@
             </div>
           </td>
           <td class="grade border-end sticky sticky-col-3">
-            {{ studentGrade.finalGrade?.average | number: "1.0-3" }}
+            {{ studentGrade.finalGrade?.average | decimalOrDash: "1-3" }}
           </td>
           <td
             *ngFor="
@@ -207,7 +207,9 @@
               <div class="mobile mean">
                 {{ "tests.mean" | translate }}:
                 {{
-                  state.meanOfStudentGradesForCourse$ | async | number: "1.0-3"
+                  state.meanOfStudentGradesForCourse$
+                    | async
+                    | decimalOrDash: "1-3"
                 }}
               </div>
             </div>
@@ -216,10 +218,14 @@
             class="desktop sticky sticky sticky-col-2"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            {{ state.meanOfFinalGradesForCourse$ | async | number: "1.0-3" }}
+            {{
+              state.meanOfFinalGradesForCourse$ | async | decimalOrDash: "1-3"
+            }}
           </td>
           <td class="desktop border-end sticky sticky-col-3">
-            {{ state.meanOfStudentGradesForCourse$ | async | number: "1.0-3" }}
+            {{
+              state.meanOfStudentGradesForCourse$ | async | decimalOrDash: "1-3"
+            }}
           </td>
           <td
             *ngFor="let test of data.tests"

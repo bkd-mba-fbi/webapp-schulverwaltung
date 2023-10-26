@@ -9,11 +9,11 @@ import { DecimalPipe } from "@angular/common";
   template: `<div class="final-entry">
     <div>{{ "dossier.grade" | translate }}</div>
     <div data-testid="final-grade">
-      <span>{{ getGradeForStudent() || "-" }}</span>
+      <span>{{ getGradeForStudent() || "–" }}</span>
     </div>
     <div>{{ "dossier.average" | translate }}</div>
     <div data-testid="average-test-results">
-      <span>{{ average === 0 ? "-" : (average | number: "1.1-3") }}</span>
+      <span>{{ average | decimalOrDash: "1-3" }}</span>
     </div>
   </div>`,
   styleUrls: ["./dossier-grades-final-grade.component.scss"],

@@ -68,8 +68,8 @@ describe("DossierSingleTestComponent", () => {
     expectText(debugElement, "test-date", "22.02.2022");
   });
 
-  it("should show '-' if no results are available in test", () => {
-    expectText(debugElement, "test-grade", "-");
+  it("should show '–' if no results are available in test", () => {
+    expectText(debugElement, "test-grade", "–");
   });
 
   it("should show test summary (factor, weight)", () => {

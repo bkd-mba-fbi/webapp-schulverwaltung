@@ -95,7 +95,7 @@ export class TestEditGradesComponent implements OnInit {
     try {
       return calculator(test).toString();
     } catch {
-      return "-";
+      return "–";
     }
   }
 

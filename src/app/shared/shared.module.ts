@@ -25,6 +25,7 @@ import { StudentDossierAbsencesComponent } from "./components/student-dossier/st
 import { ConfirmAbsencesComponent } from "./components/confirm-absences/confirm-absences.component";
 import { PersonEmailPipe } from "./pipes/person-email.pipe";
 import { DaysDifferencePipe } from "./pipes/days-difference.pipe";
+import { DecimalOrDashPipe } from "./pipes/decimal-or-dash.pipe";
 import { ResettableInputComponent } from "./components/resettable-input/resettable-input.component";
 import { SafePipe } from "./pipes/safe.pipe";
 import { XssPipe } from "./pipes/xss.pipe";
@@ -69,6 +70,7 @@ const components = [
   ConfirmAbsencesComponent,
   PersonEmailPipe,
   DaysDifferencePipe,
+  DecimalOrDashPipe,
   SafePipe,
   XssPipe,
   AddSpacePipe,
