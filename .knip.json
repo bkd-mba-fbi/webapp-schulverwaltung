@@ -20,6 +20,7 @@
     "@angular/language-service",
     "@typescript-eslint/parser",
     "bootstrap",
+    "html-validate",
     "jasmine-core",
     "karma-brief-reporter",
     "karma-chrome-launcher",
