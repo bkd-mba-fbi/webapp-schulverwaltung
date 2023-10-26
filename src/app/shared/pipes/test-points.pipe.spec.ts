@@ -28,8 +28,16 @@ describe("TestsPointsPipe", () => {
     expect(pipe.transform(test, studentId)).toBe("");
   });
 
+  it('should show "-" if test is not published', () => {
+    test.IsPointGrading = true;
+    test.IsPublished = false;
+
+    expect(pipe.transform(test, studentId)).toBe("-");
+  });
+
   it('should show "- / maxPoints" if student has no result', () => {
     test.IsPointGrading = true;
+    test.IsPublished = true;
     test.MaxPoints = 27;
     test.MaxPointsAdjusted = null;
 
@@ -38,6 +46,7 @@ describe("TestsPointsPipe", () => {
 
   it('should show "- / maxPointsAdjusted" if student has no result and test points are adjusted', () => {
     test.IsPointGrading = true;
+    test.IsPublished = true;
     test.MaxPoints = 27;
     test.MaxPointsAdjusted = 30;
 
@@ -46,6 +55,7 @@ describe("TestsPointsPipe", () => {
 
   it('should show "actual points / maxPoints" for student with a result', () => {
     test.IsPointGrading = true;
+    test.IsPublished = true;
     test.MaxPoints = 27;
     test.MaxPointsAdjusted = null;
     const result = buildResult(testId, studentId);
