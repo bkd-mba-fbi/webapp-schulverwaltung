@@ -102,11 +102,15 @@
     [label]="'presence-control.header.search' | translate"
     (valueChange)="searchChange.emit($event)"
   ></erz-resettable-input>
-  <div class="group-and-views d-flex">
+  <div class="group-and-views d-flex align-items-center">
     <a
       *ngIf="selectedLesson && state.groupsAvailability$ | async"
       type="button"
-      class="group btn btn-link pe-xs-0 pe-sm-4"
+      class="group btn me-xs-0 me-sm-4"
+      [ngClass]="{
+        'btn-link': (isGroupSelected$ | async) === false,
+        'btn-danger': isGroupSelected$ | async
+      }"
       [routerLink]="['groups', selectedLesson.id]"
       [queryParams]="{
         returnparams: (state.queryParamsString$ | async)

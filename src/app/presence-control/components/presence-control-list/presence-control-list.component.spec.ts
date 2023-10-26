@@ -17,6 +17,7 @@ import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-pre
 import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
+import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 
 describe("PresenceControlListComponent", () => {
   let component: PresenceControlListComponent;
@@ -34,6 +35,7 @@ describe("PresenceControlListComponent", () => {
   let presenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
   let presenceControlEntriesByGroup$: BehaviorSubject<PresenceControlEntry[]>;
   let stateServiceMock: PresenceControlStateService;
+  let groupServiceMock: PresenceControlGroupService;
   let blockLessonServiceMock: jasmine.SpyObj<PresenceControlBlockLessonService>;
   let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
 
@@ -87,6 +89,10 @@ describe("PresenceControlListComponent", () => {
       setViewMode: jasmine.createSpy("setViewMode"),
     } as unknown as PresenceControlStateService;
 
+    groupServiceMock = {
+      group$: of(null),
+    } as unknown as PresenceControlGroupService;
+
     blockLessonServiceMock = jasmine.createSpyObj(
       "PresenceControlBlockLessonService",
       ["getBlockLessonPresenceControlEntries"],
@@ -108,6 +114,7 @@ describe("PresenceControlListComponent", () => {
             provide: PresenceControlStateService,
             useValue: stateServiceMock,
           },
+          { provide: PresenceControlGroupService, useValue: groupServiceMock },
           {
             provide: PresenceControlBlockLessonService,
             useValue: blockLessonServiceMock,
