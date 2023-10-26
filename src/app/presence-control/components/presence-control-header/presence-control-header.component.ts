@@ -12,11 +12,14 @@ import {
   NgbDropdown,
   NgbInputDatepickerConfig,
 } from "@ng-bootstrap/ng-bootstrap";
+import { Options } from "@popperjs/core";
+import { notNull } from "src/app/shared/utils/filter";
+import { map } from "rxjs";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { PresenceControlStateService } from "../../services/presence-control-state.service";
 import { LessonEntry } from "../../models/lesson-entry.model";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
-import { Options } from "@popperjs/core";
+import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 
 /**
  * On small screens, the `.dropdown` element gets translated
@@ -85,8 +88,12 @@ export class PresenceControlHeaderComponent {
     { viewMode: PresenceControlViewMode.List, icon: "list" },
     { viewMode: PresenceControlViewMode.Grid, icon: "view_module" },
   ];
+
+  isGroupSelected$ = this.groupService.group$.pipe(map(notNull));
+
   constructor(
     public state: PresenceControlStateService,
+    private groupService: PresenceControlGroupService,
     config: NgbInputDatepickerConfig,
   ) {
     // place datepicker popup in center of viewport

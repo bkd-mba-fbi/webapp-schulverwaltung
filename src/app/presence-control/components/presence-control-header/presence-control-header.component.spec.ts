@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { BehaviorSubject } from "rxjs";
 
 import { PresenceControlHeaderComponent } from "./presence-control-header.component";
 import { buildTestModuleMetadata } from "src/spec-helpers";
@@ -10,12 +11,32 @@ import { PresenceControlGroupService } from "../../services/presence-control-gro
 describe("PresenceControlHeaderComponent", () => {
   let component: PresenceControlHeaderComponent;
   let fixture: ComponentFixture<PresenceControlHeaderComponent>;
+  let element: HTMLElement;
+  let groupsAvailability$: BehaviorSubject<boolean>;
+  let group$: BehaviorSubject<string | number | null>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         declarations: [PresenceControlHeaderComponent],
-        providers: [PresenceControlStateService, PresenceControlGroupService],
+        providers: [
+          {
+            provide: PresenceControlStateService,
+            useFactory() {
+              groupsAvailability$ = new BehaviorSubject(false);
+              return {
+                groupsAvailability$,
+              };
+            },
+          },
+          {
+            provide: PresenceControlGroupService,
+            useFactory() {
+              group$ = new BehaviorSubject<string | number | null>(null);
+              return { group$ };
+            },
+          },
+        ],
       }),
     ).compileComponents();
   }));
@@ -23,6 +44,7 @@ describe("PresenceControlHeaderComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlHeaderComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement.nativeElement;
 
     const lesson = {
       LessonRef: buildReference(),
@@ -38,10 +60,46 @@ describe("PresenceControlHeaderComponent", () => {
 
     component.lessons = [lessonEntry];
     component.selectedLesson = lessonEntry;
-    fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  describe("group button", () => {
+    describe("not available", () => {
+      beforeEach(() => {
+        groupsAvailability$.next(false);
+      });
+
+      it("does not render group button", () => {
+        const button = getGroupButton();
+        expect(button).toBeNull();
+      });
+    });
+
+    describe("available", () => {
+      beforeEach(() => {
+        groupsAvailability$.next(true);
+      });
+
+      it("renders inactive group button if no group is selected", () => {
+        group$.next(null);
+        fixture.detectChanges();
+        const button = getGroupButton();
+        expect(button).not.toBeNull();
+        expect(button?.classList?.contains("btn-link")).toBe(true);
+        expect(button?.classList?.contains("btn-danger")).toBe(false);
+      });
+
+      it("renders active group button if group is selected", () => {
+        group$.next(123);
+        fixture.detectChanges();
+        const button = getGroupButton();
+        expect(button).not.toBeNull();
+        expect(button?.classList?.contains("btn-link")).toBe(false);
+        expect(button?.classList?.contains("btn-danger")).toBe(true);
+      });
+    });
   });
+
+  function getGroupButton() {
+    return element.querySelector(".btn.group");
+  }
 });
