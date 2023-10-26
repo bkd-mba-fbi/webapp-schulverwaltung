@@ -54,13 +54,13 @@ describe("AverageGradesComponent", () => {
     expectText(fixture.debugElement, "average-grade", "5.875");
   });
 
-  it("should show '-' for tests with no results", () => {
+  it("should show '–' for tests with no results", () => {
     const testWithNoResults = buildTest(1, 1, []);
     testWithNoResults.IsPointGrading = true;
     component.test = testWithNoResults;
     fixture.detectChanges();
 
-    expectText(fixture.debugElement, "average-grade", "-");
-    expectText(fixture.debugElement, "average-points", "-");
+    expectText(fixture.debugElement, "average-grade", "–");
+    expectText(fixture.debugElement, "average-points", "–");
   });
 });

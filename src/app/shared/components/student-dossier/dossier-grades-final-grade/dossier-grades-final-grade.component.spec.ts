@@ -51,6 +51,6 @@ describe("DossierGradesFinalGradeComponent", () => {
   it("should show dash if average is zero", () => {
     component.average = 0;
     fixture.detectChanges();
-    expectText(debugElement, "average-test-results", "-");
+    expectText(debugElement, "average-test-results", "–");
   });
 });

@@ -1,7 +1,10 @@
-import { Component, Input } from "@angular/core";
+import { Component, Inject, Input, LOCALE_ID } from "@angular/core";
 import { averageGrade, averagePoints } from "src/app/events/utils/tests";
 import { Test } from "src/app/shared/models/test.model";
-import { DecimalPipe } from "@angular/common";
+import {
+  DASH,
+  formatDecimalOrDash,
+} from "src/app/shared/pipes/decimal-or-dash.pipe";
 
 @Component({
   selector: "erz-average-grades",
@@ -15,11 +18,10 @@ import { DecimalPipe } from "@angular/common";
     <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
   </div>`,
   styleUrls: ["./average-grades.component.scss"],
-  providers: [DecimalPipe],
 })
 export class AverageGradesComponent {
   @Input() test: Test;
-  constructor(private decimalPipe: DecimalPipe) {}
+  constructor(@Inject(LOCALE_ID) private locale: string) {}
 
   calculatePointsAverage(test: Test) {
     return this.safeAverage(test, 2, averagePoints);
@@ -31,17 +33,13 @@ export class AverageGradesComponent {
 
   private safeAverage(
     test: Test,
-    fractionDigits: number,
+    fractionDigits: number | string,
     strategy: (test: Test) => number,
   ): string {
     try {
-      return (
-        this.decimalPipe
-          .transform(strategy(test), `1.${fractionDigits}`)
-          ?.toString() ?? "-"
-      );
+      return formatDecimalOrDash(strategy(test), this.locale, fractionDigits);
     } catch {
-      return "-";
+      return DASH;
     }
   }
 }
