@@ -123,7 +123,7 @@ describe("LessonPresencesRestService", () => {
         .subscribe((result) => expect(result).toEqual(data));
 
       const url =
-        "https://eventotest.api/LessonPresences/?fields=LessonRef,EventRef,EventDesignation,StudyClassNumber,TeacherInformation,LessonDateTimeFrom,LessonDateTimeTo&filter.LessonDateTimeFrom==2000-01-23";
+        "https://eventotest.api/LessonPresences/?fields=LessonRef,EventRef,EventDesignation,StudyClassNumber,TeacherInformation,LessonDateTimeFrom,LessonDateTimeTo&filter.LessonDateTimeFrom==2000-01-23&sort=LessonDateTimeFrom";
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(

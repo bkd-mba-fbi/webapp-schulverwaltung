@@ -55,6 +55,7 @@ export class LessonPresencesRestService extends RestService<
     const params: Dict<string> = {
       fields: Object.keys(Lesson.props).join(","),
       "filter.LessonDateTimeFrom": `=${format(date, "yyyy-MM-dd")}`,
+      sort: "LessonDateTimeFrom",
     };
     const headers: Dict<string> = { "X-Role-Restriction": "LessonTeacherRole" };
 
