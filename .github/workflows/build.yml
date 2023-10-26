@@ -18,7 +18,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: dist
-          key: build-${{ env.GITHUB_SHA }}
+          key: build-${{ github.sha }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -40,7 +40,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: dist
-          key: build-${{ env.GITHUB_SHA }}
+          key: build-${{ github.sha }}
 
       - name: Checkout evento-portal
         uses: actions/checkout@v4
@@ -68,8 +68,8 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git status
-          git commit -m "Add webapp-schulverwaltung build #${{ env.GITHUB_SHA }}"
-          # git push
+          git commit -m "Add webapp-schulverwaltung build #${{ github.sha }}"
+          git push
 
   zip:
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: dist
-          key: build-${{ env.GITHUB_SHA }}
+          key: build-${{ github.sha }}
 
       - name: Zip 🗜️
         run: |
