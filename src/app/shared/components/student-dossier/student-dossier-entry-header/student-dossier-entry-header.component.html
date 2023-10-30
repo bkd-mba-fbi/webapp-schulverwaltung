@@ -1,6 +1,7 @@
-<h5 class="m-0"><ng-content></ng-content></h5>
-<button type="button" class="btn btn-link p-0">
-  <div class="d-flex align-items-center">
-    <i class="material-icons">{{ opened ? "expand_less" : "expand_more" }}</i>
-  </div>
-</button>
+<h5 class="m-0">
+  <ng-content></ng-content>
+</h5>
+<erz-collapse
+  [expanded]="opened"
+  class="d-flex align-items-center"
+></erz-collapse>

@@ -56,16 +56,13 @@
       </div>
     </div>
   </div>
-  <button
-    type="button"
+  <erz-collapse
     *ngIf="lessons.length > 0"
-    class="dropdown-caret btn btn-link"
+    class="dropdown-caret"
     (click)="lessonDropdown?.toggle()"
+    [expanded]="lessonDropdown?.isOpen() || false"
   >
-    <i class="material-icons">
-      {{ lessonDropdown?.isOpen() ? "expand_less" : "expand_more" }}
-    </i>
-  </button>
+  </erz-collapse>
 </div>
 
 <div class="states">
