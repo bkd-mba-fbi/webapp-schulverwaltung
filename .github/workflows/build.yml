@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: bkd-mba-fbi/evento-portal
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WEBAPP_TO_PORTAL_TOKEN }}
           path: ./evento-portal
 
       - name: Copy new build to event-portal
