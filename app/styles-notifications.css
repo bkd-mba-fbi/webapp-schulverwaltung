@@ -1,0 +1,1 @@
+.notifications-popup{position:fixed;margin-top:20px;right:12px;z-index:1000}.notifications-popup:after,.notifications-popup:before{right:11px;top:-20px}.notifications-popup-data{max-height:calc(100vh - 145px);overflow:auto}.notifications-bell{color:#fff;font-size:45px}.notifications-bell-hidden{color:#ccc}.notifications-bell-counter{position:absolute;top:20px;right:10px}
