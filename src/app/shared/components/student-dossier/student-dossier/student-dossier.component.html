@@ -1,6 +1,4 @@
-<div
-  class="erz-container erz-container-limited erz-container-padding-x-responsive"
->
+<div class="erz-container erz-container-limited">
   <ng-container
     *erzLet="{
       profile: state.profile$ | async,
@@ -9,25 +7,22 @@
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <div class="d-flex w-100 justify-content-between">
-        <erz-student-backlink
-          class="mb-2"
-          [link]="'../..'"
-          [queryParams]="state.backlinkQueryParams$ | async"
-          [studentId]="state.studentId$ | async"
-          [student]="data.profile && data.profile.student"
-        ></erz-student-backlink>
-        <div>
-          <a
-            *ngIf="data.currentDossierSection === 'grades'"
-            class="edit btn btn-primary btn-icon ms-2"
-            target="_blank"
-            [href]="data.reportUrl"
-          >
-            <i class="material-icons">description</i>
-          </a>
-        </div>
-      </div>
+      <erz-student-backlink
+        class="mb-2"
+        [link]="'../..'"
+        [queryParams]="state.backlinkQueryParams$ | async"
+        [studentId]="state.studentId$ | async"
+        [student]="data.profile && data.profile.student"
+      >
+        <a
+          *ngIf="data.currentDossierSection === 'grades'"
+          class="edit btn btn-primary btn-icon ms-2"
+          target="_blank"
+          [href]="data.reportUrl"
+        >
+          <i class="material-icons">description</i>
+        </a>
+      </erz-student-backlink>
       <div class="d-flex flex-row py-3 flex-wrap">
         <a
           [queryParams]="{ returnparams: state.returnParams$ | async }"

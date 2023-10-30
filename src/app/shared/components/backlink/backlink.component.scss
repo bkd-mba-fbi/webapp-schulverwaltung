@@ -4,6 +4,12 @@
   display: flex;
 }
 
+:host > div {
+  // Limit container's size to allow overflowing, if the projected
+  // content is higher than the backlink (e.g. for buttons)
+  height: calc(var(--bs-body-font-size) * var(--bs-body-line-height));
+}
+
 a {
   display: flex;
   align-items: center;

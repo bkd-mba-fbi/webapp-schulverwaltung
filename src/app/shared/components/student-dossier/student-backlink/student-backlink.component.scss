@@ -3,20 +3,23 @@
 :host {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 h1 {
   margin: 0;
   display: flex;
   align-items: baseline;
+
+  // Make sure top of text is nicely aligned with top of foto
+  line-height: 1;
+  margin-top: -3px;
+}
+
+.additional-info {
+  color: $gray-500;
 }
 
 .gender {
-  font-size: $font-size-base;
-  font-weight: $font-weight-base;
-  margin-left: 1.5ch;
-}
-
-.birthdate {
-  color: $gray-500;
+  margin-left: 0.8ch;
 }

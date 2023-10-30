@@ -6,7 +6,7 @@
  */
 .erz-container {
   margin: 0 auto;
-  padding: 0 $erz-container-padding-x 0 0;
+  padding: 0;
 }
 
 /**
@@ -15,14 +15,4 @@
 .erz-container-limited {
   max-width: $erz-container-max-width;
   margin-left: 0; // Should be left aligned because of the Evento integration
-}
-
-/**
- * Remove horizontal padding on small screens
- */
-@include media-breakpoint-down(sm) {
-  .erz-container-padding-x-responsive {
-    padding-left: 0;
-    padding-right: 0;
-  }
 }
