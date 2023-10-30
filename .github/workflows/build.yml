@@ -88,7 +88,6 @@ jobs:
           sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
 
       - name: Upload
-        if: ${{ !env.ACT }}
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # The branch the action should deploy to.
