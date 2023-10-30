@@ -1,18 +1,16 @@
-<div class="d-flex flex-column">
-  <erz-backlink
-    [routerLink]="link"
-    [queryParams]="queryParams"
-    class="mb-3"
-  ></erz-backlink>
-  <div class="d-flex flex-row align-items-center">
+<div class="d-flex flex-column w-100">
+  <erz-backlink [routerLink]="link" [queryParams]="queryParams">
+    <ng-content></ng-content>
+  </erz-backlink>
+  <div class="d-flex flex-row align-items-start">
     <erz-avatar [studentId]="studentId" class="me-3 medium"></erz-avatar>
     <div class="d-flex flex-column">
-      <h1>
-        {{ student ? student.FullName : studentName }}
-        <span *ngIf="student" class="gender">({{ student.Gender }})</span>
-      </h1>
-      <div *ngIf="student" class="birthdate">
-        {{ student.Birthdate | date: "dd.MM.yyyy" }}
+      <h1>{{ student ? student.FullName : studentName }}</h1>
+      <div *ngIf="student" class="additional-info">
+        <span class="birthday">{{
+          student.Birthdate | date: "dd.MM.yyyy"
+        }}</span
+        ><span class="gender">({{ student.Gender }})</span>
       </div>
     </div>
   </div>

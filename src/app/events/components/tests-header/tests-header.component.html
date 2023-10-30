@@ -1,19 +1,4 @@
-<erz-backlink [routerLink]="['/events']" class="mb-3"> </erz-backlink>
-
-<div class="d-flex align-items-center justify-content-between header">
-  <div class="d-flex align-items-center">
-    <div class="d-flex flex-column text-start">
-      <h1>{{ getDesignation() }}</h1>
-      <div class="font-color-light-gray" *ngIf="course.ParticipatingStudents">
-        {{
-          (course.ParticipatingStudents.length === 1
-            ? "courses.registration"
-            : "courses.registrations"
-          ) | translate: { count: course.ParticipatingStudents.length }
-        }}
-      </div>
-    </div>
-  </div>
+<erz-backlink [routerLink]="['/events']">
   <div class="d-flex">
     <a routerLink="add" class="edit btn btn-primary btn-icon ms-2">
       <i class="material-icons">add</i>
@@ -25,5 +10,17 @@
     >
       <i class="material-icons">description</i>
     </a>
+  </div>
+</erz-backlink>
+
+<div class="d-flex flex-column header">
+  <h1>{{ getDesignation() }}</h1>
+  <div class="additional-info" *ngIf="course.ParticipatingStudents">
+    {{
+      (course.ParticipatingStudents.length === 1
+        ? "courses.registration"
+        : "courses.registrations"
+      ) | translate: { count: course.ParticipatingStudents.length }
+    }}
   </div>
 </div>
