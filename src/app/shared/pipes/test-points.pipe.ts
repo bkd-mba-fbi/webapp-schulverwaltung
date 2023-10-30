@@ -11,7 +11,7 @@ export class TestPointsPipe implements PipeTransform {
 
   transform(input: Test, studentId: number, label = "tests.points"): string {
     if (input.IsPointGrading && input.IsPublished)
-      return `${resultOfStudent(studentId, input)?.Points || "-"} / ${
+      return `${resultOfStudent(studentId, input)?.Points || "–"} / ${
         input.MaxPointsAdjusted || input.MaxPoints
       } ${this.translate.instant(label)}`;
     return "";
