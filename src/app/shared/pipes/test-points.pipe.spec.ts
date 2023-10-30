@@ -28,11 +28,11 @@ describe("TestsPointsPipe", () => {
     expect(pipe.transform(test, studentId)).toBe("");
   });
 
-  it('should show "-" if test is not published', () => {
+  it("should show empty string if test is not published", () => {
     test.IsPointGrading = true;
     test.IsPublished = false;
 
-    expect(pipe.transform(test, studentId)).toBe("-");
+    expect(pipe.transform(test, studentId)).toBe("");
   });
 
   it('should show "- / maxPoints" if student has no result', () => {
