@@ -24,7 +24,7 @@
       </ng-container>
 
       <a
-        class="d-flex justify-content-end pe-3 border-top pt-3"
+        class="rating-overview d-flex justify-content-end pe-3 border-top pt-3"
         *ngIf="state.canSetFinalGrade$ | async"
         data-testId="link-to-rating-overview"
         href="{{ buildLinkToRatingOverview() | async }}"
