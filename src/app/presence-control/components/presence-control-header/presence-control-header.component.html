@@ -56,18 +56,13 @@
       </div>
     </div>
   </div>
-  <button
-    type="button"
+  <erz-caret
     *ngIf="lessons.length > 0"
-    class="dropdown-caret btn btn-link"
+    class="dropdown-caret"
     (click)="lessonDropdown?.toggle()"
+    [expanded]="lessonDropdown?.isOpen() || false"
   >
-    <i class="material-icons">
-      {{
-        lessonDropdown?.isOpen() ? "keyboard_arrow_up" : "keyboard_arrow_down"
-      }}
-    </i>
-  </button>
+  </erz-caret>
 </div>
 
 <div class="states">
