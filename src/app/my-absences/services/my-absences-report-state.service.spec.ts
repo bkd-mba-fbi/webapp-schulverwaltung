@@ -18,16 +18,15 @@ import { addHours, subHours } from "date-fns";
 describe("MyAbsencesReportStateService", () => {
   let service: MyAbsencesReportStateService;
   let entriesCallback: jasmine.Spy;
-  const storageMock: jasmine.SpyObj<StorageService> = jasmine.createSpyObj(
-    "StorageService",
-    ["getPayload"],
-  );
+  let storageMock: jasmine.SpyObj<StorageService>;
 
   let beforeLessonStart: TimetableEntry;
   let onLessonStart: TimetableEntry;
   let afterLessonStart: TimetableEntry;
 
   beforeEach(() => {
+    storageMock = jasmine.createSpyObj("StorageService", ["getPayload"]);
+
     beforeLessonStart = buildTimetableEntry(
       1,
       subHours(new Date(), 2),
