@@ -1,23 +1,25 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { of } from "rxjs";
-import { buildCourse } from "src/spec-builders";
+import { BehaviorSubject, of } from "rxjs";
+import { buildCourse, buildResult, buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import {
-  expectElementPresent,
-  expectNotInTheDocument,
-} from "../../../../specs/expectations";
 import { TestStateService } from "../../services/test-state.service";
 import { TestEditGradesComponent } from "./test-edit-grades.component";
+import { Test } from "src/app/shared/models/test.model";
 
 describe("TestEditGradesComponent", () => {
   let component: TestEditGradesComponent;
   let fixture: ComponentFixture<TestEditGradesComponent>;
+  let element: HTMLElement;
 
+  let test: Test;
   let testStateServiceMock: jasmine.SpyObj<TestStateService>;
 
-  const course = buildCourse(1234);
+  let tests$: BehaviorSubject<Test[]>;
+  let hasTests$: BehaviorSubject<boolean>;
+  let canSetFinalGrade$: BehaviorSubject<boolean>;
 
   beforeEach(waitForAsync(() => {
+    test = buildTest(1234, 12, [buildResult(12, 1)]);
     testStateServiceMock = jasmine.createSpyObj("TestStateService", [
       "canSetFinalGrade$",
       "setSorting",
@@ -25,7 +27,13 @@ describe("TestEditGradesComponent", () => {
       "course$",
     ]);
 
-    testStateServiceMock.course$ = of(course);
+    testStateServiceMock.course$ = of(buildCourse(1234));
+    tests$ = new BehaviorSubject([test]);
+    testStateServiceMock.tests$ = tests$;
+    hasTests$ = new BehaviorSubject(true);
+    testStateServiceMock.hasTests$ = hasTests$;
+    canSetFinalGrade$ = new BehaviorSubject(true);
+    testStateServiceMock.canSetFinalGrade$ = canSetFinalGrade$;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -43,21 +51,70 @@ describe("TestEditGradesComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestEditGradesComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement.nativeElement;
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should display button to set average as final grade", () => {
-    testStateServiceMock.canSetFinalGrade$ = of(true);
-    fixture.detectChanges();
-    expectElementPresent(fixture.debugElement, "apply-average-button");
+  describe("set average as final grade button", () => {
+    describe("can set final grade", () => {
+      beforeEach(() => {
+        canSetFinalGrade$.next(true);
+      });
+
+      it("is present", () => {
+        fixture.detectChanges();
+        const button = getAverageFinalGradeButton();
+        expect(button).toBeTruthy();
+      });
+
+      it("is visible on mobile if no test is selected and tests are available", () => {
+        component.selectedTest = undefined;
+        fixture.detectChanges();
+
+        const button = getAverageFinalGradeButton();
+        expect(button).toBeTruthy();
+        expect(button?.classList?.contains("visible-on-mobile")).toBe(true);
+      });
+
+      it("is visible on mobile if no test is selected and no tests are available", () => {
+        component.selectedTest = undefined;
+        tests$.next([]);
+        hasTests$.next(false);
+        fixture.detectChanges();
+
+        const button = getAverageFinalGradeButton();
+        expect(button).toBeTruthy();
+        expect(button?.classList?.contains("visible-on-mobile")).toBe(true);
+      });
+
+      it("is not visible on mobile if test is selected and tests are available", () => {
+        fixture.detectChanges();
+        component.selectedTest = test;
+        fixture.detectChanges();
+
+        const button = getAverageFinalGradeButton();
+        expect(button).toBeTruthy();
+        expect(button?.classList?.contains("visible-on-mobile")).toBe(false);
+      });
+    });
+
+    describe("cannot set final grade", () => {
+      beforeEach(() => {
+        canSetFinalGrade$.next(false);
+      });
+
+      it("is absent", () => {
+        fixture.detectChanges();
+        const button = getAverageFinalGradeButton();
+        expect(button).toBeNull();
+      });
+    });
   });
 
-  it("should not show button to set average as final grade", () => {
-    testStateServiceMock.canSetFinalGrade$ = of(false);
-    fixture.detectChanges();
-    expectNotInTheDocument(fixture.debugElement, "apply-average-button");
-  });
+  function getAverageFinalGradeButton() {
+    return element.querySelector('[data-testid="apply-average-button"]');
+  }
 });

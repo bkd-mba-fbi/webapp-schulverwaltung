@@ -3,6 +3,7 @@
     *erzLet="{
       course: state.course$ | async,
       tests: state.tests$ | async,
+      hasTests: state.hasTests$ | async,
       testOptions: testOptions$ | async,
       selectedTestId: selectedTestId$ | async,
       selectedTest: selectedTest$ | async
@@ -25,8 +26,10 @@
 
       <a
         class="rating-overview d-flex justify-content-end pe-3 border-top pt-3"
+        [ngClass]="{
+          'visible-on-mobile': !data.hasTests || !data.selectedTest
+        }"
         *ngIf="state.canSetFinalGrade$ | async"
-        data-testId="link-to-rating-overview"
         href="{{ buildLinkToRatingOverview() | async }}"
       >
         <i class="material-icons fw-bold">arrow_right_alt</i>
