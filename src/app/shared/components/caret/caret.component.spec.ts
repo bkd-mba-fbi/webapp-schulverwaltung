@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CollapseComponent } from "./collapse.component";
+import { CaretComponent } from "./caret.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 
-describe("CollapseComponent", () => {
-  let component: CollapseComponent;
-  let fixture: ComponentFixture<CollapseComponent>;
+describe("CaretComponent", () => {
+  let component: CaretComponent;
+  let fixture: ComponentFixture<CaretComponent>;
   let element: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [CollapseComponent],
+        declarations: [CaretComponent],
       }),
     );
-    fixture = TestBed.createComponent(CollapseComponent);
+    fixture = TestBed.createComponent(CaretComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });

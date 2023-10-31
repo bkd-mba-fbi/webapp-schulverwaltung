@@ -56,13 +56,13 @@
       </div>
     </div>
   </div>
-  <erz-collapse
+  <erz-caret
     *ngIf="lessons.length > 0"
     class="dropdown-caret"
     (click)="lessonDropdown?.toggle()"
     [expanded]="lessonDropdown?.isOpen() || false"
   >
-  </erz-collapse>
+  </erz-caret>
 </div>
 
 <div class="states">

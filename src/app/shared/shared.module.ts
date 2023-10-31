@@ -47,7 +47,7 @@ import { DossierGradesEditComponent } from "./components/student-dossier/dossier
 import { ToastComponent } from "./components/toast/toast.component";
 import { SwitchComponent } from "./components/switch/switch.component";
 import { BacklinkComponent } from "./components/backlink/backlink.component";
-import { CollapseComponent } from "./components/collapse/collapse.component";
+import { CaretComponent } from "./components/caret/caret.component";
 
 // Components that will be exported
 const components = [
@@ -59,7 +59,7 @@ const components = [
   SelectComponent,
   MultiselectComponent,
   SwitchComponent,
-  CollapseComponent,
+  CaretComponent,
   DossierAddressesComponent,
   DossierAbsencesComponent,
   StudentBacklinkComponent,
