@@ -22,4 +22,10 @@ a.rating-overview {
   span:hover {
     text-decoration-color: $accent;
   }
+
+  @include media-breakpoint-down(sm) {
+    &:not(.visible-on-mobile) {
+      display: none !important;
+    }
+  }
 }

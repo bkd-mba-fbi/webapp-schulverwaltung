@@ -153,3 +153,9 @@ table td.average {
     left: 452px;
   }
 }
+
+@include media-breakpoint-down(sm) {
+  .apply-average-button:not(.visible-on-mobile) {
+    display: none !important;
+  }
+}

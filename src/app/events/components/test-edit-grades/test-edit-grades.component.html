@@ -1,6 +1,7 @@
 <ng-container
   *erzLet="{
     tests: state.filteredTests$ | async,
+    hasTests: state.hasTests$ | async,
     studentGrades: state.studentGrades$ | async,
     filter: state.filter$ | async,
     expanded: state.expandedHeader$ | async
@@ -244,7 +245,8 @@
     <button
       *ngIf="state.canSetFinalGrade$ | async"
       data-testId="apply-average-button"
-      class="btn btn-primary m-3"
+      class="apply-average-button btn btn-primary m-3"
+      [ngClass]="{ 'visible-on-mobile': !data.hasTests || !selectedTest }"
       type="button"
       (click)="setAverageAsFinalGrade()"
     >

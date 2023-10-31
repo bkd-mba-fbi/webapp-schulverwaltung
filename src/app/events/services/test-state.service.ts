@@ -83,6 +83,7 @@ export class TestStateService {
     map((course: Course) => course.Tests || []),
     map(sortByDate),
   );
+  hasTests$ = this.tests$.pipe(map((tests) => tests.length > 0));
 
   filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>("all-tests");
 
