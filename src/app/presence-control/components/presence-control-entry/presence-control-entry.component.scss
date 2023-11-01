@@ -148,10 +148,14 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
 :host.list {
   grid-template-areas: "student-name status designation incident previously-absent";
   grid-template-columns: 3fr min-content 3fr 2fr 3em;
-  padding: 0.5rem 0.5rem 0.5rem 1rem; //  $spacer / 2;
+  padding: 0.5rem 1rem 0.5rem 1rem; //  $spacer / 2;
 
   .status {
     justify-self: start;
+  }
+
+  .previously-absent {
+    padding-right: 0;
   }
 
   @media (max-width: 750px) {
@@ -176,7 +180,6 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
     }
 
     .previously-absent {
-      padding-top: 0;
       align-self: start;
     }
   }
