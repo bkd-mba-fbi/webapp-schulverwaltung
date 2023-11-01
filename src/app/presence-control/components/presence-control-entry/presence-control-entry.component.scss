@@ -99,6 +99,11 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
   line-height: 1;
 }
 
+.study-class {
+  font-size: $font-size-sm;
+  line-height: 1;
+}
+
 .incident {
   color: rgba($body-color, 0.5);
   padding-right: $btn-padding-x;

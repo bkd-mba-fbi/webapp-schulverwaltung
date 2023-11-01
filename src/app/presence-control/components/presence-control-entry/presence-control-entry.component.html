@@ -47,6 +47,9 @@
   class="student-name"
 >
   <span class="text-truncate">{{ entry.lessonPresence.StudentFullName }}</span>
+  <span class="study-class">
+    {{ entry.lessonPresence.StudyClassNumber }}
+  </span>
   <span class="unconfirmed-absences">
     {{
       hasUnconfirmedAbsences
