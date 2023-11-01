@@ -3,13 +3,10 @@
     <a routerLink="add" class="edit btn btn-primary btn-icon ms-2">
       <i class="material-icons">add</i>
     </a>
-    <a
-      class="edit btn btn-primary btn-icon ms-2"
-      target="_blank"
-      [href]="loadReportUrl()"
-    >
-      <i class="material-icons">description</i>
-    </a>
+    <erz-reports-link
+      [reports]="(loadReports() | async) ?? []"
+      class="ms-2"
+    ></erz-reports-link>
   </div>
 </erz-backlink>
 

@@ -2,6 +2,18 @@ import { InjectionToken } from "@angular/core";
 import * as t from "io-ts";
 
 import { Option } from "./shared/models/common-types";
+import { fromEnum } from "./shared/utils/types";
+
+export enum ReportType {
+  Crystal = "crystal",
+  Excel = "excel",
+}
+const Report = t.type({
+  type: fromEnum("ReportType", ReportType),
+  id: t.number,
+});
+type Report = t.TypeOf<typeof Report>;
+export { Report };
 
 const NotificationTypeText = t.type({
   de: t.type({ label: t.string, description: t.string }),
@@ -33,12 +45,13 @@ const Settings = t.type({
   checkableAbsenceStateId: t.number,
   lessonPresencesRefreshTime: t.number,
   unconfirmedAbsencesRefreshTime: Option(t.number),
-  personMasterDataReportId: t.number,
-  studentConfirmationReportId: t.number,
-  evaluateAbsencesReportId: t.number,
-  testsByCourseReportId: t.number,
-  testsBySubscriptionReportIdStudent: t.number,
-  testsBySubscriptionReportIdTeacher: t.number,
+  personMasterDataReports: t.array(Report),
+  studentConfirmationReports: t.array(Report),
+  evaluateAbsencesReports: t.array(Report),
+  myAbsencesReports: t.array(Report),
+  testsByCourseReports: t.array(Report),
+  testsBySubscriptionStudentReports: t.array(Report),
+  testsBySubscriptionTeacherReports: t.array(Report),
   subscriptionDetailGroupId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
   notificationRefreshTime: t.number,

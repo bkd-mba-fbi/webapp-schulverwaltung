@@ -5,8 +5,7 @@ import {
   OnChanges,
   ChangeDetectionStrategy,
 } from "@angular/core";
-import { ReplaySubject, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { ReplaySubject, map } from "rxjs";
 
 import { Person } from "../../../shared/models/person.model";
 import { ReportsService } from "../../../shared/services/reports.service";
@@ -22,14 +21,11 @@ export class MyProfileHeaderComponent implements OnChanges {
 
   private studentId$ = new ReplaySubject<Option<number>>(1);
 
-  reportUrl$ = combineLatest([
-    this.reportsService.personMasterDataAvailability$,
-    this.studentId$,
-  ]).pipe(
-    map(([available, studentId]) =>
-      available && studentId
-        ? this.reportsService.getPersonMasterDataUrl(studentId)
-        : null,
+  reports$ = this.studentId$.pipe(
+    map((studentId) =>
+      studentId
+        ? this.reportsService.getPersonMasterDataReports(studentId)
+        : [],
     ),
   );
 

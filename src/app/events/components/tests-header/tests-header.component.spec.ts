@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { buildCourse } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { of } from "rxjs";
 
 import { TestsHeaderComponent } from "./tests-header.component";
 import { ReportsService } from "../../../shared/services/reports.service";
@@ -14,10 +15,12 @@ describe("TestsHeaderComponent", () => {
 
   beforeEach(waitForAsync(() => {
     reportsServiceMock = {
-      getEventReportUrl: jasmine
-        .createSpy("getEventReportUrl")
+      getCourseReports: jasmine
+        .createSpy("getCourseReports")
         .withArgs(courseId)
-        .and.returnValue("url"),
+        .and.returnValue(
+          of([{ type: "crystal", id: 290044, title: "", url: "" }]),
+        ),
     } as unknown as ReportsService;
 
     TestBed.configureTestingModule(

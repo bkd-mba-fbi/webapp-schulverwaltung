@@ -53,7 +53,7 @@ describe("TestsListComponent", () => {
     } as unknown as TestStateService;
 
     const reportServiceMock = jasmine.createSpyObj("reportService", [
-      "getEventReportUrl",
+      "getCourseReports",
     ]);
     TestBed.configureTestingModule(
       buildTestModuleMetadata({

@@ -3,7 +3,7 @@
     *erzLet="{
       profile: state.profile$ | async,
       currentDossierSection: state.currentDossier$ | async,
-      reportUrl: dossierGradesService.testReportUrl$ | async
+      report: dossierGradesService.testReports$ | async
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -14,14 +14,11 @@
         [studentId]="state.studentId$ | async"
         [student]="data.profile && data.profile.student"
       >
-        <a
+        <erz-reports-link
           *ngIf="data.currentDossierSection === 'grades'"
-          class="edit btn btn-primary btn-icon ms-2"
-          target="_blank"
-          [href]="data.reportUrl"
-        >
-          <i class="material-icons">description</i>
-        </a>
+          [reports]="data.reports ?? []"
+          class="ms-2"
+        ></erz-reports-link>
       </erz-student-backlink>
       <div class="d-flex flex-row py-3 flex-wrap">
         <a

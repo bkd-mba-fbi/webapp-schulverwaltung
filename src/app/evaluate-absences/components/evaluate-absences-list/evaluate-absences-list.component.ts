@@ -15,7 +15,10 @@ import {
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
-import { ReportsService } from "../../../shared/services/reports.service";
+import {
+  ReportInfo,
+  ReportsService,
+} from "../../../shared/services/reports.service";
 import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
 import { LessonPresence } from "../../../shared/models/lesson-presence.model";
 
@@ -31,7 +34,7 @@ interface Column {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
-  reportUrl$ = this.loadReportUrl();
+  reports$ = this.loadReports();
 
   columns: ReadonlyArray<Column> = [
     { key: "StudentFullName", label: "student" },
@@ -79,15 +82,15 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     this.state.nextPage();
   }
 
-  private loadReportUrl(): Observable<Option<string>> {
+  private loadReports(): Observable<ReadonlyArray<ReportInfo>> {
     return this.state.validFilter$.pipe(
       switchMap((filter) => this.lessonPresencesService.getLessonRefs(filter)),
-      map((lessonPresences) =>
+      switchMap((lessonPresences) =>
         lessonPresences.length > 0
-          ? this.reportsService.getEvaluateAbsencesUrl(
+          ? this.reportsService.getEvaluateAbsencesReports(
               this.getReportRecordIds(lessonPresences),
             )
-          : null,
+          : [],
       ),
       shareReplay(1),
     );

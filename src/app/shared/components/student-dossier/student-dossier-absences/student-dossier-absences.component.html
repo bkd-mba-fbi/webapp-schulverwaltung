@@ -24,15 +24,11 @@
         >
           <i class="material-icons">edit</i>
         </a>
-        <a
-          *ngIf="reportAvailable"
-          class="report btn btn-primary btn-icon me-2"
-          [class.disabled]="!reportUrl"
-          [href]="reportUrl"
-          target="_blank"
-        >
-          <i class="material-icons">description</i>
-        </a>
+        <erz-reports-link
+          [reports]="reports"
+          [disableIfUnavailable]="true"
+          class="me-2"
+        ></erz-reports-link>
         <a
           *ngIf="displayEmail"
           class="mail btn btn-primary btn-icon me-2"
