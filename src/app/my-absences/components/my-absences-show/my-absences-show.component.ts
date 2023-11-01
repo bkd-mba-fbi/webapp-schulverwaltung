@@ -1,18 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
-import { combineLatest, Observable, of, Subject } from "rxjs";
-import { filter, map, shareReplay, switchMap, take } from "rxjs/operators";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { combineLatest, Observable, of } from "rxjs";
+import { map, shareReplay, switchMap } from "rxjs/operators";
+import { flatten, uniq } from "lodash-es";
 
 import { MyAbsencesService } from "../../services/my-absences.service";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
-import { ReportsService } from "src/app/shared/services/reports.service";
-import { not } from "src/app/shared/utils/filter";
-import { isEmptyArray } from "src/app/shared/utils/array";
-import { flatten, uniq } from "lodash-es";
+import {
+  ReportInfo,
+  ReportsService,
+} from "src/app/shared/services/reports.service";
 import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
 import { LessonIncident } from "../../../shared/models/lesson-incident.model";
 
@@ -22,16 +18,9 @@ import { LessonIncident } from "../../../shared/models/lesson-incident.model";
   styleUrls: ["./my-absences-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyAbsencesShowComponent implements OnInit, OnDestroy {
-  openAbsencesReportUrl$ = this.loadOpenAbsencesReportUrl();
-  allAbsencesReportUrl$ = this.loadAllAbsencesReportUrl();
-  openAbsencesReportAvailable$ =
-    this.reportsService.studentConfirmationAvailability$;
-  allAbsencesReportUrlAvailable$ = this.allAbsencesReportUrl$.pipe(
-    map((url) => (url ? url.length > 0 : false)),
-  );
-
-  private destroy$ = new Subject<void>();
+export class MyAbsencesShowComponent {
+  openAbsencesReports$ = this.loadOpenAbsencesReports();
+  allAbsencesReports$ = this.loadAllAbsencesReports();
 
   constructor(
     private reportsService: ReportsService,
@@ -39,43 +28,26 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
     public absencesSelectionService: ConfirmAbsencesSelectionService,
   ) {}
 
-  ngOnInit(): void {
-    // When the absences have been loaded, set the record IDs to
-    // initiate the loading of the report's availability state
-    this.myAbsencesService.openLessonAbsences$
-      .pipe(take(1), filter(not(isEmptyArray)))
-      .subscribe((absences: ReadonlyArray<LessonAbsence>) =>
-        this.reportsService.setStudentConfirmationAvailabilityRecordIds(
-          absences.map((a) => `${a.LessonRef.Id}_${a.RegistrationId}`),
-        ),
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
-
-  private loadOpenAbsencesReportUrl(): Observable<Option<string>> {
+  private loadOpenAbsencesReports(): Observable<ReadonlyArray<ReportInfo>> {
     return combineLatest([
       this.absencesSelectionService.selectedWithoutPresenceType$,
       this.absencesSelectionService.selectedIds$,
     ]).pipe(
       switchMap(([selectedWithout, selectedIds]) =>
         selectedWithout.length === 0 && selectedIds.length > 0
-          ? this.getOpenAbsencesReportRecordIds(
+          ? this.getOpenAbsencesRecordIds(
               uniq(flatten(selectedIds.map((s) => s.lessonIds))),
             )
-          : of(null),
+          : of([]),
       ),
-      map((recordIds) =>
-        recordIds
-          ? this.reportsService.getStudentConfirmationUrl(recordIds)
-          : null,
+      switchMap((recordIds) =>
+        this.reportsService.getStudentConfirmationReports(recordIds),
       ),
+      shareReplay(1),
     );
   }
 
-  loadAllAbsencesReportUrl(): Observable<Option<string>> {
+  private loadAllAbsencesReports(): Observable<ReadonlyArray<ReportInfo>> {
     return combineLatest([
       this.myAbsencesService.openLessonAbsences$,
       this.myAbsencesService.checkableLessonAbsences$,
@@ -88,27 +60,22 @@ export class MyAbsencesShowComponent implements OnInit, OnDestroy {
           absences: ReadonlyArray<
             ReadonlyArray<LessonAbsence | LessonIncident>
           >,
-        ) => this.buildUrl(flatten(absences)),
+        ) => this.getAllAbsencesRecordIds(flatten(absences)),
+      ),
+      switchMap((recordIds) =>
+        this.reportsService.getMyAbsencesReports(recordIds),
       ),
       shareReplay(1),
     );
   }
 
-  private buildUrl(absences: ReadonlyArray<LessonAbsence | LessonIncident>) {
-    return absences.length > 0
-      ? this.reportsService.getEvaluateAbsencesUrl(
-          this.getAllReportRecordIds(absences),
-        )
-      : null;
-  }
-
-  private getAllReportRecordIds(
+  private getAllAbsencesRecordIds(
     presences: ReadonlyArray<LessonAbsence | LessonIncident>,
   ): ReadonlyArray<string> {
     return presences.map((p) => `${p.LessonRef.Id}_${p.RegistrationId}`);
   }
 
-  private getOpenAbsencesReportRecordIds(
+  private getOpenAbsencesRecordIds(
     lessonIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<string>> {
     return this.myAbsencesService.openLessonAbsences$.pipe(

@@ -1,12 +1,8 @@
 <div class="d-flex justify-content-between header">
   <div>{{ "my-grades.header" | translate }}</div>
   <div>
-    <a
-      [href]="myGradesService.testReportUrl$ | async"
-      class="report btn btn-primary btn-icon"
-      target="_blank"
-    >
-      <i class="material-icons">description</i>
-    </a>
+    <erz-reports-link
+      [reports]="(myGradesService.testReports$ | async) ?? []"
+    ></erz-reports-link>
   </div>
 </div>

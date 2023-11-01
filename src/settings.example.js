@@ -67,22 +67,35 @@ window.schulverwaltung.settings = {
   /**
    * Reports
    */
-  // Id of the report that contains a user's master data (used in my profile)
-  personMasterDataReportId: 290026,
+  // Report "Stammblatt" with user's master data (used in my profile)
+  personMasterDataReports: [{ type: "crystal", id: 290026 }],
 
-  // Id of the report that contains the open absences with
-  // confirmation values to sign (used in my absences)
-  studentConfirmationReportId: 290036,
+  // Report "Entschuldigungsformular" with open absences sign (used in
+  // my absences by students)
+  studentConfirmationReports: [{ type: "crystal", id: 290036 }],
 
-  // Id of the report used in evaluate absences
-  evaluateAbsencesReportId: 290048,
+  // Report "Auswertung der Absenzen" (used in evaluate absences by
+  // teachers)
+  evaluateAbsencesReports: [
+    { type: "crystal", id: 290048 },
+    { type: "excel", id: 290033 },
+  ],
 
-  // Id of the report used for the course report
-  testsByCourseReportId: 290044,
+  // Report "Auswertung der Absenzen" (used in my absences by
+  // students)
+  myAbsencesReports: [{ type: "crystal", id: 290048 }],
 
-  // Id of the report used for the tests report for a single student
-  testsBySubscriptionReportIdStudent: 290043,
-  testsBySubscriptionReportIdTeacher: 290042,
+  // Report "Tests" with grades of a course (used in events/tests by
+  // teachers)
+  testsByCourseReports: [{ type: "crystal", id: 290044 }],
+
+  // Report including grades of multiple courses for a single student
+  // (used in events/tests by students)
+  testsBySubscriptionStudentReports: [{ type: "crystal", id: 290043 }],
+
+  // Report including grades of multiple courses for a single student
+  // (used in events/tests by teachers)
+  testsBySubscriptionTeacherReports: [{ type: "crystal", id: 290042 }],
 
   /**
    * Groups

@@ -1,6 +1,10 @@
 import { Component, Input } from "@angular/core";
+import { Observable } from "rxjs";
 import { Course } from "../../../shared/models/course.model";
-import { ReportsService } from "../../../shared/services/reports.service";
+import {
+  ReportInfo,
+  ReportsService,
+} from "../../../shared/services/reports.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 
 @Component({
@@ -17,8 +21,8 @@ export class TestsHeaderComponent {
     private eventsRestService: EventsRestService,
   ) {}
 
-  loadReportUrl(): string {
-    return this.reportsService.getEventReportUrl(this.course.Id);
+  loadReports(): Observable<ReadonlyArray<ReportInfo>> {
+    return this.reportsService.getCourseReports(this.course.Id);
   }
 
   getDesignation() {

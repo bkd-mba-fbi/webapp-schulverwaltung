@@ -71,13 +71,8 @@ export class DossierGradesService {
     map((subscriptions) => subscriptions.map((s) => s.Id)),
   );
 
-  testReportUrl$ = this.ids$.pipe(
-    map((ids) =>
-      this.reportsService.getSubscriptionReportUrl(
-        this.settings.testsBySubscriptionReportIdTeacher,
-        ids,
-      ),
-    ),
+  testReports$ = this.ids$.pipe(
+    map((ids) => this.reportsService.getTeacherSubscriptionReports(ids)),
   );
 
   constructor(

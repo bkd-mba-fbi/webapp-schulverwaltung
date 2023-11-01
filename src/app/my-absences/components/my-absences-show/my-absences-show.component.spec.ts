@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { HttpTestingController } from "@angular/common/http/testing";
 import { BehaviorSubject, of } from "rxjs";
 
 import { MyAbsencesShowComponent } from "./my-absences-show.component";
@@ -15,6 +16,7 @@ describe("MyAbsencesShowComponent", () => {
   // let component: MyAbsencesShowComponent;
   let fixture: ComponentFixture<MyAbsencesShowComponent>;
   let element: HTMLElement;
+  let httpTestingController: HttpTestingController;
   let openLessonAbsences$: BehaviorSubject<any>;
 
   beforeEach(waitForAsync(() => {
@@ -56,27 +58,32 @@ describe("MyAbsencesShowComponent", () => {
     fixture = TestBed.createComponent(MyAbsencesShowComponent);
     // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
+  afterEach(() => httpTestingController.verify());
+
   describe("all absences report", () => {
-    beforeEach(() => {
+    it("does not render report link without absences", () => {
       fixture.detectChanges();
+      expect(element.querySelector("erz-reports-link a")).toBeNull();
     });
 
-    it("should have all absences report disabled", () => {
-      const reportLink = element.getElementsByClassName(
-        "report",
-      )[0] as HTMLElement;
-      expect(reportLink?.className.includes("disabled")).toBeTrue();
-    });
-
-    it("should have all absences report enabled", () => {
+    it("renders report link with absences", () => {
       openLessonAbsences$.next([buildLessonAbsence("12")]);
       fixture.detectChanges();
-      const reportLink = element.getElementsByClassName(
-        "report",
-      )[0] as HTMLElement;
-      expect(reportLink?.className.includes("disabled")).toBeFalse();
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.urlWithParams ===
+            "https://eventotest.api/CrystalReports/AvailableReports/Praesenzinformation?ids=290048&keys=123_0",
+        )
+        .flush([{ Id: 290048, Title: "Auswertung der Absenzen" }]);
+      fixture.detectChanges();
+
+      const reportsLink = element.querySelector("erz-reports-link a");
+      expect(reportsLink?.className.includes("disabled")).toBeFalse();
     });
   });
 });

@@ -8,14 +8,9 @@
   <div class="d-flex justify-content-between border-bottom header">
     <div>{{ "my-absences.description" | translate }}</div>
     <div class="ps-3">
-      <a
-        class="report btn btn-primary btn-icon"
-        [class.disabled]="(allAbsencesReportUrlAvailable$ | async) === false"
-        [href]="allAbsencesReportUrl$ | async"
-        target="_blank"
-      >
-        <i class="material-icons">description</i>
-      </a>
+      <erz-reports-link
+        [reports]="(allAbsencesReports$ | async) ?? []"
+      ></erz-reports-link>
     </div>
   </div>
 
@@ -65,8 +60,7 @@
           [defaultAbsenceSelectionMessage]="
             'my-absences.show.default-absence-selection-message' | translate
           "
-          [reportUrl]="openAbsencesReportUrl$ | async"
-          [reportAvailable]="openAbsencesReportAvailable$ | async"
+          [reports]="(openAbsencesReports$ | async) ?? []"
         ></erz-student-dossier-absences>
       </ng-template>
     </ngb-panel>

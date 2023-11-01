@@ -1,190 +1,272 @@
-import { Injectable, Inject, OnDestroy } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import {
-  Observable,
-  Subject,
-  ReplaySubject,
-  Subscription,
-  connectable,
-  Connectable,
-} from "rxjs";
-import {
-  shareReplay,
-  map,
-  switchMap,
-  startWith,
-  filter,
-  distinctUntilChanged,
-} from "rxjs/operators";
+import { Observable, combineLatest, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { flatten, groupBy } from "lodash-es";
 
-import { SETTINGS, Settings } from "src/app/settings";
+import { Report, ReportType, SETTINGS, Settings } from "src/app/settings";
 import { StorageService } from "./storage.service";
-import { notNull } from "../utils/filter";
-import { SubscriptionsRestService } from "./subscriptions-rest.service";
+import { decode } from "../utils/decode";
+import { AvailableReports } from "../models/report.model";
+
+export type ReportInfo = Report & { title: string; url: string };
 
 /**
- * Reports are PDFs that are served under a special URL. They can be
- * generated for a given set of records (the type of the records is
- * depending on the report). In the UI, we simply create a link to the
- * report URL, since the access token can be provided as query param.
+ * Reports are PDF or Excel documents that are served under a special
+ * URL. They can be generated for a given set of records (the type of
+ * the records is depending on the report). In the UI, we create a
+ * link to the report URL including the access token as query param.
  *
  * Every report has an availability state (whether it's active for the
  * current tenant/user or not), that can be requested via an API
  * endpoint. The availability request must contain at least one record
- * ID. Since we only link to reports containing records that are
- * already loaded (hence the user must have access to them), we can
- * request the availability state once, which whatever record ID.
+ * ID. For the reports where this is required, we fetch filter the
+ * configured reports by their availability state.
  *
- * The report URL looks like this (where the report can be downloaded):
- *   /Files/CrystalReports/{report context}/{report id}
+ * The report URLs look like this (where the report can be downloaded):
+ *   /Files/{report format}/{report context}/{report id}
  *     ?ids={comma separated record ids to be included in the report}
  *     &token={access token}
  *
- * And the availability of the report can be requested via this enpoint:
- *   /CrystalReports/AvailableReports/{report context}
+ * And the availability of reports can be requested via this endpoint:
+ *   /{report format}/AvailableReports/{report context}
  *     ?ids=${report id}
  *     &keys={comma separated record ids (same as ?ids in the report url)}
  */
 @Injectable({
   providedIn: "root",
 })
-export class ReportsService implements OnDestroy {
-  studentConfirmationAvailabilityRecordIds$ = new Subject<
-    ReadonlyArray<string>
-  >();
-
-  personMasterDataAvailability$ = this.loadReportAvailability(
-    "Person",
-    this.settings.personMasterDataReportId,
-    [Number(this.storageService.getPayload()?.id_person)],
-  ).pipe(shareReplay(1));
-
-  studentConfirmationAvailability$ =
-    this.loadReportAvailabilityByAsyncRecordIds(
-      "Praesenzinformation",
-      this.settings.studentConfirmationReportId,
-      this.studentConfirmationAvailabilityRecordIds$,
-    );
-
-  private studentConfirmationAvailabilitySub: Subscription;
-
+export class ReportsService {
   constructor(
     @Inject(SETTINGS) private settings: Settings,
     private storageService: StorageService,
-    private subscriptionService: SubscriptionsRestService,
     private http: HttpClient,
-  ) {
-    this.studentConfirmationAvailabilitySub =
-      this.studentConfirmationAvailability$.connect();
-  }
-
-  ngOnDestroy(): void {
-    this.studentConfirmationAvailabilitySub.unsubscribe();
-  }
+  ) {}
 
   /**
-   * Report: Stammblatt
+   * Report "Stammblatt" with user's master data (used in my profile)
    */
-  getPersonMasterDataUrl(personId: number): string {
-    return this.getReportUrl("Person", this.settings.personMasterDataReportId, [
-      personId,
-    ]);
-  }
-
-  /**
-   * Report: Lektionsbuchungen
-   *
-   * The record IDs are the string
-   * {LessonAbsences.LessonRef.Id}_{LessonAbsences.RegistrationId}
-   */
-  getStudentConfirmationUrl(recordIds: ReadonlyArray<string>): string {
-    return this.getReportUrl(
-      "Praesenzinformation",
-      this.settings.studentConfirmationReportId,
-      recordIds,
+  getPersonMasterDataReports(
+    personId: number,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Person",
+      this.settings.personMasterDataReports,
+      [personId],
     );
   }
 
   /**
-   * Report: Auswertung der Absenzen
+   * Report "Entschuldigungsformular" with open absences sign (used in
+   * my absences by students)
    *
-   * The record IDs are the string
-   * {LessonPresence.LessonRef.Id}_{LessonPresence.RegistrationRef.Id}
+   * @param recordIds The record IDs are the string {LessonAbsences.LessonRef.Id}_{LessonAbsences.RegistrationId}
    */
-  getEvaluateAbsencesUrl(recordIds: ReadonlyArray<string>): string {
-    return this.getReportUrl(
-      "Praesenzinformation",
-      this.settings.evaluateAbsencesReportId,
-      recordIds,
-    );
-  }
-
-  /**
-   * @param recordId
-   * The ID of the course/event
-   */
-  getEventReportUrl(recordId: number): string {
-    return this.getReportUrl("Anlass", this.settings.testsByCourseReportId, [
-      recordId,
-    ]);
-  }
-
-  getSubscriptionReportUrl(
-    settingReportId: number,
-    idSubscriptionIds: number[],
-  ): string {
-    return `${
-      this.settings.apiUrl
-    }/Files/CrystalReports/Anmeldung/${settingReportId}?ids=${idSubscriptionIds}&token=${this.storageService.getAccessToken()}`;
-  }
-
-  setStudentConfirmationAvailabilityRecordIds(
+  getStudentConfirmationReports(
     recordIds: ReadonlyArray<string>,
-  ): void {
-    this.studentConfirmationAvailabilityRecordIds$.next(recordIds);
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Praesenzinformation",
+      this.settings.studentConfirmationReports,
+      recordIds,
+    );
+  }
+
+  /**
+   * Report "Auswertung der Absenzen" (used in evaluate absences by
+   * teachers)
+   */
+  getEvaluateAbsencesReports(
+    recordIds: ReadonlyArray<string>,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Praesenzinformation",
+      this.settings.evaluateAbsencesReports,
+      recordIds,
+    );
+  }
+
+  /**
+   * Report "Auswertung der Absenzen" (used in my absences by
+   * students)
+   *
+   * @param recordIds The record IDs are the string {LessonPresence.LessonRef.Id}_{LessonPresence.RegistrationRef.Id}
+   */
+  getMyAbsencesReports(
+    recordIds: ReadonlyArray<string>,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Praesenzinformation",
+      this.settings.myAbsencesReports,
+      recordIds,
+    );
+  }
+
+  /**
+   * Report "Tests" with grades of a course (used in events/tests by
+   * teachers)
+   *
+   * @param courseId The ID of the course/event
+   */
+  getCourseReports(courseId: number): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Anlass",
+      this.settings.testsByCourseReports,
+      [courseId],
+    );
+  }
+
+  /**
+   * Report including grades of multiple courses for a single student
+   * (used in events/tests by teachers)
+   */
+  getStudentSubscriptionReports(
+    recordIds: ReadonlyArray<number>,
+  ): ReadonlyArray<ReportInfo> {
+    const reports = this.settings.testsBySubscriptionStudentReports;
+    return reports.map((report, i) => {
+      const url = this.getReportUrl(
+        report.type,
+        "Anmeldung",
+        report.id,
+        recordIds,
+      );
+      return { ...report, title: `Report ${i + 1}`, url };
+    });
+  }
+
+  /**
+   * Report including grades of multiple courses for a single student
+   * (used in events/tests by students)
+   */
+  getTeacherSubscriptionReports(
+    recordIds: ReadonlyArray<number>,
+  ): ReadonlyArray<ReportInfo> {
+    const reports = this.settings.testsBySubscriptionTeacherReports;
+    return reports.map((report, i) => {
+      const url = this.getReportUrl(
+        report.type,
+        "Anmeldung",
+        report.id,
+        recordIds,
+      );
+      return { ...report, title: `Report ${i + 1}`, url };
+    });
+  }
+
+  private getAvailableReports(
+    context: string,
+    reports: ReadonlyArray<Report>,
+    recordIds: ReadonlyArray<number | string>,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    const groupedReports = groupBy(reports, (report) => report.type);
+
+    const groupedAvailable$ = combineLatest(
+      Object.keys(groupedReports).map((reportType) =>
+        this.getAvailableReportsForType(
+          reportType as ReportType,
+          context,
+          groupedReports[reportType].map(({ id }) => id),
+          recordIds,
+        ),
+      ),
+    );
+
+    return this.mergeAvailableReports(groupedAvailable$, reports);
+  }
+
+  private getAvailableReportsForType(
+    reportType: ReportType,
+    context: string,
+    reportIds: ReadonlyArray<number>,
+    recordIds: ReadonlyArray<number | string>,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    if (recordIds.length === 0) {
+      return of([]);
+    }
+
+    return this.http
+      .get<unknown>(
+        this.getReportAvailabilityUrl(
+          reportType,
+          context,
+          reportIds,
+          recordIds,
+        ),
+      )
+      .pipe(
+        switchMap(decode(AvailableReports)),
+        map((result) =>
+          result
+            ? result.map(({ Id, Title }) => ({
+                type: reportType,
+                id: Id,
+                title: Title,
+                url: this.getReportUrl(reportType, context, Id, recordIds),
+              }))
+            : [],
+        ),
+      );
+  }
+
+  private mergeAvailableReports(
+    groupedResult$: Observable<ReadonlyArray<ReadonlyArray<ReportInfo>>>,
+    configured: ReadonlyArray<Report>,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return groupedResult$.pipe(
+      map((grouped) => {
+        const results = flatten(grouped);
+        return configured.reduce((available, report) => {
+          const result = results.find(({ id }) => id === report.id);
+          if (result) {
+            return [...available, result];
+          }
+          return available;
+        }, [] as ReadonlyArray<ReportInfo>);
+      }),
+    );
   }
 
   private getReportUrl(
+    reportType: ReportType,
     context: string,
     reportId: number,
     recordIds: ReadonlyArray<number | string>,
   ): string {
-    return `${
-      this.settings.apiUrl
-    }/Files/CrystalReports/${context}/${reportId}?ids=${recordIds.join(
-      ",",
-    )}&token=${this.storageService.getAccessToken()}`;
-  }
-
-  private loadReportAvailability(
-    context: string,
-    reportId: number,
-    recordIds: ReadonlyArray<number | string>,
-  ): Observable<boolean> {
-    return this.http
-      .get<unknown>(
-        `${
-          this.settings.apiUrl
-        }/CrystalReports/AvailableReports/${context}?ids=${reportId}&keys=${recordIds.join(
-          ",",
-        )}`,
-      )
-      .pipe(map(notNull), startWith(false), distinctUntilChanged());
-  }
-
-  private loadReportAvailabilityByAsyncRecordIds(
-    context: string,
-    reportId: number,
-    recordIds$: Observable<ReadonlyArray<number | string>>,
-  ): Connectable<boolean> {
-    return connectable(
-      recordIds$.pipe(
-        filter((_, i) => i === 0), // Fetch the availability only once and cache it afterwards (but don't complete)
-        switchMap((recordIds) =>
-          this.loadReportAvailability(context, reportId, recordIds),
-        ),
-      ),
-      { connector: () => new ReplaySubject<boolean>(1) },
+    const url = new URL(
+      `${this.settings.apiUrl}/Files/${this.getReportTypePathPart(
+        reportType,
+      )}/${context}/${reportId}`,
     );
+
+    url.searchParams.set("ids", recordIds.join(","));
+    url.searchParams.set("token", this.storageService.getAccessToken() ?? "");
+
+    return url.toString();
+  }
+
+  private getReportAvailabilityUrl(
+    reportType: ReportType,
+    context: string,
+    reportIds: number | ReadonlyArray<number>,
+    recordIds: ReadonlyArray<number | string>,
+  ): string {
+    const url = new URL(
+      `${this.settings.apiUrl}/${this.getReportTypePathPart(
+        reportType,
+      )}/AvailableReports/${context}`,
+    );
+
+    url.searchParams.set(
+      "ids",
+      Array.isArray(reportIds) ? reportIds.join(",") : String(reportIds),
+    );
+    url.searchParams.set("keys", recordIds.join(","));
+
+    return url.toString();
+  }
+
+  private getReportTypePathPart(type: ReportType): string {
+    return `${type[0].toUpperCase() + type.slice(1)}Reports`;
   }
 }

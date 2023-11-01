@@ -52,13 +52,8 @@ export class MyGradesService {
     map((subscriptions) => subscriptions.map((s) => s.Id)),
   );
 
-  testReportUrl$ = this.ids$.pipe(
-    map((ids) =>
-      this.reportsService.getSubscriptionReportUrl(
-        this.settings.testsBySubscriptionReportIdStudent,
-        ids,
-      ),
-    ),
+  testReports$ = this.ids$.pipe(
+    map((ids) => this.reportsService.getStudentSubscriptionReports(ids)),
   );
 
   private tests$ = this.studentCourses$.pipe(

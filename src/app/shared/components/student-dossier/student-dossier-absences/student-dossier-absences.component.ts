@@ -30,6 +30,7 @@ import { notNull, not } from "../../../utils/filter";
 import { isArray } from "../../../utils/array";
 import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
 import { PresenceTypesService } from "../../../services/presence-types.service";
+import { ReportInfo } from "src/app/shared/services/reports.service";
 
 @Component({
   selector: "erz-student-dossier-absences",
@@ -55,12 +56,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
    */
   @Input() defaultAbsenceSelectionMessage: Option<string> = null;
 
-  /**
-   * The report button be shown disabled if `reportAvailable` is true
-   * but no `reportUrl` is given.
-   */
-  @Input() reportUrl: Option<string> = null;
-  @Input() reportAvailable = false;
+  @Input() reports: ReadonlyArray<ReportInfo> = [];
 
   @Input() confirmLink = "confirm";
 
