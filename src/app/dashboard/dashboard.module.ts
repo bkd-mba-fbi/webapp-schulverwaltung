@@ -10,6 +10,7 @@ import { DashboardTimetableComponent } from "./components/dashboard-timetable/da
 import { DashboardTimetableTableComponent } from "./components/dashboard-timetable-table/dashboard-timetable-table.component";
 import { DashboardService } from "./services/dashboard.service";
 import { DashboardDeadlineComponent } from "./components/dashboard-deadline/dashboard-deadline.component";
+import { ConfirmAbsencesSelectionService } from "../shared/services/confirm-absences-selection.service";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { DashboardDeadlineComponent } from "./components/dashboard-deadline/dash
     DashboardTimetableTableComponent,
     DashboardDeadlineComponent,
   ],
-  providers: [DashboardService],
+  providers: [DashboardService, ConfirmAbsencesSelectionService],
   imports: [SharedModule, DashboardRoutingModule],
 })
 export class DashboardModule {}
