@@ -99,6 +99,10 @@ export class PresenceControlStateService
     shareReplay(1),
   );
 
+  studyClassCount$ = this.selectedLesson$.pipe(
+    map((entry) => entry?.lessons.length || 0),
+  );
+
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
   private lessonPresences$ = merge(
     this.selectedLesson$.pipe(

@@ -17,6 +17,7 @@ import { ToastService } from "../../../shared/services/toast.service";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { getBlockLessonLoadingContext } from "../../services/presence-control-block-lesson.service";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
 
 @Component({
   selector: "erz-presence-control-entry",
@@ -47,6 +48,7 @@ export class PresenceControlEntryComponent implements OnChanges {
   );
 
   constructor(
+    public state: PresenceControlStateService,
     private toastService: ToastService,
     private translate: TranslateService,
     private modalService: NgbModal,
