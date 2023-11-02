@@ -85,9 +85,9 @@
     "karma-brief-reporter": "^0.2.2",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage-istanbul-reporter": "~3.0.3",
-    "karma-helpful-reporter": "^0.3.4",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
+    "karma-spec-reporter": "^0.0.36",
     "lint-staged": "~15.0.2",
     "prettier": "3.0.3",
     "typescript": "~5.1.0"
