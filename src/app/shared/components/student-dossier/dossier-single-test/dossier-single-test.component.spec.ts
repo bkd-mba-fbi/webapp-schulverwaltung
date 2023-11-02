@@ -159,8 +159,11 @@ describe("DossierSingleTestComponent", () => {
       result.Points = 22.5;
       test = buildTest(courseId, testId, [result]);
       test.IsPointGrading = true;
+      test.IsPublished = true;
       test.MaxPoints = 27;
-      component.test = test;
+      changeInput(component, "test", test);
+      fixture.detectChanges();
+      expectText(debugElement, "test-points", "22.5 / 27 dossier.points");
     });
   });
 });

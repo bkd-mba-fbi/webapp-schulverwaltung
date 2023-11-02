@@ -71,7 +71,7 @@ describe("GradeComponent", () => {
       grade.result.GradeId = 4;
     });
 
-    it("should show grading options and select grade from options", () => {
+    it("should show grading options and select grade from options", (done) => {
       // given
       component.grade = grade;
       component.gradeOptions = gradingScaleOptions;
@@ -95,10 +95,11 @@ describe("GradeComponent", () => {
 
       fixture.whenStable().then(() => {
         expect(select.selectedIndex).toBe(4);
+        done();
       });
     });
 
-    it("should show grading options without selection if there is no result yet", () => {
+    it("should show grading options without selection if there is no result yet", (done) => {
       // given
       const noResult: NoResult = {
         kind: "no-result",
@@ -126,6 +127,7 @@ describe("GradeComponent", () => {
 
       fixture.whenStable().then(() => {
         expect(select.selectedIndex).toBe(0);
+        done();
       });
     });
   });
@@ -147,7 +149,7 @@ describe("GradeComponent", () => {
       expectPointsInputValue(debugElement, "");
     });
 
-    it("should show points in input field", () => {
+    it("should show points in input field", (done) => {
       // given
       const grade: GradeKind = {
         kind: "grade",
@@ -166,6 +168,7 @@ describe("GradeComponent", () => {
 
       fixture.whenStable().then(() => {
         expectPointsInputValue(debugElement, "11");
+        done();
       });
     });
   });
