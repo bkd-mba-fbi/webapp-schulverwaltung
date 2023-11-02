@@ -6,7 +6,7 @@ import {
 } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
-import { Subject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { weightedAverage } from "../../../utils/math";
 
 export interface CourseWithGrades {
@@ -30,15 +30,13 @@ export class DossierGradesViewComponent implements OnChanges {
 
   constructor(public dossierGradeService: DossierGradesService) {}
 
-  decoratedCoursesSubject$: Subject<CourseWithGrades[]> = new Subject<
-    CourseWithGrades[]
-  >();
+  decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);
 
   ngOnChanges() {
     this.decoratedCoursesSubject$.next(this.decorateCourses());
   }
 
-  trackByCourseId(index: number, item: CourseWithGrades): number {
+  trackByCourseId(_index: number, item: CourseWithGrades): number {
     return item.course.Id;
   }
 
