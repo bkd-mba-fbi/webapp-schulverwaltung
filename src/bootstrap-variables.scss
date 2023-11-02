@@ -8,8 +8,9 @@
 // Colors
 $body-bg: rgba(255, 255, 255);
 $body-color: rgb(0, 0, 0);
+$accent: rgb(234, 22, 31);
 $yellow: rgb(255, 168, 20);
-$red: rgb(208, 16, 24);
+$red: $accent;
 $green: rgb(61, 134, 8);
 $orange: rgb(239, 124, 0);
 $gray: rgb(222, 222, 222);
@@ -18,7 +19,6 @@ $dark-sand: rgba(247, 233, 210);
 $sand-hover: rgba(242, 224, 195, 1);
 $primary: $gray-dark;
 $secondary: $gray;
-$accent: rgb(234, 22, 31);
 
 $present-color: $green;
 $absent-color: $red;
