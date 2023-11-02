@@ -47,10 +47,7 @@
   class="student-name"
 >
   <span class="text-truncate">{{ entry.lessonPresence.StudentFullName }}</span>
-  <span
-    class="study-class"
-    *ngIf="isListViewMode && (state.studyClassCount$ | async) > 1"
-  >
+  <span class="study-class" *ngIf="isListViewMode && showClassName">
     {{ entry.lessonPresence.StudyClassNumber }}
   </span>
   <span class="unconfirmed-absences">
