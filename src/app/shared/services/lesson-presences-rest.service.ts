@@ -178,6 +178,7 @@ export class LessonPresencesRestService extends RestService<
         "TypeRef",
       ].join(","),
     );
+    params = params.set("limit", "1500");
 
     return this.http
       .get<unknown>(`${this.baseUrl}/`, { params })

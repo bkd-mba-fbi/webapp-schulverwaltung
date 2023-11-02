@@ -358,7 +358,7 @@ describe("LessonPresencesRestService", () => {
       filter.studyClass = 678;
 
       const url =
-        "https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef";
+        "https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef&limit=1500";
 
       service
         .getLessonRefs(filter)
@@ -374,7 +374,7 @@ describe("LessonPresencesRestService", () => {
       filter.studyClass = 678;
 
       const url =
-        "https://eventotest.api/LessonPresences/?filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef";
+        "https://eventotest.api/LessonPresences/?filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef&limit=1500";
 
       service
         .getLessonRefs(filter)
