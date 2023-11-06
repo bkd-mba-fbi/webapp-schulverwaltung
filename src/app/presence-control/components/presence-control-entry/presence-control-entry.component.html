@@ -37,16 +37,24 @@
   *ngIf="entry.precedingAbsences?.length > 0"
   type="button"
   (click)="showPrecedingAbsences(entry)"
-  class="previously-absent btn btn-link"
+  class="previously-absent d-flex btn btn-link"
 >
   <i class="material-icons-outlined">info</i>
 </button>
 <a
   [routerLink]="['student', entry.lessonPresence.StudentRef.Id, 'absences']"
   [queryParams]="profileReturnParams"
-  class="student-name"
+  class="student-info"
 >
-  <span class="text-truncate">{{ entry.lessonPresence.StudentFullName }}</span>
+  <span class="student-name text-truncate">{{
+    entry.lessonPresence.StudentFullName
+  }}</span>
+  <span
+    class="study-class text-truncate"
+    *ngIf="isListViewMode && showClassName"
+  >
+    {{ entry.lessonPresence.StudyClassNumber }}
+  </span>
   <span class="unconfirmed-absences">
     {{
       hasUnconfirmedAbsences

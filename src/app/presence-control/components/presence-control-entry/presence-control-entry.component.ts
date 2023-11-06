@@ -27,6 +27,7 @@ export class PresenceControlEntryComponent implements OnChanges {
   @Input() entry: PresenceControlEntry;
   @Input() hasUnconfirmedAbsences = false;
   @Input() viewMode: PresenceControlViewMode;
+  @Input() showClassName = false;
   @Input() profileReturnParams?: Params;
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
