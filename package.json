@@ -9,7 +9,6 @@
     "type": "git",
     "url": "git+https@github.com:bkd-mba-fbi/webapp-schulverwaltung.git"
   },
-  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

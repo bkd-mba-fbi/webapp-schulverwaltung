@@ -1,4 +1,4 @@
-const config = {
+module.exports = {
   /**
    * Enable plugin for automatically sorting of imports
    */
@@ -23,5 +23,3 @@ const config = {
    */
   importOrderSortSpecifiers: true,
 };
-
-export default config;
