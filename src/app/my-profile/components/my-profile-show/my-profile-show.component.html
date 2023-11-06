@@ -4,7 +4,7 @@
     profile: profileService.profile$ | async
   } as data"
 >
-  <h1>{{ "my-profile.title" | translate }}</h1>
+  <h1 data-testid="profile-title">{{ "my-profile.title" | translate }}</h1>
   <ng-container
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >
@@ -18,7 +18,11 @@
         [student]="data.profile && data.profile.student"
       ></erz-my-profile-header>
 
-      <div class="profile-content" *ngIf="data.profile; else noProfile">
+      <div
+        class="profile-content"
+        data-testid="profile-content"
+        *ngIf="data.profile; else noProfile"
+      >
         <div class="profile-entries pt-3">
           <erz-my-profile-entry
             *ngIf="data.profile.student.SocialSecurityNumber"
@@ -181,12 +185,16 @@
       </div>
 
       <ng-template #noProfile>
-        <p>{{ "shared.profile.no-profile" | translate }}</p>
+        <p data-testid="profile-none">
+          {{ "shared.profile.no-profile" | translate }}
+        </p>
       </ng-template>
     </ng-container>
 
     <ng-template #substitutionProfile>
-      <p>{{ "shared.profile.substitution-profile" | translate }}</p>
+      <p data-testid="profile-substitution">
+        {{ "shared.profile.substitution-profile" | translate }}
+      </p>
     </ng-template>
   </ng-container>
 
