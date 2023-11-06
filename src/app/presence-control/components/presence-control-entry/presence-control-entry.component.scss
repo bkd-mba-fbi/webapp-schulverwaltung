@@ -6,7 +6,7 @@
   display: grid;
   grid-template-areas:
     "avatar status designation previously-absent"
-    "avatar student-name student-name student-name"
+    "avatar student-info student-info student-info"
     "avatar incident incident incident";
   grid-template-columns: min-content min-content 3fr min-content;
 }
@@ -43,7 +43,7 @@
 }
 
 .designation,
-.student-name,
+.student-info,
 a.incident,
 .incident span {
   overflow: hidden;
@@ -77,8 +77,8 @@ $presence-control-status-size: 2rem;
   justify-self: end;
 }
 
-.student-name {
-  grid-area: student-name;
+.student-info {
+  grid-area: student-info;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -151,12 +151,17 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
 
 // List layout overrides
 :host.list {
-  grid-template-areas: "student-name status incidentordesignation previously-absent";
+  grid-template-areas: "student-info status incidentordesignation previously-absent";
   grid-template-columns: 3fr min-content 5fr 3em;
   padding: 0.5rem 1rem 0.5rem 1rem; //  $spacer / 2;
 
   .status {
     justify-self: start;
+  }
+
+  .student-name {
+    line-height: 1;
+    margin-bottom: 0.5rem;
   }
 
   .incident,
@@ -170,7 +175,7 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
 
   @media (max-width: 750px) {
     grid-template-areas:
-      "student-name student-name student-name previously-absent"
+      "student-info student-info student-info previously-absent"
       "status incidentordesignation incidentordesignation incidentordesignation";
     grid-template-columns: min-content 1fr 1fr min-content;
     row-gap: $spacer;
@@ -178,6 +183,10 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
     .status {
       padding-left: 0;
       padding-right: 0;
+    }
+
+    .student-name {
+      margin-top: 0.5rem;
     }
 
     .previously-absent {

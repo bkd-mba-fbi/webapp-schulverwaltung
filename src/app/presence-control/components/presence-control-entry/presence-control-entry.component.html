@@ -44,9 +44,11 @@
 <a
   [routerLink]="['student', entry.lessonPresence.StudentRef.Id, 'absences']"
   [queryParams]="profileReturnParams"
-  class="student-name"
+  class="student-info"
 >
-  <span class="text-truncate">{{ entry.lessonPresence.StudentFullName }}</span>
+  <span class="student-name text-truncate">{{
+    entry.lessonPresence.StudentFullName
+  }}</span>
   <span class="study-class" *ngIf="isListViewMode && showClassName">
     {{ entry.lessonPresence.StudyClassNumber }}
   </span>
