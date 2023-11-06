@@ -444,7 +444,7 @@
       "incidents": "Vorfälle",
       "half-days": "Halbtage",
       "no-profile": "Profil wurde nicht gefunden",
-      "forbidden-profile": "Sie haben keinen Zugriff auf Ihr Profil, solange Sie eine Stellvertretung ausüben.",
+      "substitution-profile": "Sie haben keinen Zugriff auf Ihr Profil, solange Sie eine Stellvertretung ausüben.",
       "no-absences": "Keine Einträge vorhanden"
     },
     "select": {

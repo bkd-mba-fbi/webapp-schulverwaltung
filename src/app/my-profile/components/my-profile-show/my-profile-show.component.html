@@ -8,174 +8,180 @@
   <ng-container
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >
-    <erz-my-profile-header
-      [student]="data.profile && data.profile.student"
-    ></erz-my-profile-header>
+    <ng-container *ngIf="true; else substitutionProfile">
+      <erz-my-profile-header
+        [student]="data.profile && data.profile.student"
+      ></erz-my-profile-header>
 
-    <div class="profile-content" *ngIf="data.profile; else noProfile">
-      <div class="profile-entries pt-3">
-        <erz-my-profile-entry
-          *ngIf="data.profile.student.SocialSecurityNumber"
-          label="my-profile.show.social-security-number"
-          value="{{ data.profile.student.SocialSecurityNumber }}"
-        >
-        </erz-my-profile-entry>
+      <div class="profile-content" *ngIf="data.profile; else noProfile">
+        <div class="profile-entries pt-3">
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.SocialSecurityNumber"
+            label="my-profile.show.social-security-number"
+            value="{{ data.profile.student.SocialSecurityNumber }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          *ngIf="
-            data.profile.student.HomeTown || data.profile.student.Nationality
-          "
-          label="my-profile.show.hometown-nationality"
-          value="{{
-            data.profile.student.HomeTown || data.profile.student.Nationality
-          }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="
+              data.profile.student.HomeTown || data.profile.student.Nationality
+            "
+            label="my-profile.show.hometown-nationality"
+            value="{{
+              data.profile.student.HomeTown || data.profile.student.Nationality
+            }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          *ngIf="data.profile.student.NativeLanguage"
-          label="my-profile.show.native-language"
-          value="{{ data.profile.student.NativeLanguage }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.NativeLanguage"
+            label="my-profile.show.native-language"
+            value="{{ data.profile.student.NativeLanguage }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          *ngIf="data.profile.stayPermitValue"
-          label="my-profile.show.stay-permit"
-          value="{{ data.profile.stayPermitValue }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="data.profile.stayPermitValue"
+            label="my-profile.show.stay-permit"
+            value="{{ data.profile.stayPermitValue }}"
+          >
+          </erz-my-profile-entry>
 
-        <erz-my-profile-entry
-          *ngIf="data.profile.student.StayPermitExpiry"
-          label="my-profile.show.stay-permit-expiry"
-          value="{{
-            data.profile.student.StayPermitExpiry | date: 'mediumDate'
-          }}"
-        >
-        </erz-my-profile-entry>
+          <erz-my-profile-entry
+            *ngIf="data.profile.student.StayPermitExpiry"
+            label="my-profile.show.stay-permit-expiry"
+            value="{{
+              data.profile.student.StayPermitExpiry | date: 'mediumDate'
+            }}"
+          >
+          </erz-my-profile-entry>
+        </div>
+
+        <ngb-accordion #acc="ngbAccordion">
+          <ngb-panel id="student-address">
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-dossier-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('student-address')"
+              >
+                {{ "shared.profile.student-address" | translate }}
+              </erz-student-dossier-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="clearfix">
+                <a
+                  class="btn btn-primary btn-icon float-end me-2"
+                  routerLink="edit"
+                  [attr.aria-label]="'my-profile.edit.title' | translate"
+                >
+                  <i class="material-icons">edit</i>
+                </a>
+                <erz-student-dossier-address
+                  class="profile-entry"
+                  [student]="data.profile.student"
+                  emailProperty="Email2"
+                ></erz-student-dossier-address>
+              </div>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel
+            id="correspondence-address"
+            *ngIf="data.profile.student.CorrespondenceAddress"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-dossier-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('correspondence-address')"
+              >
+                {{ "shared.profile.correspondence-address" | translate }}
+              </erz-student-dossier-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-my-profile-address
+                class="profile-entry"
+                [address]="data.profile.student.CorrespondenceAddress"
+              ></erz-my-profile-address>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel
+            id="billing-address"
+            *ngIf="data.profile.student.BillingAddress"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-dossier-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('billing-address')"
+              >
+                {{ "shared.profile.billing-address" | translate }}
+              </erz-student-dossier-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-my-profile-address
+                class="profile-entry"
+                [address]="data.profile.student.BillingAddress"
+              ></erz-my-profile-address>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel
+            *ngIf="data.profile.legalRepresentativePersons.length > 0"
+            id="legal-representatives"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-dossier-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('legal-representatives')"
+              >
+                {{ "shared.profile.legal-representation" | translate }}
+              </erz-student-dossier-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-student-dossier-legal-representative
+                *ngFor="let person of data.profile.legalRepresentativePersons"
+                class="profile-entry"
+                [person]="person"
+              ></erz-student-dossier-legal-representative>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel
+            *ngFor="
+              let company of data.profile.apprenticeshipCompanies;
+              let i = index
+            "
+            [id]="'apprenticeship-company-' + i"
+          >
+            <ng-template ngbPanelHeader let-opened="opened">
+              <erz-student-dossier-entry-header
+                [opened]="opened"
+                (click)="acc.toggle('apprenticeship-company-' + i)"
+              >
+                {{ "shared.profile.apprenticeship-company" | translate }}
+                <ng-container
+                  *ngIf="data.profile.apprenticeshipCompanies.length > 1"
+                  >{{ i + 1 }}</ng-container
+                >
+              </erz-student-dossier-entry-header>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <erz-student-dossier-apprenticeship-company
+                class="profile-entry"
+                [company]="company"
+              ></erz-student-dossier-apprenticeship-company>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </div>
 
-      <ngb-accordion #acc="ngbAccordion">
-        <ngb-panel id="student-address">
-          <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-dossier-entry-header
-              [opened]="opened"
-              (click)="acc.toggle('student-address')"
-            >
-              {{ "shared.profile.student-address" | translate }}
-            </erz-student-dossier-entry-header>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div class="clearfix">
-              <a
-                class="btn btn-primary btn-icon float-end me-2"
-                routerLink="edit"
-                [attr.aria-label]="'my-profile.edit.title' | translate"
-              >
-                <i class="material-icons">edit</i>
-              </a>
-              <erz-student-dossier-address
-                class="profile-entry"
-                [student]="data.profile.student"
-                emailProperty="Email2"
-              ></erz-student-dossier-address>
-            </div>
-          </ng-template>
-        </ngb-panel>
+      <ng-template #noProfile>
+        <p>{{ "shared.profile.no-profile" | translate }}</p>
+      </ng-template>
+    </ng-container>
 
-        <ngb-panel
-          id="correspondence-address"
-          *ngIf="data.profile.student.CorrespondenceAddress"
-        >
-          <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-dossier-entry-header
-              [opened]="opened"
-              (click)="acc.toggle('correspondence-address')"
-            >
-              {{ "shared.profile.correspondence-address" | translate }}
-            </erz-student-dossier-entry-header>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <erz-my-profile-address
-              class="profile-entry"
-              [address]="data.profile.student.CorrespondenceAddress"
-            ></erz-my-profile-address>
-          </ng-template>
-        </ngb-panel>
-
-        <ngb-panel
-          id="billing-address"
-          *ngIf="data.profile.student.BillingAddress"
-        >
-          <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-dossier-entry-header
-              [opened]="opened"
-              (click)="acc.toggle('billing-address')"
-            >
-              {{ "shared.profile.billing-address" | translate }}
-            </erz-student-dossier-entry-header>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <erz-my-profile-address
-              class="profile-entry"
-              [address]="data.profile.student.BillingAddress"
-            ></erz-my-profile-address>
-          </ng-template>
-        </ngb-panel>
-
-        <ngb-panel
-          *ngIf="data.profile.legalRepresentativePersons.length > 0"
-          id="legal-representatives"
-        >
-          <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-dossier-entry-header
-              [opened]="opened"
-              (click)="acc.toggle('legal-representatives')"
-            >
-              {{ "shared.profile.legal-representation" | translate }}
-            </erz-student-dossier-entry-header>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <erz-student-dossier-legal-representative
-              *ngFor="let person of data.profile.legalRepresentativePersons"
-              class="profile-entry"
-              [person]="person"
-            ></erz-student-dossier-legal-representative>
-          </ng-template>
-        </ngb-panel>
-
-        <ngb-panel
-          *ngFor="
-            let company of data.profile.apprenticeshipCompanies;
-            let i = index
-          "
-          [id]="'apprenticeship-company-' + i"
-        >
-          <ng-template ngbPanelHeader let-opened="opened">
-            <erz-student-dossier-entry-header
-              [opened]="opened"
-              (click)="acc.toggle('apprenticeship-company-' + i)"
-            >
-              {{ "shared.profile.apprenticeship-company" | translate }}
-              <ng-container
-                *ngIf="data.profile.apprenticeshipCompanies.length > 1"
-                >{{ i + 1 }}</ng-container
-              >
-            </erz-student-dossier-entry-header>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <erz-student-dossier-apprenticeship-company
-              class="profile-entry"
-              [company]="company"
-            ></erz-student-dossier-apprenticeship-company>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
-    </div>
-
-    <ng-template #noProfile>
-      <p>{{ "shared.profile.no-profile" | translate }}</p>
+    <ng-template #substitutionProfile>
+      <p>{{ "shared.profile.substitution-profile" | translate }}</p>
     </ng-template>
   </ng-container>
 
