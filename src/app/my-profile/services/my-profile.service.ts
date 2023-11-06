@@ -1,30 +1,38 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, EMPTY } from "rxjs";
-import { shareReplay, switchMap } from "rxjs/operators";
-import { StudentProfileService } from "src/app/shared/services/student-profile.service";
-import { StorageService } from "../../shared/services/storage.service";
+import { BehaviorSubject, EMPTY, Observable, throwError } from "rxjs";
+import { catchError, shareReplay, switchMap } from "rxjs/operators";
+import {
+  Profile,
+  StudentProfileService,
+} from "src/app/shared/services/student-profile.service";
+import { Person } from "../../shared/models/person.model";
 
 @Injectable()
 export class MyProfileService {
   private reset$ = new BehaviorSubject<void>(undefined);
+
+  activeSubstitution$ = new BehaviorSubject<boolean>(false);
   profile$ = this.reset$.pipe(
-    switchMap(() =>
-      !this.substitutionActive() ? this.profileService.getMyProfile() : EMPTY,
-    ),
+    switchMap(() => this.loadProfile()),
     shareReplay(1),
   );
   loading$ = this.profileService.loading$;
 
-  constructor(
-    private profileService: StudentProfileService,
-    private storageService: StorageService,
-  ) {}
+  constructor(private profileService: StudentProfileService) {}
 
   reset(): void {
     this.reset$.next();
   }
 
-  substitutionActive(): boolean {
-    return !!this.storageService.getPayload()?.substitution_id;
+  private loadProfile(): Observable<Profile<Person>> {
+    return this.profileService.getMyProfile().pipe(
+      catchError((error) => {
+        if (error.status === "403") {
+          this.activeSubstitution$.next(true);
+          return EMPTY;
+        }
+        return throwError(() => error);
+      }),
+    );
   }
 }
