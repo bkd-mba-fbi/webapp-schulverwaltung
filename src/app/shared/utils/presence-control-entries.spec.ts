@@ -1,6 +1,6 @@
 import {
-  buildPresenceControlEntry,
   buildLessonPresenceWithIds,
+  buildPresenceControlEntry,
 } from "../../../spec-builders";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 import { filterByGroup } from "./presence-control-entries";

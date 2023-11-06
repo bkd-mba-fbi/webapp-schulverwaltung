@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { MyProfileHeaderComponent } from "./my-profile-header.component";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 import { ReportsService } from "src/app/shared/services/reports.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyProfileHeaderComponent } from "./my-profile-header.component";
 
 describe("MyProfileHeaderComponent", () => {
   let component: MyProfileHeaderComponent;

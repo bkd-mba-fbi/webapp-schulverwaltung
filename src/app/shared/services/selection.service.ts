@@ -1,12 +1,12 @@
+import { Injectable, OnDestroy } from "@angular/core";
 import {
-  Subject,
   Observable,
   ReplaySubject,
+  Subject,
   Subscription,
   connectable,
 } from "rxjs";
-import { scan, map, startWith, distinctUntilChanged } from "rxjs/operators";
-import { Injectable, OnDestroy } from "@angular/core";
+import { distinctUntilChanged, map, scan, startWith } from "rxjs/operators";
 
 enum SelectionActionTypes {
   ToggleSelection = "TOGGLE",

@@ -1,14 +1,13 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Output,
+  Component,
   EventEmitter,
   Input,
+  Output,
 } from "@angular/core";
-
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
-import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
 import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.service";
 
 @Component({

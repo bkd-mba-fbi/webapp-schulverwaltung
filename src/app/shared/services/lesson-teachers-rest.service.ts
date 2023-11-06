@@ -1,11 +1,11 @@
-import { Inject, Injectable } from "@angular/core";
-import { RestService } from "./rest.service";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Settings, SETTINGS } from "../../settings";
+import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { decodeArray } from "../utils/decode";
+import { SETTINGS, Settings } from "../../settings";
 import { LessonAbsence } from "../models/lesson-absence.model";
+import { decodeArray } from "../utils/decode";
+import { RestService } from "./rest.service";
 
 @Injectable({
   providedIn: "root",

@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
@@ -9,13 +10,12 @@ import {
   map,
   switchMap,
 } from "rxjs";
+import { take } from "rxjs/operators";
 import { Test } from "src/app/shared/models/test.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
-import { TestStateService } from "../../services/test-state.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
-import { take } from "rxjs/operators";
 import { ToastService } from "../../../shared/services/toast.service";
+import { TestStateService } from "../../services/test-state.service";
+import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
 
 @Component({
   selector: "erz-tests-edit",

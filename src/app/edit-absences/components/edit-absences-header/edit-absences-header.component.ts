@@ -2,37 +2,36 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Output,
   Input,
+  Output,
 } from "@angular/core";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
-import { map } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 import { startOfDay } from "date-fns";
-
-import { not } from "src/app/shared/utils/filter";
+import { map } from "rxjs/operators";
 import {
   isComment,
   isIncident,
 } from "src/app/presence-control/utils/presence-types";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { not } from "src/app/shared/utils/filter";
 import {
   addGroupToDropdownItem,
   createPresenceTypesDropdownItems,
   sortPresenceTypes,
 } from "src/app/shared/utils/presence-types";
 import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
-import { StudentsRestService } from "src/app/shared/services/students-rest.service";
-import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { TeacherResourcesRestService } from "../../../shared/services/teacher-resources-rest.service";
 import {
   EditAbsencesFilter,
   EditAbsencesStateService,
 } from "../../services/edit-absences-state.service";
-import { TranslateService } from "@ngx-translate/core";
-import { TeacherResourcesRestService } from "../../../shared/services/teacher-resources-rest.service";
 
 @Component({
   selector: "erz-edit-absences-header",

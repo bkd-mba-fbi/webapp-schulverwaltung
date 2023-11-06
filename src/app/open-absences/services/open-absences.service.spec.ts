@@ -1,15 +1,14 @@
 import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { OpenAbsencesService } from "./open-absences.service";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   buildLessonPresence,
   buildPersonWithEmails,
 } from "../../../spec-builders";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
-import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { OpenAbsencesService } from "./open-absences.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

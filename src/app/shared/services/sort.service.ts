@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { isEqual } from "lodash-es";
 import {
   BehaviorSubject,
+  Observable,
   distinctUntilChanged,
   map,
-  Observable,
   shareReplay,
   take,
 } from "rxjs";

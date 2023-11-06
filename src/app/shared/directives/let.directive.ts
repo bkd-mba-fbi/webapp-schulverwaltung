@@ -17,13 +17,12 @@
  *
  * License: MIT
  */
-
 import {
   Directive,
   Input,
+  OnInit,
   TemplateRef,
   ViewContainerRef,
-  OnInit,
 } from "@angular/core";
 
 export class LetContext {

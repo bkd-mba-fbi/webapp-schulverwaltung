@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
-
-import { DashboardSearchComponent } from "./dashboard-search.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { DashboardSearchComponent } from "./dashboard-search.component";
 
 describe("DashboardSearchComponent", () => {
   let component: DashboardSearchComponent;

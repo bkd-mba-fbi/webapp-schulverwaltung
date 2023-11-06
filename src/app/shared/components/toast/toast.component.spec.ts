@@ -1,13 +1,12 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from "@angular/core/testing";
 import { NgbToastConfig } from "@ng-bootstrap/ng-bootstrap";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { ToastService } from "../../services/toast.service";
-
 import { ToastComponent } from "./toast.component";
 
 describe("ToastComponent", () => {

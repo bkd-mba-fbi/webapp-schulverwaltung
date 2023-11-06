@@ -1,28 +1,27 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Output,
+  Component,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs";
+import { uniqueId } from "lodash-es";
+import { BehaviorSubject, Observable } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
-  switchMap,
-  map,
   filter,
   finalize,
+  map,
+  switchMap,
 } from "rxjs/operators";
-import { uniqueId } from "lodash-es";
-
-import { longerOrEqual } from "../../utils/filter";
+import { DropDownItem } from "../../models/drop-down-item.model";
 import {
   HttpParams,
   TypeaheadService,
 } from "../../services/typeahead-rest.service";
-import { DropDownItem } from "../../models/drop-down-item.model";
+import { longerOrEqual } from "../../utils/filter";
 
 const FETCH_DEBOUNCE_TIME = 300;
 const MINIMAL_TERM_LENGTH = 3;

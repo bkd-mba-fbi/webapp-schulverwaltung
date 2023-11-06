@@ -1,32 +1,31 @@
-import { OnDestroy, Injectable } from "@angular/core";
 import { Location } from "@angular/common";
+import { Injectable, OnDestroy } from "@angular/core";
 import { Params } from "@angular/router";
+import { cloneDeep, isEqual } from "lodash-es";
 import {
   BehaviorSubject,
   Observable,
   Subject,
-  merge,
   combineLatest,
+  merge,
 } from "rxjs";
 import {
-  map,
-  filter,
   concatMap,
-  shareReplay,
-  takeUntil,
-  scan,
   debounceTime,
-  take,
   distinctUntilChanged,
+  filter,
+  map,
+  scan,
+  shareReplay,
+  take,
+  takeUntil,
 } from "rxjs/operators";
-import { isEqual, cloneDeep } from "lodash-es";
-
-import { LoadingService } from "./loading-service";
 import { Settings } from "src/app/settings";
-import { Paginated } from "../utils/pagination";
 import { spread } from "../utils/function";
+import { Paginated } from "../utils/pagination";
 import { serializeParams } from "../utils/url";
-import { Sorting, SortService } from "./sort.service";
+import { LoadingService } from "./loading-service";
+import { SortService, Sorting } from "./sort.service";
 
 interface ResetEntriesAction<T> {
   action: "reset";

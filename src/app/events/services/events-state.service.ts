@@ -3,16 +3,17 @@ import { TranslateService } from "@ngx-translate/core";
 import { format } from "date-fns";
 import {
   BehaviorSubject,
+  Observable,
   combineLatest,
   map,
-  Observable,
   shareReplay,
   switchMap,
 } from "rxjs";
-import { Settings, SETTINGS } from "src/app/settings";
+import { SETTINGS, Settings } from "src/app/settings";
 import { Course } from "src/app/shared/models/course.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
@@ -20,7 +21,6 @@ import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
 import { searchEntries } from "src/app/shared/utils/search";
 import { EventStateWithLabel, getEventState, isRated } from "../utils/events";
-import { EventsRestService } from "src/app/shared/services/events-rest.service";
 
 export enum EventState {
   Rating = "rating",

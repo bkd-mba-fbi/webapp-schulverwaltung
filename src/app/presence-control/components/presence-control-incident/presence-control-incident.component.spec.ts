@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { PresenceControlIncidentComponent } from "./presence-control-incident.component";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { PresenceControlIncidentComponent } from "./presence-control-incident.component";
 
 describe("PresenceControlIncidentComponent", () => {
   let component: PresenceControlIncidentComponent;

@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
-
-import { SelectionService } from "../../shared/services/selection.service";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { SelectionService } from "../../shared/services/selection.service";
 import { getIdsGroupedByPerson } from "../../shared/utils/lesson-presences";
 
 @Injectable()

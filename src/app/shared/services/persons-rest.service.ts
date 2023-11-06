@@ -1,14 +1,13 @@
-import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import * as t from "io-ts";
 import { Observable } from "rxjs";
-import { switchMap, map } from "rxjs/operators";
-
-import { RestService } from "./rest.service";
+import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { Person } from "../models/person.model";
 import { decode, decodeArray } from "../utils/decode";
-import * as t from "io-ts";
 import { pick } from "../utils/types";
+import { RestService } from "./rest.service";
 
 @Injectable({
   providedIn: "root",

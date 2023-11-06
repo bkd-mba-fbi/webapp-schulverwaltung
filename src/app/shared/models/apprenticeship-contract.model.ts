@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Option, LocalDateTimeFromString } from "./common-types";
+import { LocalDateTimeFromString, Option } from "./common-types";
 
 const ApprenticeshipContract = t.type({
   Id: t.number,

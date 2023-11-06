@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { TestStateService } from "./test-state.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { TestStateService } from "./test-state.service";
 
 describe("TestStateService", () => {
   let service: TestStateService;

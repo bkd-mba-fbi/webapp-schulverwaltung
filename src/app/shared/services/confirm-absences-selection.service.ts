@@ -1,14 +1,13 @@
-import { Injectable, Inject } from "@angular/core";
-import { map, shareReplay, take } from "rxjs/operators";
+import { Inject, Injectable } from "@angular/core";
 import { not } from "fp-ts/es6/Predicate";
-
-import { SelectionService } from "src/app/shared/services/selection.service";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
-import { getIdsGroupedByPersonAndPresenceType } from "src/app/shared/utils/lesson-presences";
-import { isInstanceOf } from "src/app/shared/utils/filter";
+import { map, shareReplay, take } from "rxjs/operators";
 import { OpenAbsencesEntry } from "src/app/open-absences/models/open-absences-entry.model";
 import { flattenOpenAbsencesEntries } from "src/app/open-absences/utils/open-absences-entries";
 import { SETTINGS, Settings } from "src/app/settings";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { SelectionService } from "src/app/shared/services/selection.service";
+import { isInstanceOf } from "src/app/shared/utils/filter";
+import { getIdsGroupedByPersonAndPresenceType } from "src/app/shared/utils/lesson-presences";
 
 @Injectable()
 export class ConfirmAbsencesSelectionService extends SelectionService<

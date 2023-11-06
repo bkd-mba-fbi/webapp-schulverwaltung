@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
-
+import { Course } from "src/app/shared/models/course.model";
+import { Result, Test } from "src/app/shared/models/test.model";
 import { ReportsService } from "src/app/shared/services/reports.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { TestStateService } from "../../services/test-state.service";
-import { TestsHeaderComponent } from "../tests-header/tests-header.component";
-import { TestsListComponent } from "./tests-list.component";
 import { buildCourse, buildResult, buildTest } from "../../../../spec-builders";
+import { TestStateService } from "../../services/test-state.service";
+import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
 import { TestEditGradesComponent } from "../test-edit-grades/test-edit-grades.component";
 import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
-import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
-import { Result, Test } from "src/app/shared/models/test.model";
-import { Course } from "src/app/shared/models/course.model";
+import { TestsHeaderComponent } from "../tests-header/tests-header.component";
+import { TestsListComponent } from "./tests-list.component";
 
 describe("TestsListComponent", () => {
   let component: TestsListComponent;

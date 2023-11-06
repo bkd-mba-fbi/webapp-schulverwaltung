@@ -1,18 +1,17 @@
-import { SimpleChanges, SimpleChange } from "@angular/core";
-import { TestModuleMetadata } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ParamMap, Params, convertToParamMap } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { SimpleChange, SimpleChanges } from "@angular/core";
+import { TestModuleMetadata } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ReplaySubject } from "rxjs";
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-
-import { SharedModule } from "./app/shared/shared.module";
-import { Settings, SETTINGS } from "./app/settings";
-import { AuthService } from "./app/shared/services/auth.service";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ParamMap, Params, convertToParamMap } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { ReplaySubject } from "rxjs";
+import { SETTINGS, Settings } from "./app/settings";
+import { AuthService } from "./app/shared/services/auth.service";
+import { SharedModule } from "./app/shared/shared.module";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/locales/", ".json");

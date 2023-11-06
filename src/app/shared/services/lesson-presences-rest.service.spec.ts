@@ -1,16 +1,15 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { format } from "date-fns";
 import * as t from "io-ts/lib/index";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { LessonPresencesRestService } from "./lesson-presences-rest.service";
-import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
 import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences-state.service";
+import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
+import { buildLesson, buildLessonPresence } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
-import { buildLesson, buildLessonPresence } from "src/spec-builders";
+import { LessonPresencesRestService } from "./lesson-presences-rest.service";
 import { Sorting } from "./sort.service";
-import { format } from "date-fns";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

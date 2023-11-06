@@ -2,7 +2,6 @@ import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import isEqual from "lodash-es/isEqual";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { GradingsRestService } from "./gradings-rest.service";
 
 describe("GradingsRestService", () => {

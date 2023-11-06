@@ -1,11 +1,10 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { UserSettingsRestService } from "./user-settings-rest.service";
-import { buildUserSettingsWithNotificationSetting } from "src/spec-builders";
+import { TestBed } from "@angular/core/testing";
 import { isEqual } from "lodash";
-import { UserSettings, AccessInfo } from "../models/user-settings.model";
+import { buildUserSettingsWithNotificationSetting } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { AccessInfo, UserSettings } from "../models/user-settings.model";
+import { UserSettingsRestService } from "./user-settings-rest.service";
 
 describe("UserSettingsRestService", () => {
   let service: UserSettingsRestService;

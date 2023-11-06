@@ -10,13 +10,13 @@ import {
 import { Params } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
-import { map, ReplaySubject, switchMap } from "rxjs";
-import { PresenceControlEntry } from "../../models/presence-control-entry.model";
-import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-preceding-absence/presence-control-preceding-absence.component";
-import { ToastService } from "../../../shared/services/toast.service";
+import { ReplaySubject, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { LoadingService } from "src/app/shared/services/loading-service";
+import { ToastService } from "../../../shared/services/toast.service";
+import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { getBlockLessonLoadingContext } from "../../services/presence-control-block-lesson.service";
+import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-preceding-absence/presence-control-preceding-absence.component";
 
 @Component({
   selector: "erz-presence-control-entry",

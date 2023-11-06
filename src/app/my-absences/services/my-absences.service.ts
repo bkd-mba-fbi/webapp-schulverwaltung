@@ -1,26 +1,25 @@
-import { Injectable, Inject } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Observable, ReplaySubject, combineLatest } from "rxjs";
 import {
-  switchMap,
-  startWith,
-  map,
-  take,
-  shareReplay,
   filter,
+  map,
   share,
+  shareReplay,
+  startWith,
+  switchMap,
+  take,
 } from "rxjs/operators";
-
 import { SETTINGS, Settings } from "src/app/settings";
-import { StudentProfileAbsencesCounts } from "src/app/shared/services/student-profile-absences.service";
-import { StorageService } from "src/app/shared/services/storage.service";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { LessonAbsence } from "src/app/shared/models/lesson-absence.model";
 import { LessonIncident } from "src/app/shared/models/lesson-incident.model";
-import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
-import { sortLessonPresencesByDate } from "src/app/shared/utils/lesson-presences";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { StudentProfileAbsencesCounts } from "src/app/shared/services/student-profile-absences.service";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { notNull } from "src/app/shared/utils/filter";
 import { spread } from "src/app/shared/utils/function";
+import { sortLessonPresencesByDate } from "src/app/shared/utils/lesson-presences";
 
 @Injectable()
 export class MyAbsencesService {

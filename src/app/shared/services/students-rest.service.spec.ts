@@ -1,12 +1,11 @@
-import { TestBed } from "@angular/core/testing";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StudentsRestService } from "./students-rest.service";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import {
   buildApprenticeshipContract,
   buildLegalRepresentative,
 } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentsRestService } from "./students-rest.service";
 
 describe("StudentsRestService", () => {
   let service: StudentsRestService;

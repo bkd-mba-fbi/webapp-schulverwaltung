@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { PresenceControlBlockLessonComponent } from "./presence-control-block-lesson.component";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { PresenceControlBlockLessonComponent } from "./presence-control-block-lesson.component";
 
 describe("PresenceControlBlockLessonComponent", () => {
   let component: PresenceControlBlockLessonComponent;

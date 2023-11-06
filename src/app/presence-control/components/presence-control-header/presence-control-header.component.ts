@@ -1,8 +1,8 @@
 import {
   Component,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
   ViewChild,
 } from "@angular/core";
 import {
@@ -13,13 +13,13 @@ import {
   NgbInputDatepickerConfig,
 } from "@ng-bootstrap/ng-bootstrap";
 import { Options } from "@popperjs/core";
-import { notNull } from "src/app/shared/utils/filter";
 import { map } from "rxjs";
-import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
-import { PresenceControlStateService } from "../../services/presence-control-state.service";
-import { LessonEntry } from "../../models/lesson-entry.model";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
+import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
+import { notNull } from "src/app/shared/utils/filter";
+import { LessonEntry } from "../../models/lesson-entry.model";
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
 
 /**
  * On small screens, the `.dropdown` element gets translated

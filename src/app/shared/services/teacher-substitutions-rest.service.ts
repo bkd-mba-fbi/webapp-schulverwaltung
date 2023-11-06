@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { RestService } from "./rest.service";
-import { Settings, SETTINGS } from "../../settings";
-import { TeacherSubstitution } from "../models/teacher-substitution.model";
 import { Observable, map } from "rxjs";
+import { SETTINGS, Settings } from "../../settings";
+import { TeacherSubstitution } from "../models/teacher-substitution.model";
+import { RestService } from "./rest.service";
 
 @Injectable({
   providedIn: "root",

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { StudentDossierEntryHeaderComponent } from "./student-dossier-entry-header.component";
 import { buildTestModuleMetadata } from "../../../../../spec-helpers";
+import { StudentDossierEntryHeaderComponent } from "./student-dossier-entry-header.component";
 
 describe("StudentDossierEntryHeaderComponent", () => {
   let component: StudentDossierEntryHeaderComponent;

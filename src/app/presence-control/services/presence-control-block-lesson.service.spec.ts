@@ -1,8 +1,8 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { format } from "date-fns";
-import { of } from "rxjs";
 import * as t from "io-ts";
+import { of } from "rxjs";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { Lesson } from "src/app/shared/models/lesson.model";
 import {
@@ -10,7 +10,6 @@ import {
   buildPresenceControlEntry,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { PresenceControlBlockLessonService } from "./presence-control-block-lesson.service";
 import { PresenceControlStateService } from "./presence-control-state.service";
 

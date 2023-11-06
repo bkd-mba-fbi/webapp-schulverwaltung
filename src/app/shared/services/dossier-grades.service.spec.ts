@@ -9,10 +9,10 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { Course, FinalGrading, Grading } from "../models/course.model";
+import { Grade } from "../models/grading-scale.model";
 import { CoursesRestService } from "./courses-rest.service";
 import { DossierGradesService } from "./dossier-grades.service";
 import { StorageService } from "./storage.service";
-import { Grade } from "../models/grading-scale.model";
 
 describe("DossierGradesService", () => {
   let service: DossierGradesService;

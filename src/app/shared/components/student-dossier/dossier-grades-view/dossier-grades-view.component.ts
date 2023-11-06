@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 import {
   Course,
   FinalGrading,
@@ -6,7 +7,6 @@ import {
 } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
-import { BehaviorSubject } from "rxjs";
 import { weightedAverage } from "../../../utils/math";
 
 export interface CourseWithGrades {

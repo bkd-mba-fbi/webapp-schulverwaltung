@@ -1,18 +1,17 @@
-import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
+import { flatten, uniq } from "lodash-es";
 import { map } from "rxjs/operators";
-
-import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
+import { SETTINGS, Settings } from "src/app/settings";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
-import { SETTINGS, Settings } from "src/app/settings";
-import { MyAbsencesService } from "../../services/my-absences.service";
 import { StorageService } from "src/app/shared/services/storage.service";
-import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
-import { uniq, flatten } from "lodash-es";
 import { ToastService } from "../../../shared/services/toast.service";
+import { MyAbsencesService } from "../../services/my-absences.service";
+import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
 
 @Component({
   selector: "erz-my-absences-confirm",

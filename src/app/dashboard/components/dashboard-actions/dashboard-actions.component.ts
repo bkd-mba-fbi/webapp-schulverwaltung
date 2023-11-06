@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { Settings, SETTINGS } from "../../../settings";
+import { SETTINGS, Settings } from "../../../settings";
 import { DashboardService } from "../../services/dashboard.service";
 
 @Component({

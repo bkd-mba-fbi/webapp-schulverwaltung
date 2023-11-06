@@ -1,7 +1,7 @@
-import { isAdult } from "./persons";
 import { buildPerson, buildStudent } from "src/spec-builders";
 import { Person } from "../models/person.model";
 import { Student } from "../models/student.model";
+import { isAdult } from "./persons";
 
 describe("persons utilities", () => {
   beforeEach(() => {

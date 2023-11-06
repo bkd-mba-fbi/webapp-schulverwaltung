@@ -1,12 +1,12 @@
-import * as t from "io-ts";
-import { pipe } from "fp-ts/es6/function";
 import { chain } from "fp-ts/es6/Either";
+import { pipe } from "fp-ts/es6/function";
+import * as t from "io-ts";
 import { JsonFromString } from "io-ts-types";
 import {
-  parseISOLocalDateTime,
+  formatISOLocalDate,
   formatISOLocalDateTime,
   parseISOLocalDate,
-  formatISOLocalDate,
+  parseISOLocalDateTime,
 } from "../utils/date";
 
 export function Option<T extends t.Any>(

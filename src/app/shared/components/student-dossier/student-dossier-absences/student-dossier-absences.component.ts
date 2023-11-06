@@ -1,36 +1,35 @@
 import {
-  Component,
-  Input,
-  SimpleChanges,
-  OnChanges,
   ChangeDetectionStrategy,
-  ViewChildren,
-  QueryList,
+  Component,
   ElementRef,
+  Input,
+  OnChanges,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
 } from "@angular/core";
 import {
-  Observable,
-  combineLatest,
-  ReplaySubject,
   BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  combineLatest,
   of,
 } from "rxjs";
 import {
-  switchMap,
   filter,
   map,
-  take,
+  shareReplay,
   startWith,
   switchAll,
-  shareReplay,
+  switchMap,
+  take,
 } from "rxjs/operators";
-
+import { ReportInfo } from "src/app/shared/services/reports.service";
 import { LessonPresence } from "../../../models/lesson-presence.model";
-import { notNull, not } from "../../../utils/filter";
-import { isArray } from "../../../utils/array";
 import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
 import { PresenceTypesService } from "../../../services/presence-types.service";
-import { ReportInfo } from "src/app/shared/services/reports.service";
+import { isArray } from "../../../utils/array";
+import { not, notNull } from "../../../utils/filter";
 
 @Component({
   selector: "erz-student-dossier-absences",

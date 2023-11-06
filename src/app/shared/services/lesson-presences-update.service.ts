@@ -1,28 +1,28 @@
 import { Inject, Injectable, OnDestroy } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { combineLatest, merge, Observable, of, Subject } from "rxjs";
+import { Observable, Subject, combineLatest, merge, of } from "rxjs";
 import {
   catchError,
   concatMap,
   debounceTime,
   filter,
   map,
-  switchMap,
   scan,
   share,
+  switchMap,
   takeUntil,
 } from "rxjs/operators";
+import { getNewConfirmationStateId } from "src/app/presence-control/utils/presence-types";
 import { withConfig } from "src/app/rest-error-interceptor";
-import { Settings, SETTINGS } from "src/app/settings";
+import { SETTINGS, Settings } from "src/app/settings";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 import { LessonPresence } from "../models/lesson-presence.model";
+import { PresenceType } from "../models/presence-type.model";
 import { isEmptyArray } from "../utils/array";
 import { not } from "../utils/filter";
 import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
-import { getNewConfirmationStateId } from "src/app/presence-control/utils/presence-types";
 import { PresenceTypesService } from "./presence-types.service";
-import { PresenceType } from "../models/presence-type.model";
 import { ToastService } from "./toast.service";
-import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 
 export const UPDATE_STATE_DEBOUNCE_TIME = 20;
 

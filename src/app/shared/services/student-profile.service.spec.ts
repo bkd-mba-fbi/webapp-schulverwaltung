@@ -1,24 +1,23 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
-
 import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
 import { LegalRepresentative } from "src/app/shared/models/legal-representative.model";
 import { Person } from "src/app/shared/models/person.model";
 import { Student } from "src/app/shared/models/student.model";
 import {
   buildApprenticeshipContract,
+  buildApprenticeshipManagerWithEmails,
+  buildJobTrainerWithEmails,
   buildLegalRepresentative,
   buildPerson,
-  buildStudent,
   buildPersonWithEmails,
-  buildJobTrainerWithEmails,
-  buildApprenticeshipManagerWithEmails,
+  buildStudent,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
-  StudentProfileService,
   Profile,
+  StudentProfileService,
 } from "../../shared/services/student-profile.service";
 import { ApprenticeshipManager } from "../models/apprenticeship-manager.model";
 import { DropDownItem } from "../models/drop-down-item.model";

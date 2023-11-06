@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { TranslateService } from "@ngx-translate/core";
-
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DaysDifferencePipe } from "./days-difference.pipe";
 

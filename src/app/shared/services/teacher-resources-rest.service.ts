@@ -1,12 +1,12 @@
-import { Inject, Injectable } from "@angular/core";
-import { TeacherResource } from "../models/teacher-resource.model";
 import { HttpClient } from "@angular/common/http";
-import { Settings, SETTINGS } from "../../settings";
-import { TypeaheadRestService } from "./typeahead-rest.service";
-import { DropDownItem } from "../models/drop-down-item.model";
+import { Inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { switchMap } from "rxjs/operators";
+import { SETTINGS, Settings } from "../../settings";
+import { DropDownItem } from "../models/drop-down-item.model";
+import { TeacherResource } from "../models/teacher-resource.model";
 import { decodeArray } from "../utils/decode";
+import { TypeaheadRestService } from "./typeahead-rest.service";
 
 @Injectable({
   providedIn: "root",

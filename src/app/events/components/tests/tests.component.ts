@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { TestStateService } from "../../services/test-state.service";
+import { ActivatedRoute } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
-import { ActivatedRoute } from "@angular/router";
+import { TestStateService } from "../../services/test-state.service";
 
 @Component({
   selector: "erz-tests",

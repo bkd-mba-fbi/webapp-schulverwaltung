@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { TestTableHeaderComponent } from "./test-table-header.component";
 
 describe("TestTableHeaderComponent", () => {

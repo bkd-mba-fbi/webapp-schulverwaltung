@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { ReportsLinkComponent } from "./reports-link.component";
 
 describe("ReportsLinkComponent", () => {

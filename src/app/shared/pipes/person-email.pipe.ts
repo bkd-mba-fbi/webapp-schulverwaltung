@@ -1,4 +1,4 @@
-import { PipeTransform, Pipe } from "@angular/core";
+import { Pipe, PipeTransform } from "@angular/core";
 import { Person } from "../../shared/models/person.model";
 
 @Pipe({

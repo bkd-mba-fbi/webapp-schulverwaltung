@@ -2,11 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { Settings, SETTINGS } from "../../settings";
+import { Course } from "src/app/shared/models/course.model";
+import { SETTINGS, Settings } from "../../settings";
 import { SubscriptionDetail } from "../models/subscription-detail.model";
 import { decodeArray } from "../utils/decode";
 import { RestService } from "./rest.service";
-import { Course } from "src/app/shared/models/course.model";
 
 @Injectable({
   providedIn: "root",

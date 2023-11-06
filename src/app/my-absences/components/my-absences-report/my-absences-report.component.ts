@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
 
 @Component({
   selector: "erz-my-absences-report",

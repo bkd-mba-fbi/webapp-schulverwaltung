@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { TypeaheadComponent } from "./typeahead.component";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { TypeaheadComponent } from "./typeahead.component";
 
 describe("TypeaheadComponent", () => {
   let component: TypeaheadComponent;

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { DossierGradesEditComponent } from "./dossier-grades-edit.component";
 
 describe("DossierGradesEditComponent", () => {

@@ -2,10 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { Settings, SETTINGS } from "../../settings";
+import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { SETTINGS, Settings } from "../../settings";
 import { SubscriptionDetail } from "../models/subscription-detail.model";
 import { RestService } from "./rest.service";
-import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 
 @Injectable({
   providedIn: "root",

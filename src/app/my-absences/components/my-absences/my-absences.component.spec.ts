@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { MyAbsencesComponent } from "./my-absences.component";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyAbsencesComponent } from "./my-absences.component";
 
 describe("MyAbsencesComponent", () => {
   let component: MyAbsencesComponent;

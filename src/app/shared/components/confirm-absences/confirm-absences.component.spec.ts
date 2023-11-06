@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { Router, ActivatedRoute } from "@angular/router";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { ConfirmAbsencesComponent } from "./confirm-absences.component";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OpenAbsencesService } from "src/app/open-absences/services/open-absences.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { ConfirmAbsencesSelectionService } from "../../services/confirm-absences-selection.service";
+import { ConfirmAbsencesComponent } from "./confirm-absences.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

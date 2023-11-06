@@ -1,16 +1,15 @@
-import { Injectable, Inject } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import {
-  shareReplay,
-  map,
-  startWith,
   distinctUntilChanged,
+  map,
+  shareReplay,
+  startWith,
 } from "rxjs/operators";
-
-import { PresenceTypesRestService } from "./presence-types-rest.service";
-import { PresenceType } from "../models/presence-type.model";
 import { SETTINGS, Settings } from "src/app/settings";
+import { PresenceType } from "../models/presence-type.model";
 import { sortPresenceTypes } from "../utils/presence-types";
+import { PresenceTypesRestService } from "./presence-types-rest.service";
 
 /**
  * This service provides the presence types and their variations. It

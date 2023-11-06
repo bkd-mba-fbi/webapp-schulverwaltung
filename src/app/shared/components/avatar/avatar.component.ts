@@ -2,11 +2,10 @@ import {
   Component,
   Inject,
   Input,
-  SimpleChanges,
   OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import { Params } from "@angular/router";
-
 import { SETTINGS, Settings } from "src/app/settings";
 import { StorageService } from "../../services/storage.service";
 

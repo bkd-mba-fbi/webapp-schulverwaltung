@@ -1,10 +1,9 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
-
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { PresenceTypesService } from "./presence-types.service";
 import { PresenceType } from "../models/presence-type.model";
+import { PresenceTypesService } from "./presence-types.service";
 
 describe("PresenceTypesService", () => {
   let service: PresenceTypesService;

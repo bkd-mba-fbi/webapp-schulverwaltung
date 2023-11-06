@@ -1,23 +1,23 @@
-import { Injectable, OnDestroy } from "@angular/core";
 import { ViewportScroller } from "@angular/common";
+import { Injectable, OnDestroy } from "@angular/core";
 import {
-  Router,
   ActivatedRouteSnapshot,
   ActivationEnd,
-  NavigationStart,
   NavigationEnd,
+  NavigationStart,
+  Router,
 } from "@angular/router";
 import { Subject, of } from "rxjs";
 import {
   filter,
   map,
-  takeUntil,
-  take,
-  switchMap,
   mergeMap,
-  switchAll,
   shareReplay,
   skip,
+  switchAll,
+  switchMap,
+  take,
+  takeUntil,
 } from "rxjs/operators";
 
 /**

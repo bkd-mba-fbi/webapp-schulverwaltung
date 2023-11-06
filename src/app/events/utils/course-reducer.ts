@@ -1,7 +1,7 @@
 import { Course, Grading } from "../../shared/models/course.model";
 import { Result } from "../../shared/models/test.model";
-import { removeTestById, replaceResult, toggleIsPublished } from "./tests";
 import { changeGrading, replaceGrading } from "./gradings";
+import { removeTestById, replaceResult, toggleIsPublished } from "./tests";
 
 export type TestsAction =
   | { type: "reset"; payload: Course }

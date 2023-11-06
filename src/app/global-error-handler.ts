@@ -1,5 +1,5 @@
-import { Injectable, ErrorHandler, NgZone } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ErrorHandler, Injectable, NgZone } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastService } from "./shared/services/toast.service";
 

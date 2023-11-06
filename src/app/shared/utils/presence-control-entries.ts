@@ -1,8 +1,8 @@
+import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
+import { DropDownItem } from "../models/drop-down-item.model";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
-import { DropDownItem } from "../models/drop-down-item.model";
-import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
-import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 
 export function buildPresenceControlEntries(
   lessonPresences: ReadonlyArray<LessonPresence>,

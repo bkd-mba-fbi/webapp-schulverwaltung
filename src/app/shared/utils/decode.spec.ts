@@ -1,5 +1,5 @@
 import * as t from "io-ts/lib/index";
-import { decode, decodeArray, DecodeError } from "./decode";
+import { DecodeError, decode, decodeArray } from "./decode";
 
 describe("decode utils", () => {
   const Foo = t.type({

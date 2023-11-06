@@ -1,15 +1,14 @@
-import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { Component } from "@angular/core";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import {
-  RouterStateSnapshot,
   ActivatedRouteSnapshot,
   Router,
+  RouterStateSnapshot,
 } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { authGuard } from "./auth.guard";
 import { AuthService } from "./shared/services/auth.service";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

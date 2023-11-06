@@ -1,5 +1,5 @@
-import { Lesson } from "../../shared/models/lesson.model";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { Lesson } from "../../shared/models/lesson.model";
 import { lessonsEqual } from "../utils/lessons";
 
 export function lessonsEntryEqual(

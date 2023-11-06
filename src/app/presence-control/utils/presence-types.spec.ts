@@ -1,11 +1,11 @@
-import {
-  getNewConfirmationStateId,
-  canChangePresenceType,
-} from "./presence-types";
-import { buildLessonPresence, buildPresenceType } from "src/spec-builders";
-import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { buildLessonPresence, buildPresenceType } from "src/spec-builders";
 import { settings } from "src/spec-helpers";
+import {
+  canChangePresenceType,
+  getNewConfirmationStateId,
+} from "./presence-types";
 
 describe("presence types", () => {
   let absenceType: PresenceType;

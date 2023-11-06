@@ -1,29 +1,28 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  OnInit,
-  AfterViewInit,
   OnDestroy,
+  OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { BehaviorSubject, Subject, combineLatest } from "rxjs";
 import { map, shareReplay, take, takeUntil } from "rxjs/operators";
-
 import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { searchEntries } from "src/app/shared/utils/search";
+import { PresenceTypesService } from "../../../shared/services/presence-types.service";
 import { spread } from "../../../shared/utils/function";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
+import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 import {
   PresenceControlStateService,
   VIEW_MODES,
 } from "../../services/presence-control-state.service";
 import { PresenceControlBlockLessonComponent } from "../presence-control-block-lesson/presence-control-block-lesson.component";
-import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
-import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { PresenceControlIncidentComponent } from "../presence-control-incident/presence-control-incident.component";
-import { PresenceTypesService } from "../../../shared/services/presence-types.service";
-import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 
 @Component({
   selector: "erz-presence-control-list",

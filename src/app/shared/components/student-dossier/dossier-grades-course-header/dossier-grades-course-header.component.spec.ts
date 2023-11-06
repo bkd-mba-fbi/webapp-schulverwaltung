@@ -4,7 +4,6 @@ import { FinalGrading } from "src/app/shared/models/course.model";
 import { Grade } from "src/app/shared/models/grading-scale.model";
 import { buildGradingScale } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { DossierGradesCourseHeaderComponent } from "./dossier-grades-course-header.component";
 
 describe("DossierGradesCourseHeaderComponent", () => {

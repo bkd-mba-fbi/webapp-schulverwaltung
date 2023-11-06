@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { BehaviorSubject, of } from "rxjs";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import {
   DossierPage,
@@ -6,12 +7,10 @@ import {
 } from "src/app/shared/services/dossier-state.service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
-import { DossierGradesComponent } from "./dossier-grades.component";
-import { BehaviorSubject, of } from "rxjs";
-import { Course } from "../../../models/course.model";
 import { buildCourse, buildGradingScale } from "../../../../../spec-builders";
+import { Course } from "../../../models/course.model";
 import { GradingScale } from "../../../models/grading-scale.model";
+import { DossierGradesComponent } from "./dossier-grades.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

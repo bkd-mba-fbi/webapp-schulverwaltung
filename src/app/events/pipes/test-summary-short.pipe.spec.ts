@@ -1,4 +1,4 @@
-import { waitForAsync, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { TranslateService } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 import { buildTest } from "src/spec-builders";

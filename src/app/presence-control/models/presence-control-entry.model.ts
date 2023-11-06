@@ -1,15 +1,15 @@
+import { Settings } from "src/app/settings";
+import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
-import { Settings } from "src/app/settings";
 import { Searchable } from "src/app/shared/utils/search";
+import { LessonAbsence } from "../../shared/models/lesson-absence.model";
 import {
+  canChangePresenceType,
   isAbsent,
   isDefaultAbsence,
-  canChangePresenceType,
   isUnapprovedAbsence,
 } from "../utils/presence-types";
-import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
-import { LessonAbsence } from "../../shared/models/lesson-absence.model";
 
 export enum PresenceCategory {
   Present = "present",

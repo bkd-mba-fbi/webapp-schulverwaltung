@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { shareReplay, switchMap } from "rxjs/operators";
-
 import { StudentProfileService } from "src/app/shared/services/student-profile.service";
 
 @Injectable()

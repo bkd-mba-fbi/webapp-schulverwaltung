@@ -1,22 +1,21 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnDestroy,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subject } from "rxjs";
-import { takeUntil, take, map, filter } from "rxjs/operators";
-
-import {
-  EditAbsencesStateService,
-  EditAbsencesFilter,
-} from "../../services/edit-absences-state.service";
-import { EditAbsencesSelectionService } from "../../services/edit-absences-selection.service";
+import { filter, map, take, takeUntil } from "rxjs/operators";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { isTruthy } from "src/app/shared/utils/filter";
+import { EditAbsencesSelectionService } from "../../services/edit-absences-selection.service";
+import {
+  EditAbsencesFilter,
+  EditAbsencesStateService,
+} from "../../services/edit-absences-state.service";
 
 @Component({
   selector: "erz-edit-absences-list",

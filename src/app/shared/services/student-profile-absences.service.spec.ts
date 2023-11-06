@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentProfileAbsencesService } from "./student-profile-absences.service";
 

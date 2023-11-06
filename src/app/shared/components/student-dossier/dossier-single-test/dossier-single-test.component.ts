@@ -1,6 +1,6 @@
-import { Component, Input, SimpleChanges, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { map, ReplaySubject } from "rxjs";
+import { ReplaySubject, map } from "rxjs";
 import {
   replaceResultInTest,
   resultOfStudent,
@@ -8,8 +8,8 @@ import {
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Result, Test } from "src/app/shared/models/test.model";
-import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grades-edit.component";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
+import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grades-edit.component";
 
 @Component({
   selector: "erz-dossier-single-test",

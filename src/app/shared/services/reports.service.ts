@@ -1,13 +1,12 @@
-import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import { flatten, groupBy } from "lodash-es";
 import { Observable, combineLatest, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
-import { flatten, groupBy } from "lodash-es";
-
 import { Report, ReportType, SETTINGS, Settings } from "src/app/settings";
-import { StorageService } from "./storage.service";
-import { decode } from "../utils/decode";
 import { AvailableReports } from "../models/report.model";
+import { decode } from "../utils/decode";
+import { StorageService } from "./storage.service";
 
 export type ReportInfo = Report & { title: string; url: string };
 

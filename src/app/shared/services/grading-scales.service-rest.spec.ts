@@ -2,7 +2,6 @@ import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { buildGradingScale } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { GradingScalesRestService } from "./grading-scales-rest.service";
 
 describe("GradingScalesRestService", () => {

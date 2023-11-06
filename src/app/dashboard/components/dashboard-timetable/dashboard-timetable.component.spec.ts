@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { DashboardTimetableComponent } from "./dashboard-timetable.component";
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
+import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import {
   buildLesson,
   buildLessonAbsence,
   buildLessonIncident,
   buildTimetableEntry,
 } from "src/spec-builders";
-import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
-import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
+import { DashboardTimetableComponent } from "./dashboard-timetable.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

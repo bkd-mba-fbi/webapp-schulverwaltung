@@ -1,6 +1,5 @@
 import { InjectionToken } from "@angular/core";
 import * as t from "io-ts";
-
 import { Option } from "./shared/models/common-types";
 import { fromEnum } from "./shared/utils/types";
 

@@ -3,7 +3,6 @@ import { TestBed } from "@angular/core/testing";
 import { buildIdSubscription } from "src/spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { IdSubscription } from "../models/subscription-detail.model";
-
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
 describe("SubscriptionsRestService", () => {

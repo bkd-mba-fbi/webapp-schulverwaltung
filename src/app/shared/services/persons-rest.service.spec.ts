@@ -1,12 +1,11 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
 import { isEqual } from "lodash-es";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { PersonsRestService } from "./persons-rest.service";
 import { buildPerson } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { Person } from "../models/person.model";
+import { PersonsRestService } from "./persons-rest.service";
 
 describe("PersonsRestService", () => {
   let service: PersonsRestService;

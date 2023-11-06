@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { PresenceControlGroupComponent } from "./presence-control-group.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { PresenceControlStateService } from "../../services/presence-control-state.service";
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
+import { PresenceControlGroupComponent } from "./presence-control-group.component";
 
 describe("PresenceControlGroupComponent", () => {
   let component: PresenceControlGroupComponent;

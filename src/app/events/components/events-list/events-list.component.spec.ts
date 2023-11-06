@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { EventsStateService } from "../../services/events-state.service";
-
-import { EventsListComponent } from "./events-list.component";
 import { buildEvent } from "../../../../spec-builders";
 import { StorageService } from "../../../shared/services/storage.service";
+import { EventsStateService } from "../../services/events-state.service";
+import { EventsListComponent } from "./events-list.component";
 
 describe("EventsListComponent", () => {
   let component: EventsListComponent;

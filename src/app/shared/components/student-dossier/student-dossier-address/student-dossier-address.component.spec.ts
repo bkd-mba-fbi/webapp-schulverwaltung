@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { StudentDossierAddressComponent } from "./student-dossier-address.component";
-import { buildStudent, buildPerson } from "src/spec-builders";
+import { buildPerson, buildStudent } from "src/spec-builders";
 import { Person } from "../../../models/person.model";
+import { StudentDossierAddressComponent } from "./student-dossier-address.component";
 
 describe("StudentDossierAddressComponent", () => {
   let component: StudentDossierAddressComponent;

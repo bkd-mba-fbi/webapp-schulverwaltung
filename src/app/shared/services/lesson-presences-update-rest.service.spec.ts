@@ -1,9 +1,8 @@
+import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { isEqual } from "lodash-es";
-
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
-import { HttpTestingController } from "@angular/common/http/testing";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

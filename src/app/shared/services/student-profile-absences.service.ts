@@ -1,13 +1,12 @@
-import { Injectable, Inject } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { Observable, ReplaySubject, EMPTY, of, combineLatest } from "rxjs";
-import { map, switchMap, startWith, share } from "rxjs/operators";
-
+import { EMPTY, Observable, ReplaySubject, combineLatest, of } from "rxjs";
+import { map, share, startWith, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
+import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { LessonPresencesRestService } from "./lesson-presences-rest.service";
 import { PresenceTypesService } from "./presence-types.service";
-import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { ToastService } from "./toast.service";
 
 export interface StudentProfileAbsencesCounts {

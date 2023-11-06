@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StudentDossierApprenticeshipCompanyComponent } from "./student-dossier-apprenticeship-company.component";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManager,
   buildJobTrainer,
 } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentDossierApprenticeshipCompanyComponent } from "./student-dossier-apprenticeship-company.component";
 
 describe("StudentDossierApprenticeshipCompanyComponent", () => {
   let component: StudentDossierApprenticeshipCompanyComponent;

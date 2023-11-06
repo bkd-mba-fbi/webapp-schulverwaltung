@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { PresenceType } from "../../../shared/models/presence-type.model";
 import { TranslateService } from "@ngx-translate/core";
+import { PresenceType } from "../../../shared/models/presence-type.model";
 
 interface IncidentOption {
   id: Option<number>;

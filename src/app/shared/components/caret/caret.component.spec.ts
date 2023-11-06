@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { CaretComponent } from "./caret.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { CaretComponent } from "./caret.component";
 
 describe("CaretComponent", () => {
   let component: CaretComponent;

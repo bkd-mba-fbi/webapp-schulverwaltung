@@ -1,42 +1,42 @@
+import { Event, EventState } from "./app/events/services/events-state.service";
+import { PresenceControlEntry } from "./app/presence-control/models/presence-control-entry.model";
+import { ApprenticeshipContract } from "./app/shared/models/apprenticeship-contract.model";
+import { ApprenticeshipManager } from "./app/shared/models/apprenticeship-manager.model";
 import { OptionalReference, Reference } from "./app/shared/models/common-types";
+import {
+  AttendanceRef,
+  Course,
+  EvaluationStatusRef,
+  FinalGrading,
+  Grading,
+} from "./app/shared/models/course.model";
+import { Grade } from "./app/shared/models/grading-scale.model";
+import { JobTrainer } from "./app/shared/models/job-trainer.model";
+import { LegalRepresentative } from "./app/shared/models/legal-representative.model";
+import { LessonAbsence } from "./app/shared/models/lesson-absence.model";
+import { LessonDispensation } from "./app/shared/models/lesson-dispensation.model";
+import { LessonIncident } from "./app/shared/models/lesson-incident.model";
+import { LessonPresenceStatistic } from "./app/shared/models/lesson-presence-statistic";
 import { LessonPresence } from "./app/shared/models/lesson-presence.model";
 import { Lesson } from "./app/shared/models/lesson.model";
-import { PresenceType } from "./app/shared/models/presence-type.model";
-import { PresenceControlEntry } from "./app/presence-control/models/presence-control-entry.model";
-import { Student } from "./app/shared/models/student.model";
-import { ApprenticeshipContract } from "./app/shared/models/apprenticeship-contract.model";
-import { LegalRepresentative } from "./app/shared/models/legal-representative.model";
 import { Person } from "./app/shared/models/person.model";
-import { LessonPresenceStatistic } from "./app/shared/models/lesson-presence-statistic";
-import { ApprenticeshipManager } from "./app/shared/models/apprenticeship-manager.model";
-import { JobTrainer } from "./app/shared/models/job-trainer.model";
-import { UserSettings } from "./app/shared/models/user-settings.model";
-import { LessonAbsence } from "./app/shared/models/lesson-absence.model";
-import {
-  IdSubscription,
-  SubscriptionDetail,
-} from "./app/shared/models/subscription-detail.model";
-import {
-  Course,
-  AttendanceRef,
-  EvaluationStatusRef,
-  Grading,
-  FinalGrading,
-} from "./app/shared/models/course.model";
-import { Result, Test } from "./app/shared/models/test.model";
-import { StudyClass } from "./app/shared/models/study-class.model";
-import { Grade } from "./app/shared/models/grading-scale.model";
+import { PresenceType } from "./app/shared/models/presence-type.model";
 import {
   FinalGrade,
   GradeKind,
   GradeOrNoResult,
   StudentGrade,
 } from "./app/shared/models/student-grades";
+import { Student } from "./app/shared/models/student.model";
+import { StudyClass } from "./app/shared/models/study-class.model";
+import {
+  IdSubscription,
+  SubscriptionDetail,
+} from "./app/shared/models/subscription-detail.model";
+import { Result, Test } from "./app/shared/models/test.model";
 import { TimetableEntry } from "./app/shared/models/timetable-entry.model";
-import { LessonDispensation } from "./app/shared/models/lesson-dispensation.model";
 import { TokenPayload } from "./app/shared/models/token-payload.model";
-import { EventState, Event } from "./app/events/services/events-state.service";
-import { LessonIncident } from "./app/shared/models/lesson-incident.model";
+import { UserSettings } from "./app/shared/models/user-settings.model";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

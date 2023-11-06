@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { of, throwError } from "rxjs";
 import { withConfig } from "src/app/rest-error-interceptor";
 import {
@@ -8,6 +8,7 @@ import {
   buildReference,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
 import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
@@ -18,7 +19,6 @@ import {
 } from "./lesson-presences-update.service";
 import { PresenceTypesService } from "./presence-types.service";
 import { ToastService } from "./toast.service";
-import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 
 describe("LessonPresencesUpdateService", () => {
   let service: LessonPresencesUpdateService;

@@ -1,18 +1,17 @@
-import { Injectable, Inject } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
-
 import { SETTINGS, Settings } from "../../settings";
-import { TypeaheadRestService } from "./typeahead-rest.service";
-import { decodeArray } from "../utils/decode";
-import { Student } from "../models/student.model";
-import { LegalRepresentative } from "../models/legal-representative.model";
 import { ApprenticeshipContract } from "../models/apprenticeship-contract.model";
-import { TimetableEntry } from "../models/timetable-entry.model";
+import { LegalRepresentative } from "../models/legal-representative.model";
 import { LessonAbsence } from "../models/lesson-absence.model";
-import { LessonIncident } from "../models/lesson-incident.model";
 import { LessonDispensation } from "../models/lesson-dispensation.model";
+import { LessonIncident } from "../models/lesson-incident.model";
+import { Student } from "../models/student.model";
+import { TimetableEntry } from "../models/timetable-entry.model";
+import { decodeArray } from "../utils/decode";
+import { TypeaheadRestService } from "./typeahead-rest.service";
 
 @Injectable({
   providedIn: "root",

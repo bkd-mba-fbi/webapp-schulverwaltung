@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
-
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { EditAbsencesHeaderComponent } from "./edit-absences-header.component";
 import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
+import { EditAbsencesHeaderComponent } from "./edit-absences-header.component";
 
 describe("EditAbsencesHeaderComponent", () => {
   let component: EditAbsencesHeaderComponent;

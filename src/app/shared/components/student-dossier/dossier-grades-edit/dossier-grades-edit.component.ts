@@ -9,11 +9,11 @@ import {
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   BehaviorSubject,
+  Observable,
+  Subject,
   debounceTime,
   filter,
   map,
-  Observable,
-  Subject,
   takeUntil,
 } from "rxjs";
 import { maxPoints } from "src/app/events/utils/tests";

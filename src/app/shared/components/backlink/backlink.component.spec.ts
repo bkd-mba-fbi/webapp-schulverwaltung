@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { BacklinkComponent } from "./backlink.component";
 
 describe("BacklinkComponent", () => {

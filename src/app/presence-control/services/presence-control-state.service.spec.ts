@@ -1,27 +1,26 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
 import { of } from "rxjs";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { PresenceControlStateService } from "./presence-control-state.service";
-import { LessonPresence } from "../../shared/models/lesson-presence.model";
-import {
-  buildLessonPresence,
-  buildLesson,
-  buildPresenceType,
-  buildPresenceControlEntry,
-  buildPerson,
-} from "src/spec-builders";
-import { PresenceType } from "../../shared/models/presence-type.model";
-import { DropDownItem } from "../../shared/models/drop-down-item.model";
-import { fromLesson } from "../models/lesson-entry.model";
-import { LessonAbsence } from "../../shared/models/lesson-absence.model";
-import { Person } from "../../shared/models/person.model";
-import { PresenceControlGroupService } from "./presence-control-group.service";
-import { StorageService } from "../../shared/services/storage.service";
-import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { Lesson } from "src/app/shared/models/lesson.model";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import {
+  buildLesson,
+  buildLessonPresence,
+  buildPerson,
+  buildPresenceControlEntry,
+  buildPresenceType,
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { DropDownItem } from "../../shared/models/drop-down-item.model";
+import { LessonAbsence } from "../../shared/models/lesson-absence.model";
+import { LessonPresence } from "../../shared/models/lesson-presence.model";
+import { Person } from "../../shared/models/person.model";
+import { PresenceType } from "../../shared/models/presence-type.model";
+import { StorageService } from "../../shared/services/storage.service";
+import { fromLesson } from "../models/lesson-entry.model";
+import { PresenceControlGroupService } from "./presence-control-group.service";
+import { PresenceControlStateService } from "./presence-control-state.service";
 
 describe("PresenceControlStateService", () => {
   let service: PresenceControlStateService;

@@ -1,9 +1,9 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
+  ElementRef,
   HostListener,
   ViewChild,
-  ElementRef,
 } from "@angular/core";
 
 @Component({

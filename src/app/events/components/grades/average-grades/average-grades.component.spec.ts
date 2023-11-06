@@ -1,10 +1,9 @@
+import { DecimalPipe } from "@angular/common";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Test } from "src/app/shared/models/test.model";
 import { buildResult, buildTest } from "src/spec-builders";
 import { expectNotInTheDocument, expectText } from "src/specs/expectations";
-
 import { AverageGradesComponent } from "./average-grades.component";
-import { DecimalPipe } from "@angular/common";
 
 describe("AverageGradesComponent", () => {
   let component: AverageGradesComponent;

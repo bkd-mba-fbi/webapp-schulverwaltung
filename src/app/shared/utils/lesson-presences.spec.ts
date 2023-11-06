@@ -4,10 +4,10 @@ import {
 } from "src/spec-builders";
 import { LessonPresence } from "../models/lesson-presence.model";
 import {
-  getIdsGroupedByPerson,
   getIdsGroupedByLesson,
-  sortLessonPresencesByDate,
+  getIdsGroupedByPerson,
   getIdsGroupedByPersonAndPresenceType,
+  sortLessonPresencesByDate,
   toDesignationDateTimeTypeString,
 } from "./lesson-presences";
 

@@ -1,6 +1,6 @@
-import { PresenceType } from "../models/presence-type.model";
 import { DropDownGroupedItem } from "../models/drop-down-grouped-item.model";
 import { DropDownItem } from "../models/drop-down-item.model";
+import { PresenceType } from "../models/presence-type.model";
 
 /**
  * Sorts an array of presence types by the `Sort` attribute.

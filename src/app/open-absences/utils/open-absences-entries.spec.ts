@@ -1,12 +1,12 @@
-import { buildLessonPresenceWithIds } from "src/spec-builders";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
 import {
   buildOpenAbsencesEntries,
   flattenOpenAbsencesEntries,
-  sortOpenAbsencesEntries,
   removeOpenAbsences,
+  sortOpenAbsencesEntries,
 } from "./open-absences-entries";
-import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
 
 describe("open absences entries utils", () => {
   let presenceA: LessonPresence;

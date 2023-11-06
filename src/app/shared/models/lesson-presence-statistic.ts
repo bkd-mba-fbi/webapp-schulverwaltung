@@ -1,5 +1,5 @@
-import { Reference } from "./common-types";
 import * as t from "io-ts";
+import { Reference } from "./common-types";
 
 const LessonPresenceStatistic = t.type({
   StudentRef: Reference,

@@ -1,13 +1,13 @@
 import { Inject, Injectable } from "@angular/core";
-import { combineLatest, map, Observable, take } from "rxjs";
-import { Settings, SETTINGS } from "src/app/settings";
+import { Observable, combineLatest, map, take } from "rxjs";
+import { SETTINGS, Settings } from "src/app/settings";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
-import { PresenceControlEntry } from "../models/presence-control-entry.model";
-import { getPresenceControlEntry } from "../utils/lessons";
-import { PresenceControlStateService } from "./presence-control-state.service";
-import { canChangePresenceType } from "../utils/presence-types";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
+import { PresenceControlEntry } from "../models/presence-control-entry.model";
+import { getPresenceControlEntry } from "../utils/lessons";
+import { canChangePresenceType } from "../utils/presence-types";
+import { PresenceControlStateService } from "./presence-control-state.service";
 
 const MAX_BLOCK_LESSION_MINUTES_GAP = 30;
 

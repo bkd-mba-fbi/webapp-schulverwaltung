@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { expectText } from "src/specs/expectations";
-
 import { DossierGradesFinalGradeComponent } from "./dossier-grades-final-grade.component";
 
 describe("DossierGradesFinalGradeComponent", () => {

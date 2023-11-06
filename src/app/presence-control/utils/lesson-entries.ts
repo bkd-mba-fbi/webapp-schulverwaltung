@@ -1,11 +1,11 @@
+import { isBefore, isSameDay, isWithinInterval } from "date-fns";
+import { Lesson } from "src/app/shared/models/lesson.model";
 import {
-  fromLesson,
   LessonEntry,
+  fromLesson,
   lessonsEntryEqual,
 } from "../models/lesson-entry.model";
 import { lessonsComparator, lessonsEqual } from "./lessons";
-import { isBefore, isSameDay, isWithinInterval } from "date-fns";
-import { Lesson } from "src/app/shared/models/lesson.model";
 
 /**
  * Returns a sorted array of lesson entries for the given lesson presences.

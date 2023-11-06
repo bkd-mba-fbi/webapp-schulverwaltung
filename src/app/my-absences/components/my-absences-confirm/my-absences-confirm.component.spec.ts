@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
-
-import { MyAbsencesConfirmComponent } from "./my-absences-confirm.component";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MyAbsencesService } from "../../services/my-absences.service";
-import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { MyAbsencesConfirmComponent } from "./my-absences-confirm.component";
 
 describe("MyAbsencesConfirmComponent", () => {
   let component: MyAbsencesConfirmComponent;

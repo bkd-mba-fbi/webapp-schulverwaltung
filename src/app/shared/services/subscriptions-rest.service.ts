@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { Settings, SETTINGS } from "../../settings";
+import { SETTINGS, Settings } from "../../settings";
 import {
   IdSubscription,
   SubscriptionDetail,

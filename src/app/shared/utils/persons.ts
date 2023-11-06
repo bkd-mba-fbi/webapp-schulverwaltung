@@ -1,6 +1,6 @@
 import { differenceInYears } from "date-fns";
-import { Student } from "../models/student.model";
 import { Person } from "../models/person.model";
+import { Student } from "../models/student.model";
 
 const ADULT_AGE = 18;
 

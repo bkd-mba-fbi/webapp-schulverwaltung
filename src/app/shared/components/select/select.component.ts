@@ -1,15 +1,14 @@
 import {
   Component,
-  Input,
-  Output,
   EventEmitter,
+  Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from "@angular/core";
-
-import { DropDownItem } from "../../models/drop-down-item.model";
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
+import { DropDownItem } from "../../models/drop-down-item.model";
 
 @Component({
   selector: "erz-select",

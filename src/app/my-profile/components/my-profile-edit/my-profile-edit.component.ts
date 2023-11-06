@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -7,13 +7,12 @@ import {
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
-import { map, take, switchMap, finalize, shareReplay } from "rxjs/operators";
-
+import { finalize, map, shareReplay, switchMap, take } from "rxjs/operators";
 import { Person } from "src/app/shared/models/person.model";
-import { MyProfileService } from "../../services/my-profile.service";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { getValidationErrors } from "src/app/shared/utils/form";
 import { ToastService } from "../../../shared/services/toast.service";
+import { MyProfileService } from "../../services/my-profile.service";
 
 @Component({
   selector: "erz-my-profile-edit",

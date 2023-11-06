@@ -1,5 +1,5 @@
-import { PersonEmailPipe } from "./person-email.pipe";
 import { buildPersonWithEmails } from "../../../spec-builders";
+import { PersonEmailPipe } from "./person-email.pipe";
 
 describe("PersonEmailPipe", () => {
   let personEmailPipe: PersonEmailPipe;

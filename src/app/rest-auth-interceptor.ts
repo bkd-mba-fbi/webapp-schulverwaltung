@@ -1,14 +1,13 @@
-import { Injectable, Inject } from "@angular/core";
 import {
+  HttpEvent,
+  HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpHandler,
-  HttpEvent,
 } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-
-import { AuthService } from "./shared/services/auth.service";
 import { SETTINGS, Settings } from "./settings";
+import { AuthService } from "./shared/services/auth.service";
 
 @Injectable()
 export class RestAuthInterceptor implements HttpInterceptor {

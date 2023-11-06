@@ -1,8 +1,8 @@
-import * as t from "io-ts";
-import { pipe } from "fp-ts/es6/function";
 import { fold, left } from "fp-ts/es6/Either";
+import { pipe } from "fp-ts/es6/function";
+import * as t from "io-ts";
 import { PathReporter } from "io-ts/es6/PathReporter";
-import { Observable, throwError, of } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 
 export class DecodeError extends Error {
   name = "DecodeError";

@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildTest } from "src/spec-builders";
-
-import { TestsEditFormComponent } from "./tests-edit-form.component";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../services/test-state.service";
+import { TestsEditFormComponent } from "./tests-edit-form.component";
 
 describe("TestsEditFormComponent", () => {
   let component: TestsEditFormComponent;

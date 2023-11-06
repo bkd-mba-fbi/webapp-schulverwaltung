@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { Test } from "../../../../shared/models/test.model";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Test } from "../../../../shared/models/test.model";
 
 @Component({
   selector: "erz-tests-delete",

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Observable } from "rxjs";
+import { map, take } from "rxjs/operators";
 import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
 import {
   TestGradesResult,
@@ -15,8 +17,6 @@ import { EventsStateService } from "../../services/events-state.service";
 import { Filter, TestStateService } from "../../services/test-state.service";
 import { getEventState } from "../../utils/events";
 import { averageGrade, averagePoints } from "../../utils/tests";
-import { map, take } from "rxjs/operators";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "erz-test-edit-grades",

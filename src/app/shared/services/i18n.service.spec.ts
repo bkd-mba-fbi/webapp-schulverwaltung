@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { I18nService } from "./i18n.service";
 import { TranslateService } from "@ngx-translate/core";
+import { I18nService } from "./i18n.service";
 import { StorageService } from "./storage.service";
 
 describe("I18nService", () => {

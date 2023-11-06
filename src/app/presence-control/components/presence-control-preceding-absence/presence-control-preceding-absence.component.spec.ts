@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { PresenceControlPrecedingAbsenceComponent } from "./presence-control-preceding-absence.component";
-import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { PresenceControlPrecedingAbsenceComponent } from "./presence-control-preceding-absence.component";
 
 describe("PresenceControlPreviousAbsenceComponent", () => {
   let component: PresenceControlPrecedingAbsenceComponent;

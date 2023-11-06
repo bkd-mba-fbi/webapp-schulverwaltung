@@ -1,14 +1,14 @@
-import { Inject, Injectable } from "@angular/core";
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { SETTINGS, Settings } from "./settings";
+import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import camelCase from "lodash-es/camelCase";
+import { Observable } from "rxjs";
+import { SETTINGS, Settings } from "./settings";
 import { getFirstSegment } from "./shared/utils/url";
 
 @Injectable()

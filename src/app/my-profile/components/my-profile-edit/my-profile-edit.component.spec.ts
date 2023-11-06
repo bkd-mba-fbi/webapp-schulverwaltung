@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { buildPerson } from "src/spec-builders";
-import { MyProfileEditComponent } from "./my-profile-edit.component";
-import { MyProfileService } from "../../services/my-profile.service";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
+import { buildPerson } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyProfileService } from "../../services/my-profile.service";
+import { MyProfileEditComponent } from "./my-profile-edit.component";
 
 describe("MyProfileEditComponent", () => {
   // let component: MyProfileEditComponent;

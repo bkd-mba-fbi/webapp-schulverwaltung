@@ -1,47 +1,46 @@
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Inject,
   ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
   Optional,
 } from "@angular/core";
 import {
-  UntypedFormGroup,
   UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, Subject, combineLatest, Observable } from "rxjs";
-import {
-  takeUntil,
-  filter,
-  map,
-  finalize,
-  shareReplay,
-  take,
-  switchMap,
-} from "rxjs/operators";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-
-import { notNull } from "src/app/shared/utils/filter";
+import { BehaviorSubject, Observable, Subject, combineLatest } from "rxjs";
 import {
-  getValidationErrors,
-  getControl,
-  getControlValueChanges,
-} from "src/app/shared/utils/form";
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  takeUntil,
+} from "rxjs/operators";
+import { SETTINGS, Settings } from "src/app/settings";
 import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
 import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
-import { SETTINGS, Settings } from "src/app/settings";
-import { findDropDownItem$ } from "src/app/shared/utils/drop-down-items";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { findDropDownItem$ } from "src/app/shared/utils/drop-down-items";
+import { notNull } from "src/app/shared/utils/filter";
+import {
+  getControl,
+  getControlValueChanges,
+  getValidationErrors,
+} from "src/app/shared/utils/form";
+import { LessonPresence } from "../../models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "../../services/confirm-absences-selection.service";
+import { ToastService } from "../../services/toast.service";
 import {
   CONFIRM_ABSENCES_SERVICE,
   IConfirmAbsencesService,
 } from "../../tokens/confirm-absences-service";
-import { LessonPresence } from "../../models/lesson-presence.model";
-import { ToastService } from "../../services/toast.service";
 
 @Component({
   selector: "erz-confirm-absences",

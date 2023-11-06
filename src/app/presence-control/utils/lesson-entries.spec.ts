@@ -1,10 +1,10 @@
-import {
-  getLessonEntriesForLessons,
-  getCurrentLessonEntry,
-} from "./lesson-entries";
 import { buildLesson } from "../../../spec-builders";
-import { fromLesson, LessonEntry } from "../models/lesson-entry.model";
 import { Lesson } from "../../shared/models/lesson.model";
+import { LessonEntry, fromLesson } from "../models/lesson-entry.model";
+import {
+  getCurrentLessonEntry,
+  getLessonEntriesForLessons,
+} from "./lesson-entries";
 
 describe("lessons entries", () => {
   describe("getLessonEntriesForLessons", () => {

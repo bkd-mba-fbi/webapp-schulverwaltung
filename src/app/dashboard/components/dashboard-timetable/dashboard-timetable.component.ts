@@ -1,23 +1,22 @@
 import { Component } from "@angular/core";
+import addDays from "date-fns/addDays";
+import format from "date-fns/format";
+import startOfDay from "date-fns/startOfDay";
+import subDays from "date-fns/subDays";
 import {
-  combineLatest,
-  Observable,
-  map,
-  switchMap,
-  of,
   BehaviorSubject,
+  Observable,
+  combineLatest,
+  map,
+  of,
+  switchMap,
   tap,
 } from "rxjs";
-import startOfDay from "date-fns/startOfDay";
-import format from "date-fns/format";
-import addDays from "date-fns/addDays";
-import subDays from "date-fns/subDays";
-
+import { uniqueLessons } from "src/app/presence-control/utils/lesson-entries";
 import { Lesson } from "src/app/shared/models/lesson.model";
 import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
-import { uniqueLessons } from "src/app/presence-control/utils/lesson-entries";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { DashboardService } from "../../services/dashboard.service";
 

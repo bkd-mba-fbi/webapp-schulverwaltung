@@ -1,6 +1,6 @@
+import { searchEntries } from "src/app/shared/utils/search";
 import { buildLessonPresence } from "src/spec-builders";
 import { PresenceControlEntry } from "../models/presence-control-entry.model";
-import { searchEntries } from "src/app/shared/utils/search";
 
 describe("presence control entries utils", () => {
   let bichsel: PresenceControlEntry;

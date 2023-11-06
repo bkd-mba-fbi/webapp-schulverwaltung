@@ -1,10 +1,9 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpClient } from "@angular/common/http";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
-
-import { withConfig } from "./rest-error-interceptor";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { withConfig } from "./rest-error-interceptor";
 import { ToastService } from "./shared/services/toast.service";
 
 describe("RestErrorInterceptor", () => {

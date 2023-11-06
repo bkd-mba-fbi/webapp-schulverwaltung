@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
-import { of, Observable } from "rxjs";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { isEqual } from "lodash-es";
-
-import { buildTestModuleMetadata, settings } from "src/spec-helpers";
-import { EditAbsencesEditComponent } from "./edit-absences-edit.component";
-import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
-import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
-import { buildPresenceType, buildLessonPresence } from "src/spec-builders";
-import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
-import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { Observable, of } from "rxjs";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { buildLessonPresence, buildPresenceType } from "src/spec-builders";
+import { buildTestModuleMetadata, settings } from "src/spec-helpers";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
+import { EditAbsencesEditComponent } from "./edit-absences-edit.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

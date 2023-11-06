@@ -9,6 +9,7 @@
     "type": "git",
     "url": "git+https@github.com:bkd-mba-fbi/webapp-schulverwaltung.git"
   },
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,7 +22,7 @@
     "test:brief": "ng test --browsers=ChromeHeadless --reporters brief",
     "test:coverage": "ng test --browsers=ChromeHeadless --code-coverage --reporters coverage-istanbul",
     "lint": "ng lint",
-    "format": "prettier --write \"./**/*.{js,ts,json,css,scss,html,md,yaml}\"",
+    "format": "prettier --write \"./**/*\" --ignore-unknown",
     "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
     "preanalyze": "ng build --stats-json",
     "analyze": "npx webpack-bundle-analyzer dist/$(ng config defaultProject)/stats.json",
@@ -70,6 +71,7 @@
     "@angular/cli": "^16.2.7",
     "@angular/compiler-cli": "^16.2.10",
     "@angular/language-service": "^16.2.10",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/jasmine": "~5.1.1",
     "@types/lodash-es": "^4.17.10",
     "@types/node": "^18.11.0",

@@ -1,5 +1,5 @@
 import { FinalGrading, Grading } from "../models/course.model";
-import { GradingScale, Grade } from "../models/grading-scale.model";
+import { Grade, GradingScale } from "../models/grading-scale.model";
 import * as Gradings from "./gradings";
 
 describe("gradings", () => {

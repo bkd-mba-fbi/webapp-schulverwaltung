@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject } from "rxjs";
-
-import { DashboardComponent } from "./dashboard.component";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StorageService } from "../../../shared/services/storage.service";
 import { DashboardService } from "../../services/dashboard.service";
+import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
 import { DashboardActionsComponent } from "../dashboard-actions/dashboard-actions.component";
 import { DashboardSearchComponent } from "../dashboard-search/dashboard-search.component";
-import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
 import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-timetable.component";
+import { DashboardComponent } from "./dashboard.component";
 
 describe("DashboardComponent", () => {
   let fixture: ComponentFixture<DashboardComponent>;

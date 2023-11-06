@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { PresenceTypesRestService } from "./presence-types-rest.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { PresenceTypesRestService } from "./presence-types-rest.service";
 
 describe("PresenceTypesRestService", () => {
   beforeEach(() => TestBed.configureTestingModule(buildTestModuleMetadata({})));

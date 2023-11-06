@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
 import { MyProfileAddressComponent } from "./my-profile-address.component";
 
 describe("MyProfileAddressComponent", () => {

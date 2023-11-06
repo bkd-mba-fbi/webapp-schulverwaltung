@@ -1,30 +1,29 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
-import { BehaviorSubject, merge, Observable, of, Subject } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, Observable, Subject, merge, of } from "rxjs";
 import {
-  shareReplay,
-  map,
+  distinctUntilChanged,
   finalize,
+  map,
+  shareReplay,
+  skip,
   switchMap,
   takeUntil,
   withLatestFrom,
-  skip,
-  distinctUntilChanged,
 } from "rxjs/operators";
-
 import {
   NotificationChannels,
   NotificationTypesInactive,
 } from "src/app/shared/models/user-settings.model";
-import { ToastService } from "../../../shared/services/toast.service";
 import { NotificationTypesService } from "src/app/shared/services/notification-types.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { ToastService } from "../../../shared/services/toast.service";
 
 interface NotificationSetting {
   key: string;

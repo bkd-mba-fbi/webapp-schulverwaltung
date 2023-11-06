@@ -1,8 +1,8 @@
 import {
-  parseISOLocalDateTime,
+  formatISOLocalDate,
   formatISOLocalDateTime,
   parseISOLocalDate,
-  formatISOLocalDate,
+  parseISOLocalDateTime,
 } from "./date";
 
 describe("date utils", () => {

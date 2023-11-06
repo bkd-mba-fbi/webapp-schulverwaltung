@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { MyGradesShowComponent } from "./my-grades-show.component";
-import { StorageService } from "../../../shared/services/storage.service";
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { MyGradesService } from "../../services/my-grades.service";
 import { of } from "rxjs";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StorageService } from "../../../shared/services/storage.service";
+import { MyGradesService } from "../../services/my-grades.service";
 import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.component";
+import { MyGradesShowComponent } from "./my-grades-show.component";
 
 describe("MyGradesShowComponent", () => {
   let component: MyGradesShowComponent;

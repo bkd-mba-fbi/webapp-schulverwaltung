@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DashboardService } from "../../services/dashboard.service";
-
 import { DashboardTimetableTableComponent } from "./dashboard-timetable-table.component";
 
 describe("DashboardTimetableTableComponent", () => {

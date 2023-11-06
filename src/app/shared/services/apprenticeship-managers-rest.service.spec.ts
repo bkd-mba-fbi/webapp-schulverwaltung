@@ -1,6 +1,5 @@
 import { TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
-
 import { ApprenticeshipManagersRestService } from "./apprenticeship-managers-rest.service";
 
 describe("ApprenticeshipManagerRestService", () => {

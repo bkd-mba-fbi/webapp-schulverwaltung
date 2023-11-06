@@ -1,9 +1,9 @@
-import {
-  PresenceControlEntry,
-  PresenceCategory,
-} from "./presence-control-entry.model";
-import { buildLessonPresence, buildPresenceType } from "src/spec-builders";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { buildLessonPresence, buildPresenceType } from "src/spec-builders";
+import {
+  PresenceCategory,
+  PresenceControlEntry,
+} from "./presence-control-entry.model";
 
 describe("PresenceControlEntry", () => {
   let absenceType: PresenceType;

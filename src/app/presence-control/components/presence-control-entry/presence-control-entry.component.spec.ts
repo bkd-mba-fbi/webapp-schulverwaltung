@@ -5,9 +5,9 @@ import {
   changeInput,
   settings,
 } from "src/spec-helpers";
+import { PresenceControlViewMode } from "../../../shared/models/user-settings.model";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { PresenceControlEntryComponent } from "./presence-control-entry.component";
-import { PresenceControlViewMode } from "../../../shared/models/user-settings.model";
 
 describe("PresenceControlEntryComponent", () => {
   let component: PresenceControlEntryComponent;

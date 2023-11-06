@@ -1,6 +1,6 @@
-import { OpenAbsencesEntry } from "./open-absences-entry.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { OpenAbsencesEntry } from "./open-absences-entry.model";
 
 describe("OpenAbsencesEntry", () => {
   let presenceA: LessonPresence;

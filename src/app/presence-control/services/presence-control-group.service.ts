@@ -1,28 +1,28 @@
 import { Inject, Injectable } from "@angular/core";
-import { combineLatest, Observable, of, ReplaySubject } from "rxjs";
-import { forkJoin, merge, Subject } from "rxjs";
-import { map, switchMap, shareReplay, startWith } from "rxjs/operators";
 import { flatten, uniq } from "lodash-es";
+import { Observable, ReplaySubject, combineLatest, of } from "rxjs";
+import { Subject, forkJoin, merge } from "rxjs";
+import { map, shareReplay, startWith, switchMap } from "rxjs/operators";
+import { PresenceControlGroupViewEntry } from "src/app/shared/models/user-settings.model";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SETTINGS, Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
 import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
+import { EventsRestService } from "../../shared/services/events-rest.service";
+import { LoadingService } from "../../shared/services/loading-service";
+import { SubscriptionDetailsRestService } from "../../shared/services/subscription-details-rest.service";
+import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
+import { spread } from "../../shared/utils/function";
+import { GroupOptions } from "../components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { LessonEntry } from "../models/lesson-entry.model";
 import {
   filterSubscriptionDetailsByGroupId,
   getSubscriptionDetailsWithName,
 } from "../utils/subscriptions-details";
-import { EventsRestService } from "../../shared/services/events-rest.service";
-import { LessonEntry } from "../models/lesson-entry.model";
 import {
-  findSubscriptionDetailByGroupId,
   SubscriptionDetailWithName,
+  findSubscriptionDetailByGroupId,
 } from "../utils/subscriptions-details";
-import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
-import { SubscriptionDetailsRestService } from "../../shared/services/subscription-details-rest.service";
-import { spread } from "../../shared/utils/function";
-import { LoadingService } from "../../shared/services/loading-service";
-import { UserSettingsService } from "src/app/shared/services/user-settings.service";
-import { PresenceControlGroupViewEntry } from "src/app/shared/models/user-settings.model";
-import { GroupOptions } from "../components/presence-control-group-dialog/presence-control-group-dialog.component";
 
 const GROUP_LOADING_CONTEXT = "presence-control-group";
 

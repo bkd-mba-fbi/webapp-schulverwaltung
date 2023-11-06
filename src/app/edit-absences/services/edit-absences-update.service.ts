@@ -1,13 +1,12 @@
-import { Injectable, Inject } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Observable, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
-
-import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
-import { getIdsGroupedByPerson } from "src/app/shared/utils/lesson-presences";
 import { SETTINGS, Settings } from "src/app/settings";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
 import { not } from "src/app/shared/utils/filter";
+import { getIdsGroupedByPerson } from "src/app/shared/utils/lesson-presences";
 
 export enum Category {
   Absent = "absent",

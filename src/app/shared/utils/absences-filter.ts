@@ -1,6 +1,5 @@
 import { Params } from "@angular/router";
 import { format } from "date-fns";
-
 import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences-state.service";
 import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
 

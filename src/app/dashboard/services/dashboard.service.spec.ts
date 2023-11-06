@@ -1,8 +1,7 @@
 import { TestBed } from "@angular/core/testing";
-
-import { DashboardService } from "./dashboard.service";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { StorageService } from "../../shared/services/storage.service";
+import { DashboardService } from "./dashboard.service";
 
 describe("DashboardService", () => {
   let service: DashboardService;

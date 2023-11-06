@@ -1,7 +1,6 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpClient } from "@angular/common/http";
 import { HttpTestingController } from "@angular/common/http/testing";
-
+import { TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AuthService } from "./shared/services/auth.service";
 

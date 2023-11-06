@@ -1,12 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
-  SimpleChanges,
   OnChanges,
-  ChangeDetectionStrategy,
+  SimpleChanges,
 } from "@angular/core";
 import { ReplaySubject, map } from "rxjs";
-
 import { Person } from "../../../shared/models/person.model";
 import { ReportsService } from "../../../shared/services/reports.service";
 

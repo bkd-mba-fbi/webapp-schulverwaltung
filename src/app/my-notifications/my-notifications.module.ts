@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 import { MyNotificationsShowComponent } from "./components/my-notifications-show/my-notifications-show.component";
 
 @NgModule({

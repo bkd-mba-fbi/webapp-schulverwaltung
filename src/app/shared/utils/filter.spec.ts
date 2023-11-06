@@ -1,11 +1,11 @@
 import {
+  isInstanceOf,
+  isTruthy,
+  nonEmptyString,
   nonZero,
   not,
   notNull,
-  isTruthy,
-  isInstanceOf,
   unique,
-  nonEmptyString,
 } from "./filter";
 
 describe("filter utils", () => {

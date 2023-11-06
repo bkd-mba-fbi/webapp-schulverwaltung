@@ -11,9 +11,11 @@ import {
   NgModule,
 } from "@angular/core";
 import { createCustomElement } from "@angular/elements";
+import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
+import { NgSelectModule } from "@ng-select/ng-select";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AppRoutingModule } from "./app-routing.module";
@@ -21,12 +23,10 @@ import { AppComponent } from "./app.component";
 import { GlobalErrorHandler } from "./global-error-handler";
 import { HomeComponent } from "./home.component";
 import { MyNotificationsShowComponent } from "./my-notifications/components/my-notifications-show/my-notifications-show.component";
-import { Settings, SETTINGS } from "./settings";
+import { SETTINGS, Settings } from "./settings";
 import { I18nService } from "./shared/services/i18n.service";
 import { SharedModule } from "./shared/shared.module";
 import { UnauthenticatedComponent } from "./unauthenticated.component";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { FormsModule } from "@angular/forms";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(

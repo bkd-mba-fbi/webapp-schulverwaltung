@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { DashboardDeadlineComponent } from "./dashboard-deadline.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { DashboardDeadlineComponent } from "./dashboard-deadline.component";
 
 describe("DashboardDeadlineComponent", () => {
   let component: DashboardDeadlineComponent;

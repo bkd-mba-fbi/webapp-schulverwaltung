@@ -5,11 +5,11 @@ import { format, startOfDay } from "date-fns";
 import { isEqual, uniq } from "lodash-es";
 import {
   BehaviorSubject,
+  Observable,
+  Subject,
   combineLatest,
   merge,
-  Observable,
   of,
-  Subject,
   timer,
 } from "rxjs";
 import {
@@ -22,8 +22,14 @@ import {
   take,
   takeUntil,
 } from "rxjs/operators";
-import { Settings, SETTINGS } from "src/app/settings";
+import { SETTINGS, Settings } from "src/app/settings";
+import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
+import {
+  intervalOnInactivity,
+  reemitOnTrigger,
+} from "src/app/shared/utils/observable";
 import { serializeParams } from "src/app/shared/utils/url";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
 import { PresenceType } from "../../shared/models/presence-type.model";
@@ -33,6 +39,7 @@ import { LessonPresenceUpdate } from "../../shared/services/lesson-presences-upd
 import { LessonTeachersRestService } from "../../shared/services/lesson-teachers-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { PresenceTypesService } from "../../shared/services/presence-types.service";
+import { StorageService } from "../../shared/services/storage.service";
 import { spread } from "../../shared/utils/function";
 import { filterByGroup } from "../../shared/utils/presence-control-entries";
 import { LessonEntry } from "../models/lesson-entry.model";
@@ -48,13 +55,6 @@ import {
   getPrecedingAbsencesCount,
 } from "../utils/presence-control-entries";
 import { PresenceControlGroupService } from "./presence-control-group.service";
-import { StorageService } from "../../shared/services/storage.service";
-import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
-import { UserSettingsService } from "src/app/shared/services/user-settings.service";
-import {
-  intervalOnInactivity,
-  reemitOnTrigger,
-} from "src/app/shared/utils/observable";
 
 export const VIEW_MODES: ReadonlyArray<string> = Object.values(
   PresenceControlViewMode,

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { StudentsRestService } from "../../../shared/services/students-rest.service";
 import { DropDownItem } from "../../../shared/models/drop-down-item.model";
+import { StudentsRestService } from "../../../shared/services/students-rest.service";
 
 @Component({
   selector: "erz-dashboard-search",

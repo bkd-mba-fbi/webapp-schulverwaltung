@@ -9,7 +9,7 @@ import {
   buildStudyClass,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { Event, EventsStateService, EventState } from "./events-state.service";
+import { Event, EventState, EventsStateService } from "./events-state.service";
 
 describe("EventsStateService", () => {
   let service: EventsStateService;

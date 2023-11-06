@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { TeacherResourcesRestService } from "./teacher-resources-rest.service";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
+import { TeacherResourcesRestService } from "./teacher-resources-rest.service";
 
 describe("TeacherResourcesTestService", () => {
   let service: TeacherResourcesRestService;

@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BehaviorSubject } from "rxjs";
-
-import { PresenceControlHeaderComponent } from "./presence-control-header.component";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildReference } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { fromLesson } from "../../models/lesson-entry.model";
-import { PresenceControlStateService } from "../../services/presence-control-state.service";
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
+import { PresenceControlHeaderComponent } from "./presence-control-header.component";
 
 describe("PresenceControlHeaderComponent", () => {
   let component: PresenceControlHeaderComponent;

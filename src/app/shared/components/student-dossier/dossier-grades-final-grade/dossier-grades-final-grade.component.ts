@@ -1,8 +1,8 @@
+import { DecimalPipe } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import * as Gradings from "src/app/shared/utils/gradings";
-import { DecimalPipe } from "@angular/common";
 
 @Component({
   selector: "erz-dossier-grades-final-grade",

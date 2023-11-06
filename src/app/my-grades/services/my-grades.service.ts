@@ -1,22 +1,22 @@
 import { Inject, Injectable } from "@angular/core";
-import { StorageService } from "../../shared/services/storage.service";
 import {
+  ReplaySubject,
   combineLatest,
   forkJoin,
   map,
-  ReplaySubject,
   shareReplay,
   switchMap,
 } from "rxjs";
-import { LoadingService } from "../../shared/services/loading-service";
-import { CoursesRestService } from "../../shared/services/courses-rest.service";
+import { SETTINGS, Settings } from "../../settings";
 import { Course } from "../../shared/models/course.model";
-import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
-import { ReportsService } from "../../shared/services/reports.service";
-import { Settings, SETTINGS } from "../../settings";
-import { notNull, unique } from "../../shared/utils/filter";
 import { Test } from "../../shared/models/test.model";
+import { CoursesRestService } from "../../shared/services/courses-rest.service";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
+import { LoadingService } from "../../shared/services/loading-service";
+import { ReportsService } from "../../shared/services/reports.service";
+import { StorageService } from "../../shared/services/storage.service";
+import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
+import { notNull, unique } from "../../shared/utils/filter";
 
 @Injectable()
 export class MyGradesService {

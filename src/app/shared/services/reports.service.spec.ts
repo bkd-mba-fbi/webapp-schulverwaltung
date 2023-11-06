@@ -1,10 +1,9 @@
-import { TestBed } from "@angular/core/testing";
-
-import { ReportsService } from "./reports.service";
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StorageService } from "./storage.service";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AvailableReports } from "../models/report.model";
+import { ReportsService } from "./reports.service";
+import { StorageService } from "./storage.service";
 
 describe("ReportsService", () => {
   let service: ReportsService;

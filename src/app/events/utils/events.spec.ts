@@ -1,7 +1,7 @@
-import { canSetFinalGrade, getEventState, isRated } from "./events";
+import { EvaluationStatusRef } from "src/app/shared/models/course.model";
 import { buildCourse, buildFinalGrading } from "../../../spec-builders";
 import { EventState } from "../services/events-state.service";
-import { EvaluationStatusRef } from "src/app/shared/models/course.model";
+import { canSetFinalGrade, getEventState, isRated } from "./events";
 
 describe("Course utils", () => {
   describe("Get course state", () => {

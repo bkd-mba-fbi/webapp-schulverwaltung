@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
+import { Test } from "src/app/shared/models/test.model";
 import { buildCourse, buildResult, buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../services/test-state.service";
 import { TestEditGradesComponent } from "./test-edit-grades.component";
-import { Test } from "src/app/shared/models/test.model";
 
 describe("TestEditGradesComponent", () => {
   let component: TestEditGradesComponent;

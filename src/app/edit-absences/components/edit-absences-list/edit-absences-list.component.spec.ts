@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
-
+import { PresenceControlEntry } from "src/app/presence-control/models/presence-control-entry.model";
 import { buildLessonPresence } from "src/spec-builders";
 import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
-import { EditAbsencesListComponent } from "./edit-absences-list.component";
-import { PresenceControlEntry } from "src/app/presence-control/models/presence-control-entry.model";
 import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absences-header.component";
+import { EditAbsencesListComponent } from "./edit-absences-list.component";
 
 describe("EditAbsencesListComponent", () => {
   let fixture: ComponentFixture<EditAbsencesListComponent>;

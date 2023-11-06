@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@angular/core";
 import { uniq } from "lodash-es";
-
-import { NotificationTypeText, Settings, SETTINGS } from "src/app/settings";
+import { NotificationTypeText, SETTINGS, Settings } from "src/app/settings";
 import { getRoles } from "../utils/roles";
 import { StorageService } from "./storage.service";
 

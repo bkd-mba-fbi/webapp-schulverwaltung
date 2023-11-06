@@ -2,10 +2,9 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { buildSubscriptionDetail } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-
 import {
-  PresenceControlGroupDialogComponent,
   DialogMode,
+  PresenceControlGroupDialogComponent,
 } from "./presence-control-group-dialog.component";
 
 describe("PresenceControlGroupDialogComponent", () => {

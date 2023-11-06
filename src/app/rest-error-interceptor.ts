@@ -1,17 +1,16 @@
-import { Injectable } from "@angular/core";
 import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
   HttpParams,
+  HttpRequest,
 } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, EMPTY, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
 import { TranslateService } from "@ngx-translate/core";
-
+import { EMPTY, Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 import { HTTP_STATUS } from "./shared/services/rest.service";
 import { ToastService } from "./shared/services/toast.service";
 import { nonEmptyString } from "./shared/utils/filter";

@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { MyProfileComponent } from "./components/my-profile/my-profile.component";
-import { MyProfileShowComponent } from "./components/my-profile-show/my-profile-show.component";
+import { RouterModule, Routes } from "@angular/router";
 import { MyProfileEditComponent } from "./components/my-profile-edit/my-profile-edit.component";
+import { MyProfileShowComponent } from "./components/my-profile-show/my-profile-show.component";
+import { MyProfileComponent } from "./components/my-profile/my-profile.component";
 
 const routes: Routes = [
   {

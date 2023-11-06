@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
-
-import { buildTestModuleMetadata, ActivatedRouteMock } from "src/spec-helpers";
-import { buildLessonPresenceWithIds } from "src/spec-builders";
-import { OpenAbsencesDetailComponent } from "./open-absences-detail.component";
-import { OpenAbsencesService } from "../../services/open-absences.service";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { take } from "rxjs/operators";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { ActivatedRouteMock, buildTestModuleMetadata } from "src/spec-helpers";
+import { OpenAbsencesService } from "../../services/open-absences.service";
+import { OpenAbsencesDetailComponent } from "./open-absences-detail.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

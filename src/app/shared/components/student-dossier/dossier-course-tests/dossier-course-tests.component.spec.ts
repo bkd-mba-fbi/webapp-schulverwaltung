@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { expectText } from "src/specs/expectations";
-import { DossierCourseTestsComponent } from "./dossier-course-tests.component";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
 import { StorageService } from "../../../services/storage.service";
 import { CourseWithGrades } from "../dossier-grades-view/dossier-grades-view.component";
+import { DossierCourseTestsComponent } from "./dossier-course-tests.component";
 
 describe("DossierCourseTestsComponent", () => {
   let component: DossierCourseTestsComponent;

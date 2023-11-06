@@ -1,9 +1,8 @@
-import { TestBed } from "@angular/core/testing";
-
-import { TeacherSubstitutionsRestService } from "./teacher-substitutions-rest.service";
-import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { TeacherSubstitution } from "../models/teacher-substitution.model";
+import { TeacherSubstitutionsRestService } from "./teacher-substitutions-rest.service";
 
 describe("TeacherSubstitutionsRestService", () => {
   let service: TeacherSubstitutionsRestService;

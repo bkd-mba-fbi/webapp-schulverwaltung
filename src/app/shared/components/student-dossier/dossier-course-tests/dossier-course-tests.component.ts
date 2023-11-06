@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
 import { gradingScaleOfTest, sortByDate } from "../../../../events/utils/tests";
 import { CourseWithGrades } from "../dossier-grades-view/dossier-grades-view.component";
-import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "erz-dossier-course-tests",

@@ -1,10 +1,10 @@
 import { Component, Inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { merge, Observable, Subject } from "rxjs";
+import { Observable, Subject, merge } from "rxjs";
 import { distinctUntilChanged, map, switchMap, take } from "rxjs/operators";
 import { Test } from "src/app/shared/models/test.model";
+import { SETTINGS, Settings } from "../../../settings";
 import { TestStateService } from "../../services/test-state.service";
-import { Settings, SETTINGS } from "../../../settings";
 
 @Component({
   selector: "erz-tests-list",

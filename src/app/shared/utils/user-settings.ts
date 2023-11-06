@@ -1,5 +1,5 @@
-import { PresenceControlGroupViewEntry } from "../models/user-settings.model";
 import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { PresenceControlGroupViewEntry } from "../models/user-settings.model";
 
 export function updateGroupViewSettings(
   group: GroupOptions["id"],

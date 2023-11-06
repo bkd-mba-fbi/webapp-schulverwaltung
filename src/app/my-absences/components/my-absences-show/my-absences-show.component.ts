@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { combineLatest, Observable, of } from "rxjs";
-import { map, shareReplay, switchMap } from "rxjs/operators";
 import { flatten, uniq } from "lodash-es";
-
-import { MyAbsencesService } from "../../services/my-absences.service";
+import { Observable, combineLatest, of } from "rxjs";
+import { map, shareReplay, switchMap } from "rxjs/operators";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import {
   ReportInfo,
@@ -11,6 +9,7 @@ import {
 } from "src/app/shared/services/reports.service";
 import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
 import { LessonIncident } from "../../../shared/models/lesson-incident.model";
+import { MyAbsencesService } from "../../services/my-absences.service";
 
 @Component({
   selector: "erz-my-absences-show",

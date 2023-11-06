@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { of, BehaviorSubject } from "rxjs";
-
-import { buildTestModuleMetadata, settings } from "src/spec-helpers";
+import { BehaviorSubject, of } from "rxjs";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { Lesson } from "src/app/shared/models/lesson.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
 import {
-  buildLessonPresence,
   buildLesson,
+  buildLessonPresence,
   buildPresenceType,
 } from "src/spec-builders";
-import { PresenceControlListComponent } from "./presence-control-list.component";
-import { PresenceControlHeaderComponent } from "../presence-control-header/presence-control-header.component";
-import { PresenceControlStateService } from "../../services/presence-control-state.service";
-import { PresenceControlEntryComponent } from "../presence-control-entry/presence-control-entry.component";
+import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
-import { Lesson } from "src/app/shared/models/lesson.model";
-import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
-import { PresenceType } from "src/app/shared/models/presence-type.model";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
+import { PresenceControlStateService } from "../../services/presence-control-state.service";
+import { PresenceControlEntryComponent } from "../presence-control-entry/presence-control-entry.component";
+import { PresenceControlHeaderComponent } from "../presence-control-header/presence-control-header.component";
+import { PresenceControlListComponent } from "./presence-control-list.component";
 
 describe("PresenceControlListComponent", () => {
   let component: PresenceControlListComponent;

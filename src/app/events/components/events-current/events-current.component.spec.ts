@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { EventsCurrentComponent } from "./events-current.component";
+import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { EventsListComponent } from "../events-list/events-list.component";
-import { StorageService } from "src/app/shared/services/storage.service";
+import { EventsCurrentComponent } from "./events-current.component";
 
 describe("EventsCurrentComponent", () => {
   let component: EventsCurrentComponent;

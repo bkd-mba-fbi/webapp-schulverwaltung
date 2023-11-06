@@ -4,7 +4,9 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
+import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
+import { ToastService } from "../../../shared/services/toast.service";
 import { spread } from "../../../shared/utils/function";
 import { parseQueryString } from "../../../shared/utils/url";
 import { updateGroupViewSettings } from "../../../shared/utils/user-settings";
@@ -12,16 +14,14 @@ import { PresenceControlGroupSelectionService } from "../../services/presence-co
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 import { PresenceControlStateService } from "../../services/presence-control-state.service";
 import {
-  sortSubscriptionDetails,
   SubscriptionDetailWithName,
+  sortSubscriptionDetails,
 } from "../../utils/subscriptions-details";
 import {
+  DialogMode,
   GroupOptions,
   PresenceControlGroupDialogComponent,
-  DialogMode,
 } from "../presence-control-group-dialog/presence-control-group-dialog.component";
-import { ToastService } from "../../../shared/services/toast.service";
-import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 
 export type PrimarySortKey = "name" | "group";
 

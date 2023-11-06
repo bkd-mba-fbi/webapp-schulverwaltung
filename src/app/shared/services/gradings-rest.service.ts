@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
-import { Settings, SETTINGS } from "src/app/settings";
+import { Observable, map } from "rxjs";
+import { SETTINGS, Settings } from "src/app/settings";
 import { Grading } from "../models/course.model";
 import { RestService } from "./rest.service";
 

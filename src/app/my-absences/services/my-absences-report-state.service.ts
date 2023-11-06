@@ -1,26 +1,25 @@
-import { Inject, Injectable } from "@angular/core";
 import { Location } from "@angular/common";
 import { HttpParams } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
 import { Params } from "@angular/router";
-import { combineLatest, Observable, of } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
 import { addDays, format, subDays } from "date-fns";
-
+import { Observable, combineLatest, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
+import { OptionalReference } from "src/app/shared/models/common-types";
+import { LessonAbsence } from "src/app/shared/models/lesson-absence.model";
+import { LessonDispensation } from "src/app/shared/models/lesson-dispensation.model";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
+import { LoadingService } from "src/app/shared/services/loading-service";
 import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
-import { Paginated } from "src/app/shared/utils/pagination";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
-import { LoadingService } from "src/app/shared/services/loading-service";
-import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
-import { LessonAbsence } from "src/app/shared/models/lesson-absence.model";
-import { LessonDispensation } from "src/app/shared/models/lesson-dispensation.model";
-import { OptionalReference } from "src/app/shared/models/common-types";
-import { StudentsRestService } from "src/app/shared/services/students-rest.service";
-import { StorageService } from "src/app/shared/services/storage.service";
 import { SortService } from "src/app/shared/services/sort.service";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { Paginated } from "src/app/shared/utils/pagination";
 
 export interface ReportAbsencesFilter {
   dateFrom: Option<Date>;

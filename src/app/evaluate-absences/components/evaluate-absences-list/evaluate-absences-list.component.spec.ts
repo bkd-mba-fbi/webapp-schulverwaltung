@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { EvaluateAbsencesListComponent } from "./evaluate-absences-list.component";
-import { EvaluateAbsencesHeaderComponent } from "../evaluate-absences-header/evaluate-absences-header.component";
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
 import { of } from "rxjs";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
-import { buildLessonPresenceStatistic } from "src/spec-builders";
-import { StorageService } from "../../../shared/services/storage.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import { buildLessonPresenceStatistic } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StorageService } from "../../../shared/services/storage.service";
+import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
+import { EvaluateAbsencesHeaderComponent } from "../evaluate-absences-header/evaluate-absences-header.component";
+import { EvaluateAbsencesListComponent } from "./evaluate-absences-list.component";
 
 describe("EvaluateAbsencesListComponent", () => {
   let fixture: ComponentFixture<EvaluateAbsencesListComponent>;

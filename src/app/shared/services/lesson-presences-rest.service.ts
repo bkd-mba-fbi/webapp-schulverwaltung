@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { addDays, format, isSameDay, subDays } from "date-fns";
 import * as t from "io-ts";
-import { forkJoin, Observable, of } from "rxjs";
+import { Observable, forkJoin, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences-state.service";
 import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
@@ -14,16 +14,16 @@ import { Lesson } from "../models/lesson.model";
 import { decodeArray } from "../utils/decode";
 import { spread } from "../utils/function";
 import {
-  decodePaginatedResponse,
   Paginated,
+  decodePaginatedResponse,
   paginatedHeaders,
   paginatedParams,
 } from "../utils/pagination";
+import { hasRole } from "../utils/roles";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
 import { Sorting } from "./sort.service";
 import { StorageService } from "./storage.service";
-import { hasRole } from "../utils/roles";
 
 @Injectable({
   providedIn: "root",

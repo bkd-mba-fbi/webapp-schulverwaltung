@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
+import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
 
 @Component({
   selector: "erz-evaluate-absences",

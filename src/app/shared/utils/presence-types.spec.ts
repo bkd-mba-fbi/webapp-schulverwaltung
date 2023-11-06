@@ -1,5 +1,5 @@
-import { sortPresenceTypes } from "./presence-types";
 import { buildPresenceType } from "src/spec-builders";
+import { sortPresenceTypes } from "./presence-types";
 
 describe("presence types utilities", () => {
   describe("sortPresenceTypes", () => {

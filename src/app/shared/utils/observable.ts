@@ -1,24 +1,24 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import {
-  ObservableInput,
-  ObservedValueOf,
-  of,
-  OperatorFunction,
-  throwError,
   MonoTypeOperatorFunction,
   Observable,
+  ObservableInput,
+  ObservedValueOf,
+  OperatorFunction,
   defer,
   fromEvent,
   interval,
   merge,
+  of,
+  throwError,
 } from "rxjs";
 import {
   catchError,
   defaultIfEmpty,
-  tap,
   map,
-  switchMap,
   startWith,
+  switchMap,
+  tap,
 } from "rxjs/operators";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

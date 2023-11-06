@@ -1,17 +1,17 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import {
   Observable,
-  Subject,
   ReplaySubject,
+  Subject,
   Subscription,
   connectable,
 } from "rxjs";
 import {
-  map,
+  distinctUntilChanged,
   finalize,
+  map,
   scan,
   startWith,
-  distinctUntilChanged,
 } from "rxjs/operators";
 import { prepare } from "../utils/observable";
 

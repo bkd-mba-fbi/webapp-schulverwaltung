@@ -1,11 +1,10 @@
-import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { switchMap, shareReplay } from "rxjs/operators";
-import { decodeArray } from "../utils/decode";
-
+import { Inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { shareReplay, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
 import { DropDownItem } from "../models/drop-down-item.model";
-import { Observable } from "rxjs";
+import { decodeArray } from "../utils/decode";
 
 @Injectable({
   providedIn: "root",

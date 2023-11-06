@@ -1,11 +1,8 @@
-import { fakeAsync, TestBed, tick } from "@angular/core/testing";
-
-import { MyAbsencesReportStateService } from "./my-absences-report-state.service";
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StorageService } from "src/app/shared/services/storage.service";
-import { StudentsRestService } from "../../shared/services/students-rest.service";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { addHours, subHours } from "date-fns";
 import { of } from "rxjs";
-import { TimetableEntry } from "../../shared/models/timetable-entry.model";
+import { StorageService } from "src/app/shared/services/storage.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   buildLessonAbsence,
   buildLessonDispensation,
@@ -13,7 +10,9 @@ import {
   buildPayLoad,
   buildTimetableEntry,
 } from "../../../spec-builders";
-import { addHours, subHours } from "date-fns";
+import { TimetableEntry } from "../../shared/models/timetable-entry.model";
+import { StudentsRestService } from "../../shared/services/students-rest.service";
+import { MyAbsencesReportStateService } from "./my-absences-report-state.service";
 
 describe("MyAbsencesReportStateService", () => {
   let service: MyAbsencesReportStateService;

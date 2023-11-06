@@ -1,9 +1,9 @@
 import {
-  previousElement,
-  nextElement,
+  isArray,
   isEmptyArray,
   length,
-  isArray,
+  nextElement,
+  previousElement,
 } from "./array";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

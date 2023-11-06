@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { MyGradesService } from "../../services/my-grades.service";
 import { DossierGradesService } from "../../../shared/services/dossier-grades.service";
+import { MyGradesService } from "../../services/my-grades.service";
 
 @Component({
   selector: "erz-my-grades-show",

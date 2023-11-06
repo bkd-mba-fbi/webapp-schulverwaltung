@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { DashboardActionComponent } from "./dashboard-action.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
+import { DashboardActionComponent } from "./dashboard-action.component";
 
 describe("DashboardActionComponent", () => {
   let component: DashboardActionComponent;

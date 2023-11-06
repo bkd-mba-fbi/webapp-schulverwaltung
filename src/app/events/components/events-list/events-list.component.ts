@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { EventsStateService } from "../../services/events-state.service";
 import { StorageService } from "../../../shared/services/storage.service";
+import { EventsStateService } from "../../services/events-state.service";
 
 @Component({
   selector: "erz-events-list",

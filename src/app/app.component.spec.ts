@@ -1,5 +1,4 @@
-import { TestBed, ComponentFixture, waitForAsync } from "@angular/core/testing";
-
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AppComponent } from "./app.component";
 

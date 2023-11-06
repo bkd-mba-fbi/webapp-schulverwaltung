@@ -1,14 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
-
-import { MyAbsencesShowComponent } from "./my-absences-show.component";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { buildLessonAbsence } from "../../../../spec-builders";
 import { MyAbsencesService } from "../../services/my-absences.service";
 import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-absences-report-link.component";
-import { StorageService } from "src/app/shared/services/storage.service";
-import { buildLessonAbsence } from "../../../../spec-builders";
-import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { MyAbsencesShowComponent } from "./my-absences-show.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

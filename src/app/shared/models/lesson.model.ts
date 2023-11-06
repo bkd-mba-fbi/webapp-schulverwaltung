@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Reference, LocalDateTimeFromString } from "./common-types";
+import { LocalDateTimeFromString, Reference } from "./common-types";
 
 const Lesson = t.type({
   LessonRef: Reference,

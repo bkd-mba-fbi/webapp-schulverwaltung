@@ -8,10 +8,10 @@ import {
 } from "src/spec-builders";
 import {
   FinalGrade,
-  meanOf,
-  averageOfGradesForScale,
   NoResult,
   StudentGrade,
+  averageOfGradesForScale,
+  meanOf,
   toMaxPoints,
   transform,
 } from "./student-grades";

@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { EvaluateAbsencesStateService } from "./evaluate-absences-state.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { EvaluateAbsencesStateService } from "./evaluate-absences-state.service";
 
 describe("EvaluateAbsencesStateService", () => {
   beforeEach(() =>

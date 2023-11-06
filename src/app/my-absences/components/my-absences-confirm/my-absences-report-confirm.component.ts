@@ -1,20 +1,19 @@
-import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
+import { flatten, uniq } from "lodash-es";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
-
-import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
+import { SETTINGS, Settings } from "src/app/settings";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
-import { SETTINGS, Settings } from "src/app/settings";
 import { StorageService } from "src/app/shared/services/storage.service";
-import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
-import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
-import { PresenceType } from "src/app/shared/models/presence-type.model";
-import { flatten, uniq } from "lodash-es";
 import { ToastService } from "../../../shared/services/toast.service";
+import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
+import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
 
 @Component({
   selector: "erz-my-absences-confirm",

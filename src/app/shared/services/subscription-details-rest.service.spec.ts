@@ -1,11 +1,10 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { isEqual } from "lodash-es";
-
-import { SubscriptionDetailsRestService } from "./subscription-details-rest.service";
 import { buildSubscriptionDetail } from "../../../spec-builders";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { SubscriptionDetail } from "../models/subscription-detail.model";
+import { SubscriptionDetailsRestService } from "./subscription-details-rest.service";
 
 describe("SubscriptionDetailsRestService", () => {
   let service: SubscriptionDetailsRestService;

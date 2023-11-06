@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   EventEmitter,
+  Input,
   Output,
 } from "@angular/core";
 import { uniqueId } from "lodash-es";

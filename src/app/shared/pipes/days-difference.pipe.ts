@@ -1,4 +1,4 @@
-import { PipeTransform, Pipe } from "@angular/core";
+import { Pipe, PipeTransform } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { differenceInCalendarDays } from "date-fns";
 

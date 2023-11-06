@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
 import { SpinnerComponent } from "./spinner.component";
 
 describe("SpinnerComponent", () => {

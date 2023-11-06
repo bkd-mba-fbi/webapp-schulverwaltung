@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Maybe, Option, LocalDateTimeFromString } from "./common-types";
+import { LocalDateTimeFromString, Maybe, Option } from "./common-types";
 
 const Student = t.type({
   Id: t.number,

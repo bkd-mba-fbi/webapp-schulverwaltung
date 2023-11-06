@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { MyProfileEntryComponent } from "./my-profile-entry.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { MyProfileEntryComponent } from "./my-profile-entry.component";
 
 describe("MyProfileEntryComponent", () => {
   let component: MyProfileEntryComponent;

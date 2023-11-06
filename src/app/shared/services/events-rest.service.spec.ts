@@ -1,7 +1,6 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
-
 import { EventsRestService } from "./events-rest.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

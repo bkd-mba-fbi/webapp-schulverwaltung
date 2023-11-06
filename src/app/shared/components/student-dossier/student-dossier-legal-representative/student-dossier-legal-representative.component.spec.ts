@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
+import { buildPerson } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentDossierLegalRepresentativeComponent } from "./student-dossier-legal-representative.component";
-import { buildPerson } from "src/spec-builders";
 
 describe("StudentDossierLegalRepresentativeComponent", () => {
   let component: StudentDossierLegalRepresentativeComponent;

@@ -1,13 +1,12 @@
-import { Component, ChangeDetectionStrategy, Inject } from "@angular/core";
-import { catchError } from "rxjs/operators";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import { Router } from "@angular/router";
 import { EMPTY } from "rxjs";
-
+import { catchError } from "rxjs/operators";
 import { SETTINGS, Settings } from "./settings";
 import { I18nService } from "./shared/services/i18n.service";
-import { decode } from "./shared/utils/decode";
-import { NAVIGATOR } from "./shared/tokens/dom-apis";
-import { Router } from "@angular/router";
 import { ToastService } from "./shared/services/toast.service";
+import { NAVIGATOR } from "./shared/tokens/dom-apis";
+import { decode } from "./shared/utils/decode";
 
 @Component({
   template:

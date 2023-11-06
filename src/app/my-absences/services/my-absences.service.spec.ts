@@ -1,8 +1,7 @@
 import { TestBed } from "@angular/core/testing";
-
-import { MyAbsencesService } from "./my-absences.service";
-import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StorageService } from "src/app/shared/services/storage.service";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyAbsencesService } from "./my-absences.service";
 
 describe("MyAbsencesService", () => {
   let service: MyAbsencesService;

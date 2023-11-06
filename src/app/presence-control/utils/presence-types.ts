@@ -1,6 +1,6 @@
-import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { Settings } from "src/app/settings";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { PresenceType } from "src/app/shared/models/presence-type.model";
 
 export function isPresent(presenceType: Option<PresenceType>): boolean {
   return Boolean(!presenceType);

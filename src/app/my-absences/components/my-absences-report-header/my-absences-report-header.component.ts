@@ -1,17 +1,16 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
 } from "@angular/core";
 import {
   NgbDateAdapter,
-  NgbDateParserFormatter,
   NgbDateNativeAdapter,
+  NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
 import { startOfDay } from "date-fns";
-
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { ReportAbsencesFilter } from "../../services/my-absences-report-state.service";
 

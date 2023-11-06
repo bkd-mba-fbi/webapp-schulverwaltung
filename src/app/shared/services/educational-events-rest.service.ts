@@ -1,18 +1,17 @@
-import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-
-import { SETTINGS, Settings } from "../../settings";
-import { TypeaheadService } from "./typeahead-rest.service";
-import { EducationalEvent } from "../models/educational-event.model";
-import { switchMap, map } from "rxjs/operators";
-import { decodeArray } from "../utils/decode";
-import { Observable, EMPTY, of } from "rxjs";
-import { DropDownItem } from "../models/drop-down-item.model";
+import { Inject, Injectable } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
+import * as t from "io-ts";
+import { EMPTY, Observable, of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { SETTINGS, Settings } from "../../settings";
+import { DropDownItem } from "../models/drop-down-item.model";
+import { EducationalEvent } from "../models/educational-event.model";
+import { decodeArray } from "../utils/decode";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
-import * as t from "io-ts";
 import { ToastService } from "./toast.service";
+import { TypeaheadService } from "./typeahead-rest.service";
 
 @Injectable({
   providedIn: "root",

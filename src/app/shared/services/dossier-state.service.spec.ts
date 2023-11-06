@@ -1,6 +1,5 @@
 import { TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { DossierStateService } from "./dossier-state.service";
 
 describe("DossierStateService", () => {

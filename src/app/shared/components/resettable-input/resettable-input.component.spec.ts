@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { ResettableInputComponent } from "./resettable-input.component";
 
 describe("ResettableInputComponent", () => {

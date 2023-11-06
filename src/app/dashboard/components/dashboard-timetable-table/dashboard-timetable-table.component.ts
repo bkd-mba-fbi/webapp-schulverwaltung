@@ -1,5 +1,5 @@
 import { Component, Inject, Input } from "@angular/core";
-import { Settings, SETTINGS } from "src/app/settings";
+import { SETTINGS, Settings } from "src/app/settings";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardTimetableEntry } from "../dashboard-timetable/dashboard-timetable.component";
 

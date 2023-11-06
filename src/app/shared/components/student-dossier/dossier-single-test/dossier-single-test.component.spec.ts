@@ -9,10 +9,9 @@ import {
   expectNotInTheDocument,
   expectText,
 } from "src/specs/expectations";
-
-import { DossierSingleTestComponent } from "./dossier-single-test.component";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
 import { StorageService } from "../../../services/storage.service";
+import { DossierSingleTestComponent } from "./dossier-single-test.component";
 
 describe("DossierSingleTestComponent", () => {
   let component: DossierSingleTestComponent;

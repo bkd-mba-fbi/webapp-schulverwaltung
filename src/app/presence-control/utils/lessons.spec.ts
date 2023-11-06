@@ -1,14 +1,14 @@
 import {
-  buildLessonPresence,
   buildLesson,
+  buildLessonPresence,
   buildReference,
 } from "../../../spec-builders";
+import { fromLesson } from "../models/lesson-entry.model";
 import {
-  lessonsEqual,
   extractLesson,
   getLessonPresencesForLesson,
+  lessonsEqual,
 } from "./lessons";
-import { fromLesson } from "../models/lesson-entry.model";
 
 describe("lessons utils", () => {
   beforeEach(() => jasmine.clock().install());

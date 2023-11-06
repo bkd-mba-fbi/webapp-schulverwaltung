@@ -1,32 +1,31 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
   AfterViewInit,
-  OnDestroy,
+  ChangeDetectionStrategy,
+  Component,
   Inject,
+  OnDestroy,
+  OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { Subject, Observable, combineLatest } from "rxjs";
-import { map, take, takeUntil, switchMap } from "rxjs/operators";
-
-import { parseISOLocalDate } from "src/app/shared/utils/date";
-import { not } from "src/app/shared/utils/filter";
-import {
-  ReportAbsencesFilter,
-  MyAbsencesReportStateService,
-} from "../../services/my-absences-report-state.service";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
-import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
-import { isAbsent } from "src/app/presence-control/utils/presence-types";
-import { SETTINGS, Settings } from "src/app/settings";
+import { Observable, Subject, combineLatest } from "rxjs";
+import { map, switchMap, take, takeUntil } from "rxjs/operators";
 import {
   PresenceCategory,
   getPresenceCategoryIcon,
 } from "src/app/presence-control/models/presence-control-entry.model";
+import { isAbsent } from "src/app/presence-control/utils/presence-types";
+import { SETTINGS, Settings } from "src/app/settings";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
-import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { parseISOLocalDate } from "src/app/shared/utils/date";
+import { not } from "src/app/shared/utils/filter";
+import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import {
+  MyAbsencesReportStateService,
+  ReportAbsencesFilter,
+} from "../../services/my-absences-report-state.service";
 
 @Component({
   selector: "erz-my-absences-report-list",

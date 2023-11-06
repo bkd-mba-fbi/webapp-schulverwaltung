@@ -7,8 +7,8 @@ import {
 import { buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentDossierAddressComponent } from "../student-dossier-address/student-dossier-address.component";
-import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 import { StudentDossierApprenticeshipCompanyComponent } from "../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
+import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-legal-representative/student-dossier-legal-representative.component";
 import { DossierAddressesComponent } from "./dossier-addresses.component";
 

@@ -2,10 +2,10 @@ import { DebugElement } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
 import { expectText } from "src/specs/expectations";
-import { DossierGradesViewComponent } from "./dossier-grades-view.component";
+import { buildCourse } from "../../../../../spec-builders";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
 import { StorageService } from "../../../services/storage.service";
-import { buildCourse } from "../../../../../spec-builders";
+import { DossierGradesViewComponent } from "./dossier-grades-view.component";
 
 describe("DossierGradesViewComponent", () => {
   let component: DossierGradesViewComponent;

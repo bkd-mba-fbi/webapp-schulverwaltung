@@ -1,13 +1,12 @@
-import { TestBed } from "@angular/core/testing";
 import { HttpClient } from "@angular/common/http";
-import { Injectable, Inject } from "@angular/core";
 import { HttpTestingController } from "@angular/common/http/testing";
+import { Inject, Injectable } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { RestService } from "./rest.service";
-import { DecodeError } from "../utils/decode";
 import { SETTINGS, Settings } from "src/app/settings";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { DecodeError } from "../utils/decode";
+import { RestService } from "./rest.service";
 
 describe("RestService", () => {
   let service: FooService;

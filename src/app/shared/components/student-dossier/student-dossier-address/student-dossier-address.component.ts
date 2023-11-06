@@ -1,6 +1,6 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
-import { Student } from "../../../models/student.model";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Person } from "../../../models/person.model";
+import { Student } from "../../../models/student.model";
 
 @Component({
   selector: "erz-student-dossier-address",

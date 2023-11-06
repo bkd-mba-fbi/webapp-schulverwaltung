@@ -1,11 +1,10 @@
 import { TestBed } from "@angular/core/testing";
 import { take } from "rxjs/operators";
-
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { buildLessonPresenceWithIds } from "src/spec-builders";
-import { ConfirmAbsencesSelectionService } from "./confirm-absences-selection.service";
-import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { OpenAbsencesEntry } from "src/app/open-absences/models/open-absences-entry.model";
+import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
+import { buildLessonPresenceWithIds } from "src/spec-builders";
+import { buildTestModuleMetadata } from "src/spec-helpers";
+import { ConfirmAbsencesSelectionService } from "./confirm-absences-selection.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

@@ -1,5 +1,6 @@
 import { Result, Test } from "src/app/shared/models/test.model";
 import { buildGradingScale, buildResult, buildTest } from "src/spec-builders";
+import { GradingScale } from "../../shared/models/grading-scale.model";
 import {
   averageGrade,
   averagePoints,
@@ -11,7 +12,6 @@ import {
   sortByDate,
   toggleIsPublished,
 } from "./tests";
-import { GradingScale } from "../../shared/models/grading-scale.model";
 
 describe("Test utils", () => {
   describe("update test results", () => {

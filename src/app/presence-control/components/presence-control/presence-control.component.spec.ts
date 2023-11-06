@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { PresenceControlComponent } from "./presence-control.component";
 

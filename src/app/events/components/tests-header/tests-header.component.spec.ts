@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { of } from "rxjs";
 import { buildCourse } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { of } from "rxjs";
-
-import { TestsHeaderComponent } from "./tests-header.component";
 import { ReportsService } from "../../../shared/services/reports.service";
+import { TestsHeaderComponent } from "./tests-header.component";
 
 describe("TestsHeaderComponent", () => {
   let component: TestsHeaderComponent;

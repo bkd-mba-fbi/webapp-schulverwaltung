@@ -1,23 +1,23 @@
 import { Injectable } from "@angular/core";
 import {
+  Observable,
+  Subject,
   debounceTime,
   map,
-  Observable,
   shareReplay,
   startWith,
-  Subject,
   switchMap,
   tap,
 } from "rxjs";
 import {
-  UserSetting,
   NotificationChannels,
-  NotificationTypesInactive,
-  UserSettings,
   NotificationData,
+  NotificationTypesInactive,
+  PresenceControlGroupView,
   PresenceControlViewMode,
   PresenceControlViewModeObject,
-  PresenceControlGroupView,
+  UserSetting,
+  UserSettings,
 } from "../models/user-settings.model";
 import { decode } from "../utils/decode";
 import { defaultValue } from "../utils/observable";

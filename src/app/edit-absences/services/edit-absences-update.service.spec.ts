@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { EditAbsencesUpdateService } from "./edit-absences-update.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { EditAbsencesUpdateService } from "./edit-absences-update.service";
 
 describe("EditAbsencesUpdateService", () => {
   let service: EditAbsencesUpdateService;

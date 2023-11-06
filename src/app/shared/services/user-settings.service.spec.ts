@@ -1,9 +1,9 @@
 import { HttpTestingController } from "@angular/common/http/testing";
-import { fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { isEqual } from "lodash-es";
 import { buildUserSettings } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { UserSettings, AccessInfo } from "../models/user-settings.model";
+import { AccessInfo, UserSettings } from "../models/user-settings.model";
 import { UserSettingsRestService } from "./user-settings-rest.service";
 import {
   REFETCH_DEBOUNCE_TIME,

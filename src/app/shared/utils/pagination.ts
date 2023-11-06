@@ -1,7 +1,7 @@
+import { HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
 import * as t from "io-ts/lib/index";
-import { HttpResponse, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { switchMap, map } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 import { decodeArray } from "./decode";
 
 export interface Paginated<T> {

@@ -1,6 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-
-import { Sorting, SortService } from "./sort.service";
+import { SortService, Sorting } from "./sort.service";
 
 describe("SortService", () => {
   type SortableKeys = "one" | "two";

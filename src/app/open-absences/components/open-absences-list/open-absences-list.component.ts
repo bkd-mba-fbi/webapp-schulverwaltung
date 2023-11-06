@@ -1,21 +1,20 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnDestroy,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from "@angular/core";
 import { Subject } from "rxjs";
-
+import { take } from "rxjs/operators";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
+import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { SortCriteria } from "src/app/shared/utils/sort";
+import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
 import {
   OpenAbsencesService,
   PrimarySortKey,
 } from "../../services/open-absences.service";
-import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
-import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
-import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
-import { SortCriteria } from "src/app/shared/utils/sort";
-import { take } from "rxjs/operators";
 
 @Component({
   selector: "erz-open-absences-list",

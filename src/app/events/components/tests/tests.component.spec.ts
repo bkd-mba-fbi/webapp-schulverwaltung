@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { TestsComponent } from "./tests.component";
 
 describe("TestsComponent", () => {

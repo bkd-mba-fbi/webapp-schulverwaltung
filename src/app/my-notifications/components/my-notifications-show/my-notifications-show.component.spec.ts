@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-
 import { MyNotificationsShowComponent } from "./my-notifications-show.component";
 
 describe("MyNotificationsShowComponent-WithData", () => {

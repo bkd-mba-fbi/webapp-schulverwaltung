@@ -1,26 +1,25 @@
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   OnInit,
-  ChangeDetectionStrategy,
-  AfterViewInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Observable } from "rxjs";
-import { map, switchMap, take, shareReplay } from "rxjs/operators";
-
-import {
-  EvaluateAbsencesStateService,
-  EvaluateAbsencesFilter,
-} from "../../services/evaluate-absences-state.service";
+import { map, shareReplay, switchMap, take } from "rxjs/operators";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { LessonPresence } from "../../../shared/models/lesson-presence.model";
+import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
 import {
   ReportInfo,
   ReportsService,
 } from "../../../shared/services/reports.service";
-import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
-import { LessonPresence } from "../../../shared/models/lesson-presence.model";
+import {
+  EvaluateAbsencesFilter,
+  EvaluateAbsencesStateService,
+} from "../../services/evaluate-absences-state.service";
 
 interface Column {
   key: keyof LessonPresenceStatistic;

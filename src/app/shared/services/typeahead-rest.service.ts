@@ -1,13 +1,12 @@
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { switchMap, map } from "rxjs/operators";
 import * as t from "io-ts";
-
+import { Observable } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 import { Settings } from "src/app/settings";
-import { pick } from "../utils/types";
-import { decodeArray, decode } from "../utils/decode";
-import { RestService } from "../services/rest.service";
 import { DropDownItem } from "../models/drop-down-item.model";
+import { RestService } from "../services/rest.service";
+import { decode, decodeArray } from "../utils/decode";
+import { pick } from "../utils/types";
 
 export class HttpParams {
   params: { [param: string]: string };

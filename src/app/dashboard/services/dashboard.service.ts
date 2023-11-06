@@ -1,26 +1,26 @@
 import { Inject, Injectable } from "@angular/core";
 import {
+  Observable,
+  ReplaySubject,
   combineLatest,
   map,
-  Observable,
   of,
-  ReplaySubject,
   shareReplay,
   startWith,
   switchMap,
 } from "rxjs";
-import { Settings, SETTINGS } from "../../settings";
-import { UserSettingsService } from "../../shared/services/user-settings.service";
-import { LessonPresencesRestService } from "../../shared/services/lesson-presences-rest.service";
-import { StudentsRestService } from "../../shared/services/students-rest.service";
+import { SETTINGS, Settings } from "../../settings";
 import { LessonAbsence } from "../../shared/models/lesson-absence.model";
-import { StorageService } from "../../shared/services/storage.service";
-import { CoursesRestService } from "../../shared/services/courses-rest.service";
 import { LessonIncident } from "../../shared/models/lesson-incident.model";
 import { TimetableEntry } from "../../shared/models/timetable-entry.model";
-import { notNull } from "../../shared/utils/filter";
-import { TeacherSubstitutionsRestService } from "../../shared/services/teacher-substitutions-rest.service";
+import { CoursesRestService } from "../../shared/services/courses-rest.service";
+import { LessonPresencesRestService } from "../../shared/services/lesson-presences-rest.service";
 import { PersonsRestService } from "../../shared/services/persons-rest.service";
+import { StorageService } from "../../shared/services/storage.service";
+import { StudentsRestService } from "../../shared/services/students-rest.service";
+import { TeacherSubstitutionsRestService } from "../../shared/services/teacher-substitutions-rest.service";
+import { UserSettingsService } from "../../shared/services/user-settings.service";
+import { notNull } from "../../shared/utils/filter";
 
 const SEARCH_ROLES = [
   "LessonTeacherRole",

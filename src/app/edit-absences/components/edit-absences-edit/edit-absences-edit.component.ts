@@ -12,32 +12,31 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import { BehaviorSubject, Subject, Observable } from "rxjs";
+import { uniq } from "lodash-es";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
   finalize,
   map,
   shareReplay,
+  switchMap,
   take,
   takeUntil,
-  switchMap,
 } from "rxjs/operators";
-import { uniq } from "lodash-es";
-
 import { SETTINGS, Settings } from "src/app/settings";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
-import {
-  EditAbsencesUpdateService,
-  Category,
-} from "../../services/edit-absences-update.service";
-import {
-  getValidationErrors,
-  getControlValueChanges,
-} from "src/app/shared/utils/form";
-import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
-import { parseQueryString } from "src/app/shared/utils/url";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
+import {
+  getControlValueChanges,
+  getValidationErrors,
+} from "src/app/shared/utils/form";
+import { parseQueryString } from "src/app/shared/utils/url";
 import { ToastService } from "../../../shared/services/toast.service";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
+import {
+  Category,
+  EditAbsencesUpdateService,
+} from "../../services/edit-absences-update.service";
 
 @Component({
   selector: "erz-edit-absences-edit",

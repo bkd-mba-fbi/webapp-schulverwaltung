@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
 import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
+import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
 
 @Component({
   selector: "erz-edit-absences",

@@ -11,7 +11,7 @@ import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
-import { Sorting, SortService } from "src/app/shared/services/sort.service";
+import { SortService, Sorting } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { Paginated } from "src/app/shared/utils/pagination";

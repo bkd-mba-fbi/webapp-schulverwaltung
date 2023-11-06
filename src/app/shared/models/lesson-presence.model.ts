@@ -1,10 +1,10 @@
 import * as t from "io-ts";
 import {
-  Reference,
-  OptionalReference,
-  Option,
-  LocalDateTimeFromString,
   LocalDateFromString,
+  LocalDateTimeFromString,
+  Option,
+  OptionalReference,
+  Reference,
 } from "./common-types";
 
 const LessonPresence = t.type({

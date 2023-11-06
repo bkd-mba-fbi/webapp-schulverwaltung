@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
+import { uniq } from "lodash-es";
 import {
   BehaviorSubject,
+  Observable,
+  ReplaySubject,
   combineLatest,
   merge,
-  Observable,
   of,
-  ReplaySubject,
   scan,
   shareReplay,
 } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs/operators";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
-import { filter, map, switchMap, take } from "rxjs/operators";
 import {
   Course,
   Grading,
@@ -19,24 +20,23 @@ import {
   TestPointsResult,
   UpdatedTestResultResponse,
 } from "../../shared/models/course.model";
-import { notNull } from "../../shared/utils/filter";
-import { courseReducer, TestsAction } from "../utils/course-reducer";
-import { Test } from "../../shared/models/test.model";
-import { spread } from "../../shared/utils/function";
-import { uniq } from "lodash-es";
+import { DropDownItem } from "../../shared/models/drop-down-item.model";
 import {
+  SortKeys,
+  StudentGrade,
   averageOfGradesForScale,
   compareFn,
   meanOf,
   pluckFinalGrades,
-  SortKeys,
-  StudentGrade,
   transform,
 } from "../../shared/models/student-grades";
-import { Sorting, SortService } from "../../shared/services/sort.service";
+import { Test } from "../../shared/models/test.model";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
 import { GradingsRestService } from "../../shared/services/gradings-rest.service";
-import { DropDownItem } from "../../shared/models/drop-down-item.model";
+import { SortService, Sorting } from "../../shared/services/sort.service";
+import { notNull } from "../../shared/utils/filter";
+import { spread } from "../../shared/utils/function";
+import { TestsAction, courseReducer } from "../utils/course-reducer";
 import { canSetFinalGrade } from "../utils/events";
 import { sortByDate } from "../utils/tests";
 

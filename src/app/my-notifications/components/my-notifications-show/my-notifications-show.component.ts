@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
   ElementRef,
@@ -8,9 +9,9 @@ import {
 } from "@angular/core";
 import {
   BehaviorSubject,
-  interval,
   Observable,
   Subject,
+  interval,
   throwError,
 } from "rxjs";
 import {
@@ -21,12 +22,11 @@ import {
   takeUntil,
   withLatestFrom,
 } from "rxjs/operators";
+import { SETTINGS, Settings } from "src/app/settings";
 import {
   NotificationData,
   NotificationDataEntry,
 } from "src/app/shared/models/user-settings.model";
-import { SETTINGS, Settings } from "src/app/settings";
-import { HttpErrorResponse } from "@angular/common/http";
 import { I18nService } from "src/app/shared/services/i18n.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { forkJoin, Observable, of, shareReplay, switchMap } from "rxjs";
-import { Settings, SETTINGS } from "src/app/settings";
+import { Observable, forkJoin, of, shareReplay, switchMap } from "rxjs";
+import { SETTINGS, Settings } from "src/app/settings";
 import { GradingScale } from "../models/grading-scale.model";
 import { decode } from "../utils/decode";
 import { RestService } from "./rest.service";

@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Option, Maybe, LocalDateTimeFromString } from "./common-types";
+import { LocalDateTimeFromString, Maybe, Option } from "./common-types";
 
 const Person = t.type({
   Id: t.number,

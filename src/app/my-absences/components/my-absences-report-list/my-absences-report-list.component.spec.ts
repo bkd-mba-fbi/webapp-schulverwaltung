@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
-
-import { MyAbsencesReportListComponent } from "./my-absences-report-list.component";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
 import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
+import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
 import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my-absences-report-header.component";
+import { MyAbsencesReportListComponent } from "./my-absences-report-list.component";
 
 describe("MyAbsencesReportListComponent", () => {
   let component: MyAbsencesReportListComponent;

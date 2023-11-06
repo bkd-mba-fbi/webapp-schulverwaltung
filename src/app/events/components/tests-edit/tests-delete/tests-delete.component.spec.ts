@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { TestsDeleteComponent } from "./tests-delete.component";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { buildTestModuleMetadata } from "../../../../../spec-helpers";
-import { buildResult, buildTest } from "src/spec-builders";
 import { DebugElement } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { buildResult, buildTest } from "src/spec-builders";
 import { byTestId } from "src/specs/utils";
+import { buildTestModuleMetadata } from "../../../../../spec-helpers";
+import { TestsDeleteComponent } from "./tests-delete.component";
 
 describe("TestsDeleteComponent", () => {
   let component: TestsDeleteComponent;

@@ -1,9 +1,8 @@
 import { TestBed } from "@angular/core/testing";
-
-import { NotificationTypesService } from "./notification-types.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StorageService } from "./storage.service";
 import { TokenPayload } from "../models/token-payload.model";
+import { NotificationTypesService } from "./notification-types.service";
+import { StorageService } from "./storage.service";
 
 describe("NotificationTypesService", () => {
   let service: NotificationTypesService;

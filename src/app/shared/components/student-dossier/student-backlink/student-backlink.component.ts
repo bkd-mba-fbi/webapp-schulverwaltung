@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { Student } from "src/app/shared/models/student.model";
 

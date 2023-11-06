@@ -1,5 +1,5 @@
-import { LessonPresence } from "../models/lesson-presence.model";
 import { format } from "date-fns";
+import { LessonPresence } from "../models/lesson-presence.model";
 
 export function getIdsGroupedByPerson(
   lessonPresences: ReadonlyArray<LessonPresence>,

@@ -1,6 +1,6 @@
-import { LocalDateTimeFromString, LocalDateFromString } from "./common-types";
 import { fold } from "fp-ts/es6/Either";
-import { parseISOLocalDateTime, parseISOLocalDate } from "../utils/date";
+import { parseISOLocalDate, parseISOLocalDateTime } from "../utils/date";
+import { LocalDateFromString, LocalDateTimeFromString } from "./common-types";
 
 describe("common types", () => {
   describe("LocalDateTimeFromString", () => {

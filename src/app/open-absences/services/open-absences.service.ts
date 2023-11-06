@@ -3,10 +3,10 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
-  combineLatest,
-  merge,
   Observable,
   Subject,
+  combineLatest,
+  merge,
 } from "rxjs";
 import { map, shareReplay, take } from "rxjs/operators";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";

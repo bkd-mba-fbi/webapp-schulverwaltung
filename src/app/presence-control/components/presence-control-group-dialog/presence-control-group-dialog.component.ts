@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
-import { SubscriptionDetail } from "../../../shared/models/subscription-detail.model";
 import { DropDownItem } from "../../../shared/models/drop-down-item.model";
+import { SubscriptionDetail } from "../../../shared/models/subscription-detail.model";
 
 export interface GroupOptions {
   id: Option<DropDownItem["Key"]>;

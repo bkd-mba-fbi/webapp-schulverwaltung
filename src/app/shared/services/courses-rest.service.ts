@@ -1,19 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { map, Observable, switchMap, of } from "rxjs";
 import * as t from "io-ts";
-import { Settings, SETTINGS } from "src/app/settings";
+import { Observable, map, of, switchMap } from "rxjs";
+import { SETTINGS, Settings } from "src/app/settings";
 import {
-  Course,
   AverageTestResultResponse,
+  Course,
   TestGradesResult,
   TestPointsResult,
   UpdatedTestResultResponse,
 } from "../models/course.model";
 import { decode, decodeArray } from "../utils/decode";
 import { hasRole } from "../utils/roles";
-import { RestService } from "./rest.service";
 import { pick } from "../utils/types";
+import { RestService } from "./rest.service";
 
 @Injectable({
   providedIn: "root",

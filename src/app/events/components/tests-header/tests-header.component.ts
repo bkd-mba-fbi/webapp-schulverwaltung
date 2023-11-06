@@ -1,11 +1,11 @@
 import { Component, Input } from "@angular/core";
 import { Observable } from "rxjs";
+import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { Course } from "../../../shared/models/course.model";
 import {
   ReportInfo,
   ReportsService,
 } from "../../../shared/services/reports.service";
-import { EventsRestService } from "src/app/shared/services/events-rest.service";
 
 @Component({
   selector: "erz-tests-header",

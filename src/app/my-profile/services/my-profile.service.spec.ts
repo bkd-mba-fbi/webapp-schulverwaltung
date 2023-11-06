@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-
-import { MyProfileService } from "./my-profile.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { MyProfileService } from "./my-profile.service";
 
 describe("MyProfileService", () => {
   let service: MyProfileService;

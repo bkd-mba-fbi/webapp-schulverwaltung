@@ -1,7 +1,7 @@
 import {
   DefaultUrlSerializer,
-  Params,
   PRIMARY_OUTLET,
+  Params,
   UrlSegment,
   UrlSegmentGroup,
 } from "@angular/router";

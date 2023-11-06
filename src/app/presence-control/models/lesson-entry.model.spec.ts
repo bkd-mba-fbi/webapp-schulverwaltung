@@ -1,5 +1,5 @@
-import { fromLesson, lessonsEntryEqual } from "./lesson-entry.model";
 import { buildLesson } from "../../../spec-builders";
+import { fromLesson, lessonsEntryEqual } from "./lesson-entry.model";
 
 describe("lessons entry", () => {
   describe(".lessonsEntryEqual", () => {

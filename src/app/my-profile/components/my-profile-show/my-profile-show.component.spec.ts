@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
-import { MyProfileShowComponent } from "./my-profile-show.component";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { MyProfileService } from "../../services/my-profile.service";
+import { MyProfileShowComponent } from "./my-profile-show.component";
 
 describe("MyProfileShowComponent", () => {
   let component: MyProfileShowComponent;

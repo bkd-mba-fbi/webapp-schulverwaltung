@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { DashboardActionsComponent } from "./dashboard-actions.component";
-import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { UserSettingsService } from "../../../shared/services/user-settings.service";
 import { BehaviorSubject, of } from "rxjs";
-import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
-import { StudentsRestService } from "../../../shared/services/students-rest.service";
-import { StorageService } from "../../../shared/services/storage.service";
 import { buildLessonPresence, buildPerson } from "../../../../spec-builders";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { CoursesRestService } from "../../../shared/services/courses-rest.service";
+import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
+import { PersonsRestService } from "../../../shared/services/persons-rest.service";
+import { StorageService } from "../../../shared/services/storage.service";
+import { StudentsRestService } from "../../../shared/services/students-rest.service";
+import { UserSettingsService } from "../../../shared/services/user-settings.service";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
 import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
-import { CoursesRestService } from "../../../shared/services/courses-rest.service";
-import { PersonsRestService } from "../../../shared/services/persons-rest.service";
+import { DashboardActionsComponent } from "./dashboard-actions.component";
 
 describe("DashboardActionsComponent", () => {
   // let component: DashboardActionsComponent;
