@@ -2,7 +2,7 @@ name: build 🏭 integrate ⛙ zip 🗜️
 
 on:
   push:
-    branches: [main]
+    # branches: [main]
 
 jobs:
   build:
@@ -69,30 +69,33 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
             git add .
-            git commit -m "Add webapp-schulverwaltung build #${{ github.sha }}"
-            git push
+            SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-8)
+            echo "::debug::Add webapp-schulverwaltung build ${SHORT_SHA}"
+            echo "::debug::Add webapp-schulverwaltung build $SHORT_SHA" 1>&2
+            #git commit -m "Add webapp-schulverwaltung build $SHORT_SHA"
+            #git push
           fi
 
-  zip:
-    runs-on: ubuntu-latest
-    needs: build
+  # zip:
+  #   runs-on: ubuntu-latest
+  #   needs: build
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
-        with:
-          path: dist
-          key: build-${{ github.sha }}
+  #     - uses: actions/cache@v3
+  #       with:
+  #         path: dist
+  #         key: build-${{ github.sha }}
 
-      - name: Zip 🗜️
-        run: |
-          (cd dist && zip --recurse-paths webapp-schulverwaltung.zip *)
-          mv dist/webapp-schulverwaltung dist/app
-          sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
+  #     - name: Zip 🗜️
+  #       run: |
+  #         (cd dist && zip --recurse-paths webapp-schulverwaltung.zip *)
+  #         mv dist/webapp-schulverwaltung dist/app
+  #         sed -e "s~https://eventotest.api~$API_URL~g" dist/app/settings.example.js > dist/app/settings.js
 
-      - name: Upload
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+  #     - name: Upload
+  #       uses: JamesIves/github-pages-deploy-action@4.1.4
+  #       with:
+  #         branch: gh-pages # The branch the action should deploy to.
+  #         folder: dist # The folder the action should deploy.
