@@ -9,7 +9,14 @@ module.exports = {
    * Custom sorting of imports, first lit stuff, then other third
    * party libs, then own modules
    */
-  importOrder: ["^@angular/", "<THIRD_PARTY_MODULES>", "^src/", "^../", "^./"],
+  importOrder: [
+    "zone.js/testing",
+    "^@angular/",
+    "<THIRD_PARTY_MODULES>",
+    "^src/",
+    "^../",
+    "^./",
+  ],
 
   /**
    * Whether to separate sorting groups (as defined above) with
