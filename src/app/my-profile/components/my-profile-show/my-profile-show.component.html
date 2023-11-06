@@ -8,7 +8,9 @@
   <ng-container
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >
-    <ng-container *ngIf="true; else substitutionProfile">
+    <ng-container
+      *ngIf="!profileService.substitutionActive(); else substitutionProfile"
+    >
       <erz-my-profile-header
         [student]="data.profile && data.profile.student"
       ></erz-my-profile-header>
