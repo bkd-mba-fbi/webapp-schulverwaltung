@@ -152,7 +152,7 @@ $presence-control-unconfirmed-absences-size: $font-size-sm;
 // List layout overrides
 :host.list {
   grid-template-areas: "student-info status incidentordesignation previously-absent";
-  grid-template-columns: 3fr min-content 5fr 3em;
+  grid-template-columns: 3fr min-content 4fr 3em;
   padding: 0.5rem 1rem 0.5rem 1rem; //  $spacer / 2;
 
   .status {
