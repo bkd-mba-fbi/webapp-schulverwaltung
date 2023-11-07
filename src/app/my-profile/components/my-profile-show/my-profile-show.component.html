@@ -8,21 +8,12 @@
   <ng-container
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >
-    <ng-container
-      *ngIf="
-        (profileService.activeSubstitution$ | async) === false;
-        else substitutionProfile
-      "
-    >
+    <ng-container *ngIf="data.profile; else noProfile">
       <erz-my-profile-header
-        [student]="data.profile && data.profile.student"
+        [student]="data.profile.student"
       ></erz-my-profile-header>
 
-      <div
-        class="profile-content"
-        data-testid="profile-content"
-        *ngIf="data.profile; else noProfile"
-      >
+      <div class="profile-content" data-testid="profile-content">
         <div class="profile-entries pt-3">
           <erz-my-profile-entry
             *ngIf="data.profile.student.SocialSecurityNumber"
@@ -191,9 +182,18 @@
       </ng-template>
     </ng-container>
 
-    <ng-template #substitutionProfile>
-      <p data-testid="profile-substitution">
+    <ng-template #noProfile>
+      <p
+        *ngIf="(profileService.noAccess$ | async) === true"
+        data-testid="profile-substitution"
+      >
         {{ "shared.profile.substitution-profile" | translate }}
+      </p>
+      <p
+        *ngIf="(profileService.noAccess$ | async) === false"
+        data-testid="profile-none"
+      >
+        {{ "shared.profile.no-profile" | translate }}
       </p>
     </ng-template>
   </ng-container>

@@ -7,11 +7,19 @@ import {
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
-import { finalize, map, shareReplay, switchMap, take } from "rxjs/operators";
+import {
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+} from "rxjs/operators";
 import { Person } from "src/app/shared/models/person.model";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { getValidationErrors } from "src/app/shared/utils/form";
 import { ToastService } from "../../../shared/services/toast.service";
+import { notNull } from "../../../shared/utils/filter";
 import { MyProfileService } from "../../services/my-profile.service";
 
 @Component({
@@ -21,7 +29,10 @@ import { MyProfileService } from "../../services/my-profile.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileEditComponent {
-  student$ = this.profileService.profile$.pipe(map(({ student }) => student));
+  student$ = this.profileService.profile$.pipe(
+    filter(notNull),
+    map(({ student }) => student),
+  );
   formGroup$ = this.student$.pipe(
     map(this.createFormGroup.bind(this)),
     shareReplay(1),
