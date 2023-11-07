@@ -1,9 +1,13 @@
-input {
+@import "../../../../bootstrap-variables";
+
+input.has-value {
   padding-right: 2.5em;
 }
 
-button {
+.btn.clear {
   position: absolute;
   right: 0;
-  z-index: 3;
+  z-index: 5;
+  padding-left: calc(0.5 * $spacer);
+  padding-right: calc(0.5 * $spacer);
 }

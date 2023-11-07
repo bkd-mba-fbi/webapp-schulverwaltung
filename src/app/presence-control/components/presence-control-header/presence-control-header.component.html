@@ -101,7 +101,7 @@
     <a
       *ngIf="selectedLesson && state.groupsAvailability$ | async"
       type="button"
-      class="group btn me-xs-0 me-sm-4"
+      class="group btn me-2 me-sm-4"
       [ngClass]="{
         'btn-link': (isGroupSelected$ | async) === false,
         'btn-danger': isGroupSelected$ | async
