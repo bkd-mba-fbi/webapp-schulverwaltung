@@ -6,7 +6,7 @@ We support the evergreen browsers (Chrome, Firefox, Safari, Edge).
 
 ## Testing with BrowserStack
 
-When testing browser compatiblity with [BrowserStack](https://www.browserstack.com/), consider the following combination of Dev Server and URL to use.
+When testing browser compatibility with [BrowserStack](https://www.browserstack.com/), consider the following combination of Dev Server and URL to use.
 
 | OS        | Browser               | Dev Server                   | URL                        |
 | --------- | --------------------- | ---------------------------- | -------------------------- |
