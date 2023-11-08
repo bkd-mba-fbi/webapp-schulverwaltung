@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
-import { ReplaySubject, map } from "rxjs";
+import { ReplaySubject, of, startWith, switchMap } from "rxjs";
 import { Person } from "../../../shared/models/person.model";
 import { ReportsService } from "../../../shared/services/reports.service";
 
@@ -21,11 +21,12 @@ export class MyProfileHeaderComponent implements OnChanges {
   private studentId$ = new ReplaySubject<Option<number>>(1);
 
   reports$ = this.studentId$.pipe(
-    map((studentId) =>
+    switchMap((studentId) =>
       studentId
         ? this.reportsService.getPersonMasterDataReports(studentId)
-        : [],
+        : of([]),
     ),
+    startWith([]),
   );
 
   constructor(private reportsService: ReportsService) {}

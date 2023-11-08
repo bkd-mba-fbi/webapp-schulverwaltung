@@ -4,7 +4,7 @@
       <i class="material-icons">add</i>
     </a>
     <erz-reports-link
-      [reports]="(loadReports() | async) ?? []"
+      [reports]="reports$ | async"
       class="ms-2"
     ></erz-reports-link>
   </div>
