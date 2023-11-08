@@ -66,7 +66,7 @@ export class StudentProfileService {
   getMyProfile(): Observable<Profile<Person>> {
     return this.loadingService.load(
       this.personsService
-        .getMyself()
+        .getMyself(withConfig({ disableErrorHandlingForStatus: [403] }))
         .pipe(
           switchMap((person) =>
             combineLatest([

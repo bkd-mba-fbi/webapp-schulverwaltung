@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import * as t from "io-ts";
 import { Observable } from "rxjs";
@@ -27,9 +27,9 @@ export class PersonsRestService extends RestService<typeof Person> {
     return this.getList({ params: { "filter.Id": `;${personIds.join(";")}` } });
   }
 
-  getMyself(): Observable<Person> {
+  getMyself(params?: HttpParams): Observable<Person> {
     return this.http
-      .get<unknown>(`${this.baseUrl}/me`)
+      .get<unknown>(`${this.baseUrl}/me`, { params })
       .pipe(switchMap(decode(this.codec)));
   }
 

@@ -1,20 +1,42 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { shareReplay, switchMap } from "rxjs/operators";
-import { StudentProfileService } from "src/app/shared/services/student-profile.service";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
+import {
+  Profile,
+  StudentProfileService,
+} from "src/app/shared/services/student-profile.service";
+import { Person } from "../../shared/models/person.model";
+
+const NO_ACCESS = "no_access" as const;
 
 @Injectable()
 export class MyProfileService {
   private reset$ = new BehaviorSubject<void>(undefined);
-  profile$ = this.reset$.pipe(
-    switchMap(() => this.profileService.getMyProfile()),
+
+  private rawProfile$ = this.reset$.pipe(
+    switchMap(() => this.loadProfile()),
     shareReplay(1),
   );
+  profile$ = this.rawProfile$.pipe(
+    map((p) => (p === NO_ACCESS ? null : (p as Profile<Person>))),
+  );
+  noAccess$ = this.rawProfile$.pipe(map((p) => p === NO_ACCESS));
   loading$ = this.profileService.loading$;
 
   constructor(private profileService: StudentProfileService) {}
 
   reset(): void {
     this.reset$.next();
+  }
+
+  private loadProfile(): Observable<Profile<Person> | typeof NO_ACCESS> {
+    return this.profileService.getMyProfile().pipe(
+      catchError((error) => {
+        if (error.status === 403) {
+          return of(NO_ACCESS);
+        }
+        return throwError(() => error);
+      }),
+    );
   }
 }
