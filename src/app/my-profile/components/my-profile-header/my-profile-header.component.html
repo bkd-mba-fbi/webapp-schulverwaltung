@@ -7,9 +7,6 @@
       <div class="birthdate">{{ student.Birthdate | date: "dd.MM.yyyy" }}</div>
     </div>
   </div>
-  <erz-report-link
-    [reports]="(reports$ | async) ?? []"
-    class=""
-  ></erz-report-link>
+  <erz-reports-link [reports]="reports$ | async"></erz-reports-link>
 </div>
 <div class="email" *ngIf="student">{{ student.Email }}</div>
