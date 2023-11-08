@@ -444,6 +444,7 @@
       "incidents": "Incidents",
       "half-days": "Demi-journées libres",
       "no-profile": "Le profil n'a pas été trouvé.",
+      "substitution-profile": "Vous n'avez pas accès à votre profil tant que vous effctuer un remplacement.",
       "no-absences": "Aucune donnée disponible"
     },
     "select": {
