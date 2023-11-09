@@ -22,25 +22,20 @@ describe("MyAbsencesReportStateService", () => {
   let beforeLessonStart: TimetableEntry;
   let onLessonStart: TimetableEntry;
   let afterLessonStart: TimetableEntry;
+  let now: Date;
 
   beforeEach(() => {
     storageMock = jasmine.createSpyObj("StorageService", ["getPayload"]);
 
-    beforeLessonStart = buildTimetableEntry(
-      1,
-      subHours(new Date(), 2),
-      subHours(new Date(), 1),
-    );
-    onLessonStart = buildTimetableEntry(
-      2,
-      subHours(new Date(), 1),
-      addHours(new Date(), 1),
-    );
-    afterLessonStart = buildTimetableEntry(
-      3,
-      addHours(new Date(), 1),
-      addHours(new Date(), 2),
-    );
+    now = new Date();
+    const oneHourAgo = subHours(now, 1);
+    const twoHoursAgo = subHours(now, 2);
+    const oneHourFromNow = addHours(now, 1);
+    const twoHoursFromNow = addHours(now, 2);
+
+    beforeLessonStart = buildTimetableEntry(1, twoHoursAgo, oneHourAgo);
+    onLessonStart = buildTimetableEntry(2, oneHourAgo, oneHourFromNow);
+    afterLessonStart = buildTimetableEntry(3, oneHourFromNow, twoHoursFromNow);
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -73,7 +68,7 @@ describe("MyAbsencesReportStateService", () => {
     it("should return all entries", fakeAsync(() => {
       initializeServiceWithInstance("GymHofwil");
 
-      service.setFilter({ dateFrom: new Date(), dateTo: new Date() });
+      service.setFilter({ dateFrom: now, dateTo: now });
       tick(10);
 
       expect(entriesCallback.calls.mostRecent().args[0]).toEqual([
@@ -88,8 +83,8 @@ describe("MyAbsencesReportStateService", () => {
     it("should only return entries starting after lesson start", fakeAsync(() => {
       initializeServiceWithInstance("BsTest");
 
-      service.setFilter({ dateFrom: new Date(), dateTo: new Date() });
-      tick(1000);
+      service.setFilter({ dateFrom: now, dateTo: now });
+      tick(10);
 
       expect(entriesCallback.calls.mostRecent().args[0]).toEqual([
         buildLessonPresenceFromTimetableEntry(afterLessonStart),
