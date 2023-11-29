@@ -1,6 +1,11 @@
 import { Course, Grading } from '../../shared/models/course.model';
 import { Result } from '../../shared/models/test.model';
-import { removeTestById, replaceResult, toggleIsPublished } from './tests';
+import {
+  deleteResult,
+  removeTestById,
+  replaceResult,
+  toggleIsPublished,
+} from './tests';
 import { changeGrading, replaceGrading } from './gradings';
 
 export type TestsAction =
@@ -8,6 +13,10 @@ export type TestsAction =
   | {
       type: 'updateResult';
       payload: { testResult: Result; grading: Grading };
+    }
+  | {
+      type: 'deleteResult';
+      payload: { testId: number; grading: Grading };
     }
   | { type: 'toggle-test-state'; payload: number }
   | {
@@ -29,6 +38,21 @@ export function courseReducer(
         ? {
             ...course,
             Tests: replaceResult(action.payload.testResult, course.Tests || []),
+            Gradings: replaceGrading(
+              action.payload.grading,
+              course.Gradings || []
+            ),
+          }
+        : null;
+    case 'deleteResult':
+      return course
+        ? {
+            ...course,
+            Tests: deleteResult(
+              action.payload.testId,
+              `${action.payload.testId}_${action.payload.grading.Id}`,
+              course.Tests || []
+            ),
             Gradings: replaceGrading(
               action.payload.grading,
               course.Gradings || []
