@@ -4,6 +4,7 @@ import { GradingScale } from "../../shared/models/grading-scale.model";
 import {
   averageGrade,
   averagePoints,
+  deleteResult,
   gradingScaleOfTest,
   maxPoints,
   removeTestById,
@@ -67,6 +68,32 @@ describe("Test utils", () => {
       const newResults: Result[] = newTests[0].Results!;
       expect(newResults.length).toBe(2);
       expect(newResults).toContain(newResult);
+    });
+  });
+
+  describe("delete test results", () => {
+    it("delete a result in a given test", () => {
+      // given
+      const result = buildResult(1, 1, 55555);
+
+      const test = buildTest(1, 1, [
+        result,
+        buildResult(2, 1, 55555),
+        buildResult(1, 1, 12345),
+      ]);
+
+      // when
+      const newTests = deleteResult(
+        test.Id,
+        `${result.TestId}_${result.CourseRegistrationId}`,
+        [test],
+      );
+
+      // then
+      expect(newTests.length).toBe(1);
+      const newResults: Result[] = newTests[0].Results!;
+      expect(newResults.length).toEqual(2);
+      expect(newResults).not.toContain(result);
     });
   });
 

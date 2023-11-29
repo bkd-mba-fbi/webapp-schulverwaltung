@@ -226,7 +226,9 @@ export class TestStateService {
           this.coursesRestService.updateTestResult(course.Id, requestBody),
         ),
       )
-      .subscribe((response) => this.updateStudentGrades(response));
+      .subscribe((response) =>
+        this.updateStudentGrades(response, requestBody.TestId),
+      );
   }
 
   publish(test: Test) {
@@ -271,21 +273,33 @@ export class TestStateService {
       );
   }
 
-  private updateStudentGrades(newGrades: {
-    courseId: number;
-    body: UpdatedTestResultResponse;
-  }) {
+  private updateStudentGrades(
+    newGrades: {
+      courseId: number;
+      body: UpdatedTestResultResponse;
+    },
+    testId: number,
+  ) {
     const grading: Grading | undefined = newGrades.body.Gradings.find(
       (grading: Grading) => grading.EventId === newGrades.courseId,
     );
     if (grading === undefined) return;
-    this.action$.next({
+
+    const updateResult: TestsAction = {
       type: "updateResult",
       payload: {
         testResult: newGrades.body.TestResults[0],
         grading,
       },
-    });
+    };
+    const deleteResult: TestsAction = {
+      type: "deleteResult",
+      payload: { testId, grading },
+    };
+
+    this.action$.next(
+      newGrades.body.TestResults.length === 0 ? deleteResult : updateResult,
+    );
   }
 
   private toggleTestPublishedState(testId: number) {
