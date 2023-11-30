@@ -32,7 +32,7 @@ Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github
 
 Run `npm run lint` to check source files with [ESLint](https://eslint.org/). For the configuration, see [.eslintrc.json](./.eslintrc.json).
 
-Run `npm run unused` to print a report of unused dependencies, files & exports using [Knip](https://github.com/webpro/knip). For the configuration, see [.knip.json](./.knip.json).
+Run `npm run unused` to print a report of unused dependencies, files & exports using [Knip](https://github.com/webpro/knip). For the configuration, see [.knip.json](../.knip.json).
 
 ## Further help
 
