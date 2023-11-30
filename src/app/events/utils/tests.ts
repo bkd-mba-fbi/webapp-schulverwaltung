@@ -8,6 +8,16 @@ export function replaceResult(result: Result, tests: Test[]): Test[] {
   );
 }
 
+export function deleteResult(
+  testId: number,
+  resultId: string,
+  tests: Test[],
+): Test[] {
+  return tests.map((test) =>
+    test.Id === testId ? deleteResultById(resultId, test) : test,
+  );
+}
+
 export function toggleIsPublished(id: number, tests: Test[]) {
   return tests.map((test) =>
     test.Id === id ? { ...test, IsPublished: !test.IsPublished } : test,
@@ -69,6 +79,13 @@ export function gradingScaleOfTest(
       (gradingScale) => gradingScale.Id === test.GradingScaleId,
     ) || null
   );
+}
+
+function deleteResultById(id: string, test: Test): Test {
+  return {
+    ...test,
+    Results: test.Results?.filter((result) => result.Id !== id) || [],
+  };
 }
 
 function extractGrades(test: Test) {
