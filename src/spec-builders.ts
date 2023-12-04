@@ -640,9 +640,9 @@ export function buildTest(
     IsPublished: false,
     IsOwner: true,
     Owner: null,
-    Creation: "2022-02-14T16:58:18.89",
+    // Creation: "2022-02-14T16:58:18.89",
     GradingScaleId: 1106,
-    GradingScale: "Zehntelnoten bes. disp. keine Note",
+    // GradingScale: "Zehntelnoten bes. disp. keine Note",
     Results: results,
   };
 }
@@ -672,51 +672,51 @@ export function buildGrading(
   return {
     AverageTestResult: averageGrade,
     CanGrade: false,
-    EventDesignation: "Französisch-S2",
+    // EventDesignation: "Französisch-S2",
     EventId: 9248,
-    EventNumber: "4-2-F-S2-GYM22-22a",
-    GradeComment: null,
+    // EventNumber: "4-2-F-S2-GYM22-22a",
+    // GradeComment: null,
     GradeId: gradeId,
     GradeValue: null,
     // HRef: '/restApi/Gradings/126885',
     Id: 126885,
-    StudentFullName: "Michel Franziska",
+    // StudentFullName: "Michel Franziska",
     StudentId: studentId,
-    StudentMatriculationNumber: null,
-    StudentNameTooltip: "Michel Franziska",
+    // StudentMatriculationNumber: null,
+    // StudentNameTooltip: "Michel Franziska",
   };
 }
 
 export function buildGradingScale(id: number, grades: Grade[] = []) {
   return {
     Id: id,
-    Designation: "Zehntelnoten bes. disp. keine Note",
-    MinGrade: 0.0,
-    MaxGrade: 0.0,
-    CommentsAllowed: false,
-    LowestSufficientGrade: 4.0,
-    RisingGrades: true,
+    // Designation: "Zehntelnoten bes. disp. keine Note",
+    // MinGrade: 0.0,
+    // MaxGrade: 0.0,
+    // CommentsAllowed: false,
+    // LowestSufficientGrade: 4.0,
+    // RisingGrades: true,
     Grades: grades,
-    IdObject: 1106,
-    FreeGrading: false,
-    HRef: "/restApi/GradingScales/1106",
+    // IdObject: 1106,
+    // FreeGrading: false,
+    // HRef: "/restApi/GradingScales/1106",
   };
 }
 
 export function buildFinalGrading(id: number): FinalGrading {
   return {
-    EventId: 9457,
-    EventDesignation: "Französisch-S2",
-    EventNumber: "1-2-F-S2-GYM22-25a",
+    // EventId: 9457,
+    // EventDesignation: "Französisch-S2",
+    // EventNumber: "1-2-F-S2-GYM22-25a",
     StudentId: 6231,
-    StudentMatriculationNumber: null,
-    StudentFullName: "Scheidegger Mona",
-    StudentNameTooltip: "Scheidegger Mona",
+    // StudentMatriculationNumber: null,
+    // StudentFullName: "Scheidegger Mona",
+    // StudentNameTooltip: "Scheidegger Mona",
     Grade: "4.5",
-    GradeValue: 4.5,
+    // GradeValue: 4.5,
     AverageTestResult: 4.512,
-    IsAdequate: true,
-    GradeComment: null,
+    // IsAdequate: true,
+    // GradeComment: null,
     Id: id,
   };
 }

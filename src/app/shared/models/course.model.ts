@@ -37,37 +37,37 @@ const ExpandedAttendanceRef = t.partial({
 const AttendanceRef = t.intersection([id, HRef, ExpandedAttendanceRef]);
 
 const FinalGrading = t.type({
-  EventDesignation: t.string,
-  EventId: t.number,
-  EventNumber: t.string,
+  // EventDesignation: t.string,
+  // EventId: t.number,
+  // EventNumber: t.string,
   Grade: t.string,
-  GradeComment: Option(t.string),
-  GradeValue: Option(t.number),
+  // GradeComment: Option(t.string),
+  // GradeValue: Option(t.number),
   AverageTestResult: t.number,
   // HRef: t.string,
   Id: t.number,
-  IsAdequate: t.boolean,
-  StudentFullName: t.string,
+  // IsAdequate: t.boolean,
+  // StudentFullName: t.string,
   StudentId: t.number,
-  StudentMatriculationNumber: Option(t.number),
-  StudentNameTooltip: t.string,
+  // StudentMatriculationNumber: Option(t.number),
+  // StudentNameTooltip: t.string,
 });
 
 const Grading = t.type({
   AverageTestResult: t.number,
   CanGrade: t.boolean,
-  EventDesignation: t.string,
+  // EventDesignation: t.string,
   EventId: t.number,
-  EventNumber: t.string,
-  GradeComment: Option(t.string),
+  // EventNumber: t.string,
+  // GradeComment: Option(t.string),
   GradeId: Option(t.number),
   GradeValue: Option(t.number),
   // HRef: t.string,
   Id: t.number,
-  StudentFullName: t.string,
+  // StudentFullName: t.string,
   StudentId: t.number,
-  StudentMatriculationNumber: Option(t.number),
-  StudentNameTooltip: t.string,
+  // StudentMatriculationNumber: Option(t.number),
+  // StudentNameTooltip: t.string,
 });
 
 const Course = t.type({
