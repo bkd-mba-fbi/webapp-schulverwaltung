@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { LocalDateTimeFromString, Option } from "./common-types";
 
 const Result = t.type({
+  Id: t.string,
   TestId: t.number,
   CourseRegistrationId: t.number,
   GradeId: Option(t.number),
@@ -9,7 +10,6 @@ const Result = t.type({
   GradeDesignation: Option(t.string),
   Points: Option(t.number),
   StudentId: t.number,
-  Id: t.string,
 });
 
 type Result = t.TypeOf<typeof Result>;
@@ -28,9 +28,9 @@ const Test = t.type({
   IsPublished: t.boolean,
   IsOwner: t.boolean,
   Owner: Option(t.string),
-  Creation: t.string,
+  // Creation: t.string,
   GradingScaleId: Option(t.number),
-  GradingScale: Option(t.string),
+  // GradingScale: Option(t.string),
   Results: Option(t.array(Result)),
 });
 
