@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
@@ -68,7 +68,7 @@ export class PresenceControlGroupComponent implements OnInit {
     private subscriptionDetailService: SubscriptionDetailsRestService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private modalService: NgbModal,
+    private modalService: BkdModalService,
   ) {}
 
   ngOnInit(): void {

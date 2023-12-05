@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ReplaySubject, map } from "rxjs";
 import {
   replaceResultInTest,
@@ -8,6 +7,7 @@ import {
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Result, Test } from "src/app/shared/models/test.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
 import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grades-edit.component";
 
@@ -63,7 +63,7 @@ export class DossierSingleTestComponent implements OnChanges {
 
   constructor(
     private gradeService: DossierGradesService,
-    private modalService: NgbModal,
+    private modalService: BkdModalService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {

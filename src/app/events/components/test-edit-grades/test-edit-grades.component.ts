@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
@@ -12,6 +12,7 @@ import {
   StudentGrade,
 } from "src/app/shared/models/student-grades";
 import { Student } from "src/app/shared/models/student.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { Test } from "../../../shared/models/test.model";
 import { EventsStateService } from "../../services/events-state.service";
 import { Filter, TestStateService } from "../../services/test-state.service";
@@ -29,7 +30,7 @@ export class TestEditGradesComponent implements OnInit {
 
   constructor(
     public state: TestStateService,
-    private modalService: NgbModal,
+    private modalService: BkdModalService,
   ) {}
 
   ngOnInit(): void {
