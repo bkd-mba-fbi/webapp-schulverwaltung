@@ -65,7 +65,7 @@ describe("RestErrorInterceptor", () => {
       expectToast("unavailable");
     });
 
-    it("catches unauthorized error and displays notification", () => {
+    it("catches unauthorized error, displays notification & redirects to /unauthenticated", () => {
       http.get("/").subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne("/")
@@ -77,7 +77,7 @@ describe("RestErrorInterceptor", () => {
       expectToast("noaccess");
     });
 
-    it("catches forbidden error and displays notification", () => {
+    it("catches forbidden error, displays notification & redirects to /dashboard", () => {
       http.get("/").subscribe({ next: successCallback, error: errorCallback });
       httpTestingController
         .expectOne("/")
@@ -85,7 +85,7 @@ describe("RestErrorInterceptor", () => {
 
       expect(successCallback).not.toHaveBeenCalled();
       expect(errorCallback).not.toHaveBeenCalled();
-      expect(routerMock.navigate).not.toHaveBeenCalled();
+      expect(routerMock.navigate).toHaveBeenCalledWith(["/dashboard"]);
       expectToast("noaccess");
     });
 

@@ -110,6 +110,12 @@ export class RestErrorInterceptor implements HttpInterceptor {
             return EMPTY;
           case HTTP_STATUS.FORBIDDEN:
             this.notifyError("noaccess");
+
+            // Since access is forbidden to the requested resource,
+            // redirect the user to the dashboard to avoid any
+            // follow-up errors
+            this.router.navigate(["/dashboard"]);
+
             return EMPTY;
           case HTTP_STATUS.NOT_FOUND:
             this.notifyError("notfound");
