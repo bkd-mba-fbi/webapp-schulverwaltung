@@ -8,10 +8,10 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { Params } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import { ReplaySubject, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
@@ -50,7 +50,7 @@ export class PresenceControlEntryComponent implements OnChanges {
   constructor(
     private toastService: ToastService,
     private translate: TranslateService,
-    private modalService: NgbModal,
+    private modalService: BkdModalService,
     private loadingService: LoadingService,
   ) {}
 

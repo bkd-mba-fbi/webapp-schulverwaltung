@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
@@ -12,6 +11,7 @@ import {
 } from "rxjs";
 import { take } from "rxjs/operators";
 import { Test } from "src/app/shared/models/test.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { TestStateService } from "../../services/test-state.service";
@@ -41,7 +41,7 @@ export class TestsEditComponent {
     private toastService: ToastService,
     private translate: TranslateService,
     private router: Router,
-    private modalService: NgbModal,
+    private modalService: BkdModalService,
   ) {}
 
   openDeleteModal(test: Test) {

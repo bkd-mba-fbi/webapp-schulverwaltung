@@ -45,13 +45,25 @@
           "error",
           {
             "name": "fdescribe",
-            "message": "Do not commit fdescribe. Use describe instead."
+            "message": "Do not commit 'fdescribe'. Use 'describe' instead."
           }
         ],
         "no-restricted-imports": [
           "error",
           {
-            "patterns": ["fp-ts/lib/*"]
+            "patterns": [
+              {
+                "group": ["fp-ts/lib/*"],
+                "message": "Please use 'fp-ts/es6' instead."
+              }
+            ],
+            "paths": [
+              {
+                "name": "@ng-bootstrap/ng-bootstrap",
+                "importNames": ["NgbModal"],
+                "message": "Please use 'BkdModalService' instead."
+              }
+            ]
           }
         ],
         "deprecation/deprecation": "warn",

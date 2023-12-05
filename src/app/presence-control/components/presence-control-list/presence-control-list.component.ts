@@ -6,9 +6,9 @@ import {
   OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BehaviorSubject, Subject, combineLatest } from "rxjs";
 import { map, shareReplay, take, takeUntil } from "rxjs/operators";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { parseISOLocalDate } from "src/app/shared/utils/date";
@@ -46,7 +46,7 @@ export class PresenceControlListComponent
     private blockLessons: PresenceControlBlockLessonService,
     private lessonPresencesUpdateService: LessonPresencesUpdateService,
     private presenceTypesService: PresenceTypesService,
-    private modalService: NgbModal,
+    private modalService: BkdModalService,
     private scrollPosition: ScrollPositionService,
     private route: ActivatedRoute,
   ) {}
