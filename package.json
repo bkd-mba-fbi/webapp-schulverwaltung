@@ -15,6 +15,7 @@
     "start:browserstack": "ng serve --host 0.0.0.0 --disable-host-check --port 8000",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
+    "build-and-copy-local": "npm run build:prod && ./scripts/copy-to-portal.sh ../evento-portal/public/apps/webapp-schulverwaltung/",
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "test:watch": "ng test --browsers=ChromeHeadless",
