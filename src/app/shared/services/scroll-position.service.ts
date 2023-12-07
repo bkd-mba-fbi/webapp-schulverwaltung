@@ -13,7 +13,6 @@ import {
   map,
   mergeMap,
   shareReplay,
-  skip,
   switchAll,
   switchMap,
   take,
@@ -59,20 +58,21 @@ export class ScrollPositionService implements OnDestroy {
   private scrollPositions: Dict<[number, number]> = {};
 
   private previousRoute: Option<ActivatedRouteSnapshot> = null;
-  private currentRoute: Option<ActivatedRouteSnapshot> = null;
+  private currentRoute: ActivatedRouteSnapshot =
+    this.getInitialActivatedRouteSnapshot();
   private currentScrollPosition: [number, number] = [0, 0];
 
   private destroy$ = new Subject<void>();
 
   // Determine the scroll position when the navigation starts and the
-  // "old" component is still correctly rendered
-  private scrollPosition$ = this.router.events.pipe(
-    filter(isNavigationStart),
-    map(this.getScrollPosition.bind(this)),
-  );
-
   private activationEnd$ = this.router.events.pipe(filter(isActivationEnd));
   private navigationEnd$ = this.router.events.pipe(filter(isNavigationEnd));
+  private navigationStart$ = this.router.events.pipe(filter(isNavigationStart));
+
+  // "old" component is still correctly rendered
+  private scrollPosition$ = this.navigationStart$.pipe(
+    map(this.getScrollPosition.bind(this)),
+  );
 
   // On each NavigationEnd, emit the first ActivationEnd (there may be
   // multiple for a single navigation)
@@ -125,7 +125,6 @@ export class ScrollPositionService implements OnDestroy {
     const currentRoute = this.currentRoute;
     this.route$
       .pipe(
-        skip(1),
         take(1),
         takeUntil(this.destroy$),
         filter((nextRoute) => this.shouldStoreFor(currentRoute, nextRoute)),
@@ -191,6 +190,16 @@ export class ScrollPositionService implements OnDestroy {
         ? storeRoute.routeConfig.data.restoreScrollPositionFrom
         : [];
     return restoreScrollPositionFrom.includes(this.getPath(forRoute));
+  }
+
+  private getInitialActivatedRouteSnapshot(): ActivatedRouteSnapshot {
+    let snapshot = this.router.routerState.snapshot.root;
+
+    while (snapshot.firstChild) {
+      snapshot = snapshot.firstChild;
+    }
+
+    return snapshot;
   }
 }
 
