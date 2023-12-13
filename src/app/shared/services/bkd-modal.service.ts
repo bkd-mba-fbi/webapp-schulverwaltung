@@ -105,12 +105,31 @@ export class BkdModalService {
    * iframe.
    */
   private getModalIframeOffset(): number {
-    return Math.max(
-      this.getViewportTop() -
-        this.getPortalHeaderHeight() -
-        this.getPortalContentPadding(),
-      0,
-    );
+    return Math.max(this.getViewportTop() - this.getIframeTop(), 0);
+  }
+
+  /**
+   * Returns the top position of the content iframe relative to the
+   * Evento Portal document.
+   */
+  private getIframeTop(): number {
+    const iframe =
+      this.portalQuerySelector("bkd-content")?.shadowRoot?.querySelector(
+        "iframe",
+      );
+    return iframe?.offsetTop ?? 0;
+  }
+
+  /**
+   * Returns the bottom position of the content iframe relative to the
+   * Evento Portal document.
+   */
+  private getIFrameBottom(): number {
+    const iframe =
+      this.portalQuerySelector("bkd-content")?.shadowRoot?.querySelector(
+        "iframe",
+      );
+    return iframe ? iframe.offsetTop + iframe.offsetHeight : 0;
   }
 
   /**
@@ -118,7 +137,7 @@ export class BkdModalService {
    * Evento Portal document.
    */
   private getModalTop(): number {
-    return Math.max(this.getViewportTop(), this.getPortalHeaderHeight());
+    return Math.max(this.getViewportTop(), this.getIframeTop());
   }
 
   /**
@@ -126,7 +145,7 @@ export class BkdModalService {
    * Evento Portal document.
    */
   private getModalBottom(): number {
-    return Math.min(this.getViewportBottom(), this.getPortalFooterTop());
+    return Math.min(this.getViewportBottom(), this.getIFrameBottom());
   }
 
   /**
@@ -157,54 +176,6 @@ export class BkdModalService {
    */
   private getViewportHeight(): number {
     return this.portalWindow?.innerHeight ?? 0;
-  }
-
-  /**
-   * Returns the height of the Evento Portal header.
-   */
-  private getPortalHeaderHeight(): number {
-    return (
-      this.portalQuerySelector("bkd-header")?.getBoundingClientRect()?.height ??
-      0
-    );
-  }
-
-  /**
-   * Returns the top padding of the Evento Portal content.
-   */
-  private getPortalContentPadding(): number {
-    const portalContent = this.portalQuerySelector("bkd-content");
-    const paddingTop =
-      (this.portalWindow &&
-        portalContent &&
-        this.portalWindow.getComputedStyle(portalContent).paddingTop) ||
-      "0px";
-    return Number(paddingTop.replace("px", ""));
-  }
-
-  /**
-   * Returns the top position of the Evento Portal footer relative to
-   * the Evento Portal document.
-   */
-  private getPortalFooterTop(): number {
-    return this.getDocumentHeight() - this.getPortalFooterHeight();
-  }
-
-  /**
-   * Returns the height of the Evento Portal footer.
-   */
-  private getPortalFooterHeight(): number {
-    return (
-      this.portalQuerySelector("bkd-footer")?.getBoundingClientRect()?.height ??
-      0
-    );
-  }
-
-  /**
-   * Returns the full height of the Evento Portal document.
-   */
-  private getDocumentHeight(): number {
-    return this.portalDocument?.scrollHeight ?? 0;
   }
 
   /**
