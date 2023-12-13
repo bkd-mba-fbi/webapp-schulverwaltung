@@ -4,7 +4,6 @@
   [href]="reports[0]?.url"
   target="_blank"
   [class.disabled]="disableIfUnavailable && reports.length === 0"
-  (click)="$event.stopPropagation()"
 >
   <i class="material-icons">description</i>
 </a>
@@ -21,7 +20,7 @@
     <button
       *ngFor="let report of reports"
       ngbDropdownItem
-      (click)="openReport($event, report)"
+      (click)="openReport(report)"
     >
       {{ report.title }}
     </button>

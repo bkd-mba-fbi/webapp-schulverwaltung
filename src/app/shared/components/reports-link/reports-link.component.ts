@@ -13,8 +13,7 @@ export class ReportsLinkComponent {
 
   dropdownId = uniqueId("reports-link-dropdown");
 
-  openReport(event: MouseEvent, report: Report): void {
-    event.stopPropagation();
+  openReport(report: Report): void {
     window.open(report.url, "_blank");
   }
 }
