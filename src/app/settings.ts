@@ -53,7 +53,6 @@ const Settings = t.type({
   testsBySubscriptionTeacherReports: t.array(Report),
   subscriptionDetailGroupId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
-  notificationRefreshTime: t.number,
   notificationTypes: NotificationTypes,
   notificationTypesAssignments: t.array(NotificationTypesAssignment),
   eventlist: t.record(t.string, t.string),

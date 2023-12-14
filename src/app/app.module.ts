@@ -22,7 +22,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { GlobalErrorHandler } from "./global-error-handler";
 import { HomeComponent } from "./home.component";
-import { MyNotificationsShowComponent } from "./my-notifications/components/my-notifications-show/my-notifications-show.component";
 import { SETTINGS, Settings } from "./settings";
 import { I18nService } from "./shared/services/i18n.service";
 import { SharedModule } from "./shared/shared.module";
@@ -44,12 +43,7 @@ registerLocaleData(localeDECH);
 registerLocaleData(localeFRCH);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    UnauthenticatedComponent,
-    MyNotificationsShowComponent,
-  ],
+  declarations: [AppComponent, HomeComponent, UnauthenticatedComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -79,12 +73,6 @@ registerLocaleData(localeFRCH);
 })
 export class AppModule implements DoBootstrap {
   constructor(private injector: Injector) {
-    const notificationsElement = createCustomElement(
-      MyNotificationsShowComponent,
-      { injector: this.injector },
-    );
-    customElements.define("erz-notifications", notificationsElement);
-
     const appElement = createCustomElement(AppComponent, {
       injector: this.injector,
     });

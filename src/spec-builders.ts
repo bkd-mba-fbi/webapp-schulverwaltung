@@ -463,19 +463,6 @@ export function buildUserSettingsWithNotificationSetting(
   return { ...setting, Settings: [notification] };
 }
 
-export function buildUserSettingsWithNotificationData(
-  id: number,
-  subject: string,
-  body: string,
-): UserSettings {
-  const setting = buildUserSettings();
-  const notification = {
-    Key: "notificationData",
-    Value: JSON.stringify([{ id, subject, body }]),
-  };
-  return { ...setting, Settings: [notification] };
-}
-
 export function buildSubscriptionDetail(
   vssId: number,
   value?: string,

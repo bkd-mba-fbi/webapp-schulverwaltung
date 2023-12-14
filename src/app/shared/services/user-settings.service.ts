@@ -11,7 +11,6 @@ import {
 } from "rxjs";
 import {
   NotificationChannels,
-  NotificationData,
   NotificationTypesInactive,
   PresenceControlGroupView,
   PresenceControlViewMode,
@@ -32,7 +31,6 @@ const PRESENCE_CONTROL_VIEW_MODE_KEY = "presenceControlViewMode";
 const PRESENCE_CONTROL_GROUP_VIEW_KEY = "presenceControlGroupView";
 const NOTIFICATION_CHANNELS_KEY = "notification";
 const NOTIFICATION_TYPES_INACTIVE_KEY = "notificationTypesInactive";
-const NOTIFICATION_DATA_KEY = "notificationData";
 
 @Injectable({
   providedIn: "root",
@@ -146,20 +144,6 @@ export class UserSettingsService {
     return this.saveSetting(
       NOTIFICATION_TYPES_INACTIVE_KEY,
       NotificationTypesInactive.encode(value),
-    );
-  }
-
-  getNotificationData(): Observable<NotificationData> {
-    return this.getSetting(NOTIFICATION_DATA_KEY).pipe(
-      defaultValue("[]"),
-      switchMap(decode(NotificationData)),
-    );
-  }
-
-  saveNotificationData(value: NotificationData): Observable<unknown> {
-    return this.saveSetting(
-      NOTIFICATION_DATA_KEY,
-      NotificationData.encode(value),
     );
   }
 

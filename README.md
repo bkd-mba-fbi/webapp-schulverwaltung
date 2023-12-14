@@ -28,7 +28,6 @@ tags from `index.html`'s `<body>`:
 
 ```
 <body>
-  <erz-notifications></erz-notifications>
   <erz-app></erz-app>
   <script type="text/javascript" src="runtime.xyz.js"></script>
   ...

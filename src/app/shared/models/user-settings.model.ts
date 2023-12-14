@@ -70,16 +70,6 @@ const NotificationTypesInactive = new t.Type<
   (output) => output.join(";"),
 );
 
-const NotificationDataEntry = t.type({
-  id: t.number,
-  subject: t.string,
-  body: t.string,
-});
-
-const NotificationData = JsonFromUnknown.pipe(
-  t.readonly(t.array(NotificationDataEntry)),
-);
-
 export enum PresenceControlViewMode {
   Grid = "grid",
   List = "list",
@@ -118,8 +108,6 @@ const AccessInfo = t.type({
 type UserSetting = t.TypeOf<typeof UserSetting>;
 type UserSettings = t.TypeOf<typeof UserSettings>;
 type NotificationChannels = t.TypeOf<typeof NotificationChannels>;
-type NotificationData = t.TypeOf<typeof NotificationData>;
-type NotificationDataEntry = t.TypeOf<typeof NotificationDataEntry>;
 type NotificationTypesInactive = t.TypeOf<typeof NotificationTypesInactive>;
 type PresenceControlViewModeObject = t.TypeOf<
   typeof PresenceControlViewModeObject
@@ -134,8 +122,6 @@ export {
   UserSettings,
   UserSetting,
   NotificationChannels,
-  NotificationData,
-  NotificationDataEntry,
   NotificationTypesInactive,
   PresenceControlViewModeObject,
   PresenceControlGroupViewEntry,
