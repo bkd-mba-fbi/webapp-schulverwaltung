@@ -2,15 +2,7 @@ import { registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import localeDECH from "@angular/common/locales/de-CH";
 import localeFRCH from "@angular/common/locales/fr-CH";
-import {
-  ApplicationRef,
-  DoBootstrap,
-  ErrorHandler,
-  Injector,
-  LOCALE_ID,
-  NgModule,
-} from "@angular/core";
-import { createCustomElement } from "@angular/elements";
+import { ErrorHandler, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -69,16 +61,6 @@ registerLocaleData(localeFRCH);
       deps: [I18nService],
     },
   ],
-  bootstrap: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule implements DoBootstrap {
-  constructor(private injector: Injector) {
-    const appElement = createCustomElement(AppComponent, {
-      injector: this.injector,
-    });
-    customElements.define("erz-app", appElement);
-  }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngDoBootstrap(_appRef: ApplicationRef): void {}
-}
+export class AppModule {}
