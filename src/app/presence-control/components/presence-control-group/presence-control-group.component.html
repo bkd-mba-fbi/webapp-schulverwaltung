@@ -7,8 +7,8 @@
   } as data"
 >
   <erz-backlink
-    [routerLink]="['/presence-control']"
-    [queryParams]="backlinkQueryParams$ | async"
+    [link]="['/presence-control']"
+    [params]="backlinkQueryParams$ | async"
   ></erz-backlink>
 
   <h1>{{ "presence-control.groups.title" | translate }}</h1>
