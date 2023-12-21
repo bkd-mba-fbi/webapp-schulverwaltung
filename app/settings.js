@@ -112,12 +112,6 @@ window.schulverwaltung.settings = {
       "LessonTeacherRole;ClassTeacherRole;TeacherRole;AbsenceAdministratorRole",
   },
 
-  /**
-   * Notifications
-   */
-  // Refresh time for notifications
-  notificationRefreshTime: 30,
-
   // Types of notifications and their language-specific texts
   // (the description may contain newlines '\n')
   notificationTypes: {
