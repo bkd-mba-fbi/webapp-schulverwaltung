@@ -50,7 +50,6 @@ export const settings: Settings = {
     openAbsences: "LessonTeacherRole;ClassTeacherRole",
     editAbsences: "LessonTeacherRole;ClassTeacherRole",
   },
-  notificationRefreshTime: 30,
   notificationTypes: {
     BM2Student: {
       de: {

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
-import { Router } from "@angular/router";
 import { EMPTY } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { SETTINGS, Settings } from "./settings";
@@ -9,6 +8,7 @@ import { NAVIGATOR } from "./shared/tokens/dom-apis";
 import { decode } from "./shared/utils/decode";
 
 @Component({
+  selector: "erz-app",
   template:
     '<erz-toast aria-live="polite" aria-atomic="true"></erz-toast><router-outlet></router-outlet>',
   styleUrls: ["./app.component.scss"],
@@ -16,13 +16,11 @@ import { decode } from "./shared/utils/decode";
 })
 export class AppComponent {
   constructor(
-    private router: Router,
     i18n: I18nService,
     private toastService: ToastService,
     @Inject(SETTINGS) private settings: Settings,
     @Inject(NAVIGATOR) private navigator: Navigator,
   ) {
-    this.router.initialNavigation();
     i18n.initialize();
     this.checkSettings();
   }

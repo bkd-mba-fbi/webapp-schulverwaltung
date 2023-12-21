@@ -2,15 +2,7 @@ import { registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import localeDECH from "@angular/common/locales/de-CH";
 import localeFRCH from "@angular/common/locales/fr-CH";
-import {
-  ApplicationRef,
-  DoBootstrap,
-  ErrorHandler,
-  Injector,
-  LOCALE_ID,
-  NgModule,
-} from "@angular/core";
-import { createCustomElement } from "@angular/elements";
+import { ErrorHandler, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -22,7 +14,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { GlobalErrorHandler } from "./global-error-handler";
 import { HomeComponent } from "./home.component";
-import { MyNotificationsShowComponent } from "./my-notifications/components/my-notifications-show/my-notifications-show.component";
 import { SETTINGS, Settings } from "./settings";
 import { I18nService } from "./shared/services/i18n.service";
 import { SharedModule } from "./shared/shared.module";
@@ -44,12 +35,7 @@ registerLocaleData(localeDECH);
 registerLocaleData(localeFRCH);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    UnauthenticatedComponent,
-    MyNotificationsShowComponent,
-  ],
+  declarations: [AppComponent, HomeComponent, UnauthenticatedComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -75,22 +61,6 @@ registerLocaleData(localeFRCH);
       deps: [I18nService],
     },
   ],
-  bootstrap: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule implements DoBootstrap {
-  constructor(private injector: Injector) {
-    const notificationsElement = createCustomElement(
-      MyNotificationsShowComponent,
-      { injector: this.injector },
-    );
-    customElements.define("erz-notifications", notificationsElement);
-
-    const appElement = createCustomElement(AppComponent, {
-      injector: this.injector,
-    });
-    customElements.define("erz-app", appElement);
-  }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngDoBootstrap(_appRef: ApplicationRef): void {}
-}
+export class AppModule {}

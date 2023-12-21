@@ -51,7 +51,7 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "allowedCommonJsDependencies": ["xss", "codelyzer"]
+            "allowedCommonJsDependencies": ["codelyzer"]
           },
           "configurations": {
             "production": {

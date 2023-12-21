@@ -48,7 +48,6 @@ import { PersonEmailPipe } from "./pipes/person-email.pipe";
 import { SafePipe } from "./pipes/safe.pipe";
 import { TestPointsPipe } from "./pipes/test-points.pipe";
 import { TestsWeightPipe } from "./pipes/test-weight.pipe";
-import { XssPipe } from "./pipes/xss.pipe";
 
 const directives = [LetDirective];
 
@@ -93,7 +92,6 @@ const pipes = [
   SafePipe,
   TestPointsPipe,
   TestsWeightPipe,
-  XssPipe,
 ];
 
 @NgModule({
