@@ -1,6 +1,6 @@
-# API Data Contract (Data Decoding)
-
 [back](../README.md)
+
+# Data Decoding with io-ts
 
 ## Introduction
 

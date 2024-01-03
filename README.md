@@ -6,58 +6,28 @@
 
 JavaScript web module to implement processes for school administration using the SLH.Evento backend (REST API).
 
-[Demo](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/app)
+This project is realized with [Angular](https://angular.io/), [Bootstrap](https://getbootstrap.com/) and [io-ts](https://github.com/gcanti/io-ts). It is open source software, licensed under the terms of the [MIT license](./LICENSE).
 
-## Integration
+Download the [latest build](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/webapp-schulverwaltung.zip) or checkout the [Demo](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/app).
 
-Download the [latest build](https://bkd-mba-fbi.github.io/webapp-schulverwaltung/webapp-schulverwaltung.zip).
+## Documentation
 
-To integrate this application in your website, you have to copy and
-paste the import of the `settings.js` and the CSS files from
-`index.html`'s `<head>`:
+### Evento Portal
 
-```
-<head>
-  <script src="settings.js"></script>
-  <link rel="stylesheet" href="styles.xyz.css"></head>
-</head>
-```
+Although it can be used standalone during development, the _webapp-schulverwaltung_ is embedded in the [Evento Portal](https://github.com/bkd-mba-fbi/evento-portal) and developed by the same team, therefore the documentation of the _Evento Portal_ is relevant for this project to a large extent too, especially the following documents:
 
-In addition, you have to copy and paste the app tag and all `<script>`
-tags from `index.html`'s `<body>`:
+- [Software Architecture Documentation (SAD)](https://github.com/bkd-mba-fbi/evento-portal/blob/main/doc/sad.md)
+- [App Integration & API](https://github.com/bkd-mba-fbi/evento-portal/blob/main/doc/app-integration.md) – Providing of the OAuth tokens etc.
+- [Git Workflow](https://github.com/bkd-mba-fbi/evento-portal/blob/main/doc/git.md) – Branching (except the release branches) & commit messages
+- [Prettier](https://github.com/bkd-mba-fbi/evento-portal/blob/main/doc/prettier.md) – Source code formatting
 
-```
-<body>
-  <erz-app></erz-app>
-  <script type="text/javascript" src="runtime.xyz.js"></script>
-  ...
-  <script type="text/javascript" src="main.xyz.js"></script>
-</body>
-```
+### General
 
-To configure the app, you have to rename the file
-`settings.example.js` to `settings.js` and adjust its contents.
+- [Wiki](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/wiki) – Common topics
 
-### Authorization
+### Development
 
-The website integrating this application has to make sure the OAuth
-access token is available in localStorage (or sessionStorage) under
-the key `CLX.LoginToken` (e.g. by setting
-`localStorage.setItem('CLX.LoginToken', '...')`). If not provided, the
-application displays a unauthenticated message to the user.
-
-### Important Notes
-
-- When integrated into the Evento Application, the App is wrapped in a
-  `<form>` tag. It is therefore important, that all `<button>`'s are
-  defined with `type="button"` attribute, otherwise the global form
-  will get submitted which results in a page reload.
-
-## Development
-
-- Common aspects are documented in the [Wiki](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/wiki)
-- [Setup development environment](doc/setup-dev-environment.md)
-- [Prettier](doc/prettier.md)
-- [Browser support](doc/browser-support.md)
-- [Internationalization (i18n)](doc/i18n.md)
-- [API Data Contract (Data Decoding)](doc/io-ts.md)
+- [Setup & Development](doc/development.md) – Start local development, run linting & tests
+- [Internationalization (i18n)](doc/i18n.md) – Translating texts
+- [Browser Testing](doc/browser-testing.md) – Support & BrowserStack.com
+- [Data Decoding with io-ts](doc/io-ts.md) – API data contract
