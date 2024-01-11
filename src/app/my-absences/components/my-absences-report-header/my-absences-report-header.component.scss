@@ -3,7 +3,7 @@
 
 :host {
   display: block;
-  padding: $spacer 0;
+  padding-bottom: $spacer;
   border-bottom: 1px solid $border-color;
 }
 
@@ -30,6 +30,10 @@
  * Wrap button to separate line on small screens
  */
 @include media-breakpoint-down(sm) {
+  :host {
+    padding-bottom: 0;
+  }
+
   .buttons {
     width: 100%;
     margin-top: $spacer;
