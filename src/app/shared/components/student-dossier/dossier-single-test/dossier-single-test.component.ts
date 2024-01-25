@@ -38,7 +38,9 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
       {{ test | erzTestWeight }}
     </div>
     <div class="points" data-testid="test-points">
-      <span>{{ test | erzTestPoints: studentId : "dossier.points" }}</span>
+      <span>{{
+        test | erzTestPoints: studentId : isEditable : "dossier.points"
+      }}</span>
     </div>
     <div class="teacher" data-testid="test-teacher">
       {{ test.Owner }}
