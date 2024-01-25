@@ -9,8 +9,14 @@ import { Test } from "src/app/shared/models/test.model";
 export class TestPointsPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
 
-  transform(input: Test, studentId: number, label = "tests.points"): string {
-    if (input.IsPointGrading && input.IsPublished)
+  transform(
+    input: Test,
+    studentId: number,
+    isEditable: boolean,
+    label = "tests.points",
+  ): string {
+    // Render points if student and published, or if teacher that can edit
+    if (input.IsPointGrading && (input.IsPublished || isEditable))
       return `${resultOfStudent(studentId, input)?.Points || "–"} / ${
         input.MaxPointsAdjusted || input.MaxPoints
       } ${this.translate.instant(label)}`;
