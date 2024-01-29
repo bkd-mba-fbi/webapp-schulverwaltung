@@ -55,7 +55,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
    */
   @Input() defaultAbsenceSelectionMessage: Option<string> = null;
 
-  @Input() reports: ReadonlyArray<ReportInfo> = [];
+  @Input() reports: Option<ReadonlyArray<ReportInfo>> = null;
 
   @Input() confirmLink = "confirm";
 
