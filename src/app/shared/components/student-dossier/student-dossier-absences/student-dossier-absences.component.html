@@ -25,6 +25,7 @@
           <i class="material-icons">edit</i>
         </a>
         <erz-reports-link
+          *ngIf="reports"
           [reports]="reports"
           [disableIfUnavailable]="true"
           class="me-2"
