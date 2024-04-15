@@ -7,53 +7,62 @@
     class="profile-entry"
     [student]="data.profile.student"
   ></erz-student-dossier-address>
-  <ngb-accordion #acc="ngbAccordion">
-    <ngb-panel
+  <div ngbAccordion>
+    <div
+      ngbAccordionItem
+      #legalRepresentatives="ngbAccordionItem"
       *ngIf="data.profile.legalRepresentativePersons.length > 0"
-      id="legal-representatives"
     >
-      <ng-template ngbPanelHeader let-opened="opened">
+      <div ngbAccordionHeader>
         <erz-student-dossier-entry-header
-          [opened]="opened"
-          (click)="acc.toggle('legal-representatives')"
+          [opened]="!legalRepresentatives.collapsed"
+          (click)="legalRepresentatives.toggle()"
         >
           {{ "shared.profile.legal-representation" | translate }}
         </erz-student-dossier-entry-header>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <erz-student-dossier-legal-representative
-          *ngFor="let person of data.profile.legalRepresentativePersons"
-          class="profile-entry"
-          [person]="person"
-        ></erz-student-dossier-legal-representative>
-      </ng-template>
-    </ngb-panel>
+      </div>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <erz-student-dossier-legal-representative
+              *ngFor="let person of data.profile.legalRepresentativePersons"
+              class="profile-entry"
+              [person]="person"
+            ></erz-student-dossier-legal-representative>
+          </ng-template>
+        </div>
+      </div>
+    </div>
 
-    <ngb-panel
+    <div
+      ngbAccordionItem
+      #apprenticeshipCompanies="ngbAccordionItem"
       *ngFor="
         let company of data.profile.apprenticeshipCompanies;
         let i = index
       "
-      [id]="'apprenticeship-company-' + i"
     >
-      <ng-template ngbPanelHeader let-opened="opened">
+      <div ngbAccordionHeader>
         <erz-student-dossier-entry-header
-          [opened]="opened"
-          (click)="acc.toggle('apprenticeship-company-' + i)"
+          [opened]="!apprenticeshipCompanies.collapsed"
+          (click)="apprenticeshipCompanies.toggle()"
         >
           {{ "shared.profile.apprenticeship-company" | translate }}
-          <ng-container
-            *ngIf="data.profile.apprenticeshipCompanies.length > 1"
-            >{{ i + 1 }}</ng-container
-          >
+          <ng-container *ngIf="data.profile.apprenticeshipCompanies.length > 1"
+            >{{ i + 1 }}
+          </ng-container>
         </erz-student-dossier-entry-header>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <erz-student-dossier-apprenticeship-company
-          class="profile-entry"
-          [company]="company"
-        ></erz-student-dossier-apprenticeship-company>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
+      </div>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <erz-student-dossier-apprenticeship-company
+              class="profile-entry"
+              [company]="company"
+            ></erz-student-dossier-apprenticeship-company>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>

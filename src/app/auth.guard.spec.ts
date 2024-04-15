@@ -3,9 +3,9 @@ import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
   Router,
+  RouterModule,
   RouterStateSnapshot,
 } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { authGuard } from "./auth.guard";
 import { AuthService } from "./shared/services/auth.service";
@@ -27,7 +27,7 @@ describe("authGuard", () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [
-          RouterTestingModule.withRoutes([
+          RouterModule.forRoot([
             { path: "unauthenticated", component: DummyComponent },
           ]),
         ],

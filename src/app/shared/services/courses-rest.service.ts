@@ -29,10 +29,9 @@ export class CoursesRestService extends RestService<typeof Course> {
 
   getNumberOfCoursesForRating(): Observable<number> {
     return this.http
-      .get<unknown[]>(
-        `${this.baseUrl}/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240`,
-        { headers: { "X-Role-Restriction": "TeacherRole" } },
-      )
+      .get<
+        unknown[]
+      >(`${this.baseUrl}/?expand=EvaluationStatusRef&fields=Id,StatusId,EvaluationStatusRef&filter.StatusId=;10300;10240`, { headers: { "X-Role-Restriction": "TeacherRole" } })
       .pipe(
         switchMap(decodeArray(this.statusCodec)),
         map((courses) =>
@@ -48,10 +47,9 @@ export class CoursesRestService extends RestService<typeof Course> {
   getExpandedCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
     if (hasRole(roles, "TeacherRole")) {
       return this.http
-        .get<unknown[]>(
-          `${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`,
-          { headers: { "X-Role-Restriction": "TeacherRole" } },
-        )
+        .get<
+          unknown[]
+        >(`${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist.statusfilter}`, { headers: { "X-Role-Restriction": "TeacherRole" } })
         .pipe(switchMap(decodeArray(Course)));
     }
 

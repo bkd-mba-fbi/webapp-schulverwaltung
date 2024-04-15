@@ -57,106 +57,128 @@
           </erz-my-profile-entry>
         </div>
 
-        <ngb-accordion #acc="ngbAccordion">
-          <ngb-panel id="student-address">
-            <ng-template ngbPanelHeader let-opened="opened">
+        <div ngbAccordion>
+          <div ngbAccordionItem #studentAddress="ngbAccordionItem">
+            <div ngbAccordionHeader>
               <erz-student-dossier-entry-header
-                [opened]="opened"
-                (click)="acc.toggle('student-address')"
+                [opened]="!studentAddress.collapsed"
+                (click)="studentAddress.toggle()"
               >
                 {{ "shared.profile.student-address" | translate }}
               </erz-student-dossier-entry-header>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="clearfix">
-                <a
-                  class="btn btn-primary btn-icon float-end me-2"
-                  routerLink="edit"
-                  [attr.aria-label]="'my-profile.edit.title' | translate"
-                >
-                  <i class="material-icons">edit</i>
-                </a>
-                <erz-student-dossier-address
-                  class="profile-entry"
-                  [student]="data.profile.student"
-                  emailProperty="Email2"
-                ></erz-student-dossier-address>
+            </div>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <div class="clearfix">
+                    <a
+                      class="btn btn-primary btn-icon float-end me-2"
+                      routerLink="edit"
+                      [attr.aria-label]="'my-profile.edit.title' | translate"
+                    >
+                      <i class="material-icons">edit</i>
+                    </a>
+                    <erz-student-dossier-address
+                      class="profile-entry"
+                      [student]="data.profile.student"
+                      emailProperty="Email2"
+                    ></erz-student-dossier-address>
+                  </div>
+                </ng-template>
               </div>
-            </ng-template>
-          </ngb-panel>
+            </div>
+          </div>
 
-          <ngb-panel
-            id="correspondence-address"
+          <div
+            ngbAccordionItem
+            #correspondenceAddress="ngbAccordionItem"
             *ngIf="data.profile.student.CorrespondenceAddress"
           >
-            <ng-template ngbPanelHeader let-opened="opened">
+            <div ngbAccordionHeader>
               <erz-student-dossier-entry-header
-                [opened]="opened"
-                (click)="acc.toggle('correspondence-address')"
+                [opened]="!correspondenceAddress.collapsed"
+                (click)="correspondenceAddress.toggle()"
               >
                 {{ "shared.profile.correspondence-address" | translate }}
               </erz-student-dossier-entry-header>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <erz-my-profile-address
-                class="profile-entry"
-                [address]="data.profile.student.CorrespondenceAddress"
-              ></erz-my-profile-address>
-            </ng-template>
-          </ngb-panel>
+            </div>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <erz-my-profile-address
+                    class="profile-entry"
+                    [address]="data.profile.student.CorrespondenceAddress"
+                  ></erz-my-profile-address>
+                </ng-template>
+              </div>
+            </div>
+          </div>
 
-          <ngb-panel
-            id="billing-address"
+          <div
+            ngbAccordionItem
+            #billingAddress="ngbAccordionItem"
             *ngIf="data.profile.student.BillingAddress"
           >
-            <ng-template ngbPanelHeader let-opened="opened">
+            <div ngbAccordionHeader>
               <erz-student-dossier-entry-header
-                [opened]="opened"
-                (click)="acc.toggle('billing-address')"
+                [opened]="!billingAddress.collapsed"
+                (click)="billingAddress.toggle()"
               >
                 {{ "shared.profile.billing-address" | translate }}
               </erz-student-dossier-entry-header>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <erz-my-profile-address
-                class="profile-entry"
-                [address]="data.profile.student.BillingAddress"
-              ></erz-my-profile-address>
-            </ng-template>
-          </ngb-panel>
+            </div>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <erz-my-profile-address
+                    class="profile-entry"
+                    [address]="data.profile.student.BillingAddress"
+                  ></erz-my-profile-address>
+                </ng-template>
+              </div>
+            </div>
+          </div>
 
-          <ngb-panel
+          <div
+            ngbAccordionItem
+            #legalRepresentatives="ngbAccordionItem"
             *ngIf="data.profile.legalRepresentativePersons.length > 0"
-            id="legal-representatives"
           >
-            <ng-template ngbPanelHeader let-opened="opened">
+            <div ngbAccordionHeader>
               <erz-student-dossier-entry-header
-                [opened]="opened"
-                (click)="acc.toggle('legal-representatives')"
+                [opened]="!legalRepresentatives.collapsed"
+                (click)="legalRepresentatives.toggle()"
               >
                 {{ "shared.profile.legal-representation" | translate }}
               </erz-student-dossier-entry-header>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <erz-student-dossier-legal-representative
-                *ngFor="let person of data.profile.legalRepresentativePersons"
-                class="profile-entry"
-                [person]="person"
-              ></erz-student-dossier-legal-representative>
-            </ng-template>
-          </ngb-panel>
+            </div>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <erz-student-dossier-legal-representative
+                    *ngFor="
+                      let person of data.profile.legalRepresentativePersons
+                    "
+                    class="profile-entry"
+                    [person]="person"
+                  ></erz-student-dossier-legal-representative>
+                </ng-template>
+              </div>
+            </div>
+          </div>
 
-          <ngb-panel
+          <div
+            [ngbAccordionItem]
+            #apprenticeshipCompanies="ngbAccordionItem"
             *ngFor="
               let company of data.profile.apprenticeshipCompanies;
               let i = index
             "
-            [id]="'apprenticeship-company-' + i"
           >
-            <ng-template ngbPanelHeader let-opened="opened">
+            <div ngbAccordionHeader>
               <erz-student-dossier-entry-header
-                [opened]="opened"
-                (click)="acc.toggle('apprenticeship-company-' + i)"
+                [opened]="!apprenticeshipCompanies.collapsed"
+                (click)="apprenticeshipCompanies.toggle()"
               >
                 {{ "shared.profile.apprenticeship-company" | translate }}
                 <ng-container
@@ -164,15 +186,19 @@
                   >{{ i + 1 }}</ng-container
                 >
               </erz-student-dossier-entry-header>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <erz-student-dossier-apprenticeship-company
-                class="profile-entry"
-                [company]="company"
-              ></erz-student-dossier-apprenticeship-company>
-            </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+            </div>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <erz-student-dossier-apprenticeship-company
+                    class="profile-entry"
+                    [company]="company"
+                  ></erz-student-dossier-apprenticeship-company>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <ng-template #noProfile>

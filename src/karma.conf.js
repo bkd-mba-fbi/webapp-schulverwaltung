@@ -26,6 +26,9 @@ module.exports = function (config) {
       fixWebpackSourcePaths: true,
     },
     reporters: ["spec", "kjhtml"],
+    specReporter: {
+      suppressSkipped: true,
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

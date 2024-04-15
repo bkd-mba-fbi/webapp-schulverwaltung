@@ -1,8 +1,5 @@
 import { Component } from "@angular/core";
-import addDays from "date-fns/addDays";
-import format from "date-fns/format";
-import startOfDay from "date-fns/startOfDay";
-import subDays from "date-fns/subDays";
+import { addDays, format, startOfDay, subDays } from "date-fns";
 import {
   BehaviorSubject,
   Observable,
