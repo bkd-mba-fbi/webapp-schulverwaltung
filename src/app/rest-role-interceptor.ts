@@ -6,7 +6,7 @@ import {
 } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import camelCase from "lodash-es/camelCase";
+import { camelCase } from "lodash-es";
 import { Observable } from "rxjs";
 import { SETTINGS, Settings } from "./settings";
 import { getFirstSegment } from "./shared/utils/url";

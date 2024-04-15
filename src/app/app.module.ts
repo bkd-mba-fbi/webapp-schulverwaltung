@@ -38,10 +38,10 @@ registerLocaleData(localeFRCH);
   declarations: [AppComponent, HomeComponent, UnauthenticatedComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     RouterModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -49,9 +49,9 @@ registerLocaleData(localeFRCH);
         deps: [HttpClient, SETTINGS],
       },
     }),
-    SharedModule,
     NgSelectModule,
-    FormsModule,
+    SharedModule,
+    AppRoutingModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

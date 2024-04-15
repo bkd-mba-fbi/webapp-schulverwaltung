@@ -10,6 +10,7 @@ import {
 import { Person } from "../../../shared/models/person.model";
 import { Profile } from "../../../shared/services/student-profile.service";
 import { MyProfileService } from "../../services/my-profile.service";
+import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header.component";
 import { MyProfileShowComponent } from "./my-profile-show.component";
 
 describe("MyProfileShowComponent", () => {
@@ -23,7 +24,7 @@ describe("MyProfileShowComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyProfileShowComponent],
+        declarations: [MyProfileShowComponent, MyProfileHeaderComponent],
         providers: [
           {
             provide: MyProfileService,

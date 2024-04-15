@@ -4,8 +4,12 @@ import { SimpleChange, SimpleChanges } from "@angular/core";
 import { TestModuleMetadata } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ParamMap, Params, convertToParamMap } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
+import {
+  ParamMap,
+  Params,
+  convertToParamMap,
+  provideRouter,
+} from "@angular/router";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ReplaySubject } from "rxjs";
@@ -101,7 +105,6 @@ export const settings: Settings = {
 
 const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
-    RouterTestingModule,
     HttpClientTestingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -115,6 +118,7 @@ const baseTestModuleMetadata: TestModuleMetadata = {
     SharedModule,
   ],
   providers: [
+    provideRouter([]),
     { provide: SETTINGS, useValue: settings },
     {
       provide: AuthService,

@@ -6,12 +6,12 @@
       trackBy: trackByCourseId
     "
   >
-    <ngb-accordion #acc="ngbAccordion">
-      <ngb-panel [id]="'course-' + i">
-        <ng-template ngbPanelHeader let-opened="opened">
+    <div ngbAccordion>
+      <div ngbAccordionItem #courses="ngbAccordionItem">
+        <div ngbAccordionHeader>
           <erz-student-dossier-entry-header
-            [opened]="opened"
-            (click)="acc.toggle('course-' + i)"
+            [opened]="!courses.collapsed"
+            (click)="courses.toggle()"
           >
             <erz-dossier-grades-course-header
               [designation]="decoratedCourse.course.Designation"
@@ -21,17 +21,21 @@
               [average]="decoratedCourse.average"
             ></erz-dossier-grades-course-header>
           </erz-student-dossier-entry-header>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <erz-dossier-course-tests
-            [decoratedCourse]="decoratedCourse"
-            [studentId]="studentId"
-            [gradingScales]="gradingScales"
-            [isEditable]="isEditable"
-          ></erz-dossier-course-tests>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <erz-dossier-course-tests
+                [decoratedCourse]="decoratedCourse"
+                [studentId]="studentId"
+                [gradingScales]="gradingScales"
+                [isEditable]="isEditable"
+              ></erz-dossier-course-tests>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-container>
 

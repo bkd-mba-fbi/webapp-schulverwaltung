@@ -135,11 +135,10 @@ export class DossierGradesService {
         .getExpandedCoursesForDossier()
         .pipe(
           map((courses) =>
-            courses.filter(
-              (course) =>
-                course.ParticipatingStudents?.find(
-                  (student) => student.Id === studentId,
-                ),
+            courses.filter((course) =>
+              course.ParticipatingStudents?.find(
+                (student) => student.Id === studentId,
+              ),
             ),
           ),
         ),

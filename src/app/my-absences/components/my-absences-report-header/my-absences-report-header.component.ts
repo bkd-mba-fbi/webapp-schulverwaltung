@@ -10,7 +10,7 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
-import { startOfDay } from "date-fns";
+import { startOfDay } from "date-fns/startOfDay";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { ReportAbsencesFilter } from "../../services/my-absences-report-state.service";
 
