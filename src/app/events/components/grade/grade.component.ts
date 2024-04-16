@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -7,6 +8,8 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { TranslateModule } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { debounceTime, filter, map, takeUntil } from "rxjs/operators";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
@@ -14,6 +17,7 @@ import {
   GradeOrNoResult,
   toMaxPoints,
 } from "src/app/shared/models/student-grades";
+import { SelectComponent } from "../../../shared/components/select/select.component";
 import {
   TestGradesResult,
   TestPointsResult,
@@ -26,6 +30,8 @@ const DEBOUNCE_TIME = 1250;
   selector: "erz-grade",
   templateUrl: "./grade.component.html",
   styleUrls: ["./grade.component.scss"],
+  standalone: true,
+  imports: [NgIf, FormsModule, SelectComponent, AsyncPipe, TranslateModule],
 })
 export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grade: GradeOrNoResult;

@@ -4,6 +4,7 @@ import { Test } from "src/app/shared/models/test.model";
 
 @Pipe({
   name: "testSummaryShort",
+  standalone: true,
 })
 export class TestSummaryShortPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}

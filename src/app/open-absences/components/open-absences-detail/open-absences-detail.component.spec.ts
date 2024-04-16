@@ -54,7 +54,7 @@ describe("OpenAbsencesDetailComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [OpenAbsencesDetailComponent],
+        imports: [OpenAbsencesDetailComponent],
         providers: [
           ConfirmAbsencesSelectionService,
           { provide: ActivatedRoute, useValue: activatedRouteMock },

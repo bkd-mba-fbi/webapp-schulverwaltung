@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,6 +7,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 import { BehaviorSubject, Subject, combineLatest } from "rxjs";
 import { map, shareReplay, take, takeUntil } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
@@ -13,6 +15,8 @@ import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-pre
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { searchEntries } from "src/app/shared/utils/search";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
 import { spread } from "../../../shared/utils/function";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
@@ -22,6 +26,8 @@ import {
   VIEW_MODES,
 } from "../../services/presence-control-state.service";
 import { PresenceControlBlockLessonComponent } from "../presence-control-block-lesson/presence-control-block-lesson.component";
+import { PresenceControlEntryComponent } from "../presence-control-entry/presence-control-entry.component";
+import { PresenceControlHeaderComponent } from "../presence-control-header/presence-control-header.component";
 import { PresenceControlIncidentComponent } from "../presence-control-incident/presence-control-incident.component";
 
 @Component({
@@ -29,6 +35,17 @@ import { PresenceControlIncidentComponent } from "../presence-control-incident/p
   templateUrl: "./presence-control-list.component.html",
   styleUrls: ["./presence-control-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgIf,
+    PresenceControlHeaderComponent,
+    NgFor,
+    PresenceControlEntryComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy

@@ -11,7 +11,7 @@ describe("DashboardTimetableTableComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardTimetableTableComponent],
+        imports: [DashboardTimetableTableComponent],
         providers: [
           {
             provide: DashboardService,

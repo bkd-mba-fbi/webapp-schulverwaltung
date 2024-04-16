@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -7,16 +8,20 @@ import {
   Output,
 } from "@angular/core";
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
+  NgbInputDatepicker,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 import { BehaviorSubject, Subject, of, takeUntil } from "rxjs";
 import { Test } from "src/app/shared/models/test.model";
@@ -26,6 +31,7 @@ import {
   getValidationErrors,
 } from "src/app/shared/utils/form";
 import { greaterThanValidator } from "src/app/shared/validators/greater-than.validator";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { TestStateService } from "../../services/test-state.service";
 
 @Component({
@@ -35,6 +41,18 @@ import { TestStateService } from "../../services/test-state.service";
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
+  ],
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    NgbInputDatepicker,
+    RouterLink,
+    AsyncPipe,
+    TranslateModule,
   ],
 })
 export class TestsEditFormComponent implements OnInit, OnDestroy {

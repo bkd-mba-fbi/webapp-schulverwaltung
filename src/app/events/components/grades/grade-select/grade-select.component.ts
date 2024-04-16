@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { SelectComponent } from "../../../../shared/components/select/select.component";
 
 @Component({
   selector: "erz-grade-select",
   templateUrl: "./grade-select.component.html",
   styleUrls: ["./grade-select.component.scss"],
+  standalone: true,
+  imports: [SelectComponent],
 })
 export class GradeSelectComponent {
   @Input() options: DropDownItem[];

@@ -1,5 +1,4 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { MyAbsencesConfirmComponent } from "./components/my-absences-confirm/my-absences-confirm.component";
 import { MyAbsencesReportConfirmComponent } from "./components/my-absences-confirm/my-absences-report-confirm.component";
 import { MyAbsencesReportListComponent } from "./components/my-absences-report-list/my-absences-report-list.component";
@@ -7,7 +6,7 @@ import { MyAbsencesReportComponent } from "./components/my-absences-report/my-ab
 import { MyAbsencesShowComponent } from "./components/my-absences-show/my-absences-show.component";
 import { MyAbsencesComponent } from "./components/my-absences/my-absences.component";
 
-const routes: Routes = [
+export const MY_ABSENCES_ROUTES: Routes = [
   {
     path: "",
     component: MyAbsencesComponent,
@@ -31,9 +30,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class MyAbsencesRoutingModule {}

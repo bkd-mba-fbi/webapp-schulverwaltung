@@ -1,3 +1,4 @@
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +11,7 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { startOfDay } from "date-fns";
 import { map } from "rxjs/operators";
 import {
@@ -26,6 +27,9 @@ import {
   createPresenceTypesDropdownItems,
   sortPresenceTypes,
 } from "src/app/shared/utils/presence-types";
+import { DateSelectComponent } from "../../../shared/components/date-select/date-select.component";
+import { MultiselectComponent } from "../../../shared/components/multiselect/multiselect.component";
+import { TypeaheadComponent } from "../../../shared/components/typeahead/typeahead.component";
 import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
 import { TeacherResourcesRestService } from "../../../shared/services/teacher-resources-rest.service";
 import {
@@ -37,11 +41,19 @@ import {
   selector: "erz-edit-absences-header",
   templateUrl: "./edit-absences-header.component.html",
   styleUrls: ["./edit-absences-header.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    TypeaheadComponent,
+    DateSelectComponent,
+    MultiselectComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesHeaderComponent {
   @Input()

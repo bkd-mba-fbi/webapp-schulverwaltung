@@ -1,7 +1,11 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorHandler, Injectable, NgZone } from "@angular/core";
+import { ErrorHandler, Injectable, NgZone, Provider } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastService } from "./shared/services/toast.service";
+
+export function provideGlobalErrorHandler(): Provider[] {
+  return [{ provide: ErrorHandler, useClass: GlobalErrorHandler }];
+}
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

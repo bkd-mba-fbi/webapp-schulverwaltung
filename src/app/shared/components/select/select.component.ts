@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -6,6 +7,8 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { TranslateModule } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { DropDownItem } from "../../models/drop-down-item.model";
@@ -14,6 +17,8 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   selector: "erz-select",
   templateUrl: "./select.component.html",
   styleUrls: ["./select.component.scss"],
+  standalone: true,
+  imports: [FormsModule, NgIf, NgFor, AsyncPipe, TranslateModule],
 })
 export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];

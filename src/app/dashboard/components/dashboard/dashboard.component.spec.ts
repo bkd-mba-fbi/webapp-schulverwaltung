@@ -4,10 +4,6 @@ import { UserSettingsService } from "src/app/shared/services/user-settings.servi
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StorageService } from "../../../shared/services/storage.service";
 import { DashboardService } from "../../services/dashboard.service";
-import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
-import { DashboardActionsComponent } from "../dashboard-actions/dashboard-actions.component";
-import { DashboardSearchComponent } from "../dashboard-search/dashboard-search.component";
-import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-timetable.component";
 import { DashboardComponent } from "./dashboard.component";
 
 describe("DashboardComponent", () => {
@@ -19,13 +15,7 @@ describe("DashboardComponent", () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          DashboardComponent,
-          DashboardSearchComponent,
-          DashboardActionsComponent,
-          DashboardActionComponent,
-          DashboardTimetableComponent,
-        ],
+        imports: [DashboardComponent],
         providers: [
           DashboardService,
           {

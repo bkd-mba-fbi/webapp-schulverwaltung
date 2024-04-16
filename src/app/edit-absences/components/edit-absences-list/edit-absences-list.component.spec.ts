@@ -4,7 +4,6 @@ import { PresenceControlEntry } from "src/app/presence-control/models/presence-c
 import { buildLessonPresence } from "src/spec-builders";
 import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
-import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absences-header.component";
 import { EditAbsencesListComponent } from "./edit-absences-list.component";
 
 describe("EditAbsencesListComponent", () => {
@@ -29,7 +28,7 @@ describe("EditAbsencesListComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EditAbsencesListComponent, EditAbsencesHeaderComponent],
+        imports: [EditAbsencesListComponent],
         providers: [
           { provide: EditAbsencesStateService, useValue: stateServiceMock },
         ],

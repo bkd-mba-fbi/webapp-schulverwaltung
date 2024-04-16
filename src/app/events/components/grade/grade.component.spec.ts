@@ -23,7 +23,7 @@ describe("GradeComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [GradeComponent],
+        imports: [GradeComponent],
       }),
     ).compileComponents();
 

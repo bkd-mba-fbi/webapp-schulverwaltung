@@ -10,7 +10,7 @@ describe("EvaluateAbsencesHeaderComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EvaluateAbsencesHeaderComponent],
+        imports: [EvaluateAbsencesHeaderComponent],
         providers: [EvaluateAbsencesStateService],
       }),
     ).compileComponents();

@@ -9,7 +9,7 @@ describe("SelectComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({}),
+      buildTestModuleMetadata({ imports: [SelectComponent] }),
     ).compileComponents();
   }));
 

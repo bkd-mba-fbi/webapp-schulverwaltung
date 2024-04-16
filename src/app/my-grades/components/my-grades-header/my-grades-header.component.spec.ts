@@ -11,7 +11,7 @@ describe("MyGradesHeaderComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyGradesHeaderComponent],
+        imports: [MyGradesHeaderComponent],
         providers: [
           {
             provide: MyGradesService,

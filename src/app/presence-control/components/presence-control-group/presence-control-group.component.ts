@@ -1,10 +1,14 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { spread } from "../../../shared/utils/function";
@@ -33,8 +37,18 @@ export interface SortCriteria {
   selector: "erz-presence-control-group",
   templateUrl: "./presence-control-group.component.html",
   styleUrls: ["./presence-control-group.component.scss"],
-  providers: [PresenceControlGroupSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    BacklinkComponent,
+    NgFor,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
+  providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
   backlinkQueryParams$ = this.route.queryParams.pipe(

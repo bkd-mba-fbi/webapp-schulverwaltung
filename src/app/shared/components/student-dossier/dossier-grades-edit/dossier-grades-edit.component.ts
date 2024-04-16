@@ -1,12 +1,16 @@
+import { AsyncPipe, NgIf } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   Observable,
@@ -25,6 +29,7 @@ import {
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { SelectComponent } from "../../select/select.component";
 
 const DEBOUNCE_TIME = 500;
 
@@ -32,6 +37,15 @@ const DEBOUNCE_TIME = 500;
   selector: "erz-dossier-grades-edit",
   templateUrl: "./dossier-grades-edit.component.html",
   styleUrls: ["./dossier-grades-edit.component.scss"],
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    SelectComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class DossierGradesEditComponent implements OnInit {
   @Input() test: Test;

@@ -10,7 +10,7 @@ describe("HomeComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [HomeComponent],
+        imports: [HomeComponent],
       }),
     ).compileComponents();
   }));

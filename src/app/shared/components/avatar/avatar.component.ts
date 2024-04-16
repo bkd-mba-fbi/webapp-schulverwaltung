@@ -1,3 +1,4 @@
+import { NgStyle } from "@angular/common";
 import {
   Component,
   Inject,
@@ -5,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
-import { Params } from "@angular/router";
+import { Params, RouterLink } from "@angular/router";
 import { SETTINGS, Settings } from "src/app/settings";
 import { StorageService } from "../../services/storage.service";
 
@@ -13,6 +14,8 @@ import { StorageService } from "../../services/storage.service";
   selector: "erz-avatar",
   templateUrl: "./avatar.component.html",
   styleUrls: ["./avatar.component.scss"],
+  standalone: true,
+  imports: [RouterLink, NgStyle],
 })
 export class AvatarComponent implements OnChanges {
   @Input() studentId: number;

@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "erz-unauthenticated",
@@ -9,6 +10,8 @@ import { Component } from "@angular/core";
       </div>
     </div>
   `,
+  standalone: true,
+  imports: [TranslateModule],
 })
 export class UnauthenticatedComponent {
   constructor() {}

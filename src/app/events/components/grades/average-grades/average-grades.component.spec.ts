@@ -1,4 +1,3 @@
-import { DecimalPipe } from "@angular/common";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Test } from "src/app/shared/models/test.model";
 import { buildResult, buildTest } from "src/spec-builders";
@@ -12,8 +11,7 @@ describe("AverageGradesComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [DecimalPipe],
-      declarations: [AverageGradesComponent],
+      imports: [AverageGradesComponent],
     }).compileComponents();
   });
 

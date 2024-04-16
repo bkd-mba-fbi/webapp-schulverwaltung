@@ -15,7 +15,7 @@ describe("DossierGradesViewComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierGradesViewComponent],
+        imports: [DossierGradesViewComponent],
         providers: [
           DossierGradesService,
           StorageService,

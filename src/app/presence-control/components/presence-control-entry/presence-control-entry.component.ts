@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -7,12 +8,15 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Params } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
+import { Params, RouterLink } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ReplaySubject, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
+import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { getBlockLessonLoadingContext } from "../../services/presence-control-block-lesson.service";
@@ -22,6 +26,16 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
   selector: "erz-presence-control-entry",
   templateUrl: "./presence-control-entry.component.html",
   styleUrls: ["./presence-control-entry.component.scss"],
+  standalone: true,
+  imports: [
+    NgIf,
+    AvatarComponent,
+    LetDirective,
+    SpinnerComponent,
+    RouterLink,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class PresenceControlEntryComponent implements OnChanges {
   @Input() entry: PresenceControlEntry;

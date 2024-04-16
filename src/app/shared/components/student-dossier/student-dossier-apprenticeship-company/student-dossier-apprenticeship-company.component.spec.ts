@@ -14,7 +14,7 @@ describe("StudentDossierApprenticeshipCompanyComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [StudentDossierApprenticeshipCompanyComponent],
+        imports: [StudentDossierApprenticeshipCompanyComponent],
       }),
     ).compileComponents();
   }));

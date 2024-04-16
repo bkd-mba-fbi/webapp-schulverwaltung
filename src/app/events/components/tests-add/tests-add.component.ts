@@ -1,6 +1,7 @@
+import { AsyncPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -9,12 +10,16 @@ import {
   switchMap,
 } from "rxjs";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
+import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
 
 @Component({
   selector: "erz-tests-add",
   templateUrl: "./tests-add.component.html",
   styleUrls: ["./tests-add.component.scss"],
+  standalone: true,
+  imports: [LetDirective, TestsEditFormComponent, AsyncPipe, TranslateModule],
 })
 export class TestsAddComponent {
   saving$ = new BehaviorSubject(false);

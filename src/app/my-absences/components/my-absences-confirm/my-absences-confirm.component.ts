@@ -1,7 +1,12 @@
+import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
-import { UntypedFormBuilder } from "@angular/forms";
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+} from "@angular/forms";
 import { Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { flatten, uniq } from "lodash-es";
 import { map } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -9,6 +14,8 @@ import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm
 import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
 import { StorageService } from "src/app/shared/services/storage.service";
+import { LetDirective } from "../../../shared/directives/let.directive";
+import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 import { ToastService } from "../../../shared/services/toast.service";
 import { MyAbsencesService } from "../../services/my-absences.service";
 import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
@@ -18,6 +25,18 @@ import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confi
   templateUrl: "./my-absences-abstract-confirm.component.html",
   styleUrls: ["./my-absences-abstract-confirm.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    NgClass,
+    NgIf,
+    AsyncPipe,
+    TranslateModule,
+    AddSpacePipe,
+  ],
 })
 export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmComponent {
   titleKey = "my-absences.confirm.title";

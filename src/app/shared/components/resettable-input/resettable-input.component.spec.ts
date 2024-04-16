@@ -7,7 +7,7 @@ describe("ResettableInputComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResettableInputComponent],
+      imports: [ResettableInputComponent],
     }).compileComponents();
   });
 

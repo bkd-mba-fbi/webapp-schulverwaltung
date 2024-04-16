@@ -13,9 +13,9 @@ import {
   takeUntil,
 } from "rxjs/operators";
 import { getNewConfirmationStateId } from "src/app/presence-control/utils/presence-types";
-import { withConfig } from "src/app/rest-error-interceptor";
 import { SETTINGS, Settings } from "src/app/settings";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
+import { withConfig } from "../interceptors/rest-error.interceptor";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
 import { isEmptyArray } from "../utils/array";

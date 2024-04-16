@@ -10,8 +10,11 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { startOfDay } from "date-fns/startOfDay";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
+import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
+import { DateSelectComponent } from "../../../shared/components/date-select/date-select.component";
 import { ReportAbsencesFilter } from "../../services/my-absences-report-state.service";
 
 @Component({
@@ -23,6 +26,8 @@ import { ReportAbsencesFilter } from "../../services/my-absences-report-state.se
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [BacklinkComponent, DateSelectComponent, TranslateModule],
 })
 export class MyAbsencesReportHeaderComponent {
   @Input()

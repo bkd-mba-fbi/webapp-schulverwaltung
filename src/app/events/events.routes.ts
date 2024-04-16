@@ -1,5 +1,4 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
 import { EventsCurrentComponent } from "./components/events-current/events-current.component";
 import { EventsTestsComponent } from "./components/events-tests/events-tests.component";
@@ -9,7 +8,7 @@ import { TestsEditComponent } from "./components/tests-edit/tests-edit.component
 import { TestsListComponent } from "./components/tests-list/tests-list.component";
 import { TestsComponent } from "./components/tests/tests.component";
 
-const routes: Routes = [
+export const EVENTS_ROUTES: Routes = [
   {
     path: "",
     component: EventsComponent,
@@ -46,9 +45,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class EventsRoutingModule {}

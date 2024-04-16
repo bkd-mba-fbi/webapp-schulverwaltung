@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,6 +7,9 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 import { BehaviorSubject, Observable } from "rxjs";
 import {
@@ -31,6 +35,8 @@ const MINIMAL_TERM_LENGTH = 3;
   templateUrl: "./typeahead.component.html",
   styleUrls: ["./typeahead.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgbTypeahead, FormsModule, NgIf, AsyncPipe, TranslateModule],
 })
 export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);

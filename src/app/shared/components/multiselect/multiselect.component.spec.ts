@@ -9,7 +9,9 @@ describe("MultiselectComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({}),
+      buildTestModuleMetadata({
+        imports: [MultiselectComponent],
+      }),
     ).compileComponents();
   }));
 

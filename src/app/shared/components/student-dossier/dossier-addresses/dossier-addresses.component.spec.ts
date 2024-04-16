@@ -6,10 +6,6 @@ import {
 } from "src/app/shared/services/dossier-state.service";
 import { buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StudentDossierAddressComponent } from "../student-dossier-address/student-dossier-address.component";
-import { StudentDossierApprenticeshipCompanyComponent } from "../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
-import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
-import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-legal-representative/student-dossier-legal-representative.component";
 import { DossierAddressesComponent } from "./dossier-addresses.component";
 
 describe("DossierAddressesComponent", () => {
@@ -32,13 +28,7 @@ describe("DossierAddressesComponent", () => {
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          DossierAddressesComponent,
-          StudentDossierEntryHeaderComponent,
-          StudentDossierAddressComponent,
-          StudentDossierLegalRepresentativeComponent,
-          StudentDossierApprenticeshipCompanyComponent,
-        ],
+        imports: [DossierAddressesComponent],
         providers: [
           { provide: DossierStateService, useValue: stateServiceMock },
         ],

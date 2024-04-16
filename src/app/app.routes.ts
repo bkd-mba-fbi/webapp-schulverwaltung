@@ -1,80 +1,79 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { authGuard } from "./auth.guard";
 import { HomeComponent } from "./home.component";
 import { UnauthenticatedComponent } from "./unauthenticated.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: "dashboard",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
+      import("./dashboard/dashboard.routes").then((m) => m.DASHBOARD_ROUTES),
   },
   {
     path: "presence-control",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./presence-control/presence-control.module").then(
-        (m) => m.PresenceControlModule,
+      import("./presence-control/presence-control-routes").then(
+        (m) => m.PRESENCE_CONTROL_ROUTES,
       ),
   },
   {
     path: "open-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./open-absences/open-absences.module").then(
-        (m) => m.OpenAbsencesModule,
+      import("./open-absences/open-absences-routes").then(
+        (m) => m.OPEN_ABSENCES_ROUTES,
       ),
   },
   {
     path: "edit-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./edit-absences/edit-absences.module").then(
-        (m) => m.EditAbsencesModule,
+      import("./edit-absences/edit-absences.routes").then(
+        (m) => m.EDIT_ABSENCES_ROUTES,
       ),
   },
   {
     path: "evaluate-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./evaluate-absences/evaluate-absences.module").then(
-        (m) => m.EvaluateAbsencesModule,
+      import("./evaluate-absences/evaluate-absences.routes").then(
+        (m) => m.EVALUATE_ABSENCES_ROUTES,
       ),
   },
   {
     path: "events",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./events/events.module").then((m) => m.EventsModule),
+      import("./events/events.routes").then((m) => m.EVENTS_ROUTES),
   },
   {
     path: "my-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./my-absences/my-absences.module").then(
-        (m) => m.MyAbsencesModule,
+      import("./my-absences/my-absences.routes").then(
+        (m) => m.MY_ABSENCES_ROUTES,
       ),
   },
   {
     path: "my-profile",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./my-profile/my-profile.module").then((m) => m.MyProfileModule),
+      import("./my-profile/my-profile-routes").then((m) => m.MY_PROFILE_ROUTES),
   },
   {
     path: "my-grades",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./my-grades/my-grades.module").then((m) => m.MyGradesModule),
+      import("./my-grades/my-grades.routes").then((m) => m.MY_GRADES_ROUTES),
   },
   {
     path: "my-settings",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./my-settings/my-settings.module").then(
-        (m) => m.MySettingsModule,
+      import("./my-settings/my-settings-routes").then(
+        (m) => m.MY_SETTINGS_ROUTES,
       ),
   },
   { path: "unauthenticated", component: UnauthenticatedComponent },
@@ -84,13 +83,3 @@ const routes: Routes = [
     pathMatch: "full",
   },
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      useHash: true,
-    }),
-  ],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

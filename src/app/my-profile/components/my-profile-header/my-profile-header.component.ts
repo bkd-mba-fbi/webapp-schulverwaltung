@@ -1,3 +1,4 @@
+import { AsyncPipe, DatePipe, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,6 +7,8 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { ReplaySubject, of, startWith, switchMap } from "rxjs";
+import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
+import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { Person } from "../../../shared/models/person.model";
 import { ReportsService } from "../../../shared/services/reports.service";
 
@@ -14,6 +17,8 @@ import { ReportsService } from "../../../shared/services/reports.service";
   templateUrl: "./my-profile-header.component.html",
   styleUrls: ["./my-profile-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
 export class MyProfileHeaderComponent implements OnChanges {
   @Input() student?: Person;

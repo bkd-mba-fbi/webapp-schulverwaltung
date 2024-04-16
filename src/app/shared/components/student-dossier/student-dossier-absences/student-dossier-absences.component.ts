@@ -1,3 +1,4 @@
+import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +9,8 @@ import {
   SimpleChanges,
   ViewChildren,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   Observable,
@@ -25,17 +28,34 @@ import {
   take,
 } from "rxjs/operators";
 import { ReportInfo } from "src/app/shared/services/reports.service";
+import { LetDirective } from "../../../directives/let.directive";
 import { LessonPresence } from "../../../models/lesson-presence.model";
+import { DaysDifferencePipe } from "../../../pipes/days-difference.pipe";
 import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
 import { PresenceTypesService } from "../../../services/presence-types.service";
 import { isArray } from "../../../utils/array";
 import { not, notNull } from "../../../utils/filter";
+import { ReportsLinkComponent } from "../../reports-link/reports-link.component";
+import { SpinnerComponent } from "../../spinner/spinner.component";
 
 @Component({
   selector: "erz-student-dossier-absences",
   templateUrl: "./student-dossier-absences.component.html",
   styleUrls: ["./student-dossier-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    RouterLink,
+    ReportsLinkComponent,
+    NgFor,
+    LetDirective,
+    SpinnerComponent,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+    DaysDifferencePipe,
+  ],
 })
 export class StudentDossierAbsencesComponent implements OnChanges {
   @Input() absences$?: Observable<ReadonlyArray<LessonPresence>>;

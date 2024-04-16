@@ -9,7 +9,7 @@ describe("AppComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [AppComponent],
+        imports: [AppComponent],
       }),
     ).compileComponents();
   }));

@@ -9,7 +9,7 @@ describe("StudentDossierAddressComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentDossierAddressComponent],
+      imports: [StudentDossierAddressComponent],
     }).compileComponents();
   }));
 

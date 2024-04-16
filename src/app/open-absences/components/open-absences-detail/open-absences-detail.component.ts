@@ -1,3 +1,4 @@
+import { AsyncPipe } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,6 +14,8 @@ import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { isTruthy, longerOrEqual } from "src/app/shared/utils/filter";
+import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
+import { StudentDossierAbsencesComponent } from "../../../shared/components/student-dossier/student-dossier-absences/student-dossier-absences.component";
 import { PersonsRestService } from "../../../shared/services/persons-rest.service";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
 import { OpenAbsencesService } from "../../services/open-absences.service";
@@ -22,6 +25,8 @@ import { OpenAbsencesService } from "../../services/open-absences.service";
   templateUrl: "./open-absences-detail.component.html",
   styleUrls: ["./open-absences-detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [BacklinkComponent, StudentDossierAbsencesComponent, AsyncPipe],
 })
 export class OpenAbsencesDetailComponent
   implements OnInit, AfterViewInit, OnDestroy

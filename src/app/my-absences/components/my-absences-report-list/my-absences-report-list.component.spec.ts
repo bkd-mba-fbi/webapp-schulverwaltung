@@ -3,7 +3,6 @@ import { of } from "rxjs";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
 import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
-import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my-absences-report-header.component";
 import { MyAbsencesReportListComponent } from "./my-absences-report-list.component";
 
 describe("MyAbsencesReportListComponent", () => {
@@ -13,10 +12,7 @@ describe("MyAbsencesReportListComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          MyAbsencesReportListComponent,
-          MyAbsencesReportHeaderComponent,
-        ],
+        imports: [MyAbsencesReportListComponent],
         providers: [
           {
             provide: MyAbsencesReportStateService,

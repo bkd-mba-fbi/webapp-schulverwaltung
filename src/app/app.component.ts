@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 import { EMPTY } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { SETTINGS, Settings } from "./settings";
+import { ToastComponent } from "./shared/components/toast/toast.component";
 import { I18nService } from "./shared/services/i18n.service";
 import { ToastService } from "./shared/services/toast.service";
 import { NAVIGATOR } from "./shared/tokens/dom-apis";
@@ -13,6 +15,8 @@ import { decode } from "./shared/utils/decode";
     '<erz-toast aria-live="polite" aria-atomic="true"></erz-toast><router-outlet></router-outlet>',
   styleUrls: ["./app.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ToastComponent, RouterOutlet],
 })
 export class AppComponent {
   constructor(

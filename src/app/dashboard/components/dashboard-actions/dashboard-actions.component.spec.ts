@@ -9,8 +9,6 @@ import { StorageService } from "../../../shared/services/storage.service";
 import { StudentsRestService } from "../../../shared/services/students-rest.service";
 import { UserSettingsService } from "../../../shared/services/user-settings.service";
 import { DashboardService } from "../../services/dashboard.service";
-import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
-import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
 import { DashboardActionsComponent } from "./dashboard-actions.component";
 
 describe("DashboardActionsComponent", () => {
@@ -23,11 +21,7 @@ describe("DashboardActionsComponent", () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          DashboardActionsComponent,
-          DashboardActionComponent,
-          DashboardDeadlineComponent,
-        ],
+        imports: [DashboardActionsComponent],
         providers: [
           DashboardService,
           {

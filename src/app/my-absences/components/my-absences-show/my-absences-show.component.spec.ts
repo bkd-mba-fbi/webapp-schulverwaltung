@@ -6,7 +6,6 @@ import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildLessonAbsence } from "../../../../spec-builders";
 import { MyAbsencesService } from "../../services/my-absences.service";
-import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-absences-report-link.component";
 import { MyAbsencesShowComponent } from "./my-absences-show.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -23,7 +22,7 @@ describe("MyAbsencesShowComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyAbsencesShowComponent, MyAbsencesReportLinkComponent],
+        imports: [MyAbsencesShowComponent],
         providers: [
           ConfirmAbsencesSelectionService,
           {

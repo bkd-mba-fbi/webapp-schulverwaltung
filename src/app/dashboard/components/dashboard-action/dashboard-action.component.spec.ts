@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
 import { DashboardActionComponent } from "./dashboard-action.component";
 
 describe("DashboardActionComponent", () => {
@@ -11,7 +10,7 @@ describe("DashboardActionComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardActionComponent, DashboardDeadlineComponent],
+        imports: [DashboardActionComponent],
       }),
     ).compileComponents();
 

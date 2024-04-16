@@ -9,7 +9,7 @@ describe("StudentDossierAbsencesComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [StudentDossierAbsencesComponent],
+        imports: [StudentDossierAbsencesComponent],
       }),
     ).compileComponents();
   }));

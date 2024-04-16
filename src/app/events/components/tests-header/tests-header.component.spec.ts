@@ -24,7 +24,7 @@ describe("TestsHeaderComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [TestsHeaderComponent],
+        imports: [TestsHeaderComponent],
         providers: [{ provide: ReportsService, useValue: reportsServiceMock }],
       }),
     ).compileComponents();

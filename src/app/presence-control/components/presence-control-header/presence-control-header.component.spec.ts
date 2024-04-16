@@ -17,7 +17,7 @@ describe("PresenceControlHeaderComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlHeaderComponent],
+        imports: [PresenceControlHeaderComponent],
         providers: [
           {
             provide: PresenceControlStateService,

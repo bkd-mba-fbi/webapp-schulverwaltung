@@ -1,11 +1,10 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { ConfirmAbsencesComponent } from "../shared/components/confirm-absences/confirm-absences.component";
 import { OpenAbsencesDetailComponent } from "./components/open-absences-detail/open-absences-detail.component";
 import { OpenAbsencesListComponent } from "./components/open-absences-list/open-absences-list.component";
 import { OpenAbsencesComponent } from "./components/open-absences/open-absences.component";
 
-const routes: Routes = [
+export const OPEN_ABSENCES_ROUTES: Routes = [
   {
     path: "",
     component: OpenAbsencesComponent,
@@ -32,9 +31,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class OpenAbsencesRoutingModule {}

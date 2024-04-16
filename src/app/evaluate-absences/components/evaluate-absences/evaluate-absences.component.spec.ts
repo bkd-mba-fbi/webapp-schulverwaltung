@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { EvaluateAbsencesModule } from "../../evaluate-absences.module";
 import { EvaluateAbsencesComponent } from "./evaluate-absences.component";
 
 describe("EvaluateAbsencesComponent", () => {
@@ -10,7 +9,7 @@ describe("EvaluateAbsencesComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [EvaluateAbsencesModule],
+        imports: [EvaluateAbsencesComponent],
       }),
     ).compileComponents();
   }));

@@ -10,7 +10,7 @@ describe("PresenceControlIncidentComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlIncidentComponent],
+        imports: [PresenceControlIncidentComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();

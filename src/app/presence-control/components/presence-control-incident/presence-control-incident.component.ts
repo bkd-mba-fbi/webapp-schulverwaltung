@@ -1,6 +1,8 @@
+import { NgFor } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { PresenceType } from "../../../shared/models/presence-type.model";
 
 interface IncidentOption {
@@ -12,6 +14,8 @@ interface IncidentOption {
   selector: "erz-presence-control-incident",
   templateUrl: "./presence-control-incident.component.html",
   styleUrls: ["./presence-control-incident.component.scss"],
+  standalone: true,
+  imports: [FormsModule, NgFor, TranslateModule],
 })
 export class PresenceControlIncidentComponent implements OnInit {
   @Input() incident: Option<PresenceType>;

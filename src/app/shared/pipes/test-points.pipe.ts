@@ -5,6 +5,7 @@ import { Test } from "src/app/shared/models/test.model";
 
 @Pipe({
   name: "erzTestPoints",
+  standalone: true,
 })
 export class TestPointsPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
-import { OpenAbsencesService } from "src/app/open-absences/services/open-absences.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { ConfirmAbsencesSelectionService } from "../../services/confirm-absences-selection.service";
 import { ConfirmAbsencesComponent } from "./confirm-absences.component";
@@ -26,9 +25,8 @@ describe("ConfirmAbsencesComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [ConfirmAbsencesComponent],
+        imports: [ConfirmAbsencesComponent],
         providers: [
-          OpenAbsencesService,
           ConfirmAbsencesSelectionService,
           {
             provide: Router,

@@ -7,7 +7,7 @@ describe("MyProfileAddressComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MyProfileAddressComponent],
+      imports: [MyProfileAddressComponent],
     }).compileComponents();
   }));
 

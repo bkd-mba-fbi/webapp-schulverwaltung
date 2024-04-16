@@ -1,3 +1,4 @@
+import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,7 +7,8 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 import { Observable, Subject, combineLatest } from "rxjs";
 import { map, switchMap, take, takeUntil } from "rxjs/operators";
 import {
@@ -21,17 +23,34 @@ import { PresenceTypesService } from "src/app/shared/services/presence-types.ser
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { not } from "src/app/shared/utils/filter";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
+import { DaysDifferencePipe } from "../../../shared/pipes/days-difference.pipe";
 import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
 import {
   MyAbsencesReportStateService,
   ReportAbsencesFilter,
 } from "../../services/my-absences-report-state.service";
+import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my-absences-report-header.component";
 
 @Component({
   selector: "erz-my-absences-report-list",
   templateUrl: "./my-absences-report-list.component.html",
   styleUrls: ["./my-absences-report-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    MyAbsencesReportHeaderComponent,
+    NgIf,
+    RouterLink,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+    DaysDifferencePipe,
+  ],
 })
 export class MyAbsencesReportListComponent
   implements OnInit, AfterViewInit, OnDestroy

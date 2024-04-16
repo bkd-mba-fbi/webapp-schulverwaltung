@@ -10,7 +10,7 @@ describe("StudentDossierLegalRepresentativeComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [StudentDossierLegalRepresentativeComponent],
+        imports: [StudentDossierLegalRepresentativeComponent],
       }),
     ).compileComponents();
   }));

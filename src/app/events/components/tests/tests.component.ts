@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { TestStateService } from "../../services/test-state.service";
@@ -9,6 +9,8 @@ import { TestStateService } from "../../services/test-state.service";
   templateUrl: "./tests.component.html",
   styleUrls: ["./tests.component.scss"],
   providers: [TestStateService],
+  standalone: true,
+  imports: [RouterOutlet],
 })
 export class TestsComponent implements OnInit, OnDestroy {
   courseId$: Observable<number> = this.route.paramMap.pipe(

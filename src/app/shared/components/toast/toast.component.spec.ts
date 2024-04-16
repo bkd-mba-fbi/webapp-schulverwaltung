@@ -18,7 +18,7 @@ describe("ToastComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [ToastComponent],
+        imports: [ToastComponent],
         providers: [
           ToastService,
           {

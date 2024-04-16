@@ -3,6 +3,7 @@ import { I18nService } from "../services/i18n.service";
 
 @Pipe({
   name: "addSpace",
+  standalone: true,
 })
 export class AddSpacePipe implements PipeTransform {
   constructor(protected i18n: I18nService) {}

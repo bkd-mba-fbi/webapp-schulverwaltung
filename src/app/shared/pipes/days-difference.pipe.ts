@@ -4,6 +4,7 @@ import { differenceInCalendarDays } from "date-fns";
 
 @Pipe({
   name: "erzDaysDifference",
+  standalone: true,
 })
 export class DaysDifferencePipe implements PipeTransform {
   constructor(private translate: TranslateService) {}

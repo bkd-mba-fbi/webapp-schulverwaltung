@@ -1,11 +1,17 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
-import { TranslateService } from "@ngx-translate/core";
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from "@angular/forms";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject, merge, of } from "rxjs";
 import {
   distinctUntilChanged,
@@ -23,7 +29,10 @@ import {
 } from "src/app/shared/models/user-settings.model";
 import { NotificationTypesService } from "src/app/shared/services/notification-types.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
+import { MySettingsNotificationsToggleComponent } from "../my-settings-notifications-toggle/my-settings-notifications-toggle.component";
 
 interface NotificationSetting {
   key: string;
@@ -36,6 +45,18 @@ interface NotificationSetting {
   templateUrl: "./my-settings-notifications.component.html",
   styleUrls: ["./my-settings-notifications.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    MySettingsNotificationsToggleComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
   channelsSettings: ReadonlyArray<NotificationSetting> = [

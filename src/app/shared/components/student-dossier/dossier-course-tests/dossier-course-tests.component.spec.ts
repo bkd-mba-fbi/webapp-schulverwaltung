@@ -18,7 +18,7 @@ describe("DossierCourseTestsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierCourseTestsComponent],
+        imports: [DossierCourseTestsComponent],
         providers: [
           DossierGradesService,
           {

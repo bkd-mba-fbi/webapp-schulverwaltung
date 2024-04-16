@@ -1,14 +1,21 @@
+import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnInit,
 } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, RouterLink } from "@angular/router";
+import { NgbTooltip } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { Observable } from "rxjs";
 import { map, shareReplay, switchMap, take } from "rxjs/operators";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
+import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { LessonPresence } from "../../../shared/models/lesson-presence.model";
 import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
@@ -20,6 +27,7 @@ import {
   EvaluateAbsencesFilter,
   EvaluateAbsencesStateService,
 } from "../../services/evaluate-absences-state.service";
+import { EvaluateAbsencesHeaderComponent } from "../evaluate-absences-header/evaluate-absences-header.component";
 
 interface Column {
   key: keyof LessonPresenceStatistic;
@@ -31,6 +39,21 @@ interface Column {
   templateUrl: "./evaluate-absences-list.component.html",
   styleUrls: ["./evaluate-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    EvaluateAbsencesHeaderComponent,
+    NgIf,
+    ReportsLinkComponent,
+    InfiniteScrollModule,
+    NgFor,
+    NgClass,
+    NgbTooltip,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   reports$ = this.loadReports();

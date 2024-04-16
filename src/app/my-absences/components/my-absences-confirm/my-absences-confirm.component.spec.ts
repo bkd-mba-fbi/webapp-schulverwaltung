@@ -12,7 +12,7 @@ describe("MyAbsencesConfirmComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyAbsencesConfirmComponent],
+        imports: [MyAbsencesConfirmComponent],
         providers: [
           {
             provide: MyAbsencesService,

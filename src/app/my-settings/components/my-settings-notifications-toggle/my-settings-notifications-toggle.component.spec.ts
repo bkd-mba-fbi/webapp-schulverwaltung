@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { SwitchComponent } from "src/app/shared/components/switch/switch.component";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MySettingsNotificationsToggleComponent } from "./my-settings-notifications-toggle.component";
 
@@ -11,7 +10,7 @@ describe("MySettingsNotificationsToggleComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MySettingsNotificationsToggleComponent, SwitchComponent],
+        imports: [MySettingsNotificationsToggleComponent],
       }),
     ).compileComponents();
 

@@ -10,7 +10,7 @@ describe("PresenceControlPreviousAbsenceComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlPrecedingAbsenceComponent],
+        imports: [PresenceControlPrecedingAbsenceComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();
