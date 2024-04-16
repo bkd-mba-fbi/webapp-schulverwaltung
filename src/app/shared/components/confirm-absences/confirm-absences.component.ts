@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,12 +8,14 @@ import {
   Optional,
 } from "@angular/core";
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject, combineLatest } from "rxjs";
 import {
   filter,
@@ -34,6 +37,7 @@ import {
   getControlValueChanges,
   getValidationErrors,
 } from "src/app/shared/utils/form";
+import { LetDirective } from "../../directives/let.directive";
 import { LessonPresence } from "../../models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "../../services/confirm-absences-selection.service";
 import { ToastService } from "../../services/toast.service";
@@ -47,6 +51,17 @@ import {
   templateUrl: "./confirm-absences.component.html",
   styleUrls: ["./confirm-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   formGroup$ = this.selectionService.selectedWithoutPresenceType$.pipe(

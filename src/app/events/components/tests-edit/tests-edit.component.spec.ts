@@ -5,7 +5,6 @@ import { CoursesRestService } from "src/app/shared/services/courses-rest.service
 import { buildCourse, buildTest } from "src/spec-builders";
 import { ActivatedRouteMock, buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../services/test-state.service";
-import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
 import { TestsEditComponent } from "./tests-edit.component";
 
 describe("TestsEditComponent", () => {
@@ -40,7 +39,7 @@ describe("TestsEditComponent", () => {
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [TestsEditComponent, TestsEditFormComponent],
+        imports: [TestsEditComponent],
         providers: [
           { provide: TestStateService, useValue: stateServiceMock },
           { provide: ActivatedRoute, useValue: activatedRouteMock },

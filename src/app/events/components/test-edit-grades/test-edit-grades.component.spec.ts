@@ -37,7 +37,7 @@ describe("TestEditGradesComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [TestEditGradesComponent],
+        imports: [TestEditGradesComponent],
         providers: [
           {
             provide: TestStateService,

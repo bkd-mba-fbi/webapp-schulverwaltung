@@ -10,7 +10,7 @@ describe("CaretComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [CaretComponent],
+        imports: [CaretComponent],
       }),
     );
     fixture = TestBed.createComponent(CaretComponent);

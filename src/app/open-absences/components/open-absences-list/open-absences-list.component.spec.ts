@@ -43,7 +43,7 @@ describe("OpenAbsencesListComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [OpenAbsencesListComponent],
+        imports: [OpenAbsencesListComponent],
         providers: [
           ConfirmAbsencesSelectionService,
           {

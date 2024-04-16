@@ -6,10 +6,6 @@ import { ReportsService } from "src/app/shared/services/reports.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildCourse, buildResult, buildTest } from "../../../../spec-builders";
 import { TestStateService } from "../../services/test-state.service";
-import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
-import { TestEditGradesComponent } from "../test-edit-grades/test-edit-grades.component";
-import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
-import { TestsHeaderComponent } from "../tests-header/tests-header.component";
 import { TestsListComponent } from "./tests-list.component";
 
 describe("TestsListComponent", () => {
@@ -57,13 +53,7 @@ describe("TestsListComponent", () => {
     reportServiceMock.getCourseReports.and.returnValue(of([]));
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          TestsListComponent,
-          TestsHeaderComponent,
-          TestEditGradesComponent,
-          TestTableHeaderComponent,
-          AverageGradesComponent,
-        ],
+        imports: [TestsListComponent],
         providers: [
           { provide: TestStateService, useValue: testStateServiceMock },
           {

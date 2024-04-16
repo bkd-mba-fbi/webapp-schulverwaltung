@@ -6,7 +6,6 @@ import { buildLessonPresenceStatistic } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StorageService } from "../../../shared/services/storage.service";
 import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
-import { EvaluateAbsencesHeaderComponent } from "../evaluate-absences-header/evaluate-absences-header.component";
 import { EvaluateAbsencesListComponent } from "./evaluate-absences-list.component";
 
 describe("EvaluateAbsencesListComponent", () => {
@@ -42,10 +41,7 @@ describe("EvaluateAbsencesListComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          EvaluateAbsencesHeaderComponent,
-          EvaluateAbsencesListComponent,
-        ],
+        imports: [EvaluateAbsencesListComponent],
         providers: [
           {
             provide: EvaluateAbsencesStateService,

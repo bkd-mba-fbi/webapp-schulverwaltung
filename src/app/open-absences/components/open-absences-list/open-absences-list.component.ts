@@ -1,3 +1,4 @@
+import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -5,11 +6,17 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { SortCriteria } from "src/app/shared/utils/sort";
+import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
+import { DaysDifferencePipe } from "../../../shared/pipes/days-difference.pipe";
 import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
 import {
   OpenAbsencesService,
@@ -21,6 +28,19 @@ import {
   templateUrl: "./open-absences-list.component.html",
   styleUrls: ["./open-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgIf,
+    ResettableInputComponent,
+    RouterLink,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+    DaysDifferencePipe,
+  ],
 })
 export class OpenAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy

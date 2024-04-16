@@ -10,7 +10,7 @@ describe("DashboardDeadlineComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardDeadlineComponent],
+        imports: [DashboardDeadlineComponent],
       }),
     ).compileComponents();
 

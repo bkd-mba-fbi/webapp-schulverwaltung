@@ -1,6 +1,10 @@
+import { DatePipe, NgFor } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { isEqual } from "date-fns";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 
 interface BlockLessonOption {
@@ -12,6 +16,8 @@ interface BlockLessonOption {
   selector: "erz-presence-control-block-lesson-component",
   templateUrl: "./presence-control-block-lesson.component.html",
   styleUrls: ["presence-control-block-lesson.component.scss"],
+  standalone: true,
+  imports: [FormsModule, NgFor, LetDirective, DatePipe, TranslateModule],
 })
 export class PresenceControlBlockLessonComponent implements OnInit {
   @Input() entry: PresenceControlEntry;

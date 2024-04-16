@@ -10,6 +10,7 @@ import {
 
 @Pipe({
   name: "safe",
+  standalone: true,
 })
 /* based on https://medium.com/@swarnakishore/angular-safe-pipe-implementation-to-bypass-domsanitizer-stripping-out-content-c1bf0f1cc36b */
 export class SafePipe implements PipeTransform {

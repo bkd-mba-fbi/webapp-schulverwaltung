@@ -1,3 +1,4 @@
+import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -5,17 +6,22 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { isTruthy } from "src/app/shared/utils/filter";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { EditAbsencesSelectionService } from "../../services/edit-absences-selection.service";
 import {
   EditAbsencesFilter,
   EditAbsencesStateService,
 } from "../../services/edit-absences-state.service";
+import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absences-header.component";
 
 @Component({
   selector: "erz-edit-absences-list",
@@ -23,6 +29,19 @@ import {
   styleUrls: ["./edit-absences-list.component.scss"],
   providers: [EditAbsencesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    EditAbsencesHeaderComponent,
+    NgIf,
+    InfiniteScrollModule,
+    RouterLink,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+  ],
 })
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy

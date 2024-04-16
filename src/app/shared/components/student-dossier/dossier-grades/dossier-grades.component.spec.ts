@@ -51,7 +51,7 @@ describe("DossierGradesComponent", () => {
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierGradesComponent],
+        imports: [DossierGradesComponent],
         providers: [
           { provide: DossierStateService, useValue: dossierStateServiceMock },
           {

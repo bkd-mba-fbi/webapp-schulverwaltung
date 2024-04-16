@@ -38,7 +38,7 @@ describe("MyProfileEditComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyProfileEditComponent],
+        imports: [MyProfileEditComponent],
         providers: [
           { provide: MyProfileService, useValue: profileService },
           { provide: PersonsRestService, useValue: personsService },

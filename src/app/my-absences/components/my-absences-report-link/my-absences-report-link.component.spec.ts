@@ -10,7 +10,7 @@ describe("MyAbsencesEditLinkComponent", () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata(
         buildTestModuleMetadata({
-          declarations: [MyAbsencesReportLinkComponent],
+          imports: [MyAbsencesReportLinkComponent],
         }),
       ),
     ).compileComponents();

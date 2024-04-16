@@ -14,7 +14,7 @@ describe("PublishTestComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PublishTestComponent],
+        imports: [PublishTestComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();

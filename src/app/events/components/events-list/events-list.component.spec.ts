@@ -25,7 +25,7 @@ describe("EventsListComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EventsListComponent],
+        imports: [EventsListComponent],
         providers: [
           { provide: EventsStateService, useValue: stateServiceMock },
           {

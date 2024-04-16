@@ -2,8 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { SimpleChange, SimpleChanges } from "@angular/core";
 import { TestModuleMetadata } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { provideAnimations } from "@angular/platform-browser/animations";
 import {
   ParamMap,
   Params,
@@ -15,7 +14,6 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ReplaySubject } from "rxjs";
 import { SETTINGS, Settings } from "./app/settings";
 import { AuthService } from "./app/shared/services/auth.service";
-import { SharedModule } from "./app/shared/shared.module";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/locales/", ".json");
@@ -106,8 +104,6 @@ export const settings: Settings = {
 const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
     HttpClientTestingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -115,10 +111,10 @@ const baseTestModuleMetadata: TestModuleMetadata = {
         deps: [HttpClient],
       },
     }),
-    SharedModule,
   ],
   providers: [
     provideRouter([]),
+    provideAnimations(),
     { provide: SETTINGS, useValue: settings },
     {
       provide: AuthService,

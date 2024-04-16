@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
 import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
 
@@ -6,14 +8,17 @@ import { EditAbsencesStateService } from "../../services/edit-absences-state.ser
   selector: "erz-edit-absences",
   templateUrl: "./edit-absences.component.html",
   styleUrls: ["./edit-absences.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [RouterOutlet],
   providers: [
     EditAbsencesStateService,
     {
       provide: CONFIRM_ABSENCES_SERVICE,
       useExisting: EditAbsencesStateService,
     },
+    ConfirmAbsencesSelectionService,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditAbsencesComponent {
   constructor(public state: EditAbsencesStateService) {}

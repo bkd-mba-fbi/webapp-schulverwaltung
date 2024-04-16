@@ -14,7 +14,7 @@ describe("DossierGradesCourseHeaderComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierGradesCourseHeaderComponent],
+        imports: [DossierGradesCourseHeaderComponent],
       }),
     ).compileComponents();
   });

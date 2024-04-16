@@ -10,7 +10,7 @@ describe("PresenceControlBlockLessonComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlBlockLessonComponent],
+        imports: [PresenceControlBlockLessonComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();

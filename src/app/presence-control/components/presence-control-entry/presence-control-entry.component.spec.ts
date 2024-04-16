@@ -17,7 +17,7 @@ describe("PresenceControlEntryComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlEntryComponent],
+        imports: [PresenceControlEntryComponent],
       }),
     ).compileComponents();
   }));

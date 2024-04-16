@@ -9,7 +9,7 @@ describe("StudentDossierEntryHeaderComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [StudentDossierEntryHeaderComponent],
+        imports: [StudentDossierEntryHeaderComponent],
       }),
     ).compileComponents();
   }));

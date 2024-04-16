@@ -10,6 +10,7 @@ describe("AvatarComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
+        imports: [AvatarComponent],
         providers: [
           {
             provide: StorageService,

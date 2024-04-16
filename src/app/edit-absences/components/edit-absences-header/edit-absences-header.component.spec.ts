@@ -11,7 +11,7 @@ describe("EditAbsencesHeaderComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EditAbsencesHeaderComponent],
+        imports: [EditAbsencesHeaderComponent],
         providers: [
           {
             provide: EditAbsencesStateService,

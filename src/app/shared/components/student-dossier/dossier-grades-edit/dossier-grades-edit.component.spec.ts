@@ -11,7 +11,7 @@ describe("DossierGradesEditComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DossierGradesEditComponent],
+        imports: [DossierGradesEditComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();

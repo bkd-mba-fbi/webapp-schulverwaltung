@@ -1,4 +1,14 @@
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { Component, Input, OnChanges } from "@angular/core";
+import {
+  NgbAccordionBody,
+  NgbAccordionCollapse,
+  NgbAccordionDirective,
+  NgbAccordionHeader,
+  NgbAccordionItem,
+  NgbCollapse,
+} from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import {
   Course,
@@ -8,6 +18,9 @@ import {
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import { weightedAverage } from "../../../utils/math";
+import { DossierCourseTestsComponent } from "../dossier-course-tests/dossier-course-tests.component";
+import { DossierGradesCourseHeaderComponent } from "../dossier-grades-course-header/dossier-grades-course-header.component";
+import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 
 export interface CourseWithGrades {
   course: Course;
@@ -21,6 +34,22 @@ export interface CourseWithGrades {
   selector: "erz-dossier-grades-view",
   templateUrl: "./dossier-grades-view.component.html",
   styleUrls: ["./dossier-grades-view.component.scss"],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    NgbAccordionDirective,
+    NgbAccordionItem,
+    NgbAccordionHeader,
+    StudentDossierEntryHeaderComponent,
+    DossierGradesCourseHeaderComponent,
+    NgbCollapse,
+    NgbAccordionCollapse,
+    NgbAccordionBody,
+    DossierCourseTestsComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class DossierGradesViewComponent implements OnChanges {
   @Input() courses: Course[];

@@ -9,7 +9,7 @@ describe("MyProfileComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyProfileComponent],
+        imports: [MyProfileComponent],
       }),
     ).compileComponents();
   }));

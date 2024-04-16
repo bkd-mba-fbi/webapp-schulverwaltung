@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { EventsListComponent } from "../events-list/events-list.component";
 import { EventsCurrentComponent } from "./events-current.component";
 
 describe("EventsCurrentComponent", () => {
@@ -11,7 +10,7 @@ describe("EventsCurrentComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EventsCurrentComponent, EventsListComponent],
+        imports: [EventsCurrentComponent],
         providers: [
           {
             provide: StorageService,

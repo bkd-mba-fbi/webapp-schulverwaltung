@@ -11,7 +11,6 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DashboardService } from "../../services/dashboard.service";
-import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
 import { DashboardTimetableComponent } from "./dashboard-timetable.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -35,10 +34,7 @@ describe("DashboardTimetableComponent", () => {
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          DashboardTimetableComponent,
-          DashboardTimetableTableComponent,
-        ],
+        imports: [DashboardTimetableComponent],
         providers: [
           {
             provide: DashboardService,

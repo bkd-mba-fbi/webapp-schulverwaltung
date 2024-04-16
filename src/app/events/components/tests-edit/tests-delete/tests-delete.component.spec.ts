@@ -14,7 +14,7 @@ describe("TestsDeleteComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [TestsDeleteComponent],
+        imports: [TestsDeleteComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();

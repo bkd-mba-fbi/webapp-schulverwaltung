@@ -6,6 +6,7 @@ export const DASH = "–";
 
 @Pipe({
   name: "decimalOrDash",
+  standalone: true,
 })
 export class DecimalOrDashPipe implements PipeTransform {
   constructor(@Inject(LOCALE_ID) private locale: string) {}

@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, combineLatest, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
-import { withConfig } from "src/app/rest-error-interceptor";
 import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
 import { ApprenticeshipManager } from "src/app/shared/models/apprenticeship-manager.model";
 import { JobTrainer } from "src/app/shared/models/job-trainer.model";
@@ -15,6 +14,7 @@ import { PersonsRestService } from "src/app/shared/services/persons-rest.service
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { catch404 } from "src/app/shared/utils/observable";
+import { withConfig } from "../interceptors/rest-error.interceptor";
 import { notNull } from "../utils/filter";
 import { isAdult } from "../utils/persons";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";

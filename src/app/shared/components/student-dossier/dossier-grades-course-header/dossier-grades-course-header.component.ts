@@ -1,3 +1,4 @@
+import { DecimalPipe, NgIf } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
@@ -7,6 +8,8 @@ import * as Gradings from "src/app/shared/utils/gradings";
   selector: "erz-dossier-grades-course-header",
   templateUrl: "./dossier-grades-course-header.component.html",
   styleUrls: ["./dossier-grades-course-header.component.scss"],
+  standalone: true,
+  imports: [NgIf, DecimalPipe],
 })
 export class DossierGradesCourseHeaderComponent {
   @Input() designation: string;

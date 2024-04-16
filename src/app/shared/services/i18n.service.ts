@@ -1,9 +1,19 @@
-import { Injectable } from "@angular/core";
+import { Injectable, LOCALE_ID, Provider } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { StorageService } from "./storage.service";
 
 const LANGUAGES: ReadonlyArray<string> = ["de-CH", "fr-CH"];
 const FALLBACK_LANGUAGE = LANGUAGES[0];
+
+export function provideDetectedLocale(): Provider[] {
+  return [
+    {
+      provide: LOCALE_ID,
+      useFactory: (i18nService: I18nService) => i18nService.detectLanguage(),
+      deps: [I18nService],
+    },
+  ];
+}
 
 @Injectable({
   providedIn: "root",

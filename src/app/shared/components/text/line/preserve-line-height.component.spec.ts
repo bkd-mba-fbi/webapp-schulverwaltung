@@ -6,7 +6,7 @@ import { PreserveLineHeightComponent } from "./preserve-line-height.component";
 describe("LineComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         TestComponent,
         TestWithNullContentComponent,
         PreserveLineHeightComponent,
@@ -37,14 +37,18 @@ describe("LineComponent", () => {
 
 @Component({
   selector: "erz-test",
-  template: `<erz-preserve-line-height
+  template: ` <erz-preserve-line-height
     >content-projection</erz-preserve-line-height
   >`,
+  standalone: true,
+  imports: [PreserveLineHeightComponent],
 })
 class TestComponent {}
 
 @Component({
   selector: "erz-test-with-null-content",
-  template: `<erz-preserve-line-height>{{ null }}</erz-preserve-line-height>`,
+  template: ` <erz-preserve-line-height>{{ null }}</erz-preserve-line-height>`,
+  standalone: true,
+  imports: [PreserveLineHeightComponent],
 })
 class TestWithNullContentComponent {}

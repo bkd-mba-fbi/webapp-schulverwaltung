@@ -1,4 +1,6 @@
+import { AsyncPipe, DatePipe, NgIf } from "@angular/common";
 import { Component } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { addDays, format, startOfDay, subDays } from "date-fns";
 import {
   BehaviorSubject,
@@ -15,7 +17,11 @@ import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
+import { SafePipe } from "../../../shared/pipes/safe.pipe";
 import { DashboardService } from "../../services/dashboard.service";
+import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
 
 export type DashboardTimetableEntry = {
   id: number;
@@ -34,6 +40,17 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
   selector: "erz-dashboard-timetable",
   templateUrl: "./dashboard-timetable.component.html",
   styleUrls: ["./dashboard-timetable.component.scss"],
+  standalone: true,
+  imports: [
+    NgIf,
+    LetDirective,
+    DashboardTimetableTableComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+    SafePipe,
+  ],
 })
 export class DashboardTimetableComponent {
   studentId$ = this.dashboardService.studentId$;

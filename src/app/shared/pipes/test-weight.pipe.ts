@@ -4,6 +4,7 @@ import { Test } from "src/app/shared/models/test.model";
 
 @Pipe({
   name: "erzTestWeight",
+  standalone: true,
 })
 export class TestsWeightPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}

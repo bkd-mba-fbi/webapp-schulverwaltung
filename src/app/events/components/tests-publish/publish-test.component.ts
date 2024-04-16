@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 
 @Component({
@@ -36,6 +37,8 @@ import { Test } from "src/app/shared/models/test.model";
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [TranslateModule],
 })
 export class PublishTestComponent {
   @Input() test: Test;

@@ -12,7 +12,7 @@ describe("TestsEditFormComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [TestsEditFormComponent],
+        imports: [TestsEditFormComponent],
         providers: [TestStateService],
       }),
     ).compileComponents();

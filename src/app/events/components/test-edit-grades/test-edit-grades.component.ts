@@ -1,5 +1,8 @@
+import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
@@ -13,17 +16,38 @@ import {
 } from "src/app/shared/models/student-grades";
 import { Student } from "src/app/shared/models/student.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { Test } from "../../../shared/models/test.model";
+import { DecimalOrDashPipe } from "../../../shared/pipes/decimal-or-dash.pipe";
 import { EventsStateService } from "../../services/events-state.service";
 import { Filter, TestStateService } from "../../services/test-state.service";
 import { getEventState } from "../../utils/events";
 import { averageGrade, averagePoints } from "../../utils/tests";
+import { GradeComponent } from "../grade/grade.component";
+import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
+import { GradeSelectComponent } from "../grades/grade-select/grade-select.component";
+import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
 
 @Component({
   selector: "erz-test-edit-grades",
   templateUrl: "./test-edit-grades.component.html",
   styleUrls: ["./test-edit-grades.component.scss"],
   providers: [EventsStateService],
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgClass,
+    NgFor,
+    TestTableHeaderComponent,
+    NgIf,
+    RouterLink,
+    GradeSelectComponent,
+    GradeComponent,
+    AverageGradesComponent,
+    AsyncPipe,
+    TranslateModule,
+    DecimalOrDashPipe,
+  ],
 })
 export class TestEditGradesComponent implements OnInit {
   @Input() selectedTest: Test | undefined;

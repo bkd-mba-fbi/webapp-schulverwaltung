@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { of } from "rxjs";
-import { SwitchComponent } from "src/app/shared/components/switch/switch.component";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { MySettingsNotificationsToggleComponent } from "../my-settings-notifications-toggle/my-settings-notifications-toggle.component";
 import { MySettingsNotificationsComponent } from "./my-settings-notifications.component";
 
 describe("MySettingsNotificationsComponent", () => {
@@ -30,11 +28,7 @@ describe("MySettingsNotificationsComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          MySettingsNotificationsComponent,
-          MySettingsNotificationsToggleComponent,
-          SwitchComponent,
-        ],
+        imports: [MySettingsNotificationsComponent],
         providers: [
           {
             provide: StorageService,

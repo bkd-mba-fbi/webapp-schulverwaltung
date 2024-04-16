@@ -13,7 +13,7 @@ describe("StudentDossierComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [StudentDossierComponent],
+        imports: [StudentDossierComponent],
         providers: [
           DossierStateService,
           DossierGradesService,

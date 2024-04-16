@@ -14,7 +14,7 @@ describe("PresenceControlGroupDialogComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlGroupDialogComponent],
+        imports: [PresenceControlGroupDialogComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();

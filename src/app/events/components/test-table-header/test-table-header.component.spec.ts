@@ -10,7 +10,7 @@ describe("TestTableHeaderComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [TestTableHeaderComponent],
+        imports: [TestTableHeaderComponent],
       }),
     ).compileComponents();
   });

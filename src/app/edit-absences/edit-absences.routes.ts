@@ -1,11 +1,10 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
 import { EditAbsencesEditComponent } from "./components/edit-absences-edit/edit-absences-edit.component";
 import { EditAbsencesListComponent } from "./components/edit-absences-list/edit-absences-list.component";
 import { EditAbsencesComponent } from "./components/edit-absences/edit-absences.component";
 
-const routes: Routes = [
+export const EDIT_ABSENCES_ROUTES: Routes = [
   {
     path: "",
     component: EditAbsencesComponent,
@@ -30,9 +29,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class EditAbsencesRoutingModule {}

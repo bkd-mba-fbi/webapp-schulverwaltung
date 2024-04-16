@@ -1,4 +1,6 @@
+import { AsyncPipe, DatePipe, NgIf } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { ReplaySubject, map } from "rxjs";
 import {
   replaceResultInTest,
@@ -8,6 +10,9 @@ import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
+import { LetDirective } from "../../../directives/let.directive";
+import { TestPointsPipe } from "../../../pipes/test-points.pipe";
+import { TestsWeightPipe } from "../../../pipes/test-weight.pipe";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
 import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grades-edit.component";
 
@@ -53,6 +58,16 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
     </div>
   </div>`,
   styleUrls: ["./dossier-single-test.component.scss"],
+  standalone: true,
+  imports: [
+    LetDirective,
+    NgIf,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+    TestPointsPipe,
+    TestsWeightPipe,
+  ],
 })
 export class DossierSingleTestComponent implements OnChanges {
   @Input() test: Test;

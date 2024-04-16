@@ -8,7 +8,7 @@ describe("TypeaheadComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
-      buildTestModuleMetadata({}),
+      buildTestModuleMetadata({ imports: [TypeaheadComponent] }),
     ).compileComponents();
   }));
 

@@ -11,7 +11,7 @@ describe("PresenceControlGroupComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [PresenceControlGroupComponent],
+        imports: [PresenceControlGroupComponent],
         providers: [PresenceControlStateService, PresenceControlGroupService],
       }),
     ).compileComponents();

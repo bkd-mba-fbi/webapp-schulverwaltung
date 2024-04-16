@@ -32,6 +32,7 @@ export class LetContext {
 
 @Directive({
   selector: "[erzLet]",
+  standalone: true,
 })
 export class LetDirective implements OnInit {
   private context = new LetContext();

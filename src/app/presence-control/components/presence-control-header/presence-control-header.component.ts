@@ -1,3 +1,4 @@
+import { AsyncPipe, DatePipe, NgClass, NgFor, NgIf } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -5,18 +6,27 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
   NgbDropdown,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbInputDatepicker,
   NgbInputDatepickerConfig,
 } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { Options } from "@popperjs/core";
 import { map } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { notNull } from "src/app/shared/utils/filter";
+import { CaretComponent } from "../../../shared/components/caret/caret.component";
+import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { LessonEntry } from "../../models/lesson-entry.model";
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 import { PresenceControlStateService } from "../../services/presence-control-state.service";
@@ -60,11 +70,29 @@ interface ViewModeOption {
   selector: "erz-presence-control-header",
   templateUrl: "./presence-control-header.component.html",
   styleUrls: ["./presence-control-header.component.scss"],
+  standalone: true,
+  imports: [
+    NgbInputDatepicker,
+    FormsModule,
+    NgIf,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgFor,
+    NgbDropdownItem,
+    CaretComponent,
+    ResettableInputComponent,
+    NgClass,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+    TranslateModule,
+  ],
   providers: [
     NgbInputDatepickerConfig,
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
-  ], // TODO: move to (app-)module?
+  ],
 })
 export class PresenceControlHeaderComponent {
   @Input() selectedLesson: LessonEntry;

@@ -9,7 +9,7 @@ describe("StudentBacklinkComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [StudentBacklinkComponent],
+        imports: [StudentBacklinkComponent],
       }),
     ).compileComponents();
   }));

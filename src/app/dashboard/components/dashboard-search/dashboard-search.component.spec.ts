@@ -11,7 +11,7 @@ describe("DashboardSearchComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [DashboardSearchComponent],
+        imports: [DashboardSearchComponent],
       }),
     ).compileComponents();
 

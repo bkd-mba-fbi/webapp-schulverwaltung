@@ -1,6 +1,5 @@
 import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { of, throwError } from "rxjs";
-import { withConfig } from "src/app/rest-error-interceptor";
 import {
   buildLessonPresence,
   buildPresenceControlEntry,
@@ -9,6 +8,7 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
+import { withConfig } from "../interceptors/rest-error.interceptor";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
 import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";

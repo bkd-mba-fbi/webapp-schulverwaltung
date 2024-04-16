@@ -1,10 +1,15 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 
 @Component({
   selector: "erz-date-select",
   templateUrl: "./date-select.component.html",
   styleUrls: ["./date-select.component.scss"],
+  standalone: true,
+  imports: [NgbInputDatepicker, FormsModule, TranslateModule],
 })
 export class DateSelectComponent {
   @Input() value: Option<Date> = null;

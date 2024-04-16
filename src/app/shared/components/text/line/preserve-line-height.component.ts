@@ -5,5 +5,6 @@ import { Component } from "@angular/core";
   selector: "erz-preserve-line-height",
   template: `<div><ng-content></ng-content>&nbsp;</div>`,
   styles: [],
+  standalone: true,
 })
 export class PreserveLineHeightComponent {}

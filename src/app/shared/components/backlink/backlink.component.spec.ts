@@ -9,7 +9,7 @@ describe("BacklinkComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [BacklinkComponent],
+        imports: [BacklinkComponent],
       }),
     ).compileComponents();
 

@@ -14,8 +14,6 @@ import { PresenceControlEntry } from "../../models/presence-control-entry.model"
 import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 import { PresenceControlGroupService } from "../../services/presence-control-group.service";
 import { PresenceControlStateService } from "../../services/presence-control-state.service";
-import { PresenceControlEntryComponent } from "../presence-control-entry/presence-control-entry.component";
-import { PresenceControlHeaderComponent } from "../presence-control-header/presence-control-header.component";
 import { PresenceControlListComponent } from "./presence-control-list.component";
 
 describe("PresenceControlListComponent", () => {
@@ -103,11 +101,7 @@ describe("PresenceControlListComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [
-          PresenceControlListComponent,
-          PresenceControlHeaderComponent,
-          PresenceControlEntryComponent,
-        ],
+        imports: [PresenceControlListComponent],
         providers: [
           {
             provide: PresenceControlStateService,

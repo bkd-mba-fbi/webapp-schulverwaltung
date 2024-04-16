@@ -10,7 +10,7 @@ describe("SwitchComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [SwitchComponent],
+        imports: [SwitchComponent],
       }),
     ).compileComponents();
   });

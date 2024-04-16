@@ -1,4 +1,14 @@
+import { AsyncPipe, NgIf } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import {
+  NgbAccordionBody,
+  NgbAccordionCollapse,
+  NgbAccordionDirective,
+  NgbAccordionHeader,
+  NgbAccordionItem,
+  NgbCollapse,
+} from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { flatten, uniq } from "lodash-es";
 import { Observable, combineLatest, of } from "rxjs";
 import { map, shareReplay, switchMap } from "rxjs/operators";
@@ -7,15 +17,37 @@ import {
   ReportInfo,
   ReportsService,
 } from "src/app/shared/services/reports.service";
+import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
+import { StudentDossierAbsencesComponent } from "../../../shared/components/student-dossier/student-dossier-absences/student-dossier-absences.component";
+import { StudentDossierEntryHeaderComponent } from "../../../shared/components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component";
+import { LetDirective } from "../../../shared/directives/let.directive";
 import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
 import { LessonIncident } from "../../../shared/models/lesson-incident.model";
 import { MyAbsencesService } from "../../services/my-absences.service";
+import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-absences-report-link.component";
 
 @Component({
   selector: "erz-my-absences-show",
   templateUrl: "./my-absences-show.component.html",
   styleUrls: ["./my-absences-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetDirective,
+    ReportsLinkComponent,
+    NgbAccordionDirective,
+    NgbAccordionItem,
+    NgbAccordionHeader,
+    MyAbsencesReportLinkComponent,
+    NgbCollapse,
+    NgbAccordionCollapse,
+    NgbAccordionBody,
+    StudentDossierEntryHeaderComponent,
+    NgIf,
+    StudentDossierAbsencesComponent,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class MyAbsencesShowComponent {
   openAbsencesReports$ = this.loadOpenAbsencesReports();

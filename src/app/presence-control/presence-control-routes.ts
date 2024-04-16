@@ -1,11 +1,10 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
 import { PresenceControlGroupComponent } from "./components/presence-control-group/presence-control-group.component";
 import { PresenceControlListComponent } from "./components/presence-control-list/presence-control-list.component";
 import { PresenceControlComponent } from "./components/presence-control/presence-control.component";
 
-const routes: Routes = [
+export const PRESENCE_CONTROL_ROUTES: Routes = [
   {
     path: "",
     component: PresenceControlComponent,
@@ -29,9 +28,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class PresenceControlRoutingModule {}

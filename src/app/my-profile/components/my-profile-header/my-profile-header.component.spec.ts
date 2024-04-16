@@ -10,7 +10,7 @@ describe("MyProfileHeaderComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyProfileHeaderComponent],
+        imports: [MyProfileHeaderComponent],
         providers: [
           {
             provide: ReportsService,

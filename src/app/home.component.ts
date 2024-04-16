@@ -1,4 +1,7 @@
+import { NgFor } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
 interface Section {
   path: string;
@@ -20,6 +23,8 @@ interface Section {
   `,
   styleUrls: ["./home.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgFor, RouterLink, TranslateModule],
 })
 export class HomeComponent {
   sections: ReadonlyArray<Section> = [

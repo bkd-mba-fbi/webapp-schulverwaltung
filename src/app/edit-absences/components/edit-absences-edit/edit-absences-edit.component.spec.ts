@@ -53,7 +53,7 @@ describe("EditAbsencesEditComponent", () => {
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [EditAbsencesEditComponent],
+        imports: [EditAbsencesEditComponent],
         providers: [
           {
             provide: EditAbsencesStateService,

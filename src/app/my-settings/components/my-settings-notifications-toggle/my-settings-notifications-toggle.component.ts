@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,11 +7,15 @@ import {
   forwardRef,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { SwitchComponent } from "../../../shared/components/switch/switch.component";
 
 @Component({
   selector: "erz-my-settings-notifications-toggle",
   templateUrl: "./my-settings-notifications-toggle.component.html",
   styleUrls: ["./my-settings-notifications-toggle.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [SwitchComponent, NgIf, NgFor],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -18,7 +23,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MySettingsNotificationsToggleComponent
   implements ControlValueAccessor

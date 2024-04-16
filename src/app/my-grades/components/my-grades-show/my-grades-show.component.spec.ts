@@ -3,7 +3,6 @@ import { of } from "rxjs";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StorageService } from "../../../shared/services/storage.service";
 import { MyGradesService } from "../../services/my-grades.service";
-import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.component";
 import { MyGradesShowComponent } from "./my-grades-show.component";
 
 describe("MyGradesShowComponent", () => {
@@ -13,7 +12,7 @@ describe("MyGradesShowComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        declarations: [MyGradesShowComponent, MyGradesHeaderComponent],
+        imports: [MyGradesShowComponent],
         providers: [
           {
             provide: MyGradesService,

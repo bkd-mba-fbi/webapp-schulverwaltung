@@ -5,12 +5,16 @@ import {
   HostListener,
   ViewChild,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: "erz-my-absences-report-link",
   templateUrl: "./my-absences-report-link.component.html",
   styleUrls: ["./my-absences-report-link.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [RouterLink, TranslateModule],
 })
 export class MyAbsencesReportLinkComponent {
   @ViewChild("link") link: ElementRef<HTMLElement>;
