@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpContext } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -18,7 +18,7 @@ export class LessonPresencesUpdateRestService {
     personIds: ReadonlyArray<number>,
     presenceTypeId?: Option<number>,
     confirmationValue?: Option<number>,
-    params?: HttpParams,
+    options?: { context?: HttpContext },
   ): Observable<void> {
     const body: Dict<unknown> = {
       LessonIds: lessonIds,
@@ -32,16 +32,14 @@ export class LessonPresencesUpdateRestService {
     }
 
     return this.http
-      .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit`, body, {
-        params,
-      })
+      .put<void>(`${this.settings.apiUrl}/LessonPresences/Edit`, body, options)
       .pipe(map(() => undefined));
   }
 
   removeLessonPresences(
     lessonIds: ReadonlyArray<number>,
     personIds: ReadonlyArray<number>,
-    params?: HttpParams,
+    options?: { context?: HttpContext },
   ): Observable<void> {
     return this.http
       .put<void>(
@@ -51,7 +49,7 @@ export class LessonPresencesUpdateRestService {
           PersonIds: personIds,
           WithComment: true,
         },
-        { params },
+        options,
       )
       .pipe(map(() => undefined));
   }

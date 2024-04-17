@@ -1,3 +1,4 @@
+import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, combineLatest, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
@@ -14,7 +15,7 @@ import { PersonsRestService } from "src/app/shared/services/persons-rest.service
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { catch404 } from "src/app/shared/utils/observable";
-import { withConfig } from "../interceptors/rest-error.interceptor";
+import { RestErrorInterceptorOptions } from "../interceptors/rest-error.interceptor";
 import { notNull } from "../utils/filter";
 import { isAdult } from "../utils/persons";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
@@ -66,7 +67,11 @@ export class StudentProfileService {
   getMyProfile(): Observable<Profile<Person>> {
     return this.loadingService.load(
       this.personsService
-        .getMyself(withConfig({ disableErrorHandlingForStatus: [403] }))
+        .getMyself({
+          context: new HttpContext().set(RestErrorInterceptorOptions, {
+            disableErrorHandlingForStatus: [403],
+          }),
+        })
         .pipe(
           switchMap((person) =>
             combineLatest([
@@ -86,7 +91,11 @@ export class StudentProfileService {
 
   private loadStudent(id: number): Observable<Option<Student>> {
     return this.studentService
-      .get(id, { params: withConfig({ disableErrorHandlingForStatus: [404] }) })
+      .get(id, {
+        context: new HttpContext().set(RestErrorInterceptorOptions, {
+          disableErrorHandlingForStatus: [404],
+        }),
+      })
       .pipe(catch404());
   }
 
@@ -100,10 +109,11 @@ export class StudentProfileService {
     id: number,
   ): Observable<ReadonlyArray<ApprenticeshipContract>> {
     return this.studentService
-      .getCurrentApprenticeshipContracts(
-        id,
-        withConfig({ disableErrorHandlingForStatus: [404] }),
-      )
+      .getCurrentApprenticeshipContracts(id, {
+        context: new HttpContext().set(RestErrorInterceptorOptions, {
+          disableErrorHandlingForStatus: [404],
+        }),
+      })
       .pipe(catch404([]));
   }
 

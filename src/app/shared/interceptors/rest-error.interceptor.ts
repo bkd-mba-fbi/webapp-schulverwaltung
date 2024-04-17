@@ -1,8 +1,8 @@
 import {
+  HttpContextToken,
   HttpErrorResponse,
   HttpEvent,
   HttpInterceptorFn,
-  HttpParams,
 } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
@@ -13,74 +13,51 @@ import { HTTP_STATUS } from "src/app/shared/services/rest.service";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { nonEmptyString } from "src/app/shared/utils/filter";
 
-interface RestConfig {
+interface Options {
   disableErrorHandling?: boolean;
   disableErrorHandlingForStatus?: ReadonlyArray<number>;
 }
 
-export function withConfig(
-  config: RestConfig,
-  params:
-    | HttpParams
-    | {
-        [param: string]: string | string[];
-      } = {},
-): HttpParams {
-  let httpParams: HttpParams;
-  if (params instanceof HttpParams) {
-    httpParams = params;
-  } else {
-    httpParams = new HttpParams({ fromObject: params });
-  }
-  return httpParams.set("restConfig", JSON.stringify(config));
-}
-
-function extractConfig(params: HttpParams): {
-  config: RestConfig;
-  params: HttpParams;
-} {
-  return {
-    config: JSON.parse(params.get("restConfig") || "{}"),
-    params: params.delete("restConfig"),
-  };
-}
+export const RestErrorInterceptorOptions = new HttpContextToken<Options>(
+  () => ({
+    disableErrorHandling: false,
+    disableErrorHandlingForStatus: [],
+  }),
+);
 
 /**
  * Displays an error notification for all error status codes.
  *
  * It is possible to disable error handling for all status codes by
- * setting the config option `skipErrorHandling` to `true`:
+ * setting the option `skipErrorHandling` to `true`:
  *
- *   const params = withConfig(
- *     { disableErrorHandling: true },
- *     { myParam: 'foobar' }
- *   );
- *   this.http.get('/', { params }).pipe(catchError( handle request errors here... ))
+ *   this.http.get('/', {
+ *     context: new HttpContext().set(
+ *       RestErrorInterceptorOptions,
+ *       { disableErrorHandling: true }
+ *     )
+ *   }).pipe(catchError( handle request errors here... ))
  *
  * To disable error handling of only certain error codes, the option
  * `skipErrorHandlingForStatus` can be set to an array of status
  * codes like this:
  *
- *   const params = withConfig(
- *     { disableErrorHandlingForStatus: [403, 404] },
- *     { myParam: 'foobar' }
- *   );
- *   this.http.get('/', { params }).pipe(catchError( handle 403/404 here... ))
+ *   this.http.get('/', {
+ *     context: new HttpContext().set(
+ *       RestErrorInterceptorOptions,
+ *       { disableErrorHandlingForStatus: [403, 404] }
+ *     )
+ *   }).pipe(catchError( handle 403/404 here... ))
  */
 export function restErrorInterceptor(): HttpInterceptorFn {
   return (req, next) => {
-    // TODO: there might be better ways of passing options to the
-    // interceptor in the future, see:
-    // https://github.com/angular/angular/issues/18155
-    const { config, params } = extractConfig(req.params);
-    return next(req.clone({ params })).pipe(
-      catchError(getErrorHandler(config)),
-    );
+    const options = req.context.get(RestErrorInterceptorOptions);
+    return next(req).pipe(catchError(getErrorHandler(options)));
   };
 }
 
 function getErrorHandler(
-  config: RestConfig,
+  config: Options,
 ): (
   error: unknown,
   caught: Observable<HttpEvent<unknown>>,
