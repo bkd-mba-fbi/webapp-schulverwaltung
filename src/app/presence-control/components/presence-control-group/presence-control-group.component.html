@@ -37,7 +37,7 @@
   <div class="group-list">
     <div class="group-list-header">
       <div
-        *ngFor="let key of ['name', 'group']"
+        *ngFor="let key of primarySortKeys"
         (click)="toggleSort(key)"
         [className]="key"
       >

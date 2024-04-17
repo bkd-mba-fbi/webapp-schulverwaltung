@@ -108,10 +108,10 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     const { dateFrom, dateTo } = filterValue;
     const params: Params = {};
     if (dateFrom) {
-      params.dateFrom = format(dateFrom, "yyyy-MM-dd");
+      params["dateFrom"] = format(dateFrom, "yyyy-MM-dd");
     }
     if (dateTo) {
-      params.dateTo = format(dateTo, "yyyy-MM-dd");
+      params["dateTo"] = format(dateTo, "yyyy-MM-dd");
     }
     return params;
   }

@@ -37,7 +37,7 @@
               state.hasUnconfirmedAbsences(entry) | async
             "
             [viewMode]="state.viewMode$ | async"
-            [showClassName]="(state.studyClassCount$ | async) > 1"
+            [showClassName]="((state.studyClassCount$ | async) ?? 0) > 1"
             [profileReturnParams]="{
               returnparams: (state.queryParamsString$ | async)
             }"

@@ -118,7 +118,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
-  private saving$ = new BehaviorSubject(false);
+  saving$ = new BehaviorSubject(false);
   private destroy$ = new Subject<void>();
 
   constructor(

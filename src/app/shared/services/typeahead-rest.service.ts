@@ -4,9 +4,9 @@ import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { Settings } from "src/app/settings";
 import { DropDownItem } from "../models/drop-down-item.model";
-import { RestService } from "../services/rest.service";
 import { decode, decodeArray } from "../utils/decode";
 import { pick } from "../utils/types";
+import { RestService } from "./rest.service";
 
 export class HttpParams {
   params: { [param: string]: string };
@@ -92,10 +92,10 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     const merged = {
       params: { ...typeaheadParams.params, ...additionalParams.params },
     };
-    if (additionalParams.params.fields) {
-      merged.params.fields = typeaheadParams.params.fields.concat(
+    if (additionalParams.params["fields"]) {
+      merged.params["fields"] = typeaheadParams.params["fields"].concat(
         ",",
-        additionalParams.params.fields,
+        additionalParams.params["fields"],
       );
     }
     return merged;

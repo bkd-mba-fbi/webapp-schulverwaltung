@@ -30,7 +30,7 @@ export class AvatarComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.studentId) {
+    if (changes["studentId"]) {
       this.avatarStyles = this.buildAvatarStyles(this.studentId);
     }
   }

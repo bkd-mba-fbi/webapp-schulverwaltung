@@ -28,7 +28,7 @@
   [link]="['/events']"
 >
   <erz-dashboard-deadline
-    *ngIf="(dashboardService.coursesToRateCount$ | async) > 0"
+    *ngIf="(dashboardService.coursesToRateCount$ | async) ?? 0 > 0"
     [count]="dashboardService.coursesToRateCount$ | async"
   ></erz-dashboard-deadline>
 </erz-dashboard-action>

@@ -54,7 +54,9 @@
             <select
               *ngIf="isExcused(confirmationState)"
               class="form-select mt-1"
-              [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
+              [class.is-invalid]="
+                (absenceTypeIdErrors$ | async)?.length || 0 > 0
+              "
               formControlName="absenceTypeId"
             >
               <option [ngValue]="null">
@@ -83,7 +85,7 @@
         <div *ngIf="isIncident(category)" class="ms-5">
           <select
             class="form-select mt-1"
-            [class.is-invalid]="(incidentIdErrors$ | async).length > 0"
+            [class.is-invalid]="(incidentIdErrors$ | async)?.length || 0 > 0"
             formControlName="incidentId"
           >
             <option [ngValue]="null">

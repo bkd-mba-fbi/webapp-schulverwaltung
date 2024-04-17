@@ -71,13 +71,13 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
     );
   }
 
-  protected getHalfDayType(): Observable<Option<PresenceType>> {
+  protected override getHalfDayType(): Observable<Option<PresenceType>> {
     return this.presenceTypesService
       .getPresenceType(this.settings.halfDayPresenceTypeId)
       .pipe(map((t) => (t.Active ? t : null)));
   }
 
-  protected onSaveSuccess(): void {
+  protected override onSaveSuccess(): void {
     this.selectionService.clear();
     this.state.resetEntries();
     super.onSaveSuccess();

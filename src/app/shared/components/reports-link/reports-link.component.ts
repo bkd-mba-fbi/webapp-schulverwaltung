@@ -31,7 +31,7 @@ export class ReportsLinkComponent {
 
   dropdownId = uniqueId("reports-link-dropdown");
 
-  openReport(report: Report): void {
+  openReport(report: ReportInfo): void {
     window.open(report.url, "_blank");
   }
 }

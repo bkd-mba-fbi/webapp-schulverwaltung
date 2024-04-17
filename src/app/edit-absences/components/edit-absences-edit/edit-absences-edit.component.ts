@@ -270,7 +270,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.router.navigate(["/edit-absences"], {
         queryParams: {
-          ...parseQueryString(params.returnparams),
+          ...parseQueryString(params["returnparams"]),
           reload, // Make sure the entries get reloaded when returning to the list
         },
       });

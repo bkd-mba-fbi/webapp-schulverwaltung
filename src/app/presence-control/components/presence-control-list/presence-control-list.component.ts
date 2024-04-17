@@ -149,17 +149,17 @@ export class PresenceControlListComponent
   }
 
   private restoreStateFromParams(params: Params): void {
-    if (params.date) {
-      this.state.setDate(parseISOLocalDate(params.date));
+    if (params["date"]) {
+      this.state.setDate(parseISOLocalDate(params["date"]));
     }
 
-    const lessonId = String(params.lesson);
+    const lessonId = String(params["lesson"]);
     if (lessonId) {
       this.state.setLessonId(lessonId);
     }
 
-    if (params.viewMode && VIEW_MODES.includes(params.viewMode)) {
-      this.state.setViewMode(params.viewMode);
+    if (params["viewMode"] && VIEW_MODES.includes(params["viewMode"])) {
+      this.state.setViewMode(params["viewMode"]);
     }
   }
 }

@@ -120,7 +120,7 @@ export abstract class PaginatedEntriesService<
   constructor(
     protected location: Location,
     protected loadingService: LoadingService,
-    protected sortService: SortService<SortingKey>,
+    public sortService: SortService<SortingKey>,
     protected settings: Settings,
     pageUrl: string,
   ) {

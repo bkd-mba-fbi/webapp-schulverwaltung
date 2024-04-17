@@ -34,7 +34,7 @@
   </div>
 </button>
 <button
-  *ngIf="entry.precedingAbsences?.length > 0"
+  *ngIf="entry.precedingAbsences?.length || 0 > 0"
   type="button"
   (click)="showPrecedingAbsences(entry)"
   class="previously-absent d-flex btn btn-link"

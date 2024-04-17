@@ -51,6 +51,7 @@ export interface SortCriteria {
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
+  primarySortKeys: ReadonlyArray<PrimarySortKey> = ["name", "group"];
   backlinkQueryParams$ = this.route.queryParams.pipe(
     map(({ returnparams }) => returnparams),
     map(parseQueryString),

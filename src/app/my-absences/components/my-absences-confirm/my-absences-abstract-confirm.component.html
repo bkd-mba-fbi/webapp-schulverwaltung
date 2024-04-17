@@ -25,7 +25,7 @@
         <input
           type="radio"
           class="form-check-input"
-          [class.is-invalid]="(absenceTypeIdErrors$ | async).length > 0"
+          [class.is-invalid]="((absenceTypeIdErrors$ | async)?.length ?? 0) > 0"
           [id]="'absence-type-' + i"
           formControlName="absenceTypeId"
           [value]="type.Id"
@@ -33,7 +33,7 @@
         <label class="form-check-label" [for]="'absence-type-' + i">
           {{ type.Designation }}
         </label>
-        <ng-container *ngIf="(absenceTypes$ | async)?.length - 1 === i">
+        <ng-container *ngIf="((absenceTypes$ | async)?.length ?? 0) - 1 === i">
           <div
             *ngFor="let error of absenceTypeIdErrors$ | async"
             class="invalid-feedback mt-4"

@@ -69,8 +69,8 @@ export class PresenceControlEntryComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.entry) {
-      this.entry$.next(changes.entry.currentValue);
+    if (changes["entry"]) {
+      this.entry$.next(changes["entry"].currentValue);
     }
   }
 

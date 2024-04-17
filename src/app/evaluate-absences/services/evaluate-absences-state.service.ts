@@ -70,7 +70,7 @@ export class EvaluateAbsencesStateService
     );
   }
 
-  protected getInitialSorting(): Option<
+  protected override getInitialSorting(): Option<
     Sorting<keyof LessonPresenceStatistic>
   > {
     return {

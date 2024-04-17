@@ -45,6 +45,7 @@ import {
 export class OpenAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  primarySortKeys: ReadonlyArray<PrimarySortKey> = ["name", "date"];
   private destroy$ = new Subject<void>();
 
   constructor(

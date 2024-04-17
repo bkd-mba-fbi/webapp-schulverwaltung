@@ -41,8 +41,8 @@ export class TestsHeaderComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.course) {
-      this.course$.next(changes.course.currentValue);
+    if (changes["course"]) {
+      this.course$.next(changes["course"].currentValue);
     }
   }
 

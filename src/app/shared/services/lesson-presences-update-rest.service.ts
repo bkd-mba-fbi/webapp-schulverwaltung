@@ -25,10 +25,10 @@ export class LessonPresencesUpdateRestService {
       PersonIds: personIds,
     };
     if (presenceTypeId !== undefined) {
-      body.PresenceTypeId = presenceTypeId;
+      body["PresenceTypeId"] = presenceTypeId;
     }
     if (confirmationValue !== undefined) {
-      body.ConfirmationValue = confirmationValue;
+      body["ConfirmationValue"] = confirmationValue;
     }
 
     return this.http

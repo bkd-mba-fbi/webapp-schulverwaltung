@@ -5,7 +5,7 @@ import { PathReporter } from "io-ts/es6/PathReporter";
 import { Observable, of, throwError } from "rxjs";
 
 export class DecodeError extends Error {
-  name = "DecodeError";
+  override name = "DecodeError";
 }
 
 /**

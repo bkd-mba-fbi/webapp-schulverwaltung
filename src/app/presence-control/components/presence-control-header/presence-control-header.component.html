@@ -17,7 +17,7 @@
   <div
     *ngIf="selectedLesson"
     class="lesson-time"
-    (click)="lessonDropdown.toggle()"
+    (click)="lessonDropdown?.toggle()"
   >
     {{ selectedLesson.LessonDateTimeFrom | date: "HH:mm" }}–<span
       class="lesson-time-to"

@@ -113,22 +113,22 @@ export class EditAbsencesListComponent
 
 function createFilterFromParams(params: Params): EditAbsencesFilter {
   return {
-    student: params.student ? Number(params.student) : null,
-    educationalEvent: params.educationalEvent
-      ? Number(params.educationalEvent)
+    student: params["student"] ? Number(params["student"]) : null,
+    educationalEvent: params["educationalEvent"]
+      ? Number(params["educationalEvent"])
       : null,
-    studyClass: params.studyClass ? Number(params.studyClass) : null,
-    teacher: params.teacher ?? null,
-    dateFrom: params.dateFrom ? parseISOLocalDate(params.dateFrom) : null,
-    dateTo: params.dateTo ? parseISOLocalDate(params.dateTo) : null,
-    presenceTypes: params.presenceTypes
-      ? params.presenceTypes.split(",").map(Number)
+    studyClass: params["studyClass"] ? Number(params["studyClass"]) : null,
+    teacher: params["teacher"] ?? null,
+    dateFrom: params["dateFrom"] ? parseISOLocalDate(params["dateFrom"]) : null,
+    dateTo: params["dateTo"] ? parseISOLocalDate(params["dateTo"]) : null,
+    presenceTypes: params["presenceTypes"]
+      ? params["presenceTypes"].split(",").map(Number)
       : null,
-    confirmationStates: params.confirmationStates
-      ? params.confirmationStates.split(",").map(Number)
+    confirmationStates: params["confirmationStates"]
+      ? params["confirmationStates"].split(",").map(Number)
       : null,
-    incidentTypes: params.incidentTypes
-      ? params.incidentTypes.split(",").map(Number)
+    incidentTypes: params["incidentTypes"]
+      ? params["incidentTypes"].split(",").map(Number)
       : null,
   };
 }

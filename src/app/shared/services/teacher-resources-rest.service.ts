@@ -25,7 +25,9 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
     );
   }
 
-  getTypeaheadItemByKey(key: DropDownItem["Key"]): Observable<DropDownItem> {
+  override getTypeaheadItemByKey(
+    key: DropDownItem["Key"],
+  ): Observable<DropDownItem> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
@@ -37,8 +39,8 @@ export class TeacherResourcesRestService extends TypeaheadRestService<
         switchMap(decodeArray(this.typeaheadCodec)),
         switchMap((items) => {
           return of({
-            Key: items[0].FullName,
-            Value: `${items[0].FullName}`,
+            Key: items[0]["FullName"],
+            Value: `${items[0]["FullName"]}`,
           });
         }),
       );

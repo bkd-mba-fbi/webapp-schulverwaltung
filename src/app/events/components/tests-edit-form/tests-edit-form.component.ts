@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  NO_ERRORS_SCHEMA,
   OnDestroy,
   OnInit,
   Output,
@@ -38,10 +39,7 @@ import { TestStateService } from "../../services/test-state.service";
   selector: "erz-tests-edit-form",
   templateUrl: "./tests-edit-form.component.html",
   styleUrls: ["./tests-edit-form.component.scss"],
-  providers: [
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
-  ],
+  schemas: [NO_ERRORS_SCHEMA], // otherwise html math tags are not allowed using template strict mode
   standalone: true,
   imports: [
     LetDirective,
@@ -53,6 +51,10 @@ import { TestStateService } from "../../services/test-state.service";
     RouterLink,
     AsyncPipe,
     TranslateModule,
+  ],
+  providers: [
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
 })
 export class TestsEditFormComponent implements OnInit, OnDestroy {
