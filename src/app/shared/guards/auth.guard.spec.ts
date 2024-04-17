@@ -7,8 +7,8 @@ import {
   RouterStateSnapshot,
 } from "@angular/router";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { AuthService } from "../services/auth.service";
 import { authGuard } from "./auth.guard";
-import { AuthService } from "./shared/services/auth.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
