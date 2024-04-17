@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpContext, HttpParams } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
@@ -34,14 +34,12 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
 
   getCurrentApprenticeshipContracts(
     studentId: number,
-    params?: HttpParams | Dict<string>,
+    options?: { context?: HttpContext },
   ): Observable<ReadonlyArray<ApprenticeshipContract>> {
     return this.http
       .get<unknown>(
         `${this.baseUrl}/${studentId}/ApprenticeshipContracts/Current`,
-        {
-          params,
-        },
+        options,
       )
       .pipe(switchMap(decodeArray(ApprenticeshipContract)));
   }

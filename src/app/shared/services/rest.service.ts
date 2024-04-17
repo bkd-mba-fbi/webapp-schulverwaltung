@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpContext,
+  HttpHeaders,
+  HttpParams,
+} from "@angular/common/http";
 import * as t from "io-ts/lib/index";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
@@ -29,7 +34,7 @@ export abstract class RestService<T extends t.InterfaceType<any>> {
     id: number,
     options?: {
       headers?: HttpHeaders | Dict<string>;
-      params?: HttpParams | Dict<string>;
+      context?: HttpContext;
     },
   ): Observable<t.TypeOf<T>> {
     return this.http

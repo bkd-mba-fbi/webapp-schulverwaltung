@@ -1,9 +1,9 @@
 import {
+  HttpContext,
   HttpErrorResponse,
   HttpEvent,
   HttpHandlerFn,
   HttpInterceptorFn,
-  HttpParams,
   HttpRequest,
   HttpResponse,
 } from "@angular/common/http";
@@ -12,7 +12,10 @@ import { Router } from "@angular/router";
 import { of, throwError } from "rxjs";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { restErrorInterceptor, withConfig } from "./rest-error.interceptor";
+import {
+  RestErrorInterceptorOptions,
+  restErrorInterceptor,
+} from "./rest-error.interceptor";
 
 describe("restErrorInterceptor", () => {
   let interceptor: HttpInterceptorFn;
@@ -45,10 +48,10 @@ describe("restErrorInterceptor", () => {
 
   function intercept(
     response: HttpEvent<unknown> | HttpErrorResponse,
-    params?: HttpParams,
+    context?: HttpContext,
   ) {
     return TestBed.runInInjectionContext(() => {
-      const req = new HttpRequest("GET", "/", { params });
+      const req = new HttpRequest("GET", "/", { context });
       const next: HttpHandlerFn = (_req) =>
         response instanceof HttpErrorResponse
           ? throwError(() => response)
@@ -229,13 +232,15 @@ describe("restErrorInterceptor", () => {
   });
 
   it('allows to disable error handling for "all" codes', () => {
-    const params = withConfig({ disableErrorHandling: true });
+    const context = new HttpContext().set(RestErrorInterceptorOptions, {
+      disableErrorHandling: true,
+    });
     intercept(
       new HttpErrorResponse({
         status: 502,
         statusText: "Bad Gateway",
       }),
-      params,
+      context,
     ).subscribe({ next: successCallback, error: errorCallback });
 
     expect(successCallback).not.toHaveBeenCalled();
@@ -245,10 +250,12 @@ describe("restErrorInterceptor", () => {
   });
 
   it("allows to disable error handling for certain status codes", () => {
-    const params = withConfig({ disableErrorHandlingForStatus: [403, 404] });
+    const context = new HttpContext().set(RestErrorInterceptorOptions, {
+      disableErrorHandlingForStatus: [403, 404],
+    });
     intercept(
       new HttpErrorResponse({ status: 403, statusText: "Forbidden" }),
-      params,
+      context,
     ).subscribe({ next: successCallback, error: errorCallback });
 
     expect(successCallback).not.toHaveBeenCalled();
@@ -258,13 +265,15 @@ describe("restErrorInterceptor", () => {
   });
 
   it("handles non-skipped errors codes", () => {
-    const params = withConfig({ disableErrorHandlingForStatus: [403, 404] });
+    const context = new HttpContext().set(RestErrorInterceptorOptions, {
+      disableErrorHandlingForStatus: [403, 404],
+    });
     intercept(
       new HttpErrorResponse({
         status: 500,
         statusText: "Internal server error",
       }),
-      params,
+      context,
     ).subscribe({ next: successCallback, error: errorCallback });
 
     expect(successCallback).not.toHaveBeenCalled();

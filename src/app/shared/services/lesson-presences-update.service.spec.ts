@@ -1,3 +1,4 @@
+import { HttpContext } from "@angular/common/http";
 import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { of, throwError } from "rxjs";
 import {
@@ -8,7 +9,7 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
-import { withConfig } from "../interceptors/rest-error.interceptor";
+import { RestErrorInterceptorOptions } from "../interceptors/rest-error.interceptor";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
 import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
@@ -179,7 +180,11 @@ describe("LessonPresencesUpdateService", () => {
         ],
         late.Id,
         undefined,
-        withConfig({ disableErrorHandling: true }),
+        {
+          context: new HttpContext().set(RestErrorInterceptorOptions, {
+            disableErrorHandling: true,
+          }),
+        },
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
@@ -237,7 +242,11 @@ describe("LessonPresencesUpdateService", () => {
         [deutschEinsteinAbwesend.StudentRef.Id, deutschFrisch.StudentRef.Id],
         late.Id,
         undefined,
-        withConfig({ disableErrorHandling: true }),
+        {
+          context: new HttpContext().set(RestErrorInterceptorOptions, {
+            disableErrorHandling: true,
+          }),
+        },
       );
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
       expect(stateUpdatesCallback).toHaveBeenCalledWith([
@@ -281,7 +290,11 @@ describe("LessonPresencesUpdateService", () => {
       expect(restServiceMock.removeLessonPresences).toHaveBeenCalledWith(
         [deutschEinsteinAbwesend.LessonRef.Id],
         [deutschEinsteinAbwesend.StudentRef.Id],
-        withConfig({ disableErrorHandling: true }),
+        {
+          context: new HttpContext().set(RestErrorInterceptorOptions, {
+            disableErrorHandling: true,
+          }),
+        },
       );
       expect(stateUpdatesCallback).not.toHaveBeenCalled();
 

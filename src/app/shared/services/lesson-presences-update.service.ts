@@ -1,3 +1,4 @@
+import { HttpContext } from "@angular/common/http";
 import { Inject, Injectable, OnDestroy } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, combineLatest, merge, of } from "rxjs";
@@ -15,7 +16,7 @@ import {
 import { getNewConfirmationStateId } from "src/app/presence-control/utils/presence-types";
 import { SETTINGS, Settings } from "src/app/settings";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
-import { withConfig } from "../interceptors/rest-error.interceptor";
+import { RestErrorInterceptorOptions } from "../interceptors/rest-error.interceptor";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
 import { isEmptyArray } from "../utils/array";
@@ -169,16 +170,20 @@ export class LessonPresencesUpdateService implements OnDestroy {
             personIds,
             type?.Id,
             getNewConfirmationStateId(type, this.settings) || undefined,
-            withConfig({ disableErrorHandling: true }),
+            {
+              context: new HttpContext().set(RestErrorInterceptorOptions, {
+                disableErrorHandling: true,
+              }),
+            },
           ),
         ),
       );
     }
-    return this.restService.removeLessonPresences(
-      [lessonId],
-      personIds,
-      withConfig({ disableErrorHandling: true }),
-    );
+    return this.restService.removeLessonPresences([lessonId], personIds, {
+      context: new HttpContext().set(RestErrorInterceptorOptions, {
+        disableErrorHandling: true,
+      }),
+    });
   }
 
   private revertUpdatesAfterError(
