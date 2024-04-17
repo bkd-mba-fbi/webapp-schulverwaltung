@@ -55,6 +55,7 @@ export class MyProfileEditComponent {
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
 
+  formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
   email2Errors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,

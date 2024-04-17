@@ -3,7 +3,7 @@
   [allowEmpty]="true"
   [value]="valueId"
   [disabled]="disabled"
-  (valueChange)="onGradeChange($event)"
+  (valueChange)="$event && onGradeChange($event)"
   data-testid="grade-select"
 >
 </erz-select>

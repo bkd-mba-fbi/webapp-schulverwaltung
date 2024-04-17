@@ -34,7 +34,7 @@
       [value]="grade.kind === 'grade' ? grade.result.GradeId : null"
       [disabled]="gradingScaleDisabled$ | async"
       [tabindex]="tabIndex"
-      (valueChange)="onGradeChange($event)"
+      (valueChange)="$event && onGradeChange($event)"
       class="grade-select"
       data-testid="grade-select"
     >

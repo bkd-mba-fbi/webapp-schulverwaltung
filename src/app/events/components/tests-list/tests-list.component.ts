@@ -73,7 +73,7 @@ export class TestsListComponent {
     return this.state.course$.pipe(
       take(1),
       map((course) =>
-        this.settings.eventlist.evaluation.replace(":id", String(course.Id)),
+        this.settings.eventlist["evaluation"].replace(":id", String(course.Id)),
       ),
     );
   }

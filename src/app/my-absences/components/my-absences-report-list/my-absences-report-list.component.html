@@ -26,7 +26,7 @@
                 type="checkbox"
                 class="form-check-input"
                 [checked]="allSelected$ | async"
-                (change)="toggleAll($event.target.checked)"
+                (change)="toggleAll($any($event.target)?.checked)"
               />
             </div>
             <div class="all">
@@ -37,7 +37,7 @@
               <a
                 class="edit btn btn-primary btn-icon me-2"
                 [class.disabled]="
-                  (selectionService.selection$ | async).length === 0
+                  (selectionService.selection$ | async)?.length === 0
                 "
                 routerLink="confirm"
               >

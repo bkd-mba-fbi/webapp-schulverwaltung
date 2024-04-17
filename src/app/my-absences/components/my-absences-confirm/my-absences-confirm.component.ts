@@ -69,7 +69,7 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
     );
   }
 
-  protected onSaveSuccess(): void {
+  protected override onSaveSuccess(): void {
     this.selectionService.clear();
     this.myAbsencesService.reset();
     super.onSaveSuccess();

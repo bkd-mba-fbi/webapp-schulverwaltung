@@ -42,11 +42,11 @@ export class SelectComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value) {
-      this.rawValue$.next(changes.value.currentValue);
+    if (changes["value"]) {
+      this.rawValue$.next(changes["value"].currentValue);
     }
-    if (changes.options) {
-      this.options$.next(changes.options.currentValue);
+    if (changes["options"]) {
+      this.options$.next(changes["options"].currentValue);
     }
   }
 }

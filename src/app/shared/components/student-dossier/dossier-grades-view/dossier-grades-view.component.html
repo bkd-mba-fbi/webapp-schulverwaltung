@@ -1,4 +1,4 @@
-<ng-container *ngIf="courses?.length > 0; else noCourses">
+<ng-container *ngIf="(courses?.length ?? 0) > 0; else noCourses">
   <div
     *ngFor="
       let decoratedCourse of decoratedCoursesSubject$ | async;

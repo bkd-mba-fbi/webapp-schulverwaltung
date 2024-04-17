@@ -1,6 +1,6 @@
 <ngb-toast
   *ngFor="let toast of toastService.toasts$ | async"
-  [header]="toast.header"
+  [header]="toast.header || ''"
   [class]="toast.classname"
   [autohide]="true"
   (hidden)="toastService.remove(toast)"

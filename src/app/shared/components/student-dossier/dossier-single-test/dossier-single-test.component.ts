@@ -84,7 +84,7 @@ export class DossierSingleTestComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.test) {
+    if (changes["test"]) {
       this.test$.next(this.test);
     }
   }

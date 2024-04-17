@@ -34,7 +34,7 @@ export class DossierCourseTestsComponent implements OnChanges {
   sortedTests$ = new BehaviorSubject<Test[]>([]);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.decoratedCourse) {
+    if (changes["decoratedCourse"]) {
       this.sortedTests$.next(this.sortedTests());
     }
   }

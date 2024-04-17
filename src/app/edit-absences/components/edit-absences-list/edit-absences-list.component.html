@@ -58,7 +58,7 @@
                 <input
                   type="checkbox"
                   [checked]="data.selection.length === data.entries.length"
-                  (change)="toggleAll($event.currentTarget.checked)"
+                  (change)="toggleAll($any($event.currentTarget)?.checked)"
                 />
               </th>
               <th class="presence-category">

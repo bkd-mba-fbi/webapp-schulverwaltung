@@ -11,7 +11,7 @@
     [attr.placeholder]="placeholder"
     [attr.aria-label]="label"
     aria-describedby="resettable-input"
-    (keyup)="valueChange.emit($event.target.value)"
+    (keyup)="valueChange.emit($any($event.target)?.value)"
   />
   <button
     *ngIf="value"

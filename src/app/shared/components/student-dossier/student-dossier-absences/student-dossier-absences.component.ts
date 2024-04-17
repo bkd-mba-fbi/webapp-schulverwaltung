@@ -58,7 +58,7 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
   ],
 })
 export class StudentDossierAbsencesComponent implements OnChanges {
-  @Input() absences$?: Observable<ReadonlyArray<LessonPresence>>;
+  @Input() absences$?: Observable<Option<ReadonlyArray<LessonPresence>>>;
   @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
 
   /**
@@ -80,7 +80,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   @Input() confirmLink = "confirm";
 
   /**
-   * Whether to show a button opening the the user's email client
+   * Whether to show a button opening the user's email client
    * The receiver address, subject and body is set in the mailto string
    */
   @Input() displayEmail = false;
@@ -119,15 +119,20 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   constructor(private presenceTypesService: PresenceTypesService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.absences$) {
-      this.lessonPresences$$.next(changes.absences$.currentValue);
+    if (changes["absences$"]) {
+      this.lessonPresences$$.next(changes["absences$"].currentValue);
     }
-    if (changes.selectionService && changes.selectionService.currentValue) {
-      changes.selectionService.currentValue.clear();
-      this.selectionService$.next(changes.selectionService.currentValue);
+    if (
+      changes["selectionService"] &&
+      changes["selectionService"].currentValue
+    ) {
+      changes["selectionService"].currentValue.clear();
+      this.selectionService$.next(changes["selectionService"].currentValue);
     }
-    if (changes.displayPresenceType) {
-      this.displayPresenceType$.next(changes.displayPresenceType.currentValue);
+    if (changes["displayPresenceType"]) {
+      this.displayPresenceType$.next(
+        changes["displayPresenceType"].currentValue,
+      );
     }
   }
 

@@ -12,9 +12,14 @@ import { TranslateModule } from "@ngx-translate/core";
 })
 export class DashboardActionComponent {
   @Input() label: string;
-  @Input() count?: number;
+  @Input() count?: number | boolean;
   @Input() link?: string[];
   @Input() linkParams?: Params;
   @Input() externalLink?: string;
+
   constructor() {}
+
+  hasCount(count?: number | boolean): boolean {
+    return typeof count === "number" && count >= 0;
+  }
 }

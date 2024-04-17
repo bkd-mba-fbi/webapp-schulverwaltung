@@ -52,6 +52,7 @@ export class ToastService {
       if (!this.exists(toasts, toast)) {
         return [...toasts, toast];
       }
+      return undefined;
     });
   }
 

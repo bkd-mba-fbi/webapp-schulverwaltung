@@ -52,7 +52,7 @@
     </div>
 
     <div class="mb-3">
-      <label class="form-label" id="my-profile-email2">
+      <label class="form-label" for="my-profile-email2">
         {{ "my-profile.edit.fields.email2" | translate }}
       </label>
       <input
@@ -60,7 +60,7 @@
         formControlName="email2"
         type="email"
         class="form-control"
-        [class.is-invalid]="(email2Errors$ | async).length > 0"
+        [class.is-invalid]="((email2Errors$ | async)?.length ?? 0) > 0"
         aria-describedby="my-profile-email2-hint"
       />
       <div class="invalid-feedback" *ngFor="let error of email2Errors$ | async">

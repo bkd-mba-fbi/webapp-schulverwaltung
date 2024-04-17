@@ -59,11 +59,11 @@ export class TypeaheadComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      changes.value &&
-      changes.value.currentValue &&
-      changes.value.currentValue !== this.selectedItemKey
+      changes["value"] &&
+      changes["value"].currentValue &&
+      changes["value"].currentValue !== this.selectedItemKey
     ) {
-      this.fetchItem(changes.value.currentValue).subscribe((item) => {
+      this.fetchItem(changes["value"].currentValue).subscribe((item) => {
         this.modelChange(item);
       });
     }

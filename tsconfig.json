@@ -6,16 +6,29 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2022",
+    "module": "ES2022",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
     "strictPropertyInitialization": false,
     "importHelpers": true,
     "target": "ES2022",
     "typeRoots": ["node_modules/@types", "src/typings.d.ts"],
-    "lib": ["es2022", "dom"],
+    "lib": ["ES2022", "dom"],
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictNullInputTypes": false,
+    "strictTemplates": true
   }
 }

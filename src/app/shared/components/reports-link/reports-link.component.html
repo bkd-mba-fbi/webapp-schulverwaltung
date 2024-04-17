@@ -1,7 +1,7 @@
 <a
   *ngIf="reports.length === 1 || (reports.length === 0 && disableIfUnavailable)"
   class="btn btn-primary btn-icon"
-  [href]="reports[0]?.url"
+  [href]="reports.length > 0 && reports[0].url"
   target="_blank"
   [class.disabled]="disableIfUnavailable && reports.length === 0"
 >

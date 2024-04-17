@@ -11,7 +11,7 @@
   >
     <ng-container
       *ngIf="
-        (openAbsencesService.sortedEntries$ | async)?.length > 0 ||
+        ((openAbsencesService.sortedEntries$ | async)?.length ?? 0) > 0 ||
           data.entries?.length > 0;
         else noEntries
       "
@@ -47,11 +47,11 @@
               type="checkbox"
               class="form-check-input"
               [checked]="data.selection.length === data.entries.length"
-              (change)="onToggleAll($event.currentTarget.checked)"
+              (change)="onToggleAll($any($event.currentTarget)?.checked)"
             />
           </div>
           <div
-            *ngFor="let key of ['name', 'date']"
+            *ngFor="let key of primarySortKeys"
             (click)="openAbsencesService.toggleSort(key)"
             [className]="key"
           >

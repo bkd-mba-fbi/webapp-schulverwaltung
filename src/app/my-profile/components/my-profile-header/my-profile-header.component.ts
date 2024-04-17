@@ -37,8 +37,8 @@ export class MyProfileHeaderComponent implements OnChanges {
   constructor(private reportsService: ReportsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.student) {
-      this.studentId$.next(changes.student.currentValue?.Id || null);
+    if (changes["student"]) {
+      this.studentId$.next(changes["student"].currentValue?.Id || null);
     }
   }
 }

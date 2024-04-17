@@ -1,5 +1,7 @@
 <ng-container *ngIf="(loading$ | async) === false; else loading">
-  <ng-container *ngIf="(lessonPresences$ | async)?.length > 0; else noAbsences">
+  <ng-container
+    *ngIf="((lessonPresences$ | async)?.length ?? 0) > 0; else noAbsences"
+  >
     <div
       *ngIf="editable$ | async"
       class="absence-all"
@@ -11,7 +13,7 @@
           type="checkbox"
           class="form-check-input"
           [checked]="allSelected$ | async"
-          (change)="toggleAll($event.target.checked)"
+          (change)="toggleAll($any($event.target)?.checked)"
         />
       </div>
       <div class="all">{{ "open-absences.detail.all" | translate }}</div>
@@ -19,7 +21,9 @@
       <div class="buttons">
         <a
           class="edit btn btn-primary btn-icon me-2"
-          [class.disabled]="(selectionService.selection$ | async).length === 0"
+          [class.disabled]="
+            (selectionService?.selection$ | async)?.length === 0
+          "
           routerLink="{{ confirmLink }}"
         >
           <i class="material-icons">edit</i>
@@ -42,8 +46,9 @@
 
       <div
         *ngIf="
-          defaultAbsenceSelectionMessage &&
-          (selectionService.selectedWithoutPresenceType$ | async)?.length > 0
+          (defaultAbsenceSelectionMessage &&
+            (selectionService?.selectedWithoutPresenceType$ | async)?.length) ||
+          0 > 0
         "
         class="validation"
       >
@@ -61,8 +66,8 @@
           #checkbox
           type="checkbox"
           class="form-check-input"
-          [checked]="selectionService.isSelected$(absence) | async"
-          (change)="selectionService.toggle(absence)"
+          [checked]="selectionService?.isSelected$(absence) | async"
+          (change)="selectionService?.toggle(absence)"
         />
       </div>
       <div class="lesson-class">

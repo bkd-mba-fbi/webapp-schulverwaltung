@@ -188,7 +188,7 @@ export class MyAbsencesReportListComponent
 
 function createFilterFromParams(params: Params): ReportAbsencesFilter {
   return {
-    dateFrom: params.dateFrom ? parseISOLocalDate(params.dateFrom) : null,
-    dateTo: params.dateTo ? parseISOLocalDate(params.dateTo) : null,
+    dateFrom: params["dateFrom"] ? parseISOLocalDate(params["dateFrom"]) : null,
+    dateTo: params["dateTo"] ? parseISOLocalDate(params["dateTo"]) : null,
   };
 }

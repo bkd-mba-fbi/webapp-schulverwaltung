@@ -37,7 +37,7 @@
         [value]="gradeId"
         [allowEmpty]="false"
         [disabled]="gradingScaleDisabled$ | async"
-        (valueChange)="onGradeChange($event)"
+        (valueChange)="$event && onGradeChange($event)"
       >
       </erz-select>
     </div>
