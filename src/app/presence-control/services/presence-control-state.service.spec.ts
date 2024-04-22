@@ -279,6 +279,20 @@ describe("PresenceControlStateService", () => {
     });
   });
 
+  describe(".updateAfterConfirm", () => {
+    it("reloads the lesson presences after confirming absences", () => {
+      service.setLessonId();
+      expectLessonsRequest();
+      expectLessonPresencesRequest();
+      expectPresenceTypesRequest();
+      expectAbsenceConfirmationStatesRequest();
+      expectLoadOtherTeachersAbsencesRequest([], person.Id, [123, 66]);
+
+      service.updateAfterConfirm();
+      expectLessonPresencesRequest();
+    });
+  });
+
   function resetCallbackSpies(): void {
     selectedLessonCb.calls.reset();
     presenceControlEntriesCb.calls.reset();

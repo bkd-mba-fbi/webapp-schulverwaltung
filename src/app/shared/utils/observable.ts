@@ -19,6 +19,7 @@ import {
   startWith,
   switchMap,
   tap,
+  withLatestFrom,
 } from "rxjs/operators";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -110,5 +111,22 @@ export function intervalOnInactivity(
     startWith(null),
     switchMap(() => interval(period)),
     map(() => undefined),
+  );
+}
+
+/**
+ * Returns an observable that emits whenever `source$` emits and when `reload$`
+ * emits, it emits the last value of `source$`.
+ */
+export function withReload<T>(
+  source$: Observable<T>,
+  reload$: Observable<unknown>,
+): Observable<T> {
+  return merge(
+    source$,
+    reload$.pipe(
+      withLatestFrom(source$),
+      map(([_, v]) => v),
+    ),
   );
 }
