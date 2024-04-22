@@ -1,7 +1,7 @@
 # webapp-schulverwaltung
 
-[![lint test ✨](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/lintAndTest.yml/badge.svg?branch=main)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/lintAndTest.yml)
-[![build 🏭 deploy 🚀](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/buildDeploy.yml/badge.svg)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/buildDeploy.yml)
+[![lint/test ✨](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/lintAndTest.yml/badge.svg?branch=main)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/lintAndTest.yml)
+[![build/zip 🚀](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/build.yml/badge.svg)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/build.yml)
 [![SBOM](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/bom.yml/badge.svg?branch=main)](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/actions/workflows/bom.yml)
 
 JavaScript web module to implement processes for school administration using the SLH.Evento backend (REST API).
