@@ -4,6 +4,7 @@ import {
   defaultValue,
   intervalOnInactivity,
   reemitOnTrigger,
+  withReload,
 } from "./observable";
 
 describe("observable utilities", () => {
@@ -101,5 +102,42 @@ describe("observable utilities", () => {
       tick(10000);
       expect(callback).toHaveBeenCalledTimes(2);
     }));
+  });
+
+  describe("withReload", () => {
+    it("emits values from `source$` and latest `source$` value when `reload$` emits", () => {
+      const source$ = new Subject<number>();
+      const reload$ = new Subject<void>();
+
+      const result$ = withReload(source$, reload$);
+
+      const callback = jasmine.createSpy("callback");
+      result$.subscribe(callback);
+      expect(callback).not.toHaveBeenCalled();
+
+      source$.next(1);
+      expect(callback).toHaveBeenCalledWith(1);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      callback.calls.reset();
+      source$.next(2);
+      expect(callback).toHaveBeenCalledWith(2);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      callback.calls.reset();
+      reload$.next();
+      expect(callback).toHaveBeenCalledWith(2);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      callback.calls.reset();
+      source$.next(3);
+      expect(callback).toHaveBeenCalledWith(3);
+      expect(callback).toHaveBeenCalledTimes(1);
+
+      callback.calls.reset();
+      reload$.next();
+      expect(callback).toHaveBeenCalledWith(3);
+      expect(callback).toHaveBeenCalledTimes(1);
+    });
   });
 });

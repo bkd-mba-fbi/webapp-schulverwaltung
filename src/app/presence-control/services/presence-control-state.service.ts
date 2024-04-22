@@ -29,6 +29,7 @@ import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-
 import {
   intervalOnInactivity,
   reemitOnTrigger,
+  withReload,
 } from "src/app/shared/utils/observable";
 import { serializeParams } from "src/app/shared/utils/url";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
@@ -104,8 +105,9 @@ export class PresenceControlStateService
   );
 
   private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
+  private reloadLessonPresences$ = new Subject<void>();
   private lessonPresences$ = merge(
-    this.selectedLesson$.pipe(
+    withReload(this.selectedLesson$, this.reloadLessonPresences$).pipe(
       switchMap((lesson) =>
         lesson ? this.loadLessonPresencesByLesson(lesson) : of([]),
       ),
@@ -273,6 +275,12 @@ export class PresenceControlStateService
     return this.studentIdsWithUnconfirmedAbsences$.pipe(
       map((ids) => ids.includes(entry.lessonPresence.StudentRef.Id)),
     );
+  }
+
+  updateAfterConfirm(): void {
+    // Reload the lesson presences if absences have been confirmed in the
+    // dossier view and the user is returing to the presence control list
+    this.reloadLessonPresences$.next();
   }
 
   private loadLessonPresencesByLesson(

@@ -81,6 +81,13 @@ export class EditAbsencesStateService
     this.selected = [];
   }
 
+  updateAfterConfirm(): void {
+    // Reload the entries if absences have been confirmed in the dossier view of
+    // a student and the user is returning to the list. To keep things easy, we
+    // accept that we loose any loaded pages and just reload the first page.
+    this.resetEntries();
+  }
+
   protected getInitialFilter(): EditAbsencesFilter {
     return {
       student: null,
