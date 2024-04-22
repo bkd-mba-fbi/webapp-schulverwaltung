@@ -39,7 +39,7 @@ import { ReportsLinkComponent } from "../../reports-link/reports-link.component"
 import { SpinnerComponent } from "../../spinner/spinner.component";
 
 @Component({
-  selector: "erz-student-dossier-absences",
+  selector: "bkd-student-dossier-absences",
   templateUrl: "./student-dossier-absences.component.html",
   styleUrls: ["./student-dossier-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

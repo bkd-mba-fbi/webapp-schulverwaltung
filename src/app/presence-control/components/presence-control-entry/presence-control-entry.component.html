@@ -1,4 +1,4 @@
-<erz-avatar
+<bkd-avatar
   *ngIf="!isListViewMode"
   [studentId]="studentId$ | async"
   [link]="[
@@ -8,7 +8,7 @@
   ]"
   [linkParams]="profileReturnParams"
   class="avatar large"
-></erz-avatar>
+></bkd-avatar>
 <button
   type="button"
   *ngIf="entry.showDesignation"
@@ -20,7 +20,7 @@
   }}</span>
 </button>
 <button
-  *erzLet="loading$ | async as statusLoading"
+  *bkdLet="loading$ | async as statusLoading"
   type="button"
   (click)="updatePresenceType(entry)"
   class="presence-category status btn btn-link"
@@ -30,7 +30,7 @@
     <i class="material-icons" [class.invisible]="statusLoading">{{
       entry.presenceCategoryIcon
     }}</i>
-    <erz-spinner *ngIf="statusLoading" class="inline small"></erz-spinner>
+    <bkd-spinner *ngIf="statusLoading" class="inline small"></bkd-spinner>
   </div>
 </button>
 <button

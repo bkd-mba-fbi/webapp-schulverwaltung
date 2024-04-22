@@ -4,7 +4,7 @@ import { NgbToast } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "../../services/toast.service";
 
 @Component({
-  selector: "erz-toast",
+  selector: "bkd-toast",
   templateUrl: "./toast.component.html",
   styleUrls: ["./toast.component.scss"],
   standalone: true,

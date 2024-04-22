@@ -6,7 +6,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
 
 @Component({
-  selector: "erz-multiselect",
+  selector: "bkd-multiselect",
   templateUrl: "./multiselect.component.html",
   styleUrls: ["./multiselect.component.scss"],
   standalone: true,

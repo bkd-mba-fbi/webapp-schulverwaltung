@@ -1,6 +1,6 @@
 <div
-  class="erz-container erz-container-limited"
-  *erzLet="{
+  class="bkd-container bkd-container-limited"
+  *bkdLet="{
     formGroup: formGroup$ | async,
     unexcusedState: unexcusedState$ | async,
     excusedState: excusedState$ | async
@@ -9,7 +9,7 @@
   <h1>{{ "open-absences.edit.title" | translate }}</h1>
   <div
     class="mb-3 pb-3 border-bottom"
-    *erzLet="getSelectedCount() | async as selectedCount"
+    *bkdLet="getSelectedCount() | async as selectedCount"
   >
     {{
       (selectedCount === 1

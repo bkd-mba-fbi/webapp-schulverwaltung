@@ -18,7 +18,7 @@ import { DateSelectComponent } from "../../../shared/components/date-select/date
 import { ReportAbsencesFilter } from "../../services/my-absences-report-state.service";
 
 @Component({
-  selector: "erz-my-absences-report-header",
+  selector: "bkd-my-absences-report-header",
   templateUrl: "./my-absences-report-header.component.html",
   styleUrls: ["./my-absences-report-header.component.scss"],
   providers: [

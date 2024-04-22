@@ -17,8 +17,8 @@ import { DossierGradesService } from "../../../services/dossier-grades.service";
 import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grades-edit.component";
 
 @Component({
-  selector: "erz-dossier-single-test",
-  template: ` <div class="test-entry" *erzLet="test$ | async as test">
+  selector: "bkd-dossier-single-test",
+  template: ` <div class="test-entry" *bkdLet="test$ | async as test">
     <div class="designation" data-testid="test-designation">
       {{ test.Designation }}
     </div>
@@ -40,11 +40,11 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
       </ng-template>
     </div>
     <div class="factor" data-testid="test-factor">
-      {{ test | erzTestWeight }}
+      {{ test | bkdTestWeight }}
     </div>
     <div class="points" data-testid="test-points">
       <span>{{
-        test | erzTestPoints: studentId : isEditable : "dossier.points"
+        test | bkdTestPoints: studentId : isEditable : "dossier.points"
       }}</span>
     </div>
     <div class="teacher" data-testid="test-teacher">

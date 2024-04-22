@@ -31,7 +31,7 @@ import { PresenceControlHeaderComponent } from "../presence-control-header/prese
 import { PresenceControlIncidentComponent } from "../presence-control-incident/presence-control-incident.component";
 
 @Component({
-  selector: "erz-presence-control-list",
+  selector: "bkd-presence-control-list",
   templateUrl: "./presence-control-list.component.html",
   styleUrls: ["./presence-control-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

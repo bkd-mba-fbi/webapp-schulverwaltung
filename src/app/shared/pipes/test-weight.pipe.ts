@@ -3,7 +3,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 
 @Pipe({
-  name: "erzTestWeight",
+  name: "bkdTestWeight",
   standalone: true,
 })
 export class TestsWeightPipe implements PipeTransform {

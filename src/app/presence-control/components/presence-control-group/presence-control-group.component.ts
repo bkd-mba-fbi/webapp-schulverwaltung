@@ -34,7 +34,7 @@ export interface SortCriteria {
   ascending: boolean;
 }
 @Component({
-  selector: "erz-presence-control-group",
+  selector: "bkd-presence-control-group",
   templateUrl: "./presence-control-group.component.html",
   styleUrls: ["./presence-control-group.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

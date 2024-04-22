@@ -27,7 +27,7 @@ import { MyAbsencesService } from "../../services/my-absences.service";
 import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-absences-report-link.component";
 
 @Component({
-  selector: "erz-my-absences-show",
+  selector: "bkd-my-absences-show",
   templateUrl: "./my-absences-show.component.html",
   styleUrls: ["./my-absences-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,12 +1,12 @@
 <ng-container
-  *erzLet="{
+  *bkdLet="{
     absenceCounts: absencesService.counts$ | async
   } as data"
 >
   <div ngbAccordion>
     <div ngbAccordionItem #checkableAbsences="ngbAccordionItem">
       <div ngbAccordionHeader>
-        <erz-student-dossier-entry-header
+        <bkd-student-dossier-entry-header
           [opened]="!checkableAbsences.collapsed"
           (click)="checkableAbsences.toggle()"
         >
@@ -14,14 +14,14 @@
           <ng-container *ngIf="data.absenceCounts.checkableAbsences !== null"
             >({{ data.absenceCounts.checkableAbsences }})
           </ng-container>
-        </erz-student-dossier-entry-header>
+        </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <ng-template>
-            <erz-student-dossier-absences
+            <bkd-student-dossier-absences
               [absences$]="absencesService.checkableAbsences$"
-            ></erz-student-dossier-absences>
+            ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>
@@ -29,7 +29,7 @@
 
     <div ngbAccordionItem #openAbsences="ngbAccordionItem">
       <div ngbAccordionHeader>
-        <erz-student-dossier-entry-header
+        <bkd-student-dossier-entry-header
           [opened]="!openAbsences.collapsed"
           (click)="openAbsences.toggle()"
         >
@@ -37,15 +37,15 @@
           <ng-container *ngIf="data.absenceCounts.openAbsences !== null"
             >({{ data.absenceCounts.openAbsences }})
           </ng-container>
-        </erz-student-dossier-entry-header>
+        </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <ng-template>
-            <erz-student-dossier-absences
+            <bkd-student-dossier-absences
               [absences$]="absencesService.openAbsences$"
               [selectionService]="absencesSelectionService"
-            ></erz-student-dossier-absences>
+            ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>
@@ -53,7 +53,7 @@
 
     <div ngbAccordionItem #excusedAbsences="ngbAccordionItem">
       <div ngbAccordionHeader>
-        <erz-student-dossier-entry-header
+        <bkd-student-dossier-entry-header
           [opened]="!excusedAbsences.collapsed"
           (click)="excusedAbsences.toggle()"
         >
@@ -61,14 +61,14 @@
           <ng-container *ngIf="data.absenceCounts.excusedAbsences !== null"
             >({{ data.absenceCounts.excusedAbsences }})
           </ng-container>
-        </erz-student-dossier-entry-header>
+        </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <ng-template>
-            <erz-student-dossier-absences
+            <bkd-student-dossier-absences
               [absences$]="absencesService.excusedAbsences$"
-            ></erz-student-dossier-absences>
+            ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>
@@ -76,7 +76,7 @@
 
     <div ngbAccordionItem #unexcusedAbsences="ngbAccordionItem">
       <div ngbAccordionHeader>
-        <erz-student-dossier-entry-header
+        <bkd-student-dossier-entry-header
           [opened]="!unexcusedAbsences.collapsed"
           (click)="unexcusedAbsences.toggle()"
         >
@@ -84,15 +84,15 @@
           <ng-container *ngIf="data.absenceCounts.unexcusedAbsences !== null"
             >({{ data.absenceCounts.unexcusedAbsences }})
           </ng-container>
-        </erz-student-dossier-entry-header>
+        </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <ng-template>
-            <erz-student-dossier-absences
+            <bkd-student-dossier-absences
               [absences$]="absencesService.unexcusedAbsences$"
               [displayPresenceType]="false"
-            ></erz-student-dossier-absences>
+            ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>
@@ -100,7 +100,7 @@
 
     <div ngbAccordionItem #incidents="ngbAccordionItem">
       <div ngbAccordionHeader>
-        <erz-student-dossier-entry-header
+        <bkd-student-dossier-entry-header
           [opened]="!incidents.collapsed"
           (click)="incidents.toggle()"
         >
@@ -108,14 +108,14 @@
           <ng-container *ngIf="data.absenceCounts.incidents !== null"
             >({{ data.absenceCounts.incidents }})
           </ng-container>
-        </erz-student-dossier-entry-header>
+        </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <ng-template>
-            <erz-student-dossier-absences
+            <bkd-student-dossier-absences
               [absences$]="absencesService.incidents$"
-            ></erz-student-dossier-absences>
+            ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>
@@ -128,7 +128,7 @@
       id="half-days"
     >
       <div ngbAccordionHeader>
-        <erz-student-dossier-entry-header
+        <bkd-student-dossier-entry-header
           [opened]="!halfDays.collapsed"
           (click)="halfDays.toggle()"
         >
@@ -136,15 +136,15 @@
           <ng-container *ngIf="data.absenceCounts.halfDays !== null"
             >({{ data.absenceCounts.halfDays }})
           </ng-container>
-        </erz-student-dossier-entry-header>
+        </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <ng-template>
-            <erz-student-dossier-absences
+            <bkd-student-dossier-absences
               [absences$]="absencesService.halfDays$"
               [displayPresenceType]="false"
-            ></erz-student-dossier-absences>
+            ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>

@@ -17,7 +17,7 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
 import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-legal-representative/student-dossier-legal-representative.component";
 
 @Component({
-  selector: "erz-dossier-addresses",
+  selector: "bkd-dossier-addresses",
   templateUrl: "./dossier-addresses.component.html",
   styleUrls: ["./dossier-addresses.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

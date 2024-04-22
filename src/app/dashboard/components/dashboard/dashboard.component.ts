@@ -10,7 +10,7 @@ import { DashboardSearchComponent } from "../dashboard-search/dashboard-search.c
 import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-timetable.component";
 
 @Component({
-  selector: "erz-dashboard",
+  selector: "bkd-dashboard",
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

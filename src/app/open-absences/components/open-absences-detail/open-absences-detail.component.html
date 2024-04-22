@@ -1,12 +1,12 @@
 <div>
-  <erz-backlink [link]="['/open-absences']"></erz-backlink>
+  <bkd-backlink [link]="['/open-absences']"></bkd-backlink>
   <h1>{{ studentFullName$ | async }}</h1>
 </div>
 
-<erz-student-dossier-absences
+<bkd-student-dossier-absences
   [absences$]="absences$"
   [selectionService]="selectionService"
   [confirmLink]="'/open-absences/confirm'"
   [displayEmail]="true"
   [mailTo$]="mailTo$"
-></erz-student-dossier-absences>
+></bkd-student-dossier-absences>

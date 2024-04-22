@@ -31,7 +31,7 @@ const FETCH_DEBOUNCE_TIME = 300;
 const MINIMAL_TERM_LENGTH = 3;
 
 @Component({
-  selector: "erz-typeahead",
+  selector: "bkd-typeahead",
   templateUrl: "./typeahead.component.html",
   styleUrls: ["./typeahead.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,7 +52,7 @@ export class TypeaheadComponent implements OnChanges {
     distinctUntilChanged(),
   );
 
-  componentId = uniqueId("erz-typeahead-");
+  componentId = uniqueId("bkd-typeahead-");
   loading$ = new BehaviorSubject(false);
 
   constructor() {}

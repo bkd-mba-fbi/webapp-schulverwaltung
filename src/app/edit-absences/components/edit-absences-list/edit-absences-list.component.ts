@@ -24,7 +24,7 @@ import {
 import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absences-header.component";
 
 @Component({
-  selector: "erz-edit-absences-list",
+  selector: "bkd-edit-absences-list",
   templateUrl: "./edit-absences-list.component.html",
   styleUrls: ["./edit-absences-list.component.scss"],
   providers: [EditAbsencesSelectionService],

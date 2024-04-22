@@ -5,7 +5,7 @@ import { DropDownItem } from "../../../shared/models/drop-down-item.model";
 import { StudentsRestService } from "../../../shared/services/students-rest.service";
 
 @Component({
-  selector: "erz-dashboard-search",
+  selector: "bkd-dashboard-search",
   templateUrl: "./dashboard-search.component.html",
   styleUrls: ["./dashboard-search.component.scss"],
   standalone: true,

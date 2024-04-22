@@ -1,6 +1,6 @@
 <div
-  class="erz-container erz-container-limited"
-  *erzLet="{
+  class="bkd-container bkd-container-limited"
+  *bkdLet="{
     profile: profileService.profile$ | async
   } as data"
 >
@@ -9,20 +9,20 @@
     *ngIf="(profileService.loading$ | async) === false; else loading"
   >
     <ng-container *ngIf="data.profile; else noProfile">
-      <erz-my-profile-header
+      <bkd-my-profile-header
         [student]="data.profile.student"
-      ></erz-my-profile-header>
+      ></bkd-my-profile-header>
 
       <div class="profile-content" data-testid="profile-content">
         <div class="profile-entries pt-3">
-          <erz-my-profile-entry
+          <bkd-my-profile-entry
             *ngIf="data.profile.student.SocialSecurityNumber"
             label="my-profile.show.social-security-number"
             value="{{ data.profile.student.SocialSecurityNumber }}"
           >
-          </erz-my-profile-entry>
+          </bkd-my-profile-entry>
 
-          <erz-my-profile-entry
+          <bkd-my-profile-entry
             *ngIf="
               data.profile.student.HomeTown || data.profile.student.Nationality
             "
@@ -31,41 +31,41 @@
               data.profile.student.HomeTown || data.profile.student.Nationality
             }}"
           >
-          </erz-my-profile-entry>
+          </bkd-my-profile-entry>
 
-          <erz-my-profile-entry
+          <bkd-my-profile-entry
             *ngIf="data.profile.student.NativeLanguage"
             label="my-profile.show.native-language"
             value="{{ data.profile.student.NativeLanguage }}"
           >
-          </erz-my-profile-entry>
+          </bkd-my-profile-entry>
 
-          <erz-my-profile-entry
+          <bkd-my-profile-entry
             *ngIf="data.profile.stayPermitValue"
             label="my-profile.show.stay-permit"
             value="{{ data.profile.stayPermitValue }}"
           >
-          </erz-my-profile-entry>
+          </bkd-my-profile-entry>
 
-          <erz-my-profile-entry
+          <bkd-my-profile-entry
             *ngIf="data.profile.student.StayPermitExpiry"
             label="my-profile.show.stay-permit-expiry"
             value="{{
               data.profile.student.StayPermitExpiry | date: 'mediumDate'
             }}"
           >
-          </erz-my-profile-entry>
+          </bkd-my-profile-entry>
         </div>
 
         <div ngbAccordion>
           <div ngbAccordionItem #studentAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <erz-student-dossier-entry-header
+              <bkd-student-dossier-entry-header
                 [opened]="!studentAddress.collapsed"
                 (click)="studentAddress.toggle()"
               >
                 {{ "shared.profile.student-address" | translate }}
-              </erz-student-dossier-entry-header>
+              </bkd-student-dossier-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
@@ -78,11 +78,11 @@
                     >
                       <i class="material-icons">edit</i>
                     </a>
-                    <erz-student-dossier-address
+                    <bkd-student-dossier-address
                       class="profile-entry"
                       [student]="data.profile.student"
                       emailProperty="Email2"
-                    ></erz-student-dossier-address>
+                    ></bkd-student-dossier-address>
                   </div>
                 </ng-template>
               </div>
@@ -95,20 +95,20 @@
             *ngIf="data.profile.student.CorrespondenceAddress"
           >
             <div ngbAccordionHeader>
-              <erz-student-dossier-entry-header
+              <bkd-student-dossier-entry-header
                 [opened]="!correspondenceAddress.collapsed"
                 (click)="correspondenceAddress.toggle()"
               >
                 {{ "shared.profile.correspondence-address" | translate }}
-              </erz-student-dossier-entry-header>
+              </bkd-student-dossier-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <erz-my-profile-address
+                  <bkd-my-profile-address
                     class="profile-entry"
                     [address]="data.profile.student.CorrespondenceAddress"
-                  ></erz-my-profile-address>
+                  ></bkd-my-profile-address>
                 </ng-template>
               </div>
             </div>
@@ -120,20 +120,20 @@
             *ngIf="data.profile.student.BillingAddress"
           >
             <div ngbAccordionHeader>
-              <erz-student-dossier-entry-header
+              <bkd-student-dossier-entry-header
                 [opened]="!billingAddress.collapsed"
                 (click)="billingAddress.toggle()"
               >
                 {{ "shared.profile.billing-address" | translate }}
-              </erz-student-dossier-entry-header>
+              </bkd-student-dossier-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <erz-my-profile-address
+                  <bkd-my-profile-address
                     class="profile-entry"
                     [address]="data.profile.student.BillingAddress"
-                  ></erz-my-profile-address>
+                  ></bkd-my-profile-address>
                 </ng-template>
               </div>
             </div>
@@ -145,23 +145,23 @@
             *ngIf="data.profile.legalRepresentativePersons.length > 0"
           >
             <div ngbAccordionHeader>
-              <erz-student-dossier-entry-header
+              <bkd-student-dossier-entry-header
                 [opened]="!legalRepresentatives.collapsed"
                 (click)="legalRepresentatives.toggle()"
               >
                 {{ "shared.profile.legal-representation" | translate }}
-              </erz-student-dossier-entry-header>
+              </bkd-student-dossier-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <erz-student-dossier-legal-representative
+                  <bkd-student-dossier-legal-representative
                     *ngFor="
                       let person of data.profile.legalRepresentativePersons
                     "
                     class="profile-entry"
                     [person]="person"
-                  ></erz-student-dossier-legal-representative>
+                  ></bkd-student-dossier-legal-representative>
                 </ng-template>
               </div>
             </div>
@@ -176,7 +176,7 @@
             "
           >
             <div ngbAccordionHeader>
-              <erz-student-dossier-entry-header
+              <bkd-student-dossier-entry-header
                 [opened]="!apprenticeshipCompanies.collapsed"
                 (click)="apprenticeshipCompanies.toggle()"
               >
@@ -185,15 +185,15 @@
                   *ngIf="data.profile.apprenticeshipCompanies.length > 1"
                   >{{ i + 1 }}</ng-container
                 >
-              </erz-student-dossier-entry-header>
+              </bkd-student-dossier-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <erz-student-dossier-apprenticeship-company
+                  <bkd-student-dossier-apprenticeship-company
                     class="profile-entry"
                     [company]="company"
-                  ></erz-student-dossier-apprenticeship-company>
+                  ></bkd-student-dossier-apprenticeship-company>
                 </ng-template>
               </div>
             </div>
@@ -225,6 +225,6 @@
   </ng-container>
 
   <ng-template #loading>
-    <erz-spinner></erz-spinner>
+    <bkd-spinner></bkd-spinner>
   </ng-template>
 </div>

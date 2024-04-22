@@ -43,7 +43,7 @@ import {
 } from "../../services/edit-absences-update.service";
 
 @Component({
-  selector: "erz-edit-absences-edit",
+  selector: "bkd-edit-absences-edit",
   templateUrl: "./edit-absences-edit.component.html",
   styleUrls: ["./edit-absences-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

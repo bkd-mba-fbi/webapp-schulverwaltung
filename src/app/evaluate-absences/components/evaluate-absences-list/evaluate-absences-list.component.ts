@@ -35,7 +35,7 @@ interface Column {
 }
 
 @Component({
-  selector: "erz-evaluate-absences-list",
+  selector: "bkd-evaluate-absences-list",
   templateUrl: "./evaluate-absences-list.component.html",
   styleUrls: ["./evaluate-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

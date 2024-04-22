@@ -64,7 +64,7 @@ describe("MyAbsencesShowComponent", () => {
   describe("all absences report", () => {
     it("does not render report link without absences", () => {
       fixture.detectChanges();
-      expect(element.querySelector("erz-reports-link a")).toBeNull();
+      expect(element.querySelector("bkd-reports-link a")).toBeNull();
     });
 
     it("renders report link with absences", () => {
@@ -80,7 +80,7 @@ describe("MyAbsencesShowComponent", () => {
         .flush([{ Id: 290048, Title: "Auswertung der Absenzen" }]);
       fixture.detectChanges();
 
-      const reportsLink = element.querySelector("erz-reports-link a");
+      const reportsLink = element.querySelector("bkd-reports-link a");
       expect(reportsLink?.className.includes("disabled")).toBeFalse();
     });
   });

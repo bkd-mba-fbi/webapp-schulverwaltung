@@ -17,7 +17,7 @@ export enum DialogMode {
 }
 
 @Component({
-  selector: "erz-presence-control-group-dialog",
+  selector: "bkd-presence-control-group-dialog",
   templateUrl: "./presence-control-group-dialog.component.html",
   styleUrls: ["./presence-control-group-dialog.component.scss"],
   standalone: true,

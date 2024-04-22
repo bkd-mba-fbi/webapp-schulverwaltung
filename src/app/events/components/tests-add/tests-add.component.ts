@@ -15,7 +15,7 @@ import { ToastService } from "../../../shared/services/toast.service";
 import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
 
 @Component({
-  selector: "erz-tests-add",
+  selector: "bkd-tests-add",
   templateUrl: "./tests-add.component.html",
   styleUrls: ["./tests-add.component.scss"],
   standalone: true,

@@ -28,12 +28,12 @@
         >
           <i class="material-icons">edit</i>
         </a>
-        <erz-reports-link
+        <bkd-reports-link
           *ngIf="reports"
           [reports]="reports"
           [disableIfUnavailable]="true"
           class="me-2"
-        ></erz-reports-link>
+        ></bkd-reports-link>
         <a
           *ngIf="displayEmail"
           class="mail btn btn-primary btn-icon me-2"
@@ -85,7 +85,7 @@
         {{ absence.TeacherInformation }}
       </div>
       <ng-container
-        *erzLet="
+        *bkdLet="
           getPresenceTypeDesignation(absence) | async as presenceTypeDesignation
         "
       >
@@ -107,11 +107,11 @@
         {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }}
       </div>
       <div class="days-ago">
-        {{ absence.LessonDateTimeFrom | erzDaysDifference }}
+        {{ absence.LessonDateTimeFrom | bkdDaysDifference }}
       </div>
       <div class="date-days-ago">
         {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }},
-        {{ absence.LessonDateTimeFrom | erzDaysDifference }}
+        {{ absence.LessonDateTimeFrom | bkdDaysDifference }}
       </div>
     </div>
   </ng-container>
@@ -122,5 +122,5 @@
 </ng-container>
 
 <ng-template #loading>
-  <erz-spinner class="inline d-block mb-3"></erz-spinner>
+  <bkd-spinner class="inline d-block mb-3"></bkd-spinner>
 </ng-template>

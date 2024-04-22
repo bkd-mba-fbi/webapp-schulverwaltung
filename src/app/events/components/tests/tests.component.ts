@@ -5,7 +5,7 @@ import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { TestStateService } from "../../services/test-state.service";
 
 @Component({
-  selector: "erz-tests",
+  selector: "bkd-tests",
   templateUrl: "./tests.component.html",
   styleUrls: ["./tests.component.scss"],
   providers: [TestStateService],

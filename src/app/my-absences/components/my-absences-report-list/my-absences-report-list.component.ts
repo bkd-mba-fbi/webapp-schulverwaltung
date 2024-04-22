@@ -34,7 +34,7 @@ import {
 import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my-absences-report-header.component";
 
 @Component({
-  selector: "erz-my-absences-report-list",
+  selector: "bkd-my-absences-report-list",
   templateUrl: "./my-absences-report-list.component.html",
   styleUrls: ["./my-absences-report-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

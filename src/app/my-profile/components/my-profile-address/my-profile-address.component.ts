@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 @Component({
-  selector: "erz-my-profile-address",
+  selector: "bkd-my-profile-address",
   templateUrl: "./my-profile-address.component.html",
   styleUrls: ["./my-profile-address.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

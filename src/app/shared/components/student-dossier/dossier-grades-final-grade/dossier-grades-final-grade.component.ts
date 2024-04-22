@@ -6,7 +6,7 @@ import * as Gradings from "src/app/shared/utils/gradings";
 import { DecimalOrDashPipe } from "../../../pipes/decimal-or-dash.pipe";
 
 @Component({
-  selector: "erz-dossier-grades-final-grade",
+  selector: "bkd-dossier-grades-final-grade",
   template: `<div class="final-entry">
     <div>{{ "dossier.grade" | translate }}</div>
     <div data-testid="final-grade">

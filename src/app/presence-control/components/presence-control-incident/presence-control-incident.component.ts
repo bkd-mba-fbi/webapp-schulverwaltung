@@ -11,7 +11,7 @@ interface IncidentOption {
 }
 
 @Component({
-  selector: "erz-presence-control-incident",
+  selector: "bkd-presence-control-incident",
   templateUrl: "./presence-control-incident.component.html",
   styleUrls: ["./presence-control-incident.component.scss"],
   standalone: true,

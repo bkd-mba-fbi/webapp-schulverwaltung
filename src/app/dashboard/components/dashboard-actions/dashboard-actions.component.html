@@ -1,10 +1,10 @@
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="dashboardService.hasPresenceControl$ | async"
   [label]="'dashboard.actions.presence-control'"
   [link]="['/presence-control']"
-></erz-dashboard-action>
+></bkd-dashboard-action>
 
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="
     (dashboardService.hasLessonTeacherRole$ | async) &&
     (dashboardService.editAbsencesParams$ | async)
@@ -13,42 +13,42 @@
   [link]="['/edit-absences']"
   [linkParams]="dashboardService.editAbsencesParams$ | async"
   [count]="dashboardService.editAbsencesCount$ | async"
-></erz-dashboard-action>
+></bkd-dashboard-action>
 
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="dashboardService.hasOpenAbsences$ | async"
   [label]="'dashboard.actions.open-absences'"
   [link]="['/open-absences']"
   [count]="dashboardService.openAbsencesCount$ | async"
-></erz-dashboard-action>
+></bkd-dashboard-action>
 
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="dashboardService.hasTeacherRole$ | async"
   [label]="'dashboard.actions.tests'"
   [link]="['/events']"
 >
-  <erz-dashboard-deadline
+  <bkd-dashboard-deadline
     *ngIf="(dashboardService.coursesToRateCount$ | async) ?? 0 > 0"
     [count]="dashboardService.coursesToRateCount$ | async"
-  ></erz-dashboard-deadline>
-</erz-dashboard-action>
+  ></bkd-dashboard-deadline>
+</bkd-dashboard-action>
 
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="dashboardService.hasStudentRole$ | async"
   [label]="'dashboard.actions.my-absences-report'"
   [link]="['/my-absences', 'report']"
 >
-</erz-dashboard-action>
+</bkd-dashboard-action>
 
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="dashboardService.hasStudentRole$ | async"
   [label]="'dashboard.actions.my-absences'"
   [link]="['/my-absences']"
   [count]="dashboardService.myAbsencesCount$ | async"
-></erz-dashboard-action>
+></bkd-dashboard-action>
 
-<erz-dashboard-action
+<bkd-dashboard-action
   *ngIf="dashboardService.hasSubstituteAdministratorRole$ | async"
   [label]="'dashboard.actions.substitutions'"
   [externalLink]="substitutionsAdminLink"
-></erz-dashboard-action>
+></bkd-dashboard-action>

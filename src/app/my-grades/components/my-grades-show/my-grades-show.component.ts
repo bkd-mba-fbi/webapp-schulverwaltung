@@ -9,7 +9,7 @@ import { MyGradesService } from "../../services/my-grades.service";
 import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.component";
 
 @Component({
-  selector: "erz-my-grades-show",
+  selector: "bkd-my-grades-show",
   templateUrl: "./my-grades-show.component.html",
   styleUrls: ["./my-grades-show.component.scss"],
   providers: [DossierGradesService],

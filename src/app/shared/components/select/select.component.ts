@@ -14,7 +14,7 @@ import { map } from "rxjs/operators";
 import { DropDownItem } from "../../models/drop-down-item.model";
 
 @Component({
-  selector: "erz-select",
+  selector: "bkd-select",
   templateUrl: "./select.component.html",
   styleUrls: ["./select.component.scss"],
   standalone: true,

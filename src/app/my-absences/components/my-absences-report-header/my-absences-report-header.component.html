@@ -1,4 +1,4 @@
-<erz-backlink [link]="['/my-absences']"></erz-backlink>
+<bkd-backlink [link]="['/my-absences']"></bkd-backlink>
 <h1>{{ "my-absences.report.title" | translate }}</h1>
 
 <div class="filters">
@@ -6,20 +6,20 @@
     <label class="form-label">{{
       "my-absences.report.header.date-from" | translate
     }}</label>
-    <erz-date-select
+    <bkd-date-select
       [minDate]="minDate"
       [value]="filter.dateFrom"
       (valueChange)="updateDateFrom($event)"
-    ></erz-date-select>
+    ></bkd-date-select>
   </div>
   <div class="form-group">
     <label class="form-label">{{
       "my-absences.report.header.date-to" | translate
     }}</label>
-    <erz-date-select
+    <bkd-date-select
       [minDate]="minDate"
       [(value)]="filter.dateTo"
-    ></erz-date-select>
+    ></bkd-date-select>
   </div>
 
   <div class="buttons">

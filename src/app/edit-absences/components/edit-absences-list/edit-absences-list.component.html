@@ -1,16 +1,16 @@
 <h1>{{ "edit-absences.title" | translate }}</h1>
 <ng-container
-  *erzLet="{
+  *bkdLet="{
     selection: selectionService.selection$ | async,
     entries: state.presenceControlEntries$ | async,
     hasMore: state.hasMore$ | async,
     loadingPage: state.loadingPage$ | async
   } as data"
 >
-  <erz-edit-absences-header
+  <bkd-edit-absences-header
     [filter]="filterFromParams$ | async"
     (filterChange)="state.setFilter($event)"
-  ></erz-edit-absences-header>
+  ></bkd-edit-absences-header>
 
   <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -173,7 +173,7 @@
           </tbody>
         </table>
 
-        <erz-spinner class="inline" *ngIf="data.loadingPage"></erz-spinner>
+        <bkd-spinner class="inline" *ngIf="data.loadingPage"></bkd-spinner>
         <button
           *ngIf="data.hasMore && !data.loadingPage"
           type="button"
@@ -190,7 +190,7 @@
     </ng-container>
 
     <ng-template #loading>
-      <erz-spinner></erz-spinner>
+      <bkd-spinner></bkd-spinner>
     </ng-template>
   </ng-container>
 

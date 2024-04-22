@@ -3,7 +3,7 @@ import { Params, RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
-  selector: "erz-backlink",
+  selector: "bkd-backlink",
   templateUrl: "./backlink.component.html",
   styleUrls: ["./backlink.component.scss"],
   standalone: true,

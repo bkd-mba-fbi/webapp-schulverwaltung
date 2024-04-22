@@ -47,7 +47,7 @@ import {
 } from "../../tokens/confirm-absences-service";
 
 @Component({
-  selector: "erz-confirm-absences",
+  selector: "bkd-confirm-absences",
   templateUrl: "./confirm-absences.component.html",
   styleUrls: ["./confirm-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

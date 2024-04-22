@@ -10,7 +10,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { SwitchComponent } from "../../../shared/components/switch/switch.component";
 
 @Component({
-  selector: "erz-my-settings-notifications-toggle",
+  selector: "bkd-my-settings-notifications-toggle",
   templateUrl: "./my-settings-notifications-toggle.component.html",
   styleUrls: ["./my-settings-notifications-toggle.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

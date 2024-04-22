@@ -37,7 +37,7 @@ export type DashboardTimetableEntry = {
 const CALENDAR_SUBSCRIBE_KEY = "cal";
 
 @Component({
-  selector: "erz-dashboard-timetable",
+  selector: "bkd-dashboard-timetable",
   templateUrl: "./dashboard-timetable.component.html",
   styleUrls: ["./dashboard-timetable.component.scss"],
   standalone: true,

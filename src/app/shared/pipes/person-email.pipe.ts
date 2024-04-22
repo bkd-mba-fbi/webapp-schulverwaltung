@@ -4,7 +4,7 @@ import { Person } from "../../shared/models/person.model";
 type PersonLike = Partial<Pick<Person, "DisplayEmail" | "Email" | "Email2">>;
 
 @Pipe({
-  name: "erzPersonEmail",
+  name: "bkdPersonEmail",
   standalone: true,
 })
 export class PersonEmailPipe implements PipeTransform {

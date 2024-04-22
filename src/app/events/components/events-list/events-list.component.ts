@@ -9,7 +9,7 @@ import { StorageService } from "../../../shared/services/storage.service";
 import { EventsStateService } from "../../services/events-state.service";
 
 @Component({
-  selector: "erz-events-list",
+  selector: "bkd-events-list",
   templateUrl: "./events-list.component.html",
   styleUrls: ["./events-list.component.scss"],
   standalone: true,

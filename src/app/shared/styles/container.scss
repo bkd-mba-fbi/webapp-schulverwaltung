@@ -4,7 +4,7 @@
 /**
  * Container with horizontal padding
  */
-.erz-container {
+.bkd-container {
   margin: 0 auto;
   padding: 0;
 }
@@ -12,7 +12,7 @@
 /**
  * Limit the container on large screens
   */
-.erz-container-limited {
-  max-width: $erz-container-max-width;
+.bkd-container-limited {
+  max-width: $bkd-container-max-width;
   margin-left: 0; // Should be left aligned because of the Evento integration
 }

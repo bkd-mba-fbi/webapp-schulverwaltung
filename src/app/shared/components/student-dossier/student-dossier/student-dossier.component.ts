@@ -10,7 +10,7 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
 import { StudentBacklinkComponent } from "../student-backlink/student-backlink.component";
 
 @Component({
-  selector: "erz-student-dossier",
+  selector: "bkd-student-dossier",
   templateUrl: "./student-dossier.component.html",
   styleUrls: ["./student-dossier.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

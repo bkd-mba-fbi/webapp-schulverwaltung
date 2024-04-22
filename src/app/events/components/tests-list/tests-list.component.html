@@ -1,6 +1,6 @@
-<div class="erz-container">
+<div class="bkd-container">
   <ng-container
-    *erzLet="{
+    *bkdLet="{
       course: state.course$ | async,
       tests: state.tests$ | async,
       hasTests: state.hasTests$ | async,
@@ -10,18 +10,18 @@
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <erz-tests-header [course]="data.course"></erz-tests-header>
+      <bkd-tests-header [course]="data.course"></bkd-tests-header>
       <ng-container *ngIf="data.tests.length > 0; else noTests">
-        <erz-select
+        <bkd-select
           class="tests-dropdown"
           [options]="data.testOptions"
           [value]="data.selectedTestId"
           [allowEmpty]="false"
           (valueChange)="$event && testSelected($event)"
-        ></erz-select>
-        <erz-test-edit-grades
+        ></bkd-select>
+        <bkd-test-edit-grades
           [selectedTest]="data.selectedTest"
-        ></erz-test-edit-grades>
+        ></bkd-test-edit-grades>
       </ng-container>
 
       <a
@@ -43,6 +43,6 @@
     <p class="mt-3 px-3">{{ "tests.no-tests" | translate }}</p>
   </ng-template>
   <ng-template #loading>
-    <erz-spinner></erz-spinner>
+    <bkd-spinner></bkd-spinner>
   </ng-template>
 </div>

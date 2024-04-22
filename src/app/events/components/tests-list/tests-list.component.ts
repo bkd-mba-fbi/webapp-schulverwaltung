@@ -13,7 +13,7 @@ import { TestEditGradesComponent } from "../test-edit-grades/test-edit-grades.co
 import { TestsHeaderComponent } from "../tests-header/tests-header.component";
 
 @Component({
-  selector: "erz-tests-list",
+  selector: "bkd-tests-list",
   templateUrl: "./tests-list.component.html",
   styleUrls: ["./tests-list.component.scss"],
   standalone: true,

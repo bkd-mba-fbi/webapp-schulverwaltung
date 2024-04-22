@@ -21,7 +21,7 @@ import { MyAbsencesService } from "../../services/my-absences.service";
 import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confirm.component";
 
 @Component({
-  selector: "erz-my-absences-confirm",
+  selector: "bkd-my-absences-confirm",
   templateUrl: "./my-absences-abstract-confirm.component.html",
   styleUrls: ["./my-absences-abstract-confirm.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

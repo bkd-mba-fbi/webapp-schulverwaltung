@@ -3,7 +3,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { EventsListComponent } from "../events-list/events-list.component";
 
 @Component({
-  selector: "erz-events-tests",
+  selector: "bkd-events-tests",
   templateUrl: "./events-tests.component.html",
   styleUrls: ["./events-tests.component.scss"],
   standalone: true,

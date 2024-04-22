@@ -27,7 +27,7 @@ import { notNull } from "../../../shared/utils/filter";
 import { MyProfileService } from "../../services/my-profile.service";
 
 @Component({
-  selector: "erz-my-profile-edit",
+  selector: "bkd-my-profile-edit",
   templateUrl: "./my-profile-edit.component.html",
   styleUrls: ["./my-profile-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

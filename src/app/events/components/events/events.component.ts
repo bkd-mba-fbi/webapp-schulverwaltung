@@ -4,7 +4,7 @@ import { ConfirmAbsencesSelectionService } from "../../../shared/services/confir
 import { EventsStateService } from "../../services/events-state.service";
 
 @Component({
-  selector: "erz-events",
+  selector: "bkd-events",
   templateUrl: "./events.component.html",
   styleUrls: ["./events.component.scss"],
   standalone: true,

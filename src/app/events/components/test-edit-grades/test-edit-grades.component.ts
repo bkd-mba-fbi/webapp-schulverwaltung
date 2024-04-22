@@ -29,7 +29,7 @@ import { GradeSelectComponent } from "../grades/grade-select/grade-select.compon
 import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
 
 @Component({
-  selector: "erz-test-edit-grades",
+  selector: "bkd-test-edit-grades",
   templateUrl: "./test-edit-grades.component.html",
   styleUrls: ["./test-edit-grades.component.scss"],
   providers: [EventsStateService],

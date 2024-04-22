@@ -13,7 +13,7 @@ interface BlockLessonOption {
 }
 
 @Component({
-  selector: "erz-presence-control-block-lesson-component",
+  selector: "bkd-presence-control-block-lesson-component",
   templateUrl: "./presence-control-block-lesson.component.html",
   styleUrls: ["presence-control-block-lesson.component.scss"],
   standalone: true,

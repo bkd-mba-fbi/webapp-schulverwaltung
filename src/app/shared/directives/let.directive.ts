@@ -3,12 +3,12 @@
  * https://github.com/ngrx-utils/ngrx-utils/blob/master/libs/store/src/lib/directives/ngLet.ts
  *
  * Usage:
- *   <ng-container *erzLet="(user$ | async) as task">
+ *   <ng-container *bkdLet="(user$ | async) as task">
  *     {{ user.name }} {{ user.age }}
  *   </ng-container>
  *
  * Or with multiple observables:
- *   <ng-container *erzLet="{ user: user$ | async, role: role$ | async }">
+ *   <ng-container *bkdLet="{ user: user$ | async, role: role$ | async }">
  *     {{ user.name }} {{ user.age }}: {{ role.name }}
  *   </ng-container>
  *
@@ -27,19 +27,19 @@ import {
 
 export class LetContext {
   $implicit: unknown = null;
-  erzLet: unknown = null;
+  bkdLet: unknown = null;
 }
 
 @Directive({
-  selector: "[erzLet]",
+  selector: "[bkdLet]",
   standalone: true,
 })
 export class LetDirective implements OnInit {
   private context = new LetContext();
 
   @Input()
-  set erzLet(value: unknown) {
-    this.context.$implicit = this.context.erzLet = value;
+  set bkdLet(value: unknown) {
+    this.context.$implicit = this.context.bkdLet = value;
   }
 
   constructor(

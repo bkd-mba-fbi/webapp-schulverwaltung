@@ -5,7 +5,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 
 @Component({
-  selector: "erz-date-select",
+  selector: "bkd-date-select",
   templateUrl: "./date-select.component.html",
   styleUrls: ["./date-select.component.scss"],
   standalone: true,
@@ -17,7 +17,7 @@ export class DateSelectComponent {
   @Input() minDate: Option<{ year: number; month: number; day: number }> = null;
   @Output() valueChange = new EventEmitter<Option<Date>>();
 
-  componentId = uniqueId("erz-date-select-");
+  componentId = uniqueId("bkd-date-select-");
 
   constructor() {}
 }

@@ -13,7 +13,7 @@ import { EducationalEventsRestService } from "../../../shared/services/education
 import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.service";
 
 @Component({
-  selector: "erz-evaluate-absences-header",
+  selector: "bkd-evaluate-absences-header",
   templateUrl: "./evaluate-absences-header.component.html",
   styleUrls: ["./evaluate-absences-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

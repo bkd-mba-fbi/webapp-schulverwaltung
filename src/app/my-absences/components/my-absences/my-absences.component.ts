@@ -4,7 +4,7 @@ import { ConfirmAbsencesSelectionService } from "../../../shared/services/confir
 import { MyAbsencesService } from "../../services/my-absences.service";
 
 @Component({
-  selector: "erz-my-absences",
+  selector: "bkd-my-absences",
   templateUrl: "./my-absences.component.html",
   styleUrls: ["./my-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

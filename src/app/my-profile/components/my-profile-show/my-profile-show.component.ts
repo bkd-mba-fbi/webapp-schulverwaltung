@@ -22,7 +22,7 @@ import { MyProfileEntryComponent } from "../my-profile-entry/my-profile-entry.co
 import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header.component";
 
 @Component({
-  selector: "erz-my-profile-show",
+  selector: "bkd-my-profile-show",
   templateUrl: "./my-profile-show.component.html",
   styleUrls: ["./my-profile-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

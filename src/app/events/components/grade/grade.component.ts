@@ -27,7 +27,7 @@ import { Student } from "../../../shared/models/student.model";
 const DEBOUNCE_TIME = 1250;
 
 @Component({
-  selector: "erz-grade",
+  selector: "bkd-grade",
   templateUrl: "./grade.component.html",
   styleUrls: ["./grade.component.scss"],
   standalone: true,

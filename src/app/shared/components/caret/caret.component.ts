@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "erz-caret",
+  selector: "bkd-caret",
   templateUrl: "./caret.component.html",
   styleUrls: ["./caret.component.scss"],
   standalone: true,

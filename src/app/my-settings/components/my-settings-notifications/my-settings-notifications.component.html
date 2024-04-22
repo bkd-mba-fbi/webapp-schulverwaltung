@@ -1,5 +1,5 @@
 <div
-  *erzLet="{
+  *bkdLet="{
     channelsFormGroup: channelsFormGroup$ | async,
     typesFormGroup: typesFormGroup$ | async
   } as data"
@@ -8,14 +8,14 @@
   <h2 class="m-0 pb-3 d-flex align-items-stretch">
     <span>{{ "my-settings.notifications.title" | translate }}</span>
     <div *ngIf="saving$ | async" class="position-relative">
-      <erz-spinner
+      <bkd-spinner
         class="position-absolute inline small d-inline-block ms-2"
-      ></erz-spinner>
+      ></bkd-spinner>
     </div>
   </h2>
 
   <form *ngIf="data.channelsFormGroup" [formGroup]="data.channelsFormGroup">
-    <erz-my-settings-notifications-toggle
+    <bkd-my-settings-notifications-toggle
       *ngFor="let setting of channelsSettings; index as i"
       [id]="'notification-channels-' + setting.key"
       [label]="setting.label | async"
@@ -23,7 +23,7 @@
       [formControlName]="setting.key"
       [class.mt-4]="i > 0"
     >
-    </erz-my-settings-notifications-toggle>
+    </bkd-my-settings-notifications-toggle>
   </form>
 
   <p class="mt-4 form-text">
@@ -33,7 +33,7 @@
   <hr />
 
   <form *ngIf="data.typesFormGroup" [formGroup]="data.typesFormGroup">
-    <erz-my-settings-notifications-toggle
+    <bkd-my-settings-notifications-toggle
       *ngFor="let setting of typesSettings; index as i"
       [id]="'notification-types-' + setting.key"
       [label]="setting.label | async"
@@ -41,6 +41,6 @@
       [formControlName]="setting.key"
       [class.mt-4]="i > 0"
     >
-    </erz-my-settings-notifications-toggle>
+    </bkd-my-settings-notifications-toggle>
   </form>
 </div>

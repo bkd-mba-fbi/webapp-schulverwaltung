@@ -4,7 +4,7 @@ import { Person } from "../../../models/person.model";
 import { Student } from "../../../models/student.model";
 
 @Component({
-  selector: "erz-student-dossier-address",
+  selector: "bkd-student-dossier-address",
   templateUrl: "./student-dossier-address.component.html",
   styleUrls: ["./student-dossier-address.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

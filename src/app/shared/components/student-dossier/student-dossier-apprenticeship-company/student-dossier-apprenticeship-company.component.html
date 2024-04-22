@@ -32,9 +32,9 @@
     <a href="tel:{{ company.apprenticeshipManager?.PhoneBusiness }}"
       >{{ company.apprenticeshipManager?.PhoneBusiness }}<br /></a
   ></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManager | erzPersonEmail">
-    <a href="mailto:{{ company.apprenticeshipManager | erzPersonEmail }}">{{
-      company.apprenticeshipManager | erzPersonEmail
+  <ng-container *ngIf="company.apprenticeshipManager | bkdPersonEmail">
+    <a href="mailto:{{ company.apprenticeshipManager | bkdPersonEmail }}">{{
+      company.apprenticeshipManager | bkdPersonEmail
     }}</a></ng-container
   >
 </address>
@@ -63,9 +63,9 @@
       <a href="tel:{{ company.jobTrainer.PhoneMobile }}"
         >{{ company.jobTrainer.PhoneMobile }}<br /></a
     ></ng-container>
-    <ng-container *ngIf="company.jobTrainer | erzPersonEmail">
-      <a href="mailto:{{ company.jobTrainer | erzPersonEmail }}">{{
-        company.jobTrainer | erzPersonEmail
+    <ng-container *ngIf="company.jobTrainer | bkdPersonEmail">
+      <a href="mailto:{{ company.jobTrainer | bkdPersonEmail }}">{{
+        company.jobTrainer | bkdPersonEmail
       }}</a></ng-container
     >
   </address>

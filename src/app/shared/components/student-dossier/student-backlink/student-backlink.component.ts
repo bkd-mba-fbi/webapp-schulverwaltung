@@ -6,7 +6,7 @@ import { AvatarComponent } from "../../avatar/avatar.component";
 import { BacklinkComponent } from "../../backlink/backlink.component";
 
 @Component({
-  selector: "erz-student-backlink",
+  selector: "bkd-student-backlink",
   templateUrl: "./student-backlink.component.html",
   styleUrls: ["./student-backlink.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

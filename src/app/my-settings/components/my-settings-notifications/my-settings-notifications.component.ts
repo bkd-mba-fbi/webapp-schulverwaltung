@@ -41,7 +41,7 @@ interface NotificationSetting {
 }
 
 @Component({
-  selector: "erz-my-settings-notifications",
+  selector: "bkd-my-settings-notifications",
   templateUrl: "./my-settings-notifications.component.html",
   styleUrls: ["./my-settings-notifications.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

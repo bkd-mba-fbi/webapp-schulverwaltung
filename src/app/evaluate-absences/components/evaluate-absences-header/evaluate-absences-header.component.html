@@ -3,31 +3,31 @@
     <label class="form-label">{{
       "evaluate-absences.header.student" | translate
     }}</label>
-    <erz-typeahead
+    <bkd-typeahead
       [typeaheadService]="studentsService"
       [(value)]="filter.student"
-    ></erz-typeahead>
+    ></bkd-typeahead>
   </div>
 
   <div class="col-sm-12 col-md">
     <label class="form-label">{{
       "evaluate-absences.header.module-instance" | translate
     }}</label>
-    <erz-typeahead
+    <bkd-typeahead
       [typeaheadService]="educationalEventsService"
       [(value)]="filter.educationalEvent"
-    ></erz-typeahead>
+    ></bkd-typeahead>
   </div>
 
   <div class="col-sm-12 col-md">
     <label class="form-label">{{
       "evaluate-absences.header.study-class" | translate
     }}</label>
-    <erz-typeahead
+    <bkd-typeahead
       [typeaheadService]="studyClassesService"
       [(value)]="filter.studyClass"
       [additionalHttpParams]="this.classesHttpFilter"
-    ></erz-typeahead>
+    ></bkd-typeahead>
   </div>
 
   <div class="col-auto">

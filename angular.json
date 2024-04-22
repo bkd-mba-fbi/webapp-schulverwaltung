@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "erz",
+      "prefix": "bkd",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"

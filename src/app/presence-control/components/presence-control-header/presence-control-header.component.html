@@ -56,13 +56,13 @@
       </div>
     </div>
   </div>
-  <erz-caret
+  <bkd-caret
     *ngIf="lessons.length > 0"
     class="dropdown-caret"
     (click)="lessonDropdown?.toggle()"
     [expanded]="lessonDropdown?.isOpen() || false"
   >
-  </erz-caret>
+  </bkd-caret>
 </div>
 
 <div class="states">
@@ -89,14 +89,14 @@
 </div>
 
 <div class="search-and-views">
-  <erz-resettable-input
+  <bkd-resettable-input
     [value]="search"
     [disabled]="!selectedLesson"
     class="search"
     [placeholder]="'presence-control.header.search-by-name' | translate"
     [label]="'presence-control.header.search' | translate"
     (valueChange)="searchChange.emit($event)"
-  ></erz-resettable-input>
+  ></bkd-resettable-input>
   <div class="group-and-views d-flex align-items-center">
     <a
       *ngIf="selectedLesson && state.groupsAvailability$ | async"

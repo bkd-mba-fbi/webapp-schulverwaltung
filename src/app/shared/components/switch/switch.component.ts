@@ -9,7 +9,7 @@ import { FormsModule } from "@angular/forms";
 import { uniqueId } from "lodash-es";
 
 @Component({
-  selector: "erz-switch",
+  selector: "bkd-switch",
   templateUrl: "./switch.component.html",
   styleUrls: ["./switch.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +23,7 @@ export class SwitchComponent {
   @Input() value = false;
   @Output() valueChange = new EventEmitter<boolean>();
 
-  fallbackId = uniqueId("erz-switch");
+  fallbackId = uniqueId("bkd-switch");
 
   constructor() {}
 }
