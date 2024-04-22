@@ -31,7 +31,17 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   LessonPresence,
   ReportAbsencesFilter
 > {
-  private preventAbsencesAfterStart = false;
+  private _preventAbsencesAfterStart?: boolean;
+  private get preventAbsencesAfterStart(): boolean {
+    if (this._preventAbsencesAfterStart == null) {
+      const currentInstanceId = this.storageService.getPayload()?.instance_id;
+      const instanceIds = this.settings.preventStudentAbsenceAfterLessonStart;
+      this._preventAbsencesAfterStart = currentInstanceId
+        ? instanceIds.includes(currentInstanceId)
+        : false;
+    }
+    return this._preventAbsencesAfterStart;
+  }
 
   constructor(
     location: Location,
@@ -48,12 +58,6 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       settings,
       "/my-absences/report",
     );
-
-    const currentInstanceId = this.storageService.getPayload()?.instance_id;
-    const instanceIds = this.settings.preventStudentAbsenceAfterLessonStart;
-    this.preventAbsencesAfterStart = currentInstanceId
-      ? instanceIds.includes(currentInstanceId)
-      : false;
   }
 
   protected getInitialFilter(): ReportAbsencesFilter {

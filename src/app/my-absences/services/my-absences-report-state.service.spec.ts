@@ -62,16 +62,23 @@ describe("MyAbsencesReportStateService", () => {
         ],
       }),
     );
+
+    service = TestBed.inject(MyAbsencesReportStateService);
+    entriesCallback = jasmine.createSpy("entries$ callback");
   });
 
   describe("with instance GymHofwil", () => {
-    it("should return all entries", fakeAsync(() => {
-      initializeServiceWithInstance("GymHofwil");
+    beforeEach(() => {
+      storageMock.getPayload.and.returnValue(buildPayLoad("42", "GymHofwil"));
+    });
+
+    it("returns all entries", fakeAsync(() => {
+      service.entries$.subscribe(entriesCallback);
 
       service.setFilter({ dateFrom: now, dateTo: now });
       tick(10);
 
-      expect(entriesCallback.calls.mostRecent().args[0]).toEqual([
+      expect(entriesCallback.calls.mostRecent()?.args[0]).toEqual([
         buildLessonPresenceFromTimetableEntry(beforeLessonStart),
         buildLessonPresenceFromTimetableEntry(onLessonStart),
         buildLessonPresenceFromTimetableEntry(afterLessonStart),
@@ -80,22 +87,19 @@ describe("MyAbsencesReportStateService", () => {
   });
 
   describe("with instance BsTest", () => {
-    it("should only return entries starting after lesson start", fakeAsync(() => {
-      initializeServiceWithInstance("BsTest");
+    beforeEach(() => {
+      storageMock.getPayload.and.returnValue(buildPayLoad("42", "BsTest"));
+    });
+
+    it("only returns entries starting after lesson start", fakeAsync(() => {
+      service.entries$.subscribe(entriesCallback);
 
       service.setFilter({ dateFrom: now, dateTo: now });
       tick(10);
 
-      expect(entriesCallback.calls.mostRecent().args[0]).toEqual([
+      expect(entriesCallback.calls.mostRecent()?.args[0]).toEqual([
         buildLessonPresenceFromTimetableEntry(afterLessonStart),
       ]);
     }));
   });
-
-  function initializeServiceWithInstance(instance: string) {
-    storageMock.getPayload.and.returnValue(buildPayLoad("42", instance));
-    service = TestBed.inject(MyAbsencesReportStateService);
-    entriesCallback = jasmine.createSpy("entries$ callback");
-    service.entries$.subscribe(entriesCallback);
-  }
 });
