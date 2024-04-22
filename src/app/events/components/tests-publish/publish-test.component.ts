@@ -4,7 +4,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 
 @Component({
-  selector: "erz-publish-test",
+  selector: "bkd-publish-test",
   template: `
     <div class="modal-body">
       <p data-testid="confirmation-message">

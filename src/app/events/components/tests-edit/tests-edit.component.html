@@ -1,6 +1,6 @@
 <div
-  class="erz-container erz-container-limited"
-  *erzLet="{
+  class="bkd-container bkd-container-limited"
+  *bkdLet="{
     courseId: state.courseId$ | async,
     test: test$ | async,
     saving: saving$ | async
@@ -20,12 +20,12 @@
         <i class="material-icons">delete</i>
       </button>
     </div>
-    <erz-tests-edit-form
+    <bkd-tests-edit-form
       [test]="data.test"
       [saving]="data.saving"
       (save)="save($event)"
-    ></erz-tests-edit-form>
+    ></bkd-tests-edit-form>
   </ng-container>
 
-  <ng-template #loading><erz-spinner></erz-spinner></ng-template>
+  <ng-template #loading><bkd-spinner></bkd-spinner></ng-template>
 </div>

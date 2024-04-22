@@ -8,7 +8,7 @@ import {
 } from "src/app/shared/pipes/decimal-or-dash.pipe";
 
 @Component({
-  selector: "erz-average-grades",
+  selector: "bkd-average-grades",
   template: `<div class="d-flex flex-row w-100">
     <span
       *ngIf="test.IsPointGrading"

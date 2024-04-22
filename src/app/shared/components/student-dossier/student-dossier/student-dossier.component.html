@@ -1,25 +1,25 @@
-<div class="erz-container erz-container-limited">
+<div class="bkd-container bkd-container-limited">
   <ng-container
-    *erzLet="{
+    *bkdLet="{
       profile: state.profile$ | async,
       currentDossierSection: state.currentDossier$ | async,
       reports: dossierGradesService.testReports$ | async
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <erz-student-backlink
+      <bkd-student-backlink
         class="mb-2"
         [link]="'../..'"
         [queryParams]="state.backlinkQueryParams$ | async"
         [studentId]="state.studentId$ | async"
         [student]="data.profile && data.profile.student"
       >
-        <erz-reports-link
+        <bkd-reports-link
           *ngIf="data.currentDossierSection === 'grades'"
           [reports]="data.reports ?? []"
           class="ms-2"
-        ></erz-reports-link>
-      </erz-student-backlink>
+        ></bkd-reports-link>
+      </bkd-student-backlink>
       <div class="d-flex flex-row py-3 flex-wrap">
         <a
           [queryParams]="{ returnparams: state.returnParams$ | async }"
@@ -49,7 +49,7 @@
     </ng-container>
 
     <ng-template #loading>
-      <erz-spinner></erz-spinner>
+      <bkd-spinner></bkd-spinner>
     </ng-template>
   </ng-container>
 </div>

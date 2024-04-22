@@ -1,15 +1,15 @@
 <h1>{{ "evaluate-absences.title" | translate }}</h1>
 <ng-container
-  *erzLet="{
+  *bkdLet="{
     entries: state.entries$ | async,
     hasMore: state.hasMore$ | async,
     loadingPage: state.loadingPage$ | async
   } as data"
 >
-  <erz-evaluate-absences-header
+  <bkd-evaluate-absences-header
     [filter]="filterFromParams$ | async"
     (filterChange)="state.setFilter($event)"
-  ></erz-evaluate-absences-header>
+  ></bkd-evaluate-absences-header>
 
   <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -21,10 +21,10 @@
         class="py-3"
       >
         <div class="buttons">
-          <erz-reports-link
+          <bkd-reports-link
             [reports]="(reports$ | async) ?? []"
             class="mb-2"
-          ></erz-reports-link>
+          ></bkd-reports-link>
         </div>
         <table
           class="table table-striped table-fixed"
@@ -83,7 +83,7 @@
           </tbody>
         </table>
 
-        <erz-spinner class="inline" *ngIf="data.loadingPage"></erz-spinner>
+        <bkd-spinner class="inline" *ngIf="data.loadingPage"></bkd-spinner>
         <button
           *ngIf="data.hasMore && !data.loadingPage"
           type="button"
@@ -102,7 +102,7 @@
     </ng-container>
 
     <ng-template #loading>
-      <erz-spinner></erz-spinner>
+      <bkd-spinner></bkd-spinner>
     </ng-template>
   </ng-container>
 

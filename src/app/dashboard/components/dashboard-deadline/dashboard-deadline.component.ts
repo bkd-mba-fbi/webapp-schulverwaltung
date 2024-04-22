@@ -3,7 +3,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 
 @Component({
-  selector: "erz-dashboard-deadline",
+  selector: "bkd-dashboard-deadline",
   templateUrl: "./dashboard-deadline.component.html",
   styleUrls: ["./dashboard-deadline.component.scss"],
   standalone: true,

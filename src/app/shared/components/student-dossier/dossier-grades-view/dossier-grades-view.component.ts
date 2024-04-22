@@ -31,7 +31,7 @@ export interface CourseWithGrades {
 }
 
 @Component({
-  selector: "erz-dossier-grades-view",
+  selector: "bkd-dossier-grades-view",
   templateUrl: "./dossier-grades-view.component.html",
   styleUrls: ["./dossier-grades-view.component.scss"],
   standalone: true,

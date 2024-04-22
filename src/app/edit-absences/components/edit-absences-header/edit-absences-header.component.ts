@@ -38,7 +38,7 @@ import {
 } from "../../services/edit-absences-state.service";
 
 @Component({
-  selector: "erz-edit-absences-header",
+  selector: "bkd-edit-absences-header",
   templateUrl: "./edit-absences-header.component.html",
   styleUrls: ["./edit-absences-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

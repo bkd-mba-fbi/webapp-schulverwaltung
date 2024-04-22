@@ -5,7 +5,7 @@ import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences
 import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-state.service";
 
 @Component({
-  selector: "erz-evaluate-absences",
+  selector: "bkd-evaluate-absences",
   templateUrl: "./evaluate-absences.component.html",
   styleUrls: ["./evaluate-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

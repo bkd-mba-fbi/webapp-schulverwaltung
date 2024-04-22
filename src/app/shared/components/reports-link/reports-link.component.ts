@@ -11,7 +11,7 @@ import { uniqueId } from "lodash-es";
 import { ReportInfo } from "../../services/reports.service";
 
 @Component({
-  selector: "erz-reports-link",
+  selector: "bkd-reports-link",
   templateUrl: "./reports-link.component.html",
   styleUrls: ["./reports-link.component.scss"],
   standalone: true,

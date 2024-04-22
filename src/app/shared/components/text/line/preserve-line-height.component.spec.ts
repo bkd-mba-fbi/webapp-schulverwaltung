@@ -30,15 +30,15 @@ describe("LineComponent", () => {
 
   function content(fixture: ComponentFixture<PreserveLineHeightComponent>) {
     return fixture.debugElement
-      .query(By.css("erz-preserve-line-height"))
+      .query(By.css("bkd-preserve-line-height"))
       .query(By.css("div")).nativeElement.innerHTML;
   }
 });
 
 @Component({
-  selector: "erz-test",
-  template: ` <erz-preserve-line-height
-    >content-projection</erz-preserve-line-height
+  selector: "bkd-test",
+  template: ` <bkd-preserve-line-height
+    >content-projection</bkd-preserve-line-height
   >`,
   standalone: true,
   imports: [PreserveLineHeightComponent],
@@ -46,8 +46,8 @@ describe("LineComponent", () => {
 class TestComponent {}
 
 @Component({
-  selector: "erz-test-with-null-content",
-  template: ` <erz-preserve-line-height>{{ null }}</erz-preserve-line-height>`,
+  selector: "bkd-test-with-null-content",
+  template: ` <bkd-preserve-line-height>{{ null }}</bkd-preserve-line-height>`,
   standalone: true,
   imports: [PreserveLineHeightComponent],
 })

@@ -4,7 +4,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { Test } from "../../../../shared/models/test.model";
 
 @Component({
-  selector: "erz-tests-delete",
+  selector: "bkd-tests-delete",
   templateUrl: "./tests-delete.component.html",
   styleUrls: ["./tests-delete.component.scss"],
   standalone: true,

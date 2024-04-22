@@ -1,5 +1,5 @@
 <ng-container
-  *erzLet="{
+  *bkdLet="{
     tests: state.filteredTests$ | async,
     hasTests: state.hasTests$ | async,
     studentGrades: state.studentGrades$ | async,
@@ -41,13 +41,13 @@
             class="grade h-100 test-info-desktop"
             [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
           >
-            <erz-test-table-header
+            <bkd-test-table-header
               [test]="test"
               [expanded]="data.expanded"
               (toggle)="state.toggleHeader($event)"
               (publish)="publish($event)"
               (unpublish)="unpublish($event)"
-            ></erz-test-table-header>
+            ></bkd-test-table-header>
           </th>
           <th
             *ngFor="let test of data.tests"
@@ -56,13 +56,13 @@
             colspan="3"
             [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
           >
-            <erz-test-table-header
+            <bkd-test-table-header
               [test]="test"
               [expanded]="data.expanded"
               (toggle)="state.toggleHeader($event)"
               (publish)="publish($event)"
               (unpublish)="unpublish($event)"
-            ></erz-test-table-header>
+            ></bkd-test-table-header>
           </th>
         </tr>
         <tr>
@@ -154,7 +154,7 @@
             class="grade sticky sticky-col-2"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            <erz-grade-select
+            <bkd-grade-select
               *ngIf="
                 studentGrade.finalGrade &&
                 !studentGrade.finalGrade.freeHandGrade
@@ -166,7 +166,7 @@
                 (isEditFinalGradesAllowed(studentGrade) | async) === false
               "
               (gradeIdSelected)="state.overwriteFinalGrade($event)"
-            ></erz-grade-select>
+            ></bkd-grade-select>
             <div
               *ngIf="
                 studentGrade.finalGrade && studentGrade.finalGrade.freeHandGrade
@@ -191,13 +191,13 @@
                 : ''
             "
           >
-            <erz-grade
+            <bkd-grade
               [grade]="grade"
               [gradeOptions]="state.gradingOptionsForTest$(grade.test) | async"
               [student]="studentGrade.student"
               [tabIndex]="(1 + gradeIndex) * 1000 + studentGradeIndex"
               (gradeChanged)="saveGrade($event)"
-            ></erz-grade>
+            ></bkd-grade>
           </td>
         </tr>
         <!-- course and test averages -->
@@ -237,7 +237,7 @@
                 : ''
             "
           >
-            <erz-average-grades [test]="test"></erz-average-grades>
+            <bkd-average-grades [test]="test"></bkd-average-grades>
           </td>
         </tr>
       </tbody>

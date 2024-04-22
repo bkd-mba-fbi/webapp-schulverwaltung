@@ -24,7 +24,7 @@ import { StudentDossierAbsencesComponent } from "../student-dossier-absences/stu
 import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 
 @Component({
-  selector: "erz-dossier-absences",
+  selector: "bkd-dossier-absences",
   templateUrl: "./dossier-absences.component.html",
   styleUrls: ["./dossier-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

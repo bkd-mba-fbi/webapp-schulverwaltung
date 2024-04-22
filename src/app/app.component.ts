@@ -10,9 +10,9 @@ import { NAVIGATOR } from "./shared/tokens/dom-apis";
 import { decode } from "./shared/utils/decode";
 
 @Component({
-  selector: "erz-app",
+  selector: "bkd-app",
   template:
-    '<erz-toast aria-live="polite" aria-atomic="true"></erz-toast><router-outlet></router-outlet>',
+    '<bkd-toast aria-live="polite" aria-atomic="true"></bkd-toast><router-outlet></router-outlet>',
   styleUrls: ["./app.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

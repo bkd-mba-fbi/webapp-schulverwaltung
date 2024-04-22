@@ -2,7 +2,7 @@
 
 @import "../../../../bootstrap-variables";
 
-erz-presence-control-entry {
+bkd-presence-control-entry {
   border-bottom: 1px solid $border-color;
 }
 
@@ -17,7 +17,7 @@ erz-presence-control-entry {
     width: 100%;
 
     @for $i from 1 through 6 {
-      @media (min-width: $erz-presence-control-entry-min-width * $i) {
+      @media (min-width: $bkd-presence-control-entry-min-width * $i) {
         width: percentage(math.div(1, $i));
         border-right: 1px solid $border-color;
       }

@@ -34,7 +34,7 @@ import { SelectComponent } from "../../select/select.component";
 const DEBOUNCE_TIME = 500;
 
 @Component({
-  selector: "erz-dossier-grades-edit",
+  selector: "bkd-dossier-grades-edit",
   templateUrl: "./dossier-grades-edit.component.html",
   styleUrls: ["./dossier-grades-edit.component.scss"],
   standalone: true,

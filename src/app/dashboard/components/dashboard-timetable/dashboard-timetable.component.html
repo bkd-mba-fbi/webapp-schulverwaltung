@@ -29,11 +29,11 @@
   </a>
 </div>
 
-<ng-container *erzLet="timetableEntries$ | async as entries">
+<ng-container *bkdLet="timetableEntries$ | async as entries">
   <ng-container *ngIf="(loading$ | async) === false; else loading">
-    <erz-dashboard-timetable-table
+    <bkd-dashboard-timetable-table
       [entries]="entries"
-    ></erz-dashboard-timetable-table>
+    ></bkd-dashboard-timetable-table>
 
     <a
       *ngIf="getSubscribeCalendarUrl() | async as url"
@@ -47,5 +47,5 @@
 </ng-container>
 
 <ng-template #loading>
-  <erz-spinner></erz-spinner>
+  <bkd-spinner></bkd-spinner>
 </ng-template>

@@ -31,7 +31,7 @@
       "dossier.dialog.grade" | translate
     }}</label>
     <div class="col-6">
-      <erz-select
+      <bkd-select
         id="grade"
         [options]="gradeOptions"
         [value]="gradeId"
@@ -39,7 +39,7 @@
         [disabled]="gradingScaleDisabled$ | async"
         (valueChange)="$event && onGradeChange($event)"
       >
-      </erz-select>
+      </bkd-select>
     </div>
   </div>
   <p class="text-muted mt-4">

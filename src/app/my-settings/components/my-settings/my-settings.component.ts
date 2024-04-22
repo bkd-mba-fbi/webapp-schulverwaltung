@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 
 @Component({
-  selector: "erz-my-settings",
+  selector: "bkd-my-settings",
   templateUrl: "./my-settings.component.html",
   styleUrls: ["./my-settings.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,6 +1,6 @@
 <h1>{{ "open-absences.title" | translate }}</h1>
 <div
-  *erzLet="{
+  *bkdLet="{
     selection: selectionService.selection$ | async,
     entries: openAbsencesService.filteredEntries$ | async,
     sortCriteria: openAbsencesService.sortCriteria$ | async
@@ -17,13 +17,13 @@
       "
     >
       <div>
-        <erz-resettable-input
+        <bkd-resettable-input
           class="d-flex header-search"
           [value]="openAbsencesService.search$ | async"
           [placeholder]="'open-absences.search-by-name-or-class' | translate"
           [label]="'open-absences.search' | translate"
           (valueChange)="openAbsencesService.search$.next($event)"
-        ></erz-resettable-input>
+        ></bkd-resettable-input>
         <div class="d-flex align-items-center justify-content-between mt-1">
           <div class="selection-count ps-1">
             {{
@@ -97,7 +97,7 @@
               }}
             </div>
             <div class="days-ago">
-              {{ entry.date | erzDaysDifference }}
+              {{ entry.date | bkdDaysDifference }}
             </div>
             <div class="date">{{ entry.date | date: "dd.MM.yyyy" }}</div>
           </div>
@@ -111,6 +111,6 @@
   </ng-container>
 
   <ng-template #loading>
-    <erz-spinner></erz-spinner>
+    <bkd-spinner></bkd-spinner>
   </ng-template>
 </div>

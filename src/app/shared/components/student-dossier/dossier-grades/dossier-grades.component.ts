@@ -8,7 +8,7 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
 import { DossierGradesViewComponent } from "../dossier-grades-view/dossier-grades-view.component";
 
 @Component({
-  selector: "erz-dossier-grades",
+  selector: "bkd-dossier-grades",
   templateUrl: "./dossier-grades.component.html",
   styleUrls: ["./dossier-grades.component.scss"],
   standalone: true,

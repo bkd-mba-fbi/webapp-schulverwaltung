@@ -23,7 +23,7 @@ import { getBlockLessonLoadingContext } from "../../services/presence-control-bl
 import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-preceding-absence/presence-control-preceding-absence.component";
 
 @Component({
-  selector: "erz-presence-control-entry",
+  selector: "bkd-presence-control-entry",
   templateUrl: "./presence-control-entry.component.html",
   styleUrls: ["./presence-control-entry.component.scss"],
   standalone: true,

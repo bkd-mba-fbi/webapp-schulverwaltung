@@ -6,7 +6,7 @@ import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
 import { ApprenticeshipCompany } from "../../../services/student-profile.service";
 
 @Component({
-  selector: "erz-student-dossier-apprenticeship-company",
+  selector: "bkd-student-dossier-apprenticeship-company",
   templateUrl: "./student-dossier-apprenticeship-company.component.html",
   styleUrls: ["./student-dossier-apprenticeship-company.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

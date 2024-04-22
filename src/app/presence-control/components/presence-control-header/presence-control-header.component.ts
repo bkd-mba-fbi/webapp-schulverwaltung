@@ -67,7 +67,7 @@ interface ViewModeOption {
 }
 
 @Component({
-  selector: "erz-presence-control-header",
+  selector: "bkd-presence-control-header",
   templateUrl: "./presence-control-header.component.html",
   styleUrls: ["./presence-control-header.component.scss"],
   standalone: true,

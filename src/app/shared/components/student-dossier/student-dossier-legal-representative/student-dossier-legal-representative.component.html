@@ -15,9 +15,9 @@
   <ng-container *ngIf="person.PhoneMobile">
     <a href="tel:{{ person.PhoneMobile }}">{{ person.PhoneMobile }}<br /></a
   ></ng-container>
-  <ng-container *ngIf="person | erzPersonEmail">
-    <a href="mailto:{{ person | erzPersonEmail }}">{{
-      person | erzPersonEmail
+  <ng-container *ngIf="person | bkdPersonEmail">
+    <a href="mailto:{{ person | bkdPersonEmail }}">{{
+      person | bkdPersonEmail
     }}</a></ng-container
   >
 </address>

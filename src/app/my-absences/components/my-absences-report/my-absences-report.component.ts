@@ -4,7 +4,7 @@ import { MyAbsencesReportSelectionService } from "../../services/my-absences-rep
 import { MyAbsencesReportStateService } from "../../services/my-absences-report-state.service";
 
 @Component({
-  selector: "erz-my-absences-report",
+  selector: "bkd-my-absences-report",
   templateUrl: "./my-absences-report.component.html",
   styleUrls: ["./my-absences-report.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -15,7 +15,7 @@ import { PresenceControlGroupService } from "../../services/presence-control-gro
 import { PresenceControlStateService } from "../../services/presence-control-state.service";
 
 @Component({
-  selector: "erz-presence-control",
+  selector: "bkd-presence-control",
   template: "<router-outlet></router-outlet>",
   styleUrls: ["./presence-control.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

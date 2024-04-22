@@ -1,15 +1,15 @@
 <div
-  class="erz-container"
-  *erzLet="{ events: state.getEvents(withRatings) | async } as data"
+  class="bkd-container"
+  *bkdLet="{ events: state.getEvents(withRatings) | async } as data"
 >
-  <erz-resettable-input
+  <bkd-resettable-input
     class="d-flex search"
     [value]="state.search$ | async"
     [placeholder]="'events.search-by' | translate"
     [label]="'events.search' | translate"
     [disabled]="!data.events"
     (valueChange)="state.search$.next($event)"
-  ></erz-resettable-input>
+  ></bkd-resettable-input>
 
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
     <ng-container *ngIf="data.events?.length > 0; else noEvents">
@@ -70,6 +70,6 @@
   </ng-container>
 
   <ng-template #loading>
-    <erz-spinner></erz-spinner>
+    <bkd-spinner></bkd-spinner>
   </ng-template>
 </div>

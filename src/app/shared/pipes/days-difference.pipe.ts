@@ -3,7 +3,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { differenceInCalendarDays } from "date-fns";
 
 @Pipe({
-  name: "erzDaysDifference",
+  name: "bkdDaysDifference",
   standalone: true,
 })
 export class DaysDifferencePipe implements PipeTransform {

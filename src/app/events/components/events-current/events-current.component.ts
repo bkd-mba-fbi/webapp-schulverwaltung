@@ -3,7 +3,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { EventsListComponent } from "../events-list/events-list.component";
 
 @Component({
-  selector: "erz-events-current",
+  selector: "bkd-events-current",
   templateUrl: "./events-current.component.html",
   styleUrls: ["./events-current.component.scss"],
   standalone: true,

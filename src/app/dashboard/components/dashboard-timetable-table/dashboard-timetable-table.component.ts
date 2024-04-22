@@ -6,7 +6,7 @@ import { DashboardService } from "../../services/dashboard.service";
 import { DashboardTimetableEntry } from "../dashboard-timetable/dashboard-timetable.component";
 
 @Component({
-  selector: "erz-dashboard-timetable-table",
+  selector: "bkd-dashboard-timetable-table",
   templateUrl: "./dashboard-timetable-table.component.html",
   styleUrls: ["./dashboard-timetable-table.component.scss"],
   standalone: true,

@@ -1,6 +1,6 @@
 <div
-  class="erz-container erz-container-limited"
-  *erzLet="{
+  class="bkd-container bkd-container-limited"
+  *bkdLet="{
     loading: myGradesService.loading$ | async,
     studentId: myGradesService.studentId$ | async,
     courses: myGradesService.studentCoursesSorted$ | async,
@@ -8,15 +8,15 @@
   } as data"
 >
   <h1>{{ "my-grades.title" | translate }}</h1>
-  <erz-my-grades-header></erz-my-grades-header>
-  <erz-dossier-grades-view
+  <bkd-my-grades-header></bkd-my-grades-header>
+  <bkd-dossier-grades-view
     *ngIf="!data.loading"
     [courses]="data.courses"
     [studentId]="data.studentId"
     [gradingScales]="data.gradingScales"
     [isEditable]="false"
-  ></erz-dossier-grades-view>
+  ></bkd-dossier-grades-view>
   <ng-container *ngIf="data.loading">
-    <erz-spinner></erz-spinner>
+    <bkd-spinner></bkd-spinner>
   </ng-container>
 </div>

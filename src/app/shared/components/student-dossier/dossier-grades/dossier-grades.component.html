@@ -1,18 +1,18 @@
 <ng-container
-  *erzLet="{
+  *bkdLet="{
     studentId: state.studentId$ | async,
     loading: dossierGradesService.loading$ | async,
     courses: dossierGradesService.studentCourses$ | async,
     gradingScales: dossierGradesService.gradingScales$ | async
   } as data"
 >
-  <erz-dossier-grades-view
+  <bkd-dossier-grades-view
     *ngIf="!data.loading"
     [courses]="data.courses"
     [studentId]="data.studentId"
     [gradingScales]="data.gradingScales"
-  ></erz-dossier-grades-view>
+  ></bkd-dossier-grades-view>
   <ng-container *ngIf="data.loading">
-    <erz-spinner></erz-spinner>
+    <bkd-spinner></bkd-spinner>
   </ng-container>
 </ng-container>

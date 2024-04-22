@@ -9,7 +9,7 @@ interface Section {
 }
 
 @Component({
-  selector: "erz-home",
+  selector: "bkd-home",
   template: `
     <ul class="mt-3">
       <li *ngFor="let section of sections">

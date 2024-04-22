@@ -1,18 +1,18 @@
-<ng-container *erzLet="sortedTests$ | async as sortedTests">
+<ng-container *bkdLet="sortedTests$ | async as sortedTests">
   <div *ngIf="sortedTests.length > 0; else noTests">
-    <erz-dossier-grades-final-grade
+    <bkd-dossier-grades-final-grade
       [finalGrade]="decoratedCourse.finalGrade"
       [grading]="decoratedCourse.grading"
       [gradingScale]="decoratedCourse.gradingScale"
       [average]="decoratedCourse.average"
-    ></erz-dossier-grades-final-grade>
-    <erz-dossier-single-test
+    ></bkd-dossier-grades-final-grade>
+    <bkd-dossier-single-test
       *ngFor="let test of sortedTests"
       [test]="test"
       [studentId]="studentId"
       [gradingScale]="getGradingScaleOfTest(test)"
       [isEditable]="isEditable"
-    ></erz-dossier-single-test>
+    ></bkd-dossier-single-test>
   </div>
   <ng-template #noTests>
     <p class="p-3" data-testid="message-no-tests">

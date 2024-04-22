@@ -1,5 +1,5 @@
 <div
-  *erzLet="{
+  *bkdLet="{
     loading: dashboardService.loading$ | async,
     hasSearch: dashboardService.hasSearch$ | async,
     hasActions: dashboardService.hasActions$ | async,
@@ -13,7 +13,7 @@
   >
     {{ "dashboard.heading" | translate }}
   </h1>
-  <erz-spinner *ngIf="data.loading"></erz-spinner>
+  <bkd-spinner *ngIf="data.loading"></bkd-spinner>
   <p
     *ngIf="
       !data.loading && !data.hasSearch && !data.hasActions && !data.hasTimetable
@@ -29,16 +29,16 @@
     >
       <div *ngIf="data.hasSearch">
         <h2>{{ "dashboard.search.title" | translate }}</h2>
-        <erz-dashboard-search></erz-dashboard-search>
+        <bkd-dashboard-search></bkd-dashboard-search>
       </div>
       <div *ngIf="data.hasActions">
         <h2>{{ "dashboard.actions.title" | translate }}</h2>
-        <erz-dashboard-actions></erz-dashboard-actions>
+        <bkd-dashboard-actions></bkd-dashboard-actions>
       </div>
     </div>
     <div *ngIf="data.hasTimetable" class="timetable-column">
       <h2>{{ "dashboard.timetable.title" | translate }}</h2>
-      <erz-dashboard-timetable></erz-dashboard-timetable>
+      <bkd-dashboard-timetable></bkd-dashboard-timetable>
     </div>
   </div>
 </div>

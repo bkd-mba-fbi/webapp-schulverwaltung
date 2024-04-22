@@ -1,12 +1,12 @@
 <div class="avatar-person" *ngIf="student">
   <div class="d-flex">
-    <erz-avatar [studentId]="student.Id" class="me-3 avatar large"></erz-avatar>
+    <bkd-avatar [studentId]="student.Id" class="me-3 avatar large"></bkd-avatar>
     <div class="person">
       {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
       <span *ngIf="student.Gender">({{ student.Gender }})</span>
       <div class="birthdate">{{ student.Birthdate | date: "dd.MM.yyyy" }}</div>
     </div>
   </div>
-  <erz-reports-link [reports]="reports$ | async"></erz-reports-link>
+  <bkd-reports-link [reports]="reports$ | async"></bkd-reports-link>
 </div>
 <div class="email" *ngIf="student">{{ student.Email }}</div>

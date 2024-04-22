@@ -9,28 +9,28 @@
     <div ngbAccordion>
       <div ngbAccordionItem #courses="ngbAccordionItem">
         <div ngbAccordionHeader>
-          <erz-student-dossier-entry-header
+          <bkd-student-dossier-entry-header
             [opened]="!courses.collapsed"
             (click)="courses.toggle()"
           >
-            <erz-dossier-grades-course-header
+            <bkd-dossier-grades-course-header
               [designation]="decoratedCourse.course.Designation"
               [finalGrade]="decoratedCourse.finalGrade"
               [grading]="decoratedCourse.grading"
               [gradingScale]="decoratedCourse.gradingScale"
               [average]="decoratedCourse.average"
-            ></erz-dossier-grades-course-header>
-          </erz-student-dossier-entry-header>
+            ></bkd-dossier-grades-course-header>
+          </bkd-student-dossier-entry-header>
         </div>
         <div ngbAccordionCollapse>
           <div ngbAccordionBody>
             <ng-template>
-              <erz-dossier-course-tests
+              <bkd-dossier-course-tests
                 [decoratedCourse]="decoratedCourse"
                 [studentId]="studentId"
                 [gradingScales]="gradingScales"
                 [isEditable]="isEditable"
-              ></erz-dossier-course-tests>
+              ></bkd-dossier-course-tests>
             </ng-template>
           </div>
         </div>

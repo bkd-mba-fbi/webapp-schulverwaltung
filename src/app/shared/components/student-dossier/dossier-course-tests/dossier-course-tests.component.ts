@@ -11,7 +11,7 @@ import { CourseWithGrades } from "../dossier-grades-view/dossier-grades-view.com
 import { DossierSingleTestComponent } from "../dossier-single-test/dossier-single-test.component";
 
 @Component({
-  selector: "erz-dossier-course-tests",
+  selector: "bkd-dossier-course-tests",
   templateUrl: "./dossier-course-tests.component.html",
   styleUrls: ["./dossier-course-tests.component.scss"],
   standalone: true,

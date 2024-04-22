@@ -1,22 +1,22 @@
 @import "../../../../bootstrap-variables";
 
-$erz-switch-width: 36px;
-$erz-switch-height: calc($erz-switch-width / 2);
-$erz-switch-border-width: 1px;
-$erz-switch-toggle-padding: 1px;
-$erz-switch-toggle-width: calc(
-  $erz-switch-height - 2 * $erz-switch-border-width - 2 *
-    $erz-switch-toggle-padding
+$bkd-switch-width: 36px;
+$bkd-switch-height: calc($bkd-switch-width / 2);
+$bkd-switch-border-width: 1px;
+$bkd-switch-toggle-padding: 1px;
+$bkd-switch-toggle-width: calc(
+  $bkd-switch-height - 2 * $bkd-switch-border-width - 2 *
+    $bkd-switch-toggle-padding
 );
-$erz-switch-active-bg: $body-color;
-$erz-switch-active-border: $body-color;
-$erz-switch-active-toggle: $white;
-$erz-switch-inactive-bg: $white;
-$erz-switch-inactive-border: $body-color;
-$erz-switch-inactive-toggle: $body-color;
-$erz-switch-disabled-bg: $white;
-$erz-switch-disabled-border: $gray;
-$erz-switch-disabled-toggle: $gray;
+$bkd-switch-active-bg: $body-color;
+$bkd-switch-active-border: $body-color;
+$bkd-switch-active-toggle: $white;
+$bkd-switch-inactive-bg: $white;
+$bkd-switch-inactive-border: $body-color;
+$bkd-switch-inactive-toggle: $body-color;
+$bkd-switch-disabled-bg: $white;
+$bkd-switch-disabled-border: $gray;
+$bkd-switch-disabled-toggle: $gray;
 
 input {
   opacity: 0;
@@ -26,36 +26,36 @@ input {
 label {
   cursor: pointer;
   text-indent: -9999px;
-  width: $erz-switch-width;
-  height: $erz-switch-height;
-  border: $erz-switch-border-width solid $erz-switch-inactive-border;
-  background: $erz-switch-inactive-bg;
+  width: $bkd-switch-width;
+  height: $bkd-switch-height;
+  border: $bkd-switch-border-width solid $bkd-switch-inactive-border;
+  background: $bkd-switch-inactive-bg;
   display: block;
-  border-radius: $erz-switch-height;
+  border-radius: $bkd-switch-height;
   position: relative;
 }
 
 label:after {
   content: "";
   position: absolute;
-  top: $erz-switch-toggle-padding;
-  left: $erz-switch-toggle-padding;
-  width: $erz-switch-toggle-width;
-  height: $erz-switch-toggle-width;
-  background: $erz-switch-inactive-toggle;
-  border-radius: $erz-switch-toggle-width;
+  top: $bkd-switch-toggle-padding;
+  left: $bkd-switch-toggle-padding;
+  width: $bkd-switch-toggle-width;
+  height: $bkd-switch-toggle-width;
+  background: $bkd-switch-inactive-toggle;
+  border-radius: $bkd-switch-toggle-width;
   transition: 0.3s;
 }
 
 input:checked + label {
-  border-color: $erz-switch-active-border;
-  background: $erz-switch-active-bg;
+  border-color: $bkd-switch-active-border;
+  background: $bkd-switch-active-bg;
 }
 
 input:checked + label:after {
-  left: calc(100% - $erz-switch-toggle-padding);
+  left: calc(100% - $bkd-switch-toggle-padding);
   transform: translateX(-100%);
-  background: $erz-switch-active-toggle;
+  background: $bkd-switch-active-toggle;
 }
 
 input:focus + label {
@@ -65,14 +65,14 @@ input:focus + label {
 
 input:disabled + label {
   cursor: default;
-  background: $erz-switch-disabled-bg;
-  border-color: $erz-switch-disabled-border;
+  background: $bkd-switch-disabled-bg;
+  border-color: $bkd-switch-disabled-border;
 }
 
 input:disabled + label:after {
-  background: $erz-switch-disabled-toggle;
+  background: $bkd-switch-disabled-toggle;
 }
 
 label:active:after {
-  width: calc($erz-switch-toggle-width * 1.3);
+  width: calc($bkd-switch-toggle-width * 1.3);
 }

@@ -6,7 +6,7 @@ import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
 import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 
 @Component({
-  selector: "erz-presence-control-preceding-absence",
+  selector: "bkd-presence-control-preceding-absence",
   templateUrl: "./presence-control-preceding-absence.component.html",
   styleUrls: ["./presence-control-preceding-absence.component.scss"],
   standalone: true,

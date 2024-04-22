@@ -10,7 +10,7 @@ import { Course } from "../../../shared/models/course.model";
 import { ReportsService } from "../../../shared/services/reports.service";
 
 @Component({
-  selector: "erz-tests-header",
+  selector: "bkd-tests-header",
   templateUrl: "./tests-header.component.html",
   styleUrls: ["./tests-header.component.scss"],
   standalone: true,

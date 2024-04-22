@@ -11,7 +11,7 @@ import { SETTINGS, Settings } from "src/app/settings";
 import { StorageService } from "../../services/storage.service";
 
 @Component({
-  selector: "erz-avatar",
+  selector: "bkd-avatar",
   templateUrl: "./avatar.component.html",
   styleUrls: ["./avatar.component.scss"],
   standalone: true,

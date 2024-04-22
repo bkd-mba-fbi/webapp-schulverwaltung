@@ -4,7 +4,7 @@ import { resultOfStudent } from "src/app/events/utils/tests";
 import { Test } from "src/app/shared/models/test.model";
 
 @Pipe({
-  name: "erzTestPoints",
+  name: "bkdTestPoints",
   standalone: true,
 })
 export class TestPointsPipe implements PipeTransform {

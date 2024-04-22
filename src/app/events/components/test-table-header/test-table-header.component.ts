@@ -8,7 +8,7 @@ import { PreserveLineHeightComponent } from "../../../shared/components/text/lin
 import { TestSummaryShortPipe } from "../../pipes/test-summary-short.pipe";
 
 @Component({
-  selector: "erz-test-table-header",
+  selector: "bkd-test-table-header",
   templateUrl: "./test-table-header.component.html",
   styleUrls: ["./test-table-header.component.scss"],
   standalone: true,

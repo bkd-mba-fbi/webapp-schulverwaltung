@@ -6,7 +6,7 @@ import { DashboardActionComponent } from "../dashboard-action/dashboard-action.c
 import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-deadline.component";
 
 @Component({
-  selector: "erz-dashboard-actions",
+  selector: "bkd-dashboard-actions",
   templateUrl: "./dashboard-actions.component.html",
   styleUrls: ["./dashboard-actions.component.scss"],
   standalone: true,

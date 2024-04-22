@@ -21,7 +21,7 @@ import { PresenceTypesService } from "../../../shared/services/presence-types.se
 import { OpenAbsencesService } from "../../services/open-absences.service";
 
 @Component({
-  selector: "erz-open-absences-detail",
+  selector: "bkd-open-absences-detail",
   templateUrl: "./open-absences-detail.component.html",
   styleUrls: ["./open-absences-detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -24,7 +24,7 @@ import {
 } from "../../services/open-absences.service";
 
 @Component({
-  selector: "erz-open-absences-list",
+  selector: "bkd-open-absences-list",
   templateUrl: "./open-absences-list.component.html",
   styleUrls: ["./open-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

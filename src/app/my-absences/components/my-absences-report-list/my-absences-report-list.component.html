@@ -1,14 +1,14 @@
 <ng-container
-  *erzLet="{
+  *bkdLet="{
     selection: selectionService.selection$ | async,
     entries: state.entries$ | async,
     loadingPage: state.loadingPage$ | async
   } as data"
 >
-  <erz-my-absences-report-header
+  <bkd-my-absences-report-header
     [filter]="filterFromParams$ | async"
     (filterChange)="state.setFilter($event)"
-  ></erz-my-absences-report-header>
+  ></bkd-my-absences-report-header>
 
   <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -53,7 +53,7 @@
             (click)="onRowClick($event, row)"
           >
             <ng-container
-              *erzLet="getPresenceCategory(entry) | async as category"
+              *bkdLet="getPresenceCategory(entry) | async as category"
             >
               <div *ngIf="!category; else categoryIcon" class="checkbox">
                 <input
@@ -85,7 +85,7 @@
               {{ entry.TeacherInformation }}
             </div>
             <ng-container
-              *erzLet="
+              *bkdLet="
                 getPresenceTypeDesignation(entry)
                   | async as presenceTypeDesignation
               "
@@ -98,16 +98,16 @@
               {{ entry.LessonDateTimeFrom | date: "dd.MM.yyyy" }}
             </div>
             <div class="days-ago">
-              {{ entry.LessonDateTimeFrom | erzDaysDifference }}
+              {{ entry.LessonDateTimeFrom | bkdDaysDifference }}
             </div>
             <div class="date-days-ago">
               {{ entry.LessonDateTimeFrom | date: "dd.MM.yyyy" }},
-              {{ entry.LessonDateTimeFrom | erzDaysDifference }}
+              {{ entry.LessonDateTimeFrom | bkdDaysDifference }}
             </div>
           </div>
         </div>
 
-        <erz-spinner class="inline" *ngIf="data.loadingPage"></erz-spinner>
+        <bkd-spinner class="inline" *ngIf="data.loadingPage"></bkd-spinner>
       </div>
 
       <ng-template #noEntries>
@@ -118,7 +118,7 @@
     </ng-container>
 
     <ng-template #loading>
-      <erz-spinner></erz-spinner>
+      <bkd-spinner></bkd-spinner>
     </ng-template>
   </ng-container>
 

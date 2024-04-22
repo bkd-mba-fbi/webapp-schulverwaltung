@@ -22,7 +22,7 @@ import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.compo
 import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
 
 @Component({
-  selector: "erz-tests-edit",
+  selector: "bkd-tests-edit",
   templateUrl: "./tests-edit.component.html",
   styleUrls: ["./tests-edit.component.scss"],
   standalone: true,

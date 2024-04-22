@@ -5,7 +5,7 @@ import { ReportsLinkComponent } from "../../../shared/components/reports-link/re
 import { MyGradesService } from "../../services/my-grades.service";
 
 @Component({
-  selector: "erz-my-grades-header",
+  selector: "bkd-my-grades-header",
   templateUrl: "./my-grades-header.component.html",
   styleUrls: ["./my-grades-header.component.scss"],
   standalone: true,

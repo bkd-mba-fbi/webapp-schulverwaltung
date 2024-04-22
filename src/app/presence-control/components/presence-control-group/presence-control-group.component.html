@@ -1,15 +1,15 @@
 <div
-  *erzLet="{
+  *bkdLet="{
     sortCriteria: sortCriteria$ | async,
     sortedEntries: sortedEntries$ | async,
     selection: selectionService.selection$ | async,
     group: groupService.group$ | async
   } as data"
 >
-  <erz-backlink
+  <bkd-backlink
     [link]="['/presence-control']"
     [params]="backlinkQueryParams$ | async"
-  ></erz-backlink>
+  ></bkd-backlink>
 
   <h1>{{ "presence-control.groups.title" | translate }}</h1>
 
@@ -65,17 +65,17 @@
           </div>
           <div class="group d-flex justify-content-between">
             <span>{{ entry.group ? entry.group : "" }}</span>
-            <erz-spinner
+            <bkd-spinner
               class="inline small"
               *ngIf="groupService.loading$ | async"
-            ></erz-spinner>
+            ></bkd-spinner>
           </div>
         </div>
       </ng-container>
     </ng-container>
 
     <ng-template #loading>
-      <erz-spinner></erz-spinner>
+      <bkd-spinner></bkd-spinner>
     </ng-template>
   </div>
 </div>

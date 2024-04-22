@@ -36,7 +36,7 @@ import { LetDirective } from "../../../shared/directives/let.directive";
 import { TestStateService } from "../../services/test-state.service";
 
 @Component({
-  selector: "erz-tests-edit-form",
+  selector: "bkd-tests-edit-form",
   templateUrl: "./tests-edit-form.component.html",
   styleUrls: ["./tests-edit-form.component.scss"],
   schemas: [NO_ERRORS_SCHEMA], // otherwise html math tags are not allowed using template strict mode
@@ -63,7 +63,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
 
   @Output() save = new EventEmitter<UntypedFormGroup>();
 
-  componentId = uniqueId("erz-tests-edit-form");
+  componentId = uniqueId("bkd-tests-edit-form");
 
   formGroup: UntypedFormGroup = this.createFormGroup();
   private submitted$ = new BehaviorSubject(false);
