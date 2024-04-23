@@ -43,7 +43,7 @@ describe("DossierGradesService", () => {
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
 
       let result: Course[] = [];
-      service.studentCourses$.subscribe((courses) => (result = courses));
+      service.studentCourses$.subscribe((courses) => (result = [...courses]));
 
       service.setStudentId(123);
 
@@ -69,7 +69,7 @@ describe("DossierGradesService", () => {
       );
 
       let result: Course[] = [];
-      service.studentCourses$.subscribe((courses) => (result = courses));
+      service.studentCourses$.subscribe((courses) => (result = [...courses]));
 
       service.setStudentId(11);
 

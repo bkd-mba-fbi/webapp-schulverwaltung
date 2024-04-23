@@ -110,7 +110,7 @@ export class DossierSingleTestComponent implements OnChanges {
 
   private updateStudentGrade(result: Result, test: Test): void {
     const updatedTest = replaceResultInTest(result, test);
-    this.gradeService.updateTest$.next(updatedTest);
+    this.gradeService.updateStudentCourses(updatedTest);
   }
 
   private getGrading(test: Test): string {
