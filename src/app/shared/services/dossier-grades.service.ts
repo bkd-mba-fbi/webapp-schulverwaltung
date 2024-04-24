@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@angular/core";
 import {
   ReplaySubject,
-  Subject,
   combineLatest,
   distinctUntilChanged,
   forkJoin,
@@ -10,7 +9,7 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
-import { withLatestFrom } from "rxjs/operators";
+import { scan } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
 import { gradingScaleOfTest, resultOfStudent } from "../../events/utils/tests";
 import { Course, FinalGrading, Grading } from "../models/course.model";
@@ -24,12 +23,19 @@ import { LoadingService } from "./loading-service";
 import { ReportsService } from "./reports.service";
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
+type CoursesAction =
+  | {
+      type: "initializeCourses";
+      payload: Course[];
+    }
+  | {
+      type: "updateCourses";
+      payload: Test;
+    };
+
 @Injectable()
 export class DossierGradesService {
   private studentId$ = new ReplaySubject<number>(1);
-
-  updateTest$ = new Subject<Test>();
-
   private initialStudentCourses$ = this.studentId$.pipe(
     distinctUntilChanged(),
     switchMap(this.loadCourses.bind(this)),
@@ -39,20 +45,26 @@ export class DossierGradesService {
     shareReplay(1),
   );
 
-  private updatedStudentCourses$ = this.updateTest$.pipe(
-    withLatestFrom(this.initialStudentCourses$),
-    map(([test, courses]) => this.updateCourses(courses, test)),
-  );
-
+  action$ = new ReplaySubject<CoursesAction>(1);
   studentCourses$ = merge(
-    this.initialStudentCourses$,
-    this.updatedStudentCourses$,
-  ).pipe(shareReplay(1));
+    this.action$,
+    this.initialStudentCourses$.pipe(
+      map(
+        (courses): CoursesAction => ({
+          type: "initializeCourses",
+          payload: courses,
+        }),
+      ),
+    ),
+  ).pipe(
+    scan(this.coursesReducer.bind(this), [] as ReadonlyArray<Course>),
+    shareReplay(1),
+  );
 
   loading$ = this.loadingService.loading$;
 
   private studentCourseIds$ = this.studentCourses$.pipe(
-    map((courses: Course[]) => courses.flatMap((course) => course.Id)),
+    map((courses) => courses.flatMap((course) => course.Id)),
   );
 
   private idSubscriptions$ = combineLatest([
@@ -129,6 +141,13 @@ export class DossierGradesService {
     );
   }
 
+  updateStudentCourses(test: Test) {
+    this.action$.next({
+      type: "updateCourses",
+      payload: test,
+    });
+  }
+
   private loadCourses(studentId: number) {
     return this.loadingService.load(
       this.coursesRestService
@@ -150,7 +169,7 @@ export class DossierGradesService {
   // if it is merged, integrate changes and dry it up.
 
   private tests$ = this.studentCourses$.pipe(
-    map((courses: Course[]) =>
+    map((courses) =>
       courses.flatMap((course: Course) => course.Tests).filter(notNull),
     ),
   );
@@ -164,7 +183,7 @@ export class DossierGradesService {
   );
 
   private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
-    map((courses: Course[]) =>
+    map((courses) =>
       courses
         .flatMap((course: Course) => course.GradingScaleId)
         .filter(notNull)
@@ -190,6 +209,20 @@ export class DossierGradesService {
       ),
     ),
   );
+
+  private coursesReducer(
+    state: ReadonlyArray<Course>,
+    action: CoursesAction,
+  ): ReadonlyArray<Course> {
+    switch (action.type) {
+      case "initializeCourses":
+        return action.payload;
+      case "updateCourses":
+        return this.updateCourses([...state], action.payload);
+      default:
+        return state;
+    }
+  }
 
   private updateCourses(courses: Course[], updatedTest: Test): Course[] {
     return courses.map((course) => ({
