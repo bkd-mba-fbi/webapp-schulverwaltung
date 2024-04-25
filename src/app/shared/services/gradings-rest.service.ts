@@ -15,7 +15,7 @@ export class GradingsRestService extends RestService<typeof Grading> {
 
   updateGrade(
     finaleGradeId: number,
-    selectedGradeId: number,
+    selectedGradeId: Option<number>,
   ): Observable<number> {
     return this.http
       .put(`${this.baseUrl}/${finaleGradeId}`, { GradeId: selectedGradeId })

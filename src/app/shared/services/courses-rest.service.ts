@@ -1,15 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import * as t from "io-ts";
-import { Observable, map, of, switchMap } from "rxjs";
+import { Observable, map, of, switchMap, throwError } from "rxjs";
+import {
+  TestResultGradeUpdate,
+  TestResultPointsUpdate,
+} from "src/app/events/services/test-state.service";
 import { SETTINGS, Settings } from "src/app/settings";
 import {
   AverageTestResultResponse,
   Course,
-  TestGradesResult,
-  TestPointsResult,
+  Grading,
   UpdatedTestResultResponse,
 } from "../models/course.model";
+import { Result } from "../models/test.model";
 import { decode, decodeArray } from "../utils/decode";
 import { hasRole } from "../utils/roles";
 import { pick } from "../utils/types";
@@ -146,15 +150,48 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(map(() => testId));
   }
 
+  /**
+   * Updates the corresponding test result with the new grade or points value.
+   * It returns the updated test result and the affected grading. If the value
+   * is set to `null` (i.e. the grade/points are removed), the returned test
+   * result is `null` as well.
+   */
   updateTestResult(
     courseId: number,
-    body: TestPointsResult | TestGradesResult,
-  ): Observable<{ courseId: number; body: UpdatedTestResultResponse }> {
+    update: TestResultGradeUpdate | TestResultPointsUpdate,
+  ): Observable<{
+    courseId: number;
+    testResult: Option<Result>;
+    grading: Grading;
+  }> {
+    // Although the endpoint would provide the possiblity to update the
+    // grades/points of multiple students, we expose only an API to update a
+    // single test result (for the sake of simplicity).
+    const { studentId, testId, ...rest } = update;
+    const baseParams = { StudentIds: [studentId], TestId: testId };
+    const params =
+      "gradeId" in rest
+        ? { ...baseParams, GradeId: rest.gradeId }
+        : { ...baseParams, Points: rest.points };
     return this.http
-      .put(`${this.baseUrl}/${courseId}/SetTestResult`, body)
+      .put(`${this.baseUrl}/${courseId}/SetTestResult`, params)
       .pipe(
         switchMap(decode(UpdatedTestResultResponse)),
-        switchMap((value) => of({ courseId, body: value })),
+        switchMap(({ TestResults, Gradings }) => {
+          if (TestResults.length <= 1 && Gradings.length === 1) {
+            return of({
+              courseId,
+              testResult: TestResults[0] ?? null,
+              grading: Gradings[0],
+            });
+          }
+          return throwError(
+            () =>
+              new Error(
+                "`TestResults` or `Gradings` does not contain a single value",
+              ),
+          );
+        }),
       );
   }
 

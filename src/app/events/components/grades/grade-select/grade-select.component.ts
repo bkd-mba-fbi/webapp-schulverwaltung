@@ -17,12 +17,12 @@ export class GradeSelectComponent {
 
   @Output() gradeIdSelected = new EventEmitter<{
     id: number;
-    selectedGradeId: number;
+    selectedGradeId: Option<number>;
   }>();
 
   constructor() {}
 
-  onGradeChange(selectedGradeId: number): void {
+  onGradeChange(selectedGradeId: Option<number>): void {
     if (this.gradeId?.valueOf() === undefined) return;
     this.gradeIdSelected.emit({ id: this.gradeId?.valueOf(), selectedGradeId });
   }

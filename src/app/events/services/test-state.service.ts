@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { uniq } from "lodash-es";
+import { isEqual, uniq } from "lodash-es";
 import {
   BehaviorSubject,
   Observable,
@@ -9,17 +9,19 @@ import {
   of,
   scan,
   shareReplay,
+  throwError,
 } from "rxjs";
-import { filter, map, switchMap, take } from "rxjs/operators";
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from "rxjs/operators";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
-import {
-  Course,
-  Grading,
-  TestGradesResult,
-  TestPointsResult,
-  UpdatedTestResultResponse,
-} from "../../shared/models/course.model";
+import { Course, Grading } from "../../shared/models/course.model";
 import { DropDownItem } from "../../shared/models/drop-down-item.model";
 import {
   SortKeys,
@@ -30,7 +32,7 @@ import {
   pluckFinalGrades,
   transform,
 } from "../../shared/models/student-grades";
-import { Test } from "../../shared/models/test.model";
+import { Result, Test } from "../../shared/models/test.model";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
 import { GradingsRestService } from "../../shared/services/gradings-rest.service";
 import { SortService, Sorting } from "../../shared/services/sort.service";
@@ -38,12 +40,24 @@ import { notNull } from "../../shared/utils/filter";
 import { spread } from "../../shared/utils/function";
 import { TestsAction, courseReducer } from "../utils/course-reducer";
 import { canSetFinalGrade } from "../utils/events";
-import { sortByDate } from "../utils/tests";
+import { findResult, sortByDate } from "../utils/tests";
 
 export type Filter = "all-tests" | "my-tests";
 
 export type GradingScaleOptions = {
   [id: number]: DropDownItem[];
+};
+
+export type TestResultGradeUpdate = {
+  studentId: number;
+  testId: number;
+  gradeId: Option<number>;
+};
+
+export type TestResultPointsUpdate = {
+  studentId: number;
+  testId: number;
+  points: Option<number>;
 };
 
 @Injectable()
@@ -65,18 +79,22 @@ export class TestStateService {
     shareReplay(1),
   );
 
-  course$: Observable<Course> = merge(this.action$, this.fetchedCourse$).pipe(
-    map<TestsAction | Course, TestsAction>((actionOrFetchedCourse) => {
-      if ("type" in actionOrFetchedCourse) {
-        return actionOrFetchedCourse;
-      }
-      return {
-        type: "reset",
-        payload: actionOrFetchedCourse,
-      };
-    }),
+  course$: Observable<Course> = merge(
+    this.action$,
+    this.fetchedCourse$.pipe(
+      filter(notNull),
+      map(
+        (payload) =>
+          ({
+            type: "reset",
+            payload,
+          }) as TestsAction,
+      ),
+    ),
+  ).pipe(
     scan(courseReducer, null as Option<Course>),
     filter(notNull),
+    shareReplay(1),
   );
 
   tests$ = this.course$.pipe(
@@ -118,12 +136,15 @@ export class TestStateService {
       uniq([
         ...(course.Tests ?? []).map((test: Test) => test.GradingScaleId),
         course.GradingScaleId,
-      ]),
+      ]).filter(notNull),
     ),
+    distinctUntilChanged(isEqual),
+    shareReplay(1),
   );
 
-  private gradingScales$ = this.gradingScalesRestService.loadGradingScales(
-    this.gradingScaleIds$,
+  private gradingScales$ = this.gradingScaleIds$.pipe(
+    switchMap((ids) => this.gradingScalesRestService.getGradingScales(ids)),
+    shareReplay(1),
   );
 
   private UNDEFINED_GRADINGSCALE_ID = -1;
@@ -218,16 +239,61 @@ export class TestStateService {
     this.expandedHeader$.next(expanded);
   }
 
-  saveGrade(requestBody: TestGradesResult | TestPointsResult) {
+  /**
+   * Optimistically updates the local state before saving. Returns the original
+   * value of the affected test result to be used with `saveGrade`, such that we
+   * can revert back to this old value in case of an error.
+   */
+  optimisticallyUpdateGrade(
+    update: TestResultGradeUpdate | TestResultPointsUpdate,
+  ): Observable<Option<Result>> {
+    return this.course$.pipe(
+      take(1),
+      map((course) => {
+        // As a side-effect, optimistically update the local state with the new value
+        const { originalResult, updatedResult } =
+          this.buildOptimisticResultUpdate(course, update);
+        this.updateTestResult(updatedResult, null);
+
+        return originalResult;
+      }),
+    );
+  }
+
+  /**
+   * Actually performs the request to persist the grade/points update. Will
+   * revert back to `originalResult` if present and the request fails.
+   */
+  saveGrade(
+    update: TestResultGradeUpdate | TestResultPointsUpdate,
+    originalResult?: Option<Result>,
+  ) {
     this.course$
       .pipe(
         take(1),
-        switchMap((course: Course) =>
-          this.coursesRestService.updateTestResult(course.Id, requestBody),
+        switchMap((course) =>
+          // Send the actual request to the API
+          this.coursesRestService.updateTestResult(course.Id, update).pipe(
+            catchError((error) => {
+              // Revert the optimistic update back to the original value in case of an error
+              if (originalResult) {
+                this.updateTestResult({ ...originalResult }, null);
+              }
+              return throwError(() => error);
+            }),
+          ),
         ),
       )
-      .subscribe((response) =>
-        this.updateStudentGrades(response, requestBody.TestId),
+      .subscribe(({ testResult, grading }) =>
+        // Update the local state with the data from the response (including the
+        // grading containing the average)
+        this.updateOrDeleteTestResult(
+          update.testId,
+          update.studentId,
+          testResult,
+          grading,
+          "gradeId" in update ? "grade" : "points",
+        ),
       );
   }
 
@@ -252,7 +318,7 @@ export class TestStateService {
     selectedGradeId,
   }: {
     id: number;
-    selectedGradeId: number;
+    selectedGradeId: Option<number>;
   }) {
     this.gradingsRestService.updateGrade(id, selectedGradeId).subscribe(() => {
       this.action$.next({
@@ -273,36 +339,74 @@ export class TestStateService {
       );
   }
 
-  private updateStudentGrades(
-    newGrades: {
-      courseId: number;
-      body: UpdatedTestResultResponse;
-    },
-    testId: number,
-  ) {
-    const grading: Grading | undefined = newGrades.body.Gradings.find(
-      (grading: Grading) => grading.EventId === newGrades.courseId,
-    );
-    if (grading === undefined) return;
+  private buildOptimisticResultUpdate(
+    course: Course,
+    update: TestResultGradeUpdate | TestResultPointsUpdate,
+  ): { originalResult: Option<Result>; updatedResult: Result } {
+    const originalResult = findResult(course, update.testId, update.studentId);
 
-    const updateResult: TestsAction = {
-      type: "updateResult",
-      payload: {
-        testResult: newGrades.body.TestResults[0],
-        grading,
-      },
-    };
-    const deleteResult: TestsAction = {
-      type: "deleteResult",
-      payload: { testId, grading },
-    };
+    const updatedResult: Result = originalResult
+      ? { ...originalResult }
+      : // Dummy object for optimistic update, if no result object exists yet
+        {
+          Id: "",
+          TestId: update.testId,
+          StudentId: update.studentId,
+          CourseRegistrationId: 0,
+          GradeId: null,
+          GradeValue: null,
+          GradeDesignation: null,
+          Points: null,
+        };
+    updatedResult.GradeId =
+      "gradeId" in update ? update.gradeId : originalResult?.GradeId ?? null;
+    updatedResult.Points =
+      "points" in update ? update.points : originalResult?.Points ?? null;
 
-    this.action$.next(
-      newGrades.body.TestResults.length === 0 ? deleteResult : updateResult,
-    );
+    return { originalResult, updatedResult };
   }
 
-  private toggleTestPublishedState(testId: number) {
+  private updateOrDeleteTestResult(
+    testId: number,
+    studentId: number,
+    testResult: Option<Result>,
+    grading: Option<Grading>,
+    ignore?: "grade" | "points",
+  ): void {
+    if (testResult) {
+      this.updateTestResult(testResult, grading, ignore);
+    } else {
+      this.deleteTestResult(testId, studentId, grading);
+    }
+  }
+
+  private updateTestResult(
+    testResult: Result,
+    grading?: Option<Grading>,
+    ignore?: "grade" | "points",
+  ): void {
+    this.action$.next({
+      type: "updateResult",
+      payload: {
+        testResult,
+        grading: grading ?? null,
+        ignore,
+      },
+    });
+  }
+
+  private deleteTestResult(
+    testId: number,
+    studentId: number,
+    grading: Option<Grading>,
+  ): void {
+    this.action$.next({
+      type: "deleteResult",
+      payload: { testId, studentId, grading },
+    });
+  }
+
+  private toggleTestPublishedState(testId: number): void {
     this.action$.next({
       type: "toggle-test-state",
       payload: testId,

@@ -1,10 +1,17 @@
+import { Course } from "src/app/shared/models/course.model";
 import { Result, Test } from "src/app/shared/models/test.model";
-import { buildGradingScale, buildResult, buildTest } from "src/spec-builders";
+import {
+  buildCourse,
+  buildGradingScale,
+  buildResult,
+  buildTest,
+} from "src/spec-builders";
 import { GradingScale } from "../../shared/models/grading-scale.model";
 import {
   averageGrade,
   averagePoints,
   deleteResult,
+  findResult,
   gradingScaleOfTest,
   maxPoints,
   removeTestById,
@@ -15,18 +22,47 @@ import {
 } from "./tests";
 
 describe("Test utils", () => {
-  describe("update test results", () => {
+  describe("findResult", () => {
+    let course: Course;
+
+    beforeEach(() => {
+      course = buildCourse(1);
+    });
+
+    it("returns null if course has no tests", () => {
+      expect(findResult(course, 1, 1)).toBeNull();
+    });
+
+    it("returns null if no test with given ID exists", () => {
+      course.Tests = [buildTest(course.Id, 2, [buildResult(2, 1)])];
+      expect(findResult(course, 1, 1)).toBeNull();
+    });
+
+    it("returns null if no result for test/student exists", () => {
+      course.Tests = [buildTest(course.Id, 1, [buildResult(1, 2)])];
+      expect(findResult(course, 1, 1)).toBeNull();
+    });
+
+    it("returns result for test/student", () => {
+      const result = buildResult(1, 1);
+      course.Tests = [
+        buildTest(course.Id, 1, [result, buildResult(1, 2)]),
+        buildTest(course.Id, 2, [buildResult(2, 1)]),
+      ];
+      expect(findResult(course, 1, 1)).toBe(result);
+    });
+  });
+
+  describe("replaceResult", () => {
     it("replace a result in a given test", () => {
       // given
-      const result = buildResult(1, 1, 55555);
+      const result1 = buildResult(1, 1);
+      const result2 = buildResult(2, 1); // Same student, other test
+      const result3 = buildResult(1, 2); // Same test other student
 
-      const test = buildTest(1, 1, [
-        result,
-        buildResult(2, 1, 55555),
-        buildResult(1, 1, 12345),
-      ]);
+      const test = buildTest(1, 1, [result1, result2, result3]);
 
-      const newResult = buildResult(1, 1, 55555);
+      const newResult = buildResult(1, 1);
       newResult.Points = 5;
 
       // when
@@ -34,70 +70,109 @@ describe("Test utils", () => {
 
       // then
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results!;
+      const newResults: Result[] = newTests[0].Results ?? [];
       expect(newResults.length).toEqual(3);
       expect(newResults).toContain(newResult);
-      expect(newResult).not.toContain(result);
+      expect(newResult).not.toContain(result1);
     });
 
-    it("add result to test that has no results yet", () => {
+    it("adds new result to test that has no results yet", () => {
       // given
       const test = buildTest(1, 1, null);
-      const newResult = buildResult(1, 2, 12345);
+      const newResult = buildResult(1, 2);
 
       // when
       const newTests = replaceResult(newResult, [test]);
 
       // then1
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results!;
+      const newResults: Result[] = newTests[0].Results ?? [];
       expect(newResults.length).toBe(1);
       expect(newResults).toContain(newResult);
     });
 
-    it("add new result to test that already has results", () => {
+    it("adds new result to test that already has results", () => {
       // given
       const test = buildTest(1, 1, [buildResult(1, 1)]);
-      const newResult = buildResult(1, 2, 12345);
+      const newResult = buildResult(1, 2);
 
       // when
       const newTests = replaceResult(newResult, [test]);
 
       // then1
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results!;
+      const newResults: Result[] = newTests[0].Results ?? [];
       expect(newResults.length).toBe(2);
       expect(newResults).toContain(newResult);
     });
-  });
 
-  describe("delete test results", () => {
-    it("delete a result in a given test", () => {
+    it('ignores grade but not points of new result with "grade" ignore option', () => {
       // given
-      const result = buildResult(1, 1, 55555);
+      const result = buildResult(1, 1);
+      result.GradeId = 3;
+      result.Points = null;
 
-      const test = buildTest(1, 1, [
-        result,
-        buildResult(2, 1, 55555),
-        buildResult(1, 1, 12345),
-      ]);
+      const test = buildTest(1, 1, [result]);
+
+      const newResult = buildResult(1, 1);
+      newResult.GradeId = 4;
+      newResult.Points = 5;
 
       // when
-      const newTests = deleteResult(
-        test.Id,
-        `${result.TestId}_${result.CourseRegistrationId}`,
-        [test],
-      );
+      const newTests: Test[] = replaceResult(newResult, [test], "grade");
 
       // then
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results!;
-      expect(newResults.length).toEqual(2);
-      expect(newResults).not.toContain(result);
+      const newResults: Result[] = newTests[0].Results ?? [];
+      expect(newResults.length).toEqual(1);
+
+      expect(newResults[0].GradeId).toBe(3);
+      expect(newResults[0].Points).toBe(5);
+    });
+
+    it('ignores points but not grade of new result with "points" ignore option', () => {
+      // given
+      const result = buildResult(1, 1);
+      result.GradeId = null;
+      result.Points = 11;
+
+      const test = buildTest(1, 1, [result]);
+
+      const newResult = buildResult(1, 1);
+      newResult.GradeId = 4;
+      newResult.Points = null;
+
+      // when
+      const newTests: Test[] = replaceResult(newResult, [test], "points");
+
+      // then
+      expect(newTests.length).toBe(1);
+      const newResults: Result[] = newTests[0].Results ?? [];
+      expect(newResults.length).toEqual(1);
+
+      expect(newResults[0].GradeId).toBe(4);
+      expect(newResults[0].Points).toBe(11);
     });
   });
 
-  describe("toggle test states", () => {
+  describe("deleteResult", () => {
+    it("delete a result in a given test", () => {
+      // given
+      const result1 = buildResult(1, 1, 55555);
+      const result2 = buildResult(1, 2, 12345);
+
+      const test = buildTest(1, 1, [result1, result2]);
+
+      // when
+      const newTests = deleteResult(test.Id, 1, [test]);
+
+      // then
+      expect(newTests.length).toBe(1);
+      expect(newTests[0].Results).toEqual([result2]);
+    });
+  });
+
+  describe("toggleIsPublished", () => {
     it("should publish test", () => {
       // given
       const testId = 99;
@@ -137,7 +212,7 @@ describe("Test utils", () => {
     });
   });
 
-  describe("should calculate averages from test", () => {
+  describe("averagePoints", () => {
     it("should calculate points average", () => {
       expect(() => averagePoints(buildTest(1, 1, []))).toThrow(
         new Error("unable to calculate averages without results"),
@@ -153,7 +228,7 @@ describe("Test utils", () => {
     });
   });
 
-  describe("should get max points from test", () => {
+  describe("maxPoints", () => {
     it("should return max points adjusted", () => {
       test.MaxPoints = 2;
       test.MaxPointsAdjusted = 3;
@@ -167,7 +242,7 @@ describe("Test utils", () => {
     });
   });
 
-  describe("get result for student", () => {
+  describe("resultOfStudent", () => {
     it("should not get result for student that is not in test", () => {
       expect(resultOfStudent(-1, test)).toBeUndefined();
     });
@@ -177,7 +252,7 @@ describe("Test utils", () => {
     });
   });
 
-  describe("remove tests by id", () => {
+  describe("removeTestById", () => {
     it("should do nothing if tests are empty", () => {
       expect(removeTestById(1, [])).toEqual([]);
     });
@@ -195,7 +270,7 @@ describe("Test utils", () => {
     });
   });
 
-  describe("sort tests by date descending", () => {
+  describe("sortByDate", () => {
     it("should not fail on empty array", () => {
       expect(sortByDate([])).toEqual([]);
     });
@@ -213,7 +288,7 @@ describe("Test utils", () => {
     });
   });
 
-  describe("find grading scale", () => {
+  describe("gradingScaleOfTest", () => {
     it("should return the grading scale for the given test", () => {
       const gradingScales: GradingScale[] = [
         buildGradingScale(1),

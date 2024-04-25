@@ -196,7 +196,6 @@
               [gradeOptions]="state.gradingOptionsForTest$(grade.test) | async"
               [student]="studentGrade.student"
               [tabIndex]="(1 + gradeIndex) * 1000 + studentGradeIndex"
-              (gradeChanged)="saveGrade($event)"
             ></bkd-grade>
           </td>
         </tr>

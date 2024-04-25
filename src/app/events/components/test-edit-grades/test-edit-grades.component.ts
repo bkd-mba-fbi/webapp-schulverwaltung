@@ -7,10 +7,6 @@ import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
 import {
-  TestGradesResult,
-  TestPointsResult,
-} from "src/app/shared/models/course.model";
-import {
   GradeOrNoResult,
   StudentGrade,
 } from "src/app/shared/models/student-grades";
@@ -64,10 +60,6 @@ export class TestEditGradesComponent implements OnInit {
 
   changeFilter(filter: Filter) {
     this.state.filter$.next(filter);
-  }
-
-  saveGrade(requestBody: TestGradesResult | TestPointsResult) {
-    this.state.saveGrade(requestBody);
   }
 
   setAverageAsFinalGrade() {
