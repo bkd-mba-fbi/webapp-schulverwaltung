@@ -1,7 +1,16 @@
 import { DebugElement } from "@angular/core";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from "@angular/core/testing";
+import { of } from "rxjs";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { GradeKind, NoResult } from "src/app/shared/models/student-grades";
+import { Student } from "src/app/shared/models/student.model";
+import { Result, Test } from "src/app/shared/models/test.model";
 import { byTestId } from "src/specs/utils";
 import {
   buildResult,
@@ -9,6 +18,7 @@ import {
   buildTest,
 } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { TestStateService } from "../../services/test-state.service";
 import { GradeComponent } from "./grade.component";
 
 describe("GradeComponent", () => {
@@ -16,14 +26,27 @@ describe("GradeComponent", () => {
   let fixture: ComponentFixture<GradeComponent>;
   let debugElement: DebugElement;
 
-  const result = buildResult(120, 140);
-  const test = buildTest(100, 120, [buildResult(120, 140)]);
-  const student = buildStudent(5);
+  let mockTestService: jasmine.SpyObj<TestStateService>;
+  let result: Result;
+  let test: Test;
+  let student: Student;
 
   beforeEach(waitForAsync(() => {
+    result = buildResult(120, 140);
+    test = buildTest(100, 120, [buildResult(120, 140)]);
+    student = buildStudent(5);
+    mockTestService = jasmine.createSpyObj("TestStateService", [
+      "optimisticallyUpdateGrade",
+      "saveGrade",
+    ]);
+    mockTestService.optimisticallyUpdateGrade.and.returnValue(
+      of(test.Results![0]),
+    );
+
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [GradeComponent],
+        providers: [{ provide: TestStateService, useValue: mockTestService }],
       }),
     ).compileComponents();
 
@@ -130,6 +153,29 @@ describe("GradeComponent", () => {
         done();
       });
     });
+
+    it("saves grade if changed", fakeAsync(() => {
+      component.grade = grade;
+      component.gradeOptions = gradingScaleOptions;
+      component.ngOnInit();
+      fixture.detectChanges();
+      tick(1250);
+      expect(mockTestService.optimisticallyUpdateGrade).not.toHaveBeenCalled();
+      expect(mockTestService.saveGrade).not.toHaveBeenCalled();
+
+      const select = debugElement.query(byTestId("grade-select")).nativeElement
+        .firstChild;
+      select.selectedIndex = 3;
+      select.dispatchEvent(new Event("change"));
+      fixture.detectChanges();
+      expect(mockTestService.optimisticallyUpdateGrade).toHaveBeenCalled();
+      expect(mockTestService.saveGrade).not.toHaveBeenCalled();
+
+      tick(1250);
+      expect(mockTestService.saveGrade).toHaveBeenCalled();
+      const args = mockTestService.saveGrade.calls.mostRecent().args[0];
+      expect("gradeId" in args && args.gradeId).toBe(3);
+    }));
   });
 
   describe("tests with point gradings", () => {
@@ -171,6 +217,34 @@ describe("GradeComponent", () => {
         done();
       });
     });
+
+    it("saves points if changed", fakeAsync(() => {
+      const grade: GradeKind = {
+        kind: "grade",
+        result,
+        test,
+      };
+      grade.test.IsPointGrading = true;
+      grade.result.Points = 11;
+      component.grade = grade;
+      component.ngOnInit();
+      fixture.detectChanges();
+      tick(1250);
+      expect(mockTestService.optimisticallyUpdateGrade).not.toHaveBeenCalled();
+      expect(mockTestService.saveGrade).not.toHaveBeenCalled();
+
+      const input = debugElement.query(byTestId("point-input")).nativeElement;
+      input.value = 13;
+      input.dispatchEvent(new Event("input"));
+      fixture.detectChanges();
+      expect(mockTestService.optimisticallyUpdateGrade).toHaveBeenCalled();
+      expect(mockTestService.saveGrade).not.toHaveBeenCalled();
+
+      tick(1250);
+      expect(mockTestService.saveGrade).toHaveBeenCalled();
+      const args = mockTestService.saveGrade.calls.mostRecent().args[0];
+      expect("points" in args && args.points).toBe(13);
+    }));
   });
 
   describe("enable and disable grading scale options", () => {

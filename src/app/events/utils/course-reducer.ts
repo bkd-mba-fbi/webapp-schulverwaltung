@@ -12,16 +12,25 @@ export type TestsAction =
   | { type: "reset"; payload: Course }
   | {
       type: "updateResult";
-      payload: { testResult: Result; grading: Grading };
+      payload: {
+        testResult: Result;
+        grading: Option<Grading>;
+        /**
+         * If set, ignores the corresponding value (keeps the old one). Use this
+         * to avoid overwriting optimistic updates by responses from the server
+         * from previous requests.
+         */
+        ignore?: "grade" | "points";
+      };
     }
   | {
       type: "deleteResult";
-      payload: { testId: number; grading: Grading };
+      payload: { testId: number; studentId: number; grading: Option<Grading> };
     }
   | { type: "toggle-test-state"; payload: number }
   | {
       type: "final-grade-overwritten";
-      payload: { id: number; selectedGradeId: number };
+      payload: { id: number; selectedGradeId: Option<number> };
     }
   | { type: "replace-grades"; payload: Grading[] }
   | { type: "delete-test"; payload: number };
@@ -37,11 +46,14 @@ export function courseReducer(
       return course
         ? {
             ...course,
-            Tests: replaceResult(action.payload.testResult, course.Tests || []),
-            Gradings: replaceGrading(
-              action.payload.grading,
-              course.Gradings || [],
+            Tests: replaceResult(
+              action.payload.testResult,
+              course.Tests || [],
+              action.payload.ignore,
             ),
+            Gradings: action.payload.grading
+              ? replaceGrading(action.payload.grading, course.Gradings || [])
+              : course.Gradings,
           }
         : null;
     case "deleteResult":
@@ -50,13 +62,12 @@ export function courseReducer(
             ...course,
             Tests: deleteResult(
               action.payload.testId,
-              `${action.payload.testId}_${action.payload.grading.Id}`,
+              action.payload.studentId,
               course.Tests || [],
             ),
-            Gradings: replaceGrading(
-              action.payload.grading,
-              course.Gradings || [],
-            ),
+            Gradings: action.payload.grading
+              ? replaceGrading(action.payload.grading, course.Gradings || [])
+              : course.Gradings || [],
           }
         : null;
     case "toggle-test-state":

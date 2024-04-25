@@ -1,19 +1,24 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { isEqual } from "lodash-es";
+import {
+  TestResultGradeUpdate,
+  TestResultPointsUpdate,
+} from "src/app/events/services/test-state.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   buildCourse,
+  buildGrading,
   buildReference,
   buildResult,
 } from "../../../spec-builders";
 import {
   AverageTestResultResponse,
   Course,
-  TestGradesResult,
-  TestPointsResult,
+  Grading,
   UpdatedTestResultResponse,
 } from "../models/course.model";
+import { Result } from "../models/test.model";
 import { CoursesRestService } from "./courses-rest.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -130,10 +135,22 @@ describe("CoursesRestService", () => {
   });
 
   describe("manage tests", () => {
-    const responseBody: UpdatedTestResultResponse = {
-      TestResults: [buildResult(123, 20)],
-      Gradings: [],
+    let course: Course;
+    let expectedResult: {
+      courseId: number;
+      testResult: Result;
+      grading: Grading;
     };
+
+    beforeEach(() => {
+      course = buildCourse(1);
+      const testResult = buildResult(123, 20);
+      expectedResult = {
+        courseId: course.Id,
+        testResult,
+        grading: buildGrading(testResult.StudentId),
+      };
+    });
 
     it("should add a new test", () => {
       const courseId = 1234;
@@ -278,32 +295,52 @@ describe("CoursesRestService", () => {
 
     it("should update the result of a test with points", () => {
       // given
-      const requestBody: TestPointsResult = {
-        StudentIds: [20],
-        TestId: 123,
-        Points: 10,
+      const params: TestResultPointsUpdate = {
+        studentId: 20,
+        testId: 123,
+        points: 10,
       };
 
       // when
-      updateTestResult(requestBody, responseBody);
+      updateTestResult(params, expectedResult);
 
       // then
-      assertRequestAndFlush(requestBody, responseBody);
+      assertRequestAndFlush(
+        {
+          StudentIds: [params.studentId],
+          TestId: params.testId,
+          Points: params.points,
+        },
+        {
+          TestResults: [expectedResult.testResult],
+          Gradings: [expectedResult.grading],
+        },
+      );
     });
 
     it("should update the result of a test with the gradingScale", () => {
       // given
-      const requestBody: TestGradesResult = {
-        StudentIds: [20],
-        TestId: 123,
-        GradeId: 5,
+      const params: TestResultGradeUpdate = {
+        studentId: 20,
+        testId: 123,
+        gradeId: 5,
       };
 
       // when
-      updateTestResult(requestBody, responseBody);
+      updateTestResult(params, expectedResult);
 
       // then
-      assertRequestAndFlush(requestBody, responseBody);
+      assertRequestAndFlush(
+        {
+          StudentIds: [params.studentId],
+          TestId: params.testId,
+          GradeId: params.gradeId,
+        },
+        {
+          TestResults: [expectedResult.testResult],
+          Gradings: [expectedResult.grading],
+        },
+      );
     });
   });
 
@@ -331,16 +368,25 @@ describe("CoursesRestService", () => {
   });
 
   function updateTestResult(
-    requestBody: TestPointsResult | TestGradesResult,
-    responseBody: UpdatedTestResultResponse,
+    requestBody: TestResultGradeUpdate | TestResultPointsUpdate,
+    expectedResponse: {
+      courseId: number;
+      testResult: Option<Result>;
+      grading: Grading;
+    },
   ) {
     service
-      .updateTestResult(buildCourse(1).Id, requestBody)
-      .subscribe((result) => expect(result.body).toEqual(responseBody));
+      .updateTestResult(expectedResponse.courseId, requestBody)
+      .subscribe((result) => expect(result).toEqual(expectedResponse));
   }
 
   function assertRequestAndFlush(
-    requestBody: TestPointsResult | TestGradesResult,
+    requestBody: {
+      StudentIds: ReadonlyArray<number>;
+      TestId: number;
+      GradeId?: Option<number>;
+      Points?: Option<number>;
+    },
     responseBody: UpdatedTestResultResponse,
   ) {
     httpTestingController

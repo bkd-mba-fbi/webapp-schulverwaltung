@@ -2,7 +2,14 @@ import { AsyncPipe, NgIf } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
-import { BehaviorSubject, of, startWith, switchMap } from "rxjs";
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
@@ -29,8 +36,10 @@ export class TestsHeaderComponent implements OnChanges {
 
   private course$ = new BehaviorSubject<Option<Course>>(null);
   reports$ = this.course$.pipe(
-    switchMap((course) =>
-      course ? this.reportsService.getCourseReports(this.course.Id) : of([]),
+    map((course) => course?.Id),
+    distinctUntilChanged(),
+    switchMap((courseId) =>
+      courseId ? this.reportsService.getCourseReports(courseId) : of([]),
     ),
     startWith([]),
   );

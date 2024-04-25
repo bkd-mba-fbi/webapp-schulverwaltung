@@ -7,7 +7,7 @@ export function replaceGrading(newGrading: Grading, gradings: Grading[]) {
   ].filter((grading) => grading != undefined);
 }
 export function changeGrading(
-  { id, selectedGradeId }: { id: number; selectedGradeId: number },
+  { id, selectedGradeId }: { id: number; selectedGradeId: Option<number> },
   gradings: Grading[],
 ) {
   return gradings.map((grade) =>

@@ -1,5 +1,6 @@
 import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -17,6 +18,7 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   selector: "bkd-select",
   templateUrl: "./select.component.html",
   styleUrls: ["./select.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [FormsModule, NgIf, NgFor, AsyncPipe, TranslateModule],
 })

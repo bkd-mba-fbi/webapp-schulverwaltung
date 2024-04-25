@@ -20,12 +20,11 @@ import {
   map,
   takeUntil,
 } from "rxjs";
-import { maxPoints } from "src/app/events/utils/tests";
 import {
-  TestGradesResult,
-  TestPointsResult,
-  UpdatedTestResultResponse,
-} from "src/app/shared/models/course.model";
+  TestResultGradeUpdate,
+  TestResultPointsUpdate,
+} from "src/app/events/services/test-state.service";
+import { maxPoints } from "src/app/events/utils/tests";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
@@ -54,7 +53,7 @@ export class DossierGradesEditComponent implements OnInit {
   @Input() points: number;
   @Input() studentId: number;
 
-  updatedTest: UpdatedTestResultResponse;
+  updatedTestResult: Option<Result>;
   maxPoints: number = 0;
   pointsInput: UntypedFormControl;
 
@@ -95,19 +94,21 @@ export class DossierGradesEditComponent implements OnInit {
       this.test.IsPointGrading && this.points > 0,
     );
 
-    this.grade$
-      .pipe(
-        takeUntil(this.destroy$),
-        map(this.buildRuequestBodyForGradeChange.bind(this)),
-      )
-      .subscribe((body) => this.updateTestResult(body));
+    this.points$.pipe(takeUntil(this.destroy$)).subscribe((points) =>
+      this.updateTestResult({
+        studentId: this.studentId,
+        testId: this.test.Id,
+        points,
+      }),
+    );
 
-    this.points$
-      .pipe(
-        takeUntil(this.destroy$),
-        map(this.buildRequestBodyPointsChange.bind(this)),
-      )
-      .subscribe((body) => this.updateTestResult(body));
+    this.grade$.pipe(takeUntil(this.destroy$)).subscribe((gradeId) =>
+      this.updateTestResult({
+        studentId: this.studentId,
+        testId: this.test.Id,
+        gradeId,
+      }),
+    );
   }
 
   onGradeChange(gradeId: number): void {
@@ -119,35 +120,17 @@ export class DossierGradesEditComponent implements OnInit {
     this.gradingScaleDisabled$.next(points.length > 0);
   }
 
-  get updatedTestResult(): Option<Result> {
-    return this.updatedTest?.TestResults[0];
-  }
-
-  private updateTestResult(result: TestPointsResult | TestGradesResult): void {
+  private updateTestResult(
+    update: TestResultGradeUpdate | TestResultPointsUpdate,
+  ): void {
     this.closeButtonDisabled$.next(true);
     this.courseService
-      .updateTestResult(this.test.CourseId, result)
-      .subscribe((response) => {
-        this.gradeId = response.body.TestResults[0]?.GradeId;
-        this.updatedTest = response.body;
+      .updateTestResult(this.test.CourseId, update)
+      .subscribe(({ testResult }) => {
+        this.gradeId = testResult?.GradeId ?? null;
+        this.updatedTestResult = testResult;
         this.closeButtonDisabled$.next(false);
       });
-  }
-
-  private buildRuequestBodyForGradeChange(gradeId: number): TestGradesResult {
-    return {
-      StudentIds: [this.studentId],
-      TestId: this.test.Id,
-      GradeId: gradeId,
-    };
-  }
-
-  private buildRequestBodyPointsChange(points: number): TestPointsResult {
-    return {
-      StudentIds: [this.studentId],
-      TestId: this.test.Id,
-      Points: points,
-    };
   }
 
   private isValid(points: string): boolean {

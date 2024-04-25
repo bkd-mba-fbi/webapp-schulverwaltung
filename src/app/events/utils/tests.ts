@@ -1,20 +1,48 @@
+import { Course } from "src/app/shared/models/course.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { average } from "src/app/shared/utils/math";
 import { GradingScale } from "../../shared/models/grading-scale.model";
 
-export function replaceResult(result: Result, tests: Test[]): Test[] {
+export function findResult(
+  course: Option<Course>,
+  testId: number,
+  studentId: number,
+): Option<Result> {
+  if (!course) return null;
+
+  return (
+    course.Tests?.reduce(
+      (result, t) =>
+        result ||
+        (t.Id === testId &&
+          t.Results?.find(
+            (r) => r.TestId === testId && r.StudentId === studentId,
+          )) ||
+        null,
+      null as Option<Result>,
+    ) ?? null
+  );
+}
+
+export function replaceResult(
+  result: Result,
+  tests: Test[],
+  ignore?: "grade" | "points",
+): Test[] {
   return tests.map((test) =>
-    test.Id === result.TestId ? replaceResultInTest(result, test) : test,
+    test.Id === result.TestId
+      ? replaceResultInTest(result, test, ignore)
+      : test,
   );
 }
 
 export function deleteResult(
   testId: number,
-  resultId: string,
+  studentId: number,
   tests: Test[],
 ): Test[] {
   return tests.map((test) =>
-    test.Id === testId ? deleteResultById(resultId, test) : test,
+    test.Id === testId ? deleteResultByStudentId(studentId, test) : test,
   );
 }
 
@@ -58,9 +86,38 @@ export function removeTestById(
   return tests.filter((test) => test.Id !== testId);
 }
 
-export function replaceResultInTest(newResult: Result, test: Test) {
+export function replaceResultInTest(
+  newResult: Result,
+  test: Test,
+  ignore?: "grade" | "points",
+) {
+  // Identify result with TestId/StudentId and not via Id, since the initial
+  // object added by the optimistic update has no Id yet.
+  const currentResult =
+    ignore &&
+    test.Results?.find(
+      (result) =>
+        result.TestId === newResult.TestId &&
+        result.StudentId === newResult.StudentId,
+    );
   const filteredResults =
-    test.Results?.filter((result) => newResult.Id !== result.Id) || [];
+    test.Results?.filter(
+      (result) =>
+        !(
+          result.TestId === newResult.TestId &&
+          result.StudentId === newResult.StudentId
+        ),
+    ) || [];
+
+  // Ignore the value according to the `ignore` argument, to be able to not
+  // overwrite optimistic updates by responses from the server from previous
+  // requests
+  if (currentResult && ignore === "grade") {
+    newResult.GradeId = currentResult.GradeId;
+  } else if (currentResult && ignore === "points") {
+    newResult.Points = currentResult.Points;
+  }
+
   return { ...test, Results: [...filteredResults, newResult] };
 }
 
@@ -81,10 +138,11 @@ export function gradingScaleOfTest(
   );
 }
 
-function deleteResultById(id: string, test: Test): Test {
+function deleteResultByStudentId(studentId: number, test: Test): Test {
   return {
     ...test,
-    Results: test.Results?.filter((result) => result.Id !== id) || [],
+    Results:
+      test.Results?.filter((result) => result.StudentId !== studentId) || [],
   };
 }
 
