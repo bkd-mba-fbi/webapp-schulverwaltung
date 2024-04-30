@@ -13,14 +13,17 @@ import { SETTINGS, Settings } from "src/app/settings";
 import { Course } from "src/app/shared/models/course.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
-import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
-import { StorageService } from "src/app/shared/services/storage.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
 import { searchEntries } from "src/app/shared/utils/search";
-import { EventStateWithLabel, getEventState, isRated } from "../utils/events";
+import {
+  EventStateWithLabel,
+  getCourseDesignation,
+  getEventState,
+  isRated,
+} from "../utils/events";
 
 export enum EventState {
   Rating = "rating",
@@ -41,11 +44,13 @@ export interface Event {
   evaluationText?: string;
   evaluationLink?: Option<string>;
 }
+
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
-  search$ = new BehaviorSubject<string>("");
-  roles$ = new BehaviorSubject<Maybe<string>>(undefined);
+  private searchSubject$ = new BehaviorSubject<string>("");
+  search$ = this.searchSubject$.asObservable();
+  private roles$ = new BehaviorSubject<Option<string>>(null);
 
   private formativeAssessments$ =
     this.studyClassRestService.getActiveFormativeAssessments();
@@ -59,11 +64,17 @@ export class EventsStateService {
     private coursesRestService: CoursesRestService,
     private studyClassRestService: StudyClassesRestService,
     private loadingService: LoadingService,
-    private storage: StorageService,
     private translate: TranslateService,
-    private eventsRestService: EventsRestService,
     @Inject(SETTINGS) private settings: Settings,
   ) {}
+
+  setSearch(term: string): void {
+    this.searchSubject$.next(term);
+  }
+
+  setRoles(roles: Option<string>): void {
+    this.roles$.next(roles);
+  }
 
   getEvents(withRatings = false): Observable<ReadonlyArray<Event>> {
     return this.filteredEvents$.pipe(
@@ -155,7 +166,7 @@ export class EventsStateService {
 
       return {
         id: course.Id,
-        Designation: this.eventsRestService.getDesignation(course),
+        Designation: getCourseDesignation(course),
         detailLink: this.buildLink(course.Id, "eventdetail"),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,

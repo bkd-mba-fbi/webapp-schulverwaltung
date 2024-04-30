@@ -20,6 +20,9 @@ describe("EventsListComponent", () => {
       events$: of([buildEvent(1)]),
       search$: of(""),
       roles$,
+      setRoles(roles: Option<ReadonlyArray<string>>) {
+        roles$.next(roles);
+      },
       getEvents: () => of([buildEvent(1)]),
     } as unknown as EventsStateService;
 
@@ -48,18 +51,14 @@ describe("EventsListComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
-
-  it("should not show the ratings column", () => {
+  it("renders entry without ratings column", () => {
     component.withRatings = false;
 
     fixture.detectChanges();
     expect(element.textContent).not.toContain("events.rating");
   });
 
-  it("should show the ratings column", () => {
+  it("renders entry with ratings column", () => {
     component.withRatings = true;
 
     fixture.detectChanges();

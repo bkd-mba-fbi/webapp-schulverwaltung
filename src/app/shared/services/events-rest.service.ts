@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { Course } from "src/app/shared/models/course.model";
 import { SETTINGS, Settings } from "../../settings";
 import { SubscriptionDetail } from "../models/subscription-detail.model";
 import { decodeArray } from "../utils/decode";
@@ -22,13 +21,5 @@ export class EventsRestService extends RestService<typeof SubscriptionDetail> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${eventId}/SubscriptionDetails`)
       .pipe(switchMap(decodeArray(this.codec)));
-  }
-
-  getDesignation(course: Course): string {
-    const classes = course.Classes
-      ? course.Classes.map((c) => c.Number).join(", ")
-      : null;
-
-    return classes ? course.Designation + ", " + classes : course.Designation;
   }
 }

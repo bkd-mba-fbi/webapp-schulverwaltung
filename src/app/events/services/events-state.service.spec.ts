@@ -170,7 +170,7 @@ describe("EventsStateService", () => {
 
   describe("with ClassTeacherRole", () => {
     beforeEach(() => {
-      service.roles$.next("ClassTeacherRole;TeacherRole");
+      service.setRoles("ClassTeacherRole;TeacherRole");
     });
 
     it("loads events", () => {
@@ -192,7 +192,7 @@ describe("EventsStateService", () => {
 
   describe("without ClassTeacherRole", () => {
     beforeEach(() => {
-      service.roles$.next("TeacherRole");
+      service.setRoles("TeacherRole");
     });
 
     it("loads events", () => {
