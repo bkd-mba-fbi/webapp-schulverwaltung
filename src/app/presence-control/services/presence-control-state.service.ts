@@ -117,9 +117,11 @@ export class PresenceControlStateService
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
-  studentIdsWithUnconfirmedAbsences$ = reemitOnTrigger(
+  private reloadStudentIdsWithUnconfirmedAbsences$ = new Subject<void>();
+  studentIdsWithUnconfirmedAbsences$ = merge(
     this.selectedDate$,
     this.selectedLesson$.pipe(skip(1)),
+    this.reloadStudentIdsWithUnconfirmedAbsences$,
   ).pipe(
     switchMap(() => this.loadStudentIdsWithUnconfirmedAbsences()),
     shareReplay(1),
@@ -281,6 +283,7 @@ export class PresenceControlStateService
     // Reload the lesson presences if absences have been confirmed in the
     // dossier view and the user is returing to the presence control list
     this.reloadLessonPresences$.next();
+    this.reloadStudentIdsWithUnconfirmedAbsences$.next();
   }
 
   private loadLessonPresencesByLesson(
