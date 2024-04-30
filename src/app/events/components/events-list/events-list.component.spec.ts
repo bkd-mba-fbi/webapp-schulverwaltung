@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
-import { buildTestModuleMetadata } from "src/spec-helpers";
-import { buildEvent } from "../../../../spec-builders";
+import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
+import { buildEventEntry } from "../../../../spec-builders";
 import { StorageService } from "../../../shared/services/storage.service";
 import { EventsStateService } from "../../services/events-state.service";
 import { EventsListComponent } from "./events-list.component";
@@ -12,18 +12,21 @@ describe("EventsListComponent", () => {
   let stateServiceMock: EventsStateService;
   let element: HTMLElement;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
+  let setWithStudyCourses: jasmine.Spy;
 
   beforeEach(waitForAsync(() => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
+    setWithStudyCourses = jasmine.createSpy("setWithStudyCourses");
     stateServiceMock = {
       loading$: of(false),
-      events$: of([buildEvent(1)]),
+      events$: of([buildEventEntry(1)]),
       search$: of(""),
       roles$,
       setRoles(roles: Option<ReadonlyArray<string>>) {
         roles$.next(roles);
       },
-      getEvents: () => of([buildEvent(1)]),
+      setWithStudyCourses,
+      getEntries: () => of([buildEventEntry(1)]),
     } as unknown as EventsStateService;
 
     TestBed.configureTestingModule(
@@ -51,17 +54,33 @@ describe("EventsListComponent", () => {
     fixture.detectChanges();
   });
 
-  it("renders entry without ratings column", () => {
-    component.withRatings = false;
+  describe("withRatings", () => {
+    it("renders entry without ratings column", () => {
+      component.withRatings = false;
 
-    fixture.detectChanges();
-    expect(element.textContent).not.toContain("events.rating");
+      fixture.detectChanges();
+      expect(element.textContent).not.toContain("events.rating");
+    });
+
+    it("renders entry with ratings column", () => {
+      component.withRatings = true;
+
+      fixture.detectChanges();
+      expect(element.textContent).toContain("events.rating");
+    });
   });
 
-  it("renders entry with ratings column", () => {
-    component.withRatings = true;
+  describe("withStudyCourses", () => {
+    it("enables study courses on state service if set to true", () => {
+      changeInput(component, "withStudyCourses", true);
+      fixture.detectChanges();
+      expect(setWithStudyCourses).toHaveBeenCalledWith(true);
+    });
 
-    fixture.detectChanges();
-    expect(element.textContent).toContain("events.rating");
+    it("does not enable study courses on state service if set to false", () => {
+      changeInput(component, "withStudyCourses", false);
+      fixture.detectChanges();
+      expect(setWithStudyCourses).toHaveBeenCalledWith(false);
+    });
   });
 });

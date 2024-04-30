@@ -1,4 +1,7 @@
-import { Event, EventState } from "./app/events/services/events-state.service";
+import {
+  EventEntry,
+  EventState,
+} from "./app/events/services/events-state.service";
 import { PresenceControlEntry } from "./app/presence-control/models/presence-control-entry.model";
 import { ApprenticeshipContract } from "./app/shared/models/apprenticeship-contract.model";
 import { ApprenticeshipManager } from "./app/shared/models/apprenticeship-manager.model";
@@ -599,9 +602,9 @@ export function buildTimetableEntry(
   };
 }
 
-export function buildEvent(id: number): Event {
+export function buildEventEntry(id: number): EventEntry {
   return {
-    Designation: "Französisch-S2, 24a",
+    designation: "Französisch-S2, 24a",
     detailLink: "",
     id: id,
     state: EventState.Tests,

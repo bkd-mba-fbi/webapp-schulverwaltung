@@ -6,13 +6,16 @@ import {
   Observable,
   combineLatest,
   map,
+  of,
   shareReplay,
   switchMap,
 } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { Course } from "src/app/shared/models/course.model";
+import { Event } from "src/app/shared/models/event.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { spread } from "src/app/shared/utils/function";
@@ -32,10 +35,9 @@ export enum EventState {
   Tests = "add-tests",
 }
 
-type LinkType = "evaluation" | "eventdetail";
-export interface Event {
+export interface EventEntry {
   id: number;
-  Designation: string;
+  designation: string;
   detailLink: string;
   dateFrom?: Option<Date>;
   dateTo?: Option<Date>;
@@ -45,23 +47,47 @@ export interface Event {
   evaluationLink?: Option<string>;
 }
 
+type LinkType = "evaluation" | "eventdetail";
+
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
+
   private searchSubject$ = new BehaviorSubject<string>("");
   search$ = this.searchSubject$.asObservable();
+
   private roles$ = new BehaviorSubject<Option<string>>(null);
+  private isClassTeacher$ = this.roles$.pipe(
+    map((roles) => hasRole(roles, "ClassTeacherRole")),
+    shareReplay(1),
+  );
+  private withStudyCourses$ = new BehaviorSubject<boolean>(false);
 
-  private formativeAssessments$ =
-    this.studyClassRestService.getActiveFormativeAssessments();
-  private studyClasses$ = this.studyClassRestService.getActive();
+  private unratedCourses$ = this.roles$.pipe(
+    switchMap(this.loadUnratedCourses.bind(this)),
+    shareReplay(1),
+  );
+  private studyCourses$ = this.withStudyCourses$.pipe(
+    switchMap(this.loadStudyCourses.bind(this)),
+    shareReplay(1),
+  );
+  private formativeAssessments$ = this.isClassTeacher$.pipe(
+    switchMap(this.loadFormativeAssessments.bind(this)),
+    shareReplay(1),
+  );
+  private studyClasses$ = this.isClassTeacher$.pipe(
+    switchMap(this.loadStudyClasses.bind(this)),
+    shareReplay(1),
+  );
 
-  private events$ = this.loadEvents().pipe(shareReplay(1));
+  private events$ = this.getEvents().pipe(shareReplay(1));
   private filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
     map(spread(searchEntries)),
   );
+
   constructor(
     private coursesRestService: CoursesRestService,
+    private eventsRestService: EventsRestService,
     private studyClassRestService: StudyClassesRestService,
     private loadingService: LoadingService,
     private translate: TranslateService,
@@ -76,97 +102,86 @@ export class EventsStateService {
     this.roles$.next(roles);
   }
 
-  getEvents(withRatings = false): Observable<ReadonlyArray<Event>> {
+  setWithStudyCourses(enabled: boolean): void {
+    this.withStudyCourses$.next(enabled);
+  }
+
+  getEntries(withRatings = false): Observable<ReadonlyArray<EventEntry>> {
     return this.filteredEvents$.pipe(
-      map((events) =>
-        withRatings ? events.filter((e) => e.evaluationText) : events,
+      map((entries) =>
+        withRatings ? entries.filter((e) => e.evaluationText) : entries,
       ),
     );
   }
 
-  private loadEvents(): Observable<ReadonlyArray<Event>> {
-    return this.roles$.pipe(
-      switchMap((roles) =>
-        this.loadingService.load(this.loadEventsForRoles(roles)),
-      ),
-    );
-  }
-
-  /**
-   * Events are derived either from courses or study classes.
-   * If the current user has the role 'ClassTeacherRole', additional requests to get study classes/formative assessments are made.
-   */
-  private loadEventsForRoles(
-    roles: Maybe<string>,
-  ): Observable<ReadonlyArray<Event>> {
-    return hasRole(roles, "ClassTeacherRole")
-      ? combineLatest([
-          this.loadCoursesNotRated(roles),
+  private getEvents(): Observable<ReadonlyArray<EventEntry>> {
+    return this.loadingService
+      .load(
+        combineLatest([
+          this.unratedCourses$,
+          this.studyCourses$,
           this.formativeAssessments$,
           this.studyClasses$,
-        ]).pipe(map(spread(this.createAndSortEvents.bind(this))))
-      : this.loadCoursesNotRated(roles).pipe(
-          map((course) => this.createAndSortEvents(course)),
-        );
+        ]),
+        {
+          stopOnFirstValue: true,
+        },
+      )
+      .pipe(map(spread(this.createAndSortEvents.bind(this))));
   }
 
-  private loadCoursesNotRated(
-    roles: Maybe<string>,
+  private loadUnratedCourses(
+    roles: Option<string>,
   ): Observable<ReadonlyArray<Course>> {
     return this.coursesRestService
       .getExpandedCourses(roles)
       .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   }
 
+  private loadStudyCourses(enabled: boolean): Observable<ReadonlyArray<Event>> {
+    return enabled ? this.eventsRestService.getStudyCourseEvents() : of([]);
+  }
+
+  private loadFormativeAssessments(
+    isClassTeacher: boolean,
+  ): Observable<ReadonlyArray<StudyClass>> {
+    return isClassTeacher
+      ? this.studyClassRestService.getActiveFormativeAssessments()
+      : of([]);
+  }
+
+  private loadStudyClasses(
+    isClassTeacher: boolean,
+  ): Observable<ReadonlyArray<StudyClass>> {
+    return isClassTeacher ? this.studyClassRestService.getActive() : of([]);
+  }
+
   private createAndSortEvents(
     courses: ReadonlyArray<Course>,
-    formativeAssessments: ReadonlyArray<StudyClass> = [],
-    studyClasses: ReadonlyArray<StudyClass> = [],
-  ): ReadonlyArray<Event> {
+    studyCourses: ReadonlyArray<Event>,
+    formativeAssessments: ReadonlyArray<StudyClass>,
+    studyClasses: ReadonlyArray<StudyClass>,
+  ): ReadonlyArray<EventEntry> {
     const classesWithoutAssessments = studyClasses.filter(
       (c) => !formativeAssessments.map((fa) => fa.Id).includes(c.Id),
     );
     return [
       ...this.createFromCourses(courses),
+      ...this.createFromStudyCourses(studyCourses),
       ...this.createFromAssessments(formativeAssessments),
       ...this.createFromStudyClasses(classesWithoutAssessments),
-    ].sort((a, b) => a.Designation.localeCompare(b.Designation));
-  }
-
-  private createFromStudyClasses(
-    studyClasses: ReadonlyArray<StudyClass>,
-  ): ReadonlyArray<Event> {
-    return studyClasses.map((studyClass) => ({
-      id: studyClass.Id,
-      Designation: studyClass.Number,
-      detailLink: this.buildLink(studyClass.Id, "eventdetail"),
-      studentCount: studyClass.StudentCount,
-      state: null,
-    }));
-  }
-
-  private createFromAssessments(
-    studyClasses: ReadonlyArray<StudyClass>,
-  ): ReadonlyArray<Event> {
-    const events = this.createFromStudyClasses(studyClasses);
-
-    return events.map((e) => ({
-      ...e,
-      state: EventState.Rating,
-      evaluationText: this.translate.instant("events.state.rating"),
-      evaluationLink: this.buildLink(e.id, "evaluation"),
-    }));
+    ].sort((a, b) => a.designation.localeCompare(b.designation));
   }
 
   private createFromCourses(
     courses: ReadonlyArray<Course>,
-  ): ReadonlyArray<Event> {
+  ): ReadonlyArray<EventEntry> {
     return courses.map((course) => {
       const state = getEventState(course);
 
       return {
         id: course.Id,
-        Designation: getCourseDesignation(course),
+        designation: getCourseDesignation(course),
         detailLink: this.buildLink(course.Id, "eventdetail"),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
@@ -179,6 +194,43 @@ export class EventsStateService {
         evaluationLink: this.getEvaluationLink(state?.value, course),
       };
     });
+  }
+
+  private createFromStudyCourses(
+    studyCourses: ReadonlyArray<Event>,
+  ): ReadonlyArray<EventEntry> {
+    return studyCourses.map((studyCourse) => ({
+      id: studyCourse.Id,
+      designation: studyCourse.Designation,
+      detailLink: this.buildLink(studyCourse.Id, "eventdetail"),
+      studentCount: studyCourse.StudentCount,
+      state: null,
+    }));
+  }
+
+  private createFromAssessments(
+    studyClasses: ReadonlyArray<StudyClass>,
+  ): ReadonlyArray<EventEntry> {
+    const events = this.createFromStudyClasses(studyClasses);
+
+    return events.map((e) => ({
+      ...e,
+      state: EventState.Rating,
+      evaluationText: this.translate.instant("events.state.rating"),
+      evaluationLink: this.buildLink(e.id, "evaluation"),
+    }));
+  }
+
+  private createFromStudyClasses(
+    studyClasses: ReadonlyArray<StudyClass>,
+  ): ReadonlyArray<EventEntry> {
+    return studyClasses.map((studyClass) => ({
+      id: studyClass.Id,
+      designation: studyClass.Number,
+      detailLink: this.buildLink(studyClass.Id, "eventdetail"),
+      studentCount: studyClass.StudentCount,
+      state: null,
+    }));
   }
 
   private getEvaluationText(

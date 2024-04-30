@@ -2,6 +2,7 @@ import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
 import { Course } from "src/app/shared/models/course.model";
+import { Event } from "src/app/shared/models/event.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import {
   buildCourse,
@@ -9,18 +10,24 @@ import {
   buildStudyClass,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { Event, EventState, EventsStateService } from "./events-state.service";
+import {
+  EventEntry,
+  EventState,
+  EventsStateService,
+} from "./events-state.service";
 
 describe("EventsStateService", () => {
   let service: EventsStateService;
   let httpTestingController: HttpTestingController;
 
-  let courseEvents: Event[];
   let courses: Course[];
-  let studyClassEvents: Event[];
+  let courseEntries: EventEntry[];
+  let studyCourses: Event[];
+  let studyCoursesEntries: EventEntry[];
   let studyClasses: StudyClass[];
+  let studyClassEntries: EventEntry[];
   let assessments: StudyClass[];
-  let assessmentEvents: Event[];
+  let assessmentEntries: EventEntry[];
 
   beforeEach(() => {
     TestBed.configureTestingModule(buildTestModuleMetadata());
@@ -45,10 +52,10 @@ describe("EventsStateService", () => {
     };
 
     studyClasses = [buildStudyClass(5, "22a"), buildStudyClass(6, "22b")];
-    studyClassEvents = [
+    studyClassEntries = [
       {
         id: 5,
-        Designation: "22a",
+        designation: "22a",
         detailLink: "link-to-event-detail-module/5",
         studentCount: 0,
         state: null,
@@ -56,10 +63,10 @@ describe("EventsStateService", () => {
     ];
 
     assessments = [studyClasses[1]];
-    assessmentEvents = [
+    assessmentEntries = [
       {
         id: 6,
-        Designation: "22b",
+        designation: "22b",
         detailLink: "link-to-event-detail-module/6",
         studentCount: 0,
         state: EventState.Rating,
@@ -121,9 +128,9 @@ describe("EventsStateService", () => {
       ratedCourse,
     ];
 
-    const courseEvent: Event = {
+    const courseEvent: EventEntry = {
       id: 1,
-      Designation: "Physik, 22a, 22b",
+      designation: "Physik, 22a, 22b",
       detailLink: "link-to-event-detail-module/1",
       dateFrom: new Date("2022-02-09T00:00:00"),
       dateTo: new Date("2022-06-30T00:00:00"),
@@ -133,11 +140,11 @@ describe("EventsStateService", () => {
       evaluationLink: null,
     };
 
-    courseEvents = [
+    courseEntries = [
       {
         ...courseEvent,
         id: 2,
-        Designation: "Bio, 22a",
+        designation: "Bio, 22a",
         detailLink: "link-to-event-detail-module/2",
         state: EventState.RatingUntil,
         evaluationText: "events.state.rating-until 03.06.2022",
@@ -146,7 +153,7 @@ describe("EventsStateService", () => {
       {
         ...courseEvent,
         id: 4,
-        Designation: "Franz, 22a, 22b",
+        designation: "Franz, 22a, 22b",
         detailLink: "link-to-event-detail-module/4",
         state: EventState.Tests,
         evaluationText: "events.state.add-tests",
@@ -155,11 +162,22 @@ describe("EventsStateService", () => {
       {
         ...courseEvent,
         id: 3,
-        Designation: "Zeichnen, 22b",
+        designation: "Zeichnen, 22b",
         detailLink: "link-to-event-detail-module/3",
         state: EventState.IntermediateRating,
         evaluationText: "events.state.intermediate-rating",
         evaluationLink: "link-to-evaluation-module/3",
+      },
+    ];
+
+    studyCourses = [{ Id: 10, Designation: "Zoologie", StudentCount: 42 }];
+    studyCoursesEntries = [
+      {
+        id: 10,
+        designation: "Zoologie",
+        studentCount: 42,
+        detailLink: "link-to-event-detail-module/10",
+        state: null,
       },
     ];
   });
@@ -174,15 +192,35 @@ describe("EventsStateService", () => {
     });
 
     it("loads events", () => {
-      service.getEvents().subscribe((result) => {
+      service.getEntries().subscribe((result) => {
         expect(result).toEqual([
-          ...studyClassEvents,
-          ...assessmentEvents,
-          ...courseEvents,
+          ...studyClassEntries,
+          ...assessmentEntries,
+          ...courseEntries,
         ]);
       });
 
       expectCoursesRequest();
+      expectFormativeAssessmentsRequest();
+      expectStudyClassesRequest();
+
+      httpTestingController.verify();
+    });
+
+    it("loads events with study courses", () => {
+      service.setWithStudyCourses(true);
+
+      service.getEntries().subscribe((result) => {
+        expect(result).toEqual([
+          ...studyClassEntries,
+          ...assessmentEntries,
+          ...courseEntries,
+          ...studyCoursesEntries,
+        ]);
+      });
+
+      expectCoursesRequest();
+      expectStudyCoursesRequest();
       expectFormativeAssessmentsRequest();
       expectStudyClassesRequest();
 
@@ -197,7 +235,7 @@ describe("EventsStateService", () => {
 
     it("loads events", () => {
       service
-        .getEvents()
+        .getEntries()
         .subscribe((result) =>
           expect(result.map((r) => r.id)).toEqual([2, 4, 1, 3]),
         );
@@ -209,7 +247,7 @@ describe("EventsStateService", () => {
 
     it("loads events with ratings", () => {
       service
-        .getEvents(true)
+        .getEntries(true)
         .subscribe((result) =>
           expect(result.map((r) => r.id)).toEqual([2, 4, 3]),
         );
@@ -227,6 +265,12 @@ describe("EventsStateService", () => {
     httpTestingController
       .expectOne(url)
       .flush(t.array(Course).encode(response));
+  }
+
+  function expectStudyCoursesRequest(response = studyCourses): void {
+    const url = "https://eventotest.api/Events/?filter.EventTypeId==1";
+
+    httpTestingController.expectOne(url).flush(t.array(Event).encode(response));
   }
 
   function expectFormativeAssessmentsRequest(response = assessments): void {
