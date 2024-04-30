@@ -11,7 +11,6 @@ import { SubscriptionDetail } from "../../shared/models/subscription-detail.mode
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { SubscriptionDetailsRestService } from "../../shared/services/subscription-details-rest.service";
-import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { spread } from "../../shared/utils/function";
 import { GroupOptions } from "../components/presence-control-group-dialog/presence-control-group-dialog.component";
 import { LessonEntry } from "../models/lesson-entry.model";
@@ -108,7 +107,6 @@ export class PresenceControlGroupService {
   constructor(
     private userSettings: UserSettingsService,
     private eventService: EventsRestService,
-    private subscriptionService: SubscriptionsRestService,
     private subscriptionDetailsService: SubscriptionDetailsRestService,
     private loadingService: LoadingService,
     @Inject(SETTINGS) private settings: Settings,

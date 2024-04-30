@@ -8,7 +8,7 @@
     [placeholder]="'events.search-by' | translate"
     [label]="'events.search' | translate"
     [disabled]="!data.events"
-    (valueChange)="state.search$.next($event)"
+    (valueChange)="state.setSearch($event)"
   ></bkd-resettable-input>
 
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -23,45 +23,11 @@
           {{ "events.rating" | translate }}
         </div>
       </div>
-      <div class="event-entry" *ngFor="let event of data.events">
-        <div class="designation">
-          <a [href]="event.detailLink">{{ event.Designation }}</a>
-        </div>
-        <div class="date">
-          <span *ngIf="event.dateFrom && event.dateTo"
-            >{{ event.dateFrom | date: "dd.MM.yyyy" }}–<wbr />{{
-              event.dateTo | date: "dd.MM.yyyy"
-            }}</span
-          >
-        </div>
-        <div class="registrations">
-          {{ event.studentCount }}
-          <span class="registrations-label">{{
-            (event.studentCount === 1
-              ? "events.registration"
-              : "events.registrations"
-            ) | translate
-          }}</span>
-        </div>
-        <div class="rating" *ngIf="withRatings && event.evaluationText">
-          <a
-            *ngIf="!event.evaluationLink"
-            class="d-flex"
-            [routerLink]="[event.id, 'tests']"
-          >
-            <i class="material-icons">arrow_right_alt</i>
-            <span class="ps-1">{{ event.evaluationText }}</span>
-          </a>
-          <a
-            *ngIf="event.evaluationLink"
-            class="d-flex"
-            [href]="event.evaluationLink"
-          >
-            <i class="material-icons">arrow_right_alt</i>
-            <span class="ps-1">{{ event.evaluationText }} </span>
-          </a>
-        </div>
-      </div>
+      <bkd-events-list-entry
+        *ngFor="let event of data.events"
+        [event]="event"
+        [withRatings]="withRatings"
+      ></bkd-events-list-entry>
     </ng-container>
 
     <ng-template #noEvents>

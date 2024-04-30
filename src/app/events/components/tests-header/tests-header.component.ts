@@ -10,11 +10,11 @@ import {
   startWith,
   switchMap,
 } from "rxjs";
-import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { Course } from "../../../shared/models/course.model";
 import { ReportsService } from "../../../shared/services/reports.service";
+import { getCourseDesignation } from "../../utils/events";
 
 @Component({
   selector: "bkd-tests-header",
@@ -44,10 +44,7 @@ export class TestsHeaderComponent implements OnChanges {
     startWith([]),
   );
 
-  constructor(
-    private reportsService: ReportsService,
-    private eventsRestService: EventsRestService,
-  ) {}
+  constructor(private reportsService: ReportsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["course"]) {
@@ -56,6 +53,6 @@ export class TestsHeaderComponent implements OnChanges {
   }
 
   getDesignation() {
-    return this.eventsRestService.getDesignation(this.course);
+    return getCourseDesignation(this.course);
   }
 }

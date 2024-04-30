@@ -13,70 +13,8 @@
   grid-template-columns: 4fr 2fr 2fr 3fr;
 }
 
-.event-entry {
-  display: grid;
-  padding: $spacer;
-  border-bottom: 1px solid $border-color;
-  grid-template-areas: "designation date registrations rating";
-  grid-template-columns: 4fr 2fr 2fr 3fr;
-}
-
-.designation {
-  grid-area: designation;
-  padding-right: $spacer;
-}
-
-.date {
-  grid-area: date;
-  padding-right: $spacer;
-}
-
-.registrations {
-  grid-area: registrations;
-  padding-right: $spacer;
-}
-
-.rating {
-  grid-area: rating;
-
-  a {
-    text-decoration: none;
-  }
-
-  span {
-    text-decoration: underline;
-  }
-
-  span:hover {
-    text-decoration-color: $accent;
-  }
-}
-
-.registrations-label {
-  display: none;
-}
-
 @include media-breakpoint-down(sm) {
   .event-header {
     display: none;
-  }
-
-  .registrations-label {
-    display: inline;
-  }
-
-  .designation,
-  .date,
-  .registrations {
-    padding-right: 0;
-  }
-
-  .event-entry {
-    grid-template-areas:
-      "designation"
-      "date"
-      "registrations"
-      "rating";
-    grid-template-columns: 1fr;
   }
 }

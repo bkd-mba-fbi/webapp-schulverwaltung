@@ -1,12 +1,12 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { LetDirective } from "../../../shared/directives/let.directive";
 import { StorageService } from "../../../shared/services/storage.service";
 import { EventsStateService } from "../../services/events-state.service";
+import { EventsListEntryComponent } from "../events-list-entry/events-list-entry.component";
 
 @Component({
   selector: "bkd-events-list",
@@ -18,11 +18,10 @@ import { EventsStateService } from "../../services/events-state.service";
     ResettableInputComponent,
     NgIf,
     NgFor,
-    RouterLink,
     SpinnerComponent,
     AsyncPipe,
-    DatePipe,
     TranslateModule,
+    EventsListEntryComponent,
   ],
 })
 export class EventsListComponent {
@@ -31,6 +30,6 @@ export class EventsListComponent {
     public state: EventsStateService,
     private storage: StorageService,
   ) {
-    this.state.roles$.next(this.storage.getPayload()?.roles);
+    this.state.setRoles(this.storage.getPayload()?.roles ?? null);
   }
 }

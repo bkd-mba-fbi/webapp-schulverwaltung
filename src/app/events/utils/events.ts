@@ -86,3 +86,11 @@ export function isRated(course: Course): boolean {
     !!course.FinalGrades?.length
   );
 }
+
+export function getCourseDesignation(course: Course): string {
+  const classes = course.Classes
+    ? course.Classes.map((c) => c.Number).join(", ")
+    : null;
+
+  return classes ? course.Designation + ", " + classes : course.Designation;
+}
