@@ -12,6 +12,7 @@ import {
   map,
   scan,
   startWith,
+  tap,
 } from "rxjs/operators";
 import { prepare } from "../utils/observable";
 
@@ -62,6 +63,9 @@ export class LoadingService implements OnDestroy {
     this.loadingCountsSub.unsubscribe();
   }
 
+  /**
+   * Returns an observable that returns the loading state of the given context.
+   */
   loading(context = DEFAULT_CONTEXT): Observable<boolean> {
     return this.loadingCounts$.pipe(
       map((counts) => counts[context]),
@@ -70,10 +74,37 @@ export class LoadingService implements OnDestroy {
     );
   }
 
-  load<T>(source$: Observable<T>, context = DEFAULT_CONTEXT): Observable<T> {
+  /**
+   * Wrap your observable with this function to update the loading state. With
+   * the option `stopOnFirstValue` enabled, the loading state will be set to
+   * `false` once the observable emits the first value. Per default the loading
+   * state will be set to `false` once the observable completes.
+   */
+  load<T>(
+    source$: Observable<T>,
+    options:
+      | string // context
+      | { context?: string; stopOnFirstValue?: boolean } = DEFAULT_CONTEXT,
+  ): Observable<T> {
+    const context =
+      typeof options === "string"
+        ? options
+        : options.context || DEFAULT_CONTEXT;
+    const stopOnFirstValue =
+      (typeof options === "object" && options.stopOnFirstValue) || false;
+
+    const decrement = this.decrementLoadingCount(context);
+    let firstValue = true;
+    function decrementOnce() {
+      if (firstValue) {
+        decrement();
+        firstValue = false;
+      }
+    }
+
     return source$.pipe(
       prepare(this.incrementLoadingCount(context)),
-      finalize(this.decrementLoadingCount(context)),
+      stopOnFirstValue ? tap(decrementOnce) : finalize(decrement),
     );
   }
 

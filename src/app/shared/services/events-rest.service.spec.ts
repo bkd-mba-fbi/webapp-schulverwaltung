@@ -15,6 +15,22 @@ describe("EventsRestService", () => {
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
+  describe(".getStudyCourseEvents", () => {
+    it("filters returns the events with EventTypeId=1", () => {
+      const data: any[] = [];
+      const url = "https://eventotest.api/Events/?filter.EventTypeId==1";
+
+      service
+        .getStudyCourseEvents()
+        .subscribe((result) => expect(result).toBe(data));
+
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+      httpTestingController.verify();
+    });
+  });
+
   describe(".getSubscriptionDetailsDefinitions", () => {
     it("gets the list of subscription details definitions for the given event id", () => {
       const data: any[] = [];

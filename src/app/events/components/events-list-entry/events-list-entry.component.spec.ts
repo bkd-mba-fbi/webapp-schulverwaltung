@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { buildEvent } from "src/spec-builders";
+import { buildEventEntry } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EventsListEntryComponent } from "./events-list-entry.component";
 
@@ -19,7 +19,7 @@ describe("EventsListEntryComponent", () => {
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
 
-    component.event = buildEvent(1);
+    component.event = buildEventEntry(1);
     component.event.evaluationText = "Lorem ipsum";
   });
 
