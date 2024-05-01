@@ -76,7 +76,7 @@ describe("MyAbsencesReportStateService", () => {
       service.entries$.subscribe(entriesCallback);
 
       service.setFilter({ dateFrom: now, dateTo: now });
-      tick(10);
+      tick(1000);
 
       expect(entriesCallback.calls.mostRecent()?.args[0]).toEqual([
         buildLessonPresenceFromTimetableEntry(beforeLessonStart),
@@ -95,7 +95,7 @@ describe("MyAbsencesReportStateService", () => {
       service.entries$.subscribe(entriesCallback);
 
       service.setFilter({ dateFrom: now, dateTo: now });
-      tick(10);
+      tick(1000);
 
       expect(entriesCallback.calls.mostRecent()?.args[0]).toEqual([
         buildLessonPresenceFromTimetableEntry(afterLessonStart),
