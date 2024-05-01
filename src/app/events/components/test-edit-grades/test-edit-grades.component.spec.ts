@@ -3,7 +3,10 @@ import { BehaviorSubject, of } from "rxjs";
 import { Test } from "src/app/shared/models/test.model";
 import { buildCourse, buildResult, buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { TestStateService } from "../../services/test-state.service";
+import {
+  INITIAL_TESTS_FILTER,
+  TestStateService,
+} from "../../services/test-state.service";
 import { TestEditGradesComponent } from "./test-edit-grades.component";
 
 describe("TestEditGradesComponent", () => {
@@ -34,6 +37,7 @@ describe("TestEditGradesComponent", () => {
     testStateServiceMock.hasTests$ = hasTests$;
     canSetFinalGrade$ = new BehaviorSubject(true);
     testStateServiceMock.canSetFinalGrade$ = canSetFinalGrade$;
+    testStateServiceMock.filter$ = of(INITIAL_TESTS_FILTER);
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({

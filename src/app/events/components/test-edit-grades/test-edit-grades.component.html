@@ -11,29 +11,11 @@
     <table class="table table-hover h-100">
       <thead class="h-100">
         <tr class="h-100 header-collapsible">
-          <th class="desktop pt-3 sticky" colspan="3">
-            <button
-              type="button"
-              class="btn desktop"
-              (click)="changeFilter('all-tests')"
-              [ngClass]="{
-                'btn-primary': data.filter === 'all-tests',
-                'btn-outline-secondary': data.filter !== 'all-tests'
-              }"
-            >
-              {{ "tests.all-tests" | translate }}
-            </button>
-            <button
-              type="button"
-              class="btn ms-2 desktop"
-              (click)="changeFilter('my-tests')"
-              [ngClass]="{
-                'btn-primary': data.filter === 'my-tests',
-                'btn-outline-secondary': data.filter !== 'my-tests'
-              }"
-            >
-              {{ "tests.owned-tests" | translate }}
-            </button>
+          <th class="desktop sticky" colspan="3">
+            <bkd-test-table-filter
+              [filter]="data.filter"
+              (filterChange)="state.setFilter($event)"
+            ></bkd-test-table-filter>
           </th>
           <th
             *ngFor="let test of data.tests"
