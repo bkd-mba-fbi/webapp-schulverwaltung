@@ -265,6 +265,7 @@
     "edit": "traiter",
     "all-tests": "Tous les tests",
     "owned-tests": "Mes tests",
+    "hide-published": "Masquer tests publiés",
     "points": "Points",
     "summary": {
       "points": "points"

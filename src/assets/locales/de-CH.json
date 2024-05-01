@@ -265,6 +265,7 @@
     "edit": "bearbeiten",
     "all-tests": "Alle Tests",
     "owned-tests": "Meine Tests",
+    "hide-published": "Publizierte Tests ausblenden",
     "points": "Punkte",
     "summary": {
       "points": "Punkte"

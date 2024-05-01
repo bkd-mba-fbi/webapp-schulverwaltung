@@ -42,7 +42,15 @@ import { TestsAction, courseReducer } from "../utils/course-reducer";
 import { canSetFinalGrade } from "../utils/events";
 import { findResult, sortByDate } from "../utils/tests";
 
-export type Filter = "all-tests" | "my-tests";
+export interface TestsFilter {
+  onlyMine: boolean;
+  hidePublished: boolean;
+}
+
+export const INITIAL_TESTS_FILTER: TestsFilter = {
+  onlyMine: false,
+  hidePublished: false,
+};
 
 export type GradingScaleOptions = {
   [id: number]: DropDownItem[];
@@ -103,21 +111,20 @@ export class TestStateService {
   );
   hasTests$ = this.tests$.pipe(map((tests) => tests.length > 0));
 
-  filter$: BehaviorSubject<Filter> = new BehaviorSubject<Filter>("all-tests");
-
-  expandedHeader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false,
+  private filterSubject$ = new BehaviorSubject<TestsFilter>(
+    INITIAL_TESTS_FILTER,
   );
+  filter$ = this.filterSubject$.asObservable();
+
+  expandedHeader$ = new BehaviorSubject<boolean>(false);
 
   filteredTests$ = combineLatest([this.tests$, this.filter$]).pipe(
     map(([tests, filter]) =>
-      tests.filter((test) => {
-        if (filter === "all-tests") {
-          return true;
-        } else {
-          return test.IsOwner;
-        }
-      }),
+      tests.filter(
+        (test) =>
+          (!filter.onlyMine || test.IsOwner) &&
+          (!filter.hidePublished || !test.IsPublished),
+      ),
     ),
   );
 
@@ -196,6 +203,10 @@ export class TestStateService {
 
   setCourseId(id: number) {
     this._courseId$.next(id);
+  }
+
+  setFilter(filter: TestsFilter) {
+    this.filterSubject$.next(filter);
   }
 
   gradingOptionsForTest$(test: Test) {

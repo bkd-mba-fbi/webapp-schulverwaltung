@@ -5,7 +5,10 @@ import { Result, Test } from "src/app/shared/models/test.model";
 import { ReportsService } from "src/app/shared/services/reports.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildCourse, buildResult, buildTest } from "../../../../spec-builders";
-import { TestStateService } from "../../services/test-state.service";
+import {
+  INITIAL_TESTS_FILTER,
+  TestStateService,
+} from "../../services/test-state.service";
 import { TestsListComponent } from "./tests-list.component";
 
 describe("TestsListComponent", () => {
@@ -45,6 +48,7 @@ describe("TestsListComponent", () => {
       hasTests$: hasTests$.asObservable(),
       course$: of(course),
       canSetFinalGrade$: canSetFinalGrade$.asObservable(),
+      filter$: of(INITIAL_TESTS_FILTER),
     } as unknown as TestStateService;
 
     const reportServiceMock = jasmine.createSpyObj("reportService", [

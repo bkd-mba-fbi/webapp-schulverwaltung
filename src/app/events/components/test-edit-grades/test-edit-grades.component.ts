@@ -16,12 +16,13 @@ import { LetDirective } from "../../../shared/directives/let.directive";
 import { Test } from "../../../shared/models/test.model";
 import { DecimalOrDashPipe } from "../../../shared/pipes/decimal-or-dash.pipe";
 import { EventsStateService } from "../../services/events-state.service";
-import { Filter, TestStateService } from "../../services/test-state.service";
+import { TestStateService } from "../../services/test-state.service";
 import { getEventState } from "../../utils/events";
 import { averageGrade, averagePoints } from "../../utils/tests";
 import { GradeComponent } from "../grade/grade.component";
 import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
 import { GradeSelectComponent } from "../grades/grade-select/grade-select.component";
+import { TestTableFilterComponent } from "../test-table-filter/test-table-filter.component";
 import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
 
 @Component({
@@ -34,6 +35,7 @@ import { TestTableHeaderComponent } from "../test-table-header/test-table-header
     LetDirective,
     NgClass,
     NgFor,
+    TestTableFilterComponent,
     TestTableHeaderComponent,
     NgIf,
     RouterLink,
@@ -56,10 +58,6 @@ export class TestEditGradesComponent implements OnInit {
   ngOnInit(): void {
     // TODO move to sort implementation
     this.state.setSorting({ key: "FullName", ascending: true });
-  }
-
-  changeFilter(filter: Filter) {
-    this.state.filter$.next(filter);
   }
 
   setAverageAsFinalGrade() {
