@@ -78,11 +78,21 @@ export class BkdModalService {
    * is closed.
    */
   disablePortalScrolling(modalRef: NgbModalRef): void {
-    if (this.portalDocument) {
+    if (this.portalWindow && this.portalDocument) {
+      // On certain browsers/OSes the scrollbar consumes horizontal space, so
+      // the hiding of the scrollbar will change the width of the content. To
+      // avoid this, we compensate the scrollbar width with a padding on the
+      // document.
+      const portalScrollbarWidth =
+        this.portalWindow.innerWidth - this.portalDocument.clientWidth;
+      this.portalDocument.style.paddingRight = `${portalScrollbarWidth}px`;
+
+      // Hide scrollbar by disabling overflowing
       this.portalDocument.style.overflow = "hidden";
     }
     modalRef.hidden.subscribe(() => {
       if (this.portalDocument) {
+        this.portalDocument.style.paddingRight = "0px";
         this.portalDocument.style.overflow = "auto";
       }
     });
