@@ -11,7 +11,7 @@ const TimetableEntry = t.type({
   EventDesignation: t.string,
   // EventColor: t.number,
   EventLocation: Option(t.string),
-  EventManagerInformation: t.string,
+  EventManagerInformation: Option(t.string),
   // EventManagerId: t.number,
   // EventManagerLastname: Option(t.string),
   // EventManagerFirstname: Option(t.string),
