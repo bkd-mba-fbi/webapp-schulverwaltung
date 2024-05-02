@@ -37,7 +37,7 @@ export class LessonEntry {
   lessons = [] as Array<Lesson>;
 
   constructor(
-    public TeacherInformation: string,
+    public TeacherInformation: Option<string>,
     public LessonDateTimeFrom: Date,
     public LessonDateTimeTo: Date,
   ) {}

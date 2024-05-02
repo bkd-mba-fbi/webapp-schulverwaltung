@@ -1,12 +1,12 @@
 import * as t from "io-ts";
-import { LocalDateTimeFromString, Reference } from "./common-types";
+import { LocalDateTimeFromString, Option, Reference } from "./common-types";
 
 const Lesson = t.type({
   LessonRef: Reference,
   EventRef: Reference,
   EventDesignation: t.string,
   StudyClassNumber: t.string,
-  TeacherInformation: t.string,
+  TeacherInformation: Option(t.string),
   LessonDateTimeFrom: LocalDateTimeFromString,
   LessonDateTimeTo: LocalDateTimeFromString,
 });

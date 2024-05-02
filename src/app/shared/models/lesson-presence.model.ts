@@ -30,7 +30,7 @@ const LessonPresence = t.type({
   StudentFullName: t.string,
   // StudyClassDesignation: t.string,
   StudyClassNumber: t.string,
-  TeacherInformation: t.string,
+  TeacherInformation: Option(t.string),
 });
 type LessonPresence = t.TypeOf<typeof LessonPresence>;
 export { LessonPresence };
