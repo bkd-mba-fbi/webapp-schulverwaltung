@@ -1,7 +1,7 @@
 <div
   class="bkd-container bkd-container-limited"
   *bkdLet="{
-    profile: profileService.profile$ | async
+    profile: profileService.profile$ | async,
   } as data"
 >
   <h1 data-testid="profile-title">{{ "my-profile.title" | translate }}</h1>

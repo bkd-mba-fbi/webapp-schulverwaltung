@@ -3,7 +3,7 @@
   *bkdLet="{
     lesson: state.selectedLesson$ | async,
     lessons: state.lessons$ | async,
-    entries: entries$ | async
+    entries: entries$ | async,
   } as data"
 >
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -39,7 +39,7 @@
             [viewMode]="state.viewMode$ | async"
             [showClassName]="((state.studyClassCount$ | async) ?? 0) > 1"
             [profileReturnParams]="{
-              returnparams: (state.queryParamsString$ | async)
+              returnparams: (state.queryParamsString$ | async),
             }"
             (togglePresenceType)="togglePresenceType($event)"
             (changeIncident)="changeIncident($event)"

@@ -3,7 +3,7 @@
     *bkdLet="{
       profile: state.profile$ | async,
       currentDossierSection: state.currentDossier$ | async,
-      reports: dossierGradesService.testReports$ | async
+      reports: dossierGradesService.testReports$ | async,
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">

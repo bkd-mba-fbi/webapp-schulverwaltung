@@ -6,7 +6,7 @@
       hasTests: state.hasTests$ | async,
       testOptions: testOptions$ | async,
       selectedTestId: selectedTestId$ | async,
-      selectedTest: selectedTest$ | async
+      selectedTest: selectedTest$ | async,
     } as data"
   >
     <ng-container *ngIf="(state.loading$ | async) === false; else loading">
@@ -27,7 +27,7 @@
       <a
         class="rating-overview d-flex justify-content-end pe-3 border-top pt-3"
         [ngClass]="{
-          'visible-on-mobile': !data.hasTests || !data.selectedTest
+          'visible-on-mobile': !data.hasTests || !data.selectedTest,
         }"
         *ngIf="state.canSetFinalGrade$ | async"
         href="{{ buildLinkToRatingOverview() | async }}"
