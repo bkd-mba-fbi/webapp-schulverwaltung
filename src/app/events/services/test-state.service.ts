@@ -116,7 +116,8 @@ export class TestStateService {
   );
   filter$ = this.filterSubject$.asObservable();
 
-  expandedHeader$ = new BehaviorSubject<boolean>(false);
+  private expandedHeaderSubject$ = new BehaviorSubject<boolean>(false);
+  expandedHeader$ = this.expandedHeaderSubject$.asObservable();
 
   filteredTests$ = combineLatest([this.tests$, this.filter$]).pipe(
     map(([tests, filter]) =>
@@ -247,7 +248,7 @@ export class TestStateService {
   }
 
   toggleHeader(expanded: boolean) {
-    this.expandedHeader$.next(expanded);
+    this.expandedHeaderSubject$.next(expanded);
   }
 
   /**

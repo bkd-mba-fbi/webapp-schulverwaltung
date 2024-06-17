@@ -1,0 +1,73 @@
+@import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+@import "../test-edit-grades/test-edit-grades-common";
+
+:host.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: none;
+}
+
+@include media-breakpoint-up(sm) {
+  :host.sticky.shown {
+    display: table-header-group;
+  }
+}
+
+tr th {
+  border-top: none;
+  vertical-align: top;
+}
+
+.header-collapsible th {
+  border-bottom: 1px solid $border-color;
+  padding: 0 $spacer;
+}
+
+tr th.test-info-desktop {
+  display: none !important;
+}
+
+.point-input-container {
+  width: 5em;
+}
+
+@include media-breakpoint-up(sm) {
+  tr th.test-info-mobile {
+    display: none !important;
+  }
+
+  tr th.test-info-desktop {
+    display: table-cell !important;
+  }
+
+  tr th {
+    border-top: none;
+    padding-top: calc($spacer / 4);
+    padding-bottom: calc($spacer / 4);
+    border-top: initial;
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  tr th.grade {
+    min-width: 300px;
+    max-width: 300px;
+  }
+
+  th.sticky {
+    position: sticky;
+    left: 0;
+    background-color: $white;
+  }
+
+  th.sticky.sticky-col-2 {
+    left: 300px;
+  }
+
+  th.sticky.sticky-col-3 {
+    left: 447px;
+  }
+}
