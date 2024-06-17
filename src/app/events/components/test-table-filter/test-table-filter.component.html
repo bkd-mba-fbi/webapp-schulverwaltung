@@ -5,7 +5,7 @@
     (click)="showAll()"
     [ngClass]="{
       'btn-primary': !filter.onlyMine,
-      'btn-outline-secondary': filter.onlyMine
+      'btn-outline-secondary': filter.onlyMine,
     }"
   >
     {{ "tests.all-tests" | translate }}
@@ -16,7 +16,7 @@
     (click)="showOnlyMine()"
     [ngClass]="{
       'btn-primary': filter.onlyMine,
-      'btn-outline-secondary': !filter.onlyMine
+      'btn-outline-secondary': !filter.onlyMine,
     }"
   >
     {{ "tests.owned-tests" | translate }}

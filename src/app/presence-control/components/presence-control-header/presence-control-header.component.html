@@ -104,11 +104,11 @@
       class="group btn me-2 me-sm-4"
       [ngClass]="{
         'btn-link': (isGroupSelected$ | async) === false,
-        'btn-danger': isGroupSelected$ | async
+        'btn-danger': isGroupSelected$ | async,
       }"
       [routerLink]="['groups', selectedLesson.id]"
       [queryParams]="{
-        returnparams: (state.queryParamsString$ | async)
+        returnparams: (state.queryParamsString$ | async),
       }"
     >
       <i class="material-icons align-middle">groups</i>

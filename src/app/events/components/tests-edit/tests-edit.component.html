@@ -3,7 +3,7 @@
   *bkdLet="{
     courseId: state.courseId$ | async,
     test: test$ | async,
-    saving: saving$ | async
+    saving: saving$ | async,
   } as data"
 >
   <ng-container *ngIf="(state.loading$ | async) === false; else loading">
