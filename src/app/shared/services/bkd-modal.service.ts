@@ -4,6 +4,7 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
+import { PortalService } from "./portal.service";
 
 /**
  * Drop-in replacement for NgbModal that wraps the NgbModal and
@@ -14,7 +15,10 @@ import {
   providedIn: "root",
 })
 export class BkdModalService {
-  constructor(private modal: NgbModal) {}
+  constructor(
+    private modal: NgbModal,
+    private portal: PortalService,
+  ) {}
 
   /**
    * Delegated to NgbModal.open, but – when running within iframe –
@@ -66,7 +70,7 @@ export class BkdModalService {
       return;
     }
 
-    if (this.portalWindow) {
+    if (this.portal.window) {
       // We're running within the Evento Portal iframe
       modalWindowElement.style.top = `${this.getModalIframeOffset()}px`;
       modalWindowElement.style.maxHeight = `${this.getModalHeight()}px`;
@@ -78,22 +82,22 @@ export class BkdModalService {
    * is closed.
    */
   disablePortalScrolling(modalRef: NgbModalRef): void {
-    if (this.portalWindow && this.portalDocument) {
+    if (this.portal.window && this.portal.document) {
       // On certain browsers/OSes the scrollbar consumes horizontal space, so
       // the hiding of the scrollbar will change the width of the content. To
       // avoid this, we compensate the scrollbar width with a padding on the
       // document.
       const portalScrollbarWidth =
-        this.portalWindow.innerWidth - this.portalDocument.clientWidth;
-      this.portalDocument.style.paddingRight = `${portalScrollbarWidth}px`;
+        this.portal.window.innerWidth - this.portal.document.clientWidth;
+      this.portal.document.style.paddingRight = `${portalScrollbarWidth}px`;
 
       // Hide scrollbar by disabling overflowing
-      this.portalDocument.style.overflow = "hidden";
+      this.portal.document.style.overflow = "hidden";
     }
     modalRef.hidden.subscribe(() => {
-      if (this.portalDocument) {
-        this.portalDocument.style.paddingRight = "0px";
-        this.portalDocument.style.overflow = "auto";
+      if (this.portal.document) {
+        this.portal.document.style.paddingRight = "0px";
+        this.portal.document.style.overflow = "auto";
       }
     });
   }
@@ -115,31 +119,7 @@ export class BkdModalService {
    * iframe.
    */
   private getModalIframeOffset(): number {
-    return Math.max(this.getViewportTop() - this.getIframeTop(), 0);
-  }
-
-  /**
-   * Returns the top position of the content iframe relative to the
-   * Evento Portal document.
-   */
-  private getIframeTop(): number {
-    const iframe =
-      this.portalQuerySelector("bkd-content")?.shadowRoot?.querySelector(
-        "iframe",
-      );
-    return iframe?.offsetTop ?? 0;
-  }
-
-  /**
-   * Returns the bottom position of the content iframe relative to the
-   * Evento Portal document.
-   */
-  private getIFrameBottom(): number {
-    const iframe =
-      this.portalQuerySelector("bkd-content")?.shadowRoot?.querySelector(
-        "iframe",
-      );
-    return iframe ? iframe.offsetTop + iframe.offsetHeight : 0;
+    return Math.max(this.getViewportTop() - this.portal.getIframeTop(), 0);
   }
 
   /**
@@ -147,7 +127,7 @@ export class BkdModalService {
    * Evento Portal document.
    */
   private getModalTop(): number {
-    return Math.max(this.getViewportTop(), this.getIframeTop());
+    return Math.max(this.getViewportTop(), this.portal.getIframeTop());
   }
 
   /**
@@ -155,7 +135,7 @@ export class BkdModalService {
    * Evento Portal document.
    */
   private getModalBottom(): number {
-    return Math.min(this.getViewportBottom(), this.getIFrameBottom());
+    return Math.min(this.getViewportBottom(), this.portal.getIFrameBottom());
   }
 
   /**
@@ -170,7 +150,7 @@ export class BkdModalService {
    * to the Evento Portal document.
    */
   private getViewportTop(): number {
-    return this.portalWindow?.scrollY ?? 0;
+    return this.portal.window?.scrollY ?? 0;
   }
 
   /**
@@ -185,35 +165,6 @@ export class BkdModalService {
    * Returns the height of the visible browser viewport.
    */
   private getViewportHeight(): number {
-    return this.portalWindow?.innerHeight ?? 0;
-  }
-
-  /**
-   * Select an element within the <bkd-portal>'s shadow DOM.
-   */
-  private portalQuerySelector(selector: string): Option<Element> {
-    return (
-      this.portalWindow?.document
-        ?.querySelector("bkd-portal")
-        ?.shadowRoot?.querySelector(selector) ?? null
-    );
-  }
-
-  /**
-   * Returns the document element of the Evento Portal when running
-   * within the Evento Portal's iframe or `null` when running
-   * standalone during development.
-   */
-  private get portalDocument(): Option<HTMLElement> {
-    return this.portalWindow?.document.documentElement ?? null;
-  }
-
-  /**
-   * Returns the Window object of the Evento Portal when running
-   * within the Evento Portal's iframe or `null` when running
-   * standalone during development.
-   */
-  private get portalWindow(): Option<Window> {
-    return window.parent === window ? null : window.parent;
+    return this.portal.window?.innerHeight ?? 0;
   }
 }

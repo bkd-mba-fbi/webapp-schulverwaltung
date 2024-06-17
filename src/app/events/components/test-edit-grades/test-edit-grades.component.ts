@@ -22,6 +22,8 @@ import { averageGrade, averagePoints } from "../../utils/tests";
 import { GradeComponent } from "../grade/grade.component";
 import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
 import { GradeSelectComponent } from "../grades/grade-select/grade-select.component";
+import { TestEditGradesHeaderStickyDirective } from "../test-edit-grades-header-sticky/test-edit-grades-header-sticky.directive";
+import { TestEditGradesHeaderComponent } from "../test-edit-grades-header/test-edit-grades-header.component";
 import { TestTableFilterComponent } from "../test-table-filter/test-table-filter.component";
 import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
 
@@ -45,10 +47,12 @@ import { TestTableHeaderComponent } from "../test-table-header/test-table-header
     AsyncPipe,
     TranslateModule,
     DecimalOrDashPipe,
+    TestEditGradesHeaderStickyDirective,
+    TestEditGradesHeaderComponent,
   ],
 })
 export class TestEditGradesComponent implements OnInit {
-  @Input() selectedTest: Test | undefined;
+  @Input() selectedTest?: Test;
 
   constructor(
     public state: TestStateService,

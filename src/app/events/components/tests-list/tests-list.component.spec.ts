@@ -45,10 +45,12 @@ describe("TestsListComponent", () => {
       getSortingChar$: () => of("FullName"),
       loading$: of(false),
       tests$: tests$.asObservable(),
+      filteredTests$: tests$.asObservable(),
       hasTests$: hasTests$.asObservable(),
       course$: of(course),
       canSetFinalGrade$: canSetFinalGrade$.asObservable(),
       filter$: of(INITIAL_TESTS_FILTER),
+      expandedHeader$: of(false),
     } as unknown as TestStateService;
 
     const reportServiceMock = jasmine.createSpyObj("reportService", [

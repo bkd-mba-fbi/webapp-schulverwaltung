@@ -1,0 +1,54 @@
+@import "../../../../bootstrap-variables";
+
+/**
+ * Common table styles for the TestEditGradesComponent & the TestEditGradesHeaderComponent
+ */
+
+th.grade.selected,
+td.grade.selected {
+  display: table-cell !important;
+}
+
+th.grade,
+td.grade,
+.desktop {
+  display: none !important;
+}
+
+.desktop.selected {
+  display: table-cell !important;
+}
+
+.mobile {
+  display: block !important;
+}
+
+th,
+td {
+  padding: $spacer;
+}
+
+@include media-breakpoint-up(sm) {
+  th.grade,
+  td.grade,
+  .desktop {
+    display: table-cell !important;
+  }
+
+  .mobile {
+    display: none !important;
+  }
+
+  .primary-column-width {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 300px;
+    max-width: 300px;
+  }
+
+  .secondary-column-width {
+    min-width: 100px;
+    max-width: 100px;
+  }
+}

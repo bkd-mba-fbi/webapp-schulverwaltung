@@ -33,11 +33,13 @@ describe("TestEditGradesComponent", () => {
     testStateServiceMock.course$ = of(buildCourse(1234));
     tests$ = new BehaviorSubject([test]);
     testStateServiceMock.tests$ = tests$;
+    testStateServiceMock.filteredTests$ = tests$;
     hasTests$ = new BehaviorSubject(true);
     testStateServiceMock.hasTests$ = hasTests$;
     canSetFinalGrade$ = new BehaviorSubject(true);
     testStateServiceMock.canSetFinalGrade$ = canSetFinalGrade$;
     testStateServiceMock.filter$ = of(INITIAL_TESTS_FILTER);
+    testStateServiceMock.expandedHeader$ = of(false);
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
