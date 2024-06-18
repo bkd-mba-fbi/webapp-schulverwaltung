@@ -54,7 +54,7 @@ describe("restAuthInterceptor", () => {
   describe("authenticated", () => {
     beforeEach(() => (accessToken = "abcdefghijklmnopqrstuvwxyz"));
 
-    it("adds CLX-Authorization header to request for API requests", () => {
+    it("adds Authorization header to request for API requests", () => {
       intercept("https://eventotest.api/foo").subscribe({
         next: successCallback,
         error: errorCallback,
@@ -64,12 +64,12 @@ describe("restAuthInterceptor", () => {
       expect(nextCallback).toHaveBeenCalled();
 
       const req = nextCallback.calls.mostRecent().args[0];
-      expect(req.headers.get("CLX-Authorization")).toBe(
-        "token_type=urn:ietf:params:oauth:token-type:jwt-bearer, access_token=abcdefghijklmnopqrstuvwxyz",
+      expect(req.headers.get("Authorization")).toBe(
+        "Bearer abcdefghijklmnopqrstuvwxyz",
       );
     });
 
-    it("does not add CLX-Authorization header to request for non-API requests", () => {
+    it("does not add Authorization header to request for non-API requests", () => {
       intercept("http://example.com").subscribe({
         next: successCallback,
         error: errorCallback,
@@ -80,14 +80,14 @@ describe("restAuthInterceptor", () => {
       expect(nextCallback).toHaveBeenCalled();
 
       const req = nextCallback.calls.mostRecent().args[0];
-      expect(req.headers.has("CLX-Authorization")).toBeFalsy();
+      expect(req.headers.has("Authorization")).toBeFalsy();
     });
   });
 
   describe("unauthenticated", () => {
     beforeEach(() => (accessToken = null));
 
-    it("does not add CLX-Authorization header to request", () => {
+    it("does not add Authorization header to request", () => {
       intercept("https://eventotest.api/foo").subscribe({
         next: successCallback,
         error: errorCallback,
@@ -98,7 +98,7 @@ describe("restAuthInterceptor", () => {
       expect(nextCallback).toHaveBeenCalled();
 
       const req = nextCallback.calls.mostRecent().args[0];
-      expect(req.headers.has("CLX-Authorization")).toBeFalsy();
+      expect(req.headers.has("Authorization")).toBeFalsy();
     });
   });
 });
