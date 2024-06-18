@@ -104,7 +104,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     entries: ReadonlyArray<TimetableEntry>,
   ): ReadonlyArray<TimetableEntry> {
     return this.preventAbsencesAfterStart
-      ? entries.filter((entry) => entry.From >= new Date())
+      ? entries.filter((entry) => entry.From.getTime() >= new Date().getTime())
       : entries;
   }
 
