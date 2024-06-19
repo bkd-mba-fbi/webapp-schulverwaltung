@@ -4,8 +4,7 @@
     "src/spec-builders.ts",
     "src/spec-helpers.ts",
     "src/specs/expectations.ts",
-    "src/specs/utils.ts",
-    "src/polyfills.ts"
+    "src/specs/utils.ts"
   ],
   "project": ["src/**/*.{ts,js}"],
   "ignore": [
