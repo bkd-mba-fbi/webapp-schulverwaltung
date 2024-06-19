@@ -18,8 +18,23 @@ echo "Copying build from $BUILD_DIR to $PORTAL_WEBAPP_DIR..."
 # build, deleting any obsolete files
 rsync -av --delete --exclude={settings.js,index.html} $BUILD_DIR/ $PORTAL_WEBAPP_DIR/
 
-# Replace the styles in the existing index.html with those generated
-# by the new build (slashes and backslashes have to be escaped in
-# sed's input string) but leave everything else as-is
-TMP=$(grep -o '<style>@import.*</noscript>' $BUILD_DIR/index.html | sed 's/\\/\\\\/g' |  sed 's/\//\\\//g')
-sed  -i "s/.*@import.*/    $TMP/" $PORTAL_WEBAPP_DIR/index.html
+# Replace the styles and scripts in the existing index.html with those generated
+# by the new build but leave everything else as-is
+STYLES_REGEX="<style>.*</noscript>"
+STYLES=$(grep -o $STYLES_REGEX $BUILD_DIR/index.html)
+if [[ -n $STYLES ]]; then
+  sed -i "s~$STYLES_REGEX~$STYLES~" $PORTAL_WEBAPP_DIR/index.html
+else
+  echo "No styles found in $BUILD_DIR/index.html"
+  exit 1
+fi
+
+SCRIPTS_REGEX="<link rel=\"modulepreload\".*</script></body>"
+SCRIPTS=$(grep -o $SCRIPTS_REGEX $BUILD_DIR/index.html)
+if [[ -n $SCRIPTS ]]; then
+  sed -i "s~$SCRIPTS_REGEX~$SCRIPTS~" $PORTAL_WEBAPP_DIR/index.html
+else
+  echo "No scripts found in $BUILD_DIR/index.html"
+  exit 1
+fi
+
