@@ -21,7 +21,7 @@ rsync -av --delete --exclude={settings.js,index.html} $BUILD_DIR/ $PORTAL_WEBAPP
 # Replace the styles and scripts in the existing index.html with those generated
 # by the new build but leave everything else as-is
 STYLES_REGEX="<style>.*</noscript>"
-STYLES=$(grep -o $STYLES_REGEX $BUILD_DIR/index.html)
+STYLES=$(grep -o "$STYLES_REGEX" $BUILD_DIR/index.html)
 if [[ -n $STYLES ]]; then
   sed -i "s~$STYLES_REGEX~$STYLES~" $PORTAL_WEBAPP_DIR/index.html
 else
@@ -30,7 +30,7 @@ else
 fi
 
 SCRIPTS_REGEX="<link rel=\"modulepreload\".*</script></body>"
-SCRIPTS=$(grep -o $SCRIPTS_REGEX $BUILD_DIR/index.html)
+SCRIPTS=$(grep -o "$SCRIPTS_REGEX" $BUILD_DIR/index.html)
 if [[ -n $SCRIPTS ]]; then
   sed -i "s~$SCRIPTS_REGEX~$SCRIPTS~" $PORTAL_WEBAPP_DIR/index.html
 else
