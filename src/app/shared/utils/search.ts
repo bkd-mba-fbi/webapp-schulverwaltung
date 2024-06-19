@@ -3,7 +3,7 @@ import { deburr } from "lodash-es";
 export interface Searchable {
   readonly studentFullName?: string;
   readonly studyClassNumber?: string;
-  readonly Designation?: string;
+  readonly designation?: string;
   readonly evaluationText?: string;
 }
 
@@ -23,7 +23,7 @@ function matchesEntry(term: string): (entry: Searchable) => boolean {
   return (entry) =>
     matches(entry.studentFullName, preparedTerm) ||
     matches(entry.studyClassNumber, preparedTerm) ||
-    matches(entry.Designation, preparedTerm) ||
+    matches(entry.designation, preparedTerm) ||
     matches(entry.evaluationText, preparedTerm);
 }
 
