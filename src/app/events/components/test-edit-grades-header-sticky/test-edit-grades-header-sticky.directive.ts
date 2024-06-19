@@ -128,6 +128,12 @@ export class TestEditGradesHeaderStickyDirective
     if (this.isSmallBreakpointDown()) return;
     this.stickyHeader.setWidth(this.inlineHeader.getWidth());
     this.stickyHeader.setColumnWidths(this.inlineHeader.getColumnWidths());
+
+    // FIREFOX HACK: Set the heights of the fixed positioned sticky columns,
+    // see test-edit-grades-header.component.scss for more info
+    this.stickyHeader.setStickyColumnHeights(
+      this.inlineHeader.getStickyColumnsHeights(),
+    );
   }
 
   /**

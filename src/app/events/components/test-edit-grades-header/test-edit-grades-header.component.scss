@@ -70,4 +70,17 @@ tr th.test-info-desktop {
   th.sticky.sticky-col-3 {
     left: 447px;
   }
+
+  // FIREFOX HACK: Sadly, the sticky cells inside the fixed positioned sticky
+  // header do not work in Firefox (they scroll away) while they work like a
+  // charm in Chrome & Safari. As a workaround, we position these cells as
+  // `fixed` and give them a fixed height via JavaScript (see
+  // TestEditGradesHeaderStickyDirective).
+  :host.sticky {
+    margin-left: 547px;
+
+    th.sticky {
+      position: fixed;
+    }
+  }
 }
