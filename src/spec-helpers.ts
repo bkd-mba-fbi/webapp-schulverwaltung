@@ -1,5 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { HttpClient, provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { SimpleChange, SimpleChanges } from "@angular/core";
 import { TestModuleMetadata } from "@angular/core/testing";
 import { provideAnimations } from "@angular/platform-browser/animations";
@@ -103,7 +103,6 @@ export const settings: Settings = {
 
 const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
-    HttpClientTestingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -113,6 +112,8 @@ const baseTestModuleMetadata: TestModuleMetadata = {
     }),
   ],
   providers: [
+    provideHttpClient(),
+    provideHttpClientTesting(),
     provideRouter([]),
     provideAnimations(),
     { provide: SETTINGS, useValue: settings },

@@ -8,9 +8,6 @@ import { AppComponent } from "./app/app.component";
 import { appConfig } from "./app/app.config";
 import { environment } from "./environments/environment";
 
-__webpack_public_path__ =
-  window.schulverwaltung.settings.scriptsAndAssetsPath + "/";
-
 if (environment.production) {
   enableProdMode();
 }

@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { NgbTooltip } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { Observable } from "rxjs";
 import { map, shareReplay, switchMap, take } from "rxjs/operators";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
@@ -45,7 +45,7 @@ interface Column {
     EvaluateAbsencesHeaderComponent,
     NgIf,
     ReportsLinkComponent,
-    InfiniteScrollModule,
+    InfiniteScrollDirective,
     NgFor,
     NgClass,
     NgbTooltip,

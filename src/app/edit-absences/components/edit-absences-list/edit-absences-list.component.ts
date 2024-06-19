@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
@@ -34,7 +34,7 @@ import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absenc
     LetDirective,
     EditAbsencesHeaderComponent,
     NgIf,
-    InfiniteScrollModule,
+    InfiniteScrollDirective,
     RouterLink,
     NgFor,
     SpinnerComponent,
