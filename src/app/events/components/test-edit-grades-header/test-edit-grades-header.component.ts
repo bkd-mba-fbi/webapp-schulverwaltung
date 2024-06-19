@@ -124,9 +124,48 @@ export class TestEditGradesHeaderComponent {
     );
   }
 
-  private getColumns(): ReadonlyArray<ReadonlyArray<HTMLTableCellElement>> {
+  /**
+   * FIREFOX HACK: See TestEditGradesHeaderStickyDirective
+   */
+  getStickyColumnsHeights(): ReadonlyArray<ReadonlyArray<number>> {
+    return this.getColumns(".sticky").map((columns) =>
+      columns.map((column) => column.getBoundingClientRect().height),
+    );
+  }
+
+  /**
+   * FIREFOX HACK: See TestEditGradesHeaderStickyDirective
+   */
+  setStickyColumnHeights(
+    columnHeights: ReadonlyArray<ReadonlyArray<number>>,
+  ): void {
+    const rows = this.getColumns(".sticky");
+
+    if (
+      rows.length !== columnHeights.length ||
+      !rows.every((columns, i) => columns.length === columnHeights[i].length)
+    ) {
+      throw new Error(
+        "Given column heights do not match number of sticky header columns",
+      );
+    }
+
+    rows.forEach((columns, i) =>
+      columns.forEach((column, j) => {
+        column.style.height = `${columnHeights[i][j]}px`;
+      }),
+    );
+  }
+
+  private getColumns(
+    customColumnsSelector?: string,
+  ): ReadonlyArray<ReadonlyArray<HTMLTableCellElement>> {
     return this.getRows().map((row) =>
-      Array.from(row.querySelectorAll("th:not(.header-mobile)")),
+      Array.from(
+        row.querySelectorAll(
+          `th:not(.header-mobile)${customColumnsSelector ?? ""}`,
+        ),
+      ),
     );
   }
 
