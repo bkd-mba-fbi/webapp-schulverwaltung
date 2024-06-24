@@ -2,7 +2,6 @@ import { Settings } from "src/app/settings";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
-import { Searchable } from "src/app/shared/utils/search";
 import { LessonAbsence } from "../../shared/models/lesson-absence.model";
 import {
   canChangePresenceType,
@@ -31,7 +30,7 @@ export function getPresenceCategoryIcon(category: PresenceCategory): string {
   }
 }
 
-export class PresenceControlEntry implements Searchable {
+export class PresenceControlEntry {
   readonly studentFullName: string;
   constructor(
     public lessonPresence: LessonPresence,

@@ -18,7 +18,6 @@ import { searchEntries } from "src/app/shared/utils/search";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { LetDirective } from "../../../shared/directives/let.directive";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
-import { spread } from "../../../shared/utils/function";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
 import {
@@ -29,6 +28,10 @@ import { PresenceControlBlockLessonComponent } from "../presence-control-block-l
 import { PresenceControlEntryComponent } from "../presence-control-entry/presence-control-entry.component";
 import { PresenceControlHeaderComponent } from "../presence-control-header/presence-control-header.component";
 import { PresenceControlIncidentComponent } from "../presence-control-incident/presence-control-incident.component";
+
+const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
+  "studentFullName",
+];
 
 @Component({
   selector: "bkd-presence-control-list",
@@ -54,7 +57,10 @@ export class PresenceControlListComponent
   entries$ = combineLatest([
     this.state.presenceControlEntriesByGroup$,
     this.search$,
-  ]).pipe(map(spread(searchEntries)), shareReplay(1));
+  ]).pipe(
+    map(([entries, term]) => searchEntries(entries, SEARCH_FIELDS, term)),
+    shareReplay(1),
+  );
 
   private destroy$ = new Subject<void>();
 

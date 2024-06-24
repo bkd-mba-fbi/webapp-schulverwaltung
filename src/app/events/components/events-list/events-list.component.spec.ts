@@ -13,10 +13,12 @@ describe("EventsListComponent", () => {
   let element: HTMLElement;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
   let setWithStudyCourses: jasmine.Spy;
+  let setSearchFields: jasmine.Spy;
 
   beforeEach(waitForAsync(() => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     setWithStudyCourses = jasmine.createSpy("setWithStudyCourses");
+    setSearchFields = jasmine.createSpy("setSearchFields");
     stateServiceMock = {
       loading$: of(false),
       events$: of([buildEventEntry(1)]),
@@ -26,6 +28,7 @@ describe("EventsListComponent", () => {
         roles$.next(roles);
       },
       setWithStudyCourses,
+      setSearchFields,
       getEntries: () => of([buildEventEntry(1)]),
     } as unknown as EventsStateService;
 
@@ -55,18 +58,31 @@ describe("EventsListComponent", () => {
   });
 
   describe("withRatings", () => {
-    it("renders entry without ratings column", () => {
-      component.withRatings = false;
+    it("renders entry with ratings column it set to true", () => {
+      changeInput(component, "withRatings", true);
+      fixture.detectChanges();
+      expect(element.textContent).toContain("events.rating");
+    });
 
+    it("renders entry without ratings column it set to false", () => {
+      changeInput(component, "withRatings", false);
       fixture.detectChanges();
       expect(element.textContent).not.toContain("events.rating");
     });
 
-    it("renders entry with ratings column", () => {
-      component.withRatings = true;
-
+    it("includes 'evaluationText' in search fields it set to true", () => {
+      changeInput(component, "withRatings", true);
       fixture.detectChanges();
-      expect(element.textContent).toContain("events.rating");
+      expect(setSearchFields).toHaveBeenCalledWith([
+        "designation",
+        "evaluationText",
+      ]);
+    });
+
+    it("does not include in search fields it set to false", () => {
+      changeInput(component, "withRatings", false);
+      fixture.detectChanges();
+      expect(setSearchFields).toHaveBeenCalledWith(["designation"]);
     });
   });
 

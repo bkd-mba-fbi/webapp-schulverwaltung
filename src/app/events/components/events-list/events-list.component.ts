@@ -5,8 +5,17 @@ import { ResettableInputComponent } from "../../../shared/components/resettable-
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { LetDirective } from "../../../shared/directives/let.directive";
 import { StorageService } from "../../../shared/services/storage.service";
-import { EventsStateService } from "../../services/events-state.service";
+import {
+  EventEntry,
+  EventsStateService,
+} from "../../services/events-state.service";
 import { EventsListEntryComponent } from "../events-list-entry/events-list-entry.component";
+
+const BASE_SEARCH_FIELDS: ReadonlyArray<keyof EventEntry> = ["designation"];
+const WITH_RATINGS_SEARCH_FIELDS: ReadonlyArray<keyof EventEntry> = [
+  ...BASE_SEARCH_FIELDS,
+  "evaluationText",
+];
 
 @Component({
   selector: "bkd-events-list",
@@ -38,6 +47,14 @@ export class EventsListComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["withStudyCourses"]) {
       this.state.setWithStudyCourses(changes["withStudyCourses"].currentValue);
+    }
+
+    if (changes["withRatings"]) {
+      this.state.setSearchFields(
+        changes["withRatings"].currentValue
+          ? WITH_RATINGS_SEARCH_FIELDS
+          : BASE_SEARCH_FIELDS,
+      );
     }
   }
 }

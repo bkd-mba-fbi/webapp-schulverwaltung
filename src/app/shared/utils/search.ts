@@ -1,34 +1,30 @@
 import { deburr } from "lodash-es";
 
-export interface Searchable {
-  readonly studentFullName?: string;
-  readonly studyClassNumber?: string;
-  readonly designation?: string;
-  readonly evaluationText?: string;
-}
-
-export function searchEntries<T extends Searchable>(
+export function searchEntries<T>(
   entries: ReadonlyArray<T>,
+  searchFields: ReadonlyArray<keyof T>,
   term: string,
 ): ReadonlyArray<T> {
   if (!term) {
     return entries;
   }
 
-  return entries.filter(matchesEntry(term));
+  return entries.filter(matchesEntry(searchFields, term));
 }
 
-function matchesEntry(term: string): (entry: Searchable) => boolean {
-  const preparedTerm = normalizeSearchValue(term);
+function matchesEntry<T>(
+  searchFields: ReadonlyArray<keyof T>,
+  term: string,
+): (entry: T) => boolean {
+  const normalizedTerm = normalizeSearchValue(term);
   return (entry) =>
-    matches(entry.studentFullName, preparedTerm) ||
-    matches(entry.studyClassNumber, preparedTerm) ||
-    matches(entry.designation, preparedTerm) ||
-    matches(entry.evaluationText, preparedTerm);
+    searchFields.some((field) => matches(entry[field], normalizedTerm));
 }
 
-function matches(field: Maybe<string>, preparedTerm: string): boolean {
-  return field ? normalizeSearchValue(field).includes(preparedTerm) : false;
+function matches(value: unknown, normalizedTerm: string): boolean {
+  return value
+    ? normalizeSearchValue(String(value)).includes(normalizedTerm)
+    : false;
 }
 
 function normalizeSearchValue(value: string): string {
