@@ -19,6 +19,7 @@ import { searchEntries } from "src/app/shared/utils/search";
 import { SortCriteria } from "src/app/shared/utils/sort";
 import { Person } from "../../shared/models/person.model";
 import { toDesignationDateTimeTypeString } from "../../shared/utils/lesson-presences";
+import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
 import {
   buildOpenAbsencesEntries,
   removeOpenAbsences,
@@ -26,6 +27,11 @@ import {
 } from "../utils/open-absences-entries";
 
 export type PrimarySortKey = "date" | "name";
+
+const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
+  "studentFullName",
+  "studyClassNumber",
+];
 
 @Injectable()
 export class OpenAbsencesService implements IConfirmAbsencesService {
@@ -57,7 +63,7 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
   );
 
   filteredEntries$ = combineLatest([this.sortedEntries$, this.search$]).pipe(
-    map(spread(searchEntries)),
+    map(([entries, term]) => searchEntries(entries, SEARCH_FIELDS, term)),
     shareReplay(1),
   );
 

@@ -1,13 +1,12 @@
 import { format, startOfDay } from "date-fns";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
-import { Searchable } from "src/app/shared/utils/search";
 
 /**
  * Represents a grouping of LessonPresences by day/student. Make sure
  * you'll only instantiate it for absences on the same day and the
  * same student (may be multiple lessons).
  */
-export class OpenAbsencesEntry implements Searchable {
+export class OpenAbsencesEntry {
   readonly date: Date;
   readonly dateString: string;
   readonly studentId: number;

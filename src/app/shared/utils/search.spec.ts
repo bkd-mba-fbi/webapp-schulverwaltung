@@ -1,8 +1,8 @@
 import { searchEntries } from "src/app/shared/utils/search";
 import { buildLessonPresence } from "src/spec-builders";
-import { PresenceControlEntry } from "../models/presence-control-entry.model";
+import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 
-describe("presence control entries utils", () => {
+describe("search utilities", () => {
   let bichsel: PresenceControlEntry;
   let frisch: PresenceControlEntry;
   let jenni: PresenceControlEntry;
@@ -13,24 +13,40 @@ describe("presence control entries utils", () => {
     jenni = buildPresenceControlEntry("Zoë Jenny");
   });
 
-  describe("searchPresenceControlEntries", () => {
+  describe("searchEntries", () => {
     it("returns all entries for empty term", () => {
-      const result = searchEntries([bichsel, frisch, jenni], "");
+      const result = searchEntries(
+        [bichsel, frisch, jenni],
+        ["studentFullName"],
+        "",
+      );
       expect(result).toEqual([bichsel, frisch, jenni]);
     });
 
     it("returns entries where student name matches term", () => {
-      const result = searchEntries([bichsel, frisch, jenni], "ch");
+      const result = searchEntries(
+        [bichsel, frisch, jenni],
+        ["studentFullName"],
+        "ch",
+      );
       expect(result).toEqual([bichsel, frisch]);
     });
 
     it("ignores case", () => {
-      const result = searchEntries([bichsel, frisch, jenni], "fri");
+      const result = searchEntries(
+        [bichsel, frisch, jenni],
+        ["studentFullName"],
+        "fri",
+      );
       expect(result).toEqual([frisch]);
     });
 
     it("normalizes special characters", () => {
-      const result = searchEntries([bichsel, frisch, jenni], "Zoe");
+      const result = searchEntries(
+        [bichsel, frisch, jenni],
+        ["studentFullName"],
+        "Zoe",
+      );
       expect(result).toEqual([jenni]);
     });
   });

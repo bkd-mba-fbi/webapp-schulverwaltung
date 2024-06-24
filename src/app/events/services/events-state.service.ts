@@ -53,6 +53,10 @@ type LinkType = "evaluation" | "eventdetail";
 export class EventsStateService {
   loading$ = this.loadingService.loading$;
 
+  private searchFields$ = new BehaviorSubject<ReadonlyArray<keyof EventEntry>>([
+    "designation",
+  ]);
+
   private searchSubject$ = new BehaviorSubject<string>("");
   search$ = this.searchSubject$.asObservable();
 
@@ -81,9 +85,11 @@ export class EventsStateService {
   );
 
   private events$ = this.getEvents().pipe(shareReplay(1));
-  private filteredEvents$ = combineLatest([this.events$, this.search$]).pipe(
-    map(spread(searchEntries)),
-  );
+  private filteredEvents$ = combineLatest([
+    this.events$,
+    this.searchFields$,
+    this.search$,
+  ]).pipe(map(spread(searchEntries)));
 
   constructor(
     private coursesRestService: CoursesRestService,
@@ -104,6 +110,10 @@ export class EventsStateService {
 
   setWithStudyCourses(enabled: boolean): void {
     this.withStudyCourses$.next(enabled);
+  }
+
+  setSearchFields(searchFields: ReadonlyArray<keyof EventEntry>): void {
+    this.searchFields$.next(searchFields);
   }
 
   getEntries(withRatings = false): Observable<ReadonlyArray<EventEntry>> {
