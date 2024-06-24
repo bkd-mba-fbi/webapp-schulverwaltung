@@ -26,7 +26,6 @@ td.name {
 
 tbody td.name,
 tbody td.average {
-  max-width: 18ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -42,11 +41,6 @@ tbody td.average {
   table {
     border-collapse: separate;
     border-spacing: 0;
-  }
-
-  tbody td.name {
-    max-width: auto;
-    overflow: visible;
   }
 
   tbody td.sticky {

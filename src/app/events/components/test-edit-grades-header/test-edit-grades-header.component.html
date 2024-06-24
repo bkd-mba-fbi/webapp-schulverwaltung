@@ -15,7 +15,7 @@
     <th
       *ngFor="let test of data.tests"
       container="body"
-      class="grade h-100 test-info-desktop"
+      class="grade test-info-desktop"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
       <bkd-test-table-header
@@ -29,7 +29,7 @@
     <th
       *ngFor="let test of data.tests"
       container="body"
-      class="grade h-100 header-mobile test-info-mobile"
+      class="grade header-mobile test-info-mobile"
       colspan="3"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
@@ -83,7 +83,7 @@
     <th
       *ngFor="let test of data.tests"
       container="body"
-      class="grade h-100"
+      class="grade"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
       <div class="d-flex">

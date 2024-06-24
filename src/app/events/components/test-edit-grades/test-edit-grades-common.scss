@@ -43,11 +43,13 @@ td {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    width: 300px;
     min-width: 300px;
     max-width: 300px;
   }
 
   .secondary-column-width {
+    width: 100px;
     min-width: 100px;
     max-width: 100px;
   }
