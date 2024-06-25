@@ -1,6 +1,7 @@
 <select
   class="form-select"
   tabindex="{{ tabindex }}"
+  [ngStyle]="{ width }"
   [disabled]="disabled"
   [ngModel]="value$ | async"
   (ngModelChange)="valueChange.emit($event && $event.Key)"

@@ -10,12 +10,6 @@
   display: none;
 }
 
-@include media-breakpoint-up(sm) {
-  :host.sticky.shown {
-    display: table-header-group;
-  }
-}
-
 tr th {
   border-top: none;
   vertical-align: top;
@@ -30,11 +24,12 @@ tr th.test-info-desktop {
   display: none !important;
 }
 
-.point-input-container {
-  width: 5em;
-}
+// Desktop view
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
+  :host.sticky.shown {
+    display: table-header-group;
+  }
 
-@include media-breakpoint-up(sm) {
   tr th.test-info-mobile {
     display: none !important;
   }
@@ -48,27 +43,6 @@ tr th.test-info-desktop {
     padding-top: calc($spacer / 4);
     padding-bottom: calc($spacer / 4);
     border-top: initial;
-    min-width: 100px;
-    max-width: 100px;
-  }
-
-  tr th.grade {
-    min-width: 300px;
-    max-width: 300px;
-  }
-
-  th.sticky {
-    position: sticky;
-    left: 0;
-    background-color: $white;
-  }
-
-  th.sticky.sticky-col-2 {
-    left: 300px;
-  }
-
-  th.sticky.sticky-col-3 {
-    left: 447px;
   }
 
   // FIREFOX HACK: Sadly, the sticky cells inside the fixed positioned sticky
@@ -77,7 +51,7 @@ tr th.test-info-desktop {
   // `fixed` and give them a fixed height via JavaScript (see
   // TestEditGradesHeaderStickyDirective).
   :host.sticky {
-    margin-left: 547px;
+    margin-left: var(--test-columns-offset);
 
     th.sticky {
       position: fixed;

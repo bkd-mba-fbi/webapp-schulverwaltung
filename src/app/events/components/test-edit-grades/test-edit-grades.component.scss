@@ -2,15 +2,12 @@
 @import "node_modules/bootstrap/scss/mixins";
 @import "./test-edit-grades-common";
 
-$mean-font-size: $font-size-sm;
+tbody td.student-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 0;
 
-.mean {
-  color: $gray-dark;
-  font-size: $mean-font-size;
-  line-height: 1;
-}
-
-td.name {
   a {
     text-decoration: none;
   }
@@ -24,15 +21,14 @@ td.name {
   }
 }
 
-tbody td.name,
-tbody td.average {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-right: 0;
+.student-average-inline {
+  color: $gray-dark;
+  font-size: $font-size-sm;
+  line-height: 1;
 }
 
-@include media-breakpoint-up(sm) {
+// Desktop view
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .table-responsive-wrapper {
     display: block;
     overflow-x: auto;
@@ -43,27 +39,14 @@ tbody td.average {
     border-spacing: 0;
   }
 
-  tbody td.sticky {
-    position: sticky;
-    left: 0;
-    background-color: $white;
-  }
-
-  tbody td.sticky.sticky-col-2 {
-    left: 300px;
-  }
-
-  tbody td.sticky.sticky-col-3 {
-    left: 447px;
-  }
-
   .action-buttons {
     position: sticky;
     left: 0;
   }
 }
 
-@include media-breakpoint-down(sm) {
+// Mobile view
+@media (max-width: $bkd-tests-mobile-breakpoint) {
   .apply-average-button:not(.visible-on-mobile) {
     display: none !important;
   }
