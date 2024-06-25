@@ -6,7 +6,7 @@
   padding: $spacer 0;
 }
 
-@include media-breakpoint-up(sm) {
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .tests-dropdown {
     display: none;
   }
@@ -23,7 +23,7 @@ a.rating-overview {
     text-decoration-color: $accent;
   }
 
-  @include media-breakpoint-down(sm) {
+  @media (max-width: $bkd-tests-mobile-breakpoint) {
     &:not(.visible-on-mobile) {
       display: none !important;
     }

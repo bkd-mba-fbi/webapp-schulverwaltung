@@ -40,7 +40,7 @@
   text-decoration: none;
 }
 
-@media (min-width: 750px) {
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .test-designation {
     display: inherit !important;
   }

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgFor, NgIf, NgStyle } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +20,7 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   styleUrls: ["./select.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [FormsModule, NgIf, NgFor, AsyncPipe, TranslateModule],
+  imports: [FormsModule, NgIf, NgFor, AsyncPipe, NgStyle, TranslateModule],
 })
 export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];
@@ -29,6 +29,8 @@ export class SelectComponent implements OnChanges {
   @Input() value: Option<number> = null;
   @Input() disabled: boolean = false;
   @Input() tabindex: number = 0;
+  @Input() width: string = "auto";
+
   @Output() valueChange = new EventEmitter<Option<number>>();
 
   options$ = new BehaviorSubject<ReadonlyArray<DropDownItem>>([]);

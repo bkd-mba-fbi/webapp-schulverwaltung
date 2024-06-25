@@ -15,7 +15,7 @@
     <th
       *ngFor="let test of data.tests"
       container="body"
-      class="grade h-100 test-info-desktop"
+      class="test-grade grade test-info-desktop"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
       <bkd-test-table-header
@@ -29,7 +29,7 @@
     <th
       *ngFor="let test of data.tests"
       container="body"
-      class="grade h-100 header-mobile test-info-mobile"
+      class="test-grade header-mobile test-info-mobile"
       colspan="3"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
@@ -43,7 +43,7 @@
     </th>
   </tr>
   <tr>
-    <th class="primary-column-width sticky" (click)="state.sortBy('FullName')">
+    <th class="sticky student-name" (click)="state.sortBy('FullName')">
       <div class="d-flex">
         <div class="column-title">
           {{ "tests.student.name" | translate }}
@@ -54,7 +54,7 @@
       </div>
     </th>
     <th
-      class="secondary-column-width sticky sticky-col-2 desktop"
+      class="sticky student-grade desktop"
       (click)="state.sortBy('FinalGrade')"
       [ngClass]="{ selected: selectedTest === undefined }"
     >
@@ -68,7 +68,7 @@
       </div>
     </th>
     <th
-      class="secondary-column-width border-end sticky sticky-col-3 desktop"
+      class="border-end sticky student-average desktop"
       (click)="state.sortBy('TestsMean')"
     >
       <div class="d-flex">
@@ -83,7 +83,7 @@
     <th
       *ngFor="let test of data.tests"
       container="body"
-      class="grade h-100"
+      class="test-grade"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
       <div class="d-flex">

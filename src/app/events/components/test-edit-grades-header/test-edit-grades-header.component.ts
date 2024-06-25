@@ -99,13 +99,13 @@ export class TestEditGradesHeaderComponent {
   }
 
   getColumnWidths(): ReadonlyArray<ReadonlyArray<number>> {
-    return this.getColumns().map((columns) =>
+    return this.getRowsAndColumns().map((columns) =>
       columns.map((column) => column.getBoundingClientRect().width),
     );
   }
 
   setColumnWidths(columnWidths: ReadonlyArray<ReadonlyArray<number>>): void {
-    const rows = this.getColumns();
+    const rows = this.getRowsAndColumns();
 
     if (
       rows.length !== columnWidths.length ||
@@ -128,7 +128,7 @@ export class TestEditGradesHeaderComponent {
    * FIREFOX HACK: See TestEditGradesHeaderStickyDirective
    */
   getStickyColumnsHeights(): ReadonlyArray<ReadonlyArray<number>> {
-    return this.getColumns(".sticky").map((columns) =>
+    return this.getRowsAndColumns(".sticky").map((columns) =>
       columns.map((column) => column.getBoundingClientRect().height),
     );
   }
@@ -139,7 +139,7 @@ export class TestEditGradesHeaderComponent {
   setStickyColumnHeights(
     columnHeights: ReadonlyArray<ReadonlyArray<number>>,
   ): void {
-    const rows = this.getColumns(".sticky");
+    const rows = this.getRowsAndColumns(".sticky");
 
     if (
       rows.length !== columnHeights.length ||
@@ -155,9 +155,19 @@ export class TestEditGradesHeaderComponent {
         column.style.height = `${columnHeights[i][j]}px`;
       }),
     );
+
+    // Since the sticky elements will be `fixed`, set the max height on the row
+    // as well
+    this.getRows().forEach((row, i) => {
+      const rowHeight = columnHeights[i].reduce(
+        (acc, height) => Math.max(acc, height),
+        0,
+      );
+      row.style.height = `${rowHeight}px`;
+    });
   }
 
-  private getColumns(
+  private getRowsAndColumns(
     customColumnsSelector?: string,
   ): ReadonlyArray<ReadonlyArray<HTMLTableCellElement>> {
     return this.getRows().map((row) =>

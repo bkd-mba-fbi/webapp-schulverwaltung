@@ -17,6 +17,7 @@
           [options]="data.testOptions"
           [value]="data.selectedTestId"
           [allowEmpty]="false"
+          width="100%"
           (valueChange)="$event && testSelected($event)"
         ></bkd-select>
         <bkd-test-edit-grades

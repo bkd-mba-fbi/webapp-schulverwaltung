@@ -14,6 +14,7 @@ export class GradeSelectComponent {
   @Input() valueId: Option<number>; // the selected key from the options list
   @Input() gradeId: Option<number>; // the id of the grade itself
   @Input() disabled: boolean = false;
+  @Input() width: string = "13ch";
 
   @Output() gradeIdSelected = new EventEmitter<{
     id: number;
