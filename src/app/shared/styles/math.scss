@@ -1,38 +1,12 @@
-/* Inspired by http://fred-wang.github.io/mathml.css/ */
+@import "../../../bootstrap-variables";
 
-/* math */
-math {
-  display: inline;
-  text-indent: 0;
+math,
+mi,
+mo,
+mn {
+  font-size: $font-size-base;
 }
 
-math[display="block"] {
-  display: block;
-  text-align: center;
-}
-
-/* fraction */
-mfrac {
-  display: inline-block !important;
-  vertical-align: -50%;
-  border-collapse: collapse;
-  text-align: center;
-}
-
-mfrac > * {
-  display: block !important;
-}
-
-mfrac > * + * {
-  display: inline-block !important;
-  vertical-align: top;
-}
-
-mfrac:not([linethickness="0"]) > *:first-child {
-  border-bottom: solid thin;
-}
-
-/* token elements */
 mi {
   font-style: italic;
 }
