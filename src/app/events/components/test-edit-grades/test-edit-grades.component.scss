@@ -3,10 +3,14 @@
 @import "./test-edit-grades-common";
 
 tbody td.student-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   padding-right: 0;
+
+  &,
+  * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   a {
     text-decoration: none;
