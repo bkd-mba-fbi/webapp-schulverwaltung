@@ -10,14 +10,14 @@ tbody td.student-name {
 
   a {
     text-decoration: none;
-  }
 
-  span:first-child {
-    text-decoration: underline;
-  }
+    div:first-child {
+      text-decoration: underline;
+    }
 
-  span:first-child:hover {
-    text-decoration-color: $accent;
+    div:first-child:hover {
+      text-decoration-color: $accent;
+    }
   }
 }
 
