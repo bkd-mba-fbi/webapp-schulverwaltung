@@ -9,6 +9,7 @@
   --student-grade-column-width: 147px;
   --student-average-column-width: 100px;
   --test-grade-column-width: 300px;
+  --point-input-size: 4em;
 
   --student-grade-column-offset: var(--student-name-column-width);
   --student-average-column-offset: calc(
@@ -38,6 +39,16 @@ td {
   vertical-align: middle;
 }
 
+@include media-breakpoint-up(sm) {
+  :host {
+    --point-input-size: 5em;
+  }
+}
+
+tr:not(.header-collapsible) th.test-grade {
+  width: calc(var(--point-input-size) + 13ch + 3 * $spacer);
+}
+
 // Mobile view
 @media (max-width: ($bkd-tests-mobile-breakpoint)) {
   .desktop:not(.selected),
@@ -47,10 +58,33 @@ td {
     display: none;
   }
 
-  .student-name {
-    // Make sure the student name is going to ellipse also on mobile
-    max-width: var(--student-name-column-width);
+  table,
+  tbody,
+  thead {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
+
+  th,
+  tr {
+    display: flex;
+    width: 100%;
+  }
+
+  .student-name {
+    flex: 1;
+    display: block;
+  }
+
+  .test-grade {
+    flex: none;
+    display: block;
+  }
+
+  //tr:not(.header-collapsible) th.test-grade  {
+  //  width: calc($test-grade-title-column-width + 4em);
+  //}
 }
 
 // Desktop view
