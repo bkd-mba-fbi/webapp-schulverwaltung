@@ -9,6 +9,7 @@
   --student-grade-column-width: 147px;
   --student-average-column-width: 100px;
   --test-grade-column-width: 300px;
+  --point-input-size: 4em;
 
   --student-grade-column-offset: var(--student-name-column-width);
   --student-average-column-offset: calc(
@@ -38,6 +39,16 @@ td {
   vertical-align: middle;
 }
 
+@include media-breakpoint-up(sm) {
+  :host {
+    --point-input-size: 5em;
+  }
+}
+
+tr:not(.header-collapsible) th.test-grade {
+  width: calc(var(--point-input-size) + 13ch + 3 * $spacer);
+}
+
 // Mobile view
 @media (max-width: ($bkd-tests-mobile-breakpoint)) {
   .desktop:not(.selected),
@@ -47,9 +58,32 @@ td {
     display: none;
   }
 
+  /*
+  We have replaced the table layout with a flex layout for mobile screens. Otherwise, the table content does not behave
+  responsively and the content is cut off.
+  */
+  table,
+  tbody,
+  thead {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  th,
+  tr {
+    display: flex;
+    width: 100%;
+  }
+
   .student-name {
-    // Make sure the student name is going to ellipse also on mobile
-    max-width: var(--student-name-column-width);
+    flex: 1;
+    display: block;
+  }
+
+  .test-grade {
+    flex: none;
+    display: block;
   }
 }
 
