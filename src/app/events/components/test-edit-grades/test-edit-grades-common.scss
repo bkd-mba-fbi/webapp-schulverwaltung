@@ -45,7 +45,10 @@ td {
   }
 }
 
-tr:not(.header-collapsible) th.test-grade {
+tr:not(.header-collapsible) th.test-grade,
+td.test-grade,
+th.student-grade,
+td.student-grade {
   width: calc(var(--point-input-size) + 13ch + 3 * $spacer);
 }
 
