@@ -58,6 +58,10 @@ tr:not(.header-collapsible) th.test-grade {
     display: none;
   }
 
+  /*
+  We have replaced the table layout with a flex layout for mobile screens. Otherwise, the table content does not behave
+  responsively and the content is cut off.
+  */
   table,
   tbody,
   thead {
@@ -81,10 +85,6 @@ tr:not(.header-collapsible) th.test-grade {
     flex: none;
     display: block;
   }
-
-  //tr:not(.header-collapsible) th.test-grade  {
-  //  width: calc($test-grade-title-column-width + 4em);
-  //}
 }
 
 // Desktop view
