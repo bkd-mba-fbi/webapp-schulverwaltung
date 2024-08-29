@@ -13,6 +13,7 @@
       [stickyHeader]="stickyHeader"
     >
       <thead
+        style="display: block"
         bkdTestEditGradesHeader
         [selectedTest]="selectedTest"
         (publish)="publish($event)"
@@ -20,6 +21,7 @@
         #inlineHeader
       ></thead>
       <thead
+        id="stickyHeader"
         bkdTestEditGradesHeader
         [sticky]="true"
         [selectedTest]="selectedTest"
@@ -27,7 +29,7 @@
         (unpublish)="unpublish($event)"
         #stickyHeader
       ></thead>
-      <tbody>
+      <tbody class="scroll-test-table">
         <tr
           *ngFor="
             let studentGrade of data.studentGrades;
@@ -35,7 +37,7 @@
             trackBy: trackStudentGrade
           "
         >
-          <td class="sticky student-name">
+          <td class="student-name">
             <a [routerLink]="['student', studentGrade.student.Id, 'grades']">
               <div>{{ studentGrade.student.FullName }}</div>
               <div class="student-average-inline">
@@ -45,7 +47,7 @@
             </a>
           </td>
           <td
-            class="sticky student-grade"
+            class="student-grade"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
             <bkd-grade-select
