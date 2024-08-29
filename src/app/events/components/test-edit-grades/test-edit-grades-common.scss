@@ -23,8 +23,8 @@
   }
   .scroll-test-table {
     display: table-caption;
-    overflow-y: scroll;
-    height: 80vh;
+    overflow-y: auto;
+    height: auto;
   }
 }
 
