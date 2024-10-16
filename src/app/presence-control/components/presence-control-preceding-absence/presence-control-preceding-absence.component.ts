@@ -1,4 +1,4 @@
-import { DatePipe, NgFor } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
@@ -10,7 +10,7 @@ import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
   templateUrl: "./presence-control-preceding-absence.component.html",
   styleUrls: ["./presence-control-preceding-absence.component.scss"],
   standalone: true,
-  imports: [NgFor, DatePipe, TranslateModule, AddSpacePipe],
+  imports: [DatePipe, TranslateModule, AddSpacePipe],
 })
 export class PresenceControlPrecedingAbsenceComponent {
   @Input() precedingAbsences: ReadonlyArray<LessonAbsence>;

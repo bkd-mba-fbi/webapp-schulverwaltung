@@ -1,25 +1,19 @@
-<h1>{{ "evaluate-absences.title" | translate }}</h1>
-<ng-container
-  *bkdLet="{
-    entries: state.entries$ | async,
-    hasMore: state.hasMore$ | async,
-    loadingPage: state.loadingPage$ | async,
-  } as data"
->
-  <bkd-evaluate-absences-header
-    [filter]="filterFromParams$ | async"
-    (filterChange)="state.setFilter($event)"
-  ></bkd-evaluate-absences-header>
+@let entries = state.entries$ | async;
+@let hasMore = state.hasMore$ | async;
+@let loadingPage = state.loadingPage$ | async;
 
-  <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
-    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <div
-        *ngIf="
-          (data.entries && data.entries.length > 0) || data.loadingPage;
-          else noEntries
-        "
-        class="py-3"
-      >
+<h1>{{ "evaluate-absences.title" | translate }}</h1>
+<bkd-evaluate-absences-header
+  [filter]="filterFromParams$ | async"
+  (filterChange)="state.setFilter($event)"
+></bkd-evaluate-absences-header>
+
+@if (state.isFilterValid$ | async) {
+  @if (state.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    @if ((entries && entries.length > 0) || loadingPage) {
+      <div class="py-3">
         <div class="buttons">
           <bkd-reports-link
             [reports]="(reports$ | async) ?? []"
@@ -33,80 +27,89 @@
         >
           <thead>
             <tr>
-              <th
-                *ngFor="let column of columns"
-                (click)="state.sortService.toggleSorting(column.key)"
-                scope="col"
-                [ngClass]="column.label"
-              >
-                <div class="d-flex">
-                  <div
-                    class="column-title"
-                    [ngbTooltip]="
-                      'evaluate-absences.list.header.' + column.label
-                        | translate
-                    "
-                  >
-                    {{
-                      "evaluate-absences.list.header." + column.label
-                        | translate
-                    }}
+              @for (column of columns; track column.key) {
+                <th
+                  (click)="state.sortService.toggleSorting(column.key)"
+                  scope="col"
+                  [ngClass]="column.label"
+                >
+                  <div class="d-flex">
+                    <div
+                      class="column-title"
+                      [ngbTooltip]="
+                        'evaluate-absences.list.header.' + column.label
+                          | translate
+                      "
+                    >
+                      {{
+                        "evaluate-absences.list.header." + column.label
+                          | translate
+                      }}
+                    </div>
+                    <div class="sort-direction">
+                      {{
+                        state.sortService.getSortingChar$(column.key) | async
+                      }}
+                    </div>
                   </div>
-                  <div class="sort-direction">
-                    {{ state.sortService.getSortingChar$(column.key) | async }}
-                  </div>
-                </div>
-              </th>
+                </th>
+              }
             </tr>
           </thead>
-          <tbody *ngIf="data.entries && data.entries.length > 0">
-            <tr *ngFor="let entry of data.entries">
-              <td
-                *ngFor="let column of columns"
-                [attr.data-label]="
-                  'evaluate-absences.list.header.' + column.label | translate
-                "
-              >
-                <a
-                  *ngIf="column.key === 'StudentFullName'; else noLink"
-                  class="student"
-                  [routerLink]="['student', entry.StudentRef.Id, 'absences']"
-                  [queryParams]="{ returnparams: profileReturnParams$ | async }"
-                >
-                  {{ entry[column.key] }}
-                </a>
-                <ng-template #noLink>
-                  {{ entry[column.key] }}
-                </ng-template>
-              </td>
-            </tr>
-          </tbody>
+          @if (entries && entries.length > 0) {
+            <tbody>
+              @for (entry of entries; track entry.StudentRef.Id) {
+                <tr>
+                  @for (column of columns; track column.key) {
+                    <td
+                      [attr.data-label]="
+                        'evaluate-absences.list.header.' + column.label
+                          | translate
+                      "
+                    >
+                      @if (column.key === "StudentFullName") {
+                        <a
+                          class="student"
+                          [routerLink]="[
+                            'student',
+                            entry.StudentRef.Id,
+                            'absences',
+                          ]"
+                          [queryParams]="{
+                            returnparams: profileReturnParams$ | async,
+                          }"
+                        >
+                          {{ entry[column.key] }}
+                        </a>
+                      } @else {
+                        {{ entry[column.key] }}
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          }
         </table>
-
-        <bkd-spinner class="inline" *ngIf="data.loadingPage"></bkd-spinner>
-        <button
-          *ngIf="data.hasMore && !data.loadingPage"
-          type="button"
-          class="btn btn-outline-secondary btn-sm d-block mx-auto"
-          (click)="state.nextPage()"
-        >
-          {{ "global.pagination.load-more" | translate }}
-        </button>
+        @if (loadingPage) {
+          <bkd-spinner class="inline"></bkd-spinner>
+        }
+        @if (hasMore && !loadingPage) {
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm d-block mx-auto"
+            (click)="state.nextPage()"
+          >
+            {{ "global.pagination.load-more" | translate }}
+          </button>
+        }
       </div>
-
-      <ng-template #noEntries>
-        <p class="mt-3">
-          {{ "evaluate-absences.no-entries" | translate }}
-        </p>
-      </ng-template>
-    </ng-container>
-
-    <ng-template #loading>
-      <bkd-spinner></bkd-spinner>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #noFilter>
-    <p class="mt-3">{{ "evaluate-absences.no-filter" | translate }}</p>
-  </ng-template>
-</ng-container>
+    } @else {
+      <p class="mt-3">
+        {{ "evaluate-absences.no-entries" | translate }}
+      </p>
+    }
+  }
+} @else {
+  <p class="mt-3">{{ "evaluate-absences.no-filter" | translate }}</p>
+}

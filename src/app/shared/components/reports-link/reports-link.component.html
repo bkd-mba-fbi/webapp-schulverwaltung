@@ -1,28 +1,29 @@
-<a
-  *ngIf="reports.length === 1 || (reports.length === 0 && disableIfUnavailable)"
-  class="btn btn-primary btn-icon"
-  [href]="reports.length > 0 && reports[0].url"
-  target="_blank"
-  [class.disabled]="disableIfUnavailable && reports.length === 0"
->
-  <i class="material-icons">description</i>
-</a>
-
-<div *ngIf="reports.length > 1" ngbDropdown class="d-inline-block">
+@if (reports.length === 1 || (reports.length === 0 && disableIfUnavailable)) {
   <a
-    class="btn btn-primary btn-icon d-flex align-items-center"
-    [id]="dropdownId"
-    ngbDropdownToggle
+    class="btn btn-primary btn-icon"
+    [href]="reports.length > 0 && reports[0].url"
+    target="_blank"
+    [class.disabled]="disableIfUnavailable && reports.length === 0"
   >
     <i class="material-icons">description</i>
   </a>
-  <div ngbDropdownMenu [attr.aria-labelledby]="dropdownId">
-    <button
-      *ngFor="let report of reports"
-      ngbDropdownItem
-      (click)="openReport(report)"
+}
+
+@if (reports.length > 1) {
+  <div ngbDropdown class="d-inline-block">
+    <a
+      class="btn btn-primary btn-icon d-flex align-items-center"
+      [id]="dropdownId"
+      ngbDropdownToggle
     >
-      {{ report.title }}
-    </button>
+      <i class="material-icons">description</i>
+    </a>
+    <div ngbDropdownMenu [attr.aria-labelledby]="dropdownId">
+      @for (report of reports; track report.id) {
+        <button ngbDropdownItem (click)="openReport(report)">
+          {{ report.title }}
+        </button>
+      }
+    </div>
   </div>
-</div>
+}

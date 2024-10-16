@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -24,7 +24,6 @@ import { ScrollPositionService } from "src/app/shared/services/scroll-position.s
 import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { not } from "src/app/shared/utils/filter";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { DaysDifferencePipe } from "../../../shared/pipes/days-difference.pipe";
 import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
 import {
@@ -40,11 +39,8 @@ import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
     MyAbsencesReportHeaderComponent,
-    NgIf,
     RouterLink,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,

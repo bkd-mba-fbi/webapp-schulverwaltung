@@ -1,18 +1,13 @@
-<ng-container
-  *bkdLet="{
-    studentId: state.studentId$ | async,
-    loading: dossierGradesService.loading$ | async,
-    courses: dossierGradesService.studentCourses$ | async,
-    gradingScales: dossierGradesService.gradingScales$ | async,
-  } as data"
->
+@let courses = dossierGradesService.studentCourses$ | async;
+@let studentId = state.studentId$ | async;
+@let gradingScales = dossierGradesService.gradingScales$ | async;
+
+@if (dossierGradesService.loading$ | async) {
+  <bkd-spinner></bkd-spinner>
+} @else {
   <bkd-dossier-grades-view
-    *ngIf="!data.loading"
-    [courses]="data.courses"
-    [studentId]="data.studentId"
-    [gradingScales]="data.gradingScales"
+    [courses]="courses"
+    [studentId]="studentId"
+    [gradingScales]="gradingScales"
   ></bkd-dossier-grades-view>
-  <ng-container *ngIf="data.loading">
-    <bkd-spinner></bkd-spinner>
-  </ng-container>
-</ng-container>
+}

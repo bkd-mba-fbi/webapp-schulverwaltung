@@ -2,13 +2,15 @@
   <p>
     {{ "presence-control.preceding-absence.text" | translate }}
   </p>
-  <div *ngFor="let absence of precedingAbsences">
-    {{ absence.LessonRef.From | date: "HH:mm" }}–{{
-      absence.LessonRef.To | date: "HH:mm"
-    }}
-    {{ absence.LessonRef.EventDesignation }}{{ ":" | addSpace: ":" }}
-    {{ absence.Type }}
-  </div>
+  @for (absence of precedingAbsences; track absence.Id) {
+    <div>
+      {{ absence.LessonRef.From | date: "HH:mm" }}–{{
+        absence.LessonRef.To | date: "HH:mm"
+      }}
+      {{ absence.LessonRef.EventDesignation }}{{ ":" | addSpace: ":" }}
+      {{ absence.Type }}
+    </div>
+  }
 </div>
 <div class="modal-footer">
   <button

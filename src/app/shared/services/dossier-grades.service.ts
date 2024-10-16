@@ -113,7 +113,10 @@ export class DossierGradesService {
     return course?.Gradings?.find((grade) => grade.StudentId === studentId);
   }
 
-  getGradingScaleOfCourse(course: Course, gradingScales: GradingScale[]) {
+  getGradingScaleOfCourse(
+    course: Course,
+    gradingScales: ReadonlyArray<GradingScale>,
+  ) {
     return gradingScales?.find(
       (gradingScale) => gradingScale.Id === course.GradingScaleId,
     );
@@ -122,7 +125,7 @@ export class DossierGradesService {
   getGradesForStudent(
     course: Course,
     studentId: number,
-    gradingScales: GradingScale[],
+    gradingScales: ReadonlyArray<GradingScale>,
   ): ValueWithWeight[] {
     return (
       course.Tests?.flatMap((test) => {
@@ -169,14 +172,12 @@ export class DossierGradesService {
   // if it is merged, integrate changes and dry it up.
 
   private tests$ = this.studentCourses$.pipe(
-    map((courses) =>
-      courses.flatMap((course: Course) => course.Tests).filter(notNull),
-    ),
+    map((courses) => courses.flatMap((course) => course.Tests).filter(notNull)),
   );
 
   private gradingScaleIdsFromTests$ = this.tests$.pipe(
-    map((tests: Test[]) =>
-      [...tests.map((test: Test) => test.GradingScaleId)]
+    map((tests) =>
+      [...tests.map((test) => test.GradingScaleId)]
         .filter(notNull)
         .filter(unique),
     ),
@@ -185,7 +186,7 @@ export class DossierGradesService {
   private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
     map((courses) =>
       courses
-        .flatMap((course: Course) => course.GradingScaleId)
+        .flatMap((course) => course.GradingScaleId)
         .filter(notNull)
         .filter(unique),
     ),
@@ -203,9 +204,7 @@ export class DossierGradesService {
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) =>
       forkJoin(
-        ids.map((id: number) =>
-          this.gradingScalesRestService.getGradingScale(id),
-        ),
+        ids.map((id) => this.gradingScalesRestService.getGradingScale(id)),
       ),
     ),
   );

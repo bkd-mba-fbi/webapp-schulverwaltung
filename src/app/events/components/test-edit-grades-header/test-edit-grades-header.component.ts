@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +9,6 @@ import {
   Output,
 } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
-import { LetDirective } from "src/app/shared/directives/let.directive";
 import { Test } from "src/app/shared/models/test.model";
 import { TestStateService } from "../../services/test-state.service";
 import { TestTableFilterComponent } from "../test-table-filter/test-table-filter.component";
@@ -20,11 +19,8 @@ import { TestTableHeaderComponent } from "../test-table-header/test-table-header
   selector: "thead[bkdTestEditGradesHeader]",
   standalone: true,
   imports: [
-    LetDirective,
     AsyncPipe,
     NgClass,
-    NgFor,
-    NgIf,
     TranslateModule,
     TestTableFilterComponent,
     TestTableHeaderComponent,

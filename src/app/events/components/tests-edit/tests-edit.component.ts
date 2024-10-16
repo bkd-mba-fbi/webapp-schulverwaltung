@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -15,7 +15,6 @@ import { Test } from "src/app/shared/models/test.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { TestStateService } from "../../services/test-state.service";
 import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
@@ -27,8 +26,6 @@ import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
   styleUrls: ["./tests-edit.component.scss"],
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     TestsEditFormComponent,
     SpinnerComponent,
     AsyncPipe,

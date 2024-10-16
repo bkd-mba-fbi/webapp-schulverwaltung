@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +30,6 @@ import {
 import { NotificationTypesService } from "src/app/shared/services/notification-types.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { MySettingsNotificationsToggleComponent } from "../my-settings-notifications-toggle/my-settings-notifications-toggle.component";
 
@@ -47,12 +46,9 @@ interface NotificationSetting {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     MySettingsNotificationsToggleComponent,
     AsyncPipe,
     TranslateModule,

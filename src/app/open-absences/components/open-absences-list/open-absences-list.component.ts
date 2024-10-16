@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,7 +15,6 @@ import { ScrollPositionService } from "src/app/shared/services/scroll-position.s
 import { SortCriteria } from "src/app/shared/utils/sort";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { DaysDifferencePipe } from "../../../shared/pipes/days-difference.pipe";
 import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
 import {
@@ -30,11 +29,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     ResettableInputComponent,
     RouterLink,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,

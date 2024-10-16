@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,7 +28,6 @@ import {
   take,
 } from "rxjs/operators";
 import { ReportInfo } from "src/app/shared/services/reports.service";
-import { LetDirective } from "../../../directives/let.directive";
 import { LessonPresence } from "../../../models/lesson-presence.model";
 import { DaysDifferencePipe } from "../../../pipes/days-difference.pipe";
 import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
@@ -45,11 +44,8 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
     RouterLink,
     ReportsLinkComponent,
-    NgFor,
-    LetDirective,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
@@ -148,7 +144,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
 
   /**
    * Reference the entries' checkboxes via QueryList, since it is
-   * non-static (within ngIf) and can therefore not be referenced in
+   * non-static (within @if) and can therefore not be referenced in
    * the template itself.
    */
   onRowClick(event: Event, indexOrCheckbox: number | HTMLInputElement): void {

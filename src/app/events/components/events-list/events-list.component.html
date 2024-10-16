@@ -1,41 +1,39 @@
-<div
-  class="bkd-container"
-  *bkdLet="{ events: state.getEntries(withRatings) | async } as data"
->
+@let events = (state.getEntries(withRatings) | async) ?? [];
+
+<div class="bkd-container">
   <bkd-resettable-input
     class="d-flex search"
     [value]="state.search$ | async"
     [placeholder]="'events.search-by' | translate"
     [label]="'events.search' | translate"
-    [disabled]="!data.events"
+    [disabled]="!events"
     (valueChange)="state.setSearch($event)"
   ></bkd-resettable-input>
 
-  <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-    <ng-container *ngIf="data.events?.length > 0; else noEvents">
+  @if (state.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    @if (events.length > 0) {
       <div class="event-header">
         <div class="designation">{{ "events.designation" | translate }}</div>
         <div class="date">{{ "events.date" | translate }}</div>
         <div class="registrations">
           {{ "events.registrations" | translate }}
         </div>
-        <div *ngIf="withRatings" class="rating">
-          {{ "events.rating" | translate }}
-        </div>
+        @if (withRatings) {
+          <div class="rating">
+            {{ "events.rating" | translate }}
+          </div>
+        }
       </div>
-      <bkd-events-list-entry
-        *ngFor="let event of data.events"
-        [event]="event"
-        [withRatings]="withRatings"
-      ></bkd-events-list-entry>
-    </ng-container>
-
-    <ng-template #noEvents>
+      @for (event of events; track event.id) {
+        <bkd-events-list-entry
+          [event]="event"
+          [withRatings]="withRatings"
+        ></bkd-events-list-entry>
+      }
+    } @else {
       <p class="mt-3">{{ "events.no-events" | translate }}</p>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #loading>
-    <bkd-spinner></bkd-spinner>
-  </ng-template>
+    }
+  }
 </div>

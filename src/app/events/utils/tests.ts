@@ -26,7 +26,7 @@ export function findResult(
 
 export function replaceResult(
   result: Result,
-  tests: Test[],
+  tests: ReadonlyArray<Test>,
   ignore?: "grade" | "points",
 ): Test[] {
   return tests.map((test) =>
@@ -39,14 +39,14 @@ export function replaceResult(
 export function deleteResult(
   testId: number,
   studentId: number,
-  tests: Test[],
+  tests: ReadonlyArray<Test>,
 ): Test[] {
   return tests.map((test) =>
     test.Id === testId ? deleteResultByStudentId(studentId, test) : test,
   );
 }
 
-export function toggleIsPublished(id: number, tests: Test[]) {
+export function toggleIsPublished(id: number, tests: ReadonlyArray<Test>) {
   return tests.map((test) =>
     test.Id === id ? { ...test, IsPublished: !test.IsPublished } : test,
   );
@@ -80,7 +80,7 @@ export function resultOfStudent(studentId: number, test: Test): Maybe<Result> {
 
 export function removeTestById(
   testId: number,
-  tests: Test[] | null,
+  tests: ReadonlyArray<Test> | null,
 ): Test[] | null {
   if (tests === null) return null;
   return tests.filter((test) => test.Id !== testId);
@@ -121,7 +121,7 @@ export function replaceResultInTest(
   return { ...test, Results: [...filteredResults, newResult] };
 }
 
-export function sortByDate(tests: Test[]) {
+export function sortByDate(tests: ReadonlyArray<Test>) {
   return tests
     .slice()
     .sort((test1, test2) => test2.Date.getTime() - test1.Date.getTime());
@@ -129,7 +129,7 @@ export function sortByDate(tests: Test[]) {
 
 export function gradingScaleOfTest(
   test: Test,
-  gradingScales: GradingScale[],
+  gradingScales: ReadonlyArray<GradingScale>,
 ): Option<GradingScale> {
   return (
     gradingScales?.find(

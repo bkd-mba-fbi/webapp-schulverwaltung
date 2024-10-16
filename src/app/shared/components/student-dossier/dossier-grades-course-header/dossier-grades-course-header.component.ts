@@ -1,4 +1,4 @@
-import { DecimalPipe, NgIf } from "@angular/common";
+import { DecimalPipe } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
@@ -9,7 +9,7 @@ import * as Gradings from "src/app/shared/utils/gradings";
   templateUrl: "./dossier-grades-course-header.component.html",
   styleUrls: ["./dossier-grades-course-header.component.scss"],
   standalone: true,
-  imports: [NgIf, DecimalPipe],
+  imports: [DecimalPipe],
 })
 export class DossierGradesCourseHeaderComponent {
   @Input() designation: string;

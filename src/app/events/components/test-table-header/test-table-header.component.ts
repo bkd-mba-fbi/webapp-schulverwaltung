@@ -1,4 +1,4 @@
-import { DatePipe, NgClass, NgIf } from "@angular/common";
+import { DatePipe, NgClass } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
@@ -15,7 +15,6 @@ import { TestSummaryShortPipe } from "../../pipes/test-summary-short.pipe";
   imports: [
     NgClass,
     CaretComponent,
-    NgIf,
     PreserveLineHeightComponent,
     RouterLink,
     DatePipe,

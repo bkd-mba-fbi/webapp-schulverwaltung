@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,7 +16,6 @@ import { ScrollPositionService } from "src/app/shared/services/scroll-position.s
 import { parseISOLocalDate } from "src/app/shared/utils/date";
 import { searchEntries } from "src/app/shared/utils/search";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
@@ -40,10 +39,7 @@ const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     PresenceControlHeaderComponent,
-    NgFor,
     PresenceControlEntryComponent,
     SpinnerComponent,
     AsyncPipe,

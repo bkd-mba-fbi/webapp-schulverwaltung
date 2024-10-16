@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +36,7 @@ const MINIMAL_TERM_LENGTH = 3;
   styleUrls: ["./typeahead.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgbTypeahead, FormsModule, NgIf, AsyncPipe, TranslateModule],
+  imports: [NgbTypeahead, FormsModule, AsyncPipe, TranslateModule],
 })
 export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);

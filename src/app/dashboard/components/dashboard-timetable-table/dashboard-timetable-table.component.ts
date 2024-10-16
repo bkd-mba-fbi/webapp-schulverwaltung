@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component, Inject, Input } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -10,7 +10,7 @@ import { DashboardTimetableEntry } from "../dashboard-timetable/dashboard-timeta
   templateUrl: "./dashboard-timetable-table.component.html",
   styleUrls: ["./dashboard-timetable-table.component.scss"],
   standalone: true,
-  imports: [NgIf, NgFor, AsyncPipe, DatePipe, TranslateModule],
+  imports: [AsyncPipe, DatePipe, TranslateModule],
 })
 export class DashboardTimetableTableComponent {
   @Input()

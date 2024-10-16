@@ -14,17 +14,20 @@
     [ngModel]="selectedItem$ | async"
     (ngModelChange)="modelChange($event)"
   />
-  <button
-    *ngIf="value"
-    class="btn btn-link text-decoration-none"
-    type="button"
-    (click)="modelChange($event)"
-  >
-    <i class="material-icons">clear</i>
-  </button>
+  @if (value) {
+    <button
+      class="btn btn-link text-decoration-none"
+      type="button"
+      (click)="modelChange($event)"
+    >
+      <i class="material-icons">clear</i>
+    </button>
+  }
 </div>
-<div *ngIf="loading$ | async" class="spinner-container">
-  <div class="spinner-border spinner-border-sm" role="status">
-    <span class="visually-hidden">Loading...</span>
+@if (loading$ | async) {
+  <div class="spinner-container">
+    <div class="spinner-border spinner-border-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
-</div>
+}

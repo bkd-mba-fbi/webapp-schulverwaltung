@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges } from "@angular/core";
 import {
   NgbAccordionBody,
@@ -36,8 +36,6 @@ export interface CourseWithGrades {
   styleUrls: ["./dossier-grades-view.component.scss"],
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgbAccordionDirective,
     NgbAccordionItem,
     NgbAccordionHeader,
@@ -52,12 +50,12 @@ export interface CourseWithGrades {
   ],
 })
 export class DossierGradesViewComponent implements OnChanges {
-  @Input() courses: Course[];
+  @Input() courses: ReadonlyArray<Course>;
   @Input() studentId: number;
-  @Input() gradingScales: GradingScale[];
+  @Input() gradingScales: ReadonlyArray<GradingScale>;
   @Input() isEditable: boolean = true;
 
-  constructor(public dossierGradeService: DossierGradesService) {}
+  constructor(public dossierGradesService: DossierGradesService) {}
 
   decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);
 
@@ -65,17 +63,13 @@ export class DossierGradesViewComponent implements OnChanges {
     this.decoratedCoursesSubject$.next(this.decorateCourses());
   }
 
-  trackByCourseId(_index: number, item: CourseWithGrades): number {
-    return item.course.Id;
-  }
-
   private decorateCourses(): CourseWithGrades[] {
-    return this.courses?.map((course) => {
-      const finalGrade = this.dossierGradeService.getFinalGradeForStudent(
+    return this.courses.map((course) => {
+      const finalGrade = this.dossierGradesService.getFinalGradeForStudent(
         course,
         this.studentId,
       );
-      const grades = this.dossierGradeService.getGradesForStudent(
+      const grades = this.dossierGradesService.getGradesForStudent(
         course,
         this.studentId,
         this.gradingScales,
@@ -84,11 +78,11 @@ export class DossierGradesViewComponent implements OnChanges {
       return {
         course,
         finalGrade,
-        grading: this.dossierGradeService.getGradingForStudent(
+        grading: this.dossierGradesService.getGradingForStudent(
           course,
           this.studentId,
         ),
-        gradingScale: this.dossierGradeService.getGradingScaleOfCourse(
+        gradingScale: this.dossierGradesService.getGradingScaleOfCourse(
           course,
           this.gradingScales,
         ),

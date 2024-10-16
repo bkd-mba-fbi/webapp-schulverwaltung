@@ -1,101 +1,104 @@
-<div
-  *bkdLet="{ formGroup: formGroup$ | async, student: student$ | async } as data"
-  class="bkd-container bkd-container-limited"
->
+@let formGroup = formGroup$ | async;
+@let student = student$ | async;
+
+<div class="bkd-container bkd-container-limited">
   <h1>{{ "my-profile.edit.title" | translate }}</h1>
-  <form
-    *ngIf="data.formGroup"
-    [formGroup]="data.formGroup"
-    (ngSubmit)="onSubmit()"
-  >
-    <div class="mb-3">
-      <p>{{ "my-profile.edit.address-changes-remark" | translate }}</p>
-      <address class="text-muted">
-        <div>{{ data.student.AddressLine1 }}</div>
-        <div *ngIf="data.student.AddressLine2">
-          {{ data.student.AddressLine2 }}
-        </div>
-        <div>{{ data.student.Zip || "" }} {{ data.student.Location }}</div>
-      </address>
-    </div>
-
-    <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">
-      {{ "global.validation-errors." + error.error | translate: error.params }}
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" id="my-profile-phone-private">
-        {{ "my-profile.edit.fields.phone-private" | translate }}
-      </label>
-      <input
-        id="my-profile-phone-private"
-        formControlName="phonePrivate"
-        type="tel"
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" id="my-profile-phone-mobile">
-        {{ "my-profile.edit.fields.phone-mobile" | translate }}
-      </label>
-      <input
-        id="my-profile-phone-mobile"
-        formControlName="phoneMobile"
-        type="tel"
-        class="form-control"
-        aria-describedby="my-profile-phone-mobile-hint"
-      />
-      <small id="my-profile-phone-mobile-hint" class="form-text">{{
-        "my-profile.edit.fields.phone-mobile-hint" | translate
-      }}</small>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" for="my-profile-email2">
-        {{ "my-profile.edit.fields.email2" | translate }}
-      </label>
-      <input
-        id="my-profile-email2"
-        formControlName="email2"
-        type="email"
-        class="form-control"
-        [class.is-invalid]="((email2Errors$ | async)?.length ?? 0) > 0"
-        aria-describedby="my-profile-email2-hint"
-      />
-      <div class="invalid-feedback" *ngFor="let error of email2Errors$ | async">
-        {{
-          "global.validation-errors." + error.error | translate: error.params
-        }}
+  @if (formGroup && student) {
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <p>{{ "my-profile.edit.address-changes-remark" | translate }}</p>
+        <address class="text-muted">
+          <div>{{ student.AddressLine1 }}</div>
+          @if (student.AddressLine2) {
+            <div>
+              {{ student.AddressLine2 }}
+            </div>
+          }
+          <div>{{ student.Zip || "" }} {{ student.Location }}</div>
+        </address>
       </div>
-      <small id="my-profile-email2-hint" class="form-text">{{
-        "my-profile.edit.fields.email2-hint" | translate
-      }}</small>
-    </div>
-
-    <div class="d-flex justify-content-end">
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        [disabled]="saving$ | async"
-        (click)="cancel()"
-      >
-        {{ "my-profile.edit.cancel" | translate }}
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary ms-2"
-        [disabled]="saving$ | async"
-      >
-        {{ "my-profile.edit.save" | translate }}
-        <div
-          *ngIf="saving$ | async"
-          class="spinner-border spinner-border-sm align-middle"
-          role="status"
-        >
-          <span class="visually-hidden">Loading...</span>
+      @for (error of formErrors$ | async; track error) {
+        <div class="alert alert-danger">
+          {{
+            "global.validation-errors." + error.error | translate: error.params
+          }}
         </div>
-      </button>
-    </div>
-  </form>
+      }
+      <div class="mb-3">
+        <label class="form-label" id="my-profile-phone-private">
+          {{ "my-profile.edit.fields.phone-private" | translate }}
+        </label>
+        <input
+          id="my-profile-phone-private"
+          formControlName="phonePrivate"
+          type="tel"
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" id="my-profile-phone-mobile">
+          {{ "my-profile.edit.fields.phone-mobile" | translate }}
+        </label>
+        <input
+          id="my-profile-phone-mobile"
+          formControlName="phoneMobile"
+          type="tel"
+          class="form-control"
+          aria-describedby="my-profile-phone-mobile-hint"
+        />
+        <small id="my-profile-phone-mobile-hint" class="form-text">{{
+          "my-profile.edit.fields.phone-mobile-hint" | translate
+        }}</small>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="my-profile-email2">
+          {{ "my-profile.edit.fields.email2" | translate }}
+        </label>
+        <input
+          id="my-profile-email2"
+          formControlName="email2"
+          type="email"
+          class="form-control"
+          [class.is-invalid]="((email2Errors$ | async)?.length ?? 0) > 0"
+          aria-describedby="my-profile-email2-hint"
+        />
+        @for (error of email2Errors$ | async; track error) {
+          <div class="invalid-feedback">
+            {{
+              "global.validation-errors." + error.error
+                | translate: error.params
+            }}
+          </div>
+        }
+        <small id="my-profile-email2-hint" class="form-text">{{
+          "my-profile.edit.fields.email2-hint" | translate
+        }}</small>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          [disabled]="saving$ | async"
+          (click)="cancel()"
+        >
+          {{ "my-profile.edit.cancel" | translate }}
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary ms-2"
+          [disabled]="saving$ | async"
+        >
+          {{ "my-profile.edit.save" | translate }}
+          @if (saving$ | async) {
+            <div
+              class="spinner-border spinner-border-sm align-middle"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          }
+        </button>
+      </div>
+    </form>
+  }
 </div>

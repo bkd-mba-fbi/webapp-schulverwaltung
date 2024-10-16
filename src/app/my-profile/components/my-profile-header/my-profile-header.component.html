@@ -1,12 +1,23 @@
-<div class="avatar-person" *ngIf="student">
-  <div class="d-flex">
-    <bkd-avatar [studentId]="student.Id" class="me-3 avatar large"></bkd-avatar>
-    <div class="person">
-      {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
-      <span *ngIf="student.Gender">({{ student.Gender }})</span>
-      <div class="birthdate">{{ student.Birthdate | date: "dd.MM.yyyy" }}</div>
+@if (student) {
+  <div class="avatar-person">
+    <div class="d-flex">
+      <bkd-avatar
+        [studentId]="student.Id"
+        class="me-3 avatar large"
+      ></bkd-avatar>
+      <div class="person">
+        {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
+        @if (student.Gender) {
+          <span>({{ student.Gender }})</span>
+        }
+        <div class="birthdate">
+          {{ student.Birthdate | date: "dd.MM.yyyy" }}
+        </div>
+      </div>
     </div>
+    <bkd-reports-link [reports]="reports$ | async"></bkd-reports-link>
   </div>
-  <bkd-reports-link [reports]="reports$ | async"></bkd-reports-link>
-</div>
-<div class="email" *ngIf="student">{{ student.Email }}</div>
+}
+@if (student) {
+  <div class="email">{{ student.Email }}</div>
+}

@@ -1,36 +1,36 @@
-<div class="bkd-container">
-  <ng-container
-    *bkdLet="{
-      course: state.course$ | async,
-      tests: state.tests$ | async,
-      hasTests: state.hasTests$ | async,
-      testOptions: testOptions$ | async,
-      selectedTestId: selectedTestId$ | async,
-      selectedTest: selectedTest$ | async,
-    } as data"
-  >
-    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <bkd-tests-header [course]="data.course"></bkd-tests-header>
-      <ng-container *ngIf="data.tests.length > 0; else noTests">
-        <bkd-select
-          class="tests-dropdown"
-          [options]="data.testOptions"
-          [value]="data.selectedTestId"
-          [allowEmpty]="false"
-          width="100%"
-          (valueChange)="$event && testSelected($event)"
-        ></bkd-select>
-        <bkd-test-edit-grades
-          [selectedTest]="data.selectedTest"
-        ></bkd-test-edit-grades>
-      </ng-container>
+@let course = state.course$ | async;
+@let tests = (state.tests$ | async) ?? [];
+@let hasTests = state.hasTests$ | async;
+@let testOptions = testOptions$ | async;
+@let selectedTestId = selectedTestId$ | async;
+@let selectedTest = selectedTest$ | async;
 
+<div class="bkd-container">
+  @if (state.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <bkd-tests-header [course]="course"></bkd-tests-header>
+    @if (tests.length > 0) {
+      <bkd-select
+        class="tests-dropdown"
+        [options]="testOptions"
+        [value]="selectedTestId"
+        [allowEmpty]="false"
+        width="100%"
+        (valueChange)="$event && testSelected($event)"
+      ></bkd-select>
+      <bkd-test-edit-grades
+        [selectedTest]="selectedTest"
+      ></bkd-test-edit-grades>
+    } @else {
+      <p class="mt-3 px-3">{{ "tests.no-tests" | translate }}</p>
+    }
+    @if (state.canSetFinalGrade$ | async) {
       <a
         class="rating-overview d-flex justify-content-end pe-3 border-top pt-3"
         [ngClass]="{
-          'visible-on-mobile': !data.hasTests || !data.selectedTest,
+          'visible-on-mobile': !hasTests || !selectedTest,
         }"
-        *ngIf="state.canSetFinalGrade$ | async"
         href="{{ buildLinkToRatingOverview() | async }}"
       >
         <i class="material-icons fw-bold">arrow_right_alt</i>
@@ -38,12 +38,6 @@
           "tests.link-to-rating-overview" | translate
         }}</span>
       </a>
-    </ng-container>
-  </ng-container>
-  <ng-template #noTests>
-    <p class="mt-3 px-3">{{ "tests.no-tests" | translate }}</p>
-  </ng-template>
-  <ng-template #loading>
-    <bkd-spinner></bkd-spinner>
-  </ng-template>
+    }
+  }
 </div>

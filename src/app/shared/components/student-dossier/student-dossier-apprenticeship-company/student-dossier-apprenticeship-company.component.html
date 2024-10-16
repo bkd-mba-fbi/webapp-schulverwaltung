@@ -1,72 +1,73 @@
 <address>
-  <ng-container *ngIf="company.apprenticeshipManager?.CompanyName"
-    >{{ company.apprenticeshipManager?.CompanyName }}<br
-  /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManager?.CompanyNameAddition"
-    >{{ company.apprenticeshipManager?.CompanyNameAddition }}<br
-  /></ng-container>
-  <ng-container
-    *ngIf="
-      company.apprenticeshipManager?.Lastname ||
-      company.apprenticeshipManager?.Firstname
-    "
-  >
+  @if (company.apprenticeshipManager?.CompanyName) {
+    {{ company.apprenticeshipManager?.CompanyName }}<br />
+  }
+  @if (company.apprenticeshipManager?.CompanyNameAddition) {
+    {{ company.apprenticeshipManager?.CompanyNameAddition }}<br />
+  }
+  @if (
+    company.apprenticeshipManager?.Lastname ||
+    company.apprenticeshipManager?.Firstname
+  ) {
     {{ company.apprenticeshipManager?.Lastname || "" }}
     {{ company.apprenticeshipManager?.Firstname || "" }}<br />
-  </ng-container>
-  <ng-container *ngIf="company.apprenticeshipManager?.AddressLine1"
-    >{{ company.apprenticeshipManager?.AddressLine1 }}<br
-  /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManager?.AddressLine2"
-    >{{ company.apprenticeshipManager?.AddressLine2 }}<br
-  /></ng-container>
-  <ng-container
-    *ngIf="
-      company.apprenticeshipManager?.PostalCode &&
-      company.apprenticeshipManager?.Location
-    "
-    >{{ company.apprenticeshipManager?.PostalCode }}
-    {{ company.apprenticeshipManager?.Location }}<br
-  /></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManager?.PhoneBusiness">
+  }
+  @if (company.apprenticeshipManager?.AddressLine1) {
+    {{ company.apprenticeshipManager?.AddressLine1 }}<br />
+  }
+  @if (company.apprenticeshipManager?.AddressLine2) {
+    {{ company.apprenticeshipManager?.AddressLine2 }}<br />
+  }
+  @if (
+    company.apprenticeshipManager?.PostalCode &&
+    company.apprenticeshipManager?.Location
+  ) {
+    {{ company.apprenticeshipManager?.PostalCode }}
+    {{ company.apprenticeshipManager?.Location }}<br />
+  }
+  @if (company.apprenticeshipManager?.PhoneBusiness) {
     <a href="tel:{{ company.apprenticeshipManager?.PhoneBusiness }}"
-      >{{ company.apprenticeshipManager?.PhoneBusiness }}<br /></a
-  ></ng-container>
-  <ng-container *ngIf="company.apprenticeshipManager | bkdPersonEmail">
+      >{{ company.apprenticeshipManager?.PhoneBusiness }}<br
+    /></a>
+  }
+  @if (company.apprenticeshipManager | bkdPersonEmail) {
     <a href="mailto:{{ company.apprenticeshipManager | bkdPersonEmail }}">{{
       company.apprenticeshipManager | bkdPersonEmail
-    }}</a></ng-container
-  >
+    }}</a>
+  }
 </address>
-<div class="subentry" *ngIf="company.apprenticeshipContract.ContractDateFrom">
-  {{ "shared.profile.apprenticeship-period" | translate
-  }}{{ ":" | addSpace: ":" }}<br />
-
-  {{ company.apprenticeshipContract.ContractDateFrom | date: "dd.MM.yyyy" }}–{{
-    company.apprenticeshipContract.ContractDateTo | date: "dd.MM.yyyy"
-  }}
-</div>
-<div *ngIf="company.jobTrainer" class="subentry">
-  {{ "shared.profile.job-trainer" | translate }}{{ ":" | addSpace: ":" }}
-  <address>
-    <ng-container
-      *ngIf="company.jobTrainer.Lastname || company.jobTrainer.Firstname"
-    >
-      {{ company.jobTrainer.Lastname || "" }}
-      {{ company.jobTrainer.Firstname || "" }}<br />
-    </ng-container>
-    <ng-container *ngIf="company.jobTrainer.PhoneBusiness">
-      <a href="tel:{{ company.jobTrainer.PhoneBusiness }}"
-        >{{ company.jobTrainer.PhoneBusiness }}<br /></a
-    ></ng-container>
-    <ng-container *ngIf="company.jobTrainer.PhoneMobile">
-      <a href="tel:{{ company.jobTrainer.PhoneMobile }}"
-        >{{ company.jobTrainer.PhoneMobile }}<br /></a
-    ></ng-container>
-    <ng-container *ngIf="company.jobTrainer | bkdPersonEmail">
-      <a href="mailto:{{ company.jobTrainer | bkdPersonEmail }}">{{
-        company.jobTrainer | bkdPersonEmail
-      }}</a></ng-container
-    >
-  </address>
-</div>
+@if (company.apprenticeshipContract.ContractDateFrom) {
+  <div class="subentry">
+    {{ "shared.profile.apprenticeship-period" | translate
+    }}{{ ":" | addSpace: ":" }}<br />
+    {{
+      company.apprenticeshipContract.ContractDateFrom | date: "dd.MM.yyyy"
+    }}–{{ company.apprenticeshipContract.ContractDateTo | date: "dd.MM.yyyy" }}
+  </div>
+}
+@if (company.jobTrainer) {
+  <div class="subentry">
+    {{ "shared.profile.job-trainer" | translate }}{{ ":" | addSpace: ":" }}
+    <address>
+      @if (company.jobTrainer.Lastname || company.jobTrainer.Firstname) {
+        {{ company.jobTrainer.Lastname || "" }}
+        {{ company.jobTrainer.Firstname || "" }}<br />
+      }
+      @if (company.jobTrainer.PhoneBusiness) {
+        <a href="tel:{{ company.jobTrainer.PhoneBusiness }}"
+          >{{ company.jobTrainer.PhoneBusiness }}<br
+        /></a>
+      }
+      @if (company.jobTrainer.PhoneMobile) {
+        <a href="tel:{{ company.jobTrainer.PhoneMobile }}"
+          >{{ company.jobTrainer.PhoneMobile }}<br
+        /></a>
+      }
+      @if (company.jobTrainer | bkdPersonEmail) {
+        <a href="mailto:{{ company.jobTrainer | bkdPersonEmail }}">{{
+          company.jobTrainer | bkdPersonEmail
+        }}</a>
+      }
+    </address>
+  </div>
+}

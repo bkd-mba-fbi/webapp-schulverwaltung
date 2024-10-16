@@ -1,23 +1,23 @@
 <address>
   {{ person.LastName }} {{ person.FirstName }}<br />
-  <ng-container *ngIf="person.AddressLine1"
-    >{{ person.AddressLine1 }}<br
-  /></ng-container>
-  <ng-container *ngIf="person.AddressLine2"
-    >{{ person.AddressLine2 }}<br
-  /></ng-container>
-  <ng-container *ngIf="person.Zip && person.Zip"
-    >{{ person.Zip }} {{ person.Location }}<br
-  /></ng-container>
-  <ng-container *ngIf="person.PhonePrivate">
-    <a href="tel:{{ person.PhonePrivate }}">{{ person.PhonePrivate }}<br /></a
-  ></ng-container>
-  <ng-container *ngIf="person.PhoneMobile">
-    <a href="tel:{{ person.PhoneMobile }}">{{ person.PhoneMobile }}<br /></a
-  ></ng-container>
-  <ng-container *ngIf="person | bkdPersonEmail">
+  @if (person.AddressLine1) {
+    {{ person.AddressLine1 }}<br />
+  }
+  @if (person.AddressLine2) {
+    {{ person.AddressLine2 }}<br />
+  }
+  @if (person.Zip && person.Zip) {
+    {{ person.Zip }} {{ person.Location }}<br />
+  }
+  @if (person.PhonePrivate) {
+    <a href="tel:{{ person.PhonePrivate }}">{{ person.PhonePrivate }}<br /></a>
+  }
+  @if (person.PhoneMobile) {
+    <a href="tel:{{ person.PhoneMobile }}">{{ person.PhoneMobile }}<br /></a>
+  }
+  @if (person | bkdPersonEmail) {
     <a href="mailto:{{ person | bkdPersonEmail }}">{{
       person | bkdPersonEmail
-    }}</a></ng-container
-  >
+    }}</a>
+  }
 </address>

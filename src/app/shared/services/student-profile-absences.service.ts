@@ -10,6 +10,7 @@ import { PresenceTypesService } from "./presence-types.service";
 import { ToastService } from "./toast.service";
 
 export interface StudentProfileAbsencesCounts {
+  checkableAbsences: Option<number>;
   openAbsences: Option<number>;
   excusedAbsences: Option<number>;
   unexcusedAbsences: Option<number>;

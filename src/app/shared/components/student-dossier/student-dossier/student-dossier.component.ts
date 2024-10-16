@@ -1,9 +1,8 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
-import { LetDirective } from "../../../directives/let.directive";
 import { DossierStateService } from "../../../services/dossier-state.service";
 import { ReportsLinkComponent } from "../../reports-link/reports-link.component";
 import { SpinnerComponent } from "../../spinner/spinner.component";
@@ -16,11 +15,8 @@ import { StudentBacklinkComponent } from "../student-backlink/student-backlink.c
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     StudentBacklinkComponent,
     ReportsLinkComponent,
-    NgFor,
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
