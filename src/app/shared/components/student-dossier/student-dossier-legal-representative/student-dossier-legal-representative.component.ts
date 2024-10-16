@@ -1,4 +1,3 @@
-import { NgIf } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Person } from "../../../models/person.model";
 import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
@@ -9,7 +8,7 @@ import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
   styleUrls: ["./student-dossier-legal-representative.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, PersonEmailPipe],
+  imports: [PersonEmailPipe],
 })
 export class StudentDossierLegalRepresentativeComponent {
   @Input() person: Person;

@@ -1,10 +1,7 @@
 <h1>{{ "tests.add-title" | translate }}</h1>
-<div
-  class="bkd-container bkd-container-limited"
-  *bkdLet="{ courseId: courseId$ | async, saving: saving$ | async } as data"
->
+<div class="bkd-container bkd-container-limited">
   <bkd-tests-edit-form
-    [saving]="data.saving"
+    [saving]="saving$ | async"
     (save)="save($event)"
   ></bkd-tests-edit-form>
 </div>

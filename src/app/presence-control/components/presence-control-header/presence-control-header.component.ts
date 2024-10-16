@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgClass, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe, NgClass } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -74,11 +74,9 @@ interface ViewModeOption {
   imports: [
     NgbInputDatepicker,
     FormsModule,
-    NgIf,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    NgFor,
     NgbDropdownItem,
     CaretComponent,
     ResettableInputComponent,

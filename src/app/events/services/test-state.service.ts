@@ -371,9 +371,9 @@ export class TestStateService {
           Points: null,
         };
     updatedResult.GradeId =
-      "gradeId" in update ? update.gradeId : originalResult?.GradeId ?? null;
+      "gradeId" in update ? update.gradeId : (originalResult?.GradeId ?? null);
     updatedResult.Points =
-      "points" in update ? update.points : originalResult?.Points ?? null;
+      "points" in update ? update.points : (originalResult?.Points ?? null);
 
     return { originalResult, updatedResult };
   }

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,7 +34,6 @@ import {
   getValidationErrors,
 } from "src/app/shared/utils/form";
 import { parseQueryString } from "src/app/shared/utils/url";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { EditAbsencesStateService } from "../../services/edit-absences-state.service";
 import {
@@ -48,15 +47,7 @@ import {
   styleUrls: ["./edit-absences-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    LetDirective,
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    NgFor,
-    AsyncPipe,
-    TranslateModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslateModule],
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   absenceTypes$ = this.presenceTypesService.confirmationTypes$;

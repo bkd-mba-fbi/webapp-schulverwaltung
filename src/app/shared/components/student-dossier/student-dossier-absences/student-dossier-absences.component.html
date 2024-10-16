@@ -1,126 +1,117 @@
-<ng-container *ngIf="(loading$ | async) === false; else loading">
-  <ng-container
-    *ngIf="((lessonPresences$ | async)?.length ?? 0) > 0; else noAbsences"
-  >
-    <div
-      *ngIf="editable$ | async"
-      class="absence-all"
-      (click)="onRowClick($event, allCheckbox)"
-    >
-      <div class="checkbox">
-        <input
-          #allCheckbox
-          type="checkbox"
-          class="form-check-input"
-          [checked]="allSelected$ | async"
-          (change)="toggleAll($any($event.target)?.checked)"
-        />
-      </div>
-      <div class="all">{{ "open-absences.detail.all" | translate }}</div>
-
-      <div class="buttons">
-        <a
-          class="edit btn btn-primary btn-icon me-2"
-          [class.disabled]="
-            (selectionService?.selection$ | async)?.length === 0
-          "
-          routerLink="{{ confirmLink }}"
-        >
-          <i class="material-icons">edit</i>
-        </a>
-        <bkd-reports-link
-          *ngIf="reports"
-          [reports]="reports"
-          [disableIfUnavailable]="true"
-          class="me-2"
-        ></bkd-reports-link>
-        <a
-          *ngIf="displayEmail"
-          class="mail btn btn-primary btn-icon me-2"
-          href="mailto:{{ mailTo$ | async }}"
-          target="_blank"
-        >
-          <i class="material-icons">mail</i>
-        </a>
-      </div>
-
-      <div
-        *ngIf="
+@if (loading$ | async) {
+  <bkd-spinner class="inline d-block mb-3"></bkd-spinner>
+} @else {
+  @if (((lessonPresences$ | async)?.length ?? 0) > 0) {
+    @if (editable$ | async) {
+      <div class="absence-all" (click)="onRowClick($event, allCheckbox)">
+        <div class="checkbox">
+          <input
+            #allCheckbox
+            type="checkbox"
+            class="form-check-input"
+            [checked]="allSelected$ | async"
+            (change)="toggleAll($any($event.target)?.checked)"
+          />
+        </div>
+        <div class="all">{{ "open-absences.detail.all" | translate }}</div>
+        <div class="buttons">
+          <a
+            class="edit btn btn-primary btn-icon me-2"
+            [class.disabled]="
+              (selectionService?.selection$ | async)?.length === 0
+            "
+            routerLink="{{ confirmLink }}"
+          >
+            <i class="material-icons">edit</i>
+          </a>
+          @if (reports) {
+            <bkd-reports-link
+              [reports]="reports"
+              [disableIfUnavailable]="true"
+              class="me-2"
+            ></bkd-reports-link>
+          }
+          @if (displayEmail) {
+            <a
+              class="mail btn btn-primary btn-icon me-2"
+              href="mailto:{{ mailTo$ | async }}"
+              target="_blank"
+            >
+              <i class="material-icons">mail</i>
+            </a>
+          }
+        </div>
+        @if (
           (defaultAbsenceSelectionMessage &&
             (selectionService?.selectedWithoutPresenceType$ | async)?.length) ||
           0 > 0
-        "
-        class="validation"
-      >
-        {{ defaultAbsenceSelectionMessage }}
+        ) {
+          <div class="validation">
+            {{ defaultAbsenceSelectionMessage }}
+          </div>
+        }
       </div>
-    </div>
-
-    <div
-      class="absence-entry"
-      *ngFor="let absence of lessonPresences$ | async; index as i"
-      (click)="onRowClick($event, i)"
-    >
-      <div *ngIf="editable$ | async" class="checkbox">
-        <input
-          #checkbox
-          type="checkbox"
-          class="form-check-input"
-          [checked]="selectionService?.isSelected$(absence) | async"
-          (change)="selectionService?.toggle(absence)"
-        />
-      </div>
-      <div class="lesson-class">
-        {{ absence.EventDesignation
-        }}<ng-container *ngIf="absence.StudyClassNumber"
-          >, {{ absence.StudyClassNumber }}</ng-container
-        >
-      </div>
-      <div class="time pe-2">
-        {{ absence.LessonDateTimeFrom | date: "HH:mm" }}–{{
-          absence.LessonDateTimeTo | date: "HH:mm"
-        }}
-      </div>
-      <div class="teacher">
-        {{ absence.TeacherInformation }}
-      </div>
-      <ng-container
-        *bkdLet="
-          getPresenceTypeDesignation(absence) | async as presenceTypeDesignation
-        "
-      >
-        <div *ngIf="presenceTypeDesignation" class="presence-type">
-          {{ presenceTypeDesignation }}
+    }
+    @for (
+      absence of lessonPresences$ | async;
+      track absence.Id;
+      let i = $index
+    ) {
+      <div class="absence-entry" (click)="onRowClick($event, i)">
+        @if (editable$ | async) {
+          <div class="checkbox">
+            <input
+              #checkbox
+              type="checkbox"
+              class="form-check-input"
+              [checked]="selectionService?.isSelected$(absence) | async"
+              (change)="selectionService?.toggle(absence)"
+            />
+          </div>
+        }
+        <div class="lesson-class">
+          {{ absence.EventDesignation }}
+          @if (absence.StudyClassNumber) {
+            , {{ absence.StudyClassNumber }}
+          }
         </div>
-        <div
-          *ngIf="
-            displayPresenceType &&
-            !presenceTypeDesignation &&
-            defaultAbsenceSelectionMessage
-          "
-          class="presence-type confirm"
-        >
-          {{ "my-absences.show.confirm-presence-type" | translate }}
+        <div class="time pe-2">
+          {{ absence.LessonDateTimeFrom | date: "HH:mm" }}–{{
+            absence.LessonDateTimeTo | date: "HH:mm"
+          }}
         </div>
-      </ng-container>
-      <div class="date">
-        {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }}
+        <div class="teacher">
+          {{ absence.TeacherInformation }}
+        </div>
+        @let presenceTypeDesignation =
+          getPresenceTypeDesignation(absence) | async;
+        @if (presenceTypeDesignation) {
+          <div class="presence-type">
+            {{ presenceTypeDesignation }}
+          </div>
+        }
+        @if (
+          displayPresenceType &&
+          !presenceTypeDesignation &&
+          defaultAbsenceSelectionMessage
+        ) {
+          <div class="presence-type confirm">
+            {{ "my-absences.show.confirm-presence-type" | translate }}
+          </div>
+        }
+        <div class="date">
+          {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }}
+        </div>
+        <div class="days-ago">
+          {{ absence.LessonDateTimeFrom | bkdDaysDifference }}
+        </div>
+        <div class="date-days-ago">
+          {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }},
+          {{ absence.LessonDateTimeFrom | bkdDaysDifference }}
+        </div>
       </div>
-      <div class="days-ago">
-        {{ absence.LessonDateTimeFrom | bkdDaysDifference }}
-      </div>
-      <div class="date-days-ago">
-        {{ absence.LessonDateTimeFrom | date: "dd.MM.yyyy" }},
-        {{ absence.LessonDateTimeFrom | bkdDaysDifference }}
-      </div>
-    </div>
-  </ng-container>
-
-  <ng-template #noAbsences>
+    }
+  } @else {
     <p class="mx-3">{{ "shared.profile.no-absences" | translate }}</p>
-  </ng-template>
-</ng-container>
-
-<ng-template #loading>
-  <bkd-spinner class="inline d-block mb-3"></bkd-spinner>
-</ng-template>
+  }
+}

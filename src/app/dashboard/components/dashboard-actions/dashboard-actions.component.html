@@ -1,54 +1,62 @@
-<bkd-dashboard-action
-  *ngIf="dashboardService.hasPresenceControl$ | async"
-  [label]="'dashboard.actions.presence-control'"
-  [link]="['/presence-control']"
-></bkd-dashboard-action>
+@if (dashboardService.hasPresenceControl$ | async) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.presence-control'"
+    [link]="['/presence-control']"
+  ></bkd-dashboard-action>
+}
 
-<bkd-dashboard-action
-  *ngIf="
-    (dashboardService.hasLessonTeacherRole$ | async) &&
-    (dashboardService.editAbsencesParams$ | async)
-  "
-  [label]="'dashboard.actions.edit-absences'"
-  [link]="['/edit-absences']"
-  [linkParams]="dashboardService.editAbsencesParams$ | async"
-  [count]="dashboardService.editAbsencesCount$ | async"
-></bkd-dashboard-action>
+@if (
+  (dashboardService.hasLessonTeacherRole$ | async) &&
+  (dashboardService.editAbsencesParams$ | async)
+) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.edit-absences'"
+    [link]="['/edit-absences']"
+    [linkParams]="dashboardService.editAbsencesParams$ | async"
+    [count]="dashboardService.editAbsencesCount$ | async"
+  ></bkd-dashboard-action>
+}
 
-<bkd-dashboard-action
-  *ngIf="dashboardService.hasOpenAbsences$ | async"
-  [label]="'dashboard.actions.open-absences'"
-  [link]="['/open-absences']"
-  [count]="dashboardService.openAbsencesCount$ | async"
-></bkd-dashboard-action>
+@if (dashboardService.hasOpenAbsences$ | async) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.open-absences'"
+    [link]="['/open-absences']"
+    [count]="dashboardService.openAbsencesCount$ | async"
+  ></bkd-dashboard-action>
+}
 
-<bkd-dashboard-action
-  *ngIf="dashboardService.hasTeacherRole$ | async"
-  [label]="'dashboard.actions.tests'"
-  [link]="['/events']"
->
-  <bkd-dashboard-deadline
-    *ngIf="(dashboardService.coursesToRateCount$ | async) ?? 0 > 0"
-    [count]="dashboardService.coursesToRateCount$ | async"
-  ></bkd-dashboard-deadline>
-</bkd-dashboard-action>
+@if (dashboardService.hasTeacherRole$ | async) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.tests'"
+    [link]="['/events']"
+  >
+    @if ((dashboardService.coursesToRateCount$ | async) ?? 0 > 0) {
+      <bkd-dashboard-deadline
+        [count]="dashboardService.coursesToRateCount$ | async"
+      ></bkd-dashboard-deadline>
+    }
+  </bkd-dashboard-action>
+}
 
-<bkd-dashboard-action
-  *ngIf="dashboardService.hasStudentRole$ | async"
-  [label]="'dashboard.actions.my-absences-report'"
-  [link]="['/my-absences', 'report']"
->
-</bkd-dashboard-action>
+@if (dashboardService.hasStudentRole$ | async) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.my-absences-report'"
+    [link]="['/my-absences', 'report']"
+  >
+  </bkd-dashboard-action>
+}
 
-<bkd-dashboard-action
-  *ngIf="dashboardService.hasStudentRole$ | async"
-  [label]="'dashboard.actions.my-absences'"
-  [link]="['/my-absences']"
-  [count]="dashboardService.myAbsencesCount$ | async"
-></bkd-dashboard-action>
+@if (dashboardService.hasStudentRole$ | async) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.my-absences'"
+    [link]="['/my-absences']"
+    [count]="dashboardService.myAbsencesCount$ | async"
+  ></bkd-dashboard-action>
+}
 
-<bkd-dashboard-action
-  *ngIf="dashboardService.hasSubstituteAdministratorRole$ | async"
-  [label]="'dashboard.actions.substitutions'"
-  [externalLink]="substitutionsAdminLink"
-></bkd-dashboard-action>
+@if (dashboardService.hasSubstituteAdministratorRole$ | async) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.substitutions'"
+    [externalLink]="substitutionsAdminLink"
+  ></bkd-dashboard-action>
+}

@@ -1,4 +1,3 @@
-import { NgIf } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
@@ -6,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
   templateUrl: "./resettable-input.component.html",
   styleUrls: ["./resettable-input.component.scss"],
   standalone: true,
-  imports: [NgIf],
+  imports: [],
 })
 export class ResettableInputComponent {
   @Input() value = "";

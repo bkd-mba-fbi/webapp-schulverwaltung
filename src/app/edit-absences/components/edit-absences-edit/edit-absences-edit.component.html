@@ -1,140 +1,140 @@
+@let confirmationStates = confirmationStates$ | async;
+@let categories = activeCategories$ | async;
+@let formGroup = formGroup$ | async;
+
 <h1>{{ "edit-absences.title" | translate }}</h1>
-<div
-  class="bkd-container bkd-container-limited"
-  *bkdLet="{
-    confirmationStates: confirmationStates$ | async,
-    categories: activeCategories$ | async,
-    formGroup: formGroup$ | async,
-  } as data"
->
-  <form
-    *ngIf="data.formGroup && data.confirmationStates"
-    [formGroup]="data.formGroup"
-    (ngSubmit)="onSubmit()"
-  >
-    <div class="alert alert-danger" *ngFor="let error of formErrors$ | async">
-      {{ "global.validation-errors." + error.error | translate: error.params }}
-    </div>
-
-    <div class="form-group pb-4">
-      <div
-        *ngFor="let category of data.categories"
-        class="form-check mt-2 mb-3"
-      >
-        <input
-          type="radio"
-          class="form-check-input"
-          [id]="'category-' + category"
-          formControlName="category"
-          [value]="category"
-        />
-        <label class="form-check-label" for="{{ 'category-' + category }}">
-          {{ "edit-absences.edit.categories." + category | translate }}
-        </label>
-
-        <div *ngIf="isAbsent(category)" class="ms-5">
-          <div
-            *ngFor="let confirmationState of data.confirmationStates"
-            class="form-check mt-2 mb-2"
-          >
+<div class="bkd-container bkd-container-limited">
+  @if (formGroup && confirmationStates) {
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      @for (error of formErrors$ | async; track error) {
+        <div class="alert alert-danger">
+          {{
+            "global.validation-errors." + error.error | translate: error.params
+          }}
+        </div>
+      }
+      <div class="form-group pb-4">
+        @for (category of categories; track category) {
+          <div class="form-check mt-2 mb-3">
             <input
               type="radio"
               class="form-check-input"
-              [id]="'state-' + confirmationState.Key"
-              formControlName="confirmationValue"
-              [value]="confirmationState.Key"
+              [id]="'category-' + category"
+              formControlName="category"
+              [value]="category"
             />
-            <label
-              class="form-check-label"
-              for="{{ 'state-' + confirmationState.Key }}"
-            >
-              {{ confirmationState.Value }}
+            <label class="form-check-label" for="{{ 'category-' + category }}">
+              {{ "edit-absences.edit.categories." + category | translate }}
             </label>
-
-            <select
-              *ngIf="isExcused(confirmationState)"
-              class="form-select mt-1"
-              [class.is-invalid]="
-                (absenceTypeIdErrors$ | async)?.length || 0 > 0
-              "
-              formControlName="absenceTypeId"
-            >
-              <option [ngValue]="null">
-                {{ "edit-absences.edit.absence-type-placeholder" | translate }}
-              </option>
-              <option
-                *ngFor="let type of absenceTypes$ | async"
-                [ngValue]="type.Id"
-              >
-                {{ type.Designation }}
-              </option>
-            </select>
-
-            <div
-              class="invalid-feedback"
-              *ngFor="let error of absenceTypeIdErrors$ | async"
-            >
-              {{
-                "global.validation-errors." + error.error
-                  | translate: error.params
-              }}
-            </div>
+            @if (isAbsent(category)) {
+              <div class="ms-5">
+                @for (
+                  confirmationState of confirmationStates;
+                  track confirmationState.Key
+                ) {
+                  <div class="form-check mt-2 mb-2">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      [id]="'state-' + confirmationState.Key"
+                      formControlName="confirmationValue"
+                      [value]="confirmationState.Key"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="{{ 'state-' + confirmationState.Key }}"
+                    >
+                      {{ confirmationState.Value }}
+                    </label>
+                    @if (isExcused(confirmationState)) {
+                      <select
+                        class="form-select mt-1"
+                        [class.is-invalid]="
+                          (absenceTypeIdErrors$ | async)?.length || 0 > 0
+                        "
+                        formControlName="absenceTypeId"
+                      >
+                        <option [ngValue]="null">
+                          {{
+                            "edit-absences.edit.absence-type-placeholder"
+                              | translate
+                          }}
+                        </option>
+                        @for (type of absenceTypes$ | async; track type.Id) {
+                          <option [ngValue]="type.Id">
+                            {{ type.Designation }}
+                          </option>
+                        }
+                      </select>
+                    }
+                    @for (error of absenceTypeIdErrors$ | async; track error) {
+                      <div class="invalid-feedback">
+                        {{
+                          "global.validation-errors." + error.error
+                            | translate: error.params
+                        }}
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+            @if (isIncident(category)) {
+              <div class="ms-5">
+                <select
+                  class="form-select mt-1"
+                  [class.is-invalid]="
+                    (incidentIdErrors$ | async)?.length || 0 > 0
+                  "
+                  formControlName="incidentId"
+                >
+                  <option [ngValue]="null">
+                    {{ "edit-absences.edit.incident-placeholder" | translate }}
+                  </option>
+                  @for (incident of incidents$ | async; track incident.Id) {
+                    <option [ngValue]="incident.Id">
+                      {{ incident.Designation }}
+                    </option>
+                  }
+                </select>
+                @for (error of incidentIdErrors$ | async; track error) {
+                  <div class="invalid-feedback">
+                    {{
+                      "global.validation-errors." + error.error
+                        | translate: error.params
+                    }}
+                  </div>
+                }
+              </div>
+            }
           </div>
-        </div>
-
-        <div *ngIf="isIncident(category)" class="ms-5">
-          <select
-            class="form-select mt-1"
-            [class.is-invalid]="(incidentIdErrors$ | async)?.length || 0 > 0"
-            formControlName="incidentId"
-          >
-            <option [ngValue]="null">
-              {{ "edit-absences.edit.incident-placeholder" | translate }}
-            </option>
-            <option
-              *ngFor="let incident of incidents$ | async"
-              [ngValue]="incident.Id"
-            >
-              {{ incident.Designation }}
-            </option>
-          </select>
-
-          <div
-            class="invalid-feedback"
-            *ngFor="let error of incidentIdErrors$ | async"
-          >
-            {{
-              "global.validation-errors." + error.error
-                | translate: error.params
-            }}
-          </div>
-        </div>
+        }
       </div>
-    </div>
-
-    <div class="d-flex justify-content-end">
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        [disabled]="saving$ | async"
-        (click)="cancel()"
-      >
-        {{ "edit-absences.edit.cancel" | translate }}
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary ms-2"
-        [disabled]="saving$ | async"
-      >
-        {{ "edit-absences.edit.save" | translate }}
-        <div
-          *ngIf="saving$ | async"
-          class="spinner-border spinner-border-sm align-middle"
-          role="status"
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          [disabled]="saving$ | async"
+          (click)="cancel()"
         >
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </button>
-    </div>
-  </form>
+          {{ "edit-absences.edit.cancel" | translate }}
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary ms-2"
+          [disabled]="saving$ | async"
+        >
+          {{ "edit-absences.edit.save" | translate }}
+          @if (saving$ | async) {
+            <div
+              class="spinner-border spinner-border-sm align-middle"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          }
+        </button>
+      </div>
+    </form>
+  }
 </div>

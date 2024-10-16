@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf, NgStyle } from "@angular/common";
+import { AsyncPipe, NgStyle } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +20,7 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   styleUrls: ["./select.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [FormsModule, NgIf, NgFor, AsyncPipe, NgStyle, TranslateModule],
+  imports: [FormsModule, AsyncPipe, NgStyle, TranslateModule],
 })
 export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];
