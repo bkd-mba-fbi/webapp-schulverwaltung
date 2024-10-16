@@ -68,9 +68,10 @@ export class PresenceControlStateService
   confirmBackLinkParams?: Params;
 
   private selectedDateSubject$ = new BehaviorSubject(new Date());
-  selectedDate$ = this.selectedDateSubject$
-    .asObservable()
-    .pipe(map(startOfDay), distinctUntilChanged(isEqual));
+  selectedDate$ = this.selectedDateSubject$.asObservable().pipe(
+    map((date) => startOfDay(date)),
+    distinctUntilChanged(isEqual),
+  );
 
   private viewModeSubject$ = new Subject<PresenceControlViewMode>();
   viewMode$ = merge(
