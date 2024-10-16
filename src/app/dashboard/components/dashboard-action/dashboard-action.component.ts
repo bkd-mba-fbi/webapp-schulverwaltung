@@ -1,4 +1,4 @@
-import { NgIf, NgTemplateOutlet } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
@@ -8,7 +8,7 @@ import { TranslateModule } from "@ngx-translate/core";
   templateUrl: "./dashboard-action.component.html",
   styleUrls: ["./dashboard-action.component.scss"],
   standalone: true,
-  imports: [NgIf, RouterLink, NgTemplateOutlet, TranslateModule],
+  imports: [RouterLink, NgTemplateOutlet, TranslateModule],
 })
 export class DashboardActionComponent {
   @Input() label: string;

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
@@ -30,7 +30,7 @@ const DEBOUNCE_TIME = 1250;
   templateUrl: "./grade.component.html",
   styleUrls: ["./grade.component.scss"],
   standalone: true,
-  imports: [NgIf, FormsModule, SelectComponent, AsyncPipe, TranslateModule],
+  imports: [FormsModule, SelectComponent, AsyncPipe, TranslateModule],
 })
 export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grade: GradeOrNoResult;

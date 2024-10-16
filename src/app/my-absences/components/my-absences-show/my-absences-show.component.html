@@ -1,9 +1,6 @@
-<div
-  class="bkd-container bkd-container-limited"
-  *bkdLet="{
-    absenceCounts: myAbsencesService.counts$ | async,
-  } as data"
->
+@let absenceCounts = myAbsencesService.counts$ | async;
+
+<div class="bkd-container bkd-container-limited">
   <h1>{{ "my-absences.title" | translate }}</h1>
   <div class="d-flex justify-content-between border-bottom header">
     <div>{{ "my-absences.description" | translate }}</div>
@@ -33,9 +30,9 @@
           (click)="checkableAbsences.toggle()"
         >
           {{ "shared.profile.checkable-absences" | translate }}
-          <ng-container *ngIf="data.absenceCounts.checkableAbsences !== null"
-            >({{ data.absenceCounts.checkableAbsences }})
-          </ng-container>
+          @if (absenceCounts?.checkableAbsences !== null) {
+            ({{ absenceCounts?.checkableAbsences }})
+          }
         </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
@@ -56,9 +53,9 @@
           (click)="openAbsences.toggle()"
         >
           {{ "shared.profile.open-absences" | translate }}
-          <ng-container *ngIf="data.absenceCounts.openAbsences !== null"
-            >({{ data.absenceCounts.openAbsences }})
-          </ng-container>
+          @if (absenceCounts?.openAbsences !== null) {
+            ({{ absenceCounts?.openAbsences }})
+          }
         </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
@@ -84,9 +81,9 @@
           (click)="excusedAbsences.toggle()"
         >
           {{ "shared.profile.excused-absences" | translate }}
-          <ng-container *ngIf="data.absenceCounts.excusedAbsences !== null"
-            >({{ data.absenceCounts.excusedAbsences }})
-          </ng-container>
+          @if (absenceCounts?.excusedAbsences !== null) {
+            ({{ absenceCounts?.excusedAbsences }})
+          }
         </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
@@ -107,9 +104,9 @@
           (click)="unexcusedAbsences.toggle()"
         >
           {{ "shared.profile.unexcused-absences" | translate }}
-          <ng-container *ngIf="data.absenceCounts.unexcusedAbsences !== null"
-            >({{ data.absenceCounts.unexcusedAbsences }})
-          </ng-container>
+          @if (absenceCounts?.unexcusedAbsences !== null) {
+            ({{ absenceCounts?.unexcusedAbsences }})
+          }
         </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>
@@ -131,9 +128,9 @@
           (click)="incidents.toggle()"
         >
           {{ "shared.profile.incidents" | translate }}
-          <ng-container *ngIf="data.absenceCounts.incidents !== null"
-            >({{ data.absenceCounts.incidents }})
-          </ng-container>
+          @if (absenceCounts?.incidents !== null) {
+            ({{ absenceCounts?.incidents }})
+          }
         </bkd-student-dossier-entry-header>
       </div>
       <div ngbAccordionCollapse>

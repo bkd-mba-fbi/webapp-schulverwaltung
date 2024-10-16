@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { addDays, format, startOfDay, subDays } from "date-fns";
@@ -18,13 +18,12 @@ import { LessonPresencesRestService } from "src/app/shared/services/lesson-prese
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { SafePipe } from "../../../shared/pipes/safe.pipe";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
 
 export type DashboardTimetableEntry = {
-  id: number;
+  id: string;
   from: Date;
   until: Date;
   eventId: number;
@@ -42,8 +41,6 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
   styleUrls: ["./dashboard-timetable.component.scss"],
   standalone: true,
   imports: [
-    NgIf,
-    LetDirective,
     DashboardTimetableTableComponent,
     SpinnerComponent,
     AsyncPipe,
@@ -128,7 +125,7 @@ export class DashboardTimetableComponent {
 
   private convertLesson(lesson: Lesson): DashboardTimetableEntry {
     return {
-      id: lesson.LessonRef.Id,
+      id: `${lesson.LessonRef.Id}-${lesson.StudyClassNumber}`,
       from: lesson.LessonDateTimeFrom,
       until: lesson.LessonDateTimeTo,
       eventId: lesson.EventRef.Id,
@@ -141,7 +138,7 @@ export class DashboardTimetableComponent {
     entry: TimetableEntry,
   ): DashboardTimetableEntry {
     return {
-      id: entry.Id,
+      id: String(entry.Id),
       from: entry.From,
       until: entry.To,
       eventId: entry.EventId,

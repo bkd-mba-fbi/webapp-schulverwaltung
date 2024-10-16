@@ -1,99 +1,101 @@
-<div
-  class="bkd-container bkd-container-limited"
-  *bkdLet="{
-    profile: profileService.profile$ | async,
-  } as data"
->
-  <h1 data-testid="profile-title">{{ "my-profile.title" | translate }}</h1>
-  <ng-container
-    *ngIf="(profileService.loading$ | async) === false; else loading"
-  >
-    <ng-container *ngIf="data.profile; else noProfile">
-      <bkd-my-profile-header
-        [student]="data.profile.student"
-      ></bkd-my-profile-header>
+@let profile = profileService.profile$ | async;
 
-      <div class="profile-content" data-testid="profile-content">
-        <div class="profile-entries pt-3">
+<div class="bkd-container bkd-container-limited">
+  <h1 data-testid="profile-title">{{ "my-profile.title" | translate }}</h1>
+  @if (profileService.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else if (!profile) {
+    @if (profileService.noAccess$ | async) {
+      <p data-testid="profile-substitution">
+        {{ "shared.profile.substitution-profile" | translate }}
+      </p>
+    } @else {
+      <p data-testid="profile-none">
+        {{ "shared.profile.no-profile" | translate }}
+      </p>
+    }
+  } @else {
+    <bkd-my-profile-header [student]="profile.student"></bkd-my-profile-header>
+
+    <div class="profile-content" data-testid="profile-content">
+      <div class="profile-entries pt-3">
+        @if (profile.student.SocialSecurityNumber) {
           <bkd-my-profile-entry
-            *ngIf="data.profile.student.SocialSecurityNumber"
             label="my-profile.show.social-security-number"
-            value="{{ data.profile.student.SocialSecurityNumber }}"
+            value="{{ profile.student.SocialSecurityNumber }}"
           >
           </bkd-my-profile-entry>
+        }
 
+        @if (profile.student.HomeTown || profile.student.Nationality) {
           <bkd-my-profile-entry
-            *ngIf="
-              data.profile.student.HomeTown || data.profile.student.Nationality
-            "
             label="my-profile.show.hometown-nationality"
             value="{{
-              data.profile.student.HomeTown || data.profile.student.Nationality
+              profile.student.HomeTown || profile.student.Nationality
             }}"
           >
           </bkd-my-profile-entry>
+        }
 
+        @if (profile.student.NativeLanguage) {
           <bkd-my-profile-entry
-            *ngIf="data.profile.student.NativeLanguage"
             label="my-profile.show.native-language"
-            value="{{ data.profile.student.NativeLanguage }}"
+            value="{{ profile.student.NativeLanguage }}"
           >
           </bkd-my-profile-entry>
+        }
 
+        @if (profile.stayPermitValue) {
           <bkd-my-profile-entry
-            *ngIf="data.profile.stayPermitValue"
             label="my-profile.show.stay-permit"
-            value="{{ data.profile.stayPermitValue }}"
+            value="{{ profile.stayPermitValue }}"
           >
           </bkd-my-profile-entry>
+        }
 
+        @if (profile.student.StayPermitExpiry) {
           <bkd-my-profile-entry
-            *ngIf="data.profile.student.StayPermitExpiry"
             label="my-profile.show.stay-permit-expiry"
-            value="{{
-              data.profile.student.StayPermitExpiry | date: 'mediumDate'
-            }}"
+            value="{{ profile.student.StayPermitExpiry | date: 'mediumDate' }}"
           >
           </bkd-my-profile-entry>
-        </div>
+        }
+      </div>
 
-        <div ngbAccordion>
-          <div ngbAccordionItem #studentAddress="ngbAccordionItem">
-            <div ngbAccordionHeader>
-              <bkd-student-dossier-entry-header
-                [opened]="!studentAddress.collapsed"
-                (click)="studentAddress.toggle()"
-              >
-                {{ "shared.profile.student-address" | translate }}
-              </bkd-student-dossier-entry-header>
-            </div>
-            <div ngbAccordionCollapse>
-              <div ngbAccordionBody>
-                <ng-template>
-                  <div class="clearfix">
-                    <a
-                      class="btn btn-primary btn-icon float-end me-2"
-                      routerLink="edit"
-                      [attr.aria-label]="'my-profile.edit.title' | translate"
-                    >
-                      <i class="material-icons">edit</i>
-                    </a>
-                    <bkd-student-dossier-address
-                      class="profile-entry"
-                      [student]="data.profile.student"
-                      emailProperty="Email2"
-                    ></bkd-student-dossier-address>
-                  </div>
-                </ng-template>
-              </div>
+      <div ngbAccordion>
+        <div ngbAccordionItem #studentAddress="ngbAccordionItem">
+          <div ngbAccordionHeader>
+            <bkd-student-dossier-entry-header
+              [opened]="!studentAddress.collapsed"
+              (click)="studentAddress.toggle()"
+            >
+              {{ "shared.profile.student-address" | translate }}
+            </bkd-student-dossier-entry-header>
+          </div>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <div class="clearfix">
+                  <a
+                    class="btn btn-primary btn-icon float-end me-2"
+                    routerLink="edit"
+                    [attr.aria-label]="'my-profile.edit.title' | translate"
+                  >
+                    <i class="material-icons">edit</i>
+                  </a>
+                  <bkd-student-dossier-address
+                    class="profile-entry"
+                    [student]="profile.student"
+                    emailProperty="Email2"
+                  ></bkd-student-dossier-address>
+                </div>
+              </ng-template>
             </div>
           </div>
+        </div>
 
-          <div
-            ngbAccordionItem
-            #correspondenceAddress="ngbAccordionItem"
-            *ngIf="data.profile.student.CorrespondenceAddress"
-          >
+        @if (profile.student.CorrespondenceAddress) {
+          <div ngbAccordionItem #correspondenceAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
                 [opened]="!correspondenceAddress.collapsed"
@@ -107,18 +109,16 @@
                 <ng-template>
                   <bkd-my-profile-address
                     class="profile-entry"
-                    [address]="data.profile.student.CorrespondenceAddress"
+                    [address]="profile.student.CorrespondenceAddress"
                   ></bkd-my-profile-address>
                 </ng-template>
               </div>
             </div>
           </div>
+        }
 
-          <div
-            ngbAccordionItem
-            #billingAddress="ngbAccordionItem"
-            *ngIf="data.profile.student.BillingAddress"
-          >
+        @if (profile.student.BillingAddress) {
+          <div ngbAccordionItem #billingAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
                 [opened]="!billingAddress.collapsed"
@@ -132,18 +132,16 @@
                 <ng-template>
                   <bkd-my-profile-address
                     class="profile-entry"
-                    [address]="data.profile.student.BillingAddress"
+                    [address]="profile.student.BillingAddress"
                   ></bkd-my-profile-address>
                 </ng-template>
               </div>
             </div>
           </div>
+        }
 
-          <div
-            ngbAccordionItem
-            #legalRepresentatives="ngbAccordionItem"
-            *ngIf="data.profile.legalRepresentativePersons.length > 0"
-          >
+        @if (profile.legalRepresentativePersons.length > 0) {
+          <div ngbAccordionItem #legalRepresentatives="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
                 [opened]="!legalRepresentatives.collapsed"
@@ -155,36 +153,36 @@
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <bkd-student-dossier-legal-representative
-                    *ngFor="
-                      let person of data.profile.legalRepresentativePersons
-                    "
-                    class="profile-entry"
-                    [person]="person"
-                  ></bkd-student-dossier-legal-representative>
+                  @for (
+                    person of profile.legalRepresentativePersons;
+                    track person.Id
+                  ) {
+                    <bkd-student-dossier-legal-representative
+                      class="profile-entry"
+                      [person]="person"
+                    ></bkd-student-dossier-legal-representative>
+                  }
                 </ng-template>
               </div>
             </div>
           </div>
+        }
 
-          <div
-            [ngbAccordionItem]
-            #apprenticeshipCompanies="ngbAccordionItem"
-            *ngFor="
-              let company of data.profile.apprenticeshipCompanies;
-              let i = index
-            "
-          >
+        @for (
+          company of profile.apprenticeshipCompanies;
+          track company.apprenticeshipContract.Id;
+          let i = $index
+        ) {
+          <div [ngbAccordionItem] #apprenticeshipCompanies="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
                 [opened]="!apprenticeshipCompanies.collapsed"
                 (click)="apprenticeshipCompanies.toggle()"
               >
                 {{ "shared.profile.apprenticeship-company" | translate }}
-                <ng-container
-                  *ngIf="data.profile.apprenticeshipCompanies.length > 1"
-                  >{{ i + 1 }}</ng-container
-                >
+                @if (profile.apprenticeshipCompanies.length > 1) {
+                  {{ i + 1 }}
+                }
               </bkd-student-dossier-entry-header>
             </div>
             <div ngbAccordionCollapse>
@@ -198,33 +196,8 @@
               </div>
             </div>
           </div>
-        </div>
+        }
       </div>
-
-      <ng-template #noProfile>
-        <p data-testid="profile-none">
-          {{ "shared.profile.no-profile" | translate }}
-        </p>
-      </ng-template>
-    </ng-container>
-
-    <ng-template #noProfile>
-      <p
-        *ngIf="(profileService.noAccess$ | async) === true"
-        data-testid="profile-substitution"
-      >
-        {{ "shared.profile.substitution-profile" | translate }}
-      </p>
-      <p
-        *ngIf="(profileService.noAccess$ | async) === false"
-        data-testid="profile-none"
-      >
-        {{ "shared.profile.no-profile" | translate }}
-      </p>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #loading>
-    <bkd-spinner></bkd-spinner>
-  </ng-template>
+    </div>
+  }
 </div>

@@ -4,8 +4,12 @@
   </label>
   <bkd-switch [id]="id" [(value)]="value" [disabled]="disabled"></bkd-switch>
 </div>
-<div *ngIf="description" class="form-text">
-  <div *ngFor="let line of descriptionLines">
-    {{ line }}
+@if (description) {
+  <div class="form-text">
+    @for (line of descriptionLines; track line) {
+      <div>
+        {{ line }}
+      </div>
+    }
   </div>
-</div>
+}

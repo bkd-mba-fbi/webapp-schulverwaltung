@@ -41,6 +41,10 @@ export class PresenceControlEntry {
     this.studentFullName = lessonPresence.StudentFullName;
   }
 
+  get id(): number {
+    return this.lessonPresence.StudentRef.Id;
+  }
+
   get presenceCategory(): PresenceCategory {
     if (
       isUnapprovedAbsence(

@@ -17,12 +17,17 @@
 >
   <!-- selected items -->
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-    <div class="ng-value" *ngFor="let item of items">
-      {{ item.Value }}
-      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"
-        >×</span
-      >
-    </div>
+    @for (item of items; track item.Key) {
+      <div class="ng-value">
+        {{ item.Value }}
+        <span
+          class="ng-value-icon right"
+          (click)="clear(item)"
+          aria-hidden="true"
+          >×</span
+        >
+      </div>
+    }
   </ng-template>
 
   <!-- groups -->

@@ -1,42 +1,38 @@
-<ng-container
-  *bkdLet="{
-    tests: state.filteredTests$ | async,
-    hasTests: state.hasTests$ | async,
-    studentGrades: state.studentGrades$ | async,
-  } as data"
->
-  <div class="table-responsive-wrapper">
-    <table
-      class="table table-hover h-100"
-      bkdTestEditGradesHeaderSticky
-      [inlineHeader]="inlineHeader"
-      [stickyHeader]="stickyHeader"
-    >
-      <thead
-        style="display: block"
-        bkdTestEditGradesHeader
-        [selectedTest]="selectedTest"
-        (publish)="publish($event)"
-        (unpublish)="unpublish($event)"
-        #inlineHeader
-      ></thead>
-      <thead
-        id="stickyHeader"
-        bkdTestEditGradesHeader
-        [sticky]="true"
-        [selectedTest]="selectedTest"
-        (publish)="publish($event)"
-        (unpublish)="unpublish($event)"
-        #stickyHeader
-      ></thead>
-      <tbody id="scrollTestTable" class="scroll-test-table">
-        <tr
-          *ngFor="
-            let studentGrade of data.studentGrades;
-            let studentGradeIndex = index;
-            trackBy: trackStudentGrade
-          "
-        >
+@let tests = state.filteredTests$ | async;
+@let hasTests = state.hasTests$ | async;
+@let studentGrades = state.studentGrades$ | async;
+
+<div class="table-responsive-wrapper">
+  <table
+    class="table table-hover h-100"
+    bkdTestEditGradesHeaderSticky
+    [inlineHeader]="inlineHeader"
+    [stickyHeader]="stickyHeader"
+  >
+    <thead
+      style="display: block"
+      bkdTestEditGradesHeader
+      [selectedTest]="selectedTest"
+      (publish)="publish($event)"
+      (unpublish)="unpublish($event)"
+      #inlineHeader
+    ></thead>
+    <thead
+      id="stickyHeader"
+      bkdTestEditGradesHeader
+      [sticky]="true"
+      [selectedTest]="selectedTest"
+      (publish)="publish($event)"
+      (unpublish)="unpublish($event)"
+      #stickyHeader
+    ></thead>
+    <tbody id="scrollTestTable" class="scroll-test-table">
+      @for (
+        studentGrade of studentGrades;
+        track studentGrade.student.Id;
+        let studentGradeIndex = $index
+      ) {
+        <tr>
           <td class="student-name">
             <a [routerLink]="['student', studentGrade.student.Id, 'grades']">
               <div>{{ studentGrade.student.FullName }}</div>
@@ -50,81 +46,84 @@
             class="student-grade"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            <bkd-grade-select
-              *ngIf="
-                studentGrade.finalGrade &&
-                !studentGrade.finalGrade.freeHandGrade
-              "
-              [options]="state.gradingOptionsForCourse$() | async"
-              [valueId]="studentGrade.finalGrade.finalGradeId"
-              [gradeId]="studentGrade.finalGrade.id"
-              [disabled]="
-                (isEditFinalGradesAllowed(studentGrade) | async) === false
-              "
-              (gradeIdSelected)="state.overwriteFinalGrade($event)"
-            ></bkd-grade-select>
-            <div
-              *ngIf="
-                studentGrade.finalGrade && studentGrade.finalGrade.freeHandGrade
-              "
-            >
-              {{ studentGrade.finalGrade.freeHandGrade }}
-            </div>
+            @if (
+              studentGrade.finalGrade && !studentGrade.finalGrade.freeHandGrade
+            ) {
+              <bkd-grade-select
+                [options]="state.gradingOptionsForCourse$() | async"
+                [valueId]="studentGrade.finalGrade.finalGradeId"
+                [gradeId]="studentGrade.finalGrade.id"
+                [disabled]="
+                  (isEditFinalGradesAllowed(studentGrade) | async) === false
+                "
+                (gradeIdSelected)="state.overwriteFinalGrade($event)"
+              ></bkd-grade-select>
+            }
+            @if (
+              studentGrade.finalGrade && studentGrade.finalGrade.freeHandGrade
+            ) {
+              <div>
+                {{ studentGrade.finalGrade.freeHandGrade }}
+              </div>
+            }
           </td>
           <td class="border-end sticky student-average">
             {{ studentGrade.finalGrade?.average | decimalOrDash: "1-3" }}
           </td>
-          <td
-            *ngFor="
-              let grade of studentGrade.grades;
-              let gradeIndex = index;
-              trackBy: trackGradeOf(studentGrade.student)
-            "
-            class="test-grade"
-            [ngClass]="
-              selectedTest !== undefined && grade.test.Id === selectedTest.Id
-                ? 'selected'
-                : ''
-            "
-          >
-            <bkd-grade
-              [grade]="grade"
-              [gradeOptions]="state.gradingOptionsForTest$(grade.test) | async"
-              [student]="studentGrade.student"
-              [tabIndex]="(1 + gradeIndex) * 1000 + studentGradeIndex"
-            ></bkd-grade>
-          </td>
+          @for (
+            gradeEntry of getGrades(studentGrade);
+            track gradeEntry.id;
+            let gradeIndex = $index
+          ) {
+            @let grade = gradeEntry.grade;
+            <td
+              class="test-grade"
+              [ngClass]="
+                selectedTest !== undefined && grade.test.Id === selectedTest.Id
+                  ? 'selected'
+                  : ''
+              "
+            >
+              <bkd-grade
+                [grade]="grade"
+                [gradeOptions]="
+                  state.gradingOptionsForTest$(grade.test) | async
+                "
+                [student]="studentGrade.student"
+                [tabIndex]="(1 + gradeIndex) * 1000 + studentGradeIndex"
+              ></bkd-grade>
+            </td>
+          }
         </tr>
-        <!-- course and test averages -->
-        <tr>
-          <td class="sticky student-name">
-            <div class="d-flex flex-column">
-              <div>{{ "tests.average" | translate }}</div>
-              <div class="student-average-inline">
-                {{ "tests.mean" | translate }}:
-                {{
-                  state.meanOfStudentGradesForCourse$
-                    | async
-                    | decimalOrDash: "1-3"
-                }}
-              </div>
+      }
+      <!-- course and test averages -->
+      <tr>
+        <td class="sticky student-name">
+          <div class="d-flex flex-column">
+            <div>{{ "tests.average" | translate }}</div>
+            <div class="student-average-inline">
+              {{ "tests.mean" | translate }}:
+              {{
+                state.meanOfStudentGradesForCourse$
+                  | async
+                  | decimalOrDash: "1-3"
+              }}
             </div>
-          </td>
+          </div>
+        </td>
+        <td
+          class="desktop sticky student-grade"
+          [ngClass]="{ selected: selectedTest === undefined }"
+        >
+          {{ state.meanOfFinalGradesForCourse$ | async | decimalOrDash: "1-3" }}
+        </td>
+        <td class="desktop border-end sticky student-average">
+          {{
+            state.meanOfStudentGradesForCourse$ | async | decimalOrDash: "1-3"
+          }}
+        </td>
+        @for (test of tests; track test.Id) {
           <td
-            class="desktop sticky student-grade"
-            [ngClass]="{ selected: selectedTest === undefined }"
-          >
-            {{
-              state.meanOfFinalGradesForCourse$ | async | decimalOrDash: "1-3"
-            }}
-          </td>
-          <td class="desktop border-end sticky student-average">
-            {{
-              state.meanOfStudentGradesForCourse$ | async | decimalOrDash: "1-3"
-            }}
-          </td>
-          <td
-            *ngFor="let test of data.tests"
             class="test-grade"
             [ngClass]="
               test.Id === selectedTest?.Id || test.Id === selectedTest?.Id
@@ -134,20 +133,21 @@
           >
             <bkd-average-grades [test]="test"></bkd-average-grades>
           </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="action-buttons">
+        }
+      </tr>
+    </tbody>
+  </table>
+  <div class="action-buttons">
+    @if (state.canSetFinalGrade$ | async) {
       <button
-        *ngIf="state.canSetFinalGrade$ | async"
         data-testId="apply-average-button"
         class="apply-average-button btn btn-primary m-3"
-        [ngClass]="{ 'visible-on-mobile': !data.hasTests || !selectedTest }"
+        [ngClass]="{ 'visible-on-mobile': !hasTests || !selectedTest }"
         type="button"
         (click)="setAverageAsFinalGrade()"
       >
         {{ "tests.set-final-grade" | translate }}
       </button>
-    </div>
+    }
   </div>
-</ng-container>
+</div>

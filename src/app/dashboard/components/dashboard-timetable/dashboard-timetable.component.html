@@ -19,33 +19,31 @@
     <span class="material-icons">chevron_right</span>
   </button>
   <div class="date">{{ date$ | async | date: "E, dd. MMMM yyyy" }}</div>
-  <a
-    *ngIf="getSubscribeCalendarUrl() | async as url"
-    [href]="url | safe: 'url'"
-    target="_parent"
-    class="btn btn-secondary subscribe-calendar-header"
-  >
-    {{ "dashboard.timetable.subscribe-calendar" | translate }}
-  </a>
+  @if (getSubscribeCalendarUrl() | async; as url) {
+    <a
+      [href]="url | safe: 'url'"
+      target="_parent"
+      class="btn btn-secondary subscribe-calendar-header"
+    >
+      {{ "dashboard.timetable.subscribe-calendar" | translate }}
+    </a>
+  }
 </div>
 
-<ng-container *bkdLet="timetableEntries$ | async as entries">
-  <ng-container *ngIf="(loading$ | async) === false; else loading">
-    <bkd-dashboard-timetable-table
-      [entries]="entries"
-    ></bkd-dashboard-timetable-table>
-
+@let entries = timetableEntries$ | async;
+@if (loading$ | async) {
+  <bkd-spinner></bkd-spinner>
+} @else {
+  <bkd-dashboard-timetable-table
+    [entries]="entries"
+  ></bkd-dashboard-timetable-table>
+  @if (getSubscribeCalendarUrl() | async; as url) {
     <a
-      *ngIf="getSubscribeCalendarUrl() | async as url"
       [href]="url | safe: 'url'"
       target="_parent"
       class="btn btn-secondary subscribe-calendar-bottom"
     >
       {{ "dashboard.timetable.subscribe-calendar" | translate }}
     </a>
-  </ng-container>
-</ng-container>
-
-<ng-template #loading>
-  <bkd-spinner></bkd-spinner>
-</ng-template>
+  }
+}

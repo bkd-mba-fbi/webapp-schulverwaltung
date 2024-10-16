@@ -6,12 +6,14 @@
     <bkd-avatar [studentId]="studentId" class="me-3 medium"></bkd-avatar>
     <div class="d-flex flex-column">
       <h1>{{ student ? student.FullName : studentName }}</h1>
-      <div *ngIf="student" class="additional-info">
-        <span class="birthday">{{
-          student.Birthdate | date: "dd.MM.yyyy"
-        }}</span
-        ><span class="gender">({{ student.Gender }})</span>
-      </div>
+      @if (student) {
+        <div class="additional-info">
+          <span class="birthday">{{
+            student.Birthdate | date: "dd.MM.yyyy"
+          }}</span
+          ><span class="gender">({{ student.Gender }})</span>
+        </div>
+      }
     </div>
   </div>
 </div>

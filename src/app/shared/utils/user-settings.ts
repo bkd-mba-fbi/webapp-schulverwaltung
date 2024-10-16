@@ -1,8 +1,8 @@
-import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { GroupOption } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 import { PresenceControlGroupViewEntry } from "../models/user-settings.model";
 
 export function updateGroupViewSettings(
-  group: GroupOptions["id"],
+  group: GroupOption["id"],
   eventIds: ReadonlyArray<number>,
   existingSettings: ReadonlyArray<PresenceControlGroupViewEntry>,
 ): ReadonlyArray<PresenceControlGroupViewEntry> {

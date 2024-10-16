@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,7 +15,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { Subject, takeUntil } from "rxjs";
-import { LetDirective } from "../../../directives/let.directive";
 import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
 import { DossierStateService } from "../../../services/dossier-state.service";
 import { PresenceTypesService } from "../../../services/presence-types.service";
@@ -30,12 +29,10 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
     NgbAccordionDirective,
     NgbAccordionItem,
     NgbAccordionHeader,
     StudentDossierEntryHeaderComponent,
-    NgIf,
     NgbCollapse,
     NgbAccordionCollapse,
     NgbAccordionBody,

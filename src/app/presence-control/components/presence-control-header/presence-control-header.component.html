@@ -14,55 +14,60 @@
     />
   </div>
 
-  <div
-    *ngIf="selectedLesson"
-    class="lesson-time"
-    (click)="lessonDropdown?.toggle()"
-  >
-    {{ selectedLesson.LessonDateTimeFrom | date: "HH:mm" }}–<span
-      class="lesson-time-to"
-      >{{ selectedLesson.LessonDateTimeTo | date: "HH:mm" }}</span
-    >
-  </div>
-
-  <div
-    *ngIf="selectedLesson"
-    ngbDropdown
-    class="lesson-description"
-    container="body"
-    display="dynamic"
-    placement="bottom"
-  >
-    <div id="lesson-dropdown" ngbDropdownToggle>
-      <div class="text-truncate">{{ selectedLesson.eventDesignations }}</div>
-      <div class="text-truncate">{{ selectedLesson.studyClassNumbers }}</div>
-    </div>
-    <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
-      <div
-        *ngFor="let lessonEntry of lessons"
-        [class.active]="lessonEntry.id === selectedLesson.id"
-        ngbDropdownItem
-        (click)="selectLessonChange.emit(lessonEntry)"
+  @if (selectedLesson) {
+    <div class="lesson-time" (click)="lessonDropdown?.toggle()">
+      {{ selectedLesson.LessonDateTimeFrom | date: "HH:mm" }}–<span
+        class="lesson-time-to"
+        >{{ selectedLesson.LessonDateTimeTo | date: "HH:mm" }}</span
       >
-        <div class="lesson-entry">
-          <div>
-            {{ lessonEntry.LessonDateTimeFrom | date: "HH:mm" }}–{{
-              lessonEntry.LessonDateTimeTo | date: "HH:mm"
-            }}
+    </div>
+  }
+
+  @if (selectedLesson) {
+    <div
+      ngbDropdown
+      class="lesson-description"
+      container="body"
+      display="dynamic"
+      placement="bottom"
+    >
+      <div id="lesson-dropdown" ngbDropdownToggle>
+        <div class="text-truncate">{{ selectedLesson.eventDesignations }}</div>
+        <div class="text-truncate">{{ selectedLesson.studyClassNumbers }}</div>
+      </div>
+      <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
+        @for (lessonEntry of lessons; track lessonEntry.id) {
+          <div
+            [class.active]="lessonEntry.id === selectedLesson.id"
+            ngbDropdownItem
+            (click)="selectLessonChange.emit(lessonEntry)"
+          >
+            <div class="lesson-entry">
+              <div>
+                {{ lessonEntry.LessonDateTimeFrom | date: "HH:mm" }}–{{
+                  lessonEntry.LessonDateTimeTo | date: "HH:mm"
+                }}
+              </div>
+              <div class="text-truncate">
+                {{ lessonEntry.eventDesignations }}
+              </div>
+              <div class="text-truncate">
+                {{ lessonEntry.studyClassNumbers }}
+              </div>
+            </div>
           </div>
-          <div class="text-truncate">{{ lessonEntry.eventDesignations }}</div>
-          <div class="text-truncate">{{ lessonEntry.studyClassNumbers }}</div>
-        </div>
+        }
       </div>
     </div>
-  </div>
-  <bkd-caret
-    *ngIf="lessons.length > 0"
-    class="dropdown-caret"
-    (click)="lessonDropdown?.toggle()"
-    [expanded]="lessonDropdown?.isOpen() || false"
-  >
-  </bkd-caret>
+  }
+  @if (lessons.length > 0) {
+    <bkd-caret
+      class="dropdown-caret"
+      (click)="lessonDropdown?.toggle()"
+      [expanded]="lessonDropdown?.isOpen() || false"
+    >
+    </bkd-caret>
+  }
 </div>
 
 <div class="states">
@@ -98,34 +103,36 @@
     (valueChange)="searchChange.emit($event)"
   ></bkd-resettable-input>
   <div class="group-and-views d-flex align-items-center">
-    <a
-      *ngIf="selectedLesson && state.groupsAvailability$ | async"
-      type="button"
-      class="group btn me-2 me-sm-4"
-      [ngClass]="{
-        'btn-link': (isGroupSelected$ | async) === false,
-        'btn-danger': isGroupSelected$ | async,
-      }"
-      [routerLink]="['groups', selectedLesson.id]"
-      [queryParams]="{
-        returnparams: (state.queryParamsString$ | async),
-      }"
-    >
-      <i class="material-icons align-middle">groups</i>
-    </a>
-    <div class="views">
-      <button
+    @if (selectedLesson && state.groupsAvailability$ | async) {
+      <a
         type="button"
-        *ngFor="let option of viewModeOptions"
-        class="view btn btn-primary btn-icon"
-        [disabled]="!selectedLesson"
-        [class.btn-outline-secondary]="option.viewMode === viewMode"
-        [class.btn-link]="option.viewMode !== viewMode"
-        [class.active]="option.viewMode === viewMode"
-        (click)="viewModeChange.emit(option.viewMode)"
+        class="group btn me-2 me-sm-4"
+        [ngClass]="{
+          'btn-link': (isGroupSelected$ | async) === false,
+          'btn-danger': isGroupSelected$ | async,
+        }"
+        [routerLink]="['groups', selectedLesson.id]"
+        [queryParams]="{
+          returnparams: (state.queryParamsString$ | async),
+        }"
       >
-        <i class="material-icons align-middle">{{ option.icon }}</i>
-      </button>
+        <i class="material-icons align-middle">groups</i>
+      </a>
+    }
+    <div class="views">
+      @for (option of viewModeOptions; track option.viewMode) {
+        <button
+          type="button"
+          class="view btn btn-primary btn-icon"
+          [disabled]="!selectedLesson"
+          [class.btn-outline-secondary]="option.viewMode === viewMode"
+          [class.btn-link]="option.viewMode !== viewMode"
+          [class.active]="option.viewMode === viewMode"
+          (click)="viewModeChange.emit(option.viewMode)"
+        >
+          <i class="material-icons align-middle">{{ option.icon }}</i>
+        </button>
+      }
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -38,7 +38,6 @@ const DEBOUNCE_TIME = 500;
   styleUrls: ["./dossier-grades-edit.component.scss"],
   standalone: true,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     SelectComponent,

@@ -1,4 +1,4 @@
-import { DatePipe, NgIf } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { Student } from "src/app/shared/models/student.model";
@@ -11,7 +11,7 @@ import { BacklinkComponent } from "../../backlink/backlink.component";
   styleUrls: ["./student-backlink.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [BacklinkComponent, AvatarComponent, NgIf, DatePipe],
+  imports: [BacklinkComponent, AvatarComponent, DatePipe],
 })
 export class StudentBacklinkComponent {
   @Input() link: RouterLink["routerLink"] = "/";

@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,7 +14,7 @@ import { SwitchComponent } from "../../../shared/components/switch/switch.compon
   styleUrls: ["./my-settings-notifications-toggle.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SwitchComponent, NgIf, NgFor],
+  imports: [SwitchComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

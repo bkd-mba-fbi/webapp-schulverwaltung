@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, Inject } from "@angular/core";
 import { SETTINGS, Settings } from "../../../settings";
 import { DashboardService } from "../../services/dashboard.service";
@@ -10,12 +10,7 @@ import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-dead
   templateUrl: "./dashboard-actions.component.html",
   styleUrls: ["./dashboard-actions.component.scss"],
   standalone: true,
-  imports: [
-    NgIf,
-    DashboardActionComponent,
-    DashboardDeadlineComponent,
-    AsyncPipe,
-  ],
+  imports: [DashboardActionComponent, DashboardDeadlineComponent, AsyncPipe],
 })
 export class DashboardActionsComponent {
   constructor(

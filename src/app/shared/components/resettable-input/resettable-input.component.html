@@ -13,12 +13,13 @@
     aria-describedby="resettable-input"
     (keyup)="valueChange.emit($any($event.target)?.value)"
   />
-  <button
-    *ngIf="value"
-    class="clear btn btn-link text-decoration-none"
-    type="button"
-    (click)="valueChange.emit('')"
-  >
-    <i class="material-icons">clear</i>
-  </button>
+  @if (value) {
+    <button
+      class="clear btn btn-link text-decoration-none"
+      type="button"
+      (click)="valueChange.emit('')"
+    >
+      <i class="material-icons">clear</i>
+    </button>
+  }
 </div>

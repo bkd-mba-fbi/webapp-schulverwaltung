@@ -10,7 +10,6 @@ import {
   switchMap,
 } from "rxjs";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
 
@@ -19,7 +18,7 @@ import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.compo
   templateUrl: "./tests-add.component.html",
   styleUrls: ["./tests-add.component.scss"],
   standalone: true,
-  imports: [LetDirective, TestsEditFormComponent, AsyncPipe, TranslateModule],
+  imports: [TestsEditFormComponent, AsyncPipe, TranslateModule],
 })
 export class TestsAddComponent {
   saving$ = new BehaviorSubject(false);

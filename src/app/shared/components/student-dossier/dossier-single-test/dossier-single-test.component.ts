@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { ReplaySubject, map } from "rxjs";
@@ -10,7 +10,6 @@ import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
-import { LetDirective } from "../../../directives/let.directive";
 import { TestPointsPipe } from "../../../pipes/test-points.pipe";
 import { TestsWeightPipe } from "../../../pipes/test-weight.pipe";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
@@ -18,50 +17,59 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
 
 @Component({
   selector: "bkd-dossier-single-test",
-  template: ` <div class="test-entry" *bkdLet="test$ | async as test">
-    <div class="designation" data-testid="test-designation">
-      {{ test.Designation }}
-    </div>
-    <div class="date" data-testid="test-date">
-      {{ test.Date | date: "dd.MM.yyyy" }}
-    </div>
-    <div class="grade">
-      <a
-        *ngIf="isEditable && test.IsOwner; else notEditable"
-        class="btn btn-link"
-        aria-label="edit grade"
-        (click)="editGrading(test)"
-      >
-        <i class="material-icons" data-testid="test-grade-edit-icon">edit</i>
-        <span data-testid="test-grade">{{ grading$ | async }}</span>
-      </a>
-      <ng-template #notEditable>
-        <span data-testid="test-grade">{{ grading$ | async }}</span>
-      </ng-template>
-    </div>
-    <div class="factor" data-testid="test-factor">
-      {{ test | bkdTestWeight }}
-    </div>
-    <div class="points" data-testid="test-points">
-      <span>{{
-        test | bkdTestPoints: studentId : isEditable : "dossier.points"
-      }}</span>
-    </div>
-    <div class="teacher" data-testid="test-teacher">
-      {{ test.Owner }}
-    </div>
-    <div *ngIf="isEditable" class="state" data-testid="test-status">
-      {{
-        (test.IsPublished ? "tests.published" : "tests.not-published")
-          | translate
-      }}
-    </div>
-  </div>`,
+  template: `
+    @let test = test$ | async;
+    @let grading = grading$ | async;
+
+    @if (test) {
+      <div class="test-entry">
+        <div class="designation" data-testid="test-designation">
+          {{ test.Designation }}
+        </div>
+        <div class="date" data-testid="test-date">
+          {{ test.Date | date: "dd.MM.yyyy" }}
+        </div>
+        <div class="grade">
+          @if (isEditable && test.IsOwner) {
+            <a
+              class="btn btn-link"
+              aria-label="edit grade"
+              (click)="editGrading(test)"
+            >
+              <i class="material-icons" data-testid="test-grade-edit-icon"
+                >edit</i
+              >
+              <span data-testid="test-grade">{{ grading }}</span>
+            </a>
+          } @else {
+            <span data-testid="test-grade">{{ grading }}</span>
+          }
+        </div>
+        <div class="factor" data-testid="test-factor">
+          {{ test | bkdTestWeight }}
+        </div>
+        <div class="points" data-testid="test-points">
+          <span>{{
+            test | bkdTestPoints: studentId : isEditable : "dossier.points"
+          }}</span>
+        </div>
+        <div class="teacher" data-testid="test-teacher">
+          {{ test.Owner }}
+        </div>
+        @if (isEditable) {
+          <div class="state" data-testid="test-status">
+            {{
+              (test.IsPublished ? "tests.published" : "tests.not-published")
+                | translate
+            }}
+          </div>
+        }
+      </div>
+    }
+  `,
   styleUrls: ["./dossier-single-test.component.scss"],
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     AsyncPipe,
     DatePipe,
     TranslateModule,

@@ -3,20 +3,22 @@
     {{ title | translate }}
   </p>
   <form>
-    <div *ngFor="let option of groupOptions; let i = index" class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="groups"
-        id="group-{{ i }}"
-        [checked]="option.id === selected.id"
-        [value]="option.id"
-        (change)="onSelectionChange(option)"
-      />
-      <label class="form-check-label" for="group-{{ i }}">
-        {{ option.label }}
-      </label>
-    </div>
+    @for (option of groupOptions; track option.id; let i = $index) {
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="groups"
+          id="group-{{ i }}"
+          [checked]="option.id === selected.id"
+          [value]="option.id"
+          (change)="onSelectionChange(option)"
+        />
+        <label class="form-check-label" for="group-{{ i }}">
+          {{ option.label }}
+        </label>
+      </div>
+    }
   </form>
 </div>
 <div class="modal-footer">

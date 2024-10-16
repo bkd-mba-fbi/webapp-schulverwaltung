@@ -12,7 +12,7 @@ import { EventsRestService } from "../../shared/services/events-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { SubscriptionDetailsRestService } from "../../shared/services/subscription-details-rest.service";
 import { spread } from "../../shared/utils/function";
-import { GroupOptions } from "../components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { GroupOption } from "../components/presence-control-group-dialog/presence-control-group-dialog.component";
 import { LessonEntry } from "../models/lesson-entry.model";
 import {
   filterSubscriptionDetailsByGroupId,
@@ -27,7 +27,7 @@ const GROUP_LOADING_CONTEXT = "presence-control-group";
 
 @Injectable()
 export class PresenceControlGroupService {
-  private selectGroup$ = new Subject<GroupOptions["id"]>();
+  private selectGroup$ = new Subject<GroupOption["id"]>();
   private selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
   private reloadSubscriptionDetails$ = new Subject();
@@ -112,7 +112,7 @@ export class PresenceControlGroupService {
     @Inject(SETTINGS) private settings: Settings,
   ) {}
 
-  selectGroup(groupId: GroupOptions["id"]): void {
+  selectGroup(groupId: GroupOption["id"]): void {
     this.selectGroup$.next(groupId);
   }
 
@@ -168,7 +168,7 @@ export class PresenceControlGroupService {
   private findGroupByLesson(
     groupViews: ReadonlyArray<PresenceControlGroupViewEntry>,
     lesson: Option<LessonEntry>,
-  ): GroupOptions["id"] {
+  ): GroupOption["id"] {
     const groupView = groupViews.find(
       (gv) => gv.eventId === lesson?.getEventIds()[0], // All event ids of a lesson share the same group
     );

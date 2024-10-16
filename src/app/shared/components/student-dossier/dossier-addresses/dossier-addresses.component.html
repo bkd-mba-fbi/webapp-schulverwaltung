@@ -1,68 +1,67 @@
-<ng-container
-  *bkdLet="{
-    profile: state.profile$ | async,
-  } as data"
->
+@let profile = state.profile$ | async;
+
+@if (profile) {
   <bkd-student-dossier-address
     class="profile-entry"
-    [student]="data.profile.student"
+    [student]="profile.student"
   ></bkd-student-dossier-address>
   <div ngbAccordion>
-    <div
-      ngbAccordionItem
-      #legalRepresentatives="ngbAccordionItem"
-      *ngIf="data.profile.legalRepresentativePersons.length > 0"
-    >
-      <div ngbAccordionHeader>
-        <bkd-student-dossier-entry-header
-          [opened]="!legalRepresentatives.collapsed"
-          (click)="legalRepresentatives.toggle()"
-        >
-          {{ "shared.profile.legal-representation" | translate }}
-        </bkd-student-dossier-entry-header>
-      </div>
-      <div ngbAccordionCollapse>
-        <div ngbAccordionBody>
-          <ng-template>
-            <bkd-student-dossier-legal-representative
-              *ngFor="let person of data.profile.legalRepresentativePersons"
-              class="profile-entry"
-              [person]="person"
-            ></bkd-student-dossier-legal-representative>
-          </ng-template>
+    @if (profile.legalRepresentativePersons.length > 0) {
+      <div ngbAccordionItem #legalRepresentatives="ngbAccordionItem">
+        <div ngbAccordionHeader>
+          <bkd-student-dossier-entry-header
+            [opened]="!legalRepresentatives.collapsed"
+            (click)="legalRepresentatives.toggle()"
+          >
+            {{ "shared.profile.legal-representation" | translate }}
+          </bkd-student-dossier-entry-header>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              @for (
+                person of profile.legalRepresentativePersons;
+                track person.Id
+              ) {
+                <bkd-student-dossier-legal-representative
+                  class="profile-entry"
+                  [person]="person"
+                ></bkd-student-dossier-legal-representative>
+              }
+            </ng-template>
+          </div>
         </div>
       </div>
-    </div>
+    }
 
-    <div
-      ngbAccordionItem
-      #apprenticeshipCompanies="ngbAccordionItem"
-      *ngFor="
-        let company of data.profile.apprenticeshipCompanies;
-        let i = index
-      "
-    >
-      <div ngbAccordionHeader>
-        <bkd-student-dossier-entry-header
-          [opened]="!apprenticeshipCompanies.collapsed"
-          (click)="apprenticeshipCompanies.toggle()"
-        >
-          {{ "shared.profile.apprenticeship-company" | translate }}
-          <ng-container *ngIf="data.profile.apprenticeshipCompanies.length > 1"
-            >{{ i + 1 }}
-          </ng-container>
-        </bkd-student-dossier-entry-header>
-      </div>
-      <div ngbAccordionCollapse>
-        <div ngbAccordionBody>
-          <ng-template>
-            <bkd-student-dossier-apprenticeship-company
-              class="profile-entry"
-              [company]="company"
-            ></bkd-student-dossier-apprenticeship-company>
-          </ng-template>
+    @for (
+      company of profile.apprenticeshipCompanies;
+      track company.apprenticeshipContract.Id;
+      let i = $index
+    ) {
+      <div ngbAccordionItem #apprenticeshipCompanies="ngbAccordionItem">
+        <div ngbAccordionHeader>
+          <bkd-student-dossier-entry-header
+            [opened]="!apprenticeshipCompanies.collapsed"
+            (click)="apprenticeshipCompanies.toggle()"
+          >
+            {{ "shared.profile.apprenticeship-company" | translate }}
+            @if (profile.apprenticeshipCompanies.length > 1) {
+              {{ i + 1 }}
+            }
+          </bkd-student-dossier-entry-header>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <bkd-student-dossier-apprenticeship-company
+                class="profile-entry"
+                [company]="company"
+              ></bkd-student-dossier-apprenticeship-company>
+            </ng-template>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
-</ng-container>
+}

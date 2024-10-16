@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import {
   NgbAccordionBody,
@@ -10,7 +10,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { DossierStateService } from "src/app/shared/services/dossier-state.service";
-import { LetDirective } from "../../../directives/let.directive";
 import { StudentDossierAddressComponent } from "../student-dossier-address/student-dossier-address.component";
 import { StudentDossierApprenticeshipCompanyComponent } from "../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
 import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
@@ -23,17 +22,14 @@ import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-l
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
     StudentDossierAddressComponent,
     NgbAccordionDirective,
-    NgIf,
     NgbAccordionItem,
     NgbAccordionHeader,
     StudentDossierEntryHeaderComponent,
     NgbCollapse,
     NgbAccordionCollapse,
     NgbAccordionBody,
-    NgFor,
     StudentDossierLegalRepresentativeComponent,
     StudentDossierApprenticeshipCompanyComponent,
     AsyncPipe,

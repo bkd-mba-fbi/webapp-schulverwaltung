@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -8,7 +8,6 @@ import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { spread } from "../../../shared/utils/function";
@@ -23,7 +22,7 @@ import {
 } from "../../utils/subscriptions-details";
 import {
   DialogMode,
-  GroupOptions,
+  GroupOption,
   PresenceControlGroupDialogComponent,
 } from "../presence-control-group-dialog/presence-control-group-dialog.component";
 
@@ -39,15 +38,7 @@ export interface SortCriteria {
   styleUrls: ["./presence-control-group.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    LetDirective,
-    BacklinkComponent,
-    NgFor,
-    NgIf,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslateModule,
-  ],
+  imports: [BacklinkComponent, SpinnerComponent, AsyncPipe, TranslateModule],
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
@@ -102,7 +93,7 @@ export class PresenceControlGroupComponent implements OnInit {
 
   private openGroupModal(
     dialogMode: DialogMode,
-    callback: (selectedGroup: GroupOptions) => void,
+    callback: (selectedGroup: GroupOption) => void,
   ): void {
     combineLatest([
       this.groupService.getSubscriptionDetailsDefinitions(),
@@ -127,7 +118,7 @@ export class PresenceControlGroupComponent implements OnInit {
       });
   }
 
-  private selectCallback(selectedGroup: GroupOptions): void {
+  private selectCallback(selectedGroup: GroupOption): void {
     combineLatest([
       this.eventIds$,
       this.userSettings.getPresenceControlGroupView(),
@@ -148,7 +139,7 @@ export class PresenceControlGroupComponent implements OnInit {
       .subscribe((groupId) => this.groupService.selectGroup(groupId));
   }
 
-  private assignCallback(selectedGroup: GroupOptions): void {
+  private assignCallback(selectedGroup: GroupOption): void {
     forkJoin(
       this.selected.map((s) =>
         this.subscriptionDetailService.update(selectedGroup.id, s.detail),

@@ -8,8 +8,6 @@ import {
 import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildCourse, buildGradingScale } from "../../../../../spec-builders";
-import { Course } from "../../../models/course.model";
-import { GradingScale } from "../../../models/grading-scale.model";
 import { DossierGradesComponent } from "./dossier-grades.component";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -22,12 +20,6 @@ describe("DossierGradesComponent", () => {
   let currentDossier$: BehaviorSubject<DossierPage>;
 
   let dossierGradesServiceMock: DossierGradesService;
-  let loading$: BehaviorSubject<boolean>;
-  let studentCourses$: BehaviorSubject<Course[]>;
-  let gradingScales$: BehaviorSubject<readonly GradingScale[]>;
-
-  const courses = [buildCourse(1234)];
-  const gradingScales = [buildGradingScale(1)];
 
   beforeEach(async () => {
     currentDossier$ = new BehaviorSubject<DossierPage>("grades");
@@ -37,16 +29,17 @@ describe("DossierGradesComponent", () => {
       studentId$: of(123),
     } as unknown as DossierStateService;
 
-    loading$ = new BehaviorSubject<any>(false);
-    studentCourses$ = new BehaviorSubject<Course[]>(courses);
-    gradingScales$ = new BehaviorSubject<readonly GradingScale[]>(
-      gradingScales,
-    );
-
     dossierGradesServiceMock = {
-      loading$,
-      studentCourses$,
-      gradingScales$,
+      loading$: of(false),
+      studentCourses$: of([buildCourse(1234)]),
+      gradingScales$: of([buildGradingScale(1)]),
+      setStudentId: jasmine.createSpy("setStudentId"),
+      getFinalGradeForStudent: jasmine.createSpy("getFinalGradeForStudent"),
+      getGradesForStudent: jasmine
+        .createSpy("getGradesForStudent")
+        .and.returnValue([]),
+      getGradingForStudent: jasmine.createSpy("getGradingForStudent"),
+      getGradingScaleOfCourse: jasmine.createSpy("getGradingScaleOfCourse"),
     } as unknown as DossierGradesService;
 
     await TestBed.configureTestingModule(
@@ -56,10 +49,7 @@ describe("DossierGradesComponent", () => {
           { provide: DossierStateService, useValue: dossierStateServiceMock },
           {
             provide: DossierGradesService,
-            useValue: {
-              dossierGradesServiceMock,
-              setStudentId: jasmine.createSpy("setStudentId"),
-            },
+            useValue: dossierGradesServiceMock,
           },
           {
             provide: StorageService,
