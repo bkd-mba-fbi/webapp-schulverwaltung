@@ -47,7 +47,7 @@
     "@ngx-translate/http-loader": "8.0.0",
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.3",
-    "date-fns": "3.6.0",
+    "date-fns": "4.1.0",
     "fp-ts": "2.16.9",
     "io-ts": "2.2.21",
     "io-ts-types": "0.5.19",
