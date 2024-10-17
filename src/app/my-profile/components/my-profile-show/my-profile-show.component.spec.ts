@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Observable, of } from "rxjs";
 import { buildPerson } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
@@ -20,8 +20,8 @@ describe("MyProfileShowComponent", () => {
     noAccess$: Observable<boolean>;
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MyProfileShowComponent],
         providers: [
@@ -39,7 +39,7 @@ describe("MyProfileShowComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileShowComponent);

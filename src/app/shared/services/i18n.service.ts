@@ -58,7 +58,7 @@ export class I18nService {
   }
 
   private getDocumentLanguage(): Option<string> {
-    const langElement = document.querySelector("[lang]") as HTMLElement | null;
+    const langElement = document.querySelector<HTMLElement>("[lang]");
     return this.normalizeLanguage(langElement && langElement.lang);
   }
 

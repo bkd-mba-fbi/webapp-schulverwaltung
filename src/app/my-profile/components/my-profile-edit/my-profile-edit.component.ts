@@ -119,6 +119,6 @@ export class MyProfileEditComponent {
   }
 
   private navigateBack(): void {
-    this.router.navigate(["/my-profile"]);
+    void this.router.navigate(["/my-profile"]);
   }
 }

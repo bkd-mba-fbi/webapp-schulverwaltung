@@ -60,12 +60,14 @@ export class LessonEntry {
   }
 
   private updateId(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     (this.id as string) = [
       ...new Set(this.lessons.map((l) => l.LessonRef.Id).sort()),
     ].join("-");
   }
 
   private updateStudyClassNumbers(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     (this.studyClassNumbers as string) = [
       ...new Set(
         this.lessons
@@ -76,6 +78,7 @@ export class LessonEntry {
   }
 
   private updateEventDesignations(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     (this.eventDesignations as string) = [
       ...new Set(this.lessons.map((l) => l.EventDesignation).sort()),
     ].join(", ");

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { buildCourse } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
@@ -12,7 +12,7 @@ describe("TestsHeaderComponent", () => {
 
   const courseId = 123;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     reportsServiceMock = {
       getCourseReports: jasmine
         .createSpy("getCourseReports")
@@ -22,13 +22,13 @@ describe("TestsHeaderComponent", () => {
         ),
     } as unknown as ReportsService;
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [TestsHeaderComponent],
         providers: [{ provide: ReportsService, useValue: reportsServiceMock }],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsHeaderComponent);

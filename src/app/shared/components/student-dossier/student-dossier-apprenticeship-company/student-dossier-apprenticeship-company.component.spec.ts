@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManager,
@@ -11,13 +11,13 @@ describe("StudentDossierApprenticeshipCompanyComponent", () => {
   let component: StudentDossierApprenticeshipCompanyComponent;
   let fixture: ComponentFixture<StudentDossierApprenticeshipCompanyComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [StudentDossierApprenticeshipCompanyComponent],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

@@ -10,8 +10,6 @@ import { AuthService } from "src/app/shared/services/auth.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { restAuthInterceptor } from "./rest-auth.interceptor";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe("restAuthInterceptor", () => {
   let interceptor: HttpInterceptorFn;
   let nextCallback: jasmine.Spy<HttpHandlerFn>;

@@ -116,7 +116,7 @@ function getFinalGrade(
 
 function toAverage(grading: Grading) {
   if (grading.AverageTestResult === 0) return null;
-  return grading!.AverageTestResult;
+  return grading.AverageTestResult;
 }
 
 export const compareFn =

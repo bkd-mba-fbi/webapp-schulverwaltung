@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
 import { buildEventEntry } from "../../../../spec-builders";
@@ -15,7 +15,7 @@ describe("EventsListComponent", () => {
   let setWithStudyCourses: jasmine.Spy;
   let setSearchFields: jasmine.Spy;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
     setWithStudyCourses = jasmine.createSpy("setWithStudyCourses");
     setSearchFields = jasmine.createSpy("setSearchFields");
@@ -32,7 +32,7 @@ describe("EventsListComponent", () => {
       getEntries: () => of([buildEventEntry(1)]),
     } as unknown as EventsStateService;
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EventsListComponent],
         providers: [
@@ -48,7 +48,7 @@ describe("EventsListComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventsListComponent);

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
@@ -16,7 +16,7 @@ describe("EvaluateAbsencesListComponent", () => {
   let presenceTypesServiceMock: PresenceTypesService;
   let statistic: LessonPresenceStatistic;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     statistic = buildLessonPresenceStatistic(333);
 
     stateServiceMock = {
@@ -39,7 +39,7 @@ describe("EvaluateAbsencesListComponent", () => {
       halfDayActive$: of(false),
     } as unknown as PresenceTypesService;
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EvaluateAbsencesListComponent],
         providers: [
@@ -59,7 +59,7 @@ describe("EvaluateAbsencesListComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EvaluateAbsencesListComponent);

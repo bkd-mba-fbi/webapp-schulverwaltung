@@ -118,6 +118,6 @@ export class TestsEditComponent {
   private navigateBack(): void {
     this.state.courseId$
       .pipe(take(1))
-      .subscribe((id) => this.router.navigate(["events", id, "tests"]));
+      .subscribe((id) => void this.router.navigate(["events", id, "tests"]));
   }
 }

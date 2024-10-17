@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { PresenceControlEntry } from "src/app/presence-control/models/presence-control-entry.model";
 import { buildLessonPresence } from "src/spec-builders";
@@ -11,7 +11,7 @@ describe("EditAbsencesListComponent", () => {
   let element: HTMLElement;
   let stateServiceMock: EditAbsencesStateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const entry = buildPresenceControlEntry();
     stateServiceMock = {
       loading$: of(false),
@@ -26,7 +26,7 @@ describe("EditAbsencesListComponent", () => {
       absenceConfirmationStates$: of([]),
     } as unknown as EditAbsencesStateService;
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EditAbsencesListComponent],
         providers: [
@@ -34,7 +34,7 @@ describe("EditAbsencesListComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesListComponent);

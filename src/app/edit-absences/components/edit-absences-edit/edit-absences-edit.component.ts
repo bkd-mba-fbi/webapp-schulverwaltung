@@ -221,9 +221,13 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
       const confirmationValueControl = formGroup.get("confirmationValue");
       const absenceTypeIdControl = formGroup.get("absenceTypeId");
       if (confirmationValueControl && absenceTypeIdControl) {
-        confirmationValueControl.value === this.settings.excusedAbsenceStateId
-          ? absenceTypeIdControl.enable()
-          : absenceTypeIdControl.disable();
+        if (
+          confirmationValueControl.value === this.settings.excusedAbsenceStateId
+        ) {
+          absenceTypeIdControl.enable();
+        } else {
+          absenceTypeIdControl.disable();
+        }
       }
     });
   }
@@ -259,7 +263,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
 
   private navigateBack(reload?: true): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      this.router.navigate(["/edit-absences"], {
+      void this.router.navigate(["/edit-absences"], {
         queryParams: {
           ...parseQueryString(params["returnparams"]),
           reload, // Make sure the entries get reloaded when returning to the list

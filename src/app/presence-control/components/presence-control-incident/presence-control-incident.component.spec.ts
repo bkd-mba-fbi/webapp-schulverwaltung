@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { PresenceControlIncidentComponent } from "./presence-control-incident.component";
@@ -7,14 +7,14 @@ describe("PresenceControlIncidentComponent", () => {
   let component: PresenceControlIncidentComponent;
   let fixture: ComponentFixture<PresenceControlIncidentComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [PresenceControlIncidentComponent],
         providers: [NgbActiveModal],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlIncidentComponent);
