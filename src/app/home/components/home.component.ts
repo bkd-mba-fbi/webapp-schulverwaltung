@@ -1,4 +1,3 @@
-import { NgFor } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
@@ -12,19 +11,21 @@ interface Section {
   selector: "bkd-home",
   template: `
     <ul class="mt-3">
-      <li *ngFor="let section of sections">
-        <h2>
-          <a [routerLink]="'/' + section.path">
-            {{ (section.name ?? section.path) + ".title" | translate }}
-          </a>
-        </h2>
-      </li>
+      @for (section of sections; track $index) {
+        <li>
+          <h2>
+            <a [routerLink]="'/' + section.path">
+              {{ (section.name ?? section.path) + ".title" | translate }}
+            </a>
+          </h2>
+        </li>
+      }
     </ul>
   `,
   styleUrls: ["./home.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgFor, RouterLink, TranslateModule],
+  imports: [RouterLink, TranslateModule],
 })
 export class HomeComponent {
   sections: ReadonlyArray<Section> = [

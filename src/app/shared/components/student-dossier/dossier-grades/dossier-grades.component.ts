@@ -1,9 +1,8 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import { DossierStateService } from "src/app/shared/services/dossier-state.service";
-import { LetDirective } from "../../../directives/let.directive";
 import { SpinnerComponent } from "../../spinner/spinner.component";
 import { DossierGradesViewComponent } from "../dossier-grades-view/dossier-grades-view.component";
 
@@ -12,13 +11,7 @@ import { DossierGradesViewComponent } from "../dossier-grades-view/dossier-grade
   templateUrl: "./dossier-grades.component.html",
   styleUrls: ["./dossier-grades.component.scss"],
   standalone: true,
-  imports: [
-    LetDirective,
-    NgIf,
-    DossierGradesViewComponent,
-    SpinnerComponent,
-    AsyncPipe,
-  ],
+  imports: [DossierGradesViewComponent, SpinnerComponent, AsyncPipe],
 })
 export class DossierGradesComponent implements OnInit, OnDestroy {
   constructor(

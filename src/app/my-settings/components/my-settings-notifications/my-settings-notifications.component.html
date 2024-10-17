@@ -1,30 +1,32 @@
-<div
-  *bkdLet="{
-    channelsFormGroup: channelsFormGroup$ | async,
-    typesFormGroup: typesFormGroup$ | async,
-  } as data"
-  class="pb-4"
->
+@let channelsFormGroup = channelsFormGroup$ | async;
+@let typesFormGroup = typesFormGroup$ | async;
+
+<div class="pb-4">
   <h2 class="m-0 pb-3 d-flex align-items-stretch">
     <span>{{ "my-settings.notifications.title" | translate }}</span>
-    <div *ngIf="saving$ | async" class="position-relative">
-      <bkd-spinner
-        class="position-absolute inline small d-inline-block ms-2"
-      ></bkd-spinner>
-    </div>
+    @if (saving$ | async) {
+      <div class="position-relative">
+        <bkd-spinner
+          class="position-absolute inline small d-inline-block ms-2"
+        ></bkd-spinner>
+      </div>
+    }
   </h2>
 
-  <form *ngIf="data.channelsFormGroup" [formGroup]="data.channelsFormGroup">
-    <bkd-my-settings-notifications-toggle
-      *ngFor="let setting of channelsSettings; index as i"
-      [id]="'notification-channels-' + setting.key"
-      [label]="setting.label | async"
-      [description]="setting.description | async"
-      [formControlName]="setting.key"
-      [class.mt-4]="i > 0"
-    >
-    </bkd-my-settings-notifications-toggle>
-  </form>
+  @if (channelsFormGroup) {
+    <form [formGroup]="channelsFormGroup">
+      @for (setting of channelsSettings; track setting.key; let i = $index) {
+        <bkd-my-settings-notifications-toggle
+          [id]="'notification-channels-' + setting.key"
+          [label]="setting.label | async"
+          [description]="setting.description | async"
+          [formControlName]="setting.key"
+          [class.mt-4]="i > 0"
+        >
+        </bkd-my-settings-notifications-toggle>
+      }
+    </form>
+  }
 
   <p class="mt-4 form-text">
     {{ "my-settings.notifications.privacy-hint" | translate }}
@@ -32,15 +34,18 @@
 
   <hr />
 
-  <form *ngIf="data.typesFormGroup" [formGroup]="data.typesFormGroup">
-    <bkd-my-settings-notifications-toggle
-      *ngFor="let setting of typesSettings; index as i"
-      [id]="'notification-types-' + setting.key"
-      [label]="setting.label | async"
-      [description]="setting.description | async"
-      [formControlName]="setting.key"
-      [class.mt-4]="i > 0"
-    >
-    </bkd-my-settings-notifications-toggle>
-  </form>
+  @if (typesFormGroup) {
+    <form [formGroup]="typesFormGroup">
+      @for (setting of typesSettings; track setting.key; let i = $index) {
+        <bkd-my-settings-notifications-toggle
+          [id]="'notification-types-' + setting.key"
+          [label]="setting.label | async"
+          [description]="setting.description | async"
+          [formControlName]="setting.key"
+          [class.mt-4]="i > 0"
+        >
+        </bkd-my-settings-notifications-toggle>
+      }
+    </form>
+  }
 </div>

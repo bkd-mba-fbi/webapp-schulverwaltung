@@ -1,9 +1,8 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { StorageService } from "../../../shared/services/storage.service";
 import {
   EventEntry,
@@ -23,10 +22,7 @@ const WITH_RATINGS_SEARCH_FIELDS: ReadonlyArray<keyof EventEntry> = [
   styleUrls: ["./events-list.component.scss"],
   standalone: true,
   imports: [
-    LetDirective,
     ResettableInputComponent,
-    NgIf,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     TranslateModule,

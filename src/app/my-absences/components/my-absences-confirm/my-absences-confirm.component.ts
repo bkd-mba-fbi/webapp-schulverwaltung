@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import {
   FormsModule,
@@ -14,7 +14,6 @@ import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm
 import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
 import { StorageService } from "src/app/shared/services/storage.service";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 import { ToastService } from "../../../shared/services/toast.service";
 import { MyAbsencesService } from "../../services/my-absences.service";
@@ -27,12 +26,9 @@ import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confi
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     NgClass,
-    NgIf,
     AsyncPipe,
     TranslateModule,
     AddSpacePipe,

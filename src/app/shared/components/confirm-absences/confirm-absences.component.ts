@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,7 +37,6 @@ import {
   getControlValueChanges,
   getValidationErrors,
 } from "src/app/shared/utils/form";
-import { LetDirective } from "../../directives/let.directive";
 import { LessonPresence } from "../../models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "../../services/confirm-absences-selection.service";
 import { ToastService } from "../../services/toast.service";
@@ -53,11 +52,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     RouterLink,
     AsyncPipe,
     TranslateModule,

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgIf } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import { Component, Inject } from "@angular/core";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, merge } from "rxjs";
@@ -7,7 +7,6 @@ import { Test } from "src/app/shared/models/test.model";
 import { SETTINGS, Settings } from "../../../settings";
 import { SelectComponent } from "../../../shared/components/select/select.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { TestStateService } from "../../services/test-state.service";
 import { TestEditGradesComponent } from "../test-edit-grades/test-edit-grades.component";
 import { TestsHeaderComponent } from "../tests-header/tests-header.component";
@@ -18,8 +17,6 @@ import { TestsHeaderComponent } from "../tests-header/tests-header.component";
   styleUrls: ["./tests-list.component.scss"],
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     TestsHeaderComponent,
     SelectComponent,
     TestEditGradesComponent,

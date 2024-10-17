@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import {
   NgbDropdown,
@@ -16,11 +15,9 @@ import { ReportInfo } from "../../services/reports.service";
   styleUrls: ["./reports-link.component.scss"],
   standalone: true,
   imports: [
-    NgIf,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    NgFor,
     NgbDropdownButtonItem,
     NgbDropdownItem,
   ],

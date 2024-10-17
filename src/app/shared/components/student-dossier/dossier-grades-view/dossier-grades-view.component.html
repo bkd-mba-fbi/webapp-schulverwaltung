@@ -1,46 +1,44 @@
-<ng-container *ngIf="(courses?.length ?? 0) > 0; else noCourses">
-  <div
-    *ngFor="
-      let decoratedCourse of decoratedCoursesSubject$ | async;
-      let i = index;
-      trackBy: trackByCourseId
-    "
-  >
-    <div ngbAccordion>
-      <div ngbAccordionItem #courses="ngbAccordionItem">
-        <div ngbAccordionHeader>
-          <bkd-student-dossier-entry-header
-            [opened]="!courses.collapsed"
-            (click)="courses.toggle()"
-          >
-            <bkd-dossier-grades-course-header
-              [designation]="decoratedCourse.course.Designation"
-              [finalGrade]="decoratedCourse.finalGrade"
-              [grading]="decoratedCourse.grading"
-              [gradingScale]="decoratedCourse.gradingScale"
-              [average]="decoratedCourse.average"
-            ></bkd-dossier-grades-course-header>
-          </bkd-student-dossier-entry-header>
-        </div>
-        <div ngbAccordionCollapse>
-          <div ngbAccordionBody>
-            <ng-template>
-              <bkd-dossier-course-tests
-                [decoratedCourse]="decoratedCourse"
-                [studentId]="studentId"
-                [gradingScales]="gradingScales"
-                [isEditable]="isEditable"
-              ></bkd-dossier-course-tests>
-            </ng-template>
+@if (courses.length > 0) {
+  @for (
+    decoratedCourse of decoratedCoursesSubject$ | async;
+    track decoratedCourse.course.Id;
+    let i = $index
+  ) {
+    <div>
+      <div ngbAccordion>
+        <div ngbAccordionItem #courses="ngbAccordionItem">
+          <div ngbAccordionHeader>
+            <bkd-student-dossier-entry-header
+              [opened]="!courses.collapsed"
+              (click)="courses.toggle()"
+            >
+              <bkd-dossier-grades-course-header
+                [designation]="decoratedCourse.course.Designation"
+                [finalGrade]="decoratedCourse.finalGrade"
+                [grading]="decoratedCourse.grading"
+                [gradingScale]="decoratedCourse.gradingScale"
+                [average]="decoratedCourse.average"
+              ></bkd-dossier-grades-course-header>
+            </bkd-student-dossier-entry-header>
+          </div>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <bkd-dossier-course-tests
+                  [decoratedCourse]="decoratedCourse"
+                  [studentId]="studentId"
+                  [gradingScales]="gradingScales"
+                  [isEditable]="isEditable"
+                ></bkd-dossier-course-tests>
+              </ng-template>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</ng-container>
-
-<ng-template #noCourses
-  ><p class="py-3" data-testid="message-no-courses">
+  }
+} @else {
+  <p class="py-3" data-testid="message-no-courses">
     {{ "dossier.no-courses" | translate }}
-  </p></ng-template
->
+  </p>
+}

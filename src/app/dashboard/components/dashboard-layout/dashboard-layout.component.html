@@ -1,44 +1,44 @@
-<div
-  *bkdLet="{
-    loading: dashboardService.loading$ | async,
-    hasSearch: dashboardService.hasSearch$ | async,
-    hasActions: dashboardService.hasActions$ | async,
-    hasTimetable: dashboardService.hasTimetable$ | async,
-  } as data"
->
+@let loading = dashboardService.loading$ | async;
+@let hasSearch = dashboardService.hasSearch$ | async;
+@let hasActions = dashboardService.hasActions$ | async;
+@let hasTimetable = dashboardService.hasTimetable$ | async;
+<div>
   <h1
-    [class.visually-hidden]="
-      data.loading || data.hasSearch || data.hasActions || data.hasTimetable
-    "
+    [class.visually-hidden]="loading || hasSearch || hasActions || hasTimetable"
   >
     {{ "dashboard.heading" | translate }}
   </h1>
-  <bkd-spinner *ngIf="data.loading"></bkd-spinner>
-  <p
-    *ngIf="
-      !data.loading && !data.hasSearch && !data.hasActions && !data.hasTimetable
-    "
-  >
-    {{ "dashboard.no-access" | translate }}
-  </p>
+  @if (loading) {
+    <bkd-spinner></bkd-spinner>
+  }
+  @if (!loading && !hasSearch && !hasActions && !hasTimetable) {
+    <p>
+      {{ "dashboard.no-access" | translate }}
+    </p>
+  }
 
   <div class="columns">
-    <div
-      class="search-actions-column"
-      *ngIf="data.hasSearch || data.hasActions"
-    >
-      <div *ngIf="data.hasSearch">
-        <h2>{{ "dashboard.search.title" | translate }}</h2>
-        <bkd-dashboard-search></bkd-dashboard-search>
+    @if (hasSearch || hasActions) {
+      <div class="search-actions-column">
+        @if (hasSearch) {
+          <div>
+            <h2>{{ "dashboard.search.title" | translate }}</h2>
+            <bkd-dashboard-search></bkd-dashboard-search>
+          </div>
+        }
+        @if (hasActions) {
+          <div>
+            <h2>{{ "dashboard.actions.title" | translate }}</h2>
+            <bkd-dashboard-actions></bkd-dashboard-actions>
+          </div>
+        }
       </div>
-      <div *ngIf="data.hasActions">
-        <h2>{{ "dashboard.actions.title" | translate }}</h2>
-        <bkd-dashboard-actions></bkd-dashboard-actions>
+    }
+    @if (hasTimetable) {
+      <div class="timetable-column">
+        <h2>{{ "dashboard.timetable.title" | translate }}</h2>
+        <bkd-dashboard-timetable></bkd-dashboard-timetable>
       </div>
-    </div>
-    <div *ngIf="data.hasTimetable" class="timetable-column">
-      <h2>{{ "dashboard.timetable.title" | translate }}</h2>
-      <bkd-dashboard-timetable></bkd-dashboard-timetable>
-    </div>
+    }
   </div>
 </div>

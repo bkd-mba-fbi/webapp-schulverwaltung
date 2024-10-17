@@ -1,4 +1,3 @@
-import { NgFor } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
@@ -6,7 +5,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { DropDownItem } from "../../../shared/models/drop-down-item.model";
 import { SubscriptionDetail } from "../../../shared/models/subscription-detail.model";
 
-export interface GroupOptions {
+export interface GroupOption {
   id: Option<DropDownItem["Key"]>;
   label: Option<string>;
 }
@@ -21,14 +20,14 @@ export enum DialogMode {
   templateUrl: "./presence-control-group-dialog.component.html",
   styleUrls: ["./presence-control-group-dialog.component.scss"],
   standalone: true,
-  imports: [FormsModule, NgFor, TranslateModule],
+  imports: [FormsModule, TranslateModule],
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
   @Input() dialogMode: DialogMode;
   @Input() subscriptionDetailsDefinitions: SubscriptionDetail;
   @Input() group: Option<string>;
-  groupOptions: Array<GroupOptions> = [];
-  selected: GroupOptions;
+  groupOptions: Array<GroupOption> = [];
+  selected: GroupOption;
   title: string;
 
   constructor(
@@ -51,7 +50,7 @@ export class PresenceControlGroupDialogComponent implements OnInit {
       emptyOption;
   }
 
-  private createEmtpyOption(): GroupOptions {
+  private createEmtpyOption(): GroupOption {
     const emptyLabel =
       this.dialogMode === DialogMode.Select
         ? "presence-control.groups.all"
@@ -63,7 +62,7 @@ export class PresenceControlGroupDialogComponent implements OnInit {
     };
   }
 
-  private createGroupOptions(detail: SubscriptionDetail): Array<GroupOptions> {
+  private createGroupOptions(detail: SubscriptionDetail): Array<GroupOption> {
     return detail.DropdownItems
       ? detail.DropdownItems.map((item) => ({
           id: item.Key,
@@ -74,11 +73,11 @@ export class PresenceControlGroupDialogComponent implements OnInit {
       : [];
   }
 
-  getSelectedGroup(): Option<GroupOptions> {
+  getSelectedGroup(): Option<GroupOption> {
     return this.selected;
   }
 
-  onSelectionChange(option: GroupOptions): void {
+  onSelectionChange(option: GroupOption): void {
     this.selected = option;
   }
 }

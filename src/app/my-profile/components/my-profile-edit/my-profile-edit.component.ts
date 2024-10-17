@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import {
   FormsModule,
@@ -21,7 +21,6 @@ import {
 import { Person } from "src/app/shared/models/person.model";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { getValidationErrors } from "src/app/shared/utils/form";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { notNull } from "../../../shared/utils/filter";
 import { MyProfileService } from "../../services/my-profile.service";
@@ -32,15 +31,7 @@ import { MyProfileService } from "../../services/my-profile.service";
   styleUrls: ["./my-profile-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    LetDirective,
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    NgFor,
-    AsyncPipe,
-    TranslateModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslateModule],
 })
 export class MyProfileEditComponent {
   student$ = this.profileService.profile$.pipe(

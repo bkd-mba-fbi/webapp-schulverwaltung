@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -32,7 +32,6 @@ import {
   getValidationErrors,
 } from "src/app/shared/utils/form";
 import { greaterThanValidator } from "src/app/shared/validators/greater-than.validator";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { TestStateService } from "../../services/test-state.service";
 
 @Component({
@@ -42,11 +41,8 @@ import { TestStateService } from "../../services/test-state.service";
   schemas: [NO_ERRORS_SCHEMA], // otherwise html math tags are not allowed using template strict mode
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     NgbInputDatepicker,
     RouterLink,
     AsyncPipe,

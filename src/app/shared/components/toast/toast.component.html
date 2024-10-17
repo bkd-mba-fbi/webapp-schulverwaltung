@@ -1,12 +1,15 @@
-<ngb-toast
-  *ngFor="let toast of toastService.toasts$ | async"
-  [header]="toast.header || ''"
-  [class]="toast.classname"
-  [autohide]="true"
-  (hidden)="toastService.remove(toast)"
->
-  <div class="d-flex gap-2">
-    <i *ngIf="toast.icon" class="material-icons">{{ toast.icon }}</i>
-    <span>{{ toast.message }}</span>
-  </div>
-</ngb-toast>
+@for (toast of toastService.toasts$ | async; track toast) {
+  <ngb-toast
+    [header]="toast.header || ''"
+    [class]="toast.classname"
+    [autohide]="true"
+    (hidden)="toastService.remove(toast)"
+  >
+    <div class="d-flex gap-2">
+      @if (toast.icon) {
+        <i class="material-icons">{{ toast.icon }}</i>
+      }
+      <span>{{ toast.message }}</span>
+    </div>
+  </ngb-toast>
+}

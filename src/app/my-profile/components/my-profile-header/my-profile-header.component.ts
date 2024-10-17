@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +18,7 @@ import { ReportsService } from "../../../shared/services/reports.service";
   styleUrls: ["./my-profile-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
+  imports: [AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
 export class MyProfileHeaderComponent implements OnChanges {
   @Input() student?: Person;

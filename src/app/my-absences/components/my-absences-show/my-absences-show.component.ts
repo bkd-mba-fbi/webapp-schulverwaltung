@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import {
   NgbAccordionBody,
@@ -20,7 +20,6 @@ import {
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { StudentDossierAbsencesComponent } from "../../../shared/components/student-dossier/student-dossier-absences/student-dossier-absences.component";
 import { StudentDossierEntryHeaderComponent } from "../../../shared/components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
 import { LessonIncident } from "../../../shared/models/lesson-incident.model";
 import { MyAbsencesService } from "../../services/my-absences.service";
@@ -33,7 +32,6 @@ import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-abs
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
     ReportsLinkComponent,
     NgbAccordionDirective,
     NgbAccordionItem,
@@ -43,7 +41,6 @@ import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-abs
     NgbAccordionCollapse,
     NgbAccordionBody,
     StudentDossierEntryHeaderComponent,
-    NgIf,
     StudentDossierAbsencesComponent,
     AsyncPipe,
     TranslateModule,

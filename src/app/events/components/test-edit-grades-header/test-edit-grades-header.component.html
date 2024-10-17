@@ -1,33 +1,31 @@
-<ng-container
-  *bkdLet="{
-    tests: state.filteredTests$ | async,
-    filter: state.filter$ | async,
-    expanded: state.expandedHeader$ | async,
-  } as data"
->
-  <tr class="header-collapsible">
-    <th class="desktop sticky" colspan="3">
-      <bkd-test-table-filter
-        [filter]="data.filter"
-        (filterChange)="state.setFilter($event)"
-      ></bkd-test-table-filter>
-    </th>
+@let tests = state.filteredTests$ | async;
+@let filter = state.filter$ | async;
+@let expanded = state.expandedHeader$ | async;
+
+<tr class="header-collapsible">
+  <th class="desktop sticky" colspan="3">
+    <bkd-test-table-filter
+      [filter]="filter"
+      (filterChange)="state.setFilter($event)"
+    ></bkd-test-table-filter>
+  </th>
+  @for (test of tests; track test.Id) {
     <th
-      *ngFor="let test of data.tests"
       container="body"
       class="test-grade grade test-info-desktop"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
       <bkd-test-table-header
         [test]="test"
-        [expanded]="data.expanded"
+        [expanded]="expanded"
         (toggle)="state.toggleHeader($event)"
         (publish)="publish.emit($event)"
         (unpublish)="unpublish.emit($event)"
       ></bkd-test-table-header>
     </th>
+  }
+  @for (test of tests; track test.Id) {
     <th
-      *ngFor="let test of data.tests"
       container="body"
       class="test-grade header-mobile test-info-mobile"
       colspan="3"
@@ -35,66 +33,66 @@
     >
       <bkd-test-table-header
         [test]="test"
-        [expanded]="data.expanded"
+        [expanded]="expanded"
         (toggle)="state.toggleHeader($event)"
         (publish)="publish.emit($event)"
         (unpublish)="unpublish.emit($event)"
       ></bkd-test-table-header>
     </th>
-  </tr>
-  <tr>
-    <th class="student-name" (click)="state.sortBy('FullName')">
-      <div class="d-flex">
-        <div class="column-title">
-          {{ "tests.student.name" | translate }}
-        </div>
-        <div class="sort-direction ms-1">
-          {{ state.getSortingChar$("FullName") | async }}
-        </div>
+  }
+</tr>
+<tr>
+  <th class="student-name" (click)="state.sortBy('FullName')">
+    <div class="d-flex">
+      <div class="column-title">
+        {{ "tests.student.name" | translate }}
       </div>
-    </th>
-    <th
-      class="student-grade desktop"
-      (click)="state.sortBy('FinalGrade')"
-      [ngClass]="{ selected: selectedTest === undefined }"
-    >
-      <div class="d-flex">
-        <div class="column-title">
-          {{ "tests.grade" | translate }}
-        </div>
-        <div class="sort-direction ms-1">
-          {{ state.getSortingChar$("FinalGrade") | async }}
-        </div>
+      <div class="sort-direction ms-1">
+        {{ state.getSortingChar$("FullName") | async }}
       </div>
-    </th>
-    <th
-      class="border-end student-average desktop"
-      (click)="state.sortBy('TestsMean')"
-    >
-      <div class="d-flex">
-        <div class="column-title">
-          {{ "tests.mean" | translate }}
-        </div>
-        <div class="sort-direction ms-1">
-          {{ state.getSortingChar$("TestsMean") | async }}
-        </div>
+    </div>
+  </th>
+  <th
+    class="student-grade desktop"
+    (click)="state.sortBy('FinalGrade')"
+    [ngClass]="{ selected: selectedTest === undefined }"
+  >
+    <div class="d-flex">
+      <div class="column-title">
+        {{ "tests.grade" | translate }}
       </div>
-    </th>
+      <div class="sort-direction ms-1">
+        {{ state.getSortingChar$("FinalGrade") | async }}
+      </div>
+    </div>
+  </th>
+  <th
+    class="border-end student-average desktop"
+    (click)="state.sortBy('TestsMean')"
+  >
+    <div class="d-flex">
+      <div class="column-title">
+        {{ "tests.mean" | translate }}
+      </div>
+      <div class="sort-direction ms-1">
+        {{ state.getSortingChar$("TestsMean") | async }}
+      </div>
+    </div>
+  </th>
+  @for (test of tests; track test.Id) {
     <th
-      *ngFor="let test of data.tests"
       container="body"
       class="test-grade"
       [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
     >
       <div class="d-flex">
-        <div
-          class="column-title me-3 point-input-container"
-          *ngIf="test.IsPointGrading"
-        >
-          <span (click)="state.sortBy(test)"
-            >{{ "tests.points" | translate }}
-          </span>
-        </div>
+        @if (test.IsPointGrading) {
+          <div class="column-title me-3 point-input-container">
+            <span (click)="state.sortBy(test)"
+              >{{ "tests.points" | translate }}
+            </span>
+          </div>
+        }
         <div class="column-title">
           <span (click)="state.sortBy(test)">{{
             "tests.grade" | translate
@@ -105,5 +103,5 @@
         </div>
       </div>
     </th>
-  </tr>
-</ng-container>
+  }
+</tr>

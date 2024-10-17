@@ -3,36 +3,39 @@
     {{ "presence-control.block-lesson.text" | translate }}
   </p>
   <form>
-    <div
-      *ngFor="let option of blockLessonOptions; let i = index"
-      class="form-check"
-    >
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="lesson-presence-{{ i }}"
-        [checked]="option.selected"
-        (change)="option.selected = !option.selected"
-      />
-      <label
-        class="form-check-label d-flex"
-        [class.fw-bold]="isCurrentLesson(option)"
-        for="lesson-presence-{{ i }}"
-      >
-        <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{
-          option.entry.presenceCategoryIcon
-        }}</i>
-        <div class="d-block text-truncate">
-          {{
-            option.entry.lessonPresence.LessonDateTimeFrom | date: "HH:mm"
-          }}–{{ option.entry.lessonPresence.LessonDateTimeTo | date: "HH:mm" }}
-          {{ option.entry.lessonPresence.EventDesignation }}
-        </div>
-      </label>
-    </div>
+    @for (option of blockLessonOptions; track option.entry.id; let i = $index) {
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="lesson-presence-{{ i }}"
+          [checked]="option.selected"
+          (change)="option.selected = !option.selected"
+        />
+        <label
+          class="form-check-label d-flex"
+          [class.fw-bold]="isCurrentLesson(option)"
+          for="lesson-presence-{{ i }}"
+        >
+          <i class="{{ option.entry.presenceCategory }} material-icons pe-2">{{
+            option.entry.presenceCategoryIcon
+          }}</i>
+          <div class="d-block text-truncate">
+            {{
+              option.entry.lessonPresence.LessonDateTimeFrom | date: "HH:mm"
+            }}–{{
+              option.entry.lessonPresence.LessonDateTimeTo | date: "HH:mm"
+            }}
+            {{ option.entry.lessonPresence.EventDesignation }}
+          </div>
+        </label>
+      </div>
+    }
   </form>
 </div>
-<div class="modal-footer" *bkdLet="getSelectedEntries() as selectedEntries">
+
+@let selectedEntries = getSelectedEntries();
+<div class="modal-footer">
   <button
     type="button"
     class="btn btn-outline-secondary"

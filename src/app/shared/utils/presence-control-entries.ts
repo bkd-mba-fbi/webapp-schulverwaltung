@@ -1,4 +1,4 @@
-import { GroupOptions } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
+import { GroupOption } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { LessonPresence } from "../models/lesson-presence.model";
@@ -31,7 +31,7 @@ export function buildPresenceControlEntries(
 }
 
 export function filterByGroup(
-  group: GroupOptions["id"],
+  group: GroupOption["id"],
   entries: ReadonlyArray<PresenceControlEntry>,
   personIds: ReadonlyArray<number>,
 ): ReadonlyArray<PresenceControlEntry> {

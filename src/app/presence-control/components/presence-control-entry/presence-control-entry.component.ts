@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -16,7 +16,6 @@ import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { ToastService } from "../../../shared/services/toast.service";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { getBlockLessonLoadingContext } from "../../services/presence-control-block-lesson.service";
@@ -28,9 +27,7 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
   styleUrls: ["./presence-control-entry.component.scss"],
   standalone: true,
   imports: [
-    NgIf,
     AvatarComponent,
-    LetDirective,
     SpinnerComponent,
     RouterLink,
     AsyncPipe,

@@ -1,4 +1,3 @@
-import { NgIf } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Person } from "../../../models/person.model";
 import { Student } from "../../../models/student.model";
@@ -9,7 +8,7 @@ import { Student } from "../../../models/student.model";
   styleUrls: ["./student-dossier-address.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf],
+  imports: [],
 })
 export class StudentDossierAddressComponent {
   @Input() student: Student | Person;

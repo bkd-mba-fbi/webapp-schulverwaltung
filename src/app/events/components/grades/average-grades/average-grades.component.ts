@@ -1,4 +1,3 @@
-import { NgIf } from "@angular/common";
 import { Component, Inject, Input, LOCALE_ID } from "@angular/core";
 import { averageGrade, averagePoints } from "src/app/events/utils/tests";
 import { Test } from "src/app/shared/models/test.model";
@@ -10,17 +9,16 @@ import {
 @Component({
   selector: "bkd-average-grades",
   template: `<div class="d-flex flex-row w-100">
-    <span
-      *ngIf="test.IsPointGrading"
-      class="mr-2 mr-md-3 average-points"
-      data-testid="average-points"
-      >{{ calculatePointsAverage(test) }}</span
-    >
+    @if (test.IsPointGrading) {
+      <span class="mr-2 mr-md-3 average-points" data-testid="average-points">{{
+        calculatePointsAverage(test)
+      }}</span>
+    }
     <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
   </div>`,
   styleUrls: ["./average-grades.component.scss"],
   standalone: true,
-  imports: [NgIf],
+  imports: [],
 })
 export class AverageGradesComponent {
   @Input() test: Test;

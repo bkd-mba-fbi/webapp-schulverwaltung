@@ -1,4 +1,3 @@
-import { NgFor } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
@@ -15,7 +14,7 @@ interface IncidentOption {
   templateUrl: "./presence-control-incident.component.html",
   styleUrls: ["./presence-control-incident.component.scss"],
   standalone: true,
-  imports: [FormsModule, NgFor, TranslateModule],
+  imports: [FormsModule, TranslateModule],
 })
 export class PresenceControlIncidentComponent implements OnInit {
   @Input() incident: Option<PresenceType>;

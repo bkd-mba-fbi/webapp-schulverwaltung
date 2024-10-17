@@ -1,200 +1,200 @@
+@let selection = (selectionService.selection$ | async) ?? [];
+@let entries = state.presenceControlEntries$ | async;
+@let hasMore = state.hasMore$ | async;
+@let loadingPage = state.loadingPage$ | async;
+
 <h1>{{ "edit-absences.title" | translate }}</h1>
-<ng-container
-  *bkdLet="{
-    selection: selectionService.selection$ | async,
-    entries: state.presenceControlEntries$ | async,
-    hasMore: state.hasMore$ | async,
-    loadingPage: state.loadingPage$ | async,
-  } as data"
->
-  <bkd-edit-absences-header
-    [filter]="filterFromParams$ | async"
-    (filterChange)="state.setFilter($event)"
-  ></bkd-edit-absences-header>
+<bkd-edit-absences-header
+  [filter]="filterFromParams$ | async"
+  (filterChange)="state.setFilter($event)"
+></bkd-edit-absences-header>
 
-  <ng-container *ngIf="state.isFilterValid$ | async; else noFilter">
-    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <div
-        *ngIf="
-          (data.entries && data.entries.length > 0) || data.loadingPage;
-          else noEntries
-        "
-        class="py-3"
-        infiniteScroll
-        (scrolled)="onScroll()"
-      >
-        <div
-          *ngIf="data.entries && data.entries.length > 0"
-          class="d-flex align-items-center justify-content-between"
-        >
-          <div class="total">
-            {{
-              "edit-absences.list.total"
-                | translate: { count: (state.total$ | async) || 0 }
-            }},
-            {{
-              "edit-absences.list.selected"
-                | translate: { count: data.selection.length }
-            }}
+@if (state.isFilterValid$ | async) {
+  @if (state.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    @if ((entries && entries.length > 0) || loadingPage) {
+      <div class="py-3" infiniteScroll (scrolled)="onScroll()">
+        @if (entries && entries.length > 0) {
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="total">
+              {{
+                "edit-absences.list.total"
+                  | translate: { count: (state.total$ | async) || 0 }
+              }},
+              {{
+                "edit-absences.list.selected"
+                  | translate: { count: selection.length }
+              }}
+            </div>
+            <a
+              class="edit btn btn-primary btn-icon mt-1 mb-2"
+              [class.disabled]="selection.length === 0"
+              routerLink="/edit-absences/edit"
+              [queryParams]="{
+                returnparams: (state.queryParamsString$ | async),
+              }"
+            >
+              <i class="material-icons">edit</i>
+            </a>
           </div>
-          <a
-            class="edit btn btn-primary btn-icon mt-1 mb-2"
-            [class.disabled]="data.selection.length === 0"
-            routerLink="/edit-absences/edit"
-            [queryParams]="{
-              returnparams: (state.queryParamsString$ | async),
-            }"
+        }
+        @if (entries && entries.length > 0) {
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    [checked]="selection.length === entries.length"
+                    (change)="toggleAll($any($event.currentTarget)?.checked)"
+                  />
+                </th>
+                <th class="presence-category">
+                  {{ "edit-absences.list.header.presence" | translate }}
+                </th>
+                <th>
+                  {{ "edit-absences.list.header.student" | translate }}
+                  <br />
+                  {{ "edit-absences.list.header.module-instance" | translate }},
+                  {{ "edit-absences.list.header.study-class" | translate }}
+                </th>
+                <th>
+                  {{ "edit-absences.list.header.date" | translate }}
+                </th>
+                <th>{{ "edit-absences.list.header.time" | translate }}</th>
+                <th>
+                  {{
+                    "edit-absences.list.header.confirmation-state" | translate
+                  }}
+                </th>
+                <th>
+                  {{ "edit-absences.list.header.presence-type" | translate }}
+                  /
+                  {{ "edit-absences.list.header.incident" | translate }}
+                </th>
+                <th>{{ "edit-absences.list.header.teacher" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (entry of entries; track entry.id) {
+                <tr>
+                  <td
+                    class="edit-absences-checkbox"
+                    (click)="onCheckboxCellClick($event, checkbox)"
+                  >
+                    <input
+                      #checkbox
+                      type="checkbox"
+                      [checked]="
+                        selectionService.isSelected$(entry.lessonPresence)
+                          | async
+                      "
+                      (change)="selectionService.toggle(entry.lessonPresence)"
+                    />
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.presence' | translate
+                    "
+                    class="presence-category"
+                  >
+                    <span [className]="entry.presenceCategory">
+                      <i class="material-icons">{{
+                        entry.presenceCategoryIcon
+                      }}</i>
+                    </span>
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.mobil-student-module-instance-study-class'
+                        | translate
+                    "
+                  >
+                    <a
+                      class="student"
+                      [routerLink]="[
+                        'student',
+                        entry.lessonPresence.StudentRef.Id,
+                        'absences',
+                      ]"
+                      [queryParams]="{
+                        returnparams: profileReturnParams$ | async,
+                      }"
+                    >
+                      {{ entry.lessonPresence.StudentFullName }}
+                    </a>
+                    <br />
+                    {{ entry.lessonPresence.EventDesignation }},
+                    {{ entry.lessonPresence.StudyClassNumber }}
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.date' | translate
+                    "
+                  >
+                    {{
+                      entry.lessonPresence.LessonDateTimeFrom
+                        | date: "mediumDate"
+                    }}
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.time' | translate
+                    "
+                  >
+                    {{
+                      entry.lessonPresence.LessonDateTimeFrom
+                        | date: "shortTime"
+                    }}–{{
+                      entry.lessonPresence.LessonDateTimeTo | date: "shortTime"
+                    }}
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.confirmation-state' | translate
+                    "
+                  >
+                    {{ entry.confirmationState?.Value }}
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.mobil-presence-type-incident'
+                        | translate
+                    "
+                    class="designation-incident"
+                  >
+                    {{ entry.presenceType?.Designation }}
+                  </td>
+                  <td
+                    [attr.data-label]="
+                      'edit-absences.list.header.teacher' | translate
+                    "
+                  >
+                    {{ entry.lessonPresence.TeacherInformation }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+        @if (loadingPage) {
+          <bkd-spinner class="inline"></bkd-spinner>
+        }
+        @if (hasMore && !loadingPage) {
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm d-block mx-auto"
+            (click)="state.nextPage()"
           >
-            <i class="material-icons">edit</i>
-          </a>
-        </div>
-        <table
-          *ngIf="data.entries && data.entries.length > 0"
-          class="table table-striped"
-        >
-          <thead>
-            <tr>
-              <th>
-                <input
-                  type="checkbox"
-                  [checked]="data.selection.length === data.entries.length"
-                  (change)="toggleAll($any($event.currentTarget)?.checked)"
-                />
-              </th>
-              <th class="presence-category">
-                {{ "edit-absences.list.header.presence" | translate }}
-              </th>
-              <th>
-                {{ "edit-absences.list.header.student" | translate }}
-                <br />
-                {{ "edit-absences.list.header.module-instance" | translate }},
-                {{ "edit-absences.list.header.study-class" | translate }}
-              </th>
-              <th>
-                {{ "edit-absences.list.header.date" | translate }}
-              </th>
-              <th>{{ "edit-absences.list.header.time" | translate }}</th>
-              <th>
-                {{ "edit-absences.list.header.confirmation-state" | translate }}
-              </th>
-              <th>
-                {{ "edit-absences.list.header.presence-type" | translate }} /
-                {{ "edit-absences.list.header.incident" | translate }}
-              </th>
-              <th>{{ "edit-absences.list.header.teacher" | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let entry of data.entries">
-              <td
-                class="edit-absences-checkbox"
-                (click)="onCheckboxCellClick($event, checkbox)"
-              >
-                <input
-                  #checkbox
-                  type="checkbox"
-                  [checked]="
-                    selectionService.isSelected$(entry.lessonPresence) | async
-                  "
-                  (change)="selectionService.toggle(entry.lessonPresence)"
-                />
-              </td>
-              <td
-                [attr.data-label]="
-                  'edit-absences.list.header.presence' | translate
-                "
-                class="presence-category"
-              >
-                <span [className]="entry.presenceCategory">
-                  <i class="material-icons">{{ entry.presenceCategoryIcon }}</i>
-                </span>
-              </td>
-              <td
-                [attr.data-label]="
-                  'edit-absences.list.header.mobil-student-module-instance-study-class'
-                    | translate
-                "
-              >
-                <a
-                  class="student"
-                  [routerLink]="[
-                    'student',
-                    entry.lessonPresence.StudentRef.Id,
-                    'absences',
-                  ]"
-                  [queryParams]="{ returnparams: profileReturnParams$ | async }"
-                >
-                  {{ entry.lessonPresence.StudentFullName }}
-                </a>
-                <br />
-                {{ entry.lessonPresence.EventDesignation }},
-                {{ entry.lessonPresence.StudyClassNumber }}
-              </td>
-              <td
-                [attr.data-label]="'edit-absences.list.header.date' | translate"
-              >
-                {{
-                  entry.lessonPresence.LessonDateTimeFrom | date: "mediumDate"
-                }}
-              </td>
-              <td
-                [attr.data-label]="'edit-absences.list.header.time' | translate"
-              >
-                {{
-                  entry.lessonPresence.LessonDateTimeFrom | date: "shortTime"
-                }}–{{
-                  entry.lessonPresence.LessonDateTimeTo | date: "shortTime"
-                }}
-              </td>
-              <td
-                [attr.data-label]="
-                  'edit-absences.list.header.confirmation-state' | translate
-                "
-              >
-                {{ entry.confirmationState?.Value }}
-              </td>
-              <td
-                [attr.data-label]="
-                  'edit-absences.list.header.mobil-presence-type-incident'
-                    | translate
-                "
-                class="designation-incident"
-              >
-                {{ entry.presenceType?.Designation }}
-              </td>
-              <td
-                [attr.data-label]="
-                  'edit-absences.list.header.teacher' | translate
-                "
-              >
-                {{ entry.lessonPresence.TeacherInformation }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <bkd-spinner class="inline" *ngIf="data.loadingPage"></bkd-spinner>
-        <button
-          *ngIf="data.hasMore && !data.loadingPage"
-          type="button"
-          class="btn btn-outline-secondary btn-sm d-block mx-auto"
-          (click)="state.nextPage()"
-        >
-          {{ "global.pagination.load-more" | translate }}
-        </button>
+            {{ "global.pagination.load-more" | translate }}
+          </button>
+        }
       </div>
-
-      <ng-template #noEntries>
-        <p class="mt-3">{{ "edit-absences.no-entries" | translate }}</p>
-      </ng-template>
-    </ng-container>
-
-    <ng-template #loading>
-      <bkd-spinner></bkd-spinner>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #noFilter>
-    <p class="mt-3">{{ "edit-absences.no-filter" | translate }}</p>
-  </ng-template>
-</ng-container>
+    } @else {
+      <p class="mt-3">{{ "edit-absences.no-entries" | translate }}</p>
+    }
+  }
+} @else {
+  <p class="mt-3">{{ "edit-absences.no-filter" | translate }}</p>
+}

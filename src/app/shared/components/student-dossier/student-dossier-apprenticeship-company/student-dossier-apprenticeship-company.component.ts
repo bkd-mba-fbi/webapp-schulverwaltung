@@ -1,4 +1,4 @@
-import { DatePipe, NgIf } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { AddSpacePipe } from "../../../pipes/add-space.pipe";
@@ -11,7 +11,7 @@ import { ApprenticeshipCompany } from "../../../services/student-profile.service
   styleUrls: ["./student-dossier-apprenticeship-company.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, DatePipe, TranslateModule, AddSpacePipe, PersonEmailPipe],
+  imports: [DatePipe, TranslateModule, AddSpacePipe, PersonEmailPipe],
 })
 export class StudentDossierApprenticeshipCompanyComponent {
   @Input() company: ApprenticeshipCompany;

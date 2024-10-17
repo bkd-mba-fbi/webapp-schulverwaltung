@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
@@ -25,7 +25,6 @@ import { getCourseDesignation } from "../../utils/events";
     BacklinkComponent,
     RouterLink,
     ReportsLinkComponent,
-    NgIf,
     AsyncPipe,
     TranslateModule,
   ],

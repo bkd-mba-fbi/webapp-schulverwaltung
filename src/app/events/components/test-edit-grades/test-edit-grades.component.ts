@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
@@ -10,9 +10,7 @@ import {
   GradeOrNoResult,
   StudentGrade,
 } from "src/app/shared/models/student-grades";
-import { Student } from "src/app/shared/models/student.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { Test } from "../../../shared/models/test.model";
 import { DecimalOrDashPipe } from "../../../shared/pipes/decimal-or-dash.pipe";
 import { EventsStateService } from "../../services/events-state.service";
@@ -34,12 +32,9 @@ import { TestTableHeaderComponent } from "../test-table-header/test-table-header
   providers: [EventsStateService],
   standalone: true,
   imports: [
-    LetDirective,
     NgClass,
-    NgFor,
     TestTableFilterComponent,
     TestTableHeaderComponent,
-    NgIf,
     RouterLink,
     GradeSelectComponent,
     GradeComponent,
@@ -82,6 +77,15 @@ export class TestEditGradesComponent implements OnInit {
     );
   }
 
+  getGrades(
+    studentGrade: StudentGrade,
+  ): ReadonlyArray<{ id: string; grade: GradeOrNoResult }> {
+    return studentGrade.grades.flatMap((grade) => ({
+      id: `${studentGrade.student.Id}-${grade.test.Id}`,
+      grade,
+    }));
+  }
+
   publish(test: Test) {
     const modalRef = this.openModal(test);
     this.onCloseModal(modalRef, () => this.state.publish(test));
@@ -90,16 +94,6 @@ export class TestEditGradesComponent implements OnInit {
   unpublish(test: Test) {
     const modalRef = this.openModal(test);
     this.onCloseModal(modalRef, () => this.state.unpublish(test));
-  }
-
-  trackStudentGrade(index: number) {
-    return index;
-  }
-
-  trackGradeOf(student: Student) {
-    return function (_: number, grade: GradeOrNoResult) {
-      return `${student.Id}_${grade.test.Id}`;
-    };
   }
 
   calculatePointsAverage(test: Test) {

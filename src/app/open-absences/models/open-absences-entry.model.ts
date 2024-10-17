@@ -25,4 +25,8 @@ export class OpenAbsencesEntry {
     this.studyClassNumber = this.absences[0].StudyClassNumber;
     this.lessonsCount = this.absences.length;
   }
+
+  get id(): string {
+    return `${this.dateString}-${this.studentId}`;
+  }
 }

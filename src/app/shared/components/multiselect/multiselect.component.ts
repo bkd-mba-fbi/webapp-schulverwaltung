@@ -1,4 +1,3 @@
-import { NgFor } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -10,7 +9,7 @@ import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
   templateUrl: "./multiselect.component.html",
   styleUrls: ["./multiselect.component.scss"],
   standalone: true,
-  imports: [NgSelectModule, FormsModule, NgFor, TranslateModule],
+  imports: [NgSelectModule, FormsModule, TranslateModule],
 })
 export class MultiselectComponent {
   @Input() options: ReadonlyArray<DropDownGroupedItem> = [];

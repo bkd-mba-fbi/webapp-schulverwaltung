@@ -14,12 +14,14 @@
 
 <div class="d-flex flex-column header">
   <h1>{{ getDesignation() }}</h1>
-  <div class="additional-info" *ngIf="course.ParticipatingStudents">
-    {{
-      (course.ParticipatingStudents.length === 1
-        ? "courses.registration"
-        : "courses.registrations"
-      ) | translate: { count: course.ParticipatingStudents.length }
-    }}
-  </div>
+  @if (course.ParticipatingStudents) {
+    <div class="additional-info">
+      {{
+        (course.ParticipatingStudents.length === 1
+          ? "courses.registration"
+          : "courses.registrations"
+        ) | translate: { count: course.ParticipatingStudents.length }
+      }}
+    </div>
+  }
 </div>

@@ -1,5 +1,9 @@
-{{ designation
-}}<span *ngIf="grade" class="grade" data-testId="grade"> ({{ grade }})</span
-><span *ngIf="!grade && average" class="average" data-testId="average">
-  ({{ average | number: "1.1-3" }})</span
->
+{{ designation }}
+@if (grade) {
+  <span class="grade" data-testId="grade"> ({{ grade }})</span>
+}
+@if (!grade && average) {
+  <span class="average" data-testId="average">
+    ({{ average | number: "1.1-3" }})</span
+  >
+}

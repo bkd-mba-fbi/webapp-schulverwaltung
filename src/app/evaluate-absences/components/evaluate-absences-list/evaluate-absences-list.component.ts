@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,7 +15,6 @@ import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-s
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { LessonPresence } from "../../../shared/models/lesson-presence.model";
 import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
@@ -41,12 +40,9 @@ interface Column {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
     EvaluateAbsencesHeaderComponent,
-    NgIf,
     ReportsLinkComponent,
     InfiniteScrollDirective,
-    NgFor,
     NgClass,
     NgbTooltip,
     RouterLink,

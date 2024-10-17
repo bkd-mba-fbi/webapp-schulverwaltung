@@ -33,7 +33,9 @@ describe("DossierGradesCourseHeaderComponent", () => {
     component.designation = "course 1";
     fixture.detectChanges();
 
-    expect(debugElement.nativeElement.textContent).toBe("course 1");
+    expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
+      "course 1",
+    );
   });
 
   it("should show designation and grade", () => {
@@ -44,7 +46,9 @@ describe("DossierGradesCourseHeaderComponent", () => {
     ]);
     fixture.detectChanges();
 
-    expect(debugElement.nativeElement.textContent).toBe("course 2 (5.5)");
+    expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
+      "course 2 (5.5)",
+    );
   });
 
   it("should show designation and average", () => {
@@ -52,7 +56,9 @@ describe("DossierGradesCourseHeaderComponent", () => {
     component.average = 5.2555;
     fixture.detectChanges();
 
-    expect(debugElement.nativeElement.textContent).toBe("course 3 (5.256)");
+    expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
+      "course 3 (5.256)",
+    );
   });
 
   it("should show designation and only grade if both average and grade are set", () => {
@@ -64,7 +70,9 @@ describe("DossierGradesCourseHeaderComponent", () => {
     ]);
     fixture.detectChanges();
 
-    expect(debugElement.nativeElement.textContent).toBe("course 4 (5.5)");
+    expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
+      "course 4 (5.5)",
+    );
   });
 
   it("should only show designation if average is 0", () => {
@@ -72,6 +80,8 @@ describe("DossierGradesCourseHeaderComponent", () => {
     component.average = 0;
 
     fixture.detectChanges();
-    expect(debugElement.nativeElement.textContent).toBe("course 5");
+    expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
+      "course 5",
+    );
   });
 });

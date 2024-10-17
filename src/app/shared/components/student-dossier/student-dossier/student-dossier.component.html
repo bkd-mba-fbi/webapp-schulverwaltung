@@ -1,31 +1,31 @@
+@let profile = state.profile$ | async;
+@let currentDossierSection = state.currentDossier$ | async;
+@let reports = dossierGradesService.testReports$ | async;
+
 <div class="bkd-container bkd-container-limited">
-  <ng-container
-    *bkdLet="{
-      profile: state.profile$ | async,
-      currentDossierSection: state.currentDossier$ | async,
-      reports: dossierGradesService.testReports$ | async,
-    } as data"
-  >
-    <ng-container *ngIf="(state.loading$ | async) === false; else loading">
-      <bkd-student-backlink
-        class="mb-2"
-        [link]="'../..'"
-        [queryParams]="state.backlinkQueryParams$ | async"
-        [studentId]="state.studentId$ | async"
-        [student]="data.profile && data.profile.student"
-      >
+  @if (state.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <bkd-student-backlink
+      class="mb-2"
+      [link]="'../..'"
+      [queryParams]="state.backlinkQueryParams$ | async"
+      [studentId]="state.studentId$ | async"
+      [student]="profile && profile.student"
+    >
+      @if (currentDossierSection === "grades") {
         <bkd-reports-link
-          *ngIf="data.currentDossierSection === 'grades'"
-          [reports]="data.reports ?? []"
+          [reports]="reports ?? []"
           class="ms-2"
         ></bkd-reports-link>
-      </bkd-student-backlink>
-      <div class="d-flex flex-row py-3 flex-wrap">
+      }
+    </bkd-student-backlink>
+    <div class="d-flex flex-row py-3 flex-wrap">
+      @for (section of ["addresses", "absences", "grades"]; track $index) {
         <a
           [queryParams]="{ returnparams: state.returnParams$ | async }"
           [routerLink]="[section]"
           class="me-1 mt-1 me-sm-2"
-          *ngFor="let section of ['addresses', 'absences', 'grades']"
         >
           <button
             data-test-id="dossier-section-button"
@@ -38,18 +38,14 @@
             {{ "dossier." + section | translate }}
           </button>
         </a>
-      </div>
-      <div *ngIf="data.profile; else noProfile">
+      }
+    </div>
+    @if (profile) {
+      <div>
         <router-outlet></router-outlet>
       </div>
-
-      <ng-template #noProfile>
-        <p>{{ "shared.profile.no-profile" | translate }}</p>
-      </ng-template>
-    </ng-container>
-
-    <ng-template #loading>
-      <bkd-spinner></bkd-spinner>
-    </ng-template>
-  </ng-container>
+    } @else {
+      <p>{{ "shared.profile.no-profile" | translate }}</p>
+    }
+  }
 </div>

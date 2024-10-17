@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import {
@@ -15,7 +15,6 @@ import { StudentDossierAddressComponent } from "../../../shared/components/stude
 import { StudentDossierApprenticeshipCompanyComponent } from "../../../shared/components/student-dossier/student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
 import { StudentDossierEntryHeaderComponent } from "../../../shared/components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component";
 import { StudentDossierLegalRepresentativeComponent } from "../../../shared/components/student-dossier/student-dossier-legal-representative/student-dossier-legal-representative.component";
-import { LetDirective } from "../../../shared/directives/let.directive";
 import { MyProfileService } from "../../services/my-profile.service";
 import { MyProfileAddressComponent } from "../my-profile-address/my-profile-address.component";
 import { MyProfileEntryComponent } from "../my-profile-entry/my-profile-entry.component";
@@ -28,8 +27,6 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetDirective,
-    NgIf,
     MyProfileHeaderComponent,
     MyProfileEntryComponent,
     NgbAccordionDirective,
@@ -42,7 +39,6 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
     RouterLink,
     StudentDossierAddressComponent,
     MyProfileAddressComponent,
-    NgFor,
     StudentDossierLegalRepresentativeComponent,
     StudentDossierApprenticeshipCompanyComponent,
     SpinnerComponent,
