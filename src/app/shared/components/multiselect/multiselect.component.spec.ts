@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MultiselectComponent } from "./multiselect.component";
 
@@ -7,13 +7,13 @@ describe("MultiselectComponent", () => {
   let fixture: ComponentFixture<MultiselectComponent>;
   // let element: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MultiselectComponent],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MultiselectComponent);

@@ -14,11 +14,13 @@
     "src/settings.example.js"
   ],
   "ignoreDependencies": [
+    "@angular-eslint/eslint-plugin",
+    "@angular-eslint/eslint-plugin-template",
     "@angular-eslint/schematics",
     "@angular-eslint/template-parser",
     "@angular/language-service",
-    "@typescript-eslint/parser",
     "bootstrap",
+    "@eslint/eslintrc",
     "html-validate",
     "jasmine-core",
     "karma-brief-reporter",

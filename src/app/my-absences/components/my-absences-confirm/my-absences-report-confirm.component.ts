@@ -81,7 +81,7 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
 
   protected navigateBack(): void {
     this.state.queryParams$.pipe(take(1)).subscribe((queryParams) => {
-      this.router.navigate(["/my-absences/report"], {
+      void this.router.navigate(["/my-absences/report"], {
         queryParams,
       });
     });

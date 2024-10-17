@@ -1,15 +1,15 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MyProfileAddressComponent } from "./my-profile-address.component";
 
 describe("MyProfileAddressComponent", () => {
   let component: MyProfileAddressComponent;
   let fixture: ComponentFixture<MyProfileAddressComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [MyProfileAddressComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileAddressComponent);

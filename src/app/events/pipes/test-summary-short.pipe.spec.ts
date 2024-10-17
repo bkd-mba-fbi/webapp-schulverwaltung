@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { TranslateService } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 import { buildTest } from "src/spec-builders";
@@ -9,12 +9,12 @@ describe("TestSummaryShortPipe", () => {
   let test: Test;
 
   let pipe: TestSummaryShortPipe;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({}),
     ).compileComponents();
     pipe = new TestSummaryShortPipe(TestBed.inject(TranslateService));
-  }));
+  });
 
   beforeEach(() => {
     test = buildTest(1234, 4567, []);

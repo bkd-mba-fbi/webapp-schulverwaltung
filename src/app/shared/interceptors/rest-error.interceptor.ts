@@ -76,7 +76,7 @@ function getErrorHandler(
       switch (error.status) {
         case HTTP_STATUS.UNAUTHORIZED:
           notifyError("noaccess");
-          router.navigate(["/unauthenticated"]);
+          void router.navigate(["/unauthenticated"]);
           return EMPTY;
         case HTTP_STATUS.FORBIDDEN:
           notifyError("noaccess");
@@ -84,7 +84,7 @@ function getErrorHandler(
           // Since access is forbidden to the requested resource,
           // redirect the user to the dashboard to avoid any
           // follow-up errors
-          router.navigate(["/dashboard"]);
+          void router.navigate(["/dashboard"]);
 
           return EMPTY;
         case HTTP_STATUS.NOT_FOUND:

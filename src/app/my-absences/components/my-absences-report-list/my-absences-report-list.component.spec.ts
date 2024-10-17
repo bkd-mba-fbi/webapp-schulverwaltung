@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MyAbsencesReportSelectionService } from "../../services/my-absences-report-selection.service";
@@ -9,8 +9,8 @@ describe("MyAbsencesReportListComponent", () => {
   let component: MyAbsencesReportListComponent;
   let fixture: ComponentFixture<MyAbsencesReportListComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MyAbsencesReportListComponent],
         providers: [
@@ -31,7 +31,7 @@ describe("MyAbsencesReportListComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesReportListComponent);

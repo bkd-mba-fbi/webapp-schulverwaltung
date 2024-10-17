@@ -73,8 +73,8 @@ export class TestsAddComponent {
   }
 
   private navigateBack(): void {
-    this.courseId$.subscribe((id) =>
-      this.router.navigate(["events", id, "tests"]),
+    this.courseId$.subscribe(
+      (id) => void this.router.navigate(["events", id, "tests"]),
     );
   }
 }

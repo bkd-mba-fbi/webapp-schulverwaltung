@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { Test } from "src/app/shared/models/test.model";
 import { buildCourse, buildResult, buildTest } from "src/spec-builders";
@@ -21,7 +21,7 @@ describe("TestEditGradesComponent", () => {
   let hasTests$: BehaviorSubject<boolean>;
   let canSetFinalGrade$: BehaviorSubject<boolean>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     test = buildTest(1234, 12, [buildResult(12, 1)]);
     testStateServiceMock = jasmine.createSpyObj("TestStateService", [
       "canSetFinalGrade$",
@@ -41,7 +41,7 @@ describe("TestEditGradesComponent", () => {
     testStateServiceMock.filter$ = of(INITIAL_TESTS_FILTER);
     testStateServiceMock.expandedHeader$ = of(false);
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [TestEditGradesComponent],
         providers: [
@@ -52,7 +52,7 @@ describe("TestEditGradesComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestEditGradesComponent);

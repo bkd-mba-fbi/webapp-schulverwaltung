@@ -1,5 +1,5 @@
 import { HttpTestingController } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { StorageService } from "src/app/shared/services/storage.service";
@@ -17,10 +17,10 @@ describe("MyAbsencesShowComponent", () => {
   let httpTestingController: HttpTestingController;
   let openLessonAbsences$: BehaviorSubject<any>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     openLessonAbsences$ = new BehaviorSubject<any>([]);
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MyAbsencesShowComponent],
         providers: [
@@ -50,7 +50,7 @@ describe("MyAbsencesShowComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAbsencesShowComponent);

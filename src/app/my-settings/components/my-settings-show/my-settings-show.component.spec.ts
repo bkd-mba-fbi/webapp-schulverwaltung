@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MySettingsShowComponent } from "./my-settings-show.component";
@@ -7,8 +7,8 @@ describe("MySettingsShowComponent", () => {
   let component: MySettingsShowComponent;
   let fixture: ComponentFixture<MySettingsShowComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MySettingsShowComponent],
         providers: [
@@ -23,7 +23,7 @@ describe("MySettingsShowComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MySettingsShowComponent);
