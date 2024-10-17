@@ -18,6 +18,8 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
 @Component({
   selector: "bkd-dossier-single-test",
   template: `
+    <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+    <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
     @let test = test$ | async;
     @let grading = grading$ | async;
 

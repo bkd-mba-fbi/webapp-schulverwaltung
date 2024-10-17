@@ -4,7 +4,6 @@ import {
   TestBed,
   fakeAsync,
   tick,
-  waitForAsync,
 } from "@angular/core/testing";
 import { of } from "rxjs";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
@@ -31,7 +30,7 @@ describe("GradeComponent", () => {
   let test: Test;
   let student: Student;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     result = buildResult(120, 140);
     test = buildTest(100, 120, [buildResult(120, 140)]);
     student = buildStudent(5);
@@ -43,7 +42,7 @@ describe("GradeComponent", () => {
       of(test.Results![0]),
     );
 
-    TestBed.configureTestingModule(
+    void TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [GradeComponent],
         providers: [{ provide: TestStateService, useValue: mockTestService }],
@@ -54,7 +53,7 @@ describe("GradeComponent", () => {
     component = fixture.componentInstance;
     component.student = student;
     debugElement = fixture.debugElement;
-  }));
+  });
 
   it("should create", () => {
     // given
@@ -116,7 +115,7 @@ describe("GradeComponent", () => {
       expect(select.options[5].textContent?.trim()).toBe("5.0");
       expect(select.options[6].textContent?.trim()).toBe("6.0");
 
-      fixture.whenStable().then(() => {
+      void fixture.whenStable().then(() => {
         expect(select.selectedIndex).toBe(4);
         done();
       });
@@ -148,7 +147,7 @@ describe("GradeComponent", () => {
       expect(select.options[5].textContent.trim()).toBe("5.0");
       expect(select.options[6].textContent.trim()).toBe("6.0");
 
-      fixture.whenStable().then(() => {
+      void fixture.whenStable().then(() => {
         expect(select.selectedIndex).toBe(0);
         done();
       });
@@ -212,7 +211,7 @@ describe("GradeComponent", () => {
 
       // then
 
-      fixture.whenStable().then(() => {
+      void fixture.whenStable().then(() => {
         expectPointsInputValue(debugElement, "11");
         done();
       });

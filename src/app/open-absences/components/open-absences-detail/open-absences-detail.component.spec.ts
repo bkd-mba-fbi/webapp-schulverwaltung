@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
 import { take } from "rxjs/operators";
@@ -24,7 +24,7 @@ describe("OpenAbsencesDetailComponent", () => {
   let presenceB: LessonPresence;
   let presenceC: LessonPresence;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     activatedRouteMock = new ActivatedRouteMock({
       date: "2000-01-23",
       personId: 21,
@@ -52,7 +52,7 @@ describe("OpenAbsencesDetailComponent", () => {
       (p) => (p.StudentFullName = "Einstein Albert"),
     );
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [OpenAbsencesDetailComponent],
         providers: [
@@ -78,7 +78,7 @@ describe("OpenAbsencesDetailComponent", () => {
 
     router = TestBed.inject(Router);
     spyOn(router, "navigate");
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpenAbsencesDetailComponent);

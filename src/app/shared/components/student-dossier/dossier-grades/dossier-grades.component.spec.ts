@@ -10,8 +10,6 @@ import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildCourse, buildGradingScale } from "../../../../../spec-builders";
 import { DossierGradesComponent } from "./dossier-grades.component";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe("DossierGradesComponent", () => {
   let component: DossierGradesComponent;
   let fixture: ComponentFixture<DossierGradesComponent>;

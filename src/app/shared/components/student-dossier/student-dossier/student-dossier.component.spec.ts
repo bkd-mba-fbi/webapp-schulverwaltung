@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import { ReportsService } from "src/app/shared/services/reports.service";
 import { StorageService } from "src/app/shared/services/storage.service";
@@ -10,8 +10,8 @@ describe("StudentDossierComponent", () => {
   let component: StudentDossierComponent;
   let fixture: ComponentFixture<StudentDossierComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [StudentDossierComponent],
         providers: [
@@ -25,7 +25,7 @@ describe("StudentDossierComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentDossierComponent);

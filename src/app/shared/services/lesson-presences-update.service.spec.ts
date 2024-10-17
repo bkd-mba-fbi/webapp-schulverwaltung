@@ -148,7 +148,7 @@ describe("LessonPresencesUpdateService", () => {
       ]);
 
       // Nothing happens after half the debounce time
-      (stateUpdatesCallback as jasmine.Spy).calls.reset();
+      stateUpdatesCallback.calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME / 2);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
@@ -166,7 +166,7 @@ describe("LessonPresencesUpdateService", () => {
       ]);
 
       // Waits whole debounce time, then performs requests for all three
-      (stateUpdatesCallback as jasmine.Spy).calls.reset();
+      stateUpdatesCallback.calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(
         (restServiceMock.editLessonPresences as jasmine.Spy).calls.count(),
@@ -232,7 +232,7 @@ describe("LessonPresencesUpdateService", () => {
       ]);
 
       // Performs two requests and reverts Walser on error of second request
-      (stateUpdatesCallback as jasmine.Spy).calls.reset();
+      stateUpdatesCallback.calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(
         (restServiceMock.editLessonPresences as jasmine.Spy).calls.count(),
@@ -258,7 +258,7 @@ describe("LessonPresencesUpdateService", () => {
 
       // Nothing happens afterwards
       (restServiceMock.editLessonPresences as jasmine.Spy).calls.reset();
-      (stateUpdatesCallback as jasmine.Spy).calls.reset();
+      stateUpdatesCallback.calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
@@ -281,7 +281,7 @@ describe("LessonPresencesUpdateService", () => {
       ]);
 
       // Waits debounce time, then performs request
-      (stateUpdatesCallback as jasmine.Spy).calls.reset();
+      stateUpdatesCallback.calls.reset();
       tick(UPDATE_REQUEST_DEBOUNCE_TIME);
       expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
       expect(

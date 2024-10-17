@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { buildPerson } from "src/spec-builders";
@@ -13,7 +13,7 @@ describe("MyProfileEditComponent", () => {
   let profileService: MyProfileService;
   let personsService: jasmine.SpyObj<PersonsRestService>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const person = buildPerson(123);
     person.AddressLine1 = "Postfach";
     person.AddressLine2 = "Industriegasse 123";
@@ -36,7 +36,7 @@ describe("MyProfileEditComponent", () => {
     personsService = jasmine.createSpyObj("PersonsRestService", ["update"]);
     personsService.update.and.returnValue(of());
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MyProfileEditComponent],
         providers: [
@@ -45,7 +45,7 @@ describe("MyProfileEditComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileEditComponent);

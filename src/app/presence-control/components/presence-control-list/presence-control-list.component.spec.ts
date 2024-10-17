@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { Lesson } from "src/app/shared/models/lesson.model";
@@ -36,7 +36,7 @@ describe("PresenceControlListComponent", () => {
   let blockLessonServiceMock: jasmine.SpyObj<PresenceControlBlockLessonService>;
   let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     lesson = buildLesson(
       1,
       new Date(2000, 0, 23, 8, 0),
@@ -99,7 +99,7 @@ describe("PresenceControlListComponent", () => {
       updatePresenceType: jasmine.createSpy("updatePresenceType"),
     } as unknown as LessonPresencesUpdateService;
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [PresenceControlListComponent],
         providers: [
@@ -119,7 +119,7 @@ describe("PresenceControlListComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlListComponent);

@@ -90,7 +90,7 @@ export class OpenAbsencesDetailComponent
     // If there are no entries, return to main list
     this.hasAbsences$
       .pipe(takeUntil(this.destroy$), filter(not(isTruthy)))
-      .subscribe(() => this.router.navigate(["/open-absences"]));
+      .subscribe(() => void this.router.navigate(["/open-absences"]));
   }
 
   ngAfterViewInit(): void {
