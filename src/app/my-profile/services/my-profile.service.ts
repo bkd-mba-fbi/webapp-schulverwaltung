@@ -7,6 +7,7 @@ import {
 } from "src/app/shared/services/student-profile.service";
 import { Person } from "../../shared/models/person.model";
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 const NO_ACCESS = "no_access" as const;
 
 @Injectable()
@@ -17,9 +18,7 @@ export class MyProfileService {
     switchMap(() => this.loadProfile()),
     shareReplay(1),
   );
-  profile$ = this.rawProfile$.pipe(
-    map((p) => (p === NO_ACCESS ? null : (p as Profile<Person>))),
-  );
+  profile$ = this.rawProfile$.pipe(map((p) => (p === NO_ACCESS ? null : p)));
   noAccess$ = this.rawProfile$.pipe(map((p) => p === NO_ACCESS));
   loading$ = this.profileService.loading$;
 

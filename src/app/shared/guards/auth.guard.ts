@@ -12,7 +12,7 @@ export function authGuard(): CanActivateFn {
     }
 
     // Redirect since not authenticated
-    router.navigate(["/unauthenticated"]);
+    void router.navigate(["/unauthenticated"]);
     return false;
   };
 }

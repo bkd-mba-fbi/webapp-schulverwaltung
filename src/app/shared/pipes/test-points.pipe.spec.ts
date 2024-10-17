@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { TranslateService } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 import { buildResult, buildTest } from "src/spec-builders";
@@ -11,12 +11,12 @@ describe("TestsPointsPipe", () => {
   const testId = 2;
   const studentId = 3;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({}),
     ).compileComponents();
     pipe = new TestPointsPipe(TestBed.inject(TranslateService));
-  }));
+  });
 
   beforeEach(() => {
     test = buildTest(1, testId, []);

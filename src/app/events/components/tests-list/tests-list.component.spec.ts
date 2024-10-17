@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { Course } from "src/app/shared/models/course.model";
 import { Result, Test } from "src/app/shared/models/test.model";
@@ -23,7 +23,7 @@ describe("TestsListComponent", () => {
   let hasTests$: BehaviorSubject<boolean>;
   let canSetFinalGrade$: BehaviorSubject<boolean>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     result = buildResult(12, 1);
     test = buildTest(1234, 12, [result]);
     course = buildCourse(1234);
@@ -57,7 +57,7 @@ describe("TestsListComponent", () => {
       "getCourseReports",
     ]);
     reportServiceMock.getCourseReports.and.returnValue(of([]));
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [TestsListComponent],
         providers: [
@@ -73,7 +73,7 @@ describe("TestsListComponent", () => {
     fixture = TestBed.createComponent(TestsListComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
-  }));
+  });
 
   it("should create", () => {
     expect(component).toBeTruthy();

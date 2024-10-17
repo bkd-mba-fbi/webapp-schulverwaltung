@@ -200,9 +200,11 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
       ),
       this.excusedState$.pipe(take(1), filter(notNull)),
     ]).subscribe(([absenceTypeIdControl, excusedState]) => {
-      confirmationValue === excusedState.Key
-        ? absenceTypeIdControl.enable()
-        : absenceTypeIdControl.disable();
+      if (confirmationValue === excusedState.Key) {
+        absenceTypeIdControl.enable();
+      } else {
+        absenceTypeIdControl.disable();
+      }
     });
   }
 
@@ -266,7 +268,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   }
 
   private navigateBack(): void {
-    this.router.navigate(
+    void this.router.navigate(
       this.openAbsencesEditService?.confirmBackLink || [".."],
       {
         relativeTo: this.activatedRoute,

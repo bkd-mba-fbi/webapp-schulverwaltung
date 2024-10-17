@@ -442,7 +442,7 @@ export class TestStateService {
         if (course.GradingScaleId === null) return null;
         if (gradingScaleOptions[course.GradingScaleId] === undefined)
           return null;
-        const scale = gradingScaleOptions[course.GradingScaleId]!;
+        const scale = gradingScaleOptions[course.GradingScaleId];
         return averageOfGradesForScale(pluckFinalGrades(studentGrades), scale);
       }),
     );

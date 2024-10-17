@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
@@ -9,7 +9,7 @@ describe("MySettingsNotificationsComponent", () => {
   let fixture: ComponentFixture<MySettingsNotificationsComponent>;
   let userSettings: jasmine.SpyObj<UserSettingsService>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     userSettings = jasmine.createSpyObj("UserSettingsService", [
       "getNotificationChannels",
       "saveNotificationChannels",
@@ -26,7 +26,7 @@ describe("MySettingsNotificationsComponent", () => {
     );
     userSettings.saveNotificationTypesInactive.and.returnValue(of({}));
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [MySettingsNotificationsComponent],
         providers: [
@@ -45,7 +45,7 @@ describe("MySettingsNotificationsComponent", () => {
         ],
       }),
     ).compileComponents();
-  }));
+  });
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(MySettingsNotificationsComponent);
@@ -53,7 +53,7 @@ describe("MySettingsNotificationsComponent", () => {
   });
 
   describe("field rendering", () => {
-    it("renders gui channel form field with value from settings hash", async () => {
+    it("renders gui channel form field with value from settings hash", () => {
       expect(getInput("notification-channels-gui").checked).toBe(true);
     });
 
@@ -94,7 +94,7 @@ describe("MySettingsNotificationsComponent", () => {
   });
 
   describe("auto-saving", () => {
-    it("updates settings and reloads on gui channel form field change", async () => {
+    it("updates settings and reloads on gui channel form field change", () => {
       toggleInput("notification-channels-gui");
       expect(userSettings.saveNotificationChannels).toHaveBeenCalledWith({
         gui: false,
@@ -103,7 +103,7 @@ describe("MySettingsNotificationsComponent", () => {
       });
     });
 
-    it("updates settings and reloads on mail channel form field change", async () => {
+    it("updates settings and reloads on mail channel form field change", () => {
       toggleInput("notification-channels-mail");
       expect(userSettings.saveNotificationChannels).toHaveBeenCalledWith({
         gui: true,
@@ -112,7 +112,7 @@ describe("MySettingsNotificationsComponent", () => {
       });
     });
 
-    it("updates settings and reloads on phoneMobile channel form field change", async () => {
+    it("updates settings and reloads on phoneMobile channel form field change", () => {
       toggleInput("notification-channels-phoneMobile");
       expect(userSettings.saveNotificationChannels).toHaveBeenCalledWith({
         gui: true,
@@ -121,14 +121,14 @@ describe("MySettingsNotificationsComponent", () => {
       });
     });
 
-    it("updates settings and reloads on BM2Student types form field change", async () => {
+    it("updates settings and reloads on BM2Student types form field change", () => {
       toggleInput("notification-types-BM2Student");
       expect(userSettings.saveNotificationTypesInactive).toHaveBeenCalledWith(
         [],
       );
     });
 
-    it("updates settings and reloads on gradePublish types form field change", async () => {
+    it("updates settings and reloads on gradePublish types form field change", () => {
       toggleInput("notification-types-gradePublish");
       expect(userSettings.saveNotificationTypesInactive).toHaveBeenCalledWith([
         "BM2Student",

@@ -72,6 +72,6 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
   }
 
   protected navigateBack(): void {
-    this.router.navigate(["/my-absences"]);
+    void this.router.navigate(["/my-absences"]);
   }
 }

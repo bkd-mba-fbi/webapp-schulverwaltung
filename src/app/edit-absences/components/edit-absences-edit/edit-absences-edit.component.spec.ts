@@ -1,5 +1,5 @@
 import { HttpTestingController } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { isEqual } from "lodash-es";
 import { Observable, of } from "rxjs";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
@@ -26,7 +26,7 @@ describe("EditAbsencesEditComponent", () => {
   let dispensation: PresenceType;
   let halfDay: PresenceType;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     absence = buildPresenceType(settings.absencePresenceTypeId, true, false);
     absence.NeedsConfirmation = true;
 
@@ -51,7 +51,7 @@ describe("EditAbsencesEditComponent", () => {
     halfDay = buildPresenceType(settings.halfDayPresenceTypeId, false, false);
     halfDay.IsHalfDay = true;
 
-    TestBed.configureTestingModule(
+    await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EditAbsencesEditComponent],
         providers: [
@@ -112,7 +112,7 @@ describe("EditAbsencesEditComponent", () => {
 
     httpTestingController = TestBed.inject(HttpTestingController);
     state = TestBed.inject(EditAbsencesStateService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditAbsencesEditComponent);

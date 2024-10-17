@@ -27,9 +27,9 @@ describe("DashboardSearchComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("navigates to dossier with given id", () => {
+  it("navigates to dossier with given id", async () => {
     const key = 12;
-    component.navigateToDossier(key);
+    await component.navigateToDossier(key);
     expect(router.navigate).toHaveBeenCalledWith([
       "dashboard",
       "student",
