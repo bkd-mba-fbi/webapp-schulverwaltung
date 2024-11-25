@@ -8,7 +8,7 @@ import {
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import {
   Course,
@@ -34,7 +34,6 @@ export interface CourseWithGrades {
   selector: "bkd-dossier-grades-view",
   templateUrl: "./dossier-grades-view.component.html",
   styleUrls: ["./dossier-grades-view.component.scss"],
-  standalone: true,
   imports: [
     NgbAccordionDirective,
     NgbAccordionItem,
@@ -46,7 +45,7 @@ export interface CourseWithGrades {
     NgbAccordionBody,
     DossierCourseTestsComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class DossierGradesViewComponent implements OnChanges {

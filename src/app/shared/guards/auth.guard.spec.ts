@@ -30,6 +30,7 @@ describe("authGuard", () => {
           RouterModule.forRoot([
             { path: "unauthenticated", component: DummyComponent },
           ]),
+          DummyComponent,
         ],
         providers: [
           {
@@ -40,7 +41,6 @@ describe("authGuard", () => {
             },
           },
         ],
-        declarations: [DummyComponent],
       }),
     );
     router = TestBed.inject(Router);

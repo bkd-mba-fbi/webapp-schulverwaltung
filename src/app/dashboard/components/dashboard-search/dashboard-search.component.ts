@@ -8,7 +8,6 @@ import { StudentsRestService } from "../../../shared/services/students-rest.serv
   selector: "bkd-dashboard-search",
   templateUrl: "./dashboard-search.component.html",
   styleUrls: ["./dashboard-search.component.scss"],
-  standalone: true,
   imports: [TypeaheadComponent],
 })
 export class DashboardSearchComponent {

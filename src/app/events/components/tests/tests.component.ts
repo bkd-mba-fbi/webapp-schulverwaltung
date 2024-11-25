@@ -9,7 +9,6 @@ import { TestStateService } from "../../services/test-state.service";
   templateUrl: "./tests.component.html",
   styleUrls: ["./tests.component.scss"],
   providers: [TestStateService],
-  standalone: true,
   imports: [RouterOutlet],
 })
 export class TestsComponent implements OnInit, OnDestroy {

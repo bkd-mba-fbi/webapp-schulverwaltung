@@ -1,7 +1,7 @@
 import { NgClass } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import {
   INITIAL_TESTS_FILTER,
   TestsFilter,
@@ -9,8 +9,7 @@ import {
 
 @Component({
   selector: "bkd-test-table-filter",
-  standalone: true,
-  imports: [NgClass, FormsModule, TranslateModule],
+  imports: [NgClass, FormsModule, TranslatePipe],
   templateUrl: "./test-table-filter.component.html",
   styleUrl: "./test-table-filter.component.scss",
 })

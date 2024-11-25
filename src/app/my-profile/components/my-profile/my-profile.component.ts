@@ -7,7 +7,6 @@ import { MyProfileService } from "../../services/my-profile.service";
   templateUrl: "./my-profile.component.html",
   styleUrls: ["./my-profile.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
   providers: [MyProfileService],
 })

@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component, Inject, Input } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { SETTINGS, Settings } from "src/app/settings";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardTimetableEntry } from "../dashboard-timetable/dashboard-timetable.component";
@@ -9,8 +9,7 @@ import { DashboardTimetableEntry } from "../dashboard-timetable/dashboard-timeta
   selector: "bkd-dashboard-timetable-table",
   templateUrl: "./dashboard-timetable-table.component.html",
   styleUrls: ["./dashboard-timetable-table.component.scss"],
-  standalone: true,
-  imports: [AsyncPipe, DatePipe, TranslateModule],
+  imports: [AsyncPipe, DatePipe, TranslatePipe],
 })
 export class DashboardTimetableTableComponent {
   @Input()

@@ -11,7 +11,7 @@ import {
   NgbDateNativeAdapter,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { startOfDay } from "date-fns";
 import { map } from "rxjs/operators";
 import {
@@ -42,13 +42,12 @@ import {
   templateUrl: "./edit-absences-header.component.html",
   styleUrls: ["./edit-absences-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     TypeaheadComponent,
     DateSelectComponent,
     MultiselectComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },

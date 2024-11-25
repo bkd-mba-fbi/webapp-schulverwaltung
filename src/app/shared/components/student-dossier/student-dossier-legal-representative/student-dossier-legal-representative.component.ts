@@ -7,7 +7,6 @@ import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
   templateUrl: "./student-dossier-legal-representative.component.html",
   styleUrls: ["./student-dossier-legal-representative.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [PersonEmailPipe],
 })
 export class StudentDossierLegalRepresentativeComponent {

@@ -10,7 +10,7 @@ import {
   ViewChildren,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   Observable,
@@ -42,14 +42,13 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
   templateUrl: "./student-dossier-absences.component.html",
   styleUrls: ["./student-dossier-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     RouterLink,
     ReportsLinkComponent,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
     DaysDifferencePipe,
   ],
 })

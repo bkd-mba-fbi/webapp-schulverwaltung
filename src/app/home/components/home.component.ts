@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 interface Section {
   path: string;
@@ -24,8 +24,7 @@ interface Section {
   `,
   styleUrls: ["./home.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [RouterLink, TranslateModule],
+  imports: [RouterLink, TranslatePipe],
 })
 export class HomeComponent {
   sections: ReadonlyArray<Section> = [
