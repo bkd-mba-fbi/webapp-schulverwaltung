@@ -16,6 +16,7 @@ describe("EditAbsencesHeaderComponent", () => {
           {
             provide: EditAbsencesStateService,
             useValue: {
+              weekdays$: of([]),
               absenceConfirmationStates$: of([]),
               presenceTypes$: of([]),
               selected: [{ lessonIds: [1, 2, 3], personIds: [4, 5, 6] }],

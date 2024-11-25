@@ -15,6 +15,12 @@ export class DropDownItemsRestService {
     @Inject(SETTINGS) private settings: Settings,
   ) {}
 
+  getWeekdays(): Observable<ReadonlyArray<DropDownItem>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/Weekdays`)
+      .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
+  }
+
   getAbsenceConfirmationStates(): Observable<ReadonlyArray<DropDownItem>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/AbsenceConfirmationStates`)

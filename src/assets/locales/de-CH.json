@@ -171,6 +171,7 @@
       "teacher": "Lehrperson",
       "date-from": "Datum von",
       "date-to": "Datum bis",
+      "weekdays": "Tag",
       "presence-type": "Grund",
       "confirmation-state": "Status",
       "incident": "Vorfall",

@@ -64,12 +64,22 @@ export class EditAbsencesHeaderComponent {
     teacher: null,
     dateFrom: null,
     dateTo: null,
+    weekdays: null,
     presenceTypes: null,
     confirmationStates: null,
     incidentTypes: null,
   };
 
   @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
+
+  weekdaysGrouped$ = this.state.weekdays$.pipe(
+    map((weekdays) =>
+      addGroupToDropdownItem(
+        weekdays,
+        this.translate.instant("shared.multiselect.all-option"),
+      ),
+    ),
+  );
 
   absenceConfirmationStatesGrouped$ =
     this.state.absenceConfirmationStates$.pipe(

@@ -117,6 +117,7 @@ function createFilterFromParams(params: Params): EditAbsencesFilter {
     teacher: params["teacher"] ?? null,
     dateFrom: params["dateFrom"] ? parseISOLocalDate(params["dateFrom"]) : null,
     dateTo: params["dateTo"] ? parseISOLocalDate(params["dateTo"]) : null,
+    weekdays: params["weekdays"] ? params["weekdays"].split(",") : null,
     presenceTypes: params["presenceTypes"]
       ? params["presenceTypes"].split(",").map(Number)
       : null,
