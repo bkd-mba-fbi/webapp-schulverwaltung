@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { ReplaySubject, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
@@ -25,13 +25,12 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
   selector: "bkd-presence-control-entry",
   templateUrl: "./presence-control-entry.component.html",
   styleUrls: ["./presence-control-entry.component.scss"],
-  standalone: true,
   imports: [
     AvatarComponent,
     SpinnerComponent,
     RouterLink,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class PresenceControlEntryComponent implements OnChanges {

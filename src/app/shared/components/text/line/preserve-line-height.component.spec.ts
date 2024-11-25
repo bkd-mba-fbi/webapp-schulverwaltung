@@ -40,7 +40,6 @@ describe("LineComponent", () => {
   template: ` <bkd-preserve-line-height
     >content-projection</bkd-preserve-line-height
   >`,
-  standalone: true,
   imports: [PreserveLineHeightComponent],
 })
 class TestComponent {}
@@ -48,7 +47,6 @@ class TestComponent {}
 @Component({
   selector: "bkd-test-with-null-content",
   template: ` <bkd-preserve-line-height>{{ null }}</bkd-preserve-line-height>`,
-  standalone: true,
   imports: [PreserveLineHeightComponent],
 })
 class TestWithNullContentComponent {}

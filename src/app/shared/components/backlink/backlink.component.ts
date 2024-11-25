@@ -1,13 +1,12 @@
 import { Component, Input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "bkd-backlink",
   templateUrl: "./backlink.component.html",
   styleUrls: ["./backlink.component.scss"],
-  standalone: true,
-  imports: [RouterLink, TranslateModule],
+  imports: [RouterLink, TranslatePipe],
 })
 export class BacklinkComponent {
   @Input()

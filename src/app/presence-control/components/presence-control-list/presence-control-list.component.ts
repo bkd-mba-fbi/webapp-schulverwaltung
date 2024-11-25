@@ -7,7 +7,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject, Subject, combineLatest } from "rxjs";
 import { map, shareReplay, take, takeUntil } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
@@ -37,13 +37,12 @@ const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
   templateUrl: "./presence-control-list.component.html",
   styleUrls: ["./presence-control-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     PresenceControlHeaderComponent,
     PresenceControlEntryComponent,
     SpinnerComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class PresenceControlListComponent

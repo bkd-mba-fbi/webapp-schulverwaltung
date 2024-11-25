@@ -25,7 +25,6 @@ import { OpenAbsencesService } from "../../services/open-absences.service";
   templateUrl: "./open-absences-detail.component.html",
   styleUrls: ["./open-absences-detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [BacklinkComponent, StudentDossierAbsencesComponent, AsyncPipe],
 })
 export class OpenAbsencesDetailComponent
