@@ -54,6 +54,16 @@
     }}</label>
     <bkd-date-select [(value)]="filter.dateTo"></bkd-date-select>
   </div>
+
+  <div class="col-md-6 col-lg-3">
+    <label class="form-label">{{
+      "edit-absences.header.weekdays" | translate
+    }}</label>
+    <bkd-multiselect
+      [options]="weekdaysGrouped$ | async"
+      [(values)]="filter.weekdays"
+    ></bkd-multiselect>
+  </div>
 </div>
 
 <div class="row g-3 align-items-end">

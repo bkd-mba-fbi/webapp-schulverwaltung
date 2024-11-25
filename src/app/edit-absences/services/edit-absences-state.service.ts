@@ -30,9 +30,10 @@ export interface EditAbsencesFilter {
   teacher: Option<string>;
   dateFrom: Option<Date>;
   dateTo: Option<Date>;
-  presenceTypes: Option<number[]>;
-  confirmationStates: Option<number[]>;
-  incidentTypes: Option<number[]>;
+  weekdays: Option<ReadonlyArray<string>>;
+  presenceTypes: Option<ReadonlyArray<number>>;
+  confirmationStates: Option<ReadonlyArray<number>>;
+  incidentTypes: Option<ReadonlyArray<number>>;
 }
 
 @Injectable()
@@ -42,6 +43,7 @@ export class EditAbsencesStateService
 {
   confirmBackLinkParams?: Params;
 
+  weekdays$ = this.loadWeekdays().pipe(shareReplay(1));
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
   absenceConfirmationStates$ = this.loadAbsenceConfirmationStates().pipe(
     map(sortDropDownItemsByValue),
@@ -96,6 +98,7 @@ export class EditAbsencesStateService
       teacher: null,
       dateFrom: null,
       dateTo: null,
+      weekdays: null,
       presenceTypes: null,
       confirmationStates: null,
       incidentTypes: null,
@@ -110,6 +113,7 @@ export class EditAbsencesStateService
         filterValue.teacher ||
         filterValue.dateFrom ||
         filterValue.dateTo ||
+        filterValue.weekdays ||
         filterValue.presenceTypes ||
         filterValue.confirmationStates ||
         filterValue.incidentTypes,
@@ -133,6 +137,10 @@ export class EditAbsencesStateService
 
   protected buildParamsFromFilter(filterValue: EditAbsencesFilter): Params {
     return buildParamsFromAbsenceFilter(filterValue);
+  }
+
+  private loadWeekdays(): Observable<ReadonlyArray<DropDownItem>> {
+    return this.loadingService.load(this.dropDownItemsService.getWeekdays());
   }
 
   private loadPresenceTypes(): Observable<ReadonlyArray<PresenceType>> {

@@ -22,6 +22,7 @@ describe("EditAbsencesListComponent", () => {
       setFilter: jasmine.createSpy("setFilter"),
       isFilterValid$: of(true),
       validFilter$: of({}),
+      weekdays$: of([]),
       presenceTypes$: of([]),
       absenceConfirmationStates$: of([]),
     } as unknown as EditAbsencesStateService;

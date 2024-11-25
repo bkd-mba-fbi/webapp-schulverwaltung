@@ -252,6 +252,13 @@ export class LessonPresencesRestService extends RestService<
       }
     }
 
+    if (absencesFilter.weekdays) {
+      params = params.set(
+        "filter.WeekdayId",
+        `;${absencesFilter.weekdays.join(";")}`,
+      );
+    }
+
     if (absencesFilter.confirmationStates) {
       params = params.set(
         "filter.ConfirmationStateId",

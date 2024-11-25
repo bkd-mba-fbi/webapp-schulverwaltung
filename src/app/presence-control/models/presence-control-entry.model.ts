@@ -41,8 +41,8 @@ export class PresenceControlEntry {
     this.studentFullName = lessonPresence.StudentFullName;
   }
 
-  get id(): number {
-    return this.lessonPresence.StudentRef.Id;
+  get id(): string {
+    return `${this.lessonPresence.LessonRef.Id}-${this.lessonPresence.StudentRef.Id}`;
   }
 
   get presenceCategory(): PresenceCategory {

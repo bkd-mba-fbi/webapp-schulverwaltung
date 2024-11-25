@@ -3,6 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TranslateModule } from "@ngx-translate/core";
 import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
+import { DropDownItem } from "../../models/drop-down-item.model";
 
 @Component({
   selector: "bkd-multiselect",
@@ -13,8 +14,10 @@ import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
 })
 export class MultiselectComponent {
   @Input() options: ReadonlyArray<DropDownGroupedItem> = [];
-  @Input() values: Option<number[]> = [];
-  @Output() valuesChange = new EventEmitter<Option<number[]>>();
+  @Input() values: Option<ReadonlyArray<DropDownItem["Key"]>> = [];
+  @Output() valuesChange = new EventEmitter<
+    Option<ReadonlyArray<DropDownItem["Key"]>>
+  >();
 
   constructor() {}
 

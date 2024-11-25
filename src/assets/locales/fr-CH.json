@@ -171,6 +171,7 @@
       "teacher": "Enseignant-e",
       "date-from": "Date du",
       "date-to": "Date au",
+      "weekdays": "Jour",
       "presence-type": "Motif",
       "confirmation-state": "Statut",
       "incident": "Incident",
