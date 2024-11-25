@@ -1,7 +1,7 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import { DossierStateService } from "../../../services/dossier-state.service";
 import { ReportsLinkComponent } from "../../reports-link/reports-link.component";
@@ -13,7 +13,6 @@ import { StudentBacklinkComponent } from "../student-backlink/student-backlink.c
   templateUrl: "./student-dossier.component.html",
   styleUrls: ["./student-dossier.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     StudentBacklinkComponent,
     ReportsLinkComponent,
@@ -22,7 +21,7 @@ import { StudentBacklinkComponent } from "../student-backlink/student-backlink.c
     RouterOutlet,
     SpinnerComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
   providers: [DossierStateService, DossierGradesService],
 })

@@ -10,7 +10,6 @@ import { StudentEntry } from "../../services/events-students-state.service";
 
 @Component({
   selector: "bkd-events-students-course-entry",
-  standalone: true,
   imports: [RouterLink, AvatarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./events-students-course-entry.component.html",

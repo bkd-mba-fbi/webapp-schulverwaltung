@@ -1,7 +1,7 @@
 import { AsyncPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   combineLatest,
@@ -24,13 +24,7 @@ import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
   selector: "bkd-tests-edit",
   templateUrl: "./tests-edit.component.html",
   styleUrls: ["./tests-edit.component.scss"],
-  standalone: true,
-  imports: [
-    TestsEditFormComponent,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslateModule,
-  ],
+  imports: [TestsEditFormComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class TestsEditComponent {
   saving$ = new BehaviorSubject(false);

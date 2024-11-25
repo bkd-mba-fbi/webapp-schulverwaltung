@@ -5,7 +5,7 @@ import {
   model,
   output,
 } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "../../../shared/utils/sort";
 import {
   PrimarySortKey,
@@ -16,9 +16,8 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
 
 @Component({
   selector: "bkd-events-students-study-course-list",
-  standalone: true,
   imports: [
-    TranslateModule,
+    TranslatePipe,
     EventsStudentsHeaderComponent,
     EventsStudentsStudyCourseEntryComponent,
   ],

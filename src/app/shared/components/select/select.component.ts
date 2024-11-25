@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { DropDownItem } from "../../models/drop-down-item.model";
@@ -19,8 +19,7 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   templateUrl: "./select.component.html",
   styleUrls: ["./select.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [FormsModule, AsyncPipe, NgStyle, TranslateModule],
+  imports: [FormsModule, AsyncPipe, NgStyle, TranslatePipe],
 })
 export class SelectComponent implements OnChanges {
   @Input() options: ReadonlyArray<DropDownItem> = [];

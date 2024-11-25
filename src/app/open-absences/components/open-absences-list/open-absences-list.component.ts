@@ -7,7 +7,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
@@ -27,14 +27,13 @@ import {
   templateUrl: "./open-absences-list.component.html",
   styleUrls: ["./open-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ResettableInputComponent,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
     DaysDifferencePipe,
   ],
 })

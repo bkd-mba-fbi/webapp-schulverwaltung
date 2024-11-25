@@ -1,7 +1,7 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
@@ -37,8 +37,7 @@ export interface SortCriteria {
   templateUrl: "./presence-control-group.component.html",
   styleUrls: ["./presence-control-group.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [BacklinkComponent, SpinnerComponent, AsyncPipe, TranslateModule],
+  imports: [BacklinkComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {

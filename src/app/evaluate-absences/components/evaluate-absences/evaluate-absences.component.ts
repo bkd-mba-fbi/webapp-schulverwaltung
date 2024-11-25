@@ -9,7 +9,6 @@ import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-s
   templateUrl: "./evaluate-absences.component.html",
   styleUrls: ["./evaluate-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
   providers: [
     EvaluateAbsencesStateService,

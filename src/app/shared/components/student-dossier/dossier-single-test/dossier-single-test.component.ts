@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { ReplaySubject, map } from "rxjs";
 import {
   replaceResultInTest,
@@ -70,11 +70,10 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
     }
   `,
   styleUrls: ["./dossier-single-test.component.scss"],
-  standalone: true,
   imports: [
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
     TestPointsPipe,
     TestsWeightPipe,
   ],

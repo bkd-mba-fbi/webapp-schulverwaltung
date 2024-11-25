@@ -14,7 +14,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { uniq } from "lodash-es";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
@@ -46,8 +46,7 @@ import {
   templateUrl: "./edit-absences-edit.component.html",
   styleUrls: ["./edit-absences-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslateModule],
+  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslatePipe],
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   absenceTypes$ = this.presenceTypesService.confirmationTypes$;

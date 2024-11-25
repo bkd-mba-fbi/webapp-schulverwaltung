@@ -7,7 +7,6 @@ import { EventsStateService } from "../../services/events-state.service";
   selector: "bkd-events",
   templateUrl: "./events.component.html",
   styleUrls: ["./events.component.scss"],
-  standalone: true,
   imports: [RouterOutlet],
   providers: [EventsStateService, ConfirmAbsencesSelectionService],
 })

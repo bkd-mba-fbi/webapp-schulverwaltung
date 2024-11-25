@@ -17,7 +17,6 @@ import { ReportsService } from "../../../shared/services/reports.service";
   templateUrl: "./my-profile-header.component.html",
   styleUrls: ["./my-profile-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
 export class MyProfileHeaderComponent implements OnChanges {

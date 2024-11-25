@@ -8,7 +8,6 @@ import { MyAbsencesService } from "../../services/my-absences.service";
   templateUrl: "./my-absences.component.html",
   styleUrls: ["./my-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
   providers: [MyAbsencesService, ConfirmAbsencesSelectionService],
 })

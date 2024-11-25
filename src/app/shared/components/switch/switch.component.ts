@@ -13,7 +13,6 @@ import { uniqueId } from "lodash-es";
   templateUrl: "./switch.component.html",
   styleUrls: ["./switch.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [FormsModule],
 })
 export class SwitchComponent {

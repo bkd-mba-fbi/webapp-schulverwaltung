@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
 import { DropDownItem } from "../../models/drop-down-item.model";
 
@@ -9,8 +9,7 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   selector: "bkd-multiselect",
   templateUrl: "./multiselect.component.html",
   styleUrls: ["./multiselect.component.scss"],
-  standalone: true,
-  imports: [NgSelectModule, FormsModule, TranslateModule],
+  imports: [NgSelectModule, FormsModule, TranslatePipe],
 })
 export class MultiselectComponent {
   @Input() options: ReadonlyArray<DropDownGroupedItem> = [];

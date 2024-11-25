@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { DropDownItem } from "../../../shared/models/drop-down-item.model";
 import { SubscriptionDetail } from "../../../shared/models/subscription.model";
 
@@ -19,8 +19,7 @@ export enum DialogMode {
   selector: "bkd-presence-control-group-dialog",
   templateUrl: "./presence-control-group-dialog.component.html",
   styleUrls: ["./presence-control-group-dialog.component.scss"],
-  standalone: true,
-  imports: [FormsModule, TranslateModule],
+  imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
   @Input() dialogMode: DialogMode;

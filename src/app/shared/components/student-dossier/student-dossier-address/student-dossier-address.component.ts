@@ -7,7 +7,6 @@ import { Student } from "../../../models/student.model";
   templateUrl: "./student-dossier-address.component.html",
   styleUrls: ["./student-dossier-address.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [],
 })
 export class StudentDossierAddressComponent {
