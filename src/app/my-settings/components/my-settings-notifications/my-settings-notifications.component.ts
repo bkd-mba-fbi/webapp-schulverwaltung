@@ -11,7 +11,7 @@ import {
   UntypedFormBuilder,
   UntypedFormGroup,
 } from "@angular/forms";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject, merge, of } from "rxjs";
 import {
   distinctUntilChanged,
@@ -44,14 +44,13 @@ interface NotificationSetting {
   templateUrl: "./my-settings-notifications.component.html",
   styleUrls: ["./my-settings-notifications.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
     MySettingsNotificationsToggleComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class MySettingsNotificationsComponent implements OnInit, OnDestroy {

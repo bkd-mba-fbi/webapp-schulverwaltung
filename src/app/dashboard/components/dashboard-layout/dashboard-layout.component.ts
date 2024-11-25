@@ -1,6 +1,6 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardActionsComponent } from "../dashboard-actions/dashboard-actions.component";
@@ -12,14 +12,13 @@ import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-ti
   templateUrl: "./dashboard-layout.component.html",
   styleUrls: ["./dashboard-layout.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     SpinnerComponent,
     DashboardSearchComponent,
     DashboardActionsComponent,
     DashboardTimetableComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class DashboardLayoutComponent {

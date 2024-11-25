@@ -15,7 +15,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject, combineLatest } from "rxjs";
 import {
   filter,
@@ -50,13 +50,12 @@ import {
   templateUrl: "./confirm-absences.component.html",
   styleUrls: ["./confirm-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     RouterLink,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class ConfirmAbsencesComponent implements OnInit, OnDestroy {

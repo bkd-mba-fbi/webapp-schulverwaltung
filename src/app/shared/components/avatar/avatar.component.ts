@@ -14,7 +14,6 @@ import { StorageService } from "../../services/storage.service";
   selector: "bkd-avatar",
   templateUrl: "./avatar.component.html",
   styleUrls: ["./avatar.component.scss"],
-  standalone: true,
   imports: [RouterLink, NgStyle],
 })
 export class AvatarComponent implements OnChanges {

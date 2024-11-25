@@ -8,7 +8,6 @@ import * as Gradings from "src/app/shared/utils/gradings";
   selector: "bkd-dossier-grades-course-header",
   templateUrl: "./dossier-grades-course-header.component.html",
   styleUrls: ["./dossier-grades-course-header.component.scss"],
-  standalone: true,
   imports: [DecimalPipe],
 })
 export class DossierGradesCourseHeaderComponent {

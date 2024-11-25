@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "bkd-unauthenticated",
@@ -10,8 +10,7 @@ import { TranslateModule } from "@ngx-translate/core";
       </div>
     </div>
   `,
-  standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslatePipe],
 })
 export class UnauthenticatedComponent {
   constructor() {}

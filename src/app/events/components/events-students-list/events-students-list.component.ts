@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { map } from "rxjs";
 import { BacklinkComponent } from "src/app/shared/components/backlink/backlink.component";
 import { ReportsLinkComponent } from "src/app/shared/components/reports-link/reports-link.component";
@@ -12,9 +12,8 @@ import { EventsStudentsStudyCourseListComponent } from "../events-students-study
 
 @Component({
   selector: "bkd-events-students-list",
-  standalone: true,
   imports: [
-    TranslateModule,
+    TranslatePipe,
     SpinnerComponent,
     BacklinkComponent,
     ReportsLinkComponent,

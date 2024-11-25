@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { addDays, format, startOfDay, subDays } from "date-fns";
 import uniqBy from "lodash-es/uniqBy";
 import {
@@ -34,13 +34,12 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
   selector: "bkd-dashboard-timetable",
   templateUrl: "./dashboard-timetable.component.html",
   styleUrls: ["./dashboard-timetable.component.scss"],
-  standalone: true,
   imports: [
     DashboardTimetableTableComponent,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
     SafePipe,
   ],
 })

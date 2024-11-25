@@ -15,7 +15,6 @@ import { decode } from "./shared/utils/decode";
     '<bkd-toast aria-live="polite" aria-atomic="true"></bkd-toast><router-outlet></router-outlet>',
   styleUrls: ["./app.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [ToastComponent, RouterOutlet],
 })
 export class AppComponent {

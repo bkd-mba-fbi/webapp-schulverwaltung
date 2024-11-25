@@ -2,7 +2,7 @@ import { DatePipe } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { isEqual } from "date-fns";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 
@@ -15,8 +15,7 @@ interface BlockLessonOption {
   selector: "bkd-presence-control-block-lesson-component",
   templateUrl: "./presence-control-block-lesson.component.html",
   styleUrls: ["presence-control-block-lesson.component.scss"],
-  standalone: true,
-  imports: [FormsModule, DatePipe, TranslateModule],
+  imports: [FormsModule, DatePipe, TranslatePipe],
 })
 export class PresenceControlBlockLessonComponent implements OnInit {
   @Input() entry: PresenceControlEntry;

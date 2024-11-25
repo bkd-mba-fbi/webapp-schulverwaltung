@@ -9,7 +9,7 @@ import {
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { StudentDossierAddressComponent } from "../../../shared/components/student-dossier/student-dossier-address/student-dossier-address.component";
 import { StudentDossierApprenticeshipCompanyComponent } from "../../../shared/components/student-dossier/student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
@@ -25,7 +25,6 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
   templateUrl: "./my-profile-show.component.html",
   styleUrls: ["./my-profile-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MyProfileHeaderComponent,
     MyProfileEntryComponent,
@@ -44,7 +43,7 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class MyProfileShowComponent {

@@ -10,7 +10,6 @@ import { BacklinkComponent } from "../../backlink/backlink.component";
   templateUrl: "./student-backlink.component.html",
   styleUrls: ["./student-backlink.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [BacklinkComponent, AvatarComponent, DatePipe],
 })
 export class StudentBacklinkComponent {

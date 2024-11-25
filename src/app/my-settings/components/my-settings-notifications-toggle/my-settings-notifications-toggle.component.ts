@@ -13,7 +13,6 @@ import { SwitchComponent } from "../../../shared/components/switch/switch.compon
   templateUrl: "./my-settings-notifications-toggle.component.html",
   styleUrls: ["./my-settings-notifications-toggle.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SwitchComponent],
   providers: [
     {

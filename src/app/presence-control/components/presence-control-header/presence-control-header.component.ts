@@ -19,7 +19,7 @@ import {
   NgbInputDatepicker,
   NgbInputDatepickerConfig,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Options } from "@popperjs/core";
 import { map } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
@@ -70,7 +70,6 @@ interface ViewModeOption {
   selector: "bkd-presence-control-header",
   templateUrl: "./presence-control-header.component.html",
   styleUrls: ["./presence-control-header.component.scss"],
-  standalone: true,
   imports: [
     NgbInputDatepicker,
     FormsModule,
@@ -84,7 +83,7 @@ interface ViewModeOption {
     RouterLink,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
   ],
   providers: [
     NgbInputDatepickerConfig,

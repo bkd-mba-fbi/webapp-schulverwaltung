@@ -1,6 +1,6 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { StorageService } from "../../../shared/services/storage.service";
@@ -20,12 +20,11 @@ const WITH_RATINGS_SEARCH_FIELDS: ReadonlyArray<keyof EventEntry> = [
   selector: "bkd-events-list",
   templateUrl: "./events-list.component.html",
   styleUrls: ["./events-list.component.scss"],
-  standalone: true,
   imports: [
     ResettableInputComponent,
     SpinnerComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
     EventsListEntryComponent,
   ],
 })

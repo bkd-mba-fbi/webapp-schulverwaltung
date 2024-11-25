@@ -8,7 +8,7 @@ import {
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { DossierStateService } from "src/app/shared/services/dossier-state.service";
 import { StudentDossierAddressComponent } from "../student-dossier-address/student-dossier-address.component";
 import { StudentDossierApprenticeshipCompanyComponent } from "../student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
@@ -20,7 +20,6 @@ import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-l
   templateUrl: "./dossier-addresses.component.html",
   styleUrls: ["./dossier-addresses.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     StudentDossierAddressComponent,
     NgbAccordionDirective,
@@ -33,7 +32,7 @@ import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-l
     StudentDossierLegalRepresentativeComponent,
     StudentDossierApprenticeshipCompanyComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class DossierAddressesComponent {

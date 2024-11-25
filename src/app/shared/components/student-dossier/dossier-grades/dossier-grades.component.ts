@@ -10,7 +10,6 @@ import { DossierGradesViewComponent } from "../dossier-grades-view/dossier-grade
   selector: "bkd-dossier-grades",
   templateUrl: "./dossier-grades.component.html",
   styleUrls: ["./dossier-grades.component.scss"],
-  standalone: true,
   imports: [DossierGradesViewComponent, SpinnerComponent, AsyncPipe],
 })
 export class DossierGradesComponent implements OnInit, OnDestroy {

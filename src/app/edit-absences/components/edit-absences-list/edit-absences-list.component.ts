@@ -7,7 +7,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { Subject } from "rxjs";
 import { filter, map, take, takeUntil } from "rxjs/operators";
@@ -28,7 +28,6 @@ import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absenc
   styleUrls: ["./edit-absences-list.component.scss"],
   providers: [EditAbsencesSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     EditAbsencesHeaderComponent,
     InfiniteScrollDirective,
@@ -36,7 +35,7 @@ import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absenc
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class EditAbsencesListComponent

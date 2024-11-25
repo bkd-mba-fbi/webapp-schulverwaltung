@@ -6,7 +6,6 @@ import { RouterOutlet } from "@angular/router";
   templateUrl: "./my-settings.component.html",
   styleUrls: ["./my-settings.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
 })
 export class MySettingsComponent {

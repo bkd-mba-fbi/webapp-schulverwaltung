@@ -6,7 +6,6 @@ import { CaretComponent } from "../../caret/caret.component";
   templateUrl: "./student-dossier-entry-header.component.html",
   styleUrls: ["./student-dossier-entry-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CaretComponent],
 })
 export class StudentDossierEntryHeaderComponent {

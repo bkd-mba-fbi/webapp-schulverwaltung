@@ -6,7 +6,7 @@ import {
   UntypedFormBuilder,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { flatten, uniq } from "lodash-es";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
@@ -26,13 +26,12 @@ import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confi
   templateUrl: "./my-absences-abstract-confirm.component.html",
   styleUrls: ["./my-absences-abstract-confirm.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     NgClass,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
     AddSpacePipe,
   ],
 })

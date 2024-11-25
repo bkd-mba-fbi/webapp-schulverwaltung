@@ -4,7 +4,6 @@ import { EventsStudentsStateService } from "../../services/events-students-state
 
 @Component({
   selector: "bkd-events-students",
-  standalone: true,
   imports: [RouterOutlet],
   providers: [EventsStudentsStateService],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -2,7 +2,7 @@ import { AsyncPipe, NgClass } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
@@ -22,25 +22,20 @@ import { AverageGradesComponent } from "../grades/average-grades/average-grades.
 import { GradeSelectComponent } from "../grades/grade-select/grade-select.component";
 import { TestEditGradesHeaderStickyDirective } from "../test-edit-grades-header-sticky/test-edit-grades-header-sticky.directive";
 import { TestEditGradesHeaderComponent } from "../test-edit-grades-header/test-edit-grades-header.component";
-import { TestTableFilterComponent } from "../test-table-filter/test-table-filter.component";
-import { TestTableHeaderComponent } from "../test-table-header/test-table-header.component";
 
 @Component({
   selector: "bkd-test-edit-grades",
   templateUrl: "./test-edit-grades.component.html",
   styleUrls: ["./test-edit-grades.component.scss"],
   providers: [EventsStateService],
-  standalone: true,
   imports: [
     NgClass,
-    TestTableFilterComponent,
-    TestTableHeaderComponent,
     RouterLink,
     GradeSelectComponent,
     GradeComponent,
     AverageGradesComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
     DecimalOrDashPipe,
     TestEditGradesHeaderStickyDirective,
     TestEditGradesHeaderComponent,

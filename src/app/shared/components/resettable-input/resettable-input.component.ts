@@ -4,7 +4,6 @@ import { Component, input, model } from "@angular/core";
   selector: "bkd-resettable-input",
   templateUrl: "./resettable-input.component.html",
   styleUrls: ["./resettable-input.component.scss"],
-  standalone: true,
   imports: [],
 })
 export class ResettableInputComponent {

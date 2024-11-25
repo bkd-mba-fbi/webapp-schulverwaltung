@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { PresenceType } from "../../../shared/models/presence-type.model";
 
 interface IncidentOption {
@@ -13,8 +13,7 @@ interface IncidentOption {
   selector: "bkd-presence-control-incident",
   templateUrl: "./presence-control-incident.component.html",
   styleUrls: ["./presence-control-incident.component.scss"],
-  standalone: true,
-  imports: [FormsModule, TranslateModule],
+  imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlIncidentComponent implements OnInit {
   @Input() incident: Option<PresenceType>;

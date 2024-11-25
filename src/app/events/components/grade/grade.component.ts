@@ -1,7 +1,7 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import {
   concatMap,
@@ -29,8 +29,7 @@ const DEBOUNCE_TIME = 1250;
   selector: "bkd-grade",
   templateUrl: "./grade.component.html",
   styleUrls: ["./grade.component.scss"],
-  standalone: true,
-  imports: [FormsModule, SelectComponent, AsyncPipe, TranslateModule],
+  imports: [FormsModule, SelectComponent, AsyncPipe, TranslatePipe],
 })
 export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grade: GradeOrNoResult;
