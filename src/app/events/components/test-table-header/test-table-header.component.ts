@@ -26,14 +26,14 @@ export class TestTableHeaderComponent {
   @Input() test: Test;
   @Input() expanded: boolean;
 
-  @Output() toggle = new EventEmitter<boolean>();
+  @Output() toggleHeader = new EventEmitter<boolean>();
   @Output() publish = new EventEmitter<Test>();
   @Output() unpublish = new EventEmitter<Test>();
 
   constructor() {}
 
-  toggleHeader() {
-    this.toggle.emit(!this.expanded);
+  emitToggleHeader() {
+    this.toggleHeader.emit(!this.expanded);
   }
 
   publishTest() {

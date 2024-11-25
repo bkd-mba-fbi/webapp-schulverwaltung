@@ -24,5 +24,6 @@ function serializeFilterValue(value: unknown): Option<string> {
   if (value instanceof Date) {
     return format(value, "yyyy-MM-dd");
   }
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return String(value);
 }
