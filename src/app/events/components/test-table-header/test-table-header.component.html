@@ -2,7 +2,7 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="d-flex flex-column h-100 justify-content-between">
   <div
-    (click)="toggleHeader()"
+    (click)="emitToggleHeader()"
     class="test-designation d-flex flex-row my-3 align-items-end justify-content-between"
     role="button"
   >
@@ -44,7 +44,7 @@
         </a>
         <bkd-caret
           class="expand-mobile"
-          (click)="toggleHeader()"
+          (click)="emitToggleHeader()"
           [expanded]="expanded"
         ></bkd-caret>
       </div>
@@ -62,7 +62,7 @@
         </a>
         <bkd-caret
           class="expand-mobile"
-          (click)="toggleHeader()"
+          (click)="emitToggleHeader()"
           [expanded]="expanded"
         ></bkd-caret>
       </div>

@@ -10,6 +10,7 @@ import {
  * Parses given query string to params object
  */
 export function parseQueryString(queryString: unknown): Params {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return String(queryString || "")
     .split("&")
     .reduce((acc, pair) => {

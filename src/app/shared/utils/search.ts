@@ -23,7 +23,8 @@ function matchesEntry<T>(
 
 function matches(value: unknown, normalizedTerm: string): boolean {
   return value
-    ? normalizeSearchValue(String(value)).includes(normalizedTerm)
+    ? // eslint-disable-next-line @typescript-eslint/no-base-to-string
+      normalizeSearchValue(String(value)).includes(normalizedTerm)
     : false;
 }
 

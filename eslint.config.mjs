@@ -5,7 +5,7 @@ import eslintConfigPrettier from "eslint-config-prettier";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["coverage/", "dist/"] },
+  { ignores: [".angular/", "coverage/", "dist/"] },
   {
     // Everything in this config object targets our TypeScript files (Components, Directives, Pipes etc)
     files: ["**/*.ts"],
