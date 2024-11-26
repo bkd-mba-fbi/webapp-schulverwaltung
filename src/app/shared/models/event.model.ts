@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { Maybe } from "./common-types";
 
 const Event = t.type({
   Id: t.number,
@@ -24,7 +25,7 @@ const Event = t.type({
   // HasQueue: t.boolean,
   // HighPrice: t.number,
   // LanguageOfInstruction: null,
-  // Leadership: t.string,
+  Leadership: Maybe(t.string),
   // Location: null,
   // MaxParticipants: t.number,
   // MinParticipants: t.number,

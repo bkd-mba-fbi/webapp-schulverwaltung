@@ -4,6 +4,7 @@ import * as t from "io-ts/lib/index";
 import { Course } from "src/app/shared/models/course.model";
 import { Event } from "src/app/shared/models/event.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
+import { StorageService } from "src/app/shared/services/storage.service";
 import {
   buildCourse,
   buildFinalGrading,
@@ -30,7 +31,28 @@ describe("EventsStateService", () => {
   let assessmentEntries: EventEntry[];
 
   beforeEach(() => {
-    TestBed.configureTestingModule(buildTestModuleMetadata());
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload() {
+                return {
+                  culture_info: "de_CH",
+                  fullname: "Jane Doe",
+                  id_person: "123",
+                  holder_id: "456",
+                  instance_id: "678",
+                  roles: "",
+                  substitution_id: undefined,
+                };
+              },
+            },
+          },
+        ],
+      }),
+    );
 
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(EventsStateService);
@@ -170,11 +192,24 @@ describe("EventsStateService", () => {
       },
     ];
 
-    studyCourses = [{ Id: 10, Designation: "Zoologie", StudentCount: 42 }];
+    studyCourses = [
+      {
+        Id: 10,
+        Designation: "Zentraler Gymnasialer Bildungsgang",
+        Leadership: "Jane Doe",
+        StudentCount: 42,
+      },
+      {
+        Id: 20,
+        Designation: "Berufsmaturität",
+        Leadership: "John Doe", // Other leader (study course is ignored)
+        StudentCount: 10,
+      },
+    ];
     studyCoursesEntries = [
       {
         id: 10,
-        designation: "Zoologie",
+        designation: "Zentraler Gymnasialer Bildungsgang",
         studentCount: 42,
         detailLink: "link-to-event-detail-module/10",
         state: null,

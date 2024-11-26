@@ -13,6 +13,7 @@ import {
   FinalGrading,
   Grading,
 } from "./app/shared/models/course.model";
+import { Event } from "./app/shared/models/event.model";
 import { Grade } from "./app/shared/models/grading-scale.model";
 import { JobTrainer } from "./app/shared/models/job-trainer.model";
 import { LegalRepresentative } from "./app/shared/models/legal-representative.model";
@@ -529,6 +530,56 @@ export function buildStudyClass(id: number, designation?: string): StudyClass {
     Designation: designation || "22a",
     StudentCount: 0,
     Number: designation || "22a",
+  };
+}
+
+export function buildEvent(id: number, designation?: string): Event {
+  return {
+    Id: id,
+    // AreaOfEducation: t.string,
+    // AreaOfEducationId: t.number,
+    // EventCategory: t.string,
+    // EventCategoryId: t.number,
+    // EventLevel: t.string,
+    // EventLevelId: t.number,
+    // EventType: t.string,
+    // EventTypeId: t.number,
+    // Host: t.string,
+    // HostId: t.string,
+    // Status: t.string,
+    // StatusId: t.number,
+    // AllowSubscriptionByStatus: t.boolean,
+    // AllowSubscriptionInternetByStatus: t.boolean,
+    // DateFrom: null,
+    // DateTo: null,
+    Designation: designation || "Französisch-S2",
+    // Duration: null,
+    // FreeSeats: null,
+    // HasQueue: t.boolean,
+    // HighPrice: t.number,
+    // LanguageOfInstruction: null,
+    Leadership: null,
+    // Location: null,
+    // MaxParticipants: t.number,
+    // MinParticipants: t.number,
+    // Number: t.string,
+    // Price: t.number,
+    // StatusDate: null,
+    // SubscriptionDateFrom: null,
+    // SubscriptionDateTo: null,
+    // SubscriptionTimeFrom: null,
+    // SubscriptionTimeTo: null,
+    // TimeFrom: null,
+    // TimeTo: null,
+    // TypeOfSubscription: t.number,
+    // Weekday: null,
+    // IdObject: t.number,
+    // StatusText: null,
+    // Management: null,
+    // GradingScaleId: null,
+    // DateString: t.string,
+    StudentCount: 10,
+    // HRef: t.string,
   };
 }
 
