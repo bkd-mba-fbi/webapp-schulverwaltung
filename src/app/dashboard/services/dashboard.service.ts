@@ -41,12 +41,12 @@ const TIMETABLE_ROLES = ["LessonTeacherRole", "StudentRole"];
 @Injectable()
 export class DashboardService {
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
-  studentId$ = new ReplaySubject<number>(1);
-  private lessonAbsences$ = this.studentId$.pipe(
+  userId$ = new ReplaySubject<number>(1);
+  private lessonAbsences$ = this.userId$.pipe(
     switchMap((id) => this.studentsService.getLessonAbsences(id)),
     shareReplay(1),
   );
-  private lessonIncidents$ = this.studentId$.pipe(
+  private lessonIncidents$ = this.userId$.pipe(
     switchMap((id) => this.studentsService.getLessonIncidents(id)),
     shareReplay(1),
   );
@@ -147,9 +147,9 @@ export class DashboardService {
     private storageService: StorageService,
     @Inject(SETTINGS) private settings: Settings,
   ) {
-    const studentId = this.storageService.getPayload()?.id_person;
-    if (studentId) {
-      this.studentId$.next(Number(studentId));
+    const userId = this.storageService.getPayload()?.id_person;
+    if (userId) {
+      this.userId$.next(Number(userId));
     }
   }
 
@@ -164,7 +164,7 @@ export class DashboardService {
     Option<ReadonlyArray<LessonAbsence | LessonIncident>>
   > {
     return combineLatest([
-      this.studentId$,
+      this.userId$,
       this.lessonAbsences$,
       this.lessonIncidents$,
     ]).pipe(

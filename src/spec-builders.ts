@@ -126,7 +126,7 @@ export function buildLessonPresenceFromTimetableEntry(
     Type: null,
     StudentFullName: "",
     StudyClassNumber: "",
-    TeacherInformation: timetableEntry.EventManagerInformation,
+    TeacherInformation: timetableEntry.EventManagerInformation ?? null,
   };
 }
 

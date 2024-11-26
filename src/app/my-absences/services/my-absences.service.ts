@@ -257,7 +257,7 @@ export class MyAbsencesService {
       Type: absence.Type,
       StudentFullName: absence.StudentFullName,
       StudyClassNumber: "", // Currently not available on timetable entry
-      TeacherInformation: entry.EventManagerInformation,
+      TeacherInformation: entry.EventManagerInformation ?? null,
     };
   }
 }

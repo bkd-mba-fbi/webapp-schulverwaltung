@@ -217,7 +217,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       Type: (absence || dispensation)?.Type || null,
       StudentFullName: (absence || dispensation)?.StudentFullName || "",
       StudyClassNumber: "", // Currently not available on timetable entry
-      TeacherInformation: timetableEntry.EventManagerInformation,
+      TeacherInformation: timetableEntry.EventManagerInformation ?? null,
     };
   }
 

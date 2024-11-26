@@ -9,11 +9,9 @@
             {{ "dashboard.timetable.table.teacher" | translate }}
           </th>
         }
-        @if (isStudent$ | async) {
-          <th>
-            {{ "dashboard.timetable.table.room" | translate }}
-          </th>
-        }
+        <th>
+          {{ "dashboard.timetable.table.room" | translate }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -46,16 +44,14 @@
               {{ entry.teacher }}
             </td>
           }
-          @if (isStudent$ | async) {
-            <td class="room">
-              @if (entry.room) {
-                <span class="room-label">{{
-                  "dashboard.timetable.table.room" | translate
-                }}</span>
-              }
-              {{ entry.room }}
-            </td>
-          }
+          <td class="room">
+            @if (entry.room) {
+              <span class="room-label">{{
+                "dashboard.timetable.table.room" | translate
+              }}</span>
+            }
+            {{ entry.room }}
+          </td>
         </tr>
       }
     </tbody>

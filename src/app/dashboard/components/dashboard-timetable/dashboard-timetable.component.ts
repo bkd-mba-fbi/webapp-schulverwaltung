@@ -2,36 +2,28 @@ import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { addDays, format, startOfDay, subDays } from "date-fns";
+import uniqBy from "lodash-es/uniqBy";
 import {
   BehaviorSubject,
   Observable,
   combineLatest,
   map,
   of,
+  shareReplay,
   switchMap,
   tap,
 } from "rxjs";
-import { uniqueLessons } from "src/app/presence-control/utils/lesson-entries";
-import { Lesson } from "src/app/shared/models/lesson.model";
-import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
-import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
+import { TeachersRestService } from "src/app/shared/services/teachers-rest.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { SafePipe } from "../../../shared/pipes/safe.pipe";
 import { DashboardService } from "../../services/dashboard.service";
+import {
+  DashboardTimetableEntry,
+  convertTimetableEntry,
+} from "../../utils/dashboard-timetable-entry";
 import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
-
-export type DashboardTimetableEntry = {
-  id: string;
-  from: Date;
-  until: Date;
-  eventId: number;
-  subject: string;
-  studyClass?: string;
-  room?: string;
-  teacher?: string;
-};
 
 const CALENDAR_SUBSCRIBE_KEY = "cal";
 
@@ -50,7 +42,7 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
   ],
 })
 export class DashboardTimetableComponent {
-  studentId$ = this.dashboardService.studentId$;
+  userId$ = this.dashboardService.userId$;
   isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
   isStudent$ = this.dashboardService.hasStudentRole$;
   date$ = new BehaviorSubject(startOfDay(new Date()));
@@ -58,8 +50,8 @@ export class DashboardTimetableComponent {
   timetableEntries$ = this.loadTimetableEntries();
 
   constructor(
+    private teachersService: TeachersRestService,
     private studentsService: StudentsRestService,
-    private lessonPresencesService: LessonPresencesRestService,
     private userSettings: UserSettingsService,
     private dashboardService: DashboardService,
   ) {}
@@ -89,62 +81,32 @@ export class DashboardTimetableComponent {
     return combineLatest([this.isTeacher$, this.isStudent$]).pipe(
       switchMap(([isTeacher, isStudent]) => {
         if (isTeacher) {
-          return this.loadTeacherTimetableEntries();
+          return this.fetchTimetableEntries("teacher");
         } else if (isStudent) {
-          return this.loadStudentTimetableEntries();
+          return this.fetchTimetableEntries("student");
         }
         return of([]);
       }),
+      map((entries) => uniqBy(entries, (entry) => entry.id)), // Due to a bug, the backend returns duplicate entries, so we filter them out here (this can be removed once fixed)
       tap(() => this.loading$.next(false)),
+      shareReplay(1),
     );
   }
 
-  private loadTeacherTimetableEntries(): Observable<
-    ReadonlyArray<DashboardTimetableEntry>
-  > {
-    return this.date$.pipe(
-      switchMap((date) => this.lessonPresencesService.getLessonsByDate(date)),
-      map(uniqueLessons),
-      map((lessons) => lessons.map(this.convertLesson.bind(this))),
-    );
-  }
-
-  private loadStudentTimetableEntries(): Observable<
-    ReadonlyArray<DashboardTimetableEntry>
-  > {
-    return combineLatest([this.studentId$, this.date$]).pipe(
-      switchMap(([studentId, date]) =>
-        this.studentsService.getTimetableEntries(studentId, {
+  private fetchTimetableEntries(
+    userType: "teacher" | "student",
+  ): Observable<ReadonlyArray<DashboardTimetableEntry>> {
+    return combineLatest([this.userId$, this.date$]).pipe(
+      switchMap(([userId, date]) => {
+        const params: Dict<string> = {
           "filter.From": `=${format(date, "yyyy-MM-dd")}`,
           sort: "From,To",
-        }),
-      ),
-      map((entries) => entries.map(this.convertTimetableEntry.bind(this))),
+        };
+        return userType === "teacher"
+          ? this.teachersService.getTimetableEntries(userId, params)
+          : this.studentsService.getTimetableEntries(userId, params);
+      }),
+      map((entries) => entries.map(convertTimetableEntry)),
     );
-  }
-
-  private convertLesson(lesson: Lesson): DashboardTimetableEntry {
-    return {
-      id: `${lesson.LessonRef.Id}-${lesson.StudyClassNumber}`,
-      from: lesson.LessonDateTimeFrom,
-      until: lesson.LessonDateTimeTo,
-      eventId: lesson.EventRef.Id,
-      subject: lesson.EventDesignation,
-      studyClass: lesson.StudyClassNumber,
-    };
-  }
-
-  private convertTimetableEntry(
-    entry: TimetableEntry,
-  ): DashboardTimetableEntry {
-    return {
-      id: String(entry.Id),
-      from: entry.From,
-      until: entry.To,
-      eventId: entry.EventId,
-      subject: entry.EventDesignation,
-      room: entry.EventLocation || undefined,
-      teacher: entry.EventManagerInformation || undefined,
-    };
   }
 }

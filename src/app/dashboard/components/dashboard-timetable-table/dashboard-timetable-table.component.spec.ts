@@ -16,7 +16,7 @@ describe("DashboardTimetableTableComponent", () => {
           {
             provide: DashboardService,
             useValue: {
-              studentId$: of(123),
+              userId$: of(123),
               hasLessonTeacherRole$: of(false),
               hasStudentRole$: of(false),
             },
