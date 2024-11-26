@@ -17,6 +17,7 @@ import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
+import { StorageService } from "src/app/shared/services/storage.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
@@ -26,6 +27,7 @@ import {
   getCourseDesignation,
   getEventState,
   isRated,
+  isStudyCourseLeader,
 } from "../utils/events";
 
 export enum EventState {
@@ -96,6 +98,7 @@ export class EventsStateService {
     private eventsRestService: EventsRestService,
     private studyClassRestService: StudyClassesRestService,
     private loadingService: LoadingService,
+    private storageService: StorageService,
     private translate: TranslateService,
     @Inject(SETTINGS) private settings: Settings,
   ) {}
@@ -209,13 +212,16 @@ export class EventsStateService {
   private createFromStudyCourses(
     studyCourses: ReadonlyArray<Event>,
   ): ReadonlyArray<EventEntry> {
-    return studyCourses.map((studyCourse) => ({
-      id: studyCourse.Id,
-      designation: studyCourse.Designation,
-      detailLink: this.buildLink(studyCourse.Id, "eventdetail"),
-      studentCount: studyCourse.StudentCount,
-      state: null,
-    }));
+    const tokenPayload = this.storageService.getPayload();
+    return studyCourses
+      .filter((studyCourse) => isStudyCourseLeader(tokenPayload, studyCourse)) // The user sees only the study courses he/she is leader of
+      .map((studyCourse) => ({
+        id: studyCourse.Id,
+        designation: studyCourse.Designation,
+        detailLink: this.buildLink(studyCourse.Id, "eventdetail"),
+        studentCount: studyCourse.StudentCount,
+        state: null,
+      }));
   }
 
   private createFromAssessments(

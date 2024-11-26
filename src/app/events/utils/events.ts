@@ -1,3 +1,5 @@
+import { Event } from "src/app/shared/models/event.model";
+import { TokenPayload } from "src/app/shared/models/token-payload.model";
 import { Course } from "../../shared/models/course.model";
 import { EventState } from "../services/events-state.service";
 
@@ -93,4 +95,23 @@ export function getCourseDesignation(course: Course): string {
     : null;
 
   return classes ? course.Designation + ", " + classes : course.Designation;
+}
+
+/**
+ * Returns whether the user with the given token payload is leader of the given
+ * study course.
+ */
+export function isStudyCourseLeader(
+  tokenPayload: Option<TokenPayload>,
+  studyCourse: Event,
+): boolean {
+  if (!tokenPayload) return false;
+
+  // As a workaround (since the API does not provide the ID of the leadership
+  // and the `/EventLeaderships` are not accessible with the Tutoring token), we
+  // compare the user's fullname with the event's `Leadership` field containing
+  // the names of all leaders for now.
+  return (studyCourse.Leadership ?? "")
+    .split(",")
+    .some((leader) => leader.trim() === tokenPayload.fullname);
 }

@@ -1,10 +1,21 @@
 import { EvaluationStatusRef } from "src/app/shared/models/course.model";
-import { buildCourse, buildFinalGrading } from "../../../spec-builders";
+import { Event } from "src/app/shared/models/event.model";
+import { TokenPayload } from "src/app/shared/models/token-payload.model";
+import {
+  buildCourse,
+  buildEvent,
+  buildFinalGrading,
+} from "../../../spec-builders";
 import { EventState } from "../services/events-state.service";
-import { canSetFinalGrade, getEventState, isRated } from "./events";
+import {
+  canSetFinalGrade,
+  getEventState,
+  isRated,
+  isStudyCourseLeader,
+} from "./events";
 
-describe("Course utils", () => {
-  describe("Get course state", () => {
+describe("Event/course utility functions", () => {
+  describe("getEventState", () => {
     beforeEach(() => {
       jasmine.clock().install();
       jasmine.clock().mockDate(new Date(2022, 1, 3));
@@ -14,8 +25,7 @@ describe("Course utils", () => {
       jasmine.clock().uninstall();
     });
 
-    it("should get no state", () => {
-      // given
+    it("returns null for course without state", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
         EvaluationUntil: null,
@@ -31,12 +41,10 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(getEventState(course)).toEqual(null);
     });
 
-    it("should get state add-tests", () => {
-      // given
+    it("returns 'add-tests' for course in this state", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
         EvaluationUntil: null,
@@ -52,14 +60,12 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(getEventState(course)).toEqual({
         value: EventState.Tests,
       });
     });
 
-    it("should get state rating-until", () => {
-      // given
+    it("returns 'rating-until' for course in this state", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
         EvaluationUntil: new Date(2022, 2, 3),
@@ -74,14 +80,12 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(getEventState(course)).toEqual({
         value: EventState.RatingUntil,
       });
     });
 
-    it("should get state intermediate-rating", () => {
-      // given
+    it("returns 'intermediate-rating' for course in this state", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
         EvaluationUntil: null,
@@ -98,16 +102,14 @@ describe("Course utils", () => {
         10300,
       );
 
-      // then
       expect(getEventState(course)).toEqual({
         value: EventState.IntermediateRating,
       });
     });
   });
 
-  describe("Course has final grading enabled", () => {
-    it("should return false when HasEvaluationStarted is false and EvaluationUntil is null", () => {
-      // given
+  describe("canSetFinalGrade", () => {
+    it("returns false when HasEvaluationStarted is false and EvaluationUntil is null", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
         EvaluationUntil: null,
@@ -123,12 +125,10 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(canSetFinalGrade(course)).toEqual(false);
     });
 
-    it("should return false when HasEvaluationStarted is false and EvaluationUntil is undefined", () => {
-      // given
+    it("returns false when HasEvaluationStarted is false and EvaluationUntil is undefined", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: false,
         EvaluationUntil: undefined,
@@ -144,12 +144,10 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(canSetFinalGrade(course)).toEqual(false);
     });
 
-    it("should return true when evaluation has started and EvaluationUntil is undefined", () => {
-      // given
+    it("returns true when evaluation has started and EvaluationUntil is undefined", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
         EvaluationUntil: undefined,
@@ -165,12 +163,10 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(canSetFinalGrade(course)).toEqual(true);
     });
 
-    it("should return true when evaluation has started and EvaluationUntil is null", () => {
-      // given
+    it("returns true when evaluation has started and EvaluationUntil is null", () => {
       const evaluationStatusRef = {
         HasEvaluationStarted: true,
         EvaluationUntil: null,
@@ -186,12 +182,10 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(canSetFinalGrade(course)).toEqual(true);
     });
 
-    it("should return false when evaluation has started and EvaluationUntil is in the past", () => {
-      // given
+    it("returns false when evaluation has started and EvaluationUntil is in the past", () => {
       jasmine.clock().install();
       jasmine.clock().mockDate(new Date(2022, 1, 8));
 
@@ -212,13 +206,11 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(canSetFinalGrade(course)).toEqual(false);
       jasmine.clock().uninstall();
     });
 
-    it("should return true when evaluation has started and EvaluationUntil is in the future", () => {
-      // given
+    it("returns true when evaluation has started and EvaluationUntil is in the future", () => {
       jasmine.clock().install();
       jasmine.clock().mockDate(new Date(2022, 1, 1));
       const futureDate = new Date(2022, 6, 1);
@@ -238,16 +230,14 @@ describe("Course utils", () => {
         evaluationStatusRef,
       );
 
-      // then
       expect(canSetFinalGrade(course)).toEqual(true);
 
       jasmine.clock().uninstall();
     });
   });
 
-  describe("is course rated", () => {
-    it("should return true if review of evaluation has started and final grades are set", () => {
-      // given
+  describe("isRated", () => {
+    it("returns true if review of evaluation has started and final grades are set", () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
@@ -259,12 +249,10 @@ describe("Course utils", () => {
       );
       course.FinalGrades = [buildFinalGrading(3)];
 
-      // then
       expect(isRated(course)).toBeTrue();
     });
 
-    it("should return false if final grades are null", () => {
-      // given
+    it("returns false if final grades are null", () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
@@ -276,12 +264,10 @@ describe("Course utils", () => {
       );
       course.FinalGrades = null;
 
-      // then
       expect(isRated(course)).toBeFalse();
     });
 
-    it("should return false if final grades are emtpy", () => {
-      // given
+    it("returns false if final grades are emtpy", () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: true,
       } as unknown as EvaluationStatusRef;
@@ -293,12 +279,10 @@ describe("Course utils", () => {
       );
       course.FinalGrades = [];
 
-      // then
       expect(isRated(course)).toBeFalse();
     });
 
-    it("should return false if review of evaluation has not started", () => {
-      // given
+    it("returns false if review of evaluation has not started", () => {
       const evaluationStatusRef = {
         HasReviewOfEvaluationStarted: false,
       } as unknown as EvaluationStatusRef;
@@ -310,8 +294,59 @@ describe("Course utils", () => {
       );
       course.FinalGrades = null;
 
-      // then
       expect(isRated(course)).toBeFalse();
+    });
+  });
+
+  describe("isStudyCourseLeader", () => {
+    let event: Event;
+    let tokenPayload: TokenPayload;
+
+    beforeEach(() => {
+      event = buildEvent(1234, "Gymnasialer Bildungsgang");
+      tokenPayload = {
+        culture_info: "de_CH",
+        fullname: "Jane Doe",
+        id_person: "123",
+        holder_id: "456",
+        instance_id: "678",
+        roles: "",
+        substitution_id: undefined,
+      };
+    });
+
+    describe("study course with single leadership", () => {
+      beforeEach(() => {
+        event.Leadership = "Jane Doe";
+      });
+
+      it("returns false if token payload is unavailable", () => {
+        expect(isStudyCourseLeader(null, event)).toBeFalse();
+      });
+
+      it("returns true if user is leader", () => {
+        expect(isStudyCourseLeader(tokenPayload, event)).toBeTrue();
+      });
+
+      it("returns false if user is not leader", () => {
+        tokenPayload.fullname = "Jeanne Doe";
+        expect(isStudyCourseLeader(tokenPayload, event)).toBeFalse();
+      });
+    });
+
+    describe("study course with multiple leaderships", () => {
+      beforeEach(() => {
+        event.Leadership = "John Doe, Jane Doe";
+      });
+
+      it("returns true if user is leader", () => {
+        expect(isStudyCourseLeader(tokenPayload, event)).toBeTrue();
+      });
+
+      it("returns false if user is not leader", () => {
+        tokenPayload.fullname = "Jeanne Doe";
+        expect(isStudyCourseLeader(tokenPayload, event)).toBeFalse();
+      });
     });
   });
 });
