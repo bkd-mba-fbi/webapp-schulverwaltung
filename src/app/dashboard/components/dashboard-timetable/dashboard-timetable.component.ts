@@ -13,6 +13,7 @@ import {
   switchMap,
   tap,
 } from "rxjs";
+import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { TeachersRestService } from "src/app/shared/services/teachers-rest.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
@@ -22,6 +23,8 @@ import { DashboardService } from "../../services/dashboard.service";
 import {
   DashboardTimetableEntry,
   convertTimetableEntry,
+  createStudyClassesMap,
+  decorateStudyClasses,
 } from "../../utils/dashboard-timetable-entry";
 import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
 
@@ -52,6 +55,7 @@ export class DashboardTimetableComponent {
   constructor(
     private teachersService: TeachersRestService,
     private studentsService: StudentsRestService,
+    private lessonPresencesService: LessonPresencesRestService,
     private userSettings: UserSettingsService,
     private dashboardService: DashboardService,
   ) {}
@@ -87,7 +91,6 @@ export class DashboardTimetableComponent {
         }
         return of([]);
       }),
-      map((entries) => uniqBy(entries, (entry) => entry.id)), // Due to a bug, the backend returns duplicate entries, so we filter them out here (this can be removed once fixed)
       tap(() => this.loading$.next(false)),
       shareReplay(1),
     );
@@ -107,6 +110,32 @@ export class DashboardTimetableComponent {
           : this.studentsService.getTimetableEntries(userId, params);
       }),
       map((entries) => entries.map(convertTimetableEntry)),
+      map((entries) => uniqBy(entries, (entry) => entry.id)), // Due to a bug, the backend returns duplicate entries, so we filter them out here (this can be removed once fixed)
+      switchMap((entries) => {
+        if (userType === "teacher") {
+          // Apparently the backend squashes the study classes of grouped
+          // lessons with multiple classes and only provides it as part of the
+          // `EventNumber`. As a workaround (to be able to display the classes
+          // comma-separated) we fetch the study classes separately from the
+          // lesson presences for now. This can be removed, once the classes are
+          // provided on the timetable entries in a clean way.
+          return this.loadStudyClasses().pipe(
+            map((studyClasses) => decorateStudyClasses(entries, studyClasses)),
+          );
+        } else {
+          // For students, the study classes are not used
+          return of(entries);
+        }
+      }),
+    );
+  }
+
+  private loadStudyClasses(): Observable<Dict<ReadonlyArray<string>>> {
+    return this.date$.pipe(
+      switchMap((date) =>
+        this.lessonPresencesService.getLessonStudyClassesByDate(date),
+      ),
+      map(createStudyClassesMap),
     );
   }
 }

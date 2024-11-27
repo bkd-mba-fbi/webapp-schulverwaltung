@@ -20,11 +20,12 @@ export class TeachersRestService extends RestService<typeof Teacher> {
 
   getTimetableEntries(
     teacherId: number,
-    params: HttpParams | Dict<string> = {},
+    customParams: HttpParams | Dict<string> = {},
   ): Observable<ReadonlyArray<TimetableEntry>> {
-    if (!(params instanceof HttpParams)) {
-      params = new HttpParams({ fromObject: params });
-    }
+    let params: HttpParams =
+      customParams instanceof HttpParams
+        ? customParams
+        : new HttpParams({ fromObject: customParams });
     params = params.set(
       "fields",
       "Id,From,To,EventId,EventNumber,EventDesignation,EventLocation",

@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, Observable, of } from "rxjs";
+import { LessonStudyClass } from "src/app/shared/models/lesson-study-class.model";
+import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
+import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { TeachersRestService } from "src/app/shared/services/teachers-rest.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
@@ -19,6 +22,7 @@ describe("DashboardTimetableComponent", () => {
   let fixture: ComponentFixture<DashboardTimetableComponent>;
   let element: HTMLElement;
   let teachersServiceMock: jasmine.SpyObj<TeachersRestService>;
+  let lessonPresencesServiceMock: jasmine.SpyObj<LessonPresencesRestService>;
   let studentsServiceMock: jasmine.SpyObj<StudentsRestService>;
   let mockSettings: Record<string, any>;
   let dashboardServiceMock: {
@@ -55,6 +59,19 @@ describe("DashboardTimetableComponent", () => {
               );
               teachersServiceMock.getTimetableEntries.and.returnValue(of([]));
               return teachersServiceMock;
+            },
+          },
+          {
+            provide: LessonPresencesRestService,
+            useFactory() {
+              lessonPresencesServiceMock = jasmine.createSpyObj(
+                "LessonPresencesRestService",
+                ["getLessonStudyClassesByDate"],
+              );
+              lessonPresencesServiceMock.getLessonStudyClassesByDate.and.returnValue(
+                of([]),
+              );
+              return lessonPresencesServiceMock;
             },
           },
           {
@@ -125,6 +142,12 @@ describe("DashboardTimetableComponent", () => {
 
       teachersServiceMock.getTimetableEntries.and.returnValue(
         of([entry1, entry2]),
+      );
+      lessonPresencesServiceMock.getLessonStudyClassesByDate.and.returnValue(
+        of([
+          buildLessonStudyClass(entry1, "9a"),
+          buildLessonStudyClass(entry2, "8c"),
+        ]),
       );
 
       fixture.detectChanges();
@@ -286,6 +309,9 @@ describe("DashboardTimetableComponent", () => {
       const params =
         studentsServiceMock.getTimetableEntries.calls.mostRecent().args[1];
       expect((params as any)["filter.From"]).toEqual("=2000-01-23");
+      expect(
+        lessonPresencesServiceMock.getLessonStudyClassesByDate,
+      ).not.toHaveBeenCalled();
       expect(teachersServiceMock.getTimetableEntries).not.toHaveBeenCalled();
 
       const rows = element.querySelectorAll("tbody tr");
@@ -339,3 +365,14 @@ describe("DashboardTimetableComponent", () => {
     return button!;
   }
 });
+
+function buildLessonStudyClass(
+  entry: TimetableEntry,
+  studyClassNumber: string,
+): LessonStudyClass {
+  return {
+    EventRef: { Id: entry.EventId, HRef: "" },
+    LessonRef: { Id: entry.Id, HRef: "" },
+    StudyClassNumber: studyClassNumber,
+  };
+}
