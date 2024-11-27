@@ -3,8 +3,10 @@ import { TestBed } from "@angular/core/testing";
 import {
   buildApprenticeshipContract,
   buildLegalRepresentative,
+  buildStudent,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentSummary } from "../models/student.model";
 import { StudentsRestService } from "./students-rest.service";
 
 describe("StudentsRestService", () => {
@@ -54,6 +56,30 @@ describe("StudentsRestService", () => {
           buildApprenticeshipContract(55905),
           buildApprenticeshipContract(55906),
         ]);
+    });
+  });
+
+  describe(".getStudentSummaries", () => {
+    it("should request the student summaries for the given ids", () => {
+      const studentSummaries: ReadonlyArray<StudentSummary> = [
+        buildStudent(54425),
+        buildStudent(56200),
+      ].map(({ Id, FirstName, LastName, DisplayEmail }) => ({
+        Id,
+        FirstName,
+        LastName,
+        DisplayEmail,
+      }));
+
+      service.getStudentSummaries([54425, 56200]).subscribe((result) => {
+        expect(result).toEqual(studentSummaries);
+      });
+
+      httpTestingController
+        .expectOne(
+          "https://eventotest.api/Students/?filter.Id=;54425,56200&fields=Id,FirstName,LastName,DisplayEmail",
+        )
+        .flush(studentSummaries);
     });
   });
 });
