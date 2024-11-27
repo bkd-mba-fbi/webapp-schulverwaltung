@@ -1,0 +1,56 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+
+@let selection = (selectionService.selection$ | async) ?? [];
+
+<bkd-events-students-header
+  [title]="title()"
+  [count]="count()"
+  [(searchTerm)]="searchTerm"
+></bkd-events-students-header>
+
+<section class="list">
+  @if (entries().length > 0) {
+    <div class="d-flex align-items-center justify-content-between mt-1">
+      <div class="ps-1">
+        {{
+          "events-students.selected" | translate: { count: selectionCount() }
+        }}
+      </div>
+      <a class="edit btn btn-primary mt-1 mb-2" [class.disabled]="true">
+        <i class="material-icons">edit</i>
+      </a>
+    </div>
+    <div class="list-header">
+      <div class="checkbox" (click)="onCheckboxCellClick($event, checkbox)">
+        <input
+          #checkbox
+          type="checkbox"
+          class="form-check-input"
+          [checked]="selection.length === entries().length"
+          (change)="onToggleAll($any($event.currentTarget)?.checked)"
+        />
+      </div>
+      <div
+        class="name"
+        (click)="toggleSort.emit()"
+        [className]="primarySortKey"
+      >
+        {{ "events-students.list.header." + primarySortKey | translate }}
+        <span class="sort-direction">{{
+          getSortDirectionCharacter(sortCriteria())
+        }}</span>
+      </div>
+    </div>
+  } @else {
+    <p>{{ "events-students.no-entries" | translate }}</p>
+  }
+  @for (entry of entries(); track entry.id) {
+    <bkd-events-students-study-course-entry
+      [entry]="entry"
+      [returnLink]="returnLink()"
+      [selected]="selectionService.isSelected$(entry) | async"
+      (toggleSelected)="selectionService.toggle(entry)"
+    ></bkd-events-students-study-course-entry>
+  }
+</section>

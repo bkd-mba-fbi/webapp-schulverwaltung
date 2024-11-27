@@ -80,6 +80,21 @@ export class LessonPresencesRestService extends RestService<
       .pipe(switchMap(decodeArray(LessonStudyClass)));
   }
 
+  getLessonStudyClassesByEvent(
+    eventId: number,
+  ): Observable<ReadonlyArray<LessonStudyClass>> {
+    const params: Dict<string> = {
+      // fields: Object.keys(LessonStudyClass.props).join(","),
+      "filter.EventRef": `=${eventId}`,
+      sort: "LessonDateTimeFrom",
+    };
+    const headers: Dict<string> = { "X-Role-Restriction": "LessonTeacherRole" };
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, { params, headers })
+      .pipe(switchMap(decodeArray(LessonStudyClass)));
+  }
+
   getListByLessons(
     lessons: ReadonlyArray<Lesson>,
   ): Observable<ReadonlyArray<LessonPresence>> {

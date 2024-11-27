@@ -8,7 +8,7 @@ import { LegalRepresentative } from "../models/legal-representative.model";
 import { LessonAbsence } from "../models/lesson-absence.model";
 import { LessonDispensation } from "../models/lesson-dispensation.model";
 import { LessonIncident } from "../models/lesson-incident.model";
-import { Student } from "../models/student.model";
+import { Student, StudentSummary } from "../models/student.model";
 import { TimetableEntry } from "../models/timetable-entry.model";
 import { decodeArray } from "../utils/decode";
 import { TypeaheadRestService } from "./typeahead-rest.service";
@@ -96,5 +96,18 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
         },
       )
       .pipe(switchMap(decodeArray(TimetableEntry)));
+  }
+
+  getStudentSummaries(
+    ids: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<StudentSummary>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          "filter.Id": `;${ids.join(";")}`,
+          fields: ["Id", "FirstName", "LastName", "DisplayEmail"].join(","),
+        },
+      })
+      .pipe(switchMap(decodeArray(StudentSummary)));
   }
 }

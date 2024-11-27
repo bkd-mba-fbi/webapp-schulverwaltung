@@ -171,7 +171,9 @@ describe("DashboardTimetableComponent", () => {
 
       let link = rows[0].querySelector("td.subject a");
       expect(link?.textContent?.trim()).toBe("Mathematik, 9a");
-      expect(link?.getAttribute("href")).toBe("link-to-event-detail-module/10");
+      expect(link?.getAttribute("href")).toBe(
+        "/events/students/10?returnlink=%252Fdashboard",
+      );
 
       expect(rows[0].querySelector("td.study-class")?.textContent).toContain(
         "9a",
@@ -189,7 +191,9 @@ describe("DashboardTimetableComponent", () => {
 
       link = rows[1].querySelector("td.subject a");
       expect(link?.textContent?.trim()).toBe("Zeichnen, 8c");
-      expect(link?.getAttribute("href")).toBe("link-to-event-detail-module/20");
+      expect(link?.getAttribute("href")).toBe(
+        "/events/students/20?returnlink=%252Fdashboard",
+      );
 
       expect(rows[1].querySelector("td.study-class")?.textContent).toContain(
         "8c",
@@ -374,5 +378,6 @@ function buildLessonStudyClass(
     EventRef: { Id: entry.EventId, HRef: "" },
     LessonRef: { Id: entry.Id, HRef: "" },
     StudyClassNumber: studyClassNumber,
+    StudentRef: { Id: 10, HRef: "" },
   };
 }

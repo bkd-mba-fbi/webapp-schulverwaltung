@@ -1,0 +1,53 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: grid;
+  grid-template-areas: "checkbox name status";
+  grid-template-columns: min-content 2fr 1fr;
+  align-items: stretch;
+  border-bottom: 1px solid $border-color;
+}
+
+.checkbox,
+.name,
+.status {
+  padding: $spacer $spacer $spacer 0;
+}
+
+.checkbox {
+  padding-left: $spacer;
+  grid-area: checkbox;
+}
+
+.checkbox input {
+  display: block;
+}
+
+.name {
+  grid-area: name;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.status {
+  grid-area: status;
+}
+
+@media (max-width: 750px) {
+  :host {
+    grid-template-areas:
+      "checkbox name"
+      "checkbox status";
+    grid-template-columns: min-content 1fr;
+  }
+
+  .name {
+    padding-bottom: 0;
+  }
+
+  .status {
+    padding-top: 0;
+    font-size: $font-size-sm;
+  }
+}

@@ -49,5 +49,12 @@ const Event = t.type({
   // HRef: t.string,
 });
 
+const EventType = t.type({
+  Id: t.number,
+  EventType: t.string,
+  EventTypeId: t.number,
+});
+
 type Event = t.TypeOf<typeof Event>;
-export { Event };
+type EventType = t.TypeOf<typeof EventType>;
+export { Event, EventType };

@@ -31,12 +31,12 @@ import {
   GradeOrNoResult,
   StudentGrade,
 } from "./app/shared/models/student-grades";
-import { Student } from "./app/shared/models/student.model";
+import { Student, StudentSummary } from "./app/shared/models/student.model";
 import { StudyClass } from "./app/shared/models/study-class.model";
 import {
-  IdSubscription,
+  Subscription,
   SubscriptionDetail,
-} from "./app/shared/models/subscription-detail.model";
+} from "./app/shared/models/subscription.model";
 import { Result, Test } from "./app/shared/models/test.model";
 import { TimetableEntry } from "./app/shared/models/timetable-entry.model";
 import { TokenPayload } from "./app/shared/models/token-payload.model";
@@ -249,17 +249,26 @@ export function buildStudent(id: number): Student {
     Id: id,
     AddressLine1: "",
     AddressLine2: null,
-    Birthdate: new Date("2002-07-10T00:00:00"),
+    Birthdate: null,
     DisplayEmail: "",
-    // FirstName: '',
+    FirstName: "T",
     FullName: "T. Tux",
     Gender: "F",
-    // LastName: '',
+    LastName: "Tux",
     Location: "",
     PhoneMobile: "",
     PhonePrivate: "",
     PostalCode: "",
     // HRef: ''
+  };
+}
+
+export function buildStudentSummary(id: number): StudentSummary {
+  return {
+    Id: id,
+    DisplayEmail: null,
+    FirstName: "T",
+    LastName: "Tux",
   };
 }
 
@@ -486,41 +495,41 @@ export function buildSubscriptionDetail(
   };
 }
 
-export function buildIdSubscription(
+export function buildSubscription(
   id: number,
   eventId: number,
   personId: number,
-): IdSubscription {
+): Subscription {
   return {
     Id: id,
-    CurrentWorkProgressId: "current-work-progress-id",
+    // CurrentWorkProgressId: "current-work-progress-id",
     EventId: eventId,
     PersonId: personId,
     Status: "closed",
-    StatusId: null,
-    IsOkay: null,
-    IsQueued: null,
+    // StatusId: null,
+    // IsOkay: null,
+    // IsQueued: null,
     EventDesignation: null,
-    EventInformation: null,
-    EventNotes: null,
-    CheckPersonalInformation: null,
-    CorrespondencePersonId: null,
-    CorrespondenceAddressTypeId: null,
-    Billing1PersonId: null,
-    Billing1AddressTypeId: null,
-    Billing2PersonId: null,
-    Billing2AddressTypeId: null,
-    KindOfPaymentId1: null,
-    KindOfPaymentEmail1: null,
-    KindOfPaymentId2: null,
-    KindOfPaymentEmail2: null,
-    IdObject: null,
-    IdSubscription: null,
-    IdStatus: null,
-    AnsweredQuestions: null,
-    Messages: null,
-    SubscriptionDetails: null,
-    HRef: null,
+    // EventInformation: null,
+    // EventNotes: null,
+    // CheckPersonalInformation: null,
+    // CorrespondencePersonId: null,
+    // CorrespondenceAddressTypeId: null,
+    // Billing1PersonId: null,
+    // Billing1AddressTypeId: null,
+    // Billing2PersonId: null,
+    // Billing2AddressTypeId: null,
+    // KindOfPaymentId1: null,
+    // KindOfPaymentEmail1: null,
+    // KindOfPaymentId2: null,
+    // KindOfPaymentEmail2: null,
+    // IdObject: null,
+    // IdSubscription: null,
+    // IdStatus: null,
+    // AnsweredQuestions: null,
+    // Messages: null,
+    // SubscriptionDetails: null,
+    // HRef: null,
   };
 }
 

@@ -1,0 +1,30 @@
+@import "../../../../bootstrap-variables";
+
+.list-header {
+  cursor: pointer;
+  display: grid;
+  grid-template-areas: "checkbox name";
+  grid-template-columns: min-content 1fr;
+  border-top: 1px solid $border-color;
+  border-bottom: 2px solid $border-color;
+  align-items: center;
+}
+
+section.list {
+  margin-top: 2 * $spacer;
+}
+
+.checkbox,
+.name {
+  padding: $spacer $spacer $spacer 0;
+}
+
+.checkbox {
+  padding-left: $spacer;
+  align-self: start;
+  grid-area: checkbox;
+}
+
+.checkbox input {
+  display: block;
+}

@@ -181,9 +181,9 @@ describe("ReportsService", () => {
     });
   });
 
-  describe("getCourseReports", () => {
+  describe("getCourseTestsReports", () => {
     it("emits report info if available", () => {
-      service.getCourseReports(42).subscribe(callback);
+      service.getCourseTestsReports(42).subscribe(callback);
       expectAvailabilityRequest(
         "https://eventotest.api/CrystalReports/AvailableReports/Anlass?ids=290044&keys=42",
         [{ Id: 290044, Title: "Tests" }],
@@ -201,7 +201,7 @@ describe("ReportsService", () => {
     });
 
     it("emits empty array if unavailable", () => {
-      service.getCourseReports(42).subscribe(callback);
+      service.getCourseTestsReports(42).subscribe(callback);
       expectAvailabilityRequest(
         "https://eventotest.api/CrystalReports/AvailableReports/Anlass?ids=290044&keys=42",
         null,
@@ -212,9 +212,9 @@ describe("ReportsService", () => {
     });
   });
 
-  describe("getStudentSubscriptionReports", () => {
+  describe("getStudentSubscriptionGradesReports", () => {
     it("returns report info", () => {
-      const result = service.getStudentSubscriptionReports([123, 456]);
+      const result = service.getStudentSubscriptionGradesReports([123, 456]);
 
       expect(result).toEqual([
         {
@@ -227,9 +227,9 @@ describe("ReportsService", () => {
     });
   });
 
-  describe("getTeacherSubscriptionReports", () => {
+  describe("getTeacherSubscriptionGradesReports", () => {
     it("returns report info", () => {
-      const result = service.getTeacherSubscriptionReports([123, 456]);
+      const result = service.getTeacherSubscriptionGradesReports([123, 456]);
 
       expect(result).toEqual([
         {

@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { DropDownItem } from "../../../shared/models/drop-down-item.model";
-import { SubscriptionDetail } from "../../../shared/models/subscription-detail.model";
+import { SubscriptionDetail } from "../../../shared/models/subscription.model";
 
 export interface GroupOption {
   id: Option<DropDownItem["Key"]>;

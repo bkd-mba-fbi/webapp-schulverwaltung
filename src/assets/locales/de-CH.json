@@ -253,6 +253,19 @@
       "add-tests": "Tests erfassen"
     }
   },
+  "events-students": {
+    "no-entries": "Keine Einträge vorhanden",
+    "registration": "{{count}} Anmeldung",
+    "registrations": "{{count}} Anmeldungen",
+    "search": "Suchen",
+    "search-by-name": "Name suchen...",
+    "selected": "{{count}} ausgewählt",
+    "list": {
+      "header": {
+        "name": "Name"
+      }
+    }
+  },
   "courses": {
     "registration": "{{count}} Anmeldung",
     "registrations": "{{count}} Anmeldungen"

@@ -1,0 +1,18 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+  overflow: hidden;
+}
+
+section.list {
+  width: calc(100% + 1px); // Hide right border
+  margin-top: 2 * $spacer;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+bkd-events-students-course-entry {
+  border-bottom: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+}

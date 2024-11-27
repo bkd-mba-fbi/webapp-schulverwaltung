@@ -1,0 +1,11 @@
+@import "../../../../bootstrap-variables";
+
+.search {
+  margin-top: $spacer;
+  display: flex;
+  max-width: 300px;
+}
+
+.additional-info {
+  color: $gray-500;
+}
