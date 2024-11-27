@@ -1,7 +1,9 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
-import { SETTINGS, Settings } from "src/app/settings";
+import { getEventsStudentsLink } from "src/app/events/utils/events-students";
+import { convertLink } from "src/app/shared/utils/url";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardTimetableEntry } from "../../utils/dashboard-timetable-entry";
 
@@ -10,7 +12,7 @@ import { DashboardTimetableEntry } from "../../utils/dashboard-timetable-entry";
   templateUrl: "./dashboard-timetable-table.component.html",
   styleUrls: ["./dashboard-timetable-table.component.scss"],
   standalone: true,
-  imports: [AsyncPipe, DatePipe, TranslateModule],
+  imports: [AsyncPipe, DatePipe, TranslateModule, RouterLink],
 })
 export class DashboardTimetableTableComponent {
   @Input()
@@ -19,15 +21,9 @@ export class DashboardTimetableTableComponent {
   isStudent$ = this.dashboardService.hasStudentRole$;
   isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
 
-  constructor(
-    private dashboardService: DashboardService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
+  constructor(private dashboardService: DashboardService) {}
 
-  buildLink(eventId: number): string {
-    return this.settings.eventlist["eventdetail"].replace(
-      ":id",
-      String(eventId),
-    );
+  buildLink(eventId: number) {
+    return convertLink(getEventsStudentsLink(eventId, "/dashboard"));
   }
 }

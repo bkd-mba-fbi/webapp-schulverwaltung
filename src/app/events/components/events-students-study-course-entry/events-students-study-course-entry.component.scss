@@ -1,0 +1,41 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  border-bottom: 1px solid $border-color;
+}
+
+.name,
+.status {
+  padding: $spacer;
+}
+
+.name {
+  flex: 2;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.status {
+  flex: 1;
+  padding-left: 0;
+}
+
+@media (max-width: 750px) {
+  :host {
+    flex-direction: column;
+  }
+
+  .name {
+    padding-bottom: 0;
+  }
+
+  .status {
+    padding-top: 0;
+    padding-left: $spacer;
+    font-size: $font-size-sm;
+  }
+}

@@ -1,34 +1,38 @@
 <div class="designation">
-  <a [href]="event.detailLink">{{ event.designation }}</a>
+  <a [routerLink]="link().link" [queryParams]="link().params">{{
+    event().designation
+  }}</a>
 </div>
 <div class="date">
-  @if (event.dateFrom && event.dateTo) {
+  @if (event().dateFrom && event().dateTo) {
     <span
-      >{{ event.dateFrom | date: "dd.MM.yyyy" }}–<wbr />{{
-        event.dateTo | date: "dd.MM.yyyy"
+      >{{ event().dateFrom | date: "dd.MM.yyyy" }}–<wbr />{{
+        event().dateTo | date: "dd.MM.yyyy"
       }}</span
     >
   }
 </div>
 <div class="registrations">
-  {{ event.studentCount }}
+  {{ event().studentCount }}
   <span class="registrations-label">{{
-    (event.studentCount === 1 ? "events.registration" : "events.registrations")
-      | translate
+    (event().studentCount === 1
+      ? "events.registration"
+      : "events.registrations"
+    ) | translate
   }}</span>
 </div>
-@if (withRatings && event.evaluationText) {
+@if (withRatings() && event().evaluationText) {
   <div class="rating">
-    @if (!event.evaluationLink) {
-      <a class="d-flex" [routerLink]="[event.id, 'tests']">
+    @if (!event().evaluationLink) {
+      <a class="d-flex" [routerLink]="[event().id, 'tests']">
         <i class="material-icons">arrow_right_alt</i>
-        <span class="ps-1">{{ event.evaluationText }}</span>
+        <span class="ps-1">{{ event().evaluationText }}</span>
       </a>
     }
-    @if (event.evaluationLink) {
-      <a class="d-flex" [href]="event.evaluationLink">
+    @if (event().evaluationLink) {
+      <a class="d-flex" [routerLink]="event().evaluationLink">
         <i class="material-icons">arrow_right_alt</i>
-        <span class="ps-1">{{ event.evaluationText }} </span>
+        <span class="ps-1">{{ event().evaluationText }} </span>
       </a>
     }
   </div>

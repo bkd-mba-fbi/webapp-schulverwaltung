@@ -2,9 +2,9 @@ import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
 import { isEqual } from "lodash-es";
-import { buildPerson } from "src/spec-builders";
+import { buildPerson, buildPersonSummary } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { Person } from "../models/person.model";
+import { Person, PersonSummary } from "../models/person.model";
 import { PersonsRestService } from "./persons-rest.service";
 
 describe("PersonsRestService", () => {
@@ -31,6 +31,30 @@ describe("PersonsRestService", () => {
       httpTestingController
         .expectOne((req) => req.urlWithParams === url, url)
         .flush(t.array(Person).encode(persons));
+    });
+  });
+
+  describe(".getSummaries", () => {
+    it("should request the student summaries for the given ids", () => {
+      const personSummaries: ReadonlyArray<PersonSummary> = [
+        buildPersonSummary(54425),
+        buildPersonSummary(56200),
+      ].map(({ Id, FirstName, LastName, DisplayEmail }) => ({
+        Id,
+        FirstName,
+        LastName,
+        DisplayEmail,
+      }));
+
+      service.getSummaries([54425, 56200]).subscribe((result) => {
+        expect(result).toEqual(personSummaries);
+      });
+
+      httpTestingController
+        .expectOne(
+          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FirstName,LastName,DisplayEmail",
+        )
+        .flush(personSummaries);
     });
   });
 

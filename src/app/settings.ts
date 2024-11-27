@@ -51,6 +51,8 @@ const Settings = t.type({
   testsByCourseReports: t.array(Report),
   testsBySubscriptionStudentReports: t.array(Report),
   testsBySubscriptionTeacherReports: t.array(Report),
+  studyClassStudentsReports: t.array(Report),
+  courseStudentsReports: t.array(Report),
   subscriptionDetailGroupId: t.number,
   headerRoleRestriction: t.record(t.string, t.string),
   notificationTypes: NotificationTypes,
