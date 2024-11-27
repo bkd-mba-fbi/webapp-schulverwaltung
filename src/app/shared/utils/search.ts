@@ -12,7 +12,7 @@ export function searchEntries<T>(
   return entries.filter(matchesEntry(searchFields, term));
 }
 
-function matchesEntry<T>(
+export function matchesEntry<T>(
   searchFields: ReadonlyArray<keyof T>,
   term: string,
 ): (entry: T) => boolean {
@@ -21,13 +21,13 @@ function matchesEntry<T>(
     searchFields.some((field) => matches(entry[field], normalizedTerm));
 }
 
-function matches(value: unknown, normalizedTerm: string): boolean {
+export function matches(value: unknown, normalizedTerm: string): boolean {
   return value
     ? // eslint-disable-next-line @typescript-eslint/no-base-to-string
       normalizeSearchValue(String(value)).includes(normalizedTerm)
     : false;
 }
 
-function normalizeSearchValue(value: string): string {
+export function normalizeSearchValue(value: string): string {
   return deburr(value.toLowerCase());
 }

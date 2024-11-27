@@ -19,8 +19,8 @@ export type ReportInfo = Report & { title: string; url: string };
  * Every report has an availability state (whether it's active for the
  * current tenant/user or not), that can be requested via an API
  * endpoint. The availability request must contain at least one record
- * ID. For the reports where this is required, we fetch filter the
- * configured reports by their availability state.
+ * ID. For the reports where this is required, we filter the configured
+ * reports by their availability state.
  *
  * The report URLs look like this (where the report can be downloaded):
  *   /Files/{report format}/{report context}/{report id}
@@ -107,7 +107,9 @@ export class ReportsService {
    *
    * @param courseId The ID of the course/event
    */
-  getCourseReports(courseId: number): Observable<ReadonlyArray<ReportInfo>> {
+  getCourseTestsReports(
+    courseId: number,
+  ): Observable<ReadonlyArray<ReportInfo>> {
     return this.getAvailableReports(
       "Anlass",
       this.settings.testsByCourseReports,
@@ -119,8 +121,8 @@ export class ReportsService {
    * Report including grades of multiple courses for a single student
    * (used in events/tests by teachers)
    */
-  getStudentSubscriptionReports(
-    recordIds: ReadonlyArray<number>,
+  getStudentSubscriptionGradesReports(
+    subscriptionIds: ReadonlyArray<number>,
   ): ReadonlyArray<ReportInfo> {
     const reports = this.settings.testsBySubscriptionStudentReports;
     return reports.map((report, i) => {
@@ -128,7 +130,7 @@ export class ReportsService {
         report.type,
         "Anmeldung",
         report.id,
-        recordIds,
+        subscriptionIds,
       );
       return { ...report, title: `Report ${i + 1}`, url };
     });
@@ -138,8 +140,8 @@ export class ReportsService {
    * Report including grades of multiple courses for a single student
    * (used in events/tests by students)
    */
-  getTeacherSubscriptionReports(
-    recordIds: ReadonlyArray<number>,
+  getTeacherSubscriptionGradesReports(
+    subscriptionIds: ReadonlyArray<number>,
   ): ReadonlyArray<ReportInfo> {
     const reports = this.settings.testsBySubscriptionTeacherReports;
     return reports.map((report, i) => {
@@ -147,10 +149,30 @@ export class ReportsService {
         report.type,
         "Anmeldung",
         report.id,
-        recordIds,
+        subscriptionIds,
       );
       return { ...report, title: `Report ${i + 1}`, url };
     });
+  }
+
+  getStudyClassStudentsReports(
+    studyClassId: number,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Anlass",
+      this.settings.studyClassStudentsReports,
+      [studyClassId],
+    );
+  }
+
+  getCourseStudentsReports(
+    courseId: number,
+  ): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports(
+      "Anlass",
+      this.settings.courseStudentsReports,
+      [courseId],
+    );
   }
 
   private getAvailableReports(

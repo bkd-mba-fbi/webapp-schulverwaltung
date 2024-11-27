@@ -1,6 +1,6 @@
 import { Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
-import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
+import { SubscriptionDetail } from "../../shared/models/subscription.model";
 import { SortCriteria } from "../components/presence-control-group/presence-control-group.component";
 
 export interface SubscriptionDetailWithName {

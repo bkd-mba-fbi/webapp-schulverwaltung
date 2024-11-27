@@ -41,5 +41,13 @@ const Person = t.type({
   // HRef: t.string
 });
 
+const PersonSummary = t.type({
+  Id: t.number,
+  DisplayEmail: Option(t.string),
+  FirstName: t.string,
+  LastName: t.string,
+});
+
 type Person = t.TypeOf<typeof Person>;
-export { Person };
+type PersonSummary = t.TypeOf<typeof PersonSummary>;
+export { Person, PersonSummary };

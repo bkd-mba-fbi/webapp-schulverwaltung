@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
 import { buildLesson, buildSubscriptionDetail } from "../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
-import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
+import { SubscriptionDetail } from "../../shared/models/subscription.model";
 import { LessonEntry, fromLesson } from "../models/lesson-entry.model";
 import { PresenceControlGroupService } from "./presence-control-group.service";
 

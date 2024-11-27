@@ -253,6 +253,18 @@
       "add-tests": "Saisir des tests"
     }
   },
+  "events-students": {
+    "no-entries": "Aucune donnée disponible",
+    "registration": "{{count}} inscription",
+    "registrations": "{{count}} inscriptions",
+    "search": "Rechercher",
+    "search-by-name": "Rechercher un nom...",
+    "list": {
+      "header": {
+        "name": "Nom"
+      }
+    }
+  },
   "courses": {
     "registration": "{{count}} inscription",
     "registrations": "{{count}} inscriptions"

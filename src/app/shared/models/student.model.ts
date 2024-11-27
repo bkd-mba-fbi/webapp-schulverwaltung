@@ -7,15 +7,16 @@ const Student = t.type({
   AddressLine2: Maybe(t.string),
   Birthdate: Option(LocalDateTimeFromString),
   DisplayEmail: Option(t.string),
-  // FirstName: t.string,
+  FirstName: t.string,
   FullName: t.string,
   Gender: t.union([t.literal("M"), t.literal("F"), t.literal("X")]),
-  // LastName: t.string,
+  LastName: t.string,
   Location: Option(t.string),
   PhoneMobile: Option(t.string),
   PhonePrivate: Option(t.string),
   PostalCode: Option(t.string),
   // HRef: t.string
 });
+
 type Student = t.TypeOf<typeof Student>;
 export { Student };

@@ -22,7 +22,12 @@
           </td>
           <td class="subject">
             @if (isTeacher$ | async) {
-              <a [href]="buildLink(entry.eventId)" target="_parent">
+              @let link = buildLink(entry.eventId);
+              <a
+                [routerLink]="link.link"
+                [queryParams]="link.params"
+                target="_parent"
+              >
                 {{ entry.subject
                 }}<span class="subject-study-class"
                   >, {{ entry.studyClass }}</span

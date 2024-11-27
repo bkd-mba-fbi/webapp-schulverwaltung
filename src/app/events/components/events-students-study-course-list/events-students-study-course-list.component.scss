@@ -1,0 +1,17 @@
+@import "../../../../bootstrap-variables";
+
+.list-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid $border-color;
+  border-bottom: 2px solid $border-color;
+}
+
+section.list {
+  margin-top: 2 * $spacer;
+}
+
+.name {
+  padding: $spacer;
+}
