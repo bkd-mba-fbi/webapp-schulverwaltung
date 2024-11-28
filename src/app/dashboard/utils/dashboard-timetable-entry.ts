@@ -17,7 +17,7 @@ export function convertTimetableEntry(
   entry: TimetableEntry,
 ): DashboardTimetableEntry {
   return {
-    id: getDateboardTimetableEntryId(entry.EventId, entry.Id),
+    id: getDashboardTimetableEntryId(entry.EventId, entry.Id),
     from: entry.From,
     until: entry.To,
     eventId: entry.EventId,
@@ -37,7 +37,7 @@ export function createStudyClassesMap(
   // Collect classes per event/lesson (i.e. timetable entry)
   const studyClasses = lessonStudyClasses.reduce<Dict<ReadonlyArray<string>>>(
     (acc, lesson) => {
-      const id = getDateboardTimetableEntryId(
+      const id = getDashboardTimetableEntryId(
         lesson.EventRef.Id,
         lesson.LessonRef.Id,
       );
@@ -66,7 +66,7 @@ export function decorateStudyClasses(
   }));
 }
 
-function getDateboardTimetableEntryId(
+function getDashboardTimetableEntryId(
   eventId: number,
   lessonId: number,
 ): string {
