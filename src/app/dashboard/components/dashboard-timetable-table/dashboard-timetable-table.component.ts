@@ -3,7 +3,7 @@ import { Component, Inject, Input } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 import { SETTINGS, Settings } from "src/app/settings";
 import { DashboardService } from "../../services/dashboard.service";
-import { DashboardTimetableEntry } from "../dashboard-timetable/dashboard-timetable.component";
+import { DashboardTimetableEntry } from "../../utils/dashboard-timetable-entry";
 
 @Component({
   selector: "bkd-dashboard-timetable-table",

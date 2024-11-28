@@ -10,6 +10,7 @@ import { mergeUniqueLessonPresences } from "src/app/open-absences/utils/open-abs
 import { SETTINGS, Settings } from "../../settings";
 import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
+import { LessonStudyClass } from "../models/lesson-study-class.model";
 import { Lesson } from "../models/lesson.model";
 import { decodeArray } from "../utils/decode";
 import { spread } from "../utils/function";
@@ -62,6 +63,21 @@ export class LessonPresencesRestService extends RestService<
     return this.http
       .get<unknown>(`${this.baseUrl}/`, { params, headers })
       .pipe(switchMap(decodeArray(Lesson)));
+  }
+
+  getLessonStudyClassesByDate(
+    date: Date,
+  ): Observable<ReadonlyArray<LessonStudyClass>> {
+    const params: Dict<string> = {
+      fields: Object.keys(LessonStudyClass.props).join(","),
+      "filter.LessonDateTimeFrom": `=${format(date, "yyyy-MM-dd")}`,
+      sort: "LessonDateTimeFrom",
+    };
+    const headers: Dict<string> = { "X-Role-Restriction": "LessonTeacherRole" };
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, { params, headers })
+      .pipe(switchMap(decodeArray(LessonStudyClass)));
   }
 
   getListByLessons(

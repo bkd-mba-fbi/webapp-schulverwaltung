@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { LocalDateTimeFromString, Option } from "./common-types";
+import { LocalDateTimeFromString, Maybe, Option } from "./common-types";
 
 const TimetableEntry = t.type({
   Id: t.number,
@@ -11,7 +11,7 @@ const TimetableEntry = t.type({
   EventDesignation: t.string,
   // EventColor: t.number,
   EventLocation: Option(t.string),
-  EventManagerInformation: Option(t.string),
+  EventManagerInformation: Maybe(t.string),
   // EventManagerId: t.number,
   // EventManagerLastname: Option(t.string),
   // EventManagerFirstname: Option(t.string),
