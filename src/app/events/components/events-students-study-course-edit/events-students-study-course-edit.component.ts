@@ -10,6 +10,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import uniq from "lodash-es/uniq";
+import { Observable } from "rxjs";
+import { StatusProcess } from "src/app/shared/models/status-process.model";
+import { StatusProcessesRestService } from "src/app/shared/services/status-processes-rest.service";
 import { StudyCourseSelectionService } from "../../services/study-course-selection.service";
 
 @Component({
@@ -39,6 +42,7 @@ export class EventsStudentsStudyCourseEditComponent {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private statusProcessService: StatusProcessesRestService,
     public selectionService: StudyCourseSelectionService,
   ) {
     effect(() => {
@@ -57,5 +61,10 @@ export class EventsStudentsStudyCourseEditComponent {
 
   private createFormGroup(): FormGroup {
     return this.fb.group({});
+  }
+
+  private loadPossibleStates(): Observable<ReadonlyArray<StatusProcess>> {
+    // TODO
+    return this.statusProcessService.getListByStatus(42);
   }
 }
