@@ -67,16 +67,17 @@ export function convertPersonsToStudentEntries(
     eventId: eventId,
     eventDesignation: subscriptions[0]?.EventDesignation ?? "",
     studyClasses: [],
-    entries: persons.map(
-      (person) =>
-        ({
-          id: person.Id,
-          firstName: person.FirstName,
-          lastName: person.LastName,
-          email: person.DisplayEmail ?? undefined,
-          status: subscriptions.find((s) => s.PersonId === person.Id)?.Status,
-        }) satisfies StudentEntry,
-    ),
+    entries: persons.map((persons) => {
+      const subscription = subscriptions.find((s) => s.PersonId === persons.Id);
+      return {
+        id: persons.Id,
+        subscriptionId: subscription?.Id,
+        firstName: persons.FirstName,
+        lastName: persons.LastName,
+        email: persons.DisplayEmail ?? undefined,
+        status: subscription?.Status,
+      } satisfies StudentEntry;
+    }),
   };
 }
 
