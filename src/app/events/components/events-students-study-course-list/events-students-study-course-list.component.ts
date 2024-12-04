@@ -8,6 +8,7 @@ import {
   output,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { map } from "rxjs";
 import { SortCriteria } from "../../../shared/utils/sort";
@@ -24,11 +25,11 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
   standalone: true,
   imports: [
     AsyncPipe,
+    RouterLink,
     TranslateModule,
     EventsStudentsHeaderComponent,
     EventsStudentsStudyCourseEntryComponent,
   ],
-  providers: [StudyCourseSelectionService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./events-students-study-course-list.component.html",
   styleUrl: "./events-students-study-course-list.component.scss",

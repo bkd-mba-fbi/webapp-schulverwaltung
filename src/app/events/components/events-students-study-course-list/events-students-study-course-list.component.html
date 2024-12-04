@@ -17,7 +17,11 @@
           "events-students.selected" | translate: { count: selectionCount() }
         }}
       </div>
-      <a class="edit btn btn-primary mt-1 mb-2" [class.disabled]="true">
+      <a
+        class="edit btn btn-primary mt-1 mb-2"
+        [class.disabled]="selectionCount() === 0"
+        [routerLink]="['study-course-student-edit']"
+      >
         <i class="material-icons">edit</i>
       </a>
     </div>

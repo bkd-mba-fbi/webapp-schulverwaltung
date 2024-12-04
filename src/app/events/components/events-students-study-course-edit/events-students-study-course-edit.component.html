@@ -1,0 +1,5 @@
+<p>events-students-study-course-edit works!</p>
+
+selected: {{ selectedIds()?.length }}<br />
+ids: {{ selectedIds()?.join(", ") }}<br />
+selection$ {{ selectionService.selection$ | async | json }}
