@@ -264,6 +264,13 @@
       "header": {
         "name": "Name"
       }
+    },
+    "study-course-edit": {
+      "title": "Status ändern",
+      "students-selected": "{{count}} SuS ausgewählt",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
     }
   },
   "courses": {

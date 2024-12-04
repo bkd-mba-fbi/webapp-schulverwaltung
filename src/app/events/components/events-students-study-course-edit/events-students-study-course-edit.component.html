@@ -1,5 +1,32 @@
-<p>events-students-study-course-edit works!</p>
-
-selected: {{ selectedIds()?.length }}<br />
-ids: {{ selectedIds()?.join(", ") }}<br />
-selection$ {{ selectionService.selection$ | async | json }}
+<div class="bkd-container bkd-container-limited">
+  <h1>{{ "events-students.study-course-edit.title" | translate }}</h1>
+  <div class="mb-3 pb-3 border-bottom">
+    {{
+      "events-students.study-course-edit.students-selected"
+        | translate: { count: selectedIds().length }
+    }}
+  </div>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        [disabled]="saving()"
+        (click)="cancel()"
+      >
+        {{ "events-students.study-course-edit.cancel" | translate }}
+      </button>
+      <button type="submit" class="btn btn-primary ms-2" [disabled]="saving()">
+        {{ "events-students.study-course-edit.save" | translate }}
+        @if (saving()) {
+          <div
+            class="spinner-border spinner-border-sm align-middle"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        }
+      </button>
+    </div>
+  </form>
+</div>
