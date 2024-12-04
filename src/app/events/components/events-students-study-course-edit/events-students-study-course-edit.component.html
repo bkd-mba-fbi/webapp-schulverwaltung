@@ -7,6 +7,13 @@
     }}
   </div>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    @if (!statusUnique()) {
+      <div class="alert alert-danger">
+        {{ "events-students.study-course-edit.status-not-unique" | translate }}
+      </div>
+    } @else {
+      TODO
+    }
     <div class="d-flex justify-content-end">
       <button
         type="button"
@@ -16,7 +23,11 @@
       >
         {{ "events-students.study-course-edit.cancel" | translate }}
       </button>
-      <button type="submit" class="btn btn-primary ms-2" [disabled]="saving()">
+      <button
+        type="submit"
+        class="btn btn-primary ms-2"
+        [disabled]="!statusUnique() || saving()"
+      >
         {{ "events-students.study-course-edit.save" | translate }}
         @if (saving()) {
           <div
