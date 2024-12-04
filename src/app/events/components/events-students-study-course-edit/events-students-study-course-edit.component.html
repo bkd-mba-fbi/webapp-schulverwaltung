@@ -12,7 +12,11 @@
         {{ "events-students.study-course-edit.status-not-unique" | translate }}
       </div>
     } @else {
-      TODO
+      <ul>
+        @for (status of possibleStates(); track status.IdStatus) {
+          <li>{{ status.Status }}</li>
+        }
+      </ul>
     }
     <div class="d-flex justify-content-end">
       <button

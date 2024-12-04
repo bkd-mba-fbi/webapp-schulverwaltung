@@ -45,6 +45,7 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
           "EventDesignation",
           "PersonId",
           "Status",
+          "StatusId",
         ].join(","),
       },
     }).pipe(switchMap(decodeArray(Subscription)));

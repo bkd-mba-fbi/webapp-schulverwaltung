@@ -43,6 +43,7 @@ export type StudentEntry = {
   lastName: string;
   email?: string;
   status?: string;
+  statusId?: number;
   studyClass?: string;
   company?: string;
 };

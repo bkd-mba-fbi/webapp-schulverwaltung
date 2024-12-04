@@ -48,7 +48,7 @@ const Subscription = t.type({
   EventId: Option(t.number),
   PersonId: Option(t.number),
   Status: t.string,
-  // StatusId: Option(t.number),
+  StatusId: Option(t.number),
   // IsOkay: Option(t.boolean),
   // IsQueued: Option(t.boolean),
   EventDesignation: Option(t.string),
