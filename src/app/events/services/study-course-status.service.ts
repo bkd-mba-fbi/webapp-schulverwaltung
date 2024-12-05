@@ -64,7 +64,7 @@ export class StudyCourseStatusService {
    * other. This ensures that not all requests are sent at the same time, but
    * still allows for a relatively fast update process.
    */
-  bulkUpdate(
+  bulkUpdateStatus(
     studentEntries: ReadonlyArray<StudentEntry>,
     statusId: number,
   ): Observable<void> {

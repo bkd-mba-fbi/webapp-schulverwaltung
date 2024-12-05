@@ -1,7 +1,16 @@
 import { Injectable, computed, signal } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
@@ -54,8 +63,12 @@ export type PrimarySortKey = "name";
   providedIn: "root",
 })
 export class EventsStudentsStateService {
-  private eventId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get("id"))),
+  private reload$ = new Subject<void>();
+  private eventId$ = this.reload$.pipe(
+    startWith(null),
+    switchMap(() =>
+      this.route.paramMap.pipe(map((params) => Number(params.get("id")))),
+    ),
   );
   private eventTypeId = toSignal(
     this.eventId$.pipe(switchMap(this.loadEventTypeId.bind(this))),
@@ -111,6 +124,10 @@ export class EventsStudentsStateService {
     private lessonPresencesService: LessonPresencesRestService,
     private reportsService: ReportsService,
   ) {}
+
+  reload() {
+    this.reload$.next();
+  }
 
   private loadEventTypeId(eventId: number): Observable<Option<number>> {
     return this.loadingService.load(

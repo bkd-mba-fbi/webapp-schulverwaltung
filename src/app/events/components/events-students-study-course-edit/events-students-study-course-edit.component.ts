@@ -8,12 +8,17 @@ import {
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import isEqual from "lodash-es/isEqual";
 import uniq from "lodash-es/uniq";
-import { Observable, filter, map, switchMap } from "rxjs";
+import { Observable, filter, finalize, map, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { LoadingService } from "src/app/shared/services/loading-service";
+import { ToastService } from "src/app/shared/services/toast.service";
+import {
+  EventsStudentsStateService,
+  StudentEntry,
+} from "../../services/events-students-state.service";
 import { StudyCourseSelectionService } from "../../services/study-course-selection.service";
 import {
   StudyCourseStatus,
@@ -76,28 +81,31 @@ export class EventsStudentsStudyCourseEditComponent {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private statusService: StudyCourseStatusService,
+    private toastService: ToastService,
+    private translate: TranslateService,
     private loadingService: LoadingService,
+    private studyCourseStatusService: StudyCourseStatusService,
+    private stateService: EventsStudentsStateService,
     public selectionService: StudyCourseSelectionService,
   ) {
     effect(() => {
       if (this.selectedIds().length === 0) {
         // No selection present, redirect to list
-        this.cancel();
+        this.navigateBack();
       }
     });
   }
 
   onSubmit(): void {
-    // const newStateId = this.formGroup().value.statusId;
-    // const students = this.selected();
-    // if (newStateId) {
-    //   // this.statusProcessService.updateStatus();
-    // }
+    const newStateId = this.formGroup().value.statusId;
+    const students = this.selected();
+    if (newStateId) {
+      this.save(students, newStateId);
+    }
   }
 
-  cancel(): void {
-    void this.router.navigate(["../"], { relativeTo: this.route });
+  onCancel(): void {
+    this.navigateBack();
   }
 
   private createFormGroup(currentStateId: Option<number>) {
@@ -110,9 +118,33 @@ export class EventsStudentsStudyCourseEditComponent {
     return toObservable(this.currentStatus).pipe(
       switchMap((currentState) =>
         this.loadingService.load(
-          this.statusService.getAvailableStatus(currentState),
+          this.studyCourseStatusService.getAvailableStatus(currentState),
         ),
       ),
     );
+  }
+
+  private save(
+    students: ReadonlyArray<StudentEntry>,
+    newStateId: number,
+  ): void {
+    this.saving.set(true);
+    this.studyCourseStatusService
+      .bulkUpdateStatus(students, newStateId)
+      .pipe(finalize(() => this.saving.set(false)))
+      .subscribe(this.onSaveSuccess.bind(this));
+  }
+
+  private onSaveSuccess(): void {
+    this.stateService.reload();
+    this.toastService.success(
+      this.translate.instant("events-students.study-course-edit.save-success"),
+    );
+    this.navigateBack();
+  }
+
+  private navigateBack(): void {
+    // TODO: pass returnlink (or maybe better handle it in the state service)
+    void this.router.navigate(["../"], { relativeTo: this.route });
   }
 }
