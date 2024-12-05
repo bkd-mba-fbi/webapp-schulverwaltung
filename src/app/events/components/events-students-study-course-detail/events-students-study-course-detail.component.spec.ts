@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { EventsStudentsStudyCourseDetailComponent } from "./events-students-study-course-detail.component";
 
 describe("EventsStudentsStudyCourseDetailComponent", () => {
@@ -6,9 +7,11 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
   let fixture: ComponentFixture<EventsStudentsStudyCourseDetailComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [EventsStudentsStudyCourseDetailComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        imports: [EventsStudentsStudyCourseDetailComponent],
+      }),
+    ).compileComponents();
 
     fixture = TestBed.createComponent(EventsStudentsStudyCourseDetailComponent);
     component = fixture.componentInstance;
