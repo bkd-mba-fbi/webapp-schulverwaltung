@@ -11,9 +11,9 @@ import {
   of,
   shareReplay,
   switchMap,
-  tap,
 } from "rxjs";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
+import { LoadingService } from "src/app/shared/services/loading-service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { TeachersRestService } from "src/app/shared/services/teachers-rest.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
@@ -49,7 +49,7 @@ export class DashboardTimetableComponent {
   isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
   isStudent$ = this.dashboardService.hasStudentRole$;
   date$ = new BehaviorSubject(startOfDay(new Date()));
-  loading$ = new BehaviorSubject(true);
+  loading$ = this.loadingService.loading$;
   timetableEntries$ = this.loadTimetableEntries();
 
   constructor(
@@ -58,20 +58,18 @@ export class DashboardTimetableComponent {
     private lessonPresencesService: LessonPresencesRestService,
     private userSettings: UserSettingsService,
     private dashboardService: DashboardService,
+    private loadingService: LoadingService,
   ) {}
 
   gotoToday(): void {
-    this.loading$.next(true);
     this.date$.next(startOfDay(new Date()));
   }
 
   gotoPreviousDay(): void {
-    this.loading$.next(true);
     this.date$.next(subDays(this.date$.getValue(), 1));
   }
 
   gotoNextDay(): void {
-    this.loading$.next(true);
     this.date$.next(addDays(this.date$.getValue(), 1));
   }
 
@@ -82,33 +80,41 @@ export class DashboardTimetableComponent {
   private loadTimetableEntries(): Observable<
     ReadonlyArray<DashboardTimetableEntry>
   > {
-    return combineLatest([this.isTeacher$, this.isStudent$]).pipe(
-      switchMap(([isTeacher, isStudent]) => {
-        if (isTeacher) {
-          return this.fetchTimetableEntries("teacher");
-        } else if (isStudent) {
-          return this.fetchTimetableEntries("student");
-        }
-        return of([]);
+    return combineLatest([
+      this.isTeacher$,
+      this.isStudent$,
+      this.userId$,
+      this.date$,
+    ]).pipe(
+      switchMap(([isTeacher, isStudent, userId, date]) => {
+        const fetch = () => {
+          if (isTeacher) {
+            return this.fetchTimetableEntries("teacher", userId, date);
+          } else if (isStudent) {
+            return this.fetchTimetableEntries("student", userId, date);
+          }
+          return of([]);
+        };
+        return this.loadingService.load(fetch());
       }),
-      tap(() => this.loading$.next(false)),
       shareReplay(1),
     );
   }
 
   private fetchTimetableEntries(
     userType: "teacher" | "student",
+    userId: number,
+    date: Date,
   ): Observable<ReadonlyArray<DashboardTimetableEntry>> {
-    return combineLatest([this.userId$, this.date$]).pipe(
-      switchMap(([userId, date]) => {
-        const params: Dict<string> = {
-          "filter.From": `=${format(date, "yyyy-MM-dd")}`,
-          sort: "From,To",
-        };
-        return userType === "teacher"
-          ? this.teachersService.getTimetableEntries(userId, params)
-          : this.studentsService.getTimetableEntries(userId, params);
-      }),
+    const params: Dict<string> = {
+      "filter.From": `=${format(date, "yyyy-MM-dd")}`,
+      sort: "From,To",
+    };
+    return (
+      userType === "teacher"
+        ? this.teachersService.getTimetableEntries(userId, params)
+        : this.studentsService.getTimetableEntries(userId, params)
+    ).pipe(
       map((entries) => entries.map(convertTimetableEntry)),
       map((entries) => uniqBy(entries, (entry) => entry.id)), // Due to a bug, the backend returns duplicate entries, so we filter them out here (this can be removed once fixed)
       switchMap((entries) => {
@@ -119,7 +125,7 @@ export class DashboardTimetableComponent {
           // comma-separated) we fetch the study classes separately from the
           // lesson presences for now. This can be removed, once the classes are
           // provided on the timetable entries in a clean way.
-          return this.loadStudyClasses().pipe(
+          return this.loadStudyClasses(date).pipe(
             map((studyClasses) => decorateStudyClasses(entries, studyClasses)),
           );
         } else {
@@ -130,12 +136,11 @@ export class DashboardTimetableComponent {
     );
   }
 
-  private loadStudyClasses(): Observable<Dict<ReadonlyArray<string>>> {
-    return this.date$.pipe(
-      switchMap((date) =>
-        this.lessonPresencesService.getLessonStudyClassesByDate(date),
-      ),
-      map(createStudyClassesMap),
-    );
+  private loadStudyClasses(
+    date: Date,
+  ): Observable<Dict<ReadonlyArray<string>>> {
+    return this.lessonPresencesService
+      .getLessonStudyClassesByDate(date)
+      .pipe(map(createStudyClassesMap));
   }
 }
