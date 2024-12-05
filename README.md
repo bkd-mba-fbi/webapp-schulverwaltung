@@ -31,3 +31,4 @@ Although it can be used standalone during development, the _webapp-schulverwaltu
 - [Internationalization (i18n)](doc/i18n.md) – Translating texts
 - [Browser Testing](doc/browser-testing.md) – Support & BrowserStack.com
 - [Data Decoding with io-ts](doc/io-ts.md) – API data contract
+- [Reactivity](doc/reactivity.md) – Dos and don'ts when using signals & observables

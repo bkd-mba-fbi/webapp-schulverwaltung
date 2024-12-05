@@ -263,6 +263,9 @@
       "header": {
         "name": "Nom"
       }
+    },
+    "study-course-detail": {
+      "status": "Statut"
     }
   },
   "courses": {
