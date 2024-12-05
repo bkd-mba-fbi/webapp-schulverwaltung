@@ -23,7 +23,7 @@ import { LessonIncident } from "./app/shared/models/lesson-incident.model";
 import { LessonPresenceStatistic } from "./app/shared/models/lesson-presence-statistic";
 import { LessonPresence } from "./app/shared/models/lesson-presence.model";
 import { Lesson } from "./app/shared/models/lesson.model";
-import { Person } from "./app/shared/models/person.model";
+import { Person, PersonSummary } from "./app/shared/models/person.model";
 import { PresenceType } from "./app/shared/models/presence-type.model";
 import {
   FinalGrade,
@@ -31,7 +31,7 @@ import {
   GradeOrNoResult,
   StudentGrade,
 } from "./app/shared/models/student-grades";
-import { Student, StudentSummary } from "./app/shared/models/student.model";
+import { Student } from "./app/shared/models/student.model";
 import { StudyClass } from "./app/shared/models/study-class.model";
 import {
   Subscription,
@@ -263,7 +263,7 @@ export function buildStudent(id: number): Student {
   };
 }
 
-export function buildStudentSummary(id: number): StudentSummary {
+export function buildPersonSummary(id: number): PersonSummary {
   return {
     Id: id,
     DisplayEmail: null,

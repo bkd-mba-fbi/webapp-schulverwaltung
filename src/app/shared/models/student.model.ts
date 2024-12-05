@@ -18,13 +18,5 @@ const Student = t.type({
   // HRef: t.string
 });
 
-const StudentSummary = t.type({
-  Id: t.number,
-  DisplayEmail: Option(t.string),
-  FirstName: t.string,
-  LastName: t.string,
-});
-
 type Student = t.TypeOf<typeof Student>;
-type StudentSummary = t.TypeOf<typeof StudentSummary>;
-export { Student, StudentSummary };
+export { Student };

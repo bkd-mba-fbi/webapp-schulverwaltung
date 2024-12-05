@@ -8,6 +8,7 @@ import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { PAGE_LOADING_CONTEXT } from "src/app/shared/services/paginated-entries.service";
+import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import {
   ReportInfo,
   ReportsService,
@@ -15,12 +16,11 @@ import {
 import { notNull } from "src/app/shared/utils/filter";
 import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
-import { StudentsRestService } from "../../shared/services/students-rest.service";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { SortCriteria } from "../../shared/utils/sort";
 import {
   convertCourseToStudentEntries,
-  convertStudentsToStudentEntries,
+  convertPersonsToStudentEntries,
   decorateCourseStudentsWithCompanies,
   decorateStudyClasses,
 } from "../utils/events-students";
@@ -104,7 +104,7 @@ export class EventsStudentsStateService {
     private eventsService: EventsRestService,
     private coursesService: CoursesRestService,
     private subscriptionsService: SubscriptionsRestService,
-    private studentsService: StudentsRestService,
+    private personsService: PersonsRestService,
     private apprenticeshipContractsService: ApprenticeshipContractsRestService,
     private lessonPresencesService: LessonPresencesRestService,
     private reportsService: ReportsService,
@@ -162,13 +162,13 @@ export class EventsStudentsStateService {
       .getSubscriptionsByCourse(eventId, additionalParams)
       .pipe(
         switchMap((subscriptions) =>
-          this.studentsService
-            .getStudentSummaries(
+          this.personsService
+            .getSummaries(
               subscriptions.map(({ PersonId }) => PersonId).filter(notNull),
             )
             .pipe(
               map((students) =>
-                convertStudentsToStudentEntries(
+                convertPersonsToStudentEntries(
                   eventId,
                   students,
                   subscriptions,

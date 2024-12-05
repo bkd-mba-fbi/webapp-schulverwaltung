@@ -1,7 +1,7 @@
 import { StudentCompany } from "src/app/shared/models/apprenticeship-contract.model";
 import { Course } from "src/app/shared/models/course.model";
 import { LessonStudyClass } from "src/app/shared/models/lesson-study-class.model";
-import { StudentSummary } from "../../shared/models/student.model";
+import { PersonSummary } from "src/app/shared/models/person.model";
 import { Subscription } from "../../shared/models/subscription.model";
 import {
   StudentEntries,
@@ -58,23 +58,23 @@ export function decorateCourseStudentsWithCompanies(
   };
 }
 
-export function convertStudentsToStudentEntries(
+export function convertPersonsToStudentEntries(
   eventId: number,
-  students: ReadonlyArray<StudentSummary>,
+  persons: ReadonlyArray<PersonSummary>,
   subscriptions: ReadonlyArray<Subscription>,
 ): StudentEntries {
   return {
     eventId: eventId,
     eventDesignation: subscriptions[0]?.EventDesignation ?? "",
     studyClasses: [],
-    entries: students.map(
-      (student) =>
+    entries: persons.map(
+      (person) =>
         ({
-          id: student.Id,
-          firstName: student.FirstName,
-          lastName: student.LastName,
-          email: student.DisplayEmail ?? undefined,
-          status: subscriptions.find((s) => s.PersonId === student.Id)?.Status,
+          id: person.Id,
+          firstName: person.FirstName,
+          lastName: person.LastName,
+          email: person.DisplayEmail ?? undefined,
+          status: subscriptions.find((s) => s.PersonId === person.Id)?.Status,
         }) satisfies StudentEntry,
     ),
   };

@@ -9,8 +9,8 @@ import { ApprenticeshipContractsRestService } from "src/app/shared/services/appr
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
+import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { ReportsService } from "src/app/shared/services/reports.service";
-import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import {
   buildCourse,
@@ -33,7 +33,7 @@ describe("EventsStudentsStateService", () => {
   let apprenticeshipContractsServiceMock: jasmine.SpyObj<ApprenticeshipContractsRestService>;
   let lessonPresencesServiceMock: jasmine.SpyObj<LessonPresencesRestService>;
   let subscriptionsServiceMock: jasmine.SpyObj<SubscriptionsRestService>;
-  let studentsServiceMock: jasmine.SpyObj<StudentsRestService>;
+  let personsServiceMock: jasmine.SpyObj<PersonsRestService>;
   let course: Course;
   let students: Student[];
   let studyClasses: LessonStudyClass[];
@@ -168,16 +168,15 @@ describe("EventsStudentsStateService", () => {
             },
           },
           {
-            provide: StudentsRestService,
+            provide: PersonsRestService,
             useFactory() {
-              studentsServiceMock = jasmine.createSpyObj(
-                "StudentsRestService",
-                ["getStudentSummaries"],
-              );
-              studentsServiceMock.getStudentSummaries.and.callFake((ids) =>
+              personsServiceMock = jasmine.createSpyObj("PersonsRestService", [
+                "getSummaries",
+              ]);
+              personsServiceMock.getSummaries.and.callFake((ids) =>
                 of(students.filter((s) => ids.includes(s.Id))),
               );
-              return studentsServiceMock;
+              return personsServiceMock;
             },
           },
         ],
