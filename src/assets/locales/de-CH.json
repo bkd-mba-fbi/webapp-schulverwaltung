@@ -265,6 +265,8 @@
         "name": "Name"
       }
     },
+    "status": "Status"
+    },
     "study-course-edit": {
       "title": "Status ändern",
       "students-selected": "{{count}} SuS ausgewählt",

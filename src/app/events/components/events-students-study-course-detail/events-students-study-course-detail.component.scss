@@ -11,3 +11,29 @@ h1 {
 address {
   margin: $spacer 0;
 }
+
+.status {
+  display: flex;
+  align-items: center;
+  padding: $spacer 0;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    span {
+      text-decoration: underline;
+    }
+    span:hover {
+      text-decoration-color: $accent;
+    }
+  }
+
+  i {
+    color: rgba($body-color, 0.5);
+    padding: 0 $spacer/2;
+  }
+}

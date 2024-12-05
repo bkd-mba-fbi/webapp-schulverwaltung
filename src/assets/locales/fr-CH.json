@@ -264,7 +264,8 @@
       "header": {
         "name": "Nom"
       }
-    }
+    },
+    "status": "Statut"
   },
   "courses": {
     "registration": "{{count}} inscription",
