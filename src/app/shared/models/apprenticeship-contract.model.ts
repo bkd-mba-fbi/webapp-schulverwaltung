@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { LocalDateTimeFromString, Option } from "./common-types";
+import { LocalDateTimeFromString, Maybe, Option } from "./common-types";
 
 const ApprenticeshipContract = t.type({
   Id: t.number,
@@ -20,5 +20,13 @@ const ApprenticeshipContract = t.type({
   // HRef: t.string
 });
 
+const StudentCompany = t.type({
+  Id: t.number,
+  StudentId: t.number,
+  CompanyName: Maybe(t.string),
+  CompanyNameAddition: Maybe(t.string),
+});
+
 type ApprenticeshipContract = t.TypeOf<typeof ApprenticeshipContract>;
-export { ApprenticeshipContract };
+type StudentCompany = t.TypeOf<typeof StudentCompany>;
+export { ApprenticeshipContract, StudentCompany };

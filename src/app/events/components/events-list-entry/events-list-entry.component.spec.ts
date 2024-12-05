@@ -4,7 +4,6 @@ import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EventsListEntryComponent } from "./events-list-entry.component";
 
 describe("EventsListEntryComponent", () => {
-  let component: EventsListEntryComponent;
   let fixture: ComponentFixture<EventsListEntryComponent>;
   let element: HTMLElement;
 
@@ -16,15 +15,15 @@ describe("EventsListEntryComponent", () => {
     ).compileComponents();
 
     fixture = TestBed.createComponent(EventsListEntryComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
 
-    component.event = buildEventEntry(1);
-    component.event.evaluationText = "Lorem ipsum";
+    const event = buildEventEntry(1);
+    event.evaluationText = "Lorem ipsum";
+    fixture.componentRef.setInput("event", event);
   });
 
   it("renders entry without ratings column", () => {
-    component.withRatings = false;
+    fixture.componentRef.setInput("withRatings", false);
 
     fixture.detectChanges();
     expect(element.querySelector(".rating")).toBeNull();
@@ -32,7 +31,7 @@ describe("EventsListEntryComponent", () => {
   });
 
   it("renders entry with ratings column", () => {
-    component.withRatings = true;
+    fixture.componentRef.setInput("withRatings", true);
 
     fixture.detectChanges();
     expect(element.querySelector(".rating")).toBeTruthy();

@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
+import { Router, RouterLink } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { format } from "date-fns";
 import {
@@ -29,6 +30,7 @@ import {
   isRated,
   isStudyCourseLeader,
 } from "../utils/events";
+import { getEventsStudentsLink } from "../utils/events-students";
 
 export enum EventState {
   Rating = "rating",
@@ -46,10 +48,8 @@ export interface EventEntry {
   studentCount: number;
   state: Option<EventState>;
   evaluationText?: string;
-  evaluationLink?: Option<string>;
+  evaluationLink?: Option<RouterLink["routerLink"]>;
 }
-
-type LinkType = "evaluation" | "eventdetail";
 
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
@@ -100,6 +100,7 @@ export class EventsStateService {
     private loadingService: LoadingService,
     private storageService: StorageService,
     private translate: TranslateService,
+    private router: Router,
     @Inject(SETTINGS) private settings: Settings,
   ) {}
 
@@ -195,7 +196,7 @@ export class EventsStateService {
       return {
         id: course.Id,
         designation: getCourseDesignation(course),
-        detailLink: this.buildLink(course.Id, "eventdetail"),
+        detailLink: this.buildStudentsLink(course.Id),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
@@ -204,7 +205,10 @@ export class EventsStateService {
           state,
           course.EvaluationStatusRef.EvaluationUntil,
         ),
-        evaluationLink: this.getEvaluationLink(state?.value, course),
+        evaluationLink:
+          state?.value && state?.value !== EventState.Tests
+            ? this.buildEvaluationLink(course.Id)
+            : null,
       };
     });
   }
@@ -218,7 +222,7 @@ export class EventsStateService {
       .map((studyCourse) => ({
         id: studyCourse.Id,
         designation: studyCourse.Designation,
-        detailLink: this.buildLink(studyCourse.Id, "eventdetail"),
+        detailLink: this.buildStudentsLink(studyCourse.Id),
         studentCount: studyCourse.StudentCount,
         state: null,
       }));
@@ -233,7 +237,7 @@ export class EventsStateService {
       ...e,
       state: EventState.Rating,
       evaluationText: this.translate.instant("events.state.rating"),
-      evaluationLink: this.buildLink(e.id, "evaluation"),
+      evaluationLink: this.buildEvaluationLink(e.id),
     }));
   }
 
@@ -243,7 +247,7 @@ export class EventsStateService {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
       designation: studyClass.Number,
-      detailLink: this.buildLink(studyClass.Id, "eventdetail"),
+      detailLink: this.buildStudentsLink(studyClass.Id),
       studentCount: studyClass.StudentCount,
       state: null,
     }));
@@ -262,17 +266,12 @@ export class EventsStateService {
       : "";
   }
 
-  private getEvaluationLink(
-    state: Maybe<EventState>,
-    course: Course,
-  ): Option<string> {
-    return state && state !== EventState.Tests
-      ? this.buildLink(course.Id, "evaluation")
-      : null;
+  private buildStudentsLink(eventId: number) {
+    return getEventsStudentsLink(eventId, this.router.url);
   }
 
-  private buildLink(id: number, linkType: LinkType): string {
-    const link = this.settings.eventlist[linkType] ?? "";
+  private buildEvaluationLink(id: number): RouterLink["routerLink"] {
+    const link = this.settings.eventlist["evaluation"] ?? "";
     return link.replace(":id", String(id));
   }
 }
