@@ -23,3 +23,11 @@
     <span>In Bearbeitung (TODO)</span>
   </a>
 </div>
+@for (detail of subscriptionDetails(); track detail.Id) {
+  <ul>
+    <li>{{ detail.Id }}</li>
+    <li>{{ detail.Value }}</li>
+    <li>{{ detail.VssDesignation }}</li>
+    <li>{{ detail.VssStyle }}</li>
+  </ul>
+}
