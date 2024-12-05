@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudyCourseSelectionService } from "../../services/study-course-selection.service";
 import { EventsStudentsStudyCourseListComponent } from "./events-students-study-course-list.component";
 
 describe("EventsStudentsStudyCourseListComponent", () => {
@@ -10,6 +11,7 @@ describe("EventsStudentsStudyCourseListComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EventsStudentsStudyCourseListComponent],
+        providers: [StudyCourseSelectionService],
       }),
     ).compileComponents();
 

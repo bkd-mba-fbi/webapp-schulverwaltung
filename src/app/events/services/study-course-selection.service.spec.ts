@@ -6,7 +6,11 @@ describe("StudyCourseSelectionService", () => {
   let service: StudyCourseSelectionService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule(buildTestModuleMetadata({}));
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [StudyCourseSelectionService],
+      }),
+    );
     service = TestBed.inject(StudyCourseSelectionService);
   });
 

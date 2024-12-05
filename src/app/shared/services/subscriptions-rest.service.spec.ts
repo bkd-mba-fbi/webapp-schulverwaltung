@@ -52,7 +52,7 @@ describe("SubscriptionsRestService", () => {
         buildSubscription(1, 11, courseId),
       ];
 
-      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.EventId==9704&fields=Id,EventId,EventDesignation,PersonId,Status`;
+      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.EventId==9704&fields=Id,EventId,EventDesignation,PersonId,Status,StatusId`;
 
       let result: ReadonlyArray<Subscription> | undefined;
       service.getSubscriptionsByCourse(courseId).subscribe((response) => {
@@ -75,7 +75,7 @@ describe("SubscriptionsRestService", () => {
       const data: ReadonlyArray<Subscription> = [
         buildSubscription(1, 11, courseId),
       ];
-      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.EventId==9704&filter.IsOkay==1&fields=Id,EventId,EventDesignation,PersonId,Status`;
+      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.EventId==9704&filter.IsOkay==1&fields=Id,EventId,EventDesignation,PersonId,Status,StatusId`;
 
       let result: ReadonlyArray<Subscription> | undefined;
       service

@@ -4,6 +4,7 @@ import {
   EventsStudentsStateService,
   StudentEntry,
 } from "../../services/events-students-state.service";
+import { StudyCourseSelectionService } from "../../services/study-course-selection.service";
 import { EventsStudentsListComponent } from "./events-students-list.component";
 
 describe("EventsStudentsListComponent", () => {
@@ -16,6 +17,7 @@ describe("EventsStudentsListComponent", () => {
       buildTestModuleMetadata({
         imports: [EventsStudentsListComponent],
         providers: [
+          StudyCourseSelectionService,
           {
             provide: EventsStudentsStateService,
             useFactory() {
