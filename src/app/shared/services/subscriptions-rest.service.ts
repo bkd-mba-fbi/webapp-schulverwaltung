@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { Identifiable } from "../models/common-types";
-import { Subscription } from "../models/subscription.model";
+import { Subscription, SubscriptionDetail } from "../models/subscription.model";
 import { decodeArray } from "../utils/decode";
 import { RestService } from "./rest.service";
 
@@ -74,5 +74,13 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
         },
       })
       .pipe(switchMap(decodeArray(Subscription)));
+  }
+
+  getSubscriptionDetailsById(
+    id: number,
+  ): Observable<ReadonlyArray<SubscriptionDetail>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${id}/SubscriptionDetails`)
+      .pipe(switchMap(decodeArray(SubscriptionDetail)));
   }
 }

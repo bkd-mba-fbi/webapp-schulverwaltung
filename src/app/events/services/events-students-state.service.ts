@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
@@ -16,6 +16,7 @@ import {
 import { notNull } from "src/app/shared/utils/filter";
 import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
+import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { SortCriteria } from "../../shared/utils/sort";
 import {
@@ -38,6 +39,7 @@ export type StudentEntries = {
 
 export type StudentEntry = {
   id: number;
+  subscriptionId?: number;
   name: string;
   email?: string;
   status?: string;
@@ -51,7 +53,7 @@ export type PrimarySortKey = "name";
   providedIn: "root",
 })
 export class EventsStudentsStateService {
-  private eventId$ = combineLatest([
+  eventId$ = combineLatest([
     this.route.paramMap,
     this.route.parent?.paramMap ?? of(null),
   ]).pipe(
@@ -61,11 +63,11 @@ export class EventsStudentsStateService {
       Number(params.get("id") || parentParams?.get("id")),
     ),
   );
-  private eventTypeId = toSignal(
-    this.eventId$.pipe(switchMap(this.loadEventTypeId.bind(this))),
-    { initialValue: null },
+  private eventTypeId$ = this.eventId$.pipe(
+    switchMap(this.loadEventTypeId.bind(this)),
   );
-  private studentEntries = toSignal(this.loadStudentEntries(), {
+  private eventTypeId = toLazySignal(this.eventTypeId$, { initialValue: null });
+  private studentEntries = toLazySignal(this.loadStudentEntries(), {
     initialValue: null,
   });
 
@@ -96,10 +98,10 @@ export class EventsStudentsStateService {
     this.getMailtoLink(this.eventTypeId(), this.entries()),
   );
 
-  reports = toSignal(
+  reports = toLazySignal(
     combineLatest([
       this.eventId$,
-      toObservable(this.eventTypeId).pipe(filter(notNull)),
+      this.eventTypeId$.pipe(filter(notNull)),
     ]).pipe(switchMap(spread(this.loadReports.bind(this)))),
     { initialValue: [] },
   );
@@ -124,7 +126,7 @@ export class EventsStudentsStateService {
   }
 
   private loadStudentEntries(): Observable<Option<StudentEntries>> {
-    return combineLatest([this.eventId$, toObservable(this.eventTypeId)]).pipe(
+    return combineLatest([this.eventId$, this.eventTypeId$]).pipe(
       switchMap(([eventId, eventTypeId]) => {
         const fetch = () => {
           switch (eventTypeId) {

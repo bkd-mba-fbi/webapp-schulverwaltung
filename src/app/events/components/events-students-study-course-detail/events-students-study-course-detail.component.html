@@ -1,0 +1,60 @@
+<div class="bkd-container bkd-container-limited">
+  <bkd-backlink link="../.." [params]="backLink()"></bkd-backlink>
+
+  @let personData = person();
+  @if (personData) {
+    <h1>{{ personData.FullName }}</h1>
+    <span class="additional-info">
+      @if (personData.Birthdate) {
+        {{ personData.Birthdate | date: "dd.MM.yyyy" }}
+      }
+      @if (personData.Gender) {
+        ({{ personData.Gender }})
+      }
+    </span>
+    <address>
+      @if (personData.AddressLine1) {
+        {{ personData.AddressLine1 }}<br />
+      }
+      @if (personData.Zip && personData.Location) {
+        {{ personData.Zip }} {{ personData.Location }}<br />
+      }
+      @if (personData.PhonePrivate) {
+        <a href="tel:{{ personData.PhonePrivate }}">{{
+          personData.PhonePrivate
+        }}</a
+        ><br />
+      }
+      @if (personData.PhoneMobile) {
+        <a href="tel:{{ personData.PhoneMobile }}">{{
+          personData.PhoneMobile
+        }}</a>
+      }
+    </address>
+  }
+
+  @let status = subscription()?.Status;
+  @if (status) {
+    <div class="status">
+      {{ "events-students.study-course-detail.status" | translate }}:
+      <span class="ms-2">{{ status }}</span>
+    </div>
+  }
+
+  @for (detail of subscriptionDetails(); track detail.id) {
+    @if (detail.value) {
+      <div class="detail">
+        <div>{{ detail.label }}</div>
+        @if (detail.file !== null) {
+          <a href="{{ detail.file }}" target="_blank">{{ detail.value }}</a>
+        } @else {
+          {{ detail.value }}
+        }
+      </div>
+    }
+  }
+
+  @if (loading()) {
+    <bkd-spinner></bkd-spinner>
+  }
+</div>

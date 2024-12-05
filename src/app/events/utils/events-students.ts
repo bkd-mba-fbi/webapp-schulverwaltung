@@ -74,6 +74,8 @@ export function convertPersonsToStudentEntries(
       (person) =>
         ({
           id: person.Id,
+          subscriptionId: subscriptions.find((s) => s.PersonId === person.Id)
+            ?.Id,
           name: person.FullName,
           email:
             // Due to a backend bug where `DisplayEmail` is null for study class

@@ -19,9 +19,8 @@ export class EventsStudentsStudyCourseEntryComponent {
   returnLink = input<Option<string>>(null);
 
   link = computed<RouterLink["routerLink"]>(() => [
-    "student",
+    "study-course-student",
     this.entry().id,
-    "absences",
   ]);
   linkParams = computed<Params>(() => {
     const returnlink = this.returnLink();

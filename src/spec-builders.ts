@@ -486,6 +486,8 @@ export function buildSubscriptionDetail(
     IdPerson: 1,
     VssId: vssId,
     Value: value || "",
+    VssDesignation: "",
+    VssStyle: "",
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: [

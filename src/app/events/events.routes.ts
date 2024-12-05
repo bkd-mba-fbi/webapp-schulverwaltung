@@ -3,6 +3,7 @@ import { dossierRoute } from "../shared/components/student-dossier/dossier-route
 import { EventsCurrentListComponent } from "./components/events-current-list/events-current-list.component";
 import { EventsCurrentComponent } from "./components/events-current/events-current.component";
 import { EventsStudentsListComponent } from "./components/events-students-list/events-students-list.component";
+import { EventsStudentsStudyCourseDetailComponent } from "./components/events-students-study-course-detail/events-students-study-course-detail.component";
 import { EventsStudentsComponent } from "./components/events-students/events-students.component";
 import { EventsTestsComponent } from "./components/events-tests/events-tests.component";
 import { EventsComponent } from "./components/events/events.component";
@@ -17,6 +18,10 @@ export function getStudentsRoute(path: string): Route {
     component: EventsStudentsComponent,
     children: [
       { path: "", component: EventsStudentsListComponent },
+      {
+        path: "study-course-student/:id",
+        component: EventsStudentsStudyCourseDetailComponent,
+      },
       dossierRoute,
     ],
   };

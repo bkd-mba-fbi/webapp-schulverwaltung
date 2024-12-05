@@ -404,6 +404,7 @@ describe("EventsStudentsStateService", () => {
         const expected = [
           {
             id: 10,
+            subscriptionId: 12,
             name: "McCartney Paul",
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
@@ -411,6 +412,7 @@ describe("EventsStudentsStateService", () => {
           },
           {
             id: 20,
+            subscriptionId: 22,
             name: "Lennon John",
             email: "john.lennon@example.com",
             status: "Aufgenommen",
@@ -418,6 +420,7 @@ describe("EventsStudentsStateService", () => {
           },
           {
             id: 30,
+            subscriptionId: 32,
             name: "Harrison George",
             email: "george.harrison@example.com",
             status: "Aufgenommen",
@@ -425,6 +428,7 @@ describe("EventsStudentsStateService", () => {
           },
           {
             id: 40,
+            subscriptionId: 42,
             name: "Starr Ringo",
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
@@ -490,24 +494,28 @@ describe("EventsStudentsStateService", () => {
             name: "McCartney Paul",
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
+            subscriptionId: 13,
           },
           {
             id: 20,
             name: "Lennon John",
             email: "john.lennon@example.com",
             status: "Aufgenommen",
+            subscriptionId: 23,
           },
           {
             id: 30,
             name: "Harrison George",
             email: "george.harrison@example.com",
             status: "Aufgenommen",
+            subscriptionId: 33,
           },
           {
             id: 40,
             name: "Starr Ringo",
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
+            subscriptionId: 43,
           },
         ];
 
