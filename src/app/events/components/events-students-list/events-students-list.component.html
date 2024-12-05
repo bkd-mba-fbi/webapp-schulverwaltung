@@ -1,0 +1,45 @@
+@let link = returnLink();
+@if (link) {
+  <bkd-backlink [link]="[link]">
+    <div class="d-flex">
+      @if (state.mailtoLink()) {
+        <a
+          class="mail btn btn-primary btn-icon me-2"
+          [href]="state.mailtoLink()"
+          target="_blank"
+        >
+          <i class="material-icons">mail</i>
+        </a>
+      }
+      <bkd-reports-link
+        [reports]="state.reports()"
+        class="ms-2"
+      ></bkd-reports-link>
+    </div>
+  </bkd-backlink>
+}
+
+@if (state.loading()) {
+  <bkd-spinner></bkd-spinner>
+} @else if (state.entries().length === 0) {
+  <p>{{ "events-students.no-entries" | translate }}</p>
+} @else if (state.isStudyCourse()) {
+  <bkd-events-students-study-course-list
+    [title]="state.title()"
+    [count]="state.entries().length"
+    [entries]="state.filteredEntries()"
+    [returnLink]="returnLink()"
+    [sortCriteria]="state.sortCriteria()"
+    (toggleSort)="state.toggleSort()"
+    [(searchTerm)]="state.searchTerm"
+  ></bkd-events-students-study-course-list>
+} @else {
+  <bkd-events-students-course-list
+    [title]="state.title()"
+    [count]="state.entries().length"
+    [entries]="state.filteredEntries()"
+    [multipleStudyClasses]="state.multipleStudyClasses()"
+    [returnLink]="returnLink()"
+    [(searchTerm)]="state.searchTerm"
+  ></bkd-events-students-course-list>
+}

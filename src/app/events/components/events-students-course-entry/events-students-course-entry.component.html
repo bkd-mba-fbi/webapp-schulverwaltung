@@ -1,0 +1,17 @@
+<bkd-avatar
+  [studentId]="entry().id"
+  [link]="link()"
+  [linkParams]="linkParams()"
+  class="avatar large"
+></bkd-avatar>
+<a
+  class="name"
+  [title]="name()"
+  [routerLink]="link()"
+  [queryParams]="linkParams()"
+  >{{ name() }}</a
+>
+<div class="study-class">
+  {{ multipleStudyClasses() ? entry().studyClass : "" }}
+</div>
+<div class="company" [title]="entry().company">{{ entry().company }}</div>

@@ -4,7 +4,7 @@ import * as t from "io-ts";
 import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
-import { Person } from "../models/person.model";
+import { Person, PersonSummary } from "../models/person.model";
 import { decode, decodeArray } from "../utils/decode";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
@@ -25,6 +25,19 @@ export class PersonsRestService extends RestService<typeof Person> {
     personIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<Person>> {
     return this.getList({ params: { "filter.Id": `;${personIds.join(";")}` } });
+  }
+
+  getSummaries(
+    ids: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<PersonSummary>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          "filter.Id": `;${ids.join(";")}`,
+          fields: ["Id", "FirstName", "LastName", "DisplayEmail"].join(","),
+        },
+      })
+      .pipe(switchMap(decodeArray(PersonSummary)));
   }
 
   getMyself(options?: { context?: HttpContext }): Observable<Person> {

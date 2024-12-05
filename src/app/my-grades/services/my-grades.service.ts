@@ -36,24 +36,20 @@ export class MyGradesService {
     map((courses) => courses.flatMap((course: Course) => course.Id)),
   );
 
-  private idSubscriptions$ = combineLatest([
+  private subscriptionIds$ = combineLatest([
     this.studentId$,
     this.studentCourseIds$,
   ]).pipe(
     switchMap(([studentId, courseIds]) =>
-      this.subscriptionRestService.getIdSubscriptionsByStudentAndCourse(
+      this.subscriptionRestService.getSubscriptionIdsByStudentAndCourse(
         studentId,
         courseIds,
       ),
     ),
   );
 
-  private ids$ = this.idSubscriptions$.pipe(
-    map((subscriptions) => subscriptions.map((s) => s.Id)),
-  );
-
-  testReports$ = this.ids$.pipe(
-    map((ids) => this.reportsService.getStudentSubscriptionReports(ids)),
+  testReports$ = this.subscriptionIds$.pipe(
+    map((ids) => this.reportsService.getStudentSubscriptionGradesReports(ids)),
   );
 
   private tests$ = this.studentCourses$.pipe(

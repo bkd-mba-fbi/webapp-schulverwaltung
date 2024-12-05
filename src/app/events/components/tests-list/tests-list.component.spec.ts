@@ -54,9 +54,9 @@ describe("TestsListComponent", () => {
     } as unknown as TestStateService;
 
     const reportServiceMock = jasmine.createSpyObj("reportService", [
-      "getCourseReports",
+      "getCourseTestsReports",
     ]);
-    reportServiceMock.getCourseReports.and.returnValue(of([]));
+    reportServiceMock.getCourseTestsReports.and.returnValue(of([]));
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [TestsListComponent],

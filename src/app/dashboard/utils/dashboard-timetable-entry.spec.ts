@@ -41,21 +41,25 @@ describe("Dashboard timetable entry utilities", () => {
           EventRef: { Id: 9742, HRef: "" },
           LessonRef: { Id: 1290, HRef: "" },
           StudyClassNumber: "27a",
+          StudentRef: { Id: 10, HRef: "" },
         },
         {
           EventRef: { Id: 9742, HRef: "" },
           LessonRef: { Id: 1290, HRef: "" },
           StudyClassNumber: "27b",
+          StudentRef: { Id: 10, HRef: "" },
         },
         {
           EventRef: { Id: 9741, HRef: "" },
           LessonRef: { Id: 1290, HRef: "" },
           StudyClassNumber: "27c",
+          StudentRef: { Id: 10, HRef: "" },
         },
         {
           EventRef: { Id: 9742, HRef: "" },
           LessonRef: { Id: 1291, HRef: "" },
           StudyClassNumber: "27d",
+          StudentRef: { Id: 10, HRef: "" },
         },
       ];
       const result = createStudyClassesMap(lessonStudyClasses);

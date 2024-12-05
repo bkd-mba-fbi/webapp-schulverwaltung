@@ -1,0 +1,21 @@
+<h1>{{ title() }}</h1>
+
+@let registrations = count();
+@if (registrations !== null) {
+  <div class="additional-info">
+    {{
+      (registrations === 1
+        ? "events-students.registration"
+        : "events-students.registrations"
+      ) | translate: { count: registrations }
+    }}
+  </div>
+}
+
+<bkd-resettable-input
+  class="search"
+  [value]="searchTerm()"
+  [placeholder]="'events-students.search-by-name' | translate"
+  [label]="'events-students.search' | translate"
+  (valueChange)="searchTerm.set($event)"
+></bkd-resettable-input>

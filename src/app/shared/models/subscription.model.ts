@@ -42,39 +42,38 @@ const SubscriptionDetail = t.type({
   // HRef: t.string,
 });
 
-const IdSubscription = t.type({
+const Subscription = t.type({
   Id: t.number,
-  CurrentWorkProgressId: Option(t.string || Option(t.number)),
+  // CurrentWorkProgressId: Option(t.string || Option(t.number)),
   EventId: Option(t.number),
   PersonId: Option(t.number),
   Status: t.string,
-  StatusId: Option(t.number),
-  IsOkay: Option(t.boolean),
-  IsQueued: Option(t.boolean),
+  // StatusId: Option(t.number),
+  // IsOkay: Option(t.boolean),
+  // IsQueued: Option(t.boolean),
   EventDesignation: Option(t.string),
-  EventInformation: Option(t.string || t.number),
-  EventNotes: Option(t.string || t.number),
-  CheckPersonalInformation: Option(t.boolean),
-  CorrespondencePersonId: Option(t.number),
-  CorrespondenceAddressTypeId: Option(t.string || t.number),
-  Billing1PersonId: Option(t.number),
-  Billing1AddressTypeId: Option(t.string || t.number),
-  Billing2PersonId: Option(t.string || t.number),
-  Billing2AddressTypeId: Option(t.string || t.number),
-  KindOfPaymentId1: Option(t.string || t.number),
-  KindOfPaymentEmail1: Option(t.string || t.number),
-  KindOfPaymentId2: Option(t.string || t.number),
-  KindOfPaymentEmail2: Option(t.string || t.number),
-  IdObject: Option(t.number),
-  IdSubscription: Option(t.number),
-  IdStatus: Option(t.number),
-  AnsweredQuestions: Option(t.string || t.number),
-  Messages: Option(t.string || t.number),
-  SubscriptionDetails: Option(t.array(SubscriptionDetail)),
-  HRef: Option(t.string),
+  // EventInformation: Option(t.string || t.number),
+  // EventNotes: Option(t.string || t.number),
+  // CheckPersonalInformation: Option(t.boolean),
+  // CorrespondencePersonId: Option(t.number),
+  // CorrespondenceAddressTypeId: Option(t.string || t.number),
+  // Billing1PersonId: Option(t.number),
+  // Billing1AddressTypeId: Option(t.string || t.number),
+  // Billing2PersonId: Option(t.string || t.number),
+  // Billing2AddressTypeId: Option(t.string || t.number),
+  // KindOfPaymentId1: Option(t.string || t.number),
+  // KindOfPaymentEmail1: Option(t.string || t.number),
+  // KindOfPaymentId2: Option(t.string || t.number),
+  // KindOfPaymentEmail2: Option(t.string || t.number),
+  // IdObject: Option(t.number),
+  // IdSubscription: Option(t.number),
+  // IdStatus: Option(t.number),
+  // AnsweredQuestions: Option(t.string || t.number),
+  // Messages: Option(t.string || t.number),
+  // SubscriptionDetails: Option(t.array(SubscriptionDetail)),
+  // HRef: Option(t.string),
 });
 
 type SubscriptionDetail = t.TypeOf<typeof SubscriptionDetail>;
-type IdSubscription = t.TypeOf<typeof IdSubscription>;
-export { SubscriptionDetail as SubscriptionDetail };
-export { IdSubscription as IdSubscription };
+type Subscription = t.TypeOf<typeof Subscription>;
+export { Subscription, SubscriptionDetail };
