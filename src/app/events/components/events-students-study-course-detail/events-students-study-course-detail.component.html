@@ -20,7 +20,7 @@
   {{ "events-students.study-course-detail.status" | translate }}:
   <a href="">
     <i class="material-icons">edit</i>
-    <span>In Bearbeitung (TODO)</span>
+    <span>{{ studentEntry()?.status }}</span>
   </a>
 </div>
 @for (detail of subscriptionDetails(); track detail.Id) {
