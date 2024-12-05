@@ -1,8 +1,8 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { buildSubscription } from "src/spec-builders";
+import { buildSubscription, buildSubscriptionDetail } from "src/spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
-import { Subscription } from "../models/subscription.model";
+import { Subscription, SubscriptionDetail } from "../models/subscription.model";
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
 describe("SubscriptionsRestService", () => {
@@ -91,6 +91,32 @@ describe("SubscriptionsRestService", () => {
           ({ urlWithParams }) => urlWithParams === expectedUrl,
           expectedUrl,
         )
+        .flush(data);
+
+      httpTestingController.verify();
+      expect(result).toEqual(data);
+    });
+  });
+
+  describe(".getSubscriptionDetailsById", () => {
+    it("should get list of SubscriptionDetails for a subscription id", () => {
+      const subscriptionId = 1;
+      const data: ReadonlyArray<SubscriptionDetail> = [
+        buildSubscriptionDetail(1),
+        buildSubscriptionDetail(2),
+      ];
+
+      const expectedUrl = `https://eventotest.api/Subscriptions/${subscriptionId}/SubscriptionDetails`;
+
+      let result: ReadonlyArray<SubscriptionDetail> | undefined;
+      service
+        .getSubscriptionDetailsById(subscriptionId)
+        .subscribe((response) => {
+          result = response;
+        });
+
+      httpTestingController
+        .expectOne(({ url }) => url === expectedUrl, expectedUrl)
         .flush(data);
 
       httpTestingController.verify();
