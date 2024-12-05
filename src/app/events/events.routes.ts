@@ -30,7 +30,6 @@ export const EVENTS_ROUTES: Routes = [
         children: [
           { path: "", component: EventsStudentsListComponent },
           dossierRoute,
-          dossierRoute,
           {
             path: "study-course-student/:id",
             component: EventsStudentsStudyCourseDetailComponent,
