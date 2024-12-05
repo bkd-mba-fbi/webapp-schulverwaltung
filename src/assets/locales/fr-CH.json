@@ -265,7 +265,9 @@
         "name": "Nom"
       }
     },
-    "status": "Statut"
+    "study-course-detail": {
+      "status": "Statut"
+    }
   },
   "courses": {
     "registration": "{{count}} inscription",
