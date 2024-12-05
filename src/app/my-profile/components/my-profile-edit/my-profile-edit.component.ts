@@ -8,7 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import {
   filter,
@@ -30,8 +30,7 @@ import { MyProfileService } from "../../services/my-profile.service";
   templateUrl: "./my-profile-edit.component.html",
   styleUrls: ["./my-profile-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslateModule],
+  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslatePipe],
 })
 export class MyProfileEditComponent {
   student$ = this.profileService.profile$.pipe(

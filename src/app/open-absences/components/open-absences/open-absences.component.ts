@@ -9,7 +9,6 @@ import { OpenAbsencesService } from "../../services/open-absences.service";
   templateUrl: "./open-absences.component.html",
   styleUrls: ["./open-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
   providers: [
     OpenAbsencesService,

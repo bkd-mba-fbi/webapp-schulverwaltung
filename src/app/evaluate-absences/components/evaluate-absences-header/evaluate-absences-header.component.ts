@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { TypeaheadComponent } from "../../../shared/components/typeahead/typeahead.component";
@@ -17,8 +17,7 @@ import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.s
   templateUrl: "./evaluate-absences-header.component.html",
   styleUrls: ["./evaluate-absences-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [TypeaheadComponent, TranslateModule],
+  imports: [TypeaheadComponent, TranslatePipe],
 })
 export class EvaluateAbsencesHeaderComponent {
   @Input()

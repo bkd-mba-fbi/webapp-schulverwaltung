@@ -17,7 +17,6 @@ import {
     <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
   </div>`,
   styleUrls: ["./average-grades.component.scss"],
-  standalone: true,
   imports: [],
 })
 export class AverageGradesComponent {

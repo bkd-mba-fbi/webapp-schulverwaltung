@@ -1,7 +1,7 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -20,13 +20,12 @@ import { getCourseDesignation } from "../../utils/events";
   selector: "bkd-tests-header",
   templateUrl: "./tests-header.component.html",
   styleUrls: ["./tests-header.component.scss"],
-  standalone: true,
   imports: [
     BacklinkComponent,
     RouterLink,
     ReportsLinkComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class TestsHeaderComponent implements OnChanges {

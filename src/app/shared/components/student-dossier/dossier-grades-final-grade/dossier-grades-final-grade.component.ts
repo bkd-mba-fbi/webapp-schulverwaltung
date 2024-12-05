@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import * as Gradings from "src/app/shared/utils/gradings";
@@ -18,8 +18,7 @@ import { DecimalOrDashPipe } from "../../../pipes/decimal-or-dash.pipe";
     </div>
   </div>`,
   styleUrls: ["./dossier-grades-final-grade.component.scss"],
-  standalone: true,
-  imports: [TranslateModule, DecimalOrDashPipe],
+  imports: [TranslatePipe, DecimalOrDashPipe],
 })
 export class DossierGradesFinalGradeComponent {
   @Input() finalGrade: Option<FinalGrading>;

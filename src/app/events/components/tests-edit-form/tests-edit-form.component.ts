@@ -22,7 +22,7 @@ import {
   NgbDateParserFormatter,
   NgbInputDatepicker,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 import { BehaviorSubject, Subject, of, takeUntil } from "rxjs";
 import { Test } from "src/app/shared/models/test.model";
@@ -39,14 +39,13 @@ import { TestStateService } from "../../services/test-state.service";
   templateUrl: "./tests-edit-form.component.html",
   styleUrls: ["./tests-edit-form.component.scss"],
   schemas: [NO_ERRORS_SCHEMA], // otherwise html math tags are not allowed using template strict mode
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     NgbInputDatepicker,
     RouterLink,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },

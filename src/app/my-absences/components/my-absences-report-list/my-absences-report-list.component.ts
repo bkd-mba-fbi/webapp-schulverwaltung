@@ -8,7 +8,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Observable, Subject, combineLatest } from "rxjs";
 import { map, switchMap, take, takeUntil } from "rxjs/operators";
 import {
@@ -37,14 +37,13 @@ import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my
   templateUrl: "./my-absences-report-list.component.html",
   styleUrls: ["./my-absences-report-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MyAbsencesReportHeaderComponent,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
     DatePipe,
-    TranslateModule,
+    TranslatePipe,
     DaysDifferencePipe,
   ],
 })

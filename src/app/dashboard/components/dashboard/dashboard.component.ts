@@ -8,7 +8,6 @@ import { DashboardService } from "../../services/dashboard.service";
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
   providers: [DashboardService, ConfirmAbsencesSelectionService],
 })
