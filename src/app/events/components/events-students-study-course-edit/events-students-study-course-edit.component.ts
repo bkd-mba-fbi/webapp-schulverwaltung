@@ -11,16 +11,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import isEqual from "lodash-es/isEqual";
 import uniq from "lodash-es/uniq";
-import { Observable, filter, map, of, switchMap } from "rxjs";
+import { Observable, filter, map, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { LoadingService } from "src/app/shared/services/loading-service";
-import { StatusProcessesRestService } from "src/app/shared/services/status-processes-rest.service";
 import { StudyCourseSelectionService } from "../../services/study-course-selection.service";
-
-type State = {
-  id: number;
-  name: string;
-};
+import {
+  StudyCourseStatus,
+  StudyCourseStatusService,
+} from "../../services/study-course-status.service";
 
 @Component({
   selector: "bkd-events-students-study-course-edit",
@@ -37,30 +35,30 @@ export class EventsStudentsStudyCourseEditComponent {
   selectedIds = toSignal(this.selectionService.selectedIds$, {
     initialValue: [],
   });
-  isStateUnique = computed(
+  isStatusUnique = computed(
     () => uniq(this.selected().map(({ statusId }) => statusId)).length === 1,
   );
-  currentState = computed<Option<State>>(() => {
+  currentStatus = computed<Option<StudyCourseStatus>>(() => {
     const current = this.selected()[0];
     return current?.statusId && current?.status
       ? { id: current.statusId, name: current.status }
       : null;
   });
-  availableStates = toSignal(this.loadAvailableStates(), {
+  availableStatus = toSignal(this.loadAvailableStatus(), {
     initialValue: [],
   });
-  isTerminalState = computed(() =>
-    isEqual(this.availableStates(), [this.currentState()]),
+  isTerminalStatus = computed(() =>
+    isEqual(this.availableStatus(), [this.currentStatus()]),
   );
 
   formGroup = computed(() =>
-    this.createFormGroup(this.currentState()?.id ?? null),
+    this.createFormGroup(this.currentStatus()?.id ?? null),
   );
   isDirty = toSignal(
     toObservable(this.formGroup).pipe(
       filter(Boolean),
       switchMap(({ valueChanges }) => valueChanges),
-      map(({ stateId }) => stateId && stateId !== this.currentState()?.id),
+      map(({ statusId }) => statusId !== this.currentStatus()?.id),
     ),
   );
 
@@ -68,8 +66,8 @@ export class EventsStudentsStudyCourseEditComponent {
   saving = signal(false);
   canSave = computed(
     () =>
-      this.isStateUnique() &&
-      !this.isTerminalState() &&
+      this.isStatusUnique() &&
+      !this.isTerminalStatus() &&
       !this.saving() &&
       this.isDirty(),
   );
@@ -78,7 +76,7 @@ export class EventsStudentsStudyCourseEditComponent {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private statusProcessService: StatusProcessesRestService,
+    private statusService: StudyCourseStatusService,
     private loadingService: LoadingService,
     public selectionService: StudyCourseSelectionService,
   ) {
@@ -90,7 +88,13 @@ export class EventsStudentsStudyCourseEditComponent {
     });
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    // const newStateId = this.formGroup().value.statusId;
+    // const students = this.selected();
+    // if (newStateId) {
+    //   // this.statusProcessService.updateStatus();
+    // }
+  }
 
   cancel(): void {
     void this.router.navigate(["../"], { relativeTo: this.route });
@@ -98,35 +102,16 @@ export class EventsStudentsStudyCourseEditComponent {
 
   private createFormGroup(currentStateId: Option<number>) {
     return this.fb.group({
-      stateId: [currentStateId],
+      statusId: [currentStateId],
     });
   }
 
-  private loadAvailableStates(): Observable<ReadonlyArray<State>> {
-    return toObservable(this.currentState).pipe(
+  private loadAvailableStatus(): Observable<ReadonlyArray<StudyCourseStatus>> {
+    return toObservable(this.currentStatus).pipe(
       switchMap((currentState) =>
-        this.loadingService
-          .load(
-            currentState
-              ? this.statusProcessService.getForwardByStatus(currentState.id)
-              : of([]),
-          )
-          .pipe(
-            map((statusProcesses) =>
-              statusProcesses
-                .filter(
-                  // TODO: Should we really filter these "Hist." entries like this?
-                  (statusProcess) => !statusProcess.Status.startsWith("Hist."),
-                )
-                .map((statusProcess) => ({
-                  id: statusProcess.IdStatus,
-                  name: statusProcess.Status,
-                })),
-            ),
-            map((states) =>
-              currentState ? [currentState, ...states] : states,
-            ),
-          ),
+        this.loadingService.load(
+          this.statusService.getAvailableStatus(currentState),
+        ),
       ),
     );
   }

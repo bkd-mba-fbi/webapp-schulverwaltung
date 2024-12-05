@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable, switchMap } from "rxjs";
+import { Observable, map, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { StatusProcess } from "../models/status-process.model";
 import { decodeArray } from "../utils/decode";
@@ -23,5 +23,20 @@ export class StatusProcessesRestService extends RestService<
     return this.http
       .get<unknown>(`${this.baseUrl}/forward/`, { params })
       .pipe(switchMap(decodeArray(StatusProcess)));
+  }
+
+  updateStatus(
+    subscriptionId: number,
+    personId: number,
+    statusId: number,
+  ): Observable<void> {
+    return this.http
+      .post(`${this.baseUrl}/`, {
+        DataClassId: "PersonenAnmeldung",
+        Id1: subscriptionId,
+        Id2: personId,
+        IdStatus: statusId,
+      })
+      .pipe(map(() => undefined));
   }
 }

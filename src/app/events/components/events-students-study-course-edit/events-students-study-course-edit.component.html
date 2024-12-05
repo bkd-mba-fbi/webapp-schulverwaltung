@@ -7,32 +7,32 @@
     }}
   </div>
   <form [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
-    @if (!isStateUnique()) {
+    @if (!isStatusUnique()) {
       <div class="alert alert-danger">
         {{ "events-students.study-course-edit.status-not-unique" | translate }}
       </div>
-    } @else if (isTerminalState()) {
+    } @else if (isTerminalStatus()) {
       <div class="alert alert-danger">
         {{
           "events-students.study-course-edit.status-terminal"
-            | translate: { state: currentState()?.name }
+            | translate: { status: currentStatus()?.name }
         }}
       </div>
     } @else if (loading()) {
       <bkd-spinner></bkd-spinner>
     } @else {
       <div class="form-group pb-4">
-        @for (state of availableStates(); track state.id) {
+        @for (status of availableStatus(); track status.id) {
           <div class="form-check my-3">
             <input
               type="radio"
               class="form-check-input"
-              [id]="'state-' + state.id"
-              formControlName="stateId"
-              [value]="state.id"
+              [id]="'status-' + status.id"
+              formControlName="statusId"
+              [value]="status.id"
             />
-            <label class="form-check-label" [for]="'state-' + state.id">
-              {{ state.name }}
+            <label class="form-check-label" [for]="'status-' + status.id">
+              {{ status.name }}
             </label>
           </div>
         }
