@@ -1,2 +1,18 @@
 <bkd-backlink link="../.."></bkd-backlink>
-<p>events-students-study-course-detail works!</p>
+
+<h1>{{ person()?.FullName }}</h1>
+<span class="additional-info">
+  @if (person()?.Birthdate) {
+    {{ person()?.Birthdate | date: "dd.MM.yyyy" }}
+  }
+  @if (person()?.Gender) {
+    ({{ person()?.Gender }})
+  }
+</span>
+<address>
+  {{ person()?.AddressLine1 }}<br />
+  {{ person()?.Zip }} {{ person()?.Location }}<br />
+  <a href="tel:{{ person()?.PhonePrivate }}">{{ person()?.PhonePrivate }}</a
+  ><br />
+  <a href="tel:{{ person()?.PhoneMobile }}">{{ person()?.PhoneMobile }}</a>
+</address>
