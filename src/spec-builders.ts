@@ -506,7 +506,7 @@ export function buildSubscription(
     EventId: eventId,
     PersonId: personId,
     Status: "closed",
-    // StatusId: null,
+    StatusId: null,
     // IsOkay: null,
     // IsQueued: null,
     EventDesignation: null,

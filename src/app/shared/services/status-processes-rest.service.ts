@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { StatusProcess } from "../models/status-process.model";
+import { decodeArray } from "../utils/decode";
 import { RestService } from "./rest.service";
 
 @Injectable({
@@ -15,8 +16,12 @@ export class StatusProcessesRestService extends RestService<
     super(http, settings, StatusProcess, "StatusProcesses");
   }
 
-  getListByStatus(statusId: number): Observable<ReadonlyArray<StatusProcess>> {
+  getForwardByStatus(
+    statusId: number,
+  ): Observable<ReadonlyArray<StatusProcess>> {
     const params: Dict<string> = { idStatus: String(statusId) };
-    return super.getList({ params });
+    return this.http
+      .get<unknown>(`${this.baseUrl}/forward/`, { params })
+      .pipe(switchMap(decodeArray(StatusProcess)));
   }
 }

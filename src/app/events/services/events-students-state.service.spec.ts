@@ -160,6 +160,7 @@ describe("EventsStudentsStateService", () => {
                       EventId: eventId,
                       EventDesignation: subscriptionsClass,
                       PersonId: studentId,
+                      StatusId: i,
                       Status: i === 0 ? "Angemeldet" : "Aufgenommen",
                     })),
                   ),

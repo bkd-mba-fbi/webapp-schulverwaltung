@@ -269,6 +269,7 @@
       "title": "Status ändern",
       "students-selected": "{{count}} SuS ausgewählt",
       "status-not-unique": "Die ausgewählten SuS müssen den gleichen Status besitzen um sie bearbeiten zu können.",
+      "status-terminal": "Im Status «{{state}}» ist kein Statuswechsel möglich.",
       "cancel": "Abbrechen",
       "save": "Übernehmen",
       "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."

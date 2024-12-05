@@ -6,17 +6,37 @@
         | translate: { count: selectedIds().length }
     }}
   </div>
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    @if (!statusUnique()) {
+  <form [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
+    @if (!isStateUnique()) {
       <div class="alert alert-danger">
         {{ "events-students.study-course-edit.status-not-unique" | translate }}
       </div>
+    } @else if (isTerminalState()) {
+      <div class="alert alert-danger">
+        {{
+          "events-students.study-course-edit.status-terminal"
+            | translate: { state: currentState()?.name }
+        }}
+      </div>
+    } @else if (loading()) {
+      <bkd-spinner></bkd-spinner>
     } @else {
-      <ul>
-        @for (status of possibleStates(); track status.IdStatus) {
-          <li>{{ status.Status }}</li>
+      <div class="form-group pb-4">
+        @for (state of availableStates(); track state.id) {
+          <div class="form-check my-3">
+            <input
+              type="radio"
+              class="form-check-input"
+              [id]="'state-' + state.id"
+              formControlName="stateId"
+              [value]="state.id"
+            />
+            <label class="form-check-label" [for]="'state-' + state.id">
+              {{ state.name }}
+            </label>
+          </div>
         }
-      </ul>
+      </div>
     }
     <div class="d-flex justify-content-end">
       <button
@@ -30,7 +50,7 @@
       <button
         type="submit"
         class="btn btn-primary ms-2"
-        [disabled]="!statusUnique() || saving()"
+        [disabled]="!canSave()"
       >
         {{ "events-students.study-course-edit.save" | translate }}
         @if (saving()) {
