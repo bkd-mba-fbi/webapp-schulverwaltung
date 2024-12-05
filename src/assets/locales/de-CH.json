@@ -263,7 +263,8 @@
       "header": {
         "name": "Name"
       }
-    }
+    },
+    "status": "Status",
   },
   "courses": {
     "registration": "{{count}} Anmeldung",

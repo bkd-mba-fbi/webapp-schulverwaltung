@@ -2,6 +2,7 @@ import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 import { map, switchMap } from "rxjs";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { PersonsRestService } from "../../../shared/services/persons-rest.service";
@@ -9,7 +10,7 @@ import { PersonsRestService } from "../../../shared/services/persons-rest.servic
 @Component({
   selector: "bkd-events-students-study-course-detail",
   standalone: true,
-  imports: [BacklinkComponent, DatePipe],
+  imports: [BacklinkComponent, DatePipe, TranslateModule],
   templateUrl: "./events-students-study-course-detail.component.html",
   styleUrl: "./events-students-study-course-detail.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
