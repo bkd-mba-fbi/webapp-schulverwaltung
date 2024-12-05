@@ -31,11 +31,11 @@ describe("EventsStudentsStudyCourseEntryComponent", () => {
     fixture.detectChanges();
   });
 
-  it("renders firstname/lastname with link to dossier including returnlink", () => {
+  it("renders firstname/lastname with link to detail including returnlink", () => {
     const link = element.querySelector<HTMLAnchorElement>("a.name");
     expect(link?.textContent).toBe("Jane Doe");
     expect(link?.href).toContain(
-      "student/1/absences?returnparams=returnlink%3D%252Fevents%252Fcurrent",
+      "student/1?returnparams=returnlink%3D%252Fevents%252Fcurrent",
     );
   });
 

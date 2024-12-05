@@ -23,9 +23,8 @@ export class EventsStudentsStudyCourseEntryComponent {
     () => `${this.entry().firstName} ${this.entry().lastName}`,
   );
   link = computed<RouterLink["routerLink"]>(() => [
-    "student",
+    "study-course-student",
     this.entry().id,
-    "absences",
   ]);
   linkParams = computed<Params>(() => {
     const returnlink = this.returnLink();
