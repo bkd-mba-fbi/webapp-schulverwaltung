@@ -30,10 +30,10 @@ export class EventsStudentsStudyCourseEditComponent {
   selectedIds = toSignal(this.selectionService.selectedIds$, {
     initialValue: [],
   });
-  selectedStatuses = computed(() =>
-    this.selected().map(({ status }) => status),
+  isStatusUnique = computed(
+    () => uniq(this.selected().map(({ statusId }) => statusId)).length === 1,
   );
-  statusUnique = computed(() => uniq(this.selectedStatuses()).length === 1);
+  currentStatusId = computed(() => this.selected()[0]?.statusId ?? null);
   possibleStates = toSignal(this.loadPossibleStates(), { initialValue: [] });
   saving = signal(false);
 
@@ -65,13 +65,12 @@ export class EventsStudentsStudyCourseEditComponent {
   }
 
   private loadPossibleStates(): Observable<ReadonlyArray<StatusProcess>> {
-    return toObservable(this.selected).pipe(
-      switchMap((selected) => {
-        const statusId = selected[0]?.statusId;
-        return statusId
-          ? this.statusProcessService.getListByStatus(statusId)
-          : of([]);
-      }),
+    return toObservable(this.currentStatusId).pipe(
+      switchMap((currentStatusId) =>
+        currentStatusId
+          ? this.statusProcessService.getListByStatus(currentStatusId)
+          : of([]),
+      ),
     );
   }
 }

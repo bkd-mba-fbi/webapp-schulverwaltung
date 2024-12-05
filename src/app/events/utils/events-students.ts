@@ -75,6 +75,7 @@ export function convertPersonsToStudentEntries(
         firstName: persons.FirstName,
         lastName: persons.LastName,
         email: persons.DisplayEmail ?? undefined,
+        statusId: subscription?.StatusId ?? undefined,
         status: subscription?.Status,
       } satisfies StudentEntry;
     }),
