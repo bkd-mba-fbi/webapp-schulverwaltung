@@ -1,11 +1,12 @@
 import { DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { map, switchMap } from "rxjs";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { PersonsRestService } from "../../../shared/services/persons-rest.service";
+import { EventsStudentsStateService } from "../../services/events-students-state.service";
 
 @Component({
   selector: "bkd-events-students-study-course-detail",
@@ -23,9 +24,14 @@ export class EventsStudentsStudyCourseDetailComponent {
     ),
     { initialValue: null },
   );
+  studentEntry = computed(
+    () =>
+      this.state.entries().filter((entry) => entry.id === this.person()?.Id)[0],
+  );
 
   constructor(
     private route: ActivatedRoute,
     private personService: PersonsRestService,
+    private state: EventsStudentsStateService,
   ) {}
 }
