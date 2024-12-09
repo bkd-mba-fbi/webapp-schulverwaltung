@@ -1,21 +1,16 @@
-import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   input,
   model,
   output,
 } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { TranslateModule } from "@ngx-translate/core";
-import { map } from "rxjs";
 import { SortCriteria } from "../../../shared/utils/sort";
 import {
   PrimarySortKey,
   StudentEntry,
 } from "../../services/events-students-state.service";
-import { StudyCourseSelectionService } from "../../services/study-course-selection.service";
 import { EventsStudentsHeaderComponent } from "../events-students-header/events-students-header.component";
 import { EventsStudentsStudyCourseEntryComponent } from "../events-students-study-course-entry/events-students-study-course-entry.component";
 
@@ -23,12 +18,11 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
   selector: "bkd-events-students-study-course-list",
   standalone: true,
   imports: [
-    AsyncPipe,
     TranslateModule,
     EventsStudentsHeaderComponent,
     EventsStudentsStudyCourseEntryComponent,
   ],
-  providers: [StudyCourseSelectionService],
+  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./events-students-study-course-list.component.html",
   styleUrl: "./events-students-study-course-list.component.scss",
@@ -45,30 +39,6 @@ export class EventsStudentsStudyCourseListComponent {
   searchTerm = model<string>();
 
   primarySortKey: PrimarySortKey = "name";
-
-  selectionCount = toSignal(
-    this.selectionService.selection$.pipe(map((selection) => selection.length)),
-  );
-
-  constructor(public selectionService: StudyCourseSelectionService) {
-    effect(
-      () => {
-        this.searchTerm();
-        this.selectionService.clear();
-      },
-      { allowSignalWrites: true },
-    );
-  }
-
-  onToggleAll(checked: boolean): void {
-    this.selectionService.clear(checked ? this.entries() : null);
-  }
-
-  onCheckboxCellClick(event: Event, checkbox: HTMLInputElement): void {
-    if (event.target !== checkbox) {
-      checkbox.click();
-    }
-  }
 
   getSortDirectionCharacter(
     sortCriteria: SortCriteria<PrimarySortKey>,

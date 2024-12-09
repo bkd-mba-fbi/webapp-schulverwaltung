@@ -259,7 +259,6 @@
     "registrations": "{{count}} inscriptions",
     "search": "Rechercher",
     "search-by-name": "Rechercher un nom...",
-    "selected": "{{count}} sélectionné(s)",
     "list": {
       "header": {
         "name": "Nom"
