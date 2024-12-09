@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
+import { Router, RouterLink } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { format } from "date-fns";
 import {
@@ -19,6 +20,7 @@ import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
 import { searchEntries } from "src/app/shared/utils/search";
@@ -29,6 +31,7 @@ import {
   isRated,
   isStudyCourseLeader,
 } from "../utils/events";
+import { getEventsStudentsLink } from "../utils/events-students";
 
 export enum EventState {
   Rating = "rating",
@@ -46,10 +49,8 @@ export interface EventEntry {
   studentCount: number;
   state: Option<EventState>;
   evaluationText?: string;
-  evaluationLink?: Option<string>;
+  evaluationLink?: Option<RouterLink["routerLink"]>;
 }
-
-type LinkType = "evaluation" | "eventdetail";
 
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
@@ -97,9 +98,11 @@ export class EventsStateService {
     private coursesRestService: CoursesRestService,
     private eventsRestService: EventsRestService,
     private studyClassRestService: StudyClassesRestService,
+    private subscriptionsRestService: SubscriptionsRestService,
     private loadingService: LoadingService,
     private storageService: StorageService,
     private translate: TranslateService,
+    private router: Router,
     @Inject(SETTINGS) private settings: Settings,
   ) {}
 
@@ -152,7 +155,29 @@ export class EventsStateService {
   }
 
   private loadStudyCourses(enabled: boolean): Observable<ReadonlyArray<Event>> {
-    return enabled ? this.eventsRestService.getStudyCourseEvents() : of([]);
+    if (!enabled) return of([]);
+
+    const tokenPayload = this.storageService.getPayload();
+    return this.eventsRestService.getStudyCourseEvents().pipe(
+      map((studyCourses) =>
+        // The user sees only the study courses he/she is leader of
+        studyCourses.filter((studyCourse) =>
+          isStudyCourseLeader(tokenPayload, studyCourse),
+        ),
+      ),
+      switchMap((studyCourses) =>
+        this.subscriptionsRestService
+          .getSubscriptionCountsByEvents(studyCourses.map((s) => s.Id))
+          .pipe(
+            map((subscriptionCounts) =>
+              studyCourses.map((studyCourse) => ({
+                ...studyCourse,
+                StudentCount: subscriptionCounts[studyCourse.Id] ?? 0,
+              })),
+            ),
+          ),
+      ),
+    );
   }
 
   private loadFormativeAssessments(
@@ -195,7 +220,7 @@ export class EventsStateService {
       return {
         id: course.Id,
         designation: getCourseDesignation(course),
-        detailLink: this.buildLink(course.Id, "eventdetail"),
+        detailLink: this.buildStudentsLink(course.Id),
         studentCount: course.AttendanceRef.StudentCount || 0,
         dateFrom: course.DateFrom,
         dateTo: course.DateTo,
@@ -204,7 +229,10 @@ export class EventsStateService {
           state,
           course.EvaluationStatusRef.EvaluationUntil,
         ),
-        evaluationLink: this.getEvaluationLink(state?.value, course),
+        evaluationLink:
+          state?.value && state?.value !== EventState.Tests
+            ? this.buildEvaluationLink(course.Id)
+            : null,
       };
     });
   }
@@ -212,16 +240,13 @@ export class EventsStateService {
   private createFromStudyCourses(
     studyCourses: ReadonlyArray<Event>,
   ): ReadonlyArray<EventEntry> {
-    const tokenPayload = this.storageService.getPayload();
-    return studyCourses
-      .filter((studyCourse) => isStudyCourseLeader(tokenPayload, studyCourse)) // The user sees only the study courses he/she is leader of
-      .map((studyCourse) => ({
-        id: studyCourse.Id,
-        designation: studyCourse.Designation,
-        detailLink: this.buildLink(studyCourse.Id, "eventdetail"),
-        studentCount: studyCourse.StudentCount,
-        state: null,
-      }));
+    return studyCourses.map((studyCourse) => ({
+      id: studyCourse.Id,
+      designation: studyCourse.Designation,
+      detailLink: this.buildStudentsLink(studyCourse.Id),
+      studentCount: studyCourse.StudentCount,
+      state: null,
+    }));
   }
 
   private createFromAssessments(
@@ -233,7 +258,7 @@ export class EventsStateService {
       ...e,
       state: EventState.Rating,
       evaluationText: this.translate.instant("events.state.rating"),
-      evaluationLink: this.buildLink(e.id, "evaluation"),
+      evaluationLink: this.buildEvaluationLink(e.id),
     }));
   }
 
@@ -243,7 +268,7 @@ export class EventsStateService {
     return studyClasses.map((studyClass) => ({
       id: studyClass.Id,
       designation: studyClass.Number,
-      detailLink: this.buildLink(studyClass.Id, "eventdetail"),
+      detailLink: this.buildStudentsLink(studyClass.Id),
       studentCount: studyClass.StudentCount,
       state: null,
     }));
@@ -262,17 +287,12 @@ export class EventsStateService {
       : "";
   }
 
-  private getEvaluationLink(
-    state: Maybe<EventState>,
-    course: Course,
-  ): Option<string> {
-    return state && state !== EventState.Tests
-      ? this.buildLink(course.Id, "evaluation")
-      : null;
+  private buildStudentsLink(eventId: number) {
+    return getEventsStudentsLink(eventId, this.router.url);
   }
 
-  private buildLink(id: number, linkType: LinkType): string {
-    const link = this.settings.eventlist[linkType] ?? "";
+  private buildEvaluationLink(id: number): RouterLink["routerLink"] {
+    const link = this.settings.eventlist["evaluation"] ?? "";
     return link.replace(":id", String(id));
   }
 }

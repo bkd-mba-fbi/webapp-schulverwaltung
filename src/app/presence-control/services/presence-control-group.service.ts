@@ -7,7 +7,7 @@ import { PresenceControlGroupViewEntry } from "src/app/shared/models/user-settin
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { SETTINGS, Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
-import { SubscriptionDetail } from "../../shared/models/subscription-detail.model";
+import { SubscriptionDetail } from "../../shared/models/subscription.model";
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { SubscriptionDetailsRestService } from "../../shared/services/subscription-details-rest.service";

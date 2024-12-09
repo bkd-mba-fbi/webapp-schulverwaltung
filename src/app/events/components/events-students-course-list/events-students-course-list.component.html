@@ -1,0 +1,18 @@
+<bkd-events-students-header
+  [title]="title()"
+  [count]="count()"
+  [(searchTerm)]="searchTerm"
+></bkd-events-students-header>
+
+<section class="list">
+  @if (entries().length === 0) {
+    <p>{{ "events-students.no-entries" | translate }}</p>
+  }
+  @for (entry of entries(); track entry.id) {
+    <bkd-events-students-course-entry
+      [entry]="entry"
+      [multipleStudyClasses]="multipleStudyClasses()"
+      [returnLink]="returnLink()"
+    ></bkd-events-students-course-entry>
+  }
+</section>

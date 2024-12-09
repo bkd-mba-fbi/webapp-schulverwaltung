@@ -1,0 +1,33 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+
+<bkd-events-students-header
+  [title]="title()"
+  [count]="count()"
+  [(searchTerm)]="searchTerm"
+></bkd-events-students-header>
+
+<section class="list">
+  @if (entries().length > 0) {
+    <div class="list-header">
+      <div
+        class="name"
+        (click)="toggleSort.emit()"
+        [className]="primarySortKey"
+      >
+        {{ "events-students.list.header." + primarySortKey | translate }}
+        <span class="sort-direction">{{
+          getSortDirectionCharacter(sortCriteria())
+        }}</span>
+      </div>
+    </div>
+  } @else {
+    <p>{{ "events-students.no-entries" | translate }}</p>
+  }
+  @for (entry of entries(); track entry.id) {
+    <bkd-events-students-study-course-entry
+      [entry]="entry"
+      [returnLink]="returnLink()"
+    ></bkd-events-students-study-course-entry>
+  }
+</section>

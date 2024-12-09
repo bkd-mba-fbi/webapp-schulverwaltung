@@ -4,11 +4,13 @@ import * as t from "io-ts/lib/index";
 import { Course } from "src/app/shared/models/course.model";
 import { Event } from "src/app/shared/models/event.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
+import { Subscription } from "src/app/shared/models/subscription.model";
 import { StorageService } from "src/app/shared/services/storage.service";
 import {
   buildCourse,
   buildFinalGrading,
   buildStudyClass,
+  buildSubscription,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
@@ -25,6 +27,7 @@ describe("EventsStateService", () => {
   let courseEntries: EventEntry[];
   let studyCourses: Event[];
   let studyCoursesEntries: EventEntry[];
+  let subscriptions: Subscription[];
   let studyClasses: StudyClass[];
   let studyClassEntries: EventEntry[];
   let assessments: StudyClass[];
@@ -78,7 +81,7 @@ describe("EventsStateService", () => {
       {
         id: 5,
         designation: "22a",
-        detailLink: "link-to-event-detail-module/5",
+        detailLink: "/events/students/5?returnlink=%2F",
         studentCount: 0,
         state: null,
       },
@@ -89,7 +92,7 @@ describe("EventsStateService", () => {
       {
         id: 6,
         designation: "22b",
-        detailLink: "link-to-event-detail-module/6",
+        detailLink: "/events/students/6?returnlink=%2F",
         studentCount: 0,
         state: EventState.Rating,
         evaluationText: "events.state.rating",
@@ -153,7 +156,7 @@ describe("EventsStateService", () => {
     const courseEvent: EventEntry = {
       id: 1,
       designation: "Physik, 22a, 22b",
-      detailLink: "link-to-event-detail-module/1",
+      detailLink: "/events/students/1?returnlink=%2F",
       dateFrom: new Date("2022-02-09T00:00:00"),
       dateTo: new Date("2022-06-30T00:00:00"),
       studentCount: 20,
@@ -167,7 +170,7 @@ describe("EventsStateService", () => {
         ...courseEvent,
         id: 2,
         designation: "Bio, 22a",
-        detailLink: "link-to-event-detail-module/2",
+        detailLink: "/events/students/2?returnlink=%2F",
         state: EventState.RatingUntil,
         evaluationText: "events.state.rating-until 03.06.2022",
         evaluationLink: "link-to-evaluation-module/2",
@@ -176,7 +179,7 @@ describe("EventsStateService", () => {
         ...courseEvent,
         id: 4,
         designation: "Franz, 22a, 22b",
-        detailLink: "link-to-event-detail-module/4",
+        detailLink: "/events/students/4?returnlink=%2F",
         state: EventState.Tests,
         evaluationText: "events.state.add-tests",
       },
@@ -185,7 +188,7 @@ describe("EventsStateService", () => {
         ...courseEvent,
         id: 3,
         designation: "Zeichnen, 22b",
-        detailLink: "link-to-event-detail-module/3",
+        detailLink: "/events/students/3?returnlink=%2F",
         state: EventState.IntermediateRating,
         evaluationText: "events.state.intermediate-rating",
         evaluationLink: "link-to-evaluation-module/3",
@@ -197,7 +200,7 @@ describe("EventsStateService", () => {
         Id: 10,
         Designation: "Zentraler Gymnasialer Bildungsgang",
         Leadership: "Jane Doe",
-        StudentCount: 42,
+        StudentCount: 2, // Wrong count, has to be determined via subscriptions
       },
       {
         Id: 20,
@@ -210,10 +213,16 @@ describe("EventsStateService", () => {
       {
         id: 10,
         designation: "Zentraler Gymnasialer Bildungsgang",
-        studentCount: 42,
-        detailLink: "link-to-event-detail-module/10",
+        studentCount: 3,
+        detailLink: "/events/students/10?returnlink=%2F",
         state: null,
       },
+    ];
+
+    subscriptions = [
+      buildSubscription(100, 10, 1),
+      buildSubscription(100, 10, 2),
+      buildSubscription(100, 10, 3),
     ];
   });
 
@@ -256,6 +265,7 @@ describe("EventsStateService", () => {
 
       expectCoursesRequest();
       expectStudyCoursesRequest();
+      expectSubscriptionsRequest();
       expectFormativeAssessmentsRequest();
       expectStudyClassesRequest();
 
@@ -306,6 +316,15 @@ describe("EventsStateService", () => {
     const url = "https://eventotest.api/Events/?filter.EventTypeId==1";
 
     httpTestingController.expectOne(url).flush(t.array(Event).encode(response));
+  }
+
+  function expectSubscriptionsRequest(response = subscriptions): void {
+    const url =
+      "https://eventotest.api/Subscriptions/?filter.EventId=;10&fields=Id,EventId";
+
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(Subscription).encode(response));
   }
 
   function expectFormativeAssessmentsRequest(response = assessments): void {

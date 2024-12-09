@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { GroupOption } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 import { SETTINGS, Settings } from "../../settings";
-import { SubscriptionDetail } from "../models/subscription-detail.model";
+import { SubscriptionDetail } from "../models/subscription.model";
 import { RestService } from "./rest.service";
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { buildIdSubscription } from "src/spec-builders";
+import { buildSubscription } from "src/spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
-import { IdSubscription } from "../models/subscription-detail.model";
+import { Subscription } from "../models/subscription.model";
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
 describe("SubscriptionsRestService", () => {
@@ -19,22 +19,78 @@ describe("SubscriptionsRestService", () => {
     it("should get list of IdSubscriptions for a students and its courses", () => {
       const personId = 1;
       const courseIds = [11, 12, 13];
-      const data: ReadonlyArray<IdSubscription> = [
-        buildIdSubscription(1, 11, personId),
-        buildIdSubscription(2, 12, personId),
+      const data: ReadonlyArray<Subscription> = [
+        buildSubscription(1, 11, personId),
+        buildSubscription(2, 12, personId),
       ];
 
       const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId=;11,12,13`;
 
-      let result: ReadonlyArray<IdSubscription> | undefined;
+      let result: ReadonlyArray<number> | undefined;
       service
-        .getIdSubscriptionsByStudentAndCourse(personId, courseIds)
+        .getSubscriptionIdsByStudentAndCourse(personId, courseIds)
         .subscribe((response) => {
           result = response;
         });
 
       httpTestingController
-        .expectOne(({ url }) => url === expectedUrl, expectedUrl)
+        .expectOne(
+          ({ urlWithParams }) => urlWithParams === expectedUrl,
+          expectedUrl,
+        )
+        .flush(data);
+
+      httpTestingController.verify();
+      expect(result).toEqual(data.map((s) => s.Id));
+    });
+  });
+
+  describe(".getSubscriptionsByCourse", () => {
+    it("should get list of Subscriptions for a course", () => {
+      const courseId = 9704;
+      const data: ReadonlyArray<Subscription> = [
+        buildSubscription(1, 11, courseId),
+      ];
+
+      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.EventId==9704&fields=Id,EventId,EventDesignation,PersonId,Status`;
+
+      let result: ReadonlyArray<Subscription> | undefined;
+      service.getSubscriptionsByCourse(courseId).subscribe((response) => {
+        result = response;
+      });
+
+      httpTestingController
+        .expectOne(
+          ({ urlWithParams }) => urlWithParams === expectedUrl,
+          expectedUrl,
+        )
+        .flush(data);
+
+      httpTestingController.verify();
+      expect(result).toEqual(data);
+    });
+
+    it("should get list of Subscriptions for a course with additional params", () => {
+      const courseId = 9704;
+      const data: ReadonlyArray<Subscription> = [
+        buildSubscription(1, 11, courseId),
+      ];
+      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.EventId==9704&filter.IsOkay==1&fields=Id,EventId,EventDesignation,PersonId,Status`;
+
+      let result: ReadonlyArray<Subscription> | undefined;
+      service
+        .getSubscriptionsByCourse(courseId, {
+          "filter.IsOkay": "=1",
+        })
+        .subscribe((response) => {
+          result = response;
+        });
+
+      httpTestingController
+        .expectOne(
+          ({ urlWithParams }) => urlWithParams === expectedUrl,
+          expectedUrl,
+        )
         .flush(data);
 
       httpTestingController.verify();
