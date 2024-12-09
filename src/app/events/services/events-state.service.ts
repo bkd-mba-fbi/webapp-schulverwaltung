@@ -20,6 +20,7 @@ import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
 import { searchEntries } from "src/app/shared/utils/search";
@@ -97,6 +98,7 @@ export class EventsStateService {
     private coursesRestService: CoursesRestService,
     private eventsRestService: EventsRestService,
     private studyClassRestService: StudyClassesRestService,
+    private subscriptionsRestService: SubscriptionsRestService,
     private loadingService: LoadingService,
     private storageService: StorageService,
     private translate: TranslateService,
@@ -153,7 +155,29 @@ export class EventsStateService {
   }
 
   private loadStudyCourses(enabled: boolean): Observable<ReadonlyArray<Event>> {
-    return enabled ? this.eventsRestService.getStudyCourseEvents() : of([]);
+    if (!enabled) return of([]);
+
+    const tokenPayload = this.storageService.getPayload();
+    return this.eventsRestService.getStudyCourseEvents().pipe(
+      map((studyCourses) =>
+        // The user sees only the study courses he/she is leader of
+        studyCourses.filter((studyCourse) =>
+          isStudyCourseLeader(tokenPayload, studyCourse),
+        ),
+      ),
+      switchMap((studyCourses) =>
+        this.subscriptionsRestService
+          .getSubscriptionCountsByEvents(studyCourses.map((s) => s.Id))
+          .pipe(
+            map((subscriptionCounts) =>
+              studyCourses.map((studyCourse) => ({
+                ...studyCourse,
+                StudentCount: subscriptionCounts[studyCourse.Id] ?? 0,
+              })),
+            ),
+          ),
+      ),
+    );
   }
 
   private loadFormativeAssessments(
@@ -216,16 +240,13 @@ export class EventsStateService {
   private createFromStudyCourses(
     studyCourses: ReadonlyArray<Event>,
   ): ReadonlyArray<EventEntry> {
-    const tokenPayload = this.storageService.getPayload();
-    return studyCourses
-      .filter((studyCourse) => isStudyCourseLeader(tokenPayload, studyCourse)) // The user sees only the study courses he/she is leader of
-      .map((studyCourse) => ({
-        id: studyCourse.Id,
-        designation: studyCourse.Designation,
-        detailLink: this.buildStudentsLink(studyCourse.Id),
-        studentCount: studyCourse.StudentCount,
-        state: null,
-      }));
+    return studyCourses.map((studyCourse) => ({
+      id: studyCourse.Id,
+      designation: studyCourse.Designation,
+      detailLink: this.buildStudentsLink(studyCourse.Id),
+      studentCount: studyCourse.StudentCount,
+      state: null,
+    }));
   }
 
   private createFromAssessments(
