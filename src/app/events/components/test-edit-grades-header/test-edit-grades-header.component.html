@@ -44,7 +44,7 @@
   }
 </tr>
 <tr>
-  <th class="student-name" (click)="state.sortBy('FullName')">
+  <th class="sticky student-name" (click)="state.sortBy('FullName')">
     <div class="d-flex">
       <div class="column-title">
         {{ "tests.student.name" | translate }}
@@ -55,7 +55,7 @@
     </div>
   </th>
   <th
-    class="student-grade desktop"
+    class="sticky student-grade desktop"
     (click)="state.sortBy('FinalGrade')"
     [ngClass]="{ selected: selectedTest === undefined }"
   >
@@ -69,7 +69,7 @@
     </div>
   </th>
   <th
-    class="border-end student-average desktop"
+    class="border-end sticky student-average desktop"
     (click)="state.sortBy('TestsMean')"
   >
     <div class="d-flex">
