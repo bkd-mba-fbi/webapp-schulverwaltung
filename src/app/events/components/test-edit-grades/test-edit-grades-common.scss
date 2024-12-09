@@ -52,6 +52,22 @@ td.student-grade {
   width: calc(var(--point-input-size) + 13ch + 3 * $spacer);
 }
 
+/**
+ * Column at the end of the table that eats up all the remaining space such that
+ * the all other (fixed-width) columns don't get stretched.
+ */
+th.filler,
+td.filler {
+  padding: 0;
+  width: auto;
+}
+@media (max-width: ($bkd-tests-mobile-breakpoint)) {
+  th.filler,
+  td.filler {
+    width: 0;
+  }
+}
+
 // Mobile view
 @media (max-width: ($bkd-tests-mobile-breakpoint)) {
   .desktop:not(.selected),
