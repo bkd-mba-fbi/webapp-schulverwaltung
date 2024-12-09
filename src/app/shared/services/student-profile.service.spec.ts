@@ -22,6 +22,7 @@ import {
 import { ApprenticeshipManager } from "../models/apprenticeship-manager.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { JobTrainer } from "../models/job-trainer.model";
+import { StorageService } from "./storage.service";
 
 describe("StudentProfileService", () => {
   let httpTestingController: HttpTestingController;
@@ -37,9 +38,25 @@ describe("StudentProfileService", () => {
   let legalRepresentative2: Person;
   let persons: Person[];
   let dropDownItems: DropDownItem[];
+  let roles: string;
 
   beforeEach(() => {
-    TestBed.configureTestingModule(buildTestModuleMetadata({}));
+    roles = "StudentRole";
+
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [
+          {
+            provide: StorageService,
+            useValue: {
+              getPayload: () => ({
+                roles,
+              }),
+            },
+          },
+        ],
+      }),
+    );
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(StudentProfileService);
 
@@ -228,6 +245,20 @@ describe("StudentProfileService", () => {
       if (apprenticeshipContract.JobTrainer) {
         expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
       }
+    });
+
+    it("does not load legal representatives & apprenticeship contracts for non-student", () => {
+      roles = "TeacherRole";
+      service.getMyProfile().subscribe((result: Profile<Person>) => {
+        expect(result).toEqual({
+          student: myself,
+          stayPermitValue: "Permit Value",
+          legalRepresentativePersons: [],
+          apprenticeshipCompanies: [],
+        });
+      });
+      expectMyPersonRequest();
+      expectLoadStayPermitValueRequest();
     });
   });
 

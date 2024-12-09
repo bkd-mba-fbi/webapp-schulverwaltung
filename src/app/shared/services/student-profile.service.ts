@@ -19,6 +19,7 @@ import { RestErrorInterceptorOptions } from "../interceptors/rest-error.intercep
 import { notNull } from "../utils/filter";
 import { isAdult } from "../utils/persons";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
+import { StorageService } from "./storage.service";
 
 export interface Profile<T extends Student | Person> {
   student: T;
@@ -46,6 +47,7 @@ export class StudentProfileService {
     private jobTrainersService: JobTrainersRestService,
     private loadingService: LoadingService,
     private dropDownItemsService: DropDownItemsRestService,
+    private storageService: StorageService,
   ) {}
 
   /**
@@ -65,6 +67,8 @@ export class StudentProfileService {
    * Returns the profile of the current user.
    */
   getMyProfile(): Observable<Profile<Person>> {
+    const roles = this.storageService.getPayload()?.roles?.split(";") ?? [];
+    const isStudent = roles.includes("StudentRole");
     return this.loadingService.load(
       this.personsService
         .getMyself({
@@ -76,8 +80,8 @@ export class StudentProfileService {
           switchMap((person) =>
             combineLatest([
               of(person),
-              this.loadLegalRepresentatives(person.Id),
-              this.loadApprenticeshipContracts(person.Id),
+              isStudent ? this.loadLegalRepresentatives(person.Id) : of([]),
+              isStudent ? this.loadApprenticeshipContracts(person.Id) : of([]),
               this.loadStayPermitValue(person.StayPermit),
             ]),
           ),
