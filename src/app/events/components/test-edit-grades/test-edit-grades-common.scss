@@ -18,14 +18,6 @@
   --test-columns-offset: calc(
     var(--student-average-column-offset) + var(--student-average-column-width)
   );
-  #stickyHeader {
-    display: none;
-  }
-  .scroll-test-table {
-    display: table-caption;
-    overflow-y: auto;
-    height: auto;
-  }
 }
 
 $student-name-width-breakpoint: 1000px;
