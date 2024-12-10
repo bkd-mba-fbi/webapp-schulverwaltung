@@ -6,7 +6,7 @@
 }
 
 :host ::ng-deep select {
-  min-width: 13ch;
+  width: 127px; // 13ch
 }
 
 @include media-breakpoint-up(sm) {

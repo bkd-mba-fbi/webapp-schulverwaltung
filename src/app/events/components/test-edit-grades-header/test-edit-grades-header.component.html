@@ -44,7 +44,7 @@
   }
   <th class="filler"></th>
 </tr>
-<tr>
+<tr [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }">
   <th class="sticky student-name" (click)="state.sortBy('FullName')">
     <div class="d-flex">
       <div class="column-title">
@@ -90,7 +90,7 @@
     >
       <div class="d-flex">
         @if (test.IsPointGrading) {
-          <div class="column-title me-3 point-input-container">
+          <div class="column-title point-input-container me-2 me-md-3">
             <span (click)="state.sortBy(test)"
               >{{ "tests.points" | translate }}
             </span>

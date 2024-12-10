@@ -5,6 +5,7 @@
 <div class="table-responsive-wrapper">
   <table
     class="table table-hover h-100"
+    [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }"
     bkdTestEditGradesHeaderSticky
     [inlineHeader]="inlineHeader"
     [stickyHeader]="stickyHeader"
