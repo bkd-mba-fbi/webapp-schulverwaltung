@@ -1,15 +1,26 @@
 @import "../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
 
 /**
  * Common table styles for the TestEditGradesComponent & the TestEditGradesHeaderComponent
  */
 
 :host {
-  --student-name-column-width: 225px;
-  --student-grade-column-width: 147px;
-  --student-average-column-width: 100px;
-  --test-grade-column-width: 300px;
+  --spacer: 16px;
+
   --point-input-size: 4em;
+  --grade-input-size: 127px; // 13ch
+  --points-grade-gap: 1rem;
+
+  --student-name-column-width: 225px;
+  --student-grade-column-width: calc(
+    var(--spacer) + var(--grade-input-size) + var(--spacer)
+  );
+  --student-average-column-width: 100px;
+  --test-grade-column-width: calc(
+    var(--spacer) + var(--point-input-size) + var(--points-grade-gap) +
+      var(--grade-input-size) + var(--spacer)
+  );
 
   --student-grade-column-offset: var(--student-name-column-width);
   --student-average-column-offset: calc(
@@ -30,6 +41,12 @@ $student-average-breakpoint: 1200px;
   }
 }
 
+@include media-breakpoint-down(md) {
+  :host {
+    --points-grade-gap: calc(0.5 * var(--spacer));
+  }
+}
+
 th,
 td {
   padding: $spacer;
@@ -46,10 +63,20 @@ td {
 }
 
 tr:not(.header-collapsible) th.test-grade,
-td.test-grade,
-th.student-grade,
-td.student-grade {
-  width: calc(var(--point-input-size) + 13ch + 3 * $spacer);
+td.test-grade {
+  width: var(--test-grade-column-width);
+  min-width: var(--test-grade-column-width);
+  max-width: var(--test-grade-column-width);
+}
+@media (max-width: ($bkd-tests-mobile-breakpoint)) {
+  tr:not(.header-collapsible):not(.test-point-grading) th.test-grade,
+  tr:not(.test-point-grading) th.student-grade,
+  table:not(.test-point-grading) td.test-grade,
+  table:not(.test-point-grading) td.student-grade {
+    width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+    min-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+    max-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+  }
 }
 
 /**
@@ -57,15 +84,21 @@ td.student-grade {
  * the all other (fixed-width) columns don't get stretched.
  */
 th.filler,
+.header-collapsible th.filler,
 td.filler {
   padding: 0;
   width: auto;
 }
 @media (max-width: ($bkd-tests-mobile-breakpoint)) {
   th.filler,
+  .header-collapsible th.filler,
   td.filler {
     width: 0;
   }
+}
+
+th.test-grade .column-title.point-input-container {
+  width: var(--point-input-size);
 }
 
 // Mobile view
@@ -98,6 +131,7 @@ td.filler {
   .student-name {
     flex: 1;
     display: block;
+    padding-right: 0;
   }
 
   .test-grade {
@@ -131,6 +165,7 @@ td.filler {
   }
 
   .test-grade {
+    width: var(--test-grade-column-width);
     min-width: var(--test-grade-column-width);
     max-width: var(--test-grade-column-width);
   }
