@@ -41,7 +41,7 @@
     "@angular/platform-browser": "19.0.3",
     "@angular/platform-browser-dynamic": "19.0.3",
     "@angular/router": "19.0.3",
-    "@ng-bootstrap/ng-bootstrap": "17.0.1",
+    "@ng-bootstrap/ng-bootstrap": "18.0.0-rc.0",
     "@ng-select/ng-select": "14.1.0",
     "@ngx-translate/core": "16.0.3",
     "@ngx-translate/http-loader": "16.0.0",
