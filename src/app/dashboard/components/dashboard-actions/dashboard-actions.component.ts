@@ -9,7 +9,6 @@ import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-dead
   selector: "bkd-dashboard-actions",
   templateUrl: "./dashboard-actions.component.html",
   styleUrls: ["./dashboard-actions.component.scss"],
-  standalone: true,
   imports: [DashboardActionComponent, DashboardDeadlineComponent, AsyncPipe],
 })
 export class DashboardActionsComponent {

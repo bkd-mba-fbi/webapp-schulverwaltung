@@ -13,7 +13,6 @@ import { ReportInfo } from "../../services/reports.service";
   selector: "bkd-reports-link",
   templateUrl: "./reports-link.component.html",
   styleUrls: ["./reports-link.component.scss"],
-  standalone: true,
   imports: [
     NgbDropdown,
     NgbDropdownToggle,

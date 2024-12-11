@@ -13,7 +13,7 @@ import {
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Subject, takeUntil } from "rxjs";
 import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absences-selection.service";
 import { DossierStateService } from "../../../services/dossier-state.service";
@@ -27,7 +27,6 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
   templateUrl: "./dossier-absences.component.html",
   styleUrls: ["./dossier-absences.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     NgbAccordionDirective,
     NgbAccordionItem,
@@ -38,7 +37,7 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
     NgbAccordionBody,
     StudentDossierAbsencesComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
   providers: [StudentProfileAbsencesService],
 })

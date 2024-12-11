@@ -1,14 +1,13 @@
 import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "../../../../shared/models/test.model";
 
 @Component({
   selector: "bkd-tests-delete",
   templateUrl: "./tests-delete.component.html",
   styleUrls: ["./tests-delete.component.scss"],
-  standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslatePipe],
 })
 export class TestsDeleteComponent {
   @Input() test: Test;

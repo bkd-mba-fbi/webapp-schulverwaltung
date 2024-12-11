@@ -7,7 +7,6 @@ import { ToastService } from "../../services/toast.service";
   selector: "bkd-toast",
   templateUrl: "./toast.component.html",
   styleUrls: ["./toast.component.scss"],
-  standalone: true,
   imports: [NgbToast, AsyncPipe],
 })
 export class ToastComponent {

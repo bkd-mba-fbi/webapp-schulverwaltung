@@ -9,7 +9,6 @@ import { MyAbsencesReportStateService } from "../../services/my-absences-report-
   styleUrls: ["./my-absences-report.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MyAbsencesReportStateService, MyAbsencesReportSelectionService],
-  standalone: true,
   imports: [RouterOutlet],
 })
 export class MyAbsencesReportComponent {

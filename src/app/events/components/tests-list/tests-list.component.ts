@@ -1,6 +1,6 @@
 import { AsyncPipe, NgClass } from "@angular/common";
 import { Component, Inject } from "@angular/core";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, merge } from "rxjs";
 import { distinctUntilChanged, map, switchMap, take } from "rxjs/operators";
 import { Test } from "src/app/shared/models/test.model";
@@ -15,7 +15,6 @@ import { TestsHeaderComponent } from "../tests-header/tests-header.component";
   selector: "bkd-tests-list",
   templateUrl: "./tests-list.component.html",
   styleUrls: ["./tests-list.component.scss"],
-  standalone: true,
   imports: [
     TestsHeaderComponent,
     SelectComponent,
@@ -23,7 +22,7 @@ import { TestsHeaderComponent } from "../tests-header/tests-header.component";
     NgClass,
     SpinnerComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class TestsListComponent {

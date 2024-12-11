@@ -19,7 +19,6 @@ import { PresenceControlStateService } from "../../services/presence-control-sta
   template: "<router-outlet></router-outlet>",
   styleUrls: ["./presence-control.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet],
   providers: [
     PresenceControlStateService,

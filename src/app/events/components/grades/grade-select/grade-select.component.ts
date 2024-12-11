@@ -6,7 +6,6 @@ import { SelectComponent } from "../../../../shared/components/select/select.com
   selector: "bkd-grade-select",
   templateUrl: "./grade-select.component.html",
   styleUrls: ["./grade-select.component.scss"],
-  standalone: true,
   imports: [SelectComponent],
 })
 export class GradeSelectComponent {

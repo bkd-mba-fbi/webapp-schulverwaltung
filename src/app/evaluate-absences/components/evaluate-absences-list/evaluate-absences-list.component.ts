@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { NgbTooltip } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
 import { Observable } from "rxjs";
 import { map, shareReplay, switchMap, take } from "rxjs/operators";
@@ -38,7 +38,6 @@ interface Column {
   templateUrl: "./evaluate-absences-list.component.html",
   styleUrls: ["./evaluate-absences-list.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     EvaluateAbsencesHeaderComponent,
     ReportsLinkComponent,
@@ -48,7 +47,7 @@ interface Column {
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {

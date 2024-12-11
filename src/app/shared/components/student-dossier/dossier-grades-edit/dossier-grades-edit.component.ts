@@ -10,7 +10,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import {
   BehaviorSubject,
   Observable,
@@ -36,13 +36,12 @@ const DEBOUNCE_TIME = 500;
   selector: "bkd-dossier-grades-edit",
   templateUrl: "./dossier-grades-edit.component.html",
   styleUrls: ["./dossier-grades-edit.component.scss"],
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     SelectComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class DossierGradesEditComponent implements OnInit {

@@ -8,7 +8,7 @@ import {
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { flatten, uniq } from "lodash-es";
 import { Observable, combineLatest, of } from "rxjs";
 import { map, shareReplay, switchMap } from "rxjs/operators";
@@ -30,7 +30,6 @@ import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-abs
   templateUrl: "./my-absences-show.component.html",
   styleUrls: ["./my-absences-show.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReportsLinkComponent,
     NgbAccordionDirective,
@@ -43,7 +42,7 @@ import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-abs
     StudentDossierEntryHeaderComponent,
     StudentDossierAbsencesComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class MyAbsencesShowComponent {

@@ -1,6 +1,6 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
@@ -13,12 +13,11 @@ import { DossierSingleTestComponent } from "../dossier-single-test/dossier-singl
   selector: "bkd-dossier-course-tests",
   templateUrl: "./dossier-course-tests.component.html",
   styleUrls: ["./dossier-course-tests.component.scss"],
-  standalone: true,
   imports: [
     DossierGradesFinalGradeComponent,
     DossierSingleTestComponent,
     AsyncPipe,
-    TranslateModule,
+    TranslatePipe,
   ],
 })
 export class DossierCourseTestsComponent implements OnChanges {
