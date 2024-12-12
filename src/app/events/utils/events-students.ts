@@ -71,6 +71,8 @@ export function convertPersonsToStudentEntries(
       (person) =>
         ({
           id: person.Id,
+          subscriptionId: subscriptions.find((s) => s.PersonId === person.Id)
+            ?.Id,
           firstName: person.FirstName,
           lastName: person.LastName,
           email: person.DisplayEmail ?? undefined,

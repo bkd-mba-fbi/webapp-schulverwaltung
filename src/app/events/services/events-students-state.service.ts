@@ -38,6 +38,7 @@ export type StudentEntries = {
 
 export type StudentEntry = {
   id: number;
+  subscriptionId?: number;
   firstName: string;
   lastName: string;
   email?: string;
