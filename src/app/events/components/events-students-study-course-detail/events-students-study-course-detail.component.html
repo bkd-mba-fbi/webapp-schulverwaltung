@@ -20,11 +20,13 @@
   {{ "events-students.study-course-detail.status" | translate }}:
   <span class="ms-2">{{ studentEntry()?.status }}</span>
 </div>
-@for (detail of subscriptionDetails(); track detail.Id) {
-  <ul>
-    <li>{{ detail.Id }}</li>
-    <li>{{ detail.Value }}</li>
-    <li>{{ detail.VssDesignation }}</li>
-    <li>{{ detail.VssStyle }}</li>
-  </ul>
+@for (detail of subscriptionDetails(); track detail.id) {
+  <div class="detail">
+    <div>{{ detail.label }}</div>
+    @if (detail.file !== null) {
+      <a href="{{ detail.file }}" target="_blank">{{ detail.value }}</a>
+    } @else {
+      {{ detail.value }}
+    }
+  </div>
 }

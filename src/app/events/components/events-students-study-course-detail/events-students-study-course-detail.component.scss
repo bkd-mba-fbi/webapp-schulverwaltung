@@ -19,3 +19,13 @@ address {
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
 }
+
+.detail {
+  max-width: 70ch;
+  padding-top: $spacer;
+
+  div {
+    color: $gray-dark;
+    font-size: $font-size-sm;
+  }
+}
