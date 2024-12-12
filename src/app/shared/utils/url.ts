@@ -2,6 +2,7 @@ import {
   DefaultUrlSerializer,
   PRIMARY_OUTLET,
   Params,
+  RouterLink,
   UrlSegment,
   UrlSegmentGroup,
 } from "@angular/router";
@@ -12,6 +13,7 @@ import {
 export function parseQueryString(queryString: unknown): Params {
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return String(queryString || "")
+    .replace(/^\?/, "")
     .split("&")
     .reduce((acc, pair) => {
       const [key, value] = pair.split("=");
@@ -40,4 +42,20 @@ export function getFirstSegment(url: string): string | null {
   const g: UrlSegmentGroup = tree?.root.children[PRIMARY_OUTLET];
   const s: UrlSegment[] = g?.segments;
   return s ? s[0].path : null;
+}
+
+export type Link = {
+  link: RouterLink["routerLink"];
+  params: Params;
+};
+
+/**
+ * Convert a string URL to a link that can be used with [routerLink] and [queryParams] directives.
+ */
+export function convertLink(url: string): Link {
+  const { pathname, search } = new URL(url, window.location.href);
+  return {
+    link: pathname,
+    params: parseQueryString(search),
+  };
 }

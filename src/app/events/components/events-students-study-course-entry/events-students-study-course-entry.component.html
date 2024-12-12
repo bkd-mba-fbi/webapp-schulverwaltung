@@ -1,0 +1,15 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="checkbox" (click)="onCheckboxCellClick($event, checkbox)">
+  <input
+    #checkbox
+    type="checkbox"
+    class="form-check-input"
+    [checked]="selected()"
+    (change)="toggleSelected.emit(entry())"
+  />
+</div>
+<a class="name" [routerLink]="link()" [queryParams]="linkParams()">{{
+  name()
+}}</a>
+<div class="status">{{ entry().status }}</div>

@@ -19,7 +19,7 @@ import { StorageService } from "../../services/storage.service";
 })
 export class AvatarComponent implements OnChanges {
   @Input() studentId: number;
-  @Input() link: string[];
+  @Input() link: RouterLink["routerLink"];
   @Input() linkParams?: Params;
 
   avatarStyles: Dict<string> = {};

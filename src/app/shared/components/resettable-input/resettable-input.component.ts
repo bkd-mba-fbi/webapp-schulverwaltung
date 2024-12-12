@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, input, model } from "@angular/core";
 
 @Component({
   selector: "bkd-resettable-input",
@@ -8,12 +8,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
   imports: [],
 })
 export class ResettableInputComponent {
-  @Input() value = "";
-  @Input() disabled = false;
-  @Input() placeholder: string;
-  @Input() label: string;
-
-  @Output() valueChange = new EventEmitter<string>();
-
-  constructor() {}
+  value = model<string>("");
+  disabled = input<boolean>(false);
+  placeholder = input<string>("");
+  label = input<string>("");
 }

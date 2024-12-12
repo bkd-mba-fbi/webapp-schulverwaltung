@@ -45,6 +45,18 @@ export const settings: Settings = {
   testsByCourseReports: [{ type: "crystal", id: 290044 }],
   testsBySubscriptionStudentReports: [{ type: "crystal", id: 290043 }],
   testsBySubscriptionTeacherReports: [{ type: "crystal", id: 290042 }],
+  studyClassStudentsReports: [
+    { type: "crystal", id: 290049 },
+    { type: "crystal", id: 290044 },
+    { type: "crystal", id: 230049 },
+  ],
+  courseStudentsReports: [
+    { type: "crystal", id: 290049 },
+    { type: "crystal", id: 290044 },
+    { type: "excel", id: 290040 },
+    { type: "excel", id: 240001 },
+    { type: "excel", id: 250004 },
+  ],
   subscriptionDetailGroupId: 3843,
   headerRoleRestriction: {
     myAbsences: "StudentRole",
@@ -90,7 +102,6 @@ export const settings: Settings = {
     },
   ],
   eventlist: {
-    eventdetail: "link-to-event-detail-module/:id",
     evaluation: "link-to-evaluation-module/:id",
     statusfilter:
       "14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300",

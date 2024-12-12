@@ -253,6 +253,28 @@
       "add-tests": "Tests erfassen"
     }
   },
+  "events-students": {
+    "no-entries": "Keine Einträge vorhanden",
+    "registration": "{{count}} Anmeldung",
+    "registrations": "{{count}} Anmeldungen",
+    "search": "Suchen",
+    "search-by-name": "Name suchen...",
+    "selected": "{{count}} ausgewählt",
+    "list": {
+      "header": {
+        "name": "Name"
+      }
+    },
+    "study-course-edit": {
+      "title": "Status ändern",
+      "students-selected": "{{count}} SuS ausgewählt",
+      "status-not-unique": "Die ausgewählten SuS müssen den gleichen Status besitzen um sie bearbeiten zu können.",
+      "status-terminal": "Im Status «{{status}}» ist kein Statuswechsel mehr möglich.",
+      "cancel": "Abbrechen",
+      "save": "Übernehmen",
+      "save-success": "Die ausgewählten Einträge wurden erfolgreich geändert."
+    }
+  },
   "courses": {
     "registration": "{{count}} Anmeldung",
     "registrations": "{{count}} Anmeldungen"

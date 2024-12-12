@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { isEqual } from "lodash-es";
 import { buildSubscriptionDetail } from "../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
-import { SubscriptionDetail } from "../models/subscription-detail.model";
+import { SubscriptionDetail } from "../models/subscription.model";
 import { SubscriptionDetailsRestService } from "./subscription-details-rest.service";
 
 describe("SubscriptionDetailsRestService", () => {

@@ -1,0 +1,39 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: min-content min-content 1fr;
+  grid-template-areas:
+    "avatar name"
+    "avatar study-class"
+    "avatar company";
+  padding: 2 * $spacer $spacer;
+}
+
+.avatar {
+  grid-area: avatar;
+  margin-right: 1.5 * $spacer;
+}
+
+.name {
+  grid-area: name;
+}
+
+.study-class {
+  grid-area: study-class;
+  font-size: $font-size-sm;
+}
+
+.company {
+  grid-area: company;
+  align-content: end;
+  padding-bottom: 1.5 * $spacer;
+}
+
+.name,
+.company {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

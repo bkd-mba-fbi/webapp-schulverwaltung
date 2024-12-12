@@ -38,7 +38,7 @@ export class TestsHeaderComponent implements OnChanges {
     map((course) => course?.Id),
     distinctUntilChanged(),
     switchMap((courseId) =>
-      courseId ? this.reportsService.getCourseReports(courseId) : of([]),
+      courseId ? this.reportsService.getCourseTestsReports(courseId) : of([]),
     ),
     startWith([]),
   );

@@ -5,19 +5,19 @@
   <input
     type="text"
     class="form-control"
-    [class.has-value]="value"
-    [value]="value"
-    [disabled]="disabled"
-    [attr.placeholder]="placeholder"
-    [attr.aria-label]="label"
+    [class.has-value]="value()"
+    [value]="value()"
+    [disabled]="disabled()"
+    [attr.placeholder]="placeholder()"
+    [attr.aria-label]="label()"
     aria-describedby="resettable-input"
-    (keyup)="valueChange.emit($any($event.target)?.value)"
+    (input)="value.set($any($event.target)?.value)"
   />
-  @if (value) {
+  @if (value()) {
     <button
       class="clear btn btn-link text-decoration-none"
       type="button"
-      (click)="valueChange.emit('')"
+      (click)="value.set('')"
     >
       <i class="material-icons">clear</i>
     </button>

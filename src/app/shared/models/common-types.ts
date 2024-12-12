@@ -21,6 +21,10 @@ export function Maybe<T extends t.Any>(
   return t.union([t.null, t.undefined, maybeType]);
 }
 
+const Identifiable = t.type({ Id: t.number });
+type Identifiable = t.TypeOf<typeof Identifiable>;
+export { Identifiable };
+
 const Reference = t.type({ Id: t.number, HRef: Option(t.string) });
 type Reference = t.TypeOf<typeof Reference>;
 export { Reference };
