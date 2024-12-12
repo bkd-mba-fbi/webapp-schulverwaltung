@@ -34,6 +34,6 @@ address {
 
   i {
     color: rgba($body-color, 0.5);
-    padding: 0 $spacer/2;
+    padding: 0 calc($spacer / 2);
   }
 }
