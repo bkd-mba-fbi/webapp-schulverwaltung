@@ -98,6 +98,26 @@ window.schulverwaltung.settings = {
   testsBySubscriptionTeacherReports: [{ type: "crystal", id: 290042 }],
 
   /**
+   * Reports including the students of a study class (used in events/students)
+   */
+  studyClassStudentsReports: [
+    { type: "crystal", id: 290049 }, // Fotoliste
+    { type: "crystal", id: 290044 }, // Tests pro Fach
+    { type: "crystal", id: 230049 }, // Übersicht formative Beurteilung
+  ],
+
+  /**
+   * Reports including the students of course (used in events/students)
+   */
+  courseStudentsReports: [
+    { type: "crystal", id: 290049 }, // Fotoliste
+    { type: "crystal", id: 290044 }, // Tests pro Fach
+    { type: "excel", id: 290040 }, // Tests pro Fach - Export
+    { type: "excel", id: 240001 }, // Notenblatt Absenzenkontrolle Adressliste => nur Berufsfachschulen
+    { type: "excel", id: 250004 }, // Notenblatt Absenzenkontrolle Adressliste => nur Mittelschulen (Gym)
+  ],
+
+  /**
    * Groups
    */
   // Id that determines if the group icon is shown on the presence control
@@ -207,10 +227,8 @@ window.schulverwaltung.settings = {
    * Events
    */
   eventlist: {
-    // Links to the external event detail and evaluation modules.
-    // The application will replace the placeholder ':id' with the
-    // corresponding event id
-    eventdetail: "link-to-event-detail-module/:id",
+    // Link to the external evaluation module. The application will replace the
+    // placeholder ':id' with the corresponding event id
     evaluation: "link-to-evaluation-module/:id",
 
     // Only events with a status id in the following list are fetched
