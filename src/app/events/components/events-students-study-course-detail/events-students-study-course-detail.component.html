@@ -18,10 +18,7 @@
 </address>
 <div class="status">
   {{ "events-students.study-course-detail.status" | translate }}:
-  <a href="">
-    <i class="material-icons">edit</i>
-    <span>{{ studentEntry()?.status }}</span>
-  </a>
+  <span class="ms-2">{{ studentEntry()?.status }}</span>
 </div>
 @for (detail of subscriptionDetails(); track detail.Id) {
   <ul>
