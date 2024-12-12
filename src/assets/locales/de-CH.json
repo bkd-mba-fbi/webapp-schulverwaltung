@@ -266,7 +266,7 @@
     },
     "study-course-detail": {
       "status": "Status"
-    },
+    }
   },
   "courses": {
     "registration": "{{count}} Anmeldung",
