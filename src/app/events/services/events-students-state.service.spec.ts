@@ -253,32 +253,28 @@ describe("EventsStudentsStateService", () => {
         const expected = [
           {
             id: 10,
-            firstName: "Paul",
-            lastName: "McCartney",
+            name: "McCartney Paul",
             email: "paul.mccartney@example.com",
             studyClass: "26a",
             company: "Apple Records – Abbey Road Studios",
           },
           {
             id: 20,
-            firstName: "John",
-            lastName: "Lennon",
+            name: "Lennon John",
             email: "john.lennon@example.com",
             studyClass: "26a",
             company: undefined,
           },
           {
             id: 30,
-            firstName: "George",
-            lastName: "Harrison",
+            name: "Harrison George",
             email: "george.harrison@example.com",
             studyClass: "26c",
             company: undefined,
           },
           {
             id: 40,
-            firstName: "Ringo",
-            lastName: "Starr",
+            name: "Starr Ringo",
             email: "ringo.starr@example.com",
             studyClass: "26c",
             company: undefined,
@@ -287,10 +283,10 @@ describe("EventsStudentsStateService", () => {
 
         expect(service.entries()).toEqual(expected);
         expect(service.sortedEntries()).toEqual(
-          expected.sort((a, b) => a.firstName.localeCompare(b.firstName)),
+          expected.sort((a, b) => a.name.localeCompare(b.name)),
         );
         expect(service.filteredEntries()).toEqual(
-          expected.sort((a, b) => a.firstName.localeCompare(b.firstName)),
+          expected.sort((a, b) => a.name.localeCompare(b.name)),
         );
       });
 
@@ -298,67 +294,75 @@ describe("EventsStudentsStateService", () => {
         service.searchTerm.set("pau");
         TestBed.flushEffects();
 
-        const entries = service
-          .sortedEntries()
-          .map(({ firstName }) => firstName);
-        expect(entries).toEqual(["George", "John", "Paul", "Ringo"]);
+        const entries = service.sortedEntries().map(({ name }) => name);
+        expect(entries).toEqual([
+          "Harrison George",
+          "Lennon John",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
 
-        const filtered = service
-          .filteredEntries()
-          .map(({ firstName }) => firstName);
-        expect(filtered).toEqual(["Paul"]);
+        const filtered = service.filteredEntries().map(({ name }) => name);
+        expect(filtered).toEqual(["McCartney Paul"]);
       });
 
       it("returns filtered entries for matching lastname", () => {
         service.searchTerm.set("ar");
         TestBed.flushEffects();
 
-        const entries = service
-          .sortedEntries()
-          .map(({ firstName }) => firstName);
-        expect(entries).toEqual(["George", "John", "Paul", "Ringo"]);
+        const entries = service.sortedEntries().map(({ name }) => name);
+        expect(entries).toEqual([
+          "Harrison George",
+          "Lennon John",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
 
-        const filtered = service
-          .filteredEntries()
-          .map(({ firstName }) => firstName);
-        expect(filtered).toEqual(["George", "Paul", "Ringo"]);
+        const filtered = service.filteredEntries().map(({ name }) => name);
+        expect(filtered).toEqual([
+          "Harrison George",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
       });
 
       it("returns filtered entries for matching company", () => {
         service.searchTerm.set("abbey");
         TestBed.flushEffects();
 
-        const entries = service
-          .sortedEntries()
-          .map(({ firstName }) => firstName);
-        expect(entries).toEqual(["George", "John", "Paul", "Ringo"]);
+        const entries = service.sortedEntries().map(({ name }) => name);
+        expect(entries).toEqual([
+          "Harrison George",
+          "Lennon John",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
 
-        const filtered = service
-          .filteredEntries()
-          .map(({ firstName }) => firstName);
-        expect(filtered).toEqual(["Paul"]);
+        const filtered = service.filteredEntries().map(({ name }) => name);
+        expect(filtered).toEqual(["McCartney Paul"]);
       });
 
       it("returns filtered entries for matching class", () => {
         service.searchTerm.set("26c");
         TestBed.flushEffects();
 
-        const entries = service
-          .sortedEntries()
-          .map(({ firstName }) => firstName);
-        expect(entries).toEqual(["George", "John", "Paul", "Ringo"]);
+        const entries = service.sortedEntries().map(({ name }) => name);
+        expect(entries).toEqual([
+          "Harrison George",
+          "Lennon John",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
 
-        const filtered = service
-          .filteredEntries()
-          .map(({ firstName }) => firstName);
-        expect(filtered).toEqual(["George", "Ringo"]);
+        const filtered = service.filteredEntries().map(({ name }) => name);
+        expect(filtered).toEqual(["Harrison George", "Starr Ringo"]);
       });
     });
 
     describe("mailtoLink", () => {
       it("is the mailto: link value with all email addresses comma-separated", () => {
         expect(service.mailtoLink()).toBe(
-          "mailto:paul.mccartney@example.com,john.lennon@example.com,george.harrison@example.com,ringo.starr@example.com",
+          "mailto:paul.mccartney@example.com;john.lennon@example.com;george.harrison@example.com;ringo.starr@example.com",
         );
       });
     });
@@ -400,40 +404,40 @@ describe("EventsStudentsStateService", () => {
         const expected = [
           {
             id: 10,
-            firstName: "Paul",
-            lastName: "McCartney",
+            name: "McCartney Paul",
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
+            company: "Apple Records – Abbey Road Studios",
           },
           {
             id: 20,
-            firstName: "John",
-            lastName: "Lennon",
+            name: "Lennon John",
             email: "john.lennon@example.com",
             status: "Aufgenommen",
+            company: undefined,
           },
           {
             id: 30,
-            firstName: "George",
-            lastName: "Harrison",
+            name: "Harrison George",
             email: "george.harrison@example.com",
             status: "Aufgenommen",
+            company: undefined,
           },
           {
             id: 40,
-            firstName: "Ringo",
-            lastName: "Starr",
+            name: "Starr Ringo",
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
+            company: undefined,
           },
         ];
 
         expect(service.entries()).toEqual(expected);
         expect(service.sortedEntries()).toEqual(
-          expected.sort((a, b) => a.firstName.localeCompare(b.firstName)),
+          expected.sort((a, b) => a.name.localeCompare(b.name)),
         );
         expect(service.filteredEntries()).toEqual(
-          expected.sort((a, b) => a.firstName.localeCompare(b.firstName)),
+          expected.sort((a, b) => a.name.localeCompare(b.name)),
         );
       });
     });
@@ -441,7 +445,7 @@ describe("EventsStudentsStateService", () => {
     describe("mailtoLink", () => {
       it("is the mailto: link value with all email addresses comma-separated", () => {
         expect(service.mailtoLink()).toBe(
-          "mailto:paul.mccartney@example.com,john.lennon@example.com,george.harrison@example.com,ringo.starr@example.com",
+          "mailto:paul.mccartney@example.com;john.lennon@example.com;george.harrison@example.com;ringo.starr@example.com",
         );
       });
     });
@@ -483,29 +487,25 @@ describe("EventsStudentsStateService", () => {
         const expected = [
           {
             id: 10,
-            firstName: "Paul",
-            lastName: "McCartney",
+            name: "McCartney Paul",
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
           },
           {
             id: 20,
-            firstName: "John",
-            lastName: "Lennon",
+            name: "Lennon John",
             email: "john.lennon@example.com",
             status: "Aufgenommen",
           },
           {
             id: 30,
-            firstName: "George",
-            lastName: "Harrison",
+            name: "Harrison George",
             email: "george.harrison@example.com",
             status: "Aufgenommen",
           },
           {
             id: 40,
-            firstName: "Ringo",
-            lastName: "Starr",
+            name: "Starr Ringo",
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
           },
@@ -513,24 +513,30 @@ describe("EventsStudentsStateService", () => {
 
         expect(service.entries()).toEqual(expected);
         expect(service.sortedEntries()).toEqual(
-          expected.sort((a, b) => a.firstName.localeCompare(b.firstName)),
+          expected.sort((a, b) => a.name.localeCompare(b.name)),
         );
         expect(service.filteredEntries()).toEqual(
-          expected.sort((a, b) => a.firstName.localeCompare(b.firstName)),
+          expected.sort((a, b) => a.name.localeCompare(b.name)),
         );
       });
 
       it("changes the sort direction", () => {
-        expect(
-          service.sortedEntries().map(({ firstName }) => firstName),
-        ).toEqual(["George", "John", "Paul", "Ringo"]);
+        expect(service.sortedEntries().map(({ name }) => name)).toEqual([
+          "Harrison George",
+          "Lennon John",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
 
         service.toggleSort();
         TestBed.flushEffects();
 
-        expect(
-          service.sortedEntries().map(({ firstName }) => firstName),
-        ).toEqual(["Ringo", "Paul", "John", "George"]);
+        expect(service.sortedEntries().map(({ name }) => name)).toEqual([
+          "Starr Ringo",
+          "McCartney Paul",
+          "Lennon John",
+          "Harrison George",
+        ]);
       });
     });
 

@@ -38,8 +38,7 @@ export type StudentEntries = {
 
 export type StudentEntry = {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
   email?: string;
   status?: string;
   studyClass?: string;
@@ -82,7 +81,7 @@ export class EventsStudentsStateService {
   filteredEntries = computed(() =>
     searchEntries(
       this.sortedEntries(),
-      ["firstName", "lastName", "status", "company", "studyClass"],
+      ["name", "status", "company", "studyClass"],
       this.searchTerm(),
     ),
   );
@@ -145,21 +144,8 @@ export class EventsStudentsStateService {
   }
 
   private loadStudyCourseStudents(eventId: number): Observable<StudentEntries> {
-    return this.loadSubscriptionStudents(eventId);
-  }
-
-  private loadStudyClassStudents(eventId: number): Observable<StudentEntries> {
-    return this.loadSubscriptionStudents(eventId, {
-      "filter.IsOkay": "=1",
-    });
-  }
-
-  private loadSubscriptionStudents(
-    eventId: number,
-    additionalParams?: Dict<string>,
-  ): Observable<StudentEntries> {
     return this.subscriptionsService
-      .getSubscriptionsByCourse(eventId, additionalParams)
+      .getSubscriptionsByCourse(eventId)
       .pipe(
         switchMap((subscriptions) =>
           this.personsService
@@ -176,6 +162,35 @@ export class EventsStudentsStateService {
               ),
             ),
         ),
+      );
+  }
+
+  private loadStudyClassStudents(eventId: number): Observable<StudentEntries> {
+    return this.subscriptionsService
+      .getSubscriptionsByCourse(eventId, {
+        "filter.IsOkay": "=1",
+      })
+      .pipe(
+        switchMap((subscriptions) => {
+          const studentIds = subscriptions
+            .map(({ PersonId }) => PersonId)
+            .filter(notNull);
+          return combineLatest([
+            this.personsService.getSummaries(studentIds),
+            this.apprenticeshipContractsService.getCompaniesForStudents(
+              studentIds,
+            ),
+          ]).pipe(
+            map(([persons, contracts]) => {
+              const students = convertPersonsToStudentEntries(
+                eventId,
+                persons,
+                subscriptions,
+              );
+              return decorateCourseStudentsWithCompanies(students, contracts);
+            }),
+          );
+        }),
       );
   }
 
@@ -219,7 +234,7 @@ export class EventsStudentsStateService {
     }
 
     const emails = entries.map((entry) => entry.email).filter(Boolean);
-    return emails.length > 0 ? `mailto:${emails.join(",")}` : null;
+    return emails.length > 0 ? `mailto:${emails.join(";")}` : null;
   }
 
   private loadReports(
@@ -249,10 +264,8 @@ function getStudentEntryComparator<PrimarySortKey>(
   sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
-    const fullNameA = `${a.firstName} ${a.lastName}`;
-    const fullNameB = `${b.firstName} ${b.lastName}`;
     return sortCriteria.ascending
-      ? fullNameA.localeCompare(fullNameB)
-      : fullNameB.localeCompare(fullNameA);
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name);
   };
 }

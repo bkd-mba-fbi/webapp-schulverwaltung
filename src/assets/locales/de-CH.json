@@ -258,7 +258,7 @@
     "registration": "{{count}} Anmeldung",
     "registrations": "{{count}} Anmeldungen",
     "search": "Suchen",
-    "search-by-name": "Name suchen...",
+    "search-placeholder": "Suchen...",
     "list": {
       "header": {
         "name": "Name"

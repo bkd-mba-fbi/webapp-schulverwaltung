@@ -1,5 +1,9 @@
 @import "../../../../bootstrap-variables";
 
+h1 {
+  margin-bottom: 0;
+}
+
 .search {
   margin-top: $spacer;
   display: flex;

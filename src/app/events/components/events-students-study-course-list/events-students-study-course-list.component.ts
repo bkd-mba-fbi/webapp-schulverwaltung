@@ -43,6 +43,6 @@ export class EventsStudentsStudyCourseListComponent {
   getSortDirectionCharacter(
     sortCriteria: SortCriteria<PrimarySortKey>,
   ): string {
-    return sortCriteria.ascending ? "↓" : "↑";
+    return sortCriteria.ascending ? "↑" : "↓";
   }
 }

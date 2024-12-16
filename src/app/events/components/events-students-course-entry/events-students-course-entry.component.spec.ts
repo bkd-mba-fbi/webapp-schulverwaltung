@@ -19,8 +19,7 @@ describe("EventsStudentsCourseEntryComponent", () => {
 
     fixture.componentRef.setInput("entry", {
       id: 1,
-      firstName: "Jane",
-      lastName: "Doe",
+      name: "Doe Jane",
       email: "jane.doe@example.com",
       studyClass: "26a",
       company: "Coop Genossenschaft",
@@ -31,9 +30,9 @@ describe("EventsStudentsCourseEntryComponent", () => {
 
   it("renders firstname/lastname with link to dossier including returnlink", () => {
     const link = element.querySelector<HTMLAnchorElement>("a.name");
-    expect(link?.textContent).toContain("Jane Doe");
+    expect(link?.textContent).toContain("Doe Jane");
     expect(link?.href).toContain(
-      "student/1/absences?returnparams=returnlink%3D%252Fevents%252Fcurrent",
+      "student/1/addresses?returnparams=returnlink%3D%252Fevents%252Fcurrent",
     );
   });
 
