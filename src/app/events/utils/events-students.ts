@@ -24,8 +24,7 @@ export function convertCourseToStudentEntries(course: Course): StudentEntries {
       (student) =>
         ({
           id: student.Id,
-          firstName: student.FirstName,
-          lastName: student.LastName,
+          name: `${student.LastName} ${student.FirstName}`,
           email: student.DisplayEmail ?? undefined,
         }) satisfies StudentEntry,
     ) ?? [];
@@ -71,8 +70,7 @@ export function convertPersonsToStudentEntries(
       (person) =>
         ({
           id: person.Id,
-          firstName: person.FirstName,
-          lastName: person.LastName,
+          name: `${person.LastName} ${person.FirstName}`,
           email: person.DisplayEmail ?? undefined,
           status: subscriptions.find((s) => s.PersonId === person.Id)?.Status,
         }) satisfies StudentEntry,

@@ -6,10 +6,10 @@
 ></bkd-avatar>
 <a
   class="name"
-  [title]="name()"
+  [title]="entry().name"
   [routerLink]="link()"
   [queryParams]="linkParams()"
-  >{{ name() }}</a
+  >{{ entry().name }}</a
 >
 <div class="study-class">
   {{ multipleStudyClasses() ? entry().studyClass : "" }}

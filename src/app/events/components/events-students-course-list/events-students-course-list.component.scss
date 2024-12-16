@@ -7,7 +7,7 @@
 
 section.list {
   width: calc(100% + 1px); // Hide right border
-  margin-top: 2 * $spacer;
+  margin-top: 1 * $spacer;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }

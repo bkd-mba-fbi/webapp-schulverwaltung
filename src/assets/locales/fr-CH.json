@@ -258,7 +258,7 @@
     "registration": "{{count}} inscription",
     "registrations": "{{count}} inscriptions",
     "search": "Rechercher",
-    "search-by-name": "Rechercher un nom...",
+    "search-placeholder": "Rechercher...",
     "list": {
       "header": {
         "name": "Nom"

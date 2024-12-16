@@ -19,9 +19,6 @@ export class EventsStudentsStudyCourseEntryComponent {
   entry = input.required<StudentEntry>();
   returnLink = input<Option<string>>(null);
 
-  name = computed<string>(
-    () => `${this.entry().firstName} ${this.entry().lastName}`,
-  );
   link = computed<RouterLink["routerLink"]>(() => [
     "student",
     this.entry().id,

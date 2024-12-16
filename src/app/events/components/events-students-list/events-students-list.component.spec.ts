@@ -38,32 +38,28 @@ describe("EventsStudentsListComponent", () => {
               const entries: ReadonlyArray<StudentEntry> = [
                 {
                   id: 10,
-                  firstName: "Paul",
-                  lastName: "McCartney",
+                  name: "McCartney Paul",
                   email: "paul.mccartney@example.com",
                   studyClass: "26a",
                   company: "Apple Records – Abbey Road Studios",
                 },
                 {
                   id: 20,
-                  firstName: "John",
-                  lastName: "Lennon",
+                  name: "Lennon John",
                   email: "john.lennon@example.com",
                   studyClass: "26a",
                   company: undefined,
                 },
                 {
                   id: 30,
-                  firstName: "George",
-                  lastName: "Harrison",
+                  name: "Harrison George",
                   email: "george.harrison@example.com",
                   studyClass: "26c",
                   company: undefined,
                 },
                 {
                   id: 40,
-                  firstName: "Ringo",
-                  lastName: "Starr",
+                  name: "Starr Ringo",
                   email: "ringo.starr@example.com",
                   studyClass: "26c",
                   company: undefined,
@@ -104,10 +100,10 @@ describe("EventsStudentsListComponent", () => {
         element.querySelector("bkd-events-students-course-list"),
       ).not.toBeNull();
       expect(element.querySelector("h1")?.textContent).toContain("English-S3");
-      expect(element.textContent).toContain("Paul McCartney");
-      expect(element.textContent).toContain("John Lennon");
-      expect(element.textContent).toContain("George Harrison");
-      expect(element.textContent).toContain("Ringo Starr");
+      expect(element.textContent).toContain("McCartney Paul");
+      expect(element.textContent).toContain("Lennon John");
+      expect(element.textContent).toContain("Harrison George");
+      expect(element.textContent).toContain("Starr Ringo");
     });
 
     it("renders placeholder if no entries are available", () => {
@@ -129,10 +125,10 @@ describe("EventsStudentsListComponent", () => {
         element.querySelector("bkd-events-students-study-course-list"),
       ).not.toBeNull();
       expect(element.querySelector("h1")?.textContent).toContain("English-S3");
-      expect(element.textContent).toContain("Paul McCartney");
-      expect(element.textContent).toContain("John Lennon");
-      expect(element.textContent).toContain("George Harrison");
-      expect(element.textContent).toContain("Ringo Starr");
+      expect(element.textContent).toContain("McCartney Paul");
+      expect(element.textContent).toContain("Lennon John");
+      expect(element.textContent).toContain("Harrison George");
+      expect(element.textContent).toContain("Starr Ringo");
     });
 
     it("renders placeholder if no entries are available", () => {
