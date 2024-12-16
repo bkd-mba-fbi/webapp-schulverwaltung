@@ -17,7 +17,7 @@
     "build:prod": "ng build --configuration production",
     "build-and-copy-local": "npm run build:prod && ./scripts/copy-to-portal.sh ../evento-portal/public/apps/webapp-schulverwaltung/",
     "test": "ng test",
-    "test:headless": "ng test --watch=false --browsers=ChromiumHeadless",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI",
     "test:watch": "ng test --browsers=ChromiumHeadless",
     "test:brief": "ng test --browsers=ChromiumHeadless --reporters brief",
     "test:coverage": "ng test --browsers=ChromiumHeadless --code-coverage --reporters coverage-istanbul",
