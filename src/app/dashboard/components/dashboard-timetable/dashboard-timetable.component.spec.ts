@@ -172,7 +172,7 @@ describe("DashboardTimetableComponent", () => {
       let link = rows[0].querySelector("td.subject a");
       expect(link?.textContent?.trim()).toBe("Mathematik, 9a");
       expect(link?.getAttribute("href")).toBe(
-        "/events/students/10?returnlink=%252Fdashboard",
+        "/events/current/10?returnlink=%252Fdashboard",
       );
 
       expect(rows[0].querySelector("td.study-class")?.textContent).toContain(
@@ -192,7 +192,7 @@ describe("DashboardTimetableComponent", () => {
       link = rows[1].querySelector("td.subject a");
       expect(link?.textContent?.trim()).toBe("Zeichnen, 8c");
       expect(link?.getAttribute("href")).toBe(
-        "/events/students/20?returnlink=%252Fdashboard",
+        "/events/current/20?returnlink=%252Fdashboard",
       );
 
       expect(rows[1].querySelector("td.study-class")?.textContent).toContain(

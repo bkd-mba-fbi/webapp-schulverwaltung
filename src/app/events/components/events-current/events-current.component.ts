@@ -1,13 +1,11 @@
 import { Component } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
-import { EventsListComponent } from "../events-list/events-list.component";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "bkd-events-current",
-  templateUrl: "./events-current.component.html",
-  styleUrls: ["./events-current.component.scss"],
+  template: `<router-outlet></router-outlet>`,
   standalone: true,
-  imports: [EventsListComponent, TranslateModule],
+  imports: [RouterOutlet],
 })
 export class EventsCurrentComponent {
   constructor() {}
