@@ -15,7 +15,7 @@ export function getEventsStudentsLink(
   const query = new URLSearchParams(
     returnLink ? { returnlink: returnLink } : {},
   );
-  return `/events/students/${eventId}?${query}`;
+  return `/events/current/${eventId}?${query}`;
 }
 
 export function convertCourseToStudentEntries(course: Course): StudentEntries {
