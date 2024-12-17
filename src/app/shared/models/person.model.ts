@@ -44,8 +44,7 @@ const Person = t.type({
 const PersonSummary = t.type({
   Id: t.number,
   DisplayEmail: Option(t.string),
-  FirstName: t.string,
-  LastName: t.string,
+  FullName: t.string,
 });
 
 type Person = t.TypeOf<typeof Person>;

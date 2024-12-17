@@ -267,8 +267,7 @@ export function buildPersonSummary(id: number): PersonSummary {
   return {
     Id: id,
     DisplayEmail: null,
-    FirstName: "T",
-    LastName: "Tux",
+    FullName: "Tux",
   };
 }
 
