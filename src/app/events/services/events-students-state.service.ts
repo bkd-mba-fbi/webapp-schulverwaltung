@@ -51,8 +51,15 @@ export type PrimarySortKey = "name";
   providedIn: "root",
 })
 export class EventsStudentsStateService {
-  private eventId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get("id"))),
+  private eventId$ = combineLatest([
+    this.route.paramMap,
+    this.route.parent?.paramMap ?? of(null),
+  ]).pipe(
+    map(([params, parentParams]) =>
+      // In the tests module, we have to look at the parent route's params to
+      // get the ID
+      Number(params.get("id") || parentParams?.get("id")),
+    ),
   );
   private eventTypeId = toSignal(
     this.eventId$.pipe(switchMap(this.loadEventTypeId.bind(this))),

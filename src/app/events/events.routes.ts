@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import { Route, Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
 import { EventsCurrentListComponent } from "./components/events-current-list/events-current-list.component";
 import { EventsCurrentComponent } from "./components/events-current/events-current.component";
@@ -10,6 +10,17 @@ import { TestsAddComponent } from "./components/tests-add/tests-add.component";
 import { TestsEditComponent } from "./components/tests-edit/tests-edit.component";
 import { TestsListComponent } from "./components/tests-list/tests-list.component";
 import { TestsComponent } from "./components/tests/tests.component";
+
+export function getStudentsRoute(path: string): Route {
+  return {
+    path,
+    component: EventsStudentsComponent,
+    children: [
+      { path: "", component: EventsStudentsListComponent },
+      dossierRoute,
+    ],
+  };
+}
 
 export const EVENTS_ROUTES: Routes = [
   {
@@ -25,14 +36,7 @@ export const EVENTS_ROUTES: Routes = [
         component: EventsCurrentComponent,
         children: [
           { path: "", component: EventsCurrentListComponent },
-          {
-            path: ":id",
-            component: EventsStudentsComponent,
-            children: [
-              { path: "", component: EventsStudentsListComponent },
-              dossierRoute,
-            ],
-          },
+          getStudentsRoute(":id"),
         ],
       },
       {
@@ -43,6 +47,7 @@ export const EVENTS_ROUTES: Routes = [
             path: "tests",
             component: TestsListComponent,
           },
+          getStudentsRoute("students"),
         ],
       },
       {
