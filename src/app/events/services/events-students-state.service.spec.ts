@@ -48,23 +48,19 @@ describe("EventsStudentsStateService", () => {
     };
 
     const paul = buildStudent(10);
-    paul.FirstName = "Paul";
-    paul.LastName = "McCartney";
+    paul.FullName = "McCartney Paul";
     paul.DisplayEmail = "paul.mccartney@example.com";
 
     const john = buildStudent(20);
-    john.FirstName = "John";
-    john.LastName = "Lennon";
+    john.FullName = "Lennon John";
     john.DisplayEmail = "john.lennon@example.com";
 
     const george = buildStudent(30);
-    george.FirstName = "George";
-    george.LastName = "Harrison";
+    george.FullName = "Harrison George";
     george.DisplayEmail = "george.harrison@example.com";
 
     const ringo = buildStudent(40);
-    ringo.FirstName = "Ringo";
-    ringo.LastName = "Starr";
+    ringo.FullName = "Starr Ringo";
     ringo.DisplayEmail = "ringo.starr@example.com";
 
     students = [paul, john, george, ringo];
