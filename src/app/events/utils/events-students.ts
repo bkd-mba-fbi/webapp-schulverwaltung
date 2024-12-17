@@ -10,12 +10,15 @@ import {
 
 export function getEventsStudentsLink(
   eventId: number,
-  returnLink?: string,
+  returnLink: string,
 ): string {
-  const query = new URLSearchParams(
-    returnLink ? { returnlink: returnLink } : {},
-  );
-  return `/events/current/${eventId}?${query}`;
+  const query = new URLSearchParams({ returnlink: returnLink });
+  if (returnLink.startsWith("/dashboard")) {
+    return `/dashboard/students/${eventId}?${query}`;
+  } else if (returnLink.startsWith("/events/current")) {
+    return `/events/current/${eventId}?${query}`;
+  }
+  return `/events/${eventId}/students?${query}`;
 }
 
 export function convertCourseToStudentEntries(course: Course): StudentEntries {
