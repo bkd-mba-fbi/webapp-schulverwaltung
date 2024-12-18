@@ -170,7 +170,11 @@ describe("EventsStudentsStateService", () => {
                 "getSummaries",
               ]);
               personsServiceMock.getSummaries.and.callFake((ids) =>
-                of(students.filter((s) => ids.includes(s.Id))),
+                of(
+                  students
+                    .filter((s) => ids.includes(s.Id))
+                    .map((s) => ({ ...s, Email: null })),
+                ),
               );
               return personsServiceMock;
             },

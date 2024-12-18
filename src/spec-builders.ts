@@ -266,8 +266,9 @@ export function buildStudent(id: number): Student {
 export function buildPersonSummary(id: number): PersonSummary {
   return {
     Id: id,
-    DisplayEmail: null,
     FullName: "Tux",
+    DisplayEmail: null,
+    Email: null,
   };
 }
 

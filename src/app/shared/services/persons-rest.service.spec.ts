@@ -39,10 +39,11 @@ describe("PersonsRestService", () => {
       const personSummaries: ReadonlyArray<PersonSummary> = [
         buildPersonSummary(54425),
         buildPersonSummary(56200),
-      ].map(({ Id, FullName, DisplayEmail }) => ({
+      ].map(({ Id, FullName, DisplayEmail, Email }) => ({
         Id,
         FullName,
         DisplayEmail,
+        Email,
       }));
 
       service.getSummaries([54425, 56200]).subscribe((result) => {
@@ -51,7 +52,7 @@ describe("PersonsRestService", () => {
 
       httpTestingController
         .expectOne(
-          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail",
+          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail,Email",
         )
         .flush(personSummaries);
     });
