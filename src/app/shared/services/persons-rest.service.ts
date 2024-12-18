@@ -34,7 +34,7 @@ export class PersonsRestService extends RestService<typeof Person> {
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
           "filter.Id": `;${ids.join(";")}`,
-          fields: ["Id", "FullName", "DisplayEmail"].join(","),
+          fields: ["Id", "FullName", "DisplayEmail", "Email"].join(","),
         },
       })
       .pipe(switchMap(decodeArray(PersonSummary)));
