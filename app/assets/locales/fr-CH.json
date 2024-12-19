@@ -265,7 +265,9 @@
       }
     },
     "study-course-detail": {
-      "status": "Statut"
+      "status": "Statut",
+      "yes": "Oui",
+      "no": "Non"
     }
   },
   "courses": {
