@@ -137,6 +137,85 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
       expect(element.textContent).toContain("2401");
     });
 
+    it("renders isYes entries", () => {
+      const detail1 = buildSubscriptionDetail(1001, "Ja");
+      detail1.Id = "1001";
+      detail1.VssDesignation = "Vegetarische Ernährung";
+      detail1.VssType = "isYes";
+      detail1.ShowAsRadioButtons = true;
+
+      const detail2 = buildSubscriptionDetail(1002, "Nein");
+      detail2.Id = "1002";
+      detail2.VssDesignation = "Halbtax";
+      detail2.VssType = "isYes";
+      detail2.ShowAsRadioButtons = true;
+
+      details = [detail1, detail2];
+
+      fixture.detectChanges();
+      expect(element.textContent).toContain("Vegetarische Ernährung");
+      expect(element.textContent).toContain(
+        "events-students.study-course-detail.yes",
+      );
+      expect(element.textContent).toContain("Halbtax");
+      expect(element.textContent).toContain(
+        "events-students.study-course-detail.no",
+      );
+    });
+
+    it("renders isYesNo entries", () => {
+      const detail1 = buildSubscriptionDetail(1001, "Ja");
+      detail1.Id = "1001";
+      detail1.VssDesignation = "Vegetarische Ernährung";
+      detail1.VssType = "isYesNo";
+      detail1.ShowAsRadioButtons = true;
+
+      const detail2 = buildSubscriptionDetail(1002, "Nein");
+      detail2.Id = "1002";
+      detail2.VssDesignation = "Halbtax";
+      detail2.VssType = "isYesNo";
+      detail2.ShowAsRadioButtons = true;
+
+      details = [detail1, detail2];
+
+      fixture.detectChanges();
+      expect(element.textContent).toContain("Vegetarische Ernährung");
+      expect(element.textContent).toContain(
+        "events-students.study-course-detail.yes",
+      );
+      expect(element.textContent).toContain("Halbtax");
+      expect(element.textContent).toContain(
+        "events-students.study-course-detail.no",
+      );
+    });
+
+    it("renders dropdown entries", () => {
+      const detail1 = buildSubscriptionDetail(1001, "1234");
+      detail1.Id = "1001";
+      detail1.VssDesignation = "Lieblingsfarbe";
+      detail1.DropdownItems = [
+        { Key: "1234", Value: "salmon" },
+        { Key: "5678", Value: "gold" },
+      ];
+
+      const detail2 = buildSubscriptionDetail(1002, "Spaghetti Bolo");
+      detail2.Id = "1002";
+      detail2.VssDesignation = "Lieblingsessen";
+      detail2.DropdownItems = [
+        { Key: "1234", Value: "Pizza" },
+        { Key: "5678", Value: "Lasagne" },
+      ];
+      detail2.VssStyle = "CB";
+
+      details = [detail1, detail2];
+
+      fixture.detectChanges();
+      expect(element.textContent).toContain("Lieblingsfarbe");
+      expect(element.textContent).toContain("salmon");
+      expect(element.textContent).toContain("Lieblingsessen");
+      expect(element.textContent).toContain("Spaghetti Bolo");
+    });
+
     it("renders document file entry", () => {
       const detail = buildSubscriptionDetail(1001, "document.pdf");
       detail.Id = "1001";

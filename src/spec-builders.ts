@@ -485,6 +485,7 @@ export function buildSubscriptionDetail(
     SubscriptionId: 1,
     IdPerson: 1,
     VssId: vssId,
+    VssType: "",
     Value: value || "",
     VssDesignation: "",
     VssStyle: "",

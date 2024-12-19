@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { LoadingService } from "src/app/shared/services/loading-service";
@@ -69,6 +69,7 @@ export class EventsStudentsStudyCourseDetailComponent {
     private subscriptionsService: SubscriptionsRestService,
     private storageService: StorageService,
     private loadingService: LoadingService,
+    private translate: TranslateService,
   ) {}
 
   private loadSubscription(): Observable<Option<Subscription>> {
@@ -105,12 +106,47 @@ export class EventsStudentsStudyCourseDetailComponent {
   private toSubscriptionDetailsEntry(
     detail: SubscriptionDetail,
   ): SubscriptionDetailsEntry {
+    let value = detail.Value ?? "";
+    value = this.normalizeSubscriptionDetailsYesNoValue(detail, value);
+    value = this.normalizeSubscriptionDetailsDropdownValue(detail, value);
     return {
       id: detail.Id,
       label: detail.VssDesignation,
-      value: detail.Value ?? "",
+      value,
       file: this.buildFileUrl(detail),
     };
+  }
+
+  private normalizeSubscriptionDetailsYesNoValue(
+    detail: SubscriptionDetail,
+    value: string,
+  ) {
+    if (
+      (detail.VssType === "isYes" || detail.VssType === "isYesNo") &&
+      detail.ShowAsRadioButtons
+    ) {
+      if (value === "Ja") {
+        return this.translate.instant(
+          `events-students.study-course-detail.yes`,
+        );
+      } else if (value === "Nein") {
+        return this.translate.instant(`events-students.study-course-detail.no`);
+      }
+    }
+    return value;
+  }
+
+  private normalizeSubscriptionDetailsDropdownValue(
+    detail: SubscriptionDetail,
+    value: string,
+  ) {
+    if (detail.DropdownItems && detail.VssStyle !== "CB") {
+      return (
+        detail.DropdownItems.find((item) => String(item.Key) === value)
+          ?.Value ?? value
+      );
+    }
+    return value;
   }
 
   private buildFileUrl(detail: SubscriptionDetail): Option<string> {

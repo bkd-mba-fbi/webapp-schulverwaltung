@@ -24,7 +24,7 @@ const SubscriptionDetail = t.type({
   // VssStyleDescription: t.string,
   VssStyle: t.string,
   // VssTypeId: t.number,
-  // VssType: t.string,
+  VssType: t.string,
   // ReadOnly: t.boolean,
   // ValueRangeRegex: Option(t.string),
   // ValueRangeError: Option(t.string),

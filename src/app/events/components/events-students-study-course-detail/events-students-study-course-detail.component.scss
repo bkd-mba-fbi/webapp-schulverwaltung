@@ -25,7 +25,7 @@ address {
   padding-top: $spacer;
 
   div {
-    color: $gray-dark;
-    font-size: $font-size-sm;
+    font-weight: normal;
+    color: rgba($body-color, 0.5);
   }
 }
