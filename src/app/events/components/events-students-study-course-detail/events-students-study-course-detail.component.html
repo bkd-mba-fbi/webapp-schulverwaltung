@@ -16,6 +16,9 @@
       @if (personData.AddressLine1) {
         {{ personData.AddressLine1 }}<br />
       }
+      @if (personData.AddressLine2) {
+        {{ personData.AddressLine2 }}<br />
+      }
       @if (personData.Zip && personData.Location) {
         {{ personData.Zip }} {{ personData.Location }}<br />
       }
@@ -28,7 +31,16 @@
       @if (personData.PhoneMobile) {
         <a href="tel:{{ personData.PhoneMobile }}">{{
           personData.PhoneMobile
-        }}</a>
+        }}</a
+        ><br />
+      }
+      @if (personData.Email) {
+        <a href="mailto:{{ personData.Email }}"> {{ personData.Email }} </a
+        ><br />
+      }
+      @if (personData.Email2) {
+        <a href="mailto:{{ personData.Email2 }}"> {{ personData.Email2 }} </a
+        ><br />
       }
     </address>
   }
