@@ -1,7 +1,16 @@
 import { Injectable, computed, signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
+import {
+  Observable,
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  map,
+  of,
+  shareReplay,
+  switchMap,
+} from "rxjs";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
@@ -62,9 +71,11 @@ export class EventsStudentsStateService {
       // get the ID
       Number(params.get("id") || parentParams?.get("id")),
     ),
+    distinctUntilChanged(),
   );
   private eventTypeId$ = this.eventId$.pipe(
     switchMap(this.loadEventTypeId.bind(this)),
+    shareReplay(1),
   );
   private eventTypeId = toLazySignal(this.eventTypeId$, { initialValue: null });
   private studentEntries = toLazySignal(this.loadStudentEntries(), {
