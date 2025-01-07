@@ -64,11 +64,15 @@ export function convertPersonsToStudentEntries(
   eventId: number,
   persons: ReadonlyArray<PersonSummary>,
   subscriptions: ReadonlyArray<Subscription>,
-  { emailFallback }: { emailFallback?: boolean } = {},
+  {
+    eventDesignation,
+    emailFallback,
+  }: { eventDesignation?: string; emailFallback?: boolean } = {},
 ): StudentEntries {
   return {
     eventId: eventId,
-    eventDesignation: subscriptions[0]?.EventDesignation ?? "",
+    eventDesignation:
+      eventDesignation ?? subscriptions[0]?.EventDesignation ?? "",
     studyClasses: [],
     entries: persons.map(
       (person) =>

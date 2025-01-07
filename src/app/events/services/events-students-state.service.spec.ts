@@ -41,11 +41,6 @@ describe("EventsStudentsStateService", () => {
 
   beforeEach(() => {
     eventIdSubject = new BehaviorSubject<number>(0);
-    const eventTypeIdMap: { [eventId: number]: number } = {
-      1: COURSE_TYPE_ID,
-      2: STUDY_CLASS_TYPE_ID,
-      3: STUDY_COURSE_TYPE_ID,
-    };
 
     const paul = buildStudent(10);
     paul.FullName = "McCartney Paul";
@@ -91,8 +86,32 @@ describe("EventsStudentsStateService", () => {
           {
             provide: EventsRestService,
             useValue: {
-              getEventTypeId(eventId: number) {
-                return of(eventTypeIdMap[eventId] ?? null);
+              getEventSummary(eventId: number) {
+                let eventTypeId = null;
+                let eventDesignation = "";
+                switch (eventId) {
+                  case 1:
+                    eventTypeId = COURSE_TYPE_ID;
+                    break;
+                  case 2:
+                    eventTypeId = STUDY_CLASS_TYPE_ID;
+                    break;
+                  case 3:
+                    eventTypeId = STUDY_COURSE_TYPE_ID;
+                    eventDesignation = "Gymnasialer Bildungsgang";
+                    break;
+                }
+
+                return of(
+                  eventTypeId
+                    ? {
+                        Id: eventId,
+                        EventTypeId: eventTypeId,
+                        EventType: "",
+                        Designation: eventDesignation,
+                      }
+                    : null,
+                );
               },
             },
           },

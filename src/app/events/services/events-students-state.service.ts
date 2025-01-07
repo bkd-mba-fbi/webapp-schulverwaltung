@@ -11,6 +11,7 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
+import { EventSummary } from "src/app/shared/models/event.model";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
@@ -23,7 +24,6 @@ import {
   ReportsService,
 } from "src/app/shared/services/reports.service";
 import { notNull } from "src/app/shared/utils/filter";
-import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
 import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
@@ -73,11 +73,16 @@ export class EventsStudentsStateService {
     ),
     distinctUntilChanged(),
   );
-  private eventTypeId$ = this.eventId$.pipe(
-    switchMap(this.loadEventTypeId.bind(this)),
+  private eventSummary$ = this.eventId$.pipe(
+    switchMap(this.loadEventSummary.bind(this)),
     shareReplay(1),
   );
-  private eventTypeId = toLazySignal(this.eventTypeId$, { initialValue: null });
+  private eventSummary = toLazySignal(this.eventSummary$, {
+    initialValue: null,
+  });
+  private eventTypeId = computed(
+    () => this.eventSummary()?.EventTypeId ?? null,
+  );
   private studentEntries = toLazySignal(this.loadStudentEntries(), {
     initialValue: null,
   });
@@ -110,10 +115,9 @@ export class EventsStudentsStateService {
   );
 
   reports = toLazySignal(
-    combineLatest([
-      this.eventId$,
-      this.eventTypeId$.pipe(filter(notNull)),
-    ]).pipe(switchMap(spread(this.loadReports.bind(this)))),
+    this.eventSummary$
+      .pipe(filter(notNull))
+      .pipe(switchMap(this.loadReports.bind(this))),
     { initialValue: [] },
   );
 
@@ -129,26 +133,28 @@ export class EventsStudentsStateService {
     private reportsService: ReportsService,
   ) {}
 
-  private loadEventTypeId(eventId: number): Observable<Option<number>> {
+  private loadEventSummary(eventId: number): Observable<Option<EventSummary>> {
     return this.loadingService.load(
-      this.eventsService.getEventTypeId(eventId),
+      this.eventsService.getEventSummary(eventId),
       PAGE_LOADING_CONTEXT,
     );
   }
 
   private loadStudentEntries(): Observable<Option<StudentEntries>> {
-    return combineLatest([this.eventId$, this.eventTypeId$]).pipe(
-      switchMap(([eventId, eventTypeId]) => {
+    return this.eventSummary$.pipe(
+      switchMap((event) => {
         const fetch = () => {
-          switch (eventTypeId) {
-            case null:
-              return of(null);
+          if (!event) {
+            return of(null);
+          }
+
+          switch (event.EventTypeId) {
             case STUDY_COURSE_TYPE_ID: // Studiengang
-              return this.loadStudyCourseStudents(eventId);
+              return this.loadStudyCourseStudents(event);
             case STUDY_CLASS_TYPE_ID: // Klasse
-              return this.loadStudyClassStudents(eventId);
+              return this.loadStudyClassStudents(event.Id);
             default: // Fach
-              return this.loadCourseStudents(eventId);
+              return this.loadCourseStudents(event.Id);
           }
         };
         return this.loadingService.load(fetch(), PAGE_LOADING_CONTEXT);
@@ -163,26 +169,28 @@ export class EventsStudentsStateService {
     }));
   }
 
-  private loadStudyCourseStudents(eventId: number): Observable<StudentEntries> {
-    return this.subscriptionsService
-      .getSubscriptionsByCourse(eventId)
-      .pipe(
-        switchMap((subscriptions) =>
-          this.personsService
-            .getSummaries(
-              subscriptions.map(({ PersonId }) => PersonId).filter(notNull),
-            )
-            .pipe(
-              map((students) =>
-                convertPersonsToStudentEntries(
-                  eventId,
-                  students,
-                  subscriptions,
-                ),
+  private loadStudyCourseStudents({
+    Id: eventId,
+    Designation: eventDesignation,
+  }: EventSummary): Observable<StudentEntries> {
+    return this.subscriptionsService.getSubscriptionsByCourse(eventId).pipe(
+      switchMap((subscriptions) =>
+        this.personsService
+          .getSummaries(
+            subscriptions.map(({ PersonId }) => PersonId).filter(notNull),
+          )
+          .pipe(
+            map((students) =>
+              convertPersonsToStudentEntries(
+                eventId,
+                students,
+                subscriptions,
+                { eventDesignation }, // Use translated designated from the event, the designation on the subscription is always in german
               ),
             ),
-        ),
-      );
+          ),
+      ),
+    );
   }
 
   private loadStudyClassStudents(eventId: number): Observable<StudentEntries> {
@@ -258,10 +266,10 @@ export class EventsStudentsStateService {
     return emails.length > 0 ? `mailto:${emails.join(";")}` : null;
   }
 
-  private loadReports(
-    eventId: number,
-    eventTypeId: number,
-  ): Observable<ReadonlyArray<ReportInfo>> {
+  private loadReports({
+    Id: eventId,
+    EventTypeId: eventTypeId,
+  }: EventSummary): Observable<ReadonlyArray<ReportInfo>> {
     switch (eventTypeId) {
       case null:
       case STUDY_COURSE_TYPE_ID: // Studiengang

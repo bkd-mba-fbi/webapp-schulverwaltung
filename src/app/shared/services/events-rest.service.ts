@@ -3,7 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
-import { Event, EventType } from "../models/event.model";
+import { Event, EventSummary } from "../models/event.model";
 import { SubscriptionDetail } from "../models/subscription.model";
 import { decodeArray } from "../utils/decode";
 import { RestService } from "./rest.service";
@@ -29,9 +29,9 @@ export class EventsRestService extends RestService<typeof Event> {
       .pipe(switchMap(decodeArray(SubscriptionDetail)));
   }
 
-  getEventTypeId(eventId: number): Observable<Option<number>> {
+  getEventSummary(eventId: number): Observable<Option<EventSummary>> {
     const params: Dict<string> = {
-      fields: "Id,EventTypeId,EventType",
+      fields: "Id,EventTypeId,EventType,Designation",
       "filter.Id": `=${eventId}`,
     };
     return this.http
@@ -39,8 +39,8 @@ export class EventsRestService extends RestService<typeof Event> {
         params,
       })
       .pipe(
-        switchMap(decodeArray(EventType)),
-        map((event) => event[0]?.EventTypeId ?? null),
+        switchMap(decodeArray(EventSummary)),
+        map((summaries) => summaries[0] ?? null),
       );
   }
 }
