@@ -105,5 +105,4 @@ export function decorateStudyClasses(
         }) satisfies StudentEntry,
     ),
   };
-  return students;
 }
