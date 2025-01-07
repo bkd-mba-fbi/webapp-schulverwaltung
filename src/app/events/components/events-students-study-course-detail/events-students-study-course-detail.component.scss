@@ -24,6 +24,10 @@ address {
   max-width: 70ch;
   padding-top: $spacer;
 
+  h2 {
+    margin: 0;
+  }
+
   div {
     font-weight: normal;
     color: rgba($body-color, 0.5);

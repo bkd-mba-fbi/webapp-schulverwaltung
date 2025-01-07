@@ -137,6 +137,20 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
       expect(element.textContent).toContain("2401");
     });
 
+    it("renders heading entries", () => {
+      const detail = buildSubscriptionDetail(1001, "");
+      detail.Id = "1001";
+      detail.VssDesignation = "Angaben zu Ernährung";
+      detail.VssStyle = "HE";
+
+      details = [detail];
+
+      fixture.detectChanges();
+      const heading = element.querySelector("h2");
+      expect(heading).not.toBeNull();
+      expect(heading?.textContent).toContain("Angaben zu Ernährung");
+    });
+
     it("renders isYes entries", () => {
       const detail1 = buildSubscriptionDetail(1001, "Ja");
       detail1.Id = "1001";

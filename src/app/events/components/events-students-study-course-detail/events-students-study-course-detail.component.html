@@ -42,7 +42,11 @@
   }
 
   @for (detail of subscriptionDetails(); track detail.id) {
-    @if (detail.value) {
+    @if (detail.heading) {
+      <div class="detail">
+        <h2>{{ detail.label }}</h2>
+      </div>
+    } @else if (detail.value) {
       <div class="detail">
         <div>{{ detail.label }}</div>
         @if (detail.file !== null) {

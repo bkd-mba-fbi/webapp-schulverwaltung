@@ -28,6 +28,7 @@ type SubscriptionDetailsEntry = {
   label: string;
   value: string;
   file: Option<string>;
+  heading: boolean;
 };
 
 @Component({
@@ -112,6 +113,7 @@ export class EventsStudentsStudyCourseDetailComponent {
       label: detail.VssDesignation,
       value,
       file: this.buildFileUrl(detail),
+      heading: detail.VssStyle === "HE",
     };
   }
 
