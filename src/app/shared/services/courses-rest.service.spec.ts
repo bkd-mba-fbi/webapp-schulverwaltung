@@ -174,7 +174,7 @@ describe("CoursesRestService", () => {
           isEqual(req.body, {
             Tests: [
               {
-                Date: new Date("2022-02-09T00:00:00"),
+                Date: "2022-02-09T00:00:00",
                 Designation: "designation",
                 Weight: 33,
                 IsPointGrading: false,
@@ -215,7 +215,7 @@ describe("CoursesRestService", () => {
               {
                 Id: testId,
                 Designation: "updated designation",
-                Date: new Date("2022-02-09T00:00:00"),
+                Date: "2022-02-09T00:00:00",
                 Weight: 33,
                 IsPointGrading: false,
                 MaxPoints: null,
