@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { LoadingService } from "src/app/shared/services/loading-service";
@@ -28,6 +28,7 @@ type SubscriptionDetailsEntry = {
   label: string;
   value: string;
   file: Option<string>;
+  heading: boolean;
 };
 
 @Component({
@@ -69,7 +70,6 @@ export class EventsStudentsStudyCourseDetailComponent {
     private subscriptionsService: SubscriptionsRestService,
     private storageService: StorageService,
     private loadingService: LoadingService,
-    private translate: TranslateService,
   ) {}
 
   private loadSubscription(): Observable<Option<Subscription>> {
@@ -107,33 +107,14 @@ export class EventsStudentsStudyCourseDetailComponent {
     detail: SubscriptionDetail,
   ): SubscriptionDetailsEntry {
     let value = detail.Value ?? "";
-    value = this.normalizeSubscriptionDetailsYesNoValue(detail, value);
     value = this.normalizeSubscriptionDetailsDropdownValue(detail, value);
     return {
       id: detail.Id,
       label: detail.VssDesignation,
       value,
       file: this.buildFileUrl(detail),
+      heading: detail.VssStyle === "HE",
     };
-  }
-
-  private normalizeSubscriptionDetailsYesNoValue(
-    detail: SubscriptionDetail,
-    value: string,
-  ) {
-    if (
-      (detail.VssType === "isYes" || detail.VssType === "isYesNo") &&
-      detail.ShowAsRadioButtons
-    ) {
-      if (value === "Ja") {
-        return this.translate.instant(
-          `events-students.study-course-detail.yes`,
-        );
-      } else if (value === "Nein") {
-        return this.translate.instant(`events-students.study-course-detail.no`);
-      }
-    }
-    return value;
   }
 
   private normalizeSubscriptionDetailsDropdownValue(

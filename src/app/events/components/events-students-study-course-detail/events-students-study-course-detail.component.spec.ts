@@ -137,30 +137,38 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
       expect(element.textContent).toContain("2401");
     });
 
+    it("renders heading entries", () => {
+      const detail = buildSubscriptionDetail(1001, "");
+      detail.Id = "1001";
+      detail.VssDesignation = "Angaben zu Ernährung";
+      detail.VssStyle = "HE";
+
+      details = [detail];
+
+      fixture.detectChanges();
+      const heading = element.querySelector("h2");
+      expect(heading).not.toBeNull();
+      expect(heading?.textContent).toContain("Angaben zu Ernährung");
+    });
+
     it("renders isYes entries", () => {
       const detail1 = buildSubscriptionDetail(1001, "Ja");
       detail1.Id = "1001";
       detail1.VssDesignation = "Vegetarische Ernährung";
       detail1.VssType = "isYes";
-      detail1.ShowAsRadioButtons = true;
 
       const detail2 = buildSubscriptionDetail(1002, "Nein");
       detail2.Id = "1002";
       detail2.VssDesignation = "Halbtax";
       detail2.VssType = "isYes";
-      detail2.ShowAsRadioButtons = true;
 
       details = [detail1, detail2];
 
       fixture.detectChanges();
       expect(element.textContent).toContain("Vegetarische Ernährung");
-      expect(element.textContent).toContain(
-        "events-students.study-course-detail.yes",
-      );
+      expect(element.textContent).toContain("Ja");
       expect(element.textContent).toContain("Halbtax");
-      expect(element.textContent).toContain(
-        "events-students.study-course-detail.no",
-      );
+      expect(element.textContent).toContain("Nein");
     });
 
     it("renders isYesNo entries", () => {
@@ -168,25 +176,19 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
       detail1.Id = "1001";
       detail1.VssDesignation = "Vegetarische Ernährung";
       detail1.VssType = "isYesNo";
-      detail1.ShowAsRadioButtons = true;
 
       const detail2 = buildSubscriptionDetail(1002, "Nein");
       detail2.Id = "1002";
       detail2.VssDesignation = "Halbtax";
       detail2.VssType = "isYesNo";
-      detail2.ShowAsRadioButtons = true;
 
       details = [detail1, detail2];
 
       fixture.detectChanges();
       expect(element.textContent).toContain("Vegetarische Ernährung");
-      expect(element.textContent).toContain(
-        "events-students.study-course-detail.yes",
-      );
+      expect(element.textContent).toContain("Ja");
       expect(element.textContent).toContain("Halbtax");
-      expect(element.textContent).toContain(
-        "events-students.study-course-detail.no",
-      );
+      expect(element.textContent).toContain("Nein");
     });
 
     it("renders dropdown entries", () => {

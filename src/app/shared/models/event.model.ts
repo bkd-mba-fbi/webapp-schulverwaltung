@@ -49,12 +49,13 @@ const Event = t.type({
   // HRef: t.string,
 });
 
-const EventType = t.type({
+const EventSummary = t.type({
   Id: t.number,
   EventType: t.string,
   EventTypeId: t.number,
+  Designation: t.string,
 });
 
 type Event = t.TypeOf<typeof Event>;
-type EventType = t.TypeOf<typeof EventType>;
-export { Event, EventType };
+type EventSummary = t.TypeOf<typeof EventSummary>;
+export { Event, EventSummary };
