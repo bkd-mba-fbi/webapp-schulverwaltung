@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
+import { format, startOfDay } from "date-fns";
 import * as t from "io-ts";
 import { Observable, map, of, switchMap, throwError } from "rxjs";
 import {
@@ -107,7 +108,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     const body = {
       Tests: [
         {
-          Date: date,
+          Date: format(startOfDay(date), "yyyy-MM-dd'T'HH:mm:ss"), // The backend cannot handle correct ISO date strings in UTC, so use a pseudo date string in local timezone
           Designation: designation,
           Weight: weight,
           IsPointGrading: isPointGrading,
@@ -136,7 +137,7 @@ export class CoursesRestService extends RestService<typeof Course> {
         {
           Id: id,
           Designation: designation,
-          Date: date,
+          Date: format(startOfDay(date), "yyyy-MM-dd'T'HH:mm:ss"), // The backend cannot handle correct ISO date strings in UTC, so use a pseudo date string in local timezone
           Weight: weight,
           IsPointGrading: isPointGrading,
           MaxPoints: maxPoints,
