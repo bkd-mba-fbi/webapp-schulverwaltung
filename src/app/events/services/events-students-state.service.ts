@@ -185,7 +185,7 @@ export class EventsStudentsStateService {
                 eventId,
                 students,
                 subscriptions,
-                { eventDesignation }, // Use translated designated from the event, the designation on the subscription is always in german
+                { eventDesignation }, // Use translated designation from the event, the designation on the subscription is always in german
               ),
             ),
           ),
