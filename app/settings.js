@@ -91,7 +91,7 @@ window.schulverwaltung.settings = {
 
   // Report including grades of multiple courses for a single student
   // (used in events/tests by students)
-  testsBySubscriptionStudentReports: [{ type: "crystal", id: 290043 }],
+  testsBySubscriptionStudentReports: [{ type: "crystal", id: 290042 }],
 
   // Report including grades of multiple courses for a single student
   // (used in events/tests by teachers)
