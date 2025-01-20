@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import * as t from "io-ts";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { Person, PersonSummary } from "../models/person.model";
@@ -30,6 +30,9 @@ export class PersonsRestService extends RestService<typeof Person> {
   getSummaries(
     ids: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<PersonSummary>> {
+    if (ids.length === 0) {
+      return of([]);
+    }
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {

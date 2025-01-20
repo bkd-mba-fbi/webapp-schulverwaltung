@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable, switchMap } from "rxjs";
+import { Observable, of, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "../../settings";
 import {
   ApprenticeshipContract,
@@ -22,6 +22,9 @@ export class ApprenticeshipContractsRestService extends RestService<
   getCompaniesForStudents(
     studentIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<StudentCompany>> {
+    if (studentIds.length === 0) {
+      return of([]);
+    }
     const today = new Date();
     const params: Dict<string> = {
       "filter.StudentId": `;${studentIds.join(";")}`,

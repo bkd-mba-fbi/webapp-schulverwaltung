@@ -35,7 +35,7 @@ describe("PersonsRestService", () => {
   });
 
   describe(".getSummaries", () => {
-    it("should request the student summaries for the given ids", () => {
+    it("requests the student summaries for the given ids", () => {
       const personSummaries: ReadonlyArray<PersonSummary> = [
         buildPersonSummary(54425),
         buildPersonSummary(56200),
@@ -55,6 +55,13 @@ describe("PersonsRestService", () => {
           "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail,Email",
         )
         .flush(personSummaries);
+    });
+
+    it("returns an empty array if no ids are given", (done) => {
+      service.getSummaries([]).subscribe((result) => {
+        expect(result).toEqual([]);
+        done();
+      });
     });
   });
 
