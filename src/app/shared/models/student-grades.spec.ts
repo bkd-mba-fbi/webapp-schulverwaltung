@@ -9,7 +9,6 @@ import {
 import {
   FinalGrade,
   NoResult,
-  StudentGrade,
   averageOfGradesForScale,
   meanOf,
   toMaxPoints,
@@ -17,54 +16,89 @@ import {
 } from "./student-grades";
 
 describe("student-grade utils", () => {
-  describe("student grades with results and final grades", () => {
-    let results: StudentGrade[];
-    const course = buildCourse(123);
-    beforeEach(() => {
-      course.ParticipatingStudents = [100, 200].map((id) => buildStudent(id));
-      course.Tests = [1, 2, 3].map((id) =>
-        buildTest(
-          course.Id,
-          id,
-          [100, 200].map((studentid) => buildResult(id, studentid)),
-        ),
-      );
-      course.Gradings = course.ParticipatingStudents.map(
-        (student) => student.Id,
-      ).map((studentId, index) => buildGrading(studentId, 5.75 - index));
+  let course: Course;
+  let finalGrades: ReadonlyArray<FinalGrade>;
 
-      // when
-      results = transform(
-        course.ParticipatingStudents,
-        course.Tests,
-        course.Gradings,
+  beforeEach(() => {
+    course = buildCourse(123);
+    course.ParticipatingStudents = [100, 200].map((id) => buildStudent(id));
+    course.Tests = [1, 2, 3].map((id) =>
+      buildTest(
+        course.Id,
+        id,
+        [100, 200].map((studentid) => buildResult(id, studentid)),
+      ),
+    );
+    course.Gradings = course.ParticipatingStudents.map(
+      (student) => student.Id,
+    ).map((studentId, index) => buildGrading(studentId, 5.75 - index));
+
+    finalGrades = [
+      {
+        gradingId: 1,
+        canGrade: true,
+        average: 5,
+        gradeId: 1005,
+        finalGradeValue: "0",
+      },
+      {
+        gradingId: 2,
+        canGrade: true,
+        average: 3,
+        gradeId: 1003,
+        finalGradeValue: "0",
+      },
+      {
+        gradingId: 3,
+        canGrade: true,
+        average: 0,
+        gradeId: undefined,
+        finalGradeValue: "0",
+      },
+      {
+        gradingId: 4,
+        canGrade: true,
+        average: 4.5,
+        gradeId: 1005,
+        finalGradeValue: "0",
+      },
+      {
+        gradingId: 5,
+        canGrade: true,
+        average: undefined,
+        gradeId: undefined,
+        finalGradeValue: "0",
+      },
+      {
+        gradingId: 6,
+        canGrade: true,
+        average: 6,
+        gradeId: undefined,
+        finalGradeValue: "0",
+      },
+    ];
+  });
+
+  describe("transform", () => {
+    it("returns tests and grades for students with results", () => {
+      const result = transform(
+        course.ParticipatingStudents!,
+        course.Tests!,
+        course.Gradings!,
         [],
       );
-    });
-    it("should create a list of students with tests and grades - all grades available for all students", () => {
-      // given
 
-      // then
-      expect(results).toBeDefined();
+      expect(result).toBeDefined();
 
-      expect(results[0].student).toEqual(course.ParticipatingStudents![0]);
-      expect(results[1].student).toEqual(course.ParticipatingStudents![1]);
-      expect(results[0].finalGrade?.average).toBe(5.75);
-      expect(results[1].finalGrade?.average).toBe(4.75);
-      expect(results[0].finalGrade?.finalGradeId).toBe(3);
-      expect(results[1].finalGrade?.finalGradeId).toBe(3);
-      expect(results[0].grades.length).toBe(3);
-      expect(results[1].grades.length).toBe(3);
-
+      expect(result[0].student).toEqual(course.ParticipatingStudents![0]);
+      expect(result[0].finalGrade.average).toBe(5.75);
+      expect(result[0].finalGrade.gradeId).toBe(3);
+      expect(result[0].grades.length).toBe(3);
       expect(
-        results[0].grades.some((grade) => grade.kind === "no-result"),
+        result[0].grades.some((grade) => grade.kind === "no-result"),
       ).toBeFalsy();
       expect(
-        results[1].grades.some((grade) => grade.kind === "no-result"),
-      ).toBeFalsy();
-
-      expect(
-        results[0].grades.map((grade) =>
+        result[0].grades.map((grade) =>
           grade.kind !== "no-result"
             ? [grade.result.TestId, grade.result.StudentId]
             : "",
@@ -74,8 +108,16 @@ describe("student-grade utils", () => {
         [2, 100],
         [3, 100],
       ]);
+
+      expect(result[1].student).toEqual(course.ParticipatingStudents![1]);
+      expect(result[1].finalGrade.average).toBe(4.75);
+      expect(result[1].finalGrade.gradeId).toBe(3);
+      expect(result[1].grades.length).toBe(3);
       expect(
-        results[1].grades.map((grade) =>
+        result[1].grades.some((grade) => grade.kind === "no-result"),
+      ).toBeFalsy();
+      expect(
+        result[1].grades.map((grade) =>
           grade.kind !== "no-result"
             ? [grade.result.TestId, grade.result.StudentId]
             : "",
@@ -86,115 +128,115 @@ describe("student-grade utils", () => {
         [3, 200],
       ]);
     });
+
+    it("returns tests and grades without results and final grades", () => {
+      course.Tests = [1, 2, 3].map((id) => buildTest(course.Id, id, []));
+      course.Gradings?.forEach((g) => {
+        g.AverageTestResult = 0;
+        g.GradeId = null;
+      });
+
+      const result = transform(
+        course.ParticipatingStudents!,
+        course.Tests,
+        course.Gradings!,
+        [],
+      );
+
+      expect(
+        result[0].grades.every((grade) => grade.kind === "no-result"),
+      ).toBeTruthy();
+      expect(result[0].finalGrade.average).toBeUndefined();
+      expect(result[0].finalGrade.gradeId).toBeUndefined();
+      expect(result[0].finalGrade.canGrade).toBe(false);
+
+      expect(
+        result[1].grades.every((grade) => grade.kind === "no-result"),
+      ).toBeTruthy();
+      expect(result[1].finalGrade.average).toBeUndefined();
+      expect(result[1].finalGrade.gradeId).toBeUndefined();
+      expect(result[1].finalGrade.canGrade).toBe(false);
+    });
+
+    it("returns tests and grades but only one student has a result", () => {
+      course.Tests = [1, 2, 3].map((id) =>
+        buildTest(
+          course.Id,
+          id,
+          [100].map((studentId) => buildResult(id, studentId)),
+        ),
+      );
+      course.Gradings?.forEach((g) => {
+        if (g.StudentId !== 100) {
+          g.AverageTestResult = 0;
+          g.GradeId = null;
+        }
+      });
+
+      const result = transform(
+        course.ParticipatingStudents!,
+        course.Tests,
+        course.Gradings!,
+        [],
+      );
+
+      expect(
+        result[0].grades.map((grade) =>
+          grade.kind !== "no-result"
+            ? [grade.result.TestId, grade.result.StudentId]
+            : "no-result",
+        ),
+      ).toEqual([
+        [1, 100],
+        [2, 100],
+        [3, 100],
+      ]);
+      expect(result[0].finalGrade.average).toBe(5.75);
+      expect(result[0].finalGrade.gradeId).toBe(3);
+      expect(result[0].finalGrade.canGrade).toBe(false);
+
+      expect(
+        result[1].grades.map((grade) =>
+          grade.kind !== "no-result"
+            ? [grade.result.TestId, grade.result.StudentId]
+            : "no-result",
+        ),
+      ).toEqual([`no-result`, `no-result`, `no-result`]);
+      expect(result[1].finalGrade.average).toBeUndefined();
+      expect(result[1].finalGrade.gradeId).toBeUndefined();
+      expect(result[1].finalGrade.canGrade).toBe(false);
+    });
+
+    it("returns tests and grades but without no-result grade where results are missing", () => {
+      const course = buildCourse(123);
+      course.ParticipatingStudents = [buildStudent(99)];
+      course.Tests = [1, 2, 3].map((id) =>
+        buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : []),
+      );
+      course.Gradings = course.ParticipatingStudents.map(
+        (student) => student.Id,
+      ).map((studentId) => buildGrading(studentId));
+
+      const result = transform(
+        course.ParticipatingStudents,
+        course.Tests,
+        course.Gradings,
+        [],
+      );
+
+      expect(result[0].student).toEqual(course.ParticipatingStudents[0]);
+      expect(result[0].grades.length).toBe(3);
+      expect(
+        result[0].grades.map((grade) =>
+          grade.kind !== "no-result"
+            ? [grade.result.TestId, grade.result.StudentId]
+            : "no-result",
+        ),
+      ).toEqual(["no-result", [2, 99], "no-result"]);
+    });
   });
 
-  it("should create list of students with grades, NoResults yet", () => {
-    // given
-    const course: Course = buildCourse(123);
-    course.ParticipatingStudents = [100, 200].map((id) => buildStudent(id));
-    course.Tests = [1, 2, 3].map((id) => buildTest(course.Id, id, []));
-    course.Gradings = [];
-
-    // when
-    const results = transform(
-      course.ParticipatingStudents,
-      course.Tests,
-      course.Gradings,
-      [],
-    );
-
-    // then
-    expect(
-      results[0].grades.every((grade) => grade.kind === "no-result"),
-    ).toBeTruthy();
-    expect(
-      results[1].grades.every((grade) => grade.kind === "no-result"),
-    ).toBeTruthy();
-
-    expect(results[0].finalGrade).toBeNull();
-    expect(results[1].finalGrade).toBeNull();
-  });
-
-  it("should create list of students with grades with results only for one student", () => {
-    // given
-    const course: Course = buildCourse(123);
-    course.ParticipatingStudents = [100, 200].map((id) => buildStudent(id));
-    course.Tests = [1, 2, 3].map((id) =>
-      buildTest(
-        course.Id,
-        id,
-        [100].map((studentid) => buildResult(id, studentid)),
-      ),
-    );
-    course.Gradings = [buildGrading(100)];
-
-    // when
-    const results = transform(
-      course.ParticipatingStudents,
-      course.Tests,
-      course.Gradings,
-      [],
-    );
-    // then
-
-    expect(
-      results[0].grades.map((grade) =>
-        grade.kind !== "no-result"
-          ? [grade.result.TestId, grade.result.StudentId]
-          : "no-result",
-      ),
-    ).toEqual([
-      [1, 100],
-      [2, 100],
-      [3, 100],
-    ]);
-    expect(
-      results[1].grades.map((grade) =>
-        grade.kind !== "no-result"
-          ? [grade.result.TestId, grade.result.StudentId]
-          : "no-result",
-      ),
-    ).toEqual([`no-result`, `no-result`, `no-result`]);
-
-    expect(results[0].finalGrade?.average).toBe(2.275);
-    expect(results[0].finalGrade?.finalGradeId).toBe(3);
-    expect(results[0].finalGrade?.canGrade).toBe(false);
-    expect(results[1].finalGrade).toBeNull();
-  });
-
-  it("should fill up holes with missing grades as no-result", () => {
-    // given
-    const course = buildCourse(123);
-    course.ParticipatingStudents = [buildStudent(99)];
-    course.Tests = [1, 2, 3].map((id) =>
-      buildTest(course.Id, id, id % 2 === 0 ? [buildResult(id, 99)] : []),
-    );
-    course.Gradings = course.ParticipatingStudents.map(
-      (student) => student.Id,
-    ).map((studentId) => buildGrading(studentId));
-
-    // when
-    const results = transform(
-      course.ParticipatingStudents,
-      course.Tests,
-      course.Gradings,
-      [],
-    );
-
-    // then
-
-    expect(results[0].student).toEqual(course.ParticipatingStudents[0]);
-    expect(results[0].grades.length).toBe(3);
-    expect(
-      results[0].grades.map((grade) =>
-        grade.kind !== "no-result"
-          ? [grade.result.TestId, grade.result.StudentId]
-          : "no-result",
-      ),
-    ).toEqual(["no-result", [2, 99], "no-result"]);
-  });
-
-  describe("MaxPoints from grades", () => {
+  describe("toMaxPoints", () => {
     let studentGrade: NoResult;
 
     beforeEach(() => {
@@ -205,83 +247,54 @@ describe("student-grade utils", () => {
       };
     });
 
-    it("should get MaxPoints for test", () => {
+    it("returns MaxPoints for test without MaxPointsAdjusted", () => {
       studentGrade.test.MaxPointsAdjusted = null;
       studentGrade.test.MaxPoints = 20;
 
-      expect(toMaxPoints(studentGrade)).toEqual(20);
+      expect(toMaxPoints(studentGrade)).toBe(20);
     });
 
-    it("should get MaxPointsAdjusted for test", () => {
+    it("returns MaxPointsAdjusted for test with MaxPointsAdjusted", () => {
       studentGrade.test.MaxPointsAdjusted = 19;
       studentGrade.test.MaxPoints = 20;
 
-      expect(toMaxPoints(studentGrade)).toEqual(19);
+      expect(toMaxPoints(studentGrade)).toBe(19);
+    });
+
+    it("returns 0 for test without MaxPointsAdjusted & MaxPoints", () => {
+      studentGrade.test.MaxPointsAdjusted = null;
+      studentGrade.test.MaxPoints = null;
+
+      expect(toMaxPoints(studentGrade)).toBe(0);
     });
   });
-  describe("calculate averages for finalGrades", () => {
-    const finalGrades: FinalGrade[] = [
-      {
-        id: 1,
-        canGrade: true,
-        average: 5,
-        finalGradeId: 1005,
-        freeHandGrade: 0,
-      },
-      {
-        id: 2,
-        canGrade: true,
-        average: 3,
-        finalGradeId: 1003,
-        freeHandGrade: 0,
-      },
-      {
-        id: 3,
-        canGrade: true,
-        average: 0,
-        finalGradeId: null,
-        freeHandGrade: 0,
-      },
-      {
-        id: 4,
-        canGrade: true,
-        average: 4.5,
-        finalGradeId: 1005,
-        freeHandGrade: 0,
-      },
-      {
-        id: 5,
-        canGrade: true,
-        average: null,
-        finalGradeId: null,
-        freeHandGrade: 0,
-      },
-      {
-        id: 6,
-        canGrade: true,
-        average: 6,
-        finalGradeId: null,
-        freeHandGrade: 0,
-      },
-    ];
 
-    const scale: {
+  describe("meanOf", () => {
+    describe("calculate averages for finalGrades", () => {
+      it("returns mean of student grades final grade averages", () => {
+        expect(meanOf(finalGrades)).toBe(4.625);
+      });
+    });
+  });
+
+  describe("averageOfGradesForScale", () => {
+    let scale: ReadonlyArray<{
       Key: number;
       Value: string;
-    }[] = [
-      { Key: 1001, Value: "1.0" },
-      { Key: 1002, Value: "2.0" },
-      { Key: 1003, Value: "3.0" },
-      { Key: 1004, Value: "4.0" },
-      { Key: 1005, Value: "5.0" },
-      { Key: 1006, Value: "6.0" },
-    ];
+    }>;
 
-    it("should calculate mean of student grades final grade averages", () => {
-      expect(meanOf(finalGrades)).toBe(4.625);
+    beforeEach(() => {
+      scale = [
+        { Key: 1001, Value: "1.0" },
+        { Key: 1002, Value: "2.0" },
+        { Key: 1003, Value: "3.0" },
+        { Key: 1004, Value: "4.0" },
+        { Key: 1005, Value: "5.0" },
+        { Key: 1006, Value: "6.0" },
+      ];
     });
 
-    it("should calculate mean of student grades of overwritten final grades using a given scale", () => {
+    it("returns mean of student grades of overwritten final grades using a given scale", () => {
       expect(averageOfGradesForScale(finalGrades, scale)).toBe(
         4.333333333333333,
       );

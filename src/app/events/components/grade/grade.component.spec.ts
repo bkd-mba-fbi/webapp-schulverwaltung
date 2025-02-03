@@ -5,12 +5,11 @@ import {
   fakeAsync,
   tick,
 } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
-import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { GradeKind, NoResult } from "src/app/shared/models/student-grades";
 import { Student } from "src/app/shared/models/student.model";
 import { Result, Test } from "src/app/shared/models/test.model";
-import { byTestId } from "src/specs/utils";
 import {
   buildResult,
   buildStudent,
@@ -53,36 +52,21 @@ describe("GradeComponent", () => {
     component = fixture.componentInstance;
     component.student = student;
     debugElement = fixture.debugElement;
+
+    component.gradeOptions = [
+      { Key: 1, Value: "1.0" },
+      { Key: 2, Value: "2.0" },
+      { Key: 3, Value: "3.0" },
+      { Key: 4, Value: "4.0" },
+      { Key: 5, Value: "5.0" },
+      { Key: 6, Value: "6.0" },
+    ];
   });
 
-  it("should create", () => {
-    // given
-    component.grade = {
-      kind: "grade",
-      result,
-      test,
-    };
-    // when
-    fixture.detectChanges();
-
-    // then
-    expect(component).toBeTruthy();
-  });
-
-  describe("tests without point grading", () => {
-    let gradingScaleOptions: DropDownItem[];
+  describe("grade grading test", () => {
     let grade: GradeKind;
 
     beforeEach(() => {
-      gradingScaleOptions = [
-        { Key: 1, Value: "1.0" },
-        { Key: 2, Value: "2.0" },
-        { Key: 3, Value: "3.0" },
-        { Key: 4, Value: "4.0" },
-        { Key: 5, Value: "5.0" },
-        { Key: 6, Value: "6.0" },
-      ];
-
       grade = {
         kind: "grade",
         result,
@@ -93,79 +77,65 @@ describe("GradeComponent", () => {
       grade.result.GradeId = 4;
     });
 
-    it("should show grading options and select grade from options", (done) => {
-      // given
+    it("renders grade select with grading options and grade selected", async () => {
       component.grade = grade;
-      component.gradeOptions = gradingScaleOptions;
-
-      // when
       fixture.detectChanges();
 
-      // then
-
-      const select = debugElement.query(byTestId("grade-select")).nativeElement
-        .firstChild;
-
-      expect(select.options.length).toBe(7);
-      expect(select.options[0].textContent?.trim()).toBe("");
-      expect(select.options[1].textContent?.trim()).toBe("1.0");
-      expect(select.options[2].textContent?.trim()).toBe("2.0");
-      expect(select.options[3].textContent?.trim()).toBe("3.0");
-      expect(select.options[4].textContent?.trim()).toBe("4.0");
-      expect(select.options[5].textContent?.trim()).toBe("5.0");
-      expect(select.options[6].textContent?.trim()).toBe("6.0");
-
-      void fixture.whenStable().then(() => {
-        expect(select.selectedIndex).toBe(4);
-        done();
-      });
+      const select = await queryGradeSelect();
+      expect(select).not.toBeNull();
+      expect(select!.options.length).toBe(7);
+      expect(select!.options[0].textContent?.trim()).toBe("");
+      expect(select!.options[1].textContent?.trim()).toBe("1.0");
+      expect(select!.options[2].textContent?.trim()).toBe("2.0");
+      expect(select!.options[3].textContent?.trim()).toBe("3.0");
+      expect(select!.options[4].textContent?.trim()).toBe("4.0");
+      expect(select!.options[5].textContent?.trim()).toBe("5.0");
+      expect(select!.options[6].textContent?.trim()).toBe("6.0");
+      expect(select!.selectedIndex).toBe(4);
     });
 
-    it("should show grading options without selection if there is no result yet", (done) => {
-      // given
+    it("renders grade select with grading options and no value selected for a 'no-result' grade", async () => {
       const noResult: NoResult = {
         kind: "no-result",
         test,
       };
-
       component.grade = noResult;
-      component.gradeOptions = gradingScaleOptions;
-
-      // when
       fixture.detectChanges();
 
-      // then
-      const select = debugElement.query(byTestId("grade-select")).nativeElement
-        .firstChild;
-
-      expect(select.options.length).toBe(7);
-      expect(select.options[0].textContent.trim()).toBe("");
-      expect(select.options[1].textContent.trim()).toBe("1.0");
-      expect(select.options[2].textContent.trim()).toBe("2.0");
-      expect(select.options[3].textContent.trim()).toBe("3.0");
-      expect(select.options[4].textContent.trim()).toBe("4.0");
-      expect(select.options[5].textContent.trim()).toBe("5.0");
-      expect(select.options[6].textContent.trim()).toBe("6.0");
-
-      void fixture.whenStable().then(() => {
-        expect(select.selectedIndex).toBe(0);
-        done();
-      });
+      const select = await queryGradeSelect();
+      expect(select).not.toBeNull();
+      expect(select!.options.length).toBe(7);
+      expect(select!.options[0].textContent?.trim()).toBe("");
+      expect(select!.options[1].textContent?.trim()).toBe("1.0");
+      expect(select!.options[2].textContent?.trim()).toBe("2.0");
+      expect(select!.options[3].textContent?.trim()).toBe("3.0");
+      expect(select!.options[4].textContent?.trim()).toBe("4.0");
+      expect(select!.options[5].textContent?.trim()).toBe("5.0");
+      expect(select!.options[6].textContent?.trim()).toBe("6.0");
+      expect(select!.selectedIndex).toBe(0);
     });
 
-    it("saves grade if changed", fakeAsync(() => {
+    it("does not render points input", async () => {
       component.grade = grade;
-      component.gradeOptions = gradingScaleOptions;
+      fixture.detectChanges();
+
+      const input = await queryPointsInput();
+      expect(input).toBeNull();
+    });
+
+    it("saves grade on change", fakeAsync(async () => {
+      component.grade = grade;
       component.ngOnInit();
       fixture.detectChanges();
+
       tick(1250);
       expect(mockTestService.optimisticallyUpdateGrade).not.toHaveBeenCalled();
       expect(mockTestService.saveGrade).not.toHaveBeenCalled();
 
-      const select = debugElement.query(byTestId("grade-select")).nativeElement
-        .firstChild;
-      select.selectedIndex = 3;
-      select.dispatchEvent(new Event("change"));
+      const select = await queryGradeSelect();
+      expect(select).not.toBeNull();
+      select!.selectedIndex = 3;
+      select!.dispatchEvent(new Event("change"));
       fixture.detectChanges();
       expect(mockTestService.optimisticallyUpdateGrade).toHaveBeenCalled();
       expect(mockTestService.saveGrade).not.toHaveBeenCalled();
@@ -175,66 +145,97 @@ describe("GradeComponent", () => {
       const args = mockTestService.saveGrade.calls.mostRecent().args[0];
       expect("gradeId" in args && args.gradeId).toBe(3);
     }));
+
+    describe("grade select disabled state", () => {
+      beforeEach(() => {
+        component.grade = grade;
+      });
+
+      it("is enabled for non-published test without final grade", async () => {
+        grade.test.IsPublished = false;
+        component.hasFinalGrade = false;
+        fixture.detectChanges();
+
+        const select = await queryGradeSelect();
+        expect(select?.disabled).toBe(false);
+      });
+
+      it("is disabled for published test without final grade", async () => {
+        grade.test.IsPublished = true;
+        component.hasFinalGrade = false;
+        fixture.detectChanges();
+
+        const select = await queryGradeSelect();
+        expect(select?.disabled).toBe(true);
+      });
+
+      it("is disabled for non-published test with final grade", async () => {
+        grade.test.IsPublished = false;
+        component.hasFinalGrade = true;
+        fixture.detectChanges();
+
+        const select = await queryGradeSelect();
+        expect(select?.disabled).toBe(true);
+      });
+
+      it("is disabled for published test with final grade", async () => {
+        grade.test.IsPublished = true;
+        component.hasFinalGrade = true;
+        fixture.detectChanges();
+
+        const select = await queryGradeSelect();
+        expect(select?.disabled).toBe(true);
+      });
+    });
   });
 
-  describe("tests with point gradings", () => {
-    it("should create with noResult", () => {
-      // given
+  describe("points grading test", () => {
+    let grade: GradeKind;
+
+    beforeEach(() => {
+      grade = {
+        kind: "grade",
+        result,
+        test,
+      };
+      test.IsPointGrading = true;
+    });
+
+    it("renders points input with empty value for 'no-result' grade", async () => {
       const noResult: NoResult = {
         kind: "no-result",
         test,
       };
-
-      noResult.test.IsPointGrading = true;
       component.grade = noResult;
-
-      // when
       fixture.detectChanges();
 
-      expectPointsInputValue(debugElement, "");
+      const input = await queryPointsInput();
+      expect(input?.value).toBe("");
     });
 
-    it("should show points in input field", (done) => {
-      // given
-      const grade: GradeKind = {
-        kind: "grade",
-        result,
-        test,
-      };
-
-      grade.test.IsPointGrading = true;
+    it("renders points input with points value from result", async () => {
       grade.result.Points = 11;
-
-      // when
       component.grade = grade;
       fixture.detectChanges();
 
-      // then
-
-      void fixture.whenStable().then(() => {
-        expectPointsInputValue(debugElement, "11");
-        done();
-      });
+      const input = await queryPointsInput();
+      expect(input?.value).toBe("11");
     });
 
-    it("saves points if changed", fakeAsync(() => {
-      const grade: GradeKind = {
-        kind: "grade",
-        result,
-        test,
-      };
-      grade.test.IsPointGrading = true;
+    it("saves points on change", fakeAsync(async () => {
       grade.result.Points = 11;
       component.grade = grade;
       component.ngOnInit();
       fixture.detectChanges();
+
       tick(1250);
       expect(mockTestService.optimisticallyUpdateGrade).not.toHaveBeenCalled();
       expect(mockTestService.saveGrade).not.toHaveBeenCalled();
 
-      const input = debugElement.query(byTestId("point-input")).nativeElement;
-      input.value = 13;
-      input.dispatchEvent(new Event("input"));
+      const input = await queryPointsInput();
+      expect(input).not.toBeNull();
+      input!.value = "13";
+      input!.dispatchEvent(new Event("input"));
       fixture.detectChanges();
       expect(mockTestService.optimisticallyUpdateGrade).toHaveBeenCalled();
       expect(mockTestService.saveGrade).not.toHaveBeenCalled();
@@ -244,83 +245,150 @@ describe("GradeComponent", () => {
       const args = mockTestService.saveGrade.calls.mostRecent().args[0];
       expect("points" in args && args.points).toBe(13);
     }));
+
+    describe("points input disabled state", () => {
+      beforeEach(() => {
+        component.grade = grade;
+      });
+
+      it("is enabled for non-published test without final grade", async () => {
+        grade.test.IsPublished = false;
+        component.hasFinalGrade = false;
+        fixture.detectChanges();
+
+        const input = await queryPointsInput();
+        expect(input?.disabled).toBe(false);
+      });
+
+      it("is disabled for published test without final grade", async () => {
+        grade.test.IsPublished = true;
+        component.hasFinalGrade = false;
+        fixture.detectChanges();
+
+        const input = await queryPointsInput();
+        expect(input?.disabled).toBe(true);
+      });
+
+      it("is disabled for non-published test with final grade", async () => {
+        grade.test.IsPublished = false;
+        component.hasFinalGrade = true;
+        fixture.detectChanges();
+
+        const input = await queryPointsInput();
+        expect(input?.disabled).toBe(true);
+      });
+
+      it("is disabled for published test with final grade", async () => {
+        grade.test.IsPublished = true;
+        component.hasFinalGrade = true;
+        fixture.detectChanges();
+
+        const input = await queryPointsInput();
+        expect(input?.disabled).toBe(true);
+      });
+    });
+
+    describe("grade select disabled state", () => {
+      beforeEach(() => {
+        component.grade = grade;
+      });
+
+      describe("with points defined", () => {
+        beforeEach(() => {
+          grade.result.Points = null;
+        });
+
+        it("is enabled for non-published test without final grade", async () => {
+          grade.test.IsPublished = false;
+          component.hasFinalGrade = false;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(false);
+        });
+
+        it("is disabled for published test without final grade", async () => {
+          grade.test.IsPublished = true;
+          component.hasFinalGrade = false;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+
+        it("is disabled for non-published test with final grade", async () => {
+          grade.test.IsPublished = false;
+          component.hasFinalGrade = true;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+
+        it("is disabled for published test with final grade", async () => {
+          grade.test.IsPublished = true;
+          component.hasFinalGrade = true;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+      });
+
+      describe("without points defined", () => {
+        beforeEach(() => {
+          grade.result.Points = 1;
+        });
+
+        it("is disabled for non-published test without final grade", async () => {
+          grade.test.IsPublished = false;
+          component.hasFinalGrade = false;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+
+        it("is disabled for published test without final grade", async () => {
+          grade.test.IsPublished = true;
+          component.hasFinalGrade = false;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+
+        it("is disabled for non-published test with final grade", async () => {
+          grade.test.IsPublished = false;
+          component.hasFinalGrade = true;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+
+        it("is disabled for published test with final grade", async () => {
+          grade.test.IsPublished = true;
+          component.hasFinalGrade = true;
+          fixture.detectChanges();
+
+          const select = await queryGradeSelect();
+          expect(select?.disabled).toBe(true);
+        });
+      });
+    });
   });
 
-  describe("enable and disable grading scale options", () => {
-    let grade: GradeKind;
+  async function queryGradeSelect(): Promise<Option<HTMLSelectElement>> {
+    return query("select");
+  }
 
-    beforeEach(() => {
-      grade = {
-        kind: "grade",
-        result,
-        test,
-      };
-    });
+  async function queryPointsInput(): Promise<Option<HTMLInputElement>> {
+    return query("input");
+  }
 
-    it("should disable gradingScale when result has points", () => {
-      // given
-      grade.test.IsPointGrading = true;
-      grade.result.Points = 11;
-
-      // when
-      component.grade = grade;
-      fixture.detectChanges();
-
-      component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(true),
-      );
-    });
-
-    it("should enable gradingScale when result does not have points", () => {
-      // given
-      grade.test.IsPointGrading = true;
-      grade.result.Points = null;
-      component.grade = grade;
-
-      // when
-      fixture.detectChanges();
-
-      component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(false),
-      );
-    });
-
-    it("should enable gradingScale when input is changed to empty", () => {
-      // given
-      grade.test.IsPointGrading = true;
-      grade.result.Points = 11;
-
-      component.grade = grade;
-      fixture.detectChanges();
-
-      // when
-      component.onPointsChange("");
-
-      // then
-      component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(false),
-      );
-    });
-
-    it("should enable gradingScale when test is not point grading", () => {
-      // given
-      grade.test.IsPointGrading = false;
-      grade.result.Points = null;
-
-      component.grade = grade;
-
-      // when
-      fixture.detectChanges();
-
-      // then
-      component.gradingScaleDisabled$.subscribe((result) =>
-        expect(result).toBe(false),
-      );
-    });
-  });
+  async function query<T>(selector: string): Promise<Option<T>> {
+    await fixture.whenStable();
+    return debugElement.query(By.css(selector))?.nativeElement ?? null;
+  }
 });
-
-function expectPointsInputValue(debugElement: DebugElement, expected: string) {
-  const input = debugElement.query(byTestId("point-input")).nativeElement;
-  expect(input.value).toBe(expected);
-}
