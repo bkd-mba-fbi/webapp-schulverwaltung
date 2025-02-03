@@ -5,8 +5,11 @@
   display: flex;
   align-items: center;
   border-bottom: 2px solid $border-color;
+  justify-content: space-between;
 }
 
-.name {
+.name,
+.status,
+.registration-date {
   padding: $spacer;
 }

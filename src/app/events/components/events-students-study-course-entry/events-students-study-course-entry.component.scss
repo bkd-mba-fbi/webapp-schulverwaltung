@@ -8,7 +8,8 @@
 }
 
 .name,
-.status {
+.status,
+.registration-date {
   padding: $spacer;
 }
 
@@ -36,6 +37,10 @@
   .status {
     padding-top: 0;
     padding-left: $spacer;
+    font-size: $font-size-sm;
+  }
+
+  .registration-date {
     font-size: $font-size-sm;
   }
 }

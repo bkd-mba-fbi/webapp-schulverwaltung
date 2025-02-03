@@ -2,3 +2,6 @@
   entry().name
 }}</a>
 <div class="status">{{ entry().status }}</div>
+<div class="registration-date">
+  {{ entry().registrationDate | date: "dd.MM.yyyy" }}
+</div>

@@ -107,7 +107,7 @@ export class EventsStudentsStateService {
   filteredEntries = computed(() =>
     searchEntries(
       this.sortedEntries(),
-      ["name", "status", "company", "studyClass"],
+      ["name", "status", "company", "studyClass", "registrationDate"],
       this.searchTerm(),
     ),
   );
