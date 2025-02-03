@@ -60,6 +60,7 @@ export function decorateCourseStudentsWithCompanies(
   };
 }
 
+/*refactor*/
 export function convertPersonsToStudentEntries(
   eventId: number,
   persons: ReadonlyArray<PersonSummary>,
@@ -88,6 +89,9 @@ export function convertPersonsToStudentEntries(
               ? (person.DisplayEmail ?? person.Email)
               : person.DisplayEmail) ?? undefined,
           status: subscriptions.find((s) => s.PersonId === person.Id)?.Status,
+          registrationDate:
+            subscriptions.find((s) => s.PersonId === person.Id)
+              ?.RegistrationDate ?? undefined,
         }) satisfies StudentEntry,
     ),
   };

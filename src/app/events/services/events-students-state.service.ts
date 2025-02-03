@@ -54,6 +54,7 @@ export type StudentEntry = {
   status?: string;
   studyClass?: string;
   company?: string;
+  registrationDate?: Date;
 };
 
 export type PrimarySortKey = "name";
