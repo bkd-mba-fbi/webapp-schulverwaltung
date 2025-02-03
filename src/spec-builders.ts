@@ -800,10 +800,10 @@ export function buildGradeKind(
 
 function buildFinalGrade(): FinalGrade {
   return {
-    id: 12,
+    gradingId: 12,
     average: 4,
-    finalGradeId: 20,
-    freeHandGrade: 5.5,
+    gradeId: 20,
+    finalGradeValue: "5.5",
     canGrade: true,
   };
 }

@@ -37,7 +37,7 @@
               <div>{{ studentGrade.student.FullName }}</div>
               <div class="student-average-inline">
                 {{ "tests.mean" | translate }}:
-                {{ studentGrade.finalGrade?.average | decimalOrDash: "1-3" }}
+                {{ studentGrade.finalGrade.average | decimalOrDash: "1-3" }}
               </div>
             </a>
           </td>
@@ -45,29 +45,24 @@
             class="sticky student-grade"
             [ngClass]="{ selected: selectedTest === undefined }"
           >
-            @if (
-              studentGrade.finalGrade && !studentGrade.finalGrade.freeHandGrade
-            ) {
+            @if (studentGrade.finalGrade.finalGradeValue) {
+              <div>
+                {{ studentGrade.finalGrade.finalGradeValue }}
+              </div>
+            } @else {
               <bkd-grade-select
                 [options]="state.gradingOptionsForCourse$() | async"
-                [valueId]="studentGrade.finalGrade.finalGradeId"
-                [gradeId]="studentGrade.finalGrade.id"
+                [valueId]="studentGrade.finalGrade.gradeId ?? null"
+                [gradeId]="studentGrade.finalGrade.gradingId ?? null"
                 [disabled]="
                   (isEditFinalGradesAllowed(studentGrade) | async) === false
                 "
                 (gradeIdSelected)="state.overwriteFinalGrade($event)"
               ></bkd-grade-select>
             }
-            @if (
-              studentGrade.finalGrade && studentGrade.finalGrade.freeHandGrade
-            ) {
-              <div>
-                {{ studentGrade.finalGrade.freeHandGrade }}
-              </div>
-            }
           </td>
           <td class="border-end sticky student-average">
-            {{ studentGrade.finalGrade?.average | decimalOrDash: "1-3" }}
+            {{ studentGrade.finalGrade.average | decimalOrDash: "1-3" }}
           </td>
           @for (
             gradeEntry of getGrades(studentGrade);
@@ -89,6 +84,7 @@
                   state.gradingOptionsForTest$(grade.test) | async
                 "
                 [student]="studentGrade.student"
+                [hasFinalGrade]="!!studentGrade.finalGrade.finalGradeValue"
                 [tabIndex]="(1 + gradeIndex) * 1000 + studentGradeIndex"
               ></bkd-grade>
             </td>

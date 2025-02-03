@@ -36,6 +36,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() student: Student;
   @Input() tabIndex: number;
   @Input() gradeOptions: DropDownItem[];
+  @Input() hasFinalGrade = false;
 
   maxPoints: number = 0;
 
@@ -51,7 +52,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private state: TestStateService) {}
 
   ngOnInit(): void {
-    this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
+    this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
 
     this.maxPoints = toMaxPoints(this.grade);
     this.initSave(
@@ -76,7 +77,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    this.gradingScaleDisabledSubject$.next(this.disableGradingScale());
+    this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
   }
 
   ngOnDestroy() {
@@ -118,9 +119,13 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
       );
   }
 
-  private disableGradingScale() {
-    if (this.grade.test.IsPublished) return true;
-    if (this.grade.kind === "no-result") return false;
-    return this.grade.result.Points != null && this.grade.test.IsPointGrading;
+  private isGradingScaleDisabled() {
+    return (
+      this.grade.test.IsPublished ||
+      this.hasFinalGrade ||
+      (this.grade.test.IsPointGrading &&
+        this.grade.kind === "grade" &&
+        this.grade.result.Points != null)
+    );
   }
 }

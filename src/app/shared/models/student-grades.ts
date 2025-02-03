@@ -1,21 +1,22 @@
 import { Student } from "src/app/shared/models/student.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { Sorting } from "../services/sort.service";
+import { nonZero } from "../utils/filter";
 import { average } from "../utils/math";
 import { FinalGrading, Grading } from "./course.model";
 import { DropDownItem } from "./drop-down-item.model";
 
 export type StudentGrade = {
   student: Student;
-  finalGrade: Option<FinalGrade>;
+  finalGrade: FinalGrade;
   grades: GradeOrNoResult[];
 };
 
 export type FinalGrade = {
-  id: number;
-  average: Option<number>;
-  finalGradeId: Option<number>;
-  freeHandGrade: Option<number>;
+  gradingId?: number;
+  average?: number;
+  gradeId?: number;
+  finalGradeValue?: string;
   canGrade: boolean;
 };
 
@@ -94,29 +95,31 @@ function getFinalGrade(
   student: Student,
   gradings: ReadonlyArray<Grading>,
   finalGrades: ReadonlyArray<FinalGrading>,
-): Option<FinalGrade> {
-  const grading: Maybe<Grading> = gradings.find(
+): FinalGrade {
+  const grading = gradings.find((grading) => grading.StudentId === student.Id);
+  if (grading) {
+    return {
+      gradingId: grading.Id,
+      gradeId: grading.GradeId ?? undefined,
+      average: grading.AverageTestResult || undefined, // 0 is mapped to undefined
+      canGrade: grading.CanGrade,
+    };
+  }
+
+  const finalGrade = finalGrades.find(
     (grading) => grading.StudentId === student.Id,
   );
+  if (finalGrade) {
+    return {
+      finalGradeValue: finalGrade.Grade,
+      average: finalGrade.AverageTestResult || undefined, // 0 is mapped to undefined
+      canGrade: false,
+    };
+  }
 
-  const finalGrading: Maybe<FinalGrading> = finalGrades.find(
-    (grading) => grading.StudentId === student.Id,
+  throw new Error(
+    `Student ${student.FullName} has neither a grading and nor a final grade, this should not happen`,
   );
-
-  if (!grading) return null;
-
-  return {
-    id: grading.Id,
-    average: toAverage(grading),
-    finalGradeId: grading.GradeId,
-    freeHandGrade: finalGrading ? Number(finalGrading.Grade) : null,
-    canGrade: grading.CanGrade,
-  };
-}
-
-function toAverage(grading: Grading) {
-  if (grading.AverageTestResult === 0) return null;
-  return grading.AverageTestResult;
 }
 
 export const compareFn =
@@ -130,14 +133,11 @@ export const compareFn =
           modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
         );
       case "FinalGrade":
-        if (!sg1.finalGrade?.finalGradeId || !sg2.finalGrade?.finalGradeId)
+        if (!sg1.finalGrade?.gradeId || !sg2.finalGrade?.gradeId)
           return modificator * -1;
         return (
           modificator *
-          compareNumbers(
-            sg1.finalGrade.finalGradeId,
-            sg2.finalGrade.finalGradeId,
-          )
+          compareNumbers(sg1.finalGrade.gradeId, sg2.finalGrade.gradeId)
         );
       case "TestsMean":
         if (!sg1.finalGrade?.average || !sg2.finalGrade?.average)
@@ -208,19 +208,25 @@ export function averageOfGradesForScale(
   finalGrades: ReadonlyArray<FinalGrade>,
   scale: ReadonlyArray<DropDownItem>,
 ): number {
-  const freeHandGrades: number[] = finalGrades
-    .map((finalGrade) => finalGrade.freeHandGrade)
-    .filter((finalGrade): finalGrade is number => !!finalGrade);
+  return average(
+    finalGrades
+      .map((finalGrade) => getFinalGradeValue(finalGrade, scale))
+      .filter(nonZero),
+  );
+}
 
-  const grades: number[] = finalGrades
-    .map((finalGrade) => finalGrade.finalGradeId)
-    .filter((finalGradeId) => finalGradeId !== null)
-    .map((finalGradeId) => scale.find((option) => option.Key === finalGradeId))
-    .filter((option) => option !== undefined)
-    .map((option) => option?.Value)
-    .filter((value) => value !== undefined)
-    .map(Number)
-    .filter((maybeNumber) => !isNaN(maybeNumber));
+function getFinalGradeValue(
+  { gradeId: finalGradeId, finalGradeValue }: FinalGrade,
+  scale: ReadonlyArray<DropDownItem>,
+): number {
+  let value: string | undefined;
+  if (finalGradeId) {
+    const scaleEntry = scale.find((e) => e.Key === finalGradeId);
+    value = scaleEntry?.Value;
+  } else {
+    value = finalGradeValue;
+  }
 
-  return average([...grades, ...freeHandGrades]);
+  const numberValue = Number(value);
+  return isNaN(numberValue) ? 0 : numberValue;
 }
