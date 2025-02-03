@@ -1,9 +1,10 @@
 @import "../../../../bootstrap-variables";
 
 :host {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  display: grid;
+  align-items: center;
+  grid-template-areas: "name status registration-date";
+  grid-template-columns: 2fr 1fr 1fr;
   border-bottom: 1px solid $border-color;
 }
 
@@ -14,20 +15,25 @@
 }
 
 .name {
-  flex: 2;
+  grid-area: name;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .status {
-  flex: 1;
+  grid-area: status;
   padding-left: 0;
+}
+
+.registration-date {
+  grid-area: registration-date;
 }
 
 @media (max-width: 750px) {
   :host {
-    flex-direction: column;
+    grid-template-areas: "name registration-date" "status registration-date";
+    grid-template-columns: 2fr 1fr;
   }
 
   .name {
@@ -37,10 +43,6 @@
   .status {
     padding-top: 0;
     padding-left: $spacer;
-    font-size: $font-size-sm;
-  }
-
-  .registration-date {
     font-size: $font-size-sm;
   }
 }

@@ -2,14 +2,36 @@
 
 .list-header {
   cursor: pointer;
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
   align-items: center;
   border-bottom: 2px solid $border-color;
-  justify-content: space-between;
 }
 
 .name,
-.status,
 .registration-date {
   padding: $spacer;
+}
+
+.name {
+  flex: 3;
+}
+
+.registration-date {
+  flex: 1;
+}
+
+@media (max-width: 750px) {
+  .list-header {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .name {
+    flex: 2;
+  }
+
+  .registration-date {
+    flex: 1;
+    white-space: nowrap;
+  }
 }
