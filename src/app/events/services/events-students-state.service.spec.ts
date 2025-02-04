@@ -556,7 +556,7 @@ describe("EventsStudentsStateService", () => {
           "Starr Ringo",
         ]);
 
-        service.toggleSort();
+        service.toggleSort("name");
         TestBed.flushEffects();
 
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
