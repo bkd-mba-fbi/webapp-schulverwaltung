@@ -42,7 +42,7 @@
     "@angular/platform-browser-dynamic": "19.1.4",
     "@angular/router": "19.1.4",
     "@ng-bootstrap/ng-bootstrap": "18.0.0",
-    "@ng-select/ng-select": "14.1.0",
+    "@ng-select/ng-select": "14.2.0",
     "@ngx-translate/core": "16.0.4",
     "@ngx-translate/http-loader": "16.0.1",
     "@popperjs/core": "2.11.8",
