@@ -4,6 +4,7 @@
  * https://github.com/ngxtension/ngxtension-platform/blob/main/libs/ngxtension/to-lazy-signal/src/to-lazy-signal.ts
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-duplicate-type-constituents */
 import { type Signal, computed, untracked } from "@angular/core";
 import { type ToSignalOptions, toSignal } from "@angular/core/rxjs-interop";
 import type { Observable, Subscribable } from "rxjs";
