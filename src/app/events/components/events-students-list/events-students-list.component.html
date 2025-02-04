@@ -30,7 +30,7 @@
     [entries]="state.filteredEntries()"
     [returnLink]="returnLink()"
     [sortCriteria]="state.sortCriteria()"
-    (toggleSort)="state.toggleSort()"
+    (toggleSort)="state.toggleSort($event)"
     [(searchTerm)]="state.searchTerm"
   ></bkd-events-students-study-course-list>
 } @else {

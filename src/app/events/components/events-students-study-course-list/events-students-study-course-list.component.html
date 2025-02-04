@@ -12,18 +12,21 @@
     <div class="list-header">
       <div
         class="name"
-        (click)="toggleSort.emit()"
+        (click)="toggleSortKey('name')"
         [className]="primarySortKey"
       >
-        {{ "events-students.list.header." + primarySortKey | translate }}
+        {{ "events-students.list.header.name" | translate }}
         <span class="sort-direction">{{
-          getSortDirectionCharacter(sortCriteria())
+          getSortDirectionCharacter("name")
         }}</span>
       </div>
-      <div class="registration-date" (click)="toggleSort.emit()">
+      <div
+        class="registration-date"
+        (click)="toggleSortKey('registrationDate')"
+      >
         {{ "events-students.list.header.registration-date" | translate }}
         <span class="sort-direction">{{
-          getSortDirectionCharacter(sortCriteria())
+          getSortDirectionCharacter("registrationDate")
         }}</span>
       </div>
     </div>

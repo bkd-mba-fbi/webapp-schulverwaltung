@@ -33,15 +33,20 @@ export class EventsStudentsStudyCourseListComponent {
   returnLink = input<Option<string>>(null);
   sortCriteria = input.required<SortCriteria<PrimarySortKey>>();
 
-  toggleSort = output<void>();
+  toggleSort = output<PrimarySortKey>();
+
+  toggleSortKey(sortKey: PrimarySortKey) {
+    this.toggleSort.emit(sortKey);
+  }
 
   searchTerm = model<string>();
 
-  primarySortKey: PrimarySortKey = "name";
+  primarySortKey: "name" | "registrationDate";
 
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria<PrimarySortKey>,
-  ): string {
-    return sortCriteria.ascending ? "↑" : "↓";
+  getSortDirectionCharacter(sortKey: PrimarySortKey): string {
+    if (this.sortCriteria().primarySortKey !== sortKey) {
+      return "";
+    }
+    return this.sortCriteria().ascending ? "↑" : "↓";
   }
 }

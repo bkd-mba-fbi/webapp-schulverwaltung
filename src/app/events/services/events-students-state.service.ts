@@ -57,7 +57,7 @@ export type StudentEntry = {
   registrationDate?: Date;
 };
 
-export type PrimarySortKey = "name";
+export type PrimarySortKey = "name" | "registrationDate";
 
 @Injectable({
   providedIn: "root",
@@ -163,11 +163,14 @@ export class EventsStudentsStateService {
     );
   }
 
-  toggleSort(): void {
-    this.sortCriteria.update((value) => ({
-      ...value,
-      ascending: !value.ascending,
-    }));
+  toggleSort(sortKey: PrimarySortKey): void {
+    this.sortCriteria.set({
+      primarySortKey: sortKey,
+      ascending:
+        this.sortCriteria().primarySortKey === sortKey
+          ? !this.sortCriteria().ascending
+          : true,
+    });
   }
 
   private loadStudyCourseStudents({
@@ -294,6 +297,18 @@ function getStudentEntryComparator<PrimarySortKey>(
   sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
+    const key = sortCriteria.primarySortKey;
+
+    if (key === "registrationDate") {
+      const dateA = a.registrationDate
+        ? new Date(a.registrationDate).getTime()
+        : 0;
+      const dateB = b.registrationDate
+        ? new Date(b.registrationDate).getTime()
+        : 0;
+      return sortCriteria.ascending ? dateA - dateB : dateB - dateA;
+    }
+
     return sortCriteria.ascending
       ? a.name.localeCompare(b.name)
       : b.name.localeCompare(a.name);
