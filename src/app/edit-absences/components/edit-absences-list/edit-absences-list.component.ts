@@ -5,6 +5,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -41,17 +42,15 @@ import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absenc
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  state = inject(EditAbsencesStateService);
+  selectionService = inject(EditAbsencesSelectionService);
+  private scrollPosition = inject(ScrollPositionService);
+  private route = inject(ActivatedRoute);
+
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
   profileReturnParams$ = this.state.queryParamsString$;
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    public state: EditAbsencesStateService,
-    public selectionService: EditAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService,
-    private route: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     // Load list with filter from query params

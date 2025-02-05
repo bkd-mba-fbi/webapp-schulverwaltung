@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { not } from "fp-ts/es6/Predicate";
 import { map, shareReplay, take } from "rxjs/operators";
 import { OpenAbsencesEntry } from "src/app/open-absences/models/open-absences-entry.model";
@@ -13,6 +13,8 @@ import { getIdsGroupedByPersonAndPresenceType } from "src/app/shared/utils/lesso
 export class ConfirmAbsencesSelectionService extends SelectionService<
   OpenAbsencesEntry | LessonPresence
 > {
+  private settings = inject<Settings>(SETTINGS);
+
   selectedIds$ = this.selection$.pipe(
     map(getEntriesByType),
     map(({ openAbsencesEntries, lessonPresences }) =>
@@ -46,10 +48,6 @@ export class ConfirmAbsencesSelectionService extends SelectionService<
       ].filter((p) => p.TypeRef.Id === this.settings.absencePresenceTypeId),
     ),
   );
-
-  constructor(@Inject(SETTINGS) private settings: Settings) {
-    super();
-  }
 
   clearNonOpenAbsencesEntries(): void {
     this.selection$

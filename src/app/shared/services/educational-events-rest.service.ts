@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import * as t from "io-ts";
 import { EMPTY, Observable, of } from "rxjs";
@@ -20,16 +20,17 @@ export class EducationalEventsRestService
   extends RestService<typeof EducationalEvent>
   implements TypeaheadService
 {
+  private translate = inject(TranslateService);
+  private toastService = inject(ToastService);
+
   protected typeaheadCodec = t.type(
     pick(this.codec.props, ["Id", "Designation", "Number"]),
   );
 
-  constructor(
-    http: HttpClient,
-    @Inject(SETTINGS) settings: Settings,
-    private translate: TranslateService,
-    private toastService: ToastService,
-  ) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, EducationalEvent, "EducationalEvents");
   }
 

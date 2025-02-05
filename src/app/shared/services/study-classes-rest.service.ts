@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
@@ -13,7 +13,10 @@ import { TypeaheadRestService } from "./typeahead-rest.service";
 export class StudyClassesRestService extends TypeaheadRestService<
   typeof StudyClass
 > {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, StudyClass, "StudyClasses", "Number");
   }
 

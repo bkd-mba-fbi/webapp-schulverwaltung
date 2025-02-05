@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import {
@@ -27,6 +27,14 @@ import { TestsDeleteComponent } from "./tests-delete/tests-delete.component";
   imports: [TestsEditFormComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class TestsEditComponent {
+  state = inject(TestStateService);
+  private courseService = inject(CoursesRestService);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private router = inject(Router);
+  private modalService = inject(BkdModalService);
+
   saving$ = new BehaviorSubject(false);
 
   private testId$ = this.route.paramMap.pipe(
@@ -37,16 +45,6 @@ export class TestsEditComponent {
   test$ = combineLatest([this.state.tests$, this.testId$]).pipe(
     map(([tests, id]) => tests.find((t) => t.Id === id)),
   );
-
-  constructor(
-    public state: TestStateService,
-    private courseService: CoursesRestService,
-    private route: ActivatedRoute,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private router: Router,
-    private modalService: BkdModalService,
-  ) {}
 
   openDeleteModal(test: Test) {
     const modalRef = this.modalService.open(TestsDeleteComponent);

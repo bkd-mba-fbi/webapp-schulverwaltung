@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
@@ -29,13 +35,13 @@ const WITH_RATINGS_SEARCH_FIELDS: ReadonlyArray<keyof EventEntry> = [
   ],
 })
 export class EventsListComponent implements OnChanges {
+  state = inject(EventsStateService);
+  private storage = inject(StorageService);
+
   @Input() withStudyCourses = false;
   @Input() withRatings = true;
 
-  constructor(
-    public state: EventsStateService,
-    private storage: StorageService,
-  ) {
+  constructor() {
     this.state.setRoles(this.storage.getPayload()?.roles ?? null);
   }
 

@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -8,10 +8,8 @@ import { SETTINGS, Settings } from "src/app/settings";
   providedIn: "root",
 })
 export class LessonPresencesUpdateRestService {
-  constructor(
-    private http: HttpClient,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
+  private http = inject(HttpClient);
+  private settings = inject<Settings>(SETTINGS);
 
   editLessonPresences(
     lessonIds: ReadonlyArray<number>,

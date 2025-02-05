@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { shareReplay, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -10,10 +10,8 @@ import { decodeArray } from "../utils/decode";
   providedIn: "root",
 })
 export class DropDownItemsRestService {
-  constructor(
-    private http: HttpClient,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
+  private http = inject(HttpClient);
+  private settings = inject<Settings>(SETTINGS);
 
   getWeekdays(): Observable<ReadonlyArray<DropDownItem>> {
     return this.http

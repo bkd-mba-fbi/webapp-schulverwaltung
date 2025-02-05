@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -46,14 +46,12 @@ import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-abs
   ],
 })
 export class MyAbsencesShowComponent {
+  private reportsService = inject(ReportsService);
+  myAbsencesService = inject(MyAbsencesService);
+  absencesSelectionService = inject(ConfirmAbsencesSelectionService);
+
   openAbsencesReports$ = this.loadOpenAbsencesReports();
   allAbsencesReports$ = this.loadAllAbsencesReports();
-
-  constructor(
-    private reportsService: ReportsService,
-    public myAbsencesService: MyAbsencesService,
-    public absencesSelectionService: ConfirmAbsencesSelectionService,
-  ) {}
 
   private loadOpenAbsencesReports(): Observable<ReadonlyArray<ReportInfo>> {
     return combineLatest([

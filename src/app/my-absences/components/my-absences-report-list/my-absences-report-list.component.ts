@@ -3,9 +3,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Inject,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -50,6 +50,13 @@ import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my
 export class MyAbsencesReportListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  state = inject(MyAbsencesReportStateService);
+  selectionService = inject(MyAbsencesReportSelectionService);
+  private route = inject(ActivatedRoute);
+  private scrollPosition = inject(ScrollPositionService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private settings = inject<Settings>(SETTINGS);
+
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
 
   allSelected$ = combineLatest([
@@ -68,15 +75,6 @@ export class MyAbsencesReportListComponent
   );
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    public state: MyAbsencesReportStateService,
-    public selectionService: MyAbsencesReportSelectionService,
-    private route: ActivatedRoute,
-    private scrollPosition: ScrollPositionService,
-    private presenceTypesService: PresenceTypesService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
 
   ngOnInit(): void {
     // Load list with filter from query params

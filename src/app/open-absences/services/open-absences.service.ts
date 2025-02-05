@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import {
@@ -35,6 +35,11 @@ const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
 
 @Injectable()
 export class OpenAbsencesService implements IConfirmAbsencesService {
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private selectionService = inject(ConfirmAbsencesSelectionService);
+  private loadingService = inject(LoadingService);
+  private translate = inject(TranslateService);
+
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>("");
 
@@ -68,13 +73,6 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
   );
 
   currentDetail: Option<{ date: string; personId: number }> = null;
-
-  constructor(
-    private lessonPresencesService: LessonPresencesRestService,
-    private selectionService: ConfirmAbsencesSelectionService,
-    private loadingService: LoadingService,
-    private translate: TranslateService,
-  ) {}
 
   getUnconfirmedAbsences(
     dateString: string,

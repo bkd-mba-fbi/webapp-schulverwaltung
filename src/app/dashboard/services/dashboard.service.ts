@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   Observable,
   ReplaySubject,
@@ -40,6 +40,15 @@ const TIMETABLE_ROLES = ["LessonTeacherRole", "StudentRole"];
 
 @Injectable()
 export class DashboardService {
+  private settingsService = inject(UserSettingsService);
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private studentsService = inject(StudentsRestService);
+  private courseService = inject(CoursesRestService);
+  private teacherSubstitutionService = inject(TeacherSubstitutionsRestService);
+  private personService = inject(PersonsRestService);
+  private storageService = inject(StorageService);
+  private settings = inject<Settings>(SETTINGS);
+
   private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
   userId$ = new ReplaySubject<number>(1);
   private lessonAbsences$ = this.userId$.pipe(
@@ -137,16 +146,7 @@ export class DashboardService {
     shareReplay(1),
   );
 
-  constructor(
-    private settingsService: UserSettingsService,
-    private lessonPresencesService: LessonPresencesRestService,
-    private studentsService: StudentsRestService,
-    private courseService: CoursesRestService,
-    private teacherSubstitutionService: TeacherSubstitutionsRestService,
-    private personService: PersonsRestService,
-    private storageService: StorageService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {
+  constructor() {
     const userId = this.storageService.getPayload()?.id_person;
     if (userId) {
       this.userId$.next(Number(userId));

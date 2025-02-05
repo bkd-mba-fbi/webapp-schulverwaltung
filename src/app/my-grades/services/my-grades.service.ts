@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   ReplaySubject,
   combineLatest,
@@ -20,6 +20,14 @@ import { notNull, unique } from "../../shared/utils/filter";
 
 @Injectable()
 export class MyGradesService {
+  private storageService = inject(StorageService);
+  private loadingService = inject(LoadingService);
+  private coursesRestService = inject(CoursesRestService);
+  private subscriptionRestService = inject(SubscriptionsRestService);
+  private reportsService = inject(ReportsService);
+  private gradingScalesRestService = inject(GradingScalesRestService);
+  private settings = inject<Settings>(SETTINGS);
+
   studentId$ = new ReplaySubject<number>(1);
 
   loading$ = this.loadingService.loading$;
@@ -94,15 +102,7 @@ export class MyGradesService {
     ),
   );
 
-  constructor(
-    private storageService: StorageService,
-    private loadingService: LoadingService,
-    private coursesRestService: CoursesRestService,
-    private subscriptionRestService: SubscriptionsRestService,
-    private reportsService: ReportsService,
-    private gradingScalesRestService: GradingScalesRestService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {
+  constructor() {
     const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
       this.studentId$.next(Number(studentId));

@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import {
   NgbAccordionBody,
@@ -42,16 +43,16 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
   providers: [StudentProfileAbsencesService],
 })
 export class DossierAbsencesComponent implements OnInit, OnDestroy {
+  private state = inject(DossierStateService);
+  private presenceTypesService = inject(PresenceTypesService);
+  absencesService = inject(StudentProfileAbsencesService);
+  absencesSelectionService = inject(ConfirmAbsencesSelectionService);
+
   halfDayActive$ = this.presenceTypesService.halfDayActive$;
 
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private state: DossierStateService,
-    private presenceTypesService: PresenceTypesService,
-    public absencesService: StudentProfileAbsencesService,
-    public absencesSelectionService: ConfirmAbsencesSelectionService,
-  ) {
+  constructor() {
     this.state.currentDossier$.next("absences");
   }
 

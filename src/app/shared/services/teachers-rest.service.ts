@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import * as t from "io-ts";
 import { Observable, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -14,7 +14,10 @@ const Teacher = t.type({});
   providedIn: "root",
 })
 export class TeachersRestService extends RestService<typeof Teacher> {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, Teacher, "Teachers");
   }
 

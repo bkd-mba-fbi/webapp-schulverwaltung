@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import {
   NgbAccordionBody,
@@ -47,5 +47,5 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
   ],
 })
 export class MyProfileShowComponent {
-  constructor(public profileService: MyProfileService) {}
+  profileService = inject(MyProfileService);
 }

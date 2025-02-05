@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from "@angular/common";
-import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -36,24 +36,25 @@ import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confi
   ],
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
+  private state = inject(MyAbsencesReportStateService);
+  private selectionService = inject(MyAbsencesReportSelectionService);
+
   titleKey = "my-absences.report.title";
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
   protected confirmationStateId = this.settings.checkableAbsenceStateId;
 
-  constructor(
-    fb: UntypedFormBuilder,
-    router: Router,
-    toastService: ToastService,
-    translate: TranslateService,
-    presenceTypesService: PresenceTypesService,
-    updateService: LessonPresencesUpdateRestService,
-    storageService: StorageService,
-    @Inject(SETTINGS) settings: Settings,
-    private state: MyAbsencesReportStateService,
-    private selectionService: MyAbsencesReportSelectionService,
-  ) {
+  constructor() {
+    const fb = inject(UntypedFormBuilder);
+    const router = inject(Router);
+    const toastService = inject(ToastService);
+    const translate = inject(TranslateService);
+    const presenceTypesService = inject(PresenceTypesService);
+    const updateService = inject(LessonPresencesUpdateRestService);
+    const storageService = inject(StorageService);
+    const settings = inject<Settings>(SETTINGS);
+
     super(
       fb,
       router,

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, LOCALE_ID } from "@angular/core";
+import { Component, Input, LOCALE_ID, inject } from "@angular/core";
 import { averageGrade, averagePoints } from "src/app/events/utils/tests";
 import { Test } from "src/app/shared/models/test.model";
 import {
@@ -20,8 +20,9 @@ import {
   imports: [],
 })
 export class AverageGradesComponent {
+  private locale = inject(LOCALE_ID);
+
   @Input() test: Test;
-  constructor(@Inject(LOCALE_ID) private locale: string) {}
 
   calculatePointsAverage(test: Test) {
     return this.safeAverage(test, 2, averagePoints);

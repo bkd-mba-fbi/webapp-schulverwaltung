@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from "@angular/core";
 import {
   NgbDateAdapter,
@@ -55,6 +56,13 @@ import {
   ],
 })
 export class EditAbsencesHeaderComponent {
+  studentsService = inject(StudentsRestService);
+  educationalEventsService = inject(EducationalEventsRestService);
+  studyClassService = inject(StudyClassesRestService);
+  teacherResourcesService = inject(TeacherResourcesRestService);
+  private state = inject(EditAbsencesStateService);
+  private translate = inject(TranslateService);
+
   @Input()
   filter: EditAbsencesFilter = {
     student: null,
@@ -115,15 +123,6 @@ export class EditAbsencesHeaderComponent {
       ),
     ),
   );
-
-  constructor(
-    public studentsService: StudentsRestService,
-    public educationalEventsService: EducationalEventsRestService,
-    public studyClassService: StudyClassesRestService,
-    public teacherResourcesService: TeacherResourcesRestService,
-    private state: EditAbsencesStateService,
-    private translate: TranslateService,
-  ) {}
 
   classesHttpFilter = {
     params: {

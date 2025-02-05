@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, combineLatest, map, take } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
@@ -19,12 +19,10 @@ export function getBlockLessonLoadingContext(
 
 @Injectable()
 export class PresenceControlBlockLessonService {
-  constructor(
-    private state: PresenceControlStateService,
-    private lessonPresencesService: LessonPresencesRestService,
-    private loadingService: LoadingService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
+  private state = inject(PresenceControlStateService);
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private loadingService = inject(LoadingService);
+  private settings = inject<Settings>(SETTINGS);
 
   /**
    * A block lesson is defined as a set of lesson presences of the

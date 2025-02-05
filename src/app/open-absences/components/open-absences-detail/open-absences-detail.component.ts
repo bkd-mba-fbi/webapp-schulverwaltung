@@ -5,6 +5,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { not } from "fp-ts/es6/Predicate";
@@ -30,6 +31,14 @@ import { OpenAbsencesService } from "../../services/open-absences.service";
 export class OpenAbsencesDetailComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private openAbsencesService = inject(OpenAbsencesService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private personService = inject(PersonsRestService);
+  selectionService = inject(ConfirmAbsencesSelectionService);
+  private scrollPosition = inject(ScrollPositionService);
+
   absences$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForParams.bind(this)),
   );
@@ -62,16 +71,6 @@ export class OpenAbsencesDetailComponent
   );
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private openAbsencesService: OpenAbsencesService,
-    private presenceTypesService: PresenceTypesService,
-    private personService: PersonsRestService,
-    public selectionService: ConfirmAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService,
-  ) {}
 
   ngOnInit(): void {
     this.selectionService.clearNonLessonPresences();

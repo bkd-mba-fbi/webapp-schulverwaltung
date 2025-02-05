@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   ViewChild,
+  inject,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
@@ -92,6 +93,9 @@ interface ViewModeOption {
   ],
 })
 export class PresenceControlHeaderComponent {
+  state = inject(PresenceControlStateService);
+  private groupService = inject(PresenceControlGroupService);
+
   @Input() selectedLesson: LessonEntry;
   @Input() lessons: ReadonlyArray<LessonEntry>;
   @Input() presentCount: Option<number> = null;
@@ -116,11 +120,9 @@ export class PresenceControlHeaderComponent {
 
   isGroupSelected$ = this.groupService.group$.pipe(map(notNull));
 
-  constructor(
-    public state: PresenceControlStateService,
-    private groupService: PresenceControlGroupService,
-    config: NgbInputDatepickerConfig,
-  ) {
+  constructor() {
+    const config = inject(NgbInputDatepickerConfig);
+
     // place datepicker popup in center of viewport
     config.popperOptions = (options: Partial<Options>) => {
       return {

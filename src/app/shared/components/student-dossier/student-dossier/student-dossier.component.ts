@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
@@ -26,10 +26,10 @@ import { StudentBacklinkComponent } from "../student-backlink/student-backlink.c
   providers: [DossierStateService, DossierGradesService],
 })
 export class StudentDossierComponent {
-  constructor(
-    public state: DossierStateService,
-    public dossierGradesService: DossierGradesService,
-  ) {
+  state = inject(DossierStateService);
+  dossierGradesService = inject(DossierGradesService);
+
+  constructor() {
     this.state.currentDossier$.next("addresses");
   }
 }

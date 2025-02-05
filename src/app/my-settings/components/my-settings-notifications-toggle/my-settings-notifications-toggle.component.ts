@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   forwardRef,
+  inject,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { SwitchComponent } from "../../../shared/components/switch/switch.component";
@@ -25,6 +26,8 @@ import { SwitchComponent } from "../../../shared/components/switch/switch.compon
 export class MySettingsNotificationsToggleComponent
   implements ControlValueAccessor
 {
+  private cd = inject(ChangeDetectorRef);
+
   @Input() id = "";
   @Input() label = "";
   @Input() description: Option<string> = null;
@@ -34,8 +37,6 @@ export class MySettingsNotificationsToggleComponent
   onTouched = () => {};
 
   private _value = false;
-
-  constructor(private cd: ChangeDetectorRef) {}
 
   get value(): boolean {
     return this._value;

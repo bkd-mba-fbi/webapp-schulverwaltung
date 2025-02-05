@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { addDays, format, startOfDay, subDays } from "date-fns";
 import uniqBy from "lodash-es/uniqBy";
@@ -44,21 +44,19 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
   ],
 })
 export class DashboardTimetableComponent {
+  private teachersService = inject(TeachersRestService);
+  private studentsService = inject(StudentsRestService);
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private userSettings = inject(UserSettingsService);
+  private dashboardService = inject(DashboardService);
+  private loadingService = inject(LoadingService);
+
   userId$ = this.dashboardService.userId$;
   isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
   isStudent$ = this.dashboardService.hasStudentRole$;
   date$ = new BehaviorSubject(startOfDay(new Date()));
   loading$ = this.loadingService.loading$;
   timetableEntries$ = this.loadTimetableEntries();
-
-  constructor(
-    private teachersService: TeachersRestService,
-    private studentsService: StudentsRestService,
-    private lessonPresencesService: LessonPresencesRestService,
-    private userSettings: UserSettingsService,
-    private dashboardService: DashboardService,
-    private loadingService: LoadingService,
-  ) {}
 
   gotoToday(): void {
     this.date$.next(startOfDay(new Date()));

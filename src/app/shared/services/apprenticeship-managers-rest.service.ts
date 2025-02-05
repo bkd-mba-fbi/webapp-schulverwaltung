@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { SETTINGS, Settings } from "../../settings";
 import { ApprenticeshipManager } from "../models/apprenticeship-manager.model";
 import { RestService } from "./rest.service";
@@ -10,7 +10,10 @@ import { RestService } from "./rest.service";
 export class ApprenticeshipManagersRestService extends RestService<
   typeof ApprenticeshipManager
 > {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, ApprenticeshipManager, "ApprenticeshipManagers");
   }
 }

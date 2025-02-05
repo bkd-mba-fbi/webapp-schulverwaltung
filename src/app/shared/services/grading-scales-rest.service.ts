@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, forkJoin, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { GradingScale } from "../models/grading-scale.model";
@@ -10,7 +10,10 @@ import { RestService } from "./rest.service";
   providedIn: "root",
 })
 export class GradingScalesRestService extends RestService<typeof GradingScale> {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, GradingScale, "GradingScales");
   }
 

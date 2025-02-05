@@ -1,5 +1,11 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorHandler, Injectable, NgZone, Provider } from "@angular/core";
+import {
+  ErrorHandler,
+  Injectable,
+  NgZone,
+  Provider,
+  inject,
+} from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastService } from "./toast.service";
 
@@ -9,11 +15,9 @@ export function provideGlobalErrorHandler(): Provider[] {
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(
-    private ngZone: NgZone,
-    private translate: TranslateService,
-    private toastService: ToastService,
-  ) {}
+  private ngZone = inject(NgZone);
+  private translate = inject(TranslateService);
+  private toastService = inject(ToastService);
 
   handleError(error: unknown): void {
     console.error(String(error));

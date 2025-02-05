@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { EMPTY, Observable, ReplaySubject, combineLatest, of } from "rxjs";
 import { map, share, startWith, switchMap } from "rxjs/operators";
@@ -20,6 +20,12 @@ export interface StudentProfileAbsencesCounts {
 
 @Injectable()
 export class StudentProfileAbsencesService {
+  private settings = inject<Settings>(SETTINGS);
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+
   private studentId$ = new ReplaySubject<number>(1);
 
   checkableAbsences$ = this.getAbsences(this.loadCheckableAbsences.bind(this));
@@ -30,14 +36,6 @@ export class StudentProfileAbsencesService {
   halfDays$ = this.getAbsences(this.loadHalfDays.bind(this));
 
   counts$ = this.getCounts();
-
-  constructor(
-    @Inject(SETTINGS) private settings: Settings,
-    private lessonPresencesService: LessonPresencesRestService,
-    private presenceTypesService: PresenceTypesService,
-    private toastService: ToastService,
-    private translate: TranslateService,
-  ) {}
 
   setStudentId(id: number): void {
     this.studentId$.next(id);

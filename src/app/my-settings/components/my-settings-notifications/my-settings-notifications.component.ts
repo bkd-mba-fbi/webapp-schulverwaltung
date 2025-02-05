@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import {
   FormsModule,
@@ -54,6 +55,12 @@ interface NotificationSetting {
   ],
 })
 export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
+  private userSettings = inject(UserSettingsService);
+  private formBuilder = inject(UntypedFormBuilder);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private notificationTypes = inject(NotificationTypesService);
+
   channelsSettings: ReadonlyArray<NotificationSetting> = [
     {
       key: "gui",
@@ -115,14 +122,6 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
 
   saving$ = new BehaviorSubject(false);
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private userSettings: UserSettingsService,
-    private formBuilder: UntypedFormBuilder,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private notificationTypes: NotificationTypesService,
-  ) {}
 
   ngOnInit(): void {
     // Make sure we have fresh settings, even if the have been loaded previously

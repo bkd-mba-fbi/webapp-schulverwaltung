@@ -5,6 +5,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -48,6 +49,14 @@ const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
 export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  state = inject(PresenceControlStateService);
+  private blockLessons = inject(PresenceControlBlockLessonService);
+  private lessonPresencesUpdateService = inject(LessonPresencesUpdateService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private modalService = inject(BkdModalService);
+  private scrollPosition = inject(ScrollPositionService);
+  private route = inject(ActivatedRoute);
+
   search$ = new BehaviorSubject<string>("");
   entries$ = combineLatest([
     this.state.presenceControlEntriesByGroup$,
@@ -58,16 +67,6 @@ export class PresenceControlListComponent
   );
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    public state: PresenceControlStateService,
-    private blockLessons: PresenceControlBlockLessonService,
-    private lessonPresencesUpdateService: LessonPresencesUpdateService,
-    private presenceTypesService: PresenceTypesService,
-    private modalService: BkdModalService,
-    private scrollPosition: ScrollPositionService,
-    private route: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams

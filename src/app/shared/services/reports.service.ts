@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { flatten, groupBy } from "lodash-es";
 import { Observable, combineLatest, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
@@ -36,11 +36,9 @@ export type ReportInfo = Report & { title: string; url: string };
   providedIn: "root",
 })
 export class ReportsService {
-  constructor(
-    @Inject(SETTINGS) private settings: Settings,
-    private storageService: StorageService,
-    private http: HttpClient,
-  ) {}
+  private settings = inject<Settings>(SETTINGS);
+  private storageService = inject(StorageService);
+  private http = inject(HttpClient);
 
   /**
    * Report "Stammblatt" with user's master data (used in my profile)

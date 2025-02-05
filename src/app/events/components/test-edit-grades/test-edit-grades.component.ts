@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from "@angular/common";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -42,12 +42,10 @@ import { TestEditGradesHeaderComponent } from "../test-edit-grades-header/test-e
   ],
 })
 export class TestEditGradesComponent implements OnInit {
-  @Input() selectedTest?: Test;
+  state = inject(TestStateService);
+  private modalService = inject(BkdModalService);
 
-  constructor(
-    public state: TestStateService,
-    private modalService: BkdModalService,
-  ) {}
+  @Input() selectedTest?: Test;
 
   ngOnInit(): void {
     // TODO move to sort implementation

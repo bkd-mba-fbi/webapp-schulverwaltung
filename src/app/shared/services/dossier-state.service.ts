@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, map, shareReplay, switchMap } from "rxjs";
 import { parseQueryString } from "../utils/url";
@@ -7,6 +7,9 @@ import { StudentProfileService } from "./student-profile.service";
 export type DossierPage = "addresses" | "absences" | "grades";
 @Injectable()
 export class DossierStateService {
+  profileService = inject(StudentProfileService);
+  private route = inject(ActivatedRoute);
+
   currentDossier$ = new BehaviorSubject<DossierPage>("addresses");
 
   studentId$ = this.route.paramMap.pipe(
@@ -24,9 +27,4 @@ export class DossierStateService {
   backlinkQueryParams$ = this.returnParams$.pipe(map(parseQueryString));
 
   loading$ = this.profileService.loading$;
-
-  constructor(
-    public profileService: StudentProfileService,
-    private route: ActivatedRoute,
-  ) {}
 }

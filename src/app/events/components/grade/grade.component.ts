@@ -1,5 +1,12 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
@@ -32,6 +39,8 @@ const DEBOUNCE_TIME = 1250;
   imports: [FormsModule, SelectComponent, AsyncPipe, TranslatePipe],
 })
 export class GradeComponent implements OnInit, OnDestroy, OnChanges {
+  private state = inject(TestStateService);
+
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
   @Input() tabIndex: number;
@@ -47,8 +56,6 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
 
   destroy$ = new Subject<void>();
-
-  constructor(private state: TestStateService) {}
 
   ngOnInit(): void {
     this.gradingScaleDisabledSubject$.next(this.disableGradingScale());

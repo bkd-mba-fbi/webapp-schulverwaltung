@@ -1,5 +1,5 @@
 import { HttpContext } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, combineLatest, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
@@ -38,17 +38,17 @@ export interface ApprenticeshipCompany {
   providedIn: "root",
 })
 export class StudentProfileService {
-  loading$ = this.loadingService.loading$;
+  private studentService = inject(StudentsRestService);
+  private personsService = inject(PersonsRestService);
+  private apprenticeshipManagersService = inject(
+    ApprenticeshipManagersRestService,
+  );
+  private jobTrainersService = inject(JobTrainersRestService);
+  private loadingService = inject(LoadingService);
+  private dropDownItemsService = inject(DropDownItemsRestService);
+  private storageService = inject(StorageService);
 
-  constructor(
-    private studentService: StudentsRestService,
-    private personsService: PersonsRestService,
-    private apprenticeshipManagersService: ApprenticeshipManagersRestService,
-    private jobTrainersService: JobTrainersRestService,
-    private loadingService: LoadingService,
-    private dropDownItemsService: DropDownItemsRestService,
-    private storageService: StorageService,
-  ) {}
+  loading$ = this.loadingService.loading$;
 
   /**
    * Returns the profile of the student with the given id.

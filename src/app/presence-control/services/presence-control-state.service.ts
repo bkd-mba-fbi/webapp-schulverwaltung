@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Inject, Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { format, startOfDay } from "date-fns";
 import { isEqual, uniq } from "lodash-es";
@@ -65,6 +65,17 @@ export const VIEW_MODES: ReadonlyArray<string> = Object.values(
 export class PresenceControlStateService
   implements OnDestroy, IConfirmAbsencesService
 {
+  private userSettings = inject(UserSettingsService);
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private lessonTeacherService = inject(LessonTeachersRestService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private groupService = inject(PresenceControlGroupService);
+  private dropDownItemsService = inject(DropDownItemsRestService);
+  private loadingService = inject(LoadingService);
+  private storageService = inject(StorageService);
+  private settings = inject<Settings>(SETTINGS);
+  private location = inject(Location);
+
   confirmBackLinkParams?: Params;
 
   private selectedDateSubject$ = new BehaviorSubject(new Date());
@@ -189,18 +200,7 @@ export class PresenceControlStateService
 
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private userSettings: UserSettingsService,
-    private lessonPresencesService: LessonPresencesRestService,
-    private lessonTeacherService: LessonTeachersRestService,
-    private presenceTypesService: PresenceTypesService,
-    private groupService: PresenceControlGroupService,
-    private dropDownItemsService: DropDownItemsRestService,
-    private loadingService: LoadingService,
-    private storageService: StorageService,
-    @Inject(SETTINGS) private settings: Settings,
-    private location: Location,
-  ) {
+  constructor() {
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe((returnparams) => {

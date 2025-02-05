@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   distinctUntilChanged,
@@ -20,6 +20,9 @@ import { PresenceTypesRestService } from "./presence-types-rest.service";
   providedIn: "root",
 })
 export class PresenceTypesService {
+  private restService = inject(PresenceTypesRestService);
+  private settings = inject<Settings>(SETTINGS);
+
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
   /**
@@ -64,11 +67,6 @@ export class PresenceTypesService {
     distinctUntilChanged(),
     shareReplay(1),
   );
-
-  constructor(
-    private restService: PresenceTypesRestService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
 
   public getPresenceType(id: number): Observable<PresenceType> {
     return this.presenceTypes$.pipe(

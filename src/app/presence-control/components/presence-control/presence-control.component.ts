@@ -3,6 +3,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { Subject } from "rxjs";
@@ -32,12 +33,10 @@ import { PresenceControlStateService } from "../../services/presence-control-sta
   ],
 })
 export class PresenceControlComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private state = inject(PresenceControlStateService);
+  private lessonPresencesUpdateService = inject(LessonPresencesUpdateService);
 
-  constructor(
-    private state: PresenceControlStateService,
-    private lessonPresencesUpdateService: LessonPresencesUpdateService,
-  ) {}
+  private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     // Wire-up the state and update services to reflect changes in the

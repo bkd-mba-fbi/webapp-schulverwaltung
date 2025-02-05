@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from "@angular/core";
 import {
   FormsModule,
@@ -53,6 +54,10 @@ import { TestStateService } from "../../services/test-state.service";
   ],
 })
 export class TestsEditFormComponent implements OnInit, OnDestroy {
+  private fb = inject(UntypedFormBuilder);
+  private translate = inject(TranslateService);
+  private testStateService = inject(TestStateService);
+
   @Input() test: Option<Test> = null;
   @Input() saving = false;
 
@@ -93,12 +98,6 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
     this.submitted$,
     "weight",
   );
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private translate: TranslateService,
-    private testStateService: TestStateService,
-  ) {}
 
   courseId$ = this.testStateService.courseId$;
 

@@ -1,6 +1,6 @@
 import { Location } from "@angular/common";
 import { HttpParams } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { addDays, format, subDays } from "date-fns";
 import { Observable, combineLatest, of } from "rxjs";
@@ -31,6 +31,9 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   LessonPresence,
   ReportAbsencesFilter
 > {
+  private studentsService = inject(StudentsRestService);
+  private storageService = inject(StorageService);
+
   private _preventAbsencesAfterStart?: boolean;
   private get preventAbsencesAfterStart(): boolean {
     if (this._preventAbsencesAfterStart == null) {
@@ -43,14 +46,12 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
     return this._preventAbsencesAfterStart;
   }
 
-  constructor(
-    location: Location,
-    loadingService: LoadingService,
-    @Inject(SETTINGS) settings: Settings,
-    private studentsService: StudentsRestService,
-    private storageService: StorageService,
-    sortService: SortService<keyof LessonPresence>,
-  ) {
+  constructor() {
+    const location = inject(Location);
+    const loadingService = inject(LoadingService);
+    const settings = inject<Settings>(SETTINGS);
+    const sortService = inject<SortService<keyof LessonPresence>>(SortService);
+
     super(
       location,
       loadingService,

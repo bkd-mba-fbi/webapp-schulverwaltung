@@ -7,6 +7,7 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  inject,
 } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -34,6 +35,11 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
   ],
 })
 export class PresenceControlEntryComponent implements OnChanges {
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private modalService = inject(BkdModalService);
+  private loadingService = inject(LoadingService);
+
   @Input() entry: PresenceControlEntry;
   @Input() hasUnconfirmedAbsences = false;
   @Input() viewMode: PresenceControlViewMode;
@@ -56,13 +62,6 @@ export class PresenceControlEntryComponent implements OnChanges {
       this.loadingService.loading(getBlockLessonLoadingContext(entry)),
     ),
   );
-
-  constructor(
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private modalService: BkdModalService,
-    private loadingService: LoadingService,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["entry"]) {

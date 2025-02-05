@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
 import { DossierStateService } from "src/app/shared/services/dossier-state.service";
@@ -13,10 +13,8 @@ import { DossierGradesViewComponent } from "../dossier-grades-view/dossier-grade
   imports: [DossierGradesViewComponent, SpinnerComponent, AsyncPipe],
 })
 export class DossierGradesComponent implements OnInit, OnDestroy {
-  constructor(
-    public state: DossierStateService,
-    public dossierGradesService: DossierGradesService,
-  ) {}
+  state = inject(DossierStateService);
+  dossierGradesService = inject(DossierGradesService);
 
   private destroy$ = new Subject<void>();
 

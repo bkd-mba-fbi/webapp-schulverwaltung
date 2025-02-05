@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { HttpTestingController } from "@angular/common/http/testing";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject as inject_1 } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -17,7 +17,10 @@ describe("RestService", () => {
 
   @Injectable()
   class FooService extends RestService<typeof Foo> {
-    constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+    constructor() {
+      const http = inject_1(HttpClient);
+      const settings = inject_1<Settings>(SETTINGS);
+
       super(http, settings, Foo, "Foo");
     }
   }

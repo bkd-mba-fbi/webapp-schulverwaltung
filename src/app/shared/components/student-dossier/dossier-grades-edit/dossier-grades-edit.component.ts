@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import {
   AbstractControl,
   FormsModule,
@@ -45,6 +45,9 @@ const DEBOUNCE_TIME = 500;
   ],
 })
 export class DossierGradesEditComponent implements OnInit {
+  activeModal = inject(NgbActiveModal);
+  private courseService = inject(CoursesRestService);
+
   @Input() test: Test;
   @Input() gradeId: Option<number>;
   @Input() gradeOptions: Option<DropDownItem[]>;
@@ -72,11 +75,6 @@ export class DossierGradesEditComponent implements OnInit {
   );
 
   destroy$ = new Subject<void>();
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private courseService: CoursesRestService,
-  ) {}
 
   ngOnInit(): void {
     this.maxPoints = maxPoints(this.test);

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
@@ -12,17 +12,15 @@ import { TestStateService } from "../../services/test-state.service";
   imports: [RouterOutlet],
 })
 export class TestsComponent implements OnInit, OnDestroy {
+  state = inject(TestStateService);
+  private route = inject(ActivatedRoute);
+
   courseId$: Observable<number> = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
     distinctUntilChanged(),
   );
 
   destroy$ = new Subject<void>();
-
-  constructor(
-    public state: TestStateService,
-    private route: ActivatedRoute,
-  ) {}
 
   ngOnInit() {
     this.courseId$

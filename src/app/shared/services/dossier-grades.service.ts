@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   ReplaySubject,
   combineLatest,
@@ -35,6 +35,13 @@ type CoursesAction =
 
 @Injectable()
 export class DossierGradesService {
+  private coursesRestService = inject(CoursesRestService);
+  private subscriptionRestService = inject(SubscriptionsRestService);
+  private reportsService = inject(ReportsService);
+  private loadingService = inject(LoadingService);
+  private gradingScalesRestService = inject(GradingScalesRestService);
+  private settings = inject<Settings>(SETTINGS);
+
   private studentId$ = new ReplaySubject<number>(1);
   private initialStudentCourses$ = this.studentId$.pipe(
     distinctUntilChanged(),
@@ -82,15 +89,6 @@ export class DossierGradesService {
   testReports$ = this.subscriptionIds$.pipe(
     map((ids) => this.reportsService.getTeacherSubscriptionGradesReports(ids)),
   );
-
-  constructor(
-    private coursesRestService: CoursesRestService,
-    private subscriptionRestService: SubscriptionsRestService,
-    private reportsService: ReportsService,
-    private loadingService: LoadingService,
-    private gradingScalesRestService: GradingScalesRestService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
 
   setStudentId(id: number) {
     this.studentId$.next(id);
