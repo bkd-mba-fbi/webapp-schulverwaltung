@@ -1,4 +1,4 @@
-import { Component, Input, input } from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
@@ -10,29 +10,23 @@ import { DecimalOrDashPipe } from "../../../pipes/decimal-or-dash.pipe";
   template: `<div class="final-entry">
     <div>{{ "dossier.grade" | translate }}</div>
     <div data-testid="final-grade">
-      <span>{{ getGradeForStudent() || "–" }}</span>
+      <span>{{ grade() || "–" }}</span>
     </div>
     <div>{{ "dossier.average" | translate }}</div>
     <div data-testid="average-test-results">
-      <span>{{ average | decimalOrDash: "1-3" }}</span>
+      <span>{{ average() | decimalOrDash: "1-3" }}</span>
     </div>
   </div>`,
   styleUrls: ["./dossier-grades-final-grade.component.scss"],
   imports: [TranslatePipe, DecimalOrDashPipe],
 })
 export class DossierGradesFinalGradeComponent {
-  @Input() finalGrade: Option<FinalGrading>;
-  @Input() grading: Option<Grading>;
-  readonly gradingScale = input.required<Option<GradingScale>>();
-  @Input() average: number;
+  readonly finalGrade = input<Option<FinalGrading>>(null);
+  readonly grading = input<Option<Grading>>(null);
+  readonly gradingScale = input<Option<GradingScale>>(null);
+  readonly average = input<number>();
 
-  constructor() {}
-
-  getGradeForStudent() {
-    return Gradings.evaluate(
-      this.grading,
-      this.finalGrade,
-      this.gradingScale(),
-    );
-  }
+  grade = computed(() =>
+    Gradings.evaluate(this.grading(), this.finalGrade(), this.gradingScale()),
+  );
 }

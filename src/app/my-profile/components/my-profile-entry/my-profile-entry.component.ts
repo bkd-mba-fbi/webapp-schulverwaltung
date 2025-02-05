@@ -9,7 +9,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [TranslatePipe],
 })
 export class MyProfileEntryComponent {
-  readonly label = input.required<string>();
+  readonly label = input<string>();
   readonly value = input<Option<string | Date>>();
 
   constructor() {}

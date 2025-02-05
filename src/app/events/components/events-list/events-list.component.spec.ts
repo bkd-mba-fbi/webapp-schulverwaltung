@@ -86,13 +86,13 @@ describe("EventsListComponent", () => {
 
   describe("withStudyCourses", () => {
     it("enables study courses on state service if set to true", () => {
-      fixture.componentRef.setInput("withRatings", true);
+      fixture.componentRef.setInput("withStudyCourses", true);
       fixture.detectChanges();
       expect(setWithStudyCourses).toHaveBeenCalledWith(true);
     });
 
     it("does not enable study courses on state service if set to false", () => {
-      fixture.componentRef.setInput("withRatings", false);
+      fixture.componentRef.setInput("withStudyCourses", false);
       fixture.detectChanges();
       expect(setWithStudyCourses).toHaveBeenCalledWith(false);
     });

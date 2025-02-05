@@ -30,7 +30,7 @@ describe("DossierGradesCourseHeaderComponent", () => {
     expect(component).toBeTruthy();
   });
   it("should show designation", () => {
-    component.designation = "course 1";
+    fixture.componentRef.setInput("designation", "course 1");
     fixture.detectChanges();
 
     expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
@@ -39,11 +39,14 @@ describe("DossierGradesCourseHeaderComponent", () => {
   });
 
   it("should show designation and grade", () => {
-    component.designation = "course 2";
-    component.finalGrade = { Grade: "5.5" } as unknown as FinalGrading;
-    component.gradingScale = buildGradingScale(1, [
-      { Designation: 5.5 } as unknown as Grade,
-    ]);
+    fixture.componentRef.setInput("designation", "course 2");
+    fixture.componentRef.setInput("finalGrade", {
+      Grade: "5.5",
+    } as unknown as FinalGrading);
+    fixture.componentRef.setInput(
+      "gradingScale",
+      buildGradingScale(1, [{ Designation: 5.5 } as unknown as Grade]),
+    );
     fixture.detectChanges();
 
     expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
@@ -52,8 +55,8 @@ describe("DossierGradesCourseHeaderComponent", () => {
   });
 
   it("should show designation and average", () => {
-    component.designation = "course 3";
-    component.average = 5.2555;
+    fixture.componentRef.setInput("designation", "course 3");
+    fixture.componentRef.setInput("average", 5.2555);
     fixture.detectChanges();
 
     expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
@@ -62,12 +65,15 @@ describe("DossierGradesCourseHeaderComponent", () => {
   });
 
   it("should show designation and only grade if both average and grade are set", () => {
-    component.designation = "course 4";
-    component.average = 5.2555;
-    component.finalGrade = { Grade: "5.5" } as unknown as FinalGrading;
-    component.gradingScale = buildGradingScale(1, [
-      { Designation: 5.5 } as unknown as Grade,
-    ]);
+    fixture.componentRef.setInput("designation", "course 4");
+    fixture.componentRef.setInput("average", 5.2555);
+    fixture.componentRef.setInput("finalGrade", {
+      Grade: "5.5",
+    } as unknown as FinalGrading);
+    fixture.componentRef.setInput(
+      "gradingScale",
+      buildGradingScale(1, [{ Designation: 5.5 } as unknown as Grade]),
+    );
     fixture.detectChanges();
 
     expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
@@ -76,8 +82,8 @@ describe("DossierGradesCourseHeaderComponent", () => {
   });
 
   it("should only show designation if average is 0", () => {
-    component.designation = "course 5";
-    component.average = 0;
+    fixture.componentRef.setInput("designation", "course 5");
+    fixture.componentRef.setInput("average", 0);
 
     fixture.detectChanges();
     expect(debugElement.nativeElement.textContent.replace("\n", "")).toBe(
