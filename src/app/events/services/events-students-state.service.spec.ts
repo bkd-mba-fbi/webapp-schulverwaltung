@@ -429,6 +429,7 @@ describe("EventsStudentsStateService", () => {
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
             company: "Apple Records – Abbey Road Studios",
+            registrationDate: new Date(),
           },
           {
             id: 20,
@@ -437,6 +438,7 @@ describe("EventsStudentsStateService", () => {
             email: "john.lennon@example.com",
             status: "Aufgenommen",
             company: undefined,
+            registrationDate: new Date(),
           },
           {
             id: 30,
@@ -445,6 +447,7 @@ describe("EventsStudentsStateService", () => {
             email: "george.harrison@example.com",
             status: "Aufgenommen",
             company: undefined,
+            registrationDate: new Date(),
           },
           {
             id: 40,
@@ -453,6 +456,7 @@ describe("EventsStudentsStateService", () => {
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
             company: undefined,
+            registrationDate: new Date(),
           },
         ];
 
@@ -515,6 +519,7 @@ describe("EventsStudentsStateService", () => {
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
             subscriptionId: 13,
+            registrationDate: new Date(),
           },
           {
             id: 20,
@@ -522,6 +527,7 @@ describe("EventsStudentsStateService", () => {
             email: "john.lennon@example.com",
             status: "Aufgenommen",
             subscriptionId: 23,
+            registrationDate: new Date(),
           },
           {
             id: 30,
@@ -529,6 +535,7 @@ describe("EventsStudentsStateService", () => {
             email: "george.harrison@example.com",
             status: "Aufgenommen",
             subscriptionId: 33,
+            registrationDate: new Date(),
           },
           {
             id: 40,
@@ -536,6 +543,7 @@ describe("EventsStudentsStateService", () => {
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
             subscriptionId: 43,
+            registrationDate: new Date(),
           },
         ];
 
