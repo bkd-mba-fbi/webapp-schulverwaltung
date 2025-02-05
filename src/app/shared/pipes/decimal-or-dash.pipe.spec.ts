@@ -1,10 +1,17 @@
+import { TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { DecimalOrDashPipe } from "./decimal-or-dash.pipe";
 
 describe("DecimalOrDashPipe", () => {
   let pipe: DecimalOrDashPipe;
 
   beforeEach(() => {
-    pipe = new DecimalOrDashPipe("en");
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [DecimalOrDashPipe],
+      }),
+    );
+    pipe = TestBed.inject(DecimalOrDashPipe);
   });
 
   it("returns dash for empty string", () => {

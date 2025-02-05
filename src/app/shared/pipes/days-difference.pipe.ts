@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { differenceInCalendarDays } from "date-fns";
 
@@ -7,7 +7,7 @@ import { differenceInCalendarDays } from "date-fns";
   standalone: true,
 })
 export class DaysDifferencePipe implements PipeTransform {
-  constructor(private translate: TranslateService) {}
+  private translate = inject(TranslateService);
 
   transform(input: Maybe<Date>): string {
     if (!input) {

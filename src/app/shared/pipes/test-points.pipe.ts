@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { resultOfStudent } from "src/app/events/utils/tests";
 import { Test } from "src/app/shared/models/test.model";
@@ -8,7 +8,7 @@ import { Test } from "src/app/shared/models/test.model";
   standalone: true,
 })
 export class TestPointsPipe implements PipeTransform {
-  constructor(private translate: TranslateService) {}
+  private translate = inject(TranslateService);
 
   transform(
     input: Test,

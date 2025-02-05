@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform, inject } from "@angular/core";
 import { I18nService } from "../services/i18n.service";
 
 @Pipe({
@@ -6,7 +6,7 @@ import { I18nService } from "../services/i18n.service";
   standalone: true,
 })
 export class AddSpacePipe implements PipeTransform {
-  constructor(protected i18n: I18nService) {}
+  protected i18n = inject(I18nService);
 
   transform(value: string, chars: string): string {
     const lang = this.i18n.detectLanguage();

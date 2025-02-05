@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { TranslateService } from "@ngx-translate/core";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DaysDifferencePipe } from "./days-difference.pipe";
 
@@ -8,9 +7,11 @@ describe("DaysDifferencePipe", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
-      buildTestModuleMetadata({}),
+      buildTestModuleMetadata({
+        providers: [DaysDifferencePipe],
+      }),
     ).compileComponents();
-    pipe = new DaysDifferencePipe(TestBed.inject(TranslateService));
+    pipe = TestBed.inject(DaysDifferencePipe);
   });
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { formatNumber } from "@angular/common";
-import { Inject, LOCALE_ID, Pipe, PipeTransform } from "@angular/core";
+import { LOCALE_ID, Pipe, PipeTransform, inject } from "@angular/core";
 
 const FRACTION_DIGITS_DEFAULT = "1-3";
 export const DASH = "–";
@@ -9,7 +9,7 @@ export const DASH = "–";
   standalone: true,
 })
 export class DecimalOrDashPipe implements PipeTransform {
-  constructor(@Inject(LOCALE_ID) private locale: string) {}
+  private locale = inject(LOCALE_ID);
 
   transform(
     value: number | string | null | undefined,

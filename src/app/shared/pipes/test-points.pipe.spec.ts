@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { TranslateService } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 import { buildResult, buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
@@ -13,9 +12,9 @@ describe("TestsPointsPipe", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
-      buildTestModuleMetadata({}),
+      buildTestModuleMetadata({ providers: [TestPointsPipe] }),
     ).compileComponents();
-    pipe = new TestPointsPipe(TestBed.inject(TranslateService));
+    pipe = TestBed.inject(TestPointsPipe);
   });
 
   beforeEach(() => {

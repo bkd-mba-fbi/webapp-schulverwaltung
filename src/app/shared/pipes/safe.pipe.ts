@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform, inject } from "@angular/core";
 import {
   DomSanitizer,
   SafeHtml,
@@ -14,7 +14,7 @@ import {
 })
 /* based on https://medium.com/@swarnakishore/angular-safe-pipe-implementation-to-bypass-domsanitizer-stripping-out-content-c1bf0f1cc36b */
 export class SafePipe implements PipeTransform {
-  constructor(protected sanitizer: DomSanitizer) {}
+  protected sanitizer = inject(DomSanitizer);
 
   transform(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
