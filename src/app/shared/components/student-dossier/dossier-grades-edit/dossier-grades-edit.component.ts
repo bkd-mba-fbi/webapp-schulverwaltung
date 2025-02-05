@@ -51,7 +51,7 @@ export class DossierGradesEditComponent implements OnInit {
   @Input() test: Test;
   @Input() gradeId: Option<number>;
   @Input() gradeOptions: Option<DropDownItem[]>;
-  readonly points = input<number>();
+  readonly points = input.required<number>();
   @Input() studentId: number;
 
   updatedTestResult: Option<Result>;

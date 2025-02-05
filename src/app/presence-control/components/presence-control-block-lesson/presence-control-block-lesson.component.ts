@@ -20,7 +20,7 @@ interface BlockLessonOption {
 export class PresenceControlBlockLessonComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
 
-  readonly entry = input<PresenceControlEntry>();
+  readonly entry = input.required<PresenceControlEntry>();
   @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
   blockLessonOptions: ReadonlyArray<BlockLessonOption> = [];
 

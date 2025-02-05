@@ -40,7 +40,7 @@ const MINIMAL_TERM_LENGTH = 3;
 export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
-  readonly typeaheadService = input<TypeaheadService>();
+  readonly typeaheadService = input.required<TypeaheadService>();
   readonly placeholder = input("shared.typeahead.default-placeholder");
   readonly value = input<Option<DropDownItem["Key"]>>();
   readonly additionalHttpParams = input<HttpParams>();

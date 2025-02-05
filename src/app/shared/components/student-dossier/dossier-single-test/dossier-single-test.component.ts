@@ -89,7 +89,7 @@ export class DossierSingleTestComponent implements OnChanges {
   private gradeService = inject(DossierGradesService);
   private modalService = inject(BkdModalService);
 
-  readonly test = input<Test>();
+  readonly test = input.required<Test>();
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
   @Input() isEditable: boolean;

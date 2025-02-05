@@ -20,7 +20,7 @@ export class AvatarComponent implements OnChanges {
   private settings = inject<Settings>(SETTINGS);
   private storageService = inject(StorageService);
 
-  readonly studentId = input<number>();
+  readonly studentId = input.required<number>();
   readonly link = input<RouterLink["routerLink"]>();
   readonly linkParams = input<Params>();
 

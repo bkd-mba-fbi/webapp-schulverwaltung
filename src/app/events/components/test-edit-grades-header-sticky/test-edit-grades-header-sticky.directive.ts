@@ -33,8 +33,8 @@ export class TestEditGradesHeaderStickyDirective
   private portal = inject(PortalService);
   private state = inject(TestStateService);
 
-  readonly inlineHeader = input<TestEditGradesHeaderComponent>();
-  readonly stickyHeader = input<TestEditGradesHeaderComponent>();
+  readonly inlineHeader = input.required<TestEditGradesHeaderComponent>();
+  readonly stickyHeader = input.required<TestEditGradesHeaderComponent>();
 
   private destroy$ = new Subject<void>();
 

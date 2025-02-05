@@ -1,4 +1,4 @@
-@let events = (state.getEntries(withRatings) | async) ?? [];
+@let events = (state.getEntries(withRatings()) | async) ?? [];
 
 <div class="bkd-container">
   <bkd-resettable-input
