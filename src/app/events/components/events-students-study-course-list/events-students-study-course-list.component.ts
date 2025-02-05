@@ -35,10 +35,6 @@ export class EventsStudentsStudyCourseListComponent {
 
   toggleSort = output<PrimarySortKey>();
 
-  toggleSortKey(sortKey: PrimarySortKey) {
-    this.toggleSort.emit(sortKey);
-  }
-
   searchTerm = model<string>();
 
   primarySortKey: "name" | "registrationDate";
