@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
 import { buildResult, buildTest } from "src/spec-builders";
-import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   expectElementPresent,
   expectNotInTheDocument,
@@ -47,7 +47,7 @@ describe("DossierSingleTestComponent", () => {
     test.Date = new Date("2022-02-22T00:00:00");
     component.studentId = studentId;
 
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("test", test);
     fixture.detectChanges();
   });
 
@@ -145,7 +145,7 @@ describe("DossierSingleTestComponent", () => {
       } as unknown as GradingScale;
       component.gradingScale = gradingScale;
 
-      changeInput(component, "test", test);
+      fixture.componentRef.setInput("test", test);
       fixture.detectChanges();
     });
 
@@ -160,7 +160,7 @@ describe("DossierSingleTestComponent", () => {
       test.IsPointGrading = true;
       test.IsPublished = true;
       test.MaxPoints = 27;
-      changeInput(component, "test", test);
+      fixture.componentRef.setInput("test", test);
       fixture.detectChanges();
       expectText(debugElement, "test-points", "22.5 / 27 dossier.points");
     });

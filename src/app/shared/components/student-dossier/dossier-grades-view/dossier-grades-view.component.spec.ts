@@ -1,6 +1,6 @@
 import { DebugElement } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { expectText } from "src/specs/expectations";
 import { buildCourse } from "../../../../../spec-builders";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
@@ -8,7 +8,6 @@ import { StorageService } from "../../../services/storage.service";
 import { DossierGradesViewComponent } from "./dossier-grades-view.component";
 
 describe("DossierGradesViewComponent", () => {
-  let component: DossierGradesViewComponent;
   let fixture: ComponentFixture<DossierGradesViewComponent>;
   let debugElement: DebugElement;
 
@@ -34,12 +33,11 @@ describe("DossierGradesViewComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DossierGradesViewComponent);
-    component = fixture.componentInstance;
     debugElement = fixture.debugElement;
   });
 
   it("should render courses", () => {
-    changeInput(component, "courses", [buildCourse(1)]);
+    fixture.componentRef.setInput("courses", [buildCourse(1)]);
     fixture.detectChanges();
     expect(debugElement.nativeElement.textContent?.trim()).toContain(
       "Physik-22a",
@@ -47,7 +45,7 @@ describe("DossierGradesViewComponent", () => {
   });
 
   it("should show message that indicates that there are no courses", () => {
-    changeInput(component, "courses", []);
+    fixture.componentRef.setInput("courses", []);
     fixture.detectChanges();
 
     expectText(debugElement, "message-no-courses", "dossier.no-courses");

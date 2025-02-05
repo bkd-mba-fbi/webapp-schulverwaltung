@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
-import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildEventEntry } from "../../../../spec-builders";
 import { StorageService } from "../../../shared/services/storage.service";
 import { EventsStateService } from "../../services/events-state.service";
 import { EventsListComponent } from "./events-list.component";
 
 describe("EventsListComponent", () => {
-  let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
   let stateServiceMock: EventsStateService;
   let element: HTMLElement;
@@ -52,26 +51,25 @@ describe("EventsListComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventsListComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
   describe("withRatings", () => {
     it("renders entry with ratings column it set to true", () => {
-      changeInput(component, "withRatings", true);
+      fixture.componentRef.setInput("withRatings", true);
       fixture.detectChanges();
       expect(element.textContent).toContain("events.rating");
     });
 
     it("renders entry without ratings column it set to false", () => {
-      changeInput(component, "withRatings", false);
+      fixture.componentRef.setInput("withRatings", false);
       fixture.detectChanges();
       expect(element.textContent).not.toContain("events.rating");
     });
 
     it("includes 'evaluationText' in search fields it set to true", () => {
-      changeInput(component, "withRatings", true);
+      fixture.componentRef.setInput("withRatings", true);
       fixture.detectChanges();
       expect(setSearchFields).toHaveBeenCalledWith([
         "designation",
@@ -80,7 +78,7 @@ describe("EventsListComponent", () => {
     });
 
     it("does not include in search fields it set to false", () => {
-      changeInput(component, "withRatings", false);
+      fixture.componentRef.setInput("withRatings", false);
       fixture.detectChanges();
       expect(setSearchFields).toHaveBeenCalledWith(["designation"]);
     });
@@ -88,13 +86,13 @@ describe("EventsListComponent", () => {
 
   describe("withStudyCourses", () => {
     it("enables study courses on state service if set to true", () => {
-      changeInput(component, "withStudyCourses", true);
+      fixture.componentRef.setInput("withRatings", true);
       fixture.detectChanges();
       expect(setWithStudyCourses).toHaveBeenCalledWith(true);
     });
 
     it("does not enable study courses on state service if set to false", () => {
-      changeInput(component, "withStudyCourses", false);
+      fixture.componentRef.setInput("withRatings", false);
       fixture.detectChanges();
       expect(setWithStudyCourses).toHaveBeenCalledWith(false);
     });

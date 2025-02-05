@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StorageService } from "../../services/storage.service";
 import { AvatarComponent } from "./avatar.component";
 
@@ -33,7 +33,7 @@ describe("AvatarComponent", () => {
 
   describe(".avatarStyles", () => {
     it("is set to styles object", () => {
-      changeInput(component, "studentId", 123);
+      fixture.componentRef.setInput("studentId", 123);
       fixture.detectChanges();
 
       expect(component.avatarStyles).toEqual({
