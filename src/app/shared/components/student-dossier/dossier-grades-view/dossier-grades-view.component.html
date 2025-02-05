@@ -1,6 +1,6 @@
 @if (courses().length > 0) {
   @for (
-    decoratedCourse of decoratedCoursesSubject$ | async;
+    decoratedCourse of decoratedCourses();
     track decoratedCourse.course.Id;
     let i = $index
   ) {

@@ -4,7 +4,6 @@ import { buildTestModuleMetadata } from "src/spec-helpers";
 import { expectText } from "src/specs/expectations";
 import { buildCourse } from "../../../../../spec-builders";
 import { DossierGradesService } from "../../../services/dossier-grades.service";
-import { StorageService } from "../../../services/storage.service";
 import { DossierGradesViewComponent } from "./dossier-grades-view.component";
 
 describe("DossierGradesViewComponent", () => {
@@ -15,24 +14,14 @@ describe("DossierGradesViewComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [DossierGradesViewComponent],
-        providers: [
-          DossierGradesService,
-          StorageService,
-          {
-            provide: StorageService,
-            useValue: {
-              getPayload(): Option<object> {
-                return { id_person: "42" };
-              },
-            },
-          },
-        ],
+        providers: [DossierGradesService],
       }),
     ).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DossierGradesViewComponent);
+    fixture.componentRef.setInput("studentId", "42");
     debugElement = fixture.debugElement;
   });
 
