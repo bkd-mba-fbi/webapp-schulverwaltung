@@ -1,11 +1,11 @@
 <div class="d-flex flex-column w-100">
-  <bkd-backlink [link]="link" [params]="queryParams">
+  <bkd-backlink [link]="link()" [params]="queryParams()">
     <ng-content></ng-content>
   </bkd-backlink>
   <div class="d-flex flex-row align-items-start">
-    <bkd-avatar [studentId]="studentId" class="me-3 medium"></bkd-avatar>
+    <bkd-avatar [studentId]="studentId()" class="me-3 medium"></bkd-avatar>
     <div class="d-flex flex-column">
-      <h1>{{ student ? student.FullName : studentName }}</h1>
+      <h1>{{ student ? student.FullName : studentName() }}</h1>
       @if (student) {
         <div class="additional-info">
           <span class="birthday">{{

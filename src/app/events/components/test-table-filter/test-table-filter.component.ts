@@ -1,5 +1,5 @@
 import { NgClass } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Output, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
 import {
@@ -14,15 +14,15 @@ import {
   styleUrl: "./test-table-filter.component.scss",
 })
 export class TestTableFilterComponent {
-  @Input() filter: TestsFilter = INITIAL_TESTS_FILTER;
+  readonly filter = input<TestsFilter>(INITIAL_TESTS_FILTER);
   @Output() filterChange = new EventEmitter<TestsFilter>();
 
   showOnlyMine(): void {
-    this.filterChange.next({ ...this.filter, onlyMine: true });
+    this.filterChange.next({ ...this.filter(), onlyMine: true });
   }
 
   showAll(): void {
-    this.filterChange.next({ ...this.filter, onlyMine: false });
+    this.filterChange.next({ ...this.filter(), onlyMine: false });
   }
 
   onHidePublishedChange(event: Event): void {
@@ -31,6 +31,6 @@ export class TestTableFilterComponent {
         event.target instanceof HTMLInputElement &&
         event.target?.checked) ??
       false;
-    this.filterChange.next({ ...this.filter, hidePublished });
+    this.filterChange.next({ ...this.filter(), hidePublished });
   }
 }

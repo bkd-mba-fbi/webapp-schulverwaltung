@@ -5,14 +5,14 @@
   <input
     type="text"
     class="form-control"
-    [attr.placeholder]="placeholder | translate"
-    [attr.aria-label]="placeholder | translate"
+    [attr.placeholder]="placeholder() | translate"
+    [attr.aria-label]="placeholder() | translate"
     [attr.aria-describedby]="componentId"
     ngbDatepicker
     #dp="ngbDatepicker"
     (click)="dp.toggle()"
-    [minDate]="minDate"
-    [ngModel]="value"
+    [minDate]="minDate()"
+    [ngModel]="value()"
     (ngModelChange)="valueChange.emit($event)"
   />
 </div>

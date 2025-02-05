@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, input } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
@@ -23,12 +23,16 @@ import { DecimalOrDashPipe } from "../../../pipes/decimal-or-dash.pipe";
 export class DossierGradesFinalGradeComponent {
   @Input() finalGrade: Option<FinalGrading>;
   @Input() grading: Option<Grading>;
-  @Input() gradingScale: Option<GradingScale>;
+  readonly gradingScale = input<Option<GradingScale>>();
   @Input() average: number;
 
   constructor() {}
 
   getGradeForStudent() {
-    return Gradings.evaluate(this.grading, this.finalGrade, this.gradingScale);
+    return Gradings.evaluate(
+      this.grading,
+      this.finalGrade,
+      this.gradingScale(),
+    );
   }
 }

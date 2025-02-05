@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
   inject,
+  input,
 } from "@angular/core";
 import {
   FormsModule,
@@ -59,7 +60,7 @@ export class TestsEditFormComponent implements OnInit, OnDestroy {
   private testStateService = inject(TestStateService);
 
   @Input() test: Option<Test> = null;
-  @Input() saving = false;
+  readonly saving = input(false);
 
   @Output() save = new EventEmitter<UntypedFormGroup>();
 

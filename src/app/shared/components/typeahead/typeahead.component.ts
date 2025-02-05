@@ -2,10 +2,10 @@ import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnChanges,
   Output,
   SimpleChanges,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
@@ -40,10 +40,10 @@ const MINIMAL_TERM_LENGTH = 3;
 export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
-  @Input() typeaheadService: TypeaheadService;
-  @Input() placeholder = "shared.typeahead.default-placeholder";
-  @Input() value: Option<DropDownItem["Key"]>;
-  @Input() additionalHttpParams: HttpParams;
+  readonly typeaheadService = input<TypeaheadService>();
+  readonly placeholder = input("shared.typeahead.default-placeholder");
+  readonly value = input<Option<DropDownItem["Key"]>>();
+  readonly additionalHttpParams = input<HttpParams>();
 
   @Output()
   valueChange = this.selectedItem$.pipe(
@@ -91,14 +91,14 @@ export class TypeaheadComponent implements OnChanges {
 
   private fetchItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
     this.loading$.next(true);
-    return this.typeaheadService
-      .getTypeaheadItems(term, this.additionalHttpParams)
+    return this.typeaheadService()
+      .getTypeaheadItems(term, this.additionalHttpParams())
       .pipe(finalize(() => this.loading$.next(false)));
   }
 
   private fetchItem(key: DropDownItem["Key"]): Observable<DropDownItem> {
     this.loading$.next(true);
-    return this.typeaheadService
+    return this.typeaheadService()
       .getTypeaheadItemByKey(key)
       .pipe(finalize(() => this.loading$.next(false)));
   }

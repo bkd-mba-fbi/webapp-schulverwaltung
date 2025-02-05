@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -9,9 +9,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [RouterLink, TranslatePipe],
 })
 export class BacklinkComponent {
-  @Input()
-  link: RouterLink["routerLink"] = [];
+  readonly link = input<RouterLink["routerLink"]>([]);
 
-  @Input()
-  params?: Params | null;
+  readonly params = input<Params | null>();
 }

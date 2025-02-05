@@ -1,4 +1,4 @@
-@if (courses.length > 0) {
+@if (courses().length > 0) {
   @for (
     decoratedCourse of decoratedCoursesSubject$ | async;
     track decoratedCourse.course.Id;
@@ -26,9 +26,9 @@
               <ng-template>
                 <bkd-dossier-course-tests
                   [decoratedCourse]="decoratedCourse"
-                  [studentId]="studentId"
-                  [gradingScales]="gradingScales"
-                  [isEditable]="isEditable"
+                  [studentId]="studentId()"
+                  [gradingScales]="gradingScales()"
+                  [isEditable]="isEditable()"
                 ></bkd-dossier-course-tests>
               </ng-template>
             </div>

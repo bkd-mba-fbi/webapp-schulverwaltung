@@ -6,13 +6,13 @@
     class="test-designation d-flex flex-row my-3 align-items-end justify-content-between"
     role="button"
   >
-    <div [ngClass]="expanded ? 'expanded' : 'collapsed'">
+    <div [ngClass]="expanded() ? 'expanded' : 'collapsed'">
       {{ test.Designation }}
     </div>
-    <bkd-caret class="align-self-start" [expanded]="expanded"></bkd-caret>
+    <bkd-caret class="align-self-start" [expanded]="expanded()"></bkd-caret>
   </div>
   <div class="d-flex flex-column">
-    @if (expanded) {
+    @if (expanded()) {
       <div class="d-flex flex-column mb-3">
         <div class="d-flex flex-row justify-content-between">
           <bkd-preserve-line-height>{{
@@ -45,7 +45,7 @@
         <bkd-caret
           class="expand-mobile"
           (click)="emitToggleHeader()"
-          [expanded]="expanded"
+          [expanded]="expanded()"
         ></bkd-caret>
       </div>
     } @else {
@@ -63,7 +63,7 @@
         <bkd-caret
           class="expand-mobile"
           (click)="emitToggleHeader()"
-          [expanded]="expanded"
+          [expanded]="expanded()"
         ></bkd-caret>
       </div>
     }

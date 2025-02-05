@@ -8,7 +8,7 @@
       entry.lessonPresence.StudentRef.Id.toString(),
       'absences',
     ]"
-    [linkParams]="profileReturnParams"
+    [linkParams]="profileReturnParams()"
     class="avatar large"
   ></bkd-avatar>
 }
@@ -50,7 +50,7 @@
 }
 <a
   [routerLink]="['student', entry.lessonPresence.StudentRef.Id, 'absences']"
-  [queryParams]="profileReturnParams"
+  [queryParams]="profileReturnParams()"
   class="student-info"
 >
   <span class="student-name text-truncate">{{
@@ -63,7 +63,7 @@
   }
   <span class="unconfirmed-absences">
     {{
-      hasUnconfirmedAbsences
+      hasUnconfirmedAbsences()
         ? ("presence-control.entry.unconfirmed-absences" | translate)
         : ""
     }}

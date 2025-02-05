@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
   inject,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
@@ -98,13 +99,13 @@ export class PresenceControlHeaderComponent {
 
   @Input() selectedLesson: LessonEntry;
   @Input() lessons: ReadonlyArray<LessonEntry>;
-  @Input() presentCount: Option<number> = null;
-  @Input() absentCount: Option<number> = null;
-  @Input() unapprovedCount: Option<number> = null;
-  @Input() absentPrecedingCount: Option<number> = null;
-  @Input() viewMode: PresenceControlViewMode;
-  @Input() selectDate: Date;
-  @Input() search = "";
+  readonly presentCount = input<Option<number>>(null);
+  readonly absentCount = input<Option<number>>(null);
+  readonly unapprovedCount = input<Option<number>>(null);
+  readonly absentPrecedingCount = input<Option<number>>(null);
+  readonly viewMode = input<PresenceControlViewMode>();
+  readonly selectDate = input<Date>();
+  readonly search = input("");
 
   @Output() selectLessonChange = new EventEmitter<LessonEntry>();
   @Output() selectDateChange = new EventEmitter<Date>();

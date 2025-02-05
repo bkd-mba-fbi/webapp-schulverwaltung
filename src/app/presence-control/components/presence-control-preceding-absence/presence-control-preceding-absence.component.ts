@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { Component, Input, inject } from "@angular/core";
+import { Component, inject, input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { LessonAbsence } from "../../../shared/models/lesson-absence.model";
@@ -14,5 +14,5 @@ import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 export class PresenceControlPrecedingAbsenceComponent {
   activeModal = inject(NgbActiveModal);
 
-  @Input() precedingAbsences: ReadonlyArray<LessonAbsence>;
+  readonly precedingAbsences = input<ReadonlyArray<LessonAbsence>>();
 }

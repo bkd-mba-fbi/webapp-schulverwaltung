@@ -5,6 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  input,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ReplaySubject, map } from "rxjs";
@@ -88,7 +89,7 @@ export class DossierSingleTestComponent implements OnChanges {
   private gradeService = inject(DossierGradesService);
   private modalService = inject(BkdModalService);
 
-  @Input() test: Test;
+  readonly test = input<Test>();
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
   @Input() isEditable: boolean;
@@ -98,7 +99,7 @@ export class DossierSingleTestComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["test"]) {
-      this.test$.next(this.test);
+      this.test$.next(this.test());
     }
   }
 

@@ -1,10 +1,10 @@
 import {
   AfterViewInit,
   Directive,
-  Input,
   OnDestroy,
   OnInit,
   inject,
+  input,
 } from "@angular/core";
 import { Subject, combineLatest, takeUntil } from "rxjs";
 import { PortalService } from "src/app/shared/services/portal.service";
@@ -33,8 +33,8 @@ export class TestEditGradesHeaderStickyDirective
   private portal = inject(PortalService);
   private state = inject(TestStateService);
 
-  @Input() inlineHeader: TestEditGradesHeaderComponent;
-  @Input() stickyHeader: TestEditGradesHeaderComponent;
+  readonly inlineHeader = input<TestEditGradesHeaderComponent>();
+  readonly stickyHeader = input<TestEditGradesHeaderComponent>();
 
   private destroy$ = new Subject<void>();
 
@@ -107,31 +107,32 @@ export class TestEditGradesHeaderStickyDirective
 
   private updateStickyVisibility(): void {
     if (this.isSmallBreakpointDown()) return;
-    const inlineTop = this.inlineHeader.getTop() + this.getIframeScrollY();
-    this.stickyHeader.shown = this.getScrollTop() > inlineTop;
+    const inlineTop = this.inlineHeader().getTop() + this.getIframeScrollY();
+    this.stickyHeader().shown = this.getScrollTop() > inlineTop;
   }
 
   private updateStickyTopOffset(): void {
     if (this.isSmallBreakpointDown()) return;
-    this.stickyHeader.setTopOffset(
+    this.stickyHeader().setTopOffset(
       this.portal.inIframe ? this.getScrollTop() : 0,
     );
   }
 
   private updateStickyLeftOffset(): void {
     if (this.isSmallBreakpointDown()) return;
-    this.stickyHeader.setLeftOffset(this.inlineHeader.getLeft());
+    this.stickyHeader().setLeftOffset(this.inlineHeader().getLeft());
   }
 
   private updateStickyWidth(): void {
     if (this.isSmallBreakpointDown()) return;
-    this.stickyHeader.setWidth(this.inlineHeader.getWidth());
-    this.stickyHeader.setColumnWidths(this.inlineHeader.getColumnWidths());
+    const inlineHeader = this.inlineHeader();
+    this.stickyHeader().setWidth(inlineHeader.getWidth());
+    this.stickyHeader().setColumnWidths(inlineHeader.getColumnWidths());
 
     // FIREFOX HACK: Set the heights of the fixed positioned sticky columns,
     // see test-edit-grades-header.component.scss for more info
-    this.stickyHeader.setStickyColumnHeights(
-      this.inlineHeader.getStickyColumnsHeights(),
+    this.stickyHeader().setStickyColumnHeights(
+      inlineHeader.getStickyColumnsHeights(),
     );
   }
 

@@ -1,5 +1,5 @@
 <div class="d-flex align-items-start justify-content-between w-100 mb-3">
-  <a [routerLink]="link" [queryParams]="params">
+  <a [routerLink]="link()" [queryParams]="params()">
     <span class="material-icons">arrow_back</span>
     <span class="label">{{ "global.back" | translate }}</span>
   </a>

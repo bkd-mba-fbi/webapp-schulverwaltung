@@ -1,10 +1,10 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  Input,
   OnChanges,
   SimpleChanges,
   inject,
+  input,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
@@ -38,8 +38,8 @@ export class EventsListComponent implements OnChanges {
   state = inject(EventsStateService);
   private storage = inject(StorageService);
 
-  @Input() withStudyCourses = false;
-  @Input() withRatings = true;
+  readonly withStudyCourses = input(false);
+  readonly withRatings = input(true);
 
   constructor() {
     this.state.setRoles(this.storage.getPayload()?.roles ?? null);

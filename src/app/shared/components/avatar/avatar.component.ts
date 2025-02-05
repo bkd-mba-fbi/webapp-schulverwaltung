@@ -1,10 +1,10 @@
 import { NgStyle } from "@angular/common";
 import {
   Component,
-  Input,
   OnChanges,
   SimpleChanges,
   inject,
+  input,
 } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -20,15 +20,15 @@ export class AvatarComponent implements OnChanges {
   private settings = inject<Settings>(SETTINGS);
   private storageService = inject(StorageService);
 
-  @Input() studentId: number;
-  @Input() link: RouterLink["routerLink"];
-  @Input() linkParams?: Params;
+  readonly studentId = input<number>();
+  readonly link = input<RouterLink["routerLink"]>();
+  readonly linkParams = input<Params>();
 
   avatarStyles: Dict<string> = {};
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["studentId"]) {
-      this.avatarStyles = this.buildAvatarStyles(this.studentId);
+      this.avatarStyles = this.buildAvatarStyles(this.studentId());
     }
   }
 

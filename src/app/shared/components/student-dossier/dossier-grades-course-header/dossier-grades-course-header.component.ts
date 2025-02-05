@@ -1,5 +1,5 @@
 import { DecimalPipe } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, input } from "@angular/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import * as Gradings from "src/app/shared/utils/gradings";
@@ -13,7 +13,7 @@ import * as Gradings from "src/app/shared/utils/gradings";
 export class DossierGradesCourseHeaderComponent {
   @Input() designation: string;
   @Input() finalGrade: Option<FinalGrading>;
-  @Input() grading: Option<Grading>;
+  readonly grading = input<Option<Grading>>();
   @Input() gradingScale: Option<GradingScale>;
   @Input() average: number;
 
@@ -24,6 +24,10 @@ export class DossierGradesCourseHeaderComponent {
   }
 
   private getGradeForStudent() {
-    return Gradings.evaluate(this.grading, this.finalGrade, this.gradingScale);
+    return Gradings.evaluate(
+      this.grading(),
+      this.finalGrade,
+      this.gradingScale,
+    );
   }
 }

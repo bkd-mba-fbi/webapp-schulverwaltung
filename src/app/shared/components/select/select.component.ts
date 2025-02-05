@@ -7,6 +7,7 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -22,13 +23,13 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   imports: [FormsModule, AsyncPipe, NgStyle, TranslatePipe],
 })
 export class SelectComponent implements OnChanges {
-  @Input() options: ReadonlyArray<DropDownItem> = [];
+  readonly options = input<ReadonlyArray<DropDownItem>>([]);
   @Input() allowEmpty = true;
   @Input() emptyLabel: string = "";
-  @Input() value: Option<number> = null;
-  @Input() disabled: boolean = false;
-  @Input() tabindex: number = 0;
-  @Input() width: string = "auto";
+  readonly value = input<Option<number>>(null);
+  readonly disabled = input<boolean>(false);
+  readonly tabindex = input<number>(0);
+  readonly width = input<string>("auto");
 
   @Output() valueChange = new EventEmitter<Option<number>>();
 

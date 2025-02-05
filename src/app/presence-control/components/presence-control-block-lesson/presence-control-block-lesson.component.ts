@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import { Component, Input, OnInit, inject, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -20,7 +20,7 @@ interface BlockLessonOption {
 export class PresenceControlBlockLessonComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
 
-  @Input() entry: PresenceControlEntry;
+  readonly entry = input<PresenceControlEntry>();
   @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
   blockLessonOptions: ReadonlyArray<BlockLessonOption> = [];
 
@@ -38,14 +38,14 @@ export class PresenceControlBlockLessonComponent implements OnInit {
   isCurrentLesson(option: BlockLessonOption): boolean {
     return isEqual(
       option.entry.lessonPresence.LessonDateTimeFrom,
-      this.entry.lessonPresence.LessonDateTimeFrom,
+      this.entry().lessonPresence.LessonDateTimeFrom,
     );
   }
 
   private buildLessonPresenceOptions() {
     return this.blockPresenceControlEntries.map((entry) => ({
       entry,
-      selected: this.entry.confirmationState === entry.confirmationState,
+      selected: this.entry().confirmationState === entry.confirmationState,
     }));
   }
 }

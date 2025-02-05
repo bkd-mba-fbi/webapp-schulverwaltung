@@ -25,8 +25,8 @@ describe("SelectComponent", () => {
     expect(component).toBeTruthy();
     expect(component.allowEmpty).toBeTruthy();
     expect(component.emptyLabel).toBe("");
-    expect(component.options).toEqual([]);
-    expect(component.value).toBeNull();
+    expect(component.options()).toEqual([]);
+    expect(component.value()).toBeNull();
   });
 
   it("should create select component without element", () => {

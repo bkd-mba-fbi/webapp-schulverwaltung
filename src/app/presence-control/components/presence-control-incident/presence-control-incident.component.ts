@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from "@angular/core";
+import { Component, Input, OnInit, inject, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -19,7 +19,7 @@ export class PresenceControlIncidentComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private translate = inject(TranslateService);
 
-  @Input() incident: Option<PresenceType>;
+  readonly incident = input<Option<PresenceType>>();
   @Input() incidentTypes: ReadonlyArray<PresenceType>;
   incidentOptions: Array<IncidentOption> = [];
   selected: IncidentOption;
@@ -33,8 +33,9 @@ export class PresenceControlIncidentComponent implements OnInit {
     this.incidentOptions.unshift(emptyOption);
 
     this.selected =
-      this.incidentOptions.find((option) => option.id === this.incident?.Id) ||
-      emptyOption;
+      this.incidentOptions.find(
+        (option) => option.id === this.incident()?.Id,
+      ) || emptyOption;
   }
 
   createIncidentOption(incidentType?: PresenceType): IncidentOption {

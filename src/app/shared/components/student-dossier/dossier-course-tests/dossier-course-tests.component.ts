@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  input,
+} from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
@@ -21,10 +27,10 @@ import { DossierSingleTestComponent } from "../dossier-single-test/dossier-singl
   ],
 })
 export class DossierCourseTestsComponent implements OnChanges {
-  @Input() studentId: number;
+  readonly studentId = input<number>();
   @Input() decoratedCourse: CourseWithGrades;
   @Input() gradingScales: ReadonlyArray<GradingScale>;
-  @Input() isEditable: boolean;
+  readonly isEditable = input<boolean>();
 
   sortedTests$ = new BehaviorSubject<Test[]>([]);
 

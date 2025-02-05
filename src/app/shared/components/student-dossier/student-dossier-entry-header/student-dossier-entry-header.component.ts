@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { CaretComponent } from "../../caret/caret.component";
 
 @Component({
@@ -9,7 +9,7 @@ import { CaretComponent } from "../../caret/caret.component";
   imports: [CaretComponent],
 })
 export class StudentDossierEntryHeaderComponent {
-  @Input() opened = false;
+  readonly opened = input(false);
 
   constructor() {}
 }

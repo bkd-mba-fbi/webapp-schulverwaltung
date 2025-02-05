@@ -1,5 +1,5 @@
 @if (!externalLink) {
-  <a [routerLink]="link" [queryParams]="linkParams">
+  <a [routerLink]="link()" [queryParams]="linkParams()">
     <ng-container *ngTemplateOutlet="actionContent"></ng-container>
   </a>
 }

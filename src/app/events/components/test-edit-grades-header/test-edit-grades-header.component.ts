@@ -8,6 +8,7 @@ import {
   Input,
   Output,
   inject,
+  input,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -33,7 +34,7 @@ export class TestEditGradesHeaderComponent {
   state = inject(TestStateService);
   private element = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  @Input() selectedTest?: Test;
+  readonly selectedTest = input<Test>();
 
   /**
    * Set to false for the inline version of the header, true for the sticky (or

@@ -20,7 +20,7 @@
         <div class="registrations">
           {{ "events.registrations" | translate }}
         </div>
-        @if (withRatings) {
+        @if (withRatings()) {
           <div class="rating">
             {{ "events.rating" | translate }}
           </div>
@@ -29,7 +29,7 @@
       @for (event of events; track event.id) {
         <bkd-events-list-entry
           [event]="event"
-          [withRatings]="withRatings"
+          [withRatings]="withRatings()"
         ></bkd-events-list-entry>
       }
     } @else {

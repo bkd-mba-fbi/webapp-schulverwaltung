@@ -1,5 +1,5 @@
 import { DatePipe, NgClass } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -23,7 +23,7 @@ import { TestSummaryShortPipe } from "../../pipes/test-summary-short.pipe";
 })
 export class TestTableHeaderComponent {
   @Input() test: Test;
-  @Input() expanded: boolean;
+  readonly expanded = input<boolean>();
 
   @Output() toggleHeader = new EventEmitter<boolean>();
   @Output() publish = new EventEmitter<Test>();
@@ -32,7 +32,7 @@ export class TestTableHeaderComponent {
   constructor() {}
 
   emitToggleHeader() {
-    this.toggleHeader.emit(!this.expanded);
+    this.toggleHeader.emit(!this.expanded());
   }
 
   publishTest() {

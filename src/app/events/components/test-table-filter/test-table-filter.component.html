@@ -4,8 +4,8 @@
     class="btn desktop"
     (click)="showAll()"
     [ngClass]="{
-      'btn-primary': !filter.onlyMine,
-      'btn-outline-secondary': filter.onlyMine,
+      'btn-primary': !filter().onlyMine,
+      'btn-outline-secondary': filter().onlyMine,
     }"
   >
     {{ "tests.all-tests" | translate }}
@@ -15,8 +15,8 @@
     class="btn ms-2 desktop"
     (click)="showOnlyMine()"
     [ngClass]="{
-      'btn-primary': filter.onlyMine,
-      'btn-outline-secondary': !filter.onlyMine,
+      'btn-primary': filter().onlyMine,
+      'btn-outline-secondary': !filter().onlyMine,
     }"
   >
     {{ "tests.owned-tests" | translate }}
@@ -28,7 +28,7 @@
       id="hide-published"
       class="form-check-input"
       type="checkbox"
-      [checked]="filter.hidePublished"
+      [checked]="filter().hidePublished"
       (change)="onHidePublishedChange($event)"
     />
     <label class="form-check-label" for="hide-published">

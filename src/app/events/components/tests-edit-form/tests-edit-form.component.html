@@ -207,14 +207,14 @@
       <button
         type="button"
         class="btn btn-outline-secondary"
-        [disabled]="saving"
+        [disabled]="saving()"
         [routerLink]="['/events', courseId$ | async, 'tests']"
       >
         {{ "tests.form.cancel" | translate }}
       </button>
-      <button type="submit" class="btn btn-primary ms-2" [disabled]="saving">
+      <button type="submit" class="btn btn-primary ms-2" [disabled]="saving()">
         {{ "tests.form.save" | translate }}
-        @if (saving) {
+        @if (saving()) {
           <div
             class="spinner-border spinner-border-sm align-middle"
             role="status"

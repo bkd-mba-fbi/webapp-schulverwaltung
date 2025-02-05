@@ -11,9 +11,9 @@
     @for (test of sortedTests; track test.Id) {
       <bkd-dossier-single-test
         [test]="test"
-        [studentId]="studentId"
+        [studentId]="studentId()"
         [gradingScale]="getGradingScaleOfTest(test)"
-        [isEditable]="isEditable"
+        [isEditable]="isEditable()"
       ></bkd-dossier-single-test>
     }
   </div>

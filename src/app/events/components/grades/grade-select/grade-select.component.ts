@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Output, input } from "@angular/core";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 
@@ -9,11 +9,11 @@ import { SelectComponent } from "../../../../shared/components/select/select.com
   imports: [SelectComponent],
 })
 export class GradeSelectComponent {
-  @Input() options: DropDownItem[];
-  @Input() valueId: Option<number>; // the selected key from the options list
-  @Input() gradeId: Option<number>; // the id of the grade itself
-  @Input() disabled: boolean = false;
-  @Input() width: string = "127px"; // 13ch
+  readonly options = input<DropDownItem[]>();
+  readonly valueId = input<Option<number>>(); // the selected key from the options list
+  readonly gradeId = input<Option<number>>(); // the id of the grade itself
+  readonly disabled = input<boolean>(false);
+  readonly width = input<string>("127px"); // 13ch
 
   @Output() gradeIdSelected = new EventEmitter<{
     id: number;
@@ -23,7 +23,8 @@ export class GradeSelectComponent {
   constructor() {}
 
   onGradeChange(selectedGradeId: Option<number>): void {
-    if (this.gradeId?.valueOf() === undefined) return;
-    this.gradeIdSelected.emit({ id: this.gradeId?.valueOf(), selectedGradeId });
+    const gradeId = this.gradeId();
+    if (gradeId?.valueOf() === undefined) return;
+    this.gradeIdSelected.emit({ id: gradeId?.valueOf(), selectedGradeId });
   }
 }

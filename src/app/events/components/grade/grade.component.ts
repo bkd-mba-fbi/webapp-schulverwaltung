@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -43,7 +44,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() grade: GradeOrNoResult;
   @Input() student: Student;
-  @Input() tabIndex: number;
+  readonly tabIndex = input<number>();
   @Input() gradeOptions: DropDownItem[];
 
   maxPoints: number = 0;

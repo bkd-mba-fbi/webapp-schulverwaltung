@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
   inject,
+  input,
 } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -41,10 +42,10 @@ export class PresenceControlEntryComponent implements OnChanges {
   private loadingService = inject(LoadingService);
 
   @Input() entry: PresenceControlEntry;
-  @Input() hasUnconfirmedAbsences = false;
+  readonly hasUnconfirmedAbsences = input(false);
   @Input() viewMode: PresenceControlViewMode;
   @Input() showClassName = false;
-  @Input() profileReturnParams?: Params;
+  readonly profileReturnParams = input<Params>();
 
   @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
   @Output() changeIncident = new EventEmitter<PresenceControlEntry>();

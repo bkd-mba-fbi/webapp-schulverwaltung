@@ -1,8 +1,8 @@
 <select
   class="form-select"
-  tabindex="{{ tabindex }}"
-  [ngStyle]="{ width }"
-  [disabled]="disabled"
+  tabindex="{{ tabindex() }}"
+  [ngStyle]="{ width: width() }"
+  [disabled]="disabled()"
   [ngModel]="value$ | async"
   (ngModelChange)="valueChange.emit($event && $event.Key)"
 >
@@ -11,7 +11,7 @@
       {{ emptyLabel | translate }}
     </option>
   }
-  @for (option of options; track option.Key) {
+  @for (option of options(); track option.Key) {
     <option [ngValue]="option">
       {{ option.Value }}
     </option>

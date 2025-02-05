@@ -5,8 +5,8 @@
   <input
     type="text"
     class="form-control"
-    [attr.placeholder]="placeholder | translate"
-    [attr.aria-label]="placeholder | translate"
+    [attr.placeholder]="placeholder() | translate"
+    [attr.aria-label]="placeholder() | translate"
     [attr.aria-describedby]="componentId"
     [ngbTypeahead]="search"
     [inputFormatter]="format"
@@ -14,7 +14,7 @@
     [ngModel]="selectedItem$ | async"
     (ngModelChange)="modelChange($event)"
   />
-  @if (value) {
+  @if (value()) {
     <button
       class="btn btn-link text-decoration-none"
       type="button"
