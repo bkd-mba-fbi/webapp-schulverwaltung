@@ -49,6 +49,14 @@ export const routes: Routes = [
       import("./events/events.routes").then((m) => m.EVENTS_ROUTES),
   },
   {
+    path: "import-subscription-details",
+    canActivate: [authGuard()],
+    loadChildren: () =>
+      import(
+        "./import-subscription-details/import-subscription-details.routes"
+      ).then((m) => m.IMPORT_SUBSCRIPTION_DETAILS_ROUTES),
+  },
+  {
     path: "my-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
