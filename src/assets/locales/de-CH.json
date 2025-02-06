@@ -358,6 +358,9 @@
       }
     }
   },
+  "import-subscription-details": {
+    "title": "Anmeldedetails einlesen"
+  },
   "my-absences": {
     "title": "Meine Absenzen",
     "description": "Hier können Sie Absenzen melden und Ihre offenen Absenzen bearbeiten.",
