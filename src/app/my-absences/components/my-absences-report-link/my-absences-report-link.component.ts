@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
-  ViewChild,
+  viewChild,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -16,11 +16,11 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [RouterLink, TranslatePipe],
 })
 export class MyAbsencesReportLinkComponent {
-  @ViewChild("link") link: ElementRef<HTMLElement>;
+  readonly link = viewChild.required<ElementRef<HTMLElement>>("link");
 
   @HostListener("click", ["$event"])
   onClick(): void {
-    this.link.nativeElement.click();
+    this.link().nativeElement.click();
   }
 
   constructor() {}

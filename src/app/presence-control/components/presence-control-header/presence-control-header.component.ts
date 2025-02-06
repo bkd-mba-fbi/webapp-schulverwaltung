@@ -4,8 +4,8 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild,
   inject,
+  viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
@@ -111,7 +111,7 @@ export class PresenceControlHeaderComponent {
   @Output() searchChange = new EventEmitter<string>();
   @Output() viewModeChange = new EventEmitter<PresenceControlViewMode>();
 
-  @ViewChild(NgbDropdown) lessonDropdown?: NgbDropdown;
+  readonly lessonDropdown = viewChild(NgbDropdown);
 
   viewModeOptions: ReadonlyArray<ViewModeOption> = [
     { viewMode: PresenceControlViewMode.List, icon: "list" },

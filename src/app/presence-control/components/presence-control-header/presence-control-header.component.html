@@ -17,7 +17,7 @@
   </div>
 
   @if (selectedLesson) {
-    <div class="lesson-time" (click)="lessonDropdown?.toggle()">
+    <div class="lesson-time" (click)="lessonDropdown()?.toggle()">
       {{ selectedLesson.LessonDateTimeFrom | date: "HH:mm" }}–<span
         class="lesson-time-to"
         >{{ selectedLesson.LessonDateTimeTo | date: "HH:mm" }}</span
@@ -65,8 +65,8 @@
   @if (lessons.length > 0) {
     <bkd-caret
       class="dropdown-caret"
-      (click)="lessonDropdown?.toggle()"
-      [expanded]="lessonDropdown?.isOpen() || false"
+      (click)="lessonDropdown()?.toggle()"
+      [expanded]="lessonDropdown()?.isOpen() || false"
     >
     </bkd-caret>
   }
