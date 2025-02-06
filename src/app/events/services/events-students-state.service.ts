@@ -27,6 +27,7 @@ import { notNull } from "src/app/shared/utils/filter";
 import { searchEntries } from "src/app/shared/utils/search";
 import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
+import { UnreachableError } from "../../shared/utils/error";
 import { SortCriteria } from "../../shared/utils/sort";
 import {
   convertCourseToStudentEntries,
@@ -297,20 +298,36 @@ function getStudentEntryComparator<PrimarySortKey>(
   sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
-    const key = sortCriteria.primarySortKey;
-
-    if (key === "registrationDate") {
-      const dateA = a.registrationDate
-        ? new Date(a.registrationDate).getTime()
-        : 0;
-      const dateB = b.registrationDate
-        ? new Date(b.registrationDate).getTime()
-        : 0;
-      return sortCriteria.ascending ? dateA - dateB : dateB - dateA;
+    switch (sortCriteria.primarySortKey) {
+      case "registrationDate":
+        return compareStudentEntryByDate(a, b, sortCriteria);
+      case "name":
+        return compareStudentEntryByName(sortCriteria, a, b);
+      default:
+        throw new UnreachableError(
+          sortCriteria.primarySortKey as never,
+          "Unhandled sort criteria",
+        );
     }
-
-    return sortCriteria.ascending
-      ? a.name.localeCompare(b.name)
-      : b.name.localeCompare(a.name);
   };
+}
+
+function compareStudentEntryByDate<PrimarySortKey>(
+  a: StudentEntry,
+  b: StudentEntry,
+  sortCriteria: SortCriteria<PrimarySortKey>,
+) {
+  const dateA = a.registrationDate ? new Date(a.registrationDate).getTime() : 0;
+  const dateB = b.registrationDate ? new Date(b.registrationDate).getTime() : 0;
+  return sortCriteria.ascending ? dateA - dateB : dateB - dateA;
+}
+
+function compareStudentEntryByName<PrimarySortKey>(
+  sortCriteria: SortCriteria<PrimarySortKey>,
+  a: StudentEntry,
+  b: StudentEntry,
+) {
+  return sortCriteria.ascending
+    ? a.name.localeCompare(b.name)
+    : b.name.localeCompare(a.name);
 }
