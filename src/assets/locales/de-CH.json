@@ -261,7 +261,8 @@
     "search-placeholder": "Suchen...",
     "list": {
       "header": {
-        "name": "Name"
+        "name": "Name",
+        "registration-date": "Anmeldedatum"
       }
     },
     "study-course-detail": {

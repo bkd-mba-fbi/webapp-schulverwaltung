@@ -532,6 +532,7 @@ export function buildSubscription(
     // AnsweredQuestions: null,
     // Messages: null,
     // SubscriptionDetails: null,
+    RegistrationDate: null,
     // HRef: null,
   };
 }

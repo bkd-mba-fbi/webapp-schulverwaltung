@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Option } from "./common-types";
+import { LocalDateTimeFromString, Option } from "./common-types";
 import { DropDownItem } from "./drop-down-item.model";
 
 const SubscriptionDetail = t.type({
@@ -71,6 +71,7 @@ const Subscription = t.type({
   // AnsweredQuestions: Option(t.string || t.number),
   // Messages: Option(t.string || t.number),
   // SubscriptionDetails: Option(t.array(SubscriptionDetail)),
+  RegistrationDate: Option(LocalDateTimeFromString),
   // HRef: Option(t.string),
 });
 

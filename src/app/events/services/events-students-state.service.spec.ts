@@ -26,6 +26,8 @@ import {
   STUDY_COURSE_TYPE_ID,
 } from "./events-students-state.service";
 
+const MOCK_REGISTRATION_DATE = new Date("2025-02-05T15:41:25Z");
+
 describe("EventsStudentsStateService", () => {
   let service: EventsStudentsStateService;
   let eventIdSubject: Subject<number>;
@@ -176,6 +178,7 @@ describe("EventsStudentsStateService", () => {
                       EventDesignation: subscriptionsClass,
                       PersonId: studentId,
                       Status: i === 0 ? "Angemeldet" : "Aufgenommen",
+                      RegistrationDate: MOCK_REGISTRATION_DATE,
                     })),
                   ),
               );
@@ -428,6 +431,7 @@ describe("EventsStudentsStateService", () => {
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
             company: "Apple Records – Abbey Road Studios",
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
           {
             id: 20,
@@ -436,6 +440,7 @@ describe("EventsStudentsStateService", () => {
             email: "john.lennon@example.com",
             status: "Aufgenommen",
             company: undefined,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
           {
             id: 30,
@@ -444,6 +449,7 @@ describe("EventsStudentsStateService", () => {
             email: "george.harrison@example.com",
             status: "Aufgenommen",
             company: undefined,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
           {
             id: 40,
@@ -452,6 +458,7 @@ describe("EventsStudentsStateService", () => {
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
             company: undefined,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
         ];
 
@@ -514,6 +521,7 @@ describe("EventsStudentsStateService", () => {
             email: "paul.mccartney@example.com",
             status: "Angemeldet",
             subscriptionId: 13,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
           {
             id: 20,
@@ -521,6 +529,7 @@ describe("EventsStudentsStateService", () => {
             email: "john.lennon@example.com",
             status: "Aufgenommen",
             subscriptionId: 23,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
           {
             id: 30,
@@ -528,6 +537,7 @@ describe("EventsStudentsStateService", () => {
             email: "george.harrison@example.com",
             status: "Aufgenommen",
             subscriptionId: 33,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
           {
             id: 40,
@@ -535,6 +545,7 @@ describe("EventsStudentsStateService", () => {
             email: "ringo.starr@example.com",
             status: "Aufgenommen",
             subscriptionId: 43,
+            registrationDate: MOCK_REGISTRATION_DATE,
           },
         ];
 
@@ -555,7 +566,7 @@ describe("EventsStudentsStateService", () => {
           "Starr Ringo",
         ]);
 
-        service.toggleSort();
+        service.toggleSort("name");
         TestBed.flushEffects();
 
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([

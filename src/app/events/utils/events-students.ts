@@ -74,22 +74,22 @@ export function convertPersonsToStudentEntries(
     eventDesignation:
       eventDesignation ?? subscriptions[0]?.EventDesignation ?? "",
     studyClasses: [],
-    entries: persons.map(
-      (person) =>
-        ({
-          id: person.Id,
-          subscriptionId: subscriptions.find((s) => s.PersonId === person.Id)
-            ?.Id,
-          name: person.FullName,
-          email:
-            // Due to a backend bug where `DisplayEmail` is null for study class
-            // students, we have to fallback to `Email` as a workaround.
-            (emailFallback
-              ? (person.DisplayEmail ?? person.Email)
-              : person.DisplayEmail) ?? undefined,
-          status: subscriptions.find((s) => s.PersonId === person.Id)?.Status,
-        }) satisfies StudentEntry,
-    ),
+    entries: persons.map((person) => {
+      const subscription = subscriptions.find((s) => s.PersonId === person.Id);
+      return {
+        id: person.Id,
+        subscriptionId: subscription?.Id,
+        name: person.FullName,
+        email:
+          // Due to a backend bug where `DisplayEmail` is null for study class
+          // students, we have to fallback to `Email` as a workaround.
+          (emailFallback
+            ? (person.DisplayEmail ?? person.Email)
+            : person.DisplayEmail) ?? undefined,
+        status: subscription?.Status,
+        registrationDate: subscription?.RegistrationDate ?? undefined,
+      } satisfies StudentEntry;
+    }),
   };
 }
 

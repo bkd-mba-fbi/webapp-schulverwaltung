@@ -27,6 +27,7 @@ import { notNull } from "src/app/shared/utils/filter";
 import { searchEntries } from "src/app/shared/utils/search";
 import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
+import { UnreachableError } from "../../shared/utils/error";
 import { SortCriteria } from "../../shared/utils/sort";
 import {
   convertCourseToStudentEntries,
@@ -54,9 +55,10 @@ export type StudentEntry = {
   status?: string;
   studyClass?: string;
   company?: string;
+  registrationDate?: Date;
 };
 
-export type PrimarySortKey = "name";
+export type PrimarySortKey = "name" | "registrationDate";
 
 @Injectable({
   providedIn: "root",
@@ -162,11 +164,14 @@ export class EventsStudentsStateService {
     );
   }
 
-  toggleSort(): void {
-    this.sortCriteria.update((value) => ({
-      ...value,
-      ascending: !value.ascending,
-    }));
+  toggleSort(sortKey: PrimarySortKey): void {
+    this.sortCriteria.set({
+      primarySortKey: sortKey,
+      ascending:
+        this.sortCriteria().primarySortKey === sortKey
+          ? !this.sortCriteria().ascending
+          : true,
+    });
   }
 
   private loadStudyCourseStudents({
@@ -293,8 +298,36 @@ function getStudentEntryComparator<PrimarySortKey>(
   sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
-    return sortCriteria.ascending
-      ? a.name.localeCompare(b.name)
-      : b.name.localeCompare(a.name);
+    switch (sortCriteria.primarySortKey) {
+      case "registrationDate":
+        return compareStudentEntryByDate(a, b, sortCriteria);
+      case "name":
+        return compareStudentEntryByName(sortCriteria, a, b);
+      default:
+        throw new UnreachableError(
+          sortCriteria.primarySortKey as never,
+          "Unhandled sort criteria",
+        );
+    }
   };
+}
+
+function compareStudentEntryByDate<PrimarySortKey>(
+  a: StudentEntry,
+  b: StudentEntry,
+  sortCriteria: SortCriteria<PrimarySortKey>,
+) {
+  const dateA = a.registrationDate ? new Date(a.registrationDate).getTime() : 0;
+  const dateB = b.registrationDate ? new Date(b.registrationDate).getTime() : 0;
+  return sortCriteria.ascending ? dateA - dateB : dateB - dateA;
+}
+
+function compareStudentEntryByName<PrimarySortKey>(
+  sortCriteria: SortCriteria<PrimarySortKey>,
+  a: StudentEntry,
+  b: StudentEntry,
+) {
+  return sortCriteria.ascending
+    ? a.name.localeCompare(b.name)
+    : b.name.localeCompare(a.name);
 }

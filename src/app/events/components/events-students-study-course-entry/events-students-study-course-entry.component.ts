@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +10,7 @@ import { StudentEntry } from "../../services/events-students-state.service";
 
 @Component({
   selector: "bkd-events-students-study-course-entry",
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./events-students-study-course-entry.component.html",
   styleUrl: "./events-students-study-course-entry.component.scss",
