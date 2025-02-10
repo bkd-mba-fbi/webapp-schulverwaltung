@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -40,7 +40,7 @@ import { Test } from "src/app/shared/models/test.model";
   imports: [TranslatePipe],
 })
 export class PublishTestComponent {
-  @Input() test: Test;
+  activeModal = inject(NgbActiveModal);
 
-  constructor(public activeModal: NgbActiveModal) {}
+  @Input() test: Test;
 }

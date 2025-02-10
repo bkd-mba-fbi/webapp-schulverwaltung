@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   Observable,
   Subject,
@@ -36,6 +36,8 @@ const NOTIFICATION_TYPES_INACTIVE_KEY = "notificationTypesInactive";
   providedIn: "root",
 })
 export class UserSettingsService {
+  private settingsRestService = inject(UserSettingsRestService);
+
   private refetch$ = new Subject<void>();
 
   private settings$ = this.refetch$.pipe(
@@ -49,8 +51,6 @@ export class UserSettingsService {
   private accessInfo$ = this.settingsRestService
     .getAccessInfo()
     .pipe(shareReplay(1));
-
-  constructor(private settingsRestService: UserSettingsRestService) {}
 
   refetch(): void {
     this.refetch$.next();

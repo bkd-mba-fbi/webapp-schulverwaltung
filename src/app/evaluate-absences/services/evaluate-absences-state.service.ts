@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { Observable } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -30,15 +30,17 @@ export class EvaluateAbsencesStateService
   >
   implements IConfirmAbsencesService
 {
+  private lessonPresenceService = inject(LessonPresencesRestService);
+
   confirmBackLinkParams?: Params;
 
-  constructor(
-    location: Location,
-    loadingService: LoadingService,
-    @Inject(SETTINGS) settings: Settings,
-    private lessonPresenceService: LessonPresencesRestService,
-    sortService: SortService<keyof LessonPresenceStatistic>,
-  ) {
+  constructor() {
+    const location = inject(Location);
+    const loadingService = inject(LoadingService);
+    const settings = inject<Settings>(SETTINGS);
+    const sortService =
+      inject<SortService<keyof LessonPresenceStatistic>>(SortService);
+
     super(
       location,
       loadingService,

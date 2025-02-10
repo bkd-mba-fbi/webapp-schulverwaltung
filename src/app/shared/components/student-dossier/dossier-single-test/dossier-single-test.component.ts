@@ -1,5 +1,11 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ReplaySubject, map } from "rxjs";
 import {
@@ -79,6 +85,9 @@ import { DossierGradesEditComponent } from "../dossier-grades-edit/dossier-grade
   ],
 })
 export class DossierSingleTestComponent implements OnChanges {
+  private gradeService = inject(DossierGradesService);
+  private modalService = inject(BkdModalService);
+
   @Input() test: Test;
   @Input() studentId: number;
   @Input() gradingScale: Option<GradingScale>;
@@ -86,11 +95,6 @@ export class DossierSingleTestComponent implements OnChanges {
 
   test$ = new ReplaySubject<Test>(1);
   grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
-
-  constructor(
-    private gradeService: DossierGradesService,
-    private modalService: BkdModalService,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["test"]) {

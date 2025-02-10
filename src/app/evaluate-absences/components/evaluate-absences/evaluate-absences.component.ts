@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
@@ -20,5 +20,5 @@ import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-s
   ],
 })
 export class EvaluateAbsencesComponent {
-  constructor(public state: EvaluateAbsencesStateService) {}
+  state = inject(EvaluateAbsencesStateService);
 }

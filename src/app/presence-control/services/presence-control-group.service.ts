@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { flatten, uniq } from "lodash-es";
 import { Observable, ReplaySubject, combineLatest, of } from "rxjs";
 import { Subject, forkJoin, merge } from "rxjs";
@@ -27,6 +27,12 @@ const GROUP_LOADING_CONTEXT = "presence-control-group";
 
 @Injectable()
 export class PresenceControlGroupService {
+  private userSettings = inject(UserSettingsService);
+  private eventService = inject(EventsRestService);
+  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
+  private loadingService = inject(LoadingService);
+  private settings = inject<Settings>(SETTINGS);
+
   private selectGroup$ = new Subject<GroupOption["id"]>();
   private selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
   private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
@@ -103,14 +109,6 @@ export class PresenceControlGroupService {
     ),
     startWith([]),
   );
-
-  constructor(
-    private userSettings: UserSettingsService,
-    private eventService: EventsRestService,
-    private subscriptionDetailsService: SubscriptionDetailsRestService,
-    private loadingService: LoadingService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
 
   selectGroup(groupId: GroupOption["id"]): void {
     this.selectGroup$.next(groupId);

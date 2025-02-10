@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { isEqual, uniq } from "lodash-es";
 import {
   BehaviorSubject,
@@ -70,6 +70,12 @@ export type TestResultPointsUpdate = {
 
 @Injectable()
 export class TestStateService {
+  private coursesRestService = inject(CoursesRestService);
+  private gradingScalesRestService = inject(GradingScalesRestService);
+  private gradingsRestService = inject(GradingsRestService);
+  private loadingService = inject(LoadingService);
+  private sortService = inject<SortService<SortKeys>>(SortService);
+
   private action$ = new ReplaySubject<TestsAction>(1);
 
   loading$ = this.loadingService.loading$;
@@ -193,14 +199,6 @@ export class TestStateService {
     this.gradingScalesOptions$,
     this.studentGrades$,
   ]).pipe(switchMap(spread(this.meanOfOverwrittenGradesForCourse.bind(this))));
-
-  constructor(
-    private coursesRestService: CoursesRestService,
-    private gradingScalesRestService: GradingScalesRestService,
-    private gradingsRestService: GradingsRestService,
-    private loadingService: LoadingService,
-    private sortService: SortService<SortKeys>,
-  ) {}
 
   setCourseId(id: number) {
     this._courseId$.next(id);

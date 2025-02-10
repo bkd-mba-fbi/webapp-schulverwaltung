@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { uniq } from "lodash-es";
 import { NotificationTypeText, SETTINGS, Settings } from "src/app/settings";
 import { getRoles } from "../utils/roles";
@@ -13,12 +13,10 @@ export interface NotificationType {
   providedIn: "root",
 })
 export class NotificationTypesService {
-  private currentRoles: Option<ReadonlyArray<string>> = null;
+  private settings = inject<Settings>(SETTINGS);
+  private storage = inject(StorageService);
 
-  constructor(
-    @Inject(SETTINGS) private settings: Settings,
-    private storage: StorageService,
-  ) {}
+  private currentRoles: Option<ReadonlyArray<string>> = null;
 
   getNotificationTypes(): ReadonlyArray<NotificationType> {
     return this.getNotificationTypeKeys().map((key) => {

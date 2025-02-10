@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { getEventsStudentsLink } from "src/app/events/utils/events-students";
@@ -14,13 +14,13 @@ import { DashboardTimetableEntry } from "../../utils/dashboard-timetable-entry";
   imports: [AsyncPipe, DatePipe, TranslatePipe, RouterLink],
 })
 export class DashboardTimetableTableComponent {
+  private dashboardService = inject(DashboardService);
+
   @Input()
   entries: ReadonlyArray<DashboardTimetableEntry> = [];
 
   isStudent$ = this.dashboardService.hasStudentRole$;
   isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
-
-  constructor(private dashboardService: DashboardService) {}
 
   buildLink(eventId: number) {
     return convertLink(getEventsStudentsLink(eventId, "/dashboard"));

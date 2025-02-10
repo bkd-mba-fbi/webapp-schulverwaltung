@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, Observable, of, throwError } from "rxjs";
 import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
 import {
@@ -12,6 +12,8 @@ const NO_ACCESS = "no_access" as const;
 
 @Injectable()
 export class MyProfileService {
+  private profileService = inject(StudentProfileService);
+
   private reset$ = new BehaviorSubject<void>(undefined);
 
   private rawProfile$ = this.reset$.pipe(
@@ -21,8 +23,6 @@ export class MyProfileService {
   profile$ = this.rawProfile$.pipe(map((p) => (p === NO_ACCESS ? null : p)));
   noAccess$ = this.rawProfile$.pipe(map((p) => p === NO_ACCESS));
   loading$ = this.profileService.loading$;
-
-  constructor(private profileService: StudentProfileService) {}
 
   reset(): void {
     this.reset$.next();

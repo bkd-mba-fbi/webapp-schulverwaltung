@@ -5,6 +5,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  inject,
 } from "@angular/core";
 import { ReplaySubject, of, startWith, switchMap } from "rxjs";
 import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
@@ -20,6 +21,8 @@ import { ReportsService } from "../../../shared/services/reports.service";
   imports: [AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
 export class MyProfileHeaderComponent implements OnChanges {
+  private reportsService = inject(ReportsService);
+
   @Input() student?: Person;
 
   private studentId$ = new ReplaySubject<Option<number>>(1);
@@ -32,8 +35,6 @@ export class MyProfileHeaderComponent implements OnChanges {
     ),
     startWith([]),
   );
-
-  constructor(private reportsService: ReportsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["student"]) {

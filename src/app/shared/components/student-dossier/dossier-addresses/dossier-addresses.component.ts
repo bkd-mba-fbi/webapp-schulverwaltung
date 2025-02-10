@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -36,7 +36,9 @@ import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-l
   ],
 })
 export class DossierAddressesComponent {
-  constructor(public state: DossierStateService) {
+  state = inject(DossierStateService);
+
+  constructor() {
     this.state.currentDossier$.next("addresses");
   }
 }

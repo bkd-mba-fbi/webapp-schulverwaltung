@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { GroupOption } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
@@ -13,7 +13,10 @@ import { RestService } from "./rest.service";
 export class SubscriptionDetailsRestService extends RestService<
   typeof SubscriptionDetail
 > {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, SubscriptionDetail, "SubscriptionDetails");
   }
 

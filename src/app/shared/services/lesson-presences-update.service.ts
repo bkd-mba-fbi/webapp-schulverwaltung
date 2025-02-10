@@ -1,5 +1,5 @@
 import { HttpContext } from "@angular/common/http";
-import { Inject, Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, combineLatest, merge, of } from "rxjs";
 import {
@@ -67,6 +67,12 @@ type UpdateAction = AddUpdateAction | RemoveUpdateAction;
   providedIn: "root",
 })
 export class LessonPresencesUpdateService implements OnDestroy {
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private restService = inject(LessonPresencesUpdateRestService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private settings = inject<Settings>(SETTINGS);
+
   private destroy$ = new Subject<void>();
   private action$ = new Subject<UpdateAction>();
   private pendingUpdates$ = this.action$.pipe(
@@ -91,13 +97,7 @@ export class LessonPresencesUpdateService implements OnDestroy {
     filter(not(isEmptyArray)),
   );
 
-  constructor(
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private restService: LessonPresencesUpdateRestService,
-    private presenceTypesService: PresenceTypesService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {
+  constructor() {
     this.performUpdates$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 

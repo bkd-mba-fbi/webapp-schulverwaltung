@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { DashboardService } from "../../services/dashboard.service";
@@ -22,5 +22,5 @@ import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-ti
   ],
 })
 export class DashboardLayoutComponent {
-  constructor(public dashboardService: DashboardService) {}
+  dashboardService = inject(DashboardService);
 }

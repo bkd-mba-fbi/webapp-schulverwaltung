@@ -1,5 +1,5 @@
 import { ViewportScroller } from "@angular/common";
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy, inject } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
   ActivationEnd,
@@ -55,6 +55,9 @@ import {
   providedIn: "root",
 })
 export class ScrollPositionService implements OnDestroy {
+  private router = inject(Router);
+  private viewportScroller = inject(ViewportScroller);
+
   private scrollPositions: Dict<[number, number]> = {};
 
   private previousRoute: Option<ActivatedRouteSnapshot> = null;
@@ -88,10 +91,7 @@ export class ScrollPositionService implements OnDestroy {
     shareReplay(1),
   );
 
-  constructor(
-    private router: Router,
-    private viewportScroller: ViewportScroller,
-  ) {
+  constructor() {
     this.scrollPosition$
       .pipe(takeUntil(this.destroy$))
       .subscribe((position) => (this.currentScrollPosition = position));

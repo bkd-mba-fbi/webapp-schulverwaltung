@@ -1,5 +1,10 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
@@ -41,6 +46,16 @@ export interface SortCriteria {
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  state = inject(PresenceControlStateService);
+  selectionService = inject(PresenceControlGroupSelectionService);
+  groupService = inject(PresenceControlGroupService);
+  private userSettings = inject(UserSettingsService);
+  private subscriptionDetailService = inject(SubscriptionDetailsRestService);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private modalService = inject(BkdModalService);
+
   primarySortKeys: ReadonlyArray<PrimarySortKey> = ["name", "group"];
   backlinkQueryParams$ = this.route.queryParams.pipe(
     map(({ returnparams }) => returnparams),
@@ -63,18 +78,6 @@ export class PresenceControlGroupComponent implements OnInit {
   ]).pipe(map(spread(sortSubscriptionDetails)));
 
   private selected: ReadonlyArray<SubscriptionDetailWithName> = [];
-
-  constructor(
-    private route: ActivatedRoute,
-    public state: PresenceControlStateService,
-    public selectionService: PresenceControlGroupSelectionService,
-    public groupService: PresenceControlGroupService,
-    private userSettings: UserSettingsService,
-    private subscriptionDetailService: SubscriptionDetailsRestService,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private modalService: BkdModalService,
-  ) {}
 
   ngOnInit(): void {
     this.selectionService.selection$.subscribe(

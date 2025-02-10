@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -22,17 +22,15 @@ export enum DialogMode {
   imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
+  activeModal = inject(NgbActiveModal);
+  private translate = inject(TranslateService);
+
   @Input() dialogMode: DialogMode;
   @Input() subscriptionDetailsDefinitions: SubscriptionDetail;
   @Input() group: Option<string>;
   groupOptions: Array<GroupOption> = [];
   selected: GroupOption;
   title: string;
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private translate: TranslateService,
-  ) {}
 
   ngOnInit(): void {
     this.title = `presence-control.groups.${this.dialogMode}.title`;

@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import * as t from "io-ts";
 import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
@@ -17,7 +17,10 @@ export class PersonsRestService extends RestService<typeof Person> {
     pick(this.codec.props, ["Email", "FormOfAddress"]),
   );
 
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, Person, "Persons");
   }
 

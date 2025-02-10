@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { MyGradesService } from "../../services/my-grades.service";
@@ -11,5 +11,5 @@ import { MyGradesService } from "../../services/my-grades.service";
   imports: [ReportsLinkComponent, AsyncPipe, TranslatePipe],
 })
 export class MyGradesHeaderComponent {
-  constructor(public myGradesService: MyGradesService) {}
+  myGradesService = inject(MyGradesService);
 }

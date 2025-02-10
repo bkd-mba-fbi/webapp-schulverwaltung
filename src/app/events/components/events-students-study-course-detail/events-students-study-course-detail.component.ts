@@ -2,8 +2,8 @@ import { DatePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   computed,
+  inject,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
@@ -39,6 +39,13 @@ type SubscriptionDetailsEntry = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsStudentsStudyCourseDetailComponent {
+  private settings = inject<Settings>(SETTINGS);
+  private route = inject(ActivatedRoute);
+  private personsService = inject(PersonsRestService);
+  private subscriptionsService = inject(SubscriptionsRestService);
+  private storageService = inject(StorageService);
+  private loadingService = inject(LoadingService);
+
   eventId$ =
     this.route.parent?.paramMap.pipe(
       map((params) => Number(params.get("id"))),
@@ -62,15 +69,6 @@ export class EventsStudentsStudyCourseDetailComponent {
     ),
   );
   loading = toSignal(this.loadingService.loading$, { initialValue: true });
-
-  constructor(
-    @Inject(SETTINGS) private settings: Settings,
-    private route: ActivatedRoute,
-    private personsService: PersonsRestService,
-    private subscriptionsService: SubscriptionsRestService,
-    private storageService: StorageService,
-    private loadingService: LoadingService,
-  ) {}
 
   private loadSubscription(): Observable<Option<Subscription>> {
     return this.loadingService.load(

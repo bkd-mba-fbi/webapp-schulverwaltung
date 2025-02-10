@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import {
@@ -29,6 +35,8 @@ import { getCourseDesignation } from "../../utils/events";
   ],
 })
 export class TestsHeaderComponent implements OnChanges {
+  private reportsService = inject(ReportsService);
+
   // TODO: Get course over state service
   @Input() course: Course;
 
@@ -41,8 +49,6 @@ export class TestsHeaderComponent implements OnChanges {
     ),
     startWith([]),
   );
-
-  constructor(private reportsService: ReportsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["course"]) {

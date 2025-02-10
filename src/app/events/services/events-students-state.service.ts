@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from "@angular/core";
+import { Injectable, computed, inject, signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -64,6 +64,18 @@ export type PrimarySortKey = "name" | "registrationDate";
   providedIn: "root",
 })
 export class EventsStudentsStateService {
+  private route = inject(ActivatedRoute);
+  private loadingService = inject(LoadingService);
+  private eventsService = inject(EventsRestService);
+  private coursesService = inject(CoursesRestService);
+  private subscriptionsService = inject(SubscriptionsRestService);
+  private personsService = inject(PersonsRestService);
+  private apprenticeshipContractsService = inject(
+    ApprenticeshipContractsRestService,
+  );
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private reportsService = inject(ReportsService);
+
   eventId$ = combineLatest([
     this.route.paramMap,
     this.route.parent?.paramMap ?? of(null),
@@ -122,18 +134,6 @@ export class EventsStudentsStateService {
       .pipe(switchMap(this.loadReports.bind(this))),
     { initialValue: [] },
   );
-
-  constructor(
-    private route: ActivatedRoute,
-    private loadingService: LoadingService,
-    private eventsService: EventsRestService,
-    private coursesService: CoursesRestService,
-    private subscriptionsService: SubscriptionsRestService,
-    private personsService: PersonsRestService,
-    private apprenticeshipContractsService: ApprenticeshipContractsRestService,
-    private lessonPresencesService: LessonPresencesRestService,
-    private reportsService: ReportsService,
-  ) {}
 
   private loadEventSummary(eventId: number): Observable<Option<EventSummary>> {
     return this.loadingService.load(

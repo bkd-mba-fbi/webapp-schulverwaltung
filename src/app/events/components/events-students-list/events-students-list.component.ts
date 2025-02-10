@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -25,6 +25,9 @@ import { EventsStudentsStudyCourseListComponent } from "../events-students-study
   styleUrl: "./events-students-list.component.scss",
 })
 export class EventsStudentsListComponent {
+  state = inject(EventsStudentsStateService);
+  private route = inject(ActivatedRoute);
+
   returnLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnlink }) => {
@@ -32,9 +35,4 @@ export class EventsStudentsListComponent {
       }),
     ),
   );
-
-  constructor(
-    public state: EventsStudentsStateService,
-    private route: ActivatedRoute,
-  ) {}
 }

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
 
@@ -7,7 +7,7 @@ import { Test } from "src/app/shared/models/test.model";
   standalone: true,
 })
 export class TestsWeightPipe implements PipeTransform {
-  constructor(private translate: TranslateService) {}
+  private translate = inject(TranslateService);
 
   transform(input: Test): string {
     return `${this.translate.instant("tests.factor")} ${input.Weight} (${

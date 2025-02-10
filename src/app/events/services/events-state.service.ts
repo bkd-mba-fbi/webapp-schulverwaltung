@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { format } from "date-fns";
@@ -54,6 +54,16 @@ export interface EventEntry {
 
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
+  private coursesRestService = inject(CoursesRestService);
+  private eventsRestService = inject(EventsRestService);
+  private studyClassRestService = inject(StudyClassesRestService);
+  private subscriptionsRestService = inject(SubscriptionsRestService);
+  private loadingService = inject(LoadingService);
+  private storageService = inject(StorageService);
+  private translate = inject(TranslateService);
+  private router = inject(Router);
+  private settings = inject<Settings>(SETTINGS);
+
   loading$ = this.loadingService.loading$;
 
   private searchFields$ = new BehaviorSubject<ReadonlyArray<keyof EventEntry>>([
@@ -93,18 +103,6 @@ export class EventsStateService {
     this.searchFields$,
     this.search$,
   ]).pipe(map(spread(searchEntries)));
-
-  constructor(
-    private coursesRestService: CoursesRestService,
-    private eventsRestService: EventsRestService,
-    private studyClassRestService: StudyClassesRestService,
-    private subscriptionsRestService: SubscriptionsRestService,
-    private loadingService: LoadingService,
-    private storageService: StorageService,
-    private translate: TranslateService,
-    private router: Router,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
 
   setSearch(term: string): void {
     this.searchSubject$.next(term);

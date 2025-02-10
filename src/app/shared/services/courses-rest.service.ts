@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { format, startOfDay } from "date-fns";
 import * as t from "io-ts";
 import { Observable, map, of, switchMap, throwError } from "rxjs";
@@ -28,7 +28,10 @@ export class CoursesRestService extends RestService<typeof Course> {
     pick(this.codec.props, ["Id", "StatusId", "EvaluationStatusRef"]),
   );
 
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, Course, "Courses");
   }
 

@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { Subject, combineLatest, takeUntil } from "rxjs";
 import { PortalService } from "src/app/shared/services/portal.service";
@@ -29,15 +30,13 @@ const MEDIA_BREAKPOINT_SM = 576;
 export class TestEditGradesHeaderStickyDirective
   implements OnInit, AfterViewInit, OnDestroy
 {
+  private portal = inject(PortalService);
+  private state = inject(TestStateService);
+
   @Input() inlineHeader: TestEditGradesHeaderComponent;
   @Input() stickyHeader: TestEditGradesHeaderComponent;
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private portal: PortalService,
-    private state: TestStateService,
-  ) {}
 
   ngOnInit(): void {
     // Update sticky header sizing whenever the columns count/widths may change

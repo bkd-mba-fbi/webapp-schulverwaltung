@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { SETTINGS, Settings } from "../../../settings";
 import { DashboardService } from "../../services/dashboard.service";
 import { DashboardActionComponent } from "../dashboard-action/dashboard-action.component";
@@ -12,10 +12,8 @@ import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-dead
   imports: [DashboardActionComponent, DashboardDeadlineComponent, AsyncPipe],
 })
 export class DashboardActionsComponent {
-  constructor(
-    public dashboardService: DashboardService,
-    @Inject(SETTINGS) public settings: Settings,
-  ) {}
+  dashboardService = inject(DashboardService);
+  settings = inject<Settings>(SETTINGS);
 
   get substitutionsAdminLink(): string {
     return this.settings.dashboard.substitutionsAdminLink;

@@ -5,6 +5,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -40,14 +41,12 @@ import {
 export class OpenAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  openAbsencesService = inject(OpenAbsencesService);
+  selectionService = inject(ConfirmAbsencesSelectionService);
+  private scrollPosition = inject(ScrollPositionService);
+
   primarySortKeys: ReadonlyArray<PrimarySortKey> = ["name", "date"];
   private destroy$ = new Subject<void>();
-
-  constructor(
-    public openAbsencesService: OpenAbsencesService,
-    public selectionService: ConfirmAbsencesSelectionService,
-    private scrollPosition: ScrollPositionService,
-  ) {}
 
   ngOnInit(): void {
     this.openAbsencesService.currentDetail = null;

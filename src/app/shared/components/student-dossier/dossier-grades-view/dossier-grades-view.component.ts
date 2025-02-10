@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges, inject } from "@angular/core";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -49,12 +49,12 @@ export interface CourseWithGrades {
   ],
 })
 export class DossierGradesViewComponent implements OnChanges {
+  dossierGradesService = inject(DossierGradesService);
+
   @Input() courses: ReadonlyArray<Course>;
   @Input() studentId: number;
   @Input() gradingScales: ReadonlyArray<GradingScale>;
   @Input() isEditable: boolean = true;
-
-  constructor(public dossierGradesService: DossierGradesService) {}
 
   decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);
 

@@ -7,6 +7,7 @@ import {
   HostBinding,
   Input,
   Output,
+  inject,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -29,6 +30,9 @@ import { TestTableHeaderComponent } from "../test-table-header/test-table-header
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestEditGradesHeaderComponent {
+  state = inject(TestStateService);
+  private element = inject<ElementRef<HTMLElement>>(ElementRef);
+
   @Input() selectedTest?: Test;
 
   /**
@@ -51,11 +55,6 @@ export class TestEditGradesHeaderComponent {
 
   @Output() publish = new EventEmitter<Test>();
   @Output() unpublish = new EventEmitter<Test>();
-
-  constructor(
-    public state: TestStateService,
-    private element: ElementRef<HTMLElement>,
-  ) {}
 
   /**
    * The y position of the header relative to the viewport.

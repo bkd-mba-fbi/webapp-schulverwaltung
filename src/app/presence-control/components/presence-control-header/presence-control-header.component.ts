@@ -4,7 +4,8 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild,
+  inject,
+  viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
@@ -92,6 +93,9 @@ interface ViewModeOption {
   ],
 })
 export class PresenceControlHeaderComponent {
+  state = inject(PresenceControlStateService);
+  private groupService = inject(PresenceControlGroupService);
+
   @Input() selectedLesson: LessonEntry;
   @Input() lessons: ReadonlyArray<LessonEntry>;
   @Input() presentCount: Option<number> = null;
@@ -107,7 +111,7 @@ export class PresenceControlHeaderComponent {
   @Output() searchChange = new EventEmitter<string>();
   @Output() viewModeChange = new EventEmitter<PresenceControlViewMode>();
 
-  @ViewChild(NgbDropdown) lessonDropdown?: NgbDropdown;
+  readonly lessonDropdown = viewChild(NgbDropdown);
 
   viewModeOptions: ReadonlyArray<ViewModeOption> = [
     { viewMode: PresenceControlViewMode.List, icon: "list" },
@@ -116,11 +120,9 @@ export class PresenceControlHeaderComponent {
 
   isGroupSelected$ = this.groupService.group$.pipe(map(notNull));
 
-  constructor(
-    public state: PresenceControlStateService,
-    private groupService: PresenceControlGroupService,
-    config: NgbInputDatepickerConfig,
-  ) {
+  constructor() {
+    const config = inject(NgbInputDatepickerConfig);
+
     // place datepicker popup in center of viewport
     config.popperOptions = (options: Partial<Options>) => {
       return {

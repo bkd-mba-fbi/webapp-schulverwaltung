@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { addDays, format, isSameDay, subDays } from "date-fns";
 import * as t from "io-ts";
 import { Observable, forkJoin, of } from "rxjs";
@@ -32,6 +32,8 @@ import { StorageService } from "./storage.service";
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
 > {
+  private storage = inject(StorageService);
+
   protected lessonPresenceRefCodec = t.type(
     pick(this.codec.props, [
       "LessonRef",
@@ -44,11 +46,10 @@ export class LessonPresencesRestService extends RestService<
   );
   protected lessonPresenceIdCodec = t.type(pick(this.codec.props, ["Id"]));
 
-  constructor(
-    http: HttpClient,
-    @Inject(SETTINGS) settings: Settings,
-    private storage: StorageService,
-  ) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, LessonPresence, "LessonPresences");
   }
 

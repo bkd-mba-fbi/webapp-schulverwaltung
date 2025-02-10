@@ -2,9 +2,9 @@ import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   OnDestroy,
   OnInit,
+  inject,
 } from "@angular/core";
 import {
   FormsModule,
@@ -49,6 +49,17 @@ import {
   imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslatePipe],
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
+  private fb = inject(UntypedFormBuilder);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private state = inject(EditAbsencesStateService);
+  private dropDownItemsService = inject(DropDownItemsRestService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private updateService = inject(EditAbsencesUpdateService);
+  private settings = inject<Settings>(SETTINGS);
+
   absenceTypes$ = this.presenceTypesService.confirmationTypes$;
   incidents$ = this.presenceTypesService.incidentTypes$;
 
@@ -91,19 +102,6 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
   );
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private state: EditAbsencesStateService,
-    private dropDownItemsService: DropDownItemsRestService,
-    private presenceTypesService: PresenceTypesService,
-    private updateService: EditAbsencesUpdateService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
 
   ngOnInit(): void {
     if (this.state.selected.length === 0) {

@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { NgbToast } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "../../services/toast.service";
 
@@ -10,5 +10,5 @@ import { ToastService } from "../../services/toast.service";
   imports: [NgbToast, AsyncPipe],
 })
 export class ToastComponent {
-  constructor(public toastService: ToastService) {}
+  toastService = inject(ToastService);
 }

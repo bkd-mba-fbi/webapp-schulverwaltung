@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, ReplaySubject, combineLatest } from "rxjs";
 import {
   filter,
@@ -23,6 +23,10 @@ import { sortLessonPresencesByDate } from "src/app/shared/utils/lesson-presences
 
 @Injectable()
 export class MyAbsencesService {
+  private settings = inject<Settings>(SETTINGS);
+  private storageService = inject(StorageService);
+  private studentsService = inject(StudentsRestService);
+
   private studentId$ = new ReplaySubject<number>(1);
   private lessonAbsences$ =
     // Includes lesson absences without a corresponding timetable
@@ -77,11 +81,7 @@ export class MyAbsencesService {
 
   counts$ = this.getCounts();
 
-  constructor(
-    @Inject(SETTINGS) private settings: Settings,
-    private storageService: StorageService,
-    private studentsService: StudentsRestService,
-  ) {
+  constructor() {
     const studentId = this.storageService.getPayload()?.id_person;
     if (studentId) {
       this.studentId$.next(Number(studentId));

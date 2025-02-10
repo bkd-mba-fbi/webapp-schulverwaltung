@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
@@ -20,6 +21,10 @@ import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.s
   imports: [TypeaheadComponent, TranslatePipe],
 })
 export class EvaluateAbsencesHeaderComponent {
+  studentsService = inject(StudentsRestService);
+  educationalEventsService = inject(EducationalEventsRestService);
+  studyClassesService = inject(StudyClassesRestService);
+
   @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
@@ -28,12 +33,6 @@ export class EvaluateAbsencesHeaderComponent {
   };
 
   @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();
-
-  constructor(
-    public studentsService: StudentsRestService,
-    public educationalEventsService: EducationalEventsRestService,
-    public studyClassesService: StudyClassesRestService,
-  ) {}
 
   classesHttpFilter = {
     params: {

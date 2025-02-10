@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -33,6 +33,13 @@ import { MyProfileService } from "../../services/my-profile.service";
   imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslatePipe],
 })
 export class MyProfileEditComponent {
+  private fb = inject(UntypedFormBuilder);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private profileService = inject(MyProfileService);
+  private personsService = inject(PersonsRestService);
+
   student$ = this.profileService.profile$.pipe(
     filter(notNull),
     map(({ student }) => student),
@@ -51,15 +58,6 @@ export class MyProfileEditComponent {
     this.submitted$,
     "email2",
   );
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private router: Router,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private profileService: MyProfileService,
-    private personsService: PersonsRestService,
-  ) {}
 
   cancel(): void {
     this.navigateBack();

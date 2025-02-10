@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { EMPTY } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -18,12 +18,13 @@ import { decode } from "./shared/utils/decode";
   imports: [ToastComponent, RouterOutlet],
 })
 export class AppComponent {
-  constructor(
-    i18n: I18nService,
-    private toastService: ToastService,
-    @Inject(SETTINGS) private settings: Settings,
-    @Inject(NAVIGATOR) private navigator: Navigator,
-  ) {
+  private toastService = inject(ToastService);
+  private settings = inject<Settings>(SETTINGS);
+  private navigator = inject<Navigator>(NAVIGATOR);
+
+  constructor() {
+    const i18n = inject(I18nService);
+
     i18n.initialize();
     this.checkSettings();
   }

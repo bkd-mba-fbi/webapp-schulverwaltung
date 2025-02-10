@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -20,10 +20,8 @@ export enum Category {
   providedIn: "root",
 })
 export class EditAbsencesUpdateService {
-  constructor(
-    private updateService: LessonPresencesUpdateRestService,
-    @Inject(SETTINGS) private settings: Settings,
-  ) {}
+  private updateService = inject(LessonPresencesUpdateRestService);
+  private settings = inject<Settings>(SETTINGS);
 
   update(
     entries: ReadonlyArray<LessonPresence>,

@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -18,10 +18,11 @@ interface BlockLessonOption {
   imports: [FormsModule, DatePipe, TranslatePipe],
 })
 export class PresenceControlBlockLessonComponent implements OnInit {
+  activeModal = inject(NgbActiveModal);
+
   @Input() entry: PresenceControlEntry;
   @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
   blockLessonOptions: ReadonlyArray<BlockLessonOption> = [];
-  constructor(public activeModal: NgbActiveModal) {}
 
   // OnInit because input are set by modal and won't trigger the onChanges hook
   ngOnInit(): void {

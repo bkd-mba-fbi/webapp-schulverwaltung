@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import {
@@ -20,20 +20,18 @@ import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.compo
   imports: [TestsEditFormComponent, AsyncPipe, TranslatePipe],
 })
 export class TestsAddComponent {
+  private route = inject(ActivatedRoute);
+  private courseService = inject(CoursesRestService);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private router = inject(Router);
+
   saving$ = new BehaviorSubject(false);
 
   courseId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
     distinctUntilChanged(),
   );
-
-  constructor(
-    private route: ActivatedRoute,
-    private courseService: CoursesRestService,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private router: Router,
-  ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   save(formGroupValue: any): void {

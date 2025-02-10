@@ -1,4 +1,4 @@
-import { Injectable, LOCALE_ID, Provider } from "@angular/core";
+import { Injectable, LOCALE_ID, Provider, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { StorageService } from "./storage.service";
 
@@ -19,10 +19,8 @@ export function provideDetectedLocale(): Provider[] {
   providedIn: "root",
 })
 export class I18nService {
-  constructor(
-    private translate: TranslateService,
-    private storage: StorageService,
-  ) {}
+  private translate = inject(TranslateService);
+  private storage = inject(StorageService);
 
   private detectedLanguage: Option<string>;
 

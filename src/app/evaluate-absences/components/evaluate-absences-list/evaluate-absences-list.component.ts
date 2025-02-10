@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  inject,
 } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { NgbTooltip } from "@ng-bootstrap/ng-bootstrap";
@@ -51,6 +52,13 @@ interface Column {
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
+  state = inject(EvaluateAbsencesStateService);
+  private scrollPosition = inject(ScrollPositionService);
+  private route = inject(ActivatedRoute);
+  private presenceTypesService = inject(PresenceTypesService);
+  private reportsService = inject(ReportsService);
+  private lessonPresencesService = inject(LessonPresencesRestService);
+
   reports$ = this.loadReports();
 
   columns: ReadonlyArray<Column> = [
@@ -65,15 +73,6 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
   profileReturnParams$ = this.state.queryParamsString$;
-
-  constructor(
-    public state: EvaluateAbsencesStateService,
-    private scrollPosition: ScrollPositionService,
-    private route: ActivatedRoute,
-    private presenceTypesService: PresenceTypesService,
-    private reportsService: ReportsService,
-    private lessonPresencesService: LessonPresencesRestService,
-  ) {}
 
   ngOnInit(): void {
     this.filterFromParams$

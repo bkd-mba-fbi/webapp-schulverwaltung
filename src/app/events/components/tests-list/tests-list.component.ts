@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from "@angular/common";
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, merge } from "rxjs";
 import { distinctUntilChanged, map, switchMap, take } from "rxjs/operators";
@@ -26,6 +26,10 @@ import { TestsHeaderComponent } from "../tests-header/tests-header.component";
   ],
 })
 export class TestsListComponent {
+  settings = inject<Settings>(SETTINGS);
+  state = inject(TestStateService);
+  private translate = inject(TranslateService);
+
   selectTest$: Subject<number> = new Subject();
 
   testOptions$ = this.state.tests$.pipe(
@@ -54,12 +58,6 @@ export class TestsListComponent {
     ),
     distinctUntilChanged(),
   );
-
-  constructor(
-    @Inject(SETTINGS) public settings: Settings,
-    public state: TestStateService,
-    private translate: TranslateService,
-  ) {}
 
   testSelected(id: number) {
     this.selectTest$.next(id);

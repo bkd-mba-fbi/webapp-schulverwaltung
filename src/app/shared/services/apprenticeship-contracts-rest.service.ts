@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, of, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "../../settings";
 import {
@@ -15,7 +15,10 @@ import { RestService } from "./rest.service";
 export class ApprenticeshipContractsRestService extends RestService<
   typeof ApprenticeshipContract
 > {
-  constructor(http: HttpClient, @Inject(SETTINGS) settings: Settings) {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
+
     super(http, settings, ApprenticeshipContract, "ApprenticeshipContracts");
   }
 

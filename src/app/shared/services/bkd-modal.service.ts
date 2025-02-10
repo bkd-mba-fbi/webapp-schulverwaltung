@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   // eslint-disable-next-line no-restricted-imports
   NgbModal,
@@ -15,10 +15,8 @@ import { PortalService } from "./portal.service";
   providedIn: "root",
 })
 export class BkdModalService {
-  constructor(
-    private modal: NgbModal,
-    private portal: PortalService,
-  ) {}
+  private modal = inject(NgbModal);
+  private portal = inject(PortalService);
 
   /**
    * Delegated to NgbModal.open, but – when running within iframe –

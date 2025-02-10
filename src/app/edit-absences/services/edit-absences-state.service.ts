@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { map, shareReplay, takeUntil } from "rxjs/operators";
@@ -41,6 +41,10 @@ export class EditAbsencesStateService
   extends PaginatedEntriesService<LessonPresence, EditAbsencesFilter>
   implements IConfirmAbsencesService
 {
+  private lessonPresencesService = inject(LessonPresencesRestService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private dropDownItemsService = inject(DropDownItemsRestService);
+
   confirmBackLinkParams?: Params;
 
   weekdays$ = this.loadWeekdays().pipe(shareReplay(1));
@@ -58,15 +62,12 @@ export class EditAbsencesStateService
 
   selected: ReadonlyArray<LessonPresence> = [];
 
-  constructor(
-    location: Location,
-    loadingService: LoadingService,
-    sortService: SortService<keyof LessonPresence>,
-    @Inject(SETTINGS) settings: Settings,
-    private lessonPresencesService: LessonPresencesRestService,
-    private presenceTypesService: PresenceTypesService,
-    private dropDownItemsService: DropDownItemsRestService,
-  ) {
+  constructor() {
+    const location = inject(Location);
+    const loadingService = inject(LoadingService);
+    const sortService = inject<SortService<keyof LessonPresence>>(SortService);
+    const settings = inject<Settings>(SETTINGS);
+
     super(location, loadingService, sortService, settings, "/edit-absences");
 
     this.queryParamsString$

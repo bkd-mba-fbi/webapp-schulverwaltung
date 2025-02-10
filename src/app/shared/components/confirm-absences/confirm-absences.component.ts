@@ -2,10 +2,9 @@ import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   OnDestroy,
   OnInit,
-  Optional,
+  inject,
 } from "@angular/core";
 import {
   FormsModule,
@@ -59,6 +58,21 @@ import {
   ],
 })
 export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
+  private fb = inject(UntypedFormBuilder);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private selectionService = inject(ConfirmAbsencesSelectionService);
+  private dropDownItemsService = inject(DropDownItemsRestService);
+  private presenceTypesService = inject(PresenceTypesService);
+  private updateService = inject(LessonPresencesUpdateRestService);
+  private settings = inject<Settings>(SETTINGS);
+  private openAbsencesEditService = inject<IConfirmAbsencesService>(
+    CONFIRM_ABSENCES_SERVICE,
+    { optional: true },
+  );
+
   formGroup$ = this.selectionService.selectedWithoutPresenceType$.pipe(
     map(this.createFormGroup.bind(this)),
     shareReplay(1),
@@ -90,22 +104,6 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
   absenceTypes$ = this.presenceTypesService.confirmationTypes$;
 
   private destroy$ = new Subject<void>();
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private toastService: ToastService,
-    private translate: TranslateService,
-    private selectionService: ConfirmAbsencesSelectionService,
-    private dropDownItemsService: DropDownItemsRestService,
-    private presenceTypesService: PresenceTypesService,
-    private updateService: LessonPresencesUpdateRestService,
-    @Inject(SETTINGS) private settings: Settings,
-    @Optional()
-    @Inject(CONFIRM_ABSENCES_SERVICE)
-    private openAbsencesEditService?: IConfirmAbsencesService,
-  ) {}
 
   ngOnInit(): void {
     this.selectionService.selectedIds$

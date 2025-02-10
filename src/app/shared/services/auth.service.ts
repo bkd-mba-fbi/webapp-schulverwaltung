@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { StorageService } from "./storage.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  constructor(private storage: StorageService) {}
+  private storage = inject(StorageService);
 
   get isAuthenticated(): boolean {
     return Boolean(this.accessToken);

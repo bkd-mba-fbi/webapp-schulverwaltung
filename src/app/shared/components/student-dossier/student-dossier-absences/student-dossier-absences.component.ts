@@ -5,9 +5,9 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  QueryList,
   SimpleChanges,
-  ViewChildren,
+  inject,
+  viewChildren,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -53,6 +53,8 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
   ],
 })
 export class StudentDossierAbsencesComponent implements OnChanges {
+  private presenceTypesService = inject(PresenceTypesService);
+
   @Input() absences$?: Observable<Option<ReadonlyArray<LessonPresence>>>;
   @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
 
@@ -81,7 +83,7 @@ export class StudentDossierAbsencesComponent implements OnChanges {
   @Input() displayEmail = false;
   @Input() mailTo$: Observable<string>;
 
-  @ViewChildren("checkbox") checkboxes: QueryList<ElementRef<HTMLInputElement>>;
+  readonly checkboxes = viewChildren<ElementRef<HTMLInputElement>>("checkbox");
 
   lessonPresences$$ = new ReplaySubject<
     Observable<ReadonlyArray<LessonPresence>>
@@ -110,8 +112,6 @@ export class StudentDossierAbsencesComponent implements OnChanges {
         lessonPresences.length === selection.length,
     ),
   );
-
-  constructor(private presenceTypesService: PresenceTypesService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["absences$"]) {
@@ -147,11 +147,12 @@ export class StudentDossierAbsencesComponent implements OnChanges {
    * the template itself.
    */
   onRowClick(event: Event, indexOrCheckbox: number | HTMLInputElement): void {
-    if (this.checkboxes.length === 0) return;
+    const checkboxes = this.checkboxes();
+    if (checkboxes.length === 0) return;
 
     let checkbox: HTMLInputElement;
     if (typeof indexOrCheckbox === "number") {
-      checkbox = this.checkboxes.toArray()[indexOrCheckbox].nativeElement;
+      checkbox = checkboxes[indexOrCheckbox].nativeElement;
     } else {
       checkbox = indexOrCheckbox;
     }
