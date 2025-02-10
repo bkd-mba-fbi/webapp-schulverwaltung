@@ -558,7 +558,8 @@ describe("EventsStudentsStateService", () => {
         );
       });
 
-      it("changes the sort direction", () => {
+      it("sorts alphabetically the first time, then inverts on toggle", () => {
+        service.toggleSort("name");
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
           "Harrison George",
           "Lennon John",
@@ -575,6 +576,63 @@ describe("EventsStudentsStateService", () => {
           "Lennon John",
           "Harrison George",
         ]);
+      });
+
+      it("sorts by registrationDate latest by default, then descending on toggle", () => {
+        const date1 = new Date("2023-07-22T15:41:25Z");
+        const date2 = new Date("2024-09-03T15:41:25Z");
+        const date3 = new Date("2024-11-05T15:41:25Z");
+        const date4 = new Date("2025-01-21T15:41:25Z");
+
+        subscriptionsServiceMock.getSubscriptionsByCourse.and.callFake(
+          (eventId) =>
+            of([
+              {
+                Id: eventId + 10,
+                EventId: eventId,
+                EventDesignation: subscriptionsClass,
+                PersonId: 10,
+                Status: "Angemeldet",
+                RegistrationDate: date4,
+              },
+              {
+                Id: eventId + 20,
+                EventId: eventId,
+                EventDesignation: subscriptionsClass,
+                PersonId: 20,
+                Status: "Aufgenommen",
+                RegistrationDate: date1,
+              },
+              {
+                Id: eventId + 30,
+                EventId: eventId,
+                EventDesignation: subscriptionsClass,
+                PersonId: 30,
+                Status: "Aufgenommen",
+                RegistrationDate: date3,
+              },
+              {
+                Id: eventId + 40,
+                EventId: eventId,
+                EventDesignation: subscriptionsClass,
+                PersonId: 40,
+                Status: "Aufgenommen",
+                RegistrationDate: date2,
+              },
+            ]),
+        );
+
+        eventIdSubject.next(2);
+        TestBed.flushEffects();
+
+        expect(service.sortedEntries().map((entry) => entry.registrationDate))
+          .withContext("should sort latest registrationDate first")
+          .toEqual([date4, date3, date2, date1]);
+
+        service.toggleSort("registrationDate");
+        expect(service.sortedEntries().map((entry) => entry.registrationDate))
+          .withContext("should sort earliest registrationDate first")
+          .toEqual([date1, date2, date3, date4]);
       });
     });
 
