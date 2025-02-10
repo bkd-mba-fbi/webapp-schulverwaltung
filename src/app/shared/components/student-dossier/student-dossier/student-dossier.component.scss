@@ -1,0 +1,32 @@
+@import "../../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.dossier-content {
+  flex-direction: column;
+}
+
+@media (max-width: ($bkd-student-dossier-mobile-breakpoint - 1px)) {
+  h1 {
+    // Hide heading on mobile, but not for screen readers
+    @include visually-hidden();
+  }
+}
+
+/**
+ * Large screens (desktop)
+ */
+@media (min-width: $bkd-student-dossier-mobile-breakpoint) {
+  h1 {
+    display: block;
+    line-height: 1; // Make sure the heading aligns with the top of the navigation
+  }
+
+  .dossier-content {
+    flex-direction: row;
+    gap: 4 * $spacer;
+  }
+
+  bkd-student-dossier-navigation {
+    max-width: 435px;
+  }
+}

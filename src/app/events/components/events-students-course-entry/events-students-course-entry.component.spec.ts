@@ -32,7 +32,7 @@ describe("EventsStudentsCourseEntryComponent", () => {
     const link = element.querySelector<HTMLAnchorElement>("a.name");
     expect(link?.textContent).toContain("Doe Jane");
     expect(link?.href).toContain(
-      "student/1/addresses?returnparams=returnlink%3D%252Fevents%252Fcurrent",
+      "student/1/contact?returnparams=returnlink%3D%252Fevents%252Fcurrent",
     );
   });
 

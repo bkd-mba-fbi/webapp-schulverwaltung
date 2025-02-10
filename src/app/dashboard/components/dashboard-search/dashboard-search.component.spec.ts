@@ -34,7 +34,7 @@ describe("DashboardSearchComponent", () => {
       "dashboard",
       "student",
       key,
-      "addresses",
+      "contact",
     ]);
   });
 });

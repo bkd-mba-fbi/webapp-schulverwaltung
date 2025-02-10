@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
+import { DOSSIER_PAGES } from "../shared/services/dossier-state.service";
 import { PresenceControlGroupComponent } from "./components/presence-control-group/presence-control-group.component";
 import { PresenceControlListComponent } from "./components/presence-control-list/presence-control-list.component";
 import { PresenceControlComponent } from "./components/presence-control/presence-control.component";
@@ -13,11 +14,9 @@ export const PRESENCE_CONTROL_ROUTES: Routes = [
         path: "",
         component: PresenceControlListComponent,
         data: {
-          restoreScrollPositionFrom: [
-            "/presence-control/student/:id/addresses",
-            "/presence-control/student/:id/absences",
-            "/presence-control/student/:id/grades",
-          ],
+          restoreScrollPositionFrom: DOSSIER_PAGES.map(
+            (page) => `/presence-control/student/:id/${page}`,
+          ),
         },
       },
       dossierRoute,

@@ -1,51 +1,26 @@
-@let profile = state.profile$ | async;
-@let currentDossierSection = state.currentDossier$ | async;
-@let reports = dossierGradesService.testReports$ | async;
-
-<div class="bkd-container bkd-container-limited">
-  @if (state.loading$ | async) {
-    <bkd-spinner></bkd-spinner>
-  } @else {
-    <bkd-student-backlink
-      class="mb-2"
-      [link]="'../..'"
-      [queryParams]="state.backlinkQueryParams$ | async"
-      [studentId]="state.studentId$ | async"
-      [student]="profile && profile.student"
-    >
-      @if (currentDossierSection === "grades") {
-        <bkd-reports-link
-          [reports]="reports ?? []"
-          class="ms-2"
-        ></bkd-reports-link>
-      }
-    </bkd-student-backlink>
-    <div class="d-flex flex-row py-3 flex-wrap">
-      @for (section of ["addresses", "absences", "grades"]; track $index) {
-        <a
-          [queryParams]="{ returnparams: state.returnParams$ | async }"
-          [routerLink]="[section]"
-          class="me-1 mt-1 me-sm-2"
-        >
-          <button
-            data-test-id="dossier-section-button"
-            type="button"
-            class="btn btn-outline-secondary"
-            routerLinkActive="btn-primary"
-            #rla="routerLinkActive"
-            [class.btn-outline-secondary]="!rla.isActive"
-          >
-            {{ "dossier." + section | translate }}
-          </button>
-        </a>
-      }
-    </div>
-    @if (profile) {
-      <div>
-        <router-outlet></router-outlet>
-      </div>
-    } @else {
-      <p>{{ "shared.profile.no-profile" | translate }}</p>
+<div class="d-flex flex-column">
+  <bkd-backlink class="mb-2" [link]="'../..'" [params]="backlinkQueryParams()">
+    @if (dossierPage() === "grades") {
+      <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
     }
-  }
+  </bkd-backlink>
+  <div class="d-flex justify-content-center dossier-content">
+    @if (loading()) {
+      <bkd-spinner></bkd-spinner>
+    } @else {
+      <bkd-student-dossier-navigation
+        [studentId]="studentId()"
+        [student]="profile()?.student"
+        [returnParams]="returnParams()"
+      ></bkd-student-dossier-navigation>
+      <div class="flex-fill d-flex flex-column" role="tabpanel">
+        <h1>{{ "dossier." + dossierPage() | translate }}</h1>
+        @if (profile()) {
+          <router-outlet></router-outlet>
+        } @else {
+          <p>{{ "shared.profile.no-profile" | translate }}</p>
+        }
+      </div>
+    }
+  </div>
 </div>

@@ -15,15 +15,15 @@ describe("DossierGradesComponent", () => {
   let fixture: ComponentFixture<DossierGradesComponent>;
 
   let dossierStateServiceMock: DossierStateService;
-  let currentDossier$: BehaviorSubject<DossierPage>;
+  let dossierPage$: BehaviorSubject<DossierPage>;
 
   let dossierGradesServiceMock: DossierGradesService;
 
   beforeEach(async () => {
-    currentDossier$ = new BehaviorSubject<DossierPage>("grades");
+    dossierPage$ = new BehaviorSubject<DossierPage>("grades");
 
     dossierStateServiceMock = {
-      currentDossier$,
+      dossierPage$,
       studentId$: of(123),
     } as unknown as DossierStateService;
 
