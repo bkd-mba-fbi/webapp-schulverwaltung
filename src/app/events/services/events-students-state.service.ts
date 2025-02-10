@@ -110,8 +110,8 @@ export class EventsStudentsStateService {
   );
   searchTerm = signal("");
   sortCriteria = signal<SortCriteria<PrimarySortKey>>({
-    primarySortKey: "name",
-    ascending: true,
+    primarySortKey: "registrationDate",
+    ascending: false,
   });
   entries = computed(() => this.studentEntries()?.entries ?? []);
   sortedEntries = computed(() =>
@@ -299,8 +299,12 @@ function getStudentEntryComparator<PrimarySortKey>(
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
-      case "registrationDate":
-        return compareStudentEntryByDate(a, b, sortCriteria);
+      case "registrationDate": {
+        const dateComparison = compareStudentEntryByDate(a, b, sortCriteria);
+        return dateComparison !== 0
+          ? dateComparison
+          : -compareStudentEntryByName(sortCriteria, a, b);
+      }
       case "name":
         return compareStudentEntryByName(sortCriteria, a, b);
       default:
