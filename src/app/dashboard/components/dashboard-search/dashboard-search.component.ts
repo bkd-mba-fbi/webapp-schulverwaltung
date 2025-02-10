@@ -16,6 +16,6 @@ export class DashboardSearchComponent {
 
   async navigateToDossier(key: DropDownItem["Key"]) {
     const id = Number(key);
-    await this.router.navigate(["dashboard", "student", id, "addresses"]);
+    await this.router.navigate(["dashboard", "student", id, "contact"]);
   }
 }

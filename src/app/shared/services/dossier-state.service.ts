@@ -4,13 +4,15 @@ import { BehaviorSubject, map, shareReplay, switchMap } from "rxjs";
 import { parseQueryString } from "../utils/url";
 import { StudentProfileService } from "./student-profile.service";
 
-export type DossierPage = "addresses" | "absences" | "grades";
+export const DOSSIER_PAGES = ["contact", "absences", "grades"] as const;
+export type DossierPage = (typeof DOSSIER_PAGES)[number];
+
 @Injectable()
 export class DossierStateService {
   profileService = inject(StudentProfileService);
   private route = inject(ActivatedRoute);
 
-  currentDossier$ = new BehaviorSubject<DossierPage>("addresses");
+  dossierPage$ = new BehaviorSubject<DossierPage>(DOSSIER_PAGES[0]);
 
   studentId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
@@ -22,7 +24,7 @@ export class DossierStateService {
   );
 
   returnParams$ = this.route.queryParams.pipe(
-    map(({ returnparams }) => returnparams),
+    map(({ returnparams }) => returnparams as string),
   );
   backlinkQueryParams$ = this.returnParams$.pipe(map(parseQueryString));
 

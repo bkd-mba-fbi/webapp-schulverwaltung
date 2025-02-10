@@ -1,0 +1,24 @@
+<div class="nav-title">
+  <bkd-student-dossier-avatar
+    [studentId]="studentId()"
+    [student]="student()"
+  ></bkd-student-dossier-avatar>
+</div>
+<hr />
+<div class="nav-content" role="tablist">
+  @for (dossierPage of dossierPages; track $index) {
+    <div class="nav-item">
+      <a
+        #link
+        [queryParams]="{ returnparams: returnParams() }"
+        [routerLink]="[dossierPage]"
+        class="nav-link"
+        routerLinkActive="nav-link-active"
+        role="tab"
+        [attr.aria-selected]="link.classList.contains('nav-link-active')"
+      >
+        {{ "dossier." + dossierPage | translate }}
+      </a>
+    </div>
+  }
+</div>

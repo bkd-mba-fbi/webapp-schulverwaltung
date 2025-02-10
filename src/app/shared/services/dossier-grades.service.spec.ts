@@ -109,7 +109,7 @@ describe("DossierGradesService", () => {
       } as unknown as Course;
     });
 
-    it("should not find a final grade if studentid does not match", () => {
+    it("should not find a final grade if student ID does not match", () => {
       const studentId = -1;
 
       expect(
@@ -117,7 +117,7 @@ describe("DossierGradesService", () => {
       ).toBeUndefined();
     });
 
-    it("should not find a grading if studentid does not match", () => {
+    it("should not find a grading if student ID does not match", () => {
       const studentId = -1;
 
       expect(service.getGradingForStudent(course, studentId)).toBeUndefined();

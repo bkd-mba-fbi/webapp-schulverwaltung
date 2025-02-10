@@ -23,6 +23,8 @@ import { LoadingService } from "./loading-service";
 import { ReportsService } from "./reports.service";
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
+const GRADES_CONTEXT = "studentDossierGrades";
+
 type CoursesAction =
   | {
       type: "initializeCourses";
@@ -68,7 +70,7 @@ export class DossierGradesService {
     shareReplay(1),
   );
 
-  loading$ = this.loadingService.loading$;
+  loading$ = this.loadingService.loading(GRADES_CONTEXT);
 
   private studentCourseIds$ = this.studentCourses$.pipe(
     map((courses) => courses.flatMap((course) => course.Id)),
@@ -158,6 +160,7 @@ export class DossierGradesService {
             ),
           ),
         ),
+      { context: GRADES_CONTEXT },
     );
   }
 

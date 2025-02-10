@@ -6,16 +6,16 @@ import {
 } from "src/app/shared/services/dossier-state.service";
 import { buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { DossierAddressesComponent } from "./dossier-addresses.component";
+import { DossierContactComponent } from "./dossier-contact.component";
 
-describe("DossierAddressesComponent", () => {
-  let component: DossierAddressesComponent;
-  let fixture: ComponentFixture<DossierAddressesComponent>;
+describe("DossierContactComponent", () => {
+  let component: DossierContactComponent;
+  let fixture: ComponentFixture<DossierContactComponent>;
   let stateServiceMock: DossierStateService;
-  let currentDossier$: BehaviorSubject<DossierPage>;
+  let dossierPage$: BehaviorSubject<DossierPage>;
 
   beforeEach(async () => {
-    currentDossier$ = new BehaviorSubject<DossierPage>("addresses");
+    dossierPage$ = new BehaviorSubject<DossierPage>("contact");
 
     stateServiceMock = {
       profile$: of({
@@ -23,12 +23,12 @@ describe("DossierAddressesComponent", () => {
         legalRepresentativePersons: [],
         apprenticeshipCompanies: [],
       }),
-      currentDossier$,
+      dossierPage$,
     } as unknown as DossierStateService;
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [DossierAddressesComponent],
+        imports: [DossierContactComponent],
         providers: [
           { provide: DossierStateService, useValue: stateServiceMock },
         ],
@@ -37,7 +37,7 @@ describe("DossierAddressesComponent", () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DossierAddressesComponent);
+    fixture = TestBed.createComponent(DossierContactComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

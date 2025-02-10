@@ -1,0 +1,181 @@
+@import "../../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+/**
+ * General styles
+ */
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+a {
+  cursor: pointer;
+}
+
+hr {
+  background-color: rgba(112, 112, 112, 0.5);
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 1px;
+  opacity: 1;
+}
+
+/**
+ * Small screens (mobile)
+ */
+@media (max-width: ($bkd-student-dossier-mobile-breakpoint - 1px)) {
+  .nav-title {
+    padding-bottom: 25px;
+  }
+
+  .nav-content {
+    display: flex;
+    gap: 3ch;
+    padding: $spacer;
+    margin-bottom: 2 * $spacer;
+    overflow-x: auto;
+
+    /**
+     * To give users a clue (especially on touch devices) that the navigation is
+     * scrollable, we add slight shadows as hints to the left and right edges.
+     * This is adapted from a CSS Tricks article, see
+     * https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/
+     */
+    $shadow-cover-color: white;
+    $shadow-cover-transparent-color: rgba(255, 255, 255, 0);
+    $shadow-color: rgba(0, 0, 0, 0.2);
+    $shadow-transparent-color: rgba(0, 0, 0, 0);
+    $shadow-cover-width: 40px;
+    $shadow-width: 8px;
+
+    background:
+      // Left cover shadow
+      linear-gradient(
+          to right,
+          $shadow-cover-color 30%,
+          $shadow-cover-transparent-color
+        )
+        center left,
+      // Right cover shadow
+      linear-gradient(
+          to right,
+          $shadow-cover-transparent-color,
+          $shadow-cover-color 70%
+        )
+        center right,
+      // Left shadow
+      radial-gradient(
+          farthest-side at 0 50%,
+          $shadow-color,
+          $shadow-transparent-color
+        )
+        center left,
+      // Right shadow
+      radial-gradient(
+          farthest-side at 100% 50%,
+          $shadow-color,
+          $shadow-transparent-color
+        )
+        center right;
+
+    background-repeat: no-repeat;
+    background-size:
+      $shadow-cover-width 100%,
+      $shadow-cover-width 100%,
+      $shadow-width 100%,
+      $shadow-width 100%;
+    background-attachment: local, local, scroll, scroll;
+  }
+
+  a.nav-link {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: $body-color;
+    letter-spacing: 0.01rem;
+    word-spacing: 0.025rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 2px;
+  }
+
+  a.nav-link::after {
+    display: block;
+    content: "";
+    height: 2px;
+    background-color: $body-color;
+    transform: scaleX(0);
+    transition: all 150ms ease-in-out;
+  }
+
+  a.nav-link-active::after {
+    background-color: $accent;
+    transform: scaleX(1);
+  }
+
+  a.nav-link:hover::after,
+  a.nav-link:focus::after {
+    transform: scaleX(1);
+  }
+}
+
+/**
+ * Large screens (desktop)
+ */
+@media (min-width: $bkd-student-dossier-mobile-breakpoint) {
+  :host {
+    border: 1px solid rgba(222, 222, 222, 1);
+  }
+
+  .nav-title {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 65px;
+  }
+
+  .nav-content {
+    display: block;
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+
+  .nav-item {
+    padding-top: 15px;
+    padding-right: 25px;
+    padding-bottom: 15px;
+    padding-left: 26px;
+  }
+
+  .nav-item:has(a.nav-link-active) {
+    background-color: rgba(252, 248, 243, 1);
+    border-left: 6px solid $accent;
+    padding-left: 20px;
+    padding-top: 15px;
+    padding-right: 26px;
+    padding-bottom: 15px;
+    padding-left: 25px;
+  }
+
+  .nav-link {
+    font-size: 21px;
+    line-height: 25px;
+    font-weight: 300;
+    letter-spacing: 0.01rem;
+    word-spacing: 0.025rem;
+    text-decoration: none;
+  }
+
+  a.nav-link-active,
+  a.nav-link:hover,
+  a.nav-link:active {
+    color: $accent;
+  }
+
+  hr {
+    margin-right: 25px;
+    margin-left: 25px;
+  }
+}

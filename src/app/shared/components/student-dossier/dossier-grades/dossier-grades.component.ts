@@ -19,7 +19,7 @@ export class DossierGradesComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.state.currentDossier$.next("grades");
+    this.state.dossierPage$.next("grades");
 
     this.state.studentId$
       .pipe(takeUntil(this.destroy$))

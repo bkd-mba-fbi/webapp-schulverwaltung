@@ -2,22 +2,29 @@
 
 :host {
   display: flex;
-  align-items: center;
+  align-items: start;
   width: 100%;
 }
 
-h1 {
+.student-name {
   margin: 0;
   display: flex;
   align-items: baseline;
 
+  font-weight: 300;
+  letter-spacing: 0.01rem;
+  word-spacing: 0.025rem;
+  font-size: 24px;
+  line-height: 28px;
+
   // Make sure top of text is nicely aligned with top of foto
-  line-height: 1;
   margin-top: -3px;
 }
 
 .additional-info {
-  color: $gray-500;
+  color: $gray-600;
+  font-size: 0.75;
+  font-weight: 400;
 }
 
 .gender {

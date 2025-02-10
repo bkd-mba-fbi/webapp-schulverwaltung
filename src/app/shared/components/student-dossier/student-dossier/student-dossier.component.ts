@@ -1,12 +1,17 @@
-import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { RouterOutlet } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
-import { DossierStateService } from "../../../services/dossier-state.service";
+import { ReportInfo } from "src/app/shared/services/reports.service";
+import {
+  DOSSIER_PAGES,
+  DossierStateService,
+} from "../../../services/dossier-state.service";
+import { BacklinkComponent } from "../../backlink/backlink.component";
 import { ReportsLinkComponent } from "../../reports-link/reports-link.component";
 import { SpinnerComponent } from "../../spinner/spinner.component";
-import { StudentBacklinkComponent } from "../student-backlink/student-backlink.component";
+import { StudentDossierNavigationComponent } from "../student-dossier-navigation/student-dossier-navigation.component";
 
 @Component({
   selector: "bkd-student-dossier",
@@ -14,22 +19,31 @@ import { StudentBacklinkComponent } from "../student-backlink/student-backlink.c
   styleUrls: ["./student-dossier.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    StudentBacklinkComponent,
+    BacklinkComponent,
+    StudentDossierNavigationComponent,
     ReportsLinkComponent,
-    RouterLink,
-    RouterLinkActive,
     RouterOutlet,
     SpinnerComponent,
-    AsyncPipe,
     TranslatePipe,
   ],
   providers: [DossierStateService, DossierGradesService],
 })
 export class StudentDossierComponent {
-  state = inject(DossierStateService);
-  dossierGradesService = inject(DossierGradesService);
+  private state = inject(DossierStateService);
+  private dossierGradesService = inject(DossierGradesService);
+
+  loading = toSignal(this.state.loading$, { initialValue: false });
+  studentId = toSignal(this.state.studentId$);
+  profile = toSignal(this.state.profile$);
+  dossierPage = toSignal(this.state.dossierPage$);
+  reports = toSignal(this.dossierGradesService.testReports$, {
+    initialValue: [] as ReadonlyArray<ReportInfo>,
+  });
+
+  backlinkQueryParams = toSignal(this.state.backlinkQueryParams$);
+  returnParams = toSignal(this.state.returnParams$);
 
   constructor() {
-    this.state.currentDossier$.next("addresses");
+    this.state.dossierPage$.next(DOSSIER_PAGES[0]);
   }
 }

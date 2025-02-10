@@ -16,9 +16,9 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
 import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-legal-representative/student-dossier-legal-representative.component";
 
 @Component({
-  selector: "bkd-dossier-addresses",
-  templateUrl: "./dossier-addresses.component.html",
-  styleUrls: ["./dossier-addresses.component.scss"],
+  selector: "bkd-dossier-contact",
+  templateUrl: "./dossier-contact.component.html",
+  styleUrls: ["./dossier-contact.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     StudentDossierAddressComponent,
@@ -35,10 +35,10 @@ import { StudentDossierLegalRepresentativeComponent } from "../student-dossier-l
     TranslatePipe,
   ],
 })
-export class DossierAddressesComponent {
+export class DossierContactComponent {
   state = inject(DossierStateService);
 
   constructor() {
-    this.state.currentDossier$.next("addresses");
+    this.state.dossierPage$.next("contact");
   }
 }
