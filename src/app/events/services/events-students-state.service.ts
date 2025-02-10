@@ -303,7 +303,9 @@ function getStudentEntryComparator<PrimarySortKey>(
         const dateComparison = compareStudentEntryByDate(a, b, sortCriteria);
         return dateComparison !== 0
           ? dateComparison
-          : -compareStudentEntryByName(sortCriteria, a, b);
+          : sortCriteria.ascending
+            ? compareStudentEntryByName(sortCriteria, a, b)
+            : -compareStudentEntryByName(sortCriteria, a, b);
       }
       case "name":
         return compareStudentEntryByName(sortCriteria, a, b);
