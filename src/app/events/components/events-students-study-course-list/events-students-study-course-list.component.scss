@@ -6,6 +6,8 @@
   grid-template-columns: 3fr 1fr;
   align-items: center;
   border-bottom: 2px solid $border-color;
+  padding-left: $spacer;
+  padding-right: $spacer * 0.5;
 }
 
 .name,
@@ -31,7 +33,7 @@
   }
 
   .registration-date {
-    flex: 1;
+    grid-column: 2;
     white-space: nowrap;
   }
 }
