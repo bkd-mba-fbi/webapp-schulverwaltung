@@ -578,7 +578,7 @@ describe("EventsStudentsStateService", () => {
         ]);
       });
 
-      it("sorts by registrationDate latest by default, then descending on toggle", () => {
+      it("sorts by registrationDate latest by default, then inverts on toggle", () => {
         const date1 = new Date("2023-07-22T15:41:25Z");
         const date2 = new Date("2024-09-03T15:41:25Z");
         const date3 = new Date("2024-11-05T15:41:25Z");
