@@ -149,4 +149,11 @@ export class PresenceControlHeaderComponent {
       };
     };
   }
+
+  onDateChange(date: unknown) {
+    if (date instanceof Date) {
+      // Only emit the new date value if it is a valid date
+      this.selectDateChange.emit(date);
+    }
+  }
 }

@@ -8,7 +8,7 @@
     <input
       class="lesson-date-input"
       [ngModel]="selectDate"
-      (ngModelChange)="selectDateChange.emit($event)"
+      (ngModelChange)="onDateChange($event)"
       positionTarget=".lesson-date-input"
       ngbDatepicker
       placement="bottom-start"

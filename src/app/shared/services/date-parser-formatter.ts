@@ -15,8 +15,8 @@ export class DateParserFormatter extends NgbDateParserFormatter {
     if (date) {
       return {
         year: date.getFullYear(),
-        month: date.getMonth(),
-        day: date.getDay(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
       };
     }
     return null as unknown as NgbDateStruct;
