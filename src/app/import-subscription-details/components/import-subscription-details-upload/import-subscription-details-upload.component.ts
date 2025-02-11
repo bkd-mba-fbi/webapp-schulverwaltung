@@ -8,4 +8,10 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrl: "./import-subscription-details-upload.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportSubscriptionDetailsUploadComponent {}
+export class ImportSubscriptionDetailsUploadComponent {
+  onFileSelect(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    console.log(file);
+  }
+}
