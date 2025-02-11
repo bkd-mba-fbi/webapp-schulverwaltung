@@ -558,7 +558,7 @@ describe("EventsStudentsStateService", () => {
         );
       });
 
-      it("sorts alphabetically the first time, then inverts on toggle", () => {
+      it("sorts by name ascending, then inverts order when sorted again", () => {
         service.toggleSort("name");
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
           "Harrison George",
@@ -578,7 +578,7 @@ describe("EventsStudentsStateService", () => {
         ]);
       });
 
-      it("sorts by registrationDate latest by default, then inverts on toggle", () => {
+      it("sorts by registration date descending with name ascending as second priority, then inverts order when sorted again", () => {
         const date1 = new Date("2023-07-22T15:41:25Z");
         const date2 = new Date("2024-09-03T15:41:25Z");
         const date3 = new Date("2024-11-05T15:41:25Z");
