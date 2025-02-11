@@ -294,46 +294,42 @@ export class EventsStudentsStateService {
   }
 }
 
-function getStudentEntryComparator<PrimarySortKey>(
+function getStudentEntryComparator(
   sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
-      case "registrationDate": {
-        const dateComparison = compareStudentEntryByDate(a, b, sortCriteria);
-        return dateComparison !== 0
-          ? dateComparison
-          : sortCriteria.ascending
-            ? compareStudentEntryByName(sortCriteria, a, b)
-            : -compareStudentEntryByName(sortCriteria, a, b);
-      }
+      case "registrationDate":
+        return compareStudentEntryByDate(a, b, sortCriteria.ascending);
       case "name":
-        return compareStudentEntryByName(sortCriteria, a, b);
+        return compareStudentEntryByName(a, b, sortCriteria.ascending);
       default:
         throw new UnreachableError(
-          sortCriteria.primarySortKey as never,
+          sortCriteria.primarySortKey,
           "Unhandled sort criteria",
         );
     }
   };
 }
 
-function compareStudentEntryByDate<PrimarySortKey>(
+function compareStudentEntryByDate(
   a: StudentEntry,
   b: StudentEntry,
-  sortCriteria: SortCriteria<PrimarySortKey>,
+  ascending: boolean,
 ) {
   const dateA = a.registrationDate ? new Date(a.registrationDate).getTime() : 0;
   const dateB = b.registrationDate ? new Date(b.registrationDate).getTime() : 0;
-  return sortCriteria.ascending ? dateA - dateB : dateB - dateA;
+  const result = ascending ? dateA - dateB : dateB - dateA;
+
+  return result === 0 ? compareStudentEntryByName(a, b, true) : result;
 }
 
-function compareStudentEntryByName<PrimarySortKey>(
-  sortCriteria: SortCriteria<PrimarySortKey>,
+function compareStudentEntryByName(
   a: StudentEntry,
   b: StudentEntry,
+  ascending: boolean,
 ) {
-  return sortCriteria.ascending
+  return ascending
     ? a.name.localeCompare(b.name)
     : b.name.localeCompare(a.name);
 }
