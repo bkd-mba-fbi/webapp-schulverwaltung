@@ -10,11 +10,7 @@
 <section class="list">
   @if (entries().length > 0) {
     <div class="list-header">
-      <div
-        class="name"
-        (click)="toggleSort.emit('name')"
-        [className]="primarySortKey"
-      >
+      <div class="name" (click)="toggleSort.emit('name')">
         {{ "events-students.list.header.name" | translate }}
         <span class="sort-direction">{{
           getSortDirectionCharacter("name")
