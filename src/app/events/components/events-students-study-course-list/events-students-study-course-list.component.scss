@@ -3,7 +3,6 @@
 .list-header {
   cursor: pointer;
   display: grid;
-  grid-template-areas: "name registration-date";
   grid-template-columns: 3fr 1fr;
   align-items: center;
   border-bottom: 2px solid $border-color;
