@@ -358,7 +358,8 @@
     }
   },
   "import-subscription-details": {
-    "title": "Daten einlesen"
+    "title": "Daten einlesen",
+    "input-label": "Datei auswählen"
   },
   "my-absences": {
     "title": "Meine Absenzen",
