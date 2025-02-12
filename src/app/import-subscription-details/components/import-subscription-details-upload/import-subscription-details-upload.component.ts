@@ -18,4 +18,16 @@ export class ImportSubscriptionDetailsUploadComponent {
       this.stateService.setFile(files.item(0));
     }
   }
+
+  onFileDrag(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onFileDrop(event: DragEvent): void {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files) {
+      this.stateService.setFile(files.item(0));
+    }
+  }
 }

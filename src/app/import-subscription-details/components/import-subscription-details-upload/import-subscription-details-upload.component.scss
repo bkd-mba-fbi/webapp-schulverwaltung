@@ -1,0 +1,10 @@
+@import "../../../../bootstrap-variables";
+
+#drop-zone {
+  border: 1px dashed $gray-500;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5 * $spacer;
+}
