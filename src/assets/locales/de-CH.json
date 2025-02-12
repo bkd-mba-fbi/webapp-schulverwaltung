@@ -362,7 +362,8 @@
     "title": "Daten einlesen",
     "upload": {
       "input-label": "Datei auswählen",
-      "drop-zone-label": "Datei hierhin ziehen"
+      "drop-zone-label": "Datei hierhin ziehen",
+      "next": "Weiter"
     }
   },
   "my-absences": {

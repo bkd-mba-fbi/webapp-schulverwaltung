@@ -19,6 +19,7 @@
     />
   </div>
   <div
+    class="mb-3"
     id="drop-zone"
     #fileInput
     (drop)="onFileDrop($event)"
@@ -30,7 +31,13 @@
     }}</span>
   </div>
 
-  <table class="mt-5">
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary">
+      {{ "import-subscription-details.upload.next" | translate }}
+    </button>
+  </div>
+
+  <table class="table mt-5">
     <thead>
       <tr>
         @for (header of headers; track $index) {
