@@ -1,8 +1,15 @@
-<h1>{{ "import-subscription-details.title" | translate }}</h1>
-
-<input
-  type="file"
-  id="input"
-  (change)="onFileSelect($event)"
-  accept=".xlsx,.xls,.csv"
-/>
+<div class="bkd-container bkd-container-limited">
+  <h1>{{ "import-subscription-details.title" | translate }}</h1>
+  <div>
+    <label for="formFile" class="form-label">{{
+      "import-subscription-details.input-label" | translate
+    }}</label>
+    <input
+      class="form-control"
+      type="file"
+      id="formFile"
+      (change)="onFileSelect($event)"
+      accept=".xlsx,.xls,.csv"
+    />
+  </div>
+</div>
