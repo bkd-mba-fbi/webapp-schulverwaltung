@@ -3,7 +3,7 @@ import { BehaviorSubject, filter, map, switchMap } from "rxjs";
 import { read, utils } from "xlsx";
 import { notNull } from "../../shared/utils/filter";
 
-interface SubscriptionDetailData {
+interface SubscriptionDetailRow {
   "ID Anlass": number;
   "ID Person": number;
   "ID AD": number;
@@ -11,17 +11,26 @@ interface SubscriptionDetailData {
   "E-Mail": string;
 }
 
+export type SubscriptionDetailData = {
+  eventId: number;
+  personId: number;
+  subscriptionDetailId: number;
+  value: string;
+  personEmail?: string;
+};
+
 @Injectable()
 export class ImportSubscriptionDetailsStateService {
   private fileSubject$ = new BehaviorSubject<Option<File>>(null);
 
   file$ = this.fileSubject$.asObservable();
 
-  rows$ = this.file$.pipe(
+  entries$ = this.file$.pipe(
     filter(notNull),
-    switchMap((f) => this.toSheet(f)),
+    switchMap((f) => this.parseSheet(f)),
+    map((s) => this.toData(s)),
   );
-  headers$ = this.rows$.pipe(map((r) => Object.keys(r[0])));
+  headers$ = this.entries$.pipe(map((r) => Object.keys(r[0])));
 
   constructor() {}
 
@@ -29,13 +38,23 @@ export class ImportSubscriptionDetailsStateService {
     this.fileSubject$.next(file);
   }
 
-  async toSheet(file: File) {
+  async parseSheet(file: File) {
     const ab = await file?.arrayBuffer();
     const wb = read(ab);
     const ws = wb.Sheets[wb.SheetNames[0]];
-    const data: SubscriptionDetailData[] =
-      utils.sheet_to_json<SubscriptionDetailData>(ws);
+    const data: SubscriptionDetailRow[] =
+      utils.sheet_to_json<SubscriptionDetailRow>(ws);
     console.log(data);
     return data;
+  }
+
+  toData(rows: SubscriptionDetailRow[]): ReadonlyArray<SubscriptionDetailData> {
+    return rows.map((row) => ({
+      eventId: row["ID Anlass"],
+      personId: row["ID Person"],
+      subscriptionDetailId: row["ID AD"],
+      value: row.Wert,
+      personEmail: row["E-Mail"],
+    }));
   }
 }
