@@ -1,3 +1,7 @@
+@let file = stateService.file$ | async;
+@let rows = stateService.rows$ | async;
+@let headers = stateService.headers$ | async;
+
 <div class="bkd-container bkd-container-limited">
   <h1>{{ "import-subscription-details.title" | translate }}</h1>
   <div>
@@ -7,8 +11,9 @@
     <input
       class="form-control"
       type="file"
+      #fileInput
       id="formFile"
-      (change)="onFileSelect($event)"
+      (change)="onFileInput(fileInput.files)"
       accept=".xlsx,.xls,.csv"
     />
   </div>
@@ -16,21 +21,18 @@
   <table>
     <thead>
       <tr>
-        <th>Anlassnummer</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Anlassdetail</th>
-        <th>Wert</th>
+        @for (header of headers; track $index) {
+          <th>{{ header }}</th>
+        }
       </tr>
     </thead>
     <tbody>
       @for (row of rows; track $index) {
         <tr>
-          <td>{{ row.eventId }}</td>
-          <td>{{ row.personId }}</td>
-          <td>{{ row.personEmail }}</td>
-          <td>{{ row.subscriptionDetailId }}</td>
-          <td>{{ row.value }}</td>
+          <td>{{ row["ID Anlass"] }}</td>
+          <td>{{ row["ID Person"] }}</td>
+          <td>{{ row["ID AD"] }}</td>
+          <td>{{ row["Wert"] }}</td>
         </tr>
       }
     </tbody>
