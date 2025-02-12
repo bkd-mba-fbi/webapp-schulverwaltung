@@ -4,3 +4,36 @@
   display: block;
   padding: 0 $spacer 0 0;
 }
+
+h2 {
+  border-top: 1px solid $border-color;
+  padding-top: $spacer;
+}
+
+.legal-representatives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacer * 2;
+}
+
+.apprenticeship-companies {
+  .profile-entry {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 2;
+  }
+}
+
+@media (max-width: 750px) {
+  .legal-representatives {
+    flex-direction: column;
+    gap: $spacer * 0.5;
+  }
+
+  .apprenticeship-companies {
+    .profile-entry {
+      flex-direction: column;
+      gap: $spacer * 0.5;
+    }
+  }
+}
