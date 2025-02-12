@@ -1,6 +1,4 @@
 @let file = stateService.file$ | async;
-@let entries = stateService.entries$ | async;
-@let headers = stateService.headers$ | async;
 
 <div class="bkd-container bkd-container-limited">
   <h1>{{ "import-subscription-details.title" | translate }}</h1>
@@ -31,29 +29,19 @@
     }}</span>
   </div>
 
+  @if (file) {
+    <div>
+      {{ file.name }}
+    </div>
+  }
+
   <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-primary">
+    <button
+      routerLink="/import-subscription-details/list"
+      [disabled]="!file"
+      class="btn btn-primary"
+    >
       {{ "import-subscription-details.upload.next" | translate }}
     </button>
   </div>
-
-  <table class="table mt-5">
-    <thead>
-      <tr>
-        @for (header of headers; track $index) {
-          <th>{{ header }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (entry of entries; track $index) {
-        <tr>
-          <td>{{ entry.eventId }}</td>
-          <td>{{ entry.personId }}</td>
-          <td>{{ entry.subscriptionDetailId }}</td>
-          <td>{{ entry.value }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
 </div>

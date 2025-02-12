@@ -1,0 +1,27 @@
+@let entries = stateService.entries$ | async;
+@let headers = stateService.headers$ | async;
+
+<div class="bkd-container">
+  <bkd-backlink [link]="['/import-subscription-details']"></bkd-backlink>
+  <h1>{{ "import-subscription-details.title" | translate }}</h1>
+
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        @for (header of headers; track $index) {
+          <th>{{ header }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (entry of entries; track $index) {
+        <tr>
+          <td>{{ entry.eventId }}</td>
+          <td>{{ entry.personId }}</td>
+          <td>{{ entry.subscriptionDetailId }}</td>
+          <td>{{ entry.value }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
