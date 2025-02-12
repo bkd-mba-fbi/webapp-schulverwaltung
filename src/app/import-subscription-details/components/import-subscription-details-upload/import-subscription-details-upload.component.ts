@@ -1,11 +1,12 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ImportSubscriptionDetailsStateService } from "../../services/import-subscription-details-state.service";
 
 @Component({
   selector: "bkd-import-subscription-details-upload",
-  imports: [TranslatePipe, AsyncPipe],
+  imports: [TranslatePipe, AsyncPipe, RouterLink],
   templateUrl: "./import-subscription-details-upload.component.html",
   styleUrl: "./import-subscription-details-upload.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

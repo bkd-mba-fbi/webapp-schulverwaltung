@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { ImportSubscriptionDetailsUploadComponent } from "./components/import-subscription-details-upload/import-subscription-details-upload.component";
+import { ImportSubscriptionDetailsValidationComponent } from "./components/import-subscription-details-validation/import-subscription-details-validation.component";
 import { ImportSubscriptionDetailsComponent } from "./components/import-subscription-details/import-subscription-details.component";
 
 export const IMPORT_SUBSCRIPTION_DETAILS_ROUTES: Routes = [
@@ -8,6 +9,7 @@ export const IMPORT_SUBSCRIPTION_DETAILS_ROUTES: Routes = [
     component: ImportSubscriptionDetailsComponent,
     children: [
       { path: "", component: ImportSubscriptionDetailsUploadComponent },
+      { path: "list", component: ImportSubscriptionDetailsValidationComponent },
     ],
   },
 ];
