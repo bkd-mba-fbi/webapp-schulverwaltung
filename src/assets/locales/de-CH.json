@@ -359,7 +359,10 @@
   },
   "import-subscription-details": {
     "title": "Daten einlesen",
-    "input-label": "Datei auswählen"
+    "upload": {
+      "input-label": "Datei auswählen",
+      "drop-zone-label": "Datei hierhin ziehen"
+    }
   },
   "my-absences": {
     "title": "Meine Absenzen",

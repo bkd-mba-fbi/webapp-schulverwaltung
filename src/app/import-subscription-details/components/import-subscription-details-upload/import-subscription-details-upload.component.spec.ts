@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
+import { ImportSubscriptionDetailsStateService } from "../../services/import-subscription-details-state.service";
 import { ImportSubscriptionDetailsUploadComponent } from "./import-subscription-details-upload.component";
 
 describe("ImportSubscriptionDetailsUploadComponent", () => {
@@ -10,6 +11,7 @@ describe("ImportSubscriptionDetailsUploadComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [ImportSubscriptionDetailsUploadComponent],
+        providers: [ImportSubscriptionDetailsStateService],
       }),
     ).compileComponents();
 

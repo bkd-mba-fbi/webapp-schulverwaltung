@@ -4,9 +4,10 @@
 
 <div class="bkd-container bkd-container-limited">
   <h1>{{ "import-subscription-details.title" | translate }}</h1>
-  <div>
+
+  <div class="mb-3">
     <label for="formFile" class="form-label">{{
-      "import-subscription-details.input-label" | translate
+      "import-subscription-details.upload.input-label" | translate
     }}</label>
     <input
       class="form-control"
@@ -17,8 +18,19 @@
       accept=".xlsx,.xls,.csv"
     />
   </div>
+  <div
+    id="drop-zone"
+    #fileInput
+    (drop)="onFileDrop($event)"
+    (dragover)="onFileDrag($event)"
+  >
+    <i class="material-icons">cloud_upload</i>
+    <span>{{
+      "import-subscription-details.upload.drop-zone-label" | translate
+    }}</span>
+  </div>
 
-  <table>
+  <table class="mt-5">
     <thead>
       <tr>
         @for (header of headers; track $index) {
