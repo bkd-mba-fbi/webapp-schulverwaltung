@@ -12,4 +12,27 @@
       accept=".xlsx,.xls,.csv"
     />
   </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Anlassnummer</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Anlassdetail</th>
+        <th>Wert</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows; track $index) {
+        <tr>
+          <td>{{ row.eventId }}</td>
+          <td>{{ row.personId }}</td>
+          <td>{{ row.personEmail }}</td>
+          <td>{{ row.subscriptionDetailId }}</td>
+          <td>{{ row.value }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
