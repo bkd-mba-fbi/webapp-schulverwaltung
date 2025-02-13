@@ -10,30 +10,17 @@ h2 {
   padding-top: $spacer;
 }
 
-.legal-representatives {
+.legal-representatives,
+.apprenticeship-companies .profile-entry {
   display: flex;
   flex-wrap: wrap;
   gap: $spacer * 2;
 }
 
-.apprenticeship-companies {
-  .profile-entry {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $spacer * 2;
-  }
-}
-
 @media (max-width: 750px) {
-  .legal-representatives {
+  .legal-representatives,
+  .apprenticeship-companies .profile-entry {
     flex-direction: column;
-    gap: $spacer * 0.5;
-  }
-
-  .apprenticeship-companies {
-    .profile-entry {
-      flex-direction: column;
-      gap: $spacer * 0.5;
-    }
+    gap: $spacer * 1;
   }
 }
