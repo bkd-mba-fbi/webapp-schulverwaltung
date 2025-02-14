@@ -46,4 +46,18 @@ export class EventsRestService extends RestService<typeof Event> {
         map((summaries) => summaries[0] ?? null),
       );
   }
+
+  getEventSummaries(
+    eventIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<EventSummary>> {
+    const params: Dict<string> = {
+      fields: "Id,EventTypeId,EventType,Designation",
+      "filter.Id": `;${eventIds.join(";")}`,
+    };
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params,
+      })
+      .pipe(switchMap(decodeArray(EventSummary)));
+  }
 }
