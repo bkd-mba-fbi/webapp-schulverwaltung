@@ -14,10 +14,27 @@ export type RowTypeFromSchema<TRowSchema extends Dict<string>> = {
   [K in keyof TRowSchema]: TRowSchema[K] extends "number" ? number : string;
 };
 
+type MissingColumnsError = {
+  type: "missingColumns";
+  detail: ReadonlyArray<string>;
+};
+
+type InvalidTypesError = {
+  type: "invalidTypes";
+  detail: ReadonlyArray<{
+    row: number;
+    column: string;
+    value: unknown;
+    expectedType: string;
+  }>;
+};
+
+type VerificationError = MissingColumnsError | InvalidTypesError;
+
 export abstract class ImportService<
-  TEntry extends object,
+  TEntry extends Dict<unknown>,
   TRowSchema extends Dict<string> = Dict<string>,
-  TRow extends object = RowTypeFromSchema<TRowSchema>,
+  TRow extends Dict<unknown> = RowTypeFromSchema<TRowSchema>,
 > {
   file = signal<Option<File>>(null);
   protected rows = toSignal(
@@ -53,26 +70,85 @@ export abstract class ImportService<
   /**
    * Verify columns & data types
    */
-  protected verify(rows: ReadonlyArray<TRow>) {
-    const columns = Object.keys(rows[0]);
-    const columnsResult = this.verifyColumns(columns);
-    if (!columnsResult.success) {
-      // TODO
+  protected verify(rows: ReadonlyArray<TRow>): Option<VerificationError> {
+    const missingColumnsError = this.verifyColumns(rows);
+    if (missingColumnsError) {
+      return missingColumnsError;
     }
+
+    const invalidTypesError = this.verifyTypes(rows);
+    if (invalidTypesError) {
+      return invalidTypesError;
+    }
+
+    return null;
   }
 
-  protected verifyColumns(columns: ReadonlyArray<unknown>): {
-    success: boolean;
-    missing: ReadonlyArray<string>;
-  } {
+  protected verifyColumns(
+    rows: ReadonlyArray<TRow>,
+  ): Option<MissingColumnsError> {
+    const columns = Object.keys(rows[0]);
     const requiredColumns = Object.keys(this.rowSchema);
-    const missing = requiredColumns.reduce<ReadonlyArray<string>>(
+    const missing = requiredColumns.reduce<MissingColumnsError["detail"]>(
       (acc, column) => (columns.includes(column) ? acc : [...acc, column]),
       [],
     );
-    return {
-      success: missing.length === 0,
-      missing,
-    };
+
+    if (missing.length > 0) {
+      return {
+        type: "missingColumns",
+        detail: missing,
+      };
+    }
+
+    return null;
+  }
+
+  protected verifyTypes(rows: ReadonlyArray<TRow>): Option<InvalidTypesError> {
+    const invalid = rows.reduce<InvalidTypesError["detail"]>(
+      (acc, row, i) => [...acc, ...this.verifyTypeForRow(row, i + 1)],
+      [],
+    );
+
+    if (invalid.length > 0) {
+      return {
+        type: "invalidTypes",
+        detail: invalid,
+      };
+    }
+
+    return null;
+  }
+
+  protected verifyTypeForRow(
+    row: TRow,
+    line: number,
+  ): InvalidTypesError["detail"] {
+    return Object.keys(row)
+      .map((column) => {
+        const value = row[column];
+        const expectedType = this.rowSchema[column];
+        return this.hasValidType(expectedType, value)
+          ? null
+          : {
+              type: "invalidTypes",
+              row: line,
+              column,
+              value,
+              expectedType,
+            };
+      })
+      .filter(notNull);
+  }
+
+  protected hasValidType(type: string, value: unknown): boolean {
+    switch (type) {
+      case "number":
+        return typeof value === "number" || !isNaN(Number(value));
+      case "string":
+        return typeof value === "string";
+      default:
+        throw new Error(`Unsupported type: ${type}`);
+    }
   }
 }
