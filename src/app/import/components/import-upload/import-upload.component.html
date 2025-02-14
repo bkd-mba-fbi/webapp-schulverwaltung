@@ -1,4 +1,4 @@
-@let file = importService().file();
+@let file = stateService.file();
 
 <div class="bkd-container bkd-container-limited">
   <h1>{{ "import.title" | translate }}</h1>
@@ -10,9 +10,9 @@
         track availableImportType
       ) {
         <button
-          (click)="importType.set(availableImportType)"
+          (click)="stateService.importType.set(availableImportType)"
           class="btn btn-primary"
-          [class.active]="availableImportType === importType()"
+          [class.active]="availableImportType === stateService.importType()"
         >
           {{ availableImportType }}
         </button>
@@ -51,10 +51,16 @@
     </div>
   }
 
+  @if (error()) {
+    <div class="alert alert-danger">
+      {{ error() | json }}
+    </div>
+  }
+
   <div class="d-flex justify-content-end">
     <button
       routerLink="/import/list"
-      [disabled]="!file"
+      [disabled]="!file || error()"
       class="btn btn-primary"
     >
       {{ "import.upload.next" | translate }}

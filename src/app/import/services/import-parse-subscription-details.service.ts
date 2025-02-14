@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ImportService, RowTypeFromSchema } from "./import.service";
+import { ImportParseService, RowTypeFromSchema } from "./import-parse.service";
 
 const subscriptionDetailRowSchema = {
   "ID Anlass": "number",
@@ -20,8 +20,10 @@ export type SubscriptionDetailEntry = {
   personEmail?: string;
 };
 
-@Injectable()
-export class ImportSubscriptionDetailsService extends ImportService<SubscriptionDetailEntry> {
+@Injectable({
+  providedIn: "root",
+})
+export class ImportParseSubscriptionDetailsService extends ImportParseService<SubscriptionDetailEntry> {
   constructor() {
     super(subscriptionDetailRowSchema);
   }
