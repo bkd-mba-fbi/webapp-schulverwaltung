@@ -1,62 +1,67 @@
-import { computed, signal } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { filter, switchMap } from "rxjs";
 import { read, utils } from "xlsx";
 import { notNull } from "src/app/shared/utils/filter";
-
-// setFile
-// parse → Parse Excel sheet
-// verify → Verify columns & data types
-// fetchAndValidate → Fetch records and validate data
-// import
 
 export type RowTypeFromSchema<TRowSchema extends Dict<string>> = {
   [K in keyof TRowSchema]: TRowSchema[K] extends "number" ? number : string;
 };
 
-type MissingColumnsError = {
+export type EmptyError = {
+  type: "empty";
+};
+
+export type MissingColumnsError = {
   type: "missingColumns";
   detail: ReadonlyArray<string>;
 };
 
-type InvalidTypesError = {
+export type InvalidTypesError = {
   type: "invalidTypes";
   detail: ReadonlyArray<{
-    row: number;
+    index: number;
     column: string;
     value: unknown;
     expectedType: string;
   }>;
 };
 
-type VerificationError = MissingColumnsError | InvalidTypesError;
+export type ParseError = EmptyError | MissingColumnsError | InvalidTypesError;
 
-export abstract class ImportService<
+/**
+ * Base class of for services that are parsing a file & perform basic
+ * verifications. These services should not contain any state.
+ */
+export abstract class ImportParseService<
   TEntry extends Dict<unknown>,
   TRowSchema extends Dict<string> = Dict<string>,
   TRow extends Dict<unknown> = RowTypeFromSchema<TRowSchema>,
 > {
-  file = signal<Option<File>>(null);
-  protected rows = toSignal(
-    toObservable(this.file).pipe(
-      filter(notNull),
-      switchMap(this.parse.bind(this)),
-    ),
-    { initialValue: [] },
-  );
-  entries = computed(() => this.rows().map(this.rowToEntry.bind(this)));
-  headers = computed(() => Object.keys(this.entries()[0]));
-
   constructor(protected rowSchema: TRowSchema) {}
 
-  setFile(file: Option<File>): void {
-    this.file.set(file);
+  /**
+   * Parses the given Excel file and returns
+   */
+  async parseAndVerify(file: File): Promise<{
+    error: Option<ParseError>;
+    headers: ReadonlyArray<string>;
+    entries: ReadonlyArray<TEntry>;
+  }> {
+    const rows = await this.parse(file);
+    const error = this.verify(rows);
+    const entries = rows.map(this.rowToEntry.bind(this));
+    const headers = Object.keys(entries[0]);
+    return {
+      error,
+      headers,
+      entries,
+    };
   }
 
   /**
    * Parse Excel sheet
    */
   protected async parse(file: File): Promise<ReadonlyArray<TRow>> {
+    // TODO: Handle errors (e.g. what happens if the file is not an Excel file?)
+    // and return a VerificationError in this case
     const buffer = await file?.arrayBuffer();
     const book = read(buffer);
     const sheet = book.Sheets[book.SheetNames[0]];
@@ -68,9 +73,14 @@ export abstract class ImportService<
   protected abstract rowToEntry(row: TRow): TEntry;
 
   /**
-   * Verify columns & data types
+   * Verify basic data format
    */
-  protected verify(rows: ReadonlyArray<TRow>): Option<VerificationError> {
+  protected verify(rows: ReadonlyArray<TRow>): Option<ParseError> {
+    const emptyError = this.verifyNonEmpty(rows);
+    if (emptyError) {
+      return emptyError;
+    }
+
     const missingColumnsError = this.verifyColumns(rows);
     if (missingColumnsError) {
       return missingColumnsError;
@@ -79,6 +89,14 @@ export abstract class ImportService<
     const invalidTypesError = this.verifyTypes(rows);
     if (invalidTypesError) {
       return invalidTypesError;
+    }
+
+    return null;
+  }
+
+  protected verifyNonEmpty(rows: ReadonlyArray<TRow>): Option<EmptyError> {
+    if (rows.length === 0) {
+      return { type: "empty" };
     }
 
     return null;
@@ -106,7 +124,7 @@ export abstract class ImportService<
 
   protected verifyTypes(rows: ReadonlyArray<TRow>): Option<InvalidTypesError> {
     const invalid = rows.reduce<InvalidTypesError["detail"]>(
-      (acc, row, i) => [...acc, ...this.verifyTypeForRow(row, i + 1)],
+      (acc, row, i) => [...acc, ...this.verifyTypeForRow(row, i)],
       [],
     );
 
@@ -122,21 +140,22 @@ export abstract class ImportService<
 
   protected verifyTypeForRow(
     row: TRow,
-    line: number,
+    index: number,
   ): InvalidTypesError["detail"] {
     return Object.keys(row)
       .map((column) => {
         const value = row[column];
+        const availableColumns = Object.keys(this.rowSchema);
         const expectedType = this.rowSchema[column];
-        return this.hasValidType(expectedType, value)
-          ? null
-          : {
-              type: "invalidTypes",
-              row: line,
+        return availableColumns.includes(column) &&
+          !this.hasValidType(expectedType, value)
+          ? {
+              index,
               column,
               value,
               expectedType,
-            };
+            }
+          : null;
       })
       .filter(notNull);
   }
@@ -145,10 +164,8 @@ export abstract class ImportService<
     switch (type) {
       case "number":
         return typeof value === "number" || !isNaN(Number(value));
-      case "string":
-        return typeof value === "string";
       default:
-        throw new Error(`Unsupported type: ${type}`);
+        return true;
     }
   }
 }

@@ -1,5 +1,5 @@
-@let entries = importService.entries();
-@let headers = importService.headers();
+@let entries = stateService.entries();
+@let headers = stateService.headers();
 
 <div class="bkd-container">
   <bkd-backlink [link]="['/import']"></bkd-backlink>
@@ -8,7 +8,7 @@
   <table class="table mt-5">
     <thead>
       <tr>
-        @for (header of headers; track $index) {
+        @for (header of headers; track header) {
           <th>{{ header }}</th>
         }
       </tr>
@@ -16,10 +16,9 @@
     <tbody>
       @for (entry of entries; track $index) {
         <tr>
-          <td>{{ entry.eventId }}</td>
-          <td>{{ entry.personId }}</td>
-          <td>{{ entry.subscriptionDetailId }}</td>
-          <td>{{ entry.value }}</td>
+          @for (header of headers; track header) {
+            <td>{{ entry[header] }}</td>
+          }
         </tr>
       }
     </tbody>

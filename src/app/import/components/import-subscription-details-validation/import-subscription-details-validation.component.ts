@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
-import { ImportSubscriptionDetailsService } from "../../services/import-subscription-details.service";
+import { ImportStateService } from "../../services/import-state.service";
 
 @Component({
   selector: "bkd-import-subscription-details-validation",
@@ -11,5 +11,5 @@ import { ImportSubscriptionDetailsService } from "../../services/import-subscrip
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportSubscriptionDetailsValidationComponent {
-  importService = inject(ImportSubscriptionDetailsService);
+  stateService = inject(ImportStateService);
 }
