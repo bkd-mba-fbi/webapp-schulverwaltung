@@ -1,9 +1,9 @@
-@let entries = stateService.entries$ | async;
-@let headers = stateService.headers$ | async;
+@let entries = importService.entries();
+@let headers = importService.headers();
 
 <div class="bkd-container">
-  <bkd-backlink [link]="['/import-subscription-details']"></bkd-backlink>
-  <h1>{{ "import-subscription-details.title" | translate }}</h1>
+  <bkd-backlink [link]="['/import']"></bkd-backlink>
+  <h1>{{ "import.title" | translate }}</h1>
 
   <table class="table mt-5">
     <thead>

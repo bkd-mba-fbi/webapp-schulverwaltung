@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { ImportSubscriptionDetailsComponent } from "./import-subscription-details.component";
+import { ImportComponent } from "./import.component";
 
-describe("ImportSubscriptionDetailsComponent", () => {
-  let component: ImportSubscriptionDetailsComponent;
-  let fixture: ComponentFixture<ImportSubscriptionDetailsComponent>;
+describe("ImportComponent", () => {
+  let component: ImportComponent;
+  let fixture: ComponentFixture<ImportComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [ImportSubscriptionDetailsComponent],
+        imports: [ImportComponent],
       }),
     ).compileComponents();
 
-    fixture = TestBed.createComponent(ImportSubscriptionDetailsComponent);
+    fixture = TestBed.createComponent(ImportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
