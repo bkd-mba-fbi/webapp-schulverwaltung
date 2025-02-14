@@ -358,7 +358,7 @@
       }
     }
   },
-  "import-subscription-details": {
+  "import": {
     "title": "Daten einlesen",
     "upload": {
       "input-label": "Datei auswählen",

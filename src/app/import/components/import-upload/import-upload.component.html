@@ -1,11 +1,28 @@
-@let file = stateService.file$ | async;
+@let file = importService().file();
 
 <div class="bkd-container bkd-container-limited">
-  <h1>{{ "import-subscription-details.title" | translate }}</h1>
+  <h1>{{ "import.title" | translate }}</h1>
+
+  <div class="mb-3">
+    <div class="btn-group">
+      @for (
+        availableImportType of availableImportTypes;
+        track availableImportType
+      ) {
+        <button
+          (click)="importType.set(availableImportType)"
+          class="btn btn-primary"
+          [class.active]="availableImportType === importType()"
+        >
+          {{ availableImportType }}
+        </button>
+      }
+    </div>
+  </div>
 
   <div class="mb-3">
     <label for="formFile" class="form-label">{{
-      "import-subscription-details.upload.input-label" | translate
+      "import.upload.input-label" | translate
     }}</label>
     <input
       class="form-control"
@@ -16,6 +33,7 @@
       accept=".xlsx,.xls,.csv"
     />
   </div>
+
   <div
     class="mb-3"
     id="drop-zone"
@@ -24,9 +42,7 @@
     (dragover)="onFileDrag($event)"
   >
     <i class="material-icons">cloud_upload</i>
-    <span>{{
-      "import-subscription-details.upload.drop-zone-label" | translate
-    }}</span>
+    <span>{{ "import.upload.drop-zone-label" | translate }}</span>
   </div>
 
   @if (file) {
@@ -37,11 +53,11 @@
 
   <div class="d-flex justify-content-end">
     <button
-      routerLink="/import-subscription-details/list"
+      routerLink="/import/list"
       [disabled]="!file"
       class="btn btn-primary"
     >
-      {{ "import-subscription-details.upload.next" | translate }}
+      {{ "import.upload.next" | translate }}
     </button>
   </div>
 </div>
