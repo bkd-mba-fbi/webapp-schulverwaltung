@@ -363,6 +363,9 @@
       "input-label": "Datei auswählen",
       "drop-zone-label": "Datei hierhin ziehen",
       "next": "Weiter"
+    },
+    "validation": {
+      "progress": "Fortschritt Daten validieren"
     }
   },
   "my-absences": {
