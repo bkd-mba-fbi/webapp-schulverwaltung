@@ -1,9 +1,6 @@
 import { read, utils } from "xlsx";
-import { notNull } from "src/app/shared/utils/filter";
 
-export type RowTypeFromSchema<TRowSchema extends Dict<string>> = {
-  [K in keyof TRowSchema]: TRowSchema[K] extends "number" ? number : string;
-};
+export type ParsedEntry = Dict<unknown>;
 
 export type EmptyError = {
   type: "empty";
@@ -14,28 +11,17 @@ export type MissingColumnsError = {
   detail: ReadonlyArray<string>;
 };
 
-export type InvalidTypesError = {
-  type: "invalidTypes";
-  detail: ReadonlyArray<{
-    index: number;
-    column: string;
-    value: unknown;
-    expectedType: string;
-  }>;
-};
-
-export type ParseError = EmptyError | MissingColumnsError | InvalidTypesError;
+export type ParseError = EmptyError | MissingColumnsError;
 
 /**
  * Base class of for services that are parsing a file & perform basic
  * verifications. These services should not contain any state.
  */
 export abstract class ImportParseService<
-  TEntry extends Dict<unknown>,
-  TRowSchema extends Dict<string> = Dict<string>,
-  TRow extends Dict<unknown> = RowTypeFromSchema<TRowSchema>,
+  TEntry extends ParsedEntry,
+  TRow extends Dict<unknown> = Dict<unknown>,
 > {
-  constructor(protected rowSchema: TRowSchema) {}
+  constructor(protected columns: ReadonlyArray<string>) {}
 
   /**
    * Parses the given Excel file and returns
@@ -86,11 +72,6 @@ export abstract class ImportParseService<
       return missingColumnsError;
     }
 
-    const invalidTypesError = this.verifyTypes(rows);
-    if (invalidTypesError) {
-      return invalidTypesError;
-    }
-
     return null;
   }
 
@@ -106,8 +87,7 @@ export abstract class ImportParseService<
     rows: ReadonlyArray<TRow>,
   ): Option<MissingColumnsError> {
     const columns = Object.keys(rows[0]);
-    const requiredColumns = Object.keys(this.rowSchema);
-    const missing = requiredColumns.reduce<MissingColumnsError["detail"]>(
+    const missing = this.columns.reduce<MissingColumnsError["detail"]>(
       (acc, column) => (columns.includes(column) ? acc : [...acc, column]),
       [],
     );
@@ -120,52 +100,5 @@ export abstract class ImportParseService<
     }
 
     return null;
-  }
-
-  protected verifyTypes(rows: ReadonlyArray<TRow>): Option<InvalidTypesError> {
-    const invalid = rows.reduce<InvalidTypesError["detail"]>(
-      (acc, row, i) => [...acc, ...this.verifyTypeForRow(row, i)],
-      [],
-    );
-
-    if (invalid.length > 0) {
-      return {
-        type: "invalidTypes",
-        detail: invalid,
-      };
-    }
-
-    return null;
-  }
-
-  protected verifyTypeForRow(
-    row: TRow,
-    index: number,
-  ): InvalidTypesError["detail"] {
-    return Object.keys(row)
-      .map((column) => {
-        const value = row[column];
-        const availableColumns = Object.keys(this.rowSchema);
-        const expectedType = this.rowSchema[column];
-        return availableColumns.includes(column) &&
-          !this.hasValidType(expectedType, value)
-          ? {
-              index,
-              column,
-              value,
-              expectedType,
-            }
-          : null;
-      })
-      .filter(notNull);
-  }
-
-  protected hasValidType(type: string, value: unknown): boolean {
-    switch (type) {
-      case "number":
-        return typeof value === "number" || !isNaN(Number(value));
-      default:
-        return true;
-    }
   }
 }
