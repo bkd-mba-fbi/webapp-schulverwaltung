@@ -1,9 +1,15 @@
-@let entries = stateService.entries();
+@let entries = stateService.parsedEntries();
 @let headers = stateService.headers();
 
 <div class="bkd-container">
   <bkd-backlink [link]="['/import']"></bkd-backlink>
   <h1>{{ "import.title" | translate }}</h1>
+
+  <bkd-progress
+    [total]="progress().total"
+    [processed]="progress().valid + progress().invalid"
+    [ariaLabel]="'import.validation.progress' | translate"
+  ></bkd-progress>
 
   <table class="table mt-5">
     <thead>
