@@ -1,4 +1,4 @@
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,11 +7,13 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
+import { combineLatest, forkJoin } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
+import { SortService } from "src/app/shared/services/sort.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
@@ -31,18 +33,22 @@ import {
   PresenceControlGroupDialogComponent,
 } from "../presence-control-group-dialog/presence-control-group-dialog.component";
 
-export type PrimarySortKey = "name" | "group";
+const SORT_KEYS = ["name", "group"] as const;
+export type SortKey = (typeof SORT_KEYS)[number];
 
-export interface SortCriteria {
-  primarySortKey: PrimarySortKey;
-  ascending: boolean;
-}
 @Component({
   selector: "bkd-presence-control-group",
   templateUrl: "./presence-control-group.component.html",
   styleUrls: ["./presence-control-group.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BacklinkComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [
+    BacklinkComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    SortableHeaderComponent,
+    NgClass,
+  ],
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
@@ -55,8 +61,9 @@ export class PresenceControlGroupComponent implements OnInit {
   private toastService = inject(ToastService);
   private translate = inject(TranslateService);
   private modalService = inject(BkdModalService);
+  private sortService = inject<SortService<SortKey>>(SortService);
 
-  primarySortKeys: ReadonlyArray<PrimarySortKey> = ["name", "group"];
+  sortKeys = SORT_KEYS;
   backlinkQueryParams$ = this.route.queryParams.pipe(
     map(({ returnparams }) => returnparams),
     map(parseQueryString),
@@ -66,18 +73,21 @@ export class PresenceControlGroupComponent implements OnInit {
     map((lesson) => lesson?.getEventIds() || []),
   );
 
-  private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
-    primarySortKey: "name",
-    ascending: false,
-  });
-  sortCriteria$ = this.sortCriteriaSubject$.asObservable();
+  sortCriteria = this.sortService.sortCriteria;
 
   sortedEntries$ = combineLatest([
     this.groupService.getSubscriptionDetailsForStudents(),
-    this.sortCriteria$,
+    this.sortService.sortCriteria$,
   ]).pipe(map(spread(sortSubscriptionDetails)));
 
   private selected: ReadonlyArray<SubscriptionDetailWithName> = [];
+
+  constructor() {
+    this.sortService.sortCriteria.set({
+      primarySortKey: "name",
+      ascending: true,
+    });
+  }
 
   ngOnInit(): void {
     this.selectionService.selection$.subscribe(
@@ -158,37 +168,5 @@ export class PresenceControlGroupComponent implements OnInit {
         "presence-control.groups.notifications.save-success",
       ),
     );
-  }
-
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria,
-    sortKey: PrimarySortKey,
-  ): string {
-    if (sortCriteria.primarySortKey !== sortKey) {
-      return "";
-    }
-    return sortCriteria.ascending ? "↓" : "↑";
-  }
-
-  /**
-   * Switches primary sort key or toggles sort direction, if already
-   * sorted by given key.
-   */
-  toggleSort(primarySortKey: PrimarySortKey): void {
-    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
-      if (criteria.primarySortKey === primarySortKey) {
-        // Change sort direction
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: !criteria.ascending,
-        });
-      } else {
-        // Change sort key
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: primarySortKey === "name",
-        });
-      }
-    });
   }
 }

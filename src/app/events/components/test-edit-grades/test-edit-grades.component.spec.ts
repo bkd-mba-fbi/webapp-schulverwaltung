@@ -1,7 +1,12 @@
+import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { Course } from "src/app/shared/models/course.model";
-import { StudentGrade } from "src/app/shared/models/student-grades";
+import {
+  StudentGrade,
+  StudentGradesSortKey,
+} from "src/app/shared/models/student-grades";
 import { Test } from "src/app/shared/models/test.model";
 import {
   buildCourse,
@@ -15,6 +20,8 @@ import {
   TestStateService,
 } from "../../services/test-state.service";
 import { TestEditGradesComponent } from "./test-edit-grades.component";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe("TestEditGradesComponent", () => {
   let component: TestEditGradesComponent;
@@ -53,11 +60,11 @@ describe("TestEditGradesComponent", () => {
 
     testStateServiceMock = jasmine.createSpyObj("TestStateService", [
       "canSetFinalGrade$",
-      "setSorting",
-      "getSortingChar$",
       "gradingOptionsForCourse$",
       "gradingOptionsForTest$",
     ]);
+    (testStateServiceMock as any).sortCriteria =
+      signal<Option<SortCriteria<StudentGradesSortKey>>>(null);
 
     course = buildCourse(1234);
     course.EvaluationStatusRef = {

@@ -1,6 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-@let sortCriteria = sortCriteria$ | async;
 @let sortedEntries = sortedEntries$ | async;
 @let selection = (selectionService.selection$ | async) ?? [];
 @let group = groupService.group$ | async;
@@ -36,15 +35,14 @@
 
   <div class="group-list">
     <div class="group-list-header">
-      @for (key of primarySortKeys; track key) {
-        <div (click)="toggleSort(key)" [className]="key">
-          {{ "presence-control.groups.list.header." + key | translate }}
-          @if (sortCriteria) {
-            <span class="sort-direction">{{
-              getSortDirectionCharacter(sortCriteria, key)
-            }}</span>
-          }
-        </div>
+      @for (key of sortKeys; track key) {
+        <bkd-sortable-header
+          [ngClass]="key"
+          [label]="'presence-control.groups.list.header.' + key | translate"
+          [sortKey]="key"
+          [(sortCriteria)]="sortCriteria"
+        >
+        </bkd-sortable-header>
       }
     </div>
 

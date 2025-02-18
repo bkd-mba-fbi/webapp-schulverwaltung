@@ -20,9 +20,6 @@ describe("TestEditGradesHeaderComponent", () => {
               filter$: of(""),
               expandedHeader$: of(false),
               toggleHeader() {},
-              getSortingChar$() {
-                return of("");
-              },
             },
           },
         ],
