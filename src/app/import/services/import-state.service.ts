@@ -1,7 +1,30 @@
 import { Injectable, signal } from "@angular/core";
+import { ParsedEntry } from "./import-parse.service";
 
 export const IMPORT_TYPES = ["subscriptionDetails", "emails"] as const;
 export type ImportType = (typeof IMPORT_TYPES)[number];
+
+export type ValidationStatus = "validating" | "valid" | "invalid";
+export type ImportStatus = "importing" | "success" | "error" | null;
+
+export interface ValidationError {
+  type: string;
+  columns: ReadonlyArray<string>;
+}
+
+export type ImportEntry<
+  TEntry extends ParsedEntry,
+  TData,
+  TValidationError extends ValidationError,
+  TImportError,
+> = {
+  validationStatus: ValidationStatus;
+  importStatus: ImportStatus;
+  entry: TEntry;
+  data: TData;
+  validationError: Option<TValidationError>;
+  importError: Option<TImportError>;
+};
 
 @Injectable({
   providedIn: "root",
@@ -10,5 +33,8 @@ export class ImportStateService {
   importType = signal<ImportType>(IMPORT_TYPES[0]);
   file = signal<Option<File>>(null);
   headers = signal<ReadonlyArray<string>>([]);
-  entries = signal<ReadonlyArray<Dict<unknown>>>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parsedEntries = signal<ReadonlyArray<any>>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  importEntries = signal<ReadonlyArray<ImportEntry<any, any, any, any>>>([]);
 }

@@ -1,15 +1,9 @@
 import { Injectable } from "@angular/core";
-import { ImportParseService, RowTypeFromSchema } from "./import-parse.service";
-
-const emailRowSchema = {
-  "ID Person": "number",
-  "E-Mail": "string",
-} as const;
-type EmailRow = RowTypeFromSchema<typeof emailRowSchema>;
+import { ImportParseService } from "./import-parse.service";
 
 export type EmailEntry = {
-  personId: number;
-  personEmail: string;
+  personId: unknown;
+  personEmail: unknown;
 };
 
 @Injectable({
@@ -17,13 +11,14 @@ export type EmailEntry = {
 })
 export class ImportParseEmailsService extends ImportParseService<EmailEntry> {
   constructor() {
-    super(emailRowSchema);
+    super(["ID Person", "E-Mail"]);
   }
 
-  protected rowToEntry(row: EmailRow): EmailEntry {
+  protected rowToEntry(row: Dict<unknown>): EmailEntry {
+    const [personColumn, personEmailColumn] = this.columns;
     return {
-      personId: row["ID Person"],
-      personEmail: row["E-Mail"],
+      personId: row[personColumn],
+      personEmail: row[personEmailColumn],
     };
   }
 }

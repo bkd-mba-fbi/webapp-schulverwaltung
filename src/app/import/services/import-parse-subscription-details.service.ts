@@ -1,23 +1,12 @@
 import { Injectable } from "@angular/core";
-import { ImportParseService, RowTypeFromSchema } from "./import-parse.service";
-
-const subscriptionDetailRowSchema = {
-  "ID Anlass": "number",
-  "ID Person": "number",
-  "ID AD": "number",
-  Wert: "string",
-  "E-Mail": "string",
-} as const;
-type SubscriptionDetailRow = RowTypeFromSchema<
-  typeof subscriptionDetailRowSchema
->;
+import { ImportParseService } from "./import-parse.service";
 
 export type SubscriptionDetailEntry = {
-  eventId: number;
-  personId: number;
-  subscriptionDetailId: number;
-  value: string;
-  personEmail?: string;
+  eventId: unknown;
+  personId: unknown;
+  personEmail: unknown;
+  subscriptionDetailId: unknown;
+  value: unknown;
 };
 
 @Injectable({
@@ -25,16 +14,23 @@ export type SubscriptionDetailEntry = {
 })
 export class ImportParseSubscriptionDetailsService extends ImportParseService<SubscriptionDetailEntry> {
   constructor() {
-    super(subscriptionDetailRowSchema);
+    super(["ID Anlass", "ID Person", "ID AD", "Wert", "E-Mail"]);
   }
 
-  protected rowToEntry(row: SubscriptionDetailRow): SubscriptionDetailEntry {
+  protected rowToEntry(row: Dict<unknown>): SubscriptionDetailEntry {
+    const [
+      eventIdColumn,
+      personIdColumn,
+      personEmailColumn,
+      subscriptionDetailIdColumn,
+      valueColumn,
+    ] = this.columns;
     return {
-      eventId: row["ID Anlass"],
-      personId: row["ID Person"],
-      subscriptionDetailId: row["ID AD"],
-      value: row.Wert,
-      personEmail: row["E-Mail"],
+      eventId: row[eventIdColumn],
+      personId: row[personIdColumn],
+      personEmail: row[personEmailColumn],
+      subscriptionDetailId: row[subscriptionDetailIdColumn],
+      value: row[valueColumn],
     };
   }
 }

@@ -68,7 +68,7 @@ export class ImportUploadComponent {
         await this.parseService().parseAndVerify(file);
       this.error.set(error);
       this.stateService.headers.set(headers);
-      this.stateService.entries.set(entries);
+      this.stateService.parsedEntries.set(entries);
     }
   }
 }
