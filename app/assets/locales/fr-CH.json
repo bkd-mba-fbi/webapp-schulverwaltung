@@ -339,6 +339,7 @@
   "dossier": {
     "title": "Dossier",
     "contact": "Contact",
+    "address": "Adresse du domicile",
     "absences": "Absences",
     "grade": "Note",
     "grades": "Notes",
