@@ -29,8 +29,7 @@
     [count]="state.entries().length"
     [entries]="state.filteredEntries()"
     [returnLink]="returnLink()"
-    [sortCriteria]="state.sortCriteria()"
-    (toggleSort)="state.toggleSort($event)"
+    [(sortCriteria)]="state.sortCriteria"
     [(searchTerm)]="state.searchTerm"
   ></bkd-events-students-study-course-list>
 } @else {

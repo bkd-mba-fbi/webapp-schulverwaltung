@@ -28,11 +28,8 @@ describe("EvaluateAbsencesListComponent", () => {
         studyClass: 5976,
       }),
       entries$: of([statistic]),
-      sorting$: of({ key: "StudentFullName", ascending: true }),
+      sortCriteria$: of({ key: "StudentFullName", ascending: true }),
       loading$: of(false),
-      sortService: {
-        getSortingChar$: () => of("↑"),
-      },
     } as unknown as EvaluateAbsencesStateService;
 
     presenceTypesServiceMock = {

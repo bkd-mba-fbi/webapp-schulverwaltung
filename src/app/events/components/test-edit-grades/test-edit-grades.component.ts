@@ -48,8 +48,10 @@ export class TestEditGradesComponent implements OnInit {
   @Input() selectedTest?: Test;
 
   ngOnInit(): void {
-    // TODO move to sort implementation
-    this.state.setSorting({ key: "FullName", ascending: true });
+    this.state.sortCriteria.set({
+      primarySortKey: "FullName",
+      ascending: true,
+    });
   }
 
   setAverageAsFinalGrade() {

@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { cloneDeep, isEqual } from "lodash-es";
 import {
@@ -20,12 +20,16 @@ import {
   take,
   takeUntil,
 } from "rxjs/operators";
-import { Settings } from "src/app/settings";
+import { SETTINGS, Settings } from "src/app/settings";
+import {
+  SortCriteria,
+  SortKey,
+} from "../components/sortable-header/sortable-header.component";
 import { spread } from "../utils/function";
 import { Paginated } from "../utils/pagination";
 import { serializeParams } from "../utils/url";
 import { LoadingService } from "./loading-service";
-import { SortService, Sorting } from "./sort.service";
+import { SortService } from "./sort.service";
 
 interface ResetEntriesAction<T> {
   action: "reset";
@@ -44,15 +48,21 @@ export const PAGE_LOADING_CONTEXT = "page";
 @Injectable()
 export abstract class PaginatedEntriesService<
   T,
-  FilterValue,
-  SortingKey = keyof T,
+  TFilterValue,
+  TSortKey extends SortKey = Extract<keyof T, string>,
 > implements OnDestroy
 {
+  protected location = inject(Location);
+  protected loadingService = inject(LoadingService);
+  protected settings: Settings = inject<Settings>(SETTINGS);
+  sortService = inject<SortService<TSortKey>>(SortService);
+
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
-  sorting$ = this.sortService.sorting$;
+  sortCriteria$ = this.sortService.sortCriteria$;
+  sortCriteria = this.sortService.sortCriteria;
 
-  private filter$ = new BehaviorSubject<FilterValue>(this.getInitialFilter());
+  private filter$ = new BehaviorSubject<TFilterValue>(this.getInitialFilter());
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));
   validFilter$ = this.filter$.pipe(
     filter(this.isValidFilter.bind(this)),
@@ -64,7 +74,7 @@ export abstract class PaginatedEntriesService<
   private nextPage$ = new Subject<void>();
   private page$ = merge(
     this.nextPage$.pipe(map(() => "next")),
-    merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
+    merge(this.resetEntries$, this.validFilter$, this.sortCriteria$).pipe(
       map(() => "reset"),
     ),
   ).pipe(scan((page, action) => (action === "next" ? page + 1 : 0), 0));
@@ -73,7 +83,7 @@ export abstract class PaginatedEntriesService<
   );
   private pageResult$ = combineLatest([
     this.validFilter$,
-    this.sorting$,
+    this.sortCriteria$,
     this.offset$,
   ]).pipe(
     debounceTime(10),
@@ -82,8 +92,8 @@ export abstract class PaginatedEntriesService<
   );
 
   entries$ = merge(
-    // Restart with empty list on reset or if filter/sorting changes
-    merge(this.resetEntries$, this.validFilter$, this.sorting$).pipe(
+    // Restart with empty list on reset or if filter/sortCriteria changes
+    merge(this.resetEntries$, this.validFilter$, this.sortCriteria$).pipe(
       map(() => ({ action: "reset" }) as ResetEntriesAction<T>),
     ),
 
@@ -117,25 +127,19 @@ export abstract class PaginatedEntriesService<
 
   protected destroy$ = new Subject<void>();
 
-  constructor(
-    protected location: Location,
-    protected loadingService: LoadingService,
-    public sortService: SortService<SortingKey>,
-    protected settings: Settings,
-    pageUrl: string,
-  ) {
+  constructor(pageUrl: string) {
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => this.location.replaceState(pageUrl, params));
 
-    this.sortService.setSorting(this.getInitialSorting());
+    this.sortService.sortCriteria.set(this.getInitialSortCriteria());
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
   }
 
-  setFilter(filterValue: FilterValue): void {
+  setFilter(filterValue: TFilterValue): void {
     // Make a copy of the filter object to be sure the distinct check
     // in the `validFilter$` observable works, even if the filter
     // object gets modified in place (non-immutable) in the component.
@@ -154,21 +158,21 @@ export abstract class PaginatedEntriesService<
     this.resetEntries$.next();
   }
 
-  protected abstract getInitialFilter(): FilterValue;
+  protected abstract getInitialFilter(): TFilterValue;
 
-  protected abstract isValidFilter(filterValue: FilterValue): boolean;
+  protected abstract isValidFilter(filterValue: TFilterValue): boolean;
 
-  protected getInitialSorting(): Option<Sorting<SortingKey>> {
+  protected getInitialSortCriteria(): Option<SortCriteria<TSortKey>> {
     return null;
   }
 
   protected abstract loadEntries(
-    filterValue: FilterValue,
-    sorting: Option<Sorting<keyof T>>,
+    filterValue: TFilterValue,
+    sortCriteria: Option<SortCriteria<TSortKey>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<T>>>;
 
-  protected abstract buildParamsFromFilter(filterValue: FilterValue): Params;
+  protected abstract buildParamsFromFilter(filterValue: TFilterValue): Params;
 
   private entriesActionReducer(
     entries: ReadonlyArray<T>,

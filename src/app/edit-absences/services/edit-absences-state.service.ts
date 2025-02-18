@@ -1,21 +1,17 @@
-import { Location } from "@angular/common";
 import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { map, shareReplay, takeUntil } from "rxjs/operators";
-import { SETTINGS, Settings } from "src/app/settings";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { DropDownItemsRestService } from "src/app/shared/services/drop-down-items-rest.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
-import { LoadingService } from "src/app/shared/services/loading-service";
 import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
-import { SortService } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { sortDropDownItemsByValue } from "src/app/shared/utils/drop-down-items";
@@ -63,12 +59,7 @@ export class EditAbsencesStateService
   selected: ReadonlyArray<LessonPresence> = [];
 
   constructor() {
-    const location = inject(Location);
-    const loadingService = inject(LoadingService);
-    const sortService = inject<SortService<keyof LessonPresence>>(SortService);
-    const settings = inject<Settings>(SETTINGS);
-
-    super(location, loadingService, sortService, settings, "/edit-absences");
+    super("/edit-absences");
 
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
@@ -123,7 +114,7 @@ export class EditAbsencesStateService
 
   protected loadEntries(
     filterValue: EditAbsencesFilter,
-    _sorting: null,
+    _sortCriteria: null,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     const params: Dict<string> = {

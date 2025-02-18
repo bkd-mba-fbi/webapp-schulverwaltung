@@ -1,22 +1,18 @@
-import { Location } from "@angular/common";
 import { HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { addDays, format, subDays } from "date-fns";
 import { Observable, combineLatest, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
-import { SETTINGS, Settings } from "src/app/settings";
 import { OptionalReference } from "src/app/shared/models/common-types";
 import { LessonAbsence } from "src/app/shared/models/lesson-absence.model";
 import { LessonDispensation } from "src/app/shared/models/lesson-dispensation.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
-import { LoadingService } from "src/app/shared/services/loading-service";
 import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
-import { SortService } from "src/app/shared/services/sort.service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { Paginated } from "src/app/shared/utils/pagination";
@@ -47,18 +43,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   }
 
   constructor() {
-    const location = inject(Location);
-    const loadingService = inject(LoadingService);
-    const settings = inject<Settings>(SETTINGS);
-    const sortService = inject<SortService<keyof LessonPresence>>(SortService);
-
-    super(
-      location,
-      loadingService,
-      sortService,
-      settings,
-      "/my-absences/report",
-    );
+    super("/my-absences/report");
   }
 
   protected getInitialFilter(): ReportAbsencesFilter {
@@ -74,7 +59,7 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
 
   protected loadEntries(
     filterValue: ReportAbsencesFilter,
-    _sorting: null,
+    _sortCriteria: null,
     _offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresence>>> {
     const params = this.buildRequestParamsFromFilter(filterValue).set(

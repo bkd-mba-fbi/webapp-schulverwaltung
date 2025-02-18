@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe } from "@angular/common";
+import { AsyncPipe, DatePipe, NgClass } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,14 +13,14 @@ import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
-import { SortCriteria } from "src/app/shared/utils/sort";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { DaysDifferencePipe } from "../../../shared/pipes/days-difference.pipe";
 import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
 import {
   OpenAbsencesService,
-  PrimarySortKey,
+  SORT_KEYS,
 } from "../../services/open-absences.service";
 
 @Component({
@@ -36,6 +36,8 @@ import {
     DatePipe,
     TranslatePipe,
     DaysDifferencePipe,
+    SortableHeaderComponent,
+    NgClass,
   ],
 })
 export class OpenAbsencesListComponent
@@ -45,7 +47,7 @@ export class OpenAbsencesListComponent
   selectionService = inject(ConfirmAbsencesSelectionService);
   private scrollPosition = inject(ScrollPositionService);
 
-  primarySortKeys: ReadonlyArray<PrimarySortKey> = ["name", "date"];
+  sortKeys = SORT_KEYS;
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
@@ -74,17 +76,6 @@ export class OpenAbsencesListComponent
       checkbox.click();
     }
   }
-
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria<PrimarySortKey>,
-    sortKey: PrimarySortKey,
-  ): string {
-    if (sortCriteria.primarySortKey !== sortKey) {
-      return "";
-    }
-    return sortCriteria.ascending ? "↓" : "↑";
-  }
-
   getLessonsCountKey(entry: OpenAbsencesEntry): string {
     const suffix = entry.lessonsCount === 1 ? "singular" : "plural";
     return `open-absences.list.content.lessonsCount.${suffix}`;

@@ -1,6 +1,6 @@
 import { Student } from "src/app/shared/models/student.model";
 import { Result, Test } from "src/app/shared/models/test.model";
-import { Sorting } from "../services/sort.service";
+import { SortCriteria } from "../components/sortable-header/sortable-header.component";
 import { nonZero } from "../utils/filter";
 import { average } from "../utils/math";
 import { FinalGrading, Grading } from "./course.model";
@@ -33,7 +33,11 @@ export type NoResult = {
 
 export type GradeOrNoResult = GradeKind | NoResult;
 
-export type SortKeys = "FullName" | Test | "FinalGrade" | "TestsMean";
+export type StudentGradesSortKey =
+  | "FullName"
+  | "Test-${number}"
+  | "FinalGrade"
+  | "TestsMean";
 
 export function pluckFinalGrades(
   studentGrades: ReadonlyArray<StudentGrade>,
@@ -122,34 +126,45 @@ function getFinalGrade(
   );
 }
 
-export const compareFn =
-  ({ key, ascending }: Sorting<SortKeys>) =>
-  (sg1: StudentGrade, sg2: StudentGrade): number => {
-    const modificator = ascending ? 1 : -1;
+export const compareFn = (
+  { primarySortKey, ascending }: SortCriteria<StudentGradesSortKey>,
+  tests: ReadonlyArray<Test>,
+) => {
+  const modifier = ascending ? 1 : -1;
+  let test: Option<Test> = null;
+  if (primarySortKey.startsWith("Test-")) {
+    const testId = Number(primarySortKey.replace("Test-", ""));
+    test = tests.find((t) => t.Id === testId) ?? null;
+  }
 
-    switch (key) {
+  return (sg1: StudentGrade, sg2: StudentGrade): number => {
+    switch (primarySortKey) {
       case "FullName":
         return (
-          modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
+          modifier * sg1.student.FullName.localeCompare(sg2.student.FullName)
         );
       case "FinalGrade":
         if (!sg1.finalGrade?.gradeId || !sg2.finalGrade?.gradeId)
-          return modificator * -1;
+          return modifier * -1;
         return (
-          modificator *
+          modifier *
           compareNumbers(sg1.finalGrade.gradeId, sg2.finalGrade.gradeId)
         );
       case "TestsMean":
         if (!sg1.finalGrade?.average || !sg2.finalGrade?.average)
-          return modificator * -1;
+          return modifier * -1;
         return (
-          modificator *
+          modifier *
           compareNumbers(sg1.finalGrade.average, sg2.finalGrade.average)
         );
+      default:
+        if (primarySortKey.startsWith("Test-") && test) {
+          return modifier * compareGrades(test, sg1, sg2);
+        }
+        return 0;
     }
-
-    return modificator * compareGrades(key, sg1, sg2);
   };
+};
 
 const compareGrades = (
   test: Test,

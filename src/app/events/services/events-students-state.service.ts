@@ -11,6 +11,7 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { EventSummary } from "src/app/shared/models/event.model";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
@@ -28,7 +29,6 @@ import { searchEntries } from "src/app/shared/utils/search";
 import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { UnreachableError } from "../../shared/utils/error";
-import { SortCriteria } from "../../shared/utils/sort";
 import {
   convertCourseToStudentEntries,
   convertPersonsToStudentEntries,
@@ -58,7 +58,7 @@ export type StudentEntry = {
   registrationDate?: Date;
 };
 
-export type PrimarySortKey = "name" | "registrationDate";
+export type SortKey = "name" | "registrationDate";
 
 @Injectable({
   providedIn: "root",
@@ -109,7 +109,7 @@ export class EventsStudentsStateService {
     () => (this.studentEntries()?.studyClasses?.length ?? 0) > 1,
   );
   searchTerm = signal("");
-  sortCriteria = signal<SortCriteria<PrimarySortKey>>({
+  sortCriteria = signal<SortCriteria<SortKey>>({
     primarySortKey: "registrationDate",
     ascending: false,
   });
@@ -162,16 +162,6 @@ export class EventsStudentsStateService {
         return this.loadingService.load(fetch(), PAGE_LOADING_CONTEXT);
       }),
     );
-  }
-
-  toggleSort(sortKey: PrimarySortKey): void {
-    this.sortCriteria.set({
-      primarySortKey: sortKey,
-      ascending:
-        this.sortCriteria().primarySortKey === sortKey
-          ? !this.sortCriteria().ascending
-          : true,
-    });
   }
 
   private loadStudyCourseStudents({
@@ -288,14 +278,14 @@ export class EventsStudentsStateService {
 
   private sortStudentEntries(
     entries: ReadonlyArray<StudentEntry>,
-    sortCriteria: SortCriteria<PrimarySortKey>,
+    sortCriteria: SortCriteria<SortKey>,
   ): ReadonlyArray<StudentEntry> {
     return [...entries].sort(getStudentEntryComparator(sortCriteria));
   }
 }
 
 function getStudentEntryComparator(
-  sortCriteria: SortCriteria<PrimarySortKey>,
+  sortCriteria: SortCriteria<SortKey>,
 ): (a: StudentEntry, b: StudentEntry) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {

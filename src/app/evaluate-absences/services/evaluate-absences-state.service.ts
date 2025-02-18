@@ -1,17 +1,14 @@
-import { Location } from "@angular/common";
 import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { Observable } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { SETTINGS, Settings } from "src/app/settings";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
-import { LoadingService } from "src/app/shared/services/loading-service";
 import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
-import { SortService, Sorting } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { Paginated } from "src/app/shared/utils/pagination";
@@ -35,19 +32,7 @@ export class EvaluateAbsencesStateService
   confirmBackLinkParams?: Params;
 
   constructor() {
-    const location = inject(Location);
-    const loadingService = inject(LoadingService);
-    const settings = inject<Settings>(SETTINGS);
-    const sortService =
-      inject<SortService<keyof LessonPresenceStatistic>>(SortService);
-
-    super(
-      location,
-      loadingService,
-      sortService,
-      settings,
-      "/evaluate-absences",
-    );
+    super("/evaluate-absences");
 
     this.queryParamsString$
       .pipe(takeUntil(this.destroy$))
@@ -79,22 +64,26 @@ export class EvaluateAbsencesStateService
     );
   }
 
-  protected override getInitialSorting(): Option<
-    Sorting<keyof LessonPresenceStatistic>
+  protected override getInitialSortCriteria(): Option<
+    SortCriteria<keyof LessonPresenceStatistic>
   > {
     return {
-      key: "StudentFullName",
+      primarySortKey: "StudentFullName",
       ascending: true,
     };
   }
 
   protected loadEntries(
     filterValue: EvaluateAbsencesFilter,
-    sorting: Option<Sorting<keyof LessonPresenceStatistic>>,
+    sortCriteria: Option<SortCriteria<keyof LessonPresenceStatistic>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     return this.loadingService.load(
-      this.lessonPresenceService.getStatistics(filterValue, sorting, offset),
+      this.lessonPresenceService.getStatistics(
+        filterValue,
+        sortCriteria,
+        offset,
+      ),
       PAGE_LOADING_CONTEXT,
     );
   }

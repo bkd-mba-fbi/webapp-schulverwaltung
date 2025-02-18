@@ -1,7 +1,9 @@
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
 import { SubscriptionDetail } from "../../shared/models/subscription.model";
-import { SortCriteria } from "../components/presence-control-group/presence-control-group.component";
+import { UnreachableError } from "../../shared/utils/error";
+import { SortKey } from "../components/presence-control-group/presence-control-group.component";
 
 export interface SubscriptionDetailWithName {
   id: number;
@@ -12,26 +14,32 @@ export interface SubscriptionDetailWithName {
 
 export function sortSubscriptionDetails(
   details: ReadonlyArray<SubscriptionDetailWithName>,
-  sortCriteria: SortCriteria,
+  sortCriteria: Option<SortCriteria<SortKey>>,
 ): ReadonlyArray<SubscriptionDetailWithName> {
+  if (!sortCriteria) return details;
   return [...details].sort(getSubscriptionDetailComparator(sortCriteria));
 }
 
 function getSubscriptionDetailComparator(
-  sortCriteria: SortCriteria,
+  sortCriteria: SortCriteria<SortKey>,
 ): (a: SubscriptionDetailWithName, b: SubscriptionDetailWithName) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {
       case "name": {
         const nameComparator = a.name.localeCompare(b.name);
-        return sortCriteria.ascending ? nameComparator * -1 : nameComparator;
+        return sortCriteria.ascending ? nameComparator : nameComparator * -1;
       }
       case "group": {
         const groupComparator = (a.detail.Value || "").localeCompare(
           b.detail.Value || "",
         );
-        return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
+        return sortCriteria.ascending ? groupComparator : groupComparator * -1;
       }
+      default:
+        throw new UnreachableError(
+          sortCriteria.primarySortKey,
+          "Unhandled sort criteria",
+        );
     }
   };
 }

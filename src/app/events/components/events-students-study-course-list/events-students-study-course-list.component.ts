@@ -3,14 +3,12 @@ import {
   Component,
   input,
   model,
-  output,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
-import { SortCriteria } from "../../../shared/utils/sort";
-import {
-  PrimarySortKey,
-  StudentEntry,
-} from "../../services/events-students-state.service";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
+import { StudentEntry } from "../../services/events-students-state.service";
+import { SortKey } from "../../services/events-students-state.service";
 import { EventsStudentsHeaderComponent } from "../events-students-header/events-students-header.component";
 import { EventsStudentsStudyCourseEntryComponent } from "../events-students-study-course-entry/events-students-study-course-entry.component";
 
@@ -20,6 +18,7 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
     TranslatePipe,
     EventsStudentsHeaderComponent,
     EventsStudentsStudyCourseEntryComponent,
+    SortableHeaderComponent,
   ],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,18 +30,10 @@ export class EventsStudentsStudyCourseListComponent {
   count = input.required<number>();
   entries = input.required<ReadonlyArray<StudentEntry>>();
   returnLink = input<Option<string>>(null);
-  sortCriteria = input.required<SortCriteria<PrimarySortKey>>();
-
-  toggleSort = output<PrimarySortKey>();
-
+  sortCriteria = model.required<Option<SortCriteria<SortKey>>>();
   searchTerm = model<string>();
 
-  primarySortKey: "name" | "registrationDate";
-
-  getSortDirectionCharacter(sortKey: PrimarySortKey): string {
-    if (this.sortCriteria().primarySortKey !== sortKey) {
-      return "";
-    }
-    return this.sortCriteria().ascending ? "↑" : "↓";
+  updateSortCriteria(newCriteria: SortCriteria<SortKey>): void {
+    this.sortCriteria.set(newCriteria);
   }
 }

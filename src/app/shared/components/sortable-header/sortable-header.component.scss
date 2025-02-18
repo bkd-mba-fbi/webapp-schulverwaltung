@@ -1,0 +1,24 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+}
+
+:host,
+button {
+  max-width: 100%;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+}

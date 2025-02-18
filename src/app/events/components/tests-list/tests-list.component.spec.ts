@@ -1,3 +1,4 @@
+import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { Course } from "src/app/shared/models/course.model";
@@ -41,8 +42,7 @@ describe("TestsListComponent", () => {
 
     testStateServiceMock = {
       getCourse: () => of(course),
-      setSorting: () => of({ key: "FullName", ascending: true }),
-      getSortingChar$: () => of("FullName"),
+      sortCriteria: signal({ key: "FullName", ascending: true }),
       loading$: of(false),
       tests$: tests$.asObservable(),
       filteredTests$: tests$.asObservable(),

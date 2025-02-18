@@ -13,10 +13,10 @@ import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
+import { SortService } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
-import { SortCriteria } from "src/app/shared/utils/sort";
 import { Person } from "../../shared/models/person.model";
 import { toDesignationDateTimeTypeString } from "../../shared/utils/lesson-presences";
 import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
@@ -26,7 +26,8 @@ import {
   sortOpenAbsencesEntries,
 } from "../utils/open-absences-entries";
 
-export type PrimarySortKey = "date" | "name";
+export const SORT_KEYS = ["name", "date"] as const;
+export type SortKey = (typeof SORT_KEYS)[number];
 
 const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
   "studentFullName",
@@ -35,10 +36,11 @@ const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
 
 @Injectable()
 export class OpenAbsencesService implements IConfirmAbsencesService {
+  private translate = inject(TranslateService);
   private lessonPresencesService = inject(LessonPresencesRestService);
   private selectionService = inject(ConfirmAbsencesSelectionService);
+  private sortService = inject<SortService<SortKey>>(SortService);
   private loadingService = inject(LoadingService);
-  private translate = inject(TranslateService);
 
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>("");
@@ -55,17 +57,11 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     shareReplay(1),
   );
 
-  private sortCriteriaSubject$ = new BehaviorSubject<
-    SortCriteria<PrimarySortKey>
-  >({
-    primarySortKey: "date",
-    ascending: false,
-  });
-
-  sortCriteria$ = this.sortCriteriaSubject$.asObservable();
-  sortedEntries$ = combineLatest([this.entries$, this.sortCriteria$]).pipe(
-    map(spread(sortOpenAbsencesEntries)),
-  );
+  sortCriteria = this.sortService.sortCriteria;
+  sortedEntries$ = combineLatest([
+    this.entries$,
+    this.sortService.sortCriteria$,
+  ]).pipe(map(spread(sortOpenAbsencesEntries)));
 
   filteredEntries$ = combineLatest([this.sortedEntries$, this.search$]).pipe(
     map(([entries, term]) => searchEntries(entries, SEARCH_FIELDS, term)),
@@ -73,6 +69,13 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
   );
 
   currentDetail: Option<{ date: string; personId: number }> = null;
+
+  constructor() {
+    this.sortService.sortCriteria.set({
+      primarySortKey: "date",
+      ascending: false,
+    });
+  }
 
   getUnconfirmedAbsences(
     dateString: string,
@@ -98,28 +101,6 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
           .reduce((a: LessonPresence[], e) => a.concat(e.absences), []);
       }),
     );
-  }
-
-  /**
-   * Switches primary sort key or toggles sort direction, if already
-   * sorted by given key.
-   */
-  toggleSort(primarySortKey: PrimarySortKey): void {
-    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
-      if (criteria.primarySortKey === primarySortKey) {
-        // Change sort direction
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: !criteria.ascending,
-        });
-      } else {
-        // Change sort key
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: primarySortKey === "name",
-        });
-      }
-    });
   }
 
   get confirmBackLink(): Parameters<Router["navigate"]>[0] {

@@ -8,6 +8,10 @@ import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences
 import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
 import { mergeUniqueLessonPresences } from "src/app/open-absences/utils/open-absences-entries";
 import { SETTINGS, Settings } from "../../settings";
+import {
+  SortCriteria,
+  SortKey,
+} from "../components/sortable-header/sortable-header.component";
 import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { LessonStudyClass } from "../models/lesson-study-class.model";
@@ -23,7 +27,6 @@ import {
 import { hasRole } from "../utils/roles";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
-import { Sorting } from "./sort.service";
 import { StorageService } from "./storage.service";
 
 @Injectable({
@@ -169,7 +172,7 @@ export class LessonPresencesRestService extends RestService<
 
   getStatistics(
     absencesFilter: EvaluateAbsencesFilter,
-    absencesSorting: Option<Sorting<keyof LessonPresenceStatistic>>,
+    absencesSortCriteria: Option<SortCriteria<keyof LessonPresenceStatistic>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([
@@ -177,7 +180,7 @@ export class LessonPresencesRestService extends RestService<
       [absencesFilter.educationalEvent, "EventRef"],
       [absencesFilter.studyClass, "StudyClassRef"],
     ]);
-    params = sortedParams(absencesSorting, params);
+    params = sortedParams(absencesSortCriteria, params);
     params = paginatedParams(offset, this.settings.paginationLimit, params);
 
     return this.http
@@ -416,15 +419,15 @@ function filteredParams(
   }, params);
 }
 
-function sortedParams<T>(
-  sorting: Option<Sorting<T>>,
+function sortedParams<TSortKey extends SortKey>(
+  sortCriteria: Option<SortCriteria<TSortKey>>,
   params = new HttpParams(),
 ): HttpParams {
-  if (!sorting) {
+  if (!sortCriteria) {
     return params;
   }
   return params.set(
     "sort",
-    `${sorting.key}.${sorting.ascending ? "asc" : "desc"}`,
+    `${String(sortCriteria.primarySortKey)}.${sortCriteria.ascending ? "asc" : "desc"}`,
   );
 }
