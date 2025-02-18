@@ -1,0 +1,12 @@
+<div
+  class="progress"
+  role="progressbar"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-valuenow]="processed()"
+  aria-valuemin="0"
+  [attr.aria-valuemax]="total()"
+>
+  <div class="progress-bar" [style.width]="processed() + '%'">
+    {{ label() }}
+  </div>
+</div>
