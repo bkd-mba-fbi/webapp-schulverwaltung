@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { ImportParseSubscriptionDetailsService } from "../../services/import-parse-subscription-details.service";
-import { ImportUploadComponent } from "./import-upload.component";
+import { ImportFileComponent } from "./import-file.component";
 
-describe("ImportUploadComponent", () => {
-  let component: ImportUploadComponent;
-  let fixture: ComponentFixture<ImportUploadComponent>;
+describe("ImportFileComponent", () => {
+  let component: ImportFileComponent;
+  let fixture: ComponentFixture<ImportFileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [ImportUploadComponent],
+        imports: [ImportFileComponent],
         providers: [ImportParseSubscriptionDetailsService],
       }),
     ).compileComponents();
 
-    fixture = TestBed.createComponent(ImportUploadComponent);
+    fixture = TestBed.createComponent(ImportFileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
