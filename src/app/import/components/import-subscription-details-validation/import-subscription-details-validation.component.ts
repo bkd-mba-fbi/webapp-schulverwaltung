@@ -6,7 +6,6 @@ import {
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
-import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { ProgressComponent } from "../../../shared/components/progress/progress.component";
 import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
 import { ImportStateService } from "../../services/import-state.service";
@@ -18,7 +17,7 @@ import {
 
 @Component({
   selector: "bkd-import-subscription-details-validation",
-  imports: [TranslatePipe, BacklinkComponent, ProgressComponent, RouterLink],
+  imports: [TranslatePipe, ProgressComponent, RouterLink],
   templateUrl: "./import-subscription-details-validation.component.html",
   styleUrl: "./import-subscription-details-validation.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

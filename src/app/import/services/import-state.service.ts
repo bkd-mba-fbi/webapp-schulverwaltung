@@ -8,8 +8,11 @@ export type ValidationStatus = "validating" | "valid" | "invalid";
 export type ImportStatus = "importing" | "success" | "error" | null;
 
 export class ValidationError<TEntry> {
-  type: string;
   columns: ReadonlyArray<keyof TEntry>;
+
+  get type() {
+    return this.constructor.name;
+  }
 }
 
 export type ImportEntry<
