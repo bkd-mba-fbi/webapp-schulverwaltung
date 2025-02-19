@@ -207,9 +207,9 @@ export class ImportValidateSubscriptionDetailsService {
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
     let entries = this.buildValidationEntries(parsedEntries);
     entries = this.verifyEntriesData(entries);
-    // return Promise.resolve(entries);
+    // TODO: Update progress
 
-    // TODO:
+    // TODO: (asynchronously)
     // - Load events
     // - Load persons by ID
     // - Load persons by Email
@@ -227,6 +227,18 @@ export class ImportValidateSubscriptionDetailsService {
     //       Currency: 279
     //     }
     //   - Are dropdown items allowed (and valid)? → DropdownItems != null
+    // - Update progress on-the-fly
+
+    // TODO: After all validations are done
+    entries = entries.map((entry) => {
+      if (entry.validationStatus === "validating") {
+        entry.validationStatus = "valid";
+      }
+      return entry;
+    });
+    // TODO: Update progress
+
+    return Promise.resolve(entries);
 
     // const entriesWithAdditionalData = await firstValueFrom(
     //   combineLatest([
