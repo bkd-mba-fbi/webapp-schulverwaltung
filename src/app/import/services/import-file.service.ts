@@ -2,16 +2,19 @@ import { read, utils } from "xlsx";
 
 export type ParsedEntry = Dict<unknown>;
 
-export type EmptyError = {
-  type: "empty";
-};
+export class ParseError {
+  get type() {
+    return this.constructor.name;
+  }
+}
 
-export type MissingColumnsError = {
-  type: "missingColumns";
-  detail: ReadonlyArray<string>;
-};
+export class EmptyFileError extends ParseError {}
 
-export type ParseError = EmptyError | MissingColumnsError;
+export class MissingColumnsError extends ParseError {
+  constructor(public columns: ReadonlyArray<string>) {
+    super();
+  }
+}
 
 /**
  * Base class of for services that are parsing a file & perform basic
@@ -43,13 +46,10 @@ export abstract class ImportFileService<
    * Parse Excel sheet
    */
   protected async parse(file: File): Promise<ReadonlyArray<TRow>> {
-    // TODO: Handle errors (e.g. what happens if the file is not an Excel file?)
-    // and return a VerificationError in this case
-    const buffer = await file?.arrayBuffer();
+    const buffer = await file.arrayBuffer();
     const book = read(buffer);
     const sheet = book.Sheets[book.SheetNames[0]];
     const rows = utils.sheet_to_json<TRow>(sheet);
-    console.log(rows);
     return rows;
   }
 
@@ -72,9 +72,9 @@ export abstract class ImportFileService<
     return null;
   }
 
-  protected verifyNonEmpty(rows: ReadonlyArray<TRow>): Option<EmptyError> {
+  protected verifyNonEmpty(rows: ReadonlyArray<TRow>): Option<EmptyFileError> {
     if (rows.length === 0) {
-      return { type: "empty" };
+      return new EmptyFileError();
     }
 
     return null;
@@ -84,16 +84,13 @@ export abstract class ImportFileService<
     rows: ReadonlyArray<TRow>,
   ): Option<MissingColumnsError> {
     const columns = Object.keys(rows[0]);
-    const missing = this.columns.reduce<MissingColumnsError["detail"]>(
+    const missing = this.columns.reduce<MissingColumnsError["columns"]>(
       (acc, column) => (columns.includes(column) ? acc : [...acc, column]),
       [],
     );
 
     if (missing.length > 0) {
-      return {
-        type: "missingColumns",
-        detail: missing,
-      };
+      return new MissingColumnsError(missing);
     }
 
     return null;

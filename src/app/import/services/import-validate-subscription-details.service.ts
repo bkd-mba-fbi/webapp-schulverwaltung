@@ -28,7 +28,6 @@ export class SubscriptionDetailValidationError extends ValidationError<Subscript
 export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
   constructor() {
     super();
-    this.type = "invalidEventIdError";
     this.columns = ["eventId"];
   }
 }
@@ -36,7 +35,6 @@ export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry
 export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntry> {
   constructor() {
     super();
-    this.type = "invalidPersonIdError";
     this.columns = ["personId"];
   }
 }
@@ -44,7 +42,6 @@ export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntr
 export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailEntry> {
   constructor() {
     super();
-    this.type = "invalidPersonEmailError";
     this.columns = ["personEmail"];
   }
 }
@@ -55,7 +52,6 @@ export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailE
 export class MissingPersonIdEmailError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "missingPersonIdEmailError";
     this.columns = ["personId", "personEmail"];
   }
 }
@@ -63,7 +59,6 @@ export class MissingPersonIdEmailError extends SubscriptionDetailValidationError
 export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "invalidSubscriptionDetailIdError";
     this.columns = ["subscriptionDetailId"];
   }
 }
@@ -74,7 +69,6 @@ export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidati
 export class MissingValueError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "missingValueError";
     this.columns = ["value"];
   }
 }
@@ -82,7 +76,6 @@ export class MissingValueError extends SubscriptionDetailValidationError {
 export class EventNotFoundError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "eventNotFoundError";
     this.columns = ["eventId"];
   }
 }
@@ -90,7 +83,6 @@ export class EventNotFoundError extends SubscriptionDetailValidationError {
 export class PersonNotFoundError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "personNotFoundError";
     this.columns = ["personId", "personEmail"];
   }
 }
@@ -98,7 +90,6 @@ export class PersonNotFoundError extends SubscriptionDetailValidationError {
 export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "subscriptionDetailNotFoundError";
     this.columns = ["subscriptionDetailId"];
   }
 }
@@ -109,7 +100,6 @@ export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidatio
 export class SubscriptionDetailUnsupportedError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "subscriptionDetailUnsupportedError";
     this.columns = ["subscriptionDetailId"];
   }
 }
@@ -120,7 +110,6 @@ export class SubscriptionDetailUnsupportedError extends SubscriptionDetailValida
 export class InvalidValueError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "invalidValueError";
     this.columns = ["value"];
   }
 }
@@ -131,7 +120,6 @@ export class InvalidValueError extends SubscriptionDetailValidationError {
 export class InvalidDropdownValueError extends SubscriptionDetailValidationError {
   constructor() {
     super();
-    this.type = "invalidDropdownValueError";
     this.columns = ["value"];
   }
 }
