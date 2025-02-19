@@ -373,7 +373,16 @@
     },
     "upload": {
       "uploading": "Daten werden eingelesen...",
-      "progress": "Fortschritt Daten einlesen"
+      "progress": "Fortschritt Daten einlesen",
+      "success": {
+        "title": "Daten erfolgreich eingelesen",
+        "content": "{{count}} von {{total}} Datensätzen wurden erfolgreich eingelesen."
+      },
+      "error": {
+        "title": "Fehler beim Einlesen der Daten",
+        "content": "{{count}} von {{total}} Datensätzen konnten nicht eingelesen werden.",
+        "retry": "Erneut versuchen"
+      }
     },
     "subscription-details": {
       "columns": {
