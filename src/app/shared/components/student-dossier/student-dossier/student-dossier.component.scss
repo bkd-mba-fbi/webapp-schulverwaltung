@@ -10,6 +10,10 @@
     // Hide heading on mobile, but not for screen readers
     @include visually-hidden();
   }
+
+  [role="tabpanel"] {
+    width: 100%;
+  }
 }
 
 /**

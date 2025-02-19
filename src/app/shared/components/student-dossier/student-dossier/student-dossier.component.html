@@ -4,9 +4,9 @@
       <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
     }
   </bkd-backlink>
-  <div class="d-flex justify-content-center dossier-content">
+  <div class="d-flex align-items-start justify-content-center dossier-content">
     @if (loading()) {
-      <bkd-spinner></bkd-spinner>
+      <bkd-spinner class="align-self-center"></bkd-spinner>
     } @else {
       <bkd-student-dossier-navigation
         [studentId]="studentId()"

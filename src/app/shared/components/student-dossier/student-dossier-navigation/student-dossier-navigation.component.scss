@@ -156,7 +156,7 @@ hr {
     padding-top: 15px;
     padding-right: 26px;
     padding-bottom: 15px;
-    padding-left: 25px;
+    padding-left: 20px;
   }
 
   .nav-link {
@@ -172,6 +172,10 @@ hr {
   a.nav-link:hover,
   a.nav-link:active {
     color: $accent;
+  }
+
+  a.nav-link-active {
+    font-weight: 600;
   }
 
   hr {
