@@ -20,14 +20,15 @@ h2 {
 .apprenticeship-companies .profile-entry {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacer * 2;
   padding-left: $spacer;
+  column-gap: $spacer * 2;
+  row-gap: $spacer;
 }
 
 @media (max-width: 750px) {
   .legal-representatives,
   .apprenticeship-companies .profile-entry {
     flex-direction: column;
-    gap: $spacer * 1;
+    gap: $spacer;
   }
 }
