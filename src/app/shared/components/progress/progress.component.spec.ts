@@ -31,7 +31,7 @@ describe("ProgressComponent", () => {
   });
 
   it("renders the label", () => {
-    const label = fixture.debugElement.nativeElement.textContent;
+    const label = fixture.debugElement.nativeElement.textContent?.trim();
     expect(label).toBe("25 / 100");
   });
 
