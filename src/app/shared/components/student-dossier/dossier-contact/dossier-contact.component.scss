@@ -21,13 +21,6 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   padding-left: $spacer;
-}
-
-.legal-representatives {
-  gap: $spacer * 2;
-}
-
-.apprenticeship-companies .profile-entry {
   column-gap: $spacer * 2;
   row-gap: $spacer;
 }
