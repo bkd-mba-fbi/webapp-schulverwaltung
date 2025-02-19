@@ -207,7 +207,7 @@ export class ImportValidateSubscriptionDetailsService {
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
     let entries = this.buildValidationEntries(parsedEntries);
     entries = this.verifyEntriesData(entries);
-    // TODO: Update progress
+    this.updateProgress(entries, progress);
 
     // TODO: (asynchronously)
     // - Load events
@@ -236,7 +236,7 @@ export class ImportValidateSubscriptionDetailsService {
       }
       return entry;
     });
-    // TODO: Update progress
+    this.updateProgress(entries, progress);
 
     return Promise.resolve(entries);
 
@@ -259,7 +259,7 @@ export class ImportValidateSubscriptionDetailsService {
     // );
 
     // TODO: Fake implementation for now
-    return new Promise((resolve) => {
+    /*    return new Promise((resolve) => {
       let i = 0;
       const interval = setInterval(() => {
         entries[i].validationStatus = "valid";
@@ -276,7 +276,26 @@ export class ImportValidateSubscriptionDetailsService {
           resolve(entries);
         }
       }, 250);
-    });
+    });*/
+  }
+
+  private updateProgress(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+    progress: WritableSignal<ValidationProgress>,
+  ): WritableSignal<ValidationProgress> {
+    progress.update(({ total }) => ({
+      validating: entries.filter(
+        ({ validationStatus }) => validationStatus === "validating",
+      ).length,
+      valid: entries.filter(
+        ({ validationStatus }) => validationStatus === "valid",
+      ).length,
+      invalid: entries.filter(
+        ({ validationStatus }) => validationStatus === "invalid",
+      ).length,
+      total,
+    }));
+    return progress;
   }
 
   /**

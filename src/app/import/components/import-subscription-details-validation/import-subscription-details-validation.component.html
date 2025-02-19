@@ -4,41 +4,47 @@
   <bkd-backlink [link]="['/import']"></bkd-backlink>
   <h1>{{ "import.title" | translate }}</h1>
 
-  <bkd-progress
-    [total]="progress().total"
-    [processed]="progress().valid + progress().invalid"
-    [ariaLabel]="'import.validation.progress' | translate"
-  ></bkd-progress>
-
-  <table class="table mt-5">
-    <thead>
-      <tr>
-        <th>{{ "import.subscription-details.columns.status" | translate }}</th>
-        <th>{{ "import.subscription-details.columns.event" | translate }}</th>
-        <th>{{ "import.subscription-details.columns.person" | translate }}</th>
-        <th>
-          {{
-            "import.subscription-details.columns.subscription-detail"
-              | translate
-          }}
-        </th>
-        <th>{{ "import.subscription-details.columns.value" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (entry of entries; track $index) {
+  @if (progress().validating > 0) {
+    <bkd-progress
+      [total]="progress().total"
+      [processed]="progress().valid + progress().invalid"
+      [ariaLabel]="'import.validation.progress' | translate"
+    ></bkd-progress>
+  } @else {
+    <table class="table mt-5">
+      <thead>
         <tr>
-          <td>
-            {{ entry.validationStatus }} {{ entry.validationError?.type }}
-          </td>
-          <td>{{ entry.entry["eventId"] }}</td>
-          <td>
-            {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
-          </td>
-          <td>{{ entry.entry["subscriptionDetailId"] }}</td>
-          <td>{{ entry.entry["value"] }}</td>
+          <th>
+            {{ "import.subscription-details.columns.status" | translate }}
+          </th>
+          <th>{{ "import.subscription-details.columns.event" | translate }}</th>
+          <th>
+            {{ "import.subscription-details.columns.person" | translate }}
+          </th>
+          <th>
+            {{
+              "import.subscription-details.columns.subscription-detail"
+                | translate
+            }}
+          </th>
+          <th>{{ "import.subscription-details.columns.value" | translate }}</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (entry of entries; track $index) {
+          <tr>
+            <td>
+              {{ entry.validationStatus }} {{ entry.validationError?.type }}
+            </td>
+            <td>{{ entry.entry["eventId"] }}</td>
+            <td>
+              {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
+            </td>
+            <td>{{ entry.entry["subscriptionDetailId"] }}</td>
+            <td>{{ entry.entry["value"] }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </div>
