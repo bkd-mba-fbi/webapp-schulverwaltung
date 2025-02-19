@@ -1,7 +1,6 @@
 @let entries = stateService.importEntries();
 
 <div class="bkd-container">
-  <bkd-backlink [link]="['/import']"></bkd-backlink>
   <h1>{{ "import.title" | translate }}</h1>
 
   @if (progress().validating > 0) {
