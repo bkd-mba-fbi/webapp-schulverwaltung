@@ -28,16 +28,13 @@ export abstract class ImportParseService<
    */
   async parseAndVerify(file: File): Promise<{
     error: Option<ParseError>;
-    headers: ReadonlyArray<string>;
     entries: ReadonlyArray<TEntry>;
   }> {
     const rows = await this.parse(file);
     const error = this.verify(rows);
     const entries = rows.map(this.rowToEntry.bind(this));
-    const headers = Object.keys(entries[0]);
     return {
       error,
-      headers,
       entries,
     };
   }

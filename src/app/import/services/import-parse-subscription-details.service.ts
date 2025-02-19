@@ -21,9 +21,9 @@ export class ImportParseSubscriptionDetailsService extends ImportParseService<Su
     const [
       eventIdColumn,
       personIdColumn,
-      personEmailColumn,
       subscriptionDetailIdColumn,
       valueColumn,
+      personEmailColumn,
     ] = this.columns;
     return {
       eventId: row[eventIdColumn],

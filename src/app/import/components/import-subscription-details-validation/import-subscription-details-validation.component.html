@@ -1,5 +1,4 @@
-@let entries = stateService.parsedEntries();
-@let headers = stateService.headers();
+@let entries = stateService.importEntries();
 
 <div class="bkd-container">
   <bkd-backlink [link]="['/import']"></bkd-backlink>
@@ -14,17 +13,30 @@
   <table class="table mt-5">
     <thead>
       <tr>
-        @for (header of headers; track header) {
-          <th>{{ header }}</th>
-        }
+        <th>{{ "import.subscription-details.columns.status" | translate }}</th>
+        <th>{{ "import.subscription-details.columns.event" | translate }}</th>
+        <th>{{ "import.subscription-details.columns.person" | translate }}</th>
+        <th>
+          {{
+            "import.subscription-details.columns.subscription-detail"
+              | translate
+          }}
+        </th>
+        <th>{{ "import.subscription-details.columns.value" | translate }}</th>
       </tr>
     </thead>
     <tbody>
       @for (entry of entries; track $index) {
         <tr>
-          @for (header of headers; track header) {
-            <td>{{ entry[header] }}</td>
-          }
+          <td>
+            {{ entry.validationStatus }} {{ entry.validationError?.type }}
+          </td>
+          <td>{{ entry.entry["eventId"] }}</td>
+          <td>
+            {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
+          </td>
+          <td>{{ entry.entry["subscriptionDetailId"] }}</td>
+          <td>{{ entry.entry["value"] }}</td>
         </tr>
       }
     </tbody>

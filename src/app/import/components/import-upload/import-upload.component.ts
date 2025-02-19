@@ -64,10 +64,8 @@ export class ImportUploadComponent {
   private async setFile(file: Option<File>): Promise<void> {
     this.stateService.file.set(file);
     if (file) {
-      const { error, headers, entries } =
-        await this.parseService().parseAndVerify(file);
+      const { error, entries } = await this.parseService().parseAndVerify(file);
       this.error.set(error);
-      this.stateService.headers.set(headers);
       this.stateService.parsedEntries.set(entries);
     }
   }

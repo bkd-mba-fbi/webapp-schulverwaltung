@@ -7,15 +7,15 @@ export type ImportType = (typeof IMPORT_TYPES)[number];
 export type ValidationStatus = "validating" | "valid" | "invalid";
 export type ImportStatus = "importing" | "success" | "error" | null;
 
-export interface ValidationError {
+export class ValidationError<TEntry> {
   type: string;
-  columns: ReadonlyArray<string>;
+  columns: ReadonlyArray<keyof TEntry>;
 }
 
 export type ImportEntry<
   TEntry extends ParsedEntry,
   TData,
-  TValidationError extends ValidationError,
+  TValidationError extends ValidationError<TEntry>,
   TImportError,
 > = {
   validationStatus: ValidationStatus;
@@ -32,7 +32,6 @@ export type ImportEntry<
 export class ImportStateService {
   importType = signal<ImportType>(IMPORT_TYPES[0]);
   file = signal<Option<File>>(null);
-  headers = signal<ReadonlyArray<string>>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parsedEntries = signal<ReadonlyArray<any>>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
