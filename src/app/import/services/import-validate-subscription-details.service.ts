@@ -15,73 +15,121 @@ export type ValidationProgress = {
   total: number;
 };
 
-export interface InvalidEventIdError extends ValidationError {
-  type: "invalidEventIdError";
+export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "invalidEventIdError";
+    this.columns = ["eventId"];
+  }
 }
 
-export interface InvalidPersonIdError extends ValidationError {
-  type: "invalidPersonIdError";
+export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "invalidPersonIdError";
+    this.columns = ["personId"];
+  }
 }
 
-export interface InvalidEmailError extends ValidationError {
-  type: "invalidEmailError";
+export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "invalidPersonEmailError";
+    this.columns = ["personEmail"];
+  }
 }
 
 /**
  * Neither Person Id, nor E-Mail is present.
  */
-export interface MissingPersonIdEmailError extends ValidationError {
-  type: "missingPersonIdEmailError";
+export class MissingPersonIdEmailError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "missingPersonIdEmailError";
+    this.columns = ["personId", "personEmail"];
+  }
 }
 
-export interface InvalidSubscriptionDetailIdError extends ValidationError {
-  type: "invalidSubscriptionDetailIdError";
+export class InvalidSubscriptionDetailIdError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "invalidSubscriptionDetailIdError";
+    this.columns = ["subscriptionDetailId"];
+  }
 }
 
 /**
  * "Wert" is empty.
  */
-export interface MissingValueError extends ValidationError {
-  type: "missingValueError";
+export class MissingValueError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "missingValueError";
+    this.columns = ["value"];
+  }
 }
 
-export interface EventNotFoundError extends ValidationError {
-  type: "eventNotFoundError";
+export class EventNotFoundError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "eventNotFoundError";
+    this.columns = ["eventId"];
+  }
 }
 
-export interface PersonNotFoundError extends ValidationError {
-  type: "personNotFoundError";
+export class PersonNotFoundError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "personNotFoundError";
+    this.columns = ["personId", "personEmail"];
+  }
 }
 
-export interface SubscriptionDetailNotFoundError extends ValidationError {
-  type: "subscriptionDetailNotFoundError";
+export class SubscriptionDetailNotFoundError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "subscriptionDetailNotFoundError";
+    this.columns = ["subscriptionDetailId"];
+  }
 }
 
 /**
  * The subscription detail does not support editing via the internet.
  */
-export interface SubscriptionDetailUnsupportedError extends ValidationError {
-  type: "subscriptionDetailUnsupportedError";
+export class SubscriptionDetailUnsupportedError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "subscriptionDetailUnsupportedError";
+    this.columns = ["subscriptionDetailId"];
+  }
 }
 
 /**
  * The subscription detail value ("Wert") does not comply with the "VssType".
  */
-export interface InvalidValueError extends ValidationError {
-  type: "invalidValueError";
+export class InvalidValueError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "invalidValueError";
+    this.columns = ["value"];
+  }
 }
 
 /**
  * The subscription detail value ("Wert") is not part of the "DropdownItems".
  */
-export interface InvalidDropdownValueError extends ValidationError {
-  type: "invalidDropdownValueError";
+export class InvalidDropdownValueError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.type = "invalidDropdownValueError";
+    this.columns = ["value"];
+  }
 }
 
 export type SubscriptionDetailValidationError =
   | InvalidEventIdError
   | InvalidPersonIdError
-  | InvalidEmailError
+  | InvalidPersonEmailError
   | MissingPersonIdEmailError
   | InvalidSubscriptionDetailIdError
   | MissingValueError
@@ -125,7 +173,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
     subscription?: Subscription;
     subscriptionDetail?: SubscriptionDetail;
   },
-  ValidationError,
+  SubscriptionDetailValidationError,
   unknown
 >;
 
@@ -157,29 +205,9 @@ export class ImportValidateSubscriptionDetailsService {
     progress: WritableSignal<ValidationProgress>,
     parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
-    const entries = this.buildValidationEntries(parsedEntries);
-
-    // TODO: Fake implementation for now
-    return new Promise((resolve) => {
-      let i = 0;
-      const interval = setInterval(() => {
-        entries[i].validationStatus = "valid";
-        progress.update(({ validating, valid, invalid, total }) => ({
-          validating: validating - 1,
-          valid: valid + 1,
-          invalid,
-          total,
-        }));
-
-        i += 1;
-        if (i === entries.length) {
-          clearInterval(interval);
-          resolve(entries);
-        }
-      }, 250);
-    });
-
-    // entries = this.checkTypes(entries);
+    let entries = this.buildValidationEntries(parsedEntries);
+    entries = this.verifyEntriesData(entries);
+    // return Promise.resolve(entries);
 
     // TODO:
     // - Load events
@@ -217,20 +245,55 @@ export class ImportValidateSubscriptionDetailsService {
     //     ),
     //   ),
     // );
+
+    // TODO: Fake implementation for now
+    return new Promise((resolve) => {
+      let i = 0;
+      const interval = setInterval(() => {
+        entries[i].validationStatus = "valid";
+        progress.update(({ validating, valid, invalid, total }) => ({
+          validating: validating - 1,
+          valid: valid + 1,
+          invalid,
+          total,
+        }));
+
+        i += 1;
+        if (i === entries.length) {
+          clearInterval(interval);
+          resolve(entries);
+        }
+      }, 250);
+    });
   }
 
   /**
-   * Verifies whether the given row date of the entries is valid (IDs must be numbers etc.)
+   * Verifies whether the given row data of the entries is valid
    */
-  private checkTypes(
+  private verifyEntriesData(
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): ReadonlyArray<SubscriptionDetailImportEntry> {
-    // TODO: check types of entry values and set status/errors if invalid:
-    // - Event IDs and Subscription IDs must be numbers
-    // - Person IDs must be number or nothing
-    // - Email must be a valid email or nothing
-    // - Either Person ID or Email must be available
-    return entries;
+    return entries.map((entry) => this.verifyEntryData(entry));
+  }
+
+  verifyEntryData(
+    entry: SubscriptionDetailImportEntry,
+  ): SubscriptionDetailImportEntry {
+    const assertions: ReadonlyArray<EntryDataValidationFn> = [
+      assertValidEventId,
+      assertValidPersonId,
+      assertValidPersonEmail,
+      assertPersonIdEmailPresent,
+      assertValidSubscriptionDetailId,
+      assertValuePresent,
+    ];
+    for (const assert of assertions) {
+      const result = assert(entry);
+      if (!result.valid) {
+        return result.entry;
+      }
+    }
+    return entry;
   }
 
   // private loadEvents(
@@ -353,96 +416,84 @@ export class ImportValidateSubscriptionDetailsService {
       importError: null,
     }));
   }
+}
 
-  // protected verifyTypes(rows: ReadonlyArray<TRow>): Option<InvalidTypesError> {
-  //   const invalid = rows.reduce<InvalidTypesError["detail"]>(
-  //     (acc, row, i) => [...acc, ...this.verifyTypeForRow(row, i)],
-  //     [],
-  //   );
+type EntryDataValidationFn = (entry: SubscriptionDetailImportEntry) => {
+  valid: boolean;
+  entry: SubscriptionDetailImportEntry;
+};
 
-  //   if (invalid.length > 0) {
-  //     return {
-  //       type: "invalidTypes",
-  //       detail: invalid,
-  //     };
-  //   }
+const assertValidEventId: EntryDataValidationFn = (entry) => {
+  const valid = isNumber(entry.entry.eventId);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidEventIdError();
+  }
+  return { valid, entry };
+};
 
-  //   return null;
-  // }
+const assertValidPersonId: EntryDataValidationFn = (entry) => {
+  const valid = isOptionalNumber(entry.entry.personId);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidPersonIdError();
+  }
+  return { valid, entry };
+};
 
-  // protected verifyTypeForRow(
-  //   row: TRow,
-  //   index: number,
-  // ): InvalidTypesError["detail"] {
-  //   return Object.keys(row)
-  //     .map((column) => {
-  //       const value = row[column];
-  //       const availableColumns = Object.keys(this.rowSchema);
-  //       const expectedType = this.rowSchema[column];
-  //       return availableColumns.includes(column) &&
-  //         !this.hasValidType(expectedType, value)
-  //         ? {
-  //             index,
-  //             column,
-  //             value,
-  //             expectedType,
-  //           }
-  //         : null;
-  //     })
-  //     .filter(notNull);
-  // }
+const assertValidPersonEmail: EntryDataValidationFn = (entry) => {
+  const valid = isOptionalEmail(entry.entry.personEmail);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidPersonEmailError();
+  }
+  return { valid, entry };
+};
 
-  // protected hasValidType(type: string, value: unknown): boolean {
-  //   switch (type) {
-  //     case "number":
-  //       return typeof value === "number" || !isNaN(Number(value));
-  //     default:
-  //       return true;
-  //   }
-  // }  protected verifyTypes(rows: ReadonlyArray<TRow>): Option<InvalidTypesError> {
-  //   const invalid = rows.reduce<InvalidTypesError["detail"]>(
-  //     (acc, row, i) => [...acc, ...this.verifyTypeForRow(row, i)],
-  //     [],
-  //   );
+const assertPersonIdEmailPresent: EntryDataValidationFn = (entry) => {
+  const valid =
+    isPresent(entry.entry.personId) || isPresent(entry.entry.personEmail);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new MissingPersonIdEmailError();
+  }
+  return { valid, entry };
+};
 
-  //   if (invalid.length > 0) {
-  //     return {
-  //       type: "invalidTypes",
-  //       detail: invalid,
-  //     };
-  //   }
+const assertValidSubscriptionDetailId: EntryDataValidationFn = (entry) => {
+  const valid = isNumber(entry.entry.subscriptionDetailId);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidSubscriptionDetailIdError();
+  }
+  return { valid, entry };
+};
 
-  //   return null;
-  // }
+const assertValuePresent: EntryDataValidationFn = (entry) => {
+  const valid = isPresent(entry.entry.value);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new MissingValueError();
+  }
+  return { valid, entry };
+};
 
-  // protected verifyTypeForRow(
-  //   row: TRow,
-  //   index: number,
-  // ): InvalidTypesError["detail"] {
-  //   return Object.keys(row)
-  //     .map((column) => {
-  //       const value = row[column];
-  //       const availableColumns = Object.keys(this.rowSchema);
-  //       const expectedType = this.rowSchema[column];
-  //       return availableColumns.includes(column) &&
-  //         !this.hasValidType(expectedType, value)
-  //         ? {
-  //             index,
-  //             column,
-  //             value,
-  //             expectedType,
-  //           }
-  //         : null;
-  //     })
-  //     .filter(notNull);
-  // }
+function isPresent(value: unknown): boolean {
+  return value != null && value !== "";
+}
 
-  // protected hasValidType(type: string, value: unknown): boolean {
-  //   switch (type) {
-  //     case "number":
-  //       return typeof value === "number" || !isNaN(Number(value));
-  //     default:
-  //       return true;
-  //   }
-  // }
+function isNumber(value: unknown): boolean {
+  return typeof value === "number" && !isNaN(value);
+}
+
+function isOptionalNumber(value: unknown): boolean {
+  return !isPresent(value) || isNumber(value);
+}
+
+function isEmail(value: unknown): boolean {
+  return typeof value === "string" && value.includes("@");
+}
+
+function isOptionalEmail(value: unknown): boolean {
+  return !isPresent(value) || isEmail(value);
 }

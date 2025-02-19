@@ -366,6 +366,15 @@
     },
     "validation": {
       "progress": "Fortschritt Daten validieren"
+    },
+    "subscription-details": {
+      "columns": {
+        "status": "Status",
+        "event": "Anlass",
+        "person": "Person",
+        "subscription-detail": "Anmeldedetail",
+        "value": "Wert"
+      }
     }
   },
   "my-absences": {
