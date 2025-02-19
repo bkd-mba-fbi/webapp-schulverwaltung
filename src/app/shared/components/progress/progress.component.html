@@ -6,7 +6,7 @@
   aria-valuemin="0"
   [attr.aria-valuemax]="total()"
 >
-  <div class="progress-bar" [style.width]="processed() + '%'">
+  <div class="progress-bar" [style.width]="percentage() + '%'">
     {{ label() }}
   </div>
 </div>

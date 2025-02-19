@@ -176,7 +176,7 @@ export class ImportValidateSubscriptionDetailsService {
           clearInterval(interval);
           resolve(entries);
         }
-      }, 1000);
+      }, 250);
     });
 
     // entries = this.checkTypes(entries);
