@@ -18,13 +18,13 @@ import {
 } from "../../services/import-state.service";
 
 @Component({
-  selector: "bkd-import-upload",
+  selector: "bkd-import-file",
   imports: [JsonPipe, TranslatePipe, RouterLink],
-  templateUrl: "./import-upload.component.html",
-  styleUrl: "./import-upload.component.scss",
+  templateUrl: "./import-file.component.html",
+  styleUrl: "./import-file.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportUploadComponent {
+export class ImportFileComponent {
   private parseSubscriptionDetailsService = inject(
     ImportParseSubscriptionDetailsService,
   );
