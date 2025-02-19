@@ -5,12 +5,21 @@
   <h1>{{ "import.title" | translate }}</h1>
 
   @if (progress().validating > 0) {
+    <p>{{ "import.validation.validating" | translate }}</p>
     <bkd-progress
       [total]="progress().total"
       [processed]="progress().valid + progress().invalid"
       [ariaLabel]="'import.validation.progress' | translate"
     ></bkd-progress>
   } @else {
+    <div class="d-flex justify-content-end gap-3">
+      <button class="btn btn-outline-secondary">
+        {{ "import.validation.change-document" | translate }}
+      </button>
+      <button class="btn btn-primary" routerLink="/import/upload">
+        {{ "import.validation.upload" | translate }}
+      </button>
+    </div>
     <table class="table mt-5">
       <thead>
         <tr>
