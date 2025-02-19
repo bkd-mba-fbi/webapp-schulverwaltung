@@ -17,7 +17,7 @@ export type ParseError = EmptyError | MissingColumnsError;
  * Base class of for services that are parsing a file & perform basic
  * verifications. These services should not contain any state.
  */
-export abstract class ImportParseService<
+export abstract class ImportFileService<
   TEntry extends ParsedEntry,
   TRow extends Dict<unknown> = Dict<unknown>,
 > {

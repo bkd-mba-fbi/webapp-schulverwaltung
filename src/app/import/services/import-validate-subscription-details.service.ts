@@ -5,7 +5,7 @@ import {
   Subscription,
   SubscriptionDetail,
 } from "src/app/shared/models/subscription.model";
-import { SubscriptionDetailEntry } from "./import-parse-subscription-details.service";
+import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportEntry, ValidationError } from "./import-state.service";
 
 export type ValidationProgress = {

@@ -9,9 +9,9 @@ import {
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { UnreachableError } from "src/app/shared/utils/error";
-import { ImportParseEmailsService } from "../../services/import-parse-emails.service";
-import { ImportParseSubscriptionDetailsService } from "../../services/import-parse-subscription-details.service";
-import { ParseError } from "../../services/import-parse.service";
+import { ImportFileEmailsService } from "../../services/import-file-emails.service";
+import { ImportFileSubscriptionDetailsService } from "../../services/import-file-subscription-details.service";
+import { ParseError } from "../../services/import-file.service";
 import {
   IMPORT_TYPES,
   ImportStateService,
@@ -25,21 +25,21 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportFileComponent {
-  private parseSubscriptionDetailsService = inject(
-    ImportParseSubscriptionDetailsService,
+  private fileSubscriptionDetailsService = inject(
+    ImportFileSubscriptionDetailsService,
   );
-  private parseEmailsService = inject(ImportParseEmailsService);
+  private fileEmailsService = inject(ImportFileEmailsService);
 
   availableImportTypes = IMPORT_TYPES;
 
   stateService = inject(ImportStateService);
-  parseService = computed(() => {
+  fileService = computed(() => {
     const importType = this.stateService.importType();
     switch (importType) {
       case "subscriptionDetails":
-        return this.parseSubscriptionDetailsService;
+        return this.fileSubscriptionDetailsService;
       case "emails":
-        return this.parseEmailsService;
+        return this.fileEmailsService;
       default:
         throw new UnreachableError(importType, "Unhandeled import type");
     }
@@ -64,7 +64,7 @@ export class ImportFileComponent {
   private async setFile(file: Option<File>): Promise<void> {
     this.stateService.file.set(file);
     if (file) {
-      const { error, entries } = await this.parseService().parseAndVerify(file);
+      const { error, entries } = await this.fileService().parseAndVerify(file);
       this.error.set(error);
       this.stateService.parsedEntries.set(entries);
     }

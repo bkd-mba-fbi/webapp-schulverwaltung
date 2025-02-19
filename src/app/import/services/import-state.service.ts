@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { ParsedEntry } from "./import-parse.service";
+import { ParsedEntry } from "./import-file.service";
 
 export const IMPORT_TYPES = ["subscriptionDetails", "emails"] as const;
 export type ImportType = (typeof IMPORT_TYPES)[number];
