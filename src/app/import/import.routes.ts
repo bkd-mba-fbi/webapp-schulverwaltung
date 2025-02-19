@@ -10,7 +10,10 @@ export const IMPORT_ROUTES: Routes = [
     component: ImportComponent,
     children: [
       { path: "", component: ImportFileComponent },
-      { path: "list", component: ImportSubscriptionDetailsValidationComponent },
+      {
+        path: "validation",
+        component: ImportSubscriptionDetailsValidationComponent,
+      },
       {
         path: "upload",
         component: ImportSubscriptionDetailsUploadComponent,
