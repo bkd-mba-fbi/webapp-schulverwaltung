@@ -15,6 +15,16 @@ export type ValidationProgress = {
   total: number;
 };
 
+/**
+ * Errors bei Email Import:
+ *
+ * invalidPersonId
+ * invalidEmail
+ * personNotFoundError
+ */
+
+export class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
+
 export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
   constructor() {
     super();
@@ -42,7 +52,7 @@ export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailE
 /**
  * Neither Person Id, nor E-Mail is present.
  */
-export class MissingPersonIdEmailError extends ValidationError<SubscriptionDetailEntry> {
+export class MissingPersonIdEmailError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "missingPersonIdEmailError";
@@ -50,7 +60,7 @@ export class MissingPersonIdEmailError extends ValidationError<SubscriptionDetai
   }
 }
 
-export class InvalidSubscriptionDetailIdError extends ValidationError<SubscriptionDetailEntry> {
+export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "invalidSubscriptionDetailIdError";
@@ -61,7 +71,7 @@ export class InvalidSubscriptionDetailIdError extends ValidationError<Subscripti
 /**
  * "Wert" is empty.
  */
-export class MissingValueError extends ValidationError<SubscriptionDetailEntry> {
+export class MissingValueError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "missingValueError";
@@ -69,7 +79,7 @@ export class MissingValueError extends ValidationError<SubscriptionDetailEntry> 
   }
 }
 
-export class EventNotFoundError extends ValidationError<SubscriptionDetailEntry> {
+export class EventNotFoundError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "eventNotFoundError";
@@ -77,7 +87,7 @@ export class EventNotFoundError extends ValidationError<SubscriptionDetailEntry>
   }
 }
 
-export class PersonNotFoundError extends ValidationError<SubscriptionDetailEntry> {
+export class PersonNotFoundError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "personNotFoundError";
@@ -85,7 +95,7 @@ export class PersonNotFoundError extends ValidationError<SubscriptionDetailEntry
   }
 }
 
-export class SubscriptionDetailNotFoundError extends ValidationError<SubscriptionDetailEntry> {
+export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "subscriptionDetailNotFoundError";
@@ -96,7 +106,7 @@ export class SubscriptionDetailNotFoundError extends ValidationError<Subscriptio
 /**
  * The subscription detail does not support editing via the internet.
  */
-export class SubscriptionDetailUnsupportedError extends ValidationError<SubscriptionDetailEntry> {
+export class SubscriptionDetailUnsupportedError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "subscriptionDetailUnsupportedError";
@@ -107,7 +117,7 @@ export class SubscriptionDetailUnsupportedError extends ValidationError<Subscrip
 /**
  * The subscription detail value ("Wert") does not comply with the "VssType".
  */
-export class InvalidValueError extends ValidationError<SubscriptionDetailEntry> {
+export class InvalidValueError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "invalidValueError";
@@ -118,52 +128,13 @@ export class InvalidValueError extends ValidationError<SubscriptionDetailEntry> 
 /**
  * The subscription detail value ("Wert") is not part of the "DropdownItems".
  */
-export class InvalidDropdownValueError extends ValidationError<SubscriptionDetailEntry> {
+export class InvalidDropdownValueError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.type = "invalidDropdownValueError";
     this.columns = ["value"];
   }
 }
-
-export type SubscriptionDetailValidationError =
-  | InvalidEventIdError
-  | InvalidPersonIdError
-  | InvalidPersonEmailError
-  | MissingPersonIdEmailError
-  | InvalidSubscriptionDetailIdError
-  | MissingValueError
-  | EventNotFoundError
-  | PersonNotFoundError
-  | SubscriptionDetailNotFoundError
-  | SubscriptionDetailUnsupportedError
-  | InvalidValueError
-  | InvalidDropdownValueError;
-
-/**
- * Errors bei Subscription Detail Import:
- *
- * invalidEventId
- * invalidPersonId
- * invalidEmail
- * missingPersonIdEmailError → weder Person ID noch E-Mail
- * invalidSubscriptionDetailId
- * missingValue → kein Wert
- * eventNotFoundError
- * personNotFoundError
- * subscriptionDetailNotFoundError (keine Anmeldung auf Anlass)
- * (keine Internetfreigabe)
- * invalidValueError → SubscriptionDetail Value entspricht nicht VssType
- * invalidDropdownValueError
- */
-
-/**
- * Errors bei Email Import:
- *
- * invalidPersonId
- * invalidEmail
- * personNotFoundError
- */
 
 export type SubscriptionDetailImportEntry = ImportEntry<
   SubscriptionDetailEntry,
