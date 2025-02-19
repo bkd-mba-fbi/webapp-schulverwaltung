@@ -1,0 +1,12 @@
+<div [className]="type()">
+  <div class="icon"></div>
+  <div class="content" role="note">
+    <strong>{{ title() }}</strong>
+    <p class="mb-0">{{ message() }}</p>
+    @if (actionLabel()) {
+      <button type="button" class="btn btn-link" (click)="handleClick()">
+        {{ actionLabel() }}
+      </button>
+    }
+  </div>
+</div>
