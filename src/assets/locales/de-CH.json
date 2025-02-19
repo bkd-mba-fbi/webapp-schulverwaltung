@@ -371,6 +371,10 @@
       "change-document": "Anderes Dokument wählen",
       "progress": "Fortschritt Daten validieren"
     },
+    "upload": {
+      "uploading": "Daten werden eingelesen...",
+      "progress": "Fortschritt Daten einlesen"
+    },
     "subscription-details": {
       "columns": {
         "status": "Status",

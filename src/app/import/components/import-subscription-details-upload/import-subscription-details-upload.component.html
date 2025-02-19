@@ -1,1 +1,14 @@
-<p>import-subscription-details-upload works!</p>
+<div class="bkd-container">
+  <h1>{{ "import.title" | translate }}</h1>
+
+  @if (progress().uploading > 0) {
+    <p>{{ "import.upload.uploading" | translate }}</p>
+    <bkd-progress
+      [total]="progress().total"
+      [processed]="progress().success + progress().error"
+      [ariaLabel]="'import.uploading.progress' | translate"
+    ></bkd-progress>
+  } @else {
+    <p>tbd</p>
+  }
+</div>
