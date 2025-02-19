@@ -37,14 +37,14 @@
   <div class="group-list">
     <div class="group-list-header">
       @for (key of primarySortKeys; track key) {
-        <div (click)="toggleSort(key)" [className]="key">
-          {{ "presence-control.groups.list.header." + key | translate }}
-          @if (sortCriteria) {
-            <span class="sort-direction">{{
-              getSortDirectionCharacter(sortCriteria, key)
-            }}</span>
-          }
-        </div>
+        <bkd-sortable-header
+          [label]="'presence-control.groups.list.header.' + key | translate"
+          [sortKey]="key"
+          [currentSort]="sortCriteria"
+          (sortRequested)="toggleSort($event)"
+          [className]="key"
+        >
+        </bkd-sortable-header>
       }
     </div>
 

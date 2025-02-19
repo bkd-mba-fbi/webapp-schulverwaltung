@@ -1,6 +1,7 @@
 import { Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
 import { SubscriptionDetail } from "../../shared/models/subscription.model";
+import { UnreachableError } from "../../shared/utils/error";
 import { SortCriteria } from "../components/presence-control-group/presence-control-group.component";
 
 export interface SubscriptionDetailWithName {
@@ -32,6 +33,11 @@ function getSubscriptionDetailComparator(
         );
         return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
       }
+      default:
+        throw new UnreachableError(
+          sortCriteria.primarySortKey as never,
+          "Unhandled sort criteria",
+        );
     }
   };
 }
