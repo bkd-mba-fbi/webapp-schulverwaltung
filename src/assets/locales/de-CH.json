@@ -365,6 +365,9 @@
       "next": "Weiter"
     },
     "validation": {
+      "validating": "Daten werden validiert...",
+      "upload": "Daten einlesen",
+      "change-document": "Anderes Dokument wählen",
       "progress": "Fortschritt Daten validieren"
     },
     "subscription-details": {
