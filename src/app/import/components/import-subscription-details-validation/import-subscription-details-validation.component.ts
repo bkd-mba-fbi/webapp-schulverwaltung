@@ -7,7 +7,7 @@ import {
 import { TranslatePipe } from "@ngx-translate/core";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { ProgressComponent } from "../../../shared/components/progress/progress.component";
-import { SubscriptionDetailEntry } from "../../services/import-parse-subscription-details.service";
+import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
 import { ImportStateService } from "../../services/import-state.service";
 import {
   ImportValidateSubscriptionDetailsService,

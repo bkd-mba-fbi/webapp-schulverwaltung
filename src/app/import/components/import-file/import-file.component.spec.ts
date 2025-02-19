@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { ImportParseSubscriptionDetailsService } from "../../services/import-parse-subscription-details.service";
+import { ImportFileSubscriptionDetailsService } from "../../services/import-file-subscription-details.service";
 import { ImportFileComponent } from "./import-file.component";
 
 describe("ImportFileComponent", () => {
@@ -11,7 +11,7 @@ describe("ImportFileComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [ImportFileComponent],
-        providers: [ImportParseSubscriptionDetailsService],
+        providers: [ImportFileSubscriptionDetailsService],
       }),
     ).compileComponents();
 

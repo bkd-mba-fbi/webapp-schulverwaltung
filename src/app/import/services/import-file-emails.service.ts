@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ImportParseService } from "./import-parse.service";
+import { ImportFileService } from "./import-file.service";
 
 export type EmailEntry = {
   personId: unknown;
@@ -9,7 +9,7 @@ export type EmailEntry = {
 @Injectable({
   providedIn: "root",
 })
-export class ImportParseEmailsService extends ImportParseService<EmailEntry> {
+export class ImportFileEmailsService extends ImportFileService<EmailEntry> {
   constructor() {
     super(["ID Person", "E-Mail"]);
   }
