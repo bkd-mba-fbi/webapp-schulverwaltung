@@ -5,8 +5,9 @@ import {
   Input,
   Output,
 } from "@angular/core";
-import { PrimarySortKey } from "../../../open-absences/services/open-absences.service";
 import { SortCriteria } from "../../utils/sort";
+
+export type PrimarySortKey = "name" | "group" | "date";
 
 @Component({
   selector: "bkd-sortable-header",
