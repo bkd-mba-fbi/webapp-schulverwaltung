@@ -22,7 +22,7 @@
 
   <div class="mb-3">
     <label for="formFile" class="form-label">{{
-      "import.upload.input-label" | translate
+      "import.file.input-label" | translate
     }}</label>
     <input
       class="form-control"
@@ -42,7 +42,7 @@
     (dragover)="onFileDrag($event)"
   >
     <i class="material-icons">cloud_upload</i>
-    <span>{{ "import.upload.drop-zone-label" | translate }}</span>
+    <span>{{ "import.file.drop-zone-label" | translate }}</span>
   </div>
 
   @if (file) {
@@ -63,7 +63,7 @@
       [disabled]="!file || error()"
       class="btn btn-primary"
     >
-      {{ "import.upload.next" | translate }}
+      {{ "import.file.next" | translate }}
     </button>
   </div>
 </div>

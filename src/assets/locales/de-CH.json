@@ -360,7 +360,7 @@
   },
   "import": {
     "title": "Daten einlesen",
-    "upload": {
+    "file": {
       "input-label": "Datei auswählen",
       "drop-zone-label": "Datei hierhin ziehen",
       "next": "Weiter"
