@@ -66,11 +66,23 @@ export class PersonsRestService extends RestService<typeof Person> {
       );
   }
 
-  getFullNames(
+  getFullNamesById(
     ids: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<PersonFullName>> {
     const params = {
       "filter.Id": `;${ids.join(";")}`,
+      fields: "Id,FullName",
+    };
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, { params })
+      .pipe(switchMap(decodeArray(PersonFullName)));
+  }
+
+  getFullNamesByEmail(
+    emails: ReadonlyArray<string>,
+  ): Observable<ReadonlyArray<PersonFullName>> {
+    const params = {
+      "filter.Email": `;${emails.join(";")}`,
       fields: "Id,FullName",
     };
     return this.http

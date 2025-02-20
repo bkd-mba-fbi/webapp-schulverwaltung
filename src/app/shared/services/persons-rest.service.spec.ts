@@ -117,15 +117,27 @@ describe("PersonsRestService", () => {
     });
   });
 
-  describe(".getFullNames", () => {
-    it("returns the full names of the given persons ", () => {
-      service.getFullNames([4515, 4516]).subscribe();
+  describe("getFullNames", () => {
+    it("returns the full names of the given persons ids", () => {
+      service.getFullNamesById([4515, 4516]).subscribe();
 
       httpTestingController.match(
         (req) =>
           req.method === "GET" &&
           req.urlWithParams ===
             "https://eventotest.api/Persons/?filter.Id=;4515;4516&fields=Id,FullName",
+      );
+      expect().nothing();
+    });
+
+    it("returns the full names of the given persons emails", () => {
+      service.getFullNamesByEmail(["m@muster.ch", "m@meyer.ch"]).subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === "GET" &&
+          req.urlWithParams ===
+            "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName",
       );
       expect().nothing();
     });
