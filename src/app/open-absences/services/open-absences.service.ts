@@ -17,7 +17,6 @@ import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-
 import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
 import { SortCriteria } from "src/app/shared/utils/sort";
-import { PrimarySortKey } from "../../shared/components/sortable-header/sortable-header.component";
 import { Person } from "../../shared/models/person.model";
 import { toDesignationDateTimeTypeString } from "../../shared/utils/lesson-presences";
 import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
@@ -26,6 +25,8 @@ import {
   removeOpenAbsences,
   sortOpenAbsencesEntries,
 } from "../utils/open-absences-entries";
+
+export type PrimarySortKey = "name" | "date";
 
 const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
   "studentFullName",

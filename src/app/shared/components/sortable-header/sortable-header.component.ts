@@ -7,8 +7,6 @@ import {
 } from "@angular/core";
 import { SortCriteria } from "../../utils/sort";
 
-export type PrimarySortKey = "name" | "group" | "date" | "registrationDate";
-
 @Component({
   selector: "bkd-sortable-header",
   imports: [],
@@ -16,11 +14,11 @@ export type PrimarySortKey = "name" | "group" | "date" | "registrationDate";
   styleUrl: "./sortable-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SortableHeaderComponent {
+export class SortableHeaderComponent<T extends string> {
   @Input() label = "";
-  @Input() sortKey: PrimarySortKey;
-  @Input() currentSort: SortCriteria<string>;
-  @Output() sortRequested = new EventEmitter<PrimarySortKey>();
+  @Input() sortKey: T;
+  @Input() currentSort: SortCriteria<T>;
+  @Output() sortRequested = new EventEmitter<T>();
 
   get sortDirectionCharacter(): string {
     if (!this.currentSort) return "";
