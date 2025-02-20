@@ -306,8 +306,14 @@ export class ImportValidateSubscriptionDetailsService {
     entries: ReadonlyArray<SubscriptionDetailEntry>,
   ): Observable<ReadonlyArray<PersonFullName>> {
     const personIds = entries.map(({ personId }) => personId);
-    console.log(personIds);
-    return this.personsService.getFullNames(personIds.map(Number));
+    return this.personsService.getFullNamesById(personIds.map(Number));
+  }
+
+  private loadPersonsByEmail(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<PersonFullName>> {
+    const personIds = entries.map(({ personEmail }) => personEmail);
+    return this.personsService.getFullNamesByEmail(personIds.map(String));
   }
 
   // private loadSubscriptionsAndDetails(
