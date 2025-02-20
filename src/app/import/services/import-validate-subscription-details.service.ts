@@ -5,17 +5,15 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { uniqBy } from "lodash-es";
-import { Observable, combineLatest, firstValueFrom, map } from "rxjs";
+import { Observable } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
 import { PersonFullName } from "src/app/shared/models/person.model";
 import {
+  Subscription,
   SubscriptionDetail,
-  SubscriptionWithDetails,
 } from "src/app/shared/models/subscription.model";
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { PersonsRestService } from "../../shared/services/persons-rest.service";
-import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportEntry, ValidationError } from "./import-state.service";
 
@@ -140,7 +138,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
   {
     event?: EventDesignation;
     person?: PersonFullName;
-    subscription?: SubscriptionWithDetails;
+    subscription?: Subscription;
     subscriptionDetail?: SubscriptionDetail;
   },
   SubscriptionDetailValidationError,
@@ -153,7 +151,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
 export class ImportValidateSubscriptionDetailsService {
   private eventsService = inject(EventsRestService);
   private personsService = inject(PersonsRestService);
-  private subscriptionsService = inject(SubscriptionsRestService);
+  // private subscriptionsService = inject(SubscriptionsRestService);
 
   fetchAndValidate(parsedEntries: ReadonlyArray<SubscriptionDetailEntry>): {
     progress: Signal<ValidationProgress>;
@@ -199,35 +197,6 @@ export class ImportValidateSubscriptionDetailsService {
     //   - Are dropdown items allowed (and valid)? → DropdownItems != null
     // - Update progress on-the-fly
 
-    // TODO: validate...
-    const entriesWithData = await firstValueFrom(
-      combineLatest([
-        this.loadEvents(parsedEntries),
-        this.loadPersonsById(parsedEntries),
-        this.loadSubscriptionsWIthDetails(parsedEntries),
-      ]).pipe(
-        map(([events, persons, subscriptions]) =>
-          this.buildValidationEntriesWithData(
-            parsedEntries,
-            events,
-            persons,
-            subscriptions,
-          ),
-        ),
-      ),
-    );
-
-    // TODO: After all validations are done
-    entries = entries.map((entry) => {
-      if (entry.validationStatus === "validating") {
-        entry.validationStatus = "valid";
-      }
-      return entry;
-    });
-    this.updateProgress(entries, progress);
-
-    return Promise.resolve(entriesWithData);
-
     // const entriesWithAdditionalData = await firstValueFrom(
     //   combineLatest([
     //     this.loadEvents(entries),
@@ -246,25 +215,16 @@ export class ImportValidateSubscriptionDetailsService {
     //   ),
     // );
 
-    // TODO: Fake implementation for now
-    /*    return new Promise((resolve) => {
-      let i = 0;
-      const interval = setInterval(() => {
-        entries[i].validationStatus = "valid";
-        progress.update(({ validating, valid, invalid, total }) => ({
-          validating: validating - 1,
-          valid: valid + 1,
-          invalid,
-          total,
-        }));
+    // TODO: After all validations are done
+    entries = entries.map((entry) => {
+      if (entry.validationStatus === "validating") {
+        entry.validationStatus = "valid";
+      }
+      return entry;
+    });
+    this.updateProgress(entries, progress);
 
-        i += 1;
-        if (i === entries.length) {
-          clearInterval(interval);
-          resolve(entries);
-        }
-      }, 250);
-    });*/
+    return Promise.resolve(entries);
   }
 
   private updateProgress(
@@ -336,20 +296,6 @@ export class ImportValidateSubscriptionDetailsService {
     return this.personsService.getFullNamesByEmail(personIds.map(String));
   }
 
-  private loadSubscriptionsWIthDetails(
-    entries: ReadonlyArray<SubscriptionDetailEntry>,
-  ): Observable<ReadonlyArray<SubscriptionWithDetails>> {
-    const eventPersonIds = uniqBy(
-      entries.map(({ personId, eventId }) => ({ personId, eventId })),
-      ({ personId, eventId }) => `${personId}-${eventId}`,
-    );
-
-    return this.subscriptionsService.getSubscriptionsWithDetails(
-      eventPersonIds.map(({ eventId }) => Number(eventId)),
-      eventPersonIds.map(({ personId }) => Number(personId)),
-    );
-  }
-
   // private loadSubscriptionsAndDetails(
   //   entries: ReadonlyArray<SubscriptionDetailEntry>,
   // ): Observable<{
@@ -412,27 +358,31 @@ export class ImportValidateSubscriptionDetailsService {
     entries: ReadonlyArray<SubscriptionDetailEntry>,
     events: ReadonlyArray<EventDesignation>,
     persons: ReadonlyArray<PersonFullName>,
-    // subscriptions: ReadonlyArray<{
-    //   eventId: number;
-    //   personId: number;
-    //   subscriptionId: number;
-    // }>,
-    // subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
-    subscriptions: ReadonlyArray<SubscriptionWithDetails>,
+    subscriptions: ReadonlyArray<{
+      eventId: number;
+      personId: number;
+      subscriptionId: number;
+    }>,
+    subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
   ): ReadonlyArray<SubscriptionDetailImportEntry> {
     return entries.map((entry) => {
-      const subscription = subscriptions.find(
-        (s) => s.EventId === entry.eventId && s.PersonId === entry.personId,
-      );
+      const subscriptionId = subscriptions.find(
+        (s) => s.eventId === entry.eventId && s.personId === entry.personId,
+      )?.subscriptionId;
       return {
-        validationStatus: "valid",
+        validationStatus: "validating",
         importStatus: null,
         entry,
         data: {
           event: events.find((e) => e.Id === entry.eventId),
           person: persons.find((p) => p.Id === entry.personId),
-          subscriptionId: subscription?.Id,
-          subscriptionDetail: undefined, // TODO
+          subscriptionId: subscriptionId,
+          subscriptionDetail: subscriptionDetails.find(
+            (s) =>
+              s.EventId === entry.eventId &&
+              s.IdPerson === entry.personId &&
+              s.SubscriptionId === subscriptionId,
+          ),
         },
         validationError: null,
         importError: null,
