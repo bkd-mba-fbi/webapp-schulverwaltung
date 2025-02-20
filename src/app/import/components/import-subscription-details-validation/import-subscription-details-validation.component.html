@@ -45,14 +45,14 @@
               {{ entry.validationStatus }} {{ entry.validationError?.type }}
             </td>
             <td>
-              @if (entry.validationStatus === "valid") {
-                {{ entry.data.event.Designation }}
+              @if (entry.validationStatus === "valid" && entry.data.event) {
+                {{ entry.data.event?.Designation }}
               } @else {
                 {{ entry.entry["eventId"] }}
               }
             </td>
             <td>
-              @if (entry.validationStatus === "valid") {
+              @if (entry.validationStatus === "valid" && entry.data.person) {
                 {{ entry.data.person.FullName }}
               } @else {
                 {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
