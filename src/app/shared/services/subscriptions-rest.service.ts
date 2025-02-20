@@ -1,12 +1,17 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import * as t from "io-ts";
 import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { Identifiable } from "../models/common-types";
-import { Subscription, SubscriptionDetail } from "../models/subscription.model";
+import {
+  Subscription,
+  SubscriptionDetail,
+  SubscriptionWithDetails,
+} from "../models/subscription.model";
 import { decodeArray } from "../utils/decode";
+import { paginatedParams } from "../utils/pagination";
 import { RestService } from "./rest.service";
 
 @Injectable({
@@ -78,6 +83,22 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
         },
       })
       .pipe(switchMap(decodeArray(Subscription)));
+  }
+
+  getSubscriptionsWithDetails(
+    eventIds: ReadonlyArray<number>,
+    personIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<SubscriptionWithDetails>> {
+    const params = new HttpParams()
+      .set("filter.EventId", `;${eventIds.join(";")}`)
+      .set("filter.PersonId", `;${personIds.join(";")}`)
+      .set("expand", "SubscriptionDetails");
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(0, 0, params),
+      })
+      .pipe(switchMap(decodeArray(SubscriptionWithDetails)));
   }
 
   getSubscriptionDetailsById(
