@@ -74,7 +74,7 @@ export class PresenceControlGroupComponent implements OnInit {
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
     primarySortKey: "name",
-    ascending: false,
+    ascending: true,
   });
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
@@ -164,16 +164,6 @@ export class PresenceControlGroupComponent implements OnInit {
         "presence-control.groups.notifications.save-success",
       ),
     );
-  }
-
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria,
-    sortKey: PrimarySortKey,
-  ): string {
-    if (sortCriteria.primarySortKey !== sortKey) {
-      return "";
-    }
-    return sortCriteria.ascending ? "↓" : "↑";
   }
 
   /**

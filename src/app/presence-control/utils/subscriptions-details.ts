@@ -25,17 +25,17 @@ function getSubscriptionDetailComparator(
     switch (sortCriteria.primarySortKey) {
       case "name": {
         const nameComparator = a.name.localeCompare(b.name);
-        return sortCriteria.ascending ? nameComparator * -1 : nameComparator;
+        return sortCriteria.ascending ? nameComparator : nameComparator * -1;
       }
       case "group": {
         const groupComparator = (a.detail.Value || "").localeCompare(
           b.detail.Value || "",
         );
-        return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
+        return sortCriteria.ascending ? groupComparator : groupComparator * -1;
       }
       default:
         throw new UnreachableError(
-          sortCriteria.primarySortKey as never,
+          sortCriteria.primarySortKey,
           "Unhandled sort criteria",
         );
     }
