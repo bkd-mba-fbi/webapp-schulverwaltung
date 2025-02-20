@@ -116,4 +116,18 @@ describe("PersonsRestService", () => {
       expect().nothing();
     });
   });
+
+  describe(".getFullNames", () => {
+    it("returns the full names of the given persons ", () => {
+      service.getFullNames([4515, 4516]).subscribe();
+
+      httpTestingController.match(
+        (req) =>
+          req.method === "GET" &&
+          req.urlWithParams ===
+            "https://eventotest.api/Persons/?filter.Id=;4515;4516&fields=Id,FullName",
+      );
+      expect().nothing();
+    });
+  });
 });
