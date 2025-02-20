@@ -1,6 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-
 <bkd-events-students-header
   [title]="title()"
   [count]="count()"
@@ -10,21 +7,20 @@
 <section class="list">
   @if (entries().length > 0) {
     <div class="list-header">
-      <div class="name" (click)="toggleSort.emit('name')">
-        {{ "events-students.list.header.name" | translate }}
-        <span class="sort-direction">{{
-          getSortDirectionCharacter("name")
-        }}</span>
-      </div>
-      <div
+      <bkd-sortable-header
+        [label]="'events-students.list.header.name' | translate"
+        [sortKey]="'name'"
+        [currentSort]="sortCriteria()"
+        (sortRequested)="toggleSort.emit($event)"
+        class="name"
+      ></bkd-sortable-header>
+      <bkd-sortable-header
+        [label]="'events-students.list.header.registration-date' | translate"
+        [sortKey]="'registrationDate'"
+        [currentSort]="sortCriteria()"
+        (sortRequested)="toggleSort.emit($event)"
         class="registration-date"
-        (click)="toggleSort.emit('registrationDate')"
-      >
-        {{ "events-students.list.header.registration-date" | translate }}
-        <span class="sort-direction">{{
-          getSortDirectionCharacter("registrationDate")
-        }}</span>
-      </div>
+      ></bkd-sortable-header>
     </div>
   } @else {
     <p>{{ "events-students.no-entries" | translate }}</p>
