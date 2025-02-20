@@ -123,4 +123,18 @@ describe("SubscriptionsRestService", () => {
       expect(result).toEqual(data);
     });
   });
+
+  describe("getSubscriptionsWithDetails", () => {
+    it("returns the subscriptions with expanded details for the given event and person ids", () => {
+      const url =
+        "https://eventotest.api/Subscriptions/?filter.EventId=;1234;4321&filter.PersonId=;666;999&expand=SubscriptionDetails&offset=0&limit=0";
+
+      service.getSubscriptionsWithDetails([1234, 4321], [666, 999]).subscribe();
+
+      httpTestingController.match(
+        (req) => req.method === "GET" && req.urlWithParams === url,
+      );
+      httpTestingController.verify();
+    });
+  });
 });
