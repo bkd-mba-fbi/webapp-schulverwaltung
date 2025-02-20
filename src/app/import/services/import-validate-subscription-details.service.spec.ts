@@ -1,4 +1,5 @@
 import { TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import {
   ImportValidateSubscriptionDetailsService,
@@ -16,7 +17,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
   let service: ImportValidateSubscriptionDetailsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule(buildTestModuleMetadata({}));
     service = TestBed.inject(ImportValidateSubscriptionDetailsService);
   });
 
