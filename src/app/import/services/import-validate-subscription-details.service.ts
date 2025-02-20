@@ -1,10 +1,18 @@
-import { Injectable, Signal, WritableSignal, signal } from "@angular/core";
-import { EventSummary } from "src/app/shared/models/event.model";
+import {
+  Injectable,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { EventDesignation } from "src/app/shared/models/event.model";
 import { PersonSummary } from "src/app/shared/models/person.model";
 import {
   Subscription,
   SubscriptionDetail,
 } from "src/app/shared/models/subscription.model";
+import { EventsRestService } from "../../shared/services/events-rest.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportEntry, ValidationError } from "./import-state.service";
 
@@ -127,7 +135,7 @@ export class InvalidDropdownValueError extends SubscriptionDetailValidationError
 export type SubscriptionDetailImportEntry = ImportEntry<
   SubscriptionDetailEntry,
   {
-    event?: EventSummary;
+    event?: EventDesignation;
     person?: PersonSummary;
     subscription?: Subscription;
     subscriptionDetail?: SubscriptionDetail;
@@ -140,7 +148,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
   providedIn: "root",
 })
 export class ImportValidateSubscriptionDetailsService {
-  // private eventsService = inject(EventsRestService);
+  private eventsService = inject(EventsRestService);
   // private personsService = inject(PersonsRestService);
   // private subscriptionsService = inject(SubscriptionsRestService);
 
@@ -286,12 +294,12 @@ export class ImportValidateSubscriptionDetailsService {
     return entry;
   }
 
-  // private loadEvents(
-  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
-  // ): Observable<ReadonlyArray<EventSummary>> {
-  //   const eventIds = entries.map(({ eventId }) => eventId);
-  //   return this.eventsService.getEventSummaries(eventIds);
-  // }
+  private loadEvents(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<EventDesignation>> {
+    const eventIds = entries.map(({ eventId }) => eventId);
+    return this.eventsService.getEventDesignations(eventIds.map(Number));
+  }
 
   // private loadPersonsById(
   //   entries: ReadonlyArray<SubscriptionDetailEntry>,
