@@ -5,15 +5,17 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { Observable } from "rxjs";
+import { uniqBy } from "lodash-es";
+import { Observable, combineLatest, firstValueFrom, map } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
 import { PersonFullName } from "src/app/shared/models/person.model";
 import {
-  Subscription,
   SubscriptionDetail,
+  SubscriptionWithDetails,
 } from "src/app/shared/models/subscription.model";
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { PersonsRestService } from "../../shared/services/persons-rest.service";
+import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportEntry, ValidationError } from "./import-state.service";
 
@@ -138,7 +140,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
   {
     event?: EventDesignation;
     person?: PersonFullName;
-    subscription?: Subscription;
+    subscription?: SubscriptionWithDetails;
     subscriptionDetail?: SubscriptionDetail;
   },
   SubscriptionDetailValidationError,
@@ -151,7 +153,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
 export class ImportValidateSubscriptionDetailsService {
   private eventsService = inject(EventsRestService);
   private personsService = inject(PersonsRestService);
-  // private subscriptionsService = inject(SubscriptionsRestService);
+  private subscriptionsService = inject(SubscriptionsRestService);
 
   fetchAndValidate(parsedEntries: ReadonlyArray<SubscriptionDetailEntry>): {
     progress: Signal<ValidationProgress>;
@@ -169,7 +171,7 @@ export class ImportValidateSubscriptionDetailsService {
     };
   }
 
-  private getValidationResult(
+  private async getValidationResult(
     progress: WritableSignal<ValidationProgress>,
     parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
@@ -197,6 +199,24 @@ export class ImportValidateSubscriptionDetailsService {
     //   - Are dropdown items allowed (and valid)? → DropdownItems != null
     // - Update progress on-the-fly
 
+    // TODO: validate...
+    const entriesWithData = await firstValueFrom(
+      combineLatest([
+        this.loadEvents(parsedEntries),
+        this.loadPersonsById(parsedEntries),
+        this.loadSubscriptionsWIthDetails(parsedEntries),
+      ]).pipe(
+        map(([events, persons, subscriptions]) =>
+          this.buildValidationEntriesWithData(
+            parsedEntries,
+            events,
+            persons,
+            subscriptions,
+          ),
+        ),
+      ),
+    );
+
     // TODO: After all validations are done
     entries = entries.map((entry) => {
       if (entry.validationStatus === "validating") {
@@ -206,7 +226,7 @@ export class ImportValidateSubscriptionDetailsService {
     });
     this.updateProgress(entries, progress);
 
-    return Promise.resolve(entries);
+    return Promise.resolve(entriesWithData);
 
     // const entriesWithAdditionalData = await firstValueFrom(
     //   combineLatest([
@@ -316,6 +336,20 @@ export class ImportValidateSubscriptionDetailsService {
     return this.personsService.getFullNamesByEmail(personIds.map(String));
   }
 
+  private loadSubscriptionsWIthDetails(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<SubscriptionWithDetails>> {
+    const eventPersonIds = uniqBy(
+      entries.map(({ personId, eventId }) => ({ personId, eventId })),
+      ({ personId, eventId }) => `${personId}-${eventId}`,
+    );
+
+    return this.subscriptionsService.getSubscriptionsWithDetails(
+      eventPersonIds.map(({ eventId }) => Number(eventId)),
+      eventPersonIds.map(({ personId }) => Number(personId)),
+    );
+  }
+
   // private loadSubscriptionsAndDetails(
   //   entries: ReadonlyArray<SubscriptionDetailEntry>,
   // ): Observable<{
@@ -374,41 +408,37 @@ export class ImportValidateSubscriptionDetailsService {
   //   );
   // }
 
-  // private buildValidationEntries(
-  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
-  //   events: ReadonlyArray<EventSummary>,
-  //   persons: ReadonlyArray<PersonSummary>,
-  //   subscriptions: ReadonlyArray<{
-  //     eventId: number;
-  //     personId: number;
-  //     subscriptionId: number;
-  //   }>,
-  //   subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
-  // ): ReadonlyArray<SubscriptionDetailImportEntry> {
-  //   return entries.map((entry) => {
-  //     const subscriptionId = subscriptions.find(
-  //       (s) => s.eventId === entry.eventId && s.personId === entry.personId,
-  //     )?.subscriptionId;
-  //     return {
-  //       status: signal<ValidationStatus>("validating"),
-  //       entry,
-  //       additionalData: {
-  //         event: events.find((e) => e.Id === entry.eventId),
-  //         person: persons.find((p) => p.Id === entry.personId),
-  //         subscriptionId: subscriptionId,
-  //         subscriptionDetail: subscriptionId
-  //           ? subscriptionDetails.find(
-  //               (s) =>
-  //                 s.EventId === entry.eventId &&
-  //                 s.IdPerson === entry.personId &&
-  //                 s.SubscriptionId === subscriptionId,
-  //             )
-  //           : [],
-  //       },
-  //       errors: null,
-  //     };
-  //   });
-  // }
+  private buildValidationEntriesWithData(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+    events: ReadonlyArray<EventDesignation>,
+    persons: ReadonlyArray<PersonFullName>,
+    // subscriptions: ReadonlyArray<{
+    //   eventId: number;
+    //   personId: number;
+    //   subscriptionId: number;
+    // }>,
+    // subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    subscriptions: ReadonlyArray<SubscriptionWithDetails>,
+  ): ReadonlyArray<SubscriptionDetailImportEntry> {
+    return entries.map((entry) => {
+      const subscription = subscriptions.find(
+        (s) => s.EventId === entry.eventId && s.PersonId === entry.personId,
+      );
+      return {
+        validationStatus: "valid",
+        importStatus: null,
+        entry,
+        data: {
+          event: events.find((e) => e.Id === entry.eventId),
+          person: persons.find((p) => p.Id === entry.personId),
+          subscriptionId: subscription?.Id,
+          subscriptionDetail: undefined, // TODO
+        },
+        validationError: null,
+        importError: null,
+      };
+    });
+  }
 
   private buildValidationEntries(
     entries: ReadonlyArray<SubscriptionDetailEntry>,

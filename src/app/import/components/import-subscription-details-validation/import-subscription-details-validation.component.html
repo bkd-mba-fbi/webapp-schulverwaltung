@@ -44,9 +44,19 @@
             <td>
               {{ entry.validationStatus }} {{ entry.validationError?.type }}
             </td>
-            <td>{{ entry.entry["eventId"] }}</td>
             <td>
-              {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
+              @if (entry.validationStatus === "valid") {
+                {{ entry.data.event.Designation }}
+              } @else {
+                {{ entry.entry["eventId"] }}
+              }
+            </td>
+            <td>
+              @if (entry.validationStatus === "valid") {
+                {{ entry.data.person.FullName }}
+              } @else {
+                {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
+              }
             </td>
             <td>{{ entry.entry["subscriptionDetailId"] }}</td>
             <td>{{ entry.entry["value"] }}</td>
