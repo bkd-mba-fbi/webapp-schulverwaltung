@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from "@angular/common/http";
+import { HttpClient, HttpContext, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import * as t from "io-ts";
 import { Observable, of } from "rxjs";
@@ -6,6 +6,7 @@ import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { Person, PersonFullName, PersonSummary } from "../models/person.model";
 import { decode, decodeArray } from "../utils/decode";
+import { paginatedParams } from "../utils/pagination";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
 
@@ -69,24 +70,28 @@ export class PersonsRestService extends RestService<typeof Person> {
   getFullNamesById(
     ids: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<PersonFullName>> {
-    const params = {
-      "filter.Id": `;${ids.join(";")}`,
-      fields: "Id,FullName",
-    };
+    const params = new HttpParams()
+      .set("filter.Id", `;${ids.join(";")}`)
+      .set("fields", "Id,FullName");
+
     return this.http
-      .get<unknown>(`${this.baseUrl}/`, { params })
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(0, 0, params),
+      })
       .pipe(switchMap(decodeArray(PersonFullName)));
   }
 
   getFullNamesByEmail(
     emails: ReadonlyArray<string>,
   ): Observable<ReadonlyArray<PersonFullName>> {
-    const params = {
-      "filter.Email": `;${emails.join(";")}`,
-      fields: "Id,FullName",
-    };
+    const params = new HttpParams()
+      .set("filter.Email", `;${emails.join(";")}`)
+      .set("fields", "Id,FullName");
+
     return this.http
-      .get<unknown>(`${this.baseUrl}/`, { params })
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(0, 0, params),
+      })
       .pipe(switchMap(decodeArray(PersonFullName)));
   }
 

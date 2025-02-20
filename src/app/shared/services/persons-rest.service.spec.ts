@@ -125,7 +125,7 @@ describe("PersonsRestService", () => {
         (req) =>
           req.method === "GET" &&
           req.urlWithParams ===
-            "https://eventotest.api/Persons/?filter.Id=;4515;4516&fields=Id,FullName",
+            "https://eventotest.api/Persons/?filter.Id=;4515;4516&fields=Id,FullName&offset=0&limit=0",
       );
       expect().nothing();
     });
@@ -137,7 +137,7 @@ describe("PersonsRestService", () => {
         (req) =>
           req.method === "GET" &&
           req.urlWithParams ===
-            "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName",
+            "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName&offset=0&limit=0",
       );
       expect().nothing();
     });
