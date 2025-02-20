@@ -7,11 +7,12 @@ import {
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
-import { PrimarySortKey } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SortCriteria } from "../../../shared/utils/sort";
 import { StudentEntry } from "../../services/events-students-state.service";
 import { EventsStudentsHeaderComponent } from "../events-students-header/events-students-header.component";
 import { EventsStudentsStudyCourseEntryComponent } from "../events-students-study-course-entry/events-students-study-course-entry.component";
+
+export type PrimarySortKey = "name" | "registrationDate";
 
 @Component({
   selector: "bkd-events-students-study-course-list",

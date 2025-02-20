@@ -13,7 +13,6 @@ import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
-import { PrimarySortKey } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
@@ -33,6 +32,7 @@ import {
   PresenceControlGroupDialogComponent,
 } from "../presence-control-group-dialog/presence-control-group-dialog.component";
 
+export type PrimarySortKey = "name" | "group";
 export interface SortCriteria {
   primarySortKey: PrimarySortKey;
   ascending: boolean;
