@@ -75,12 +75,6 @@ const Subscription = t.type({
   // HRef: Option(t.string),
 });
 
-const SubscriptionWithDetails = t.intersection([
-  Subscription,
-  t.partial({ SubscriptionDetails: Option(t.array(SubscriptionDetail)) }),
-]);
-
 type SubscriptionDetail = t.TypeOf<typeof SubscriptionDetail>;
 type Subscription = t.TypeOf<typeof Subscription>;
-type SubscriptionWithDetails = t.TypeOf<typeof SubscriptionWithDetails>;
-export { Subscription, SubscriptionDetail, SubscriptionWithDetails };
+export { Subscription, SubscriptionDetail };
