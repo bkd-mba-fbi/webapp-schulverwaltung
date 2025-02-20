@@ -81,7 +81,7 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
   }
 
   getSubscriptionDetailsById(
-    id: number,
+    id: number | string,
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}/SubscriptionDetails`)

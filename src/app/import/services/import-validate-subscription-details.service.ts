@@ -1,0 +1,485 @@
+import {
+  Injectable,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { EventDesignation } from "src/app/shared/models/event.model";
+import { PersonFullName } from "src/app/shared/models/person.model";
+import {
+  Subscription,
+  SubscriptionDetail,
+} from "src/app/shared/models/subscription.model";
+import { EventsRestService } from "../../shared/services/events-rest.service";
+import { PersonsRestService } from "../../shared/services/persons-rest.service";
+import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
+import { ImportEntry, ValidationError } from "./import-state.service";
+
+export type ValidationProgress = {
+  validating: number;
+  valid: number;
+  invalid: number;
+  total: number;
+};
+
+/**
+ * Errors bei Email Import:
+ *
+ * invalidPersonId
+ * invalidEmail
+ * personNotFoundError
+ */
+
+export class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
+
+export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.columns = ["eventId"];
+  }
+}
+
+export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.columns = ["personId"];
+  }
+}
+
+export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailEntry> {
+  constructor() {
+    super();
+    this.columns = ["personEmail"];
+  }
+}
+
+/**
+ * Neither Person Id, nor E-Mail is present.
+ */
+export class MissingPersonIdEmailError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["personId", "personEmail"];
+  }
+}
+
+export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["subscriptionDetailId"];
+  }
+}
+
+/**
+ * "Wert" is empty.
+ */
+export class MissingValueError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["value"];
+  }
+}
+
+export class EventNotFoundError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["eventId"];
+  }
+}
+
+export class PersonNotFoundError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["personId", "personEmail"];
+  }
+}
+
+export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["subscriptionDetailId"];
+  }
+}
+
+/**
+ * The subscription detail does not support editing via the internet.
+ */
+export class SubscriptionDetailUnsupportedError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["subscriptionDetailId"];
+  }
+}
+
+/**
+ * The subscription detail value ("Wert") does not comply with the "VssType".
+ */
+export class InvalidValueError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["value"];
+  }
+}
+
+/**
+ * The subscription detail value ("Wert") is not part of the "DropdownItems".
+ */
+export class InvalidDropdownValueError extends SubscriptionDetailValidationError {
+  constructor() {
+    super();
+    this.columns = ["value"];
+  }
+}
+
+export type SubscriptionDetailImportEntry = ImportEntry<
+  SubscriptionDetailEntry,
+  {
+    event?: EventDesignation;
+    person?: PersonFullName;
+    subscription?: Subscription;
+    subscriptionDetail?: SubscriptionDetail;
+  },
+  SubscriptionDetailValidationError,
+  unknown
+>;
+
+@Injectable({
+  providedIn: "root",
+})
+export class ImportValidateSubscriptionDetailsService {
+  private eventsService = inject(EventsRestService);
+  private personsService = inject(PersonsRestService);
+  // private subscriptionsService = inject(SubscriptionsRestService);
+
+  fetchAndValidate(parsedEntries: ReadonlyArray<SubscriptionDetailEntry>): {
+    progress: Signal<ValidationProgress>;
+    entries: Promise<ReadonlyArray<SubscriptionDetailImportEntry>>;
+  } {
+    const progress = signal<ValidationProgress>({
+      validating: parsedEntries.length,
+      valid: 0,
+      invalid: 0,
+      total: parsedEntries.length,
+    });
+    return {
+      progress,
+      entries: this.getValidationResult(progress, parsedEntries),
+    };
+  }
+
+  private async getValidationResult(
+    progress: WritableSignal<ValidationProgress>,
+    parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
+    let entries = this.buildValidationEntries(parsedEntries);
+    entries = this.verifyEntriesData(entries);
+    this.updateProgress(entries, progress);
+
+    // TODO: (asynchronously)
+    // - Load events
+    // - Load persons by ID
+    // - Load persons by Email
+    // - Load subscriptions with subscription details
+    // - Validate
+    //   - Does event exist?
+    //   - Does person exist (either by ID or by email)?
+    //   - Does subscription exist?
+    //   - Is subscription detail available for editing throught internet → "VssInternet": "E" && "VssStyle": "TX"
+    //   - Subscription detail type:
+    //     vssType: {
+    //       IntField: 277,
+    //       Text: 290,
+    //       MemoText: 293,
+    //       Currency: 279
+    //     }
+    //   - Are dropdown items allowed (and valid)? → DropdownItems != null
+    // - Update progress on-the-fly
+
+    // const entriesWithAdditionalData = await firstValueFrom(
+    //   combineLatest([
+    //     this.loadEvents(entries),
+    //     this.loadPersonsById(entries),
+    //     this.loadSubscriptionsAndDetails(entries),
+    //   ]).pipe(
+    //     map(([events, persons, { subscriptions, subscriptionDetails }]) =>
+    //       this.buildValidationEntries(
+    //         entries,
+    //         events,
+    //         persons,
+    //         subscriptions,
+    //         subscriptionDetails,
+    //       ),
+    //     ),
+    //   ),
+    // );
+
+    // TODO: After all validations are done
+    entries = entries.map((entry) => {
+      if (entry.validationStatus === "validating") {
+        entry.validationStatus = "valid";
+      }
+      return entry;
+    });
+    this.updateProgress(entries, progress);
+
+    return Promise.resolve(entries);
+  }
+
+  private updateProgress(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+    progress: WritableSignal<ValidationProgress>,
+  ): WritableSignal<ValidationProgress> {
+    progress.update(({ total }) => ({
+      validating: entries.filter(
+        ({ validationStatus }) => validationStatus === "validating",
+      ).length,
+      valid: entries.filter(
+        ({ validationStatus }) => validationStatus === "valid",
+      ).length,
+      invalid: entries.filter(
+        ({ validationStatus }) => validationStatus === "invalid",
+      ).length,
+      total,
+    }));
+    return progress;
+  }
+
+  /**
+   * Verifies whether the given row data of the entries is valid
+   */
+  private verifyEntriesData(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<SubscriptionDetailImportEntry> {
+    return entries.map((entry) => this.verifyEntryData(entry));
+  }
+
+  verifyEntryData(
+    entry: SubscriptionDetailImportEntry,
+  ): SubscriptionDetailImportEntry {
+    const assertions: ReadonlyArray<EntryDataValidationFn> = [
+      assertValidEventId,
+      assertValidPersonId,
+      assertValidPersonEmail,
+      assertPersonIdEmailPresent,
+      assertValidSubscriptionDetailId,
+      assertValuePresent,
+    ];
+    for (const assert of assertions) {
+      const result = assert(entry);
+      if (!result.valid) {
+        return result.entry;
+      }
+    }
+    return entry;
+  }
+
+  private loadEvents(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<EventDesignation>> {
+    const eventIds = entries.map(({ eventId }) => eventId);
+    return this.eventsService.getEventDesignations(eventIds.map(Number));
+  }
+
+  private loadPersonsById(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<PersonFullName>> {
+    const personIds = entries.map(({ personId }) => personId);
+    return this.personsService.getFullNamesById(personIds.map(Number));
+  }
+
+  private loadPersonsByEmail(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<PersonFullName>> {
+    const personIds = entries.map(({ personEmail }) => personEmail);
+    return this.personsService.getFullNamesByEmail(personIds.map(String));
+  }
+
+  // private loadSubscriptionsAndDetails(
+  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
+  // ): Observable<{
+  //   subscriptions: ReadonlyArray<{
+  //     eventId: number;
+  //     personId: number;
+  //     subscriptionId: number;
+  //   }>;
+  //   subscriptionDetails: ReadonlyArray<SubscriptionDetail>;
+  // }> {
+  //   return this.loadSubscriptions(entries).pipe(
+  //     switchMap((subscriptions) =>
+  //       this.loadSubscriptionDetails(subscriptions).pipe(
+  //         map((subscriptionDetails) => ({
+  //           subscriptions,
+  //           subscriptionDetails,
+  //         })),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // private loadSubscriptions(
+  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
+  // ): Observable<
+  //   ReadonlyArray<{ eventId: number; personId: number; subscriptionId: number }>
+  // > {
+  //   const eventPersonIds = uniqBy(
+  //     entries.map(({ personId, eventId }) => ({ personId, eventId })),
+  //     ({ personId, eventId }) => `${personId}-${eventId}`,
+  //   );
+  //   return combineLatest(
+  //     eventPersonIds.map(({ personId, eventId }) =>
+  //       this.subscriptionsService
+  //         .getSubscriptionIdsByStudentAndCourse(personId, [eventId])
+  //         .pipe(map((ids) => ({ eventId, personId, subscriptionId: ids[0] }))),
+  //     ),
+  //   );
+  // }
+
+  // private loadSubscriptionDetails(
+  //   subscriptions: ReadonlyArray<{ eventId: number; subscriptionId: number }>,
+  // ): Observable<ReadonlyArray<SubscriptionDetail>> {
+  //   const subscriptionDetailIds = uniq(
+  //     subscriptions.map(
+  //       ({ eventId, subscriptionId }) => `${eventId}_${subscriptionId}`,
+  //     ),
+  //   );
+  //   // TODO: catch404
+  //   return combineLatest(
+  //     subscriptionDetailIds.map((id) =>
+  //       this.subscriptionsService
+  //         .getSubscriptionDetailsById(id)
+  //         .pipe(map((details) => details[0])),
+  //     ),
+  //   );
+  // }
+
+  private buildValidationEntriesWithData(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+    events: ReadonlyArray<EventDesignation>,
+    persons: ReadonlyArray<PersonFullName>,
+    subscriptions: ReadonlyArray<{
+      eventId: number;
+      personId: number;
+      subscriptionId: number;
+    }>,
+    subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+  ): ReadonlyArray<SubscriptionDetailImportEntry> {
+    return entries.map((entry) => {
+      const subscriptionId = subscriptions.find(
+        (s) => s.eventId === entry.eventId && s.personId === entry.personId,
+      )?.subscriptionId;
+      return {
+        validationStatus: "validating",
+        importStatus: null,
+        entry,
+        data: {
+          event: events.find((e) => e.Id === entry.eventId),
+          person: persons.find((p) => p.Id === entry.personId),
+          subscriptionId: subscriptionId,
+          subscriptionDetail: subscriptionDetails.find(
+            (s) =>
+              s.EventId === entry.eventId &&
+              s.IdPerson === entry.personId &&
+              s.SubscriptionId === subscriptionId,
+          ),
+        },
+        validationError: null,
+        importError: null,
+      };
+    });
+  }
+
+  private buildValidationEntries(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): ReadonlyArray<SubscriptionDetailImportEntry> {
+    return entries.map((entry) => ({
+      validationStatus: "validating",
+      importStatus: null,
+      entry,
+      data: {},
+      validationError: null,
+      importError: null,
+    }));
+  }
+}
+
+type EntryDataValidationFn = (entry: SubscriptionDetailImportEntry) => {
+  valid: boolean;
+  entry: SubscriptionDetailImportEntry;
+};
+
+const assertValidEventId: EntryDataValidationFn = (entry) => {
+  const valid = isNumber(entry.entry.eventId);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidEventIdError();
+  }
+  return { valid, entry };
+};
+
+const assertValidPersonId: EntryDataValidationFn = (entry) => {
+  const valid = isOptionalNumber(entry.entry.personId);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidPersonIdError();
+  }
+  return { valid, entry };
+};
+
+const assertValidPersonEmail: EntryDataValidationFn = (entry) => {
+  const valid = isOptionalEmail(entry.entry.personEmail);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidPersonEmailError();
+  }
+  return { valid, entry };
+};
+
+const assertPersonIdEmailPresent: EntryDataValidationFn = (entry) => {
+  const valid =
+    isPresent(entry.entry.personId) || isPresent(entry.entry.personEmail);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new MissingPersonIdEmailError();
+  }
+  return { valid, entry };
+};
+
+const assertValidSubscriptionDetailId: EntryDataValidationFn = (entry) => {
+  const valid = isNumber(entry.entry.subscriptionDetailId);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidSubscriptionDetailIdError();
+  }
+  return { valid, entry };
+};
+
+const assertValuePresent: EntryDataValidationFn = (entry) => {
+  const valid = isPresent(entry.entry.value);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new MissingValueError();
+  }
+  return { valid, entry };
+};
+
+function isPresent(value: unknown): boolean {
+  return value != null && value !== "";
+}
+
+function isNumber(value: unknown): boolean {
+  return typeof value === "number" && !isNaN(value);
+}
+
+function isOptionalNumber(value: unknown): boolean {
+  return !isPresent(value) || isNumber(value);
+}
+
+function isEmail(value: unknown): boolean {
+  return typeof value === "string" && value.includes("@");
+}
+
+function isOptionalEmail(value: unknown): boolean {
+  return !isPresent(value) || isEmail(value);
+}

@@ -36,6 +36,7 @@ describe("HomeComponent", () => {
       "/evaluate-absences",
       "/events",
       "/events/current",
+      "/import",
       "/my-absences",
       "/my-profile",
       "/my-grades",

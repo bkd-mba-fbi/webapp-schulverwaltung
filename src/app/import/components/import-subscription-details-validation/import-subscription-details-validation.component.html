@@ -1,0 +1,68 @@
+@let entries = stateService.importEntries();
+
+<div class="bkd-container">
+  <h1>{{ "import.title" | translate }}</h1>
+
+  @if (progress().validating > 0) {
+    <p>{{ "import.validation.validating" | translate }}</p>
+    <bkd-progress
+      [total]="progress().total"
+      [processed]="progress().valid + progress().invalid"
+      [ariaLabel]="'import.validation.progress' | translate"
+    ></bkd-progress>
+  } @else {
+    <div class="d-flex justify-content-end gap-3">
+      <button class="btn btn-outline-secondary" routerLink="/import">
+        {{ "import.validation.change-document" | translate }}
+      </button>
+      <button class="btn btn-primary" routerLink="/import/upload">
+        {{ "import.validation.upload" | translate }}
+      </button>
+    </div>
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th>
+            {{ "import.subscription-details.columns.status" | translate }}
+          </th>
+          <th>{{ "import.subscription-details.columns.event" | translate }}</th>
+          <th>
+            {{ "import.subscription-details.columns.person" | translate }}
+          </th>
+          <th>
+            {{
+              "import.subscription-details.columns.subscription-detail"
+                | translate
+            }}
+          </th>
+          <th>{{ "import.subscription-details.columns.value" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of entries; track $index) {
+          <tr>
+            <td>
+              {{ entry.validationStatus }} {{ entry.validationError?.type }}
+            </td>
+            <td>
+              @if (entry.validationStatus === "valid" && entry.data.event) {
+                {{ entry.data.event?.Designation }}
+              } @else {
+                {{ entry.entry["eventId"] }}
+              }
+            </td>
+            <td>
+              @if (entry.validationStatus === "valid" && entry.data.person) {
+                {{ entry.data.person.FullName }}
+              } @else {
+                {{ entry.entry["personId"] }} {{ entry.entry["personEmail"] }}
+              }
+            </td>
+            <td>{{ entry.entry["subscriptionDetailId"] }}</td>
+            <td>{{ entry.entry["value"] }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
