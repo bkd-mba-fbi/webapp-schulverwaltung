@@ -4,7 +4,7 @@ import * as t from "io-ts";
 import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
-import { Person, PersonSummary } from "../models/person.model";
+import { Person, PersonFullName, PersonSummary } from "../models/person.model";
 import { decode, decodeArray } from "../utils/decode";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
@@ -64,6 +64,18 @@ export class PersonsRestService extends RestService<typeof Person> {
         switchMap(decodeArray(this.personEmailCodec)),
         map((person) => person[0]),
       );
+  }
+
+  getFullNames(
+    ids: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<PersonFullName>> {
+    const params = {
+      "filter.Id": `;${ids.join(";")}`,
+      fields: "Id,FullName",
+    };
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, { params })
+      .pipe(switchMap(decodeArray(PersonFullName)));
   }
 
   update(

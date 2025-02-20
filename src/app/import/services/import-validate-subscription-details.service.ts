@@ -7,12 +7,13 @@ import {
 } from "@angular/core";
 import { Observable } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
-import { PersonSummary } from "src/app/shared/models/person.model";
+import { PersonFullName } from "src/app/shared/models/person.model";
 import {
   Subscription,
   SubscriptionDetail,
 } from "src/app/shared/models/subscription.model";
 import { EventsRestService } from "../../shared/services/events-rest.service";
+import { PersonsRestService } from "../../shared/services/persons-rest.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportEntry, ValidationError } from "./import-state.service";
 
@@ -136,7 +137,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
   SubscriptionDetailEntry,
   {
     event?: EventDesignation;
-    person?: PersonSummary;
+    person?: PersonFullName;
     subscription?: Subscription;
     subscriptionDetail?: SubscriptionDetail;
   },
@@ -149,7 +150,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
 })
 export class ImportValidateSubscriptionDetailsService {
   private eventsService = inject(EventsRestService);
-  // private personsService = inject(PersonsRestService);
+  private personsService = inject(PersonsRestService);
   // private subscriptionsService = inject(SubscriptionsRestService);
 
   fetchAndValidate(parsedEntries: ReadonlyArray<SubscriptionDetailEntry>): {
@@ -301,12 +302,13 @@ export class ImportValidateSubscriptionDetailsService {
     return this.eventsService.getEventDesignations(eventIds.map(Number));
   }
 
-  // private loadPersonsById(
-  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
-  // ): Observable<ReadonlyArray<PersonSummary>> {
-  //   const personIds = entries.map(({ personId }) => personId);
-  //   return this.personsService.getSummaries(personIds);
-  // }
+  private loadPersonsById(
+    entries: ReadonlyArray<SubscriptionDetailEntry>,
+  ): Observable<ReadonlyArray<PersonFullName>> {
+    const personIds = entries.map(({ personId }) => personId);
+    console.log(personIds);
+    return this.personsService.getFullNames(personIds.map(Number));
+  }
 
   // private loadSubscriptionsAndDetails(
   //   entries: ReadonlyArray<SubscriptionDetailEntry>,
