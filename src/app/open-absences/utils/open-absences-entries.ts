@@ -4,8 +4,8 @@ import { lessonsComparator } from "src/app/presence-control/utils/lessons";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { UnreachableError } from "src/app/shared/utils/error";
 import { SortCriteria } from "src/app/shared/utils/sort";
-import { PrimarySortKey } from "../../shared/components/sortable-header/sortable-header.component";
 import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
+import { PrimarySortKey } from "../services/open-absences.service";
 
 export function buildOpenAbsencesEntries(
   absences: ReadonlyArray<LessonPresence>,
@@ -90,7 +90,7 @@ function getOpenAbsencesComparator(
 
       default:
         throw new UnreachableError(
-          sortCriteria.primarySortKey as never,
+          sortCriteria.primarySortKey,
           "Unhandled sort criteria",
         );
     }

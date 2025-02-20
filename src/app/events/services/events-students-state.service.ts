@@ -26,7 +26,6 @@ import {
 import { notNull } from "src/app/shared/utils/filter";
 import { searchEntries } from "src/app/shared/utils/search";
 import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
-import { PrimarySortKey } from "../../shared/components/sortable-header/sortable-header.component";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { UnreachableError } from "../../shared/utils/error";
 import { SortCriteria } from "../../shared/utils/sort";
@@ -58,6 +57,8 @@ export type StudentEntry = {
   company?: string;
   registrationDate?: Date;
 };
+
+export type PrimarySortKey = "name" | "registrationDate";
 
 @Injectable({
   providedIn: "root",
@@ -304,7 +305,7 @@ function getStudentEntryComparator(
         return compareStudentEntryByName(a, b, sortCriteria.ascending);
       default:
         throw new UnreachableError(
-          sortCriteria.primarySortKey as never,
+          sortCriteria.primarySortKey,
           "Unhandled sort criteria",
         );
     }
