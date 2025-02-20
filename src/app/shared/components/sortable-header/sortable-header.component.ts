@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { SortCriteria } from "../../utils/sort";
 
-export type PrimarySortKey = "name" | "group" | "date";
+export type PrimarySortKey = "name" | "group" | "date" | "registrationDate";
 
 @Component({
   selector: "bkd-sortable-header",
