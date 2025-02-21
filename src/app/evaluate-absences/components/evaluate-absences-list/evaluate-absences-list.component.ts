@@ -15,6 +15,7 @@ import { map, shareReplay, switchMap, take } from "rxjs/operators";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { LessonPresence } from "../../../shared/models/lesson-presence.model";
 import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
@@ -30,7 +31,7 @@ import {
 import { EvaluateAbsencesHeaderComponent } from "../evaluate-absences-header/evaluate-absences-header.component";
 
 interface Column {
-  key: keyof LessonPresenceStatistic;
+  primarySortKey: keyof LessonPresenceStatistic;
   label: string;
 }
 
@@ -49,6 +50,7 @@ interface Column {
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    SortableHeaderComponent,
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
@@ -62,13 +64,13 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   reports$ = this.loadReports();
 
   columns: ReadonlyArray<Column> = [
-    { key: "StudentFullName", label: "student" },
-    { key: "TotalAbsences", label: "total" },
-    { key: "TotalAbsencesValidExcuse", label: "valid-excuse" },
-    { key: "TotalAbsencesWithoutExcuse", label: "without-excuse" },
-    { key: "TotalAbsencesUnconfirmed", label: "unconfirmed" },
-    { key: "TotalAbsencesUnchecked", label: "unchecked" },
-    { key: "TotalIncidents", label: "incident" },
+    { primarySortKey: "StudentFullName", label: "student" },
+    { primarySortKey: "TotalAbsences", label: "total" },
+    { primarySortKey: "TotalAbsencesValidExcuse", label: "valid-excuse" },
+    { primarySortKey: "TotalAbsencesWithoutExcuse", label: "without-excuse" },
+    { primarySortKey: "TotalAbsencesUnconfirmed", label: "unconfirmed" },
+    { primarySortKey: "TotalAbsencesUnchecked", label: "unchecked" },
+    { primarySortKey: "TotalIncidents", label: "incident" },
   ];
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
@@ -84,7 +86,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       if (halfDayActive) {
         this.columns = [
           ...this.columns,
-          { key: "TotalHalfDays", label: "halfday" },
+          { primarySortKey: "TotalHalfDays", label: "halfday" },
         ];
       }
     });
