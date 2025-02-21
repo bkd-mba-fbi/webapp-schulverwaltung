@@ -15,6 +15,7 @@ import { SortCriteria } from "../../utils/sort";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortableHeaderComponent<T extends string> {
+  @Input() className = "";
   @Input() label = "";
   @Input() sortKey: T;
   @Input() currentSort: SortCriteria<T>;
