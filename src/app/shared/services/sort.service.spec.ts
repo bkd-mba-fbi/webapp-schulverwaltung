@@ -41,7 +41,7 @@ describe("SortService", () => {
 
     // then
     service.sorting$.subscribe((result) => {
-      expect(result).toEqual({ key: "one", ascending: false });
+      expect(result).toEqual({ primarySortKey: "one", ascending: false });
       done();
     });
   });
