@@ -33,6 +33,7 @@ import {
 } from "../presence-control-group-dialog/presence-control-group-dialog.component";
 
 export type PrimarySortKey = "name" | "group";
+
 export interface SortCriteria {
   primarySortKey: PrimarySortKey;
   ascending: boolean;

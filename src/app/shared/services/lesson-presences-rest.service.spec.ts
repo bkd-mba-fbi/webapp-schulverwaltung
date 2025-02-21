@@ -8,8 +8,8 @@ import { buildLesson, buildLessonPresence } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
+import { SortCriteria } from "../utils/sort";
 import { LessonPresencesRestService } from "./lesson-presences-rest.service";
-import { Sorting } from "./sort.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -290,7 +290,7 @@ describe("LessonPresencesRestService", () => {
   describe(".getStatistics", () => {
     const data: any[] = [];
     let filter: EvaluateAbsencesFilter;
-    let sorting: Sorting<keyof LessonPresenceStatistic>;
+    let sorting: SortCriteria<keyof LessonPresenceStatistic>;
 
     beforeEach(() => {
       filter = {
@@ -300,7 +300,7 @@ describe("LessonPresencesRestService", () => {
       };
 
       sorting = {
-        key: "StudentFullName",
+        primarySortKey: "StudentFullName",
         ascending: true,
       };
     });

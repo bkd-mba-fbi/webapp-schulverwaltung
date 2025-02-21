@@ -11,10 +11,11 @@ import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
-import { SortService, Sorting } from "src/app/shared/services/sort.service";
+import { SortService } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { Paginated } from "src/app/shared/utils/pagination";
+import { SortCriteria } from "../../shared/utils/sort";
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
@@ -80,17 +81,17 @@ export class EvaluateAbsencesStateService
   }
 
   protected override getInitialSorting(): Option<
-    Sorting<keyof LessonPresenceStatistic>
+    SortCriteria<keyof LessonPresenceStatistic>
   > {
     return {
-      key: "StudentFullName",
+      primarySortKey: "StudentFullName",
       ascending: true,
     };
   }
 
   protected loadEntries(
     filterValue: EvaluateAbsencesFilter,
-    sorting: Option<Sorting<keyof LessonPresenceStatistic>>,
+    sorting: Option<SortCriteria<keyof LessonPresenceStatistic>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     return this.loadingService.load(
