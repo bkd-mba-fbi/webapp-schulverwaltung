@@ -1,8 +1,8 @@
 import { Student } from "src/app/shared/models/student.model";
 import { Result, Test } from "src/app/shared/models/test.model";
-import { Sorting } from "../services/sort.service";
 import { nonZero } from "../utils/filter";
 import { average } from "../utils/math";
+import { SortCriteria } from "../utils/sort";
 import { FinalGrading, Grading } from "./course.model";
 import { DropDownItem } from "./drop-down-item.model";
 
@@ -123,11 +123,11 @@ function getFinalGrade(
 }
 
 export const compareFn =
-  ({ key, ascending }: Sorting<SortKeys>) =>
+  ({ primarySortKey, ascending }: SortCriteria<SortKeys>) =>
   (sg1: StudentGrade, sg2: StudentGrade): number => {
     const modificator = ascending ? 1 : -1;
 
-    switch (key) {
+    switch (primarySortKey) {
       case "FullName":
         return (
           modificator * sg1.student.FullName.localeCompare(sg2.student.FullName)
@@ -148,7 +148,7 @@ export const compareFn =
         );
     }
 
-    return modificator * compareGrades(key, sg1, sg2);
+    return modificator * compareGrades(primarySortKey, sg1, sg2);
   };
 
 const compareGrades = (

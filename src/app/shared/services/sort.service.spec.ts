@@ -1,5 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import { SortService, Sorting } from "./sort.service";
+import { SortCriteria } from "../utils/sort";
+import { SortService } from "./sort.service";
 
 describe("SortService", () => {
   type SortableKeys = "one" | "two";
@@ -12,8 +13,8 @@ describe("SortService", () => {
 
   it("should set the sorting", (done) => {
     // given
-    const newSorting: Sorting<SortableKeys> = {
-      key: "one",
+    const newSorting: SortCriteria<SortableKeys> = {
+      primarySortKey: "one",
       ascending: true,
     };
 
@@ -29,8 +30,8 @@ describe("SortService", () => {
 
   it("should toggle the sorting", (done) => {
     // given
-    const sorting: Sorting<SortableKeys> = {
-      key: "one",
+    const sorting: SortCriteria<SortableKeys> = {
+      primarySortKey: "one",
       ascending: true,
     };
     service.setSorting(sorting);
@@ -59,7 +60,10 @@ describe("SortService", () => {
 
     it("should get no char if different column is sorted", (done) => {
       // given
-      const sorting: Sorting<SortableKeys> = { key: "one", ascending: true };
+      const sorting: SortCriteria<SortableKeys> = {
+        primarySortKey: "one",
+        ascending: true,
+      };
       service.setSorting(sorting);
 
       // when
@@ -72,7 +76,10 @@ describe("SortService", () => {
 
     it("should get arrow down if column is sorted ascending", (done) => {
       // given
-      const sorting: Sorting<SortableKeys> = { key: "one", ascending: true };
+      const sorting: SortCriteria<SortableKeys> = {
+        primarySortKey: "one",
+        ascending: true,
+      };
       service.setSorting(sorting);
 
       // when
@@ -85,7 +92,10 @@ describe("SortService", () => {
 
     it("should get arrow up if column is sorted descending", (done) => {
       // given
-      const sorting: Sorting<SortableKeys> = { key: "one", ascending: false };
+      const sorting: SortCriteria<SortableKeys> = {
+        primarySortKey: "one",
+        ascending: false,
+      };
       service.setSorting(sorting);
 
       // when

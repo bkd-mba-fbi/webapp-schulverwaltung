@@ -35,9 +35,10 @@ import {
 import { Result, Test } from "../../shared/models/test.model";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
 import { GradingsRestService } from "../../shared/services/gradings-rest.service";
-import { SortService, Sorting } from "../../shared/services/sort.service";
+import { SortService } from "../../shared/services/sort.service";
 import { notNull } from "../../shared/utils/filter";
 import { spread } from "../../shared/utils/function";
+import { SortCriteria } from "../../shared/utils/sort";
 import { TestsAction, courseReducer } from "../utils/course-reducer";
 import { canSetFinalGrade } from "../utils/events";
 import { findResult, sortByDate } from "../utils/tests";
@@ -223,7 +224,7 @@ export class TestStateService {
   toStudentGrades(
     course: Course,
     tests: Test[] = [],
-    sorting: Sorting<SortKeys>,
+    sorting: SortCriteria<SortKeys>,
   ): StudentGrade[] {
     return transform(
       course.ParticipatingStudents ?? [],
@@ -233,7 +234,7 @@ export class TestStateService {
     ).sort(compareFn(sorting));
   }
 
-  setSorting(sorting: Sorting<SortKeys>) {
+  setSorting(sorting: SortCriteria<SortKeys>) {
     this.sortService.setSorting(sorting);
   }
 
