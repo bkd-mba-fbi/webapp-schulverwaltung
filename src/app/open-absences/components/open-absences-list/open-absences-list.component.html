@@ -50,14 +50,14 @@
           />
         </div>
         @for (key of primarySortKeys; track key) {
-          <div (click)="openAbsencesService.toggleSort(key)" [className]="key">
-            {{ "open-absences.list.header." + key | translate }}
-            @if (sortCriteria) {
-              <span class="sort-direction">{{
-                getSortDirectionCharacter(sortCriteria, key)
-              }}</span>
-            }
-          </div>
+          <bkd-sortable-header
+            [label]="'open-absences.list.header.' + key | translate"
+            [sortKey]="key"
+            [currentSort]="sortCriteria"
+            (sortRequested)="openAbsencesService.toggleSort($event)"
+            [className]="key"
+          >
+          </bkd-sortable-header>
         }
       </div>
       @for (entry of entries; track entry.id) {

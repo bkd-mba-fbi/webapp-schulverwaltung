@@ -1,6 +1,7 @@
 @let entries = state.entries$ | async;
 @let hasMore = state.hasMore$ | async;
 @let loadingPage = state.loadingPage$ | async;
+@let sortCriteria = state.sortService.sorting$ | async;
 
 <h1>{{ "evaluate-absences.title" | translate }}</h1>
 <bkd-evaluate-absences-header
@@ -27,31 +28,24 @@
         >
           <thead>
             <tr>
-              @for (column of columns; track column.key) {
-                <th
-                  (click)="state.sortService.toggleSorting(column.key)"
-                  scope="col"
-                  [ngClass]="column.label"
-                >
-                  <div class="d-flex">
-                    <div
-                      class="column-title"
-                      [ngbTooltip]="
-                        'evaluate-absences.list.header.' + column.label
-                          | translate
-                      "
-                    >
-                      {{
-                        "evaluate-absences.list.header." + column.label
-                          | translate
-                      }}
-                    </div>
-                    <div class="sort-direction">
-                      {{
-                        state.sortService.getSortingChar$(column.key) | async
-                      }}
-                    </div>
-                  </div>
+              @for (column of columns; track column.primarySortKey) {
+                <th scope="col">
+                  <bkd-sortable-header
+                    className="d-flex column-title"
+                    [label]="
+                      'evaluate-absences.list.header.' + column.label
+                        | translate
+                    "
+                    [sortKey]="column.primarySortKey"
+                    [currentSort]="sortCriteria"
+                    (sortRequested)="state.sortService.toggleSorting($event)"
+                    [ngClass]="column.label"
+                    [ngbTooltip]="
+                      'evaluate-absences.list.header.' + column.label
+                        | translate
+                    "
+                  >
+                  </bkd-sortable-header>
                 </th>
               }
             </tr>
@@ -60,14 +54,14 @@
             <tbody>
               @for (entry of entries; track entry.StudentRef.Id) {
                 <tr>
-                  @for (column of columns; track column.key) {
+                  @for (column of columns; track column.primarySortKey) {
                     <td
                       [attr.data-label]="
                         'evaluate-absences.list.header.' + column.label
                           | translate
                       "
                     >
-                      @if (column.key === "StudentFullName") {
+                      @if (column.primarySortKey === "StudentFullName") {
                         <a
                           class="student"
                           [routerLink]="[
@@ -79,10 +73,10 @@
                             returnparams: profileReturnParams$ | async,
                           }"
                         >
-                          {{ entry[column.key] }}
+                          {{ entry[column.primarySortKey] }}
                         </a>
                       } @else {
-                        {{ entry[column.key] }}
+                        {{ entry[column.primarySortKey] }}
                       }
                     </td>
                   }

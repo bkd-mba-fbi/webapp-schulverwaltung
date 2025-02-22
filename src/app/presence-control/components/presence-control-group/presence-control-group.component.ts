@@ -12,6 +12,7 @@ import { map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { SubscriptionDetailsRestService } from "../../../shared/services/subscription-details-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
@@ -42,7 +43,13 @@ export interface SortCriteria {
   templateUrl: "./presence-control-group.component.html",
   styleUrls: ["./presence-control-group.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BacklinkComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [
+    BacklinkComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    SortableHeaderComponent,
+  ],
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
@@ -68,7 +75,7 @@ export class PresenceControlGroupComponent implements OnInit {
 
   private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
     primarySortKey: "name",
-    ascending: false,
+    ascending: true,
   });
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
@@ -158,16 +165,6 @@ export class PresenceControlGroupComponent implements OnInit {
         "presence-control.groups.notifications.save-success",
       ),
     );
-  }
-
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria,
-    sortKey: PrimarySortKey,
-  ): string {
-    if (sortCriteria.primarySortKey !== sortKey) {
-      return "";
-    }
-    return sortCriteria.ascending ? "↓" : "↑";
   }
 
   /**

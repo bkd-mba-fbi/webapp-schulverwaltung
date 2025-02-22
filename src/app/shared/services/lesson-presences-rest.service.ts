@@ -21,9 +21,9 @@ import {
   paginatedParams,
 } from "../utils/pagination";
 import { hasRole } from "../utils/roles";
+import { SortCriteria } from "../utils/sort";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
-import { Sorting } from "./sort.service";
 import { StorageService } from "./storage.service";
 
 @Injectable({
@@ -169,7 +169,7 @@ export class LessonPresencesRestService extends RestService<
 
   getStatistics(
     absencesFilter: EvaluateAbsencesFilter,
-    absencesSorting: Option<Sorting<keyof LessonPresenceStatistic>>,
+    absencesSorting: Option<SortCriteria<keyof LessonPresenceStatistic>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([
@@ -417,7 +417,7 @@ function filteredParams(
 }
 
 function sortedParams<T>(
-  sorting: Option<Sorting<T>>,
+  sorting: Option<SortCriteria<T>>,
   params = new HttpParams(),
 ): HttpParams {
   if (!sorting) {
@@ -425,6 +425,6 @@ function sortedParams<T>(
   }
   return params.set(
     "sort",
-    `${sorting.key}.${sorting.ascending ? "asc" : "desc"}`,
+    `${sorting.primarySortKey}.${sorting.ascending ? "asc" : "desc"}`,
   );
 }

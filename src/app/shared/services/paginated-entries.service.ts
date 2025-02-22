@@ -23,9 +23,10 @@ import {
 import { Settings } from "src/app/settings";
 import { spread } from "../utils/function";
 import { Paginated } from "../utils/pagination";
+import { SortCriteria } from "../utils/sort";
 import { serializeParams } from "../utils/url";
 import { LoadingService } from "./loading-service";
-import { SortService, Sorting } from "./sort.service";
+import { SortService } from "./sort.service";
 
 interface ResetEntriesAction<T> {
   action: "reset";
@@ -158,13 +159,13 @@ export abstract class PaginatedEntriesService<
 
   protected abstract isValidFilter(filterValue: FilterValue): boolean;
 
-  protected getInitialSorting(): Option<Sorting<SortingKey>> {
+  protected getInitialSorting(): Option<SortCriteria<SortingKey>> {
     return null;
   }
 
   protected abstract loadEntries(
     filterValue: FilterValue,
-    sorting: Option<Sorting<keyof T>>,
+    sorting: Option<SortCriteria<keyof T>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<T>>>;
 

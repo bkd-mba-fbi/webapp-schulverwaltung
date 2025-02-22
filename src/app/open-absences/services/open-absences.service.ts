@@ -26,7 +26,7 @@ import {
   sortOpenAbsencesEntries,
 } from "../utils/open-absences-entries";
 
-export type PrimarySortKey = "date" | "name";
+export type PrimarySortKey = "name" | "date";
 
 const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
   "studentFullName",

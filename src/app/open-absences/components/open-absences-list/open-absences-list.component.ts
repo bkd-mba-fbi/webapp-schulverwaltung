@@ -15,13 +15,12 @@ import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { SortCriteria } from "src/app/shared/utils/sort";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { DaysDifferencePipe } from "../../../shared/pipes/days-difference.pipe";
 import { OpenAbsencesEntry } from "../../models/open-absences-entry.model";
-import {
-  OpenAbsencesService,
-  PrimarySortKey,
-} from "../../services/open-absences.service";
+import { OpenAbsencesService } from "../../services/open-absences.service";
+import { PrimarySortKey } from "../../services/open-absences.service";
 
 @Component({
   selector: "bkd-open-absences-list",
@@ -36,6 +35,7 @@ import {
     DatePipe,
     TranslatePipe,
     DaysDifferencePipe,
+    SortableHeaderComponent,
   ],
 })
 export class OpenAbsencesListComponent
