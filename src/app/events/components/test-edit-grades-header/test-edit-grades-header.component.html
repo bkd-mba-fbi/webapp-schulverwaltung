@@ -3,6 +3,7 @@
 @let tests = state.filteredTests$ | async;
 @let filter = state.filter$ | async;
 @let expanded = state.expandedHeader$ | async;
+@let sortCriteria = state.sorting$ | async;
 
 <tr class="header-collapsible">
   <th class="desktop sticky" colspan="3">
@@ -45,42 +46,39 @@
   <th class="filler"></th>
 </tr>
 <tr [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }">
-  <th class="sticky student-name" (click)="state.sortBy('FullName')">
-    <div class="d-flex">
-      <div class="column-title">
-        {{ "tests.student.name" | translate }}
-      </div>
-      <div class="sort-direction ms-1">
-        {{ state.getSortingChar$("FullName") | async }}
-      </div>
-    </div>
+  <th class="sticky student-name">
+    <bkd-sortable-header
+      className="d-flex column-title"
+      [label]="'tests.student.name' | translate"
+      [sortKey]="'FullName'"
+      [currentSort]="sortCriteria"
+      (sortRequested)="state.sortBy($event)"
+    >
+    </bkd-sortable-header>
   </th>
   <th
     class="sticky student-grade desktop"
-    (click)="state.sortBy('FinalGrade')"
     [ngClass]="{ selected: selectedTest === undefined }"
   >
-    <div class="d-flex">
-      <div class="column-title">
-        {{ "tests.grade" | translate }}
-      </div>
-      <div class="sort-direction ms-1">
-        {{ state.getSortingChar$("FinalGrade") | async }}
-      </div>
-    </div>
+    <bkd-sortable-header
+      className="d-flex column-title"
+      [label]="'tests.grade' | translate"
+      [sortKey]="'FinalGrade'"
+      [currentSort]="sortCriteria"
+      (sortRequested)="state.sortBy($event)"
+    >
+    </bkd-sortable-header>
   </th>
-  <th
-    class="border-end sticky student-average desktop"
-    (click)="state.sortBy('TestsMean')"
-  >
-    <div class="d-flex">
-      <div class="column-title">
-        {{ "tests.mean" | translate }}
-      </div>
-      <div class="sort-direction ms-1">
-        {{ state.getSortingChar$("TestsMean") | async }}
-      </div>
-    </div>
+
+  <th class="border-end sticky student-average desktop">
+    <bkd-sortable-header
+      className="d-flex column-title"
+      [label]="'tests.mean' | translate"
+      [sortKey]="'TestsMean'"
+      [currentSort]="sortCriteria"
+      (sortRequested)="state.sortBy($event)"
+    >
+    </bkd-sortable-header>
   </th>
   @for (test of tests; track test.Id) {
     <th
@@ -97,12 +95,13 @@
           </div>
         }
         <div class="column-title">
-          <span (click)="state.sortBy(test)">{{
-            "tests.grade" | translate
-          }}</span>
-        </div>
-        <div class="sort-direction ms-1">
-          {{ state.getSortingChar$(test) | async }}
+          <bkd-sortable-header
+            [label]="'tests.grade' | translate"
+            [sortKey]="test"
+            [currentSort]="sortCriteria"
+            (sortRequested)="state.sortBy(test)"
+          >
+          </bkd-sortable-header>
         </div>
       </div>
     </th>

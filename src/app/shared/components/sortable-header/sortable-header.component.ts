@@ -14,7 +14,7 @@ import { SortCriteria } from "../../utils/sort";
   styleUrl: "./sortable-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SortableHeaderComponent<T extends string> {
+export class SortableHeaderComponent<T extends string | object> {
   @Input() className = "";
   @Input() label = "";
   @Input() sortKey: T;
