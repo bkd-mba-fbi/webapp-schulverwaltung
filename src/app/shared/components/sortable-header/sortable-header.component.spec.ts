@@ -10,7 +10,7 @@ describe("SortableHeaderComponent", () => {
       imports: [SortableHeaderComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SortableHeaderComponent);
+    fixture = TestBed.createComponent(SortableHeaderComponent<string>);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
