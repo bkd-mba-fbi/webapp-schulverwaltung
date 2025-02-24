@@ -62,6 +62,10 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     ascending: false,
   });
 
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteriaSubject$.next(newCriteria);
+  }
+
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
   sortedEntries$ = combineLatest([this.entries$, this.sortCriteria$]).pipe(
     map(spread(sortOpenAbsencesEntries)),
@@ -98,28 +102,6 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
           .reduce((a: LessonPresence[], e) => a.concat(e.absences), []);
       }),
     );
-  }
-
-  /**
-   * Switches primary sort key or toggles sort direction, if already
-   * sorted by given key.
-   */
-  toggleSort(primarySortKey: PrimarySortKey): void {
-    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
-      if (criteria.primarySortKey === primarySortKey) {
-        // Change sort direction
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: !criteria.ascending,
-        });
-      } else {
-        // Change sort key
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: primarySortKey === "name",
-        });
-      }
-    });
   }
 
   get confirmBackLink(): Parameters<Router["navigate"]>[0] {

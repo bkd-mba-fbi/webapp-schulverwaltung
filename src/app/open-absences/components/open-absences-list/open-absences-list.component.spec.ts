@@ -50,7 +50,6 @@ describe("OpenAbsencesListComponent", () => {
             provide: OpenAbsencesService,
             useValue: {
               sortCriteria$: of({ primarySortKey: "name", ascending: true }),
-              toggleSort: jasmine.createSpy("toggleSort"),
               sortedEntries$: of([entryA, entryB]),
               filteredEntries$: of([entryA, entryB]),
               loading$: of(false),

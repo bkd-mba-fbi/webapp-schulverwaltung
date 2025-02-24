@@ -13,7 +13,6 @@ import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
-import { SortCriteria } from "src/app/shared/utils/sort";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
 import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
@@ -74,17 +73,6 @@ export class OpenAbsencesListComponent
       checkbox.click();
     }
   }
-
-  getSortDirectionCharacter(
-    sortCriteria: SortCriteria<PrimarySortKey>,
-    sortKey: PrimarySortKey,
-  ): string {
-    if (sortCriteria.primarySortKey !== sortKey) {
-      return "";
-    }
-    return sortCriteria.ascending ? "↓" : "↑";
-  }
-
   getLessonsCountKey(entry: OpenAbsencesEntry): string {
     const suffix = entry.lessonsCount === 1 ? "singular" : "plural";
     return `open-absences.list.content.lessonsCount.${suffix}`;

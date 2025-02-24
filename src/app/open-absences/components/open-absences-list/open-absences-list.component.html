@@ -54,7 +54,9 @@
             [label]="'open-absences.list.header.' + key | translate"
             [sortKey]="key"
             [sortCriteria]="sortCriteria"
-            (sortRequested)="openAbsencesService.toggleSort($event)"
+            (sortCriteriaChange)="
+              openAbsencesService.updateSortCriteria($event)
+            "
             [className]="key"
           >
           </bkd-sortable-header>
