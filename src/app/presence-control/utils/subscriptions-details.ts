@@ -1,8 +1,9 @@
+import { SortCriteria } from "src/app/shared/utils/sort";
 import { Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
 import { SubscriptionDetail } from "../../shared/models/subscription.model";
 import { UnreachableError } from "../../shared/utils/error";
-import { SortCriteria } from "../components/presence-control-group/presence-control-group.component";
+import { PrimarySortKey } from "../components/presence-control-group/presence-control-group.component";
 
 export interface SubscriptionDetailWithName {
   id: number;
@@ -13,13 +14,13 @@ export interface SubscriptionDetailWithName {
 
 export function sortSubscriptionDetails(
   details: ReadonlyArray<SubscriptionDetailWithName>,
-  sortCriteria: SortCriteria,
+  sortCriteria: SortCriteria<PrimarySortKey>,
 ): ReadonlyArray<SubscriptionDetailWithName> {
   return [...details].sort(getSubscriptionDetailComparator(sortCriteria));
 }
 
 function getSubscriptionDetailComparator(
-  sortCriteria: SortCriteria,
+  sortCriteria: SortCriteria<PrimarySortKey>,
 ): (a: SubscriptionDetailWithName, b: SubscriptionDetailWithName) => number {
   return (a, b) => {
     switch (sortCriteria.primarySortKey) {

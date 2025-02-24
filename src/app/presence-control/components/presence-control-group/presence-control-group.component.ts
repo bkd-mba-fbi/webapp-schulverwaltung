@@ -11,6 +11,7 @@ import { BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 import { map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
+import { SortCriteria } from "src/app/shared/utils/sort";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
@@ -34,10 +35,6 @@ import {
 
 export type PrimarySortKey = "name" | "group";
 
-export interface SortCriteria {
-  primarySortKey: PrimarySortKey;
-  ascending: boolean;
-}
 @Component({
   selector: "bkd-presence-control-group",
   templateUrl: "./presence-control-group.component.html",
@@ -73,10 +70,17 @@ export class PresenceControlGroupComponent implements OnInit {
     map((lesson) => lesson?.getEventIds() || []),
   );
 
-  private sortCriteriaSubject$ = new BehaviorSubject<SortCriteria>({
+  private sortCriteriaSubject$ = new BehaviorSubject<
+    SortCriteria<PrimarySortKey>
+  >({
     primarySortKey: "name",
     ascending: true,
   });
+
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteriaSubject$.next(newCriteria);
+  }
+
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
   sortedEntries$ = combineLatest([
@@ -165,27 +169,5 @@ export class PresenceControlGroupComponent implements OnInit {
         "presence-control.groups.notifications.save-success",
       ),
     );
-  }
-
-  /**
-   * Switches primary sort key or toggles sort direction, if already
-   * sorted by given key.
-   */
-  toggleSort(primarySortKey: PrimarySortKey): void {
-    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
-      if (criteria.primarySortKey === primarySortKey) {
-        // Change sort direction
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: !criteria.ascending,
-        });
-      } else {
-        // Change sort key
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: primarySortKey === "name",
-        });
-      }
-    });
   }
 }
