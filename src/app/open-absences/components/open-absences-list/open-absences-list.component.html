@@ -53,7 +53,7 @@
           <bkd-sortable-header
             [label]="'open-absences.list.header.' + key | translate"
             [sortKey]="key"
-            [currentSort]="sortCriteria"
+            [sortCriteria]="sortCriteria"
             (sortRequested)="openAbsencesService.toggleSort($event)"
             [className]="key"
           >

@@ -40,7 +40,7 @@
         <bkd-sortable-header
           [label]="'presence-control.groups.list.header.' + key | translate"
           [sortKey]="key"
-          [currentSort]="sortCriteria"
+          [sortCriteria]="sortCriteria"
           (sortRequested)="toggleSort($event)"
           [className]="key"
         >

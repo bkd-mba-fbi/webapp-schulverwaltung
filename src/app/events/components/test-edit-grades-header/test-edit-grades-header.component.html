@@ -51,7 +51,7 @@
       className="d-flex column-title"
       [label]="'tests.student.name' | translate"
       [sortKey]="'FullName'"
-      [currentSort]="sortCriteria"
+      [sortCriteria]="sortCriteria"
       (sortRequested)="state.sortBy($event)"
     >
     </bkd-sortable-header>
@@ -64,7 +64,7 @@
       className="d-flex column-title"
       [label]="'tests.grade' | translate"
       [sortKey]="'FinalGrade'"
-      [currentSort]="sortCriteria"
+      [sortCriteria]="sortCriteria"
       (sortRequested)="state.sortBy($event)"
     >
     </bkd-sortable-header>
@@ -75,7 +75,7 @@
       className="d-flex column-title"
       [label]="'tests.mean' | translate"
       [sortKey]="'TestsMean'"
-      [currentSort]="sortCriteria"
+      [sortCriteria]="sortCriteria"
       (sortRequested)="state.sortBy($event)"
     >
     </bkd-sortable-header>
@@ -98,7 +98,7 @@
           <bkd-sortable-header
             [label]="'tests.grade' | translate"
             [sortKey]="test"
-            [currentSort]="sortCriteria"
+            [sortCriteria]="sortCriteria"
             (sortRequested)="state.sortBy(test)"
           >
           </bkd-sortable-header>

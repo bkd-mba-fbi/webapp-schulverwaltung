@@ -37,7 +37,7 @@
                         | translate
                     "
                     [sortKey]="column.primarySortKey"
-                    [currentSort]="sortCriteria"
+                    [sortCriteria]="sortCriteria"
                     (sortRequested)="state.sortService.toggleSorting($event)"
                     [ngClass]="column.label"
                     [ngbTooltip]="
