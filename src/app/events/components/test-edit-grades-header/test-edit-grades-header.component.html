@@ -1,5 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @let tests = state.filteredTests$ | async;
 @let filter = state.filter$ | async;
 @let expanded = state.expandedHeader$ | async;
@@ -52,7 +50,7 @@
       [label]="'tests.student.name' | translate"
       [sortKey]="'FullName'"
       [sortCriteria]="sortCriteria"
-      (sortRequested)="state.sortBy($event)"
+      (sortCriteriaChange)="state.updateSortCriteria($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -65,7 +63,7 @@
       [label]="'tests.grade' | translate"
       [sortKey]="'FinalGrade'"
       [sortCriteria]="sortCriteria"
-      (sortRequested)="state.sortBy($event)"
+      (sortCriteriaChange)="state.updateSortCriteria($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -76,7 +74,7 @@
       [label]="'tests.mean' | translate"
       [sortKey]="'TestsMean'"
       [sortCriteria]="sortCriteria"
-      (sortRequested)="state.sortBy($event)"
+      (sortCriteriaChange)="state.updateSortCriteria($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -89,9 +87,14 @@
       <div class="d-flex">
         @if (test.IsPointGrading) {
           <div class="column-title point-input-container me-2 me-md-3">
-            <span (click)="state.sortBy(test)"
-              >{{ "tests.points" | translate }}
-            </span>
+            <bkd-sortable-header
+              [label]="'tests.points' | translate"
+              [sortKey]="test"
+              [sortCriteria]="sortCriteria"
+              [showSortDirection]="false"
+              (sortCriteriaChange)="state.updateSortCriteria($event)"
+            >
+            </bkd-sortable-header>
           </div>
         }
         <div class="column-title">
@@ -99,7 +102,7 @@
             [label]="'tests.grade' | translate"
             [sortKey]="test"
             [sortCriteria]="sortCriteria"
-            (sortRequested)="state.sortBy(test)"
+            (sortCriteriaChange)="state.updateSortCriteria($event)"
           >
           </bkd-sortable-header>
         </div>

@@ -18,6 +18,7 @@ export class SortableHeaderComponent<T extends string | object> {
   @Input() label = "";
   @Input() sortKey: T;
   @Input() sortCriteria: SortCriteria<T>;
+  @Input() showSortDirection = true;
   @Output() sortRequested = new EventEmitter<T>();
   @Output() sortCriteriaChange = new EventEmitter<SortCriteria<T>>();
 
@@ -44,6 +45,9 @@ export class SortableHeaderComponent<T extends string | object> {
   }
 
   get isSorted(): boolean {
-    return this.sortCriteria?.primarySortKey === this.sortKey;
+    return (
+      this.showSortDirection &&
+      this.sortCriteria?.primarySortKey === this.sortKey
+    );
   }
 }

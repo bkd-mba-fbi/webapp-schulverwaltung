@@ -238,16 +238,12 @@ export class TestStateService {
     this.sortService.setSorting(sorting);
   }
 
-  getSortingChar$(columnName: SortKeys) {
-    return this.sortService.getSortingChar$(columnName);
-  }
-
-  sortBy(columnName: SortKeys) {
-    this.sortService.toggleSorting(columnName);
-  }
-
   toggleHeader(expanded: boolean) {
     this.expandedHeaderSubject$.next(expanded);
+  }
+
+  updateSortCriteria(newCriteria: SortCriteria<SortKeys>): void {
+    this.sortService.updateSortCriteria(newCriteria);
   }
 
   /**

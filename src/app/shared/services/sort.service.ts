@@ -1,52 +1,28 @@
 import { Injectable } from "@angular/core";
 import { isEqual } from "lodash-es";
-import {
-  BehaviorSubject,
-  Observable,
-  distinctUntilChanged,
-  map,
-  shareReplay,
-  take,
-} from "rxjs";
+import { BehaviorSubject, distinctUntilChanged, shareReplay } from "rxjs";
 import { SortCriteria } from "../utils/sort";
 
 @Injectable({
   providedIn: "root",
 })
-export class SortService<SortingKey> {
+export class SortService<PrimarySortKey> {
   private sortingSubject$ = new BehaviorSubject<
-    Option<SortCriteria<SortingKey>>
+    Option<SortCriteria<PrimarySortKey>>
   >(null);
+
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortingSubject$.next(newCriteria);
+  }
 
   sorting$ = this.sortingSubject$.asObservable().pipe(
     distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
     shareReplay(1),
   );
 
-  getSortingChar$(primarySortKey: SortingKey): Observable<string> {
-    return this.sorting$.pipe(
-      map((sorting) => {
-        if (sorting && primarySortKey === sorting.primarySortKey) {
-          return sorting.ascending ? "↓" : "↑";
-        }
-        return "";
-      }),
-    );
-  }
-
   constructor() {}
 
-  setSorting(sorting: Option<SortCriteria<SortingKey>>): void {
+  setSorting(sorting: Option<SortCriteria<PrimarySortKey>>): void {
     this.sortingSubject$.next(sorting);
-  }
-
-  toggleSorting(primarySortKey: SortingKey): void {
-    this.sorting$.pipe(take(1)).subscribe((sorting) => {
-      const ascending =
-        sorting && sorting.primarySortKey === primarySortKey
-          ? !sorting.ascending
-          : true;
-      this.sortingSubject$.next({ primarySortKey: primarySortKey, ascending });
-    });
   }
 }

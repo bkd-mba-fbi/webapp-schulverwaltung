@@ -54,7 +54,6 @@ describe("TestEditGradesComponent", () => {
     testStateServiceMock = jasmine.createSpyObj("TestStateService", [
       "canSetFinalGrade$",
       "setSorting",
-      "getSortingChar$",
       "gradingOptionsForCourse$",
       "gradingOptionsForTest$",
     ]);
