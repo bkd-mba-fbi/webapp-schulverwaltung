@@ -38,7 +38,9 @@
                     "
                     [sortKey]="column.primarySortKey"
                     [sortCriteria]="sortCriteria"
-                    (sortRequested)="state.sortService.toggleSorting($event)"
+                    (sortCriteriaChange)="
+                      state.sortService.updateSortCriteria($event)
+                    "
                     [ngClass]="column.label"
                     [ngbTooltip]="
                       'evaluate-absences.list.header.' + column.label
