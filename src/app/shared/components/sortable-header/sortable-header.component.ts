@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  computed,
+  input,
+  output,
 } from "@angular/core";
 import { SortCriteria } from "../../utils/sort";
 
@@ -14,40 +14,40 @@ import { SortCriteria } from "../../utils/sort";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortableHeaderComponent<T extends string | object> {
-  @Input() className = "";
-  @Input() label = "";
-  @Input() sortKey: T;
-  @Input() sortCriteria: SortCriteria<T>;
-  @Input() showSortDirection = true;
-  @Output() sortRequested = new EventEmitter<T>();
-  @Output() sortCriteriaChange = new EventEmitter<SortCriteria<T>>();
+  className = input<string>("");
+  label = input<string>("");
+  sortKey = input<T>();
+  sortCriteria = input<SortCriteria<T>>({
+    primarySortKey: "" as T,
+    ascending: true,
+  });
+  showSortDirection = input<boolean>(true);
+  sortCriteriaChange = output<SortCriteria<T>>();
 
-  get sortDirectionCharacter(): string {
-    if (!this.isSorted) {
-      return "";
-    }
-    return this.sortCriteria?.ascending ? "↓" : "↑";
-  }
+  isSorted = computed(
+    () =>
+      this.showSortDirection() &&
+      this.sortCriteria()?.primarySortKey === this.sortKey(),
+  );
+
+  sortDirectionCharacter = computed(() =>
+    this.isSorted() ? (this.sortCriteria()?.ascending ? "↓" : "↑") : "",
+  );
 
   toggleSort(): void {
-    if (this.isSorted) {
-      this.sortCriteria = {
-        ...this.sortCriteria,
-        ascending: !this.sortCriteria.ascending,
+    const current = this.sortCriteria();
+    let newCriteria: SortCriteria<T>;
+    if (this.isSorted()) {
+      newCriteria = {
+        primarySortKey: current.primarySortKey,
+        ascending: !current.ascending,
       };
     } else {
-      this.sortCriteria = {
-        primarySortKey: this.sortKey,
-        ascending: this.sortKey === "name",
+      newCriteria = {
+        primarySortKey: this.sortKey()!,
+        ascending: this.sortKey() === "name",
       };
     }
-    this.sortCriteriaChange.emit(this.sortCriteria);
-  }
-
-  get isSorted(): boolean {
-    return (
-      this.showSortDirection &&
-      this.sortCriteria?.primarySortKey === this.sortKey
-    );
+    this.sortCriteriaChange.emit(newCriteria);
   }
 }

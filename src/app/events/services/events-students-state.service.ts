@@ -165,7 +165,7 @@ export class EventsStudentsStateService {
   }
 
   updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
-    this.sortCriteria.set(newCriteria); //
+    this.sortCriteria.set(newCriteria);
   }
 
   private loadStudyCourseStudents({
