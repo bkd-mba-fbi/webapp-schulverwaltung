@@ -1,4 +1,6 @@
-<button class="sortable-header {{ className }}" (click)="onHeaderClick()">
+<button class="sortable-header {{ className }}" (click)="toggleSort()">
   {{ label }}
-  <span class="sort-direction ms-1">{{ sortDirectionCharacter }}</span>
+  @if (isSorted) {
+    <span class="sort-direction ms-1">{{ sortDirectionCharacter }}</span>
+  }
 </button>

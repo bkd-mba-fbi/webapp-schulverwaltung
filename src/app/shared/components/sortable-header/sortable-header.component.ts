@@ -19,16 +19,31 @@ export class SortableHeaderComponent<T extends string | object> {
   @Input() sortKey: T;
   @Input() sortCriteria: SortCriteria<T>;
   @Output() sortRequested = new EventEmitter<T>();
+  @Output() sortCriteriaChange = new EventEmitter<SortCriteria<T>>();
 
   get sortDirectionCharacter(): string {
-    if (!this.sortCriteria) return "";
-    if (this.sortCriteria.primarySortKey !== this.sortKey) return "";
-
-    // Change to: If ascending is true, show '↓', else '↑'?
-    return this.sortCriteria.ascending ? "↓" : "↑";
+    if (!this.isSorted) {
+      return "";
+    }
+    return this.sortCriteria?.ascending ? "↓" : "↑";
   }
 
-  onHeaderClick() {
-    this.sortRequested.emit(this.sortKey);
+  toggleSort(): void {
+    if (this.isSorted) {
+      this.sortCriteria = {
+        ...this.sortCriteria,
+        ascending: !this.sortCriteria.ascending,
+      };
+    } else {
+      this.sortCriteria = {
+        primarySortKey: this.sortKey,
+        ascending: this.sortKey === "name",
+      };
+    }
+    this.sortCriteriaChange.emit(this.sortCriteria);
+  }
+
+  get isSorted(): boolean {
+    return this.sortCriteria?.primarySortKey === this.sortKey;
   }
 }
