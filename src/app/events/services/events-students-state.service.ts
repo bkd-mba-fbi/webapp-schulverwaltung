@@ -164,14 +164,8 @@ export class EventsStudentsStateService {
     );
   }
 
-  toggleSort(sortKey: PrimarySortKey): void {
-    this.sortCriteria.set({
-      primarySortKey: sortKey,
-      ascending:
-        this.sortCriteria().primarySortKey === sortKey
-          ? !this.sortCriteria().ascending
-          : true,
-    });
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteria.set(newCriteria); //
   }
 
   private loadStudyCourseStudents({

@@ -12,14 +12,18 @@
         [label]="'events-students.list.header.name' | translate"
         [sortKey]="'name'"
         [sortCriteria]="sortCriteria()"
-        (sortRequested)="toggleSort.emit($event)"
+        (sortCriteriaChange)="
+          eventsStudentsStateService.updateSortCriteria($event)
+        "
       ></bkd-sortable-header>
       <bkd-sortable-header
         className="registration-date"
         [label]="'events-students.list.header.registration-date' | translate"
         [sortKey]="'registrationDate'"
         [sortCriteria]="sortCriteria()"
-        (sortRequested)="toggleSort.emit($event)"
+        (sortCriteriaChange)="
+          eventsStudentsStateService.updateSortCriteria($event)
+        "
       ></bkd-sortable-header>
     </div>
   } @else {

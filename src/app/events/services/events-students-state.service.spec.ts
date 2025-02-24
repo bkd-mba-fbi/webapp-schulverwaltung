@@ -559,7 +559,7 @@ describe("EventsStudentsStateService", () => {
       });
 
       it("sorts by name ascending, then inverts order when sorted again", () => {
-        service.toggleSort("name");
+        service.updateSortCriteria({ primarySortKey: "name", ascending: true });
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
           "Harrison George",
           "Lennon John",
@@ -567,7 +567,11 @@ describe("EventsStudentsStateService", () => {
           "Starr Ringo",
         ]);
 
-        service.toggleSort("name");
+        const currentSort = service.sortCriteria();
+        service.updateSortCriteria({
+          primarySortKey: "name",
+          ascending: !currentSort.ascending,
+        });
         TestBed.flushEffects();
 
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
@@ -645,7 +649,10 @@ describe("EventsStudentsStateService", () => {
             { registrationDate: date1, name: "Lennon John" },
           ]);
 
-        service.toggleSort("registrationDate");
+        service.updateSortCriteria({
+          primarySortKey: "registrationDate",
+          ascending: !service.sortCriteria().ascending,
+        });
         expect(
           service.sortedEntries().map((entry) => ({
             registrationDate: entry.registrationDate,
