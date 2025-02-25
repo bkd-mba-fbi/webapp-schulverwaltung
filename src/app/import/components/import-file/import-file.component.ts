@@ -16,10 +16,11 @@ import {
   IMPORT_TYPES,
   ImportStateService,
 } from "../../services/import-state.service";
+import { ImportTypeComponent } from "../import-type/import-type.component";
 
 @Component({
   selector: "bkd-import-file",
-  imports: [JsonPipe, TranslatePipe, RouterLink],
+  imports: [JsonPipe, TranslatePipe, RouterLink, ImportTypeComponent],
   templateUrl: "./import-file.component.html",
   styleUrl: "./import-file.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

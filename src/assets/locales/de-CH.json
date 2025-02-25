@@ -359,6 +359,10 @@
   },
   "import": {
     "title": "Daten einlesen",
+    "type": {
+      "subscriptionDetails": "Anmeldedetails",
+      "emails": "E-Mail-Adressen"
+    },
     "file": {
       "input-label": "Datei auswählen",
       "drop-zone-label": "Datei hierhin ziehen",

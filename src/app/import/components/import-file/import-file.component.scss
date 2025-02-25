@@ -8,3 +8,8 @@
   align-items: center;
   padding: 5 * $spacer;
 }
+
+.btn-group {
+  display: inline-flex;
+  padding: $spacer;
+}
