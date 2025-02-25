@@ -1,0 +1,17 @@
+@import "../../../../bootstrap-variables";
+
+.btn {
+  margin-right: -1rem;
+}
+
+.btn.btn-primary {
+  &:hover {
+    background: darken($gray-dark, 10);
+  }
+}
+
+.btn.btn-outline-secondary {
+  &:hover {
+    background-color: darken(white, 10);
+  }
+}

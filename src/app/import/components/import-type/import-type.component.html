@@ -1,0 +1,11 @@
+<button
+  type="button"
+  class="btn"
+  (click)="stateService.importType.set(importType)"
+  [ngClass]="{
+    'btn-primary': importType === stateService.importType(),
+    'btn-outline-secondary': importType !== stateService.importType(),
+  }"
+>
+  {{ "import.type." + importType | translate }}
+</button>
