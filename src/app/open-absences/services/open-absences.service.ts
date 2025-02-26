@@ -9,6 +9,7 @@ import {
   merge,
 } from "rxjs";
 import { map, shareReplay, take } from "rxjs/operators";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
@@ -16,7 +17,6 @@ import { LoadingService } from "src/app/shared/services/loading-service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
-import { SortCriteria } from "src/app/shared/utils/sort";
 import { Person } from "../../shared/models/person.model";
 import { toDesignationDateTimeTypeString } from "../../shared/utils/lesson-presences";
 import { OpenAbsencesEntry } from "../models/open-absences-entry.model";

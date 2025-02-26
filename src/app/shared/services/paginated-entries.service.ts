@@ -21,9 +21,9 @@ import {
   takeUntil,
 } from "rxjs/operators";
 import { Settings } from "src/app/settings";
+import { SortCriteria } from "../components/sortable-header/sortable-header.component";
 import { spread } from "../utils/function";
 import { Paginated } from "../utils/pagination";
-import { SortCriteria } from "../utils/sort";
 import { serializeParams } from "../utils/url";
 import { LoadingService } from "./loading-service";
 import { SortService } from "./sort.service";

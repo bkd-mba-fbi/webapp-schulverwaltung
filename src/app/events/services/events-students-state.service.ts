@@ -11,6 +11,7 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { EventSummary } from "src/app/shared/models/event.model";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
@@ -28,7 +29,6 @@ import { searchEntries } from "src/app/shared/utils/search";
 import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
 import { UnreachableError } from "../../shared/utils/error";
-import { SortCriteria } from "../../shared/utils/sort";
 import {
   convertCourseToStudentEntries,
   convertPersonsToStudentEntries,

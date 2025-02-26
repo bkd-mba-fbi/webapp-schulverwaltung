@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { SortCriteria } from "../utils/sort";
+import { SortCriteria } from "../components/sortable-header/sortable-header.component";
 import { SortService } from "./sort.service";
 
 describe("SortService", () => {

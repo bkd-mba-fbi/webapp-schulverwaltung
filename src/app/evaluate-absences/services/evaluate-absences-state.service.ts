@@ -4,6 +4,7 @@ import { Params } from "@angular/router";
 import { Observable } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
@@ -15,7 +16,6 @@ import { SortService } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { Paginated } from "src/app/shared/utils/pagination";
-import { SortCriteria } from "../../shared/utils/sort";
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;

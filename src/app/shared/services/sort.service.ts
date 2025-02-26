@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { isEqual } from "lodash-es";
 import { BehaviorSubject, distinctUntilChanged, shareReplay } from "rxjs";
-import { SortCriteria } from "../utils/sort";
+import { SortCriteria } from "../components/sortable-header/sortable-header.component";
 
 @Injectable({
   providedIn: "root",

@@ -6,8 +6,8 @@ import {
   model,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
-import { SortCriteria } from "../../../shared/utils/sort";
 import {
   EventsStudentsStateService,
   StudentEntry,

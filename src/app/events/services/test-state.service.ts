@@ -19,6 +19,7 @@ import {
   switchMap,
   take,
 } from "rxjs/operators";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { Course, Grading } from "../../shared/models/course.model";
@@ -38,7 +39,6 @@ import { GradingsRestService } from "../../shared/services/gradings-rest.service
 import { SortService } from "../../shared/services/sort.service";
 import { notNull } from "../../shared/utils/filter";
 import { spread } from "../../shared/utils/function";
-import { SortCriteria } from "../../shared/utils/sort";
 import { TestsAction, courseReducer } from "../utils/course-reducer";
 import { canSetFinalGrade } from "../utils/events";
 import { findResult, sortByDate } from "../utils/tests";

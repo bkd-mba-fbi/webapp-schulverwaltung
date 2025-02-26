@@ -1,4 +1,4 @@
-import { SortCriteria } from "src/app/shared/utils/sort";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { Settings } from "../../settings";
 import { LessonPresence } from "../../shared/models/lesson-presence.model";
 import { SubscriptionDetail } from "../../shared/models/subscription.model";

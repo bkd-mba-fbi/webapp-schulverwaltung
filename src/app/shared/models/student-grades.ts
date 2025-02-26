@@ -1,8 +1,8 @@
 import { Student } from "src/app/shared/models/student.model";
 import { Result, Test } from "src/app/shared/models/test.model";
+import { SortCriteria } from "../components/sortable-header/sortable-header.component";
 import { nonZero } from "../utils/filter";
 import { average } from "../utils/math";
-import { SortCriteria } from "../utils/sort";
 import { FinalGrading, Grading } from "./course.model";
 import { DropDownItem } from "./drop-down-item.model";
 

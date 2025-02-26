@@ -5,7 +5,11 @@ import {
   input,
   output,
 } from "@angular/core";
-import { SortCriteria } from "../../utils/sort";
+
+export interface SortCriteria<T> {
+  primarySortKey: T;
+  ascending: boolean;
+}
 
 @Component({
   selector: "bkd-sortable-header",
