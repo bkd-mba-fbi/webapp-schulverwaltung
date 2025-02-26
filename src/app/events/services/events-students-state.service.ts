@@ -135,6 +135,10 @@ export class EventsStudentsStateService {
     { initialValue: [] },
   );
 
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteria.set(newCriteria);
+  }
+
   private loadEventSummary(eventId: number): Observable<Option<EventSummary>> {
     return this.loadingService.load(
       this.eventsService.getEventSummary(eventId),
@@ -162,10 +166,6 @@ export class EventsStudentsStateService {
         return this.loadingService.load(fetch(), PAGE_LOADING_CONTEXT);
       }),
     );
-  }
-
-  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
-    this.sortCriteria.set(newCriteria);
   }
 
   private loadStudyCourseStudents({

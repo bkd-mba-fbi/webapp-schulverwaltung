@@ -14,10 +14,6 @@ export class SortService<TPrimarySortKey extends SortKey> {
     Option<SortCriteria<TPrimarySortKey>>
   >(null);
 
-  updateSortCriteria(newCriteria: SortCriteria<TPrimarySortKey>): void {
-    this.sortingSubject$.next(newCriteria);
-  }
-
   sorting$ = this.sortingSubject$.asObservable().pipe(
     distinctUntilChanged(isEqual), // Only cause a reload if the sorting changes
     shareReplay(1),

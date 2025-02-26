@@ -76,11 +76,6 @@ export class PresenceControlGroupComponent implements OnInit {
     primarySortKey: "name",
     ascending: true,
   });
-
-  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
-    this.sortCriteriaSubject$.next(newCriteria);
-  }
-
   sortCriteria$ = this.sortCriteriaSubject$.asObservable();
 
   sortedEntries$ = combineLatest([
@@ -169,5 +164,9 @@ export class PresenceControlGroupComponent implements OnInit {
         "presence-control.groups.notifications.save-success",
       ),
     );
+  }
+
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteriaSubject$.next(newCriteria);
   }
 }

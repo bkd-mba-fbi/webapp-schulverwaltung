@@ -243,10 +243,6 @@ export class TestStateService {
     this.expandedHeaderSubject$.next(expanded);
   }
 
-  updateSortCriteria(newCriteria: SortCriteria<StudentGradesSortKey>): void {
-    this.sortService.updateSortCriteria(newCriteria);
-  }
-
   /**
    * Optimistically updates the local state before saving. Returns the original
    * value of the affected test result to be used with `saveGrade`, such that we

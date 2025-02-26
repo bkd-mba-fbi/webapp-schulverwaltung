@@ -50,7 +50,7 @@
       [label]="'tests.student.name' | translate"
       [sortKey]="'FullName'"
       [sortCriteria]="sortCriteria"
-      (sortCriteriaChange)="state.updateSortCriteria($event)"
+      (sortCriteriaChange)="state.setSorting($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -63,7 +63,7 @@
       [label]="'tests.grade' | translate"
       [sortKey]="'FinalGrade'"
       [sortCriteria]="sortCriteria"
-      (sortCriteriaChange)="state.updateSortCriteria($event)"
+      (sortCriteriaChange)="state.setSorting($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -74,7 +74,7 @@
       [label]="'tests.mean' | translate"
       [sortKey]="'TestsMean'"
       [sortCriteria]="sortCriteria"
-      (sortCriteriaChange)="state.updateSortCriteria($event)"
+      (sortCriteriaChange)="state.setSorting($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -95,7 +95,7 @@
             [label]="'tests.grade' | translate"
             [sortKey]="'Test-' + test.Id"
             [sortCriteria]="sortCriteria"
-            (sortCriteriaChange)="state.updateSortCriteria($any($event))"
+            (sortCriteriaChange)="state.setSorting($any($event))"
           >
           </bkd-sortable-header>
         </div>
