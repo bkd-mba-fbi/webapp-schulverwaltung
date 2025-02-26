@@ -31,7 +31,7 @@ import {
 import { EvaluateAbsencesHeaderComponent } from "../evaluate-absences-header/evaluate-absences-header.component";
 
 interface Column {
-  primarySortKey: keyof LessonPresenceStatistic;
+  key: keyof LessonPresenceStatistic;
   label: string;
 }
 
@@ -64,13 +64,13 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
   reports$ = this.loadReports();
 
   columns: ReadonlyArray<Column> = [
-    { primarySortKey: "StudentFullName", label: "student" },
-    { primarySortKey: "TotalAbsences", label: "total" },
-    { primarySortKey: "TotalAbsencesValidExcuse", label: "valid-excuse" },
-    { primarySortKey: "TotalAbsencesWithoutExcuse", label: "without-excuse" },
-    { primarySortKey: "TotalAbsencesUnconfirmed", label: "unconfirmed" },
-    { primarySortKey: "TotalAbsencesUnchecked", label: "unchecked" },
-    { primarySortKey: "TotalIncidents", label: "incident" },
+    { key: "StudentFullName", label: "student" },
+    { key: "TotalAbsences", label: "total" },
+    { key: "TotalAbsencesValidExcuse", label: "valid-excuse" },
+    { key: "TotalAbsencesWithoutExcuse", label: "without-excuse" },
+    { key: "TotalAbsencesUnconfirmed", label: "unconfirmed" },
+    { key: "TotalAbsencesUnchecked", label: "unchecked" },
+    { key: "TotalIncidents", label: "incident" },
   ];
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
@@ -86,7 +86,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
       if (halfDayActive) {
         this.columns = [
           ...this.columns,
-          { primarySortKey: "TotalHalfDays", label: "halfday" },
+          { key: "TotalHalfDays", label: "halfday" },
         ];
       }
     });

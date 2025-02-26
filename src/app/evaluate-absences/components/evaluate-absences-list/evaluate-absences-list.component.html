@@ -28,7 +28,7 @@
         >
           <thead>
             <tr>
-              @for (column of columns; track column.primarySortKey) {
+              @for (column of columns; track column.key) {
                 <th scope="col">
                   <bkd-sortable-header
                     className="d-flex column-title"
@@ -36,7 +36,7 @@
                       'evaluate-absences.list.header.' + column.label
                         | translate
                     "
-                    [sortKey]="column.primarySortKey"
+                    [sortKey]="column.key"
                     [sortCriteria]="sortCriteria"
                     (sortCriteriaChange)="
                       state.sortService.updateSortCriteria($event)
@@ -56,14 +56,14 @@
             <tbody>
               @for (entry of entries; track entry.StudentRef.Id) {
                 <tr>
-                  @for (column of columns; track column.primarySortKey) {
+                  @for (column of columns; track column.key) {
                     <td
                       [attr.data-label]="
                         'evaluate-absences.list.header.' + column.label
                           | translate
                       "
                     >
-                      @if (column.primarySortKey === "StudentFullName") {
+                      @if (column.key === "StudentFullName") {
                         <a
                           class="student"
                           [routerLink]="[
@@ -75,10 +75,10 @@
                             returnparams: profileReturnParams$ | async,
                           }"
                         >
-                          {{ entry[column.primarySortKey] }}
+                          {{ entry[column.key] }}
                         </a>
                       } @else {
-                        {{ entry[column.primarySortKey] }}
+                        {{ entry[column.key] }}
                       }
                     </td>
                   }
