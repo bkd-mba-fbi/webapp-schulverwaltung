@@ -16,6 +16,7 @@ describe("SortableHeaderComponent", () => {
       primarySortKey: "name",
       ascending: true,
     });
+    fixture.componentRef.setInput("sortKey", "name");
     fixture.detectChanges();
   });
 
