@@ -3,17 +3,17 @@ import { SortCriteria } from "../components/sortable-header/sortable-header.comp
 import { SortService } from "./sort.service";
 
 describe("SortService", () => {
-  type SortableKeys = "one" | "two";
-  let service: SortService<SortableKeys>;
+  type SortKey = "one" | "two";
+  let service: SortService<SortKey>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SortService);
+    service = TestBed.inject<SortService<SortKey>>(SortService);
   });
 
   it("should set the sorting", (done) => {
     // given
-    const newSorting: SortCriteria<SortableKeys> = {
+    const newSorting: SortCriteria<SortKey> = {
       primarySortKey: "one",
       ascending: true,
     };

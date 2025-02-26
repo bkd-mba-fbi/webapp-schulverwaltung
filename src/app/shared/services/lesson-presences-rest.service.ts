@@ -8,7 +8,10 @@ import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences
 import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
 import { mergeUniqueLessonPresences } from "src/app/open-absences/utils/open-absences-entries";
 import { SETTINGS, Settings } from "../../settings";
-import { SortCriteria } from "../components/sortable-header/sortable-header.component";
+import {
+  SortCriteria,
+  SortKey,
+} from "../components/sortable-header/sortable-header.component";
 import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { LessonStudyClass } from "../models/lesson-study-class.model";
@@ -416,8 +419,8 @@ function filteredParams(
   }, params);
 }
 
-function sortedParams<T>(
-  sorting: Option<SortCriteria<T>>,
+function sortedParams<TPrimarySortKey extends SortKey>(
+  sorting: Option<SortCriteria<TPrimarySortKey>>,
   params = new HttpParams(),
 ): HttpParams {
   if (!sorting) {
@@ -425,6 +428,6 @@ function sortedParams<T>(
   }
   return params.set(
     "sort",
-    `${sorting.primarySortKey}.${sorting.ascending ? "asc" : "desc"}`,
+    `${String(sorting.primarySortKey)}.${sorting.ascending ? "asc" : "desc"}`,
   );
 }

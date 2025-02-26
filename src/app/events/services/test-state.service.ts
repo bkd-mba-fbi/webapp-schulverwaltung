@@ -25,8 +25,8 @@ import { LoadingService } from "src/app/shared/services/loading-service";
 import { Course, Grading } from "../../shared/models/course.model";
 import { DropDownItem } from "../../shared/models/drop-down-item.model";
 import {
-  SortKeys,
   StudentGrade,
+  StudentGradesSortKey,
   averageOfGradesForScale,
   compareFn,
   meanOf,
@@ -75,7 +75,7 @@ export class TestStateService {
   private gradingScalesRestService = inject(GradingScalesRestService);
   private gradingsRestService = inject(GradingsRestService);
   private loadingService = inject(LoadingService);
-  private sortService = inject<SortService<SortKeys>>(SortService);
+  private sortService = inject<SortService<StudentGradesSortKey>>(SortService);
 
   private action$ = new ReplaySubject<TestsAction>(1);
 
@@ -136,7 +136,8 @@ export class TestStateService {
     ),
   );
 
-  sorting$ = this.sortService.sorting$;
+  sorting$: Observable<SortCriteria<StudentGradesSortKey>> =
+    this.sortService.sorting$.pipe(filter(notNull));
 
   studentGrades$ = combineLatest([
     this.course$,
@@ -223,18 +224,18 @@ export class TestStateService {
 
   toStudentGrades(
     course: Course,
-    tests: Test[] = [],
-    sorting: SortCriteria<SortKeys>,
+    tests: ReadonlyArray<Test> = [],
+    sorting: SortCriteria<StudentGradesSortKey>,
   ): StudentGrade[] {
     return transform(
       course.ParticipatingStudents ?? [],
       tests,
       course.Gradings ?? [],
       course.FinalGrades ?? [],
-    ).sort(compareFn(sorting));
+    ).sort(compareFn(sorting, tests));
   }
 
-  setSorting(sorting: SortCriteria<SortKeys>) {
+  setSorting(sorting: SortCriteria<StudentGradesSortKey>) {
     this.sortService.setSorting(sorting);
   }
 
@@ -242,7 +243,7 @@ export class TestStateService {
     this.expandedHeaderSubject$.next(expanded);
   }
 
-  updateSortCriteria(newCriteria: SortCriteria<SortKeys>): void {
+  updateSortCriteria(newCriteria: SortCriteria<StudentGradesSortKey>): void {
     this.sortService.updateSortCriteria(newCriteria);
   }
 

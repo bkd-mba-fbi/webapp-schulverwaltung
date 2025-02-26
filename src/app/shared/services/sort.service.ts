@@ -1,17 +1,20 @@
 import { Injectable } from "@angular/core";
 import { isEqual } from "lodash-es";
 import { BehaviorSubject, distinctUntilChanged, shareReplay } from "rxjs";
-import { SortCriteria } from "../components/sortable-header/sortable-header.component";
+import {
+  SortCriteria,
+  SortKey,
+} from "../components/sortable-header/sortable-header.component";
 
 @Injectable({
   providedIn: "root",
 })
-export class SortService<PrimarySortKey> {
+export class SortService<TPrimarySortKey extends SortKey> {
   private sortingSubject$ = new BehaviorSubject<
-    Option<SortCriteria<PrimarySortKey>>
+    Option<SortCriteria<TPrimarySortKey>>
   >(null);
 
-  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+  updateSortCriteria(newCriteria: SortCriteria<TPrimarySortKey>): void {
     this.sortingSubject$.next(newCriteria);
   }
 
@@ -22,7 +25,7 @@ export class SortService<PrimarySortKey> {
 
   constructor() {}
 
-  setSorting(sorting: Option<SortCriteria<PrimarySortKey>>): void {
+  setSorting(sorting: Option<SortCriteria<TPrimarySortKey>>): void {
     this.sortingSubject$.next(sorting);
   }
 }

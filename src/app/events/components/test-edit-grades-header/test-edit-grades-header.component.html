@@ -87,22 +87,15 @@
       <div class="d-flex">
         @if (test.IsPointGrading) {
           <div class="column-title point-input-container me-2 me-md-3">
-            <bkd-sortable-header
-              [label]="'tests.points' | translate"
-              [sortKey]="test"
-              [sortCriteria]="sortCriteria"
-              [showSortDirection]="false"
-              (sortCriteriaChange)="state.updateSortCriteria($event)"
-            >
-            </bkd-sortable-header>
+            {{ "tests.points" | translate }}
           </div>
         }
         <div class="column-title">
           <bkd-sortable-header
             [label]="'tests.grade' | translate"
-            [sortKey]="test"
+            [sortKey]="'Test-' + test.Id"
             [sortCriteria]="sortCriteria"
-            (sortCriteriaChange)="state.updateSortCriteria($event)"
+            (sortCriteriaChange)="state.updateSortCriteria($any($event))"
           >
           </bkd-sortable-header>
         </div>

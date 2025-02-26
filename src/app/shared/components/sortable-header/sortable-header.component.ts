@@ -6,7 +6,9 @@ import {
   output,
 } from "@angular/core";
 
-export interface SortCriteria<T> {
+export type SortKey = string;
+
+export interface SortCriteria<T extends SortKey> {
   primarySortKey: T;
   ascending: boolean;
 }
@@ -17,21 +19,15 @@ export interface SortCriteria<T> {
   styleUrl: "./sortable-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SortableHeaderComponent<T extends string | object> {
+export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   className = input<string>("");
   label = input<string>("");
-  sortKey = input<T>();
-  sortCriteria = input<SortCriteria<T>>({
-    primarySortKey: "" as T,
-    ascending: true,
-  });
-  showSortDirection = input<boolean>(true);
-  sortCriteriaChange = output<SortCriteria<T>>();
+  sortKey = input<TPrimarySortKey>();
+  sortCriteria = input.required<SortCriteria<TPrimarySortKey>>();
+  sortCriteriaChange = output<SortCriteria<TPrimarySortKey>>();
 
   isSorted = computed(
-    () =>
-      this.showSortDirection() &&
-      this.sortCriteria()?.primarySortKey === this.sortKey(),
+    () => this.sortCriteria()?.primarySortKey === this.sortKey(),
   );
 
   sortDirectionCharacter = computed(() =>
@@ -40,7 +36,7 @@ export class SortableHeaderComponent<T extends string | object> {
 
   toggleSort(): void {
     const current = this.sortCriteria();
-    let newCriteria: SortCriteria<T>;
+    let newCriteria: SortCriteria<TPrimarySortKey>;
     if (this.isSorted()) {
       newCriteria = {
         primarySortKey: current.primarySortKey,

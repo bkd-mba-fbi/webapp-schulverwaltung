@@ -21,7 +21,10 @@ import {
   takeUntil,
 } from "rxjs/operators";
 import { Settings } from "src/app/settings";
-import { SortCriteria } from "../components/sortable-header/sortable-header.component";
+import {
+  SortCriteria,
+  SortKey,
+} from "../components/sortable-header/sortable-header.component";
 import { spread } from "../utils/function";
 import { Paginated } from "../utils/pagination";
 import { serializeParams } from "../utils/url";
@@ -45,15 +48,15 @@ export const PAGE_LOADING_CONTEXT = "page";
 @Injectable()
 export abstract class PaginatedEntriesService<
   T,
-  FilterValue,
-  SortingKey = keyof T,
+  TFilterValue,
+  TPrimarySortKey extends SortKey = Extract<keyof T, string>,
 > implements OnDestroy
 {
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
   sorting$ = this.sortService.sorting$;
 
-  private filter$ = new BehaviorSubject<FilterValue>(this.getInitialFilter());
+  private filter$ = new BehaviorSubject<TFilterValue>(this.getInitialFilter());
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));
   validFilter$ = this.filter$.pipe(
     filter(this.isValidFilter.bind(this)),
@@ -121,7 +124,7 @@ export abstract class PaginatedEntriesService<
   constructor(
     protected location: Location,
     protected loadingService: LoadingService,
-    public sortService: SortService<SortingKey>,
+    public sortService: SortService<TPrimarySortKey>,
     protected settings: Settings,
     pageUrl: string,
   ) {
@@ -136,7 +139,7 @@ export abstract class PaginatedEntriesService<
     this.destroy$.next();
   }
 
-  setFilter(filterValue: FilterValue): void {
+  setFilter(filterValue: TFilterValue): void {
     // Make a copy of the filter object to be sure the distinct check
     // in the `validFilter$` observable works, even if the filter
     // object gets modified in place (non-immutable) in the component.
@@ -155,21 +158,21 @@ export abstract class PaginatedEntriesService<
     this.resetEntries$.next();
   }
 
-  protected abstract getInitialFilter(): FilterValue;
+  protected abstract getInitialFilter(): TFilterValue;
 
-  protected abstract isValidFilter(filterValue: FilterValue): boolean;
+  protected abstract isValidFilter(filterValue: TFilterValue): boolean;
 
-  protected getInitialSorting(): Option<SortCriteria<SortingKey>> {
+  protected getInitialSorting(): Option<SortCriteria<TPrimarySortKey>> {
     return null;
   }
 
   protected abstract loadEntries(
-    filterValue: FilterValue,
-    sorting: Option<SortCriteria<keyof T>>,
+    filterValue: TFilterValue,
+    sorting: Option<SortCriteria<Extract<keyof T, string>>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<T>>>;
 
-  protected abstract buildParamsFromFilter(filterValue: FilterValue): Params;
+  protected abstract buildParamsFromFilter(filterValue: TFilterValue): Params;
 
   private entriesActionReducer(
     entries: ReadonlyArray<T>,

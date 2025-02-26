@@ -12,6 +12,10 @@ describe("SortableHeaderComponent", () => {
 
     fixture = TestBed.createComponent(SortableHeaderComponent<string>);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("sortCriteria", {
+      primarySortKey: "name",
+      ascending: true,
+    });
     fixture.detectChanges();
   });
 
