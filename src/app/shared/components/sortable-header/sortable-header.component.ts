@@ -22,7 +22,7 @@ export interface SortCriteria<T extends SortKey> {
 export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   className = input<string>("");
   label = input<string>("");
-  sortKey = input<TPrimarySortKey>();
+  sortKey = input.required<TPrimarySortKey>();
   sortCriteria = input.required<SortCriteria<TPrimarySortKey>>();
   sortCriteriaChange = output<SortCriteria<TPrimarySortKey>>();
 
@@ -35,19 +35,10 @@ export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   );
 
   toggleSort(): void {
-    const current = this.sortCriteria();
-    let newCriteria: SortCriteria<TPrimarySortKey>;
-    if (this.isSorted()) {
-      newCriteria = {
-        primarySortKey: current.primarySortKey,
-        ascending: !current.ascending,
-      };
-    } else {
-      newCriteria = {
-        primarySortKey: this.sortKey()!,
-        ascending: this.sortKey() === "name",
-      };
-    }
-    this.sortCriteriaChange.emit(newCriteria);
+    const { ascending: currentAscending } = this.sortCriteria();
+    this.sortCriteriaChange.emit({
+      primarySortKey: this.sortKey(),
+      ascending: this.isSorted() ? !currentAscending : true,
+    });
   }
 }
