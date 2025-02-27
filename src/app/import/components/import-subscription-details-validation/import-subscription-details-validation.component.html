@@ -1,19 +1,21 @@
 <div class="bkd-container">
-  <h1>{{ "import.title" | translate }}</h1>
-
   @if (progress().validating > 0) {
+    <h1>{{ "import.title" | translate }}</h1>
     <p>{{ "import.validation.validating" | translate }}</p>
     <bkd-spinner></bkd-spinner>
   } @else {
-    <div class="d-flex justify-content-end gap-3">
-      <button class="btn btn-outline-secondary" routerLink="/import">
-        {{ "import.validation.change-document" | translate }}
-      </button>
-      <button class="btn btn-primary" (click)="proceedToUpload()">
-        {{ "import.validation.upload" | translate }}
-      </button>
+    <div class="header d-flex mb-4">
+      <h1 class="flex-fill mb-0">{{ "import.title" | translate }}</h1>
+      <div class="actions d-flex justify-content-end gap-3">
+        <button class="btn btn-outline-secondary" routerLink="/import">
+          {{ "import.validation.change-document" | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="proceedToUpload()">
+          {{ "import.validation.upload" | translate }}
+        </button>
+      </div>
     </div>
-    <table class="table mt-5">
+    <table class="table">
       <thead>
         <tr>
           <th>
