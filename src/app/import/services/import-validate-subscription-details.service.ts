@@ -13,10 +13,8 @@ import {
   PersonFullName,
   PersonSummary,
 } from "src/app/shared/models/person.model";
-import {
-  Subscription,
-  SubscriptionDetail,
-} from "src/app/shared/models/subscription.model";
+import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
+import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { PersonsRestService } from "../../shared/services/persons-rest.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
@@ -143,7 +141,6 @@ export type SubscriptionDetailImportEntry = ImportEntry<
   {
     event?: EventDesignation;
     person?: PersonFullName;
-    subscription?: Subscription;
     subscriptionDetail?: SubscriptionDetail;
   },
   SubscriptionDetailValidationError,
@@ -156,7 +153,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
 export class ImportValidateSubscriptionDetailsService {
   private eventsService = inject(EventsRestService);
   private personsService = inject(PersonsRestService);
-  // private subscriptionsService = inject(SubscriptionsRestService);
+  private subscriptionsService = inject(SubscriptionsRestService);
 
   fetchAndValidate(parsedEntries: ReadonlyArray<SubscriptionDetailEntry>): {
     progress: Signal<ValidationProgress>;
@@ -205,24 +202,6 @@ export class ImportValidateSubscriptionDetailsService {
     //     }
     //   - Are dropdown items allowed (and valid)? → DropdownItems != null
     // - Update progress on-the-fly
-
-    // const entriesWithAdditionalData = await firstValueFrom(
-    //   combineLatest([
-    //     this.loadEvents(entries),
-    //     this.loadPersonsById(entries),
-    //     this.loadSubscriptionsAndDetails(entries),
-    //   ]).pipe(
-    //     map(([events, persons, { subscriptions, subscriptionDetails }]) =>
-    //       this.buildValidationEntries(
-    //         entries,
-    //         events,
-    //         persons,
-    //         subscriptions,
-    //         subscriptionDetails,
-    //       ),
-    //     ),
-    //   ),
-    // );
 
     // TODO: After all validations are done
     entries = entries.map((entry) => {
@@ -292,6 +271,7 @@ export class ImportValidateSubscriptionDetailsService {
       this.decoratePersonsById(entries),
     ]);
     await this.decoratePersonsByEmail(entries);
+    await this.decorateSubscriptionsDetails(entries);
   }
 
   private async decorateEvents(
@@ -344,6 +324,50 @@ export class ImportValidateSubscriptionDetailsService {
     });
   }
 
+  private async decorateSubscriptionsDetails(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Promise<void> {
+    const personIdsByGroup = this.getPersonIdsGroupedByEvent(entries);
+    await Promise.all(
+      personIdsByGroup.map(({ eventId, personIds }) =>
+        this.decorateSubscriptionDetail(eventId, personIds, entries),
+      ),
+    );
+  }
+
+  private async decorateSubscriptionDetail(
+    eventId: number,
+    personIds: ReadonlyArray<number>,
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Promise<void> {
+    const subscriptionIds = await firstValueFrom(
+      this.subscriptionsService.getSubscriptionIdsByEventAndStudents(
+        eventId,
+        personIds,
+      ),
+    );
+    await Promise.all(
+      subscriptionIds.map((id) =>
+        firstValueFrom(this.subscriptionsService.getSubscriptionDetailsById(id))
+          .then((details) => {
+            entries.forEach((entry) => {
+              const detailId = entry.entry.subscriptionDetailId;
+              const detail =
+                isNumber(detailId) &&
+                details.find((detail) => detail.VssId === detailId);
+              if (detail) {
+                entry.data.subscriptionDetail = detail;
+              }
+            });
+          })
+          .catch((error) => {
+            // TODO: catch 404
+            console.log("subscription detail fetch error:", error);
+          }),
+      ),
+    );
+  }
+
   private getEventIds(
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): ReadonlyArray<number> {
@@ -374,6 +398,27 @@ export class ImportValidateSubscriptionDetailsService {
     ).filter(isEmail);
   }
 
+  private getPersonIdsGroupedByEvent(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<{ eventId: number; personIds: ReadonlyArray<number> }> {
+    const grouped = entries.reduce<Dict<number[]>>(
+      (acc, { data: { event, person } }) => {
+        if (event && person) {
+          if (!acc[event.Id]) {
+            acc[event.Id] = [];
+          }
+          acc[event.Id].push(person.Id);
+        }
+        return acc;
+      },
+      {},
+    );
+    return Object.keys(grouped).map((eventId) => ({
+      eventId: Number(eventId),
+      personIds: uniq(grouped[eventId]),
+    }));
+  }
+
   private loadEvents(
     eventIds: ReadonlyArray<number>,
   ): Promise<ReadonlyArray<EventDesignation>> {
@@ -392,100 +437,6 @@ export class ImportValidateSubscriptionDetailsService {
     return firstValueFrom(
       this.personsService.getSummariesByEmail(personEmails),
     );
-  }
-
-  // private loadSubscriptionsAndDetails(
-  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
-  // ): Observable<{
-  //   subscriptions: ReadonlyArray<{
-  //     eventId: number;
-  //     personId: number;
-  //     subscriptionId: number;
-  //   }>;
-  //   subscriptionDetails: ReadonlyArray<SubscriptionDetail>;
-  // }> {
-  //   return this.loadSubscriptions(entries).pipe(
-  //     switchMap((subscriptions) =>
-  //       this.loadSubscriptionDetails(subscriptions).pipe(
-  //         map((subscriptionDetails) => ({
-  //           subscriptions,
-  //           subscriptionDetails,
-  //         })),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // private loadSubscriptions(
-  //   entries: ReadonlyArray<SubscriptionDetailEntry>,
-  // ): Observable<
-  //   ReadonlyArray<{ eventId: number; personId: number; subscriptionId: number }>
-  // > {
-  //   const eventPersonIds = uniqBy(
-  //     entries.map(({ personId, eventId }) => ({ personId, eventId })),
-  //     ({ personId, eventId }) => `${personId}-${eventId}`,
-  //   );
-  //   return combineLatest(
-  //     eventPersonIds.map(({ personId, eventId }) =>
-  //       this.subscriptionsService
-  //         .getSubscriptionIdsByStudentAndCourse(personId, [eventId])
-  //         .pipe(map((ids) => ({ eventId, personId, subscriptionId: ids[0] }))),
-  //     ),
-  //   );
-  // }
-
-  // private loadSubscriptionDetails(
-  //   subscriptions: ReadonlyArray<{ eventId: number; subscriptionId: number }>,
-  // ): Observable<ReadonlyArray<SubscriptionDetail>> {
-  //   const subscriptionDetailIds = uniq(
-  //     subscriptions.map(
-  //       ({ eventId, subscriptionId }) => `${eventId}_${subscriptionId}`,
-  //     ),
-  //   );
-  //   // TODO: catch404
-  //   return combineLatest(
-  //     subscriptionDetailIds.map((id) =>
-  //       this.subscriptionsService
-  //         .getSubscriptionDetailsById(id)
-  //         .pipe(map((details) => details[0])),
-  //     ),
-  //   );
-  // }
-
-  private buildValidationEntriesWithData(
-    entries: ReadonlyArray<SubscriptionDetailEntry>,
-    events: ReadonlyArray<EventDesignation>,
-    persons: ReadonlyArray<PersonFullName>,
-    subscriptions: ReadonlyArray<{
-      eventId: number;
-      personId: number;
-      subscriptionId: number;
-    }>,
-    subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
-  ): ReadonlyArray<SubscriptionDetailImportEntry> {
-    return entries.map((entry) => {
-      const subscriptionId = subscriptions.find(
-        (s) => s.eventId === entry.eventId && s.personId === entry.personId,
-      )?.subscriptionId;
-      return {
-        validationStatus: "validating",
-        importStatus: null,
-        entry,
-        data: {
-          event: events.find((e) => e.Id === entry.eventId),
-          person: persons.find((p) => p.Id === entry.personId),
-          subscriptionId: subscriptionId,
-          subscriptionDetail: subscriptionDetails.find(
-            (s) =>
-              s.EventId === entry.eventId &&
-              s.IdPerson === entry.personId &&
-              s.SubscriptionId === subscriptionId,
-          ),
-        },
-        validationError: null,
-        importError: null,
-      };
-    });
   }
 
   private buildValidationEntries(

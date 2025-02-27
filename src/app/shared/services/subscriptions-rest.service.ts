@@ -22,13 +22,30 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
 
   getSubscriptionIdsByStudentAndCourse(
     personId: number,
-    eventIds: number[],
+    eventIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<number>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
           "filter.PersonId": `=${personId}`,
           "filter.EventId": `;${eventIds}`,
+        },
+      })
+      .pipe(
+        switchMap(decodeArray(Identifiable)),
+        map((result) => result.map((i) => i.Id)),
+      );
+  }
+
+  getSubscriptionIdsByEventAndStudents(
+    eventId: number,
+    personIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<number>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          "filter.EventId": `=${eventId}`,
+          "filter.PersonId": `;${personIds}`,
         },
       })
       .pipe(
