@@ -47,6 +47,22 @@ export class PersonsRestService extends RestService<typeof Person> {
       .pipe(switchMap(decodeArray(PersonSummary)));
   }
 
+  getSummariesByEmail(
+    emails: ReadonlyArray<string>,
+  ): Observable<ReadonlyArray<PersonSummary>> {
+    if (emails.length === 0) {
+      return of([]);
+    }
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          "filter.Email": `;${emails.join(";")}`,
+          fields: ["Id", "FullName", "DisplayEmail", "Email"].join(","),
+        },
+      })
+      .pipe(switchMap(decodeArray(PersonSummary)));
+  }
+
   getMyself(options?: { context?: HttpContext }): Observable<Person> {
     return this.http
       .get<unknown>(`${this.baseUrl}/me`, options)
@@ -72,20 +88,6 @@ export class PersonsRestService extends RestService<typeof Person> {
   ): Observable<ReadonlyArray<PersonFullName>> {
     const params = new HttpParams()
       .set("filter.Id", `;${ids.join(";")}`)
-      .set("fields", "Id,FullName");
-
-    return this.http
-      .get<unknown>(`${this.baseUrl}/`, {
-        params: paginatedParams(0, 0, params),
-      })
-      .pipe(switchMap(decodeArray(PersonFullName)));
-  }
-
-  getFullNamesByEmail(
-    emails: ReadonlyArray<string>,
-  ): Observable<ReadonlyArray<PersonFullName>> {
-    const params = new HttpParams()
-      .set("filter.Email", `;${emails.join(";")}`)
       .set("fields", "Id,FullName");
 
     return this.http
