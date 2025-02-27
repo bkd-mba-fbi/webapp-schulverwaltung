@@ -2,6 +2,13 @@ import * as t from "io-ts";
 import { LocalDateTimeFromString, Option } from "./common-types";
 import { DropDownItem } from "./drop-down-item.model";
 
+export enum SubscriptionDetailType {
+  IntField = 277,
+  Currency = 279,
+  Text = 290,
+  MemoText = 293,
+}
+
 const SubscriptionDetail = t.type({
   Id: t.string,
   SubscriptionId: t.number,
