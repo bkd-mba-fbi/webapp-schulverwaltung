@@ -1,5 +1,3 @@
-@let entries = stateService.importEntries();
-
 <div class="bkd-container">
   <h1>{{ "import.title" | translate }}</h1>
 
@@ -39,27 +37,37 @@
         </tr>
       </thead>
       <tbody>
-        @for (entry of entries; track $index) {
+        @for (entry of sortedImportEntries(); track $index) {
           <tr>
-            <td>
-              {{ entry.validationStatus }} {{ entry.validationError?.type }}
+            <td class="align-middle">
+              <bkd-import-entry-status
+                [entry]="entry"
+              ></bkd-import-entry-status>
             </td>
             <td>
-              {{ entry.data.event?.Designation ?? entry.entry["eventId"] }}
+              <bkd-import-entry-value
+                [value]="getEventValue(entry)"
+                [valid]="isValid(entry, ['eventId'])"
+              ></bkd-import-entry-value>
             </td>
             <td>
-              {{
-                entry.data.person?.FullName ??
-                  entry.entry["personId"] + " " + entry.entry["personEmail"]
-              }}
+              <bkd-import-entry-value
+                [value]="getPersonValue(entry)"
+                [valid]="isValid(entry, ['personId', 'personEmail'])"
+              ></bkd-import-entry-value>
             </td>
             <td>
-              {{
-                entry.data.subscriptionDetail?.VssBezeichnung ??
-                  entry.entry["subscriptionDetailId"]
-              }}
+              <bkd-import-entry-value
+                [value]="getSubscriptionDetailValue(entry)"
+                [valid]="isValid(entry, ['subscriptionDetailId'])"
+              ></bkd-import-entry-value>
             </td>
-            <td>{{ entry.entry["value"] }}</td>
+            <td class="value">
+              <bkd-import-entry-value
+                [value]="getValue(entry)"
+                [valid]="isValid(entry, ['value'])"
+              ></bkd-import-entry-value>
+            </td>
           </tr>
         }
       </tbody>

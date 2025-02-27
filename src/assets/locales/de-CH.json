@@ -369,7 +369,21 @@
       "validating": "Daten werden validiert...",
       "upload": "Daten einlesen",
       "change-document": "Anderes Dokument wählen",
-      "progress": "Fortschritt Daten validieren"
+      "progress": "Fortschritt Daten validieren",
+      "errors": {
+        "InvalidEventIdError": "Die Anlass ID ist ungültig",
+        "InvalidPersonIdError": "Die Person ID ist ungültig",
+        "InvalidPersonEmailError": "Die E-Mail ist ungültig",
+        "MissingPersonIdEmailError": "Person ID oder E-Mail ist erforderlich",
+        "InvalidSubscriptionDetailIdError": "Die ID des Anmeldedetails ist ungültig",
+        "MissingValueError": "Der Wert fehlt",
+        "EventNotFoundError": "Der Anlass ist nicht vorhanden",
+        "PersonNotFoundError": "Die Person ist nicht vorhanden",
+        "SubscriptionDetailNotFoundError": "Die Person ist nicht auf den Anlass angemeldet",
+        "SubscriptionDetailNotEditableError": "Das Anmeldedetail ist nicht für die Interneteingabe freigegeben",
+        "InvalidValueError": "Ungültiger Wert für dieses Anmeldedetail",
+        "InvalidDropdownValueError": "Ungültiger Wert für dieses Anmeldedetail"
+      }
     },
     "upload": {
       "uploading": "Daten werden eingelesen...",
