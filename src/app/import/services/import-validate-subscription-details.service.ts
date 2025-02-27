@@ -5,9 +5,14 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { Observable } from "rxjs";
+import groupBy from "lodash-es/groupBy";
+import uniq from "lodash-es/uniq";
+import { firstValueFrom } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
-import { PersonFullName } from "src/app/shared/models/person.model";
+import {
+  PersonFullName,
+  PersonSummary,
+} from "src/app/shared/models/person.model";
 import {
   Subscription,
   SubscriptionDetail,
@@ -174,8 +179,12 @@ export class ImportValidateSubscriptionDetailsService {
     parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
     let entries = this.buildValidationEntries(parsedEntries);
+
+    // Perform basic verification of the Excel data
     entries = this.verifyEntriesData(entries);
     this.updateProgress(entries, progress);
+
+    await this.loadData(entries);
 
     // TODO: (asynchronously)
     // - Load events
@@ -186,7 +195,7 @@ export class ImportValidateSubscriptionDetailsService {
     //   - Does event exist?
     //   - Does person exist (either by ID or by email)?
     //   - Does subscription exist?
-    //   - Is subscription detail available for editing throught internet → "VssInternet": "E" && "VssStyle": "TX"
+    //   - Is subscription detail available for editing through internet → "VssInternet": "E" && "VssStyle": "TX"
     //   - Subscription detail type:
     //     vssType: {
     //       IntField: 277,
@@ -275,25 +284,114 @@ export class ImportValidateSubscriptionDetailsService {
     return entry;
   }
 
+  private async loadData(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Promise<void> {
+    await Promise.all([
+      this.decorateEvents(entries),
+      this.decoratePersonsById(entries),
+    ]);
+    await this.decoratePersonsByEmail(entries);
+  }
+
+  private async decorateEvents(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Promise<void> {
+    const events = await this.loadEvents(this.getEventIds(entries));
+    const eventsById = groupBy(events, (event) => event.Id);
+    entries.forEach((entry) => {
+      if (isNumber(entry.entry.eventId)) {
+        entry.data.event =
+          (eventsById[entry.entry.eventId] &&
+            eventsById[entry.entry.eventId][0]) ??
+          null;
+      }
+      return entry;
+    });
+  }
+
+  private async decoratePersonsById(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Promise<void> {
+    const persons = await this.loadPersonsById(this.getPersonIds(entries));
+    const personsById = groupBy(persons, (person) => person.Id);
+    entries.forEach((entry) => {
+      if (!entry.data.person && isNumber(entry.entry.personId)) {
+        entry.data.person =
+          (personsById[entry.entry.personId] &&
+            personsById[entry.entry.personId][0]) ??
+          null;
+      }
+      return entry;
+    });
+  }
+
+  private async decoratePersonsByEmail(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Promise<void> {
+    const persons = await this.loadPersonsByEmail(
+      this.getPersonEmails(entries),
+    );
+    const personsByEmail = groupBy(persons, (person) => person.Email);
+    entries.forEach((entry) => {
+      if (!entry.data.person && isNumber(entry.entry.personEmail)) {
+        entry.data.person =
+          (personsByEmail[entry.entry.personEmail] &&
+            personsByEmail[entry.entry.personEmail][0]) ??
+          null;
+      }
+      return entry;
+    });
+  }
+
+  private getEventIds(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<number> {
+    return uniq(entries.map(({ entry: { eventId } }) => eventId))
+      .filter(isNumber)
+      .map(Number);
+  }
+
+  private getPersonIds(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<number> {
+    return uniq(
+      entries
+        .filter(({ data: { person } }) => !person) // Don't load persons for entries that already have a person
+        .map(({ entry: { personId } }) => personId),
+    )
+      .filter(isNumber)
+      .map(Number);
+  }
+
+  private getPersonEmails(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<string> {
+    return uniq(
+      entries
+        .filter(({ data: { person } }) => !person) // Don't load persons for entries that already have a person
+        .map(({ entry: { personEmail } }) => personEmail),
+    ).filter(isEmail);
+  }
+
   private loadEvents(
-    entries: ReadonlyArray<SubscriptionDetailEntry>,
-  ): Observable<ReadonlyArray<EventDesignation>> {
-    const eventIds = entries.map(({ eventId }) => eventId);
-    return this.eventsService.getEventDesignations(eventIds.map(Number));
+    eventIds: ReadonlyArray<number>,
+  ): Promise<ReadonlyArray<EventDesignation>> {
+    return firstValueFrom(this.eventsService.getEventDesignations(eventIds));
   }
 
   private loadPersonsById(
-    entries: ReadonlyArray<SubscriptionDetailEntry>,
-  ): Observable<ReadonlyArray<PersonFullName>> {
-    const personIds = entries.map(({ personId }) => personId);
-    return this.personsService.getFullNamesById(personIds.map(Number));
+    personIds: ReadonlyArray<number>,
+  ): Promise<ReadonlyArray<PersonFullName>> {
+    return firstValueFrom(this.personsService.getFullNamesById(personIds));
   }
 
   private loadPersonsByEmail(
-    entries: ReadonlyArray<SubscriptionDetailEntry>,
-  ): Observable<ReadonlyArray<PersonFullName>> {
-    const personIds = entries.map(({ personEmail }) => personEmail);
-    return this.personsService.getFullNamesByEmail(personIds.map(String));
+    personEmails: ReadonlyArray<string>,
+  ): Promise<ReadonlyArray<PersonSummary>> {
+    return firstValueFrom(
+      this.personsService.getSummariesByEmail(personEmails),
+    );
   }
 
   // private loadSubscriptionsAndDetails(
@@ -468,7 +566,7 @@ function isPresent(value: unknown): boolean {
   return value != null && value !== "";
 }
 
-function isNumber(value: unknown): boolean {
+function isNumber(value: unknown): value is number {
   return typeof value === "number" && !isNaN(value);
 }
 
@@ -476,7 +574,7 @@ function isOptionalNumber(value: unknown): boolean {
   return !isPresent(value) || isNumber(value);
 }
 
-function isEmail(value: unknown): boolean {
+function isEmail(value: unknown): value is string {
   return typeof value === "string" && value.includes("@");
 }
 
