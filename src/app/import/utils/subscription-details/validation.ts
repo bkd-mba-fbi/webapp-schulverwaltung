@@ -9,6 +9,7 @@ import {
 } from "../validation";
 import {
   EventNotFoundError,
+  InvalidDropdownValueError,
   InvalidEventIdError,
   InvalidPersonEmailError,
   InvalidPersonIdError,
@@ -138,7 +139,14 @@ export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
 export const assertSubscriptionDetailDropdownItems: EntryValidationFn = (
   entry,
 ) => {
-  // TODO
-  //   - Are dropdown items allowed (and valid)? → DropdownItems != null
+  const items = entry.data.subscriptionDetail?.DropdownItems?.map(
+    (item) => item.Key,
+  );
+  const value = entry.entry.value;
+  const valid = !items || items.includes(value as never);
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidDropdownValueError();
+  }
   return { valid: true, entry };
 };
