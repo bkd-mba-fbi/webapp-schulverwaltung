@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import groupBy from "lodash-es/groupBy";
 import uniq from "lodash-es/uniq";
-import { firstValueFrom } from "rxjs";
+import { Observable, firstValueFrom, from, mergeMap, tap, toArray } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
 import {
   PersonFullName,
@@ -15,10 +15,13 @@ import {
 } from "src/app/shared/models/person.model";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
+import { catch404 } from "src/app/shared/utils/observable";
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { PersonsRestService } from "../../shared/services/persons-rest.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportEntry, ValidationError } from "./import-state.service";
+
+const MAX_CONCURRENT_REQUESTS = 20;
 
 export type ValidationProgress = {
   validating: number;
@@ -346,10 +349,12 @@ export class ImportValidateSubscriptionDetailsService {
         personIds,
       ),
     );
-    await Promise.all(
-      subscriptionIds.map((id) =>
-        firstValueFrom(this.subscriptionsService.getSubscriptionDetailsById(id))
-          .then((details) => {
+
+    await this.executeWithMaxConcurrency(subscriptionIds, (id) =>
+      this.subscriptionsService.getSubscriptionDetailsById(id).pipe(
+        catch404(null),
+        tap((details: Option<ReadonlyArray<SubscriptionDetail>>) => {
+          if (details !== null) {
             entries.forEach((entry) => {
               const detailId = entry.entry.subscriptionDetailId;
               const detail =
@@ -359,11 +364,8 @@ export class ImportValidateSubscriptionDetailsService {
                 entry.data.subscriptionDetail = detail;
               }
             });
-          })
-          .catch((error) => {
-            // TODO: catch 404
-            console.log("subscription detail fetch error:", error);
-          }),
+          }
+        }),
       ),
     );
   }
@@ -436,6 +438,18 @@ export class ImportValidateSubscriptionDetailsService {
   ): Promise<ReadonlyArray<PersonSummary>> {
     return firstValueFrom(
       this.personsService.getSummariesByEmail(personEmails),
+    );
+  }
+
+  private async executeWithMaxConcurrency<T, R>(
+    params: ReadonlyArray<T>,
+    fn: (param: T) => Observable<R>,
+  ): Promise<ReadonlyArray<R>> {
+    return firstValueFrom(
+      from(params).pipe(
+        mergeMap((param) => fn(param), MAX_CONCURRENT_REQUESTS),
+        toArray(), // Wait until all inner observables complete & merge result into an array
+      ),
     );
   }
 
