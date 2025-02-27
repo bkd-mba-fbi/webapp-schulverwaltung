@@ -3,17 +3,13 @@
 
   @if (progress().validating > 0) {
     <p>{{ "import.validation.validating" | translate }}</p>
-    <bkd-progress
-      [total]="progress().total"
-      [processed]="progress().valid + progress().invalid"
-      [ariaLabel]="'import.validation.progress' | translate"
-    ></bkd-progress>
+    <bkd-spinner></bkd-spinner>
   } @else {
     <div class="d-flex justify-content-end gap-3">
       <button class="btn btn-outline-secondary" routerLink="/import">
         {{ "import.validation.change-document" | translate }}
       </button>
-      <button class="btn btn-primary" routerLink="/import/upload">
+      <button class="btn btn-primary" (click)="proceedToUpload()">
         {{ "import.validation.upload" | translate }}
       </button>
     </div>
