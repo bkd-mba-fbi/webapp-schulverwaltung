@@ -86,10 +86,10 @@ export class ImportValidateSubscriptionDetailsService {
     progress: WritableSignal<ValidationProgress>,
     parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
-    let entries = this.buildValidationEntries(parsedEntries);
+    const entries = this.buildValidationEntries(parsedEntries);
 
     // Perform basic verification of the Excel data
-    entries = this.verifyEntriesData(entries);
+    this.verifyEntriesData(entries);
     this.updateProgress(entries, progress);
 
     // Fetch data & validate
@@ -124,13 +124,11 @@ export class ImportValidateSubscriptionDetailsService {
    */
   private verifyEntriesData(
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
-  ): ReadonlyArray<SubscriptionDetailImportEntry> {
-    return entries.map((entry) => this.verifyEntryData(entry));
+  ): void {
+    entries.forEach((entry) => this.verifyEntryData(entry));
   }
 
-  private verifyEntryData(
-    entry: SubscriptionDetailImportEntry,
-  ): SubscriptionDetailImportEntry {
+  private verifyEntryData(entry: SubscriptionDetailImportEntry): void {
     const assertions: ReadonlyArray<EntryValidationFn> = [
       assertValidEventId,
       assertValidPersonId,
@@ -140,12 +138,11 @@ export class ImportValidateSubscriptionDetailsService {
       assertValuePresent,
     ];
     for (const assert of assertions) {
-      const result = assert(entry);
-      if (!result.valid) {
-        return result.entry;
+      const valid = assert(entry);
+      if (!valid) {
+        return;
       }
     }
-    return entry;
   }
 
   private validateEntries(
@@ -166,7 +163,7 @@ export class ImportValidateSubscriptionDetailsService {
       assertSubscriptionDetailDropdownItems,
     ];
     for (const assert of assertions) {
-      const { valid } = assert(entry);
+      const valid = assert(entry);
       if (!valid) {
         return;
       }

@@ -22,10 +22,9 @@ import {
   SubscriptionDetailNotFoundError,
 } from "./error";
 
-export type EntryValidationFn = (entry: SubscriptionDetailImportEntry) => {
-  valid: boolean;
-  entry: SubscriptionDetailImportEntry;
-};
+export type EntryValidationFn = (
+  entry: SubscriptionDetailImportEntry,
+) => boolean;
 
 export const assertValidEventId: EntryValidationFn = (entry) => {
   const valid = isNumber(entry.entry.eventId);
@@ -33,7 +32,7 @@ export const assertValidEventId: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidEventIdError();
   }
-  return { valid, entry };
+  return valid;
 };
 
 export const assertValidPersonId: EntryValidationFn = (entry) => {
@@ -42,7 +41,7 @@ export const assertValidPersonId: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidPersonIdError();
   }
-  return { valid, entry };
+  return valid;
 };
 
 export const assertValidPersonEmail: EntryValidationFn = (entry) => {
@@ -51,7 +50,7 @@ export const assertValidPersonEmail: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidPersonEmailError();
   }
-  return { valid, entry };
+  return valid;
 };
 
 export const assertPersonIdEmailPresent: EntryValidationFn = (entry) => {
@@ -61,7 +60,7 @@ export const assertPersonIdEmailPresent: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new MissingPersonIdEmailError();
   }
-  return { valid, entry };
+  return valid;
 };
 
 export const assertValidSubscriptionDetailId: EntryValidationFn = (entry) => {
@@ -70,7 +69,7 @@ export const assertValidSubscriptionDetailId: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidSubscriptionDetailIdError();
   }
-  return { valid, entry };
+  return valid;
 };
 
 export const assertValuePresent: EntryValidationFn = (entry) => {
@@ -79,7 +78,7 @@ export const assertValuePresent: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new MissingValueError();
   }
-  return { valid, entry };
+  return valid;
 };
 
 export const assertEventExists: EntryValidationFn = (entry) => {
@@ -88,7 +87,7 @@ export const assertEventExists: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new EventNotFoundError();
   }
-  return { valid: true, entry };
+  return valid;
 };
 
 export const assertPersonExists: EntryValidationFn = (entry) => {
@@ -97,7 +96,7 @@ export const assertPersonExists: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new PersonNotFoundError();
   }
-  return { valid: true, entry };
+  return valid;
 };
 
 export const assertSubscriptionDetailExists: EntryValidationFn = (entry) => {
@@ -106,7 +105,7 @@ export const assertSubscriptionDetailExists: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new SubscriptionDetailNotFoundError();
   }
-  return { valid: true, entry };
+  return valid;
 };
 
 export const assertSubscriptionDetailEditable: EntryValidationFn = (entry) => {
@@ -116,7 +115,7 @@ export const assertSubscriptionDetailEditable: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new SubscriptionDetailNotEditableError();
   }
-  return { valid: true, entry };
+  return valid;
 };
 
 export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
@@ -133,7 +132,7 @@ export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidValueError();
   }
-  return { valid: true, entry };
+  return valid;
 };
 
 export const assertSubscriptionDetailDropdownItems: EntryValidationFn = (
@@ -148,5 +147,5 @@ export const assertSubscriptionDetailDropdownItems: EntryValidationFn = (
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidDropdownValueError();
   }
-  return { valid: true, entry };
+  return valid;
 };
