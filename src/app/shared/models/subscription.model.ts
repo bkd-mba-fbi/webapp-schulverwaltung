@@ -23,7 +23,7 @@ const SubscriptionDetail = t.type({
   VssDesignation: t.string,
   // VssStyleDescription: t.string,
   VssStyle: t.string,
-  // VssTypeId: t.number,
+  VssTypeId: t.number,
   VssType: t.string,
   // ReadOnly: t.boolean,
   // ValueRangeRegex: Option(t.string),
@@ -38,7 +38,7 @@ const SubscriptionDetail = t.type({
   // VssBezeichnung: t.string,
   // VssTypEx: t.number,
   // AllowChanges: t.boolean,
-  // VssInternet: t.string,
+  VssInternet: t.string,
   // HRef: t.string,
 });
 
