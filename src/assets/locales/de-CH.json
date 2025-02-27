@@ -366,10 +366,15 @@
       "next": "Weiter"
     },
     "validation": {
-      "validating": "Daten werden validiert...",
+      "validating": "Daten werden überprüft...",
       "upload": "Daten einlesen",
       "change-document": "Anderes Dokument wählen",
-      "progress": "Fortschritt Daten validieren",
+      "proceed-dialog": {
+        "title": "Fehlerhafte Datensätze vorhanden",
+        "message": "{{invalidCount}} Datensätze sind fehlerhaft und können nicht importiert werden. Wollen sie die übrigen {{validCount}} trotzdem einlesen?",
+        "cancel": "Abbrechen",
+        "proceed": "Daten einlesen"
+      },
       "errors": {
         "InvalidEventIdError": "Die Anlass ID ist ungültig",
         "InvalidPersonIdError": "Die Person ID ist ungültig",

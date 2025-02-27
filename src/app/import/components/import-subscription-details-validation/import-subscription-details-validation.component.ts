@@ -5,9 +5,11 @@ import {
   computed,
   inject,
 } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { ProgressComponent } from "../../../shared/components/progress/progress.component";
+import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
 import { ImportStateService } from "../../services/import-state.service";
 import {
@@ -17,13 +19,14 @@ import {
 } from "../../services/import-validate-subscription-details.service";
 import { ImportEntryStatusComponent } from "../import-entry-status/import-entry-status.component";
 import { ImportEntryValueComponent } from "../import-entry-value/import-entry-value.component";
+import { ImportProceedUploadDialogComponent } from "../import-proceed-upload-dialog/import-proceed-upload-dialog.component";
 
 @Component({
   selector: "bkd-import-subscription-details-validation",
   imports: [
     TranslatePipe,
-    ProgressComponent,
     RouterLink,
+    SpinnerComponent,
     ImportEntryStatusComponent,
     ImportEntryValueComponent,
   ],
@@ -32,8 +35,10 @@ import { ImportEntryValueComponent } from "../import-entry-value/import-entry-va
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportSubscriptionDetailsValidationComponent {
-  stateService = inject(ImportStateService);
-  validationService = inject(ImportValidateSubscriptionDetailsService);
+  private router = inject(Router);
+  private stateService = inject(ImportStateService);
+  private validationService = inject(ImportValidateSubscriptionDetailsService);
+  private modalService = inject(BkdModalService);
 
   parsedEntries: Signal<ReadonlyArray<SubscriptionDetailEntry>> =
     this.stateService.parsedEntries;
@@ -41,22 +46,39 @@ export class ImportSubscriptionDetailsValidationComponent {
     this.stateService.importEntries;
   progress: Signal<ValidationProgress>;
 
-  sortedImportEntries = computed(() => {
-    const valid = this.importEntries().filter(
+  validImportEntries = computed(() =>
+    this.importEntries().filter(
       ({ validationStatus }) => validationStatus !== "invalid",
-    );
-    const invalid = this.importEntries().filter(
+    ),
+  );
+  invalidImportEntries = computed(() =>
+    this.importEntries().filter(
       ({ validationStatus }) => validationStatus === "invalid",
-    );
-    return [...invalid, ...valid];
-  });
+    ),
+  );
+  sortedImportEntries = computed(() => [
+    ...this.invalidImportEntries(),
+    ...this.validImportEntries(),
+  ]);
 
   constructor() {
+    if (this.parsedEntries().length === 0) {
+      this.navigateToFile();
+    }
+
     const { progress, entries } = this.validationService.fetchAndValidate(
       this.parsedEntries(),
     );
     this.progress = progress;
     void entries.then((value) => this.stateService.importEntries.set(value));
+  }
+
+  proceedToUpload(): void {
+    if (this.progress().invalid > 0) {
+      this.openProceedDialog().closed.subscribe(() => this.navigateToUpload());
+    } else {
+      this.navigateToUpload();
+    }
   }
 
   isValid(
@@ -96,5 +118,20 @@ export class ImportSubscriptionDetailsValidationComponent {
 
   getValue(entry: SubscriptionDetailImportEntry): unknown {
     return entry.entry["value"];
+  }
+
+  private openProceedDialog(): NgbModalRef {
+    const modalRef = this.modalService.open(ImportProceedUploadDialogComponent);
+    modalRef.componentInstance.invalidCount = this.progress().invalid;
+    modalRef.componentInstance.validCount = this.progress().valid;
+    return modalRef;
+  }
+
+  private navigateToFile(): void {
+    void this.router.navigate(["/import"]);
+  }
+
+  private navigateToUpload(): void {
+    void this.router.navigate(["/import/upload"]);
   }
 }
