@@ -23,6 +23,13 @@ import { ImportEntry, ValidationError } from "./import-state.service";
 
 const MAX_CONCURRENT_REQUESTS = 20;
 
+enum SubscriptionDetailType {
+  IntField = 277,
+  Currency = 279,
+  Text = 290,
+  MemoText = 293,
+}
+
 export type ValidationProgress = {
   validating: number;
   valid: number;
@@ -112,7 +119,7 @@ export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidatio
 /**
  * The subscription detail does not support editing via the internet.
  */
-export class SubscriptionDetailUnsupportedError extends SubscriptionDetailValidationError {
+export class SubscriptionDetailNotEditableError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.columns = ["subscriptionDetailId"];
@@ -184,38 +191,12 @@ export class ImportValidateSubscriptionDetailsService {
     entries = this.verifyEntriesData(entries);
     this.updateProgress(entries, progress);
 
+    // Fetch data & validate
     await this.loadData(entries);
-
-    // TODO: (asynchronously)
-    // - Load events
-    // - Load persons by ID
-    // - Load persons by Email
-    // - Load subscriptions with subscription details
-    // - Validate
-    //   - Does event exist?
-    //   - Does person exist (either by ID or by email)?
-    //   - Does subscription exist?
-    //   - Is subscription detail available for editing through internet → "VssInternet": "E" && "VssStyle": "TX"
-    //   - Subscription detail type:
-    //     vssType: {
-    //       IntField: 277,
-    //       Text: 290,
-    //       MemoText: 293,
-    //       Currency: 279
-    //     }
-    //   - Are dropdown items allowed (and valid)? → DropdownItems != null
-    // - Update progress on-the-fly
-
-    // TODO: After all validations are done
-    entries = entries.map((entry) => {
-      if (entry.validationStatus === "validating") {
-        entry.validationStatus = "valid";
-      }
-      return entry;
-    });
+    this.validateEntries(entries);
     this.updateProgress(entries, progress);
 
-    return Promise.resolve(entries);
+    return entries;
   }
 
   private updateProgress(
@@ -246,10 +227,10 @@ export class ImportValidateSubscriptionDetailsService {
     return entries.map((entry) => this.verifyEntryData(entry));
   }
 
-  verifyEntryData(
+  private verifyEntryData(
     entry: SubscriptionDetailImportEntry,
   ): SubscriptionDetailImportEntry {
-    const assertions: ReadonlyArray<EntryDataValidationFn> = [
+    const assertions: ReadonlyArray<EntryValidationFn> = [
       assertValidEventId,
       assertValidPersonId,
       assertValidPersonEmail,
@@ -264,6 +245,32 @@ export class ImportValidateSubscriptionDetailsService {
       }
     }
     return entry;
+  }
+
+  private validateEntries(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ) {
+    entries.forEach(this.validateEntry.bind(this));
+  }
+
+  private validateEntry(entry: SubscriptionDetailImportEntry): void {
+    if (entry.validationStatus !== "validating") return;
+
+    const assertions: ReadonlyArray<EntryValidationFn> = [
+      assertEventExists,
+      assertPersonExists,
+      assertSubscriptionDetailExists,
+      assertSubscriptionDetailEditable,
+      assertSubscriptionDetailType,
+      assertSubscriptionDetailDropdownItems,
+    ];
+    for (const assert of assertions) {
+      const { valid } = assert(entry);
+      if (!valid) {
+        return;
+      }
+    }
+    entry.validationStatus = "valid";
   }
 
   private async loadData(
@@ -467,12 +474,12 @@ export class ImportValidateSubscriptionDetailsService {
   }
 }
 
-type EntryDataValidationFn = (entry: SubscriptionDetailImportEntry) => {
+type EntryValidationFn = (entry: SubscriptionDetailImportEntry) => {
   valid: boolean;
   entry: SubscriptionDetailImportEntry;
 };
 
-const assertValidEventId: EntryDataValidationFn = (entry) => {
+const assertValidEventId: EntryValidationFn = (entry) => {
   const valid = isNumber(entry.entry.eventId);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -481,7 +488,7 @@ const assertValidEventId: EntryDataValidationFn = (entry) => {
   return { valid, entry };
 };
 
-const assertValidPersonId: EntryDataValidationFn = (entry) => {
+const assertValidPersonId: EntryValidationFn = (entry) => {
   const valid = isOptionalNumber(entry.entry.personId);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -490,7 +497,7 @@ const assertValidPersonId: EntryDataValidationFn = (entry) => {
   return { valid, entry };
 };
 
-const assertValidPersonEmail: EntryDataValidationFn = (entry) => {
+const assertValidPersonEmail: EntryValidationFn = (entry) => {
   const valid = isOptionalEmail(entry.entry.personEmail);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -499,7 +506,7 @@ const assertValidPersonEmail: EntryDataValidationFn = (entry) => {
   return { valid, entry };
 };
 
-const assertPersonIdEmailPresent: EntryDataValidationFn = (entry) => {
+const assertPersonIdEmailPresent: EntryValidationFn = (entry) => {
   const valid =
     isPresent(entry.entry.personId) || isPresent(entry.entry.personEmail);
   if (!valid) {
@@ -509,7 +516,7 @@ const assertPersonIdEmailPresent: EntryDataValidationFn = (entry) => {
   return { valid, entry };
 };
 
-const assertValidSubscriptionDetailId: EntryDataValidationFn = (entry) => {
+const assertValidSubscriptionDetailId: EntryValidationFn = (entry) => {
   const valid = isNumber(entry.entry.subscriptionDetailId);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -518,13 +525,73 @@ const assertValidSubscriptionDetailId: EntryDataValidationFn = (entry) => {
   return { valid, entry };
 };
 
-const assertValuePresent: EntryDataValidationFn = (entry) => {
+const assertValuePresent: EntryValidationFn = (entry) => {
   const valid = isPresent(entry.entry.value);
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new MissingValueError();
   }
   return { valid, entry };
+};
+
+const assertEventExists: EntryValidationFn = (entry) => {
+  const valid = entry.data.event !== undefined;
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new EventNotFoundError();
+  }
+  return { valid: true, entry };
+};
+
+const assertPersonExists: EntryValidationFn = (entry) => {
+  const valid = entry.data.person !== undefined;
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new PersonNotFoundError();
+  }
+  return { valid: true, entry };
+};
+
+const assertSubscriptionDetailExists: EntryValidationFn = (entry) => {
+  const valid = entry.data.subscriptionDetail !== undefined;
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new SubscriptionDetailNotFoundError();
+  }
+  return { valid: true, entry };
+};
+
+const assertSubscriptionDetailEditable: EntryValidationFn = (entry) => {
+  const detail = entry.data.subscriptionDetail;
+  const valid = detail?.VssInternet === "E" && detail?.VssStyle === "TX";
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new SubscriptionDetailNotEditableError();
+  }
+  return { valid: true, entry };
+};
+
+const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
+  const typeId = entry.data.subscriptionDetail?.VssTypeId;
+  const value = entry.entry.value;
+  const valid =
+    ((typeId === SubscriptionDetailType.IntField ||
+      typeId === SubscriptionDetailType.Currency) &&
+      isNumber(value)) ||
+    ((typeId === SubscriptionDetailType.Text ||
+      typeId === SubscriptionDetailType.MemoText) &&
+      isString(value));
+  if (!valid) {
+    entry.validationStatus = "invalid";
+    entry.validationError = new InvalidValueError();
+  }
+  return { valid: true, entry };
+};
+
+const assertSubscriptionDetailDropdownItems: EntryValidationFn = (entry) => {
+  // TODO
+  //   - Are dropdown items allowed (and valid)? → DropdownItems != null
+  return { valid: true, entry };
 };
 
 function isPresent(value: unknown): boolean {
@@ -537,6 +604,10 @@ function isNumber(value: unknown): value is number {
 
 function isOptionalNumber(value: unknown): boolean {
   return !isPresent(value) || isNumber(value);
+}
+
+function isString(value: unknown): value is string {
+  return typeof value === "string" && value !== "";
 }
 
 function isEmail(value: unknown): value is string {
