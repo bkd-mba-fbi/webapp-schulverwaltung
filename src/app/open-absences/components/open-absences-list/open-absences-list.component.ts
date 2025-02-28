@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe } from "@angular/common";
+import { AsyncPipe, DatePipe, NgClass } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -35,6 +35,7 @@ import { PrimarySortKey } from "../../services/open-absences.service";
     TranslatePipe,
     DaysDifferencePipe,
     SortableHeaderComponent,
+    NgClass,
   ],
 })
 export class OpenAbsencesListComponent

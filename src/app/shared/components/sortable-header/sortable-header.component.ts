@@ -4,7 +4,7 @@ import {
   Component,
   computed,
   input,
-  output,
+  model,
 } from "@angular/core";
 
 export type SortKey = string;
@@ -25,8 +25,7 @@ export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   className = input<string>("");
   label = input<string>("");
   sortKey = input.required<TPrimarySortKey>();
-  sortCriteria = input.required<SortCriteria<TPrimarySortKey>>();
-  sortCriteriaChange = output<SortCriteria<TPrimarySortKey>>();
+  sortCriteria = model<Option<SortCriteria<TPrimarySortKey>>>(null);
 
   isSorted = computed(
     () => this.sortCriteria()?.primarySortKey === this.sortKey(),
@@ -37,8 +36,8 @@ export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   );
 
   toggleSort(): void {
-    const { ascending: currentAscending } = this.sortCriteria();
-    this.sortCriteriaChange.emit({
+    const currentAscending = this.sortCriteria()?.ascending ?? true;
+    this.sortCriteria.set({
       primarySortKey: this.sortKey(),
       ascending: this.isSorted() ? !currentAscending : true,
     });

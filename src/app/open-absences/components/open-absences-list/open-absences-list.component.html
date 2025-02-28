@@ -51,13 +51,10 @@
         </div>
         @for (key of primarySortKeys; track key) {
           <bkd-sortable-header
+            [ngClass]="key"
             [label]="'open-absences.list.header.' + key | translate"
             [sortKey]="key"
             [sortCriteria]="sortCriteria"
-            (sortCriteriaChange)="
-              openAbsencesService.updateSortCriteria($event)
-            "
-            [className]="key"
           >
           </bkd-sortable-header>
         }

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -44,7 +44,6 @@ interface Column {
     EvaluateAbsencesHeaderComponent,
     ReportsLinkComponent,
     InfiniteScrollDirective,
-    NgClass,
     NgbTooltip,
     RouterLink,
     SpinnerComponent,
