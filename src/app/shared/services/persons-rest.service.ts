@@ -53,12 +53,13 @@ export class PersonsRestService extends RestService<typeof Person> {
     if (emails.length === 0) {
       return of([]);
     }
+    const params = new HttpParams()
+      .set("filter.Email", `;${emails.join(";")}`)
+      .set("fields", ["Id", "FullName", "DisplayEmail", "Email"].join(","));
+
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
-        params: {
-          "filter.Email": `;${emails.join(";")}`,
-          fields: ["Id", "FullName", "DisplayEmail", "Email"].join(","),
-        },
+        params: paginatedParams(0, 0, params),
       })
       .pipe(switchMap(decodeArray(PersonSummary)));
   }

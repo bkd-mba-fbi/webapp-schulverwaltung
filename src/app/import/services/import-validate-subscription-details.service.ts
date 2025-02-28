@@ -222,7 +222,7 @@ export class ImportValidateSubscriptionDetailsService {
     );
     const personsByEmail = groupBy(persons, (person) => person.Email);
     entries.forEach((entry) => {
-      if (!entry.data.person && isNumber(entry.entry.personEmail)) {
+      if (!entry.data.person && isEmail(entry.entry.personEmail)) {
         entry.data.person =
           (personsByEmail[entry.entry.personEmail] &&
             personsByEmail[entry.entry.personEmail][0]) ??
@@ -278,7 +278,11 @@ export class ImportValidateSubscriptionDetailsService {
   private getEventIds(
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): ReadonlyArray<number> {
-    return uniq(entries.map(({ entry: { eventId } }) => eventId))
+    return uniq(
+      entries
+        .filter(({ validationStatus }) => validationStatus !== "invalid")
+        .map(({ entry: { eventId } }) => eventId),
+    )
       .filter(isNumber)
       .map(Number);
   }
@@ -288,7 +292,11 @@ export class ImportValidateSubscriptionDetailsService {
   ): ReadonlyArray<number> {
     return uniq(
       entries
-        .filter(({ data: { person } }) => !person) // Don't load persons for entries that already have a person
+        .filter(
+          ({ validationStatus, data: { person } }) =>
+            // Don't fetch persons for invalid entries or entries that already have a person
+            validationStatus !== "invalid" && !person,
+        )
         .map(({ entry: { personId } }) => personId),
     )
       .filter(isNumber)
@@ -300,7 +308,11 @@ export class ImportValidateSubscriptionDetailsService {
   ): ReadonlyArray<string> {
     return uniq(
       entries
-        .filter(({ data: { person } }) => !person) // Don't load persons for entries that already have a person
+        .filter(
+          ({ validationStatus, data: { person } }) =>
+            // Don't fetch persons for invalid entries or entries that already have a person
+            validationStatus !== "invalid" && !person,
+        )
         .map(({ entry: { personEmail } }) => personEmail),
     ).filter(isEmail);
   }
@@ -309,8 +321,8 @@ export class ImportValidateSubscriptionDetailsService {
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): ReadonlyArray<{ eventId: number; personIds: ReadonlyArray<number> }> {
     const grouped = entries.reduce<Dict<number[]>>(
-      (acc, { data: { event, person } }) => {
-        if (event && person) {
+      (acc, { validationStatus, data: { event, person } }) => {
+        if (validationStatus !== "invalid" && event && person) {
           if (!acc[event.Id]) {
             acc[event.Id] = [];
           }

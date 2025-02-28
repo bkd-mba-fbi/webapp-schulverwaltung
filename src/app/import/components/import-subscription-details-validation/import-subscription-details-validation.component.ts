@@ -63,7 +63,7 @@ export class ImportSubscriptionDetailsValidationComponent {
 
   constructor() {
     if (this.parsedEntries().length === 0) {
-      this.navigateToFile();
+      this.navigateToFilePage();
     }
 
     const { progress, entries } = this.validationService.fetchAndValidate(
@@ -75,9 +75,11 @@ export class ImportSubscriptionDetailsValidationComponent {
 
   proceedToUpload(): void {
     if (this.progress().invalid > 0) {
-      this.openProceedDialog().closed.subscribe(() => this.navigateToUpload());
+      this.openProceedDialog().closed.subscribe(() =>
+        this.navigateToUploadPage(),
+      );
     } else {
-      this.navigateToUpload();
+      this.navigateToUploadPage();
     }
   }
 
@@ -127,11 +129,11 @@ export class ImportSubscriptionDetailsValidationComponent {
     return modalRef;
   }
 
-  private navigateToFile(): void {
+  private navigateToFilePage(): void {
     void this.router.navigate(["/import"]);
   }
 
-  private navigateToUpload(): void {
+  private navigateToUploadPage(): void {
     void this.router.navigate(["/import/upload"]);
   }
 }

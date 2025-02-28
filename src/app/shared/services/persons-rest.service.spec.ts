@@ -35,8 +35,9 @@ describe("PersonsRestService", () => {
   });
 
   describe(".getSummaries", () => {
-    it("requests the student summaries for the given ids", () => {
-      const personSummaries: ReadonlyArray<PersonSummary> = [
+    let personSummaries: ReadonlyArray<PersonSummary>;
+    beforeEach(() => {
+      personSummaries = [
         buildPersonSummary(54425),
         buildPersonSummary(56200),
       ].map(({ Id, FullName, DisplayEmail, Email }) => ({
@@ -45,7 +46,9 @@ describe("PersonsRestService", () => {
         DisplayEmail,
         Email,
       }));
+    });
 
+    it("requests the student summaries for the given ids", () => {
       service.getSummaries([54425, 56200]).subscribe((result) => {
         expect(result).toEqual(personSummaries);
       });
@@ -62,6 +65,36 @@ describe("PersonsRestService", () => {
         expect(result).toEqual([]);
         done();
       });
+    });
+  });
+
+  describe("getSummariesByEmail", () => {
+    let personSummaries: ReadonlyArray<PersonSummary>;
+    beforeEach(() => {
+      personSummaries = [
+        buildPersonSummary(54425),
+        buildPersonSummary(56200),
+      ].map(({ Id, FullName, DisplayEmail, Email }) => ({
+        Id,
+        FullName,
+        DisplayEmail,
+        Email,
+      }));
+    });
+
+    it("returns the summaries of the given persons emails", () => {
+      service
+        .getSummariesByEmail(["m@muster.ch", "m@meyer.ch"])
+        .subscribe((result) => {
+          expect(result).toEqual(personSummaries);
+        });
+
+      httpTestingController
+        .expectOne(
+          "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName,DisplayEmail,Email&offset=0&limit=0",
+        )
+        .flush(personSummaries);
+      expect().nothing();
     });
   });
 
@@ -117,7 +150,7 @@ describe("PersonsRestService", () => {
     });
   });
 
-  describe("getFullNames", () => {
+  describe(".getFullNamesById", () => {
     it("returns the full names of the given persons ids", () => {
       service.getFullNamesById([4515, 4516]).subscribe();
 
@@ -126,18 +159,6 @@ describe("PersonsRestService", () => {
           req.method === "GET" &&
           req.urlWithParams ===
             "https://eventotest.api/Persons/?filter.Id=;4515;4516&fields=Id,FullName&offset=0&limit=0",
-      );
-      expect().nothing();
-    });
-
-    it("returns the full names of the given persons emails", () => {
-      service.getFullNamesByEmail(["m@muster.ch", "m@meyer.ch"]).subscribe();
-
-      httpTestingController.match(
-        (req) =>
-          req.method === "GET" &&
-          req.urlWithParams ===
-            "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName&offset=0&limit=0",
       );
       expect().nothing();
     });
