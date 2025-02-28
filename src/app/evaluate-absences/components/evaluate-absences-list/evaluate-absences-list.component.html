@@ -31,7 +31,7 @@
               @for (column of columns; track column.key) {
                 <th scope="col">
                   <bkd-sortable-header
-                    className="d-flex column-title"
+                    [className]="column.label + ' d-flex column-title'"
                     [label]="
                       'evaluate-absences.list.header.' + column.label
                         | translate
@@ -39,7 +39,6 @@
                     [sortKey]="column.key"
                     [sortCriteria]="sortCriteria"
                     (sortCriteriaChange)="state.sortService.setSorting($event)"
-                    [ngClass]="column.label"
                     [ngbTooltip]="
                       'evaluate-absences.list.header.' + column.label
                         | translate

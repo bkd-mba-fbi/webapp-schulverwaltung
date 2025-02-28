@@ -8,14 +8,14 @@
   @if (entries().length > 0) {
     <div class="list-header">
       <bkd-sortable-header
-        className="name"
+        [className]="'name'"
         [label]="'events-students.list.header.name' | translate"
         [sortKey]="'name'"
         [sortCriteria]="sortCriteria()"
         (sortCriteriaChange)="updateSortCriteria($event)"
       ></bkd-sortable-header>
       <bkd-sortable-header
-        className="registration-date"
+        [className]="'registration-date'"
         [label]="'events-students.list.header.registration-date' | translate"
         [sortKey]="'registrationDate'"
         [sortCriteria]="sortCriteria()"

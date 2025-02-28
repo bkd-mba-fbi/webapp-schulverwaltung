@@ -46,7 +46,7 @@
 <tr [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }">
   <th class="sticky student-name">
     <bkd-sortable-header
-      className="d-flex column-title"
+      [className]="'d-flex column-title'"
       [label]="'tests.student.name' | translate"
       [sortKey]="'FullName'"
       [sortCriteria]="sortCriteria"
@@ -59,7 +59,7 @@
     [ngClass]="{ selected: selectedTest === undefined }"
   >
     <bkd-sortable-header
-      className="d-flex column-title"
+      [className]="'d-flex column-title'"
       [label]="'tests.grade' | translate"
       [sortKey]="'FinalGrade'"
       [sortCriteria]="sortCriteria"
@@ -70,7 +70,7 @@
 
   <th class="border-end sticky student-average desktop">
     <bkd-sortable-header
-      className="d-flex column-title"
+      [className]="'d-flex column-title'"
       [label]="'tests.mean' | translate"
       [sortKey]="'TestsMean'"
       [sortCriteria]="sortCriteria"
