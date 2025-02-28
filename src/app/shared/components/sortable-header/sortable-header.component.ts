@@ -1,3 +1,4 @@
+import { NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,6 +19,7 @@ export interface SortCriteria<T extends SortKey> {
   templateUrl: "./sortable-header.component.html",
   styleUrl: "./sortable-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass],
 })
 export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   className = input<string>("");

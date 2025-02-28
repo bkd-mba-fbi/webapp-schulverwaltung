@@ -1,4 +1,4 @@
-<button class="sortable-header {{ className() }}" (click)="toggleSort()">
+<button class="sortable-header" [ngClass]="className()" (click)="toggleSort()">
   {{ label() }}
   @if (isSorted()) {
     <span class="sort-direction ms-1">{{ sortDirectionCharacter() }}</span>
