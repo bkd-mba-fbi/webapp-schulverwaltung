@@ -12,6 +12,10 @@ describe("ImportEntryValueComponent", () => {
 
     fixture = TestBed.createComponent(ImportEntryValueComponent);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput("value", "Lorem ipsum");
+    fixture.componentRef.setInput("valid", true);
+
     fixture.detectChanges();
   });
 

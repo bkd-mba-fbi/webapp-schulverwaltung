@@ -1,23 +1,114 @@
 import { TestBed } from "@angular/core/testing";
-import { buildTestModuleMetadata } from "../../../spec-helpers";
-import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
+import { of } from "rxjs";
+import { SubscriptionDetailType } from "src/app/shared/models/subscription.model";
+import { EventsRestService } from "src/app/shared/services/events-rest.service";
+import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
+import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import {
-  ImportValidateSubscriptionDetailsService,
+  buildEvent,
+  buildPersonSummary,
+  buildSubscriptionDetail,
+} from "src/spec-builders";
+import { buildTestModuleMetadata } from "../../../spec-helpers";
+import {
   InvalidEventIdError,
   InvalidPersonEmailError,
   InvalidPersonIdError,
   InvalidSubscriptionDetailIdError,
   MissingPersonIdEmailError,
   MissingValueError,
-  SubscriptionDetailImportEntry,
   SubscriptionDetailValidationError,
+} from "../utils/subscription-details/error";
+import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
+import {
+  ImportValidateSubscriptionDetailsService,
+  SubscriptionDetailImportEntry,
 } from "./import-validate-subscription-details.service";
 
 describe("ImportValidateSubscriptionDetailsService", () => {
   let service: ImportValidateSubscriptionDetailsService;
+  let eventsServiceMock: jasmine.SpyObj<EventsRestService>;
+  let personsServiceMock: jasmine.SpyObj<PersonsRestService>;
+  let subscriptionsServiceMock: jasmine.SpyObj<SubscriptionsRestService>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule(buildTestModuleMetadata({}));
+    TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        providers: [
+          {
+            provide: EventsRestService,
+            useFactory() {
+              eventsServiceMock = jasmine.createSpyObj("EventsRestService", [
+                "getEventDesignations",
+              ]);
+
+              eventsServiceMock.getEventDesignations.and.callFake((eventIds) =>
+                of(eventIds.map((id) => buildEvent(id))),
+              );
+
+              return eventsServiceMock;
+            },
+          },
+          {
+            provide: PersonsRestService,
+            useFactory() {
+              personsServiceMock = jasmine.createSpyObj("PersonsRestService", [
+                "getFullNamesById",
+                "getSummariesByEmail",
+              ]);
+
+              personsServiceMock.getFullNamesById.and.callFake((personIds) =>
+                of(personIds.map((id) => buildPersonSummary(id))),
+              );
+              personsServiceMock.getSummariesByEmail.and.callFake(
+                (personEmails) =>
+                  of(
+                    personEmails.map((email, i) => {
+                      const summary = buildPersonSummary(100 + i);
+                      summary.Email = email;
+                      return summary;
+                    }),
+                  ),
+              );
+
+              return personsServiceMock;
+            },
+          },
+          {
+            provide: SubscriptionsRestService,
+            useFactory() {
+              subscriptionsServiceMock = jasmine.createSpyObj(
+                "SubscriptionsRestService",
+                [
+                  "getSubscriptionIdsByEventAndStudents",
+                  "getSubscriptionDetailsById",
+                ],
+              );
+
+              subscriptionsServiceMock.getSubscriptionIdsByEventAndStudents.and.callFake(
+                (eventId, personIds) =>
+                  of(personIds.map((personId) => eventId * 100 + personId)),
+              );
+              subscriptionsServiceMock.getSubscriptionDetailsById.and.callFake(
+                (subscriptionId) => {
+                  const detailId = Number(subscriptionId) * 1000;
+                  const detail = buildSubscriptionDetail(detailId);
+                  detail.Id = `${Number(subscriptionId)}_${detailId}`;
+                  detail.DropdownItems = null;
+                  detail.VssTypeId = SubscriptionDetailType.Text;
+                  detail.VssInternet = "E";
+                  detail.VssStyle = "TX";
+                  detail.Value = "Lorem ipsum";
+                  return of([detail]);
+                },
+              );
+
+              return subscriptionsServiceMock;
+            },
+          },
+        ],
+      }),
+    );
     service = TestBed.inject(ImportValidateSubscriptionDetailsService);
   });
 
@@ -25,11 +116,11 @@ describe("ImportValidateSubscriptionDetailsService", () => {
     describe("data verification", () => {
       (
         [
-          [{ eventId: 1234 }, null],
+          [{ eventId: 10 }, null],
           [{ eventId: "" }, InvalidEventIdError],
           [{ eventId: null }, InvalidEventIdError],
           [{ eventId: "foo" }, InvalidEventIdError],
-          [{ personId: 1234 }, null],
+          [{ personId: 100 }, null],
           [{ personId: "" }, null],
           [{ personId: null }, null],
           [{ personId: "foo" }, InvalidPersonIdError],
@@ -37,16 +128,16 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           [{ personEmail: "" }, null],
           [{ personEmail: null }, null],
           [{ personEmail: "foo" }, InvalidPersonEmailError],
-          [{ personId: 1234, personEmail: "s1@test.ch" }, null],
-          [{ personId: 1234, personEmail: null }, null],
+          [{ personId: 100, personEmail: "s1@test.ch" }, null],
+          [{ personId: 100, personEmail: null }, null],
           [{ personId: null, personEmail: "s1@test.ch" }, null],
           [{ personId: null, personEmail: null }, MissingPersonIdEmailError],
-          [{ subscriptionDetailId: 1234 }, null],
+          [{ subscriptionDetailId: 1100000 }, null],
           [{ subscriptionDetailId: "" }, InvalidSubscriptionDetailIdError],
           [{ subscriptionDetailId: null }, InvalidSubscriptionDetailIdError],
           [{ subscriptionDetailId: "foo" }, InvalidSubscriptionDetailIdError],
-          [{ value: "foo" }, null],
-          [{ value: 1234 }, null],
+          [{ value: "Lorem ipsum" }, null],
+          // [{ value: 1234 }, null],
           [{ value: "" }, MissingValueError],
           [{ value: null }, MissingValueError],
         ] as ReadonlyArray<
@@ -63,6 +154,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
         it(`marks entry with ${JSON.stringify(data)} as ${expectedStatus}${expectedErrorName ? ` with ${expectedErrorName}` : ""}`, async () => {
           const entry = buildEntry(data);
           const { progress, entries } = service.fetchAndValidate([entry]);
+
           const result = await entries;
           expect(result[0].validationStatus).toBe(expectedStatus);
 
@@ -92,7 +184,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
     eventId = 10,
     personId = 100,
     personEmail = "s1@test.ch",
-    subscriptionDetailId = 1000,
+    subscriptionDetailId = 1100000,
     value = "test",
   }: Partial<SubscriptionDetailEntry>): SubscriptionDetailEntry {
     return { eventId, personId, personEmail, subscriptionDetailId, value };

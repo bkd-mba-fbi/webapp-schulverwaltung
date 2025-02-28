@@ -486,9 +486,11 @@ export function buildSubscriptionDetail(
     IdPerson: 1,
     VssId: vssId,
     VssType: "",
+    VssTypeId: 1,
     Value: value || "",
     VssDesignation: "",
     VssStyle: "",
+    VssInternet: "",
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: [

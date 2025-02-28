@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Router } from "@angular/router";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { ImportValidateSubscriptionDetailsService } from "../../services/import-validate-subscription-details.service";
 import { ImportSubscriptionDetailsValidationComponent } from "./import-subscription-details-validation.component";
@@ -14,6 +15,9 @@ describe("ImportSubscriptionDetailsValidationComponent", () => {
         providers: [ImportValidateSubscriptionDetailsService],
       }),
     ).compileComponents();
+
+    const router = TestBed.inject(Router);
+    spyOn(router, "navigate");
 
     fixture = TestBed.createComponent(
       ImportSubscriptionDetailsValidationComponent,

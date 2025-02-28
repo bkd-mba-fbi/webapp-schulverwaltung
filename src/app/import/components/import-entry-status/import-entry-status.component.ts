@@ -34,5 +34,3 @@ export class ImportEntryStatusComponent {
     return this.translate.instant(`import.validation.errors.${error.type}`);
   });
 }
-
-// entry.validationError?.type
