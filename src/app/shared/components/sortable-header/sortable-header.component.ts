@@ -1,10 +1,9 @@
-import { NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   input,
-  model,
+  output,
 } from "@angular/core";
 
 export type SortKey = string;
@@ -19,13 +18,12 @@ export interface SortCriteria<T extends SortKey> {
   templateUrl: "./sortable-header.component.html",
   styleUrl: "./sortable-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass],
 })
 export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
-  className = input<string>("");
   label = input<string>("");
   sortKey = input.required<TPrimarySortKey>();
-  sortCriteria = model<Option<SortCriteria<TPrimarySortKey>>>(null);
+  sortCriteria = input.required<SortCriteria<TPrimarySortKey>>();
+  sortCriteriaChange = output<SortCriteria<TPrimarySortKey>>();
 
   isSorted = computed(
     () => this.sortCriteria()?.primarySortKey === this.sortKey(),
@@ -36,8 +34,8 @@ export class SortableHeaderComponent<TPrimarySortKey extends SortKey> {
   );
 
   toggleSort(): void {
-    const currentAscending = this.sortCriteria()?.ascending ?? true;
-    this.sortCriteria.set({
+    const { ascending: currentAscending } = this.sortCriteria();
+    this.sortCriteriaChange.emit({
       primarySortKey: this.sortKey(),
       ascending: this.isSorted() ? !currentAscending : true,
     });

@@ -4,6 +4,7 @@ import { SortableHeaderComponent } from "./sortable-header.component";
 describe("SortableHeaderComponent", () => {
   let fixture: ComponentFixture<SortableHeaderComponent<string>>;
   let element: HTMLElement;
+  let component: SortableHeaderComponent<string>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -12,15 +13,17 @@ describe("SortableHeaderComponent", () => {
 
     fixture = TestBed.createComponent(SortableHeaderComponent);
     element = fixture.nativeElement;
-
+    component = fixture.componentInstance;
     fixture.componentRef.setInput("label", "Test Column");
     fixture.componentRef.setInput("sortKey", "test");
-
+    fixture.componentRef.setInput("sortCriteria", {
+      primarySortKey: "test",
+      ascending: true,
+    });
     fixture.detectChanges();
   });
 
   it("should call toggleSort when clicked", () => {
-    const component = fixture.componentInstance;
     spyOn(component, "toggleSort").and.callThrough();
     element.querySelector("button")?.dispatchEvent(new Event("click"));
     expect(component.toggleSort).toHaveBeenCalled();
@@ -31,19 +34,18 @@ describe("SortableHeaderComponent", () => {
     expect(element.textContent).toContain("Test Column");
   });
 
-  it("should display sorting character when sorted", () => {
-    fixture.componentRef.setInput("sortCriteria", {
-      primarySortKey: "test",
-      ascending: true,
-    });
+  it("should display sorting character when sorted on this key", () => {
     fixture.detectChanges();
     const sortSpan = element.querySelector(".sort-direction");
     expect(sortSpan).not.toBeNull();
     expect(sortSpan?.textContent).toBe("↓");
   });
 
-  it("should not display sorting character when not sorted", () => {
-    fixture.componentRef.setInput("sortCriteria", null);
+  it("should not display sorting character when sorted on a different key", () => {
+    fixture.componentRef.setInput("sortCriteria", {
+      primarySortKey: "otherKey",
+      ascending: true,
+    });
     fixture.detectChanges();
     const sortSpan = element.querySelector(".sort-direction");
     expect(sortSpan).toBeNull();

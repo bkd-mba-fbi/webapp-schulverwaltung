@@ -46,10 +46,11 @@
 <tr [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }">
   <th class="sticky student-name">
     <bkd-sortable-header
-      [className]="'d-flex column-title'"
+      [ngClass]="'column-title'"
       [label]="'tests.student.name' | translate"
       [sortKey]="'FullName'"
       [sortCriteria]="sortCriteria"
+      (sortCriteriaChange)="state.setSorting($event)"
     >
     </bkd-sortable-header>
   </th>
@@ -58,20 +59,22 @@
     [ngClass]="{ selected: selectedTest === undefined }"
   >
     <bkd-sortable-header
-      [className]="'d-flex column-title'"
+      [ngClass]="'column-title'"
       [label]="'tests.grade' | translate"
       [sortKey]="'FinalGrade'"
       [sortCriteria]="sortCriteria"
+      (sortCriteriaChange)="state.setSorting($event)"
     >
     </bkd-sortable-header>
   </th>
 
   <th class="border-end sticky student-average desktop">
     <bkd-sortable-header
-      [className]="'d-flex column-title'"
+      [ngClass]="'column-title'"
       [label]="'tests.mean' | translate"
       [sortKey]="'TestsMean'"
       [sortCriteria]="sortCriteria"
+      (sortCriteriaChange)="state.setSorting($event)"
     >
     </bkd-sortable-header>
   </th>

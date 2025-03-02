@@ -7,33 +7,3 @@
   margin: 0;
   font-weight: 500;
 }
-
-.column-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.name,
-.registration-date {
-  padding: $spacer;
-}
-
-.name {
-  flex: 3;
-}
-
-.registration-date {
-  flex: 1;
-}
-
-@media (max-width: 750px) {
-  .name {
-    flex: 2;
-  }
-
-  .registration-date {
-    flex: 1;
-    white-space: nowrap;
-  }
-}

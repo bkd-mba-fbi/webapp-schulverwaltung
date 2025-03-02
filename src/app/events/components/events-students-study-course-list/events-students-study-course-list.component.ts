@@ -1,3 +1,4 @@
+import { NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,6 +21,7 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
     EventsStudentsHeaderComponent,
     EventsStudentsStudyCourseEntryComponent,
     SortableHeaderComponent,
+    NgClass,
   ],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,

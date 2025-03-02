@@ -1,4 +1,4 @@
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -50,6 +50,7 @@ interface Column {
     AsyncPipe,
     TranslatePipe,
     SortableHeaderComponent,
+    NgClass,
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {

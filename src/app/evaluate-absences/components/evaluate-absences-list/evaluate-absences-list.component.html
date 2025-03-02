@@ -31,7 +31,7 @@
               @for (column of columns; track column.key) {
                 <th scope="col">
                   <bkd-sortable-header
-                    [className]="column.label + ' d-flex column-title'"
+                    [ngClass]="column.label + ' column-title'"
                     [label]="
                       'evaluate-absences.list.header.' + column.label
                         | translate

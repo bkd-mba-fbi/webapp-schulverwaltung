@@ -8,16 +8,18 @@
   @if (entries().length > 0) {
     <div class="list-header">
       <bkd-sortable-header
-        [className]="'name'"
+        [ngClass]="'name'"
         [label]="'events-students.list.header.name' | translate"
         [sortKey]="'name'"
         [sortCriteria]="sortCriteria()"
+        (sortCriteriaChange)="updateSortCriteria($event)"
       ></bkd-sortable-header>
       <bkd-sortable-header
-        [className]="'registration-date'"
+        [ngClass]="'registration-date'"
         [label]="'events-students.list.header.registration-date' | translate"
         [sortKey]="'registrationDate'"
         [sortCriteria]="sortCriteria()"
+        (sortCriteriaChange)="updateSortCriteria($event)"
       ></bkd-sortable-header>
     </div>
   } @else {
