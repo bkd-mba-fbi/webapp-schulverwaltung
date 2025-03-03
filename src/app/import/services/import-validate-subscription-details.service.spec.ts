@@ -153,27 +153,13 @@ describe("ImportValidateSubscriptionDetailsService", () => {
 
         it(`marks entry with ${JSON.stringify(data)} as ${expectedStatus}${expectedErrorName ? ` with ${expectedErrorName}` : ""}`, async () => {
           const entry = buildEntry(data);
-          const { progress, entries } = service.fetchAndValidate([entry]);
-
-          const result = await entries;
+          const result = await service.fetchAndValidate([entry]);
+          expect(result.length).toBe(1);
           expect(result[0].validationStatus).toBe(expectedStatus);
-
           if (expectedError === null) {
             expect(result[0].validationError).toBeNull();
-            expect(progress()).toEqual({
-              validating: 0,
-              valid: 1,
-              invalid: 0,
-              total: 1,
-            });
           } else {
             expect(result[0].validationError).toBeInstanceOf(expectedError);
-            expect(progress()).toEqual({
-              validating: 0,
-              valid: 0,
-              invalid: 1,
-              total: 1,
-            });
           }
         });
       });
@@ -357,31 +343,19 @@ describe("ImportValidateSubscriptionDetailsService", () => {
       });
 
       async function expectsValidEntry(): Promise<void> {
-        const { progress, entries } = service.fetchAndValidate([entry]);
-        const result = await entries;
+        const result = await service.fetchAndValidate([entry]);
+        expect(result.length).toBe(1);
         expect(result[0].validationError).toBeNull();
         expect(result[0].validationStatus).toBe("valid");
-        expect(progress()).toEqual({
-          validating: 0,
-          valid: 1,
-          invalid: 0,
-          total: 1,
-        });
       }
 
       async function expectsInvalidEntry(
         errorClass: typeof SubscriptionDetailValidationError,
       ): Promise<void> {
-        const { progress, entries } = service.fetchAndValidate([entry]);
-        const result = await entries;
+        const result = await service.fetchAndValidate([entry]);
+        expect(result.length).toBe(1);
         expect(result[0].validationError).toBeInstanceOf(errorClass);
         expect(result[0].validationStatus).toBe("invalid");
-        expect(progress()).toEqual({
-          validating: 0,
-          valid: 0,
-          invalid: 1,
-          total: 1,
-        });
       }
 
       function mockSubscriptionDetail(
