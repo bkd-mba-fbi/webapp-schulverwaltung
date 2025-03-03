@@ -386,7 +386,7 @@
         "PersonNotFoundError": "Die Person ist nicht vorhanden",
         "SubscriptionDetailNotFoundError": "Die Person ist nicht auf den Anlass angemeldet",
         "SubscriptionDetailNotEditableError": "Das Anmeldedetail ist nicht für die Interneteingabe freigegeben",
-        "InvalidValueError": "Ungültiger Wert für dieses Anmeldedetail",
+        "InvalidValueTypeError": "Ungültiger Wert für dieses Anmeldedetail",
         "InvalidDropdownValueError": "Ungültiger Wert für dieses Anmeldedetail"
       }
     },

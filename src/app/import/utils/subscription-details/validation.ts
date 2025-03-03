@@ -14,7 +14,7 @@ import {
   InvalidPersonEmailError,
   InvalidPersonIdError,
   InvalidSubscriptionDetailIdError,
-  InvalidValueError,
+  InvalidValueTypeError,
   MissingPersonIdEmailError,
   MissingValueError,
   PersonNotFoundError,
@@ -82,7 +82,7 @@ export const assertValuePresent: EntryValidationFn = (entry) => {
 };
 
 export const assertEventExists: EntryValidationFn = (entry) => {
-  const valid = entry.data.event !== undefined;
+  const valid = entry.data.event != null;
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new EventNotFoundError();
@@ -91,7 +91,7 @@ export const assertEventExists: EntryValidationFn = (entry) => {
 };
 
 export const assertPersonExists: EntryValidationFn = (entry) => {
-  const valid = entry.data.person !== undefined;
+  const valid = entry.data.person != null;
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new PersonNotFoundError();
@@ -100,7 +100,7 @@ export const assertPersonExists: EntryValidationFn = (entry) => {
 };
 
 export const assertSubscriptionDetailExists: EntryValidationFn = (entry) => {
-  const valid = entry.data.subscriptionDetail !== undefined;
+  const valid = entry.data.subscriptionDetail != null;
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new SubscriptionDetailNotFoundError();
@@ -119,10 +119,12 @@ export const assertSubscriptionDetailEditable: EntryValidationFn = (entry) => {
 };
 
 export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
-  const typeId = entry.data.subscriptionDetail?.VssTypeId;
-  const value = entry.entry.value;
+  const detail = entry.data.subscriptionDetail;
+  const typeId = detail?.VssTypeId;
+  const { value } = entry.entry;
   const valid =
-    ((typeId === SubscriptionDetailType.IntField ||
+    detail?.DropdownItems != null || // Entries with dropdown items will be checked by another assertion
+    ((typeId === SubscriptionDetailType.Int ||
       typeId === SubscriptionDetailType.Currency) &&
       isNumber(value)) ||
     ((typeId === SubscriptionDetailType.Text ||
@@ -130,7 +132,7 @@ export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
       isString(value));
   if (!valid) {
     entry.validationStatus = "invalid";
-    entry.validationError = new InvalidValueError();
+    entry.validationError = new InvalidValueTypeError();
   }
   return valid;
 };
@@ -138,11 +140,11 @@ export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
 export const assertSubscriptionDetailDropdownItems: EntryValidationFn = (
   entry,
 ) => {
-  const items = entry.data.subscriptionDetail?.DropdownItems?.map(
-    (item) => item.Key,
+  const items = entry.data.subscriptionDetail?.DropdownItems?.map((item) =>
+    String(item.Key),
   );
-  const value = entry.entry.value;
-  const valid = !items || items.includes(value as never);
+  const { value } = entry.entry;
+  const valid = items == null || items.includes(String(value));
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidDropdownValueError();

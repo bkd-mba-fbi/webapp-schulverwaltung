@@ -1,6 +1,9 @@
 import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
-import { SubscriptionDetailType } from "src/app/shared/models/subscription.model";
+import {
+  SubscriptionDetail,
+  SubscriptionDetailType,
+} from "src/app/shared/models/subscription.model";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
@@ -11,12 +14,18 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
 import {
+  EventNotFoundError,
+  InvalidDropdownValueError,
   InvalidEventIdError,
   InvalidPersonEmailError,
   InvalidPersonIdError,
   InvalidSubscriptionDetailIdError,
+  InvalidValueTypeError,
   MissingPersonIdEmailError,
   MissingValueError,
+  PersonNotFoundError,
+  SubscriptionDetailNotEditableError,
+  SubscriptionDetailNotFoundError,
   SubscriptionDetailValidationError,
 } from "../utils/subscription-details/error";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
@@ -90,17 +99,8 @@ describe("ImportValidateSubscriptionDetailsService", () => {
                   of(personIds.map((personId) => eventId * 100 + personId)),
               );
               subscriptionsServiceMock.getSubscriptionDetailsById.and.callFake(
-                (subscriptionId) => {
-                  const detailId = Number(subscriptionId) * 1000;
-                  const detail = buildSubscriptionDetail(detailId);
-                  detail.Id = `${Number(subscriptionId)}_${detailId}`;
-                  detail.DropdownItems = null;
-                  detail.VssTypeId = SubscriptionDetailType.Text;
-                  detail.VssInternet = "E";
-                  detail.VssStyle = "TX";
-                  detail.Value = "Lorem ipsum";
-                  return of([detail]);
-                },
+                (subscriptionId) =>
+                  of([buildSubscriptionDetailWithValue(subscriptionId)]),
               );
 
               return subscriptionsServiceMock;
@@ -178,6 +178,221 @@ describe("ImportValidateSubscriptionDetailsService", () => {
         });
       });
     });
+
+    describe("validation", () => {
+      let entry: SubscriptionDetailEntry;
+
+      beforeEach(() => {
+        entry = buildEntry({});
+      });
+
+      it("sets entry status to valid without error if all data is available & correct", async () => {
+        await expectsValidEntry();
+      });
+
+      describe("event presence", () => {
+        it("sets entry status to invalid with EventNotFoundError if event is absent", async () => {
+          eventsServiceMock.getEventDesignations.and.returnValue(of([]));
+          await expectsInvalidEntry(EventNotFoundError);
+        });
+      });
+
+      describe("person presence", () => {
+        it("sets entry status to valid without error if person is present by ID", async () => {
+          personsServiceMock.getSummariesByEmail.and.returnValue(of([]));
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to valid without error if person is present by email", async () => {
+          personsServiceMock.getFullNamesById.and.returnValue(of([]));
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with PersonNotFoundError if person is absent", async () => {
+          personsServiceMock.getFullNamesById.and.returnValue(of([]));
+          personsServiceMock.getSummariesByEmail.and.returnValue(of([]));
+          await expectsInvalidEntry(PersonNotFoundError);
+        });
+      });
+
+      describe("subscription & subscription detail presence", () => {
+        it("sets entry status to invalid with SubscriptionDetailNotFoundError if subscription is absent", async () => {
+          subscriptionsServiceMock.getSubscriptionIdsByEventAndStudents.and.returnValue(
+            of([]),
+          );
+          await expectsInvalidEntry(SubscriptionDetailNotFoundError);
+        });
+
+        it("sets entry status to invalid with SubscriptionDetailNotFoundError if subscription detail is absent", async () => {
+          subscriptionsServiceMock.getSubscriptionDetailsById.and.returnValue(
+            of([]),
+          );
+          await expectsInvalidEntry(SubscriptionDetailNotFoundError);
+        });
+      });
+
+      describe("editable via internet", () => {
+        it("sets entry status to invalid with SubscriptionDetailNotEditableError if subscription detail's VSSInternet is not 'E'", async () => {
+          mockSubscriptionDetail({
+            VssInternet: "X",
+          });
+          await expectsInvalidEntry(SubscriptionDetailNotEditableError);
+        });
+
+        it("sets entry status to invalid with SubscriptionDetailNotEditableError if subscription detail's VssStyle is not 'TX'", async () => {
+          mockSubscriptionDetail({
+            VssStyle: "X",
+          });
+          await expectsInvalidEntry(SubscriptionDetailNotEditableError);
+        });
+      });
+
+      describe("value type", () => {
+        it("sets entry status to valid without error for int value Int type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Int,
+          });
+          entry.value = 42;
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for string value Int type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Int,
+          });
+          entry.value = "Lorem ipsum";
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+
+        it("sets entry status to valid without error for int value Currency type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Currency,
+          });
+          entry.value = 42;
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for string value Currency type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Currency,
+          });
+          entry.value = "Lorem ipsum";
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+
+        it("sets entry status to valid without error for string value Text type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Text,
+          });
+          entry.value = "Lorem ipsum";
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for number value Text type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Text,
+          });
+          entry.value = 42;
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+
+        it("sets entry status to valid without error for string value MemoText type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.MemoText,
+          });
+          entry.value = "Lorem ipsum";
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for number value MemoText type", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.MemoText,
+          });
+          entry.value = 42;
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+      });
+
+      describe("dropdown items", () => {
+        it("sets entry status to valid without error for any value if the subscription detail has no dropdown items", async () => {
+          mockSubscriptionDetail({
+            DropdownItems: null,
+          });
+          entry.value = "Lorem ipsum";
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to valid without error for supported dropdown item as number", async () => {
+          mockSubscriptionDetail({
+            DropdownItems: [
+              { Key: 1, Value: "Apple" },
+              { Key: 2, Value: "Pear" },
+            ],
+          });
+          entry.value = 1;
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to valid without error for supported dropdown item as string", async () => {
+          mockSubscriptionDetail({
+            DropdownItems: [
+              { Key: 1, Value: "Apple" },
+              { Key: 2, Value: "Pear" },
+            ],
+          });
+          entry.value = "1";
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidDropdownValueError for unsupported dropdown item", async () => {
+          mockSubscriptionDetail({
+            DropdownItems: [
+              { Key: 1, Value: "Apple" },
+              { Key: 2, Value: "Pear" },
+            ],
+          });
+          entry.value = 3;
+          await expectsInvalidEntry(InvalidDropdownValueError);
+        });
+      });
+
+      async function expectsValidEntry(): Promise<void> {
+        const { progress, entries } = service.fetchAndValidate([entry]);
+        const result = await entries;
+        expect(result[0].validationError).toBeNull();
+        expect(result[0].validationStatus).toBe("valid");
+        expect(progress()).toEqual({
+          validating: 0,
+          valid: 1,
+          invalid: 0,
+          total: 1,
+        });
+      }
+
+      async function expectsInvalidEntry(
+        errorClass: typeof SubscriptionDetailValidationError,
+      ): Promise<void> {
+        const { progress, entries } = service.fetchAndValidate([entry]);
+        const result = await entries;
+        expect(result[0].validationError).toBeInstanceOf(errorClass);
+        expect(result[0].validationStatus).toBe("invalid");
+        expect(progress()).toEqual({
+          validating: 0,
+          valid: 0,
+          invalid: 1,
+          total: 1,
+        });
+      }
+
+      function mockSubscriptionDetail(
+        value: Parameters<typeof buildSubscriptionDetailWithValue>[1],
+      ): void {
+        subscriptionsServiceMock.getSubscriptionDetailsById.and.callFake(
+          (subscriptionId) =>
+            of([buildSubscriptionDetailWithValue(subscriptionId, value)]),
+        );
+      }
+    });
   });
 
   function buildEntry({
@@ -188,5 +403,25 @@ describe("ImportValidateSubscriptionDetailsService", () => {
     value = "test",
   }: Partial<SubscriptionDetailEntry>): SubscriptionDetailEntry {
     return { eventId, personId, personEmail, subscriptionDetailId, value };
+  }
+
+  function buildSubscriptionDetailWithValue(
+    subscriptionId: string | number,
+    value: Partial<
+      Pick<
+        SubscriptionDetail,
+        "DropdownItems" | "VssTypeId" | "VssInternet" | "VssStyle" | "Value"
+      >
+    > = {},
+  ): SubscriptionDetail {
+    const detailId = Number(subscriptionId) * 1000;
+    const detail = buildSubscriptionDetail(detailId);
+    detail.Id = `${Number(subscriptionId)}_${detailId}`;
+    detail.DropdownItems = value.DropdownItems ?? null;
+    detail.VssTypeId = value.VssTypeId ?? SubscriptionDetailType.Text;
+    detail.VssInternet = value.VssInternet ?? "E";
+    detail.VssStyle = value.VssStyle ?? "TX";
+    detail.Value = value.Value ?? "Lorem ipsum";
+    return detail;
   }
 });
