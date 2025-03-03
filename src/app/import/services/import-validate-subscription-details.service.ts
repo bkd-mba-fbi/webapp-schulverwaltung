@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  Signal,
-  WritableSignal,
-  inject,
-  signal,
-} from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import groupBy from "lodash-es/groupBy";
 import uniq from "lodash-es/uniq";
 import { Observable, firstValueFrom, from, mergeMap, tap, toArray } from "rxjs";
@@ -40,13 +34,6 @@ import { ImportEntry } from "./import-state.service";
 
 const MAX_CONCURRENT_REQUESTS = 20;
 
-export type ValidationProgress = {
-  validating: number;
-  valid: number;
-  invalid: number;
-  total: number;
-};
-
 export type SubscriptionDetailImportEntry = ImportEntry<
   SubscriptionDetailEntry,
   {
@@ -66,57 +53,19 @@ export class ImportValidateSubscriptionDetailsService {
   private personsService = inject(PersonsRestService);
   private subscriptionsService = inject(SubscriptionsRestService);
 
-  fetchAndValidate(parsedEntries: ReadonlyArray<SubscriptionDetailEntry>): {
-    progress: Signal<ValidationProgress>;
-    entries: Promise<ReadonlyArray<SubscriptionDetailImportEntry>>;
-  } {
-    const progress = signal<ValidationProgress>({
-      validating: parsedEntries.length,
-      valid: 0,
-      invalid: 0,
-      total: parsedEntries.length,
-    });
-    return {
-      progress,
-      entries: this.getValidationResult(progress, parsedEntries),
-    };
-  }
-
-  private async getValidationResult(
-    progress: WritableSignal<ValidationProgress>,
+  async fetchAndValidate(
     parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
     const entries = this.buildValidationEntries(parsedEntries);
 
     // Perform basic verification of the Excel data
     this.verifyEntriesData(entries);
-    this.updateProgress(entries, progress);
 
     // Fetch data & validate
     await this.loadData(entries);
     this.validateEntries(entries);
-    this.updateProgress(entries, progress);
 
     return entries;
-  }
-
-  private updateProgress(
-    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
-    progress: WritableSignal<ValidationProgress>,
-  ): WritableSignal<ValidationProgress> {
-    progress.update(({ total }) => ({
-      validating: entries.filter(
-        ({ validationStatus }) => validationStatus === "validating",
-      ).length,
-      valid: entries.filter(
-        ({ validationStatus }) => validationStatus === "valid",
-      ).length,
-      invalid: entries.filter(
-        ({ validationStatus }) => validationStatus === "invalid",
-      ).length,
-      total,
-    }));
-    return progress;
   }
 
   /**

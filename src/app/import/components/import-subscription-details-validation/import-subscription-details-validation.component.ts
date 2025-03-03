@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Signal,
+  WritableSignal,
   computed,
   inject,
 } from "@angular/core";
@@ -11,11 +11,13 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
-import { ImportStateService } from "../../services/import-state.service";
+import {
+  ImportStateService,
+  ValidationStatus,
+} from "../../services/import-state.service";
 import {
   ImportValidateSubscriptionDetailsService,
   SubscriptionDetailImportEntry,
-  ValidationProgress,
 } from "../../services/import-validate-subscription-details.service";
 import { ImportEntryStatusComponent } from "../import-entry-status/import-entry-status.component";
 import { ImportEntryValueComponent } from "../import-entry-value/import-entry-value.component";
@@ -40,41 +42,41 @@ export class ImportSubscriptionDetailsValidationComponent {
   private validationService = inject(ImportValidateSubscriptionDetailsService);
   private modalService = inject(BkdModalService);
 
-  parsedEntries: Signal<ReadonlyArray<SubscriptionDetailEntry>> =
-    this.stateService.parsedEntries;
-  importEntries: Signal<ReadonlyArray<SubscriptionDetailImportEntry>> =
-    this.stateService.importEntries;
-  progress: Signal<ValidationProgress>;
+  parsedEntries: WritableSignal<
+    Option<ReadonlyArray<SubscriptionDetailEntry>>
+  > = this.stateService.parsedEntries;
+  importEntries: WritableSignal<
+    Option<ReadonlyArray<SubscriptionDetailImportEntry>>
+  > = this.stateService.importEntries;
 
-  validImportEntries = computed(() =>
-    this.importEntries().filter(
-      ({ validationStatus }) => validationStatus !== "invalid",
-    ),
-  );
-  invalidImportEntries = computed(() =>
-    this.importEntries().filter(
-      ({ validationStatus }) => validationStatus === "invalid",
-    ),
-  );
-  sortedImportEntries = computed(() => [
-    ...this.invalidImportEntries(),
-    ...this.validImportEntries(),
+  isValidating = computed(() => this.importEntries() === null);
+
+  validEntries = computed(() => this.getEntriesByStatus("valid"));
+  validCount = computed(() => this.validEntries.length);
+
+  invalidEntries = computed(() => this.getEntriesByStatus("invalid"));
+  invalidCount = computed(() => this.invalidEntries.length);
+
+  sortedEntries = computed(() => [
+    ...this.invalidEntries(),
+    ...this.validEntries(),
   ]);
 
   constructor() {
-    if (this.parsedEntries().length === 0) {
+    const parsedEntries = this.parsedEntries();
+    if (parsedEntries === null || parsedEntries.length === 0) {
       this.navigateToFilePage();
+      return;
     }
 
-    const { progress, entries } = this.validationService.fetchAndValidate(
-      this.parsedEntries(),
-    );
-    this.progress = progress;
-    void entries.then((value) => this.stateService.importEntries.set(value));
+    this.importEntries.set(null); // Clear old state
+    void this.validationService
+      .fetchAndValidate(parsedEntries)
+      .then((value) => this.stateService.importEntries.set(value));
   }
 
   proceedToUpload(): void {
-    if (this.progress().invalid > 0) {
+    if (this.invalidCount() > 0) {
       this.openProceedDialog().closed.subscribe(() =>
         this.navigateToUploadPage(),
       );
@@ -86,13 +88,13 @@ export class ImportSubscriptionDetailsValidationComponent {
   isValid(
     entry: SubscriptionDetailImportEntry,
     columns?: ReadonlyArray<string>,
-  ) {
-    return (
+  ): boolean {
+    return Boolean(
       entry.validationStatus !== "invalid" ||
-      (columns &&
-        !columns.some((column) =>
-          entry.validationError?.columns.includes(column as never),
-        ))
+        (columns &&
+          !columns.some((column) =>
+            entry.validationError?.columns.includes(column as never),
+          )),
     );
   }
 
@@ -122,10 +124,18 @@ export class ImportSubscriptionDetailsValidationComponent {
     return entry.entry["value"];
   }
 
+  private getEntriesByStatus(
+    status: ValidationStatus,
+  ): ReadonlyArray<SubscriptionDetailImportEntry> {
+    return (this.importEntries() ?? []).filter(
+      ({ validationStatus }) => validationStatus === status,
+    );
+  }
+
   private openProceedDialog(): NgbModalRef {
     const modalRef = this.modalService.open(ImportProceedUploadDialogComponent);
-    modalRef.componentInstance.invalidCount = this.progress().invalid;
-    modalRef.componentInstance.validCount = this.progress().valid;
+    modalRef.componentInstance.invalidCount = this.invalidCount();
+    modalRef.componentInstance.validCount = this.validCount();
     return modalRef;
   }
 

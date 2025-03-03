@@ -36,7 +36,8 @@ export class ImportStateService {
   importType = signal<ImportType>(IMPORT_TYPES[0]);
   file = signal<Option<File>>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  parsedEntries = signal<ReadonlyArray<any>>([]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  importEntries = signal<ReadonlyArray<ImportEntry<any, any, any, any>>>([]);
+  parsedEntries = signal<Option<ReadonlyArray<any>>>(null);
+  importEntries =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    signal<Option<ReadonlyArray<ImportEntry<any, any, any, any>>>>(null);
 }

@@ -1,5 +1,5 @@
 <div class="bkd-container">
-  @if (progress().validating > 0) {
+  @if (isValidating()) {
     <h1>{{ "import.title" | translate }}</h1>
     <p>{{ "import.validation.validating" | translate }}</p>
     <bkd-spinner></bkd-spinner>
@@ -35,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (entry of sortedImportEntries(); track $index) {
+        @for (entry of sortedEntries(); track $index) {
           <tr>
             <td class="align-middle">
               <bkd-import-entry-status
