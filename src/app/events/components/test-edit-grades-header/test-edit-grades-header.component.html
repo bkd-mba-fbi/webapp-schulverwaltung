@@ -46,7 +46,6 @@
 <tr [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }">
   <th class="sticky student-name">
     <bkd-sortable-header
-      [ngClass]="'column-title'"
       [label]="'tests.student.name' | translate"
       [sortKey]="'FullName'"
       [sortCriteria]="sortCriteria"
@@ -59,7 +58,6 @@
     [ngClass]="{ selected: selectedTest === undefined }"
   >
     <bkd-sortable-header
-      [ngClass]="'column-title'"
       [label]="'tests.grade' | translate"
       [sortKey]="'FinalGrade'"
       [sortCriteria]="sortCriteria"
@@ -70,7 +68,6 @@
 
   <th class="border-end sticky student-average desktop">
     <bkd-sortable-header
-      [ngClass]="'column-title'"
       [label]="'tests.mean' | translate"
       [sortKey]="'TestsMean'"
       [sortCriteria]="sortCriteria"
@@ -86,19 +83,17 @@
     >
       <div class="d-flex">
         @if (test.IsPointGrading) {
-          <div class="column-title point-input-container me-2 me-md-3">
+          <div class="point-column-title me-2 me-md-3">
             {{ "tests.points" | translate }}
           </div>
         }
-        <div class="column-title">
-          <bkd-sortable-header
-            [label]="'tests.grade' | translate"
-            [sortKey]="'Test-' + test.Id"
-            [sortCriteria]="sortCriteria"
-            (sortCriteriaChange)="state.setSorting($any($event))"
-          >
-          </bkd-sortable-header>
-        </div>
+        <bkd-sortable-header
+          [label]="'tests.grade' | translate"
+          [sortKey]="'Test-' + test.Id"
+          [sortCriteria]="sortCriteria"
+          (sortCriteriaChange)="state.setSorting($any($event))"
+        >
+        </bkd-sortable-header>
       </div>
     </th>
   }

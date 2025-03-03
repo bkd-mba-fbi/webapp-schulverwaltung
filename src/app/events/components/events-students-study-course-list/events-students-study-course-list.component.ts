@@ -34,8 +34,8 @@ export class EventsStudentsStudyCourseListComponent {
   entries = input.required<ReadonlyArray<StudentEntry>>();
   returnLink = input<Option<string>>(null);
   sortCriteria = input.required<SortCriteria<PrimarySortKey>>();
-  searchTerm = model<string>();
   sortCriteriaChange = output<SortCriteria<PrimarySortKey>>();
+  searchTerm = model<string>();
 
   updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
     this.sortCriteriaChange.emit(newCriteria);
