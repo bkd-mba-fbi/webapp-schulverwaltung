@@ -85,7 +85,7 @@ export class SubscriptionDetailNotEditableError extends SubscriptionDetailValida
 /**
  * The subscription detail value ("Wert") does not comply with the "VssType".
  */
-export class InvalidValueError extends SubscriptionDetailValidationError {
+export class InvalidValueTypeError extends SubscriptionDetailValidationError {
   constructor() {
     super();
     this.columns = ["value"];

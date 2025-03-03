@@ -257,7 +257,7 @@ export class ImportValidateSubscriptionDetailsService {
 
     await this.executeWithMaxConcurrency(subscriptionIds, (id) =>
       this.subscriptionsService.getSubscriptionDetailsById(id).pipe(
-        catch404(null),
+        catch404(null), // Should actually not happen, since we only fetch for subscriptions that exist?
         tap((details: Option<ReadonlyArray<SubscriptionDetail>>) => {
           if (details !== null) {
             entries.forEach((entry) => {
