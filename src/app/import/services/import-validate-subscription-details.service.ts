@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import groupBy from "lodash-es/groupBy";
 import uniq from "lodash-es/uniq";
-import { Observable, firstValueFrom, from, mergeMap, tap, toArray } from "rxjs";
+import { firstValueFrom, tap } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
 import {
   PersonFullName,
@@ -9,7 +9,10 @@ import {
 } from "src/app/shared/models/person.model";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
-import { catch404 } from "src/app/shared/utils/observable";
+import {
+  catch404,
+  executeWithMaxConcurrency,
+} from "src/app/shared/utils/observable";
 import { EventsRestService } from "../../shared/services/events-rest.service";
 import { PersonsRestService } from "../../shared/services/persons-rest.service";
 import { SubscriptionDetailValidationError } from "../utils/subscription-details/error";
@@ -204,22 +207,27 @@ export class ImportValidateSubscriptionDetailsService {
       ),
     );
 
-    await this.executeWithMaxConcurrency(subscriptionIds, (id) =>
-      this.subscriptionsService.getSubscriptionDetailsById(id).pipe(
-        catch404(null), // Should actually not happen, since we only fetch for subscriptions that exist?
-        tap((details: Option<ReadonlyArray<SubscriptionDetail>>) => {
-          if (details !== null) {
-            entries.forEach((entry) => {
-              const detailId = entry.entry.subscriptionDetailId;
-              const detail =
-                isNumber(detailId) &&
-                details.find((detail) => detail.VssId === detailId);
-              if (detail) {
-                entry.data.subscriptionDetail = detail;
+    await firstValueFrom(
+      executeWithMaxConcurrency(
+        subscriptionIds,
+        (id) =>
+          this.subscriptionsService.getSubscriptionDetailsById(id).pipe(
+            catch404(null), // Should actually not happen, since we only fetch for subscriptions that exist?
+            tap((details: Option<ReadonlyArray<SubscriptionDetail>>) => {
+              if (details !== null) {
+                entries.forEach((entry) => {
+                  const detailId = entry.entry.subscriptionDetailId;
+                  const detail =
+                    isNumber(detailId) &&
+                    details.find((detail) => detail.VssId === detailId);
+                  if (detail) {
+                    entry.data.subscriptionDetail = detail;
+                  }
+                });
               }
-            });
-          }
-        }),
+            }),
+          ),
+        MAX_CONCURRENT_REQUESTS,
       ),
     );
   }
@@ -304,18 +312,6 @@ export class ImportValidateSubscriptionDetailsService {
   ): Promise<ReadonlyArray<PersonSummary>> {
     return firstValueFrom(
       this.personsService.getSummariesByEmail(personEmails),
-    );
-  }
-
-  private async executeWithMaxConcurrency<T, R>(
-    params: ReadonlyArray<T>,
-    fn: (param: T) => Observable<R>,
-  ): Promise<ReadonlyArray<R>> {
-    return firstValueFrom(
-      from(params).pipe(
-        mergeMap((param) => fn(param), MAX_CONCURRENT_REQUESTS),
-        toArray(), // Wait until all inner observables complete & merge result into an array
-      ),
     );
   }
 
