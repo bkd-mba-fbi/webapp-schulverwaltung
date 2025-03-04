@@ -358,6 +358,67 @@
       }
     }
   },
+  "import": {
+    "title": "Daten einlesen",
+    "file": {
+      "input-label": "Datei auswählen",
+      "drop-zone-label": "Datei hierhin ziehen",
+      "next": "Weiter",
+      "types": {
+        "subscriptionDetails": "Anmeldedetails",
+        "emails": "E-Mail-Adressen"
+      }
+    },
+    "validation": {
+      "validating": "Daten werden überprüft...",
+      "upload": "Daten einlesen",
+      "change-document": "Anderes Dokument wählen",
+      "proceed-dialog": {
+        "title": "Fehlerhafte Datensätze vorhanden",
+        "message": "{{invalidCount}} Datensätze sind fehlerhaft und können nicht importiert werden. Wollen sie die übrigen {{validCount}} trotzdem einlesen?",
+        "cancel": "Abbrechen",
+        "proceed": "Daten einlesen"
+      },
+      "errors": {
+        "InvalidEventIdError": "Die Anlass ID ist ungültig",
+        "InvalidPersonIdError": "Die Person ID ist ungültig",
+        "InvalidPersonEmailError": "Die E-Mail ist ungültig",
+        "MissingPersonIdEmailError": "Person ID oder E-Mail ist erforderlich",
+        "InvalidSubscriptionDetailIdError": "Die ID des Anmeldedetails ist ungültig",
+        "MissingValueError": "Der Wert fehlt",
+        "EventNotFoundError": "Der Anlass ist nicht vorhanden",
+        "PersonNotFoundError": "Die Person ist nicht vorhanden",
+        "SubscriptionDetailNotFoundError": "Die Person ist nicht auf den Anlass angemeldet",
+        "SubscriptionDetailNotEditableError": "Das Anmeldedetail ist nicht für die Interneteingabe freigegeben",
+        "InvalidValueTypeError": "Ungültiger Wert für dieses Anmeldedetail",
+        "InvalidDropdownValueError": "Ungültiger Wert für dieses Anmeldedetail"
+      }
+    },
+    "upload": {
+      "uploading": "Daten werden eingelesen...",
+      "progress": "Fortschritt Daten einlesen",
+      "success": {
+        "title": "Daten erfolgreich eingelesen",
+        "content": "{{count}} von {{total}} Datensätzen wurden erfolgreich eingelesen.",
+        "back": "Weitere Daten einlesen"
+      },
+      "error": {
+        "title": "Fehler beim Einlesen der Daten",
+        "content": "{{count}} von {{total}} Datensätzen konnten nicht eingelesen werden.",
+        "retry": "Erneut versuchen",
+        "entry-error": "Es ist ein Fehler aufgetreten"
+      }
+    },
+    "subscription-details": {
+      "columns": {
+        "status": "Status",
+        "event": "Anlass",
+        "person": "Person",
+        "subscription-detail": "Anmeldedetail",
+        "value": "Wert"
+      }
+    }
+  },
   "my-absences": {
     "title": "Meine Absenzen",
     "description": "Hier können Sie Absenzen melden und Ihre offenen Absenzen bearbeiten.",

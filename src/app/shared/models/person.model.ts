@@ -48,6 +48,12 @@ const PersonSummary = t.type({
   Email: Maybe(t.string),
 });
 
+const PersonFullName = t.type({
+  Id: t.number,
+  FullName: t.string,
+});
+
 type Person = t.TypeOf<typeof Person>;
 type PersonSummary = t.TypeOf<typeof PersonSummary>;
-export { Person, PersonSummary };
+type PersonFullName = t.TypeOf<typeof PersonFullName>;
+export { Person, PersonSummary, PersonFullName };

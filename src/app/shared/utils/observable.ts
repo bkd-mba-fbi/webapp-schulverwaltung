@@ -6,6 +6,7 @@ import {
   ObservedValueOf,
   OperatorFunction,
   defer,
+  from,
   fromEvent,
   interval,
   merge,
@@ -16,9 +17,11 @@ import {
   catchError,
   defaultIfEmpty,
   map,
+  mergeMap,
   startWith,
   switchMap,
   tap,
+  toArray,
   withLatestFrom,
 } from "rxjs/operators";
 
@@ -128,5 +131,16 @@ export function withReload<T>(
       withLatestFrom(source$),
       map(([_, v]) => v),
     ),
+  );
+}
+
+export function executeWithMaxConcurrency<T, R>(
+  params: ReadonlyArray<T>,
+  fn: (param: T) => Observable<R>,
+  maxConcurrent = 20,
+): Observable<ReadonlyArray<R>> {
+  return from(params).pipe(
+    mergeMap((param) => fn(param), maxConcurrent),
+    toArray(), // Wait until all inner observables complete & merge result into an array
   );
 }
