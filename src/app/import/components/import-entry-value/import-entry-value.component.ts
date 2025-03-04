@@ -17,7 +17,7 @@ import {
 })
 export class ImportEntryValueComponent {
   value = input.required<unknown>();
-  valid = input.required<boolean>();
+  valid = input(true);
 
   displayValue = computed(() =>
     this.value() != null && this.value() !== "" ? String(this.value()) : "–",

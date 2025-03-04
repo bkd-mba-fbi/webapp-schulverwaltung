@@ -122,7 +122,7 @@ describe("ImportSubscriptionDetailsUploadComponent", () => {
       fixture.detectChanges();
 
       expect(element.textContent).toContain("import.upload.error.title");
-      // expect(element.querySelector("table")).not.toBeNull();
+      expect(element.querySelector("table")).not.toBeNull();
       expect(element.textContent).not.toContain("import.upload.success.title");
       expect(element.querySelector("bkd-progress")).toBeNull();
     }));
