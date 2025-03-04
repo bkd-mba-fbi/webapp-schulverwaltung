@@ -363,6 +363,7 @@
     "file": {
       "input-label": "Datei auswählen",
       "drop-zone-label": "Datei hierhin ziehen",
+      "columns-info": "Bitte benennen Sie die einzulesenden Spalten im Dokument wie folgt:",
       "next": "Weiter",
       "types": {
         "subscriptionDetails": "Anmeldedetails",

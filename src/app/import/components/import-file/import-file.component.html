@@ -55,4 +55,11 @@
       {{ "import.file.next" | translate }}
     </button>
   </div>
+
+  <p>{{ "import.file.columns-info" | translate }}</p>
+  <ul>
+    @for (column of columns(); track column) {
+      <li>{{ column }}</li>
+    }
+  </ul>
 </div>
