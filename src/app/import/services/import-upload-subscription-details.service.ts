@@ -27,7 +27,7 @@ export type UploadProgress = {
   providedIn: "root",
 })
 export class ImportUploadSubscriptionDetailsService {
-  progress = signal({
+  progress = signal<UploadProgress>({
     uploading: 0,
     success: 0,
     error: 0,
@@ -129,7 +129,6 @@ export class ImportUploadSubscriptionDetailsService {
     //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
     //   entry.value as any,
     // );
-    console.log("PUT", entry);
     if (Math.random() > 0.75) {
       throw new Error("Random error");
     }

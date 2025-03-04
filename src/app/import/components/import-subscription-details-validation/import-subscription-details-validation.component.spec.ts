@@ -23,7 +23,7 @@ describe("ImportSubscriptionDetailsValidationComponent", () => {
   let component: ImportSubscriptionDetailsValidationComponent;
   let fixture: ComponentFixture<ImportSubscriptionDetailsValidationComponent>;
   let element: HTMLElement;
-  let validateService: jasmine.SpyObj<ImportValidateSubscriptionDetailsService>;
+  let validateServiceMock: jasmine.SpyObj<ImportValidateSubscriptionDetailsService>;
   let resolveEntries: (
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ) => void;
@@ -36,16 +36,16 @@ describe("ImportSubscriptionDetailsValidationComponent", () => {
           {
             provide: ImportValidateSubscriptionDetailsService,
             useFactory() {
-              validateService = jasmine.createSpyObj(
+              validateServiceMock = jasmine.createSpyObj(
                 "ImportValidateSubscriptionDetailsService",
                 ["fetchAndValidate"],
               );
 
-              validateService.fetchAndValidate.and.returnValue(
+              validateServiceMock.fetchAndValidate.and.returnValue(
                 new Promise((resolve) => (resolveEntries = resolve)),
               );
 
-              return validateService;
+              return validateServiceMock;
             },
           },
         ],
