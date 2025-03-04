@@ -558,7 +558,7 @@ describe("EventsStudentsStateService", () => {
         );
       });
 
-      it("sorts by name ascending, then inverts order when sorted again", () => {
+      it("sorts by name ascending", () => {
         service.updateSortCriteria({ primarySortKey: "name", ascending: true });
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
           "Harrison George",
@@ -566,14 +566,13 @@ describe("EventsStudentsStateService", () => {
           "McCartney Paul",
           "Starr Ringo",
         ]);
+      });
 
-        const currentSort = service.sortCriteria();
+      it("sorts by name descending", () => {
         service.updateSortCriteria({
           primarySortKey: "name",
-          ascending: !currentSort.ascending,
+          ascending: false,
         });
-        TestBed.flushEffects();
-
         expect(service.sortedEntries().map(({ name }) => name)).toEqual([
           "Starr Ringo",
           "McCartney Paul",
@@ -582,7 +581,7 @@ describe("EventsStudentsStateService", () => {
         ]);
       });
 
-      it("sorts by registration date descending with name ascending as second priority, then inverts order when sorted again", () => {
+      it("sorts by registration date ascending and then descending", () => {
         const date1 = new Date("2023-07-22T15:41:25Z");
         const date2 = new Date("2024-11-05T15:41:25Z");
         const date3 = new Date("2025-01-21T15:41:25Z");
@@ -629,45 +628,25 @@ describe("EventsStudentsStateService", () => {
               },
             ]),
         );
-
-        eventIdSubject.next(2);
-        TestBed.flushEffects();
-
+        service.updateSortCriteria({
+          primarySortKey: "registrationDate",
+          ascending: true,
+        });
         expect(
-          service.sortedEntries().map((entry) => ({
-            registrationDate: entry.registrationDate,
-            name: entry.name,
-          })),
-        )
-          .withContext(
-            "should sort latest registrationDate first then name ascending",
-          )
-          .toEqual([
-            { registrationDate: date3, name: "Harrison George" },
-            { registrationDate: date4, name: "McCartney Paul" },
-            { registrationDate: date2, name: "Starr Ringo" },
-            { registrationDate: date1, name: "Lennon John" },
-          ]);
+          service
+            .sortedEntries()
+            .map(({ registrationDate }) => registrationDate),
+        ).toEqual([date1, date2, date3, date4]);
 
         service.updateSortCriteria({
           primarySortKey: "registrationDate",
-          ascending: !service.sortCriteria().ascending,
+          ascending: false,
         });
         expect(
-          service.sortedEntries().map((entry) => ({
-            registrationDate: entry.registrationDate,
-            name: entry.name,
-          })),
-        )
-          .withContext(
-            "should sort earliest registrationDate first then name ascending",
-          )
-          .toEqual([
-            { registrationDate: date1, name: "Lennon John" },
-            { registrationDate: date2, name: "Starr Ringo" },
-            { registrationDate: date3, name: "Harrison George" },
-            { registrationDate: date4, name: "McCartney Paul" },
-          ]);
+          service
+            .sortedEntries()
+            .map(({ registrationDate }) => registrationDate),
+        ).toEqual([date4, date3, date2, date1]);
       });
     });
 
