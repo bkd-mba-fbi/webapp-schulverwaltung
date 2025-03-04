@@ -24,7 +24,7 @@ export abstract class ImportFileService<
   TEntry extends ParsedEntry,
   TRow extends Dict<unknown> = Dict<unknown>,
 > {
-  constructor(protected columns: ReadonlyArray<string>) {}
+  constructor(public columns: ReadonlyArray<string>) {}
 
   /**
    * Parses the given Excel file and returns

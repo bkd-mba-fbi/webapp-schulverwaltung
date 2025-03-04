@@ -60,6 +60,7 @@ export class ImportFileComponent {
         throw new UnreachableError(importType, "Unhandled import type");
     }
   });
+  columns = computed(() => this.fileService()?.columns ?? []);
 
   error = signal<Option<ParseError>>(null);
   errorMessage = computed(() => {
