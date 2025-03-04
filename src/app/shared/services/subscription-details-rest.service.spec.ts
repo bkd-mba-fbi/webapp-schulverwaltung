@@ -53,7 +53,7 @@ describe("SubscriptionDetailsRestService", () => {
         Value: "A",
       };
       service
-        .update("A", detail)
+        .update(detail, "A")
         .subscribe((result) => expect(result).toBeUndefined());
 
       httpTestingController
@@ -75,7 +75,7 @@ describe("SubscriptionDetailsRestService", () => {
         Value: null,
       };
       service
-        .update(null, detail)
+        .update(detail, null)
         .subscribe((result) => expect(result).toBeUndefined());
 
       httpTestingController

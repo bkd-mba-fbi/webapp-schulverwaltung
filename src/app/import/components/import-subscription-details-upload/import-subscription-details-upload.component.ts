@@ -4,7 +4,7 @@ import {
   WritableSignal,
   inject,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { NotificationComponent } from "../../../shared/components/notification/notification.component";
 import { ProgressComponent } from "../../../shared/components/progress/progress.component";
@@ -14,7 +14,12 @@ import { SubscriptionDetailImportEntry } from "../../services/import-validate-su
 
 @Component({
   selector: "bkd-import-subscription-details-upload",
-  imports: [TranslatePipe, ProgressComponent, NotificationComponent],
+  imports: [
+    RouterLink,
+    TranslatePipe,
+    ProgressComponent,
+    NotificationComponent,
+  ],
   templateUrl: "./import-subscription-details-upload.component.html",
   styleUrl: "./import-subscription-details-upload.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

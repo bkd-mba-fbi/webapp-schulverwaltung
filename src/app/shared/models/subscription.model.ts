@@ -26,7 +26,7 @@ const SubscriptionDetail = t.type({
   ShowAsRadioButtons: t.boolean,
   // Sort: t.string,
   // Tooltip: Option(t.string),
-  Value: Option(t.string),
+  Value: Option(t.union([t.string, t.number])),
   VssDesignation: t.string,
   // VssStyleDescription: t.string,
   VssStyle: t.string,

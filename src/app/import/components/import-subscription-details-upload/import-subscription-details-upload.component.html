@@ -16,6 +16,11 @@
           | translate: { count: progress().success, total: progress().total }
       "
     ></bkd-notification>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-secondary mt-4" routerLink="/import">
+        {{ "import.upload.success.back" | translate }}
+      </button>
+    </div>
   } @else {
     <bkd-notification
       [title]="'import.upload.error.title' | translate"
