@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
@@ -38,6 +38,7 @@ import { ImportProceedUploadDialogComponent } from "../import-proceed-upload-dia
 })
 export class ImportSubscriptionDetailsValidationComponent {
   private router = inject(Router);
+  private translate = inject(TranslateService);
   private stateService = inject(ImportStateService);
   private validationService = inject(ImportValidateSubscriptionDetailsService);
   private modalService = inject(BkdModalService);
@@ -96,6 +97,15 @@ export class ImportSubscriptionDetailsValidationComponent {
             entry.validationError?.columns.includes(column as never),
           )),
     );
+  }
+
+  getErrorMessage(entry: SubscriptionDetailImportEntry): Option<string> {
+    if (entry.validationStatus === "invalid" && entry.validationError) {
+      return this.translate.instant(
+        `import.validation.errors.${entry.validationError.type}`,
+      );
+    }
+    return null;
   }
 
   getEventValue(entry: SubscriptionDetailImportEntry): unknown {
