@@ -1,6 +1,8 @@
 import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
 import { ValidationError } from "../../services/import-state.service";
 
+///// Validation errors /////
+
 export class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
 
 export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
@@ -101,3 +103,7 @@ export class InvalidDropdownValueError extends SubscriptionDetailValidationError
     this.columns = ["value"];
   }
 }
+
+///// Import errors /////
+
+export class SubscriptionDetailImportError extends ValidationError<SubscriptionDetailEntry> {}

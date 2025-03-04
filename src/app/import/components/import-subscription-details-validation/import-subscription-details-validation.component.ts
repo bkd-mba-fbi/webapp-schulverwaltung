@@ -72,7 +72,7 @@ export class ImportSubscriptionDetailsValidationComponent {
     this.importEntries.set(null); // Clear old state
     void this.validationService
       .fetchAndValidate(parsedEntries)
-      .then((value) => this.stateService.importEntries.set(value));
+      .then((entries) => this.stateService.importEntries.set(entries));
   }
 
   proceedToUpload(): void {
