@@ -363,7 +363,11 @@
     "file": {
       "input-label": "Datei auswählen",
       "drop-zone-label": "Datei hierhin ziehen",
-      "next": "Weiter"
+      "next": "Weiter",
+      "types": {
+        "subscriptionDetails": "Anmeldedetails",
+        "emails": "E-Mail-Adressen"
+      }
     },
     "validation": {
       "validating": "Daten werden überprüft...",
