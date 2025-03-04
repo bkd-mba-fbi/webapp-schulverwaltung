@@ -49,7 +49,7 @@ export class ImportUploadSubscriptionDetailsService {
       );
     }
     await this.persistEntries(entriesToImport, validatedEntries);
-    return validatedEntries;
+    return [...validatedEntries];
   }
 
   private async persistEntries(

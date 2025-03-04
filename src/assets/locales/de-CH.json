@@ -401,7 +401,8 @@
       "error": {
         "title": "Fehler beim Einlesen der Daten",
         "content": "{{count}} von {{total}} Datensätzen konnten nicht eingelesen werden.",
-        "retry": "Erneut versuchen"
+        "retry": "Erneut versuchen",
+        "entry-error": "Es ist ein Fehler aufgetreten"
       }
     },
     "subscription-details": {
