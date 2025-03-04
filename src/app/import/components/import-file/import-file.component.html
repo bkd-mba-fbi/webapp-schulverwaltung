@@ -4,20 +4,10 @@
   <h1>{{ "import.title" | translate }}</h1>
 
   <div class="mb-3">
-    <div class="btn-group">
-      @for (
-        availableImportType of availableImportTypes;
-        track availableImportType
-      ) {
-        <button
-          (click)="stateService.importType.set(availableImportType)"
-          class="btn btn-primary"
-          [class.active]="availableImportType === stateService.importType()"
-        >
-          {{ availableImportType }}
-        </button>
-      }
-    </div>
+    <bkd-button-group
+      [options]="importTypeOptions"
+      [(selected)]="importTypeOption"
+    ></bkd-button-group>
   </div>
 
   <div class="mb-3">
