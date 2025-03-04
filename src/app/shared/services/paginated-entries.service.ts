@@ -25,6 +25,7 @@ import {
   SortCriteria,
   SortKey,
 } from "../components/sortable-header/sortable-header.component";
+import { notNull } from "../utils/filter";
 import { spread } from "../utils/function";
 import { Paginated } from "../utils/pagination";
 import { serializeParams } from "../utils/url";
@@ -54,7 +55,7 @@ export abstract class PaginatedEntriesService<
 {
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
-  sorting$ = this.sortService.sorting$;
+  sorting$ = this.sortService.sorting$.pipe(filter(notNull));
 
   private filter$ = new BehaviorSubject<TFilterValue>(this.getInitialFilter());
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));

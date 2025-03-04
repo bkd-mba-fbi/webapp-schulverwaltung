@@ -2,7 +2,7 @@ import { Location } from "@angular/common";
 import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
 import { Observable } from "rxjs";
-import { filter, takeUntil } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
@@ -16,7 +16,6 @@ import { SortService } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { Paginated } from "src/app/shared/utils/pagination";
-import { notNull } from "../../shared/utils/filter";
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
@@ -33,7 +32,7 @@ export class EvaluateAbsencesStateService
   implements IConfirmAbsencesService
 {
   override sorting$: Observable<SortCriteria<keyof LessonPresenceStatistic>> =
-    this.sortService.sorting$.pipe(filter(notNull));
+    this.sortService.sorting$;
   private lessonPresenceService = inject(LessonPresencesRestService);
 
   confirmBackLinkParams?: Params;
