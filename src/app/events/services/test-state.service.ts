@@ -19,13 +19,14 @@ import {
   switchMap,
   take,
 } from "rxjs/operators";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { Course, Grading } from "../../shared/models/course.model";
 import { DropDownItem } from "../../shared/models/drop-down-item.model";
 import {
-  SortKeys,
   StudentGrade,
+  StudentGradesSortKey,
   averageOfGradesForScale,
   compareFn,
   meanOf,
@@ -35,7 +36,7 @@ import {
 import { Result, Test } from "../../shared/models/test.model";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
 import { GradingsRestService } from "../../shared/services/gradings-rest.service";
-import { SortService, Sorting } from "../../shared/services/sort.service";
+import { SortService } from "../../shared/services/sort.service";
 import { notNull } from "../../shared/utils/filter";
 import { spread } from "../../shared/utils/function";
 import { TestsAction, courseReducer } from "../utils/course-reducer";
@@ -74,7 +75,7 @@ export class TestStateService {
   private gradingScalesRestService = inject(GradingScalesRestService);
   private gradingsRestService = inject(GradingsRestService);
   private loadingService = inject(LoadingService);
-  private sortService = inject<SortService<SortKeys>>(SortService);
+  private sortService = inject<SortService<StudentGradesSortKey>>(SortService);
 
   private action$ = new ReplaySubject<TestsAction>(1);
 
@@ -135,7 +136,8 @@ export class TestStateService {
     ),
   );
 
-  sorting$ = this.sortService.sorting$;
+  sorting$: Observable<SortCriteria<StudentGradesSortKey>> =
+    this.sortService.sorting$.pipe(filter(notNull));
 
   studentGrades$ = combineLatest([
     this.course$,
@@ -222,27 +224,19 @@ export class TestStateService {
 
   toStudentGrades(
     course: Course,
-    tests: Test[] = [],
-    sorting: Sorting<SortKeys>,
+    tests: ReadonlyArray<Test> = [],
+    sorting: SortCriteria<StudentGradesSortKey>,
   ): StudentGrade[] {
     return transform(
       course.ParticipatingStudents ?? [],
       tests,
       course.Gradings ?? [],
       course.FinalGrades ?? [],
-    ).sort(compareFn(sorting));
+    ).sort(compareFn(sorting, tests));
   }
 
-  setSorting(sorting: Sorting<SortKeys>) {
+  setSorting(sorting: SortCriteria<StudentGradesSortKey>) {
     this.sortService.setSorting(sorting);
-  }
-
-  getSortingChar$(columnName: SortKeys) {
-    return this.sortService.getSortingChar$(columnName);
-  }
-
-  sortBy(columnName: SortKeys) {
-    this.sortService.toggleSorting(columnName);
   }
 
   toggleHeader(expanded: boolean) {

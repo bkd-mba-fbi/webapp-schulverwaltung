@@ -50,14 +50,16 @@
           />
         </div>
         @for (key of primarySortKeys; track key) {
-          <div (click)="openAbsencesService.toggleSort(key)" [className]="key">
-            {{ "open-absences.list.header." + key | translate }}
-            @if (sortCriteria) {
-              <span class="sort-direction">{{
-                getSortDirectionCharacter(sortCriteria, key)
-              }}</span>
-            }
-          </div>
+          <bkd-sortable-header
+            [ngClass]="key"
+            [label]="'open-absences.list.header.' + key | translate"
+            [sortKey]="key"
+            [sortCriteria]="sortCriteria"
+            (sortCriteriaChange)="
+              openAbsencesService.updateSortCriteria($event)
+            "
+          >
+          </bkd-sortable-header>
         }
       </div>
       @for (entry of entries; track entry.id) {

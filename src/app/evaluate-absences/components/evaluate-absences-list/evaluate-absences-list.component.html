@@ -1,6 +1,7 @@
 @let entries = state.entries$ | async;
 @let hasMore = state.hasMore$ | async;
 @let loadingPage = state.loadingPage$ | async;
+@let sortCriteria = state.sorting$ | async;
 
 <h1>{{ "evaluate-absences.title" | translate }}</h1>
 <bkd-evaluate-absences-header
@@ -28,30 +29,22 @@
           <thead>
             <tr>
               @for (column of columns; track column.key) {
-                <th
-                  (click)="state.sortService.toggleSorting(column.key)"
-                  scope="col"
-                  [ngClass]="column.label"
-                >
-                  <div class="d-flex">
-                    <div
-                      class="column-title"
-                      [ngbTooltip]="
-                        'evaluate-absences.list.header.' + column.label
-                          | translate
-                      "
-                    >
-                      {{
-                        "evaluate-absences.list.header." + column.label
-                          | translate
-                      }}
-                    </div>
-                    <div class="sort-direction">
-                      {{
-                        state.sortService.getSortingChar$(column.key) | async
-                      }}
-                    </div>
-                  </div>
+                <th scope="col">
+                  <bkd-sortable-header
+                    [ngClass]="column.label"
+                    [label]="
+                      'evaluate-absences.list.header.' + column.label
+                        | translate
+                    "
+                    [sortKey]="column.key"
+                    [sortCriteria]="sortCriteria"
+                    (sortCriteriaChange)="state.sortService.setSorting($event)"
+                    [ngbTooltip]="
+                      'evaluate-absences.list.header.' + column.label
+                        | translate
+                    "
+                  >
+                  </bkd-sortable-header>
                 </th>
               }
             </tr>

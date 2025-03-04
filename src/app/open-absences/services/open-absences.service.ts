@@ -9,6 +9,7 @@ import {
   merge,
 } from "rxjs";
 import { map, shareReplay, take } from "rxjs/operators";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
@@ -16,7 +17,6 @@ import { LoadingService } from "src/app/shared/services/loading-service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { spread } from "src/app/shared/utils/function";
 import { searchEntries } from "src/app/shared/utils/search";
-import { SortCriteria } from "src/app/shared/utils/sort";
 import { Person } from "../../shared/models/person.model";
 import { toDesignationDateTimeTypeString } from "../../shared/utils/lesson-presences";
 import { OpenAbsencesEntry } from "../models/open-absences-entry.model";
@@ -26,7 +26,7 @@ import {
   sortOpenAbsencesEntries,
 } from "../utils/open-absences-entries";
 
-export type PrimarySortKey = "date" | "name";
+export type PrimarySortKey = "name" | "date";
 
 const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
   "studentFullName",
@@ -100,26 +100,8 @@ export class OpenAbsencesService implements IConfirmAbsencesService {
     );
   }
 
-  /**
-   * Switches primary sort key or toggles sort direction, if already
-   * sorted by given key.
-   */
-  toggleSort(primarySortKey: PrimarySortKey): void {
-    this.sortCriteriaSubject$.pipe(take(1)).subscribe((criteria) => {
-      if (criteria.primarySortKey === primarySortKey) {
-        // Change sort direction
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: !criteria.ascending,
-        });
-      } else {
-        // Change sort key
-        this.sortCriteriaSubject$.next({
-          primarySortKey,
-          ascending: primarySortKey === "name",
-        });
-      }
-    });
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteriaSubject$.next(newCriteria);
   }
 
   get confirmBackLink(): Parameters<Router["navigate"]>[0] {

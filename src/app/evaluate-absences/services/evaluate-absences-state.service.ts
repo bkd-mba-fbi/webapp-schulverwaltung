@@ -1,9 +1,10 @@
 import { Location } from "@angular/common";
 import { Injectable, inject } from "@angular/core";
 import { Params } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, filter } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { LessonPresencesRestService } from "src/app/shared/services/lesson-presences-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
@@ -11,10 +12,11 @@ import {
   PAGE_LOADING_CONTEXT,
   PaginatedEntriesService,
 } from "src/app/shared/services/paginated-entries.service";
-import { SortService, Sorting } from "src/app/shared/services/sort.service";
+import { SortService } from "src/app/shared/services/sort.service";
 import { IConfirmAbsencesService } from "src/app/shared/tokens/confirm-absences-service";
 import { buildParamsFromAbsenceFilter } from "src/app/shared/utils/absences-filter";
 import { Paginated } from "src/app/shared/utils/pagination";
+import { notNull } from "../../shared/utils/filter";
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
@@ -30,6 +32,8 @@ export class EvaluateAbsencesStateService
   >
   implements IConfirmAbsencesService
 {
+  override sorting$: Observable<SortCriteria<keyof LessonPresenceStatistic>> =
+    this.sortService.sorting$.pipe(filter(notNull));
   private lessonPresenceService = inject(LessonPresencesRestService);
 
   confirmBackLinkParams?: Params;
@@ -80,17 +84,17 @@ export class EvaluateAbsencesStateService
   }
 
   protected override getInitialSorting(): Option<
-    Sorting<keyof LessonPresenceStatistic>
+    SortCriteria<keyof LessonPresenceStatistic>
   > {
     return {
-      key: "StudentFullName",
+      primarySortKey: "StudentFullName",
       ascending: true,
     };
   }
 
   protected loadEntries(
     filterValue: EvaluateAbsencesFilter,
-    sorting: Option<Sorting<keyof LessonPresenceStatistic>>,
+    sorting: Option<SortCriteria<keyof LessonPresenceStatistic>>,
     offset: number,
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     return this.loadingService.load(

@@ -1,3 +1,4 @@
+import { NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,11 +7,10 @@ import {
   output,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
-import { SortCriteria } from "../../../shared/utils/sort";
-import {
-  PrimarySortKey,
-  StudentEntry,
-} from "../../services/events-students-state.service";
+import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
+import { StudentEntry } from "../../services/events-students-state.service";
+import { PrimarySortKey } from "../../services/events-students-state.service";
 import { EventsStudentsHeaderComponent } from "../events-students-header/events-students-header.component";
 import { EventsStudentsStudyCourseEntryComponent } from "../events-students-study-course-entry/events-students-study-course-entry.component";
 
@@ -20,6 +20,8 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
     TranslatePipe,
     EventsStudentsHeaderComponent,
     EventsStudentsStudyCourseEntryComponent,
+    SortableHeaderComponent,
+    NgClass,
   ],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,17 +34,10 @@ export class EventsStudentsStudyCourseListComponent {
   entries = input.required<ReadonlyArray<StudentEntry>>();
   returnLink = input<Option<string>>(null);
   sortCriteria = input.required<SortCriteria<PrimarySortKey>>();
-
-  toggleSort = output<PrimarySortKey>();
-
+  sortCriteriaChange = output<SortCriteria<PrimarySortKey>>();
   searchTerm = model<string>();
 
-  primarySortKey: "name" | "registrationDate";
-
-  getSortDirectionCharacter(sortKey: PrimarySortKey): string {
-    if (this.sortCriteria().primarySortKey !== sortKey) {
-      return "";
-    }
-    return this.sortCriteria().ascending ? "↑" : "↓";
+  updateSortCriteria(newCriteria: SortCriteria<PrimarySortKey>): void {
+    this.sortCriteriaChange.emit(newCriteria);
   }
 }

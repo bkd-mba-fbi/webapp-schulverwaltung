@@ -15,6 +15,7 @@ import { map, shareReplay, switchMap, take } from "rxjs/operators";
 import { LessonPresenceStatistic } from "src/app/shared/models/lesson-presence-statistic";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
+import { SortableHeaderComponent } from "../../../shared/components/sortable-header/sortable-header.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { LessonPresence } from "../../../shared/models/lesson-presence.model";
 import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
@@ -43,12 +44,13 @@ interface Column {
     EvaluateAbsencesHeaderComponent,
     ReportsLinkComponent,
     InfiniteScrollDirective,
-    NgClass,
     NgbTooltip,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    SortableHeaderComponent,
+    NgClass,
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {

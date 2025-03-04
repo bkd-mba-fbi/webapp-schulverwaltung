@@ -1,0 +1,6 @@
+<button class="d-flex" (click)="toggleSort()">
+  <span class="label">{{ label() }}</span>
+  @if (isSorted()) {
+    <span class="sort-direction ms-1">{{ sortDirectionCharacter() }}</span>
+  }
+</button>
