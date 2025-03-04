@@ -2,11 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject,
   input,
 } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
-import { SubscriptionDetailImportEntry } from "../../services/import-validate-subscription-details.service";
 
 @Component({
   selector: "bkd-import-entry-status",
@@ -19,18 +16,8 @@ import { SubscriptionDetailImportEntry } from "../../services/import-validate-su
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntryStatusComponent {
-  translate = inject(TranslateService);
+  errorMessage = input<Option<string>>(null);
 
-  entry = input.required<SubscriptionDetailImportEntry>();
-
-  valid = computed(() => this.entry().validationStatus !== "invalid");
-  icon = computed(() =>
-    this.entry().validationStatus === "invalid" ? "cancel" : "check_circle",
-  );
-  errorMessage = computed(() => {
-    const error = this.entry().validationError;
-    if (!error) return null;
-
-    return this.translate.instant(`import.validation.errors.${error.type}`);
-  });
+  valid = computed(() => this.errorMessage() === null);
+  icon = computed(() => (!this.valid() ? "cancel" : "check_circle"));
 }
