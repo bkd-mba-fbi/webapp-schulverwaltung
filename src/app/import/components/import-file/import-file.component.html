@@ -16,12 +16,17 @@
     }}</label>
     <input
       class="form-control"
+      [class.is-valid]="file && !error()"
+      [class.is-invalid]="errorMessage() !== null"
       type="file"
       #fileInput
       id="formFile"
       (change)="onFileInput(fileInput.files)"
       accept=".xlsx,.xls,.csv"
     />
+    @if (errorMessage()) {
+      <div class="invalid-feedback">{{ errorMessage() }}</div>
+    }
   </div>
 
   <div
@@ -38,12 +43,6 @@
   @if (file) {
     <div>
       {{ file.name }}
-    </div>
-  }
-
-  @if (error()) {
-    <div class="alert alert-danger">
-      {{ error()?.type }} {{ error() | json }}
     </div>
   }
 
