@@ -367,6 +367,10 @@
       "types": {
         "subscriptionDetails": "Anmeldedetails",
         "emails": "E-Mail-Adressen"
+      },
+      "errors": {
+        "EmptyFileError": "Die Datei enthält keine Daten",
+        "MissingColumnsError": "Fehlende Spalten: {{missingColumns}}"
       }
     },
     "validation": {

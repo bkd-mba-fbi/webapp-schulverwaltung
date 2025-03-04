@@ -1,4 +1,3 @@
-import { JsonPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +15,10 @@ import {
 import { UnreachableError } from "src/app/shared/utils/error";
 import { ImportFileEmailsService } from "../../services/import-file-emails.service";
 import { ImportFileSubscriptionDetailsService } from "../../services/import-file-subscription-details.service";
-import { ParseError } from "../../services/import-file.service";
+import {
+  MissingColumnsError,
+  ParseError,
+} from "../../services/import-file.service";
 import {
   IMPORT_TYPES,
   ImportStateService,
@@ -25,7 +27,7 @@ import {
 
 @Component({
   selector: "bkd-import-file",
-  imports: [JsonPipe, TranslatePipe, RouterLink, ButtonGroupComponent],
+  imports: [TranslatePipe, RouterLink, ButtonGroupComponent],
   templateUrl: "./import-file.component.html",
   styleUrl: "./import-file.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,6 +62,19 @@ export class ImportFileComponent {
   });
 
   error = signal<Option<ParseError>>(null);
+  errorMessage = computed(() => {
+    const error = this.error();
+    if (!error) return null;
+
+    const key = `import.file.errors.${error.type}`;
+    const params =
+      error instanceof MissingColumnsError
+        ? {
+            missingColumns: error.columns.join(", "),
+          }
+        : {};
+    return this.translate.instant(key, params);
+  });
 
   constructor() {
     // Update state service's import type on option change
