@@ -73,6 +73,9 @@ describe("ImportFileComponent", () => {
 
     const error = getErrorElement();
     expect(error).toBeNull();
+
+    const nextButton = getNextButton();
+    expect(nextButton.disabled).toBe(false);
   });
 
   it("shows error & disables proceeding if verification failed", fakeAsync(() => {
@@ -101,6 +104,9 @@ describe("ImportFileComponent", () => {
     expect(error?.textContent?.trim()).toBe(
       "import.file.errors.EmptyFileError",
     );
+
+    const nextButton = getNextButton();
+    expect(nextButton.disabled).toBe(true);
   }));
 
   function uploadFile() {
@@ -125,5 +131,13 @@ describe("ImportFileComponent", () => {
 
   function getErrorElement(): Option<HTMLElement> {
     return element.querySelector(".invalid-feedback");
+  }
+
+  function getNextButton(): HTMLButtonElement {
+    const button = Array.from(
+      element.querySelectorAll<HTMLButtonElement>("button"),
+    ).find((e) => e.textContent?.trim() === "import.file.next")!;
+    expect(button).not.toBeNull();
+    return button;
   }
 });
