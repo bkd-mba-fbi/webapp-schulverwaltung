@@ -23,10 +23,22 @@ describe("SortableHeaderComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should call toggleSort when clicked", () => {
-    spyOn(component, "toggleSort").and.callThrough();
-    element.querySelector("button")?.dispatchEvent(new Event("click"));
-    expect(component.toggleSort).toHaveBeenCalled();
+  it("should update sort criteria when button is clicked", () => {
+    element.querySelector("button")?.click();
+    expect(component.sortCriteria()).toEqual({
+      primarySortKey: "test",
+      ascending: false,
+    });
+    fixture.componentRef.setInput("sortCriteria", {
+      primarySortKey: "otherKey",
+      ascending: true,
+    });
+    fixture.detectChanges();
+    element.querySelector("button")?.click();
+    expect(component.sortCriteria()).toEqual({
+      primarySortKey: "test",
+      ascending: true,
+    });
   });
 
   it("should display the correct label", () => {
@@ -38,7 +50,10 @@ describe("SortableHeaderComponent", () => {
     fixture.detectChanges();
     const sortSpan = element.querySelector(".sort-direction");
     expect(sortSpan).not.toBeNull();
-    expect(sortSpan?.textContent).toBe("↓");
+    expect(element.textContent).toContain("↓");
+    element.querySelector("button")?.click();
+    fixture.detectChanges();
+    expect(element.textContent).toContain("↑");
   });
 
   it("should not display sorting character when sorted on a different key", () => {
