@@ -1,5 +1,15 @@
-import { Injectable, signal } from "@angular/core";
-import { Observable, delay, firstValueFrom, of, switchMap } from "rxjs";
+import { Injectable, inject, signal } from "@angular/core";
+import {
+  Observable,
+  catchError,
+  delay,
+  firstValueFrom,
+  map,
+  of,
+  switchMap,
+  throwError,
+} from "rxjs";
+import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
 import { executeWithMaxConcurrency } from "src/app/shared/utils/observable";
 import { SubscriptionDetailImportError } from "../utils/subscription-details/error";
 import { SubscriptionDetailImportEntry } from "./import-validate-subscription-details.service";
@@ -24,38 +34,43 @@ export class ImportUploadSubscriptionDetailsService {
     total: 0,
   });
 
-  constructor() {}
+  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  upload(
+  async upload(
     validatedEntries: ReadonlyArray<SubscriptionDetailImportEntry>,
     { retryFailedOnly = false }: { retryFailedOnly?: boolean } = {},
   ): Promise<ReadonlyArray<SubscriptionDetailImportEntry>> {
-    let importEntries = validatedEntries.filter(
+    let entriesToImport = validatedEntries.filter(
       (entry) => entry.validationStatus === "valid",
     );
     if (retryFailedOnly) {
-      importEntries = importEntries.filter(
+      entriesToImport = entriesToImport.filter(
         (entry) => entry.importStatus === "error",
       );
     }
-    return this.persistEntries(importEntries).then(() => validatedEntries);
+    await this.persistEntries(entriesToImport, validatedEntries);
+    return validatedEntries;
   }
 
   private async persistEntries(
-    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+    entriesToImport: ReadonlyArray<SubscriptionDetailImportEntry>,
+    allEntries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): Promise<void> {
-    this.prepare(entries);
+    this.prepare(entriesToImport, allEntries);
 
     await firstValueFrom(
       executeWithMaxConcurrency(
-        entries,
+        entriesToImport,
         this.persistEntry.bind(this),
         MAX_CONCURRENT_REQUESTS,
       ),
     );
   }
 
-  private prepare(entries: ReadonlyArray<SubscriptionDetailImportEntry>): void {
+  private prepare(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+    allEntries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): void {
     // Mark all entries as "importing"
     entries.forEach((entry) => {
       entry.importStatus = "importing";
@@ -65,29 +80,65 @@ export class ImportUploadSubscriptionDetailsService {
     // Reset the progress
     this.progress.set({
       uploading: entries.length,
-      success: 0,
+      success: allEntries.filter((entry) => entry.importStatus === "success")
+        .length,
       error: 0,
-      total: entries.length,
+      total: allEntries.filter((entry) => entry.validationStatus === "valid")
+        .length,
     });
   }
 
-  private persistEntry(entry: SubscriptionDetailImportEntry): Observable<void> {
-    // Don't upload entries with an unchanged value
+  private persistEntry(
+    entry: SubscriptionDetailImportEntry,
+  ): Observable<SubscriptionDetailImportEntry> {
     if (entry.entry.value === entry.data.subscriptionDetail?.Value) {
+      // Ignore entry with an unchanged value
       this.markSuccessEntry(entry);
-      return of();
+      return of(entry);
     }
 
-    // TODO:
-    // - Perform PUT request
-    // - Retry
-    // - Handle success & update progress
-    // - Handle error & update progress
-    return of().pipe(switchMap(delay(1000))) as Observable<void>;
+    // Save new value
+    return of(entry).pipe(
+      switchMap(this.updateSubscriptionDetail.bind(this)),
+      map(() => {
+        // Handle success
+        this.markSuccessEntry(entry);
+        return entry;
+      }),
+      catchError((error) => {
+        // Handle error
+        this.markErrorEntry(entry, error);
+        return of(entry);
+      }),
+    );
+  }
+
+  private updateSubscriptionDetail({
+    entry,
+    data: { subscriptionDetail },
+  }: SubscriptionDetailImportEntry): Observable<void> {
+    if (!subscriptionDetail)
+      return throwError(
+        () =>
+          new Error(
+            `Subscription not present for entry: ${JSON.stringify(entry)}`,
+          ),
+      );
+    // return this.subscriptionDetailsService.update(
+    //   subscriptionDetail,
+    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //   entry.value as any,
+    // );
+    console.log("PUT", entry);
+    if (Math.random() > 0.75) {
+      throw new Error("Random error");
+    }
+    return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
   }
 
   private markSuccessEntry(entry: SubscriptionDetailImportEntry): void {
     entry.importStatus = "success";
+    entry.importError = null;
 
     this.progress.update(({ uploading, success, ...rest }) => ({
       uploading: uploading - 1,
@@ -98,10 +149,10 @@ export class ImportUploadSubscriptionDetailsService {
 
   private markErrorEntry(
     entry: SubscriptionDetailImportEntry,
-    error: SubscriptionDetailImportError,
+    error: unknown,
   ): void {
-    entry.importStatus = "success";
-    entry.importError = error;
+    entry.importStatus = "error";
+    entry.importError = new SubscriptionDetailImportError(error);
 
     this.progress.update(({ uploading, error, ...rest }) => ({
       uploading: uploading - 1,

@@ -106,4 +106,6 @@ export class InvalidDropdownValueError extends SubscriptionDetailValidationError
 
 ///// Import errors /////
 
-export class SubscriptionDetailImportError extends ValidationError<SubscriptionDetailEntry> {}
+export class SubscriptionDetailImportError {
+  constructor(public error: unknown) {}
+}

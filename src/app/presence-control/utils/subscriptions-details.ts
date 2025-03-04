@@ -30,10 +30,10 @@ function getSubscriptionDetailComparator(
         return sortCriteria.ascending ? nameComparator : nameComparator * -1;
       }
       case "group": {
-        const groupComparator = (a.detail.Value || "").localeCompare(
-          b.detail.Value || "",
-        );
-        return sortCriteria.ascending ? groupComparator : groupComparator * -1;
+        const valueA = a.detail.Value ? String(a.detail.Value) : "";
+        const valueB = b.detail.Value ? String(b.detail.Value) : "";
+        const groupComparator = valueA.localeCompare(valueB);
+        return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
       }
       default:
         throw new UnreachableError(
@@ -60,7 +60,7 @@ function mapToSubscriptionDetailWithName(
     name:
       presences.find((p) => p.StudentRef.Id === detail.IdPerson)
         ?.StudentFullName || "",
-    group: detail.Value,
+    group: detail.Value ? String(detail.Value) : "",
     detail,
   };
 }

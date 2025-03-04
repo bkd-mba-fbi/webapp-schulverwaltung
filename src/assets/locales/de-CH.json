@@ -395,7 +395,8 @@
       "progress": "Fortschritt Daten einlesen",
       "success": {
         "title": "Daten erfolgreich eingelesen",
-        "content": "{{count}} von {{total}} Datensätzen wurden erfolgreich eingelesen."
+        "content": "{{count}} von {{total}} Datensätzen wurden erfolgreich eingelesen.",
+        "back": "Weitere Daten einlesen"
       },
       "error": {
         "title": "Fehler beim Einlesen der Daten",
