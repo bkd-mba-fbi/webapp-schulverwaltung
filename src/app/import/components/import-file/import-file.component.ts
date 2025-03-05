@@ -88,6 +88,10 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
     viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
 
   constructor() {
+    // Reset state when visiting this page
+    this.stateService.file.set(null);
+    this.stateService.parsedEntries.set([]);
+
     // Propagate import type update to state service
     effect(() => {
       const importType = this.importTypeOption()?.key;
