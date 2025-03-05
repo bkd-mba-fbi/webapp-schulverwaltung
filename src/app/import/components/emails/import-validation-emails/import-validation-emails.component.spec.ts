@@ -109,7 +109,7 @@ describe("ImportValidationEmailsComponent", () => {
           Email: "s1@test.ch",
           DisplayEmail: "",
         };
-        expect(component.getPersonValue(entry)).toBe("100");
+        expect(component.getPersonValue(entry)).toBe(100);
       });
     });
 
