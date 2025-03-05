@@ -363,21 +363,34 @@
     "file": {
       "input-label": "Dokument auswählen oder in dieses Fenster ziehen",
       "drop-zone-label": "Dokument hierhin ziehen",
-      "columns-info": "Bitte benennen Sie die einzulesenden Spalten im Dokument wie folgt:",
+      "columns-info": "Das Dokument muss folgende Spalten in der korrekten Reihenfolge beinhalten (weitere Spalten werden ignoriert):",
       "next": "Daten validieren",
       "types": {
         "subscriptionDetails": "Anmeldedetails",
         "emails": "E-Mail-Adressen"
       },
+      "columns": {
+        "subscriptionDetails": {
+          "column1": "ID Anlass",
+          "column2": "ID Person oder E-Mail",
+          "column3": "ID Anmeldedetail",
+          "column4": "Wert"
+        },
+        "emails": {
+          "column1": "ID Person",
+          "column2": "E-Mail"
+        }
+      },
       "errors": {
         "EmptyFileError": "Die Datei enthält keine Daten",
-        "MissingColumnsError": "Fehlende Spalten: {{missingColumns}}"
+        "MissingColumnsError": "{{actualColumns}} von {{requiredColumns}} Spalten vorhanden"
       }
     },
     "validation": {
       "validating": "Daten werden überprüft...",
       "upload": "Daten einlesen",
       "change-document": "Anderes Dokument wählen",
+      "proceed-no-valid": "Keine gültigen Einträge vorhanden",
       "proceed-dialog": {
         "title": "Fehlerhafte Datensätze vorhanden",
         "message": "{{invalidCount}} Datensätze sind fehlerhaft und können nicht importiert werden. Wollen sie die übrigen {{validCount}} trotzdem einlesen?",

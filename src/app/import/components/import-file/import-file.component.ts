@@ -64,7 +64,15 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
         throw new UnreachableError(importType, "Unhandled import type");
     }
   });
-  columns = computed(() => this.fileService()?.columns ?? []);
+  requiredColumnNames = computed(() =>
+    new Array(this.fileService().requiredColumns)
+      .fill("")
+      .map((_, i) =>
+        this.translate.instant(
+          `import.file.columns.${this.stateService.importType()}.column${i + 1}`,
+        ),
+      ),
+  );
 
   error = signal<Option<ParseError>>(null);
   errorMessage = computed(() => {
@@ -75,7 +83,8 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
     const params =
       error instanceof MissingColumnsError
         ? {
-            missingColumns: error.columns.join(", "),
+            actualColumns: error.actualColumns,
+            requiredColumns: error.requiredColumns,
           }
         : {};
     return this.translate.instant(key, params);

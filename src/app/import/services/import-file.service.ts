@@ -13,7 +13,10 @@ export class EmptyFileError extends ParseError {
 export class MissingColumnsError extends ParseError {
   type = "MissingColumnsError";
 
-  constructor(public columns: ReadonlyArray<string>) {
+  constructor(
+    public actualColumns: number,
+    public requiredColumns: number,
+  ) {
     super();
   }
 }
@@ -24,9 +27,9 @@ export class MissingColumnsError extends ParseError {
  */
 export abstract class ImportFileService<
   TEntry extends ParsedEntry,
-  TRow extends Dict<unknown> = Dict<unknown>,
+  TRow extends ReadonlyArray<unknown> = ReadonlyArray<unknown>,
 > {
-  constructor(public columns: ReadonlyArray<string>) {}
+  constructor(public requiredColumns: number) {}
 
   /**
    * Parses the given Excel file and returns
@@ -51,8 +54,13 @@ export abstract class ImportFileService<
     const buffer = await file.arrayBuffer();
     const book = read(buffer);
     const sheet = book.Sheets[book.SheetNames[0]];
-    const rows = utils.sheet_to_json<TRow>(sheet);
-    return rows;
+    const data = utils.sheet_to_json<TRow>(
+      sheet,
+      { header: 1 }, // The `header` option causes the result to be an array of arrays instead of an array of objects
+    );
+    return data
+      .slice(1) // Skip the header row
+      .filter((row) => row.length > 0); // Ignore empty rows
   }
 
   protected abstract rowToEntry(row: TRow): TEntry;
@@ -85,14 +93,11 @@ export abstract class ImportFileService<
   protected verifyColumns(
     rows: ReadonlyArray<TRow>,
   ): Option<MissingColumnsError> {
-    const columns = Object.keys(rows[0]);
-    const missing = this.columns.reduce<MissingColumnsError["columns"]>(
-      (acc, column) => (columns.includes(column) ? acc : [...acc, column]),
-      [],
-    );
-
-    if (missing.length > 0) {
-      return new MissingColumnsError(missing);
+    if (rows.length > 0) {
+      const actualColumns = Object.keys(rows[0]).length;
+      if (actualColumns < this.requiredColumns) {
+        return new MissingColumnsError(actualColumns, this.requiredColumns);
+      }
     }
 
     return null;
