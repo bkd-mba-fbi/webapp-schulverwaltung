@@ -1,0 +1,11 @@
+@import "../../../../../bootstrap-variables.scss";
+
+:host.invalid {
+  color: $red;
+}
+
+i.material-icons {
+  width: 16px;
+  font-size: 16px;
+  margin-top: 4px;
+}

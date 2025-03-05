@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
-import { ImportFileComponent } from "./components/import-file/import-file.component";
-import { ImportSubscriptionDetailsUploadComponent } from "./components/import-subscription-details-upload/import-subscription-details-upload.component";
-import { ImportSubscriptionDetailsValidationComponent } from "./components/import-subscription-details-validation/import-subscription-details-validation.component";
-import { ImportComponent } from "./components/import/import.component";
+import { ImportFileComponent } from "./components/common/import-file/import-file.component";
+import { ImportUploadComponent } from "./components/common/import-upload/import-upload.component";
+import { ImportValidationComponent } from "./components/common/import-validation/import-validation.component";
+import { ImportComponent } from "./components/common/import/import.component";
 
 export const IMPORT_ROUTES: Routes = [
   {
@@ -12,11 +12,11 @@ export const IMPORT_ROUTES: Routes = [
       { path: "", component: ImportFileComponent },
       {
         path: "validation",
-        component: ImportSubscriptionDetailsValidationComponent,
+        component: ImportValidationComponent,
       },
       {
         path: "upload",
-        component: ImportSubscriptionDetailsUploadComponent,
+        component: ImportUploadComponent,
       },
     ],
   },
