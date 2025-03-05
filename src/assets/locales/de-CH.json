@@ -361,10 +361,10 @@
   "import": {
     "title": "Daten einlesen",
     "file": {
-      "input-label": "Datei auswählen",
-      "drop-zone-label": "Datei hierhin ziehen",
+      "input-label": "Dokument auswählen oder in dieses Fenster ziehen",
+      "drop-zone-label": "Dokument hierhin ziehen",
       "columns-info": "Bitte benennen Sie die einzulesenden Spalten im Dokument wie folgt:",
-      "next": "Weiter",
+      "next": "Daten validieren",
       "types": {
         "subscriptionDetails": "Anmeldedetails",
         "emails": "E-Mail-Adressen"
