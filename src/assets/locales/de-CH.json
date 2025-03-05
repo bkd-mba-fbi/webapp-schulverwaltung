@@ -437,7 +437,8 @@
       },
       "table-columns": {
         "status": "Status",
-        "person": "Person"
+        "person": "Person",
+        "email": "E-Mail"
       }
     }
   },

@@ -41,6 +41,9 @@
           <th>
             {{ "import.emails.table-columns.person" | translate }}
           </th>
+          <th>
+            {{ "import.emails.table-columns.email" | translate }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -54,6 +57,11 @@
             <td>
               <bkd-import-entry-value
                 [value]="entry.data.person?.FullName"
+              ></bkd-import-entry-value>
+            </td>
+            <td>
+              <bkd-import-entry-value
+                [value]="entry.entry['personEmail']"
               ></bkd-import-entry-value>
             </td>
           </tr>

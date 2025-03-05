@@ -111,10 +111,14 @@ export class ImportValidationEmailsComponent {
 
   getPersonValue(entry: EmailImportEntry): unknown {
     if (entry.validationStatus === "invalid") {
-      return `${entry.entry["personId"]} ${entry.entry["personEmail"]}`;
+      return entry.entry["personId"];
     }
 
     return entry.data.person?.FullName;
+  }
+
+  getEmailValue(entry: EmailImportEntry): unknown {
+    return entry.entry["personEmail"];
   }
 
   private getEntriesByStatus(
