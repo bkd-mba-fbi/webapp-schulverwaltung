@@ -1,10 +1,14 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  OnDestroy,
   computed,
   effect,
   inject,
   signal,
+  viewChild,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -32,7 +36,7 @@ import {
   styleUrl: "./import-file.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportFileComponent {
+export class ImportFileComponent implements OnDestroy, AfterViewInit {
   private translate = inject(TranslateService);
   private fileSubscriptionDetailsService = inject(
     ImportFileSubscriptionDetailsService,
@@ -77,19 +81,62 @@ export class ImportFileComponent {
     return this.translate.instant(key, params);
   });
 
+  dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
+  private dragCount = 0;
+
+  private fileInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
+
   constructor() {
-    // Update state service's import type on option change
+    // Propagate import type update to state service
     effect(() => {
       const importType = this.importTypeOption()?.key;
       if (importType) {
         this.stateService.importType.set(importType);
       }
     });
+
+    // Parse & verify file when selected or import type changes
+    effect(() => {
+      const file = this.stateService.file();
+      if (file) {
+        void this.fileService()
+          .parseAndVerify(file)
+          .then(({ error, entries }) => {
+            this.error.set(error);
+            this.stateService.parsedEntries.set(entries);
+          });
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    document.addEventListener("dragenter", this.onDragEnter);
+    document.addEventListener("dragleave", this.onDragLeave);
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener("dragenter", this.onDragEnter);
+    document.removeEventListener("dragleave", this.onDragLeave);
   }
 
   onFileInput(files: FileList | null): void {
-    void this.setFile(files?.item(0) ?? null);
+    this.stateService.file.set(files?.item(0) ?? null);
   }
+
+  onDragEnter = () => {
+    this.dragCount += 1;
+    if (this.dragCount === 1) {
+      this.dragging.set(true);
+    }
+  };
+
+  onDragLeave = () => {
+    this.dragCount -= 1;
+    if (this.dragCount === 0) {
+      this.dragging.set(false);
+    }
+  };
 
   onFileDrag(event: DragEvent): void {
     event.preventDefault();
@@ -97,16 +144,12 @@ export class ImportFileComponent {
 
   onFileDrop(event: DragEvent): void {
     event.preventDefault();
-    const files = event.dataTransfer?.files;
-    void this.setFile(files?.item(0) ?? null);
-  }
 
-  private async setFile(file: Option<File>): Promise<void> {
-    this.stateService.file.set(file);
-    if (file) {
-      const { error, entries } = await this.fileService().parseAndVerify(file);
-      this.error.set(error);
-      this.stateService.parsedEntries.set(entries);
-    }
+    this.dragCount = 0;
+    this.dragging.set(false);
+
+    const input = this.fileInput().nativeElement;
+    input.files = event.dataTransfer?.files ?? null;
+    input.dispatchEvent(new Event("change"));
   }
 }
