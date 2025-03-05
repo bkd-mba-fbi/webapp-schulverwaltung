@@ -6,19 +6,21 @@ export type EmailEntry = {
   personEmail: unknown;
 };
 
+const EMAILS_REQUIRED_COLUMNS = 2;
+
 @Injectable({
   providedIn: "root",
 })
 export class ImportFileEmailsService extends ImportFileService<EmailEntry> {
   constructor() {
-    super(["ID Person", "E-Mail"]);
+    super(EMAILS_REQUIRED_COLUMNS);
   }
 
-  protected rowToEntry(row: Dict<unknown>): EmailEntry {
-    const [personColumn, personEmailColumn] = this.columns;
+  protected rowToEntry(row: ReadonlyArray<unknown>): EmailEntry {
+    const [personId, personEmail] = row;
     return {
-      personId: row[personColumn],
-      personEmail: row[personEmailColumn],
+      personId,
+      personEmail,
     };
   }
 }

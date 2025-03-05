@@ -49,10 +49,10 @@
     </button>
   </div>
 
-  <p>{{ "import.file.columns-info" | translate }}</p>
-  <ul>
-    @for (column of columns(); track column) {
+  <p class="mt-4">{{ "import.file.columns-info" | translate }}</p>
+  <ol>
+    @for (column of requiredColumnNames(); track column) {
       <li>{{ column }}</li>
     }
-  </ul>
+  </ol>
 </div>

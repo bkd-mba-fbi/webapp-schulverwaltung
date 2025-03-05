@@ -51,8 +51,10 @@ describe("ImportFileComponent", () => {
     fixture.detectChanges();
   });
 
-  it("does not show error & allows proceeding if successfully verified", () => {
+  it("does not show error & allows proceeding if successfully verified", fakeAsync(() => {
     uploadFile();
+    fixture.detectChanges();
+
     resolveResult({
       entries: [
         {
@@ -65,6 +67,7 @@ describe("ImportFileComponent", () => {
       ],
       error: null,
     });
+    flush();
     fixture.detectChanges();
 
     const input = getUploadField();
@@ -76,20 +79,14 @@ describe("ImportFileComponent", () => {
 
     const nextButton = getNextButton();
     expect(nextButton.disabled).toBe(false);
-  });
+  }));
 
   it("shows error & disables proceeding if verification failed", fakeAsync(() => {
     uploadFile();
+    fixture.detectChanges();
+
     resolveResult({
-      entries: [
-        {
-          eventId: 10,
-          personId: null,
-          personEmail: "s1@test.ch",
-          subscriptionDetailId: 1100000,
-          value: "Lorem ipsum",
-        },
-      ],
+      entries: [],
       error: new EmptyFileError(),
     });
     flush();
@@ -110,17 +107,24 @@ describe("ImportFileComponent", () => {
   }));
 
   function uploadFile() {
-    const files = [
-      new File([], "entries.xlsx", {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      }),
-    ];
-    component.onFileInput({
-      item: (i: number) => files[i],
-      get length() {
-        return files.length;
-      },
+    // const files = [
+    //   new File([], "entries.xlsx", {
+    //     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    //   }),
+    // ];
+    // component.onFileInput({
+    //   item: (i: number) => files[i],
+    //   get length() {
+    //     return files.length;
+    //   },
+    // });
+
+    const file = new File([], "entries.xlsx", {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    component.onFileInput(dataTransfer.files);
   }
 
   function getUploadField(): HTMLInputElement {

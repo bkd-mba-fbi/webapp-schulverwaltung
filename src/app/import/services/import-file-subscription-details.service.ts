@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { isEmail } from "../utils/validation";
 import { ImportFileService } from "./import-file.service";
 
 export type SubscriptionDetailEntry = {
@@ -9,28 +10,33 @@ export type SubscriptionDetailEntry = {
   value: unknown;
 };
 
+const SUBSCRIPTION_DETAILS_REQUIRED_COLUMNS = 4;
+
 @Injectable({
   providedIn: "root",
 })
 export class ImportFileSubscriptionDetailsService extends ImportFileService<SubscriptionDetailEntry> {
   constructor() {
-    super(["ID Anlass", "ID Person", "ID AD", "Wert", "E-Mail"]);
+    super(SUBSCRIPTION_DETAILS_REQUIRED_COLUMNS);
   }
 
-  protected rowToEntry(row: Dict<unknown>): SubscriptionDetailEntry {
-    const [
-      eventIdColumn,
-      personIdColumn,
-      subscriptionDetailIdColumn,
-      valueColumn,
-      personEmailColumn,
-    ] = this.columns;
+  protected rowToEntry(row: ReadonlyArray<unknown>): SubscriptionDetailEntry {
+    const [eventId, personIdOrEmail, subscriptionDetailId, value] = row;
+
+    let personId: unknown;
+    let personEmail: unknown;
+    if (isEmail(personIdOrEmail)) {
+      personEmail = personIdOrEmail;
+    } else {
+      personId = personIdOrEmail;
+    }
+
     return {
-      eventId: row[eventIdColumn],
-      personId: row[personIdColumn],
-      personEmail: row[personEmailColumn],
-      subscriptionDetailId: row[subscriptionDetailIdColumn],
-      value: row[valueColumn],
+      eventId,
+      personId,
+      personEmail,
+      subscriptionDetailId,
+      value,
     };
   }
 }
