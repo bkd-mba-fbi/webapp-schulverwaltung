@@ -2,7 +2,6 @@ import { Injectable, inject, signal } from "@angular/core";
 import {
   Observable,
   catchError,
-  delay,
   firstValueFrom,
   map,
   of,
@@ -124,15 +123,21 @@ export class ImportUploadSubscriptionDetailsService {
             `Subscription not present for entry: ${JSON.stringify(entry)}`,
           ),
       );
-    // return this.subscriptionDetailsService.update(
-    //   subscriptionDetail,
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   entry.value as any,
-    // );
-    if (Math.random() > 0.75) {
-      throw new Error("Random error");
-    }
-    return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
+
+    // If you want to only simulate the write request when testing the upload,
+    // you may uncomment the following (this also causes to randomly fail some
+    // of the entries):
+
+    // if (Math.random() > 0.75) {
+    //   throw new Error("Random error");
+    // }
+    // return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
+
+    return this.subscriptionDetailsService.update(
+      subscriptionDetail,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      entry.value as any,
+    );
   }
 
   private markSuccessEntry(entry: SubscriptionDetailImportEntry): void {

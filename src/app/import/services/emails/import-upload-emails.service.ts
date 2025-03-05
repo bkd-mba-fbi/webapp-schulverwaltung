@@ -2,7 +2,6 @@ import { Injectable, inject, signal } from "@angular/core";
 import {
   Observable,
   catchError,
-  delay,
   firstValueFrom,
   map,
   of,
@@ -120,14 +119,20 @@ export class ImportUploadEmailsService {
         () =>
           new Error(`Person not present for entry: ${JSON.stringify(entry)}`),
       );
-    // return this.personsService.updateEmail(
-    //   Number(entry.personId),
-    //   String(entry.personEmail),
-    // );
-    if (Math.random() > 0.75) {
-      throw new Error("Random error");
-    }
-    return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
+
+    // If you want to only simulate the write request when testing the upload,
+    // you may uncomment the following (this also causes to randomly fail some
+    // of the entries):
+
+    // if (Math.random() > 0.75) {
+    //   throw new Error("Random error");
+    // }
+    // return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
+
+    return this.personsService.updateEmail(
+      Number(entry.personId),
+      String(entry.personEmail),
+    );
   }
 
   private markSuccessEntry(entry: EmailImportEntry): void {
