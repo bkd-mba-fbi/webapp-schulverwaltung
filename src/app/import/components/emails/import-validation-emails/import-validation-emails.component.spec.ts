@@ -83,32 +83,58 @@ describe("ImportValidationEmailsComponent", () => {
     });
   });
 
-  describe("getPersonValue", () => {
+  describe("value getters", () => {
     let entry: EmailImportEntry;
     beforeEach(() => {
       entry = buildEntry();
     });
 
-    it("returns the person fullname if the entry is valid", () => {
-      entry.data.person = {
-        Id: 10,
-        FullName: "John Lennon",
-        Email: "s1@test.ch",
-        DisplayEmail: "",
-      };
-      expect(component.getPersonValue(entry)).toBe("John Lennon");
+    describe("getPersonValue", () => {
+      it("returns the person fullname if the entry is valid", () => {
+        entry.data.person = {
+          Id: 10,
+          FullName: "John Lennon",
+          Email: "s1@test.ch",
+          DisplayEmail: "",
+        };
+        expect(component.getPersonValue(entry)).toBe("John Lennon");
+      });
+
+      it("returns the person ID and email if the entry is invalid", () => {
+        entry.validationStatus = "invalid";
+        entry.validationError = new InvalidPersonEmailError();
+        entry.data.person = {
+          Id: 10,
+          FullName: "John Lennon",
+          Email: "s1@test.ch",
+          DisplayEmail: "",
+        };
+        expect(component.getPersonValue(entry)).toBe("100");
+      });
     });
 
-    it("returns the person ID and email if the entry is invalid", () => {
-      entry.validationStatus = "invalid";
-      entry.validationError = new InvalidPersonEmailError();
-      entry.data.person = {
-        Id: 10,
-        FullName: "John Lennon",
-        Email: "s1@test.ch",
-        DisplayEmail: "",
-      };
-      expect(component.getPersonValue(entry)).toBe("100 s1@test.ch");
+    describe("getEmailValue", () => {
+      it("returns the person email if the entry is valid", () => {
+        entry.data.person = {
+          Id: 10,
+          FullName: "John Lennon",
+          Email: "s1@test.ch",
+          DisplayEmail: "",
+        };
+        expect(component.getEmailValue(entry)).toBe("s1@test.ch");
+      });
+
+      it("returns the person ID and email if the entry is invalid", () => {
+        entry.validationStatus = "invalid";
+        entry.validationError = new InvalidPersonIdError();
+        entry.data.person = {
+          Id: 10,
+          FullName: "John Lennon",
+          Email: "s1@test.ch",
+          DisplayEmail: "",
+        };
+        expect(component.getEmailValue(entry)).toBe("s1@test.ch");
+      });
     });
   });
 

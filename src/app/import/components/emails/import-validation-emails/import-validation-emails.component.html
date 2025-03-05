@@ -24,6 +24,9 @@
           <th>
             {{ "import.emails.table-columns.person" | translate }}
           </th>
+          <th>
+            {{ "import.emails.table-columns.email" | translate }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +40,13 @@
             <td>
               <bkd-import-entry-value
                 [value]="getPersonValue(entry)"
-                [valid]="isValid(entry, ['personId', 'personEmail'])"
+                [valid]="isValid(entry, ['personId'])"
+              ></bkd-import-entry-value>
+            </td>
+            <td>
+              <bkd-import-entry-value
+                [value]="getEmailValue(entry)"
+                [valid]="isValid(entry, ['personEmail'])"
               ></bkd-import-entry-value>
             </td>
           </tr>
