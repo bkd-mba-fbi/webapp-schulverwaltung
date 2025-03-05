@@ -1,5 +1,5 @@
-import { SubscriptionDetailEntry } from "../../services/import-file-subscription-details.service";
-import { ValidationError } from "../../services/import-state.service";
+import { ValidationError } from "../../services/common/import-state.service";
+import { SubscriptionDetailEntry } from "../../services/subscription-details/import-file-subscription-details.service";
 
 ///// Validation errors /////
 

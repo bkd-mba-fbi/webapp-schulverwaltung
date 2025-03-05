@@ -1,12 +1,12 @@
 import { SubscriptionDetailType } from "src/app/shared/models/subscription.model";
-import { SubscriptionDetailImportEntry } from "../../services/import-validate-subscription-details.service";
+import { SubscriptionDetailImportEntry } from "../../services/subscription-details/import-validate-subscription-details.service";
 import {
   isNumber,
   isOptionalEmail,
   isOptionalNumber,
   isPresent,
   isString,
-} from "../validation";
+} from "../common/validation";
 import {
   EventNotFoundError,
   InvalidDropdownValueError,
