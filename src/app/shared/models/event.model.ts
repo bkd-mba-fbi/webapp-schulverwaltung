@@ -56,6 +56,12 @@ const EventSummary = t.type({
   Designation: t.string,
 });
 
+const EventDesignation = t.type({
+  Id: t.number,
+  Designation: t.string,
+});
+
 type Event = t.TypeOf<typeof Event>;
 type EventSummary = t.TypeOf<typeof EventSummary>;
-export { Event, EventSummary };
+type EventDesignation = t.TypeOf<typeof EventDesignation>;
+export { Event, EventSummary, EventDesignation };

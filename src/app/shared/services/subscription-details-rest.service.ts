@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { GroupOption } from "../../presence-control/components/presence-control-group-dialog/presence-control-group-dialog.component";
 import { SETTINGS, Settings } from "../../settings";
 import { SubscriptionDetail } from "../models/subscription.model";
 import { RestService } from "./rest.service";
@@ -27,13 +26,13 @@ export class SubscriptionDetailsRestService extends RestService<
   }
 
   update(
-    group: GroupOption["id"],
-    detail: SubscriptionDetail,
+    detail: Pick<SubscriptionDetail, "Id" | "IdPerson" | "EventId">,
+    value: SubscriptionDetail["Value"],
   ): Observable<void> {
     const body = {
       IdPerson: detail.IdPerson,
       EventId: detail.EventId,
-      Value: group,
+      Value: value,
     };
     return this.http
       .put<void>(`${this.baseUrl}/${detail.Id}`, body)

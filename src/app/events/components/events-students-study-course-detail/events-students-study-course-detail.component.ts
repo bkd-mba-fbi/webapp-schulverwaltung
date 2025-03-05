@@ -26,7 +26,7 @@ import { parseQueryString } from "../../../shared/utils/url";
 type SubscriptionDetailsEntry = {
   id: string;
   label: string;
-  value: string;
+  value: string | number;
   file: Option<string>;
   heading: boolean;
 };
@@ -105,7 +105,7 @@ export class EventsStudentsStudyCourseDetailComponent {
     detail: SubscriptionDetail,
   ): SubscriptionDetailsEntry {
     let value = detail.Value ?? "";
-    value = this.normalizeSubscriptionDetailsDropdownValue(detail, value);
+    value = this.normalizeSubscriptionDetailsDropdownValue(detail, value) ?? "";
     return {
       id: detail.Id,
       label: detail.VssDesignation,
@@ -117,7 +117,7 @@ export class EventsStudentsStudyCourseDetailComponent {
 
   private normalizeSubscriptionDetailsDropdownValue(
     detail: SubscriptionDetail,
-    value: string,
+    value: Option<string | number>,
   ) {
     if (detail.DropdownItems && detail.VssStyle !== "CB") {
       return (

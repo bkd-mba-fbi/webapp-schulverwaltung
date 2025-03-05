@@ -1,0 +1,39 @@
+@import "../../../../bootstrap-variables";
+
+.button-group {
+  display: flex;
+}
+
+button {
+  position: relative;
+  z-index: 99;
+}
+
+button.active {
+  z-index: 100;
+}
+
+button + button.active {
+  margin-left: -15px;
+}
+button.active + button {
+  margin-left: -15px;
+}
+
+button:not(.active) + button:not(.active) {
+  padding-left: 15px;
+}
+button:not(.active):has(+ button:not(.active)) {
+  padding-right: 15px;
+}
+
+button + button:not(.active) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0;
+}
+button:not(.active):has(+ button) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}

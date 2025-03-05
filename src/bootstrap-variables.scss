@@ -87,6 +87,10 @@ $btn-border-radius: (
   ) +
   math.div(2, 16) /*border px to rem*/;
 
+// Progress
+$progress-height: 1.5rem;
+$progress-font-size: $font-size-base;
+
 /**
  * Custom Variables
  */

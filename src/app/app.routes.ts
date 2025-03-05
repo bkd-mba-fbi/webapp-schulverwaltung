@@ -49,6 +49,12 @@ export const routes: Routes = [
       import("./events/events.routes").then((m) => m.EVENTS_ROUTES),
   },
   {
+    path: "import",
+    canActivate: [authGuard()],
+    loadChildren: () =>
+      import("./import/import.routes").then((m) => m.IMPORT_ROUTES),
+  },
+  {
     path: "my-absences",
     canActivate: [authGuard()],
     loadChildren: () =>

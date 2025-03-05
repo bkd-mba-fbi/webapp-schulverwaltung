@@ -3,9 +3,10 @@ import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
-import { Event, EventSummary } from "../models/event.model";
+import { Event, EventDesignation, EventSummary } from "../models/event.model";
 import { SubscriptionDetail } from "../models/subscription.model";
 import { decodeArray } from "../utils/decode";
+import { paginatedParams } from "../utils/pagination";
 import { RestService } from "./rest.service";
 
 @Injectable({
@@ -45,5 +46,19 @@ export class EventsRestService extends RestService<typeof Event> {
         switchMap(decodeArray(EventSummary)),
         map((summaries) => summaries[0] ?? null),
       );
+  }
+
+  getEventDesignations(
+    eventIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<EventDesignation>> {
+    const params = new HttpParams()
+      .set("fields", "Id,Designation")
+      .set("filter.Id", `;${eventIds.join(";")}`);
+
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: paginatedParams(0, 0, params),
+      })
+      .pipe(switchMap(decodeArray(EventDesignation)));
   }
 }

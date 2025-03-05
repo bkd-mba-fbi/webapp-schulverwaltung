@@ -2,6 +2,13 @@ import * as t from "io-ts";
 import { LocalDateTimeFromString, Option } from "./common-types";
 import { DropDownItem } from "./drop-down-item.model";
 
+export enum SubscriptionDetailType {
+  Int = 277,
+  Currency = 279,
+  Text = 290,
+  MemoText = 293,
+}
+
 const SubscriptionDetail = t.type({
   Id: t.string,
   SubscriptionId: t.number,
@@ -19,11 +26,11 @@ const SubscriptionDetail = t.type({
   ShowAsRadioButtons: t.boolean,
   // Sort: t.string,
   // Tooltip: Option(t.string),
-  Value: Option(t.string),
+  Value: Option(t.union([t.string, t.number])),
   VssDesignation: t.string,
   // VssStyleDescription: t.string,
   VssStyle: t.string,
-  // VssTypeId: t.number,
+  VssTypeId: t.number,
   VssType: t.string,
   // ReadOnly: t.boolean,
   // ValueRangeRegex: Option(t.string),
@@ -38,7 +45,7 @@ const SubscriptionDetail = t.type({
   // VssBezeichnung: t.string,
   // VssTypEx: t.number,
   // AllowChanges: t.boolean,
-  // VssInternet: t.string,
+  VssInternet: t.string,
   // HRef: t.string,
 });
 
