@@ -7,12 +7,9 @@ export type ImportType = (typeof IMPORT_TYPES)[number];
 export type ValidationStatus = "validating" | "valid" | "invalid";
 export type ImportStatus = "importing" | "success" | "error" | null;
 
-export class ValidationError<TEntry> {
+export abstract class ValidationError<TEntry> {
+  abstract type: string;
   columns: ReadonlyArray<keyof TEntry>;
-
-  get type() {
-    return this.constructor.name;
-  }
 }
 
 export type ImportEntry<

@@ -3,9 +3,11 @@ import { ValidationError } from "../../services/import-state.service";
 
 ///// Validation errors /////
 
-export class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
+export abstract class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
 
 export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
+  type = "InvalidEventIdError";
+
   constructor() {
     super();
     this.columns = ["eventId"];
@@ -13,6 +15,8 @@ export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry
 }
 
 export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntry> {
+  type = "InvalidPersonIdError";
+
   constructor() {
     super();
     this.columns = ["personId"];
@@ -20,6 +24,8 @@ export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntr
 }
 
 export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailEntry> {
+  type = "InvalidPersonEmailError";
+
   constructor() {
     super();
     this.columns = ["personEmail"];
@@ -30,6 +36,8 @@ export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailE
  * Neither Person Id, nor E-Mail is present.
  */
 export class MissingPersonIdEmailError extends SubscriptionDetailValidationError {
+  type = "SubscriptionDetailValidationError";
+
   constructor() {
     super();
     this.columns = ["personId", "personEmail"];
@@ -37,6 +45,8 @@ export class MissingPersonIdEmailError extends SubscriptionDetailValidationError
 }
 
 export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidationError {
+  type = "InvalidSubscriptionDetailIdError";
+
   constructor() {
     super();
     this.columns = ["subscriptionDetailId"];
@@ -47,6 +57,8 @@ export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidati
  * "Wert" is empty.
  */
 export class MissingValueError extends SubscriptionDetailValidationError {
+  type = "MissingValueError";
+
   constructor() {
     super();
     this.columns = ["value"];
@@ -54,6 +66,8 @@ export class MissingValueError extends SubscriptionDetailValidationError {
 }
 
 export class EventNotFoundError extends SubscriptionDetailValidationError {
+  type = "EventNotFoundError";
+
   constructor() {
     super();
     this.columns = ["eventId"];
@@ -61,6 +75,8 @@ export class EventNotFoundError extends SubscriptionDetailValidationError {
 }
 
 export class PersonNotFoundError extends SubscriptionDetailValidationError {
+  type = "PersonNotFoundError";
+
   constructor() {
     super();
     this.columns = ["personId", "personEmail"];
@@ -68,6 +84,8 @@ export class PersonNotFoundError extends SubscriptionDetailValidationError {
 }
 
 export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidationError {
+  type = "SubscriptionDetailNotFoundError";
+
   constructor() {
     super();
     this.columns = ["subscriptionDetailId"];
@@ -78,6 +96,8 @@ export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidatio
  * The subscription detail does not support editing via the internet.
  */
 export class SubscriptionDetailNotEditableError extends SubscriptionDetailValidationError {
+  type = "SubscriptionDetailNotEditableError";
+
   constructor() {
     super();
     this.columns = ["subscriptionDetailId"];
@@ -88,6 +108,8 @@ export class SubscriptionDetailNotEditableError extends SubscriptionDetailValida
  * The subscription detail value ("Wert") does not comply with the "VssType".
  */
 export class InvalidValueTypeError extends SubscriptionDetailValidationError {
+  type = "InvalidValueTypeError";
+
   constructor() {
     super();
     this.columns = ["value"];
@@ -98,6 +120,8 @@ export class InvalidValueTypeError extends SubscriptionDetailValidationError {
  * The subscription detail value ("Wert") is not part of the "DropdownItems".
  */
 export class InvalidDropdownValueError extends SubscriptionDetailValidationError {
+  type = "InvalidDropdownValueError";
+
   constructor() {
     super();
     this.columns = ["value"];

@@ -2,15 +2,17 @@ import { read, utils } from "xlsx";
 
 export type ParsedEntry = Dict<unknown>;
 
-export class ParseError {
-  get type() {
-    return this.constructor.name;
-  }
+export abstract class ParseError {
+  abstract type: string;
 }
 
-export class EmptyFileError extends ParseError {}
+export class EmptyFileError extends ParseError {
+  type = "EmptyFileError";
+}
 
 export class MissingColumnsError extends ParseError {
+  type = "MissingColumnsError";
+
   constructor(public columns: ReadonlyArray<string>) {
     super();
   }
