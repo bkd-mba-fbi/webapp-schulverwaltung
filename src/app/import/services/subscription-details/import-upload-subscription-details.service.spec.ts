@@ -3,7 +3,7 @@ import { of, throwError } from "rxjs";
 import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
 import { buildEvent, buildSubscriptionDetail } from "src/spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
-import { SubscriptionDetailImportError } from "../../utils/subscription-details/error";
+import { ImportError } from "../common/import-state.service";
 import { SubscriptionDetailEntry } from "./import-file-subscription-details.service";
 import { ImportUploadSubscriptionDetailsService } from "./import-upload-subscription-details.service";
 import { SubscriptionDetailImportEntry } from "./import-validate-subscription-details.service";
@@ -85,7 +85,7 @@ describe("ImportUploadSubscriptionDetailsService", () => {
       expect(entry1.importStatus).toBe("success");
       expect(entry1.importError).toBeNull();
       expect(entry2.importStatus).toBe("error");
-      expect(entry2.importError).toBeInstanceOf(SubscriptionDetailImportError);
+      expect(entry2.importError).toBeInstanceOf(ImportError);
 
       expect(service.progress()).toEqual({
         uploading: 0,

@@ -12,6 +12,10 @@ export abstract class ValidationError<TEntry> {
   columns: ReadonlyArray<keyof TEntry>;
 }
 
+export class ImportError {
+  constructor(public error: unknown) {}
+}
+
 export type ImportEntry<
   TEntry extends ParsedEntry,
   TData,
