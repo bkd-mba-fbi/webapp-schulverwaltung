@@ -178,9 +178,9 @@ export class ImportValidateSubscriptionDetailsService {
   private async decorateSubscriptionsDetails(
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): Promise<void> {
-    const personIdsByGroup = this.getPersonIdsGroupedByEvent(entries);
+    const personIdsByEvent = this.getPersonIdsGroupedByEvent(entries);
     await Promise.all(
-      personIdsByGroup.map(({ eventId, personIds }) =>
+      personIdsByEvent.map(({ eventId, personIds }) =>
         this.decorateSubscriptionDetail(eventId, personIds, entries),
       ),
     );
@@ -207,10 +207,19 @@ export class ImportValidateSubscriptionDetailsService {
             tap((details: Option<ReadonlyArray<SubscriptionDetail>>) => {
               if (details !== null) {
                 entries.forEach((entry) => {
-                  const detailId = entry.entry.subscriptionDetailId;
+                  const { subscriptionDetailId: detailId } = entry.entry;
+                  const eventId = entry.data.event?.Id;
+                  const personId = entry.data.person?.Id;
                   const detail =
+                    eventId &&
+                    personId &&
                     isNumber(detailId) &&
-                    details.find((detail) => detail.VssId === detailId);
+                    details.find(
+                      (detail) =>
+                        detail.VssId === detailId &&
+                        detail.EventId === eventId &&
+                        detail.IdPerson === personId,
+                    );
                   if (detail) {
                     entry.data.subscriptionDetail = detail;
                   }
