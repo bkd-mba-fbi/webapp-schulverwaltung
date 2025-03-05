@@ -37,12 +37,13 @@ export class PersonsRestService extends RestService<typeof Person> {
     if (ids.length === 0) {
       return of([]);
     }
+    const params = new HttpParams()
+      .set("filter.Id", `;${ids.join(";")}`)
+      .set("fields", ["Id", "FullName", "DisplayEmail", "Email"].join(","));
+
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
-        params: {
-          "filter.Id": `;${ids.join(";")}`,
-          fields: ["Id", "FullName", "DisplayEmail", "Email"].join(","),
-        },
+        params: paginatedParams(0, 0, params),
       })
       .pipe(switchMap(decodeArray(PersonSummary)));
   }
@@ -108,6 +109,15 @@ export class PersonsRestService extends RestService<typeof Person> {
       PhonePrivate: phonePrivate,
       PhoneMobile: phoneMobile,
       Email2: email2,
+    };
+    return this.http
+      .put<void>(`${this.baseUrl}/${personId}`, body)
+      .pipe(map(() => undefined));
+  }
+
+  updateEmail(personId: number, email: string): Observable<void> {
+    const body = {
+      Email: email,
     };
     return this.http
       .put<void>(`${this.baseUrl}/${personId}`, body)
