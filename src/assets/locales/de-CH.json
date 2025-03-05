@@ -369,18 +369,6 @@
         "subscriptionDetails": "Anmeldedetails",
         "emails": "E-Mail-Adressen"
       },
-      "columns": {
-        "subscriptionDetails": {
-          "column1": "ID Anlass",
-          "column2": "ID Person oder E-Mail",
-          "column3": "ID Anmeldedetail",
-          "column4": "Wert"
-        },
-        "emails": {
-          "column1": "ID Person",
-          "column2": "E-Mail"
-        }
-      },
       "errors": {
         "EmptyFileError": "Die Datei enthält keine Daten",
         "MissingColumnsError": "{{actualColumns}} von {{requiredColumns}} Spalten vorhanden"
@@ -398,11 +386,11 @@
         "proceed": "Daten einlesen"
       },
       "errors": {
-        "InvalidEventIdError": "Die Anlass ID ist ungültig",
-        "InvalidPersonIdError": "Die Person ID ist ungültig",
+        "InvalidEventIdError": "Die ID Anlass ist ungültig",
+        "InvalidPersonIdError": "Die ID Person ist ungültig",
         "InvalidPersonEmailError": "Die E-Mail ist ungültig",
-        "MissingPersonIdEmailError": "Person ID oder E-Mail ist erforderlich",
-        "InvalidSubscriptionDetailIdError": "Die ID des Anmeldedetails ist ungültig",
+        "MissingPersonIdEmailError": "ID Person oder E-Mail ist erforderlich",
+        "InvalidSubscriptionDetailIdError": "Die ID Anmeldedetail ist ungültig",
         "MissingValueError": "Der Wert fehlt",
         "EventNotFoundError": "Der Anlass ist nicht vorhanden",
         "PersonNotFoundError": "Die Person ist nicht vorhanden",
@@ -427,13 +415,29 @@
         "entry-error": "Es ist ein Fehler aufgetreten"
       }
     },
-    "subscription-details": {
-      "columns": {
+    "subscriptionDetails": {
+      "data-columns": {
+        "column1": "ID Anlass",
+        "column2": "ID Person oder E-Mail",
+        "column3": "ID Anmeldedetail",
+        "column4": "Wert"
+      },
+      "table-columns": {
         "status": "Status",
         "event": "Anlass",
         "person": "Person",
         "subscription-detail": "Anmeldedetail",
         "value": "Wert"
+      }
+    },
+    "emails": {
+      "data-columns": {
+        "column1": "ID Person",
+        "column2": "E-Mail"
+      },
+      "table-columns": {
+        "status": "Status",
+        "person": "Person"
       }
     }
   },

@@ -22,11 +22,11 @@ import {
   SubscriptionDetailNotFoundError,
 } from "./error";
 
-export type EntryValidationFn = (
+export type SubscriptionDetailValidationFn = (
   entry: SubscriptionDetailImportEntry,
 ) => boolean;
 
-export const assertValidEventId: EntryValidationFn = (entry) => {
+export const assertValidEventId: SubscriptionDetailValidationFn = (entry) => {
   const valid = isNumber(entry.entry.eventId);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -35,7 +35,7 @@ export const assertValidEventId: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertValidPersonId: EntryValidationFn = (entry) => {
+export const assertValidPersonId: SubscriptionDetailValidationFn = (entry) => {
   const valid = isOptionalNumber(entry.entry.personId);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -44,7 +44,9 @@ export const assertValidPersonId: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertValidPersonEmail: EntryValidationFn = (entry) => {
+export const assertValidPersonEmail: SubscriptionDetailValidationFn = (
+  entry,
+) => {
   const valid = isOptionalEmail(entry.entry.personEmail);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -53,7 +55,9 @@ export const assertValidPersonEmail: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertPersonIdEmailPresent: EntryValidationFn = (entry) => {
+export const assertPersonIdEmailPresent: SubscriptionDetailValidationFn = (
+  entry,
+) => {
   const valid =
     isPresent(entry.entry.personId) || isPresent(entry.entry.personEmail);
   if (!valid) {
@@ -63,7 +67,9 @@ export const assertPersonIdEmailPresent: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertValidSubscriptionDetailId: EntryValidationFn = (entry) => {
+export const assertValidSubscriptionDetailId: SubscriptionDetailValidationFn = (
+  entry,
+) => {
   const valid = isNumber(entry.entry.subscriptionDetailId);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -72,7 +78,7 @@ export const assertValidSubscriptionDetailId: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertValuePresent: EntryValidationFn = (entry) => {
+export const assertValuePresent: SubscriptionDetailValidationFn = (entry) => {
   const valid = isPresent(entry.entry.value);
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -81,7 +87,7 @@ export const assertValuePresent: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertEventExists: EntryValidationFn = (entry) => {
+export const assertEventExists: SubscriptionDetailValidationFn = (entry) => {
   const valid = entry.data.event != null;
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -90,7 +96,7 @@ export const assertEventExists: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertPersonExists: EntryValidationFn = (entry) => {
+export const assertPersonExists: SubscriptionDetailValidationFn = (entry) => {
   const valid = entry.data.person != null;
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -99,7 +105,9 @@ export const assertPersonExists: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertSubscriptionDetailExists: EntryValidationFn = (entry) => {
+export const assertSubscriptionDetailExists: SubscriptionDetailValidationFn = (
+  entry,
+) => {
   const valid = entry.data.subscriptionDetail != null;
   if (!valid) {
     entry.validationStatus = "invalid";
@@ -108,17 +116,20 @@ export const assertSubscriptionDetailExists: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertSubscriptionDetailEditable: EntryValidationFn = (entry) => {
-  const detail = entry.data.subscriptionDetail;
-  const valid = detail?.VssInternet === "E" && detail?.VssStyle === "TX";
-  if (!valid) {
-    entry.validationStatus = "invalid";
-    entry.validationError = new SubscriptionDetailNotEditableError();
-  }
-  return valid;
-};
+export const assertSubscriptionDetailEditable: SubscriptionDetailValidationFn =
+  (entry) => {
+    const detail = entry.data.subscriptionDetail;
+    const valid = detail?.VssInternet === "E" && detail?.VssStyle === "TX";
+    if (!valid) {
+      entry.validationStatus = "invalid";
+      entry.validationError = new SubscriptionDetailNotEditableError();
+    }
+    return valid;
+  };
 
-export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
+export const assertSubscriptionDetailType: SubscriptionDetailValidationFn = (
+  entry,
+) => {
   const detail = entry.data.subscriptionDetail;
   const typeId = detail?.VssTypeId;
   const { value } = entry.entry;
@@ -137,17 +148,16 @@ export const assertSubscriptionDetailType: EntryValidationFn = (entry) => {
   return valid;
 };
 
-export const assertSubscriptionDetailDropdownItems: EntryValidationFn = (
-  entry,
-) => {
-  const items = entry.data.subscriptionDetail?.DropdownItems?.map((item) =>
-    String(item.Key),
-  );
-  const { value } = entry.entry;
-  const valid = items == null || items.includes(String(value));
-  if (!valid) {
-    entry.validationStatus = "invalid";
-    entry.validationError = new InvalidDropdownValueError();
-  }
-  return valid;
-};
+export const assertSubscriptionDetailDropdownItems: SubscriptionDetailValidationFn =
+  (entry) => {
+    const items = entry.data.subscriptionDetail?.DropdownItems?.map((item) =>
+      String(item.Key),
+    );
+    const { value } = entry.entry;
+    const valid = items == null || items.includes(String(value));
+    if (!valid) {
+      entry.validationStatus = "invalid";
+      entry.validationError = new InvalidDropdownValueError();
+    }
+    return valid;
+  };

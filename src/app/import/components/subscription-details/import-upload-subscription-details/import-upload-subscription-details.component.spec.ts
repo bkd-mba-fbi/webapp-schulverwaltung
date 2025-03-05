@@ -7,12 +7,12 @@ import {
 } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { ImportStateService } from "src/app/import/services/common/import-state.service";
+import { ImportError } from "src/app/import/services/common/import-state.service";
 import {
   ImportUploadSubscriptionDetailsService,
   UploadProgress,
 } from "src/app/import/services/subscription-details/import-upload-subscription-details.service";
 import { SubscriptionDetailImportEntry } from "src/app/import/services/subscription-details/import-validate-subscription-details.service";
-import { SubscriptionDetailImportError } from "src/app/import/utils/subscription-details/error";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { ImportUploadSubscriptionDetailsComponent } from "./import-upload-subscription-details.component";
 
@@ -114,7 +114,7 @@ describe("ImportUploadSubscriptionDetailsComponent", () => {
 
       const entry = buildEntry();
       entry.importStatus = "error";
-      entry.importError = new SubscriptionDetailImportError(
+      entry.importError = new ImportError(
         new Error("500 Internal Server Error"),
       );
       resolveEntries([entry]);

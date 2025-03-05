@@ -69,7 +69,7 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
       .fill("")
       .map((_, i) =>
         this.translate.instant(
-          `import.file.columns.${this.stateService.importType()}.column${i + 1}`,
+          `import.${this.stateService.importType()}.data-columns.column${i + 1}`,
         ),
       ),
   );

@@ -115,13 +115,9 @@ describe("ImportValidationSubscriptionDetailsComponent", () => {
     });
 
     describe("getEventValue", () => {
-      it("returns the event designation if an event is available and the entry is valid", () => {
+      it("returns the event designation if the entry is valid", () => {
         entry.data.event = { Id: 10, Designation: "Englisch S3" };
         expect(component.getEventValue(entry)).toBe("Englisch S3");
-      });
-
-      it("returns undefined if no event is available and the entry is valid", () => {
-        expect(component.getEventValue(entry)).toBeUndefined();
       });
 
       it("returns the event ID if the entry is invalid", () => {
@@ -133,13 +129,9 @@ describe("ImportValidationSubscriptionDetailsComponent", () => {
     });
 
     describe("getPersonValue", () => {
-      it("returns the person fullname if an person is available and the entry is valid", () => {
+      it("returns the person fullname if the entry is valid", () => {
         entry.data.person = { Id: 10, FullName: "John Lennon" };
         expect(component.getPersonValue(entry)).toBe("John Lennon");
-      });
-
-      it("returns undefined if no person is available and the entry is valid", () => {
-        expect(component.getPersonValue(entry)).toBeUndefined();
       });
 
       it("returns the person ID and email if the entry is invalid", () => {
@@ -151,17 +143,13 @@ describe("ImportValidationSubscriptionDetailsComponent", () => {
     });
 
     describe("getSubscriptionDetailValue", () => {
-      it("returns the subscription detail designation if available and the entry is valid", () => {
+      it("returns the subscription detail designation if the entry is valid", () => {
         const detail = buildSubscriptionDetail(123);
         detail.VssDesignation = "Titel Maturarbeit";
         entry.data.subscriptionDetail = detail;
         expect(component.getSubscriptionDetailValue(entry)).toBe(
           "Titel Maturarbeit",
         );
-      });
-
-      it("returns undefined if no subscription detail is available and the entry is valid", () => {
-        expect(component.getSubscriptionDetailValue(entry)).toBeUndefined();
       });
 
       it("returns the subscription detail ID if the entry is invalid", () => {
@@ -175,7 +163,7 @@ describe("ImportValidationSubscriptionDetailsComponent", () => {
     });
 
     describe("getValue", () => {
-      it("returns the person fullname if an person is available and the entry is valid", () => {
+      it("returns the value", () => {
         expect(component.getValue(entry)).toBe("Lorem ipsum");
       });
     });

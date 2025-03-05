@@ -1,5 +1,4 @@
 import { Injectable, inject } from "@angular/core";
-import groupBy from "lodash-es/groupBy";
 import uniq from "lodash-es/uniq";
 import { firstValueFrom, tap } from "rxjs";
 import { EventDesignation } from "src/app/shared/models/event.model";
@@ -15,10 +14,11 @@ import {
 } from "src/app/shared/utils/observable";
 import { EventsRestService } from "../../../shared/services/events-rest.service";
 import { PersonsRestService } from "../../../shared/services/persons-rest.service";
+import { toHash } from "../../utils/common/array";
 import { isEmail, isNumber } from "../../utils/common/validation";
 import { SubscriptionDetailValidationError } from "../../utils/subscription-details/error";
 import {
-  EntryValidationFn,
+  SubscriptionDetailValidationFn,
   assertEventExists,
   assertPersonExists,
   assertPersonIdEmailPresent,
@@ -81,7 +81,7 @@ export class ImportValidateSubscriptionDetailsService {
   }
 
   private verifyEntryData(entry: SubscriptionDetailImportEntry): void {
-    const assertions: ReadonlyArray<EntryValidationFn> = [
+    const assertions: ReadonlyArray<SubscriptionDetailValidationFn> = [
       assertValidEventId,
       assertValidPersonId,
       assertValidPersonEmail,
@@ -106,7 +106,7 @@ export class ImportValidateSubscriptionDetailsService {
   private validateEntry(entry: SubscriptionDetailImportEntry): void {
     if (entry.validationStatus !== "validating") return;
 
-    const assertions: ReadonlyArray<EntryValidationFn> = [
+    const assertions: ReadonlyArray<SubscriptionDetailValidationFn> = [
       assertEventExists,
       assertPersonExists,
       assertSubscriptionDetailExists,
@@ -138,13 +138,10 @@ export class ImportValidateSubscriptionDetailsService {
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): Promise<void> {
     const events = await this.loadEvents(this.getEventIds(entries));
-    const eventsById = groupBy(events, (event) => event.Id);
+    const eventsById = toHash(events);
     entries.forEach((entry) => {
       if (isNumber(entry.entry.eventId)) {
-        entry.data.event =
-          (eventsById[entry.entry.eventId] &&
-            eventsById[entry.entry.eventId][0]) ??
-          null;
+        entry.data.event = eventsById[entry.entry.eventId] ?? null;
       }
       return entry;
     });
@@ -154,13 +151,10 @@ export class ImportValidateSubscriptionDetailsService {
     entries: ReadonlyArray<SubscriptionDetailImportEntry>,
   ): Promise<void> {
     const persons = await this.loadPersonsById(this.getPersonIds(entries));
-    const personsById = groupBy(persons, (person) => person.Id);
+    const personsById = toHash(persons);
     entries.forEach((entry) => {
       if (!entry.data.person && isNumber(entry.entry.personId)) {
-        entry.data.person =
-          (personsById[entry.entry.personId] &&
-            personsById[entry.entry.personId][0]) ??
-          null;
+        entry.data.person = personsById[entry.entry.personId] ?? null;
       }
       return entry;
     });
@@ -172,13 +166,10 @@ export class ImportValidateSubscriptionDetailsService {
     const persons = await this.loadPersonsByEmail(
       this.getPersonEmails(entries),
     );
-    const personsByEmail = groupBy(persons, (person) => person.Email);
+    const personsByEmail = toHash(persons, (p) => p.Email ?? "");
     entries.forEach((entry) => {
       if (!entry.data.person && isEmail(entry.entry.personEmail)) {
-        entry.data.person =
-          (personsByEmail[entry.entry.personEmail] &&
-            personsByEmail[entry.entry.personEmail][0]) ??
-          null;
+        entry.data.person = personsByEmail[entry.entry.personEmail] ?? null;
       }
       return entry;
     });

@@ -1,11 +1,9 @@
 import { ValidationError } from "../../services/common/import-state.service";
 import { SubscriptionDetailEntry } from "../../services/subscription-details/import-file-subscription-details.service";
 
-///// Validation errors /////
-
 export abstract class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
 
-export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry> {
+export class InvalidEventIdError extends SubscriptionDetailValidationError {
   type = "InvalidEventIdError";
 
   constructor() {
@@ -14,7 +12,7 @@ export class InvalidEventIdError extends ValidationError<SubscriptionDetailEntry
   }
 }
 
-export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntry> {
+export class InvalidPersonIdError extends SubscriptionDetailValidationError {
   type = "InvalidPersonIdError";
 
   constructor() {
@@ -23,7 +21,7 @@ export class InvalidPersonIdError extends ValidationError<SubscriptionDetailEntr
   }
 }
 
-export class InvalidPersonEmailError extends ValidationError<SubscriptionDetailEntry> {
+export class InvalidPersonEmailError extends SubscriptionDetailValidationError {
   type = "InvalidPersonEmailError";
 
   constructor() {
@@ -126,10 +124,4 @@ export class InvalidDropdownValueError extends SubscriptionDetailValidationError
     super();
     this.columns = ["value"];
   }
-}
-
-///// Import errors /////
-
-export class SubscriptionDetailImportError {
-  constructor(public error: unknown) {}
 }

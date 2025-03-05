@@ -1,1 +1,48 @@
-<p>import-emails-validation works!</p>
+<div class="bkd-container">
+  @if (isValidating()) {
+    <h1>{{ "import.title" | translate }}</h1>
+    <p>{{ "import.validation.validating" | translate }}</p>
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <div class="header d-flex mb-4">
+      <h1 class="flex-fill mb-0">{{ "import.title" | translate }}</h1>
+      <div class="actions d-flex justify-content-end gap-3">
+        <button class="btn btn-outline-secondary" routerLink="/import">
+          {{ "import.validation.change-document" | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="proceedToUpload()">
+          {{ "import.validation.upload" | translate }}
+        </button>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            {{ "import.emails.table-columns.status" | translate }}
+          </th>
+          <th>
+            {{ "import.emails.table-columns.person" | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of sortedEntries(); track $index) {
+          <tr>
+            <td class="align-middle">
+              <bkd-import-entry-status
+                [errorMessage]="getErrorMessage(entry)"
+              ></bkd-import-entry-status>
+            </td>
+            <td>
+              <bkd-import-entry-value
+                [value]="getPersonValue(entry)"
+                [valid]="isValid(entry, ['personId', 'personEmail'])"
+              ></bkd-import-entry-value>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

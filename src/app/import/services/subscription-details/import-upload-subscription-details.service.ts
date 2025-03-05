@@ -11,7 +11,7 @@ import {
 } from "rxjs";
 import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
 import { executeWithMaxConcurrency } from "src/app/shared/utils/observable";
-import { SubscriptionDetailImportError } from "../../utils/subscription-details/error";
+import { ImportError } from "../common/import-state.service";
 import { SubscriptionDetailImportEntry } from "./import-validate-subscription-details.service";
 
 const MAX_CONCURRENT_REQUESTS = 20;
@@ -151,7 +151,7 @@ export class ImportUploadSubscriptionDetailsService {
     error: unknown,
   ): void {
     entry.importStatus = "error";
-    entry.importError = new SubscriptionDetailImportError(error);
+    entry.importError = new ImportError(error);
 
     this.progress.update(({ uploading, error, ...rest }) => ({
       uploading: uploading - 1,

@@ -1,0 +1,18 @@
+@import "../../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.header {
+  align-items: center;
+}
+
+@include media-breakpoint-down(md) {
+  .header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .actions {
+    align-self: end;
+    margin-top: $spacer;
+  }
+}
