@@ -27,10 +27,10 @@ describe("ImportValidateEmailsService", () => {
             provide: PersonsRestService,
             useFactory() {
               personsServiceMock = jasmine.createSpyObj("PersonsRestService", [
-                "getFullNamesById",
+                "getSummaries",
               ]);
 
-              personsServiceMock.getFullNamesById.and.callFake((personIds) =>
+              personsServiceMock.getSummaries.and.callFake((personIds) =>
                 of(personIds.map((id) => buildPersonSummary(id))),
               );
 
@@ -92,7 +92,7 @@ describe("ImportValidateEmailsService", () => {
         });
 
         it("sets entry status to invalid with PersonNotFoundError if person is absent", async () => {
-          personsServiceMock.getFullNamesById.and.returnValue(of([]));
+          personsServiceMock.getSummaries.and.returnValue(of([]));
           await expectsInvalidEntry(PersonNotFoundError);
         });
       });

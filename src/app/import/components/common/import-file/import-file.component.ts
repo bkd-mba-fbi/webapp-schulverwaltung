@@ -50,7 +50,9 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
       label: this.translate.instant(`import.file.types.${key}`),
     }));
   importTypeOption = signal<Option<ButtonGroupOption<ImportType>>>(
-    this.importTypeOptions[0],
+    this.importTypeOptions.find(
+      (o) => o.key === this.stateService.importType(),
+    ) ?? this.importTypeOptions[0],
   );
 
   fileService = computed(() => {

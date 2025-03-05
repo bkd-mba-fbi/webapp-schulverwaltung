@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import uniq from "lodash-es/uniq";
 import { firstValueFrom } from "rxjs";
-import { PersonFullName } from "src/app/shared/models/person.model";
+import { PersonSummary } from "src/app/shared/models/person.model";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { toHash } from "../../utils/common/array";
 import { isNumber } from "../../utils/common/validation";
@@ -18,7 +18,7 @@ import { EmailEntry } from "./import-file-emails.service";
 export type EmailImportEntry = ImportEntry<
   EmailEntry,
   {
-    person?: PersonFullName;
+    person?: PersonSummary;
   },
   EmailValidationError,
   unknown
@@ -120,8 +120,8 @@ export class ImportValidateEmailsService {
 
   private loadPersonsById(
     personIds: ReadonlyArray<number>,
-  ): Promise<ReadonlyArray<PersonFullName>> {
-    return firstValueFrom(this.personsService.getFullNamesById(personIds));
+  ): Promise<ReadonlyArray<PersonSummary>> {
+    return firstValueFrom(this.personsService.getSummaries(personIds));
   }
 
   private buildValidationEntries(

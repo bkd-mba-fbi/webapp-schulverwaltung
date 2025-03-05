@@ -55,7 +55,7 @@ describe("PersonsRestService", () => {
 
       httpTestingController
         .expectOne(
-          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail,Email",
+          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail,Email&offset=0&limit=0",
         )
         .flush(personSummaries);
     });

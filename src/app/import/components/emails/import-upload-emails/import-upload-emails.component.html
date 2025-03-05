@@ -1,1 +1,64 @@
-<p>import-emails-upload works!</p>
+<div class="bkd-container">
+  <h1>{{ "import.title" | translate }}</h1>
+
+  @if (progress().uploading > 0) {
+    <p>{{ "import.upload.uploading" | translate }}</p>
+    <bkd-progress
+      [total]="progress().total"
+      [processed]="progress().success + progress().error"
+      [ariaLabel]="'import.uploading.progress' | translate"
+    ></bkd-progress>
+  } @else if (progress().error === 0) {
+    <bkd-notification
+      [title]="'import.upload.success.title' | translate"
+      [message]="
+        'import.upload.success.content'
+          | translate: { count: progress().success, total: progress().total }
+      "
+    ></bkd-notification>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-secondary mt-4" routerLink="/import">
+        {{ "import.upload.success.back" | translate }}
+      </button>
+    </div>
+  } @else {
+    <bkd-notification
+      [title]="'import.upload.error.title' | translate"
+      [message]="
+        'import.upload.error.content'
+          | translate: { count: progress().error, total: progress().total }
+      "
+      [actionLabel]="'import.upload.error.retry' | translate"
+      (action)="retry()"
+      [type]="'error'"
+    ></bkd-notification>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            {{ "import.emails.table-columns.status" | translate }}
+          </th>
+          <th>
+            {{ "import.emails.table-columns.person" | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of errorEntries(); track $index) {
+          <tr>
+            <td class="align-middle">
+              <bkd-import-entry-status
+                [errorMessage]="getErrorMessage(entry)"
+              ></bkd-import-entry-status>
+            </td>
+            <td>
+              <bkd-import-entry-value
+                [value]="entry.data.person?.FullName"
+              ></bkd-import-entry-value>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
