@@ -36,7 +36,7 @@ describe("ButtonGroupComponent", () => {
   });
 
   it("adds class 'active' to the selected option", () => {
-    fixture.componentRef.setInput("selected", options[1]);
+    fixture.componentRef.setInput("selected", options[1].key);
     fixture.detectChanges();
     const buttons = fixture.debugElement.queryAll(By.css("button"));
     expect(buttons[0].nativeElement.classList).not.toContain("active");
@@ -47,6 +47,6 @@ describe("ButtonGroupComponent", () => {
   it("emits option when button is clicked", () => {
     const buttons = fixture.debugElement.queryAll(By.css("button"));
     buttons[1].nativeElement.click();
-    expect(component.selected()).toBe(options[1]);
+    expect(component.selected()).toBe(options[1].key);
   });
 });

@@ -20,5 +20,5 @@ export type ButtonGroupOption<TKey extends string = string> = {
 })
 export class ButtonGroupComponent {
   options = input.required<ReadonlyArray<ButtonGroupOption>>();
-  selected = model<Option<ButtonGroupOption>>(null);
+  selected = model<Option<ButtonGroupOption["key"]>>(null);
 }

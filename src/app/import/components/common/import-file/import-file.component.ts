@@ -49,11 +49,6 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
       key,
       label: this.translate.instant(`import.file.types.${key}`),
     }));
-  importTypeOption = signal<Option<ButtonGroupOption<ImportType>>>(
-    this.importTypeOptions.find(
-      (o) => o.key === this.stateService.importType(),
-    ) ?? this.importTypeOptions[0],
-  );
 
   fileService = computed(() => {
     const importType = this.stateService.importType();
@@ -103,15 +98,7 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
     this.stateService.file.set(null);
     this.stateService.parsedEntries.set([]);
 
-    // Propagate import type update to state service
-    effect(() => {
-      const importType = this.importTypeOption()?.key;
-      if (importType) {
-        this.stateService.importType.set(importType);
-      }
-    });
-
-    // Parse & verify file when selected or import type changes
+    // Parse & verify whenever file is selected or import type changes
     effect(() => {
       const file = this.stateService.file();
       if (file) {
