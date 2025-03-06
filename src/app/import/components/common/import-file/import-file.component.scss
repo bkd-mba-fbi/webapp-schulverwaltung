@@ -1,7 +1,7 @@
 @import "../../../../../bootstrap-variables";
 
 #drop-zone {
-  border: 1px dashed $gray-500;
+  border: 2px dashed $gray-500;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -13,7 +13,7 @@
   right: 0;
   bottom: 0;
   z-index: $zindex-modal;
-  background-color: rgba(255, 255, 255, 0.8);
+  background: rgba($gray, 0.9);
 }
 
 .dragging #drop-zone {
