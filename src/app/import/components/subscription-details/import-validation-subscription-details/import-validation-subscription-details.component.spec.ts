@@ -138,7 +138,7 @@ describe("ImportValidationSubscriptionDetailsComponent", () => {
         entry.validationStatus = "invalid";
         entry.validationError = new InvalidValueTypeError();
         entry.data.person = { Id: 10, FullName: "John Lennon" };
-        expect(component.getPersonValue(entry)).toBe("100 s1@test.ch");
+        expect(component.getPersonValue(entry)).toBe(100);
       });
     });
 

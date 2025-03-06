@@ -123,7 +123,7 @@ export class ImportValidationSubscriptionDetailsComponent {
 
   getPersonValue(entry: SubscriptionDetailImportEntry): unknown {
     if (entry.validationStatus === "invalid") {
-      return `${entry.entry["personId"]} ${entry.entry["personEmail"]}`;
+      return (entry.entry["personId"] || entry.entry["personEmail"]) ?? "";
     }
 
     return entry.data.person?.FullName;
