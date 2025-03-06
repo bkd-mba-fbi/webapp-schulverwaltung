@@ -358,6 +358,9 @@
       }
     }
   },
+  "import": {
+    "title": "Saisir les données"
+  },
   "my-absences": {
     "title": "Mes absences",
     "description": "Vous pouvez annoncer des absences et traiter vos absences en suspens.",
