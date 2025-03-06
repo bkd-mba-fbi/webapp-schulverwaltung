@@ -406,7 +406,7 @@
       "success": {
         "title": "Daten erfolgreich eingelesen",
         "content": "{{count}} von {{total}} Datensätzen wurden erfolgreich eingelesen.",
-        "back": "Weitere Daten einlesen"
+        "back": "Weiteres Dokument einlesen"
       },
       "error": {
         "title": "Fehler beim Einlesen der Daten",

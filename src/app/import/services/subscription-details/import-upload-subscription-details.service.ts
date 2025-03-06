@@ -1,3 +1,4 @@
+import { HttpContext } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
 import {
   Observable,
@@ -8,6 +9,7 @@ import {
   switchMap,
   throwError,
 } from "rxjs";
+import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
 import { executeWithMaxConcurrency } from "src/app/shared/utils/observable";
 import { ImportError } from "../common/import-state.service";
@@ -137,6 +139,9 @@ export class ImportUploadSubscriptionDetailsService {
       subscriptionDetail,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       entry.value as any,
+      new HttpContext().set(RestErrorInterceptorOptions, {
+        disableErrorHandling: true,
+      }),
     );
   }
 

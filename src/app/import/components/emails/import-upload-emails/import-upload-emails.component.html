@@ -32,6 +32,11 @@
       (action)="retry()"
       [type]="'error'"
     ></bkd-notification>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-outline-secondary mt-4" routerLink="/import">
+        {{ "import.upload.success.back" | translate }}
+      </button>
+    </div>
     <table class="table">
       <thead>
         <tr>

@@ -115,12 +115,16 @@ export class PersonsRestService extends RestService<typeof Person> {
       .pipe(map(() => undefined));
   }
 
-  updateEmail(personId: number, email: string): Observable<void> {
+  updateEmail(
+    personId: number,
+    email: string,
+    context?: HttpContext,
+  ): Observable<void> {
     const body = {
       Email: email,
     };
     return this.http
-      .put<void>(`${this.baseUrl}/${personId}`, body)
+      .put<void>(`${this.baseUrl}/${personId}`, body, { context })
       .pipe(map(() => undefined));
   }
 }

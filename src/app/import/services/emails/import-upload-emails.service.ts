@@ -1,3 +1,4 @@
+import { HttpContext } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
 import {
   Observable,
@@ -8,6 +9,7 @@ import {
   switchMap,
   throwError,
 } from "rxjs";
+import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { executeWithMaxConcurrency } from "src/app/shared/utils/observable";
 import { ImportError } from "../common/import-state.service";
@@ -132,6 +134,9 @@ export class ImportUploadEmailsService {
     return this.personsService.updateEmail(
       Number(entry.personId),
       String(entry.personEmail),
+      new HttpContext().set(RestErrorInterceptorOptions, {
+        disableErrorHandling: true,
+      }),
     );
   }
 

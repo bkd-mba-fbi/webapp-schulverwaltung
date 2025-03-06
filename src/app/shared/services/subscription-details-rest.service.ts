@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpContext } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -28,6 +28,7 @@ export class SubscriptionDetailsRestService extends RestService<
   update(
     detail: Pick<SubscriptionDetail, "Id" | "IdPerson" | "EventId">,
     value: SubscriptionDetail["Value"],
+    context?: HttpContext,
   ): Observable<void> {
     const body = {
       IdPerson: detail.IdPerson,
@@ -35,7 +36,7 @@ export class SubscriptionDetailsRestService extends RestService<
       Value: value,
     };
     return this.http
-      .put<void>(`${this.baseUrl}/${detail.Id}`, body)
+      .put<void>(`${this.baseUrl}/${detail.Id}`, body, { context })
       .pipe(map(() => undefined));
   }
 }
