@@ -4,29 +4,20 @@ import { SubscriptionDetailEntry } from "../../services/subscription-details/imp
 export abstract class SubscriptionDetailValidationError extends ValidationError<SubscriptionDetailEntry> {}
 
 export class InvalidEventIdError extends SubscriptionDetailValidationError {
-  type = "InvalidEventIdError";
-
   constructor() {
-    super();
-    this.columns = ["eventId"];
+    super("InvalidEventIdError", ["eventId"]);
   }
 }
 
 export class InvalidPersonIdError extends SubscriptionDetailValidationError {
-  type = "InvalidPersonIdError";
-
   constructor() {
-    super();
-    this.columns = ["personId"];
+    super("InvalidPersonIdError", ["personId"]);
   }
 }
 
 export class InvalidPersonEmailError extends SubscriptionDetailValidationError {
-  type = "InvalidPersonEmailError";
-
   constructor() {
-    super();
-    this.columns = ["personEmail"];
+    super("InvalidPersonEmailError", ["personEmail"]);
   }
 }
 
@@ -34,20 +25,14 @@ export class InvalidPersonEmailError extends SubscriptionDetailValidationError {
  * Neither Person Id, nor E-Mail is present.
  */
 export class MissingPersonIdEmailError extends SubscriptionDetailValidationError {
-  type = "SubscriptionDetailValidationError";
-
   constructor() {
-    super();
-    this.columns = ["personId", "personEmail"];
+    super("SubscriptionDetailValidationError", ["personId", "personEmail"]);
   }
 }
 
 export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidationError {
-  type = "InvalidSubscriptionDetailIdError";
-
   constructor() {
-    super();
-    this.columns = ["subscriptionDetailId"];
+    super("InvalidSubscriptionDetailIdError", ["subscriptionDetailId"]);
   }
 }
 
@@ -55,38 +40,26 @@ export class InvalidSubscriptionDetailIdError extends SubscriptionDetailValidati
  * "Wert" is empty.
  */
 export class MissingValueError extends SubscriptionDetailValidationError {
-  type = "MissingValueError";
-
   constructor() {
-    super();
-    this.columns = ["value"];
+    super("MissingValueError", ["value"]);
   }
 }
 
 export class EventNotFoundError extends SubscriptionDetailValidationError {
-  type = "EventNotFoundError";
-
   constructor() {
-    super();
-    this.columns = ["eventId"];
+    super("EventNotFoundError", ["eventId"]);
   }
 }
 
 export class PersonNotFoundError extends SubscriptionDetailValidationError {
-  type = "PersonNotFoundError";
-
   constructor() {
-    super();
-    this.columns = ["personId", "personEmail"];
+    super("PersonNotFoundError", ["personId", "personEmail"]);
   }
 }
 
 export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidationError {
-  type = "SubscriptionDetailNotFoundError";
-
   constructor() {
-    super();
-    this.columns = ["subscriptionDetailId"];
+    super("SubscriptionDetailNotFoundError", ["subscriptionDetailId"]);
   }
 }
 
@@ -94,11 +67,8 @@ export class SubscriptionDetailNotFoundError extends SubscriptionDetailValidatio
  * The subscription detail does not support editing via the internet.
  */
 export class SubscriptionDetailNotEditableError extends SubscriptionDetailValidationError {
-  type = "SubscriptionDetailNotEditableError";
-
   constructor() {
-    super();
-    this.columns = ["subscriptionDetailId"];
+    super("SubscriptionDetailNotEditableError", ["subscriptionDetailId"]);
   }
 }
 
@@ -106,11 +76,8 @@ export class SubscriptionDetailNotEditableError extends SubscriptionDetailValida
  * The subscription detail value ("Wert") does not comply with the "VssType".
  */
 export class InvalidValueTypeError extends SubscriptionDetailValidationError {
-  type = "InvalidValueTypeError";
-
   constructor() {
-    super();
-    this.columns = ["value"];
+    super("InvalidValueTypeError", ["value"]);
   }
 }
 
@@ -118,10 +85,7 @@ export class InvalidValueTypeError extends SubscriptionDetailValidationError {
  * The subscription detail value ("Wert") is not part of the "DropdownItems".
  */
 export class InvalidDropdownValueError extends SubscriptionDetailValidationError {
-  type = "InvalidDropdownValueError";
-
   constructor() {
-    super();
-    this.columns = ["value"];
+    super("InvalidDropdownValueError", ["value"]);
   }
 }

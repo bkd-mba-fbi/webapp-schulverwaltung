@@ -8,8 +8,10 @@ export type ValidationStatus = "validating" | "valid" | "invalid";
 export type ImportStatus = "importing" | "success" | "error" | null;
 
 export abstract class ValidationError<TEntry> {
-  abstract type: string;
-  columns: ReadonlyArray<keyof TEntry>;
+  constructor(
+    public type: string,
+    public columns: ReadonlyArray<keyof TEntry>,
+  ) {}
 }
 
 export class ImportError {
