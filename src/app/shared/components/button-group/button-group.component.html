@@ -1,0 +1,16 @@
+<div class="button-group" role="group">
+  @for (option of options(); track option.key) {
+    <button
+      (click)="selected.set(option.key)"
+      type="button"
+      class="btn btn-primary"
+      [ngClass]="{
+        'btn-primary': option.key === selected(),
+        'btn-outline-primary': option.key !== selected(),
+        active: option.key === selected(),
+      }"
+    >
+      {{ option.label }}
+    </button>
+  }
+</div>

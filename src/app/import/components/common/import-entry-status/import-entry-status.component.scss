@@ -1,0 +1,9 @@
+@import "../../../../../bootstrap-variables.scss";
+
+:host.invalid {
+  color: $red;
+}
+
+:host:not(.invalid) i.material-icons {
+  color: $green;
+}

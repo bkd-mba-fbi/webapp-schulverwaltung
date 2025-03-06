@@ -35,6 +35,7 @@ export class HomeComponent {
     { path: "evaluate-absences" },
     { path: "events" },
     { path: "events/current", name: "events.current" },
+    { path: "import" },
     { path: "my-absences" },
     { path: "my-profile" },
     { path: "my-grades" },

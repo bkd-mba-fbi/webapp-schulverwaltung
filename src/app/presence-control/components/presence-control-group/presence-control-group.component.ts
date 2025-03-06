@@ -154,7 +154,7 @@ export class PresenceControlGroupComponent implements OnInit {
   private assignCallback(selectedGroup: GroupOption): void {
     forkJoin(
       this.selected.map((s) =>
-        this.subscriptionDetailService.update(selectedGroup.id, s.detail),
+        this.subscriptionDetailService.update(s.detail, selectedGroup.id),
       ),
     ).subscribe(this.onSaveSuccess.bind(this));
   }

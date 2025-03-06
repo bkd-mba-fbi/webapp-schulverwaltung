@@ -1,0 +1,23 @@
+@import "../../../../../bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+:host {
+  display: block;
+  min-height: 350px; // Make sure the confirmation modal can be fully rendered
+}
+
+.header {
+  align-items: center;
+}
+
+@include media-breakpoint-down(md) {
+  .header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .actions {
+    align-self: end;
+    margin-top: $spacer;
+  }
+}

@@ -46,4 +46,13 @@ describe("EventsRestService", () => {
       httpTestingController.verify();
     });
   });
+
+  describe(".getEventDesignations", () => {
+    it("gets the designations of the given events", () => {
+      const url =
+        "https://eventotest.api/Events/?fields=Id,Designation&filter.Id=;1234;4321&offset=0&limit=0";
+      service.getEventDesignations([1234, 4321]).subscribe();
+      httpTestingController.expectOne((req) => req.urlWithParams === url, url);
+    });
+  });
 });
