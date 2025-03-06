@@ -38,6 +38,7 @@ export class TeachersRestService extends RestService<typeof Teacher> {
         `${this.baseUrl}/${teacherId}/TimetableEntries/CurrentSemester`,
         {
           params,
+          headers: { "X-Role-Restriction": "LessonTeacherRole" },
         },
       )
       .pipe(switchMap(decodeArray(TimetableEntry)));
