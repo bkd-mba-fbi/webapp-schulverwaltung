@@ -342,7 +342,7 @@ describe("PresenceControlStateService", () => {
     personId: number,
     students?: number[],
   ): void {
-    let url = `https://eventotest.api/LessonTeachers/except/${personId}/LessonAbsences?expand=LessonRef`;
+    let url = `https://eventotest.api/LessonTeachers/except/${personId}/LessonAbsences?expand=LessonRef&filter.CreatedOn=>1999-11-24`;
     if (students && students.length > 0) {
       url = url.concat("&filter.StudentRef=;", students.join(";"));
     }
