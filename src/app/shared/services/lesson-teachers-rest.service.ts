@@ -21,7 +21,7 @@ export class LessonTeachersRestService extends RestService<
   }
 
   /**
-   * Returns all lesson absences for the current lesson and the specified students
+   * Returns all lesson absences CreatedOn after today-60 days and the specified students
    * for all teachers except the specified teacher.
    */
   loadOtherTeachersLessonAbsences(
@@ -29,7 +29,10 @@ export class LessonTeachersRestService extends RestService<
     students: number[],
     params?: HttpParams | Dict<string>,
   ): Observable<ReadonlyArray<LessonAbsence>> {
-    let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef`;
+    const todayDate = new Date();
+    todayDate.setDate(todayDate.getDate() - 60);
+
+    let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef&filter.CreatedOn=>${todayDate.toISOString().substring(0, 10)}`;
     if (students && students.length > 0) {
       url = url.concat("&filter.StudentRef=;" + students.join(";"));
     }
