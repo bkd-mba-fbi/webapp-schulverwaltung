@@ -363,7 +363,7 @@
     "file": {
       "input-label": "Dokument auswählen oder in dieses Fenster ziehen",
       "drop-zone-label": "Dokument hierhin ziehen",
-      "columns-info": "Das Dokument muss folgende Spalten in der korrekten Reihenfolge beinhalten (weitere Spalten werden ignoriert):",
+      "columns-info": "Das Dokument muss folgende Spalten in der korrekten Reihenfolge beinhalten (die Spaltentitel und weitere Spalten werden ignoriert):",
       "next": "Daten validieren",
       "types": {
         "subscriptionDetails": "Anmeldedetails",
@@ -381,15 +381,15 @@
       "proceed-no-valid": "Keine gültigen Einträge vorhanden",
       "proceed-dialog": {
         "title": "Fehlerhafte Datensätze vorhanden",
-        "message": "{{invalidCount}} Datensätze sind fehlerhaft und können nicht importiert werden. Wollen sie die übrigen {{validCount}} trotzdem einlesen?",
+        "message": "{{invalidCount}} Datensätze sind fehlerhaft und können nicht importiert werden. Wollen Sie die übrigen {{validCount}} trotzdem einlesen?",
         "cancel": "Abbrechen",
         "proceed": "Daten einlesen"
       },
       "errors": {
         "InvalidEventIdError": "Die ID Anlass ist ungültig",
         "InvalidPersonIdError": "Die ID Person ist ungültig",
-        "InvalidPersonEmailError": "Die E-Mail ist ungültig",
-        "MissingPersonIdEmailError": "ID Person oder E-Mail ist erforderlich",
+        "InvalidPersonEmailError": "Die E-Mail-Adresse ist ungültig",
+        "MissingPersonIdEmailError": "ID Person oder E-Mail-Adresse ist erforderlich",
         "InvalidSubscriptionDetailIdError": "Die ID Anmeldedetail ist ungültig",
         "MissingValueError": "Der Wert fehlt",
         "EventNotFoundError": "Der Anlass ist nicht vorhanden",
@@ -418,7 +418,7 @@
     "subscriptionDetails": {
       "data-columns": {
         "column1": "ID Anlass",
-        "column2": "ID Person oder E-Mail",
+        "column2": "ID Person oder E-Mail-Adresse",
         "column3": "ID Anmeldedetail",
         "column4": "Wert"
       },
@@ -433,12 +433,12 @@
     "emails": {
       "data-columns": {
         "column1": "ID Person",
-        "column2": "E-Mail"
+        "column2": "E-Mail-Adresse"
       },
       "table-columns": {
         "status": "Status",
         "person": "Person",
-        "email": "E-Mail"
+        "email": "E-Mail-Adresse"
       }
     }
   },
