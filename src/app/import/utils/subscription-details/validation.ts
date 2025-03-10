@@ -119,7 +119,7 @@ export const assertSubscriptionDetailExists: SubscriptionDetailValidationFn = (
 export const assertSubscriptionDetailEditable: SubscriptionDetailValidationFn =
   (entry) => {
     const detail = entry.data.subscriptionDetail;
-    const valid = detail?.VssInternet === "E" && detail?.VssStyle === "TX";
+    const valid = detail?.VssInternet === "E";
     if (!valid) {
       entry.validationStatus = "invalid";
       entry.validationError = new SubscriptionDetailNotEditableError();
@@ -130,17 +130,24 @@ export const assertSubscriptionDetailEditable: SubscriptionDetailValidationFn =
 export const assertSubscriptionDetailType: SubscriptionDetailValidationFn = (
   entry,
 ) => {
+  const ALLOWED_VSS_TYPES = [
+    SubscriptionDetailType.Int,
+    SubscriptionDetailType.Currency,
+    SubscriptionDetailType.ShortText,
+    SubscriptionDetailType.Text,
+  ];
   const detail = entry.data.subscriptionDetail;
   const typeId = detail?.VssTypeId;
   const { value } = entry.entry;
   const valid =
-    detail?.DropdownItems != null || // Entries with dropdown items will be checked by another assertion
-    ((typeId === SubscriptionDetailType.Int ||
-      typeId === SubscriptionDetailType.Currency) &&
-      isNumber(value)) ||
-    ((typeId === SubscriptionDetailType.Text ||
-      typeId === SubscriptionDetailType.MemoText) &&
-      isString(value));
+    detail?.DropdownItems != null || // Entries with dropdown items will be checked by assertSubscriptionDetailDropdownItems
+    (ALLOWED_VSS_TYPES.includes(typeId as never) &&
+      (((typeId === SubscriptionDetailType.Int ||
+        typeId === SubscriptionDetailType.Currency) &&
+        isNumber(value)) ||
+        ((typeId === SubscriptionDetailType.ShortText ||
+          typeId === SubscriptionDetailType.Text) &&
+          isString(value))));
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidValueTypeError();
