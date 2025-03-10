@@ -106,6 +106,14 @@ export const assertPersonExists: SubscriptionDetailValidationFn = (entry) => {
   return valid;
 };
 
+/**
+ * The /Subscriptions/{subscriptionId}/SubscriptionDetails endpoint does not
+ * return details that don't have VssInternet="E". So there is no way to
+ * differentiate between the case where no subscription exists for a given
+ * person/event and the case where a subscription exists, but can't be edited
+ * through the Internet (VssInternet!="E"). We solve this by using a generic
+ * error message that covers both cases.
+ */
 export const assertSubscriptionDetailExists: SubscriptionDetailValidationFn = (
   entry,
 ) => {
@@ -117,6 +125,11 @@ export const assertSubscriptionDetailExists: SubscriptionDetailValidationFn = (
   return valid;
 };
 
+/**
+ * Actually, the /Subscriptions/{subscriptionId}/SubscriptionDetails endpoint
+ * does not return details that don't have VssInternet="E". But we leave this
+ * assertion in place for now.
+ */
 export const assertSubscriptionDetailEditable: SubscriptionDetailValidationFn =
   (entry) => {
     const detail = entry.data.subscriptionDetail;
