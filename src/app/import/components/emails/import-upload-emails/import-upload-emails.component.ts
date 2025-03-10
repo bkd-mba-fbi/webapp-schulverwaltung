@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -61,7 +62,16 @@ export class ImportUploadEmailsComponent {
 
   getErrorMessage(entry: EmailImportEntry): Option<string> {
     if (entry.importStatus === "error" && entry.importError) {
-      return this.translate.instant("import.upload.error.entry-error");
+      const defaultError = this.translate.instant(
+        "import.upload.error.entry-error",
+      );
+      if (entry.importError.error instanceof HttpErrorResponse) {
+        const { error } = entry.importError.error;
+        return Array.isArray(error["Issues"])
+          ? error["Issues"].map((issue) => issue["Message"]).join("; ")
+          : defaultError;
+      }
+      return defaultError;
     }
     return null;
   }

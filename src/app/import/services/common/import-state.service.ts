@@ -22,7 +22,7 @@ export type ImportEntry<
   TEntry extends ParsedEntry,
   TData,
   TValidationError extends ValidationError<TEntry>,
-  TImportError,
+  TImportError = ImportError,
 > = {
   validationStatus: ValidationStatus;
   importStatus: ImportStatus;
