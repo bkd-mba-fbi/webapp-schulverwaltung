@@ -234,7 +234,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
       });
 
       describe("value type", () => {
-        it("sets entry status to valid without error for int value Int type", async () => {
+        it("sets entry status to valid without error for int Int type with int value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Int,
           });
@@ -242,7 +242,15 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to invalid with InvalidValueTypeError for string value Int type", async () => {
+        it("sets entry status to invalid with InvalidValueTypeError Int type with float value", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Int,
+          });
+          entry.value = 1.25;
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for Int type with string value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Int,
           });
@@ -250,7 +258,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsInvalidEntry(InvalidValueTypeError);
         });
 
-        it("sets entry status to valid without error for int value Currency type", async () => {
+        it("sets entry status to valid without error for Currency type with int value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Currency,
           });
@@ -258,7 +266,15 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to invalid with InvalidValueTypeError for string value Currency type", async () => {
+        it("sets entry status to valid without error for Currency type with float value", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Currency,
+          });
+          entry.value = 1.25;
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for Currency type with string value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Currency,
           });
@@ -290,7 +306,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to invalid with InvalidValueTypeError for number value Text type", async () => {
+        it("sets entry status to invalid with InvalidValueTypeError for Text type with number value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Text,
           });
