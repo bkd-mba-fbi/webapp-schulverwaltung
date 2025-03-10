@@ -394,7 +394,7 @@
         "MissingValueError": "La valeur est manquante",
         "EventNotFoundError": "L'événement n'existe pas",
         "PersonNotFoundError": "La personne n'existe pas",
-        "SubscriptionDetailNotFoundError": "La personne n'est pas inscrite à l'événement",
+        "SubscriptionDetailNotFoundError": "Le détail d'inscription n'est pas validé pour la saisie sur Internet ou la personne n'est pas inscrite à l'événement",
         "SubscriptionDetailNotEditableError": "Le détail d'inscription n'est pas validé pour la saisie sur Internet",
         "InvalidValueTypeError": "Valeur non valide pour ce détail d'inscription",
         "InvalidDropdownValueError": "Valeur non valide pour ce détail d'inscription"

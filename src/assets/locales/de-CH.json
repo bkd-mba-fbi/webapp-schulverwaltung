@@ -394,7 +394,7 @@
         "MissingValueError": "Der Wert fehlt",
         "EventNotFoundError": "Der Anlass ist nicht vorhanden",
         "PersonNotFoundError": "Die Person ist nicht vorhanden",
-        "SubscriptionDetailNotFoundError": "Die Person ist nicht auf den Anlass angemeldet",
+        "SubscriptionDetailNotFoundError": "Das Anmeldedetail ist nicht für die Interneteingabe freigegeben oder die Person ist nicht auf den Anlass angemeldet",
         "SubscriptionDetailNotEditableError": "Das Anmeldedetail ist nicht für die Interneteingabe freigegeben",
         "InvalidValueTypeError": "Ungültiger Wert für dieses Anmeldedetail",
         "InvalidDropdownValueError": "Ungültiger Wert für dieses Anmeldedetail"
