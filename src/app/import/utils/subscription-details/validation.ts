@@ -156,11 +156,11 @@ export const assertSubscriptionDetailType: SubscriptionDetailValidationFn = (
 
 export const assertSubscriptionDetailDropdownItems: SubscriptionDetailValidationFn =
   (entry) => {
-    const items = entry.data.subscriptionDetail?.DropdownItems?.map((item) =>
-      String(item.Key),
-    );
+    const itemsValues = entry.data.subscriptionDetail?.DropdownItems?.filter(
+      (item) => item.IsActive,
+    )?.map((item) => item.Value);
     const { value } = entry.entry;
-    const valid = items == null || items.includes(String(value));
+    const valid = itemsValues == null || itemsValues.includes(String(value));
     if (!valid) {
       entry.validationStatus = "invalid";
       entry.validationError = new InvalidDropdownValueError();

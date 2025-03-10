@@ -331,36 +331,36 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to valid without error for supported dropdown item as number", async () => {
+        it("sets entry status to valid without error for existing dropdown item", async () => {
           mockSubscriptionDetail({
             DropdownItems: [
-              { Key: 1, Value: "Apple" },
-              { Key: 2, Value: "Pear" },
+              { Key: 1, Value: "Apple", IsActive: true },
+              { Key: 2, Value: "Pear", IsActive: true },
             ],
           });
-          entry.value = 1;
+          entry.value = "Apple";
           await expectsValidEntry();
         });
 
-        it("sets entry status to valid without error for supported dropdown item as string", async () => {
+        it("sets entry status to invalid with InvalidDropdownValueError for non-existing dropdown item", async () => {
           mockSubscriptionDetail({
             DropdownItems: [
-              { Key: 1, Value: "Apple" },
-              { Key: 2, Value: "Pear" },
+              { Key: 1, Value: "Apple", IsActive: true },
+              { Key: 2, Value: "Pear", IsActive: true },
             ],
           });
-          entry.value = "1";
-          await expectsValidEntry();
+          entry.value = "Cherry";
+          await expectsInvalidEntry(InvalidDropdownValueError);
         });
 
-        it("sets entry status to invalid with InvalidDropdownValueError for unsupported dropdown item", async () => {
+        it("sets entry status to invalid with InvalidDropdownValueError for inactive dropdown item", async () => {
           mockSubscriptionDetail({
             DropdownItems: [
-              { Key: 1, Value: "Apple" },
-              { Key: 2, Value: "Pear" },
+              { Key: 1, Value: "Apple", IsActive: false },
+              { Key: 2, Value: "Pear", IsActive: true },
             ],
           });
-          entry.value = 3;
+          entry.value = "Apple";
           await expectsInvalidEntry(InvalidDropdownValueError);
         });
       });
