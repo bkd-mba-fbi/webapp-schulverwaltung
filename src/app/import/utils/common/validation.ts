@@ -3,11 +3,15 @@ export function isPresent(value: unknown): boolean {
 }
 
 export function isNumber(value: unknown): value is number {
-  return typeof value === "number" && !isNaN(value);
+  return typeof value === "number" && !Number.isNaN(value);
 }
 
 export function isOptionalNumber(value: unknown): boolean {
   return !isPresent(value) || isNumber(value);
+}
+
+export function isInteger(value: unknown): value is number {
+  return isNumber(value) && Number.isInteger(value);
 }
 
 export function isString(value: unknown): value is string {

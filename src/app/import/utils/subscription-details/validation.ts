@@ -1,6 +1,7 @@
 import { SubscriptionDetailType } from "src/app/shared/models/subscription.model";
 import { SubscriptionDetailImportEntry } from "../../services/subscription-details/import-validate-subscription-details.service";
 import {
+  isInteger,
   isNumber,
   isOptionalEmail,
   isOptionalNumber,
@@ -142,12 +143,10 @@ export const assertSubscriptionDetailType: SubscriptionDetailValidationFn = (
   const valid =
     detail?.DropdownItems != null || // Entries with dropdown items will be checked by assertSubscriptionDetailDropdownItems
     (ALLOWED_VSS_TYPES.includes(typeId as never) &&
-      (((typeId === SubscriptionDetailType.Int ||
-        typeId === SubscriptionDetailType.Currency) &&
-        isNumber(value)) ||
-        ((typeId === SubscriptionDetailType.ShortText ||
-          typeId === SubscriptionDetailType.Text) &&
-          isString(value))));
+      ((typeId === SubscriptionDetailType.Int && isInteger(value)) ||
+        (typeId === SubscriptionDetailType.Currency && isNumber(value)) ||
+        (typeId === SubscriptionDetailType.ShortText && isString(value)) ||
+        (typeId === SubscriptionDetailType.Text && isString(value))));
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidValueTypeError();
