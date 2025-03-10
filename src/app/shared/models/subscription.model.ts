@@ -5,8 +5,8 @@ import { DropDownItem } from "./drop-down-item.model";
 export enum SubscriptionDetailType {
   Int = 277,
   Currency = 279,
-  Text = 290,
-  MemoText = 293,
+  ShortText = 290, // → Text in old implementation
+  Text = 293, // → MemoText in old implementation
 }
 
 const SubscriptionDetail = t.type({
