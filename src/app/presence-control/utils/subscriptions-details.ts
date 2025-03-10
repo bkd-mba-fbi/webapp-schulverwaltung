@@ -33,7 +33,7 @@ function getSubscriptionDetailComparator(
         const valueA = a.detail.Value ? String(a.detail.Value) : "";
         const valueB = b.detail.Value ? String(b.detail.Value) : "";
         const groupComparator = valueA.localeCompare(valueB);
-        return sortCriteria.ascending ? groupComparator * -1 : groupComparator;
+        return sortCriteria.ascending ? groupComparator : groupComparator * -1;
       }
       default:
         throw new UnreachableError(

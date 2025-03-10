@@ -16,7 +16,7 @@
   --student-grade-column-width: calc(
     var(--spacer) + var(--grade-input-size) + var(--spacer)
   );
-  --student-average-column-width: 100px;
+  --student-average-column-width: 120px;
   --test-grade-column-width: calc(
     var(--spacer) + var(--point-input-size) + var(--points-grade-gap) +
       var(--grade-input-size) + var(--spacer)
