@@ -196,16 +196,16 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
       detail1.Id = "1001";
       detail1.VssDesignation = "Lieblingsfarbe";
       detail1.DropdownItems = [
-        { Key: "1234", Value: "salmon" },
-        { Key: "5678", Value: "gold" },
+        { Key: "1234", Value: "salmon", IsActive: true },
+        { Key: "5678", Value: "gold", IsActive: true },
       ];
 
       const detail2 = buildSubscriptionDetail(1002, "Spaghetti Bolo");
       detail2.Id = "1002";
       detail2.VssDesignation = "Lieblingsessen";
       detail2.DropdownItems = [
-        { Key: "1234", Value: "Pizza" },
-        { Key: "5678", Value: "Lasagne" },
+        { Key: "1234", Value: "Pizza", IsActive: true },
+        { Key: "5678", Value: "Lasagne", IsActive: true },
       ];
       detail2.VssStyle = "CB";
 

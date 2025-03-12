@@ -44,8 +44,7 @@ export type SubscriptionDetailImportEntry = ImportEntry<
     person?: PersonFullName;
     subscriptionDetail?: SubscriptionDetail;
   },
-  SubscriptionDetailValidationError,
-  unknown
+  SubscriptionDetailValidationError
 >;
 
 @Injectable({

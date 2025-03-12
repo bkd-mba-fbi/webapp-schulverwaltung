@@ -494,8 +494,8 @@ export function buildSubscriptionDetail(
     EventId: 1,
     ShowAsRadioButtons: false,
     DropdownItems: [
-      { Key: 1, Value: "item 1" },
-      { Key: "2", Value: "item 2" },
+      { Key: 1, Value: "item 1", IsActive: true },
+      { Key: "2", Value: "item 2", IsActive: true },
     ],
   };
 }

@@ -20,8 +20,7 @@ export type EmailImportEntry = ImportEntry<
   {
     person?: PersonSummary;
   },
-  EmailValidationError,
-  unknown
+  EmailValidationError
 >;
 
 @Injectable({

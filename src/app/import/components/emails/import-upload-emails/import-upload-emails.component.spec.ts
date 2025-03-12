@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { signal } from "@angular/core";
 import {
   ComponentFixture,
@@ -101,6 +102,9 @@ describe("ImportUploadEmailsComponent", () => {
 
       expect(element.textContent).toContain("import.upload.success.title");
       expect(element.textContent).not.toContain("import.upload.error.title");
+      expect(element.textContent).not.toContain(
+        "import.upload.error.entry-error",
+      );
       expect(element.querySelector("bkd-progress")).toBeNull();
     }));
 
@@ -124,6 +128,38 @@ describe("ImportUploadEmailsComponent", () => {
       expect(element.textContent).toContain("import.upload.error.title");
       expect(element.querySelector("table")).not.toBeNull();
       expect(element.textContent).not.toContain("import.upload.success.title");
+      expect(element.textContent).toContain("import.upload.error.entry-error");
+      expect(element.querySelector("bkd-progress")).toBeNull();
+    }));
+
+    it("displays error message from HttpErrorResponse", fakeAsync(() => {
+      uploadServiceMock.progress.set({
+        uploading: 0,
+        success: 0,
+        error: 1,
+        total: 1,
+      });
+
+      const entry = buildEntry();
+      entry.importStatus = "error";
+      entry.importError = new ImportError(
+        new HttpErrorResponse({
+          error: {
+            Issues: [{ Message: "Some custom error message" }],
+          },
+        }),
+      );
+      resolveEntries([entry]);
+      flush();
+      fixture.detectChanges();
+
+      expect(element.textContent).toContain("import.upload.error.title");
+      expect(element.querySelector("table")).not.toBeNull();
+      expect(element.textContent).not.toContain("import.upload.success.title");
+      expect(element.textContent).toContain("Some custom error message");
+      expect(element.textContent).not.toContain(
+        "import.upload.error.entry-error",
+      );
       expect(element.querySelector("bkd-progress")).toBeNull();
     }));
   });

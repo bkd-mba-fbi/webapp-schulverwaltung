@@ -1,6 +1,7 @@
 import { SubscriptionDetailType } from "src/app/shared/models/subscription.model";
 import { SubscriptionDetailImportEntry } from "../../services/subscription-details/import-validate-subscription-details.service";
 import {
+  isInteger,
   isNumber,
   isOptionalEmail,
   isOptionalNumber,
@@ -105,6 +106,14 @@ export const assertPersonExists: SubscriptionDetailValidationFn = (entry) => {
   return valid;
 };
 
+/**
+ * The /Subscriptions/{subscriptionId}/SubscriptionDetails endpoint does not
+ * return details that don't have VssInternet="E". So there is no way to
+ * differentiate between the case where no subscription exists for a given
+ * person/event and the case where a subscription exists, but can't be edited
+ * through the Internet (VssInternet!="E"). We solve this by using a generic
+ * error message that covers both cases.
+ */
 export const assertSubscriptionDetailExists: SubscriptionDetailValidationFn = (
   entry,
 ) => {
@@ -116,10 +125,15 @@ export const assertSubscriptionDetailExists: SubscriptionDetailValidationFn = (
   return valid;
 };
 
+/**
+ * Actually, the /Subscriptions/{subscriptionId}/SubscriptionDetails endpoint
+ * does not return details that don't have VssInternet="E". But we leave this
+ * assertion in place for now.
+ */
 export const assertSubscriptionDetailEditable: SubscriptionDetailValidationFn =
   (entry) => {
     const detail = entry.data.subscriptionDetail;
-    const valid = detail?.VssInternet === "E" && detail?.VssStyle === "TX";
+    const valid = detail?.VssInternet === "E";
     if (!valid) {
       entry.validationStatus = "invalid";
       entry.validationError = new SubscriptionDetailNotEditableError();
@@ -130,17 +144,22 @@ export const assertSubscriptionDetailEditable: SubscriptionDetailValidationFn =
 export const assertSubscriptionDetailType: SubscriptionDetailValidationFn = (
   entry,
 ) => {
+  const ALLOWED_VSS_TYPES = [
+    SubscriptionDetailType.Int,
+    SubscriptionDetailType.Currency,
+    SubscriptionDetailType.ShortText,
+    SubscriptionDetailType.Text,
+  ];
   const detail = entry.data.subscriptionDetail;
   const typeId = detail?.VssTypeId;
   const { value } = entry.entry;
   const valid =
-    detail?.DropdownItems != null || // Entries with dropdown items will be checked by another assertion
-    ((typeId === SubscriptionDetailType.Int ||
-      typeId === SubscriptionDetailType.Currency) &&
-      isNumber(value)) ||
-    ((typeId === SubscriptionDetailType.Text ||
-      typeId === SubscriptionDetailType.MemoText) &&
-      isString(value));
+    detail?.DropdownItems != null || // Entries with dropdown items will be checked by assertSubscriptionDetailDropdownItems
+    (ALLOWED_VSS_TYPES.includes(typeId as never) &&
+      ((typeId === SubscriptionDetailType.Int && isInteger(value)) ||
+        (typeId === SubscriptionDetailType.Currency && isNumber(value)) ||
+        (typeId === SubscriptionDetailType.ShortText && isString(value)) ||
+        (typeId === SubscriptionDetailType.Text && isString(value))));
   if (!valid) {
     entry.validationStatus = "invalid";
     entry.validationError = new InvalidValueTypeError();
@@ -150,11 +169,11 @@ export const assertSubscriptionDetailType: SubscriptionDetailValidationFn = (
 
 export const assertSubscriptionDetailDropdownItems: SubscriptionDetailValidationFn =
   (entry) => {
-    const items = entry.data.subscriptionDetail?.DropdownItems?.map((item) =>
-      String(item.Key),
-    );
+    const itemsValues = entry.data.subscriptionDetail?.DropdownItems?.filter(
+      (item) => item.IsActive,
+    )?.map((item) => item.Value);
     const { value } = entry.entry;
-    const valid = items == null || items.includes(String(value));
+    const valid = itemsValues == null || itemsValues.includes(String(value));
     if (!valid) {
       entry.validationStatus = "invalid";
       entry.validationError = new InvalidDropdownValueError();

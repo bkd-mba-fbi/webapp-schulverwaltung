@@ -359,7 +359,88 @@
     }
   },
   "import": {
-    "title": "Saisir les données"
+    "title": "Importer des données",
+    "file": {
+      "input-label": "Sélectionner ou faire glisser un document dans cette fenêtre",
+      "drop-zone-label": "Faire glisser le document ici",
+      "columns-info": "Le document doit contenir les colonnes suivantes dans le bon ordre (les titres de colonnes et les autres colonnes sont ignorés) :",
+      "next": "Valider les données",
+      "types": {
+        "subscriptionDetails": "Détails d'inscription",
+        "emails": "Adresses électroniques"
+      },
+      "errors": {
+        "EmptyFileError": "Le fichier ne contient pas de données",
+        "MissingColumnsError": "{{actualColumns}} colonnes sur {{requiredColumns}} disponibles"
+      }
+    },
+    "validation": {
+      "validating": "Les données sont vérifiées...",
+      "upload": "Importer les données",
+      "change-document": "Sélectionner un autre document",
+      "proceed-no-valid": "Il n'y a pas d'entrées valides",
+      "proceed-dialog": {
+        "title": "Il y a des enregistrements erronés",
+        "message": "Il y a {{invalidCount}} enregistrements incorrects qui ne peuvent pas être importés. Voulez-vous quand même importer les autres ?",
+        "cancel": "Annuler",
+        "proceed": "Importer les données"
+      },
+      "errors": {
+        "InvalidEventIdError": "L'ID événement n'est pas valide",
+        "InvalidPersonIdError": "L'ID personne n'est pas valide",
+        "InvalidPersonEmailError": "L'adresse électronique n'est pas valide",
+        "MissingPersonIdEmailError": "L'ID personne ou l'adresse électronique est requis",
+        "InvalidSubscriptionDetailIdError": "L'ID détail d'inscription n'est pas valide",
+        "MissingValueError": "La valeur est manquante",
+        "EventNotFoundError": "L'événement n'existe pas",
+        "PersonNotFoundError": "La personne n'existe pas",
+        "SubscriptionDetailNotFoundError": "Le détail d'inscription n'est pas validé pour la saisie sur Internet ou la personne n'est pas inscrite à l'événement",
+        "SubscriptionDetailNotEditableError": "Le détail d'inscription n'est pas validé pour la saisie sur Internet",
+        "InvalidValueTypeError": "Valeur non valide pour ce détail d'inscription",
+        "InvalidDropdownValueError": "Valeur non valide pour ce détail d'inscription"
+      }
+    },
+    "upload": {
+      "uploading": "Les données sont importées...",
+      "progress": "Importation des données en progrès",
+      "success": {
+        "title": "Données importées avec succès",
+        "content": "{{count}} enregistrements sur {{total}} ont été importés avec succès.",
+        "back": "Importer un autre document"
+      },
+      "error": {
+        "title": "Erreur lors de l'importation des données",
+        "content": "{{count}} enregistrements sur {{total}} n'ont pas pu être importés.",
+        "retry": "Essayer à nouveau",
+        "entry-error": "Une erreur s'est produite"
+      }
+    },
+    "subscriptionDetails": {
+      "data-columns": {
+        "column1": "ID événement",
+        "column2": "ID personne ou adresse électronique",
+        "column3": "ID détail d'inscription",
+        "column4": "Valeur"
+      },
+      "table-columns": {
+        "status": "Statut",
+        "event": "Événement",
+        "person": "Personne",
+        "subscription-detail": "Détail d'inscription",
+        "value": "Valeur"
+      }
+    },
+    "emails": {
+      "data-columns": {
+        "column1": "ID personne",
+        "column2": "Adresse électronique"
+      },
+      "table-columns": {
+        "status": "Statut",
+        "person": "Personne",
+        "email": "Adresse électronique"
+      }
+    }
   },
   "my-absences": {
     "title": "Mes absences",

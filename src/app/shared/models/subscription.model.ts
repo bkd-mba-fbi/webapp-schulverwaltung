@@ -1,12 +1,12 @@
 import * as t from "io-ts";
 import { LocalDateTimeFromString, Option } from "./common-types";
-import { DropDownItem } from "./drop-down-item.model";
+import { DropDownItemWithActive } from "./drop-down-item.model";
 
 export enum SubscriptionDetailType {
   Int = 277,
   Currency = 279,
-  Text = 290,
-  MemoText = 293,
+  ShortText = 290, // → Text in old implementation
+  Text = 293, // → MemoText in old implementation
 }
 
 const SubscriptionDetail = t.type({
@@ -16,7 +16,7 @@ const SubscriptionDetail = t.type({
   EventId: t.number,
   // OpenInvoiceBookingId: Option(t.number),
   // BookingType: Option(t.string),
-  DropdownItems: Option(t.array(DropDownItem)),
+  DropdownItems: Option(t.array(DropDownItemWithActive)),
   // EnteringType: t.string,
   IdPerson: t.number,
   // IsValidated: t.boolean,

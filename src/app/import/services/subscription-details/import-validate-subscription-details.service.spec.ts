@@ -218,23 +218,23 @@ describe("ImportValidateSubscriptionDetailsService", () => {
       });
 
       describe("editable via internet", () => {
+        it("sets entry status to valid without error if subscription detail's VSSInternet is 'E'", async () => {
+          mockSubscriptionDetail({
+            VssInternet: "E",
+          });
+          await expectsValidEntry();
+        });
+
         it("sets entry status to invalid with SubscriptionDetailNotEditableError if subscription detail's VSSInternet is not 'E'", async () => {
           mockSubscriptionDetail({
             VssInternet: "X",
           });
           await expectsInvalidEntry(SubscriptionDetailNotEditableError);
         });
-
-        it("sets entry status to invalid with SubscriptionDetailNotEditableError if subscription detail's VssStyle is not 'TX'", async () => {
-          mockSubscriptionDetail({
-            VssStyle: "X",
-          });
-          await expectsInvalidEntry(SubscriptionDetailNotEditableError);
-        });
       });
 
       describe("value type", () => {
-        it("sets entry status to valid without error for int value Int type", async () => {
+        it("sets entry status to valid without error for int Int type with int value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Int,
           });
@@ -242,7 +242,15 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to invalid with InvalidValueTypeError for string value Int type", async () => {
+        it("sets entry status to invalid with InvalidValueTypeError Int type with float value", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Int,
+          });
+          entry.value = 1.25;
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for Int type with string value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Int,
           });
@@ -250,7 +258,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsInvalidEntry(InvalidValueTypeError);
         });
 
-        it("sets entry status to valid without error for int value Currency type", async () => {
+        it("sets entry status to valid without error for Currency type with int value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Currency,
           });
@@ -258,7 +266,15 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to invalid with InvalidValueTypeError for string value Currency type", async () => {
+        it("sets entry status to valid without error for Currency type with float value", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.Currency,
+          });
+          entry.value = 1.25;
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for Currency type with string value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Currency,
           });
@@ -266,7 +282,23 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsInvalidEntry(InvalidValueTypeError);
         });
 
-        it("sets entry status to valid without error for string value Text type", async () => {
+        it("sets entry status to valid without error for ShortText type with string value", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.ShortText,
+          });
+          entry.value = "Lorem ipsum";
+          await expectsValidEntry();
+        });
+
+        it("sets entry status to invalid with InvalidValueTypeError for ShortText type with number value", async () => {
+          mockSubscriptionDetail({
+            VssTypeId: SubscriptionDetailType.ShortText,
+          });
+          entry.value = 42;
+          await expectsInvalidEntry(InvalidValueTypeError);
+        });
+
+        it("sets entry status to valid without error for Text type with string value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Text,
           });
@@ -274,7 +306,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to invalid with InvalidValueTypeError for number value Text type", async () => {
+        it("sets entry status to invalid with InvalidValueTypeError for Text type with number value", async () => {
           mockSubscriptionDetail({
             VssTypeId: SubscriptionDetailType.Text,
           });
@@ -282,19 +314,10 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsInvalidEntry(InvalidValueTypeError);
         });
 
-        it("sets entry status to valid without error for string value MemoText type", async () => {
+        it("sets entry status to invalid with InvalidValueTypeError for unsupported YesNo type", async () => {
           mockSubscriptionDetail({
-            VssTypeId: SubscriptionDetailType.MemoText,
+            VssTypeId: 291, // YesNo
           });
-          entry.value = "Lorem ipsum";
-          await expectsValidEntry();
-        });
-
-        it("sets entry status to invalid with InvalidValueTypeError for number value MemoText type", async () => {
-          mockSubscriptionDetail({
-            VssTypeId: SubscriptionDetailType.MemoText,
-          });
-          entry.value = 42;
           await expectsInvalidEntry(InvalidValueTypeError);
         });
       });
@@ -308,36 +331,36 @@ describe("ImportValidateSubscriptionDetailsService", () => {
           await expectsValidEntry();
         });
 
-        it("sets entry status to valid without error for supported dropdown item as number", async () => {
+        it("sets entry status to valid without error for existing dropdown item", async () => {
           mockSubscriptionDetail({
             DropdownItems: [
-              { Key: 1, Value: "Apple" },
-              { Key: 2, Value: "Pear" },
+              { Key: 1, Value: "Apple", IsActive: true },
+              { Key: 2, Value: "Pear", IsActive: true },
             ],
           });
-          entry.value = 1;
+          entry.value = "Apple";
           await expectsValidEntry();
         });
 
-        it("sets entry status to valid without error for supported dropdown item as string", async () => {
+        it("sets entry status to invalid with InvalidDropdownValueError for non-existing dropdown item", async () => {
           mockSubscriptionDetail({
             DropdownItems: [
-              { Key: 1, Value: "Apple" },
-              { Key: 2, Value: "Pear" },
+              { Key: 1, Value: "Apple", IsActive: true },
+              { Key: 2, Value: "Pear", IsActive: true },
             ],
           });
-          entry.value = "1";
-          await expectsValidEntry();
+          entry.value = "Cherry";
+          await expectsInvalidEntry(InvalidDropdownValueError);
         });
 
-        it("sets entry status to invalid with InvalidDropdownValueError for unsupported dropdown item", async () => {
+        it("sets entry status to invalid with InvalidDropdownValueError for inactive dropdown item", async () => {
           mockSubscriptionDetail({
             DropdownItems: [
-              { Key: 1, Value: "Apple" },
-              { Key: 2, Value: "Pear" },
+              { Key: 1, Value: "Apple", IsActive: false },
+              { Key: 2, Value: "Pear", IsActive: true },
             ],
           });
-          entry.value = 3;
+          entry.value = "Apple";
           await expectsInvalidEntry(InvalidDropdownValueError);
         });
       });
@@ -394,7 +417,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
     detail.EventId = 10;
     detail.IdPerson = 100;
     detail.DropdownItems = value.DropdownItems ?? null;
-    detail.VssTypeId = value.VssTypeId ?? SubscriptionDetailType.Text;
+    detail.VssTypeId = value.VssTypeId ?? SubscriptionDetailType.ShortText;
     detail.VssInternet = value.VssInternet ?? "E";
     detail.VssStyle = value.VssStyle ?? "TX";
     detail.Value = value.Value ?? "Lorem ipsum";
