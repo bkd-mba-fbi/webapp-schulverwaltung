@@ -117,6 +117,25 @@ describe("ImportUploadSubscriptionDetailsService", () => {
         total: 3,
       });
     });
+
+    it("sends `Key` of corresponding dropdown item as value", async () => {
+      const entry = buildEntry(
+        { eventId: 11, subscriptionDetailId: 1001, value: "Apple" },
+        { validationStatus: "valid", importStatus: null },
+      );
+      entry.data.subscriptionDetail!.DropdownItems = [
+        { Key: 10, Value: "Apple", IsActive: true },
+        { Key: 11, Value: "Pear", IsActive: true },
+      ];
+
+      await service.upload([entry]);
+
+      expect(subscriptionDetailsServiceMock.update).toHaveBeenCalledTimes(1);
+
+      const value =
+        subscriptionDetailsServiceMock.update.calls.mostRecent().args[1];
+      expect(value).toBe(10);
+    });
   });
 
   function buildEntry(
