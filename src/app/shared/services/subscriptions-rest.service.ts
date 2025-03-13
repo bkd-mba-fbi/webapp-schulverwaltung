@@ -97,6 +97,10 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
       .pipe(switchMap(decodeArray(Subscription)));
   }
 
+  /**
+   * This endpoint only returns subscription details that have VssInternet="E"
+   * (i.e. editable via Internet).
+   */
   getSubscriptionDetailsById(
     id: number | string,
   ): Observable<ReadonlyArray<SubscriptionDetail>> {
