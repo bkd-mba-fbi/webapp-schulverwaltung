@@ -1,9 +1,11 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
+import { subDays } from "date-fns/subDays";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { LessonAbsence } from "../models/lesson-absence.model";
+import { formatISOLocalDate } from "../utils/date";
 import { decodeArray } from "../utils/decode";
 import { RestService } from "./rest.service";
 
@@ -29,10 +31,9 @@ export class LessonTeachersRestService extends RestService<
     students: number[],
     params?: HttpParams | Dict<string>,
   ): Observable<ReadonlyArray<LessonAbsence>> {
-    const todayDate = new Date();
-    todayDate.setDate(todayDate.getDate() - 60);
+    const fromDate = subDays(new Date(), 60);
 
-    let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef&filter.CreatedOn=>${todayDate.toISOString().substring(0, 10)}`;
+    let url = `${this.baseUrl}/except/${personId}/LessonAbsences?expand=LessonRef&filter.CreatedOn=>${formatISOLocalDate(fromDate)}`;
     if (students && students.length > 0) {
       url = url.concat("&filter.StudentRef=;" + students.join(";"));
     }
