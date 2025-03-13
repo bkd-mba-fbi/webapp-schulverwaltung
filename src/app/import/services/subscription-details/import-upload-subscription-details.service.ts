@@ -92,7 +92,9 @@ export class ImportUploadSubscriptionDetailsService {
   private persistEntry(
     entry: SubscriptionDetailImportEntry,
   ): Observable<SubscriptionDetailImportEntry> {
-    if (entry.entry.value === entry.data.subscriptionDetail?.Value) {
+    if (
+      this.getNormalizedValue(entry) == entry.data.subscriptionDetail?.Value
+    ) {
       // Ignore entry with an unchanged value
       this.markSuccessEntry(entry);
       return of(entry);
@@ -114,15 +116,14 @@ export class ImportUploadSubscriptionDetailsService {
     );
   }
 
-  private updateSubscriptionDetail({
-    entry,
-    data: { subscriptionDetail },
-  }: SubscriptionDetailImportEntry): Observable<void> {
-    if (!subscriptionDetail)
+  private updateSubscriptionDetail(
+    entry: SubscriptionDetailImportEntry,
+  ): Observable<void> {
+    if (!entry.data.subscriptionDetail)
       return throwError(
         () =>
           new Error(
-            `Subscription not present for entry: ${JSON.stringify(entry)}`,
+            `Subscription not present for entry: ${JSON.stringify(entry.entry)}`,
           ),
       );
 
@@ -136,13 +137,28 @@ export class ImportUploadSubscriptionDetailsService {
     // return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
 
     return this.subscriptionDetailsService.update(
-      subscriptionDetail,
+      entry.data.subscriptionDetail,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      entry.value as any,
+      this.getNormalizedValue(entry) as any,
       new HttpContext().set(RestErrorInterceptorOptions, {
         disableErrorHandling: true,
       }),
     );
+  }
+
+  private getNormalizedValue({
+    entry,
+    data: { subscriptionDetail },
+  }: SubscriptionDetailImportEntry): unknown {
+    if (Array.isArray(subscriptionDetail?.DropdownItems)) {
+      const item = subscriptionDetail.DropdownItems.find(
+        (item) => item.Value === entry.value,
+      );
+      if (item) {
+        return item.Key;
+      }
+    }
+    return entry.value;
   }
 
   private markSuccessEntry(entry: SubscriptionDetailImportEntry): void {
