@@ -24,13 +24,15 @@ describe("MyProfileEditComponent", () => {
     person.Email2 = "john@example.com";
 
     profileService = {
-      profile$: of({
-        student: person,
-        legalRepresentativePersons: [],
-        apprenticeshipCompanies: [],
-      }),
-      loading$: of(false),
-      reset: jasmine.createSpy("reset"),
+      person$: of(person),
+      loadingPerson$: of(false),
+      legalRepresentatives$: of([]),
+      loadingLegalRepresentatives$: of(false),
+      apprenticeships$: of([]),
+      loadingApprenticeships$: of(false),
+      stayPermit$: of(null),
+      loadingStayPermit$: of(false),
+      reloadStudent: jasmine.createSpy("reloadStudent"),
     } as unknown as MyProfileService;
 
     personsService = jasmine.createSpyObj("PersonsRestService", ["update"]);

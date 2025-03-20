@@ -52,10 +52,6 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor() {
-    this.state.dossierPage$.next("absences");
-  }
-
   ngOnInit(): void {
     this.state.studentId$
       .pipe(takeUntil(this.destroy$))

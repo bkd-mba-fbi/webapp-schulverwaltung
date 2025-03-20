@@ -1,32 +1,60 @@
 import { Injectable, inject } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, map, shareReplay, switchMap } from "rxjs";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { filter, map, of, shareReplay, startWith, switchMap } from "rxjs";
 import { parseQueryString } from "../utils/url";
 import { StudentProfileService } from "./student-profile.service";
 
-export const DOSSIER_PAGES = ["contact", "absences", "grades"] as const;
-export type DossierPage = (typeof DOSSIER_PAGES)[number];
-
 @Injectable()
 export class DossierStateService {
-  profileService = inject(StudentProfileService);
+  private profileService = inject(StudentProfileService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  dossierPage$ = new BehaviorSubject<DossierPage>(DOSSIER_PAGES[0]);
+  dossierPage = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(({ url }) => url),
+      startWith(this.router.url),
+      map(this.getPageFromUrl.bind(this)),
+    ),
+    { requireSync: true },
+  );
 
   studentId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
   );
 
-  profile$ = this.studentId$.pipe(
-    switchMap((id) => this.profileService.getProfile(id)),
+  student$ = this.studentId$.pipe(
+    switchMap((id) => this.profileService.getStudent(id)),
     shareReplay(1),
   );
+  loadingStudent$ = this.profileService.loadingStudent$;
+
+  legalRepresentatives$ = this.student$.pipe(
+    switchMap((student) =>
+      student ? this.profileService.getLegalRepresentatives(student) : of(null),
+    ),
+    shareReplay(1),
+  );
+  loadingLegalRepresentatives$ =
+    this.profileService.loadingLegalRepresentatives$;
+
+  apprenticeships$ = this.studentId$.pipe(
+    switchMap((id) => this.profileService.getApprenticeships(id)),
+    shareReplay(1),
+  );
+  loadingApprenticeships$ = this.profileService.loadingApprenticeships$;
 
   returnParams$ = this.route.queryParams.pipe(
     map(({ returnparams }) => returnparams as string),
   );
   backlinkQueryParams$ = this.returnParams$.pipe(map(parseQueryString));
 
-  loading$ = this.profileService.loading$;
+  private getPageFromUrl(url: string): string {
+    const { pathname } = new URL(url, window.location.origin);
+    const parts = pathname.split("/");
+    const page = parts[parts.length - 1];
+    return page;
+  }
 }

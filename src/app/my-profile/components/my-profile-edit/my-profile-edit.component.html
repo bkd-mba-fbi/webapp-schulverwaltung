@@ -1,20 +1,20 @@
-@let formGroup = formGroup$ | async;
-@let student = student$ | async;
+@let formGroupValue = formGroup();
+@let personValue = person();
 
 <div class="bkd-container bkd-container-limited">
   <h1>{{ "my-profile.edit.title" | translate }}</h1>
-  @if (formGroup && student) {
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  @if (formGroupValue && personValue) {
+    <form [formGroup]="formGroupValue" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <p>{{ "my-profile.edit.address-changes-remark" | translate }}</p>
         <address class="text-muted">
-          <div>{{ student.AddressLine1 }}</div>
-          @if (student.AddressLine2) {
+          <div>{{ personValue.AddressLine1 }}</div>
+          @if (personValue.AddressLine2) {
             <div>
-              {{ student.AddressLine2 }}
+              {{ personValue.AddressLine2 }}
             </div>
           }
-          <div>{{ student.Zip || "" }} {{ student.Location }}</div>
+          <div>{{ personValue.Zip || "" }} {{ personValue.Location }}</div>
         </address>
       </div>
       @for (error of formErrors$ | async; track error) {

@@ -1,0 +1,75 @@
+@let manager = apprenticeship().apprenticeshipManager;
+@let contract = apprenticeship().apprenticeshipContract;
+@let trainer = apprenticeship().jobTrainer;
+
+@if (manager) {
+  <address>
+    @if (manager.CompanyName) {
+      {{ manager.CompanyName }}<br />
+    }
+    @if (manager.CompanyNameAddition) {
+      {{ manager.CompanyNameAddition }}<br />
+    }
+    @if (manager.Lastname || manager.Firstname) {
+      {{ manager.Lastname || "" }}
+      {{ manager.Firstname || "" }}<br />
+    }
+    @if (manager.AddressLine1) {
+      {{ manager.AddressLine1 }}<br />
+    }
+    @if (manager.AddressLine2) {
+      {{ manager.AddressLine2 }}<br />
+    }
+    @if (manager.PostalCode && manager.Location) {
+      {{ manager.PostalCode }}
+      {{ manager.Location }}<br />
+    }
+    @if (manager.PhoneBusiness) {
+      <a href="tel:{{ manager.PhoneBusiness }}"
+        >{{ manager.PhoneBusiness }}<br
+      /></a>
+    }
+    @if (manager | bkdPersonEmail) {
+      <a href="mailto:{{ manager | bkdPersonEmail }}">{{
+        manager | bkdPersonEmail
+      }}</a>
+    }
+  </address>
+}
+
+@if (contract.ContractDateFrom) {
+  <div class="subentry">
+    {{ "shared.profile.apprenticeship-period" | translate
+    }}{{ ":" | addSpace: ":" }}<br />
+    {{ contract.ContractDateFrom | date: "dd.MM.yyyy" }}–{{
+      contract.ContractDateTo | date: "dd.MM.yyyy"
+    }}
+  </div>
+}
+
+@if (trainer) {
+  <div class="subentry">
+    {{ "shared.profile.job-trainer" | translate }}{{ ":" | addSpace: ":" }}
+    <address>
+      @if (trainer.Lastname || trainer.Firstname) {
+        {{ trainer.Lastname || "" }}
+        {{ trainer.Firstname || "" }}<br />
+      }
+      @if (trainer.PhoneBusiness) {
+        <a href="tel:{{ trainer.PhoneBusiness }}"
+          >{{ trainer.PhoneBusiness }}<br
+        /></a>
+      }
+      @if (trainer.PhoneMobile) {
+        <a href="tel:{{ trainer.PhoneMobile }}"
+          >{{ trainer.PhoneMobile }}<br
+        /></a>
+      }
+      @if (trainer | bkdPersonEmail) {
+        <a href="mailto:{{ trainer | bkdPersonEmail }}">{{
+          trainer | bkdPersonEmail
+        }}</a>
+      }
+    </address>
+  </div>
+}

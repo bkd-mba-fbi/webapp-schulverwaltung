@@ -1,7 +1,8 @@
+import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
-import { ReportsService } from "src/app/shared/services/reports.service";
-import { StorageService } from "src/app/shared/services/storage.service";
+import { buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DossierStateService } from "../../../services/dossier-state.service";
 import { StudentDossierComponent } from "./student-dossier.component";
@@ -15,12 +16,26 @@ describe("StudentDossierComponent", () => {
       buildTestModuleMetadata({
         imports: [StudentDossierComponent],
         providers: [
-          DossierStateService,
-          DossierGradesService,
-          ReportsService,
           {
-            provide: StorageService,
-            useValue: jasmine.createSpyObj("StorageService", ["getPayload"]),
+            provide: DossierStateService,
+            useValue: {
+              dossierPage: signal("contact"),
+              studentId$: of(1),
+              student$: of(buildStudent(1)),
+              loadingStudent$: of(false),
+              legalRepresentatives$: of([]),
+              loadingLegalRepresentatives$: of(false),
+              apprenticeships$: of([]),
+              loadingApprenticeships$: of(false),
+              returnParams$: of(""),
+              backlinkQueryParams$: of({}),
+            },
+          },
+          {
+            provide: DossierGradesService,
+            useValue: {
+              testReports$: of([]),
+            },
           },
         ],
       }),

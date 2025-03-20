@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Student } from "src/app/shared/models/student.model";
 import { buildPerson, buildStudent } from "src/spec-builders";
 import { Person } from "../../../models/person.model";
 import { StudentDossierAddressComponent } from "./student-dossier-address.component";
 
 describe("StudentDossierAddressComponent", () => {
-  let component: StudentDossierAddressComponent;
   let fixture: ComponentFixture<StudentDossierAddressComponent>;
 
   beforeEach(async () => {
@@ -15,22 +15,23 @@ describe("StudentDossierAddressComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentDossierAddressComponent);
-    component = fixture.componentInstance;
   });
 
   describe("for student", () => {
+    let student: Student;
     beforeEach(() => {
-      component.student = buildStudent(123);
-      component.student.AddressLine1 = "Spitalgasse 1";
-      component.student.PostalCode = "3000";
-      component.student.Location = "Bern";
-      component.student.PhoneMobile = "+41 79 123 45 67";
+      student = buildStudent(123);
+      student.AddressLine1 = "Spitalgasse 1";
+      student.PostalCode = "3000";
+      student.Location = "Bern";
+      student.PhoneMobile = "+41 79 123 45 67";
     });
 
     it("renders full address", () => {
-      component.student.AddressLine2 = "Postfach";
-      component.student.PhonePrivate = "+41 31 123 45 67";
-      component.student.DisplayEmail = "fritz@example.com";
+      student.AddressLine2 = "Postfach";
+      student.PhonePrivate = "+41 31 123 45 67";
+      student.DisplayEmail = "fritz@example.com";
+      fixture.componentRef.setInput("student", student);
 
       fixture.detectChanges();
       expectText(
@@ -39,24 +40,27 @@ describe("StudentDossierAddressComponent", () => {
     });
 
     it("renders address without optional fields", () => {
+      fixture.componentRef.setInput("student", student);
       fixture.detectChanges();
       expectText("Spitalgasse 1 3000 Bern +41 79 123 45 67");
     });
   });
 
   describe("for person", () => {
+    let student: Person;
     beforeEach(() => {
-      component.student = buildPerson(123);
-      component.student.AddressLine1 = "Spitalgasse 1";
-      component.student.Zip = "3000";
-      component.student.Location = "Bern";
-      component.student.PhoneMobile = "+41 79 123 45 67";
+      student = buildPerson(123);
+      student.AddressLine1 = "Spitalgasse 1";
+      student.Zip = "3000";
+      student.Location = "Bern";
+      student.PhoneMobile = "+41 79 123 45 67";
     });
 
     it("renders full address", () => {
-      component.student.AddressLine2 = "Postfach";
-      component.student.PhonePrivate = "+41 31 123 45 67";
-      component.student.DisplayEmail = "fritz@example.com";
+      student.AddressLine2 = "Postfach";
+      student.PhonePrivate = "+41 31 123 45 67";
+      student.DisplayEmail = "fritz@example.com";
+      fixture.componentRef.setInput("student", student);
 
       fixture.detectChanges();
       expectText(
@@ -65,14 +69,16 @@ describe("StudentDossierAddressComponent", () => {
     });
 
     it("renders address without optional fields", () => {
+      fixture.componentRef.setInput("student", student);
       fixture.detectChanges();
       expectText("Spitalgasse 1 3000 Bern +41 79 123 45 67");
     });
 
     it("renders alternative email", () => {
-      component.student.DisplayEmail = "fritz@example.com";
-      (component.student as Person).Email2 = "alternative@example.com";
-      component.emailProperty = "Email2";
+      student.DisplayEmail = "fritz@example.com";
+      student.Email2 = "alternative@example.com";
+      fixture.componentRef.setInput("student", student);
+      fixture.componentRef.setInput("emailProperty", "Email2");
       fixture.detectChanges();
 
       expectText(

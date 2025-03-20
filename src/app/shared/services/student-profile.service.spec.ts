@@ -15,10 +15,7 @@ import {
   buildStudent,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import {
-  Profile,
-  StudentProfileService,
-} from "../../shared/services/student-profile.service";
+import { StudentProfileService } from "../../shared/services/student-profile.service";
 import { ApprenticeshipManager } from "../models/apprenticeship-manager.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { JobTrainer } from "../models/job-trainer.model";
@@ -99,146 +96,114 @@ describe("StudentProfileService", () => {
     httpTestingController.verify();
   });
 
-  describe(".getProfile", () => {
-    it("returns the profile for the given student", () => {
-      service
-        .getProfile(student.Id)
-        .subscribe((result: Option<Profile<Student>>) => {
-          expect(result).toEqual({
-            student,
-            stayPermitValue: undefined,
-            legalRepresentativePersons: [
-              legalRepresentative1,
-              legalRepresentative2,
-            ],
-            apprenticeshipCompanies: [
-              {
-                apprenticeshipContract,
-                jobTrainer,
-                apprenticeshipManager,
-              },
-            ],
-          });
-        });
-      expectStudentRequest(student.Id);
-      expectLegalRepresentativesRequest(student.Id);
-      expectApprenticeshipContractRequest(student.Id);
-      expectPersonsRequest(persons.map((person) => person.Id));
-      expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId,
-      );
-      if (apprenticeshipContract.JobTrainer) {
-        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
-      }
+  describe(".getStudent", () => {
+    it("emits the student for the given ID", () => {
+      service.getStudent(student.Id).subscribe((result) => {
+        expect(result).toEqual(student);
+      });
+      httpTestingController
+        .expectOne(`https://eventotest.api/Students/${student.Id}`)
+        .flush(Student.encode(student));
     });
 
-    it("returns the profile without legal representatives for adult student", () => {
-      student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
-
-      service
-        .getProfile(student.Id)
-        .subscribe((result: Option<Profile<Student>>) => {
-          expect(result?.legalRepresentativePersons).toEqual([]);
-        });
-      expectStudentRequest(student.Id);
-      expectLegalRepresentativesRequest(student.Id);
-      expectApprenticeshipContractRequest(student.Id);
-      expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId,
-      );
-      if (apprenticeshipContract.JobTrainer) {
-        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
-      }
-    });
-
-    it("returns the profile only with legal representatives with flag for adult student", () => {
-      student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
-      legalRepresentatives[0].RepresentativeAfterMajority = true;
-
-      service
-        .getProfile(student.Id)
-        .subscribe((result: Option<Profile<Student>>) => {
-          expect(result?.legalRepresentativePersons).toEqual([
-            legalRepresentative1,
-          ]);
-        });
-      expectStudentRequest(student.Id);
-      expectLegalRepresentativesRequest(student.Id);
-      expectApprenticeshipContractRequest(student.Id);
-      expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
-      expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId,
-      );
-      if (apprenticeshipContract.JobTrainer) {
-        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
-      }
+    it("emits null for a 404 response", () => {
+      service.getStudent(student.Id).subscribe((result) => {
+        expect(result).toBeNull();
+      });
+      httpTestingController
+        .expectOne(`https://eventotest.api/Students/${student.Id}`)
+        .flush(null, { status: 404, statusText: "Not Found" });
     });
   });
 
-  describe(".getMyProfile", () => {
-    it("returns the profile for the current user", () => {
-      service.getMyProfile().subscribe((result: Profile<Person>) => {
-        expect(result).toEqual({
-          student: myself,
-          stayPermitValue: "Permit Value",
-          legalRepresentativePersons: [
-            legalRepresentative1,
-            legalRepresentative2,
-          ],
-          apprenticeshipCompanies: [
-            {
-              apprenticeshipContract,
-              jobTrainer,
-              apprenticeshipManager,
-            },
-          ],
+  describe(".getMyself", () => {
+    it("emits the current logged in person", () => {
+      service.getMyself().subscribe((result) => {
+        expect(result).toEqual(myself);
+      });
+      httpTestingController
+        .expectOne("https://eventotest.api/Persons/me")
+        .flush(Person.encode(myself));
+    });
+  });
+
+  describe(".getLegalRepresentatives", () => {
+    describe("student", () => {
+      it("emits the legal representatives of given student", () => {
+        service.getLegalRepresentatives(student).subscribe((result) => {
+          expect(result).toEqual([legalRepresentative1, legalRepresentative2]);
         });
+
+        expectLegalRepresentativesRequest(student.Id);
+        expectPersonsRequest(persons.map((person) => person.Id));
       });
-      expectMyPersonRequest();
-      expectLegalRepresentativesRequest(myself.Id);
-      expectApprenticeshipContractRequest(myself.Id);
-      expectLoadStayPermitValueRequest();
-      expectPersonsRequest(persons.map((person) => person.Id));
-      expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId,
-      );
-      if (apprenticeshipContract.JobTrainer) {
-        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
-      }
+
+      it("emits no legal representatives for adult student", () => {
+        student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+        service.getLegalRepresentatives(student).subscribe((result) => {
+          expect(result).toEqual([]);
+        });
+
+        expectLegalRepresentativesRequest(student.Id);
+      });
+
+      it("emits only legal representatives with flag for adult student", () => {
+        student.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+        legalRepresentatives[0].RepresentativeAfterMajority = true;
+
+        service.getLegalRepresentatives(student).subscribe((result) => {
+          expect(result).toEqual([legalRepresentative1]);
+        });
+        expectLegalRepresentativesRequest(student.Id);
+        expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
+      });
     });
 
-    it("returns the profile without legal representatives for adult user", () => {
-      myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+    describe("myself", () => {
+      it("emits the legal representatives of given student", () => {
+        service.getLegalRepresentatives(myself).subscribe((result) => {
+          expect(result).toEqual([legalRepresentative1, legalRepresentative2]);
+        });
 
-      service.getMyProfile().subscribe((result: Profile<Person>) => {
-        expect(result.legalRepresentativePersons).toEqual([]);
+        expectLegalRepresentativesRequest(myself.Id);
+        expectPersonsRequest(persons.map((person) => person.Id));
       });
-      expectMyPersonRequest();
-      expectLegalRepresentativesRequest(myself.Id);
-      expectApprenticeshipContractRequest(myself.Id);
-      expectLoadStayPermitValueRequest();
-      expectApprenticeshipManagerRequest(
-        apprenticeshipContract.ApprenticeshipManagerId,
-      );
-      if (apprenticeshipContract.JobTrainer) {
-        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
-      }
+
+      it("emits no legal representatives for adult student", () => {
+        myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+        service.getLegalRepresentatives(myself).subscribe((result) => {
+          expect(result).toEqual([]);
+        });
+
+        expectLegalRepresentativesRequest(myself.Id);
+      });
+
+      it("emits only legal representatives with flag for adult student", () => {
+        myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
+        legalRepresentatives[0].RepresentativeAfterMajority = true;
+
+        service.getLegalRepresentatives(myself).subscribe((result) => {
+          expect(result).toEqual([legalRepresentative1]);
+        });
+        expectLegalRepresentativesRequest(myself.Id);
+        expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
+      });
     });
+  });
 
-    it("returns the profile only with legal representatives with flag for adult", () => {
-      myself.Birthdate = new Date(new Date().getFullYear() - 18, 0, 1);
-      legalRepresentatives[0].RepresentativeAfterMajority = true;
-
-      service.getMyProfile().subscribe((result: Profile<Person>) => {
-        expect(result.legalRepresentativePersons).toEqual([
-          legalRepresentative1,
+  describe(".getApprenticeships", () => {
+    it("emits apprenticeships of given student", () => {
+      service.getApprenticeships(student.Id).subscribe((result) => {
+        expect(result).toEqual([
+          {
+            apprenticeshipContract,
+            jobTrainer,
+            apprenticeshipManager,
+          },
         ]);
       });
-      expectMyPersonRequest();
-      expectLegalRepresentativesRequest(myself.Id);
-      expectApprenticeshipContractRequest(myself.Id);
-      expectLoadStayPermitValueRequest();
-      expectPersonsRequest([legalRepresentatives[0].RepresentativeId]);
+
+      expectApprenticeshipContractRequest(student.Id);
       expectApprenticeshipManagerRequest(
         apprenticeshipContract.ApprenticeshipManagerId,
       );
@@ -247,30 +212,36 @@ describe("StudentProfileService", () => {
       }
     });
 
-    it("does not load legal representatives & apprenticeship contracts for non-student", () => {
-      roles = "TeacherRole";
-      service.getMyProfile().subscribe((result: Profile<Person>) => {
-        expect(result).toEqual({
-          student: myself,
-          stayPermitValue: "Permit Value",
-          legalRepresentativePersons: [],
-          apprenticeshipCompanies: [],
-        });
+    it("emits apprenticeships of myself", () => {
+      service.getApprenticeships(myself.Id).subscribe((result) => {
+        expect(result).toEqual([
+          {
+            apprenticeshipContract,
+            jobTrainer,
+            apprenticeshipManager,
+          },
+        ]);
       });
-      expectMyPersonRequest();
-      expectLoadStayPermitValueRequest();
+
+      expectApprenticeshipContractRequest(myself.Id);
+      expectApprenticeshipManagerRequest(
+        apprenticeshipContract.ApprenticeshipManagerId,
+      );
+      if (apprenticeshipContract.JobTrainer) {
+        expectJobTrainerRequest(apprenticeshipContract.JobTrainer);
+      }
     });
   });
 
-  function expectStudentRequest(id: number, response = student): void {
-    const url = `https://eventotest.api/Students/${id}`;
-    httpTestingController.expectOne(url).flush(Student.encode(response));
-  }
+  describe(".getStayPermitValue", () => {
+    it("emits stay permit value of given person", () => {
+      service.getStayPermitValue(myself.StayPermit).subscribe((result) => {
+        expect(result).toBe("Permit Value");
+      });
 
-  function expectMyPersonRequest(response = myself): void {
-    const url = "https://eventotest.api/Persons/me";
-    httpTestingController.expectOne(url).flush(Person.encode(response));
-  }
+      expectLoadStayPermitValueRequest();
+    });
+  });
 
   function expectLegalRepresentativesRequest(
     id: number,

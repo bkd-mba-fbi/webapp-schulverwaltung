@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { BehaviorSubject, of } from "rxjs";
+import { of } from "rxjs";
 import { DossierGradesService } from "src/app/shared/services/dossier-grades.service";
-import {
-  DossierPage,
-  DossierStateService,
-} from "src/app/shared/services/dossier-state.service";
+import { DossierStateService } from "src/app/shared/services/dossier-state.service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { buildCourse, buildGradingScale } from "../../../../../spec-builders";
@@ -15,15 +12,11 @@ describe("DossierGradesComponent", () => {
   let fixture: ComponentFixture<DossierGradesComponent>;
 
   let dossierStateServiceMock: DossierStateService;
-  let dossierPage$: BehaviorSubject<DossierPage>;
 
   let dossierGradesServiceMock: DossierGradesService;
 
   beforeEach(async () => {
-    dossierPage$ = new BehaviorSubject<DossierPage>("grades");
-
     dossierStateServiceMock = {
-      dossierPage$,
       studentId$: of(123),
     } as unknown as DossierStateService;
 

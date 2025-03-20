@@ -1,43 +1,54 @@
-@let profile = state.profile$ | async;
 <h2>{{ "dossier.address" | translate }}</h2>
-@if (profile) {
+@if (loadingStudent()) {
+  <bkd-spinner class="small"></bkd-spinner>
+} @else {
   <bkd-student-dossier-address
     class="profile-entry"
-    [student]="profile.student"
+    [student]="student()"
   ></bkd-student-dossier-address>
-  <div>
-    @if (profile.legalRepresentativePersons.length > 0) {
+}
+<div>
+  @if (loadingLegalRepresentatives()) {
+    <bkd-spinner class="small"></bkd-spinner>
+  } @else {
+    @let representatives = legalRepresentatives() ?? [];
+    @if (representatives.length > 0) {
       <div>
         <h2>{{ "shared.profile.legal-representation" | translate }}</h2>
         <div class="legal-representatives">
-          @for (person of profile.legalRepresentativePersons; track person.Id) {
+          @for (representative of representatives; track representative.Id) {
             <bkd-student-dossier-legal-representative
               class="profile-entry"
-              [person]="person"
+              [person]="representative"
             ></bkd-student-dossier-legal-representative>
           }
         </div>
       </div>
     }
+  }
+
+  @if (loadingApprenticeships()) {
+    <bkd-spinner class="small"></bkd-spinner>
+  } @else {
     @for (
-      company of profile.apprenticeshipCompanies;
-      track company.apprenticeshipContract.Id;
+      apprenticeship of apprenticeships() ?? [];
+      track apprenticeship.apprenticeshipContract.Id;
       let i = $index
     ) {
       <div>
         <h2>
           {{ "shared.profile.apprenticeship-company" | translate }}
-          @if (profile.apprenticeshipCompanies.length > 1) {
+          @if ((apprenticeships() ?? []).length > 1) {
             {{ i + 1 }}
           }
         </h2>
         <div class="apprenticeship-companies">
-          <bkd-student-dossier-apprenticeship-company
+          <bkd-student-dossier-apprenticeship
             class="profile-entry"
-            [company]="company"
-          ></bkd-student-dossier-apprenticeship-company>
+            [apprenticeship]="apprenticeship"
+          ></bkd-student-dossier-apprenticeship>
         </div>
       </div>
     }
-  </div>
-}
+  }
+</div>

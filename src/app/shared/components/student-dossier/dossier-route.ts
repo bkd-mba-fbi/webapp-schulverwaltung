@@ -10,10 +10,21 @@ export const dossierRoute: Route = {
   children: [
     {
       path: "",
-      component: StudentDossierComponent,
+      get component() {
+        // Avoid circular dependency caused by StudentDossierComponent importing
+        // DOSSIER_PAGES and this file importing the component, while it is not
+        // yet defined.
+        return StudentDossierComponent;
+      },
       children: [
-        { path: "contact", component: DossierContactComponent },
-        { path: "absences", component: DossierAbsencesComponent },
+        {
+          path: "contact",
+          component: DossierContactComponent,
+        },
+        {
+          path: "absences",
+          component: DossierAbsencesComponent,
+        },
         { path: "grades", component: DossierGradesComponent },
       ],
     },
@@ -23,3 +34,7 @@ export const dossierRoute: Route = {
     },
   ],
 };
+
+export const DOSSIER_PAGES = (
+  (dossierRoute.children ?? [])[0].children ?? []
+).map(({ path }) => path);

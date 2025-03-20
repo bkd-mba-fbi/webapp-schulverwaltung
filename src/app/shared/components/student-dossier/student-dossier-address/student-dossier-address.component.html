@@ -1,24 +1,24 @@
 <address>
-  {{ student.AddressLine1 }}<br />
-  @if (student.AddressLine2) {
-    {{ student.AddressLine2 }}<br />
+  {{ student().AddressLine1 }}<br />
+  @if (student().AddressLine2) {
+    {{ student().AddressLine2 }}<br />
   }
-  {{ postalCode || "" }} {{ student.Location }}<br />
-  @if (student.PhonePrivate) {
-    <a href="tel:{{ student.PhonePrivate }}">
-      {{ student.PhonePrivate }}
+  {{ postalCode() || "" }} {{ student().Location }}<br />
+  @if (student().PhonePrivate) {
+    <a href="tel:{{ student().PhonePrivate }}">
+      {{ student().PhonePrivate }}
     </a>
     <br />
   }
-  @if (student.PhoneMobile) {
-    <a href="tel:{{ student.PhoneMobile }}">
-      {{ student.PhoneMobile }}
+  @if (student().PhoneMobile) {
+    <a href="tel:{{ student().PhoneMobile }}">
+      {{ student().PhoneMobile }}
     </a>
     <br />
   }
-  @if (email) {
-    <a href="mailto:{{ email }}">
-      {{ email }}
+  @if (email()) {
+    <a href="mailto:{{ email() }}">
+      {{ email() }}
     </a>
   }
 </address>

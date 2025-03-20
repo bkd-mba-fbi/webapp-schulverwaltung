@@ -5,22 +5,18 @@
     }
   </bkd-backlink>
   <div class="d-flex align-items-start justify-content-center dossier-content">
-    @if (loading()) {
-      <bkd-spinner class="align-self-center"></bkd-spinner>
-    } @else {
-      <bkd-student-dossier-navigation
-        [studentId]="studentId()"
-        [student]="profile()?.student"
-        [returnParams]="returnParams()"
-      ></bkd-student-dossier-navigation>
-      <div class="flex-fill d-flex flex-column" role="tabpanel">
-        <h1>{{ "dossier." + dossierPage() | translate }}</h1>
-        @if (profile()) {
-          <router-outlet></router-outlet>
-        } @else {
-          <p>{{ "shared.profile.no-profile" | translate }}</p>
-        }
-      </div>
-    }
+    <bkd-student-dossier-navigation
+      [studentId]="studentId()"
+      [student]="student()"
+      [returnParams]="returnParams()"
+    ></bkd-student-dossier-navigation>
+    <div class="flex-fill d-flex flex-column" role="tabpanel">
+      <h1>{{ "dossier." + dossierPage() | translate }}</h1>
+      @if (!loading() && !student()) {
+        <p>{{ "shared.profile.no-profile" | translate }}</p>
+      } @else {
+        <router-outlet></router-outlet>
+      }
+    </div>
   </div>
 </div>
