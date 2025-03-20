@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -10,14 +16,7 @@ import {
 import { Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
-import {
-  filter,
-  finalize,
-  map,
-  shareReplay,
-  switchMap,
-  take,
-} from "rxjs/operators";
+import { filter, finalize } from "rxjs/operators";
 import { Person } from "src/app/shared/models/person.model";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { getValidationErrors } from "src/app/shared/utils/form";
@@ -40,14 +39,9 @@ export class MyProfileEditComponent {
   private profileService = inject(MyProfileService);
   private personsService = inject(PersonsRestService);
 
-  student$ = this.profileService.profile$.pipe(
-    filter(notNull),
-    map(({ student }) => student),
-  );
-  formGroup$ = this.student$.pipe(
-    map(this.createFormGroup.bind(this)),
-    shareReplay(1),
-  );
+  person = toSignal(this.profileService.person$, { initialValue: null });
+  formGroup = computed(() => this.createFormGroup(this.person()));
+  formGroup$ = toObservable(this.formGroup).pipe(filter(notNull));
 
   saving$ = new BehaviorSubject(false);
   private submitted$ = new BehaviorSubject(false);
@@ -65,23 +59,23 @@ export class MyProfileEditComponent {
 
   onSubmit(): void {
     this.submitted$.next(true);
-    this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
-      if (formGroup.valid) {
-        const { phonePrivate, phoneMobile, email2 } = formGroup.value;
-        this.save(
-          phonePrivate?.trim() || null,
-          phoneMobile?.trim() || null,
-          email2 || null,
-        );
-      }
-    });
+    const formGroup = this.formGroup();
+    if (formGroup?.valid) {
+      const { phonePrivate, phoneMobile, email2 } = formGroup.value;
+      this.save(
+        phonePrivate?.trim() || null,
+        phoneMobile?.trim() || null,
+        email2 || null,
+      );
+    }
   }
 
-  private createFormGroup(profile: Person): UntypedFormGroup {
+  private createFormGroup(person: Option<Person>): Option<UntypedFormGroup> {
+    if (!person) return null;
     return this.fb.group({
-      phonePrivate: [profile.PhonePrivate],
-      phoneMobile: [profile.PhoneMobile],
-      email2: [profile.Email2, Validators.email],
+      phonePrivate: [person.PhonePrivate],
+      phoneMobile: [person.PhoneMobile],
+      email2: [person.Email2, Validators.email],
     });
   }
 
@@ -90,25 +84,18 @@ export class MyProfileEditComponent {
     phoneMobile: Option<string>,
     email2: Maybe<string>,
   ): void {
+    const person = this.person();
+    if (!person) return;
+
     this.saving$.next(true);
-    this.student$
-      .pipe(
-        take(1),
-        switchMap((student) =>
-          this.personsService.update(
-            student.Id,
-            phonePrivate,
-            phoneMobile,
-            email2,
-          ),
-        ),
-        finalize(() => this.saving$.next(false)),
-      )
+    this.personsService
+      .update(person.Id, phonePrivate, phoneMobile, email2)
+      .pipe(finalize(() => this.saving$.next(false)))
       .subscribe(this.onSaveSuccess.bind(this));
   }
 
   private onSaveSuccess(): void {
-    this.profileService.reset(); // Ensure the profile will be reloaded
+    this.profileService.reloadStudent(); // Ensure the profile will be reloaded
     this.toastService.success(
       this.translate.instant("my-profile.edit.save-success"),
     );

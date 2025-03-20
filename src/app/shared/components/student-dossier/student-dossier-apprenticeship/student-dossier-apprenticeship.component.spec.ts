@@ -1,34 +1,35 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Apprenticeship } from "src/app/shared/services/student-profile.service";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManager,
   buildJobTrainer,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { StudentDossierApprenticeshipCompanyComponent } from "./student-dossier-apprenticeship-company.component";
+import { StudentDossierApprenticeshipComponent } from "./student-dossier-apprenticeship.component";
 
-describe("StudentDossierApprenticeshipCompanyComponent", () => {
-  let component: StudentDossierApprenticeshipCompanyComponent;
-  let fixture: ComponentFixture<StudentDossierApprenticeshipCompanyComponent>;
+describe("StudentDossierApprenticeshipComponent", () => {
+  let component: StudentDossierApprenticeshipComponent;
+  let fixture: ComponentFixture<StudentDossierApprenticeshipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [StudentDossierApprenticeshipCompanyComponent],
+        imports: [StudentDossierApprenticeshipComponent],
       }),
     ).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(
-      StudentDossierApprenticeshipCompanyComponent,
-    );
+    fixture = TestBed.createComponent(StudentDossierApprenticeshipComponent);
     component = fixture.componentInstance;
-    component.company = {
+
+    const apprenticeship: Apprenticeship = {
       apprenticeshipContract: buildApprenticeshipContract(123, 10, 20),
       jobTrainer: buildJobTrainer(10),
       apprenticeshipManager: buildApprenticeshipManager(20),
     };
+    fixture.componentRef.setInput("apprenticeship", apprenticeship);
     fixture.detectChanges();
   });
 

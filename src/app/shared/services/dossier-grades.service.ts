@@ -10,7 +10,6 @@ import {
   switchMap,
 } from "rxjs";
 import { scan } from "rxjs/operators";
-import { SETTINGS, Settings } from "src/app/settings";
 import { gradingScaleOfTest, resultOfStudent } from "../../events/utils/tests";
 import { Course, FinalGrading, Grading } from "../models/course.model";
 import { Grade, GradingScale } from "../models/grading-scale.model";
@@ -42,7 +41,6 @@ export class DossierGradesService {
   private reportsService = inject(ReportsService);
   private loadingService = inject(LoadingService);
   private gradingScalesRestService = inject(GradingScalesRestService);
-  private settings = inject<Settings>(SETTINGS);
 
   private studentId$ = new ReplaySubject<number>(1);
   private initialStudentCourses$ = this.studentId$.pipe(

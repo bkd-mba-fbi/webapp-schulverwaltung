@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from "@angular/core";
 import { Person } from "../../../models/person.model";
 import { Student } from "../../../models/student.model";
 
@@ -10,21 +15,19 @@ import { Student } from "../../../models/student.model";
   imports: [],
 })
 export class StudentDossierAddressComponent {
-  @Input() student: Student | Person;
-  @Input() emailProperty: "DisplayEmail" | "Email2" = "DisplayEmail";
+  student = input.required<Student | Person>();
+  emailProperty = input<"DisplayEmail" | "Email2">("DisplayEmail");
 
-  constructor() {}
+  postalCode = computed(() => {
+    const student = this.student();
+    return "PostalCode" in student ? student.PostalCode : student.Zip;
+  });
 
-  get postalCode(): Option<string> {
-    return "PostalCode" in this.student
-      ? this.student.PostalCode
-      : this.student.Zip;
-  }
-
-  get email(): Option<string> {
-    if (this.emailProperty === "Email2" && "Email2" in this.student) {
-      return this.student.Email2 || null;
+  email = computed(() => {
+    const student = this.student();
+    if (this.emailProperty() === "Email2" && "Email2" in student) {
+      return student.Email2 || null;
     }
-    return this.student.DisplayEmail;
-  }
+    return student.DisplayEmail;
+  });
 }

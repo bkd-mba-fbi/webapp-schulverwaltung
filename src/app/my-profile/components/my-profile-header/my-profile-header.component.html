@@ -1,23 +1,24 @@
-@if (student) {
+@let personValue = person();
+
+@if (personValue) {
   <div class="avatar-person">
     <div class="d-flex">
       <bkd-avatar
-        [studentId]="student.Id"
+        [studentId]="personValue.Id"
         class="me-3 avatar large"
       ></bkd-avatar>
       <div class="person">
-        {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
-        @if (student.Gender) {
-          <span>({{ student.Gender }})</span>
+        {{ personValue.LastName }} {{ personValue.FirstName }}
+        {{ personValue.MiddleName }}
+        @if (personValue.Gender) {
+          <span>({{ personValue.Gender }})</span>
         }
         <div class="birthdate">
-          {{ student.Birthdate | date: "dd.MM.yyyy" }}
+          {{ personValue.Birthdate | date: "dd.MM.yyyy" }}
         </div>
       </div>
     </div>
     <bkd-reports-link [reports]="reports$ | async"></bkd-reports-link>
   </div>
-}
-@if (student) {
-  <div class="email">{{ student.Email }}</div>
+  <div class="email">{{ personValue.Email }}</div>
 }

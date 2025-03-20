@@ -1,6 +1,8 @@
 import { Routes } from "@angular/router";
-import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
-import { DOSSIER_PAGES } from "../shared/services/dossier-state.service";
+import {
+  DOSSIER_PAGES,
+  dossierRoute,
+} from "../shared/components/student-dossier/dossier-route";
 import { PresenceControlGroupComponent } from "./components/presence-control-group/presence-control-group.component";
 import { PresenceControlListComponent } from "./components/presence-control-list/presence-control-list.component";
 import { PresenceControlComponent } from "./components/presence-control/presence-control.component";

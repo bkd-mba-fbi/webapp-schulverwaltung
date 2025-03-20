@@ -1,62 +1,57 @@
-@let profile = profileService.profile$ | async;
+@let personValue = person();
+@let stayPermitValue = stayPermit();
 
 <div class="bkd-container bkd-container-limited">
   <h1 data-testid="profile-title">{{ "my-profile.title" | translate }}</h1>
-  @if (profileService.loading$ | async) {
+  @if (loadingPerson()) {
     <bkd-spinner></bkd-spinner>
-  } @else if (!profile) {
-    @if (profileService.noAccess$ | async) {
-      <p data-testid="profile-substitution">
-        {{ "shared.profile.substitution-profile" | translate }}
-      </p>
-    } @else {
-      <p data-testid="profile-none">
-        {{ "shared.profile.no-profile" | translate }}
-      </p>
-    }
+  } @else if (!personValue) {
+    <p data-testid="profile-substitution">
+      {{ "shared.profile.substitution-profile" | translate }}
+    </p>
   } @else {
-    <bkd-my-profile-header [student]="profile.student"></bkd-my-profile-header>
+    <bkd-my-profile-header [person]="personValue"></bkd-my-profile-header>
 
     <div class="profile-content" data-testid="profile-content">
       <div class="profile-entries pt-3">
-        @if (profile.student.SocialSecurityNumber) {
+        @if (personValue.SocialSecurityNumber) {
           <bkd-my-profile-entry
             label="my-profile.show.social-security-number"
-            value="{{ profile.student.SocialSecurityNumber }}"
+            [value]="personValue.SocialSecurityNumber"
           >
           </bkd-my-profile-entry>
         }
 
-        @if (profile.student.HomeTown || profile.student.Nationality) {
+        @if (personValue.HomeTown || personValue.Nationality) {
           <bkd-my-profile-entry
             label="my-profile.show.hometown-nationality"
-            value="{{
-              profile.student.HomeTown || profile.student.Nationality
-            }}"
+            [value]="personValue.HomeTown || personValue.Nationality"
           >
           </bkd-my-profile-entry>
         }
 
-        @if (profile.student.NativeLanguage) {
+        @if (personValue.NativeLanguage) {
           <bkd-my-profile-entry
             label="my-profile.show.native-language"
-            value="{{ profile.student.NativeLanguage }}"
+            [value]="personValue.NativeLanguage"
           >
           </bkd-my-profile-entry>
         }
 
-        @if (profile.stayPermitValue) {
+        @if (loadingStayPermit()) {
+          <bkd-spinner class="small"></bkd-spinner>
+        } @else if (stayPermitValue) {
           <bkd-my-profile-entry
             label="my-profile.show.stay-permit"
-            value="{{ profile.stayPermitValue }}"
+            [value]="stayPermitValue"
           >
           </bkd-my-profile-entry>
         }
 
-        @if (profile.student.StayPermitExpiry) {
+        @if (personValue.StayPermitExpiry) {
           <bkd-my-profile-entry
             label="my-profile.show.stay-permit-expiry"
-            value="{{ profile.student.StayPermitExpiry | date: 'mediumDate' }}"
+            [value]="personValue.StayPermitExpiry | date: 'mediumDate'"
           >
           </bkd-my-profile-entry>
         }
@@ -85,7 +80,7 @@
                   </a>
                   <bkd-student-dossier-address
                     class="profile-entry"
-                    [student]="profile.student"
+                    [student]="personValue"
                     emailProperty="Email2"
                   ></bkd-student-dossier-address>
                 </div>
@@ -94,7 +89,7 @@
           </div>
         </div>
 
-        @if (profile.student.CorrespondenceAddress) {
+        @if (personValue.CorrespondenceAddress) {
           <div ngbAccordionItem #correspondenceAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
@@ -109,7 +104,7 @@
                 <ng-template>
                   <bkd-my-profile-address
                     class="profile-entry"
-                    [address]="profile.student.CorrespondenceAddress"
+                    [address]="personValue.CorrespondenceAddress"
                   ></bkd-my-profile-address>
                 </ng-template>
               </div>
@@ -117,7 +112,7 @@
           </div>
         }
 
-        @if (profile.student.BillingAddress) {
+        @if (personValue.BillingAddress) {
           <div ngbAccordionItem #billingAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
@@ -132,7 +127,7 @@
                 <ng-template>
                   <bkd-my-profile-address
                     class="profile-entry"
-                    [address]="profile.student.BillingAddress"
+                    [address]="personValue.BillingAddress"
                   ></bkd-my-profile-address>
                 </ng-template>
               </div>
@@ -140,12 +135,14 @@
           </div>
         }
 
-        @if (profile.legalRepresentativePersons.length > 0) {
-          <div ngbAccordionItem #legalRepresentatives="ngbAccordionItem">
+        @if (loadingLegalRepresentatives()) {
+          <bkd-spinner class="small"></bkd-spinner>
+        } @else if ((legalRepresentatives() ?? []).length > 0) {
+          <div ngbAccordionItem #legalRepresentativesItem="ngbAccordionItem">
             <div ngbAccordionHeader>
               <bkd-student-dossier-entry-header
-                [opened]="!legalRepresentatives.collapsed"
-                (click)="legalRepresentatives.toggle()"
+                [opened]="!legalRepresentativesItem.collapsed"
+                (click)="legalRepresentativesItem.toggle()"
               >
                 {{ "shared.profile.legal-representation" | translate }}
               </bkd-student-dossier-entry-header>
@@ -154,7 +151,7 @@
               <div ngbAccordionBody>
                 <ng-template>
                   @for (
-                    person of profile.legalRepresentativePersons;
+                    person of legalRepresentatives() ?? [];
                     track person.Id
                   ) {
                     <bkd-student-dossier-legal-representative
@@ -168,9 +165,12 @@
           </div>
         }
 
+        @if (loadingApprenticeships()) {
+          <bkd-spinner class="small"></bkd-spinner>
+        }
         @for (
-          company of profile.apprenticeshipCompanies;
-          track company.apprenticeshipContract.Id;
+          apprenticeship of apprenticeships() ?? [];
+          track apprenticeship.apprenticeshipContract.Id;
           let i = $index
         ) {
           <div [ngbAccordionItem] #apprenticeshipCompanies="ngbAccordionItem">
@@ -180,7 +180,7 @@
                 (click)="apprenticeshipCompanies.toggle()"
               >
                 {{ "shared.profile.apprenticeship-company" | translate }}
-                @if (profile.apprenticeshipCompanies.length > 1) {
+                @if ((apprenticeships() ?? []).length > 1) {
                   {{ i + 1 }}
                 }
               </bkd-student-dossier-entry-header>
@@ -188,10 +188,10 @@
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <bkd-student-dossier-apprenticeship-company
+                  <bkd-student-dossier-apprenticeship
                     class="profile-entry"
-                    [company]="company"
-                  ></bkd-student-dossier-apprenticeship-company>
+                    [apprenticeship]="apprenticeship"
+                  ></bkd-student-dossier-apprenticeship>
                 </ng-template>
               </div>
             </div>

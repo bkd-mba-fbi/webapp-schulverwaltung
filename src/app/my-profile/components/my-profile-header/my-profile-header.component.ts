@@ -2,12 +2,12 @@ import { AsyncPipe, DatePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  computed,
   inject,
+  input,
 } from "@angular/core";
-import { ReplaySubject, of, startWith, switchMap } from "rxjs";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { of, startWith, switchMap } from "rxjs";
 import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { Person } from "../../../shared/models/person.model";
@@ -20,25 +20,18 @@ import { ReportsService } from "../../../shared/services/reports.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
-export class MyProfileHeaderComponent implements OnChanges {
+export class MyProfileHeaderComponent {
   private reportsService = inject(ReportsService);
 
-  @Input() student?: Person;
+  person = input<Person>();
+  personId = computed(() => this.person()?.Id ?? null);
 
-  private studentId$ = new ReplaySubject<Option<number>>(1);
-
-  reports$ = this.studentId$.pipe(
-    switchMap((studentId) =>
-      studentId
-        ? this.reportsService.getPersonMasterDataReports(studentId)
+  reports$ = toObservable(this.personId).pipe(
+    switchMap((personId) =>
+      personId
+        ? this.reportsService.getPersonMasterDataReports(personId)
         : of([]),
     ),
     startWith([]),
   );
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["student"]) {
-      this.studentId$.next(changes["student"].currentValue?.Id || null);
-    }
-  }
 }

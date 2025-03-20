@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Student } from "src/app/shared/models/student.model";
-import { DOSSIER_PAGES } from "src/app/shared/services/dossier-state.service";
+import { DOSSIER_PAGES } from "../dossier-route";
 import { StudentDossierAvatarComponent } from "../student-dossier-avatar/student-dossier-avatar.component";
 
 @Component({

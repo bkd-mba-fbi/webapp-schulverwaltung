@@ -1,5 +1,6 @@
-import { AsyncPipe, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
 import {
   NgbAccordionBody,
@@ -12,7 +13,7 @@ import {
 import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { StudentDossierAddressComponent } from "../../../shared/components/student-dossier/student-dossier-address/student-dossier-address.component";
-import { StudentDossierApprenticeshipCompanyComponent } from "../../../shared/components/student-dossier/student-dossier-apprenticeship-company/student-dossier-apprenticeship-company.component";
+import { StudentDossierApprenticeshipComponent } from "../../../shared/components/student-dossier/student-dossier-apprenticeship/student-dossier-apprenticeship.component";
 import { StudentDossierEntryHeaderComponent } from "../../../shared/components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component";
 import { StudentDossierLegalRepresentativeComponent } from "../../../shared/components/student-dossier/student-dossier-legal-representative/student-dossier-legal-representative.component";
 import { MyProfileService } from "../../services/my-profile.service";
@@ -39,13 +40,40 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
     StudentDossierAddressComponent,
     MyProfileAddressComponent,
     StudentDossierLegalRepresentativeComponent,
-    StudentDossierApprenticeshipCompanyComponent,
+    StudentDossierApprenticeshipComponent,
     SpinnerComponent,
-    AsyncPipe,
     DatePipe,
     TranslatePipe,
   ],
 })
 export class MyProfileShowComponent {
   profileService = inject(MyProfileService);
+
+  person = toSignal(this.profileService.person$, { initialValue: null });
+  loadingPerson = toSignal(this.profileService.loadingPerson$, {
+    requireSync: true,
+  });
+
+  legalRepresentatives = toSignal(this.profileService.legalRepresentatives$, {
+    initialValue: null,
+  });
+  loadingLegalRepresentatives = toSignal(
+    this.profileService.loadingLegalRepresentatives$,
+    { requireSync: true },
+  );
+
+  apprenticeships = toSignal(this.profileService.apprenticeships$);
+  loadingApprenticeships = toSignal(
+    this.profileService.loadingApprenticeships$,
+    {
+      requireSync: true,
+    },
+  );
+
+  stayPermit = toSignal(this.profileService.stayPermit$, {
+    initialValue: null,
+  });
+  loadingStayPermit = toSignal(this.profileService.loadingStayPermit$, {
+    requireSync: true,
+  });
 }

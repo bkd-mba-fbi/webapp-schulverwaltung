@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Observable, of } from "rxjs";
+import { BehaviorSubject, of } from "rxjs";
+import { Person } from "src/app/shared/models/person.model";
+import { Apprenticeship } from "src/app/shared/services/student-profile.service";
 import { buildPerson } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import {
@@ -7,18 +9,15 @@ import {
   expectNotInTheDocument,
   expectText,
 } from "../../../../specs/expectations";
-import { Person } from "../../../shared/models/person.model";
-import { Profile } from "../../../shared/services/student-profile.service";
 import { MyProfileService } from "../../services/my-profile.service";
 import { MyProfileShowComponent } from "./my-profile-show.component";
 
 describe("MyProfileShowComponent", () => {
   let fixture: ComponentFixture<MyProfileShowComponent>;
-  let profileServiceMock: {
-    loading$: Observable<boolean>;
-    profile$: Observable<Option<Profile<Person>>>;
-    noAccess$: Observable<boolean>;
-  };
+  let profileServiceMock: jasmine.SpyObj<MyProfileService>;
+  let person$: BehaviorSubject<Option<Person>>;
+  let legalRepresentatives$: BehaviorSubject<Option<ReadonlyArray<Person>>>;
+  let apprenticeships$: BehaviorSubject<Option<ReadonlyArray<Apprenticeship>>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -28,11 +27,31 @@ describe("MyProfileShowComponent", () => {
           {
             provide: MyProfileService,
             useFactory() {
-              profileServiceMock = {
-                loading$: of(false),
-                noAccess$: of(false),
-                profile$: of(null),
-              };
+              profileServiceMock = jasmine.createSpyObj("MyProfileService", [
+                "reloadStudent",
+              ]);
+
+              person$ = new BehaviorSubject<Option<Person>>(null);
+              profileServiceMock.person$ = person$.asObservable();
+              profileServiceMock.loadingPerson$ = of(false);
+
+              legalRepresentatives$ = new BehaviorSubject<
+                Option<ReadonlyArray<Person>>
+              >(null);
+              profileServiceMock.legalRepresentatives$ =
+                legalRepresentatives$.asObservable();
+              profileServiceMock.loadingLegalRepresentatives$ = of(false);
+
+              apprenticeships$ = new BehaviorSubject<
+                Option<ReadonlyArray<Apprenticeship>>
+              >(null);
+              profileServiceMock.apprenticeships$ =
+                apprenticeships$.asObservable();
+              profileServiceMock.loadingApprenticeships$ = of(false);
+
+              profileServiceMock.stayPermit$ = of(null);
+              profileServiceMock.loadingStayPermit$ = of(false);
+
               return profileServiceMock;
             },
           },
@@ -45,49 +64,29 @@ describe("MyProfileShowComponent", () => {
     fixture = TestBed.createComponent(MyProfileShowComponent);
   });
 
-  describe("substitution not active", () => {
-    it("should show profile", () => {
-      profileServiceMock.profile$ = of({
-        student: buildPerson(1),
-        legalRepresentativePersons: [],
-        apprenticeshipCompanies: [],
-      });
-      fixture.detectChanges();
-      expectElementPresent(fixture.debugElement, "profile-title");
-      expectElementPresent(fixture.debugElement, "profile-content");
+  it("renders profile information", () => {
+    person$.next(buildPerson(1));
+    legalRepresentatives$.next([]);
+    apprenticeships$.next([]);
+    fixture.detectChanges();
+    expectElementPresent(fixture.debugElement, "profile-title");
+    expectElementPresent(fixture.debugElement, "profile-content");
 
-      expectNotInTheDocument(fixture.debugElement, "profile-substitution");
-      expectNotInTheDocument(fixture.debugElement, "profile-none");
-    });
-
-    it("should show no profile text", () => {
-      profileServiceMock.profile$ = of(null);
-      fixture.detectChanges();
-      expectElementPresent(fixture.debugElement, "profile-title");
-      expectText(
-        fixture.debugElement,
-        "profile-none",
-        "shared.profile.no-profile",
-      );
-
-      expectNotInTheDocument(fixture.debugElement, "profile-content");
-      expectNotInTheDocument(fixture.debugElement, "profile-substitution");
-    });
+    expectNotInTheDocument(fixture.debugElement, "profile-substitution");
+    expectNotInTheDocument(fixture.debugElement, "profile-none");
   });
 
-  describe("substitution active", () => {
-    it("should show substitution active text", () => {
-      profileServiceMock.noAccess$ = of(true);
-      fixture.detectChanges();
-      expectElementPresent(fixture.debugElement, "profile-title");
-      expectText(
-        fixture.debugElement,
-        "profile-substitution",
-        "shared.profile.substitution-profile",
-      );
+  it("renders substitution active text if no substitution is active and no user is present", () => {
+    person$.next(null);
+    fixture.detectChanges();
+    expectElementPresent(fixture.debugElement, "profile-title");
+    expectText(
+      fixture.debugElement,
+      "profile-substitution",
+      "shared.profile.substitution-profile",
+    );
 
-      expectNotInTheDocument(fixture.debugElement, "profile-content");
-      expectNotInTheDocument(fixture.debugElement, "profile-none");
-    });
+    expectNotInTheDocument(fixture.debugElement, "profile-content");
+    expectNotInTheDocument(fixture.debugElement, "profile-none");
   });
 });
