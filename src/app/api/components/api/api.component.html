@@ -1,0 +1,129 @@
+<h1>{{ "api.title" | translate }}</h1>
+
+<form [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="method" class="form-label">Method:</label>
+    <select id="method" formControlName="method" class="form-select">
+      @for (method of ["GET", "POST", "PUT", "PATCH", "DELETE"]; track method) {
+        <option [value]="method">{{ method }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="path" class="form-label">Path:</label>
+    <input type="text" id="path" formControlName="path" class="form-control" />
+  </div>
+
+  <div class="mb-3" formArrayName="params">
+    @for (param of params().controls; track param; let i = $index) {
+      <div class="row g-3 align-items-center mt-1" [formGroup]="param">
+        <div class="col-auto">
+          <label [attr.for]="'param-key-' + i" class="form-label">Param:</label>
+        </div>
+        <div class="col-auto">
+          <input
+            type="text"
+            [id]="'param-key-' + i"
+            formControlName="key"
+            class="form-control"
+          />
+        </div>
+        <div class="col-auto">
+          <label [attr.for]="'param-value-' + i" class="form-label"
+            >Value:</label
+          >
+        </div>
+        <div class="col-auto">
+          <input
+            type="text"
+            [id]="'param-value-' + i"
+            formControlName="value"
+            class="form-control"
+          />
+        </div>
+        <div class="col-auto">
+          <button
+            type="button"
+            (click)="removeParam(i)"
+            class="btn btn-secondary"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    }
+    <button type="button" (click)="addParam()" class="btn btn-secondary mt-2">
+      Add param
+    </button>
+  </div>
+
+  <div class="mb-3" formArrayName="headers">
+    @for (
+      header of formGroup().controls.headers.controls;
+      track header;
+      let i = $index
+    ) {
+      <div class="row g-3 align-items-center mt-1" [formGroup]="header">
+        <div class="col-auto">
+          <label [attr.for]="'header-key-' + i" class="form-label"
+            >Header:</label
+          >
+        </div>
+        <div class="col-auto">
+          <input
+            type="text"
+            [id]="'header-key-' + i"
+            formControlName="key"
+            class="form-control"
+          />
+        </div>
+        <div class="col-auto">
+          <label [attr.for]="'header-value-' + i" class="form-label"
+            >Value:</label
+          >
+        </div>
+        <div class="col-auto">
+          <input
+            type="text"
+            [id]="'header-value-' + i"
+            formControlName="value"
+            class="form-control"
+          />
+        </div>
+        <div class="col-auto">
+          <button
+            type="button"
+            (click)="removeHeader(i)"
+            class="btn btn-secondary"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    }
+    <button type="button" (click)="addHeader()" class="btn btn-secondary mt-2">
+      Add header
+    </button>
+  </div>
+
+  @if (
+    formGroup().controls.method.value === "POST" ||
+    formGroup().controls.method.value === "PUT" ||
+    formGroup().controls.method.value === "PATCH"
+  ) {
+    <div class="mb-3">
+      <label for="body" class="form-label">JSON Body:</label>
+      <textarea
+        id="body"
+        formControlName="body"
+        class="form-control"
+        rows="10"
+      ></textarea>
+    </div>
+  }
+
+  <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+<output></output>
