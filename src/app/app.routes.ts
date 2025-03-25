@@ -14,7 +14,7 @@ export const routes: Routes = [
     path: "presence-control",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./presence-control/presence-control-routes").then(
+      import("./presence-control/presence-control.routes").then(
         (m) => m.PRESENCE_CONTROL_ROUTES,
       ),
   },
@@ -22,7 +22,7 @@ export const routes: Routes = [
     path: "open-absences",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./open-absences/open-absences-routes").then(
+      import("./open-absences/open-absences.routes").then(
         (m) => m.OPEN_ABSENCES_ROUTES,
       ),
   },
@@ -66,7 +66,7 @@ export const routes: Routes = [
     path: "my-profile",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./my-profile/my-profile-routes").then((m) => m.MY_PROFILE_ROUTES),
+      import("./my-profile/my-profile.routes").then((m) => m.MY_PROFILE_ROUTES),
   },
   {
     path: "my-grades",
@@ -78,7 +78,7 @@ export const routes: Routes = [
     path: "my-settings",
     canActivate: [authGuard()],
     loadChildren: () =>
-      import("./my-settings/my-settings-routes").then(
+      import("./my-settings/my-settings.routes").then(
         (m) => m.MY_SETTINGS_ROUTES,
       ),
   },
