@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/components/home.component";
 import { UnauthenticatedComponent } from "./shared/components/unauthenticated.component";
 import { authGuard } from "./shared/guards/auth.guard";
+import { devModeGuard } from "./shared/guards/devMode.guard";
 
 export const routes: Routes = [
   {
@@ -81,6 +82,11 @@ export const routes: Routes = [
       import("./my-settings/my-settings.routes").then(
         (m) => m.MY_SETTINGS_ROUTES,
       ),
+  },
+  {
+    path: "api",
+    canActivate: [authGuard(), devModeGuard()],
+    loadChildren: () => import("./api/api.routes").then((m) => m.API_ROUTES),
   },
   { path: "unauthenticated", component: UnauthenticatedComponent },
   {
