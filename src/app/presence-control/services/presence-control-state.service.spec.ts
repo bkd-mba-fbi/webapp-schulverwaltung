@@ -232,7 +232,6 @@ describe("PresenceControlStateService", () => {
     );
     expectLessonsRequest(lessonsFromPresences([werkenFrisch]), "2000-01-10");
     expectLessonPresencesRequest([werkenFrisch], [99]);
-    expectLoadOtherTeachersAbsencesRequest([], person.Id, [123]);
 
     expect(selectedLessonCb).toHaveBeenCalledWith(
       fromLesson(

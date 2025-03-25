@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
 import { Injectable, OnDestroy, inject } from "@angular/core";
 import { Params } from "@angular/router";
-import { format, startOfDay } from "date-fns";
+import { format, isToday, startOfDay } from "date-fns";
 import { isEqual, uniq } from "lodash-es";
 import {
   BehaviorSubject,
@@ -150,10 +150,12 @@ export class PresenceControlStateService
     shareReplay(1),
   );
 
-  otherTeachersAbsences$ = this.studentIds$.pipe(
-    distinctUntilChanged(isEqual),
-    switchMap((studentIds) =>
-      studentIds.length > 0
+  otherTeachersAbsences$ = combineLatest([
+    this.studentIds$.pipe(distinctUntilChanged(isEqual)),
+    this.selectedDate$,
+  ]).pipe(
+    switchMap(([studentIds, date]) =>
+      studentIds.length > 0 && isToday(date)
         ? this.lessonTeacherService.loadOtherTeachersLessonAbsences(
             this.getMyself(),
             studentIds,
