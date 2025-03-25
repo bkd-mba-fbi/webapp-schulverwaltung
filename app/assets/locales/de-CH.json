@@ -554,5 +554,8 @@
     "typeahead": {
       "default-placeholder": "Suchen..."
     }
+  },
+  "api": {
+    "title": "API Debugging"
   }
 }
