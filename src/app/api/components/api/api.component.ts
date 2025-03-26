@@ -94,13 +94,13 @@ export class ApiComponent implements OnInit {
       const url = `${this.settings.apiUrl}${path}`;
       const params = paramsData?.reduce((acc, { key, value }) => {
         if (key?.trim() && value?.trim()) {
-          acc.set(key.trim(), value.trim());
+          return acc.set(key.trim(), value.trim());
         }
         return acc;
       }, new HttpParams());
       const headers = headersData?.reduce((acc, { key, value }) => {
         if (key?.trim() && value?.trim()) {
-          acc.set(key.trim(), value.trim());
+          return acc.set(key.trim(), value.trim());
         }
         return acc;
       }, new HttpHeaders());
