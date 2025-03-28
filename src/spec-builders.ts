@@ -558,7 +558,7 @@ export function buildEvent(id: number, designation?: string): Event {
     // EventLevel: t.string,
     // EventLevelId: t.number,
     // EventType: t.string,
-    // EventTypeId: t.number,
+    EventTypeId: 1,
     // Host: t.string,
     // HostId: t.string,
     // Status: t.string,

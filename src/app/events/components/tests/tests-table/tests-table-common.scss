@@ -1,0 +1,207 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+/**
+ * Common table styles for the TestsTableComponent & the TestsTableHeaderComponent
+ */
+
+:host {
+  --spacer: 16px;
+
+  --point-input-size: 4em;
+  --grade-input-size: 127px; // 13ch
+  --points-grade-gap: 1rem;
+
+  --student-name-column-width: 225px;
+  --student-grade-column-width: calc(
+    var(--spacer) + var(--grade-input-size) + var(--spacer)
+  );
+  --student-average-column-width: 120px;
+  --test-grade-column-width: calc(
+    var(--spacer) + var(--point-input-size) + var(--points-grade-gap) +
+      var(--grade-input-size) + var(--spacer)
+  );
+
+  --student-grade-column-offset: var(--student-name-column-width);
+  --student-average-column-offset: calc(
+    var(--student-grade-column-offset) + var(--student-grade-column-width)
+  );
+  --test-columns-offset: calc(
+    var(--student-average-column-offset) + var(--student-average-column-width)
+  );
+}
+
+$student-name-width-breakpoint: 1000px;
+$student-average-breakpoint: 1200px;
+
+@media (min-width: $student-name-width-breakpoint) {
+  :host {
+    // Student name column should be narrower below 1000px and wider above
+    --student-name-column-width: 275px;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  :host {
+    --points-grade-gap: calc(0.5 * var(--spacer));
+  }
+}
+
+th,
+td {
+  padding: $spacer;
+}
+
+td {
+  vertical-align: middle;
+}
+
+@include media-breakpoint-up(sm) {
+  :host {
+    --point-input-size: 5em;
+  }
+}
+
+tr:not(.header-collapsible) th.test-grade,
+td.test-grade {
+  width: var(--test-grade-column-width);
+  min-width: var(--test-grade-column-width);
+  max-width: var(--test-grade-column-width);
+}
+@media (max-width: ($bkd-tests-mobile-breakpoint)) {
+  tr:not(.header-collapsible):not(.test-point-grading) th.test-grade,
+  tr:not(.test-point-grading) th.student-grade,
+  table:not(.test-point-grading) td.test-grade,
+  table:not(.test-point-grading) td.student-grade {
+    width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+    min-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+    max-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+  }
+}
+
+/**
+ * Column at the end of the table that eats up all the remaining space such that
+ * the all other (fixed-width) columns don't get stretched.
+ */
+th.filler,
+.header-collapsible th.filler,
+td.filler {
+  padding: 0;
+  width: auto;
+}
+@media (max-width: ($bkd-tests-mobile-breakpoint)) {
+  th.filler,
+  .header-collapsible th.filler,
+  td.filler {
+    width: 0;
+  }
+}
+
+th.test-grade .point-column-title {
+  width: var(--point-input-size);
+}
+
+// Mobile view
+@media (max-width: ($bkd-tests-mobile-breakpoint)) {
+  .desktop:not(.selected),
+  .student-grade:not(.selected),
+  .student-average,
+  .test-grade:not(.selected) {
+    display: none;
+  }
+
+  /**
+   * We have replaced the table layout with a flex layout for mobile screens.
+   * Otherwise, the table content does not behave responsively and the content
+   * is cut off.
+  */
+  table,
+  tbody,
+  thead {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  th,
+  tr {
+    display: flex;
+    width: 100%;
+  }
+
+  .student-name {
+    flex: 1;
+    display: block;
+    padding-right: 0;
+  }
+
+  .test-grade {
+    flex: none;
+    display: block;
+  }
+}
+
+// Desktop view
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
+  .mobile {
+    display: none;
+  }
+
+  .student-name {
+    width: var(--student-name-column-width);
+    min-width: var(--student-name-column-width);
+    max-width: var(--student-name-column-width);
+  }
+
+  .student-grade {
+    width: var(--student-grade-column-width);
+    min-width: var(--student-grade-column-width);
+    max-width: var(--student-grade-column-width);
+  }
+
+  .student-average {
+    width: var(--student-average-column-width);
+    min-width: var(--student-average-column-width);
+    max-width: var(--student-average-column-width);
+  }
+
+  .test-grade {
+    width: var(--test-grade-column-width);
+    min-width: var(--test-grade-column-width);
+    max-width: var(--test-grade-column-width);
+  }
+
+  th.sticky,
+  td.sticky {
+    position: sticky;
+    left: 0;
+    background-color: $white;
+  }
+
+  th.sticky.student-grade,
+  td.sticky.student-grade {
+    left: var(--student-grade-column-offset);
+  }
+
+  th.sticky.student-average,
+  td.sticky.student-average {
+    left: var(--student-average-column-offset);
+  }
+}
+
+@media (max-width: $student-average-breakpoint) {
+  // Since table filter cell uses colspan, we only reduce the average column's
+  // width to 1px to hide it (but not its border)
+  :host {
+    --student-average-column-width: 1px;
+  }
+  .student-average {
+    padding: 0;
+    overflow: hidden;
+  }
+}
+@media (min-width: ($student-average-breakpoint + 1)) {
+  .student-average-inline {
+    display: none;
+  }
+}

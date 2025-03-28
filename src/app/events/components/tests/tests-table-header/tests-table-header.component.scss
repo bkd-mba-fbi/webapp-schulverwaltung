@@ -1,0 +1,60 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+@import "../tests-table/tests-table-common";
+
+:host.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: none;
+}
+
+tr th {
+  border-top: none;
+  vertical-align: top;
+}
+
+.header-collapsible th {
+  border-bottom: 1px solid $border-color;
+  padding: 0 $spacer;
+}
+
+tr th.test-info-desktop {
+  display: none !important;
+}
+
+// Desktop view
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
+  :host.sticky.shown {
+    display: table-header-group;
+  }
+
+  tr th.test-info-mobile {
+    display: none !important;
+  }
+
+  tr th.test-info-desktop {
+    display: table-cell !important;
+  }
+
+  tr th {
+    border-top: none;
+    padding-top: calc($spacer / 4);
+    padding-bottom: calc($spacer / 4);
+    border-top: initial;
+  }
+
+  // FIREFOX HACK: Sadly, the sticky cells inside the fixed positioned sticky
+  // header do not work in Firefox (they scroll away) while they work like a
+  // charm in Chrome & Safari. As a workaround, we position these cells as
+  // `fixed` and give them a fixed height via JavaScript (see
+  // TestEditGradesHeaderStickyDirective).
+  :host.sticky {
+    margin-left: var(--test-columns-offset);
+
+    th.sticky {
+      position: fixed;
+    }
+  }
+}

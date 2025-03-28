@@ -1,0 +1,150 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+/**
+ * Common table styles for the EvaluationTableComponent & the EvaluationTableHeaderComponent
+ */
+
+:host {
+  --spacer: 16px;
+
+  --grade-input-size: 127px; // 13ch
+
+  --student-name-column-width: 225px;
+  --student-grade-column-width: calc(
+    var(--spacer) + var(--grade-input-size) + var(--spacer)
+  );
+
+  --student-grade-column-offset: var(--student-name-column-width);
+  --subscription-detail-columns-offset: calc(
+    var(--student-grade-column-offset) + var(--student-grade-column-width)
+  );
+}
+
+$student-name-width-breakpoint: 1000px;
+
+@media (min-width: $student-name-width-breakpoint) {
+  :host {
+    // Student name column should be narrower below 1000px and wider above
+    --student-name-column-width: 275px;
+  }
+}
+
+th,
+td {
+  padding: $spacer;
+}
+
+td {
+  vertical-align: middle;
+}
+
+// TODO: Do subscription detail columns have a fixed width? Or max-width?
+// th.subscription-detail,
+// td.subscription-detail {
+//   width: var(--subscription-detail-column-width);
+//   min-width: var(--subscription-detail-column-width);
+//   max-width: var(--subscription-detail-column-width);
+// }
+@media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
+  th.student-grade,
+  td.student-grade {
+    width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+    min-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+    max-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+  }
+}
+
+/**
+ * Column at the end of the table that eats up all the remaining space such that
+ * the all other (fixed-width) columns don't get stretched.
+ */
+th.filler,
+td.filler {
+  padding: 0;
+  width: auto;
+}
+@media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
+  th.filler,
+  td.filler {
+    width: 0;
+  }
+}
+
+// Mobile view
+@media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
+  .desktop:not(.selected),
+  .student-grade:not(.selected),
+  .subscription-detail:not(.selected) {
+    display: none;
+  }
+
+  /**
+   * We have replaced the table layout with a flex layout for mobile screens.
+   * Otherwise, the table content does not behave responsively and the content
+   * is cut off.
+  */
+  table,
+  tbody,
+  thead,
+  tfoot {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  th,
+  tr {
+    display: flex;
+  }
+
+  .student-name {
+    flex: 1;
+    display: block;
+    padding-right: 0;
+  }
+
+  .student-grade,
+  .subscription-detail {
+    flex: none;
+    display: block;
+  }
+}
+
+// Desktop view
+@media (min-width: ($bkd-evaluation-mobile-breakpoint + 1)) {
+  .mobile {
+    display: none;
+  }
+
+  .student-name {
+    width: var(--student-name-column-width);
+    min-width: var(--student-name-column-width);
+    max-width: var(--student-name-column-width);
+  }
+
+  .student-grade {
+    width: var(--student-grade-column-width);
+    min-width: var(--student-grade-column-width);
+    max-width: var(--student-grade-column-width);
+  }
+
+  // TODO:
+  // .subscription-detail {
+  //   width: var(--subscription-detail-column-width);
+  //   min-width: var(--subscription-detail-column-width);
+  //   max-width: var(--subscription-detail-column-width);
+  // }
+
+  th.sticky,
+  td.sticky {
+    position: sticky;
+    left: 0;
+    background-color: $white;
+  }
+
+  th.sticky.student-grade,
+  td.sticky.student-grade {
+    left: var(--student-grade-column-offset);
+  }
+}

@@ -1,0 +1,55 @@
+@import "src/bootstrap-variables";
+
+:host {
+  font-weight: $font-weight-base;
+}
+
+.collapsed {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.test-designation {
+  display: none !important;
+}
+
+.test-status {
+  order: -1;
+  padding-bottom: $spacer;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $body-color;
+  }
+
+  span {
+    text-decoration: underline;
+  }
+
+  span:hover {
+    text-decoration-color: $accent;
+  }
+}
+
+.edit {
+  color: rgba($body-color, 0.5);
+  text-decoration: none;
+}
+
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
+  .test-designation {
+    display: inherit !important;
+  }
+
+  .test-status {
+    order: initial;
+  }
+
+  .expand-mobile {
+    display: none !important;
+  }
+}
