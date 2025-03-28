@@ -93,6 +93,9 @@ export class TestsEditComponent {
   }
 
   private onSaveSuccess(): void {
+    // Make sure updated data is displayed
+    this.state.reload();
+
     this.toastService.success(
       this.translate.instant("tests.form.save-success"),
     );
