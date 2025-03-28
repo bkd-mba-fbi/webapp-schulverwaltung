@@ -206,6 +206,12 @@ export class TestStateService {
     this._courseId$.next(id);
   }
 
+  reload() {
+    this._courseId$.pipe(take(1)).subscribe((courseId) => {
+      this.setCourseId(courseId);
+    });
+  }
+
   setFilter(filter: TestsFilter) {
     this.filterSubject$.next(filter);
   }

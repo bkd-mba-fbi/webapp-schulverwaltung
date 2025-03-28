@@ -1,0 +1,14 @@
+@import "src/bootstrap-variables";
+
+.header {
+  padding-bottom: $spacer;
+  border-bottom: 1px solid $border-color;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+.additional-info {
+  color: $gray-500;
+}

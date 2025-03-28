@@ -116,6 +116,17 @@ export class ReportsService {
   }
 
   /**
+   * Report "Auswertung der Bewertung"
+   *
+   * @param eventId The ID of the course/study class
+   */
+  getEvaluationReports(eventId: number): Observable<ReadonlyArray<ReportInfo>> {
+    return this.getAvailableReports("Anlass", this.settings.evaluationReports, [
+      eventId,
+    ]);
+  }
+
+  /**
    * Report including grades of multiple courses for a single student
    * (used in events/tests by teachers)
    */

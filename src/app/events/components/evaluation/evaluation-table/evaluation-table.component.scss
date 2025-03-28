@@ -1,0 +1,42 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+@import "./evaluation-table-common";
+
+tbody td.student-name {
+  &,
+  * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  a {
+    text-decoration: none;
+
+    div:first-child {
+      text-decoration: underline;
+    }
+
+    div:first-child:hover {
+      text-decoration-color: $accent;
+    }
+  }
+}
+
+// Desktop view
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
+  .table-responsive-wrapper {
+    display: block;
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .action-buttons {
+    position: sticky;
+    left: 0;
+  }
+}

@@ -1,0 +1,40 @@
+<tr>
+  <th class="sticky student-name" [class.border-end]="isStudyClass()">
+    <bkd-sortable-header
+      [label]="'evaluation.columns.name' | translate"
+      [sortKey]="'name'"
+      [(sortCriteria)]="sortCriteria"
+    >
+    </bkd-sortable-header>
+  </th>
+
+  @if (!isStudyClass()) {
+    <th
+      class="border-end sticky student-grade desktop"
+      [class.selected]="gradeColumnSelected()"
+    >
+      <bkd-sortable-header
+        [label]="'evaluation.columns.grade' | translate"
+        [sortKey]="'grade'"
+        [(sortCriteria)]="sortCriteria"
+      >
+      </bkd-sortable-header>
+    </th>
+  }
+
+  <!-- TODO: render subscription details column headers -->
+  @for (
+    detail of [
+      "Anforderungen",
+      "Absenzen entschuldigt",
+      "Absenzen unentschuldigt",
+      "Formative Beurteilung (generell)",
+      "Bemerkung",
+    ];
+    track detail
+  ) {
+    <th class="subscription-detail">{{ detail }}</th>
+  }
+
+  <th class="filler"></th>
+</tr>

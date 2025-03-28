@@ -1,0 +1,83 @@
+<div class="table-responsive-wrapper">
+  <table
+    class="table table-hover h-100"
+    bkdTableHeaderSticky
+    [inlineHeader]="inlineHeader"
+    [stickyHeader]="stickyHeader"
+  >
+    <thead
+      bkdEvaluationTableHeader
+      [(sortCriteria)]="sortCriteria"
+      [selectedColumn]="selectedColumn()"
+      [isStudyClass]="isStudyClass()"
+      #inlineHeader
+    ></thead>
+    <thead
+      bkdEvaluationTableHeader
+      [sticky]="true"
+      [(sortCriteria)]="sortCriteria"
+      [selectedColumn]="selectedColumn()"
+      [isStudyClass]="isStudyClass()"
+      #stickyHeader
+    ></thead>
+    <tbody>
+      @for (item of gradingItems(); track item.Id) {
+        <tr>
+          <td class="sticky student-name" [class.border-end]="isStudyClass()">
+            <a [routerLink]="['student', item.IdPerson, 'grades']">
+              <div>{{ item.PersonFullname }}</div>
+            </a>
+          </td>
+
+          @if (!isStudyClass()) {
+            <td
+              class="border-end sticky student-grade"
+              [class.selected]="gradeColumnSelected()"
+            >
+              <!-- TODO: add grade select -->
+              {{ item.GradeValue ?? "–" }}
+            </td>
+          }
+
+          <!-- TODO: render subscription details columns -->
+          <td class="subscription-detail">...</td>
+          <td class="subscription-detail">...</td>
+          <td class="subscription-detail">...</td>
+          <td class="subscription-detail">...</td>
+          <td class="subscription-detail">...</td>
+
+          <td class="filler"></td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="sticky student-name">
+          {{ "evaluation.average" | translate }}
+        </td>
+
+        @if (!isStudyClass()) {
+          <td
+            class="border-end sticky student-grade"
+            [class.selected]="gradeColumnSelected()"
+          >
+            <!-- TODO: calculate average grade -->
+            4.5
+          </td>
+        }
+
+        <!-- TODO: render  subscription details columns (empty cell or add colspan to filler column) -->
+        <td class="subscription-detail"></td>
+        <td class="subscription-detail"></td>
+        <td class="subscription-detail"></td>
+        <td class="subscription-detail"></td>
+        <td class="subscription-detail"></td>
+
+        <td class="filler"></td>
+      </tr>
+    </tfoot>
+  </table>
+  <div class="action-buttons">
+    <!-- TODO: add "Bewertung abschliessen" button -->
+  </div>
+</div>

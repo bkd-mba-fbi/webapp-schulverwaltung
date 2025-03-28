@@ -1,0 +1,18 @@
+<bkd-backlink [link]="['/events']">
+  <div class="d-flex">
+    <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
+    <!--Element id excel-import used for a external modul MasterExcel-->
+    <div id="excel-import"></div>
+  </div>
+</bkd-backlink>
+
+<div class="d-flex flex-column header">
+  <h1>{{ event().Designation }}</h1>
+  <div class="additional-info">
+    @let studentCount = event().StudentCount;
+    {{
+      (studentCount === 1 ? "courses.registration" : "courses.registrations")
+        | translate: { count: studentCount }
+    }}
+  </div>
+</div>

@@ -1,0 +1,15 @@
+@import "../../../../../bootstrap-variables";
+
+h1 {
+  margin-bottom: 0;
+}
+
+.search {
+  margin-top: $spacer;
+  display: flex;
+  max-width: 300px;
+}
+
+.additional-info {
+  color: $gray-500;
+}

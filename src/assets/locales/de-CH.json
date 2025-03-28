@@ -336,6 +336,15 @@
       "ok": "Ok"
     }
   },
+  "evaluation": {
+    "no-items": "Keine Einträge vorhanden",
+    "columns": {
+      "name": "Name",
+      "grade": "Note",
+      "absences": "Absenzen"
+    },
+    "average": "Durchschnitt"
+  },
   "dossier": {
     "title": "Dossier",
     "contact": "Kontakt",

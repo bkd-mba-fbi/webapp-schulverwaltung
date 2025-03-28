@@ -1,0 +1,49 @@
+@import "../../../../../bootstrap-variables";
+
+:host {
+  display: grid;
+  align-items: center;
+  grid-template-areas: "name status registration-date";
+  grid-template-columns: 2fr 1fr 1fr;
+  border-bottom: 1px solid $border-color;
+}
+
+.name,
+.status,
+.registration-date {
+  padding: $spacer;
+}
+
+.name {
+  grid-area: name;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.status {
+  grid-area: status;
+  padding-left: 0;
+}
+
+.registration-date {
+  grid-area: registration-date;
+}
+
+@media (max-width: 750px) {
+  :host {
+    grid-template-areas: "name registration-date" "status registration-date";
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+
+  .name {
+    padding-bottom: 0;
+  }
+
+  .status {
+    padding-top: 0;
+    padding-left: $spacer;
+    font-size: $font-size-sm;
+  }
+}

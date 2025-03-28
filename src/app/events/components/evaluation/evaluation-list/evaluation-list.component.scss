@@ -1,0 +1,13 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.columns-dropdown {
+  display: block;
+  padding: $spacer 0;
+}
+
+@media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
+  .columns-dropdown {
+    display: none;
+  }
+}

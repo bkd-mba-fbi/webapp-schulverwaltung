@@ -1,0 +1,41 @@
+@let course = state.course$ | async;
+@let tests = (state.tests$ | async) ?? [];
+@let hasTests = state.hasTests$ | async;
+@let testOptions = testOptions$ | async;
+@let selectedTestId = selectedTestId$ | async;
+@let selectedTest = selectedTest$ | async;
+
+<div class="bkd-container">
+  @if (state.loading$ | async) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <bkd-tests-header [course]="course"></bkd-tests-header>
+    @if (tests.length > 0) {
+      <bkd-select
+        class="tests-dropdown"
+        [options]="testOptions"
+        [value]="selectedTestId"
+        [allowEmpty]="false"
+        width="100%"
+        (valueChange)="$event && testSelected($event)"
+      ></bkd-select>
+      <bkd-tests-table [selectedTest]="selectedTest"></bkd-tests-table>
+    } @else {
+      <p class="mt-3 px-3">{{ "tests.no-tests" | translate }}</p>
+    }
+    @if (state.canSetFinalGrade$ | async) {
+      <a
+        class="rating-overview d-flex justify-content-end pe-3 border-top pt-3"
+        [ngClass]="{
+          'visible-on-mobile': !hasTests || !selectedTest,
+        }"
+        href="{{ buildLinkToRatingOverview() | async }}"
+      >
+        <i class="material-icons fw-bold">arrow_right_alt</i>
+        <span class="ps-1">{{
+          "tests.link-to-rating-overview" | translate
+        }}</span>
+      </a>
+    }
+  }
+</div>

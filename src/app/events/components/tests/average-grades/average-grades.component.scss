@@ -1,0 +1,12 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.average-points {
+  min-width: calc(4em + 0.5em);
+}
+
+@include media-breakpoint-up(sm) {
+  .average-points {
+    min-width: calc(5em + 1em);
+  }
+}
