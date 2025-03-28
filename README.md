@@ -23,7 +23,7 @@ Although it can be used standalone during development, the _webapp-schulverwaltu
 
 ### General
 
-- [Wiki](https://github.com/bkd-mba-fbi/webapp-schulverwaltung/wiki) – Common topics
+- [Documentation](https://fbi-mba-bkd.gitbook.io/github-docs-public/web-app-schulverwaltung) for every module.
 
 ### Development
 
