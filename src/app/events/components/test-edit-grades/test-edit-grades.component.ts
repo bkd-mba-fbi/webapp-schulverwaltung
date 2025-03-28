@@ -1,10 +1,17 @@
 import { AsyncPipe, NgClass } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  inject,
+  viewChild,
+} from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
+import { Observable, Subject, combineLatest } from "rxjs";
+import { map, take, takeUntil } from "rxjs/operators";
 import { PublishTestComponent } from "src/app/events/components/tests-publish/publish-test.component";
 import {
   GradeOrNoResult,
@@ -20,7 +27,7 @@ import { averageGrade, averagePoints } from "../../utils/tests";
 import { GradeComponent } from "../grade/grade.component";
 import { AverageGradesComponent } from "../grades/average-grades/average-grades.component";
 import { GradeSelectComponent } from "../grades/grade-select/grade-select.component";
-import { TestEditGradesHeaderStickyDirective } from "../test-edit-grades-header-sticky/test-edit-grades-header-sticky.directive";
+import { TableHeaderStickyDirective } from "../table-header-sticky/table-header-sticky.directive";
 import { TestEditGradesHeaderComponent } from "../test-edit-grades-header/test-edit-grades-header.component";
 
 @Component({
@@ -37,13 +44,16 @@ import { TestEditGradesHeaderComponent } from "../test-edit-grades-header/test-e
     AsyncPipe,
     TranslatePipe,
     DecimalOrDashPipe,
-    TestEditGradesHeaderStickyDirective,
+    TableHeaderStickyDirective,
     TestEditGradesHeaderComponent,
   ],
 })
-export class TestEditGradesComponent implements OnInit {
+export class TestEditGradesComponent implements OnInit, OnDestroy {
   state = inject(TestStateService);
   private modalService = inject(BkdModalService);
+  private destroy$ = new Subject<void>();
+
+  private sticky = viewChild(TableHeaderStickyDirective);
 
   @Input() selectedTest?: Test;
 
@@ -52,6 +62,17 @@ export class TestEditGradesComponent implements OnInit {
       primarySortKey: "FullName",
       ascending: true,
     });
+
+    // Refresh the columns widths of the sticky header, whenever column count or
+    // size may change
+    combineLatest([this.state.filteredTests$, this.state.expandedHeader$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.sticky()?.refresh());
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   setAverageAsFinalGrade() {

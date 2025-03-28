@@ -336,6 +336,9 @@
       "ok": "Ok"
     }
   },
+  "evaluation": {
+    "no-items": "Keine Einträge vorhanden"
+  },
   "dossier": {
     "title": "Dossier",
     "contact": "Kontakt",

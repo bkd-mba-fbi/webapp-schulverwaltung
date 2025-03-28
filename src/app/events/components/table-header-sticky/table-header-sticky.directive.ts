@@ -1,15 +1,12 @@
 import {
   AfterViewInit,
   Directive,
-  Input,
   OnDestroy,
-  OnInit,
   inject,
+  input,
 } from "@angular/core";
-import { Subject, combineLatest, takeUntil } from "rxjs";
 import { PortalService } from "src/app/shared/services/portal.service";
-import { TestStateService } from "../../services/test-state.service";
-import { TestEditGradesHeaderComponent } from "../test-edit-grades-header/test-edit-grades-header.component";
+import { TableHeaderComponent } from "../table-header/table-header.component";
 
 const MEDIA_BREAKPOINT_SM = 576;
 
@@ -24,26 +21,14 @@ const MEDIA_BREAKPOINT_SM = 576;
  * when used inside the Evento Portal iframe.
  */
 @Directive({
-  selector: "[bkdTestEditGradesHeaderSticky]",
+  selector: "[bkdTableHeaderSticky]",
   standalone: true,
 })
-export class TestEditGradesHeaderStickyDirective
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class TableHeaderStickyDirective implements AfterViewInit, OnDestroy {
   private portal = inject(PortalService);
-  private state = inject(TestStateService);
 
-  @Input() inlineHeader: TestEditGradesHeaderComponent;
-  @Input() stickyHeader: TestEditGradesHeaderComponent;
-
-  private destroy$ = new Subject<void>();
-
-  ngOnInit(): void {
-    // Update sticky header sizing whenever the columns count/widths may change
-    combineLatest([this.state.filteredTests$, this.state.expandedHeader$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => setTimeout(() => this.updateStickyWidth()));
-  }
+  inlineHeader = input.required<TableHeaderComponent>();
+  stickyHeader = input.required<TableHeaderComponent>();
 
   ngAfterViewInit(): void {
     // Position/resize the sticky header initially
@@ -66,6 +51,14 @@ export class TestEditGradesHeaderStickyDirective
       this.handleTableScroll,
     );
     this.window.removeEventListener("resize", this.handleWindowResize);
+  }
+
+  /**
+   * Call whenever the columns count/widths may change to update sticker header
+   * sizing.
+   */
+  refresh(): void {
+    setTimeout(() => this.updateStickyWidth());
   }
 
   private get window(): Window {
@@ -107,31 +100,31 @@ export class TestEditGradesHeaderStickyDirective
 
   private updateStickyVisibility(): void {
     if (this.isSmallBreakpointDown()) return;
-    const inlineTop = this.inlineHeader.getTop() + this.getIframeScrollY();
-    this.stickyHeader.shown = this.getScrollTop() > inlineTop;
+    const inlineTop = this.inlineHeader().getTop() + this.getIframeScrollY();
+    this.stickyHeader().shown.set(this.getScrollTop() > inlineTop);
   }
 
   private updateStickyTopOffset(): void {
     if (this.isSmallBreakpointDown()) return;
-    this.stickyHeader.setTopOffset(
+    this.stickyHeader().setTopOffset(
       this.portal.inIframe ? this.getScrollTop() : 0,
     );
   }
 
   private updateStickyLeftOffset(): void {
     if (this.isSmallBreakpointDown()) return;
-    this.stickyHeader.setLeftOffset(this.inlineHeader.getLeft());
+    this.stickyHeader().setLeftOffset(this.inlineHeader().getLeft());
   }
 
   private updateStickyWidth(): void {
     if (this.isSmallBreakpointDown()) return;
-    this.stickyHeader.setWidth(this.inlineHeader.getWidth());
-    this.stickyHeader.setColumnWidths(this.inlineHeader.getColumnWidths());
+    this.stickyHeader().setWidth(this.inlineHeader().getWidth());
+    this.stickyHeader().setColumnWidths(this.inlineHeader().getColumnWidths());
 
     // FIREFOX HACK: Set the heights of the fixed positioned sticky columns,
     // see test-edit-grades-header.component.scss for more info
-    this.stickyHeader.setStickyColumnHeights(
-      this.inlineHeader.getStickyColumnsHeights(),
+    this.stickyHeader().setStickyColumnHeights(
+      this.inlineHeader().getStickyColumnsHeights(),
     );
   }
 

@@ -1,0 +1,60 @@
+<div class="table-responsive-wrapper">
+  <table
+    class="table table-hover h-100"
+    bkdTableHeaderSticky
+    [inlineHeader]="inlineHeader"
+    [stickyHeader]="stickyHeader"
+  >
+    <thead
+      bkdEvaluationTableHeader
+      [(sortCriteria)]="sortCriteria"
+      [selectedColumn]="selectedColumn()"
+      #inlineHeader
+    ></thead>
+    <thead
+      bkdEvaluationTableHeader
+      [sticky]="true"
+      [(sortCriteria)]="sortCriteria"
+      [selectedColumn]="selectedColumn()"
+      #stickyHeader
+    ></thead>
+    <tbody>
+      @for (item of gradingItems(); track item.Id) {
+        <tr>
+          <td class="sticky student-name">
+            <a [routerLink]="['student', item.IdPerson, 'grades']">
+              <div>{{ item.PersonFullname }}</div>
+            </a>
+          </td>
+          <td
+            class="sticky student-grade"
+            [ngClass]="{ selected: selectedColumn() === null }"
+          >
+            <!-- TODO: add grade select -->
+            {{ item.GradeValue ?? "–" }}
+          </td>
+
+          <!-- TODO: render subscription details columns -->
+          <td>...</td>
+
+          <td class="filler"></td>
+        </tr>
+      }
+      <tr>
+        <td class="sticky student-name">{{ "tests.average" | translate }}</td>
+        <td class="sticky student-grade">
+          <!-- TODO: calculate average grade -->
+          4.5
+        </td>
+
+        <!-- TODO: render  subscription details columns (empty cell or add colspan to filler column) -->
+        <td></td>
+
+        <td class="filler"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="action-buttons">
+    <!-- TODO: add "Bewertung abschliessen" button -->
+  </div>
+</div>

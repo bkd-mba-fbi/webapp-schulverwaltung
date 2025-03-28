@@ -1,5 +1,6 @@
 import { Route, Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
+import { EvaluationListComponent } from "./components/evaluation-list/evaluation-list.component";
 import { EventsCurrentListComponent } from "./components/events-current-list/events-current-list.component";
 import { EventsStudentsListComponent } from "./components/events-students-list/events-students-list.component";
 import { EventsStudentsStudyCourseDetailComponent } from "./components/events-students-study-course-detail/events-students-study-course-detail.component";
@@ -64,13 +65,12 @@ export const EVENTS_ROUTES: Routes = [
           {
             path: "evaluation",
             children: [
-              // TODO:
-              // {
-              //   // /events/:id/evaluation
-              //   // → Event detail with grades & abences
-              //   path: "",
-              //   component: EvaluationListComponent,
-              // },
+              {
+                // /events/:id/evaluation
+                // → Event detail with grades & abences
+                path: "",
+                component: EvaluationListComponent,
+              },
             ],
           },
 
