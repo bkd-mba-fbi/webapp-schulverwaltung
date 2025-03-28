@@ -1,16 +1,11 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import {
-  BehaviorSubject,
-  distinctUntilChanged,
-  finalize,
-  map,
-  switchMap,
-} from "rxjs";
+import { BehaviorSubject, finalize, switchMap, take } from "rxjs";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { ToastService } from "../../../shared/services/toast.service";
+import { TestStateService } from "../../services/test-state.service";
 import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
 
 @Component({
@@ -20,18 +15,13 @@ import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.compo
   imports: [TestsEditFormComponent, AsyncPipe, TranslatePipe],
 })
 export class TestsAddComponent {
-  private route = inject(ActivatedRoute);
   private courseService = inject(CoursesRestService);
   private toastService = inject(ToastService);
   private translate = inject(TranslateService);
   private router = inject(Router);
+  private state = inject(TestStateService);
 
   saving$ = new BehaviorSubject(false);
-
-  courseId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get("id"))),
-    distinctUntilChanged(),
-  );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   save(formGroupValue: any): void {
@@ -44,8 +34,9 @@ export class TestsAddComponent {
       maxPoints,
       maxPointsAdjusted,
     } = formGroupValue;
-    this.courseId$
+    this.state.courseId$
       .pipe(
+        take(1),
         switchMap((courseId) =>
           this.courseService.add(
             courseId,
@@ -63,6 +54,9 @@ export class TestsAddComponent {
   }
 
   private onSaveSuccess(): void {
+    // Make sure new test is displayed
+    this.state.reload();
+
     this.toastService.success(
       this.translate.instant("tests.form.save-success"),
     );
@@ -70,8 +64,8 @@ export class TestsAddComponent {
   }
 
   private navigateBack(): void {
-    this.courseId$.subscribe(
-      (id) => void this.router.navigate(["events", id, "tests"]),
-    );
+    this.state.courseId$
+      .pipe(take(1))
+      .subscribe((id) => void this.router.navigate(["events", id, "tests"]));
   }
 }

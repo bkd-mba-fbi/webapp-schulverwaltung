@@ -1,25 +1,16 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
-import { buildCourse } from "src/spec-builders";
-import { ActivatedRouteMock, buildTestModuleMetadata } from "src/spec-helpers";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../services/test-state.service";
 import { TestsAddComponent } from "./tests-add.component";
 
 describe("TestsAddComponent", () => {
   let component: TestsAddComponent;
   let fixture: ComponentFixture<TestsAddComponent>;
-  let activatedRouteMock: ActivatedRouteMock;
   let courseService: jasmine.SpyObj<CoursesRestService>;
 
   beforeEach(async () => {
-    const course = buildCourse(1);
-
-    activatedRouteMock = new ActivatedRouteMock({
-      id: course.Id,
-    });
-
     courseService = jasmine.createSpyObj("CoursesRestService", ["add"]);
     courseService.add.and.returnValue(of());
 
@@ -28,21 +19,19 @@ describe("TestsAddComponent", () => {
         imports: [TestsAddComponent],
         providers: [
           TestStateService,
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: CoursesRestService, useValue: courseService },
         ],
       }),
     ).compileComponents();
+
+    const state = TestBed.inject(TestStateService);
+    state.setCourseId(1);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsAddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
   });
 
   it("should save new test", () => {

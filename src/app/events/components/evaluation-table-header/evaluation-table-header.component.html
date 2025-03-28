@@ -1,0 +1,26 @@
+<tr>
+  <th class="sticky student-name">
+    <bkd-sortable-header
+      [label]="'tests.student.name' | translate"
+      [sortKey]="'FullName'"
+      [(sortCriteria)]="sortCriteria"
+    >
+    </bkd-sortable-header>
+  </th>
+  <th
+    class="border-end sticky student-grade desktop"
+    [ngClass]="{ selected: selectedColumn() === null }"
+  >
+    <bkd-sortable-header
+      [label]="'tests.grade' | translate"
+      [sortKey]="'FinalGrade'"
+      [(sortCriteria)]="sortCriteria"
+    >
+    </bkd-sortable-header>
+  </th>
+
+  <!-- TODO: render subscription details column headers -->
+  <th>Absenzen entschuldigt</th>
+
+  <th class="filler"></th>
+</tr>
