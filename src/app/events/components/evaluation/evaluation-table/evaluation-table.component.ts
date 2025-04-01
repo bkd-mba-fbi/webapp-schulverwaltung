@@ -9,6 +9,7 @@ import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
+import { Grade } from "src/app/shared/models/grading-scale.model";
 import {
   EvaluationEventType,
   EvaluationSortKey,
@@ -19,6 +20,11 @@ import {
   GRADE_COLUMN_KEY,
 } from "../evaluation-list/evaluation-list.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
+
+type EvaluationEntry = {
+  gradingItem: GradingItem;
+  grade: Option<Grade>;
+};
 
 @Component({
   selector: "bkd-evaluation-table",
@@ -35,7 +41,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
 export class EvaluationTableComponent {
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<number>();
-  gradingItems = input.required<ReadonlyArray<GradingItem>>();
+  entries = input.required<ReadonlyArray<EvaluationEntry>>();
   eventType = input.required<EvaluationEventType>();
 
   gradeColumnSelected = computed(

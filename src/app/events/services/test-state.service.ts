@@ -159,7 +159,7 @@ export class TestStateService {
   );
 
   private gradingScales$ = this.gradingScaleIds$.pipe(
-    switchMap((ids) => this.gradingScalesRestService.getGradingScales(ids)),
+    switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
     shareReplay(1),
   );
 

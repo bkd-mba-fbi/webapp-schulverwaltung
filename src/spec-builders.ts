@@ -14,7 +14,8 @@ import {
   Grading,
 } from "./app/shared/models/course.model";
 import { Event } from "./app/shared/models/event.model";
-import { Grade } from "./app/shared/models/grading-scale.model";
+import { GradingItem } from "./app/shared/models/grading-item.model";
+import { Grade, GradingScale } from "./app/shared/models/grading-scale.model";
 import { JobTrainer } from "./app/shared/models/job-trainer.model";
 import { LegalRepresentative } from "./app/shared/models/legal-representative.model";
 import { LessonAbsence } from "./app/shared/models/lesson-absence.model";
@@ -743,7 +744,10 @@ export function buildGrading(
   };
 }
 
-export function buildGradingScale(id: number, grades: Grade[] = []) {
+export function buildGradingScale(
+  id: number,
+  grades: Grade[] = [],
+): GradingScale {
   return {
     Id: id,
     // Designation: "Zehntelnoten bes. disp. keine Note",
@@ -756,6 +760,29 @@ export function buildGradingScale(id: number, grades: Grade[] = []) {
     // IdObject: 1106,
     // FreeGrading: false,
     // HRef: "/restApi/GradingScales/1106",
+  };
+}
+
+export function buildGradingItem(
+  id: number,
+  gradeId: Option<number> = null,
+): GradingItem {
+  return {
+    Id: String(id),
+    IdPerson: 1001,
+    // IdSubscription: 10413,
+    // IdEvent: 10064,
+    PersonFullname: "T. Tux",
+    // PersonNameTooltip: "Beispiel Johanna",
+    // MatriculationNumber: null,
+    IdGrade: gradeId,
+    GradeValue: null,
+    // Comment: "stzwetz",
+    // SubscriptionDetails: null,
+    // ColumnDetails: null,
+    // IdObject: "10413",
+    // AnlassEditAllowed: true,
+    // HRef: "/restApi/GradingItems/10413",
   };
 }
 

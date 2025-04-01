@@ -21,14 +21,14 @@
       #stickyHeader
     ></thead>
     <tbody>
-      @for (item of gradingItems(); track item.Id) {
+      @for (entry of entries(); track entry.gradingItem.Id) {
         <tr>
           <td
             class="sticky student-name"
             [class.border-end]="eventType() === 'study-class'"
           >
-            <a [routerLink]="['student', item.IdPerson, 'grades']">
-              <div>{{ item.PersonFullname }}</div>
+            <a [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']">
+              <div>{{ entry.gradingItem.PersonFullname }}</div>
             </a>
           </td>
 
@@ -38,7 +38,7 @@
               [class.selected]="gradeColumnSelected()"
             >
               <!-- TODO: add grade select -->
-              {{ item.GradeValue ?? "–" }}
+              {{ entry.grade?.Designation }}
             </td>
           }
 

@@ -1,12 +1,15 @@
-import { Injectable, inject, signal } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { Injectable, computed, inject, signal } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, map, of, switchMap } from "rxjs";
+import { Observable, map, of, startWith, switchMap } from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { CourseWithStudentCount } from "src/app/shared/models/course.model";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
+import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { GradingItemsRestService } from "src/app/shared/services/grading-items-rest.service";
+import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { catch404 } from "src/app/shared/utils/observable";
@@ -23,6 +26,11 @@ export type EvaluationEvent = {
   gradingScaleId: Option<number>;
 };
 
+export type EvaluationEntry = {
+  gradingItem: GradingItem;
+  grade: Option<Grade>;
+};
+
 const INITIAL_SORT_CRITERIA: SortCriteria<EvaluationSortKey> = {
   primarySortKey: "name",
   ascending: true,
@@ -33,9 +41,11 @@ const EVALUATION_CONTEXT = "events-evaluation";
 @Injectable()
 export class EvaluationStateService {
   private route = inject(ActivatedRoute);
+  private loadingService = inject(LoadingService);
   private coursesService = inject(CoursesRestService);
   private studyClassesService = inject(StudyClassesRestService);
-  private loadingService = inject(LoadingService);
+  private gradingItemsService = inject(GradingItemsRestService);
+  private gradingScalesService = inject(GradingScalesRestService);
 
   sortCriteria = signal<Option<SortCriteria<EvaluationSortKey>>>(
     INITIAL_SORT_CRITERIA,
@@ -51,40 +61,31 @@ export class EvaluationStateService {
         return eventId ? Number(eventId) : null;
       }),
     ) ?? of(null);
-  event = toLazySignal(
+  event = toLazySignal<Option<EvaluationEvent>>(
     this.eventId$.pipe(switchMap(this.loadEvaluationEvent.bind(this))),
     { initialValue: null },
   );
-  gradingItems = signal<ReadonlyArray<GradingItem>>([
-    {
-      Id: "1",
-      IdPerson: 1,
-      PersonFullname: "Paul McCartney",
-      IdGrade: null,
-      GradeValue: null,
-    },
-    {
-      Id: "2",
-      IdPerson: 2,
-      PersonFullname: "John Lennon",
-      IdGrade: null,
-      GradeValue: null,
-    },
-    {
-      Id: "3",
-      IdPerson: 3,
-      PersonFullname: "George Harrison",
-      IdGrade: null,
-      GradeValue: null,
-    },
-    {
-      Id: "4",
-      IdPerson: 4,
-      PersonFullname: "Ringo Starr",
-      IdGrade: null,
-      GradeValue: null,
-    },
-  ]);
+
+  gradingItems = toLazySignal<ReadonlyArray<GradingItem>>(
+    this.eventId$.pipe(
+      switchMap(this.loadGradingItems.bind(this)),
+      startWith([]),
+    ),
+    // { initialValue: [] as ReadonlyArray<GradingItem> },
+    { requireSync: true },
+  );
+  gradingScale = toLazySignal<Option<GradingScale>>(
+    toObservable(this.event).pipe(
+      switchMap((event) =>
+        this.loadGradingScale(event?.gradingScaleId ?? null),
+      ),
+    ),
+    { initialValue: null },
+  );
+
+  entries = computed(() =>
+    this.collectEntries(this.gradingItems(), this.gradingScale()),
+  );
 
   private loadEvaluationEvent(
     eventId: Option<number>,
@@ -146,5 +147,39 @@ export class EvaluationStateService {
       studentCount: studyClass.StudentCount,
       gradingScaleId: null,
     };
+  }
+
+  private loadGradingItems(
+    eventId: Option<number>,
+  ): Observable<ReadonlyArray<GradingItem>> {
+    if (!eventId) return of([]);
+
+    return this.gradingItemsService.getListForEvent(eventId);
+  }
+
+  private loadGradingScale(
+    gradingScaleId: Option<number>,
+  ): Observable<Option<GradingScale>> {
+    if (!gradingScaleId) return of(null);
+
+    return this.gradingScalesService.get(gradingScaleId);
+  }
+
+  private collectEntries(
+    gradingItems: ReadonlyArray<GradingItem>,
+    gradingScale: Option<GradingScale>,
+  ): ReadonlyArray<EvaluationEntry> {
+    const grades = gradingScale?.Grades ?? [];
+    return gradingItems.map((gradingItem) => {
+      let grade: Option<Grade> = null;
+      if (gradingItem.IdGrade) {
+        grade =
+          grades.find((grade) => grade.Id === gradingItem.IdGrade) ?? null;
+      }
+      return {
+        gradingItem,
+        grade,
+      };
+    });
   }
 }

@@ -7,8 +7,8 @@
     @let event = state.event();
     @if (event) {
       <bkd-evaluation-header [event]="event"></bkd-evaluation-header>
-      @let items = state.gradingItems();
-      @if (items.length > 0) {
+      @let entries = state.entries();
+      @if (entries.length > 0) {
         @if (columns().length > 1) {
           <bkd-select
             class="columns-dropdown"
@@ -20,7 +20,7 @@
         }
         <bkd-evaluation-table
           [(sortCriteria)]="state.sortCriteria"
-          [gradingItems]="items"
+          [entries]="entries"
           [selectedColumn]="selectedColumnSignal()"
           [eventType]="event.type"
         ></bkd-evaluation-table>
