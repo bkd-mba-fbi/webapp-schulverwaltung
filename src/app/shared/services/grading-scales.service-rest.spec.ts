@@ -18,17 +18,27 @@ describe("GradingScalesRestService", () => {
     httpTestingController.verify();
   });
 
-  it("should request a grading scale by id", () => {
-    const data = buildGradingScale(1234);
+  describe("getListForIds", () => {
+    it("fetches all grading scales of the given ids", () => {
+      const scale1 = buildGradingScale(1234);
+      const scale2 = buildGradingScale(5678);
+      const data = [scale1, scale2];
 
-    service
-      .getGradingScale(1234)
-      .subscribe((result) => expect(result).toEqual(data));
+      service
+        .getListForIds([1234, 5678])
+        .subscribe((result) => expect(result).toEqual(data));
 
-    httpTestingController
-      .expectOne(
-        ({ url }) => url === "https://eventotest.api/GradingScales/1234",
-      )
-      .flush(data);
+      httpTestingController
+        .expectOne(
+          ({ url }) => url === "https://eventotest.api/GradingScales/1234",
+        )
+        .flush(scale1);
+
+      httpTestingController
+        .expectOne(
+          ({ url }) => url === "https://eventotest.api/GradingScales/5678",
+        )
+        .flush(scale2);
+    });
   });
 });

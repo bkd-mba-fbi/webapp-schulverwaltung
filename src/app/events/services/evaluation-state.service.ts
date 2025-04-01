@@ -1,62 +1,383 @@
-import { Injectable, computed, signal } from "@angular/core";
+import { HttpContext } from "@angular/common/http";
+import { Injectable, Signal, computed, inject, signal } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { ActivatedRoute } from "@angular/router";
+import sortBy from "lodash-es/sortBy";
+import uniqBy from "lodash-es/uniqBy";
+import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
-import { Event } from "src/app/shared/models/event.model";
+import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
+import { SubscriptionDetailsDisplay } from "src/app/shared/models/configurations.model";
+import { CourseWithStudentCount } from "src/app/shared/models/course.model";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
+import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
+import { StudyClass } from "src/app/shared/models/study-class.model";
+import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
+import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
+import { GradingItemsRestService } from "src/app/shared/services/grading-items-rest.service";
+import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
+import { LoadingService } from "src/app/shared/services/loading-service";
+import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
+import { catch404 } from "src/app/shared/utils/observable";
+import { evaluationEntryComparator } from "../utils/evaluation";
 
 export type EvaluationSortKey = "name" | "grade";
 
-const INITIAL_SORT_CRITERIA: SortCriteria<EvaluationSortKey> = {
+export type EvaluationEventType = "course" | "study-class";
+
+export type EvaluationEvent = {
+  id: number;
+  designation: string;
+  type: EvaluationEventType;
+  studentCount: number;
+  gradingScaleId: Option<number>;
+};
+
+export type EvaluationColumn = {
+  vssId: number;
+  title: string;
+  tooltip: Option<string>;
+  sort: string;
+};
+
+export type EvaluationEntry = {
+  gradingItem: GradingItem;
+  grade: Option<Grade>;
+  columns: ReadonlyArray<Option<SubscriptionDetail>>;
+  criteria: ReadonlyArray<SubscriptionDetail>;
+};
+
+export type EvaluationSortCriteria = SortCriteria<EvaluationSortKey>;
+const INITIAL_SORT_CRITERIA: EvaluationSortCriteria = {
   primarySortKey: "name",
   ascending: true,
 };
-const STUDY_CLASS_EVENT_TYPE_ID = 10;
 
-@Injectable({
-  providedIn: "root",
-})
+const EVALUATION_CONTEXT = "events-evaluation";
+
+@Injectable()
 export class EvaluationStateService {
-  sortCriteria = signal<Option<SortCriteria<EvaluationSortKey>>>(
-    INITIAL_SORT_CRITERIA,
-  );
-  loading = signal(false);
-  event = signal<Option<Event>>({
-    Id: 10064,
-    Designation: "Mathematik-ALB, BVS2024a",
-    EventTypeId: 1,
-    StudentCount: 23,
-    Leadership: undefined,
+  private route = inject(ActivatedRoute);
+  private loadingService = inject(LoadingService);
+  private coursesService = inject(CoursesRestService);
+  private studyClassesService = inject(StudyClassesRestService);
+  private gradingItemsService = inject(GradingItemsRestService);
+  private gradingScalesService = inject(GradingScalesRestService);
+  private configurationsService = inject(ConfigurationsRestService);
+  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
+
+  private eventId$ =
+    this.route.parent?.params.pipe(
+      map((params) => {
+        const eventId = params["id"];
+        return eventId ? Number(eventId) : null;
+      }),
+    ) ?? of(null);
+
+  sortCriteria = signal<EvaluationSortCriteria>(INITIAL_SORT_CRITERIA);
+
+  loading = toSignal(this.loadingService.loading(EVALUATION_CONTEXT), {
+    requireSync: true,
   });
-  isStudyClass = computed(
-    () => this.event()?.EventTypeId === STUDY_CLASS_EVENT_TYPE_ID,
+
+  noEvaluation = computed(
+    () =>
+      !this.gradingScale() &&
+      this.columns().length === 0 &&
+      this.entries().every(({ criteria }) => criteria.length === 0),
   );
-  gradingItems = signal<ReadonlyArray<GradingItem>>([
-    {
-      Id: "1",
-      IdPerson: 1,
-      PersonFullname: "Paul McCartney",
-      IdGrade: null,
-      GradeValue: null,
-    },
-    {
-      Id: "2",
-      IdPerson: 2,
-      PersonFullname: "John Lennon",
-      IdGrade: null,
-      GradeValue: null,
-    },
-    {
-      Id: "3",
-      IdPerson: 3,
-      PersonFullname: "George Harrison",
-      IdGrade: null,
-      GradeValue: null,
-    },
-    {
-      Id: "4",
-      IdPerson: 4,
-      PersonFullname: "Ringo Starr",
-      IdGrade: null,
-      GradeValue: null,
-    },
-  ]);
+
+  /**
+   * The course or study class.
+   */
+  event = toSignal<Option<EvaluationEvent>>(
+    this.eventId$.pipe(switchMap(this.loadEvaluationEvent.bind(this))),
+    { initialValue: null },
+  );
+
+  /**
+   * The columns of the evaluation table.
+   */
+  columns = computed(() =>
+    this.collectColumns(this.columnSubscriptionDetails()),
+  );
+
+  /**
+   * The rows of the evaluation table.
+   */
+  entries = computed(() =>
+    this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
+  );
+
+  private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
+    this.eventId$.pipe(
+      switchMap(this.loadGradingItems.bind(this)),
+      startWith([]),
+    ),
+    { initialValue: [] },
+  );
+  private gradingScale = toSignal<Option<GradingScale>>(
+    toObservable(this.event).pipe(
+      switchMap((event) =>
+        this.loadGradingScale(event?.gradingScaleId ?? null),
+      ),
+    ),
+    { initialValue: null },
+  );
+
+  /**
+   * VssIds of the subscription details to decide whether to display them as
+   * column or criteria.
+   */
+  private subscriptionDetailsDisplay = toSignal<
+    Option<SubscriptionDetailsDisplay>
+  >(this.loadSubscriptionDetailsDisplay(), { initialValue: null });
+
+  /**
+   * All subscription details of the event (of all persons, columns and
+   * criteria).
+   */
+  private subscriptionDetails: Signal<ReadonlyArray<SubscriptionDetail>> =
+    toSignal(
+      this.eventId$.pipe(switchMap(this.loadSubscriptionDetails.bind(this))),
+      { initialValue: [] },
+    );
+
+  /**
+   * Subscription details of the event that should be displayed as columns (of
+   * all persons).
+   */
+  private columnSubscriptionDetails = computed(() =>
+    this.filterColumns(
+      this.subscriptionDetails(),
+      this.subscriptionDetailsDisplay(),
+    ),
+  );
+
+  /**
+   * Subscription details of the event that should be displayed as criteria (of
+   * all persons).
+   */
+  private criteriaSubscriptionDetails = computed(() =>
+    this.filterCriteria(
+      this.subscriptionDetails(),
+      this.subscriptionDetailsDisplay(),
+    ),
+  );
+
+  private unsortedEntries = computed(() =>
+    this.collectEntries(
+      this.gradingItems(),
+      this.gradingScale(),
+      this.columns(),
+      this.columnSubscriptionDetails(),
+      this.criteriaSubscriptionDetails(),
+    ),
+  );
+
+  ///// Event (course/study-class) /////
+
+  private loadEvaluationEvent(
+    eventId: Option<number>,
+  ): Observable<Option<EvaluationEvent>> {
+    if (eventId === null) return of(null);
+
+    // We need to fetch courses/study classes from their specific endpoints,
+    // instead of using /Event/{id}, since the `Designation` is not correct on
+    // the `Event`. The approach is to try to load both and the the one that
+    // will succeed.
+    return this.loadingService.load(
+      combineLatest([
+        this.loadCourse(eventId),
+        this.loadStudyClass(eventId),
+      ]).pipe(map(([course, studyClass]) => course ?? studyClass)),
+      EVALUATION_CONTEXT,
+    );
+  }
+
+  private loadCourse(eventId: number): Observable<Option<EvaluationEvent>> {
+    const context = new HttpContext().set(RestErrorInterceptorOptions, {
+      disableErrorHandlingForStatus: [404],
+    });
+    return this.coursesService
+      .getCourseWithStudentCount(eventId, { context })
+      .pipe(
+        catch404(),
+        map((course) =>
+          course ? this.buildEvaluationEventFromCourse(course) : null,
+        ),
+      );
+  }
+
+  private loadStudyClass(eventId: number): Observable<Option<EvaluationEvent>> {
+    const context = new HttpContext().set(RestErrorInterceptorOptions, {
+      disableErrorHandlingForStatus: [404],
+    });
+    return this.studyClassesService.get(eventId, { context }).pipe(
+      catch404(),
+      map((studyClass) =>
+        studyClass ? this.buildEvaluationEventFromStudyClass(studyClass) : null,
+      ),
+    );
+  }
+
+  private buildEvaluationEventFromCourse(
+    course: CourseWithStudentCount,
+  ): EvaluationEvent {
+    return {
+      id: course.Id,
+      designation: `${course.Designation}, ${course.Classes?.map((c) => c.Number).join(", ")}`,
+      type: "course",
+      studentCount: course.AttendanceRef.StudentCount ?? 0,
+      gradingScaleId: course.GradingScaleId,
+    };
+  }
+
+  private buildEvaluationEventFromStudyClass(
+    studyClass: StudyClass,
+  ): EvaluationEvent {
+    return {
+      id: studyClass.Id,
+      designation: studyClass.Designation,
+      type: "study-class",
+      studentCount: studyClass.StudentCount,
+      gradingScaleId: null,
+    };
+  }
+
+  ///// Grades /////
+
+  private loadGradingItems(
+    eventId: Option<number>,
+  ): Observable<ReadonlyArray<GradingItem>> {
+    if (!eventId) return of([]);
+
+    return this.gradingItemsService.getListForEvent(eventId);
+  }
+
+  private loadGradingScale(
+    gradingScaleId: Option<number>,
+  ): Observable<Option<GradingScale>> {
+    if (!gradingScaleId) return of(null);
+
+    return this.gradingScalesService.get(gradingScaleId);
+  }
+
+  ///// Subscription details /////
+
+  private loadSubscriptionDetailsDisplay(): Observable<SubscriptionDetailsDisplay> {
+    return this.configurationsService.getSubscriptionDetailsDisplay();
+  }
+
+  private loadSubscriptionDetails(
+    eventId: Option<number>,
+  ): Observable<ReadonlyArray<SubscriptionDetail>> {
+    if (!eventId) return of([]);
+
+    return this.subscriptionDetailsService.getListForEvent(eventId);
+  }
+
+  private filterColumns(
+    subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    subscriptionDetailsDisplay: Option<SubscriptionDetailsDisplay>,
+  ): ReadonlyArray<SubscriptionDetail> {
+    if (!subscriptionDetailsDisplay) return [];
+
+    const columnDetailIds = subscriptionDetailsDisplay.adAsColumns;
+    const columnDetails = subscriptionDetails.filter((detail) =>
+      columnDetailIds.includes(Number(detail.VssId)),
+    );
+    return sortBy(columnDetails, (d) => d.Sort);
+  }
+
+  private filterCriteria(
+    subscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    subscriptionDetailsDisplay: Option<SubscriptionDetailsDisplay>,
+  ): ReadonlyArray<SubscriptionDetail> {
+    if (!subscriptionDetailsDisplay) return [];
+
+    const criteriaDetailIds = subscriptionDetailsDisplay.adAsCriteria;
+    const criteriaDetails = subscriptionDetails.filter((detail) =>
+      criteriaDetailIds.includes(Number(detail.VssId)),
+    );
+    return sortBy(criteriaDetails, (d) => d.Sort);
+  }
+
+  ///// Evaluation columns & entries /////
+
+  private collectColumns(
+    columnSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+  ): ReadonlyArray<EvaluationColumn> {
+    return uniqBy(columnSubscriptionDetails, (detail) => detail.VssId).map(
+      (detail) => ({
+        vssId: detail.VssId,
+        title: detail.VssDesignation,
+        tooltip: detail.Tooltip,
+        sort: detail.Sort,
+      }),
+    );
+  }
+
+  private collectEntries(
+    gradingItems: ReadonlyArray<GradingItem>,
+    gradingScale: Option<GradingScale>,
+    columns: ReadonlyArray<EvaluationColumn>,
+    columnSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    criteriaSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+  ): ReadonlyArray<EvaluationEntry> {
+    return gradingItems.map((gradingItem) =>
+      this.buildEntry(
+        gradingItem,
+        gradingScale,
+        columns,
+        columnSubscriptionDetails,
+        criteriaSubscriptionDetails,
+      ),
+    );
+  }
+
+  private buildEntry(
+    gradingItem: GradingItem,
+    gradingScale: Option<GradingScale>,
+    columns: ReadonlyArray<EvaluationColumn>,
+    columnSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    criteriaSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+  ): EvaluationEntry {
+    const columnDetails = columnSubscriptionDetails.filter(
+      (detail) => detail.IdPerson === gradingItem.IdPerson,
+    );
+    const criteriaDetails = criteriaSubscriptionDetails.filter(
+      (detail) => detail.IdPerson === gradingItem.IdPerson,
+    );
+    return {
+      gradingItem,
+      grade: this.findGrade(gradingItem, gradingScale),
+      columns: columns.map(
+        // Make sure every entry has the same number of columns, even if some are null
+        ({ vssId }) =>
+          columnDetails.find((detail) => detail.VssId === vssId) ?? null,
+      ),
+      criteria: criteriaDetails,
+    };
+  }
+
+  private findGrade(
+    gradingItem: GradingItem,
+    gradingScale: Option<GradingScale>,
+  ): Option<Grade> {
+    const grades = gradingScale?.Grades ?? [];
+    if (gradingItem.IdGrade) {
+      return grades.find((grade) => grade.Id === gradingItem.IdGrade) ?? null;
+    }
+    return null;
+  }
+
+  private sortEntries(
+    entries: ReadonlyArray<EvaluationEntry>,
+    sortCriteria: EvaluationSortCriteria,
+  ): ReadonlyArray<EvaluationEntry> {
+    return [...entries].sort(evaluationEntryComparator(sortCriteria));
+  }
 }

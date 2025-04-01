@@ -7,44 +7,52 @@
   >
     <thead
       bkdEvaluationTableHeader
+      [columns]="columns()"
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
-      [isStudyClass]="isStudyClass()"
+      [eventType]="eventType()"
       #inlineHeader
     ></thead>
     <thead
       bkdEvaluationTableHeader
       [sticky]="true"
+      [columns]="columns()"
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
-      [isStudyClass]="isStudyClass()"
+      [eventType]="eventType()"
       #stickyHeader
     ></thead>
     <tbody>
-      @for (item of gradingItems(); track item.Id) {
+      @for (entry of entries(); track entry.gradingItem.Id) {
         <tr>
-          <td class="sticky student-name" [class.border-end]="isStudyClass()">
-            <a [routerLink]="['student', item.IdPerson, 'grades']">
-              <div>{{ item.PersonFullname }}</div>
+          <td
+            class="sticky student-name"
+            [class.border-end]="eventType() === 'study-class'"
+          >
+            <a [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']">
+              <div>{{ entry.gradingItem.PersonFullname }}</div>
             </a>
           </td>
 
-          @if (!isStudyClass()) {
+          @if (eventType() === "course") {
             <td
               class="border-end sticky student-grade"
               [class.selected]="gradeColumnSelected()"
             >
               <!-- TODO: add grade select -->
-              {{ item.GradeValue ?? "–" }}
+              {{ entry.grade?.Designation }}
             </td>
           }
 
-          <!-- TODO: render subscription details columns -->
-          <td class="subscription-detail">...</td>
-          <td class="subscription-detail">...</td>
-          <td class="subscription-detail">...</td>
-          <td class="subscription-detail">...</td>
-          <td class="subscription-detail">...</td>
+          @for (detail of entry.columns; track $index) {
+            <td
+              class="subscription-detail"
+              [class.selected]="isColumnSelected(detail)"
+            >
+              <!-- TODO: render subscription detail -->
+              {{ detail?.Value }}
+            </td>
+          }
 
           <td class="filler"></td>
         </tr>
@@ -56,22 +64,21 @@
           {{ "evaluation.average" | translate }}
         </td>
 
-        @if (!isStudyClass()) {
+        @if (eventType() === "course") {
           <td
             class="border-end sticky student-grade"
             [class.selected]="gradeColumnSelected()"
           >
-            <!-- TODO: calculate average grade -->
-            4.5
+            {{ gradesAverage() | decimalOrDash: "1-3" }}
           </td>
         }
 
-        <!-- TODO: render  subscription details columns (empty cell or add colspan to filler column) -->
-        <td class="subscription-detail"></td>
-        <td class="subscription-detail"></td>
-        <td class="subscription-detail"></td>
-        <td class="subscription-detail"></td>
-        <td class="subscription-detail"></td>
+        @for (column of columns(); track column.vssId) {
+          <td
+            class="subscription-detail"
+            [class.selected]="isColumnSelected(column)"
+          ></td>
+        }
 
         <td class="filler"></td>
       </tr>

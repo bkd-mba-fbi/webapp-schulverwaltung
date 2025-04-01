@@ -1,12 +1,13 @@
 import * as t from "io-ts";
+import { Option } from "./common-types";
 
 const Grade = t.type({
   Id: t.number,
   // IdGradingScale: t.number,
   Designation: t.string,
-  // Value: t.number,
+  Value: t.number,
   // Sufficient: t.boolean,
-  // Sort: Option(t.string),
+  Sort: Option(t.string),
   // IdObject: t.number,
   // HRef: Option(t.string),
 });

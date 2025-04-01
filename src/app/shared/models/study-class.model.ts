@@ -8,5 +8,6 @@ const StudyClass = t.type({
   // HRef: t.string,
   // IsActive: t.boolean,
 });
+
 type StudyClass = t.TypeOf<typeof StudyClass>;
 export { StudyClass };

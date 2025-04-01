@@ -2,7 +2,6 @@ import { Injectable, inject } from "@angular/core";
 import {
   ReplaySubject,
   combineLatest,
-  forkJoin,
   map,
   shareReplay,
   switchMap,
@@ -93,13 +92,7 @@ export class MyGradesService {
   );
 
   gradingScales$ = this.gradingScaleIds$.pipe(
-    switchMap((ids) =>
-      forkJoin(
-        ids.map((id: number) =>
-          this.gradingScalesRestService.getGradingScale(id),
-        ),
-      ),
-    ),
+    switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
   );
 
   constructor() {

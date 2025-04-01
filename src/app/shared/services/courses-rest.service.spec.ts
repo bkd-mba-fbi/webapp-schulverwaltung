@@ -11,6 +11,7 @@ import {
   buildGrading,
   buildReference,
   buildResult,
+  buildStudyClass,
 } from "../../../spec-builders";
 import {
   AverageTestResultResponse,
@@ -129,6 +130,34 @@ describe("CoursesRestService", () => {
           (req) =>
             req.url ===
             "https://eventotest.api/Courses/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300",
+        )
+        .flush(data);
+    });
+  });
+
+  describe("getCourseWithStudentCount", () => {
+    it("requests a course summary with classes & student count", () => {
+      const data: any = {
+        Id: 1,
+        Designation: "Designation",
+        GradingScaleId: 1,
+        Classes: [buildStudyClass(1, "22a")],
+        AttendanceRef: {
+          Id: 1,
+          HRef: "",
+          StudentCount: 1,
+        },
+      };
+
+      service.getCourseWithStudentCount(1).subscribe((result) => {
+        expect(result).toEqual(data);
+      });
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.urlWithParams ===
+            "https://eventotest.api/Courses/1?fields=Id,Designation,GradingScaleId&expand=Classes,AttendanceRef",
         )
         .flush(data);
     });

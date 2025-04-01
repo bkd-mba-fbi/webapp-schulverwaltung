@@ -1,5 +1,8 @@
 <tr>
-  <th class="sticky student-name" [class.border-end]="isStudyClass()">
+  <th
+    class="sticky student-name"
+    [class.border-end]="eventType() === 'study-class'"
+  >
     <bkd-sortable-header
       [label]="'evaluation.columns.name' | translate"
       [sortKey]="'name'"
@@ -8,7 +11,7 @@
     </bkd-sortable-header>
   </th>
 
-  @if (!isStudyClass()) {
+  @if (eventType() === "course") {
     <th
       class="border-end sticky student-grade desktop"
       [class.selected]="gradeColumnSelected()"
@@ -22,18 +25,14 @@
     </th>
   }
 
-  <!-- TODO: render subscription details column headers -->
-  @for (
-    detail of [
-      "Anforderungen",
-      "Absenzen entschuldigt",
-      "Absenzen unentschuldigt",
-      "Formative Beurteilung (generell)",
-      "Bemerkung",
-    ];
-    track detail
-  ) {
-    <th class="subscription-detail">{{ detail }}</th>
+  @for (column of columns(); track column.vssId) {
+    <th
+      class="subscription-detail"
+      [class.selected]="isColumnSelected(column)"
+      [title]="column.tooltip"
+    >
+      {{ column.title }}
+    </th>
   }
 
   <th class="filler"></th>

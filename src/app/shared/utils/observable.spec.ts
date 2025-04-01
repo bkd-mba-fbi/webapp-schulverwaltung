@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { fakeAsync, tick } from "@angular/core/testing";
 import { Subject } from "rxjs";
 import {
+  catch404,
   defaultValue,
   intervalOnInactivity,
   reemitOnTrigger,
@@ -11,6 +13,78 @@ describe("observable utilities", () => {
   let callback: jasmine.Spy;
   beforeEach(() => {
     callback = jasmine.createSpy("callback");
+  });
+
+  describe("catch404", () => {
+    let source$: Subject<number>;
+    let errorCallback: jasmine.Spy;
+    beforeEach(() => {
+      errorCallback = jasmine.createSpy("errorCallback");
+    });
+
+    describe("without fallback value", () => {
+      beforeEach(() => {
+        source$ = new Subject<number>();
+        source$
+          .pipe(catch404())
+          .subscribe({ next: callback, error: errorCallback });
+      });
+
+      it("emits value if is not a 404 response", () => {
+        source$.next(42);
+        source$.complete();
+        expect(callback).toHaveBeenCalledOnceWith(42);
+        expect(errorCallback).not.toHaveBeenCalled();
+      });
+
+      it("emits error if is not a 404 response", () => {
+        const error = new HttpErrorResponse({ status: 500 });
+        source$.error(error);
+        source$.complete();
+        expect(callback).not.toHaveBeenCalled();
+        expect(errorCallback).toHaveBeenCalledOnceWith(error);
+      });
+
+      it("catches error & emits null if is a 404 response", () => {
+        const error = new HttpErrorResponse({ status: 404 });
+        source$.error(error);
+        source$.complete();
+        expect(callback).toHaveBeenCalledOnceWith(null);
+        expect(errorCallback).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("with fallback value", () => {
+      beforeEach(() => {
+        source$ = new Subject<number>();
+        source$
+          .pipe(catch404("fallback"))
+          .subscribe({ next: callback, error: errorCallback });
+      });
+
+      it("emits value if is not a 404 response", () => {
+        source$.next(42);
+        source$.complete();
+        expect(callback).toHaveBeenCalledOnceWith(42);
+        expect(errorCallback).not.toHaveBeenCalled();
+      });
+
+      it("emits error if is not a 404 response", () => {
+        const error = new HttpErrorResponse({ status: 500 });
+        source$.error(error);
+        source$.complete();
+        expect(callback).not.toHaveBeenCalled();
+        expect(errorCallback).toHaveBeenCalledOnceWith(error);
+      });
+
+      it("catches error & emits fallback value if is a 404 response", () => {
+        const error = new HttpErrorResponse({ status: 404 });
+        source$.error(error);
+        source$.complete();
+        expect(callback).toHaveBeenCalledOnceWith("fallback");
+        expect(errorCallback).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe("defaultValue", () => {
