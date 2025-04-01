@@ -10,7 +10,7 @@ const Event = t.type({
   // EventLevel: t.string,
   // EventLevelId: t.number,
   // EventType: t.string,
-  EventTypeId: t.number,
+  // EventTypeId: t.number,
   // Host: t.string,
   // HostId: t.string,
   // Status: t.string,

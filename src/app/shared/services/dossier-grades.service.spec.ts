@@ -9,7 +9,6 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { Course, FinalGrading, Grading } from "../models/course.model";
-import { Grade } from "../models/grading-scale.model";
 import { CoursesRestService } from "./courses-rest.service";
 import { DossierGradesService } from "./dossier-grades.service";
 import { StorageService } from "./storage.service";
@@ -144,8 +143,8 @@ describe("DossierGradesService", () => {
     it("should return an array with student grades", () => {
       const gradingScales = [
         buildGradingScale(1106, [
-          { Designation: 5.5, Id: 2349 } as unknown as Grade,
-          { Designation: 5, Id: 2348 } as unknown as Grade,
+          { Designation: "5.5", Value: 5.5, Id: 2349, Sort: "10" },
+          { Designation: "5", Value: 5.0, Id: 2348, Sort: "11" },
         ]),
       ];
       const course = buildCourse(333);

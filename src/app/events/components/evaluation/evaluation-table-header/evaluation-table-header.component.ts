@@ -10,9 +10,14 @@ import {
   SortCriteria,
   SortableHeaderComponent,
 } from "src/app/shared/components/sortable-header/sortable-header.component";
-import { EvaluationSortKey } from "../../../services/evaluation-state.service";
+import {
+  EvaluationColumn,
+  EvaluationEventType,
+  EvaluationSortKey,
+} from "../../../services/evaluation-state.service";
 import { TableHeaderComponent } from "../../common/table-header/table-header.component";
 import {
+  ABSENCES_COLUMNS_VSS_IDS,
   ABSENCES_COLUMN_KEY,
   GRADE_COLUMN_KEY,
 } from "../evaluation-list/evaluation-list.component";
@@ -26,14 +31,22 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationTableHeaderComponent extends TableHeaderComponent {
+  columns = input.required<ReadonlyArray<EvaluationColumn>>();
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<Option<number>>();
-  isStudyClass = input.required<boolean>();
+  eventType = input.required<EvaluationEventType>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
-  absencesColumnSelected = computed(
-    () => this.selectedColumn() === ABSENCES_COLUMN_KEY,
-  );
+
+  isColumnSelected(column: EvaluationColumn) {
+    return this.getColumnKey(column) === this.selectedColumn();
+  }
+
+  private getColumnKey(column: EvaluationColumn) {
+    return ABSENCES_COLUMNS_VSS_IDS.includes(column.vssId)
+      ? ABSENCES_COLUMN_KEY
+      : column.vssId;
+  }
 }

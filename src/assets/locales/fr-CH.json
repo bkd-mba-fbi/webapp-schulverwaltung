@@ -336,6 +336,17 @@
       "ok": "Ok"
     }
   },
+  "evaluation": {
+    "no-event": "L'événement n'a pas été trouvé",
+    "no-items": "Aucune donnée disponible",
+    "no-evaluation": "La saisie ne peut pas être fait.",
+    "columns": {
+      "name": "Nom",
+      "grade": "Note",
+      "absences": "Absences"
+    },
+    "average": "Moyenne"
+  },
   "dossier": {
     "title": "Dossier",
     "contact": "Contact",

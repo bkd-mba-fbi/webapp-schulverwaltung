@@ -1,7 +1,6 @@
 import { DebugElement } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FinalGrading } from "src/app/shared/models/course.model";
-import { Grade } from "src/app/shared/models/grading-scale.model";
 import { buildGradingScale } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DossierGradesCourseHeaderComponent } from "./dossier-grades-course-header.component";
@@ -42,7 +41,7 @@ describe("DossierGradesCourseHeaderComponent", () => {
     component.designation = "course 2";
     component.finalGrade = { Grade: "5.5" } as unknown as FinalGrading;
     component.gradingScale = buildGradingScale(1, [
-      { Designation: 5.5 } as unknown as Grade,
+      { Id: 1, Designation: "5.5", Value: 5.5, Sort: "10" },
     ]);
     fixture.detectChanges();
 
@@ -66,7 +65,7 @@ describe("DossierGradesCourseHeaderComponent", () => {
     component.average = 5.2555;
     component.finalGrade = { Grade: "5.5" } as unknown as FinalGrading;
     component.gradingScale = buildGradingScale(1, [
-      { Designation: 5.5 } as unknown as Grade,
+      { Id: 1, Designation: "5.5", Value: 5.5, Sort: "10" },
     ]);
     fixture.detectChanges();
 

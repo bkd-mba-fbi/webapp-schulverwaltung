@@ -202,14 +202,12 @@ describe("EventsStateService", () => {
         Designation: "Zentraler Gymnasialer Bildungsgang",
         Leadership: "Jane Doe",
         StudentCount: 2, // Wrong count, has to be determined via subscriptions
-        EventTypeId: 1,
       },
       {
         Id: 20,
         Designation: "Berufsmaturität",
         Leadership: "John Doe", // Other leader (study course is ignored)
         StudentCount: 10,
-        EventTypeId: 1,
       },
     ];
     studyCoursesEntries = [

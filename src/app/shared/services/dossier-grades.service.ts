@@ -3,7 +3,6 @@ import {
   ReplaySubject,
   combineLatest,
   distinctUntilChanged,
-  forkJoin,
   map,
   merge,
   shareReplay,
@@ -197,11 +196,7 @@ export class DossierGradesService {
   );
 
   gradingScales$ = this.gradingScaleIds$.pipe(
-    switchMap((ids) =>
-      forkJoin(
-        ids.map((id) => this.gradingScalesRestService.getGradingScale(id)),
-      ),
-    ),
+    switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
   );
 
   private coursesReducer(
