@@ -7,9 +7,9 @@
 </bkd-backlink>
 
 <div class="d-flex flex-column header">
-  <h1>{{ event().Designation }}</h1>
+  <h1>{{ event().designation }}</h1>
   <div class="additional-info">
-    @let studentCount = event().StudentCount;
+    @let studentCount = event().studentCount;
     {{
       (studentCount === 1 ? "courses.registration" : "courses.registrations")
         | translate: { count: studentCount }

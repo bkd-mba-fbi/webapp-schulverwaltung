@@ -10,7 +10,10 @@ import {
   SortCriteria,
   SortableHeaderComponent,
 } from "src/app/shared/components/sortable-header/sortable-header.component";
-import { EvaluationSortKey } from "../../../services/evaluation-state.service";
+import {
+  EvaluationEventType,
+  EvaluationSortKey,
+} from "../../../services/evaluation-state.service";
 import { TableHeaderComponent } from "../../common/table-header/table-header.component";
 import {
   ABSENCES_COLUMN_KEY,
@@ -28,7 +31,7 @@ import {
 export class EvaluationTableHeaderComponent extends TableHeaderComponent {
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<Option<number>>();
-  isStudyClass = input.required<boolean>();
+  eventType = input.required<EvaluationEventType>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,

@@ -57,7 +57,7 @@ export class EvaluationListComponent {
     ];
 
     return [
-      this.state.isStudyClass() ? null : gradeOption,
+      this.state.event()?.type === "course" ? gradeOption : null,
       ...subscriptionDetailOptions,
     ].filter(notNull);
   });

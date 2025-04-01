@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { pick } from "../utils/types";
 import { LocalDateTimeFromString, Option } from "./common-types";
 import { Student } from "./student.model";
 import { StudyClass } from "./study-class.model";
@@ -114,6 +115,16 @@ const Course = t.type({
   Classes: Option(t.array(StudyClass)),
 });
 
+const CourseWithStudentCount = t.type(
+  pick(Course.props, [
+    "Id",
+    "Designation",
+    "GradingScaleId",
+    "Classes",
+    "AttendanceRef",
+  ]),
+);
+
 const UpdatedTestResultResponse = t.type({
   TestResults: t.array(Result),
   Gradings: t.array(Grading),
@@ -124,6 +135,7 @@ const AverageTestResultResponse = t.type({
 });
 
 type Course = t.TypeOf<typeof Course>;
+type CourseWithStudentCount = t.TypeOf<typeof CourseWithStudentCount>;
 type Grading = t.TypeOf<typeof Grading>;
 type FinalGrading = t.TypeOf<typeof FinalGrading>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
@@ -132,6 +144,7 @@ type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
 type AverageTestResultResponse = t.TypeOf<typeof AverageTestResultResponse>;
 export {
   Course,
+  CourseWithStudentCount,
   Grading,
   FinalGrading,
   AttendanceRef,

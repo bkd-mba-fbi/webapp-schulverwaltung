@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { EvaluationStateService } from "src/app/events/services/evaluation-state.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EvaluationListComponent } from "./evaluation-list.component";
 
@@ -10,6 +11,7 @@ describe("EvaluationListComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EvaluationListComponent],
+        providers: [EvaluationStateService],
       }),
     ).compileComponents();
 

@@ -21,7 +21,7 @@ describe("EvaluationTableHeaderComponent", () => {
       ascending: true,
     });
     fixture.componentRef.setInput("selectedColumn", null);
-    fixture.componentRef.setInput("isStudyClass", false);
+    fixture.componentRef.setInput("eventType", "course");
 
     fixture.detectChanges();
   });

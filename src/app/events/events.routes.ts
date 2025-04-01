@@ -2,6 +2,7 @@ import { Route, Routes } from "@angular/router";
 import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
 import { EventsComponent } from "./components/common/events/events.component";
 import { EvaluationListComponent } from "./components/evaluation/evaluation-list/evaluation-list.component";
+import { EvaluationComponent } from "./components/evaluation/evaluation/evaluation.component";
 import { EventsStudentsListComponent } from "./components/students/events-students-list/events-students-list.component";
 import { EventsStudentsStudyCourseDetailComponent } from "./components/students/events-students-study-course-detail/events-students-study-course-detail.component";
 import { EventsStudentsComponent } from "./components/students/events-students/events-students.component";
@@ -64,6 +65,7 @@ export const EVENTS_ROUTES: Routes = [
 
           {
             path: "evaluation",
+            component: EvaluationComponent,
             children: [
               {
                 // /events/:id/evaluation

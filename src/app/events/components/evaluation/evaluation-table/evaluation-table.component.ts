@@ -9,7 +9,10 @@ import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
-import { EvaluationSortKey } from "../../../services/evaluation-state.service";
+import {
+  EvaluationEventType,
+  EvaluationSortKey,
+} from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import {
   ABSENCES_COLUMN_KEY,
@@ -33,7 +36,7 @@ export class EvaluationTableComponent {
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<number>();
   gradingItems = input.required<ReadonlyArray<GradingItem>>();
-  isStudyClass = input.required<boolean>();
+  eventType = input.required<EvaluationEventType>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
