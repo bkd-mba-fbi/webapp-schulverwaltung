@@ -29,7 +29,8 @@
         [ngClass]="{
           'visible-on-mobile': !hasTests || !selectedTest,
         }"
-        href="{{ buildLinkToRatingOverview() | async }}"
+        [routerLink]="['/events', course?.Id, 'evaluation']"
+        [queryParams]="{ returnlink: '/events/' + course?.Id + '/tests' }"
       >
         <i class="material-icons fw-bold">arrow_right_alt</i>
         <span class="ps-1">{{

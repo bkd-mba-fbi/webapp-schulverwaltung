@@ -1,5 +1,6 @@
 import { AsyncPipe, NgClass } from "@angular/common";
 import { Component, inject } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, merge } from "rxjs";
 import { distinctUntilChanged, map, switchMap, take } from "rxjs/operators";
@@ -23,6 +24,7 @@ import { TestsTableComponent } from "../tests-table/tests-table.component";
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    RouterLink,
   ],
 })
 export class TestsListComponent {
