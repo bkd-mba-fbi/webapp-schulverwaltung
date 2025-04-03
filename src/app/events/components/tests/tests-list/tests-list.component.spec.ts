@@ -95,7 +95,7 @@ describe("TestsListComponent", () => {
         const link = getRatingOverviewLink();
         expect(link).toBeTruthy();
         expect(link?.href).toBe(
-          `http://localhost:9876/link-to-evaluation-module/${course.Id}`,
+          `http://localhost:9876/events/${course.Id}/evaluation?returnlink=%2Fevents%2F1234%2Ftests`,
         );
       });
 

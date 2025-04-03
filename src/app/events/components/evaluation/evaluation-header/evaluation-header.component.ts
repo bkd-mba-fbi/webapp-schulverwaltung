@@ -5,6 +5,7 @@ import {
   input,
 } from "@angular/core";
 import { toObservable } from "@angular/core/rxjs-interop";
+import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { distinctUntilChanged, map, of, startWith, switchMap } from "rxjs";
 import { BacklinkComponent } from "src/app/shared/components/backlink/backlink.component";
@@ -22,6 +23,7 @@ import { ReportsLinkComponent } from "../../../../shared/components/reports-link
 })
 export class EvaluationHeaderComponent {
   private reportsService = inject(ReportsService);
+  private route = inject(ActivatedRoute);
 
   event = input.required<Event>();
 
@@ -35,4 +37,6 @@ export class EvaluationHeaderComponent {
       startWith([]),
     ),
   );
+
+  returnlink = this.route.snapshot.queryParamMap.get("returnlink") ?? "/events";
 }

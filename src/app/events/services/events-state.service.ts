@@ -229,7 +229,7 @@ export class EventsStateService {
         ),
         evaluationLink:
           state?.value && state?.value !== EventState.Tests
-            ? this.buildEvaluationLink(course.Id)
+            ? ["/events", course.Id, "evaluation"]
             : null,
       };
     });
@@ -256,7 +256,7 @@ export class EventsStateService {
       ...e,
       state: EventState.Rating,
       evaluationText: this.translate.instant("events.state.rating"),
-      evaluationLink: this.buildEvaluationLink(e.id),
+      evaluationLink: ["/events", e.id, "evaluation"],
     }));
   }
 
@@ -287,10 +287,5 @@ export class EventsStateService {
 
   private buildStudentsLink(eventId: number) {
     return getEventsStudentsLink(eventId, this.router.url);
-  }
-
-  private buildEvaluationLink(id: number): RouterLink["routerLink"] {
-    const link = this.settings.eventlist["evaluation"] ?? "";
-    return link.replace(":id", String(id));
   }
 }

@@ -30,7 +30,7 @@
       </a>
     }
     @if (event().evaluationLink) {
-      <a class="d-flex" [href]="event().evaluationLink">
+      <a class="d-flex" [routerLink]="['/events', event().id, 'evaluation']">
         <i class="material-icons">arrow_right_alt</i>
         <span class="ps-1">{{ event().evaluationText }} </span>
       </a>
