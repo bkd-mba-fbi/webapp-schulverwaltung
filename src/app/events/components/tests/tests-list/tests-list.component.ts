@@ -64,13 +64,4 @@ export class TestsListComponent {
   testSelected(id: number) {
     this.selectTest$.next(id);
   }
-
-  buildLinkToRatingOverview() {
-    return this.state.course$.pipe(
-      take(1),
-      map((course) =>
-        this.settings.eventlist["evaluation"].replace(":id", String(course.Id)),
-      ),
-    );
-  }
 }

@@ -23,7 +23,7 @@
     } @else {
       <p class="mt-3 px-3">{{ "tests.no-tests" | translate }}</p>
     }
-    @if (state.canSetFinalGrade$ | async) {
+    @if (course && state.canSetFinalGrade$ | async) {
       <a
         class="rating-overview d-flex justify-content-end pe-3 border-top pt-3"
         [ngClass]="{
