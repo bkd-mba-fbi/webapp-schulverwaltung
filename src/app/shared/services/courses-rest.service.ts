@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { format, startOfDay } from "date-fns";
 import * as t from "io-ts";
@@ -11,6 +11,7 @@ import { SETTINGS, Settings } from "src/app/settings";
 import {
   AverageTestResultResponse,
   Course,
+  CourseWithStudentCount,
   Grading,
   UpdatedTestResultResponse,
 } from "../models/course.model";
@@ -97,6 +98,17 @@ export class CoursesRestService extends RestService<typeof Course> {
         },
       )
       .pipe(switchMap(decodeArray(Course)));
+  }
+
+  getCourseWithStudentCount(
+    courseId: number,
+  ): Observable<CourseWithStudentCount> {
+    const params = new HttpParams()
+      .set("fields", "Id,Designation,GradingScaleId")
+      .set("expand", "Classes,AttendanceRef");
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${courseId}`, { params })
+      .pipe(switchMap(decode(CourseWithStudentCount)));
   }
 
   add(

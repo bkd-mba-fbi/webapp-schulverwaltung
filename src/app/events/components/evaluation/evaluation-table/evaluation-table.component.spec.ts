@@ -17,12 +17,12 @@ describe("EvaluationTableComponent", () => {
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput("sortCriteria", {
-      primarySortKey: "PersonFullname",
+      primarySortKey: "name",
       ascending: true,
     });
-    fixture.componentRef.setInput("gradingItems", []);
+    fixture.componentRef.setInput("entries", []);
     fixture.componentRef.setInput("selectedColumn", null);
-    fixture.componentRef.setInput("isStudyClass", false);
+    fixture.componentRef.setInput("eventType", "course");
 
     fixture.detectChanges();
   });

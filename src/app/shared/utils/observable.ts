@@ -2,8 +2,6 @@ import { HttpErrorResponse } from "@angular/common/http";
 import {
   MonoTypeOperatorFunction,
   Observable,
-  ObservableInput,
-  ObservedValueOf,
   OperatorFunction,
   defer,
   from,
@@ -25,19 +23,23 @@ import {
   withLatestFrom,
 } from "rxjs/operators";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export function catch404<T, O extends ObservableInput<any>>(
-  returnValue?: any,
-): OperatorFunction<T, Option<T | ObservedValueOf<O>>> {
-  return catchError((error) => {
+export function catch404<T>(): OperatorFunction<T, Option<T>>;
+export function catch404<T, R>(fallbackValue?: R): OperatorFunction<T, T | R>;
+export function catch404<T, R>(
+  fallbackValue?: R,
+): OperatorFunction<T, Option<T | R>> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return catchError((error: any) => {
     if (error instanceof HttpErrorResponse && error.status === 404) {
-      return of(returnValue || null);
-    } else {
-      return throwError(() => error);
+      if (fallbackValue === undefined) {
+        return of(null);
+      } else {
+        return of(fallbackValue);
+      }
     }
+    return throwError(() => error);
   });
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * For debugging purposes, logs message an value for each value in the

@@ -9,7 +9,7 @@
       bkdEvaluationTableHeader
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
-      [isStudyClass]="isStudyClass()"
+      [eventType]="eventType()"
       #inlineHeader
     ></thead>
     <thead
@@ -17,25 +17,28 @@
       [sticky]="true"
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
-      [isStudyClass]="isStudyClass()"
+      [eventType]="eventType()"
       #stickyHeader
     ></thead>
     <tbody>
-      @for (item of gradingItems(); track item.Id) {
+      @for (entry of entries(); track entry.gradingItem.Id) {
         <tr>
-          <td class="sticky student-name" [class.border-end]="isStudyClass()">
-            <a [routerLink]="['student', item.IdPerson, 'grades']">
-              <div>{{ item.PersonFullname }}</div>
+          <td
+            class="sticky student-name"
+            [class.border-end]="eventType() === 'study-class'"
+          >
+            <a [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']">
+              <div>{{ entry.gradingItem.PersonFullname }}</div>
             </a>
           </td>
 
-          @if (!isStudyClass()) {
+          @if (eventType() === "course") {
             <td
               class="border-end sticky student-grade"
               [class.selected]="gradeColumnSelected()"
             >
               <!-- TODO: add grade select -->
-              {{ item.GradeValue ?? "–" }}
+              {{ entry.grade?.Designation }}
             </td>
           }
 
@@ -56,7 +59,7 @@
           {{ "evaluation.average" | translate }}
         </td>
 
-        @if (!isStudyClass()) {
+        @if (eventType() === "course") {
           <td
             class="border-end sticky student-grade"
             [class.selected]="gradeColumnSelected()"

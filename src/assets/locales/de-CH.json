@@ -337,6 +337,7 @@
     }
   },
   "evaluation": {
+    "no-event": "Fach/Klasse wurde nicht gefunden",
     "no-items": "Keine Einträge vorhanden",
     "columns": {
       "name": "Name",

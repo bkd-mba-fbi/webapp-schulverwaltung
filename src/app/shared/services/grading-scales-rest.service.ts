@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, forkJoin, switchMap } from "rxjs";
+import { Observable, forkJoin } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { GradingScale } from "../models/grading-scale.model";
-import { decode } from "../utils/decode";
 import { RestService } from "./rest.service";
 
 @Injectable({
@@ -17,15 +16,9 @@ export class GradingScalesRestService extends RestService<typeof GradingScale> {
     super(http, settings, GradingScale, "GradingScales");
   }
 
-  getGradingScale(id: number): Observable<GradingScale> {
-    return this.http
-      .get<unknown>(`${this.baseUrl}/${id}`)
-      .pipe(switchMap(decode(GradingScale)));
-  }
-
-  getGradingScales(
+  getListForIds(
     gradingScaleIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<GradingScale>> {
-    return forkJoin(gradingScaleIds.map(this.getGradingScale.bind(this)));
+    return forkJoin(gradingScaleIds.map((id) => this.get(id)));
   }
 }
