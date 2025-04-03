@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpErrorResponse } from "@angular/common/http";
-import { TestBed } from "@angular/core/testing";
+import { Signal, runInInjectionContext } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { ActivatedRoute, Params } from "@angular/router";
-import { Subject, of, throwError } from "rxjs";
+import { Subject, of, take, throwError } from "rxjs";
 import { Course } from "src/app/shared/models/course.model";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
-import { Grade } from "src/app/shared/models/grading-scale.model";
+import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { GradingItemsRestService } from "src/app/shared/services/grading-items-rest.service";
@@ -33,6 +35,7 @@ describe("EvaluationStateService", () => {
   let studyClass: StudyClass;
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
+  let gradingScale: GradingScale;
   let grade1: Grade;
   let grade2: Grade;
 
@@ -58,6 +61,7 @@ describe("EvaluationStateService", () => {
 
     grade1 = { Id: 100001, Designation: "4.0" };
     grade2 = { Id: 100002, Designation: "4.5" };
+    gradingScale = buildGradingScale(10000, [grade1, grade2]);
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -126,10 +130,7 @@ describe("EvaluationStateService", () => {
                 ["get"],
               );
 
-              console.log("mock", buildGradingScale(10000, [grade1, grade2]));
-              gradingScalesServiceMock.get.and.returnValue(
-                of(buildGradingScale(10000, [grade1, grade2])),
-              );
+              gradingScalesServiceMock.get.and.returnValue(of(gradingScale));
 
               return gradingScalesServiceMock;
             },
@@ -141,37 +142,38 @@ describe("EvaluationStateService", () => {
   });
 
   describe("event", () => {
-    beforeEach(() => {
-      // Since we use toLazySignal, trigger the fetch first
-      service.event();
-    });
-
-    it("returns course if available", () => {
+    it("returns course if available", fakeAsync(async () => {
       params.next({ id: "1000" });
-      expect(service.event()).toEqual({
-        id: 1000,
-        designation: "Mathematik, BVS2024a",
-        type: "course",
-        studentCount: 24,
-        gradingScaleId: 10000,
-      });
-    });
 
-    it("returns study class if course is not available", () => {
+      await expectSignalValue(service.event, (result) => {
+        expect(result).toEqual({
+          id: 1000,
+          designation: "Mathematik, BVS2024a",
+          type: "course",
+          studentCount: 24,
+          gradingScaleId: 10000,
+        });
+      });
+    }));
+
+    it("returns study class if available", fakeAsync(async () => {
       coursesServiceMock.getCourseWithStudentCount.and.returnValue(
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
       params.next({ id: "2000" });
-      expect(service.event()).toEqual({
-        id: 2000,
-        designation: "Berufsvorbereitendes Schuljahr 2024a",
-        type: "study-class",
-        studentCount: 23,
-        gradingScaleId: null,
-      });
-    });
 
-    it("returns study class if course and study class are not available", () => {
+      await expectSignalValue(service.event, (result) => {
+        expect(result).toEqual({
+          id: 2000,
+          designation: "Berufsvorbereitendes Schuljahr 2024a",
+          type: "study-class",
+          studentCount: 23,
+          gradingScaleId: null,
+        });
+      });
+    }));
+
+    it("returns null if both course & study class are not available", fakeAsync(async () => {
       coursesServiceMock.getCourseWithStudentCount.and.returnValue(
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
@@ -179,33 +181,55 @@ describe("EvaluationStateService", () => {
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
       params.next({ id: "2000" });
-      expect(service.event()).toBeNull();
-    });
+
+      await expectSignalValue(service.event, (result) => {
+        expect(result).toBeNull();
+      });
+    }));
   });
 
   describe("entries", () => {
-    beforeEach(() => {
-      // Since we use toLazySignal, trigger the fetch first
-      service.event();
-      service.entries();
-      params.next({ id: "1000" });
-    });
-
-    it("returns an empty array if no grading items are available", () => {
+    it("returns an empty array if no grading items are available", fakeAsync(async () => {
       gradingItemsServiceMock.getListForEvent.and.returnValue(of([]));
+      params.next({ id: "1000" });
 
-      expect(service.entries()).toEqual([]);
-    });
+      await expectSignalValue(service.entries, (result) => {
+        expect(result).toEqual([]);
+      });
+    }));
 
-    fit("returns an entries with corresponding grading item & grade from grading scale", () => {
-      // gradingItemsServiceMock.getListForEvent.and.returnValue(
-      //   of([gradingItem1, gradingItem2]),
-      // );
+    it("returns entries with corresponding grading item & grade from grading scale", fakeAsync(async () => {
+      params.next({ id: "1000" });
 
-      expect(service.entries()).toEqual([
-        { gradingItem: gradingItem1, grade: grade1 },
-        { gradingItem: gradingItem2, grade: grade2 },
-      ]);
-    });
+      await expectSignalValue(service.entries, (result) => {
+        expect(result).toEqual([
+          { gradingItem: gradingItem1, grade: grade1 },
+          { gradingItem: gradingItem2, grade: grade2 },
+        ]);
+      });
+    }));
   });
+
+  /**
+   * When toObservable is involved, it uses a ReplaySubject internally. That
+   * means the first value comes synchronously and the rest asynchronously. So
+   * we use `tick()` to be able to assert the "async result".
+   *
+   * Must be used within a `fakeAsync` context.
+   */
+  function expectSignalValue<T>(
+    signal: Signal<T>,
+    expectation: (result: T) => void,
+  ): Promise<void> {
+    return new Promise((resolve: () => void) => {
+      const result = runInInjectionContext(TestBed, () => toObservable(signal));
+
+      tick();
+
+      result.pipe(take(1)).subscribe((result) => {
+        expectation(result);
+        resolve();
+      });
+    });
+  }
 });

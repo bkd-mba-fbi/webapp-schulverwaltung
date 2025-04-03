@@ -4,13 +4,12 @@ import {
   inject,
   input,
 } from "@angular/core";
-import { toObservable } from "@angular/core/rxjs-interop";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { TranslatePipe } from "@ngx-translate/core";
 import { distinctUntilChanged, map, of, startWith, switchMap } from "rxjs";
 import { EvaluationEvent } from "src/app/events/services/evaluation-state.service";
 import { BacklinkComponent } from "src/app/shared/components/backlink/backlink.component";
 import { ReportsService } from "src/app/shared/services/reports.service";
-import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 import { ReportsLinkComponent } from "../../../../shared/components/reports-link/reports-link.component";
 
 @Component({
@@ -25,7 +24,7 @@ export class EvaluationHeaderComponent {
 
   event = input.required<EvaluationEvent>();
 
-  reports = toLazySignal(
+  reports = toSignal(
     toObservable(this.event).pipe(
       map((event) => event.id),
       distinctUntilChanged(),

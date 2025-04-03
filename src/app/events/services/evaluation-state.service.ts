@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, map, of, startWith, switchMap } from "rxjs";
+import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { CourseWithStudentCount } from "src/app/shared/models/course.model";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
@@ -13,7 +13,6 @@ import { GradingScalesRestService } from "src/app/shared/services/grading-scales
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { catch404 } from "src/app/shared/utils/observable";
-import { toLazySignal } from "src/app/shared/utils/to-lazy-signal";
 
 export type EvaluationSortKey = "name" | "grade";
 
@@ -61,12 +60,12 @@ export class EvaluationStateService {
         return eventId ? Number(eventId) : null;
       }),
     ) ?? of(null);
-  event = toLazySignal<Option<EvaluationEvent>>(
+  event = toSignal<Option<EvaluationEvent>>(
     this.eventId$.pipe(switchMap(this.loadEvaluationEvent.bind(this))),
     { initialValue: null },
   );
 
-  gradingItems = toLazySignal<ReadonlyArray<GradingItem>>(
+  gradingItems = toSignal<ReadonlyArray<GradingItem>>(
     this.eventId$.pipe(
       switchMap(this.loadGradingItems.bind(this)),
       startWith([]),
@@ -74,7 +73,7 @@ export class EvaluationStateService {
     // { initialValue: [] as ReadonlyArray<GradingItem> },
     { requireSync: true },
   );
-  gradingScale = toLazySignal<Option<GradingScale>>(
+  gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
       switchMap((event) =>
         this.loadGradingScale(event?.gradingScaleId ?? null),
@@ -94,15 +93,13 @@ export class EvaluationStateService {
 
     // We need to fetch courses/study classes from their specific endpoints,
     // instead of using /Event/{id}, since the `Designation` is not correct on
-    // the `Event`. The approach is to try to load the course first, then
-    // fallback to study class. Like this at least for the courses we only need
-    // one sequential request.
+    // the `Event`. The approach is to try to load both and the the one that
+    // will succeed.
     return this.loadingService.load(
-      this.loadCourse(eventId).pipe(
-        switchMap((course) =>
-          course ? of(course) : this.loadStudyClass(eventId),
-        ),
-      ),
+      combineLatest([
+        this.loadCourse(eventId),
+        this.loadStudyClass(eventId),
+      ]).pipe(map(([course, studyClass]) => course ?? studyClass)),
       EVALUATION_CONTEXT,
     );
   }
@@ -170,6 +167,7 @@ export class EvaluationStateService {
     gradingScale: Option<GradingScale>,
   ): ReadonlyArray<EvaluationEntry> {
     const grades = gradingScale?.Grades ?? [];
+
     return gradingItems.map((gradingItem) => {
       let grade: Option<Grade> = null;
       if (gradingItem.IdGrade) {
