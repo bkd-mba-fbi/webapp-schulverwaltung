@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   input,
 } from "@angular/core";
@@ -39,7 +38,5 @@ export class EvaluationHeaderComponent {
     ),
   );
 
-  link = computed(
-    () => this.route.snapshot.queryParamMap.get("returnlink") ?? "/events",
-  );
+  returnlink = this.route.snapshot.queryParamMap.get("returnlink") ?? "/events";
 }
