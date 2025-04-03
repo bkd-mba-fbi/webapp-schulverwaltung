@@ -97,6 +97,9 @@ window.schulverwaltung.settings = {
   // (used in events/tests by teachers)
   testsBySubscriptionTeacherReports: [{ type: "crystal", id: 290042 }],
 
+  // Report "Auswertung der Bewertung"
+  evaluationReports: [{ type: "crystal", id: 290045 }],
+
   /**
    * Reports including the students of a study class (used in events/students)
    */
