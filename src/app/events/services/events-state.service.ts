@@ -230,7 +230,7 @@ export class EventsStateService {
         evaluationLink:
           state?.value && state?.value !== EventState.Tests
             ? ["/events", course.Id, "evaluation"]
-            : null,
+            : ["/events", course.Id, "tests"],
       };
     });
   }
