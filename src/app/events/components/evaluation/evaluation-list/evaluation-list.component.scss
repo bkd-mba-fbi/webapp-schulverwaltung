@@ -6,6 +6,26 @@
   padding: $spacer 0;
 }
 
+.set-default {
+  color: rgba($body-color, 0.5);
+  padding-right: $btn-padding-x;
+  display: flex;
+  text-decoration: none;
+  padding-left: 1rem;
+
+  span {
+    text-decoration: underline;
+  }
+
+  span:hover {
+    text-decoration-color: $accent;
+  }
+
+  i {
+    margin-right: 0.3em;
+  }
+}
+
 @media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .columns-dropdown {
     display: none;
