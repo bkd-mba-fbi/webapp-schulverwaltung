@@ -96,7 +96,7 @@ describe("EventsStateService", () => {
         studentCount: 0,
         state: EventState.Rating,
         evaluationText: "events.state.rating",
-        evaluationLink: "link-to-evaluation-module/6",
+        evaluationLink: ["/events", 6, "evaluation"],
       },
     ];
 
@@ -162,7 +162,7 @@ describe("EventsStateService", () => {
       studentCount: 20,
       state: null,
       evaluationText: "",
-      evaluationLink: null,
+      evaluationLink: ["/events", 1, "tests"],
     };
 
     courseEntries = [
@@ -173,7 +173,7 @@ describe("EventsStateService", () => {
         detailLink: "/events/2/students?returnlink=%2F",
         state: EventState.RatingUntil,
         evaluationText: "events.state.rating-until 03.06.2022",
-        evaluationLink: "link-to-evaluation-module/2",
+        evaluationLink: ["/events", 2, "evaluation"],
       },
       {
         ...courseEvent,
@@ -182,6 +182,7 @@ describe("EventsStateService", () => {
         detailLink: "/events/4/students?returnlink=%2F",
         state: EventState.Tests,
         evaluationText: "events.state.add-tests",
+        evaluationLink: ["/events", 4, "tests"],
       },
       courseEvent,
       {
@@ -191,7 +192,7 @@ describe("EventsStateService", () => {
         detailLink: "/events/3/students?returnlink=%2F",
         state: EventState.IntermediateRating,
         evaluationText: "events.state.intermediate-rating",
-        evaluationLink: "link-to-evaluation-module/3",
+        evaluationLink: ["/events", 3, "evaluation"],
       },
     ];
 

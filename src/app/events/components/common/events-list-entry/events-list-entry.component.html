@@ -23,17 +23,9 @@
 </div>
 @if (withRatings() && event().evaluationText) {
   <div class="rating">
-    @if (!event().evaluationLink) {
-      <a class="d-flex" [routerLink]="[event().id, 'tests']">
-        <i class="material-icons">arrow_right_alt</i>
-        <span class="ps-1">{{ event().evaluationText }}</span>
-      </a>
-    }
-    @if (event().evaluationLink) {
-      <a class="d-flex" [href]="event().evaluationLink">
-        <i class="material-icons">arrow_right_alt</i>
-        <span class="ps-1">{{ event().evaluationText }} </span>
-      </a>
-    }
+    <a class="d-flex" [routerLink]="event().evaluationLink">
+      <i class="material-icons">arrow_right_alt</i>
+      <span class="ps-1">{{ event().evaluationText }} </span>
+    </a>
   </div>
 }

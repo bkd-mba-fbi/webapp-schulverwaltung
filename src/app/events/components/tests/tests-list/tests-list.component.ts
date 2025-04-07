@@ -1,5 +1,6 @@
 import { AsyncPipe, NgClass } from "@angular/common";
 import { Component, inject } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, merge } from "rxjs";
 import { distinctUntilChanged, map, switchMap, take } from "rxjs/operators";
@@ -23,6 +24,7 @@ import { TestsTableComponent } from "../tests-table/tests-table.component";
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    RouterLink,
   ],
 })
 export class TestsListComponent {
@@ -61,14 +63,5 @@ export class TestsListComponent {
 
   testSelected(id: number) {
     this.selectTest$.next(id);
-  }
-
-  buildLinkToRatingOverview() {
-    return this.state.course$.pipe(
-      take(1),
-      map((course) =>
-        this.settings.eventlist["evaluation"].replace(":id", String(course.Id)),
-      ),
-    );
   }
 }
