@@ -162,7 +162,7 @@ describe("EventsStateService", () => {
       studentCount: 20,
       state: null,
       evaluationText: "",
-      evaluationLink: null,
+      evaluationLink: ["/events", 1, "tests"],
     };
 
     courseEntries = [
@@ -182,6 +182,7 @@ describe("EventsStateService", () => {
         detailLink: "/events/4/students?returnlink=%2F",
         state: EventState.Tests,
         evaluationText: "events.state.add-tests",
+        evaluationLink: ["/events", 4, "tests"],
       },
       courseEvent,
       {
