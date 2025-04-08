@@ -1,0 +1,23 @@
+<div class="modal-body">
+  <p>Standardwert setzen</p>
+  <div>
+    <label for="grade">Note</label>
+    <p id="grade">&nbsp;</p>
+  </div>
+  <p class="info-text">
+    Der Standardwert wird für alle Anmeldungen übernommen.
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+    Abbrechen
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="!selectedGrade()"
+    (click)="confirm()"
+  >
+    Übernehmen
+  </button>
+</div>
