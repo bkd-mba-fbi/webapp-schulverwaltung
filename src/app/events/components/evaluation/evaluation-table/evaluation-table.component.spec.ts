@@ -42,14 +42,26 @@ describe("EvaluationTableComponent", () => {
     detail1.Tooltip = "Art der Anforderungen";
     detail1.IdPerson = gradingItem1.IdPerson;
     detail1.Sort = "10";
-    detail1.Value = "GE";
+    detail1.VssStyle = "LB";
+    detail1.DropdownItems = [
+      { Key: 1, Value: "EA", IsActive: true },
+      { Key: 2, Value: "GE", IsActive: true },
+    ];
+    detail1.ShowAsRadioButtons = true;
+    detail1.Value = 2;
 
     detail2 = buildSubscriptionDetail(3902);
     detail2.VssDesignation = "Anforderungen";
     detail2.Tooltip = "Art der Anforderungen";
     detail2.IdPerson = gradingItem2.IdPerson;
     detail2.Sort = "11";
-    detail2.Value = "EA";
+    detail2.VssStyle = "LB";
+    detail2.DropdownItems = [
+      { Key: 1, Value: "EA", IsActive: true },
+      { Key: 2, Value: "GE", IsActive: true },
+    ];
+    detail2.ShowAsRadioButtons = true;
+    detail2.Value = 1;
 
     detail3 = buildSubscriptionDetail(3936);
     detail3.VssDesignation = "Pünktlichkeit";
@@ -136,7 +148,7 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the subscription detail columns", () => {
-      expect(getColumnValues(2)).toEqual(["EA", "GE"]);
+      expect(getColumnValues(2)).toEqual(["EA  GE", "EA  GE"]);
       expect(getColumnValues(3)).toEqual(["", ""]); // No values exist for this column
     });
 
@@ -156,7 +168,7 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the subscription detail columns", () => {
-      expect(getColumnValues(1)).toEqual(["EA", "GE"]);
+      expect(getColumnValues(1)).toEqual(["EA  GE", "EA  GE"]);
       expect(getColumnValues(2)).toEqual(["", ""]); // No values exist for this column
     });
 
