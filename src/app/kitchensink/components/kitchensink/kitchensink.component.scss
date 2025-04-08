@@ -1,0 +1,13 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+  margin: $spacer;
+}
+
+.subscription-details {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer;
+  margin-bottom: 3 * $spacer;
+}
