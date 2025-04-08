@@ -10,6 +10,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { average } from "src/app/shared/utils/math";
+import { SubscriptionDetailFieldComponent } from "../../../../shared/components/subscription-detail-field/subscription-detail-field.component";
 import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe";
 import {
   EvaluationColumn,
@@ -33,6 +34,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
     EvaluationTableHeaderComponent,
     TableHeaderStickyDirective,
     DecimalOrDashPipe,
+    SubscriptionDetailFieldComponent,
   ],
   templateUrl: "./evaluation-table.component.html",
   styleUrl: "./evaluation-table.component.scss",

@@ -84,6 +84,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "kitchensink",
+    canActivate: [devModeGuard()],
+    loadChildren: () =>
+      import("./kitchensink/kitchensink.routes").then(
+        (m) => m.KITCHENSINK_ROUTES,
+      ),
+  },
+  {
     path: "api",
     canActivate: [authGuard(), devModeGuard()],
     loadChildren: () => import("./api/api.routes").then((m) => m.API_ROUTES),

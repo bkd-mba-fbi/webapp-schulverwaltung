@@ -1,0 +1,46 @@
+@import "../../../../bootstrap-variables";
+
+:host {
+  display: block;
+  margin: $spacer;
+}
+
+.subscription-details {
+  display: flex;
+  flex-direction: column;
+  column-gap: $spacer;
+  margin-bottom: 3 * $spacer;
+}
+
+.subscription-details-row {
+  display: flex;
+  align-items: start;
+  gap: $spacer;
+  margin-bottom: 1.25 * $spacer;
+}
+
+.subscription-details-row:first-child > * {
+  font-weight: bold;
+}
+
+.with-border {
+  .subscription-details-row {
+    margin-bottom: 0;
+    padding-top: $spacer;
+    padding-bottom: $spacer;
+  }
+
+  .subscription-details-row + .subscription-details-row {
+    border-top: 1px solid $gray-200;
+  }
+}
+
+.subscription-details-row > * {
+  flex: 1;
+}
+
+.subscription-details-row pre {
+  background-color: $gray-200;
+  padding: $spacer;
+  margin: 0;
+}

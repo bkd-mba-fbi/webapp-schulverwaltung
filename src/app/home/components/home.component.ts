@@ -40,6 +40,7 @@ export class HomeComponent {
     { path: "my-profile" },
     { path: "my-grades" },
     { path: "my-settings" },
+    { path: "kitchensink" },
     { path: "api" },
   ];
 }
