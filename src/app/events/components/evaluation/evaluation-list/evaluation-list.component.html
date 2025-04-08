@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @let event = state.event();
 @let selectedColumnSignal = selectedColumn();
 
@@ -24,7 +26,7 @@
             width="100%"
           ></bkd-select>
         }
-        <a class="set-default btn btn-link">
+        <a class="set-default btn btn-link" (click)="openDefaultGradeDialog()">
           <i class="material-icons">edit</i>
           <span>Standardwert setzen</span>
         </a>
