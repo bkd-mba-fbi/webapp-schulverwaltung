@@ -11,7 +11,9 @@ import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { notNull } from "src/app/shared/utils/filter";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
+import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
 import { EvaluationStateService } from "../../../services/evaluation-state.service";
+import { EvaluationDialogComponent } from "../evaluation-dialog/evaluation-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
 
@@ -39,6 +41,7 @@ export const ABSENCES_COLUMNS_VSS_IDS = [
 export class EvaluationListComponent {
   state = inject(EvaluationStateService);
   private translate = inject(TranslateService);
+  private modalService = inject(BkdModalService);
 
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
@@ -71,4 +74,17 @@ export class EvaluationListComponent {
     const initialValue = options.length ? Number(options[0].Key) : null;
     return signal<Option<number>>(initialValue);
   });
+
+  openDefaultGradeDialog() {
+    const modalRef = this.modalService.open(EvaluationDialogComponent);
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          // handle success
+        }
+      },
+      () => {},
+    );
+  }
 }
