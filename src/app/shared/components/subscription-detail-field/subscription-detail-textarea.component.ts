@@ -8,11 +8,12 @@ import {
   signal,
 } from "@angular/core";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
+import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.directive";
 import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.component";
 
 @Component({
   selector: "bkd-subscription-detail-textarea",
-  imports: [SubscriptionDetailLabelComponent],
+  imports: [SubscriptionDetailLabelComponent, TextareaAutosizeDirective],
   template: `
     <bkd-subscription-detail-label
       [detail]="detail()"
@@ -26,6 +27,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
       [disabled]="readonly()"
       (input)="onInput($event)"
       (blur)="onBlur()"
+      bkdTextareaAutosize
     ></textarea>
   `,
   styles: ``,
