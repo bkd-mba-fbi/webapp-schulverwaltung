@@ -22,6 +22,20 @@
   }
 </div>
 
+<h2>Subscription Detail Fields: Without labels</h2>
+<div class="subscription-details">
+  @for (detail of subscriptionDetailsReadonly; track detail.Id) {
+    <div class="subscription-details-row">
+      <div>
+        <bkd-subscription-detail-field
+          [detail]="build(detail)"
+          [hideLabel]="true"
+        ></bkd-subscription-detail-field>
+      </div>
+    </div>
+  }
+</div>
+
 <h2>Subscription Detail Fields: Readonly</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetailsReadonly; track detail.Id) {

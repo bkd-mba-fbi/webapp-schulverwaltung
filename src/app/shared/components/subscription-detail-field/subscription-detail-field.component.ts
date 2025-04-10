@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   input,
   model,
   output,
@@ -100,8 +99,4 @@ export class SubscriptionDetailFieldComponent {
   isTextarea = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Text,
   );
-
-  constructor() {
-    effect(() => console.log(this.detail()));
-  }
 }

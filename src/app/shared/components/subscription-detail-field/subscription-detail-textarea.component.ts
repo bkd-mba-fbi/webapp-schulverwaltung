@@ -25,6 +25,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
       [value]="detail().Value"
       [disabled]="readonly()"
       (input)="onInput($event)"
+      (blur)="onBlur()"
     ></textarea>
   `,
   styles: ``,

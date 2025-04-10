@@ -31,7 +31,12 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
       (blur)="onBlur()"
     />
   `,
-  styles: ``,
+  styles: `
+    input[type="number"] {
+      max-width: 15ch;
+      min-width: 10ch;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailTextfieldComponent {

@@ -33,16 +33,9 @@ export class KitchensinkComponent {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     },
     {
-      VssDesignation: "Textfield",
+      VssDesignation: "Text field",
       Id: "3",
       VssTypeId: SubscriptionDetailType.ShortText,
-      VssStyle: "TX",
-      Value: "Lorem ipsum",
-    },
-    {
-      VssDesignation: "Textarea",
-      Id: "4",
-      VssTypeId: SubscriptionDetailType.Text,
       VssStyle: "TX",
       Value: "Lorem ipsum",
     },
@@ -52,6 +45,13 @@ export class KitchensinkComponent {
       VssTypeId: SubscriptionDetailType.Int,
       VssStyle: "TX",
       Value: 42,
+    },
+    {
+      VssDesignation: "Textarea",
+      Id: "4",
+      VssTypeId: SubscriptionDetailType.Text,
+      VssStyle: "TX",
+      Value: "Lorem ipsum",
     },
     {
       VssDesignation: "Listbox Select",
