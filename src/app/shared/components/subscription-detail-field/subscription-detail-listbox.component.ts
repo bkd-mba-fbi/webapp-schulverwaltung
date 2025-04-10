@@ -28,7 +28,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
         [class.flex-row]="layout() === 'horizontal'"
         [class.flex-column]="layout() === 'vertical'"
       >
-        @for (item of detail().DropdownItems; track item.Key) {
+        @for (item of items(); track item.Key) {
           <div class="form-check">
             @let itemId = id() + "-" + item.Key;
             <input
@@ -38,7 +38,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
               [id]="itemId"
               [value]="item.Key"
               [checked]="value() === item.Key"
-              [disabled]="!item.IsActive || readonly()"
+              [disabled]="readonly()"
               (change)="value.set(item.Key)"
             />
             <label class="form-check-label" [attr.for]="itemId">
@@ -55,8 +55,8 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
         [disabled]="readonly()"
         (change)="onSelectChange($event)"
       >
-        @for (item of detail().DropdownItems; track item.Key) {
-          <option [value]="item.Key" [disabled]="!item.IsActive">
+        @for (item of items(); track item.Key) {
+          <option [value]="item.Key">
             {{ item.Value }}
           </option>
         }
@@ -81,6 +81,9 @@ export class SubscriptionDetailListboxComponent {
   required = computed(() => this.detail().VssInternet === "M");
   asRadios = computed(() => this.detail().ShowAsRadioButtons);
   valueSignal = computed(() => signal(this.detail().Value));
+  items = computed(() =>
+    this.detail().DropdownItems?.filter((item) => item.IsActive),
+  );
 
   onSelectChange(event: Event) {
     const target = event.target as HTMLSelectElement;
