@@ -345,7 +345,9 @@
       "grade": "Note",
       "absences": "Absenzen"
     },
-    "average": "Durchschnitt"
+    "average": "Durchschnitt",
+    "set-default-value": "Standardwert setzen",
+    "set-default-value-message": "Der Standardwert wird für alle Anmeldungen übernommen."
   },
   "dossier": {
     "title": "Dossier",
