@@ -2,37 +2,61 @@
 
 <h2>Subscription Detail Fields: With Labels</h2>
 <div class="subscription-details">
-  @for (detail of subscriptionDetails; track detail.Id) {
-    <bkd-subscription-detail-field
-      [detail]="detail"
-    ></bkd-subscription-detail-field>
+  <div class="subscription-details-row">
+    <div>Field</div>
+    <div>Value</div>
+    <div>Properties</div>
+  </div>
+  @for (props of subscriptionDetails; track props.Id) {
+    @let detail = build(props);
+    <div class="subscription-details-row">
+      <div>
+        <bkd-subscription-detail-field
+          [detail]="detail"
+        ></bkd-subscription-detail-field>
+      </div>
+      <pre>{{ detail.Value | json }}</pre>
+      <pre>{{ props | json }}</pre>
+    </div>
   }
 </div>
 
 <h2>Subscription Detail Fields: Readonly</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetailsReadonly; track detail.Id) {
-    <bkd-subscription-detail-field
-      [detail]="detail"
-    ></bkd-subscription-detail-field>
+    <div class="subscription-details-row">
+      <div>
+        <bkd-subscription-detail-field
+          [detail]="build(detail)"
+        ></bkd-subscription-detail-field>
+      </div>
+    </div>
   }
 </div>
 
 <h2>Subscription Detail Fields: Required</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetailsRequired; track detail.Id) {
-    <bkd-subscription-detail-field
-      [detail]="detail"
-    ></bkd-subscription-detail-field>
+    <div class="subscription-details-row">
+      <div>
+        <bkd-subscription-detail-field
+          [detail]="build(detail)"
+        ></bkd-subscription-detail-field>
+      </div>
+    </div>
   }
 </div>
 
 <h2>Subscription Detail Fields: Horizontal</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetailsRequired; track detail.Id) {
-    <bkd-subscription-detail-field
-      [detail]="detail"
-      [layout]="'horizontal'"
-    ></bkd-subscription-detail-field>
+    <div class="subscription-details-row">
+      <div>
+        <bkd-subscription-detail-field
+          [detail]="build(detail)"
+          [layout]="'horizontal'"
+        ></bkd-subscription-detail-field>
+      </div>
+    </div>
   }
 </div>

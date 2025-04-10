@@ -8,6 +8,32 @@
 .subscription-details {
   display: flex;
   flex-direction: column;
-  gap: $spacer;
+  column-gap: $spacer;
   margin-bottom: 3 * $spacer;
+}
+
+.subscription-details-row {
+  display: flex;
+  align-items: start;
+  column-gap: $spacer;
+  padding-top: $spacer;
+  padding-bottom: $spacer;
+}
+
+.subscription-details-row:first-child > * {
+  font-weight: bold;
+}
+
+.subscription-details-row + .subscription-details-row {
+  border-top: 1px solid $gray-200;
+}
+
+.subscription-details-row > * {
+  flex: 1;
+}
+
+.subscription-details-row pre {
+  background-color: $gray-200;
+  padding: $spacer;
+  margin: 0;
 }
