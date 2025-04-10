@@ -7,12 +7,13 @@ import {
   signal,
 } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 
 @Component({
   selector: "bkd-evaluation-dialog",
-  imports: [SelectComponent],
+  imports: [SelectComponent, TranslatePipe],
   templateUrl: "./evaluation-dialog.component.html",
   styleUrl: "./evaluation-dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

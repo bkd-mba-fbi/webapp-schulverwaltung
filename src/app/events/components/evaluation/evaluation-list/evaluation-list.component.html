@@ -28,7 +28,7 @@
         }
         <a class="set-default btn btn-link" (click)="openDefaultGradeDialog()">
           <i class="material-icons">edit</i>
-          <span>Standardwert setzen</span>
+          <span>{{ "evaluation.set-default-value" | translate }}</span>
         </a>
         <bkd-evaluation-table
           [(sortCriteria)]="state.sortCriteria"

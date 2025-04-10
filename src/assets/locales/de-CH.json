@@ -349,7 +349,9 @@
       "yes": "Ja",
       "no": "Nein"
     },
-    "average": "Durchschnitt"
+    "average": "Durchschnitt",
+    "set-default-value": "Standardwert setzen",
+    "set-default-value-message": "Der Standardwert wird für alle Anmeldungen übernommen."
   },
   "dossier": {
     "title": "Dossier",
@@ -569,9 +571,6 @@
     "typeahead": {
       "default-placeholder": "Suchen..."
     }
-  },
-  "kitchensink": {
-    "title": "Kitchensink"
   },
   "api": {
     "title": "API Debugging"
