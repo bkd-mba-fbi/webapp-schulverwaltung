@@ -351,7 +351,9 @@
     },
     "average": "Durchschnitt",
     "set-default-value": "Standardwert setzen",
-    "set-default-value-message": "Der Standardwert wird für alle Anmeldungen übernommen."
+    "set-default-value-message": "Der Standardwert wird für alle Anmeldungen übernommen.",
+    "save": "Übernehmen",
+    "cancel": "Abbrechen"
   },
   "dossier": {
     "title": "Dossier",

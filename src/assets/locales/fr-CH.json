@@ -349,7 +349,11 @@
       "yes": "Oui",
       "no": "Non"
     },
-    "average": "Moyenne"
+    "average": "Moyenne",
+    "set-default-value": "Définir par défaut",
+    "set-default-value-message": "La valeur par défaut sera appliquée à toutes les inscriptions.",
+    "save": "Valider",
+    "cancel": "Annuler"
   },
   "dossier": {
     "title": "Dossier",
@@ -569,11 +573,5 @@
     "typeahead": {
       "default-placeholder": "Rechercher..."
     }
-  },
-  "kitchensink": {
-    "title": "Kitchensink"
-  },
-  "api": {
-    "title": "API Debugging"
   }
 }
