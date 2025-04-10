@@ -4,17 +4,17 @@ import {
   computed,
   input,
   model,
+  output,
   signal,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.component";
 
 @Component({
   selector: "bkd-subscription-detail-listbox",
-  imports: [SubscriptionDetailLabelComponent],
+  imports: [FormsModule, SubscriptionDetailLabelComponent],
   template: `
-    @let value = valueSignal();
-
     <bkd-subscription-detail-label
       [detail]="detail()"
       [id]="id()"
@@ -37,9 +37,9 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
               [name]="id()"
               [id]="itemId"
               [value]="item.Key"
-              [checked]="value() === item.Key"
               [disabled]="readonly()"
-              (change)="value.set(item.Key)"
+              [ngModel]="detail().Value"
+              (ngModelChange)="onChange(item.Key)"
             />
             <label class="form-check-label" [attr.for]="itemId">
               {{ item.Value }}
@@ -51,9 +51,9 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
       <select
         class="form-select"
         [id]="id()"
-        [value]="value()"
         [disabled]="readonly()"
-        (change)="onSelectChange($event)"
+        [ngModel]="detail().Value"
+        (ngModelChange)="onChange($event)"
       >
         @for (item of items(); track item.Key) {
           <option [value]="item.Key">
@@ -76,6 +76,7 @@ export class SubscriptionDetailListboxComponent {
   id = input.required<string>();
   hideLabel = input.required<boolean>();
   layout = input.required<"vertical" | "horizontal">();
+  commit = output<SubscriptionDetail>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
   required = computed(() => this.detail().VssInternet === "M");
@@ -85,9 +86,13 @@ export class SubscriptionDetailListboxComponent {
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
 
-  onSelectChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const value = this.valueSignal();
-    value.set(target.value);
+  onChange(value: SubscriptionDetail["Value"]): void {
+    const item = this.items()?.find((item) => item.Key == value);
+    const detail: SubscriptionDetail = {
+      ...this.detail(),
+      Value: item?.Key ?? null,
+    };
+    this.detail.set(detail);
+    this.commit.emit(detail);
   }
 }

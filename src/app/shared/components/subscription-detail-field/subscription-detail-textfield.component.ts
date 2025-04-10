@@ -4,7 +4,7 @@ import {
   computed,
   input,
   model,
-  signal,
+  output,
 } from "@angular/core";
 import {
   SubscriptionDetail,
@@ -16,8 +16,6 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
   selector: "bkd-subscription-detail-textfield",
   imports: [SubscriptionDetailLabelComponent],
   template: `
-    @let value = valueSignal();
-
     <bkd-subscription-detail-label
       [detail]="detail()"
       [id]="id()"
@@ -27,9 +25,10 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
       class="form-control"
       [id]="id()"
       [type]="fieldType()"
-      [value]="value()"
+      [value]="detail().Value"
       [disabled]="readonly()"
       (input)="onInput($event)"
+      (blur)="onBlur()"
     />
   `,
   styles: ``,
@@ -39,17 +38,23 @@ export class SubscriptionDetailTextfieldComponent {
   detail = model.required<SubscriptionDetail>();
   id = input.required<string>();
   hideLabel = input.required<boolean>();
+  commit = output<SubscriptionDetail>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
   required = computed(() => this.detail().VssInternet === "M");
   fieldType = computed(() =>
     this.detail().VssTypeId === SubscriptionDetailType.Int ? "number" : "text",
   );
-  valueSignal = computed(() => signal(this.detail().Value));
 
   onInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const value = this.valueSignal();
-    value.set(target.value);
+    const { value } = event.target as HTMLInputElement;
+    this.detail.set({
+      ...this.detail(),
+      Value: this.fieldType() === "number" ? Number(value) : value,
+    });
+  }
+
+  onBlur() {
+    this.commit.emit(this.detail());
   }
 }

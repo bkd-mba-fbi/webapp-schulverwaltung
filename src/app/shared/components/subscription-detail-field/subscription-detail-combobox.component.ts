@@ -3,6 +3,7 @@ import {
   Component,
   input,
   model,
+  output,
 } from "@angular/core";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.component";
@@ -25,4 +26,5 @@ export class SubscriptionDetailComboboxComponent {
   detail = model.required<SubscriptionDetail>();
   id = input.required<string>();
   hideLabel = input.required<boolean>();
+  commit = output<SubscriptionDetail>();
 }

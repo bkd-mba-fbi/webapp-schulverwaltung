@@ -49,11 +49,13 @@
               class="subscription-detail"
               [class.selected]="isColumnSelected(detail)"
             >
-              <bkd-subscription-detail-field
-                [detail]="detail"
-                [hideLabel]="true"
-                [layout]="'horizontal'"
-              ></bkd-subscription-detail-field>
+              @if (detail) {
+                <bkd-subscription-detail-field
+                  [detail]="detail"
+                  [hideLabel]="true"
+                  [layout]="'horizontal'"
+                ></bkd-subscription-detail-field>
+              }
             </td>
           }
 

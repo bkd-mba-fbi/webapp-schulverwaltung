@@ -1,6 +1,10 @@
 import { JsonPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  WritableSignal,
+  signal,
+} from "@angular/core";
 import {
   SubscriptionDetail,
   SubscriptionDetailType,
@@ -85,6 +89,7 @@ export class KitchensinkComponent {
       Value: "Strawberry",
     },
   ];
+  subscriptionDetailsSignals = this.getSubscriptionDetailSignals();
 
   subscriptionDetailsReadonly = this.subscriptionDetails.map((detail) => ({
     ...detail,
@@ -95,8 +100,6 @@ export class KitchensinkComponent {
     ...detail,
     VssInternet: "M",
   }));
-
-  private fb = inject(FormBuilder);
 
   build(detail: Partial<SubscriptionDetail>): SubscriptionDetail {
     return {
@@ -117,5 +120,17 @@ export class KitchensinkComponent {
       Sort: "",
       ...detail,
     };
+  }
+
+  private getSubscriptionDetailSignals(): Dict<
+    WritableSignal<SubscriptionDetail>
+  > {
+    return this.subscriptionDetails.reduce(
+      (acc, detail) => ({
+        ...acc,
+        [detail.Id ?? ""]: signal(this.build(detail)),
+      }),
+      {} as Dict<WritableSignal<SubscriptionDetail>>,
+    );
   }
 }

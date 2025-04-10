@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   model,
+  output,
 } from "@angular/core";
 import {
   SubscriptionDetail,
@@ -27,51 +29,52 @@ import { SubscriptionDetailTextfieldComponent } from "./subscription-detail-text
     SubscriptionDetailTextareaComponent,
   ],
   template: `
-    @let detailValue = detail();
-    @if (detailValue) {
-      @let id = detailValue.Id + "-" + detailValue.IdPerson;
-      @switch (detailValue.VssStyle) {
-        @case ("HE") {
-          <bkd-subscription-detail-heading
-            [detail]="detailValue"
-          ></bkd-subscription-detail-heading>
-        }
-        @case ("BE") {
-          <bkd-subscription-detail-description
-            [detail]="detailValue"
+    @let id = detail().Id + "-" + detail().IdPerson;
+    @switch (detail().VssStyle) {
+      @case ("HE") {
+        <bkd-subscription-detail-heading
+          [detail]="detail()"
+        ></bkd-subscription-detail-heading>
+      }
+      @case ("BE") {
+        <bkd-subscription-detail-description
+          [detail]="detail()"
+          [id]="id"
+          [hideLabel]="hideLabel()"
+        ></bkd-subscription-detail-description>
+      }
+      @case ("CB") {
+        <bkd-subscription-detail-combobox
+          [(detail)]="detail"
+          [id]="id"
+          [hideLabel]="hideLabel()"
+          (commit)="commit.emit($event)"
+        ></bkd-subscription-detail-combobox>
+      }
+      @case ("LB") {
+        <bkd-subscription-detail-listbox
+          [(detail)]="detail"
+          [id]="id"
+          [hideLabel]="hideLabel()"
+          [layout]="layout()"
+          (commit)="commit.emit($event)"
+        ></bkd-subscription-detail-listbox>
+      }
+      @case ("TX") {
+        @if (isTextField()) {
+          <bkd-subscription-detail-textfield
+            [(detail)]="detail"
             [id]="id"
             [hideLabel]="hideLabel()"
-          ></bkd-subscription-detail-description>
-        }
-        @case ("CB") {
-          <bkd-subscription-detail-combobox
-            [detail]="detailValue"
+            (commit)="commit.emit($event)"
+          ></bkd-subscription-detail-textfield>
+        } @else if (isTextarea()) {
+          <bkd-subscription-detail-textarea
+            [(detail)]="detail"
             [id]="id"
             [hideLabel]="hideLabel()"
-          ></bkd-subscription-detail-combobox>
-        }
-        @case ("LB") {
-          <bkd-subscription-detail-listbox
-            [detail]="detailValue"
-            [id]="id"
-            [hideLabel]="hideLabel()"
-            [layout]="layout()"
-          ></bkd-subscription-detail-listbox>
-        }
-        @case ("TX") {
-          @if (isTextField()) {
-            <bkd-subscription-detail-textfield
-              [detail]="detailValue"
-              [id]="id"
-              [hideLabel]="hideLabel()"
-            ></bkd-subscription-detail-textfield>
-          } @else if (isTextarea()) {
-            <bkd-subscription-detail-textarea
-              [detail]="detailValue"
-              [id]="id"
-              [hideLabel]="hideLabel()"
-            ></bkd-subscription-detail-textarea>
-          }
+            (commit)="commit.emit($event)"
+          ></bkd-subscription-detail-textarea>
         }
       }
     }
@@ -84,9 +87,10 @@ import { SubscriptionDetailTextfieldComponent } from "./subscription-detail-text
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailFieldComponent {
-  detail = model.required<Option<SubscriptionDetail>>();
+  detail = model.required<SubscriptionDetail>();
   hideLabel = input(false);
   layout = input<"vertical" | "horizontal">("vertical");
+  commit = output<SubscriptionDetail>();
 
   isTextField = computed(
     () =>
@@ -96,4 +100,8 @@ export class SubscriptionDetailFieldComponent {
   isTextarea = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Text,
   );
+
+  constructor() {
+    effect(() => console.log(this.detail()));
+  }
 }

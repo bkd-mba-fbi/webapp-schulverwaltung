@@ -4,6 +4,7 @@ import {
   computed,
   input,
   model,
+  output,
   signal,
 } from "@angular/core";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
@@ -13,8 +14,6 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
   selector: "bkd-subscription-detail-textarea",
   imports: [SubscriptionDetailLabelComponent],
   template: `
-    @let value = valueSignal();
-
     <bkd-subscription-detail-label
       [detail]="detail()"
       [id]="id()"
@@ -23,7 +22,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
     <textarea
       class="form-control"
       [id]="id()"
-      [value]="value()"
+      [value]="detail().Value"
       [disabled]="readonly()"
       (input)="onInput($event)"
     ></textarea>
@@ -35,14 +34,18 @@ export class SubscriptionDetailTextareaComponent {
   detail = model.required<SubscriptionDetail>();
   id = input.required<string>();
   hideLabel = input.required<boolean>();
+  commit = output<SubscriptionDetail>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
   required = computed(() => this.detail().VssInternet === "M");
   valueSignal = computed(() => signal(this.detail().Value));
 
   onInput(event: Event) {
-    const target = event.target as HTMLTextAreaElement;
-    const value = this.valueSignal();
-    value.set(target.value);
+    const { value } = event.target as HTMLTextAreaElement;
+    this.detail.set({ ...this.detail(), Value: value });
+  }
+
+  onBlur() {
+    this.commit.emit(this.detail());
   }
 }

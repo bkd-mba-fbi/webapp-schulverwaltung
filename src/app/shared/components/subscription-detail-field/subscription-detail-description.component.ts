@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  model,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.component";
 
@@ -22,7 +17,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailDescriptionComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
   hideLabel = input.required<boolean>();
 }

@@ -8,14 +8,15 @@
     <div>Properties</div>
   </div>
   @for (props of subscriptionDetails; track props.Id) {
-    @let detail = build(props);
+    @let detail = subscriptionDetailsSignals[props.Id || ""];
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
-          [detail]="detail"
+          [detail]="detail()"
+          (detailChange)="detail.set($event)"
         ></bkd-subscription-detail-field>
       </div>
-      <pre>{{ detail.Value | json }}</pre>
+      <pre>{{ detail().Value | json }}</pre>
       <pre>{{ props | json }}</pre>
     </div>
   }

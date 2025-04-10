@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 
 @Component({
@@ -17,5 +17,5 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailHeadingComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
 }
