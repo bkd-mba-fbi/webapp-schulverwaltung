@@ -4,7 +4,11 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 @Component({
   selector: "bkd-subscription-detail-heading",
   imports: [],
-  template: `{{ detail().Value }}`,
+  template: `
+    <div [title]="detail().Tooltip">
+      {{ detail().VssDesignation }}
+    </div>
+  `,
   styles: `
     :host {
       font-weight: bold;
