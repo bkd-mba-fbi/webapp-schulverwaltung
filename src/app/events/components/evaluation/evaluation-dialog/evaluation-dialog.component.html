@@ -4,9 +4,8 @@
     <label for="grade">Note</label>
     <bkd-select
       id="grade"
-      [options]="options"
+      [options]="options()"
       [value]="selectedGradeKey()"
-      [disabled]="!selectedGrade()"
       (valueChange)="setGradeByKey($event)"
       [allowEmpty]="false"
       width="100%"
