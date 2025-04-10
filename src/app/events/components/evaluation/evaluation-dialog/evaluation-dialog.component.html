@@ -1,6 +1,6 @@
 <div class="modal-body">
-  <p>{{ "evaluation.set-default-value" | translate }}</p>
-  <div>
+  <p class="info-heading">{{ "evaluation.set-default-value" | translate }}</p>
+  <div class="dropdown">
     <label for="grade">Note</label>
     <bkd-select
       id="grade"
@@ -8,7 +8,6 @@
       [value]="selectedGradeKey()"
       (valueChange)="setGradeByKey($event)"
       [allowEmpty]="false"
-      width="100%"
     ></bkd-select>
   </div>
   <p class="info-text">
