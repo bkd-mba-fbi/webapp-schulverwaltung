@@ -77,6 +77,7 @@ export class EvaluationListComponent {
 
   openDefaultGradeDialog() {
     const modalRef = this.modalService.open(EvaluationDialogComponent);
+    modalRef.componentInstance.gradingScale = this.state.gradingScale;
 
     modalRef.result.then(
       (result) => {

@@ -118,7 +118,7 @@ export class EvaluationStateService {
     ),
     { initialValue: [] },
   );
-  private gradingScale = toSignal<Option<GradingScale>>(
+  gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
       switchMap((event) =>
         this.loadGradingScale(event?.gradingScaleId ?? null),
