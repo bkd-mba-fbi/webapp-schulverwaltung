@@ -2,7 +2,15 @@
   <p>Standardwert setzen</p>
   <div>
     <label for="grade">Note</label>
-    <p id="grade">&nbsp;</p>
+    <bkd-select
+      id="grade"
+      [options]="options"
+      [value]="selectedGradeKey()"
+      [disabled]="!selectedGrade()"
+      (valueChange)="setGradeByKey($event)"
+      [allowEmpty]="false"
+      width="100%"
+    ></bkd-select>
   </div>
   <p class="info-text">
     Der Standardwert wird für alle Anmeldungen übernommen.
