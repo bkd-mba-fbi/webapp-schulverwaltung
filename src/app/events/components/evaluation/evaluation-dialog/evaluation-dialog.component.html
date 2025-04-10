@@ -16,7 +16,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
-    Abbrechen
+    {{ "evaluation.cancel" | translate }}
   </button>
   <button
     type="button"
@@ -24,6 +24,6 @@
     [disabled]="!selectedGrade()"
     (click)="confirm()"
   >
-    Übernehmen
+    {{ "evaluation.save" | translate }}
   </button>
 </div>
