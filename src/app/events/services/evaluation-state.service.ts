@@ -226,9 +226,14 @@ export class EvaluationStateService {
   private buildEvaluationEventFromCourse(
     course: CourseWithStudentCount,
   ): EvaluationEvent {
+    const classes = course.Classes?.map((c) => c.Number) ?? [];
+    const designation =
+      classes.length > 0
+        ? `${course.Designation}, ${classes.join(", ")}`
+        : course.Designation;
     return {
       id: course.Id,
-      designation: `${course.Designation}, ${course.Classes?.map((c) => c.Number).join(", ")}`,
+      designation,
       type: "course",
       studentCount: course.AttendanceRef.StudentCount ?? 0,
       gradingScaleId: course.GradingScaleId,
