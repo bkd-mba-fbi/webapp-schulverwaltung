@@ -255,6 +255,22 @@ describe("EvaluationStateService", () => {
         expect(result).toBeNull();
       });
     }));
+
+    it("returns module event without class (special case of course)", fakeAsync(async () => {
+      course.Classes = null;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
+      params.next({ id: "1000" });
+
+      await expectSignalValue(service.event, (result) => {
+        expect(result).toEqual({
+          id: 1000,
+          designation: "Mathematik",
+          type: "course",
+          studentCount: 24,
+          gradingScaleId: 10000,
+        });
+      });
+    }));
   });
 
   describe("columns", () => {
