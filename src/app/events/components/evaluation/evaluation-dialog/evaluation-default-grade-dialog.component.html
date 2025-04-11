@@ -5,8 +5,7 @@
     <bkd-select
       id="grade"
       [options]="options()"
-      [value]="selectedGradeKey()"
-      (valueChange)="setGradeByKey($event)"
+      [(value)]="selectedGradeKey"
       [allowEmpty]="false"
     ></bkd-select>
   </div>
