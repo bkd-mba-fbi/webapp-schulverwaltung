@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 
 @Component({
   selector: "bkd-subscription-detail-heading",
-  imports: [],
+  imports: [NgbTooltipModule],
   template: `
-    <div [title]="detail().Tooltip">
+    <div [ngbTooltip]="detail().Tooltip">
       {{ detail().VssDesignation }}
     </div>
   `,
   styles: `
     :host {
       font-weight: bold;
+    }
+    div {
+      display: inline-flex; /* Fix tooltip placement */
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -115,7 +115,7 @@ export class KitchensinkComponent {
       VssStyle: "TX",
       VssInternet: "E",
       VssDesignation: "",
-      Tooltip: "",
+      Tooltip: detail.VssDesignation ? `${detail.VssDesignation} Tooltip` : "",
       Value: null,
       Sort: "",
       ...detail,
