@@ -345,6 +345,10 @@
       "grade": "Note",
       "absences": "Absenzen"
     },
+    "values": {
+      "yes": "Ja",
+      "no": "Nein"
+    },
     "average": "Durchschnitt"
   },
   "dossier": {
@@ -565,6 +569,9 @@
     "typeahead": {
       "default-placeholder": "Suchen..."
     }
+  },
+  "kitchensink": {
+    "title": "Kitchensink"
   },
   "api": {
     "title": "API Debugging"

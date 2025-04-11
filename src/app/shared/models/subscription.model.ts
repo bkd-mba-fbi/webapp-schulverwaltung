@@ -7,6 +7,9 @@ export enum SubscriptionDetailType {
   Currency = 279,
   ShortText = 290, // → Text in old implementation
   Text = 293, // → MemoText in old implementation
+  YesNo = 291,
+  Yes = 292,
+  Date = 295,
 }
 
 const SubscriptionDetail = t.type({

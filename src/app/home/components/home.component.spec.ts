@@ -41,6 +41,7 @@ describe("HomeComponent", () => {
       "/my-profile",
       "/my-grades",
       "/my-settings",
+      "/kitchensink",
       "/api",
     ]);
   });

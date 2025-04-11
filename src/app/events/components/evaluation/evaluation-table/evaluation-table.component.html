@@ -49,8 +49,13 @@
               class="subscription-detail"
               [class.selected]="isColumnSelected(detail)"
             >
-              <!-- TODO: render subscription detail -->
-              {{ detail?.Value }}
+              @if (detail) {
+                <bkd-subscription-detail-field
+                  [detail]="detail"
+                  [hideLabel]="true"
+                  [layout]="'horizontal'"
+                ></bkd-subscription-detail-field>
+              }
             </td>
           }
 
