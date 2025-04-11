@@ -2,9 +2,17 @@
   margin-bottom: 1.5rem;
 }
 
-.dropdown {
+.dropdown-row {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+
+  label {
+    flex: 1;
+  }
+
+  bkd-select {
+    flex: 1;
+  }
 }
 
 .info-text {
