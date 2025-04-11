@@ -13,7 +13,7 @@ import { SelectComponent } from "../../../../shared/components/select/select.com
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
 import { EvaluationStateService } from "../../../services/evaluation-state.service";
-import { EvaluationDialogComponent } from "../evaluation-dialog/evaluation-dialog.component";
+import { EvaluationDefaultGradeDialogComponent } from "../evaluation-dialog/evaluation-default-grade-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
 
@@ -76,7 +76,9 @@ export class EvaluationListComponent {
   });
 
   openDefaultGradeDialog() {
-    const modalRef = this.modalService.open(EvaluationDialogComponent);
+    const modalRef = this.modalService.open(
+      EvaluationDefaultGradeDialogComponent,
+    );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
 
     modalRef.result.then(

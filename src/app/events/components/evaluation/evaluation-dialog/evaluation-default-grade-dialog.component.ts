@@ -14,11 +14,11 @@ import { GradingScale } from "../../../../shared/models/grading-scale.model";
 @Component({
   selector: "bkd-evaluation-dialog",
   imports: [SelectComponent, TranslatePipe],
-  templateUrl: "./evaluation-dialog.component.html",
-  styleUrl: "./evaluation-dialog.component.scss",
+  templateUrl: "./evaluation-default-grade-dialog.component.html",
+  styleUrl: "./evaluation-default-grade-dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EvaluationDialogComponent {
+export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
 
   gradingScale = input.required<GradingScale>();
@@ -33,7 +33,7 @@ export class EvaluationDialogComponent {
 
   selectedGrade = computed(() => {
     const key = this.selectedGradeKey();
-    return this.options().find((o) => o.Key === key) ?? null;
+    return this.gradingScale().Grades.find((grade) => grade.Id === key) ?? null;
   });
 
   cancel(): void {
@@ -44,9 +44,5 @@ export class EvaluationDialogComponent {
     if (this.selectedGrade()) {
       this.activeModal.close(this.selectedGrade());
     }
-  }
-
-  setGradeByKey(key: number | null) {
-    this.selectedGradeKey.set(key);
   }
 }
