@@ -2,6 +2,11 @@
 @import "node_modules/bootstrap/scss/mixins";
 @import "./evaluation-table-common";
 
+:host {
+  border-top: 1px solid $border-color;
+  display: block;
+}
+
 tbody td.student-name {
   &,
   * {
