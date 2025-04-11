@@ -15,17 +15,24 @@
 .subscription-details-row {
   display: flex;
   align-items: start;
-  column-gap: $spacer;
-  padding-top: $spacer;
-  padding-bottom: $spacer;
+  gap: $spacer;
+  margin-bottom: 1.25 * $spacer;
 }
 
 .subscription-details-row:first-child > * {
   font-weight: bold;
 }
 
-.subscription-details-row + .subscription-details-row {
-  border-top: 1px solid $gray-200;
+.with-border {
+  .subscription-details-row {
+    margin-bottom: 0;
+    padding-top: $spacer;
+    padding-bottom: $spacer;
+  }
+
+  .subscription-details-row + .subscription-details-row {
+    border-top: 1px solid $gray-200;
+  }
 }
 
 .subscription-details-row > * {

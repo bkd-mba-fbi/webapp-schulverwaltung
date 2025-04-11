@@ -1,7 +1,7 @@
 <h1>Kitchensink</h1>
 
 <h2>Subscription Detail Fields: With Labels</h2>
-<div class="subscription-details">
+<div class="subscription-details with-border">
   <div class="subscription-details-row">
     <div>Field</div>
     <div>Value</div>
@@ -24,7 +24,7 @@
 
 <h2>Subscription Detail Fields: Without labels</h2>
 <div class="subscription-details">
-  @for (detail of subscriptionDetailsReadonly; track detail.Id) {
+  @for (detail of subscriptionDetails; track detail.Id) {
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
@@ -62,9 +62,9 @@
   }
 </div>
 
-<h2>Subscription Detail Fields: Horizontal</h2>
+<h2>Subscription Detail Fields: Horizontal Layout</h2>
 <div class="subscription-details">
-  @for (detail of subscriptionDetailsRequired; track detail.Id) {
+  @for (detail of subscriptionDetails; track detail.Id) {
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
