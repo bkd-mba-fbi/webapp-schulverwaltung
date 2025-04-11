@@ -1,11 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   computed,
   input,
   model,
   output,
+  viewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import {
   SubscriptionDetail,
   SubscriptionDetailType,
@@ -14,7 +17,7 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
 
 @Component({
   selector: "bkd-subscription-detail-textfield",
-  imports: [SubscriptionDetailLabelComponent],
+  imports: [FormsModule, SubscriptionDetailLabelComponent],
   template: `
     <bkd-subscription-detail-label
       [detail]="detail()"
@@ -22,12 +25,14 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
       [hideLabel]="hideLabel()"
     ></bkd-subscription-detail-label>
     <input
+      #input
       class="form-control"
       [id]="id()"
       [type]="fieldType()"
-      [value]="detail().Value"
       [disabled]="readonly()"
-      (input)="onInput($event)"
+      [value]="detail().Value"
+      [step]="isCurrency() ? '0.05' : '1'"
+      (input)="onChange($event)"
       (blur)="onBlur()"
     />
   `,
@@ -47,19 +52,68 @@ export class SubscriptionDetailTextfieldComponent {
 
   readonly = computed(() => this.detail().VssInternet === "R");
   required = computed(() => this.detail().VssInternet === "M");
+  isInt = computed(
+    () => this.detail().VssTypeId === SubscriptionDetailType.Int,
+  );
+  isCurrency = computed(
+    () => this.detail().VssTypeId === SubscriptionDetailType.Currency,
+  );
   fieldType = computed(() =>
-    this.detail().VssTypeId === SubscriptionDetailType.Int ? "number" : "text",
+    this.isInt() || this.isCurrency() ? "number" : "text",
+  );
+  formattedValue = computed(() =>
+    this.normalizeValueOnBlur(this.detail().Value),
   );
 
-  onInput(event: Event) {
-    const { value } = event.target as HTMLInputElement;
-    this.detail.set({
-      ...this.detail(),
-      Value: this.fieldType() === "number" ? Number(value) : value,
-    });
+  private input = viewChild.required<ElementRef<HTMLInputElement>>("input");
+
+  onChange(event: Event) {
+    const { value: rawValue } = event.target as HTMLInputElement;
+    const value = this.normalizeValueOnChange(rawValue);
+
+    // For int fields, enforce the normalized value (i.e. no decimals or alpha
+    // chars) as value of the input field (apparently, only with the [value]
+    // binding, the normalized value is not applied).
+    if (this.isInt()) {
+      this.input().nativeElement.value = String(value);
+    }
+
+    this.updateDetailValue(value);
   }
 
   onBlur() {
+    // Normalize the value such that the currency gets propperly formatted
+    this.updateDetailValue(this.normalizeValueOnBlur(this.detail().Value));
+
     this.commit.emit(this.detail());
+  }
+
+  private normalizeValueOnChange(value: string): SubscriptionDetail["Value"] {
+    if (value === "") {
+      return null;
+    }
+
+    if (this.isInt()) {
+      return Math.floor(Number(value));
+    }
+
+    return value;
+  }
+
+  private normalizeValueOnBlur(
+    value: SubscriptionDetail["Value"],
+  ): SubscriptionDetail["Value"] {
+    if (value && this.isCurrency()) {
+      return Number(this.detail().Value).toFixed(2);
+    }
+
+    return value;
+  }
+
+  private updateDetailValue(value: SubscriptionDetail["Value"]) {
+    this.detail.set({
+      ...this.detail(),
+      Value: value,
+    });
   }
 }

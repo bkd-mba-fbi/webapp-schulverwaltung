@@ -29,8 +29,8 @@ import { SubscriptionDetailLabelComponent } from "./subscription-detail-label.co
         [class.flex-column]="layout() === 'vertical'"
       >
         @for (item of items(); track item.Key) {
+          @let itemId = id() + "-" + item.Key;
           <div class="form-check">
-            @let itemId = id() + "-" + item.Key;
             <input
               class="form-check-input"
               type="radio"

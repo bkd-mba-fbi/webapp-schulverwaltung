@@ -345,6 +345,10 @@
       "grade": "Note",
       "absences": "Absenzen"
     },
+    "values": {
+      "yes": "Ja",
+      "no": "Nein"
+    },
     "average": "Durchschnitt"
   },
   "dossier": {

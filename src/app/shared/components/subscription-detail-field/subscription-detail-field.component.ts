@@ -16,6 +16,7 @@ import { SubscriptionDetailHeadingComponent } from "./subscription-detail-headin
 import { SubscriptionDetailListboxComponent } from "./subscription-detail-listbox.component";
 import { SubscriptionDetailTextareaComponent } from "./subscription-detail-textarea.component";
 import { SubscriptionDetailTextfieldComponent } from "./subscription-detail-textfield.component";
+import { SubscriptionDetailYesNoComponent } from "./subscription-detail-yesno.component";
 
 @Component({
   selector: "bkd-subscription-detail-field",
@@ -26,6 +27,7 @@ import { SubscriptionDetailTextfieldComponent } from "./subscription-detail-text
     SubscriptionDetailListboxComponent,
     SubscriptionDetailTextfieldComponent,
     SubscriptionDetailTextareaComponent,
+    SubscriptionDetailYesNoComponent,
   ],
   template: `
     @let id = detail().Id + "-" + detail().IdPerson;
@@ -74,6 +76,13 @@ import { SubscriptionDetailTextfieldComponent } from "./subscription-detail-text
             [hideLabel]="hideLabel()"
             (commit)="commit.emit($event)"
           ></bkd-subscription-detail-textarea>
+        } @else if (isYesNo()) {
+          <bkd-subscription-detail-yesno
+            [(detail)]="detail"
+            [id]="id"
+            [hideLabel]="hideLabel()"
+            (commit)="commit.emit($event)"
+          ></bkd-subscription-detail-yesno>
         }
       }
     }
@@ -94,9 +103,15 @@ export class SubscriptionDetailFieldComponent {
   isTextField = computed(
     () =>
       this.detail()?.VssTypeId === SubscriptionDetailType.ShortText ||
-      this.detail()?.VssTypeId === SubscriptionDetailType.Int,
+      this.detail()?.VssTypeId === SubscriptionDetailType.Int ||
+      this.detail()?.VssTypeId === SubscriptionDetailType.Currency,
   );
   isTextarea = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Text,
+  );
+  isYesNo = computed(
+    () =>
+      this.detail()?.VssTypeId === SubscriptionDetailType.YesNo ||
+      this.detail()?.VssTypeId === SubscriptionDetailType.Yes,
   );
 }

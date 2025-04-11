@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   SubscriptionDetail,
   SubscriptionDetailType,
@@ -9,19 +10,25 @@ describe("SubscriptionDetailFieldComponent", () => {
   let component: SubscriptionDetailFieldComponent;
   let fixture: ComponentFixture<SubscriptionDetailFieldComponent>;
   let element: HTMLElement;
+  let commitCallback: jasmine.Spy;
   let detail: SubscriptionDetail;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SubscriptionDetailFieldComponent],
-    }).compileComponents();
+    await TestBed.configureTestingModule(
+      buildTestModuleMetadata({
+        imports: [SubscriptionDetailFieldComponent],
+      }),
+    ).compileComponents();
 
     fixture = TestBed.createComponent(SubscriptionDetailFieldComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
+
+    commitCallback = jasmine.createSpy("commitCallback");
+    component.commit.subscribe(commitCallback);
   });
 
-  describe("Heading", () => {
+  describe("heading", () => {
     beforeEach(() => {
       detail = build({
         VssDesignation: "Heading",
@@ -33,9 +40,7 @@ describe("SubscriptionDetailFieldComponent", () => {
     it("renders heading text", async () => {
       await render();
 
-      expect(
-        element.querySelector("bkd-subscription-detail-heading"),
-      ).not.toBeNull();
+      expectComponent("bkd-subscription-detail-heading");
       expect(element.textContent).toContain("Heading");
     });
   });
@@ -44,7 +49,6 @@ describe("SubscriptionDetailFieldComponent", () => {
     beforeEach(() => {
       detail = build({
         VssDesignation: "Description",
-        Id: "2",
         VssStyle: "BE",
         Value:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -54,12 +58,8 @@ describe("SubscriptionDetailFieldComponent", () => {
     it("renders description with label", async () => {
       await render();
 
-      expect(
-        element.querySelector("bkd-subscription-detail-description"),
-      ).not.toBeNull();
-
-      const label = element.querySelector("label");
-      expect(label?.textContent).toContain("Description");
+      expectComponent("bkd-subscription-detail-description");
+      expectLabel("Description");
 
       expect(element.textContent).toContain(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -70,12 +70,8 @@ describe("SubscriptionDetailFieldComponent", () => {
       fixture.componentRef.setInput("hideLabel", true);
       await render();
 
-      expect(
-        element.querySelector("bkd-subscription-detail-description"),
-      ).not.toBeNull();
-
-      const label = element.querySelector("label");
-      expect(label).toBeNull();
+      expectComponent("bkd-subscription-detail-description");
+      expectNoLabel();
 
       expect(element.textContent).toContain(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -83,137 +79,138 @@ describe("SubscriptionDetailFieldComponent", () => {
     });
   });
 
-  describe("textfield", () => {
+  describe("text field", () => {
     beforeEach(() => {
       detail = build({
         VssDesignation: "Text field",
-        Id: "3",
         VssTypeId: SubscriptionDetailType.ShortText,
         VssStyle: "TX",
         Value: "Lorem ipsum",
       });
     });
 
-    it("renders textfield with label", async () => {
+    it("renders text field with label", async () => {
       await render();
 
-      const label = element.querySelector("label");
-      expect(label?.textContent).toContain("Text field");
+      expectComponent("bkd-subscription-detail-textfield");
+      expectLabel("Text field");
 
-      expect(
-        element.querySelector("bkd-subscription-detail-textfield"),
-      ).not.toBeNull();
-      const input = element.querySelector("input");
-      expect(input?.type).toBe("text");
-      expect(input?.value).toBe("Lorem ipsum");
+      const input = getInput();
+      expect(input.type).toBe("text");
+      expect(input.value).toBe("Lorem ipsum");
     });
 
-    it("renders textfield without label", async () => {
+    it("renders text field without label", async () => {
       fixture.componentRef.setInput("hideLabel", true);
       await render();
 
-      const label = element.querySelector("label");
-      expect(label).toBeNull();
+      expectComponent("bkd-subscription-detail-textfield");
+      expectNoLabel();
 
-      expect(
-        element.querySelector("bkd-subscription-detail-textfield"),
-      ).not.toBeNull();
-      const input = element.querySelector("input");
-      expect(input?.type).toBe("text");
-      expect(input?.value).toBe("Lorem ipsum");
+      const input = getInput();
+      expect(input.type).toBe("text");
+      expect(input.value).toBe("Lorem ipsum");
     });
 
-    it("emits value change on input", async () => {
+    it("emits value change on input & commit on blur", async () => {
       await render();
 
-      const input = element.querySelector("input")!;
+      const input = getInput();
       dispatchEvent(input, "input", "New value");
-      expect(component.detail()).toEqual({ ...detail, Value: "New value" });
-    });
-
-    it("emits value commit on blur", async () => {
-      const commitCallback = jasmine.createSpy("commitCallback");
-      component.commit.subscribe(commitCallback);
-
-      await render();
-
-      const input = element.querySelector("input")!;
-      dispatchEvent(input, "input", "New value");
-      expect(commitCallback).not.toHaveBeenCalled();
+      expectChange("New value");
 
       dispatchEvent(input, "blur");
-      expect(commitCallback).toHaveBeenCalledTimes(1);
-      expect(commitCallback.calls.mostRecent().args[0]).toEqual({
-        ...detail,
-        Value: "New value",
-      });
+      expectCommit("New value");
     });
   });
 
-  describe("numberfield", () => {
+  describe("integer field", () => {
     beforeEach(() => {
       detail = build({
-        VssDesignation: "Number field",
-        Id: "5",
+        VssDesignation: "Integer field",
         VssTypeId: SubscriptionDetailType.Int,
         VssStyle: "TX",
         Value: 42,
       });
     });
 
-    it("renders numberfield with label", async () => {
+    it("renders number field with label", async () => {
       await render();
 
-      const label = element.querySelector("label");
-      expect(label?.textContent).toContain("Number field");
+      expectComponent("bkd-subscription-detail-textfield");
+      expectLabel("Integer field");
 
-      expect(
-        element.querySelector("bkd-subscription-detail-textfield"),
-      ).not.toBeNull();
-      const input = element.querySelector("input");
-      expect(input?.type).toBe("number");
-      expect(input?.value).toBe("42");
+      const input = getInput();
+      expect(input.type).toBe("number");
+      expect(input.value).toBe("42");
     });
 
-    it("renders numberfield without label", async () => {
+    it("renders number field without label", async () => {
       fixture.componentRef.setInput("hideLabel", true);
       await render();
 
-      const label = element.querySelector("label");
-      expect(label).toBeNull();
+      expectComponent("bkd-subscription-detail-textfield");
+      expectNoLabel();
 
-      expect(
-        element.querySelector("bkd-subscription-detail-textfield"),
-      ).not.toBeNull();
-      const input = element.querySelector("input");
-      expect(input?.type).toBe("number");
-      expect(input?.value).toBe("42");
+      const input = getInput();
+      expect(input.type).toBe("number");
+      expect(input.value).toBe("42");
     });
 
-    it("emits value change on input", async () => {
+    it("emits value change on input & commit on blur", async () => {
       await render();
 
       const input = element.querySelector<HTMLInputElement>("input")!;
       dispatchEvent(input, "input", "123");
-      expect(component.detail()).toEqual({ ...detail, Value: 123 });
-    });
-
-    it("emits value commit on blur", async () => {
-      const commitCallback = jasmine.createSpy("commitCallback");
-      component.commit.subscribe(commitCallback);
-
-      await render();
-
-      const input = element.querySelector<HTMLInputElement>("input")!;
-      dispatchEvent(input, "input", "123");
-      expect(commitCallback).not.toHaveBeenCalled();
+      expectChange(123);
 
       dispatchEvent(input, "blur");
-      expect(commitCallback).toHaveBeenCalledTimes(1);
-      expect(commitCallback.calls.mostRecent().args[0]).toEqual({
-        ...detail,
-        Value: 123,
+      expectCommit(123);
+    });
+  });
+
+  describe("currency field", () => {
+    beforeEach(() => {
+      detail = build({
+        VssDesignation: "Currency field",
+        VssTypeId: SubscriptionDetailType.Currency,
+        VssStyle: "TX",
+        Value: "12.30",
       });
+    });
+
+    it("renders number field with label", async () => {
+      await render();
+
+      expectComponent("bkd-subscription-detail-textfield");
+      expectLabel("Currency field");
+
+      const input = getInput();
+      expect(input.type).toBe("number");
+      expect(input.value).toBe("12.30");
+    });
+
+    it("renders number field without label", async () => {
+      fixture.componentRef.setInput("hideLabel", true);
+      await render();
+
+      expectComponent("bkd-subscription-detail-textfield");
+      expectNoLabel();
+
+      const input = getInput();
+      expect(input.type).toBe("number");
+      expect(input.value).toBe("12.30");
+    });
+
+    it("emits value change on input & commit on blur, formatting the value with two decimals", async () => {
+      await render();
+
+      const input = getInput();
+      dispatchEvent(input, "input", "123");
+      expectChange("123");
+
+      dispatchEvent(input, "blur");
+      expectCommit("123.00");
     });
   });
 
@@ -221,7 +218,6 @@ describe("SubscriptionDetailFieldComponent", () => {
     beforeEach(() => {
       detail = build({
         VssDesignation: "Textarea",
-        Id: "4",
         VssTypeId: SubscriptionDetailType.Text,
         VssStyle: "TX",
         Value: "Lorem ipsum",
@@ -231,54 +227,213 @@ describe("SubscriptionDetailFieldComponent", () => {
     it("renders textarea with label", async () => {
       await render();
 
-      const label = element.querySelector("label");
-      expect(label?.textContent).toContain("Textarea");
+      expectComponent("bkd-subscription-detail-textarea");
+      expectLabel("Textarea");
 
-      expect(
-        element.querySelector("bkd-subscription-detail-textarea"),
-      ).not.toBeNull();
-      const textarea = element.querySelector("textarea");
-      expect(textarea?.value).toBe("Lorem ipsum");
+      const textarea = getTextarea();
+      expect(textarea.value).toBe("Lorem ipsum");
     });
 
     it("renders textarea without label", async () => {
       fixture.componentRef.setInput("hideLabel", true);
       await render();
 
-      const label = element.querySelector("label");
-      expect(label).toBeNull();
+      expectComponent("bkd-subscription-detail-textarea");
+      expectNoLabel();
 
-      expect(
-        element.querySelector("bkd-subscription-detail-textarea"),
-      ).not.toBeNull();
-      const textarea = element.querySelector("textarea");
-      expect(textarea?.value).toBe("Lorem ipsum");
+      const textarea = getTextarea();
+      expect(textarea.value).toBe("Lorem ipsum");
     });
 
-    it("emits value change on input", async () => {
+    it("emits value change on input & commit on blur", async () => {
       await render();
 
-      const textarea = element.querySelector("textarea")!;
+      const textarea = getTextarea();
       dispatchEvent(textarea, "input", "New value");
-      expect(component.detail()).toEqual({ ...detail, Value: "New value" });
-    });
-
-    it("emits value commit on blur", async () => {
-      const commitCallback = jasmine.createSpy("commitCallback");
-      component.commit.subscribe(commitCallback);
-
-      await render();
-
-      const textarea = element.querySelector("textarea")!;
-      dispatchEvent(textarea, "input", "New value");
-      expect(commitCallback).not.toHaveBeenCalled();
+      expectChange("New value");
 
       dispatchEvent(textarea, "blur");
-      expect(commitCallback).toHaveBeenCalledTimes(1);
-      expect(commitCallback.calls.mostRecent().args[0]).toEqual({
-        ...detail,
-        Value: "New value",
+      expectCommit("New value");
+    });
+  });
+
+  describe("yes/no", () => {
+    beforeEach(() => {
+      detail = build({
+        VssDesignation: "Yes/no",
+        VssTypeId: SubscriptionDetailType.YesNo,
+        VssStyle: "TX",
+        Value: "Ja",
       });
+    });
+
+    describe("checkbox", () => {
+      beforeEach(() => {
+        detail.ShowAsRadioButtons = false;
+      });
+
+      it("renders checkbox with label", async () => {
+        await render();
+
+        expectComponent("bkd-subscription-detail-yesno");
+        expectLabel("Yes/no");
+
+        const checkboxes = getCheckboxes();
+        expect(checkboxes).toHaveSize(1);
+        expect(checkboxes[0].checked).toBeTruthy();
+      });
+
+      it("renders initial value 'Nein'", async () => {
+        detail.Value = "Nein";
+        await render();
+
+        const checkboxes = getCheckboxes();
+        expect(checkboxes).toHaveSize(1);
+        expect(checkboxes[0].checked).toBeFalsy();
+      });
+
+      it("renders checkbox without label", async () => {
+        fixture.componentRef.setInput("hideLabel", true);
+        await render();
+
+        expectComponent("bkd-subscription-detail-yesno");
+        expectNoLabel();
+
+        const checkboxes = getCheckboxes();
+        expect(checkboxes).toHaveSize(1);
+        expect(checkboxes[0].checked).toBeTruthy();
+      });
+
+      it("emits value change & commit on change", async () => {
+        await render();
+
+        const [checkbox] = getCheckboxes();
+        checkbox.click();
+        expectCommit("Nein");
+
+        resetCommit();
+        checkbox.click();
+        expectCommit("Ja");
+      });
+    });
+
+    describe("radios", () => {
+      beforeEach(() => {
+        detail.ShowAsRadioButtons = true;
+      });
+
+      it("renders radios with label", async () => {
+        await render();
+
+        expectComponent("bkd-subscription-detail-yesno");
+        expectLabel("Yes/no");
+
+        const radios = getRadios();
+        expect(
+          radios.map((radio) => ({
+            label: (radio.labels ?? [])[0]?.textContent?.trim(),
+            checked: radio.checked,
+          })),
+        ).toEqual([
+          { label: "evaluation.values.yes", checked: true },
+          { label: "evaluation.values.no", checked: false },
+        ]);
+      });
+
+      it("renders initial value 'Nein'", async () => {
+        detail.Value = "Nein";
+        await render();
+
+        const radios = getRadios();
+        expect(
+          radios.map((radio) => ({
+            label: (radio.labels ?? [])[0]?.textContent?.trim(),
+            checked: radio.checked,
+          })),
+        ).toEqual([
+          { label: "evaluation.values.yes", checked: false },
+          { label: "evaluation.values.no", checked: true },
+        ]);
+      });
+
+      it("renders checkbox without label", async () => {
+        fixture.componentRef.setInput("hideLabel", true);
+        await render();
+
+        expectComponent("bkd-subscription-detail-yesno");
+        expectNoLabel();
+
+        const checkboxes = getCheckboxes();
+        expect(checkboxes).toHaveSize(1);
+        expect(checkboxes[0].checked).toBeTruthy();
+      });
+
+      it("emits value change & commit on change", async () => {
+        await render();
+
+        const [checkbox] = getCheckboxes();
+        checkbox.click();
+        expectCommit(null);
+
+        resetCommit();
+        checkbox.click();
+        expectCommit("Ja");
+      });
+    });
+  });
+
+  describe("yes", () => {
+    beforeEach(() => {
+      detail = build({
+        VssDesignation: "Yes",
+        VssTypeId: SubscriptionDetailType.Yes,
+        VssStyle: "TX",
+        Value: "Ja",
+      });
+    });
+
+    it("renders checkbox with label", async () => {
+      await render();
+
+      expectComponent("bkd-subscription-detail-yesno");
+      expectLabel("Yes");
+
+      const checkboxes = getCheckboxes();
+      expect(checkboxes).toHaveSize(1);
+      expect(checkboxes[0].checked).toBeTruthy();
+    });
+
+    it("renders initial value null", async () => {
+      detail.Value = null;
+      await render();
+
+      const checkboxes = getCheckboxes();
+      expect(checkboxes).toHaveSize(1);
+      expect(checkboxes[0].checked).toBeFalsy();
+    });
+
+    it("renders checkbox without label", async () => {
+      fixture.componentRef.setInput("hideLabel", true);
+      await render();
+
+      expectComponent("bkd-subscription-detail-yesno");
+      expectNoLabel();
+
+      const checkboxes = getCheckboxes();
+      expect(checkboxes).toHaveSize(1);
+      expect(checkboxes[0].checked).toBeTruthy();
+    });
+
+    it("emits value change & commit on change", async () => {
+      await render();
+
+      const [checkbox] = getCheckboxes();
+      checkbox.click();
+      expectCommit(null);
+
+      resetCommit();
+      checkbox.click();
+      expectCommit("Ja");
     });
   });
 
@@ -286,7 +441,6 @@ describe("SubscriptionDetailFieldComponent", () => {
     beforeEach(() => {
       detail = build({
         VssDesignation: "Listbox",
-        Id: "6",
         VssStyle: "LB",
         DropdownItems: [
           { Key: 1, Value: "Apple", IsActive: true },
@@ -305,53 +459,42 @@ describe("SubscriptionDetailFieldComponent", () => {
       it("renders select with label", async () => {
         await render();
 
-        const label = element.querySelector("label");
-        expect(label?.textContent).toContain("Listbox");
+        expectComponent("bkd-subscription-detail-listbox");
+        expectLabel("Listbox");
 
-        expect(
-          element.querySelector("bkd-subscription-detail-listbox"),
-        ).not.toBeNull();
-        const select = element.querySelector("select");
-        const options = Array.from(select?.querySelectorAll("option") ?? []);
+        const select = getSelect();
+        expect(select.value).toBe("2");
+
+        const options = getSelectOptions();
         expect(options.map((o) => o.textContent?.trim())).toEqual([
           "Apple",
           "Pear",
         ]);
-        expect(select?.value).toBe("2");
       });
 
       it("renders select without label", async () => {
         fixture.componentRef.setInput("hideLabel", true);
         await render();
 
-        const label = element.querySelector("label");
-        expect(label).toBeNull();
+        expectComponent("bkd-subscription-detail-listbox");
+        expectNoLabel();
 
-        expect(
-          element.querySelector("bkd-subscription-detail-listbox"),
-        ).not.toBeNull();
-        const select = element.querySelector("select");
-        const options = Array.from(select?.querySelectorAll("option") ?? []);
+        const select = getSelect();
+        expect(select.value).toBe("2");
+
+        const options = getSelectOptions();
         expect(options.map((o) => o.textContent?.trim())).toEqual([
           "Apple",
           "Pear",
         ]);
-        expect(select?.value).toBe("2");
       });
 
       it("emits value change & commit on change", async () => {
-        const commitCallback = jasmine.createSpy("commitCallback");
-        component.commit.subscribe(commitCallback);
-
         await render();
 
-        const select = element.querySelector("select")!;
+        const select = getSelect();
         dispatchEvent(select, "change", "1");
-        expect(component.detail()).toEqual({ ...detail, Value: 1 });
-        expect(commitCallback.calls.mostRecent().args[0]).toEqual({
-          ...detail,
-          Value: 1,
-        });
+        expectCommit(1);
       });
     });
 
@@ -363,15 +506,10 @@ describe("SubscriptionDetailFieldComponent", () => {
       it("renders radio buttons with label", async () => {
         await render();
 
-        const label = element.querySelector("label");
-        expect(label?.textContent).toContain("Listbox");
+        expectComponent("bkd-subscription-detail-listbox");
+        expectLabel("Listbox");
 
-        expect(
-          element.querySelector("bkd-subscription-detail-listbox"),
-        ).not.toBeNull();
-        const radios = Array.from(
-          element.querySelectorAll<HTMLInputElement>("input[type=radio]"),
-        );
+        const radios = getRadios();
         expect(
           radios.map((radio) => ({
             label: (radio.labels ?? [])[0]?.textContent?.trim(),
@@ -387,15 +525,11 @@ describe("SubscriptionDetailFieldComponent", () => {
         fixture.componentRef.setInput("hideLabel", true);
         await render();
 
+        expectComponent("bkd-subscription-detail-listbox");
         const labels = Array.from(element.querySelectorAll("label"));
         expect(labels).toHaveSize(2);
 
-        expect(
-          element.querySelector("bkd-subscription-detail-listbox"),
-        ).not.toBeNull();
-        const radios = Array.from(
-          element.querySelectorAll<HTMLInputElement>("input[type=radio]"),
-        );
+        const radios = getRadios();
         expect(
           radios.map((radio) => ({
             label: (radio.labels ?? [])[0]?.textContent?.trim(),
@@ -408,20 +542,11 @@ describe("SubscriptionDetailFieldComponent", () => {
       });
 
       it("emits value change & commit on change", async () => {
-        const commitCallback = jasmine.createSpy("commitCallback");
-        component.commit.subscribe(commitCallback);
-
         await render();
 
-        const radios = Array.from(
-          element.querySelectorAll<HTMLInputElement>("input[type=radio]"),
-        );
+        const radios = getRadios();
         radios[0].click();
-        expect(component.detail()).toEqual({ ...detail, Value: 1 });
-        expect(commitCallback.calls.mostRecent().args[0]).toEqual({
-          ...detail,
-          Value: 1,
-        });
+        expectCommit(1);
       });
     });
   });
@@ -430,7 +555,6 @@ describe("SubscriptionDetailFieldComponent", () => {
     beforeEach(() => {
       detail = build({
         VssDesignation: "Combobox",
-        Id: "8",
         VssStyle: "CB",
         DropdownItems: [
           { Key: "Apple", Value: "Apple", IsActive: true },
@@ -441,15 +565,78 @@ describe("SubscriptionDetailFieldComponent", () => {
       });
     });
 
-    xit("renders combobox with label", () => {
-      fixture.componentRef.setInput("detail", detail);
-      fixture.detectChanges();
-      expect(
-        element.querySelector("bkd-subscription-detail-combobox"),
-      ).not.toBeNull();
+    xit("renders combobox with label", async () => {
+      await render();
+
+      expectComponent("bkd-subscription-detail-combobox");
+      expectLabel("Combobox");
+
       // TODO
     });
   });
+
+  function expectComponent(selector: string): void {
+    expect(element.querySelector(selector)).not.toBeNull();
+  }
+
+  function expectLabel(text: string): void {
+    const label = element.querySelector("label");
+    expect(label?.textContent).toContain(text);
+  }
+
+  function expectNoLabel(): void {
+    expect(element.querySelector("label")).toBeNull();
+  }
+
+  function expectChange(value: SubscriptionDetail["Value"]): void {
+    expect(component.detail()).toEqual({ ...detail, Value: value });
+
+    expect(commitCallback).not.toHaveBeenCalled();
+  }
+
+  function expectCommit(value: SubscriptionDetail["Value"]): void {
+    expect(component.detail()).toEqual({ ...detail, Value: value });
+
+    expect(commitCallback).toHaveBeenCalledTimes(1);
+    expect(commitCallback.calls.mostRecent().args[0]).toEqual({
+      ...detail,
+      Value: value,
+    });
+  }
+
+  function resetCommit(): void {
+    commitCallback.calls.reset();
+  }
+
+  function getInput(): HTMLInputElement {
+    const input = element.querySelector("input");
+    expect(input).not.toBeNull();
+    return input!;
+  }
+
+  function getTextarea(): HTMLTextAreaElement {
+    const textarea = element.querySelector("textarea");
+    expect(textarea).not.toBeNull();
+    return textarea!;
+  }
+
+  function getSelect(): HTMLSelectElement {
+    const select = element.querySelector("select");
+    expect(select).not.toBeNull();
+    return select!;
+  }
+
+  function getSelectOptions(): ReadonlyArray<HTMLOptionElement> {
+    return Array.from(element.querySelectorAll("select option"));
+  }
+
+  function getRadios(): ReadonlyArray<HTMLInputElement> {
+    return Array.from(element.querySelectorAll("input[type='radio']"));
+  }
+
+  function getCheckboxes(): ReadonlyArray<HTMLInputElement> {
+    return Array.from(element.querySelectorAll("input[type='checkbox']"));
+  }
 
   async function render() {
     fixture.componentRef.setInput("detail", detail);

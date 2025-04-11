@@ -22,40 +22,66 @@ export class KitchensinkComponent {
   subscriptionDetails: ReadonlyArray<Partial<SubscriptionDetail>> = [
     {
       VssDesignation: "Heading",
-      Id: "1",
       VssStyle: "HE",
     },
     {
       VssDesignation: "Description",
-      Id: "2",
       VssStyle: "BE",
       Value:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     },
     {
       VssDesignation: "Text field",
-      Id: "3",
       VssTypeId: SubscriptionDetailType.ShortText,
       VssStyle: "TX",
       Value: "Lorem ipsum",
     },
     {
-      VssDesignation: "Number field",
-      Id: "5",
+      VssDesignation: "Integer field",
       VssTypeId: SubscriptionDetailType.Int,
       VssStyle: "TX",
       Value: 42,
     },
     {
+      VssDesignation: "Currency field",
+      VssStyle: "TX",
+      VssTypeId: SubscriptionDetailType.Currency,
+      Value: "12.30",
+    },
+    {
       VssDesignation: "Textarea",
-      Id: "4",
       VssTypeId: SubscriptionDetailType.Text,
       VssStyle: "TX",
       Value: "Lorem ipsum",
     },
     {
-      VssDesignation: "Listbox Select",
-      Id: "6",
+      VssDesignation: "Date field",
+      VssStyle: "TX",
+      VssTypeId: SubscriptionDetailType.Date,
+      Value: "23.01.2000",
+    },
+    {
+      VssDesignation: "Yes/no checkbox",
+      VssStyle: "TX",
+      VssTypeId: SubscriptionDetailType.YesNo,
+      ShowAsRadioButtons: false,
+      Value: "Nein",
+    },
+    {
+      VssDesignation: "Yes/no radios",
+      VssStyle: "TX",
+      VssTypeId: SubscriptionDetailType.YesNo,
+      ShowAsRadioButtons: true,
+      Value: "Nein",
+    },
+    {
+      VssDesignation: "Yes checkbox",
+      VssStyle: "TX",
+      VssTypeId: SubscriptionDetailType.Yes,
+      Value: "Ja",
+    },
+    {
+      VssDesignation: "Listbox select",
       VssStyle: "LB",
       DropdownItems: [
         { Key: 1, Value: "Apple", IsActive: true },
@@ -66,8 +92,7 @@ export class KitchensinkComponent {
       Value: 2,
     },
     {
-      VssDesignation: "Listbox Radios",
-      Id: "7",
+      VssDesignation: "Listbox radios",
       VssStyle: "LB",
       DropdownItems: [
         { Key: 1, Value: "Apple", IsActive: true },
@@ -79,7 +104,6 @@ export class KitchensinkComponent {
     },
     {
       VssDesignation: "Combobox",
-      Id: "8",
       VssStyle: "CB",
       DropdownItems: [
         { Key: "Apple", Value: "Apple", IsActive: true },
@@ -88,7 +112,10 @@ export class KitchensinkComponent {
       ],
       Value: "Strawberry",
     },
-  ];
+  ].map((detail, i) => ({
+    ...detail,
+    Id: String(i + 1),
+  }));
   subscriptionDetailsSignals = this.getSubscriptionDetailSignals();
 
   subscriptionDetailsReadonly = this.subscriptionDetails.map((detail) => ({
