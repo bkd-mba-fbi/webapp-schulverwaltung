@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ "evaluation.set-default-value" | translate }}</h5>
+</div>
+<div class="modal-body">
+  <div class="dropdown-row">
+    <label for="grade">Note</label>
+    <bkd-select
+      id="grade"
+      [options]="options()"
+      [(value)]="selectedGradeKey"
+      [allowEmpty]="false"
+    ></bkd-select>
+  </div>
+  <p class="info-text">
+    {{ "evaluation.set-default-value-message" | translate }}
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+    {{ "evaluation.cancel" | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="!selectedGrade()"
+    (click)="confirm()"
+  >
+    {{ "evaluation.save" | translate }}
+  </button>
+</div>

@@ -345,7 +345,11 @@
       "grade": "Note",
       "absences": "Absences"
     },
-    "average": "Moyenne"
+    "average": "Moyenne",
+    "set-default-value": "Définir par défaut",
+    "set-default-value-message": "La valeur par défaut sera appliquée à toutes les inscriptions.",
+    "save": "Valider",
+    "cancel": "Annuler"
   },
   "dossier": {
     "title": "Dossier",
