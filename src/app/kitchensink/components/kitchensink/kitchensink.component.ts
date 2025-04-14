@@ -118,7 +118,7 @@ export class KitchensinkComponent {
     ...detail,
     Id: String(i + 1),
   }));
-  subscriptionDetailsSignals = this.getSubscriptionDetailSignals();
+  subscriptionDetailsValues = this.getSubscriptionDetailValueSignals();
 
   subscriptionDetailsReadonly = this.subscriptionDetails.map((detail) => ({
     ...detail,
@@ -151,15 +151,15 @@ export class KitchensinkComponent {
     };
   }
 
-  private getSubscriptionDetailSignals(): Dict<
-    WritableSignal<SubscriptionDetail>
+  private getSubscriptionDetailValueSignals(): Dict<
+    WritableSignal<SubscriptionDetail["Value"]>
   > {
     return this.subscriptionDetails.reduce(
       (acc, detail) => ({
         ...acc,
-        [detail.Id ?? ""]: signal(this.build(detail)),
+        [detail.Id ?? ""]: signal(detail.Value ?? null),
       }),
-      {} as Dict<WritableSignal<SubscriptionDetail>>,
+      {} as Dict<WritableSignal<SubscriptionDetail["Value"]>>,
     );
   }
 }

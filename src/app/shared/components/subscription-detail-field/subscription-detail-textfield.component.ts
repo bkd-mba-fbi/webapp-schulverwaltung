@@ -24,7 +24,7 @@ import {
       [id]="id()"
       [type]="fieldType()"
       [disabled]="readonly()"
-      [value]="detail().Value"
+      [value]="value()"
       [step]="isCurrency() ? '0.05' : '1'"
       (input)="onChange($event)"
       (blur)="onBlur()"
@@ -39,9 +39,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailTextfieldComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
   isInt = computed(
@@ -67,14 +68,14 @@ export class SubscriptionDetailTextfieldComponent {
       this.input().nativeElement.value = String(value);
     }
 
-    this.updateDetailValue(value);
+    this.value.set(value);
   }
 
   onBlur() {
     // Normalize the value such that the currency gets propperly formatted
-    this.updateDetailValue(this.normalizeValueOnBlur(this.detail().Value));
+    this.value.set(this.normalizeValueOnBlur(this.value() ?? null));
 
-    this.commit.emit(this.detail());
+    this.commit.emit(this.value() ?? null);
   }
 
   private normalizeValueOnChange(value: string): SubscriptionDetail["Value"] {
@@ -97,12 +98,5 @@ export class SubscriptionDetailTextfieldComponent {
     }
 
     return value;
-  }
-
-  private updateDetailValue(value: SubscriptionDetail["Value"]) {
-    this.detail.set({
-      ...this.detail(),
-      Value: value,
-    });
   }
 }

@@ -44,7 +44,7 @@ const DATE_FORMAT = "dd.MM.yyyy";
         [id]="id()"
         [placeholder]="'shared.date-select.default-placeholder' | translate"
         [disabled]="readonly()"
-        [ngModel]="value()"
+        [ngModel]="normalizedValue()"
         (ngModelChange)="onChange($event)"
         (blur)="onBlur()"
         (click)="dp.toggle()"
@@ -57,12 +57,13 @@ const DATE_FORMAT = "dd.MM.yyyy";
 export class SubscriptionDetailDatefieldComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
-  value = computed(() =>
+  normalizedValue = computed(() =>
     this.detail().Value ? String(this.detail().Value) : null,
   );
 
@@ -81,7 +82,7 @@ export class SubscriptionDetailDatefieldComponent
   }
 
   onChange(value: Option<string>): void {
-    this.updateDetailValue(value);
+    this.value.set(value);
   }
 
   onBlur(): void {
@@ -90,20 +91,13 @@ export class SubscriptionDetailDatefieldComponent
     // `null` on blur.
     const date = parse(String(this.detail().Value), DATE_FORMAT, new Date());
     if (!isValid(date)) {
-      this.updateDetailValue(null);
+      this.value.set(null);
     }
 
-    this.commit.emit(this.detail());
+    this.commit.emit(this.value() ?? null);
   }
 
   onSelect(): void {
-    this.commit.emit(this.detail());
-  }
-
-  private updateDetailValue(value: SubscriptionDetail["Value"]) {
-    this.detail.set({
-      ...this.detail(),
-      Value: value,
-    });
+    this.commit.emit(this.value() ?? null);
   }
 }

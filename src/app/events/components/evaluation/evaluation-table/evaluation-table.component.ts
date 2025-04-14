@@ -4,6 +4,8 @@ import {
   computed,
   input,
   model,
+  output,
+  signal,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -46,7 +48,16 @@ export class EvaluationTableComponent {
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
   eventType = input.required<EvaluationEventType>();
+  subscriptionDetailChange = output<{
+    detail: SubscriptionDetail;
+    value: SubscriptionDetail["Value"];
+  }>();
 
+  columnsValues = computed(() =>
+    this.entries().map(({ columns }) =>
+      columns.map((detail) => signal(detail?.Value ?? null)),
+    ),
+  );
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );

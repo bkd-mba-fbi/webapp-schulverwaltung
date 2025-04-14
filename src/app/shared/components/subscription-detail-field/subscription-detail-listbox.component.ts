@@ -30,7 +30,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
               [id]="itemId"
               [value]="item.Key"
               [disabled]="readonly()"
-              [ngModel]="detail().Value"
+              [ngModel]="value()"
               (ngModelChange)="onChange(item.Key)"
             />
             <label class="form-check-label" [attr.for]="itemId">
@@ -44,7 +44,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
         class="form-select"
         [id]="id()"
         [disabled]="readonly()"
-        [ngModel]="detail().Value"
+        [ngModel]="value()"
         (ngModelChange)="onChange($event)"
       >
         @for (item of items(); track item.Key) {
@@ -64,10 +64,11 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailListboxComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
   layout = input.required<"vertical" | "horizontal">();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
   asRadios = computed(() => this.detail().ShowAsRadioButtons);
@@ -75,13 +76,11 @@ export class SubscriptionDetailListboxComponent {
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
 
-  onChange(value: SubscriptionDetail["Value"]): void {
-    const item = this.items()?.find((item) => item.Key == value);
-    const detail: SubscriptionDetail = {
-      ...this.detail(),
-      Value: item?.Key ?? null,
-    };
-    this.detail.set(detail);
-    this.commit.emit(detail);
+  onChange(rawValue: SubscriptionDetail["Value"]): void {
+    const item = this.items()?.find((item) => item.Key == rawValue);
+    const value = item?.Key ?? null;
+
+    this.value.set(value);
+    this.commit.emit(value);
   }
 }

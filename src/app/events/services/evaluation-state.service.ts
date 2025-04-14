@@ -1,10 +1,19 @@
 import { HttpContext } from "@angular/common/http";
 import { Injectable, Signal, computed, inject, signal } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import sortBy from "lodash-es/sortBy";
 import uniqBy from "lodash-es/uniqBy";
-import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  map,
+  merge,
+  of,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { SubscriptionDetailsDisplay } from "src/app/shared/models/configurations.model";
@@ -68,8 +77,14 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
+  private reload$ = new Subject<void>();
   private eventId$ =
-    this.route.parent?.params.pipe(
+    merge(
+      this.route.parent?.params ?? of({} as Params),
+      this.reload$.pipe(
+        switchMap(() => this.route.parent?.params ?? of({} as Params)),
+      ),
+    ).pipe(
       map((params) => {
         const eventId = params["id"];
         return eventId ? Number(eventId) : null;
@@ -110,6 +125,10 @@ export class EvaluationStateService {
   entries = computed(() =>
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
+
+  reload(): void {
+    this.reload$.next();
+  }
 
   private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
     this.eventId$.pipe(
