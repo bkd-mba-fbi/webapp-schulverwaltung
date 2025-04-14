@@ -21,7 +21,7 @@ export class GradingItemsRestService extends RestService<typeof GradingItem> {
     return this.getList({ params });
   }
 
-  updateGradesForStudents(
+  updateForEvent(
     eventId: number,
     gradingItems: ReadonlyArray<GradingItem>,
   ): Observable<void> {
