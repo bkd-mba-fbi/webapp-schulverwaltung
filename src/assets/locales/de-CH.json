@@ -352,6 +352,7 @@
     "average": "Durchschnitt",
     "set-default-modal": {
       "title": "Standardwert setzen",
+      "grade": "Note",
       "message": "Der Standardwert wird für alle Anmeldungen übernommen.",
       "save": "Übernehmen",
       "cancel": "Abbrechen"
