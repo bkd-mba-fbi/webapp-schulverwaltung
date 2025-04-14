@@ -20,4 +20,12 @@ export class GradingItemsRestService extends RestService<typeof GradingItem> {
     const params = new HttpParams().set("idEvent", eventId);
     return this.getList({ params });
   }
+
+  updateGradesForStudents(
+    eventId: number,
+    gradingItems: ReadonlyArray<GradingItem>,
+  ): Observable<void> {
+    const params = new HttpParams().set("idEvent", eventId);
+    return this.http.put<void>(`${this.baseUrl}`, gradingItems, { params });
+  }
 }
