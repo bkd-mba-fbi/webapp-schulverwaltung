@@ -26,6 +26,6 @@ export class GradingItemsRestService extends RestService<typeof GradingItem> {
     gradingItems: ReadonlyArray<GradingItem>,
   ): Observable<void> {
     const params = new HttpParams().set("idEvent", eventId);
-    return this.http.put<void>(`${this.baseUrl}`, gradingItems, { params });
+    return this.http.put<void>(`${this.baseUrl}/`, gradingItems, { params });
   }
 }
