@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   computed,
   inject,
   input,
@@ -25,7 +24,7 @@ export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
   gradingItemsRestService = inject(GradingItemsRestService);
 
-  @Input() eventId: number;
+  eventId = input.required<number>();
   gradingScale = input.required<GradingScale>();
   gradingItems = input.required<ReadonlyArray<GradingItem>>();
   selectedGradeKey = signal<number | null>(null);
@@ -54,7 +53,7 @@ export class EvaluationDefaultGradeDialogComponent {
       }));
 
       this.gradingItemsRestService
-        .updateGradesForStudents(eventId, updatedGradingItems)
+        .updateForEvent(eventId(), updatedGradingItems)
         .subscribe({
           next: () => this.activeModal.close(),
           error: (err) => console.error("Error updating grades", err),

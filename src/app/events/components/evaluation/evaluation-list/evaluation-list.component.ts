@@ -81,10 +81,7 @@ export class EvaluationListComponent {
     );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
     modalRef.componentInstance.gradingItems = this.state.gradingItems;
-    this.state.eventId$.subscribe((eventId) => {
-      modalRef.componentInstance.eventId = eventId;
-    });
-
+    modalRef.componentInstance.eventId = this.state.event()!.id;
     modalRef.result.then(
       () => {},
       () => {},
