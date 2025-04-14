@@ -5,7 +5,9 @@
 </div>
 <div class="modal-body">
   <div class="dropdown-row">
-    <label for="grade">Note</label>
+    <label for="grade">{{
+      "evaluation.set-default-modal.grade" | translate
+    }}</label>
     <bkd-select
       id="grade"
       [options]="options()"

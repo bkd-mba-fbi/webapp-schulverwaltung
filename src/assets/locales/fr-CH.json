@@ -352,6 +352,7 @@
     "average": "Moyenne",
     "set-default-modal": {
       "title": "Définir par défaut",
+      "grade": "Note",
       "message": "La valeur par défaut sera appliquée à toutes les inscriptions.",
       "save": "Valider",
       "cancel": "Annuler"
