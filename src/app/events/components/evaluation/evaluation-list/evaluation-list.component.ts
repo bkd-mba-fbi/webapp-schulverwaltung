@@ -80,13 +80,13 @@ export class EvaluationListComponent {
       EvaluationDefaultGradeDialogComponent,
     );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
+    modalRef.componentInstance.gradingItems = this.state.gradingItems;
+    this.state.eventId$.subscribe((eventId) => {
+      modalRef.componentInstance.eventId = eventId;
+    });
 
     modalRef.result.then(
-      (result) => {
-        if (result) {
-          // handle success
-        }
-      },
+      () => {},
       () => {},
     );
   }

@@ -68,7 +68,7 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  private eventId$ =
+  eventId$ =
     this.route.parent?.params.pipe(
       map((params) => {
         const eventId = params["id"];
@@ -111,7 +111,7 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
+  gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
     this.eventId$.pipe(
       switchMap(this.loadGradingItems.bind(this)),
       startWith([]),
