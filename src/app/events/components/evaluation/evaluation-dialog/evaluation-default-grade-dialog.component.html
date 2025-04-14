@@ -1,5 +1,7 @@
 <div class="modal-header">
-  <h5 class="modal-title">{{ "evaluation.set-default-value" | translate }}</h5>
+  <h5 class="modal-title">
+    {{ "evaluation.set-default-modal.title" | translate }}
+  </h5>
 </div>
 <div class="modal-body">
   <div class="dropdown-row">
@@ -12,12 +14,12 @@
     ></bkd-select>
   </div>
   <p class="info-text">
-    {{ "evaluation.set-default-value-message" | translate }}
+    {{ "evaluation.set-default-modal.message" | translate }}
   </p>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
-    {{ "evaluation.cancel" | translate }}
+    {{ "evaluation.set-default-modal.cancel" | translate }}
   </button>
   <button
     type="button"
@@ -25,6 +27,6 @@
     [disabled]="!selectedGrade()"
     (click)="updateGrades()"
   >
-    {{ "evaluation.save" | translate }}
+    {{ "evaluation.set-default-modal.save" | translate }}
   </button>
 </div>
