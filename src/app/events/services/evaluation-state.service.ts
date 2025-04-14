@@ -68,7 +68,7 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  eventId$ =
+  private eventId$ =
     this.route.parent?.params.pipe(
       map((params) => {
         const eventId = params["id"];
@@ -111,13 +111,20 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
+  private fetchedGradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
     this.eventId$.pipe(
       switchMap(this.loadGradingItems.bind(this)),
       startWith([]),
     ),
     { initialValue: [] },
   );
+
+  private gradingItemsSignal = computed(() =>
+    signal(this.fetchedGradingItems()),
+  );
+
+  gradingItems = computed(() => this.gradingItemsSignal()());
+
   gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
       switchMap((event) =>
@@ -126,6 +133,10 @@ export class EvaluationStateService {
     ),
     { initialValue: null },
   );
+
+  updateGradingItems(gradingItems: ReadonlyArray<GradingItem>) {
+    this.gradingItemsSignal().set(gradingItems);
+  }
 
   /**
    * VssIds of the subscription details to decide whether to display them as
