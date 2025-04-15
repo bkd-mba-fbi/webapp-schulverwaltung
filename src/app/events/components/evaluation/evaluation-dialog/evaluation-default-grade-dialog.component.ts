@@ -12,6 +12,7 @@ import { SelectComponent } from "../../../../shared/components/select/select.com
 import { GradingItem } from "../../../../shared/models/grading-item.model";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { GradingItemsRestService } from "../../../../shared/services/grading-items-rest.service";
+import { EvaluationEvent } from "../../../services/evaluation-state.service";
 
 @Component({
   selector: "bkd-evaluation-dialog",
@@ -24,7 +25,7 @@ export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
   gradingItemsRestService = inject(GradingItemsRestService);
 
-  eventId = input.required<number>();
+  event = input.required<EvaluationEvent>();
   gradingScale = input.required<GradingScale>();
   gradingItems = input.required<ReadonlyArray<GradingItem>>();
   selectedGradeKey = signal<number | null>(null);
@@ -43,9 +44,7 @@ export class EvaluationDefaultGradeDialogComponent {
 
   updateGrades(): void {
     const selectedGrade = this.selectedGrade();
-    const eventId = this.eventId;
-
-    if (selectedGrade && eventId) {
+    if (selectedGrade && this.event()) {
       const existingGradingItems = this.gradingItems();
       const updatedGradingItems = existingGradingItems.map((item) => ({
         ...item,
@@ -53,7 +52,7 @@ export class EvaluationDefaultGradeDialogComponent {
       }));
 
       this.gradingItemsRestService
-        .updateForEvent(eventId(), updatedGradingItems)
+        .updateForEvent(this.event().id, updatedGradingItems)
         .subscribe({
           next: () => this.activeModal.close(),
           error: (err) => console.error("Error updating grades", err),
