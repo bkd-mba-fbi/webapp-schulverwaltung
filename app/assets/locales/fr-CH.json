@@ -339,7 +339,7 @@
   "evaluation": {
     "no-event": "L'événement n'a pas été trouvé",
     "no-items": "Aucune donnée disponible",
-    "no-evaluation": "La saisie ne peut pas être fait.",
+    "no-evaluation": "L'événement ne peut pas être évalué car il n'existe pas d'échelle de notes ni d'autres critères d'évaluation.",
     "columns": {
       "name": "Nom",
       "grade": "Note",

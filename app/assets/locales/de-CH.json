@@ -339,7 +339,7 @@
   "evaluation": {
     "no-event": "Der Anlass wurde nicht gefunden",
     "no-items": "Keine Einträge vorhanden",
-    "no-evaluation": "Der Anlass kann nicht bewertet werden oder ist nicht zur Bewertung freigegeben.",
+    "no-evaluation": "Der Anlass kann nicht bewertet werden, da weder eine Notenskala noch andere Bewertungskriterien vorhanden sind.",
     "columns": {
       "name": "Name",
       "grade": "Note",
