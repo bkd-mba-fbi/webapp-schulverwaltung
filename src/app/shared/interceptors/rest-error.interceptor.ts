@@ -75,11 +75,13 @@ function getErrorHandler(
   return (error: unknown): Observable<HttpEvent<unknown>> => {
     if (
       error instanceof HttpErrorResponse &&
-      !config.disableErrorHandling &&
-      (!config.disableErrorHandlingForStatus ||
-        !config.disableErrorHandlingForStatus.includes(error.status)) &&
-      (!config.disableErrorHandlingExceptForStatus ||
-        config.disableErrorHandlingExceptForStatus.includes(error.status))
+      !(
+        config.disableErrorHandling ||
+        (config.disableErrorHandlingForStatus &&
+          config.disableErrorHandlingForStatus.includes(error.status)) ||
+        (config.disableErrorHandlingExceptForStatus &&
+          !config.disableErrorHandlingExceptForStatus.includes(error.status))
+      )
     ) {
       switch (error.status) {
         case HTTP_STATUS.UNAUTHORIZED:

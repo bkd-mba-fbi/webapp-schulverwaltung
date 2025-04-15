@@ -4,16 +4,7 @@ import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Params } from "@angular/router";
 import sortBy from "lodash-es/sortBy";
 import uniqBy from "lodash-es/uniqBy";
-import {
-  Observable,
-  Subject,
-  combineLatest,
-  map,
-  merge,
-  of,
-  startWith,
-  switchMap,
-} from "rxjs";
+import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { SubscriptionDetailsDisplay } from "src/app/shared/models/configurations.model";
@@ -77,14 +68,8 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  private reload$ = new Subject<void>();
   private eventId$ =
-    merge(
-      this.route.parent?.params ?? of({} as Params),
-      this.reload$.pipe(
-        switchMap(() => this.route.parent?.params ?? of({} as Params)),
-      ),
-    ).pipe(
+    (this.route.parent?.params ?? of({} as Params)).pipe(
       map((params) => {
         const eventId = params["id"];
         return eventId ? Number(eventId) : null;
@@ -126,10 +111,6 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  reload(): void {
-    this.reload$.next();
-  }
-
   private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
     this.eventId$.pipe(
       switchMap(this.loadGradingItems.bind(this)),
@@ -158,11 +139,18 @@ export class EvaluationStateService {
    * All subscription details of the event (of all persons, columns and
    * criteria).
    */
-  private subscriptionDetails: Signal<ReadonlyArray<SubscriptionDetail>> =
-    toSignal(
-      this.eventId$.pipe(switchMap(this.loadSubscriptionDetails.bind(this))),
-      { initialValue: [] },
-    );
+  private fetchedSubscriptionDetails: Signal<
+    ReadonlyArray<SubscriptionDetail>
+  > = toSignal(
+    this.eventId$.pipe(switchMap(this.loadSubscriptionDetails.bind(this))),
+    { initialValue: [] },
+  );
+  private subscriptionDetailsSignal = computed(() =>
+    signal(this.fetchedSubscriptionDetails()),
+  );
+  private subscriptionDetails = computed(() =>
+    this.subscriptionDetailsSignal()(),
+  );
 
   /**
    * Subscription details of the event that should be displayed as columns (of
@@ -195,6 +183,16 @@ export class EvaluationStateService {
       this.criteriaSubscriptionDetails(),
     ),
   );
+
+  updateSubscriptionDetail(
+    detail: SubscriptionDetail,
+    value: SubscriptionDetail["Value"],
+  ): void {
+    const updatedDetails = this.subscriptionDetails().map((existing) =>
+      existing === detail ? { ...existing, Value: value } : existing,
+    );
+    this.subscriptionDetailsSignal().set(updatedDetails);
+  }
 
   ///// Event (course/study-class) /////
 
