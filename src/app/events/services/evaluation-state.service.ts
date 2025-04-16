@@ -57,7 +57,9 @@ const INITIAL_SORT_CRITERIA: EvaluationSortCriteria = {
 
 const EVALUATION_CONTEXT = "events-evaluation";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class EvaluationStateService {
   private route = inject(ActivatedRoute);
   private loadingService = inject(LoadingService);
@@ -68,13 +70,16 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  private eventId$ =
+  /*temporarily hardcoded eventId;*/
+  private eventId$ = of(10064);
+
+  /*  private eventId$ =
     this.route.parent?.params.pipe(
       map((params) => {
         const eventId = params["id"];
         return eventId ? Number(eventId) : null;
       }),
-    ) ?? of(null);
+    ) ?? of(null);*/
 
   sortCriteria = signal<EvaluationSortCriteria>(INITIAL_SORT_CRITERIA);
 
@@ -111,14 +116,21 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
+  private fetchedGradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
     this.eventId$.pipe(
       switchMap(this.loadGradingItems.bind(this)),
       startWith([]),
     ),
     { initialValue: [] },
   );
-  private gradingScale = toSignal<Option<GradingScale>>(
+
+  private gradingItemsSignal = computed(() =>
+    signal(this.fetchedGradingItems()),
+  );
+
+  gradingItems = computed(() => this.gradingItemsSignal()());
+
+  gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
       switchMap((event) =>
         this.loadGradingScale(event?.gradingScaleId ?? null),
@@ -126,6 +138,10 @@ export class EvaluationStateService {
     ),
     { initialValue: null },
   );
+
+  updateGradingItems(gradingItems: ReadonlyArray<GradingItem>) {
+    this.gradingItemsSignal().set(gradingItems);
+  }
 
   /**
    * VssIds of the subscription details to decide whether to display them as
