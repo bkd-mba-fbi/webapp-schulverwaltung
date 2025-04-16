@@ -80,8 +80,6 @@ export class EvaluationListComponent {
       EvaluationDefaultGradeDialogComponent,
     );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
-    modalRef.componentInstance.gradingItems = this.state.gradingItems;
-    modalRef.componentInstance.event = this.state.event;
     modalRef.result.then(
       () => {},
       () => {},

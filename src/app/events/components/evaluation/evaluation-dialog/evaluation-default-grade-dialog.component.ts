@@ -9,9 +9,8 @@ import {
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
-import { GradingItem } from "../../../../shared/models/grading-item.model";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
-import { EvaluationEvent } from "../../../services/evaluation-state.service";
+import { EvaluationStateService } from "../../../services/evaluation-state.service";
 import { EvaluationUpdateService } from "../../../services/evaluation-update.service";
 
 @Component({
@@ -24,10 +23,9 @@ import { EvaluationUpdateService } from "../../../services/evaluation-update.ser
 export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
   evaluationUpdateService = inject(EvaluationUpdateService);
+  evaluationStateService = inject(EvaluationStateService);
 
-  event = input.required<EvaluationEvent>();
   gradingScale = input.required<GradingScale>();
-  gradingItems = input.required<ReadonlyArray<GradingItem>>();
   selectedGradeKey = signal<number | null>(null);
 
   options = computed(() =>
@@ -42,17 +40,12 @@ export class EvaluationDefaultGradeDialogComponent {
     return this.gradingScale().Grades.find((grade) => grade.Id === key) ?? null;
   });
 
-  updateGrades(): void {
+  async updateGrades(): Promise<void> {
     const selectedGrade = this.selectedGrade();
-    const event = this.event();
-    const gradingItems = this.gradingItems();
-    if (selectedGrade && event) {
-      this.evaluationUpdateService
-        .updateDefaultGrade(event.id, selectedGrade.Id, gradingItems)
-        .subscribe({
-          next: () => this.activeModal.close(),
-          error: (err) => console.error("Error updating grades", err),
-        });
+    if (selectedGrade) {
+      await this.evaluationUpdateService
+        .updateDefaultGrade(selectedGrade.Id)
+        .then(() => this.activeModal.close());
     }
   }
 
