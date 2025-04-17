@@ -9,6 +9,7 @@ import {
   first,
   firstValueFrom,
   map,
+  shareReplay,
   takeUntil,
 } from "rxjs";
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
@@ -46,6 +47,7 @@ export class EvaluationSubscriptionDetailUpdateService implements OnDestroy {
   private saveSubscriptionDetails$ = this.subscriptionDetailQueue$.pipe(
     // Save subscription details serially (one-by-one) to avoid race conditions
     concatMap(this.saveSubscriptionDetail.bind(this)),
+    shareReplay(1),
   );
   private destroy$ = new Subject<void>();
 
@@ -60,6 +62,11 @@ export class EvaluationSubscriptionDetailUpdateService implements OnDestroy {
   async updateSubscriptionDetail(
     change: SubscriptionDetailChange,
   ): Promise<void> {
+    if (change.detail.detail.Value === change.value) {
+      // Value did not change, no need to update
+      return;
+    }
+
     try {
       const resultPromise = firstValueFrom(
         this.saveSubscriptionDetails$.pipe(

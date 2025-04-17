@@ -77,10 +77,8 @@ function getErrorHandler(
       error instanceof HttpErrorResponse &&
       !(
         config.disableErrorHandling ||
-        (config.disableErrorHandlingForStatus &&
-          config.disableErrorHandlingForStatus.includes(error.status)) ||
-        (config.disableErrorHandlingExceptForStatus &&
-          !config.disableErrorHandlingExceptForStatus.includes(error.status))
+        disableForStatus(config, error.status) ||
+        disableExceptForStatus(config, error.status)
       )
     ) {
       switch (error.status) {
@@ -107,4 +105,25 @@ function getErrorHandler(
 
     return throwError(() => error);
   };
+
+  function disableForStatus(config: Options, status: number): boolean {
+    if (
+      !config.disableErrorHandlingForStatus ||
+      config.disableErrorHandlingForStatus.length === 0
+    ) {
+      return false;
+    }
+
+    return config.disableErrorHandlingForStatus.includes(status);
+  }
+  function disableExceptForStatus(config: Options, status: number): boolean {
+    if (
+      !config.disableErrorHandlingExceptForStatus ||
+      config.disableErrorHandlingExceptForStatus.length === 0
+    ) {
+      return false;
+    }
+
+    return !config.disableErrorHandlingExceptForStatus.includes(status);
+  }
 }
