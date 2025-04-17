@@ -14,20 +14,23 @@ import {
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { LoadingService } from "src/app/shared/services/loading-service";
-import { RestErrorNotificationService } from "src/app/shared/services/rest-error-notification.service.service";
+import { RestErrorNotificationService } from "src/app/shared/services/rest-error-notification.service";
 import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
 import { ToastService } from "src/app/shared/services/toast.service";
-import { EvaluationStateService } from "./evaluation-state.service";
+import {
+  EvaluationStateService,
+  EvaluationSubscriptionDetail,
+} from "./evaluation-state.service";
 
 const EVALUTATION_UPDATE_CONTEXT = "events-evaluation-update";
 
 type SubscriptionDetailChange = {
-  detail: SubscriptionDetail;
+  detail: EvaluationSubscriptionDetail;
   value: SubscriptionDetail["Value"];
 };
 
 @Injectable()
-export class EvaluationUpdateService implements OnDestroy {
+export class EvaluationSubscriptionDetailUpdateService implements OnDestroy {
   private loadingService = inject(LoadingService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
   private state = inject(EvaluationStateService);
@@ -35,8 +38,9 @@ export class EvaluationUpdateService implements OnDestroy {
   private toastService = inject(ToastService);
   private translate = inject(TranslateService);
 
-  private saving$ = this.loadingService.loading(EVALUTATION_UPDATE_CONTEXT);
-  saving = toSignal(this.saving$, { requireSync: true });
+  saving = toSignal(this.loadingService.loading(EVALUTATION_UPDATE_CONTEXT), {
+    requireSync: true,
+  });
 
   private subscriptionDetailQueue$ = new Subject<SubscriptionDetailChange>();
   private saveSubscriptionDetails$ = this.subscriptionDetailQueue$.pipe(
@@ -75,7 +79,7 @@ export class EvaluationUpdateService implements OnDestroy {
     change: SubscriptionDetailChange,
   ): void {
     // Apply the new value to the state
-    this.state.updateSubscriptionDetail(change.detail, change.value);
+    this.state.updateSubscriptionDetail(change.detail.detail, change.value);
   }
 
   private handleSubscriptionDetailError(
@@ -92,8 +96,8 @@ export class EvaluationUpdateService implements OnDestroy {
       );
     }
 
-    // Reset detail back to old value, since it could not be saved
-    this.state.updateSubscriptionDetail(change.detail, change.detail.Value);
+    // Reset back to old value, since it could not be saved
+    change.detail.value?.set(change.detail.detail.Value);
   }
 
   private saveSubscriptionDetail(change: SubscriptionDetailChange): Observable<{
@@ -104,7 +108,7 @@ export class EvaluationUpdateService implements OnDestroy {
     });
     return this.loadingService.load(
       this.subscriptionDetailsService
-        .update(change.detail, change.value, context)
+        .update(change.detail.detail, change.value, context)
         .pipe(
           map(() => ({
             change,

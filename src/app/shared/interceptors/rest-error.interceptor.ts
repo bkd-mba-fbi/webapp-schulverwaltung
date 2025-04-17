@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 import { EMPTY, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { HTTP_STATUS } from "src/app/shared/services/rest.service";
-import { RestErrorNotificationService } from "../services/rest-error-notification.service.service";
+import { RestErrorNotificationService } from "../services/rest-error-notification.service";
 
 interface Options {
   disableErrorHandling?: boolean;

@@ -54,9 +54,9 @@
               [class.selected]="isColumnSelected(detail)"
             >
               @if (detail) {
-                @let value = columnsValues()[rowIndex][$index];
+                @let value = getDetailValue(detail);
                 <bkd-subscription-detail-field
-                  [detail]="detail"
+                  [detail]="detail.detail"
                   [hideLabel]="true"
                   [layout]="'horizontal'"
                   [(value)]="value"

@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { delay, map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { SubscriptionDetail } from "../models/subscription.model";
 import { RestService } from "./rest.service";
@@ -35,8 +35,13 @@ export class SubscriptionDetailsRestService extends RestService<
       EventId: detail.EventId,
       Value: value,
     };
-    return this.http
-      .put<void>(`${this.baseUrl}/${detail.Id}`, body, { context })
-      .pipe(map(() => undefined));
+    return of(null).pipe(
+      delay(3000),
+      switchMap(() =>
+        this.http
+          .put<void>(`${this.baseUrl}asdf/${detail.Id}`, body, { context })
+          .pipe(map(() => undefined)),
+      ),
+    );
   }
 }

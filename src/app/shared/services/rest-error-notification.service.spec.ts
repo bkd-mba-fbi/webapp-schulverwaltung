@@ -1,8 +1,8 @@
 import { TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
-import { RestErrorNotificationService } from "./rest-error-notification.service.service";
+import { RestErrorNotificationService } from "./rest-error-notification.service";
 
-describe("RestErrorNotificationServiceService", () => {
+describe("RestErrorNotificationService", () => {
   let service: RestErrorNotificationService;
 
   beforeEach(() => {

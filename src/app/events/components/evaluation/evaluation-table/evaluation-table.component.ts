@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  WritableSignal,
   computed,
   input,
   model,
@@ -19,6 +20,7 @@ import {
   EvaluationEntry,
   EvaluationEventType,
   EvaluationSortKey,
+  EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import {
@@ -49,28 +51,34 @@ export class EvaluationTableComponent {
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
   eventType = input.required<EvaluationEventType>();
   subscriptionDetailChange = output<{
-    detail: SubscriptionDetail;
+    detail: EvaluationSubscriptionDetail;
     value: SubscriptionDetail["Value"];
   }>();
 
-  columnsValues = computed(() =>
-    this.entries().map(({ columns }) =>
-      columns.map((detail) => signal(detail?.Value ?? null)),
-    ),
-  );
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
   gradesAverage = computed(() => this.getGradesAverage(this.entries()));
 
-  isColumnSelected(column: Option<EvaluationColumn | SubscriptionDetail>) {
+  isColumnSelected(
+    column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
+  ) {
     if (!column) return false;
 
     return this.getColumnKey(column) === this.selectedColumn();
   }
 
-  private getColumnKey(column: EvaluationColumn | SubscriptionDetail) {
-    const id = "VssId" in column ? column.VssId : column.vssId;
+  getDetailValue(
+    detail: Option<EvaluationSubscriptionDetail>,
+  ): WritableSignal<SubscriptionDetail["Value"]> {
+    if (!detail) return signal(null);
+    return detail.value ?? signal(null);
+  }
+
+  private getColumnKey(
+    column: EvaluationColumn | EvaluationSubscriptionDetail,
+  ) {
+    const id = "detail" in column ? column.detail.VssId : column.vssId;
     return ABSENCES_COLUMNS_VSS_IDS.includes(id) ? ABSENCES_COLUMN_KEY : id;
   }
 

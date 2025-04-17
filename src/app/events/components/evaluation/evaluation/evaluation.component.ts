@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { EvaluationStateService } from "src/app/events/services/evaluation-state.service";
-import { EvaluationUpdateService } from "src/app/events/services/evaluation-update.service";
+import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 
 @Component({
   selector: "bkd-evaluation",
   imports: [RouterOutlet],
-  providers: [EvaluationStateService, EvaluationUpdateService],
+  providers: [
+    EvaluationStateService,
+    EvaluationSubscriptionDetailUpdateService,
+  ],
   template: ` <router-outlet></router-outlet>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

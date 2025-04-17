@@ -7,13 +7,16 @@ import {
 } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import uniqBy from "lodash-es/uniqBy";
-import { EvaluationUpdateService } from "src/app/events/services/evaluation-update.service";
+import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { notNull } from "src/app/shared/utils/filter";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
-import { EvaluationStateService } from "../../../services/evaluation-state.service";
+import {
+  EvaluationStateService,
+  EvaluationSubscriptionDetail,
+} from "../../../services/evaluation-state.service";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
 
@@ -40,7 +43,9 @@ export const ABSENCES_COLUMNS_VSS_IDS = [
 })
 export class EvaluationListComponent {
   state = inject(EvaluationStateService);
-  update = inject(EvaluationUpdateService);
+  updateSubscriptionDetailService = inject(
+    EvaluationSubscriptionDetailUpdateService,
+  );
   private translate = inject(TranslateService);
 
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
@@ -76,9 +81,9 @@ export class EvaluationListComponent {
   });
 
   updateSubscriptionDetail(change: {
-    detail: SubscriptionDetail;
+    detail: EvaluationSubscriptionDetail;
     value: SubscriptionDetail["Value"];
   }): void {
-    void this.update.updateSubscriptionDetail(change);
+    void this.updateSubscriptionDetailService.updateSubscriptionDetail(change);
   }
 }
