@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
+import { DropDownItemWithActive } from "../../models/drop-down-item.model";
 
 @Component({
   selector: "bkd-subscription-detail-listbox",
@@ -28,9 +29,9 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
               type="radio"
               [name]="id()"
               [id]="itemId"
-              [value]="item.Key"
+              [value]="normalizeItemKey(item.Key)"
               [disabled]="readonly()"
-              [ngModel]="value()"
+              [ngModel]="normalizedValue()"
               (ngModelChange)="onChange(item.Key)"
             />
             <label class="form-check-label" [attr.for]="itemId">
@@ -44,11 +45,11 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
         class="form-select"
         [id]="id()"
         [disabled]="readonly()"
-        [ngModel]="value()"
+        [ngModel]="normalizedValue()"
         (ngModelChange)="onChange($event)"
       >
         @for (item of items(); track item.Key) {
-          <option [value]="item.Key">
+          <option [value]="normalizeItemKey(item.Key)">
             {{ item.Value }}
           </option>
         }
@@ -75,12 +76,19 @@ export class SubscriptionDetailListboxComponent {
   items = computed(() =>
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
+  normalizedValue = computed(() =>
+    this.detail().Value ? String(this.detail().Value) : null,
+  );
 
   onChange(rawValue: SubscriptionDetail["Value"]): void {
     const item = this.items()?.find((item) => item.Key == rawValue);
-    const value = item?.Key ?? null;
+    const value = item?.Key ? this.normalizeItemKey(item?.Key) : null;
 
     this.value.set(value);
     this.commit.emit(value);
+  }
+
+  normalizeItemKey(key: DropDownItemWithActive["Key"]): string {
+    return String(key);
   }
 }
