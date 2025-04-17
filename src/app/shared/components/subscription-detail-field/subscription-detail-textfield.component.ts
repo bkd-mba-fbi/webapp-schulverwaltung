@@ -94,7 +94,7 @@ export class SubscriptionDetailTextfieldComponent {
     value: SubscriptionDetail["Value"],
   ): SubscriptionDetail["Value"] {
     if (value && this.isCurrency()) {
-      return Number(this.detail().Value).toFixed(2);
+      return Number(value).toFixed(2);
     }
 
     return value;
