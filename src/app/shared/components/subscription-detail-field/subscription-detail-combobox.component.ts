@@ -30,7 +30,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
       type="text"
       [id]="id()"
       [disabled]="readonly()"
-      [value]="detail().Value"
+      [value]="value()"
       [ngbTypeahead]="search"
       (input)="onChange($event)"
       (blur)="onBlur()"
@@ -42,9 +42,10 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 export class SubscriptionDetailComboboxComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
   items = computed(() =>
@@ -70,16 +71,16 @@ export class SubscriptionDetailComboboxComponent
 
   onChange(event: Event): void {
     const { value } = event.target as HTMLInputElement;
-    this.updateDetailValue(value || null);
+    this.value.set(value || null);
   }
 
   onBlur(): void {
-    this.commit.emit(this.detail());
+    this.commit.emit(this.value() ?? null);
   }
 
   onSelect(value: string): void {
-    this.updateDetailValue(value);
-    this.commit.emit(this.detail());
+    this.value.set(value);
+    this.commit.emit(value ?? null);
   }
 
   private findSuggestions(value: string): string[] {
@@ -91,12 +92,5 @@ export class SubscriptionDetailComboboxComponent
       .filter((item) => item.Value.toLowerCase().includes(term))
       .slice(0, 10)
       .map((item) => item.Value);
-  }
-
-  private updateDetailValue(value: SubscriptionDetail["Value"]) {
-    this.detail.set({
-      ...this.detail(),
-      Value: value,
-    });
   }
 }

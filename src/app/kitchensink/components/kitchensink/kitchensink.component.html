@@ -7,17 +7,17 @@
     <div>Value</div>
     <div>Properties</div>
   </div>
-  @for (props of subscriptionDetails; track props.Id) {
-    @let detail = subscriptionDetailsSignals[props.Id || ""];
+  @for (detail of subscriptionDetails; track detail.Id) {
+    @let value = subscriptionDetailsValues[detail.Id || ""];
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
-          [detail]="detail()"
-          (detailChange)="detail.set($event)"
+          [detail]="build(detail)"
+          [(value)]="value"
         ></bkd-subscription-detail-field>
       </div>
-      <pre>{{ detail().Value | json }}</pre>
-      <pre>{{ props | json }}</pre>
+      <pre>{{ value() | json }}</pre>
+      <pre>{{ detail | json }}</pre>
     </div>
   }
 </div>
@@ -25,11 +25,13 @@
 <h2>Subscription Detail Fields: Without labels</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetails; track detail.Id) {
+    @let value = subscriptionDetailsValues[detail.Id || ""];
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
           [detail]="build(detail)"
           [hideLabel]="true"
+          [(value)]="value"
         ></bkd-subscription-detail-field>
       </div>
     </div>
@@ -39,10 +41,12 @@
 <h2>Subscription Detail Fields: Readonly</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetailsReadonly; track detail.Id) {
+    @let value = subscriptionDetailsValues[detail.Id || ""];
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
           [detail]="build(detail)"
+          [(value)]="value"
         ></bkd-subscription-detail-field>
       </div>
     </div>
@@ -52,10 +56,12 @@
 <h2>Subscription Detail Fields: Required</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetailsRequired; track detail.Id) {
+    @let value = subscriptionDetailsValues[detail.Id || ""];
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
           [detail]="build(detail)"
+          [(value)]="value"
         ></bkd-subscription-detail-field>
       </div>
     </div>
@@ -65,11 +71,13 @@
 <h2>Subscription Detail Fields: Horizontal Layout</h2>
 <div class="subscription-details">
   @for (detail of subscriptionDetails; track detail.Id) {
+    @let value = subscriptionDetailsValues[detail.Id || ""];
     <div class="subscription-details-row">
       <div>
         <bkd-subscription-detail-field
           [detail]="build(detail)"
           [layout]="'horizontal'"
+          [(value)]="value"
         ></bkd-subscription-detail-field>
       </div>
     </div>

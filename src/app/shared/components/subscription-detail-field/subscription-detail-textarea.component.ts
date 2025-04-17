@@ -16,7 +16,7 @@ import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.di
     <textarea
       class="form-control"
       [id]="id()"
-      [value]="detail().Value"
+      [value]="value()"
       [disabled]="readonly()"
       (input)="onInput($event)"
       (blur)="onBlur()"
@@ -27,18 +27,19 @@ import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.di
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailTextareaComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
 
   onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;
-    this.detail.set({ ...this.detail(), Value: value || null });
+    this.value.set(value || null);
   }
 
   onBlur() {
-    this.commit.emit(this.detail());
+    this.commit.emit(this.value() ?? null);
   }
 }

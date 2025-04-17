@@ -30,6 +30,7 @@
           [entries]="entries"
           [selectedColumn]="selectedColumnSignal()"
           [eventType]="event.type"
+          (subscriptionDetailChange)="updateSubscriptionDetail($event)"
         ></bkd-evaluation-table>
       }
     }

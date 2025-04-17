@@ -1,7 +1,15 @@
 import { HttpContext } from "@angular/common/http";
-import { Injectable, Signal, computed, inject, signal } from "@angular/core";
+import {
+  Injectable,
+  Signal,
+  WritableSignal,
+  computed,
+  inject,
+  linkedSignal,
+  signal,
+} from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import sortBy from "lodash-es/sortBy";
 import uniqBy from "lodash-es/uniqBy";
 import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
@@ -42,11 +50,16 @@ export type EvaluationColumn = {
   sort: string;
 };
 
+export type EvaluationSubscriptionDetail = {
+  detail: SubscriptionDetail;
+  value: Option<WritableSignal<SubscriptionDetail["Value"]>>;
+};
+
 export type EvaluationEntry = {
   gradingItem: GradingItem;
   grade: Option<Grade>;
-  columns: ReadonlyArray<Option<SubscriptionDetail>>;
-  criteria: ReadonlyArray<SubscriptionDetail>;
+  columns: ReadonlyArray<Option<EvaluationSubscriptionDetail>>;
+  criteria: ReadonlyArray<EvaluationSubscriptionDetail>;
 };
 
 export type EvaluationSortCriteria = SortCriteria<EvaluationSortKey>;
@@ -69,12 +82,14 @@ export class EvaluationStateService {
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
   private eventId$ =
-    this.route.parent?.params.pipe(
+    (this.route.parent?.params ?? of({} as Params)).pipe(
       map((params) => {
         const eventId = params["id"];
         return eventId ? Number(eventId) : null;
       }),
     ) ?? of(null);
+
+  ///// Public signals /////
 
   sortCriteria = signal<EvaluationSortCriteria>(INITIAL_SORT_CRITERIA);
 
@@ -111,6 +126,8 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
+  ///// Private signals /////
+
   private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
     this.eventId$.pipe(
       switchMap(this.loadGradingItems.bind(this)),
@@ -139,11 +156,31 @@ export class EvaluationStateService {
    * All subscription details of the event (of all persons, columns and
    * criteria).
    */
-  private subscriptionDetails: Signal<ReadonlyArray<SubscriptionDetail>> =
-    toSignal(
-      this.eventId$.pipe(switchMap(this.loadSubscriptionDetails.bind(this))),
-      { initialValue: [] },
-    );
+  private fetchedSubscriptionDetails: Signal<
+    ReadonlyArray<SubscriptionDetail>
+  > = toSignal(
+    this.eventId$.pipe(switchMap(this.loadSubscriptionDetails.bind(this))),
+    {
+      initialValue: [],
+    },
+  );
+
+  private subscriptionDetails = linkedSignal({
+    source: this.fetchedSubscriptionDetails,
+    computation: (details) => details,
+  });
+
+  private subscriptionDetailsValues = computed<
+    Dict<WritableSignal<SubscriptionDetail["Value"]>>
+  >(() =>
+    this.fetchedSubscriptionDetails().reduce(
+      (acc, detail) => ({
+        ...acc,
+        [this.getDetailId(detail)]: signal(detail.Value),
+      }),
+      {} as Dict<WritableSignal<SubscriptionDetail["Value"]>>,
+    ),
+  );
 
   /**
    * Subscription details of the event that should be displayed as columns (of
@@ -174,8 +211,26 @@ export class EvaluationStateService {
       this.columns(),
       this.columnSubscriptionDetails(),
       this.criteriaSubscriptionDetails(),
+      this.subscriptionDetailsValues(),
     ),
   );
+
+  ///// Public methods /////
+
+  updateSubscriptionDetail(
+    detail: SubscriptionDetail,
+    value: SubscriptionDetail["Value"],
+  ): void {
+    const updatedDetails: ReadonlyArray<SubscriptionDetail> =
+      this.subscriptionDetails().map((existing) => {
+        if (this.getDetailId(existing) === this.getDetailId(detail)) {
+          return { ...existing, Value: value };
+        }
+        return existing;
+      });
+
+    this.subscriptionDetails.set(updatedDetails);
+  }
 
   ///// Event (course/study-class) /////
 
@@ -310,6 +365,20 @@ export class EvaluationStateService {
     return sortBy(criteriaDetails, (d) => d.Sort);
   }
 
+  /**
+   * Returns the unique identifier of a subscription detail.
+   */
+  private getDetailId(detail: SubscriptionDetail): string {
+    return `${detail.Id}_${detail.IdPerson}`;
+  }
+
+  private getSubscriptionDetailValue(
+    values: Dict<WritableSignal<SubscriptionDetail["Value"]>>,
+    detail: SubscriptionDetail,
+  ): Option<WritableSignal<SubscriptionDetail["Value"]>> {
+    return values[this.getDetailId(detail)] ?? null;
+  }
+
   ///// Evaluation columns & entries /////
 
   private collectColumns(
@@ -331,6 +400,9 @@ export class EvaluationStateService {
     columns: ReadonlyArray<EvaluationColumn>,
     columnSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
     criteriaSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    subscriptionDetailsValues: Dict<
+      WritableSignal<SubscriptionDetail["Value"]>
+    >,
   ): ReadonlyArray<EvaluationEntry> {
     return gradingItems.map((gradingItem) =>
       this.buildEntry(
@@ -339,6 +411,7 @@ export class EvaluationStateService {
         columns,
         columnSubscriptionDetails,
         criteriaSubscriptionDetails,
+        subscriptionDetailsValues,
       ),
     );
   }
@@ -349,22 +422,43 @@ export class EvaluationStateService {
     columns: ReadonlyArray<EvaluationColumn>,
     columnSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
     criteriaSubscriptionDetails: ReadonlyArray<SubscriptionDetail>,
+    subscriptionDetailsValues: Dict<
+      WritableSignal<SubscriptionDetail["Value"]>
+    >,
   ): EvaluationEntry {
-    const columnDetails = columnSubscriptionDetails.filter(
+    const rawColumnDetails = columnSubscriptionDetails.filter(
       (detail) => detail.IdPerson === gradingItem.IdPerson,
     );
+    const columnDetails = columns.map(
+      // Make sure every entry has the same number of columns, even if some are null
+      ({ vssId }) =>
+        rawColumnDetails.find((detail) => detail.VssId === vssId) ?? null,
+    );
+
     const criteriaDetails = criteriaSubscriptionDetails.filter(
       (detail) => detail.IdPerson === gradingItem.IdPerson,
     );
     return {
       gradingItem,
       grade: this.findGrade(gradingItem, gradingScale),
-      columns: columns.map(
-        // Make sure every entry has the same number of columns, even if some are null
-        ({ vssId }) =>
-          columnDetails.find((detail) => detail.VssId === vssId) ?? null,
+      columns: columnDetails.map((detail) =>
+        !detail
+          ? null
+          : {
+              detail,
+              value: this.getSubscriptionDetailValue(
+                subscriptionDetailsValues,
+                detail,
+              ),
+            },
       ),
-      criteria: criteriaDetails,
+      criteria: criteriaDetails.map((detail) => ({
+        detail,
+        value: this.getSubscriptionDetailValue(
+          subscriptionDetailsValues,
+          detail,
+        ),
+      })),
     };
   }
 

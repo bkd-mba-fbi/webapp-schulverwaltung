@@ -23,7 +23,11 @@
       #stickyHeader
     ></thead>
     <tbody>
-      @for (entry of entries(); track entry.gradingItem.Id) {
+      @for (
+        entry of entries();
+        track entry.gradingItem.Id;
+        let rowIndex = $index
+      ) {
         <tr>
           <td
             class="sticky student-name"
@@ -50,10 +54,15 @@
               [class.selected]="isColumnSelected(detail)"
             >
               @if (detail) {
+                @let value = getDetailValue(detail);
                 <bkd-subscription-detail-field
-                  [detail]="detail"
+                  [detail]="detail.detail"
                   [hideLabel]="true"
                   [layout]="'horizontal'"
+                  [(value)]="value"
+                  (commit)="
+                    subscriptionDetailChange.emit({ detail, value: $event })
+                  "
                 ></bkd-subscription-detail-field>
               }
             </td>
