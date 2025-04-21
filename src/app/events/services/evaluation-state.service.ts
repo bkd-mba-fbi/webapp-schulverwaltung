@@ -57,9 +57,7 @@ const INITIAL_SORT_CRITERIA: EvaluationSortCriteria = {
 
 const EVALUATION_CONTEXT = "events-evaluation";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class EvaluationStateService {
   private route = inject(ActivatedRoute);
   private loadingService = inject(LoadingService);
@@ -70,16 +68,13 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  /*temporarily hardcoded eventId;*/
-  private eventId$ = of(10064);
-
-  /*  private eventId$ =
+  private eventId$ =
     this.route.parent?.params.pipe(
       map((params) => {
         const eventId = params["id"];
         return eventId ? Number(eventId) : null;
       }),
-    ) ?? of(null);*/
+    ) ?? of(null);
 
   sortCriteria = signal<EvaluationSortCriteria>(INITIAL_SORT_CRITERIA);
 

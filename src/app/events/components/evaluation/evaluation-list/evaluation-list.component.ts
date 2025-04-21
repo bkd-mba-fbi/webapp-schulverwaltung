@@ -13,6 +13,7 @@ import { SelectComponent } from "../../../../shared/components/select/select.com
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
 import { EvaluationStateService } from "../../../services/evaluation-state.service";
+import { EvaluationUpdateService } from "../../../services/evaluation-update.service";
 import { EvaluationDefaultGradeDialogComponent } from "../evaluation-dialog/evaluation-default-grade-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
@@ -40,6 +41,7 @@ export const ABSENCES_COLUMNS_VSS_IDS = [
 })
 export class EvaluationListComponent {
   state = inject(EvaluationStateService);
+  update = inject(EvaluationUpdateService);
   private translate = inject(TranslateService);
   private modalService = inject(BkdModalService);
 
@@ -80,6 +82,8 @@ export class EvaluationListComponent {
       EvaluationDefaultGradeDialogComponent,
     );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
+    modalRef.componentInstance.updateService = this.update;
+    modalRef.componentInstance.updating = this.update.updating;
     modalRef.result.then(
       () => {},
       () => {},

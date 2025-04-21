@@ -10,7 +10,6 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
-import { EvaluationStateService } from "../../../services/evaluation-state.service";
 import { EvaluationUpdateService } from "../../../services/evaluation-update.service";
 
 @Component({
@@ -22,8 +21,9 @@ import { EvaluationUpdateService } from "../../../services/evaluation-update.ser
 })
 export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
-  evaluationUpdateService = inject(EvaluationUpdateService);
-  evaluationStateService = inject(EvaluationStateService);
+  updateService: EvaluationUpdateService;
+
+  updating = signal<boolean>(false);
 
   gradingScale = input.required<GradingScale>();
   selectedGradeKey = signal<number | null>(null);
@@ -43,7 +43,7 @@ export class EvaluationDefaultGradeDialogComponent {
   async updateGrades(): Promise<void> {
     const selectedGrade = this.selectedGrade();
     if (selectedGrade) {
-      await this.evaluationUpdateService
+      await this.updateService
         .updateDefaultGrade(selectedGrade.Id)
         .then(() => this.activeModal.close());
     }
