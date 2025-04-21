@@ -10,7 +10,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
-import { EvaluationUpdateService } from "../../../services/evaluation-update.service";
+import { EvaluationDefaultGradeUpdateService } from "../../../services/evaluation-default-grade-update.service";
 
 @Component({
   selector: "bkd-evaluation-dialog",
@@ -21,7 +21,7 @@ import { EvaluationUpdateService } from "../../../services/evaluation-update.ser
 })
 export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
-  updateService: EvaluationUpdateService;
+  updateService: EvaluationDefaultGradeUpdateService;
 
   updating = signal<boolean>(false);
 

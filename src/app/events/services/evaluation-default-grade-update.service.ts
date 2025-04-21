@@ -7,7 +7,7 @@ import { EvaluationStateService } from "./evaluation-state.service";
 
 const EVALUATION_UPDATE_CONTEXT = "events-evaluation-default-grade-update";
 @Injectable()
-export class EvaluationUpdateService {
+export class EvaluationDefaultGradeUpdateService {
   private gradingItemsRestService = inject(GradingItemsRestService);
   private evaluationStateService = inject(EvaluationStateService);
   private loadingService = inject(LoadingService);
