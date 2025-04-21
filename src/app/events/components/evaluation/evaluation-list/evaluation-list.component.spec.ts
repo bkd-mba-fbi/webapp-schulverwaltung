@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { EvaluationDefaultGradeUpdateService } from "src/app/events/services/evaluation-default-grade-update.service";
 import { EvaluationStateService } from "src/app/events/services/evaluation-state.service";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
 import { Grade } from "src/app/shared/models/grading-scale.model";
@@ -11,6 +12,7 @@ describe("EvaluationListComponent", () => {
   let fixture: ComponentFixture<EvaluationListComponent>;
   let element: HTMLElement;
   let stateMock: jasmine.SpyObj<EvaluationStateService>;
+  let updateServiceMock: jasmine.SpyObj<EvaluationDefaultGradeUpdateService>;
 
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
@@ -54,6 +56,15 @@ describe("EvaluationListComponent", () => {
     detail4.VssDesignation = "Pünktlichkeit";
     detail4.IdPerson = gradingItem2.IdPerson;
     detail4.Sort = "21";
+
+    updateServiceMock =
+      jasmine.createSpyObj<EvaluationDefaultGradeUpdateService>(
+        "EvaluationDefaultGradeUpdateService",
+        ["updateDefaultGrade"],
+      );
+    Object.defineProperty(updateServiceMock, "updating", {
+      get: () => false,
+    });
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -128,6 +139,10 @@ describe("EvaluationListComponent", () => {
 
               return stateMock;
             },
+          },
+          {
+            provide: EvaluationDefaultGradeUpdateService,
+            useValue: updateServiceMock,
           },
         ],
       }),
