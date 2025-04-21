@@ -577,6 +577,9 @@
       "default-placeholder": "Suchen..."
     }
   },
+  "kitchensink": {
+    "title": "Kitchensink"
+  },
   "api": {
     "title": "API Debugging"
   }

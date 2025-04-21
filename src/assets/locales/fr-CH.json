@@ -576,5 +576,11 @@
     "typeahead": {
       "default-placeholder": "Rechercher..."
     }
+  },
+  "kitchensink": {
+    "title": "Kitchensink"
+  },
+  "api": {
+    "title": "API Debugging"
   }
 }
