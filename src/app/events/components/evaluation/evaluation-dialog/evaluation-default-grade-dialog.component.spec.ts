@@ -6,10 +6,9 @@ import { SETTINGS } from "../../../../settings";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { EvaluationDefaultGradeDialogComponent } from "./evaluation-default-grade-dialog.component";
 
-describe("EvaluationDialogComponent", () => {
+describe("EvaluationDefaultGradeDialogComponent", () => {
   let component: EvaluationDefaultGradeDialogComponent;
   let fixture: ComponentFixture<EvaluationDefaultGradeDialogComponent>;
-
   const mockGradingScale: GradingScale = {
     Id: 1,
     Grades: [
@@ -22,10 +21,6 @@ describe("EvaluationDialogComponent", () => {
     ],
   };
 
-  const mockSettings = {
-    apiUrl: "http://mock-api",
-  };
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -35,19 +30,28 @@ describe("EvaluationDialogComponent", () => {
       providers: [
         NgbActiveModal,
         provideHttpClient(withFetch()),
-        { provide: SETTINGS, useValue: mockSettings },
+        { provide: SETTINGS },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EvaluationDefaultGradeDialogComponent);
     component = fixture.componentInstance;
+
     fixture.componentRef.setInput("gradingScale", mockGradingScale);
     fixture.componentRef.setInput("event", { id: 1, type: "course" });
     fixture.componentRef.setInput("gradingItems", []);
+
     fixture.detectChanges();
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should generate options from grading scale", () => {
+    const options = component.options();
+    expect(options.length).toBe(1);
+    expect(options[0].Key).toBe(1);
+    expect(options[0].Value).toBe("1.0");
   });
 });
