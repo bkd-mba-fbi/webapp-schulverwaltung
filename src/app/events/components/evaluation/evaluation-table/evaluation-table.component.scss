@@ -28,6 +28,10 @@ tbody td.student-name {
   }
 }
 
+tbody td.subscription-detail.absences {
+  flex: 1;
+}
+
 // Desktop view
 @media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .table-responsive-wrapper {

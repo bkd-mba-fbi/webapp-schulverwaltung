@@ -116,6 +116,7 @@ describe("SubscriptionDetailFieldComponent", () => {
       await render();
 
       const input = getInput();
+      input.focus();
       dispatchEvent(input, "input", "New value");
       expectChange("New value");
       expectNoCommit();
@@ -162,6 +163,7 @@ describe("SubscriptionDetailFieldComponent", () => {
       await render();
 
       const input = element.querySelector<HTMLInputElement>("input")!;
+      input.focus();
       dispatchEvent(input, "input", "123");
       expectChange(123);
       expectNoCommit();
@@ -170,10 +172,20 @@ describe("SubscriptionDetailFieldComponent", () => {
       expectCommit(123);
     });
 
+    it("emits value change & commit on input of unfocused field (i.e. click on number field arrows)", async () => {
+      await render();
+
+      const input = element.querySelector<HTMLInputElement>("input")!;
+      dispatchEvent(input, "input", "123");
+      expectChange(123);
+      expectCommit(123);
+    });
+
     it("does not allow to enter a float value", async () => {
       await render();
 
       const input = element.querySelector<HTMLInputElement>("input")!;
+      input.focus();
       dispatchEvent(input, "input", "123.45");
       expectChange(123);
       expectNoCommit();
@@ -186,6 +198,7 @@ describe("SubscriptionDetailFieldComponent", () => {
       await render();
 
       const input = element.querySelector<HTMLInputElement>("input")!;
+      input.focus();
       dispatchEvent(input, "input", "Lorem ipsum");
       expectChange(null);
       expectNoCommit();
@@ -232,6 +245,7 @@ describe("SubscriptionDetailFieldComponent", () => {
       await render();
 
       const input = getInput();
+      input.focus();
       dispatchEvent(input, "input", "123");
       expectChange("123");
       expectNoCommit();
@@ -614,8 +628,8 @@ describe("SubscriptionDetailFieldComponent", () => {
 
         const select = getSelect();
         dispatchEvent(select, "change", "1");
-        expectChange(1);
-        expectCommit(1);
+        expectChange("1");
+        expectCommit("1");
       });
     });
 
@@ -667,8 +681,8 @@ describe("SubscriptionDetailFieldComponent", () => {
 
         const radios = getRadios();
         radios[0].click();
-        expectChange(1);
-        expectCommit(1);
+        expectChange("1");
+        expectCommit("1");
       });
     });
   });
@@ -766,17 +780,14 @@ describe("SubscriptionDetailFieldComponent", () => {
   }
 
   function expectChange(value: SubscriptionDetail["Value"]): void {
-    expect(component.detail()).toEqual({ ...detail, Value: value });
+    expect(component.value()).toBe(value);
   }
 
   function expectCommit(value: SubscriptionDetail["Value"]): void {
-    expect(component.detail()).toEqual({ ...detail, Value: value });
+    expect(component.value()).toBe(value);
 
     expect(commitCallback).toHaveBeenCalledTimes(1);
-    expect(commitCallback.calls.mostRecent().args[0]).toEqual({
-      ...detail,
-      Value: value,
-    });
+    expect(commitCallback.calls.mostRecent().args[0]).toEqual(value);
   }
 
   function expectNoCommit(): void {
@@ -819,6 +830,7 @@ describe("SubscriptionDetailFieldComponent", () => {
 
   async function render() {
     fixture.componentRef.setInput("detail", detail);
+    fixture.componentRef.setInput("value", detail.Value);
     fixture.detectChanges();
     await fixture.whenStable();
   }

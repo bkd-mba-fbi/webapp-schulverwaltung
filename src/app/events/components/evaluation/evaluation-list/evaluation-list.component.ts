@@ -8,13 +8,17 @@ import {
 } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import uniqBy from "lodash-es/uniqBy";
+import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { notNull } from "src/app/shared/utils/filter";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
 import { EvaluationDefaultGradeUpdateService } from "../../../services/evaluation-default-grade-update.service";
-import { EvaluationStateService } from "../../../services/evaluation-state.service";
+import {
+  EvaluationStateService,
+  EvaluationSubscriptionDetail,
+} from "../../../services/evaluation-state.service";
 import { EvaluationDefaultGradeDialogComponent } from "../evaluation-dialog/evaluation-default-grade-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
@@ -43,7 +47,12 @@ export const ABSENCES_COLUMNS_VSS_IDS = [
 })
 export class EvaluationListComponent {
   state = inject(EvaluationStateService);
-  update = inject(EvaluationDefaultGradeUpdateService);
+  private updateDefaultGradeService = inject(
+    EvaluationDefaultGradeUpdateService,
+  );
+  private updateSubscriptionDetailService = inject(
+    EvaluationSubscriptionDetailUpdateService,
+  );
   private translate = inject(TranslateService);
   private modalService = inject(BkdModalService);
 
@@ -86,10 +95,14 @@ export class EvaluationListComponent {
       EvaluationDefaultGradeDialogComponent,
     );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
-    modalRef.componentInstance.updateService = this.update;
+    modalRef.componentInstance.updateService = this.updateDefaultGradeService;
     modalRef.result.then(
       () => {},
       () => {},
     );
+  }
+
+  updateSubscriptionDetail(detail: EvaluationSubscriptionDetail): void {
+    void this.updateSubscriptionDetailService.updateSubscriptionDetail(detail);
   }
 }

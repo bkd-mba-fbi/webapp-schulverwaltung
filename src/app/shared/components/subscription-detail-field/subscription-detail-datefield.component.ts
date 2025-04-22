@@ -44,7 +44,7 @@ const DATE_FORMAT = "dd.MM.yyyy";
         [id]="id()"
         [placeholder]="'shared.date-select.default-placeholder' | translate"
         [disabled]="readonly()"
-        [ngModel]="value()"
+        [ngModel]="normalizedValue()"
         (ngModelChange)="onChange($event)"
         (blur)="onBlur()"
         (click)="dp.toggle()"
@@ -57,13 +57,14 @@ const DATE_FORMAT = "dd.MM.yyyy";
 export class SubscriptionDetailDatefieldComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
-  value = computed(() =>
-    this.detail().Value ? String(this.detail().Value) : null,
+  normalizedValue = computed(() =>
+    this.value() ? String(this.value()) : null,
   );
 
   private datepicker = viewChild.required(NgbInputDatepicker);
@@ -81,29 +82,22 @@ export class SubscriptionDetailDatefieldComponent
   }
 
   onChange(value: Option<string>): void {
-    this.updateDetailValue(value);
+    this.value.set(value);
   }
 
   onBlur(): void {
     // To not overwrite the user's input, while editing the date string, the
     // value can temporarlily be an invalid string. In this case, we set it to
     // `null` on blur.
-    const date = parse(String(this.detail().Value), DATE_FORMAT, new Date());
+    const date = parse(String(this.value()), DATE_FORMAT, new Date());
     if (!isValid(date)) {
-      this.updateDetailValue(null);
+      this.value.set(null);
     }
 
-    this.commit.emit(this.detail());
+    this.commit.emit(this.value() ?? null);
   }
 
   onSelect(): void {
-    this.commit.emit(this.detail());
-  }
-
-  private updateDetailValue(value: SubscriptionDetail["Value"]) {
-    this.detail.set({
-      ...this.detail(),
-      Value: value,
-    });
+    this.commit.emit(this.value() ?? null);
   }
 }

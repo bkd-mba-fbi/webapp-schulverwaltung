@@ -44,6 +44,10 @@ export class EvaluationTableHeaderComponent extends TableHeaderComponent {
     return this.getColumnKey(column) === this.selectedColumn();
   }
 
+  isAbsencesColumn(column: EvaluationColumn) {
+    return this.getColumnKey(column) === ABSENCES_COLUMN_KEY;
+  }
+
   private getColumnKey(column: EvaluationColumn) {
     return ABSENCES_COLUMNS_VSS_IDS.includes(column.vssId)
       ? ABSENCES_COLUMN_KEY

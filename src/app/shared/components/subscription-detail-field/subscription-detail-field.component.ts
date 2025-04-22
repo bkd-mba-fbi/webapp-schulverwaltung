@@ -59,43 +59,49 @@ import { SubscriptionDetailYesNoComponent } from "./subscription-detail-yesno.co
       }
       @case ("CB") {
         <bkd-subscription-detail-combobox
-          [(detail)]="detail"
+          [detail]="detail()"
           [id]="id"
+          [(value)]="value"
           (commit)="commit.emit($event)"
         ></bkd-subscription-detail-combobox>
       }
       @case ("LB") {
         <bkd-subscription-detail-listbox
-          [(detail)]="detail"
+          [detail]="detail()"
           [id]="id"
           [layout]="layout()"
+          [(value)]="value"
           (commit)="commit.emit($event)"
         ></bkd-subscription-detail-listbox>
       }
       @case ("TX") {
         @if (isTextField()) {
           <bkd-subscription-detail-textfield
-            [(detail)]="detail"
+            [detail]="detail()"
             [id]="id"
+            [(value)]="value"
             (commit)="commit.emit($event)"
           ></bkd-subscription-detail-textfield>
         } @else if (isDate()) {
           <bkd-subscription-detail-datefield
-            [(detail)]="detail"
+            [detail]="detail()"
             [id]="id"
+            [(value)]="value"
             (commit)="commit.emit($event)"
           ></bkd-subscription-detail-datefield>
         } @else if (isTextarea()) {
           <bkd-subscription-detail-textarea
-            [(detail)]="detail"
+            [detail]="detail()"
             [id]="id"
+            [(value)]="value"
             (commit)="commit.emit($event)"
           ></bkd-subscription-detail-textarea>
         } @else if (isYesNo()) {
           <bkd-subscription-detail-yesno
-            [(detail)]="detail"
+            [detail]="detail()"
             [id]="id"
             [layout]="layout()"
+            [(value)]="value"
             (commit)="commit.emit($event)"
           ></bkd-subscription-detail-yesno>
         }
@@ -107,15 +113,22 @@ import { SubscriptionDetailYesNoComponent } from "./subscription-detail-yesno.co
       display: flex;
       column-gap: 1rem;
     }
+
+    @media (max-width: 550px) {
+      :host.flex-row {
+        flex-direction: column !important;
+      }
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailFieldComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   hideLabel = input(false);
   layout = input<"vertical" | "horizontal">("vertical");
   labelWidth = input("33%");
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   isTextField = computed(
     () =>

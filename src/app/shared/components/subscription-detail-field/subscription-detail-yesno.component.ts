@@ -55,7 +55,7 @@ import {
           [name]="id()"
           [id]="id()"
           [disabled]="readonly()"
-          [ngModel]="detail().Value === 'Ja'"
+          [ngModel]="value() === 'Ja'"
           (ngModelChange)="onCheckboxToggle($event)"
         />
       </div>
@@ -69,34 +69,27 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailYesNoComponent {
-  detail = model.required<SubscriptionDetail>();
+  detail = input.required<SubscriptionDetail>();
   id = input.required<string>();
   layout = input.required<"vertical" | "horizontal">();
-  commit = output<SubscriptionDetail>();
+  value = model<SubscriptionDetail["Value"]>();
+  commit = output<SubscriptionDetail["Value"]>();
 
   readonly = computed(() => this.detail().VssInternet === "R");
-  required = computed(() => this.detail().VssInternet === "M");
   yesAndNo = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.YesNo,
   );
   asRadios = computed(() => this.detail().ShowAsRadioButtons);
 
   onRadioChange(value: SubscriptionDetail["Value"]): void {
-    const detail: SubscriptionDetail = {
-      ...this.detail(),
-      Value: value ?? null,
-    };
-    this.detail.set(detail);
-    this.commit.emit(detail);
+    this.value.set(value);
+    this.commit.emit(this.value() ?? null);
   }
 
   onCheckboxToggle(checked: boolean): void {
     const value = checked ? "Ja" : this.yesAndNo() ? "Nein" : null;
-    const detail: SubscriptionDetail = {
-      ...this.detail(),
-      Value: value,
-    };
-    this.detail.set(detail);
-    this.commit.emit(detail);
+
+    this.value.set(value);
+    this.commit.emit(this.value() ?? null);
   }
 }

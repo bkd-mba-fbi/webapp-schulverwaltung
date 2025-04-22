@@ -89,7 +89,7 @@ export class KitchensinkComponent {
         { Key: 3, Value: "Banana", IsActive: false },
       ],
       ShowAsRadioButtons: false,
-      Value: 2,
+      Value: "2",
     },
     {
       VssDesignation: "Listbox radios",
@@ -100,7 +100,21 @@ export class KitchensinkComponent {
         { Key: 3, Value: "Banana", IsActive: false },
       ],
       ShowAsRadioButtons: true,
-      Value: 2,
+      Value: "2",
+    },
+    {
+      VssDesignation: "Listbox many radios",
+      VssStyle: "LB",
+      DropdownItems: [
+        { Key: 1, Value: "Apple", IsActive: true },
+        { Key: 2, Value: "Cherry", IsActive: true },
+        { Key: 3, Value: "Grape", IsActive: true },
+        { Key: 4, Value: "Mango", IsActive: true },
+        { Key: 5, Value: "Pear", IsActive: true },
+        { Key: 6, Value: "Strawberry", IsActive: true },
+      ],
+      ShowAsRadioButtons: true,
+      Value: "2",
     },
     {
       VssDesignation: "Combobox",
@@ -118,7 +132,7 @@ export class KitchensinkComponent {
     ...detail,
     Id: String(i + 1),
   }));
-  subscriptionDetailsSignals = this.getSubscriptionDetailSignals();
+  subscriptionDetailsValues = this.getSubscriptionDetailValueSignals();
 
   subscriptionDetailsReadonly = this.subscriptionDetails.map((detail) => ({
     ...detail,
@@ -151,15 +165,15 @@ export class KitchensinkComponent {
     };
   }
 
-  private getSubscriptionDetailSignals(): Dict<
-    WritableSignal<SubscriptionDetail>
+  private getSubscriptionDetailValueSignals(): Dict<
+    WritableSignal<SubscriptionDetail["Value"]>
   > {
     return this.subscriptionDetails.reduce(
       (acc, detail) => ({
         ...acc,
-        [detail.Id ?? ""]: signal(this.build(detail)),
+        [detail.Id ?? ""]: signal(detail.Value ?? null),
       }),
-      {} as Dict<WritableSignal<SubscriptionDetail>>,
+      {} as Dict<WritableSignal<SubscriptionDetail["Value"]>>,
     );
   }
 }
