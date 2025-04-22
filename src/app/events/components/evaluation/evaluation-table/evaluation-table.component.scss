@@ -7,7 +7,13 @@
   display: block;
 }
 
+td {
+  vertical-align: top;
+}
+
 tbody td.student-name {
+  padding-top: $spacer + 0.25rem; // Align with form components
+
   &,
   * {
     white-space: nowrap;
@@ -32,6 +38,27 @@ tbody td.subscription-detail.absences {
   flex: 1;
 }
 
+tr.criteria:hover > * {
+  --bs-table-bg-state: $table-body-bg;
+}
+
+tr.criteria td {
+  padding: 0;
+  width: 100%; // Apparently the colspan does not work on mobile, so make the cell 100% wide
+}
+
+tr.criteria td > * {
+  width: 100%;
+}
+
+tr:has(+ tr.criteria) td {
+  border-bottom: 0;
+}
+
+button.criteria-toggle {
+  display: none;
+}
+
 // Desktop view
 @media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .table-responsive-wrapper {
@@ -47,5 +74,26 @@ tbody td.subscription-detail.absences {
   .action-buttons {
     position: sticky;
     left: 0;
+  }
+
+  tr.criteria td {
+    width: auto;
+  }
+
+  button.criteria-toggle {
+    display: block;
+    margin: $spacer * -0.5 0 $spacer * -0.5 $spacer * -0.5;
+    padding: $spacer * 0.5;
+    cursor: pointer;
+  }
+
+  // Make criteria field labels the same width as the student name and grade columns
+  ::ng-deep {
+    bkd-subscription-detail-label {
+      min-width: auto !important;
+      width: calc(
+        var(--subscription-detail-columns-offset) - $spacer
+      ) !important;
+    }
   }
 }

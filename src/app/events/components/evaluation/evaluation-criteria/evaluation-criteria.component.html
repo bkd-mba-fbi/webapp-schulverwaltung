@@ -1,0 +1,19 @@
+<button class="btn btn-link criteria-toggle" (click)="toggle()">
+  <i class="material-icons">{{
+    visible() ? "keyboard_arrow_up" : "keyboard_arrow_down"
+  }}</i>
+  <!-- TODO: Use designation of first heading detail #828-->
+  <span>Kriterien beurteilen</span>
+</button>
+@if (visible()) {
+  <div class="criteria-container">
+    @for (detail of entry().criteria; track detail.detail.Id) {
+      <bkd-subscription-detail-field
+        [detail]="detail.detail"
+        [layout]="'horizontal'"
+        [(value)]="detail.value"
+        (commit)="subscriptionDetailChange.emit(detail)"
+      ></bkd-subscription-detail-field>
+    }
+  </div>
+}

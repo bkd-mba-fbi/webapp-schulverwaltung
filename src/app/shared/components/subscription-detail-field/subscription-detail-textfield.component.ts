@@ -31,9 +31,16 @@ import {
     />
   `,
   styles: `
+    :host {
+      display: block;
+    }
+
     input[type="number"] {
       max-width: 15ch;
       min-width: 10ch;
+    }
+    input:not([type="number"]) {
+      min-width: 30ch;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

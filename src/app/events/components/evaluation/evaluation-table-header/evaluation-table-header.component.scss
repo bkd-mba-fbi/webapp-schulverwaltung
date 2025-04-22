@@ -31,17 +31,4 @@ tr th.subscription-detail.absences {
     padding-bottom: calc($spacer / 4);
     border-top: initial;
   }
-
-  // FIREFOX HACK: Sadly, the sticky cells inside the fixed positioned sticky
-  // header do not work in Firefox (they scroll away) while they work like a
-  // charm in Chrome & Safari. As a workaround, we position these cells as
-  // `fixed` and give them a fixed height via JavaScript (see
-  // TestEditGradesHeaderStickyDirective).
-  :host.sticky {
-    margin-left: var(--subscription-detail-columns-offset);
-
-    th.sticky {
-      position: fixed;
-    }
-  }
 }

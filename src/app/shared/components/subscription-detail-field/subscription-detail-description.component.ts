@@ -5,7 +5,11 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   selector: "bkd-subscription-detail-description",
   imports: [],
   template: ` <div [id]="id()">{{ detail().Value }}</div> `,
-  styles: ``,
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailDescriptionComponent {

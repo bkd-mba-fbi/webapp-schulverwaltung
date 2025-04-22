@@ -12,6 +12,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   `,
   styles: `
     :host {
+      display: block;
       font-weight: bold;
     }
     div {

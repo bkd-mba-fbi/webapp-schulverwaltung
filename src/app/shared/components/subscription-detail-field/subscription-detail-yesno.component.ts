@@ -21,8 +21,7 @@ import {
       <div
         [id]="id()"
         class="radios d-flex"
-        [class.flex-row]="layout() === 'horizontal'"
-        [class.flex-column]="layout() === 'vertical'"
+        [class.horizontal]="layout() === 'horizontal'"
       >
         @for (option of ["Ja", "Nein"]; track option) {
           @let itemId = id() + "-" + option;
@@ -62,8 +61,21 @@ import {
     }
   `,
   styles: `
-    .radios.flex-row {
+    :host {
+      display: block;
+    }
+
+    .radios {
+      flex-direction: column;
+    }
+    .radios.horizontal:not(.many) {
+      flex-direction: row;
       gap: 1rem;
+    }
+    .radios.horizontal:not(.many) .form-check {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      margin-bottom: 0;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

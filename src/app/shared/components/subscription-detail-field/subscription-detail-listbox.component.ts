@@ -20,8 +20,7 @@ const MANY_ITEMS_COUNT = 3;
       <div
         [id]="id()"
         class="radios d-flex"
-        [class.flex-row]="layout() === 'horizontal'"
-        [class.flex-column]="layout() === 'vertical'"
+        [class.horizontal]="layout() === 'horizontal'"
         [class.many]="hasManyItems()"
       >
         @for (item of items(); track item.Key) {
@@ -61,11 +60,32 @@ const MANY_ITEMS_COUNT = 3;
     }
   `,
   styles: `
-    .radios.flex-row:not(.many) {
+    :host {
+      display: block;
+    }
+
+    .radios {
+      flex-direction: column;
+    }
+    .radios.horizontal:not(.many) {
+      flex-direction: row;
       gap: 1rem;
     }
-    .radios.flex-row.many {
-      flex-direction: column !important;
+    .radios.horizontal:not(.many) .form-check {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      margin-bottom: 0;
+    }
+
+    .form-select {
+      width: 100%;
+    }
+    @media (min-width: 811px) {
+      .form-select {
+        width: auto;
+        min-width: 15ch;
+        max-width: 50ch;
+      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

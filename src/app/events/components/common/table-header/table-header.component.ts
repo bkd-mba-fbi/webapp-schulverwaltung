@@ -98,7 +98,7 @@ export abstract class TableHeaderComponent {
   }
 
   /**
-   * FIREFOX HACK: See TestEditGradesHeaderStickyDirective
+   * FIREFOX HACK: See TableHeaderStickyDirective
    */
   getStickyColumnsHeights(): ReadonlyArray<ReadonlyArray<number>> {
     return this.getRowsAndColumns(".sticky").map((columns) =>
@@ -107,7 +107,7 @@ export abstract class TableHeaderComponent {
   }
 
   /**
-   * FIREFOX HACK: See TestEditGradesHeaderStickyDirective
+   * FIREFOX HACK: See TableHeaderStickyDirective
    */
   setStickyColumnHeights(
     columnHeights: ReadonlyArray<ReadonlyArray<number>>,

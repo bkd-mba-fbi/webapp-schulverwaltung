@@ -169,10 +169,9 @@ export class EvaluationStateService {
     },
   );
 
-  private subscriptionDetails = linkedSignal({
-    source: this.fetchedSubscriptionDetails,
-    computation: (details) => details,
-  });
+  private subscriptionDetails = linkedSignal(() =>
+    this.fetchedSubscriptionDetails(),
+  );
 
   /**
    * Decouple the detail values from the details, since we don't want to

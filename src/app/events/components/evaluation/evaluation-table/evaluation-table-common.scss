@@ -39,13 +39,6 @@ td {
   vertical-align: middle;
 }
 
-// TODO: Do subscription detail columns have a fixed width? Or max-width?
-// th.subscription-detail,
-// td.subscription-detail {
-//   width: var(--subscription-detail-column-width);
-//   min-width: var(--subscription-detail-column-width);
-//   max-width: var(--subscription-detail-column-width);
-// }
 @media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
   th.student-grade,
   td.student-grade {
@@ -127,24 +120,5 @@ td.filler {
     width: var(--student-grade-column-width);
     min-width: var(--student-grade-column-width);
     max-width: var(--student-grade-column-width);
-  }
-
-  // TODO:
-  // .subscription-detail {
-  //   width: var(--subscription-detail-column-width);
-  //   min-width: var(--subscription-detail-column-width);
-  //   max-width: var(--subscription-detail-column-width);
-  // }
-
-  th.sticky,
-  td.sticky {
-    position: sticky;
-    left: 0;
-    background-color: $white;
-  }
-
-  th.sticky.student-grade,
-  td.sticky.student-grade {
-    left: var(--student-grade-column-offset);
   }
 }

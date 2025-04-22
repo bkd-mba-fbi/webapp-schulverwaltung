@@ -16,6 +16,7 @@ import {
   Subject,
   distinctUntilChanged,
   map,
+  merge,
   takeUntil,
 } from "rxjs";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
@@ -25,7 +26,6 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   imports: [FormsModule, NgbTypeaheadModule],
   template: `
     <input
-      #input
       class="form-control"
       type="text"
       [id]="id()"
@@ -33,10 +33,20 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
       [value]="value()"
       [ngbTypeahead]="search"
       (input)="onChange($event)"
+      (focus)="onFocus($event)"
       (blur)="onBlur()"
     />
   `,
-  styles: ``,
+  styles: `
+    :host {
+      display: block;
+      overflow: hidden;
+    }
+    input {
+      width: 100%;
+      min-width: 30ch;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailComboboxComponent
@@ -53,6 +63,7 @@ export class SubscriptionDetailComboboxComponent
   );
 
   private typeahead = viewChild.required(NgbTypeahead);
+  private focus$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   ngAfterViewInit(): void {
@@ -67,11 +78,19 @@ export class SubscriptionDetailComboboxComponent
   }
 
   search: OperatorFunction<string, readonly string[]> = (term$) =>
-    term$.pipe(distinctUntilChanged(), map(this.findSuggestions.bind(this)));
+    merge(term$, this.focus$).pipe(
+      distinctUntilChanged(),
+      map(this.findSuggestions.bind(this)),
+    );
 
   onChange(event: Event): void {
     const { value } = event.target as HTMLInputElement;
     this.value.set(value || null);
+  }
+
+  onFocus(event: Event): void {
+    const { value } = event.target as HTMLInputElement;
+    this.focus$.next(value);
   }
 
   onBlur(): void {
@@ -84,13 +103,13 @@ export class SubscriptionDetailComboboxComponent
   }
 
   private findSuggestions(value: string): string[] {
-    if (value.length < 2) return [];
+    if (value.length === 0) {
+      return (this.items() ?? []).map((item) => item.Value);
+    }
 
     const term = value.toLowerCase();
-
     return (this.items() ?? [])
       .filter((item) => item.Value.toLowerCase().includes(term))
-      .slice(0, 10)
       .map((item) => item.Value);
   }
 }
