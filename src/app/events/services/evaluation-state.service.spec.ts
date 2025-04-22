@@ -313,20 +313,21 @@ describe("EvaluationStateService", () => {
       params.next({ id: "1000" });
 
       await expectSignalValue(service.entries, (result) => {
-        expect(result).toEqual([
-          {
-            gradingItem: gradingItem2,
-            grade: grade2,
-            columns: [detail2],
-            criteria: [detail4],
-          },
-          {
-            gradingItem: gradingItem1,
-            grade: grade1,
-            columns: [detail1],
-            criteria: [detail3],
-          },
+        expect(result).toHaveSize(2);
+
+        expect(result[0].gradingItem).toEqual(gradingItem2);
+        expect(result[0].grade).toEqual(grade2);
+        expect(result[0].columns.map((e) => e?.detail ?? null)).toEqual([
+          detail2,
         ]);
+        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail4]);
+
+        expect(result[1].gradingItem).toEqual(gradingItem1);
+        expect(result[1].grade).toEqual(grade1);
+        expect(result[1].columns.map((e) => e?.detail ?? null)).toEqual([
+          detail1,
+        ]);
+        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail3]);
       });
     }));
   });

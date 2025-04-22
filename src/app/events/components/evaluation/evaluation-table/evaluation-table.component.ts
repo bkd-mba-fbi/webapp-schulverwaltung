@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  WritableSignal,
   computed,
   input,
   model,
+  output,
+  signal,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -17,6 +20,7 @@ import {
   EvaluationEntry,
   EvaluationEventType,
   EvaluationSortKey,
+  EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import {
@@ -46,20 +50,38 @@ export class EvaluationTableComponent {
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
   eventType = input.required<EvaluationEventType>();
+  subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
   gradesAverage = computed(() => this.getGradesAverage(this.entries()));
 
-  isColumnSelected(column: Option<EvaluationColumn | SubscriptionDetail>) {
+  isColumnSelected(
+    column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
+  ) {
     if (!column) return false;
-
     return this.getColumnKey(column) === this.selectedColumn();
   }
 
-  private getColumnKey(column: EvaluationColumn | SubscriptionDetail) {
-    const id = "VssId" in column ? column.VssId : column.vssId;
+  isAbsencesColumn(
+    column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
+  ) {
+    if (!column) return false;
+    return this.getColumnKey(column) === ABSENCES_COLUMN_KEY;
+  }
+
+  getDetailValue(
+    detail: Option<EvaluationSubscriptionDetail>,
+  ): WritableSignal<SubscriptionDetail["Value"]> {
+    if (!detail) return signal(null);
+    return detail.value ?? signal(null);
+  }
+
+  private getColumnKey(
+    column: EvaluationColumn | EvaluationSubscriptionDetail,
+  ) {
+    const id = "detail" in column ? column.detail.VssId : column.vssId;
     return ABSENCES_COLUMNS_VSS_IDS.includes(id) ? ABSENCES_COLUMN_KEY : id;
   }
 

@@ -15,6 +15,10 @@ tr th {
   vertical-align: top;
 }
 
+tr th.subscription-detail.absences {
+  flex: 1;
+}
+
 // Desktop view
 @media (min-width: ($bkd-evaluation-mobile-breakpoint + 1)) {
   :host.sticky.shown {

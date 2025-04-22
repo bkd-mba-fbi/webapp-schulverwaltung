@@ -1,6 +1,8 @@
+import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { EvaluationDefaultGradeUpdateService } from "src/app/events/services/evaluation-default-grade-update.service";
 import { EvaluationStateService } from "src/app/events/services/evaluation-state.service";
+import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
 import { Grade } from "src/app/shared/models/grading-scale.model";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
@@ -12,7 +14,8 @@ describe("EvaluationListComponent", () => {
   let fixture: ComponentFixture<EvaluationListComponent>;
   let element: HTMLElement;
   let stateMock: jasmine.SpyObj<EvaluationStateService>;
-  let updateServiceMock: jasmine.SpyObj<EvaluationDefaultGradeUpdateService>;
+  let defaultGradeUpdateMock: jasmine.SpyObj<EvaluationDefaultGradeUpdateService>;
+  let subscriptionDetailUpdateMock: jasmine.SpyObj<EvaluationSubscriptionDetailUpdateService>;
 
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
@@ -56,13 +59,6 @@ describe("EvaluationListComponent", () => {
     detail4.VssDesignation = "Pünktlichkeit";
     detail4.IdPerson = gradingItem2.IdPerson;
     detail4.Sort = "21";
-
-    updateServiceMock =
-      jasmine.createSpyObj<EvaluationDefaultGradeUpdateService>(
-        "EvaluationDefaultGradeUpdateService",
-        ["updateDefaultGrade", "updating"],
-      );
-    updateServiceMock.updating.and.returnValue(false);
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -124,14 +120,14 @@ describe("EvaluationListComponent", () => {
                 {
                   gradingItem: gradingItem2,
                   grade: grade2,
-                  columns: [detail2],
-                  criteria: [detail4],
+                  columns: [{ detail: detail2, value: signal(detail2.Value) }],
+                  criteria: [{ detail: detail4, value: signal(detail4.Value) }],
                 },
                 {
                   gradingItem: gradingItem1,
                   grade: grade1,
-                  columns: [detail1],
-                  criteria: [detail3],
+                  columns: [{ detail: detail1, value: signal(detail1.Value) }],
+                  criteria: [{ detail: detail3, value: signal(detail3.Value) }],
                 },
               ]);
 
@@ -140,7 +136,27 @@ describe("EvaluationListComponent", () => {
           },
           {
             provide: EvaluationDefaultGradeUpdateService,
-            useValue: updateServiceMock,
+            useFactory() {
+              defaultGradeUpdateMock =
+                jasmine.createSpyObj<EvaluationDefaultGradeUpdateService>(
+                  "EvaluationDefaultGradeUpdateService",
+                  ["updateDefaultGrade", "updating"],
+                );
+
+              defaultGradeUpdateMock.updating.and.returnValue(false);
+
+              return defaultGradeUpdateMock;
+            },
+          },
+          {
+            provide: EvaluationSubscriptionDetailUpdateService,
+            useFactory() {
+              subscriptionDetailUpdateMock = jasmine.createSpyObj(
+                "EvaluationSubscriptionDetailUpdateService",
+                ["updateSubscriptionDetail"],
+              );
+              return subscriptionDetailUpdateMock;
+            },
           },
         ],
       }),

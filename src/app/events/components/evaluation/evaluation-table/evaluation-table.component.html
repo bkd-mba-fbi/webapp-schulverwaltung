@@ -48,12 +48,16 @@
             <td
               class="subscription-detail"
               [class.selected]="isColumnSelected(detail)"
+              [class.absences]="isAbsencesColumn(detail)"
             >
               @if (detail) {
+                @let value = getDetailValue(detail);
                 <bkd-subscription-detail-field
-                  [detail]="detail"
+                  [detail]="detail.detail"
                   [hideLabel]="true"
                   [layout]="'horizontal'"
+                  [(value)]="value"
+                  (commit)="subscriptionDetailChange.emit(detail)"
                 ></bkd-subscription-detail-field>
               }
             </td>

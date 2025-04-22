@@ -1,3 +1,4 @@
+import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import {
   EvaluationColumn,
@@ -104,14 +105,14 @@ describe("EvaluationTableComponent", () => {
       {
         gradingItem: gradingItem2,
         grade: grade2,
-        columns: [detail2],
-        criteria: [detail4],
+        columns: [{ detail: detail2, value: signal(detail2.Value) }],
+        criteria: [{ detail: detail4, value: signal(detail4.Value) }],
       },
       {
         gradingItem: gradingItem1,
         grade: grade1,
-        columns: [detail1],
-        criteria: [detail3],
+        columns: [{ detail: detail1, value: signal(detail1.Value) }],
+        criteria: [{ detail: detail3, value: signal(detail3.Value) }],
       },
     ];
 
