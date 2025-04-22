@@ -45,6 +45,8 @@ export class EvaluationListComponent {
   private translate = inject(TranslateService);
   private modalService = inject(BkdModalService);
 
+  readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
+
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
       Key: GRADE_COLUMN_KEY,
