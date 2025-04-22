@@ -1,0 +1,48 @@
+@import "src/bootstrap-variables";
+
+:host {
+  display: block;
+  padding: 0 $spacer $spacer $spacer;
+}
+
+.criteria-toggle {
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+  color: rgba($body-color, 0.5);
+}
+
+.criteria-toggle i {
+  margin-right: 0.25 * $spacer;
+}
+
+.criteria-toggle span {
+  text-decoration: underline;
+}
+
+.criteria-toggle span:hover {
+  text-decoration-color: $accent;
+}
+
+.criteria-container {
+  margin-top: $spacer;
+  display: flex;
+  flex-direction: column;
+  gap: $spacer;
+}
+
+// Desktop view
+@media (min-width: ($bkd-evaluation-mobile-breakpoint + 1)) {
+  :host:not(.criteria-visible) {
+    padding: 0;
+  }
+
+  .criteria-toggle {
+    display: none;
+  }
+
+  .criteria-container {
+    margin-top: 0;
+    gap: $spacer * 0.5;
+  }
+}

@@ -51,7 +51,16 @@ const DATE_FORMAT = "dd.MM.yyyy";
       />
     </div>
   `,
-  styles: ``,
+  styles: `
+    :host {
+      display: block;
+    }
+
+    .input-group > .form-control {
+      min-width: 15ch;
+      max-width: 25ch;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailDatefieldComponent

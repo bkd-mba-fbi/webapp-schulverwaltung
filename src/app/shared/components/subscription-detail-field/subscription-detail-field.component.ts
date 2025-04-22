@@ -41,7 +41,7 @@ import { SubscriptionDetailYesNoComponent } from "./subscription-detail-yesno.co
         [detail]="detail()"
         [id]="id"
         [hideLabel]="hideLabel()"
-        [style.min-width]="layout() === 'horizontal' ? labelWidth() : ''"
+        [layout]="layout()"
       ></bkd-subscription-detail-label>
     }
 
@@ -111,12 +111,28 @@ import { SubscriptionDetailYesNoComponent } from "./subscription-detail-yesno.co
   styles: `
     :host {
       display: flex;
+      flex-direction: column;
       column-gap: 1rem;
     }
 
-    @media (max-width: 550px) {
-      :host.flex-row {
-        flex-direction: column !important;
+    bkd-subscription-detail-label {
+      width: 100%;
+    }
+
+    @media (min-width: 811px) {
+      :host.horizontal {
+        flex-direction: row;
+      }
+
+      :host.horizontal > bkd-subscription-detail-label {
+        flex: none;
+        min-width: 33%;
+        width: 33%;
+      }
+
+      :host.horizontal > :not(bkd-subscription-detail-label) {
+        flex: auto;
+        max-width: 100ch;
       }
     }
   `,
@@ -126,7 +142,6 @@ export class SubscriptionDetailFieldComponent {
   detail = input.required<SubscriptionDetail>();
   hideLabel = input(false);
   layout = input<"vertical" | "horizontal">("vertical");
-  labelWidth = input("33%");
   value = model<SubscriptionDetail["Value"]>();
   commit = output<SubscriptionDetail["Value"]>();
 
@@ -148,13 +163,8 @@ export class SubscriptionDetailFieldComponent {
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Date,
   );
 
-  @HostBinding("class.flex-column")
-  get flexColumn() {
-    return this.layout() === "vertical";
-  }
-
-  @HostBinding("class.flex-row")
-  get flexRow() {
+  @HostBinding("class.horizontal")
+  get horizontalClass() {
     return this.layout() === "horizontal";
   }
 }

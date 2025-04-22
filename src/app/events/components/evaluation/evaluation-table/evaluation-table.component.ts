@@ -3,10 +3,13 @@ import {
   Component,
   WritableSignal,
   computed,
+  effect,
   input,
+  linkedSignal,
   model,
   output,
   signal,
+  viewChild,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -23,6 +26,7 @@ import {
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
+import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
 import {
   ABSENCES_COLUMNS_VSS_IDS,
   ABSENCES_COLUMN_KEY,
@@ -39,6 +43,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
     TableHeaderStickyDirective,
     DecimalOrDashPipe,
     SubscriptionDetailFieldComponent,
+    EvaluationCriteriaComponent,
   ],
   templateUrl: "./evaluation-table.component.html",
   styleUrl: "./evaluation-table.component.scss",
@@ -56,6 +61,39 @@ export class EvaluationTableComponent {
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
   gradesAverage = computed(() => this.getGradesAverage(this.entries()));
+  totalColumns = computed(
+    () =>
+      1 + // Name
+      (this.eventType() === "course" ? 1 : 0) + // Grade
+      this.columns().length, // Subscription details
+  );
+
+  private criteriaVisibilities = linkedSignal<
+    ReadonlyArray<EvaluationEntry>,
+    Dict<WritableSignal<boolean>>
+  >({
+    source: this.entries,
+    computation: (entries, previous) =>
+      entries.reduce((acc, entry) => {
+        // Keep the previous visibility state by re-using the existing signal of
+        // any given grading item, if it exists
+        const visible =
+          (previous?.value && previous.value[entry.gradingItem.Id]) ||
+          signal(false);
+        return { ...acc, [entry.gradingItem.Id]: visible };
+      }, {}),
+  });
+
+  private sticky = viewChild(TableHeaderStickyDirective);
+
+  constructor() {
+    effect(() => {
+      // Refresh the column widths of the sticky header, whenever columns are
+      // rendered
+      this.columns();
+      this.sticky()?.refresh();
+    });
+  }
 
   isColumnSelected(
     column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
@@ -76,6 +114,25 @@ export class EvaluationTableComponent {
   ): WritableSignal<SubscriptionDetail["Value"]> {
     if (!detail) return signal(null);
     return detail.value ?? signal(null);
+  }
+
+  isCriteriaVisible(entry: EvaluationEntry): WritableSignal<boolean> {
+    return this.criteriaVisibilities()[entry.gradingItem.Id] ?? signal(false);
+  }
+
+  toggleCriteria(entry: EvaluationEntry): void {
+    this.criteriaVisibilities()[entry.gradingItem.Id]?.update((v) => !v);
+  }
+
+  onRowClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    // Toggle the criteria, if the user clicks the empty space within a cell
+    if (target.tagName === "TD") {
+      target
+        .closest("tr")
+        ?.querySelector<HTMLButtonElement>("button.criteria-toggle")
+        ?.click();
+    }
   }
 
   private getColumnKey(

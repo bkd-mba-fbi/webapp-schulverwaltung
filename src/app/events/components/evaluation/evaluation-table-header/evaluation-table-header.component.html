@@ -1,8 +1,5 @@
 <tr>
-  <th
-    class="sticky student-name"
-    [class.border-end]="eventType() === 'study-class'"
-  >
+  <th class="student-name">
     <bkd-sortable-header
       [label]="'evaluation.columns.name' | translate"
       [sortKey]="'name'"
@@ -12,10 +9,7 @@
   </th>
 
   @if (eventType() === "course") {
-    <th
-      class="border-end sticky student-grade desktop"
-      [class.selected]="gradeColumnSelected()"
-    >
+    <th class="student-grade desktop" [class.selected]="gradeColumnSelected()">
       <bkd-sortable-header
         [label]="'evaluation.columns.grade' | translate"
         [sortKey]="'grade'"
@@ -35,6 +29,4 @@
       {{ column.title }}
     </th>
   }
-
-  <th class="filler"></th>
 </tr>

@@ -141,7 +141,10 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the name column", () => {
-      expect(getColumnValues(0)).toEqual(["John Lennon", "Paul McCartney"]);
+      const values = getColumnValues(0);
+      expect(values).toHaveSize(2);
+      expect(values[0]).toContain("John Lennon");
+      expect(values[1]).toContain("Paul McCartney");
     });
 
     it("renders the grade column", () => {
@@ -150,7 +153,6 @@ describe("EvaluationTableComponent", () => {
 
     it("renders the subscription detail columns", () => {
       expect(getColumnValues(2)).toEqual(["EA  GE", "EA  GE"]);
-      expect(getColumnValues(3)).toEqual(["", ""]); // No values exist for this column
     });
 
     it("renders the average of all present grades", () => {
@@ -165,12 +167,14 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the name column", () => {
-      expect(getColumnValues(0)).toEqual(["John Lennon", "Paul McCartney"]);
+      const values = getColumnValues(0);
+      expect(values).toHaveSize(2);
+      expect(values[0]).toContain("John Lennon");
+      expect(values[1]).toContain("Paul McCartney");
     });
 
     it("renders the subscription detail columns", () => {
       expect(getColumnValues(1)).toEqual(["EA  GE", "EA  GE"]);
-      expect(getColumnValues(2)).toEqual(["", ""]); // No values exist for this column
     });
 
     it("does not render the average of all present grades", () => {
@@ -183,7 +187,9 @@ describe("EvaluationTableComponent", () => {
     context = "table tbody",
   ): ReadonlyArray<string | undefined> {
     return Array.from(
-      element.querySelectorAll(`${context} tr td:nth-child(${index + 1})`),
+      element.querySelectorAll(
+        `${context} tr:not(.criteria) td:nth-child(${index + 1})`,
+      ),
     ).map((e) => e.textContent?.trim());
   }
 });

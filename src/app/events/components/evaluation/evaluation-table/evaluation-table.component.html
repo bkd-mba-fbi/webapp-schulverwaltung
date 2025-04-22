@@ -24,26 +24,39 @@
     ></thead>
     <tbody>
       @for (entry of entries(); track entry.gradingItem.Id) {
-        <tr>
-          <td
-            class="sticky student-name"
-            [class.border-end]="eventType() === 'study-class'"
-          >
-            <a [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']">
-              <div>{{ entry.gradingItem.PersonFullname }}</div>
-            </a>
+        <tr (click)="onRowClick($event)">
+          <!-- Student name column -->
+          <td class="student-name">
+            <div class="d-flex">
+              @if (entry.criteria.length > 0) {
+                <button
+                  class="btn btn-link criteria-toggle"
+                  (click)="toggleCriteria(entry)"
+                >
+                  <i class="material-icons">{{
+                    isCriteriaVisible(entry)()
+                      ? "keyboard_arrow_up"
+                      : "keyboard_arrow_down"
+                  }}</i>
+                </button>
+              }
+              <a
+                [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']"
+              >
+                <div>{{ entry.gradingItem.PersonFullname }}</div>
+              </a>
+            </div>
           </td>
 
+          <!-- Grade column -->
           @if (eventType() === "course") {
-            <td
-              class="border-end sticky student-grade"
-              [class.selected]="gradeColumnSelected()"
-            >
+            <td class="student-grade" [class.selected]="gradeColumnSelected()">
               <!-- TODO: add grade select -->
               {{ entry.grade?.Designation }}
             </td>
           }
 
+          <!-- Subscription detail columns -->
           @for (detail of entry.columns; track $index) {
             <td
               class="subscription-detail"
@@ -62,22 +75,33 @@
               }
             </td>
           }
-
-          <td class="filler"></td>
         </tr>
+
+        <!-- Criteria row-->
+        @if (entry.criteria.length > 0) {
+          <tr class="criteria">
+            <td [attr.colspan]="totalColumns()">
+              @let visible = isCriteriaVisible(entry);
+              <bkd-evaluation-criteria
+                [entry]="entry"
+                [(visible)]="visible"
+                (subscriptionDetailChange)="
+                  subscriptionDetailChange.emit($event)
+                "
+              ></bkd-evaluation-criteria>
+            </td>
+          </tr>
+        }
       }
     </tbody>
     <tfoot>
       <tr>
-        <td class="sticky student-name">
+        <td class="student-name">
           {{ "evaluation.average" | translate }}
         </td>
 
         @if (eventType() === "course") {
-          <td
-            class="border-end sticky student-grade"
-            [class.selected]="gradeColumnSelected()"
-          >
+          <td class="student-grade" [class.selected]="gradeColumnSelected()">
             {{ gradesAverage() | decimalOrDash: "1-3" }}
           </td>
         }
@@ -88,8 +112,6 @@
             [class.selected]="isColumnSelected(column)"
           ></td>
         }
-
-        <td class="filler"></td>
       </tr>
     </tfoot>
   </table>

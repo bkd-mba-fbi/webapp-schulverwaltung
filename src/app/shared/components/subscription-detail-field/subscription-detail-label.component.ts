@@ -16,6 +16,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
       <label
         [attr.for]="id()"
         class="form-label"
+        [class.horizontal]="layout() === 'horizontal'"
         [ngbTooltip]="detail().Tooltip"
       >
         {{ detail().VssDesignation }}
@@ -23,13 +24,26 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
       </label>
     }
   `,
-  styles: ``,
+  styles: `
+    :host {
+      display: block;
+    }
+
+    @media (min-width: 811px) {
+      .form-label.horizontal {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        margin-bottom: 0;
+      }
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailLabelComponent {
   detail = model.required<SubscriptionDetail>();
   id = input.required<string>();
   hideLabel = input.required<boolean>();
+  layout = input.required<"vertical" | "horizontal">();
 
   required = computed(() => this.detail().VssInternet === "M");
 }
