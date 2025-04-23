@@ -29,12 +29,9 @@ describe("EvaluationDefaultGradeUpdateService", () => {
       gradingScaleId: 10000,
     } as EvaluationEvent;
 
-    mockGradingItem1 = buildGradingItem(10001, 100001);
-    mockGradingItem2 = buildGradingItem(10002, 100002);
-    mockGradingItems = [mockGradingItem1, mockGradingItem2].map((item) => ({
-      ...item,
-      IdGrade: 200001,
-    }));
+    mockGradingItem1 = buildGradingItem(10001, 1234);
+    mockGradingItem2 = buildGradingItem(10002, 2345);
+    mockGradingItems = [mockGradingItem1, mockGradingItem2];
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -80,14 +77,14 @@ describe("EvaluationDefaultGradeUpdateService", () => {
   });
 
   describe("updating", () => {
-    it("should reflect the loading state from LoadingService", () => {
+    it("reflects the loading state from LoadingService", () => {
       expect(updateService.updating()).toBe(false);
     });
   });
 
   describe("updateDefaultGrade", () => {
-    it("should update all grading items with the selected grade", async () => {
-      const selectedGradeId = 200001;
+    it("updates all grading items with the selected grade", async () => {
+      const selectedGradeId = 3456;
       const result = await updateService.updateDefaultGrade(selectedGradeId);
 
       expect(result).toBe(true);
@@ -108,10 +105,10 @@ describe("EvaluationDefaultGradeUpdateService", () => {
       );
     });
 
-    it("should return false when no event is selected", async () => {
+    it("returns false when no event is selected", async () => {
       evaluationStateServiceMock.event.and.returnValue(null);
 
-      const result = await updateService.updateDefaultGrade(200001);
+      const result = await updateService.updateDefaultGrade(4567);
 
       expect(result).toBe(false);
       expect(gradingItemsRestServiceMock.updateForEvent).not.toHaveBeenCalled();

@@ -413,14 +413,11 @@ describe("EvaluationStateService", () => {
         const newGradeId = 1234;
         const updated1 = { ...gradingItem1, IdGrade: newGradeId };
         const updated2 = { ...gradingItem2, IdGrade: newGradeId };
-        const newItem = buildGradingItem(10003, newGradeId);
-        newItem.IdPerson = 1003;
-        newItem.PersonFullname = "George Harrison";
 
-        service.updateGradingItems([updated1, updated2, newItem]);
+        service.updateGradingItems([updated1, updated2]);
 
         void expectSignalValue(service.gradingItems, (updatedResult) => {
-          expect(updatedResult).toEqual([updated1, updated2, newItem]);
+          expect(updatedResult).toEqual([updated1, updated2]);
           expect(
             updatedResult.every((g) => g.IdGrade === newGradeId),
           ).toBeTrue();

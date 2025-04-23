@@ -47,7 +47,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should generate options from grading scale", () => {
+  it("generates options from grading scale", () => {
     const options = component.options();
     expect(options.length).toBe(1);
     expect(options[0].Key).toBe(1);
