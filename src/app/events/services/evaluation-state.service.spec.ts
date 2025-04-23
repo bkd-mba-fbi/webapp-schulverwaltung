@@ -398,6 +398,22 @@ describe("EvaluationStateService", () => {
     }));
   });
 
+  describe("updateGradingItems", () => {
+    it("updates grading items when called", fakeAsync(async () => {
+      params.next({ id: "1000" });
+
+      const newGradeId = 1234;
+      const updated1 = { ...gradingItem1, IdGrade: newGradeId };
+      const updated2 = { ...gradingItem2, IdGrade: newGradeId };
+      service.updateGradingItems([updated1, updated2]);
+
+      await expectSignalValue(service.gradingItems, (updatedResult) => {
+        expect(updatedResult).toEqual([updated1, updated2]);
+        expect(updatedResult.every((g) => g.IdGrade === newGradeId)).toBeTrue();
+      });
+    }));
+  });
+
   /**
    * When toObservable is involved, it uses a ReplaySubject internally. That
    * means the first value comes synchronously and the rest asynchronously. So

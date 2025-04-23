@@ -1,5 +1,12 @@
 import { HttpContext } from "@angular/common/http";
-import { Injectable, Signal, computed, inject, signal } from "@angular/core";
+import {
+  Injectable,
+  Signal,
+  computed,
+  inject,
+  linkedSignal,
+  signal,
+} from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import sortBy from "lodash-es/sortBy";
@@ -111,14 +118,18 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  private gradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
-    this.eventId$.pipe(
-      switchMap(this.loadGradingItems.bind(this)),
-      startWith([]),
+  gradingItems = linkedSignal({
+    source: toSignal(
+      this.eventId$.pipe(
+        switchMap(this.loadGradingItems.bind(this)),
+        startWith([]),
+      ),
+      { initialValue: [] },
     ),
-    { initialValue: [] },
-  );
-  private gradingScale = toSignal<Option<GradingScale>>(
+    computation: (items) => items,
+  });
+
+  gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
       switchMap((event) =>
         this.loadGradingScale(event?.gradingScaleId ?? null),
@@ -126,6 +137,10 @@ export class EvaluationStateService {
     ),
     { initialValue: null },
   );
+
+  updateGradingItems(gradingItems: ReadonlyArray<GradingItem>) {
+    this.gradingItems.set(gradingItems);
+  }
 
   /**
    * VssIds of the subscription details to decide whether to display them as
