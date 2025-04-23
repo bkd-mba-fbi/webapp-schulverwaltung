@@ -116,5 +116,25 @@ describe("EvaluationDefaultGradeUpdateService", () => {
         evaluationStateServiceMock.updateGradingItems,
       ).not.toHaveBeenCalled();
     });
+
+    it("returns false when GradingItemsRestService throws exception", async () => {
+      const selectedGradeId = 4567;
+      gradingItemsRestServiceMock.updateForEvent.and.throwError(
+        "Test exception",
+      );
+      const result = await updateService.updateDefaultGrade(selectedGradeId);
+
+      expect(result).toBe(false);
+      expect(gradingItemsRestServiceMock.updateForEvent).toHaveBeenCalledWith(
+        mockEvent.id,
+        mockGradingItems.map((item) => ({
+          ...item,
+          IdGrade: selectedGradeId,
+        })),
+      );
+      expect(
+        evaluationStateServiceMock.updateGradingItems,
+      ).not.toHaveBeenCalled();
+    });
   });
 });
