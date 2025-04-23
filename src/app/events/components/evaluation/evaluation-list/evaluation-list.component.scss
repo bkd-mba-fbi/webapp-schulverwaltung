@@ -31,3 +31,9 @@
     display: none;
   }
 }
+
+@media (max-width: $bkd-tests-mobile-breakpoint) {
+  .set-default:not(.grade-column-selected) {
+    display: none;
+  }
+}

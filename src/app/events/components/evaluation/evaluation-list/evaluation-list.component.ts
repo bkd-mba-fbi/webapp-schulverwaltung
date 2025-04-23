@@ -1,3 +1,4 @@
+import { NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,6 +35,7 @@ export const ABSENCES_COLUMNS_VSS_IDS = [
     EvaluationTableComponent,
     SpinnerComponent,
     SelectComponent,
+    NgClass,
   ],
   templateUrl: "./evaluation-list.component.html",
   styleUrl: "./evaluation-list.component.scss",

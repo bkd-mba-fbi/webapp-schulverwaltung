@@ -26,15 +26,16 @@
             width="100%"
           ></bkd-select>
         }
-        @if (selectedColumnSignal() === GRADE_COLUMN) {
-          <a
-            class="set-default btn btn-link my-1"
-            (click)="openDefaultGradeDialog()"
-          >
-            <i class="material-icons">edit</i>
-            <span>{{ "evaluation.set-default-modal.title" | translate }}</span>
-          </a>
-        }
+        <a
+          class="set-default btn btn-link my-1"
+          [ngClass]="{
+            'grade-column-selected': selectedColumnSignal() === GRADE_COLUMN,
+          }"
+          (click)="openDefaultGradeDialog()"
+        >
+          <i class="material-icons">edit</i>
+          <span>{{ "evaluation.set-default-modal.title" | translate }}</span>
+        </a>
         <bkd-evaluation-table
           [(sortCriteria)]="state.sortCriteria"
           [columns]="state.columns()"
