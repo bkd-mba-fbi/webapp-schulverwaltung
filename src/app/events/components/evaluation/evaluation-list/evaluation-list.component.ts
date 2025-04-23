@@ -87,7 +87,6 @@ export class EvaluationListComponent {
     );
     modalRef.componentInstance.gradingScale = this.state.gradingScale;
     modalRef.componentInstance.updateService = this.update;
-    modalRef.componentInstance.updating = this.update.updating;
     modalRef.result.then(
       () => {},
       () => {},

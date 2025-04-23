@@ -23,8 +23,6 @@ export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
   updateService: EvaluationDefaultGradeUpdateService;
 
-  updating = signal<boolean>(false);
-
   gradingScale = input.required<GradingScale>();
   selectedGradeKey = signal<number | null>(null);
 
