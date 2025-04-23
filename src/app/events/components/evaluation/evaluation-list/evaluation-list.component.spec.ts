@@ -60,11 +60,9 @@ describe("EvaluationListComponent", () => {
     updateServiceMock =
       jasmine.createSpyObj<EvaluationDefaultGradeUpdateService>(
         "EvaluationDefaultGradeUpdateService",
-        ["updateDefaultGrade"],
+        ["updateDefaultGrade", "updating"],
       );
-    Object.defineProperty(updateServiceMock, "updating", {
-      get: () => false,
-    });
+    updateServiceMock.updating.and.returnValue(false);
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
