@@ -3,31 +3,39 @@ import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { buildGradingItem } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { GradingItem } from "../../shared/models/grading-item.model";
 import { GradingItemsRestService } from "../../shared/services/grading-items-rest.service";
 import { EvaluationDefaultGradeUpdateService } from "./evaluation-default-grade-update.service";
-import { EvaluationStateService } from "./evaluation-state.service";
+import {
+  EvaluationEvent,
+  EvaluationStateService,
+} from "./evaluation-state.service";
 
 describe("EvaluationDefaultGradeUpdateService", () => {
   let updateService: EvaluationDefaultGradeUpdateService;
   let gradingItemsRestServiceMock: jasmine.SpyObj<GradingItemsRestService>;
   let evaluationStateServiceMock: jasmine.SpyObj<EvaluationStateService>;
-  const mockEvent = {
-    id: 1000,
-    designation: "Clowns 101",
-    type: "course",
-    studentCount: 24,
-    gradingScaleId: 10000,
-  };
-
-  const mockGradingItem1 = buildGradingItem(10001, 100001);
-  const mockGradingItem2 = buildGradingItem(10002, 100002);
-  const mockGradingItems = [mockGradingItem1, mockGradingItem2];
-  mockGradingItems.map((item) => ({
-    ...item,
-    IdGrade: 200001,
-  }));
+  let mockEvent: EvaluationEvent;
+  let mockGradingItem1: GradingItem;
+  let mockGradingItem2: GradingItem;
+  let mockGradingItems: GradingItem[];
 
   beforeEach(() => {
+    mockEvent = {
+      id: 1000,
+      designation: "Clowns 101",
+      type: "course",
+      studentCount: 24,
+      gradingScaleId: 10000,
+    } as EvaluationEvent;
+
+    mockGradingItem1 = buildGradingItem(10001, 100001);
+    mockGradingItem2 = buildGradingItem(10002, 100002);
+    mockGradingItems = [mockGradingItem1, mockGradingItem2].map((item) => ({
+      ...item,
+      IdGrade: 200001,
+    }));
+
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [
