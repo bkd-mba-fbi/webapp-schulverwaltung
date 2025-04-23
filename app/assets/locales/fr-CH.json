@@ -349,7 +349,14 @@
       "yes": "Oui",
       "no": "Non"
     },
-    "average": "Moyenne"
+    "average": "Moyenne",
+    "set-default-modal": {
+      "title": "Saisir la valeur standard",
+      "grade": "Note",
+      "message": "La valeur standard est appliquée à toutes les inscriptions.",
+      "save": "Valider",
+      "cancel": "Annuler"
+    }
   },
   "dossier": {
     "title": "Dossier",
