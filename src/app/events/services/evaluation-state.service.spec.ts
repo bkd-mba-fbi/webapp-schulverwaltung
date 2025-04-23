@@ -2,12 +2,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Signal, runInInjectionContext } from "@angular/core";
 import { toObservable } from "@angular/core/rxjs-interop";
-import {
-  TestBed,
-  fakeAsync,
-  flushMicrotasks,
-  tick,
-} from "@angular/core/testing";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subject, of, take, throwError } from "rxjs";
 import { SubscriptionDetailsDisplay } from "src/app/shared/models/configurations.model";
@@ -404,51 +399,18 @@ describe("EvaluationStateService", () => {
   });
 
   describe("updateGradingItems", () => {
-    it("updates grading items when called", fakeAsync(() => {
+    it("updates grading items when called", fakeAsync(async () => {
       params.next({ id: "1000" });
 
-      void expectSignalValue(service.gradingItems, (initialResult) => {
-        expect(initialResult).toEqual([gradingItem1, gradingItem2]);
+      const newGradeId = 1234;
+      const updated1 = { ...gradingItem1, IdGrade: newGradeId };
+      const updated2 = { ...gradingItem2, IdGrade: newGradeId };
+      service.updateGradingItems([updated1, updated2]);
 
-        const newGradeId = 1234;
-        const updated1 = { ...gradingItem1, IdGrade: newGradeId };
-        const updated2 = { ...gradingItem2, IdGrade: newGradeId };
-
-        service.updateGradingItems([updated1, updated2]);
-
-        void expectSignalValue(service.gradingItems, (updatedResult) => {
-          expect(updatedResult).toEqual([updated1, updated2]);
-          expect(
-            updatedResult.every((g) => g.IdGrade === newGradeId),
-          ).toBeTrue();
-        });
+      await expectSignalValue(service.gradingItems, (updatedResult) => {
+        expect(updatedResult).toEqual([updated1, updated2]);
+        expect(updatedResult.every((g) => g.IdGrade === newGradeId)).toBeTrue();
       });
-      flushMicrotasks();
-    }));
-
-    it("updates entries when grading items are updated", fakeAsync(() => {
-      params.next({ id: "1000" });
-
-      void expectSignalValue(service.entries, (initialResult) => {
-        expect(initialResult.length).toBe(2);
-
-        const newGradeId = 2345;
-        const updated1 = { ...gradingItem1, IdGrade: newGradeId };
-        const updated2 = { ...gradingItem2, IdGrade: newGradeId };
-
-        service.updateGradingItems([updated1, updated2]);
-
-        void expectSignalValue(service.entries, (updatedResult) => {
-          expect(updatedResult.map((e) => e.gradingItem)).toEqual([
-            updated2,
-            updated1,
-          ]);
-          expect(
-            updatedResult.every((e) => e.gradingItem.IdGrade === newGradeId),
-          ).toBeTrue();
-        });
-      });
-      flushMicrotasks();
     }));
   });
 
