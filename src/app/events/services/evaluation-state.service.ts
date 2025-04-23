@@ -1,5 +1,12 @@
 import { HttpContext } from "@angular/common/http";
-import { Injectable, Signal, computed, inject, signal } from "@angular/core";
+import {
+  Injectable,
+  Signal,
+  computed,
+  inject,
+  linkedSignal,
+  signal,
+} from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import sortBy from "lodash-es/sortBy";
@@ -111,19 +118,16 @@ export class EvaluationStateService {
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  private fetchedGradingItems: Signal<ReadonlyArray<GradingItem>> = toSignal(
-    this.eventId$.pipe(
-      switchMap(this.loadGradingItems.bind(this)),
-      startWith([]),
+  gradingItems = linkedSignal({
+    source: toSignal(
+      this.eventId$.pipe(
+        switchMap(this.loadGradingItems.bind(this)),
+        startWith([]),
+      ),
+      { initialValue: [] },
     ),
-    { initialValue: [] },
-  );
-
-  private gradingItemsSignal = computed(() =>
-    signal(this.fetchedGradingItems()),
-  );
-
-  gradingItems = computed(() => this.gradingItemsSignal()());
+    computation: (items) => items,
+  });
 
   gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
@@ -135,7 +139,7 @@ export class EvaluationStateService {
   );
 
   updateGradingItems(gradingItems: ReadonlyArray<GradingItem>) {
-    this.gradingItemsSignal().set(gradingItems);
+    this.gradingItems.set(gradingItems);
   }
 
   /**
