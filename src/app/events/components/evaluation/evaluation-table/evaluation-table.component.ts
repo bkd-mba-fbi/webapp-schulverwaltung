@@ -21,7 +21,6 @@ import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe
 import {
   EvaluationColumn,
   EvaluationEntry,
-  EvaluationEventType,
   EvaluationSortKey,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
@@ -54,7 +53,7 @@ export class EvaluationTableComponent {
   selectedColumn = input.required<number>();
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
-  eventType = input.required<EvaluationEventType>();
+  hasGrades = input.required<boolean>();
   subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
 
   gradeColumnSelected = computed(
@@ -64,7 +63,7 @@ export class EvaluationTableComponent {
   totalColumns = computed(
     () =>
       1 + // Name
-      (this.eventType() === "course" ? 1 : 0) + // Grade
+      (this.hasGrades() ? 1 : 0) + // Grade
       this.columns().length, // Subscription details
   );
 

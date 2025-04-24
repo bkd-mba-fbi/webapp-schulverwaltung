@@ -91,6 +91,10 @@ button.criteria-toggle {
   ::ng-deep {
     bkd-subscription-detail-label {
       min-width: auto !important;
+      // TODO: The --subscription-detail-columns-offset should adapt to whether
+      // the grade column is present or not. Currently, the criteria fields
+      // don't align with the detail columns for events that have no grades but
+      // criteria.
       width: calc(
         var(--subscription-detail-columns-offset) - $spacer
       ) !important;

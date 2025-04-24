@@ -134,9 +134,9 @@ describe("EvaluationTableComponent", () => {
     fixture.componentRef.setInput("entries", entries);
   });
 
-  describe("course", () => {
+  describe("event with grades", () => {
     beforeEach(() => {
-      fixture.componentRef.setInput("eventType", "course");
+      fixture.componentRef.setInput("hasGrades", true);
       fixture.detectChanges();
     });
 
@@ -160,9 +160,9 @@ describe("EvaluationTableComponent", () => {
     });
   });
 
-  describe("study class", () => {
+  describe("event without grades", () => {
     beforeEach(() => {
-      fixture.componentRef.setInput("eventType", "study-class");
+      fixture.componentRef.setInput("hasGrades", false);
       fixture.detectChanges();
     });
 
