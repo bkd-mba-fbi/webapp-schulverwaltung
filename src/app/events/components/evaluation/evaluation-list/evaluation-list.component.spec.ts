@@ -4,9 +4,13 @@ import { EvaluationDefaultGradeUpdateService } from "src/app/events/services/eva
 import { EvaluationStateService } from "src/app/events/services/evaluation-state.service";
 import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
-import { Grade } from "src/app/shared/models/grading-scale.model";
+import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
-import { buildGradingItem, buildSubscriptionDetail } from "src/spec-builders";
+import {
+  buildGradingItem,
+  buildGradingScale,
+  buildSubscriptionDetail,
+} from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EvaluationListComponent } from "./evaluation-list.component";
 
@@ -21,6 +25,7 @@ describe("EvaluationListComponent", () => {
   let gradingItem2: GradingItem;
   let grade1: Grade;
   let grade2: Grade;
+  let gradingScale: GradingScale;
   let detail1: SubscriptionDetail;
   let detail2: SubscriptionDetail;
   let detail3: SubscriptionDetail;
@@ -37,6 +42,8 @@ describe("EvaluationListComponent", () => {
 
     grade1 = { Id: 100001, Designation: "4.0", Value: 4.0, Sort: "10" };
     grade2 = { Id: 100002, Designation: "4.5", Value: 4.0, Sort: "11" };
+
+    gradingScale = buildGradingScale(1, [grade1, grade2]);
 
     detail1 = buildSubscriptionDetail(3902);
     detail1.VssDesignation = "Anforderungen";
@@ -74,6 +81,7 @@ describe("EvaluationListComponent", () => {
                 "event",
                 "columns",
                 "entries",
+                "gradingScale",
               ]);
 
               stateMock.sortCriteria.and.returnValue({
@@ -130,6 +138,7 @@ describe("EvaluationListComponent", () => {
                   criteria: [{ detail: detail3, value: signal(detail3.Value) }],
                 },
               ]);
+              stateMock.gradingScale.and.returnValue(null);
 
               return stateMock;
             },
@@ -197,7 +206,11 @@ describe("EvaluationListComponent", () => {
   });
 
   describe("mobile column select", () => {
-    describe("course", () => {
+    describe("course with grades", () => {
+      beforeEach(() => {
+        stateMock.gradingScale.and.returnValue(gradingScale);
+      });
+
       it("renders select with columns as options, including grade column, combining the absences column into one", () => {
         fixture.detectChanges();
         expect(element.querySelector("select")).not.toBeNull();
@@ -214,7 +227,7 @@ describe("EvaluationListComponent", () => {
       });
     });
 
-    describe("study class", () => {
+    describe("study class without grades", () => {
       beforeEach(() => {
         stateMock.event.and.returnValue({
           id: 2000,

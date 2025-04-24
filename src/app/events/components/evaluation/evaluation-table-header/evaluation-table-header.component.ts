@@ -12,7 +12,6 @@ import {
 } from "src/app/shared/components/sortable-header/sortable-header.component";
 import {
   EvaluationColumn,
-  EvaluationEventType,
   EvaluationSortKey,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderComponent } from "../../common/table-header/table-header.component";
@@ -34,7 +33,7 @@ export class EvaluationTableHeaderComponent extends TableHeaderComponent {
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<Option<number>>();
-  eventType = input.required<EvaluationEventType>();
+  hasGrades = input.required<boolean>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,

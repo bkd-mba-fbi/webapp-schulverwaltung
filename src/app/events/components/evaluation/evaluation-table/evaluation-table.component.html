@@ -10,7 +10,7 @@
       [columns]="columns()"
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
-      [eventType]="eventType()"
+      [hasGrades]="hasGrades()"
       #inlineHeader
     ></thead>
     <thead
@@ -19,7 +19,7 @@
       [columns]="columns()"
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
-      [eventType]="eventType()"
+      [hasGrades]="hasGrades()"
       #stickyHeader
     ></thead>
     <tbody>
@@ -49,7 +49,7 @@
           </td>
 
           <!-- Grade column -->
-          @if (eventType() === "course") {
+          @if (hasGrades()) {
             <td class="student-grade" [class.selected]="gradeColumnSelected()">
               <!-- TODO: add grade select -->
               {{ entry.grade?.Designation }}
@@ -74,6 +74,7 @@
                 ></bkd-subscription-detail-field>
               }
             </td>
+            @let selectedColumnSignal = selectedColumn();
           }
         </tr>
 
@@ -100,7 +101,7 @@
           {{ "evaluation.average" | translate }}
         </td>
 
-        @if (eventType() === "course") {
+        @if (hasGrades()) {
           <td class="student-grade" [class.selected]="gradeColumnSelected()">
             {{ gradesAverage() | decimalOrDash: "1-3" }}
           </td>

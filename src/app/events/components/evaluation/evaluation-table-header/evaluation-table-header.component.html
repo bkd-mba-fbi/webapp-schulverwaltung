@@ -8,7 +8,7 @@
     </bkd-sortable-header>
   </th>
 
-  @if (eventType() === "course") {
+  @if (hasGrades()) {
     <th class="student-grade desktop" [class.selected]="gradeColumnSelected()">
       <bkd-sortable-header
         [label]="'evaluation.columns.grade' | translate"

@@ -4,7 +4,7 @@ import {
   Component,
   computed,
   inject,
-  signal,
+  linkedSignal,
 } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import uniqBy from "lodash-es/uniqBy";
@@ -58,11 +58,13 @@ export class EvaluationListComponent {
 
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
+  hasGrades = computed(() => this.state.gradingScale() !== null);
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
       Key: GRADE_COLUMN_KEY,
       Value: this.translate.instant("evaluation.columns.grade"),
     };
+
     const absencesOption: DropDownItem = {
       Key: ABSENCES_COLUMN_KEY,
       Value: this.translate.instant("evaluation.columns.absences"),
@@ -79,15 +81,15 @@ export class EvaluationListComponent {
     );
 
     return [
-      this.state.event()?.type === "course" ? gradeOption : null,
+      this.hasGrades() ? gradeOption : null,
       ...subscriptionDetailOptions,
     ].filter(notNull);
   });
 
-  selectedColumn = computed(() => {
+  selectedColumn = linkedSignal(() => {
     const options = this.columnOptions();
-    const initialValue = options.length ? Number(options[0].Key) : null;
-    return signal<Option<number>>(initialValue);
+    const initialValue = options.length > 0 ? Number(options[0].Key) : null;
+    return initialValue;
   });
 
   openDefaultGradeDialog() {

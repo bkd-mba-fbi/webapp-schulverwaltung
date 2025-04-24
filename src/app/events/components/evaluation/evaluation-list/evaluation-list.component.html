@@ -1,7 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @let event = state.event();
-@let selectedColumnSignal = selectedColumn();
 
 <div class="bkd-container">
   @if (state.loading()) {
@@ -21,7 +20,7 @@
           <bkd-select
             class="columns-dropdown"
             [options]="columnOptions()"
-            [(value)]="selectedColumnSignal"
+            [(value)]="selectedColumn"
             [allowEmpty]="false"
             width="100%"
           ></bkd-select>
@@ -29,7 +28,7 @@
         <a
           class="set-default btn btn-link my-1"
           [ngClass]="{
-            'grade-column-selected': selectedColumnSignal() === GRADE_COLUMN,
+            'grade-column-selected': selectedColumn() === GRADE_COLUMN,
           }"
           (click)="openDefaultGradeDialog()"
         >
@@ -40,8 +39,8 @@
           [(sortCriteria)]="state.sortCriteria"
           [columns]="state.columns()"
           [entries]="entries"
-          [selectedColumn]="selectedColumnSignal()"
-          [eventType]="event.type"
+          [selectedColumn]="selectedColumn()"
+          [hasGrades]="hasGrades()"
           (subscriptionDetailChange)="updateSubscriptionDetail($event)"
         ></bkd-evaluation-table>
       }
