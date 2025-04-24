@@ -8,7 +8,7 @@ import { TestStateService } from "./test-state.service";
 
 const EVALUATION_UPDATE_CONTEXT = "events-evaluation-default-grade-update";
 @Injectable()
-export class EvaluationDefaultGradeUpdateService {
+export class EvaluationGradingItemUpdateService {
   private gradingItemsRestService = inject(GradingItemsRestService);
   private evaluationStateService = inject(EvaluationStateService);
   private testStateService = inject(TestStateService);
@@ -50,5 +50,46 @@ export class EvaluationDefaultGradeUpdateService {
     }
     this.evaluationStateService.updateGradingItems(updatedGradingItems);
     return true;
+  }
+
+  async updateGrade(
+    gradingItemId: string,
+    gradeId: Option<number>,
+  ): Promise<boolean> {
+    const gradingItem = this.evaluationStateService
+      .gradingItems()
+      .find((item) => item.Id === gradingItemId);
+
+    if (!gradingItem) {
+      console.error("Grading item not found");
+      return false;
+    }
+
+    const updatedGradingItem = {
+      ...gradingItem,
+      IdGrade: gradeId,
+    };
+
+    try {
+      await firstValueFrom(
+        this.loadingService.load(
+          this.gradingItemsRestService.update(updatedGradingItem),
+          EVALUATION_UPDATE_CONTEXT,
+        ),
+      );
+
+      this.evaluationStateService.updateGradingItems(
+        this.evaluationStateService
+          .gradingItems()
+          .map((item) =>
+            item.Id === gradingItem.Id ? updatedGradingItem : item,
+          ),
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Error updating grade", error);
+      return false;
+    }
   }
 }

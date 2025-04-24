@@ -28,4 +28,9 @@ export class GradingItemsRestService extends RestService<typeof GradingItem> {
     const params = new HttpParams().set("idEvent", eventId);
     return this.http.put<void>(`${this.baseUrl}/`, gradingItems, { params });
   }
+
+  update(gradingItem: GradingItem): Observable<void> {
+    const url = `${this.baseUrl}/${gradingItem.Id}`;
+    return this.http.put<void>(url, gradingItem);
+  }
 }

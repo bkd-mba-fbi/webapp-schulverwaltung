@@ -3,12 +3,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import {
   EvaluationColumn,
   EvaluationEntry,
+  EvaluationStateService,
 } from "src/app/events/services/evaluation-state.service";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
-import { Grade } from "src/app/shared/models/grading-scale.model";
+import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { buildGradingItem, buildSubscriptionDetail } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import { EvaluationTableComponent } from "./evaluation-table.component";
 
 describe("EvaluationTableComponent", () => {
@@ -26,6 +28,14 @@ describe("EvaluationTableComponent", () => {
   let columns: ReadonlyArray<EvaluationColumn>;
   let entries: ReadonlyArray<EvaluationEntry>;
 
+  const gradingScale: GradingScale = {
+    Id: 1,
+    Grades: [
+      { Id: 100001, Designation: "4.0", Value: 4, Sort: "10" },
+      { Id: 100002, Designation: "4.5", Value: 4.5, Sort: "11" },
+    ],
+  };
+
   beforeEach(async () => {
     gradingItem1 = buildGradingItem(10001, 100001);
     gradingItem1.IdPerson = 1001;
@@ -35,8 +45,8 @@ describe("EvaluationTableComponent", () => {
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
 
-    grade1 = { Id: 100001, Designation: "4.0", Value: 4.0, Sort: "10" };
-    grade2 = { Id: 100002, Designation: "4.5", Value: 4.0, Sort: "11" };
+    grade1 = { Id: 100001, Designation: "4.0", Value: 4, Sort: "10" };
+    grade2 = { Id: 100002, Designation: "4.5", Value: 4.5, Sort: "11" };
 
     detail1 = buildSubscriptionDetail(3902);
     detail1.VssDesignation = "Anforderungen";
@@ -119,6 +129,7 @@ describe("EvaluationTableComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EvaluationTableComponent],
+        providers: [EvaluationStateService, EvaluationGradingItemUpdateService],
       }),
     ).compileComponents();
 
@@ -132,12 +143,14 @@ describe("EvaluationTableComponent", () => {
     fixture.componentRef.setInput("columns", columns);
     fixture.componentRef.setInput("selectedColumn", null);
     fixture.componentRef.setInput("entries", entries);
+    fixture.componentRef.setInput("gradingScale", gradingScale);
   });
 
   describe("event with grades", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       fixture.componentRef.setInput("hasGrades", true);
       fixture.detectChanges();
+      await fixture.whenStable();
     });
 
     it("renders the name column", () => {
@@ -148,7 +161,7 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the grade column", () => {
-      expect(getColumnValues(1)).toEqual(["4.5", "4.0"]);
+      expect(getGradeColumnValues()).toEqual(["4.5", "4.0"]);
     });
 
     it("renders the subscription detail columns", () => {
@@ -156,7 +169,7 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the average of all present grades", () => {
-      expect(getColumnValues(1, "table tfoot")).toEqual(["4.0"]);
+      expect(getColumnValues(1, "table tfoot")).toEqual(["4.25"]);
     });
   });
 
@@ -191,5 +204,18 @@ describe("EvaluationTableComponent", () => {
         `${context} tr:not(.criteria) td:nth-child(${index + 1})`,
       ),
     ).map((e) => e.textContent?.trim());
+  }
+
+  function getGradeColumnValues(
+    context = "table tbody",
+  ): ReadonlyArray<string | undefined> {
+    const gradeCells = Array.from(
+      element.querySelectorAll(`${context} tr td:nth-child(2)`),
+    );
+
+    return gradeCells.map((cell) => {
+      const select = cell.querySelector<HTMLSelectElement>("bkd-select select");
+      return select?.selectedOptions?.item(0)?.textContent?.trim() ?? "";
+    });
   }
 });
