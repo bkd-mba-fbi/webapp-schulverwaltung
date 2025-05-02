@@ -72,10 +72,7 @@ export class EvaluationListComponent {
     ].filter(notNull);
   });
 
-  selectedColumn = linkedSignal<
-    ReadonlyArray<DropDownItem>,
-    Option<DropDownItem["Key"]>
-  >({
+  selectedColumn = linkedSignal<ReadonlyArray<DropDownItem>, Option<number>>({
     source: this.columnOptions,
     computation: (options, previous) => {
       const previousValue = previous?.value;
