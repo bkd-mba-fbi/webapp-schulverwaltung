@@ -11,7 +11,6 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
-import { SETTINGS, Settings } from "src/app/settings";
 import { Course } from "src/app/shared/models/course.model";
 import { Event } from "src/app/shared/models/event.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
@@ -62,7 +61,6 @@ export class EventsStateService {
   private storageService = inject(StorageService);
   private translate = inject(TranslateService);
   private router = inject(Router);
-  private settings = inject<Settings>(SETTINGS);
 
   loading$ = this.loadingService.loading$;
 
