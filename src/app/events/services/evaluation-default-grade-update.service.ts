@@ -4,12 +4,14 @@ import { firstValueFrom } from "rxjs";
 import { GradingItemsRestService } from "../../shared/services/grading-items-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { EvaluationStateService } from "./evaluation-state.service";
+import { TestStateService } from "./test-state.service";
 
 const EVALUATION_UPDATE_CONTEXT = "events-evaluation-default-grade-update";
 @Injectable()
 export class EvaluationDefaultGradeUpdateService {
   private gradingItemsRestService = inject(GradingItemsRestService);
   private evaluationStateService = inject(EvaluationStateService);
+  private testStateService = inject(TestStateService);
   private loadingService = inject(LoadingService);
 
   updating = toSignal(this.loadingService.loading(EVALUATION_UPDATE_CONTEXT), {
@@ -38,6 +40,10 @@ export class EvaluationDefaultGradeUpdateService {
           EVALUATION_UPDATE_CONTEXT,
         ),
       );
+
+      // When coming from /events/:id/tests, make sure the grades will be
+      // reloaded, when navigating back from the evaluation page
+      this.testStateService.reload();
     } catch (error) {
       console.error("Error updating grades", error);
       return false;

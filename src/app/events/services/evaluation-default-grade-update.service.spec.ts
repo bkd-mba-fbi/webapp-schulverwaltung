@@ -10,11 +10,13 @@ import {
   EvaluationEvent,
   EvaluationStateService,
 } from "./evaluation-state.service";
+import { TestStateService } from "./test-state.service";
 
 describe("EvaluationDefaultGradeUpdateService", () => {
   let updateService: EvaluationDefaultGradeUpdateService;
   let gradingItemsRestServiceMock: jasmine.SpyObj<GradingItemsRestService>;
   let evaluationStateServiceMock: jasmine.SpyObj<EvaluationStateService>;
+  let testStateServiceMock: jasmine.SpyObj<TestStateService>;
   let mockEvent: EvaluationEvent;
   let mockGradingItem1: GradingItem;
   let mockGradingItem2: GradingItem;
@@ -70,6 +72,15 @@ describe("EvaluationDefaultGradeUpdateService", () => {
               return evaluationStateServiceMock;
             },
           },
+          {
+            provide: TestStateService,
+            useFactory() {
+              testStateServiceMock = jasmine.createSpyObj("TestStateService", [
+                "reload",
+              ]);
+              return testStateServiceMock;
+            },
+          },
         ],
       }),
     );
@@ -103,6 +114,7 @@ describe("EvaluationDefaultGradeUpdateService", () => {
           IdGrade: selectedGradeId,
         })),
       );
+      expect(testStateServiceMock.reload).toHaveBeenCalled();
     });
 
     it("returns false when no event is selected", async () => {
