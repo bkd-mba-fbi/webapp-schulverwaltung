@@ -50,6 +50,7 @@ const MANY_ITEMS_COUNT = 3;
         [ngModel]="normalizedValue()"
         (ngModelChange)="onChange($event)"
       >
+        <option [value]="null"></option>
         @for (item of items(); track item.Key) {
           <option [value]="normalizeItemKey(item.Key)">
             {{ item.Value }}
