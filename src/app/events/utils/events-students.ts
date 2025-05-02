@@ -23,10 +23,10 @@ export function getEventsStudentsLink(
 
 export function convertCourseToStudentEntries(course: Course): StudentEntries {
   const entries =
-    course.ParticipatingStudents?.map(
+    course.Participants?.filter((s) => s.IsActive).map(
       (student) =>
         ({
-          id: student.Id,
+          id: student.PersonId,
           name: student.FullName,
           email: student.DisplayEmail ?? undefined,
         }) satisfies StudentEntry,

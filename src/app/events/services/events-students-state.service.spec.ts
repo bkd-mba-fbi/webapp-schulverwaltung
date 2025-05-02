@@ -4,6 +4,7 @@ import { BehaviorSubject, Subject, map, of } from "rxjs";
 import { ReportType } from "src/app/settings";
 import { Course } from "src/app/shared/models/course.model";
 import { LessonStudyClass } from "src/app/shared/models/lesson-study-class.model";
+import { Participant } from "src/app/shared/models/participant.model";
 import { Student } from "src/app/shared/models/student.model";
 import { ApprenticeshipContractsRestService } from "src/app/shared/services/apprenticeship-contracts-rest.service";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
@@ -14,8 +15,8 @@ import { ReportsService } from "src/app/shared/services/reports.service";
 import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import {
   buildCourse,
+  buildParticipant,
   buildReference,
-  buildStudent,
   buildStudyClass,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
@@ -37,35 +38,39 @@ describe("EventsStudentsStateService", () => {
   let subscriptionsServiceMock: jasmine.SpyObj<SubscriptionsRestService>;
   let personsServiceMock: jasmine.SpyObj<PersonsRestService>;
   let course: Course;
-  let students: Student[];
+  let participants: Participant[];
   let studyClasses: LessonStudyClass[];
   let subscriptionsClass: string;
 
   beforeEach(() => {
     eventIdSubject = new BehaviorSubject<number>(0);
 
-    const paul = buildStudent(10);
+    const paul = buildParticipant(10);
     paul.FullName = "McCartney Paul";
     paul.DisplayEmail = "paul.mccartney@example.com";
+    paul.IsActive = true;
 
-    const john = buildStudent(20);
+    const john = buildParticipant(20);
     john.FullName = "Lennon John";
     john.DisplayEmail = "john.lennon@example.com";
+    john.IsActive = true;
 
-    const george = buildStudent(30);
+    const george = buildParticipant(30);
     george.FullName = "Harrison George";
     george.DisplayEmail = "george.harrison@example.com";
+    george.IsActive = true;
 
-    const ringo = buildStudent(40);
+    const ringo = buildParticipant(40);
     ringo.FullName = "Starr Ringo";
     ringo.DisplayEmail = "ringo.starr@example.com";
+    ringo.IsActive = false;
 
-    students = [paul, john, george, ringo];
+    participants = [paul, john, george, ringo];
 
     course = buildCourse(1, "English-S3");
     course.Classes = [buildStudyClass(100, "26a"), buildStudyClass(200, "26c")];
     course.AttendanceRef = buildReference();
-    course.ParticipatingStudents = students;
+    course.Participants = participants;
 
     studyClasses = [
       buildLessonStudyClass(1, paul, "26a"),
@@ -172,7 +177,7 @@ describe("EventsStudentsStateService", () => {
               subscriptionsServiceMock.getSubscriptionsByCourse.and.callFake(
                 (eventId) =>
                   of(
-                    students.map(({ Id: studentId }, i) => ({
+                    participants.map(({ Id: studentId }, i) => ({
                       Id: eventId + studentId,
                       EventId: eventId,
                       EventDesignation: subscriptionsClass,
@@ -193,7 +198,7 @@ describe("EventsStudentsStateService", () => {
               ]);
               personsServiceMock.getSummaries.and.callFake((ids) =>
                 of(
-                  students
+                  participants
                     .filter((s) => ids.includes(s.Id))
                     .map((s) => ({ ...s, Email: null })),
                 ),
@@ -294,13 +299,6 @@ describe("EventsStudentsStateService", () => {
             studyClass: "26c",
             company: undefined,
           },
-          {
-            id: 40,
-            name: "Starr Ringo",
-            email: "ringo.starr@example.com",
-            studyClass: "26c",
-            company: undefined,
-          },
         ];
 
         expect(service.entries()).toEqual(expected);
@@ -321,7 +319,6 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
-          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
@@ -337,15 +334,10 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
-          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
-        expect(filtered).toEqual([
-          "Harrison George",
-          "McCartney Paul",
-          "Starr Ringo",
-        ]);
+        expect(filtered).toEqual(["Harrison George", "McCartney Paul"]);
       });
 
       it("returns filtered entries for matching company", () => {
@@ -357,7 +349,6 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
-          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
@@ -373,18 +364,17 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
-          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
-        expect(filtered).toEqual(["Harrison George", "Starr Ringo"]);
+        expect(filtered).toEqual(["Harrison George"]);
       });
     });
 
     describe("mailtoLink", () => {
       it("is the mailto: link value with all email addresses comma-separated", () => {
         expect(service.mailtoLink()).toBe(
-          "mailto:paul.mccartney@example.com;john.lennon@example.com;george.harrison@example.com;ringo.starr@example.com",
+          "mailto:paul.mccartney@example.com;john.lennon@example.com;george.harrison@example.com",
         );
       });
     });

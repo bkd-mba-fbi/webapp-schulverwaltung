@@ -76,7 +76,7 @@ export class CoursesRestService extends RestService<typeof Course> {
   getExpandedCourseWithParticipants(courseId: number): Observable<Course> {
     return this.http
       .get<unknown>(
-        `${this.baseUrl}/${courseId}?expand=ParticipatingStudents,Classes,AttendanceRef`,
+        `${this.baseUrl}/${courseId}?expand=Participants,Classes,AttendanceRef`,
       )
       .pipe(switchMap(decode(Course)));
   }

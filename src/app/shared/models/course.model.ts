@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { pick } from "../utils/types";
 import { LocalDateTimeFromString, Option } from "./common-types";
+import { Participant } from "./participant.model";
 import { Student } from "./student.model";
 import { StudyClass } from "./study-class.model";
 import { Result, Test } from "./test.model";
@@ -111,6 +112,7 @@ const Course = t.type({
   Tests: Option(t.array(Test)),
   EvaluationStatusRef,
   AttendanceRef,
+  Participants: Option(t.array(Participant)),
   ParticipatingStudents: Option(t.array(Student)),
   Classes: Option(t.array(StudyClass)),
 });

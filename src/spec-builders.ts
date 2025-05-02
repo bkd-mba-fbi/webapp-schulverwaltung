@@ -24,6 +24,7 @@ import { LessonIncident } from "./app/shared/models/lesson-incident.model";
 import { LessonPresenceStatistic } from "./app/shared/models/lesson-presence-statistic";
 import { LessonPresence } from "./app/shared/models/lesson-presence.model";
 import { Lesson } from "./app/shared/models/lesson.model";
+import { Participant } from "./app/shared/models/participant.model";
 import { Person, PersonSummary } from "./app/shared/models/person.model";
 import { PresenceType } from "./app/shared/models/presence-type.model";
 import {
@@ -260,6 +261,33 @@ export function buildStudent(id: number): Student {
     PhoneMobile: "",
     PhonePrivate: "",
     PostalCode: "",
+    // HRef: ''
+  };
+}
+
+export function buildParticipant(id: number): Participant {
+  return {
+    Id: id,
+    AddressLine1: "",
+    AddressLine2: null,
+    Birthdate: null,
+    DisplayEmail: "",
+    FirstName: "T",
+    FullName: "T. Tux",
+    Gender: "F",
+    IsActive: true,
+    IsWaitingList: false,
+    LastName: "Tux",
+    Location: "",
+    PersonId: id,
+    PhoneMobile: "",
+    PhonePrivate: "",
+    PostalCode: "",
+    RegistrationDate: new Date("2025-01-11T00:00:00"),
+    RegistrationId: 25,
+    StatusId: 12526,
+    StatusName: "ma.Angemeldet",
+    StatusNameInternet: "Angemeldet",
     // HRef: ''
   };
 }
@@ -649,6 +677,7 @@ export function buildCourse(
     Tests: null,
     EvaluationStatusRef: evaluationStatus || buildReference(),
     AttendanceRef: attendance || buildReference(),
+    Participants: [buildParticipant(99)],
     ParticipatingStudents: [buildStudent(100)],
     Classes: classes || null,
   };
