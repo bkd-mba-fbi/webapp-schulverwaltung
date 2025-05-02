@@ -17,7 +17,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
         [attr.for]="id()"
         class="form-label"
         [class.horizontal]="layout() === 'horizontal'"
-        [ngbTooltip]="detail().Tooltip"
+        [ngbTooltip]="detail().Tooltip ?? ''"
       >
         {{ detail().VssDesignation }}
         {{ required() ? "*" : "" }}

@@ -6,7 +6,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   selector: "bkd-subscription-detail-heading",
   imports: [NgbTooltipModule],
   template: `
-    <div [ngbTooltip]="detail().Tooltip">
+    <div [ngbTooltip]="detail().Tooltip ?? ''">
       {{ detail().VssDesignation }}
     </div>
   `,
