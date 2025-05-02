@@ -766,6 +766,46 @@ describe("SubscriptionDetailFieldComponent", () => {
       expectChange("Grapefruit");
       expectCommit("Grapefruit");
     });
+
+    it("empties the field & emits value change & commit when clicking on clear button", async () => {
+      await render();
+
+      // Clear button is visible if field has a value
+      let clearButton =
+        element.querySelector<HTMLButtonElement>("button.clear");
+      expect(clearButton).not.toBeNull();
+
+      // Clear value
+      clearButton!.click();
+      expectChange(null);
+      expectCommit(null);
+
+      // Clear button is not visible if field is empty
+      fixture.detectChanges();
+      clearButton = element.querySelector<HTMLButtonElement>("button.clear");
+      expect(clearButton).toBeNull();
+    });
+
+    it("toggles the dropdown showing all items when clicking on toggle button", async () => {
+      await render();
+
+      expect(element.querySelector("ngb-typeahead-window")).toBeNull();
+
+      const toggleButton =
+        element.querySelector<HTMLButtonElement>("button.toggle");
+      expect(toggleButton).not.toBeNull();
+      toggleButton!.click();
+
+      const suggestions = Array.from(
+        element.querySelectorAll<HTMLButtonElement>(
+          "ngb-typeahead-window button",
+        ),
+      );
+      expect(suggestions.map((c) => c.textContent?.trim())).toEqual([
+        "Grape",
+        "Grapefruit",
+      ]);
+    });
   });
 
   function expectComponent(selector: string): void {

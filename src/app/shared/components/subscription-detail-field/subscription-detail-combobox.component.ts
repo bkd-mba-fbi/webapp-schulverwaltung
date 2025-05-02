@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   computed,
   input,
@@ -28,6 +29,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
     <input
       class="form-control"
       type="text"
+      #typeahead
       [id]="id()"
       [disabled]="readonly()"
       [value]="value()"
@@ -36,17 +38,27 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
       (focus)="onFocus($event)"
       (blur)="onBlur()"
     />
-  `,
-  styles: `
-    :host {
-      display: block;
-      overflow: hidden;
+    @if (value()) {
+      <button
+        type="button"
+        class="btn btn-outline-secondary clear"
+        (click)="onClear()"
+      >
+        <i class="material-icons">close</i>
+      </button>
     }
-    input {
-      width: 100%;
-      min-width: 30ch;
-    }
+    <button
+      type="button"
+      class="btn btn-outline-secondary toggle"
+      [attr.aria-expanded]="isPopupOpen()"
+      (click)="onToggle()"
+    >
+      <i class="material-icons">{{
+        isPopupOpen() ? "keyboard_arrow_up" : "keyboard_arrow_down"
+      }}</i>
+    </button>
   `,
+  styleUrl: "./subscription-detail-combobox.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailComboboxComponent
@@ -63,6 +75,8 @@ export class SubscriptionDetailComboboxComponent
   );
 
   private typeahead = viewChild.required(NgbTypeahead);
+  private typeaheadInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("typeahead");
   private focus$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
@@ -102,14 +116,32 @@ export class SubscriptionDetailComboboxComponent
     this.commit.emit(value ?? null);
   }
 
+  onClear(): void {
+    this.value.set(null);
+    this.commit.emit(null);
+
+    setTimeout(() => this.typeaheadInput().nativeElement.focus());
+  }
+
+  onToggle() {
+    if (this.isPopupOpen()) {
+      this.typeahead().dismissPopup();
+    } else {
+      this.focus$.next("");
+    }
+  }
+
+  isPopupOpen(): boolean {
+    return this.typeahead().isPopupOpen();
+  }
+
   private findSuggestions(value: string): string[] {
+    const items = (this.items() ?? []).map((item) => item.Value);
     if (value.length === 0) {
-      return (this.items() ?? []).map((item) => item.Value);
+      return items;
     }
 
     const term = value.toLowerCase();
-    return (this.items() ?? [])
-      .filter((item) => item.Value.toLowerCase().includes(term))
-      .map((item) => item.Value);
+    return items.filter((item) => item.toLowerCase().includes(term));
   }
 }
