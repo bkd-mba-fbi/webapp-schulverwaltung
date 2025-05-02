@@ -72,10 +72,21 @@ export class EvaluationListComponent {
     ].filter(notNull);
   });
 
-  selectedColumn = linkedSignal(() => {
-    const options = this.columnOptions();
-    const initialValue = options.length > 0 ? Number(options[0].Key) : null;
-    return initialValue;
+  selectedColumn = linkedSignal<
+    ReadonlyArray<DropDownItem>,
+    Option<DropDownItem["Key"]>
+  >({
+    source: this.columnOptions,
+    computation: (options, previous) => {
+      const previousValue = previous?.value;
+      if (previousValue && options.find((o) => o.Key === previousValue)) {
+        // Don't reset the previously selected column, if it's still available
+        // when recomputing
+        return previousValue;
+      }
+
+      return options.length > 0 ? Number(options[0].Key) : null;
+    },
   });
 
   openDefaultGradeDialog() {
