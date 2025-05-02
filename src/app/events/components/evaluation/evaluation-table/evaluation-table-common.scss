@@ -39,12 +39,27 @@ td {
   vertical-align: middle;
 }
 
+// On larger mobile devices (tablets), the value column is two thirds the width
 @media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
   th.student-grade,
-  td.student-grade {
-    width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
-    min-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
-    max-width: calc(var(--spacer) + var(--grade-input-size) + var(--spacer));
+  td.student-grade,
+  th.subscription-detail,
+  td.subscription-detail {
+    width: 66%;
+    min-width: 66%;
+    max-width: 66%;
+  }
+}
+
+// On very small mobile devices (phones), the value column is half the width
+@media (max-width: (500px)) {
+  th.student-grade,
+  td.student-grade,
+  th.subscription-detail,
+  td.subscription-detail {
+    width: 50%;
+    min-width: 50%;
+    max-width: 50%;
   }
 }
 

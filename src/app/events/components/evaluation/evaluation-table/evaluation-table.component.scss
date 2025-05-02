@@ -34,10 +34,6 @@ tbody td.student-name {
   }
 }
 
-tbody td.subscription-detail.absences {
-  flex: 1;
-}
-
 tr.criteria:hover > * {
   --bs-table-bg-state: $table-body-bg;
 }

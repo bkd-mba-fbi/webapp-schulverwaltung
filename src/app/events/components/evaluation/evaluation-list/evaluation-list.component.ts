@@ -24,12 +24,6 @@ import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-heade
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
 
 export const GRADE_COLUMN_KEY = -1;
-export const ABSENCES_COLUMN_KEY = -2;
-
-export const ABSENCES_COLUMNS_VSS_IDS = [
-  3710, // Absenzen entschuldigt
-  3720, // Absenzen unentschuldigt
-];
 
 @Component({
   selector: "bkd-evaluation-list",
@@ -65,18 +59,10 @@ export class EvaluationListComponent {
       Value: this.translate.instant("evaluation.columns.grade"),
     };
 
-    const absencesOption: DropDownItem = {
-      Key: ABSENCES_COLUMN_KEY,
-      Value: this.translate.instant("evaluation.columns.absences"),
-    };
     const subscriptionDetailOptions: ReadonlyArray<DropDownItem> = uniqBy(
       this.state
         .columns()
-        .map(({ vssId, title }) =>
-          ABSENCES_COLUMNS_VSS_IDS.includes(vssId)
-            ? absencesOption
-            : { Key: vssId, Value: title },
-        ),
+        .map(({ vssId, title }) => ({ Key: vssId, Value: title })),
       (option) => option.Key,
     );
 

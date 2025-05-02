@@ -26,11 +26,7 @@ import {
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
-import {
-  ABSENCES_COLUMNS_VSS_IDS,
-  ABSENCES_COLUMN_KEY,
-  GRADE_COLUMN_KEY,
-} from "../evaluation-list/evaluation-list.component";
+import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
 
 @Component({
@@ -101,13 +97,6 @@ export class EvaluationTableComponent {
     return this.getColumnKey(column) === this.selectedColumn();
   }
 
-  isAbsencesColumn(
-    column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
-  ) {
-    if (!column) return false;
-    return this.getColumnKey(column) === ABSENCES_COLUMN_KEY;
-  }
-
   getDetailValue(
     detail: Option<EvaluationSubscriptionDetail>,
   ): WritableSignal<SubscriptionDetail["Value"]> {
@@ -137,8 +126,7 @@ export class EvaluationTableComponent {
   private getColumnKey(
     column: EvaluationColumn | EvaluationSubscriptionDetail,
   ) {
-    const id = "detail" in column ? column.detail.VssId : column.vssId;
-    return ABSENCES_COLUMNS_VSS_IDS.includes(id) ? ABSENCES_COLUMN_KEY : id;
+    return "detail" in column ? column.detail.VssId : column.vssId;
   }
 
   private getGradesAverage(entries: ReadonlyArray<EvaluationEntry>): number {

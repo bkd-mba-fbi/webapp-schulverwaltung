@@ -221,7 +221,8 @@ describe("EvaluationListComponent", () => {
         expect(options).toEqual([
           "evaluation.columns.grade",
           "Anforderungen",
-          "evaluation.columns.absences",
+          "Absenzen entschuldigt",
+          "Absenzen unentschuldigt",
           "Formative Beurteilung",
         ]);
       });
@@ -247,7 +248,8 @@ describe("EvaluationListComponent", () => {
         ).map((option) => option.textContent?.trim());
         expect(options).toEqual([
           "Anforderungen",
-          "evaluation.columns.absences",
+          "Absenzen entschuldigt",
+          "Absenzen unentschuldigt",
           "Formative Beurteilung",
         ]);
       });
