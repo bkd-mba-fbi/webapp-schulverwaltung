@@ -162,16 +162,18 @@ export class EventsStateService {
         ),
       ),
       switchMap((studyCourses) =>
-        this.subscriptionsRestService
-          .getSubscriptionCountsByEvents(studyCourses.map((s) => s.Id))
-          .pipe(
-            map((subscriptionCounts) =>
-              studyCourses.map((studyCourse) => ({
-                ...studyCourse,
-                StudentCount: subscriptionCounts[studyCourse.Id] ?? 0,
-              })),
-            ),
-          ),
+        studyCourses.length > 0
+          ? this.subscriptionsRestService
+              .getSubscriptionCountsByEvents(studyCourses.map((s) => s.Id))
+              .pipe(
+                map((subscriptionCounts) =>
+                  studyCourses.map((studyCourse) => ({
+                    ...studyCourse,
+                    StudentCount: subscriptionCounts[studyCourse.Id] ?? 0,
+                  })),
+                ),
+              )
+          : of(studyCourses),
       ),
     );
   }
