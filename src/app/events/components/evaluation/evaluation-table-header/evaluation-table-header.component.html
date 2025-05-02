@@ -24,7 +24,7 @@
       class="subscription-detail"
       [class.selected]="isColumnSelected(column)"
       [class.absences]="isAbsencesColumn(column)"
-      [title]="column.tooltip"
+      [title]="column.tooltip ?? ''"
     >
       {{ column.title }}
     </th>
