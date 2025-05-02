@@ -56,6 +56,13 @@ const DATE_FORMAT = "dd.MM.yyyy";
       display: block;
     }
 
+    .input-group {
+      /* We have to make sure, that the datepicker dropdown is not in an
+      absolute positioned element, otherwise the responsive container of the
+      table starts to scroll. */
+      position: static;
+    }
+
     .input-group > .form-control {
       min-width: 15ch;
       max-width: 25ch;
