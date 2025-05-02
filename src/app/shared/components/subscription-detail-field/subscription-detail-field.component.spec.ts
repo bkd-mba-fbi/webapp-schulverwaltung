@@ -601,6 +601,7 @@ describe("SubscriptionDetailFieldComponent", () => {
 
         const options = getSelectOptions();
         expect(options.map((o) => o.textContent?.trim())).toEqual([
+          "",
           "Apple",
           "Pear",
         ]);
@@ -618,6 +619,7 @@ describe("SubscriptionDetailFieldComponent", () => {
 
         const options = getSelectOptions();
         expect(options.map((o) => o.textContent?.trim())).toEqual([
+          "",
           "Apple",
           "Pear",
         ]);
