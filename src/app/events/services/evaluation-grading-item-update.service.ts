@@ -86,6 +86,7 @@ export class EvaluationGradingItemUpdateService {
           ),
       );
 
+      this.testStateService.reload();
       return true;
     } catch (error) {
       console.error("Error updating grade", error);

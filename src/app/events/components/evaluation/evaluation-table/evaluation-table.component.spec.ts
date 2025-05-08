@@ -11,6 +11,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { buildGradingItem, buildSubscriptionDetail } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
+import { TestStateService } from "../../../services/test-state.service";
 import { EvaluationTableComponent } from "./evaluation-table.component";
 
 describe("EvaluationTableComponent", () => {
@@ -129,7 +130,11 @@ describe("EvaluationTableComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [EvaluationTableComponent],
-        providers: [EvaluationStateService, EvaluationGradingItemUpdateService],
+        providers: [
+          EvaluationStateService,
+          EvaluationGradingItemUpdateService,
+          TestStateService,
+        ],
       }),
     ).compileComponents();
 
