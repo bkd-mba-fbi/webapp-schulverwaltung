@@ -51,8 +51,13 @@
           <!-- Grade column -->
           @if (hasGrades()) {
             <td class="student-grade" [class.selected]="gradeColumnSelected()">
-              <!-- TODO: add grade select -->
-              {{ entry.grade?.Designation }}
+              <bkd-select
+                id="grade"
+                [options]="gradeOptions()"
+                [value]="entry.gradingItem.IdGrade"
+                (valueChange)="updateGrade($event, entry.gradingItem.Id)"
+                [disabled]="updateService.updating()"
+              ></bkd-select>
             </td>
           }
 

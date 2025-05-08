@@ -1,6 +1,6 @@
 import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { EvaluationDefaultGradeUpdateService } from "src/app/events/services/evaluation-default-grade-update.service";
+import { EvaluationGradingItemUpdateService } from "src/app/events/services/evaluation-grading-item-update.service";
 import { EvaluationStateService } from "src/app/events/services/evaluation-state.service";
 import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
@@ -18,7 +18,7 @@ describe("EvaluationListComponent", () => {
   let fixture: ComponentFixture<EvaluationListComponent>;
   let element: HTMLElement;
   let stateMock: jasmine.SpyObj<EvaluationStateService>;
-  let defaultGradeUpdateMock: jasmine.SpyObj<EvaluationDefaultGradeUpdateService>;
+  let gradingItemUpdateMock: jasmine.SpyObj<EvaluationGradingItemUpdateService>;
   let subscriptionDetailUpdateMock: jasmine.SpyObj<EvaluationSubscriptionDetailUpdateService>;
 
   let gradingItem1: GradingItem;
@@ -144,17 +144,17 @@ describe("EvaluationListComponent", () => {
             },
           },
           {
-            provide: EvaluationDefaultGradeUpdateService,
+            provide: EvaluationGradingItemUpdateService,
             useFactory() {
-              defaultGradeUpdateMock =
-                jasmine.createSpyObj<EvaluationDefaultGradeUpdateService>(
+              gradingItemUpdateMock =
+                jasmine.createSpyObj<EvaluationGradingItemUpdateService>(
                   "EvaluationDefaultGradeUpdateService",
                   ["updateDefaultGrade", "updating"],
                 );
 
-              defaultGradeUpdateMock.updating.and.returnValue(false);
+              gradingItemUpdateMock.updating.and.returnValue(false);
 
-              return defaultGradeUpdateMock;
+              return gradingItemUpdateMock;
             },
           },
           {
@@ -213,10 +213,12 @@ describe("EvaluationListComponent", () => {
 
       it("renders select with columns as options, including grade column, combining the absences column into one", () => {
         fixture.detectChanges();
-        expect(element.querySelector("select")).not.toBeNull();
+        expect(
+          element.querySelector(".columns-dropdown select"),
+        ).not.toBeNull();
 
         const options = Array.from(
-          element.querySelectorAll("select option"),
+          element.querySelectorAll(".columns-dropdown select option"),
         ).map((option) => option.textContent?.trim());
         expect(options).toEqual([
           "evaluation.columns.grade",

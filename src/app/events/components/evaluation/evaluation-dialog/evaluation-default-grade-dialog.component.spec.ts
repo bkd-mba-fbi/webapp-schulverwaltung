@@ -15,7 +15,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
       {
         Id: 1,
         Designation: "1.0",
-        Value: 1.0,
+        Value: 1,
         Sort: null,
       },
     ],
@@ -48,7 +48,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
   });
 
   it("generates options from grading scale", () => {
-    const options = component.options();
+    const options = component.gradeOptions();
     expect(options.length).toBe(1);
     expect(options[0].Key).toBe(1);
     expect(options[0].Value).toBe("1.0");

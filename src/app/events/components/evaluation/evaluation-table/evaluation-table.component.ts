@@ -4,6 +4,7 @@ import {
   WritableSignal,
   computed,
   effect,
+  inject,
   input,
   linkedSignal,
   model,
@@ -16,12 +17,16 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { average } from "src/app/shared/utils/math";
+import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SubscriptionDetailFieldComponent } from "../../../../shared/components/subscription-detail-field/subscription-detail-field.component";
+import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe";
+import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import {
   EvaluationColumn,
   EvaluationEntry,
   EvaluationSortKey,
+  EvaluationStateService,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
@@ -39,18 +44,22 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
     DecimalOrDashPipe,
     SubscriptionDetailFieldComponent,
     EvaluationCriteriaComponent,
+    SelectComponent,
   ],
   templateUrl: "./evaluation-table.component.html",
   styleUrl: "./evaluation-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationTableComponent {
+  state = inject(EvaluationStateService);
+  updateService = inject(EvaluationGradingItemUpdateService);
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<number>();
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
   hasGrades = input.required<boolean>();
   subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
+  gradingScale = input.required<GradingScale>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
@@ -123,6 +132,13 @@ export class EvaluationTableComponent {
     }
   }
 
+  gradeOptions = computed(() =>
+    this.gradingScale()?.Grades.map((grade) => ({
+      Key: grade.Id,
+      Value: grade.Designation,
+    })),
+  );
+
   private getColumnKey(
     column: EvaluationColumn | EvaluationSubscriptionDetail,
   ) {
@@ -134,5 +150,9 @@ export class EvaluationTableComponent {
       .map(({ grade }) => grade?.Value)
       .filter((v): v is number => v != null && v !== 0);
     return average(grades);
+  }
+
+  async updateGrade(gradeId: Option<number>, gradingItemId: string) {
+    await this.updateService.updateGrade(gradingItemId, gradeId);
   }
 }

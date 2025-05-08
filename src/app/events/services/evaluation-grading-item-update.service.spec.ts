@@ -5,15 +5,15 @@ import { buildGradingItem } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { GradingItem } from "../../shared/models/grading-item.model";
 import { GradingItemsRestService } from "../../shared/services/grading-items-rest.service";
-import { EvaluationDefaultGradeUpdateService } from "./evaluation-default-grade-update.service";
+import { EvaluationGradingItemUpdateService } from "./evaluation-grading-item-update.service";
 import {
   EvaluationEvent,
   EvaluationStateService,
 } from "./evaluation-state.service";
 import { TestStateService } from "./test-state.service";
 
-describe("EvaluationDefaultGradeUpdateService", () => {
-  let updateService: EvaluationDefaultGradeUpdateService;
+describe("EvaluationGradingItemUpdateService", () => {
+  let updateService: EvaluationGradingItemUpdateService;
   let gradingItemsRestServiceMock: jasmine.SpyObj<GradingItemsRestService>;
   let evaluationStateServiceMock: jasmine.SpyObj<EvaluationStateService>;
   let testStateServiceMock: jasmine.SpyObj<TestStateService>;
@@ -38,19 +38,21 @@ describe("EvaluationDefaultGradeUpdateService", () => {
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
         providers: [
-          EvaluationDefaultGradeUpdateService,
+          EvaluationGradingItemUpdateService,
           provideHttpClient(withFetch()),
           {
             provide: GradingItemsRestService,
             useFactory() {
               gradingItemsRestServiceMock = jasmine.createSpyObj(
                 "GradingItemsRestService",
-                ["updateForEvent"],
+                ["updateForEvent", "update"],
               );
 
               gradingItemsRestServiceMock.updateForEvent.and.returnValue(
                 of(undefined),
               );
+
+              gradingItemsRestServiceMock.update.and.returnValue(of(undefined));
 
               return gradingItemsRestServiceMock;
             },
@@ -84,7 +86,7 @@ describe("EvaluationDefaultGradeUpdateService", () => {
         ],
       }),
     );
-    updateService = TestBed.inject(EvaluationDefaultGradeUpdateService);
+    updateService = TestBed.inject(EvaluationGradingItemUpdateService);
   });
 
   describe("updating", () => {
@@ -147,6 +149,29 @@ describe("EvaluationDefaultGradeUpdateService", () => {
       expect(
         evaluationStateServiceMock.updateGradingItems,
       ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("updateGrade", () => {
+    it("updates a single grading item with the selected grade", async () => {
+      const gradingItemId = mockGradingItem1.Id;
+      const selectedGradeId = 5678;
+      const result = await updateService.updateGrade(
+        gradingItemId,
+        selectedGradeId,
+      );
+
+      expect(result).toBe(true);
+      expect(gradingItemsRestServiceMock.update).toHaveBeenCalledWith({
+        ...mockGradingItem1,
+        IdGrade: selectedGradeId,
+      });
+      expect(
+        evaluationStateServiceMock.updateGradingItems,
+      ).toHaveBeenCalledWith([
+        { ...mockGradingItem1, IdGrade: selectedGradeId },
+        mockGradingItem2,
+      ]);
     });
   });
 });

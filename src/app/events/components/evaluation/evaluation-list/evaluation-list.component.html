@@ -42,6 +42,7 @@
           [selectedColumn]="selectedColumn()"
           [hasGrades]="hasGrades()"
           (subscriptionDetailChange)="updateSubscriptionDetail($event)"
+          [gradingScale]="state.gradingScale()"
         ></bkd-evaluation-table>
       }
     }
