@@ -32,22 +32,22 @@ describe("EvaluationTableComponent", () => {
   const gradingScale: GradingScale = {
     Id: 1,
     Grades: [
-      { Id: 100001, Designation: "4.0", Value: 4, Sort: "10" },
-      { Id: 100002, Designation: "4.5", Value: 4.5, Sort: "11" },
+      { Id: 3001, Designation: "4.0", Value: 4, Sort: "10" },
+      { Id: 3002, Designation: "4.5", Value: 4.5, Sort: "11" },
     ],
   };
 
   beforeEach(async () => {
-    gradingItem1 = buildGradingItem(10001, 100001);
+    gradingItem1 = buildGradingItem(2001, 3001);
     gradingItem1.IdPerson = 1001;
     gradingItem1.PersonFullname = "Paul McCartney";
 
-    gradingItem2 = buildGradingItem(10002, 100002);
+    gradingItem2 = buildGradingItem(2002, 3002);
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
 
-    grade1 = { Id: 100001, Designation: "4.0", Value: 4, Sort: "10" };
-    grade2 = { Id: 100002, Designation: "4.5", Value: 4.5, Sort: "11" };
+    grade1 = { Id: 3001, Designation: "4.0", Value: 4, Sort: "10" };
+    grade2 = { Id: 3002, Designation: "4.5", Value: 4.5, Sort: "11" };
 
     detail1 = buildSubscriptionDetail(3902);
     detail1.VssDesignation = "Anforderungen";
