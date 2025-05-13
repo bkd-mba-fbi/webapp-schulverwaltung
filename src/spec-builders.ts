@@ -276,7 +276,7 @@ export function buildParticipant(id: number): Participant {
     FullName: "T. Tux",
     Gender: "F",
     IsActive: true,
-    IsWaitingList: false,
+    // IsWaitingList: false,
     LastName: "Tux",
     Location: "",
     PersonId: id,
@@ -285,9 +285,9 @@ export function buildParticipant(id: number): Participant {
     PostalCode: "",
     RegistrationDate: new Date("2025-01-11T00:00:00"),
     RegistrationId: 25,
-    StatusId: 12526,
-    StatusName: "ma.Angemeldet",
-    StatusNameInternet: "Angemeldet",
+    // StatusId: 12526,
+    // StatusName: "ma.Angemeldet",
+    // StatusNameInternet: "Angemeldet",
     // HRef: ''
   };
 }
