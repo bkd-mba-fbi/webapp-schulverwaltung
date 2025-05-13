@@ -11,7 +11,7 @@ const Participant = t.type({
   FullName: t.string,
   Gender: t.union([t.literal("M"), t.literal("F"), t.literal("X")]),
   IsActive: t.boolean,
-  IsWaitingList: t.boolean,
+  // IsWaitingList: t.boolean,
   LastName: t.string,
   Location: Option(t.string),
   PersonId: t.number,
@@ -20,9 +20,9 @@ const Participant = t.type({
   PostalCode: Option(t.string),
   RegistrationDate: LocalDateTimeFromString,
   RegistrationId: t.number,
-  StatusId: t.number,
-  StatusName: t.string,
-  StatusNameInternet: t.string,
+  // StatusId: t.number,
+  // StatusName: t.string,
+  // StatusNameInternet: t.string,
   // HRef: t.string
 });
 
