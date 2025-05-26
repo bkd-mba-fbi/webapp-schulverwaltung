@@ -205,6 +205,27 @@ describe("EvaluationListComponent", () => {
     expect(element.querySelector("table")).not.toBeNull();
   });
 
+  describe("default grade link", () => {
+    describe("without grading scale", () => {
+      it("hides default grade link when no grading scale is available", () => {
+        fixture.detectChanges();
+        const setDefaultLink = element.querySelector(".set-default");
+        expect(setDefaultLink).toBeNull();
+      });
+    });
+
+    describe("with grading scale", () => {
+      beforeEach(() => {
+        stateMock.gradingScale.and.returnValue(gradingScale);
+      });
+      it("shows default grade link when grading scale is available", () => {
+        fixture.detectChanges();
+        const setDefaultLink = element.querySelector(".set-default");
+        expect(setDefaultLink).not.toBeNull();
+      });
+    });
+  });
+
   describe("mobile column select", () => {
     describe("course with grades", () => {
       beforeEach(() => {
