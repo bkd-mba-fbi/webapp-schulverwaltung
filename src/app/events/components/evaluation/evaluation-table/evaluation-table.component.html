@@ -56,7 +56,6 @@
                 [options]="gradeOptions()"
                 [value]="entry.gradingItem.IdGrade"
                 (valueChange)="updateGrade($event, entry.gradingItem.Id)"
-                [disabled]="updateService.updating()"
               ></bkd-select>
             </td>
           }
