@@ -260,7 +260,6 @@ describe("EvaluationListComponent", () => {
           studentCount: 23,
           gradingScaleId: null,
         });
-        stateMock.gradingScale.and.returnValue(null);
       });
 
       it("renders select with columns as options, excluding grade column, combining the absences column into one", () => {
