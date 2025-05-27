@@ -22,15 +22,24 @@ tbody td.student-name {
   }
 
   a {
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
 
-    div:first-child {
+    span:first-child {
       text-decoration: underline;
     }
 
-    div:first-child:hover {
+    span:first-child:hover {
       text-decoration-color: $accent;
     }
+  }
+
+  $evaluation-table-open-evaluations-size: $font-size-sm;
+  .open-evaluations {
+    color: $absent-color;
+    font-size: $evaluation-table-open-evaluations-size;
+    line-height: 1;
   }
 }
 

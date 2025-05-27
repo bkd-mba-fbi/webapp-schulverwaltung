@@ -43,7 +43,15 @@
               <a
                 [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']"
               >
-                <div>{{ entry.gradingItem.PersonFullname }}</div>
+                <span>{{ entry.gradingItem.PersonFullname }}</span>
+                <span class="open-evaluations">
+                  {{
+                    hasOpenEvaluations
+                      ? ("presence-control.entry.unconfirmed-absences"
+                        | translate)
+                      : ""
+                  }}
+                </span>
               </a>
             </div>
           </td>
