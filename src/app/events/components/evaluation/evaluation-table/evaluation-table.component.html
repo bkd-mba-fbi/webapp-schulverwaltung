@@ -51,12 +51,11 @@
           <!-- Grade column -->
           @if (hasGrades()) {
             <td class="student-grade" [class.selected]="gradeColumnSelected()">
-              <bkd-select
-                id="grade"
+              <bkd-evaluation-grade
                 [options]="gradeOptions()"
                 [value]="entry.gradingItem.IdGrade"
                 (valueChange)="updateGrade($event, entry.gradingItem.Id)"
-              ></bkd-select>
+              ></bkd-evaluation-grade>
             </td>
           }
 

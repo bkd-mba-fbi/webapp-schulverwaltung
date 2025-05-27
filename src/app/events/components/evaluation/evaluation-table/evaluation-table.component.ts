@@ -17,7 +17,6 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { average } from "src/app/shared/utils/math";
-import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SubscriptionDetailFieldComponent } from "../../../../shared/components/subscription-detail-field/subscription-detail-field.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe";
@@ -31,6 +30,7 @@ import {
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
+import { EvaluationGradeComponent } from "../evaluation-grade/evaluation-grade.component";
 import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
 
@@ -44,7 +44,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
     DecimalOrDashPipe,
     SubscriptionDetailFieldComponent,
     EvaluationCriteriaComponent,
-    SelectComponent,
+    EvaluationGradeComponent,
   ],
   templateUrl: "./evaluation-table.component.html",
   styleUrl: "./evaluation-table.component.scss",
