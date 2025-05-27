@@ -20,7 +20,7 @@ const DEBOUNCE_TIME = 1000; // 1 second
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationGradeComponent implements OnDestroy {
-  options = input.required<DropDownItem[]>();
+  options = input.required<ReadonlyArray<DropDownItem>>();
   value = input.required<Option<number>>();
 
   valueChange = output<Option<number>>();
