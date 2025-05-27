@@ -16,6 +16,7 @@ import {
 } from "../../../services/evaluation-state.service";
 import { TableHeaderComponent } from "../../common/table-header/table-header.component";
 import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
+import { COMMENT_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -30,9 +31,14 @@ export class EvaluationTableHeaderComponent extends TableHeaderComponent {
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<Option<number>>();
   hasGrades = input.required<boolean>();
+  showCommentColumn = input(false);
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
+  );
+
+  commentColumnSelected = computed(
+    () => this.selectedColumn() === COMMENT_COLUMN_KEY,
   );
 
   isColumnSelected(column: EvaluationColumn) {

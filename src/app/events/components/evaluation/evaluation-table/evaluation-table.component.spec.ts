@@ -35,6 +35,7 @@ describe("EvaluationTableComponent", () => {
       { Id: 3001, Designation: "4.0", Value: 4, Sort: "10" },
       { Id: 3002, Designation: "4.5", Value: 4.5, Sort: "11" },
     ],
+    CommentsAllowed: false,
   };
 
   beforeEach(async () => {

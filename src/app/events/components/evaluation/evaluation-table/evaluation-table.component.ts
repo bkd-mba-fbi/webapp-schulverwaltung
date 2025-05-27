@@ -17,6 +17,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { average } from "src/app/shared/utils/math";
+import { GradingItemCommentTextareaComponent } from "../../../../shared/components/grading-item/grading-item-comment-textarea.component";
 import { SubscriptionDetailFieldComponent } from "../../../../shared/components/subscription-detail-field/subscription-detail-field.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe";
@@ -31,8 +32,10 @@ import {
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
 import { EvaluationGradeComponent } from "../evaluation-grade/evaluation-grade.component";
-import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
+import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
+import { COMMENT_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
+
 
 @Component({
   selector: "bkd-evaluation-table",
@@ -45,6 +48,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
     SubscriptionDetailFieldComponent,
     EvaluationCriteriaComponent,
     EvaluationGradeComponent,
+    GradingItemCommentTextareaComponent,
   ],
   templateUrl: "./evaluation-table.component.html",
   styleUrl: "./evaluation-table.component.scss",
@@ -64,11 +68,18 @@ export class EvaluationTableComponent {
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
+  commentColumnSelected = computed(
+    () => this.selectedColumn() === COMMENT_COLUMN_KEY,
+  );
   gradesAverage = computed(() => this.getGradesAverage(this.entries()));
+  showCommentColumn = computed(
+    () => this.gradingScale()?.CommentsAllowed === true,
+  );
   totalColumns = computed(
     () =>
       1 + // Name
       (this.hasGrades() ? 1 : 0) + // Grade
+      (this.showCommentColumn() ? 1 : 0) + // Comment
       this.columns().length, // Subscription details
   );
 
@@ -154,5 +165,9 @@ export class EvaluationTableComponent {
 
   async updateGrade(gradeId: Option<number>, gradingItemId: string) {
     await this.updateService.updateGrade(gradingItemId, gradeId);
+  }
+
+  async updateComment(comment: Option<string>, gradingItemId: string) {
+    await this.updateService.updateComment(gradingItemId, comment);
   }
 }

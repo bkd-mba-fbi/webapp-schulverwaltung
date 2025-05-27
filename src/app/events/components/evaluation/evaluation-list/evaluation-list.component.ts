@@ -14,16 +14,17 @@ import { notNull } from "src/app/shared/utils/filter";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
+import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import {
   EvaluationStateService,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
-import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import { EvaluationDefaultGradeDialogComponent } from "../evaluation-dialog/evaluation-default-grade-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
 
 export const GRADE_COLUMN_KEY = -1;
+export const COMMENT_COLUMN_KEY = -2;
 
 @Component({
   selector: "bkd-evaluation-list",

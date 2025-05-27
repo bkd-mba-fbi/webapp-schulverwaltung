@@ -28,4 +28,13 @@
       {{ column.title }}
     </th>
   }
+
+  @if (showCommentColumn()) {
+    <th
+      class="student-comment desktop"
+      [class.selected]="commentColumnSelected()"
+    >
+      {{ "evaluation.columns.comment" | translate }}
+    </th>
+  }
 </tr>

@@ -343,7 +343,8 @@
     "columns": {
       "name": "Name",
       "grade": "Note",
-      "absences": "Absenzen"
+      "absences": "Absenzen",
+      "comment": "Bemerkung"
     },
     "values": {
       "yes": "Ja",

@@ -93,4 +93,45 @@ export class EvaluationGradingItemUpdateService {
       return false;
     }
   }
+
+  async updateComment(
+    gradingItemId: string,
+    comment: Option<string>,
+  ): Promise<boolean> {
+    const gradingItem = this.evaluationStateService
+      .gradingItems()
+      .find((item) => item.Id === gradingItemId);
+
+    if (!gradingItem) {
+      console.error("Grading item not found");
+      return false;
+    }
+
+    const updatedGradingItem = {
+      ...gradingItem,
+      Comment: comment,
+    };
+
+    try {
+      await firstValueFrom(
+        this.loadingService.load(
+          this.gradingItemsRestService.updateComment(gradingItemId, comment),
+          EVALUATION_UPDATE_CONTEXT,
+        ),
+      );
+
+      this.evaluationStateService.updateGradingItems(
+        this.evaluationStateService
+          .gradingItems()
+          .map((item) =>
+            item.Id === gradingItem.Id ? updatedGradingItem : item,
+          ),
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Error updating comment", error);
+      return false;
+    }
+  }
 }
