@@ -11,6 +11,7 @@
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
       [hasGrades]="hasGrades()"
+      [showCommentColumn]="showCommentColumn()"
       #inlineHeader
     ></thead>
     <thead
@@ -20,6 +21,7 @@
       [(sortCriteria)]="sortCriteria"
       [selectedColumn]="selectedColumn()"
       [hasGrades]="hasGrades()"
+      [showCommentColumn]="showCommentColumn()"
       #stickyHeader
     ></thead>
     <tbody>
@@ -83,6 +85,20 @@
             </td>
             @let selectedColumnSignal = selectedColumn();
           }
+
+          <!-- Comment column -->
+          @if (showCommentColumn()) {
+            <td
+              class="student-comment"
+              [class.selected]="commentColumnSelected()"
+            >
+              <bkd-grading-item-comment-textarea
+                [(value)]="entry.gradingItem.Comment"
+                [disabled]="updateService.updating()"
+                (commit)="updateComment($event, entry.gradingItem.Id)"
+              ></bkd-grading-item-comment-textarea>
+            </td>
+          }
         </tr>
 
         <!-- Criteria row-->
@@ -119,6 +135,9 @@
             class="subscription-detail"
             [class.selected]="isColumnSelected(column)"
           ></td>
+        }
+        @if (showCommentColumn()) {
+          <td class="student-comment"></td>
         }
       </tr>
     </tfoot>

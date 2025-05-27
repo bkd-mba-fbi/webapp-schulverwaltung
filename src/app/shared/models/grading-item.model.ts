@@ -11,7 +11,7 @@ const GradingItem = t.type({
   // MatriculationNumber: null,
   IdGrade: Option(t.number),
   GradeValue: Option(t.string),
-  // Comment: "stzwetz",
+  Comment: Option(t.string),
   // SubscriptionDetails: null,
   // ColumnDetails: null,
   // IdObject: "10413",

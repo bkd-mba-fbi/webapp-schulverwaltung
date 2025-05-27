@@ -20,6 +20,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
         Sort: null,
       },
     ],
+    CommentsAllowed: false,
   };
 
   beforeEach(async () => {

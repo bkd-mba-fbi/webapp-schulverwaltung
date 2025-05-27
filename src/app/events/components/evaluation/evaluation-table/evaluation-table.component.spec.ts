@@ -56,6 +56,7 @@ describe("EvaluationTableComponent", () => {
         Sufficient: true,
       },
     ],
+    CommentsAllowed: false,
   };
 
   beforeEach(async () => {
