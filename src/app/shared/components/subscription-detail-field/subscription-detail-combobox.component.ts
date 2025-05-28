@@ -84,11 +84,23 @@ export class SubscriptionDetailComboboxComponent
     this.typeahead()
       .selectItem.pipe(takeUntil(this.destroy$))
       .subscribe(({ item }) => this.onSelect(item));
+
+    this.typeaheadInput().nativeElement.addEventListener(
+      "keydown",
+      this.onKeyDown,
+      true,
+    );
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+
+    this.typeaheadInput().nativeElement.removeEventListener(
+      "keydown",
+      this.onKeyDown,
+      true,
+    );
   }
 
   search: OperatorFunction<string, readonly string[]> = (term$) =>
@@ -115,6 +127,15 @@ export class SubscriptionDetailComboboxComponent
     this.value.set(value);
     this.commit.emit(value ?? null);
   }
+
+  onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Tab") {
+      event.stopImmediatePropagation();
+      if (this.typeahead().isPopupOpen()) {
+        this.typeahead().dismissPopup();
+      }
+    }
+  };
 
   onClear(): void {
     this.value.set(null);
