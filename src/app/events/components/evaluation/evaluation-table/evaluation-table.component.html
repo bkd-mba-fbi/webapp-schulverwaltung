@@ -46,7 +46,7 @@
                 <span>{{ entry.gradingItem.PersonFullname }}</span>
                 <span class="open-evaluations">
                   {{
-                    hasOpenEvaluations
+                    entry.evaluationRequired
                       ? ("presence-control.entry.unconfirmed-absences"
                         | translate)
                       : ""

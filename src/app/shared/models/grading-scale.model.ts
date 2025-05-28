@@ -6,7 +6,7 @@ const Grade = t.type({
   // IdGradingScale: t.number,
   Designation: t.string,
   Value: t.number,
-  // Sufficient: t.boolean,
+  Sufficient: t.boolean,
   Sort: Option(t.string),
   // IdObject: t.number,
   // HRef: Option(t.string),
