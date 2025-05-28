@@ -26,7 +26,7 @@ import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.di
     }
 
     textarea {
-      width: 100%;
+      min-width: 30ch;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
