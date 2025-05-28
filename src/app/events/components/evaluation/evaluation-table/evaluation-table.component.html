@@ -91,6 +91,7 @@
             <td
               class="student-comment"
               [class.selected]="commentColumnSelected()"
+              style="word-break: break-word"
             >
               <bkd-grading-item-comment-textarea
                 [(value)]="entry.gradingItem.Comment"
@@ -137,7 +138,10 @@
           ></td>
         }
         @if (showCommentColumn()) {
-          <td class="student-comment"></td>
+          <td
+            class="student-comment"
+            [class.selected]="commentColumnSelected()"
+          ></td>
         }
       </tr>
     </tfoot>
