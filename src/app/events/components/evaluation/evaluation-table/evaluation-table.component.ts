@@ -30,12 +30,10 @@ import {
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
+import { COMMENT_COLUMN_KEY, GRADE_COLUMN_KEY } from "../evaluation-constants";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
 import { EvaluationGradeComponent } from "../evaluation-grade/evaluation-grade.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
-import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
-import { COMMENT_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
-
 
 @Component({
   selector: "bkd-evaluation-table",
