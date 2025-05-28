@@ -54,10 +54,18 @@ export class EvaluationListComponent {
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
   hasGrades = computed(() => this.state.gradingScale() !== null);
+  showCommentColumn = computed(
+    () => this.state.gradingScale()?.CommentsAllowed === true,
+  );
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
       Key: GRADE_COLUMN_KEY,
       Value: this.translate.instant("evaluation.columns.grade"),
+    };
+
+    const commentOption: DropDownItem = {
+      Key: COMMENT_COLUMN_KEY,
+      Value: this.translate.instant("evaluation.columns.comment"),
     };
 
     const subscriptionDetailOptions: ReadonlyArray<DropDownItem> = uniqBy(
@@ -69,6 +77,7 @@ export class EvaluationListComponent {
 
     return [
       this.hasGrades() ? gradeOption : null,
+      this.showCommentColumn() ? commentOption : null,
       ...subscriptionDetailOptions,
     ].filter(notNull);
   });
