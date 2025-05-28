@@ -19,12 +19,10 @@ import {
   EvaluationStateService,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
+import { COMMENT_COLUMN_KEY, GRADE_COLUMN_KEY } from "../evaluation-constants";
 import { EvaluationDefaultGradeDialogComponent } from "../evaluation-dialog/evaluation-default-grade-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
-
-export const GRADE_COLUMN_KEY = -1;
-export const COMMENT_COLUMN_KEY = -2;
 
 @Component({
   selector: "bkd-evaluation-list",

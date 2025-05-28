@@ -15,8 +15,7 @@ import {
   EvaluationSortKey,
 } from "../../../services/evaluation-state.service";
 import { TableHeaderComponent } from "../../common/table-header/table-header.component";
-import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
-import { COMMENT_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
+import { COMMENT_COLUMN_KEY, GRADE_COLUMN_KEY } from "../evaluation-constants";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
