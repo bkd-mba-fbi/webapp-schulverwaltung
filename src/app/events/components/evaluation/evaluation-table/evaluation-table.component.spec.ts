@@ -20,8 +20,10 @@ describe("EvaluationTableComponent", () => {
 
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
+  let gradingItem3: GradingItem;
   let grade1: Grade;
   let grade2: Grade;
+  let grade3: Grade;
   let detail1: SubscriptionDetail;
   let detail2: SubscriptionDetail;
   let detail3: SubscriptionDetail;
@@ -32,8 +34,27 @@ describe("EvaluationTableComponent", () => {
   const gradingScale: GradingScale = {
     Id: 1,
     Grades: [
-      { Id: 3001, Designation: "4.0", Value: 4, Sort: "10" },
-      { Id: 3002, Designation: "4.5", Value: 4.5, Sort: "11" },
+      {
+        Id: 3001,
+        Designation: "3.0",
+        Value: 3.0,
+        Sort: "10",
+        Sufficient: false,
+      },
+      {
+        Id: 3002,
+        Designation: "4.0",
+        Value: 4.0,
+        Sort: "11",
+        Sufficient: true,
+      },
+      {
+        Id: 3003,
+        Designation: "4.5",
+        Value: 4.5,
+        Sort: "12",
+        Sufficient: true,
+      },
     ],
   };
 
@@ -46,8 +67,31 @@ describe("EvaluationTableComponent", () => {
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
 
-    grade1 = { Id: 3001, Designation: "4.0", Value: 4, Sort: "10" };
-    grade2 = { Id: 3002, Designation: "4.5", Value: 4.5, Sort: "11" };
+    gradingItem3 = buildGradingItem(2003, 3003);
+    gradingItem3.IdPerson = 1003;
+    gradingItem3.PersonFullname = "Sean Ono Lennon";
+
+    grade1 = {
+      Id: 3001,
+      Designation: "3.0",
+      Value: 3.0,
+      Sort: "10",
+      Sufficient: false,
+    };
+    grade2 = {
+      Id: 3002,
+      Designation: "4.0",
+      Value: 4.0,
+      Sort: "11",
+      Sufficient: true,
+    };
+    grade3 = {
+      Id: 3003,
+      Designation: "4.5",
+      Value: 4.5,
+      Sort: "12",
+      Sufficient: true,
+    };
 
     detail1 = buildSubscriptionDetail(3902);
     detail1.VssDesignation = "Anforderungen";
@@ -114,16 +158,25 @@ describe("EvaluationTableComponent", () => {
 
     entries = [
       {
+        gradingItem: gradingItem3,
+        grade: grade3,
+        columns: [{ detail: detail2, value: signal(detail2.Value) }],
+        criteria: [{ detail: detail4, value: signal(detail4.Value) }],
+        evaluationRequired: false,
+      },
+      {
         gradingItem: gradingItem2,
         grade: grade2,
         columns: [{ detail: detail2, value: signal(detail2.Value) }],
         criteria: [{ detail: detail4, value: signal(detail4.Value) }],
+        evaluationRequired: false,
       },
       {
         gradingItem: gradingItem1,
         grade: grade1,
         columns: [{ detail: detail1, value: signal(detail1.Value) }],
         criteria: [{ detail: detail3, value: signal(detail3.Value) }],
+        evaluationRequired: true,
       },
     ];
 
@@ -160,21 +213,30 @@ describe("EvaluationTableComponent", () => {
 
     it("renders the name column", () => {
       const values = getColumnValues(0);
-      expect(values).toHaveSize(2);
-      expect(values[0]).toContain("John Lennon");
-      expect(values[1]).toContain("Paul McCartney");
+      expect(values).toHaveSize(3);
+      expect(values[0]).toContain("Sean Ono Lennon");
+      expect(values[1]).toContain("John Lennon");
+      expect(values[2]).toContain("Paul McCartney");
     });
 
     it("renders the grade column", () => {
-      expect(getGradeColumnValues()).toEqual(["4.5", "4.0"]);
+      expect(getGradeColumnValues()).toEqual(["4.5", "4.0", "3.0"]);
     });
 
     it("renders the subscription detail columns", () => {
-      expect(getColumnValues(2)).toEqual(["EA  GE", "EA  GE"]);
+      expect(getColumnValues(2)).toEqual(["EA  GE", "EA  GE", "EA  GE"]);
     });
 
     it("renders the average of all present grades", () => {
-      expect(getColumnValues(1, "table tfoot")).toEqual(["4.25"]);
+      expect(getColumnValues(1, "table tfoot")).toEqual(["3.833"]);
+    });
+
+    it("renders required evaluations text", () => {
+      const values = getColumnValues(0);
+      expect(values).toHaveSize(3);
+      expect(values[0]).not.toContain("evaluation.required");
+      expect(values[1]).not.toContain("evaluation.required");
+      expect(values[2]).toContain("evaluation.required");
     });
   });
 
@@ -186,13 +248,14 @@ describe("EvaluationTableComponent", () => {
 
     it("renders the name column", () => {
       const values = getColumnValues(0);
-      expect(values).toHaveSize(2);
-      expect(values[0]).toContain("John Lennon");
-      expect(values[1]).toContain("Paul McCartney");
+      expect(values).toHaveSize(3);
+      expect(values[0]).toContain("Sean Ono Lennon");
+      expect(values[1]).toContain("John Lennon");
+      expect(values[2]).toContain("Paul McCartney");
     });
 
     it("renders the subscription detail columns", () => {
-      expect(getColumnValues(1)).toEqual(["EA  GE", "EA  GE"]);
+      expect(getColumnValues(1)).toEqual(["EA  GE", "EA  GE", "EA  GE"]);
     });
 
     it("does not render the average of all present grades", () => {

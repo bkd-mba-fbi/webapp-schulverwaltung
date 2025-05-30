@@ -16,6 +16,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
         Id: 1,
         Designation: "1.0",
         Value: 1,
+        Sufficient: false,
         Sort: null,
       },
     ],

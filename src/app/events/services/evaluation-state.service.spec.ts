@@ -71,8 +71,20 @@ describe("EvaluationStateService", () => {
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
 
-    grade1 = { Id: 100001, Designation: "4.0", Value: 4.0, Sort: "10" };
-    grade2 = { Id: 100002, Designation: "4.5", Value: 4.5, Sort: "11" };
+    grade1 = {
+      Id: 100001,
+      Designation: "4.0",
+      Value: 4.0,
+      Sort: "10",
+      Sufficient: true,
+    };
+    grade2 = {
+      Id: 100002,
+      Designation: "4.5",
+      Value: 4.5,
+      Sort: "11",
+      Sufficient: true,
+    };
     gradingScale = buildGradingScale(10000, [grade1, grade2]);
 
     detail1 = buildSubscriptionDetail(3902);

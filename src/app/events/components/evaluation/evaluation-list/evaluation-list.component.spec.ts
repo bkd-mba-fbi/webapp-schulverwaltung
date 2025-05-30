@@ -40,8 +40,20 @@ describe("EvaluationListComponent", () => {
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
 
-    grade1 = { Id: 100001, Designation: "4.0", Value: 4.0, Sort: "10" };
-    grade2 = { Id: 100002, Designation: "4.5", Value: 4.0, Sort: "11" };
+    grade1 = {
+      Id: 100001,
+      Designation: "4.0",
+      Value: 4.0,
+      Sort: "10",
+      Sufficient: true,
+    };
+    grade2 = {
+      Id: 100002,
+      Designation: "4.5",
+      Value: 4.0,
+      Sort: "11",
+      Sufficient: true,
+    };
 
     gradingScale = buildGradingScale(1, [grade1, grade2]);
 
@@ -130,12 +142,14 @@ describe("EvaluationListComponent", () => {
                   grade: grade2,
                   columns: [{ detail: detail2, value: signal(detail2.Value) }],
                   criteria: [{ detail: detail4, value: signal(detail4.Value) }],
+                  evaluationRequired: false,
                 },
                 {
                   gradingItem: gradingItem1,
                   grade: grade1,
                   columns: [{ detail: detail1, value: signal(detail1.Value) }],
                   criteria: [{ detail: detail3, value: signal(detail3.Value) }],
+                  evaluationRequired: false,
                 },
               ]);
               stateMock.gradingScale.and.returnValue(null);

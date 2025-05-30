@@ -482,52 +482,10 @@ export class EvaluationStateService {
     };
   }
   isEvaluationRequired(
-    gradingItem: {
-      Id: string;
-      IdPerson: number;
-      PersonFullname: string;
-      IdGrade: number | null;
-      GradeValue: string | null;
-    },
+    gradingItem: GradingItem,
     gradingScale: Option<GradingScale>,
-    columnDetails: ({
-      Id: string;
-      SubscriptionId: number;
-      VssId: number;
-      EventId: number;
-      DropdownItems:
-        | { Key: string | number; Value: string; IsActive: boolean }[]
-        | null;
-      IdPerson: number;
-      ShowAsRadioButtons: boolean;
-      Sort: string;
-      Tooltip: string | null;
-      Value: string | number | null;
-      VssDesignation: string;
-      VssStyle: string;
-      VssTypeId: number;
-      VssType: string;
-      VssInternet: string;
-    } | null)[],
-    criteriaDetails: {
-      Id: string;
-      SubscriptionId: number;
-      VssId: number;
-      EventId: number;
-      DropdownItems:
-        | { Key: string | number; Value: string; IsActive: boolean }[]
-        | null;
-      IdPerson: number;
-      ShowAsRadioButtons: boolean;
-      Sort: string;
-      Tooltip: string | null;
-      Value: string | number | null;
-      VssDesignation: string;
-      VssStyle: string;
-      VssTypeId: number;
-      VssType: string;
-      VssInternet: string;
-    }[],
+    columnDetails: (SubscriptionDetail | null)[],
+    criteriaDetails: ReadonlyArray<SubscriptionDetail>,
   ): boolean {
     if (
       this.gradingScale() !== null &&

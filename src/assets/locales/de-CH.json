@@ -356,7 +356,8 @@
       "message": "Der Standardwert wird für alle Anmeldungen übernommen.",
       "save": "Übernehmen",
       "cancel": "Abbrechen"
-    }
+    },
+    "required": "Offene Bewertung"
   },
   "dossier": {
     "title": "Dossier",

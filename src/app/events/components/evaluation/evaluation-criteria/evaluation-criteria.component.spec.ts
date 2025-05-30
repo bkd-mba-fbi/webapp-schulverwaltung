@@ -52,6 +52,7 @@ describe("EvaluationCriteriaComponent", () => {
         { detail: detail1, value: signal("") },
         { detail: detail2, value: signal("") },
       ],
+      evaluationRequired: false,
     };
 
     await TestBed.configureTestingModule(

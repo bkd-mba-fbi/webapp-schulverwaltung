@@ -143,8 +143,20 @@ describe("DossierGradesService", () => {
     it("should return an array with student grades", () => {
       const gradingScales = [
         buildGradingScale(1106, [
-          { Designation: "5.5", Value: 5.5, Id: 2349, Sort: "10" },
-          { Designation: "5", Value: 5.0, Id: 2348, Sort: "11" },
+          {
+            Designation: "5.5",
+            Value: 5.5,
+            Id: 2349,
+            Sort: "10",
+            Sufficient: true,
+          },
+          {
+            Designation: "5",
+            Value: 5.0,
+            Id: 2348,
+            Sort: "11",
+            Sufficient: true,
+          },
         ]),
       ];
       const course = buildCourse(333);
