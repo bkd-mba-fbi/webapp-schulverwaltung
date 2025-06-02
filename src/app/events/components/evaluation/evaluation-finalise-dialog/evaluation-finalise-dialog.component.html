@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    {{ "evaluation.finalise-modal.title" | translate }}
+  </h5>
+</div>
+<div class="modal-body">
+  @if (hasOpenEvaluations()) {
+    <div class="text-danger d-flex my-3">
+      <i class="material-icons me-2">info</i>
+      <p class="mb-0">
+        {{ "evaluation.finalise-modal.open-evaluations" | translate }}
+      </p>
+    </div>
+  }
+  <p>
+    {{ "evaluation.finalise-modal.message" | translate }}
+  </p>
+  @if (isModuleEvent()) {
+    <p class="module-event-notice">
+      {{ "evaluation.finalise-modal.note" | translate }}
+    </p>
+  }
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+    {{ "evaluation.finalise-modal.cancel" | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="confirm()"
+    [disabled]="loading()"
+  >
+    {{ "evaluation.finalise-modal.confirm" | translate }}
+  </button>
+</div>

@@ -24,7 +24,7 @@ export class EvaluationSubscriptionDetailUpdateService {
   private toastService = inject(ToastService);
   private translate = inject(TranslateService);
 
-  saving = toSignal(this.loadingService.loading(EVALUTATION_UPDATE_CONTEXT), {
+  updating = toSignal(this.loadingService.loading(EVALUTATION_UPDATE_CONTEXT), {
     requireSync: true,
   });
 

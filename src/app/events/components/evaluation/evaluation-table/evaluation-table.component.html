@@ -83,7 +83,6 @@
                 ></bkd-subscription-detail-field>
               }
             </td>
-            @let selectedColumnSignal = selectedColumn();
           }
 
           <!-- Comment column -->
@@ -94,7 +93,7 @@
             >
               <bkd-grading-item-comment-textarea
                 [(value)]="entry.gradingItem.Comment"
-                [disabled]="updateService.updating()"
+                [disabled]="gradingItemUpdateService.updating()"
                 (commit)="updateComment($event, entry.gradingItem.Id)"
               ></bkd-grading-item-comment-textarea>
             </td>
@@ -145,7 +144,17 @@
       </tr>
     </tfoot>
   </table>
-  <div class="action-buttons">
-    <!-- TODO: add "Bewertung abschliessen" button -->
+  <div
+    class="action-buttons"
+    [class.mobile-finalise-visible]="gradeColumnSelected() || !hasGrades()"
+  >
+    <button
+      class="btn btn-primary"
+      type="button"
+      [disabled]="hasPendingRequests()"
+      (click)="openFinaliseEvaluationDialog()"
+    >
+      {{ "evaluation.finalise" | translate }}
+    </button>
   </div>
 </div>
