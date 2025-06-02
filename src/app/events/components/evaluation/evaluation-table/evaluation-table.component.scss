@@ -104,3 +104,14 @@ button.criteria-toggle {
     }
   }
 }
+
+// Mobile view
+@media (max-width: $bkd-evaluation-mobile-breakpoint) {
+  .action-buttons {
+    display: none;
+  }
+
+  :host.grade-column-selected .action-buttons {
+    display: flex;
+  }
+}
