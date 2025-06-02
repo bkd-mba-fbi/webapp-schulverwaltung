@@ -177,6 +177,9 @@ describe("EvaluationListComponent", () => {
               subscriptionDetailUpdateMock = jasmine.createSpyObj(
                 "EvaluationSubscriptionDetailUpdateService",
                 ["updateSubscriptionDetail"],
+                {
+                  updating: signal(false),
+                },
               );
               return subscriptionDetailUpdateMock;
             },

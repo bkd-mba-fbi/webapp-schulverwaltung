@@ -64,6 +64,13 @@ button.criteria-toggle {
   display: none;
 }
 
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $spacer;
+  padding-right: $spacer;
+}
+
 // Desktop view
 @media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .table-responsive-wrapper {
@@ -100,5 +107,13 @@ button.criteria-toggle {
         var(--subscription-detail-columns-offset) - $spacer
       ) !important;
     }
+  }
+}
+
+// Mobile view
+@media (max-width: $bkd-evaluation-mobile-breakpoint) {
+  // On mobile, the finalise button is only visible, when the grade column is selected
+  .action-buttons:not(.mobile-finalise-visible) {
+    display: none;
   }
 }

@@ -340,6 +340,15 @@
     "no-event": "L'événement n'a pas été trouvé",
     "no-items": "Aucune donnée disponible",
     "no-evaluation": "L'événement ne peut pas être évalué car il n'existe pas d'échelle de notes ni d'autres critères d'évaluation.",
+    "finalise": "Terminer l'évaluation",
+    "finalise-modal": {
+      "title": "Terminer l’évaluation",
+      "message": "Souhaitez-vous terminer l’évaluation?",
+      "note": "Une fois l’évaluation terminée, la discipline n’est plus visible. Pour toute modification, veuillez vous adresser au secrétariat compétent de l’école.",
+      "open-evaluations": "Des évaluations sont en suspens.",
+      "cancel": "Annuler",
+      "confirm": "Valider"
+    },
     "columns": {
       "name": "Nom",
       "grade": "Note",

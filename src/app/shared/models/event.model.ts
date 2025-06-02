@@ -54,6 +54,7 @@ const EventSummary = t.type({
   EventType: t.string,
   EventTypeId: t.number,
   Designation: t.string,
+  StatusId: t.number,
 });
 
 const EventDesignation = t.type({

@@ -12,7 +12,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
@@ -21,6 +21,7 @@ import { GradingItemCommentTextareaComponent } from "../../../../shared/componen
 import { SubscriptionDetailFieldComponent } from "../../../../shared/components/subscription-detail-field/subscription-detail-field.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe";
+import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
 import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import {
   EvaluationColumn,
@@ -29,9 +30,11 @@ import {
   EvaluationStateService,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
+import { EvaluationSubscriptionDetailUpdateService } from "../../../services/evaluation-subscription-detail-update.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import { COMMENT_COLUMN_KEY, GRADE_COLUMN_KEY } from "../evaluation-constants";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
+import { EvaluationFinaliseDialogComponent } from "../evaluation-finalise-dialog/evaluation-finalise-dialog.component";
 import { EvaluationGradeComponent } from "../evaluation-grade/evaluation-grade.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
 
@@ -54,7 +57,13 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
 })
 export class EvaluationTableComponent {
   state = inject(EvaluationStateService);
-  updateService = inject(EvaluationGradingItemUpdateService);
+  gradingItemUpdateService = inject(EvaluationGradingItemUpdateService);
+  private subscriptionDetailUpdateService = inject(
+    EvaluationSubscriptionDetailUpdateService,
+  );
+  private modalService = inject(BkdModalService);
+  private router = inject(Router);
+
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<number>();
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
@@ -77,6 +86,12 @@ export class EvaluationTableComponent {
       (this.hasGrades() ? 1 : 0) + // Grade
       (this.hasGradeComments() ? 1 : 0) + // Comment
       this.columns().length, // Subscription details
+  );
+
+  hasPendingRequests = computed(
+    () =>
+      this.gradingItemUpdateService.updating() ||
+      this.subscriptionDetailUpdateService.updating(),
   );
 
   private criteriaVisibilities = linkedSignal<
@@ -160,10 +175,32 @@ export class EvaluationTableComponent {
   }
 
   async updateGrade(gradeId: Option<number>, gradingItemId: string) {
-    await this.updateService.updateGrade(gradingItemId, gradeId);
+    await this.gradingItemUpdateService.updateGrade(gradingItemId, gradeId);
   }
 
   async updateComment(comment: Option<string>, gradingItemId: string) {
-    await this.updateService.updateComment(gradingItemId, comment);
+    await this.gradingItemUpdateService.updateComment(gradingItemId, comment);
+  }
+
+  openFinaliseEvaluationDialog(): void {
+    const modalRef = this.modalService.open(EvaluationFinaliseDialogComponent);
+    const component =
+      modalRef.componentInstance as EvaluationFinaliseDialogComponent;
+
+    component.eventId.set(this.state.event()?.id ?? null);
+
+    const hasOpenEvaluations = this.entries().some(
+      (entry) => entry.evaluationRequired,
+    );
+    component.hasOpenEvaluations.set(hasOpenEvaluations);
+
+    modalRef.result.then(
+      async (result) => {
+        if (result) {
+          await this.router.navigate(["events"]);
+        }
+      },
+      () => {},
+    );
   }
 }

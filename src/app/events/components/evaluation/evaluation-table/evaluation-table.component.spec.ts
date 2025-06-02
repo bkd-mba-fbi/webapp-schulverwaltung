@@ -11,6 +11,7 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { buildGradingItem, buildSubscriptionDetail } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
+import { EvaluationSubscriptionDetailUpdateService } from "../../../services/evaluation-subscription-detail-update.service";
 import { TestStateService } from "../../../services/test-state.service";
 import { EvaluationTableComponent } from "./evaluation-table.component";
 
@@ -196,6 +197,7 @@ describe("EvaluationTableComponent", () => {
           EvaluationStateService,
           EvaluationGradingItemUpdateService,
           TestStateService,
+          EvaluationSubscriptionDetailUpdateService,
         ],
       }),
     ).compileComponents();
