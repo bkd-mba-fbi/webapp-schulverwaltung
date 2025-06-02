@@ -29,6 +29,7 @@ import {
   EvaluationStateService,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
+import { EvaluationSubscriptionDetailUpdateService } from "../../../services/evaluation-subscription-detail-update.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
 import { EvaluationFinaliseDialogComponent } from "../evaluation-finalise-dialog/evaluation-finalise-dialog.component";
@@ -55,6 +56,9 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
 export class EvaluationTableComponent {
   state = inject(EvaluationStateService);
   updateService = inject(EvaluationGradingItemUpdateService);
+  subscriptionDetailUpdateService = inject(
+    EvaluationSubscriptionDetailUpdateService,
+  );
   private modalService = inject(BkdModalService);
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<number>();
@@ -63,6 +67,8 @@ export class EvaluationTableComponent {
   hasGrades = input.required<boolean>();
   subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
   gradingScale = input.required<GradingScale>();
+  subscriptionDetails =
+    input.required<ReadonlyArray<EvaluationSubscriptionDetail>>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
@@ -73,6 +79,13 @@ export class EvaluationTableComponent {
       1 + // Name
       (this.hasGrades() ? 1 : 0) + // Grade
       this.columns().length, // Subscription details
+  );
+
+  hasPendingRequests = computed(
+    () =>
+      this.updateService.updating() ||
+      this.subscriptionDetailUpdateService.saving(),
+    // TODO: Bemerkung
   );
 
   private criteriaVisibilities = linkedSignal<

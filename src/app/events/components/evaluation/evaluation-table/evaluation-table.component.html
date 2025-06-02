@@ -127,6 +127,7 @@
     <button
       class="btn btn-primary"
       type="button"
+      [disabled]="hasPendingRequests()"
       (click)="openFinaliseEvaluationDialog()"
     >
       {{ "evaluation.finalise" | translate }}
