@@ -20,6 +20,7 @@ import { average } from "src/app/shared/utils/math";
 import { SubscriptionDetailFieldComponent } from "../../../../shared/components/subscription-detail-field/subscription-detail-field.component";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { DecimalOrDashPipe } from "../../../../shared/pipes/decimal-or-dash.pipe";
+import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
 import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import {
   EvaluationColumn,
@@ -30,6 +31,7 @@ import {
 } from "../../../services/evaluation-state.service";
 import { TableHeaderStickyDirective } from "../../common/table-header-sticky/table-header-sticky.directive";
 import { EvaluationCriteriaComponent } from "../evaluation-criteria/evaluation-criteria.component";
+import { EvaluationFinaliseDialogComponent } from "../evaluation-finalise-dialog/evaluation-finalise-dialog.component";
 import { EvaluationGradeComponent } from "../evaluation-grade/evaluation-grade.component";
 import { GRADE_COLUMN_KEY } from "../evaluation-list/evaluation-list.component";
 import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evaluation-table-header.component";
@@ -53,6 +55,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
 export class EvaluationTableComponent {
   state = inject(EvaluationStateService);
   updateService = inject(EvaluationGradingItemUpdateService);
+  private modalService = inject(BkdModalService);
   sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
   selectedColumn = input.required<number>();
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
@@ -154,5 +157,9 @@ export class EvaluationTableComponent {
 
   async updateGrade(gradeId: Option<number>, gradingItemId: string) {
     await this.updateService.updateGrade(gradingItemId, gradeId);
+  }
+
+  openFinaliseEvaluationDialog(): void {
+    this.modalService.open(EvaluationFinaliseDialogComponent);
   }
 }

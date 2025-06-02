@@ -341,6 +341,12 @@
     "no-items": "Keine Einträge vorhanden",
     "no-evaluation": "Der Anlass kann nicht bewertet werden, da weder eine Notenskala noch andere Bewertungskriterien vorhanden sind.",
     "finalise": "Bewertung abschliessen",
+    "finalise-modal": {
+      "title": "Bewertung abschliessen",
+      "message": "Möchten Sie die Bewertung abschliessen?",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen"
+    },
     "columns": {
       "name": "Name",
       "grade": "Note",

@@ -341,6 +341,12 @@
     "no-items": "Aucune donnée disponible",
     "no-evaluation": "L'événement ne peut pas être évalué car il n'existe pas d'échelle de notes ni d'autres critères d'évaluation.",
     "finalise": "Terminer l'évaluation",
+    "finalise-modal": {
+      "title": "Terminer l’évaluation",
+      "message": "Souhaitez-vous terminer l’évaluation?",
+      "cancel": "Annuler",
+      "confirm": "Valider"
+    },
     "columns": {
       "name": "Nom",
       "grade": "Note",
