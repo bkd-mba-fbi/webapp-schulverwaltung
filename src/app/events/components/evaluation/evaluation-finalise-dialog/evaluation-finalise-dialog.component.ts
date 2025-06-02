@@ -7,7 +7,6 @@ import { TranslatePipe } from "@ngx-translate/core";
   standalone: true,
   imports: [TranslatePipe],
   templateUrl: "./evaluation-finalise-dialog.component.html",
-  styleUrl: "./evaluation-finalise-dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationFinaliseDialogComponent {

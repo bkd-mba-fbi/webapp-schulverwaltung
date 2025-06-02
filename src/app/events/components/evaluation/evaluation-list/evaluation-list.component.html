@@ -45,6 +45,9 @@
           [hasGrades]="hasGrades()"
           (subscriptionDetailChange)="updateSubscriptionDetail($event)"
           [gradingScale]="state.gradingScale()"
+          [ngClass]="{
+            'grade-column-selected': selectedColumn() === GRADE_COLUMN,
+          }"
         ></bkd-evaluation-table>
       }
     }
