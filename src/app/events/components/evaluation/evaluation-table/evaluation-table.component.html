@@ -119,7 +119,11 @@
     </tfoot>
   </table>
   <div class="action-buttons">
-    <button class="btn btn-primary" type="button">
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="openFinaliseEvaluationDialog()"
+    >
       {{ "evaluation.finalise" | translate }}
     </button>
   </div>
