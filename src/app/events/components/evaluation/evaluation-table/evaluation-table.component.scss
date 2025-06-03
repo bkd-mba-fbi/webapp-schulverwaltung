@@ -120,7 +120,7 @@ button.criteria-toggle {
     display: none;
   }
 
-  :host.grade-column-selected .action-buttons {
+  :host.finalise-button-visible .action-buttons {
     display: flex;
   }
 }
