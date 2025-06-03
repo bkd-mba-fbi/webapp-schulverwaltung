@@ -119,6 +119,13 @@
     </tfoot>
   </table>
   <div class="action-buttons">
-    <!-- TODO: add "Bewertung abschliessen" button -->
+    <button
+      class="btn btn-primary"
+      type="button"
+      [disabled]="hasPendingRequests()"
+      (click)="openFinaliseEvaluationDialog()"
+    >
+      {{ "evaluation.finalise" | translate }}
+    </button>
   </div>
 </div>
