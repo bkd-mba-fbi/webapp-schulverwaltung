@@ -171,6 +171,8 @@ export class EvaluationTableComponent {
   }
 
   openFinaliseEvaluationDialog(): void {
-    this.modalService.open(EvaluationFinaliseDialogComponent);
+    const eventId = this.state.event()?.id;
+    const modalRef = this.modalService.open(EvaluationFinaliseDialogComponent);
+    modalRef.componentInstance.eventId = eventId;
   }
 }
