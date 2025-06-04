@@ -39,7 +39,7 @@ tbody td.student-name {
   .open-evaluations {
     color: $absent-color;
     font-size: $evaluation-table-open-evaluations-size;
-    line-height: 1;
+    line-height: normal;
   }
 }
 

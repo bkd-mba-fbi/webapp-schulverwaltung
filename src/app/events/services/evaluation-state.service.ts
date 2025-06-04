@@ -386,6 +386,14 @@ export class EvaluationStateService {
     return `${detail.Id}_${detail.IdPerson}`;
   }
 
+  private getDetailIdById(
+    id: string,
+    specificDetailId: number,
+    idPerson: number,
+  ): string {
+    return `${id}_${specificDetailId}_${idPerson}`;
+  }
+
   private getSubscriptionDetailValue(
     values: Dict<WritableSignal<SubscriptionDetail["Value"]>>,
     detail: SubscriptionDetail,
@@ -448,10 +456,10 @@ export class EvaluationStateService {
       ({ vssId }) =>
         rawColumnDetails.find((detail) => detail.VssId === vssId) ?? null,
     );
-
     const criteriaDetails = criteriaSubscriptionDetails.filter(
       (detail) => detail.IdPerson === gradingItem.IdPerson,
     );
+
     return {
       gradingItem,
       grade: this.findGrade(gradingItem, gradingScale),
@@ -473,11 +481,15 @@ export class EvaluationStateService {
           detail,
         ),
       })),
+
       evaluationRequired: this.isEvaluationRequired(
         gradingItem,
         gradingScale,
         columnDetails,
         criteriaDetails,
+        subscriptionDetailsValues[
+          this.getDetailIdById(gradingItem.Id, 3959, gradingItem.IdPerson)
+        ] ?? null,
       ),
     };
   }
@@ -486,14 +498,18 @@ export class EvaluationStateService {
     gradingScale: Option<GradingScale>,
     columnDetails: (SubscriptionDetail | null)[],
     criteriaDetails: ReadonlyArray<SubscriptionDetail>,
+    specificSubscriptionValue: Option<
+      WritableSignal<SubscriptionDetail["Value"]>
+    >,
   ): boolean {
+    // is a grading event with no grade set
     if (
       this.gradingScale() !== null &&
-      this.findGrade(gradingItem, gradingScale)?.Value === null
+      this.findGrade(gradingItem, gradingScale) === null
     ) {
       return true;
     }
-
+    // has mandatory column or criteria with no value set
     if (
       columnDetails.some(
         (detail) => detail?.VssInternet === "M" && detail?.Value === null,
@@ -504,12 +520,11 @@ export class EvaluationStateService {
     ) {
       return true;
     }
-
+    // has unsufficient grade with subscription detail id 3959 and has no formative criteria set
     if (
       !this.findGrade(gradingItem, gradingScale)?.Sufficient &&
-      (columnDetails.some((detail) => detail?.VssId === 3959) ||
-        criteriaDetails.some((detail) => detail?.VssId === 3959)) &&
-      criteriaDetails.some((detail) => detail?.Value === null)
+      specificSubscriptionValue !== null &&
+      criteriaDetails.filter((detail) => detail?.Value !== null).length === 0
     ) {
       return true;
     }
