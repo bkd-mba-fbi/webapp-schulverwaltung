@@ -60,7 +60,6 @@ export class EvaluationTableComponent {
   hasGrades = input.required<boolean>();
   subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
   gradingScale = input.required<GradingScale>();
-  hasOpenEvaluations: boolean = false;
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,

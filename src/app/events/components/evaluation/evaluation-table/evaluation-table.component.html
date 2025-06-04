@@ -44,13 +44,11 @@
                 [routerLink]="['student', entry.gradingItem.IdPerson, 'grades']"
               >
                 <span>{{ entry.gradingItem.PersonFullname }}</span>
-                <span class="open-evaluations">
-                  {{
-                    entry.evaluationRequired
-                      ? ("evaluation.required" | translate)
-                      : ""
-                  }}
-                </span>
+                @if (entry.evaluationRequired) {
+                  <span class="open-evaluations">
+                    {{ "evaluation.required" | translate }}
+                  </span>
+                }
               </a>
             </div>
           </td>
