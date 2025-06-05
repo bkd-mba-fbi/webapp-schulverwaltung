@@ -29,6 +29,7 @@ import {
             <input
               class="form-check-input"
               type="radio"
+              [attr.name]="id()"
               [name]="id()"
               [id]="itemId"
               [value]="option"
