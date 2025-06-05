@@ -386,12 +386,12 @@ export class EvaluationStateService {
     return `${detail.Id}_${detail.IdPerson}`;
   }
 
-  private getDetailIdById(
-    id: string,
-    specificDetailId: number,
+  private buildDetailId(
+    subscriptionDetailId: string,
+    vssId: number,
     idPerson: number,
   ): string {
-    return `${id}_${specificDetailId}_${idPerson}`;
+    return `${subscriptionDetailId}_${vssId}_${idPerson}`;
   }
 
   private getSubscriptionDetailValue(
@@ -488,7 +488,7 @@ export class EvaluationStateService {
         columnDetails,
         criteriaDetails,
         subscriptionDetailsValues[
-          this.getDetailIdById(gradingItem.Id, 3959, gradingItem.IdPerson)
+          this.buildDetailId(gradingItem.Id, 3959, gradingItem.IdPerson)
         ] ?? null,
       ),
     };
