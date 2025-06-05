@@ -42,13 +42,20 @@ describe("EvaluationStateService", () => {
   let studyClass: StudyClass;
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
+  let gradingItem3: GradingItem;
+  let gradingItem4: GradingItem;
+  let gradingItem5: GradingItem;
   let gradingScale: GradingScale;
   let grade1: Grade;
   let grade2: Grade;
+  let grade3: Grade;
   let detail1: SubscriptionDetail;
   let detail2: SubscriptionDetail;
   let detail3: SubscriptionDetail;
   let detail4: SubscriptionDetail;
+  let detail5: SubscriptionDetail;
+  let detail6: SubscriptionDetail;
+  let detail7: SubscriptionDetail;
   let display: SubscriptionDetailsDisplay;
 
   beforeEach(() => {
@@ -71,9 +78,40 @@ describe("EvaluationStateService", () => {
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
 
-    grade1 = { Id: 100001, Designation: "4.0", Value: 4.0, Sort: "10" };
-    grade2 = { Id: 100002, Designation: "4.5", Value: 4.5, Sort: "11" };
-    gradingScale = buildGradingScale(10000, [grade1, grade2]);
+    gradingItem3 = buildGradingItem(10003, 100003);
+    gradingItem3.IdPerson = 1003;
+    gradingItem3.PersonFullname = "George Harrison";
+
+    gradingItem4 = buildGradingItem(10004, 100002);
+    gradingItem4.IdPerson = 1004;
+    gradingItem4.PersonFullname = "Ringo Starr";
+
+    gradingItem5 = buildGradingItem(10005, null);
+    gradingItem5.IdPerson = 1005;
+    gradingItem5.PersonFullname = "Sean Ono Lennon";
+
+    grade1 = {
+      Id: 100001,
+      Designation: "4.0",
+      Value: 4.0,
+      Sort: "10",
+      Sufficient: true,
+    };
+    grade2 = {
+      Id: 100002,
+      Designation: "4.5",
+      Value: 4.5,
+      Sort: "11",
+      Sufficient: true,
+    };
+    grade3 = {
+      Id: 100003,
+      Designation: "3.5",
+      Value: 3.5,
+      Sort: "9",
+      Sufficient: false,
+    };
+    gradingScale = buildGradingScale(10000, [grade1, grade2, grade3]);
 
     detail1 = buildSubscriptionDetail(3902);
     detail1.VssDesignation = "Anforderungen";
@@ -89,17 +127,41 @@ describe("EvaluationStateService", () => {
 
     detail3 = buildSubscriptionDetail(3936);
     detail3.VssDesignation = "Pünktlichkeit";
-    detail3.IdPerson = gradingItem1.IdPerson;
+    detail3.IdPerson = gradingItem3.IdPerson;
     detail3.Sort = "20";
+    detail3.Value = null;
 
     detail4 = buildSubscriptionDetail(3936);
     detail4.VssDesignation = "Pünktlichkeit";
-    detail4.IdPerson = gradingItem2.IdPerson;
+    detail4.IdPerson = gradingItem4.IdPerson;
+    detail4.VssInternet = "M";
     detail4.Sort = "21";
+    detail4.Value = null;
+
+    detail5 = buildSubscriptionDetail(3936);
+    detail5.VssDesignation = "Pünktlichkeit";
+    detail5.IdPerson = gradingItem1.IdPerson;
+    detail5.Sort = "22";
+
+    detail6 = buildSubscriptionDetail(3936);
+    detail6.VssDesignation = "Pünktlichkeit";
+    detail6.IdPerson = gradingItem2.IdPerson;
+    detail6.Sort = "23";
+
+    detail7 = buildSubscriptionDetail(3959);
+    detail7.VssDesignation = "Formative Beurteilung";
+    detail7.IdPerson = gradingItem3.IdPerson;
+    detail7.Sort = "30";
+    detail7.Id = "10003_3959";
 
     display = {
       adAsColumns: [detail1.VssId, detail2.VssId],
-      adAsCriteria: [detail3.VssId, detail4.VssId],
+      adAsCriteria: [
+        detail3.VssId,
+        detail4.VssId,
+        detail5.VssId,
+        detail6.VssId,
+      ],
     };
 
     TestBed.configureTestingModule(
@@ -155,7 +217,13 @@ describe("EvaluationStateService", () => {
               );
 
               gradingItemsServiceMock.getListForEvent.and.returnValue(
-                of([gradingItem1, gradingItem2]),
+                of([
+                  gradingItem1,
+                  gradingItem2,
+                  gradingItem3,
+                  gradingItem4,
+                  gradingItem5,
+                ]),
               );
 
               return gradingItemsServiceMock;
@@ -198,7 +266,15 @@ describe("EvaluationStateService", () => {
               );
 
               subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
-                of([detail1, detail2, detail3, detail4]),
+                of([
+                  detail1,
+                  detail2,
+                  detail3,
+                  detail4,
+                  detail5,
+                  detail6,
+                  detail7,
+                ]),
               );
 
               return subscriptionDetailsServiceMock;
@@ -310,24 +386,49 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns entries with corresponding grading item, grade from grading scale and column/criteria subscription details", fakeAsync(async () => {
+      subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
+        of([detail1, detail2, detail3, detail4, detail5, detail6, detail7]),
+      );
       params.next({ id: "1000" });
 
       await expectSignalValue(service.entries, (result) => {
-        expect(result).toHaveSize(2);
+        expect(result).toHaveSize(5);
 
-        expect(result[0].gradingItem).toEqual(gradingItem2);
-        expect(result[0].grade).toEqual(grade2);
-        expect(result[0].columns.map((e) => e?.detail ?? null)).toEqual([
+        // has unsufficient grade with subscription detail id 3959 and has no formative criteria set
+        expect(result[0].gradingItem).toEqual(gradingItem3);
+        expect(result[0].grade).toEqual(grade3);
+        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail3]);
+        expect(result[0].evaluationRequired).toBeTrue();
+        console.log(result[0].evaluationRequired);
+
+        // evaluation not required
+        expect(result[1].gradingItem).toEqual(gradingItem2);
+        expect(result[1].grade).toEqual(grade2);
+        expect(result[1].columns.map((e) => e?.detail ?? null)).toEqual([
           detail2,
         ]);
-        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail4]);
+        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail6]);
+        expect(result[1].evaluationRequired).toBeFalse();
 
-        expect(result[1].gradingItem).toEqual(gradingItem1);
-        expect(result[1].grade).toEqual(grade1);
-        expect(result[1].columns.map((e) => e?.detail ?? null)).toEqual([
+        // evaluation not required
+        expect(result[2].gradingItem).toEqual(gradingItem1);
+        expect(result[2].grade).toEqual(grade1);
+        expect(result[2].columns.map((e) => e?.detail ?? null)).toEqual([
           detail1,
         ]);
-        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail3]);
+        expect(result[2].criteria.map((e) => e.detail)).toEqual([detail5]);
+        expect(result[2].evaluationRequired).toBeFalse();
+
+        // has mandatory column or criteria with no value set
+        expect(result[3].gradingItem).toEqual(gradingItem4);
+        expect(result[3].grade).toEqual(grade2);
+        expect(result[3].criteria.map((e) => e?.detail)).toEqual([detail4]);
+        expect(result[3].evaluationRequired).toBeTrue();
+
+        // is a grading event with no grade set
+        expect(result[4].gradingItem).toEqual(gradingItem5);
+        expect(result[4].grade).toBeNull();
+        expect(result[4].evaluationRequired).toBeTrue();
       });
     }));
   });

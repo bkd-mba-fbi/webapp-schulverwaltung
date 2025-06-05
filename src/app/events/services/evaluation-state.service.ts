@@ -60,6 +60,7 @@ export type EvaluationEntry = {
   grade: Option<Grade>;
   columns: ReadonlyArray<Option<EvaluationSubscriptionDetail>>;
   criteria: ReadonlyArray<EvaluationSubscriptionDetail>;
+  evaluationRequired: boolean;
 };
 
 export type EvaluationSortCriteria = SortCriteria<EvaluationSortKey>;
@@ -385,6 +386,13 @@ export class EvaluationStateService {
     return `${detail.Id}_${detail.IdPerson}`;
   }
 
+  private getDetailIdByGradingItem(
+    gradingItem: GradingItem,
+    vssId: number,
+  ): string {
+    return `${gradingItem.Id}_${vssId}_${gradingItem.IdPerson}`;
+  }
+
   private getSubscriptionDetailValue(
     values: Dict<WritableSignal<SubscriptionDetail["Value"]>>,
     detail: SubscriptionDetail,
@@ -447,10 +455,10 @@ export class EvaluationStateService {
       ({ vssId }) =>
         rawColumnDetails.find((detail) => detail.VssId === vssId) ?? null,
     );
-
     const criteriaDetails = criteriaSubscriptionDetails.filter(
       (detail) => detail.IdPerson === gradingItem.IdPerson,
     );
+
     return {
       gradingItem,
       grade: this.findGrade(gradingItem, gradingScale),
@@ -472,7 +480,49 @@ export class EvaluationStateService {
           detail,
         ),
       })),
+
+      evaluationRequired: this.isEvaluationRequired(
+        gradingItem,
+        gradingScale,
+        columnDetails,
+        criteriaDetails,
+        subscriptionDetailsValues[
+          this.getDetailIdByGradingItem(gradingItem, 3959)
+        ] ?? null,
+      ),
     };
+  }
+
+  isEvaluationRequired(
+    gradingItem: GradingItem,
+    gradingScale: Option<GradingScale>,
+    columnDetails: (SubscriptionDetail | null)[],
+    criteriaDetails: ReadonlyArray<SubscriptionDetail>,
+    subscriptionValue: Option<WritableSignal<SubscriptionDetail["Value"]>>,
+  ): boolean {
+    // is a grading event with no grade set
+    const grade = gradingScale && this.findGrade(gradingItem, gradingScale);
+    if (grade === null) {
+      return true;
+    }
+    // has mandatory column or criteria with no value set
+    if (
+      [...columnDetails, ...criteriaDetails].some(
+        (detail) => detail?.VssInternet === "M" && detail?.Value === null,
+      )
+    ) {
+      return true;
+    }
+    // has unsufficient grade with subscription detail id 3959 and has no formative criteria set
+    if (
+      !grade.Sufficient &&
+      subscriptionValue !== null &&
+      criteriaDetails.filter((detail) => detail?.Value !== null).length === 0
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   private findGrade(
