@@ -38,7 +38,8 @@ describe("EvaluationStateService", () => {
   let subscriptionDetailsServiceMock: jasmine.SpyObj<SubscriptionDetailsRestService>;
 
   let params: Subject<Params>;
-  let course: Course;
+  let course1: Course;
+  let course2: Course;
   let studyClass: StudyClass;
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
@@ -56,6 +57,8 @@ describe("EvaluationStateService", () => {
   let detail5: SubscriptionDetail;
   let detail6: SubscriptionDetail;
   let detail7: SubscriptionDetail;
+  let detail8: SubscriptionDetail;
+  let detail9: SubscriptionDetail;
   let display: SubscriptionDetailsDisplay;
 
   beforeEach(() => {
@@ -64,11 +67,17 @@ describe("EvaluationStateService", () => {
     studyClass.Number = "BVS2024a";
     studyClass.StudentCount = 23;
 
-    course = buildCourse(1000);
-    course.Designation = "Mathematik";
-    course.AttendanceRef.StudentCount = 24;
-    course.Classes = [studyClass];
-    course.GradingScaleId = 10000;
+    course1 = buildCourse(1000);
+    course1.Designation = "Mathematik";
+    course1.AttendanceRef.StudentCount = 24;
+    course1.Classes = [studyClass];
+    course1.GradingScaleId = 10000;
+
+    course2 = buildCourse(1002);
+    course2.Designation = "Kurs ohne Noten";
+    course2.AttendanceRef.StudentCount = 24;
+    course2.Classes = [studyClass];
+    course2.GradingScaleId = null;
 
     gradingItem1 = buildGradingItem(10001, 100001);
     gradingItem1.IdPerson = 1001;
@@ -154,6 +163,20 @@ describe("EvaluationStateService", () => {
     detail7.Sort = "30";
     detail7.Id = "10003_3959";
 
+    detail8 = buildSubscriptionDetail(3601);
+    detail8.VssDesignation = "Zuverlässigkeit, Pünktlichkeit";
+    detail8.VssInternet = "M";
+    detail8.IdPerson = gradingItem4.IdPerson;
+    detail8.Sort = "40";
+    detail8.Value = null;
+
+    detail9 = buildSubscriptionDetail(3621);
+    detail9.VssDesignation = "Praktika/Portfolios";
+    detail9.VssInternet = "E";
+    detail9.IdPerson = gradingItem5.IdPerson;
+    detail9.Sort = "41";
+    detail9.Value = null;
+
     display = {
       adAsColumns: [detail1.VssId, detail2.VssId],
       adAsCriteria: [
@@ -161,6 +184,8 @@ describe("EvaluationStateService", () => {
         detail4.VssId,
         detail5.VssId,
         detail6.VssId,
+        detail8.VssId,
+        detail9.VssId,
       ],
     };
 
@@ -189,7 +214,7 @@ describe("EvaluationStateService", () => {
               ]);
 
               coursesServiceMock.getCourseWithStudentCount.and.returnValue(
-                of(course),
+                of(course1),
               );
 
               return coursesServiceMock;
@@ -274,6 +299,8 @@ describe("EvaluationStateService", () => {
                   detail5,
                   detail6,
                   detail7,
+                  detail8,
+                  detail9,
                 ]),
               );
 
@@ -333,8 +360,8 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns module event without class (special case of course)", fakeAsync(async () => {
-      course.Classes = null;
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
+      course1.Classes = null;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course1));
       params.next({ id: "1000" });
 
       await expectSignalValue(service.event, (result) => {
@@ -399,7 +426,6 @@ describe("EvaluationStateService", () => {
         expect(result[0].grade).toEqual(grade3);
         expect(result[0].criteria.map((e) => e.detail)).toEqual([detail3]);
         expect(result[0].evaluationRequired).toBeTrue();
-        console.log(result[0].evaluationRequired);
 
         // evaluation not required
         expect(result[1].gradingItem).toEqual(gradingItem2);
@@ -429,6 +455,30 @@ describe("EvaluationStateService", () => {
         expect(result[4].gradingItem).toEqual(gradingItem5);
         expect(result[4].grade).toBeNull();
         expect(result[4].evaluationRequired).toBeTrue();
+      });
+    }));
+
+    it("returns event with no grading scale and corresponding subscription details", fakeAsync(async () => {
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course2));
+      subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
+        of([detail8, detail9]),
+      );
+      gradingItemsServiceMock.getListForEvent.and.returnValue(
+        of([gradingItem4, gradingItem5]),
+      );
+      params.next({ id: "1002" });
+
+      await expectSignalValue(service.entries, (result) => {
+        expect(result).toHaveSize(2);
+
+        // has mandatory subscription with no value set
+        expect(result[0].gradingItem).toEqual(gradingItem4);
+        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail8]);
+        expect(result[0].evaluationRequired).toBeTrue();
+
+        expect(result[1].gradingItem).toEqual(gradingItem5);
+        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail9]);
+        expect(result[1].evaluationRequired).toBeFalse();
       });
     }));
   });
