@@ -5,7 +5,7 @@ import {
   input,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { distinctUntilChanged, map, of, startWith, switchMap } from "rxjs";
 import { EvaluationEvent } from "src/app/events/services/evaluation-state.service";
@@ -15,7 +15,7 @@ import { ReportsLinkComponent } from "../../../../shared/components/reports-link
 
 @Component({
   selector: "bkd-evaluation-header",
-  imports: [BacklinkComponent, TranslatePipe, ReportsLinkComponent],
+  imports: [BacklinkComponent, TranslatePipe, ReportsLinkComponent, RouterLink],
   templateUrl: "./evaluation-header.component.html",
   styleUrl: "./evaluation-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.chart-container {
+  font-family: sans-serif;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.axis {
+  stroke: #333;
+  stroke-width: 1;
+}
+
+.bar-sufficient {
+  fill: #4caf50; /* Grün */
+}
+
+.bar-insufficient {
+  fill: #f44336; /* Rot */
+}
+
+.axis-label {
+  font-size: 12px;
+  fill: #555;
+}
+
+.axis-title {
+  font-size: 14px;
+  font-weight: bold;
+  fill: #333;
+}
+
+.bar-count-label {
+  font-size: 11px;
+  fill: #333;
+  font-weight: bold;
+}

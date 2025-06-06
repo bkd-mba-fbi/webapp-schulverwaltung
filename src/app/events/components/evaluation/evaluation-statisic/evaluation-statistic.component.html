@@ -1,0 +1,19 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+@let event = state.event();
+
+<div class="bkd-container">
+  @if (state.loading()) {
+    <bkd-spinner></bkd-spinner>
+  } @else if (!event) {
+    <p class="mt-3 px-3">{{ "evaluation.no-event" | translate }}</p>
+  } @else {
+    @if (event) {
+      <bkd-evaluation-header [event]="event"></bkd-evaluation-header>
+      <bkd-grade-bar-chart
+        [entries]="state.entries()"
+        [gradingScale]="state.gradingScale()"
+      ></bkd-grade-bar-chart>
+    }
+  }
+</div>
