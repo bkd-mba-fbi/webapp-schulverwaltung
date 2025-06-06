@@ -458,7 +458,6 @@ export class EvaluationStateService {
     const criteriaDetails = criteriaSubscriptionDetails.filter(
       (detail) => detail.IdPerson === gradingItem.IdPerson,
     );
-    console.log("66666666");
 
     return {
       gradingItem,

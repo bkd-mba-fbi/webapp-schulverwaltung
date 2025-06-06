@@ -39,7 +39,6 @@ describe("EvaluationStateService", () => {
 
   let params: Subject<Params>;
   let course1: Course;
-  let course2: Course;
   let studyClass: StudyClass;
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
@@ -57,8 +56,6 @@ describe("EvaluationStateService", () => {
   let detail5: SubscriptionDetail;
   let detail6: SubscriptionDetail;
   let detail7: SubscriptionDetail;
-  let detail8: SubscriptionDetail;
-  let detail9: SubscriptionDetail;
   let display: SubscriptionDetailsDisplay;
 
   beforeEach(() => {
@@ -72,12 +69,6 @@ describe("EvaluationStateService", () => {
     course1.AttendanceRef.StudentCount = 24;
     course1.Classes = [studyClass];
     course1.GradingScaleId = 10000;
-
-    course2 = buildCourse(1002);
-    course2.Designation = "Kurs ohne Noten";
-    course2.AttendanceRef.StudentCount = 24;
-    course2.Classes = [studyClass];
-    course2.GradingScaleId = null;
 
     gradingItem1 = buildGradingItem(10001, 100001);
     gradingItem1.IdPerson = 1001;
@@ -163,19 +154,19 @@ describe("EvaluationStateService", () => {
     detail7.Sort = "30";
     detail7.Id = "10003_3959";
 
-    detail8 = buildSubscriptionDetail(3601);
-    detail8.VssDesignation = "Zuverlässigkeit, Pünktlichkeit";
-    detail8.VssInternet = "M";
-    detail8.IdPerson = gradingItem4.IdPerson;
-    detail8.Sort = "40";
-    detail8.Value = null;
+    // detail8 = buildSubscriptionDetail(3601);
+    // detail8.VssDesignation = "Zuverlässigkeit, Pünktlichkeit";
+    // detail8.VssInternet = "M";
+    // detail8.IdPerson = gradingItem4.IdPerson;
+    // detail8.Sort = "40";
+    // detail8.Value = null;
 
-    detail9 = buildSubscriptionDetail(3621);
-    detail9.VssDesignation = "Praktika/Portfolios";
-    detail9.VssInternet = "E";
-    detail9.IdPerson = gradingItem5.IdPerson;
-    detail9.Sort = "41";
-    detail9.Value = null;
+    // detail9 = buildSubscriptionDetail(3621);
+    // detail9.VssDesignation = "Praktika/Portfolios";
+    // detail9.VssInternet = "E";
+    // detail9.IdPerson = gradingItem5.IdPerson;
+    // detail9.Sort = "41";
+    // detail9.Value = null;
 
     display = {
       adAsColumns: [detail1.VssId, detail2.VssId],
@@ -184,8 +175,6 @@ describe("EvaluationStateService", () => {
         detail4.VssId,
         detail5.VssId,
         detail6.VssId,
-        detail8.VssId,
-        detail9.VssId,
       ],
     };
 
@@ -299,8 +288,6 @@ describe("EvaluationStateService", () => {
                   detail5,
                   detail6,
                   detail7,
-                  detail8,
-                  detail9,
                 ]),
               );
 
@@ -459,26 +446,28 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns event with no grading scale and corresponding subscription details", fakeAsync(async () => {
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course2));
+      course1.GradingScaleId = null;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course1));
       subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
-        of([detail8, detail9]),
+        of([detail3, detail4]),
       );
       gradingItemsServiceMock.getListForEvent.and.returnValue(
-        of([gradingItem4, gradingItem5]),
+        of([gradingItem3, gradingItem4]),
       );
-      params.next({ id: "1002" });
+      params.next({ id: "1000" });
 
       await expectSignalValue(service.entries, (result) => {
         expect(result).toHaveSize(2);
 
-        // has mandatory subscription with no value set
-        expect(result[0].gradingItem).toEqual(gradingItem4);
-        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail8]);
-        expect(result[0].evaluationRequired).toBeTrue();
+        // has optional subscription with no value set
+        expect(result[0].gradingItem).toEqual(gradingItem3);
+        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail3]);
+        expect(result[0].evaluationRequired).toBeFalse();
 
-        expect(result[1].gradingItem).toEqual(gradingItem5);
-        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail9]);
-        expect(result[1].evaluationRequired).toBeFalse();
+        // has mandatory subscription with no value set
+        expect(result[1].gradingItem).toEqual(gradingItem4);
+        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail4]);
+        expect(result[1].evaluationRequired).toBeTrue();
       });
     }));
   });
