@@ -154,20 +154,6 @@ describe("EvaluationStateService", () => {
     detail7.Sort = "30";
     detail7.Id = "10003_3959";
 
-    // detail8 = buildSubscriptionDetail(3601);
-    // detail8.VssDesignation = "Zuverlässigkeit, Pünktlichkeit";
-    // detail8.VssInternet = "M";
-    // detail8.IdPerson = gradingItem4.IdPerson;
-    // detail8.Sort = "40";
-    // detail8.Value = null;
-
-    // detail9 = buildSubscriptionDetail(3621);
-    // detail9.VssDesignation = "Praktika/Portfolios";
-    // detail9.VssInternet = "E";
-    // detail9.IdPerson = gradingItem5.IdPerson;
-    // detail9.Sort = "41";
-    // detail9.Value = null;
-
     display = {
       adAsColumns: [detail1.VssId, detail2.VssId],
       adAsCriteria: [
