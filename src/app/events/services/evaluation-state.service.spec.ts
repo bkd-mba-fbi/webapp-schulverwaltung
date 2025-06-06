@@ -38,7 +38,7 @@ describe("EvaluationStateService", () => {
   let subscriptionDetailsServiceMock: jasmine.SpyObj<SubscriptionDetailsRestService>;
 
   let params: Subject<Params>;
-  let course1: Course;
+  let course: Course;
   let studyClass: StudyClass;
   let gradingItem1: GradingItem;
   let gradingItem2: GradingItem;
@@ -64,11 +64,11 @@ describe("EvaluationStateService", () => {
     studyClass.Number = "BVS2024a";
     studyClass.StudentCount = 23;
 
-    course1 = buildCourse(1000);
-    course1.Designation = "Mathematik";
-    course1.AttendanceRef.StudentCount = 24;
-    course1.Classes = [studyClass];
-    course1.GradingScaleId = 10000;
+    course = buildCourse(1000);
+    course.Designation = "Mathematik";
+    course.AttendanceRef.StudentCount = 24;
+    course.Classes = [studyClass];
+    course.GradingScaleId = 10000;
 
     gradingItem1 = buildGradingItem(10001, 100001);
     gradingItem1.IdPerson = 1001;
@@ -189,7 +189,7 @@ describe("EvaluationStateService", () => {
               ]);
 
               coursesServiceMock.getCourseWithStudentCount.and.returnValue(
-                of(course1),
+                of(course),
               );
 
               return coursesServiceMock;
@@ -333,8 +333,8 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns module event without class (special case of course)", fakeAsync(async () => {
-      course1.Classes = null;
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course1));
+      course.Classes = null;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
       params.next({ id: "1000" });
 
       await expectSignalValue(service.event, (result) => {
@@ -432,8 +432,8 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns event with no grading scale and corresponding subscription details", fakeAsync(async () => {
-      course1.GradingScaleId = null;
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course1));
+      course.GradingScaleId = null;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
       subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
         of([detail3, detail4]),
       );
