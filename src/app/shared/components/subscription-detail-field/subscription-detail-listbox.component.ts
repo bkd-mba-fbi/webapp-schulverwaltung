@@ -29,6 +29,7 @@ const MANY_ITEMS_COUNT = 3;
             <input
               class="form-check-input"
               type="radio"
+              [attr.name]="id()"
               [name]="id()"
               [id]="itemId"
               [value]="normalizeItemKey(item.Key)"
