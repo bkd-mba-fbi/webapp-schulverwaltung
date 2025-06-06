@@ -500,12 +500,12 @@ export class EvaluationStateService {
     criteriaDetails: ReadonlyArray<SubscriptionDetail>,
     subscriptionValue: Option<WritableSignal<SubscriptionDetail["Value"]>>,
   ): boolean {
-    // is a grading event with no grade set
     const grade = gradingScale && this.findGrade(gradingItem, gradingScale);
-    if (grade === null) {
+    // check if grading event has no grade set
+    if (gradingScale !== null && grade === null) {
       return true;
     }
-    // has mandatory column or criteria with no value set
+    // check if any andatory column or criteria has no value set
     if (
       [...columnDetails, ...criteriaDetails].some(
         (detail) => detail?.VssInternet === "M" && detail?.Value === null,
@@ -513,15 +513,14 @@ export class EvaluationStateService {
     ) {
       return true;
     }
-    // has unsufficient grade with subscription detail id 3959 and has no formative criteria set
+    // check if grade is unsufficient with subscription detail id 3959 and no formative criteria is set
     if (
-      !grade.Sufficient &&
+      !grade?.Sufficient &&
       subscriptionValue !== null &&
       criteriaDetails.filter((detail) => detail?.Value !== null).length === 0
     ) {
       return true;
     }
-
     return false;
   }
 

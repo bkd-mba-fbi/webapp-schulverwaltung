@@ -399,7 +399,6 @@ describe("EvaluationStateService", () => {
         expect(result[0].grade).toEqual(grade3);
         expect(result[0].criteria.map((e) => e.detail)).toEqual([detail3]);
         expect(result[0].evaluationRequired).toBeTrue();
-        console.log(result[0].evaluationRequired);
 
         // evaluation not required
         expect(result[1].gradingItem).toEqual(gradingItem2);
@@ -429,6 +428,32 @@ describe("EvaluationStateService", () => {
         expect(result[4].gradingItem).toEqual(gradingItem5);
         expect(result[4].grade).toBeNull();
         expect(result[4].evaluationRequired).toBeTrue();
+      });
+    }));
+
+    it("returns event with no grading scale and corresponding subscription details", fakeAsync(async () => {
+      course.GradingScaleId = null;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
+      subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
+        of([detail3, detail4]),
+      );
+      gradingItemsServiceMock.getListForEvent.and.returnValue(
+        of([gradingItem3, gradingItem4]),
+      );
+      params.next({ id: "1000" });
+
+      await expectSignalValue(service.entries, (result) => {
+        expect(result).toHaveSize(2);
+
+        // has optional subscription with no value set
+        expect(result[0].gradingItem).toEqual(gradingItem3);
+        expect(result[0].criteria.map((e) => e.detail)).toEqual([detail3]);
+        expect(result[0].evaluationRequired).toBeFalse();
+
+        // has mandatory subscription with no value set
+        expect(result[1].gradingItem).toEqual(gradingItem4);
+        expect(result[1].criteria.map((e) => e.detail)).toEqual([detail4]);
+        expect(result[1].evaluationRequired).toBeTrue();
       });
     }));
   });
