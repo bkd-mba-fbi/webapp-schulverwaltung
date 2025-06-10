@@ -20,19 +20,60 @@ export class GradeBarChartComponent {
   gradingScale = input.required<GradingScale>();
 
   chartWidth = signal(600);
-  chartHeight = signal(400);
-  chartMargin = signal({ top: 20, right: 20, bottom: 50, left: 20 }); // Now an InputSignal
+  chartHeight = signal(600);
+  chartMargin = signal({ top: 20, right: 25, bottom: 50, left: 25 });
+  minBarWidthForScroll = signal(20);
+  maxBarWidth = signal(25); // max width relevant for low amount of bars
+  barPaddingFactor = signal(0.7); // factor determining how much space should be left between bars
+  minChartWidth = signal(300);
+
+  actualChartInnerWidth = computed(() => {
+    const data = this.processedChartData();
+    const numBars = data.length;
+
+    if (numBars === 0) {
+      return this.chartWidth();
+    }
+
+    // Berechne die Breite, die benötigt wird, wenn jeder Balken seine MAX_BAR_WIDTH_PX_FIXED hat
+    const widthIfMaxBarWidth =
+      numBars * (this.maxBarWidth() / this.barPaddingFactor());
+
+    // Berechne die Breite, die benötigt wird, wenn jeder Balken seine MIN_BAR_WIDTH_FOR_SCROLL_PX hat
+    const widthIfMinBarWidth =
+      numBars * (this.minBarWidthForScroll() / this.barPaddingFactor());
+
+    // Die tatsächliche innere Breite ist das Maximum aus:
+    // 1. Der Mindestbreite des Charts
+    // 2. Der Breite, die benötigt wird, wenn Balken ihre MAX_BAR_WIDTH_PX_FIXED haben (für wenige Balken)
+    // 3. Der Breite, die benötigt wird, wenn Balken ihre MIN_BAR_WIDTH_FOR_SCROLL_PX haben (für viele Balken, um Scrollen zu ermöglichen)
+    return Math.max(
+      this.minChartWidth(),
+      widthIfMaxBarWidth,
+      widthIfMinBarWidth,
+    );
+  });
+
+  renderedChartWidth = computed(() => {
+    return (
+      this.actualChartInnerWidth() +
+      this.chartMargin().left +
+      this.chartMargin().right
+    );
+  });
 
   // Derived signals for dimensions
-  chartInnerWidth = computed(
-    () =>
-      this.chartWidth() - this.chartMargin().left - this.chartMargin().right,
-  );
+  // chartInnerWidth = computed(
+  //   () =>
+  //     this.chartWidth() - this.chartMargin().left - this.chartMargin().right,
+  // );
   chartInnerHeight = computed(
     () =>
       this.chartHeight() - this.chartMargin().top - this.chartMargin().bottom,
   );
-  viewBox = computed(() => `0 0 ${this.chartWidth()} ${this.chartHeight()}`);
+  viewBox = computed(
+    () => `0 0 ${this.renderedChartWidth()} ${this.chartHeight()}`,
+  );
 
   @HostBinding("style.display") display = "block";
   @HostBinding("style.width") hostWidth = "100%";
@@ -65,7 +106,7 @@ export class GradeBarChartComponent {
     }> = scale.Grades.map((gradeFromScale) => {
       return {
         Value: gradeFromScale.Value,
-        Count: gradeCounts.get(gradeFromScale.Value) || 0, // Get count from map, default to 0
+        Count: gradeCounts.get(gradeFromScale.Value) || 0,
         Sufficient: gradeFromScale.Sufficient,
         Sort:
           gradeFromScale.Sort ||
@@ -73,10 +114,13 @@ export class GradeBarChartComponent {
       };
     })
       .filter((d) => d.Value > 0) // Filter out grades with Value <= 0
+      .filter((d) => d.Count > 0) // Filter out grades with Count <= 0
       .sort((a, b) => b.Sort.localeCompare(a.Sort)); // Sort by the Sort property
 
     return combinedData;
   });
+
+  hasData = computed(() => this.processedChartData().length > 0);
 
   // Signals for scales
   private xScaleBand = computed(() => {
@@ -90,12 +134,26 @@ export class GradeBarChartComponent {
       };
 
     const xDomain = data.map((d) => d.Value);
-    const xRange = [0, this.chartInnerWidth()] as [number, number]; // Depends on signal
+    const xRange = [0, this.actualChartInnerWidth()] as [number, number]; // Depends on signal
 
-    const numBars = xDomain.length;
-    const bandWidth = (this.chartInnerWidth() / numBars) * 0.7;
-    const step = this.chartInnerWidth() / numBars;
+    const numBars = data.length;
 
+    let bandWidth = 0;
+    let step = 0;
+
+    // Berechnung der optimalen Bandbreite basierend auf dem verfügbaren Platz
+    const proportionalBandWidth =
+      (this.actualChartInnerWidth() / numBars) * this.barPaddingFactor();
+
+    if (proportionalBandWidth > this.maxBarWidth()) {
+      bandWidth = this.maxBarWidth();
+    } else if (proportionalBandWidth < this.minBarWidthForScroll()) {
+      bandWidth = this.minBarWidthForScroll();
+    } else {
+      bandWidth = proportionalBandWidth;
+    }
+
+    step = this.actualChartInnerWidth() / numBars;
     return { domain: xDomain, range: xRange, step: step, bandWidth: bandWidth };
   });
 
@@ -109,8 +167,7 @@ export class GradeBarChartComponent {
 
     const maxCount = Math.max(...data.map((d) => d.Count), 0);
     const yDomain = [0, maxCount * 1.1] as [number, number];
-    const yRange = [this.chartInnerHeight(), 0] as [number, number]; // Depends on signal
-
+    const yRange = [this.chartInnerHeight(), 0] as [number, number];
     return { domain: yDomain, range: yRange };
   });
 
@@ -137,7 +194,7 @@ export class GradeBarChartComponent {
         colorClass,
         value: d.Value,
         count: d.Count,
-      }; // count hinzufügen
+      };
     });
   });
 
@@ -150,28 +207,30 @@ export class GradeBarChartComponent {
 
     const labels: {
       x: number;
+      y: number;
       text: string;
-      transform: string;
       textAnchor: string;
     }[] = [];
-    const maxLabels = 51; // Maximale Anzahl der X-Achsen-Labels, die angezeigt werden sollen
+    const maxLabels = 51;
     const totalDataPoints = data.length;
 
-    // Bestimmen Sie, wie viele Labels wir überspringen müssen
     const stepInterval = Math.max(1, Math.ceil(totalDataPoints / maxLabels));
 
-    data.forEach((d, index) => {
-      // Nur jedes `stepInterval`-te Label anzeigen
-      if (index % stepInterval === 0) {
-        const x = xScale.step * index + xScale.step / 2;
-        const y = chartHeight + 25; // Etwas mehr Platz nach unten für rotierte Labels
-        const rotationAngle = -45; // Rotationswinkel in Grad
-        labels.push({
-          x,
-          text: d.Value.toString(),
-          transform: `rotate(${rotationAngle} ${x},${y})`, // Rotation um den Label-Mittelpunkt
-          textAnchor: "end", // Text am Ende des Labels ausrichten (nach Rotation)
-        });
+    data.forEach((d, dataIndex) => {
+      if (dataIndex % stepInterval === 0) {
+        // Nur jedes n-te Label anzeigen von den gefilterten
+        // Finde den ursprünglichen Index in den UNGEFILTERTEN Daten, um die X-Position zu bestimmen
+        const originalIndex = data.findIndex((item) => item.Value === d.Value);
+        if (originalIndex !== -1) {
+          const x = xScale.step * originalIndex + xScale.step / 2;
+          const y = chartHeight + 18;
+          labels.push({
+            x,
+            y,
+            text: d.Value.toString(),
+            textAnchor: "middle",
+          });
+        }
       }
     });
     return labels;
@@ -179,13 +238,33 @@ export class GradeBarChartComponent {
 
   barLabels = computed(() => {
     const barsData = this.bars(); // Nutze die bereits berechneten Balkendaten
-    return barsData
-      .filter((bar) => bar.count > 0) // Nur Labels für Balken mit Count > 0 anzeigen
-      .map((bar) => ({
-        x: bar.x + bar.width / 2, // Mitte des Balkens
-        y: bar.y - 5, // 5 Pixel oberhalb des Balkens
-        text: bar.count.toString(),
-      }));
+    return barsData.map((bar) => ({
+      x: bar.x + bar.width / 2, // Mitte des Balkens
+      y: bar.y - 5, // 5 Pixel oberhalb des Balkens
+      text: bar.count.toString(),
+    }));
+  });
+
+  legendLabels = computed(() => {
+    const chartWidth = this.renderedChartWidth();
+    const margin = this.chartMargin();
+    const legendY = margin.top / 2;
+
+    const labels = [
+      {
+        text: "Ungenügend",
+        colorClass: "bar-insufficient",
+        x: chartWidth / 2 - 80,
+        y: legendY,
+      },
+      {
+        text: "Genügend",
+        colorClass: "bar-sufficient",
+        x: chartWidth / 2 + 50,
+        y: legendY,
+      },
+    ];
+    return labels;
   });
 
   private scaleY(

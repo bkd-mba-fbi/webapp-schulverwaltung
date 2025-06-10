@@ -1,76 +1,95 @@
-<div class="chart-container">
-  <svg [attr.viewBox]="viewBox()">
-    <g
-      [attr.transform]="
-        'translate(' + chartMargin().left + ',' + chartMargin().top + ')'
-      "
+<div class="chart-container mt-3">
+  @if (hasData()) {
+    <svg
+      [attr.width]="renderedChartWidth()"
+      [attr.height]="chartHeight()"
+      [attr.viewBox]="viewBox()"
     >
-      <line
-        x1="0"
-        y1="0"
-        x2="0"
-        [attr.y2]="chartInnerHeight()"
-        class="axis"
-      ></line>
-      <line
-        x1="0"
-        [attr.y1]="chartInnerHeight()"
-        [attr.x2]="chartInnerWidth()"
-        [attr.y2]="chartInnerHeight()"
-        class="axis"
-      ></line>
-
-      @for (bar of bars(); track bar.value) {
+      @for (legend of legendLabels(); track legend.text) {
         <rect
-          [attr.x]="bar.x"
-          [attr.y]="bar.y"
-          [attr.width]="bar.width"
-          [attr.height]="bar.height"
-          [attr.class]="bar.colorClass"
+          [attr.x]="legend.x - 15"
+          [attr.y]="legend.y - 5"
+          width="10"
+          height="10"
+          [attr.class]="legend.colorClass"
         ></rect>
+        <text [attr.x]="legend.x" [attr.y]="legend.y + 4" class="label">
+          {{ legend.text }}
+        </text>
       }
+      <g
+        [attr.transform]="
+          'translate(' + chartMargin().left + ',' + chartMargin().top + ')'
+        "
+      >
+        <line
+          x1="0"
+          y1="0"
+          x2="0"
+          [attr.y2]="chartInnerHeight()"
+          class="axis"
+        ></line>
+        <line
+          x1="0"
+          [attr.y1]="chartInnerHeight()"
+          [attr.x2]="actualChartInnerWidth()"
+          [attr.y2]="chartInnerHeight()"
+          class="axis"
+        ></line>
 
-      @for (barLabel of barLabels(); track barLabel.text + "-" + barLabel.x) {
+        @for (bar of bars(); track bar.value) {
+          <rect
+            [attr.x]="bar.x"
+            [attr.y]="bar.y"
+            [attr.width]="bar.width"
+            [attr.height]="bar.height"
+            [attr.class]="bar.colorClass"
+          ></rect>
+        }
+
+        @for (barLabel of barLabels(); track barLabel.text + "-" + barLabel.x) {
+          <text
+            [attr.x]="barLabel.x"
+            [attr.y]="barLabel.y"
+            text-anchor="middle"
+            class="label bar-label"
+          >
+            {{ barLabel.text }}
+          </text>
+        }
+
+        @for (label of xLabels(); track label.text) {
+          <text
+            [attr.x]="label.x"
+            [attr.y]="label.y"
+            [attr.text-anchor]="label.textAnchor"
+            class="label"
+          >
+            {{ label.text }}
+          </text>
+        }
+
         <text
-          [attr.x]="barLabel.x"
-          [attr.y]="barLabel.y"
+          class="label"
+          [attr.x]="actualChartInnerWidth() / 2"
+          [attr.y]="chartInnerHeight() + chartMargin().bottom - 10"
           text-anchor="middle"
-          class="bar-count-label"
         >
-          {{ barLabel.text }}
+          Note
         </text>
-      }
 
-      @for (label of xLabels(); track label.text) {
         <text
-          [attr.x]="label.x"
-          [attr.y]="chartInnerHeight() + 5"
-          [attr.transform]="label.transform"
-          [attr.text-anchor]="label.textAnchor"
-          class="axis-label x-label"
+          class="label"
+          [attr.transform]="'rotate(-90)'"
+          [attr.x]="-(chartInnerHeight() / 2)"
+          [attr.y]="-chartMargin().left + 15"
+          text-anchor="middle"
         >
-          {{ label.text }}
+          Anzahl
         </text>
-      }
-
-      <text
-        class="axis-title x-axis-title"
-        [attr.x]="chartInnerWidth() / 2"
-        [attr.y]="chartInnerHeight() + chartMargin().bottom - 10"
-        text-anchor="middle"
-      >
-        Note
-      </text>
-
-      <text
-        class="axis-title y-axis-title"
-        [attr.transform]="'rotate(-90)'"
-        [attr.x]="-(chartInnerHeight() / 2)"
-        [attr.y]="-chartMargin().left + 10"
-        text-anchor="middle"
-      >
-        Anzahl
-      </text>
-    </g>
-  </svg>
+      </g>
+    </svg>
+  } @else {
+    <div class="no-data-message">Keine Daten für Diagramm vorhanden</div>
+  }
 </div>

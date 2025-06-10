@@ -1,52 +1,47 @@
+@import "src/bootstrap-variables";
+
 :host {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: auto;
   box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .chart-container {
   font-family: sans-serif;
-  width: 100%;
   height: 100%;
-  flex-grow: 1;
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 svg {
   display: block;
-  width: 100%;
   height: 100%;
 }
 
 .axis {
-  stroke: #333;
+  stroke: $gray-700;
   stroke-width: 1;
 }
 
 .bar-sufficient {
-  fill: #4caf50; /* Grün */
+  fill: $green;
 }
 
 .bar-insufficient {
-  fill: #f44336; /* Rot */
+  fill: $red;
 }
 
-.axis-label {
-  font-size: 12px;
-  fill: #555;
-}
-
-.axis-title {
-  font-size: 14px;
+.bar-label {
   font-weight: bold;
-  fill: #333;
 }
 
-.bar-count-label {
-  font-size: 11px;
-  fill: #333;
-  font-weight: bold;
+.no-data-message {
+  text-align: center;
+  padding: 20px;
 }
