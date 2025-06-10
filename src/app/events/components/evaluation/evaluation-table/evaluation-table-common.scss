@@ -83,6 +83,7 @@ td.filler {
 @media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
   .desktop:not(.selected),
   .student-grade:not(.selected),
+  .student-comment:not(.selected),
   .subscription-detail:not(.selected) {
     display: none;
   }
@@ -113,9 +114,11 @@ td.filler {
   }
 
   .student-grade,
-  .subscription-detail {
+  .subscription-detail,
+  .student-comment {
     flex: none;
     display: block;
+    width: 50%;
   }
 }
 

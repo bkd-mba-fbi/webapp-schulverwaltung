@@ -56,20 +56,29 @@ describe("EvaluationTableComponent", () => {
         Sufficient: true,
       },
     ],
+    CommentsAllowed: false,
+  };
+
+  const gradingScaleWithComments: GradingScale = {
+    ...gradingScale,
+    CommentsAllowed: true,
   };
 
   beforeEach(async () => {
     gradingItem1 = buildGradingItem(2001, 3001);
     gradingItem1.IdPerson = 1001;
     gradingItem1.PersonFullname = "Paul McCartney";
+    gradingItem1.Comment = "Gute Leistung";
 
     gradingItem2 = buildGradingItem(2002, 3002);
     gradingItem2.IdPerson = 1002;
     gradingItem2.PersonFullname = "John Lennon";
+    gradingItem2.Comment = "Braucht Verbesserung";
 
     gradingItem3 = buildGradingItem(2003, 3003);
     gradingItem3.IdPerson = 1003;
     gradingItem3.PersonFullname = "Sean Ono Lennon";
+    gradingItem3.Comment = "Motiviert";
 
     grade1 = {
       Id: 3001,
@@ -202,6 +211,7 @@ describe("EvaluationTableComponent", () => {
     fixture.componentRef.setInput("selectedColumn", null);
     fixture.componentRef.setInput("entries", entries);
     fixture.componentRef.setInput("gradingScale", gradingScale);
+    fixture.componentRef.setInput("hasGradeComments", false);
   });
 
   describe("event with grades", () => {
@@ -263,6 +273,30 @@ describe("EvaluationTableComponent", () => {
     });
   });
 
+  describe("event with comments allowed", () => {
+    beforeEach(async () => {
+      fixture.componentRef.setInput("hasGrades", true);
+      fixture.componentRef.setInput("gradingScale", gradingScaleWithComments);
+      fixture.componentRef.setInput("hasGradeComments", true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it("renders the comment column", () => {
+      const commentTextareas = getCommentTextareas();
+      expect(commentTextareas).toHaveSize(3);
+    });
+
+    it("displays the comments in the textareas", () => {
+      const commentValues = getCommentValues();
+      expect(commentValues).toEqual([
+        "Motiviert",
+        "Braucht Verbesserung",
+        "Gute Leistung",
+      ]);
+    });
+  });
+
   function getColumnValues(
     index: number,
     context = "table tbody",
@@ -285,5 +319,16 @@ describe("EvaluationTableComponent", () => {
       const select = cell.querySelector<HTMLSelectElement>("bkd-select select");
       return select?.selectedOptions?.item(0)?.textContent?.trim() ?? "";
     });
+  }
+
+  function getCommentTextareas(): HTMLTextAreaElement[] {
+    return Array.from(
+      element.querySelectorAll("bkd-grading-item-comment-textarea textarea"),
+    );
+  }
+
+  function getCommentValues(): ReadonlyArray<string | undefined> {
+    const textareas = getCommentTextareas();
+    return Array.from(textareas).map((textarea) => textarea.value);
   }
 });

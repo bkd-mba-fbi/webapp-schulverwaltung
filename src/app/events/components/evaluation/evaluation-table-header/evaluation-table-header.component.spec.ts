@@ -53,13 +53,14 @@ describe("EvaluationTableHeaderComponent", () => {
     fixture.componentRef.setInput("selectedColumn", null);
   });
 
-  describe("event with grades", () => {
+  describe("event with grades and comments", () => {
     beforeEach(() => {
       fixture.componentRef.setInput("hasGrades", true);
+      fixture.componentRef.setInput("hasGradeComments", true);
       fixture.detectChanges();
     });
 
-    it("renders name column, grade column and subscription detail columns", () => {
+    it("renders name, grade, subscription detail, and comment columns", () => {
       expect(getColumns()).toEqual([
         "evaluation.columns.name↓",
         "evaluation.columns.grade",
@@ -67,6 +68,7 @@ describe("EvaluationTableHeaderComponent", () => {
         "Absenzen entschuldigt",
         "Absenzen unentschuldigt",
         "Formative Beurteilung",
+        "evaluation.columns.comment",
       ]);
     });
   });
@@ -77,9 +79,28 @@ describe("EvaluationTableHeaderComponent", () => {
       fixture.detectChanges();
     });
 
-    it("renders name column and subscription detail columns", () => {
+    it("renders name and subscription detail columns", () => {
       expect(getColumns()).toEqual([
         "evaluation.columns.name↓",
+        "Anforderungen",
+        "Absenzen entschuldigt",
+        "Absenzen unentschuldigt",
+        "Formative Beurteilung",
+      ]);
+    });
+  });
+
+  describe("event without comments", () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput("hasGrades", true);
+      fixture.componentRef.setInput("hasGradeComments", false);
+      fixture.detectChanges();
+    });
+
+    it("renders name, grade, and subscription detail columns", () => {
+      expect(getColumns()).toEqual([
+        "evaluation.columns.name↓",
+        "evaluation.columns.grade",
         "Anforderungen",
         "Absenzen entschuldigt",
         "Absenzen unentschuldigt",

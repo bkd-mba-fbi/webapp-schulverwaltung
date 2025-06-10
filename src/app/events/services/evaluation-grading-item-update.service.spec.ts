@@ -45,7 +45,7 @@ describe("EvaluationGradingItemUpdateService", () => {
             useFactory() {
               gradingItemsRestServiceMock = jasmine.createSpyObj(
                 "GradingItemsRestService",
-                ["updateForEvent", "update"],
+                ["updateForEvent", "update", "updateComment"],
               );
 
               gradingItemsRestServiceMock.updateForEvent.and.returnValue(
@@ -53,6 +53,10 @@ describe("EvaluationGradingItemUpdateService", () => {
               );
 
               gradingItemsRestServiceMock.update.and.returnValue(of(undefined));
+
+              gradingItemsRestServiceMock.updateComment.and.returnValue(
+                of(undefined),
+              );
 
               return gradingItemsRestServiceMock;
             },
@@ -170,6 +174,27 @@ describe("EvaluationGradingItemUpdateService", () => {
         evaluationStateServiceMock.updateGradingItems,
       ).toHaveBeenCalledWith([
         { ...mockGradingItem1, IdGrade: selectedGradeId },
+        mockGradingItem2,
+      ]);
+    });
+  });
+
+  describe("updateComment", () => {
+    it("updates a single grading item with the provided comment", async () => {
+      const gradingItemId = mockGradingItem1.Id;
+      const comment = "Gute Leistung";
+
+      const result = await updateService.updateComment(gradingItemId, comment);
+
+      expect(result).toBe(true);
+      expect(gradingItemsRestServiceMock.updateComment).toHaveBeenCalledWith(
+        gradingItemId,
+        comment,
+      );
+      expect(
+        evaluationStateServiceMock.updateGradingItems,
+      ).toHaveBeenCalledWith([
+        { ...mockGradingItem1, Comment: comment },
         mockGradingItem2,
       ]);
     });

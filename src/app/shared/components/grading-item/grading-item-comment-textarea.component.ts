@@ -1,38 +1,33 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
   model,
   output,
 } from "@angular/core";
-import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.directive";
+import { Option } from "../../models/common-types";
 
 @Component({
-  selector: "bkd-subscription-detail-textarea",
+  selector: "bkd-grading-item-comment-textarea",
   imports: [TextareaAutosizeDirective],
   template: `
     <textarea
       class="form-control"
-      [id]="id()"
-      [value]="value()"
-      [disabled]="readonly()"
+      bkdTextareaAutosize
+      [value]="value() || ''"
       (input)="onInput($event)"
       (blur)="onBlur()"
-      bkdTextareaAutosize
+      [disabled]="disabled()"
     ></textarea>
   `,
-  styleUrls: ["./subscription-detail-textarea.component.scss"],
+  styleUrls: ["./grading-item-comment-textarea.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SubscriptionDetailTextareaComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
-
-  readonly = computed(() => this.detail().VssInternet === "R");
+export class GradingItemCommentTextareaComponent {
+  value = model<Option<string>>(null);
+  disabled = input<boolean>(false);
+  commit = output<Option<string>>();
 
   onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;

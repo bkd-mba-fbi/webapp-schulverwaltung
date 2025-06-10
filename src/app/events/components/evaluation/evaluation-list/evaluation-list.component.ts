@@ -14,16 +14,15 @@ import { notNull } from "src/app/shared/utils/filter";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 import { BkdModalService } from "../../../../shared/services/bkd-modal.service";
+import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
 import {
   EvaluationStateService,
   EvaluationSubscriptionDetail,
 } from "../../../services/evaluation-state.service";
-import { EvaluationGradingItemUpdateService } from "../../../services/evaluation-grading-item-update.service";
+import { COMMENT_COLUMN_KEY, GRADE_COLUMN_KEY } from "../evaluation-constants";
 import { EvaluationDefaultGradeDialogComponent } from "../evaluation-dialog/evaluation-default-grade-dialog.component";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
 import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.component";
-
-export const GRADE_COLUMN_KEY = -1;
 
 @Component({
   selector: "bkd-evaluation-list",
@@ -53,10 +52,18 @@ export class EvaluationListComponent {
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
   hasGrades = computed(() => this.state.gradingScale() !== null);
+  hasGradeComments = computed(
+    () => this.state.gradingScale()?.CommentsAllowed === true,
+  );
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
       Key: GRADE_COLUMN_KEY,
       Value: this.translate.instant("evaluation.columns.grade"),
+    };
+
+    const commentOption: DropDownItem = {
+      Key: COMMENT_COLUMN_KEY,
+      Value: this.translate.instant("evaluation.columns.comment"),
     };
 
     const subscriptionDetailOptions: ReadonlyArray<DropDownItem> = uniqBy(
@@ -69,6 +76,7 @@ export class EvaluationListComponent {
     return [
       this.hasGrades() ? gradeOption : null,
       ...subscriptionDetailOptions,
+      this.hasGradeComments() ? commentOption : null,
     ].filter(notNull);
   });
 
