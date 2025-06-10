@@ -318,7 +318,9 @@ describe("EvaluationTableComponent", () => {
 
   function getCommentTextareas(): HTMLTextAreaElement[] {
     return Array.from(
-      element.querySelectorAll("bkd-grading-item-comment-textarea textarea"),
+      element.querySelectorAll(
+        "tbody bkd-grading-item-comment-textarea textarea",
+      ),
     );
   }
 
