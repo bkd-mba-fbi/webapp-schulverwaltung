@@ -2,21 +2,43 @@
 
 :host {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  // height: 60vh;
+}
+
+.chart-container {
+  display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   height: auto;
+  font-family: sans-serif;
   box-sizing: border-box;
+  justify-content: center;
+}
+
+.chart-legend,
+.x-axis-label {
+  align-items: center;
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-.chart-container {
-  font-family: sans-serif;
+.chart {
   height: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  align-self: flex-start;
+  display: inline-flex;
 }
 
 svg {

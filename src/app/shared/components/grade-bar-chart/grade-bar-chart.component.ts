@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   computed,
   input,
   signal,
@@ -20,10 +19,11 @@ export class GradeBarChartComponent {
   gradingScale = input.required<GradingScale>();
 
   chartWidth = signal(600);
-  chartHeight = signal(600);
-  chartMargin = signal({ top: 20, right: 25, bottom: 50, left: 25 });
-  minBarWidthForScroll = signal(20);
-  maxBarWidth = signal(25); // max width relevant for low amount of bars
+  chartHeight = signal(400);
+  chartMargin = signal({ top: 5, right: 25, bottom: 25, left: 25 });
+  minBarCountForScroll = signal(15);
+  minBarWidth = signal(15);
+  maxBarWidth = signal(25);
   barPaddingFactor = signal(0.7); // factor determining how much space should be left between bars
   minChartWidth = signal(300);
 
@@ -34,19 +34,12 @@ export class GradeBarChartComponent {
     if (numBars === 0) {
       return this.chartWidth();
     }
-
-    // Berechne die Breite, die benötigt wird, wenn jeder Balken seine MAX_BAR_WIDTH_PX_FIXED hat
     const widthIfMaxBarWidth =
       numBars * (this.maxBarWidth() / this.barPaddingFactor());
 
-    // Berechne die Breite, die benötigt wird, wenn jeder Balken seine MIN_BAR_WIDTH_FOR_SCROLL_PX hat
     const widthIfMinBarWidth =
-      numBars * (this.minBarWidthForScroll() / this.barPaddingFactor());
+      numBars * (this.minBarWidth() / this.barPaddingFactor());
 
-    // Die tatsächliche innere Breite ist das Maximum aus:
-    // 1. Der Mindestbreite des Charts
-    // 2. Der Breite, die benötigt wird, wenn Balken ihre MAX_BAR_WIDTH_PX_FIXED haben (für wenige Balken)
-    // 3. Der Breite, die benötigt wird, wenn Balken ihre MIN_BAR_WIDTH_FOR_SCROLL_PX haben (für viele Balken, um Scrollen zu ermöglichen)
     return Math.max(
       this.minChartWidth(),
       widthIfMaxBarWidth,
@@ -62,11 +55,6 @@ export class GradeBarChartComponent {
     );
   });
 
-  // Derived signals for dimensions
-  // chartInnerWidth = computed(
-  //   () =>
-  //     this.chartWidth() - this.chartMargin().left - this.chartMargin().right,
-  // );
   chartInnerHeight = computed(
     () =>
       this.chartHeight() - this.chartMargin().top - this.chartMargin().bottom,
@@ -74,11 +62,6 @@ export class GradeBarChartComponent {
   viewBox = computed(
     () => `0 0 ${this.renderedChartWidth()} ${this.chartHeight()}`,
   );
-
-  @HostBinding("style.display") display = "block";
-  @HostBinding("style.width") hostWidth = "100%";
-  @HostBinding("style.height") hostHeight = "100%";
-  @HostBinding("style.overflow") overflow = "hidden";
 
   // Combined and processed data for the chart
   private processedChartData = computed(() => {
@@ -147,8 +130,8 @@ export class GradeBarChartComponent {
 
     if (proportionalBandWidth > this.maxBarWidth()) {
       bandWidth = this.maxBarWidth();
-    } else if (proportionalBandWidth < this.minBarWidthForScroll()) {
-      bandWidth = this.minBarWidthForScroll();
+    } else if (numBars >= this.minBarCountForScroll()) {
+      bandWidth = 20;
     } else {
       bandWidth = proportionalBandWidth;
     }

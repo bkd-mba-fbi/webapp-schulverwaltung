@@ -10,10 +10,20 @@
   } @else {
     @if (event) {
       <bkd-evaluation-header [event]="event"></bkd-evaluation-header>
-      <bkd-grade-bar-chart
-        [entries]="state.entries()"
-        [gradingScale]="state.gradingScale()"
-      ></bkd-grade-bar-chart>
+      <div class="statistic-container">
+        <div class="pseudo">
+          Some content <br />
+          Some content <br />
+          Some content <br />
+          Some content <br />
+          Some content <br />
+          Some content <br />
+        </div>
+        <bkd-grade-bar-chart
+          [entries]="state.entries()"
+          [gradingScale]="state.gradingScale()"
+        ></bkd-grade-bar-chart>
+      </div>
     }
   }
 </div>
