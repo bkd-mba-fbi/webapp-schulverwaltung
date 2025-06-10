@@ -64,6 +64,13 @@ button.criteria-toggle {
   display: none;
 }
 
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $spacer;
+  padding-right: $spacer;
+}
+
 // Desktop view
 @media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .table-responsive-wrapper {
@@ -104,5 +111,16 @@ button.criteria-toggle {
         var(--subscription-detail-columns-offset) - $spacer
       ) !important;
     }
+  }
+}
+
+// Mobile view
+@media (max-width: $bkd-evaluation-mobile-breakpoint) {
+  .action-buttons {
+    display: none;
+  }
+
+  :host.finalise-button-visible .action-buttons {
+    display: flex;
   }
 }
