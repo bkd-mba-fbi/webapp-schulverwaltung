@@ -75,8 +75,8 @@ export class EvaluationListComponent {
 
     return [
       this.hasGrades() ? gradeOption : null,
-      this.showCommentColumn() ? commentOption : null,
       ...subscriptionDetailOptions,
+      this.showCommentColumn() ? commentOption : null,
     ].filter(notNull);
   });
 
