@@ -808,7 +808,7 @@ export function buildGradingItem(
     // MatriculationNumber: null,
     IdGrade: gradeId,
     GradeValue: null,
-    Comment: "greetings",
+    Comment: "Kommentar",
     // SubscriptionDetails: null,
     // ColumnDetails: null,
     // IdObject: "10413",

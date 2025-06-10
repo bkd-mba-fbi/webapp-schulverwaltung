@@ -56,7 +56,7 @@ describe("EvaluationTableHeaderComponent", () => {
   describe("event with grades and comments", () => {
     beforeEach(() => {
       fixture.componentRef.setInput("hasGrades", true);
-      fixture.componentRef.setInput("showCommentColumn", true);
+      fixture.componentRef.setInput("hasGradeComments", true);
       fixture.detectChanges();
     });
 
@@ -93,7 +93,7 @@ describe("EvaluationTableHeaderComponent", () => {
   describe("event without comments", () => {
     beforeEach(() => {
       fixture.componentRef.setInput("hasGrades", true);
-      fixture.componentRef.setInput("showCommentColumn", false);
+      fixture.componentRef.setInput("hasGradeComments", false);
       fixture.detectChanges();
     });
 

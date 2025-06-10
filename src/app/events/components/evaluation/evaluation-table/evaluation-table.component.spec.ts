@@ -210,6 +210,7 @@ describe("EvaluationTableComponent", () => {
     fixture.componentRef.setInput("selectedColumn", null);
     fixture.componentRef.setInput("entries", entries);
     fixture.componentRef.setInput("gradingScale", gradingScale);
+    fixture.componentRef.setInput("hasGradeComments", false);
   });
 
   describe("event with grades", () => {
@@ -275,6 +276,7 @@ describe("EvaluationTableComponent", () => {
     beforeEach(async () => {
       fixture.componentRef.setInput("hasGrades", true);
       fixture.componentRef.setInput("gradingScale", gradingScaleWithComments);
+      fixture.componentRef.setInput("hasGradeComments", true);
       fixture.detectChanges();
       await fixture.whenStable();
     });

@@ -60,6 +60,7 @@ export class EvaluationTableComponent {
   columns = input.required<ReadonlyArray<EvaluationColumn>>();
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
   hasGrades = input.required<boolean>();
+  hasGradeComments = input.required<boolean>();
   subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
   gradingScale = input.required<GradingScale>();
 
@@ -70,14 +71,11 @@ export class EvaluationTableComponent {
     () => this.selectedColumn() === COMMENT_COLUMN_KEY,
   );
   gradesAverage = computed(() => this.getGradesAverage(this.entries()));
-  showCommentColumn = computed(
-    () => this.gradingScale()?.CommentsAllowed === true,
-  );
   totalColumns = computed(
     () =>
       1 + // Name
       (this.hasGrades() ? 1 : 0) + // Grade
-      (this.showCommentColumn() ? 1 : 0) + // Comment
+      (this.hasGradeComments() ? 1 : 0) + // Comment
       this.columns().length, // Subscription details
   );
 

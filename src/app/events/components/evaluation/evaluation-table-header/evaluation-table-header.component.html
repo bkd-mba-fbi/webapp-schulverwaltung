@@ -29,7 +29,7 @@
     </th>
   }
 
-  @if (showCommentColumn()) {
+  @if (hasGradeComments()) {
     <th
       class="student-comment desktop"
       [class.selected]="commentColumnSelected()"

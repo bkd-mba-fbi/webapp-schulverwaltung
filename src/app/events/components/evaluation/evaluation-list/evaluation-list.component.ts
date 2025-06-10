@@ -52,7 +52,7 @@ export class EvaluationListComponent {
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
   hasGrades = computed(() => this.state.gradingScale() !== null);
-  showCommentColumn = computed(
+  hasGradeComments = computed(
     () => this.state.gradingScale()?.CommentsAllowed === true,
   );
   columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
@@ -76,7 +76,7 @@ export class EvaluationListComponent {
     return [
       this.hasGrades() ? gradeOption : null,
       ...subscriptionDetailOptions,
-      this.showCommentColumn() ? commentOption : null,
+      this.hasGradeComments() ? commentOption : null,
     ].filter(notNull);
   });
 
