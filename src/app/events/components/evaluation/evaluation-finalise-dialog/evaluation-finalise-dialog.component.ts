@@ -28,6 +28,7 @@ export class EvaluationFinaliseDialogComponent implements OnInit {
 
   eventId: number | null = null;
   isModuleEvent = signal(false);
+  hasOpenEvaluations = false;
   loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT), {
     initialValue: true,
   });

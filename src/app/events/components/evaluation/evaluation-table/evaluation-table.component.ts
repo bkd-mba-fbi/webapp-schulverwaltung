@@ -174,5 +174,8 @@ export class EvaluationTableComponent {
     const eventId = this.state.event()?.id;
     const modalRef = this.modalService.open(EvaluationFinaliseDialogComponent);
     modalRef.componentInstance.eventId = eventId;
+    modalRef.componentInstance.hasOpenEvaluations = this.entries().some(
+      (entry) => entry.evaluationRequired,
+    );
   }
 }

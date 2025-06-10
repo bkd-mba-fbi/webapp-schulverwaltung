@@ -345,6 +345,7 @@
       "title": "Bewertung abschliessen",
       "message": "Möchten Sie die Bewertung abschliessen?",
       "note": "Nach dem Abschluss ist das Fach nicht mehr sichtbar. Für Änderungen wenden Sie sich bitte an das zuständige Schulsekretariat.",
+      "open-evaluations": "Es sind offene Bewertungen vorhanden.",
       "cancel": "Abbrechen",
       "confirm": "Bestätigen"
     },

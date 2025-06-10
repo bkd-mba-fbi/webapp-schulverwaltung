@@ -4,6 +4,14 @@
   </h5>
 </div>
 <div class="modal-body">
+  @if (hasOpenEvaluations) {
+    <div class="text-danger d-flex my-3">
+      <i class="material-icons me-2">info</i>
+      <p class="mb-0">
+        {{ "evaluation.finalise-modal.open-evaluations" | translate }}
+      </p>
+    </div>
+  }
   <p>
     {{ "evaluation.finalise-modal.message" | translate }}
   </p>
