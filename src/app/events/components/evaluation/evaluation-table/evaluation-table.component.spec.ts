@@ -78,6 +78,7 @@ describe("EvaluationTableComponent", () => {
     gradingItem3 = buildGradingItem(2003, 3003);
     gradingItem3.IdPerson = 1003;
     gradingItem3.PersonFullname = "Sean Ono Lennon";
+    gradingItem3.Comment = "Motiviert";
 
     grade1 = {
       Id: 3001,
@@ -283,12 +284,16 @@ describe("EvaluationTableComponent", () => {
 
     it("renders the comment column", () => {
       const commentTextareas = getCommentTextareas();
-      expect(commentTextareas).toHaveSize(2);
+      expect(commentTextareas).toHaveSize(3);
     });
 
     it("displays the comments in the textareas", () => {
       const commentValues = getCommentValues();
-      expect(commentValues).toEqual(["Braucht Verbesserung", "Gute Leistung"]);
+      expect(commentValues).toEqual([
+        "Motiviert",
+        "Braucht Verbesserung",
+        "Gute Leistung",
+      ]);
     });
   });
 
@@ -318,9 +323,7 @@ describe("EvaluationTableComponent", () => {
 
   function getCommentTextareas(): HTMLTextAreaElement[] {
     return Array.from(
-      element.querySelectorAll(
-        "tbody bkd-grading-item-comment-textarea textarea",
-      ),
+      element.querySelectorAll("bkd-grading-item-comment-textarea textarea"),
     );
   }
 
