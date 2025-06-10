@@ -6,6 +6,7 @@ import {
   output,
 } from "@angular/core";
 import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.directive";
+import { Option } from "../../models/common-types";
 
 @Component({
   selector: "bkd-grading-item-comment-textarea",
@@ -20,21 +21,13 @@ import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.di
       [disabled]="disabled()"
     ></textarea>
   `,
-  styles: `
-    :host {
-      display: block;
-    }
-
-    textarea {
-      min-width: 30ch;
-    }
-  `,
+  styleUrls: ["./grading-item-comment-textarea.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GradingItemCommentTextareaComponent {
-  value = model<string | null>(null);
+  value = model<Option<string>>(null);
   disabled = input<boolean>(false);
-  commit = output<string | null>();
+  commit = output<Option<string>>();
 
   onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;

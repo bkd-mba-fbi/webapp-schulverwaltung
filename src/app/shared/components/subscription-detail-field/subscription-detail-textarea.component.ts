@@ -23,15 +23,7 @@ import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.di
       bkdTextareaAutosize
     ></textarea>
   `,
-  styles: `
-    :host {
-      display: block;
-    }
-
-    textarea {
-      min-width: 30ch;
-    }
-  `,
+  styleUrls: ["./subscription-detail-textarea.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailTextareaComponent {

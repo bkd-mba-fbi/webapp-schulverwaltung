@@ -1,0 +1,11 @@
+@import "src/bootstrap-variables";
+
+:host {
+  display: block;
+}
+
+@media (max-width: ($bkd-tests-mobile-breakpoint)) {
+  textarea {
+    min-width: auto;
+  }
+}
