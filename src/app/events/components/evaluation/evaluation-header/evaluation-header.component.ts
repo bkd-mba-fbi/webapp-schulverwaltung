@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
 } from "@angular/core";
@@ -25,7 +26,14 @@ export class EvaluationHeaderComponent {
   private route = inject(ActivatedRoute);
 
   event = input.required<EvaluationEvent>();
+  showActions = input<boolean>(true);
 
+  link = computed(() => {
+    if (!this.showActions()) {
+      return `/events/${this.event().id}/evaluation`;
+    }
+    return "/events";
+  });
   reports = toSignal(
     toObservable(this.event).pipe(
       map((event) => event.id),
@@ -37,5 +45,7 @@ export class EvaluationHeaderComponent {
     ),
   );
 
-  returnlink = this.route.snapshot.queryParamMap.get("returnlink") ?? "/events";
+  returnlink = computed(
+    () => this.route.snapshot.queryParamMap.get("returnlink") ?? this.link(),
+  );
 }

@@ -202,9 +202,8 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   // Combined and processed data for the chart
   private processedChartData = computed(() => {
     const scale = this.gradingScale();
-    const gradeEntries = this.entries();
 
-    if (!scale || scale.Grades.length === 0 || gradeEntries.length === 0) {
+    if (!scale || scale.Grades.length === 0 || this.entries().length === 0) {
       return [];
     }
 
