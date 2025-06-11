@@ -37,7 +37,7 @@
 
 .chart {
   height: 100%;
-  align-self: flex-start;
+  align-self: center;
   display: inline-flex;
 }
 
@@ -67,3 +67,13 @@ svg {
   text-align: center;
   padding: 20px;
 }
+
+.is-overflowing {
+  align-self: flex-start;
+}
+
+// @media screen and (max-width: 820px) {
+//   .chart {
+//     align-self: flex-start;
+//   }
+// }

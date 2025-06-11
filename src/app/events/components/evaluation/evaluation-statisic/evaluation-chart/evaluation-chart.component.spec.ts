@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { GradeBarChartComponent } from "./grade-bar-chart.component";
+import { GradeBarChartComponent } from "./evaluation-chart.component";
 
 describe("GradeBarChartComponent", () => {
   let component: GradeBarChartComponent;

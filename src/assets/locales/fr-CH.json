@@ -357,7 +357,14 @@
       "save": "Valider",
       "cancel": "Annuler"
     },
-    "required": "Évaluation en suspens"
+    "required": "Évaluation en suspens",
+    "chart": {
+      "grade": "Note",
+      "no-items": "Aucune donnée disponible",
+      "amount": "Quantité",
+      "sufficient": "Suffisant",
+      "unsufficient": "Insuffisant"
+    }
   },
   "dossier": {
     "title": "Dossier",

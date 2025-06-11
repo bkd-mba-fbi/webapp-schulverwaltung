@@ -17,8 +17,8 @@
       </svg>
     </div>
 
-    <div class="chart-wrapper">
-      <div class="chart">
+    <div class="chart-wrapper" #chartWrapper>
+      <div class="chart" [ngClass]="overflowClass" id="chart">
         <svg [attr.width]="renderedChartWidth()" [attr.viewBox]="viewBox()">
           <g
             [attr.transform]="
@@ -82,16 +82,18 @@
               [attr.y]="-chartMargin().left + 15"
               text-anchor="middle"
             >
-              Anzahl
+              {{ "evaluation.chart.amount" | translate }}
             </text>
           </g>
         </svg>
       </div>
     </div>
     <div class="x-axis-label">
-      <span class="label">Note</span>
+      <span class="label">{{ "evaluation.chart.grade" | translate }}</span>
     </div>
   } @else {
-    <div class="no-data-message">Keine Daten für Diagramm vorhanden</div>
+    <div class="no-data-message">
+      {{ "evaluation.chart.no-items" | translate }}
+    </div>
   }
 </div>

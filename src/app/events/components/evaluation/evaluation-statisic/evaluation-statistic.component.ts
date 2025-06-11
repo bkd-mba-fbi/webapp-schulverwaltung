@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { GradeBarChartComponent } from "src/app/shared/components/grade-bar-chart/grade-bar-chart.component";
+import { EvaluationChartComponent } from "src/app/events/components/evaluation/evaluation-statisic/evaluation-chart/evaluation-chart.component";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { EvaluationStateService } from "../../../services/evaluation-state.service";
 import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-header.component";
@@ -10,7 +10,7 @@ import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-heade
   imports: [
     TranslatePipe,
     EvaluationHeaderComponent,
-    GradeBarChartComponent,
+    EvaluationChartComponent,
     SpinnerComponent,
   ],
   templateUrl: "./evaluation-statistic.component.html",
