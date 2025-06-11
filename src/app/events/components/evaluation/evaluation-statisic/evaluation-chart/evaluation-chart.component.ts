@@ -27,8 +27,8 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   gradingScale = input.required<GradingScale>();
 
   private translate = inject(TranslateService);
-
   private resizeObserver: ResizeObserver | undefined;
+
   @ViewChild("chartWrapper", { static: false }) chartWrapper:
     | ElementRef<HTMLDivElement>
     | undefined;
@@ -49,133 +49,6 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
       ? "is-overflowing"
       : "";
   }
-
-  actualChartInnerWidth = computed(() => {
-    const data = this.processedChartData();
-    const numBars = data.length;
-
-    if (numBars === 0) {
-      return this.minChartWidth();
-    }
-    const calcChartWidth =
-      numBars * (this.maxBarWidth() / this.barPaddingFactor());
-
-    return Math.max(this.minChartWidth(), calcChartWidth);
-  });
-
-  renderedChartWidth = computed(() => {
-    return (
-      this.actualChartInnerWidth() +
-      this.chartMargin().left +
-      this.chartMargin().right
-    );
-  });
-
-  chartInnerHeight = computed(
-    () =>
-      this.chartHeight() - this.chartMargin().top - this.chartMargin().bottom,
-  );
-  viewBox = computed(
-    () => `0 0 ${this.renderedChartWidth()} ${this.chartHeight()}`,
-  );
-
-  hasData = computed(() => this.processedChartData().length > 0);
-
-  bars = computed(() => {
-    const data = this.processedChartData();
-    const xScale = this.xScaleBand();
-    const yScale = this.yScaleLinear();
-    const chartHeight = this.chartInnerHeight();
-
-    if (data.length === 0) return [];
-
-    return data.map((d, index) => {
-      const x = xScale.step * index + (xScale.step - xScale.bandWidth) / 2;
-      const y = this.scaleY(d.Count, yScale.domain, yScale.range);
-      const height = chartHeight - y;
-      const width = xScale.bandWidth;
-      const colorClass = d.Sufficient ? "bar-sufficient" : "bar-insufficient";
-
-      return {
-        x,
-        y,
-        width,
-        height,
-        colorClass,
-        value: d.Value,
-        count: d.Count,
-      };
-    });
-  });
-
-  xLabels = computed(() => {
-    const data = this.processedChartData();
-    const xScale = this.xScaleBand();
-    const chartHeight = this.chartInnerHeight();
-
-    if (data.length === 0) return [];
-
-    const labels: {
-      x: number;
-      y: number;
-      text: string;
-      textAnchor: string;
-    }[] = [];
-    const maxLabels = 51;
-    const totalDataPoints = data.length;
-
-    const stepInterval = Math.max(1, Math.ceil(totalDataPoints / maxLabels));
-
-    data.forEach((d, dataIndex) => {
-      if (dataIndex % stepInterval === 0) {
-        // Nur jedes n-te Label anzeigen von den gefilterten
-        // Finde den ursprünglichen Index in den UNGEFILTERTEN Daten, um die X-Position zu bestimmen
-        const originalIndex = data.findIndex((item) => item.Value === d.Value);
-        if (originalIndex !== -1) {
-          const x = xScale.step * originalIndex + xScale.step / 2;
-          const y = chartHeight + 18;
-          labels.push({
-            x,
-            y,
-            text: d.Value.toString(),
-            textAnchor: "middle",
-          });
-        }
-      }
-    });
-    return labels;
-  });
-
-  barLabels = computed(() => {
-    const barsData = this.bars();
-    return barsData.map((bar) => ({
-      x: bar.x + bar.width / 2,
-      y: bar.y - 5,
-      text: bar.count.toString(),
-    }));
-  });
-
-  legendLabels = computed(() => {
-    const chartWidth = this.renderedChartWidth();
-    const margin = this.chartMargin();
-    const legendY = margin.top / 2;
-
-    const labels = [
-      {
-        text: this.translate.instant("evaluation.chart.unsufficient"),
-        colorClass: "bar-insufficient",
-        x: chartWidth / 2 - 80,
-        y: legendY,
-      },
-      {
-        text: this.translate.instant("evaluation.chart.sufficient"),
-        colorClass: "bar-sufficient",
-        x: chartWidth / 2 + 50,
-        y: legendY,
-      },
-    ];
-    return labels;
-  });
 
   ngAfterViewInit(): void {
     const element = this.chartWrapper?.nativeElement;
@@ -199,8 +72,122 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // computed signals
+  hasData = computed(() => this.chartData().length > 0);
+
+  chartInnerWidth = computed(() => {
+    const data = this.chartData();
+    const numBars = data.length;
+
+    if (numBars === 0) {
+      return this.minChartWidth();
+    }
+    const calcChartWidth =
+      numBars * (this.maxBarWidth() / this.barPaddingFactor());
+
+    return Math.max(this.minChartWidth(), calcChartWidth);
+  });
+
+  chartInnerHeight = computed(
+    () =>
+      this.chartHeight() - this.chartMargin().top - this.chartMargin().bottom,
+  );
+
+  renderedChartWidth = computed(() => {
+    return (
+      this.chartInnerWidth() +
+      this.chartMargin().left +
+      this.chartMargin().right
+    );
+  });
+
+  viewBox = computed(
+    () => `0 0 ${this.renderedChartWidth()} ${this.chartHeight()}`,
+  );
+
+  bars = computed(() => {
+    const data = this.chartData();
+    const xScale = this.xScaleBar();
+    const yScale = this.yScaleLinear();
+
+    if (data.length === 0) return [];
+
+    return data.map((d, index) => {
+      const x = xScale.step * index + (xScale.step - xScale.barWidth) / 2;
+      const y = this.scaleY(d.Count, yScale.domain, yScale.range);
+      const height = this.chartInnerHeight() - y;
+      const width = xScale.barWidth;
+      const colorClass = d.Sufficient ? "bar-sufficient" : "bar-insufficient";
+
+      return {
+        x,
+        y,
+        width,
+        height,
+        colorClass,
+        value: d.Value,
+        count: d.Count,
+      };
+    });
+  });
+
+  xLabels = computed(() => {
+    const data = this.chartData();
+    const xScale = this.xScaleBar();
+    const chartHeight = this.chartInnerHeight();
+
+    if (data.length === 0) return [];
+
+    const labels: {
+      x: number;
+      y: number;
+      text: string;
+      textAnchor: string;
+    }[] = [];
+
+    data.forEach((d, index) => {
+      const x = xScale.step * index + xScale.step / 2;
+      const y = chartHeight + 18;
+      labels.push({
+        x,
+        y,
+        text: d.Value.toString(),
+        textAnchor: "middle",
+      });
+    });
+    return labels;
+  });
+
+  barLabels = computed(() => {
+    return this.bars().map((bar) => ({
+      x: bar.x + bar.width / 2,
+      y: bar.y - 5,
+      text: bar.count.toString(),
+    }));
+  });
+
+  legendLabels = computed(() => {
+    const legendY = this.chartMargin().top / 2;
+
+    const labels = [
+      {
+        text: this.translate.instant("evaluation.chart.unsufficient"),
+        colorClass: "bar-insufficient",
+        x: this.renderedChartWidth() / 2 - 80,
+        y: legendY,
+      },
+      {
+        text: this.translate.instant("evaluation.chart.sufficient"),
+        colorClass: "bar-sufficient",
+        x: this.renderedChartWidth() / 2 + 50,
+        y: legendY,
+      },
+    ];
+    return labels;
+  });
+
   // Combined and processed data for the chart
-  private processedChartData = computed(() => {
+  private chartData = computed(() => {
     const scale = this.gradingScale();
 
     if (!scale || scale.Grades.length === 0 || this.entries().length === 0) {
@@ -216,72 +203,60 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    const combinedData: Array<{
-      Value: number;
-      Count: number;
-      Sufficient: boolean;
-      Sort: string;
-    }> = scale.Grades.map((gradeFromScale) => {
+    return scale.Grades.map((grade) => {
       return {
-        Value: gradeFromScale.Value,
-        Count: gradeCounts.get(gradeFromScale.Value) || 0,
-        Sufficient: gradeFromScale.Sufficient,
-        Sort:
-          gradeFromScale.Sort ||
-          gradeFromScale.Value.toString().padStart(2, "0"),
+        Value: grade.Value,
+        Count: gradeCounts.get(grade.Value) || 0,
+        Sufficient: grade.Sufficient,
+        Sort: grade.Sort || grade.Value.toString().padStart(2, "0"),
       };
     })
       .filter((d) => d.Value > 0)
       .filter((d) => d.Count > 0)
       .sort((a, b) => b.Sort.localeCompare(a.Sort));
-
-    return combinedData;
   });
 
-  // Signals for scales
-  private xScaleBand = computed(() => {
-    const data = this.processedChartData();
-    if (data.length === 0)
+  private xScaleBar = computed(() => {
+    if (this.chartData().length === 0)
       return {
         domain: [],
         range: [0, 0] as [number, number],
         step: 0,
-        bandWidth: 0,
+        barWidth: 0,
       };
 
-    const xDomain = data.map((d) => d.Value);
-    const xRange = [0, this.actualChartInnerWidth()] as [number, number];
+    const xDomain = this.chartData().map((d) => d.Value);
+    const xRange = [0, this.chartInnerWidth()] as [number, number];
 
-    const numBars = data.length;
+    const numBars = this.chartData().length;
 
-    let bandWidth = 0;
+    let barWidth = 0;
     let step = 0;
 
     // Berechnung der optimalen Bandbreite basierend auf dem verfügbaren Platz
-    const proportionalBandWidth =
-      (this.actualChartInnerWidth() / numBars) * this.barPaddingFactor();
+    const calcBarWidth =
+      (this.chartInnerWidth() / numBars) * this.barPaddingFactor();
 
-    if (proportionalBandWidth > this.maxBarWidth()) {
-      bandWidth = this.maxBarWidth();
+    if (calcBarWidth > this.maxBarWidth()) {
+      barWidth = this.maxBarWidth();
     } else if (numBars >= this.barCountForSmallerWidth()) {
-      bandWidth = this.minBarWidth();
+      barWidth = this.minBarWidth();
     } else {
-      bandWidth = proportionalBandWidth;
+      barWidth = calcBarWidth;
     }
 
-    step = this.actualChartInnerWidth() / numBars;
-    return { domain: xDomain, range: xRange, step: step, bandWidth: bandWidth };
+    step = this.chartInnerWidth() / numBars;
+    return { domain: xDomain, range: xRange, step: step, barWidth: barWidth };
   });
 
   private yScaleLinear = computed(() => {
-    const data = this.processedChartData();
-    if (data.length === 0)
+    if (this.chartData().length === 0)
       return {
         domain: [0, 0] as [number, number],
         range: [0, 0] as [number, number],
       };
 
-    const maxCount = Math.max(...data.map((d) => d.Count), 0);
+    const maxCount = Math.max(...this.chartData().map((d) => d.Count), 0);
     const yDomain = [0, maxCount * 1.1] as [number, number];
     const yRange = [this.chartInnerHeight(), 0] as [number, number];
     return { domain: yDomain, range: yRange };
