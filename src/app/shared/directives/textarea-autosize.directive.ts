@@ -30,7 +30,6 @@ export class TextareaAutosizeDirective implements AfterViewInit {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log("Element is now visible in the viewport!");
             this.resize();
           }
         });
