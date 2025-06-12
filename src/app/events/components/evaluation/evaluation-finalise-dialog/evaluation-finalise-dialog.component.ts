@@ -12,6 +12,7 @@ import { Observable } from "rxjs";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { PAGE_LOADING_CONTEXT } from "src/app/shared/services/paginated-entries.service";
+import { StatusProcessesRestService } from "src/app/shared/services/status-processes-rest.service";
 import { EventSummary } from "../../../../shared/models/event.model";
 
 @Component({
@@ -25,20 +26,28 @@ export class EvaluationFinaliseDialogComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private eventsService = inject(EventsRestService);
   private loadingService = inject(LoadingService);
+  private evaluationStatusService = inject(StatusProcessesRestService);
 
   eventId: number | null = null;
+  eventSummary = signal<EventSummary | null>(null);
   isModuleEvent = signal(false);
   hasOpenEvaluations = false;
   loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT), {
     initialValue: true,
   });
 
+  private readonly MODULE_EVENT_TYPE_ID = 3;
+
   ngOnInit(): void {
     if (this.eventId) {
       this.loadEventSummary(this.eventId).subscribe({
         next: (eventSummary) => {
-          const isModule = eventSummary?.EventTypeId === 3;
-          this.isModuleEvent.set(isModule);
+          if (eventSummary) {
+            this.eventSummary.set(eventSummary);
+            const isModule =
+              eventSummary.EventTypeId === this.MODULE_EVENT_TYPE_ID;
+            this.isModuleEvent.set(isModule);
+          }
         },
         error: (error) => {
           console.error("Error loading event summary:", error);
@@ -58,7 +67,30 @@ export class EvaluationFinaliseDialogComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-  confirm(): void {
-    this.activeModal.close();
+  async confirm(): Promise<void> {
+    if (this.isModuleEvent()) {
+      await this.updateModuleEventStatus();
+    } else {
+      this.activeModal.close(true);
+    }
+  }
+
+  private async updateModuleEventStatus(): Promise<void> {
+    const event = this.eventSummary();
+    if (!event) {
+      console.error("No event selected");
+      this.activeModal.close(false);
+      return;
+    }
+
+    try {
+      const success = await this.evaluationStatusService.forwardStatus(
+        event.StatusId,
+      );
+      this.activeModal.close(success);
+    } catch (error) {
+      console.error("Error updating module event status", error);
+      this.activeModal.close(false);
+    }
   }
 }

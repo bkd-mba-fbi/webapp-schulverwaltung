@@ -35,7 +35,7 @@ export class EventsRestService extends RestService<typeof Event> {
 
   getEventSummary(eventId: number): Observable<Option<EventSummary>> {
     const params: Dict<string> = {
-      fields: "Id,EventTypeId,EventType,Designation",
+      fields: "Id,EventTypeId,EventType,Designation,StatusId",
       "filter.Id": `=${eventId}`,
     };
     return this.http
