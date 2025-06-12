@@ -3,12 +3,15 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  OnDestroy,
 } from "@angular/core";
 
 @Directive({
   selector: "textarea[bkdTextareaAutosize]",
 })
-export class TextareaAutosizeDirective implements AfterViewInit {
+export class TextareaAutosizeDirective implements AfterViewInit, OnDestroy {
+  private observer?: IntersectionObserver;
+
   constructor(private elementRef: ElementRef) {}
 
   @HostListener(":input")
@@ -25,8 +28,8 @@ export class TextareaAutosizeDirective implements AfterViewInit {
     if (this.elementRef.nativeElement.scrollHeight) {
       setTimeout(() => this.resize());
     }
-
-    const observer = new IntersectionObserver(
+    // Using IntersectionObserver to ensure proper resizing, when the textarea is initially hidden and then becomes visible when the column is selected in the dropdown.
+    this.observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -41,7 +44,13 @@ export class TextareaAutosizeDirective implements AfterViewInit {
       },
     );
 
-    observer.observe(this.elementRef.nativeElement);
+    this.observer.observe(this.elementRef.nativeElement);
+  }
+
+  ngOnDestroy() {
+    if (this.observer) {
+      this.observer.unobserve(this.elementRef.nativeElement);
+    }
   }
 
   resize() {
