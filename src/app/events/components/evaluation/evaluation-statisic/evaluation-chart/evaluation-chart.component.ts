@@ -17,10 +17,10 @@ import { GradingScale } from "../../../../../shared/models/grading-scale.model";
 
 @Component({
   selector: "bkd-evaluation-chart",
-  imports: [NgClass, TranslatePipe],
   templateUrl: "./evaluation-chart.component.html",
   styleUrl: "./evaluation-chart.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass, TranslatePipe],
 })
 export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
