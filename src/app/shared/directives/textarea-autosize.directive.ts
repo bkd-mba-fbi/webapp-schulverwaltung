@@ -16,10 +16,33 @@ export class TextareaAutosizeDirective implements AfterViewInit {
     this.resize();
   }
 
+  @HostListener("window:resize")
+  onWindowResize() {
+    this.resize();
+  }
+
   ngAfterViewInit() {
     if (this.elementRef.nativeElement.scrollHeight) {
       setTimeout(() => this.resize());
     }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log("Element is now visible in the viewport!");
+            this.resize();
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      },
+    );
+
+    observer.observe(this.elementRef.nativeElement);
   }
 
   resize() {
