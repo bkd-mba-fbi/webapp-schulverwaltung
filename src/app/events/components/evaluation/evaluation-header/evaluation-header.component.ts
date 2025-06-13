@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   input,
+  signal,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
@@ -27,13 +28,10 @@ export class EvaluationHeaderComponent {
 
   event = input.required<EvaluationEvent>();
   showActions = input<boolean>(true);
+  queryParam = signal<string | null>(
+    this.route.snapshot.queryParamMap.get("returnlink"),
+  );
 
-  link = computed(() => {
-    if (!this.showActions()) {
-      return `/events/${this.event().id}/evaluation`;
-    }
-    return "/events";
-  });
   reports = toSignal(
     toObservable(this.event).pipe(
       map((event) => event.id),
@@ -45,7 +43,15 @@ export class EvaluationHeaderComponent {
     ),
   );
 
-  returnlink = computed(
-    () => this.route.snapshot.queryParamMap.get("returnlink") ?? this.link(),
-  );
+  returnlink = computed(() => {
+    if (!this.showActions()) {
+      return `/events/${this.event().id}/evaluation`;
+    }
+
+    if (this.queryParam()) {
+      return this.queryParam();
+    }
+
+    return "/events";
+  });
 }
