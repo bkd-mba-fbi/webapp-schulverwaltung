@@ -194,14 +194,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
       return [];
     }
 
-    const gradeCounts = new Map<number, number>();
-    this.entries().forEach((entry) => {
-      // Only count if a grade is present and has a valid Value
-      if (entry.grade?.Value !== undefined && entry.grade.Value !== null) {
-        const gradeValue = entry.grade.Value;
-        gradeCounts.set(gradeValue, (gradeCounts.get(gradeValue) || 0) + 1);
-      }
-    });
+    const gradeCounts = this.countGrades();
 
     return scale.Grades.map((grade) => {
       return {
@@ -261,6 +254,17 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     const yRange = [this.chartInnerHeight(), 0] as [number, number];
     return { domain: yDomain, range: yRange };
   });
+
+  // Only count if a grade is present and has a valid Value
+  private countGrades() {
+    return this.entries().reduce((acc, { grade }) => {
+      const gradeValue = grade?.Value;
+      if (gradeValue == null) {
+        return acc;
+      }
+      return acc.set(gradeValue, (acc.get(gradeValue) ?? 0) + 1);
+    }, new Map<number, number>());
+  }
 
   private scaleY(
     value: number,

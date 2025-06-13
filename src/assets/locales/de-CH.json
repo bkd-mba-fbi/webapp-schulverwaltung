@@ -360,7 +360,7 @@
     "required": "Offene Bewertung",
     "chart": {
       "grade": "Note",
-      "no-items": "Keine Einträge vorhanden",
+      "no-items": "Keine Noten vorhanden",
       "amount": "Anzahl",
       "sufficient": "Genügend",
       "unsufficient": "Ungenügend"

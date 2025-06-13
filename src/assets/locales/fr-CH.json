@@ -360,7 +360,7 @@
     "required": "Évaluation en suspens",
     "chart": {
       "grade": "Note",
-      "no-items": "Aucune donnée disponible",
+      "no-items": "Aucune note disponible",
       "amount": "Quantité",
       "sufficient": "Suffisant",
       "unsufficient": "Insuffisant"
