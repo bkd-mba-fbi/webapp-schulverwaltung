@@ -14,13 +14,47 @@
         [showActions]="false"
       ></bkd-evaluation-header>
       <div class="d-flex flex-column">
-        <div class="statistic-values">
-          Some content <br />
-          Some content <br />
-          Some content <br />
-          Some content <br />
-          Some content <br />
-          Some content <br />
+        <div class="statistic-values px-3">
+          <div class="row">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
+              {{ "evaluation.statistics.average" | translate }}
+            </div>
+            <div class="col">
+              {{ average }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
+              {{ "evaluation.statistics.standard-deviation" | translate }}
+            </div>
+            <div class="col">0.68</div>
+          </div>
+          <div class="row">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
+              {{ "evaluation.statistics.amount-of-notes" | translate }}
+            </div>
+            <div class="col">
+              {{ entries.length }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
+              {{ "evaluation.statistics.highest-note" | translate }}
+            </div>
+            <div class="col">5.5</div>
+          </div>
+          <div class="row">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
+              {{ "evaluation.statistics.lowest-note" | translate }}
+            </div>
+            <div class="col">3.5</div>
+          </div>
+          <div class="row">
+            <div class="col-8 col-sm-4 col-md-3 col-lg-2">
+              {{ "evaluation.statistics.unsufficient" | translate }}
+            </div>
+            <div class="col">1</div>
+          </div>
         </div>
 
         <bkd-evaluation-chart
