@@ -358,7 +358,14 @@
       "save": "Übernehmen",
       "cancel": "Abbrechen"
     },
-    "required": "Offene Bewertung"
+    "required": "Offene Bewertung",
+    "chart": {
+      "grade": "Note",
+      "no-items": "Keine Noten vorhanden",
+      "amount": "Anzahl",
+      "sufficient": "Genügend",
+      "unsufficient": "Ungenügend"
+    }
   },
   "dossier": {
     "title": "Dossier",
