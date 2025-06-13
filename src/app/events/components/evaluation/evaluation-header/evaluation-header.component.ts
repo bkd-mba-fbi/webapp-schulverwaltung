@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
+  signal,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { distinctUntilChanged, map, of, startWith, switchMap } from "rxjs";
 import { EvaluationEvent } from "src/app/events/services/evaluation-state.service";
@@ -15,7 +17,7 @@ import { ReportsLinkComponent } from "../../../../shared/components/reports-link
 
 @Component({
   selector: "bkd-evaluation-header",
-  imports: [BacklinkComponent, TranslatePipe, ReportsLinkComponent],
+  imports: [BacklinkComponent, TranslatePipe, ReportsLinkComponent, RouterLink],
   templateUrl: "./evaluation-header.component.html",
   styleUrl: "./evaluation-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +27,10 @@ export class EvaluationHeaderComponent {
   private route = inject(ActivatedRoute);
 
   event = input.required<EvaluationEvent>();
+  showActions = input<boolean>(true);
+  queryParam = signal<string | null>(
+    this.route.snapshot.queryParamMap.get("returnlink"),
+  );
 
   reports = toSignal(
     toObservable(this.event).pipe(
@@ -37,5 +43,15 @@ export class EvaluationHeaderComponent {
     ),
   );
 
-  returnlink = this.route.snapshot.queryParamMap.get("returnlink") ?? "/events";
+  returnlink = computed(() => {
+    if (!this.showActions()) {
+      return `/events/${this.event().id}/evaluation`;
+    }
+
+    if (this.queryParam()) {
+      return this.queryParam();
+    }
+
+    return "/events";
+  });
 }

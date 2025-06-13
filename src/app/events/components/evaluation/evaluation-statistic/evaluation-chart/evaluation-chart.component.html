@@ -1,0 +1,99 @@
+<div class="chart-container mt-3">
+  @if (hasData()) {
+    <div class="chart-legend">
+      <svg [attr.height]="20" [attr.width]="renderedChartWidth()">
+        @for (legend of legendLabels(); track legend.text) {
+          <rect
+            [attr.x]="legend.x - 15"
+            [attr.y]="legend.y"
+            width="10"
+            height="10"
+            [attr.class]="legend.colorClass"
+          ></rect>
+          <text [attr.x]="legend.x" [attr.y]="legend.y + 10" class="label">
+            {{ legend.text }}
+          </text>
+        }
+      </svg>
+    </div>
+
+    <div class="chart-wrapper" #chartWrapper>
+      <div class="chart" [ngClass]="overflowClass" id="chart">
+        <svg [attr.width]="renderedChartWidth()" [attr.viewBox]="viewBox()">
+          <g
+            [attr.transform]="
+              'translate(' + chartMargin().left + ',' + chartMargin().top + ')'
+            "
+          >
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              [attr.y2]="chartInnerHeight()"
+              class="axis"
+            ></line>
+            <line
+              x1="0"
+              [attr.y1]="chartInnerHeight()"
+              [attr.x2]="chartInnerWidth()"
+              [attr.y2]="chartInnerHeight()"
+              class="axis"
+            ></line>
+
+            @for (bar of bars(); track bar.value) {
+              <rect
+                [attr.x]="bar.x"
+                [attr.y]="bar.y"
+                [attr.width]="bar.width"
+                [attr.height]="bar.height"
+                [attr.class]="bar.colorClass"
+              ></rect>
+            }
+
+            @for (
+              barLabel of barLabels();
+              track barLabel.text + "-" + barLabel.x
+            ) {
+              <text
+                [attr.x]="barLabel.x"
+                [attr.y]="barLabel.y"
+                text-anchor="middle"
+                class="label bar-label"
+              >
+                {{ barLabel.text }}
+              </text>
+            }
+
+            @for (label of xLabels(); track label.text) {
+              <text
+                [attr.x]="label.x"
+                [attr.y]="label.y"
+                [attr.text-anchor]="label.textAnchor"
+                class="label"
+              >
+                {{ label.text }}
+              </text>
+            }
+
+            <text
+              class="label"
+              [attr.transform]="'rotate(-90)'"
+              [attr.x]="-(chartInnerHeight() / 2)"
+              [attr.y]="-chartMargin().left + 15"
+              text-anchor="middle"
+            >
+              {{ "evaluation.chart.amount" | translate }}
+            </text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="x-axis-label">
+      <span class="label">{{ "evaluation.chart.grade" | translate }}</span>
+    </div>
+  } @else {
+    <div class="no-data-message">
+      {{ "evaluation.chart.no-items" | translate }}
+    </div>
+  }
+</div>

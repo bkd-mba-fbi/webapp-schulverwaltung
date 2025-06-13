@@ -1,9 +1,27 @@
-<bkd-backlink [link]="returnlink">
-  <div class="d-flex">
-    <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
-    <!--Element id excel-import used for a external modul MasterExcel-->
-    <div id="excel-import"></div>
-  </div>
+<bkd-backlink
+  [link]="returnlink()"
+  [params]="
+    queryParam() && queryParam() !== returnlink()
+      ? { returnlink: queryParam() }
+      : null
+  "
+>
+  @if (showActions()) {
+    <div class="d-flex">
+      @if (event().gradingScaleId !== null) {
+        <a
+          class="btn btn-primary btn-icon"
+          [routerLink]="'statistic'"
+          [queryParams]="{ returnlink: queryParam() }"
+        >
+          <i class="material-icons">bar_chart</i>
+        </a>
+      }
+      <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
+      <!--Element id excel-import used for a external modul MasterExcel-->
+      <div id="excel-import"></div>
+    </div>
+  }
 </bkd-backlink>
 
 <div class="d-flex flex-column header">
