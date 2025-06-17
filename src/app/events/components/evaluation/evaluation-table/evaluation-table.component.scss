@@ -17,7 +17,7 @@ tbody td.student-name {
   &,
   * {
     white-space: nowrap;
-    overflow: hidden;
+    overflow: visible;
     text-overflow: ellipsis;
   }
 
@@ -40,6 +40,7 @@ tbody td.student-name {
     color: $absent-color;
     font-size: $evaluation-table-open-evaluations-size;
     line-height: normal;
+    margin-bottom: -6px;
   }
 }
 
