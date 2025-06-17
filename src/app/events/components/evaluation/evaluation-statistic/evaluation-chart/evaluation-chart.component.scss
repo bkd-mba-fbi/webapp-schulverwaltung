@@ -20,7 +20,20 @@
 
 .chart-legend,
 .x-axis-label {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  height: 1.5em;
+}
+
+.legend-item {
+  display: flex;
+  align-items: baseline;
+  padding: 0 5px;
+}
+
+.legend-item > * {
+  margin: 0 2px;
 }
 
 .chart-wrapper {

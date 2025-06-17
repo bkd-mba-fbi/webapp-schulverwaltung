@@ -10,11 +10,11 @@
     <div class="d-flex">
       @if (event().gradingScaleId !== null) {
         <a
-          class="btn btn-primary btn-icon"
+          class="btn btn-primary btn-icon chart-btn"
           [routerLink]="'statistic'"
           [queryParams]="{ returnlink: queryParam() }"
         >
-          <i class="material-icons">bar_chart</i>
+          <i class="material-icons chart-icon">bar_chart</i>
         </a>
       }
       <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>

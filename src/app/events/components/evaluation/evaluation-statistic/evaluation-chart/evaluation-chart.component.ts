@@ -43,27 +43,29 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   barCountForSmallerWidth = signal(25);
   currentChartWidth = signal(0);
   currentScrollWidth = signal(0);
-
-  get overflowClass() {
-    return this.currentScrollWidth() - this.currentChartWidth() > 0
+  // Computed signal for the overflow class
+  overflowClass = computed(() =>
+    this.currentScrollWidth() > this.currentChartWidth()
       ? "is-overflowing"
-      : "";
-  }
+      : "",
+  );
 
   ngAfterViewInit(): void {
     const element = this.chartWrapper?.nativeElement;
     if (element) {
+      this.currentChartWidth.set(Math.round(element.clientWidth));
+      this.currentScrollWidth.set(Math.round(element.scrollWidth));
+
       this.resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
           this.currentChartWidth.set(Math.round(entry.contentRect.width));
-          this.currentScrollWidth.set(Math.round(entry.target.scrollWidth));
+          this.currentScrollWidth.set(
+            Math.round((entry.target as HTMLElement).scrollWidth),
+          );
         }
       });
 
-      this.resizeObserver?.observe(element);
-
-      this.currentChartWidth.set(Math.round(element.clientWidth));
-      this.currentScrollWidth.set(Math.round(element.scrollWidth));
+      this.resizeObserver.observe(element);
     }
   }
   ngOnDestroy(): void {
