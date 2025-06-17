@@ -4,6 +4,10 @@
   display: block;
 }
 
+textarea {
+  min-width: 30ch;
+}
+
 @media (max-width: ($bkd-tests-mobile-breakpoint)) {
   textarea {
     min-width: auto;
