@@ -16,9 +16,7 @@
   );
 
   --student-grade-column-offset: var(--student-name-column-width);
-  --subscription-detail-columns-offset: calc(
-    var(--student-grade-column-offset) + var(--student-grade-column-width)
-  );
+  --subscription-detail-columns-offset: var(--student-name-column-width);
 }
 
 $student-name-width-breakpoint: 1000px;
