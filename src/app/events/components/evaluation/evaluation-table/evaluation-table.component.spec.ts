@@ -57,6 +57,7 @@ describe("EvaluationTableComponent", () => {
       },
     ],
     CommentsAllowed: false,
+    RisingGrades: true,
   };
 
   const gradingScaleWithComments: GradingScale = {

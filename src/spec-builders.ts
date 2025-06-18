@@ -786,7 +786,7 @@ export function buildGradingScale(
     // MaxGrade: 0.0,
     CommentsAllowed: false,
     // LowestSufficientGrade: 4.0,
-    // RisingGrades: true,
+    RisingGrades: true,
     Grades: grades,
     // IdObject: 1106,
     // FreeGrading: false,
