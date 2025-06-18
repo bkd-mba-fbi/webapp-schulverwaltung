@@ -37,6 +37,47 @@ export class EvaluationStatisticComponent {
       (acc, entry) => acc + (entry.grade?.Value ?? 0),
       0,
     );
-    return sum / this.entries().length;
+
+    return +Math.fround(sum / this.entries().length).toFixed(2);
   });
+
+  standartDeviation = computed(() => {
+    if (this.entries().length <= 1) {
+      return 0;
+    }
+
+    const sum = this.entries().reduce(
+      (acc, entry) =>
+        acc + Math.pow((entry.grade?.Value ?? 0) - this.average(), 2),
+      0,
+    );
+
+    return +Math.sqrt(sum / this.entries().length).toFixed(2);
+  });
+
+  highestGrade = computed(() => this.findGrade(true));
+
+  lowestGrade = computed(() => this.findGrade(false));
+
+  unsufficientCount = computed(
+    () => this.entries().filter((entry) => !entry.grade?.Sufficient).length,
+  );
+
+  findGrade(highest: boolean) {
+    if (this.entries().length === 0) {
+      return "-";
+    }
+    const rising = this.state.gradingScale()?.RisingGrades;
+    const takeHighest = (rising && highest) || (!rising && !highest);
+
+    if (takeHighest)
+      return Math.max(
+        ...this.entries().map((entry) => entry.grade?.Value ?? 0),
+      );
+    else {
+      return Math.min(
+        ...this.entries().map((entry) => entry.grade?.Value ?? 0),
+      );
+    }
+  }
 }

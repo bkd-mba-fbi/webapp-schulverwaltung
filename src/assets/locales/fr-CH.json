@@ -362,10 +362,10 @@
     "statistics": {
       "average": "Moyenne",
       "standard-deviation": "Écart standard",
-      "amount-of-notes": "Quantité de notes",
-      "highest-note": "Note maximale",
-      "lowest-note": "Note basse",
-      "unsufficient": "Insuffisant"
+      "amount-of-notes": "Nombre de notes",
+      "highest-note": "Note la plus élevée",
+      "lowest-note": "Note la plus basse",
+      "unsufficient": "Notes insuffisantes"
     },
     "chart": {
       "grade": "Note",
