@@ -340,6 +340,15 @@
     "no-event": "Der Anlass wurde nicht gefunden",
     "no-items": "Keine Einträge vorhanden",
     "no-evaluation": "Der Anlass kann nicht bewertet werden, da weder eine Notenskala noch andere Bewertungskriterien vorhanden sind.",
+    "finalise": "Bewertung abschliessen",
+    "finalise-modal": {
+      "title": "Bewertung abschliessen",
+      "message": "Möchten Sie die Bewertung abschliessen?",
+      "note": "Nach dem Abschluss ist das Fach nicht mehr sichtbar. Für Änderungen wenden Sie sich bitte an das zuständige Schulsekretariat.",
+      "open-evaluations": "Es sind offene Bewertungen vorhanden.",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen"
+    },
     "columns": {
       "name": "Name",
       "grade": "Note",
