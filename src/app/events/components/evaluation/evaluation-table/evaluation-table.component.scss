@@ -17,14 +17,28 @@ tbody td.student-name {
   &,
   * {
     white-space: nowrap;
-    overflow: visible;
+    overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  $evaluation-table-student-name-font-size: $font-size-base;
+  $evaluation-table-student-name-line-height: $line-height-sm;
+  $evaluation-table-student-name-gap: 0.25 * $spacer;
+  $evaluation-table-open-evaluations-font-size: $font-size-sm;
+  $evaluation-table-open-evaluations-line-height: $line-height-sm;
   a {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: $evaluation-table-student-name-gap;
     text-decoration: none;
+    font-size: $evaluation-table-student-name-font-size;
+    line-height: $evaluation-table-student-name-line-height;
+    height: $evaluation-table-student-name-font-size *
+      $evaluation-table-student-name-line-height +
+      $evaluation-table-student-name-gap +
+      $evaluation-table-open-evaluations-font-size *
+      $evaluation-table-open-evaluations-line-height;
 
     span:first-child {
       text-decoration: underline;
@@ -33,14 +47,12 @@ tbody td.student-name {
     span:first-child:hover {
       text-decoration-color: $accent;
     }
-  }
 
-  $evaluation-table-open-evaluations-size: $font-size-sm;
-  .open-evaluations {
-    color: $absent-color;
-    font-size: $evaluation-table-open-evaluations-size;
-    line-height: normal;
-    margin-bottom: -6px;
+    span.open-evaluations {
+      color: $absent-color;
+      font-size: $evaluation-table-open-evaluations-font-size;
+      line-height: $evaluation-table-open-evaluations-line-height;
+    }
   }
 }
 
@@ -87,6 +99,7 @@ button.criteria-toggle {
   }
 
   button.criteria-toggle {
+    flex: none; // Make sure long names don't squish the button
     display: block;
     margin: $spacer * -0.5 0 $spacer * -0.5 $spacer * -0.5;
     padding: $spacer * 0.5;
