@@ -8,7 +8,7 @@
 :host {
   --spacer: 16px;
 
-  --grade-input-size: 127px; // 13ch
+  --grade-input-size: 154px; // 13ch
 
   --student-name-column-width: 225px;
   --student-grade-column-width: calc(
@@ -135,6 +135,6 @@ td.filler {
   .student-grade {
     width: var(--student-grade-column-width);
     min-width: var(--student-grade-column-width);
-    max-width: var(--student-grade-column-width);
+    max-width: var(--student-grade-column-width) + 20px;
   }
 }
