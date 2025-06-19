@@ -368,6 +368,14 @@
       "cancel": "Annuler"
     },
     "required": "Évaluation en suspens",
+    "statistics": {
+      "average": "Moyenne",
+      "standard-deviation": "Écart standard",
+      "amount-of-notes": "Nombre de notes",
+      "highest-note": "Note la plus élevée",
+      "lowest-note": "Note la plus basse",
+      "unsufficient": "Notes insuffisantes"
+    },
     "chart": {
       "grade": "Note",
       "no-items": "Aucune note disponible",
