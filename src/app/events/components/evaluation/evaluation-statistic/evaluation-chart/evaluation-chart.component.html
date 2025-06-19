@@ -1,24 +1,24 @@
 <div class="chart-container mt-3">
   @if (hasData()) {
     <div class="chart-legend">
-      <svg [attr.height]="20" [attr.width]="renderedChartWidth()">
-        @for (legend of legendLabels(); track legend.text) {
-          <rect
-            [attr.x]="legend.x - 15"
-            [attr.y]="legend.y"
-            width="10"
-            height="10"
-            [attr.class]="legend.colorClass"
-          ></rect>
-          <text [attr.x]="legend.x" [attr.y]="legend.y + 10" class="label">
+      @for (legend of legendLabels(); track legend.text) {
+        <div class="legend-item">
+          <svg width="10" height="10">
+            <rect
+              width="10"
+              height="10"
+              [attr.class]="legend.colorClass"
+            ></rect>
+          </svg>
+          <span class="label">
             {{ legend.text }}
-          </text>
-        }
-      </svg>
+          </span>
+        </div>
+      }
     </div>
 
     <div class="chart-wrapper" #chartWrapper>
-      <div class="chart" [ngClass]="overflowClass" id="chart">
+      <div class="chart" [ngClass]="overflowClass()" id="chart">
         <svg [attr.width]="renderedChartWidth()" [attr.viewBox]="viewBox()">
           <g
             [attr.transform]="

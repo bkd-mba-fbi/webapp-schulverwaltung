@@ -371,9 +371,9 @@
     "chart": {
       "grade": "Note",
       "no-items": "Aucune note disponible",
-      "amount": "Quantité",
-      "sufficient": "Suffisant",
-      "unsufficient": "Insuffisant"
+      "amount": "Nombre",
+      "sufficient": "Suffisante",
+      "unsufficient": "Insuffisante"
     }
   },
   "dossier": {
