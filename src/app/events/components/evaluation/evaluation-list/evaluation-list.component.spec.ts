@@ -263,6 +263,15 @@ describe("EvaluationListComponent", () => {
           "Formative Beurteilung",
         ]);
       });
+
+      it("selects grade column by default if available", () => {
+        stateMock.gradingScale.and.returnValue(gradingScale);
+        fixture.detectChanges();
+
+        const component = fixture.componentInstance;
+
+        expect(component.selectedColumn()).toBe(component.GRADE_COLUMN);
+      });
     });
 
     describe("study class without grades", () => {
@@ -289,6 +298,13 @@ describe("EvaluationListComponent", () => {
           "Absenzen unentschuldigt",
           "Formative Beurteilung",
         ]);
+      });
+
+      it("selects first subscription detail column when grade column is not available", () => {
+        const component = fixture.componentInstance;
+        const firstColumnKey = Number(component.columnOptions()[0]?.Key);
+
+        expect(component.selectedColumn()).toBe(firstColumnKey);
       });
     });
   });
