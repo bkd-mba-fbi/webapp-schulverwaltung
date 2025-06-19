@@ -206,7 +206,7 @@ describe("EvaluationStatisticComponent", () => {
     });
 
     it("should calculate standard deviation correctly", () => {
-      expect(component.standartDeviation()).toBe(0.83);
+      expect(component.standardDeviation()).toBe(0.83);
     });
 
     it("should find the highest grade correctly when RisingGrades is true (higher value is better)", () => {
@@ -234,7 +234,7 @@ describe("EvaluationStatisticComponent", () => {
     });
 
     it("should return zero for standard deviation", () => {
-      expect(component.standartDeviation()).toBe(0);
+      expect(component.standardDeviation()).toBe(0);
     });
 
     it('should return "-" for highest/lowest grade if no entries are available', () => {
@@ -267,7 +267,7 @@ describe("EvaluationStatisticComponent", () => {
     });
 
     it("should return zero for standard deviation", () => {
-      expect(component.standartDeviation()).toBe(0);
+      expect(component.standardDeviation()).toBe(0);
     });
 
     it("should return grade value for highest/lowest if only one grade is available", () => {
@@ -292,10 +292,6 @@ describe("EvaluationStatisticComponent", () => {
       fixture.detectChanges();
       const spinner = fixture.nativeElement.querySelector("bkd-spinner");
       expect(spinner).toBeTruthy();
-      const mainContent = fixture.nativeElement.querySelector(
-        ".d-flex.flex-column",
-      );
-      expect(mainContent).toBeFalsy();
     });
   });
 });

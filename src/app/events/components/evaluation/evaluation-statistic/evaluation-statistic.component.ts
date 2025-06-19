@@ -5,6 +5,7 @@ import {
   inject,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
+import { map, maxBy, meanBy, minBy, round, sumBy } from "lodash-es";
 import { EvaluationChartComponent } from "src/app/events/components/evaluation/evaluation-statistic/evaluation-chart/evaluation-chart.component";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { EvaluationStateService } from "../../../services/evaluation-state.service";
@@ -33,26 +34,23 @@ export class EvaluationStatisticComponent {
     if (this.entries().length === 0) {
       return 0;
     }
-    const sum = this.entries().reduce(
-      (acc, entry) => acc + (entry.grade?.Value ?? 0),
-      0,
+    return round(
+      meanBy(this.entries(), (entry) => entry.grade?.Value ?? 0),
+      2,
     );
-
-    return +Math.fround(sum / this.entries().length).toFixed(2);
   });
 
-  standartDeviation = computed(() => {
+  standardDeviation = computed(() => {
     if (this.entries().length <= 1) {
       return 0;
     }
 
-    const sum = this.entries().reduce(
-      (acc, entry) =>
-        acc + Math.pow((entry.grade?.Value ?? 0) - this.average(), 2),
-      0,
+    const sum = sumBy(
+      map(this.entries(), (entry) =>
+        Math.pow((entry.grade?.Value ?? 0) - this.average(), 2),
+      ),
     );
-
-    return +Math.sqrt(sum / this.entries().length).toFixed(2);
+    return Number(Math.sqrt(sum / this.entries().length).toFixed(2));
   });
 
   highestGrade = computed(() => this.findGrade(true));
@@ -71,13 +69,9 @@ export class EvaluationStatisticComponent {
     const takeHighest = (rising && highest) || (!rising && !highest);
 
     if (takeHighest)
-      return Math.max(
-        ...this.entries().map((entry) => entry.grade?.Value ?? 0),
-      );
+      return maxBy(map(this.entries(), (entry) => entry.grade?.Value ?? 0));
     else {
-      return Math.min(
-        ...this.entries().map((entry) => entry.grade?.Value ?? 0),
-      );
+      return minBy(map(this.entries(), (entry) => entry.grade?.Value ?? 0));
     }
   }
 }
