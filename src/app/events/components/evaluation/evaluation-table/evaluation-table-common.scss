@@ -135,6 +135,6 @@ td.filler {
   .student-grade {
     width: var(--student-grade-column-width);
     min-width: var(--student-grade-column-width);
-    max-width: var(--student-grade-column-width) + 20px;
+    max-width: var(--student-grade-column-width);
   }
 }
