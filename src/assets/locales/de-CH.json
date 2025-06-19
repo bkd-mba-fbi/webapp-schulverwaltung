@@ -368,6 +368,14 @@
       "cancel": "Abbrechen"
     },
     "required": "Offene Bewertung",
+    "statistics": {
+      "average": "Durchschnitt",
+      "standard-deviation": "Standartabweichung",
+      "amount-of-notes": "Anzahl Noten",
+      "highest-note": "Höchste Note",
+      "lowest-note": "Tiefste Note",
+      "unsufficient": "Ungenügend"
+    },
     "chart": {
       "grade": "Note",
       "no-items": "Keine Noten vorhanden",

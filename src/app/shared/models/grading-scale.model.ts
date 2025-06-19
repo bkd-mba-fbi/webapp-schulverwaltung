@@ -19,7 +19,7 @@ const GradingScale = t.type({
   // MaxGrade: Option(t.number),
   CommentsAllowed: t.boolean,
   // LowestSufficientGrade: t.number,
-  // RisingGrades: t.boolean,
+  RisingGrades: t.boolean,
   Grades: t.array(Grade),
   // IdObject: t.number,
   // FreeGrading: t.boolean,

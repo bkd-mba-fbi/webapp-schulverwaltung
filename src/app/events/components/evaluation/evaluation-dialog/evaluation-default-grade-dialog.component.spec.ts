@@ -21,6 +21,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
       },
     ],
     CommentsAllowed: false,
+    RisingGrades: true,
   };
 
   beforeEach(async () => {
