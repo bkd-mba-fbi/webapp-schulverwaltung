@@ -7,6 +7,7 @@ import {
   linkedSignal,
 } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import isEqual from "lodash-es/isEqual";
 import uniqBy from "lodash-es/uniqBy";
 import { EvaluationSubscriptionDetailUpdateService } from "src/app/events/services/evaluation-subscription-detail-update.service";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
@@ -83,10 +84,15 @@ export class EvaluationListComponent {
   selectedColumn = linkedSignal<ReadonlyArray<DropDownItem>, Option<number>>({
     source: this.columnOptions,
     computation: (options, previous) => {
+      const previousOptions = previous?.source;
       const previousValue = previous?.value;
-      if (previousValue && options.find((o) => o.Key === previousValue)) {
-        // Don't reset the previously selected column, if it's still available
-        // when recomputing
+      if (
+        isEqual(options, previousOptions) &&
+        previousValue &&
+        options.find((o) => o.Key === previousValue)
+      ) {
+        // Don't reset the previously selected column, if re-evaluated for the
+        // same options
         return previousValue;
       }
 
