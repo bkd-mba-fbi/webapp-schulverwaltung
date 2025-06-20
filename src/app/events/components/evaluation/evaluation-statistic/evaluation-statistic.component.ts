@@ -27,7 +27,9 @@ export class EvaluationStatisticComponent {
   state = inject(EvaluationStateService);
 
   entries = computed(() =>
-    this.state.entries().filter((entry) => entry.grade?.Value != null),
+    this.state
+      .entries()
+      .filter((entry) => entry.grade?.Value != null && entry.grade.Value > 0),
   );
 
   average = computed(() => {
