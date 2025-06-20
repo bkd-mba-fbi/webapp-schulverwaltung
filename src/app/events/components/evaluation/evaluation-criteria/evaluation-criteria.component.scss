@@ -31,6 +31,12 @@
   gap: $spacer;
 }
 
+@media (max-width: ($bkd-evaluation-mobile-breakpoint)) {
+  .hide-for-mobile {
+    display: none;
+  }
+}
+
 // Desktop view
 @media (min-width: ($bkd-evaluation-mobile-breakpoint + 1)) {
   :host:not(.criteria-visible) {
