@@ -1,4 +1,4 @@
-import { NgClass } from "@angular/common";
+import { NgClass, NgStyle } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -20,7 +20,7 @@ import { GradingScale } from "../../../../../shared/models/grading-scale.model";
   templateUrl: "./evaluation-chart.component.html",
   styleUrl: "./evaluation-chart.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslatePipe],
+  imports: [NgClass, NgStyle, TranslatePipe],
 })
 export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   entries = input.required<ReadonlyArray<EvaluationEntry>>();
@@ -30,6 +30,14 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   private resizeObserver: ResizeObserver | undefined;
 
   @ViewChild("chartWrapper", { static: false }) chartWrapper:
+    | ElementRef<HTMLDivElement>
+    | undefined;
+
+  @ViewChild("chartLegend", { static: false }) chartLegend:
+    | ElementRef<HTMLDivElement>
+    | undefined;
+
+  @ViewChild("xAxisLabel", { static: false }) xAxisLabel:
     | ElementRef<HTMLDivElement>
     | undefined;
 
@@ -43,18 +51,27 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   barCountForSmallerWidth = signal(25);
   currentChartWidth = signal(0);
   currentScrollWidth = signal(0);
-  // Computed signal for the overflow class
+  legendWidth = signal(0);
+  xAxisLabelWidth = signal(0);
+
+  isOverflowing = computed(() => {
+    return this.currentScrollWidth() > this.currentChartWidth();
+  });
+
   overflowClass = computed(() =>
-    this.currentScrollWidth() > this.currentChartWidth()
-      ? "is-overflowing"
-      : "",
+    this.isOverflowing() ? "is-overflowing" : "",
   );
 
   ngAfterViewInit(): void {
     const element = this.chartWrapper?.nativeElement;
+    const legend = this.chartLegend?.nativeElement;
+    const label = this.xAxisLabel?.nativeElement;
+
     if (element) {
       this.currentChartWidth.set(Math.round(element.clientWidth));
       this.currentScrollWidth.set(Math.round(element.scrollWidth));
+      this.legendWidth.set(Math.round(legend?.clientWidth ?? 0));
+      this.xAxisLabelWidth.set(Math.round(label?.clientWidth ?? 0));
 
       this.resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
@@ -102,6 +119,13 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
       this.chartMargin().right
     );
   });
+
+  legendPosition = computed(
+    () => (this.renderedChartWidth() - this.legendWidth()) / 2,
+  );
+  xAxisLabelPosition = computed(
+    () => (this.renderedChartWidth() - this.xAxisLabelWidth()) / 2,
+  );
 
   viewBox = computed(
     () => `0 0 ${this.renderedChartWidth()} ${this.chartHeight()}`,
