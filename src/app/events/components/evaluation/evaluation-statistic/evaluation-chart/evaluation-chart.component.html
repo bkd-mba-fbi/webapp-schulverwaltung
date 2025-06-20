@@ -1,6 +1,13 @@
 <div class="chart-container mt-3">
   @if (hasData()) {
-    <div class="chart-legend">
+    <div
+      class="chart-legend"
+      #chartLegend
+      [ngClass]="overflowClass()"
+      [ngStyle]="{
+        'margin-left': isOverflowing() ? 'unset' : legendPosition() + 'px',
+      }"
+    >
       @for (legend of legendLabels(); track legend.text) {
         <div class="legend-item">
           <svg width="10" height="10">
@@ -16,9 +23,8 @@
         </div>
       }
     </div>
-
     <div class="chart-wrapper" #chartWrapper>
-      <div class="chart" [ngClass]="overflowClass()" id="chart">
+      <div class="chart" id="chart">
         <svg [attr.width]="renderedChartWidth()" [attr.viewBox]="viewBox()">
           <g
             [attr.transform]="
@@ -88,7 +94,14 @@
         </svg>
       </div>
     </div>
-    <div class="x-axis-label">
+    <div
+      class="x-axis-label"
+      #xAxisLabel
+      [ngClass]="overflowClass()"
+      [ngStyle]="{
+        'margin-left': isOverflowing() ? 'unset' : xAxisLabelPosition() + 'px',
+      }"
+    >
       <span class="label">{{ "evaluation.chart.grade" | translate }}</span>
     </div>
   } @else {
