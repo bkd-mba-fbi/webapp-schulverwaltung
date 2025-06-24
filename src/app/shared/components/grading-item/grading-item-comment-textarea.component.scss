@@ -4,6 +4,10 @@
   display: block;
 }
 
+textarea:disabled {
+  background-color: white;
+}
+
 textarea {
   min-width: 30ch;
 }
