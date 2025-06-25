@@ -1,10 +1,21 @@
 import { Injectable, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { firstValueFrom } from "rxjs";
+import { Subject, Subscription, concatMap, firstValueFrom, of } from "rxjs";
 import { GradingItemsRestService } from "../../shared/services/grading-items-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { EvaluationStateService } from "./evaluation-state.service";
 import { TestStateService } from "./test-state.service";
+
+interface UpdateElement {
+  Id: string;
+  IdGrade: number | null;
+  Comment: string | null;
+  type: "grade" | "comment";
+}
+
+interface QueuedUpdateTask {
+  updateElement: UpdateElement;
+}
 
 const EVALUATION_UPDATE_CONTEXT = "events-evaluation-default-grade-update";
 @Injectable()
@@ -17,6 +28,65 @@ export class EvaluationGradingItemUpdateService {
   updating = toSignal(this.loadingService.loading(EVALUATION_UPDATE_CONTEXT), {
     requireSync: true,
   });
+
+  queueSubscription: Subscription;
+
+  private updateQueue$ = new Subject<QueuedUpdateTask>();
+
+  constructor() {
+    this.queueSubscription = this.updateQueue$
+      .pipe(concatMap(async (task) => this.update(task)))
+      .subscribe();
+  }
+
+  private async update(task: QueuedUpdateTask) {
+    const gradingItem = this.evaluationStateService
+      .gradingItems()
+      .find((item) => item.Id === task.updateElement.Id);
+
+    if (!gradingItem) {
+      console.error("Grading item not found");
+      return false;
+    }
+
+    let updatedGradingItem;
+    if (task.updateElement.type === "grade") {
+      updatedGradingItem = {
+        ...gradingItem,
+        IdGrade: task.updateElement.IdGrade,
+      };
+    } else {
+      updatedGradingItem = {
+        ...gradingItem,
+        Comment: task.updateElement.Comment,
+      };
+    }
+
+    try {
+      await firstValueFrom(
+        this.loadingService.load(
+          this.gradingItemsRestService.update(
+            updatedGradingItem.Id,
+            updatedGradingItem,
+          ),
+          EVALUATION_UPDATE_CONTEXT,
+        ),
+      );
+
+      this.evaluationStateService.updateGradingItems(
+        this.evaluationStateService
+          .gradingItems()
+          .map((item) =>
+            item.Id === updatedGradingItem.Id ? updatedGradingItem : item,
+          ),
+      );
+
+      return of(true);
+    } catch (error) {
+      console.error("Error updating comment", error);
+      return of(false);
+    }
+  }
 
   async updateDefaultGrade(selectedGradeId: number): Promise<boolean> {
     const updatedGradingItems = this.evaluationStateService
@@ -52,86 +122,25 @@ export class EvaluationGradingItemUpdateService {
     return true;
   }
 
-  async updateGrade(
-    gradingItemId: string,
-    gradeId: Option<number>,
-  ): Promise<boolean> {
-    const gradingItem = this.evaluationStateService
-      .gradingItems()
-      .find((item) => item.Id === gradingItemId);
-
-    if (!gradingItem) {
-      console.error("Grading item not found");
-      return false;
-    }
-
-    const updatedGradingItem = {
-      ...gradingItem,
-      IdGrade: gradeId,
-    };
-
-    try {
-      await firstValueFrom(
-        this.loadingService.load(
-          this.gradingItemsRestService.update(updatedGradingItem),
-          EVALUATION_UPDATE_CONTEXT,
-        ),
-      );
-
-      this.evaluationStateService.updateGradingItems(
-        this.evaluationStateService
-          .gradingItems()
-          .map((item) =>
-            item.Id === gradingItem.Id ? updatedGradingItem : item,
-          ),
-      );
-
-      this.testStateService.reload();
-      return true;
-    } catch (error) {
-      console.error("Error updating grade", error);
-      return false;
-    }
+  updateGrade(gradingItemId: string, gradeId: Option<number>) {
+    this.updateQueue$.next({
+      updateElement: {
+        Id: gradingItemId,
+        IdGrade: gradeId,
+        Comment: null,
+        type: "grade",
+      },
+    });
   }
 
-  async updateComment(
-    gradingItemId: string,
-    comment: Option<string>,
-  ): Promise<boolean> {
-    const gradingItem = this.evaluationStateService
-      .gradingItems()
-      .find((item) => item.Id === gradingItemId);
-
-    if (!gradingItem) {
-      console.error("Grading item not found");
-      return false;
-    }
-
-    const updatedGradingItem = {
-      ...gradingItem,
-      Comment: comment,
-    };
-
-    try {
-      await firstValueFrom(
-        this.loadingService.load(
-          this.gradingItemsRestService.updateComment(gradingItemId, comment),
-          EVALUATION_UPDATE_CONTEXT,
-        ),
-      );
-
-      this.evaluationStateService.updateGradingItems(
-        this.evaluationStateService
-          .gradingItems()
-          .map((item) =>
-            item.Id === gradingItem.Id ? updatedGradingItem : item,
-          ),
-      );
-
-      return true;
-    } catch (error) {
-      console.error("Error updating comment", error);
-      return false;
-    }
+  updateComment(gradingItemId: string, comment: Option<string>) {
+    this.updateQueue$.next({
+      updateElement: {
+        Id: gradingItemId,
+        IdGrade: null,
+        Comment: comment,
+        type: "comment",
+      },
+    });
   }
 }

@@ -93,7 +93,6 @@
             >
               <bkd-grading-item-comment-textarea
                 [(value)]="entry.gradingItem.Comment"
-                [disabled]="gradingItemUpdateService.updating()"
                 (commit)="updateComment($event, entry.gradingItem.Id)"
               ></bkd-grading-item-comment-textarea>
             </td>

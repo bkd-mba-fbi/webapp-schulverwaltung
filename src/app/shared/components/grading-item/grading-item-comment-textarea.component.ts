@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  input,
   model,
   output,
 } from "@angular/core";
@@ -18,7 +17,6 @@ import { Option } from "../../models/common-types";
       [value]="value() || ''"
       (input)="onInput($event)"
       (blur)="onBlur()"
-      [disabled]="disabled()"
     ></textarea>
   `,
   styleUrls: ["./grading-item-comment-textarea.component.scss"],
@@ -26,7 +24,6 @@ import { Option } from "../../models/common-types";
 })
 export class GradingItemCommentTextareaComponent {
   value = model<Option<string>>(null);
-  disabled = input<boolean>(false);
   commit = output<Option<string>>();
 
   onInput(event: Event) {
