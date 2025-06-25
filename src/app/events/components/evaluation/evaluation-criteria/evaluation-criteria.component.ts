@@ -33,29 +33,15 @@ export class EvaluationCriteriaComponent {
     return this.visible();
   }
 
-  heading = computed(() => {
-    const defaultHeading = this.translate.instant("evaluation.set-criteria");
-    if (this.entry().criteria.length === 0) {
-      return defaultHeading;
-    }
-    const detail = this.entry().criteria.find(
-      (c) => c.detail.VssStyle === "HE",
-    )?.detail;
-    if (!detail) {
-      return defaultHeading;
-    }
-    return detail.VssDesignation;
-  });
+  heading = computed(
+    () =>
+      this.headingDetail()?.VssDesignation ??
+      this.translate.instant("evaluation.set-criteria"),
+  );
 
-  headingDetail = computed(() => {
-    const detail = this.entry().criteria.find(
-      (c) => c.detail.VssStyle === "HE",
-    )?.detail;
-    if (!detail) {
-      return null;
-    }
-    return detail.Id;
-  });
+  headingDetail = computed(
+    () => this.entry().criteria.find((c) => c.detail.VssStyle === "HE")?.detail,
+  );
 
   toggle() {
     this.visible.update((visible) => !visible);
