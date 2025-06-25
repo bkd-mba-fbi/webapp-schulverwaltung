@@ -23,6 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
   height: 1.5em;
 }
 
@@ -49,8 +50,7 @@
 
 .chart {
   height: 100%;
-  align-self: center;
-  display: inline-flex;
+  align-self: flex-start;
 }
 
 svg {
@@ -81,5 +81,5 @@ svg {
 }
 
 .is-overflowing {
-  align-self: flex-start;
+  align-self: center;
 }
