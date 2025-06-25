@@ -9,7 +9,8 @@
 .set-default {
   color: rgba($body-color, 0.5);
   padding-right: $btn-padding-x;
-  display: inline-flex;
+  display: flex;
+  width: max-content;
   text-decoration: none;
   padding-left: 1rem;
 
