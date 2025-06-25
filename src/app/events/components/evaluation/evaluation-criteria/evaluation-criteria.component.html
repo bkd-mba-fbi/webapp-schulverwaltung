@@ -9,7 +9,10 @@
     @for (detail of entry().criteria; track detail.detail.Id) {
       <bkd-subscription-detail-field
         [detail]="detail.detail"
-        [ngClass]="detail.detail.VssStyle === 'HE' ? 'hide-for-mobile' : ''"
+        [class.hide-for-mobile]="
+          detail.detail.VssStyle === 'HE' &&
+          headingDetail() !== detail.detail.Id
+        "
         [layout]="'horizontal'"
         [(value)]="detail.value"
         (commit)="subscriptionDetailChange.emit(detail)"

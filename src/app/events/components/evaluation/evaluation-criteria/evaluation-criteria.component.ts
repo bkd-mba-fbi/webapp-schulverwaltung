@@ -1,4 +1,3 @@
-import { NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +17,7 @@ import { SubscriptionDetailFieldComponent } from "../../../../shared/components/
 
 @Component({
   selector: "bkd-evaluation-criteria",
-  imports: [NgClass, SubscriptionDetailFieldComponent],
+  imports: [SubscriptionDetailFieldComponent],
   templateUrl: "./evaluation-criteria.component.html",
   styleUrl: "./evaluation-criteria.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +45,16 @@ export class EvaluationCriteriaComponent {
       return defaultHeading;
     }
     return detail.VssDesignation;
+  });
+
+  headingDetail = computed(() => {
+    const detail = this.entry().criteria.find(
+      (c) => c.detail.VssStyle === "HE",
+    )?.detail;
+    if (!detail) {
+      return null;
+    }
+    return detail.Id;
   });
 
   toggle() {
