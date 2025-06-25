@@ -12,6 +12,8 @@ import {
 } from "./evaluation-state.service";
 import { TestStateService } from "./test-state.service";
 
+/* eslint-disable @typescript-eslint/await-thenable */
+
 describe("EvaluationGradingItemUpdateService", () => {
   let updateService: EvaluationGradingItemUpdateService;
   let gradingItemsRestServiceMock: jasmine.SpyObj<GradingItemsRestService>;
@@ -155,11 +157,11 @@ describe("EvaluationGradingItemUpdateService", () => {
   });
 
   describe("updateGrade", () => {
-    it("updates a single grading item with the selected grade", () => {
+    it("updates a single grading item with the selected grade", async () => {
       const gradingItemId = mockGradingItem1.Id;
       const selectedGradeId = 5678;
 
-      updateService.updateGrade(gradingItemId, selectedGradeId);
+      await updateService.updateGrade(gradingItemId, selectedGradeId);
       expect(gradingItemsRestServiceMock.update).toHaveBeenCalledWith(
         mockGradingItem1.Id,
         { ...mockGradingItem1, IdGrade: selectedGradeId },
@@ -174,16 +176,17 @@ describe("EvaluationGradingItemUpdateService", () => {
   });
 
   describe("updateComment", () => {
-    it("updates a single grading item with the provided comment", () => {
+    it("updates a single grading item with the provided comment", async () => {
       const gradingItemId = mockGradingItem1.Id;
       const comment = "Gute Leistung";
 
-      updateService.updateComment(gradingItemId, comment);
+      await updateService.updateComment(gradingItemId, comment);
 
       expect(gradingItemsRestServiceMock.update).toHaveBeenCalledWith(
         mockGradingItem1.Id,
         { ...mockGradingItem1, Comment: comment },
       );
+
       expect(
         evaluationStateServiceMock.updateGradingItems,
       ).toHaveBeenCalledWith([
