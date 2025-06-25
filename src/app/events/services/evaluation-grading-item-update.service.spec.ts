@@ -45,7 +45,7 @@ describe("EvaluationGradingItemUpdateService", () => {
             useFactory() {
               gradingItemsRestServiceMock = jasmine.createSpyObj(
                 "GradingItemsRestService",
-                ["updateForEvent", "update", "updateComment"],
+                ["updateForEvent", "update"],
               );
 
               gradingItemsRestServiceMock.updateForEvent.and.returnValue(
@@ -54,9 +54,7 @@ describe("EvaluationGradingItemUpdateService", () => {
 
               gradingItemsRestServiceMock.update.and.returnValue(of(undefined));
 
-              gradingItemsRestServiceMock.updateComment.and.returnValue(
-                of(undefined),
-              );
+              gradingItemsRestServiceMock.update.and.returnValue(of(undefined));
 
               return gradingItemsRestServiceMock;
             },
@@ -157,19 +155,15 @@ describe("EvaluationGradingItemUpdateService", () => {
   });
 
   describe("updateGrade", () => {
-    it("updates a single grading item with the selected grade", async () => {
+    it("updates a single grading item with the selected grade", () => {
       const gradingItemId = mockGradingItem1.Id;
       const selectedGradeId = 5678;
-      const result = await updateService.updateGrade(
-        gradingItemId,
-        selectedGradeId,
-      );
 
-      expect(result).toBe(true);
-      expect(gradingItemsRestServiceMock.update).toHaveBeenCalledWith({
-        ...mockGradingItem1,
-        IdGrade: selectedGradeId,
-      });
+      updateService.updateGrade(gradingItemId, selectedGradeId);
+      expect(gradingItemsRestServiceMock.update).toHaveBeenCalledWith(
+        mockGradingItem1.Id,
+        { ...mockGradingItem1, IdGrade: selectedGradeId },
+      );
       expect(
         evaluationStateServiceMock.updateGradingItems,
       ).toHaveBeenCalledWith([
@@ -180,16 +174,15 @@ describe("EvaluationGradingItemUpdateService", () => {
   });
 
   describe("updateComment", () => {
-    it("updates a single grading item with the provided comment", async () => {
+    it("updates a single grading item with the provided comment", () => {
       const gradingItemId = mockGradingItem1.Id;
       const comment = "Gute Leistung";
 
-      const result = await updateService.updateComment(gradingItemId, comment);
+      updateService.updateComment(gradingItemId, comment);
 
-      expect(result).toBe(true);
-      expect(gradingItemsRestServiceMock.updateComment).toHaveBeenCalledWith(
-        gradingItemId,
-        comment,
+      expect(gradingItemsRestServiceMock.update).toHaveBeenCalledWith(
+        mockGradingItem1.Id,
+        { ...mockGradingItem1, Comment: comment },
       );
       expect(
         evaluationStateServiceMock.updateGradingItems,

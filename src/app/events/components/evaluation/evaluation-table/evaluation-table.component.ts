@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   WritableSignal,
   computed,
   effect,
@@ -55,7 +56,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
   styleUrl: "./evaluation-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EvaluationTableComponent {
+export class EvaluationTableComponent implements OnDestroy {
   state = inject(EvaluationStateService);
   gradingItemUpdateService = inject(EvaluationGradingItemUpdateService);
   private subscriptionDetailUpdateService = inject(
@@ -120,6 +121,9 @@ export class EvaluationTableComponent {
       this.sticky()?.refresh();
     });
   }
+  ngOnDestroy(): void {
+    this.gradingItemUpdateService.updateQueue()?.unsubscribe();
+  }
 
   isColumnSelected(
     column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
@@ -174,12 +178,12 @@ export class EvaluationTableComponent {
     return average(grades);
   }
 
-  async updateGrade(gradeId: Option<number>, gradingItemId: string) {
-    await this.gradingItemUpdateService.updateGrade(gradingItemId, gradeId);
+  updateGrade(gradeId: Option<number>, gradingItemId: string) {
+    this.gradingItemUpdateService.updateGrade(gradingItemId, gradeId);
   }
 
-  async updateComment(comment: Option<string>, gradingItemId: string) {
-    await this.gradingItemUpdateService.updateComment(gradingItemId, comment);
+  updateComment(comment: Option<string>, gradingItemId: string) {
+    this.gradingItemUpdateService.updateComment(gradingItemId, comment);
   }
 
   openFinaliseEvaluationDialog(): void {

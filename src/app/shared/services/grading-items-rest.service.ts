@@ -29,16 +29,8 @@ export class GradingItemsRestService extends RestService<typeof GradingItem> {
     return this.http.put<void>(`${this.baseUrl}/`, gradingItems, { params });
   }
 
-  update(gradingItem: GradingItem): Observable<void> {
-    const url = `${this.baseUrl}/${gradingItem.Id}`;
-    return this.http.put<void>(url, gradingItem);
-  }
-
-  updateComment(
-    gradingItemId: string,
-    comment: string | null,
-  ): Observable<void> {
+  update(gradingItemId: string, gradingItem: GradingItem): Observable<void> {
     const url = `${this.baseUrl}/${gradingItemId}`;
-    return this.http.put<void>(url, { Comment: comment });
+    return this.http.put<void>(url, gradingItem);
   }
 }
