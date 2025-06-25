@@ -8,7 +8,7 @@
 :host {
   --spacer: 16px;
 
-  --grade-input-size: 154px; // 13ch
+  --grade-input-size: 17ch;
 
   --student-name-column-width: 225px;
   --student-grade-column-width: calc(
@@ -16,7 +16,6 @@
   );
 
   --student-grade-column-offset: var(--student-name-column-width);
-  --subscription-detail-columns-offset: var(--student-name-column-width);
 }
 
 $student-name-width-breakpoint: 1000px;
