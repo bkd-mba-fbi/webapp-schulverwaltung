@@ -122,7 +122,7 @@ export class EvaluationTableComponent implements OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this.gradingItemUpdateService.updateQueue()?.unsubscribe();
+    this.gradingItemUpdateService.queueSubscription?.unsubscribe();
   }
 
   isColumnSelected(
