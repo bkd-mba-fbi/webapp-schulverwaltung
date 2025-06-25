@@ -11,7 +11,7 @@
         [detail]="detail.detail"
         [class.hide-for-mobile]="
           detail.detail.VssStyle === 'HE' &&
-          headingDetail() !== detail.detail.Id
+          headingDetail() === detail.detail.Id
         "
         [layout]="'horizontal'"
         [(value)]="detail.value"
