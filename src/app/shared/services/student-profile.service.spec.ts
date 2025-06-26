@@ -106,12 +106,17 @@ describe("StudentProfileService", () => {
         .flush(Student.encode(student));
     });
 
-    it("emits null for a 404 response", () => {
+    it("emits null when both student and person service return 404", () => {
       service.getStudent(student.Id).subscribe((result) => {
         expect(result).toBeNull();
       });
+
       httpTestingController
         .expectOne(`https://eventotest.api/Students/${student.Id}`)
+        .flush(null, { status: 404, statusText: "Not Found" });
+
+      httpTestingController
+        .expectOne(`https://eventotest.api/Persons/${student.Id}`)
         .flush(null, { status: 404, statusText: "Not Found" });
     });
   });

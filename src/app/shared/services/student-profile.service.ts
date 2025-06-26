@@ -44,6 +44,13 @@ export class StudentProfileService {
   private dropDownItemsService = inject(DropDownItemsRestService);
   private loadingService = inject(LoadingService);
 
+  private readonly IGNORE_404_CONTEXT = new HttpContext().set(
+    RestErrorInterceptorOptions,
+    {
+      disableErrorHandlingForStatus: [404],
+    },
+  );
+
   loadingStudent$ = this.loadingService.loading(DOSSIER_STUDENT_CONTEXT);
   loadingMyself$ = this.loadingService.loading(DOSSIER_MYSELF_CONTEXT);
   loadingLegalRepresentatives$ = this.loadingService.loading(
@@ -57,14 +64,38 @@ export class StudentProfileService {
   getStudent(studentId: number): Observable<Option<Student>> {
     return this.loadingService.load(
       this.studentService
-        .get(studentId, {
-          context: new HttpContext().set(RestErrorInterceptorOptions, {
-            disableErrorHandlingForStatus: [404],
+        .get(studentId, { context: this.IGNORE_404_CONTEXT })
+        .pipe(
+          catch404(),
+          switchMap((student) => {
+            if (student !== null) {
+              return of(student);
+            }
+            return this.getPersonAsStudent(studentId);
           }),
-        })
-        .pipe(catch404()),
+        ),
       DOSSIER_STUDENT_CONTEXT,
     );
+  }
+
+  private getPersonAsStudent(personId: number): Observable<Option<Student>> {
+    return this.personsService
+      .get(personId, { context: this.IGNORE_404_CONTEXT })
+      .pipe(
+        map((person) => this.createStudentFromPerson(person)),
+        catch404(),
+      );
+  }
+
+  private createStudentFromPerson(person: Person): Student {
+    return {
+      ...person,
+      PostalCode: person.Zip,
+      FirstName: person.FirstName ?? "",
+      FullName: person.FullName ?? "",
+      LastName: person.LastName ?? "",
+      Gender: person.Gender ?? "X",
+    } as Student;
   }
 
   getMyself(): Observable<Person> {
@@ -164,9 +195,7 @@ export class StudentProfileService {
   ): Observable<ReadonlyArray<ApprenticeshipContract>> {
     return this.studentService
       .getCurrentApprenticeshipContracts(personId, {
-        context: new HttpContext().set(RestErrorInterceptorOptions, {
-          disableErrorHandlingForStatus: [404],
-        }),
+        context: this.IGNORE_404_CONTEXT,
       })
       .pipe(catch404([]));
   }
