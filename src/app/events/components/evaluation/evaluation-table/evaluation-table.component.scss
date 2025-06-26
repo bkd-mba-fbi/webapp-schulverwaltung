@@ -117,9 +117,7 @@ button.criteria-toggle {
   ::ng-deep {
     bkd-subscription-detail-label {
       min-width: auto !important;
-      width: calc(
-        var(--subscription-detail-columns-offset) - $spacer
-      ) !important;
+      width: calc(var(--student-name-column-width) - $spacer) !important;
     }
   }
 }
