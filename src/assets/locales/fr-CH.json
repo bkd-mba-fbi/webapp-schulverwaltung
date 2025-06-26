@@ -343,12 +343,13 @@
     "finalise": "Terminer l'évaluation",
     "finalise-modal": {
       "title": "Terminer l’évaluation",
-      "message": "Souhaitez-vous terminer l’évaluation?",
+      "message": "Souhaitez-vous terminer l’évaluation ?",
       "note": "Une fois l’évaluation terminée, la discipline n’est plus visible. Pour toute modification, veuillez vous adresser au secrétariat compétent de l’école.",
       "open-evaluations": "Des évaluations sont en suspens.",
       "cancel": "Annuler",
       "confirm": "Valider"
     },
+    "set-criteria": "Baser les critères",
     "columns": {
       "name": "Nom",
       "grade": "Note",
