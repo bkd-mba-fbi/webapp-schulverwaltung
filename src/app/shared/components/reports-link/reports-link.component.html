@@ -5,7 +5,7 @@
     target="_blank"
     [class.disabled]="disableIfUnavailable && reports.length === 0"
   >
-    <i class="material-icons">description</i>
+    <i class="material-symbols-outlined">description</i>
   </a>
 }
 
@@ -16,7 +16,7 @@
       [id]="dropdownId"
       ngbDropdownToggle
     >
-      <i class="material-icons">description</i>
+      <i class="material-symbols-outlined">description</i>
     </a>
     <div ngbDropdownMenu [attr.aria-labelledby]="dropdownId">
       @for (report of reports; track report.id) {
