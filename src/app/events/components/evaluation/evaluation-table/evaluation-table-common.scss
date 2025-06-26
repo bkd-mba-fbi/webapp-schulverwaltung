@@ -14,8 +14,6 @@
   --student-grade-column-width: calc(
     var(--spacer) + var(--grade-input-size) + var(--spacer)
   );
-
-  --student-grade-column-offset: var(--student-name-column-width);
 }
 
 $student-name-width-breakpoint: 1000px;
