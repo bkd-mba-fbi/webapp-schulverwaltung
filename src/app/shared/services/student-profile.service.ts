@@ -63,22 +63,25 @@ export class StudentProfileService {
 
   getStudent(studentId: number): Observable<Option<Student>> {
     return this.loadingService.load(
-      this.studentService
-        .get(studentId, { context: this.IGNORE_404_CONTEXT })
-        .pipe(
-          catch404(),
-          switchMap((student) => {
-            if (student !== null) {
-              return of(student);
-            }
-            return this.getPersonAsStudent(studentId);
-          }),
-        ),
+      this.fetchStudent(studentId).pipe(
+        switchMap((student) => {
+          if (student !== null) {
+            return of(student);
+          }
+          return this.fetchPerson(studentId);
+        }),
+      ),
       DOSSIER_STUDENT_CONTEXT,
     );
   }
 
-  private getPersonAsStudent(personId: number): Observable<Option<Student>> {
+  private fetchStudent(studentId: number): Observable<Option<Student>> {
+    return this.studentService
+      .get(studentId, { context: this.IGNORE_404_CONTEXT })
+      .pipe(catch404());
+  }
+
+  private fetchPerson(personId: number): Observable<Option<Student>> {
     return this.personsService
       .get(personId, { context: this.IGNORE_404_CONTEXT })
       .pipe(
@@ -89,12 +92,19 @@ export class StudentProfileService {
 
   private createStudentFromPerson(person: Person): Student {
     return {
-      ...person,
-      PostalCode: person.Zip,
+      Id: person.Id,
+      AddressLine1: person.AddressLine1,
+      AddressLine2: person.AddressLine2,
+      Birthdate: person.Birthdate,
+      DisplayEmail: person.DisplayEmail,
       FirstName: person.FirstName ?? "",
       FullName: person.FullName ?? "",
-      LastName: person.LastName ?? "",
       Gender: person.Gender ?? "X",
+      LastName: person.LastName ?? "",
+      Location: person.Location,
+      PhoneMobile: person.PhoneMobile,
+      PhonePrivate: person.PhonePrivate,
+      PostalCode: person.Zip,
     } as Student;
   }
 
