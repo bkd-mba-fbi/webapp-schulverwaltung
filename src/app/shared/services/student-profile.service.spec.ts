@@ -26,6 +26,7 @@ describe("StudentProfileService", () => {
   let service: StudentProfileService;
 
   let student: Student;
+  let studentPerson: Person;
   let myself: Person;
   let legalRepresentatives: LegalRepresentative[];
   let apprenticeshipContract: ApprenticeshipContract;
@@ -59,6 +60,19 @@ describe("StudentProfileService", () => {
 
     student = buildStudent(39405);
     student.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
+
+    studentPerson = buildPerson(39405);
+    studentPerson.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
+    studentPerson.AddressLine1 = "";
+    studentPerson.DisplayEmail = "";
+    studentPerson.FirstName = "T";
+    studentPerson.FullName = "T. Tux";
+    studentPerson.Gender = "F";
+    studentPerson.LastName = "Tux";
+    studentPerson.Location = "";
+    studentPerson.PhoneMobile = "";
+    studentPerson.PhonePrivate = "";
+    studentPerson.Zip = "";
 
     myself = buildPerson(39405);
     myself.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
@@ -106,13 +120,31 @@ describe("StudentProfileService", () => {
         .flush(Student.encode(student));
     });
 
-    it("emits null for a 404 response", () => {
+    it("emits null when both student and person service return 404", () => {
       service.getStudent(student.Id).subscribe((result) => {
         expect(result).toBeNull();
+      });
+
+      httpTestingController
+        .expectOne(`https://eventotest.api/Students/${student.Id}`)
+        .flush(null, { status: 404, statusText: "Not Found" });
+
+      httpTestingController
+        .expectOne(`https://eventotest.api/Persons/${student.Id}`)
+        .flush(null, { status: 404, statusText: "Not Found" });
+    });
+
+    it("emits the student by the person service for the given ID", () => {
+      service.getStudent(student.Id).subscribe((result) => {
+        expect(result).toEqual(student);
       });
       httpTestingController
         .expectOne(`https://eventotest.api/Students/${student.Id}`)
         .flush(null, { status: 404, statusText: "Not Found" });
+
+      httpTestingController
+        .expectOne(`https://eventotest.api/Persons/${student.Id}`)
+        .flush(Person.encode(studentPerson));
     });
   });
 
