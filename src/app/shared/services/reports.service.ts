@@ -270,7 +270,6 @@ export class ReportsService {
     );
 
     url.searchParams.set("ids", recordIds.join(","));
-    url.searchParams.set("token", this.storageService.getAccessToken() ?? "");
 
     return url.toString();
   }

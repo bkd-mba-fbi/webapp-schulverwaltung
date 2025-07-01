@@ -1,7 +1,10 @@
 @if (reports.length === 1 || (reports.length === 0 && disableIfUnavailable)) {
   <a
     class="btn btn-primary btn-icon"
-    [href]="reports.length > 0 && reports[0].url"
+    [href]="reports.length > 0 ? reports[0].url : ''"
+    (click)="
+      $event.preventDefault(); reports.length > 0 && openReport(reports[0])
+    "
     target="_blank"
     [class.disabled]="disableIfUnavailable && reports.length === 0"
   >

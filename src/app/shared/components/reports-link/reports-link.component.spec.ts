@@ -1,14 +1,24 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { StorageService } from "../../services/storage.service";
 import { ReportsLinkComponent } from "./reports-link.component";
 
 describe("ReportsLinkComponent", () => {
   let component: ReportsLinkComponent;
   let fixture: ComponentFixture<ReportsLinkComponent>;
   let element: HTMLElement;
+  let storageServiceMock: jasmine.SpyObj<StorageService>;
 
   beforeEach(() => {
+    storageServiceMock = jasmine.createSpyObj("StorageService", [
+      "getAccessToken",
+    ]);
+    storageServiceMock.getAccessToken.and.returnValue("test-token");
+
+    spyOn(window, "open");
+
     TestBed.configureTestingModule({
       imports: [ReportsLinkComponent],
+      providers: [{ provide: StorageService, useValue: storageServiceMock }],
     });
     fixture = TestBed.createComponent(ReportsLinkComponent);
     component = fixture.componentInstance;
@@ -40,6 +50,14 @@ describe("ReportsLinkComponent", () => {
 
     expect(element.querySelector("[ngbDropdownToggle]")).toBeNull();
     expect(element.querySelector("[ngbDropdownMenu]")).toBeNull();
+
+    links[0].click();
+
+    expect(storageServiceMock.getAccessToken).toHaveBeenCalled();
+    expect(window.open).toHaveBeenCalledWith(
+      "http://example.com/report1.pdf?token=test-token",
+      "_blank",
+    );
   });
 
   it("renders link with dropdown if multiple reports are available", () => {
@@ -67,5 +85,17 @@ describe("ReportsLinkComponent", () => {
     expect(menu).toBeTruthy();
     expect(menu?.textContent).toContain("Report 1");
     expect(menu?.textContent).toContain("Report 2");
+
+    const dropdownButton: HTMLButtonElement =
+      element.querySelector("button[ngbDropdownItem]") ||
+      ({} as HTMLButtonElement);
+    expect(dropdownButton).toBeTruthy();
+    dropdownButton.click();
+
+    expect(storageServiceMock.getAccessToken).toHaveBeenCalled();
+    expect(window.open).toHaveBeenCalledWith(
+      "http://example.com/report1.pdf?token=test-token",
+      "_blank",
+    );
   });
 });
