@@ -93,10 +93,6 @@ export class StudentProfileAbsencesService {
           if (entries.length > 0) {
             return of(entries[0]);
           }
-          this.toastService.error(
-            this.translate.instant(`global.rest-errors.notfound-message`),
-            this.translate.instant(`global.rest-errors.notfound-title`),
-          );
           return EMPTY;
         }),
       );

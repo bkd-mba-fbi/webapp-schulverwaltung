@@ -111,23 +111,10 @@ describe("StudentProfileService", () => {
   });
 
   describe(".getStudent", () => {
-    it("emits the student for the given ID", () => {
-      service.getStudent(student.Id).subscribe((result) => {
-        expect(result).toEqual(student);
-      });
-      httpTestingController
-        .expectOne(`https://eventotest.api/Students/${student.Id}`)
-        .flush(Student.encode(student));
-    });
-
-    it("emits null when both student and person service return 404", () => {
+    it("emits null when person service return 404", () => {
       service.getStudent(student.Id).subscribe((result) => {
         expect(result).toBeNull();
       });
-
-      httpTestingController
-        .expectOne(`https://eventotest.api/Students/${student.Id}`)
-        .flush(null, { status: 404, statusText: "Not Found" });
 
       httpTestingController
         .expectOne(`https://eventotest.api/Persons/${student.Id}`)
@@ -138,9 +125,6 @@ describe("StudentProfileService", () => {
       service.getStudent(student.Id).subscribe((result) => {
         expect(result).toEqual(student);
       });
-      httpTestingController
-        .expectOne(`https://eventotest.api/Students/${student.Id}`)
-        .flush(null, { status: 404, statusText: "Not Found" });
 
       httpTestingController
         .expectOne(`https://eventotest.api/Persons/${student.Id}`)
