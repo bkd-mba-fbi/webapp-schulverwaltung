@@ -9,13 +9,14 @@
   @if (showActions()) {
     <div class="d-flex">
       @if (event().gradingScaleId !== null) {
-        <a
+        <button
           class="btn btn-primary btn-icon chart-btn"
           [routerLink]="'statistic'"
           [queryParams]="{ returnlink: queryParam() }"
+          [disabled]="!hasGradeEntries()"
         >
           <i class="material-icons">equalizer</i>
-        </a>
+        </button>
       }
       <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
       <!--Element id excel-import used for a external modul MasterExcel-->

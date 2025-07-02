@@ -10,7 +10,10 @@ import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { distinctUntilChanged, map, of, startWith, switchMap } from "rxjs";
-import { EvaluationEvent } from "src/app/events/services/evaluation-state.service";
+import {
+  EvaluationEvent,
+  EvaluationStateService,
+} from "src/app/events/services/evaluation-state.service";
 import { BacklinkComponent } from "src/app/shared/components/backlink/backlink.component";
 import { ReportsService } from "src/app/shared/services/reports.service";
 import { ReportsLinkComponent } from "../../../../shared/components/reports-link/reports-link.component";
@@ -25,6 +28,11 @@ import { ReportsLinkComponent } from "../../../../shared/components/reports-link
 export class EvaluationHeaderComponent {
   private reportsService = inject(ReportsService);
   private route = inject(ActivatedRoute);
+  private state = inject(EvaluationStateService);
+
+  hasGradeEntries = computed(() =>
+    this.state.entries().some((entry) => (entry.grade?.Value ?? 0) > 0),
+  );
 
   event = input.required<EvaluationEvent>();
   showActions = input<boolean>(true);
