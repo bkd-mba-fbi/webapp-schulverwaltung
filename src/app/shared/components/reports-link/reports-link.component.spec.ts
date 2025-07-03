@@ -55,7 +55,7 @@ describe("ReportsLinkComponent", () => {
 
     expect(storageServiceMock.getAccessToken).toHaveBeenCalled();
     expect(window.open).toHaveBeenCalledWith(
-      "http://example.com/report1.pdf?token=test-token",
+      new URL("http://example.com/report1.pdf?token=test-token"),
       "_blank",
     );
   });
@@ -94,7 +94,7 @@ describe("ReportsLinkComponent", () => {
 
     expect(storageServiceMock.getAccessToken).toHaveBeenCalled();
     expect(window.open).toHaveBeenCalledWith(
-      "http://example.com/report1.pdf?token=test-token",
+      new URL("http://example.com/report1.pdf?token=test-token"),
       "_blank",
     );
   });

@@ -34,9 +34,9 @@ export class ReportsLinkComponent {
     window.open(this.addTokenToUrl(report), "_blank");
   }
 
-  addTokenToUrl(report: ReportInfo): string {
+  addTokenToUrl(report: ReportInfo): URL {
     const url = new URL(report.url);
     url.searchParams.set("token", this.storageService.getAccessToken() ?? "");
-    return url.toString();
+    return url;
   }
 }
