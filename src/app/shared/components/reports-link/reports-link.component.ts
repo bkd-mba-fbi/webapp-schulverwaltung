@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import {
   NgbDropdown,
   NgbDropdownButtonItem,
@@ -8,6 +8,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { uniqueId } from "lodash-es";
 import { ReportInfo } from "../../services/reports.service";
+import { StorageService } from "../../services/storage.service";
 
 @Component({
   selector: "bkd-reports-link",
@@ -25,9 +26,17 @@ export class ReportsLinkComponent {
   @Input() reports: ReadonlyArray<ReportInfo> = [];
   @Input() disableIfUnavailable = false;
 
+  private storageService = inject(StorageService);
+
   dropdownId = uniqueId("reports-link-dropdown");
 
   openReport(report: ReportInfo): void {
-    window.open(report.url, "_blank");
+    window.open(this.addTokenToUrl(report), "_blank");
+  }
+
+  addTokenToUrl(report: ReportInfo): URL {
+    const url = new URL(report.url);
+    url.searchParams.set("token", this.storageService.getAccessToken() ?? "");
+    return url;
   }
 }

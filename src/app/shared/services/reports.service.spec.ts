@@ -49,7 +49,7 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290026,
           title: "Stammblatt",
-          url: "https://eventotest.api/Files/CrystalReports/Person/290026?ids=42&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Person/290026?ids=42",
         },
       ]);
     });
@@ -82,7 +82,7 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290036,
           title: "Entschuldigungsformular",
-          url: "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456%2C456_789&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290036?ids=123_456%2C456_789",
         },
       ]);
     });
@@ -121,13 +121,13 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290048,
           title: "Auswertung der Absenzen (PDF)",
-          url: "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456%2C456_789&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456%2C456_789",
         },
         {
           type: "excel",
           id: 290033,
           title: "Auswertung der Absenzen (Excel)",
-          url: "https://eventotest.api/Files/ExcelReports/Praesenzinformation/290033?ids=123_456%2C456_789&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/ExcelReports/Praesenzinformation/290033?ids=123_456%2C456_789",
         },
       ]);
     });
@@ -164,7 +164,7 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290048,
           title: "Auswertung der Absenzen",
-          url: "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456%2C456_789&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Praesenzinformation/290048?ids=123_456%2C456_789",
         },
       ]);
     });
@@ -195,7 +195,7 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290044,
           title: "Tests",
-          url: "https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=42&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Anlass/290044?ids=42",
         },
       ]);
     });
@@ -221,7 +221,7 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290043,
           title: "Report 1",
-          url: "https://eventotest.api/Files/CrystalReports/Anmeldung/290043?ids=123%2C456&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Anmeldung/290043?ids=123%2C456",
         },
       ]);
     });
@@ -236,7 +236,7 @@ describe("ReportsService", () => {
           type: "crystal",
           id: 290042,
           title: "Report 1",
-          url: "https://eventotest.api/Files/CrystalReports/Anmeldung/290042?ids=123%2C456&token=SOMETOKEN",
+          url: "https://eventotest.api/Files/CrystalReports/Anmeldung/290042?ids=123%2C456",
         },
       ]);
     });
