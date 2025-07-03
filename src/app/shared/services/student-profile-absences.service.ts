@@ -1,4 +1,5 @@
 import { Injectable, inject } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { TranslateService } from "@ngx-translate/core";
 import { EMPTY, Observable, ReplaySubject, combineLatest, of } from "rxjs";
 import { map, share, startWith, switchMap } from "rxjs/operators";
@@ -35,7 +36,7 @@ export class StudentProfileAbsencesService {
   incidents$ = this.getAbsences(this.loadIncidents.bind(this));
   halfDays$ = this.getAbsences(this.loadHalfDays.bind(this));
 
-  counts$ = this.getCounts();
+  counts$ = toSignal(this.getCounts(), { initialValue: null });
 
   setStudentId(id: number): void {
     this.studentId$.next(id);

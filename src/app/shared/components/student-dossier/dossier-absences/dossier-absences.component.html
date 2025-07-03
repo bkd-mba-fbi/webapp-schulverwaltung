@@ -1,133 +1,14 @@
-@let absenceCounts = absencesService.counts$ | async;
-
-<div ngbAccordion>
-  <div ngbAccordionItem #checkableAbsences="ngbAccordionItem">
-    <div ngbAccordionHeader>
-      <bkd-student-dossier-entry-header
-        [opened]="!checkableAbsences.collapsed"
-        (click)="checkableAbsences.toggle()"
-      >
-        {{ "shared.profile.checkable-absences" | translate }}
-        @if (absenceCounts?.checkableAbsences !== null) {
-          ({{ absenceCounts?.checkableAbsences }})
-        }
-      </bkd-student-dossier-entry-header>
-    </div>
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <ng-template>
-          <bkd-student-dossier-absences
-            [absences$]="absencesService.checkableAbsences$"
-          ></bkd-student-dossier-absences>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-
-  <div ngbAccordionItem #openAbsences="ngbAccordionItem">
-    <div ngbAccordionHeader>
-      <bkd-student-dossier-entry-header
-        [opened]="!openAbsences.collapsed"
-        (click)="openAbsences.toggle()"
-      >
-        {{ "shared.profile.open-absences" | translate }}
-        @if (absenceCounts?.openAbsences !== null) {
-          ({{ absenceCounts?.openAbsences }})
-        }
-      </bkd-student-dossier-entry-header>
-    </div>
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <ng-template>
-          <bkd-student-dossier-absences
-            [absences$]="absencesService.openAbsences$"
-            [selectionService]="absencesSelectionService"
-          ></bkd-student-dossier-absences>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-
-  <div ngbAccordionItem #excusedAbsences="ngbAccordionItem">
-    <div ngbAccordionHeader>
-      <bkd-student-dossier-entry-header
-        [opened]="!excusedAbsences.collapsed"
-        (click)="excusedAbsences.toggle()"
-      >
-        {{ "shared.profile.excused-absences" | translate }}
-        @if (absenceCounts?.excusedAbsences !== null) {
-          ({{ absenceCounts?.excusedAbsences }})
-        }
-      </bkd-student-dossier-entry-header>
-    </div>
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <ng-template>
-          <bkd-student-dossier-absences
-            [absences$]="absencesService.excusedAbsences$"
-          ></bkd-student-dossier-absences>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-
-  <div ngbAccordionItem #unexcusedAbsences="ngbAccordionItem">
-    <div ngbAccordionHeader>
-      <bkd-student-dossier-entry-header
-        [opened]="!unexcusedAbsences.collapsed"
-        (click)="unexcusedAbsences.toggle()"
-      >
-        {{ "shared.profile.unexcused-absences" | translate }}
-        @if (absenceCounts?.unexcusedAbsences !== null) {
-          ({{ absenceCounts?.unexcusedAbsences }})
-        }
-      </bkd-student-dossier-entry-header>
-    </div>
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <ng-template>
-          <bkd-student-dossier-absences
-            [absences$]="absencesService.unexcusedAbsences$"
-            [displayPresenceType]="false"
-          ></bkd-student-dossier-absences>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-
-  <div ngbAccordionItem #incidents="ngbAccordionItem">
-    <div ngbAccordionHeader>
-      <bkd-student-dossier-entry-header
-        [opened]="!incidents.collapsed"
-        (click)="incidents.toggle()"
-      >
-        {{ "shared.profile.incidents" | translate }}
-        @if (absenceCounts?.incidents !== null) {
-          ({{ absenceCounts?.incidents }})
-        }
-      </bkd-student-dossier-entry-header>
-    </div>
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <ng-template>
-          <bkd-student-dossier-absences
-            [absences$]="absencesService.incidents$"
-          ></bkd-student-dossier-absences>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-
-  @if (halfDayActive$ | async) {
-    <div ngbAccordionItem #halfDays="ngbAccordionItem" id="half-days">
+@if (!isAbsenceDataEmpty()) {
+  <div ngbAccordion>
+    <div ngbAccordionItem #checkableAbsences="ngbAccordionItem">
       <div ngbAccordionHeader>
         <bkd-student-dossier-entry-header
-          [opened]="!halfDays.collapsed"
-          (click)="halfDays.toggle()"
+          [opened]="!checkableAbsences.collapsed"
+          (click)="checkableAbsences.toggle()"
         >
-          {{ "shared.profile.half-days" | translate }}
-          @if (absenceCounts?.halfDays !== null) {
-            ({{ absenceCounts?.halfDays }})
+          {{ "shared.profile.checkable-absences" | translate }}
+          @if (absenceCounts()?.checkableAbsences !== null) {
+            ({{ absenceCounts()?.checkableAbsences }})
           }
         </bkd-student-dossier-entry-header>
       </div>
@@ -135,12 +16,135 @@
         <div ngbAccordionBody>
           <ng-template>
             <bkd-student-dossier-absences
-              [absences$]="absencesService.halfDays$"
+              [absences$]="absencesService.checkableAbsences$"
+            ></bkd-student-dossier-absences>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div ngbAccordionItem #openAbsences="ngbAccordionItem">
+      <div ngbAccordionHeader>
+        <bkd-student-dossier-entry-header
+          [opened]="!openAbsences.collapsed"
+          (click)="openAbsences.toggle()"
+        >
+          {{ "shared.profile.open-absences" | translate }}
+          @if (absenceCounts()?.openAbsences !== null) {
+            ({{ absenceCounts()?.openAbsences }})
+          }
+        </bkd-student-dossier-entry-header>
+      </div>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <bkd-student-dossier-absences
+              [absences$]="absencesService.openAbsences$"
+              [selectionService]="absencesSelectionService"
+            ></bkd-student-dossier-absences>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div ngbAccordionItem #excusedAbsences="ngbAccordionItem">
+      <div ngbAccordionHeader>
+        <bkd-student-dossier-entry-header
+          [opened]="!excusedAbsences.collapsed"
+          (click)="excusedAbsences.toggle()"
+        >
+          {{ "shared.profile.excused-absences" | translate }}
+          @if (absenceCounts()?.excusedAbsences !== null) {
+            ({{ absenceCounts()?.excusedAbsences }})
+          }
+        </bkd-student-dossier-entry-header>
+      </div>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <bkd-student-dossier-absences
+              [absences$]="absencesService.excusedAbsences$"
+            ></bkd-student-dossier-absences>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div ngbAccordionItem #unexcusedAbsences="ngbAccordionItem">
+      <div ngbAccordionHeader>
+        <bkd-student-dossier-entry-header
+          [opened]="!unexcusedAbsences.collapsed"
+          (click)="unexcusedAbsences.toggle()"
+        >
+          {{ "shared.profile.unexcused-absences" | translate }}
+          @if (absenceCounts()?.unexcusedAbsences !== null) {
+            ({{ absenceCounts()?.unexcusedAbsences }})
+          }
+        </bkd-student-dossier-entry-header>
+      </div>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <bkd-student-dossier-absences
+              [absences$]="absencesService.unexcusedAbsences$"
               [displayPresenceType]="false"
             ></bkd-student-dossier-absences>
           </ng-template>
         </div>
       </div>
     </div>
-  }
-</div>
+
+    <div ngbAccordionItem #incidents="ngbAccordionItem">
+      <div ngbAccordionHeader>
+        <bkd-student-dossier-entry-header
+          [opened]="!incidents.collapsed"
+          (click)="incidents.toggle()"
+        >
+          {{ "shared.profile.incidents" | translate }}
+          @if (absenceCounts()?.incidents !== null) {
+            ({{ absenceCounts()?.incidents }})
+          }
+        </bkd-student-dossier-entry-header>
+      </div>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <bkd-student-dossier-absences
+              [absences$]="absencesService.incidents$"
+            ></bkd-student-dossier-absences>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    @if (halfDayActive$ | async) {
+      <div ngbAccordionItem #halfDays="ngbAccordionItem" id="half-days">
+        <div ngbAccordionHeader>
+          <bkd-student-dossier-entry-header
+            [opened]="!halfDays.collapsed"
+            (click)="halfDays.toggle()"
+          >
+            {{ "shared.profile.half-days" | translate }}
+            @if (absenceCounts()?.halfDays !== null) {
+              ({{ absenceCounts()?.halfDays }})
+            }
+          </bkd-student-dossier-entry-header>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <bkd-student-dossier-absences
+                [absences$]="absencesService.halfDays$"
+                [displayPresenceType]="false"
+              ></bkd-student-dossier-absences>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <p class="py-3" data-testid="message-no-absences">
+    {{ "dossier.no-absences" | translate }}
+  </p>
+}

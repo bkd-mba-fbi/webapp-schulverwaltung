@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  computed,
   inject,
 } from "@angular/core";
 import {
@@ -49,6 +50,7 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
   absencesSelectionService = inject(ConfirmAbsencesSelectionService);
 
   halfDayActive$ = this.presenceTypesService.halfDayActive$;
+  absenceCounts = this.absencesService.counts$;
 
   private destroy$ = new Subject<void>();
 
@@ -61,4 +63,15 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
   }
+
+  isAbsenceDataEmpty = computed(() => {
+    return (
+      this.absenceCounts()?.checkableAbsences === 0 &&
+      this.absenceCounts()?.openAbsences === 0 &&
+      this.absenceCounts()?.excusedAbsences == null &&
+      this.absenceCounts()?.unexcusedAbsences == null &&
+      this.absenceCounts()?.incidents == null &&
+      this.absenceCounts()?.halfDays == null
+    );
+  });
 }
