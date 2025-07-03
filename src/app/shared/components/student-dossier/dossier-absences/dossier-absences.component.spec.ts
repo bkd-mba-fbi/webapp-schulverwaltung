@@ -1,5 +1,5 @@
+import { computed } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { of } from "rxjs";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { DossierStateService } from "../../../services/dossier-state.service";
@@ -23,7 +23,7 @@ describe("DossierAbsencesComponent", () => {
             {
               provide: StudentProfileAbsencesService,
               useValue: {
-                counts$: of({ checkableAbsences: null }),
+                counts$: computed(() => ({ checkableAbsences: null })),
                 setStudentId: jasmine.createSpy("setStudentId"),
               },
             },
