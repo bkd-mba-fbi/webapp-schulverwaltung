@@ -21,6 +21,7 @@ import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absen
 import { DossierStateService } from "../../../services/dossier-state.service";
 import { PresenceTypesService } from "../../../services/presence-types.service";
 import { StudentProfileAbsencesService } from "../../../services/student-profile-absences.service";
+import { SpinnerComponent } from "../../spinner/spinner.component";
 import { StudentDossierAbsencesComponent } from "../student-dossier-absences/student-dossier-absences.component";
 import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 
@@ -33,11 +34,12 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
     NgbAccordionDirective,
     NgbAccordionItem,
     NgbAccordionHeader,
-    StudentDossierEntryHeaderComponent,
     NgbCollapse,
     NgbAccordionCollapse,
     NgbAccordionBody,
+    SpinnerComponent,
     StudentDossierAbsencesComponent,
+    StudentDossierEntryHeaderComponent,
     AsyncPipe,
     TranslatePipe,
   ],
@@ -64,14 +66,12 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  isAbsenceDataEmpty = computed(() => {
+  hasAbsences = computed(() => {
     return (
-      this.absenceCounts()?.checkableAbsences === 0 &&
-      this.absenceCounts()?.openAbsences === 0 &&
-      this.absenceCounts()?.excusedAbsences == null &&
-      this.absenceCounts()?.unexcusedAbsences == null &&
-      this.absenceCounts()?.incidents == null &&
-      this.absenceCounts()?.halfDays == null
+      this.absenceCounts()?.excusedAbsences != null ||
+      this.absenceCounts()?.unexcusedAbsences != null ||
+      this.absenceCounts()?.incidents != null ||
+      this.absenceCounts()?.halfDays != null
     );
   });
 }
