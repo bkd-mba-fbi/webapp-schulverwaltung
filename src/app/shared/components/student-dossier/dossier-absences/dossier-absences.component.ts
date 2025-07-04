@@ -7,6 +7,7 @@ import {
   computed,
   inject,
 } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -53,6 +54,9 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
 
   halfDayActive$ = this.presenceTypesService.halfDayActive$;
   absenceCounts = this.absencesService.counts$;
+  loadingAbsences = toSignal(this.absencesService.loadingAbsences$, {
+    requireSync: true,
+  });
 
   private destroy$ = new Subject<void>();
 
@@ -67,11 +71,25 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
   }
 
   hasAbsences = computed(() => {
-    return (
-      this.absenceCounts()?.excusedAbsences != null ||
-      this.absenceCounts()?.unexcusedAbsences != null ||
-      this.absenceCounts()?.incidents != null ||
-      this.absenceCounts()?.halfDays != null
-    );
+    const counts = this.absenceCounts();
+    if (!counts) return false;
+
+    const hasNonNullCounts =
+      counts.checkableAbsences != null ||
+      counts.openAbsences != null ||
+      counts.excusedAbsences != null ||
+      counts.unexcusedAbsences != null ||
+      counts.incidents != null ||
+      counts.halfDays != null;
+
+    const totalAbsences =
+      (counts.checkableAbsences ?? 0) +
+      (counts.openAbsences ?? 0) +
+      (counts.excusedAbsences ?? 0) +
+      (counts.unexcusedAbsences ?? 0) +
+      (counts.incidents ?? 0) +
+      (counts.halfDays ?? 0);
+
+    return hasNonNullCounts && totalAbsences > 0;
   });
 }

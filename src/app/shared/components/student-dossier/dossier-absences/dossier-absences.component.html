@@ -1,5 +1,5 @@
-@if (!absenceCounts()) {
-  <bkd-spinner></bkd-spinner>
+@if (loadingAbsences() || this.absenceCounts()?.checkableAbsences === null) {
+  <bkd-spinner class="small"></bkd-spinner>
 } @else {
   @if (hasAbsences()) {
     <div ngbAccordion>

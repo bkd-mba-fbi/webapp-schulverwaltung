@@ -1,14 +1,13 @@
 import { Injectable, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { TranslateService } from "@ngx-translate/core";
 import { EMPTY, Observable, ReplaySubject, combineLatest, of } from "rxjs";
 import { map, share, startWith, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
 import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { LessonPresencesRestService } from "./lesson-presences-rest.service";
+import { LoadingService } from "./loading-service";
 import { PresenceTypesService } from "./presence-types.service";
-import { ToastService } from "./toast.service";
 
 export interface StudentProfileAbsencesCounts {
   checkableAbsences: Option<number>;
@@ -19,15 +18,18 @@ export interface StudentProfileAbsencesCounts {
   halfDays: Option<number>;
 }
 
+const DOSSIER_STUDENT_ABSENCES = "dossier-student-absences";
+
 @Injectable()
 export class StudentProfileAbsencesService {
   private settings = inject<Settings>(SETTINGS);
   private lessonPresencesService = inject(LessonPresencesRestService);
   private presenceTypesService = inject(PresenceTypesService);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
+  private loadingService = inject(LoadingService);
 
   private studentId$ = new ReplaySubject<number>(1);
+
+  loadingAbsences$ = this.loadingService.loading(DOSSIER_STUDENT_ABSENCES);
 
   checkableAbsences$ = this.getAbsences(this.loadCheckableAbsences.bind(this));
   openAbsences$ = this.getAbsences(this.loadOpenAbsences.bind(this));
@@ -59,24 +61,29 @@ export class StudentProfileAbsencesService {
   }
 
   private getCounts(): Observable<StudentProfileAbsencesCounts> {
-    return this.studentId$.pipe(
-      switchMap((studentId) => {
-        return combineLatest([
-          this.loadStatistics(studentId).pipe(startWith(null)),
-          this.openAbsences$.pipe(map((absences) => absences?.length ?? null)),
-          this.checkableAbsences$.pipe(
-            map((absences) => absences?.length ?? null),
-          ),
-        ]);
-      }),
-      map(([statistics, openAbsencesCount, checkableAbsencesCount]) => ({
-        openAbsences: openAbsencesCount,
-        checkableAbsences: checkableAbsencesCount,
-        excusedAbsences: statistics?.TotalAbsencesValidExcuse ?? null,
-        unexcusedAbsences: statistics?.TotalAbsencesWithoutExcuse ?? null,
-        incidents: statistics?.TotalIncidents ?? null,
-        halfDays: statistics?.TotalHalfDays ?? null,
-      })),
+    return this.loadingService.load(
+      this.studentId$.pipe(
+        switchMap((studentId) => {
+          return combineLatest([
+            this.loadStatistics(studentId).pipe(startWith(null)),
+            this.openAbsences$.pipe(
+              map((absences) => absences?.length ?? null),
+            ),
+            this.checkableAbsences$.pipe(
+              map((absences) => absences?.length ?? null),
+            ),
+          ]);
+        }),
+        map(([statistics, openAbsencesCount, checkableAbsencesCount]) => ({
+          openAbsences: openAbsencesCount,
+          checkableAbsences: checkableAbsencesCount,
+          excusedAbsences: statistics?.TotalAbsencesValidExcuse ?? null,
+          unexcusedAbsences: statistics?.TotalAbsencesWithoutExcuse ?? null,
+          incidents: statistics?.TotalIncidents ?? null,
+          halfDays: statistics?.TotalHalfDays ?? null,
+        })),
+      ),
+      { context: DOSSIER_STUDENT_ABSENCES, stopOnFirstValue: true },
     );
   }
 
