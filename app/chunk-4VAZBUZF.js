@@ -1,1 +1,0 @@
-import{o as u}from"./chunk-2ZJPWAW2.js";function l(e,n,i){return e.map(t=>{let r=null;t.TypeRef.Id&&(r=n.find(f=>f.Id===t.TypeRef.Id)||null);let o;return t.ConfirmationStateId&&(o=i.find(f=>f.Key===t.ConfirmationStateId)),new u(t,r,null,o)})}function p(e,n,i){return e?n.filter(t=>i.find(r=>r===t.lessonPresence.StudentRef.Id)):n}export{l as a,p as b};
