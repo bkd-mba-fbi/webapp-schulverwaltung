@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { EMPTY, Observable, ReplaySubject, combineLatest, of } from "rxjs";
 import { map, share, startWith, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -7,7 +7,6 @@ import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { LessonPresencesRestService } from "./lesson-presences-rest.service";
 import { PresenceTypesService } from "./presence-types.service";
-import { ToastService } from "./toast.service";
 
 export interface StudentProfileAbsencesCounts {
   checkableAbsences: Option<number>;
@@ -23,8 +22,6 @@ export class StudentProfileAbsencesService {
   private settings = inject<Settings>(SETTINGS);
   private lessonPresencesService = inject(LessonPresencesRestService);
   private presenceTypesService = inject(PresenceTypesService);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
 
   private studentId$ = new ReplaySubject<number>(1);
 
@@ -35,7 +32,7 @@ export class StudentProfileAbsencesService {
   incidents$ = this.getAbsences(this.loadIncidents.bind(this));
   halfDays$ = this.getAbsences(this.loadHalfDays.bind(this));
 
-  counts$ = this.getCounts();
+  counts$ = toSignal(this.getCounts(), { initialValue: null });
 
   setStudentId(id: number): void {
     this.studentId$.next(id);
@@ -93,10 +90,6 @@ export class StudentProfileAbsencesService {
           if (entries.length > 0) {
             return of(entries[0]);
           }
-          this.toastService.error(
-            this.translate.instant(`global.rest-errors.notfound-message`),
-            this.translate.instant(`global.rest-errors.notfound-title`),
-          );
           return EMPTY;
         }),
       );

@@ -397,6 +397,7 @@
     "no-tests": "Keine Tests vorhanden",
     "no-grades": "Keine Noten vorhanden",
     "no-courses": "Keine Anlässe vorhanden",
+    "no-absences": "Keine Absenzen vorhanden",
     "dialog": {
       "grade": "Note",
       "points": "Punkte",

@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  computed,
   inject,
 } from "@angular/core";
 import {
@@ -20,6 +21,7 @@ import { ConfirmAbsencesSelectionService } from "../../../services/confirm-absen
 import { DossierStateService } from "../../../services/dossier-state.service";
 import { PresenceTypesService } from "../../../services/presence-types.service";
 import { StudentProfileAbsencesService } from "../../../services/student-profile-absences.service";
+import { SpinnerComponent } from "../../spinner/spinner.component";
 import { StudentDossierAbsencesComponent } from "../student-dossier-absences/student-dossier-absences.component";
 import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 
@@ -32,11 +34,12 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
     NgbAccordionDirective,
     NgbAccordionItem,
     NgbAccordionHeader,
-    StudentDossierEntryHeaderComponent,
     NgbCollapse,
     NgbAccordionCollapse,
     NgbAccordionBody,
+    SpinnerComponent,
     StudentDossierAbsencesComponent,
+    StudentDossierEntryHeaderComponent,
     AsyncPipe,
     TranslatePipe,
   ],
@@ -49,6 +52,7 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
   absencesSelectionService = inject(ConfirmAbsencesSelectionService);
 
   halfDayActive$ = this.presenceTypesService.halfDayActive$;
+  absenceCounts = this.absencesService.counts$;
 
   private destroy$ = new Subject<void>();
 
@@ -61,4 +65,27 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
   }
+
+  hasAbsences = computed(() => {
+    const counts = this.absenceCounts();
+    if (!counts) return false;
+
+    const hasNonNullCounts =
+      counts.checkableAbsences != null ||
+      counts.openAbsences != null ||
+      counts.excusedAbsences != null ||
+      counts.unexcusedAbsences != null ||
+      counts.incidents != null ||
+      counts.halfDays != null;
+
+    const totalAbsences =
+      (counts.checkableAbsences ?? 0) +
+      (counts.openAbsences ?? 0) +
+      (counts.excusedAbsences ?? 0) +
+      (counts.unexcusedAbsences ?? 0) +
+      (counts.incidents ?? 0) +
+      (counts.halfDays ?? 0);
+
+    return hasNonNullCounts && totalAbsences > 0;
+  });
 }

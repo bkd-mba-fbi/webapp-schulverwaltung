@@ -63,31 +63,14 @@ export class StudentProfileService {
 
   getStudent(studentId: number): Observable<Option<Student>> {
     return this.loadingService.load(
-      this.fetchStudent(studentId).pipe(
-        switchMap((student) => {
-          if (student !== null) {
-            return of(student);
-          }
-          return this.fetchPerson(studentId);
-        }),
-      ),
+      this.personsService
+        .get(studentId, { context: this.IGNORE_404_CONTEXT })
+        .pipe(
+          map((person) => this.createStudentFromPerson(person)),
+          catch404(),
+        ),
       DOSSIER_STUDENT_CONTEXT,
     );
-  }
-
-  private fetchStudent(studentId: number): Observable<Option<Student>> {
-    return this.studentService
-      .get(studentId, { context: this.IGNORE_404_CONTEXT })
-      .pipe(catch404());
-  }
-
-  private fetchPerson(personId: number): Observable<Option<Student>> {
-    return this.personsService
-      .get(personId, { context: this.IGNORE_404_CONTEXT })
-      .pipe(
-        map((person) => this.createStudentFromPerson(person)),
-        catch404(),
-      );
   }
 
   private createStudentFromPerson(person: Person): Student {
