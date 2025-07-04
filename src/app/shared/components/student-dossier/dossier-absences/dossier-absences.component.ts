@@ -7,7 +7,6 @@ import {
   computed,
   inject,
 } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -54,9 +53,6 @@ export class DossierAbsencesComponent implements OnInit, OnDestroy {
 
   halfDayActive$ = this.presenceTypesService.halfDayActive$;
   absenceCounts = this.absencesService.counts$;
-  loadingAbsences = toSignal(this.absencesService.loadingAbsences$, {
-    requireSync: true,
-  });
 
   private destroy$ = new Subject<void>();
 

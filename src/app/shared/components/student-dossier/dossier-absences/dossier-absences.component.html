@@ -1,4 +1,4 @@
-@if (loadingAbsences() || this.absenceCounts()?.checkableAbsences === null) {
+@if (this.absenceCounts()?.checkableAbsences === null) {
   <bkd-spinner class="small"></bkd-spinner>
 } @else {
   @if (hasAbsences()) {
