@@ -244,7 +244,7 @@ describe("EventsStudentsStateService", () => {
       studyClasses[3].StudyClassNumber = "26c";
 
       eventIdSubject.next(1);
-      TestBed.flushEffects();
+      TestBed.tick();
     });
 
     describe("isStudyCourse", () => {
@@ -312,7 +312,7 @@ describe("EventsStudentsStateService", () => {
 
       it("returns filtered entries for matching firstname", () => {
         service.searchTerm.set("pau");
-        TestBed.flushEffects();
+        TestBed.tick();
 
         const entries = service.sortedEntries().map(({ name }) => name);
         expect(entries).toEqual([
@@ -327,7 +327,7 @@ describe("EventsStudentsStateService", () => {
 
       it("returns filtered entries for matching lastname", () => {
         service.searchTerm.set("ar");
-        TestBed.flushEffects();
+        TestBed.tick();
 
         const entries = service.sortedEntries().map(({ name }) => name);
         expect(entries).toEqual([
@@ -342,7 +342,7 @@ describe("EventsStudentsStateService", () => {
 
       it("returns filtered entries for matching company", () => {
         service.searchTerm.set("abbey");
-        TestBed.flushEffects();
+        TestBed.tick();
 
         const entries = service.sortedEntries().map(({ name }) => name);
         expect(entries).toEqual([
@@ -357,7 +357,7 @@ describe("EventsStudentsStateService", () => {
 
       it("returns filtered entries for matching class", () => {
         service.searchTerm.set("26c");
-        TestBed.flushEffects();
+        TestBed.tick();
 
         const entries = service.sortedEntries().map(({ name }) => name);
         expect(entries).toEqual([
@@ -390,7 +390,7 @@ describe("EventsStudentsStateService", () => {
     beforeEach(() => {
       subscriptionsClass = "26a";
       eventIdSubject.next(2);
-      TestBed.flushEffects();
+      TestBed.tick();
     });
 
     describe("isStudyCourse", () => {
@@ -481,7 +481,7 @@ describe("EventsStudentsStateService", () => {
     beforeEach(() => {
       subscriptionsClass = "Gymnasialer Bildungsgang";
       eventIdSubject.next(3);
-      TestBed.flushEffects();
+      TestBed.tick();
     });
 
     describe("isStudyCourse", () => {

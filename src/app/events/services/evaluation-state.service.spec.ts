@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpErrorResponse } from "@angular/common/http";
-import { Signal, runInInjectionContext } from "@angular/core";
+import { Injector, Signal, runInInjectionContext } from "@angular/core";
 import { toObservable } from "@angular/core/rxjs-interop";
 import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -553,7 +553,9 @@ describe("EvaluationStateService", () => {
     expectation: (result: T) => void,
   ): Promise<void> {
     return new Promise((resolve: () => void) => {
-      const result = runInInjectionContext(TestBed, () => toObservable(signal));
+      const result = runInInjectionContext(TestBed.inject(Injector), () =>
+        toObservable(signal),
+      );
 
       tick();
 
