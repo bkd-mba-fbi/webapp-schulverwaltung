@@ -21,7 +21,7 @@
     "test:watch": "ng test --browsers=ChromiumHeadless",
     "test:brief": "ng test --browsers=ChromiumHeadless --reporters brief",
     "test:coverage": "ng test --browsers=ChromiumHeadless --code-coverage --reporters coverage-istanbul",
-    "lint": "eslint . # convert back to 'ng lint' once Angular supports mjs config files",
+    "lint": "ng lint",
     "format": "prettier --write \"./**/*\" --ignore-unknown",
     "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
     "preanalyze": "ng build --stats-json",
