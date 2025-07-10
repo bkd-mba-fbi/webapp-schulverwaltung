@@ -4,15 +4,16 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
+  inject,
 } from "@angular/core";
 
 @Directive({
   selector: "textarea[bkdTextareaAutosize]",
 })
 export class TextareaAutosizeDirective implements AfterViewInit, OnDestroy {
-  private observer?: IntersectionObserver;
+  private elementRef = inject(ElementRef);
 
-  constructor(private elementRef: ElementRef) {}
+  private observer?: IntersectionObserver;
 
   @HostListener(":input")
   onInput() {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from "rxjs";
 import { filter, finalize, map, switchMap, take } from "rxjs/operators";
-import { Settings } from "src/app/settings";
+import { SETTINGS, Settings } from "src/app/settings";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { LessonPresencesUpdateRestService } from "src/app/shared/services/lesson-presences-update-rest.service";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
@@ -23,6 +23,15 @@ import { ToastService } from "../../../shared/services/toast.service";
 export abstract class MyAbsencesAbstractConfirmComponent
   implements OnInit, OnDestroy
 {
+  protected fb = inject(UntypedFormBuilder);
+  protected router = inject(Router);
+  protected toastService = inject(ToastService);
+  protected translate = inject(TranslateService);
+  protected presenceTypesService = inject(PresenceTypesService);
+  protected updateService = inject(LessonPresencesUpdateRestService);
+  protected storageService = inject(StorageService);
+  protected settings = inject<Settings>(SETTINGS);
+
   formGroup = this.createFormGroup();
 
   saving$ = new BehaviorSubject(false);
@@ -48,17 +57,6 @@ export abstract class MyAbsencesAbstractConfirmComponent
   protected abstract confirmationStateId: Option<number>;
 
   protected destroy$ = new Subject<void>();
-
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected router: Router,
-    protected toastService: ToastService,
-    protected translate: TranslateService,
-    protected presenceTypesService: PresenceTypesService,
-    protected updateService: LessonPresencesUpdateRestService,
-    protected storageService: StorageService,
-    protected settings: Settings,
-  ) {}
 
   ngOnInit(): void {
     // Nothing to confirm if no entries are selected

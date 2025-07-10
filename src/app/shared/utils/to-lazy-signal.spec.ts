@@ -25,7 +25,6 @@ describe("toLazySignal", () => {
       }
     `,
   })
-  // eslint-disable-next-line @angular-eslint/component-class-suffix
   class Foo {
     public readonly $display1 = signal<boolean>(false);
     public readonly $display2 = signal<boolean>(false);

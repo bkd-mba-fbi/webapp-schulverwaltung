@@ -76,7 +76,7 @@ describe("MyAbsencesReportStateService", () => {
       service.entries$.subscribe(entriesCallback);
 
       service.setFilter({ dateFrom: now, dateTo: now });
-      TestBed.flushEffects();
+      TestBed.tick();
       tick(1000);
 
       expect(entriesCallback.calls.mostRecent()?.args[0]).toEqual([
@@ -100,7 +100,7 @@ describe("MyAbsencesReportStateService", () => {
       service.entries$.subscribe(entriesCallback);
 
       service.setFilter({ dateFrom: now, dateTo: now });
-      TestBed.flushEffects();
+      TestBed.tick();
       tick(1000);
 
       expect(entriesCallback.calls.mostRecent()?.args[0]).toEqual([
