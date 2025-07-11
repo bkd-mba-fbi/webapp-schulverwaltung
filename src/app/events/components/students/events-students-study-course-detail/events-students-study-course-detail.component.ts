@@ -10,6 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { SETTINGS, Settings } from "../../../../settings";
@@ -22,6 +23,7 @@ import { PersonsRestService } from "../../../../shared/services/persons-rest.ser
 import { SubscriptionsRestService } from "../../../../shared/services/subscriptions-rest.service";
 import { notNull } from "../../../../shared/utils/filter";
 import { parseQueryString } from "../../../../shared/utils/url";
+import { EventsStudentsStudyCourseDetailStatusDialogComponent } from "../events-students-study-course-detail-status-dialog/events-students-study-course-detail-status-dialog.component";
 
 type SubscriptionDetailsEntry = {
   id: string;
@@ -45,6 +47,7 @@ export class EventsStudentsStudyCourseDetailComponent {
   private subscriptionsService = inject(SubscriptionsRestService);
   private storageService = inject(StorageService);
   private loadingService = inject(LoadingService);
+  private modalService = inject(BkdModalService);
   private translate = inject(TranslateService);
 
   eventId$ =
@@ -70,6 +73,24 @@ export class EventsStudentsStudyCourseDetailComponent {
     ),
   );
   loading = toSignal(this.loadingService.loading$, { initialValue: true });
+
+  updateStatus(): void {
+    if (
+      !this.subscriptionId() &&
+      !this.person()?.Id &&
+      !this.subscription()?.StatusId
+    ) {
+      return;
+    }
+
+    const modalRef = this.modalService.open(
+      EventsStudentsStudyCourseDetailStatusDialogComponent,
+    );
+
+    modalRef.componentInstance.statusId = this.subscription()?.StatusId ?? 0;
+    modalRef.componentInstance.subscriptionId = this.subscriptionId();
+    modalRef.componentInstance.personId = this.person()!.Id;
+  }
 
   private loadSubscription(): Observable<Option<Subscription>> {
     return this.loadingService.load(

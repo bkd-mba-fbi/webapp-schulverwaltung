@@ -18,6 +18,14 @@ export class StatusProcessesRestService {
     this.baseUrl = `${this.settings.apiUrl}/StatusProcesses/`;
   }
 
+  getStatuses(statusId: number): Observable<unknown[]> {
+    return this.http
+      .get<unknown[]>(`${this.baseUrl}/`, {
+        params: new HttpParams().set("idStatus", statusId.toString()),
+      })
+      .pipe();
+  }
+
   async forwardStatus(statusId: number, eventId: number): Promise<boolean> {
     try {
       const nextStatus = await firstValueFrom(

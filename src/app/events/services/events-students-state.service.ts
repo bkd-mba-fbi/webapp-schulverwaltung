@@ -53,6 +53,7 @@ export type StudentEntry = {
   name: string;
   email?: string;
   status?: string;
+  statusId?: number;
   studyClass?: string;
   company?: string;
   registrationDate?: Date;
