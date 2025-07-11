@@ -49,7 +49,12 @@
   @if (status) {
     <div class="status">
       {{ "events-students.study-course-detail.status" | translate }}:
-      <span class="ms-2">{{ status }}</span>
+
+      <button class="status-link ms-2" (click)="updateStatus()">
+        <i class="material-icons">edit</i>
+
+        <span class="label">{{ status }}</span>
+      </button>
     </div>
   }
 

@@ -90,6 +90,7 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
             "EventDesignation",
             "PersonId",
             "Status",
+            "StatusId",
             "RegistrationDate",
           ].join(","),
         },
