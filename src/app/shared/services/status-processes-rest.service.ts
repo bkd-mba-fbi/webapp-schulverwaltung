@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, firstValueFrom, map } from "rxjs";
+import { Observable, firstValueFrom, map, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "../../settings";
+import { Status } from "../models/status.model";
+import { decodeArray } from "../utils/decode";
 import { LoadingService } from "./loading-service";
 import { PAGE_LOADING_CONTEXT } from "./paginated-entries.service";
 
@@ -18,14 +20,6 @@ export class StatusProcessesRestService {
     this.baseUrl = `${this.settings.apiUrl}/StatusProcesses/`;
   }
 
-  getStatuses(statusId: number): Observable<unknown[]> {
-    return this.http
-      .get<unknown[]>(`${this.baseUrl}/`, {
-        params: new HttpParams().set("idStatus", statusId.toString()),
-      })
-      .pipe();
-  }
-
   async forwardStatus(statusId: number, eventId: number): Promise<boolean> {
     try {
       const nextStatus = await firstValueFrom(
@@ -38,7 +32,7 @@ export class StatusProcessesRestService {
       if (nextStatus) {
         await firstValueFrom(
           this.loadingService.load(
-            this.updateStatus(nextStatus, eventId),
+            this.updateNextStatus(nextStatus, eventId),
             PAGE_LOADING_CONTEXT,
           ),
         );
@@ -53,6 +47,26 @@ export class StatusProcessesRestService {
     }
   }
 
+  getStatusList(statusId: number): Observable<Array<Status>> {
+    return this.loadStatus(statusId).pipe(
+      map((status) => status.filter((entry) => entry.IdStatus !== 20690)),
+    );
+  }
+
+  updateStatus(
+    dataClassId: string,
+    id1: number,
+    id2: number,
+    idStatus: number,
+  ): Observable<void> {
+    return this.http.post<void>(this.baseUrl, {
+      DataClassId: dataClassId,
+      Id1: id1,
+      Id2: id2,
+      IdStatus: idStatus,
+    });
+  }
+
   private getStatus(statusId: number): Observable<unknown> {
     return this.http
       .get<unknown[]>(`${this.baseUrl}forward/`, {
@@ -65,7 +79,18 @@ export class StatusProcessesRestService {
       );
   }
 
-  private updateStatus(
+  private loadStatus(statusId: number): Observable<ReadonlyArray<Status>> {
+    return this.loadingService.load(
+      this.http
+        .get<unknown>(`${this.baseUrl}/`, {
+          params: new HttpParams().set("idStatus", statusId.toString()),
+        })
+        .pipe(switchMap(decodeArray(Status))),
+      PAGE_LOADING_CONTEXT,
+    );
+  }
+
+  private updateNextStatus(
     statusProcess: unknown,
     eventId?: number,
   ): Observable<unknown> {

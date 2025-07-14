@@ -7,24 +7,28 @@
   </h5>
 </div>
 <div class="modal-body">
-  <form>
-    @for (option of statuses; track option.id; let i = $index) {
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="status"
-          id="status-{{ i }}"
-          [checked]="option.id === selected()?.id"
-          [value]="option.id"
-          (change)="onSelectionChange(option)"
-        />
-        <label class="form-check-label" for="status-{{ i }}">
-          {{ option.label }}
-        </label>
-      </div>
-    }
-  </form>
+  @if (loading()) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <form>
+      @for (option of statusList(); track option.IdStatus; let i = $index) {
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="status"
+            id="status-{{ i }}"
+            [checked]="option.IdStatus === initialStatus()?.IdStatus"
+            [value]="option.IdStatus"
+            (change)="onSelectionChange(option)"
+          />
+          <label class="form-check-label" for="status-{{ i }}">
+            {{ option.Status }}
+          </label>
+        </div>
+      }
+    </form>
+  }
 </div>
 <div class="modal-footer">
   <button

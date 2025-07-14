@@ -3,16 +3,21 @@ import {
   Component,
   computed,
   inject,
-  input,
+  signal,
 } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
+import { Observable, map, switchMap } from "rxjs";
+import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
+import { Status } from "src/app/shared/models/status.model";
+import { LoadingService } from "src/app/shared/services/loading-service";
 import { StatusProcessesRestService } from "src/app/shared/services/status-processes-rest.service";
 
 @Component({
   selector: "bkd-events-students-study-course-detail-status-dialog",
-  imports: [FormsModule, TranslatePipe],
+  imports: [FormsModule, TranslatePipe, SpinnerComponent],
   templateUrl:
     "./events-students-study-course-detail-status-dialog.component.html",
   styleUrl:
@@ -20,41 +25,53 @@ import { StatusProcessesRestService } from "src/app/shared/services/status-proce
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsStudentsStudyCourseDetailStatusDialogComponent {
+  private updateService = inject(StatusProcessesRestService);
+  private loadingService = inject(LoadingService);
   activeModal = inject(NgbActiveModal);
-  updateService = inject(StatusProcessesRestService);
 
-  subscriptionId = input<number>(0);
-  personId = input<number>(0);
-  statusId = input<number>(0);
+  currentStatus = signal<Status>({} as Status);
+  subscriptionId = signal<number>(0);
+  personId = signal<number>(0);
 
-  statuses = [
-    { id: 1, label: "Abgelehnt" },
-    { id: 2, label: "Angemeldet" },
-    { id: 3, label: "Aufgenommen" },
-    { id: 4, label: "In Prüfung" },
-    { id: 5, label: "Sistiert" },
-  ];
-  selected = computed(() => {
-    return this.statuses.find((status) => status.id === 2);
+  loading = toSignal(this.loadingService.loading$, { initialValue: true });
+  statusList = toSignal(this.loadStatus());
+
+  initialStatus = computed(() => {
+    return this.statusList()?.find(
+      (s) => s.IdStatus === this.currentStatus().IdStatus,
+    );
   });
 
-  // status = computed(() => this.updateService.getStatuses);
+  selected = signal<Status>({} as Status);
 
   updateStatus(): void {
-    this.activeModal.close();
-    // const selectedStatus = this.selectedStatus();
-    // if (selectedStatus) {
-    //   await this.updateService
-    //     .updateStatus(selectedStatus.Id)
-    //     .then(() => this.activeModal.close());
-    // }
+    if (this.selected() !== this.currentStatus()) {
+      this.updateService
+        .updateStatus(
+          "PersonenAnmeldung",
+          this.subscriptionId(),
+          this.personId(),
+          this.selected().IdStatus,
+        )
+        .subscribe(() => this.activeModal.close());
+    }
   }
 
-  onSelectionChange(): void {
-    // this.selected = option;
+  onSelectionChange(option: Status): void {
+    this.selected.set(option);
   }
 
   cancel(): void {
     this.activeModal.dismiss();
+  }
+
+  private loadStatus(): Observable<Array<Status>> {
+    return toObservable(this.currentStatus).pipe(
+      switchMap((status) => this.updateService.getStatusList(status.IdStatus)),
+      map((statusList) => {
+        statusList = [...statusList, this.currentStatus()];
+        return statusList.sort((a, b) => a.Status.localeCompare(b.Status));
+      }),
+    );
   }
 }
