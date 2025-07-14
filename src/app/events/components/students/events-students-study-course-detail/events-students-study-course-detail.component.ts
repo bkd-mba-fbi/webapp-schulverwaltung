@@ -86,10 +86,15 @@ export class EventsStudentsStudyCourseDetailComponent {
     const modalRef = this.modalService.open(
       EventsStudentsStudyCourseDetailStatusDialogComponent,
     );
+    const component =
+      modalRef.componentInstance as EventsStudentsStudyCourseDetailStatusDialogComponent;
 
-    modalRef.componentInstance.statusId = this.subscription()?.StatusId ?? 0;
-    modalRef.componentInstance.subscriptionId = this.subscriptionId();
-    modalRef.componentInstance.personId = this.person()!.Id;
+    component.currentStatus.set({
+      IdStatus: this.subscription()?.StatusId ?? 0,
+      Status: this.subscription()?.Status ?? "",
+    });
+    component.subscriptionId.set(this.subscriptionId() ?? 0);
+    component.personId.set(this.person()!.Id);
   }
 
   private loadSubscription(): Observable<Option<Subscription>> {
