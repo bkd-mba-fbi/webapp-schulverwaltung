@@ -18,11 +18,11 @@
           <bkd-preserve-line-height>{{
             test.Date | date: "dd.MM.yyyy"
           }}</bkd-preserve-line-height>
-          <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
-            @if (test.IsOwner && test.IsPublished === false) {
+          @if (test.IsOwner && test.IsPublished === false) {
+            <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
               <i class="material-icons">edit</i>
-            }
-          </a>
+            </a>
+          }
         </div>
         <bkd-preserve-line-height>
           {{ test | testSummaryShort }}
