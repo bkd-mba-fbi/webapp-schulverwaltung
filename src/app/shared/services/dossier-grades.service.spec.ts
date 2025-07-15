@@ -11,15 +11,28 @@ import { buildTestModuleMetadata } from "src/spec-helpers";
 import { Course, FinalGrading, Grading } from "../models/course.model";
 import { CoursesRestService } from "./courses-rest.service";
 import { DossierGradesService } from "./dossier-grades.service";
+import { ReportsService } from "./reports.service";
 import { StorageService } from "./storage.service";
+import { SubscriptionsRestService } from "./subscriptions-rest.service";
 
 describe("DossierGradesService", () => {
   let service: DossierGradesService;
   let coursesRestService: jasmine.SpyObj<CoursesRestService>;
+  let subscriptionsRestService: jasmine.SpyObj<SubscriptionsRestService>;
+  let reportsService: jasmine.SpyObj<ReportsService>;
 
   beforeEach(() => {
     coursesRestService = jasmine.createSpyObj("CoursesRestService", [
       "getExpandedCoursesForDossier",
+    ]);
+
+    subscriptionsRestService = jasmine.createSpyObj(
+      "SubscriptionsRestService",
+      ["getSubscriptionIdsByStudentAndCourse"],
+    );
+
+    reportsService = jasmine.createSpyObj("ReportsService", [
+      "getTeacherSubscriptionGradesReports",
     ]);
 
     TestBed.configureTestingModule(
@@ -27,6 +40,11 @@ describe("DossierGradesService", () => {
         providers: [
           DossierGradesService,
           { provide: CoursesRestService, useValue: coursesRestService },
+          {
+            provide: SubscriptionsRestService,
+            useValue: subscriptionsRestService,
+          },
+          { provide: ReportsService, useValue: reportsService },
           {
             provide: StorageService,
             useValue: jasmine.createSpyObj("StorageService", ["getPayload"]),
@@ -176,6 +194,45 @@ describe("DossierGradesService", () => {
         { value: 5.5, weight: 2 },
         { value: 5, weight: 0.5 },
       ]);
+    });
+  });
+
+  describe("load test reports", () => {
+    it("should not load the test reports if there are no student courses", () => {
+      coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
+
+      service.testReports$.subscribe();
+      service.setStudentId(123);
+
+      expect(
+        subscriptionsRestService.getSubscriptionIdsByStudentAndCourse,
+      ).not.toHaveBeenCalled();
+      expect(
+        reportsService.getTeacherSubscriptionGradesReports,
+      ).not.toHaveBeenCalled();
+    });
+
+    it("should load the test reports if there are student courses", () => {
+      const course = buildCourse(1);
+      const student = buildStudent(123);
+      course.ParticipatingStudents = [student];
+
+      coursesRestService.getExpandedCoursesForDossier.and.returnValue(
+        of([course]),
+      );
+      subscriptionsRestService.getSubscriptionIdsByStudentAndCourse.and.returnValue(
+        of([456]),
+      );
+
+      service.testReports$.subscribe();
+      service.setStudentId(123);
+
+      expect(
+        subscriptionsRestService.getSubscriptionIdsByStudentAndCourse,
+      ).toHaveBeenCalledWith(123, [1]);
+      expect(
+        reportsService.getTeacherSubscriptionGradesReports,
+      ).toHaveBeenCalledWith([456]);
     });
   });
 });
