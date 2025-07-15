@@ -29,7 +29,7 @@ export class EvaluationGradingItemUpdateService {
     requireSync: true,
   });
 
-  updateQueue$ = new Subject<QueuedUpdateTask>();
+  private updateQueue$ = new Subject<QueuedUpdateTask>();
 
   constructor() {
     this.updateQueue$
