@@ -1,4 +1,5 @@
 import { TestBed } from "@angular/core/testing";
+import { buildPayLoad } from "../../../spec-builders";
 import { StorageService } from "./storage.service";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -89,13 +90,20 @@ describe("StorageService", () => {
       expect(service.getTokenExpire()).toBe("asdf");
     });
   });
-  /*
-  describe('.getPayload', () => {
-    it('returns payload of login CLX.LoginToken', () => {
-      storeMock['CLX.LoginToken'] =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJvYXV0aCIsImF1ZCI6Imh0dHBzOi8vZGV2NDIwMC8iLCJuYmYiOjE1NjkzOTM5NDMsImV4cCI6MTU2OTQwODM0MywidG9rZW5fcHVycG9zZSI6IlVzZXIiLCJzY29wZSI6IlR1dG9yaW5nIiwiY29uc3VtZXJfaWQiOiJkZXY0MjAwIiwidXNlcm5hbWUiOiJMMjQzMSIsImluc3RhbmNlX2lkIjoiR1ltVEVTVCIsImN1bHR1cmVfaW5mbyI6ImRlLUNIIiwicmVkaXJlY3RfdXJpIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIiwiaWRfbWFuZGFudCI6IjIxMCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsInRva2VuX2lkIjoiMzc0OSJ9.9lDju5CIIUaISRSz0x8k-kcF7Q6IhN_6HEMOlnsiDRA';
+
+  describe(".getPayload", () => {
+    it("returns payload of login CLX.LoginToken", () => {
+      localStoreMock["CLX.LoginToken"] =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsImhvbGRlcl9pZCI6IiIsInN1YnN0aXR1dGlvbl9pZCI6bnVsbH0.qmVrp9-A_-jkTUIlAhDB1n0ZllsT5pZeXdUBQZtqPBo";
       const tokenPayload = buildPayLoad();
       expect(service.getPayload()).toEqual(tokenPayload);
     });
-  });*/
+
+    it("returns payload of login CLX.LoginToken with UTF-8 character in fullname", () => {
+      localStoreMock["CLX.LoginToken"] =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IkxlaXR1bmcgQW5hw69zIiwicm9sZXMiOiJMZXNzb25UZWFjaGVyUm9sZTtDbGFzc1RlYWNoZXJSb2xlIiwiaG9sZGVyX2lkIjoiIiwic3Vic3RpdHV0aW9uX2lkIjpudWxsfQ._IPnYyP7d9A1XHkmQbmor8Av90nzk_FAggiVfa1d2SI";
+      const tokenPayload = { ...buildPayLoad(), fullname: "Leitung Anaïs" };
+      expect(service.getPayload()).toEqual(tokenPayload);
+    });
+  });
 });
