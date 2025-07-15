@@ -73,6 +73,10 @@ export class EvaluationGradingItemUpdateService {
         ),
       );
 
+      // When coming from /events/:id/tests, make sure the grades will be
+      // reloaded, when navigating back from the evaluation page
+      this.testStateService.reload();
+
       this.evaluationStateService.updateGradingItems(
         this.evaluationStateService
           .gradingItems()

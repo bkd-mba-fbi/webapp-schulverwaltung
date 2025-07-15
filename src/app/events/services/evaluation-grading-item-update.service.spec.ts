@@ -172,6 +172,7 @@ describe("EvaluationGradingItemUpdateService", () => {
         { ...mockGradingItem1, IdGrade: selectedGradeId },
         mockGradingItem2,
       ]);
+      expect(testStateServiceMock.reload).toHaveBeenCalled();
     });
   });
 
