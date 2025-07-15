@@ -3,6 +3,7 @@ import {
   ReplaySubject,
   combineLatest,
   distinctUntilChanged,
+  filter,
   map,
   merge,
   shareReplay,
@@ -77,6 +78,7 @@ export class DossierGradesService {
     this.studentId$,
     this.studentCourseIds$,
   ]).pipe(
+    filter(([_, courseIds]) => courseIds.length > 0),
     switchMap(([studentId, courseIds]) =>
       this.subscriptionRestService.getSubscriptionIdsByStudentAndCourse(
         studentId,

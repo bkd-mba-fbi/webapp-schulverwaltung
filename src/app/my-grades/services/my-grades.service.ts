@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import {
   ReplaySubject,
   combineLatest,
+  filter,
   map,
   shareReplay,
   switchMap,
@@ -47,6 +48,7 @@ export class MyGradesService {
     this.studentId$,
     this.studentCourseIds$,
   ]).pipe(
+    filter(([_, courseIds]) => courseIds.length > 0),
     switchMap(([studentId, courseIds]) =>
       this.subscriptionRestService.getSubscriptionIdsByStudentAndCourse(
         studentId,
