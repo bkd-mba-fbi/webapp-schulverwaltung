@@ -37,6 +37,7 @@
         <button
           type="button"
           class="d-flex btn btn-link ps-0 edit"
+          [disabled]="!test.IsOwner"
           title="{{ 'tests.edit' | translate }}"
           (click)="unpublishTest()"
         >
@@ -56,6 +57,7 @@
         <button
           type="button"
           class="d-flex btn btn-link ps-0"
+          [disabled]="!test.IsOwner"
           (click)="publishTest()"
           title="{{ 'tests.publish' | translate }}"
         >
