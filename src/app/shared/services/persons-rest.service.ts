@@ -39,7 +39,7 @@ export class PersonsRestService extends RestService<typeof Person> {
     }
     const params = new HttpParams()
       .set("filter.Id", `;${ids.join(";")}`)
-      .set("fields", ["Id", "FullName", "DisplayEmail", "Email"].join(","));
+      .set("fields", ["Id", "FullName", "DisplayEmail"].join(","));
 
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
