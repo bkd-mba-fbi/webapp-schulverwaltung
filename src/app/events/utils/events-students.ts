@@ -64,10 +64,7 @@ export function convertPersonsToStudentEntries(
   eventId: number,
   persons: ReadonlyArray<PersonSummary>,
   subscriptions: ReadonlyArray<Subscription>,
-  {
-    eventDesignation,
-    emailFallback,
-  }: { eventDesignation?: string; emailFallback?: boolean } = {},
+  { eventDesignation }: { eventDesignation?: string } = {},
 ): StudentEntries {
   return {
     eventId: eventId,
@@ -80,12 +77,7 @@ export function convertPersonsToStudentEntries(
         id: person.Id,
         subscriptionId: subscription?.Id,
         name: person.FullName,
-        email:
-          // Due to a backend bug where `DisplayEmail` is null for study class
-          // students, we have to fallback to `Email` as a workaround.
-          (emailFallback
-            ? (person.DisplayEmail ?? person.Email)
-            : person.DisplayEmail) ?? undefined,
+        email: person.DisplayEmail ?? undefined,
         status: subscription?.Status,
         registrationDate: subscription?.RegistrationDate ?? undefined,
       } satisfies StudentEntry;

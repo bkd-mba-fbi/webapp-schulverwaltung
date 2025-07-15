@@ -295,9 +295,8 @@ export function buildParticipant(id: number): Participant {
 export function buildPersonSummary(id: number): PersonSummary {
   return {
     Id: id,
-    FullName: "Tux",
     DisplayEmail: null,
-    Email: null,
+    FullName: "Tux",
   };
 }
 
