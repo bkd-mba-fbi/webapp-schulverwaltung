@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { Subject, Subscription, concatMap, firstValueFrom, of } from "rxjs";
+import { Subject, concatMap, firstValueFrom, of } from "rxjs";
 import { GradingItemsRestService } from "../../shared/services/grading-items-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { EvaluationStateService } from "./evaluation-state.service";
@@ -29,12 +29,10 @@ export class EvaluationGradingItemUpdateService {
     requireSync: true,
   });
 
-  queueSubscription: Subscription;
-
-  private updateQueue$ = new Subject<QueuedUpdateTask>();
+  updateQueue$ = new Subject<QueuedUpdateTask>();
 
   constructor() {
-    this.queueSubscription = this.updateQueue$
+    this.updateQueue$
       .pipe(concatMap(async (task) => this.update(task)))
       .subscribe();
   }

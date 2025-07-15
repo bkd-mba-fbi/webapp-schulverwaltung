@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   WritableSignal,
   computed,
   effect,
@@ -56,7 +55,7 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
   styleUrl: "./evaluation-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EvaluationTableComponent implements OnDestroy {
+export class EvaluationTableComponent {
   state = inject(EvaluationStateService);
   gradingItemUpdateService = inject(EvaluationGradingItemUpdateService);
   private subscriptionDetailUpdateService = inject(
@@ -121,10 +120,6 @@ export class EvaluationTableComponent implements OnDestroy {
       this.sticky()?.refresh();
     });
   }
-  ngOnDestroy(): void {
-    this.gradingItemUpdateService.queueSubscription?.unsubscribe();
-  }
-
   isColumnSelected(
     column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
   ) {
