@@ -40,10 +40,11 @@ describe("PersonsRestService", () => {
       personSummaries = [
         buildPersonSummary(54425),
         buildPersonSummary(56200),
-      ].map(({ Id, FullName, DisplayEmail }) => ({
+      ].map(({ Id, FullName, DisplayEmail, Email }) => ({
         Id,
         FullName,
         DisplayEmail,
+        Email,
       }));
     });
 
@@ -54,7 +55,7 @@ describe("PersonsRestService", () => {
 
       httpTestingController
         .expectOne(
-          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail&offset=0&limit=0",
+          "https://eventotest.api/Persons/?filter.Id=;54425;56200&fields=Id,FullName,DisplayEmail,Email&offset=0&limit=0",
         )
         .flush(personSummaries);
     });
@@ -73,10 +74,11 @@ describe("PersonsRestService", () => {
       personSummaries = [
         buildPersonSummary(54425),
         buildPersonSummary(56200),
-      ].map(({ Id, FullName, DisplayEmail }) => ({
+      ].map(({ Id, FullName, DisplayEmail, Email }) => ({
         Id,
         FullName,
         DisplayEmail,
+        Email,
       }));
     });
 
@@ -89,7 +91,7 @@ describe("PersonsRestService", () => {
 
       httpTestingController
         .expectOne(
-          "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName,DisplayEmail&offset=0&limit=0",
+          "https://eventotest.api/Persons/?filter.Email=;m@muster.ch;m@meyer.ch&fields=Id,FullName,DisplayEmail,Email&offset=0&limit=0",
         )
         .flush(personSummaries);
       expect().nothing();

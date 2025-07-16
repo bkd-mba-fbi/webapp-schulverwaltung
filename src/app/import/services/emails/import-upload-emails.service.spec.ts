@@ -134,6 +134,7 @@ describe("ImportUploadEmailsService", () => {
           Id: Number(personId),
           FullName: "Mr. Tux",
           DisplayEmail: currentEmail,
+          Email: null,
         },
       },
       validationStatus,
