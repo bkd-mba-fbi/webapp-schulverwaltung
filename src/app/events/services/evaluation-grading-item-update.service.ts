@@ -1,6 +1,6 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable, OnDestroy, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { Subject, concatMap, firstValueFrom, of } from "rxjs";
+import { Subject, Subscription, concatMap, firstValueFrom, of } from "rxjs";
 import { GradingItemsRestService } from "../../shared/services/grading-items-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { EvaluationStateService } from "./evaluation-state.service";
@@ -19,7 +19,7 @@ interface QueuedUpdateTask {
 
 const EVALUATION_UPDATE_CONTEXT = "events-evaluation-default-grade-update";
 @Injectable()
-export class EvaluationGradingItemUpdateService {
+export class EvaluationGradingItemUpdateService implements OnDestroy {
   private gradingItemsRestService = inject(GradingItemsRestService);
   private evaluationStateService = inject(EvaluationStateService);
   private testStateService = inject(TestStateService);
@@ -31,10 +31,16 @@ export class EvaluationGradingItemUpdateService {
 
   private updateQueue$ = new Subject<QueuedUpdateTask>();
 
+  private subscription: Subscription;
+
   constructor() {
-    this.updateQueue$
+    this.subscription = this.updateQueue$
       .pipe(concatMap(async (task) => this.update(task)))
       .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   private async update(task: QueuedUpdateTask) {
