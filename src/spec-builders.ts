@@ -296,6 +296,7 @@ export function buildPersonSummary(id: number): PersonSummary {
   return {
     Id: id,
     DisplayEmail: null,
+    Email: null,
     FullName: "Tux",
   };
 }

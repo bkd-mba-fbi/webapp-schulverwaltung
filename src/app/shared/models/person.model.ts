@@ -43,8 +43,9 @@ const Person = t.type({
 
 const PersonSummary = t.type({
   Id: t.number,
-  DisplayEmail: Option(t.string),
   FullName: t.string,
+  DisplayEmail: Option(t.string),
+  Email: Maybe(t.string),
 });
 
 const PersonFullName = t.type({

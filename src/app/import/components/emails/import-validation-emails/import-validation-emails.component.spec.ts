@@ -95,6 +95,7 @@ describe("ImportValidationEmailsComponent", () => {
           Id: 10,
           FullName: "John Lennon",
           DisplayEmail: "s1@test.ch",
+          Email: null,
         };
         expect(component.getPersonValue(entry)).toBe("John Lennon");
       });
@@ -106,6 +107,7 @@ describe("ImportValidationEmailsComponent", () => {
           Id: 10,
           FullName: "John Lennon",
           DisplayEmail: "s1@test.ch",
+          Email: null,
         };
         expect(component.getPersonValue(entry)).toBe(100);
       });
@@ -117,6 +119,7 @@ describe("ImportValidationEmailsComponent", () => {
           Id: 10,
           FullName: "John Lennon",
           DisplayEmail: "s1@test.ch",
+          Email: null,
         };
         expect(component.getEmailValue(entry)).toBe("s1@test.ch");
       });
@@ -128,6 +131,7 @@ describe("ImportValidationEmailsComponent", () => {
           Id: 10,
           FullName: "John Lennon",
           DisplayEmail: "s1@test.ch",
+          Email: null,
         };
         expect(component.getEmailValue(entry)).toBe("s1@test.ch");
       });
