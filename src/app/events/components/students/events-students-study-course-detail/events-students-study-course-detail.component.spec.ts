@@ -151,44 +151,52 @@ describe("EventsStudentsStudyCourseDetailComponent", () => {
       expect(heading?.textContent).toContain("Angaben zu Ernährung");
     });
 
-    it("renders isYes entries", () => {
+    it("renders Yes entries", () => {
       const detail1 = buildSubscriptionDetail(1001, "Ja");
       detail1.Id = "1001";
       detail1.VssDesignation = "Vegetarische Ernährung";
-      detail1.VssType = "isYes";
+      detail1.VssType = "Yes";
 
       const detail2 = buildSubscriptionDetail(1002, "Nein");
       detail2.Id = "1002";
       detail2.VssDesignation = "Halbtax";
-      detail2.VssType = "isYes";
+      detail2.VssType = "Yes";
 
       details = [detail1, detail2];
 
       fixture.detectChanges();
       expect(element.textContent).toContain("Vegetarische Ernährung");
-      expect(element.textContent).toContain("Ja");
+      expect(element.textContent).toContain(
+        "events-students.subscriptionDetails.Ja",
+      );
       expect(element.textContent).toContain("Halbtax");
-      expect(element.textContent).toContain("Nein");
+      expect(element.textContent).toContain(
+        "events-students.subscriptionDetails.Nein",
+      );
     });
 
-    it("renders isYesNo entries", () => {
+    it("renders YesNo entries", () => {
       const detail1 = buildSubscriptionDetail(1001, "Ja");
       detail1.Id = "1001";
       detail1.VssDesignation = "Vegetarische Ernährung";
-      detail1.VssType = "isYesNo";
+      detail1.VssType = "YesNo";
 
       const detail2 = buildSubscriptionDetail(1002, "Nein");
       detail2.Id = "1002";
       detail2.VssDesignation = "Halbtax";
-      detail2.VssType = "isYesNo";
+      detail2.VssType = "YesNo";
 
       details = [detail1, detail2];
 
       fixture.detectChanges();
       expect(element.textContent).toContain("Vegetarische Ernährung");
-      expect(element.textContent).toContain("Ja");
+      expect(element.textContent).toContain(
+        "events-students.subscriptionDetails.Ja",
+      );
       expect(element.textContent).toContain("Halbtax");
-      expect(element.textContent).toContain("Nein");
+      expect(element.textContent).toContain(
+        "events-students.subscriptionDetails.Nein",
+      );
     });
 
     it("renders dropdown entries", () => {

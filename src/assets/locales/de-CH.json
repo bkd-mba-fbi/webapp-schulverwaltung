@@ -267,6 +267,10 @@
     },
     "study-course-detail": {
       "status": "Status"
+    },
+    "subscriptionDetails": {
+      "Ja": "Ja",
+      "Nein": "Nein"
     }
   },
   "courses": {
