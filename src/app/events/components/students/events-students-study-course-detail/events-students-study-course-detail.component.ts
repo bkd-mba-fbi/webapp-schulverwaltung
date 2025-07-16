@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { LoadingService } from "src/app/shared/services/loading-service";
@@ -45,6 +45,7 @@ export class EventsStudentsStudyCourseDetailComponent {
   private subscriptionsService = inject(SubscriptionsRestService);
   private storageService = inject(StorageService);
   private loadingService = inject(LoadingService);
+  private translate = inject(TranslateService);
 
   eventId$ =
     this.route.parent?.paramMap.pipe(
@@ -106,6 +107,7 @@ export class EventsStudentsStudyCourseDetailComponent {
   ): SubscriptionDetailsEntry {
     let value = detail.Value ?? "";
     value = this.normalizeSubscriptionDetailsDropdownValue(detail, value) ?? "";
+    value = this.translateSubscriptionDetailsValue(detail, value) ?? value;
     return {
       id: detail.Id,
       label: detail.VssDesignation,
@@ -123,6 +125,18 @@ export class EventsStudentsStudyCourseDetailComponent {
       return (
         detail.DropdownItems.find((item) => String(item.Key) === value)
           ?.Value ?? value
+      );
+    }
+    return value;
+  }
+
+  private translateSubscriptionDetailsValue(
+    details: SubscriptionDetail,
+    value: Option<string | number>,
+  ) {
+    if (details.VssType === "Yes" || details.VssType === "YesNo") {
+      return this.translate.instant(
+        `events-students.subscriptionDetails.${value}`,
       );
     }
     return value;
