@@ -18,11 +18,11 @@
           <bkd-preserve-line-height>{{
             test.Date | date: "dd.MM.yyyy"
           }}</bkd-preserve-line-height>
-          <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
-            @if (test.IsOwner && test.IsPublished === false) {
+          @if (test.IsOwner && test.IsPublished === false) {
+            <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
               <i class="material-icons">edit</i>
-            }
-          </a>
+            </a>
+          }
         </div>
         <bkd-preserve-line-height>
           {{ test | testSummaryShort }}
@@ -34,14 +34,16 @@
       <div
         class="d-flex align-items-center justify-content-between test-status"
       >
-        <a
+        <button
+          type="button"
           class="d-flex btn btn-link ps-0 edit"
+          [disabled]="!test.IsOwner"
           title="{{ 'tests.edit' | translate }}"
           (click)="unpublishTest()"
         >
           <i class="material-icons me-1">lock</i>
           <span>{{ "tests.published" | translate }}</span>
-        </a>
+        </button>
         <bkd-caret
           class="expand-mobile"
           (click)="emitToggleHeader()"
@@ -52,14 +54,16 @@
       <div
         class="d-flex align-items-center justify-content-between test-status"
       >
-        <a
+        <button
+          type="button"
           class="d-flex btn btn-link ps-0"
+          [disabled]="!test.IsOwner"
           (click)="publishTest()"
           title="{{ 'tests.publish' | translate }}"
         >
           <i class="material-icons me-1">lock_open</i>
           <span>{{ "tests.not-published" | translate }}</span>
-        </a>
+        </button>
         <bkd-caret
           class="expand-mobile"
           (click)="emitToggleHeader()"
