@@ -74,7 +74,7 @@ describe("ImportValidateSubscriptionDetailsService", () => {
                   of(
                     personEmails.map((email, i) => {
                       const summary = buildPersonSummary(100 + i);
-                      summary.Email = email;
+                      summary.DisplayEmail = email;
                       return summary;
                     }),
                   ),

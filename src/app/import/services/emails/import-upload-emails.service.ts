@@ -90,7 +90,7 @@ export class ImportUploadEmailsService {
   }
 
   private persistEntry(entry: EmailImportEntry): Observable<EmailImportEntry> {
-    if (entry.entry.personEmail === entry.data.person?.Email) {
+    if (entry.entry.personEmail === entry.data.person?.DisplayEmail) {
       // Ignore entry with an unchanged value
       this.markSuccessEntry(entry);
       return of(entry);

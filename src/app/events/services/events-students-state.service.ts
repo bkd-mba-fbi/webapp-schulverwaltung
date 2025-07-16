@@ -209,7 +209,6 @@ export class EventsStudentsStateService {
                 eventId,
                 persons,
                 subscriptions,
-                { emailFallback: true },
               );
               return decorateCourseStudentsWithCompanies(students, contracts);
             }),

@@ -165,7 +165,7 @@ export class ImportValidateSubscriptionDetailsService {
     const persons = await this.loadPersonsByEmail(
       this.getPersonEmails(entries),
     );
-    const personsByEmail = toHash(persons, (p) => p.Email ?? "");
+    const personsByEmail = toHash(persons, (p) => p.DisplayEmail ?? "");
     entries.forEach((entry) => {
       if (!entry.data.person && isEmail(entry.entry.personEmail)) {
         entry.data.person = personsByEmail[entry.entry.personEmail] ?? null;

@@ -94,8 +94,7 @@ describe("ImportValidationEmailsComponent", () => {
         entry.data.person = {
           Id: 10,
           FullName: "John Lennon",
-          Email: "s1@test.ch",
-          DisplayEmail: "",
+          DisplayEmail: "s1@test.ch",
         };
         expect(component.getPersonValue(entry)).toBe("John Lennon");
       });
@@ -106,8 +105,7 @@ describe("ImportValidationEmailsComponent", () => {
         entry.data.person = {
           Id: 10,
           FullName: "John Lennon",
-          Email: "s1@test.ch",
-          DisplayEmail: "",
+          DisplayEmail: "s1@test.ch",
         };
         expect(component.getPersonValue(entry)).toBe(100);
       });
@@ -118,8 +116,7 @@ describe("ImportValidationEmailsComponent", () => {
         entry.data.person = {
           Id: 10,
           FullName: "John Lennon",
-          Email: "s1@test.ch",
-          DisplayEmail: "",
+          DisplayEmail: "s1@test.ch",
         };
         expect(component.getEmailValue(entry)).toBe("s1@test.ch");
       });
@@ -130,8 +127,7 @@ describe("ImportValidationEmailsComponent", () => {
         entry.data.person = {
           Id: 10,
           FullName: "John Lennon",
-          Email: "s1@test.ch",
-          DisplayEmail: "",
+          DisplayEmail: "s1@test.ch",
         };
         expect(component.getEmailValue(entry)).toBe("s1@test.ch");
       });
