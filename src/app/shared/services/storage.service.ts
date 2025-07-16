@@ -33,7 +33,8 @@ export class StorageService {
     const base64 = base64Url
       ? base64Url.replace("-", "+").replace("_", "/")
       : null;
-    const payload = JSON.parse(window.atob(base64 ? base64 : ""));
+    const base64Bytes = this.base64ToBytes(base64 ? base64 : "");
+    const payload = JSON.parse(new TextDecoder().decode(base64Bytes));
     payload.roles =
       "holder_roles" in payload ? payload.holder_roles : payload.roles;
     return payload;
@@ -41,5 +42,10 @@ export class StorageService {
 
   private getValue(key: string): Option<string> {
     return sessionStorage.getItem(key) || localStorage.getItem(key);
+  }
+
+  private base64ToBytes(base64: string): Uint8Array<ArrayBuffer> {
+    const binaryString = window.atob(base64);
+    return Uint8Array.from(binaryString, (char) => char.charCodeAt(0));
   }
 }
