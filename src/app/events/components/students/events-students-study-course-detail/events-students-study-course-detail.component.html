@@ -50,7 +50,10 @@
     <div class="status">
       {{ "events-students.study-course-detail.status" | translate }}:
 
-      <button class="status-link ms-2" (click)="updateStatus()">
+      <button
+        class="d-flex btn btn-link p-0 ms-1 status-update"
+        (click)="updateStatus()"
+      >
         <i class="material-icons">edit</i>
 
         <span class="label">{{ status }}</span>

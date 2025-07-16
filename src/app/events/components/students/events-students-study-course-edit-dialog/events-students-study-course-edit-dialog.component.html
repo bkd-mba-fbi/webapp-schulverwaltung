@@ -1,9 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title">
-    {{
-      "events-students.study-course-detail.status-update-modal.title"
-        | translate
-    }}
+    {{ "events-students.study-course-edit.status-dialog.title" | translate }}
   </h5>
 </div>
 <div class="modal-body">
@@ -11,19 +8,19 @@
     <bkd-spinner></bkd-spinner>
   } @else {
     <form>
-      @for (option of statusList(); track option.IdStatus; let i = $index) {
+      @for (status of statusList(); track status.IdStatus; let i = $index) {
         <div class="form-check">
           <input
             class="form-check-input"
             type="radio"
             name="status"
             id="status-{{ i }}"
-            [checked]="option.IdStatus === initialStatus()?.IdStatus"
-            [value]="option.IdStatus"
-            (change)="onSelectionChange(option)"
+            [checked]="status.IdStatus === initialStatus()?.IdStatus"
+            [value]="status.IdStatus"
+            (change)="onSelectionChange(status)"
           />
           <label class="form-check-label" for="status-{{ i }}">
-            {{ option.Status }}
+            {{ status.Status }}
           </label>
         </div>
       }
@@ -36,18 +33,13 @@
     class="btn btn-outline-secondary"
     (click)="activeModal.dismiss()"
   >
-    {{
-      "events-students.study-course-detail.status-update-modal.cancel"
-        | translate
-    }}
+    {{ "events-students.study-course-edit.status-dialog.cancel" | translate }}
   </button>
   <button
     type="button"
     class="btn btn-primary"
     (click)="activeModal.close(updateStatus())"
   >
-    {{
-      "events-students.study-course-detail.status-update-modal.save" | translate
-    }}
+    {{ "events-students.study-course-edit.status-dialog.save" | translate }}
   </button>
 </div>

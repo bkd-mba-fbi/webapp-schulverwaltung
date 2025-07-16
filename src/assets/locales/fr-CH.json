@@ -266,8 +266,10 @@
       }
     },
     "study-course-detail": {
-      "status": "Statut",
-      "status-update-modal": {
+      "status": "Statut"
+    },
+    "study-course-edit": {
+      "status-dialog": {
         "title": "Modifier le statut",
         "save": "Valider",
         "cancel": "Annuler"

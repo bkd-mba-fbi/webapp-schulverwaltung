@@ -16,15 +16,13 @@ import { LoadingService } from "src/app/shared/services/loading-service";
 import { StatusProcessesRestService } from "src/app/shared/services/status-processes-rest.service";
 
 @Component({
-  selector: "bkd-events-students-study-course-detail-status-dialog",
+  selector: "bkd-events-students-study-course-edit-dialog",
   imports: [FormsModule, TranslatePipe, SpinnerComponent],
-  templateUrl:
-    "./events-students-study-course-detail-status-dialog.component.html",
-  styleUrl:
-    "./events-students-study-course-detail-status-dialog.component.scss",
+  templateUrl: "./events-students-study-course-edit-dialog.component.html",
+  styleUrl: "./events-students-study-course-edit-dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventsStudentsStudyCourseDetailStatusDialogComponent {
+export class EventsStudentsStudyCourseEditDialogComponent {
   private updateService = inject(StatusProcessesRestService);
   private loadingService = inject(LoadingService);
   activeModal = inject(NgbActiveModal);

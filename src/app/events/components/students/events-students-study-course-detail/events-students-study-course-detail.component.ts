@@ -23,7 +23,7 @@ import { PersonsRestService } from "../../../../shared/services/persons-rest.ser
 import { SubscriptionsRestService } from "../../../../shared/services/subscriptions-rest.service";
 import { notNull } from "../../../../shared/utils/filter";
 import { parseQueryString } from "../../../../shared/utils/url";
-import { EventsStudentsStudyCourseDetailStatusDialogComponent } from "../events-students-study-course-detail-status-dialog/events-students-study-course-detail-status-dialog.component";
+import { EventsStudentsStudyCourseEditDialogComponent } from "../events-students-study-course-edit-dialog/events-students-study-course-edit-dialog.component";
 
 type SubscriptionDetailsEntry = {
   id: string;
@@ -84,10 +84,10 @@ export class EventsStudentsStudyCourseDetailComponent {
     }
 
     const modalRef = this.modalService.open(
-      EventsStudentsStudyCourseDetailStatusDialogComponent,
+      EventsStudentsStudyCourseEditDialogComponent,
     );
     const component =
-      modalRef.componentInstance as EventsStudentsStudyCourseDetailStatusDialogComponent;
+      modalRef.componentInstance as EventsStudentsStudyCourseEditDialogComponent;
 
     component.currentStatus.set({
       IdStatus: this.subscription()?.StatusId ?? 0,
