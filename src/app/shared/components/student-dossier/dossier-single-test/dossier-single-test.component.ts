@@ -9,6 +9,7 @@ import {
 import { TranslatePipe } from "@ngx-translate/core";
 import { ReplaySubject, map } from "rxjs";
 import {
+  deleteResultByStudentId,
   replaceResultInTest,
   resultOfStudent,
 } from "src/app/events/utils/tests";
@@ -114,15 +115,15 @@ export class DossierSingleTestComponent implements OnChanges {
     modalRef.componentInstance.points = this.getPoints(test);
 
     modalRef.result.then(
-      (updatedTestResult) => {
-        if (updatedTestResult) this.updateStudentGrade(updatedTestResult, test);
-      },
+      (result) => this.updateStudentGrade(result, test),
       () => {},
     );
   }
 
-  private updateStudentGrade(result: Result, test: Test): void {
-    const updatedTest = replaceResultInTest(result, test);
+  private updateStudentGrade(result: Option<Result>, test: Test): void {
+    const updatedTest = result
+      ? replaceResultInTest(result, test)
+      : deleteResultByStudentId(this.studentId, test);
     this.gradeService.updateStudentCourses(updatedTest);
   }
 
