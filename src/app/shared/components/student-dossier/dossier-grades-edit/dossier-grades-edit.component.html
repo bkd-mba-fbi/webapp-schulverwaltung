@@ -40,9 +40,9 @@
         id="grade"
         [options]="gradeOptions"
         [value]="gradeId"
-        [allowEmpty]="false"
+        [allowEmpty]="true"
         [disabled]="gradingScaleDisabled$ | async"
-        (valueChange)="$event && onGradeChange($event)"
+        (valueChange)="onGradeChange($event)"
       >
       </bkd-select>
     </div>
