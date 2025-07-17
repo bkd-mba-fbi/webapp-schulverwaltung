@@ -106,7 +106,7 @@ export class DossierSingleTestComponent implements OnChanges {
     const modalRef = this.modalService.open(DossierGradesEditComponent, {
       backdrop: "static", // prevent closing by click outside of modal
     });
-    modalRef.componentInstance.test = test; // TODO
+    modalRef.componentInstance.test = test;
     modalRef.componentInstance.gradeId = this.getGradeId(test);
     modalRef.componentInstance.gradeOptions =
       DossierSingleTestComponent.mapToOptions(this.gradingScale);
@@ -138,7 +138,6 @@ export class DossierSingleTestComponent implements OnChanges {
     return resultOfStudent(this.studentId, test)?.GradeId || null;
   }
 
-  // TODO dry up
   private getPoints(test: Test): Option<number> {
     return resultOfStudent(this.studentId, test)?.Points || null;
   }
