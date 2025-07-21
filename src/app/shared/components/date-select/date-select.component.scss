@@ -1,0 +1,9 @@
+@import "../../../../bootstrap-variables";
+
+.input-group-prepend button {
+  padding: 0.375rem 0.75rem;
+  background-color: var(--bs-tertiary-bg);
+  border-color: $gray;
+  border-radius: $input-border-radius;
+  height: 100%;
+}
