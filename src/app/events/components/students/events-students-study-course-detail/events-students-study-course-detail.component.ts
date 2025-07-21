@@ -92,7 +92,7 @@ export class EventsStudentsStudyCourseDetailComponent {
       EventsStudentsStudyCourseEditDialogComponent,
     );
     modalRef.componentInstance.currentStatus = currentStatus;
-    modalRef.componentInstance.subscriptionId = this.subscriptionId();
+    modalRef.componentInstance.subscriptionId = signal(this.subscriptionId());
     modalRef.componentInstance.personId = signal(this.person()!.Id);
   }
 

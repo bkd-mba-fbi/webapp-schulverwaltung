@@ -49,7 +49,10 @@ export class StatusProcessesRestService {
 
   getStatusList(statusId: number): Observable<Array<Status>> {
     return this.loadStatus(statusId).pipe(
-      map((status) => status.filter((entry) => entry.IdStatus !== 20690)),
+      map((status) => {
+        status.filter((entry) => !entry.IsDelete);
+        return [...new Map(status.map((x) => [x.IdStatus, x])).values()]; // remove duplicates
+      }),
     );
   }
 
