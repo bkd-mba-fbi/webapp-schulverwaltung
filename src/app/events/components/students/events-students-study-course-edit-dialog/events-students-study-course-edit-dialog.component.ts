@@ -3,13 +3,14 @@ import {
   Component,
   computed,
   inject,
+  input,
   signal,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { Observable, map, switchMap } from "rxjs";
+import { distinctUntilChanged, map, startWith, switchMap } from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { Status } from "src/app/shared/models/status.model";
 import { LoadingService } from "src/app/shared/services/loading-service";
@@ -27,18 +28,25 @@ export class EventsStudentsStudyCourseEditDialogComponent {
   private loadingService = inject(LoadingService);
   activeModal = inject(NgbActiveModal);
 
-  currentStatus = signal<Status>({} as Status);
-  subscriptionId = signal<number>(0);
-  personId = signal<number>(0);
+  currentStatus = input.required<Status>();
+  subscriptionId = input.required<number>();
+  personId = input.required<number>();
 
   loading = toSignal(this.loadingService.loading$, { initialValue: true });
-  statusList = toSignal(this.loadStatus());
 
-  initialStatus = computed(() => {
-    return this.statusList()?.find(
-      (s) => s.IdStatus === this.currentStatus().IdStatus,
-    );
-  });
+  statusId = computed(() => this.currentStatus().IdStatus);
+
+  statusList = toSignal(
+    toObservable(this.statusId).pipe(
+      distinctUntilChanged(),
+      switchMap((statusId) => this.updateService.getStatusList(statusId)),
+      map((statusList) => {
+        statusList = [...statusList, this.currentStatus()];
+        return statusList.sort((a, b) => a.Status.localeCompare(b.Status));
+      }),
+      startWith([]),
+    ),
+  );
 
   selected = signal<Status>({} as Status);
 
@@ -61,15 +69,5 @@ export class EventsStudentsStudyCourseEditDialogComponent {
 
   cancel(): void {
     this.activeModal.dismiss();
-  }
-
-  private loadStatus(): Observable<Array<Status>> {
-    return toObservable(this.currentStatus).pipe(
-      switchMap((status) => this.updateService.getStatusList(status.IdStatus)),
-      map((statusList) => {
-        statusList = [...statusList, this.currentStatus()];
-        return statusList.sort((a, b) => a.Status.localeCompare(b.Status));
-      }),
-    );
   }
 }

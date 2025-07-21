@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   inject,
+  signal,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
@@ -83,18 +84,16 @@ export class EventsStudentsStudyCourseDetailComponent {
       return;
     }
 
+    const currentStatus = computed(() => ({
+      IdStatus: this.subscription()?.StatusId ?? 0,
+      Status: this.subscription()?.Status ?? "",
+    }));
     const modalRef = this.modalService.open(
       EventsStudentsStudyCourseEditDialogComponent,
     );
-    const component =
-      modalRef.componentInstance as EventsStudentsStudyCourseEditDialogComponent;
-
-    component.currentStatus.set({
-      IdStatus: this.subscription()?.StatusId ?? 0,
-      Status: this.subscription()?.Status ?? "",
-    });
-    component.subscriptionId.set(this.subscriptionId() ?? 0);
-    component.personId.set(this.person()!.Id);
+    modalRef.componentInstance.currentStatus = currentStatus;
+    modalRef.componentInstance.subscriptionId = this.subscriptionId();
+    modalRef.componentInstance.personId = signal(this.person()!.Id);
   }
 
   private loadSubscription(): Observable<Option<Subscription>> {

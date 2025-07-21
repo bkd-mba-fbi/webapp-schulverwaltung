@@ -15,7 +15,7 @@
             type="radio"
             name="status"
             id="status-{{ i }}"
-            [checked]="status.IdStatus === initialStatus()?.IdStatus"
+            [checked]="status.IdStatus === currentStatus().IdStatus"
             [value]="status.IdStatus"
             (change)="onSelectionChange(status)"
           />
