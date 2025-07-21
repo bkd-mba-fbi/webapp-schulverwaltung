@@ -58,14 +58,16 @@ export class DossierGradesEditComponent implements OnInit {
   maxPoints: number = 0;
   pointsInput: UntypedFormControl;
 
-  private gradeSubject$: Subject<number> = new Subject<number>();
+  private gradeSubject$: Subject<Option<number>> = new Subject<
+    Option<number>
+  >();
   private pointsSubject$: Subject<string> = new Subject<string>();
 
   closeButtonDisabled$ = new BehaviorSubject<boolean>(false);
 
   gradingScaleDisabled$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
-  grade$: Observable<number> = this.gradeSubject$.pipe(
+  grade$: Observable<Option<number>> = this.gradeSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
   );
   points$: Observable<number> = this.pointsSubject$.pipe(
@@ -107,7 +109,7 @@ export class DossierGradesEditComponent implements OnInit {
     );
   }
 
-  onGradeChange(gradeId: number): void {
+  onGradeChange(gradeId: Option<number>): void {
     this.gradeSubject$.next(gradeId);
   }
 

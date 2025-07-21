@@ -189,7 +189,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     testResult: Option<Result>;
     grading: Grading;
   }> {
-    // Although the endpoint would provide the possiblity to update the
+    // Although the endpoint would provide the possibility to update the
     // grades/points of multiple students, we expose only an API to update a
     // single test result (for the sake of simplicity).
     const { studentId, testId, ...rest } = update;

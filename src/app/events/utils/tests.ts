@@ -138,7 +138,7 @@ export function gradingScaleOfTest(
   );
 }
 
-function deleteResultByStudentId(studentId: number, test: Test): Test {
+export function deleteResultByStudentId(studentId: number, test: Test): Test {
   return {
     ...test,
     Results:
