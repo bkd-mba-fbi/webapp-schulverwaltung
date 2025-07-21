@@ -47,20 +47,23 @@ export class EventsStudentsStudyCourseEditDialogComponent {
       startWith([]),
     ),
   );
+  canUpdate = computed(() =>
+    this.selected().IdStatus
+      ? this.selected().IdStatus !== this.statusId()
+      : false,
+  );
 
   selected = signal<Status>({} as Status);
 
   updateStatus(): void {
-    if (this.selected() !== this.currentStatus()) {
-      this.updateService
-        .updateStatus(
-          "PersonenAnmeldung",
-          this.subscriptionId(),
-          this.personId(),
-          this.selected().IdStatus,
-        )
-        .subscribe(() => this.activeModal.close());
-    }
+    this.updateService
+      .updateStatus(
+        "PersonenAnmeldung",
+        this.subscriptionId(),
+        this.personId(),
+        this.selected().IdStatus,
+      )
+      .subscribe(() => this.activeModal.close());
   }
 
   onSelectionChange(option: Status): void {

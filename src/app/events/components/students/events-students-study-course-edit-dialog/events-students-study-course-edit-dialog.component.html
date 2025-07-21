@@ -38,6 +38,7 @@
   <button
     type="button"
     class="btn btn-primary"
+    [disabled]="!canUpdate()"
     (click)="activeModal.close(updateStatus())"
   >
     {{ "events-students.study-course-edit.status-dialog.save" | translate }}
