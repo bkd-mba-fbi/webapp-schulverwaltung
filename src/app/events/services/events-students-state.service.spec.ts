@@ -102,6 +102,7 @@ describe("EventsStudentsStateService", () => {
                     break;
                   case 2:
                     eventTypeId = STUDY_CLASS_TYPE_ID;
+                    eventDesignation = "26a";
                     break;
                   case 3:
                     eventTypeId = STUDY_COURSE_TYPE_ID;
@@ -116,6 +117,7 @@ describe("EventsStudentsStateService", () => {
                         EventTypeId: eventTypeId,
                         EventType: "",
                         Designation: eventDesignation,
+                        Number: eventDesignation,
                       }
                     : null,
                 );
