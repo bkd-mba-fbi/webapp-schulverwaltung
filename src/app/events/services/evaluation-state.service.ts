@@ -314,7 +314,7 @@ export class EvaluationStateService {
   ): EvaluationEvent {
     return {
       id: studyClass.Id,
-      designation: studyClass.Designation,
+      designation: studyClass.Number,
       type: "study-class",
       studentCount: studyClass.StudentCount,
       gradingScaleId: null,

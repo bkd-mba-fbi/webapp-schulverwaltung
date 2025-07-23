@@ -310,7 +310,7 @@ describe("EvaluationStateService", () => {
       await expectSignalValue(service.event, (result) => {
         expect(result).toEqual({
           id: 2000,
-          designation: "Berufsvorbereitendes Schuljahr 2024a",
+          designation: "BVS2024a",
           type: "study-class",
           studentCount: 23,
           gradingScaleId: null,
