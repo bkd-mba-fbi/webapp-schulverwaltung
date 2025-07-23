@@ -84,7 +84,7 @@
       "unconfirmed-absences": "Absences en suspens"
     },
     "incident": {
-      "text": "Saisir incident :",
+      "text": "Saisir incident",
       "no-incident": "Aucun incident",
       "cancel": "Annuler",
       "save": "Valider"
@@ -116,7 +116,7 @@
         "title": "Affichage dans le contrôle des présences :"
       },
       "assign": {
-        "title": "Diviser en groupes :"
+        "title": "Diviser en groupes"
       },
       "notifications": {
         "save-success": "La division en groupes a été enregistrée."
