@@ -49,7 +49,7 @@ export class MyAbsencesReportHeaderComponent {
   constructor() {}
 
   /**
-   * Update date to to the same date, if date from changes.
+   * Update date to the same date, if date from changes.
    */
   updateDateFrom(date: Option<Date>): void {
     this.filter.dateFrom = date;

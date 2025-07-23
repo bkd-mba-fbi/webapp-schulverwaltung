@@ -29,9 +29,16 @@
           "tests.form.date" | translate
         }}</label>
         <div class="input-group">
-          <span class="input-group-text" [id]="componentId"
-            ><i class="material-icons">calendar_today</i></span
-          >
+          <div class="input-group-prepend">
+            <button
+              class="btn btn-outline-secondary"
+              [id]="componentId"
+              type="button"
+              (click)="dp.toggle()"
+            >
+              <i class="material-icons">calendar_today</i>
+            </button>
+          </div>
           <input
             id="date"
             name="date"
