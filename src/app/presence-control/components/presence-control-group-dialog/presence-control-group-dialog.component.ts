@@ -18,7 +18,6 @@ export enum DialogMode {
 @Component({
   selector: "bkd-presence-control-group-dialog",
   templateUrl: "./presence-control-group-dialog.component.html",
-  styleUrls: ["./presence-control-group-dialog.component.scss"],
   imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlGroupDialogComponent implements OnInit {
