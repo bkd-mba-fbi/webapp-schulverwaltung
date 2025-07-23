@@ -173,6 +173,10 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   onDateChange(date: unknown) {
     // Only emit the new date value if it is a valid date
     if (date instanceof Date) {
+      // Ensure year is in the 2000s
+      if (date.getFullYear() < 1000) {
+        date.setFullYear(date.getFullYear() + 2000);
+      }
       this.dateSubject.next(date);
     }
   }
