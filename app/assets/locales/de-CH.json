@@ -84,7 +84,7 @@
       "unconfirmed-absences": "Offene Absenzen"
     },
     "incident": {
-      "text": "Vorfall erfassen:",
+      "text": "Vorfall erfassen",
       "no-incident": "Kein Vorfall",
       "cancel": "Abbrechen",
       "save": "Übernehmen"
@@ -116,7 +116,7 @@
         "title": "Anzeige in der Präsenzkontrolle:"
       },
       "assign": {
-        "title": "Gruppe einteilen:"
+        "title": "Gruppe einteilen"
       },
       "notifications": {
         "save-success": "Die Gruppeneinteilung wurde gespeichert"
