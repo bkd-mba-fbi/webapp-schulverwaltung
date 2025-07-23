@@ -154,7 +154,7 @@ export class EventsStudentsStateService {
             case STUDY_COURSE_TYPE_ID: // Studiengang
               return this.loadStudyCourseStudents(event);
             case STUDY_CLASS_TYPE_ID: // Klasse
-              return this.loadStudyClassStudents(event.Id);
+              return this.loadStudyClassStudents(event);
             default: // Fach
               return this.loadCourseStudents(event.Id);
           }
@@ -180,7 +180,7 @@ export class EventsStudentsStateService {
                 eventId,
                 students,
                 subscriptions,
-                { eventDesignation }, // Use translated designation from the event, the designation on the subscription is always in german
+                eventDesignation, // Use translated designation from the event, the designation on the subscription is always in german
               ),
             ),
           ),
@@ -188,7 +188,10 @@ export class EventsStudentsStateService {
     );
   }
 
-  private loadStudyClassStudents(eventId: number): Observable<StudentEntries> {
+  private loadStudyClassStudents({
+    Id: eventId,
+    Number: eventDesignation,
+  }: EventSummary): Observable<StudentEntries> {
     return this.subscriptionsService
       .getSubscriptionsByCourse(eventId, {
         "filter.IsOkay": "=1",
@@ -209,6 +212,7 @@ export class EventsStudentsStateService {
                 eventId,
                 persons,
                 subscriptions,
+                eventDesignation,
               );
               return decorateCourseStudentsWithCompanies(students, contracts);
             }),
