@@ -241,6 +241,7 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("renders the average of all present grades", () => {
+      expect(getColumnValues(0, "table tfoot")).toEqual(["evaluation.average"]);
       expect(getColumnValues(1, "table tfoot")).toEqual(["3.833"]);
     });
 
@@ -272,7 +273,7 @@ describe("EvaluationTableComponent", () => {
     });
 
     it("does not render the average of all present grades", () => {
-      expect(getColumnValues(1, "table tfoot")).toEqual([""]);
+      expect(getGradeColumnValues("table tfoot")).toEqual([]);
     });
   });
 

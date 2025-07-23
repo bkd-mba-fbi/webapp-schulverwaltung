@@ -118,27 +118,25 @@
     </tbody>
     <tfoot>
       <tr>
-        <td class="student-name">
-          {{ "evaluation.average" | translate }}
-        </td>
-
         @if (hasGrades()) {
+          <td class="student-name">
+            {{ "evaluation.average" | translate }}
+          </td>
           <td class="student-grade" [class.selected]="gradeColumnSelected()">
             {{ gradesAverage() | decimalOrDash: "1-3" }}
           </td>
-        }
-
-        @for (column of columns(); track column.vssId) {
-          <td
-            class="subscription-detail"
-            [class.selected]="isColumnSelected(column)"
-          ></td>
-        }
-        @if (hasGradeComments()) {
-          <td
-            class="student-comment"
-            [class.selected]="commentColumnSelected()"
-          ></td>
+          @for (column of columns(); track column.vssId) {
+            <td
+              class="subscription-detail"
+              [class.selected]="isColumnSelected(column)"
+            ></td>
+          }
+          @if (hasGradeComments()) {
+            <td
+              class="student-comment"
+              [class.selected]="commentColumnSelected()"
+            ></td>
+          }
         }
       </tr>
     </tfoot>
