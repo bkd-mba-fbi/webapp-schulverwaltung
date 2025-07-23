@@ -255,7 +255,7 @@ export class EvaluationStateService {
 
     // We need to fetch courses/study classes from their specific endpoints,
     // instead of using /Event/{id}, since the `Designation` is not correct on
-    // the `Event`. The approach is to try to load both and the the one that
+    // the `Event`. The approach is to try to load both and the one that
     // will succeed.
     return this.loadingService.load(
       combineLatest([
@@ -314,7 +314,7 @@ export class EvaluationStateService {
   ): EvaluationEvent {
     return {
       id: studyClass.Id,
-      designation: studyClass.Designation,
+      designation: studyClass.Number,
       type: "study-class",
       studentCount: studyClass.StudentCount,
       gradingScaleId: null,

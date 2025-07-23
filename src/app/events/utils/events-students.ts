@@ -64,7 +64,7 @@ export function convertPersonsToStudentEntries(
   eventId: number,
   persons: ReadonlyArray<PersonSummary>,
   subscriptions: ReadonlyArray<Subscription>,
-  { eventDesignation }: { eventDesignation?: string } = {},
+  eventDesignation?: string,
 ): StudentEntries {
   return {
     eventId: eventId,
