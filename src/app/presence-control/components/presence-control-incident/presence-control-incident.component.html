@@ -1,7 +1,9 @@
-<div class="modal-body">
-  <p>
+<div class="modal-header">
+  <h5 class="modal-title">
     {{ "presence-control.incident.text" | translate }}
-  </p>
+  </h5>
+</div>
+<div class="modal-body">
   <form>
     @for (option of incidentOptions; track option.id; let i = $index) {
       <div class="form-check">

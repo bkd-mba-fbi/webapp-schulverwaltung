@@ -12,7 +12,6 @@ interface IncidentOption {
 @Component({
   selector: "bkd-presence-control-incident",
   templateUrl: "./presence-control-incident.component.html",
-  styleUrls: ["./presence-control-incident.component.scss"],
   imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlIncidentComponent implements OnInit {
