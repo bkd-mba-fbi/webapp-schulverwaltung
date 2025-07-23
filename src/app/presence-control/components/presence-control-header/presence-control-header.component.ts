@@ -3,6 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
   inject,
   viewChild,
@@ -22,7 +24,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Options } from "@popperjs/core";
-import { map } from "rxjs";
+import { Subject, debounceTime, map, takeUntil } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { notNull } from "src/app/shared/utils/filter";
@@ -67,6 +69,8 @@ interface ViewModeOption {
   icon: string;
 }
 
+const DEBOUNCE_TIME = 1000; // 1 second
+
 @Component({
   selector: "bkd-presence-control-header",
   templateUrl: "./presence-control-header.component.html",
@@ -92,7 +96,7 @@ interface ViewModeOption {
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
 })
-export class PresenceControlHeaderComponent {
+export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   state = inject(PresenceControlStateService);
   private groupService = inject(PresenceControlGroupService);
 
@@ -110,6 +114,9 @@ export class PresenceControlHeaderComponent {
   @Output() selectDateChange = new EventEmitter<Date>();
   @Output() searchChange = new EventEmitter<string>();
   @Output() viewModeChange = new EventEmitter<PresenceControlViewMode>();
+
+  private dateSubject: Subject<Date> = new Subject<Date>();
+  private destroy$ = new Subject<void>();
 
   readonly lessonDropdown = viewChild(NgbDropdown);
 
@@ -150,10 +157,23 @@ export class PresenceControlHeaderComponent {
     };
   }
 
+  ngOnInit() {
+    this.dateSubject
+      .pipe(debounceTime(DEBOUNCE_TIME), takeUntil(this.destroy$))
+      .subscribe((date) => {
+        this.selectDateChange.emit(date);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   onDateChange(date: unknown) {
+    // Only emit the new date value if it is a valid date
     if (date instanceof Date) {
-      // Only emit the new date value if it is a valid date
-      this.selectDateChange.emit(date);
+      this.dateSubject.next(date);
     }
   }
 }
