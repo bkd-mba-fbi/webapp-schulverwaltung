@@ -8,12 +8,12 @@ import { Person, PersonFullName, PersonSummary } from "../models/person.model";
 import { decode, decodeArray } from "../utils/decode";
 import { paginatedParams } from "../utils/pagination";
 import { pick } from "../utils/types";
-import { RestService } from "./rest.service";
+import { TypeaheadRestService } from "./typeahead-rest.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class PersonsRestService extends RestService<typeof Person> {
+export class PersonsRestService extends TypeaheadRestService<typeof Person> {
   protected personEmailCodec = t.type(
     pick(this.codec.props, ["Email", "FormOfAddress"]),
   );
@@ -22,7 +22,7 @@ export class PersonsRestService extends RestService<typeof Person> {
     const http = inject(HttpClient);
     const settings = inject<Settings>(SETTINGS);
 
-    super(http, settings, Person, "Persons");
+    super(http, settings, Person, "Persons", "FullName");
   }
 
   getListForIds(
