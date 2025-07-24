@@ -125,7 +125,7 @@ export class BkdModalService {
    * Evento Portal document.
    */
   private getModalTop(): number {
-    return Math.max(this.getViewportTop(), this.portal.getIframeTop());
+    return Math.min(this.getViewportTop(), this.portal.getIframeTop());
   }
 
   /**
