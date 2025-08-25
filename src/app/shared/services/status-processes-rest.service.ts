@@ -58,14 +58,14 @@ export class StatusProcessesRestService {
 
   updateStatus(
     dataClassId: string,
-    id1: number,
-    id2: number,
+    subscriptionsId: number,
+    personId: number,
     idStatus: number,
   ): Observable<void> {
     return this.http.post<void>(this.baseUrl, {
       DataClassId: dataClassId,
-      Id1: id1,
-      Id2: id2,
+      Id1: subscriptionsId,
+      Id2: personId,
       IdStatus: idStatus,
     });
   }
