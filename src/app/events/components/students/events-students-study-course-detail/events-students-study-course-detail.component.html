@@ -45,11 +45,20 @@
     </address>
   }
 
-  @let status = subscription()?.Status;
+  @let status = currentStatus()?.Status;
   @if (status) {
     <div class="status">
       {{ "events-students.study-course-detail.status" | translate }}:
-      <span class="ms-2">{{ status }}</span>
+
+      <button
+        type="button"
+        class="d-flex btn btn-link p-0 ms-1 status-update"
+        (click)="updateStatus()"
+      >
+        <i class="material-icons">edit</i>
+
+        <span class="label">{{ status }}</span>
+      </button>
     </div>
   }
 

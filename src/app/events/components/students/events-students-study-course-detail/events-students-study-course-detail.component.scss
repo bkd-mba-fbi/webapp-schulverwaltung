@@ -33,3 +33,14 @@ address {
     color: rgba($body-color, 0.5);
   }
 }
+
+.status-update {
+  color: rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+
+  .label {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+    font-weight: 300;
+  }
+}
