@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    {{ "events-students.study-course-edit.status-dialog.title" | translate }}
+  </h5>
+</div>
+<div class="modal-body">
+  @if (loading()) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <form>
+      @for (status of statusList(); track status.IdStatus; let i = $index) {
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="status"
+            id="status-{{ i }}"
+            [checked]="status.IdStatus === currentStatus().IdStatus"
+            [value]="status.IdStatus"
+            (change)="onSelectionChange(status)"
+          />
+          <label class="form-check-label" for="status-{{ i }}">
+            {{ status.Status }}
+          </label>
+        </div>
+      }
+    </form>
+  }
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="activeModal.dismiss()"
+  >
+    {{ "events-students.study-course-edit.status-dialog.cancel" | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="!canUpdate()"
+    (click)="activeModal.close(selected())"
+  >
+    {{ "events-students.study-course-edit.status-dialog.save" | translate }}
+  </button>
+</div>

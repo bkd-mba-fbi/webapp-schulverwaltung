@@ -8,8 +8,18 @@ import {
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { Observable, combineLatest, filter, map, of, switchMap } from "rxjs";
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { SETTINGS, Settings } from "../../../../settings";
@@ -19,9 +29,11 @@ import {
   SubscriptionDetail,
 } from "../../../../shared/models/subscription.model";
 import { PersonsRestService } from "../../../../shared/services/persons-rest.service";
+import { StatusProcessesRestService } from "../../../../shared/services/status-processes-rest.service";
 import { SubscriptionsRestService } from "../../../../shared/services/subscriptions-rest.service";
 import { notNull } from "../../../../shared/utils/filter";
 import { parseQueryString } from "../../../../shared/utils/url";
+import { EventsStudentsStudyCourseEditDialogComponent } from "../events-students-study-course-edit-dialog/events-students-study-course-edit-dialog.component";
 
 type SubscriptionDetailsEntry = {
   id: string;
@@ -44,8 +56,12 @@ export class EventsStudentsStudyCourseDetailComponent {
   private personsService = inject(PersonsRestService);
   private subscriptionsService = inject(SubscriptionsRestService);
   private storageService = inject(StorageService);
+  private statusProcessesService = inject(StatusProcessesRestService);
   private loadingService = inject(LoadingService);
+  private modalService = inject(BkdModalService);
   private translate = inject(TranslateService);
+
+  private refreshSubscription = new Subject<void>();
 
   eventId$ =
     this.route.parent?.paramMap.pipe(
@@ -58,11 +74,20 @@ export class EventsStudentsStudyCourseDetailComponent {
     this.personId$.pipe(switchMap((id) => this.personsService.get(id))),
     { initialValue: null },
   );
-  subscription = toSignal(this.loadSubscription());
+  subscription = toSignal(
+    this.refreshSubscription.pipe(
+      startWith(null),
+      switchMap(() => this.loadSubscription()),
+    ),
+  );
   subscriptionId = computed(() => this.subscription()?.Id ?? null);
   subscriptionDetails = toSignal(this.loadSubscriptionDetails(), {
     initialValue: [] as ReadonlyArray<SubscriptionDetailsEntry>,
   });
+  currentStatus = computed(() => ({
+    IdStatus: this.subscription()?.StatusId ?? 0,
+    Status: this.subscription()?.Status ?? "",
+  }));
   backLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnparams }) => returnparams),
@@ -70,6 +95,35 @@ export class EventsStudentsStudyCourseDetailComponent {
     ),
   );
   loading = toSignal(this.loadingService.loading$, { initialValue: true });
+
+  updateStatus(): void {
+    const subscriptionId = this.subscriptionId();
+    const person = this.person();
+    if (!subscriptionId || !person) {
+      return;
+    }
+
+    const modalRef = this.modalService.open(
+      EventsStudentsStudyCourseEditDialogComponent,
+    );
+    modalRef.componentInstance.currentStatus = this.currentStatus;
+    modalRef.componentInstance.subscriptionId = subscriptionId;
+    modalRef.componentInstance.personId = person.Id;
+
+    modalRef.result.then(
+      (status) => {
+        this.statusProcessesService
+          .updateStatus(
+            "PersonenAnmeldung",
+            subscriptionId,
+            person.Id,
+            status.IdStatus,
+          )
+          .subscribe(() => this.refreshSubscription.next());
+      },
+      () => {},
+    );
+  }
 
   private loadSubscription(): Observable<Option<Subscription>> {
     return this.loadingService.load(
