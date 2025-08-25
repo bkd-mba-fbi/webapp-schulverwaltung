@@ -24,7 +24,7 @@ import { StatusProcessesRestService } from "src/app/shared/services/status-proce
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsStudentsStudyCourseEditDialogComponent {
-  private updateService = inject(StatusProcessesRestService);
+  private statusProcessesService = inject(StatusProcessesRestService);
   private loadingService = inject(LoadingService);
   activeModal = inject(NgbActiveModal);
 
@@ -39,7 +39,9 @@ export class EventsStudentsStudyCourseEditDialogComponent {
   statusList = toSignal(
     toObservable(this.statusId).pipe(
       distinctUntilChanged(),
-      switchMap((statusId) => this.updateService.getStatusList(statusId)),
+      switchMap((statusId) =>
+        this.statusProcessesService.getStatusList(statusId),
+      ),
       map((statusList) => {
         statusList = [...statusList, this.currentStatus()];
         return statusList.sort((a, b) => a.Status.localeCompare(b.Status));
