@@ -45,7 +45,7 @@
     </address>
   }
 
-  @let status = subscription()?.Status;
+  @let status = currentStatus()?.Status;
   @if (status) {
     <div class="status">
       {{ "events-students.study-course-detail.status" | translate }}:
