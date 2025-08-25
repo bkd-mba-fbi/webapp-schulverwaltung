@@ -49,6 +49,7 @@ export class EventsStudentsStudyCourseEditDialogComponent {
       startWith([]),
     ),
   );
+
   canUpdate = computed(() =>
     this.selected().IdStatus
       ? this.selected().IdStatus !== this.statusId()
@@ -56,17 +57,6 @@ export class EventsStudentsStudyCourseEditDialogComponent {
   );
 
   selected = signal<Status>({} as Status);
-
-  updateStatus(): void {
-    this.updateService
-      .updateStatus(
-        "PersonenAnmeldung",
-        this.subscriptionId(),
-        this.personId(),
-        this.selected().IdStatus,
-      )
-      .subscribe(() => this.activeModal.close());
-  }
 
   onSelectionChange(option: Status): void {
     this.selected.set(option);
