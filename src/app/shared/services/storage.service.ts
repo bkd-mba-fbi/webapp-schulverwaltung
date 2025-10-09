@@ -29,14 +29,13 @@ export class StorageService {
 
   getPayload(): Option<TokenPayload> {
     const token = this.getAccessToken();
-    const base64Url = token ? token.split(".")[1] : null;
-    const base64 = base64Url
-      ? base64Url.replace("-", "+").replace("_", "/")
-      : null;
-    const base64Bytes = this.base64ToBytes(base64 ? base64 : "");
-    const payload = JSON.parse(new TextDecoder().decode(base64Bytes));
+    if (!token) return null;
+
+    const payload = this.parseTokenPayload(token);
     payload.roles =
-      "holder_roles" in payload ? payload.holder_roles : payload.roles;
+      "holder_roles" in payload && typeof payload.holder_roles === "string"
+        ? payload.holder_roles
+        : payload.roles;
     return payload;
   }
 
@@ -44,8 +43,18 @@ export class StorageService {
     return sessionStorage.getItem(key) || localStorage.getItem(key);
   }
 
-  private base64ToBytes(base64: string): Uint8Array<ArrayBuffer> {
-    const binaryString = window.atob(base64);
-    return Uint8Array.from(binaryString, (char) => char.charCodeAt(0));
+  private parseTokenPayload(token: string): TokenPayload {
+    const parts = token.split(".");
+    if (parts.length !== 3) {
+      throw new Error("Invalid JWT token format");
+    }
+    const payload = parts[1];
+    const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const decodedData = atob(base64);
+    const decoder = new TextDecoder("utf-8");
+    const decodedString = decoder.decode(
+      Uint8Array.from(decodedData, (c) => c.charCodeAt(0)),
+    );
+    return JSON.parse(decodedString);
   }
 }
