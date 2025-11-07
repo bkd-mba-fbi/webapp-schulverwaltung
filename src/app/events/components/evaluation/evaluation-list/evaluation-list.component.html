@@ -15,6 +15,10 @@
         <p class="mt-3 px-3">{{ "evaluation.no-items" | translate }}</p>
       } @else if (state.noEvaluation()) {
         <p class="mt-3 px-3">{{ "evaluation.no-evaluation" | translate }}</p>
+      } @else if (state.hasReviewStarted()) {
+        <p class="mt-3 px-3">
+          {{ "evaluation.has-review-started" | translate }}
+        </p>
       } @else {
         @if (columnOptions().length > 1) {
           <bkd-select

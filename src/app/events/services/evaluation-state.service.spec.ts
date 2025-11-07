@@ -69,6 +69,13 @@ describe("EvaluationStateService", () => {
     course.AttendanceRef.StudentCount = 24;
     course.Classes = [studyClass];
     course.GradingScaleId = 10000;
+    course.EvaluationStatusRef = {
+      HasEvaluationStarted: false,
+      HasReviewOfEvaluationStarted: true,
+      EvaluationUntil: null,
+      HasTestGrading: true,
+      Id: 1,
+    };
 
     gradingItem1 = buildGradingItem(10001, 100001);
     gradingItem1.IdPerson = 1001;
@@ -297,6 +304,8 @@ describe("EvaluationStateService", () => {
           type: "course",
           studentCount: 24,
           gradingScaleId: 10000,
+          hasReviewOfEvaluationStarted: true,
+          hasEvaluationStarted: false,
         });
       });
     }));
@@ -314,6 +323,8 @@ describe("EvaluationStateService", () => {
           type: "study-class",
           studentCount: 23,
           gradingScaleId: null,
+          hasReviewOfEvaluationStarted: false,
+          hasEvaluationStarted: true,
         });
       });
     }));
@@ -344,6 +355,8 @@ describe("EvaluationStateService", () => {
           type: "course",
           studentCount: 24,
           gradingScaleId: 10000,
+          hasReviewOfEvaluationStarted: true,
+          hasEvaluationStarted: false,
         });
       });
     }));
@@ -521,6 +534,24 @@ describe("EvaluationStateService", () => {
 
       await expectSignalValue(service.noEvaluation, (result) => {
         expect(result).toBe(false);
+      });
+    }));
+  });
+
+  describe("hasReviewStarted", () => {
+    it("returns false review has not started", fakeAsync(async () => {
+      params.next({ id: "2000" });
+
+      await expectSignalValue(service.hasReviewStarted, (result) => {
+        expect(result).toBe(true);
+      });
+    }));
+
+    it("returns true review has started", fakeAsync(async () => {
+      params.next({ id: "1000" });
+
+      await expectSignalValue(service.hasReviewStarted, (result) => {
+        expect(result).toBe(true);
       });
     }));
   });

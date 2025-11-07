@@ -41,6 +41,8 @@ export type EvaluationEvent = {
   type: EvaluationEventType;
   studentCount: number;
   gradingScaleId: Option<number>;
+  hasReviewOfEvaluationStarted: boolean;
+  hasEvaluationStarted: boolean;
 };
 
 export type EvaluationColumn = {
@@ -105,6 +107,11 @@ export class EvaluationStateService {
       this.entries().every(({ criteria }) => criteria.length === 0),
   );
 
+  hasReviewStarted = computed(
+    () =>
+      this.event()?.hasReviewOfEvaluationStarted &&
+      !this.event()?.hasEvaluationStarted,
+  );
   /**
    * The course or study class.
    */
@@ -306,6 +313,10 @@ export class EvaluationStateService {
       type: "course",
       studentCount: course.AttendanceRef.StudentCount ?? 0,
       gradingScaleId: course.GradingScaleId,
+      hasReviewOfEvaluationStarted:
+        course.EvaluationStatusRef.HasReviewOfEvaluationStarted || false,
+      hasEvaluationStarted:
+        course.EvaluationStatusRef.HasEvaluationStarted || false,
     };
   }
 
@@ -318,6 +329,8 @@ export class EvaluationStateService {
       type: "study-class",
       studentCount: studyClass.StudentCount,
       gradingScaleId: null,
+      hasReviewOfEvaluationStarted: false,
+      hasEvaluationStarted: true,
     };
   }
 

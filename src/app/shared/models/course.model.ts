@@ -124,6 +124,7 @@ const CourseWithStudentCount = t.type(
     "GradingScaleId",
     "Classes",
     "AttendanceRef",
+    "EvaluationStatusRef",
   ]),
 );
 

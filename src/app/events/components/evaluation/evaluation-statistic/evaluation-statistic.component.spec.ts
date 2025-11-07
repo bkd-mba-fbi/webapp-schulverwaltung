@@ -103,6 +103,8 @@ describe("EvaluationStatisticComponent", () => {
                 type: "course",
                 studentCount: 24,
                 gradingScaleId: 10000,
+                hasReviewOfEvaluationStarted: false,
+                hasEvaluationStarted: true,
               });
               stateMock.entries.and.returnValue([
                 {

@@ -90,6 +90,7 @@ describe("EvaluationListComponent", () => {
                 "sortCriteria",
                 "loading",
                 "noEvaluation",
+                "hasReviewStarted",
                 "event",
                 "columns",
                 "entries",
@@ -109,6 +110,8 @@ describe("EvaluationListComponent", () => {
                 type: "course",
                 studentCount: 24,
                 gradingScaleId: 10000,
+                hasReviewOfEvaluationStarted: false,
+                hasEvaluationStarted: true,
               });
               stateMock.columns.and.returnValue([
                 {
@@ -285,6 +288,8 @@ describe("EvaluationListComponent", () => {
           type: "study-class",
           studentCount: 23,
           gradingScaleId: null,
+          hasReviewOfEvaluationStarted: true,
+          hasEvaluationStarted: false,
         });
       });
 
