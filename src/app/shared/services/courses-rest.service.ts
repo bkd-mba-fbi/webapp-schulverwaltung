@@ -106,7 +106,7 @@ export class CoursesRestService extends RestService<typeof Course> {
   ): Observable<CourseWithStudentCount> {
     const params = new HttpParams()
       .set("fields", "Id,Designation,GradingScaleId")
-      .set("expand", "Classes,AttendanceRef");
+      .set("expand", "Classes,AttendanceRef,EvaluationStatusRef");
     return this.http
       .get<unknown>(`${this.baseUrl}/${courseId}`, { ...options, params })
       .pipe(switchMap(decode(CourseWithStudentCount)));

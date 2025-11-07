@@ -147,6 +147,13 @@ describe("CoursesRestService", () => {
           HRef: "",
           StudentCount: 1,
         },
+        EvaluationStatusRef: {
+          HasEvaluationStarted: true,
+          EvaluationUntil: null,
+          HasReviewOfEvaluationStarted: false,
+          HasTestGrading: true,
+          Id: 1,
+        },
       };
 
       service.getCourseWithStudentCount(1).subscribe((result) => {
@@ -157,7 +164,7 @@ describe("CoursesRestService", () => {
         .expectOne(
           (req) =>
             req.urlWithParams ===
-            "https://eventotest.api/Courses/1?fields=Id,Designation,GradingScaleId&expand=Classes,AttendanceRef",
+            "https://eventotest.api/Courses/1?fields=Id,Designation,GradingScaleId&expand=Classes,AttendanceRef,EvaluationStatusRef",
         )
         .flush(data);
     });
