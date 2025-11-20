@@ -539,7 +539,15 @@ describe("EvaluationStateService", () => {
   });
 
   describe("hasReviewStarted", () => {
-    it("returns false review has not started", fakeAsync(async () => {
+    it("returns true review has started course", fakeAsync(async () => {
+      params.next({ id: "1000" });
+
+      await expectSignalValue(service.hasReviewStarted, (result) => {
+        expect(result).toBe(true);
+      });
+    }));
+
+    it("returns true review has started class", fakeAsync(async () => {
       params.next({ id: "2000" });
 
       await expectSignalValue(service.hasReviewStarted, (result) => {
@@ -547,11 +555,13 @@ describe("EvaluationStateService", () => {
       });
     }));
 
-    it("returns true review has started", fakeAsync(async () => {
+    it("returns false if review has not started", fakeAsync(async () => {
+      course.EvaluationStatusRef.HasReviewOfEvaluationStarted = false;
+      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
       params.next({ id: "1000" });
 
       await expectSignalValue(service.hasReviewStarted, (result) => {
-        expect(result).toBe(true);
+        expect(result).toBe(false);
       });
     }));
   });
