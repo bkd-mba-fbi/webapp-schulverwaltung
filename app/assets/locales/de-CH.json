@@ -351,6 +351,7 @@
     "no-event": "Der Anlass wurde nicht gefunden",
     "no-items": "Keine Einträge vorhanden",
     "no-evaluation": "Der Anlass kann nicht bewertet werden, da weder eine Notenskala noch andere Bewertungskriterien vorhanden sind.",
+    "review-started": "Die Bewertung wurde bereits abgeschlossen.",
     "finalise": "Bewertung abschliessen",
     "finalise-modal": {
       "title": "Bewertung abschliessen",
