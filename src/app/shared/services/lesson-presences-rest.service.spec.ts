@@ -1,6 +1,6 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns";
 import * as t from "io-ts/lib/index";
 import { EditAbsencesFilter } from "src/app/edit-absences/services/edit-absences-state.service";
 import { EvaluateAbsencesFilter } from "src/app/evaluate-absences/services/evaluate-absences-state.service";
@@ -517,8 +517,7 @@ describe("LessonPresencesRestService", () => {
   });
 
   describe(".hasLessonsLessonTeacher", () => {
-    const url =
-      "https://eventotest.api/LessonPresences/?fields=Id&offset=0&limit=1";
+    const url = `https://eventotest.api/LessonPresences/?filter.LessonDateTimeFrom=>${format(subDays(Date.now(), 7), "yyyy-MM-dd")}&fields=Id&offset=0&limit=1`;
 
     it("returns true if a lesson teacher has at least on lesson presence", () => {
       service
