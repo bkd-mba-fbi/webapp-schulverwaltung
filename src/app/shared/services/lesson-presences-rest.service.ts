@@ -336,10 +336,13 @@ export class LessonPresencesRestService extends RestService<
   hasLessonsLessonTeacher(): Observable<boolean> {
     const params = new HttpParams().set("fields", "Id");
     return this.http
-      .get<unknown>(`${this.baseUrl}/`, {
-        params: paginatedParams(0, 1, params),
-        headers: { "X-Role-Restriction": "LessonTeacherRole" },
-      })
+      .get<unknown>(
+        `${this.baseUrl}/?filter.LessonDateTimeFrom=>${format(subDays(Date.now(), 7), "yyyy-MM-dd")}`,
+        {
+          params: paginatedParams(0, 1, params),
+          headers: { "X-Role-Restriction": "LessonTeacherRole" },
+        },
+      )
       .pipe(
         switchMap(decodeArray(this.lessonPresenceIdCodec)),
         map((LessonPresenceIds) => LessonPresenceIds.length > 0),
