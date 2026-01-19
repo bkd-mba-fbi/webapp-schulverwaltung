@@ -19,7 +19,7 @@ export class MyAbsencesReportLinkComponent {
   readonly link = viewChild.required<ElementRef<HTMLElement>>("link");
 
   @HostListener("click", ["$event"])
-  onClick(): void {
+  onClick(_event: MouseEvent): void {
     this.link().nativeElement.click();
   }
 
