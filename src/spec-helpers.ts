@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient } from "@angular/common/http";
+import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { SimpleChange, SimpleChanges } from "@angular/core";
 import { TestModuleMetadata } from "@angular/core/testing";
@@ -9,11 +9,7 @@ import {
   convertToParamMap,
   provideRouter,
 } from "@angular/router";
-import {
-  TranslateLoader,
-  TranslateModule,
-  provideTranslateService,
-} from "@ngx-translate/core";
+import { TranslateModule, provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ReplaySubject } from "rxjs";
 import { SETTINGS, Settings } from "./app/settings";
