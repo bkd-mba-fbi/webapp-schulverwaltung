@@ -9,15 +9,15 @@ import {
   convertToParamMap,
   provideRouter,
 } from "@angular/router";
-import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import {
+  TranslateLoader,
+  TranslateModule,
+  provideTranslateService,
+} from "@ngx-translate/core";
+import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ReplaySubject } from "rxjs";
 import { SETTINGS, Settings } from "./app/settings";
 import { AuthService } from "./app/shared/services/auth.service";
-
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, "./assets/locales/", ".json");
-}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -115,11 +115,12 @@ export const settings: Settings = {
 const baseTestModuleMetadata: TestModuleMetadata = {
   imports: [
     TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
+      loader: provideTranslateService({
+        loader: provideTranslateHttpLoader({
+          prefix: `${settings.scriptsAndAssetsPath}/assets/locales/`,
+          suffix: ".json",
+        }),
+      }),
     }),
   ],
   providers: [

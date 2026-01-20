@@ -14,7 +14,7 @@ describe("I18nService", () => {
         {
           provide: TranslateService,
           useValue: jasmine.createSpyObj("TranslateService", [
-            "setDefaultLang",
+            "setFallbackLang",
             "use",
             "getBrowserLang",
           ]),
@@ -36,7 +36,7 @@ describe("I18nService", () => {
   });
 
   it("does not set languages on construction", () => {
-    expect(translateMock.setDefaultLang).not.toHaveBeenCalled();
+    expect(translateMock.setFallbackLang).not.toHaveBeenCalled();
     expect(translateMock.use).not.toHaveBeenCalled();
   });
 
@@ -45,21 +45,21 @@ describe("I18nService", () => {
       it('returns "fr" if document language is "fr"', () => {
         setHtmlLang("fr");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("fr-CH");
       });
 
       it('returns "fr" if document language is "fr-FR"', () => {
         setHtmlLang("fr-FR");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("fr-CH");
       });
 
       it('returns fallback language if document language is "en"', () => {
         setHtmlLang("en");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("de-CH");
       });
     });
@@ -68,21 +68,21 @@ describe("I18nService", () => {
       it('returns "fr" if stored language is "fr"', () => {
         (storageMock.getLanguage as jasmine.Spy).and.returnValue("fr");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("fr-CH");
       });
 
       it('returns "fr" if stored language is "fr-FR"', () => {
         (storageMock.getLanguage as jasmine.Spy).and.returnValue("fr-FR");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("fr-CH");
       });
 
       it('returns fallback language if stored language is "en"', () => {
         (storageMock.getLanguage as jasmine.Spy).and.returnValue("en");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("de-CH");
       });
     });
@@ -91,21 +91,21 @@ describe("I18nService", () => {
       it('returns "fr" if browser language is "fr"', () => {
         (translateMock.getBrowserLang as jasmine.Spy).and.returnValue("fr");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("fr-CH");
       });
 
       it('returns "fr" if browser language is "fr-FR"', () => {
         (translateMock.getBrowserLang as jasmine.Spy).and.returnValue("fr-FR");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("fr-CH");
       });
 
       it('returns fallback language if browser language is "en"', () => {
         (translateMock.getBrowserLang as jasmine.Spy).and.returnValue("en");
         service.initialize();
-        expect(translateMock.setDefaultLang).toHaveBeenCalledWith("de-CH");
+        expect(translateMock.setFallbackLang).toHaveBeenCalledWith("de-CH");
         expect(translateMock.use).toHaveBeenCalledWith("de-CH");
       });
     });

@@ -25,7 +25,7 @@ export class I18nService {
   private detectedLanguage: Option<string>;
 
   initialize(): void {
-    this.translate.setDefaultLang(FALLBACK_LANGUAGE);
+    this.translate.setFallbackLang(FALLBACK_LANGUAGE);
     this.translate.use(this.detectLanguage());
   }
 
