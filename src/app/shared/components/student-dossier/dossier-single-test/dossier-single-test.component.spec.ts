@@ -77,6 +77,7 @@ describe("DossierSingleTestComponent", () => {
 
   it("should show the teacher's name", () => {
     test.Owner = "Stolz Zusanna";
+    changeInput(component, "test", test);
 
     fixture.detectChanges();
     expectText(debugElement, "test-teacher", "Stolz Zusanna");
@@ -85,6 +86,7 @@ describe("DossierSingleTestComponent", () => {
   it("should show the state of a published test", () => {
     test.IsPublished = true;
     component.isEditable = true;
+    changeInput(component, "test", test);
 
     fixture.detectChanges();
     expectText(debugElement, "test-status", "tests.published");
@@ -93,6 +95,7 @@ describe("DossierSingleTestComponent", () => {
   it("should show the state of a test not published yet", () => {
     test.IsPublished = false;
     component.isEditable = true;
+    changeInput(component, "test", test);
 
     fixture.detectChanges();
     expectText(debugElement, "test-status", "tests.not-published");
@@ -101,6 +104,7 @@ describe("DossierSingleTestComponent", () => {
   it("should hide the state of a test if isEditable flag is false", () => {
     test.IsPublished = false;
     component.isEditable = false;
+    changeInput(component, "test", test);
 
     fixture.detectChanges();
     expectNotInTheDocument(debugElement, "test-status");
@@ -109,6 +113,7 @@ describe("DossierSingleTestComponent", () => {
   it("should hide edit icon if teacher is not the owner", () => {
     test.IsOwner = false;
     component.isEditable = true;
+    changeInput(component, "test", test);
 
     fixture.detectChanges();
     expectNotInTheDocument(debugElement, "test-grade-edit-icon");
@@ -117,6 +122,7 @@ describe("DossierSingleTestComponent", () => {
   it("should show edit icon if teacher is the owner", () => {
     test.IsOwner = true;
     component.isEditable = true;
+    changeInput(component, "test", test);
 
     fixture.detectChanges();
     expectElementPresent(fixture.debugElement, "test-grade-edit-icon");

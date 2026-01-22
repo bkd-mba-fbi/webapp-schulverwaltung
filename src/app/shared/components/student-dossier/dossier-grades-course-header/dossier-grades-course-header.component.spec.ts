@@ -22,7 +22,6 @@ describe("DossierGradesCourseHeaderComponent", () => {
     fixture = TestBed.createComponent(DossierGradesCourseHeaderComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it("should create", () => {

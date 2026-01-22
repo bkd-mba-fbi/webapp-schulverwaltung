@@ -30,7 +30,6 @@ describe("AverageGradesComponent", () => {
     test.IsPointGrading = true;
 
     component.test = test;
-    fixture.detectChanges();
   });
 
   it("should create", () => {
@@ -38,6 +37,7 @@ describe("AverageGradesComponent", () => {
   });
 
   it("should show averages", () => {
+    fixture.detectChanges();
     expectText(fixture.debugElement, "average-points", "9.50");
     expectText(fixture.debugElement, "average-grade", "5.875");
   });
