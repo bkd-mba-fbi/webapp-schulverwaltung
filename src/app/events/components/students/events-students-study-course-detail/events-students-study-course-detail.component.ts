@@ -12,7 +12,6 @@ import {
   Observable,
   Subject,
   combineLatest,
-  filter,
   map,
   of,
   startWith,
@@ -31,7 +30,6 @@ import {
 import { PersonsRestService } from "../../../../shared/services/persons-rest.service";
 import { StatusProcessesRestService } from "../../../../shared/services/status-processes-rest.service";
 import { SubscriptionsRestService } from "../../../../shared/services/subscriptions-rest.service";
-import { notNull } from "../../../../shared/utils/filter";
 import { parseQueryString } from "../../../../shared/utils/url";
 import { EventsStudentsStudyCourseEditDialogComponent } from "../events-students-study-course-edit-dialog/events-students-study-course-edit-dialog.component";
 
@@ -144,9 +142,10 @@ export class EventsStudentsStudyCourseDetailComponent {
   > {
     return this.loadingService.load(
       toObservable(this.subscriptionId).pipe(
-        filter(notNull),
         switchMap((id) =>
-          this.subscriptionsService.getSubscriptionDetailsById(id),
+          id === null
+            ? of([])
+            : this.subscriptionsService.getSubscriptionDetailsById(id),
         ),
         map((details) =>
           details.map((detail) => this.toSubscriptionDetailsEntry(detail)),

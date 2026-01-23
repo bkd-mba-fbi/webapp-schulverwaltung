@@ -12,14 +12,10 @@ import {
   switchMap,
 } from "rxjs";
 import { Course } from "src/app/shared/models/course.model";
-import { Event } from "src/app/shared/models/event.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
-import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
-import { StorageService } from "src/app/shared/services/storage.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
-import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
 import { searchEntries } from "src/app/shared/utils/search";
@@ -28,7 +24,6 @@ import {
   getCourseDesignation,
   getEventState,
   isRated,
-  isStudyCourseLeader,
 } from "../utils/events";
 import { getEventsStudentsLink } from "../utils/events-students";
 
@@ -54,11 +49,8 @@ export interface EventEntry {
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
   private coursesRestService = inject(CoursesRestService);
-  private eventsRestService = inject(EventsRestService);
   private studyClassRestService = inject(StudyClassesRestService);
-  private subscriptionsRestService = inject(SubscriptionsRestService);
   private loadingService = inject(LoadingService);
-  private storageService = inject(StorageService);
   private translate = inject(TranslateService);
   private router = inject(Router);
 
@@ -67,7 +59,6 @@ export class EventsStateService {
   private searchFields$ = new BehaviorSubject<ReadonlyArray<keyof EventEntry>>([
     "designation",
   ]);
-
   private searchSubject$ = new BehaviorSubject<string>("");
   search$ = this.searchSubject$.asObservable();
 
@@ -76,14 +67,9 @@ export class EventsStateService {
     map((roles) => hasRole(roles, "ClassTeacherRole")),
     shareReplay(1),
   );
-  private withStudyCourses$ = new BehaviorSubject<boolean>(false);
 
   private unratedCourses$ = this.roles$.pipe(
     switchMap(this.loadUnratedCourses.bind(this)),
-    shareReplay(1),
-  );
-  private studyCourses$ = this.withStudyCourses$.pipe(
-    switchMap(this.loadStudyCourses.bind(this)),
     shareReplay(1),
   );
   private formativeAssessments$ = this.isClassTeacher$.pipe(
@@ -110,10 +96,6 @@ export class EventsStateService {
     this.roles$.next(roles);
   }
 
-  setWithStudyCourses(enabled: boolean): void {
-    this.withStudyCourses$.next(enabled);
-  }
-
   setSearchFields(searchFields: ReadonlyArray<keyof EventEntry>): void {
     this.searchFields$.next(searchFields);
   }
@@ -131,7 +113,6 @@ export class EventsStateService {
       .load(
         combineLatest([
           this.unratedCourses$,
-          this.studyCourses$,
           this.formativeAssessments$,
           this.studyClasses$,
         ]),
@@ -150,34 +131,6 @@ export class EventsStateService {
       .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   }
 
-  private loadStudyCourses(enabled: boolean): Observable<ReadonlyArray<Event>> {
-    if (!enabled) return of([]);
-
-    const tokenPayload = this.storageService.getPayload();
-    return this.eventsRestService.getStudyCourseEvents().pipe(
-      map((studyCourses) =>
-        // The user sees only the study courses he/she is leader of
-        studyCourses.filter((studyCourse) =>
-          isStudyCourseLeader(tokenPayload, studyCourse),
-        ),
-      ),
-      switchMap((studyCourses) =>
-        studyCourses.length > 0
-          ? this.subscriptionsRestService
-              .getSubscriptionCountsByEvents(studyCourses.map((s) => s.Id))
-              .pipe(
-                map((subscriptionCounts) =>
-                  studyCourses.map((studyCourse) => ({
-                    ...studyCourse,
-                    StudentCount: subscriptionCounts[studyCourse.Id] ?? 0,
-                  })),
-                ),
-              )
-          : of(studyCourses),
-      ),
-    );
-  }
-
   private loadFormativeAssessments(
     isClassTeacher: boolean,
   ): Observable<ReadonlyArray<StudyClass>> {
@@ -194,7 +147,6 @@ export class EventsStateService {
 
   private createAndSortEvents(
     courses: ReadonlyArray<Course>,
-    studyCourses: ReadonlyArray<Event>,
     formativeAssessments: ReadonlyArray<StudyClass>,
     studyClasses: ReadonlyArray<StudyClass>,
   ): ReadonlyArray<EventEntry> {
@@ -203,7 +155,6 @@ export class EventsStateService {
     );
     return [
       ...this.createFromCourses(courses),
-      ...this.createFromStudyCourses(studyCourses),
       ...this.createFromAssessments(formativeAssessments),
       ...this.createFromStudyClasses(classesWithoutAssessments),
     ].sort((a, b) => a.designation.localeCompare(b.designation));
@@ -233,18 +184,6 @@ export class EventsStateService {
             : ["/events", course.Id, "tests"],
       };
     });
-  }
-
-  private createFromStudyCourses(
-    studyCourses: ReadonlyArray<Event>,
-  ): ReadonlyArray<EventEntry> {
-    return studyCourses.map((studyCourse) => ({
-      id: studyCourse.Id,
-      designation: studyCourse.Designation,
-      detailLink: this.buildStudentsLink(studyCourse.Id),
-      studentCount: studyCourse.StudentCount,
-      state: null,
-    }));
   }
 
   private createFromAssessments(

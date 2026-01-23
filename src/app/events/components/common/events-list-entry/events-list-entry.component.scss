@@ -5,8 +5,23 @@
   display: grid;
   padding: $spacer;
   border-bottom: 1px solid $border-color;
+  grid-template-areas: "designation registrations";
+  grid-template-columns: 4fr 2fr;
+}
+
+:host.with-ratings.with-date {
   grid-template-areas: "designation date registrations rating";
   grid-template-columns: 4fr 2fr 2fr 3fr;
+}
+
+:host.with-ratings:not(.with-date) {
+  grid-template-areas: "designation registrations rating";
+  grid-template-columns: 4fr 2fr 3fr;
+}
+
+:host.with-date:not(.with-ratings) {
+  grid-template-areas: "designation date registrations";
+  grid-template-columns: 4fr 2fr 2fr;
 }
 
 .designation {

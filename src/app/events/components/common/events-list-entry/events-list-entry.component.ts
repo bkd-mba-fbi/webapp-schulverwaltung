@@ -10,10 +10,15 @@ import { EventEntry } from "../../../services/events-state.service";
   imports: [RouterLink, DatePipe, TranslatePipe],
   templateUrl: "./events-list-entry.component.html",
   styleUrl: "./events-list-entry.component.scss",
+  host: {
+    "[class.with-ratings]": "withRatings()",
+    "[class.with-date]": "withDate()",
+  },
 })
 export class EventsListEntryComponent {
   event = input.required<EventEntry>();
   withRatings = input<boolean>(true);
+  withDate = input<boolean>(true);
 
   link = computed(() => convertLink(this.event().detailLink));
 }

@@ -9,13 +9,9 @@
   display: grid;
   padding: $spacer;
   border-bottom: 2px solid $border-color;
-  grid-template-areas: "designation date registrations";
-  grid-template-columns: 4fr 2fr 2fr;
+  grid-template-areas: "designation registrations";
+  grid-template-columns: 4fr 2fr;
   font-weight: 500;
-}
-.event-header.with-ratings {
-  grid-template-areas: "designation date registrations rating";
-  grid-template-columns: 4fr 2fr 2fr 3fr;
 }
 
 @include media-breakpoint-down(sm) {

@@ -1,4 +1,5 @@
-@let events = (state.getEntries(withRatings) | async) ?? [];
+@let studyCourses = (state.studyCourses$ | async) ?? [];
+<h1>{{ "events.study-courses.title" | translate }}</h1>
 
 <div class="bkd-container">
   <bkd-resettable-input
@@ -6,34 +7,31 @@
     [value]="state.search$ | async"
     [placeholder]="'events.search-by' | translate"
     [label]="'events.search' | translate"
-    [disabled]="!events"
+    [disabled]="!studyCourses"
     (valueChange)="state.setSearch($event)"
   ></bkd-resettable-input>
 
   @if (state.loading$ | async) {
     <bkd-spinner></bkd-spinner>
   } @else {
-    @if (events.length > 0) {
-      <div class="event-header" [class.with-ratings]="withRatings">
+    @if (studyCourses.length > 0) {
+      <div class="event-header">
         <div class="designation">{{ "events.designation" | translate }}</div>
-        <div class="date">{{ "events.date" | translate }}</div>
         <div class="registrations">
           {{ "events.registrations" | translate }}
         </div>
-        @if (withRatings) {
-          <div class="rating">
-            {{ "events.rating" | translate }}
-          </div>
-        }
       </div>
-      @for (event of events; track event.id) {
+      @for (studyCourse of studyCourses; track studyCourse.id) {
         <bkd-events-list-entry
-          [event]="event"
-          [withRatings]="withRatings"
+          [event]="studyCourse"
+          [withRatings]="false"
+          [withDate]="false"
         ></bkd-events-list-entry>
       }
     } @else {
-      <p class="mt-3">{{ "events.no-events" | translate }}</p>
+      <p class="mt-3">
+        {{ "events.study-courses.no-study-courses" | translate }}
+      </p>
     }
   }
 </div>

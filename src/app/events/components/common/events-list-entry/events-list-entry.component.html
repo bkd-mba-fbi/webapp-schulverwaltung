@@ -3,15 +3,17 @@
     event().designation
   }}</a>
 </div>
-<div class="date">
-  @if (event().dateFrom && event().dateTo) {
-    <span
-      >{{ event().dateFrom | date: "dd.MM.yyyy" }}–<wbr />{{
-        event().dateTo | date: "dd.MM.yyyy"
-      }}</span
-    >
-  }
-</div>
+@if (withDate()) {
+  <div class="date">
+    @if (event().dateFrom && event().dateTo) {
+      <span
+        >{{ event().dateFrom | date: "dd.MM.yyyy" }}–<wbr />{{
+          event().dateTo | date: "dd.MM.yyyy"
+        }}</span
+      >
+    }
+  </div>
+}
 <div class="registrations">
   {{ event().studentCount }}
   <span class="registrations-label">{{

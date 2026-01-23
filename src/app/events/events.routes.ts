@@ -7,6 +7,8 @@ import { EvaluationComponent } from "./components/evaluation/evaluation/evaluati
 import { EventsStudentsListComponent } from "./components/students/events-students-list/events-students-list.component";
 import { EventsStudentsStudyCourseDetailComponent } from "./components/students/events-students-study-course-detail/events-students-study-course-detail.component";
 import { EventsStudentsComponent } from "./components/students/events-students/events-students.component";
+import { StudyCoursesListComponent } from "./components/study-courses/study-courses-list/study-courses-list.component";
+import { StudyCoursesComponent } from "./components/study-courses/study-courses/study-courses.component";
 import { EventsTestsComponent } from "./components/tests/events-tests/events-tests.component";
 import { TestsAddComponent } from "./components/tests/tests-add/tests-add.component";
 import { TestsEditComponent } from "./components/tests/tests-edit/tests-edit.component";
@@ -15,6 +17,19 @@ import { TestsComponent } from "./components/tests/tests/tests.component";
 import { EventsCurrentListComponent } from "./current/events-current-list/events-current-list.component";
 
 export const EVENTS_ROUTES: Routes = [
+  {
+    path: "study-courses",
+    component: StudyCoursesComponent,
+    children: [
+      // /events/study-courses
+      // → Events list "Aufnahmeverfahren"
+      { path: "", component: StudyCoursesListComponent },
+
+      // /events/study-courses/:id
+      // → Event detail resp. students list
+      getStudentsRoute(":id"),
+    ],
+  },
   {
     path: "",
     component: EventsComponent,
