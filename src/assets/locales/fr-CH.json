@@ -238,6 +238,10 @@
     "current": {
       "title": "Disciplines actuelles"
     },
+    "study-courses": {
+      "title": "Procédure d'admission",
+      "no-study-courses": "Aucune procedure d'admission disponible"
+    },
     "no-events": "Aucun événement disponible",
     "search": "Rechercher un événement",
     "search-by": "Rechercher...",

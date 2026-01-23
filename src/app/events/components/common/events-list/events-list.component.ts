@@ -38,7 +38,6 @@ export class EventsListComponent implements OnChanges {
   state = inject(EventsStateService);
   private storage = inject(StorageService);
 
-  @Input() withStudyCourses = false;
   @Input() withRatings = true;
 
   constructor() {
@@ -46,10 +45,6 @@ export class EventsListComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["withStudyCourses"]) {
-      this.state.setWithStudyCourses(changes["withStudyCourses"].currentValue);
-    }
-
     if (changes["withRatings"]) {
       this.state.setSearchFields(
         changes["withRatings"].currentValue

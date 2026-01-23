@@ -85,18 +85,4 @@ describe("EventsListComponent", () => {
       expect(setSearchFields).toHaveBeenCalledWith(["designation"]);
     });
   });
-
-  describe("withStudyCourses", () => {
-    it("enables study courses on state service if set to true", () => {
-      changeInput(component, "withStudyCourses", true);
-      fixture.detectChanges();
-      expect(setWithStudyCourses).toHaveBeenCalledWith(true);
-    });
-
-    it("does not enable study courses on state service if set to false", () => {
-      changeInput(component, "withStudyCourses", false);
-      fixture.detectChanges();
-      expect(setWithStudyCourses).toHaveBeenCalledWith(false);
-    });
-  });
 });
