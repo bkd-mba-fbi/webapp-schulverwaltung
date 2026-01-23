@@ -131,6 +131,20 @@ export class EditAbsencesHeaderComponent {
     },
   };
 
+  onDateFromChange(date: Date | null) {
+    this.filter.dateFrom = date;
+    if (!this.filter.dateTo) {
+      this.filter.dateTo = date;
+    }
+  }
+
+  onDateToChange(date: Date | null) {
+    this.filter.dateTo = date;
+    if (!this.filter.dateFrom) {
+      this.filter.dateFrom = date;
+    }
+  }
+
   show(): void {
     this.filterChange.emit({
       ...this.filter,
