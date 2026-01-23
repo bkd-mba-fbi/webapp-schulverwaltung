@@ -34,7 +34,37 @@ describe("EditAbsencesHeaderComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  describe("onDateFromChange", () => {
+    it("updates dateFrom and dateTo to same value if empty", () => {
+      const date = new Date(2000, 0, 23);
+      component.onDateFromChange(date);
+      expect(component.filter.dateFrom).toEqual(date);
+      expect(component.filter.dateTo).toEqual(date);
+    });
+
+    it("updates dateFrom but not dateTo if not empty", () => {
+      component.filter.dateTo = new Date();
+      const date = new Date(2000, 0, 23);
+      component.onDateFromChange(date);
+      expect(component.filter.dateFrom).toEqual(date);
+      expect(component.filter.dateTo).not.toEqual(date);
+    });
+  });
+
+  describe("onDateToChange", () => {
+    it("updates dateFrom and dateTo to same value if empty", () => {
+      const date = new Date(2000, 0, 23);
+      component.onDateToChange(date);
+      expect(component.filter.dateTo).toEqual(date);
+      expect(component.filter.dateFrom).toEqual(date);
+    });
+
+    it("updates dateFrom but not dateTo if not empty", () => {
+      component.filter.dateFrom = new Date();
+      const date = new Date(2000, 0, 23);
+      component.onDateToChange(date);
+      expect(component.filter.dateTo).toEqual(date);
+      expect(component.filter.dateFrom).not.toEqual(date);
+    });
   });
 });
