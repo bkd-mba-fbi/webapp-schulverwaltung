@@ -41,7 +41,7 @@
     "@angular/platform-browser": "21.1.0",
     "@angular/router": "21.1.0",
     "@ng-bootstrap/ng-bootstrap": "20.0.0",
-    "@ng-select/ng-select": "21.1.6",
+    "@ng-select/ng-select": "21.2.0",
     "@ngx-translate/core": "17.0.0",
     "@ngx-translate/http-loader": "17.0.0",
     "@popperjs/core": "2.11.8",
@@ -78,7 +78,7 @@
     "angular-eslint": "21.1.0",
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
-    "html-validate": "10.6.0",
+    "html-validate": "10.7.0",
     "husky": "9.1.7",
     "jasmine-core": "6.0.1",
     "karma": "6.4.4",
@@ -90,7 +90,7 @@
     "lint-staged": "16.2.7",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.53.1"
+    "typescript-eslint": "8.54.0"
   },
   "lint-staged": {
     "./src/app/**/*.{ts,html}": "eslint",
