@@ -300,6 +300,7 @@
     "owned-tests": "Mes tests",
     "hide-published": "Masquer tests publiés",
     "points": "Points",
+    "greater-than-max-points-adjusted": "Valeur supérieure aux points possibles",
     "summary": {
       "points": "points"
     },

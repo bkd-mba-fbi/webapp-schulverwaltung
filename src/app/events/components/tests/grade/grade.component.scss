@@ -3,6 +3,26 @@
 
 .point-input-container {
   width: 4em;
+
+  input.is-invalid {
+    // Hide icon in input field, since we have no space for it
+    padding-right: 0.75rem;
+    background: $white;
+  }
+  .invalid-feedback,
+  .max-points-adjusted-warning {
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      width: 24px;
+    }
+  }
+  .max-points-adjusted-warning {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: $info-text-emphasis;
+  }
 }
 
 :host ::ng-deep select {
