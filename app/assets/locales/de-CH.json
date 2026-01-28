@@ -238,6 +238,10 @@
     "current": {
       "title": "Aktuelle Fächer"
     },
+    "study-courses": {
+      "title": "Aufnahmeverfahren",
+      "no-study-courses": "Keine Aufnahmeverfahren vorhanden"
+    },
     "no-events": "Keine Anlässe vorhanden",
     "search": "Anlass suchen",
     "search-by": "Suchen...",
