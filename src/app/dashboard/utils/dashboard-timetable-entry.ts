@@ -13,6 +13,40 @@ export type DashboardTimetableEntry = {
   teacher?: string;
 };
 
+export type DashboardTimetableEntryGroup = {
+  from: Date;
+  until: Date;
+  entries: DashboardTimetableEntry[];
+};
+
+export function groupTimetableEntries(
+  entries: ReadonlyArray<DashboardTimetableEntry>,
+): ReadonlyArray<DashboardTimetableEntryGroup> {
+  return entries.reduce<ReadonlyArray<DashboardTimetableEntryGroup>>(
+    (acc, entry) => {
+      const existingGroup = acc.find(
+        (group) =>
+          group.from.toISOString() === entry.from.toISOString() &&
+          group.until.toISOString() === entry.until.toISOString(),
+      );
+
+      if (existingGroup) {
+        return acc.map((group) =>
+          group === existingGroup
+            ? { ...group, entries: [...group.entries, entry] }
+            : group,
+        );
+      }
+
+      return [
+        ...acc,
+        { from: entry.from, until: entry.until, entries: [entry] },
+      ];
+    },
+    [],
+  );
+}
+
 export function convertTimetableEntry(
   entry: TimetableEntry,
 ): DashboardTimetableEntry {
