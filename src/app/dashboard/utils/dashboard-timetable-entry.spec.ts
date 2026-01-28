@@ -5,6 +5,7 @@ import {
   convertTimetableEntry,
   createStudyClassesMap,
   decorateStudyClasses,
+  groupTimetableEntries,
 } from "./dashboard-timetable-entry";
 
 describe("Dashboard timetable entry utilities", () => {
@@ -91,6 +92,85 @@ describe("Dashboard timetable entry utilities", () => {
       };
       const result = decorateStudyClasses(entries, studyClasses);
       expect(result[0].studyClass).toBe("27a, 27b");
+    });
+  });
+
+  describe("groupTimetableEntries", () => {
+    it("creates a single group for a single entry", () => {
+      const entries: ReadonlyArray<DashboardTimetableEntry> = [
+        {
+          id: "9742-1290",
+          from: new Date(2023, 7, 21, 10, 5),
+          until: new Date(2023, 7, 21, 10, 50),
+          eventId: 9742,
+          subject: "Englisch-S3",
+          room: "1.01",
+          teacher: "Doe Jane",
+        },
+      ];
+      const result = groupTimetableEntries(entries);
+      expect(result.length).toBe(1);
+      expect(result[0].from).toEqual(new Date(2023, 7, 21, 10, 5));
+      expect(result[0].until).toEqual(new Date(2023, 7, 21, 10, 50));
+      expect(result[0].entries).toEqual(entries);
+    });
+
+    it("creates three groups: one grouped and two single entries", () => {
+      const entries: ReadonlyArray<DashboardTimetableEntry> = [
+        {
+          id: "9742-1290",
+          from: new Date(2023, 7, 21, 10, 5),
+          until: new Date(2023, 7, 21, 10, 50),
+          eventId: 9742,
+          subject: "Englisch-S3",
+          room: "1.01",
+          teacher: "Doe Jane",
+        },
+        {
+          id: "9743-1291",
+          from: new Date(2023, 7, 21, 10, 5),
+          until: new Date(2023, 7, 21, 10, 50),
+          eventId: 9743,
+          subject: "Englisch-S3",
+          room: "1.01",
+          teacher: "Doe Jane",
+        },
+        {
+          id: "9744-1292",
+          from: new Date(2023, 7, 21, 11, 0),
+          until: new Date(2023, 7, 21, 11, 45),
+          eventId: 9744,
+          subject: "Deutsch-S1",
+          room: "2.03",
+          teacher: "Doe Jane",
+        },
+        {
+          id: "9745-1293",
+          from: new Date(2023, 7, 21, 12, 0),
+          until: new Date(2023, 7, 21, 12, 45),
+          eventId: 9745,
+          subject: "Chemie-S2",
+          room: "1.02",
+          teacher: "Doe Jane",
+        },
+      ];
+      const result = groupTimetableEntries(entries);
+      expect(result.length).toBe(3);
+
+      expect(result[0].from).toEqual(new Date(2023, 7, 21, 10, 5));
+      expect(result[0].until).toEqual(new Date(2023, 7, 21, 10, 50));
+      expect(result[0].entries.length).toBe(2);
+      expect(result[0].entries).toEqual([entries[0], entries[1]]);
+
+      expect(result[1].from).toEqual(new Date(2023, 7, 21, 11, 0));
+      expect(result[1].until).toEqual(new Date(2023, 7, 21, 11, 45));
+      expect(result[1].entries.length).toBe(1);
+      expect(result[1].entries[0]).toEqual(entries[2]);
+
+      expect(result[2].from).toEqual(new Date(2023, 7, 21, 12, 0));
+      expect(result[2].until).toEqual(new Date(2023, 7, 21, 12, 45));
+      expect(result[2].entries.length).toBe(1);
+      expect(result[2].entries[0]).toEqual(entries[3]);
     });
   });
 });
