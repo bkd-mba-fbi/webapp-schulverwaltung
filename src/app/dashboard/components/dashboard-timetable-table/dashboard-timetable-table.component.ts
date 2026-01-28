@@ -5,7 +5,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { getEventsStudentsLink } from "src/app/events/utils/events-students";
 import { convertLink } from "src/app/shared/utils/url";
 import { DashboardService } from "../../services/dashboard.service";
-import { DashboardTimetableEntry } from "../../utils/dashboard-timetable-entry";
+import { DashboardTimetableEntryGroup } from "../../utils/dashboard-timetable-entry";
 
 @Component({
   selector: "bkd-dashboard-timetable-table",
@@ -17,7 +17,7 @@ export class DashboardTimetableTableComponent {
   private dashboardService = inject(DashboardService);
 
   @Input()
-  entries: ReadonlyArray<DashboardTimetableEntry> = [];
+  entries: ReadonlyArray<DashboardTimetableEntryGroup> = [];
 
   isStudent$ = this.dashboardService.hasStudentRole$;
   isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
