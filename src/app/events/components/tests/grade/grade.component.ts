@@ -27,6 +27,7 @@ import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import {
   GradeOrNoResult,
   toMaxPoints,
+  toMaxPointsAdjusted,
 } from "src/app/shared/models/student-grades";
 import { Student } from "src/app/shared/models/student.model";
 
@@ -47,7 +48,8 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   @Input() gradeOptions: DropDownItem[];
   @Input() hasFinalGrade = false;
 
-  maxPoints: number = 0;
+  maxPoints = 0;
+  maxPointsAdjusted = 0;
 
   private pointsSubject$ = new Subject<string>();
   private gradeSubject$ = new Subject<Option<number>>();
@@ -62,6 +64,7 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
 
     this.maxPoints = toMaxPoints(this.grade);
+    this.maxPointsAdjusted = toMaxPointsAdjusted(this.grade);
     this.initSave(
       this.pointsSubject$.pipe(
         filter(this.isValid.bind(this)),
@@ -98,6 +101,15 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
 
   onGradeChange(gradeId: Option<number>) {
     this.gradeSubject$.next(gradeId);
+  }
+
+  isGreaterThanMaxPointsAdjusted(points: string): boolean {
+    const pointsValue = Number(points);
+    return (
+      this.maxPointsAdjusted > 0 &&
+      pointsValue > this.maxPointsAdjusted &&
+      pointsValue <= this.maxPoints
+    );
   }
 
   private isValid(points: string): boolean {

@@ -18,10 +18,17 @@
         />
         @if (points.errors) {
           <div class="invalid-feedback" data-testid="validation-error-message">
+            <i class="material-icons">error_outlined</i>
             {{
               "global.validation-errors.invalidPoints"
                 | translate: { maxPoints }
             }}
+          </div>
+        }
+        @if (isGreaterThanMaxPointsAdjusted(points.value)) {
+          <div class="max-points-adjusted-warning">
+            <i class="material-icons">info_outlined</i>
+            {{ "tests.greater-than-max-points-adjusted" | translate }}
           </div>
         }
       </div>

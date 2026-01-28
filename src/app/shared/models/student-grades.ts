@@ -203,6 +203,10 @@ function isGrade(g: GradeOrNoResult): g is GradeKind {
 }
 
 export function toMaxPoints(grade: GradeOrNoResult | null): number {
+  return grade?.test?.MaxPoints ?? 0;
+}
+
+export function toMaxPointsAdjusted(grade: GradeOrNoResult | null): number {
   return (grade?.test?.MaxPointsAdjusted || grade?.test?.MaxPoints) ?? 0;
 }
 

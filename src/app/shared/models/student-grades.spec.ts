@@ -12,6 +12,7 @@ import {
   averageOfGradesForScale,
   meanOf,
   toMaxPoints,
+  toMaxPointsAdjusted,
   transform,
 } from "./student-grades";
 
@@ -254,18 +255,51 @@ describe("student-grade utils", () => {
       expect(toMaxPoints(studentGrade)).toBe(20);
     });
 
-    it("returns MaxPointsAdjusted for test with MaxPointsAdjusted", () => {
+    it("returns MaxPoints for test with MaxPointsAdjusted", () => {
       studentGrade.test.MaxPointsAdjusted = 19;
       studentGrade.test.MaxPoints = 20;
 
-      expect(toMaxPoints(studentGrade)).toBe(19);
+      expect(toMaxPoints(studentGrade)).toBe(20);
     });
 
-    it("returns 0 for test without MaxPointsAdjusted & MaxPoints", () => {
+    it("returns 0 for test without MaxPoints or MaxPointsAdjusted", () => {
       studentGrade.test.MaxPointsAdjusted = null;
       studentGrade.test.MaxPoints = null;
 
       expect(toMaxPoints(studentGrade)).toBe(0);
+    });
+  });
+
+  describe("toMaxPointsAdjusted", () => {
+    let studentGrade: NoResult;
+
+    beforeEach(() => {
+      const test = buildTest(1, 1, []);
+      studentGrade = {
+        kind: "no-result",
+        test: test,
+      };
+    });
+
+    it("returns MaxPoints for test without MaxPointsAdjusted", () => {
+      studentGrade.test.MaxPointsAdjusted = null;
+      studentGrade.test.MaxPoints = 20;
+
+      expect(toMaxPointsAdjusted(studentGrade)).toBe(20);
+    });
+
+    it("returns MaxPointsAdjusted for test with MaxPointsAdjusted", () => {
+      studentGrade.test.MaxPointsAdjusted = 19;
+      studentGrade.test.MaxPoints = 20;
+
+      expect(toMaxPointsAdjusted(studentGrade)).toBe(19);
+    });
+
+    it("returns 0 for test without MaxPointsAdjusted or MaxPoints", () => {
+      studentGrade.test.MaxPointsAdjusted = null;
+      studentGrade.test.MaxPoints = null;
+
+      expect(toMaxPointsAdjusted(studentGrade)).toBe(0);
     });
   });
 
