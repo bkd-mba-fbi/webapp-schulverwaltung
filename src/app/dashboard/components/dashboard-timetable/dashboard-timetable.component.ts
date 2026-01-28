@@ -25,6 +25,7 @@ import {
   convertTimetableEntry,
   createStudyClassesMap,
   decorateStudyClasses,
+  groupTimetableEntries,
 } from "../../utils/dashboard-timetable-entry";
 import { DashboardTimetableTableComponent } from "../dashboard-timetable-table/dashboard-timetable-table.component";
 
@@ -56,7 +57,9 @@ export class DashboardTimetableComponent {
   isStudent$ = this.dashboardService.hasStudentRole$;
   date$ = new BehaviorSubject(startOfDay(new Date()));
   loading$ = this.loadingService.loading$;
-  timetableEntries$ = this.loadTimetableEntries();
+  timetableEntries$ = this.loadTimetableEntries().pipe(
+    map(groupTimetableEntries),
+  );
 
   gotoToday(): void {
     this.date$.next(startOfDay(new Date()));
