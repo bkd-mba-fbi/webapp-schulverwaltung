@@ -189,7 +189,7 @@ export class EventsStudentsStudyCourseDetailComponent {
   ) {
     if (details.VssType === "Yes" || details.VssType === "YesNo") {
       return this.translate.instant(
-        `events-students.subscriptionDetails.${value}`,
+        `events-students.subscriptionDetails.${value || "empty"}`,
       );
     }
     return value;
