@@ -17,6 +17,8 @@ export function getEventsStudentsLink(
     return `/dashboard/students/${eventId}?${query}`;
   } else if (returnLink.startsWith("/events/current")) {
     return `/events/current/${eventId}?${query}`;
+  } else if (returnLink.startsWith("/events/study-courses")) {
+    return `/events/study-courses/${eventId}?${query}`;
   }
   return `/events/${eventId}/students?${query}`;
 }
