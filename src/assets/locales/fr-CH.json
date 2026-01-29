@@ -280,6 +280,7 @@
       }
     },
     "subscriptionDetails": {
+      "empty": "–",
       "Ja": "Oui",
       "Nein": "Non"
     }
