@@ -192,10 +192,10 @@ describe("EvaluationStateService", () => {
             provide: CoursesRestService,
             useFactory() {
               coursesServiceMock = jasmine.createSpyObj("CoursesRestService", [
-                "getCourseWithStudentCount",
+                "getCourseWithEvaluation",
               ]);
 
-              coursesServiceMock.getCourseWithStudentCount.and.returnValue(
+              coursesServiceMock.getCourseWithEvaluation.and.returnValue(
                 of(course),
               );
 
@@ -311,7 +311,7 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns study class if available", fakeAsync(async () => {
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
       params.next({ id: "2000" });
@@ -330,7 +330,7 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns null if both course & study class are not available", fakeAsync(async () => {
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
       studyClassesServiceMock.get.and.returnValue(
@@ -345,7 +345,7 @@ describe("EvaluationStateService", () => {
 
     it("returns module event without class (special case of course)", fakeAsync(async () => {
       course.Classes = null;
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(of(course));
       params.next({ id: "1000" });
 
       await expectSignalValue(service.event, (result) => {
@@ -446,7 +446,7 @@ describe("EvaluationStateService", () => {
 
     it("returns event with no grading scale and corresponding subscription details", fakeAsync(async () => {
       course.GradingScaleId = null;
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(of(course));
       subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
         of([detail3, detail4]),
       );
@@ -473,7 +473,7 @@ describe("EvaluationStateService", () => {
 
   describe("noEvaluation", () => {
     it("returns true if no grading scale, no columns & no criteria are available", fakeAsync(async () => {
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
       subscriptionDetailsServiceMock.getListForEvent.and.returnValue(of([]));
@@ -502,7 +502,7 @@ describe("EvaluationStateService", () => {
     }));
 
     it("returns false if no grading scale but columns are available", fakeAsync(async () => {
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(
         throwError(() => new HttpErrorResponse({ status: 404 })),
       );
       subscriptionDetailsServiceMock.getListForEvent.and.returnValue(
@@ -557,7 +557,7 @@ describe("EvaluationStateService", () => {
 
     it("returns false if review has not started", fakeAsync(async () => {
       course.EvaluationStatusRef.HasReviewOfEvaluationStarted = false;
-      coursesServiceMock.getCourseWithStudentCount.and.returnValue(of(course));
+      coursesServiceMock.getCourseWithEvaluation.and.returnValue(of(course));
       params.next({ id: "1000" });
 
       await expectSignalValue(service.hasReviewStarted, (result) => {

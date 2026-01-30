@@ -94,7 +94,7 @@ export class MyGradesService {
     if (eventIds.length === 0) return of([]);
 
     return this.loadingService.load(
-      this.coursesRestService.getExpandedCoursesForStudent(eventIds),
+      this.coursesRestService.getCoursesForMyGrades(eventIds),
     );
   }
 

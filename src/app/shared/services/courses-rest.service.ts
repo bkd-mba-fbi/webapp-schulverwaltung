@@ -11,7 +11,7 @@ import { SETTINGS, Settings } from "src/app/settings";
 import {
   AverageTestResultResponse,
   Course,
-  CourseWithStudentCount,
+  CourseWithEvaluation,
   Grading,
   UpdatedTestResultResponse,
 } from "../models/course.model";
@@ -53,7 +53,10 @@ export class CoursesRestService extends RestService<typeof Course> {
       );
   }
 
-  getExpandedCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
+  /**
+   * Used on /events & /events/current
+   */
+  getCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
     if (hasRole(roles, "TeacherRole")) {
       return this.http
         .get<
@@ -65,23 +68,10 @@ export class CoursesRestService extends RestService<typeof Course> {
     return of([]);
   }
 
-  getExpandedCourse(courseId: number): Observable<Course> {
-    return this.http
-      .get<unknown>(
-        `${this.baseUrl}/${courseId}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`,
-      )
-      .pipe(switchMap(decode(Course)));
-  }
-
-  getExpandedCourseWithParticipants(courseId: number): Observable<Course> {
-    return this.http
-      .get<unknown>(
-        `${this.baseUrl}/${courseId}?expand=Participants,Classes,AttendanceRef`,
-      )
-      .pipe(switchMap(decode(Course)));
-  }
-
-  getExpandedCoursesForDossier(
+  /**
+   * Used on /events/:courseId/evaluation/student/:studentId/grades
+   */
+  getCoursesForDossier(
     courseIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<Course>> {
     return this.http
@@ -91,7 +81,10 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(switchMap(decodeArray(Course)));
   }
 
-  getExpandedCoursesForStudent(
+  /**
+   * Used on /my-grades
+   */
+  getCoursesForMyGrades(
     courseIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<Course>> {
     return this.http
@@ -104,16 +97,53 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(switchMap(decodeArray(Course)));
   }
 
-  getCourseWithStudentCount(
+  /**
+   * Used on /events/:id/tests
+   */
+  getCourseWithTests(courseId: number): Observable<Course> {
+    return this.http
+      .get<unknown>(
+        `${this.baseUrl}/${courseId}?expand=Participants,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`,
+      )
+      .pipe(
+        switchMap(decode(Course)),
+        map((course) => ({
+          ...course,
+          Participants: course.Participants?.filter((s) => s.IsActive) ?? null,
+        })),
+      );
+  }
+
+  /**
+   * Used on /events/:id/students
+   */
+  getCourseWithParticipants(courseId: number): Observable<Course> {
+    return this.http
+      .get<unknown>(
+        `${this.baseUrl}/${courseId}?expand=Participants,Classes,AttendanceRef`,
+      )
+      .pipe(
+        switchMap(decode(Course)),
+        map((course) => ({
+          ...course,
+          Participants: course.Participants?.filter((s) => s.IsActive) ?? null,
+        })),
+      );
+  }
+
+  /**
+   * Used on /events/:id/evaluation
+   */
+  getCourseWithEvaluation(
     courseId: number,
     options: { context?: HttpContext } = {},
-  ): Observable<CourseWithStudentCount> {
+  ): Observable<CourseWithEvaluation> {
     const params = new HttpParams()
       .set("fields", "Id,Designation,GradingScaleId")
       .set("expand", "Classes,AttendanceRef,EvaluationStatusRef");
     return this.http
       .get<unknown>(`${this.baseUrl}/${courseId}`, { ...options, params })
-      .pipe(switchMap(decode(CourseWithStudentCount)));
+      .pipe(switchMap(decode(CourseWithEvaluation)));
   }
 
   add(

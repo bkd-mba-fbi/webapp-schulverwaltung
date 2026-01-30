@@ -23,7 +23,7 @@ describe("DossierGradesService", () => {
 
   beforeEach(() => {
     coursesRestService = jasmine.createSpyObj("CoursesRestService", [
-      "getExpandedCoursesForDossier",
+      "getCoursesForDossier",
     ]);
 
     subscriptionsRestService = jasmine.createSpyObj(
@@ -60,7 +60,7 @@ describe("DossierGradesService", () => {
       subscriptionsRestService.getSubscriptionsByStudent.and.returnValue(
         of([]),
       );
-      coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
+      coursesRestService.getCoursesForDossier.and.returnValue(of([]));
 
       let result: Course[] = [];
       service.studentCourses$.subscribe((courses) => (result = [...courses]));
@@ -81,7 +81,7 @@ describe("DossierGradesService", () => {
       subscriptionsRestService.getSubscriptionsByStudent.and.returnValue(
         of([subscription1, subscription2, subscription3]),
       );
-      coursesRestService.getExpandedCoursesForDossier.and.returnValue(
+      coursesRestService.getCoursesForDossier.and.returnValue(
         of([course1, course2, course3]),
       );
 
@@ -94,9 +94,11 @@ describe("DossierGradesService", () => {
       expect(
         subscriptionsRestService.getSubscriptionsByStudent,
       ).toHaveBeenCalledWith(123);
-      expect(
-        coursesRestService.getExpandedCoursesForDossier,
-      ).toHaveBeenCalledWith([course1.Id, course2.Id, course3.Id]);
+      expect(coursesRestService.getCoursesForDossier).toHaveBeenCalledWith([
+        course1.Id,
+        course2.Id,
+        course3.Id,
+      ]);
     });
   });
 

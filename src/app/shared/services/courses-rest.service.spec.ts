@@ -67,12 +67,12 @@ describe("CoursesRestService", () => {
     });
   });
 
-  describe("getExpandedCourses", () => {
+  describe("getCourses", () => {
     it("should request all courses expanding EvaluationStatusRef, AttendanceRef and Classes fields if roles contain TeacherRole", () => {
       const data: any[] = [];
       const roles = "TeacherRole";
 
-      service.getExpandedCourses(roles).subscribe((result) => {
+      service.getCourses(roles).subscribe((result) => {
         expect(result).toEqual(data);
       });
 
@@ -90,7 +90,7 @@ describe("CoursesRestService", () => {
       const data: any[] = [];
       const roles = "ClassTeacherRole";
 
-      service.getExpandedCourses(roles).subscribe((result) => {
+      service.getCourses(roles).subscribe((result) => {
         expect(result).toEqual(data);
       });
 
@@ -102,10 +102,10 @@ describe("CoursesRestService", () => {
       );
     });
 
-    it("should request a single course by ID expanding ParticipatingStudents, EvaluationStatusRef, Tests, Gradings, FinalGrades, Classes", () => {
+    it("should request a single course by ID expanding Participants, EvaluationStatusRef, Tests, Gradings, FinalGrades, Classes", () => {
       const id = 9248;
       const mockCourse = buildCourse(id);
-      service.getExpandedCourse(id).subscribe((result) => {
+      service.getCourseWithTests(id).subscribe((result) => {
         expect(result).toEqual(mockCourse);
       });
 
@@ -113,7 +113,7 @@ describe("CoursesRestService", () => {
         .expectOne(
           (req) =>
             req.url ===
-            `https://eventotest.api/Courses/${id}?expand=ParticipatingStudents,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`,
+            `https://eventotest.api/Courses/${id}?expand=Participants,EvaluationStatusRef,Tests,Gradings,FinalGrades,Classes`,
         )
         .flush(Course.encode(mockCourse));
     });
@@ -121,7 +121,7 @@ describe("CoursesRestService", () => {
     it("should request courses for the given course IDs, expanding Tests, Gradings, FinalGrades and EvaluationStatusRef, Classes and ParticipatingStudents", () => {
       const data: any[] = [];
 
-      service.getExpandedCoursesForDossier([1, 2, 3]).subscribe((result) => {
+      service.getCoursesForDossier([1, 2, 3]).subscribe((result) => {
         expect(result).toEqual(data);
       });
 
@@ -135,7 +135,7 @@ describe("CoursesRestService", () => {
     });
   });
 
-  describe("getCourseWithStudentCount", () => {
+  describe("getCourseWithEvaluation", () => {
     it("requests a course summary with classes & student count", () => {
       const data: any = {
         Id: 1,
@@ -156,7 +156,7 @@ describe("CoursesRestService", () => {
         },
       };
 
-      service.getCourseWithStudentCount(1).subscribe((result) => {
+      service.getCourseWithEvaluation(1).subscribe((result) => {
         expect(result).toEqual(data);
       });
 
