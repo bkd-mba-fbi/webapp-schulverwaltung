@@ -8,7 +8,6 @@ module.exports = function (config) {
     plugins: [
       require("karma-jasmine"),
       require("karma-chrome-launcher"),
-      require("karma-jasmine-html-reporter"),
       require("karma-coverage-istanbul-reporter"),
       require("@angular-devkit/build-angular/plugins/karma"),
       require("karma-spec-reporter"),
@@ -25,7 +24,7 @@ module.exports = function (config) {
       reports: ["html", "lcovonly", "text-summary"],
       fixWebpackSourcePaths: true,
     },
-    reporters: ["spec", "kjhtml"],
+    reporters: ["spec"],
     specReporter: {
       suppressSkipped: true,
     },

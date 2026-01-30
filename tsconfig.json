@@ -19,7 +19,6 @@
     "importHelpers": true,
     "target": "ES2022",
     "typeRoots": ["node_modules/@types", "src/typings.d.ts"],
-    "lib": ["ES2022", "dom"],
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": false
   },

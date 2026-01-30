@@ -54,7 +54,6 @@ describe("EventsListComponent", () => {
     fixture = TestBed.createComponent(EventsListComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
-    fixture.detectChanges();
   });
 
   describe("withRatings", () => {

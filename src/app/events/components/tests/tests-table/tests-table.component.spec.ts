@@ -301,7 +301,6 @@ describe("TestsTableComponent", () => {
       });
 
       it("is not visible on mobile if test is selected and tests are available", () => {
-        fixture.detectChanges();
         component.selectedTest = gradeTest;
         fixture.detectChanges();
 

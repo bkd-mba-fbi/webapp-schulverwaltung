@@ -55,10 +55,10 @@ jobs:
 
       - name: Show current directory
         run: pwd
-        
+
       - name: List files in current directory
         run: ls -la
-        
+
       - name: Copy new build to event-portal
         run: |
           ./scripts/copy-to-portal.sh evento-portal/public/apps/webapp-schulverwaltung

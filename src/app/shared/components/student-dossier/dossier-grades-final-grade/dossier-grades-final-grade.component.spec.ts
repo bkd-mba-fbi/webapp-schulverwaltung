@@ -23,16 +23,7 @@ describe("DossierGradesFinalGradeComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DossierGradesFinalGradeComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     debugElement = fixture.debugElement;
-
-    finalGrade = { GradeValue: 4.5, Grade: "4.5" } as unknown as FinalGrading;
-
-    grading = { AverageTestResult: 4.233333 } as unknown as Grading;
-    component.finalGrade = finalGrade;
-    component.grading = grading;
-    component.average = 4.233333;
-    fixture.detectChanges();
   });
 
   it("should create", () => {
@@ -40,10 +31,19 @@ describe("DossierGradesFinalGradeComponent", () => {
   });
 
   it("should show values from finalGrade - GradeValue from FinalGrade", () => {
+    finalGrade = { GradeValue: 4.5, Grade: "4.5" } as unknown as FinalGrading;
+    component.finalGrade = finalGrade;
+    fixture.detectChanges();
+
     expectText(debugElement, "final-grade", "4.5");
   });
 
   it("should show average test result from gradings", () => {
+    grading = { AverageTestResult: 4.233333 } as unknown as Grading;
+    component.grading = grading;
+    component.average = 4.233333;
+    fixture.detectChanges();
+
     expectText(debugElement, "average-test-results", "4.233");
   });
 

@@ -45,11 +45,11 @@ describe(assertInjector.name, () => {
 
   it("given a custom injector, when run in that injector context without providing number, then throw", () => {
     expect(() => injectDummy(Injector.create({ providers: [] }))).toThrowError(
-      /No provider for InjectionToken/i,
+      /NG0201: No provider found for `InjectionToken token`/i,
     );
     expect(() =>
       injectDummyTwo(Injector.create({ providers: [] })),
-    ).toThrowError(/No provider for InjectionToken/i);
+    ).toThrowError(/NG0201: No provider found for `InjectionToken token`/i);
   });
 
   it("given a custom injector, when run in that injector context and providing number, then return value", () => {
