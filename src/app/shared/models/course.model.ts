@@ -117,7 +117,7 @@ const Course = t.type({
   Classes: Option(t.array(StudyClass)),
 });
 
-const CourseWithStudentCount = t.type(
+const CourseWithEvaluation = t.type(
   pick(Course.props, [
     "Id",
     "Designation",
@@ -138,7 +138,7 @@ const AverageTestResultResponse = t.type({
 });
 
 type Course = t.TypeOf<typeof Course>;
-type CourseWithStudentCount = t.TypeOf<typeof CourseWithStudentCount>;
+type CourseWithEvaluation = t.TypeOf<typeof CourseWithEvaluation>;
 type Grading = t.TypeOf<typeof Grading>;
 type FinalGrading = t.TypeOf<typeof FinalGrading>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
@@ -147,7 +147,7 @@ type UpdatedTestResultResponse = t.TypeOf<typeof UpdatedTestResultResponse>;
 type AverageTestResultResponse = t.TypeOf<typeof AverageTestResultResponse>;
 export {
   Course,
-  CourseWithStudentCount,
+  CourseWithEvaluation,
   Grading,
   FinalGrading,
   AttendanceRef,

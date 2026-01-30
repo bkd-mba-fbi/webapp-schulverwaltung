@@ -16,7 +16,7 @@ import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { SubscriptionDetailsDisplay } from "src/app/shared/models/configurations.model";
-import { CourseWithStudentCount } from "src/app/shared/models/course.model";
+import { CourseWithEvaluation } from "src/app/shared/models/course.model";
 import { GradingItem } from "src/app/shared/models/grading-item.model";
 import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { StudyClass } from "src/app/shared/models/study-class.model";
@@ -278,7 +278,7 @@ export class EvaluationStateService {
       disableErrorHandlingForStatus: [404],
     });
     return this.coursesService
-      .getCourseWithStudentCount(eventId, { context })
+      .getCourseWithEvaluation(eventId, { context })
       .pipe(
         catch404(),
         map((course) =>
@@ -300,7 +300,7 @@ export class EvaluationStateService {
   }
 
   private buildEvaluationEventFromCourse(
-    course: CourseWithStudentCount,
+    course: CourseWithEvaluation,
   ): EvaluationEvent {
     const classes = course.Classes?.map((c) => c.Number) ?? [];
     const designation =

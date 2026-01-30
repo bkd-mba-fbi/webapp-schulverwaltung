@@ -223,7 +223,7 @@ export class EventsStudentsStateService {
   }
 
   private loadCourseStudents(eventId: number): Observable<StudentEntries> {
-    return this.coursesService.getExpandedCourseWithParticipants(eventId).pipe(
+    return this.coursesService.getCourseWithParticipants(eventId).pipe(
       map(convertCourseToStudentEntries),
       switchMap((students) =>
         combineLatest([

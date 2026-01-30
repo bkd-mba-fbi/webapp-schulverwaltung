@@ -127,7 +127,7 @@ export class EventsStateService {
     roles: Option<string>,
   ): Observable<ReadonlyArray<Course>> {
     return this.coursesRestService
-      .getExpandedCourses(roles)
+      .getCourses(roles)
       .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   }
 

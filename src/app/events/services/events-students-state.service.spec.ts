@@ -63,7 +63,7 @@ describe("EventsStudentsStateService", () => {
     const ringo = buildParticipant(40);
     ringo.FullName = "Starr Ringo";
     ringo.DisplayEmail = "ringo.starr@example.com";
-    ringo.IsActive = false;
+    ringo.IsActive = true;
 
     participants = [paul, john, george, ringo];
 
@@ -128,9 +128,9 @@ describe("EventsStudentsStateService", () => {
             provide: CoursesRestService,
             useFactory() {
               coursesServiceMock = jasmine.createSpyObj("CoursesRestService", [
-                "getExpandedCourseWithParticipants",
+                "getCourseWithParticipants",
               ]);
-              coursesServiceMock.getExpandedCourseWithParticipants.and.returnValue(
+              coursesServiceMock.getCourseWithParticipants.and.returnValue(
                 of(course),
               );
               return coursesServiceMock;
@@ -302,6 +302,13 @@ describe("EventsStudentsStateService", () => {
             studyClass: "26c",
             company: undefined,
           },
+          {
+            id: 40,
+            name: "Starr Ringo",
+            email: "ringo.starr@example.com",
+            studyClass: "26c",
+            company: undefined,
+          },
         ];
 
         expect(service.entries()).toEqual(expected);
@@ -322,6 +329,7 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
+          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
@@ -337,10 +345,15 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
+          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
-        expect(filtered).toEqual(["Harrison George", "McCartney Paul"]);
+        expect(filtered).toEqual([
+          "Harrison George",
+          "McCartney Paul",
+          "Starr Ringo",
+        ]);
       });
 
       it("returns filtered entries for matching company", () => {
@@ -352,6 +365,7 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
+          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
@@ -367,17 +381,18 @@ describe("EventsStudentsStateService", () => {
           "Harrison George",
           "Lennon John",
           "McCartney Paul",
+          "Starr Ringo",
         ]);
 
         const filtered = service.filteredEntries().map(({ name }) => name);
-        expect(filtered).toEqual(["Harrison George"]);
+        expect(filtered).toEqual(["Harrison George", "Starr Ringo"]);
       });
     });
 
     describe("mailtoLink", () => {
       it("is the mailto: link value with all email addresses comma-separated", () => {
         expect(service.mailtoLink()).toBe(
-          "mailto:paul.mccartney@example.com;john.lennon@example.com;george.harrison@example.com",
+          "mailto:paul.mccartney@example.com;john.lennon@example.com;george.harrison@example.com;ringo.starr@example.com",
         );
       });
     });

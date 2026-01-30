@@ -88,7 +88,7 @@ export class TestStateService {
   private fetchedCourse$ = this._courseId$.pipe(
     switchMap((courseId) =>
       this.loadingService.load(
-        this.coursesRestService.getExpandedCourse(courseId),
+        this.coursesRestService.getCourseWithTests(courseId),
       ),
     ),
     shareReplay(1),
@@ -236,7 +236,7 @@ export class TestStateService {
     sortCriteria: Option<SortCriteria<StudentGradesSortKey>>,
   ): ReadonlyArray<StudentGrade> {
     const studentGrades = transform(
-      course.ParticipatingStudents ?? [],
+      course.Participants?.map((p) => ({ ...p, Id: p.PersonId })) ?? [],
       tests,
       course.Gradings ?? [],
       course.FinalGrades ?? [],

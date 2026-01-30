@@ -25,7 +25,7 @@ export function getEventsStudentsLink(
 
 export function convertCourseToStudentEntries(course: Course): StudentEntries {
   const entries =
-    course.Participants?.filter((s) => s.IsActive).map(
+    course.Participants?.map(
       (student) =>
         ({
           id: student.PersonId,

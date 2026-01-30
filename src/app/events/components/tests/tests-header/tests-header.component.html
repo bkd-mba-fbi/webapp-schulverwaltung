@@ -14,13 +14,13 @@
 
 <div class="d-flex flex-column header">
   <h1>{{ getDesignation() }}</h1>
-  @if (course.ParticipatingStudents) {
+  @if (course.Participants) {
     <div class="additional-info">
       {{
-        (course.ParticipatingStudents.length === 1
+        (course.Participants.length === 1
           ? "courses.registration"
           : "courses.registrations"
-        ) | translate: { count: course.ParticipatingStudents.length }
+        ) | translate: { count: course.Participants.length }
       }}
     </div>
   }

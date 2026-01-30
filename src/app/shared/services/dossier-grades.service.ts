@@ -156,7 +156,7 @@ export class DossierGradesService {
     if (eventIds.length === 0) return of([]);
 
     return this.loadingService.load(
-      this.coursesRestService.getExpandedCoursesForDossier(eventIds),
+      this.coursesRestService.getCoursesForDossier(eventIds),
       { context: GRADES_CONTEXT },
     );
   }
