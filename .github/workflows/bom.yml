@@ -24,11 +24,11 @@ jobs:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install @cyclonedx/cyclonedx-npm
-        run: npm install @cyclonedx/cyclonedx-npm --no-save
+      - name: Install dependencies
+        run: npm ci
 
       - name: Generate BOM
-        run: npm exec -- cyclonedx-npm --output-format XML --output-file bom.xml
+        run: npx @cyclonedx/cyclonedx-npm --output-format XML --output-file bom.xml
 
       - name: Push BOM to Dependency Track
         env:
