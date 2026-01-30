@@ -7,8 +7,7 @@ import {
   inject,
 } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
-import { SETTINGS, Settings } from "src/app/settings";
-import { StorageService } from "../../services/storage.service";
+import { AvatarService } from "../../services/avatar.service";
 
 @Component({
   selector: "bkd-avatar",
@@ -17,8 +16,7 @@ import { StorageService } from "../../services/storage.service";
   imports: [RouterLink, NgStyle],
 })
 export class AvatarComponent implements OnChanges {
-  private settings = inject<Settings>(SETTINGS);
-  private storageService = inject(StorageService);
+  private avatarService = inject(AvatarService);
 
   @Input() studentId: number;
   @Input() link: RouterLink["routerLink"];
@@ -35,20 +33,11 @@ export class AvatarComponent implements OnChanges {
   private buildAvatarStyles(studentId: number): { [key: string]: string } {
     return {
       "background-image": [
-        this.buildAvatarUrl(studentId),
-        this.fallbackAvatarUrl,
+        this.avatarService.getAvatarUrl(studentId),
+        this.avatarService.getAvatarPlaceholderUrl(),
       ]
         .map((url) => `url(${url})`)
         .join(", "),
     };
-  }
-
-  private buildAvatarUrl(studentId: number): string {
-    const accessToken = this.storageService.getAccessToken() || "";
-    return `${this.settings.apiUrl}/Files/personPictures/${studentId}?token=${accessToken}`;
-  }
-
-  private get fallbackAvatarUrl(): string {
-    return `${this.settings.scriptsAndAssetsPath}/assets/images/avatar-placeholder.png`;
   }
 }
