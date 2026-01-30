@@ -20,23 +20,6 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
     super(http, settings, Subscription, "Subscriptions");
   }
 
-  getSubscriptionIdsByStudentAndCourse(
-    personId: number,
-    eventIds: ReadonlyArray<number>,
-  ): Observable<ReadonlyArray<number>> {
-    return this.http
-      .get<unknown>(`${this.baseUrl}/`, {
-        params: {
-          "filter.PersonId": `=${personId}`,
-          "filter.EventId": `;${eventIds}`,
-        },
-      })
-      .pipe(
-        switchMap(decodeArray(Identifiable)),
-        map((result) => result.map((i) => i.Id)),
-      );
-  }
-
   getSubscriptionIdsByEventAndStudents(
     eventId: number,
     personIds: ReadonlyArray<number>,
@@ -56,11 +39,13 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
 
   getSubscriptionsByStudent(
     personId: number,
+    additionalParams?: Dict<string>,
   ): Observable<ReadonlyArray<Subscription>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
           "filter.PersonId": `=${personId}`,
+          ...additionalParams,
         },
       })
       .pipe(switchMap(decodeArray(Subscription)));

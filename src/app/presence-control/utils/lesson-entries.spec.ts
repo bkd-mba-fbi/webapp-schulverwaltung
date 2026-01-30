@@ -7,6 +7,10 @@ import {
 } from "./lesson-entries";
 
 describe("lessons entries", () => {
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
   describe("getLessonEntriesForLessons", () => {
     it("groups the given lessons as a sorted array of lesson entries", () => {
       const lesson1 = buildLesson(

@@ -1,11 +1,12 @@
 import { Injectable, inject } from "@angular/core";
 import { isEqual, uniq } from "lodash-es";
 import {
+  Observable,
   ReplaySubject,
   combineLatest,
   distinctUntilChanged,
-  filter,
   map,
+  of,
   shareReplay,
   switchMap,
 } from "rxjs";
@@ -27,32 +28,28 @@ export class MyGradesService {
   private reportsService = inject(ReportsService);
   private gradingScalesRestService = inject(GradingScalesRestService);
 
+  loading$ = this.loadingService.loading$;
   studentId$ = new ReplaySubject<number>(1);
 
-  loading$ = this.loadingService.loading$;
+  private subscriptionAndEventsIds$ = this.studentId$.pipe(
+    switchMap(this.loadSubscriptionAndEventIds.bind(this)),
+    shareReplay(1),
+  );
+  private subscriptionIds$ = this.subscriptionAndEventsIds$.pipe(
+    map((ids) => ids.subscriptionIds),
+  );
+  private eventIds$ = this.subscriptionAndEventsIds$.pipe(
+    map((ids) => ids.eventIds),
+  );
 
-  private studentCourses$ = this.loadCourses().pipe(shareReplay(1));
+  private studentCourses$ = this.eventIds$
+    .pipe(switchMap(this.loadCourses.bind(this)))
+    .pipe(shareReplay(1));
   studentCoursesSorted$ = this.studentCourses$.pipe(
     map((courses) =>
       courses
         .slice()
         .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation)),
-    ),
-  );
-  private studentCourseIds$ = this.studentCourses$.pipe(
-    map((courses) => courses.flatMap((course: Course) => course.Id)),
-  );
-
-  private subscriptionIds$ = combineLatest([
-    this.studentId$,
-    this.studentCourseIds$,
-  ]).pipe(
-    filter(([_, courseIds]) => courseIds.length > 0),
-    switchMap(([studentId, courseIds]) =>
-      this.subscriptionRestService.getSubscriptionIdsByStudentAndCourse(
-        studentId,
-        courseIds,
-      ),
     ),
   );
 
@@ -91,9 +88,29 @@ export class MyGradesService {
     }
   }
 
-  private loadCourses() {
+  private loadCourses(
+    eventIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<Course>> {
+    if (eventIds.length === 0) return of([]);
+
     return this.loadingService.load(
-      this.coursesRestService.getExpandedCoursesForStudent(),
+      this.coursesRestService.getExpandedCoursesForStudent(eventIds),
+    );
+  }
+
+  private loadSubscriptionAndEventIds(studentId: number): Observable<{
+    subscriptionIds: ReadonlyArray<number>;
+    eventIds: ReadonlyArray<number>;
+  }> {
+    return this.loadingService.load(
+      this.subscriptionRestService
+        .getSubscriptionsByStudent(studentId, { "filter.IsOkay": "=1" })
+        .pipe(
+          map((subscriptions) => ({
+            subscriptionIds: subscriptions.map((s) => s.Id),
+            eventIds: subscriptions.map((s) => s.EventId).filter(notNull),
+          })),
+        ),
     );
   }
 }
