@@ -54,6 +54,18 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
       );
   }
 
+  getSubscriptionsByStudent(
+    personId: number,
+  ): Observable<ReadonlyArray<Subscription>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          "filter.PersonId": `=${personId}`,
+        },
+      })
+      .pipe(switchMap(decodeArray(Subscription)));
+  }
+
   getSubscriptionCountsByEvents(
     eventIds: ReadonlyArray<number>,
   ): Observable<Dict<number>> {
