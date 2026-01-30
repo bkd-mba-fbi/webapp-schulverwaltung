@@ -234,7 +234,7 @@ export class TestStateService {
     sortCriteria: Option<SortCriteria<StudentGradesSortKey>>,
   ): ReadonlyArray<StudentGrade> {
     const studentGrades = transform(
-      course.ParticipatingStudents ?? [],
+      course.Participants?.map((p) => ({ ...p, Id: p.PersonId })) ?? [],
       tests,
       course.Gradings ?? [],
       course.FinalGrades ?? [],
