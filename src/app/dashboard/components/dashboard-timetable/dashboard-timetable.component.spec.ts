@@ -112,6 +112,10 @@ describe("DashboardTimetableComponent", () => {
     element = fixture.debugElement.nativeElement;
   });
 
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
   describe("LessonTeacherRole", () => {
     beforeEach(() => {
       dashboardServiceMock.hasLessonTeacherRole$.next(true);
