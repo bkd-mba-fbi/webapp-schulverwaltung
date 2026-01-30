@@ -4,7 +4,7 @@ import {
   buildCourse,
   buildGradingScale,
   buildResult,
-  buildStudent,
+  buildSubscription,
   buildTest,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
@@ -28,7 +28,7 @@ describe("DossierGradesService", () => {
 
     subscriptionsRestService = jasmine.createSpyObj(
       "SubscriptionsRestService",
-      ["getSubscriptionIdsByStudentAndCourse"],
+      ["getSubscriptionsByStudent"],
     );
 
     reportsService = jasmine.createSpyObj("ReportsService", [
@@ -56,7 +56,10 @@ describe("DossierGradesService", () => {
   });
 
   describe("studentCourses$", () => {
-    it("should return empty list if there are no courses", () => {
+    it("returns empty list if there are no subscriptions/courses", () => {
+      subscriptionsRestService.getSubscriptionsByStudent.and.returnValue(
+        of([]),
+      );
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
 
       let result: Course[] = [];
@@ -67,32 +70,33 @@ describe("DossierGradesService", () => {
       expect(result.length).toBe(0);
     });
 
-    it("should return courses where the student participates", () => {
+    it("returns courses if the student has subscriptions", () => {
       const course1 = buildCourse(1);
       const course2 = buildCourse(2);
       const course3 = buildCourse(3);
+      const subscription1 = buildSubscription(1, course1.Id, 123);
+      const subscription2 = buildSubscription(2, course2.Id, 123);
+      const subscription3 = buildSubscription(3, course3.Id, 123);
 
-      const student1 = buildStudent(11);
-      const student2 = buildStudent(22);
-      const student3 = buildStudent(33);
-
-      course1.ParticipatingStudents = [student1, student2, student3];
-      course2.ParticipatingStudents = [student2, student3];
-      course3.ParticipatingStudents = [student1, student2];
-
-      const courses = [course1, course2, course3];
+      subscriptionsRestService.getSubscriptionsByStudent.and.returnValue(
+        of([subscription1, subscription2, subscription3]),
+      );
       coursesRestService.getExpandedCoursesForDossier.and.returnValue(
-        of(courses),
+        of([course1, course2, course3]),
       );
 
       let result: Course[] = [];
       service.studentCourses$.subscribe((courses) => (result = [...courses]));
 
-      service.setStudentId(11);
+      service.setStudentId(123);
 
-      expect(result.length).toBe(2);
-      expect(result).toContain(course1);
-      expect(result).toContain(course3);
+      expect(result).toEqual([course1, course2, course3]);
+      expect(
+        subscriptionsRestService.getSubscriptionsByStudent,
+      ).toHaveBeenCalledWith(123);
+      expect(
+        coursesRestService.getExpandedCoursesForDossier,
+      ).toHaveBeenCalledWith([course1.Id, course2.Id, course3.Id]);
     });
   });
 
@@ -198,41 +202,36 @@ describe("DossierGradesService", () => {
   });
 
   describe("load test reports", () => {
-    it("should not load the test reports if there are no student courses", () => {
-      coursesRestService.getExpandedCoursesForDossier.and.returnValue(of([]));
+    it("does not load the test reports if the student has no subscriptions", () => {
+      subscriptionsRestService.getSubscriptionsByStudent.and.returnValue(
+        of([]),
+      );
 
       service.testReports$.subscribe();
       service.setStudentId(123);
 
-      expect(
-        subscriptionsRestService.getSubscriptionIdsByStudentAndCourse,
-      ).not.toHaveBeenCalled();
       expect(
         reportsService.getTeacherSubscriptionGradesReports,
       ).not.toHaveBeenCalled();
     });
 
-    it("should load the test reports if there are student courses", () => {
+    it("loads the test reports if the student has subscriptions", () => {
       const course = buildCourse(1);
-      const student = buildStudent(123);
-      course.ParticipatingStudents = [student];
+      const subscription = buildSubscription(1, course.Id, 123);
 
-      coursesRestService.getExpandedCoursesForDossier.and.returnValue(
-        of([course]),
-      );
-      subscriptionsRestService.getSubscriptionIdsByStudentAndCourse.and.returnValue(
-        of([456]),
+      subscriptionsRestService.getSubscriptionsByStudent.and.returnValue(
+        of([subscription]),
       );
 
       service.testReports$.subscribe();
       service.setStudentId(123);
 
       expect(
-        subscriptionsRestService.getSubscriptionIdsByStudentAndCourse,
-      ).toHaveBeenCalledWith(123, [1]);
+        subscriptionsRestService.getSubscriptionsByStudent,
+      ).toHaveBeenCalledWith(123);
       expect(
         reportsService.getTeacherSubscriptionGradesReports,
-      ).toHaveBeenCalledWith([456]);
+      ).toHaveBeenCalledWith([subscription.Id]);
     });
   });
 });

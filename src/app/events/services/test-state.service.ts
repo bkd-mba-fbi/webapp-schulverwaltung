@@ -149,10 +149,12 @@ export class TestStateService {
 
   private gradingScaleIds$ = this.course$.pipe(
     map((course: Course) =>
-      uniq([
-        ...(course.Tests ?? []).map((test: Test) => test.GradingScaleId),
-        course.GradingScaleId,
-      ]).filter(notNull),
+      uniq(
+        [
+          ...(course.Tests ?? []).map((test: Test) => test.GradingScaleId),
+          course.GradingScaleId,
+        ].filter(notNull),
+      ),
     ),
     distinctUntilChanged(isEqual),
     shareReplay(1),

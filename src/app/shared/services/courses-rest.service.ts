@@ -81,10 +81,12 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(switchMap(decode(Course)));
   }
 
-  getExpandedCoursesForDossier(): Observable<ReadonlyArray<Course>> {
+  getExpandedCoursesForDossier(
+    courseIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<Course>> {
     return this.http
       .get<unknown>(
-        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;${this.settings.eventlist["statusfilter"]}`,
+        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${courseIds.join(";")}`,
       )
       .pipe(switchMap(decodeArray(Course)));
   }

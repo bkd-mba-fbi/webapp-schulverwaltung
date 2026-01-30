@@ -1,20 +1,23 @@
 import { Injectable, inject } from "@angular/core";
+import { isEqual, uniq } from "lodash-es";
 import {
+  Observable,
   ReplaySubject,
   combineLatest,
   distinctUntilChanged,
-  filter,
   map,
   merge,
+  of,
   shareReplay,
+  startWith,
   switchMap,
 } from "rxjs";
-import { scan } from "rxjs/operators";
+import { scan, skip } from "rxjs/operators";
 import { gradingScaleOfTest, resultOfStudent } from "../../events/utils/tests";
 import { Course, FinalGrading, Grading } from "../models/course.model";
 import { Grade, GradingScale } from "../models/grading-scale.model";
 import { Test } from "../models/test.model";
-import { notNull, unique } from "../utils/filter";
+import { notNull } from "../utils/filter";
 import { ValueWithWeight } from "../utils/math";
 import { CoursesRestService } from "./courses-rest.service";
 import { GradingScalesRestService } from "./grading-scales-rest.service";
@@ -43,12 +46,26 @@ export class DossierGradesService {
   private gradingScalesRestService = inject(GradingScalesRestService);
 
   private studentId$ = new ReplaySubject<number>(1);
-  private initialStudentCourses$ = this.studentId$.pipe(
-    distinctUntilChanged(),
-    switchMap(this.loadCourses.bind(this)),
+  private subscriptionAndEventsIds$ = this.studentId$.pipe(
+    switchMap(this.loadSubscriptionAndEventIds.bind(this)),
+    shareReplay(1),
+  );
+  private subscriptionIds$ = this.subscriptionAndEventsIds$.pipe(
+    map((ids) => ids.subscriptionIds),
+  );
+  private eventIds$ = this.subscriptionAndEventsIds$.pipe(
+    map((ids) => ids.eventIds),
+  );
+
+  private initialStudentCourses$ = this.eventIds$.pipe(
+    distinctUntilChanged(isEqual),
+    switchMap((eventIds) => this.loadCourses(eventIds)),
     map((courses) =>
-      courses.sort((c1, c2) => c1.Designation.localeCompare(c2.Designation)),
+      [...courses].sort((c1, c2) =>
+        c1.Designation.localeCompare(c2.Designation),
+      ),
     ),
+    startWith([]),
     shareReplay(1),
   );
 
@@ -70,25 +87,12 @@ export class DossierGradesService {
 
   loading$ = this.loadingService.loading(GRADES_CONTEXT);
 
-  private studentCourseIds$ = this.studentCourses$.pipe(
-    map((courses) => courses.flatMap((course) => course.Id)),
-  );
-
-  private subscriptionIds$ = combineLatest([
-    this.studentId$,
-    this.studentCourseIds$,
-  ]).pipe(
-    filter(([_, courseIds]) => courseIds.length > 0),
-    switchMap(([studentId, courseIds]) =>
-      this.subscriptionRestService.getSubscriptionIdsByStudentAndCourse(
-        studentId,
-        courseIds,
-      ),
-    ),
-  );
-
   testReports$ = this.subscriptionIds$.pipe(
-    map((ids) => this.reportsService.getTeacherSubscriptionGradesReports(ids)),
+    map((ids) =>
+      ids.length > 0
+        ? this.reportsService.getTeacherSubscriptionGradesReports(ids)
+        : [],
+    ),
   );
 
   setStudentId(id: number) {
@@ -146,59 +150,54 @@ export class DossierGradesService {
     });
   }
 
-  private loadCourses(studentId: number) {
+  private loadCourses(
+    eventIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<Course>> {
+    if (eventIds.length === 0) return of([]);
+
     return this.loadingService.load(
-      this.coursesRestService
-        .getExpandedCoursesForDossier()
-        .pipe(
-          map((courses) =>
-            courses.filter((course) =>
-              course.ParticipatingStudents?.find(
-                (student) => student.Id === studentId,
-              ),
-            ),
-          ),
-        ),
+      this.coursesRestService.getExpandedCoursesForDossier(eventIds),
       { context: GRADES_CONTEXT },
     );
   }
 
-  // TODO: code below this is a duplication from the test-edit-state service that
-  // was refactored by mfehlmann and hupf on another branch.
-  // if it is merged, integrate changes and dry it up.
+  private loadSubscriptionAndEventIds(studentId: number): Observable<{
+    subscriptionIds: ReadonlyArray<number>;
+    eventIds: ReadonlyArray<number>;
+  }> {
+    return this.loadingService.load(
+      this.subscriptionRestService.getSubscriptionsByStudent(studentId).pipe(
+        map((subscriptions) => ({
+          subscriptionIds: subscriptions.map((s) => s.Id),
+          eventIds: subscriptions.map((s) => s.EventId).filter(notNull),
+        })),
+      ),
+      { context: GRADES_CONTEXT },
+    );
+  }
 
   private tests$ = this.studentCourses$.pipe(
     map((courses) => courses.flatMap((course) => course.Tests).filter(notNull)),
   );
 
-  private gradingScaleIdsFromTests$ = this.tests$.pipe(
-    map((tests) =>
-      [...tests.map((test) => test.GradingScaleId)]
-        .filter(notNull)
-        .filter(unique),
-    ),
-  );
-
-  private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
-    map((courses) =>
-      courses
-        .flatMap((course) => course.GradingScaleId)
-        .filter(notNull)
-        .filter(unique),
-    ),
-  );
-
   private gradingScaleIds$ = combineLatest([
-    this.gradingScaleIdsFromCourses$,
-    this.gradingScaleIdsFromTests$,
-  ]).pipe(
-    map(([courseGradingsScaleIds, testGradingScaleIds]: [number[], number[]]) =>
-      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique),
+    this.tests$.pipe(
+      map((tests) => [...tests.map((test) => test.GradingScaleId)]),
+      skip(1),
     ),
+    this.studentCourses$.pipe(
+      map((courses) => courses.map((course) => course.GradingScaleId)),
+      skip(1),
+    ),
+  ]).pipe(
+    map(([tests, courses]) => uniq([...tests, ...courses]).filter(notNull)),
+    distinctUntilChanged(isEqual),
+    shareReplay(1),
   );
 
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
+    shareReplay(1),
   );
 
   private coursesReducer(
