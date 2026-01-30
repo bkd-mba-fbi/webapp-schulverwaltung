@@ -118,10 +118,10 @@ describe("CoursesRestService", () => {
         .flush(Course.encode(mockCourse));
     });
 
-    it("should request all courses for Dossier, expanding Tests, Gradings, FinalGrades and EvaluationStatusRef, Classes and ParticipatingStudents", () => {
+    it("should request courses for the given course IDs, expanding Tests, Gradings, FinalGrades and EvaluationStatusRef, Classes and ParticipatingStudents", () => {
       const data: any[] = [];
 
-      service.getExpandedCoursesForDossier().subscribe((result) => {
+      service.getExpandedCoursesForDossier([1, 2, 3]).subscribe((result) => {
         expect(result).toEqual(data);
       });
 
@@ -129,7 +129,7 @@ describe("CoursesRestService", () => {
         .expectOne(
           (req) =>
             req.url ===
-            "https://eventotest.api/Courses/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300",
+            "https://eventotest.api/Courses/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300&filter.Id=;1;2;3",
         )
         .flush(data);
     });

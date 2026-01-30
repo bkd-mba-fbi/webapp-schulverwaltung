@@ -1,22 +1,22 @@
 import { Injectable, inject } from "@angular/core";
+import { isEqual, uniq } from "lodash-es";
 import {
   ReplaySubject,
   combineLatest,
+  distinctUntilChanged,
   filter,
   map,
   shareReplay,
   switchMap,
 } from "rxjs";
-import { SETTINGS, Settings } from "../../settings";
 import { Course } from "../../shared/models/course.model";
-import { Test } from "../../shared/models/test.model";
 import { CoursesRestService } from "../../shared/services/courses-rest.service";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
 import { LoadingService } from "../../shared/services/loading-service";
 import { ReportsService } from "../../shared/services/reports.service";
 import { StorageService } from "../../shared/services/storage.service";
 import { SubscriptionsRestService } from "../../shared/services/subscriptions-rest.service";
-import { notNull, unique } from "../../shared/utils/filter";
+import { notNull } from "../../shared/utils/filter";
 
 @Injectable()
 export class MyGradesService {
@@ -26,7 +26,6 @@ export class MyGradesService {
   private subscriptionRestService = inject(SubscriptionsRestService);
   private reportsService = inject(ReportsService);
   private gradingScalesRestService = inject(GradingScalesRestService);
-  private settings = inject<Settings>(SETTINGS);
 
   studentId$ = new ReplaySubject<number>(1);
 
@@ -67,34 +66,22 @@ export class MyGradesService {
     ),
   );
 
-  private gradingScaleIdsFromTests$ = this.tests$.pipe(
-    map((tests: Test[]) =>
-      [...tests.map((test: Test) => test.GradingScaleId)]
-        .filter(notNull)
-        .filter(unique),
-    ),
-  );
-
-  private gradingScaleIdsFromCourses$ = this.studentCourses$.pipe(
-    map((courses) =>
-      courses
-        .flatMap((course: Course) => course.GradingScaleId)
-        .filter(notNull)
-        .filter(unique),
-    ),
-  );
-
   private gradingScaleIds$ = combineLatest([
-    this.gradingScaleIdsFromCourses$,
-    this.gradingScaleIdsFromTests$,
-  ]).pipe(
-    map(([courseGradingsScaleIds, testGradingScaleIds]: [number[], number[]]) =>
-      courseGradingsScaleIds.concat(testGradingScaleIds).filter(unique),
+    this.tests$.pipe(
+      map((tests) => [...tests.map((test) => test.GradingScaleId)]),
     ),
+    this.studentCourses$.pipe(
+      map((courses) => courses.map((course) => course.GradingScaleId)),
+    ),
+  ]).pipe(
+    map(([tests, courses]) => uniq([...tests, ...courses]).filter(notNull)),
+    distinctUntilChanged(isEqual),
+    shareReplay(1),
   );
 
   gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
+    shareReplay(1),
   );
 
   constructor() {
