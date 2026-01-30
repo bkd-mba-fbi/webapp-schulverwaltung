@@ -29,6 +29,7 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
         params: {
           "filter.PersonId": `=${personId}`,
           "filter.EventId": `;${eventIds}`,
+          "filter.IsOkay": `=1`,
         },
       })
       .pipe(

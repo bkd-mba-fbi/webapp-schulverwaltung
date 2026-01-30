@@ -15,7 +15,10 @@ describe("ApprenticeshipContractsRestService", () => {
     jasmine.clock().mockDate(new Date(Date.UTC(2000, 0, 23, 12, 0)));
   });
 
-  afterEach(() => httpTestingController.verify());
+  afterEach(() => {
+    httpTestingController.verify();
+    jasmine.clock().uninstall();
+  });
 
   describe("getCompaniesForStudents", () => {
     it("requests the companies for the given student ids", () => {

@@ -24,7 +24,7 @@ describe("SubscriptionsRestService", () => {
         buildSubscription(2, 12, personId),
       ];
 
-      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId=;11,12,13`;
+      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId=;11,12,13&filter.IsOkay==1`;
 
       let result: ReadonlyArray<number> | undefined;
       service
