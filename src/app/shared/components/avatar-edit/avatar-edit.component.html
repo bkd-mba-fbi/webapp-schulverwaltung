@@ -1,0 +1,11 @@
+@if (!avatarDataUri()) {
+  <button
+    class="edit-button btn btn-primary btn-icon"
+    (click)="openDialog($event)"
+  >
+    <i class="material-icons">add_a_photo</i>
+  </button>
+  <div class="edit-label mt-2">
+    {{ "shared.avatar-edit.upload" | translate }}
+  </div>
+}

@@ -1,0 +1,21 @@
+@import "../../../../bootstrap-variables";
+
+#drop-zone {
+  border: 2px dashed $gray-500;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5 * $spacer;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: $zindex-modal;
+  background: rgba($gray, 0.9);
+}
+
+#drop-zone.dragging {
+  display: flex;
+}

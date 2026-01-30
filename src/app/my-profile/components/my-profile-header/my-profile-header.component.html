@@ -3,10 +3,10 @@
 @if (personValue) {
   <div class="avatar-person">
     <div class="d-flex">
-      <bkd-avatar
+      <bkd-avatar-edit
         [studentId]="personValue.Id"
-        class="me-3 avatar large"
-      ></bkd-avatar>
+        class="me-3 avatar"
+      ></bkd-avatar-edit>
       <div class="person">
         {{ personValue.LastName }} {{ personValue.FirstName }}
         {{ personValue.MiddleName }}

@@ -1,0 +1,27 @@
+<label for="formFile" class="form-label">{{
+  "shared.file-input.input-label" | translate
+}}</label>
+<input
+  class="form-control"
+  [class.is-valid]="file() && !error()"
+  [class.is-invalid]="error()"
+  type="file"
+  #fileInput
+  id="formFile"
+  (change)="onFileInput(fileInput.files)"
+  [accept]="acceptedExtensions().join(',')"
+/>
+@if (error()) {
+  <div class="invalid-feedback">{{ error() }}</div>
+}
+
+<div
+  id="drop-zone"
+  [class.dragging]="dragging()"
+  #fileInput
+  (drop)="onFileDrop($event)"
+  (dragover)="onFileDrag($event)"
+>
+  <i class="material-icons">cloud_upload</i>
+  <span>{{ "shared.file-input.drop-zone-label" | translate }}</span>
+</div>

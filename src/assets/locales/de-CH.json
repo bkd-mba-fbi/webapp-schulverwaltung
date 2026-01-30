@@ -429,8 +429,6 @@
   "import": {
     "title": "Daten einlesen",
     "file": {
-      "input-label": "Dokument auswählen oder in dieses Fenster ziehen",
-      "drop-zone-label": "Dokument hierhin ziehen",
       "columns-info": "Das Dokument muss folgende Spalten in der korrekten Reihenfolge beinhalten (die Spaltentitel und weitere Spalten werden ignoriert):",
       "next": "Daten validieren",
       "types": {
@@ -585,6 +583,10 @@
     "date-select": {
       "default-placeholder": "Datum wählen..."
     },
+    "file-input": {
+      "input-label": "Datei auswählen oder in dieses Fenster ziehen",
+      "drop-zone-label": "Datei hierhin ziehen"
+    },
     "daysDifference": {
       "today": "Heute",
       "tomorrow": "Morgen",
@@ -621,6 +623,20 @@
     },
     "typeahead": {
       "default-placeholder": "Suchen..."
+    },
+    "avatar-edit": {
+      "upload": "Foto hochladen",
+      "dialog": {
+        "title": "Foto hochladen",
+        "cancel": "Abbrechen",
+        "close": "Schliessen",
+        "next": "Weiter",
+        "save": "Speichern",
+        "crop": "Bitte passenden Ausschnitt wählen",
+        "saving": "Foto wird gespeichert...",
+        "load-error": "Beim Laden des Fotos ist ein Fehler aufgetreten.",
+        "upload-error": "Beim Speichern des Fotos ist ein Fehler aufgetreten."
+      }
     }
   },
   "kitchensink": {

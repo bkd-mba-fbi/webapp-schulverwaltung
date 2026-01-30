@@ -429,8 +429,6 @@
   "import": {
     "title": "Importer des données",
     "file": {
-      "input-label": "Sélectionner ou faire glisser un document dans cette fenêtre",
-      "drop-zone-label": "Faire glisser le document ici",
       "columns-info": "Le document doit contenir les colonnes suivantes dans le bon ordre (les titres de colonnes et les autres colonnes sont ignorés) :",
       "next": "Valider les données",
       "types": {
@@ -585,6 +583,10 @@
     "date-select": {
       "default-placeholder": "Sélectionner la date..."
     },
+    "file-input": {
+      "input-label": "Sélectionner ou faire glisser un fichier dans cette fenêtre",
+      "drop-zone-label": "Faire glisser le fichier ici"
+    },
     "daysDifference": {
       "today": "Ajourd'hui",
       "tomorrow": "Demain",
@@ -621,6 +623,20 @@
     },
     "typeahead": {
       "default-placeholder": "Rechercher..."
+    },
+    "avatar-edit": {
+      "upload": "Télécharger une photo",
+      "dialog": {
+        "title": "Télécharger une photo",
+        "cancel": "Annuler",
+        "close": "Fermer",
+        "next": "Suivant",
+        "save": "Enregistrer",
+        "crop": "Veuillez sélectionner la section appropriée",
+        "saving": "La photo est en cours d'enregistrement...",
+        "load-error": "Une erreur s'est produite lors du chargement de la photo.",
+        "upload-error": "Une erreur s'est produite lors de l'enregistrement de la photo."
+      }
     }
   },
   "kitchensink": {

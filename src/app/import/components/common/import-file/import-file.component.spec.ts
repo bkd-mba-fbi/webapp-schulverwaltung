@@ -107,24 +107,10 @@ describe("ImportFileComponent", () => {
   }));
 
   function uploadFile() {
-    // const files = [
-    //   new File([], "entries.xlsx", {
-    //     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    //   }),
-    // ];
-    // component.onFileInput({
-    //   item: (i: number) => files[i],
-    //   get length() {
-    //     return files.length;
-    //   },
-    // });
-
     const file = new File([], "entries.xlsx", {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file);
-    component.onFileInput(dataTransfer.files);
+    component.stateService.file.set(file);
   }
 
   function getUploadField(): HTMLInputElement {

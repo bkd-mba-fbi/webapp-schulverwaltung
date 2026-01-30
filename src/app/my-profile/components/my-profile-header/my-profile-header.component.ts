@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { toObservable } from "@angular/core/rxjs-interop";
 import { of, startWith, switchMap } from "rxjs";
-import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
+import { AvatarEditComponent } from "../../../shared/components/avatar-edit/avatar-edit.component";
 import { ReportsLinkComponent } from "../../../shared/components/reports-link/reports-link.component";
 import { Person } from "../../../shared/models/person.model";
 import { ReportsService } from "../../../shared/services/reports.service";
@@ -18,7 +18,7 @@ import { ReportsService } from "../../../shared/services/reports.service";
   templateUrl: "./my-profile-header.component.html",
   styleUrls: ["./my-profile-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AvatarComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
+  imports: [AvatarEditComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
 export class MyProfileHeaderComponent {
   private reportsService = inject(ReportsService);
