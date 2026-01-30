@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    {{ "shared.avatar-edit.dialog.title" | translate }}
+  </h5>
+</div>
+<div class="modal-body">
+  <p>
+    @switch (step()) {
+      @case ("choose") {
+        @let invalidFileError =
+          invalidFile()
+            ? ("shared.avatar-edit.dialog.invalid-file" | translate)
+            : null;
+        <bkd-file-input
+          [acceptedExtensions]="acceptedExtensions"
+          [error]="invalidFileError"
+          [(file)]="file"
+        ></bkd-file-input>
+      }
+      @case ("crop") {
+        @if (!error()) {
+          <p>{{ "shared.avatar-edit.dialog.crop" | translate }}:</p>
+          <div #cropElement></div>
+        } @else {
+          <div class="alert alert-danger">
+            {{ "shared.avatar-edit.dialog.load-error" | translate }}
+          </div>
+        }
+      }
+      @case ("uploading") {
+        @if (saving()) {
+          <p>{{ "shared.avatar-edit.dialog.saving" | translate }}</p>
+          <bkd-spinner class="inline"></bkd-spinner>
+        }
+        @if (error()) {
+          <div class="alert alert-danger">
+            {{ "shared.avatar-edit.dialog.upload-error" | translate }}
+          </div>
+        }
+      }
+    }
+  </p>
+</div>
+<div class="modal-footer">
+  <button
+    data-testid="cancel-button"
+    type="button"
+    class="btn btn-outline-secondary"
+    [disabled]="!canCancel()"
+    (click)="activeModal.dismiss()"
+  >
+    {{ cancelLabel() }}
+  </button>
+
+  @if (step() !== "uploading") {
+    <button
+      data-testid="confirm-button"
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!canProceed()"
+      (click)="proceed()"
+    >
+      {{ proceedLabel() }}
+    </button>
+  }
+</div>

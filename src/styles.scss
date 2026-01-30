@@ -25,5 +25,8 @@
 // ng-select default theme improvements
 @import "src/app/shared/styles/multiselect";
 
+// Import cropt CSS
+@import "cropt/src/cropt.css";
+
 // Custom styles
 @import "styles-tooltips";

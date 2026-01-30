@@ -46,6 +46,7 @@
     "@ngx-translate/http-loader": "17.0.0",
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.8",
+    "cropt": "^1.0.2",
     "date-fns": "4.1.0",
     "fp-ts": "2.16.11",
     "io-ts": "2.2.22",

@@ -1,14 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  OnDestroy,
   computed,
   effect,
   inject,
   signal,
-  viewChild,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -16,6 +12,7 @@ import {
   ButtonGroupComponent,
   ButtonGroupOption,
 } from "src/app/shared/components/button-group/button-group.component";
+import { FileInputComponent } from "src/app/shared/components/file-input/file-input.component";
 import { UnreachableError } from "src/app/shared/utils/error";
 import {
   MissingColumnsError,
@@ -31,12 +28,17 @@ import { ImportFileSubscriptionDetailsService } from "../../../services/subscrip
 
 @Component({
   selector: "bkd-import-file",
-  imports: [TranslatePipe, RouterLink, ButtonGroupComponent],
+  imports: [
+    TranslatePipe,
+    RouterLink,
+    ButtonGroupComponent,
+    FileInputComponent,
+  ],
   templateUrl: "./import-file.component.html",
   styleUrl: "./import-file.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportFileComponent implements OnDestroy, AfterViewInit {
+export class ImportFileComponent {
   private translate = inject(TranslateService);
   private fileSubscriptionDetailsService = inject(
     ImportFileSubscriptionDetailsService,
@@ -87,12 +89,6 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
     return this.translate.instant(key, params);
   });
 
-  dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
-  private dragCount = 0;
-
-  private fileInput =
-    viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
-
   constructor() {
     // Reset state when visiting this page
     this.stateService.file.set(null);
@@ -110,48 +106,5 @@ export class ImportFileComponent implements OnDestroy, AfterViewInit {
           });
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    document.addEventListener("dragenter", this.onDragEnter);
-    document.addEventListener("dragleave", this.onDragLeave);
-  }
-
-  ngOnDestroy(): void {
-    document.removeEventListener("dragenter", this.onDragEnter);
-    document.removeEventListener("dragleave", this.onDragLeave);
-  }
-
-  onFileInput(files: FileList | null): void {
-    this.stateService.file.set(files?.item(0) ?? null);
-  }
-
-  onDragEnter = () => {
-    this.dragCount += 1;
-    if (this.dragCount === 1) {
-      this.dragging.set(true);
-    }
-  };
-
-  onDragLeave = () => {
-    this.dragCount -= 1;
-    if (this.dragCount === 0) {
-      this.dragging.set(false);
-    }
-  };
-
-  onFileDrag(event: DragEvent): void {
-    event.preventDefault();
-  }
-
-  onFileDrop(event: DragEvent): void {
-    event.preventDefault();
-
-    this.dragCount = 0;
-    this.dragging.set(false);
-
-    const input = this.fileInput().nativeElement;
-    input.files = event.dataTransfer?.files ?? null;
-    input.dispatchEvent(new Event("change"));
   }
 }
