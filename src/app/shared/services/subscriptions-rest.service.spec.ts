@@ -15,36 +15,6 @@ describe("SubscriptionsRestService", () => {
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
-  describe(".getIdSubscriptionsByStudentAndCourse", () => {
-    it("should get list of IdSubscriptions for a students and its courses", () => {
-      const personId = 1;
-      const courseIds = [11, 12, 13];
-      const data: ReadonlyArray<Subscription> = [
-        buildSubscription(1, 11, personId),
-        buildSubscription(2, 12, personId),
-      ];
-
-      const expectedUrl = `https://eventotest.api/Subscriptions/?filter.PersonId==1&filter.EventId=;11,12,13`;
-
-      let result: ReadonlyArray<number> | undefined;
-      service
-        .getSubscriptionIdsByStudentAndCourse(personId, courseIds)
-        .subscribe((response) => {
-          result = response;
-        });
-
-      httpTestingController
-        .expectOne(
-          ({ urlWithParams }) => urlWithParams === expectedUrl,
-          expectedUrl,
-        )
-        .flush(data);
-
-      httpTestingController.verify();
-      expect(result).toEqual(data.map((s) => s.Id));
-    });
-  });
-
   describe(".getSubscriptionsByCourse", () => {
     it("should get list of Subscriptions for a course", () => {
       const courseId = 9704;
