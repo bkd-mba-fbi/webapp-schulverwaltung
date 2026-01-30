@@ -1,8 +1,8 @@
 <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
 <a
   class="avatar"
-  [class.disabled]="!link"
-  [routerLink]="link"
-  [queryParams]="linkParams"
-  [ngStyle]="avatarStyles"
+  [class.disabled]="!link()"
+  [routerLink]="link()"
+  [queryParams]="linkParams()"
+  [ngStyle]="avatarStyles()"
 ></a>
