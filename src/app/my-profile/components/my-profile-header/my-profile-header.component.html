@@ -7,7 +7,10 @@
         [studentId]="personValue.Id"
         class="me-3 avatar large"
       ></bkd-avatar>
-      <bkd-avatar-edit [studentId]="personValue.Id"></bkd-avatar-edit>
+      <bkd-avatar-edit
+        [studentId]="personValue.Id"
+        class="me-3 avatar"
+      ></bkd-avatar-edit>
       <div class="person">
         {{ personValue.LastName }} {{ personValue.FirstName }}
         {{ personValue.MiddleName }}

@@ -1,1 +1,6 @@
-<img [src]="avatarDataUri() ?? avatarPlaceholderUrl" alt="Avatar" />
+@if (!avatarDataUri()) {
+  <button class="edit-button btn btn-primary btn-icon">
+    <i class="material-icons">add_a_photo</i>
+  </button>
+  <div class="edit-label mt-2">Foto hochladen</div>
+}
