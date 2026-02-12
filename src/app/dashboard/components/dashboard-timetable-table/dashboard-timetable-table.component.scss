@@ -4,81 +4,64 @@
 td,
 th {
   padding: 1rem 1.75rem;
+  border-bottom: 0;
+}
+
+tbody {
+  border-bottom: 1px solid $table-border-color;
+
+  tr:not(.group-border) td {
+    padding-top: 0;
+  }
+}
+
+.group-border {
+  border-top: 1px solid $table-border-color;
 }
 
 // Hide elements only used on smaller devices
 .room-label,
-td.study-class {
+.study-class {
   display: none;
+}
+
+.subject-study-class {
+  font-size: $font-size-sm;
 }
 
 // Switch to compact layout on smaller devices
 @include media-breakpoint-down(md) {
-  table {
-    thead {
-      display: none;
-    }
-
-    tbody {
-      border-top: 1px solid $table-border-color;
-
-      tr {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-          "time room"
-          "subject subject"
-          "study-class study-class"
-          "teacher teacher";
-        gap: 0.5 * $spacer;
-        padding: 1rem;
-        border-bottom: 1px solid $table-border-color;
-      }
-
-      td {
-        border-bottom: 0;
-        padding: 0;
-      }
-
-      td.time {
-        grid-area: time;
-        font-size: calc(14 / 16 * $font-size-base);
-        line-height: calc(18 / 16 * $font-size-base);
-        font-weight: 300;
-      }
-
-      td.subject {
-        grid-area: subject;
-        font-size: 1rem;
-        line-height: 1.25rem;
-        font-weight: 400;
-      }
-
-      td.teacher {
-        grid-area: teacher;
-        font-size: calc(13 / 16 * $font-size-base);
-        line-height: calc(17 / 16 * $font-size-base);
-        font-weight: 300;
-      }
-
-      td.room {
-        grid-area: room;
-        text-align: right;
-        font-size: calc(14 / 16 * $font-size-base);
-        line-height: calc(18 / 16 * $font-size-base);
-        font-weight: 300;
-      }
-
-      td.study-class {
-        grid-area: study-class;
-        font-size: calc(13 / 16 * $font-size-base);
-        line-height: calc(17 / 16 * $font-size-base);
-        font-weight: 300;
-      }
-    }
+  thead {
+    display: none;
   }
 
-  td.study-class {
+  tbody tr {
+    display: grid;
+    row-gap: 0.5 * $spacer;
+    padding: 1rem;
+  }
+
+  td {
+    border-bottom: 0;
+    padding: 0;
+    font-size: calc(13 / 16 * $font-size-base);
+    line-height: calc(13 / 16 * $font-size-base);
+    font-weight: 300;
+  }
+
+  td.time {
+    font-size: calc(14 / 16 * $font-size-base);
+    line-height: calc(18 / 16 * $font-size-base);
+    padding-bottom: $spacer;
+  }
+
+  td.subject {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .study-class {
     display: block;
   }
 
