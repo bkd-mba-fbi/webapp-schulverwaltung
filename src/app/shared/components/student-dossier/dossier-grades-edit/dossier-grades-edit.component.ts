@@ -24,7 +24,7 @@ import {
   TestResultGradeUpdate,
   TestResultPointsUpdate,
 } from "src/app/events/services/test-state.service";
-import { maxPoints } from "src/app/events/utils/tests";
+import { maxPoints, resultOfStudent } from "src/app/events/utils/tests";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
@@ -80,6 +80,7 @@ export class DossierGradesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.maxPoints = maxPoints(this.test);
+    this.updatedTestResult = resultOfStudent(this.studentId, this.test) ?? null;
     this.pointsInput = new UntypedFormControl(
       { value: this.points, disabled: false },
       [
