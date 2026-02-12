@@ -1,1 +1,0 @@
-function o(n){return n!==0}function e(n){return n!==null}function u(n){return typeof n=="string"&&n.length>0}function i(n){return t=>!n(t)}function f(n){return t=>t.length>=n}function c(n){return!!n}function p(n){return t=>t instanceof n}function x(n,t,r){return r.indexOf(n)===t}export{o as a,e as b,u as c,i as d,f as e,c as f,p as g,x as h};
