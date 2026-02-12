@@ -7,8 +7,7 @@ th {
 }
 
 // Hide elements only used on smaller devices
-.room-label,
-td.study-class {
+.room-label {
   display: none;
 }
 
@@ -26,7 +25,8 @@ td.study-class {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
-          "time room"
+          "time time"
+          "room room"
           "subject subject"
           "study-class study-class"
           "teacher teacher";
@@ -63,7 +63,6 @@ td.study-class {
 
       td.room {
         grid-area: room;
-        text-align: right;
         font-size: calc(14 / 16 * $font-size-base);
         line-height: calc(18 / 16 * $font-size-base);
         font-weight: 300;

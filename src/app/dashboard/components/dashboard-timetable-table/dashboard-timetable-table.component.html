@@ -16,46 +16,38 @@
     </thead>
     <tbody>
       @for (group of entries; track group) {
-        <tr>
-          <td class="time">
-            {{ group.from | date: "HH:mm" }}–{{ group.until | date: "HH:mm" }}
-          </td>
-          <td class="subject">
-            @for (entry of group.entries; track entry.id) {
+        @for (entry of group.entries; track entry.id) {
+          <tr>
+            @if (entry.id === group.entries[0].id) {
+              <td class="time" [attr.rowspan]="group.entries.length">
+                {{ group.from | date: "HH:mm" }}–{{
+                  group.until | date: "HH:mm"
+                }}
+              </td>
+            }
+            <td class="subject">
               @if (isTeacher$ | async) {
                 @let link = buildLink(entry.eventId);
                 <a [routerLink]="link.link" [queryParams]="link.params">
-                  {{ entry.subject
-                  }}<span class="subject-study-class"
-                    >, {{ entry.studyClass }}</span
-                  >
+                  {{ entry.subject }}
                 </a>
               } @else {
                 {{ entry.subject }}
               }
-              <br />
-            }
-          </td>
-          @if (isTeacher$ | async) {
-            <td class="study-class">
-              <!-- Only visible on mobile, styled via grid (not a column) -->
-              @for (entry of group.entries; track entry.id) {
-                {{ "dashboard.timetable.table.study-class" | translate }}:
-                {{ entry.studyClass }}
-                <br />
+              @if (isTeacher$ | async) {
+                <div class="study-class">
+                  {{ "dashboard.timetable.table.study-class" | translate }}:
+                  {{ entry.studyClass }}
+                </div>
               }
             </td>
-          }
-          @if (isStudent$ | async) {
-            <td class="teacher">
-              @for (entry of group.entries; track entry.id) {
+            @if (isStudent$ | async) {
+              <td class="teacher">
                 {{ entry.teacher }}
                 <br />
-              }
-            </td>
-          }
-          <td class="room">
-            @for (entry of group.entries; track entry.id) {
+              </td>
+            }
+            <td class="room">
               @if (entry.room) {
                 <span class="room-label">{{
                   "dashboard.timetable.table.room" | translate
@@ -63,9 +55,9 @@
               }
               {{ entry.room }}
               <br />
-            }
-          </td>
-        </tr>
+            </td>
+          </tr>
+        }
       }
     </tbody>
   </table>
