@@ -39,13 +39,12 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
 
   getSubscriptionsByStudent(
     personId: number,
-    additionalParams?: Dict<string>,
   ): Observable<ReadonlyArray<Subscription>> {
     return this.http
       .get<unknown>(`${this.baseUrl}/`, {
         params: {
           "filter.PersonId": `=${personId}`,
-          ...additionalParams,
+          "filter.IsOkay": "=1",
         },
       })
       .pipe(switchMap(decodeArray(Subscription)));
