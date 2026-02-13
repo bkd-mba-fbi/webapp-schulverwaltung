@@ -103,14 +103,12 @@ export class MyGradesService {
     eventIds: ReadonlyArray<number>;
   }> {
     return this.loadingService.load(
-      this.subscriptionRestService
-        .getSubscriptionsByStudent(studentId, { "filter.IsOkay": "=1" })
-        .pipe(
-          map((subscriptions) => ({
-            subscriptionIds: subscriptions.map((s) => s.Id),
-            eventIds: subscriptions.map((s) => s.EventId).filter(notNull),
-          })),
-        ),
+      this.subscriptionRestService.getSubscriptionsByStudent(studentId).pipe(
+        map((subscriptions) => ({
+          subscriptionIds: subscriptions.map((s) => s.Id),
+          eventIds: subscriptions.map((s) => s.EventId).filter(notNull),
+        })),
+      ),
     );
   }
 }
