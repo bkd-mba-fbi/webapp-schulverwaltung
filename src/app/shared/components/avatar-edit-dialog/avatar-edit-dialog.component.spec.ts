@@ -89,7 +89,7 @@ describe("AvatarEditDialogComponent", () => {
     expect(component.canCancel()).toBe(true);
     expect(component.canProceed()).toBe(true);
 
-    // Proceed to "upload" step
+    // Proceed to "uploading" step
     expect(
       additionalInformationsServiceMock.uploadPhoto,
     ).not.toHaveBeenCalled();
