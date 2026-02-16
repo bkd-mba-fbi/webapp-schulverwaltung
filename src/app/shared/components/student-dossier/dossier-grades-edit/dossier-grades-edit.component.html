@@ -29,6 +29,12 @@
           }}
         </div>
       }
+      @if (isGreaterThanMaxPointsAdjusted(pointsInput.value)) {
+        <div class="max-points-adjusted-warning col-6 offset-6">
+          <i class="material-icons">info_outlined</i>
+          {{ "tests.greater-than-max-points-adjusted" | translate }}
+        </div>
+      }
     </div>
   }
   <div class="form-group row mt-2">

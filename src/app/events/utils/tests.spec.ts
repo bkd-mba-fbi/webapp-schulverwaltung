@@ -14,6 +14,7 @@ import {
   findResult,
   gradingScaleOfTest,
   maxPoints,
+  maxPointsAdjusted,
   removeTestById,
   replaceResult,
   resultOfStudent,
@@ -228,17 +229,49 @@ describe("Test utils", () => {
     });
   });
 
-  describe("maxPoints", () => {
-    it("should return max points adjusted", () => {
-      test.MaxPoints = 2;
-      test.MaxPointsAdjusted = 3;
-      expect(maxPoints(test)).toBe(3);
+  describe("toMaxPoints", () => {
+    it("returns MaxPoints for test without MaxPointsAdjusted", () => {
+      test.MaxPointsAdjusted = null;
+      test.MaxPoints = 20;
+
+      expect(maxPoints(test)).toBe(20);
     });
 
-    it("should return max points", () => {
-      test.MaxPoints = 2;
+    it("returns MaxPoints for test with MaxPointsAdjusted", () => {
+      test.MaxPointsAdjusted = 19;
+      test.MaxPoints = 20;
+
+      expect(maxPoints(test)).toBe(20);
+    });
+
+    it("returns 0 for test without MaxPoints or MaxPointsAdjusted", () => {
       test.MaxPointsAdjusted = null;
-      expect(maxPoints(test)).toBe(2);
+      test.MaxPoints = null;
+
+      expect(maxPoints(test)).toBe(0);
+    });
+  });
+
+  describe("toMaxPointsAdjusted", () => {
+    it("returns MaxPoints for test without MaxPointsAdjusted", () => {
+      test.MaxPointsAdjusted = null;
+      test.MaxPoints = 20;
+
+      expect(maxPointsAdjusted(test)).toBe(20);
+    });
+
+    it("returns MaxPointsAdjusted for test with MaxPointsAdjusted", () => {
+      test.MaxPointsAdjusted = 19;
+      test.MaxPoints = 20;
+
+      expect(maxPointsAdjusted(test)).toBe(19);
+    });
+
+    it("returns 0 for test without MaxPointsAdjusted or MaxPoints", () => {
+      test.MaxPointsAdjusted = null;
+      test.MaxPoints = null;
+
+      expect(maxPointsAdjusted(test)).toBe(0);
     });
   });
 

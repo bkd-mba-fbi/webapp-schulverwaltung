@@ -62,7 +62,11 @@ export function averagePoints(test: Test): number {
 }
 
 export function maxPoints(test: Test): number {
-  return test.MaxPointsAdjusted || test.MaxPoints!;
+  return test.MaxPoints ?? 0;
+}
+
+export function maxPointsAdjusted(test: Test): number {
+  return (test.MaxPointsAdjusted || test.MaxPoints) ?? 0;
 }
 
 export function averageGrade(test: Test): number {
