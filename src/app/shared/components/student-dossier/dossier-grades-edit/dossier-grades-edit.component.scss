@@ -1,0 +1,13 @@
+@import "../../../../../bootstrap-variables";
+
+.max-points-adjusted-warning {
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: $info-text-emphasis;
+
+  i {
+    display: inline-block;
+    vertical-align: middle;
+    width: 24px;
+  }
+}

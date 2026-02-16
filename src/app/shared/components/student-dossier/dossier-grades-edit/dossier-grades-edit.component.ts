@@ -24,7 +24,11 @@ import {
   TestResultGradeUpdate,
   TestResultPointsUpdate,
 } from "src/app/events/services/test-state.service";
-import { maxPoints, resultOfStudent } from "src/app/events/utils/tests";
+import {
+  maxPoints,
+  maxPointsAdjusted,
+  resultOfStudent,
+} from "src/app/events/utils/tests";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { Result, Test } from "src/app/shared/models/test.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
@@ -56,6 +60,7 @@ export class DossierGradesEditComponent implements OnInit {
 
   updatedTestResult: Option<Result>;
   maxPoints: number = 0;
+  maxPointsAdjusted: number = 0;
   pointsInput: UntypedFormControl;
 
   private gradeSubject$: Subject<Option<number>> = new Subject<
@@ -80,6 +85,7 @@ export class DossierGradesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.maxPoints = maxPoints(this.test);
+    this.maxPointsAdjusted = maxPointsAdjusted(this.test);
     this.updatedTestResult = resultOfStudent(this.studentId, this.test) ?? null;
     this.pointsInput = new UntypedFormControl(
       { value: this.points, disabled: false },
@@ -117,6 +123,15 @@ export class DossierGradesEditComponent implements OnInit {
   onPointsChange(points: string): void {
     this.pointsSubject$.next(points);
     this.gradingScaleDisabled$.next(points.length > 0);
+  }
+
+  isGreaterThanMaxPointsAdjusted(points: string): boolean {
+    const pointsValue = Number(points);
+    return (
+      this.maxPointsAdjusted > 0 &&
+      pointsValue > this.maxPointsAdjusted &&
+      pointsValue <= this.maxPoints
+    );
   }
 
   private updateTestResult(
