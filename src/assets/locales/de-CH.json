@@ -632,7 +632,8 @@
         "close": "Schliessen",
         "next": "Weiter",
         "save": "Speichern",
-        "crop": "Bitte passenden Ausschnitt wählen",
+        "unchangable": "Nach dem Speichern kann das Foto nicht mehr geändert werden. Bitte wenden Sie sich für Änderungen an das zuständige Schulsekretariat.",
+        "crop": "Wählen Sie den passenden Ausschnitt:",
         "saving": "Foto wird gespeichert...",
         "load-error": "Beim Laden des Fotos ist ein Fehler aufgetreten.",
         "upload-error": "Beim Speichern des Fotos ist ein Fehler aufgetreten."
