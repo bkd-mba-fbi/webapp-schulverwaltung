@@ -16,10 +16,19 @@
           [error]="invalidFileError"
           [(file)]="file"
         ></bkd-file-input>
+        <div
+          class="alert alert-warning mt-3 d-flex align-items-center"
+          role="alert"
+        >
+          <i class="material-icons flex-shrink-0 me-2">warning</i>
+          <div>
+            {{ "shared.avatar-edit.dialog.unchangable" | translate }}
+          </div>
+        </div>
       }
       @case ("crop") {
         @if (!error()) {
-          <p>{{ "shared.avatar-edit.dialog.crop" | translate }}:</p>
+          <p>{{ "shared.avatar-edit.dialog.crop" | translate }}</p>
           <div #cropElement></div>
         } @else {
           <div class="alert alert-danger">
@@ -33,8 +42,11 @@
           <bkd-spinner class="inline"></bkd-spinner>
         }
         @if (error()) {
-          <div class="alert alert-danger">
-            {{ "shared.avatar-edit.dialog.upload-error" | translate }}
+          <div class="alert alert-danger d-flex align-items-center">
+            <i class="material-icons flex-shrink-0 me-2">warning</i>
+            <div>
+              {{ "shared.avatar-edit.dialog.upload-error" | translate }}
+            </div>
           </div>
         }
       }
