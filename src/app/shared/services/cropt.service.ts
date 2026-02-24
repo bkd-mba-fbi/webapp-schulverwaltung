@@ -21,6 +21,42 @@ export class CroptService implements OnDestroy {
   private cropImageType = signal("image/jpeg");
   private cropImageQuality = signal(0.8);
 
+  private croptOptions = computed(() => ({
+    viewport: this.cropSize(),
+  }));
+  private cropt = linkedSignal<Option<HTMLElement>, Option<Cropt>>({
+    source: this.element,
+    computation: (element, previous) => {
+      previous?.value?.destroy();
+
+      if (!element) return null;
+
+      return new Cropt(element, this.croptOptions());
+    },
+  });
+
+  constructor() {
+    effect(() => {
+      const image = this.image();
+      if (!image) return;
+
+      const objectUrl = URL.createObjectURL(image);
+      void (async () => {
+        try {
+          await this.cropt()?.bind(objectUrl);
+          this.cropt()?.setZoom(0);
+        } catch (error) {
+          console.error("Error binding image for cropping", error);
+          this.error.set(error);
+        }
+      })();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.cropt()?.destroy();
+  }
+
   configure(
     options: Partial<{
       cropSize: { width: number; height: number };
@@ -75,40 +111,5 @@ export class CroptService implements OnDestroy {
     return new File([blob], filename, {
       type: this.cropImageType(),
     });
-  }
-
-  private croptOptions = computed(() => ({
-    viewport: this.cropSize(),
-  }));
-  private cropt = linkedSignal<Option<HTMLElement>, Option<Cropt>>({
-    source: this.element,
-    computation: (element, previous) => {
-      previous?.value?.destroy();
-
-      if (!element) return null;
-
-      return new Cropt(element, this.croptOptions());
-    },
-  });
-
-  constructor() {
-    effect(() => {
-      const image = this.image();
-      if (!image) return;
-
-      const objectUrl = URL.createObjectURL(image);
-      void (async () => {
-        try {
-          await this.cropt()?.bind(objectUrl);
-        } catch (error) {
-          console.error("Error binding image for cropping", error);
-          this.error.set(error);
-        }
-      })();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.cropt()?.destroy();
   }
 }
