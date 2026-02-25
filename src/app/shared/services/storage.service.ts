@@ -37,7 +37,7 @@ export class StorageService {
         ? payload.holder_roles
         : payload.roles;
     payload.id_person =
-      "holder_id" in payload && typeof payload.holder_id === "number"
+      "holder_id" in payload && typeof payload.holder_id === "string"
         ? payload.holder_id
         : payload.id_person;
     return payload;
