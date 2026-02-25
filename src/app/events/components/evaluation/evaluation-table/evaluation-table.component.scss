@@ -84,6 +84,18 @@ button.criteria-toggle {
   padding-right: $spacer;
 }
 
+.verify-link {
+  text-decoration: none;
+
+  span {
+    text-decoration: underline;
+  }
+
+  span:hover {
+    text-decoration-color: $accent;
+  }
+}
+
 // Desktop view
 @media (min-width: ($bkd-tests-mobile-breakpoint + 1)) {
   .table-responsive-wrapper {

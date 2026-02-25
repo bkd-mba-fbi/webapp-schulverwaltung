@@ -358,6 +358,7 @@
     "no-items": "Keine Einträge vorhanden",
     "no-evaluation": "Der Anlass kann nicht bewertet werden, da weder eine Notenskala noch andere Bewertungskriterien vorhanden sind.",
     "review-started": "Die Bewertung wurde bereits abgeschlossen.",
+    "continue-to-verify": "Weiter zur Kontrolle",
     "finalise": "Bewertung abschliessen",
     "finalise-modal": {
       "title": "Bewertung abschliessen",
@@ -401,6 +402,11 @@
       "amount": "Anzahl",
       "sufficient": "Genügend",
       "unsufficient": "Ungenügend"
+    },
+    "verify": {
+      "open-evaluations": "Es sind offene Bewertungen vorhanden.",
+      "info": "Bitte prüfen Sie die Daten und speichern Sie den Report, bevor Sie die Bewertung abschliessen.",
+      "pdf-fallback": "Dieser Browser unterstützt keine eingebetteten PDFs. Bitte benutzen Sie den Button zum Herunterladen."
     }
   },
   "dossier": {

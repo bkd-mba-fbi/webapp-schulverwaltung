@@ -42,6 +42,7 @@ export const settings: Settings = {
   testsBySubscriptionStudentReports: [{ type: "crystal", id: 290043 }],
   testsBySubscriptionTeacherReports: [{ type: "crystal", id: 290042 }],
   evaluationReports: [{ type: "crystal", id: 290045 }],
+  evaluationVerifyReport: { type: "crystal", id: 290045 },
   studyClassStudentsReports: [
     { type: "crystal", id: 290049 },
     { type: "crystal", id: 290044 },

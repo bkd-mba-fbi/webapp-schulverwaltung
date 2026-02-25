@@ -38,11 +38,11 @@ export class PortalService {
   /**
    * Select an element within the <bkd-portal>'s shadow DOM.
    */
-  querySelector(selector: string): Option<Element> {
+  querySelector<E extends Element = Element>(selector: string): Option<E> {
     return (
       this.window?.document
         ?.querySelector("bkd-portal")
-        ?.shadowRoot?.querySelector(selector) ?? null
+        ?.shadowRoot?.querySelector<E>(selector) ?? null
     );
   }
 
@@ -68,5 +68,25 @@ export class PortalService {
   getIFrameBottom(): number {
     const iframe = this.getIframeElement();
     return iframe ? iframe.offsetTop + iframe.offsetHeight : 0;
+  }
+
+  /**
+   * Returns the available height of the viewport for the iframe (excluding
+   * header & footer). Use this value for static layouts that should use the
+   * full viewport.
+   */
+  getAvailableViewportHeight(): number {
+    return Math.max(
+      this.getViewportHeight() - this.getIframeTop() - this.getFooterHeight(),
+      0,
+    );
+  }
+
+  private getViewportHeight(): number {
+    return this.document?.offsetHeight ?? 0;
+  }
+
+  private getFooterHeight(): number {
+    return this.querySelector<HTMLElement>("bkd-footer")?.offsetHeight ?? 0;
   }
 }

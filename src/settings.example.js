@@ -100,6 +100,9 @@ window.schulverwaltung.settings = {
   // Report "Auswertung der Bewertung"
   evaluationReports: [{ type: "crystal", id: 290045 }],
 
+  // Report displayed inline on the "verify" screen
+  evaluationVerifyReport: { type: "crystal", context: "Anlass", id: 290045 },
+
   /**
    * Reports including the students of a study class (used in events/students)
    */

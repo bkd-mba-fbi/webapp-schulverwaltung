@@ -1,3 +1,4 @@
+import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +7,7 @@ import {
   input,
   signal,
 } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { distinctUntilChanged, map, of, startWith, switchMap } from "rxjs";
@@ -20,7 +21,13 @@ import { ReportsLinkComponent } from "../../../../shared/components/reports-link
 
 @Component({
   selector: "bkd-evaluation-header",
-  imports: [BacklinkComponent, TranslatePipe, ReportsLinkComponent, RouterLink],
+  imports: [
+    BacklinkComponent,
+    TranslatePipe,
+    ReportsLinkComponent,
+    RouterLink,
+    AsyncPipe,
+  ],
   templateUrl: "./evaluation-header.component.html",
   styleUrl: "./evaluation-header.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,15 +47,13 @@ export class EvaluationHeaderComponent {
     this.route.snapshot.queryParamMap.get("returnlink"),
   );
 
-  reports = toSignal(
-    toObservable(this.event).pipe(
-      map((event) => event.id),
-      distinctUntilChanged(),
-      switchMap((eventId) =>
-        eventId ? this.reportsService.getEvaluationReports(eventId) : of([]),
-      ),
-      startWith([]),
+  reports$ = toObservable(this.event).pipe(
+    map((event) => event.id),
+    distinctUntilChanged(),
+    switchMap((eventId) =>
+      eventId ? this.reportsService.getEvaluationReports(eventId) : of([]),
     ),
+    startWith([]),
   );
 
   returnlink = computed(() => {

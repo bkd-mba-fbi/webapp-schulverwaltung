@@ -12,7 +12,16 @@ import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Params } from "@angular/router";
 import sortBy from "lodash-es/sortBy";
 import uniqBy from "lodash-es/uniqBy";
-import { Observable, combineLatest, map, of, startWith, switchMap } from "rxjs";
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  map,
+  merge,
+  of,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { SortCriteria } from "src/app/shared/components/sortable-header/sortable-header.component";
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
 import { SubscriptionDetailsDisplay } from "src/app/shared/models/configurations.model";
@@ -84,13 +93,17 @@ export class EvaluationStateService {
   private configurationsService = inject(ConfigurationsRestService);
   private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
 
-  private eventId$ =
-    (this.route.parent?.params ?? of({} as Params)).pipe(
-      map((params) => {
-        const eventId = params["id"];
-        return eventId ? Number(eventId) : null;
-      }),
-    ) ?? of(null);
+  private eventIdParam$ = (this.route.parent?.params ?? of({} as Params)).pipe(
+    map((params) => {
+      const eventId = params["id"];
+      return eventId ? Number(eventId) : null;
+    }),
+  );
+  private reload$ = new Subject<void>();
+  private eventId$ = merge(
+    this.eventIdParam$,
+    this.reload$.pipe(switchMap(() => this.eventIdParam$)),
+  );
 
   ///// Public signals /////
 
@@ -112,6 +125,7 @@ export class EvaluationStateService {
       this.event()?.hasReviewOfEvaluationStarted &&
       !this.event()?.hasEvaluationStarted,
   );
+
   /**
    * The course or study class.
    */
@@ -233,6 +247,10 @@ export class EvaluationStateService {
   );
 
   ///// Public methods /////
+
+  reload() {
+    this.reload$.next();
+  }
 
   updateGradingItems(gradingItems: ReadonlyArray<GradingItem>) {
     this.gradingItems.set(gradingItems);

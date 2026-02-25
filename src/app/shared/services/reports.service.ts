@@ -6,7 +6,6 @@ import { map, switchMap } from "rxjs/operators";
 import { Report, ReportType, SETTINGS, Settings } from "src/app/settings";
 import { AvailableReports } from "../models/report.model";
 import { decode } from "../utils/decode";
-import { StorageService } from "./storage.service";
 
 export type ReportInfo = Report & { title: string; url: string };
 
@@ -37,7 +36,6 @@ export type ReportInfo = Report & { title: string; url: string };
 })
 export class ReportsService {
   private settings = inject<Settings>(SETTINGS);
-  private storageService = inject(StorageService);
   private http = inject(HttpClient);
 
   /**
@@ -124,6 +122,11 @@ export class ReportsService {
     return this.getAvailableReports("Anlass", this.settings.evaluationReports, [
       eventId,
     ]);
+  }
+
+  getEvaluationVerifyReportUrl(eventId: number): string {
+    const { type, id } = this.settings.evaluationVerifyReport;
+    return this.getReportUrl(type, "Anlass", id, [eventId]);
   }
 
   /**

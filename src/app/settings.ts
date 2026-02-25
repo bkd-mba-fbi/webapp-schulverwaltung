@@ -52,6 +52,7 @@ const Settings = t.type({
   testsBySubscriptionStudentReports: t.array(Report),
   testsBySubscriptionTeacherReports: t.array(Report),
   evaluationReports: t.array(Report),
+  evaluationVerifyReport: Report,
   studyClassStudentsReports: t.array(Report),
   courseStudentsReports: t.array(Report),
   subscriptionDetailGroupId: t.number,

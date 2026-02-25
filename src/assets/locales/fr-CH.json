@@ -358,6 +358,7 @@
     "no-items": "Aucune donnée disponible",
     "no-evaluation": "L'événement ne peut pas être évalué car il n'existe pas d'échelle de notes ni d'autres critères d'évaluation.",
     "review-started": "L'évaluation est déjà terminée.",
+    "continue-to-verify": "Procéder au contrôle",
     "finalise": "Terminer l'évaluation",
     "finalise-modal": {
       "title": "Terminer l’évaluation",
@@ -401,6 +402,11 @@
       "amount": "Nombre",
       "sufficient": "Suffisante",
       "unsufficient": "Insuffisante"
+    },
+    "verify": {
+      "open-evaluations": "Des évaluations sont en suspens.",
+      "info": "euillez vérifier les données et enregistrer le rapport avant de terminer l'évaluation.",
+      "pdf-fallback": "Ce navigateur ne prend pas en charge les fichiers PDF intégrés. Veuillez utiliser le bouton pour télécharger le fichier."
     }
   },
   "dossier": {
