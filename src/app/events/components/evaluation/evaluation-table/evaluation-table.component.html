@@ -145,13 +145,13 @@
     class="action-buttons"
     [class.mobile-finalise-visible]="gradeColumnSelected() || !hasGrades()"
   >
-    <button
-      class="btn btn-primary"
-      type="button"
-      [disabled]="hasPendingRequests()"
-      (click)="openFinaliseEvaluationDialog()"
+    <a
+      class="verify-link d-flex"
+      [routerLink]="['./verify']"
+      [queryParams]="{ returnlink: returnLink() }"
     >
-      {{ "evaluation.finalise" | translate }}
-    </button>
+      <i class="material-icons fw-bold me-1">arrow_right_alt</i>
+      <span>{{ "evaluation.continue-to-verify" | translate }}</span>
+    </a>
   </div>
 </div>

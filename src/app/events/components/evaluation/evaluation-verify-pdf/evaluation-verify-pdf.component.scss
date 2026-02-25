@@ -1,0 +1,35 @@
+@import "../../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  flex: none;
+  display: flex;
+  gap: $spacer / 2;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: $spacer;
+  margin-bottom: $spacer;
+}
+
+.actions-slot {
+  flex: auto;
+}
+
+#evaluation-verify-pdf {
+  flex: auto;
+}
+
+#evaluation-verify-pdf.hidden {
+  display: none;
+}
+
+// Mobile view
+@media (max-width: $bkd-evaluation-mobile-breakpoint) {
+  .actions {
+    flex-wrap: wrap;
+  }
+}

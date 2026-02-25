@@ -1,0 +1,12 @@
+@import "../../../../../bootstrap-variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $spacer;
+}

@@ -3,6 +3,7 @@ import { dossierRoute } from "../shared/components/student-dossier/dossier-route
 import { EventsComponent } from "./components/common/events/events.component";
 import { EvaluationListComponent } from "./components/evaluation/evaluation-list/evaluation-list.component";
 import { EvaluationStatisticComponent } from "./components/evaluation/evaluation-statistic/evaluation-statistic.component";
+import { EvaluationVerifyComponent } from "./components/evaluation/evaluation-verify/evaluation-verify.component";
 import { EvaluationComponent } from "./components/evaluation/evaluation/evaluation.component";
 import { EventsStudentsListComponent } from "./components/students/events-students-list/events-students-list.component";
 import { EventsStudentsStudyCourseDetailComponent } from "./components/students/events-students-study-course-detail/events-students-study-course-detail.component";
@@ -85,7 +86,7 @@ export const EVENTS_ROUTES: Routes = [
             children: [
               {
                 // /events/:id/evaluation
-                // → Event detail with grades & abences
+                // → Event detail with grades & absences
                 path: "",
                 component: EvaluationListComponent,
               },
@@ -93,6 +94,11 @@ export const EVENTS_ROUTES: Routes = [
                 // /events/:id/evaluation/statistic
                 path: "statistic",
                 component: EvaluationStatisticComponent,
+              },
+              {
+                // /events/:id/evaluation/verify
+                path: "verify",
+                component: EvaluationVerifyComponent,
               },
               dossierRoute,
             ],
