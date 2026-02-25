@@ -105,5 +105,16 @@ describe("StorageService", () => {
       const tokenPayload = { ...buildPayLoad(), fullname: "Leitung Anaïs" };
       expect(service.getPayload()).toEqual(tokenPayload);
     });
+
+    it("returns payload of login CLX.LoginToken with holder_id", () => {
+      localStoreMock["CLX.LoginToken"] =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsImhvbGRlcl9pZCI6IjEyMzQiLCJzdWJzdGl0dXRpb25faWQiOm51bGx9.24_LCWmHXaaAUUk2SllliVSWR8SkaHsNp3FGflsQboU";
+      const tokenPayload = {
+        ...buildPayLoad(),
+        holder_id: "1234",
+        id_person: "1234",
+      };
+      expect(service.getPayload()).toEqual(tokenPayload);
+    });
   });
 });
