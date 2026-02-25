@@ -49,7 +49,14 @@ export class DashboardService {
   private storageService = inject(StorageService);
   private settings = inject<Settings>(SETTINGS);
 
-  private rolesAndPermissions$ = this.settingsService.getRolesAndPermissions();
+  private rolesAndPermissions$ = (this.storageService.getPayload()?.holder_id
+    ? of(
+        this.storageService
+          .getPayload()!
+          .roles.split(";") as ReadonlyArray<string>,
+      )
+    : this.settingsService.getRolesAndPermissions()
+  ).pipe(shareReplay(1));
   userId$ = new ReplaySubject<number>(1);
   private lessonAbsences$ = this.userId$.pipe(
     switchMap((id) => this.studentsService.getLessonAbsences(id)),
