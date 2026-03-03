@@ -358,6 +358,6 @@ export class PresenceControlStateService
 
   private getMyself(): number {
     const token = this.storageService.getPayload();
-    return Number(token?.holder_id || token?.id_person);
+    return Number(token?.id_person);
   }
 }
