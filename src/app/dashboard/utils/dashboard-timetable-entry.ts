@@ -60,7 +60,7 @@ export function convertTimetableEntry(
     // Fetched separately (workaround), see `DashboardTimetableComponent.fetchTimetableEntries`
     // studyClass: (entry.EventNumber.match(/[-_]([^-_]+)$/) ?? [])[1], // The last part of the EventNumber is the study class (e.g. "3-1-E-S3-GYMweb25-26b", the class is "26b")
 
-    room: entry.EventLocation || undefined,
+    room: entry.Rooms?.map((room) => room.Designation).join(", ") || undefined,
     teacher: entry.EventManagerInformation || undefined,
   };
 }

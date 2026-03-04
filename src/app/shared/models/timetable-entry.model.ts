@@ -21,6 +21,7 @@ const TimetableEntry = t.type({
   // LessonTeacherFirstname: t.string,
   // RoomId: t.number,
   // Room: t.string,
+  Rooms: Maybe(t.array(t.type({ Id: t.number, Designation: t.string }))),
   // HRef: Option(t.string),
 });
 type TimetableEntry = t.TypeOf<typeof TimetableEntry>;
