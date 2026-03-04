@@ -132,6 +132,7 @@ describe("DashboardTimetableComponent", () => {
       entry1.EventDesignation = "Mathematik";
       entry1.EventManagerInformation = "Leonhard Euler";
       entry1.EventLocation = "109";
+      entry1.Rooms = [{ Id: 109, Designation: "109" }];
 
       const entry2 = buildTimetableEntry(
         2,
@@ -143,6 +144,7 @@ describe("DashboardTimetableComponent", () => {
       entry2.EventDesignation = "Zeichnen";
       entry2.EventManagerInformation = "Pablo Picasso";
       entry2.EventLocation = "502";
+      entry2.Rooms = [{ Id: 502, Designation: "502" }];
 
       teachersServiceMock.getTimetableEntries.and.returnValue(
         of([entry1, entry2]),
@@ -174,7 +176,7 @@ describe("DashboardTimetableComponent", () => {
       );
 
       let link = rows[0].querySelector("td.subject a");
-      expect(link?.textContent?.trim()).toBe("Mathematik, 9a");
+      expect(link?.textContent?.trim()).toBe("Mathematik");
       expect(link?.getAttribute("href")).toBe(
         "/dashboard/students/10?returnlink=%252Fdashboard",
       );
@@ -194,7 +196,7 @@ describe("DashboardTimetableComponent", () => {
       );
 
       link = rows[1].querySelector("td.subject a");
-      expect(link?.textContent?.trim()).toBe("Zeichnen, 8c");
+      expect(link?.textContent?.trim()).toBe("Zeichnen");
       expect(link?.getAttribute("href")).toBe(
         "/dashboard/students/20?returnlink=%252Fdashboard",
       );
@@ -293,6 +295,7 @@ describe("DashboardTimetableComponent", () => {
       entry1.EventDesignation = "Mathematik";
       entry1.EventManagerInformation = "Leonhard Euler";
       entry1.EventLocation = "109";
+      entry1.Rooms = [{ Id: 109, Designation: "109" }];
 
       const entry2 = buildTimetableEntry(
         2,
@@ -303,6 +306,7 @@ describe("DashboardTimetableComponent", () => {
       entry2.EventDesignation = "Zeichnen";
       entry2.EventManagerInformation = "Pablo Picasso";
       entry2.EventLocation = "502";
+      entry2.Rooms = [{ Id: 502, Designation: "502" }];
 
       studentsServiceMock.getTimetableEntries.and.returnValue(
         of([entry1, entry2]),

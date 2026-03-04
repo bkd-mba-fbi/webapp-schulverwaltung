@@ -697,6 +697,7 @@ export function buildTimetableEntry(
     EventDesignation: "",
     EventManagerInformation: "",
     EventLocation: "",
+    Rooms: undefined,
   };
 }
 
