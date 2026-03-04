@@ -632,7 +632,8 @@
         "close": "Fermer",
         "next": "Suivant",
         "save": "Enregistrer",
-        "crop": "Veuillez sélectionner la section appropriée",
+        "unchangable": "Une fois enregistrée, la photo ne peut plus être modifiée. Pour toute modification, veuillez contacter le secrétariat de l'école.",
+        "crop": "Veuillez sélectionner la zone précise :",
         "saving": "La photo est en cours d'enregistrement...",
         "load-error": "Une erreur s'est produite lors du chargement de la photo.",
         "upload-error": "Une erreur s'est produite lors de l'enregistrement de la photo."
