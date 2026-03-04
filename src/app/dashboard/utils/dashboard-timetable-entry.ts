@@ -22,7 +22,7 @@ export type DashboardTimetableEntryGroup = {
 export function groupTimetableEntries(
   entries: ReadonlyArray<DashboardTimetableEntry>,
 ): ReadonlyArray<DashboardTimetableEntryGroup> {
-  return entries.reduce<ReadonlyArray<DashboardTimetableEntryGroup>>(
+  const groups = entries.reduce<ReadonlyArray<DashboardTimetableEntryGroup>>(
     (acc, entry) => {
       const existingGroup = acc.find(
         (group) =>
@@ -45,6 +45,16 @@ export function groupTimetableEntries(
     },
     [],
   );
+  return sortByStudyClass(groups);
+}
+
+function sortByStudyClass(groups: ReadonlyArray<DashboardTimetableEntryGroup>) {
+  return groups.map((group) => ({
+    ...group,
+    entries: [...group.entries].sort((a, b) =>
+      (a.studyClass ?? "").localeCompare(b.studyClass ?? ""),
+    ),
+  }));
 }
 
 export function convertTimetableEntry(
