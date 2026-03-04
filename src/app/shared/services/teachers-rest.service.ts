@@ -29,10 +29,12 @@ export class TeachersRestService extends RestService<typeof Teacher> {
       customParams instanceof HttpParams
         ? customParams
         : new HttpParams({ fromObject: customParams });
-    params = params.set(
-      "fields",
-      "Id,From,To,EventId,EventNumber,EventDesignation,EventLocation",
-    );
+    params = params
+      .set(
+        "fields",
+        "Id,From,To,EventId,EventNumber,EventDesignation,EventLocation,Rooms",
+      )
+      .set("expand", "Rooms");
     return this.http
       .get<unknown>(
         `${this.baseUrl}/${teacherId}/TimetableEntries/CurrentSemester`,

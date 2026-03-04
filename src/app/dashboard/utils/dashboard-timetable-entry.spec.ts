@@ -20,6 +20,7 @@ describe("Dashboard timetable entry utilities", () => {
         EventDesignation: "Englisch-S3",
         EventLocation: "1.01",
         EventManagerInformation: "Doe Jane",
+        Rooms: [{ Id: 1016, Designation: "1.01" }],
       };
       const result = convertTimetableEntry(entry);
       expect(result).toEqual({
