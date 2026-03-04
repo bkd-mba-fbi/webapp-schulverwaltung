@@ -4,7 +4,7 @@ import * as t from "io-ts/lib/index";
 import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
 import { LegalRepresentative } from "src/app/shared/models/legal-representative.model";
 import { Person } from "src/app/shared/models/person.model";
-import { Student } from "src/app/shared/models/student.model";
+import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManagerWithEmails,
@@ -25,7 +25,7 @@ describe("StudentProfileService", () => {
   let httpTestingController: HttpTestingController;
   let service: StudentProfileService;
 
-  let student: Student;
+  let student: StudentWithClassRegistration;
   let studentPerson: Person;
   let myself: Person;
   let legalRepresentatives: LegalRepresentative[];
@@ -58,7 +58,7 @@ describe("StudentProfileService", () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(StudentProfileService);
 
-    student = buildStudent(39405);
+    student = { ...buildStudent(39405), ClassRegistrations: [] };
     student.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
 
     studentPerson = buildPerson(39405);
@@ -111,24 +111,46 @@ describe("StudentProfileService", () => {
   });
 
   describe(".getStudent", () => {
-    it("emits null when person service return 404", () => {
-      service.getStudent(student.Id).subscribe((result) => {
-        expect(result).toBeNull();
-      });
-
-      httpTestingController
-        .expectOne(`https://eventotest.api/Persons/${student.Id}`)
-        .flush(null, { status: 404, statusText: "Not Found" });
-    });
-
-    it("emits the student by the person service for the given ID", () => {
+    it("emits the student from the students service for the given ID", () => {
       service.getStudent(student.Id).subscribe((result) => {
         expect(result).toEqual(student);
       });
 
       httpTestingController
+        .expectOne(
+          `https://eventotest.api/Students/${student.Id}?expand=ClassRegistrations`,
+        )
+        .flush(StudentWithClassRegistration.encode(student));
+    });
+
+    it("falls back to the person service if the students service returns 404 for students that are not registered in a class (special case)", () => {
+      service.getStudent(student.Id).subscribe((result) => {
+        expect(result).toEqual(student);
+      });
+
+      httpTestingController
+        .expectOne(
+          `https://eventotest.api/Students/${student.Id}?expand=ClassRegistrations`,
+        )
+        .flush(null, { status: 404, statusText: "Not Found" });
+      httpTestingController
         .expectOne(`https://eventotest.api/Persons/${student.Id}`)
         .flush(Person.encode(studentPerson));
+    });
+
+    it("emits null if students service and persons service both return 404", () => {
+      service.getStudent(student.Id).subscribe((result) => {
+        expect(result).toBeNull();
+      });
+
+      httpTestingController
+        .expectOne(
+          `https://eventotest.api/Students/${student.Id}?expand=ClassRegistrations`,
+        )
+        .flush(null, { status: 404, statusText: "Not Found" });
+      httpTestingController
+        .expectOne(`https://eventotest.api/Persons/${student.Id}`)
+        .flush(null, { status: 404, statusText: "Not Found" });
     });
   });
 

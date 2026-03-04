@@ -8,9 +8,9 @@ import { LegalRepresentative } from "../models/legal-representative.model";
 import { LessonAbsence } from "../models/lesson-absence.model";
 import { LessonDispensation } from "../models/lesson-dispensation.model";
 import { LessonIncident } from "../models/lesson-incident.model";
-import { Student } from "../models/student.model";
+import { Student, StudentWithClassRegistration } from "../models/student.model";
 import { TimetableEntry } from "../models/timetable-entry.model";
-import { decodeArray } from "../utils/decode";
+import { decode, decodeArray } from "../utils/decode";
 import { TypeaheadRestService } from "./typeahead-rest.service";
 
 @Injectable({
@@ -22,6 +22,20 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
     const settings = inject<Settings>(SETTINGS);
 
     super(http, settings, Student, "Students", "FullName");
+  }
+
+  getWithClassRegistrations(
+    studentId: number,
+    options?: {
+      context?: HttpContext;
+    },
+  ): Observable<StudentWithClassRegistration> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${studentId}`, {
+        ...options,
+        params: { expand: "ClassRegistrations" },
+      })
+      .pipe(switchMap(decode(StudentWithClassRegistration)));
   }
 
   getLegalRepresentatives(

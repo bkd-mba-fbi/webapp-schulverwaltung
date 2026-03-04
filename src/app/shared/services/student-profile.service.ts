@@ -7,7 +7,10 @@ import { ApprenticeshipManager } from "src/app/shared/models/apprenticeship-mana
 import { JobTrainer } from "src/app/shared/models/job-trainer.model";
 import { LegalRepresentative } from "src/app/shared/models/legal-representative.model";
 import { Person } from "src/app/shared/models/person.model";
-import { Student } from "src/app/shared/models/student.model";
+import {
+  Student,
+  StudentWithClassRegistration,
+} from "src/app/shared/models/student.model";
 import { ApprenticeshipManagersRestService } from "src/app/shared/services/apprenticeship-managers-rest.service";
 import { JobTrainersRestService } from "src/app/shared/services/job-trainers-rest.service";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
@@ -35,7 +38,7 @@ const DOSSIER_STAY_PERMIT_CONTEXT = "dossier-stay-permit";
   providedIn: "root",
 })
 export class StudentProfileService {
-  private studentService = inject(StudentsRestService);
+  private studentsService = inject(StudentsRestService);
   private personsService = inject(PersonsRestService);
   private apprenticeshipManagersService = inject(
     ApprenticeshipManagersRestService,
@@ -61,34 +64,18 @@ export class StudentProfileService {
   );
   loadingStayPermit$ = this.loadingService.loading(DOSSIER_STAY_PERMIT_CONTEXT);
 
-  getStudent(studentId: number): Observable<Option<Student>> {
+  getStudent(
+    studentId: number,
+  ): Observable<Option<StudentWithClassRegistration>> {
     return this.loadingService.load(
-      this.personsService
-        .get(studentId, { context: this.IGNORE_404_CONTEXT })
-        .pipe(
-          map((person) => this.createStudentFromPerson(person)),
-          catch404(),
+      this.loadStudent(studentId).pipe(
+        switchMap(
+          // There are students that are not part of a study class for which we have to fall back to the /Persons endpoint (see #843)
+          (student) => (student ? of(student) : this.loadPerson(studentId)),
         ),
+      ),
       DOSSIER_STUDENT_CONTEXT,
     );
-  }
-
-  private createStudentFromPerson(person: Person): Student {
-    return {
-      Id: person.Id,
-      AddressLine1: person.AddressLine1,
-      AddressLine2: person.AddressLine2,
-      Birthdate: person.Birthdate,
-      DisplayEmail: person.DisplayEmail,
-      FirstName: person.FirstName ?? "",
-      FullName: person.FullName ?? "",
-      Gender: person.Gender ?? "X",
-      LastName: person.LastName ?? "",
-      Location: person.Location,
-      PhoneMobile: person.PhoneMobile,
-      PhonePrivate: person.PhonePrivate,
-      PostalCode: person.Zip,
-    } as Student;
   }
 
   getMyself(): Observable<Person> {
@@ -158,10 +145,58 @@ export class StudentProfileService {
     );
   }
 
+  /**
+   * Load student with classes.
+   */
+  private loadStudent(
+    studentId: number,
+  ): Observable<Option<StudentWithClassRegistration>> {
+    return this.studentsService
+      .getWithClassRegistrations(studentId, {
+        context: this.IGNORE_404_CONTEXT,
+      })
+      .pipe(catch404());
+  }
+
+  /**
+   * Load student via /Persons endpoint (fallback for students that are not part of a class)
+   */
+  private loadPerson(
+    studentId: number,
+  ): Observable<Option<StudentWithClassRegistration>> {
+    return this.personsService
+      .get(studentId, { context: this.IGNORE_404_CONTEXT })
+      .pipe(
+        map((person) => this.createStudentFromPerson(person)),
+        catch404(),
+      );
+  }
+
+  private createStudentFromPerson(
+    person: Person,
+  ): StudentWithClassRegistration {
+    return {
+      Id: person.Id,
+      AddressLine1: person.AddressLine1,
+      AddressLine2: person.AddressLine2,
+      Birthdate: person.Birthdate,
+      DisplayEmail: person.DisplayEmail,
+      FirstName: person.FirstName ?? "",
+      FullName: person.FullName ?? "",
+      Gender: person.Gender ?? "X",
+      LastName: person.LastName ?? "",
+      Location: person.Location,
+      PhoneMobile: person.PhoneMobile,
+      PhonePrivate: person.PhonePrivate,
+      PostalCode: person.Zip,
+      ClassRegistrations: [],
+    };
+  }
+
   private loadLegalRepresentatives(
     person: Person | Student,
   ): Observable<ReadonlyArray<LegalRepresentative>> {
-    return this.studentService.getLegalRepresentatives(person.Id).pipe(
+    return this.studentsService.getLegalRepresentatives(person.Id).pipe(
       map((legalReps) => {
         const adult = isAdult(person);
         return legalReps.filter(
@@ -186,7 +221,7 @@ export class StudentProfileService {
   private loadApprenticeshipContracts(
     personId: number,
   ): Observable<ReadonlyArray<ApprenticeshipContract>> {
-    return this.studentService
+    return this.studentsService
       .getCurrentApprenticeshipContracts(personId, {
         context: this.IGNORE_404_CONTEXT,
       })
