@@ -1,6 +1,11 @@
 import { DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
-import { Student } from "src/app/shared/models/student.model";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from "@angular/core";
+import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
 import { AvatarComponent } from "../../avatar/avatar.component";
 
 @Component({
@@ -12,5 +17,13 @@ import { AvatarComponent } from "../../avatar/avatar.component";
 })
 export class StudentDossierAvatarComponent {
   studentId = input.required<number>();
-  student = input<Student>();
+  student = input<StudentWithClassRegistration>();
+
+  studyClasses = computed(
+    () =>
+      this.student()
+        ?.ClassRegistrations?.filter((reg) => reg.IsActive)
+        ?.map((reg) => reg.NumberStudyClass) ?? [],
+  );
+  studyClassesLabel = computed(() => this.studyClasses().join(", ") ?? null);
 }

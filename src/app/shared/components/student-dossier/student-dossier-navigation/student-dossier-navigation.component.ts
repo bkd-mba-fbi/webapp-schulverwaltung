@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
-import { Student } from "src/app/shared/models/student.model";
+import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
 import { DOSSIER_PAGES } from "../dossier-route";
 import { StudentDossierAvatarComponent } from "../student-dossier-avatar/student-dossier-avatar.component";
 
@@ -19,7 +19,7 @@ import { StudentDossierAvatarComponent } from "../student-dossier-avatar/student
 })
 export class StudentDossierNavigationComponent {
   studentId = input.required<number>();
-  student = input<Student>();
+  student = input<StudentWithClassRegistration>();
   returnParams = input.required<string>();
 
   dossierPages = DOSSIER_PAGES;

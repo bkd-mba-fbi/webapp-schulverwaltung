@@ -35,6 +35,7 @@ export abstract class RestService<T extends t.InterfaceType<any>> {
     options?: {
       headers?: HttpHeaders | Dict<string>;
       context?: HttpContext;
+      params?: HttpParams | Dict<string>;
     },
   ): Observable<t.TypeOf<T>> {
     return this.http
