@@ -1,5 +1,6 @@
 import { HttpContext } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
+import { groupBy } from "lodash-es";
 import {
   Observable,
   catchError,
@@ -10,7 +11,7 @@ import {
   throwError,
 } from "rxjs";
 import { RestErrorInterceptorOptions } from "src/app/shared/interceptors/rest-error.interceptor";
-import { SubscriptionDetailsRestService } from "src/app/shared/services/subscription-details-rest.service";
+import { SubscriptionsRestService } from "src/app/shared/services/subscriptions-rest.service";
 import { executeWithMaxConcurrency } from "src/app/shared/utils/observable";
 import { ImportError } from "../common/import-state.service";
 import { SubscriptionDetailImportEntry } from "./import-validate-subscription-details.service";
@@ -35,7 +36,7 @@ export class ImportUploadSubscriptionDetailsService {
     total: 0,
   });
 
-  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
+  private subscriptionsService = inject(SubscriptionsRestService);
 
   async upload(
     validatedEntries: ReadonlyArray<SubscriptionDetailImportEntry>,
@@ -61,8 +62,8 @@ export class ImportUploadSubscriptionDetailsService {
 
     await firstValueFrom(
       executeWithMaxConcurrency(
-        entriesToImport,
-        this.persistEntry.bind(this),
+        this.groupBySubscription(entriesToImport),
+        this.persistSubscriptionEntries.bind(this),
         MAX_CONCURRENT_REQUESTS,
       ),
     );
@@ -89,44 +90,71 @@ export class ImportUploadSubscriptionDetailsService {
     });
   }
 
-  private persistEntry(
-    entry: SubscriptionDetailImportEntry,
-  ): Observable<SubscriptionDetailImportEntry> {
-    if (
-      this.getNormalizedValue(entry) == entry.data.subscriptionDetail?.Value
-    ) {
-      // Ignore entry with an unchanged value
-      this.markSuccessEntry(entry);
-      return of(entry);
-    }
+  private groupBySubscription(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<ReadonlyArray<SubscriptionDetailImportEntry>> {
+    return Object.values(
+      groupBy(
+        entries,
+        (entry) => entry.data.subscriptionDetail?.SubscriptionId ?? "",
+      ),
+    );
+  }
 
-    // Save new value
-    return of(entry).pipe(
-      switchMap(this.updateSubscriptionDetail.bind(this)),
+  private persistSubscriptionEntries(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Observable<ReadonlyArray<SubscriptionDetailImportEntry>> {
+    const { changed, unchanged } = this.getChangedEntries(entries);
+
+    // Ignore entries with an unchanged value
+    unchanged.forEach((entry) => this.markSuccessEntry(entry));
+
+    // Save new value of changed entries
+    return of(changed).pipe(
+      switchMap(this.updateSubscriptionDetails.bind(this)),
       map(() => {
         // Handle success
-        this.markSuccessEntry(entry);
-        return entry;
+        changed.forEach((entry) => this.markSuccessEntry(entry));
+        return entries;
       }),
       catchError((error) => {
         // Handle error
-        this.markErrorEntry(entry, error);
-        return of(entry);
+        changed.forEach((entry) => this.markErrorEntry(entry, error));
+        return of(entries);
       }),
     );
   }
 
-  private updateSubscriptionDetail(
-    entry: SubscriptionDetailImportEntry,
-  ): Observable<void> {
-    if (!entry.data.subscriptionDetail)
-      return throwError(
-        () =>
-          new Error(
-            `Subscription not present for entry: ${JSON.stringify(entry.entry)}`,
-          ),
-      );
+  private getChangedEntries(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): {
+    changed: ReadonlyArray<SubscriptionDetailImportEntry>;
+    unchanged: ReadonlyArray<SubscriptionDetailImportEntry>;
+  } {
+    return entries.reduce<{
+      changed: Array<SubscriptionDetailImportEntry>;
+      unchanged: Array<SubscriptionDetailImportEntry>;
+    }>(
+      (acc, entry) => {
+        if (
+          this.getNormalizedValue(entry) == entry.data.subscriptionDetail?.Value
+        ) {
+          acc.unchanged.push(entry);
+        } else {
+          acc.changed.push(entry);
+        }
+        return acc;
+      },
+      { changed: [], unchanged: [] },
+    );
+  }
 
+  /**
+   * Updates all subscription details belonging to the same subscription.
+   */
+  private updateSubscriptionDetails(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): Observable<void> {
     // If you want to only simulate the write request when testing the upload,
     // you may uncomment the following (this also causes to randomly fail some
     // of the entries):
@@ -136,10 +164,42 @@ export class ImportUploadSubscriptionDetailsService {
     // }
     // return of(undefined).pipe(delay(500 + (Math.random() - 0.5) * 300));
 
-    return this.subscriptionDetailsService.update(
-      entry.data.subscriptionDetail,
+    const entriesWithoutDetail = entries.filter(
+      (entry) => !entry.data.subscriptionDetail,
+    );
+    if (entriesWithoutDetail.length > 0) {
+      return throwError(
+        () =>
+          new Error(
+            `Subscription detail not present for entries: ${JSON.stringify(
+              entriesWithoutDetail.map(({ entry }) => entry),
+            )}`,
+          ),
+      );
+    }
+
+    const subscriptionId = entries[0].data.subscriptionDetail?.SubscriptionId;
+    if (!subscriptionId) {
+      return throwError(
+        () =>
+          new Error(
+            `Subscription ID not present for entry: ${JSON.stringify(entries[0].entry)}`,
+          ),
+      );
+    }
+
+    const subscriptionDetails = entries.map((entry) => ({
+      Id: entry.data.subscriptionDetail!.Id,
+      VssId: entry.data.subscriptionDetail!.VssId,
+      IdPerson: entry.data.subscriptionDetail!.IdPerson,
+      EventId: entry.data.subscriptionDetail!.EventId,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.getNormalizedValue(entry) as any,
+      Value: this.getNormalizedValue(entry) as any,
+    }));
+
+    return this.subscriptionsService.updateSubscriptionDetails(
+      String(subscriptionId),
+      subscriptionDetails,
       new HttpContext().set(RestErrorInterceptorOptions, {
         disableErrorHandling: true,
       }),
