@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpContext } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import * as t from "io-ts";
 import { Observable } from "rxjs";
@@ -104,5 +104,23 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
     return this.http
       .get<unknown>(`${this.baseUrl}/${id}/SubscriptionDetails`)
       .pipe(switchMap(decodeArray(SubscriptionDetail)));
+  }
+
+  updateSubscriptionDetails(
+    subscriptionId: string,
+    subscriptionDetails: ReadonlyArray<
+      Pick<SubscriptionDetail, "Id" | "IdPerson" | "EventId" | "Value">
+    >,
+    context?: HttpContext,
+  ): Observable<void> {
+    const body = {
+      SubscriptionDetails: subscriptionDetails,
+    };
+    return this.http
+      .put<unknown>(`${this.baseUrl}/${subscriptionId}`, {
+        body,
+        context,
+      })
+      .pipe(map(() => undefined));
   }
 }
