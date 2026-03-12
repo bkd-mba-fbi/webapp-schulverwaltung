@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (group of entries; track group.from) {
+      @for (group of entries; track $index) {
         @for (entry of group.entries; track entry.id) {
           <tr [class.group-border]="entry.id === group.entries[0].id">
             @if (entry.id === group.entries[0].id) {
@@ -48,14 +48,14 @@
                 {{ entry.teacher }}
               </td>
             }
-            @if (entry.room) {
-              <td class="room">
+            <td class="room">
+              @if (entry.room) {
                 <span class="room-label">{{
                   "dashboard.timetable.table.room" | translate
                 }}</span>
                 {{ entry.room }}
-              </td>
-            }
+              }
+            </td>
           </tr>
         }
       }

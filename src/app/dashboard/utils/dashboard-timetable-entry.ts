@@ -22,33 +22,30 @@ export type DashboardTimetableEntryGroup = {
 export function groupTimetableEntries(
   entries: ReadonlyArray<DashboardTimetableEntry>,
 ): ReadonlyArray<DashboardTimetableEntryGroup> {
-  const groups = entries.reduce<ReadonlyArray<DashboardTimetableEntryGroup>>(
-    (acc, entry) => {
-      const existingGroup = acc.find(
-        (group) =>
-          group.from.toISOString() === entry.from.toISOString() &&
-          group.until.toISOString() === entry.until.toISOString(),
-      );
+  const groupsMap = new Map<string, DashboardTimetableEntryGroup>();
 
-      if (existingGroup) {
-        return acc.map((group) =>
-          group === existingGroup
-            ? { ...group, entries: [...group.entries, entry] }
-            : group,
-        );
-      }
+  for (const entry of entries) {
+    const key = `${entry.from.toISOString()}_${entry.until.toISOString()}`;
+    const existingGroup = groupsMap.get(key);
 
-      return [
-        ...acc,
-        { from: entry.from, until: entry.until, entries: [entry] },
-      ];
-    },
-    [],
-  );
+    if (existingGroup) {
+      existingGroup.entries.push(entry);
+    } else {
+      groupsMap.set(key, {
+        from: entry.from,
+        until: entry.until,
+        entries: [entry],
+      });
+    }
+  }
+
+  const groups = Array.from(groupsMap.values());
   return sortByStudyClass(groups);
 }
 
-function sortByStudyClass(groups: ReadonlyArray<DashboardTimetableEntryGroup>) {
+function sortByStudyClass(
+  groups: ReadonlyArray<DashboardTimetableEntryGroup>,
+): ReadonlyArray<DashboardTimetableEntryGroup> {
   return groups.map((group) => ({
     ...group,
     entries: [...group.entries].sort((a, b) =>
