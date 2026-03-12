@@ -13,6 +13,47 @@ export type DashboardTimetableEntry = {
   teacher?: string;
 };
 
+export type DashboardTimetableEntryGroup = {
+  from: Date;
+  until: Date;
+  entries: DashboardTimetableEntry[];
+};
+
+export function groupTimetableEntries(
+  entries: ReadonlyArray<DashboardTimetableEntry>,
+): ReadonlyArray<DashboardTimetableEntryGroup> {
+  const groupsMap = new Map<string, DashboardTimetableEntryGroup>();
+
+  for (const entry of entries) {
+    const key = `${entry.from.toISOString()}_${entry.until.toISOString()}`;
+    const existingGroup = groupsMap.get(key);
+
+    if (existingGroup) {
+      existingGroup.entries.push(entry);
+    } else {
+      groupsMap.set(key, {
+        from: entry.from,
+        until: entry.until,
+        entries: [entry],
+      });
+    }
+  }
+
+  const groups = Array.from(groupsMap.values());
+  return sortByStudyClass(groups);
+}
+
+function sortByStudyClass(
+  groups: ReadonlyArray<DashboardTimetableEntryGroup>,
+): ReadonlyArray<DashboardTimetableEntryGroup> {
+  return groups.map((group) => ({
+    ...group,
+    entries: [...group.entries].sort((a, b) =>
+      (a.studyClass ?? "").localeCompare(b.studyClass ?? ""),
+    ),
+  }));
+}
+
 export function convertTimetableEntry(
   entry: TimetableEntry,
 ): DashboardTimetableEntry {
@@ -26,7 +67,7 @@ export function convertTimetableEntry(
     // Fetched separately (workaround), see `DashboardTimetableComponent.fetchTimetableEntries`
     // studyClass: (entry.EventNumber.match(/[-_]([^-_]+)$/) ?? [])[1], // The last part of the EventNumber is the study class (e.g. "3-1-E-S3-GYMweb25-26b", the class is "26b")
 
-    room: entry.EventLocation || undefined,
+    room: entry.Rooms?.map((room) => room.Designation).join(", ") || undefined,
     teacher: entry.EventManagerInformation || undefined,
   };
 }
