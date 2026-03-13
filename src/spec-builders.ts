@@ -13,6 +13,7 @@ import {
   FinalGrading,
   Grading,
 } from "./app/shared/models/course.model";
+import { EventLeadership } from "./app/shared/models/event-leadership.model";
 import { Event } from "./app/shared/models/event.model";
 import { GradingItem } from "./app/shared/models/grading-item.model";
 import { Grade, GradingScale } from "./app/shared/models/grading-scale.model";
@@ -866,5 +867,16 @@ function buildFinalGrade(): FinalGrade {
     gradeId: 20,
     finalGradeValue: "5.5",
     canGrade: true,
+  };
+}
+
+export function buildEventLeadership(
+  personId: number,
+  eventId: number,
+): EventLeadership {
+  return {
+    Id: 1,
+    EventId: eventId,
+    PersonId: personId,
   };
 }
