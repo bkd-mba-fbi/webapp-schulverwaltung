@@ -405,7 +405,7 @@
     },
     "verify": {
       "open-evaluations": "Des évaluations sont en suspens.",
-      "info": "euillez vérifier les données et enregistrer le rapport avant de terminer l'évaluation.",
+      "info": "Veuillez vérifier les données et enregistrer le rapport avant de terminer l'évaluation.",
       "pdf-fallback": "Ce navigateur ne prend pas en charge les fichiers PDF intégrés. Veuillez utiliser le bouton pour télécharger le fichier."
     }
   },
