@@ -1,18 +1,7 @@
 import { EvaluationStatusRef } from "src/app/shared/models/course.model";
-import { Event } from "src/app/shared/models/event.model";
-import { TokenPayload } from "src/app/shared/models/token-payload.model";
-import {
-  buildCourse,
-  buildEvent,
-  buildFinalGrading,
-} from "../../../spec-builders";
+import { buildCourse, buildFinalGrading } from "../../../spec-builders";
 import { EventState } from "../services/events-state.service";
-import {
-  canSetFinalGrade,
-  getEventState,
-  isRated,
-  isStudyCourseLeader,
-} from "./events";
+import { canSetFinalGrade, getEventState, isRated } from "./events";
 
 describe("Event/course utility functions", () => {
   describe("getEventState", () => {
@@ -295,58 +284,6 @@ describe("Event/course utility functions", () => {
       course.FinalGrades = null;
 
       expect(isRated(course)).toBeFalse();
-    });
-  });
-
-  describe("isStudyCourseLeader", () => {
-    let event: Event;
-    let tokenPayload: TokenPayload;
-
-    beforeEach(() => {
-      event = buildEvent(1234, "Gymnasialer Bildungsgang");
-      tokenPayload = {
-        culture_info: "de_CH",
-        fullname: "Jane Doe",
-        id_person: "123",
-        holder_id: "456",
-        instance_id: "678",
-        roles: "",
-        substitution_id: undefined,
-      };
-    });
-
-    describe("study course with single leadership", () => {
-      beforeEach(() => {
-        event.Leadership = "Jane Doe";
-      });
-
-      it("returns false if token payload is unavailable", () => {
-        expect(isStudyCourseLeader(null, event)).toBeFalse();
-      });
-
-      it("returns true if user is leader", () => {
-        expect(isStudyCourseLeader(tokenPayload, event)).toBeTrue();
-      });
-
-      it("returns false if user is not leader", () => {
-        tokenPayload.fullname = "Jeanne Doe";
-        expect(isStudyCourseLeader(tokenPayload, event)).toBeFalse();
-      });
-    });
-
-    describe("study course with multiple leaderships", () => {
-      beforeEach(() => {
-        event.Leadership = "John Doe, Jane Doe";
-      });
-
-      it("returns true if user is leader", () => {
-        expect(isStudyCourseLeader(tokenPayload, event)).toBeTrue();
-      });
-
-      it("returns false if user is not leader", () => {
-        tokenPayload.fullname = "Jeanne Doe";
-        expect(isStudyCourseLeader(tokenPayload, event)).toBeFalse();
-      });
     });
   });
 });
