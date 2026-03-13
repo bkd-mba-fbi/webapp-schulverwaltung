@@ -71,7 +71,7 @@ export class BkdModalService {
     if (this.portal.window) {
       // We're running within the Evento Portal iframe
       modalWindowElement.style.top = `${this.getModalIframeOffset()}px`;
-      modalWindowElement.style.maxHeight = `${this.getModalHeight()}px`;
+      modalWindowElement.style.maxHeight = `${this.portal.getAvailableViewportHeight({ excludeFooter: false })}px`;
     }
   }
 
@@ -121,48 +121,10 @@ export class BkdModalService {
   }
 
   /**
-   * Returns the top position of the modal window relative to the
-   * Evento Portal document.
-   */
-  private getModalTop(): number {
-    return Math.min(this.getViewportTop(), this.portal.getIframeTop());
-  }
-
-  /**
-   * Returns the bottom position of the modal window relative to the
-   * Evento Portal document.
-   */
-  private getModalBottom(): number {
-    return Math.min(this.getViewportBottom(), this.portal.getIFrameBottom());
-  }
-
-  /**
-   * Returns the maximum height the modal window can have.
-   */
-  private getModalHeight(): number {
-    return this.getModalBottom() - this.getModalTop();
-  }
-
-  /**
    * Returns the top position of the visible browser viewport relative
    * to the Evento Portal document.
    */
   private getViewportTop(): number {
     return this.portal.window?.scrollY ?? 0;
-  }
-
-  /**
-   * Returns the bottom position of the visible browser viewport
-   * relative to the Evento Portal document.
-   */
-  private getViewportBottom(): number {
-    return this.getViewportTop() + this.getViewportHeight();
-  }
-
-  /**
-   * Returns the height of the visible browser viewport.
-   */
-  private getViewportHeight(): number {
-    return this.portal.window?.innerHeight ?? 0;
   }
 }
