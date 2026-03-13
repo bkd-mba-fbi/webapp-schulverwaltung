@@ -1,10 +1,11 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
+import { EventLeadership } from "src/app/shared/models/event-leadership.model";
 import { Event } from "src/app/shared/models/event.model";
 import { Subscription } from "src/app/shared/models/subscription.model";
 import { StorageService } from "src/app/shared/services/storage.service";
-import { buildSubscription } from "src/spec-builders";
+import { buildEventLeadership, buildSubscription } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { EventEntry } from "./events-state.service";
 import { StudyCoursesStateService } from "./study-courses-state.service";
@@ -16,6 +17,7 @@ describe("StudyCoursesStateService", () => {
   let studyCourses: Event[];
   let studyCoursesEntries: EventEntry[];
   let subscriptions: Subscription[];
+  let leaderships: EventLeadership[];
 
   beforeEach(() => {
     TestBed.configureTestingModule(
@@ -74,6 +76,11 @@ describe("StudyCoursesStateService", () => {
       buildSubscription(100, 10, 2),
       buildSubscription(100, 10, 3),
     ];
+
+    leaderships = [
+      buildEventLeadership(123, 10),
+      buildEventLeadership(123, 11),
+    ];
   });
 
   it("loads events with study courses", () => {
@@ -82,6 +89,7 @@ describe("StudyCoursesStateService", () => {
     });
 
     expectStudyCoursesRequest();
+    expectEventLeadershipsRequest();
     expectSubscriptionsRequest();
 
     httpTestingController.verify();
@@ -100,5 +108,14 @@ describe("StudyCoursesStateService", () => {
     httpTestingController
       .expectOne(url)
       .flush(t.array(Subscription).encode(response));
+  }
+
+  function expectEventLeadershipsRequest(response = leaderships): void {
+    const url =
+      "https://eventotest.api/EventLeaderships/?filter.PersonId==123&filter.EventId=;10;20";
+
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(EventLeadership).encode(response));
   }
 });

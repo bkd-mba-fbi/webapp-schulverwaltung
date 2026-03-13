@@ -10,9 +10,9 @@ import {
   switchMap,
 } from "rxjs";
 import { EventEntry } from "src/app/events/services/events-state.service";
-import { isStudyCourseLeader } from "src/app/events/utils/events";
 import { getEventsStudentsLink } from "src/app/events/utils/events-students";
 import { Event } from "src/app/shared/models/event.model";
+import { EventLeadershipRestService } from "src/app/shared/services/event-leadership-rest.service";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StorageService } from "src/app/shared/services/storage.service";
@@ -27,6 +27,7 @@ export class StudyCoursesStateService {
   private storageService = inject(StorageService);
   private eventsRestService = inject(EventsRestService);
   private subscriptionsRestService = inject(SubscriptionsRestService);
+  private eventLeadershipService = inject(EventLeadershipRestService);
 
   loading$ = this.loadingService.loading$;
 
@@ -49,15 +50,9 @@ export class StudyCoursesStateService {
   }
 
   private loadStudyCourses(): Observable<ReadonlyArray<EventEntry>> {
-    const tokenPayload = this.storageService.getPayload();
     return this.loadingService.load(
       this.eventsRestService.getStudyCourseEvents().pipe(
-        map((studyCourses) =>
-          // The user sees only the study courses he/she is leader of
-          studyCourses.filter((studyCourse) =>
-            isStudyCourseLeader(tokenPayload, studyCourse),
-          ),
-        ),
+        switchMap(this.filterLeadingStudyCourses.bind(this)), // The user sees only the study courses he/she is leader of
         switchMap(this.decorateWithStudentCounts.bind(this)),
         map(this.createFromStudyCourses.bind(this)),
         map((studyCourses) =>
@@ -70,6 +65,35 @@ export class StudyCoursesStateService {
         stopOnFirstValue: true,
       },
     );
+  }
+
+  private filterLeadingStudyCourses(
+    studyCourses: ReadonlyArray<Event>,
+  ): Observable<ReadonlyArray<Event>> {
+    return this.loadLeadingEventIds(studyCourses).pipe(
+      map((leadingEventIds) =>
+        studyCourses.filter((studyCourse) =>
+          leadingEventIds.includes(studyCourse.Id),
+        ),
+      ),
+    );
+  }
+
+  private loadLeadingEventIds(
+    studyCourses: ReadonlyArray<Event>,
+  ): Observable<ReadonlyArray<number>> {
+    const personId = this.storageService.getPayload()?.id_person;
+    if (!personId) return of([]);
+
+    const eventIds = studyCourses.map((studyCourse) => studyCourse.Id);
+
+    return this.eventLeadershipService
+      .getLeadershipsForPersonAndEvents(Number(personId), eventIds)
+      .pipe(
+        map((leaderships) =>
+          leaderships.map((leadership) => leadership.EventId),
+        ),
+      );
   }
 
   private decorateWithStudentCounts(
