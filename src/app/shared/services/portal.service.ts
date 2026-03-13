@@ -75,15 +75,19 @@ export class PortalService {
    * header & footer). Use this value for static layouts that should use the
    * full viewport.
    */
-  getAvailableViewportHeight(): number {
+  getAvailableViewportHeight(
+    { excludeFooter } = { excludeFooter: true },
+  ): number {
     return Math.max(
-      this.getViewportHeight() - this.getIframeTop() - this.getFooterHeight(),
+      this.getViewportHeight() -
+        this.getIframeTop() -
+        (excludeFooter ? this.getFooterHeight() : 0),
       0,
     );
   }
 
   private getViewportHeight(): number {
-    return this.document?.offsetHeight ?? 0;
+    return this.window?.innerHeight ?? 0;
   }
 
   private getFooterHeight(): number {
