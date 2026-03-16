@@ -54,13 +54,13 @@ export class TestsAddComponent {
   }
 
   private onSaveSuccess(): void {
-    // Make sure new test is displayed
-    this.state.reload();
-
-    this.toastService.success(
-      this.translate.instant("tests.form.save-success"),
-    );
-    this.navigateBack();
+    // Make sure new test is reloaded before navigating back
+    this.state.reload().subscribe(() => {
+      this.toastService.success(
+        this.translate.instant("tests.form.save-success"),
+      );
+      this.navigateBack();
+    });
   }
 
   private navigateBack(): void {
