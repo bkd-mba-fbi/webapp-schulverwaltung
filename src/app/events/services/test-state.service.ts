@@ -16,6 +16,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  skip,
   switchMap,
   take,
 } from "rxjs/operators";
@@ -208,10 +209,12 @@ export class TestStateService {
     this._courseId$.next(id);
   }
 
-  reload() {
+  reload(): Observable<Course> {
+    const reloaded$ = this.course$.pipe(skip(1), take(1));
     this._courseId$.pipe(take(1)).subscribe((courseId) => {
       this.setCourseId(courseId);
     });
+    return reloaded$;
   }
 
   setFilter(filter: TestsFilter) {
