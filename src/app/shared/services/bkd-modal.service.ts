@@ -67,12 +67,26 @@ export class BkdModalService {
       );
       return;
     }
-
-    if (this.portal.window) {
-      // We're running within the Evento Portal iframe
-      modalWindowElement.style.top = `${this.getModalIframeOffset()}px`;
-      modalWindowElement.style.maxHeight = `${this.portal.getAvailableViewportHeight({ excludeFooter: false })}px`;
+    if (!this.portal.window) {
+      // We are not running within the Evento Portal iframe
+      return;
     }
+
+    const apply = (): void => {
+      modalWindowElement.style.top = `${this.getModalIframeOffset()}px`;
+      modalWindowElement.style.maxHeight = `${this.portal.getVisibleIframeHeight()}px`;
+    };
+
+    // Initially
+    apply();
+
+    // On resize
+    this.portal.window.addEventListener("resize", apply);
+    modalRef.hidden.subscribe(() => {
+      if (this.portal.window) {
+        this.portal.window.removeEventListener("resize", apply);
+      }
+    });
   }
 
   /**
@@ -117,14 +131,9 @@ export class BkdModalService {
    * iframe.
    */
   private getModalIframeOffset(): number {
-    return Math.max(this.getViewportTop() - this.portal.getIframeTop(), 0);
-  }
-
-  /**
-   * Returns the top position of the visible browser viewport relative
-   * to the Evento Portal document.
-   */
-  private getViewportTop(): number {
-    return this.portal.window?.scrollY ?? 0;
+    return Math.max(
+      this.portal.getViewportTop() - this.portal.getIframeTop(),
+      0,
+    );
   }
 }
