@@ -94,6 +94,8 @@ export default tseslint.config(
       "@typescript-eslint/unbound-method": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
       "@typescript-eslint/no-unsafe-enum-comparison": "off",
+
+      "no-useless-assignment": "off",
     },
   },
   {
