@@ -33,7 +33,7 @@ import { EvaluationVerifyPdfComponent } from "../evaluation-verify-pdf/evaluatio
     // We are forcing this component to take up the full viewport height. When
     // embedded in the portal iframe, we have to calculate this height
     // dynamically.
-    "[style.height]": "hostHeight()",
+    "[style.min-height]": "hostHeight()",
   },
 })
 export class EvaluationVerifyComponent
