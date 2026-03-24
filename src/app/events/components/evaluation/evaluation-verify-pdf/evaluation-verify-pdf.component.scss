@@ -1,6 +1,7 @@
 @import "../../../../../bootstrap-variables";
 
-:host {
+:host,
+#evaluation-verify-pdf {
   display: flex;
   flex-direction: column;
 }
@@ -21,6 +22,10 @@
 
 #evaluation-verify-pdf {
   flex: auto;
+}
+
+:host::ng-deep #evaluation-verify-pdf iframe {
+  flex-grow: 1;
 }
 
 #evaluation-verify-pdf.hidden {
