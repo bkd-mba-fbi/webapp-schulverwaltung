@@ -15,7 +15,7 @@ import { executeWithMaxConcurrency } from "src/app/shared/utils/observable";
 import { ImportError } from "../common/import-state.service";
 import { SubscriptionDetailImportEntry } from "./import-validate-subscription-details.service";
 
-const MAX_CONCURRENT_REQUESTS = 20;
+const MAX_CONCURRENT_REQUESTS = 10; // TODO: If #942 is fixed on the backend we can increase this again to 20
 
 export type UploadProgress = {
   uploading: number;
@@ -61,7 +61,7 @@ export class ImportUploadSubscriptionDetailsService {
 
     await firstValueFrom(
       executeWithMaxConcurrency(
-        entriesToImport,
+        this.sortEntriesBySubscriptionDetail(entriesToImport),
         this.persistEntry.bind(this),
         MAX_CONCURRENT_REQUESTS,
       ),
@@ -87,6 +87,25 @@ export class ImportUploadSubscriptionDetailsService {
       total: allEntries.filter((entry) => entry.validationStatus === "valid")
         .length,
     });
+  }
+
+  /**
+   * This is a quick and dirty workaround for #942 because the backend cannot
+   * handle concurrent updates of subscription details of the same subscription.
+   * So we sort the entries by subscription detail such that the identical
+   * subscription details (of different subscriptions) are processed together.
+   * Also we decrease the concurrent updates from 20 to 10 to make it less
+   * likely that subscription details of the same subscription are updated
+   * concurrently.
+   */
+  private sortEntriesBySubscriptionDetail(
+    entries: ReadonlyArray<SubscriptionDetailImportEntry>,
+  ): ReadonlyArray<SubscriptionDetailImportEntry> {
+    return [...entries].sort(
+      (a, b) =>
+        (a.data.subscriptionDetail?.VssId ?? 0) -
+        (b.data.subscriptionDetail?.VssId ?? 0),
+    );
   }
 
   private persistEntry(
