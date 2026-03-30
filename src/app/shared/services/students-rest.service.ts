@@ -11,6 +11,7 @@ import { LessonIncident } from "../models/lesson-incident.model";
 import { Student, StudentWithClassRegistration } from "../models/student.model";
 import { TimetableEntry } from "../models/timetable-entry.model";
 import { decode, decodeArray } from "../utils/decode";
+import { fetchTimetableEntries } from "../utils/timetable-entries";
 import { TypeaheadRestService } from "./typeahead-rest.service";
 
 @Injectable({
@@ -98,20 +99,13 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
     studentId: number,
     params: HttpParams | Dict<string> = {},
   ): Observable<ReadonlyArray<TimetableEntry>> {
-    if (!(params instanceof HttpParams)) {
-      params = new HttpParams({ fromObject: params });
-    }
-    params = params.set(
-      "fields",
-      "Id,From,To,EventId,EventNumber,EventDesignation,EventLocation,EventManagerInformation",
+    return fetchTimetableEntries(
+      this.http,
+      `${this.baseUrl}/${studentId}/TimetableEntries/CurrentSemester`,
+      {
+        params,
+        additionalFields: ["EventManagerInformation"],
+      },
     );
-    return this.http
-      .get<unknown>(
-        `${this.baseUrl}/${studentId}/TimetableEntries/CurrentSemester`,
-        {
-          params,
-        },
-      )
-      .pipe(switchMap(decodeArray(TimetableEntry)));
   }
 }

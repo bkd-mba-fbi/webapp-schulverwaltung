@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import * as t from "io-ts";
-import { Observable, switchMap } from "rxjs";
+import { Observable } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { TimetableEntry } from "../models/timetable-entry.model";
-import { decodeArray } from "../utils/decode";
+import { fetchTimetableEntries } from "../utils/timetable-entries";
 import { RestService } from "./rest.service";
 
 // Dummy type, yet unused
@@ -23,26 +23,15 @@ export class TeachersRestService extends RestService<typeof Teacher> {
 
   getTimetableEntries(
     teacherId: number,
-    customParams: HttpParams | Dict<string> = {},
+    params: HttpParams | Dict<string> = {},
   ): Observable<ReadonlyArray<TimetableEntry>> {
-    let params: HttpParams =
-      customParams instanceof HttpParams
-        ? customParams
-        : new HttpParams({ fromObject: customParams });
-    params = params
-      .set(
-        "fields",
-        "Id,From,To,EventId,EventNumber,EventDesignation,EventLocation,Rooms",
-      )
-      .set("expand", "Rooms");
-    return this.http
-      .get<unknown>(
-        `${this.baseUrl}/${teacherId}/TimetableEntries/CurrentSemester`,
-        {
-          params,
-          headers: { "X-Role-Restriction": "LessonTeacherRole" },
-        },
-      )
-      .pipe(switchMap(decodeArray(TimetableEntry)));
+    return fetchTimetableEntries(
+      this.http,
+      `${this.baseUrl}/${teacherId}/TimetableEntries/CurrentSemester`,
+      {
+        params,
+        headers: { "X-Role-Restriction": "LessonTeacherRole" },
+      },
+    );
   }
 }
