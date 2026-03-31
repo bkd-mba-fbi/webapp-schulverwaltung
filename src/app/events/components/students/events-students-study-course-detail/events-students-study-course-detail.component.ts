@@ -96,8 +96,7 @@ export class EventsStudentsStudyCourseDetailComponent {
 
   updateStatus(): void {
     const subscriptionId = this.subscriptionId();
-    const person = this.person();
-    if (!subscriptionId || !person) {
+    if (!subscriptionId) {
       return;
     }
 
@@ -106,17 +105,11 @@ export class EventsStudentsStudyCourseDetailComponent {
     );
     modalRef.componentInstance.currentStatus = this.currentStatus;
     modalRef.componentInstance.subscriptionId = subscriptionId;
-    modalRef.componentInstance.personId = person.Id;
 
     modalRef.result.then(
       (status) => {
         this.statusProcessesService
-          .updateStatus(
-            "PersonenAnmeldung",
-            subscriptionId,
-            person.Id,
-            status.IdStatus,
-          )
+          .updateStatus("PersonenAnmeldung", subscriptionId, status.IdStatus)
           .subscribe(() => this.refreshSubscription.next());
       },
       () => {},
