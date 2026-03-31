@@ -363,7 +363,7 @@
     "finalise-modal": {
       "title": "Bewertung abschliessen",
       "message": "Möchten Sie die Bewertung abschliessen?",
-      "note": "Nach dem Abschluss ist das Fach nicht mehr sichtbar. Für Änderungen wenden Sie sich bitte an das zuständige Schulsekretariat.",
+      "note": "Nach dem Abschluss der Bewertung ist das Fach nicht mehr sichtbar. Nachträgliche Änderungen erfordern eine erneute Freigabe durch das zuständige Schulsekretariat und verursachen zusätzlichen administrativen Aufwand.",
       "open-evaluations": "Es sind offene Bewertungen vorhanden.",
       "cancel": "Abbrechen",
       "confirm": "Bestätigen"

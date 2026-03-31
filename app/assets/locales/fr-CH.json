@@ -363,7 +363,7 @@
     "finalise-modal": {
       "title": "Terminer l’évaluation",
       "message": "Souhaitez-vous terminer l’évaluation ?",
-      "note": "Une fois l’évaluation terminée, la discipline n’est plus visible. Pour toute modification, veuillez vous adresser au secrétariat compétent de l’école.",
+      "note": "Une fois l'évaluation terminée, la discipline n'est plus visible. Les modifications ultérieures nécessitent une nouvelle validation par le secrétariat de l'école compétent et entraînent un travail administratif supplémentaire.",
       "open-evaluations": "Des évaluations sont en suspens.",
       "cancel": "Annuler",
       "confirm": "Valider"
