@@ -62,6 +62,7 @@ const Settings = t.type({
   eventlist: t.record(t.string, t.string),
   dashboard: Dashboard,
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
+  dossierEntryEmailTypeId: t.number,
 });
 
 type Settings = t.TypeOf<typeof Settings>;

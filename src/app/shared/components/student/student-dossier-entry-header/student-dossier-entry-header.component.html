@@ -1,0 +1,11 @@
+<bkd-student-entry-header [opened]="opened()" (click)="headerClick.emit()">
+  <div class="header">
+    <i class="material-icons-outlined">{{ icon() }}</i>
+    <div class="content"><ng-content></ng-content></div>
+    @if (category()) {
+      <div class="category badge rounded-pill text-bg-sand me-3">
+        {{ category() }}
+      </div>
+    }
+  </div>
+</bkd-student-entry-header>

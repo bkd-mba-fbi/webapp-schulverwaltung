@@ -435,6 +435,12 @@
           "points": "Bei der Änderung der Punkte wird die Note automatisch berechnet und gespeichert."
         }
       }
+    },
+    "dossier": {
+      "title": "Dossier",
+      "information": "Information",
+      "created": "Erstellt",
+      "no-entries": "Keine Einträge vorhanden"
     }
   },
   "import": {

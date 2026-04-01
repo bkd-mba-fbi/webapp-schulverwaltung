@@ -1,0 +1,31 @@
+@let category = entry().category;
+@let info = entry().additionalInformation;
+
+<div ngbAccordionItem #item="ngbAccordionItem">
+  <div ngbAccordionHeader>
+    <bkd-student-dossier-entry-header
+      [icon]="entryIcon()"
+      [category]="category"
+      [opened]="!item.collapsed"
+      (click)="item.toggle()"
+    >
+      {{ info.Designation }}
+    </bkd-student-dossier-entry-header>
+  </div>
+  <div ngbAccordionCollapse>
+    <div ngbAccordionBody>
+      <ng-template>
+        <div class="body">
+          <bkd-student-dossier-entry-description
+            [entry]="entry()"
+          ></bkd-student-dossier-entry-description>
+          <div class="info">
+            {{ "student.dossier.created" | translate }}:
+            {{ info.CreationDate | date: "dd.MM.yyyy" }},
+            {{ info.CreatorName }}
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

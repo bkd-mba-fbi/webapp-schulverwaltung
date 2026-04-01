@@ -26,7 +26,12 @@ export class I18nService {
 
   initialize(): void {
     this.translate.setFallbackLang(FALLBACK_LANGUAGE);
-    this.translate.use(this.detectLanguage());
+    const language = this.detectLanguage();
+    this.translate.use(language);
+
+    // Make sure to set the lang attribute on the html element to get CSS
+    // hyphens working
+    document.documentElement.lang = language;
   }
 
   /**

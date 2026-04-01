@@ -3,6 +3,7 @@ import { Maybe } from "./common-types";
 
 const TokenPayload = t.type({
   culture_info: t.string,
+  username: t.string,
   fullname: t.string,
   id_person: t.string,
   holder_id: t.string,

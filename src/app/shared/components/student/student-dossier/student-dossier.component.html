@@ -1,0 +1,19 @@
+@if (loading()) {
+  <bkd-spinner class="small"></bkd-spinner>
+} @else {
+  @if (informationEntries().length === 0 && dossierEntries().length === 0) {
+    <p>{{ "student.dossier.no-entries" | translate }}</p>
+  } @else {
+    <div ngbAccordion>
+      @if (informationEntries().length > 0) {
+        <bkd-student-dossier-information
+          [entries]="informationEntries()"
+        ></bkd-student-dossier-information>
+      }
+
+      @for (entry of dossierEntries(); track entry.id) {
+        <bkd-student-dossier-entry [entry]="entry"></bkd-student-dossier-entry>
+      }
+    </div>
+  }
+}
