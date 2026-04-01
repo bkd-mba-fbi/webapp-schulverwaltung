@@ -3,10 +3,10 @@
   <h1>{{ studentFullName$ | async }}</h1>
 </div>
 
-<bkd-student-dossier-absences
+<bkd-student-absences-list
   [absences$]="absences$"
   [selectionService]="selectionService"
   [confirmLink]="'/open-absences/confirm'"
   [displayEmail]="true"
   [mailTo$]="mailTo$"
-></bkd-student-dossier-absences>
+></bkd-student-absences-list>

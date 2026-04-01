@@ -16,7 +16,7 @@ import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
 import { isTruthy, longerOrEqual } from "src/app/shared/utils/filter";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
-import { StudentDossierAbsencesComponent } from "../../../shared/components/student-dossier/student-dossier-absences/student-dossier-absences.component";
+import { StudentAbsencesListComponent } from "../../../shared/components/student/student-absences-list/student-absences-list.component";
 import { PersonsRestService } from "../../../shared/services/persons-rest.service";
 import { PresenceTypesService } from "../../../shared/services/presence-types.service";
 import { OpenAbsencesService } from "../../services/open-absences.service";
@@ -26,7 +26,7 @@ import { OpenAbsencesService } from "../../services/open-absences.service";
   templateUrl: "./open-absences-detail.component.html",
   styleUrls: ["./open-absences-detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BacklinkComponent, StudentDossierAbsencesComponent, AsyncPipe],
+  imports: [BacklinkComponent, StudentAbsencesListComponent, AsyncPipe],
 })
 export class OpenAbsencesDetailComponent
   implements OnInit, AfterViewInit, OnDestroy

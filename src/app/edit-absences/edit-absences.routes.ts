@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
 import {
-  DOSSIER_PAGES,
-  dossierRoute,
-} from "../shared/components/student-dossier/dossier-route";
+  STUDENT_PAGES,
+  studentRoute,
+} from "../shared/components/student/student-route";
 import { EditAbsencesEditComponent } from "./components/edit-absences-edit/edit-absences-edit.component";
 import { EditAbsencesListComponent } from "./components/edit-absences-list/edit-absences-list.component";
 import { EditAbsencesComponent } from "./components/edit-absences/edit-absences.component";
@@ -18,7 +18,7 @@ export const EDIT_ABSENCES_ROUTES: Routes = [
         data: {
           restoreScrollPositionFrom: [
             "/edit-absences/edit",
-            ...DOSSIER_PAGES.map(
+            ...STUDENT_PAGES.map(
               (page) => `/edit-absences/student/:id/${page}`,
             ),
           ],
@@ -28,7 +28,7 @@ export const EDIT_ABSENCES_ROUTES: Routes = [
         path: "edit",
         component: EditAbsencesEditComponent,
       },
-      dossierRoute,
+      studentRoute,
     ],
   },
 ];

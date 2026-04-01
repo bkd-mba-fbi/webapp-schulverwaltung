@@ -12,10 +12,10 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { StudentDossierAddressComponent } from "../../../shared/components/student-dossier/student-dossier-address/student-dossier-address.component";
-import { StudentDossierApprenticeshipComponent } from "../../../shared/components/student-dossier/student-dossier-apprenticeship/student-dossier-apprenticeship.component";
-import { StudentDossierEntryHeaderComponent } from "../../../shared/components/student-dossier/student-dossier-entry-header/student-dossier-entry-header.component";
-import { StudentDossierLegalRepresentativeComponent } from "../../../shared/components/student-dossier/student-dossier-legal-representative/student-dossier-legal-representative.component";
+import { StudentContactAddressComponent } from "../../../shared/components/student/student-contact-address/student-contact-address.component";
+import { StudentContactApprenticeshipComponent } from "../../../shared/components/student/student-contact-apprenticeship/student-contact-apprenticeship.component";
+import { StudentContactLegalRepresentativeComponent } from "../../../shared/components/student/student-contact-legal-representative/student-contact-legal-representative.component";
+import { StudentEntryHeaderComponent } from "../../../shared/components/student/student-entry-header/student-entry-header.component";
 import { MyProfileService } from "../../services/my-profile.service";
 import { MyProfileAddressComponent } from "../my-profile-address/my-profile-address.component";
 import { MyProfileEntryComponent } from "../my-profile-entry/my-profile-entry.component";
@@ -32,15 +32,15 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
     NgbAccordionDirective,
     NgbAccordionItem,
     NgbAccordionHeader,
-    StudentDossierEntryHeaderComponent,
+    StudentEntryHeaderComponent,
     NgbCollapse,
     NgbAccordionCollapse,
     NgbAccordionBody,
     RouterLink,
-    StudentDossierAddressComponent,
+    StudentContactAddressComponent,
     MyProfileAddressComponent,
-    StudentDossierLegalRepresentativeComponent,
-    StudentDossierApprenticeshipComponent,
+    StudentContactLegalRepresentativeComponent,
+    StudentContactApprenticeshipComponent,
     SpinnerComponent,
     DatePipe,
     TranslatePipe,

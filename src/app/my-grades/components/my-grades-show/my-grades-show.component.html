@@ -8,11 +8,11 @@
   @if (myGradesService.loading$ | async) {
     <bkd-spinner></bkd-spinner>
   } @else {
-    <bkd-dossier-grades-view
+    <bkd-student-grades-accordion
       [courses]="courses"
       [studentId]="studentId"
       [gradingScales]="gradingScales"
       [isEditable]="false"
-    ></bkd-dossier-grades-view>
+    ></bkd-student-grades-accordion>
   }
 </div>

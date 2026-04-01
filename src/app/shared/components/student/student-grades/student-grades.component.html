@@ -1,0 +1,13 @@
+@let courses = gradesService.studentCourses$ | async;
+@let studentId = state.studentId$ | async;
+@let gradingScales = gradesService.gradingScales$ | async;
+
+@if (gradesService.loading$ | async) {
+  <bkd-spinner class="small"></bkd-spinner>
+} @else {
+  <bkd-student-grades-accordion
+    [courses]="courses"
+    [studentId]="studentId"
+    [gradingScales]="gradingScales"
+  ></bkd-student-grades-accordion>
+}

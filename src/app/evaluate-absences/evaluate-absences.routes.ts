@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
+import { studentRoute } from "../shared/components/student/student-route";
 import { EvaluateAbsencesListComponent } from "./components/evaluate-absences-list/evaluate-absences-list.component";
 import { EvaluateAbsencesComponent } from "./components/evaluate-absences/evaluate-absences.component";
 
@@ -15,7 +15,7 @@ export const EVALUATE_ABSENCES_ROUTES: Routes = [
           restoreScrollPositionFrom: ["/evaluate-absences/student/:id"],
         },
       },
-      dossierRoute,
+      studentRoute,
     ],
   },
 ];
