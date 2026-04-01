@@ -2,8 +2,8 @@ import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
-import { DossierGradesViewComponent } from "../../../shared/components/student-dossier/dossier-grades-view/dossier-grades-view.component";
-import { DossierGradesService } from "../../../shared/services/dossier-grades.service";
+import { StudentGradesAccordionComponent } from "../../../shared/components/student/student-grades-accordion/student-grades-accordion.component";
+import { StudentGradesService } from "../../../shared/services/student-grades.service";
 import { MyGradesService } from "../../services/my-grades.service";
 import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.component";
 
@@ -11,10 +11,10 @@ import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.co
   selector: "bkd-my-grades-show",
   templateUrl: "./my-grades-show.component.html",
   styleUrls: ["./my-grades-show.component.scss"],
-  providers: [DossierGradesService],
+  providers: [StudentGradesService],
   imports: [
     MyGradesHeaderComponent,
-    DossierGradesViewComponent,
+    StudentGradesAccordionComponent,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,

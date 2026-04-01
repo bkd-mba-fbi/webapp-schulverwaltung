@@ -1,0 +1,44 @@
+@if (courses.length > 0) {
+  @for (
+    decoratedCourse of decoratedCoursesSubject$ | async;
+    track decoratedCourse.course.Id;
+    let i = $index
+  ) {
+    <div>
+      <div ngbAccordion>
+        <div ngbAccordionItem #courses="ngbAccordionItem">
+          <div ngbAccordionHeader>
+            <bkd-student-entry-header
+              [opened]="!courses.collapsed"
+              (click)="courses.toggle()"
+            >
+              <bkd-student-grades-course-header
+                [designation]="decoratedCourse.course.Designation"
+                [finalGrade]="decoratedCourse.finalGrade"
+                [grading]="decoratedCourse.grading"
+                [gradingScale]="decoratedCourse.gradingScale"
+                [average]="decoratedCourse.average"
+              ></bkd-student-grades-course-header>
+            </bkd-student-entry-header>
+          </div>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <bkd-student-grades-course
+                  [decoratedCourse]="decoratedCourse"
+                  [studentId]="studentId"
+                  [gradingScales]="gradingScales"
+                  [isEditable]="isEditable"
+                ></bkd-student-grades-course>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+} @else {
+  <p class="py-3" data-testid="message-no-courses">
+    {{ "student.grades.no-courses" | translate }}
+  </p>
+}

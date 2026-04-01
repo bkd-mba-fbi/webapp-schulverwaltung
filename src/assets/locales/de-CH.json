@@ -409,26 +409,31 @@
       "pdf-fallback": "Dieser Browser unterstützt keine eingebetteten PDFs. Bitte benutzen Sie den Button zum Herunterladen."
     }
   },
-  "dossier": {
-    "title": "Dossier",
-    "contact": "Kontakt",
-    "address": "Wohnadresse",
-    "absences": "Absenzen",
-    "grade": "Note",
-    "grades": "Noten",
-    "points": "Punkte",
-    "average": "Mittelwert",
-    "no-tests": "Keine Tests vorhanden",
-    "no-grades": "Keine Noten vorhanden",
-    "no-courses": "Keine Anlässe vorhanden",
-    "no-absences": "Keine Absenzen vorhanden",
-    "dialog": {
+  "student": {
+    "contact": {
+      "title": "Kontakt",
+      "address": "Wohnadresse"
+    },
+    "absences": {
+      "title": "Absenzen",
+      "no-absences": "Keine Absenzen vorhanden"
+    },
+    "grades": {
+      "title": "Noten",
+      "no-courses": "Keine Anlässe vorhanden",
+      "no-tests": "Keine Tests vorhanden",
+      "no-grades": "Keine Noten vorhanden",
       "grade": "Note",
       "points": "Punkte",
-      "close": "Schliessen",
-      "hint": {
-        "grade": "Eine Änderung an der Note wird automatisch gespeichert.",
-        "points": "Bei der Änderung der Punkte wird die Note automatisch berechnet und gespeichert."
+      "average": "Mittelwert",
+      "edit-dialog": {
+        "grade": "Note",
+        "points": "Punkte",
+        "close": "Schliessen",
+        "hint": {
+          "grade": "Eine Änderung an der Note wird automatisch gespeichert.",
+          "points": "Bei der Änderung der Punkte wird die Note automatisch berechnet und gespeichert."
+        }
       }
     }
   },

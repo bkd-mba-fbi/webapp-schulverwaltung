@@ -15,7 +15,7 @@ import { LessonIncident } from "src/app/shared/models/lesson-incident.model";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
 import { StorageService } from "src/app/shared/services/storage.service";
-import { StudentProfileAbsencesCounts } from "src/app/shared/services/student-profile-absences.service";
+import { StudentProfileAbsencesCounts } from "src/app/shared/services/student-absences.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { notNull } from "src/app/shared/utils/filter";
 import { spread } from "src/app/shared/utils/function";

@@ -1,0 +1,54 @@
+<h2>{{ "student.contact.address" | translate }}</h2>
+@if (loadingStudent()) {
+  <bkd-spinner class="small"></bkd-spinner>
+} @else {
+  <bkd-student-contact-address
+    class="profile-entry"
+    [student]="student()"
+  ></bkd-student-contact-address>
+}
+<div>
+  @if (loadingLegalRepresentatives()) {
+    <bkd-spinner class="small"></bkd-spinner>
+  } @else {
+    @let representatives = legalRepresentatives() ?? [];
+    @if (representatives.length > 0) {
+      <div>
+        <h2>{{ "shared.profile.legal-representation" | translate }}</h2>
+        <div class="legal-representatives">
+          @for (representative of representatives; track representative.Id) {
+            <bkd-student-contact-legal-representative
+              class="profile-entry"
+              [person]="representative"
+            ></bkd-student-contact-legal-representative>
+          }
+        </div>
+      </div>
+    }
+  }
+
+  @if (loadingApprenticeships()) {
+    <bkd-spinner class="small"></bkd-spinner>
+  } @else {
+    @for (
+      apprenticeship of apprenticeships() ?? [];
+      track apprenticeship.apprenticeshipContract.Id;
+      let i = $index
+    ) {
+      <div>
+        <h2>
+          {{ "shared.profile.apprenticeship-company" | translate }}
+          @if ((apprenticeships() ?? []).length > 1) {
+            {{ i + 1 }}
+          }
+        </h2>
+        <div class="apprenticeship-companies">
+          <bkd-student-contact-apprenticeship
+            class="profile-entry"
+            [apprenticeship]="apprenticeship"
+          ></bkd-student-contact-apprenticeship>
+        </div>
+      </div>
+    }
+  }
+</div>

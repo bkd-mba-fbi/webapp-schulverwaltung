@@ -410,25 +410,30 @@
     }
   },
   "dossier": {
-    "title": "Dossier",
-    "contact": "Contact",
-    "address": "Adresse du domicile",
-    "absences": "Absences",
-    "grade": "Note",
-    "grades": "Notes",
-    "points": "points",
-    "average": "Moyenne",
-    "no-tests": "Aucun test disponible",
-    "no-grades": "Aucune note disponible",
-    "no-courses": "Aucun événement disponible",
-    "no-absences": "Pas d'absences disponibles",
-    "dialog": {
+    "contact": {
+      "title": "Contact",
+      "address": "Adresse du domicile"
+    },
+    "absences": {
+      "title": "Absences",
+      "no-absences": "Pas d'absences disponibles"
+    },
+    "grades": {
+      "title": "Notes",
+      "no-courses": "Aucun événement disponible",
+      "no-tests": "Aucun test disponible",
+      "no-grades": "Aucune note disponible",
       "grade": "Note",
-      "points": "Points",
-      "close": "Fermer",
-      "hint": {
-        "grade": "Une modification de la note est automatiquement enregistrée.",
-        "points": "En cas de modification des points, la note est calculée et enregistrée automatiquement."
+      "points": "points",
+      "average": "Moyenne",
+      "edit-dialog": {
+        "grade": "Note",
+        "points": "Points",
+        "close": "Fermer",
+        "hint": {
+          "grade": "Une modification de la note est automatiquement enregistrée.",
+          "points": "En cas de modification des points, la note est calculée et enregistrée automatiquement."
+        }
       }
     }
   },

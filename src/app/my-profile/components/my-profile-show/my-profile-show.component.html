@@ -60,12 +60,12 @@
       <div ngbAccordion>
         <div ngbAccordionItem #studentAddress="ngbAccordionItem">
           <div ngbAccordionHeader>
-            <bkd-student-dossier-entry-header
+            <bkd-student-entry-header
               [opened]="!studentAddress.collapsed"
               (click)="studentAddress.toggle()"
             >
               {{ "shared.profile.student-address" | translate }}
-            </bkd-student-dossier-entry-header>
+            </bkd-student-entry-header>
           </div>
           <div ngbAccordionCollapse>
             <div ngbAccordionBody>
@@ -78,11 +78,11 @@
                   >
                     <i class="material-icons">edit</i>
                   </a>
-                  <bkd-student-dossier-address
+                  <bkd-student-contact-address
                     class="profile-entry"
                     [student]="personValue"
                     emailProperty="Email2"
-                  ></bkd-student-dossier-address>
+                  ></bkd-student-contact-address>
                 </div>
               </ng-template>
             </div>
@@ -92,12 +92,12 @@
         @if (personValue.CorrespondenceAddress) {
           <div ngbAccordionItem #correspondenceAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-dossier-entry-header
+              <bkd-student-entry-header
                 [opened]="!correspondenceAddress.collapsed"
                 (click)="correspondenceAddress.toggle()"
               >
                 {{ "shared.profile.correspondence-address" | translate }}
-              </bkd-student-dossier-entry-header>
+              </bkd-student-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
@@ -115,12 +115,12 @@
         @if (personValue.BillingAddress) {
           <div ngbAccordionItem #billingAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-dossier-entry-header
+              <bkd-student-entry-header
                 [opened]="!billingAddress.collapsed"
                 (click)="billingAddress.toggle()"
               >
                 {{ "shared.profile.billing-address" | translate }}
-              </bkd-student-dossier-entry-header>
+              </bkd-student-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
@@ -140,12 +140,12 @@
         } @else if ((legalRepresentatives() ?? []).length > 0) {
           <div ngbAccordionItem #legalRepresentativesItem="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-dossier-entry-header
+              <bkd-student-entry-header
                 [opened]="!legalRepresentativesItem.collapsed"
                 (click)="legalRepresentativesItem.toggle()"
               >
                 {{ "shared.profile.legal-representation" | translate }}
-              </bkd-student-dossier-entry-header>
+              </bkd-student-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
@@ -154,10 +154,10 @@
                     person of legalRepresentatives() ?? [];
                     track person.Id
                   ) {
-                    <bkd-student-dossier-legal-representative
+                    <bkd-student-contact-legal-representative
                       class="profile-entry"
                       [person]="person"
-                    ></bkd-student-dossier-legal-representative>
+                    ></bkd-student-contact-legal-representative>
                   }
                 </ng-template>
               </div>
@@ -175,7 +175,7 @@
         ) {
           <div [ngbAccordionItem] #apprenticeshipCompanies="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-dossier-entry-header
+              <bkd-student-entry-header
                 [opened]="!apprenticeshipCompanies.collapsed"
                 (click)="apprenticeshipCompanies.toggle()"
               >
@@ -183,15 +183,15 @@
                 @if ((apprenticeships() ?? []).length > 1) {
                   {{ i + 1 }}
                 }
-              </bkd-student-dossier-entry-header>
+              </bkd-student-entry-header>
             </div>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  <bkd-student-dossier-apprenticeship
+                  <bkd-student-contact-apprenticeship
                     class="profile-entry"
                     [apprenticeship]="apprenticeship"
-                  ></bkd-student-dossier-apprenticeship>
+                  ></bkd-student-contact-apprenticeship>
                 </ng-template>
               </div>
             </div>

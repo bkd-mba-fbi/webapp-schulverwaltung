@@ -1,5 +1,5 @@
 import { Route, Routes } from "@angular/router";
-import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
+import { studentRoute } from "../shared/components/student/student-route";
 import { EventsComponent } from "./components/common/events/events.component";
 import { EvaluationListComponent } from "./components/evaluation/evaluation-list/evaluation-list.component";
 import { EvaluationStatisticComponent } from "./components/evaluation/evaluation-statistic/evaluation-statistic.component";
@@ -76,7 +76,7 @@ export const EVENTS_ROUTES: Routes = [
                 path: "add",
                 component: TestsAddComponent,
               },
-              dossierRoute,
+              studentRoute,
             ],
           },
 
@@ -100,7 +100,7 @@ export const EVENTS_ROUTES: Routes = [
                 path: "verify",
                 component: EvaluationVerifyComponent,
               },
-              dossierRoute,
+              studentRoute,
             ],
           },
 
@@ -123,7 +123,7 @@ export function getStudentsRoute(path: string): Route {
         path: "study-course-student/:id",
         component: EventsStudentsStudyCourseDetailComponent,
       },
-      dossierRoute,
+      studentRoute,
     ],
   };
 }

@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { getStudentsRoute } from "../events/events.routes";
-import { dossierRoute } from "../shared/components/student-dossier/dossier-route";
+import { studentRoute } from "../shared/components/student/student-route";
 import { DashboardLayoutComponent } from "./components/dashboard-layout/dashboard-layout.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 
@@ -10,7 +10,7 @@ export const DASHBOARD_ROUTES: Routes = [
     component: DashboardComponent,
     children: [
       { path: "", component: DashboardLayoutComponent },
-      dossierRoute,
+      studentRoute,
       getStudentsRoute("students/:id"),
     ],
   },

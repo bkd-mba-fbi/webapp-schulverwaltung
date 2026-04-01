@@ -1,0 +1,24 @@
+@let sortedTests = (sortedTests$ | async) ?? [];
+
+@if (sortedTests.length > 0) {
+  <div>
+    <bkd-student-grades-final-grade
+      [finalGrade]="decoratedCourse.finalGrade"
+      [grading]="decoratedCourse.grading"
+      [gradingScale]="decoratedCourse.gradingScale"
+      [average]="decoratedCourse.average"
+    ></bkd-student-grades-final-grade>
+    @for (test of sortedTests; track test.Id) {
+      <bkd-student-grades-test
+        [test]="test"
+        [studentId]="studentId"
+        [gradingScale]="getGradingScaleOfTest(test)"
+        [isEditable]="isEditable"
+      ></bkd-student-grades-test>
+    }
+  </div>
+} @else {
+  <p class="p-3" data-testid="message-no-tests">
+    {{ "student.grades.no-tests" | translate }}
+  </p>
+}
