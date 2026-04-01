@@ -409,7 +409,7 @@
       "pdf-fallback": "Ce navigateur ne prend pas en charge les fichiers PDF intégrés. Veuillez utiliser le bouton pour télécharger le fichier."
     }
   },
-  "dossier": {
+  "student": {
     "contact": {
       "title": "Contact",
       "address": "Adresse du domicile"
@@ -435,6 +435,12 @@
           "points": "En cas de modification des points, la note est calculée et enregistrée automatiquement."
         }
       }
+    },
+    "dossier": {
+      "title": "Dossier",
+      "information": "Information",
+      "created": "Créé",
+      "no-entries": "Aucune donnée disponible"
     }
   },
   "import": {

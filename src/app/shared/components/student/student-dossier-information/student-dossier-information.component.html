@@ -1,0 +1,27 @@
+<div ngbAccordionItem #item="ngbAccordionItem">
+  <div ngbAccordionHeader>
+    <bkd-student-dossier-entry-header
+      icon="info_outlined"
+      [opened]="!item.collapsed"
+      (click)="item.toggle()"
+    >
+      {{ "student.dossier.information" | translate }}
+    </bkd-student-dossier-entry-header>
+  </div>
+  <div ngbAccordionCollapse>
+    <div ngbAccordionBody>
+      <ng-template>
+        <ul>
+          @for (entry of entries(); track entry.id) {
+            <li>
+              {{ entry.additionalInformation.Designation }}:
+              <bkd-student-dossier-entry-description
+                [entry]="entry"
+              ></bkd-student-dossier-entry-description>
+            </li>
+          }
+        </ul>
+      </ng-template>
+    </div>
+  </div>
+</div>

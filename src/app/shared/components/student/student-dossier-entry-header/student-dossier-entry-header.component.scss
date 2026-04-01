@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.material-icons-outlined {
+  width: 24px;
+}
+
+.content {
+  flex: auto;
+  hyphens: auto; // Enable hyphenation for long words
+  overflow-wrap: anywhere; // Break non-dictionary "words"
+}

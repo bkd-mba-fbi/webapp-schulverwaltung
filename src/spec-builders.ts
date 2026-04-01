@@ -3,6 +3,7 @@ import {
   EventState,
 } from "./app/events/services/events-state.service";
 import { PresenceControlEntry } from "./app/presence-control/models/presence-control-entry.model";
+import { AdditionalInformation } from "./app/shared/models/additional-informations.model";
 import { ApprenticeshipContract } from "./app/shared/models/apprenticeship-contract.model";
 import { ApprenticeshipManager } from "./app/shared/models/apprenticeship-manager.model";
 import { OptionalReference, Reference } from "./app/shared/models/common-types";
@@ -398,6 +399,7 @@ export function buildPayLoad(
 ): TokenPayload {
   return {
     culture_info: "de-CH",
+    username: "test",
     fullname: "Test Rudy",
     id_person: personId,
     holder_id: "",
@@ -577,6 +579,23 @@ export function buildStudyClass(id: number, designation?: string): StudyClass {
     Designation: designation || "22a",
     StudentCount: 0,
     Number: designation || "22a",
+  };
+}
+
+export function buildAdditionalInformation(): AdditionalInformation {
+  return {
+    Id: 1,
+    TypeId: 1052,
+    ObjectId: 10,
+    ObjectTypeId: 100,
+    Designation: "Lorem ipsum",
+    File: null,
+    Description: null,
+    CodeId: 2000273,
+    ForStudent: false,
+    ForJobTrainer: false,
+    CreationDate: new Date(),
+    CreatorName: "Max Mustermann",
   };
 }
 

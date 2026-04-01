@@ -1,0 +1,14 @@
+@import "../../../../../bootstrap-variables";
+
+.body {
+  padding-left: calc($spacer + 24px + 0.5rem);
+  padding-right: $spacer;
+  padding-bottom: $spacer;
+}
+
+.info {
+  color: $gray-500;
+  font-size: $font-size-sm;
+  font-weight: 400;
+  line-height: 1.5;
+}

@@ -2,6 +2,7 @@ import { Route } from "@angular/router";
 import { ConfirmAbsencesComponent } from "../confirm-absences/confirm-absences.component";
 import { StudentAbsencesComponent } from "./student-absences/student-absences.component";
 import { StudentContactComponent } from "./student-contact/student-contact.component";
+import { StudentDossierComponent } from "./student-dossier/student-dossier.component";
 import { StudentGradesComponent } from "./student-grades/student-grades.component";
 import { StudentComponent } from "./student/student.component";
 
@@ -26,6 +27,7 @@ export const studentRoute: Route = {
           component: StudentAbsencesComponent,
         },
         { path: "grades", component: StudentGradesComponent },
+        { path: "dossier", component: StudentDossierComponent },
       ],
     },
     {

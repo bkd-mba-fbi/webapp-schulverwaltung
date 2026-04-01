@@ -53,6 +53,7 @@ describe("StudentNavigationComponent", () => {
       "student.contact.title",
       "student.absences.title",
       "student.grades.title",
+      "student.dossier.title",
     ]);
   });
 });

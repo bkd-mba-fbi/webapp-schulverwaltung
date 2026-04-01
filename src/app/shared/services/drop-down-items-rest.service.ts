@@ -31,6 +31,12 @@ export class DropDownItemsRestService {
       .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
   }
 
+  getAdditionalInformationCodes(): Observable<ReadonlyArray<DropDownItem>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/AdditionalInformationCodes`)
+      .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
+  }
+
   private get baseUrl(): string {
     return `${this.settings.apiUrl}/DropDownItems`;
   }

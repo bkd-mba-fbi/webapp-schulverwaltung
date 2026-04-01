@@ -94,21 +94,21 @@ describe("StorageService", () => {
   describe(".getPayload", () => {
     it("returns payload of login CLX.LoginToken", () => {
       localStoreMock["CLX.LoginToken"] =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsImhvbGRlcl9pZCI6IiIsInN1YnN0aXR1dGlvbl9pZCI6bnVsbH0.qmVrp9-A_-jkTUIlAhDB1n0ZllsT5pZeXdUBQZtqPBo";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInVzZXJuYW1lIjoidGVzdCIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsImhvbGRlcl9pZCI6IiIsInN1YnN0aXR1dGlvbl9pZCI6bnVsbH0.E0l6LvsLOitm2OKTLEdEZzj9wTn08NOXBMuCJzvO07I";
       const tokenPayload = buildPayLoad();
       expect(service.getPayload()).toEqual(tokenPayload);
     });
 
     it("returns payload of login CLX.LoginToken with UTF-8 character in fullname", () => {
       localStoreMock["CLX.LoginToken"] =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IkxlaXR1bmcgQW5hw69zIiwicm9sZXMiOiJMZXNzb25UZWFjaGVyUm9sZTtDbGFzc1RlYWNoZXJSb2xlIiwiaG9sZGVyX2lkIjoiIiwic3Vic3RpdHV0aW9uX2lkIjpudWxsfQ._IPnYyP7d9A1XHkmQbmor8Av90nzk_FAggiVfa1d2SI";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IkxlaXR1bmcgQW5hw69zIiwidXNlcm5hbWUiOiJ0ZXN0Iiwicm9sZXMiOiJMZXNzb25UZWFjaGVyUm9sZTtDbGFzc1RlYWNoZXJSb2xlIiwiaG9sZGVyX2lkIjoiIiwic3Vic3RpdHV0aW9uX2lkIjpudWxsfQ.jxhNQtfL3mpF7ck26E1FWV4o6Ta1C-dvAGPZczA_ErQ";
       const tokenPayload = { ...buildPayLoad(), fullname: "Leitung Anaïs" };
       expect(service.getPayload()).toEqual(tokenPayload);
     });
 
     it("returns payload of login CLX.LoginToken with holder_id if a substitution is active", () => {
       localStoreMock["CLX.LoginToken"] =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsImhvbGRlcl9pZCI6IjEyMzQiLCJzdWJzdGl0dXRpb25faWQiOm51bGx9.24_LCWmHXaaAUUk2SllliVSWR8SkaHsNp3FGflsQboU";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZV9pZCI6IkdZbVRFU1QiLCJjdWx0dXJlX2luZm8iOiJkZS1DSCIsImlkX3BlcnNvbiI6IjI0MzEiLCJmdWxsbmFtZSI6IlRlc3QgUnVkeSIsInVzZXJuYW1lIjoidGVzdCIsInJvbGVzIjoiTGVzc29uVGVhY2hlclJvbGU7Q2xhc3NUZWFjaGVyUm9sZSIsImhvbGRlcl9pZCI6IjEyMzQiLCJzdWJzdGl0dXRpb25faWQiOm51bGx9.J1rM7i6e-vz3gUP6DYIBgFkCm_KqY_NaQhBUjph25Rg";
       const tokenPayload = {
         ...buildPayLoad(),
         holder_id: "1234",

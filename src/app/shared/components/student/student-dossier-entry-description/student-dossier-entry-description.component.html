@@ -1,0 +1,5 @@
+@let info = entry().additionalInformation;
+
+@if (showDescription()) {
+  <p [innerHTML]="info.Description | bkdSafeHtml"></p>
+}

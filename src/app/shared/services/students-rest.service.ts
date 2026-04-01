@@ -3,6 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
+import { AdditionalInformation } from "../models/additional-informations.model";
 import { ApprenticeshipContract } from "../models/apprenticeship-contract.model";
 import { LegalRepresentative } from "../models/legal-representative.model";
 import { LessonAbsence } from "../models/lesson-absence.model";
@@ -107,5 +108,13 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
         additionalFields: ["EventManagerInformation"],
       },
     );
+  }
+
+  getAdditionalInformations(
+    studentId: number,
+  ): Observable<ReadonlyArray<AdditionalInformation>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/${studentId}/AdditionalInformations`)
+      .pipe(switchMap(decodeArray(AdditionalInformation)));
   }
 }
