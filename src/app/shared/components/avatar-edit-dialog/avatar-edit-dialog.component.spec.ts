@@ -95,7 +95,9 @@ describe("AvatarEditDialogComponent", () => {
     ).not.toHaveBeenCalled();
     await component.proceed();
     fixture.detectChanges();
-    expect(additionalInformationsServiceMock.uploadPhoto).toHaveBeenCalled();
+    expect(additionalInformationsServiceMock.uploadPhoto).toHaveBeenCalledTimes(
+      1,
+    );
     expect(component.step()).toBe("uploading");
     expect(component.canCancel()).toBe(true);
     expect(component.canProceed()).toBe(false);
