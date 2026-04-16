@@ -113,7 +113,7 @@ export class AvatarEditDialogComponent {
     }
   }
 
-  private upload(image: Option<File>): Promise<void> {
+  private async upload(image: Option<File>): Promise<void> {
     this.saving.set(true);
     const upload$ = of(image).pipe(
       switchMap((image) =>
@@ -128,17 +128,15 @@ export class AvatarEditDialogComponent {
         ),
       ),
     );
-    upload$.subscribe({
-      next: () => {
-        this.saving.set(false);
-        this.activeModal.close(true);
-      },
-      error: (error) => {
-        this.saving.set(false);
-        this.error.set(error);
-        console.error(error);
-      },
-    });
-    return firstValueFrom(upload$);
+
+    try {
+      await firstValueFrom(upload$);
+      this.saving.set(false);
+      this.activeModal.close(true);
+    } catch (error) {
+      this.saving.set(false);
+      this.error.set(error);
+      console.error(error);
+    }
   }
 }
