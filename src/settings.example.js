@@ -257,4 +257,6 @@ window.schulverwaltung.settings = {
   // Type ID of additional informations entries created from emails
   // (which include .eml file in attachement)
   dossierEntryEmailTypeId: 1055,
+  importantInformationId: 2000274,
+  disadvantageCompensationId: 2000283,
 };

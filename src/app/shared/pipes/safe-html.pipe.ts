@@ -11,7 +11,7 @@ export class SafeHtmlPipe implements PipeTransform {
   transform(value: Option<string>): SafeHtml {
     if (!value) return "";
 
-    // Make sure the given HTML is sanitized to avoid XSS and only allow only a
+    // Make sure the given HTML is sanitized to avoid XSS and only allow a
     // subset of HTML.
     const saneHtml = DOMPurify.sanitize(value, {
       ALLOWED_TAGS: [

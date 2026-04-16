@@ -35,6 +35,9 @@ export class StudentDossierComponent {
   informationEntries = toSignal(this.dossierService.informationEntries$, {
     initialValue: [],
   });
+  disadvantageEntries = toSignal(this.dossierService.disadvantageEntries$, {
+    initialValue: [],
+  });
   dossierEntries = toSignal(this.dossierService.dossierEntries$, {
     initialValue: [],
   });

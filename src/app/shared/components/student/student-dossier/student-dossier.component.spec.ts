@@ -15,6 +15,7 @@ describe("StudentDossierComponent", () => {
     loading$: Observable<boolean>;
     studentId$: Observable<number>;
     informationEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
+    disadvantageEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
     dossierEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
   };
 
@@ -39,9 +40,25 @@ describe("StudentDossierComponent", () => {
           isOwner: false,
         },
       ]),
-      dossierEntries$: new BehaviorSubject<ReadonlyArray<StudentDossierEntry>>([
+      disadvantageEntries$: new BehaviorSubject<
+        ReadonlyArray<StudentDossierEntry>
+      >([
         {
           id: 2,
+          type: "disadvantage",
+          additionalInformation: {
+            ...buildAdditionalInformation(),
+            CodeId: 2000283,
+            Designation: "Dyslexie",
+            Description: "20% mehr Zeit bei Prüfungen",
+          },
+          category: null,
+          isOwner: false,
+        },
+      ]),
+      dossierEntries$: new BehaviorSubject<ReadonlyArray<StudentDossierEntry>>([
+        {
+          id: 3,
           type: "dossier",
           additionalInformation: {
             ...buildAdditionalInformation(),

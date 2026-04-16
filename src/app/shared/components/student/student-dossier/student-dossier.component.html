@@ -7,7 +7,8 @@
     <div ngbAccordion>
       @if (informationEntries().length > 0) {
         <bkd-student-dossier-information
-          [entries]="informationEntries()"
+          [informationEntries]="informationEntries()"
+          [disadvantageEntries]="disadvantageEntries()"
         ></bkd-student-dossier-information>
       }
 

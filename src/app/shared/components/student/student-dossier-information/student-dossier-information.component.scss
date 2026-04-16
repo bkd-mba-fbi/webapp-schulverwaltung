@@ -1,0 +1,15 @@
+@import "src/bootstrap-variables";
+
+:host {
+  display: block;
+  background-color: $dark-sand;
+}
+
+.accordion-body {
+  padding: $spacer $spacer $spacer calc(1rem + 24px + 0.5rem);
+}
+
+h6 {
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+}

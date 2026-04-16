@@ -1,5 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { Observable, combineLatest, map, shareReplay, switchMap } from "rxjs";
+import { SETTINGS, Settings } from "../../settings";
 import { AdditionalInformation } from "../models/additional-informations.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
@@ -27,6 +28,7 @@ const STUDENT_DOSSIER_CONTEXT = "student-dossier";
   providedIn: "root",
 })
 export class StudentDossierService {
+  private settings = inject<Settings>(SETTINGS);
   private state = inject(StudentStateService);
   private loadingService = inject(LoadingService);
   private studentsService = inject(StudentsRestService);
@@ -62,18 +64,20 @@ export class StudentDossierService {
     map((entries) => entries.filter((entry) => entry.type === "dossier")),
   );
 
+  private sortByDateDesc(
+    a: AdditionalInformation,
+    b: AdditionalInformation,
+  ): number {
+    return b.CreationDate.getTime() - a.CreationDate.getTime();
+  }
+
   private loadAdditionalInformations(
     studentId: number,
   ): Observable<ReadonlyArray<AdditionalInformation>> {
     return this.loadingService.load(
-      this.studentsService.getAdditionalInformations(studentId).pipe(
-        map((entries) =>
-          // Sort by creation date descending
-          [...entries].sort(
-            (a, b) => b.CreationDate.getTime() - a.CreationDate.getTime(),
-          ),
-        ),
-      ),
+      this.studentsService
+        .getAdditionalInformations(studentId)
+        .pipe(map((entries) => [...entries].sort(this.sortByDateDesc))),
       { context: STUDENT_DOSSIER_CONTEXT },
     );
   }
@@ -106,8 +110,14 @@ export class StudentDossierService {
   }
 
   private getEntryType(entry: AdditionalInformation): StudentDossierEntryType {
-    // TODO: implement
-    return entry.CodeId === 2000274 ? "information" : "dossier";
+    switch (entry.CodeId) {
+      case this.settings.importantInformationId:
+        return "information";
+      case this.settings.disadvantageCompensationId:
+        return "disadvantage";
+      default:
+        return "dossier";
+    }
   }
 
   private isOwner(entry: AdditionalInformation): boolean {
