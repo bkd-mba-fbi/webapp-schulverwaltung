@@ -3,6 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { shareReplay, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "src/app/settings";
+import { AdditionalInformationCode } from "../models/additional-informations.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { decodeArray } from "../utils/decode";
 
@@ -31,10 +32,12 @@ export class DropDownItemsRestService {
       .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
   }
 
-  getAdditionalInformationCodes(): Observable<ReadonlyArray<DropDownItem>> {
+  getAdditionalInformationCodes(): Observable<
+    ReadonlyArray<AdditionalInformationCode>
+  > {
     return this.http
       .get<unknown>(`${this.baseUrl}/AdditionalInformationCodes`)
-      .pipe(switchMap(decodeArray(DropDownItem)), shareReplay(1));
+      .pipe(switchMap(decodeArray(AdditionalInformationCode)), shareReplay(1));
   }
 
   private get baseUrl(): string {

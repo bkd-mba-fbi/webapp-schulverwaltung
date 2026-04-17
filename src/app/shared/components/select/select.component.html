@@ -1,17 +1,19 @@
 <select
+  [id]="id()"
   class="form-select"
-  tabindex="{{ tabindex }}"
-  [ngStyle]="{ width }"
-  [disabled]="disabled"
-  [ngModel]="value$ | async"
-  (ngModelChange)="valueChange.emit($event && $event.Key)"
+  [class.is-invalid]="isInvalid()"
+  tabindex="{{ tabindex() }}"
+  [ngStyle]="{ width: width() }"
+  [disabled]="disabled()"
+  [ngModel]="selectedOption()"
+  (ngModelChange)="value.set($event && $event.Key)"
 >
-  @if (allowEmpty) {
+  @if (allowEmpty()) {
     <option [ngValue]="null">
-      {{ emptyLabel | translate }}
+      {{ emptyLabel() | translate }}
     </option>
   }
-  @for (option of options; track option.Key) {
+  @for (option of options(); track option.Key) {
     <option [ngValue]="option">
       {{ option.Value }}
     </option>

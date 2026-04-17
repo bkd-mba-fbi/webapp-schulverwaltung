@@ -14,7 +14,9 @@
       "conflict-title": "Données non valides",
       "conflict-message": "Les données que vous souhaitez enregistrer ne sont pas valides.",
       "server-title": "Erreur du serveur",
-      "server-message": "Une erreur s'est produite lors de la connexion au serveur."
+      "server-message": "Une erreur s'est produite lors de la connexion au serveur.",
+      "maxFileSize": "La taille du fichier est trop grande ({{size}} MB, max. {{maxSize}} MB)",
+      "fileType": "Ce type de fichier n'est pas autorisé"
     },
     "validation-errors": {
       "required": "Ce champ doit être rempli.",
@@ -442,7 +444,28 @@
       "information": "Information",
       "download": "Afficher",
       "disadvantage": "Compensation des désavantages",
-      "created": "Créé"
+      "created": "Créé",
+      "edit": {
+        "title-new": "Ajouter une entrée",
+        "title-update": "Modifier « {{designation}} »",
+        "not-found": "L'entrée n'a pas pu être trouvée.",
+        "type": {
+          "document": "Document",
+          "note": "Note"
+        },
+        "designation": "Titre",
+        "description": "Notes",
+        "category": "Catégorie",
+        "visibility": "Visibilité",
+        "for-teacher-class-teacher-only": "Seul professeur principal",
+        "for-teacher-all": "Tous les professeurs de la classe",
+        "for-student": "Visible pour {{ studentName }}",
+        "optional": "optionnel",
+        "cancel": "Annuler",
+        "save": "Appliquer",
+        "save-success": "L'entrée a été enregistrée",
+        "save-error": "L'entrée n'a pas pu être enregistrée"
+      }
     }
   },
   "import": {

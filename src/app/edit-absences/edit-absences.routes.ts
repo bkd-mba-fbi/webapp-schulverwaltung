@@ -1,8 +1,6 @@
 import { Routes } from "@angular/router";
-import {
-  STUDENT_PAGES,
-  studentRoute,
-} from "../shared/components/student/student-route";
+import { STUDENT_PAGES } from "../shared/components/student/student-pages";
+import { studentRoute } from "../shared/components/student/student-route";
 import { EditAbsencesEditComponent } from "./components/edit-absences-edit/edit-absences-edit.component";
 import { EditAbsencesListComponent } from "./components/edit-absences-list/edit-absences-list.component";
 import { EditAbsencesComponent } from "./components/edit-absences/edit-absences.component";

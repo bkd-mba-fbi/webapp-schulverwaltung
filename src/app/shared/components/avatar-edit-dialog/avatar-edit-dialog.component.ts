@@ -38,7 +38,7 @@ export class AvatarEditDialogComponent {
 
   step = signal<AvatarEditDialogStep>("choose");
 
-  acceptedExtensions = [".jpg", ".jpeg", ".png"];
+  acceptedFileTypes = [".jpg", ".jpeg", ".png"];
   acceptedMimeTypes = ["image/jpeg", "image/png"];
   file = signal<Option<File>>(null);
   invalidFile = computed(
@@ -122,7 +122,7 @@ export class AvatarEditDialogComponent {
           : throwError(() => new Error("No avatar image available")),
       ),
       switchMap((image) =>
-        this.additionalInformationsRestService.uploadPhoto(
+        this.additionalInformationsRestService.createAvatar(
           this.studentId(),
           image,
         ),

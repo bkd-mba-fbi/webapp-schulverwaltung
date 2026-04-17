@@ -15,7 +15,7 @@ describe("FileInputComponent", () => {
 
     fixture = TestBed.createComponent(FileInputComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput("acceptedExtensions", [
+    fixture.componentRef.setInput("acceptedFileTypes", [
       ".jpg",
       ".jpeg",
       ".png",

@@ -12,9 +12,9 @@
             ? ("shared.avatar-edit.dialog.invalid-file" | translate)
             : null;
         <bkd-file-input
-          [acceptedExtensions]="acceptedExtensions"
+          [acceptedFileTypes]="acceptedFileTypes"
           [error]="invalidFileError"
-          [(file)]="file"
+          [(value)]="file"
         ></bkd-file-input>
         <div
           class="alert alert-warning mt-3 d-flex align-items-center"

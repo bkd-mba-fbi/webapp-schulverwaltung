@@ -210,7 +210,7 @@
         </div>
       }
     </div>
-    <div class="d-flex justify-content-end mt-4">
+    <div class="d-flex justify-content-end gap-2 mt-4">
       <button
         type="button"
         class="btn btn-outline-secondary"
@@ -219,17 +219,9 @@
       >
         {{ "tests.form.cancel" | translate }}
       </button>
-      <button type="submit" class="btn btn-primary ms-2" [disabled]="saving">
+      <bkd-submit-button [saving]="saving">
         {{ "tests.form.save" | translate }}
-        @if (saving) {
-          <div
-            class="spinner-border spinner-border-sm align-middle"
-            role="status"
-          >
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        }
-      </button>
+      </bkd-submit-button>
     </div>
   </form>
 }

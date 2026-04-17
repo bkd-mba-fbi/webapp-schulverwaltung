@@ -1,0 +1,7 @@
+@if (submitted()) {
+  @for (error of field().errors(); track error) {
+    <div class="invalid-feedback d-block">
+      {{ "global.validation-errors." + error.kind | translate }}
+    </div>
+  }
+}

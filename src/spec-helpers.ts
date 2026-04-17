@@ -107,9 +107,17 @@ export const settings: Settings = {
     substitutionsAdminLink: "link-to-substitutions-admin-module",
   },
   preventStudentAbsenceAfterLessonStart: ["BsTest"],
+  dossierCreateTypeId: 1052,
   dossierEntryEmailTypeId: 1055,
+  dossierCategoriesTypeId: 1011,
   dossierImportantInformationCodeId: 2000274,
   dossierDisadvantageCompensationCodeId: 2000283,
+  dossierAllowedFileTypes: [
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "image/png",
+  ],
+  dossierMaxFileSize: 50 * 1024 * 1024,
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {

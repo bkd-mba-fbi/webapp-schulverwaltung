@@ -21,8 +21,13 @@ export class GradeSelectComponent {
 
   constructor() {}
 
-  onGradeChange(selectedGradeId: Option<number>): void {
-    if (this.gradeId?.valueOf() === undefined) return;
-    this.gradeIdSelected.emit({ id: this.gradeId?.valueOf(), selectedGradeId });
+  onGradeChange(selectedGradeId: Option<DropDownItem["Key"]>): void {
+    if (this.gradeId != null) {
+      this.gradeIdSelected.emit({
+        id: this.gradeId,
+        selectedGradeId:
+          selectedGradeId == null ? null : Number(selectedGradeId),
+      });
+    }
   }
 }

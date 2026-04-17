@@ -26,6 +26,7 @@ import {
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 import { BehaviorSubject, Subject, of, takeUntil } from "rxjs";
+import { SubmitButtonComponent } from "src/app/shared/components/submit-button/submit-button.component";
 import { Test } from "src/app/shared/models/test.model";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import {
@@ -47,6 +48,7 @@ import { TestStateService } from "../../../services/test-state.service";
     RouterLink,
     AsyncPipe,
     TranslatePipe,
+    SubmitButtonComponent,
   ],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },

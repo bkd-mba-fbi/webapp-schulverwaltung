@@ -23,7 +23,7 @@ import { StudentNavigationComponent } from "../student-navigation/student-naviga
     StudentDossierActionsComponent,
     StudentGradesActionsComponent,
   ],
-  providers: [StudentStateService, StudentGradesService],
+  providers: [StudentGradesService],
 })
 export class StudentComponent {
   private state = inject(StudentStateService);
