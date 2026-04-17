@@ -16,14 +16,9 @@
     <div ngbAccordionBody>
       <ng-template>
         <div class="body">
-          <bkd-student-dossier-entry-description
+          <bkd-student-dossier-entry-body
             [entry]="entry()"
-          ></bkd-student-dossier-entry-description>
-          <div class="info">
-            {{ "student.dossier.created" | translate }}:
-            {{ info.CreationDate | date: "dd.MM.yyyy" }},
-            {{ info.CreatorName }}
-          </div>
+          ></bkd-student-dossier-entry-body>
         </div>
       </ng-template>
     </div>

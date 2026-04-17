@@ -1,0 +1,20 @@
+@let info = entry().additionalInformation;
+
+<bkd-student-dossier-entry-description
+  [entry]="entry()"
+></bkd-student-dossier-entry-description>
+
+@if (documentUrl()) {
+  <div class="document-link">
+    <i class="material-icons-outlined">remove_red_eye</i>
+    <a [href]="documentUrl()" target="_blank">
+      {{ "student.dossier.download" | translate }}
+    </a>
+  </div>
+}
+
+<div class="info">
+  {{ "student.dossier.created" | translate }}:
+  {{ info.CreationDate | date: "dd.MM.yyyy" }},
+  {{ info.CreatorName }}
+</div>

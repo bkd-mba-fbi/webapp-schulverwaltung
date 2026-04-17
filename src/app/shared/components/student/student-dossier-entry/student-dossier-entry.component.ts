@@ -1,4 +1,3 @@
-import { DatePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +11,8 @@ import {
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslatePipe } from "@ngx-translate/core";
 import { StudentDossierEntry } from "src/app/shared/services/student-dossier.service";
-import { StudentDossierEntryDescriptionComponent } from "../student-dossier-entry-description/student-dossier-entry-description.component";
+import { StudentDossierEntryBodyComponent } from "../student-dossier-entry-body/student-dossier-entry-body.component";
 import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 
 @Component({
@@ -26,9 +24,7 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
     NgbAccordionCollapse,
     NgbAccordionBody,
     StudentDossierEntryHeaderComponent,
-    DatePipe,
-    TranslatePipe,
-    StudentDossierEntryDescriptionComponent,
+    StudentDossierEntryBodyComponent,
   ],
   templateUrl: "./student-dossier-entry.component.html",
   styleUrl: "./student-dossier-entry.component.scss",
