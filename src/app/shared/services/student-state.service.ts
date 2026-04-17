@@ -3,11 +3,13 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { filter, map, of, shareReplay, startWith, switchMap } from "rxjs";
 import { parseQueryString } from "../utils/url";
+import { StorageService } from "./storage.service";
 import { StudentProfileService } from "./student-profile.service";
 
 @Injectable()
 export class StudentStateService {
   private profileService = inject(StudentProfileService);
+  private storageService = inject(StorageService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -22,7 +24,11 @@ export class StudentStateService {
   );
 
   studentId$ = this.route.paramMap.pipe(
-    map((params) => Number(params.get("id"))),
+    map((params) => {
+      // Fall back to current user if no id param is present (for my-dossier)
+      const id = params.get("id");
+      return Number(id ? id : this.storageService.getPayload()?.id_person);
+    }),
   );
 
   student$ = this.studentId$.pipe(

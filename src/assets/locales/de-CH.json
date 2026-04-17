@@ -585,6 +585,9 @@
     "title": "Meine Noten",
     "header": "Noten aus Tests sind sichtbar, sobald sie von der Lehrperson publiziert wurden."
   },
+  "my-dossier": {
+    "title": "Mein Dossier"
+  },
   "my-settings": {
     "title": "Meine Einstellungen",
     "notifications": {

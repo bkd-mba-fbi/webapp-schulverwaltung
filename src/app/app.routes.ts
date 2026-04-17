@@ -76,6 +76,12 @@ export const routes: Routes = [
       import("./my-grades/my-grades.routes").then((m) => m.MY_GRADES_ROUTES),
   },
   {
+    path: "my-dossier",
+    canActivate: [authGuard()],
+    loadChildren: () =>
+      import("./my-dossier/my-dossier.routes").then((m) => m.MY_DOSSIER_ROUTES),
+  },
+  {
     path: "my-settings",
     canActivate: [authGuard()],
     loadChildren: () =>

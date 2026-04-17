@@ -41,6 +41,7 @@ describe("HomeComponent", () => {
       "/my-absences",
       "/my-profile",
       "/my-grades",
+      "/my-dossier",
       "/my-settings",
       "/kitchensink",
       "/api",
