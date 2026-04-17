@@ -40,6 +40,7 @@ export class HomeComponent {
     { path: "my-absences" },
     { path: "my-profile" },
     { path: "my-grades" },
+    { path: "my-dossier" },
     { path: "my-settings" },
     { path: "kitchensink" },
     { path: "api" },
