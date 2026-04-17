@@ -1,17 +1,13 @@
-import { AsyncPipe, NgStyle } from "@angular/common";
+import { NgStyle } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  computed,
+  input,
+  model,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
-import { BehaviorSubject, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
 import { DropDownItem } from "../../models/drop-down-item.model";
 
 @Component({
@@ -19,37 +15,29 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   templateUrl: "./select.component.html",
   styleUrls: ["./select.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, AsyncPipe, NgStyle, TranslatePipe],
+  imports: [FormsModule, NgStyle, TranslatePipe],
 })
-export class SelectComponent implements OnChanges {
-  @Input() options: ReadonlyArray<DropDownItem> = [];
-  @Input() allowEmpty = true;
-  @Input() emptyLabel: string = "";
-  @Input() value: Option<number> = null;
-  @Input() disabled: boolean = false;
-  @Input() tabindex: number = 0;
-  @Input() width: string = "auto";
+export class SelectComponent<
+  TKey extends DropDownItem["Key"] = DropDownItem["Key"],
+  TValue extends DropDownItem["Value"] = DropDownItem["Value"],
+> {
+  id = input<string>();
+  options = input.required<ReadonlyArray<{ Key: TKey; Value: TValue }>>();
+  allowEmpty = input(true);
+  emptyLabel = input("");
+  disabled = input(false);
+  isInvalid = input(false);
+  tabindex = input(0);
+  width = input("auto");
 
-  @Output() valueChange = new EventEmitter<Option<number>>();
+  value = model<Option<TKey>>(null);
 
-  options$ = new BehaviorSubject<ReadonlyArray<DropDownItem>>([]);
-  rawValue$ = new BehaviorSubject<Option<number>>(null);
-
-  value$ = combineLatest([this.rawValue$, this.options$]).pipe(
-    map(
-      ([rawValue, options]) =>
-        (options && options.find((o) => o.Key === rawValue)) || null,
-    ),
-  );
-
-  constructor() {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["value"]) {
-      this.rawValue$.next(changes["value"].currentValue);
-    }
-    if (changes["options"]) {
-      this.options$.next(changes["options"].currentValue);
-    }
-  }
+  selectedOption = computed(() => {
+    const options = this.options();
+    const rawValue = this.value();
+    return (
+      (options && options.find((o) => String(o.Key) === String(rawValue))) ||
+      null
+    );
+  });
 }

@@ -1,42 +1,23 @@
 import { Route } from "@angular/router";
+import { StudentStateService } from "../../services/student-state.service";
 import { ConfirmAbsencesComponent } from "../confirm-absences/confirm-absences.component";
-import { StudentAbsencesComponent } from "./student-absences/student-absences.component";
-import { StudentContactComponent } from "./student-contact/student-contact.component";
-import { StudentDossierComponent } from "./student-dossier/student-dossier.component";
-import { StudentGradesComponent } from "./student-grades/student-grades.component";
+import { StudentDossierEditComponent } from "./student-dossier-edit/student-dossier-edit.component";
+import { studentPageRoutes } from "./student-pages";
 import { StudentComponent } from "./student/student.component";
 
 export const studentRoute: Route = {
   path: "student/:id",
+  providers: [StudentStateService],
   children: [
     {
       path: "",
-      get component() {
-        // Avoid circular dependency caused by StudentComponent importing
-        // STUDENT_PAGES and this file importing the component, while it is not
-        // yet defined.
-        return StudentComponent;
-      },
-      children: [
-        {
-          path: "contact",
-          component: StudentContactComponent,
-        },
-        {
-          path: "absences",
-          component: StudentAbsencesComponent,
-        },
-        { path: "grades", component: StudentGradesComponent },
-        { path: "dossier", component: StudentDossierComponent },
-      ],
+      component: StudentComponent,
+      children: [...studentPageRoutes],
     },
     {
       path: "absences/confirm",
       component: ConfirmAbsencesComponent,
     },
+    { path: "dossier/edit/:id", component: StudentDossierEditComponent },
   ],
 };
-
-export const STUDENT_PAGES = (
-  (studentRoute.children ?? [])[0].children ?? []
-).map(({ path }) => path);

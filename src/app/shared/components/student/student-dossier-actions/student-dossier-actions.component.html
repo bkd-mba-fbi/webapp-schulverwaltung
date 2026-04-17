@@ -1,6 +1,9 @@
 <div class="d-flex align-items-center gap-2">
   @if (!readonly()) {
-    <a [routerLink]="['edit', 'new']" class="btn btn-primary btn-icon">
+    <a
+      [routerLink]="['dossier', 'edit', 'new']"
+      class="btn btn-primary btn-icon"
+    >
       <i class="material-icons">add</i>
     </a>
   }

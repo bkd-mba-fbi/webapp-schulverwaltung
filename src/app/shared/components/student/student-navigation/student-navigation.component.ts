@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
 import { StudentAvatarComponent } from "../student-avatar/student-avatar.component";
-import { STUDENT_PAGES } from "../student-route";
+import { STUDENT_PAGES } from "../student-pages";
 
 @Component({
   selector: "bkd-student-navigation",

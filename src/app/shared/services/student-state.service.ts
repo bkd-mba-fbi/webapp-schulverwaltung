@@ -1,7 +1,15 @@
 import { Injectable, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { filter, map, of, shareReplay, startWith, switchMap } from "rxjs";
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { parseQueryString } from "../utils/url";
 import { StorageService } from "./storage.service";
 import { StudentProfileService } from "./student-profile.service";
@@ -23,12 +31,16 @@ export class StudentStateService {
     { requireSync: true },
   );
 
-  studentId$ = this.route.paramMap.pipe(
-    map((params) => {
+  studentId$ = this.router.events.pipe(
+    filter((e) => e instanceof NavigationEnd),
+    startWith(null),
+    map(() => {
+      const id = this.findRouteParam("id");
       // Fall back to current user if no id param is present (for my-dossier)
-      const id = params.get("id");
-      return Number(id ? id : this.storageService.getPayload()?.id_person);
+      return Number(id ?? this.storageService.getPayload()?.id_person);
     }),
+    distinctUntilChanged(),
+    shareReplay(1),
   );
 
   student$ = this.studentId$.pipe(
@@ -62,5 +74,15 @@ export class StudentStateService {
     const parts = pathname.split("/");
     const page = parts[parts.length - 1];
     return page;
+  }
+
+  private findRouteParam(name: string): Option<string> {
+    let current: Option<ActivatedRoute> = this.router.routerState.root;
+    while (current) {
+      const value = current.snapshot.paramMap.get(name);
+      if (value != null) return value;
+      current = current.firstChild;
+    }
+    return null;
   }
 }

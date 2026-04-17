@@ -1,0 +1,165 @@
+@let info = additionalInformation();
+
+<bkd-backlink [routerLink]="['../..']"></bkd-backlink>
+
+<div class="bkd-container bkd-container-limited">
+  @if (loading()) {
+    <bkd-spinner></bkd-spinner>
+  } @else if (additionalInformationId() && !info) {
+    <h1>{{ "student.dossier.edit.not-found" | translate }}</h1>
+  } @else {
+    <h1>{{ heading() }}</h1>
+
+    <form (submit)="onSubmit($event)" novalidate>
+      <div class="mb-3">
+        <bkd-button-group
+          [class.is-invalid]="submitted() && entryForm.type().invalid()"
+          [options]="types"
+          [formField]="entryForm.type"
+        ></bkd-button-group>
+        <bkd-form-errors
+          [field]="entryForm.type()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+
+      @if (entryForm.type().value() === "document") {
+        <div class="mb-3">
+          <bkd-file-input
+            [acceptedFileTypes]="acceptedFileTypes"
+            [formField]="entryForm.file"
+            [error]="
+              submitted() && entryForm.file().invalid()
+                ? ('global.validation-errors.' +
+                    entryForm.file().errors()[0].kind
+                  | translate: entryForm.file().errors()[0])
+                : null
+            "
+          ></bkd-file-input>
+        </div>
+      }
+
+      <div class="mb-3">
+        <label for="additional-information-designation" class="form-label">
+          {{ "student.dossier.edit.designation" | translate }}
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="submitted() && entryForm.designation().invalid()"
+          id="additional-information-designation"
+          [formField]="entryForm.designation"
+        />
+        <bkd-form-errors
+          [field]="entryForm.designation()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+
+      <div class="mb-3">
+        <label for="additional-information-description" class="form-label">
+          {{ "student.dossier.edit.description" | translate }} ({{
+            "student.dossier.edit.optional" | translate
+          }})
+        </label>
+        <textarea
+          class="form-control"
+          id="additional-information-description"
+          [class.is-invalid]="submitted() && entryForm.description().invalid()"
+          [formField]="entryForm.description"
+        ></textarea>
+        <bkd-form-errors
+          [field]="entryForm.description()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+
+      <div class="mb-3">
+        <label for="additional-information-category" class="form-label">
+          {{ "student.dossier.edit.category" | translate }}
+        </label>
+        <bkd-select
+          id="additional-information-category"
+          [allowEmpty]="false"
+          [isInvalid]="submitted() && entryForm.category().invalid()"
+          [options]="categories()"
+          [formField]="entryForm.category"
+        ></bkd-select>
+        <bkd-form-errors
+          [field]="entryForm.category()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+
+      <div>
+        <label for="additional-information-for-teacher" class="form-label">
+          {{ "student.dossier.edit.visibility" | translate }}
+        </label>
+        <div>
+          @for (option of ["class-teacher-only", "all"]; track option) {
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                [id]="'additional-information-for-teacher-' + option"
+                [class.is-invalid]="
+                  submitted() && entryForm.forTeacher().invalid()
+                "
+                [formField]="entryForm.forTeacher"
+                [value]="option"
+              />
+              <label
+                class="form-check-label"
+                [attr.for]="'additional-information-for-teacher-' + option"
+              >
+                {{ "student.dossier.edit.for-teacher-" + option | translate }}
+              </label>
+            </div>
+          }
+        </div>
+        <bkd-form-errors
+          [field]="entryForm.forStudent()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+
+      <div class="mb-3">
+        <div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="additional-information-for-student"
+              [class.is-invalid]="
+                submitted() && entryForm.forStudent().invalid()
+              "
+              [formField]="entryForm.forStudent"
+            />
+            <label
+              class="form-check-label"
+              [attr.for]="'additional-information-for-student'"
+            >
+              {{
+                "student.dossier.edit.for-student"
+                  | translate: { studentName: studentName() ?? "?" }
+              }}
+            </label>
+          </div>
+        </div>
+        <bkd-form-errors
+          [field]="entryForm.forStudent()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <a class="btn btn-outline-secondary" [routerLink]="['../..']">
+          {{ "student.dossier.edit.cancel" | translate }}
+        </a>
+        <bkd-submit-button [saving]="saving()">
+          {{ "student.dossier.edit.save" | translate }}
+        </bkd-submit-button>
+      </div>
+    </form>
+  }
+</div>

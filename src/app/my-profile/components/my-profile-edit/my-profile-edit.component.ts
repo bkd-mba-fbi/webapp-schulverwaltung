@@ -17,6 +17,7 @@ import { Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 import { filter, finalize } from "rxjs/operators";
+import { SubmitButtonComponent } from "src/app/shared/components/submit-button/submit-button.component";
 import { Person } from "src/app/shared/models/person.model";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { getValidationErrors } from "src/app/shared/utils/form";
@@ -29,7 +30,13 @@ import { MyProfileService } from "../../services/my-profile.service";
   templateUrl: "./my-profile-edit.component.html",
   styleUrls: ["./my-profile-edit.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslatePipe],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    TranslatePipe,
+    SubmitButtonComponent,
+  ],
 })
 export class MyProfileEditComponent {
   private fb = inject(UntypedFormBuilder);

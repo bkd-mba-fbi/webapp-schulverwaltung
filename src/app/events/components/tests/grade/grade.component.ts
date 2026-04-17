@@ -99,8 +99,8 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     this.gradingScaleDisabledSubject$.next(!(points === null || points === ""));
   }
 
-  onGradeChange(gradeId: Option<number>) {
-    this.gradeSubject$.next(gradeId);
+  onGradeChange(gradeId: Option<DropDownItem["Key"]>) {
+    this.gradeSubject$.next(gradeId == null ? null : Number(gradeId));
   }
 
   isGreaterThanMaxPointsAdjusted(points: string): boolean {

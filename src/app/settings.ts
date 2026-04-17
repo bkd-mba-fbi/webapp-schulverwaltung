@@ -62,9 +62,13 @@ const Settings = t.type({
   eventlist: t.record(t.string, t.string),
   dashboard: Dashboard,
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
+  dossierCreateTypeId: t.number,
   dossierEntryEmailTypeId: t.number,
+  dossierCategoriesTypeId: t.number,
   dossierImportantInformationCodeId: t.number,
   dossierDisadvantageCompensationCodeId: t.number,
+  dossierAllowedFileTypes: t.array(t.string),
+  dossierMaxFileSize: t.number,
 });
 
 type Settings = t.TypeOf<typeof Settings>;

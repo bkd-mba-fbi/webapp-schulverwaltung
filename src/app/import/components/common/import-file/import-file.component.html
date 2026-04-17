@@ -6,15 +6,15 @@
   <div class="mb-3">
     <bkd-button-group
       [options]="importTypeOptions"
-      [(selected)]="stateService.importType"
+      [(value)]="stateService.importType"
     ></bkd-button-group>
   </div>
 
   <div class="mb-3">
     <bkd-file-input
-      [acceptedExtensions]="['.xlsx', '.xls', '.csv']"
+      [acceptedFileTypes]="['.xlsx', '.xls', '.csv']"
       [error]="errorMessage()"
-      [(file)]="stateService.file"
+      [(value)]="stateService.file"
     ></bkd-file-input>
   </div>
 

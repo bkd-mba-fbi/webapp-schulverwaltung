@@ -20,11 +20,11 @@ import { TranslatePipe } from "@ngx-translate/core";
 })
 export class FileInputComponent implements AfterViewInit, OnDestroy {
   /**
-   * Example: [".xls", ".xlsx", ".csv"]
+   * Example: [".xls", ".xlsx", ".csv", "image/png"]
    */
-  acceptedExtensions = input.required<ReadonlyArray<string>>();
+  acceptedFileTypes = input.required<ReadonlyArray<string>>();
   error = input<Option<string>>(null);
-  file = model<Option<File>>(null);
+  value = model<Option<File>>(null);
 
   dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
   private dragCount = 0;
@@ -43,7 +43,7 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
   }
 
   onFileInput(files: FileList | null): void {
-    this.file.set(files?.item(0) ?? null);
+    this.value.set(files?.item(0) ?? null);
   }
 
   onDragEnter = () => {

@@ -3,36 +3,56 @@ import { Injectable, inject } from "@angular/core";
 import { Observable, map, switchMap, throwError } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { RestErrorInterceptorOptions } from "../interceptors/rest-error.interceptor";
+import { AdditionalInformation } from "../models/additional-informations.model";
+import { RestService } from "./rest.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class AdditionalInformationsRestService {
-  private http = inject(HttpClient);
-  private settings = inject<Settings>(SETTINGS);
+export class AdditionalInformationsRestService extends RestService<
+  typeof AdditionalInformation
+> {
+  constructor() {
+    const http = inject(HttpClient);
+    const settings = inject<Settings>(SETTINGS);
 
-  uploadPhoto(studentId: number, file: File): Observable<void> {
-    return this.preparePhotoUpload(studentId, file).pipe(
-      switchMap((photoUploadPath) =>
-        this.http.put(
-          `${this.settings.apiUrl.replace("/restApi", "")}${photoUploadPath}`,
-          file,
-          {
-            headers: { "Content-Type": file.type },
-            context: new HttpContext().set(RestErrorInterceptorOptions, {
-              disableErrorHandling: true,
-            }),
-          },
-        ),
-      ),
-      map(() => undefined),
+    super(http, settings, AdditionalInformation, "AdditionalInformations");
+  }
+
+  /**
+   * Creates an AdditionalInformation entry.
+   */
+  create(
+    entry: Partial<AdditionalInformation>,
+    options: { context?: HttpContext } = {},
+  ): Observable<void> {
+    return this.http
+      .post(`${this.baseUrl}/`, entry, options)
+      .pipe(map(() => undefined));
+  }
+
+  /**
+   * Creates an AdditionalInformation entry with an associated file (two
+   * requests). Error responses are not handled by the interceptor and must be
+   * handled by the consumer.
+   */
+  createWithFile(
+    entry: Partial<AdditionalInformation>,
+    file: File,
+    filename: string,
+  ): Observable<void> {
+    return this.createFileEntry(entry, filename).pipe(
+      switchMap(({ fileUploadPath }) => this.uploadFile(file, fileUploadPath)),
     );
   }
 
-  private preparePhotoUpload(
-    studentId: number,
-    file: File,
-  ): Observable<Option<string>> {
+  /**
+   * Uploads the avatar image (two requests). Error responses are not handled by
+   * the interceptor and must be handled by the consumer.
+   */
+  createAvatar(studentId: number, file: File): Observable<void> {
+    // The filename must be ".jpg" (lowercase) or the backend won't process it
+    // (and there won't be any error)
     const filename = file.name.replace(/\.jpe?g$/i, ".jpg");
     if (!filename.endsWith(".jpg")) {
       return throwError(
@@ -40,14 +60,29 @@ export class AdditionalInformationsRestService {
       );
     }
 
-    const body = {
-      AdditionalInformation: {
+    return this.createWithFile(
+      {
         ObjectId: studentId,
         ObjectTypeId: 3,
         Designation: "Photo",
       },
+      file,
+      filename,
+    );
+  }
+
+  /**
+   * Create an AdditionalInformations entry with an associated file. The file
+   * itself must then be uploaded in a second request using {@link uploadFile}
+   * and the returned `fileUploadPath`.
+   */
+  private createFileEntry(
+    entry: Partial<AdditionalInformation>,
+    filename: string,
+  ): Observable<{ fileUploadPath: string }> {
+    const body = {
+      AdditionalInformation: entry,
       FileStreamInfo: {
-        // The filename must be ".jpg" (lowercase) or the backend won't process it (and there won't be any error)
         Filename: filename,
       },
     };
@@ -61,18 +96,33 @@ export class AdditionalInformationsRestService {
       .pipe(
         map((response) => {
           if (response.status !== 201) {
-            throw new Error("Failed to get photo upload path");
+            throw new Error("Failed to get file upload path");
           }
-          const uploadPath = response.headers.get("Location");
-          if (!uploadPath) {
-            throw new Error("Invalid photo upload path");
+          const fileUploadPath = response.headers.get("Location");
+          if (!fileUploadPath) {
+            throw new Error("Invalid file upload path");
           }
-          return uploadPath;
+          return { fileUploadPath };
         }),
       );
   }
 
-  private get baseUrl(): string {
-    return `${this.settings.apiUrl}/AdditionalInformations`;
+  /**
+   * Upload the actual file using the `fileUploadPath` as returned by
+   * {@link createFileEntry}.
+   */
+  private uploadFile(file: File, fileUploadPath: string): Observable<void> {
+    return this.http
+      .put(
+        `${this.settings.apiUrl.replace("/restApi", "")}${fileUploadPath}`,
+        file,
+        {
+          headers: { "Content-Type": file.type },
+          context: new HttpContext().set(RestErrorInterceptorOptions, {
+            disableErrorHandling: true,
+          }),
+        },
+      )
+      .pipe(map(() => undefined));
   }
 }

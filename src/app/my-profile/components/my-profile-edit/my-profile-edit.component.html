@@ -76,7 +76,7 @@
           "my-profile.edit.fields.email2-hint" | translate
         }}</small>
       </div>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end gap-2">
         <button
           type="button"
           class="btn btn-outline-secondary"
@@ -85,21 +85,9 @@
         >
           {{ "my-profile.edit.cancel" | translate }}
         </button>
-        <button
-          type="submit"
-          class="btn btn-primary ms-2"
-          [disabled]="saving$ | async"
-        >
+        <bkd-submit-button [saving]="saving$ | async">
           {{ "my-profile.edit.save" | translate }}
-          @if (saving$ | async) {
-            <div
-              class="spinner-border spinner-border-sm align-middle"
-              role="status"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          }
-        </button>
+        </bkd-submit-button>
       </div>
     </form>
   }

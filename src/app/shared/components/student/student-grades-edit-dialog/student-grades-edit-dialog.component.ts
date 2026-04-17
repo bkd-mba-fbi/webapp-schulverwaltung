@@ -116,8 +116,8 @@ export class StudentGradesEditDialogComponent implements OnInit {
     );
   }
 
-  onGradeChange(gradeId: Option<number>): void {
-    this.gradeSubject$.next(gradeId);
+  onGradeChange(gradeId: Option<DropDownItem["Key"]>): void {
+    this.gradeSubject$.next(gradeId == null ? null : Number(gradeId));
   }
 
   onPointsChange(points: string): void {

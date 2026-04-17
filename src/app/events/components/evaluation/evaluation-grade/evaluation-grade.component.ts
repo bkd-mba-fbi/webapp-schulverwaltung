@@ -41,7 +41,7 @@ export class EvaluationGradeComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  onValueChange(value: Option<number>): void {
-    this.valueSubject.next(value);
+  onValueChange(value: Option<DropDownItem["Key"]>): void {
+    this.valueSubject.next(value == null ? null : Number(value));
   }
 }

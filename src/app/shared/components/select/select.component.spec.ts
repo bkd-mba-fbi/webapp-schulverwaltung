@@ -3,9 +3,8 @@ import { buildTestModuleMetadata } from "src/spec-helpers";
 import { SelectComponent } from "./select.component";
 
 describe("SelectComponent", () => {
-  let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
-  // let element: HTMLElement;
+  let element: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -15,35 +14,58 @@ describe("SelectComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectComponent);
-    // element = fixture.debugElement.nativeElement;
-    component = fixture.componentInstance;
+    element = fixture.debugElement.nativeElement;
+    fixture.componentRef.setInput("options", [
+      { Key: "apple", Value: "Apple" },
+      { Key: "pear", Value: "Pear" },
+    ]);
+    fixture.componentRef.setInput("value", "pear");
     fixture.detectChanges();
   });
 
-  it("should create default select component", () => {
-    // then
-    expect(component).toBeTruthy();
-    expect(component.allowEmpty).toBeTruthy();
-    expect(component.emptyLabel).toBe("");
-    expect(component.options).toEqual([]);
-    expect(component.value).toBeNull();
+  it("renders the given options including an empty option", () => {
+    const options = Array.from(element.querySelectorAll("option"));
+    expect(options.map((o) => o.textContent?.trim())).toEqual([
+      "",
+      "Apple",
+      "Pear",
+    ]);
   });
 
-  it("should create select component without element", () => {
-    // given
-    component.allowEmpty = false;
-
-    // then
-    expect(component.allowEmpty).toBeFalsy();
+  it("does not render an empty option with allowEmpty=false", () => {
+    fixture.componentRef.setInput("allowEmpty", false);
+    fixture.detectChanges();
+    const options = Array.from(element.querySelectorAll("option"));
+    expect(options.map((o) => o.textContent?.trim())).toEqual([
+      "Apple",
+      "Pear",
+    ]);
   });
 
-  it("should create select component with custom empty element", () => {
-    // given
-    component.allowEmpty = true;
-    component.emptyLabel = "Choose option...";
+  it("uses a custom label for the empty option", () => {
+    fixture.componentRef.setInput("emptyLabel", "None");
+    fixture.detectChanges();
+    const options = Array.from(element.querySelectorAll("option"));
+    expect(options.map((o) => o.textContent?.trim())).toEqual([
+      "None",
+      "Apple",
+      "Pear",
+    ]);
+  });
 
-    // then
-    expect(component.emptyLabel).toBe("Choose option...");
-    expect(component.allowEmpty).toBeTruthy();
+  it("selects the option matching the given value", async () => {
+    await fixture.whenStable();
+
+    const options = Array.from(element.querySelectorAll("option"));
+    expect(options[0].selected).toBeFalse();
+    expect(options[1].selected).toBeFalse();
+    expect(options[2].selected).toBeTrue();
+  });
+
+  it("emits the selected value when changed", () => {
+    const select = element.querySelector("select")!;
+    select.selectedIndex = 1;
+    select.dispatchEvent(new Event("change"));
+    expect(fixture.componentInstance.value()).toBe("apple");
   });
 });
