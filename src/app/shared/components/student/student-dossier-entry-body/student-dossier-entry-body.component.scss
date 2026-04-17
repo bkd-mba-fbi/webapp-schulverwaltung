@@ -1,0 +1,15 @@
+@import "../../../../../bootstrap-variables";
+
+.document-link {
+  display: flex;
+  align-items: center;
+  gap: 0.25 * $spacer;
+  margin-bottom: 0.5 * $spacer;
+}
+
+.info {
+  color: $gray-500;
+  font-size: $font-size-sm;
+  font-weight: 400;
+  line-height: 1.5;
+}

@@ -438,9 +438,10 @@
     },
     "dossier": {
       "title": "Dossier",
+      "no-entries": "Keine Einträge vorhanden",
       "information": "Information",
-      "created": "Erstellt",
-      "no-entries": "Keine Einträge vorhanden"
+      "download": "Anzeigen",
+      "created": "Erstellt"
     }
   },
   "import": {
