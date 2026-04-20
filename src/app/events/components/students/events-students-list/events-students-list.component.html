@@ -1,20 +1,17 @@
 @let link = returnLink();
 @if (link) {
   <bkd-backlink [link]="[link]">
-    <div class="d-flex">
+    <div class="d-flex gap-2">
       @if (state.mailtoLink()) {
         <a
-          class="mail btn btn-primary btn-icon me-2"
+          class="mail btn btn-primary btn-icon"
           [href]="state.mailtoLink()"
           target="_blank"
         >
           <i class="material-icons">mail</i>
         </a>
       }
-      <bkd-reports-link
-        [reports]="state.reports()"
-        class="ms-2"
-      ></bkd-reports-link>
+      <bkd-reports-link [reports]="state.reports()"></bkd-reports-link>
     </div>
   </bkd-backlink>
 }

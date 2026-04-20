@@ -1,8 +1,6 @@
 <div class="d-flex justify-content-between header">
   <div>{{ "my-grades.header" | translate }}</div>
-  <div>
-    <bkd-reports-link
-      [reports]="(myGradesService.testReports$ | async) ?? []"
-    ></bkd-reports-link>
-  </div>
+  <bkd-student-grades-actions
+    [reports]="(myGradesService.testReports$ | async) ?? []"
+  ></bkd-student-grades-actions>
 </div>

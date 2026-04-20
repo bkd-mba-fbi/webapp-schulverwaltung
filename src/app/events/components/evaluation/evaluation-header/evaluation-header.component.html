@@ -7,7 +7,7 @@
   "
 >
   @if (showActions()) {
-    <div class="d-flex">
+    <div class="d-flex gap-2">
       @if (event().gradingScaleId !== null) {
         <button
           class="btn btn-primary btn-icon chart-btn"
@@ -18,10 +18,7 @@
           <i class="material-icons">equalizer</i>
         </button>
       }
-      <bkd-reports-link
-        [reports]="reports$ | async"
-        class="ms-2"
-      ></bkd-reports-link>
+      <bkd-reports-link [reports]="reports$ | async"></bkd-reports-link>
       <!--Element id excel-import used for a external modul MasterExcel-->
       <div id="excel-import"></div>
     </div>
