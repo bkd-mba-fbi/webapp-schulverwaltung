@@ -409,27 +409,38 @@
       "pdf-fallback": "Ce navigateur ne prend pas en charge les fichiers PDF intégrés. Veuillez utiliser le bouton pour télécharger le fichier."
     }
   },
-  "dossier": {
-    "title": "Dossier",
-    "contact": "Contact",
-    "address": "Adresse du domicile",
-    "absences": "Absences",
-    "grade": "Note",
-    "grades": "Notes",
-    "points": "points",
-    "average": "Moyenne",
-    "no-tests": "Aucun test disponible",
-    "no-grades": "Aucune note disponible",
-    "no-courses": "Aucun événement disponible",
-    "no-absences": "Pas d'absences disponibles",
-    "dialog": {
+  "student": {
+    "contact": {
+      "title": "Contact",
+      "address": "Adresse du domicile"
+    },
+    "absences": {
+      "title": "Absences",
+      "no-absences": "Pas d'absences disponibles"
+    },
+    "grades": {
+      "title": "Notes",
+      "no-courses": "Aucun événement disponible",
+      "no-tests": "Aucun test disponible",
+      "no-grades": "Aucune note disponible",
       "grade": "Note",
-      "points": "Points",
-      "close": "Fermer",
-      "hint": {
-        "grade": "Une modification de la note est automatiquement enregistrée.",
-        "points": "En cas de modification des points, la note est calculée et enregistrée automatiquement."
+      "points": "points",
+      "average": "Moyenne",
+      "edit-dialog": {
+        "grade": "Note",
+        "points": "Points",
+        "close": "Fermer",
+        "hint": {
+          "grade": "Une modification de la note est automatiquement enregistrée.",
+          "points": "En cas de modification des points, la note est calculée et enregistrée automatiquement."
+        }
       }
+    },
+    "dossier": {
+      "title": "Dossier",
+      "information": "Information",
+      "created": "Créé",
+      "no-entries": "Aucune donnée disponible"
     }
   },
   "import": {

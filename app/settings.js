@@ -250,4 +250,11 @@ window.schulverwaltung.settings = {
    */
   // Instance IDs of schools where students cannot report absences after lessons have started
   preventStudentAbsenceAfterLessonStart: [],
+
+  /**
+   *  Dossier
+   */
+  // Type ID of additional informations entries created from emails
+  // (which include .eml file in attachement)
+  dossierEntryEmailTypeId: 1055,
 };
