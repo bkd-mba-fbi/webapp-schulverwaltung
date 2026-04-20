@@ -6,7 +6,8 @@ import { ReportInfo } from "src/app/shared/services/reports.service";
 import { StudentGradesService } from "src/app/shared/services/student-grades.service";
 import { StudentStateService } from "../../../services/student-state.service";
 import { BacklinkComponent } from "../../backlink/backlink.component";
-import { ReportsLinkComponent } from "../../reports-link/reports-link.component";
+import { StudentDossierActionsComponent } from "../student-dossier-actions/student-dossier-actions.component";
+import { StudentGradesActionsComponent } from "../student-grades-actions/student-grades-actions.component";
 import { StudentNavigationComponent } from "../student-navigation/student-navigation.component";
 
 @Component({
@@ -17,9 +18,10 @@ import { StudentNavigationComponent } from "../student-navigation/student-naviga
   imports: [
     BacklinkComponent,
     StudentNavigationComponent,
-    ReportsLinkComponent,
     RouterOutlet,
     TranslatePipe,
+    StudentDossierActionsComponent,
+    StudentGradesActionsComponent,
   ],
   providers: [StudentStateService, StudentGradesService],
 })

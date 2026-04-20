@@ -1,7 +1,14 @@
 <div class="d-flex flex-column">
   <bkd-backlink class="mb-2" [link]="'../..'" [params]="backlinkQueryParams()">
-    @if (dossierPage() === "grades") {
-      <bkd-reports-link [reports]="reports()" class="ms-2"></bkd-reports-link>
+    @switch (dossierPage()) {
+      @case ("grades") {
+        <bkd-student-grades-actions
+          [reports]="reports()"
+        ></bkd-student-grades-actions>
+      }
+      @case ("dossier") {
+        <bkd-student-dossier-actions></bkd-student-dossier-actions>
+      }
     }
   </bkd-backlink>
   <div class="d-flex align-items-start justify-content-center dossier-content">

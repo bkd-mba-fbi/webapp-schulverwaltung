@@ -1,4 +1,9 @@
 <div class="bkd-container bkd-container-limited">
-  <h1>{{ "my-dossier.title" | translate }}</h1>
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="mb-0">{{ "my-dossier.title" | translate }}</h1>
+    <bkd-student-dossier-actions
+      [readonly]="true"
+    ></bkd-student-dossier-actions>
+  </div>
   <bkd-student-dossier [readonly]="true"></bkd-student-dossier>
 </div>

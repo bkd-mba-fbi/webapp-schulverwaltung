@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center gap-2">
+  @if (!readonly()) {
+    <a [routerLink]="['edit', 'new']" class="btn btn-primary btn-icon">
+      <i class="material-icons">add</i>
+    </a>
+  }
+  <button class="btn btn-outline-secondary d-flex align-items-center px-2">
+    <i class="material-icons-outlined">filter_alt</i>
+    <i class="material-icons">expand_more</i>
+  </button>
+</div>
