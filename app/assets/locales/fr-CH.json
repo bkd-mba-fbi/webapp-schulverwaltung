@@ -585,6 +585,9 @@
     "title": "Mes notes",
     "header": "Les notes des tests sont visibles dès qu'elles ont été publiées par l'enseignant-e."
   },
+  "my-dossier": {
+    "title": "Mein Dossier"
+  },
   "my-settings": {
     "title": "Mes paramètres",
     "notifications": {
