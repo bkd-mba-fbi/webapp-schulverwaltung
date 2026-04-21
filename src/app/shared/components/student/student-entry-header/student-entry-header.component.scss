@@ -1,8 +1,8 @@
-@import "../../../../../bootstrap-variables";
+@import "src/bootstrap-variables";
 
 :host {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   padding: $spacer;
   border-top: 1px solid $border-color;
