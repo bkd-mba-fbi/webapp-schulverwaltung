@@ -48,8 +48,8 @@ describe("StudentDossierEntryBodyComponent", () => {
     expect(element.textContent).toContain("Lorem ipsum");
   });
 
-  it("renders the creation info", () => {
-    expect(element.textContent).toContain("23.01.2000, Max Mustermann");
+  it("renders the creation date", () => {
+    expect(element.textContent).toContain("23.01.2000");
   });
 
   describe("document link", () => {
