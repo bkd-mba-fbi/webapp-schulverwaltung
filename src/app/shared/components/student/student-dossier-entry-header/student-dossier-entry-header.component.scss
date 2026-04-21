@@ -1,7 +1,10 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
 .header {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: start;
+  gap: 0.5 * $spacer;
 }
 
 .material-icons-outlined {
@@ -12,4 +15,22 @@
   flex: auto;
   hyphens: auto; // Enable hyphenation for long words
   overflow-wrap: anywhere; // Break non-dictionary "words"
+}
+
+.category.mobile {
+  margin-left: calc(24px + 0.5 * $spacer);
+  margin-top: 0.5 * $spacer;
+  font-size: 0.6em;
+}
+
+@include media-breakpoint-down(sm) {
+  .category.desktop {
+    display: none;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .category.mobile {
+    display: none;
+  }
 }
