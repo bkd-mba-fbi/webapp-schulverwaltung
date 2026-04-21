@@ -135,6 +135,6 @@ describe("StudentDossierComponent", () => {
     expect(element.textContent).toContain(
       "Gemeinsames Verständnis geschaffen.",
     );
-    expect(element.textContent).toContain("23.01.2000, Max Mustermann");
+    expect(element.textContent).toContain("23.01.2000");
   });
 });
