@@ -63,8 +63,8 @@ const Settings = t.type({
   dashboard: Dashboard,
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
   dossierEntryEmailTypeId: t.number,
-  importantInformationId: t.number,
-  disadvantageCompensationId: t.number,
+  dossierImportantInformationCodeId: t.number,
+  dossierDisadvantageCompensationCodeId: t.number,
 });
 
 type Settings = t.TypeOf<typeof Settings>;

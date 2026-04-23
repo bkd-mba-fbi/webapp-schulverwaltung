@@ -255,8 +255,14 @@ window.schulverwaltung.settings = {
    *  Dossier
    */
   // Type ID of additional informations entries created from emails
-  // (which include .eml file in attachement)
+  // (which include .eml file in attachment)
   dossierEntryEmailTypeId: 1055,
-  importantInformationId: 2000274,
-  disadvantageCompensationId: 2000283,
+
+  // Code ID of the additional information entries of type "important information".
+  // Those entries are displayed in the student dossier's information header.
+  dossierImportantInformationCodeId: 2000274,
+
+  // Code ID of the additional information entries of type "disadvantage compensation".
+  // Those entries are displayed in the student dossier's information header.
+  dossierDisadvantageCompensationCodeId: 2000283,
 };

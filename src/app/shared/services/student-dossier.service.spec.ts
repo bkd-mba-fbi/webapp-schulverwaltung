@@ -89,10 +89,10 @@ describe("StudentDossierService", () => {
   });
 
   describe("getEntryType", () => {
-    it("get entry type 'information' for importantInformationId", () => {
+    it("get entry type 'information' for dossierImportantInformationCodeId", () => {
       const info = {
         ...buildAdditionalInformation(),
-        CodeId: settings.importantInformationId,
+        CodeId: settings.dossierImportantInformationCodeId,
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
@@ -101,10 +101,10 @@ describe("StudentDossierService", () => {
       );
     });
 
-    it("get entry type 'disadvantage' for disadvantageCompensationId", () => {
+    it("get entry type 'disadvantage' for dossierDisadvantageCompensationCodeId", () => {
       const info = {
         ...buildAdditionalInformation(),
-        CodeId: settings.disadvantageCompensationId,
+        CodeId: settings.dossierDisadvantageCompensationCodeId,
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
@@ -175,7 +175,7 @@ describe("StudentDossierService", () => {
     it("informationEntries$ only returns information-type entries", () => {
       const infoEntry = {
         ...buildAdditionalInformation(),
-        CodeId: settings.importantInformationId,
+        CodeId: settings.dossierImportantInformationCodeId,
       };
       const dossierEntry = { ...buildAdditionalInformation() };
       studentsRestService.getAdditionalInformations.and.returnValue(
@@ -191,7 +191,7 @@ describe("StudentDossierService", () => {
     it("disadvantageEntries$ only returns disadvantage-type entries", () => {
       const disadvantageEntry = {
         ...buildAdditionalInformation(),
-        CodeId: settings.disadvantageCompensationId,
+        CodeId: settings.dossierDisadvantageCompensationCodeId,
       };
       const dossierEntry = { ...buildAdditionalInformation() };
       studentsRestService.getAdditionalInformations.and.returnValue(
@@ -207,7 +207,7 @@ describe("StudentDossierService", () => {
     it("dossierEntries$ only returns dossier-type entries", () => {
       const infoEntry = {
         ...buildAdditionalInformation(),
-        CodeId: settings.importantInformationId,
+        CodeId: settings.dossierImportantInformationCodeId,
       };
       const dossierEntry = { ...buildAdditionalInformation() };
       studentsRestService.getAdditionalInformations.and.returnValue(

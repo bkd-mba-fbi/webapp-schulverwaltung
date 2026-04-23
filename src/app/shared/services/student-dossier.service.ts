@@ -111,9 +111,9 @@ export class StudentDossierService {
 
   private getEntryType(entry: AdditionalInformation): StudentDossierEntryType {
     switch (entry.CodeId) {
-      case this.settings.importantInformationId:
+      case this.settings.dossierImportantInformationCodeId:
         return "information";
-      case this.settings.disadvantageCompensationId:
+      case this.settings.dossierDisadvantageCompensationCodeId:
         return "disadvantage";
       default:
         return "dossier";
