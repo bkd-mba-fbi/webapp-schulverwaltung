@@ -11,16 +11,23 @@
   <div ngbAccordionCollapse>
     <div ngbAccordionBody>
       <ng-template>
-        <ul>
-          @for (entry of entries(); track entry.id) {
-            <li>
-              {{ entry.additionalInformation.Designation }}:
-              <bkd-student-dossier-entry-description
-                [entry]="entry"
-              ></bkd-student-dossier-entry-description>
-            </li>
-          }
-        </ul>
+        @for (entry of informationEntries(); track entry.id) {
+          <div>
+            <h6>{{ entry.additionalInformation.Designation }}</h6>
+            <bkd-student-dossier-entry-description
+              [entry]="entry"
+            ></bkd-student-dossier-entry-description>
+          </div>
+        }
+        @for (entry of disadvantageEntries(); track entry.id) {
+          <div>
+            <h6>{{ "student.dossier.disadvantage" | translate }}</h6>
+            {{ entry.additionalInformation.Designation }}
+            <bkd-student-dossier-entry-description
+              [entry]="entry"
+            ></bkd-student-dossier-entry-description>
+          </div>
+        }
       </ng-template>
     </div>
   </div>

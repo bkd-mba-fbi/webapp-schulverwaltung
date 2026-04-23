@@ -4,7 +4,6 @@ import {
   NgbAccordionCollapse,
   NgbAccordionHeader,
   NgbAccordionItem,
-  NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { StudentDossierEntry } from "src/app/shared/services/student-dossier.service";
@@ -16,7 +15,6 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
   imports: [
     NgbAccordionItem,
     NgbAccordionHeader,
-    NgbCollapse,
     NgbAccordionCollapse,
     NgbAccordionBody,
     TranslatePipe,
@@ -28,5 +26,6 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierInformationComponent {
-  entries = input.required<ReadonlyArray<StudentDossierEntry>>();
+  informationEntries = input.required<ReadonlyArray<StudentDossierEntry>>();
+  disadvantageEntries = input.required<ReadonlyArray<StudentDossierEntry>>();
 }

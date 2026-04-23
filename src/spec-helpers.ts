@@ -108,6 +108,8 @@ export const settings: Settings = {
   },
   preventStudentAbsenceAfterLessonStart: ["BsTest"],
   dossierEntryEmailTypeId: 1055,
+  dossierImportantInformationCodeId: 2000274,
+  dossierDisadvantageCompensationCodeId: 2000283,
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {
