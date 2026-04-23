@@ -1,18 +1,16 @@
 import * as t from "io-ts";
 import { LocalDateTimeFromString, Maybe, Option } from "./common-types";
 
-const ClassRegistration = Option(
-  t.type({
-    // StatusId: t.number,
-    IsActive: t.boolean,
-    // Status: t.string,
-    // IdStudyClass: t.number,
-    NumberStudyClass: t.string,
-    // DesignationStudyClass: t.string,
-    Id: t.number,
-    // PersonId: t.number,
-  }),
-);
+const ClassRegistration = t.type({
+  // StatusId: t.number,
+  IsActive: t.boolean,
+  // Status: t.string,
+  // IdStudyClass: t.number,
+  NumberStudyClass: t.string,
+  // DesignationStudyClass: t.string,
+  Id: t.number,
+  // PersonId: t.number,
+});
 
 const Student = t.type({
   Id: t.number,

@@ -22,10 +22,8 @@ export class StudentDossierAvatarComponent {
   studyClasses = computed(
     () =>
       this.student()
-        ?.ClassRegistrations?.filter((reg) =>
-          reg == null ? null : reg.IsActive,
-        )
-        ?.map((reg) => (reg == null ? null : reg.NumberStudyClass)) ?? [],
+        ?.ClassRegistrations?.filter((reg) => reg.IsActive)
+        ?.map((reg) => reg.NumberStudyClass) ?? [],
   );
   studyClassesLabel = computed(() => this.studyClasses().join(", ") ?? null);
 }
