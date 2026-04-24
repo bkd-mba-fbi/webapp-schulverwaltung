@@ -13,7 +13,12 @@
   </div>
 }
 
-<div class="info">
-  {{ "student.dossier.created" | translate }}:
-  {{ info.CreationDate | date: "dd.MM.yyyy" }}
+<div class="footer">
+  <div class="info">
+    {{ "student.dossier.created" | translate }}:
+    {{ info.CreationDate | date: "dd.MM.yyyy" }}
+  </div>
+  <bkd-student-dossier-edit-link
+    [entry]="entry()"
+  ></bkd-student-dossier-edit-link>
 </div>

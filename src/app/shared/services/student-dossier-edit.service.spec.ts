@@ -54,13 +54,14 @@ describe("StudentDossierEditService", () => {
     additionalInformationsService =
       jasmine.createSpyObj<AdditionalInformationsRestService>(
         "AdditionalInformationsRestService",
-        ["get", "create", "createWithFile"],
+        ["get", "create", "update", "createWithFile"],
       );
     additionalInformation = buildAdditionalInformation();
     additionalInformationsService.get.and.returnValue(
       of(additionalInformation),
     );
     additionalInformationsService.create.and.returnValue(of(undefined));
+    additionalInformationsService.update.and.returnValue(of(undefined));
     additionalInformationsService.createWithFile.and.returnValue(of(undefined));
 
     dropDownItemsService = jasmine.createSpyObj<DropDownItemsRestService>(
@@ -213,36 +214,96 @@ describe("StudentDossierEditService", () => {
 
   describe("save", () => {
     describe("note", () => {
-      it("creates an entry", async () => {
-        await service.save("note", additionalInformation, null);
-        expect(additionalInformationsService.create).toHaveBeenCalledWith(
-          additionalInformation,
-          jasmine.any(Object),
-        );
-        expect(
-          additionalInformationsService.createWithFile,
-        ).not.toHaveBeenCalled();
+      describe("new entry", () => {
+        it("creates an entry", async () => {
+          const entry = additionalInformation as Partial<AdditionalInformation>;
+          delete entry.Id;
+          await service.save("note", entry, null);
+          expect(additionalInformationsService.create).toHaveBeenCalledWith(
+            entry,
+            jasmine.any(Object),
+          );
+          expect(
+            additionalInformationsService.createWithFile,
+          ).not.toHaveBeenCalled();
+        });
+      });
+
+      describe("existing entry", () => {
+        it("updates an entry", async () => {
+          const entry = additionalInformation;
+          await service.save("note", entry, null);
+          expect(additionalInformationsService.update).toHaveBeenCalledWith(
+            entry,
+            jasmine.any(Object),
+          );
+          expect(
+            additionalInformationsService.createWithFile,
+          ).not.toHaveBeenCalled();
+        });
       });
     });
 
     describe("document", () => {
-      it("creates a file entry", async () => {
-        const file = new File([], "test.pdf");
-        await service.save("document", additionalInformation, file);
-        expect(
-          additionalInformationsService.createWithFile,
-        ).toHaveBeenCalledWith(additionalInformation, file, "test.pdf");
-        expect(additionalInformationsService.create).not.toHaveBeenCalled();
+      describe("new entry", () => {
+        it("creates a file entry", async () => {
+          const entry = additionalInformation as Partial<AdditionalInformation>;
+          delete entry.Id;
+          const file = new File([], "test.pdf");
+          await service.save("document", entry, file);
+          expect(
+            additionalInformationsService.createWithFile,
+          ).toHaveBeenCalledWith(entry, file, "test.pdf");
+          expect(additionalInformationsService.create).not.toHaveBeenCalled();
+        });
+
+        it("throws an error if file is not present", async () => {
+          const entry = additionalInformation as Partial<AdditionalInformation>;
+          delete entry.Id;
+          await expectAsync(
+            service.save("document", entry, null),
+          ).toBeRejectedWithError("File is not present");
+          expect(
+            additionalInformationsService.createWithFile,
+          ).not.toHaveBeenCalled();
+          expect(additionalInformationsService.create).not.toHaveBeenCalled();
+        });
       });
 
-      it("throws an error if file is not present", async () => {
-        await expectAsync(
-          service.save("document", additionalInformation, null),
-        ).toBeRejectedWithError("File is not present");
-        expect(
-          additionalInformationsService.createWithFile,
-        ).not.toHaveBeenCalled();
-        expect(additionalInformationsService.create).not.toHaveBeenCalled();
+      describe("existing entry", () => {
+        it("updates entry, but without the file field", async () => {
+          const entry = additionalInformation as Pick<
+            AdditionalInformation,
+            "Id"
+          > &
+            Partial<Omit<AdditionalInformation, "Id">>;
+          await service.save("document", entry, null);
+          expect(additionalInformationsService.update).toHaveBeenCalledWith(
+            entry,
+            jasmine.any(Object),
+          );
+          expect(additionalInformationsService.create).not.toHaveBeenCalled();
+          expect(
+            additionalInformationsService.createWithFile,
+          ).not.toHaveBeenCalled();
+        });
+
+        it("throws an error if file is present", async () => {
+          const entry = additionalInformation as Pick<
+            AdditionalInformation,
+            "Id"
+          > &
+            Partial<Omit<AdditionalInformation, "Id">>;
+          const file = new File([], "test.pdf");
+          await expectAsync(
+            service.save("document", entry, file),
+          ).toBeRejectedWithError("File update is not supported");
+          expect(additionalInformationsService.update).not.toHaveBeenCalled();
+          expect(additionalInformationsService.create).not.toHaveBeenCalled();
+          expect(
+            additionalInformationsService.createWithFile,
+          ).not.toHaveBeenCalled();
+        });
       });
     });
   });

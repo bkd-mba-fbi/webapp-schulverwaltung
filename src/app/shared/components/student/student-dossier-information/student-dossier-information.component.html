@@ -12,20 +12,30 @@
     <div ngbAccordionBody>
       <ng-template>
         @for (entry of informationEntries(); track entry.id) {
-          <div>
-            <h6>{{ entry.additionalInformation.Designation }}</h6>
-            <bkd-student-dossier-entry-description
+          <div class="d-flex">
+            <div class="flex-grow-1">
+              <h6>{{ entry.additionalInformation.Designation }}</h6>
+              <bkd-student-dossier-entry-description
+                [entry]="entry"
+              ></bkd-student-dossier-entry-description>
+            </div>
+            <bkd-student-dossier-edit-link
               [entry]="entry"
-            ></bkd-student-dossier-entry-description>
+            ></bkd-student-dossier-edit-link>
           </div>
         }
         @for (entry of disadvantageEntries(); track entry.id) {
-          <div>
-            <h6>{{ "student.dossier.disadvantage" | translate }}</h6>
-            {{ entry.additionalInformation.Designation }}
-            <bkd-student-dossier-entry-description
+          <div class="d-flex">
+            <div class="flex-grow-1">
+              <h6>{{ "student.dossier.disadvantage" | translate }}</h6>
+              {{ entry.additionalInformation.Designation }}
+              <bkd-student-dossier-entry-description
+                [entry]="entry"
+              ></bkd-student-dossier-entry-description>
+            </div>
+            <bkd-student-dossier-edit-link
               [entry]="entry"
-            ></bkd-student-dossier-entry-description>
+            ></bkd-student-dossier-edit-link>
           </div>
         }
       </ng-template>

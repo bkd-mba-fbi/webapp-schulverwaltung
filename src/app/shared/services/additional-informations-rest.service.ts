@@ -32,6 +32,23 @@ export class AdditionalInformationsRestService extends RestService<
   }
 
   /**
+   * Updates an AdditionalInformation entry.
+   */
+  update(
+    entry: Pick<AdditionalInformation, "Id"> &
+      Partial<Omit<AdditionalInformation, "Id">>,
+    options: { context?: HttpContext } = {},
+  ): Observable<void> {
+    return this.http
+      .put(
+        `${this.settings.apiUrl}/AdditionalInformations/${entry.Id}`,
+        entry,
+        options,
+      )
+      .pipe(map(() => undefined));
+  }
+
+  /**
    * Creates an AdditionalInformation entry with an associated file (two
    * requests). Error responses are not handled by the interceptor and must be
    * handled by the consumer.

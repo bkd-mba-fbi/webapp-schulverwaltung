@@ -89,6 +89,19 @@ describe("StudentDossierEditComponent", () => {
       });
     });
 
+    describe("form", () => {
+      it("prefills form with default values", () => {
+        const form = component.entryForm;
+        expect(form.type().value()).toBe("document");
+        expect(form.file().value()).toBeNull();
+        expect(form.designation().value()).toBe("");
+        expect(form.description().value()).toBe("");
+        expect(form.category().value()).toBeNull();
+        expect(form.forTeacher().value()).toBe("class-teacher-only");
+        expect(form.forStudent().value()).toBe(true);
+      });
+    });
+
     describe("onSubmit", () => {
       it("does nothing if form is invalid", async () => {
         await component.onSubmit(new Event("submit"));
@@ -204,7 +217,14 @@ describe("StudentDossierEditComponent", () => {
   describe("edit existing entry", () => {
     let additionalInformation: AdditionalInformation;
     beforeEach(async () => {
-      additionalInformation = buildAdditionalInformation();
+      additionalInformation = {
+        ...buildAdditionalInformation(),
+        ObjectId: 42,
+        ObjectTypeId: 2,
+        TypeId: 1052,
+        Description: "Some description",
+        CodeId: 2000273,
+      };
       additionalInformationId$.next(additionalInformation.Id);
       additionalInformation$.next(additionalInformation);
       fixture.detectChanges();
@@ -214,6 +234,35 @@ describe("StudentDossierEditComponent", () => {
     describe("heading", () => {
       it("returns the heading for an existing entry", () => {
         expect(component.heading()).toBe("student.dossier.edit.title-update");
+      });
+    });
+
+    describe("form", () => {
+      it("prefills form with existing note entry data", () => {
+        const form = component.entryForm;
+        expect(form.type().value()).toBe("note");
+        expect(form.designation().value()).toBe("Lorem ipsum");
+        expect(form.description().value()).toBe("Some description");
+        expect(form.category().value()).toBe(2000273);
+        expect(form.forTeacher().value()).toBe("class-teacher-only");
+        expect(form.forStudent().value()).toBe(false);
+      });
+
+      it("prefills form with existing document entry data", () => {
+        additionalInformation.ObjectId = 12345;
+        additionalInformation.ObjectTypeId = 3;
+        additionalInformation.File = "/path/to/file.pdf";
+        additionalInformation.ForStudent = true;
+        additionalInformation$.next({ ...additionalInformation });
+        fixture.detectChanges();
+
+        const form = component.entryForm;
+        expect(form.type().value()).toBe("document");
+        expect(form.designation().value()).toBe("Lorem ipsum");
+        expect(form.description().value()).toBe("Some description");
+        expect(form.category().value()).toBe(2000273);
+        expect(form.forTeacher().value()).toBe("all");
+        expect(form.forStudent().value()).toBe(true);
       });
     });
 
@@ -227,7 +276,117 @@ describe("StudentDossierEditComponent", () => {
         expect(toastService.success).not.toHaveBeenCalled();
       });
 
-      // TODO: Add update tests in #929
+      describe("note", () => {
+        it("saves the entry for class teacher only", async () => {
+          component.entryForm.designation().value.set("Anruf Eltern");
+          component.entryForm.category().value.set("2000267");
+          fixture.detectChanges();
+
+          await component.onSubmit(new Event("submit"));
+          expect(editService.save).toHaveBeenCalledWith(
+            "note",
+            {
+              Id: 1,
+              ObjectId: 42,
+              ObjectTypeId: 2,
+              TypeId: 1052,
+              CodeId: 2000267,
+              Designation: "Anruf Eltern",
+              Description: "Some description",
+              ForStudent: false,
+            },
+            null,
+          );
+          expect(toastService.success).toHaveBeenCalled();
+        });
+
+        it("saves the entry for all teachers", async () => {
+          component.entryForm.type().value.set("note");
+          component.entryForm.designation().value.set("Anruf Eltern");
+          component.entryForm.category().value.set("2000267");
+          component.entryForm.forTeacher().value.set("all");
+          fixture.detectChanges();
+
+          await component.onSubmit(new Event("submit"));
+          expect(editService.save).toHaveBeenCalledWith(
+            "note",
+            {
+              Id: 1,
+              ObjectId: 42,
+              ObjectTypeId: 3,
+              TypeId: 1052,
+              CodeId: 2000267,
+              Designation: "Anruf Eltern",
+              Description: "Some description",
+              ForStudent: false,
+            },
+            null,
+          );
+          expect(toastService.success).toHaveBeenCalled();
+        });
+      });
+
+      describe("document", () => {
+        beforeEach(() => {
+          additionalInformation.File = "/path/to/file.pdf";
+          additionalInformation$.next({ ...additionalInformation });
+          fixture.detectChanges();
+        });
+
+        it("saves the entry for class teacher only", async () => {
+          component.entryForm.type().value.set("document");
+          component.entryForm.designation().value.set("Anruf Eltern");
+          component.entryForm.category().value.set("2000267");
+          fixture.detectChanges();
+
+          await component.onSubmit(new Event("submit"));
+          expect(editService.save).toHaveBeenCalledWith(
+            "document",
+            {
+              Id: 1,
+              ObjectId: 42,
+              ObjectTypeId: 2,
+              TypeId: 1052,
+              CodeId: 2000267,
+              Designation: "Anruf Eltern",
+              Description: "Some description",
+              ForStudent: false,
+            },
+            null,
+          );
+          expect(toastService.success).toHaveBeenCalled();
+        });
+
+        it("saves the entry for all teachers", async () => {
+          additionalInformation.ObjectId = 12345;
+          additionalInformation.ObjectTypeId = 3;
+          additionalInformation$.next({ ...additionalInformation });
+          fixture.detectChanges();
+
+          component.entryForm.type().value.set("document");
+          component.entryForm.designation().value.set("Anruf Eltern");
+          component.entryForm.category().value.set("2000267");
+          component.entryForm.forTeacher().value.set("all");
+          fixture.detectChanges();
+
+          await component.onSubmit(new Event("submit"));
+          expect(editService.save).toHaveBeenCalledWith(
+            "document",
+            {
+              Id: 1,
+              ObjectId: 12345,
+              ObjectTypeId: 3,
+              TypeId: 1052,
+              CodeId: 2000267,
+              Designation: "Anruf Eltern",
+              Description: "Some description",
+              ForStudent: false,
+            },
+            null,
+          );
+          expect(toastService.success).toHaveBeenCalled();
+        });
+      });
     });
   });
 });
