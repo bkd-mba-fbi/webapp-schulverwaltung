@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { NgbAccordionDirective } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -28,8 +23,6 @@ import { StudentDossierInformationComponent } from "../student-dossier-informati
 })
 export class StudentDossierComponent {
   dossierService = inject(StudentDossierService);
-
-  readonly = input<boolean>(false);
 
   loading = toSignal(this.dossierService.loading$, { requireSync: true });
   informationEntries = toSignal(this.dossierService.informationEntries$, {

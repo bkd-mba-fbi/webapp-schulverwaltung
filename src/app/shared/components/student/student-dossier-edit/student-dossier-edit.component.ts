@@ -3,10 +3,11 @@ import {
   Component,
   computed,
   inject,
+  linkedSignal,
   signal,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { FormField, form, required } from "@angular/forms/signals";
+import { FormField, disabled, form, required } from "@angular/forms/signals";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { SETTINGS, Settings } from "src/app/settings";
@@ -98,32 +99,42 @@ export class StudentDossierEditComponent {
     label: this.translate.instant(`student.dossier.edit.type.${key}`),
   }));
 
-  entryFormData = signal<DossierEntryFormData>({
-    type: "document",
-    file: null,
-    designation: "",
-    description: "",
-    category: null,
-    forTeacher: "class-teacher-only",
-    forStudent: true,
+  entryFormData = linkedSignal<DossierEntryFormData>(() => {
+    const info = this.additionalInformation();
+    return {
+      type: info ? (info.File ? "document" : "note") : "document",
+      file: null,
+      designation: info?.Designation ?? "",
+      description: info?.Description ?? "",
+      category: info?.CodeId ?? null,
+      forTeacher: info
+        ? info.ObjectTypeId === CLASS_TEACHER_OBJECT_TYPE_ID
+          ? "class-teacher-only"
+          : "all"
+        : "class-teacher-only",
+      forStudent: info?.ForStudent ?? true,
+    };
   });
   entryForm = form(this.entryFormData, (schema) => {
+    const editing = () => Boolean(this.additionalInformation());
     const isDocument = () => this.entryFormData().type === "document";
+    const hasFile = () => isDocument() && !editing();
     required(schema.type);
     required(schema.file, {
-      when: isDocument,
+      when: hasFile,
     });
     maxFileSize(schema.file, {
       maxBytes: this.settings.dossierMaxFileSize,
-      when: isDocument,
+      when: hasFile,
     });
     fileType(schema.file, {
       acceptedFileTypes: this.acceptedFileTypes,
-      when: isDocument,
+      when: hasFile,
     });
     required(schema.designation);
     required(schema.category);
     required(schema.forTeacher);
+    disabled(schema.forTeacher, editing);
   });
 
   submitted = signal(false);
@@ -163,11 +174,13 @@ export class StudentDossierEditComponent {
     studentId: Option<number>,
     formData: DossierEntryFormData,
   ): Promise<Partial<AdditionalInformation>> {
+    const info = this.additionalInformation();
     const { designation, description, category, forTeacher, forStudent } =
       formData;
 
-    return {
-      ObjectId: await this.getObjectId(studentId, forTeacher),
+    const entry: Partial<AdditionalInformation> = {
+      ObjectId:
+        info?.ObjectId ?? (await this.getObjectId(studentId, forTeacher)),
       ObjectTypeId:
         forTeacher === "class-teacher-only"
           ? CLASS_TEACHER_OBJECT_TYPE_ID
@@ -178,6 +191,12 @@ export class StudentDossierEditComponent {
       Description: description?.trim() || null,
       ForStudent: forStudent,
     };
+
+    if (info?.Id) {
+      entry.Id = info?.Id;
+    }
+
+    return entry;
   }
 
   /**

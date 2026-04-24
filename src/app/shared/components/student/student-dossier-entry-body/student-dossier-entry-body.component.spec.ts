@@ -54,7 +54,7 @@ describe("StudentDossierEntryBodyComponent", () => {
 
   describe("document link", () => {
     it("does not render a link if no file is available", () => {
-      expect(element.querySelector("a")).toBeNull();
+      expect(element.querySelector("a:not(.btn)")).toBeNull();
     });
 
     it("renders a link if a file is available", () => {
@@ -62,7 +62,7 @@ describe("StudentDossierEntryBodyComponent", () => {
         "/restApi/Files/AdditionalInformation/1015/File";
       fixture.componentRef.setInput("entry", { ...entry });
       fixture.detectChanges();
-      const link = element.querySelector("a");
+      const link = element.querySelector<HTMLAnchorElement>("a:not(.btn)");
       expect(link).not.toBeNull();
       expect(link?.href).toBe(
         "https://eventotest.api/Files/AdditionalInformation/1015/File?token=ey...",

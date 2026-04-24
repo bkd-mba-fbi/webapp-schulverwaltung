@@ -71,6 +71,22 @@ export class StudentDossierEditService {
     entry: Partial<AdditionalInformation>,
     file: Option<File>,
   ): Promise<void> {
+    if (entry.Id) {
+      return this.update(
+        type,
+        entry as Pick<AdditionalInformation, "Id"> &
+          Partial<Omit<AdditionalInformation, "Id">>,
+        file,
+      );
+    }
+    return this.create(type, entry, file);
+  }
+
+  private async create(
+    type: "document" | "note",
+    entry: Partial<AdditionalInformation>,
+    file: Option<File>,
+  ): Promise<void> {
     let save$: Observable<void>;
     switch (type) {
       case "document":
@@ -93,6 +109,27 @@ export class StudentDossierEditService {
       default:
         throw new UnreachableError(type, "Unhandled type");
     }
+    await firstValueFrom(save$);
+  }
+
+  private async update(
+    type: "document" | "note",
+    entry: Pick<AdditionalInformation, "Id"> &
+      Partial<Omit<AdditionalInformation, "Id">>,
+    file: Option<File>,
+  ): Promise<void> {
+    const id = entry.Id;
+    if (!id) {
+      throw new Error("Entry ID is not present");
+    }
+    if (file) {
+      throw new Error("File update is not supported");
+    }
+    const save$ = this.additionalInformationsService.update(entry, {
+      context: new HttpContext().set(RestErrorInterceptorOptions, {
+        disableErrorHandling: true,
+      }),
+    });
     await firstValueFrom(save$);
   }
 

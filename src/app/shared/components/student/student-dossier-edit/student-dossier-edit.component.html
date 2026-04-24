@@ -11,19 +11,21 @@
     <h1>{{ heading() }}</h1>
 
     <form (submit)="onSubmit($event)" novalidate>
-      <div class="mb-3">
-        <bkd-button-group
-          [class.is-invalid]="submitted() && entryForm.type().invalid()"
-          [options]="types"
-          [formField]="entryForm.type"
-        ></bkd-button-group>
-        <bkd-form-errors
-          [field]="entryForm.type()"
-          [submitted]="submitted()"
-        ></bkd-form-errors>
-      </div>
+      @if (!info) {
+        <div class="mb-3">
+          <bkd-button-group
+            [class.is-invalid]="submitted() && entryForm.type().invalid()"
+            [options]="types"
+            [formField]="entryForm.type"
+          ></bkd-button-group>
+          <bkd-form-errors
+            [field]="entryForm.type()"
+            [submitted]="submitted()"
+          ></bkd-form-errors>
+        </div>
+      }
 
-      @if (entryForm.type().value() === "document") {
+      @if (entryForm.type().value() === "document" && !info) {
         <div class="mb-3">
           <bkd-file-input
             [acceptedFileTypes]="acceptedFileTypes"

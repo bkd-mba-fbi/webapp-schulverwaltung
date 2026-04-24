@@ -1,0 +1,12 @@
+@import "src/bootstrap-variables";
+
+.btn {
+  color: rgba($body-color, 0.5);
+  text-decoration: none;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+  color: rgba($body-color, 1);
+}
