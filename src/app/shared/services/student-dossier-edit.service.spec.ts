@@ -54,7 +54,7 @@ describe("StudentDossierEditService", () => {
     additionalInformationsService =
       jasmine.createSpyObj<AdditionalInformationsRestService>(
         "AdditionalInformationsRestService",
-        ["get", "create", "update", "createWithFile"],
+        ["get", "create", "update", "delete", "createWithFile"],
       );
     additionalInformation = buildAdditionalInformation();
     additionalInformationsService.get.and.returnValue(
@@ -62,6 +62,7 @@ describe("StudentDossierEditService", () => {
     );
     additionalInformationsService.create.and.returnValue(of(undefined));
     additionalInformationsService.update.and.returnValue(of(undefined));
+    additionalInformationsService.delete.and.returnValue(of(undefined));
     additionalInformationsService.createWithFile.and.returnValue(of(undefined));
 
     dropDownItemsService = jasmine.createSpyObj<DropDownItemsRestService>(
@@ -305,6 +306,13 @@ describe("StudentDossierEditService", () => {
           ).not.toHaveBeenCalled();
         });
       });
+    });
+  });
+
+  describe("delete", () => {
+    it("deletes the entry", async () => {
+      await service.delete(123);
+      expect(additionalInformationsService.delete).toHaveBeenCalledWith(123);
     });
   });
 });

@@ -13,6 +13,7 @@ import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { SETTINGS, Settings } from "src/app/settings";
 import { AdditionalInformation } from "src/app/shared/models/additional-informations.model";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { StudentDossierEditService } from "src/app/shared/services/student-dossier-edit.service";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { fileType } from "src/app/shared/validators/file-type.validator";
@@ -24,6 +25,7 @@ import { FormErrorsComponent } from "../../form-errors/form-errors.component";
 import { SelectComponent } from "../../select/select.component";
 import { SpinnerComponent } from "../../spinner/spinner.component";
 import { SubmitButtonComponent } from "../../submit-button/submit-button.component";
+import { StudentDossierDeleteDialogComponent } from "../student-dossier-delete-dialog/student-dossier-delete-dialog.component";
 
 type DossierEntryFormData = {
   type: "document" | "note";
@@ -63,6 +65,7 @@ export class StudentDossierEditComponent {
   private translate = inject(TranslateService);
   private editService = inject(StudentDossierEditService);
   private toastService = inject(ToastService);
+  private modalService = inject(BkdModalService);
   private settings = inject<Settings>(SETTINGS);
 
   acceptedFileTypes = this.settings.dossierAllowedFileTypes;
@@ -138,6 +141,40 @@ export class StudentDossierEditComponent {
   });
 
   submitted = signal(false);
+
+  async delete() {
+    const info = this.additionalInformation();
+    const id = info?.Id;
+    if (!info || !id) {
+      return;
+    }
+
+    const modalRef = this.modalService.open(
+      StudentDossierDeleteDialogComponent,
+    );
+    modalRef.componentInstance.type = info.File ? "document" : "note";
+
+    let result = false;
+    try {
+      result = await modalRef.result;
+    } catch {
+      result = false;
+    }
+
+    if (result) {
+      const success = await this.deleteEntry(id);
+      if (success) {
+        this.toastService.success(
+          this.translate.instant("student.dossier.delete.delete-success"),
+        );
+        await this.navigateBack();
+      } else {
+        this.toastService.error(
+          this.translate.instant("student.dossier.delete.delete-error"),
+        );
+      }
+    }
+  }
 
   async onSubmit(event: Event) {
     event.preventDefault();
@@ -234,6 +271,16 @@ export class StudentDossierEditComponent {
       return true;
     } catch (error) {
       console.error("Failed to save entry:", error);
+      return false;
+    }
+  }
+
+  private async deleteEntry(id: number): Promise<boolean> {
+    try {
+      await this.editService.delete(id);
+      return true;
+    } catch (error) {
+      console.error("Failed to delete entry:", error);
       return false;
     }
   }
