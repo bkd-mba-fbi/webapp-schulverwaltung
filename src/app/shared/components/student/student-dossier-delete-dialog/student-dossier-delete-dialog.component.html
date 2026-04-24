@@ -1,0 +1,32 @@
+<div class="modal-body">
+  <p data-testid="confirmation-message">
+    @if (type === "document") {
+      {{ "student.dossier.delete.confirm-document" | translate }}
+    } @else {
+      {{ "student.dossier.delete.confirm-note" | translate }}
+    }
+  </p>
+</div>
+<div class="modal-footer">
+  <button
+    data-testid="cancel-button"
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="activeModal.dismiss()"
+  >
+    <span class="px-2">
+      {{ "student.dossier.delete.no" | translate }}
+    </span>
+  </button>
+
+  <button
+    data-testid="confirm-button"
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close(true)"
+  >
+    <span class="px-3">
+      {{ "student.dossier.delete.yes" | translate }}
+    </span>
+  </button>
+</div>

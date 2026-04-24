@@ -465,6 +465,14 @@
         "save": "Appliquer",
         "save-success": "L'entrée a été enregistrée",
         "save-error": "L'entrée n'a pas pu être enregistrée"
+      },
+      "delete": {
+        "confirm-note": "Voulez-vous supprimer cette entrée ?",
+        "confirm-document": "Voulez-vous supprimer cette entrée et le document ?",
+        "yes": "Supprimer",
+        "no": "Annuler",
+        "delete-success": "L'entrée a été supprimée",
+        "delete-error": "L'entrée n'a pas pu être supprimée"
       }
     }
   },

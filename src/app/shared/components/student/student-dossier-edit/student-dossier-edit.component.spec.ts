@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { BehaviorSubject, of } from "rxjs";
 import { AdditionalInformation } from "src/app/shared/models/additional-informations.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { StudentDossierEditService } from "src/app/shared/services/student-dossier-edit.service";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { buildAdditionalInformation } from "src/spec-builders";
@@ -13,6 +15,7 @@ describe("StudentDossierEditComponent", () => {
   let fixture: ComponentFixture<StudentDossierEditComponent>;
   let editService: jasmine.SpyObj<StudentDossierEditService>;
   let toastService: jasmine.SpyObj<ToastService>;
+  let modalService: jasmine.SpyObj<BkdModalService>;
   let router: jasmine.SpyObj<Router>;
   let additionalInformationId$: BehaviorSubject<Option<number>>;
   let additionalInformation$: BehaviorSubject<Option<AdditionalInformation>>;
@@ -24,7 +27,7 @@ describe("StudentDossierEditComponent", () => {
     );
     editService = jasmine.createSpyObj(
       "StudentDossierEditService",
-      ["getSubscriptionId", "save"],
+      ["getSubscriptionId", "save", "delete"],
       {
         loading$: of(false),
         studentId$: of(42),
@@ -49,8 +52,10 @@ describe("StudentDossierEditComponent", () => {
     );
     editService.getSubscriptionId.and.returnValue(Promise.resolve(10));
     editService.save.and.returnValue(Promise.resolve());
+    editService.delete.and.returnValue(Promise.resolve());
 
     toastService = jasmine.createSpyObj("ToastService", ["success"]);
+    modalService = jasmine.createSpyObj("BkdModalService", ["open"]);
     router = jasmine.createSpyObj("Router", ["navigate"]);
 
     await TestBed.configureTestingModule(
@@ -58,6 +63,7 @@ describe("StudentDossierEditComponent", () => {
         imports: [StudentDossierEditComponent],
         providers: [
           { provide: ToastService, useValue: toastService },
+          { provide: BkdModalService, useValue: modalService },
           { provide: Router, useValue: router },
           { provide: ActivatedRoute, useValue: {} },
         ],
@@ -386,6 +392,29 @@ describe("StudentDossierEditComponent", () => {
           );
           expect(toastService.success).toHaveBeenCalled();
         });
+      });
+    });
+
+    describe("delete", () => {
+      it("opens confirmation dialog and deletes entry when confirmed", async () => {
+        const modalRef = {
+          componentInstance: {},
+          result: Promise.resolve(true),
+        } as NgbModalRef;
+        modalService.open.and.returnValue(modalRef);
+
+        await component.delete();
+
+        expect(modalService.open).toHaveBeenCalled();
+        expect(modalRef.componentInstance.type).toBe("note");
+
+        await modalRef.result;
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        expect(editService.delete).toHaveBeenCalledWith(
+          additionalInformation.Id,
+        );
+        expect(toastService.success).toHaveBeenCalled();
       });
     });
   });

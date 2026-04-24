@@ -465,6 +465,14 @@
         "save": "Übernehmen",
         "save-success": "Der Eintrag wurde gespeichert",
         "save-error": "Der Eintrag konnte nicht gespeichert werden"
+      },
+      "delete": {
+        "confirm-note": "Wollen Sie diesen Eintrag löschen?",
+        "confirm-document": "Wollen Sie diesen Eintrag und das Dokument löschen?",
+        "yes": "Löschen",
+        "no": "Abbrechen",
+        "delete-success": "Der Eintrag wurde gelöscht",
+        "delete-error": "Der Eintrag konnte nicht gelöscht werden"
       }
     }
   },

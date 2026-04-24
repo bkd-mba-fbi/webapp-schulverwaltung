@@ -82,6 +82,10 @@ export class StudentDossierEditService {
     return this.create(type, entry, file);
   }
 
+  delete(id: number): Promise<void> {
+    return firstValueFrom(this.additionalInformationsService.delete(id));
+  }
+
   private async create(
     type: "document" | "note",
     entry: Partial<AdditionalInformation>,

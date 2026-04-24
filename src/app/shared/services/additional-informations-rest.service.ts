@@ -49,6 +49,15 @@ export class AdditionalInformationsRestService extends RestService<
   }
 
   /**
+   * Deletes an AdditionalInformation entry.
+   */
+  delete(id: number): Observable<void> {
+    return this.http
+      .delete(`${this.settings.apiUrl}/AdditionalInformations/${id}`)
+      .pipe(map(() => undefined));
+  }
+
+  /**
    * Creates an AdditionalInformation entry with an associated file (two
    * requests). Error responses are not handled by the interceptor and must be
    * handled by the consumer.
