@@ -48,7 +48,6 @@
     "actions": {
       "title": "Aktionen",
       "presence-control": "Präsenzkontrolle",
-      "edit-absences": "Gemeldete Absenzen kontrollieren",
       "open-absences": "Offene Absenzen entschuldigen",
       "tests": "Tests und Bewertung",
       "deadline": "Notenfrist",
@@ -229,7 +228,6 @@
         "valid-excuse": "Entschuldigt",
         "without-excuse": "Unentschuldigt",
         "unconfirmed": "Offen",
-        "unchecked": "Zu kontrollieren",
         "incident": "Vorfälle",
         "halfday": "Halbtage"
       }
@@ -658,7 +656,6 @@
       "apprenticeship-company": "Lehrbetrieb",
       "apprenticeship-period": "Lehrzeit",
       "job-trainer": "Berufsbildner/in",
-      "checkable-absences": "Gemeldete Absenzen",
       "open-absences": "Offene Absenzen",
       "excused-absences": "Entschuldigte Absenzen",
       "unexcused-absences": "Unentschuldigte Absenzen",

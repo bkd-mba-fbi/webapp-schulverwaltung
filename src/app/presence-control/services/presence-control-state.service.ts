@@ -187,9 +187,6 @@ export class PresenceControlStateService
   absentCount$ = this.presenceControlEntriesByGroup$.pipe(
     map(getCategoryCount("absent")),
   );
-  unapprovedCount$ = this.presenceControlEntriesByGroup$.pipe(
-    map(getCategoryCount("unapproved")),
-  );
   absentPrecedingCount$ = this.presenceControlEntriesByGroup$.pipe(
     map(getPrecedingAbsencesCount()),
   );

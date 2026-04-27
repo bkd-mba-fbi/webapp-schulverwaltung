@@ -116,9 +116,6 @@
 .state.absent i {
   color: $absent-color;
 }
-.state.unapproved i {
-  color: $unapproved-color;
-}
 
 .state.previously-absent i {
   color: rgba($body-color, 0.5);

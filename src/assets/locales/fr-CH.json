@@ -48,7 +48,6 @@
     "actions": {
       "title": "Actions",
       "presence-control": "Contrôle des présences",
-      "edit-absences": "Contrôler les absences annoncées",
       "open-absences": "Excuser les absences en suspens",
       "tests": "Tests et évaluation",
       "deadline": "Délai de notes",
@@ -229,7 +228,6 @@
         "valid-excuse": "Excusé-e",
         "without-excuse": "Non excusé-e",
         "unconfirmed": "En suspens",
-        "unchecked": "A contrôler",
         "incident": "Incidents",
         "halfday": "Demi-journées"
       }
@@ -658,7 +656,6 @@
       "apprenticeship-company": "Entreprise formatrice",
       "apprenticeship-period": "Durée de l'apprentissage",
       "job-trainer": "Formateur/trice",
-      "checkable-absences": "Absences annoncées",
       "open-absences": "Absences en suspens",
       "excused-absences": "Absences excusées",
       "unexcused-absences": "Absences non excusées",

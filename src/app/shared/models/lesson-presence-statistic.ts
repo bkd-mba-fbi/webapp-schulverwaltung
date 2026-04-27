@@ -8,7 +8,6 @@ const LessonPresenceStatistic = t.type({
   TotalAbsencesUnconfirmed: t.number,
   TotalAbsencesValidExcuse: t.number,
   TotalAbsencesWithoutExcuse: t.number,
-  TotalAbsencesUnchecked: t.number,
   TotalDispensations: t.number,
   TotalHalfDays: t.number,
   TotalIncidents: t.number,

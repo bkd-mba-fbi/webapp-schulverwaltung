@@ -551,22 +551,4 @@ describe("LessonPresencesRestService", () => {
       httpTestingController.verify();
     });
   });
-
-  describe(".checkableAbsencesCount", () => {
-    it("returns one given one checkable absence id", () => {
-      service
-        .checkableAbsencesCount()
-        .subscribe((result) => expect(result).toBe(1));
-
-      httpTestingController
-        .expectOne(
-          (req) =>
-            req.urlWithParams ===
-              "https://eventotest.api/LessonPresences/?filter.ConfirmationStateId=;1080&fields=Id,ConfirmationStateId" &&
-            req.headers.get("X-Role-Restriction") === "LessonTeacherRole",
-        )
-        .flush([{ Id: "197116_5597" }]);
-      httpTestingController.verify();
-    });
-  });
 });

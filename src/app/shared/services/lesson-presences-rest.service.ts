@@ -349,21 +349,6 @@ export class LessonPresencesRestService extends RestService<
       );
   }
 
-  checkableAbsencesCount(): Observable<number> {
-    return this.http
-      .get<unknown>(`${this.baseUrl}/`, {
-        headers: { "X-Role-Restriction": "LessonTeacherRole" },
-        params: {
-          "filter.ConfirmationStateId": `;${this.settings.checkableAbsenceStateId}`,
-          fields: "Id,ConfirmationStateId",
-        },
-      })
-      .pipe(
-        switchMap(decodeArray(this.lessonPresenceIdCodec)),
-        map((LessonPresenceIds) => LessonPresenceIds.length),
-      );
-  }
-
   private getListOfUnconfirmedLessonTeacher(
     params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {

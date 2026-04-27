@@ -74,8 +74,8 @@ describe("EvaluateAbsencesListComponent", () => {
       expect(table).toBeDefined();
 
       const headerCells = table!.querySelectorAll("th");
-      expect(Array.from(headerCells)).toHaveSize(7);
-      expect(headerCells[6].textContent).toContain(
+      expect(Array.from(headerCells)).toHaveSize(6);
+      expect(headerCells[5].textContent).toContain(
         "evaluate-absences.list.header.incident",
       );
 
@@ -83,9 +83,9 @@ describe("EvaluateAbsencesListComponent", () => {
       expect(Array.from(rows)).toHaveSize(1);
 
       const bodyCells = rows[0].querySelectorAll("td");
-      expect(Array.from(bodyCells)).toHaveSize(7);
+      expect(Array.from(bodyCells)).toHaveSize(6);
       expect(bodyCells[0].textContent).toContain("Bachofner Roman");
-      expect(bodyCells[6].textContent).toContain("0");
+      expect(bodyCells[5].textContent).toContain("0");
     });
   });
 
@@ -100,11 +100,11 @@ describe("EvaluateAbsencesListComponent", () => {
       expect(table).toBeDefined();
 
       const headerCells = table!.querySelectorAll("th");
-      expect(Array.from(headerCells)).toHaveSize(8);
-      expect(headerCells[6].textContent).toContain(
+      expect(Array.from(headerCells)).toHaveSize(7);
+      expect(headerCells[5].textContent).toContain(
         "evaluate-absences.list.header.incident",
       );
-      expect(headerCells[7].textContent).toContain(
+      expect(headerCells[6].textContent).toContain(
         "evaluate-absences.list.header.halfday",
       );
 
@@ -112,10 +112,10 @@ describe("EvaluateAbsencesListComponent", () => {
       expect(Array.from(rows)).toHaveSize(1);
 
       const bodyCells = rows[0].querySelectorAll("td");
-      expect(Array.from(bodyCells)).toHaveSize(8);
+      expect(Array.from(bodyCells)).toHaveSize(7);
       expect(bodyCells[0].textContent).toContain("Bachofner Roman");
+      expect(bodyCells[5].textContent).toContain("0");
       expect(bodyCells[6].textContent).toContain("0");
-      expect(bodyCells[7].textContent).toContain("0");
     });
   });
 });

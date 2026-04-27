@@ -13,7 +13,6 @@ describe("presence types", () => {
   let incidentType: PresenceType;
 
   let lessonPresenceConfirmed: LessonPresence;
-  let lessonPresenceUnapproved: LessonPresence;
   let lessonPresence: LessonPresence;
 
   beforeEach(() => {
@@ -28,19 +27,6 @@ describe("presence types", () => {
       undefined,
       undefined,
       settings.unconfirmedAbsenceStateId,
-    );
-
-    lessonPresenceUnapproved = buildLessonPresence(
-      1,
-      new Date(2000, 0, 23, 7, 0),
-      new Date(2000, 0, 23, 8, 0),
-      "Zeichnen",
-      "Vincent van Gogh",
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      settings.checkableAbsenceStateId,
     );
 
     lessonPresence = buildLessonPresence(
@@ -77,12 +63,6 @@ describe("presence types", () => {
   });
 
   describe(".canChangePresenceType", () => {
-    it("should return true if is unapproved absence type", () => {
-      expect(
-        canChangePresenceType(lessonPresenceUnapproved, absenceType, settings),
-      ).toBeTruthy();
-    });
-
     it("should return true if is confirmed default absence type", () => {
       expect(
         canChangePresenceType(lessonPresenceConfirmed, absenceType, settings),

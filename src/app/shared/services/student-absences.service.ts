@@ -9,7 +9,6 @@ import { LessonPresencesRestService } from "./lesson-presences-rest.service";
 import { PresenceTypesService } from "./presence-types.service";
 
 export interface StudentProfileAbsencesCounts {
-  checkableAbsences: Option<number>;
   openAbsences: Option<number>;
   excusedAbsences: Option<number>;
   unexcusedAbsences: Option<number>;
@@ -25,7 +24,6 @@ export class StudentAbsencesService {
 
   private studentId$ = new ReplaySubject<number>(1);
 
-  checkableAbsences$ = this.getAbsences(this.loadCheckableAbsences.bind(this));
   openAbsences$ = this.getAbsences(this.loadOpenAbsences.bind(this));
   excusedAbsences$ = this.getAbsences(this.loadExcusedAbsences.bind(this));
   unexcusedAbsences$ = this.getAbsences(this.loadUnexcusedAbsences.bind(this));
@@ -60,14 +58,10 @@ export class StudentAbsencesService {
         return combineLatest([
           this.loadStatistics(studentId).pipe(startWith(null)),
           this.openAbsences$.pipe(map((absences) => absences?.length ?? null)),
-          this.checkableAbsences$.pipe(
-            map((absences) => absences?.length ?? null),
-          ),
         ]);
       }),
-      map(([statistics, openAbsencesCount, checkableAbsencesCount]) => ({
+      map(([statistics, openAbsencesCount]) => ({
         openAbsences: openAbsencesCount,
-        checkableAbsences: checkableAbsencesCount,
         excusedAbsences: statistics?.TotalAbsencesValidExcuse ?? null,
         unexcusedAbsences: statistics?.TotalAbsencesWithoutExcuse ?? null,
         incidents: statistics?.TotalIncidents ?? null,
@@ -101,17 +95,6 @@ export class StudentAbsencesService {
     return this.lessonPresencesService.getListOfUnconfirmed(
       this.getBaseParams(studentId),
     );
-  }
-
-  private loadCheckableAbsences(
-    studentId: number,
-  ): Observable<ReadonlyArray<LessonPresence>> {
-    return this.lessonPresencesService.getList({
-      params: {
-        ...this.getBaseParams(studentId),
-        "filter.ConfirmationStateId": `=${this.settings.checkableAbsenceStateId}`,
-      },
-    });
   }
 
   private loadExcusedAbsences(
