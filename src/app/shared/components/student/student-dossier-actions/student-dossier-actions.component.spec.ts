@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildTestModuleMetadata } from "src/spec-helpers";
+import { StudentDossierFilterService } from "../../../services/student-dossier-filter.service";
+import { StudentStateService } from "../../../services/student-state.service";
 import { StudentDossierActionsComponent } from "./student-dossier-actions.component";
 
 describe("StudentDossierActionsComponent", () => {
@@ -10,6 +12,7 @@ describe("StudentDossierActionsComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [StudentDossierActionsComponent],
+        providers: [StudentStateService, StudentDossierFilterService],
       }),
     ).compileComponents();
 

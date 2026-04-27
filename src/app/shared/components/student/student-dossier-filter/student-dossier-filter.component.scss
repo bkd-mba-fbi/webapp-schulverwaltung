@@ -1,0 +1,32 @@
+@import "src/bootstrap-variables";
+
+:host ::ng-deep .filter-dropdown {
+  .ng-select-container {
+    display: none;
+  }
+  .ng-dropdown-panel-items {
+    max-height: none;
+  }
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: max-content;
+  min-width: 200px;
+  padding-top: 0.5 * $spacer;
+}
+
+.filter-active::after {
+  content: "";
+  display: block;
+  border-radius: 50%;
+  background-color: $accent;
+  width: 0.75rem;
+  height: 0.75rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(25%, -25%);
+}

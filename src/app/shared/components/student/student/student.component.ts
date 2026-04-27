@@ -3,8 +3,9 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { RouterOutlet } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ReportInfo } from "src/app/shared/services/reports.service";
+import { StudentDossierFilterService } from "src/app/shared/services/student-dossier-filter.service";
 import { StudentGradesService } from "src/app/shared/services/student-grades.service";
-import { StudentStateService } from "../../../services/student-state.service";
+import { StudentStateService } from "src/app/shared/services/student-state.service";
 import { BacklinkComponent } from "../../backlink/backlink.component";
 import { StudentDossierActionsComponent } from "../student-dossier-actions/student-dossier-actions.component";
 import { StudentGradesActionsComponent } from "../student-grades-actions/student-grades-actions.component";
@@ -23,7 +24,11 @@ import { StudentNavigationComponent } from "../student-navigation/student-naviga
     StudentDossierActionsComponent,
     StudentGradesActionsComponent,
   ],
-  providers: [StudentGradesService],
+  providers: [
+    StudentStateService,
+    StudentGradesService,
+    StudentDossierFilterService,
+  ],
 })
 export class StudentComponent {
   private state = inject(StudentStateService);

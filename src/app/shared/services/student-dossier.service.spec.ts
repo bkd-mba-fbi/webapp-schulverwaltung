@@ -5,6 +5,7 @@ import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { TokenPayload } from "../models/token-payload.model";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { StorageService } from "./storage.service";
+import { StudentDossierFilterService } from "./student-dossier-filter.service";
 import { StudentDossierService } from "./student-dossier.service";
 import { StudentStateService } from "./student-state.service";
 import { StudentsRestService } from "./students-rest.service";
@@ -42,6 +43,7 @@ describe("StudentDossierService", () => {
             },
           },
           { provide: StorageService, useValue: storageService },
+          StudentDossierFilterService,
         ],
       }),
     );
@@ -246,6 +248,55 @@ describe("StudentDossierService", () => {
 
       service.entries$.subscribe((entries) => {
         expect(entries[0].category).toBeNull();
+      });
+    });
+  });
+
+  describe("filteredDossierEntries$", () => {
+    it("returns all dossier entries when no category is selected", () => {
+      const korrespondenz = {
+        ...buildAdditionalInformation(),
+        Id: 1,
+        CodeId: 2000273,
+      };
+      const zeugnis = {
+        ...buildAdditionalInformation(),
+        Id: 2,
+        CodeId: 2000275,
+      };
+      studentsRestService.getAdditionalInformations.and.returnValue(
+        of([korrespondenz, zeugnis]),
+      );
+
+      service.filteredDossierEntries$.subscribe((entries) => {
+        expect(entries.map((e) => e.id)).toEqual([
+          korrespondenz.Id,
+          zeugnis.Id,
+        ]);
+      });
+    });
+
+    it("returns only selected dossier entries when a category is selected", () => {
+      const korrespondenz = {
+        ...buildAdditionalInformation(),
+        Id: 1,
+        CodeId: 2000273,
+      };
+      const zeugnis = {
+        ...buildAdditionalInformation(),
+        Id: 2,
+        CodeId: 2000275,
+      };
+      studentsRestService.getAdditionalInformations.and.returnValue(
+        of([korrespondenz, zeugnis]),
+      );
+
+      TestBed.inject(StudentDossierFilterService).setSelectedCategories([
+        "Zeugnis",
+      ]);
+
+      service.filteredDossierEntries$.subscribe((entries) => {
+        expect(entries.map((e) => e.id)).toEqual([zeugnis.Id]);
       });
     });
   });

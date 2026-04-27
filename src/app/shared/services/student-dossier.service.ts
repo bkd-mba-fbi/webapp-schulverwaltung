@@ -6,6 +6,7 @@ import { DropDownItem } from "../models/drop-down-item.model";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { LoadingService } from "./loading-service";
 import { StorageService } from "./storage.service";
+import { StudentDossierFilterService } from "./student-dossier-filter.service";
 import { StudentStateService } from "./student-state.service";
 import { StudentsRestService } from "./students-rest.service";
 
@@ -34,9 +35,11 @@ export class StudentDossierService {
   private studentsService = inject(StudentsRestService);
   private dropDownItemsService = inject(DropDownItemsRestService);
   private storageService = inject(StorageService);
+  private filterService = inject(StudentDossierFilterService);
 
   loading$ = this.loadingService.loading(STUDENT_DOSSIER_CONTEXT);
   studentId$ = this.state.studentId$;
+
   private additionalInformations$ = this.studentId$.pipe(
     switchMap((studentId) => this.loadAdditionalInformations(studentId)),
     shareReplay(1),
@@ -62,7 +65,26 @@ export class StudentDossierService {
   );
   dossierEntries$ = this.entries$.pipe(
     map((entries) => entries.filter((entry) => entry.type === "dossier")),
+    shareReplay(1),
   );
+  filteredDossierEntries$ = combineLatest([
+    this.dossierEntries$,
+    this.filterService.selectedCategories$,
+  ]).pipe(
+    map(([entries, selected]) =>
+      selected.length === 0
+        ? entries
+        : entries.filter(
+            (entry) =>
+              entry.category != null && selected.includes(entry.category),
+          ),
+    ),
+    shareReplay(1),
+  );
+
+  constructor() {
+    this.filterService.setDossierEntries(this.dossierEntries$);
+  }
 
   private sortByDateDesc(
     a: AdditionalInformation,

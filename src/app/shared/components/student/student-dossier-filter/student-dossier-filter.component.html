@@ -1,0 +1,54 @@
+<button
+  class="btn btn-outline-secondary d-flex align-items-center px-2"
+  [id]="dropdownId"
+  (click)="toggleDropdown(); $event.stopPropagation()"
+  type="button"
+>
+  <span
+    [class.filter-active]="isFilterActive()"
+    class="position-relative d-flex"
+  >
+    <i class="material-icons-outlined">filter_alt</i>
+  </span>
+  @if (isDropdownOpen()) {
+    <i class="material-icons">expand_less</i>
+  } @else {
+    <i class="material-icons">expand_more</i>
+  }
+</button>
+<ng-select
+  class="filter-dropdown"
+  [items]="categoryOptions()"
+  [multiple]="true"
+  groupBy="Group"
+  [selectableGroup]="true"
+  [selectableGroupAsModel]="false"
+  [closeOnSelect]="false"
+  [ngModel]="selectedCategories()"
+  (ngModelChange)="onCategoriesChange($event)"
+  bindLabel="Key"
+  bindValue="Value"
+  [isOpen]="isDropdownOpen()"
+  dropdownPosition="bottom"
+  [searchable]="false"
+  [clearable]="false"
+>
+  <ng-template
+    ng-optgroup-tmp
+    let-item="item"
+    let-item$="item$"
+    let-index="index"
+  >
+    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    {{ item.Group | translate }}
+  </ng-template>
+  <ng-template
+    ng-option-tmp
+    let-item="item"
+    let-item$="item$"
+    let-index="index"
+  >
+    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    {{ item.Value }}
+  </ng-template>
+</ng-select>
