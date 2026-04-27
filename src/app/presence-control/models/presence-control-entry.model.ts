@@ -7,12 +7,10 @@ import {
   canChangePresenceType,
   isAbsent,
   isDefaultAbsence,
-  isUnapprovedAbsence,
 } from "../utils/presence-types";
 
 export enum PresenceCategory {
   Present = "present",
-  Unapproved = "unapproved",
   Absent = "absent",
 }
 
@@ -23,8 +21,6 @@ export function getPresenceCategoryIcon(category: PresenceCategory): string {
   switch (category) {
     case PresenceCategory.Absent:
       return "cancel";
-    case PresenceCategory.Unapproved:
-      return "help";
     default:
       return "check_circle";
   }
@@ -46,15 +42,6 @@ export class PresenceControlEntry {
   }
 
   get presenceCategory(): PresenceCategory {
-    if (
-      isUnapprovedAbsence(
-        this.settings,
-        this.confirmationState && Number(this.confirmationState.Key),
-      )
-    ) {
-      return PresenceCategory.Unapproved;
-    }
-
     if (isAbsent(this.presenceType)) {
       return PresenceCategory.Absent;
     }
@@ -73,11 +60,10 @@ export class PresenceControlEntry {
   ): Option<PresenceType> {
     switch (this.nextPresenceCategory) {
       case PresenceCategory.Absent:
-        return this.presenceCategory === PresenceCategory.Unapproved
-          ? this.presenceType
-          : presenceTypes.find((type) =>
-              isDefaultAbsence(type, this.settings),
-            ) || null;
+        return (
+          presenceTypes.find((type) => isDefaultAbsence(type, this.settings)) ??
+          null
+        );
       default:
         return null;
     }
@@ -99,8 +85,7 @@ export class PresenceControlEntry {
     return (
       !this.canChangePresenceType ||
       (this.presenceCategory === PresenceCategory.Absent &&
-        !isDefaultAbsence(this.presenceType, this.settings)) ||
-      this.presenceCategory === PresenceCategory.Unapproved
+        !isDefaultAbsence(this.presenceType, this.settings))
     );
   }
 

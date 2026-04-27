@@ -39,9 +39,6 @@ describe("DashboardActionsComponent", () => {
               hasLessonsLessonTeacher() {
                 return of(true);
               },
-              checkableAbsencesCount() {
-                return of(0);
-              },
               getListOfUnconfirmed() {
                 return of([
                   buildLessonPresence(1, new Date(), new Date(), "Math"),
@@ -123,9 +120,6 @@ describe("DashboardActionsComponent", () => {
         "dashboard.actions.presence-control",
       );
       expect(element.textContent).not.toContain(
-        "dashboard.actions.edit-absences",
-      );
-      expect(element.textContent).not.toContain(
         "dashboard.actions.open-absences",
       );
       expect(element.textContent).not.toContain("dashboard.actions.tests");
@@ -149,12 +143,11 @@ describe("DashboardActionsComponent", () => {
       roles$.next(["LessonTeacherRole"]);
     });
 
-    it("displays presence control, edit and open absences", () => {
+    it("displays presence control and open absences", () => {
       fixture.detectChanges();
       expect(element.textContent).toContain(
         "dashboard.actions.presence-control",
       );
-      expect(element.textContent).toContain("dashboard.actions.edit-absences0");
       expect(element.textContent).toContain("dashboard.actions.open-absences1");
       expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).not.toContain(
@@ -182,9 +175,6 @@ describe("DashboardActionsComponent", () => {
       expect(element.textContent).not.toContain(
         "dashboard.actions.presence-control",
       );
-      expect(element.textContent).not.toContain(
-        "dashboard.actions.edit-absences",
-      );
       expect(element.textContent).toContain("dashboard.actions.open-absences1");
       expect(element.textContent).not.toContain("dashboard.actions.tests");
       expect(element.textContent).not.toContain(
@@ -211,9 +201,6 @@ describe("DashboardActionsComponent", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
         "dashboard.actions.presence-control",
-      );
-      expect(element.textContent).not.toContain(
-        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
         "dashboard.actions.open-absences",
@@ -244,9 +231,6 @@ describe("DashboardActionsComponent", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
         "dashboard.actions.presence-control",
-      );
-      expect(element.textContent).not.toContain(
-        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
         "dashboard.actions.open-absences",
@@ -282,9 +266,6 @@ describe("DashboardActionsComponent", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
         "dashboard.actions.presence-control",
-      );
-      expect(element.textContent).not.toContain(
-        "dashboard.actions.edit-absences",
       );
       expect(element.textContent).not.toContain(
         "dashboard.actions.open-absences",

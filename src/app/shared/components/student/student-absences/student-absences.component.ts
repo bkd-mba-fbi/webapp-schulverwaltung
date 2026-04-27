@@ -71,7 +71,6 @@ export class StudentAbsencesComponent implements OnInit, OnDestroy {
     if (!counts) return false;
 
     const hasNonNullCounts =
-      counts.checkableAbsences != null ||
       counts.openAbsences != null ||
       counts.excusedAbsences != null ||
       counts.unexcusedAbsences != null ||
@@ -79,7 +78,6 @@ export class StudentAbsencesComponent implements OnInit, OnDestroy {
       counts.halfDays != null;
 
     const totalAbsences =
-      (counts.checkableAbsences ?? 0) +
       (counts.openAbsences ?? 0) +
       (counts.excusedAbsences ?? 0) +
       (counts.unexcusedAbsences ?? 0) +

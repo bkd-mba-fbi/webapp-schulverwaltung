@@ -102,15 +102,6 @@ export class MyAbsencesReportListComponent
     return this.getPresenceType(lessonPresence).pipe(
       map((type) => {
         if (isAbsent(type)) {
-          if (
-            lessonPresence.ConfirmationStateId ===
-            this.settings.checkableAbsenceStateId
-          ) {
-            return {
-              category: PresenceCategory.Unapproved,
-              icon: getPresenceCategoryIcon(PresenceCategory.Unapproved),
-            };
-          }
           return {
             category: PresenceCategory.Absent,
             icon: getPresenceCategoryIcon(PresenceCategory.Absent),

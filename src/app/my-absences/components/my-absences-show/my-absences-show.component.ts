@@ -75,7 +75,6 @@ export class MyAbsencesShowComponent {
   private loadAllAbsencesReports(): Observable<ReadonlyArray<ReportInfo>> {
     return combineLatest([
       this.myAbsencesService.openLessonAbsences$,
-      this.myAbsencesService.checkableLessonAbsences$,
       this.myAbsencesService.excusedLessonAbsences$,
       this.myAbsencesService.unexcusedLessonAbsences$,
       this.myAbsencesService.incidentsLessonAbsences$,

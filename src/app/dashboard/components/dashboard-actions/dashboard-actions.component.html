@@ -5,18 +5,6 @@
   ></bkd-dashboard-action>
 }
 
-@if (
-  (dashboardService.hasLessonTeacherRole$ | async) &&
-  (dashboardService.editAbsencesParams$ | async)
-) {
-  <bkd-dashboard-action
-    [label]="'dashboard.actions.edit-absences'"
-    [link]="['/edit-absences']"
-    [linkParams]="dashboardService.editAbsencesParams$ | async"
-    [count]="dashboardService.editAbsencesCount$ | async"
-  ></bkd-dashboard-action>
-}
-
 @if (dashboardService.hasOpenAbsences$ | async) {
   <bkd-dashboard-action
     [label]="'dashboard.actions.open-absences'"

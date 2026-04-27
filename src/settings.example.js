@@ -47,9 +47,6 @@ window.schulverwaltung.settings = {
   // Id of the confirmation state for absences with valid excuse
   excusedAbsenceStateId: 220,
 
-  // Id of the confirmation state for absences that need to be checked
-  checkableAbsenceStateId: 1080,
-
   // In presences control, the presence data of the selected lesson is
   // reloaded for the following interval, if there is no user activity
   // (such as clicks or keypresses). Refresh time is in seconds (15 *

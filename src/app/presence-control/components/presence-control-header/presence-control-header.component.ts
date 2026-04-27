@@ -104,7 +104,6 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   @Input() lessons: ReadonlyArray<LessonEntry>;
   @Input() presentCount: Option<number> = null;
   @Input() absentCount: Option<number> = null;
-  @Input() unapprovedCount: Option<number> = null;
   @Input() absentPrecedingCount: Option<number> = null;
   @Input() viewMode: PresenceControlViewMode;
   @Input() selectDate: Date;

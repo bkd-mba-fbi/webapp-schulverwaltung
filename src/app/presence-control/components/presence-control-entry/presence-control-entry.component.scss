@@ -31,10 +31,6 @@
   color: $present-color;
 }
 
-:host.unapproved .presence-category {
-  color: $unapproved-color;
-}
-
 .presence-category bkd-spinner {
   color: black;
   position: absolute;

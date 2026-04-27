@@ -33,7 +33,6 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
-  protected confirmationStateId = this.settings.checkableAbsenceStateId;
 
   constructor() {
     super();

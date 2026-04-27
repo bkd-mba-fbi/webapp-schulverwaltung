@@ -54,7 +54,6 @@ export abstract class MyAbsencesAbstractConfirmComponent
 
   abstract titleKey: string;
   abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
-  protected abstract confirmationStateId: Option<number>;
 
   protected destroy$ = new Subject<void>();
 
