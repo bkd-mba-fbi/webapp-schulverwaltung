@@ -17,9 +17,9 @@ export function isIncident(presenceType: Option<PresenceType>): boolean {
 export function isAbsent(presenceType: Option<PresenceType>): boolean {
   return Boolean(
     presenceType &&
-      (presenceType.IsAbsence ||
-        presenceType.IsDispensation ||
-        presenceType.IsHalfDay),
+    (presenceType.IsAbsence ||
+      presenceType.IsDispensation ||
+      presenceType.IsHalfDay),
   );
 }
 
@@ -29,19 +29,8 @@ export function isDefaultAbsence(
 ): boolean {
   return Boolean(
     presenceType &&
-      settings &&
-      presenceType.Id === settings.absencePresenceTypeId,
-  );
-}
-
-export function isUnapprovedAbsence(
-  settings: Settings,
-  confirmationStateId: Maybe<number>,
-): boolean {
-  return Boolean(
     settings &&
-      confirmationStateId &&
-      confirmationStateId === settings.checkableAbsenceStateId,
+    presenceType.Id === settings.absencePresenceTypeId,
   );
 }
 
@@ -70,9 +59,6 @@ export function canChangePresenceType(
     isAbsent(presenceType) &&
     lessonPresence.ConfirmationStateId === settings.unconfirmedAbsenceStateId
   ) {
-    return true;
-  }
-  if (isUnapprovedAbsence(settings, lessonPresence.ConfirmationStateId)) {
     return true;
   }
   return false;

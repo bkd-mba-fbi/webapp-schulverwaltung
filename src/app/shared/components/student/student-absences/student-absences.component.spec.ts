@@ -23,7 +23,7 @@ describe("StudentAbsencesComponent", () => {
             {
               provide: StudentAbsencesService,
               useValue: {
-                counts$: computed(() => ({ checkableAbsences: null })),
+                counts$: computed(() => ({ openAbsences: null })),
                 setStudentId: jasmine.createSpy("setStudentId"),
               },
             },
