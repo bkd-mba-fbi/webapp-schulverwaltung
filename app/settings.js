@@ -254,9 +254,16 @@ window.schulverwaltung.settings = {
   /**
    *  Dossier
    */
+  // Type ID for new entries
+  dossierCreateTypeId: 1052,
+
   // Type ID of additional informations entries created from emails
   // (which include .eml file in attachment)
   dossierEntryEmailTypeId: 1055,
+
+  // Type ID the available AdditionalInformationCodes must have, to be included
+  // in the categories select of the entry creation/update form
+  dossierCategoriesTypeId: 1011,
 
   // Code ID of the additional information entries of type "important information".
   // Those entries are displayed in the student dossier's information header.
@@ -265,4 +272,14 @@ window.schulverwaltung.settings = {
   // Code ID of the additional information entries of type "disadvantage compensation".
   // Those entries are displayed in the student dossier's information header.
   dossierDisadvantageCompensationCodeId: 2000283,
+
+  // Content types of the files the user is allowed to upload
+  dossierAllowedFileTypes: [
+    "application/pdf", // .pdf
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+    "image/png", // .png
+  ],
+
+  // Maximum file size for files of dossier document entries in bytes
+  dossierMaxFileSize: 10 * 1024 * 1024, // 10 MB
 };
