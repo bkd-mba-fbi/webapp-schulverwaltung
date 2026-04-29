@@ -10,32 +10,38 @@
       [event]="event"
       [showActions]="false"
     ></bkd-evaluation-header>
-    <bkd-evaluation-verify-pdf
-      class="flex-grow-1"
-      [eventId]="event.id"
-      (loadingPdf)="loadingPdf.set($event)"
-    >
-      <div>
-        @if (hasOpenEvaluations()) {
-          <div class="text-danger d-flex mb-2">
-            <i class="material-icons me-2">info</i>
-            <p class="mb-0">
-              {{ "evaluation.verify.open-evaluations" | translate }}
-            </p>
-          </div>
-        }
-        <p class="mb-0">{{ "evaluation.verify.info" | translate }}</p>
-      </div>
-    </bkd-evaluation-verify-pdf>
-    <div class="action-buttons">
-      <button
-        class="btn btn-primary"
-        type="button"
-        [disabled]="loadingPdf()"
-        (click)="openFinaliseEvaluationDialog()"
+    @if (state.hasReviewStarted()) {
+      <p class="mt-3 px-3">
+        {{ "evaluation.review-started" | translate }}
+      </p>
+    } @else {
+      <bkd-evaluation-verify-pdf
+        class="flex-grow-1"
+        [eventId]="event.id"
+        (loadingPdf)="loadingPdf.set($event)"
       >
-        {{ "evaluation.finalise" | translate }}
-      </button>
-    </div>
+        <div>
+          @if (hasOpenEvaluations()) {
+            <div class="text-danger d-flex mb-2">
+              <i class="material-icons me-2">info</i>
+              <p class="mb-0">
+                {{ "evaluation.verify.open-evaluations" | translate }}
+              </p>
+            </div>
+          }
+          <p class="mb-0">{{ "evaluation.verify.info" | translate }}</p>
+        </div>
+      </bkd-evaluation-verify-pdf>
+      <div class="action-buttons">
+        <button
+          class="btn btn-primary"
+          type="button"
+          [disabled]="loadingPdf()"
+          (click)="openFinaliseEvaluationDialog()"
+        >
+          {{ "evaluation.finalise" | translate }}
+        </button>
+      </div>
+    }
   }
 </div>
