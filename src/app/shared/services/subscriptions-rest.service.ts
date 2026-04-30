@@ -7,6 +7,7 @@ import { SETTINGS, Settings } from "../../settings";
 import { Identifiable } from "../models/common-types";
 import { Subscription, SubscriptionDetail } from "../models/subscription.model";
 import { decodeArray } from "../utils/decode";
+import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
 
 @Injectable({
@@ -48,6 +49,23 @@ export class SubscriptionsRestService extends RestService<typeof Subscription> {
         },
       })
       .pipe(switchMap(decodeArray(Subscription)));
+  }
+
+  getSubscriptionIdsByStudent(
+    personId: number,
+  ): Observable<ReadonlyArray<Pick<Subscription, "Id" | "EventId">>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          "filter.PersonId": `=${personId}`,
+          "filter.IsOkay": "=1",
+        },
+      })
+      .pipe(
+        switchMap(
+          decodeArray(t.type(pick(Subscription.props, ["Id", "EventId"]))),
+        ),
+      );
   }
 
   getSubscriptionCountsByEvents(

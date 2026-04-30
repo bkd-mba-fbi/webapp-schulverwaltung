@@ -2,14 +2,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { ActivatedRoute, ParamMap, convertToParamMap } from "@angular/router";
 import { BehaviorSubject, firstValueFrom, of, throwError } from "rxjs";
-import {
-  buildAdditionalInformation,
-  buildStudent,
-  buildSubscription,
-} from "src/spec-builders";
+import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AdditionalInformation } from "../models/additional-informations.model";
 import { AdditionalInformationsRestService } from "./additional-informations-rest.service";
+import { CoursesRestService } from "./courses-rest.service";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { LoadingService } from "./loading-service";
 import { StudentDossierEditService } from "./student-dossier-edit.service";
@@ -23,6 +20,7 @@ describe("StudentDossierEditService", () => {
   let additionalInformationsService: jasmine.SpyObj<AdditionalInformationsRestService>;
   let dropDownItemsService: jasmine.SpyObj<DropDownItemsRestService>;
   let subscriptionsService: jasmine.SpyObj<SubscriptionsRestService>;
+  let coursesService: jasmine.SpyObj<CoursesRestService>;
   let routeParams: BehaviorSubject<ParamMap>;
   let parentRouteParams: BehaviorSubject<ParamMap>;
   let additionalInformation: AdditionalInformation;
@@ -102,10 +100,22 @@ describe("StudentDossierEditService", () => {
 
     subscriptionsService = jasmine.createSpyObj<SubscriptionsRestService>(
       "SubscriptionsRestService",
-      ["getList"],
+      ["getSubscriptionIdsByStudent"],
     );
-    subscriptionsService.getList.and.returnValue(
-      of([buildSubscription(10, 11, 12), buildSubscription(20, 21, 22)]),
+    subscriptionsService.getSubscriptionIdsByStudent.and.returnValue(
+      of([
+        { Id: 10, EventId: 11 },
+        { Id: 20, EventId: 21 },
+        { Id: 30, EventId: 31 },
+      ]),
+    );
+
+    coursesService = jasmine.createSpyObj<CoursesRestService>(
+      "CoursesRestService",
+      ["getCourseIdsForDossier"],
+    );
+    coursesService.getCourseIdsForDossier.and.callFake((eventIds) =>
+      of(eventIds.filter((id) => id !== 11)),
     );
 
     TestBed.configureTestingModule(
@@ -120,6 +130,7 @@ describe("StudentDossierEditService", () => {
           },
           { provide: DropDownItemsRestService, useValue: dropDownItemsService },
           { provide: SubscriptionsRestService, useValue: subscriptionsService },
+          { provide: CoursesRestService, useValue: coursesService },
         ],
       }),
     );
@@ -203,13 +214,7 @@ describe("StudentDossierEditService", () => {
   describe("getSubscriptionId", () => {
     it("returns the ID of the first subscription of the student", async () => {
       const id = await service.getSubscriptionId(42);
-      expect(id).toBe(10);
-      expect(subscriptionsService.getList).toHaveBeenCalledWith({
-        params: {
-          "filter.IsOkay": "=1",
-          "filter.PersonId": "=42",
-        },
-      });
+      expect(id).toBe(20);
     });
   });
 
