@@ -18,7 +18,10 @@ import {
 import { AdditionalInformationsRestService } from "src/app/shared/services/additional-informations-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { catch404 } from "src/app/shared/utils/observable";
+import { Subscription } from "../models/subscription.model";
 import { UnreachableError } from "../utils/error";
+import { notNull } from "../utils/filter";
+import { CoursesRestService } from "./courses-rest.service";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { StudentStateService } from "./student-state.service";
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
@@ -34,6 +37,7 @@ export class StudentDossierEditService {
   );
   private dropDownItemsService = inject(DropDownItemsRestService);
   private subscriptionsService = inject(SubscriptionsRestService);
+  private coursesService = inject(CoursesRestService);
   private loadingService = inject(LoadingService);
   private settings = inject<Settings>(SETTINGS);
 
@@ -54,16 +58,26 @@ export class StudentDossierEditService {
   );
   categories$ = this.loadCategories().pipe(shareReplay(1));
 
+  /**
+   * Returns the ID of the first active subscription the student has and that is
+   * associated with a course.
+   */
   async getSubscriptionId(studentId: number): Promise<Option<number>> {
-    const subscriptions = await firstValueFrom(
-      this.subscriptionsService.getList({
-        params: {
-          "filter.IsOkay": "=1",
-          "filter.PersonId": `=${studentId}`,
-        },
-      }),
+    return firstValueFrom(
+      this.subscriptionsService.getSubscriptionIdsByStudent(studentId).pipe(
+        switchMap((subscriptions) => {
+          return this.coursesService
+            .getCourseIdsForDossier(
+              subscriptions.map((s) => s.EventId).filter(notNull),
+            )
+            .pipe(
+              map((courseIds) =>
+                getFirstSubscriptionIdWithCourse(subscriptions, courseIds),
+              ),
+            );
+        }),
+      ),
     );
-    return subscriptions[0]?.Id ?? null;
   }
 
   async save(
@@ -170,4 +184,16 @@ export class StudentDossierEditService {
         .pipe(catch404()),
     );
   }
+}
+
+function getFirstSubscriptionIdWithCourse(
+  subscriptions: ReadonlyArray<Pick<Subscription, "Id" | "EventId">>,
+  courseIds: ReadonlyArray<number>,
+): Option<number> {
+  return (
+    subscriptions.filter(
+      (subscription) =>
+        subscription.EventId && courseIds.includes(subscription.EventId),
+    )[0]?.Id ?? null
+  );
 }

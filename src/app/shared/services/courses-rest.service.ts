@@ -82,6 +82,24 @@ export class CoursesRestService extends RestService<typeof Course> {
   }
 
   /**
+   * Used to check which event IDs are actually courses in relevant status (is
+   * basically the same result set as `getCoursesForDossier` but without the
+   * full data) .
+   */
+  getCourseIdsForDossier(
+    eventIds: ReadonlyArray<number>,
+  ): Observable<ReadonlyArray<number>> {
+    return this.http
+      .get<unknown>(
+        `${this.baseUrl}/?filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${eventIds.join(";")}&fields=Id`,
+      )
+      .pipe(
+        switchMap(decodeArray(t.type(pick(Course.props, ["Id"])))),
+        map((courses) => courses.map((course) => course.Id)),
+      );
+  }
+
+  /**
    * Used on /my-grades
    */
   getCoursesForMyGrades(
