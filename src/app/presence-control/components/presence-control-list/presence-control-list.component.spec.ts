@@ -3,11 +3,13 @@ import { BehaviorSubject, of } from "rxjs";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { Lesson } from "src/app/shared/models/lesson.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
+import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
 import {
   buildLesson,
   buildLessonPresence,
   buildPresenceType,
+  buildReference,
 } from "src/spec-builders";
 import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
@@ -27,7 +29,6 @@ describe("PresenceControlListComponent", () => {
   let jenni: PresenceControlEntry;
   let absence: PresenceType;
   let blockLessons: Array<LessonPresence>;
-  let lessonPresence: LessonPresence;
 
   let presenceControlEntries$: BehaviorSubject<PresenceControlEntry[]>;
   let presenceControlEntriesByGroup$: BehaviorSubject<PresenceControlEntry[]>;
@@ -35,6 +36,11 @@ describe("PresenceControlListComponent", () => {
   let groupServiceMock: PresenceControlGroupService;
   let blockLessonServiceMock: jasmine.SpyObj<PresenceControlBlockLessonService>;
   let lessonPresencesUpdateServiceMock: LessonPresencesUpdateService;
+  let modalServiceMock: jasmine.SpyObj<BkdModalService>;
+  let modalRefMock: {
+    componentInstance: Record<string, unknown>;
+    result: Promise<ReadonlyArray<PresenceControlEntry>>;
+  };
 
   beforeEach(async () => {
     lesson = buildLesson(
@@ -53,16 +59,6 @@ describe("PresenceControlListComponent", () => {
 
     absence = buildPresenceType(2, true, false);
     blockLessons = [jenni.lessonPresence];
-
-    lessonPresence = buildLessonPresence(
-      2,
-      new Date(2000, 0, 23, 8, 0),
-      new Date(2000, 0, 23, 9, 0),
-      "Deutsch",
-      "Einstein Albert",
-      "Dora Durrer",
-      absence.Id,
-    );
 
     stateServiceMock = {
       loading$: of(false),
@@ -84,6 +80,9 @@ describe("PresenceControlListComponent", () => {
       setDate: jasmine.createSpy("setDate"),
       setLessonId: jasmine.createSpy("setLessonId"),
       setViewMode: jasmine.createSpy("setViewMode"),
+      updateLessonPresencesTypes: jasmine.createSpy(
+        "updateLessonPresencesTypes",
+      ),
     } as unknown as PresenceControlStateService;
 
     groupServiceMock = {
@@ -95,8 +94,36 @@ describe("PresenceControlListComponent", () => {
       ["getBlockLessonPresenceControlEntries"],
     );
 
+    modalRefMock = {
+      componentInstance: {},
+      result: Promise.resolve([]),
+    };
+    modalServiceMock = jasmine.createSpyObj("BkdModalService", ["open"]);
+    modalServiceMock.open.and.returnValue(
+      modalRefMock as unknown as ReturnType<BkdModalService["open"]>,
+    );
+
     lessonPresencesUpdateServiceMock = {
-      updatePresenceType: jasmine.createSpy("updatePresenceType"),
+      updatePresenceType: jasmine
+        .createSpy("updatePresenceType")
+        .and.callFake(
+          (
+            entryOrEntries:
+              | PresenceControlEntry
+              | ReadonlyArray<PresenceControlEntry>,
+            presenceTypeId: number | null,
+          ) => {
+            const entries = Array.isArray(entryOrEntries)
+              ? entryOrEntries
+              : [entryOrEntries];
+            return of(
+              entries.map((e) => ({
+                presence: e.lessonPresence,
+                newPresenceTypeId: presenceTypeId,
+              })),
+            );
+          },
+        ),
     } as unknown as LessonPresencesUpdateService;
 
     await TestBed.configureTestingModule(
@@ -116,6 +143,7 @@ describe("PresenceControlListComponent", () => {
             provide: LessonPresencesUpdateService,
             useValue: lessonPresencesUpdateServiceMock,
           },
+          { provide: BkdModalService, useValue: modalServiceMock },
         ],
       }),
     ).compileComponents();
@@ -154,26 +182,67 @@ describe("PresenceControlListComponent", () => {
     });
   });
 
-  describe(".doTogglePresenceType", () => {
-    beforeEach(() => {
-      blockLessonServiceMock.getBlockLessonPresenceControlEntries.and.returnValue(
-        of([bichsel]),
-      );
+  describe(".togglePresenceType", () => {
+    describe("single lesson entry", () => {
+      beforeEach(() => {
+        blockLessonServiceMock.getBlockLessonPresenceControlEntries.and.returnValue(
+          of([bichsel]),
+        );
+      });
+
+      it("updates given entry without showing block lesson dialog", () => {
+        component.togglePresenceType(bichsel);
+        expect(
+          lessonPresencesUpdateServiceMock.updatePresenceType,
+        ).toHaveBeenCalledWith([bichsel], absence.Id);
+        expect(
+          stateServiceMock.updateLessonPresencesTypes,
+        ).toHaveBeenCalledWith([
+          { presence: bichsel.lessonPresence, newPresenceTypeId: absence.Id },
+        ]);
+      });
     });
 
-    it("updates given entry without block lesson dialog", () => {
-      bichsel.lessonPresence = lessonPresence;
-      component.togglePresenceType(bichsel);
-      expect(
-        lessonPresencesUpdateServiceMock.updatePresenceType,
-      ).toHaveBeenCalledWith(bichsel, absence.Id);
-    });
+    describe("block lesson entry", () => {
+      let bichsel2: PresenceControlEntry;
 
-    it("updates given entry to next presence type", () => {
-      component.doTogglePresenceType([bichsel]);
-      expect(
-        lessonPresencesUpdateServiceMock.updatePresenceType,
-      ).toHaveBeenCalledWith(bichsel, absence.Id);
+      beforeEach(() => {
+        bichsel2 = buildPresenceControlEntry("Bichsel Peter");
+        bichsel2.lessonPresence.LessonRef.Id = 2;
+        blockLessonServiceMock.getBlockLessonPresenceControlEntries.and.returnValue(
+          of([bichsel, bichsel2]),
+        );
+      });
+
+      it("updates given entries to next presence type (showing block lesson dialog) if they have equal presence types", async () => {
+        modalRefMock.result = Promise.resolve([bichsel, bichsel2]);
+        component.togglePresenceType(bichsel);
+        await modalRefMock.result;
+        expect(
+          lessonPresencesUpdateServiceMock.updatePresenceType,
+        ).toHaveBeenCalledWith([bichsel, bichsel2], absence.Id);
+        expect(
+          stateServiceMock.updateLessonPresencesTypes,
+        ).toHaveBeenCalledWith([
+          { presence: bichsel.lessonPresence, newPresenceTypeId: absence.Id },
+          { presence: bichsel2.lessonPresence, newPresenceTypeId: absence.Id },
+        ]);
+      });
+
+      it("updates only current entry to next presence type (without showing block lesson dialog) if they have different presence types", () => {
+        bichsel2.presenceType = absence;
+        bichsel2.lessonPresence.TypeRef = buildReference(absence.Id);
+
+        component.togglePresenceType(bichsel);
+        expect(
+          lessonPresencesUpdateServiceMock.updatePresenceType,
+        ).toHaveBeenCalledWith([bichsel], absence.Id);
+        expect(
+          stateServiceMock.updateLessonPresencesTypes,
+        ).toHaveBeenCalledWith([
+          { presence: bichsel.lessonPresence, newPresenceTypeId: absence.Id },
+        ]);
+      });
     });
   });
 
