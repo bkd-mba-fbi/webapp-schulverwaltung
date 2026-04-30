@@ -18,7 +18,6 @@ import { StudentDossierEditService } from "src/app/shared/services/student-dossi
 import { ToastService } from "src/app/shared/services/toast.service";
 import { fileType } from "src/app/shared/validators/file-type.validator";
 import { maxFileSize } from "src/app/shared/validators/max-file-size.validator";
-import { BacklinkComponent } from "../../backlink/backlink.component";
 import { ButtonGroupComponent } from "../../button-group/button-group.component";
 import { FileInputComponent } from "../../file-input/file-input.component";
 import { FormErrorsComponent } from "../../form-errors/form-errors.component";
@@ -46,7 +45,6 @@ const ALL_TEACHERS_OBJECT_TYPE_ID = 3;
     RouterLink,
     FormField,
     TranslatePipe,
-    BacklinkComponent,
     SpinnerComponent,
     ButtonGroupComponent,
     FileInputComponent,
