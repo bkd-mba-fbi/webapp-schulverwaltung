@@ -1,14 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
 import { CONFIRM_ABSENCES_SERVICE } from "src/app/shared/tokens/confirm-absences-service";
 import { ConfirmAbsencesSelectionService } from "../../../shared/services/confirm-absences-selection.service";
 import { PresenceControlBlockLessonService } from "../../services/presence-control-block-lesson.service";
@@ -32,21 +23,4 @@ import { PresenceControlStateService } from "../../services/presence-control-sta
     },
   ],
 })
-export class PresenceControlComponent implements OnInit, OnDestroy {
-  private state = inject(PresenceControlStateService);
-  private lessonPresencesUpdateService = inject(LessonPresencesUpdateService);
-
-  private destroy$ = new Subject<void>();
-
-  ngOnInit(): void {
-    // Wire-up the state and update services to reflect changes in the
-    // currently loaded data
-    this.lessonPresencesUpdateService.stateUpdates$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((updates) => this.state.updateLessonPresencesTypes(updates));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
-}
+export class PresenceControlComponent {}

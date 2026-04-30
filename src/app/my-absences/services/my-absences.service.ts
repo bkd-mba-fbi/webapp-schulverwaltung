@@ -41,7 +41,6 @@ export class MyAbsencesService {
   );
   private lessonPresences$ = this.getLessonPresences();
 
-  checkableAbsences$ = this.getAbsences(this.settings.checkableAbsenceStateId);
   openAbsences$ = this.getAbsences(this.settings.unconfirmedAbsenceStateId);
   excusedAbsences$ = this.getAbsences(this.settings.excusedAbsenceStateId);
   unexcusedAbsences$ = this.getAbsences(this.settings.unexcusedAbsenceStateId);
@@ -53,12 +52,6 @@ export class MyAbsencesService {
   // The open absences as full lesson absence models
   openLessonAbsences$ = combineLatest([
     this.openAbsences$.pipe(filter(notNull)),
-    this.lessonAbsences$,
-  ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
-
-  // The checkable absences as full lesson absence models
-  checkableLessonAbsences$ = combineLatest([
-    this.checkableAbsences$.pipe(filter(notNull)),
     this.lessonAbsences$,
   ]).pipe(map(spread(this.getLessonAbsences.bind(this))), shareReplay(1));
 
@@ -148,28 +141,18 @@ export class MyAbsencesService {
 
   private getCounts(): Observable<StudentProfileAbsencesCounts> {
     return combineLatest([
-      this.getCount(this.checkableAbsences$),
       this.getCount(this.openAbsences$),
       this.getCount(this.excusedAbsences$),
       this.getCount(this.unexcusedAbsences$),
       this.getCount(this.incidents$),
     ]).pipe(
-      map(
-        ([
-          checkableAbsences,
-          openAbsences,
-          excusedAbsences,
-          unexcusedAbsences,
-          incidents,
-        ]) => ({
-          checkableAbsences,
-          openAbsences,
-          excusedAbsences,
-          unexcusedAbsences,
-          incidents,
-          halfDays: null,
-        }),
-      ),
+      map(([openAbsences, excusedAbsences, unexcusedAbsences, incidents]) => ({
+        openAbsences,
+        excusedAbsences,
+        unexcusedAbsences,
+        incidents,
+        halfDays: null,
+      })),
     );
   }
 

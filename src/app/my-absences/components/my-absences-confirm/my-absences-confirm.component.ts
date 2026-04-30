@@ -31,7 +31,6 @@ export class MyAbsencesConfirmComponent extends MyAbsencesAbstractConfirmCompone
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
-  protected confirmationStateId = this.settings.unconfirmedAbsencesRefreshTime;
 
   constructor() {
     super();

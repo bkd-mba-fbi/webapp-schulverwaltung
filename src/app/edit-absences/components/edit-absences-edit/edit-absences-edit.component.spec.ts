@@ -98,10 +98,6 @@ describe("EditAbsencesEditComponent", () => {
                     Key: settings.unconfirmedAbsenceStateId,
                     Value: "zu bestätigen",
                   },
-                  {
-                    Key: settings.checkableAbsenceStateId,
-                    Value: "zu kontrollieren",
-                  },
                 ]);
               },
             },
@@ -320,25 +316,6 @@ describe("EditAbsencesEditComponent", () => {
         LessonIds: [2, 3, 4],
         PersonIds: [100],
         ConfirmationValue: settings.unconfirmedAbsenceStateId,
-      });
-
-      expect().nothing();
-    });
-
-    it("marks all entries as checkable but preserves absence type if available", () => {
-      clickRadio("zu kontrollieren");
-      clickSave();
-
-      expectEditRequest({
-        LessonIds: [1, 5, 6, 7],
-        PersonIds: [100],
-        PresenceTypeId: absence.Id,
-        ConfirmationValue: settings.checkableAbsenceStateId,
-      });
-      expectEditRequest({
-        LessonIds: [2, 3, 4],
-        PersonIds: [100],
-        ConfirmationValue: settings.checkableAbsenceStateId,
       });
 
       expect().nothing();

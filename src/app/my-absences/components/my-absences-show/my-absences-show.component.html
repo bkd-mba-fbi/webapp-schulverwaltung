@@ -23,29 +23,6 @@
       </div>
     </div>
 
-    <div ngbAccordionItem #checkableAbsences="ngbAccordionItem">
-      <div ngbAccordionHeader>
-        <bkd-student-entry-header
-          [opened]="!checkableAbsences.collapsed"
-          (click)="checkableAbsences.toggle()"
-        >
-          {{ "shared.profile.checkable-absences" | translate }}
-          @if (absenceCounts?.checkableAbsences !== null) {
-            ({{ absenceCounts?.checkableAbsences }})
-          }
-        </bkd-student-entry-header>
-      </div>
-      <div ngbAccordionCollapse>
-        <div ngbAccordionBody>
-          <ng-template>
-            <bkd-student-absences-list
-              [absences$]="myAbsencesService.checkableAbsences$"
-            ></bkd-student-absences-list>
-          </ng-template>
-        </div>
-      </div>
-    </div>
-
     <div ngbAccordionItem #openAbsences="ngbAccordionItem">
       <div ngbAccordionHeader>
         <bkd-student-entry-header

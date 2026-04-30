@@ -92,7 +92,7 @@ describe("PresenceControlStateService", () => {
     late = buildPresenceType(12, false, true);
     presenceTypes = [absent, late];
 
-    confirmationStates = [{ Key: 1080, Value: "zu kontrollieren" }];
+    confirmationStates = [{ Key: 219, Value: "zu bestätigen" }];
 
     otherAbsences = [];
     person = buildPerson(3);

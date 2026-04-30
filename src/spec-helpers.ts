@@ -28,7 +28,6 @@ export const settings: Settings = {
   unconfirmedAbsenceStateId: 219,
   unexcusedAbsenceStateId: 225,
   excusedAbsenceStateId: 220,
-  checkableAbsenceStateId: 1080,
   lessonPresencesRefreshTime: 15 * 60 * 1000,
   unconfirmedAbsencesRefreshTime: null,
   personMasterDataReports: [{ type: "crystal", id: 290026 }],

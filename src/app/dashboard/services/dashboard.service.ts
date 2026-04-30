@@ -15,10 +15,8 @@ import { LessonIncident } from "../../shared/models/lesson-incident.model";
 import { TimetableEntry } from "../../shared/models/timetable-entry.model";
 import { CoursesRestService } from "../../shared/services/courses-rest.service";
 import { LessonPresencesRestService } from "../../shared/services/lesson-presences-rest.service";
-import { PersonsRestService } from "../../shared/services/persons-rest.service";
 import { StorageService } from "../../shared/services/storage.service";
 import { StudentsRestService } from "../../shared/services/students-rest.service";
-import { TeacherSubstitutionsRestService } from "../../shared/services/teacher-substitutions-rest.service";
 import { UserSettingsService } from "../../shared/services/user-settings.service";
 import { notNull } from "../../shared/utils/filter";
 
@@ -44,8 +42,6 @@ export class DashboardService {
   private lessonPresencesService = inject(LessonPresencesRestService);
   private studentsService = inject(StudentsRestService);
   private courseService = inject(CoursesRestService);
-  private teacherSubstitutionService = inject(TeacherSubstitutionsRestService);
-  private personService = inject(PersonsRestService);
   private storageService = inject(StorageService);
   private settings = inject<Settings>(SETTINGS);
 
@@ -99,15 +95,6 @@ export class DashboardService {
 
   ///// Action Counts /////
 
-  editAbsencesCount$ = this.hasLessonTeacherRole$.pipe(
-    switchMap((hasRole) =>
-      hasRole
-        ? this.lessonPresencesService.checkableAbsencesCount()
-        : of(false),
-    ),
-    shareReplay(1),
-  );
-
   openAbsencesCount$ = this.rolesAndPermissions$.pipe(
     map(this.hasRoles(["LessonTeacherRole", "ClassTeacherRole"])),
     switchMap((hasRoles) =>
@@ -138,18 +125,6 @@ export class DashboardService {
   );
   hasOpenAbsences$ = this.openAbsencesCount$.pipe(
     map((count) => count > 0),
-    shareReplay(1),
-  );
-
-  ///// Action Params /////
-
-  editAbsencesParams$ = this.getFullName().pipe(
-    map((name) => {
-      return {
-        confirmationStates: this.settings.checkableAbsenceStateId,
-        teacher: name,
-      };
-    }),
     shareReplay(1),
   );
 
@@ -200,16 +175,6 @@ export class DashboardService {
             : null) === this.settings.unconfirmedAbsenceStateId,
       ).length || 0
     );
-  }
-
-  private getFullName(): Observable<Maybe<string>> {
-    const substitutionId =
-      Number(this.storageService.getPayload()?.substitution_id) || null;
-    return substitutionId
-      ? this.teacherSubstitutionService
-          .getTeacherSubstitution(substitutionId)
-          .pipe(map((substitute) => substitute?.Holder))
-      : this.personService.getMyself().pipe(map((me) => me.FullName));
   }
 
   private withTimetableEntry(
