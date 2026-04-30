@@ -16,7 +16,9 @@ describe("StudentDossierComponent", () => {
     studentId$: Observable<number>;
     informationEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
     disadvantageEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
-    dossierEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
+    filteredDossierEntries$: BehaviorSubject<
+      ReadonlyArray<StudentDossierEntry>
+    >;
   };
 
   beforeEach(async () => {
@@ -56,7 +58,9 @@ describe("StudentDossierComponent", () => {
           isOwner: false,
         },
       ]),
-      dossierEntries$: new BehaviorSubject<ReadonlyArray<StudentDossierEntry>>([
+      filteredDossierEntries$: new BehaviorSubject<
+        ReadonlyArray<StudentDossierEntry>
+      >([
         {
           id: 3,
           type: "dossier",
@@ -86,12 +90,6 @@ describe("StudentDossierComponent", () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [StudentDossierComponent],
-        providers: [
-          {
-            provide: StudentDossierService,
-            useValue: studentDossierServiceMock,
-          },
-        ],
       }),
     )
       .overrideComponent(StudentDossierComponent, {
@@ -112,7 +110,7 @@ describe("StudentDossierComponent", () => {
 
   it("renders placeholder message if no entries are available", () => {
     studentDossierServiceMock.informationEntries$.next([]);
-    studentDossierServiceMock.dossierEntries$.next([]);
+    studentDossierServiceMock.filteredDossierEntries$.next([]);
     fixture.detectChanges();
     expect(element.textContent).toContain("student.dossier.no-entries");
   });

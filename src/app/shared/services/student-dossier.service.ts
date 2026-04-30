@@ -1,11 +1,21 @@
-import { Injectable, inject } from "@angular/core";
-import { Observable, combineLatest, map, shareReplay, switchMap } from "rxjs";
+import { Injectable, OnDestroy, inject } from "@angular/core";
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { AdditionalInformation } from "../models/additional-informations.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { LoadingService } from "./loading-service";
 import { StorageService } from "./storage.service";
+import { StudentDossierFilterService } from "./student-dossier-filter.service";
 import { StudentStateService } from "./student-state.service";
 import { StudentsRestService } from "./students-rest.service";
 
@@ -27,16 +37,19 @@ const STUDENT_DOSSIER_CONTEXT = "student-dossier";
 @Injectable({
   providedIn: "root",
 })
-export class StudentDossierService {
+export class StudentDossierService implements OnDestroy {
   private settings = inject<Settings>(SETTINGS);
   private state = inject(StudentStateService);
   private loadingService = inject(LoadingService);
   private studentsService = inject(StudentsRestService);
   private dropDownItemsService = inject(DropDownItemsRestService);
   private storageService = inject(StorageService);
+  private filterService = inject(StudentDossierFilterService);
 
   loading$ = this.loadingService.loading(STUDENT_DOSSIER_CONTEXT);
   studentId$ = this.state.studentId$;
+
+  private destroy$ = new Subject<void>();
   private additionalInformations$ = this.studentId$.pipe(
     switchMap((studentId) => this.loadAdditionalInformations(studentId)),
     shareReplay(1),
@@ -52,6 +65,7 @@ export class StudentDossierService {
         .filter((info) => info.CodeId != null)
         .map((info) => this.buildEntry(info, categories)),
     ),
+    startWith([]),
     shareReplay(1),
   );
   informationEntries$ = this.entries$.pipe(
@@ -62,7 +76,32 @@ export class StudentDossierService {
   );
   dossierEntries$ = this.entries$.pipe(
     map((entries) => entries.filter((entry) => entry.type === "dossier")),
+    shareReplay(1),
   );
+  filteredDossierEntries$ = combineLatest([
+    this.dossierEntries$,
+    this.filterService.selectedCategories$,
+  ]).pipe(
+    map(([entries, selected]) =>
+      selected.length === 0
+        ? entries
+        : entries.filter(
+            (entry) =>
+              entry.category != null && selected.includes(entry.category),
+          ),
+    ),
+    shareReplay(1),
+  );
+
+  constructor() {
+    this.dossierEntries$.pipe(takeUntil(this.destroy$)).subscribe((entries) => {
+      this.filterService.setDossierEntries(entries);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
 
   private sortByDateDesc(
     a: AdditionalInformation,
