@@ -205,11 +205,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 --------------------------------------------------------------------------------
-Package: @ng-select/ng-select
-License: "MIT"
-
-
---------------------------------------------------------------------------------
 Package: ngx-infinite-scroll
 License: "MIT"
 
@@ -811,6 +806,11 @@ Exhibit B - “Incompatible With Secondary Licenses” Notice
       This Source Code Form is “Incompatible
       With Secondary Licenses”, as defined by
       the Mozilla Public License, v. 2.0.
+
+
+--------------------------------------------------------------------------------
+Package: @ng-select/ng-select
+License: "MIT"
 
 
 --------------------------------------------------------------------------------
