@@ -1,6 +1,5 @@
-import { HttpContext } from "@angular/common/http";
 import { TestBed, fakeAsync, tick } from "@angular/core/testing";
-import { of, throwError } from "rxjs";
+import { Subject, of, throwError } from "rxjs";
 import {
   buildLessonPresence,
   buildPresenceControlEntry,
@@ -9,62 +8,53 @@ import {
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { PresenceControlEntry } from "../../presence-control/models/presence-control-entry.model";
-import { RestErrorInterceptorOptions } from "../interceptors/rest-error.interceptor";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { PresenceType } from "../models/presence-type.model";
 import { LessonPresencesUpdateRestService } from "./lesson-presences-update-rest.service";
 import {
   LessonPresencesUpdateService,
-  UPDATE_REQUEST_DEBOUNCE_TIME,
-  UPDATE_STATE_DEBOUNCE_TIME,
+  getEntryUpdateContext,
 } from "./lesson-presences-update.service";
+import { LoadingService } from "./loading-service";
 import { PresenceTypesService } from "./presence-types.service";
-import { ToastService } from "./toast.service";
 
 describe("LessonPresencesUpdateService", () => {
   let service: LessonPresencesUpdateService;
+  let loadingService: LoadingService;
   let restServiceMock: LessonPresencesUpdateRestService;
-  let toastServiceMock: ToastService;
   let presenceTypeServiceMock: PresenceTypesService;
-  let stateUpdatesCallback: jasmine.Spy;
 
   let absent: PresenceType;
-  let late: PresenceType;
 
   let turnenFrisch: LessonPresence;
-  let deutschEinsteinAbwesend: LessonPresence;
   let deutschFrisch: LessonPresence;
+  let deutschFrisch2: LessonPresence;
   let deutschWalser: LessonPresence;
 
-  let entryDeutschEinsteinAbwesend: PresenceControlEntry;
-  let entryDeutschWalser: PresenceControlEntry;
-  let entryDeutschFrisch: PresenceControlEntry;
+  let editResult$: Subject<void>;
+  let removeResult$: Subject<void>;
 
   beforeEach(() => {
     absent = buildPresenceType(11, true, false);
-    late = buildPresenceType(12, false, true);
+
+    editResult$ = new Subject<void>();
+    removeResult$ = new Subject<void>();
 
     restServiceMock = {
       editLessonPresences: jasmine
         .createSpy("editLessonPresences")
-        .and.callFake(() => of()),
+        .and.callFake(() => editResult$),
       removeLessonPresences: jasmine
         .createSpy("removeLessonPresences")
-        .and.callFake(() => of()),
+        .and.callFake(() => removeResult$),
     } as unknown as LessonPresencesUpdateRestService;
 
     presenceTypeServiceMock = {
       getPresenceType: jasmine
         .createSpy("getPresenceType")
         .withArgs(absent.Id)
-        .and.callFake(() => of(absent))
-        .withArgs(late.Id)
-        .and.callFake(() => of(late)),
+        .and.callFake(() => of(absent)),
     } as unknown as PresenceTypesService;
-
-    toastServiceMock = {
-      error: jasmine.createSpy("error"),
-    } as unknown as ToastService;
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -74,14 +64,11 @@ describe("LessonPresencesUpdateService", () => {
             useValue: restServiceMock,
           },
           { provide: PresenceTypesService, useValue: presenceTypeServiceMock },
-          { provide: ToastService, useValue: toastServiceMock },
         ],
       }),
     );
     service = TestBed.inject(LessonPresencesUpdateService);
-
-    stateUpdatesCallback = jasmine.createSpy("stateUpdates$");
-    service.stateUpdates$.subscribe(stateUpdatesCallback);
+    loadingService = TestBed.inject(LoadingService);
 
     turnenFrisch = buildLessonPresence(
       1,
@@ -89,19 +76,9 @@ describe("LessonPresencesUpdateService", () => {
       new Date(2000, 0, 23, 8, 0),
       "Turnen",
       "Frisch Max",
+      "Hans Lehmann",
     );
     turnenFrisch.StudentRef = buildReference(10);
-
-    deutschEinsteinAbwesend = buildLessonPresence(
-      2,
-      new Date(2000, 0, 23, 8, 0),
-      new Date(2000, 0, 23, 9, 0),
-      "Deutsch",
-      "Einstein Albert",
-      "Dora Durrer",
-      absent.Id,
-    );
-    deutschEinsteinAbwesend.StudentRef = buildReference(20);
 
     deutschFrisch = buildLessonPresence(
       2,
@@ -109,8 +86,19 @@ describe("LessonPresencesUpdateService", () => {
       new Date(2000, 0, 23, 9, 0),
       "Deutsch",
       "Frisch Max",
+      "Dora Durrer",
     );
     deutschFrisch.StudentRef = buildReference(10);
+
+    deutschFrisch2 = buildLessonPresence(
+      3,
+      new Date(2000, 0, 23, 9, 0),
+      new Date(2000, 0, 23, 10, 0),
+      "Deutsch",
+      "Frisch Max",
+      "Dora Durrer",
+    );
+    deutschFrisch2.StudentRef = buildReference(10);
 
     deutschWalser = buildLessonPresence(
       2,
@@ -118,194 +106,217 @@ describe("LessonPresencesUpdateService", () => {
       new Date(2000, 0, 23, 9, 0),
       "Deutsch",
       "Walser Robert",
+      "Dora Durrer",
     );
-    deutschWalser.StudentRef = buildReference(30);
-
-    entryDeutschEinsteinAbwesend = buildPresenceControlEntry(
-      deutschEinsteinAbwesend,
-    );
-    entryDeutschWalser = buildPresenceControlEntry(deutschWalser);
-    entryDeutschFrisch = buildPresenceControlEntry(deutschFrisch);
+    deutschWalser.StudentRef = buildReference(20);
   });
 
   describe(".updatePresenceType", () => {
-    it("updates presence type of given lesson presences, performing only one request if executed within debounce time", fakeAsync(() => {
-      // Change Einstein & Frisch to 'late'
-      [entryDeutschEinsteinAbwesend, entryDeutschFrisch].forEach((entry) => {
-        service.updatePresenceType(entry, late.Id);
+    describe("single lesson entry", () => {
+      let entry: PresenceControlEntry;
+
+      beforeEach(() => {
+        entry = buildPresenceControlEntry(turnenFrisch);
       });
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
 
-      // State gets updated for both
-      tick(UPDATE_STATE_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
-        { presence: deutschFrisch, newPresenceTypeId: late.Id },
-      ]);
+      it("creates absence and emits the update on success while updating the entry's loading state", fakeAsync(() => {
+        const resultCallback = jasmine.createSpy("result");
+        let loading: Option<boolean> = null;
+        loadingService
+          .loading(getEntryUpdateContext(entry))
+          .subscribe((value) => (loading = value));
 
-      // Nothing happens after half the debounce time
-      stateUpdatesCallback.calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME / 2);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+        service.updatePresenceType(entry, absent.Id).subscribe(resultCallback);
 
-      // Also change Walser to 'late' after half the debounce time, updates state
-      service.updatePresenceType(entryDeutschWalser, late.Id);
-      tick(UPDATE_STATE_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
-        { presence: deutschFrisch, newPresenceTypeId: late.Id },
-        { presence: deutschWalser, newPresenceTypeId: late.Id },
-      ]);
+        expect(restServiceMock.editLessonPresences).toHaveBeenCalledWith(
+          [1],
+          [10],
+          absent.Id,
+          219,
+        );
+        expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
+        expect(loading).toBeTrue();
+        expect(resultCallback).not.toHaveBeenCalled();
 
-      // Waits whole debounce time, then performs requests for all three
-      stateUpdatesCallback.calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
-      expect(
-        (restServiceMock.editLessonPresences as jasmine.Spy).calls.count(),
-      ).toBe(1);
-      expect(restServiceMock.editLessonPresences).toHaveBeenCalledWith(
-        [deutschEinsteinAbwesend.LessonRef.Id],
-        [
-          deutschEinsteinAbwesend.StudentRef.Id,
-          deutschFrisch.StudentRef.Id,
-          deutschWalser.StudentRef.Id,
-        ],
-        late.Id,
-        undefined,
-        {
-          context: new HttpContext().set(RestErrorInterceptorOptions, {
-            disableErrorHandling: true,
-          }),
-        },
-      );
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+        editResult$.next();
+        editResult$.complete();
+        tick();
 
-      // Nothing happens afterwards
-      (restServiceMock.editLessonPresences as jasmine.Spy).calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+        expect(resultCallback).toHaveBeenCalledWith([
+          {
+            presence: turnenFrisch,
+            newPresenceTypeId: absent.Id,
+          },
+        ]);
+        expect(loading).toBeFalse();
+      }));
 
-      expect(toastServiceMock.error).not.toHaveBeenCalled();
-    }));
+      it('removes absence if newPresenceTypeId is null (set to "present")', fakeAsync(() => {
+        entry.presenceType = absent;
+        entry.lessonPresence.TypeRef = buildReference(absent.Id);
+        const resultCallback = jasmine.createSpy("result");
 
-    it("it reverts state of lesson presence if request fails", fakeAsync(() => {
-      deutschWalser.TypeRef.Id = 123;
+        service.updatePresenceType(entry, null).subscribe(resultCallback);
 
-      (restServiceMock.editLessonPresences as jasmine.Spy).and.callFake(
-        (lessonIds, personIds) => {
-          if (personIds.includes(deutschWalser.StudentRef.Id)) {
-            return throwError(() => "dummy error thrown in mock");
-          }
-          return of();
-        },
-      );
+        expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
+        expect(restServiceMock.removeLessonPresences).toHaveBeenCalledWith(
+          [1],
+          [10],
+        );
 
-      // Change Einstein & Frisch to 'late', Walser to 'absent'
-      [entryDeutschEinsteinAbwesend, entryDeutschFrisch].forEach((entry) =>
-        service.updatePresenceType(entry, late.Id),
-      );
+        removeResult$.next();
+        removeResult$.complete();
+        tick();
 
-      service.updatePresenceType(entryDeutschWalser, absent.Id);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+        expect(resultCallback).toHaveBeenCalledWith([
+          {
+            presence: turnenFrisch,
+            newPresenceTypeId: null,
+          },
+        ]);
+      }));
 
-      // State gets optimistically updated for all three
-      tick(UPDATE_STATE_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschEinsteinAbwesend, newPresenceTypeId: late.Id },
-        { presence: deutschFrisch, newPresenceTypeId: late.Id },
-        { presence: deutschWalser, newPresenceTypeId: absent.Id },
-      ]);
+      it("does not emit a value and clears the loading state when the request fails", fakeAsync(() => {
+        (restServiceMock.editLessonPresences as jasmine.Spy).and.returnValue(
+          throwError(() => new Error("dummy error")),
+        );
 
-      // Performs two requests and reverts Walser on error of second request
-      stateUpdatesCallback.calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
-      expect(
-        (restServiceMock.editLessonPresences as jasmine.Spy).calls.count(),
-      ).toBe(2);
-      expect(restServiceMock.editLessonPresences).toHaveBeenCalledWith(
-        [deutschEinsteinAbwesend.LessonRef.Id],
-        [deutschEinsteinAbwesend.StudentRef.Id, deutschFrisch.StudentRef.Id],
-        late.Id,
-        undefined,
-        {
-          context: new HttpContext().set(RestErrorInterceptorOptions, {
-            disableErrorHandling: true,
-          }),
-        },
-      );
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschWalser, newPresenceTypeId: 123 },
-      ]);
-      expect(toastServiceMock.error).toHaveBeenCalledWith(
-        "shared.lesson-presences-update.error",
-      );
+        const resultCallback = jasmine.createSpy("result");
+        const errorCallback = jasmine.createSpy("error");
+        let loading: Option<boolean> = null;
+        loadingService
+          .loading(getEntryUpdateContext(entry))
+          .subscribe((value) => (loading = value));
 
-      // Nothing happens afterwards
-      (restServiceMock.editLessonPresences as jasmine.Spy).calls.reset();
-      stateUpdatesCallback.calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
-    }));
+        service
+          .updatePresenceType(entry, absent.Id)
+          .subscribe({ next: resultCallback, error: errorCallback });
+        tick();
 
-    it('it executes remove request for entries set to "present"', fakeAsync(() => {
-      // Change Einstein to 'present'
-      service.updatePresenceType(entryDeutschEinsteinAbwesend, null);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+        expect(resultCallback).not.toHaveBeenCalled();
+        // Errors are propagated; the global REST error interceptor is responsible
+        // for handling them (toast & swallow) in production.
+        expect(errorCallback).toHaveBeenCalled();
+        expect(loading).toBeFalse();
+      }));
+    });
 
-      // State gets updated
-      tick(UPDATE_STATE_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).toHaveBeenCalledWith([
-        { presence: deutschEinsteinAbwesend, newPresenceTypeId: null },
-      ]);
+    describe("block lesson", () => {
+      let entry1: PresenceControlEntry;
+      let entry2: PresenceControlEntry;
 
-      // Waits debounce time, then performs request
-      stateUpdatesCallback.calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(
-        (restServiceMock.removeLessonPresences as jasmine.Spy).calls.count(),
-      ).toBe(1);
-      expect(restServiceMock.removeLessonPresences).toHaveBeenCalledWith(
-        [deutschEinsteinAbwesend.LessonRef.Id],
-        [deutschEinsteinAbwesend.StudentRef.Id],
-        {
-          context: new HttpContext().set(RestErrorInterceptorOptions, {
-            disableErrorHandling: true,
-          }),
-        },
-      );
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+      beforeEach(() => {
+        entry1 = buildPresenceControlEntry(deutschFrisch);
+        entry2 = buildPresenceControlEntry(deutschFrisch2);
+      });
 
-      // Nothing happens afterwards
-      (restServiceMock.removeLessonPresences as jasmine.Spy).calls.reset();
-      tick(UPDATE_REQUEST_DEBOUNCE_TIME);
-      expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
-      expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
-      expect(stateUpdatesCallback).not.toHaveBeenCalled();
+      it("creates absence and emits the update on success while updating the entry's loading state", fakeAsync(() => {
+        const resultCallback = jasmine.createSpy("result");
+        let loading1: Option<boolean> = null;
+        let loading2: Option<boolean> = null;
+        loadingService
+          .loading(getEntryUpdateContext(entry1))
+          .subscribe((value) => (loading1 = value));
+        loadingService
+          .loading(getEntryUpdateContext(entry2))
+          .subscribe((value) => (loading2 = value));
 
-      expect(toastServiceMock.error).not.toHaveBeenCalled();
-    }));
+        service
+          .updatePresenceType([entry1, entry2], absent.Id)
+          .subscribe(resultCallback);
+
+        expect(restServiceMock.editLessonPresences).toHaveBeenCalledWith(
+          [2, 3],
+          [10],
+          absent.Id,
+          219,
+        );
+        expect(restServiceMock.removeLessonPresences).not.toHaveBeenCalled();
+        expect(loading1).toBeTrue();
+        expect(loading2).toBeTrue();
+        expect(resultCallback).not.toHaveBeenCalled();
+
+        editResult$.next();
+        editResult$.complete();
+        tick();
+
+        expect(resultCallback).toHaveBeenCalledWith([
+          {
+            presence: deutschFrisch,
+            newPresenceTypeId: absent.Id,
+          },
+          {
+            presence: deutschFrisch2,
+            newPresenceTypeId: absent.Id,
+          },
+        ]);
+        expect(loading1).toBeFalse();
+        expect(loading2).toBeFalse();
+      }));
+
+      it('removes absence if newPresenceTypeId is null (set to "present")', fakeAsync(() => {
+        entry1.presenceType = absent;
+        entry1.lessonPresence.TypeRef = buildReference(absent.Id);
+        entry2.presenceType = absent;
+        entry2.lessonPresence.TypeRef = buildReference(absent.Id);
+        const resultCallback = jasmine.createSpy("result");
+
+        service
+          .updatePresenceType([entry1, entry2], null)
+          .subscribe(resultCallback);
+
+        expect(restServiceMock.editLessonPresences).not.toHaveBeenCalled();
+        expect(restServiceMock.removeLessonPresences).toHaveBeenCalledWith(
+          [2, 3],
+          [10],
+        );
+
+        removeResult$.next();
+        removeResult$.complete();
+        tick();
+
+        expect(resultCallback).toHaveBeenCalledWith([
+          {
+            presence: deutschFrisch,
+            newPresenceTypeId: null,
+          },
+          {
+            presence: deutschFrisch2,
+            newPresenceTypeId: null,
+          },
+        ]);
+      }));
+
+      it("throws an error if entries don't have the same presence type", fakeAsync(() => {
+        (restServiceMock.editLessonPresences as jasmine.Spy).and.returnValue(
+          throwError(() => new Error("dummy error")),
+        );
+        entry1.presenceType = absent;
+        entry1.lessonPresence.TypeRef = buildReference(absent.Id);
+        const resultCallback = jasmine.createSpy("result");
+        const errorCallback = jasmine.createSpy("error");
+
+        let loading1: Option<boolean> = null;
+        let loading2: Option<boolean> = null;
+        loadingService
+          .loading(getEntryUpdateContext(entry1))
+          .subscribe((value) => (loading1 = value));
+        loadingService
+          .loading(getEntryUpdateContext(entry2))
+          .subscribe((value) => (loading2 = value));
+
+        service
+          .updatePresenceType([entry1, entry2], absent.Id)
+          .subscribe({ next: resultCallback, error: errorCallback });
+        tick();
+
+        expect(resultCallback).not.toHaveBeenCalled();
+        // Errors are propagated; the global REST error interceptor is responsible
+        // for handling them (toast & swallow) in production.
+        expect(errorCallback).toHaveBeenCalled();
+        expect(loading1).toBeFalse();
+        expect(loading2).toBeFalse();
+      }));
+    });
   });
 });

@@ -9,8 +9,9 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
+import uniq from "lodash-es/uniq";
 import { BehaviorSubject, Subject, combineLatest } from "rxjs";
-import { map, shareReplay, take, takeUntil } from "rxjs/operators";
+import { map, shareReplay, switchMap, take, takeUntil } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { LessonPresencesUpdateService } from "src/app/shared/services/lesson-presences-update.service";
 import { ScrollPositionService } from "src/app/shared/services/scroll-position.service";
@@ -82,32 +83,29 @@ export class PresenceControlListComponent
     this.destroy$.next();
   }
 
-  doTogglePresenceType(entries: ReadonlyArray<PresenceControlEntry>): void {
-    entries.forEach((entry) =>
-      this.state
-        .getNextPresenceType(entry)
-        .subscribe((newPresenceType) =>
-          this.lessonPresencesUpdateService.updatePresenceType(
-            entry,
-            newPresenceType ? newPresenceType.Id : null,
-          ),
-        ),
-    );
-  }
-
   togglePresenceType(entry: PresenceControlEntry): void {
     this.blockLessons
       .getBlockLessonPresenceControlEntries(entry)
       .pipe(take(1))
       .subscribe(
         (presenceControlEntries: ReadonlyArray<PresenceControlEntry>) => {
-          if (presenceControlEntries.length === 1) {
+          // Only show the block lesson dialog if the presence types are equal.
+          // Because if they are different, switching each entry's presence type
+          // to the according next one does not really make sense.
+          const hasSamePresenceType =
+            uniq(presenceControlEntries.map((e) => e.presenceType)).length ===
+            1;
+          if (presenceControlEntries.length === 1 || !hasSamePresenceType) {
             // Use the refetched entry from `presenceControlEntries`
             // instead of `entry` when mutating, to make sure we base
             // the update on the newest data (that has possibly
             // changed since we last fetched `entry`)
-            const refetchedEntry = presenceControlEntries[0];
-            this.doTogglePresenceType([refetchedEntry]);
+            const refetchedEntry = presenceControlEntries.find(
+              (e) => e.id === entry.id,
+            );
+            if (refetchedEntry) {
+              this.doTogglePresenceType([refetchedEntry], refetchedEntry);
+            }
           } else {
             const modalRef = this.modalService.open(
               PresenceControlBlockLessonComponent,
@@ -118,7 +116,7 @@ export class PresenceControlListComponent
             modalRef.result.then(
               (entries) => {
                 if (entries) {
-                  this.doTogglePresenceType(entries);
+                  this.doTogglePresenceType(entries, entry);
                 }
               },
               () => {},
@@ -129,7 +127,10 @@ export class PresenceControlListComponent
   }
 
   updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
-    this.lessonPresencesUpdateService.updatePresenceType(entry, presenceTypeId);
+    this.lessonPresencesUpdateService
+      .updatePresenceType(entry, presenceTypeId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((updates) => this.state.updateLessonPresencesTypes(updates));
   }
 
   changeIncident(entry: PresenceControlEntry): void {
@@ -146,6 +147,28 @@ export class PresenceControlListComponent
         () => {},
       );
     });
+  }
+
+  /**
+   * Update the presence type synchronously, then update the state if successful.
+   */
+  private doTogglePresenceType(
+    entries: ReadonlyArray<PresenceControlEntry>,
+    currentLessonEntry: PresenceControlEntry,
+  ): void {
+    if (entries.length === 0) return;
+
+    this.state
+      .getNextPresenceType(currentLessonEntry)
+      .pipe(
+        switchMap((newPresenceType) =>
+          this.lessonPresencesUpdateService.updatePresenceType(
+            entries,
+            newPresenceType?.Id ?? null,
+          ),
+        ),
+      )
+      .subscribe((updates) => this.state.updateLessonPresencesTypes(updates));
   }
 
   private restoreStateFromParams(params: Params): void {

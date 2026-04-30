@@ -11,9 +11,10 @@ import {
 } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { ReplaySubject, map, switchMap } from "rxjs";
+import { ReplaySubject, combineLatest, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
+import { getEntryUpdateContext } from "src/app/shared/services/lesson-presences-update.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { AvatarComponent } from "../../../shared/components/avatar/avatar.component";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
@@ -59,7 +60,12 @@ export class PresenceControlEntryComponent implements OnChanges {
   );
   loading$ = this.entry$.pipe(
     switchMap((entry) =>
-      this.loadingService.loading(getBlockLessonLoadingContext(entry)),
+      combineLatest([
+        this.loadingService.loading(getEntryUpdateContext(entry)),
+        this.loadingService.loading(getBlockLessonLoadingContext(entry)),
+      ]).pipe(
+        map(([updateLoading, blockLoading]) => updateLoading || blockLoading),
+      ),
     ),
   );
 
