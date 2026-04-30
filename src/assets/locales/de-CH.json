@@ -447,7 +447,7 @@
       "created": "Erstellt",
       "edit": {
         "title-new": "Eintrag hinzufügen",
-        "title-update": "«{{designation}}» bearbeiten",
+        "title-update": "{{designation}} bearbeiten",
         "not-found": "Der Eintrag konnte nicht gefunden werden.",
         "type": {
           "document": "Dokument",

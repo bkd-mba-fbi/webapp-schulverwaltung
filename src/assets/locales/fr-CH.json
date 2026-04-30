@@ -447,7 +447,7 @@
       "created": "Créé",
       "edit": {
         "title-new": "Ajouter une entrée",
-        "title-update": "Modifier « {{designation}} »",
+        "title-update": "Modifier {{designation}}",
         "not-found": "L'entrée n'a pas pu être trouvée.",
         "type": {
           "document": "Document",
