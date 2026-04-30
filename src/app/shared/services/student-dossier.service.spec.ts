@@ -1,5 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
+import { skip } from "rxjs/operators";
 import { buildAdditionalInformation } from "src/spec-builders";
 import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { TokenPayload } from "../models/token-payload.model";
@@ -56,7 +57,9 @@ describe("StudentDossierService", () => {
 
   describe("entries$", () => {
     it("returns empty list when there are no additional informations", () => {
-      service.entries$.subscribe((entries) => expect(entries).toEqual([]));
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries).toEqual([]));
     });
 
     it("filters out entries with a null CodeId", () => {
@@ -66,7 +69,9 @@ describe("StudentDossierService", () => {
         of([withCode, withoutCode]),
       );
 
-      service.entries$.subscribe((entries) => expect(entries.length).toBe(1));
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries.length).toBe(1));
     });
 
     it("sorts entries by CreationDate descending", () => {
@@ -84,9 +89,11 @@ describe("StudentDossierService", () => {
         of([entry, newerEntry]),
       );
 
-      service.entries$.subscribe((entries) =>
-        expect(entries.map((e) => e.id)).toEqual([2, 1]),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) =>
+          expect(entries.map((e) => e.id)).toEqual([2, 1]),
+        );
     });
   });
 
@@ -98,9 +105,9 @@ describe("StudentDossierService", () => {
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
-      service.entries$.subscribe((entries) =>
-        expect(entries[0].type).toBe("information"),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries[0].type).toBe("information"));
     });
 
     it("get entry type 'disadvantage' for dossierDisadvantageCompensationCodeId", () => {
@@ -110,9 +117,9 @@ describe("StudentDossierService", () => {
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
-      service.entries$.subscribe((entries) =>
-        expect(entries[0].type).toBe("disadvantage"),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries[0].type).toBe("disadvantage"));
     });
 
     it("get entry type 'dossier' for other CodeId", () => {
@@ -120,9 +127,9 @@ describe("StudentDossierService", () => {
         of([{ ...buildAdditionalInformation() }]),
       );
 
-      service.entries$.subscribe((entries) =>
-        expect(entries[0].type).toBe("dossier"),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries[0].type).toBe("dossier"));
     });
   });
 
@@ -135,9 +142,9 @@ describe("StudentDossierService", () => {
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
-      service.entries$.subscribe((entries) =>
-        expect(entries[0].isOwner).toBeFalse(),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries[0].isOwner).toBeFalse());
     });
 
     it("returns true when the token username matches the entry CreatorName", () => {
@@ -151,9 +158,9 @@ describe("StudentDossierService", () => {
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
-      service.entries$.subscribe((entries) =>
-        expect(entries[0].isOwner).toBeTrue(),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries[0].isOwner).toBeTrue());
     });
 
     it("returns false when the token username does not match the entry CreatorName", () => {
@@ -167,9 +174,9 @@ describe("StudentDossierService", () => {
       };
       studentsRestService.getAdditionalInformations.and.returnValue(of([info]));
 
-      service.entries$.subscribe((entries) =>
-        expect(entries[0].isOwner).toBeFalse(),
-      );
+      service.entries$
+        .pipe(skip(1))
+        .subscribe((entries) => expect(entries[0].isOwner).toBeFalse());
     });
   });
 
@@ -184,7 +191,7 @@ describe("StudentDossierService", () => {
         of([infoEntry, dossierEntry]),
       );
 
-      service.informationEntries$.subscribe((entries) => {
+      service.informationEntries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries.length).toBe(1);
         expect(entries[0].type).toBe("information");
       });
@@ -200,7 +207,7 @@ describe("StudentDossierService", () => {
         of([disadvantageEntry, dossierEntry]),
       );
 
-      service.disadvantageEntries$.subscribe((entries) => {
+      service.disadvantageEntries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries.length).toBe(1);
         expect(entries[0].type).toBe("disadvantage");
       });
@@ -216,7 +223,7 @@ describe("StudentDossierService", () => {
         of([infoEntry, dossierEntry]),
       );
 
-      service.dossierEntries$.subscribe((entries) => {
+      service.dossierEntries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries.length).toBe(1);
         expect(entries[0].type).toBe("dossier");
       });
@@ -232,7 +239,7 @@ describe("StudentDossierService", () => {
         of([entry]),
       );
 
-      service.entries$.subscribe((entries) => {
+      service.entries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries[0].category).toBe("Korrespondenz");
       });
     });
@@ -246,7 +253,7 @@ describe("StudentDossierService", () => {
         of([entry]),
       );
 
-      service.entries$.subscribe((entries) => {
+      service.entries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries[0].category).toBeNull();
       });
     });
@@ -268,7 +275,7 @@ describe("StudentDossierService", () => {
         of([korrespondenz, zeugnis]),
       );
 
-      service.filteredDossierEntries$.subscribe((entries) => {
+      service.filteredDossierEntries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries.map((e) => e.id)).toEqual([
           korrespondenz.Id,
           zeugnis.Id,
@@ -295,7 +302,7 @@ describe("StudentDossierService", () => {
         "Zeugnis",
       ]);
 
-      service.filteredDossierEntries$.subscribe((entries) => {
+      service.filteredDossierEntries$.pipe(skip(1)).subscribe((entries) => {
         expect(entries.map((e) => e.id)).toEqual([zeugnis.Id]);
       });
     });

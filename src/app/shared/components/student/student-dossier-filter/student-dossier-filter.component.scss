@@ -1,5 +1,10 @@
 @import "src/bootstrap-variables";
 
+:host {
+  display: inline-block;
+  position: relative;
+}
+
 :host ::ng-deep .filter-dropdown {
   .ng-select-container {
     display: none;

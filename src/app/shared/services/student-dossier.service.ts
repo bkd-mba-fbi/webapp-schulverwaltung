@@ -1,5 +1,14 @@
-import { Injectable, inject } from "@angular/core";
-import { Observable, combineLatest, map, shareReplay, switchMap } from "rxjs";
+import { Injectable, OnDestroy, inject } from "@angular/core";
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
 import { AdditionalInformation } from "../models/additional-informations.model";
 import { DropDownItem } from "../models/drop-down-item.model";
@@ -28,7 +37,7 @@ const STUDENT_DOSSIER_CONTEXT = "student-dossier";
 @Injectable({
   providedIn: "root",
 })
-export class StudentDossierService {
+export class StudentDossierService implements OnDestroy {
   private settings = inject<Settings>(SETTINGS);
   private state = inject(StudentStateService);
   private loadingService = inject(LoadingService);
@@ -40,6 +49,7 @@ export class StudentDossierService {
   loading$ = this.loadingService.loading(STUDENT_DOSSIER_CONTEXT);
   studentId$ = this.state.studentId$;
 
+  private destroy$ = new Subject<void>();
   private additionalInformations$ = this.studentId$.pipe(
     switchMap((studentId) => this.loadAdditionalInformations(studentId)),
     shareReplay(1),
@@ -55,6 +65,7 @@ export class StudentDossierService {
         .filter((info) => info.CodeId != null)
         .map((info) => this.buildEntry(info, categories)),
     ),
+    startWith([]),
     shareReplay(1),
   );
   informationEntries$ = this.entries$.pipe(
@@ -83,7 +94,13 @@ export class StudentDossierService {
   );
 
   constructor() {
-    this.filterService.setDossierEntries(this.dossierEntries$);
+    this.dossierEntries$.pipe(takeUntil(this.destroy$)).subscribe((entries) => {
+      this.filterService.setDossierEntries(entries);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   private sortByDateDesc(

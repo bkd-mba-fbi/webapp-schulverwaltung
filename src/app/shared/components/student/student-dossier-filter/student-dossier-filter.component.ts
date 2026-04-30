@@ -28,7 +28,7 @@ export class StudentDossierFilterComponent {
 
   isDropdownOpen = signal(false);
   isFilterActive = toSignal(this.filterService.isFilterActive$, {
-    initialValue: false,
+    requireSync: true,
   });
   categoryOptions = toSignal(this.filterService.filterOptions$, {
     initialValue: [],

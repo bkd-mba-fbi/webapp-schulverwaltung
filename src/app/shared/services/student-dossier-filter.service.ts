@@ -1,35 +1,23 @@
 import { Injectable } from "@angular/core";
 import { uniqBy } from "lodash-es";
-import {
-  BehaviorSubject,
-  Observable,
-  ReplaySubject,
-  map,
-  shareReplay,
-  switchMap,
-} from "rxjs";
+import { BehaviorSubject, map, shareReplay } from "rxjs";
 import { DropDownGroupedItem } from "../models/drop-down-grouped-item.model";
 import { StudentDossierEntry } from "./student-dossier.service";
 
 @Injectable()
 export class StudentDossierFilterService {
-  private dossierEntriesSource$ = new ReplaySubject<
-    Observable<ReadonlyArray<StudentDossierEntry>>
-  >(1);
-  private dossierEntries$ = this.dossierEntriesSource$.pipe(
-    switchMap((entries$) => entries$),
-    shareReplay(1),
-  );
-
+  private dossierEntriesSubject$ = new BehaviorSubject<
+    ReadonlyArray<StudentDossierEntry>
+  >([]);
   private selectedCategoriesSubject$ = new BehaviorSubject<
     ReadonlyArray<string>
   >([]);
+
   selectedCategories$ = this.selectedCategoriesSubject$.asObservable();
   isFilterActive$ = this.selectedCategoriesSubject$.pipe(
     map((selected) => selected.length > 0),
   );
-
-  filterOptions$ = this.dossierEntries$.pipe(
+  filterOptions$ = this.dossierEntriesSubject$.pipe(
     map((entries) =>
       uniqBy(this.buildFilterOptions(entries), "Value").sort((a, b) =>
         a.Value.localeCompare(b.Value),
@@ -38,10 +26,9 @@ export class StudentDossierFilterService {
     shareReplay(1),
   );
 
-  setDossierEntries(
-    entries$: Observable<ReadonlyArray<StudentDossierEntry>>,
-  ): void {
-    this.dossierEntriesSource$.next(entries$);
+  setDossierEntries(entries: ReadonlyArray<StudentDossierEntry>): void {
+    this.dossierEntriesSubject$.next(entries);
+    this.selectedCategoriesSubject$.next([]);
   }
 
   setSelectedCategories(categories: ReadonlyArray<string>): void {

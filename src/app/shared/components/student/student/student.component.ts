@@ -24,11 +24,7 @@ import { StudentNavigationComponent } from "../student-navigation/student-naviga
     StudentDossierActionsComponent,
     StudentGradesActionsComponent,
   ],
-  providers: [
-    StudentStateService,
-    StudentGradesService,
-    StudentDossierFilterService,
-  ],
+  providers: [StudentGradesService, StudentDossierFilterService],
 })
 export class StudentComponent {
   private state = inject(StudentStateService);

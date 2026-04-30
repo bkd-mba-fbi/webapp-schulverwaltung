@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { of } from "rxjs";
 import { buildAdditionalInformation } from "../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../spec-helpers";
 import { StudentDossierFilterService } from "./student-dossier-filter.service";
@@ -40,7 +39,7 @@ describe("StudentDossierFilterService", () => {
         buildEntry(2, 102, "Gesuch"),
         buildEntry(3, 101, "Zeugnis"),
       ];
-      service.setDossierEntries(of(entries));
+      service.setDossierEntries(entries);
 
       service.filterOptions$.subscribe((options) => {
         expect(options.map((o) => o.Value)).toEqual(["Gesuch", "Zeugnis"]);
