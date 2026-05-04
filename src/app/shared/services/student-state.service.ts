@@ -35,7 +35,7 @@ export class StudentStateService {
     filter((e) => e instanceof NavigationEnd),
     startWith(null),
     map(() => {
-      const id = this.findRouteParam("id");
+      const id = this.findStudentRouteParam();
       // Fall back to current user if no id param is present (for my-dossier)
       return Number(id ?? this.storageService.getPayload()?.id_person);
     }),
@@ -76,11 +76,12 @@ export class StudentStateService {
     return page;
   }
 
-  private findRouteParam(name: string): Option<string> {
+  private findStudentRouteParam(): Option<string> {
     let current: Option<ActivatedRoute> = this.router.routerState.root;
     while (current) {
-      const value = current.snapshot.paramMap.get(name);
-      if (value != null) return value;
+      if (current.snapshot.routeConfig?.path === "student/:id") {
+        return current.snapshot.paramMap.get("id");
+      }
       current = current.firstChild;
     }
     return null;
