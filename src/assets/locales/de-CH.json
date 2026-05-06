@@ -445,6 +445,7 @@
       "download": "Anzeigen",
       "disadvantage": "Nachteilsausgleich",
       "created": "Erstellt:",
+      "visibility": "Sichtbar für {{ studentName }}",
       "edit": {
         "title-new": "Eintrag hinzufügen",
         "title-update": "{{designation}} bearbeiten",

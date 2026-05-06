@@ -1,0 +1,26 @@
+@import "src/bootstrap-variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 42px; // Constant height, no matter if the edit link is visible or not
+}
+
+.info {
+  opacity: 0.3;
+  font-size: $font-size-sm;
+  font-weight: 400;
+  line-height: 1.5;
+  display: flex;
+  align-items: start;
+  gap: $spacer;
+}
+
+@include media-breakpoint-down(sm) {
+  .info {
+    flex-direction: column;
+    gap: 0;
+  }
+}

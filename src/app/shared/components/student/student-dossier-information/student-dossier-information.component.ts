@@ -7,8 +7,8 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { StudentDossierEntry } from "src/app/shared/services/student-dossier.service";
-import { StudentDossierEditLinkComponent } from "../student-dossier-edit-link/student-dossier-edit-link.component";
 import { StudentDossierEntryDescriptionComponent } from "../student-dossier-entry-description/student-dossier-entry-description.component";
+import { StudentDossierEntryFooterComponent } from "../student-dossier-entry-footer/student-dossier-entry-footer.component";
 import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-header/student-dossier-entry-header.component";
 
 @Component({
@@ -21,7 +21,7 @@ import { StudentDossierEntryHeaderComponent } from "../student-dossier-entry-hea
     TranslatePipe,
     StudentDossierEntryHeaderComponent,
     StudentDossierEntryDescriptionComponent,
-    StudentDossierEditLinkComponent,
+    StudentDossierEntryFooterComponent,
   ],
   templateUrl: "./student-dossier-information.component.html",
   styleUrl: "./student-dossier-information.component.scss",

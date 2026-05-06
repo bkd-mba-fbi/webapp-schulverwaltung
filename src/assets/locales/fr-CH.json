@@ -445,6 +445,7 @@
       "download": "Afficher",
       "disadvantage": "Compensation des désavantages",
       "created": "Créé :",
+      "visibility": "Visible pour {{ studentName }}",
       "edit": {
         "title-new": "Ajouter une entrée",
         "title-update": "Modifier {{designation}}",

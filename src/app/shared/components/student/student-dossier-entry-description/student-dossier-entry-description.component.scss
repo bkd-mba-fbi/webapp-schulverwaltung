@@ -1,4 +1,11 @@
+:host:not(:has(p)) {
+  // Hide the host element if there is no description rendered to avoid
+  // unwanted gap spacing in the Flexbox container
+  display: none;
+}
+
 p {
+  margin-bottom: 0;
   white-space: pre-line;
   hyphens: auto; // Enable hyphenation for long words
   overflow-wrap: anywhere; // Break non-dictionary "words"

@@ -1,5 +1,3 @@
-@let info = entry().additionalInformation;
-
 <bkd-student-dossier-entry-description
   [entry]="entry()"
 ></bkd-student-dossier-entry-description>
@@ -13,12 +11,6 @@
   </div>
 }
 
-<div class="footer">
-  <div class="info">
-    {{ "student.dossier.created" | translate }}
-    {{ info.CreationDate | date: "dd.MM.yyyy" }}
-  </div>
-  <bkd-student-dossier-edit-link
-    [entry]="entry()"
-  ></bkd-student-dossier-edit-link>
-</div>
+<bkd-student-dossier-entry-footer
+  [entry]="entry()"
+></bkd-student-dossier-entry-footer>
