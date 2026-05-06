@@ -4,7 +4,8 @@ import {
   StudentDossierEntry,
   StudentDossierService,
 } from "src/app/shared/services/student-dossier.service";
-import { buildAdditionalInformation } from "src/spec-builders";
+import { StudentStateService } from "src/app/shared/services/student-state.service";
+import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentDossierComponent } from "./student-dossier.component";
 
@@ -14,6 +15,7 @@ describe("StudentDossierComponent", () => {
   let studentDossierServiceMock: {
     loading$: Observable<boolean>;
     studentId$: Observable<number>;
+    studentName$: Observable<Option<string>>;
     informationEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
     disadvantageEntries$: BehaviorSubject<ReadonlyArray<StudentDossierEntry>>;
     filteredDossierEntries$: BehaviorSubject<
@@ -25,6 +27,7 @@ describe("StudentDossierComponent", () => {
     studentDossierServiceMock = {
       loading$: of(false),
       studentId$: of(42),
+      studentName$: of("Berger Laura"),
       informationEntries$: new BehaviorSubject<
         ReadonlyArray<StudentDossierEntry>
       >([
@@ -74,7 +77,7 @@ describe("StudentDossierComponent", () => {
           isOwner: false,
         },
         {
-          id: 3,
+          id: 4,
           type: "dossier",
           additionalInformation: {
             ...buildAdditionalInformation(),
@@ -95,6 +98,13 @@ describe("StudentDossierComponent", () => {
       .overrideComponent(StudentDossierComponent, {
         set: {
           providers: [
+            {
+              provide: StudentStateService,
+              useValue: {
+                studentId$: of(42),
+                student$: of({ ...buildStudent(42), ClassRegistrations: [] }),
+              },
+            },
             {
               provide: StudentDossierService,
               useValue: studentDossierServiceMock,

@@ -1,0 +1,18 @@
+@let info = entry().additionalInformation;
+
+<div class="info">
+  <span
+    >{{ "student.dossier.created" | translate }}
+    {{ info.CreationDate | date: "dd.MM.yyyy" }}
+  </span>
+  @if (!isStudent() && info.ForStudent) {
+    <span>
+      {{
+        "student.dossier.visibility" | translate: { studentName: studentName() }
+      }}
+    </span>
+  }
+</div>
+<bkd-student-dossier-edit-link
+  [entry]="entry()"
+></bkd-student-dossier-edit-link>

@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { skip } from "rxjs/operators";
-import { buildAdditionalInformation } from "src/spec-builders";
+import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { TokenPayload } from "../models/token-payload.model";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
@@ -29,7 +29,7 @@ describe("StudentDossierService", () => {
         providers: [
           {
             provide: StudentStateService,
-            useValue: { studentId$: of(42) },
+            useValue: { studentId$: of(42), student$: of(buildStudent(42)) },
           },
           { provide: StudentsRestService, useValue: studentsRestService },
           {
@@ -49,10 +49,6 @@ describe("StudentDossierService", () => {
       }),
     );
     service = TestBed.inject(StudentDossierService);
-  });
-
-  it("should be created", () => {
-    expect(service).toBeTruthy();
   });
 
   describe("entries$", () => {

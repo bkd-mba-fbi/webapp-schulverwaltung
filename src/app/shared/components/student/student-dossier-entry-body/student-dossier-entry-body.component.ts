@@ -1,4 +1,3 @@
-import { DatePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,15 +9,14 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { SETTINGS, Settings } from "src/app/settings";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudentDossierEntry } from "src/app/shared/services/student-dossier.service";
-import { StudentDossierEditLinkComponent } from "../student-dossier-edit-link/student-dossier-edit-link.component";
 import { StudentDossierEntryDescriptionComponent } from "../student-dossier-entry-description/student-dossier-entry-description.component";
+import { StudentDossierEntryFooterComponent } from "../student-dossier-entry-footer/student-dossier-entry-footer.component";
 
 @Component({
   selector: "bkd-student-dossier-entry-body",
   imports: [
     StudentDossierEntryDescriptionComponent,
-    StudentDossierEditLinkComponent,
-    DatePipe,
+    StudentDossierEntryFooterComponent,
     TranslatePipe,
   ],
   templateUrl: "./student-dossier-entry-body.component.html",

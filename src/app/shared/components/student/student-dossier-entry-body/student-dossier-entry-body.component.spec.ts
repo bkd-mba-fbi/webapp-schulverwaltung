@@ -1,7 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
+import { TokenPayload } from "src/app/shared/models/token-payload.model";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudentDossierEntry } from "src/app/shared/services/student-dossier.service";
-import { buildAdditionalInformation } from "src/spec-builders";
+import { StudentStateService } from "src/app/shared/services/student-state.service";
+import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentDossierEntryBodyComponent } from "./student-dossier-entry-body.component";
 
@@ -9,18 +13,36 @@ describe("StudentDossierEntryBodyComponent", () => {
   let fixture: ComponentFixture<StudentDossierEntryBodyComponent>;
   let element: HTMLElement;
   let entry: StudentDossierEntry;
+  let studentStateServiceMock: {
+    studentId$: BehaviorSubject<Option<number>>;
+    student$: Observable<Option<StudentWithClassRegistration>>;
+  };
+  let storageServiceMock: jasmine.SpyObj<StorageService>;
 
   beforeEach(async () => {
+    studentStateServiceMock = {
+      studentId$: new BehaviorSubject<Option<number>>(42),
+      student$: of({
+        ...buildStudent(42),
+        FullName: "Berger Laura",
+        ClassRegistrations: [],
+      }),
+    };
+    storageServiceMock = jasmine.createSpyObj<StorageService>(
+      "StorageService",
+      ["getAccessToken", "getPayload"],
+    );
+    storageServiceMock.getAccessToken.and.returnValue("ey...");
+    storageServiceMock.getPayload.and.returnValue({
+      id_person: "123",
+    } as unknown as TokenPayload);
+
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [StudentDossierEntryBodyComponent],
         providers: [
-          {
-            provide: StorageService,
-            useValue: {
-              getAccessToken: () => "ey...",
-            },
-          },
+          { provide: StudentStateService, useValue: studentStateServiceMock },
+          { provide: StorageService, useValue: storageServiceMock },
         ],
       }),
     ).compileComponents();
@@ -50,6 +72,44 @@ describe("StudentDossierEntryBodyComponent", () => {
 
   it("renders the creation date", () => {
     expect(element.textContent).toContain("23.01.2000");
+  });
+
+  describe("student visibility", () => {
+    describe("as another user than the student of the dossier", () => {
+      it("renders visibility text if ForStudent=true", () => {
+        entry.additionalInformation.ForStudent = true;
+        fixture.componentRef.setInput("entry", { ...entry });
+        fixture.detectChanges();
+        expect(element.textContent).toContain("student.dossier.visibility");
+      });
+
+      it("does not render visibility text if ForStudent=false", () => {
+        entry.additionalInformation.ForStudent = false;
+        fixture.componentRef.setInput("entry", { ...entry });
+        fixture.detectChanges();
+        expect(element.textContent).not.toContain("student.dossier.visibility");
+      });
+    });
+
+    describe("as the student of the dossier", () => {
+      beforeEach(() => {
+        studentStateServiceMock.studentId$.next(123);
+      });
+
+      it("does not render visibility text if ForStudent=true", () => {
+        entry.additionalInformation.ForStudent = true;
+        fixture.componentRef.setInput("entry", { ...entry });
+        fixture.detectChanges();
+        expect(element.textContent).not.toContain("student.dossier.visibility");
+      });
+
+      it("does not render visibility text if ForStudent=false", () => {
+        entry.additionalInformation.ForStudent = false;
+        fixture.componentRef.setInput("entry", { ...entry });
+        fixture.detectChanges();
+        expect(element.textContent).not.toContain("student.dossier.visibility");
+      });
+    });
   });
 
   describe("document link", () => {

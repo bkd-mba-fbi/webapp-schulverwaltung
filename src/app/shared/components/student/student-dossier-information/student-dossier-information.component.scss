@@ -13,3 +13,7 @@ h6 {
   font-weight: $font-weight-semibold;
   font-size: $font-size-base;
 }
+
+bkd-student-dossier-entry-footer + h6 {
+  margin-top: $spacer;
+}
