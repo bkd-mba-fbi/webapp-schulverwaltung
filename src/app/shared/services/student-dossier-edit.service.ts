@@ -165,6 +165,9 @@ export class StudentDossierEditService {
               category.Sort === String(this.settings.dossierCategoriesTypeId),
           ),
         ),
+        map((categories) =>
+          [...categories].sort((a, b) => a.Value.localeCompare(b.Value)),
+        ),
       ),
     );
   }
