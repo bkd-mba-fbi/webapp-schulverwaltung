@@ -69,15 +69,16 @@ describe("StudentDossierEditService", () => {
     );
     dropDownItemsService.getAdditionalInformationCodes.and.returnValue(
       of([
+        // Intentionally swap the ordering of the first two to test sorting
         {
-          Key: 2000267,
-          Value: "Administration",
+          Key: 2000268,
+          Value: "Ärztliches Attest",
           IsActive: true,
           Sort: "1011",
         },
         {
-          Key: 2000268,
-          Value: "Ärztliches Attest",
+          Key: 2000267,
+          Value: "Administration",
           IsActive: true,
           Sort: "1011",
         },
@@ -192,7 +193,7 @@ describe("StudentDossierEditService", () => {
   });
 
   describe("categories$", () => {
-    it("emits active categories of type 1011", async () => {
+    it("emits active, sorted categories of type 1011", async () => {
       const categories = await firstValueFrom(service.categories$);
       expect(categories).toEqual([
         {
