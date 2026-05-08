@@ -118,16 +118,20 @@ describe("StudentDossierEntryBodyComponent", () => {
     });
 
     it("renders a link if a file is available", () => {
+      const windowOpenSpy = spyOn(window, "open");
       entry.additionalInformation.File =
         "/restApi/Files/AdditionalInformation/1015/File";
       fixture.componentRef.setInput("entry", { ...entry });
       fixture.detectChanges();
+
       const link = element.querySelector<HTMLAnchorElement>("a:not(.btn)");
       expect(link).not.toBeNull();
-      expect(link?.href).toBe(
+      link?.click();
+
+      expect(windowOpenSpy).toHaveBeenCalledWith(
         "https://eventotest.api/Files/AdditionalInformation/1015/File?token=ey...",
+        "_blank",
       );
-      expect(link?.target).toBe("_blank");
     });
   });
 });

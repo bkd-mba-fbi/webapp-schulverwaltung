@@ -29,11 +29,31 @@ export class StudentDossierEntryBodyComponent {
 
   entry = input.required<StudentDossierEntry>();
 
-  documentUrl = computed(() => {
-    const filePath = this.entry().additionalInformation.File;
-    if (!filePath) {
+  documentPath = computed(
+    () =>
+      // The path in the `File` attribute starts with `/restApi`, so we remove
+      // this to have the actual document path without the API prefix
+      this.entry().additionalInformation.File?.replace(/^\/restApi/, "") ??
+      null,
+  );
+  hasDocument = computed(() => Boolean(this.documentPath()));
+
+  openDocument(): void {
+    // We generate the URL that includes the token when we are using it,
+    // otherwise the token can already be expired (hence this openDocument()
+    // call and no href="" attribute).
+    const url = this.getDocumentUrl();
+    if (url) {
+      window.open(url, "_blank");
+    }
+  }
+
+  private getDocumentUrl(): Option<string> {
+    const documentPath = this.documentPath();
+    if (!documentPath) {
       return null;
     }
-    return `${this.settings.apiUrl}${filePath.replace(/^\/restApi/, "")}?token=${this.storageService.getAccessToken()}`;
-  });
+    const token = this.storageService.getAccessToken();
+    return `${this.settings.apiUrl}${documentPath}?token=${token}`;
+  }
 }

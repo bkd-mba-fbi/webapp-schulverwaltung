@@ -2,10 +2,15 @@
   [entry]="entry()"
 ></bkd-student-dossier-entry-description>
 
-@if (documentUrl()) {
+@if (hasDocument()) {
   <div class="document-link">
     <i class="material-icons-outlined">remove_red_eye</i>
-    <a [href]="documentUrl()" target="_blank">
+    <a
+      (click)="openDocument()"
+      (keydown.enter)="openDocument()"
+      role="button"
+      tabindex="0"
+    >
       {{ "student.dossier.download" | translate }}
     </a>
   </div>
