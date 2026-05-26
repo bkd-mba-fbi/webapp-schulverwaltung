@@ -638,7 +638,7 @@
       "default-placeholder": "Sélectionner la date..."
     },
     "file-input": {
-      "input-label": "Sélectionner ou faire glisser un fichier dans cette fenêtre",
+      "input-label": "Sélectionner ou faire glisser un fichier dans cette fenêtre. Formats autorisés : {{acceptedExtensions}}",
       "drop-zone-label": "Faire glisser le fichier ici"
     },
     "daysDifference": {

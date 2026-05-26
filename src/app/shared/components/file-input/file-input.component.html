@@ -1,5 +1,6 @@
 <label for="formFile" class="form-label">{{
-  "shared.file-input.input-label" | translate
+  "shared.file-input.input-label"
+    | translate: { acceptedExtensions: acceptedFileExtensions().join(", ") }
 }}</label>
 <input
   class="form-control"

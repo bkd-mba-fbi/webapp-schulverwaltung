@@ -638,7 +638,7 @@
       "default-placeholder": "Datum wählen..."
     },
     "file-input": {
-      "input-label": "Datei auswählen oder in dieses Fenster ziehen",
+      "input-label": "Datei auswählen oder in dieses Fenster ziehen. Erlaubte Formate: {{acceptedExtensions}}",
       "drop-zone-label": "Datei hierhin ziehen"
     },
     "daysDifference": {

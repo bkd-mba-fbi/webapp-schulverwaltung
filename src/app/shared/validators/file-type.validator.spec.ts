@@ -7,7 +7,7 @@ type Model = {
   file: Option<File>;
 };
 
-const ACCEPTED_FILE_TYPES = ["application/pdf", "image/png"] as const;
+const ACCEPTED_FILE_TYPES = ["application/pdf", "image/png", ".msg"] as const;
 
 describe("fileType", () => {
   let model: WritableSignal<Model>;
@@ -64,6 +64,14 @@ describe("fileType", () => {
     };
     expect(error.kind).toBe("fileType");
     expect(error.message).toContain("not allowed");
+  });
+
+  it("is valid for a (proprietary) file without type that is accepted by file extension", () => {
+    const msgFile = new File(["content"], "email.msg");
+    testForm.file().value.set(msgFile);
+
+    expect(testForm.file().valid()).toBe(true);
+    expect(testForm.file().errors().length).toBe(0);
   });
 
   describe("with 'when' condition", () => {
