@@ -10,8 +10,11 @@ import {
 } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
-import { AdditionalInformation } from "../models/additional-informations.model";
-import { DropDownItem } from "../models/drop-down-item.model";
+import {
+  AdditionalInformation,
+  AdditionalInformationCode,
+} from "../models/additional-informations.model";
+import { isAllowedDossierCategory } from "../utils/additional-informations";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { LoadingService } from "./loading-service";
 import { StorageService } from "./storage.service";
@@ -29,7 +32,7 @@ export interface StudentDossierEntry {
   type: StudentDossierEntryType;
   additionalInformation: AdditionalInformation;
   category: Option<string>;
-  isOwner: boolean;
+  canEdit: boolean;
 }
 
 const STUDENT_DOSSIER_CONTEXT = "student-dossier";
@@ -121,7 +124,9 @@ export class StudentDossierService implements OnDestroy {
     );
   }
 
-  private loadCategories(): Observable<ReadonlyArray<DropDownItem>> {
+  private loadCategories(): Observable<
+    ReadonlyArray<AdditionalInformationCode>
+  > {
     return this.loadingService.load(
       this.dropDownItemsService.getAdditionalInformationCodes(),
       {
@@ -132,19 +137,22 @@ export class StudentDossierService implements OnDestroy {
 
   private buildEntry(
     info: AdditionalInformation,
-    categories: ReadonlyArray<DropDownItem>,
+    categories: ReadonlyArray<AdditionalInformationCode>,
   ): StudentDossierEntry {
     const codeId = info.CodeId;
+    const category = codeId
+      ? (categories.find((c) => String(c.Key) === String(codeId)) ?? null)
+      : null;
+    const allowedCategory = Boolean(
+      category && isAllowedDossierCategory(category, this.settings),
+    );
 
     return {
       id: info.Id,
       type: this.getEntryType(info),
       additionalInformation: info,
-      category: codeId
-        ? (categories.find((c) => String(c.Key) === String(codeId))?.Value ??
-          null)
-        : null,
-      isOwner: this.isOwner(info),
+      category: category?.Value ?? null,
+      canEdit: this.isOwner(info) && allowedCategory, // The author of the entry can only edit it, if it has a category that is selectable in the frontend
     };
   }
 

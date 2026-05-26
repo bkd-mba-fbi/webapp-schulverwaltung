@@ -16,7 +16,7 @@ describe("StudentDossierFilterService", () => {
     type: "dossier",
     additionalInformation: { ...buildAdditionalInformation(), CodeId: codeId },
     category,
-    isOwner: false,
+    canEdit: false,
   });
 
   beforeEach(() => {

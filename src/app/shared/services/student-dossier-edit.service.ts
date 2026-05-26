@@ -19,6 +19,7 @@ import { AdditionalInformationsRestService } from "src/app/shared/services/addit
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { catch404 } from "src/app/shared/utils/observable";
 import { Subscription } from "../models/subscription.model";
+import { isAllowedDossierCategory } from "../utils/additional-informations";
 import { UnreachableError } from "../utils/error";
 import { notNull } from "../utils/filter";
 import { CoursesRestService } from "./courses-rest.service";
@@ -131,7 +132,7 @@ export class StudentDossierEditService {
   }
 
   private async update(
-    type: "document" | "note",
+    _type: "document" | "note",
     entry: Pick<AdditionalInformation, "Id"> &
       Partial<Omit<AdditionalInformation, "Id">>,
     file: Option<File>,
@@ -157,12 +158,8 @@ export class StudentDossierEditService {
     return this.loadingService.load(
       this.dropDownItemsService.getAdditionalInformationCodes().pipe(
         map((categories) =>
-          categories.filter(
-            (category) =>
-              category.IsActive &&
-              // As a workaround, the type id of the category is in the `Sort`
-              // field. Use this to exclude duplicate categories.
-              category.Sort === String(this.settings.dossierCategoriesTypeId),
+          categories.filter((category) =>
+            isAllowedDossierCategory(category, this.settings),
           ),
         ),
         map((categories) =>

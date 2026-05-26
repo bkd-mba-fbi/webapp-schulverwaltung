@@ -23,7 +23,7 @@ describe("StudentDossierEditLinkComponent", () => {
       type: "dossier",
       additionalInformation: buildAdditionalInformation(),
       category: "2000267",
-      isOwner: true,
+      canEdit: true,
     };
     fixture.componentRef.setInput("entry", entry);
     fixture.detectChanges();
@@ -34,7 +34,7 @@ describe("StudentDossierEditLinkComponent", () => {
   });
 
   it("does not show edit link if is not owner", () => {
-    fixture.componentRef.setInput("entry", { ...entry, isOwner: false });
+    fixture.componentRef.setInput("entry", { ...entry, canEdit: false });
     fixture.detectChanges();
     expect(element.querySelector("a")).toBeNull();
   });

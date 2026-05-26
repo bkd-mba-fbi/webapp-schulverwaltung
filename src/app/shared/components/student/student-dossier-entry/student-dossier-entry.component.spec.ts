@@ -26,7 +26,7 @@ describe("StudentDossierEntryComponent", () => {
       type: "dossier",
       additionalInformation: buildAdditionalInformation(),
       category: "Korrespondenz",
-      isOwner: true,
+      canEdit: true,
     };
     fixture.componentRef.setInput("entry", entry);
     fixture.detectChanges();

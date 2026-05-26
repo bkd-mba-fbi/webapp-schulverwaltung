@@ -60,7 +60,7 @@ describe("StudentDossierEntryBodyComponent", () => {
         CreationDate: new Date(2000, 0, 23),
       },
       category: "Korrespondenz",
-      isOwner: true,
+      canEdit: true,
     };
     fixture.componentRef.setInput("entry", entry);
     fixture.detectChanges();
