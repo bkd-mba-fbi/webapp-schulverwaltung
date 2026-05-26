@@ -4,12 +4,14 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  computed,
   input,
   model,
   signal,
   viewChild,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
+import { getExtensionFromMimeType } from "../../utils/mime";
 
 @Component({
   selector: "bkd-file-input",
@@ -25,6 +27,10 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
   acceptedFileTypes = input.required<ReadonlyArray<string>>();
   error = input<Option<string>>(null);
   value = model<Option<File>>(null);
+
+  acceptedFileExtensions = computed(() =>
+    this.acceptedFileTypes().map(this.getFileExtensionForType.bind(this)),
+  );
 
   dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
   private dragCount = 0;
@@ -73,5 +79,13 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
     const input = this.fileInput().nativeElement;
     input.files = event.dataTransfer?.files ?? null;
     input.dispatchEvent(new Event("change"));
+  }
+
+  private getFileExtensionForType(fileType: string): string {
+    if (fileType.startsWith(".")) {
+      return fileType;
+    }
+    const extension = getExtensionFromMimeType(fileType);
+    return extension ? `.${extension}` : fileType;
   }
 }
