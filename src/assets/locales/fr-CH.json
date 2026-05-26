@@ -455,7 +455,7 @@
           "note": "Note"
         },
         "designation": "Titre",
-        "description": "Notes",
+        "description": "Commentaire",
         "category": "Catégorie",
         "visibility": "Visibilité",
         "for-teacher-class-teacher-only": "Maître-sse de classe uniquement",
