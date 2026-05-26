@@ -42,7 +42,7 @@ describe("StudentDossierComponent", () => {
               "Bei einem epileptischen Anfall ist folgendes zu tun...",
           },
           category: null,
-          isOwner: false,
+          canEdit: false,
         },
       ]),
       disadvantageEntries$: new BehaviorSubject<
@@ -58,7 +58,7 @@ describe("StudentDossierComponent", () => {
             Description: "20% mehr Zeit bei Prüfungen",
           },
           category: null,
-          isOwner: false,
+          canEdit: false,
         },
       ]),
       filteredDossierEntries$: new BehaviorSubject<
@@ -74,7 +74,7 @@ describe("StudentDossierComponent", () => {
             CreationDate: new Date(2000, 0, 23),
           },
           category: null,
-          isOwner: false,
+          canEdit: false,
         },
         {
           id: 4,
@@ -85,7 +85,7 @@ describe("StudentDossierComponent", () => {
             CreationDate: new Date(2000, 0, 24),
           },
           category: null,
-          isOwner: false,
+          canEdit: false,
         },
       ]),
     };

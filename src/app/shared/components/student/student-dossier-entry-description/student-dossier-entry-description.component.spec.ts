@@ -27,7 +27,7 @@ describe("StudentDossierEntryDescriptionComponent", () => {
         Description: "Lorem ipsum",
       },
       category: "Korrespondenz",
-      isOwner: true,
+      canEdit: true,
     };
     fixture.componentRef.setInput("entry", entry);
     fixture.detectChanges();
