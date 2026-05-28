@@ -444,7 +444,8 @@
       "information": "Information",
       "download": "Anzeigen",
       "disadvantage": "Nachteilsausgleich",
-      "created": "Erstellt",
+      "created": "Erstellt:",
+      "visibility": "Sichtbar für {{ studentName }}",
       "edit": {
         "title-new": "Eintrag hinzufügen",
         "title-update": "{{designation}} bearbeiten",
@@ -454,7 +455,7 @@
           "note": "Notiz"
         },
         "designation": "Titel",
-        "description": "Notizen",
+        "description": "Kommentar",
         "category": "Kategorie",
         "visibility": "Sichtbarkeit",
         "for-teacher-class-teacher-only": "Nur Klassenlehrperson",

@@ -444,7 +444,8 @@
       "information": "Information",
       "download": "Afficher",
       "disadvantage": "Compensation des désavantages",
-      "created": "Créé",
+      "created": "Créé :",
+      "visibility": "Visible pour {{ studentName }}",
       "edit": {
         "title-new": "Ajouter une entrée",
         "title-update": "Modifier {{designation}}",
@@ -454,7 +455,7 @@
           "note": "Note"
         },
         "designation": "Titre",
-        "description": "Notes",
+        "description": "Commentaire",
         "category": "Catégorie",
         "visibility": "Visibilité",
         "for-teacher-class-teacher-only": "Maître-sse de classe uniquement",
