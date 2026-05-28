@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   linkedSignal,
   signal,
@@ -10,6 +11,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { FormField, disabled, form, required } from "@angular/forms/signals";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { switchMap } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
 import { AdditionalInformation } from "src/app/shared/models/additional-informations.model";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
@@ -32,6 +34,7 @@ type DossierEntryFormData = {
   designation: string;
   description: string;
   category: Option<DropDownItem["Key"]>;
+  objectId: Option<number>;
   forTeacher: "class-teacher-only" | "all";
   forStudent: boolean;
 };
@@ -86,6 +89,19 @@ export class StudentDossierEditComponent {
   categories = toSignal(this.editService.categories$, {
     initialValue: [],
   });
+  classTeacherObject = toSignal(
+    this.editService.studentId$.pipe(
+      switchMap((studentId) =>
+        this.editService.getClassTeacherObject(studentId),
+      ),
+    ),
+    {
+      initialValue: {
+        objectId: null,
+        objectOptions: undefined,
+      },
+    },
+  );
 
   heading = computed(() =>
     this.additionalInformationId()
@@ -114,6 +130,7 @@ export class StudentDossierEditComponent {
           : "all"
         : "class-teacher-only",
       forStudent: info?.ForStudent ?? true,
+      objectId: info?.ObjectId ?? null,
     };
   });
   entryForm = form(this.entryFormData, (schema) => {
@@ -136,9 +153,15 @@ export class StudentDossierEditComponent {
     required(schema.category);
     required(schema.forTeacher);
     disabled(schema.forTeacher, editing);
+    required(schema.objectId);
+    disabled(schema.objectId, editing);
   });
 
   submitted = signal(false);
+
+  constructor() {
+    effect(() => this.updateFormObjectId());
+  }
 
   async delete() {
     const info = this.additionalInformation();
@@ -184,10 +207,7 @@ export class StudentDossierEditComponent {
 
     this.saving.set(true);
     try {
-      const entry = await this.buildEntry(
-        this.studentId(),
-        this.entryFormData(),
-      );
+      const entry = this.buildEntry(this.entryFormData());
       const { type, file } = this.entryForm().value();
       const success = await this.saveEntry(type, entry, file);
       if (success) {
@@ -205,17 +225,25 @@ export class StudentDossierEditComponent {
     }
   }
 
-  private async buildEntry(
-    studentId: Option<number>,
+  private buildEntry(
     formData: DossierEntryFormData,
-  ): Promise<Partial<AdditionalInformation>> {
+  ): Partial<AdditionalInformation> {
     const info = this.additionalInformation();
-    const { designation, description, category, forTeacher, forStudent } =
-      formData;
+    const {
+      designation,
+      description,
+      category,
+      forTeacher,
+      forStudent,
+      objectId,
+    } = formData;
+
+    if (!objectId) {
+      throw new Error("Object ID is not defined");
+    }
 
     const entry: Partial<AdditionalInformation> = {
-      ObjectId:
-        info?.ObjectId ?? (await this.getObjectId(studentId, forTeacher)),
+      ObjectId: objectId,
       ObjectTypeId:
         forTeacher === "class-teacher-only"
           ? CLASS_TEACHER_OBJECT_TYPE_ID
@@ -234,29 +262,29 @@ export class StudentDossierEditComponent {
     return entry;
   }
 
-  /**
-   * If visible for all teachers of the class (incl. "Fachlehrpersonen"), the
-   * entry is attached to the person. If visible only to the class teacher, the
-   * entry is attached to the subscription (i.e. "Fach").
-   */
-  private async getObjectId(
-    studentId: Option<number>,
-    forTeacher: DossierEntryFormData["forTeacher"],
-  ): Promise<number> {
-    if (studentId == null) {
-      throw new Error("Student ID not present");
+  private updateFormObjectId(): void {
+    const infoId = this.additionalInformationId();
+    if (infoId) {
+      // When editing, the form is initialized with the objectId from the entry
+      return;
     }
 
-    if (forTeacher === "class-teacher-only") {
-      const subscriptionId =
-        await this.editService.getSubscriptionId(studentId);
-      if (!subscriptionId) {
-        throw new Error("Subscription ID not found");
-      }
-      return subscriptionId;
+    // Update the objectId value; we don't want to do this in the
+    // `entryFormData` signal, since this would trigger unwanted resets of the
+    // form state.
+    if (this.entryForm.forTeacher().value() === "class-teacher-only") {
+      // The entry must be visible for class teachers only, so it is attached
+      // to the determined subscription. If not found (typically if the user
+      // is the principal/"Schulleitung" and there are multiple classes that
+      // could be concerned), the user has to manually select a class to
+      // associate it with.
+      const { objectId } = this.classTeacherObject();
+      this.entryForm.objectId().value.set(objectId ?? null);
+    } else {
+      // Entry must be visible for all teachers of the class (incl.
+      // "Fachlehrpersonen"), so associate it with the student.
+      this.entryForm.objectId().value.set(this.studentId());
     }
-
-    return studentId;
   }
 
   private async saveEntry(

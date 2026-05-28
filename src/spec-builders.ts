@@ -688,7 +688,7 @@ export function buildCourse(
     StatusId: statusId || 2,
     // Status: t.string,
     // Lessons: null,
-    // EventManagers: null,
+    EventManagers: null,
     // MainEventManagers: null,
     // TimetableEntries: null,
     GradingScaleId: 1105,

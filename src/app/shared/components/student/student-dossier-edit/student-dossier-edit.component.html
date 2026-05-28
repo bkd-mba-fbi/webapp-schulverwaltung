@@ -30,7 +30,7 @@
         </div>
       }
 
-      @if (entryForm.type().value() === "document" && !info) {
+      @if (!info && entryForm.type().value() === "document") {
         <div class="mb-3">
           <bkd-file-input
             [acceptedFileTypes]="acceptedFileTypes"
@@ -130,6 +130,29 @@
           [submitted]="submitted()"
         ></bkd-form-errors>
       </div>
+
+      @let objectOptions = classTeacherObject().objectOptions ?? [];
+      @if (
+        entryForm.forTeacher().value() === "class-teacher-only" &&
+        objectOptions.length > 0
+      ) {
+        <div class="mb-3">
+          <label for="object-id" class="form-label">
+            {{ "student.dossier.edit.object-id" | translate }}
+          </label>
+          <bkd-select
+            id="object-id"
+            [allowEmpty]="false"
+            [isInvalid]="submitted() && entryForm.objectId().invalid()"
+            [options]="objectOptions"
+            [formField]="entryForm.objectId"
+          ></bkd-select>
+          <bkd-form-errors
+            [field]="entryForm.objectId()"
+            [submitted]="submitted()"
+          ></bkd-form-errors>
+        </div>
+      }
 
       <div class="mb-3">
         <div>

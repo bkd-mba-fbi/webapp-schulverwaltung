@@ -5,10 +5,12 @@ import { BehaviorSubject, firstValueFrom, of, throwError } from "rxjs";
 import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AdditionalInformation } from "../models/additional-informations.model";
+import { StudentWithClassRegistration } from "../models/student.model";
 import { AdditionalInformationsRestService } from "./additional-informations-rest.service";
 import { CoursesRestService } from "./courses-rest.service";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
 import { LoadingService } from "./loading-service";
+import { StorageService } from "./storage.service";
 import { StudentDossierEditService } from "./student-dossier-edit.service";
 import { StudentStateService } from "./student-state.service";
 import { SubscriptionsRestService } from "./subscriptions-rest.service";
@@ -24,6 +26,7 @@ describe("StudentDossierEditService", () => {
   let routeParams: BehaviorSubject<ParamMap>;
   let parentRouteParams: BehaviorSubject<ParamMap>;
   let additionalInformation: AdditionalInformation;
+  let student$: BehaviorSubject<Option<StudentWithClassRegistration>>;
 
   beforeEach(() => {
     routeParams = new BehaviorSubject(convertToParamMap({ id: "1" }));
@@ -40,12 +43,36 @@ describe("StudentDossierEditService", () => {
       },
     );
 
+    student$ = new BehaviorSubject<Option<StudentWithClassRegistration>>({
+      ...buildStudent(42),
+      ClassRegistrations: [
+        {
+          Id: 1,
+          IsActive: false,
+          NumberStudyClass: "26a",
+          DesignationStudyClass: "26a",
+        },
+        {
+          Id: 2,
+          IsActive: true,
+          NumberStudyClass: "26c",
+          DesignationStudyClass: "26c",
+        },
+        {
+          Id: 3,
+          IsActive: true,
+          NumberStudyClass: "26d",
+          DesignationStudyClass: "26d",
+        },
+      ],
+    });
+
     studentStateService = jasmine.createSpyObj<StudentStateService>(
       "StudentStateService",
       [],
       {
         studentId$: of(42),
-        student$: of({ ...buildStudent(42), ClassRegistrations: [] }),
+        student$,
       },
     );
 
@@ -116,8 +143,21 @@ describe("StudentDossierEditService", () => {
       ["getCourseIdsForDossier"],
     );
     coursesService.getCourseIdsForDossier.and.callFake((eventIds) =>
-      of(eventIds.filter((id) => id !== 11)),
+      of(
+        eventIds.map((id) => ({
+          Id: id,
+          EventManagers: null,
+        })),
+      ),
     );
+
+    const storageService = {
+      getPayload() {
+        return {
+          id_person: 123,
+        };
+      },
+    };
 
     TestBed.configureTestingModule(
       buildTestModuleMetadata({
@@ -132,6 +172,7 @@ describe("StudentDossierEditService", () => {
           { provide: DropDownItemsRestService, useValue: dropDownItemsService },
           { provide: SubscriptionsRestService, useValue: subscriptionsService },
           { provide: CoursesRestService, useValue: coursesService },
+          { provide: StorageService, useValue: storageService },
         ],
       }),
     );
@@ -212,10 +253,78 @@ describe("StudentDossierEditService", () => {
     });
   });
 
-  describe("getSubscriptionId", () => {
-    it("returns the ID of the first subscription of the student", async () => {
-      const id = await service.getSubscriptionId(42);
-      expect(id).toBe(20);
+  describe("getClassTeacherObject", () => {
+    it("returns the ID of the subscription of the student that is managed by the current user", async () => {
+      coursesService.getCourseIdsForDossier.and.callFake((eventIds) =>
+        of(
+          eventIds.map((id) => ({
+            Id: id,
+            EventManagers:
+              id === 21
+                ? [{ Id: 1, PersonId: 123, Firstname: "Jane", Lastname: "Doe" }]
+                : null,
+          })),
+        ),
+      );
+
+      const id = await service.getClassTeacherObject(42);
+      expect(id).toEqual({ objectId: 20 });
+    });
+
+    it("returns the ID of a single class registration if no subscription is available", async () => {
+      coursesService.getCourseIdsForDossier.and.callFake((eventIds) =>
+        of(
+          eventIds.map((id) => ({
+            Id: id,
+            EventManagers:
+              id === 21
+                ? [{ Id: 1, PersonId: 321, Firstname: "Jane", Lastname: "Doe" }]
+                : null,
+          })),
+        ),
+      );
+      student$.next({
+        ...buildStudent(42),
+        ClassRegistrations: [
+          {
+            Id: 1,
+            IsActive: false,
+            NumberStudyClass: "26a",
+            DesignationStudyClass: "26a",
+          },
+          {
+            Id: 2,
+            IsActive: true,
+            NumberStudyClass: "26c",
+            DesignationStudyClass: "26c",
+          },
+        ],
+      });
+
+      const id = await service.getClassTeacherObject(42);
+      expect(id).toEqual({ objectId: 2 });
+    });
+
+    it("returns an option for every class registration if no subscription is available", async () => {
+      coursesService.getCourseIdsForDossier.and.callFake((eventIds) =>
+        of(
+          eventIds.map((id) => ({
+            Id: id,
+            EventManagers:
+              id === 21
+                ? [{ Id: 1, PersonId: 321, Firstname: "Jane", Lastname: "Doe" }]
+                : null,
+          })),
+        ),
+      );
+
+      const id = await service.getClassTeacherObject(42);
+      expect(id).toEqual({
+        objectOptions: [
+          { Key: 2, Value: "26c" },
+          { Key: 3, Value: "26d" },
+        ],
+      });
     });
   });
 

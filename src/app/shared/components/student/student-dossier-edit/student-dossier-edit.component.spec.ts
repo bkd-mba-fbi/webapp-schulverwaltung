@@ -13,24 +13,30 @@ import { StudentDossierEditComponent } from "./student-dossier-edit.component";
 describe("StudentDossierEditComponent", () => {
   let component: StudentDossierEditComponent;
   let fixture: ComponentFixture<StudentDossierEditComponent>;
+  let element: HTMLElement;
   let editService: jasmine.SpyObj<StudentDossierEditService>;
   let toastService: jasmine.SpyObj<ToastService>;
   let modalService: jasmine.SpyObj<BkdModalService>;
   let router: jasmine.SpyObj<Router>;
+  let studentId$: BehaviorSubject<number>;
   let additionalInformationId$: BehaviorSubject<Option<number>>;
   let additionalInformation$: BehaviorSubject<Option<AdditionalInformation>>;
+  let classTeacherObject: ReturnType<
+    StudentDossierEditService["getClassTeacherObject"]
+  >;
 
   beforeEach(async () => {
+    studentId$ = new BehaviorSubject(42);
     additionalInformationId$ = new BehaviorSubject<Option<number>>(null);
     additionalInformation$ = new BehaviorSubject<Option<AdditionalInformation>>(
       null,
     );
     editService = jasmine.createSpyObj(
       "StudentDossierEditService",
-      ["getSubscriptionId", "save", "delete"],
+      ["getClassTeacherObject", "save", "delete"],
       {
         loading$: of(false),
-        studentId$: of(42),
+        studentId$: studentId$,
         studentName$: of("Mustermann Max"),
         additionalInformationId$,
         additionalInformation$,
@@ -50,7 +56,8 @@ describe("StudentDossierEditComponent", () => {
         ]),
       },
     );
-    editService.getSubscriptionId.and.returnValue(Promise.resolve(10));
+    classTeacherObject = Promise.resolve({ objectId: 10 });
+    editService.getClassTeacherObject.and.callFake(() => classTeacherObject);
     editService.save.and.returnValue(Promise.resolve());
     editService.delete.and.returnValue(Promise.resolve());
 
@@ -80,6 +87,7 @@ describe("StudentDossierEditComponent", () => {
 
     fixture = TestBed.createComponent(StudentDossierEditComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement.nativeElement;
   });
 
   describe("create new entry", () => {
@@ -105,6 +113,45 @@ describe("StudentDossierEditComponent", () => {
         expect(form.category().value()).toBeNull();
         expect(form.forTeacher().value()).toBe("class-teacher-only");
         expect(form.forStudent().value()).toBe(true);
+        expect(form.objectId().value()).toBe(10);
+      });
+
+      describe("objectId", () => {
+        it("does not render class select if objectId could be determined", async () => {
+          classTeacherObject = Promise.resolve({ objectId: 10 });
+          studentId$.next(42);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          fixture.detectChanges();
+
+          const objectSelect = element.querySelector("#object-id");
+          expect(objectSelect).toBeNull();
+          expect(component.entryForm.objectId().value()).toBe(10);
+        });
+
+        it("renders class select if object options are available", async () => {
+          classTeacherObject = Promise.resolve({
+            objectOptions: [
+              { Key: 10, Value: "26c" },
+              { Key: 11, Value: "26d" },
+            ],
+          });
+          studentId$.next(42);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          fixture.detectChanges();
+
+          const objectSelect = element.querySelector("#object-id");
+          expect(objectSelect).not.toBeNull();
+          const options = Array.from(
+            objectSelect?.querySelectorAll("option") || [],
+          );
+          expect(options.map((option) => option.textContent?.trim())).toEqual([
+            "26c",
+            "26d",
+          ]);
+          expect(component.entryForm.objectId().value()).toBeNull();
+        });
       });
     });
 
@@ -252,6 +299,7 @@ describe("StudentDossierEditComponent", () => {
         expect(form.category().value()).toBe(2000273);
         expect(form.forTeacher().value()).toBe("class-teacher-only");
         expect(form.forStudent().value()).toBe(false);
+        expect(form.objectId().value()).toBe(42);
       });
 
       it("prefills form with existing document entry data", () => {
