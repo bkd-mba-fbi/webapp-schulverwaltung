@@ -276,8 +276,8 @@ window.schulverwaltung.settings = {
   // Content types of the files the user is allowed to upload
   dossierAllowedFileTypes: [
     "application/pdf", // .pdf
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-    "image/png", // .png
+    "message/rfc822", // .eml
+    ".msg", // application/vnd.ms-outlook (proprietary format not known by some OSes)
   ],
 
   // Maximum file size for files of dossier document entries in bytes
