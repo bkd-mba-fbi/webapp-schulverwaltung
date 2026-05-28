@@ -11,6 +11,7 @@ import { SETTINGS, Settings } from "src/app/settings";
 import {
   AverageTestResultResponse,
   Course,
+  CourseIdWithEventManagers,
   CourseWithEvaluation,
   Grading,
   UpdatedTestResultResponse,
@@ -88,15 +89,12 @@ export class CoursesRestService extends RestService<typeof Course> {
    */
   getCourseIdsForDossier(
     eventIds: ReadonlyArray<number>,
-  ): Observable<ReadonlyArray<number>> {
+  ): Observable<ReadonlyArray<CourseIdWithEventManagers>> {
     return this.http
       .get<unknown>(
-        `${this.baseUrl}/?filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${eventIds.join(";")}&fields=Id`,
+        `${this.baseUrl}/?filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${eventIds.join(";")}&expand=EventManagers&fields=Id,EventManagers`,
       )
-      .pipe(
-        switchMap(decodeArray(t.type(pick(Course.props, ["Id"])))),
-        map((courses) => courses.map((course) => course.Id)),
-      );
+      .pipe(switchMap(decodeArray(CourseIdWithEventManagers)));
   }
 
   /**

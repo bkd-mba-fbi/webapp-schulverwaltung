@@ -27,6 +27,7 @@ describe("StudentAvatarComponent", () => {
           Id: 1,
           IsActive: true,
           NumberStudyClass: "26b",
+          DesignationStudyClass: "26b",
         },
       ],
     };

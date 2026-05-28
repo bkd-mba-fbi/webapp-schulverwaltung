@@ -72,6 +72,13 @@ const Grading = t.type({
   // StudentNameTooltip: t.string,
 });
 
+const EventManager = t.type({
+  Id: t.number,
+  PersonId: t.number,
+  Firstname: t.string,
+  Lastname: t.string,
+});
+
 const Course = t.type({
   HRef: t.string,
   Id: t.number,
@@ -103,7 +110,7 @@ const Course = t.type({
   StatusId: t.number,
   // Status: t.string,
   // Lessons: null,
-  // EventManagers: null,
+  EventManagers: Option(t.array(EventManager)),
   // MainEventManagers: null,
   // TimetableEntries: null,
   GradingScaleId: Option(t.number),
@@ -117,16 +124,21 @@ const Course = t.type({
   Classes: Option(t.array(StudyClass)),
 });
 
-const CourseWithEvaluation = t.type(
-  pick(Course.props, [
-    "Id",
-    "Designation",
-    "GradingScaleId",
-    "Classes",
-    "AttendanceRef",
-    "EvaluationStatusRef",
-  ]),
-);
+const courseWithEvaluationProps = pick(Course.props, [
+  "Id",
+  "Designation",
+  "GradingScaleId",
+  "Classes",
+  "AttendanceRef",
+  "EvaluationStatusRef",
+]);
+const CourseWithEvaluation = t.type(courseWithEvaluationProps);
+
+const courseIdWithEventManagersProps = pick(Course.props, [
+  "Id",
+  "EventManagers",
+]);
+const CourseIdWithEventManagers = t.type(courseIdWithEventManagersProps);
 
 const UpdatedTestResultResponse = t.type({
   TestResults: t.array(Result),
@@ -139,6 +151,7 @@ const AverageTestResultResponse = t.type({
 
 type Course = t.TypeOf<typeof Course>;
 type CourseWithEvaluation = t.TypeOf<typeof CourseWithEvaluation>;
+type CourseIdWithEventManagers = t.TypeOf<typeof CourseIdWithEventManagers>;
 type Grading = t.TypeOf<typeof Grading>;
 type FinalGrading = t.TypeOf<typeof FinalGrading>;
 type AttendanceRef = t.TypeOf<typeof AttendanceRef>;
@@ -148,6 +161,7 @@ type AverageTestResultResponse = t.TypeOf<typeof AverageTestResultResponse>;
 export {
   Course,
   CourseWithEvaluation,
+  CourseIdWithEventManagers,
   Grading,
   FinalGrading,
   AttendanceRef,

@@ -461,6 +461,7 @@
         "for-teacher-class-teacher-only": "Maître-sse de classe uniquement",
         "for-teacher-all": "Tous les enseignants de la classe",
         "for-student": "Visible pour {{ studentName }}",
+        "object-id": "Classe",
         "optional": "optionnel",
         "cancel": "Annuler",
         "save": "Valider",

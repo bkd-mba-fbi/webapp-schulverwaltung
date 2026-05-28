@@ -7,7 +7,7 @@ const ClassRegistration = t.type({
   // Status: t.string,
   // IdStudyClass: t.number,
   NumberStudyClass: t.string,
-  // DesignationStudyClass: t.string,
+  DesignationStudyClass: t.string,
   Id: t.number,
   // PersonId: t.number,
 });
