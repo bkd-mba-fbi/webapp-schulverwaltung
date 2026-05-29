@@ -44,7 +44,7 @@ export class StudentStateService {
   );
 
   student$ = this.studentId$.pipe(
-    switchMap((id) => this.profileService.getStudent(id)),
+    switchMap((id) => this.profileService.getStudent(id).pipe(startWith(null))),
     shareReplay(1),
   );
   loadingStudent$ = this.profileService.loadingStudent$;
