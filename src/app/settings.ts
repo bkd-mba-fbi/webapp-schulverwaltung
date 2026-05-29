@@ -62,6 +62,7 @@ const Settings = t.type({
   eventlist: t.record(t.string, t.string),
   dashboard: Dashboard,
   preventStudentAbsenceAfterLessonStart: t.array(t.string),
+  dossierEntriesTypeIds: t.array(t.number),
   dossierCreateTypeId: t.number,
   dossierEntryEmailTypeId: t.number,
   dossierCategoriesTypeId: t.number,

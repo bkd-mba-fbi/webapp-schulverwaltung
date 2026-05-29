@@ -64,9 +64,7 @@ export class StudentDossierService implements OnDestroy {
     this.categories$,
   ]).pipe(
     map(([infos, categories]) =>
-      infos
-        .filter((info) => info.CodeId != null)
-        .map((info) => this.buildEntry(info, categories)),
+      infos.map((info) => this.buildEntry(info, categories)),
     ),
     startWith([]),
     shareReplay(1),
@@ -119,7 +117,17 @@ export class StudentDossierService implements OnDestroy {
     return this.loadingService.load(
       this.studentsService
         .getAdditionalInformations(studentId)
-        .pipe(map((entries) => [...entries].sort(this.sortByDateDesc))),
+        .pipe(
+          map((entries) =>
+            entries
+              .filter(
+                (info) =>
+                  this.settings.dossierEntriesTypeIds.includes(info.TypeId) &&
+                  info.CodeId != null,
+              )
+              .sort(this.sortByDateDesc),
+          ),
+        ),
       { context: STUDENT_DOSSIER_CONTEXT },
     );
   }
