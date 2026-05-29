@@ -107,6 +107,7 @@ export const settings: Settings = {
     substitutionsAdminLink: "link-to-substitutions-admin-module",
   },
   preventStudentAbsenceAfterLessonStart: ["BsTest"],
+  dossierEntriesTypeIds: [1052, 1054, 1055],
   dossierCreateTypeId: 1052,
   dossierEntryEmailTypeId: 1055,
   dossierCategoriesTypeId: 1011,

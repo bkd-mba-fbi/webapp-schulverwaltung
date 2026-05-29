@@ -117,6 +117,38 @@ describe("StudentDossierService", () => {
       );
     });
 
+    it("filters out entries with an unsupported TypeId", async () => {
+      // Supported
+      const informationType = { ...buildAdditionalInformation(), TypeId: 1052 };
+      const reportType = { ...buildAdditionalInformation(), TypeId: 1054 };
+      const emailType = { ...buildAdditionalInformation(), TypeId: 1055 };
+
+      // Unsupported
+      const openIssueType = { ...buildAdditionalInformation(), TypeId: 1053 };
+      const technicalInfoType = {
+        ...buildAdditionalInformation(),
+        TypeId: 1056,
+      };
+
+      await withEntries(
+        [
+          informationType,
+          reportType,
+          emailType,
+          openIssueType,
+          technicalInfoType,
+        ],
+        service.entries$,
+        (entries) => {
+          expect(entries.map((e) => e.id)).toEqual([
+            informationType.Id,
+            reportType.Id,
+            emailType.Id,
+          ]);
+        },
+      );
+    });
+
     it("sorts entries by CreationDate descending", async () => {
       const entry = {
         ...buildAdditionalInformation(),
