@@ -1,21 +1,22 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  EventEmitter,
-  Input,
   NO_ERRORS_SCHEMA,
-  OnDestroy,
-  OnInit,
-  Output,
   inject,
+  input,
+  linkedSignal,
+  output,
+  signal,
 } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
+  FormField,
+  disabled,
+  form,
+  max,
+  min,
+  required,
+} from "@angular/forms/signals";
 import { RouterLink } from "@angular/router";
 import {
   NgbDateAdapter,
@@ -23,18 +24,22 @@ import {
   NgbDateParserFormatter,
   NgbInputDatepicker,
 } from "@ng-bootstrap/ng-bootstrap";
-import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
-import { BehaviorSubject, Subject, of, takeUntil } from "rxjs";
+import { FormErrorsComponent } from "src/app/shared/components/form-errors/form-errors.component";
 import { SubmitButtonComponent } from "src/app/shared/components/submit-button/submit-button.component";
 import { Test } from "src/app/shared/models/test.model";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
-import {
-  getControlValueChanges,
-  getValidationErrors,
-} from "src/app/shared/utils/form";
-import { greaterThanValidator } from "src/app/shared/validators/greater-than.validator";
 import { TestStateService } from "../../../services/test-state.service";
+
+interface TestFormData {
+  designation: string;
+  date: Date;
+  weight: number;
+  isPointGrading: "true" | "false";
+  maxPoints: Option<number>;
+  maxPointsAdjusted: Option<number>;
+}
 
 @Component({
   selector: "bkd-tests-edit-form",
@@ -49,128 +54,70 @@ import { TestStateService } from "../../../services/test-state.service";
     AsyncPipe,
     TranslatePipe,
     SubmitButtonComponent,
+    FormErrorsComponent,
+    FormField,
   ],
   providers: [
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
 })
-export class TestsEditFormComponent implements OnInit, OnDestroy {
-  private fb = inject(UntypedFormBuilder);
-  private translate = inject(TranslateService);
+export class TestsEditFormComponent {
   private testStateService = inject(TestStateService);
 
-  @Input() test: Option<Test> = null;
-  @Input() saving = false;
-
-  @Output() save = new EventEmitter<UntypedFormGroup>();
+  test = input<Option<Test>>(null);
+  saving = input(false);
+  save = output<
+    Omit<TestFormData, "isPointGrading"> & { isPointGrading: boolean }
+  >();
 
   componentId = uniqueId("bkd-tests-edit-form");
 
-  formGroup: UntypedFormGroup = this.createFormGroup();
-  private submitted$ = new BehaviorSubject(false);
-  private destroy$ = new Subject<void>();
-
-  designationErrors$ = getValidationErrors(
-    of(this.formGroup),
-    this.submitted$,
-    "designation",
-  );
-
-  dateErrors$ = getValidationErrors(
-    of(this.formGroup),
-    this.submitted$,
-    "date",
-  );
-
-  maxPointsErrors$ = getValidationErrors(
-    of(this.formGroup),
-    this.submitted$,
-    "maxPoints",
-  );
-
-  maxPointsAdjustedErrors$ = getValidationErrors(
-    of(this.formGroup),
-    this.submitted$,
-    "maxPointsAdjusted",
-  );
-
-  weightErrors$ = getValidationErrors(
-    of(this.formGroup),
-    this.submitted$,
-    "weight",
-  );
-
   courseId$ = this.testStateService.courseId$;
 
-  ngOnInit(): void {
-    if (this.test) {
-      this.setInitialValues(this.test);
-    }
+  testFormData = linkedSignal<TestFormData>(() => {
+    const test = this.test();
+    const isPointGrading = Boolean(test?.IsPointGrading);
+    return {
+      designation: test?.Designation ?? "",
+      date: test?.Date ?? new Date(),
+      weight: test?.Weight ?? 1,
+      isPointGrading: isPointGrading ? "true" : "false",
+      maxPoints: isPointGrading ? (test?.MaxPoints ?? null) : null,
+      maxPointsAdjusted: isPointGrading
+        ? (test?.MaxPointsAdjusted ?? null)
+        : null,
+    };
+  });
+  testForm = form(this.testFormData, (schema) => {
+    const hasResults = () => (this.test()?.Results?.length ?? 0) > 0;
+    const isPointGrading = () => this.testFormData().isPointGrading === "true";
 
-    // Disable max points and max points adjusted fields when not point grading type
-    getControlValueChanges(of(this.formGroup), "isPointGrading")
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(this.togglePointFieldsDisability.bind(this));
-  }
+    required(schema.designation);
+    required(schema.date);
+    required(schema.weight);
+    min(schema.weight, 0.01);
+    disabled(schema.isPointGrading, hasResults);
+    required(schema.maxPoints, { when: isPointGrading });
+    min(schema.maxPoints, 0.01);
+    max(schema.maxPoints, 999);
+    disabled(schema.maxPoints, () => hasResults() || !isPointGrading());
+    min(schema.maxPointsAdjusted, 0.01);
+    max(schema.maxPointsAdjusted, 999);
+    disabled(schema.maxPointsAdjusted, () => hasResults() || !isPointGrading());
+    required(schema.gradingScaleId);
+  });
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
+  submitted = signal(false);
 
   onSubmit(): void {
-    this.submitted$.next(true);
-    if (this.formGroup.valid) {
-      this.save.emit(this.formGroup.value);
-    }
-  }
+    this.submitted.set(true);
 
-  private createFormGroup(): UntypedFormGroup {
-    return this.fb.group({
-      designation: ["", Validators.required],
-      date: [null, Validators.required],
-      weight: [
-        1,
-        Validators.compose([Validators.required, greaterThanValidator(0)]),
-      ],
-      isPointGrading: [false],
-      maxPoints: [{ value: null, disabled: true }, Validators.required],
-      maxPointsAdjusted: [{ value: null, disabled: true }, null],
-    });
-  }
-
-  private setInitialValues(test: Test) {
-    this.formGroup.patchValue({
-      designation: test.Designation,
-      date: test.Date,
-      weight: test.Weight,
-      isPointGrading: test.IsPointGrading,
-      maxPoints: test.MaxPoints,
-      maxPointsAdjusted: test.MaxPointsAdjusted,
-    });
-
-    // Disable type selection if test already contains results
-    if (test.Results && test.Results.length > 0) {
-      this.formGroup.get("isPointGrading")?.disable();
-      this.formGroup.get("maxPoints")?.disable();
-      this.formGroup.get("maxPointsAdjusted")?.disable();
-    }
-    this.togglePointFieldsDisability();
-  }
-
-  private togglePointFieldsDisability(): void {
-    const maxPoints = this.formGroup.get("maxPoints");
-    const maxPointsAdjusted = this.formGroup.get("maxPointsAdjusted");
-    const isPointGrading = this.formGroup.get("isPointGrading")?.value;
-
-    if (isPointGrading) {
-      maxPoints?.enable();
-      maxPointsAdjusted?.enable();
-    } else {
-      maxPoints?.reset({ value: this.test?.MaxPoints, disabled: true });
-      maxPointsAdjusted?.reset({
-        value: this.test?.MaxPointsAdjusted,
-        disabled: true,
+    if (this.testForm().valid()) {
+      const value = this.testForm().value();
+      this.save.emit({
+        ...value,
+        isPointGrading: value.isPointGrading === "true",
       });
     }
   }

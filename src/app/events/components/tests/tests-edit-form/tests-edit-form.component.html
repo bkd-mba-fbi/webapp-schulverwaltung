@@ -1,227 +1,191 @@
-@if (formGroup) {
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    <div class="row g-3 mb-3">
-      <div class="col-md-6">
-        <label class="form-label" for="designation">{{
-          "tests.form.designation" | translate
-        }}</label>
-        <input
-          id="designation"
-          name="designation"
-          type="text"
-          formControlName="designation"
-          class="form-control"
-          [class.is-invalid]="(designationErrors$ | async)?.length || 0 > 0"
-          [placeholder]="'tests.form.designation-placeholder' | translate"
-          required
-        />
-        @for (error of designationErrors$ | async; track error) {
-          <div class="invalid-feedback">
-            {{
-              "global.validation-errors." + error.error
-                | translate: error.params
-            }}
-          </div>
-        }
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label" for="date">{{
-          "tests.form.date" | translate
-        }}</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <button
-              class="btn btn-outline-secondary"
-              [id]="componentId"
-              type="button"
-              (click)="dp.toggle()"
-            >
-              <i class="material-icons">calendar_today</i>
-            </button>
-          </div>
-          <input
-            id="date"
-            name="date"
-            type="text"
-            class="form-control"
-            [class.is-invalid]="(dateErrors$ | async)?.length || 0 > 0"
-            ngbDatepicker
-            [placeholder]="'shared.date-select.default-placeholder' | translate"
-            #dp="ngbDatepicker"
-            (click)="dp.toggle()"
-            formControlName="date"
-            required
-          />
-          @for (error of dateErrors$ | async; track error) {
-            <div class="invalid-feedback">
-              {{
-                "global.validation-errors." + error.error
-                  | translate: error.params
-              }}
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-      <label class="form-label">{{ "tests.form.weight" | translate }}</label>
-      <div class="col-md-6">
-        <div class="row">
-          <label for="factor" class="form-label col-3 col-sm-2">{{
-            "tests.form.factor" | translate
-          }}</label>
-          <div class="col-9 col-sm-10">
-            <input
-              id="factor"
-              name="factor"
-              type="number"
-              formControlName="weight"
-              [class.is-invalid]="(weightErrors$ | async)?.length || 0 > 0"
-              class="form-control"
-              step="0.05"
-              min="0"
-              required
-            />
-            @for (error of weightErrors$ | async; track error) {
-              <div class="invalid-feedback">
-                {{
-                  "global.validation-errors." + error.error
-                    | translate: error.params
-                }}
-              </div>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-      <label class="form-label">{{
-        "tests.form.grading-type" | translate
+<form (ngSubmit)="onSubmit()" novalidate>
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <label class="form-label" for="designation">{{
+        "tests.form.designation" | translate
       }}</label>
-      <div class="form-check">
+      <input
+        id="designation"
+        type="text"
+        [formField]="testForm.designation"
+        class="form-control"
+        [class.is-invalid]="submitted() && testForm.designation().invalid()"
+        [placeholder]="'tests.form.designation-placeholder' | translate"
+      />
+      <bkd-form-errors
+        [field]="testForm.designation()"
+        [submitted]="submitted()"
+      ></bkd-form-errors>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label" for="date">{{
+        "tests.form.date" | translate
+      }}</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button
+            class="btn btn-outline-secondary"
+            [id]="componentId"
+            type="button"
+            (click)="dp.toggle()"
+          >
+            <i class="material-icons">calendar_today</i>
+          </button>
+        </div>
         <input
-          type="radio"
-          class="form-check-input"
-          formControlName="isPointGrading"
-          id="type-grades"
-          [value]="false"
+          id="date"
+          type="text"
+          class="form-control"
+          [class.is-invalid]="submitted() && testForm.date().invalid()"
+          ngbDatepicker
+          [placeholder]="'shared.date-select.default-placeholder' | translate"
+          #dp="ngbDatepicker"
+          (click)="dp.toggle()"
+          [formField]="testForm.date"
         />
-        <label for="type-grades" class="form-check-label">{{
-          "tests.form.grades" | translate
-        }}</label>
+        <bkd-form-errors
+          [field]="testForm.date()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
       </div>
-      <div class="form-check">
-        <input
-          type="radio"
-          class="form-check-input"
-          formControlName="isPointGrading"
-          id="type-points"
-          [value]="true"
-        />
-        <label for="type-points" class="form-check-label">{{
-          "tests.form.points" | translate
+    </div>
+  </div>
+  <div class="row mb-3">
+    <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
+    <label class="form-label">{{ "tests.form.weight" | translate }}</label>
+    <div class="col-md-6">
+      <div class="row">
+        <label for="weight" class="form-label col-3 col-sm-2">{{
+          "tests.form.factor" | translate
         }}</label>
+        <div class="col-9 col-sm-10">
+          <input
+            id="weight"
+            type="number"
+            [formField]="testForm.weight"
+            [class.is-invalid]="submitted() && testForm.weight().invalid()"
+            class="form-control"
+            step="0.05"
+          />
+          <bkd-form-errors
+            [field]="testForm.weight()"
+            [submitted]="submitted()"
+          ></bkd-form-errors>
+        </div>
       </div>
-      @if (formGroup.get("isPointGrading")?.value) {
-        <div class="row ms-4 mb-3 g-3">
-          <div class="col-sm-6 col-md-4">
-            <div class="row">
-              <label for="max-points" class="ms-2 col-4 col-form-label">{{
-                "tests.form.max-points" | translate
-              }}</label>
-              <div class="col-6">
-                <input
-                  type="number"
-                  name="maxPoints"
-                  id="max-points"
-                  formControlName="maxPoints"
-                  class="form-control"
-                  [class.is-invalid]="
-                    (maxPointsErrors$ | async)?.length || 0 > 0
-                  "
-                  step="0.01"
-                  min="0"
-                  max="999"
-                  required
-                />
-                @for (error of maxPointsErrors$ | async; track error) {
-                  <div class="invalid-feedback">
-                    {{
-                      "global.validation-errors." + error.error
-                        | translate: error.params
-                    }}
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4">
-            <div class="row">
-              <label
-                for="max-points-adjusted"
-                class="ms-2 col-4 col-form-label"
-                >{{ "tests.form.max-points-adjusted" | translate }}</label
-              >
-              <div class="col-6">
-                <input
-                  type="number"
-                  name="maxPointsAdjusted"
-                  id="max-points-adjusted"
-                  formControlName="maxPointsAdjusted"
-                  class="form-control"
-                  [class.is-invalid]="
-                    (maxPointsAdjustedErrors$ | async)?.length || 0 > 0
-                  "
-                  step="0.01"
-                  min="0"
-                  max="999"
-                />
-                @for (error of maxPointsAdjustedErrors$ | async; track error) {
-                  <div class="invalid-feedback">
-                    {{
-                      "global.validation-errors." + error.error
-                        | translate: error.params
-                    }}
-                  </div>
-                }
-              </div>
+    </div>
+  </div>
+  <div>
+    <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
+    <label class="form-label">{{
+      "tests.form.grading-type" | translate
+    }}</label>
+    <div class="form-check">
+      <input
+        type="radio"
+        class="form-check-input"
+        [formField]="testForm.isPointGrading"
+        id="type-grades"
+        value="false"
+      />
+      <label for="type-grades" class="form-check-label">{{
+        "tests.form.grades" | translate
+      }}</label>
+    </div>
+    <div class="form-check">
+      <input
+        type="radio"
+        class="form-check-input"
+        [formField]="testForm.isPointGrading"
+        id="type-points"
+        value="true"
+      />
+      <label for="type-points" class="form-check-label">{{
+        "tests.form.points" | translate
+      }}</label>
+    </div>
+    @if (testForm.isPointGrading().value() === "true") {
+      <div class="row ms-4 mb-3 g-3">
+        <div class="col-sm-6 col-md-4">
+          <div class="row">
+            <label for="max-points" class="ms-2 col-4 col-form-label">{{
+              "tests.form.max-points" | translate
+            }}</label>
+            <div class="col-6">
+              <input
+                type="number"
+                id="max-points"
+                [formField]="testForm.maxPoints"
+                class="form-control"
+                [class.is-invalid]="
+                  submitted() && testForm.maxPoints().invalid()
+                "
+                step="0.01"
+              />
+              <bkd-form-errors
+                [field]="testForm.maxPoints()"
+                [submitted]="submitted()"
+              ></bkd-form-errors>
             </div>
           </div>
         </div>
-        <div class="ms-4 ps-3 py-3">
-          <math>
-            <mi>
-              {{ "tests.form.math.grade" | translate }}
-            </mi>
-            <mo>=</mo>
-            <mfrac>
-              <mrow>
-                <mi>
-                  {{ "tests.form.math.points" | translate }}
-                </mi>
-                <mo>×</mo><mn>5</mn>
-              </mrow>
-              <mi>{{ "tests.form.math.max-points" | translate }}</mi>
-            </mfrac>
-            <mo>+</mo><mn>1</mn>
-          </math>
+        <div class="col-sm-6 col-md-4">
+          <div class="row">
+            <label
+              for="max-points-adjusted"
+              class="ms-2 col-4 col-form-label"
+              >{{ "tests.form.max-points-adjusted" | translate }}</label
+            >
+            <div class="col-6">
+              <input
+                type="number"
+                id="max-points-adjusted"
+                [formField]="testForm.maxPointsAdjusted"
+                class="form-control"
+                [class.is-invalid]="
+                  submitted() && testForm.maxPointsAdjusted().invalid()
+                "
+                step="0.01"
+              />
+              <bkd-form-errors
+                [field]="testForm.maxPointsAdjusted()"
+                [submitted]="submitted()"
+              ></bkd-form-errors>
+            </div>
+          </div>
         </div>
-      }
-    </div>
-    <div class="d-flex justify-content-end gap-2 mt-4">
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        [disabled]="saving"
-        [routerLink]="['/events', courseId$ | async, 'tests']"
-      >
-        {{ "tests.form.cancel" | translate }}
-      </button>
-      <bkd-submit-button [saving]="saving">
-        {{ "tests.form.save" | translate }}
-      </bkd-submit-button>
-    </div>
-  </form>
-}
+      </div>
+      <div class="ms-4 ps-3 py-3">
+        <math>
+          <mi>
+            {{ "tests.form.math.grade" | translate }}
+          </mi>
+          <mo>=</mo>
+          <mfrac>
+            <mrow>
+              <mi>
+                {{ "tests.form.math.points" | translate }}
+              </mi>
+              <mo>×</mo><mn>5</mn>
+            </mrow>
+            <mi>{{ "tests.form.math.max-points" | translate }}</mi>
+          </mfrac>
+          <mo>+</mo><mn>1</mn>
+        </math>
+      </div>
+    }
+  </div>
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      [disabled]="saving()"
+      [routerLink]="['/events', courseId$ | async, 'tests']"
+    >
+      {{ "tests.form.cancel" | translate }}
+    </button>
+    <bkd-submit-button [saving]="saving()">
+      {{ "tests.form.save" | translate }}
+    </bkd-submit-button>
+  </div>
+</form>

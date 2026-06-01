@@ -5,7 +5,6 @@ import { TestStateService } from "../../../services/test-state.service";
 import { TestsEditFormComponent } from "./tests-edit-form.component";
 
 describe("TestsEditFormComponent", () => {
-  let component: TestsEditFormComponent;
   let fixture: ComponentFixture<TestsEditFormComponent>;
   let element: HTMLElement;
 
@@ -20,27 +19,27 @@ describe("TestsEditFormComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsEditFormComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
+    fixture.componentRef.setInput("test", buildTest(123, 456, []));
     fixture.detectChanges();
-
-    component.test = buildTest(123, 456, []);
   });
 
   it("renders form", () => {
     const designationInput = getDesignationInput();
     expect(designationInput).not.toBeNull();
-    expect(designationInput?.value).toBe("");
+    expect(designationInput?.value).toBe(
+      "Test Designation for test with id 456",
+    );
     expectNoError(designationInput);
 
     const dateInput = getDateInput();
     expect(dateInput).not.toBeNull();
-    expect(dateInput?.value).toBe("");
+    expect(dateInput?.value).toBe("09.02.2022");
     expectNoError(dateInput);
 
     const weightInput = getWeightInput();
     expect(weightInput).not.toBeNull();
-    expect(weightInput?.value).toBe("1");
+    expect(weightInput?.value).toBe("2");
     expectNoError(weightInput);
 
     const pointGradingRadios = getPointGradingRadios();
@@ -52,11 +51,22 @@ describe("TestsEditFormComponent", () => {
   });
 
   it("validates required fields", () => {
+    const designationInput = getDesignationInput();
+    if (designationInput) {
+      designationInput.value = "";
+      designationInput.dispatchEvent(new Event("input"));
+    }
+    const dateInput = getDateInput();
+    if (dateInput) {
+      dateInput.value = "";
+      dateInput.dispatchEvent(new Event("input"));
+    }
+
     getSubmitButton()?.click();
     fixture.detectChanges();
 
-    expectError(getDesignationInput(), "global.validation-errors.required");
-    expectError(getDateInput(), "global.validation-errors.required");
+    expectError(designationInput, "global.validation-errors.required");
+    expectError(dateInput, "global.validation-errors.required");
     expectNoError(getWeightInput());
   });
 
@@ -70,31 +80,47 @@ describe("TestsEditFormComponent", () => {
     getSubmitButton()?.click();
     fixture.detectChanges();
 
-    expectError(weightInput, "global.validation-errors.greaterThan");
+    expectError(weightInput, "global.validation-errors.min");
+  });
+
+  it("displays max points and maxPointsAdjusted if is point grading type", () => {
+    expect(getMaxPointsInput()).toBeNull();
+    expect(getMaxPointsAdjustedInput()).toBeNull();
+
+    const [_, pointsRadio] = getPointGradingRadios();
+    pointsRadio?.click();
+    fixture.detectChanges();
+
+    expect(getMaxPointsInput()).not.toBeNull();
+    expect(getMaxPointsAdjustedInput()).not.toBeNull();
   });
 
   function getDesignationInput() {
-    return element.querySelector<HTMLInputElement>(
-      '[formcontrolname="designation"]',
-    );
+    return element.querySelector<HTMLInputElement>("input#designation");
   }
 
   function getDateInput() {
-    return element.querySelector<HTMLInputElement>('[formcontrolname="date"]');
+    return element.querySelector<HTMLInputElement>("input#date");
   }
 
   function getWeightInput() {
-    return element.querySelector<HTMLInputElement>(
-      '[formcontrolname="weight"]',
-    );
+    return element.querySelector<HTMLInputElement>("input#weight");
   }
 
   function getPointGradingRadios() {
     return Array.from(
       element.querySelectorAll<HTMLInputElement>(
-        '[formcontrolname="isPointGrading"]',
+        "input#type-grades, input#type-points",
       ),
     );
+  }
+
+  function getMaxPointsInput() {
+    return element.querySelector<HTMLInputElement>("input#max-points");
+  }
+
+  function getMaxPointsAdjustedInput() {
+    return element.querySelector<HTMLInputElement>("input#max-points-adjusted");
   }
 
   function getSubmitButton() {
