@@ -8,6 +8,7 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   FormField,
@@ -26,10 +27,15 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
+import { Observable, map, switchMap } from "rxjs";
 import { FormErrorsComponent } from "src/app/shared/components/form-errors/form-errors.component";
 import { SubmitButtonComponent } from "src/app/shared/components/submit-button/submit-button.component";
+import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
+import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
+import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
+import { numberToString } from "src/app/shared/utils/number";
 import { TestStateService } from "../../../services/test-state.service";
 
 interface TestFormData {
@@ -39,7 +45,16 @@ interface TestFormData {
   isPointGrading: "true" | "false";
   maxPoints: Option<number>;
   maxPointsAdjusted: Option<number>;
+  gradingScaleId: string;
 }
+
+export type TestFormValue = Omit<
+  TestFormData,
+  "isPointGrading" | "gradingScaleId"
+> & {
+  isPointGrading: boolean;
+  gradingScaleId: number;
+};
 
 @Component({
   selector: "bkd-tests-edit-form",
@@ -64,20 +79,34 @@ interface TestFormData {
 })
 export class TestsEditFormComponent {
   private testStateService = inject(TestStateService);
+  private configurationsService = inject(ConfigurationsRestService);
+  private gradingScalesService = inject(GradingScalesRestService);
 
   test = input<Option<Test>>(null);
   saving = input(false);
-  save = output<
-    Omit<TestFormData, "isPointGrading"> & { isPointGrading: boolean }
-  >();
+  save = output<TestFormValue>();
 
   componentId = uniqueId("bkd-tests-edit-form");
 
   courseId$ = this.testStateService.courseId$;
 
+  gradingScales = toSignal(this.loadGradingScales(), { initialValue: [] });
+
   testFormData = linkedSignal<TestFormData>(() => {
     const test = this.test();
     const isPointGrading = Boolean(test?.IsPointGrading);
+    const gradingScaleIds = this.gradingScales().map((s) => s.Id);
+    const gradingScaleId =
+      (test
+        ? // When editing, only use the test's GradingScaleId if it is part of
+          // the available scales, otherwise it leads to a validation error
+          // and the user has to select a valid one
+          gradingScaleIds.includes(test?.GradingScaleId ?? 0)
+          ? numberToString(test?.GradingScaleId)
+          : null
+        : // When creating, select first scale per default
+          numberToString(this.gradingScales()[0]?.Id)) ?? "";
+
     return {
       designation: test?.Designation ?? "",
       date: test?.Date ?? new Date(),
@@ -87,6 +116,7 @@ export class TestsEditFormComponent {
       maxPointsAdjusted: isPointGrading
         ? (test?.MaxPointsAdjusted ?? null)
         : null,
+      gradingScaleId,
     };
   });
   testForm = form(this.testFormData, (schema) => {
@@ -106,6 +136,7 @@ export class TestsEditFormComponent {
     max(schema.maxPointsAdjusted, 999);
     disabled(schema.maxPointsAdjusted, () => hasResults() || !isPointGrading());
     required(schema.gradingScaleId);
+    disabled(schema.gradingScaleId, hasResults);
   });
 
   submitted = signal(false);
@@ -118,7 +149,20 @@ export class TestsEditFormComponent {
       this.save.emit({
         ...value,
         isPointGrading: value.isPointGrading === "true",
+        gradingScaleId: Number(value.gradingScaleId),
       });
     }
+  }
+
+  private loadGradingScales(): Observable<ReadonlyArray<GradingScale>> {
+    return this.loadGradingScaleIds().pipe(
+      switchMap((ids) => this.gradingScalesService.getListForIds(ids)),
+    );
+  }
+
+  private loadGradingScaleIds(): Observable<ReadonlyArray<number>> {
+    return this.configurationsService
+      .getSubscriptionDetailsDisplay()
+      .pipe(map(({ testGradingScaleIds }) => testGradingScaleIds));
   }
 }

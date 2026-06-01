@@ -3,6 +3,7 @@ import { of } from "rxjs";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../../services/test-state.service";
+import { TestFormValue } from "../tests-edit-form/tests-edit-form.component";
 import { TestsAddComponent } from "./tests-add.component";
 
 describe("TestsAddComponent", () => {
@@ -35,25 +36,27 @@ describe("TestsAddComponent", () => {
   });
 
   it("should save new test", () => {
-    const formGroupValue = {
+    const value: TestFormValue = {
       designation: "a new test",
       date: new Date(),
       weight: 1,
       isPointGrading: false,
-      maxPoints: undefined,
-      maxPointsAdjusted: undefined,
+      maxPoints: null,
+      maxPointsAdjusted: null,
+      gradingScaleId: 100,
     };
 
-    component.save(formGroupValue);
+    component.save(value);
 
-    expect(courseService.add).toHaveBeenCalledWith(
-      1,
-      formGroupValue.date,
-      formGroupValue.designation,
-      formGroupValue.weight,
-      formGroupValue.isPointGrading,
-      formGroupValue.maxPoints,
-      formGroupValue.maxPointsAdjusted,
-    );
+    expect(courseService.add).toHaveBeenCalledWith({
+      courseId: 1,
+      date: value.date,
+      designation: value.designation,
+      weight: value.weight,
+      isPointGrading: value.isPointGrading,
+      maxPoints: value.maxPoints,
+      maxPointsAdjusted: value.maxPointsAdjusted,
+      gradingScaleId: 100,
+    });
   });
 });

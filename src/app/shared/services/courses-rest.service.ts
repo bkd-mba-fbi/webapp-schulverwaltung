@@ -164,57 +164,61 @@ export class CoursesRestService extends RestService<typeof Course> {
       .pipe(switchMap(decode(CourseWithEvaluation)));
   }
 
-  add(
-    courseId: number,
-    date: Date,
-    designation: string,
-    weight: number,
-    isPointGrading: boolean,
-    maxPoints: Maybe<number>,
-    maxPointsAdjusted: Maybe<number>,
-  ): Observable<void> {
+  add(course: {
+    courseId: number;
+    date: Date;
+    designation: string;
+    weight: number;
+    isPointGrading: boolean;
+    maxPoints: Maybe<number>;
+    maxPointsAdjusted: Maybe<number>;
+    gradingScaleId: number;
+  }): Observable<void> {
     const body = {
       Tests: [
         {
-          Date: format(startOfDay(date), "yyyy-MM-dd'T'HH:mm:ss"), // The backend cannot handle correct ISO date strings in UTC, so use a pseudo date string in local timezone
-          Designation: designation,
-          Weight: weight,
-          IsPointGrading: isPointGrading,
-          MaxPoints: maxPoints,
-          MaxPointsAdjusted: maxPointsAdjusted,
+          Date: format(startOfDay(course.date), "yyyy-MM-dd'T'HH:mm:ss"), // The backend cannot handle correct ISO date strings in UTC, so use a pseudo date string in local timezone
+          Designation: course.designation,
+          Weight: course.weight,
+          IsPointGrading: course.isPointGrading,
+          MaxPoints: course.maxPoints,
+          MaxPointsAdjusted: course.maxPointsAdjusted,
+          GradingScaleId: course.gradingScaleId,
         },
       ],
     };
     return this.http
-      .put<void>(`${this.baseUrl}/${courseId}/Tests/New`, body)
+      .put<void>(`${this.baseUrl}/${course.courseId}/Tests/New`, body)
       .pipe(map(() => undefined));
   }
 
-  update(
-    courseId: number,
-    id: number,
-    designation: string,
-    date: Date,
-    weight: number,
-    isPointGrading: boolean,
-    maxPoints: Maybe<number>,
-    maxPointsAdjusted: Maybe<number>,
-  ): Observable<void> {
+  update(course: {
+    courseId: number;
+    testId: number;
+    designation: string;
+    date: Date;
+    weight: number;
+    isPointGrading: boolean;
+    maxPoints: Maybe<number>;
+    maxPointsAdjusted: Maybe<number>;
+    gradingScaleId?: number;
+  }): Observable<void> {
     const body = {
       Tests: [
         {
-          Id: id,
-          Designation: designation,
-          Date: format(startOfDay(date), "yyyy-MM-dd'T'HH:mm:ss"), // The backend cannot handle correct ISO date strings in UTC, so use a pseudo date string in local timezone
-          Weight: weight,
-          IsPointGrading: isPointGrading,
-          MaxPoints: maxPoints,
-          MaxPointsAdjusted: maxPointsAdjusted,
+          Id: course.testId,
+          Designation: course.designation,
+          Date: format(startOfDay(course.date), "yyyy-MM-dd'T'HH:mm:ss"), // The backend cannot handle correct ISO date strings in UTC, so use a pseudo date string in local timezone
+          Weight: course.weight,
+          IsPointGrading: course.isPointGrading,
+          MaxPoints: course.maxPoints,
+          MaxPointsAdjusted: course.maxPointsAdjusted,
+          GradingScaleId: course.gradingScaleId,
         },
       ],
     };
     return this.http
-      .put<void>(`${this.baseUrl}/${courseId}/Tests/Update`, body)
+      .put<void>(`${this.baseUrl}/${course.courseId}/Tests/Update`, body)
       .pipe(map(() => undefined));
   }
 

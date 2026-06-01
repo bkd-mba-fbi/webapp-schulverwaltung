@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { buildTest } from "src/spec-builders";
+import { of } from "rxjs";
+import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
+import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
+import { buildGradingScale, buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../../services/test-state.service";
 import { TestsEditFormComponent } from "./tests-edit-form.component";
@@ -7,12 +10,47 @@ import { TestsEditFormComponent } from "./tests-edit-form.component";
 describe("TestsEditFormComponent", () => {
   let fixture: ComponentFixture<TestsEditFormComponent>;
   let element: HTMLElement;
+  let configurationsRestService: jasmine.SpyObj<ConfigurationsRestService>;
+  let gradingScalesRestService: jasmine.SpyObj<GradingScalesRestService>;
 
   beforeEach(async () => {
+    configurationsRestService = jasmine.createSpyObj<ConfigurationsRestService>(
+      "ConfigurationsRestService",
+      ["getSubscriptionDetailsDisplay"],
+    );
+    configurationsRestService.getSubscriptionDetailsDisplay.and.returnValue(
+      of({
+        adAsColumns: [],
+        adAsCriteria: [],
+        testGradingScaleIds: [100, 101],
+      }),
+    );
+
+    gradingScalesRestService = jasmine.createSpyObj<GradingScalesRestService>(
+      "GradingScalesRestService",
+      ["getListForIds"],
+    );
+    gradingScalesRestService.getListForIds.and.callFake((_ids: number[]) => {
+      return of([
+        { ...buildGradingScale(100), Designation: "Zehntelnoten" },
+        { ...buildGradingScale(101), Designation: "Viertelnoten" },
+      ]);
+    });
+
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
         imports: [TestsEditFormComponent],
-        providers: [TestStateService],
+        providers: [
+          TestStateService,
+          {
+            provide: ConfigurationsRestService,
+            useValue: configurationsRestService,
+          },
+          {
+            provide: GradingScalesRestService,
+            useValue: gradingScalesRestService,
+          },
+        ],
       }),
     ).compileComponents();
   });
@@ -20,7 +58,10 @@ describe("TestsEditFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsEditFormComponent);
     element = fixture.debugElement.nativeElement;
-    fixture.componentRef.setInput("test", buildTest(123, 456, []));
+    fixture.componentRef.setInput("test", {
+      ...buildTest(123, 456, []),
+      GradingScaleId: 100,
+    });
     fixture.detectChanges();
   });
 
@@ -44,6 +85,10 @@ describe("TestsEditFormComponent", () => {
 
     const pointGradingRadios = getPointGradingRadios();
     expect(pointGradingRadios).toHaveSize(2);
+
+    const gradingScaleRadios = getGradingScaleRadios();
+    expect(gradingScaleRadios).toHaveSize(2);
+    expect(gradingScaleRadios[0]?.checked).toBeTrue();
 
     const button = getSubmitButton();
     expect(button).not.toBeNull();
@@ -121,6 +166,12 @@ describe("TestsEditFormComponent", () => {
 
   function getMaxPointsAdjustedInput() {
     return element.querySelector<HTMLInputElement>("input#max-points-adjusted");
+  }
+
+  function getGradingScaleRadios() {
+    return Array.from(
+      element.querySelectorAll<HTMLInputElement>("input[type=radio]"),
+    ).filter((r) => r.id.startsWith("grading-scale-id-"));
   }
 
   function getSubmitButton() {

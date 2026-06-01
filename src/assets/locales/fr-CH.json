@@ -330,6 +330,7 @@
       "max-points": "maximal",
       "max-points-adjusted": "corrigé",
       "grades": "Notes",
+      "grading-scale": "Échelle de notes",
       "save": "Valider",
       "cancel": "Annuler",
       "save-success": "Le test a été enregistré",

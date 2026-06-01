@@ -5,6 +5,7 @@ import { CoursesRestService } from "src/app/shared/services/courses-rest.service
 import { buildCourse, buildTest } from "src/spec-builders";
 import { ActivatedRouteMock, buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../../services/test-state.service";
+import { TestFormValue } from "../tests-edit-form/tests-edit-form.component";
 import { TestsEditComponent } from "./tests-edit.component";
 
 describe("TestsEditComponent", () => {
@@ -60,26 +61,28 @@ describe("TestsEditComponent", () => {
   });
 
   it("should update existing test", () => {
-    const formGroupValue = {
+    const value: TestFormValue = {
       designation: "an updated test",
       date: new Date(),
       weight: 2,
       isPointGrading: true,
       maxPoints: 25,
       maxPointsAdjusted: 20,
+      gradingScaleId: 100,
     };
 
-    component.save(formGroupValue);
+    component.save(value);
 
-    expect(courseRestServiceMock.update).toHaveBeenCalledWith(
-      1234,
-      1,
-      formGroupValue.designation,
-      formGroupValue.date,
-      formGroupValue.weight,
-      formGroupValue.isPointGrading,
-      formGroupValue.maxPoints,
-      formGroupValue.maxPointsAdjusted,
-    );
+    expect(courseRestServiceMock.update).toHaveBeenCalledWith({
+      courseId: 1234,
+      testId: 1,
+      designation: value.designation,
+      date: value.date,
+      weight: value.weight,
+      isPointGrading: value.isPointGrading,
+      maxPoints: value.maxPoints,
+      maxPointsAdjusted: value.maxPointsAdjusted,
+      gradingScaleId: 100,
+    });
   });
 });
