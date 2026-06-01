@@ -28,7 +28,7 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
 import { SubmitButtonComponent } from "../../submit-button/submit-button.component";
 import { StudentDossierDeleteDialogComponent } from "../student-dossier-delete-dialog/student-dossier-delete-dialog.component";
 
-type DossierEntryFormData = {
+interface DossierEntryFormData {
   type: "document" | "note";
   file: Option<File>;
   designation: string;
@@ -37,7 +37,7 @@ type DossierEntryFormData = {
   objectId: Option<number>;
   forTeacher: "class-teacher-only" | "all";
   forStudent: boolean;
-};
+}
 
 const CLASS_TEACHER_OBJECT_TYPE_ID = 2;
 const ALL_TEACHERS_OBJECT_TYPE_ID = 3;

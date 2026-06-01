@@ -18,7 +18,10 @@ import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.
 import { ToastService } from "../../../../shared/services/toast.service";
 import { TestStateService } from "../../../services/test-state.service";
 import { TestsDeleteComponent } from "../tests-delete/tests-delete.component";
-import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
+import {
+  TestFormValue,
+  TestsEditFormComponent,
+} from "../tests-edit-form/tests-edit-form.component";
 
 @Component({
   selector: "bkd-tests-edit",
@@ -61,32 +64,22 @@ export class TestsEditComponent {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  save(formGroupValue: Dict<any>): void {
+  save(value: TestFormValue): void {
     this.saving$.next(true);
-    const {
-      designation,
-      date,
-      weight,
-      isPointGrading,
-      maxPoints,
-      maxPointsAdjusted,
-    } = formGroupValue;
-    combineLatest([this.state.courseId$, this.testId$])
+    combineLatest([this.state.courseId$, this.test$])
       .pipe(
         take(1),
-        switchMap(([courseId, testId]) =>
-          this.courseService.update(
+        switchMap(([courseId, test]) => {
+          if (!test) throw new Error("No test");
+          const { gradingScaleId, ...rest } = value;
+          return this.courseService.update({
             courseId,
-            testId,
-            designation,
-            date,
-            weight,
-            isPointGrading,
-            maxPoints,
-            maxPointsAdjusted,
-          ),
-        ),
+            testId: test.Id,
+            ...rest,
+            gradingScaleId:
+              (test.Results?.length ?? 0) === 0 ? gradingScaleId : undefined,
+          });
+        }),
         finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));

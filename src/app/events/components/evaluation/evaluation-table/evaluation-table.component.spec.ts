@@ -34,6 +34,7 @@ describe("EvaluationTableComponent", () => {
 
   const gradingScale: GradingScale = {
     Id: 1,
+    Designation: "Test Grading Scale",
     Grades: [
       {
         Id: 3001,

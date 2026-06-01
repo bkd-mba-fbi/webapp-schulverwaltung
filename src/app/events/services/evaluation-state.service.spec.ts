@@ -169,6 +169,7 @@ describe("EvaluationStateService", () => {
         detail5.VssId,
         detail6.VssId,
       ],
+      testGradingScaleIds: [],
     };
 
     TestBed.configureTestingModule(

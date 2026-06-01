@@ -11,6 +11,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
   let fixture: ComponentFixture<EvaluationDefaultGradeDialogComponent>;
   const mockGradingScale: GradingScale = {
     Id: 1,
+    Designation: "Test Grading Scale",
     Grades: [
       {
         Id: 1,

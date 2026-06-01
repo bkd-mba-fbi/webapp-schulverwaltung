@@ -802,7 +802,7 @@ export function buildGradingScale(
 ): GradingScale {
   return {
     Id: id,
-    // Designation: "Zehntelnoten bes. disp. keine Note",
+    Designation: "Zehntelnoten bes. disp. keine Note",
     // MinGrade: 0.0,
     // MaxGrade: 0.0,
     CommentsAllowed: false,

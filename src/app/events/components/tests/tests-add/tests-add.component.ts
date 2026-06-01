@@ -6,7 +6,10 @@ import { BehaviorSubject, finalize, switchMap, take } from "rxjs";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { TestStateService } from "../../../services/test-state.service";
-import { TestsEditFormComponent } from "../tests-edit-form/tests-edit-form.component";
+import {
+  TestFormValue,
+  TestsEditFormComponent,
+} from "../tests-edit-form/tests-edit-form.component";
 
 @Component({
   selector: "bkd-tests-add",
@@ -23,31 +26,12 @@ export class TestsAddComponent {
 
   saving$ = new BehaviorSubject(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  save(formGroupValue: any): void {
+  save(value: TestFormValue): void {
     this.saving$.next(true);
-    const {
-      designation,
-      date,
-      weight,
-      isPointGrading,
-      maxPoints,
-      maxPointsAdjusted,
-    } = formGroupValue;
     this.state.courseId$
       .pipe(
         take(1),
-        switchMap((courseId) =>
-          this.courseService.add(
-            courseId,
-            date,
-            designation,
-            weight,
-            isPointGrading,
-            maxPoints,
-            maxPointsAdjusted,
-          ),
-        ),
+        switchMap((courseId) => this.courseService.add({ courseId, ...value })),
         finalize(() => this.saving$.next(false)),
       )
       .subscribe(this.onSaveSuccess.bind(this));

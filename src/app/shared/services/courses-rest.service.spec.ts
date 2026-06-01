@@ -192,15 +192,16 @@ describe("CoursesRestService", () => {
       const courseId = 1234;
 
       service
-        .add(
+        .add({
           courseId,
-          new Date("2022-02-09T00:00:00"),
-          "designation",
-          33,
-          false,
-          44,
-          55,
-        )
+          date: new Date("2022-02-09T00:00:00"),
+          designation: "designation",
+          weight: 33,
+          isPointGrading: false,
+          maxPoints: 44,
+          maxPointsAdjusted: 55,
+          gradingScaleId: 100,
+        })
         .subscribe();
 
       httpTestingController.match(
@@ -216,6 +217,7 @@ describe("CoursesRestService", () => {
                 IsPointGrading: false,
                 MaxPoints: 44,
                 MaxPointsAdjusted: 55,
+                GradingScaleId: 100,
               },
             ],
           }),
@@ -229,16 +231,17 @@ describe("CoursesRestService", () => {
       const testId = 4321;
 
       service
-        .update(
+        .update({
           courseId,
           testId,
-          "updated designation",
-          new Date("2022-02-09T00:00:00"),
-          33,
-          false,
-          null,
-          null,
-        )
+          designation: "updated designation",
+          date: new Date("2022-02-09T00:00:00"),
+          weight: 33,
+          isPointGrading: false,
+          maxPoints: null,
+          maxPointsAdjusted: null,
+          gradingScaleId: 100,
+        })
         .subscribe();
 
       httpTestingController.match(
@@ -256,6 +259,7 @@ describe("CoursesRestService", () => {
                 IsPointGrading: false,
                 MaxPoints: null,
                 MaxPointsAdjusted: null,
+                GradingScaleId: 100,
               },
             ],
           }),

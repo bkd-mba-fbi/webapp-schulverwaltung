@@ -14,7 +14,7 @@ const Grade = t.type({
 
 const GradingScale = t.type({
   Id: t.number,
-  // Designation: t.string,
+  Designation: t.string,
   // MinGrade: Option(t.number),
   // MaxGrade: Option(t.number),
   CommentsAllowed: t.boolean,

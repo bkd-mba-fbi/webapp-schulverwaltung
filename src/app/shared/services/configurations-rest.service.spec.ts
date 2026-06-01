@@ -21,6 +21,7 @@ describe("ConfigurationsRestService", () => {
       const display: SubscriptionDetailsDisplay = {
         adAsColumns: [1, 2, 3],
         adAsCriteria: [4, 5, 6],
+        testGradingScaleIds: [],
       };
 
       service
