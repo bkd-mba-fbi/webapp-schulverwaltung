@@ -1,0 +1,50 @@
+@import "src/bootstrap-variables";
+
+$contact-grid-padding: $spacer;
+$contact-grid-gap: $spacer;
+$contact-grid-col-size: 15.625rem; // 250px @ 16px root
+
+@function contact-grid-width($n) {
+  @return ($n * $contact-grid-col-size) + (($n - 1) * $contact-grid-gap) +
+    (2 * $contact-grid-padding);
+}
+
+:host:has(> .contact-grid),
+*:has(> .contact-grid) {
+  display: block;
+  container-type: inline-size;
+}
+
+.contact-grid {
+  padding-left: $spacer;
+  padding-bottom: $spacer;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: $spacer;
+  max-width: 1500px;
+}
+
+.contact-grid address {
+  // Reset the default <address> bottom margin
+  margin-bottom: 0;
+}
+
+.contact-grid a {
+  // Make sure long email addresses don't overflow
+  word-break: break-word;
+}
+
+@container (width > #{contact-grid-width(2)}) {
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: $spacer;
+    row-gap: 2 * $spacer;
+  }
+}
+
+@container (width > #{contact-grid-width(4)}) {
+  .contact-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
