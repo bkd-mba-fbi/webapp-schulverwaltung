@@ -3,7 +3,7 @@
   <bkd-spinner class="small"></bkd-spinner>
 } @else {
   <bkd-student-contact-address
-    class="profile-entry"
+    class="profile-entry mb-3"
     [student]="student()"
   ></bkd-student-contact-address>
 }
@@ -13,7 +13,7 @@
   } @else {
     @let representatives = legalRepresentatives() ?? [];
     @if (representatives.length > 0) {
-      <div>
+      <div class="mb-3">
         <h2>{{ "shared.profile.legal-representation" | translate }}</h2>
         <div class="legal-representatives">
           @for (representative of representatives; track representative.Id) {
@@ -27,7 +27,7 @@
     }
   }
 
-  @if (loadingApprenticeships()) {
+  @if (loadingApprenticeships() || loadingStudent()) {
     <bkd-spinner class="small"></bkd-spinner>
   } @else {
     @for (
@@ -35,7 +35,7 @@
       track apprenticeship.apprenticeshipContract.Id;
       let i = $index
     ) {
-      <div>
+      <div class="mb-3">
         <h2>
           {{ "shared.profile.apprenticeship-company" | translate }}
           @if ((apprenticeships() ?? []).length > 1) {
@@ -46,6 +46,7 @@
           <bkd-student-contact-apprenticeship
             class="profile-entry"
             [apprenticeship]="apprenticeship"
+            [student]="student()"
           ></bkd-student-contact-apprenticeship>
         </div>
       </div>

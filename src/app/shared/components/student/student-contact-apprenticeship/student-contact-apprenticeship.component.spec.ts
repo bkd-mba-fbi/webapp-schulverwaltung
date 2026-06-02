@@ -1,16 +1,20 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Person } from "src/app/shared/models/person.model";
 import { Apprenticeship } from "src/app/shared/services/student-profile.service";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManager,
   buildJobTrainer,
+  buildPerson,
 } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentContactApprenticeshipComponent } from "./student-contact-apprenticeship.component";
 
 describe("StudentContactApprenticeshipComponent", () => {
-  let component: StudentContactApprenticeshipComponent;
   let fixture: ComponentFixture<StudentContactApprenticeshipComponent>;
+  let element: HTMLElement;
+  let apprenticeship: Apprenticeship;
+  let student: Person;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -22,18 +26,58 @@ describe("StudentContactApprenticeshipComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentContactApprenticeshipComponent);
-    component = fixture.componentInstance;
+    element = fixture.debugElement.nativeElement;
 
-    const apprenticeship: Apprenticeship = {
+    apprenticeship = {
       apprenticeshipContract: buildApprenticeshipContract(123, 10, 20),
       jobTrainer: buildJobTrainer(10),
       apprenticeshipManager: buildApprenticeshipManager(20),
     };
     fixture.componentRef.setInput("apprenticeship", apprenticeship);
+
+    student = buildPerson(42);
+    fixture.componentRef.setInput("student", student);
+
     fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  describe("instructor email", () => {
+    it("renders email if present", () => {
+      student.Custom1 = "test@example.com";
+      fixture.componentRef.setInput("student", { ...student });
+      fixture.detectChanges();
+
+      const link = getInstructorEmailSection().querySelector("a");
+      expect(link).not.toBeNull();
+      expect(link?.getAttribute("href")).toBe("mailto:test@example.com");
+    });
+
+    it("renders dash for non-email value", () => {
+      student.Custom1 = "Lorem ipsum dolor sit amet";
+      fixture.componentRef.setInput("student", { ...student });
+      fixture.detectChanges();
+
+      const section = getInstructorEmailSection();
+      expect(section.textContent).toContain("–");
+      expect(section.querySelector("a")).toBeNull();
+    });
+
+    it("renders dash for null value", () => {
+      student.Custom1 = null;
+      fixture.componentRef.setInput("student", { ...student });
+      fixture.detectChanges();
+
+      const section = getInstructorEmailSection();
+      expect(section.textContent).toContain("–");
+      expect(section.querySelector("a")).toBeNull();
+    });
+
+    function getInstructorEmailSection(): HTMLDivElement {
+      const section = Array.from(element.querySelectorAll("div")).find((div) =>
+        div.textContent?.includes("shared.profile.instructor-email"),
+      );
+      expect(section).toBeDefined();
+      return section as HTMLDivElement;
+    }
   });
 });

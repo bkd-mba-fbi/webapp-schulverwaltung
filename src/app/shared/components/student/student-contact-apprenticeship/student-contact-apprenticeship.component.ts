@@ -1,6 +1,13 @@
 import { DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
+import { Person } from "src/app/shared/models/person.model";
 import { AddSpacePipe } from "../../../pipes/add-space.pipe";
 import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
 import { Apprenticeship } from "../../../services/student-profile.service";
@@ -14,6 +21,22 @@ import { Apprenticeship } from "../../../services/student-profile.service";
 })
 export class StudentContactApprenticeshipComponent {
   apprenticeship = input.required<Apprenticeship>();
+  student = input.required<Person>();
+
+  instructorEmail = computed(() => {
+    const value = this.student().Custom1;
+    return this.isEmail(value) ? value : null;
+  });
 
   constructor() {}
+
+  private isEmail(value: unknown): value is string {
+    if (typeof value !== "string") {
+      return false;
+    }
+
+    // Instead of implementing a custom email validation, reuse Angular's logic
+    // from the form validator
+    return Validators.email(new FormControl(value)) === null;
+  }
 }
