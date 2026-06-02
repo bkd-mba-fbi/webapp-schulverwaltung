@@ -15,13 +15,15 @@ const TimetableEntry = t.type({
   // EventManagerId: t.number,
   // EventManagerLastname: Option(t.string),
   // EventManagerFirstname: Option(t.string),
-  // EventManagers: Maybe(t.array(t.type({ Id: t.number, Designation: t.string }))),
+  // EventManagers: Maybe(t.readonlyArray(t.type({ Id: t.number, Designation: t.string }))),
   // LessonTeacherId: t.number,
   // LessonTeacherLastname: t.string,
   // LessonTeacherFirstname: t.string,
   // RoomId: t.number,
   // Room: t.string,
-  Rooms: Maybe(t.array(t.type({ Id: t.number, Designation: t.string }))),
+  Rooms: Maybe(
+    t.readonlyArray(t.type({ Id: t.number, Designation: t.string })),
+  ),
   // HRef: Option(t.string),
 });
 type TimetableEntry = t.TypeOf<typeof TimetableEntry>;
