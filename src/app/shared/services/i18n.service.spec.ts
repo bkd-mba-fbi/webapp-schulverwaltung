@@ -28,6 +28,11 @@ describe("I18nService", () => {
     service = TestBed.inject(I18nService);
     translateMock = TestBed.inject(TranslateService);
     storageMock = TestBed.inject(StorageService);
+
+    // Reset HTML lang attribute, since it may have been set by a previous
+    // spec (e.g. AppComponent's constructor calls I18nService.initialize,
+    // which sets document.documentElement.lang).
+    setHtmlLang("");
   });
 
   afterEach(() => {
