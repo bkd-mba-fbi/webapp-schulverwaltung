@@ -114,14 +114,14 @@ const Course = t.type({
   // MainEventManagers: null,
   // TimetableEntries: null,
   GradingScaleId: Option(t.number),
-  FinalGrades: Option(t.array(FinalGrading)),
-  Gradings: Option(t.array(Grading)),
-  Tests: Option(t.array(Test)),
+  FinalGrades: Option(t.readonlyArray(FinalGrading)),
+  Gradings: Option(t.readonlyArray(Grading)),
+  Tests: Option(t.readonlyArray(Test)),
   EvaluationStatusRef,
   AttendanceRef,
-  Participants: Option(t.array(Participant)),
-  ParticipatingStudents: Option(t.array(Student)),
-  Classes: Option(t.array(StudyClass)),
+  Participants: Option(t.readonlyArray(Participant)),
+  ParticipatingStudents: Option(t.readonlyArray(Student)),
+  Classes: Option(t.readonlyArray(StudyClass)),
 });
 
 const courseWithEvaluationProps = pick(Course.props, [
@@ -141,12 +141,12 @@ const courseIdWithEventManagersProps = pick(Course.props, [
 const CourseIdWithEventManagers = t.type(courseIdWithEventManagersProps);
 
 const UpdatedTestResultResponse = t.type({
-  TestResults: t.array(Result),
-  Gradings: t.array(Grading),
+  TestResults: t.readonlyArray(Result),
+  Gradings: t.readonlyArray(Grading),
 });
 
 const AverageTestResultResponse = t.type({
-  Gradings: t.array(Grading),
+  Gradings: t.readonlyArray(Grading),
 });
 
 type Course = t.TypeOf<typeof Course>;

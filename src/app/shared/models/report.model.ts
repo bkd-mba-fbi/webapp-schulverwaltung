@@ -9,7 +9,7 @@ const AvailableReport = t.type({
   // HRef: t.string
 });
 
-const AvailableReports = Option(t.array(AvailableReport));
+const AvailableReports = Option(t.readonlyArray(AvailableReport));
 
 type AvailableReports = t.TypeOf<typeof AvailableReports>;
 export { AvailableReports };
