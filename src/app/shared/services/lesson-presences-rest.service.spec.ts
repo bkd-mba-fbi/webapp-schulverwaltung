@@ -514,6 +514,22 @@ describe("LessonPresencesRestService", () => {
         .flush(data);
       httpTestingController.verify();
     });
+
+    it("fetches lesson presences for multiple educational events", () => {
+      filter.educationalEvent = "333;444";
+
+      const url =
+        "https://eventotest.api/LessonPresences/?filter.EventRef=;333;444&offset=0&limit=1000";
+
+      service
+        .getFilteredList(filter, 0)
+        .subscribe((result) => expect(result.entries).toBe(data));
+
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+      httpTestingController.verify();
+    });
   });
 
   describe(".hasLessonsLessonTeacher", () => {
