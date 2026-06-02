@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from "@angular/core";
-import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
+import { PersonWithClassRegistration } from "src/app/shared/models/person.model";
 import { AvatarComponent } from "../../avatar/avatar.component";
 
 @Component({
@@ -17,7 +17,7 @@ import { AvatarComponent } from "../../avatar/avatar.component";
 })
 export class StudentAvatarComponent {
   studentId = input.required<number>();
-  student = input<StudentWithClassRegistration>();
+  student = input<PersonWithClassRegistration>();
 
   studyClasses = computed(
     () =>
