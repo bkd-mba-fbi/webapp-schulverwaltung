@@ -447,6 +447,7 @@ export function buildPerson(id: number): Person {
     StayPermit: null,
     StayPermitExpiry: null,
     Zip: null,
+    Custom1: null,
     // HRef: ''
   };
 }

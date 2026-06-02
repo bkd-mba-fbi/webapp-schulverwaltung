@@ -39,6 +39,7 @@ const Person = t.type({
   StayPermit: Option(t.number),
   StayPermitExpiry: Option(LocalDateTimeFromString),
   Zip: Option(t.string),
+  Custom1: t.unknown,
   // HRef: t.string
 });
 

@@ -1,6 +1,12 @@
 import { DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
+import { Person } from "src/app/shared/models/person.model";
 import { AddSpacePipe } from "../../../pipes/add-space.pipe";
 import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
 import { Apprenticeship } from "../../../services/student-profile.service";
@@ -14,6 +20,12 @@ import { Apprenticeship } from "../../../services/student-profile.service";
 })
 export class StudentContactApprenticeshipComponent {
   apprenticeship = input.required<Apprenticeship>();
+  student = input.required<Person>();
+
+  instructorEmail = computed(() => {
+    const value = this.student().Custom1;
+    return typeof value === "string" && value.includes("@") ? value : null;
+  });
 
   constructor() {}
 }
