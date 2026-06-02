@@ -133,6 +133,8 @@ export class EditAbsencesHeaderComponent {
 
   onDateFromChange(date: Date | null) {
     this.filter.dateFrom = date;
+
+    // Make sure both date fields have a value
     if (!this.filter.dateTo) {
       this.filter.dateTo = date;
     }
@@ -140,6 +142,8 @@ export class EditAbsencesHeaderComponent {
 
   onDateToChange(date: Date | null) {
     this.filter.dateTo = date;
+
+    // Make sure both date fields have a value
     if (!this.filter.dateFrom) {
       this.filter.dateFrom = date;
     }

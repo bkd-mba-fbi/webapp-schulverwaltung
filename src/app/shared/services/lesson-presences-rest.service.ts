@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { addDays, format, isSameDay, subDays } from "date-fns";
+import { format, subDays } from "date-fns";
 import * as t from "io-ts";
 import { Observable, forkJoin, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
@@ -16,6 +16,7 @@ import { LessonPresenceStatistic } from "../models/lesson-presence-statistic";
 import { LessonPresence } from "../models/lesson-presence.model";
 import { LessonStudyClass } from "../models/lesson-study-class.model";
 import { Lesson } from "../models/lesson.model";
+import { addAbsencesFilterDateParams } from "../utils/absences-filter";
 import { decodeArray } from "../utils/decode";
 import { spread } from "../utils/function";
 import {
@@ -180,6 +181,7 @@ export class LessonPresencesRestService extends RestService<
       [absencesFilter.educationalEvent, "EventRef"],
       [absencesFilter.studyClass, "StudyClassRef"],
     ]);
+    params = addAbsencesFilterDateParams(absencesFilter, params);
     params = sortedParams(absencesSortCriteria, params);
     params = paginatedParams(offset, this.settings.paginationLimit, params);
 
@@ -200,7 +202,7 @@ export class LessonPresencesRestService extends RestService<
       [absencesFilter.educationalEvent, "EventRef"],
       [absencesFilter.studyClass, "StudyClassRef"],
     ]);
-
+    params = addAbsencesFilterDateParams(absencesFilter, params);
     params = params.set("filter.TypeRef", ">0");
     params = params.set(
       "fields",
@@ -263,29 +265,7 @@ export class LessonPresencesRestService extends RestService<
       );
     }
 
-    if (
-      absencesFilter.dateFrom &&
-      absencesFilter.dateTo &&
-      isSameDay(absencesFilter.dateFrom, absencesFilter.dateTo)
-    ) {
-      params = params.set(
-        "filter.LessonDateTimeFrom",
-        `=${format(absencesFilter.dateFrom, "yyyy-MM-dd")}`,
-      );
-    } else {
-      if (absencesFilter.dateFrom) {
-        params = params.set(
-          "filter.LessonDateTimeFrom",
-          `>${format(subDays(absencesFilter.dateFrom, 1), "yyyy-MM-dd")}`,
-        );
-      }
-      if (absencesFilter.dateTo) {
-        params = params.set(
-          "filter.LessonDateTimeTo",
-          `<${format(addDays(absencesFilter.dateTo, 1), "yyyy-MM-dd")}`,
-        );
-      }
-    }
+    params = addAbsencesFilterDateParams(absencesFilter, params);
 
     if (absencesFilter.weekdays) {
       params = params.set(

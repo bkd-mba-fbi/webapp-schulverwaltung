@@ -128,5 +128,7 @@ function createFilterFromParams(params: Params): EvaluateAbsencesFilter {
       ? Number(params["educationalEvent"])
       : null,
     studyClass: params["studyClass"] ? Number(params["studyClass"]) : null,
+    dateFrom: params["dateFrom"] ? new Date(params["dateFrom"]) : null,
+    dateTo: params["dateTo"] ? new Date(params["dateTo"]) : null,
   };
 }
