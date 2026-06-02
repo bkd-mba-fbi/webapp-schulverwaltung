@@ -79,7 +79,6 @@
                     <i class="material-icons">edit</i>
                   </a>
                   <bkd-student-contact-address
-                    class="profile-entry"
                     [student]="personValue"
                     emailProperty="Email2"
                   ></bkd-student-contact-address>
@@ -103,7 +102,6 @@
               <div ngbAccordionBody>
                 <ng-template>
                   <bkd-my-profile-address
-                    class="profile-entry"
                     [address]="personValue.CorrespondenceAddress"
                   ></bkd-my-profile-address>
                 </ng-template>
@@ -126,7 +124,6 @@
               <div ngbAccordionBody>
                 <ng-template>
                   <bkd-my-profile-address
-                    class="profile-entry"
                     [address]="personValue.BillingAddress"
                   ></bkd-my-profile-address>
                 </ng-template>
@@ -150,15 +147,16 @@
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                  @for (
-                    person of legalRepresentatives() ?? [];
-                    track person.Id
-                  ) {
-                    <bkd-student-contact-legal-representative
-                      class="profile-entry"
-                      [person]="person"
-                    ></bkd-student-contact-legal-representative>
-                  }
+                  <div class="contact-grid">
+                    @for (
+                      person of legalRepresentatives() ?? [];
+                      track person.Id
+                    ) {
+                      <bkd-student-contact-legal-representative
+                        [person]="person"
+                      ></bkd-student-contact-legal-representative>
+                    }
+                  </div>
                 </ng-template>
               </div>
             </div>
@@ -189,7 +187,6 @@
               <div ngbAccordionBody>
                 <ng-template>
                   <bkd-student-contact-apprenticeship
-                    class="profile-entry"
                     [apprenticeship]="apprenticeship"
                     [student]="personValue"
                   ></bkd-student-contact-apprenticeship>

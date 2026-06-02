@@ -1,34 +1,13 @@
 @import "src/bootstrap-variables";
+@import "./contact-grid";
 
 :host {
   display: block;
   width: 100%;
 }
 
-.profile-entry {
-  display: block;
-  padding: 0 $spacer 0 0;
-}
-
 h2 {
   border-top: 1px solid $border-color;
   padding-top: $spacer;
   padding-left: $spacer;
-}
-
-.legal-representatives,
-.apprenticeship-companies .profile-entry {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: $spacer;
-  column-gap: $spacer * 2;
-  row-gap: $spacer;
-}
-
-@media (max-width: 750px) {
-  .legal-representatives,
-  .apprenticeship-companies .profile-entry {
-    flex-direction: column;
-    gap: $spacer;
-  }
 }

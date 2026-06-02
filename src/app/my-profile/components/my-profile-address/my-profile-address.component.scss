@@ -1,8 +1,4 @@
-@import "../../../../bootstrap-variables";
-
-:host {
-  padding: $spacer;
-}
+@import "src/app/shared/components/student/student-contact/contact-grid";
 
 address {
   white-space: pre-wrap;
