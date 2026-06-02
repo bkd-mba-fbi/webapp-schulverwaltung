@@ -31,7 +31,7 @@ const Test = t.type({
   // Creation: t.string,
   GradingScaleId: Option(t.number),
   // GradingScale: Option(t.string),
-  Results: Option(t.array(Result)),
+  Results: Option(t.readonlyArray(Result)),
 });
 
 type Test = t.TypeOf<typeof Test>;

@@ -32,7 +32,7 @@ export type TestsAction =
       type: "final-grade-overwritten";
       payload: { id: number; selectedGradeId: Option<number> };
     }
-  | { type: "replace-grades"; payload: Grading[] }
+  | { type: "replace-grades"; payload: ReadonlyArray<Grading> }
   | { type: "delete-test"; payload: number };
 
 export function courseReducer(

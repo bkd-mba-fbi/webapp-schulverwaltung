@@ -71,7 +71,7 @@ describe("Test utils", () => {
 
       // then
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results ?? [];
+      const newResults: ReadonlyArray<Result> = newTests[0].Results ?? [];
       expect(newResults.length).toEqual(3);
       expect(newResults).toContain(newResult);
       expect(newResult).not.toContain(result1);
@@ -87,7 +87,7 @@ describe("Test utils", () => {
 
       // then1
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results ?? [];
+      const newResults: ReadonlyArray<Result> = newTests[0].Results ?? [];
       expect(newResults.length).toBe(1);
       expect(newResults).toContain(newResult);
     });
@@ -102,7 +102,7 @@ describe("Test utils", () => {
 
       // then1
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results ?? [];
+      const newResults: ReadonlyArray<Result> = newTests[0].Results ?? [];
       expect(newResults.length).toBe(2);
       expect(newResults).toContain(newResult);
     });
@@ -124,7 +124,7 @@ describe("Test utils", () => {
 
       // then
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results ?? [];
+      const newResults: ReadonlyArray<Result> = newTests[0].Results ?? [];
       expect(newResults.length).toEqual(1);
 
       expect(newResults[0].GradeId).toBe(3);
@@ -148,7 +148,7 @@ describe("Test utils", () => {
 
       // then
       expect(newTests.length).toBe(1);
-      const newResults: Result[] = newTests[0].Results ?? [];
+      const newResults: ReadonlyArray<Result> = newTests[0].Results ?? [];
       expect(newResults.length).toEqual(1);
 
       expect(newResults[0].GradeId).toBe(4);

@@ -32,7 +32,7 @@ const Student = t.type({
 const StudentWithClassRegistration = t.intersection([
   Student,
   t.type({
-    ClassRegistrations: Option(t.array(ClassRegistration)),
+    ClassRegistrations: Option(t.readonlyArray(ClassRegistration)),
   }),
 ]);
 

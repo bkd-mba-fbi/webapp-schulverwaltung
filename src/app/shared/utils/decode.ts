@@ -39,11 +39,11 @@ export function decode<C extends t.Mixed>(
 }
 
 /**
- * Convenience function, equivalent to calling `decode(t.array(X))`,
+ * Convenience function, equivalent to calling `decode(t.readonlyArray(X))`,
  * but without having to import io-ts: `decodeArray(X)`.
  */
 export function decodeArray<C extends t.Mixed>(
   codec: C,
 ): (json: unknown) => Observable<ReadonlyArray<t.TypeOf<C>>> {
-  return decode(t.array(codec));
+  return decode(t.readonlyArray(codec));
 }

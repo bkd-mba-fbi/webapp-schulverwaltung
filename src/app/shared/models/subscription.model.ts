@@ -19,7 +19,7 @@ const SubscriptionDetail = t.type({
   EventId: t.number,
   // OpenInvoiceBookingId: Option(t.number),
   // BookingType: Option(t.string),
-  DropdownItems: Option(t.array(DropDownItemWithActive)),
+  DropdownItems: Option(t.readonlyArray(DropDownItemWithActive)),
   // EnteringType: t.string,
   IdPerson: t.number,
   // IsValidated: t.boolean,
@@ -80,7 +80,7 @@ const Subscription = t.type({
   // IdStatus: Option(t.number),
   // AnsweredQuestions: Option(t.string || t.number),
   // Messages: Option(t.string || t.number),
-  // SubscriptionDetails: Option(t.array(SubscriptionDetail)),
+  // SubscriptionDetails: Option(t.readonlyArray(SubscriptionDetail)),
   RegistrationDate: Option(LocalDateTimeFromString),
   // HRef: Option(t.string),
 });

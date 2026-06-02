@@ -23,7 +23,7 @@ const UserSetting = t.type({
 
 const UserSettings = t.type({
   Id: t.string,
-  Settings: t.readonly(t.array(UserSetting)),
+  Settings: t.readonly(t.readonlyArray(UserSetting)),
 });
 
 //
@@ -91,7 +91,7 @@ const PresenceControlGroupViewEntry = t.type({
 });
 
 const PresenceControlGroupView = JsonFromUnknown.pipe(
-  t.readonly(t.array(PresenceControlGroupViewEntry)),
+  t.readonly(t.readonlyArray(PresenceControlGroupViewEntry)),
 );
 
 //
@@ -100,8 +100,8 @@ const PresenceControlGroupView = JsonFromUnknown.pipe(
 
 const AccessInfo = t.type({
   AccessInfo: t.type({
-    Roles: t.array(t.string),
-    Permissions: t.array(t.string),
+    Roles: t.readonlyArray(t.string),
+    Permissions: t.readonlyArray(t.string),
   }),
 });
 

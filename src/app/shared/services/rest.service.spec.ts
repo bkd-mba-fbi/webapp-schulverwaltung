@@ -93,7 +93,7 @@ describe("RestService", () => {
 
       expect(error).toHaveBeenCalledWith(
         new DecodeError(
-          "Invalid value 123 supplied to : Array<{ foo: string }>/0: { foo: string }/foo: string",
+          "Invalid value 123 supplied to : ReadonlyArray<{ foo: string }>/0: { foo: string }/foo: string",
         ),
       );
     });
