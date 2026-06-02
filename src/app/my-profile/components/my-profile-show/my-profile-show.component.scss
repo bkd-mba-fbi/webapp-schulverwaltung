@@ -1,12 +1,8 @@
 @import "../../../../bootstrap-variables";
+@import "src/app/shared/components/student/student-contact/contact-grid";
 
 .profile-content {
   padding-top: $spacer;
-}
-
-.profile-entry {
-  display: block;
-  padding: 0 $spacer;
 }
 
 .profile-entries:not(:empty) {
