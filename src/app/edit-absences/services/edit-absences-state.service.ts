@@ -21,7 +21,7 @@ import { buildPresenceControlEntries } from "../../shared/utils/presence-control
 
 export interface EditAbsencesFilter {
   student: Option<number>;
-  educationalEvent: Option<number>;
+  educationalEvent: Option<number | string>;
   studyClass: Option<number>;
   teacher: Option<string>;
   dateFrom: Option<Date>;
@@ -100,15 +100,15 @@ export class EditAbsencesStateService
   protected isValidFilter(filterValue: EditAbsencesFilter): boolean {
     return Boolean(
       filterValue.student ||
-        filterValue.educationalEvent ||
-        filterValue.studyClass ||
-        filterValue.teacher ||
-        filterValue.dateFrom ||
-        filterValue.dateTo ||
-        filterValue.weekdays ||
-        filterValue.presenceTypes ||
-        filterValue.confirmationStates ||
-        filterValue.incidentTypes,
+      filterValue.educationalEvent ||
+      filterValue.studyClass ||
+      filterValue.teacher ||
+      filterValue.dateFrom ||
+      filterValue.dateTo ||
+      filterValue.weekdays ||
+      filterValue.presenceTypes ||
+      filterValue.confirmationStates ||
+      filterValue.incidentTypes,
     );
   }
 

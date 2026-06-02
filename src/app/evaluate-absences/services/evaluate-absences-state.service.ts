@@ -15,7 +15,7 @@ import { Paginated } from "src/app/shared/utils/pagination";
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
-  educationalEvent: Option<number>;
+  educationalEvent: Option<number | string>;
   studyClass: Option<number>;
 }
 
@@ -59,8 +59,8 @@ export class EvaluateAbsencesStateService
   protected isValidFilter(filterValue: EvaluateAbsencesFilter): boolean {
     return Boolean(
       filterValue.student ||
-        filterValue.educationalEvent ||
-        filterValue.studyClass,
+      filterValue.educationalEvent ||
+      filterValue.studyClass,
     );
   }
 

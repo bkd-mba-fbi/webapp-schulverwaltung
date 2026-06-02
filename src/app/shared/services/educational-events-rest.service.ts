@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import * as t from "io-ts";
+import sortBy from "lodash-es/sortBy";
 import { EMPTY, Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SETTINGS, Settings } from "../../settings";
@@ -44,12 +45,7 @@ export class EducationalEventsRestService
       })
       .pipe(
         switchMap(decodeArray(this.typeaheadCodec)),
-        map((items) =>
-          items.map((i) => ({
-            Key: i.Id,
-            Value: `${i.Designation} (${i.Number})`,
-          })),
-        ),
+        map(this.buildGroupedDropdownItems.bind(this)),
       );
   }
 
@@ -73,9 +69,34 @@ export class EducationalEventsRestService
           }
           return of({
             Key: items[0].Id,
-            Value: `${items[0].Designation} (${items[0].Number})`,
+            Value: items[0].Designation,
           });
         }),
       );
+  }
+
+  private buildGroupedDropdownItems(
+    items: ReadonlyArray<t.TypeOf<typeof this.typeaheadCodec>>,
+  ): ReadonlyArray<DropDownItem> {
+    const idsByDesignation = this.getIdsByDesignation(items);
+    return sortBy(
+      Object.keys(idsByDesignation).map((designation) => ({
+        Key: idsByDesignation[designation].join(";"), // Key="id1;id2;id3"
+        Value: designation,
+      })),
+      "Value",
+    );
+  }
+
+  private getIdsByDesignation(
+    items: ReadonlyArray<t.TypeOf<typeof this.typeaheadCodec>>,
+  ): Record<string, ReadonlyArray<number>> {
+    return items.reduce<Record<string, number[]>>((acc, item) => {
+      if (!acc[item.Designation]) {
+        acc[item.Designation] = [];
+      }
+      acc[item.Designation].push(item.Id);
+      return acc;
+    }, {});
   }
 }

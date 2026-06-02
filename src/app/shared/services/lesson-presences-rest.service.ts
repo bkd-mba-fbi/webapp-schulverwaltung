@@ -411,11 +411,16 @@ export class LessonPresencesRestService extends RestService<
  * custom added to the returned `HttpParams`.
  */
 function filteredParams(
-  filterValues: ReadonlyArray<[Option<number>, string]>,
+  filterValues: ReadonlyArray<[Option<number | string>, string]>,
   params = new HttpParams(),
 ): HttpParams {
   return filterValues.reduce((acc, [item, field]) => {
     if (item && field) {
+      if (String(item).includes(";")) {
+        // We allow the filtering by multiple values using the semicolon separator
+        // (this is used by the absences educational event filter)
+        return acc.set(`filter.${field}`, `;${item}`);
+      }
       return acc.set(`filter.${field}`, `=${item}`);
     }
     return acc;
