@@ -81,7 +81,13 @@ export class StudentAbsencesService {
   ): Observable<LessonPresenceStatistic> {
     return this.lessonPresencesService
       .getStatistics(
-        { student: studentId, educationalEvent: null, studyClass: null },
+        {
+          student: studentId,
+          educationalEvent: null,
+          studyClass: null,
+          dateFrom: null,
+          dateTo: null,
+        },
         null,
         0,
       )

@@ -17,6 +17,8 @@ export interface EvaluateAbsencesFilter {
   student: Option<number>;
   educationalEvent: Option<number | string>;
   studyClass: Option<number>;
+  dateFrom: Option<Date>;
+  dateTo: Option<Date>;
 }
 
 @Injectable()
@@ -53,6 +55,8 @@ export class EvaluateAbsencesStateService
       student: null,
       educationalEvent: null,
       studyClass: null,
+      dateFrom: null,
+      dateTo: null,
     };
   }
 
@@ -60,7 +64,9 @@ export class EvaluateAbsencesStateService
     return Boolean(
       filterValue.student ||
       filterValue.educationalEvent ||
-      filterValue.studyClass,
+      filterValue.studyClass ||
+      filterValue.dateFrom ||
+      filterValue.dateTo,
     );
   }
 

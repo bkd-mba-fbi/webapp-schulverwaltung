@@ -297,6 +297,8 @@ describe("LessonPresencesRestService", () => {
         student: null,
         educationalEvent: null,
         studyClass: null,
+        dateFrom: null,
+        dateTo: null,
       };
 
       sortCriteria = {
@@ -309,8 +311,10 @@ describe("LessonPresencesRestService", () => {
       filter.student = 123;
       filter.educationalEvent = 333;
       filter.studyClass = 678;
+      filter.dateFrom = new Date(2000, 0, 23);
+      filter.dateTo = new Date(2000, 0, 24);
       const url =
-        "https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&sort=StudentFullName.asc&offset=0&limit=1000";
+        "https://eventotest.api/LessonPresences/Statistics?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-25&sort=StudentFullName.asc&offset=0&limit=1000";
 
       service
         .getStatistics(filter, sortCriteria, 0)
@@ -348,6 +352,8 @@ describe("LessonPresencesRestService", () => {
         student: null,
         educationalEvent: null,
         studyClass: null,
+        dateFrom: null,
+        dateTo: null,
       };
     });
 
@@ -355,9 +361,11 @@ describe("LessonPresencesRestService", () => {
       filter.student = 123;
       filter.educationalEvent = 333;
       filter.studyClass = 678;
+      filter.dateFrom = new Date(2000, 0, 23);
+      filter.dateTo = new Date(2000, 0, 24);
 
       const url =
-        "https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef&limit=1500";
+        "https://eventotest.api/LessonPresences/?filter.StudentRef==123&filter.EventRef==333&filter.StudyClassRef==678&filter.LessonDateTimeFrom=%3E2000-01-22&filter.LessonDateTimeTo=%3C2000-01-25&filter.TypeRef=%3E0&fields=LessonRef,RegistrationRef,StudentRef,EventRef,StudyClassRef,TypeRef&limit=1500";
 
       service
         .getLessonRefs(filter)
