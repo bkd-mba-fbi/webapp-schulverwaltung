@@ -2,10 +2,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { ActivatedRoute, ParamMap, convertToParamMap } from "@angular/router";
 import { BehaviorSubject, firstValueFrom, of, throwError } from "rxjs";
-import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
+import { buildAdditionalInformation, buildPerson } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AdditionalInformation } from "../models/additional-informations.model";
-import { StudentWithClassRegistration } from "../models/student.model";
+import { PersonWithClassRegistration } from "../models/person.model";
 import { AdditionalInformationsRestService } from "./additional-informations-rest.service";
 import { CoursesRestService } from "./courses-rest.service";
 import { DropDownItemsRestService } from "./drop-down-items-rest.service";
@@ -26,7 +26,7 @@ describe("StudentDossierEditService", () => {
   let routeParams: BehaviorSubject<ParamMap>;
   let parentRouteParams: BehaviorSubject<ParamMap>;
   let additionalInformation: AdditionalInformation;
-  let student$: BehaviorSubject<Option<StudentWithClassRegistration>>;
+  let student$: BehaviorSubject<Option<PersonWithClassRegistration>>;
 
   beforeEach(() => {
     routeParams = new BehaviorSubject(convertToParamMap({ id: "1" }));
@@ -43,8 +43,9 @@ describe("StudentDossierEditService", () => {
       },
     );
 
-    student$ = new BehaviorSubject<Option<StudentWithClassRegistration>>({
-      ...buildStudent(42),
+    student$ = new BehaviorSubject<Option<PersonWithClassRegistration>>({
+      ...buildPerson(42),
+      FullName: "Berger Laura",
       ClassRegistrations: [
         {
           Id: 1,
@@ -189,7 +190,7 @@ describe("StudentDossierEditService", () => {
   describe("studentName$", () => {
     it("emits the student name", async () => {
       const studentName = await firstValueFrom(service.studentName$);
-      expect(studentName).toBe("T. Tux");
+      expect(studentName).toBe("Berger Laura");
     });
   });
 
@@ -284,7 +285,7 @@ describe("StudentDossierEditService", () => {
         ),
       );
       student$.next({
-        ...buildStudent(42),
+        ...buildPerson(42),
         ClassRegistrations: [
           {
             Id: 1,

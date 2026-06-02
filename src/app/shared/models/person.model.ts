@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { LocalDateTimeFromString, Maybe, Option } from "./common-types";
+import { ClassRegistration } from "./student.model";
 
 const Person = t.type({
   Id: t.number,
@@ -53,7 +54,15 @@ const PersonFullName = t.type({
   FullName: t.string,
 });
 
+const PersonWithClassRegistration = t.intersection([
+  Person,
+  t.type({
+    ClassRegistrations: Option(t.readonlyArray(ClassRegistration)),
+  }),
+]);
+
 type Person = t.TypeOf<typeof Person>;
 type PersonSummary = t.TypeOf<typeof PersonSummary>;
 type PersonFullName = t.TypeOf<typeof PersonFullName>;
-export { Person, PersonSummary, PersonFullName };
+type PersonWithClassRegistration = t.TypeOf<typeof PersonWithClassRegistration>;
+export { Person, PersonSummary, PersonFullName, PersonWithClassRegistration };

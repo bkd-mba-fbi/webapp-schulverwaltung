@@ -3,8 +3,10 @@ import { TestBed } from "@angular/core/testing";
 import * as t from "io-ts/lib/index";
 import { ApprenticeshipContract } from "src/app/shared/models/apprenticeship-contract.model";
 import { LegalRepresentative } from "src/app/shared/models/legal-representative.model";
-import { Person } from "src/app/shared/models/person.model";
-import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
+import {
+  Person,
+  PersonWithClassRegistration,
+} from "src/app/shared/models/person.model";
 import {
   buildApprenticeshipContract,
   buildApprenticeshipManagerWithEmails,
@@ -19,6 +21,7 @@ import { StudentProfileService } from "../../shared/services/student-profile.ser
 import { ApprenticeshipManager } from "../models/apprenticeship-manager.model";
 import { DropDownItem } from "../models/drop-down-item.model";
 import { JobTrainer } from "../models/job-trainer.model";
+import { StudentWithClassRegistration } from "../models/student.model";
 import { StorageService } from "./storage.service";
 
 describe("StudentProfileService", () => {
@@ -26,7 +29,7 @@ describe("StudentProfileService", () => {
   let service: StudentProfileService;
 
   let student: StudentWithClassRegistration;
-  let studentPerson: Person;
+  let studentPerson: PersonWithClassRegistration;
   let myself: Person;
   let legalRepresentatives: LegalRepresentative[];
   let apprenticeshipContract: ApprenticeshipContract;
@@ -58,25 +61,33 @@ describe("StudentProfileService", () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(StudentProfileService);
 
-    student = { ...buildStudent(39405), ClassRegistrations: [] };
-    student.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
+    student = {
+      ...buildStudent(39405),
+      Birthdate: new Date(new Date().getFullYear() - 10, 0, 1),
+      ClassRegistrations: [],
+    };
 
-    studentPerson = buildPerson(39405);
-    studentPerson.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
-    studentPerson.AddressLine1 = "";
-    studentPerson.DisplayEmail = "";
-    studentPerson.FirstName = "T";
-    studentPerson.FullName = "T. Tux";
-    studentPerson.Gender = "F";
-    studentPerson.LastName = "Tux";
-    studentPerson.Location = "";
-    studentPerson.PhoneMobile = "";
-    studentPerson.PhonePrivate = "";
-    studentPerson.Zip = "";
+    studentPerson = {
+      ...buildPerson(39405),
+      Birthdate: new Date(new Date().getFullYear() - 10, 0, 1),
+      AddressLine1: "",
+      DisplayEmail: "",
+      FirstName: "T",
+      FullName: "T. Tux",
+      Gender: "F",
+      LastName: "Tux",
+      Location: "",
+      PhoneMobile: "",
+      PhonePrivate: "",
+      Zip: "",
+      ClassRegistrations: [],
+    };
 
-    myself = buildPerson(39405);
-    myself.Birthdate = new Date(new Date().getFullYear() - 10, 0, 1);
-    myself.StayPermit = 123456798;
+    myself = {
+      ...buildPerson(39405),
+      Birthdate: new Date(new Date().getFullYear() - 10, 0, 1),
+      StayPermit: 123456798,
+    };
 
     legalRepresentatives = [
       buildLegalRepresentative(56248, 22080),
@@ -103,7 +114,7 @@ describe("StudentProfileService", () => {
     );
     persons = [legalRepresentative1, legalRepresentative2];
 
-    dropDownItems = [{ Key: myself.StayPermit, Value: "Permit Value" }];
+    dropDownItems = [{ Key: myself.StayPermit ?? "", Value: "Permit Value" }];
   });
 
   afterEach(() => {
@@ -111,11 +122,14 @@ describe("StudentProfileService", () => {
   });
 
   describe(".getStudent", () => {
-    it("emits the student from the students service for the given ID", () => {
+    it("emits the student with the class registrations", () => {
       service.getStudent(student.Id).subscribe((result) => {
-        expect(result).toEqual(student);
+        expect(result).toEqual(studentPerson);
       });
 
+      httpTestingController
+        .expectOne(`https://eventotest.api/Persons/${student.Id}`)
+        .flush(Person.encode(studentPerson));
       httpTestingController
         .expectOne(
           `https://eventotest.api/Students/${student.Id}?expand=ClassRegistrations`,
@@ -123,9 +137,9 @@ describe("StudentProfileService", () => {
         .flush(StudentWithClassRegistration.encode(student));
     });
 
-    it("falls back to the person service if the students service returns 404 for students that are not registered in a class (special case)", () => {
+    it("returns the student without class registrations for students that are not registered in a class", () => {
       service.getStudent(student.Id).subscribe((result) => {
-        expect(result).toEqual(student);
+        expect(result).toEqual({ ...studentPerson, ClassRegistrations: null });
       });
 
       httpTestingController

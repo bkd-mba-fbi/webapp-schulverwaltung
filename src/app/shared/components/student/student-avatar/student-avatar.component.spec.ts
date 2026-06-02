@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
-import { buildStudent } from "src/spec-builders";
+import { PersonWithClassRegistration } from "src/app/shared/models/person.model";
+import { buildPerson } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentAvatarComponent } from "./student-avatar.component";
 
 describe("StudentAvatarComponent", () => {
   let fixture: ComponentFixture<StudentAvatarComponent>;
   let element: HTMLElement;
-  let student: StudentWithClassRegistration;
+  let student: PersonWithClassRegistration;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -20,7 +20,9 @@ describe("StudentAvatarComponent", () => {
     fixture = TestBed.createComponent(StudentAvatarComponent);
 
     student = {
-      ...buildStudent(100),
+      ...buildPerson(100),
+      FullName: "Berger Laura",
+      Gender: "F",
       Birthdate: new Date(2000, 0, 23),
       ClassRegistrations: [
         {
@@ -46,7 +48,7 @@ describe("StudentAvatarComponent", () => {
 
   it("renders the student name", () => {
     const text = element.textContent;
-    expect(text).toContain("T. Tux");
+    expect(text).toContain("Berger Laura");
   });
 
   it("renders the birthday", () => {
