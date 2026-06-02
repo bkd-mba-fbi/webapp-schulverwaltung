@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { StudentWithClassRegistration } from "src/app/shared/models/student.model";
+import { PersonWithClassRegistration } from "src/app/shared/models/person.model";
 import { TokenPayload } from "src/app/shared/models/token-payload.model";
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudentDossierEntry } from "src/app/shared/services/student-dossier.service";
 import { StudentStateService } from "src/app/shared/services/student-state.service";
-import { buildAdditionalInformation, buildStudent } from "src/spec-builders";
+import { buildAdditionalInformation, buildPerson } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentDossierEntryBodyComponent } from "./student-dossier-entry-body.component";
 
@@ -15,7 +15,7 @@ describe("StudentDossierEntryBodyComponent", () => {
   let entry: StudentDossierEntry;
   let studentStateServiceMock: {
     studentId$: BehaviorSubject<Option<number>>;
-    student$: Observable<Option<StudentWithClassRegistration>>;
+    student$: Observable<Option<PersonWithClassRegistration>>;
   };
   let storageServiceMock: jasmine.SpyObj<StorageService>;
 
@@ -23,7 +23,7 @@ describe("StudentDossierEntryBodyComponent", () => {
     studentStateServiceMock = {
       studentId$: new BehaviorSubject<Option<number>>(42),
       student$: of({
-        ...buildStudent(42),
+        ...buildPerson(42),
         FullName: "Berger Laura",
         ClassRegistrations: [],
       }),
