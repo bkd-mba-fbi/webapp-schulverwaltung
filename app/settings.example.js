@@ -254,6 +254,13 @@ window.schulverwaltung.settings = {
   /**
    *  Dossier
    */
+  // Entries with one of the following type ID are displayed in the dossier
+  dossierEntriesTypeIds: [
+    1052, // Information
+    1054, // Protokollierung: Bericht
+    1055, // Protokollierung: E-Mail
+  ],
+
   // Type ID for new entries
   dossierCreateTypeId: 1052,
 
