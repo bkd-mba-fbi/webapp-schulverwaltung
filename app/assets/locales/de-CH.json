@@ -461,6 +461,7 @@
         "for-teacher-class-teacher-only": "Nur Klassenlehrperson",
         "for-teacher-all": "Alle Lehrpersonen der Klasse",
         "for-student": "Sichtbar für {{ studentName }}",
+        "object-id": "Klasse",
         "optional": "optional",
         "cancel": "Abbrechen",
         "save": "Übernehmen",
