@@ -187,6 +187,18 @@ window.schulverwaltung.settings = {
           "Enseignant(e) de classe : quelqu'un d'autre que les apprenants saisit un motif d'absence.",
       },
     },
+    incidentMessage: {
+      de: {
+        label: "Vorfall erfasst (Lehrperson)",
+        description:
+          "Klassenlehrperson: Eine Fachlehrperson hat einen Vorfall für Ihre Lernenden erfasst.",
+      },
+      fr: {
+        label: "Incident saisi (enseignant-e)",
+        description:
+          "Maître-sse de classe : un-e enseignant-e a saisi un incident pour vos élèves.",
+      },
+    },
     teacherSubstitutions: {
       de: {
         label: "Stellvertretung",
@@ -224,6 +236,7 @@ window.schulverwaltung.settings = {
         "BM2Teacher",
         "absenceMessage",
         "absenceMessageTeacher",
+        "incidentMessage",
         "teacherSubstitutions",
       ],
     },
