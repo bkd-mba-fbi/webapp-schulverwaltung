@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormField, email, form, required } from "@angular/forms/signals";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, finalize, map, switchMap, take, throwError } from "rxjs";
 import { FormErrorsComponent } from "src/app/shared/components/form-errors/form-errors.component";
@@ -35,6 +35,7 @@ type InstructorEmailFormData = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileEditInstructorEmailComponent {
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private translate = inject(TranslateService);
   private toastService = inject(ToastService);
@@ -114,6 +115,9 @@ export class MyProfileEditInstructorEmailComponent {
   }
 
   private navigateBack(): void {
-    void this.router.navigate(["/my-profile"]);
+    const returnLink =
+      this.route.snapshot.queryParams["returnlink"] || "/my-profile";
+
+    void this.router.navigate([returnLink]);
   }
 }

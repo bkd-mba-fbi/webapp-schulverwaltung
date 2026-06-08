@@ -53,7 +53,9 @@
       "deadline": "Notenfrist",
       "my-absences-report": "Absenzen melden",
       "my-absences": "Offene Absenzen entschuldigen",
-      "substitutions": "Stellvertretungen administrieren"
+      "substitutions": "Stellvertretungen administrieren",
+      "edit-instructor-email": "E-Mail Praxisbildner/in bearbeiten",
+      "pilot": "Pilot"
     },
     "timetable": {
       "title": "Stundenplan",

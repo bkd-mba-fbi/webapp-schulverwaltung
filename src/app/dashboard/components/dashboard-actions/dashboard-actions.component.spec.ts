@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
+import { ConfigurationsService } from "src/app/shared/services/configurations.service";
 import { buildLessonPresence, buildPerson } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { CoursesRestService } from "../../../shared/services/courses-rest.service";
@@ -12,10 +13,10 @@ import { DashboardService } from "../../services/dashboard.service";
 import { DashboardActionsComponent } from "./dashboard-actions.component";
 
 describe("DashboardActionsComponent", () => {
-  // let component: DashboardActionsComponent;
   let fixture: ComponentFixture<DashboardActionsComponent>;
   let element: HTMLElement;
   let roles$: BehaviorSubject<Option<ReadonlyArray<string>>>;
+  let canEditInstructorEmail$: BehaviorSubject<boolean>;
 
   beforeEach(async () => {
     roles$ = new BehaviorSubject<Option<ReadonlyArray<string>>>(null);
@@ -94,12 +95,20 @@ describe("DashboardActionsComponent", () => {
               },
             },
           },
+          {
+            provide: ConfigurationsService,
+            useFactory() {
+              canEditInstructorEmail$ = new BehaviorSubject(true);
+              return {
+                canEditInstructorEmail$,
+              };
+            },
+          },
         ],
       }),
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardActionsComponent);
-    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -129,6 +138,9 @@ describe("DashboardActionsComponent", () => {
       expect(element.textContent).not.toContain(
         "dashboard.actions.substitutions",
       );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.edit-instructor-email",
+      );
     });
   });
 
@@ -153,6 +165,9 @@ describe("DashboardActionsComponent", () => {
       );
       expect(element.textContent).not.toContain(
         "dashboard.actions.substitutions",
+      );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.edit-instructor-email",
       );
     });
   });
@@ -180,6 +195,9 @@ describe("DashboardActionsComponent", () => {
       );
       expect(element.textContent).not.toContain(
         "dashboard.actions.substitutions",
+      );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.edit-instructor-email",
       );
     });
   });
@@ -211,6 +229,9 @@ describe("DashboardActionsComponent", () => {
       expect(element.textContent).not.toContain(
         "dashboard.actions.substitutions",
       );
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.edit-instructor-email",
+      );
     });
   });
 
@@ -219,7 +240,7 @@ describe("DashboardActionsComponent", () => {
       roles$.next(["StudentRole"]);
     });
 
-    it("displays my absences, my absences report", () => {
+    it("displays my absences, my absences report and edit instructor email", () => {
       fixture.detectChanges();
       expect(element.textContent).not.toContain(
         "dashboard.actions.presence-control",
@@ -237,6 +258,17 @@ describe("DashboardActionsComponent", () => {
       expect(element.textContent).toContain("dashboard.actions.my-absences0");
       expect(element.textContent).not.toContain(
         "dashboard.actions.substitutions",
+      );
+      expect(element.textContent).toContain(
+        "dashboard.actions.edit-instructor-email",
+      );
+    });
+
+    it("does not display edit instructor email if cannot edit", () => {
+      canEditInstructorEmail$.next(false);
+      fixture.detectChanges();
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.edit-instructor-email",
       );
     });
   });
@@ -265,6 +297,9 @@ describe("DashboardActionsComponent", () => {
         "dashboard.actions.my-absences",
       );
       expect(element.textContent).toContain("dashboard.actions.substitutions");
+      expect(element.textContent).not.toContain(
+        "dashboard.actions.edit-instructor-email",
+      );
     });
   });
 });
