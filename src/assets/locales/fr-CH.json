@@ -53,7 +53,9 @@
       "deadline": "Délai de notes",
       "my-absences-report": "Annoncer des absences",
       "my-absences": "Excuser les absences en suspens",
-      "substitutions": "Gérer les remplacements"
+      "substitutions": "Gérer les remplacements",
+      "edit-instructor-email": "Modifier e-mail formateur-trice pratique",
+      "pilot": "pilote"
     },
     "timetable": {
       "title": "Horaire",

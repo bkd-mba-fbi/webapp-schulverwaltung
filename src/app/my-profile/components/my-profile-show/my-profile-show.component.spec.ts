@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
-import { SchoolAppNavigation } from "src/app/shared/models/configurations.model";
 import { Person } from "src/app/shared/models/person.model";
-import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
+import { ConfigurationsService } from "src/app/shared/services/configurations.service";
 import { Apprenticeship } from "src/app/shared/services/student-profile.service";
 import { buildPerson } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
@@ -20,7 +19,6 @@ describe("MyProfileShowComponent", () => {
   let person$: BehaviorSubject<Option<Person>>;
   let legalRepresentatives$: BehaviorSubject<Option<ReadonlyArray<Person>>>;
   let apprenticeships$: BehaviorSubject<Option<ReadonlyArray<Apprenticeship>>>;
-  let schoolAppNavigation$: BehaviorSubject<SchoolAppNavigation>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
@@ -59,16 +57,9 @@ describe("MyProfileShowComponent", () => {
             },
           },
           {
-            provide: ConfigurationsRestService,
-            useFactory() {
-              schoolAppNavigation$ = new BehaviorSubject<SchoolAppNavigation>({
-                practicalTrainerActionEMail: true,
-              });
-              return {
-                getSchoolAppNavigation() {
-                  return schoolAppNavigation$.asObservable();
-                },
-              };
+            provide: ConfigurationsService,
+            useValue: {
+              canEditInstructorEmail$: of(true),
             },
           },
         ],
@@ -104,19 +95,5 @@ describe("MyProfileShowComponent", () => {
 
     expectNotInTheDocument(fixture.debugElement, "profile-content");
     expectNotInTheDocument(fixture.debugElement, "profile-none");
-  });
-
-  describe("canEditInstructorEmail", () => {
-    it("returns true if practicalTrainerActionEMail is true", () => {
-      schoolAppNavigation$.next({ practicalTrainerActionEMail: true });
-      fixture.detectChanges();
-      expect(fixture.componentInstance.canEditInstructorEmail()).toBe(true);
-    });
-
-    it("returns false if practicalTrainerActionEMail is false", () => {
-      schoolAppNavigation$.next({ practicalTrainerActionEMail: false });
-      fixture.detectChanges();
-      expect(fixture.componentInstance.canEditInstructorEmail()).toBe(false);
-    });
   });
 });

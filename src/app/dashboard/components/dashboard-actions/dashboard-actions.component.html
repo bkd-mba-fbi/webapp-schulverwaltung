@@ -54,6 +54,18 @@
   ></bkd-dashboard-action>
 }
 
+@if ((dashboardService.hasStudentRole$ | async) && canEditInstructorEmail()) {
+  <bkd-dashboard-action
+    [label]="'dashboard.actions.edit-instructor-email'"
+    [link]="['/my-profile/edit-instructor-email']"
+    [linkParams]="{ returnlink: '/dashboard' }"
+  >
+    <span class="badge rounded-pill text-bg-danger">
+      {{ "dashboard.actions.pilot" | translate }}
+    </span>
+  </bkd-dashboard-action>
+}
+
 @if (dashboardService.hasSubstituteAdministratorRole$ | async) {
   <bkd-dashboard-action
     [label]="'dashboard.actions.substitutions'"
