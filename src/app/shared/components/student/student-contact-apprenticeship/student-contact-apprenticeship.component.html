@@ -75,14 +75,28 @@
     </div>
   }
 
-  <div>
-    {{ "shared.profile.instructor-email" | translate }}{{ ":" | addSpace: ":"
-    }}<br />
-    @let email = instructorEmail();
-    @if (email) {
-      <a href="mailto:{{ email }}">{{ email }}</a>
-    } @else {
-      –
+  <div class="d-flex align-items-start gap-1">
+    <div class="flex-grow-1">
+      {{ "shared.profile.instructor-email" | translate }}{{ ":" | addSpace: ":"
+      }}<br />
+      @let email = instructorEmail();
+      @if (email) {
+        <a href="mailto:{{ email }}">{{ email }}</a>
+      } @else {
+        –
+      }
+    </div>
+
+    @let editLink = instructorEmailEditLink();
+    @let editLabel = instructorEmailEditLabel();
+    @if (editLink) {
+      <a
+        class="btn btn-primary btn-icon me-2"
+        [routerLink]="editLink"
+        [attr.aria-label]="editLabel"
+      >
+        <i class="material-icons">edit</i>
+      </a>
     }
   </div>
 </div>

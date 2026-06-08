@@ -613,6 +613,15 @@
         "email2": "Adresse électronique privée",
         "email2-hint": "Attention : Vous pouvez utiliser cette adresse électronique pour vous connecter à Evento Web (obtenir le code)"
       }
+    },
+    "edit-instructor-email": {
+      "title": "Modifier e-mail formateur-trice pratique",
+      "description": "Si une adresse électronique est saisie, cette personne recevra les notifications relatives à vos absences.",
+      "field-label": "E-mail formateur-trice pratique",
+      "field-hint": "Attention : Lors de l'enregistrement, une information est envoyée à la personne qui est formateur-trice pratique et formateur-trice.",
+      "cancel": "Annuler",
+      "save": "Valider",
+      "save-success": "L'adresse électronique a été enregistrée avec succès."
     }
   },
   "my-grades": {

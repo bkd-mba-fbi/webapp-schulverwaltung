@@ -6,6 +6,7 @@ import {
   input,
 } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Person } from "src/app/shared/models/person.model";
 import { AddSpacePipe } from "../../../pipes/add-space.pipe";
@@ -17,11 +18,13 @@ import { Apprenticeship } from "../../../services/student-profile.service";
   templateUrl: "./student-contact-apprenticeship.component.html",
   styleUrls: ["./student-contact-apprenticeship.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, TranslatePipe, AddSpacePipe, PersonEmailPipe],
+  imports: [DatePipe, RouterLink, TranslatePipe, AddSpacePipe, PersonEmailPipe],
 })
 export class StudentContactApprenticeshipComponent {
   apprenticeship = input.required<Apprenticeship>();
   student = input.required<Person>();
+  instructorEmailEditLink = input<Option<string>>(null);
+  instructorEmailEditLabel = input<Option<string>>(null);
 
   instructorEmail = computed(() => {
     const value = this.student().Custom1;

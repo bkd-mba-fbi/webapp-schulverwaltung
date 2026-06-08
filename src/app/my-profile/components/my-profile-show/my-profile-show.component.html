@@ -70,18 +70,19 @@
           <div ngbAccordionCollapse>
             <div ngbAccordionBody>
               <ng-template>
-                <div class="clearfix">
+                <div class="d-flex align-items-start gap-1">
+                  <bkd-student-contact-address
+                    [student]="personValue"
+                    emailProperty="Email2"
+                    class="flex-grow-1"
+                  ></bkd-student-contact-address>
                   <a
-                    class="btn btn-primary btn-icon float-end me-2"
+                    class="btn btn-primary btn-icon me-2"
                     routerLink="edit"
                     [attr.aria-label]="'my-profile.edit.title' | translate"
                   >
                     <i class="material-icons">edit</i>
                   </a>
-                  <bkd-student-contact-address
-                    [student]="personValue"
-                    emailProperty="Email2"
-                  ></bkd-student-contact-address>
                 </div>
               </ng-template>
             </div>
@@ -189,6 +190,12 @@
                   <bkd-student-contact-apprenticeship
                     [apprenticeship]="apprenticeship"
                     [student]="personValue"
+                    [instructorEmailEditLink]="
+                      canEditInstructorEmail() ? 'edit-instructor-email' : null
+                    "
+                    [instructorEmailEditLabel]="
+                      'my-profile.edit-instructor-email.title' | translate
+                    "
                   ></bkd-student-contact-apprenticeship>
                 </ng-template>
               </div>

@@ -613,6 +613,15 @@
         "email2": "E-Mail privat",
         "email2-hint": "Achtung: Diese E-Mail-Adresse verwenden Sie eventuell für die Anmeldung in Evento Web (Zustellung des Codes)"
       }
+    },
+    "edit-instructor-email": {
+      "title": "E-Mail Praxisbildner/in bearbeiten",
+      "description": "Ist eine E-Mail-Adresse erfasst, erhält diese Person die Benachrichtigungen zu Ihren Absenzen.",
+      "field-label": "E-Mail Praxisbildner/in",
+      "field-hint": "Achtung: Beim Speichern wird eine Information an Praxis- und Berufsbildner/in geschickt.",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "save-success": "Die E-Mailadresse wurde erfolgreich geändert."
     }
   },
   "my-grades": {
