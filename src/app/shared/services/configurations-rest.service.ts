@@ -2,7 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable, switchMap } from "rxjs";
 import { SETTINGS, Settings } from "src/app/settings";
-import { SubscriptionDetailsDisplay } from "../models/configurations.model";
+import {
+  SchoolAppNavigation,
+  SubscriptionDetailsDisplay,
+} from "../models/configurations.model";
 import { decode } from "../utils/decode";
 
 @Injectable({
@@ -17,6 +20,12 @@ export class ConfigurationsRestService {
     return this.http
       .get<unknown>(`${this.baseUrl}/Grading`)
       .pipe(switchMap(decode(SubscriptionDetailsDisplay)));
+  }
+
+  getSchoolAppNavigation(): Observable<SchoolAppNavigation> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/SchoolAppNavigation`)
+      .pipe(switchMap(decode(SchoolAppNavigation)));
   }
 
   private get baseUrl(): string {

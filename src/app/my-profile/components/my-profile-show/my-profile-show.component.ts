@@ -11,6 +11,8 @@ import {
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
+import { map } from "rxjs";
+import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { StudentContactAddressComponent } from "../../../shared/components/student/student-contact-address/student-contact-address.component";
 import { StudentContactApprenticeshipComponent } from "../../../shared/components/student/student-contact-apprenticeship/student-contact-apprenticeship.component";
@@ -48,6 +50,7 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
 })
 export class MyProfileShowComponent {
   profileService = inject(MyProfileService);
+  private configurationsService = inject(ConfigurationsRestService);
 
   person = toSignal(this.profileService.person$, { initialValue: null });
   loadingPerson = toSignal(this.profileService.loadingPerson$, {
@@ -76,4 +79,13 @@ export class MyProfileShowComponent {
   loadingStayPermit = toSignal(this.profileService.loadingStayPermit$, {
     requireSync: true,
   });
+
+  canEditInstructorEmail = toSignal(
+    this.configurationsService
+      .getSchoolAppNavigation()
+      .pipe(map((config) => config?.practicalTrainerActionEMail ?? false)),
+    {
+      initialValue: false,
+    },
+  );
 }

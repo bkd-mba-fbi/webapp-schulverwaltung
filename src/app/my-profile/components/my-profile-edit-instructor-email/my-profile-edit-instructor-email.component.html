@@ -1,0 +1,45 @@
+<div class="bkd-container bkd-container-limited">
+  @if (loading()) {
+    <bkd-spinner></bkd-spinner>
+  } @else {
+    <h1>{{ "my-profile.edit-instructor-email.title" | translate }}</h1>
+    <form (submit)="onSubmit($event)" novalidate>
+      <p>{{ "my-profile.edit-instructor-email.description" | translate }}</p>
+      <div class="mb-3">
+        <label class="form-label" for="my-profile-email-instructor">
+          {{ "my-profile.edit-instructor-email.field-label" | translate }}
+        </label>
+        <input
+          type="email"
+          class="form-control"
+          [class.is-invalid]="
+            submitted() && instructorEmailForm.instructorEmail().invalid()
+          "
+          id="my-profile-email-instructor"
+          aria-describedby="my-profile-email-instructor-hint"
+          [formField]="instructorEmailForm.instructorEmail"
+        />
+        <div id="my-profile-email-instructor-hint" class="form-text">
+          {{ "my-profile.edit-instructor-email.field-hint" | translate }}
+        </div>
+        <bkd-form-errors
+          [field]="instructorEmailForm.instructorEmail()"
+          [submitted]="submitted()"
+        ></bkd-form-errors>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          [disabled]="saving()"
+          (click)="cancel()"
+        >
+          {{ "my-profile.edit-instructor-email.cancel" | translate }}
+        </button>
+        <bkd-submit-button [saving]="saving()">
+          {{ "my-profile.edit-instructor-email.save" | translate }}
+        </bkd-submit-button>
+      </div>
+    </form>
+  }
+</div>

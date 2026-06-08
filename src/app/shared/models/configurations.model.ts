@@ -6,5 +6,11 @@ const SubscriptionDetailsDisplay = t.type({
   testGradingScaleIds: t.readonlyArray(t.number),
 });
 
+const SchoolAppNavigation = t.type({
+  practicalTrainerActionEMail: t.boolean,
+});
+
 type SubscriptionDetailsDisplay = t.TypeOf<typeof SubscriptionDetailsDisplay>;
-export { SubscriptionDetailsDisplay };
+type SchoolAppNavigation = t.TypeOf<typeof SchoolAppNavigation>;
+
+export { SubscriptionDetailsDisplay, SchoolAppNavigation };
