@@ -10,12 +10,11 @@
     }}
   </div>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    <div class="form-group mb-3 border-bottom">
-      <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-      <label class="form-label"
-        >{{ "my-absences.confirm.choose-presence-type" | translate
-        }}{{ ":" | addSpace: ":" }}</label
-      >
+    <fieldset class="form-group mb-3 border-bottom">
+      <legend>
+        {{ "my-absences.confirm.choose-presence-type" | translate
+        }}{{ ":" | addSpace: ":" }}
+      </legend>
       @for (type of absenceTypes$ | async; track type.Id; let i = $index) {
         <div
           class="form-check my-3"
@@ -46,7 +45,7 @@
           }
         </div>
       }
-    </div>
+    </fieldset>
     <div class="remark">
       {{ "my-absences.confirm.remark" | translate }}
     </div>

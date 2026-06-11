@@ -1,30 +1,32 @@
-<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
 <div class="row g-3 mb-5">
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-student">{{
       "edit-absences.header.student" | translate
     }}</label>
     <bkd-typeahead
+      [id]="'filter-student'"
       [typeaheadService]="studentsService"
       [(value)]="filter.student"
     ></bkd-typeahead>
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-module-instance">{{
       "edit-absences.header.module-instance" | translate
     }}</label>
     <bkd-typeahead
+      [id]="'filter-module-instance'"
       [typeaheadService]="educationalEventsService"
       [(value)]="filter.educationalEvent"
     ></bkd-typeahead>
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-study-class">{{
       "edit-absences.header.study-class" | translate
     }}</label>
     <bkd-typeahead
+      [id]="'filter-study-class'"
       [typeaheadService]="studyClassService"
       [(value)]="filter.studyClass"
       [additionalHttpParams]="this.classesHttpFilter"
@@ -32,40 +34,44 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-teacher">{{
       "edit-absences.header.teacher" | translate
     }}</label>
     <bkd-typeahead
+      [id]="'filter-teacher'"
       [typeaheadService]="teacherResourcesService"
       [(value)]="filter.teacher"
     ></bkd-typeahead>
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-date-from">{{
       "edit-absences.header.date-from" | translate
     }}</label>
     <bkd-date-select
+      [id]="'filter-date-from'"
       [value]="filter.dateFrom"
       (valueChange)="onDateFromChange($event)"
     ></bkd-date-select>
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-date-to">{{
       "edit-absences.header.date-to" | translate
     }}</label>
     <bkd-date-select
+      [id]="'filter-date-to'"
       [value]="filter.dateTo"
       (valueChange)="onDateToChange($event)"
     ></bkd-date-select>
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-weekdays">{{
       "edit-absences.header.weekdays" | translate
     }}</label>
     <bkd-multiselect
+      [id]="'filter-weekdays'"
       [options]="weekdaysGrouped$ | async"
       [(values)]="filter.weekdays"
     ></bkd-multiselect>
@@ -74,30 +80,33 @@
 
 <div class="row g-3 align-items-end">
   <div class="col-sm-12 col-md">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-confirmation-state">{{
       "edit-absences.header.confirmation-state" | translate
     }}</label>
     <bkd-multiselect
+      [id]="'filter-confirmation-state'"
       [options]="absenceConfirmationStatesGrouped$ | async"
       [(values)]="filter.confirmationStates"
     ></bkd-multiselect>
   </div>
 
   <div class="col-sm-12 col-md">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-presence-type">{{
       "edit-absences.header.presence-type" | translate
     }}</label>
     <bkd-multiselect
+      [id]="'filter-presence-type'"
       [options]="presenceTypesGrouped$ | async"
       [(values)]="filter.presenceTypes"
     ></bkd-multiselect>
   </div>
 
   <div class="col-sm-12 col-md">
-    <label class="form-label">{{
+    <label class="form-label" for="filter-incident">{{
       "edit-absences.header.incident" | translate
     }}</label>
     <bkd-multiselect
+      [id]="'filter-incident'"
       [options]="incidentTypesGrouped$ | async"
       [(values)]="filter.incidentTypes"
     ></bkd-multiselect>
