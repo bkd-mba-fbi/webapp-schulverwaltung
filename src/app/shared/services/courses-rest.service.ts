@@ -117,14 +117,19 @@ export class CoursesRestService extends RestService<typeof Course> {
    */
   getCoursesForMyGrades(
     courseIds: ReadonlyArray<number>,
+    additionalParams: Record<string, string>,
   ): Observable<ReadonlyArray<Course>> {
+    const params = {
+      ...additionalParams,
+      expand: "Tests,Gradings,FinalGrades",
+      "filter.StatusId": `;${this.settings.eventlist["statusfilter"]}`,
+      "filter.Id": `;${courseIds.join(";")}`,
+    };
     return this.http
-      .get<unknown>(
-        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades&filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${courseIds.join(";")}`,
-        {
-          headers: { "X-Role-Restriction": "StudentRole" },
-        },
-      )
+      .get<unknown>(`${this.baseUrl}/`, {
+        headers: { "X-Role-Restriction": "StudentRole" },
+        params,
+      })
       .pipe(switchMap(decodeArray(Course)));
   }
 
