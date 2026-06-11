@@ -200,20 +200,38 @@ describe("EventsStateService", () => {
       service.setRoles("ClassTeacherRole;TeacherRole");
     });
 
-    it("loads events", () => {
-      service.getEntries().subscribe((result) => {
-        expect(result).toEqual([
-          ...studyClassEntries,
-          ...assessmentEntries,
-          ...courseEntries,
-        ]);
+    describe("with scope 'current'", () => {
+      it("loads events", () => {
+        service.getEntries().subscribe((result) => {
+          expect(result).toEqual([
+            ...studyClassEntries,
+            ...assessmentEntries,
+            ...courseEntries,
+          ]);
+        });
+
+        expectCoursesScopeAllRequest();
+        expectFormativeAssessmentsRequest();
+        expectStudyClassesRequest();
+
+        httpTestingController.verify();
+      });
+    });
+
+    describe("with scope 'past'", () => {
+      beforeEach(() => {
+        service.setScope("past");
       });
 
-      expectCoursesRequest();
-      expectFormativeAssessmentsRequest();
-      expectStudyClassesRequest();
+      it("loads events", () => {
+        service.getEntries().subscribe((result) => {
+          expect(result).toEqual([...courseEntries]);
+        });
 
-      httpTestingController.verify();
+        expectCoursesScopePastRequest();
+
+        httpTestingController.verify();
+      });
     });
   });
 
@@ -222,34 +240,75 @@ describe("EventsStateService", () => {
       service.setRoles("TeacherRole");
     });
 
-    it("loads events", () => {
-      service
-        .getEntries()
-        .subscribe((result) =>
-          expect(result.map((r) => r.id)).toEqual([2, 4, 1, 3]),
-        );
+    describe("with scope 'current'", () => {
+      it("loads events", () => {
+        service
+          .getEntries()
+          .subscribe((result) =>
+            expect(result.map((r) => r.id)).toEqual([2, 4, 1, 3]),
+          );
 
-      expectCoursesRequest();
+        expectCoursesScopeAllRequest();
 
-      httpTestingController.verify();
+        httpTestingController.verify();
+      });
+
+      it("loads events with ratings", () => {
+        service
+          .getEntries(true)
+          .subscribe((result) =>
+            expect(result.map((r) => r.id)).toEqual([2, 4, 3]),
+          );
+
+        expectCoursesScopeAllRequest();
+
+        httpTestingController.verify();
+      });
     });
 
-    it("loads events with ratings", () => {
-      service
-        .getEntries(true)
-        .subscribe((result) =>
-          expect(result.map((r) => r.id)).toEqual([2, 4, 3]),
-        );
+    describe("with scope 'past'", () => {
+      beforeEach(() => {
+        service.setScope("past");
+      });
 
-      expectCoursesRequest();
+      it("loads events", () => {
+        service
+          .getEntries()
+          .subscribe((result) =>
+            expect(result.map((r) => r.id)).toEqual([2, 4, 1, 3]),
+          );
 
-      httpTestingController.verify();
+        expectCoursesScopePastRequest();
+
+        httpTestingController.verify();
+      });
+
+      it("loads events with ratings", () => {
+        service
+          .getEntries(true)
+          .subscribe((result) =>
+            expect(result.map((r) => r.id)).toEqual([2, 4, 3]),
+          );
+
+        expectCoursesScopePastRequest();
+
+        httpTestingController.verify();
+      });
     });
   });
 
-  function expectCoursesRequest(response = courses): void {
+  function expectCoursesScopeAllRequest(response = courses): void {
     const url =
-      "https://eventotest.api/Courses/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300";
+      "https://eventotest.api/Courses/?filter.DateTo=%3E2022-03-02&expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300";
+
+    httpTestingController
+      .expectOne(url)
+      .flush(t.array(Course).encode(response));
+  }
+
+  function expectCoursesScopePastRequest(response = courses): void {
+    const url =
+      "https://eventotest.api/Courses/?filter.DateTo=%3C2022-03-03&expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300";
 
     httpTestingController
       .expectOne(url)

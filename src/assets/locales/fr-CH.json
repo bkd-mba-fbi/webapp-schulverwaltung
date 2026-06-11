@@ -246,6 +246,10 @@
     "no-events": "Aucun événement disponible",
     "search": "Rechercher un événement",
     "search-by": "Rechercher...",
+    "scopes": {
+      "current": "Disciplines actuelles",
+      "past": "Disciplines passées"
+    },
     "designation": "Désignation",
     "date": "Date",
     "registration": "Inscription",

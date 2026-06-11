@@ -246,6 +246,10 @@
     "no-events": "Keine Anlässe vorhanden",
     "search": "Anlass suchen",
     "search-by": "Suchen...",
+    "scopes": {
+      "current": "Aktuelle Fächer",
+      "past": "Vergangene Fächer"
+    },
     "designation": "Bezeichnung",
     "date": "Datum",
     "registration": "Anmeldung",
