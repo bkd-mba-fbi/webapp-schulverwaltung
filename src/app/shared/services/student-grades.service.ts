@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { isEqual, uniq } from "lodash-es";
 import {
+  BehaviorSubject,
   Observable,
   ReplaySubject,
   combineLatest,
@@ -13,11 +14,14 @@ import {
   switchMap,
 } from "rxjs";
 import { scan, skip } from "rxjs/operators";
+import { EventScope } from "src/app/events/components/common/events-scope-select/events-scope-select.component";
 import { gradingScaleOfTest, resultOfStudent } from "../../events/utils/tests";
 import { Course, FinalGrading, Grading } from "../models/course.model";
 import { Grade, GradingScale } from "../models/grading-scale.model";
 import { Test } from "../models/test.model";
+import { getCourseFilterParamsForScope } from "../utils/courses";
 import { notNull } from "../utils/filter";
+import { spread } from "../utils/function";
 import { ValueWithWeight } from "../utils/math";
 import { CoursesRestService } from "./courses-rest.service";
 import { GradingScalesRestService } from "./grading-scales-rest.service";
@@ -56,10 +60,15 @@ export class StudentGradesService {
   private eventIds$ = this.subscriptionAndEventsIds$.pipe(
     map((ids) => ids.eventIds),
   );
+  private scopeSubject$ = new BehaviorSubject<EventScope>("current");
+  scope$ = this.scopeSubject$.asObservable();
 
-  private initialStudentCourses$ = this.eventIds$.pipe(
+  private initialStudentCourses$ = combineLatest([
+    this.eventIds$,
+    this.scope$,
+  ]).pipe(
     distinctUntilChanged(isEqual),
-    switchMap((eventIds) => this.loadCourses(eventIds)),
+    switchMap(spread(this.loadCourses.bind(this))),
     map((courses) =>
       [...courses].sort((c1, c2) =>
         c1.Designation.localeCompare(c2.Designation),
@@ -97,6 +106,10 @@ export class StudentGradesService {
 
   setStudentId(id: number) {
     this.studentId$.next(id);
+  }
+
+  setScope(scope: EventScope): void {
+    this.scopeSubject$.next(scope);
   }
 
   getFinalGradeForStudent(
@@ -152,11 +165,15 @@ export class StudentGradesService {
 
   private loadCourses(
     eventIds: ReadonlyArray<number>,
+    scope: EventScope,
   ): Observable<ReadonlyArray<Course>> {
     if (eventIds.length === 0) return of([]);
 
     return this.loadingService.load(
-      this.coursesRestService.getCoursesForDossier(eventIds),
+      this.coursesRestService.getCoursesForDossier(
+        eventIds,
+        getCourseFilterParamsForScope(scope),
+      ),
       { context: GRADES_CONTEXT },
     );
   }

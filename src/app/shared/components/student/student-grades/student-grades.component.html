@@ -2,6 +2,12 @@
 @let studentId = state.studentId$ | async;
 @let gradingScales = gradesService.gradingScales$ | async;
 
+<bkd-events-scope-select
+  class="mb-3"
+  [value]="gradesService.scope$ | async"
+  (valueChange)="gradesService.setScope($event)"
+></bkd-events-scope-select>
+
 @if (gradesService.loading$ | async) {
   <bkd-spinner class="small"></bkd-spinner>
 } @else {
