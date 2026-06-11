@@ -1,0 +1,9 @@
+@import "src/bootstrap-variables";
+
+fieldset legend {
+  margin-bottom: $form-label-margin-bottom;
+  font-size: $form-label-font-size;
+  font-style: $form-label-font-style;
+  font-weight: $form-label-font-weight;
+  color: $form-label-color;
+}

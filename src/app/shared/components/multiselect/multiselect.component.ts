@@ -12,6 +12,7 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   imports: [NgSelectModule, FormsModule, TranslatePipe],
 })
 export class MultiselectComponent {
+  @Input() id: Option<string> = null;
   @Input() options: ReadonlyArray<DropDownGroupedItem> = [];
   @Input() values: Option<ReadonlyArray<DropDownItem["Key"]>> = [];
   @Output() valuesChange = new EventEmitter<

@@ -50,9 +50,8 @@
       </div>
     </div>
   </div>
-  <div class="row mb-3">
-    <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-    <label class="form-label">{{ "tests.form.weight" | translate }}</label>
+  <fieldset class="row mb-3">
+    <legend>{{ "tests.form.weight" | translate }}</legend>
     <div class="col-md-6">
       <div class="row">
         <label for="weight" class="form-label col-3 col-sm-2">{{
@@ -74,12 +73,9 @@
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-    <label class="form-label">{{
-      "tests.form.grading-type" | translate
-    }}</label>
+  </fieldset>
+  <fieldset>
+    <legend>{{ "tests.form.grading-type" | translate }}</legend>
     <div class="form-check">
       <input
         type="radio"
@@ -174,14 +170,13 @@
         </math>
       </div>
     }
-  </div>
+  </fieldset>
   @let scales = gradingScales();
   @if (scales.length > 0) {
-    <div>
-      <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
-      <label class="form-label">{{
-        "tests.form.grading-scale" | translate
-      }}</label>
+    <fieldset>
+      <legend>
+        {{ "tests.form.grading-scale" | translate }}
+      </legend>
       @for (scale of scales; track scale.Id) {
         <div class="form-check">
           <input
@@ -202,7 +197,7 @@
         [field]="testForm.gradingScaleId()"
         [submitted]="submitted()"
       ></bkd-form-errors>
-    </div>
+    </fieldset>
   }
   <div class="d-flex justify-content-end gap-2 mt-4">
     <button

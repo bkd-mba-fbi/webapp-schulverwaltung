@@ -2,7 +2,6 @@
   <div class="input-group-prepend">
     <button
       class="btn btn-outline-secondary"
-      [id]="componentId"
       type="button"
       (click)="dp.toggle()"
     >
@@ -10,11 +9,10 @@
     </button>
   </div>
   <input
+    [id]="id"
     type="text"
     class="form-control"
     [attr.placeholder]="placeholder | translate"
-    [attr.aria-label]="placeholder | translate"
-    [attr.aria-describedby]="componentId"
     ngbDatepicker
     #dp="ngbDatepicker"
     (click)="dp.toggle()"

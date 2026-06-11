@@ -1,13 +1,10 @@
 <div class="input-group">
-  <span class="input-group-text" [id]="componentId"
-    ><i class="material-icons">search</i></span
-  >
+  <span class="input-group-text"><i class="material-icons">search</i></span>
   <input
+    [id]="id"
     type="text"
     class="form-control"
     [attr.placeholder]="placeholder | translate"
-    [attr.aria-label]="placeholder | translate"
-    [attr.aria-describedby]="componentId"
     [ngbTypeahead]="search"
     [inputFormatter]="format"
     [resultFormatter]="format"

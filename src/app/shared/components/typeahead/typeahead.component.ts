@@ -10,7 +10,6 @@ import {
 import { FormsModule } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { uniqueId } from "lodash-es";
 import { BehaviorSubject, Observable } from "rxjs";
 import {
   debounceTime,
@@ -40,6 +39,7 @@ const MINIMAL_TERM_LENGTH = 3;
 export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
+  @Input() id: Option<string> = null;
   @Input() typeaheadService: TypeaheadService;
   @Input() placeholder = "shared.typeahead.default-placeholder";
   @Input() value: Option<DropDownItem["Key"]>;
@@ -51,7 +51,6 @@ export class TypeaheadComponent implements OnChanges {
     distinctUntilChanged(),
   );
 
-  componentId = uniqueId("bkd-typeahead-");
   loading$ = new BehaviorSubject(false);
 
   constructor() {}
