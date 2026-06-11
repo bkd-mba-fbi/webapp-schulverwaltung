@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { isEqual, uniq } from "lodash-es";
 import {
+  BehaviorSubject,
   Observable,
   ReplaySubject,
   combineLatest,
@@ -10,6 +11,9 @@ import {
   shareReplay,
   switchMap,
 } from "rxjs";
+import { EventScope } from "src/app/events/components/common/events-scope-select/events-scope-select.component";
+import { getCourseFilterParamsForScope } from "src/app/shared/utils/courses";
+import { spread } from "src/app/shared/utils/function";
 import { Course } from "../../shared/models/course.model";
 import { CoursesRestService } from "../../shared/services/courses-rest.service";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
@@ -41,9 +45,11 @@ export class MyGradesService {
   private eventIds$ = this.subscriptionAndEventsIds$.pipe(
     map((ids) => ids.eventIds),
   );
+  private scopeSubject$ = new BehaviorSubject<EventScope>("current");
+  scope$ = this.scopeSubject$.asObservable();
 
-  private studentCourses$ = this.eventIds$
-    .pipe(switchMap(this.loadCourses.bind(this)))
+  private studentCourses$ = combineLatest([this.eventIds$, this.scope$])
+    .pipe(switchMap(spread(this.loadCourses.bind(this))))
     .pipe(shareReplay(1));
   studentCoursesSorted$ = this.studentCourses$.pipe(
     map((courses) =>
@@ -88,13 +94,21 @@ export class MyGradesService {
     }
   }
 
+  setScope(scope: EventScope): void {
+    this.scopeSubject$.next(scope);
+  }
+
   private loadCourses(
     eventIds: ReadonlyArray<number>,
+    scope: EventScope,
   ): Observable<ReadonlyArray<Course>> {
     if (eventIds.length === 0) return of([]);
 
     return this.loadingService.load(
-      this.coursesRestService.getCoursesForMyGrades(eventIds),
+      this.coursesRestService.getCoursesForMyGrades(
+        eventIds,
+        getCourseFilterParamsForScope(scope),
+      ),
     );
   }
 
