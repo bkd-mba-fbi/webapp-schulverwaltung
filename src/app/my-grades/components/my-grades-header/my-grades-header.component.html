@@ -4,3 +4,8 @@
     [reports]="(myGradesService.testReports$ | async) ?? []"
   ></bkd-student-grades-actions>
 </div>
+<bkd-events-scope-select
+  class="mb-3"
+  [value]="myGradesService.scope$ | async"
+  (valueChange)="myGradesService.setScope($event)"
+></bkd-events-scope-select>
