@@ -53,6 +53,13 @@ describe("StudentGradesService", () => {
       }),
     );
     service = TestBed.inject(StudentGradesService);
+
+    jasmine.clock().install();
+    jasmine.clock().mockDate(new Date("2000-01-23T12:00:00"));
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   describe("studentCourses$", () => {
@@ -94,11 +101,10 @@ describe("StudentGradesService", () => {
       expect(
         subscriptionsRestService.getSubscriptionsByStudent,
       ).toHaveBeenCalledWith(123);
-      expect(coursesRestService.getCoursesForDossier).toHaveBeenCalledWith([
-        course1.Id,
-        course2.Id,
-        course3.Id,
-      ]);
+      expect(coursesRestService.getCoursesForDossier).toHaveBeenCalledWith(
+        [course1.Id, course2.Id, course3.Id],
+        { "filter.DateTo": ">2000-01-22" },
+      );
     });
   });
 
