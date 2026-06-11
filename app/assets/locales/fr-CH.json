@@ -26,8 +26,7 @@
       "max": "Veuillez saisir un nombre inférieur ou égal à {{max}}.",
       "min": "Veuillez saisir un nombre supérieur ou égal à {{min}}.",
       "ngbDate": "Veuillez saisir une date valide.",
-      "invalidPoints": "Veuillez saisir une valeur de 0 à {{ maxPoints }}.",
-      "greaterThan": "Veuillez saisir un nombre supérieur à {{ greaterThanValue }}."
+      "invalidPoints": "Veuillez saisir une valeur de 0 à {{ maxPoints }}."
     },
     "pagination": {
       "load-more": "Charger plus de données"
@@ -331,6 +330,7 @@
       "max-points": "maximal",
       "max-points-adjusted": "corrigé",
       "grades": "Notes",
+      "grading-scale": "Échelle de notes",
       "save": "Valider",
       "cancel": "Annuler",
       "save-success": "Le test a été enregistré",
