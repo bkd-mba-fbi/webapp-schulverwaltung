@@ -5,6 +5,8 @@ import {
   Subject,
   Subscription,
   connectable,
+  defer,
+  identity,
 } from "rxjs";
 import {
   distinctUntilChanged,
@@ -14,7 +16,6 @@ import {
   startWith,
   tap,
 } from "rxjs/operators";
-import { prepare } from "../utils/observable";
 
 interface LoadingAction {
   action: "increment" | "decrement";
@@ -93,19 +94,24 @@ export class LoadingService implements OnDestroy {
     const stopOnFirstValue =
       (typeof options === "object" && options.stopOnFirstValue) || false;
 
+    const increment = this.incrementLoadingCount(context);
     const decrement = this.decrementLoadingCount(context);
-    let firstValue = true;
-    function decrementOnce() {
-      if (firstValue) {
-        decrement();
-        firstValue = false;
-      }
-    }
 
-    return source$.pipe(
-      prepare(this.incrementLoadingCount(context)),
-      stopOnFirstValue ? tap(decrementOnce) : finalize(decrement),
-    );
+    return defer(() => {
+      let firstValue = false;
+      const decrementOnce = () => {
+        if (!firstValue) {
+          firstValue = true;
+          decrement();
+        }
+      };
+
+      increment();
+      return source$.pipe(
+        stopOnFirstValue ? tap(decrementOnce) : identity,
+        finalize(decrementOnce),
+      );
+    });
   }
 
   private incrementLoadingCount(context: string): () => void {

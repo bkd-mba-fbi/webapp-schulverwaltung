@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { LoadingService } from "./loading-service";
 
@@ -82,6 +82,27 @@ describe("LoadingService", () => {
 
     completeDefault();
     expectNotCalled(loadingDefault);
+  });
+
+  it("balances increments and decrements across multiple subscribers with stopOnFirstValue=true", () => {
+    expectCalledWith(loadingDefault, false);
+
+    // Hot source so both subscribers receive the same emission.
+    const source$ = new Subject<number>();
+    const result$ = service.load(source$, { stopOnFirstValue: true });
+
+    const resultA = jasmine.createSpy("resultA");
+    const resultB = jasmine.createSpy("resultB");
+    result$.subscribe(resultA);
+    result$.subscribe(resultB);
+    expectCalledWith(loadingDefault, true);
+
+    // Source emits a first value, reaching both subscribers.
+    source$.next(1);
+
+    // Both subscriptions have now decremented, so the loading state must
+    // flip back to false.
+    expectCalledWith(loadingDefault, false);
   });
 
   function createObservable(): [
