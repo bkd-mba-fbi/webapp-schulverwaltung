@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable, switchMap } from "rxjs";
-import { TimetableEntry } from "../models/timetable-entry.model";
+import { LessonTeacher, TimetableEntry } from "../models/timetable-entry.model";
 import { decodeArray } from "./decode";
 
 export function fetchTimetableEntries(
@@ -34,11 +34,24 @@ export function fetchTimetableEntries(
         ...(additionalFields ?? []),
       ].join(","),
     )
-    .set("expand", "Rooms");
+    .set(
+      "expand",
+      [...(params.get("expand")?.split(",") ?? []), "Rooms"].join(","),
+    );
+
   return http
     .get<unknown>(url, {
       ...options,
       params,
     })
     .pipe(switchMap(decodeArray(TimetableEntry)));
+}
+
+export function createTeacherString(
+  lessonTeachers?: Option<ReadonlyArray<LessonTeacher>>,
+): Option<string> {
+  return (
+    lessonTeachers?.map((t) => `${t.Lastname} ${t.Firstname}`)?.join(", ") ||
+    null
+  );
 }

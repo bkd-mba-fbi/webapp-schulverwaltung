@@ -19,7 +19,9 @@ describe("Dashboard timetable entry utilities", () => {
         EventNumber: "1-1-E-S3-GYMweb24-27a",
         EventDesignation: "Englisch-S3",
         EventLocation: "1.01",
-        EventManagerInformation: "Doe Jane",
+        LessonTeachers: [
+          { Id: 1, PersonId: 1, Lastname: "Doe", Firstname: "Jane" },
+        ],
         Rooms: [{ Id: 1016, Designation: "1.01" }],
       };
       const result = convertTimetableEntry(entry);
