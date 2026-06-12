@@ -28,7 +28,7 @@ const Test = t.type({
   IsPublished: t.boolean,
   IsOwner: t.boolean,
   Owner: Option(t.string),
-  // Creation: t.string,
+  Creation: LocalDateTimeFromString,
   GradingScaleId: Option(t.number),
   // GradingScale: Option(t.string),
   Results: Option(t.readonlyArray(Result)),
