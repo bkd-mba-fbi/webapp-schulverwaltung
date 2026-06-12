@@ -16,9 +16,11 @@ import { StudyClass } from "src/app/shared/models/study-class.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { LoadingService } from "src/app/shared/services/loading-service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { getCourseFilterParamsForScope } from "src/app/shared/utils/courses";
 import { spread } from "src/app/shared/utils/function";
 import { hasRole } from "src/app/shared/utils/roles";
 import { searchEntries } from "src/app/shared/utils/search";
+import { EventScope } from "../components/common/events-scope-select/events-scope-select.component";
 import {
   EventStateWithLabel,
   getCourseDesignation,
@@ -62,22 +64,12 @@ export class EventsStateService {
   private searchSubject$ = new BehaviorSubject<string>("");
   search$ = this.searchSubject$.asObservable();
 
+  private scopeSubject$ = new BehaviorSubject<EventScope>("current");
+  scope$ = this.scopeSubject$.asObservable();
+
   private roles$ = new BehaviorSubject<Option<string>>(null);
   private isClassTeacher$ = this.roles$.pipe(
     map((roles) => hasRole(roles, "ClassTeacherRole")),
-    shareReplay(1),
-  );
-
-  private unratedCourses$ = this.roles$.pipe(
-    switchMap(this.loadUnratedCourses.bind(this)),
-    shareReplay(1),
-  );
-  private formativeAssessments$ = this.isClassTeacher$.pipe(
-    switchMap(this.loadFormativeAssessments.bind(this)),
-    shareReplay(1),
-  );
-  private studyClasses$ = this.isClassTeacher$.pipe(
-    switchMap(this.loadStudyClasses.bind(this)),
     shareReplay(1),
   );
 
@@ -90,6 +82,10 @@ export class EventsStateService {
 
   setSearch(term: string): void {
     this.searchSubject$.next(term);
+  }
+
+  setScope(scope: EventScope): void {
+    this.scopeSubject$.next(scope);
   }
 
   setRoles(roles: Option<string>): void {
@@ -109,40 +105,53 @@ export class EventsStateService {
   }
 
   private getEvents(): Observable<ReadonlyArray<EventEntry>> {
-    return this.loadingService
-      .load(
-        combineLatest([
-          this.unratedCourses$,
-          this.formativeAssessments$,
-          this.studyClasses$,
-        ]),
-        {
-          stopOnFirstValue: true,
-        },
-      )
-      .pipe(map(spread(this.createAndSortEvents.bind(this))));
+    const unratedCourses$ = combineLatest([this.scope$, this.roles$]).pipe(
+      switchMap(spread(this.loadUnratedCourses.bind(this))),
+    );
+    const formativeAssessments$ = combineLatest([
+      this.scope$,
+      this.isClassTeacher$,
+    ]).pipe(switchMap(spread(this.loadFormativeAssessments.bind(this))));
+    const studyClasses$ = combineLatest([
+      this.scope$,
+      this.isClassTeacher$,
+    ]).pipe(switchMap(spread(this.loadStudyClasses.bind(this))));
+
+    return combineLatest([
+      unratedCourses$,
+      formativeAssessments$,
+      studyClasses$,
+    ]).pipe(map(spread(this.createAndSortEvents.bind(this))));
   }
 
   private loadUnratedCourses(
+    scope: EventScope,
     roles: Option<string>,
   ): Observable<ReadonlyArray<Course>> {
-    return this.coursesRestService
-      .getCourses(roles)
+    const params = getCourseFilterParamsForScope(scope);
+    return this.loadingService
+      .load(this.coursesRestService.getCourses(roles, params))
       .pipe(map((courses) => courses.filter((c) => !isRated(c))));
   }
 
   private loadFormativeAssessments(
+    scope: EventScope,
     isClassTeacher: boolean,
   ): Observable<ReadonlyArray<StudyClass>> {
-    return isClassTeacher
-      ? this.studyClassRestService.getActiveFormativeAssessments()
-      : of([]);
+    if (scope === "past" || !isClassTeacher) return of([]);
+
+    return this.loadingService.load(
+      this.studyClassRestService.getActiveFormativeAssessments(),
+    );
   }
 
   private loadStudyClasses(
+    scope: EventScope,
     isClassTeacher: boolean,
   ): Observable<ReadonlyArray<StudyClass>> {
-    return isClassTeacher ? this.studyClassRestService.getActive() : of([]);
+    if (scope === "past" || !isClassTeacher) return of([]);
+
+    return this.loadingService.load(this.studyClassRestService.getActive());
   }
 
   private createAndSortEvents(

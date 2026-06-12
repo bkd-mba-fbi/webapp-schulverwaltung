@@ -57,12 +57,21 @@ export class CoursesRestService extends RestService<typeof Course> {
   /**
    * Used on /events & /events/current
    */
-  getCourses(roles: Maybe<string>): Observable<ReadonlyArray<Course>> {
+  getCourses(
+    roles: Maybe<string>,
+    additionalParams: Record<string, string> = {},
+  ): Observable<ReadonlyArray<Course>> {
     if (hasRole(roles, "TeacherRole")) {
+      const params = {
+        ...additionalParams,
+        expand: "EvaluationStatusRef,AttendanceRef,Classes,FinalGrades",
+        "filter.StatusId": `;${this.settings.eventlist["statusfilter"]}`,
+      };
       return this.http
-        .get<
-          unknown[]
-        >(`${this.baseUrl}/?expand=EvaluationStatusRef,AttendanceRef,Classes,FinalGrades&filter.StatusId=;${this.settings.eventlist["statusfilter"]}`, { headers: { "X-Role-Restriction": "TeacherRole" } })
+        .get<unknown>(`${this.baseUrl}/`, {
+          params,
+          headers: { "X-Role-Restriction": "TeacherRole" },
+        })
         .pipe(switchMap(decodeArray(Course)));
     }
 
@@ -74,11 +83,17 @@ export class CoursesRestService extends RestService<typeof Course> {
    */
   getCoursesForDossier(
     courseIds: ReadonlyArray<number>,
+    additionalParams: Record<string, string> = {},
   ): Observable<ReadonlyArray<Course>> {
+    const params = {
+      ...additionalParams,
+      expand:
+        "Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes",
+      "filter.StatusId": `;${this.settings.eventlist["statusfilter"]}`,
+      "filter.Id": `;${courseIds.join(";")}`,
+    };
     return this.http
-      .get<unknown>(
-        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades,EvaluationStatusRef,ParticipatingStudents,Classes&filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${courseIds.join(";")}`,
-      )
+      .get<unknown>(`${this.baseUrl}/`, { params })
       .pipe(switchMap(decodeArray(Course)));
   }
 
@@ -102,14 +117,19 @@ export class CoursesRestService extends RestService<typeof Course> {
    */
   getCoursesForMyGrades(
     courseIds: ReadonlyArray<number>,
+    additionalParams: Record<string, string>,
   ): Observable<ReadonlyArray<Course>> {
+    const params = {
+      ...additionalParams,
+      expand: "Tests,Gradings,FinalGrades",
+      "filter.StatusId": `;${this.settings.eventlist["statusfilter"]}`,
+      "filter.Id": `;${courseIds.join(";")}`,
+    };
     return this.http
-      .get<unknown>(
-        `${this.baseUrl}/?expand=Tests,Gradings,FinalGrades&filter.StatusId=;${this.settings.eventlist["statusfilter"]}&filter.Id=;${courseIds.join(";")}`,
-        {
-          headers: { "X-Role-Restriction": "StudentRole" },
-        },
-      )
+      .get<unknown>(`${this.baseUrl}/`, {
+        headers: { "X-Role-Restriction": "StudentRole" },
+        params,
+      })
       .pipe(switchMap(decodeArray(Course)));
   }
 

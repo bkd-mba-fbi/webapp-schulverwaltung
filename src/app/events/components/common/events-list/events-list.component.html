@@ -1,35 +1,39 @@
-@let events = (state.getEntries(withRatings) | async) ?? [];
-
 <div class="bkd-container">
   <bkd-resettable-input
     class="d-flex search"
     [value]="state.search$ | async"
     [placeholder]="'events.search-by' | translate"
     [label]="'events.search' | translate"
-    [disabled]="!events"
+    [disabled]="entries().length === 0"
     (valueChange)="state.setSearch($event)"
   ></bkd-resettable-input>
+
+  <bkd-events-scope-select
+    class="mt-3"
+    [value]="state.scope$ | async"
+    (valueChange)="state.setScope($event)"
+  ></bkd-events-scope-select>
 
   @if (state.loading$ | async) {
     <bkd-spinner></bkd-spinner>
   } @else {
-    @if (events.length > 0) {
-      <div class="event-header" [class.with-ratings]="withRatings">
+    @if (entries().length > 0) {
+      <div class="event-header" [class.with-ratings]="withRatings()">
         <div class="designation">{{ "events.designation" | translate }}</div>
         <div class="date">{{ "events.date" | translate }}</div>
         <div class="registrations">
           {{ "events.registrations" | translate }}
         </div>
-        @if (withRatings) {
+        @if (withRatings()) {
           <div class="rating">
             {{ "events.rating" | translate }}
           </div>
         }
       </div>
-      @for (event of events; track event.id) {
+      @for (entry of entries(); track entry.id) {
         <bkd-events-list-entry
-          [event]="event"
-          [withRatings]="withRatings"
+          [event]="entry"
+          [withRatings]="withRatings()"
         ></bkd-events-list-entry>
       }
     } @else {

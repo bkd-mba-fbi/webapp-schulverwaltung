@@ -1,6 +1,7 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
+import { EventsScopeSelectComponent } from "src/app/events/components/common/events-scope-select/events-scope-select.component";
 import { StudentGradesActionsComponent } from "src/app/shared/components/student/student-grades-actions/student-grades-actions.component";
 import { MyGradesService } from "../../services/my-grades.service";
 
@@ -8,7 +9,12 @@ import { MyGradesService } from "../../services/my-grades.service";
   selector: "bkd-my-grades-header",
   templateUrl: "./my-grades-header.component.html",
   styleUrls: ["./my-grades-header.component.scss"],
-  imports: [AsyncPipe, TranslatePipe, StudentGradesActionsComponent],
+  imports: [
+    AsyncPipe,
+    TranslatePipe,
+    StudentGradesActionsComponent,
+    EventsScopeSelectComponent,
+  ],
 })
 export class MyGradesHeaderComponent {
   myGradesService = inject(MyGradesService);
