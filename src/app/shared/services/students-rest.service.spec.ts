@@ -79,7 +79,7 @@ describe("StudentsRestService", () => {
 
       httpTestingController
         .expectOne(
-          "https://eventotest.api/Students/39361/TimetableEntries/CurrentSemester?fields=Id,From,To,EventId,EventNumber,EventDesignation,EventLocation,Rooms,EventManagerInformation&expand=Rooms",
+          "https://eventotest.api/Students/39361/TimetableEntries/CurrentSemester?expand=LessonTeachers,Rooms&fields=Id,From,To,EventId,EventNumber,EventDesignation,EventLocation,Rooms,LessonTeachers",
         )
         .flush(t.array(TimetableEntry).encode([entry1, entry2]));
     });

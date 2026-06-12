@@ -45,6 +45,7 @@ import { Result, Test } from "./app/shared/models/test.model";
 import { TimetableEntry } from "./app/shared/models/timetable-entry.model";
 import { TokenPayload } from "./app/shared/models/token-payload.model";
 import { UserSettings } from "./app/shared/models/user-settings.model";
+import { createTeacherString } from "./app/shared/utils/timetable-entries";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -131,7 +132,8 @@ export function buildLessonPresenceFromTimetableEntry(
     Type: null,
     StudentFullName: "",
     StudyClassNumber: "",
-    TeacherInformation: timetableEntry.EventManagerInformation ?? null,
+    TeacherInformation:
+      createTeacherString(timetableEntry.LessonTeachers) ?? null,
   };
 }
 
@@ -715,7 +717,7 @@ export function buildTimetableEntry(
     EventId: 0,
     EventNumber: "",
     EventDesignation: "",
-    EventManagerInformation: "",
+    LessonTeachers: [],
     EventLocation: "",
     Rooms: undefined,
   };

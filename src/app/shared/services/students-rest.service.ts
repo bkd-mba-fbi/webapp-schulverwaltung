@@ -100,12 +100,25 @@ export class StudentsRestService extends TypeaheadRestService<typeof Student> {
     studentId: number,
     params: HttpParams | Dict<string> = {},
   ): Observable<ReadonlyArray<TimetableEntry>> {
+    let additionalParams =
+      params instanceof HttpParams
+        ? params
+        : new HttpParams({ fromObject: params });
+
+    additionalParams = additionalParams.set(
+      "expand",
+      [
+        ...(additionalParams.get("expand")?.split(",") ?? []),
+        "LessonTeachers",
+      ].join(","),
+    );
+
     return fetchTimetableEntries(
       this.http,
       `${this.baseUrl}/${studentId}/TimetableEntries/CurrentSemester`,
       {
-        params,
-        additionalFields: ["EventManagerInformation"],
+        params: additionalParams,
+        additionalFields: ["LessonTeachers"],
       },
     );
   }

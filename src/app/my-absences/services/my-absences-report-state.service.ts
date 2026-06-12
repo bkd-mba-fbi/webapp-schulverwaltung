@@ -16,6 +16,7 @@ import {
 import { StorageService } from "src/app/shared/services/storage.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { Paginated } from "src/app/shared/utils/pagination";
+import { createTeacherString } from "src/app/shared/utils/timetable-entries";
 
 export interface ReportAbsencesFilter {
   dateFrom: Option<Date>;
@@ -203,7 +204,8 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
       Type: (absence || dispensation)?.Type || null,
       StudentFullName: (absence || dispensation)?.StudentFullName || "",
       StudyClassNumber: "", // Currently not available on timetable entry
-      TeacherInformation: timetableEntry.EventManagerInformation ?? null,
+      TeacherInformation:
+        createTeacherString(timetableEntry.LessonTeachers) ?? null,
     };
   }
 

@@ -130,7 +130,9 @@ describe("DashboardTimetableComponent", () => {
       entry1.EventId = 10;
       entry1.EventNumber = "3-1-E-S3-Test-9a";
       entry1.EventDesignation = "Mathematik";
-      entry1.EventManagerInformation = "Leonhard Euler";
+      entry1.LessonTeachers = [
+        { Id: 1, PersonId: 1, Lastname: "Euler", Firstname: "Leonhard" },
+      ];
       entry1.EventLocation = "109";
       entry1.Rooms = [{ Id: 109, Designation: "109" }];
 
@@ -142,7 +144,9 @@ describe("DashboardTimetableComponent", () => {
       entry2.EventId = 20;
       entry2.EventNumber = "3-2-E-S3-Test-8c";
       entry2.EventDesignation = "Zeichnen";
-      entry2.EventManagerInformation = "Pablo Picasso";
+      entry2.LessonTeachers = [
+        { Id: 2, PersonId: 2, Lastname: "Picasso", Firstname: "Pablo" },
+      ];
       entry2.EventLocation = "502";
       entry2.Rooms = [{ Id: 502, Designation: "502" }];
 
@@ -293,7 +297,9 @@ describe("DashboardTimetableComponent", () => {
       );
       entry1.EventId = 10;
       entry1.EventDesignation = "Mathematik";
-      entry1.EventManagerInformation = "Leonhard Euler";
+      entry1.LessonTeachers = [
+        { Id: 1, PersonId: 1, Lastname: "Euler", Firstname: "Leonhard" },
+      ];
       entry1.EventLocation = "109";
       entry1.Rooms = [{ Id: 109, Designation: "109" }];
 
@@ -304,7 +310,9 @@ describe("DashboardTimetableComponent", () => {
       );
       entry2.EventId = 20;
       entry2.EventDesignation = "Zeichnen";
-      entry2.EventManagerInformation = "Pablo Picasso";
+      entry2.LessonTeachers = [
+        { Id: 2, PersonId: 2, Lastname: "Picasso", Firstname: "Pablo" },
+      ];
       entry2.EventLocation = "502";
       entry2.Rooms = [{ Id: 502, Designation: "502" }];
 
@@ -338,7 +346,7 @@ describe("DashboardTimetableComponent", () => {
       expect(label?.textContent?.trim()).toBe("Mathematik");
 
       expect(rows[0].querySelector("td.teacher")?.textContent?.trim()).toBe(
-        "Leonhard Euler",
+        "Euler Leonhard",
       );
 
       expect(rows[0].querySelector("td.room")?.textContent).toContain("109");
@@ -352,7 +360,7 @@ describe("DashboardTimetableComponent", () => {
       expect(label?.textContent?.trim()).toBe("Zeichnen");
 
       expect(rows[1].querySelector("td.teacher")?.textContent?.trim()).toBe(
-        "Pablo Picasso",
+        "Picasso Pablo",
       );
 
       expect(rows[1].querySelector("td.room")?.textContent).toContain("502");
