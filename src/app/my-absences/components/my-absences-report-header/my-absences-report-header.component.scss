@@ -10,9 +10,11 @@
 .filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: end;
 }
 
-.form-group {
+.form-group,
+.buttons {
   flex: 1;
   min-width: 20rem;
   max-width: 40rem;
@@ -22,7 +24,6 @@
 
 .buttons {
   flex: none;
-  margin-top: $font-size-base * $line-height-base;
   margin-right: 0;
 }
 
