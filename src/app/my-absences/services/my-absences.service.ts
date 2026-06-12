@@ -20,6 +20,7 @@ import { StudentsRestService } from "src/app/shared/services/students-rest.servi
 import { notNull } from "src/app/shared/utils/filter";
 import { spread } from "src/app/shared/utils/function";
 import { sortLessonPresencesByDate } from "src/app/shared/utils/lesson-presences";
+import { createTeacherString } from "src/app/shared/utils/timetable-entries";
 
 @Injectable()
 export class MyAbsencesService {
@@ -240,7 +241,7 @@ export class MyAbsencesService {
       Type: absence.Type,
       StudentFullName: absence.StudentFullName,
       StudyClassNumber: "", // Currently not available on timetable entry
-      TeacherInformation: entry.EventManagerInformation ?? null,
+      TeacherInformation: createTeacherString(entry.LessonTeachers),
     };
   }
 }

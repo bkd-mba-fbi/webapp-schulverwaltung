@@ -1,6 +1,7 @@
 import uniq from "lodash-es/uniq";
 import { LessonStudyClass } from "src/app/shared/models/lesson-study-class.model";
 import { TimetableEntry } from "src/app/shared/models/timetable-entry.model";
+import { createTeacherString } from "src/app/shared/utils/timetable-entries";
 
 export type DashboardTimetableEntry = {
   id: string;
@@ -68,7 +69,7 @@ export function convertTimetableEntry(
     // studyClass: (entry.EventNumber.match(/[-_]([^-_]+)$/) ?? [])[1], // The last part of the EventNumber is the study class (e.g. "3-1-E-S3-GYMweb25-26b", the class is "26b")
 
     room: entry.Rooms?.map((room) => room.Designation).join(", ") || undefined,
-    teacher: entry.EventManagerInformation || undefined,
+    teacher: createTeacherString(entry.LessonTeachers) ?? undefined,
   };
 }
 
