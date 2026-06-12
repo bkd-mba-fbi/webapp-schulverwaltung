@@ -749,7 +749,7 @@ export function buildTest(
     IsPublished: false,
     IsOwner: true,
     Owner: null,
-    // Creation: "2022-02-14T16:58:18.89",
+    Creation: new Date("2022-02-14T16:58:18.89"),
     GradingScaleId: 1106,
     // GradingScale: "Zehntelnoten bes. disp. keine Note",
     Results: results,

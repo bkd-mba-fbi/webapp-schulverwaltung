@@ -357,7 +357,7 @@ const test: Test = {
   IsPublished: false,
   IsOwner: true,
   Owner: "Stolz Zuzana",
-  // Creation: "2022-04-26T10:11:53.427",
+  Creation: new Date("2022-04-26T10:11:53.427"),
   GradingScaleId: 1106,
   // GradingScale: "Zehntelnoten bes. disp. keine Note",
   Results: [
