@@ -1,6 +1,7 @@
 <h1>{{ "tests.add-title" | translate }}</h1>
 <div class="bkd-container bkd-container-limited">
   <bkd-tests-edit-form
+    [defaultGradingScaleId]="defaultGradingScaleId$ | async"
     [saving]="saving$ | async"
     (save)="save($event)"
   ></bkd-tests-edit-form>

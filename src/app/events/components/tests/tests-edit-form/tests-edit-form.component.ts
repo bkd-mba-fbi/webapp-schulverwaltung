@@ -83,6 +83,7 @@ export class TestsEditFormComponent {
   private gradingScalesService = inject(GradingScalesRestService);
 
   test = input<Option<Test>>(null);
+  defaultGradingScaleId = input<Option<number>>(null);
   saving = input(false);
   save = output<TestFormValue>();
 
@@ -95,18 +96,6 @@ export class TestsEditFormComponent {
   testFormData = linkedSignal<TestFormData>(() => {
     const test = this.test();
     const isPointGrading = Boolean(test?.IsPointGrading);
-    const gradingScaleIds = this.gradingScales().map((s) => s.Id);
-    const gradingScaleId =
-      (test
-        ? // When editing, only use the test's GradingScaleId if it is part of
-          // the available scales, otherwise it leads to a validation error
-          // and the user has to select a valid one
-          gradingScaleIds.includes(test?.GradingScaleId ?? 0)
-          ? numberToString(test?.GradingScaleId)
-          : null
-        : // When creating, select first scale per default
-          numberToString(this.gradingScales()[0]?.Id)) ?? "";
-
     return {
       designation: test?.Designation ?? "",
       date: test?.Date ?? new Date(),
@@ -116,7 +105,7 @@ export class TestsEditFormComponent {
       maxPointsAdjusted: isPointGrading
         ? (test?.MaxPointsAdjusted ?? null)
         : null,
-      gradingScaleId,
+      gradingScaleId: this.getGradingScaleIdValue() ?? "",
     };
   });
   testForm = form(this.testFormData, (schema) => {
@@ -152,6 +141,33 @@ export class TestsEditFormComponent {
         gradingScaleId: Number(value.gradingScaleId),
       });
     }
+  }
+
+  private getGradingScaleIdValue(): Option<string> {
+    const test = this.test();
+    const gradingScaleIds = this.gradingScales().map((s) => s.Id);
+
+    if (test) {
+      // When editing, only use the test's GradingScaleId if it is part of the
+      // available scales, otherwise it leads to a validation error and the user
+      // has to select a valid one
+      return gradingScaleIds.includes(test?.GradingScaleId ?? 0)
+        ? numberToString(test?.GradingScaleId)
+        : null;
+    }
+
+    // When creating, use default grading scale if available
+    const defaultGradingScaleId = this.defaultGradingScaleId();
+    if (
+      defaultGradingScaleId &&
+      gradingScaleIds.includes(defaultGradingScaleId)
+    ) {
+      return numberToString(defaultGradingScaleId);
+    }
+
+    // When creating but default scale is not available, use the first grading
+    // scale as a fallback
+    return gradingScaleIds[0] ? numberToString(gradingScaleIds[0]) : null;
   }
 
   private loadGradingScales(): Observable<ReadonlyArray<GradingScale>> {

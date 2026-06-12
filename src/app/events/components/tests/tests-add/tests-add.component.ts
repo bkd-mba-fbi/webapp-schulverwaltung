@@ -2,7 +2,9 @@ import { AsyncPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { BehaviorSubject, finalize, switchMap, take } from "rxjs";
+import sortBy from "lodash-es/sortBy";
+import { BehaviorSubject, finalize, map, switchMap, take } from "rxjs";
+import { Test } from "src/app/shared/models/test.model";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { TestStateService } from "../../../services/test-state.service";
@@ -24,6 +26,9 @@ export class TestsAddComponent {
   private router = inject(Router);
   private state = inject(TestStateService);
 
+  defaultGradingScaleId$ = this.state.tests$.pipe(
+    map(this.getLatestGradingScaleId.bind(this)),
+  );
   saving$ = new BehaviorSubject(false);
 
   save(value: TestFormValue): void {
@@ -51,5 +56,14 @@ export class TestsAddComponent {
     this.state.courseId$
       .pipe(take(1))
       .subscribe((id) => void this.router.navigate(["events", id, "tests"]));
+  }
+
+  /**
+   * Returns the grading scale ID of the newest test owned by the current user.
+   */
+  private getLatestGradingScaleId(tests: ReadonlyArray<Test>): Option<number> {
+    const own = tests.filter((t) => t.IsOwner);
+    const newest = sortBy(own, (t) => t.Creation).reverse();
+    return newest[0]?.GradingScaleId ?? null;
   }
 }

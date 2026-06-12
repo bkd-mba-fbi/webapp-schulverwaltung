@@ -60,7 +60,7 @@ describe("TestsEditFormComponent", () => {
     element = fixture.debugElement.nativeElement;
     fixture.componentRef.setInput("test", {
       ...buildTest(123, 456, []),
-      GradingScaleId: 100,
+      GradingScaleId: 101,
     });
     fixture.detectChanges();
   });
@@ -88,7 +88,7 @@ describe("TestsEditFormComponent", () => {
 
     const gradingScaleRadios = getGradingScaleRadios();
     expect(gradingScaleRadios).toHaveSize(2);
-    expect(gradingScaleRadios[0]?.checked).toBeTrue();
+    expect(gradingScaleRadios[1]?.checked).toBeTrue();
 
     const button = getSubmitButton();
     expect(button).not.toBeNull();
@@ -138,6 +138,44 @@ describe("TestsEditFormComponent", () => {
 
     expect(getMaxPointsInput()).not.toBeNull();
     expect(getMaxPointsAdjustedInput()).not.toBeNull();
+  });
+
+  describe("grading scale", () => {
+    describe("with test (editing)", () => {
+      it("selects the grading scale from the given test", () => {
+        fixture.componentRef.setInput("defaultGradingScaleId", 100);
+        fixture.detectChanges();
+
+        const gradingScaleRadios = getGradingScaleRadios();
+        expect(gradingScaleRadios).toHaveSize(2);
+        expect(gradingScaleRadios[1]?.checked).toBeTrue();
+      });
+    });
+
+    describe("without test (creating)", () => {
+      beforeEach(() => {
+        fixture.componentRef.setInput("test", null);
+        fixture.detectChanges();
+      });
+
+      it("selects the given default grading scale if no test available", () => {
+        fixture.componentRef.setInput("defaultGradingScaleId", 101);
+        fixture.detectChanges();
+
+        const gradingScaleRadios = getGradingScaleRadios();
+        expect(gradingScaleRadios).toHaveSize(2);
+        expect(gradingScaleRadios[1]?.checked).toBeTrue();
+      });
+
+      it("selects the first grading scale if no default available", () => {
+        fixture.componentRef.setInput("defaultGradingScaleId", null);
+        fixture.detectChanges();
+
+        const gradingScaleRadios = getGradingScaleRadios();
+        expect(gradingScaleRadios).toHaveSize(2);
+        expect(gradingScaleRadios[0]?.checked).toBeTrue();
+      });
+    });
   });
 
   function getDesignationInput() {
