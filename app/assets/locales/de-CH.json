@@ -47,7 +47,6 @@
     "actions": {
       "title": "Aktionen",
       "presence-control": "Präsenzkontrolle",
-      "edit-absences": "Gemeldete Absenzen kontrollieren",
       "open-absences": "Offene Absenzen entschuldigen",
       "tests": "Tests und Bewertung",
       "deadline": "Notenfrist",
@@ -93,7 +92,7 @@
       "save": "Übernehmen"
     },
     "block-lesson": {
-      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Welche Lektionen möchten Sie bearbeiten (Absenz erfassen oder austragen)?",
+      "text": "Die ausgewählte Lektion ist Teil eines Blocks. Für welche Lektionen möchten Sie eine Absenz erfassen oder austragen?",
       "cancel": "Abbrechen",
       "save": "Übernehmen"
     },
@@ -230,7 +229,6 @@
         "valid-excuse": "Entschuldigt",
         "without-excuse": "Unentschuldigt",
         "unconfirmed": "Offen",
-        "unchecked": "Zu kontrollieren",
         "incident": "Vorfälle",
         "halfday": "Halbtage"
       }
@@ -672,7 +670,6 @@
       "apprenticeship-period": "Lehrzeit",
       "job-trainer": "Berufsbildner/in",
       "instructor-email": "E-Mail Praxisbildner/in",
-      "checkable-absences": "Gemeldete Absenzen",
       "open-absences": "Offene Absenzen",
       "excused-absences": "Entschuldigte Absenzen",
       "unexcused-absences": "Unentschuldigte Absenzen",
