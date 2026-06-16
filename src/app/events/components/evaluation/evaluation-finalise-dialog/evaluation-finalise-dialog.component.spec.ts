@@ -5,7 +5,7 @@ import {
   tick,
 } from "@angular/core/testing";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { provideTranslateService } from "@ngx-translate/core";
 import { of } from "rxjs";
 import { EventSummary } from "src/app/shared/models/event.model";
 import { EventsRestService } from "src/app/shared/services/events-rest.service";
@@ -50,8 +50,9 @@ describe("EvaluationFinaliseDialogComponent", () => {
     loadingService.load.and.callFake((observable) => observable);
 
     await TestBed.configureTestingModule({
-      imports: [EvaluationFinaliseDialogComponent, TranslateModule.forRoot()],
+      imports: [EvaluationFinaliseDialogComponent],
       providers: [
+        provideTranslateService(),
         NgbActiveModal,
         { provide: EventsRestService, useValue: eventsService },
         {
