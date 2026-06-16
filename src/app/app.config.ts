@@ -32,8 +32,12 @@ export const appConfig: ApplicationConfig = {
         {
           provide: TRANSLATE_HTTP_LOADER_CONFIG,
           useFactory: () => ({
-            prefix: `${inject(SETTINGS).scriptsAndAssetsPath}/assets/locales/`,
-            suffix: ".json",
+            resources: [
+              {
+                prefix: `${inject(SETTINGS).scriptsAndAssetsPath}/assets/locales/`,
+                suffix: ".json",
+              },
+            ],
           }),
         },
         {

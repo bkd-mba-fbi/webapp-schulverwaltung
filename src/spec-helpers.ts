@@ -9,7 +9,7 @@ import {
   convertToParamMap,
   provideRouter,
 } from "@angular/router";
-import { TranslateModule, provideTranslateService } from "@ngx-translate/core";
+import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ReplaySubject } from "rxjs";
 import { SETTINGS, Settings } from "./app/settings";
@@ -121,17 +121,13 @@ export const settings: Settings = {
 };
 
 const baseTestModuleMetadata: TestModuleMetadata = {
-  imports: [
-    TranslateModule.forRoot({
-      loader: provideTranslateService({
-        loader: provideTranslateHttpLoader({
-          prefix: `${settings.scriptsAndAssetsPath}/assets/locales/`,
-          suffix: ".json",
-        }),
+  providers: [
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: `${settings.scriptsAndAssetsPath}/assets/locales/`,
+        suffix: ".json",
       }),
     }),
-  ],
-  providers: [
     provideHttpClient(),
     provideHttpClientTesting(),
     provideRouter([]),

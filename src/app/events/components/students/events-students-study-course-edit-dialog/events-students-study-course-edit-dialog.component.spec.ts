@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { provideTranslateService } from "@ngx-translate/core";
 import { of } from "rxjs";
 import { StatusProcessesRestService } from "src/app/shared/services/status-processes-rest.service";
 import { EventsStudentsStudyCourseEditDialogComponent } from "./events-students-study-course-edit-dialog.component";
@@ -12,11 +12,9 @@ describe("EventsStudentsStudyCourseDetailStatusDialogComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        EventsStudentsStudyCourseEditDialogComponent,
-        TranslateModule.forRoot(),
-      ],
+      imports: [EventsStudentsStudyCourseEditDialogComponent],
       providers: [
+        provideTranslateService(),
         NgbActiveModal,
         {
           provide: StatusProcessesRestService,
