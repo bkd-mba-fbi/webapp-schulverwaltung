@@ -65,7 +65,7 @@ export class EducationalEventsRestService
               this.translate.instant(`global.rest-errors.notfound-message`),
               this.translate.instant(`global.rest-errors.notfound-title`),
             );
-            return EMPTY as Observable<DropDownItem>;
+            return EMPTY;
           }
           return of({
             Key: items[0].Id,

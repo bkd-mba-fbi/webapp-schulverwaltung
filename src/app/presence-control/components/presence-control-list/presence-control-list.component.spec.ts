@@ -99,9 +99,10 @@ describe("PresenceControlListComponent", () => {
       result: Promise.resolve([]),
     };
     modalServiceMock = jasmine.createSpyObj("BkdModalService", ["open"]);
-    modalServiceMock.open.and.returnValue(
-      modalRefMock as unknown as ReturnType<BkdModalService["open"]>,
-    );
+    const modalRef = modalRefMock as unknown as ReturnType<
+      BkdModalService["open"]
+    >;
+    modalServiceMock.open.and.returnValue(modalRef);
 
     lessonPresencesUpdateServiceMock = {
       updatePresenceType: jasmine
