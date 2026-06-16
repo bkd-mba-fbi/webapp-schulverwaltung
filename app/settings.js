@@ -220,12 +220,22 @@ window.schulverwaltung.settings = {
           "Un(e) apprenti(e) a atteint un taux de présence <= 85% dans une matière.",
       },
     },
+    newDossierItem: {
+      de: {
+        label: "Neuer Eintrag im Dossier",
+        description: "Es wurde ein neuer Eintrag in Ihrem Dossier erfasst.",
+      },
+      fr: {
+        label: "Nouvelle entrée dans le dossier",
+        description: "Une nouvelle entrée a été saisie dans votre dossier.",
+      },
+    },
   },
 
   notificationTypesAssignments: [
     {
       roles: ["StudentRole"],
-      types: ["BM2Student", "gradePublish"],
+      types: ["BM2Student", "newDossierItem", "gradePublish"],
     },
     {
       roles: ["LessonTeacherRole", "ClassTeacherRole", "TeacherRole"],
