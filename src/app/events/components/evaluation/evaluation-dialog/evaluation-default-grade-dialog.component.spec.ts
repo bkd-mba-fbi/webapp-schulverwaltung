@@ -1,7 +1,7 @@
 import { provideHttpClient, withFetch } from "@angular/common/http";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
+import { provideTranslateService } from "@ngx-translate/core";
 import { SETTINGS } from "../../../../settings";
 import { GradingScale } from "../../../../shared/models/grading-scale.model";
 import { EvaluationDefaultGradeDialogComponent } from "./evaluation-default-grade-dialog.component";
@@ -27,11 +27,9 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        EvaluationDefaultGradeDialogComponent,
-        TranslateModule.forRoot(),
-      ],
+      imports: [EvaluationDefaultGradeDialogComponent],
       providers: [
+        provideTranslateService(),
         NgbActiveModal,
         provideHttpClient(withFetch()),
         { provide: SETTINGS },
