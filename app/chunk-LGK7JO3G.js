@@ -1,0 +1,1 @@
+import{a}from"./chunk-MFWJMPMU.js";import{Xd as t,Yd as o,Zd as e,be as r,fe as i,le as n,re as m}from"./chunk-TSKZ6ZRP.js";var p=r({Id:o,ObjectId:o,ObjectTypeId:o,Designation:t,File:n(t),TypeId:o,Description:n(t),CodeId:n(o),ForStudent:e,ForJobTrainer:e,CreationDate:m,CreatorName:t}),I=i([a,r({IsActive:e,Sort:t})]);export{p as a,I as b};
