@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
@@ -11,6 +11,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     </div>
   `,
   imports: [TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnauthenticatedComponent {
   constructor() {}

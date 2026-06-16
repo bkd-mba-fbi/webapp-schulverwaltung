@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { TypeaheadComponent } from "../../../shared/components/typeahead/typeahead.component";
 import { DropDownItem } from "../../../shared/models/drop-down-item.model";
@@ -9,6 +9,7 @@ import { StudentsRestService } from "../../../shared/services/students-rest.serv
   templateUrl: "./dashboard-search.component.html",
   styleUrls: ["./dashboard-search.component.scss"],
   imports: [TypeaheadComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardSearchComponent {
   studentsRestService = inject(StudentsRestService);

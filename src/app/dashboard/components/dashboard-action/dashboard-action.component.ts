@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -8,6 +8,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   templateUrl: "./dashboard-action.component.html",
   styleUrls: ["./dashboard-action.component.scss"],
   imports: [RouterLink, NgTemplateOutlet, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardActionComponent {
   @Input() label: string;

@@ -1,5 +1,6 @@
 import { AsyncPipe } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   NO_ERRORS_SCHEMA,
   inject,
@@ -76,6 +77,7 @@ export type TestFormValue = Omit<
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsEditFormComponent {
   private testStateService = inject(TestStateService);

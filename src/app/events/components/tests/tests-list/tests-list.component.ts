@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, Subject, merge } from "rxjs";
@@ -26,6 +26,7 @@ import { TestsTableComponent } from "../tests-table/tests-table.component";
     TranslatePipe,
     RouterLink,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsListComponent {
   settings = inject<Settings>(SETTINGS);

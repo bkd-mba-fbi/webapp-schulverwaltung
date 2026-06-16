@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { MyGradesService } from "../../services/my-grades.service";
 
@@ -8,6 +8,7 @@ import { MyGradesService } from "../../services/my-grades.service";
   styleUrls: ["./my-grades.component.scss"],
   providers: [MyGradesService],
   imports: [RouterOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyGradesComponent {
   constructor() {}
