@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { EventsStateService } from "src/app/events/services/events-state.service";
 import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm-absences-selection.service";
@@ -9,6 +9,7 @@ import { ConfirmAbsencesSelectionService } from "src/app/shared/services/confirm
   styleUrls: ["./events.component.scss"],
   imports: [RouterOutlet],
   providers: [EventsStateService, ConfirmAbsencesSelectionService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsComponent {
   constructor() {}

@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { addDays, format, startOfDay, subDays } from "date-fns";
 import uniqBy from "lodash-es/uniqBy";
@@ -43,6 +43,7 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
     TranslatePipe,
     SafePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardTimetableComponent {
   private teachersService = inject(TeachersRestService);

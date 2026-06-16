@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { SpinnerComponent } from "../../../shared/components/spinner/spinner.component";
 import { StudentGradesAccordionComponent } from "../../../shared/components/student/student-grades-accordion/student-grades-accordion.component";
@@ -19,6 +19,7 @@ import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.co
     AsyncPipe,
     TranslatePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyGradesShowComponent {
   myGradesService = inject(MyGradesService);

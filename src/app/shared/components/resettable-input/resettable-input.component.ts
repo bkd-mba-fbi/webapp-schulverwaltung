@@ -1,10 +1,16 @@
-import { Component, input, model } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  model,
+} from "@angular/core";
 
 @Component({
   selector: "bkd-resettable-input",
   templateUrl: "./resettable-input.component.html",
   styleUrls: ["./resettable-input.component.scss"],
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResettableInputComponent {
   value = model<string>("");

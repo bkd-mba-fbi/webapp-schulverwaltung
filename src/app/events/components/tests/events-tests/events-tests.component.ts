@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { EventsListComponent } from "../../common/events-list/events-list.component";
 
@@ -7,6 +7,7 @@ import { EventsListComponent } from "../../common/events-list/events-list.compon
   templateUrl: "./events-tests.component.html",
   styleUrls: ["./events-tests.component.scss"],
   imports: [EventsListComponent, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsTestsComponent {
   constructor() {}

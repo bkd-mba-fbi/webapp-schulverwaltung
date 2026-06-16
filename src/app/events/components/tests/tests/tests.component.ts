@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
@@ -10,6 +16,7 @@ import { TestStateService } from "../../../services/test-state.service";
   styleUrls: ["./tests.component.scss"],
   providers: [TestStateService],
   imports: [RouterOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsComponent implements OnInit, OnDestroy {
   state = inject(TestStateService);

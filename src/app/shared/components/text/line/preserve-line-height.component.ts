@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 // renders a line and preserves the current line height, even if the content is null or undefined
 @Component({
@@ -6,5 +6,6 @@ import { Component } from "@angular/core";
   template: `<div><ng-content></ng-content>&nbsp;</div>`,
   styles: [],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreserveLineHeightComponent {}

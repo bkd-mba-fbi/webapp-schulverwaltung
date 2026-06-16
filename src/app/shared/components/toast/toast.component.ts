@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { NgbToast } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "../../services/toast.service";
 
@@ -8,6 +8,7 @@ import { ToastService } from "../../services/toast.service";
   templateUrl: "./toast.component.html",
   styleUrls: ["./toast.component.scss"],
   imports: [NgbToast, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastComponent {
   toastService = inject(ToastService);

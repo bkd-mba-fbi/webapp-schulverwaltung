@@ -1,5 +1,11 @@
 import { NgStyle } from "@angular/common";
-import { Component, computed, inject, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { AvatarService } from "../../services/avatar.service";
 
@@ -8,6 +14,7 @@ import { AvatarService } from "../../services/avatar.service";
   templateUrl: "./avatar.component.html",
   styleUrls: ["./avatar.component.scss"],
   imports: [RouterLink, NgStyle],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
   private avatarService = inject(AvatarService);

@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import {
@@ -28,6 +28,7 @@ import {
   templateUrl: "./tests-edit.component.html",
   styleUrls: ["./tests-edit.component.scss"],
   imports: [TestsEditFormComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsEditComponent {
   state = inject(TestStateService);

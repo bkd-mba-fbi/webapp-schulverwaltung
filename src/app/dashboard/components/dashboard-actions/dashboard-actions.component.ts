@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ConfigurationsService } from "src/app/shared/services/configurations.service";
@@ -18,6 +18,7 @@ import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-dead
     AsyncPipe,
     TranslatePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardActionsComponent {
   dashboardService = inject(DashboardService);
