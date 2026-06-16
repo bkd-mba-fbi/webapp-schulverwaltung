@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -7,6 +7,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   templateUrl: "./backlink.component.html",
   styleUrls: ["./backlink.component.scss"],
   imports: [RouterLink, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BacklinkComponent {
   @Input()

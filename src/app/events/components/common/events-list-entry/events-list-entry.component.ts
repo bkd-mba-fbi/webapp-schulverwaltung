@@ -1,5 +1,10 @@
 import { DatePipe } from "@angular/common";
-import { Component, computed, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 import { convertLink } from "src/app/shared/utils/url";
@@ -14,6 +19,7 @@ import { EventEntry } from "../../../services/events-state.service";
     "[class.with-ratings]": "withRatings()",
     "[class.with-date]": "withDate()",
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsListEntryComponent {
   event = input.required<EventEntry>();

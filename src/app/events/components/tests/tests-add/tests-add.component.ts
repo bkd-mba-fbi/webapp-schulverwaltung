@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import sortBy from "lodash-es/sortBy";
@@ -18,6 +18,7 @@ import {
   templateUrl: "./tests-add.component.html",
   styleUrls: ["./tests-add.component.scss"],
   imports: [TestsEditFormComponent, AsyncPipe, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsAddComponent {
   private courseService = inject(CoursesRestService);

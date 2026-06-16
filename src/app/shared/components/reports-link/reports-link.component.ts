@@ -1,4 +1,9 @@
-import { Component, Input, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from "@angular/core";
 import {
   NgbDropdown,
   NgbDropdownButtonItem,
@@ -21,6 +26,7 @@ import { StorageService } from "../../services/storage.service";
     NgbDropdownButtonItem,
     NgbDropdownItem,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportsLinkComponent {
   @Input() reports: ReadonlyArray<ReportInfo> = [];

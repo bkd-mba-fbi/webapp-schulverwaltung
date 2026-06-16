@@ -1,5 +1,11 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, OnDestroy, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
 import { EventsScopeSelectComponent } from "src/app/events/components/common/events-scope-select/events-scope-select.component";
 import { StudentGradesService } from "src/app/shared/services/student-grades.service";
@@ -17,6 +23,7 @@ import { StudentGradesAccordionComponent } from "../student-grades-accordion/stu
     AsyncPipe,
     EventsScopeSelectComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentGradesComponent implements OnInit, OnDestroy {
   state = inject(StudentStateService);

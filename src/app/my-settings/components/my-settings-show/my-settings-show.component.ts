@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MySettingsNotificationsComponent } from "../my-settings-notifications/my-settings-notifications.component";
 
@@ -7,5 +7,6 @@ import { MySettingsNotificationsComponent } from "../my-settings-notifications/m
   templateUrl: "./my-settings-show.component.html",
   styleUrls: ["./my-settings-show.component.scss"],
   imports: [MySettingsNotificationsComponent, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MySettingsShowComponent {}
