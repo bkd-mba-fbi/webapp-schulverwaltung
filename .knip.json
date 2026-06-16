@@ -1,18 +1,12 @@
 {
   "entry": [
-    "src/main.ts",
     "src/spec-builders.ts",
     "src/spec-helpers.ts",
     "src/specs/expectations.ts",
     "src/specs/utils.ts"
   ],
   "project": ["src/**/*.{ts,js}"],
-  "ignore": [
-    "src/**/*.spec.ts",
-    "src/environments/environment.prod.ts",
-    "src/karma.conf.js",
-    "src/settings.example.js"
-  ],
+  "ignore": ["src/**/*.spec.ts", "src/settings.example.js"],
   "ignoreDependencies": [
     "@angular-eslint/eslint-plugin",
     "@angular-eslint/eslint-plugin-template",
@@ -20,20 +14,12 @@
     "@angular-eslint/template-parser",
     "@angular/language-service",
     "bootstrap",
-    "@eslint/eslintrc",
-    "html-validate",
-    "jasmine-core",
-    "karma-brief-reporter",
-    "karma-chrome-launcher",
-    "karma-coverage-istanbul-reporter",
-    "karma-jasmine",
-    "karma-spec-reporter"
+    "@eslint/eslintrc"
   ],
   "ignoreBinaries": ["knip", "webpack-bundle-analyzer"],
   "rules": {
     "exports": "warn",
     "types": "warn",
-    "classMembers": "off",
     "enumMembers": "off"
   }
 }

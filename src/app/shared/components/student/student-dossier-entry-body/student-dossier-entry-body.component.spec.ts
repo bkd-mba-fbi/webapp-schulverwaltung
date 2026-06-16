@@ -33,9 +33,8 @@ describe("StudentDossierEntryBodyComponent", () => {
       ["getAccessToken", "getPayload"],
     );
     storageServiceMock.getAccessToken.and.returnValue("ey...");
-    storageServiceMock.getPayload.and.returnValue({
-      id_person: "123",
-    } as unknown as TokenPayload);
+    const payload = { id_person: "123" } as unknown as TokenPayload;
+    storageServiceMock.getPayload.and.returnValue(payload);
 
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({

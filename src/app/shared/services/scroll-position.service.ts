@@ -166,10 +166,10 @@ export class ScrollPositionService implements OnDestroy {
   private requiresStoring(route: ActivatedRouteSnapshot): boolean {
     return Boolean(
       route &&
-        route.routeConfig &&
-        route.routeConfig.data &&
-        Array.isArray(route.routeConfig.data["restoreScrollPositionFrom"]) &&
-        route.routeConfig.data["restoreScrollPositionFrom"].length > 0,
+      route.routeConfig &&
+      route.routeConfig.data &&
+      Array.isArray(route.routeConfig.data["restoreScrollPositionFrom"]) &&
+      route.routeConfig.data["restoreScrollPositionFrom"].length > 0,
     );
   }
 

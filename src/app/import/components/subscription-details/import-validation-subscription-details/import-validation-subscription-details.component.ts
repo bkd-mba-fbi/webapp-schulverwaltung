@@ -98,10 +98,10 @@ export class ImportValidationSubscriptionDetailsComponent {
   ): boolean {
     return Boolean(
       entry.validationStatus !== "invalid" ||
-        (columns &&
-          !columns.some((column) =>
-            entry.validationError?.columns.includes(column as never),
-          )),
+      (columns &&
+        !columns.some((column) =>
+          entry.validationError?.columns.includes(column as never),
+        )),
     );
   }
 
