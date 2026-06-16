@@ -23,9 +23,7 @@ import { SwitchComponent } from "../../../shared/components/switch/switch.compon
     },
   ],
 })
-export class MySettingsNotificationsToggleComponent
-  implements ControlValueAccessor
-{
+export class MySettingsNotificationsToggleComponent implements ControlValueAccessor {
   private cd = inject(ChangeDetectorRef);
 
   @Input() id = "";

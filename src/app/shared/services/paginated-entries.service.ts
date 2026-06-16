@@ -50,8 +50,7 @@ export abstract class PaginatedEntriesService<
   T,
   TFilterValue,
   TSortKey extends SortKey = Extract<keyof T, string>,
-> implements OnDestroy
-{
+> implements OnDestroy {
   protected location = inject(Location);
   protected loadingService = inject(LoadingService);
   protected settings: Settings = inject<Settings>(SETTINGS);
@@ -94,22 +93,22 @@ export abstract class PaginatedEntriesService<
   entries$ = merge(
     // Restart with empty list on reset or if filter/sortCriteria changes
     merge(this.resetEntries$, this.validFilter$, this.sortCriteria$).pipe(
-      map(() => ({ action: "reset" }) as ResetEntriesAction<T>),
+      map((): EntriesAction<T> => ({ action: "reset" })),
     ),
 
     // Accumulate entries of loaded pages
     this.pageResult$.pipe(
-      map((result) => {
+      map((result): EntriesAction<T> => {
         if (result.offset === 0) {
           return {
             action: "reset",
             entries: result.entries,
-          } as ResetEntriesAction<T>;
+          };
         }
         return {
           action: "append",
           entries: result.entries,
-        } as AppendEntriesAction<T>;
+        };
       }),
     ),
   ).pipe(

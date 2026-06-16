@@ -100,11 +100,10 @@ export class TestStateService {
     this.fetchedCourse$.pipe(
       filter(notNull),
       map(
-        (payload) =>
-          ({
-            type: "reset",
-            payload,
-          }) as TestsAction,
+        (payload): TestsAction => ({
+          type: "reset",
+          payload,
+        }),
       ),
     ),
   ).pipe(

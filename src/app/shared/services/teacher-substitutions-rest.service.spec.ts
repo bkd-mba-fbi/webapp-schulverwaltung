@@ -21,10 +21,10 @@ describe("TeacherSubstitutionsRestService", () => {
   describe("getTeacherSubstitution", () => {
     it("should get the teacher substitution for the given id", () => {
       const subscriptionId = 34;
-      const teacherSubscription = {
+      const teacherSubscription: TeacherSubstitution = {
         Id: subscriptionId,
         Holder: "Marie Curie",
-      } as TeacherSubstitution;
+      };
 
       service
         .getTeacherSubstitution(subscriptionId)
