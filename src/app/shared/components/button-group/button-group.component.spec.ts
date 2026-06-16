@@ -35,13 +35,16 @@ describe("ButtonGroupComponent", () => {
     expect(buttons[2].nativeElement.textContent?.trim()).toBe("Baz");
   });
 
-  it("adds class 'active' to the selected option", () => {
+  it("adds class 'active' and aria-pressed to the selected option", () => {
     fixture.componentRef.setInput("value", options[1].key);
     fixture.detectChanges();
     const buttons = fixture.debugElement.queryAll(By.css("button"));
     expect(buttons[0].nativeElement.classList).not.toContain("active");
     expect(buttons[1].nativeElement.classList).toContain("active");
     expect(buttons[2].nativeElement.classList).not.toContain("active");
+    expect(buttons[0].nativeElement.getAttribute("aria-pressed")).toBe("false");
+    expect(buttons[1].nativeElement.getAttribute("aria-pressed")).toBe("true");
+    expect(buttons[2].nativeElement.getAttribute("aria-pressed")).toBe("false");
   });
 
   it("emits option when button is clicked", () => {

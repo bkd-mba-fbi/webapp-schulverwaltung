@@ -4,6 +4,7 @@
       (click)="value.set(option.key)"
       type="button"
       class="btn btn-primary"
+      [attr.aria-pressed]="option.key === value()"
       [ngClass]="{
         'btn-primary': option.key === value(),
         'btn-outline-primary': option.key !== value(),
