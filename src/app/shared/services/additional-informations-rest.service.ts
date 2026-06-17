@@ -90,6 +90,7 @@ export class AdditionalInformationsRestService extends RestService<
       {
         ObjectId: studentId,
         ObjectTypeId: 3,
+        TypeId: this.settings.dossierCreateTypeId,
         Designation: "Photo",
       },
       file,
