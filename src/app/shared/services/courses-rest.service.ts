@@ -190,7 +190,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     isPointGrading: boolean;
     maxPoints: Maybe<number>;
     maxPointsAdjusted: Maybe<number>;
-    gradingScaleId: number;
+    gradingScaleId: Maybe<number>;
   }): Observable<void> {
     const body = {
       Tests: [
@@ -219,7 +219,7 @@ export class CoursesRestService extends RestService<typeof Course> {
     isPointGrading: boolean;
     maxPoints: Maybe<number>;
     maxPointsAdjusted: Maybe<number>;
-    gradingScaleId?: number;
+    gradingScaleId: Maybe<number>;
   }): Observable<void> {
     const body = {
       Tests: [

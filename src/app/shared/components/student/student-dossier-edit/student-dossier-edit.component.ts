@@ -137,7 +137,9 @@ export class StudentDossierEditComponent {
     const editing = () => Boolean(this.additionalInformation());
     const isDocument = () => this.entryFormData().type === "document";
     const hasFile = () => isDocument() && !editing();
+
     required(schema.type);
+
     required(schema.file, {
       when: hasFile,
     });
@@ -149,10 +151,14 @@ export class StudentDossierEditComponent {
       acceptedFileTypes: this.acceptedFileTypes,
       when: hasFile,
     });
+
     required(schema.designation);
+
     required(schema.category);
+
     required(schema.forTeacher);
     disabled(schema.forTeacher, editing);
+
     required(schema.objectId);
     disabled(schema.objectId, editing);
   });
