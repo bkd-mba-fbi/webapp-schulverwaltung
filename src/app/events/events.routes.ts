@@ -1,6 +1,7 @@
 import { Route, Routes } from "@angular/router";
 import { studentRoute } from "../shared/components/student/student-route";
 import { EventsComponent } from "./components/common/events/events.component";
+import { EventsCurrentListComponent } from "./components/current/events-current-list/events-current-list.component";
 import { EvaluationListComponent } from "./components/evaluation/evaluation-list/evaluation-list.component";
 import { EvaluationStatisticComponent } from "./components/evaluation/evaluation-statistic/evaluation-statistic.component";
 import { EvaluationVerifyComponent } from "./components/evaluation/evaluation-verify/evaluation-verify.component";
@@ -15,7 +16,6 @@ import { TestsAddComponent } from "./components/tests/tests-add/tests-add.compon
 import { TestsEditComponent } from "./components/tests/tests-edit/tests-edit.component";
 import { TestsListComponent } from "./components/tests/tests-list/tests-list.component";
 import { TestsComponent } from "./components/tests/tests/tests.component";
-import { EventsCurrentListComponent } from "./current/events-current-list/events-current-list.component";
 
 export const EVENTS_ROUTES: Routes = [
   {

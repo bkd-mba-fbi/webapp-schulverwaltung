@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
-import { EventsListComponent } from "../../components/common/events-list/events-list.component";
+import { EventsListComponent } from "../../common/events-list/events-list.component";
 
 @Component({
   selector: "bkd-events-current-list",
