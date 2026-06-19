@@ -19,9 +19,8 @@ import { gradingScaleOfTest, resultOfStudent } from "../../events/utils/tests";
 import { Course, FinalGrading, Grading } from "../models/course.model";
 import { Grade, GradingScale } from "../models/grading-scale.model";
 import { Test } from "../models/test.model";
-import { getCourseFilterParamsForScope } from "../utils/courses";
+import { filterEventsForScope } from "../utils/courses";
 import { notNull } from "../utils/filter";
-import { spread } from "../utils/function";
 import { ValueWithWeight } from "../utils/math";
 import { CoursesRestService } from "./courses-rest.service";
 import { GradingScalesRestService } from "./grading-scales-rest.service";
@@ -34,7 +33,7 @@ const GRADES_CONTEXT = "studentDossierGrades";
 type CoursesAction =
   | {
       type: "initializeCourses";
-      payload: Course[];
+      payload: ReadonlyArray<Course>;
     }
   | {
       type: "updateCourses";
@@ -63,15 +62,12 @@ export class StudentGradesService {
   private scopeSubject$ = new BehaviorSubject<EventScope>("current");
   scope$ = this.scopeSubject$.asObservable();
 
-  private initialStudentCourses$ = combineLatest([
-    this.eventIds$,
-    this.scope$,
-  ]).pipe(
+  private initialStudentCourses$ = this.eventIds$.pipe(
     distinctUntilChanged(isEqual),
-    switchMap(spread(this.loadCourses.bind(this))),
-    map((courses) =>
-      [...courses].sort((c1, c2) =>
-        c1.Designation.localeCompare(c2.Designation),
+    switchMap(this.loadCourses.bind(this)),
+    switchMap((courses) =>
+      this.scope$.pipe(
+        map((scope) => this.filterAndSortCourses(scope, courses)),
       ),
     ),
     startWith([]),
@@ -165,15 +161,11 @@ export class StudentGradesService {
 
   private loadCourses(
     eventIds: ReadonlyArray<number>,
-    scope: EventScope,
   ): Observable<ReadonlyArray<Course>> {
     if (eventIds.length === 0) return of([]);
 
     return this.loadingService.load(
-      this.coursesRestService.getCoursesForDossier(
-        eventIds,
-        getCourseFilterParamsForScope(scope),
-      ),
+      this.coursesRestService.getCoursesForDossier(eventIds),
       { context: GRADES_CONTEXT },
     );
   }
@@ -216,6 +208,15 @@ export class StudentGradesService {
     switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
     shareReplay(1),
   );
+
+  private filterAndSortCourses(
+    scope: EventScope,
+    courses: ReadonlyArray<Course>,
+  ): ReadonlyArray<Course> {
+    return [...filterEventsForScope(scope, courses)].sort((a, b) =>
+      a.Designation.localeCompare(b.Designation),
+    );
+  }
 
   private coursesReducer(
     state: ReadonlyArray<Course>,

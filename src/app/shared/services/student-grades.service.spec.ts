@@ -101,10 +101,11 @@ describe("StudentGradesService", () => {
       expect(
         subscriptionsRestService.getSubscriptionsByStudent,
       ).toHaveBeenCalledWith(123);
-      expect(coursesRestService.getCoursesForDossier).toHaveBeenCalledWith(
-        [course1.Id, course2.Id, course3.Id],
-        { "filter.DateTo": ">2000-01-22" },
-      );
+      expect(coursesRestService.getCoursesForDossier).toHaveBeenCalledWith([
+        course1.Id,
+        course2.Id,
+        course3.Id,
+      ]);
     });
   });
 

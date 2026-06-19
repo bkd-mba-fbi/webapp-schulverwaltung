@@ -12,8 +12,7 @@ import {
   switchMap,
 } from "rxjs";
 import { EventScope } from "src/app/events/components/common/events-scope-select/events-scope-select.component";
-import { getCourseFilterParamsForScope } from "src/app/shared/utils/courses";
-import { spread } from "src/app/shared/utils/function";
+import { filterEventsForScope } from "src/app/shared/utils/courses";
 import { Course } from "../../shared/models/course.model";
 import { CoursesRestService } from "../../shared/services/courses-rest.service";
 import { GradingScalesRestService } from "../../shared/services/grading-scales-rest.service";
@@ -48,15 +47,14 @@ export class MyGradesService {
   private scopeSubject$ = new BehaviorSubject<EventScope>("current");
   scope$ = this.scopeSubject$.asObservable();
 
-  private studentCourses$ = combineLatest([this.eventIds$, this.scope$])
-    .pipe(switchMap(spread(this.loadCourses.bind(this))))
-    .pipe(shareReplay(1));
-  studentCoursesSorted$ = this.studentCourses$.pipe(
-    map((courses) =>
-      courses
-        .slice()
-        .sort((c1, c2) => c1.Designation.localeCompare(c2.Designation)),
+  studentCourses$ = this.eventIds$.pipe(
+    switchMap(this.loadCourses.bind(this)),
+    switchMap((courses) =>
+      this.scope$.pipe(
+        map((scope) => this.filterAndSortCourses(scope, courses)),
+      ),
     ),
+    shareReplay(1),
   );
 
   testReports$ = this.subscriptionIds$.pipe(
@@ -100,15 +98,20 @@ export class MyGradesService {
 
   private loadCourses(
     eventIds: ReadonlyArray<number>,
-    scope: EventScope,
   ): Observable<ReadonlyArray<Course>> {
     if (eventIds.length === 0) return of([]);
 
     return this.loadingService.load(
-      this.coursesRestService.getCoursesForMyGrades(
-        eventIds,
-        getCourseFilterParamsForScope(scope),
-      ),
+      this.coursesRestService.getCoursesForMyGrades(eventIds),
+    );
+  }
+
+  private filterAndSortCourses(
+    scope: EventScope,
+    courses: ReadonlyArray<Course>,
+  ): ReadonlyArray<Course> {
+    return [...filterEventsForScope(scope, courses)].sort((a, b) =>
+      a.Designation.localeCompare(b.Designation),
     );
   }
 
