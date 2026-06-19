@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { of } from "rxjs";
+import { BehaviorSubject, map, of } from "rxjs";
 import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
 import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
 import { buildGradingScale, buildTest } from "src/spec-builders";
@@ -12,18 +12,22 @@ describe("TestsEditFormComponent", () => {
   let element: HTMLElement;
   let configurationsRestService: jasmine.SpyObj<ConfigurationsRestService>;
   let gradingScalesRestService: jasmine.SpyObj<GradingScalesRestService>;
+  let gradingScaleIds$: BehaviorSubject<ReadonlyArray<number>>;
 
   beforeEach(async () => {
     configurationsRestService = jasmine.createSpyObj<ConfigurationsRestService>(
       "ConfigurationsRestService",
       ["getSubscriptionDetailsDisplay"],
     );
+    gradingScaleIds$ = new BehaviorSubject<ReadonlyArray<number>>([100, 101]);
     configurationsRestService.getSubscriptionDetailsDisplay.and.returnValue(
-      of({
-        adAsColumns: [],
-        adAsCriteria: [],
-        testGradingScaleIds: [100, 101],
-      }),
+      gradingScaleIds$.pipe(
+        map((testGradingScaleIds) => ({
+          adAsColumns: [],
+          adAsCriteria: [],
+          testGradingScaleIds,
+        })),
+      ),
     );
 
     gradingScalesRestService = jasmine.createSpyObj<GradingScalesRestService>(
@@ -175,6 +179,39 @@ describe("TestsEditFormComponent", () => {
         expect(gradingScaleRadios).toHaveSize(2);
         expect(gradingScaleRadios[0]?.checked).toBeTrue();
       });
+    });
+  });
+
+  describe("saving", () => {
+    let saveCallback: jasmine.Spy;
+    beforeEach(() => {
+      saveCallback = jasmine.createSpy("save");
+      fixture.componentInstance.save.subscribe(saveCallback);
+    });
+
+    it("saves form", () => {
+      fixture.detectChanges();
+
+      const saveButton = element.querySelector<HTMLButtonElement>(
+        "button[type='submit']",
+      );
+      expect(saveButton).not.toBeNull();
+      saveButton?.click();
+
+      expect(saveCallback).toHaveBeenCalled();
+    });
+
+    it("saves form without grading scales available", () => {
+      gradingScaleIds$.next([]);
+      fixture.detectChanges();
+
+      const saveButton = element.querySelector<HTMLButtonElement>(
+        "button[type='submit']",
+      );
+      expect(saveButton).not.toBeNull();
+      saveButton?.click();
+
+      expect(saveCallback).toHaveBeenCalled();
     });
   });
 

@@ -77,7 +77,9 @@ export class TestsEditComponent {
             testId: test.Id,
             ...rest,
             gradingScaleId:
-              (test.Results?.length ?? 0) === 0 ? gradingScaleId : undefined,
+              (test.Results?.length ?? 0) === 0
+                ? (gradingScaleId ?? undefined)
+                : undefined,
           });
         }),
         finalize(() => this.saving$.next(false)),

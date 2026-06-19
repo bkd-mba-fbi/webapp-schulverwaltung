@@ -27,7 +27,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
-import { Observable, map, switchMap } from "rxjs";
+import { Observable, map, of, switchMap } from "rxjs";
 import { FormErrorsComponent } from "src/app/shared/components/form-errors/form-errors.component";
 import { SubmitButtonComponent } from "src/app/shared/components/submit-button/submit-button.component";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
@@ -53,7 +53,7 @@ export type TestFormValue = Omit<
   "isPointGrading" | "gradingScaleId"
 > & {
   isPointGrading: boolean;
-  gradingScaleId: number;
+  gradingScaleId: Option<number>;
 };
 
 @Component({
@@ -110,21 +110,28 @@ export class TestsEditFormComponent {
   });
   testForm = form(this.testFormData, (schema) => {
     const hasResults = () => (this.test()?.Results?.length ?? 0) > 0;
+    const hasGradingScales = () => this.gradingScales().length > 0;
     const isPointGrading = () => this.testFormData().isPointGrading === "true";
 
     required(schema.designation);
+
     required(schema.date);
+
     required(schema.weight);
     min(schema.weight, 0.01);
+
     disabled(schema.isPointGrading, hasResults);
+
     required(schema.maxPoints, { when: isPointGrading });
     min(schema.maxPoints, 0.01);
     max(schema.maxPoints, 999);
     disabled(schema.maxPoints, () => hasResults() || !isPointGrading());
+
     min(schema.maxPointsAdjusted, 0.01);
     max(schema.maxPointsAdjusted, 999);
     disabled(schema.maxPointsAdjusted, () => hasResults() || !isPointGrading());
-    required(schema.gradingScaleId);
+
+    required(schema.gradingScaleId, { when: hasGradingScales });
     disabled(schema.gradingScaleId, hasResults);
   });
 
@@ -138,7 +145,9 @@ export class TestsEditFormComponent {
       this.save.emit({
         ...value,
         isPointGrading: value.isPointGrading === "true",
-        gradingScaleId: Number(value.gradingScaleId),
+        gradingScaleId: value.gradingScaleId
+          ? Number(value.gradingScaleId)
+          : null,
       });
     }
   }
@@ -172,7 +181,9 @@ export class TestsEditFormComponent {
 
   private loadGradingScales(): Observable<ReadonlyArray<GradingScale>> {
     return this.loadGradingScaleIds().pipe(
-      switchMap((ids) => this.gradingScalesService.getListForIds(ids)),
+      switchMap((ids) =>
+        ids.length > 0 ? this.gradingScalesService.getListForIds(ids) : of([]),
+      ),
     );
   }
 
