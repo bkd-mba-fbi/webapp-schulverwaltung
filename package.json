@@ -7,15 +7,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https@github.com:bkd-mba-fbi/webapp-schulverwaltung.git"
+    "url": "git+https://github.com/bkd-mba-fbi/webapp-schulverwaltung.git"
   },
+  "packageManager": "pnpm@11.8.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "start:browserstack": "ng serve --host 0.0.0.0 --disable-host-check --port 8000",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
-    "build-and-copy-local": "npm run build:prod && ./scripts/copy-to-portal.sh ../evento-portal/public/apps/webapp-schulverwaltung/",
+    "build-and-copy-local": "pnpm build:prod && ./scripts/copy-to-portal.sh ../evento-portal/public/apps/webapp-schulverwaltung/",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI",
     "test:watch": "ng test --browsers=ChromiumHeadless",
@@ -23,7 +24,7 @@
     "test:coverage": "ng test --browsers=ChromiumHeadless --code-coverage --reporters coverage-istanbul",
     "lint": "ng lint",
     "format": "prettier --write \"./**/*\" --ignore-unknown",
-    "format:upgrade": "npm install --save-exact prettier@latest && npm run format",
+    "format:upgrade": "pnpm add --save-exact prettier@latest && pnpm format",
     "preanalyze": "ng build --stats-json",
     "analyze": "npx webpack-bundle-analyzer dist/$(ng config defaultProject)/stats.json",
     "postanalyze": "rm dist/$(ng config defaultProject)/stats.json",
@@ -90,10 +91,10 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "5.1.0",
     "karma-spec-reporter": "0.0.36",
-    "lint-staged": "17.0.7",
+    "lint-staged": "17.0.8",
     "prettier": "3.8.4",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.61.0"
+    "typescript-eslint": "8.61.1"
   },
   "lint-staged": {
     "./src/app/**/*.{ts,html}": "eslint",

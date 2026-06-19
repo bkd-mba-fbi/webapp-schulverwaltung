@@ -18,20 +18,22 @@ jobs:
             scripts
           key: build-${{ github.sha }}
 
-      - name: Read .nvmrc
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-        id: nvm
+      - name: Read Node.js version from .node-version
+        run: echo "NODE_VERSION=$(cat .node-version)" >> $GITHUB_OUTPUT
+        id: node-version
 
-      - name: Use Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
+      - uses: pnpm/action-setup@v4
+
+      - name: Use Node.js ${{ steps.node-version.outputs.NODE_VERSION }}
         uses: actions/setup-node@v5
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
-          cache: npm
+          node-version: ${{ steps.node-version.outputs.NODE_VERSION }}
+          cache: pnpm
 
       - name: Build 🏭
         run: |
-          npm install
-          npm run build:prod
+          pnpm install --frozen-lockfile
+          pnpm run build:prod
           cp README.md dist && cp -r doc dist
 
   integrate:
