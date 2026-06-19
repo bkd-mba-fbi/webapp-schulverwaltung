@@ -117,7 +117,7 @@ export class CoursesRestService extends RestService<typeof Course> {
    */
   getCoursesForMyGrades(
     courseIds: ReadonlyArray<number>,
-    additionalParams: Record<string, string>,
+    additionalParams: Record<string, string> = {},
   ): Observable<ReadonlyArray<Course>> {
     const params = {
       ...additionalParams,

@@ -19,7 +19,7 @@ describe("MyGradesShowComponent", () => {
             useValue: {
               loading$: of(false),
               studentId$: of(1),
-              studentCoursesSorted$: of([]),
+              studentCourses$: of([]),
               gradingScales$: of([]),
             },
           },
