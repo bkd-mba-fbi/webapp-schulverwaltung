@@ -1,6 +1,6 @@
 import { HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { isEqual } from "lodash";
+import { isEqual } from "lodash-es";
 import { buildUserSettingsWithNotificationSetting } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { AccessInfo, UserSettings } from "../models/user-settings.model";

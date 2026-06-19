@@ -22,16 +22,18 @@ jobs:
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
         id: nvm
 
+      - uses: pnpm/action-setup@v4
+
       - name: Use Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
         uses: actions/setup-node@v5
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
-          cache: npm
+          cache: pnpm
 
       - name: Build 🏭
         run: |
-          npm install
-          npm run build:prod
+          pnpm install --frozen-lockfile
+          pnpm run build:prod
           cp README.md dist && cp -r doc dist
 
   integrate:

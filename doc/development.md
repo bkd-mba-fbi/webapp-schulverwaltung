@@ -11,14 +11,14 @@ Preparation:
 - Install Node.js (preferably using [NVM](https://github.com/creationix/nvm)).
 - Clone this repository.
 - Execute `nvm use` to enable the correct Node version.
-- Execute `npm install` to install the dependencies.
+- Execute `pnpm install` to install the dependencies.
 - Copy [src/settings.example.js](../src/settings.example.js) to `src/settings.js` and adjust its contents.
 - You're good to go 🚀
 
 Start the development server:
 
 ```
-npm start
+pnpm start
 ```
 
 The application is then running on http://localhost:4200.
@@ -34,13 +34,13 @@ Run `ng generate component component-name` to generate a new component. You can 
 Build the project:
 
 ```
-npm run build
+pnpm run build
 ```
 
 Or for a production build:
 
 ```
-npm run build:prod
+pnpm run build:prod
 ```
 
 The build artifacts will be stored in the `dist/` directory.
@@ -48,13 +48,13 @@ The build artifacts will be stored in the `dist/` directory.
 If you have cloned the [event-portal](https://github.com/bkd-mba-fbi/evento-portal/) repository to `../evento-portal` relative to this repository (i.e. into the same directory), you can run the following to build and copy the application to the _Evento Portal_ for testing it integrated:
 
 ```
-npm run build-and-copy-local
+pnpm run build-and-copy-local
 ```
 
 Visualize the contents of the generated bundle by running:
 
 ```
-npm run analyze
+pnpm run analyze
 ```
 
 ## Linting & Testing
@@ -64,13 +64,13 @@ npm run analyze
 Check source files with [ESLint](https://eslint.org/) (for the configuration, see [.eslintrc.json](./.eslintrc.json)):
 
 ```
-npm run lint
+pnpm run lint
 ```
 
 Print a report of unused dependencies, files & exports using [Knip](https://github.com/webpro/knip) (for the configuration, see [.knip.json](../.knip.json)):
 
 ```
-npm run unused
+pnpm run unused
 ```
 
 ### Unit tests
@@ -78,7 +78,7 @@ npm run unused
 Execute the unit tests via [Karma](https://karma-runner.github.io):
 
 ```
-npm test
+pnpm test
 ```
 
 ## Further help
