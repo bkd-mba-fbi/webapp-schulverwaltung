@@ -2,7 +2,6 @@ import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { SimpleChange, SimpleChanges } from "@angular/core";
 import { TestModuleMetadata } from "@angular/core/testing";
-import { provideAnimations } from "@angular/platform-browser/animations";
 import {
   ParamMap,
   Params,
@@ -131,7 +130,6 @@ const baseTestModuleMetadata: TestModuleMetadata = {
     provideHttpClient(),
     provideHttpClientTesting(),
     provideRouter([]),
-    provideAnimations(),
     { provide: SETTINGS, useValue: settings },
     {
       provide: AuthService,
