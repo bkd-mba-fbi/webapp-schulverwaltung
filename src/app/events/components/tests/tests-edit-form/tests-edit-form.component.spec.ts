@@ -324,8 +324,9 @@ describe("TestsEditFormComponent", () => {
   function expectError(input: Option<HTMLElement>, error: string) {
     expect(input).not.toBeNull();
 
-    const errorElement =
-      input?.parentElement?.querySelector(".invalid-feedback");
+    const errorElement = input
+      ?.closest('[class^="col-"], [class*=" col-"]')
+      ?.querySelector(".invalid-feedback");
     expect(errorElement?.textContent).toContain(error);
   }
 });

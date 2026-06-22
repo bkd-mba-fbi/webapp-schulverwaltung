@@ -40,7 +40,7 @@ import { TestStateService } from "../../../services/test-state.service";
 
 interface TestFormData {
   designation: string;
-  date: Date;
+  date: Option<Date>;
   weight: number;
   isPointGrading: "true" | "false";
   maxPoints: Option<number>;
@@ -50,8 +50,9 @@ interface TestFormData {
 
 export type TestFormValue = Omit<
   TestFormData,
-  "isPointGrading" | "gradingScaleId"
+  "date" | "isPointGrading" | "gradingScaleId"
 > & {
+  date: Date;
   isPointGrading: boolean;
   gradingScaleId: Option<number>;
 };
@@ -98,7 +99,7 @@ export class TestsEditFormComponent {
     const isPointGrading = Boolean(test?.IsPointGrading);
     return {
       designation: test?.Designation ?? "",
-      date: test?.Date ?? new Date(),
+      date: test?.Date ?? null,
       weight: test?.Weight ?? 1,
       isPointGrading: isPointGrading ? "true" : "false",
       maxPoints: isPointGrading ? (test?.MaxPoints ?? null) : null,
@@ -144,6 +145,7 @@ export class TestsEditFormComponent {
       const value = this.testForm().value();
       this.save.emit({
         ...value,
+        date: value.date ?? new Date(),
         isPointGrading: value.isPointGrading === "true",
         gradingScaleId: value.gradingScaleId
           ? Number(value.gradingScaleId)
