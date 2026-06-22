@@ -1,6 +1,5 @@
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { ApplicationConfig, inject } from "@angular/core";
-import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter, withHashLocation } from "@angular/router";
 import { TranslateLoader, provideTranslateService } from "@ngx-translate/core";
 import {
@@ -25,7 +24,6 @@ export const appConfig: ApplicationConfig = {
         restRoleInterceptor(),
       ]),
     ),
-    provideAnimations(),
     provideGlobalErrorHandler(),
     provideTranslateService({
       loader: [
