@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, map, of } from "rxjs";
+import { Test } from "src/app/shared/models/test.model";
 import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
 import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
-import { buildGradingScale, buildTest } from "src/spec-builders";
+import { buildGradingScale, buildResult, buildTest } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { TestStateService } from "../../../services/test-state.service";
 import { TestsEditFormComponent } from "./tests-edit-form.component";
@@ -13,6 +14,7 @@ describe("TestsEditFormComponent", () => {
   let configurationsRestService: jasmine.SpyObj<ConfigurationsRestService>;
   let gradingScalesRestService: jasmine.SpyObj<GradingScalesRestService>;
   let gradingScaleIds$: BehaviorSubject<ReadonlyArray<number>>;
+  let test: Test;
 
   beforeEach(async () => {
     configurationsRestService = jasmine.createSpyObj<ConfigurationsRestService>(
@@ -62,10 +64,11 @@ describe("TestsEditFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsEditFormComponent);
     element = fixture.debugElement.nativeElement;
-    fixture.componentRef.setInput("test", {
+    test = {
       ...buildTest(123, 456, []),
       GradingScaleId: 101,
-    });
+    };
+    fixture.componentRef.setInput("test", test);
     fixture.detectChanges();
   });
 
@@ -132,16 +135,73 @@ describe("TestsEditFormComponent", () => {
     expectError(weightInput, "global.validation-errors.min");
   });
 
-  it("displays max points and maxPointsAdjusted if is point grading type", () => {
-    expect(getMaxPointsInput()).toBeNull();
-    expect(getMaxPointsAdjustedInput()).toBeNull();
+  describe("grading type", () => {
+    it("enables grading type radios if test has no results yet", () => {
+      const [gradesRadio, pointsRadio] = getPointGradingRadios();
+      expect(gradesRadio?.disabled).toBe(false);
+      expect(pointsRadio?.disabled).toBe(false);
+    });
 
-    const [_, pointsRadio] = getPointGradingRadios();
-    pointsRadio?.click();
-    fixture.detectChanges();
+    it("enables grading type radios if test already has results", () => {
+      fixture.componentRef.setInput("test", {
+        ...test,
+        Results: [buildResult(123, 789, 654)],
+      } satisfies Test);
+      fixture.detectChanges();
 
-    expect(getMaxPointsInput()).not.toBeNull();
-    expect(getMaxPointsAdjustedInput()).not.toBeNull();
+      const [gradesRadio, pointsRadio] = getPointGradingRadios();
+      expect(gradesRadio?.disabled).toBe(true);
+      expect(pointsRadio?.disabled).toBe(true);
+    });
+  });
+
+  describe("max points", () => {
+    describe("grades grading type", () => {
+      beforeEach(() => {
+        fixture.componentRef.setInput("test", {
+          ...test,
+          IsPointGrading: false,
+        } satisfies Test);
+        fixture.detectChanges();
+      });
+
+      it("does not display maxPoints and maxPointsAdjusted", () => {
+        expect(getMaxPointsInput()).toBeNull();
+        expect(getMaxPointsAdjustedInput()).toBeNull();
+      });
+    });
+
+    describe("points grading type", () => {
+      beforeEach(() => {
+        fixture.componentRef.setInput("test", {
+          ...test,
+          IsPointGrading: true,
+        } satisfies Test);
+        fixture.detectChanges();
+      });
+
+      it("displays maxPoints and maxPointsAdjusted if is point grading type", () => {
+        expect(getMaxPointsInput()).not.toBeNull();
+        expect(getMaxPointsAdjustedInput()).not.toBeNull();
+      });
+
+      it("enables maxPoints and maxPointsAdjusted if test has no results yet", () => {
+        expect(getMaxPointsInput()?.disabled).toBe(false);
+        expect(getMaxPointsAdjustedInput()?.disabled).toBe(false);
+      });
+
+      it("enables maxPoints and maxPointsAdjusted if test already has results", () => {
+        fixture.componentRef.setInput("test", {
+          ...test,
+          IsPointGrading: true,
+          Results: [buildResult(123, 789, 654)],
+        } satisfies Test);
+        fixture.detectChanges();
+
+        expect(getMaxPointsInput()?.disabled).toBe(false);
+        expect(getMaxPointsAdjustedInput()?.disabled).toBe(false);
+      });
+    });
   });
 
   describe("grading scale", () => {

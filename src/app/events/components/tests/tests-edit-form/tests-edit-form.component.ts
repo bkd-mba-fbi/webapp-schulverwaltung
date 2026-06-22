@@ -125,11 +125,11 @@ export class TestsEditFormComponent {
     required(schema.maxPoints, { when: isPointGrading });
     min(schema.maxPoints, 0.01);
     max(schema.maxPoints, 999);
-    disabled(schema.maxPoints, () => hasResults() || !isPointGrading());
+    disabled(schema.maxPoints, () => !isPointGrading());
 
     min(schema.maxPointsAdjusted, 0.01);
     max(schema.maxPointsAdjusted, 999);
-    disabled(schema.maxPointsAdjusted, () => hasResults() || !isPointGrading());
+    disabled(schema.maxPointsAdjusted, () => !isPointGrading());
 
     required(schema.gradingScaleId, { when: hasGradingScales });
     disabled(schema.gradingScaleId, hasResults);
