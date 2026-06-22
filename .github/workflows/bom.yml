@@ -30,7 +30,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate BOM
-        run: pnpm dlx @cyclonedx/cyclonedx-pnpm --output-format XML --output-file bom.xml
+        run: pnpm sbom --sbom-format cyclonedx --sbom-type application --sbom-spec-version 1.6 > bom.json
 
       - name: Push BOM to Dependency Track
         env:
@@ -42,4 +42,4 @@ jobs:
                --form "autoCreate=true" \
                --form "projectName=$PROJECT_NAME" \
                --form "projectVersion=latest" \
-               --form "bom=@bom.xml"
+               --form "bom=@bom.json"
