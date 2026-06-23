@@ -22,7 +22,7 @@ jobs:
         run: echo "NODE_VERSION=$(cat .node-version)" >> $GITHUB_OUTPUT
         id: node-version
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - name: Use Node.js ${{ steps.node-version.outputs.NODE_VERSION }}
         uses: actions/setup-node@v5
