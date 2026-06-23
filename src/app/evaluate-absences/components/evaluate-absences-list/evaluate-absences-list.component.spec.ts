@@ -24,7 +24,7 @@ describe("EvaluateAbsencesListComponent", () => {
       isFilterValid$: of(true),
       validFilter$: of({
         student: null,
-        educationalEvent: null,
+        course: null,
         studyClass: 5976,
       }),
       entries$: of([statistic]),

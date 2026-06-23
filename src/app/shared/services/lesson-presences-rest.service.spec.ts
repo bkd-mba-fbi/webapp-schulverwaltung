@@ -295,7 +295,7 @@ describe("LessonPresencesRestService", () => {
     beforeEach(() => {
       filter = {
         student: null,
-        educationalEvent: null,
+        course: null,
         studyClass: null,
         dateFrom: null,
         dateTo: null,
@@ -309,7 +309,7 @@ describe("LessonPresencesRestService", () => {
 
     it("fetches statistics based with the given filter (all filter criteria set) and sort criteria", () => {
       filter.student = 123;
-      filter.educationalEvent = 333;
+      filter.course = 333;
       filter.studyClass = 678;
       filter.dateFrom = new Date(2000, 0, 23);
       filter.dateTo = new Date(2000, 0, 24);
@@ -350,7 +350,7 @@ describe("LessonPresencesRestService", () => {
     beforeEach(() => {
       filter = {
         student: null,
-        educationalEvent: null,
+        course: null,
         studyClass: null,
         dateFrom: null,
         dateTo: null,
@@ -359,7 +359,7 @@ describe("LessonPresencesRestService", () => {
 
     it("fetches lesson refs with all filter values set", () => {
       filter.student = 123;
-      filter.educationalEvent = 333;
+      filter.course = 333;
       filter.studyClass = 678;
       filter.dateFrom = new Date(2000, 0, 23);
       filter.dateTo = new Date(2000, 0, 24);
@@ -401,7 +401,7 @@ describe("LessonPresencesRestService", () => {
     beforeEach(() => {
       filter = {
         student: null,
-        educationalEvent: null,
+        course: null,
         studyClass: null,
         teacher: null,
         dateFrom: null,
@@ -415,7 +415,7 @@ describe("LessonPresencesRestService", () => {
 
     it("fetches lesson presences with the given basic filters", () => {
       filter.student = 123;
-      filter.educationalEvent = 333;
+      filter.course = 333;
       filter.studyClass = 678;
 
       const url =
@@ -433,7 +433,7 @@ describe("LessonPresencesRestService", () => {
 
     it("fetches lesson presences with all given filters", () => {
       filter.student = 123;
-      filter.educationalEvent = 333;
+      filter.course = 333;
       filter.studyClass = 678;
       filter.teacher = "Bandi Victor";
       filter.dateFrom = new Date(2000, 0, 23);
@@ -508,7 +508,7 @@ describe("LessonPresencesRestService", () => {
       const additionalParams: Dict<string> = {
         sort: "StudentFullName.asc,LessonDateTimeFrom.asc",
       };
-      filter.educationalEvent = 333;
+      filter.course = 333;
 
       const url =
         "https://eventotest.api/LessonPresences/?sort=StudentFullName.asc,LessonDateTimeFrom.asc&filter.EventRef==333&offset=0&limit=1000";
@@ -523,8 +523,8 @@ describe("LessonPresencesRestService", () => {
       httpTestingController.verify();
     });
 
-    it("fetches lesson presences for multiple educational events", () => {
-      filter.educationalEvent = "333;444";
+    it("fetches lesson presences for multiple courses", () => {
+      filter.course = "333;444";
 
       const url =
         "https://eventotest.api/LessonPresences/?filter.EventRef=;333;444&offset=0&limit=1000";

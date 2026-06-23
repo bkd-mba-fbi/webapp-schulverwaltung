@@ -77,7 +77,7 @@ export class StudentAbsencesService {
       .getStatistics(
         {
           student: studentId,
-          educationalEvent: null,
+          course: null,
           studyClass: null,
           dateFrom: null,
           dateTo: null,

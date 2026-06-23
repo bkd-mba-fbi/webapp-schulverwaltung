@@ -108,9 +108,7 @@ export class EditAbsencesListComponent
 function createFilterFromParams(params: Params): EditAbsencesFilter {
   return {
     student: params["student"] ? Number(params["student"]) : null,
-    educationalEvent: params["educationalEvent"]
-      ? Number(params["educationalEvent"])
-      : null,
+    course: params["course"] ? Number(params["course"]) : null,
     studyClass: params["studyClass"] ? Number(params["studyClass"]) : null,
     teacher: params["teacher"] ?? null,
     dateFrom: params["dateFrom"] ? parseISOLocalDate(params["dateFrom"]) : null,

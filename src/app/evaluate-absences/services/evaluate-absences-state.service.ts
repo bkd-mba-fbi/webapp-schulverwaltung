@@ -15,7 +15,7 @@ import { Paginated } from "src/app/shared/utils/pagination";
 
 export interface EvaluateAbsencesFilter {
   student: Option<number>;
-  educationalEvent: Option<number | string>;
+  course: Option<number | string>;
   studyClass: Option<number>;
   dateFrom: Option<Date>;
   dateTo: Option<Date>;
@@ -53,7 +53,7 @@ export class EvaluateAbsencesStateService
   protected getInitialFilter(): EvaluateAbsencesFilter {
     return {
       student: null,
-      educationalEvent: null,
+      course: null,
       studyClass: null,
       dateFrom: null,
       dateTo: null,
@@ -63,7 +63,7 @@ export class EvaluateAbsencesStateService
   protected isValidFilter(filterValue: EvaluateAbsencesFilter): boolean {
     return Boolean(
       filterValue.student ||
-      filterValue.educationalEvent ||
+      filterValue.course ||
       filterValue.studyClass ||
       filterValue.dateFrom ||
       filterValue.dateTo,

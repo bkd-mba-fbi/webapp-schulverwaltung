@@ -16,11 +16,11 @@ import { isAfter } from "date-fns/isAfter";
 import { isBefore } from "date-fns/isBefore";
 import { startOfDay } from "date-fns/startOfDay";
 import { DateSelectComponent } from "src/app/shared/components/date-select/date-select.component";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { TypeaheadComponent } from "../../../shared/components/typeahead/typeahead.component";
-import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
 import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.service";
 
 @Component({
@@ -36,13 +36,13 @@ import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.s
 })
 export class EvaluateAbsencesHeaderComponent {
   studentsService = inject(StudentsRestService);
-  educationalEventsService = inject(EducationalEventsRestService);
+  coursesService = inject(CoursesRestService);
   studyClassesService = inject(StudyClassesRestService);
 
   @Input()
   filter: EvaluateAbsencesFilter = {
     student: null,
-    educationalEvent: null,
+    course: null,
     studyClass: null,
     dateFrom: null,
     dateTo: null,

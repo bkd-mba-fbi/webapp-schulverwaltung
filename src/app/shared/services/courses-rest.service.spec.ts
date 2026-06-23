@@ -19,6 +19,7 @@ import {
   Grading,
   UpdatedTestResultResponse,
 } from "../models/course.model";
+import { DropDownItem } from "../models/drop-down-item.model";
 import { Result } from "../models/test.model";
 import { CoursesRestService } from "./courses-rest.service";
 
@@ -35,6 +36,52 @@ describe("CoursesRestService", () => {
   });
 
   afterEach(() => httpTestingController.verify());
+
+  describe("getTypeaheadItems", () => {
+    it("returns dropdown items grouped by designation", () => {
+      const data = [
+        { Id: 1, Designation: "Englisch" }, // Number=26c
+        { Id: 2, Designation: "Englisch" }, // Number=26d
+        { Id: 3, Designation: "Englisch" }, // Number=26e
+        { Id: 4, Designation: "Deutsch" }, // Number=26c
+      ];
+
+      let result: ReadonlyArray<DropDownItem> | undefined;
+      service.getTypeaheadItems("sch").subscribe((items) => {
+        result = items;
+      });
+
+      const url =
+        "https://eventotest.api/Courses/?fields=Id,Designation&filter.StatusId=;14030;14025;14017;14020;10350;10335;10355;10315;10330;1032510320;10340;10345;10230;10225;10240;10260;10217;10235;10220;10226;10227;10250;10300&filter.Designation=~*sch*";
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+
+      expect(result).toEqual([
+        { Key: "4", Value: "Deutsch" },
+        { Key: "1;2;3", Value: "Englisch" },
+      ]);
+    });
+  });
+
+  describe("getTypeaheadItemByKey", () => {
+    it("returns the dropdown item for the given key", () => {
+      const data = [{ Id: 1, Designation: "Englisch" }];
+
+      let result: DropDownItem | undefined;
+      service.getTypeaheadItemByKey("1").subscribe((item) => {
+        result = item;
+      });
+
+      const url =
+        "https://eventotest.api/Courses/?fields=Id,Designation&filter.Id==1";
+      httpTestingController
+        .expectOne((req) => req.urlWithParams === url, url)
+        .flush(data);
+
+      expect(result).toEqual({ Key: 1, Value: "Englisch" });
+    });
+  });
 
   describe("getNumberOfCoursesForRating", () => {
     it("should return the number of courses where the evaluation has started", () => {
