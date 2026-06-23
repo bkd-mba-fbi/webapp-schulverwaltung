@@ -12,11 +12,11 @@ We support the evergreen browsers (Chrome, Firefox, Safari, Edge).
 
 When testing browser compatibility with [BrowserStack](https://www.browserstack.com/), consider the following combination of Dev Server and URL to use.
 
-| OS        | Browser               | Dev Server                   | URL                        |
-| --------- | --------------------- | ---------------------------- | -------------------------- |
-| Windows   | Chrome, Firefox, Edge | `npm start`                  | `http://localhost:4200`    |
-| Android   | Chrome                | `npm start`                  | `http://localhost:4200`    |
-| macOS/iOS | Safari                | `npm run start:browserstack` | `http://bs-local.com:8000` |
+| OS        | Browser               | Dev Server                | URL                        |
+| --------- | --------------------- | ------------------------- | -------------------------- |
+| Windows   | Chrome, Firefox, Edge | `pnpm start`              | `http://localhost:4200`    |
+| Android   | Chrome                | `pnpm start`              | `http://localhost:4200`    |
+| macOS/iOS | Safari                | `pnpm start:browserstack` | `http://bs-local.com:8000` |
 
 ### Authentication
 
