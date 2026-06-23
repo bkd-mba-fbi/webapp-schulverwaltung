@@ -42,7 +42,7 @@
   ></bkd-dashboard-action>
 }
 
-@if ((dashboardService.hasStudentRole$ | async) && canEditInstructorEmail()) {
+@if (canEditInstructorEmail()) {
   <bkd-dashboard-action
     [label]="'dashboard.actions.edit-instructor-email'"
     [link]="['/my-profile/edit-instructor-email']"

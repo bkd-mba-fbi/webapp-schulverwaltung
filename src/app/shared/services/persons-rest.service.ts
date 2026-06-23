@@ -128,6 +128,21 @@ export class PersonsRestService extends RestService<typeof Person> {
       .pipe(map(() => undefined));
   }
 
+  getInstructorEmail(
+    personId: number,
+    context?: HttpContext,
+  ): Observable<unknown> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        context,
+        params: { "filter.Id": `=${personId}`, fields: "Custom1" },
+      })
+      .pipe(
+        switchMap(decode(t.array(t.type(pick(this.codec.props, ["Custom1"]))))),
+        map((persons) => persons[0]?.Custom1 ?? null),
+      );
+  }
+
   updateInstructorEmail(
     personId: number,
     instructorEmail: string,
