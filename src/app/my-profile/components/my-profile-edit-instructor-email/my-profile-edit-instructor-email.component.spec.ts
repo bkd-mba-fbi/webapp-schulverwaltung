@@ -3,7 +3,12 @@ import { Router } from "@angular/router";
 import { of } from "rxjs";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { ToastService } from "src/app/shared/services/toast.service";
-import { buildPerson } from "src/spec-builders";
+import {
+  buildApprenticeshipContract,
+  buildApprenticeshipManager,
+  buildJobTrainer,
+  buildPerson,
+} from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { MyProfileService } from "../../services/my-profile.service";
 import { MyProfileEditInstructorEmailComponent } from "./my-profile-edit-instructor-email.component";
@@ -21,6 +26,13 @@ describe("MyProfileEditInstructorEmailComponent", () => {
 
     profileService = {
       person$: of(person),
+      apprenticeships$: of([
+        {
+          apprenticeshipContract: buildApprenticeshipContract(1),
+          jobTrainer: buildJobTrainer(1),
+          apprenticeshipManager: buildApprenticeshipManager(1),
+        },
+      ]),
       loadingPerson$: of(false),
       reloadStudent: jasmine.createSpy("reloadStudent"),
     } as unknown as MyProfileService;

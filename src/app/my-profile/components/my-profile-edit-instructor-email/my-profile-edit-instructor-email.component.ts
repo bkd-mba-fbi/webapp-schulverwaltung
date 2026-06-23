@@ -13,8 +13,10 @@ import { Observable, finalize, map, switchMap, take, throwError } from "rxjs";
 import { FormErrorsComponent } from "src/app/shared/components/form-errors/form-errors.component";
 import { SpinnerComponent } from "src/app/shared/components/spinner/spinner.component";
 import { SubmitButtonComponent } from "src/app/shared/components/submit-button/submit-button.component";
+import { PersonEmailPipe } from "src/app/shared/pipes/person-email.pipe";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { ToastService } from "src/app/shared/services/toast.service";
+import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 import { MyProfileService } from "../../services/my-profile.service";
 
 type InstructorEmailFormData = {
@@ -29,6 +31,8 @@ type InstructorEmailFormData = {
     SubmitButtonComponent,
     FormErrorsComponent,
     SpinnerComponent,
+    PersonEmailPipe,
+    AddSpacePipe,
   ],
   templateUrl: "./my-profile-edit-instructor-email.component.html",
   styleUrl: "./my-profile-edit-instructor-email.component.scss",
@@ -51,6 +55,13 @@ export class MyProfileEditInstructorEmailComponent {
   instructorEmail = toSignal(this.loadInstructorEmail(), {
     initialValue: null,
   });
+
+  apprenticeship = toSignal(
+    this.profileService.apprenticeships$.pipe(map((v) => (v && v[0]) ?? null)),
+    {
+      initialValue: null,
+    },
+  );
 
   formData = linkedSignal<InstructorEmailFormData>(() => {
     return {

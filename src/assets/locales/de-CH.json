@@ -620,7 +620,8 @@
     },
     "edit-instructor-email": {
       "title": "E-Mail Praxisbildner/in bearbeiten",
-      "description": "Ist eine E-Mail-Adresse erfasst, erhält diese Person die Benachrichtigungen zu Ihren Absenzen.",
+      "description": "Falls in Ihrem Lehrbetrieb eine andere Person über Ihre Absenzen informiert werden soll, erfassen Sie bitte deren E-Mail-Adresse.",
+      "trainer-label": "Berufsbildner/in",
       "field-label": "E-Mail Praxisbildner/in",
       "field-hint": "Achtung: Beim Speichern wird eine Information an Praxis- und Berufsbildner/in geschickt.",
       "cancel": "Abbrechen",

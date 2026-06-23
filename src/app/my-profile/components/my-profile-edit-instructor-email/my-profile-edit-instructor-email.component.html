@@ -1,9 +1,28 @@
+@let trainer = apprenticeship()?.jobTrainer;
+
 <div class="bkd-container bkd-container-limited">
   @if (loading()) {
     <bkd-spinner></bkd-spinner>
   } @else {
     <h1>{{ "my-profile.edit-instructor-email.title" | translate }}</h1>
     <form (submit)="onSubmit($event)" novalidate>
+      <div class="mb-3">
+        @if (trainer) {
+          {{ "my-profile.edit-instructor-email.trainer-label" | translate
+          }}{{ ":" | addSpace: ":" }}
+          <address>
+            @if (trainer.Lastname || trainer.Firstname) {
+              {{ trainer.Lastname || "" }}
+              {{ trainer.Firstname || "" }}<br />
+            }
+            @if (trainer | bkdPersonEmail) {
+              <a href="mailto:{{ trainer | bkdPersonEmail }}">{{
+                trainer | bkdPersonEmail
+              }}</a>
+            }
+          </address>
+        }
+      </div>
       <p>{{ "my-profile.edit-instructor-email.description" | translate }}</p>
       <div class="mb-3">
         <label class="form-label" for="my-profile-email-instructor">
