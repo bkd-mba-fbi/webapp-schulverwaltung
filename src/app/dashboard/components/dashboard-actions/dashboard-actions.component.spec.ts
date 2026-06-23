@@ -74,6 +74,9 @@ describe("DashboardActionsComponent", () => {
               getMyself() {
                 return of(buildPerson(3));
               },
+              getInstructorEmail() {
+                return of("test@example.com");
+              },
             },
           },
           {

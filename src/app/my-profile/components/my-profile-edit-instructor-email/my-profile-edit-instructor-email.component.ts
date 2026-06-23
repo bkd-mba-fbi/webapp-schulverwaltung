@@ -6,7 +6,7 @@ import {
   signal,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { FormField, email, form, required } from "@angular/forms/signals";
+import { FormField, email, form } from "@angular/forms/signals";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { Observable, finalize, map, switchMap, take, throwError } from "rxjs";
@@ -58,7 +58,6 @@ export class MyProfileEditInstructorEmailComponent {
     };
   });
   instructorEmailForm = form(this.formData, (schema) => {
-    required(schema.instructorEmail);
     email(schema.instructorEmail);
   });
 

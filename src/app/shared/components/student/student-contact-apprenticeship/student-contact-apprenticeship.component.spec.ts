@@ -44,9 +44,7 @@ describe("StudentContactApprenticeshipComponent", () => {
   describe("instructor email", () => {
     describe("email value", () => {
       it("renders email if present", () => {
-        student.Custom1 = "test@example.com";
-        fixture.componentRef.setInput("student", { ...student });
-        fixture.detectChanges();
+        setCustom1("test@example.com");
 
         const link = getInstructorEmailSection().querySelector("a");
         expect(link).not.toBeNull();
@@ -54,9 +52,7 @@ describe("StudentContactApprenticeshipComponent", () => {
       });
 
       it("renders dash for non-email value", () => {
-        student.Custom1 = "Lorem ipsum dolor sit amet";
-        fixture.componentRef.setInput("student", { ...student });
-        fixture.detectChanges();
+        setCustom1("Lorem ipsum dolor sit amet");
 
         const section = getInstructorEmailSection();
         expect(section.textContent).toContain("–");
@@ -64,9 +60,7 @@ describe("StudentContactApprenticeshipComponent", () => {
       });
 
       it("renders dash for null value", () => {
-        student.Custom1 = null;
-        fixture.componentRef.setInput("student", { ...student });
-        fixture.detectChanges();
+        setCustom1(null);
 
         const section = getInstructorEmailSection();
         expect(section.textContent).toContain("–");
@@ -75,62 +69,70 @@ describe("StudentContactApprenticeshipComponent", () => {
     });
 
     describe("edit link", () => {
-      it("renders edit link if present and email is valid", () => {
-        student.Custom1 = "test@example.com";
-        fixture.componentRef.setInput("student", { ...student });
-        fixture.componentRef.setInput(
-          "instructorEmailEditLink",
-          "/edit-instructor-email",
-        );
-        fixture.componentRef.setInput(
-          "instructorEmailEditLabel",
-          "Edit instructor email",
-        );
-        fixture.detectChanges();
+      describe("with instructorEmailEditLink and instructorEmailEditLabel", () => {
+        beforeEach(() => {
+          fixture.componentRef.setInput(
+            "instructorEmailEditLink",
+            "/edit-instructor-email",
+          );
+          fixture.componentRef.setInput(
+            "instructorEmailEditLabel",
+            "Edit instructor email",
+          );
+        });
 
-        const section = getInstructorEmailSection();
+        it("is rendered if present and value is valid email", () => {
+          setCustom1("test@example.com");
 
-        const editLink = section.querySelector(
-          "[aria-label='Edit instructor email']",
-        );
-        expect(editLink).not.toBeNull();
-        expect(editLink?.getAttribute("href")).toBe("/edit-instructor-email");
+          const editLink = getEditLink();
+          expect(editLink).not.toBeNull();
+          expect(editLink?.getAttribute("href")).toBe("/edit-instructor-email");
+        });
+
+        it("is rendered if present and value is empty string", () => {
+          setCustom1("");
+
+          const editLink = getEditLink();
+          expect(editLink).not.toBeNull();
+          expect(editLink?.getAttribute("href")).toBe("/edit-instructor-email");
+        });
+
+        it("is rendered if present and value is null", () => {
+          setCustom1(null);
+
+          const editLink = getEditLink();
+          expect(editLink).not.toBeNull();
+          expect(editLink?.getAttribute("href")).toBe("/edit-instructor-email");
+        });
+
+        it("is not rendered if present and value is not a valid email", () => {
+          setCustom1("Lorem ipsum dolor sit amet");
+
+          expect(getEditLink()).toBeNull();
+        });
       });
 
-      it("does not render edit link if present and email is invalid", () => {
-        student.Custom1 = "Lorem ipsum dolor sit amet";
-        fixture.componentRef.setInput("student", { ...student });
-        fixture.componentRef.setInput(
-          "instructorEmailEditLink",
-          "/edit-instructor-email",
-        );
-        fixture.componentRef.setInput(
-          "instructorEmailEditLabel",
-          "Edit instructor email",
-        );
-        fixture.detectChanges();
-
-        const section = getInstructorEmailSection();
-
-        const editLink = section.querySelector(
-          "[aria-label='Edit instructor email']",
-        );
-        expect(editLink).toBeNull();
-      });
-
-      it("does not render edit link if absent and email is valid", () => {
-        student.Custom1 = "test@example.com";
-        fixture.componentRef.setInput("student", { ...student });
-        fixture.detectChanges();
-
-        const section = getInstructorEmailSection();
-
-        const editLink = section.querySelector(
-          "[aria-label='Edit instructor email']",
-        );
-        expect(editLink).toBeNull();
+      describe("without instructorEmailEditLink and instructorEmailEditLabel", () => {
+        it("is not rendered if value is valid email", () => {
+          setCustom1("test@example.com");
+          expect(getEditLink()).toBeNull();
+        });
       });
     });
+
+    function setCustom1(value: unknown) {
+      student.Custom1 = value;
+      fixture.componentRef.setInput("student", { ...student });
+      fixture.detectChanges();
+    }
+
+    function getEditLink() {
+      const section = getInstructorEmailSection();
+      const editLink = section.querySelector(
+        "[aria-label='Edit instructor email']",
+      );
+      return editLink;
+    }
 
     function getInstructorEmailSection(): HTMLDivElement {
       const section = Array.from(element.querySelectorAll("div")).find((div) =>

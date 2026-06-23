@@ -69,7 +69,7 @@ describe("MyProfileEditInstructorEmailComponent", () => {
     expect(personsService.updateInstructorEmail).not.toHaveBeenCalled();
 
     changeValue("");
-    expect(element.querySelector(".invalid-feedback")).not.toBeNull();
+    expect(element.querySelector(".invalid-feedback")).toBeNull();
 
     changeValue("jane@example.com");
     expect(element.querySelector(".invalid-feedback")).toBeNull();
