@@ -123,9 +123,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
 function createFilterFromParams(params: Params): EvaluateAbsencesFilter {
   return {
     student: params["student"] ? Number(params["student"]) : null,
-    educationalEvent: params["educationalEvent"]
-      ? Number(params["educationalEvent"])
-      : null,
+    course: params["course"] ? Number(params["course"]) : null,
     studyClass: params["studyClass"] ? Number(params["studyClass"]) : null,
     dateFrom: params["dateFrom"] ? new Date(params["dateFrom"]) : null,
     dateTo: params["dateTo"] ? new Date(params["dateTo"]) : null,

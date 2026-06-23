@@ -1,8 +1,10 @@
 import { HttpClient, HttpContext, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 import { format, startOfDay } from "date-fns";
 import * as t from "io-ts";
-import { Observable, map, of, switchMap, throwError } from "rxjs";
+import sortBy from "lodash-es/sortBy";
+import { EMPTY, Observable, map, of, switchMap, throwError } from "rxjs";
 import {
   TestResultGradeUpdate,
   TestResultPointsUpdate,
@@ -16,25 +18,78 @@ import {
   Grading,
   UpdatedTestResultResponse,
 } from "../models/course.model";
+import { DropDownItem } from "../models/drop-down-item.model";
 import { Result } from "../models/test.model";
 import { decode, decodeArray } from "../utils/decode";
 import { hasRole } from "../utils/roles";
 import { pick } from "../utils/types";
 import { RestService } from "./rest.service";
+import { ToastService } from "./toast.service";
+import { TypeaheadService } from "./typeahead-rest.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class CoursesRestService extends RestService<typeof Course> {
+export class CoursesRestService
+  extends RestService<typeof Course>
+  implements TypeaheadService
+{
+  protected typeaheadCodec = t.type(
+    pick(this.codec.props, ["Id", "Designation"]),
+  );
   protected statusCodec = t.type(
     pick(this.codec.props, ["Id", "StatusId", "EvaluationStatusRef"]),
   );
+
+  private translate = inject(TranslateService);
+  private toastService = inject(ToastService);
 
   constructor() {
     const http = inject(HttpClient);
     const settings = inject<Settings>(SETTINGS);
 
     super(http, settings, Course, "Courses");
+  }
+
+  getTypeaheadItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          fields: ["Id", "Designation"].join(","),
+          "filter.StatusId": `;${this.settings.eventlist["statusfilter"]}`,
+          ["filter.Designation"]: `~*${term}*`,
+        },
+      })
+      .pipe(
+        switchMap(decodeArray(this.typeaheadCodec)),
+        map(this.buildGroupedDropdownItems.bind(this)),
+      );
+  }
+
+  getTypeaheadItemByKey(key: DropDownItem["Key"]): Observable<DropDownItem> {
+    return this.http
+      .get<unknown>(`${this.baseUrl}/`, {
+        params: {
+          fields: ["Id", "Designation"].join(","),
+          ["filter.Id"]: `=${key}`,
+        },
+      })
+      .pipe(
+        switchMap(decodeArray(this.typeaheadCodec)),
+        switchMap((items) => {
+          if (items.length === 0) {
+            this.toastService.error(
+              this.translate.instant(`global.rest-errors.notfound-message`),
+              this.translate.instant(`global.rest-errors.notfound-title`),
+            );
+            return EMPTY;
+          }
+          return of({
+            Key: items[0].Id,
+            Value: items[0].Designation,
+          });
+        }),
+      );
   }
 
   getNumberOfCoursesForRating(): Observable<number> {
@@ -314,5 +369,30 @@ export class CoursesRestService extends RestService<typeof Course> {
     return this.http
       .put(`${this.baseUrl}/UnpublishTest`, body)
       .pipe(map(() => id));
+  }
+
+  private buildGroupedDropdownItems(
+    items: ReadonlyArray<t.TypeOf<typeof this.typeaheadCodec>>,
+  ): ReadonlyArray<DropDownItem> {
+    const idsByDesignation = this.getIdsByDesignation(items);
+    return sortBy(
+      Object.keys(idsByDesignation).map((designation) => ({
+        Key: idsByDesignation[designation].join(";"), // Key="id1;id2;id3"
+        Value: designation,
+      })),
+      "Value",
+    );
+  }
+
+  private getIdsByDesignation(
+    items: ReadonlyArray<t.TypeOf<typeof this.typeaheadCodec>>,
+  ): Record<string, ReadonlyArray<number>> {
+    return items.reduce<Record<string, number[]>>((acc, item) => {
+      if (!acc[item.Designation]) {
+        acc[item.Designation] = [];
+      }
+      acc[item.Designation].push(item.Id);
+      return acc;
+    }, {});
   }
 }

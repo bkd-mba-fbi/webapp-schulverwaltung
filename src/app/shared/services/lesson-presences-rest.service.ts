@@ -178,7 +178,7 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<Paginated<ReadonlyArray<LessonPresenceStatistic>>> {
     let params = filteredParams([
       [absencesFilter.student, "StudentRef"],
-      [absencesFilter.educationalEvent, "EventRef"],
+      [absencesFilter.course, "EventRef"],
       [absencesFilter.studyClass, "StudyClassRef"],
     ]);
     params = addAbsencesFilterDateParams(absencesFilter, params);
@@ -199,7 +199,7 @@ export class LessonPresencesRestService extends RestService<
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = filteredParams([
       [absencesFilter.student, "StudentRef"],
-      [absencesFilter.educationalEvent, "EventRef"],
+      [absencesFilter.course, "EventRef"],
       [absencesFilter.studyClass, "StudyClassRef"],
     ]);
     params = addAbsencesFilterDateParams(absencesFilter, params);
@@ -252,7 +252,7 @@ export class LessonPresencesRestService extends RestService<
     let params = filteredParams(
       [
         [absencesFilter.student, "StudentRef"],
-        [absencesFilter.educationalEvent, "EventRef"],
+        [absencesFilter.course, "EventRef"],
         [absencesFilter.studyClass, "StudyClassRef"],
       ],
       new HttpParams({ fromObject: additionalParams }),
@@ -383,7 +383,7 @@ function filteredParams(
     if (item && field) {
       if (String(item).includes(";")) {
         // We allow the filtering by multiple values using the semicolon separator
-        // (this is used by the absences educational event filter)
+        // (this is used by the absences course filter)
         return acc.set(`filter.${field}`, `;${item}`);
       }
       return acc.set(`filter.${field}`, `=${item}`);

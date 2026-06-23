@@ -19,6 +19,7 @@ import {
   isComment,
   isIncident,
 } from "src/app/presence-control/utils/presence-types";
+import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
@@ -31,7 +32,6 @@ import {
 import { DateSelectComponent } from "../../../shared/components/date-select/date-select.component";
 import { MultiselectComponent } from "../../../shared/components/multiselect/multiselect.component";
 import { TypeaheadComponent } from "../../../shared/components/typeahead/typeahead.component";
-import { EducationalEventsRestService } from "../../../shared/services/educational-events-rest.service";
 import { TeacherResourcesRestService } from "../../../shared/services/teacher-resources-rest.service";
 import {
   EditAbsencesFilter,
@@ -57,7 +57,7 @@ import {
 })
 export class EditAbsencesHeaderComponent {
   studentsService = inject(StudentsRestService);
-  educationalEventsService = inject(EducationalEventsRestService);
+  coursesService = inject(CoursesRestService);
   studyClassService = inject(StudyClassesRestService);
   teacherResourcesService = inject(TeacherResourcesRestService);
   private state = inject(EditAbsencesStateService);
@@ -66,7 +66,7 @@ export class EditAbsencesHeaderComponent {
   @Input()
   filter: EditAbsencesFilter = {
     student: null,
-    educationalEvent: null,
+    course: null,
     studyClass: null,
     teacher: null,
     dateFrom: null,
