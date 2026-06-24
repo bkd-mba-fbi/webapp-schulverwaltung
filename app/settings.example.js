@@ -184,6 +184,16 @@ window.schulverwaltung.settings = {
           "Enseignant(e) de classe : quelqu'un d'autre que les apprenants saisit un motif d'absence.",
       },
     },
+    absenceMessageThreshold: {
+      de: {
+        label: "Schwellenwert Absenzen",
+        description: "Klassenlehrperson: Ein/e Lernende/r hat den Schwellenwert im Semester für Absenzen erreicht.",
+      },
+      fr: {
+        label: "Seuil d'absences",
+        description: "Maître-sse de classe : un-e élève a atteint le seuil d'absences dans le semestre.",
+      },
+    },
     incidentMessage: {
       de: {
         label: "Vorfall erfasst (Lehrperson)",
@@ -242,6 +252,7 @@ window.schulverwaltung.settings = {
       types: [
         "BM2Teacher",
         "absenceMessage",
+        "absenceMessageThreshold",
         "incidentMessage",
         "absenceMessageTeacher",
         "incidentMessage",
