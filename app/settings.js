@@ -255,7 +255,6 @@ window.schulverwaltung.settings = {
         "absenceMessageThreshold",
         "incidentMessage",
         "absenceMessageTeacher",
-        "incidentMessage",
         "teacherSubstitutions",
       ],
     },
