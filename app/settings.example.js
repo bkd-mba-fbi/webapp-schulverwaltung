@@ -242,6 +242,7 @@ window.schulverwaltung.settings = {
       types: [
         "BM2Teacher",
         "absenceMessage",
+        "incidentMessage",
         "absenceMessageTeacher",
         "incidentMessage",
         "teacherSubstitutions",
