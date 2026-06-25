@@ -5,10 +5,7 @@
     <div ngbAccordion>
       <div ngbAccordionItem #openAbsences="ngbAccordionItem">
         <div ngbAccordionHeader>
-          <bkd-student-entry-header
-            [opened]="!openAbsences.collapsed"
-            (click)="openAbsences.toggle()"
-          >
+          <bkd-student-entry-header>
             {{ "shared.profile.open-absences" | translate }}
             @if (absenceCounts()?.openAbsences !== null) {
               ({{ absenceCounts()?.openAbsences }})
@@ -29,10 +26,7 @@
 
       <div ngbAccordionItem #excusedAbsences="ngbAccordionItem">
         <div ngbAccordionHeader>
-          <bkd-student-entry-header
-            [opened]="!excusedAbsences.collapsed"
-            (click)="excusedAbsences.toggle()"
-          >
+          <bkd-student-entry-header>
             {{ "shared.profile.excused-absences" | translate }}
             @if (absenceCounts()?.excusedAbsences !== null) {
               ({{ absenceCounts()?.excusedAbsences }})
@@ -52,10 +46,7 @@
 
       <div ngbAccordionItem #unexcusedAbsences="ngbAccordionItem">
         <div ngbAccordionHeader>
-          <bkd-student-entry-header
-            [opened]="!unexcusedAbsences.collapsed"
-            (click)="unexcusedAbsences.toggle()"
-          >
+          <bkd-student-entry-header>
             {{ "shared.profile.unexcused-absences" | translate }}
             @if (absenceCounts()?.unexcusedAbsences !== null) {
               ({{ absenceCounts()?.unexcusedAbsences }})
@@ -76,10 +67,7 @@
 
       <div ngbAccordionItem #incidents="ngbAccordionItem">
         <div ngbAccordionHeader>
-          <bkd-student-entry-header
-            [opened]="!incidents.collapsed"
-            (click)="incidents.toggle()"
-          >
+          <bkd-student-entry-header>
             {{ "shared.profile.incidents" | translate }}
             @if (absenceCounts()?.incidents !== null) {
               ({{ absenceCounts()?.incidents }})
@@ -100,10 +88,7 @@
       @if (halfDayActive$ | async) {
         <div ngbAccordionItem #halfDays="ngbAccordionItem" id="half-days">
           <div ngbAccordionHeader>
-            <bkd-student-entry-header
-              [opened]="!halfDays.collapsed"
-              (click)="halfDays.toggle()"
-            >
+            <bkd-student-entry-header>
               {{ "shared.profile.half-days" | translate }}
               @if (absenceCounts()?.halfDays !== null) {
                 ({{ absenceCounts()?.halfDays }})

@@ -60,10 +60,7 @@
       <div ngbAccordion>
         <div ngbAccordionItem #studentAddress="ngbAccordionItem">
           <div ngbAccordionHeader>
-            <bkd-student-entry-header
-              [opened]="!studentAddress.collapsed"
-              (click)="studentAddress.toggle()"
-            >
+            <bkd-student-entry-header>
               {{ "shared.profile.student-address" | translate }}
             </bkd-student-entry-header>
           </div>
@@ -92,10 +89,7 @@
         @if (personValue.CorrespondenceAddress) {
           <div ngbAccordionItem #correspondenceAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-entry-header
-                [opened]="!correspondenceAddress.collapsed"
-                (click)="correspondenceAddress.toggle()"
-              >
+              <bkd-student-entry-header>
                 {{ "shared.profile.correspondence-address" | translate }}
               </bkd-student-entry-header>
             </div>
@@ -114,10 +108,7 @@
         @if (personValue.BillingAddress) {
           <div ngbAccordionItem #billingAddress="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-entry-header
-                [opened]="!billingAddress.collapsed"
-                (click)="billingAddress.toggle()"
-              >
+              <bkd-student-entry-header>
                 {{ "shared.profile.billing-address" | translate }}
               </bkd-student-entry-header>
             </div>
@@ -138,10 +129,7 @@
         } @else if ((legalRepresentatives() ?? []).length > 0) {
           <div ngbAccordionItem #legalRepresentativesItem="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-entry-header
-                [opened]="!legalRepresentativesItem.collapsed"
-                (click)="legalRepresentativesItem.toggle()"
-              >
+              <bkd-student-entry-header>
                 {{ "shared.profile.legal-representation" | translate }}
               </bkd-student-entry-header>
             </div>
@@ -174,10 +162,7 @@
         ) {
           <div [ngbAccordionItem] #apprenticeshipCompanies="ngbAccordionItem">
             <div ngbAccordionHeader>
-              <bkd-student-entry-header
-                [opened]="!apprenticeshipCompanies.collapsed"
-                (click)="apprenticeshipCompanies.toggle()"
-              >
+              <bkd-student-entry-header>
                 {{ "shared.profile.apprenticeship-company" | translate }}
                 @if ((apprenticeships() ?? []).length > 1) {
                   {{ i + 1 }}

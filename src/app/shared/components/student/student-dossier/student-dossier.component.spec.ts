@@ -22,8 +22,35 @@ describe("StudentDossierComponent", () => {
       ReadonlyArray<StudentDossierEntry>
     >;
   };
+  let filteredDossierEntries: ReadonlyArray<StudentDossierEntry>;
 
   beforeEach(async () => {
+    filteredDossierEntries = [
+      {
+        id: 3,
+        type: "dossier",
+        additionalInformation: {
+          ...buildAdditionalInformation(),
+          Designation: "Anruf Eltern",
+          Description: "Gemeinsames Verständnis geschaffen.",
+          CreationDate: new Date(2000, 0, 23),
+        },
+        category: null,
+        canEdit: false,
+      },
+      {
+        id: 4,
+        type: "dossier",
+        additionalInformation: {
+          ...buildAdditionalInformation(),
+          Designation: "1. Verwarnung",
+          CreationDate: new Date(2000, 0, 24),
+        },
+        category: null,
+        canEdit: false,
+      },
+    ];
+
     studentDossierServiceMock = {
       loading$: of(false),
       studentId$: of(42),
@@ -63,31 +90,7 @@ describe("StudentDossierComponent", () => {
       ]),
       filteredDossierEntries$: new BehaviorSubject<
         ReadonlyArray<StudentDossierEntry>
-      >([
-        {
-          id: 3,
-          type: "dossier",
-          additionalInformation: {
-            ...buildAdditionalInformation(),
-            Designation: "Anruf Eltern",
-            Description: "Gemeinsames Verständnis geschaffen.",
-            CreationDate: new Date(2000, 0, 23),
-          },
-          category: null,
-          canEdit: false,
-        },
-        {
-          id: 4,
-          type: "dossier",
-          additionalInformation: {
-            ...buildAdditionalInformation(),
-            Designation: "1. Verwarnung",
-            CreationDate: new Date(2000, 0, 24),
-          },
-          category: null,
-          canEdit: false,
-        },
-      ]),
+      >(filteredDossierEntries),
     };
 
     await TestBed.configureTestingModule(
@@ -161,5 +164,31 @@ describe("StudentDossierComponent", () => {
       "Gemeinsames Verständnis geschaffen.",
     );
     expect(element.textContent).toContain("23.01.2000");
+  });
+
+  describe("entry icon", () => {
+    it("renders a file icon if the entry has a file", () => {
+      filteredDossierEntries[0].additionalInformation.File =
+        "http://example.com/document.pdf";
+      studentDossierServiceMock.filteredDossierEntries$.next([
+        ...filteredDossierEntries,
+      ]);
+      fixture.detectChanges();
+
+      expect(getFirstEntryIcon()).toBe("insert_drive_file");
+    });
+
+    it("renders a notes icon if the entry does not have a file", () => {
+      fixture.detectChanges();
+      expect(getFirstEntryIcon()).toBe("notes");
+    });
+
+    function getFirstEntryIcon() {
+      return element
+        .querySelector(
+          ".accordion-item:not(.information-item) .material-icons-outlined",
+        )
+        ?.textContent?.trim();
+    }
   });
 });

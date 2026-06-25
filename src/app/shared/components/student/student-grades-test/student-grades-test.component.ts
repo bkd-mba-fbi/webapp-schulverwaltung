@@ -40,16 +40,18 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
         </div>
         <div class="grade">
           @if (isEditable && test.IsOwner) {
-            <a
-              class="btn btn-link"
-              aria-label="edit grade"
-              (click)="editGrading(test)"
-            >
-              <i class="material-icons" data-testid="test-grade-edit-icon"
+            <button class="btn btn-link" (click)="editGrading(test)">
+              <span class="visually-hidden">
+                {{ "student.grades.edit-grade" | translate }}
+              </span>
+              <i
+                class="material-icons"
+                aria-hidden="true"
+                data-testid="test-grade-edit-icon"
                 >edit</i
               >
               <span data-testid="test-grade">{{ grading }}</span>
-            </a>
+            </button>
           } @else {
             <span data-testid="test-grade">{{ grading }}</span>
           }
