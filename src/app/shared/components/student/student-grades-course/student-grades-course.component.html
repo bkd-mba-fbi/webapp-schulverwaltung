@@ -1,19 +1,19 @@
-@let sortedTests = (sortedTests$ | async) ?? [];
+@let tests = sortedTests();
 
-@if (sortedTests.length > 0) {
+@if (tests.length > 0) {
   <div>
     <bkd-student-grades-final-grade
-      [finalGrade]="decoratedCourse.finalGrade"
-      [grading]="decoratedCourse.grading"
-      [gradingScale]="decoratedCourse.gradingScale"
-      [average]="decoratedCourse.average"
+      [finalGrade]="decoratedCourse().finalGrade"
+      [grading]="decoratedCourse().grading"
+      [gradingScale]="decoratedCourse().gradingScale"
+      [average]="decoratedCourse().average"
     ></bkd-student-grades-final-grade>
-    @for (test of sortedTests; track test.Id) {
+    @for (test of tests; track test.Id) {
       <bkd-student-grades-test
         [test]="test"
-        [studentId]="studentId"
+        [studentId]="studentId()"
         [gradingScale]="getGradingScaleOfTest(test)"
-        [isEditable]="isEditable"
+        [isEditable]="canEditGrades()"
       ></bkd-student-grades-test>
     }
   </div>
