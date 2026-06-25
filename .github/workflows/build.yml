@@ -33,7 +33,7 @@ jobs:
       - name: Build 🏭
         run: |
           pnpm install --frozen-lockfile
-          pnpm run build:prod
+          pnpm build:prod
           cp README.md dist && cp -r doc dist
 
   integrate:
