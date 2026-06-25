@@ -187,11 +187,13 @@ window.schulverwaltung.settings = {
     absenceMessageThreshold: {
       de: {
         label: "Schwellenwert Absenzen",
-        description: "Klassenlehrperson: Ein/e Lernende/r hat den Schwellenwert im Semester für Absenzen erreicht.",
+        description:
+          "Klassenlehrperson: Ein/e Lernende/r hat den Schwellenwert im Semester für Absenzen erreicht.",
       },
       fr: {
         label: "Seuil d'absences",
-        description: "Maître-sse de classe : un-e élève a atteint le seuil d'absences dans le semestre.",
+        description:
+          "Maître-sse de classe : un-e élève a atteint le seuil d'absences dans le semestre.",
       },
     },
     incidentMessage: {
