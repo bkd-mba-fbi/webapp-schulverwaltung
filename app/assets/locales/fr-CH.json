@@ -620,7 +620,8 @@
     },
     "edit-instructor-email": {
       "title": "Modifier e-mail formateur-trice pratique",
-      "description": "Si une adresse électronique est saisie, cette personne recevra les notifications relatives à vos absences.",
+      "description": "Si, dans votre entreprise formatrice, une autre personne doit être informée de vos absences, veuillez indiquer son adresse électronique.",
+      "trainer-label": "Formateur/trice",
       "field-label": "E-mail formateur-trice pratique",
       "field-hint": "Attention : Lors de l'enregistrement, une information est envoyée à la personne qui est formateur-trice pratique et formateur-trice.",
       "cancel": "Annuler",
