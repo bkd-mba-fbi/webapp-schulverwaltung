@@ -1,23 +1,32 @@
 @import "src/bootstrap-variables";
 
 :host {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  padding: $spacer;
+  display: block;
   border-top: 1px solid $border-color;
-  cursor: pointer;
 }
 
-h5 {
+.h5 {
   flex: auto;
 }
 
-button {
+.h5 button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+  padding: $spacer;
   color: $body-color;
   text-decoration: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: -2px;
+  }
 }
 
-.btn-link:hover {
-  text-decoration: none;
+.content {
+  flex: auto;
 }

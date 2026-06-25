@@ -1,21 +1,56 @@
+import { Component, signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  NgbAccordionBody,
+  NgbAccordionCollapse,
+  NgbAccordionDirective,
+  NgbAccordionItem,
+} from "@ng-bootstrap/ng-bootstrap";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { StudentDossierEntryHeaderComponent } from "./student-dossier-entry-header.component";
 
+@Component({
+  template: `
+    <div ngbAccordion>
+      <div ngbAccordionItem>
+        <bkd-student-dossier-entry-header
+          [icon]="icon()"
+          [category]="category()"
+        >
+          Content
+        </bkd-student-dossier-entry-header>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody><ng-template></ng-template></div>
+        </div>
+      </div>
+    </div>
+  `,
+  imports: [
+    StudentDossierEntryHeaderComponent,
+    NgbAccordionDirective,
+    NgbAccordionItem,
+    NgbAccordionCollapse,
+    NgbAccordionBody,
+  ],
+})
+class HostComponent {
+  icon = signal("notes");
+  category = signal<Option<string>>(null);
+}
+
 describe("StudentDossierEntryHeaderComponent", () => {
-  let fixture: ComponentFixture<StudentDossierEntryHeaderComponent>;
+  let fixture: ComponentFixture<HostComponent>;
   let element: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule(
       buildTestModuleMetadata({
-        imports: [StudentDossierEntryHeaderComponent],
+        imports: [HostComponent],
       }),
     ).compileComponents();
 
-    fixture = TestBed.createComponent(StudentDossierEntryHeaderComponent);
+    fixture = TestBed.createComponent(HostComponent);
     element = fixture.debugElement.nativeElement;
-    fixture.componentRef.setInput("icon", "notes");
     fixture.detectChanges();
   });
 
@@ -30,7 +65,7 @@ describe("StudentDossierEntryHeaderComponent", () => {
   });
 
   it("renders the category badge if available", () => {
-    fixture.componentRef.setInput("category", "Korrespondenz");
+    fixture.componentInstance.category.set("Korrespondenz");
     fixture.detectChanges();
     expect(element.querySelector(".badge")?.textContent?.trim()).toBe(
       "Korrespondenz",

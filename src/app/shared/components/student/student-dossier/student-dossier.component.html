@@ -6,14 +6,43 @@
   } @else {
     <div ngbAccordion>
       @if (informationEntries().length > 0) {
-        <bkd-student-dossier-information
-          [informationEntries]="informationEntries()"
-          [disadvantageEntries]="disadvantageEntries()"
-        ></bkd-student-dossier-information>
+        <div ngbAccordionItem class="information-item">
+          <bkd-student-dossier-entry-header icon="info_outlined">
+            {{ "student.dossier.information" | translate }}
+          </bkd-student-dossier-entry-header>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <bkd-student-dossier-information-body
+                  [informationEntries]="informationEntries()"
+                  [disadvantageEntries]="disadvantageEntries()"
+                ></bkd-student-dossier-information-body>
+              </ng-template>
+            </div>
+          </div>
+        </div>
       }
 
       @for (entry of dossierEntries(); track entry.id) {
-        <bkd-student-dossier-entry [entry]="entry"></bkd-student-dossier-entry>
+        <div ngbAccordionItem>
+          <bkd-student-dossier-entry-header
+            [icon]="getEntryIcon(entry)"
+            [category]="entry.category"
+          >
+            {{ entry.additionalInformation.Designation }}
+          </bkd-student-dossier-entry-header>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <div class="body">
+                  <bkd-student-dossier-entry-body
+                    [entry]="entry"
+                  ></bkd-student-dossier-entry-body>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
       }
     </div>
   }

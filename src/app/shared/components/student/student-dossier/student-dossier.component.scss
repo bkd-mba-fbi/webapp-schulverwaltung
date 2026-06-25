@@ -1,0 +1,10 @@
+@import "src/bootstrap-variables";
+
+.information-item {
+  display: block;
+  background-color: $dark-sand;
+}
+
+.accordion-body {
+  padding: $spacer $spacer $spacer calc(1rem + 24px + 0.5rem);
+}
