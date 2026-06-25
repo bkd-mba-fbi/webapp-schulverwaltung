@@ -191,7 +191,6 @@ describe("DashboardTimetableComponent", () => {
 
       expect(rows[0].querySelector("td.teacher")).toBeNull(); // No teacher column for teachers
 
-      console.log(rows[0].innerHTML);
       expect(rows[0].querySelector("td.room")?.textContent).toContain("109");
 
       // Second row
