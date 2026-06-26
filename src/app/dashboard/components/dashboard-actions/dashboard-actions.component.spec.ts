@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject, of } from "rxjs";
 import { ConfigurationsService } from "src/app/shared/services/configurations.service";
-import { buildLessonPresence, buildPerson } from "../../../../spec-builders";
+import { buildLessonPresence } from "../../../../spec-builders";
 import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { CoursesRestService } from "../../../shared/services/courses-rest.service";
 import { LessonPresencesRestService } from "../../../shared/services/lesson-presences-rest.service";
-import { PersonsRestService } from "../../../shared/services/persons-rest.service";
-import { StorageService } from "../../../shared/services/storage.service";
 import { StudentsRestService } from "../../../shared/services/students-rest.service";
 import { UserSettingsService } from "../../../shared/services/user-settings.service";
 import { DashboardService } from "../../services/dashboard.service";
@@ -65,33 +63,6 @@ describe("DashboardActionsComponent", () => {
             useValue: {
               getNumberOfCoursesForRating() {
                 return of(123);
-              },
-            },
-          },
-          {
-            provide: PersonsRestService,
-            useValue: {
-              getMyself() {
-                return of(buildPerson(3));
-              },
-              getInstructorEmail() {
-                return of("test@example.com");
-              },
-            },
-          },
-          {
-            provide: StorageService,
-            useValue: {
-              getPayload(): Option<object> {
-                return { id_person: "123", fullName: "Stolz Zuzana" };
-              },
-              getListOfUnconfirmed() {
-                return of([
-                  buildLessonPresence(1, new Date(), new Date(), "Math"),
-                ]);
-              },
-              getLanguage() {
-                return "de-CH";
               },
             },
           },
@@ -242,7 +213,7 @@ describe("DashboardActionsComponent", () => {
       expect(element.textContent).toContain(
         "dashboard.actions.my-absences-report",
       );
-      expect(element.textContent).toContain("dashboard.actions.my-absences0");
+      expect(element.textContent).toContain("dashboard.actions.my-absences");
       expect(element.textContent).not.toContain(
         "dashboard.actions.substitutions",
       );

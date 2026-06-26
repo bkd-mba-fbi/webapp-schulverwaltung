@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
-import { of } from "rxjs";
+import { BehaviorSubject, map, of } from "rxjs";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { ToastService } from "src/app/shared/services/toast.service";
 import {
@@ -20,12 +20,15 @@ describe("MyProfileEditInstructorEmailComponent", () => {
   let personsService: jasmine.SpyObj<PersonsRestService>;
   let toastService: jasmine.SpyObj<ToastService>;
   let router: Router;
+  let custom1$: BehaviorSubject<unknown>;
 
   beforeEach(async () => {
-    const person = { ...buildPerson(42), Custom1: "instructor@example.com" };
+    custom1$ = new BehaviorSubject<unknown>("instructor@example.com");
 
     profileService = {
-      person$: of(person),
+      person$: custom1$.pipe(
+        map((custom1) => ({ ...buildPerson(42), Custom1: custom1 })),
+      ),
       apprenticeships$: of([
         {
           apprenticeshipContract: buildApprenticeshipContract(1),
@@ -66,8 +69,26 @@ describe("MyProfileEditInstructorEmailComponent", () => {
     fixture.detectChanges();
   });
 
-  it("renders form field with current value", () => {
+  it("renders form field with email value", () => {
     expect(getInput().value).toBe("instructor@example.com");
+  });
+
+  it("renders form field with non-email value", () => {
+    custom1$.next("Lorem ipsum");
+    fixture.detectChanges();
+    expect(getInput().value).toBe("");
+  });
+
+  it("renders form field with null value", () => {
+    custom1$.next(null);
+    fixture.detectChanges();
+    expect(getInput().value).toBe("");
+  });
+
+  it("renders form field with number value", () => {
+    custom1$.next(123);
+    fixture.detectChanges();
+    expect(getInput().value).toBe("");
   });
 
   it("validates email address", () => {
