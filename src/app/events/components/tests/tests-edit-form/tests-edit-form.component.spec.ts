@@ -102,37 +102,101 @@ describe("TestsEditFormComponent", () => {
     expect(button?.getAttribute("disabled")).toBeFalsy();
   });
 
-  it("validates required fields", () => {
-    const designationInput = getDesignationInput();
-    if (designationInput) {
-      designationInput.value = "";
-      designationInput.dispatchEvent(new Event("input"));
-    }
-    const dateInput = getDateInput();
-    if (dateInput) {
-      dateInput.value = "";
-      dateInput.dispatchEvent(new Event("input"));
-    }
+  describe("designation", () => {
+    it("is valid if designation is present", () => {
+      const designationInput = getDesignationInput();
+      if (designationInput) {
+        designationInput.value = "Lorem ipsum";
+        designationInput.dispatchEvent(new Event("input"));
+      }
 
-    getSubmitButton()?.click();
-    fixture.detectChanges();
+      getSubmitButton()?.click();
+      fixture.detectChanges();
 
-    expectError(designationInput, "global.validation-errors.required");
-    expectError(dateInput, "global.validation-errors.required");
-    expectNoError(getWeightInput());
+      expectNoError(designationInput);
+    });
+
+    it("is invalid if designation is empty", () => {
+      const designationInput = getDesignationInput();
+      if (designationInput) {
+        designationInput.value = "";
+        designationInput.dispatchEvent(new Event("input"));
+      }
+
+      getSubmitButton()?.click();
+      fixture.detectChanges();
+
+      expectError(designationInput, "global.validation-errors.required");
+    });
   });
 
-  it("validates weight to be greater than 0", () => {
-    const weightInput = getWeightInput();
-    if (weightInput) {
-      weightInput.value = "0";
-      weightInput.dispatchEvent(new Event("input"));
-    }
+  describe("date", () => {
+    it("is valid if date is present", () => {
+      const dateInput = getDateInput();
+      if (dateInput) {
+        dateInput.value = "23.01.2000";
+        dateInput.dispatchEvent(new Event("input"));
+      }
 
-    getSubmitButton()?.click();
-    fixture.detectChanges();
+      getSubmitButton()?.click();
+      fixture.detectChanges();
 
-    expectError(weightInput, "global.validation-errors.min");
+      expectNoError(dateInput);
+    });
+
+    it("is invalid if date is empty", () => {
+      const dateInput = getDateInput();
+      if (dateInput) {
+        dateInput.value = "";
+        dateInput.dispatchEvent(new Event("input"));
+      }
+
+      getSubmitButton()?.click();
+      fixture.detectChanges();
+
+      expectError(dateInput, "global.validation-errors.required");
+    });
+  });
+
+  describe("weight", () => {
+    it("is valid if weight is 1", () => {
+      const weightInput = getWeightInput();
+      if (weightInput) {
+        weightInput.value = "1";
+        weightInput.dispatchEvent(new Event("input"));
+      }
+
+      getSubmitButton()?.click();
+      fixture.detectChanges();
+
+      expectNoError(weightInput);
+    });
+
+    it("is invalid if weight is empty", () => {
+      const weightInput = getWeightInput();
+      if (weightInput) {
+        weightInput.value = "";
+        weightInput.dispatchEvent(new Event("input"));
+      }
+
+      getSubmitButton()?.click();
+      fixture.detectChanges();
+
+      expectError(weightInput, "global.validation-errors.required");
+    });
+
+    it("is invalid if weight is less than 1", () => {
+      const weightInput = getWeightInput();
+      if (weightInput) {
+        weightInput.value = "0";
+        weightInput.dispatchEvent(new Event("input"));
+      }
+
+      getSubmitButton()?.click();
+      fixture.detectChanges();
+
+      expectError(weightInput, "global.validation-errors.min");
+    });
   });
 
   describe("grading type", () => {
@@ -200,6 +264,97 @@ describe("TestsEditFormComponent", () => {
 
         expect(getMaxPointsInput()?.disabled).toBe(false);
         expect(getMaxPointsAdjustedInput()?.disabled).toBe(false);
+      });
+
+      it("is invalid if maxPoints is greater than 999", () => {
+        const maxPointsInput = getMaxPointsInput();
+
+        if (maxPointsInput) {
+          maxPointsInput.value = "1000";
+          maxPointsInput.dispatchEvent(new Event("input"));
+        }
+
+        getSubmitButton()?.click();
+        fixture.detectChanges();
+
+        expectError(maxPointsInput, "global.validation-errors.max");
+      });
+
+      it("is invalid if maxPointsAdjusted is greater than 999", () => {
+        const maxPointsAdjustedInput = getMaxPointsAdjustedInput();
+
+        if (maxPointsAdjustedInput) {
+          maxPointsAdjustedInput.value = "1000";
+          maxPointsAdjustedInput.dispatchEvent(new Event("input"));
+        }
+
+        getSubmitButton()?.click();
+        fixture.detectChanges();
+
+        expectError(maxPointsAdjustedInput, "global.validation-errors.max");
+      });
+
+      it("is invalid if maxPointsAdjusted is greater than maxPoints", () => {
+        const maxPointsInput = getMaxPointsInput();
+        const maxPointsAdjustedInput = getMaxPointsAdjustedInput();
+
+        if (maxPointsInput) {
+          maxPointsInput.value = "30";
+          maxPointsInput.dispatchEvent(new Event("input"));
+        }
+
+        if (maxPointsAdjustedInput) {
+          maxPointsAdjustedInput.value = "31";
+          maxPointsAdjustedInput.dispatchEvent(new Event("input"));
+        }
+
+        getSubmitButton()?.click();
+        fixture.detectChanges();
+
+        expectError(maxPointsAdjustedInput, "global.validation-errors.max");
+        expectNoError(maxPointsInput);
+      });
+
+      it("is valid if maxPointsAdjusted is equal to maxPoints", () => {
+        const maxPointsInput = getMaxPointsInput();
+        const maxPointsAdjustedInput = getMaxPointsAdjustedInput();
+
+        if (maxPointsInput) {
+          maxPointsInput.value = "30";
+          maxPointsInput.dispatchEvent(new Event("input"));
+        }
+
+        if (maxPointsAdjustedInput) {
+          maxPointsAdjustedInput.value = "30";
+          maxPointsAdjustedInput.dispatchEvent(new Event("input"));
+        }
+
+        getSubmitButton()?.click();
+        fixture.detectChanges();
+
+        expectNoError(maxPointsAdjustedInput);
+        expectNoError(maxPointsInput);
+      });
+
+      it("is valid if maxPointsAdjusted is smaller than maxPoints", () => {
+        const maxPointsInput = getMaxPointsInput();
+        const maxPointsAdjustedInput = getMaxPointsAdjustedInput();
+
+        if (maxPointsInput) {
+          maxPointsInput.value = "30";
+          maxPointsInput.dispatchEvent(new Event("input"));
+        }
+
+        if (maxPointsAdjustedInput) {
+          maxPointsAdjustedInput.value = "29";
+          maxPointsAdjustedInput.dispatchEvent(new Event("input"));
+        }
+
+        getSubmitButton()?.click();
+        fixture.detectChanges();
+
+        expectNoError(maxPointsAdjustedInput);
+        expectNoError(maxPointsInput);
       });
     });
   });
