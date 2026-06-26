@@ -16,6 +16,7 @@ import { SubmitButtonComponent } from "src/app/shared/components/submit-button/s
 import { PersonEmailPipe } from "src/app/shared/pipes/person-email.pipe";
 import { PersonsRestService } from "src/app/shared/services/persons-rest.service";
 import { ToastService } from "src/app/shared/services/toast.service";
+import { isEmail } from "src/app/shared/utils/email";
 import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 import { MyProfileService } from "../../services/my-profile.service";
 
@@ -64,8 +65,12 @@ export class MyProfileEditInstructorEmailComponent {
   );
 
   formData = linkedSignal<InstructorEmailFormData>(() => {
+    const email = this.instructorEmail() ?? "";
+
     return {
-      instructorEmail: this.instructorEmail() ?? "",
+      // Initially, there may be a non-email value stored, which can be
+      // overwritten and is treated as empty value
+      instructorEmail: isEmail(email) ? email : "",
     };
   });
   instructorEmailForm = form(this.formData, (schema) => {

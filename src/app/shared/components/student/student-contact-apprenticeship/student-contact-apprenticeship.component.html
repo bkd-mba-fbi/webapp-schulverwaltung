@@ -80,8 +80,8 @@
       {{ "shared.profile.instructor-email" | translate }}{{ ":" | addSpace: ":"
       }}<br />
       @let email = instructorEmail();
-      @if (email.value) {
-        <a href="mailto:{{ email.value }}">{{ email.value }}</a>
+      @if (email) {
+        <a href="mailto:{{ email }}">{{ email }}</a>
       } @else {
         –
       }
@@ -89,7 +89,7 @@
 
     @let editLink = instructorEmailEditLink();
     @let editLabel = instructorEmailEditLabel();
-    @if (editLink && !email.hasNonEmailValue) {
+    @if (editLink) {
       <a
         class="btn btn-primary btn-icon me-2"
         [routerLink]="editLink"

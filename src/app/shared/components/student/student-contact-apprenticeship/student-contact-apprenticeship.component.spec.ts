@@ -105,10 +105,12 @@ describe("StudentContactApprenticeshipComponent", () => {
           expect(editLink?.getAttribute("href")).toBe("/edit-instructor-email");
         });
 
-        it("is not rendered if present and value is not a valid email", () => {
+        it("is rendered if present and value is not a valid email", () => {
           setCustom1("Lorem ipsum dolor sit amet");
 
-          expect(getEditLink()).toBeNull();
+          const editLink = getEditLink();
+          expect(editLink).not.toBeNull();
+          expect(editLink?.getAttribute("href")).toBe("/edit-instructor-email");
         });
       });
 

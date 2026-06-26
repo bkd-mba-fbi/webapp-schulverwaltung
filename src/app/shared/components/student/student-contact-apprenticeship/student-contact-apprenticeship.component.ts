@@ -27,12 +27,8 @@ export class StudentContactApprenticeshipComponent {
   instructorEmailEditLabel = input<Option<string>>(null);
 
   instructorEmail = computed(() => {
-    const value = this.student().Custom1;
-    const valid = isEmail(value);
-    return {
-      value: valid ? value : null,
-      hasNonEmailValue: value && !valid,
-    };
+    const email = this.student().Custom1;
+    return isEmail(email) ? email : "";
   });
 
   constructor() {}
