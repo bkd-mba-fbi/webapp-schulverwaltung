@@ -1,7 +1,7 @@
-import { NgClass } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, computed, inject, model } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { ButtonGroupComponent } from "src/app/shared/components/button-group/button-group.component";
 import {
   INITIAL_TESTS_FILTER,
   TestsFilter,
@@ -9,20 +9,24 @@ import {
 
 @Component({
   selector: "bkd-tests-table-filter",
-  imports: [NgClass, FormsModule, TranslatePipe],
+  imports: [FormsModule, TranslatePipe, ButtonGroupComponent],
   templateUrl: "./tests-table-filter.component.html",
   styleUrl: "./tests-table-filter.component.scss",
 })
 export class TestsTableFilterComponent {
-  @Input() filter: TestsFilter = INITIAL_TESTS_FILTER;
-  @Output() filterChange = new EventEmitter<TestsFilter>();
+  private translate = inject(TranslateService);
 
-  showOnlyMine(): void {
-    this.filterChange.next({ ...this.filter, onlyMine: true });
-  }
+  filter = model<TestsFilter>(INITIAL_TESTS_FILTER);
 
-  showAll(): void {
-    this.filterChange.next({ ...this.filter, onlyMine: false });
+  onlyMineOptions = [
+    { key: "all", label: this.translate.instant("tests.all-tests") },
+    { key: "mine", label: this.translate.instant("tests.owned-tests") },
+  ];
+
+  onlyMineValue = computed(() => (this.filter().onlyMine ? "mine" : "all"));
+
+  onOnlyMineChange(value: Option<string>): void {
+    this.filter.set({ ...this.filter(), onlyMine: value === "mine" });
   }
 
   onHidePublishedChange(event: Event): void {
@@ -31,6 +35,6 @@ export class TestsTableFilterComponent {
         event.target instanceof HTMLInputElement &&
         event.target?.checked) ??
       false;
-    this.filterChange.next({ ...this.filter, hidePublished });
+    this.filter.set({ ...this.filter(), hidePublished });
   }
 }

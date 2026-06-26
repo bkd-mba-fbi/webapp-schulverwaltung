@@ -1,34 +1,17 @@
-<div class="only-mine-buttons">
-  <button
-    type="button"
-    class="btn desktop"
-    (click)="showAll()"
-    [ngClass]="{
-      'btn-primary': !filter.onlyMine,
-      'btn-outline-secondary': filter.onlyMine,
-    }"
-  >
-    {{ "tests.all-tests" | translate }}
-  </button>
-  <button
-    type="button"
-    class="btn ms-2 desktop"
-    (click)="showOnlyMine()"
-    [ngClass]="{
-      'btn-primary': filter.onlyMine,
-      'btn-outline-secondary': !filter.onlyMine,
-    }"
-  >
-    {{ "tests.owned-tests" | translate }}
-  </button>
-</div>
+<bkd-button-group
+  class="mt-3 mb-3"
+  [options]="onlyMineOptions"
+  [value]="onlyMineValue()"
+  (valueChange)="onOnlyMineChange($event)"
+>
+</bkd-button-group>
 <div class="hide-published">
   <div class="form-check">
     <input
       id="hide-published"
-      class="form-check-input"
+      class="form-check-input mb-3"
       type="checkbox"
-      [checked]="filter.hidePublished"
+      [checked]="filter().hidePublished"
       (change)="onHidePublishedChange($event)"
     />
     <label class="form-check-label" for="hide-published">
