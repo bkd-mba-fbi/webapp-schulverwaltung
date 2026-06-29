@@ -8,11 +8,17 @@ import {
   convertToParamMap,
   provideRouter,
 } from "@angular/router";
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+  NgbDateParserFormatter,
+} from "@ng-bootstrap/ng-bootstrap";
 import { provideTranslateService } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ReplaySubject } from "rxjs";
 import { SETTINGS, Settings } from "./app/settings";
 import { AuthService } from "./app/shared/services/auth.service";
+import { DateParserFormatter } from "./app/shared/services/date-parser-formatter";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -138,6 +144,10 @@ const baseTestModuleMetadata: TestModuleMetadata = {
         accessToken: "abcdefghijklmnopqrstuvwxyz",
       },
     },
+
+    // ng-bootstrap Datepicker customization
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
 };
 

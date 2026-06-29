@@ -6,7 +6,6 @@ import { SETTINGS, Settings } from "./settings";
 import { ToastComponent } from "./shared/components/toast/toast.component";
 import { I18nService } from "./shared/services/i18n.service";
 import { ToastService } from "./shared/services/toast.service";
-import { NAVIGATOR } from "./shared/tokens/dom-apis";
 import { decode } from "./shared/utils/decode";
 
 @Component({
@@ -20,7 +19,6 @@ import { decode } from "./shared/utils/decode";
 export class AppComponent {
   private toastService = inject(ToastService);
   private settings = inject<Settings>(SETTINGS);
-  private navigator = inject<Navigator>(NAVIGATOR);
 
   constructor() {
     const i18n = inject(I18nService);
