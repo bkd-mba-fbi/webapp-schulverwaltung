@@ -13,7 +13,7 @@ bkd-presence-control-entry {
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax($bkd-presence-control-entry-min-width, 1fr)
+    minmax(min(100%, $bkd-presence-control-entry-min-width), 1fr)
   );
 
   > * {
