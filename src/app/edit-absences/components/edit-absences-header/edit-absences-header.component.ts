@@ -7,11 +7,6 @@ import {
   Output,
   inject,
 } from "@angular/core";
-import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
-  NgbDateParserFormatter,
-} from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { startOfDay } from "date-fns";
 import { map } from "rxjs/operators";
@@ -20,7 +15,6 @@ import {
   isIncident,
 } from "src/app/presence-control/utils/presence-types";
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
-import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
 import { not } from "src/app/shared/utils/filter";
@@ -49,10 +43,6 @@ import {
     MultiselectComponent,
     AsyncPipe,
     TranslatePipe,
-  ],
-  providers: [
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
 })
 export class EditAbsencesHeaderComponent {

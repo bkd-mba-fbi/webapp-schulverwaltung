@@ -10,16 +10,11 @@ import {
   viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import {
-  NgbDateAdapter,
-  NgbDateParserFormatter,
-  NgbInputDatepicker,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateAdapter, NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { isValid, parse } from "date-fns";
 import { Subject, takeUntil } from "rxjs";
 import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
-import { DateParserFormatter } from "../../services/date-parser-formatter";
 import { DateStringAdapter } from "../../services/date-string-adapter.service";
 
 const DATE_FORMAT = "dd.MM.yyyy";
@@ -27,10 +22,7 @@ const DATE_FORMAT = "dd.MM.yyyy";
 @Component({
   selector: "bkd-subscription-detail-datefield",
   imports: [FormsModule, NgbInputDatepicker, TranslatePipe],
-  providers: [
-    { provide: NgbDateAdapter, useClass: DateStringAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
-  ],
+  providers: [{ provide: NgbDateAdapter, useClass: DateStringAdapter }],
   template: `
     <div class="input-group">
       <span class="input-group-text" [id]="id()"

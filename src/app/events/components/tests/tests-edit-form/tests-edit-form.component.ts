@@ -20,12 +20,7 @@ import {
   required,
 } from "@angular/forms/signals";
 import { RouterLink } from "@angular/router";
-import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
-  NgbDateParserFormatter,
-  NgbInputDatepicker,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { uniqueId } from "lodash-es";
 import { Observable, map, of, switchMap } from "rxjs";
@@ -34,7 +29,6 @@ import { SubmitButtonComponent } from "src/app/shared/components/submit-button/s
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
 import { ConfigurationsRestService } from "src/app/shared/services/configurations-rest.service";
-import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { GradingScalesRestService } from "src/app/shared/services/grading-scales-rest.service";
 import { numberToString } from "src/app/shared/utils/number";
 import { TestStateService } from "../../../services/test-state.service";
@@ -73,10 +67,6 @@ export type TestFormValue = Omit<
     SubmitButtonComponent,
     FormErrorsComponent,
     FormField,
-  ],
-  providers: [
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
