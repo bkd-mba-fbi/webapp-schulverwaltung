@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, input } from "@angular/core";
 import { DropDownItem } from "src/app/shared/models/drop-down-item.model";
 import { SelectComponent } from "../../../../shared/components/select/select.component";
 
@@ -8,11 +8,11 @@ import { SelectComponent } from "../../../../shared/components/select/select.com
   imports: [SelectComponent],
 })
 export class GradeSelectComponent {
-  @Input() options: DropDownItem[];
-  @Input() valueId: Option<number>; // the selected key from the options list
+  readonly options = input<DropDownItem[]>();
+  readonly valueId = input<Option<number>>(); // the selected key from the options list
   @Input() gradeId: Option<number>; // the id of the grade itself
-  @Input() disabled: boolean = false;
-  @Input() width: string = "127px"; // 13ch
+  readonly disabled = input<boolean>(false);
+  readonly width = input<string>("127px"); // 13ch
 
   @Output() gradeIdSelected = new EventEmitter<{
     id: number;

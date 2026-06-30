@@ -1,4 +1,4 @@
-import { Component, Input, inject } from "@angular/core";
+import { Component, inject, input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -11,5 +11,5 @@ import { TranslatePipe } from "@ngx-translate/core";
 export class StudentDossierDeleteDialogComponent {
   activeModal = inject(NgbActiveModal);
 
-  @Input() type: "document" | "note";
+  readonly type = input<"document" | "note">();
 }

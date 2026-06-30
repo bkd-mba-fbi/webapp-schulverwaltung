@@ -1,17 +1,17 @@
 <div class="input-group">
   <span class="input-group-text"><i class="material-icons">search</i></span>
   <input
-    [id]="id"
+    [id]="id()"
     type="text"
     class="form-control"
-    [attr.placeholder]="placeholder | translate"
+    [attr.placeholder]="placeholder() | translate"
     [ngbTypeahead]="search"
     [inputFormatter]="format"
     [resultFormatter]="format"
     [ngModel]="selectedItem$ | async"
     (ngModelChange)="modelChange($event)"
   />
-  @if (value) {
+  @if (value()) {
     <button
       class="btn btn-link text-decoration-none"
       type="button"

@@ -3,9 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
   inject,
+  input,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -33,7 +33,7 @@ import { TestTableHeaderComponent } from "../tests-table-test-header/tests-table
 export class TestsTableHeaderComponent extends TableHeaderComponent {
   state = inject(TestStateService);
 
-  @Input() selectedTest?: Test;
+  readonly selectedTest = input<Test>();
 
   @Output() publish = new EventEmitter<Test>();
   @Output() unpublish = new EventEmitter<Test>();

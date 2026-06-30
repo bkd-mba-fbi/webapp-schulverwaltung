@@ -1,5 +1,10 @@
 import { NgTemplateOutlet } from "@angular/common";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  input,
+} from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -13,8 +18,8 @@ import { TranslatePipe } from "@ngx-translate/core";
 export class DashboardActionComponent {
   @Input() label: string;
   @Input() count?: number | boolean;
-  @Input() link?: string[];
-  @Input() linkParams?: Params;
+  readonly link = input<string[]>();
+  readonly linkParams = input<Params>();
   @Input() externalLink?: string;
 
   constructor() {}

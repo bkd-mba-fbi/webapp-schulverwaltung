@@ -9,15 +9,15 @@
     </button>
   </div>
   <input
-    [id]="id"
+    [id]="id()"
     type="text"
     class="form-control"
-    [attr.placeholder]="placeholder | translate"
+    [attr.placeholder]="placeholder() | translate"
     ngbDatepicker
     #dp="ngbDatepicker"
     (click)="dp.toggle()"
-    [minDate]="minDate"
-    [ngModel]="value"
+    [minDate]="minDate()"
+    [ngModel]="value()"
     (ngModelChange)="valueChange.emit($event)"
   />
 </div>

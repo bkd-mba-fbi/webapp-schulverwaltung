@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import { Component, Input, OnInit, inject, input } from "@angular/core";
 import {
   AbstractControl,
   FormsModule,
@@ -55,7 +55,7 @@ export class StudentGradesEditDialogComponent implements OnInit {
   @Input() test: Test;
   @Input() gradeId: Option<number>;
   @Input() gradeOptions: Option<DropDownItem[]>;
-  @Input() points: number;
+  readonly points = input<number>();
   @Input() studentId: number;
 
   updatedTestResult: Option<Result>;
@@ -88,7 +88,7 @@ export class StudentGradesEditDialogComponent implements OnInit {
     this.maxPointsAdjusted = maxPointsAdjusted(this.test);
     this.updatedTestResult = resultOfStudent(this.studentId, this.test) ?? null;
     this.pointsInput = new UntypedFormControl(
-      { value: this.points, disabled: false },
+      { value: this.points(), disabled: false },
       [
         Validators.min(0),
         Validators.pattern("[0-9]+([\\.][0-9]+)?"),
@@ -96,7 +96,7 @@ export class StudentGradesEditDialogComponent implements OnInit {
       ],
     );
     this.gradingScaleDisabled$.next(
-      this.test.IsPointGrading && this.points > 0,
+      this.test.IsPointGrading && this.points() > 0,
     );
 
     this.points$.pipe(takeUntil(this.destroy$)).subscribe((points) =>

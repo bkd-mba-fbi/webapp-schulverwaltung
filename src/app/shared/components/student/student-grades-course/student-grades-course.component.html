@@ -11,9 +11,9 @@
     @for (test of sortedTests; track test.Id) {
       <bkd-student-grades-test
         [test]="test"
-        [studentId]="studentId"
+        [studentId]="studentId()"
         [gradingScale]="getGradingScaleOfTest(test)"
-        [isEditable]="isEditable"
+        [isEditable]="isEditable()"
       ></bkd-student-grades-test>
     }
   </div>

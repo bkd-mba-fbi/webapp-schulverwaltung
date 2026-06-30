@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -12,8 +12,8 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   imports: [NgSelectModule, FormsModule, TranslatePipe],
 })
 export class MultiselectComponent {
-  @Input() id: Option<string> = null;
-  @Input() options: ReadonlyArray<DropDownGroupedItem> = [];
+  readonly id = input<Option<string>>(null);
+  readonly options = input<ReadonlyArray<DropDownGroupedItem>>([]);
   @Input() values: Option<ReadonlyArray<DropDownItem["Key"]>> = [];
   @Output() valuesChange = new EventEmitter<
     Option<ReadonlyArray<DropDownItem["Key"]>>
