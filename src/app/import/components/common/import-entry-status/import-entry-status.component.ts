@@ -16,7 +16,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntryStatusComponent {
-  errorMessage = input<Option<string>>(null);
+  readonly errorMessage = input<Option<string>>(null);
 
   valid = computed(() => this.errorMessage() === null);
   icon = computed(() => (!this.valid() ? "cancel" : "check_circle"));
