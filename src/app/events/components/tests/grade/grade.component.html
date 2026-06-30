@@ -1,6 +1,7 @@
+@let gradeValue = grade();
 <div class="d-flex flex-column w-100">
   <div class="d-flex flex-row">
-    @if (grade.test.IsPointGrading) {
+    @if (gradeValue.test.IsPointGrading) {
       <div class="point-input-container me-2 me-md-3">
         <input
           #points="ngModel"
@@ -9,9 +10,11 @@
           step="0.01"
           min="0"
           max="{{ maxPoints }}"
-          [disabled]="grade.test.IsPublished || hasFinalGrade"
+          [disabled]="gradeValue.test.IsPublished || hasFinalGrade()"
           tabindex="{{ tabIndex() }}"
-          [ngModel]="grade.kind === 'grade' ? grade.result.Points : null"
+          [ngModel]="
+            gradeValue.kind === 'grade' ? gradeValue.result.Points : null
+          "
           (ngModelChange)="onPointsChange(points.value)"
           [class.is-invalid]="points.errors"
           data-testid="point-input"
@@ -34,9 +37,9 @@
       </div>
     }
     <bkd-select
-      [options]="gradeOptions"
+      [options]="gradeOptions()"
       [allowEmpty]="true"
-      [value]="grade.kind === 'grade' ? grade.result.GradeId : null"
+      [value]="gradeValue.kind === 'grade' ? gradeValue.result.GradeId : null"
       [disabled]="gradingScaleDisabled$ | async"
       [tabindex]="tabIndex()"
       (valueChange)="onGradeChange($event)"

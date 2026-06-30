@@ -45,7 +45,7 @@ export class EvaluateAbsencesHeaderComponent {
     dateTo: null,
   });
 
-  classesHttpFilter = {
+  readonly classesHttpFilter = {
     params: {
       fields: "IsActive",
       ["filter.IsActive"]: "=true",

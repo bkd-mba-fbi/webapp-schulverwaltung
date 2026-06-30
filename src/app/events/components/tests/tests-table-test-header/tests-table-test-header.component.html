@@ -6,7 +6,7 @@
     role="button"
   >
     <div [ngClass]="expanded() ? 'expanded' : 'collapsed'">
-      {{ test.Designation }}
+      {{ test().Designation }}
     </div>
     <bkd-caret class="align-self-start" [expanded]="expanded()"></bkd-caret>
   </div>
@@ -15,28 +15,28 @@
       <div class="d-flex flex-column mb-3">
         <div class="d-flex flex-row justify-content-between">
           <bkd-preserve-line-height>{{
-            test.Date | date: "dd.MM.yyyy"
+            test().Date | date: "dd.MM.yyyy"
           }}</bkd-preserve-line-height>
-          @if (test.IsOwner && test.IsPublished === false) {
-            <a [routerLink]="[test.Id, 'edit']" class="btn btn-link p-0 edit">
+          @if (test().IsOwner && test().IsPublished === false) {
+            <a [routerLink]="[test().Id, 'edit']" class="btn btn-link p-0 edit">
               <i class="material-icons">edit</i>
             </a>
           }
         </div>
         <bkd-preserve-line-height>
-          {{ test | testSummaryShort }}
+          {{ test() | testSummaryShort }}
         </bkd-preserve-line-height>
-        <bkd-preserve-line-height>{{ test.Owner }}</bkd-preserve-line-height>
+        <bkd-preserve-line-height>{{ test().Owner }}</bkd-preserve-line-height>
       </div>
     }
-    @if (test.IsPublished) {
+    @if (test().IsPublished) {
       <div
         class="d-flex align-items-center justify-content-between test-status"
       >
         <button
           type="button"
           class="d-flex btn btn-link ps-0 edit"
-          [disabled]="!test.IsOwner"
+          [disabled]="!test().IsOwner"
           title="{{ 'tests.edit' | translate }}"
           (click)="unpublishTest()"
         >
@@ -56,7 +56,7 @@
         <button
           type="button"
           class="d-flex btn btn-link ps-0"
-          [disabled]="!test.IsOwner"
+          [disabled]="!test().IsOwner"
           (click)="publishTest()"
           title="{{ 'tests.publish' | translate }}"
         >

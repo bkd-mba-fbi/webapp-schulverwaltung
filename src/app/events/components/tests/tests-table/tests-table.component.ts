@@ -1,10 +1,10 @@
 import { AsyncPipe, NgClass } from "@angular/common";
 import {
   Component,
-  Input,
   OnDestroy,
   OnInit,
   inject,
+  input,
   viewChild,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
@@ -55,7 +55,7 @@ export class TestsTableComponent implements OnInit, OnDestroy {
 
   private sticky = viewChild(TableHeaderStickyDirective);
 
-  @Input() selectedTest?: Test;
+  readonly selectedTest = input<Option<Test>>(null);
 
   ngOnInit(): void {
     this.state.sortCriteria.set({

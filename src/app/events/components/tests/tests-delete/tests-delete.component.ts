@@ -1,4 +1,4 @@
-import { Component, Input, inject } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "../../../../shared/models/test.model";
@@ -12,16 +12,16 @@ import { Test } from "../../../../shared/models/test.model";
 export class TestsDeleteComponent {
   activeModal = inject(NgbActiveModal);
 
-  @Input() test: Test;
+  readonly test = input.required<Test>();
 
-  get canDeleteTest(): boolean {
+  canDeleteTest = computed(() => {
     const testsExists =
-      this.test?.Results?.filter(
+      this.test()?.Results?.filter(
         (test) =>
           test.GradeId !== null ||
           test.GradeValue !== null ||
           test.Points !== null,
       ) || [];
     return testsExists.length === 0 ? true : false;
-  }
+  });
 }

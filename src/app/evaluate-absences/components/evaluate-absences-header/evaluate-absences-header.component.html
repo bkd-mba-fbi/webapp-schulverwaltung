@@ -6,7 +6,7 @@
     <bkd-typeahead
       [id]="'filter-student'"
       [typeaheadService]="studentsService"
-      [(value)]="filter.student"
+      [(value)]="filter().student"
     ></bkd-typeahead>
   </div>
 
@@ -17,7 +17,7 @@
     <bkd-typeahead
       [id]="'filter-module-instance'"
       [typeaheadService]="coursesService"
-      [(value)]="filter.course"
+      [(value)]="filter().course"
     ></bkd-typeahead>
   </div>
 
@@ -28,8 +28,8 @@
     <bkd-typeahead
       [id]="'filter-study-class'"
       [typeaheadService]="studyClassesService"
-      [(value)]="filter.studyClass"
-      [additionalHttpParams]="this.classesHttpFilter"
+      [(value)]="filter().studyClass"
+      [additionalHttpParams]="classesHttpFilter"
     ></bkd-typeahead>
   </div>
 </div>
@@ -41,7 +41,7 @@
     }}</label>
     <bkd-date-select
       [id]="'filter-date-from'"
-      [value]="filter.dateFrom"
+      [value]="filter().dateFrom"
       (valueChange)="onDateFromChange($event)"
     ></bkd-date-select>
   </div>
@@ -52,7 +52,7 @@
     }}</label>
     <bkd-date-select
       [id]="'filter-date-to'"
-      [value]="filter.dateTo"
+      [value]="filter().dateTo"
       (valueChange)="onDateToChange($event)"
     ></bkd-date-select>
   </div>

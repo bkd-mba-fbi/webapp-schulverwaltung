@@ -46,17 +46,17 @@ describe("GradeComponent", () => {
 
     fixture = TestBed.createComponent(GradeComponent);
     component = fixture.componentInstance;
-    component.student = student;
+    fixture.componentRef.setInput("student", student);
     debugElement = fixture.debugElement;
 
-    component.gradeOptions = [
+    fixture.componentRef.setInput("gradeOptions", [
       { Key: 1, Value: "1.0" },
       { Key: 2, Value: "2.0" },
       { Key: 3, Value: "3.0" },
       { Key: 4, Value: "4.0" },
       { Key: 5, Value: "5.0" },
       { Key: 6, Value: "6.0" },
-    ];
+    ]);
   });
 
   describe("grade grading test", () => {
@@ -74,7 +74,7 @@ describe("GradeComponent", () => {
     });
 
     it("renders grade select with grading options and grade selected", async () => {
-      component.grade = grade;
+      fixture.componentRef.setInput("grade", grade);
       fixture.detectChanges();
 
       const select = await queryGradeSelect();
@@ -95,7 +95,7 @@ describe("GradeComponent", () => {
         kind: "no-result",
         test,
       };
-      component.grade = noResult;
+      fixture.componentRef.setInput("grade", noResult);
       fixture.detectChanges();
 
       const select = await queryGradeSelect();
@@ -112,7 +112,7 @@ describe("GradeComponent", () => {
     });
 
     it("does not render points input", async () => {
-      component.grade = grade;
+      fixture.componentRef.setInput("grade", grade);
       fixture.detectChanges();
 
       const input = await queryPointsInput();
@@ -120,7 +120,7 @@ describe("GradeComponent", () => {
     });
 
     it("saves grade on change", fakeAsync(async () => {
-      component.grade = grade;
+      fixture.componentRef.setInput("grade", grade);
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -143,13 +143,10 @@ describe("GradeComponent", () => {
     }));
 
     describe("grade select disabled state", () => {
-      beforeEach(() => {
-        component.grade = grade;
-      });
-
       it("is enabled for non-published test without final grade", async () => {
         grade.test.IsPublished = false;
-        component.hasFinalGrade = false;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", false);
         fixture.detectChanges();
 
         const select = await queryGradeSelect();
@@ -158,7 +155,8 @@ describe("GradeComponent", () => {
 
       it("is disabled for published test without final grade", async () => {
         grade.test.IsPublished = true;
-        component.hasFinalGrade = false;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", false);
         fixture.detectChanges();
 
         const select = await queryGradeSelect();
@@ -167,7 +165,8 @@ describe("GradeComponent", () => {
 
       it("is disabled for non-published test with final grade", async () => {
         grade.test.IsPublished = false;
-        component.hasFinalGrade = true;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", true);
         fixture.detectChanges();
 
         const select = await queryGradeSelect();
@@ -176,7 +175,8 @@ describe("GradeComponent", () => {
 
       it("is disabled for published test with final grade", async () => {
         grade.test.IsPublished = true;
-        component.hasFinalGrade = true;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", true);
         fixture.detectChanges();
 
         const select = await queryGradeSelect();
@@ -202,7 +202,7 @@ describe("GradeComponent", () => {
         kind: "no-result",
         test,
       };
-      component.grade = noResult;
+      fixture.componentRef.setInput("grade", noResult);
       fixture.detectChanges();
 
       const input = await queryPointsInput();
@@ -211,7 +211,7 @@ describe("GradeComponent", () => {
 
     it("renders points input with points value from result", async () => {
       grade.result.Points = 11;
-      component.grade = grade;
+      fixture.componentRef.setInput("grade", grade);
       fixture.detectChanges();
 
       const input = await queryPointsInput();
@@ -220,7 +220,7 @@ describe("GradeComponent", () => {
 
     it("saves points on change", fakeAsync(async () => {
       grade.result.Points = 11;
-      component.grade = grade;
+      fixture.componentRef.setInput("grade", grade);
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -243,13 +243,10 @@ describe("GradeComponent", () => {
     }));
 
     describe("points input disabled state", () => {
-      beforeEach(() => {
-        component.grade = grade;
-      });
-
       it("is enabled for non-published test without final grade", async () => {
         grade.test.IsPublished = false;
-        component.hasFinalGrade = false;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", false);
         fixture.detectChanges();
 
         const input = await queryPointsInput();
@@ -258,7 +255,8 @@ describe("GradeComponent", () => {
 
       it("is disabled for published test without final grade", async () => {
         grade.test.IsPublished = true;
-        component.hasFinalGrade = false;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", false);
         fixture.detectChanges();
 
         const input = await queryPointsInput();
@@ -267,7 +265,8 @@ describe("GradeComponent", () => {
 
       it("is disabled for non-published test with final grade", async () => {
         grade.test.IsPublished = false;
-        component.hasFinalGrade = true;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", true);
         fixture.detectChanges();
 
         const input = await queryPointsInput();
@@ -276,7 +275,8 @@ describe("GradeComponent", () => {
 
       it("is disabled for published test with final grade", async () => {
         grade.test.IsPublished = true;
-        component.hasFinalGrade = true;
+        fixture.componentRef.setInput("grade", grade);
+        fixture.componentRef.setInput("hasFinalGrade", true);
         fixture.detectChanges();
 
         const input = await queryPointsInput();
@@ -285,10 +285,6 @@ describe("GradeComponent", () => {
     });
 
     describe("grade select disabled state", () => {
-      beforeEach(() => {
-        component.grade = grade;
-      });
-
       describe("with points defined", () => {
         beforeEach(() => {
           grade.result.Points = null;
@@ -296,7 +292,8 @@ describe("GradeComponent", () => {
 
         it("is enabled for non-published test without final grade", async () => {
           grade.test.IsPublished = false;
-          component.hasFinalGrade = false;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", false);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -305,7 +302,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for published test without final grade", async () => {
           grade.test.IsPublished = true;
-          component.hasFinalGrade = false;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", false);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -314,7 +312,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for non-published test with final grade", async () => {
           grade.test.IsPublished = false;
-          component.hasFinalGrade = true;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", true);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -323,7 +322,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for published test with final grade", async () => {
           grade.test.IsPublished = true;
-          component.hasFinalGrade = true;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", true);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -338,7 +338,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for non-published test without final grade", async () => {
           grade.test.IsPublished = false;
-          component.hasFinalGrade = false;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", false);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -347,7 +348,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for published test without final grade", async () => {
           grade.test.IsPublished = true;
-          component.hasFinalGrade = false;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", false);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -356,7 +358,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for non-published test with final grade", async () => {
           grade.test.IsPublished = false;
-          component.hasFinalGrade = true;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", true);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();
@@ -365,7 +368,8 @@ describe("GradeComponent", () => {
 
         it("is disabled for published test with final grade", async () => {
           grade.test.IsPublished = true;
-          component.hasFinalGrade = true;
+          fixture.componentRef.setInput("grade", grade);
+          fixture.componentRef.setInput("hasFinalGrade", true);
           fixture.detectChanges();
 
           const select = await queryGradeSelect();

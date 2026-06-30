@@ -28,9 +28,9 @@ export class EventsStudentsStudyCourseEditDialogComponent {
   private loadingService = inject(LoadingService);
   activeModal = inject(NgbActiveModal);
 
-  currentStatus = input.required<Status>();
-  subscriptionId = input.required<number>();
-  personId = input.required<number>();
+  readonly currentStatus = input.required<Status>();
+  readonly subscriptionId = input.required<number>();
+  readonly personId = input.required<number>();
 
   loading = toSignal(this.loadingService.loading$, { initialValue: true });
 

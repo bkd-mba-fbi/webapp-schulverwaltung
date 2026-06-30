@@ -85,12 +85,12 @@ export class TestsEditFormComponent {
   private configurationsService = inject(ConfigurationsRestService);
   private gradingScalesService = inject(GradingScalesRestService);
 
-  test = input<Option<Test>>(null);
-  defaultGradingScaleId = input<Option<number>>(null);
-  saving = input(false);
-  save = output<TestFormValue>();
+  readonly test = input<Option<Test>>(null);
+  readonly defaultGradingScaleId = input<Option<number>>(null);
+  readonly saving = input(false);
+  readonly save = output<TestFormValue>();
 
-  componentId = uniqueId("bkd-tests-edit-form");
+  readonly componentId = uniqueId("bkd-tests-edit-form");
 
   courseId$ = this.testStateService.courseId$;
 

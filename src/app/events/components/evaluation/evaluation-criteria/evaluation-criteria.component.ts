@@ -24,9 +24,10 @@ import { SubscriptionDetailFieldComponent } from "../../../../shared/components/
 })
 export class EvaluationCriteriaComponent {
   private translate = inject(TranslateService);
-  entry = input.required<EvaluationEntry>();
-  visible = model.required<boolean>();
-  subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
+
+  readonly entry = input.required<EvaluationEntry>();
+  readonly visible = model.required<boolean>();
+  readonly subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
 
   @HostBinding("class.criteria-visible")
   get visibleClass() {

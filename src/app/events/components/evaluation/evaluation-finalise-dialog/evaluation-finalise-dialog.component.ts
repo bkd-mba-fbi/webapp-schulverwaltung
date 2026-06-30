@@ -31,8 +31,8 @@ export class EvaluationFinaliseDialogComponent {
   private loadingService = inject(LoadingService);
   private evaluationStatusService = inject(StatusProcessesRestService);
 
-  eventId = signal<Option<number>>(null);
-  hasOpenEvaluations = signal<boolean>(false);
+  readonly eventId = signal<Option<number>>(null);
+  readonly hasOpenEvaluations = signal<boolean>(false);
 
   loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT), {
     initialValue: true,

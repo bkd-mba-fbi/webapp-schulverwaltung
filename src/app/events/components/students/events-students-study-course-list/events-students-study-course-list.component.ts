@@ -26,12 +26,12 @@ import { EventsStudentsStudyCourseEntryComponent } from "../events-students-stud
   styleUrl: "./events-students-study-course-list.component.scss",
 })
 export class EventsStudentsStudyCourseListComponent {
-  title = input.required<Option<string>>();
-  count = input.required<number>();
-  entries = input.required<ReadonlyArray<StudentEntry>>();
-  returnLink = input<Option<string>>(null);
-  sortCriteria = model.required<Option<SortCriteria<SortKey>>>();
-  searchTerm = model<string>();
+  readonly title = input.required<Option<string>>();
+  readonly count = input.required<number>();
+  readonly entries = input.required<ReadonlyArray<StudentEntry>>();
+  readonly returnLink = input<Option<string>>(null);
+  readonly sortCriteria = model.required<Option<SortCriteria<SortKey>>>();
+  readonly searchTerm = model<string>();
 
   updateSortCriteria(newCriteria: SortCriteria<SortKey>): void {
     this.sortCriteria.set(newCriteria);

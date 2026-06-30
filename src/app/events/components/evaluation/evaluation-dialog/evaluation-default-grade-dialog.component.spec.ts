@@ -40,8 +40,6 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput("gradingScale", mockGradingScale);
-    fixture.componentRef.setInput("gradingItems", []);
-
     fixture.detectChanges();
   });
 
