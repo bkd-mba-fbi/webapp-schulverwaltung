@@ -16,7 +16,6 @@ import {
   getPresenceCategoryIcon,
 } from "src/app/presence-control/models/presence-control-entry.model";
 import { isAbsent } from "src/app/presence-control/utils/presence-types";
-import { SETTINGS, Settings } from "src/app/settings";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
@@ -55,7 +54,6 @@ export class MyAbsencesReportListComponent
   private route = inject(ActivatedRoute);
   private scrollPosition = inject(ScrollPositionService);
   private presenceTypesService = inject(PresenceTypesService);
-  private settings = inject<Settings>(SETTINGS);
 
   filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
 

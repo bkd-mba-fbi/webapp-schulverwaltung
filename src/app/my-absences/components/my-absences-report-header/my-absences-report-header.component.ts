@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, model } from "@angular/core";
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
@@ -29,13 +23,10 @@ import { ReportAbsencesFilter } from "../../services/my-absences-report-state.se
   imports: [BacklinkComponent, DateSelectComponent, TranslatePipe],
 })
 export class MyAbsencesReportHeaderComponent {
-  @Input()
-  filter: ReportAbsencesFilter = {
+  readonly filter = model<ReportAbsencesFilter>({
     dateFrom: null,
     dateTo: null,
-  };
-
-  @Output() filterChange = new EventEmitter<ReportAbsencesFilter>();
+  });
 
   /**
    * User may not choose dates in the past
@@ -52,17 +43,18 @@ export class MyAbsencesReportHeaderComponent {
    * Update date to the same date, if date from changes.
    */
   updateDateFrom(date: Option<Date>): void {
-    this.filter.dateFrom = date;
-    if (date) {
-      this.filter.dateTo = date;
-    }
+    this.filter.update((current) => ({
+      ...current,
+      dateFrom: date,
+      dateTo: date ?? current.dateTo,
+    }));
   }
 
   show(): void {
-    this.filterChange.emit({
+    this.filter.set({
       // Normalize the dates' times to 00:00 to be comparable
-      dateFrom: normalizeDate(this.filter.dateFrom),
-      dateTo: normalizeDate(this.filter.dateTo),
+      dateFrom: normalizeDate(this.filter().dateFrom),
+      dateTo: normalizeDate(this.filter().dateTo),
     });
   }
 }

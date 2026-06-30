@@ -9,7 +9,7 @@
     <bkd-date-select
       [id]="'date-from'"
       [minDate]="minDate"
-      [value]="filter.dateFrom"
+      [value]="filter().dateFrom"
       (valueChange)="updateDateFrom($event)"
     ></bkd-date-select>
   </div>
@@ -20,7 +20,7 @@
     <bkd-date-select
       [id]="'date-to'"
       [minDate]="minDate"
-      [(value)]="filter.dateTo"
+      [(value)]="filter().dateTo"
     ></bkd-date-select>
   </div>
 
