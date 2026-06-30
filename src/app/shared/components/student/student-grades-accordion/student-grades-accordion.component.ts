@@ -51,9 +51,9 @@ export interface CourseWithGrades {
 export class StudentGradesAccordionComponent implements OnChanges {
   dossierGradesService = inject(StudentGradesService);
 
-  readonly courses = input<ReadonlyArray<Course>>();
-  readonly studentId = input<number>();
-  readonly gradingScales = input<ReadonlyArray<GradingScale>>();
+  readonly courses = input.required<ReadonlyArray<Course>>();
+  readonly studentId = input.required<number>();
+  readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
   readonly isEditable = input<boolean>(true);
 
   decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);

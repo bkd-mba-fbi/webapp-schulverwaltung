@@ -13,7 +13,7 @@ import * as Gradings from "src/app/shared/utils/gradings";
 export class StudentGradesCourseHeaderComponent {
   @Input() designation: string;
   @Input() finalGrade: Option<FinalGrading>;
-  readonly grading = input<Option<Grading>>();
+  readonly grading = input<Option<Grading>>(null);
   @Input() gradingScale: Option<GradingScale>;
   @Input() average: number;
 

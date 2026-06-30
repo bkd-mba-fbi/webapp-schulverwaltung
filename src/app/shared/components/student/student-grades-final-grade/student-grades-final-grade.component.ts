@@ -23,7 +23,7 @@ import { DecimalOrDashPipe } from "../../../pipes/decimal-or-dash.pipe";
 export class StudentGradesFinalGradeComponent {
   @Input() finalGrade: Option<FinalGrading>;
   @Input() grading: Option<Grading>;
-  readonly gradingScale = input<Option<GradingScale>>();
+  readonly gradingScale = input<Option<GradingScale>>(null);
   @Input() average: number;
 
   constructor() {}

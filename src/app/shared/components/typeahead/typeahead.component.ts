@@ -40,7 +40,7 @@ export class TypeaheadComponent implements OnChanges {
   selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
 
   readonly id = input<Option<string>>(null);
-  readonly typeaheadService = input<TypeaheadService>();
+  readonly typeaheadService = input.required<TypeaheadService>();
   readonly placeholder = input("shared.typeahead.default-placeholder");
   readonly value = input<Option<DropDownItem["Key"]>>();
   readonly additionalHttpParams = input<HttpParams>();
