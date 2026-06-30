@@ -1,10 +1,5 @@
 import { NgTemplateOutlet } from "@angular/common";
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  input,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -16,15 +11,9 @@ import { TranslatePipe } from "@ngx-translate/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardActionComponent {
-  @Input() label: string;
-  @Input() count?: number | boolean;
-  readonly link = input<string[]>();
+  readonly label = input.required<string>();
+  readonly count = input<Option<number>>(null);
+  readonly link = input<ReadonlyArray<string>>();
   readonly linkParams = input<Params>();
-  @Input() externalLink?: string;
-
-  constructor() {}
-
-  hasCount(count?: number | boolean): boolean {
-    return typeof count === "number" && count >= 0;
-  }
+  readonly externalLink = input<Option<string>>();
 }

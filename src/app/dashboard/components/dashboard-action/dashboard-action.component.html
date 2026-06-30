@@ -1,21 +1,23 @@
-@if (!externalLink) {
+@let externalLinkValue = externalLink();
+@if (!externalLinkValue) {
   <a [routerLink]="link()" [queryParams]="linkParams()">
     <ng-container *ngTemplateOutlet="actionContent"></ng-container>
   </a>
 }
 
-@if (externalLink) {
-  <a [href]="externalLink">
+@if (externalLinkValue) {
+  <a [href]="externalLinkValue">
     <ng-container *ngTemplateOutlet="actionContent"></ng-container>
   </a>
 }
 
 <ng-template #actionContent>
-  <span class="label">{{ label | translate }}</span>
+  <span class="label">{{ label() | translate }}</span>
   <div>
     <ng-content></ng-content>
-    @if (hasCount(count)) {
-      <span class="count">{{ count }}</span>
+    @let countValue = count();
+    @if (countValue !== null && countValue >= 0) {
+      <span class="count">{{ countValue }}</span>
     } @else {
       <svg
         xmlns="http://www.w3.org/2000/svg"

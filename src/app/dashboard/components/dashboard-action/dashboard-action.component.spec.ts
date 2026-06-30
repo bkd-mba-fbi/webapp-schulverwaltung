@@ -3,7 +3,6 @@ import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { DashboardActionComponent } from "./dashboard-action.component";
 
 describe("DashboardActionComponent", () => {
-  let component: DashboardActionComponent;
   let fixture: ComponentFixture<DashboardActionComponent>;
   let element: HTMLElement;
 
@@ -15,21 +14,20 @@ describe("DashboardActionComponent", () => {
     ).compileComponents();
 
     fixture = TestBed.createComponent(DashboardActionComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
-  it("should render an action with label and icon", () => {
-    component.label = "action.label";
+  it("renders an action with label and icon", () => {
+    fixture.componentRef.setInput("label", "action.label");
     fixture.detectChanges();
 
     expect(element.textContent).toContain("action.label");
     expect(element.querySelector("svg")).not.toBeNull();
   });
 
-  it("should render an action with label and count", () => {
-    component.label = "action.label";
-    component.count = 77;
+  it("renders an action with label and count", () => {
+    fixture.componentRef.setInput("label", "action.label");
+    fixture.componentRef.setInput("count", 77);
     fixture.detectChanges();
 
     expect(element.textContent).toContain("action.label");
