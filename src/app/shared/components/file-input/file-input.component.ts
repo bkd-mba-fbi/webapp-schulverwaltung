@@ -24,9 +24,9 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
   /**
    * Example: [".xls", ".xlsx", ".csv", "image/png"]
    */
-  acceptedFileTypes = input.required<ReadonlyArray<string>>();
-  error = input<Option<string>>(null);
-  value = model<Option<File>>(null);
+  readonly acceptedFileTypes = input.required<ReadonlyArray<string>>();
+  readonly error = input<Option<string>>(null);
+  readonly value = model<Option<File>>(null);
 
   acceptedFileExtensions = computed(() =>
     this.acceptedFileTypes().map(this.getFileExtensionForType.bind(this)),

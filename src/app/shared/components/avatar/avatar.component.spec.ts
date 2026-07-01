@@ -28,13 +28,13 @@ describe("AvatarComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AvatarComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("studentId", 123);
+    fixture.componentRef.setInput("link", []);
+    fixture.detectChanges();
   });
 
   describe(".avatarStyles", () => {
     it("is set to styles object", () => {
-      fixture.componentRef.setInput("studentId", 123);
-      fixture.detectChanges();
-
       expect(component.avatarStyles()).toEqual({
         "background-image":
           "url(https://eventotest.api/Files/personPictures/123?token=asdf), url(./assets/images/avatar-placeholder.png)",

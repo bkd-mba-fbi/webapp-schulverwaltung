@@ -24,24 +24,6 @@ describe("AvatarEditDialogComponent", () => {
           providers: [
             NgbActiveModal,
             {
-              provide: CroptService,
-              useFactory() {
-                croptServiceMock = jasmine.createSpyObj<CroptService>(
-                  "CroptService",
-                  ["configure", "setImage", "getCroppedImage"],
-                  { error: signal<Option<unknown>>(null) },
-                );
-
-                croptServiceMock.getCroppedImage.and.returnValue(
-                  Promise.resolve(
-                    new File([], "avatar.jpg", { type: "image/jpeg" }),
-                  ),
-                );
-
-                return croptServiceMock;
-              },
-            },
-            {
               provide: AdditionalInformationsRestService,
               useFactory() {
                 additionalInformationsServiceMock =
@@ -58,6 +40,21 @@ describe("AvatarEditDialogComponent", () => {
               },
             },
           ],
+        },
+      })
+      .overrideProvider(CroptService, {
+        useFactory() {
+          croptServiceMock = jasmine.createSpyObj<CroptService>(
+            "CroptService",
+            ["configure", "setImage", "getCroppedImage"],
+            { error: signal<Option<unknown>>(null) },
+          );
+
+          croptServiceMock.getCroppedImage.and.returnValue(
+            Promise.resolve(new File([], "avatar.jpg", { type: "image/jpeg" })),
+          );
+
+          return croptServiceMock;
         },
       })
       .compileComponents();

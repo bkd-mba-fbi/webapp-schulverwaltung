@@ -19,6 +19,6 @@ export type ButtonGroupOption<TKey extends string = string> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonGroupComponent {
-  options = input.required<ReadonlyArray<ButtonGroupOption>>();
-  value = model<Option<ButtonGroupOption["key"]>>(null);
+  readonly options = input.required<ReadonlyArray<ButtonGroupOption>>();
+  readonly value = model<Option<ButtonGroupOption["key"]>>(null);
 }

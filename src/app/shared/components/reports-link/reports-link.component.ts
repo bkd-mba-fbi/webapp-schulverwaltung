@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   inject,
+  input,
 } from "@angular/core";
 import {
   NgbDropdown,
@@ -29,12 +29,12 @@ import { StorageService } from "../../services/storage.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportsLinkComponent {
-  @Input() reports: ReadonlyArray<ReportInfo> = [];
-  @Input() disableIfUnavailable = false;
+  readonly reports = input.required<ReadonlyArray<ReportInfo>>();
+  readonly disableIfUnavailable = input(false);
 
   private storageService = inject(StorageService);
 
-  dropdownId = uniqueId("reports-link-dropdown");
+  readonly dropdownId = uniqueId("reports-link-dropdown");
 
   openReport(report: ReportInfo): void {
     window.open(this.addTokenToUrl(report), "_blank");

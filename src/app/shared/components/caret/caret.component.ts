@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 @Component({
   selector: "bkd-caret",
@@ -8,5 +8,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaretComponent {
-  @Input() expanded: boolean = false;
+  readonly expanded = input(false);
 }

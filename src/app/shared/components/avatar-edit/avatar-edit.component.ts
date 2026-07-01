@@ -29,7 +29,8 @@ export class AvatarEditComponent {
   private modalService = inject(BkdModalService);
   private reload$ = new Subject<void>();
 
-  studentId = input.required<number>();
+  readonly studentId = input.required<number>();
+
   avatarDataUri = toSignal(
     merge(
       toObservable(this.studentId),
