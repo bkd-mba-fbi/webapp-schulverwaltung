@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { StudentEntryHeaderComponent } from "../student-entry-header/student-entry-header.component";
 
 @Component({
@@ -14,8 +9,6 @@ import { StudentEntryHeaderComponent } from "../student-entry-header/student-ent
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEntryHeaderComponent {
-  opened = input<boolean>(false);
-  headerClick = output<void>();
   icon = input.required<string>();
   category = input<Option<string>>(null);
 }

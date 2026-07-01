@@ -4,7 +4,6 @@ import {
   NgbAccordionBody,
   NgbAccordionCollapse,
   NgbAccordionDirective,
-  NgbAccordionHeader,
   NgbAccordionItem,
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
@@ -37,7 +36,6 @@ export interface CourseWithGrades {
   imports: [
     NgbAccordionDirective,
     NgbAccordionItem,
-    NgbAccordionHeader,
     StudentEntryHeaderComponent,
     StudentGradesCourseHeaderComponent,
     NgbCollapse,

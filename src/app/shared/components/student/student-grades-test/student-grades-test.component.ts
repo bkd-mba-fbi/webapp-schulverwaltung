@@ -20,10 +20,7 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
 @Component({
   selector: "bkd-student-grades-test",
   template: `
-    <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-    <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
     @let testEntry = test();
-
     @if (testEntry) {
       <div class="test-entry">
         <div class="designation" data-testid="test-designation">
@@ -34,16 +31,18 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
         </div>
         <div class="grade">
           @if (isEditable() && testEntry.IsOwner) {
-            <a
-              class="btn btn-link"
-              aria-label="edit grade"
-              (click)="editGrading(testEntry)"
-            >
-              <i class="material-icons" data-testid="test-grade-edit-icon"
+            <button class="btn btn-link" (click)="editGrading(testEntry)">
+              <span class="visually-hidden">
+                {{ "student.grades.edit-grade" | translate }}
+              </span>
+              <i
+                class="material-icons"
+                aria-hidden="true"
+                data-testid="test-grade-edit-icon"
                 >edit</i
               >
               <span data-testid="test-grade">{{ grading() }}</span>
-            </a>
+            </button>
           } @else {
             <span data-testid="test-grade">{{ grading() }}</span>
           }

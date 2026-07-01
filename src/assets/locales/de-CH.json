@@ -430,6 +430,7 @@
       "no-tests": "Keine Tests vorhanden",
       "no-grades": "Keine Noten vorhanden",
       "grade": "Note",
+      "edit-grade": "Note bearbeiten",
       "points": "Punkte",
       "average": "Mittelwert",
       "edit-dialog": {

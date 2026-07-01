@@ -1,13 +1,5 @@
-import { AsyncPipe } from "@angular/common";
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  input,
-} from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
-import { BehaviorSubject } from "rxjs";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
 import { gradingScaleOfTest, sortByDate } from "../../../../events/utils/tests";
@@ -22,32 +14,25 @@ import { StudentGradesTestComponent } from "../student-grades-test/student-grade
   imports: [
     StudentGradesFinalGradeComponent,
     StudentGradesTestComponent,
-    AsyncPipe,
     TranslatePipe,
   ],
 })
-export class StudentGradesCourseComponent implements OnChanges {
-  readonly studentId = input<number>();
-  @Input() decoratedCourse: CourseWithGrades;
-  @Input() gradingScales: ReadonlyArray<GradingScale>;
-  readonly isEditable = input<boolean>();
+export class StudentGradesCourseComponent {
+  studentId = input.required<number>();
+  decoratedCourse = input.required<CourseWithGrades>();
+  gradingScales = input.required<ReadonlyArray<GradingScale>>();
+  isEditable = input.required<boolean>();
 
-  sortedTests$ = new BehaviorSubject<Test[]>([]);
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["decoratedCourse"]) {
-      this.sortedTests$.next(this.sortedTests());
-    }
-  }
-
-  constructor() {}
-
-  sortedTests() {
-    if (!this.decoratedCourse.course.Tests) return [];
-    return sortByDate(this.decoratedCourse.course.Tests);
-  }
+  sortedTests = computed(() =>
+    sortByDate(this.decoratedCourse().course.Tests ?? []),
+  );
+  canEditGrades = computed(
+    () =>
+      this.isEditable() &&
+      (this.decoratedCourse().course.FinalGrades ?? []).length === 0,
+  );
 
   getGradingScaleOfTest(test: Test) {
-    return gradingScaleOfTest(test, this.gradingScales);
+    return gradingScaleOfTest(test, this.gradingScales());
   }
 }

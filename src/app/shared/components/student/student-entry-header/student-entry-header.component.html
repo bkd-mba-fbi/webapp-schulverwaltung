@@ -1,4 +1,9 @@
-<h5 class="m-0">
-  <ng-content></ng-content>
-</h5>
-<bkd-caret [expanded]="opened()" class="d-flex align-items-center"></bkd-caret>
+<h2 class="h5 m-0" ngbAccordionHeader>
+  <button type="button" ngbAccordionButton>
+    <span class="content"><ng-content></ng-content></span>
+    <bkd-caret
+      [expanded]="!isCollapsed()"
+      class="d-flex align-items-center"
+    ></bkd-caret>
+  </button>
+</h2>

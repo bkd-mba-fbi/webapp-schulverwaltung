@@ -1,0 +1,19 @@
+@for (entry of informationEntries(); track entry.id) {
+  <h6>{{ entry.additionalInformation.Designation }}</h6>
+  <bkd-student-dossier-entry-description
+    [entry]="entry"
+  ></bkd-student-dossier-entry-description>
+  <bkd-student-dossier-entry-footer
+    [entry]="entry"
+  ></bkd-student-dossier-entry-footer>
+}
+@for (entry of disadvantageEntries(); track entry.id) {
+  <h6>{{ "student.dossier.disadvantage" | translate }}</h6>
+  {{ entry.additionalInformation.Designation }}
+  <bkd-student-dossier-entry-description
+    [entry]="entry"
+  ></bkd-student-dossier-entry-description>
+  <bkd-student-dossier-entry-footer
+    [entry]="entry"
+  ></bkd-student-dossier-entry-footer>
+}
