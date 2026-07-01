@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, input } from "@angular/core";
+import { Component, input, linkedSignal, model } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -14,14 +14,13 @@ import { DropDownItem } from "../../models/drop-down-item.model";
 export class MultiselectComponent {
   readonly id = input<Option<string>>(null);
   readonly options = input<ReadonlyArray<DropDownGroupedItem>>([]);
-  @Input() values: Option<ReadonlyArray<DropDownItem["Key"]>> = [];
-  @Output() valuesChange = new EventEmitter<
-    Option<ReadonlyArray<DropDownItem["Key"]>>
-  >();
+  readonly values = model<Option<ReadonlyArray<DropDownItem["Key"]>>>([]);
+
+  readonly intermediateValues = linkedSignal(() => this.values());
 
   constructor() {}
 
   itemsChanged(): void {
-    this.valuesChange.emit(this.values);
+    this.values.set(this.intermediateValues());
   }
 }

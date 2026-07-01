@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, input } from "@angular/core";
+import { Component, input, model } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbInputDatepicker } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -11,7 +11,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 })
 export class DateSelectComponent {
   readonly id = input<Option<string>>(null);
-  readonly value = input<Option<Date>>(null);
+  readonly value = model<Option<Date>>(null);
   readonly placeholder = input("shared.date-select.default-placeholder");
   readonly minDate = input<
     Option<{
@@ -20,7 +20,6 @@ export class DateSelectComponent {
       day: number;
     }>
   >(null);
-  @Output() valueChange = new EventEmitter<Option<Date>>();
 
   constructor() {}
 }

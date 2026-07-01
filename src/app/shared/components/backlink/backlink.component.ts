@@ -10,7 +10,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BacklinkComponent {
-  readonly link = input<RouterLink["routerLink"]>([]);
+  readonly link = input.required<RouterLink["routerLink"]>();
 
   readonly params = input<Params | null>();
 }
