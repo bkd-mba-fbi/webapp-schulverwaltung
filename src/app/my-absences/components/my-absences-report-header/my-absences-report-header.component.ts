@@ -5,14 +5,8 @@ import {
   Input,
   Output,
 } from "@angular/core";
-import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
-  NgbDateParserFormatter,
-} from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { startOfDay } from "date-fns/startOfDay";
-import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { BacklinkComponent } from "../../../shared/components/backlink/backlink.component";
 import { DateSelectComponent } from "../../../shared/components/date-select/date-select.component";
 import { ReportAbsencesFilter } from "../../services/my-absences-report-state.service";
@@ -21,10 +15,6 @@ import { ReportAbsencesFilter } from "../../services/my-absences-report-state.se
   selector: "bkd-my-absences-report-header",
   templateUrl: "./my-absences-report-header.component.html",
   styleUrls: ["./my-absences-report-header.component.scss"],
-  providers: [
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BacklinkComponent, DateSelectComponent, TranslatePipe],
 })

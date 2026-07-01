@@ -12,9 +12,6 @@ import {
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import {
-  NgbDateAdapter,
-  NgbDateNativeAdapter,
-  NgbDateParserFormatter,
   NgbDropdown,
   NgbDropdownItem,
   NgbDropdownMenu,
@@ -26,7 +23,6 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { Options } from "@popperjs/core";
 import { Subject, debounceTime, map, takeUntil } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
-import { DateParserFormatter } from "src/app/shared/services/date-parser-formatter";
 import { notNull } from "src/app/shared/utils/filter";
 import { CaretComponent } from "../../../shared/components/caret/caret.component";
 import { ResettableInputComponent } from "../../../shared/components/resettable-input/resettable-input.component";
@@ -89,11 +85,6 @@ const DEBOUNCE_TIME = 1000; // 1 second
     AsyncPipe,
     DatePipe,
     TranslatePipe,
-  ],
-  providers: [
-    NgbInputDatepickerConfig,
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],
 })
 export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
