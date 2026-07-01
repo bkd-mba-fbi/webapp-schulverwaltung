@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -20,35 +26,29 @@ export enum DialogMode {
   templateUrl: "./presence-control-group-dialog.component.html",
   imports: [FormsModule, TranslatePipe],
 })
-export class PresenceControlGroupDialogComponent implements OnInit {
+export class PresenceControlGroupDialogComponent {
   activeModal = inject(NgbActiveModal);
   private translate = inject(TranslateService);
 
-  @Input() dialogMode: DialogMode;
-  @Input() subscriptionDetailsDefinitions: SubscriptionDetail;
-  @Input() group: Option<string>;
-  groupOptions: Array<GroupOption> = [];
-  selected: GroupOption;
-  title: string;
+  readonly dialogMode = input.required<DialogMode>();
+  readonly subscriptionDetailsDefinitions =
+    input.required<SubscriptionDetail>();
+  readonly group = input<Option<string>>(null);
 
-  ngOnInit(): void {
-    this.title = `presence-control.groups.${this.dialogMode}.title`;
+  title = computed(() => `presence-control.groups.${this.dialogMode()}.title`);
+  groupOptions = computed(() => [
+    this.createEmptyOption(),
+    ...this.createGroupOptions(this.subscriptionDetailsDefinitions()),
+  ]);
+  selected = linkedSignal(
+    () =>
+      this.groupOptions().find((option) => option.id === this.group()) ??
+      this.createEmptyOption(),
+  );
 
-    const emptyOption = this.createEmtpyOption();
-
-    this.groupOptions = this.createGroupOptions(
-      this.subscriptionDetailsDefinitions,
-    );
-    this.groupOptions.unshift(emptyOption);
-
-    this.selected =
-      this.groupOptions.find((option) => option.id === this.group) ||
-      emptyOption;
-  }
-
-  private createEmtpyOption(): GroupOption {
+  private createEmptyOption(): GroupOption {
     const emptyLabel =
-      this.dialogMode === DialogMode.Select
+      this.dialogMode() === DialogMode.Select
         ? "presence-control.groups.all"
         : "presence-control.groups.none";
 
@@ -67,13 +67,5 @@ export class PresenceControlGroupDialogComponent implements OnInit {
           }`,
         }))
       : [];
-  }
-
-  getSelectedGroup(): Option<GroupOption> {
-    return this.selected;
-  }
-
-  onSelectionChange(option: GroupOption): void {
-    this.selected = option;
   }
 }

@@ -14,5 +14,5 @@ import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 export class PresenceControlPrecedingAbsenceComponent {
   activeModal = inject(NgbActiveModal);
 
-  readonly precedingAbsences = input<ReadonlyArray<LessonAbsence>>();
+  readonly precedingAbsences = input.required<ReadonlyArray<LessonAbsence>>();
 }

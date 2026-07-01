@@ -1,64 +1,60 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-@if (!isListViewMode) {
+@if (!isListViewMode()) {
   <bkd-avatar
-    [studentId]="studentId$ | async"
-    [link]="[
-      '/presence-control/student',
-      entry.lessonPresence.StudentRef.Id.toString(),
-      'absences',
-    ]"
+    [studentId]="studentId()"
+    [link]="['/presence-control/student', studentId(), 'absences']"
     [linkParams]="profileReturnParams()"
     class="avatar large"
   ></bkd-avatar>
 }
-@if (entry.showDesignation) {
+@if (entry().showDesignation) {
   <button
     type="button"
-    (click)="updatePresenceType(entry)"
+    (click)="updatePresenceType(entry())"
     class="presence-category designation btn btn-link"
   >
-    @if (!entry.presenceType?.IsIncident) {
-      <span>{{ entry.presenceType?.Designation }}</span>
+    @if (!entry().presenceType?.IsIncident) {
+      <span>{{ entry().presenceType?.Designation }}</span>
     }
   </button>
 }
 @let statusLoading = loading$ | async;
 <button
   type="button"
-  (click)="updatePresenceType(entry)"
+  (click)="updatePresenceType(entry())"
   class="presence-category status btn btn-link"
   [disabled]="statusLoading"
 >
   <div class="position-relative">
     <i class="material-icons" [class.invisible]="statusLoading">{{
-      entry.presenceCategoryIcon
+      entry().presenceCategoryIcon
     }}</i>
     @if (statusLoading) {
       <bkd-spinner class="inline small"></bkd-spinner>
     }
   </div>
 </button>
-@if (entry.precedingAbsences?.length || 0 > 0) {
+@if (entry().precedingAbsences?.length || 0 > 0) {
   <button
     type="button"
-    (click)="showPrecedingAbsences(entry)"
+    (click)="showPrecedingAbsences(entry())"
     class="previously-absent d-flex btn btn-link"
   >
     <i class="material-icons-outlined">info</i>
   </button>
 }
 <a
-  [routerLink]="['student', entry.lessonPresence.StudentRef.Id, 'absences']"
+  [routerLink]="['student', studentId(), 'absences']"
   [queryParams]="profileReturnParams()"
   class="student-info"
 >
   <span class="student-name text-truncate">{{
-    entry.lessonPresence.StudentFullName
+    entry().lessonPresence.StudentFullName
   }}</span>
-  @if (isListViewMode && showClassName) {
+  @if (isListViewMode() && showClassName()) {
     <span class="study-class text-truncate">
-      {{ entry.lessonPresence.StudyClassNumber }}
+      {{ entry().lessonPresence.StudyClassNumber }}
     </span>
   }
   <span class="unconfirmed-absences">
@@ -69,11 +65,11 @@
     }}
   </span>
 </a>
-@if (entry.canChangeIncident) {
-  <a class="incident btn btn-link" (click)="updateIncident(entry)">
+@if (entry().canChangeIncident) {
+  <a class="incident btn btn-link" (click)="updateIncident(entry())">
     <i class="material-icons">edit</i>
     <span>{{
-      (entry.presenceType?.IsIncident && entry.presenceType?.Designation) ||
+      (entry().presenceType?.IsIncident && entry().presenceType?.Designation) ||
         "presence-control.entry.incident" | translate
     }}</span>
   </a>

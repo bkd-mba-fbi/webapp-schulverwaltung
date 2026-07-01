@@ -1,18 +1,16 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  EventEmitter,
   HostBinding,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  computed,
   inject,
   input,
+  output,
 } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { ReplaySubject, combineLatest, map, switchMap } from "rxjs";
+import { combineLatest, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { getEntryUpdateContext } from "src/app/shared/services/lesson-presences-update.service";
@@ -36,30 +34,31 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
     TranslatePipe,
   ],
 })
-export class PresenceControlEntryComponent implements OnChanges {
+export class PresenceControlEntryComponent {
   private toastService = inject(ToastService);
   private translate = inject(TranslateService);
   private modalService = inject(BkdModalService);
   private loadingService = inject(LoadingService);
 
-  @Input() entry: PresenceControlEntry;
+  readonly entry = input.required<PresenceControlEntry>();
   readonly hasUnconfirmedAbsences = input(false);
-  @Input() viewMode: PresenceControlViewMode;
-  @Input() showClassName = false;
+  readonly viewMode = input.required<PresenceControlViewMode>();
+  readonly showClassName = input(false);
   readonly profileReturnParams = input<Params>();
 
-  @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
-  @Output() changeIncident = new EventEmitter<PresenceControlEntry>();
+  readonly togglePresenceType = output<PresenceControlEntry>();
+  readonly changeIncident = output<PresenceControlEntry>();
+
+  studentId = computed(() => this.entry().lessonPresence.StudentRef.Id);
+  isListViewMode = computed(
+    () => this.viewMode() === PresenceControlViewMode.List,
+  );
 
   @HostBinding("class") get classNames(): string {
-    return [this.entry.presenceCategory, this.viewMode].join(" ");
+    return [this.entry().presenceCategory, this.viewMode].join(" ");
   }
 
-  entry$ = new ReplaySubject<PresenceControlEntry>(1);
-  studentId$ = this.entry$.pipe(
-    map(({ lessonPresence }) => lessonPresence.StudentRef.Id),
-  );
-  loading$ = this.entry$.pipe(
+  loading$ = toObservable(this.entry).pipe(
     switchMap((entry) =>
       combineLatest([
         this.loadingService.loading(getEntryUpdateContext(entry)),
@@ -69,16 +68,6 @@ export class PresenceControlEntryComponent implements OnChanges {
       ),
     ),
   );
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["entry"]) {
-      this.entry$.next(changes["entry"].currentValue);
-    }
-  }
-
-  get isListViewMode(): boolean {
-    return this.viewMode === PresenceControlViewMode.List;
-  }
 
   updatePresenceType(entry: PresenceControlEntry): void {
     if (!entry.canChangePresenceType) {
