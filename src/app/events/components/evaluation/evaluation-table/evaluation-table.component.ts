@@ -59,14 +59,15 @@ export class EvaluationTableComponent {
   gradingItemUpdateService = inject(EvaluationGradingItemUpdateService);
   private route = inject(ActivatedRoute);
 
-  sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
-  selectedColumn = input.required<number>();
-  columns = input.required<ReadonlyArray<EvaluationColumn>>();
-  entries = input.required<ReadonlyArray<EvaluationEntry>>();
-  hasGrades = input.required<boolean>();
-  hasGradeComments = input.required<boolean>();
-  subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
-  gradingScale = input.required<GradingScale>();
+  readonly sortCriteria =
+    model.required<Option<SortCriteria<EvaluationSortKey>>>();
+  readonly selectedColumn = input.required<number>();
+  readonly columns = input.required<ReadonlyArray<EvaluationColumn>>();
+  readonly entries = input.required<ReadonlyArray<EvaluationEntry>>();
+  readonly hasGrades = input.required<boolean>();
+  readonly hasGradeComments = input.required<boolean>();
+  readonly subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
+  readonly gradingScale = input.required<GradingScale>();
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,

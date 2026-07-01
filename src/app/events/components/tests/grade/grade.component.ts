@@ -1,11 +1,11 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  Input,
   OnChanges,
   OnDestroy,
   OnInit,
   inject,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -42,11 +42,11 @@ const DEBOUNCE_TIME = 1250;
 export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   private state = inject(TestStateService);
 
-  @Input() grade: GradeOrNoResult;
-  @Input() student: Student;
-  @Input() tabIndex: number;
-  @Input() gradeOptions: DropDownItem[];
-  @Input() hasFinalGrade = false;
+  readonly grade = input.required<GradeOrNoResult>();
+  readonly student = input.required<Student>();
+  readonly tabIndex = input<number>();
+  readonly gradeOptions = input<ReadonlyArray<DropDownItem>>([]);
+  readonly hasFinalGrade = input<boolean>(false);
 
   maxPoints = 0;
   maxPointsAdjusted = 0;
@@ -63,14 +63,14 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
 
-    this.maxPoints = toMaxPoints(this.grade);
-    this.maxPointsAdjusted = toMaxPointsAdjusted(this.grade);
+    this.maxPoints = toMaxPoints(this.grade());
+    this.maxPointsAdjusted = toMaxPointsAdjusted(this.grade());
     this.initSave(
       this.pointsSubject$.pipe(
         filter(this.isValid.bind(this)),
         map((points) => ({
-          studentId: this.student.Id,
-          testId: this.grade.test.Id,
+          studentId: this.student().Id,
+          testId: this.grade().test.Id,
           points: points ? Number(points) : null,
         })),
       ),
@@ -78,8 +78,8 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     this.initSave(
       this.gradeSubject$.pipe(
         map((gradeId) => ({
-          studentId: this.student.Id,
-          testId: this.grade.test.Id,
+          studentId: this.student().Id,
+          testId: this.grade().test.Id,
           gradeId,
         })),
       ),
@@ -139,12 +139,13 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isGradingScaleDisabled() {
+    const gradeValue = this.grade();
     return (
-      this.grade.test.IsPublished ||
-      this.hasFinalGrade ||
-      (this.grade.test.IsPointGrading &&
-        this.grade.kind === "grade" &&
-        this.grade.result.Points != null)
+      gradeValue.test.IsPublished ||
+      this.hasFinalGrade() ||
+      (gradeValue.test.IsPointGrading &&
+        gradeValue.kind === "grade" &&
+        gradeValue.result.Points != null)
     );
   }
 }

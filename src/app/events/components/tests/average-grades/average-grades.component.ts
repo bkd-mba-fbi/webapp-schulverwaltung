@@ -1,4 +1,4 @@
-import { Component, Input, LOCALE_ID, inject } from "@angular/core";
+import { Component, LOCALE_ID, inject, input } from "@angular/core";
 import { averageGrade, averagePoints } from "src/app/events/utils/tests";
 import { Test } from "src/app/shared/models/test.model";
 import {
@@ -9,12 +9,12 @@ import {
 @Component({
   selector: "bkd-average-grades",
   template: `<div class="d-flex flex-row w-100">
-    @if (test.IsPointGrading) {
+    @if (test().IsPointGrading) {
       <span class="mr-2 mr-md-3 average-points" data-testid="average-points">{{
-        calculatePointsAverage(test)
+        calculatePointsAverage(test())
       }}</span>
     }
-    <span data-testid="average-grade">{{ calculateGradeAverage(test) }}</span>
+    <span data-testid="average-grade">{{ calculateGradeAverage(test()) }}</span>
   </div>`,
   styleUrls: ["./average-grades.component.scss"],
   imports: [],
@@ -22,7 +22,7 @@ import {
 export class AverageGradesComponent {
   private locale = inject(LOCALE_ID);
 
-  @Input() test: Test;
+  readonly test = input.required<Test>();
 
   calculatePointsAverage(test: Test) {
     return this.safeAverage(test, 2, averagePoints);

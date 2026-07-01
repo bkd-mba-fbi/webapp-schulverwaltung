@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
@@ -9,8 +9,8 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [TranslatePipe],
 })
 export class MyProfileEntryComponent {
-  @Input() label: string;
-  @Input() value: Option<string | Date>;
+  readonly label = input<string>();
+  readonly value = input<Option<string | Date>>();
 
   constructor() {}
 }

@@ -9,13 +9,13 @@ describe("TestsHeaderComponent", () => {
   let component: TestsHeaderComponent;
   let fixture: ComponentFixture<TestsHeaderComponent>;
   let reportsServiceMock: ReportsService;
-
-  const courseId = 123;
+  let courseId: number;
 
   beforeEach(async () => {
+    courseId = 123;
     reportsServiceMock = {
-      getCourseReports: jasmine
-        .createSpy("getCourseReports")
+      getCourseTestsReports: jasmine
+        .createSpy("getCourseTestsReports")
         .withArgs(courseId)
         .and.returnValue(
           of([{ type: "crystal", id: 290044, title: "", url: "" }]),
@@ -33,7 +33,7 @@ describe("TestsHeaderComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsHeaderComponent);
     component = fixture.componentInstance;
-    component.course = buildCourse(123);
+    fixture.componentRef.setInput("course", buildCourse(courseId));
     fixture.detectChanges();
   });
 

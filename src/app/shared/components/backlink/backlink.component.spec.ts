@@ -3,7 +3,6 @@ import { buildTestModuleMetadata } from "src/spec-helpers";
 import { BacklinkComponent } from "./backlink.component";
 
 describe("BacklinkComponent", () => {
-  // let component: BacklinkComponent;
   let fixture: ComponentFixture<BacklinkComponent>;
 
   beforeEach(async () => {
@@ -14,7 +13,7 @@ describe("BacklinkComponent", () => {
     ).compileComponents();
 
     fixture = TestBed.createComponent(BacklinkComponent);
-    // component = fixture.componentInstance;
+    fixture.componentRef.setInput("link", []);
     fixture.detectChanges();
   });
 

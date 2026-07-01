@@ -64,7 +64,7 @@ describe("AvatarEditDialogComponent", () => {
 
     fixture = TestBed.createComponent(AvatarEditDialogComponent);
     component = fixture.componentInstance;
-    component.studentId.set(42);
+    fixture.componentRef.setInput("studentId", 42);
 
     fixture.detectChanges();
   });

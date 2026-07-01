@@ -17,10 +17,11 @@ describe("MySettingsNotificationsToggleComponent", () => {
     fixture = TestBed.createComponent(MySettingsNotificationsToggleComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
+    fixture.componentRef.setInput("id", "custom-id");
+    fixture.componentRef.setInput("label", "This is a label");
   });
 
   it("renders a label with the given text", async () => {
-    component.label = "This is a label";
     await waitForRender();
     expect(element.querySelector("label")?.textContent).toContain(
       "This is a label",
@@ -28,13 +29,12 @@ describe("MySettingsNotificationsToggleComponent", () => {
   });
 
   it("renders the description if available", async () => {
-    component.description = "This is a description";
+    fixture.componentRef.setInput("description", "This is a description");
     await waitForRender();
     expect(element.textContent).toContain("This is a description");
   });
 
   it("renders the toggle switch with the given id", async () => {
-    component.id = "custom-id";
     await waitForRender();
     const input = getInput();
     expect(input?.id).toBe("custom-id");
@@ -42,7 +42,7 @@ describe("MySettingsNotificationsToggleComponent", () => {
   });
 
   it("renders disabled toggle switch", async () => {
-    component.setDisabledState(true);
+    fixture.componentRef.setInput("disabled", true);
     await waitForRender();
     const input = getInput();
     expect(input?.disabled).toBe(true);

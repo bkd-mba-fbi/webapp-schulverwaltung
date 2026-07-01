@@ -8,7 +8,6 @@ import { PresenceControlStateService } from "../../services/presence-control-sta
 import { PresenceControlHeaderComponent } from "./presence-control-header.component";
 
 describe("PresenceControlHeaderComponent", () => {
-  let component: PresenceControlHeaderComponent;
   let fixture: ComponentFixture<PresenceControlHeaderComponent>;
   let element: HTMLElement;
   let groupsAvailability$: BehaviorSubject<boolean>;
@@ -42,7 +41,6 @@ describe("PresenceControlHeaderComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlHeaderComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
 
     const lesson = {
@@ -57,8 +55,8 @@ describe("PresenceControlHeaderComponent", () => {
 
     const lessonEntry = fromLesson(lesson);
 
-    component.lessons = [lessonEntry];
-    component.selectedLesson = lessonEntry;
+    fixture.componentRef.setInput("lessons", [lessonEntry]);
+    fixture.componentRef.setInput("selectedLesson", lessonEntry);
   });
 
   describe("group button", () => {

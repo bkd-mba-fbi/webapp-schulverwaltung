@@ -23,7 +23,7 @@ import { ReportsService } from "../../../shared/services/reports.service";
 export class MyProfileHeaderComponent {
   private reportsService = inject(ReportsService);
 
-  person = input<Person>();
+  readonly person = input<Person>();
   personId = computed(() => this.person()?.Id ?? null);
 
   reports$ = toObservable(this.personId).pipe(

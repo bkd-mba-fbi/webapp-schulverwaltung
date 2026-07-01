@@ -17,6 +17,6 @@ import { TranslatePipe } from "@ngx-translate/core";
 export class ImportProceedUploadDialogComponent {
   activeModal = inject(NgbActiveModal);
 
-  validCount = input.required<number>();
-  invalidCount = input.required<number>();
+  readonly validCount = input.required<number>();
+  readonly invalidCount = input.required<number>();
 }

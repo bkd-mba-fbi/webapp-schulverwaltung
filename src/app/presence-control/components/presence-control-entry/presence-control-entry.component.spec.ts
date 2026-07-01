@@ -1,16 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { buildLessonPresence } from "src/spec-builders";
-import {
-  buildTestModuleMetadata,
-  changeInput,
-  settings,
-} from "src/spec-helpers";
+import { buildTestModuleMetadata, settings } from "src/spec-helpers";
 import { PresenceControlViewMode } from "../../../shared/models/user-settings.model";
 import { PresenceControlEntry } from "../../models/presence-control-entry.model";
 import { PresenceControlEntryComponent } from "./presence-control-entry.component";
 
 describe("PresenceControlEntryComponent", () => {
-  let component: PresenceControlEntryComponent;
   let fixture: ComponentFixture<PresenceControlEntryComponent>;
   let element: HTMLElement;
 
@@ -24,14 +19,14 @@ describe("PresenceControlEntryComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlEntryComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
-    changeInput(component, "entry", buildPresenceControlEntry());
+
+    fixture.componentRef.setInput("entry", buildPresenceControlEntry());
   });
 
   describe("list view", () => {
     beforeEach(() => {
-      component.viewMode = PresenceControlViewMode.List;
+      fixture.componentRef.setInput("viewMode", PresenceControlViewMode.List);
     });
 
     it("should always show student name and incident action", () => {
@@ -41,13 +36,13 @@ describe("PresenceControlEntryComponent", () => {
     });
 
     it("should show study class name", () => {
-      component.showClassName = true;
+      fixture.componentRef.setInput("showClassName", true);
       fixture.detectChanges();
       expect(element.textContent).toContain("9a");
     });
 
     it("should not show study class name", () => {
-      component.showClassName = false;
+      fixture.componentRef.setInput("showClassName", false);
       fixture.detectChanges();
       expect(element.textContent).not.toContain("9a");
     });
@@ -55,7 +50,7 @@ describe("PresenceControlEntryComponent", () => {
 
   describe("grid view", () => {
     beforeEach(() => {
-      component.viewMode = PresenceControlViewMode.Grid;
+      fixture.componentRef.setInput("viewMode", PresenceControlViewMode.Grid);
     });
 
     it("should always show student name and incident action", () => {
@@ -65,11 +60,11 @@ describe("PresenceControlEntryComponent", () => {
     });
 
     it("should never show study class name", () => {
-      component.showClassName = false;
+      fixture.componentRef.setInput("showClassName", false);
       fixture.detectChanges();
       expect(element.textContent).not.toContain("9a");
 
-      component.showClassName = true;
+      fixture.componentRef.setInput("showClassName", true);
       fixture.detectChanges();
       expect(element.textContent).not.toContain("9a");
     });

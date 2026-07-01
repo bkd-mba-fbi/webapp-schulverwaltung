@@ -29,7 +29,7 @@ export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmC
   private state = inject(MyAbsencesReportStateService);
   private selectionService = inject(MyAbsencesReportSelectionService);
 
-  titleKey = "my-absences.report.title";
+  readonly titleKey = "my-absences.report.title";
   selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );

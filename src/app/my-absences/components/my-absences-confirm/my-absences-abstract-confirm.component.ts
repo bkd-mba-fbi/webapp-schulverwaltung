@@ -52,7 +52,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
     "absenceTypeId",
   );
 
-  abstract titleKey: string;
+  abstract readonly titleKey: string;
   abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
 
   protected destroy$ = new Subject<void>();

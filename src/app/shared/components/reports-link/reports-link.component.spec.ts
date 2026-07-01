@@ -3,7 +3,6 @@ import { StorageService } from "../../services/storage.service";
 import { ReportsLinkComponent } from "./reports-link.component";
 
 describe("ReportsLinkComponent", () => {
-  let component: ReportsLinkComponent;
   let fixture: ComponentFixture<ReportsLinkComponent>;
   let element: HTMLElement;
   let storageServiceMock: jasmine.SpyObj<StorageService>;
@@ -21,12 +20,12 @@ describe("ReportsLinkComponent", () => {
       providers: [{ provide: StorageService, useValue: storageServiceMock }],
     });
     fixture = TestBed.createComponent(ReportsLinkComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
+
+    fixture.componentRef.setInput("reports", []);
   });
 
   it("does not render link if no reports are available", () => {
-    component.reports = [];
     fixture.detectChanges();
 
     const links = Array.from(element.querySelectorAll("a"));
@@ -34,14 +33,14 @@ describe("ReportsLinkComponent", () => {
   });
 
   it("renders link without dropdown if single report is available", () => {
-    component.reports = [
+    fixture.componentRef.setInput("reports", [
       {
         id: 123,
         type: "crystal",
         title: "Report 1",
         url: "http://example.com/report1.pdf",
       },
-    ];
+    ]);
     fixture.detectChanges();
 
     const links = Array.from(element.querySelectorAll("a"));
@@ -61,7 +60,7 @@ describe("ReportsLinkComponent", () => {
   });
 
   it("renders link with dropdown if multiple reports are available", () => {
-    component.reports = [
+    fixture.componentRef.setInput("reports", [
       {
         id: 123,
         type: "crystal",
@@ -74,7 +73,7 @@ describe("ReportsLinkComponent", () => {
         title: "Report 2",
         url: "http://example.com/report2.xls",
       },
-    ];
+    ]);
     fixture.detectChanges();
 
     const links = Array.from(element.querySelectorAll("a"));

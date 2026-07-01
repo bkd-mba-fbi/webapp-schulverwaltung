@@ -16,8 +16,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntryValueComponent {
-  value = input.required<unknown>();
-  valid = input(true);
+  readonly value = input.required<unknown>();
+  readonly valid = input(true);
 
   displayValue = computed(() =>
     this.value() != null && this.value() !== "" ? String(this.value()) : "–",

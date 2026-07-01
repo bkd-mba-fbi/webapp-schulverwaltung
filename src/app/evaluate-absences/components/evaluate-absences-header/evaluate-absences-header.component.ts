@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   inject,
+  model,
 } from "@angular/core";
 import {
   NgbDateAdapter,
@@ -39,50 +37,55 @@ export class EvaluateAbsencesHeaderComponent {
   coursesService = inject(CoursesRestService);
   studyClassesService = inject(StudyClassesRestService);
 
-  @Input()
-  filter: EvaluateAbsencesFilter = {
+  readonly filter = model<EvaluateAbsencesFilter>({
     student: null,
     course: null,
     studyClass: null,
     dateFrom: null,
     dateTo: null,
-  };
+  });
 
-  @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();
-
-  classesHttpFilter = {
+  readonly classesHttpFilter = {
     params: {
       fields: "IsActive",
       ["filter.IsActive"]: "=true",
     },
   };
 
-  onDateFromChange(date: Date | null) {
-    this.filter.dateFrom = date;
+  onDateFromChange(date: Option<Date>) {
+    this.filter.update((current) => ({
+      ...current,
+      dateFrom: date,
 
-    // Make sure the dates represent a valid range to avoid an always empty result
-    if (date && this.filter.dateTo && isAfter(date, this.filter.dateTo)) {
-      this.filter.dateTo = date;
-    }
+      // Make sure the dates represent a valid range to avoid an always empty result
+      dateTo:
+        date && current.dateTo && isAfter(date, current.dateTo)
+          ? date
+          : current.dateTo,
+    }));
   }
 
-  onDateToChange(date: Date | null) {
-    this.filter.dateTo = date;
+  onDateToChange(date: Option<Date>) {
+    this.filter.update((current) => ({
+      ...current,
+      dateTo: date,
 
-    // Make sure the dates represent a valid range to avoid an always empty result
-    if (date && this.filter.dateFrom && isBefore(date, this.filter.dateFrom)) {
-      this.filter.dateFrom = date;
-    }
+      // Make sure the dates represent a valid range to avoid an always empty result
+      dateFrom:
+        date && current.dateFrom && isBefore(date, current.dateFrom)
+          ? date
+          : current.dateFrom,
+    }));
   }
 
   show(): void {
-    this.filterChange.emit({
-      ...this.filter,
+    this.filter.update((current) => ({
+      ...current,
 
       // Normalize the dates' times to 00:00 to be comparable
-      dateFrom: normalizeDate(this.filter.dateFrom),
-      dateTo: normalizeDate(this.filter.dateTo),
-    });
+      dateFrom: normalizeDate(current.dateFrom),
+      dateTo: normalizeDate(current.dateTo),
+    }));
   }
 }
 

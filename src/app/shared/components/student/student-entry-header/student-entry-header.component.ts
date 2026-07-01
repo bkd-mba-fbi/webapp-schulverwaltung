@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, viewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  viewChild,
+} from "@angular/core";
 import {
   NgbAccordionButton,
   NgbAccordionHeader,
@@ -13,6 +18,8 @@ import { CaretComponent } from "../../caret/caret.component";
   imports: [CaretComponent, NgbAccordionHeader, NgbAccordionButton],
 })
 export class StudentEntryHeaderComponent {
+  readonly opened = input(false);
+
   private header = viewChild.required(NgbAccordionHeader);
 
   protected isCollapsed(): boolean {

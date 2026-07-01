@@ -1,18 +1,19 @@
 @let tests = state.filteredTests$ | async;
 @let hasTests = state.hasTests$ | async;
 @let studentGrades = state.studentGrades$ | async;
+@let selected = selectedTest();
 
 <div class="table-responsive-wrapper">
   <table
     class="table table-hover h-100"
-    [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }"
+    [ngClass]="{ 'test-point-grading': selected?.IsPointGrading }"
     bkdTableHeaderSticky
     [inlineHeader]="inlineHeader"
     [stickyHeader]="stickyHeader"
   >
     <thead
       bkdTestsTableHeader
-      [selectedTest]="selectedTest"
+      [selectedTest]="selected"
       (publish)="publish($event)"
       (unpublish)="unpublish($event)"
       #inlineHeader
@@ -20,7 +21,7 @@
     <thead
       bkdTestsTableHeader
       [sticky]="true"
-      [selectedTest]="selectedTest"
+      [selectedTest]="selected"
       (publish)="publish($event)"
       (unpublish)="unpublish($event)"
       #stickyHeader
@@ -41,10 +42,7 @@
               </div>
             </a>
           </td>
-          <td
-            class="sticky student-grade"
-            [ngClass]="{ selected: selectedTest === undefined }"
-          >
+          <td class="sticky student-grade" [ngClass]="{ selected: !selected }">
             @if (studentGrade.finalGrade.finalGradeValue) {
               <div>
                 {{ studentGrade.finalGrade.finalGradeValue }}
@@ -73,9 +71,7 @@
             <td
               class="test-grade"
               [ngClass]="
-                selectedTest !== undefined && grade.test.Id === selectedTest.Id
-                  ? 'selected'
-                  : ''
+                selected && grade.test.Id === selected.Id ? 'selected' : ''
               "
             >
               <bkd-grade
@@ -107,10 +103,7 @@
             </div>
           </div>
         </td>
-        <td
-          class="desktop sticky student-grade"
-          [ngClass]="{ selected: selectedTest === undefined }"
-        >
+        <td class="desktop sticky student-grade" [ngClass]="{ selected }">
           {{ state.meanOfFinalGradesForCourse$ | async | decimalOrDash: "1-3" }}
         </td>
         <td class="desktop border-end sticky student-average">
@@ -121,11 +114,7 @@
         @for (test of tests; track test.Id) {
           <td
             class="test-grade"
-            [ngClass]="
-              test.Id === selectedTest?.Id || test.Id === selectedTest?.Id
-                ? 'selected'
-                : ''
-            "
+            [ngClass]="test.Id === selected?.Id ? 'selected' : ''"
           >
             <bkd-average-grades [test]="test"></bkd-average-grades>
           </td>
@@ -139,7 +128,7 @@
       <button
         data-testId="apply-average-button"
         class="apply-average-button btn btn-primary m-3"
-        [ngClass]="{ 'visible-on-mobile': !hasTests || !selectedTest }"
+        [ngClass]="{ 'visible-on-mobile': !hasTests || !selected }"
         type="button"
         (click)="setAverageAsFinalGrade()"
       >

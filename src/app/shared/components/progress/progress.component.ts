@@ -13,9 +13,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressComponent {
-  processed = input.required<number>();
-  total = input.required<number>();
-  ariaLabel = input.required<string>();
+  readonly processed = input.required<number>();
+  readonly total = input.required<number>();
+  readonly ariaLabel = input.required<string>();
 
   percentage = computed(() =>
     this.total() > 0 ? (this.processed() / this.total()) * 100 : 0,

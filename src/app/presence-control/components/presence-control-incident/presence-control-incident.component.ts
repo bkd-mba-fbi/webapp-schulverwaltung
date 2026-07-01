@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -14,27 +20,25 @@ interface IncidentOption {
   templateUrl: "./presence-control-incident.component.html",
   imports: [FormsModule, TranslatePipe],
 })
-export class PresenceControlIncidentComponent implements OnInit {
+export class PresenceControlIncidentComponent {
   activeModal = inject(NgbActiveModal);
   private translate = inject(TranslateService);
 
-  @Input() incident: Option<PresenceType>;
-  @Input() incidentTypes: ReadonlyArray<PresenceType>;
-  incidentOptions: Array<IncidentOption> = [];
-  selected: IncidentOption;
+  readonly incidentTypes = input.required<ReadonlyArray<PresenceType>>();
+  readonly incident = input<Option<PresenceType>>(null);
 
-  ngOnInit(): void {
-    const emptyOption = this.createIncidentOption();
-
-    this.incidentOptions = this.incidentTypes.map((incidentType) =>
+  readonly incidentOptions = computed(() => [
+    this.createIncidentOption(),
+    ...this.incidentTypes().map((incidentType) =>
       this.createIncidentOption(incidentType),
-    );
-    this.incidentOptions.unshift(emptyOption);
-
-    this.selected =
-      this.incidentOptions.find((option) => option.id === this.incident?.Id) ||
-      emptyOption;
-  }
+    ),
+  ]);
+  readonly selected = linkedSignal(
+    () =>
+      this.incidentOptions().find(
+        (option) => option.id === this.incident()?.Id,
+      ) ?? this.createIncidentOption(),
+  );
 
   createIncidentOption(incidentType?: PresenceType): IncidentOption {
     return {
@@ -43,15 +47,5 @@ export class PresenceControlIncidentComponent implements OnInit {
         ? incidentType.Designation
         : this.translate.instant("presence-control.incident.no-incident"),
     };
-  }
-
-  onSelectionChange(option: IncidentOption): void {
-    this.selected = option;
-  }
-
-  getSelectedIncident(): Option<PresenceType> {
-    return (
-      this.incidentTypes.find((type) => type.Id === this.selected?.id) || null
-    );
   }
 }

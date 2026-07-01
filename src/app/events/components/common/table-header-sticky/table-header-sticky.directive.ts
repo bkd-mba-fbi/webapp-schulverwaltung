@@ -27,8 +27,8 @@ const MEDIA_BREAKPOINT_SM = 576;
 export class TableHeaderStickyDirective implements AfterViewInit, OnDestroy {
   private portal = inject(PortalService);
 
-  inlineHeader = input.required<TableHeaderComponent>();
-  stickyHeader = input.required<TableHeaderComponent>();
+  readonly inlineHeader = input.required<TableHeaderComponent>();
+  readonly stickyHeader = input.required<TableHeaderComponent>();
 
   ngAfterViewInit(): void {
     // Position/resize the sticky header initially

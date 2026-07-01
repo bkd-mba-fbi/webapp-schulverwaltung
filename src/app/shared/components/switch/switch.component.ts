@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { uniqueId } from "lodash-es";
@@ -17,7 +18,7 @@ import { uniqueId } from "lodash-es";
 })
 export class SwitchComponent {
   @Input() id: Option<string> = null;
-  @Input() label: Option<string> = null;
+  readonly label = input<Option<string>>(null);
   @Input() disabled = false;
   @Input() value = false;
   @Output() valueChange = new EventEmitter<boolean>();

@@ -37,12 +37,13 @@ export class EvaluationHeaderComponent {
   private route = inject(ActivatedRoute);
   private state = inject(EvaluationStateService);
 
+  readonly event = input.required<EvaluationEvent>();
+  readonly showActions = input<boolean>(true);
+
   hasGradeEntries = computed(() =>
     this.state.entries().some((entry) => (entry.grade?.Value ?? 0) > 0),
   );
 
-  event = input.required<EvaluationEvent>();
-  showActions = input<boolean>(true);
   queryParam = signal<string | null>(
     this.route.snapshot.queryParamMap.get("returnlink"),
   );

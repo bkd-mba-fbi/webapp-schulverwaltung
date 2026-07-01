@@ -7,7 +7,7 @@
     </button>
     <input
       class="lesson-date-input"
-      [ngModel]="selectDate"
+      [ngModel]="selectDate()"
       (ngModelChange)="onDateChange($event)"
       positionTarget=".lesson-date-input"
       ngbDatepicker
@@ -16,16 +16,16 @@
     />
   </div>
 
-  @if (selectedLesson) {
+  @if (selectedLesson()) {
     <div class="lesson-time" (click)="lessonDropdown()?.toggle()">
-      {{ selectedLesson.LessonDateTimeFrom | date: "HH:mm" }}–<span
+      {{ selectedLesson().LessonDateTimeFrom | date: "HH:mm" }}–<span
         class="lesson-time-to"
-        >{{ selectedLesson.LessonDateTimeTo | date: "HH:mm" }}</span
+        >{{ selectedLesson().LessonDateTimeTo | date: "HH:mm" }}</span
       >
     </div>
   }
 
-  @if (selectedLesson) {
+  @if (selectedLesson()) {
     <div
       ngbDropdown
       class="lesson-description"
@@ -34,13 +34,17 @@
       placement="bottom"
     >
       <div id="lesson-dropdown" ngbDropdownToggle>
-        <div class="text-truncate">{{ selectedLesson.eventDesignations }}</div>
-        <div class="text-truncate">{{ selectedLesson.studyClassNumbers }}</div>
+        <div class="text-truncate">
+          {{ selectedLesson().eventDesignations }}
+        </div>
+        <div class="text-truncate">
+          {{ selectedLesson().studyClassNumbers }}
+        </div>
       </div>
       <div ngbDropdownMenu aria-labelledby="lesson-dropdown">
-        @for (lessonEntry of lessons; track lessonEntry.id) {
+        @for (lessonEntry of lessons(); track lessonEntry.id) {
           <div
-            [class.active]="lessonEntry.id === selectedLesson.id"
+            [class.active]="lessonEntry.id === selectedLesson().id"
             ngbDropdownItem
             (click)="selectLessonChange.emit(lessonEntry)"
           >
@@ -62,7 +66,7 @@
       </div>
     </div>
   }
-  @if (lessons.length > 0) {
+  @if (lessons().length > 0) {
     <bkd-caret
       class="dropdown-caret"
       (click)="lessonDropdown()?.toggle()"
@@ -75,23 +79,27 @@
 <div class="states">
   <div class="state present">
     <i class="material-icons">check_circle</i>
-    <span class="count">{{ presentCount !== null ? presentCount : "?" }}</span>
+    <span class="count">{{
+      presentCount() !== null ? presentCount() : "?"
+    }}</span>
   </div>
   <div class="state absent">
     <i class="material-icons">cancel</i>
-    <span class="count">{{ absentCount !== null ? absentCount : "?" }}</span>
+    <span class="count">{{
+      absentCount() !== null ? absentCount() : "?"
+    }}</span>
   </div>
   <div class="state previously-absent">
     <i class="material-icons-outlined">info</i>
     <span class="count">{{
-      absentPrecedingCount !== null ? absentPrecedingCount : "?"
+      absentPrecedingCount() !== null ? absentPrecedingCount() : "?"
     }}</span>
   </div>
 </div>
 
 <div class="search-and-views">
   <bkd-resettable-input
-    [value]="search"
+    [value]="search()"
     [disabled]="!selectedLesson"
     class="search"
     [placeholder]="'presence-control.header.search-by-name' | translate"
@@ -99,7 +107,7 @@
     (valueChange)="searchChange.emit($event)"
   ></bkd-resettable-input>
   <div class="group-and-views d-flex align-items-center">
-    @if (selectedLesson && state.groupsAvailability$ | async) {
+    @if (selectedLesson() && state.groupsAvailability$ | async) {
       <a
         type="button"
         class="group btn me-2 me-sm-4"
@@ -107,7 +115,7 @@
           'btn-link': (isGroupSelected$ | async) === false,
           'btn-danger': isGroupSelected$ | async,
         }"
-        [routerLink]="['groups', selectedLesson.id]"
+        [routerLink]="['groups', selectedLesson().id]"
         [queryParams]="{
           returnparams: (state.queryParamsString$ | async),
         }"
@@ -120,10 +128,10 @@
         <button
           type="button"
           class="view btn btn-primary btn-icon"
-          [disabled]="!selectedLesson"
-          [class.btn-outline-secondary]="option.viewMode === viewMode"
-          [class.btn-link]="option.viewMode !== viewMode"
-          [class.active]="option.viewMode === viewMode"
+          [disabled]="!selectedLesson()"
+          [class.btn-outline-secondary]="option.viewMode === viewMode()"
+          [class.btn-link]="option.viewMode !== viewMode()"
+          [class.active]="option.viewMode === viewMode()"
           (click)="viewModeChange.emit(option.viewMode)"
         >
           <i class="material-icons align-middle">{{ option.icon }}</i>

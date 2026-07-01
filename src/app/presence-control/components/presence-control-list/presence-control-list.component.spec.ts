@@ -50,9 +50,9 @@ describe("PresenceControlListComponent", () => {
       "Deutsch",
       "Dora Durrer",
     );
-    bichsel = buildPresenceControlEntry("Bichsel Peter");
-    frisch = buildPresenceControlEntry("Frisch Max");
-    jenni = buildPresenceControlEntry("Zoë Jenny");
+    bichsel = buildPresenceControlEntry(1, "Bichsel Peter");
+    frisch = buildPresenceControlEntry(2, "Frisch Max");
+    jenni = buildPresenceControlEntry(3, "Zoë Jenny");
     presenceControlEntries$ = new BehaviorSubject([bichsel, frisch, jenni]);
 
     presenceControlEntriesByGroup$ = presenceControlEntries$;
@@ -175,7 +175,7 @@ describe("PresenceControlListComponent", () => {
       presenceControlEntries$.next([
         bichsel,
         frisch,
-        buildPresenceControlEntry("Frisch Peter"),
+        buildPresenceControlEntry(4, "Frisch Peter"),
         jenni,
       ]);
       fixture.detectChanges();
@@ -208,7 +208,7 @@ describe("PresenceControlListComponent", () => {
       let bichsel2: PresenceControlEntry;
 
       beforeEach(() => {
-        bichsel2 = buildPresenceControlEntry("Bichsel Peter");
+        bichsel2 = buildPresenceControlEntry(1, "Bichsel Peter");
         bichsel2.lessonPresence.LessonRef.Id = 2;
         blockLessonServiceMock.getBlockLessonPresenceControlEntries.and.returnValue(
           of([bichsel, bichsel2]),
@@ -254,6 +254,7 @@ describe("PresenceControlListComponent", () => {
   }
 
   function buildPresenceControlEntry(
+    studentId: number,
     studentName: string,
   ): PresenceControlEntry {
     const presenceControlEntry = new PresenceControlEntry(
@@ -263,6 +264,10 @@ describe("PresenceControlListComponent", () => {
         lesson.LessonDateTimeTo,
         lesson.EventDesignation,
         studentName,
+        "",
+        undefined,
+        undefined,
+        studentId,
       ),
       null,
       null,

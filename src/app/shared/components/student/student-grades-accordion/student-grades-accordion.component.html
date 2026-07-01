@@ -1,4 +1,4 @@
-@if (courses.length > 0) {
+@if (courses().length > 0) {
   <div ngbAccordion>
     @for (
       decoratedCourse of decoratedCoursesSubject$ | async;
@@ -20,9 +20,9 @@
             <ng-template>
               <bkd-student-grades-course
                 [decoratedCourse]="decoratedCourse"
-                [studentId]="studentId"
-                [gradingScales]="gradingScales"
-                [isEditable]="isEditable"
+                [studentId]="studentId()"
+                [gradingScales]="gradingScales()"
+                [isEditable]="isEditable()"
               ></bkd-student-grades-course>
             </ng-template>
           </div>

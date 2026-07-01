@@ -13,8 +13,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResettableInputComponent {
-  value = model<string>("");
-  disabled = input<boolean>(false);
-  placeholder = input<string>("");
-  label = input<string>("");
+  readonly value = model<string>("");
+  readonly disabled = input<boolean>(false);
+  readonly placeholder = input<string>("");
+  readonly label = input<string>("");
 }

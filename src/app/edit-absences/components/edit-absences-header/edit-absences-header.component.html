@@ -6,7 +6,7 @@
     <bkd-typeahead
       [id]="'filter-student'"
       [typeaheadService]="studentsService"
-      [(value)]="filter.student"
+      [(value)]="filter().student"
     ></bkd-typeahead>
   </div>
 
@@ -17,7 +17,7 @@
     <bkd-typeahead
       [id]="'filter-module-instance'"
       [typeaheadService]="coursesService"
-      [(value)]="filter.course"
+      [(value)]="filter().course"
     ></bkd-typeahead>
   </div>
 
@@ -28,7 +28,7 @@
     <bkd-typeahead
       [id]="'filter-study-class'"
       [typeaheadService]="studyClassService"
-      [(value)]="filter.studyClass"
+      [(value)]="filter().studyClass"
       [additionalHttpParams]="this.classesHttpFilter"
     ></bkd-typeahead>
   </div>
@@ -40,7 +40,7 @@
     <bkd-typeahead
       [id]="'filter-teacher'"
       [typeaheadService]="teacherResourcesService"
-      [(value)]="filter.teacher"
+      [(value)]="filter().teacher"
     ></bkd-typeahead>
   </div>
 
@@ -50,7 +50,7 @@
     }}</label>
     <bkd-date-select
       [id]="'filter-date-from'"
-      [value]="filter.dateFrom"
+      [value]="filter().dateFrom"
       (valueChange)="onDateFromChange($event)"
     ></bkd-date-select>
   </div>
@@ -61,7 +61,7 @@
     }}</label>
     <bkd-date-select
       [id]="'filter-date-to'"
-      [value]="filter.dateTo"
+      [value]="filter().dateTo"
       (valueChange)="onDateToChange($event)"
     ></bkd-date-select>
   </div>
@@ -73,7 +73,7 @@
     <bkd-multiselect
       [id]="'filter-weekdays'"
       [options]="weekdaysGrouped$ | async"
-      [(values)]="filter.weekdays"
+      [(values)]="filter().weekdays"
     ></bkd-multiselect>
   </div>
 </div>
@@ -86,7 +86,7 @@
     <bkd-multiselect
       [id]="'filter-confirmation-state'"
       [options]="absenceConfirmationStatesGrouped$ | async"
-      [(values)]="filter.confirmationStates"
+      [(values)]="filter().confirmationStates"
     ></bkd-multiselect>
   </div>
 
@@ -97,7 +97,7 @@
     <bkd-multiselect
       [id]="'filter-presence-type'"
       [options]="presenceTypesGrouped$ | async"
-      [(values)]="filter.presenceTypes"
+      [(values)]="filter().presenceTypes"
     ></bkd-multiselect>
   </div>
 
@@ -108,7 +108,7 @@
     <bkd-multiselect
       [id]="'filter-incident'"
       [options]="incidentTypesGrouped$ | async"
-      [(values)]="filter.incidentTypes"
+      [(values)]="filter().incidentTypes"
     ></bkd-multiselect>
   </div>
 

@@ -13,7 +13,7 @@
     <th
       container="body"
       class="test-grade grade test-info-desktop"
-      [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
+      [ngClass]="test.Id === selectedTest()?.Id ? 'selected' : ''"
     >
       <bkd-test-table-test-header
         [test]="test"
@@ -29,7 +29,7 @@
       container="body"
       class="test-grade header-mobile test-info-mobile"
       colspan="3"
-      [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
+      [ngClass]="test.Id === selectedTest()?.Id ? 'selected' : ''"
     >
       <bkd-test-table-test-header
         [test]="test"
@@ -42,7 +42,7 @@
   }
   <th class="filler"></th>
 </tr>
-<tr [ngClass]="{ 'test-point-grading': selectedTest?.IsPointGrading }">
+<tr [ngClass]="{ 'test-point-grading': selectedTest()?.IsPointGrading }">
   <th class="sticky student-name">
     <bkd-sortable-header
       [label]="'tests.student.name' | translate"
@@ -53,7 +53,7 @@
   </th>
   <th
     class="sticky student-grade desktop"
-    [ngClass]="{ selected: selectedTest === undefined }"
+    [ngClass]="{ selected: !selectedTest() }"
   >
     <bkd-sortable-header
       [label]="'tests.grade' | translate"
@@ -75,7 +75,7 @@
     <th
       container="body"
       class="test-grade"
-      [ngClass]="test.Id === selectedTest?.Id ? 'selected' : ''"
+      [ngClass]="test.Id === selectedTest()?.Id ? 'selected' : ''"
     >
       <div class="d-flex">
         @if (test.IsPointGrading) {

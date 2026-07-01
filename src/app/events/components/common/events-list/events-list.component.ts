@@ -36,7 +36,7 @@ export class EventsListComponent {
   state = inject(EventsStateService);
   private storage = inject(StorageService);
 
-  withRatings = input(true);
+  readonly withRatings = input(true);
 
   entries = toSignal(this.loadEntries(), { initialValue: [] });
 

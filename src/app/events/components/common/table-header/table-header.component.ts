@@ -23,7 +23,7 @@ export abstract class TableHeaderComponent {
    * Set to false for the inline version of the header, true for the sticky (or
    * fixed) version of the header.
    */
-  sticky = input(false);
+  readonly sticky = input(false);
 
   @HostBinding("class.sticky")
   get stickyClass() {

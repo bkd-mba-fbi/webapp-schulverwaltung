@@ -7,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  input,
   viewChildren,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
@@ -55,14 +56,16 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
 export class StudentAbsencesListComponent implements OnChanges {
   private presenceTypesService = inject(PresenceTypesService);
 
-  @Input() absences$?: Observable<Option<ReadonlyArray<LessonPresence>>>;
-  @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
+  readonly absences$ =
+    input<Observable<Option<ReadonlyArray<LessonPresence>>>>();
+  readonly selectionService =
+    input<Option<ConfirmAbsencesSelectionService>>(null);
 
   /**
    * Whether display the presence type's designation (but only if is
    * not the default absence type).
    */
-  @Input() displayPresenceType = true;
+  readonly displayPresenceType = input(true);
 
   /**
    * If set to a string, this message will be displayed, if the
@@ -74,14 +77,14 @@ export class StudentAbsencesListComponent implements OnChanges {
 
   @Input() reports: Option<ReadonlyArray<ReportInfo>> = null;
 
-  @Input() confirmLink = "confirm";
+  readonly confirmLink = input("confirm");
 
   /**
    * Whether to show a button opening the user's email client
    * The receiver address, subject and body is set in the mailto string
    */
-  @Input() displayEmail = false;
-  @Input() mailTo$: Observable<string>;
+  readonly displayEmail = input(false);
+  readonly mailTo$ = input<Observable<string>>();
 
   readonly checkboxes = viewChildren<ElementRef<HTMLInputElement>>("checkbox");
 
@@ -135,9 +138,9 @@ export class StudentAbsencesListComponent implements OnChanges {
     if (checked) {
       this.lessonPresences$
         .pipe(take(1))
-        .subscribe((absences) => this.selectionService?.clear(absences));
+        .subscribe((absences) => this.selectionService()?.clear(absences));
     } else {
-      this.selectionService?.clear();
+      this.selectionService()?.clear();
     }
   }
 

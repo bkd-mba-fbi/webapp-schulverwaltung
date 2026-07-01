@@ -17,7 +17,7 @@
           <div>{{ personValue.Zip || "" }} {{ personValue.Location }}</div>
         </address>
       </div>
-      @for (error of formErrors$ | async; track error) {
+      @for (error of formErrors$ | async; track error.error) {
         <div class="alert alert-danger">
           {{
             "global.validation-errors." + error.error | translate: error.params
@@ -62,7 +62,7 @@
           [class.is-invalid]="((email2Errors$ | async)?.length ?? 0) > 0"
           aria-describedby="my-profile-email2-hint"
         />
-        @for (error of email2Errors$ | async; track error) {
+        @for (error of email2Errors$ | async; track error.error) {
           <div class="invalid-feedback">
             {{
               "global.validation-errors." + error.error

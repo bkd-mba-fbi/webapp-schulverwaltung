@@ -47,7 +47,7 @@ export class OpenAbsencesListComponent
   selectionService = inject(ConfirmAbsencesSelectionService);
   private scrollPosition = inject(ScrollPositionService);
 
-  sortKeys = SORT_KEYS;
+  readonly sortKeys = SORT_KEYS;
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {

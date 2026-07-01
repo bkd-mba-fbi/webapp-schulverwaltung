@@ -2,10 +2,8 @@ import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   inject,
+  model,
 } from "@angular/core";
 import {
   NgbDateAdapter,
@@ -63,8 +61,7 @@ export class EditAbsencesHeaderComponent {
   private state = inject(EditAbsencesStateService);
   private translate = inject(TranslateService);
 
-  @Input()
-  filter: EditAbsencesFilter = {
+  readonly filter = model<EditAbsencesFilter>({
     student: null,
     course: null,
     studyClass: null,
@@ -75,9 +72,7 @@ export class EditAbsencesHeaderComponent {
     presenceTypes: null,
     confirmationStates: null,
     incidentTypes: null,
-  };
-
-  @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
+  });
 
   weekdaysGrouped$ = this.state.weekdays$.pipe(
     map((weekdays) =>
@@ -131,32 +126,34 @@ export class EditAbsencesHeaderComponent {
     },
   };
 
-  onDateFromChange(date: Date | null) {
-    this.filter.dateFrom = date;
+  onDateFromChange(date: Option<Date>) {
+    this.filter.update((current) => ({
+      ...current,
+      dateFrom: date,
 
-    // Make sure both date fields have a value
-    if (!this.filter.dateTo) {
-      this.filter.dateTo = date;
-    }
+      // Make sure both date fields have a value
+      dateTo: current.dateTo ? current.dateTo : date,
+    }));
   }
 
-  onDateToChange(date: Date | null) {
-    this.filter.dateTo = date;
+  onDateToChange(date: Option<Date>) {
+    this.filter.update((current) => ({
+      ...current,
+      dateTo: date,
 
-    // Make sure both date fields have a value
-    if (!this.filter.dateFrom) {
-      this.filter.dateFrom = date;
-    }
+      // Make sure both date fields have a value
+      dateFrom: current.dateFrom ? current.dateFrom : date,
+    }));
   }
 
   show(): void {
-    this.filterChange.emit({
-      ...this.filter,
+    this.filter.update((filter) => ({
+      ...filter,
 
       // Normalize the dates' times to 00:00 to be comparable
-      dateFrom: normalizeDate(this.filter.dateFrom),
-      dateTo: normalizeDate(this.filter.dateTo),
-    });
+      dateFrom: normalizeDate(filter.dateFrom),
+      dateTo: normalizeDate(filter.dateTo),
+    }));
   }
 }
 

@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -17,35 +17,30 @@ interface BlockLessonOption {
   styleUrls: ["presence-control-block-lesson.component.scss"],
   imports: [FormsModule, DatePipe, TranslatePipe],
 })
-export class PresenceControlBlockLessonComponent implements OnInit {
+export class PresenceControlBlockLessonComponent {
   activeModal = inject(NgbActiveModal);
 
-  @Input() entry: PresenceControlEntry;
-  @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
-  blockLessonOptions: ReadonlyArray<BlockLessonOption> = [];
+  readonly entry = input.required<PresenceControlEntry>();
+  readonly blockPresenceControlEntries =
+    input.required<ReadonlyArray<PresenceControlEntry>>();
 
-  // OnInit because input are set by modal and won't trigger the onChanges hook
-  ngOnInit(): void {
-    this.blockLessonOptions = this.buildLessonPresenceOptions();
-  }
+  blockLessonOptions = computed(() =>
+    this.blockPresenceControlEntries().map((entry) => ({
+      entry,
+      selected: entry.confirmationState === this.entry().confirmationState,
+    })),
+  );
 
-  getSelectedEntries(): ReadonlyArray<PresenceControlEntry> {
-    return this.blockLessonOptions
+  selectedEntries = computed(() =>
+    this.blockLessonOptions()
       .filter(({ selected }) => selected)
-      .map(({ entry }) => entry);
-  }
+      .map(({ entry }) => entry),
+  );
 
   isCurrentLesson(option: BlockLessonOption): boolean {
     return isEqual(
       option.entry.lessonPresence.LessonDateTimeFrom,
-      this.entry.lessonPresence.LessonDateTimeFrom,
+      this.entry().lessonPresence.LessonDateTimeFrom,
     );
-  }
-
-  private buildLessonPresenceOptions() {
-    return this.blockPresenceControlEntries.map((entry) => ({
-      entry,
-      selected: this.entry.confirmationState === entry.confirmationState,
-    }));
   }
 }

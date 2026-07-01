@@ -29,7 +29,7 @@ describe("AverageGradesComponent", () => {
     test = buildTest(1, 1, [result1, result2]);
     test.IsPointGrading = true;
 
-    component.test = test;
+    fixture.componentRef.setInput("test", test);
   });
 
   it("should create", () => {
@@ -44,7 +44,7 @@ describe("AverageGradesComponent", () => {
 
   it("should not show points average if its not a point grading test", () => {
     test.IsPointGrading = false;
-    component.test = test;
+    fixture.componentRef.setInput("test", test);
     fixture.detectChanges();
 
     expectNotInTheDocument(fixture.debugElement, "average-points");
@@ -54,7 +54,7 @@ describe("AverageGradesComponent", () => {
   it("should show '–' for tests with no results", () => {
     const testWithNoResults = buildTest(1, 1, []);
     testWithNoResults.IsPointGrading = true;
-    component.test = testWithNoResults;
+    fixture.componentRef.setInput("test", testWithNoResults);
     fixture.detectChanges();
 
     expectText(fixture.debugElement, "average-grade", "–");

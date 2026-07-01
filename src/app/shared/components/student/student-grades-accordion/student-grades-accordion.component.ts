@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges, inject } from "@angular/core";
+import { Component, OnChanges, inject, input } from "@angular/core";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -49,10 +49,10 @@ export interface CourseWithGrades {
 export class StudentGradesAccordionComponent implements OnChanges {
   dossierGradesService = inject(StudentGradesService);
 
-  @Input() courses: ReadonlyArray<Course>;
-  @Input() studentId: number;
-  @Input() gradingScales: ReadonlyArray<GradingScale>;
-  @Input() isEditable: boolean = true;
+  readonly courses = input.required<ReadonlyArray<Course>>();
+  readonly studentId = input.required<number>();
+  readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
+  readonly isEditable = input<boolean>(true);
 
   decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);
 
@@ -61,15 +61,15 @@ export class StudentGradesAccordionComponent implements OnChanges {
   }
 
   private decorateCourses(): CourseWithGrades[] {
-    return this.courses.map((course) => {
+    return this.courses().map((course) => {
       const finalGrade = this.dossierGradesService.getFinalGradeForStudent(
         course,
-        this.studentId,
+        this.studentId(),
       );
       const grades = this.dossierGradesService.getGradesForStudent(
         course,
-        this.studentId,
-        this.gradingScales,
+        this.studentId(),
+        this.gradingScales(),
       );
 
       return {
@@ -77,11 +77,11 @@ export class StudentGradesAccordionComponent implements OnChanges {
         finalGrade,
         grading: this.dossierGradesService.getGradingForStudent(
           course,
-          this.studentId,
+          this.studentId(),
         ),
         gradingScale: this.dossierGradesService.getGradingScaleOfCourse(
           course,
-          this.gradingScales,
+          this.gradingScales(),
         ),
         average: finalGrade?.AverageTestResult || weightedAverage(grades),
       };

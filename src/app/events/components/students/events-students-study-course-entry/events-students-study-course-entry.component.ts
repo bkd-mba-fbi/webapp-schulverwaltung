@@ -16,8 +16,8 @@ import { StudentEntry } from "src/app/events/services/events-students-state.serv
   styleUrl: "./events-students-study-course-entry.component.scss",
 })
 export class EventsStudentsStudyCourseEntryComponent {
-  entry = input.required<StudentEntry>();
-  returnLink = input<Option<string>>(null);
+  readonly entry = input.required<StudentEntry>();
+  readonly returnLink = input<Option<string>>(null);
 
   link = computed<RouterLink["routerLink"]>(() => [
     "study-course-student",

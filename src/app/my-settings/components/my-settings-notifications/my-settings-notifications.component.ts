@@ -61,7 +61,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
   private translate = inject(TranslateService);
   private notificationTypes = inject(NotificationTypesService);
 
-  channelsSettings: ReadonlyArray<NotificationSetting> = [
+  readonly channelsSettings: ReadonlyArray<NotificationSetting> = [
     {
       key: "gui",
       label: this.translate.get("my-settings.notifications.gui"),

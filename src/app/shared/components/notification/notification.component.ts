@@ -15,10 +15,10 @@ export type NotificationType = "success" | "error";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent {
-  title = input<string>("");
-  message = input.required<string>();
-  type = input<NotificationType>("success");
-  actionLabel = input<string>("");
+  readonly title = input<string>("");
+  readonly message = input.required<string>();
+  readonly type = input<NotificationType>("success");
+  readonly actionLabel = input<string>("");
   readonly action = output<void>();
 
   handleClick(): void {

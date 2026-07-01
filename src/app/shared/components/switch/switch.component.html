@@ -5,4 +5,4 @@
   [ngModel]="value"
   (ngModelChange)="valueChange.emit($event)"
 />
-<label [attr.for]="id ?? fallbackId">{{ label }}</label>
+<label [attr.for]="id ?? fallbackId">{{ label() }}</label>

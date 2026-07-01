@@ -1,12 +1,11 @@
 import { AsyncPipe, DatePipe, NgClass } from "@angular/common";
 import {
   Component,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
   inject,
+  input,
+  output,
   viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -100,26 +99,26 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   state = inject(PresenceControlStateService);
   private groupService = inject(PresenceControlGroupService);
 
-  @Input() selectedLesson: LessonEntry;
-  @Input() lessons: ReadonlyArray<LessonEntry>;
-  @Input() presentCount: Option<number> = null;
-  @Input() absentCount: Option<number> = null;
-  @Input() absentPrecedingCount: Option<number> = null;
-  @Input() viewMode: PresenceControlViewMode;
-  @Input() selectDate: Date;
-  @Input() search = "";
+  readonly selectedLesson = input.required<LessonEntry>();
+  readonly lessons = input.required<ReadonlyArray<LessonEntry>>();
+  readonly presentCount = input<Option<number>>(null);
+  readonly absentCount = input<Option<number>>(null);
+  readonly absentPrecedingCount = input<Option<number>>(null);
+  readonly viewMode = input<PresenceControlViewMode>();
+  readonly selectDate = input<Date>();
+  readonly search = input("");
 
-  @Output() selectLessonChange = new EventEmitter<LessonEntry>();
-  @Output() selectDateChange = new EventEmitter<Date>();
-  @Output() searchChange = new EventEmitter<string>();
-  @Output() viewModeChange = new EventEmitter<PresenceControlViewMode>();
+  readonly selectLessonChange = output<LessonEntry>();
+  readonly selectDateChange = output<Date>();
+  readonly searchChange = output<string>();
+  readonly viewModeChange = output<PresenceControlViewMode>();
 
   private dateSubject: Subject<Date> = new Subject<Date>();
   private destroy$ = new Subject<void>();
 
   readonly lessonDropdown = viewChild(NgbDropdown);
 
-  viewModeOptions: ReadonlyArray<ViewModeOption> = [
+  readonly viewModeOptions: ReadonlyArray<ViewModeOption> = [
     { viewMode: PresenceControlViewMode.List, icon: "list" },
     { viewMode: PresenceControlViewMode.Grid, icon: "view_module" },
   ];

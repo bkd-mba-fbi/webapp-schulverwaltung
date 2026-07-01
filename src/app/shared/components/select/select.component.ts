@@ -21,16 +21,17 @@ export class SelectComponent<
   TKey extends DropDownItem["Key"] = DropDownItem["Key"],
   TValue extends DropDownItem["Value"] = DropDownItem["Value"],
 > {
-  id = input<string>();
-  options = input.required<ReadonlyArray<{ Key: TKey; Value: TValue }>>();
-  allowEmpty = input(true);
-  emptyLabel = input("");
-  disabled = input(false);
-  isInvalid = input(false);
-  tabindex = input(0);
-  width = input("auto");
+  readonly id = input<string>();
+  readonly options =
+    input.required<ReadonlyArray<{ Key: TKey; Value: TValue }>>();
+  readonly allowEmpty = input(true);
+  readonly emptyLabel = input("");
+  readonly disabled = input(false);
+  readonly isInvalid = input(false);
+  readonly tabindex = input(0);
+  readonly width = input("auto");
 
-  value = model<Option<TKey>>(null);
+  readonly value = model<Option<TKey>>(null);
 
   selectedOption = computed(() => {
     const options = this.options();

@@ -19,9 +19,9 @@ import { AvatarService } from "../../services/avatar.service";
 export class AvatarComponent {
   private avatarService = inject(AvatarService);
 
-  studentId = input.required<number>();
-  link = input<RouterLink["routerLink"]>();
-  linkParams = input<Params | undefined>();
+  readonly studentId = input.required<number>();
+  readonly link = input<RouterLink["routerLink"]>();
+  readonly linkParams = input<Params>();
 
   avatarStyles = computed<Dict<string>>(() =>
     this.buildAvatarStyles(this.studentId()),

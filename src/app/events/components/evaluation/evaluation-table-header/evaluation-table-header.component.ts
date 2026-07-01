@@ -26,11 +26,12 @@ import { COMMENT_COLUMN_KEY, GRADE_COLUMN_KEY } from "../evaluation-constants";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationTableHeaderComponent extends TableHeaderComponent {
-  columns = input.required<ReadonlyArray<EvaluationColumn>>();
-  sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
-  selectedColumn = input.required<Option<number>>();
-  hasGrades = input.required<boolean>();
-  hasGradeComments = input(false);
+  readonly columns = input.required<ReadonlyArray<EvaluationColumn>>();
+  readonly sortCriteria =
+    model.required<Option<SortCriteria<EvaluationSortKey>>>();
+  readonly selectedColumn = input.required<Option<number>>();
+  readonly hasGrades = input.required<boolean>();
+  readonly hasGradeComments = input(false);
 
   gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,

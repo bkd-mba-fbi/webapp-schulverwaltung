@@ -37,7 +37,7 @@ export class EvaluationVerifyPdfComponent implements OnDestroy {
   private settings = inject<Settings>(SETTINGS);
   private translate = inject(TranslateService);
 
-  eventId = input.required<number>();
+  readonly eventId = input.required<number>();
 
   loading = toSignal(this.loadingService.loading(EVALUATION_PDF_CONTEXT));
   loadingPdf = outputFromObservable(

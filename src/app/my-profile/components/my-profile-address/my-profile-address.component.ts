@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 @Component({
   selector: "bkd-my-profile-address",
@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
   standalone: true,
 })
 export class MyProfileAddressComponent {
-  @Input() address: string;
+  readonly address = input<string>();
 
   constructor() {}
 }

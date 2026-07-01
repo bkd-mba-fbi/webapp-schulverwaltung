@@ -1,13 +1,8 @@
-import { AsyncPipe, DatePipe } from "@angular/common";
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  inject,
-} from "@angular/core";
+import { DatePipe } from "@angular/common";
+import { Component, inject, input } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { TranslatePipe } from "@ngx-translate/core";
-import { ReplaySubject, map } from "rxjs";
+import { map } from "rxjs";
 import {
   deleteResultByStudentId,
   replaceResultInTest,
@@ -25,22 +20,18 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
 @Component({
   selector: "bkd-student-grades-test",
   template: `
-    <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-    <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-    @let test = test$ | async;
-    @let grading = grading$ | async;
-
-    @if (test) {
+    @let testEntry = test();
+    @if (testEntry) {
       <div class="test-entry">
         <div class="designation" data-testid="test-designation">
-          {{ test.Designation }}
+          {{ testEntry.Designation }}
         </div>
         <div class="date" data-testid="test-date">
-          {{ test.Date | date: "dd.MM.yyyy" }}
+          {{ testEntry.Date | date: "dd.MM.yyyy" }}
         </div>
         <div class="grade">
-          @if (isEditable && test.IsOwner) {
-            <button class="btn btn-link" (click)="editGrading(test)">
+          @if (isEditable() && testEntry.IsOwner) {
+            <button class="btn btn-link" (click)="editGrading(testEntry)">
               <span class="visually-hidden">
                 {{ "student.grades.edit-grade" | translate }}
               </span>
@@ -50,29 +41,34 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
                 data-testid="test-grade-edit-icon"
                 >edit</i
               >
-              <span data-testid="test-grade">{{ grading }}</span>
+              <span data-testid="test-grade">{{ grading() }}</span>
             </button>
           } @else {
-            <span data-testid="test-grade">{{ grading }}</span>
+            <span data-testid="test-grade">{{ grading() }}</span>
           }
         </div>
         <div class="factor" data-testid="test-factor">
-          {{ test | bkdTestWeight }}
+          {{ testEntry | bkdTestWeight }}
         </div>
         <div class="points" data-testid="test-points">
           <span>{{
-            test
-              | bkdTestPoints: studentId : isEditable : "student.grades.points"
+            testEntry
+              | bkdTestPoints
+                : studentId()
+                : isEditable()
+                : "student.grades.points"
           }}</span>
         </div>
         <div class="teacher" data-testid="test-teacher">
-          {{ test.Owner }}
+          {{ testEntry.Owner }}
         </div>
-        @if (isEditable) {
+        @if (isEditable()) {
           <div class="state" data-testid="test-status">
             {{
-              (test.IsPublished ? "tests.published" : "tests.not-published")
-                | translate
+              (testEntry.IsPublished
+                ? "tests.published"
+                : "tests.not-published"
+              ) | translate
             }}
           </div>
         }
@@ -80,31 +76,21 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
     }
   `,
   styleUrls: ["./student-grades-test.component.scss"],
-  imports: [
-    AsyncPipe,
-    DatePipe,
-    TranslatePipe,
-    TestPointsPipe,
-    TestsWeightPipe,
-  ],
+  imports: [DatePipe, TranslatePipe, TestPointsPipe, TestsWeightPipe],
 })
-export class StudentGradesTestComponent implements OnChanges {
+export class StudentGradesTestComponent {
   private gradeService = inject(StudentGradesService);
   private modalService = inject(BkdModalService);
 
-  @Input() test: Test;
-  @Input() studentId: number;
-  @Input() gradingScale: Option<GradingScale>;
-  @Input() isEditable: boolean;
+  readonly test = input.required<Test>();
+  readonly studentId = input.required<number>();
+  readonly gradingScale = input<Option<GradingScale>>(null);
+  readonly isEditable = input(false);
 
-  test$ = new ReplaySubject<Test>(1);
-  grading$ = this.test$.pipe(map(this.getGrading.bind(this)));
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["test"]) {
-      this.test$.next(this.test);
-    }
-  }
+  grading = toSignal(
+    toObservable(this.test).pipe(map(this.getGrading.bind(this))),
+    { initialValue: null },
+  );
 
   editGrading(test: Test): void {
     const modalRef = this.modalService.open(StudentGradesEditDialogComponent, {
@@ -113,7 +99,7 @@ export class StudentGradesTestComponent implements OnChanges {
     modalRef.componentInstance.test = test;
     modalRef.componentInstance.gradeId = this.getGradeId(test);
     modalRef.componentInstance.gradeOptions =
-      StudentGradesTestComponent.mapToOptions(this.gradingScale);
+      StudentGradesTestComponent.mapToOptions(this.gradingScale());
     modalRef.componentInstance.studentId = this.studentId;
     modalRef.componentInstance.points = this.getPoints(test);
 
@@ -126,24 +112,24 @@ export class StudentGradesTestComponent implements OnChanges {
   private updateStudentGrade(result: Option<Result>, test: Test): void {
     const updatedTest = result
       ? replaceResultInTest(result, test)
-      : deleteResultByStudentId(this.studentId, test);
+      : deleteResultByStudentId(this.studentId(), test);
     this.gradeService.updateStudentCourses(updatedTest);
   }
 
   private getGrading(test: Test): string {
     return (
-      this.gradingScale?.Grades.find(
+      this.gradingScale()?.Grades.find(
         (grade) => grade.Id === this.getGradeId(test),
       )?.Designation || "–"
     );
   }
 
   private getGradeId(test: Test): Option<number> {
-    return resultOfStudent(this.studentId, test)?.GradeId || null;
+    return resultOfStudent(this.studentId(), test)?.GradeId || null;
   }
 
   private getPoints(test: Test): Option<number> {
-    return resultOfStudent(this.studentId, test)?.Points || null;
+    return resultOfStudent(this.studentId(), test)?.Points || null;
   }
 
   private static mapToOptions(
