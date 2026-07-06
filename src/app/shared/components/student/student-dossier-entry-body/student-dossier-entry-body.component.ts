@@ -27,7 +27,7 @@ export class StudentDossierEntryBodyComponent {
   private settings = inject<Settings>(SETTINGS);
   private storageService = inject(StorageService);
 
-  entry = input.required<StudentDossierEntry>();
+  readonly entry = input.required<StudentDossierEntry>();
 
   documentPath = computed(
     () =>

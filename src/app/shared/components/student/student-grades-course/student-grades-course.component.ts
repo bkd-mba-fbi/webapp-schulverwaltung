@@ -18,10 +18,10 @@ import { StudentGradesTestComponent } from "../student-grades-test/student-grade
   ],
 })
 export class StudentGradesCourseComponent {
-  studentId = input.required<number>();
-  decoratedCourse = input.required<CourseWithGrades>();
-  gradingScales = input.required<ReadonlyArray<GradingScale>>();
-  isEditable = input.required<boolean>();
+  readonly studentId = input.required<number>();
+  readonly decoratedCourse = input.required<CourseWithGrades>();
+  readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
+  readonly isEditable = input.required<boolean>();
 
   sortedTests = computed(() =>
     sortByDate(this.decoratedCourse().course.Tests ?? []),

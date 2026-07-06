@@ -1,8 +1,8 @@
 import { DecimalPipe } from "@angular/common";
-import { Component, Input, input } from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 import { FinalGrading, Grading } from "src/app/shared/models/course.model";
 import { GradingScale } from "src/app/shared/models/grading-scale.model";
-import * as Gradings from "src/app/shared/utils/gradings";
+import { evaluate } from "src/app/shared/utils/gradings";
 
 @Component({
   selector: "bkd-student-grades-course-header",
@@ -11,23 +11,15 @@ import * as Gradings from "src/app/shared/utils/gradings";
   imports: [DecimalPipe],
 })
 export class StudentGradesCourseHeaderComponent {
-  @Input() designation: string;
-  @Input() finalGrade: Option<FinalGrading>;
+  readonly designation = input.required<string>();
+  readonly finalGrade = input<Option<FinalGrading>>(null);
   readonly grading = input<Option<Grading>>(null);
-  @Input() gradingScale: Option<GradingScale>;
-  @Input() average: number;
+  readonly gradingScale = input<Option<GradingScale>>(null);
+  readonly average = input<number>(0);
+
+  readonly gradeForStudent = computed(() =>
+    evaluate(this.grading(), this.finalGrade(), this.gradingScale()),
+  );
 
   constructor() {}
-
-  get grade() {
-    return this.getGradeForStudent();
-  }
-
-  private getGradeForStudent() {
-    return Gradings.evaluate(
-      this.grading(),
-      this.finalGrade,
-      this.gradingScale,
-    );
-  }
 }

@@ -19,7 +19,8 @@ import { SafeHtmlPipe } from "../../../pipes/safe-html.pipe";
 export class StudentDossierEntryDescriptionComponent {
   private settings = inject<Settings>(SETTINGS);
 
-  entry = input.required<StudentDossierEntry>();
+  readonly entry = input.required<StudentDossierEntry>();
+
   showDescription = computed(
     () =>
       // For entries created via email, the .eml file is referenced in the

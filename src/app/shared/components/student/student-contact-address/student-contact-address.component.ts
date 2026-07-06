@@ -15,8 +15,8 @@ import { Student } from "../../../models/student.model";
   imports: [],
 })
 export class StudentContactAddressComponent {
-  student = input.required<Student | Person>();
-  emailProperty = input<"DisplayEmail" | "Email2">("DisplayEmail");
+  readonly student = input.required<Student | Person>();
+  readonly emailProperty = input<"DisplayEmail" | "Email2">("DisplayEmail");
 
   postalCode = computed(() => {
     const student = this.student();

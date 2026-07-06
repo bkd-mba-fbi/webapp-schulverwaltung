@@ -25,7 +25,7 @@ export class StudentDossierEntryFooterComponent {
   private state = inject(StudentStateService);
   private storage = inject(StorageService);
 
-  entry = input.required<StudentDossierEntry>();
+  readonly entry = input.required<StudentDossierEntry>();
 
   private studentId = toSignal(this.state.studentId$, { requireSync: true });
   studentName = toSignal(

@@ -10,5 +10,5 @@ import { ReportsLinkComponent } from "../../reports-link/reports-link.component"
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentGradesActionsComponent {
-  reports = input.required<ReadonlyArray<ReportInfo>>();
+  readonly reports = input.required<ReadonlyArray<ReportInfo>>();
 }

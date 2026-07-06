@@ -10,5 +10,5 @@ import { StudentDossierFilterComponent } from "../student-dossier-filter/student
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierActionsComponent {
-  readonly = input(false);
+  readonly readonly = input(false);
 }

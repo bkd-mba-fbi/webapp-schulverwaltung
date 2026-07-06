@@ -24,7 +24,7 @@ export class StudentDossierFilterComponent {
   private filterService = inject(StudentDossierFilterService);
   private host = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  dropdownId = uniqueId("student-dossier-filter-dropdown");
+  readonly dropdownId = uniqueId("student-dossier-filter-dropdown");
 
   isDropdownOpen = signal(false);
   isFilterActive = toSignal(this.filterService.isFilterActive$, {
