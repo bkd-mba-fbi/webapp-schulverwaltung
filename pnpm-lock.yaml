@@ -51,8 +51,8 @@ importers:
         specifier: ^5.3.8
         version: 5.3.8(@popperjs/core@2.11.8)
       cropt:
-        specifier: ^1.2.2
-        version: 1.2.2
+        specifier: ^1.3.0
+        version: 1.3.0
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
@@ -2907,8 +2907,8 @@ packages:
       typescript:
         optional: true
 
-  cropt@1.2.2:
-    resolution: {integrity: sha512-0MVg7AZ7DQ2G5snd7Kjk6al9x6bcP95DHuePm1VqhDVND0PZiXKs6latyOiZoS9fwMW3PdMutL5isXTJ6X1Y6w==}
+  cropt@1.3.0:
+    resolution: {integrity: sha512-JYqPCvbJPar5/OdVBQVZeeSySoloY3BFHUkQVit6ghq8xjaZFuk/I8R8+X1Upr/43RKWRce7Ez6oYZDLxhzq9w==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -8380,7 +8380,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  cropt@1.2.2: {}
+  cropt@1.3.0: {}
 
   cross-spawn@7.0.6:
     dependencies:
