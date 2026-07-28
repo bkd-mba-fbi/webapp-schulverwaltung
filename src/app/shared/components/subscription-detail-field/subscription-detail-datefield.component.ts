@@ -73,13 +73,13 @@ const DATE_FORMAT = "dd.MM.yyyy";
 export class SubscriptionDetailDatefieldComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  normalizedValue = computed(() =>
+  readonly readonly = computed(() => this.detail().VssInternet === "R");
+  readonly normalizedValue = computed(() =>
     this.value() ? String(this.value()) : null,
   );
 

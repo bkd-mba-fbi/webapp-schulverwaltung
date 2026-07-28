@@ -22,5 +22,5 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailHeadingComponent {
-  detail = input.required<SubscriptionDetail>();
+  readonly detail = input.required<SubscriptionDetail>();
 }

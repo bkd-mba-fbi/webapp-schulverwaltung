@@ -93,19 +93,21 @@ const MANY_ITEMS_COUNT = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailListboxComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  layout = input.required<"vertical" | "horizontal">();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly layout = input.required<"vertical" | "horizontal">();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  asRadios = computed(() => this.detail().ShowAsRadioButtons);
-  items = computed(() =>
+  readonly readonly = computed(() => this.detail().VssInternet === "R");
+  readonly asRadios = computed(() => this.detail().ShowAsRadioButtons);
+  readonly items = computed(() =>
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
-  hasManyItems = computed(() => (this.items() ?? []).length > MANY_ITEMS_COUNT);
-  normalizedValue = computed(() =>
+  readonly hasManyItems = computed(
+    () => (this.items() ?? []).length > MANY_ITEMS_COUNT,
+  );
+  readonly normalizedValue = computed(() =>
     this.detail().Value ? String(this.detail().Value) : null,
   );
 

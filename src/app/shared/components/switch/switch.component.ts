@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   input,
+  model,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { uniqueId } from "lodash-es";
@@ -17,11 +15,10 @@ import { uniqueId } from "lodash-es";
   imports: [FormsModule],
 })
 export class SwitchComponent {
-  @Input() id: Option<string> = null;
+  readonly id = input<Option<string>>(null);
   readonly label = input<Option<string>>(null);
-  @Input() disabled = false;
-  @Input() value = false;
-  @Output() valueChange = new EventEmitter<boolean>();
+  readonly disabled = input(false);
+  readonly value = model(false);
 
   fallbackId = uniqueId("bkd-switch");
 

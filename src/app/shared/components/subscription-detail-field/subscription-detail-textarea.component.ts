@@ -27,12 +27,12 @@ import { TextareaAutosizeDirective } from "../../directives/textarea-autosize.di
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailTextareaComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
+  readonly readonly = computed(() => this.detail().VssInternet === "R");
 
   onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;

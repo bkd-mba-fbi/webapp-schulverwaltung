@@ -46,19 +46,19 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailTextfieldComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  isInt = computed(
+  readonly readonly = computed(() => this.detail().VssInternet === "R");
+  readonly isInt = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.Int,
   );
-  isCurrency = computed(
+  readonly isCurrency = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.Currency,
   );
-  fieldType = computed(() =>
+  readonly fieldType = computed(() =>
     this.isInt() || this.isCurrency() ? "number" : "text",
   );
 

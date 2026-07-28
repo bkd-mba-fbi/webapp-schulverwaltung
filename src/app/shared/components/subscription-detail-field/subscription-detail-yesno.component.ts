@@ -82,17 +82,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailYesNoComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  layout = input.required<"vertical" | "horizontal">();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly layout = input.required<"vertical" | "horizontal">();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  yesAndNo = computed(
+  readonly readonly = computed(() => this.detail().VssInternet === "R");
+  readonly yesAndNo = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.YesNo,
   );
-  asRadios = computed(() => this.detail().ShowAsRadioButtons);
+  readonly asRadios = computed(() => this.detail().ShowAsRadioButtons);
 
   onRadioChange(value: SubscriptionDetail["Value"]): void {
     this.value.set(value);

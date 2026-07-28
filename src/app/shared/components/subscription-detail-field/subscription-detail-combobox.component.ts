@@ -64,13 +64,13 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 export class SubscriptionDetailComboboxComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  items = computed(() =>
+  readonly readonly = computed(() => this.detail().VssInternet === "R");
+  readonly items = computed(() =>
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
 

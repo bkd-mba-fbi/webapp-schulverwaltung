@@ -28,14 +28,14 @@ describe("SwitchComponent", () => {
   });
 
   it("renders a checkbox with custom id", async () => {
-    component.id = "custom-id";
+    fixture.componentRef.setInput("id", "custom-id");
     await waitForRender();
     const checkbox = getInput();
     expect(checkbox.id).toBe("custom-id");
   });
 
   it("renders disabled checkbox", async () => {
-    component.disabled = true;
+    fixture.componentRef.setInput("disabled", true);
     await waitForRender();
     const checkbox = getInput();
     expect(checkbox.disabled).toBe(true);
@@ -45,19 +45,19 @@ describe("SwitchComponent", () => {
     await waitForRender();
     const checkbox = getInput();
 
-    component.value = true;
+    fixture.componentRef.setInput("value", true);
     await waitForRender();
     expect(checkbox.checked).toBe(true);
 
-    component.value = false;
+    fixture.componentRef.setInput("value", false);
     await waitForRender();
     expect(checkbox.checked).toBe(false);
   });
 
   it("emits value change on checkbox click", async () => {
     const callback = jasmine.createSpy("callback");
-    component.value = false;
-    component.valueChange.subscribe(callback);
+    fixture.componentRef.setInput("value", false);
+    component.value.subscribe(callback);
     await waitForRender();
 
     const checkbox = getInput();
