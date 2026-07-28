@@ -6,6 +6,28 @@ updates:
       interval: "weekly"
     cooldown:
       default-days: 1
+    ignore:
+      - dependency-name: "@angular/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-eslint/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "angular-eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@ng-bootstrap/ng-bootstrap"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@ng-select/ng-select"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "ngx-infinite-scroll"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@ngx-translate/core"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "zone.js"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
     groups:
       angular:
         patterns:
