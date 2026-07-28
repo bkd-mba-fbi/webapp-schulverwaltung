@@ -81,7 +81,7 @@
     "@types/node": "^24.13.2",
     "@types/pdfobject": "^2.2.5",
     "angular-eslint": "^21.4.0",
-    "eslint": "^10.5.0",
+    "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "jasmine-core": "^6.3.0",
