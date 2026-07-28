@@ -18,9 +18,9 @@ import { STUDENT_PAGES } from "../student-pages";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentNavigationComponent {
-  studentId = input.required<number>();
-  student = input<PersonWithClassRegistration>();
-  returnParams = input.required<string>();
+  readonly studentId = input.required<number>();
+  readonly student = input<PersonWithClassRegistration>();
+  readonly returnParams = input.required<string>();
 
   dossierPages = STUDENT_PAGES;
 }

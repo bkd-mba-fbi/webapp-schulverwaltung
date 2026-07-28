@@ -96,12 +96,13 @@ export class StudentGradesTestComponent {
     const modalRef = this.modalService.open(StudentGradesEditDialogComponent, {
       backdrop: "static", // prevent closing by click outside of modal
     });
-    modalRef.componentInstance.test = test;
-    modalRef.componentInstance.gradeId = this.getGradeId(test);
-    modalRef.componentInstance.gradeOptions =
-      StudentGradesTestComponent.mapToOptions(this.gradingScale());
-    modalRef.componentInstance.studentId = this.studentId;
-    modalRef.componentInstance.points = this.getPoints(test);
+    modalRef.componentInstance.test.set(test);
+    modalRef.componentInstance.gradeId.set(this.getGradeId(test));
+    modalRef.componentInstance.gradeOptions.set(
+      StudentGradesTestComponent.mapToOptions(this.gradingScale()),
+    );
+    modalRef.componentInstance.studentId.set(this.studentId());
+    modalRef.componentInstance.points.set(this.getPoints(test));
 
     modalRef.result.then(
       (result) => this.updateStudentGrade(result, test),

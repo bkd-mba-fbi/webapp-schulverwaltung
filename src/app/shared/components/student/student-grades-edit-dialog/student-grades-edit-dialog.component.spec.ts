@@ -20,10 +20,11 @@ describe("StudentGradesEditDialogComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentGradesEditDialogComponent);
     component = fixture.componentInstance;
-    component.test = buildTest(1, 1, []);
-    component.gradeId = 1234;
-    component.gradeOptions = [{ Key: 1234, Value: "4.5" }];
-    component.studentId = 4321;
+    component.test.set(buildTest(1, 1, []));
+    component.gradeId.set(1234);
+    component.gradeOptions.set([{ Key: 1234, Value: "4.5" }]);
+    component.points.set(0);
+    component.studentId.set(4321);
     fixture.detectChanges();
   });
 

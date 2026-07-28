@@ -1,5 +1,13 @@
-import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  computed,
+  inject,
+  linkedSignal,
+  signal,
+} from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import {
   AbstractControl,
   FormsModule,
@@ -12,7 +20,6 @@ import {
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import {
-  BehaviorSubject,
   Observable,
   Subject,
   debounceTime,
@@ -40,27 +47,33 @@ const DEBOUNCE_TIME = 500;
   selector: "bkd-student-grades-edit-dialog",
   templateUrl: "./student-grades-edit-dialog.component.html",
   styleUrls: ["./student-grades-edit-dialog.component.scss"],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SelectComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SelectComponent, TranslatePipe],
 })
 export class StudentGradesEditDialogComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private courseService = inject(CoursesRestService);
 
-  @Input() test: Test;
-  @Input() gradeId: Option<number>;
-  @Input() gradeOptions: Option<DropDownItem[]>;
-  @Input() points: number;
-  @Input() studentId: number;
+  readonly test = signal<Option<Test>>(null);
+  readonly gradeId = signal<Option<number>>(null);
+  readonly gradeOptions = signal<Option<DropDownItem[]>>(null);
+  readonly points = signal<number>(0);
+  readonly studentId = signal<number>(0);
 
-  updatedTestResult: Option<Result>;
-  maxPoints: number = 0;
-  maxPointsAdjusted: number = 0;
+  readonly closeButtonDisabled: WritableSignal<boolean> = signal(false);
+
+  readonly updatedTestResult = linkedSignal<Option<Result>>(() => {
+    const test = this.test();
+    return (test && resultOfStudent(this.studentId(), test)) ?? null;
+  });
+  readonly maxPoints = computed<number>(() => {
+    const test = this.test();
+    return test ? maxPoints(test) : 0;
+  });
+  readonly maxPointsAdjusted = computed<number>(() => {
+    const test = this.test();
+    return test ? maxPointsAdjusted(test) : 0;
+  });
+
   pointsInput: UntypedFormControl;
 
   private gradeSubject$: Subject<Option<number>> = new Subject<
@@ -68,52 +81,55 @@ export class StudentGradesEditDialogComponent implements OnInit {
   >();
   private pointsSubject$: Subject<string> = new Subject<string>();
 
-  closeButtonDisabled$ = new BehaviorSubject<boolean>(false);
-
-  gradingScaleDisabled$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(true);
-  grade$: Observable<Option<number>> = this.gradeSubject$.pipe(
+  updatedGrade$: Observable<Option<number>> = this.gradeSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
   );
-  points$: Observable<number> = this.pointsSubject$.pipe(
+  updatedPoints$: Observable<number> = this.pointsSubject$.pipe(
     debounceTime(DEBOUNCE_TIME),
     filter(this.isValid.bind(this)),
     map(Number),
+  );
+  private readonly updatedPointsFromObservable = toSignal(this.updatedPoints$);
+  readonly updatedPoints = computed(
+    () => this.updatedPointsFromObservable() ?? this.points(),
+  );
+  readonly gradingScaleDisabled = computed(
+    () => this.test()?.IsPointGrading && this.updatedPoints() > 0,
   );
 
   destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.maxPoints = maxPoints(this.test);
-    this.maxPointsAdjusted = maxPointsAdjusted(this.test);
-    this.updatedTestResult = resultOfStudent(this.studentId, this.test) ?? null;
     this.pointsInput = new UntypedFormControl(
-      { value: this.points, disabled: false },
+      { value: this.points(), disabled: false },
       [
         Validators.min(0),
         Validators.pattern("[0-9]+([\\.][0-9]+)?"),
         this.maxPointValidator(),
       ],
     );
-    this.gradingScaleDisabled$.next(
-      this.test.IsPointGrading && this.points > 0,
-    );
 
-    this.points$.pipe(takeUntil(this.destroy$)).subscribe((points) =>
+    this.updatedPoints$.pipe(takeUntil(this.destroy$)).subscribe((points) => {
+      const test = this.test();
+      if (!test) return;
+
       this.updateTestResult({
-        studentId: this.studentId,
-        testId: this.test.Id,
+        studentId: this.studentId(),
+        testId: test.Id,
         points,
-      }),
-    );
+      });
+    });
 
-    this.grade$.pipe(takeUntil(this.destroy$)).subscribe((gradeId) =>
+    this.updatedGrade$.pipe(takeUntil(this.destroy$)).subscribe((gradeId) => {
+      const test = this.test();
+      if (!test) return;
+
       this.updateTestResult({
-        studentId: this.studentId,
-        testId: this.test.Id,
+        studentId: this.studentId(),
+        testId: test.Id,
         gradeId,
-      }),
-    );
+      });
+    });
   }
 
   onGradeChange(gradeId: Option<DropDownItem["Key"]>): void {
@@ -122,40 +138,46 @@ export class StudentGradesEditDialogComponent implements OnInit {
 
   onPointsChange(points: string): void {
     this.pointsSubject$.next(points);
-    this.gradingScaleDisabled$.next(points.length > 0);
   }
 
   isGreaterThanMaxPointsAdjusted(points: string): boolean {
     const pointsValue = Number(points);
     return (
-      this.maxPointsAdjusted > 0 &&
-      pointsValue > this.maxPointsAdjusted &&
-      pointsValue <= this.maxPoints
+      this.maxPointsAdjusted() > 0 &&
+      pointsValue > this.maxPointsAdjusted() &&
+      pointsValue <= this.maxPoints()
     );
+  }
+
+  close(): void {
+    this.activeModal.close(this.updatedTestResult());
   }
 
   private updateTestResult(
     update: TestResultGradeUpdate | TestResultPointsUpdate,
   ): void {
-    this.closeButtonDisabled$.next(true);
+    const test = this.test();
+    if (!test) return;
+
+    this.closeButtonDisabled.set(true);
     this.courseService
-      .updateTestResult(this.test.CourseId, update)
+      .updateTestResult(test.CourseId, update)
       .subscribe(({ testResult }) => {
-        this.gradeId = testResult?.GradeId ?? null;
-        this.updatedTestResult = testResult;
-        this.closeButtonDisabled$.next(false);
+        this.gradeId.set(testResult?.GradeId ?? null);
+        this.updatedTestResult.set(testResult);
+        this.closeButtonDisabled.set(false);
       });
   }
 
   private isValid(points: string): boolean {
     if (points === "") return false;
     if (isNaN(Number(points))) return false;
-    return !(Number(points) < 0 || Number(points) > this.maxPoints);
+    return !(Number(points) < 0 || Number(points) > this.maxPoints());
   }
 
   private maxPointValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return Number(control.value) > maxPoints(this.test)
+      return Number(control.value) > this.maxPoints()
         ? { customMax: true }
         : null;
     };

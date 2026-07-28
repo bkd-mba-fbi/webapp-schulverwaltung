@@ -6,7 +6,6 @@ import { expectText } from "src/specs/expectations";
 import { StudentGradesFinalGradeComponent } from "./student-grades-final-grade.component";
 
 describe("StudentGradesFinalGradeComponent", () => {
-  let component: StudentGradesFinalGradeComponent;
   let fixture: ComponentFixture<StudentGradesFinalGradeComponent>;
   let debugElement: DebugElement;
 
@@ -22,17 +21,13 @@ describe("StudentGradesFinalGradeComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentGradesFinalGradeComponent);
-    component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
+    fixture.componentRef.setInput("average", 4);
   });
 
   it("should show values from finalGrade - GradeValue from FinalGrade", () => {
     finalGrade = { GradeValue: 4.5, Grade: "4.5" } as unknown as FinalGrading;
-    component.finalGrade = finalGrade;
+    fixture.componentRef.setInput("finalGrade", finalGrade);
     fixture.detectChanges();
 
     expectText(debugElement, "final-grade", "4.5");
@@ -40,15 +35,15 @@ describe("StudentGradesFinalGradeComponent", () => {
 
   it("should show average test result from gradings", () => {
     grading = { AverageTestResult: 4.233333 } as unknown as Grading;
-    component.grading = grading;
-    component.average = 4.233333;
+    fixture.componentRef.setInput("grading", grading);
+    fixture.componentRef.setInput("average", 4.233333);
     fixture.detectChanges();
 
     expectText(debugElement, "average-test-results", "4.233");
   });
 
   it("should show dash if average is zero", () => {
-    component.average = 0;
+    fixture.componentRef.setInput("average", 0);
     fixture.detectChanges();
     expectText(debugElement, "average-test-results", "–");
   });
