@@ -1,16 +1,16 @@
-import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  OnDestroy,
   input,
+  model,
+  signal,
 } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable, Subject, of } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -18,6 +18,7 @@ import {
   finalize,
   map,
   switchMap,
+  takeUntil,
 } from "rxjs/operators";
 import { DropDownItem } from "../../models/drop-down-item.model";
 import {
@@ -34,37 +35,43 @@ const MINIMAL_TERM_LENGTH = 3;
   templateUrl: "./typeahead.component.html",
   styleUrls: ["./typeahead.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbTypeahead, FormsModule, AsyncPipe, TranslatePipe],
+  imports: [NgbTypeahead, FormsModule, TranslatePipe],
 })
-export class TypeaheadComponent implements OnChanges {
-  selectedItem$ = new BehaviorSubject<Option<DropDownItem>>(null);
-
+export class TypeaheadComponent implements OnDestroy {
   readonly id = input<Option<string>>(null);
   readonly typeaheadService = input.required<TypeaheadService>();
   readonly placeholder = input("shared.typeahead.default-placeholder");
-  readonly value = input<Option<DropDownItem["Key"]>>();
+  readonly value = model<Option<DropDownItem["Key"]>>(null);
   readonly additionalHttpParams = input<HttpParams>();
 
-  @Output()
-  valueChange = this.selectedItem$.pipe(
-    map((item) => (item ? item.Key : null)),
-    distinctUntilChanged(),
-  );
+  readonly loading = signal(false);
+  readonly selectedItem = signal<Option<DropDownItem>>(null);
 
-  loading$ = new BehaviorSubject(false);
+  private destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor() {
+    toObservable(this.value)
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(),
+        switchMap((value) => {
+          if (!value) return of(null);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["value"] &&
-      changes["value"].currentValue &&
-      changes["value"].currentValue !== this.selectedItemKey
-    ) {
-      this.fetchItem(changes["value"].currentValue).subscribe((item) => {
-        this.modelChange(item);
+          const selected = this.selectedItem();
+          if (selected && value === selected.Key) {
+            return of(selected);
+          }
+          return this.fetchItem(value);
+        }),
+      )
+      .subscribe((item) => {
+        this.selectedItem.set(item);
       });
-    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   search = (term$: Observable<string>) => {
@@ -78,28 +85,24 @@ export class TypeaheadComponent implements OnChanges {
     return item.Value;
   }
 
-  modelChange(value: unknown): void {
-    this.selectedItem$.next(
-      value instanceof Object ? (value as DropDownItem) : null,
-    );
-  }
-
-  private get selectedItemKey(): Option<DropDownItem["Key"]> {
-    return this.selectedItem$.value ? this.selectedItem$.value.Key : null;
+  onChange(value: unknown): void {
+    const item = value instanceof Object ? (value as DropDownItem) : null;
+    this.selectedItem.set(item);
+    this.value.set(item?.Key ?? null);
   }
 
   private fetchItems(term: string): Observable<ReadonlyArray<DropDownItem>> {
-    this.loading$.next(true);
+    this.loading.set(true);
     return this.typeaheadService()
       .getTypeaheadItems(term, this.additionalHttpParams())
-      .pipe(finalize(() => this.loading$.next(false)));
+      .pipe(finalize(() => this.loading.set(false)));
   }
 
   private fetchItem(key: DropDownItem["Key"]): Observable<DropDownItem> {
-    this.loading$.next(true);
+    this.loading.set(true);
     return this.typeaheadService()
       .getTypeaheadItemByKey(key)
-      .pipe(finalize(() => this.loading$.next(false)));
+      .pipe(finalize(() => this.loading.set(false)));
   }
 }
 

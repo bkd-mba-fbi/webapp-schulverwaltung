@@ -1,9 +1,9 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  OnChanges,
   OnDestroy,
   OnInit,
+  computed,
   inject,
   input,
 } from "@angular/core";
@@ -39,7 +39,7 @@ const DEBOUNCE_TIME = 1250;
   styleUrls: ["./grade.component.scss"],
   imports: [FormsModule, SelectComponent, AsyncPipe, TranslatePipe],
 })
-export class GradeComponent implements OnInit, OnDestroy, OnChanges {
+export class GradeComponent implements OnInit, OnDestroy {
   private state = inject(TestStateService);
 
   readonly grade = input.required<GradeOrNoResult>();
@@ -56,13 +56,11 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   private gradingScaleDisabledSubject$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
 
-  gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
+  readonly gradingScaleDisabled = computed(() => this.isGradingScaleDisabled());
 
   destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
-
     this.maxPoints = toMaxPoints(this.grade());
     this.maxPointsAdjusted = toMaxPointsAdjusted(this.grade());
     this.initSave(
@@ -84,10 +82,6 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
         })),
       ),
     );
-  }
-
-  ngOnChanges() {
-    this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
   }
 
   ngOnDestroy() {

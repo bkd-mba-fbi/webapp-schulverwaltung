@@ -26,9 +26,10 @@
           >
             <i class="material-icons">edit</i>
           </a>
-          @if (reports) {
+          @let reportsValue = reports();
+          @if (reportsValue) {
             <bkd-reports-link
-              [reports]="reports"
+              [reports]="reportsValue"
               [disableIfUnavailable]="true"
               class="me-2"
             ></bkd-reports-link>
@@ -43,14 +44,16 @@
             </a>
           }
         </div>
+        @let defaultAbsenceSelectionMessageValue =
+          defaultAbsenceSelectionMessage();
         @if (
-          (defaultAbsenceSelectionMessage &&
+          (defaultAbsenceSelectionMessageValue &&
             (selectionService()?.selectedWithoutPresenceType$ | async)
               ?.length) ||
           0 > 0
         ) {
           <div class="validation">
-            {{ defaultAbsenceSelectionMessage }}
+            {{ defaultAbsenceSelectionMessageValue }}
           </div>
         }
       </div>
@@ -96,7 +99,7 @@
         @if (
           displayPresenceType() &&
           !presenceTypeDesignation &&
-          defaultAbsenceSelectionMessage
+          defaultAbsenceSelectionMessage()
         ) {
           <div class="presence-type confirm">
             {{ "my-absences.show.confirm-presence-type" | translate }}

@@ -1,7 +1,8 @@
-@if (courses().length > 0) {
+@let decoratedCoursesValue = decoratedCourses();
+@if (decoratedCoursesValue.length > 0) {
   <div ngbAccordion>
     @for (
-      decoratedCourse of decoratedCoursesSubject$ | async;
+      decoratedCourse of decoratedCoursesValue;
       track decoratedCourse.course.Id;
       let i = $index
     ) {

@@ -3,22 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  effect,
   inject,
   input,
   viewChildren,
 } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
-import {
-  BehaviorSubject,
-  Observable,
-  ReplaySubject,
-  combineLatest,
-  of,
-} from "rxjs";
+import { Observable, combineLatest, of } from "rxjs";
 import {
   filter,
   map,
@@ -53,7 +46,7 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
     DaysDifferencePipe,
   ],
 })
-export class StudentAbsencesListComponent implements OnChanges {
+export class StudentAbsencesListComponent {
   private presenceTypesService = inject(PresenceTypesService);
 
   readonly absences$ =
@@ -73,9 +66,9 @@ export class StudentAbsencesListComponent implements OnChanges {
    * default absence type). Also, entries without absence type will be
    * annotated.
    */
-  @Input() defaultAbsenceSelectionMessage: Option<string> = null;
+  readonly defaultAbsenceSelectionMessage = input<Option<string>>(null);
 
-  @Input() reports: Option<ReadonlyArray<ReportInfo>> = null;
+  readonly reports = input<Option<ReadonlyArray<ReportInfo>>>(null);
 
   readonly confirmLink = input("confirm");
 
@@ -88,23 +81,22 @@ export class StudentAbsencesListComponent implements OnChanges {
 
   readonly checkboxes = viewChildren<ElementRef<HTMLInputElement>>("checkbox");
 
-  lessonPresences$$ = new ReplaySubject<
-    Observable<ReadonlyArray<LessonPresence>>
-  >(1);
-  lessonPresences$ = this.lessonPresences$$.pipe(
+  lessonPresences$ = toObservable(this.absences$).pipe(
+    filter(Boolean),
     switchAll(),
     startWith(null),
     shareReplay(1),
   );
   loading$ = this.lessonPresences$.pipe(map(not(isArray)));
 
-  selectionService$ = new ReplaySubject<ConfirmAbsencesSelectionService>(1);
+  selectionService$ = toObservable(this.selectionService).pipe(
+    filter(notNull),
+    shareReplay(1),
+  );
   editable$ = this.selectionService$.pipe(
     map(() => true),
     startWith(false),
   );
-
-  private displayPresenceType$ = new BehaviorSubject<boolean>(true);
 
   allSelected$ = combineLatest([
     this.lessonPresences$.pipe(filter(notNull)),
@@ -116,22 +108,15 @@ export class StudentAbsencesListComponent implements OnChanges {
     ),
   );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["absences$"]) {
-      this.lessonPresences$$.next(changes["absences$"].currentValue);
-    }
-    if (
-      changes["selectionService"] &&
-      changes["selectionService"].currentValue
-    ) {
-      changes["selectionService"].currentValue.clear();
-      this.selectionService$.next(changes["selectionService"].currentValue);
-    }
-    if (changes["displayPresenceType"]) {
-      this.displayPresenceType$.next(
-        changes["displayPresenceType"].currentValue,
-      );
-    }
+  private displayPresenceType$ = toObservable(this.displayPresenceType);
+
+  constructor() {
+    effect(() => {
+      const service = this.selectionService();
+      if (service) {
+        service.clear();
+      }
+    });
   }
 
   toggleAll(checked: boolean): void {

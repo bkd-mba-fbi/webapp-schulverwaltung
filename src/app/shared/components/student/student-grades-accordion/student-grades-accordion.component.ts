@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, OnChanges, inject, input } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -8,7 +8,6 @@ import {
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { BehaviorSubject } from "rxjs";
 import {
   Course,
   FinalGrading,
@@ -46,7 +45,7 @@ export interface CourseWithGrades {
     TranslatePipe,
   ],
 })
-export class StudentGradesAccordionComponent implements OnChanges {
+export class StudentGradesAccordionComponent {
   dossierGradesService = inject(StudentGradesService);
 
   readonly courses = input.required<ReadonlyArray<Course>>();
@@ -54,13 +53,11 @@ export class StudentGradesAccordionComponent implements OnChanges {
   readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
   readonly isEditable = input<boolean>(true);
 
-  decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);
+  readonly decoratedCourses = computed<ReadonlyArray<CourseWithGrades>>(() =>
+    this.getDecoratedCourses(),
+  );
 
-  ngOnChanges() {
-    this.decoratedCoursesSubject$.next(this.decorateCourses());
-  }
-
-  private decorateCourses(): CourseWithGrades[] {
+  private getDecoratedCourses(): CourseWithGrades[] {
     return this.courses().map((course) => {
       const finalGrade = this.dossierGradesService.getFinalGradeForStudent(
         course,

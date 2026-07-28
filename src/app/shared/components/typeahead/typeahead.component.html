@@ -8,20 +8,20 @@
     [ngbTypeahead]="search"
     [inputFormatter]="format"
     [resultFormatter]="format"
-    [ngModel]="selectedItem$ | async"
-    (ngModelChange)="modelChange($event)"
+    [ngModel]="selectedItem()"
+    (ngModelChange)="onChange($event)"
   />
   @if (value()) {
     <button
       class="btn btn-link text-decoration-none"
       type="button"
-      (click)="modelChange($event)"
+      (click)="onChange($event)"
     >
       <i class="material-icons">clear</i>
     </button>
   }
 </div>
-@if (loading$ | async) {
+@if (loading()) {
   <div class="spinner-container">
     <div class="spinner-border spinner-border-sm" role="status">
       <span class="visually-hidden">Loading...</span>
