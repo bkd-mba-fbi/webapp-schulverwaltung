@@ -46,7 +46,7 @@
           <div
             [class.active]="lessonEntry.id === selectedLesson().id"
             ngbDropdownItem
-            (click)="selectLessonChange.emit(lessonEntry)"
+            (click)="selectedLessonChange.emit(lessonEntry)"
           >
             <div class="lesson-entry">
               <div>

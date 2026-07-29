@@ -5,7 +5,7 @@ import {
   OnInit,
   inject,
   input,
-  output,
+  model,
   viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -99,19 +99,14 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   state = inject(PresenceControlStateService);
   private groupService = inject(PresenceControlGroupService);
 
-  readonly selectedLesson = input.required<LessonEntry>();
+  readonly selectedLesson = model.required<LessonEntry>();
   readonly lessons = input.required<ReadonlyArray<LessonEntry>>();
   readonly presentCount = input<Option<number>>(null);
   readonly absentCount = input<Option<number>>(null);
   readonly absentPrecedingCount = input<Option<number>>(null);
-  readonly viewMode = input<PresenceControlViewMode>();
-  readonly selectDate = input<Date>();
-  readonly search = input("");
-
-  readonly selectLessonChange = output<LessonEntry>();
-  readonly selectDateChange = output<Date>();
-  readonly searchChange = output<string>();
-  readonly viewModeChange = output<PresenceControlViewMode>();
+  readonly viewMode = model<PresenceControlViewMode>();
+  readonly selectDate = model<Date>();
+  readonly search = model("");
 
   private dateSubject: Subject<Date> = new Subject<Date>();
   private destroy$ = new Subject<void>();
