@@ -130,7 +130,7 @@ export class TestsTableComponent implements OnInit, OnDestroy {
 
   private openModal(test: Test) {
     const modalRef = this.modalService.open(TestsPublishComponent);
-    modalRef.componentInstance.test = test;
+    modalRef.setInput("test", test);
     return modalRef;
   }
 

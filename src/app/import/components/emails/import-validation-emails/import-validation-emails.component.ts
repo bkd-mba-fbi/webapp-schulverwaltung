@@ -131,8 +131,8 @@ export class ImportValidationEmailsComponent {
 
   private openProceedDialog(): NgbModalRef {
     const modalRef = this.modalService.open(ImportProceedUploadDialogComponent);
-    modalRef.componentInstance.invalidCount = this.invalidCount();
-    modalRef.componentInstance.validCount = this.validCount();
+    modalRef.setInput("invalidCount", this.invalidCount());
+    modalRef.setInput("validCount", this.validCount());
     return modalRef;
   }
 

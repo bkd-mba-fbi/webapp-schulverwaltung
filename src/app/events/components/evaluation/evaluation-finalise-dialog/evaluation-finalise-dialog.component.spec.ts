@@ -76,7 +76,7 @@ describe("EvaluationFinaliseDialogComponent", () => {
   });
 
   it("should load event summary when eventId is provided", fakeAsync(() => {
-    component.eventId.set(123);
+    fixture.componentRef.setInput("eventId", 123);
     eventsService.getEventSummary.and.returnValue(of(moduleEvent));
 
     fixture.detectChanges();
@@ -113,7 +113,7 @@ describe("EvaluationFinaliseDialogComponent", () => {
   });
 
   it("should set isModuleEvent to false for non-module events", fakeAsync(() => {
-    component.eventId.set(456);
+    fixture.componentRef.setInput("eventId", 456);
     eventsService.getEventSummary.and.returnValue(of(nonModuleEvent));
 
     fixture.detectChanges();

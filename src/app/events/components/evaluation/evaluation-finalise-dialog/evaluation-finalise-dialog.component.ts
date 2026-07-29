@@ -3,7 +3,7 @@ import {
   Component,
   computed,
   inject,
-  signal,
+  input,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
@@ -31,8 +31,8 @@ export class EvaluationFinaliseDialogComponent {
   private loadingService = inject(LoadingService);
   private evaluationStatusService = inject(StatusProcessesRestService);
 
-  readonly eventId = signal<Option<number>>(null);
-  readonly hasOpenEvaluations = signal<boolean>(false);
+  readonly eventId = input<Option<number>>(null);
+  readonly hasOpenEvaluations = input<boolean>(false);
 
   loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT), {
     initialValue: true,

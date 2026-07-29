@@ -104,8 +104,8 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   readonly presentCount = input<Option<number>>(null);
   readonly absentCount = input<Option<number>>(null);
   readonly absentPrecedingCount = input<Option<number>>(null);
-  readonly viewMode = model<PresenceControlViewMode>();
-  readonly selectDate = model<Date>();
+  readonly viewMode = model.required<PresenceControlViewMode>();
+  readonly selectedDate = model.required<Date>();
   readonly search = model("");
 
   private dateSubject: Subject<Date> = new Subject<Date>();
@@ -154,7 +154,7 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
     this.dateSubject
       .pipe(debounceTime(DEBOUNCE_TIME), takeUntil(this.destroy$))
       .subscribe((date) => {
-        this.selectDateChange.emit(date);
+        this.selectedDate.set(date);
       });
   }
 

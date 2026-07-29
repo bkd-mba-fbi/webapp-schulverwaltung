@@ -52,7 +52,7 @@ export class TestsEditComponent {
 
   openDeleteModal(test: Test) {
     const modalRef = this.modalService.open(TestsDeleteComponent);
-    modalRef.componentInstance.test = test;
+    modalRef.setInput("test", test);
     modalRef.result.then(
       (result) => {
         if (result) {

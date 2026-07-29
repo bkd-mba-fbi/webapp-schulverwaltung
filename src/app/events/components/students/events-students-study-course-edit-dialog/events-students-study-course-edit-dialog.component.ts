@@ -30,7 +30,6 @@ export class EventsStudentsStudyCourseEditDialogComponent {
 
   readonly currentStatus = input.required<Status>();
   readonly subscriptionId = input.required<number>();
-  readonly personId = input.required<number>();
 
   loading = toSignal(this.loadingService.loading$, { initialValue: true });
 

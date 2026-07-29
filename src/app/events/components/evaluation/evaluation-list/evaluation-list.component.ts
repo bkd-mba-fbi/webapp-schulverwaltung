@@ -104,8 +104,8 @@ export class EvaluationListComponent {
     const modalRef = this.modalService.open(
       EvaluationDefaultGradeDialogComponent,
     );
-    modalRef.componentInstance.gradingScale = this.state.gradingScale;
-    modalRef.componentInstance.updateService = this.updateDefaultGradeService;
+    modalRef.setInput("gradingScale", this.state.gradingScale());
+    modalRef.setInput("updateService", this.updateDefaultGradeService);
     modalRef.result.then(
       () => {},
       () => {},

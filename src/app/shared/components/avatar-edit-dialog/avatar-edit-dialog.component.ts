@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
   viewChild,
 } from "@angular/core";
@@ -34,7 +35,7 @@ export class AvatarEditDialogComponent {
     AdditionalInformationsRestService,
   );
 
-  studentId = signal<number>(0);
+  readonly studentId = input.required<number>();
 
   step = signal<AvatarEditDialogStep>("choose");
 

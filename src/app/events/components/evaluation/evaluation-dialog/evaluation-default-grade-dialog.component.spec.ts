@@ -9,23 +9,25 @@ import { EvaluationDefaultGradeDialogComponent } from "./evaluation-default-grad
 describe("EvaluationDefaultGradeDialogComponent", () => {
   let component: EvaluationDefaultGradeDialogComponent;
   let fixture: ComponentFixture<EvaluationDefaultGradeDialogComponent>;
-  const mockGradingScale: GradingScale = {
-    Id: 1,
-    Designation: "Test Grading Scale",
-    Grades: [
-      {
-        Id: 1,
-        Designation: "1.0",
-        Value: 1,
-        Sufficient: false,
-        Sort: null,
-      },
-    ],
-    CommentsAllowed: false,
-    RisingGrades: true,
-  };
+  let mockGradingScale: GradingScale;
 
   beforeEach(async () => {
+    mockGradingScale = {
+      Id: 1,
+      Designation: "Test Grading Scale",
+      Grades: [
+        {
+          Id: 1,
+          Designation: "1.0",
+          Value: 1,
+          Sufficient: false,
+          Sort: null,
+        },
+      ],
+      CommentsAllowed: false,
+      RisingGrades: true,
+    };
+
     await TestBed.configureTestingModule({
       imports: [EvaluationDefaultGradeDialogComponent],
       providers: [
@@ -48,7 +50,7 @@ describe("EvaluationDefaultGradeDialogComponent", () => {
   });
 
   it("generates options from grading scale", () => {
-    const options = component.gradeOptions();
+    const options = component.gradeOptions() ?? [];
     expect(options.length).toBe(1);
     expect(options[0].Key).toBe(1);
     expect(options[0].Value).toBe("1.0");

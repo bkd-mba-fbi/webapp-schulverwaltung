@@ -79,15 +79,12 @@ export class EvaluationVerifyComponent
 
   openFinaliseEvaluationDialog(): void {
     const modalRef = this.modalService.open(EvaluationFinaliseDialogComponent);
-    const component =
-      modalRef.componentInstance as EvaluationFinaliseDialogComponent;
-
-    component.eventId.set(this.state.event()?.id ?? null);
+    modalRef.setInput("eventId", this.state.event()?.id ?? null);
 
     const hasOpenEvaluations = this.state
       .entries()
       .some((entry) => entry.evaluationRequired);
-    component.hasOpenEvaluations.set(hasOpenEvaluations);
+    modalRef.setInput("hasOpenEvaluations", hasOpenEvaluations);
 
     modalRef.result.then(
       async (result) => {

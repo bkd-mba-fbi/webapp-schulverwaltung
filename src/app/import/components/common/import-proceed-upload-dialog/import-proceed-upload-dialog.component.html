@@ -7,7 +7,7 @@
   <p>
     {{
       "import.validation.proceed-dialog.message"
-        | translate: { validCount, invalidCount }
+        | translate: { validCount: validCount(), invalidCount: invalidCount() }
     }}
   </p>
 </div>

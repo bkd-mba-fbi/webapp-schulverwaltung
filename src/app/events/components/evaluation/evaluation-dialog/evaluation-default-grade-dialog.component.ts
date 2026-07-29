@@ -21,28 +21,31 @@ import { EvaluationGradingItemUpdateService } from "../../../services/evaluation
 })
 export class EvaluationDefaultGradeDialogComponent {
   activeModal = inject(NgbActiveModal);
-  updateService: EvaluationGradingItemUpdateService;
 
-  readonly gradingScale = input.required<GradingScale>();
+  readonly updateService = input.required<EvaluationGradingItemUpdateService>();
+  readonly gradingScale = input<Option<GradingScale>>(null);
 
   selectedGradeKey = signal<number | null>(null);
 
-  gradeOptions = computed(() =>
-    this.gradingScale().Grades.map((grade) => ({
-      Key: grade.Id,
-      Value: grade.Designation,
-    })),
+  gradeOptions = computed(
+    () =>
+      this.gradingScale()?.Grades.map((grade) => ({
+        Key: grade.Id,
+        Value: grade.Designation,
+      })) ?? null,
   );
 
   selectedGrade = computed(() => {
     const key = this.selectedGradeKey();
-    return this.gradingScale().Grades.find((grade) => grade.Id === key) ?? null;
+    return (
+      this.gradingScale()?.Grades.find((grade) => grade.Id === key) ?? null
+    );
   });
 
   async updateGrades(): Promise<void> {
     const selectedGrade = this.selectedGrade();
     if (selectedGrade) {
-      await this.updateService
+      await this.updateService()
         .updateDefaultGrade(selectedGrade.Id)
         .then(() => this.activeModal.close());
     }

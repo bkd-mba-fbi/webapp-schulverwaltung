@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject } from "rxjs";
+import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { buildReference } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { fromLesson } from "../../models/lesson-entry.model";
@@ -57,6 +58,8 @@ describe("PresenceControlHeaderComponent", () => {
 
     fixture.componentRef.setInput("lessons", [lessonEntry]);
     fixture.componentRef.setInput("selectedLesson", lessonEntry);
+    fixture.componentRef.setInput("selectedDate", new Date());
+    fixture.componentRef.setInput("viewMode", PresenceControlViewMode.Grid);
   });
 
   describe("group button", () => {

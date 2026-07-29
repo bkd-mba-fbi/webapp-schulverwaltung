@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { combineLatest, forkJoin } from "rxjs";
-import { map, switchMap, take } from "rxjs/operators";
+import { filter, map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { SortService } from "src/app/shared/services/sort.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
@@ -108,18 +108,24 @@ export class PresenceControlGroupComponent implements OnInit {
     callback: (selectedGroup: GroupOption) => void,
   ): void {
     combineLatest([
-      this.groupService.getSubscriptionDetailsDefinitions(),
-      this.groupService.group$,
+      this.groupService
+        .getSubscriptionDetailsDefinitions()
+        .pipe(filter(Boolean)),
+      this.groupService.group$.pipe(
+        map((group) => (group ? String(group) : null)),
+      ),
     ])
       .pipe(take(1))
       .subscribe(([subscriptionDetailsDefinitions, group]) => {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent,
         );
-        modalRef.componentInstance.dialogMode = dialogMode;
-        modalRef.componentInstance.subscriptionDetailsDefinitions =
-          subscriptionDetailsDefinitions;
-        modalRef.componentInstance.group = group;
+        modalRef.setInput("dialogMode", dialogMode);
+        modalRef.setInput(
+          "subscriptionDetailsDefinitions",
+          subscriptionDetailsDefinitions,
+        );
+        modalRef.setInput("group", group);
 
         modalRef.result.then(
           (selectedGroup) => {

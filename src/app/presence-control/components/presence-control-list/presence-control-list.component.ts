@@ -110,9 +110,11 @@ export class PresenceControlListComponent
             const modalRef = this.modalService.open(
               PresenceControlBlockLessonComponent,
             );
-            modalRef.componentInstance.entry = entry;
-            modalRef.componentInstance.blockPresenceControlEntries =
-              presenceControlEntries;
+            modalRef.setInput("entry", entry);
+            modalRef.setInput(
+              "blockPresenceControlEntries",
+              presenceControlEntries,
+            );
             modalRef.result.then(
               (entries) => {
                 if (entries) {
@@ -136,10 +138,12 @@ export class PresenceControlListComponent
   changeIncident(entry: PresenceControlEntry): void {
     this.presenceTypesService.incidentTypes$.subscribe((incidentTypes) => {
       const modalRef = this.modalService.open(PresenceControlIncidentComponent);
-      modalRef.componentInstance.incident =
+      modalRef.setInput(
+        "incident",
         incidentTypes.find((type) => type.Id === entry.presenceType?.Id) ||
-        null;
-      modalRef.componentInstance.incidentTypes = incidentTypes;
+          null,
+      );
+      modalRef.setInput("incidentTypes", incidentTypes);
       modalRef.result.then(
         (selectedIncident) => {
           this.updateIncident(entry, selectedIncident?.Id || null);

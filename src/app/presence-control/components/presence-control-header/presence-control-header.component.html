@@ -7,7 +7,7 @@
     </button>
     <input
       class="lesson-date-input"
-      [ngModel]="selectDate()"
+      [ngModel]="selectedDate()"
       (ngModelChange)="onDateChange($event)"
       positionTarget=".lesson-date-input"
       ngbDatepicker
@@ -46,7 +46,7 @@
           <div
             [class.active]="lessonEntry.id === selectedLesson().id"
             ngbDropdownItem
-            (click)="selectedLessonChange.emit(lessonEntry)"
+            (click)="selectedLesson.set(lessonEntry)"
           >
             <div class="lesson-entry">
               <div>
@@ -104,7 +104,7 @@
     class="search"
     [placeholder]="'presence-control.header.search-by-name' | translate"
     [label]="'presence-control.header.search' | translate"
-    (valueChange)="searchChange.emit($event)"
+    (valueChange)="search.set($event)"
   ></bkd-resettable-input>
   <div class="group-and-views d-flex align-items-center">
     @if (selectedLesson() && state.groupsAvailability$ | async) {
@@ -132,7 +132,7 @@
           [class.btn-outline-secondary]="option.viewMode === viewMode()"
           [class.btn-link]="option.viewMode !== viewMode()"
           [class.active]="option.viewMode === viewMode()"
-          (click)="viewModeChange.emit(option.viewMode)"
+          (click)="viewMode.set(option.viewMode)"
         >
           <i class="material-icons align-middle">{{ option.icon }}</i>
         </button>

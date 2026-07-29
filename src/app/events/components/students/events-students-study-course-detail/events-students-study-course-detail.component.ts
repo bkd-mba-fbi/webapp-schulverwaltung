@@ -103,8 +103,8 @@ export class EventsStudentsStudyCourseDetailComponent {
     const modalRef = this.modalService.open(
       EventsStudentsStudyCourseEditDialogComponent,
     );
-    modalRef.componentInstance.currentStatus = this.currentStatus;
-    modalRef.componentInstance.subscriptionId = subscriptionId;
+    modalRef.setInput("currentStatus", this.currentStatus());
+    modalRef.setInput("subscriptionId", subscriptionId);
 
     modalRef.result.then(
       (status) => {

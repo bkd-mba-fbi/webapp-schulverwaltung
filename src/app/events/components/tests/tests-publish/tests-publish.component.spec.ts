@@ -28,7 +28,7 @@ describe("TestsPublishComponent", () => {
 
   it("should create", () => {
     // given
-    component.test.set(buildTest(1, 1, []));
+    fixture.componentRef.setInput("test", buildTest(1, 1, []));
 
     // when
     fixture.detectChanges();
@@ -40,7 +40,7 @@ describe("TestsPublishComponent", () => {
   describe("show correct confirmation messages", () => {
     it("should show correct message for unpublished tests", () => {
       // given
-      component.test.set(buildTest(1, 1, []));
+      fixture.componentRef.setInput("test", buildTest(1, 1, []));
 
       // when
       fixture.detectChanges();
@@ -53,8 +53,7 @@ describe("TestsPublishComponent", () => {
       // given
       const publishedTest = buildTest(1, 1, []);
       publishedTest.IsPublished = true;
-      component.test.set(publishedTest);
-
+      fixture.componentRef.setInput("test", publishedTest);
       // when
       fixture.detectChanges();
 
@@ -68,7 +67,7 @@ describe("TestsPublishComponent", () => {
 
     beforeEach(() => {
       activeModal = component.activeModal;
-      component.test.set(buildTest(1, 1, []));
+      fixture.componentRef.setInput("test", buildTest(1, 1, []));
       fixture.detectChanges();
     });
 

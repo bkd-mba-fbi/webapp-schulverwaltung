@@ -89,6 +89,6 @@ export class PresenceControlEntryComponent {
     const modalRef = this.modalService.open(
       PresenceControlPrecedingAbsenceComponent,
     );
-    modalRef.componentInstance.precedingAbsences = entry.precedingAbsences;
+    modalRef.setInput("precedingAbsences", entry.precedingAbsences ?? []);
   }
 }

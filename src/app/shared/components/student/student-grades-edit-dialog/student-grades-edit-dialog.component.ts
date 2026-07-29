@@ -4,7 +4,9 @@ import {
   WritableSignal,
   computed,
   inject,
+  input,
   linkedSignal,
+  model,
   signal,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
@@ -53,11 +55,11 @@ export class StudentGradesEditDialogComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private courseService = inject(CoursesRestService);
 
-  readonly test = signal<Option<Test>>(null);
-  readonly gradeId = signal<Option<number>>(null);
-  readonly gradeOptions = signal<Option<DropDownItem[]>>(null);
-  readonly points = signal<number>(0);
-  readonly studentId = signal<number>(0);
+  readonly test = input.required<Test>();
+  readonly gradeId = model<Option<number>>(null);
+  readonly gradeOptions = input<Option<DropDownItem[]>>(null);
+  readonly points = input<Option<number>>(null);
+  readonly studentId = input.required<number>();
 
   readonly closeButtonDisabled: WritableSignal<boolean> = signal(false);
 
@@ -91,7 +93,7 @@ export class StudentGradesEditDialogComponent implements OnInit {
   );
   private readonly updatedPointsFromObservable = toSignal(this.updatedPoints$);
   readonly updatedPoints = computed(
-    () => this.updatedPointsFromObservable() ?? this.points(),
+    () => this.updatedPointsFromObservable() ?? this.points() ?? 0,
   );
   readonly gradingScaleDisabled = computed(
     () => this.test()?.IsPointGrading && this.updatedPoints() > 0,

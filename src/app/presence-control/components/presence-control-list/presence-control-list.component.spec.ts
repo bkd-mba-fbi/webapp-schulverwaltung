@@ -39,6 +39,7 @@ describe("PresenceControlListComponent", () => {
   let modalServiceMock: jasmine.SpyObj<BkdModalService>;
   let modalRefMock: {
     componentInstance: Record<string, unknown>;
+    setInput: (key: string, value: unknown) => void;
     result: Promise<ReadonlyArray<PresenceControlEntry>>;
   };
 
@@ -96,6 +97,7 @@ describe("PresenceControlListComponent", () => {
 
     modalRefMock = {
       componentInstance: {},
+      setInput() {},
       result: Promise.resolve([]),
     };
     modalServiceMock = jasmine.createSpyObj("BkdModalService", ["open"]);

@@ -179,7 +179,7 @@ export class StudentDossierEditComponent {
     const modalRef = this.modalService.open(
       StudentDossierDeleteDialogComponent,
     );
-    modalRef.componentInstance.type = info.File ? "document" : "note";
+    modalRef.setInput("type", info.File ? "document" : "note");
 
     let result = false;
     try {

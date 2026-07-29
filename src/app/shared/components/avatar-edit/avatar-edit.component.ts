@@ -49,9 +49,7 @@ export class AvatarEditComponent {
     }
 
     const modalRef = this.modalService.open(AvatarEditDialogComponent);
-
-    const component = modalRef.componentInstance as AvatarEditDialogComponent;
-    component.studentId.set(this.studentId());
+    modalRef.setInput("studentId", this.studentId());
 
     modalRef.closed.subscribe(() => {
       this.reload$.next();
