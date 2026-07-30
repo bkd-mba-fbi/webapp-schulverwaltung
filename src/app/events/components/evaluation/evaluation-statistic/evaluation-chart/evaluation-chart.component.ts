@@ -5,11 +5,11 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   computed,
   inject,
   input,
   signal,
+  viewChild,
 } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { EvaluationEntry } from "src/app/events/services/evaluation-state.service";
@@ -29,17 +29,9 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   private translate = inject(TranslateService);
   private resizeObserver: ResizeObserver | undefined;
 
-  @ViewChild("chartWrapper", { static: false }) chartWrapper:
-    | ElementRef<HTMLDivElement>
-    | undefined;
-
-  @ViewChild("chartLegend", { static: false }) chartLegend:
-    | ElementRef<HTMLDivElement>
-    | undefined;
-
-  @ViewChild("xAxisLabel", { static: false }) xAxisLabel:
-    | ElementRef<HTMLDivElement>
-    | undefined;
+  readonly chartWrapper = viewChild<ElementRef<HTMLDivElement>>("chartWrapper");
+  readonly chartLegend = viewChild<ElementRef<HTMLDivElement>>("chartLegend");
+  readonly xAxisLabel = viewChild<ElementRef<HTMLDivElement>>("xAxisLabel");
 
   readonly chartWidth = signal(600);
   readonly minChartWidth = signal(300);
@@ -63,9 +55,9 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   );
 
   ngAfterViewInit(): void {
-    const element = this.chartWrapper?.nativeElement;
-    const legend = this.chartLegend?.nativeElement;
-    const label = this.xAxisLabel?.nativeElement;
+    const element = this.chartWrapper()?.nativeElement;
+    const legend = this.chartLegend()?.nativeElement;
+    const label = this.xAxisLabel()?.nativeElement;
 
     if (element) {
       this.currentChartWidth.set(Math.round(element.clientWidth));
