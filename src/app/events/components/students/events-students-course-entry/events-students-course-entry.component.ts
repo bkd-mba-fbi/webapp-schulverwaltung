@@ -20,12 +20,12 @@ export class EventsStudentsCourseEntryComponent {
   readonly multipleStudyClasses = input(false);
   readonly returnLink = input<Option<string>>(null);
 
-  link = computed<RouterLink["routerLink"]>(() => [
+  readonly link = computed<RouterLink["routerLink"]>(() => [
     "student",
     this.entry().id,
     "contact",
   ]);
-  linkParams = computed<Params>(() => {
+  readonly linkParams = computed<Params>(() => {
     const returnlink = this.returnLink();
     return returnlink
       ? {

@@ -50,12 +50,12 @@ export default tseslint.config(
       "@angular-eslint/prefer-signals": [
         "error",
         {
-          preferReadonlySignalProperties: false,
           preferQuerySignals: false,
         },
       ],
 
       "@angular-eslint/prefer-output-emitter-ref": "error",
+      "@angular-eslint/prefer-output-readonly": "error",
       "@angular-eslint/prefer-signal-model": "error",
 
       "no-restricted-globals": [

@@ -18,6 +18,6 @@ import {
 export class ImportEntryStatusComponent {
   readonly errorMessage = input<Option<string>>(null);
 
-  valid = computed(() => this.errorMessage() === null);
-  icon = computed(() => (!this.valid() ? "cancel" : "check_circle"));
+  readonly valid = computed(() => this.errorMessage() === null);
+  readonly icon = computed(() => (!this.valid() ? "cancel" : "check_circle"));
 }

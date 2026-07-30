@@ -19,7 +19,7 @@ export class ImportEntryValueComponent {
   readonly value = input.required<unknown>();
   readonly valid = input(true);
 
-  displayValue = computed(() =>
+  readonly displayValue = computed(() =>
     this.value() != null && this.value() !== "" ? String(this.value()) : "–",
   );
 }

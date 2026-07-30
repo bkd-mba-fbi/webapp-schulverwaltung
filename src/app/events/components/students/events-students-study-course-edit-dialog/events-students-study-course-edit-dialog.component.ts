@@ -31,11 +31,13 @@ export class EventsStudentsStudyCourseEditDialogComponent {
   readonly currentStatus = input.required<Status>();
   readonly subscriptionId = input.required<number>();
 
-  loading = toSignal(this.loadingService.loading$, { initialValue: true });
+  readonly loading = toSignal(this.loadingService.loading$, {
+    initialValue: true,
+  });
 
-  statusId = computed(() => this.currentStatus().IdStatus);
+  readonly statusId = computed(() => this.currentStatus().IdStatus);
 
-  statusList = toSignal(
+  readonly statusList = toSignal(
     toObservable(this.statusId).pipe(
       distinctUntilChanged(),
       switchMap((statusId) =>
@@ -49,13 +51,13 @@ export class EventsStudentsStudyCourseEditDialogComponent {
     ),
   );
 
-  canUpdate = computed(() =>
+  readonly canUpdate = computed(() =>
     this.selected().IdStatus
       ? this.selected().IdStatus !== this.statusId()
       : false,
   );
 
-  selected = signal<Status>({} as Status);
+  readonly selected = signal<Status>({} as Status);
 
   onSelectionChange(option: Status): void {
     this.selected.set(option);

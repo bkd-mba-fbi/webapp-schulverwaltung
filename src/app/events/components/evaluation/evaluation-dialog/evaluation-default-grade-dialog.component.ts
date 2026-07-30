@@ -25,9 +25,9 @@ export class EvaluationDefaultGradeDialogComponent {
   readonly updateService = input.required<EvaluationGradingItemUpdateService>();
   readonly gradingScale = input<Option<GradingScale>>(null);
 
-  selectedGradeKey = signal<number | null>(null);
+  readonly selectedGradeKey = signal<number | null>(null);
 
-  gradeOptions = computed(
+  readonly gradeOptions = computed(
     () =>
       this.gradingScale()?.Grades.map((grade) => ({
         Key: grade.Id,
@@ -35,7 +35,7 @@ export class EvaluationDefaultGradeDialogComponent {
       })) ?? null,
   );
 
-  selectedGrade = computed(() => {
+  readonly selectedGrade = computed(() => {
     const key = this.selectedGradeKey();
     return (
       this.gradingScale()?.Grades.find((grade) => grade.Id === key) ?? null

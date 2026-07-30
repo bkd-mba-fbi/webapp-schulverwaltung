@@ -45,20 +45,21 @@ export class ImportValidationEmailsComponent {
   private modalService = inject(BkdModalService);
   private toastService = inject(ToastService);
 
-  parsedEntries: WritableSignal<Option<ReadonlyArray<EmailEntry>>> =
+  readonly parsedEntries: WritableSignal<Option<ReadonlyArray<EmailEntry>>> =
     this.stateService.parsedEntries;
-  importEntries: WritableSignal<Option<ReadonlyArray<EmailImportEntry>>> =
-    this.stateService.importEntries;
+  readonly importEntries: WritableSignal<
+    Option<ReadonlyArray<EmailImportEntry>>
+  > = this.stateService.importEntries;
 
-  isValidating = computed(() => this.importEntries() === null);
+  readonly isValidating = computed(() => this.importEntries() === null);
 
-  validEntries = computed(() => this.getEntriesByStatus("valid"));
-  validCount = computed(() => this.validEntries().length);
+  readonly validEntries = computed(() => this.getEntriesByStatus("valid"));
+  readonly validCount = computed(() => this.validEntries().length);
 
-  invalidEntries = computed(() => this.getEntriesByStatus("invalid"));
-  invalidCount = computed(() => this.invalidEntries().length);
+  readonly invalidEntries = computed(() => this.getEntriesByStatus("invalid"));
+  readonly invalidCount = computed(() => this.invalidEntries().length);
 
-  sortedEntries = computed(() => [
+  readonly sortedEntries = computed(() => [
     ...this.invalidEntries(),
     ...this.validEntries(),
   ]);

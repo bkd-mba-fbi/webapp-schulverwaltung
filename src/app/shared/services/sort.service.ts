@@ -11,7 +11,7 @@ import {
   providedIn: "root",
 })
 export class SortService<TSortKey extends SortKey> {
-  sortCriteria = signal<Option<SortCriteria<TSortKey>>>(null);
+  readonly sortCriteria = signal<Option<SortCriteria<TSortKey>>>(null);
 
   sortCriteria$: Observable<Option<SortCriteria<TSortKey>>> = toObservable(
     this.sortCriteria,

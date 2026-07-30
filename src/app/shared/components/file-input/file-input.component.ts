@@ -28,14 +28,14 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
   readonly error = input<Option<string>>(null);
   readonly value = model<Option<File>>(null);
 
-  acceptedFileExtensions = computed(() =>
+  readonly acceptedFileExtensions = computed(() =>
     this.acceptedFileTypes().map(this.getFileExtensionForType.bind(this)),
   );
 
-  dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
+  readonly dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
   private dragCount = 0;
 
-  private fileInput =
+  private readonly fileInput =
     viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
 
   ngAfterViewInit(): void {

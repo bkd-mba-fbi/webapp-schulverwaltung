@@ -83,7 +83,7 @@ export class SubscriptionDetailDatefieldComponent
     this.value() ? String(this.value()) : null,
   );
 
-  private datepicker = viewChild.required(NgbInputDatepicker);
+  private readonly datepicker = viewChild.required(NgbInputDatepicker);
   private destroy$ = new Subject<void>();
 
   ngAfterViewInit(): void {

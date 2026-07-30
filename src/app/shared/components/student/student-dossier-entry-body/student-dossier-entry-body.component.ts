@@ -29,14 +29,14 @@ export class StudentDossierEntryBodyComponent {
 
   readonly entry = input.required<StudentDossierEntry>();
 
-  documentPath = computed(
+  readonly documentPath = computed(
     () =>
       // The path in the `File` attribute starts with `/restApi`, so we remove
       // this to have the actual document path without the API prefix
       this.entry().additionalInformation.File?.replace(/^\/restApi/, "") ??
       null,
   );
-  hasDocument = computed(() => Boolean(this.documentPath()));
+  readonly hasDocument = computed(() => Boolean(this.documentPath()));
 
   openDocument(): void {
     // We generate the URL that includes the token when we are using it,

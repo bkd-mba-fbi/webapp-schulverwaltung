@@ -71,25 +71,30 @@ export class StudentDossierEditComponent {
 
   acceptedFileTypes = this.settings.dossierAllowedFileTypes;
 
-  loading = toSignal(this.editService.loading$, { requireSync: true });
-  saving = signal(false);
-  studentId = toSignal(this.editService.studentId$, {
+  readonly loading = toSignal(this.editService.loading$, { requireSync: true });
+  readonly saving = signal(false);
+  readonly studentId = toSignal(this.editService.studentId$, {
     requireSync: true,
   });
-  studentName = toSignal(this.editService.studentName$, { initialValue: null });
-  additionalInformationId = toSignal(
+  readonly studentName = toSignal(this.editService.studentName$, {
+    initialValue: null,
+  });
+  readonly additionalInformationId = toSignal(
     this.editService.additionalInformationId$,
     {
       requireSync: true,
     },
   );
-  additionalInformation = toSignal(this.editService.additionalInformation$, {
-    initialValue: null,
-  });
-  categories = toSignal(this.editService.categories$, {
+  readonly additionalInformation = toSignal(
+    this.editService.additionalInformation$,
+    {
+      initialValue: null,
+    },
+  );
+  readonly categories = toSignal(this.editService.categories$, {
     initialValue: [],
   });
-  classTeacherObject = toSignal(
+  readonly classTeacherObject = toSignal(
     this.editService.studentId$.pipe(
       switchMap((studentId) =>
         this.editService.getClassTeacherObject(studentId),
@@ -103,7 +108,7 @@ export class StudentDossierEditComponent {
     },
   );
 
-  heading = computed(() =>
+  readonly heading = computed(() =>
     this.additionalInformationId()
       ? this.translate.instant("student.dossier.edit.title-update", {
           designation: this.additionalInformation()?.Designation,
@@ -116,7 +121,7 @@ export class StudentDossierEditComponent {
     label: this.translate.instant(`student.dossier.edit.type.${key}`),
   }));
 
-  entryFormData = linkedSignal<DossierEntryFormData>(() => {
+  readonly entryFormData = linkedSignal<DossierEntryFormData>(() => {
     const info = this.additionalInformation();
     return {
       type: info ? (info.File ? "document" : "note") : "document",
@@ -163,7 +168,7 @@ export class StudentDossierEditComponent {
     disabled(schema.objectId, editing);
   });
 
-  submitted = signal(false);
+  readonly submitted = signal(false);
 
   constructor() {
     effect(() => this.updateFormObjectId());

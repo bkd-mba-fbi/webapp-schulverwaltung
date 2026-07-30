@@ -46,8 +46,10 @@ export class MyProfileEditComponent {
   private profileService = inject(MyProfileService);
   private personsService = inject(PersonsRestService);
 
-  person = toSignal(this.profileService.person$, { initialValue: null });
-  formGroup = computed(() => this.createFormGroup(this.person()));
+  readonly person = toSignal(this.profileService.person$, {
+    initialValue: null,
+  });
+  readonly formGroup = computed(() => this.createFormGroup(this.person()));
   formGroup$ = toObservable(this.formGroup).pipe(filter(notNull));
 
   saving$ = new BehaviorSubject(false);

@@ -37,23 +37,25 @@ export class AvatarEditDialogComponent {
 
   readonly studentId = input.required<number>();
 
-  step = signal<AvatarEditDialogStep>("choose");
+  readonly step = signal<AvatarEditDialogStep>("choose");
 
   acceptedFileTypes = [".jpg", ".jpeg", ".png"];
   acceptedMimeTypes = ["image/jpeg", "image/png"];
-  file = signal<Option<File>>(null);
-  invalidFile = computed(
+  readonly file = signal<Option<File>>(null);
+  readonly invalidFile = computed(
     () =>
       this.file() && !this.acceptedMimeTypes.includes(this.file()?.type ?? ""),
   );
-  error = signal<Option<unknown>>(null);
+  readonly error = signal<Option<unknown>>(null);
 
-  cropElement = viewChild<ElementRef<HTMLDivElement>>("cropElement");
+  readonly cropElement = viewChild<ElementRef<HTMLDivElement>>("cropElement");
 
-  saving = signal(false);
+  readonly saving = signal(false);
 
-  canCancel = computed(() => this.step() !== "uploading" || !this.saving());
-  canProceed = computed(() => {
+  readonly canCancel = computed(
+    () => this.step() !== "uploading" || !this.saving(),
+  );
+  readonly canProceed = computed(() => {
     switch (this.step()) {
       case "choose":
         return this.file() !== null && !this.invalidFile();
@@ -62,14 +64,14 @@ export class AvatarEditDialogComponent {
     }
     return false;
   });
-  cancelLabel = computed(() =>
+  readonly cancelLabel = computed(() =>
     this.translate.instant(
       this.error()
         ? "shared.avatar-edit.dialog.close"
         : "shared.avatar-edit.dialog.cancel",
     ),
   );
-  proceedLabel = computed(() =>
+  readonly proceedLabel = computed(() =>
     this.translate.instant(
       this.step() === "crop"
         ? "shared.avatar-edit.dialog.save"

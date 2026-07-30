@@ -36,10 +36,10 @@ export class ImportUploadSubscriptionDetailsComponent {
   private stateService = inject(ImportStateService);
   private uploadService = inject(ImportUploadSubscriptionDetailsService);
 
-  importEntries: WritableSignal<
+  readonly importEntries: WritableSignal<
     Option<ReadonlyArray<SubscriptionDetailImportEntry>>
   > = this.stateService.importEntries;
-  errorEntries = computed(
+  readonly errorEntries = computed(
     () =>
       this.importEntries()?.filter(
         ({ importStatus }) => importStatus === "error",

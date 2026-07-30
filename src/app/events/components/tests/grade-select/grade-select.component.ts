@@ -14,7 +14,7 @@ export class GradeSelectComponent {
   readonly disabled = input<boolean>(false);
   readonly width = input<string>("127px"); // 13ch
 
-  gradeIdSelected = output<{
+  readonly gradeIdSelected = output<{
     id: number;
     selectedGradeId: Option<number>;
   }>();

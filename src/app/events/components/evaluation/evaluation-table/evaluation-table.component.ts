@@ -69,14 +69,16 @@ export class EvaluationTableComponent {
   readonly subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
   readonly gradingScale = input.required<GradingScale>();
 
-  gradeColumnSelected = computed(
+  readonly gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
-  commentColumnSelected = computed(
+  readonly commentColumnSelected = computed(
     () => this.selectedColumn() === COMMENT_COLUMN_KEY,
   );
-  gradesAverage = computed(() => this.getGradesAverage(this.entries()));
-  totalColumns = computed(
+  readonly gradesAverage = computed(() =>
+    this.getGradesAverage(this.entries()),
+  );
+  readonly totalColumns = computed(
     () =>
       1 + // Name
       (this.hasGrades() ? 1 : 0) + // Grade
@@ -84,7 +86,7 @@ export class EvaluationTableComponent {
       this.columns().length, // Subscription details
   );
 
-  returnLink = toSignal(
+  readonly returnLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnlink }) => {
         return returnlink ? decodeURIComponent(returnlink) : null;
@@ -92,7 +94,7 @@ export class EvaluationTableComponent {
     ),
   );
 
-  private criteriaVisibilities = linkedSignal<
+  private readonly criteriaVisibilities = linkedSignal<
     ReadonlyArray<EvaluationEntry>,
     Dict<WritableSignal<boolean>>
   >({
@@ -108,7 +110,7 @@ export class EvaluationTableComponent {
       }, {}),
   });
 
-  private sticky = viewChild(TableHeaderStickyDirective);
+  private readonly sticky = viewChild(TableHeaderStickyDirective);
 
   constructor() {
     effect(() => {
@@ -151,7 +153,7 @@ export class EvaluationTableComponent {
     }
   }
 
-  gradeOptions = computed(() =>
+  readonly gradeOptions = computed(() =>
     this.gradingScale()?.Grades.map((grade) => ({
       Key: grade.Id,
       Value: grade.Designation,

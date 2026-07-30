@@ -28,7 +28,7 @@ export class EventsStudentsListComponent {
   state = inject(EventsStudentsStateService);
   private route = inject(ActivatedRoute);
 
-  returnLink = toSignal(
+  readonly returnLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnlink }) => {
         return returnlink ? decodeURIComponent(returnlink) : null;

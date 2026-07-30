@@ -51,35 +51,43 @@ export class MyProfileShowComponent {
   profileService = inject(MyProfileService);
   private configurationsService = inject(ConfigurationsService);
 
-  person = toSignal(this.profileService.person$, { initialValue: null });
-  loadingPerson = toSignal(this.profileService.loadingPerson$, {
+  readonly person = toSignal(this.profileService.person$, {
+    initialValue: null,
+  });
+  readonly loadingPerson = toSignal(this.profileService.loadingPerson$, {
     requireSync: true,
   });
 
-  legalRepresentatives = toSignal(this.profileService.legalRepresentatives$, {
-    initialValue: null,
-  });
-  loadingLegalRepresentatives = toSignal(
+  readonly legalRepresentatives = toSignal(
+    this.profileService.legalRepresentatives$,
+    {
+      initialValue: null,
+    },
+  );
+  readonly loadingLegalRepresentatives = toSignal(
     this.profileService.loadingLegalRepresentatives$,
     { requireSync: true },
   );
 
-  apprenticeships = toSignal(this.profileService.apprenticeships$);
-  loadingApprenticeships = toSignal(
+  readonly apprenticeships = toSignal(this.profileService.apprenticeships$);
+  readonly loadingApprenticeships = toSignal(
     this.profileService.loadingApprenticeships$,
     {
       requireSync: true,
     },
   );
 
-  stayPermit = toSignal(this.profileService.stayPermit$, {
+  readonly stayPermit = toSignal(this.profileService.stayPermit$, {
     initialValue: null,
   });
-  loadingStayPermit = toSignal(this.profileService.loadingStayPermit$, {
-    requireSync: true,
-  });
+  readonly loadingStayPermit = toSignal(
+    this.profileService.loadingStayPermit$,
+    {
+      requireSync: true,
+    },
+  );
 
-  canEditInstructorEmail = toSignal(
+  readonly canEditInstructorEmail = toSignal(
     this.configurationsService.canEditInstructorEmail$,
     {
       initialValue: false,

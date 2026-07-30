@@ -49,8 +49,10 @@ export class PresenceControlEntryComponent {
   readonly togglePresenceType = output<PresenceControlEntry>();
   readonly changeIncident = output<PresenceControlEntry>();
 
-  studentId = computed(() => this.entry().lessonPresence.StudentRef.Id);
-  isListViewMode = computed(
+  readonly studentId = computed(
+    () => this.entry().lessonPresence.StudentRef.Id,
+  );
+  readonly isListViewMode = computed(
     () => this.viewMode() === PresenceControlViewMode.List,
   );
 

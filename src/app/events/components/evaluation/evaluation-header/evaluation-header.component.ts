@@ -40,11 +40,11 @@ export class EvaluationHeaderComponent {
   readonly event = input.required<EvaluationEvent>();
   readonly showActions = input<boolean>(true);
 
-  hasGradeEntries = computed(() =>
+  readonly hasGradeEntries = computed(() =>
     this.state.entries().some((entry) => (entry.grade?.Value ?? 0) > 0),
   );
 
-  queryParam = signal<string | null>(
+  readonly queryParam = signal<string | null>(
     this.route.snapshot.queryParamMap.get("returnlink"),
   );
 
@@ -57,7 +57,7 @@ export class EvaluationHeaderComponent {
     startWith([]),
   );
 
-  returnlink = computed(() => {
+  readonly returnlink = computed(() => {
     if (!this.showActions()) {
       return `/events/${this.event().id}/evaluation`;
     }

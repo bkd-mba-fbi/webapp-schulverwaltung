@@ -24,7 +24,7 @@ export class MyProfileHeaderComponent {
   private reportsService = inject(ReportsService);
 
   readonly person = input<Person>();
-  personId = computed(() => this.person()?.Id ?? null);
+  readonly personId = computed(() => this.person()?.Id ?? null);
 
   reports$ = toObservable(this.personId).pipe(
     switchMap((personId) =>

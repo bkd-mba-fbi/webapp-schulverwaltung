@@ -34,13 +34,13 @@ export class EvaluationCriteriaComponent {
     return this.visible();
   }
 
-  heading = computed(
+  readonly heading = computed(
     () =>
       this.headingDetail()?.VssDesignation ??
       this.translate.instant("evaluation.set-criteria"),
   );
 
-  headingDetail = computed(
+  readonly headingDetail = computed(
     () => this.entry().criteria.find((c) => c.detail.VssStyle === "HE")?.detail,
   );
 

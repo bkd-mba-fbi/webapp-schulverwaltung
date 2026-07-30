@@ -95,37 +95,41 @@ export class EventsStudentsStateService {
   private eventSummary = toLazySignal(this.eventSummary$, {
     initialValue: null,
   });
-  private eventTypeId = computed(
+  private readonly eventTypeId = computed(
     () => this.eventSummary()?.EventTypeId ?? null,
   );
   private studentEntries = toLazySignal(this.loadStudentEntries(), {
     initialValue: null,
   });
 
-  isStudyCourse = computed(() => this.eventTypeId() === STUDY_COURSE_TYPE_ID);
+  readonly isStudyCourse = computed(
+    () => this.eventTypeId() === STUDY_COURSE_TYPE_ID,
+  );
 
-  loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT));
-  title = computed(() => this.getTitle(this.studentEntries()));
-  multipleStudyClasses = computed(
+  readonly loading = toSignal(
+    this.loadingService.loading(PAGE_LOADING_CONTEXT),
+  );
+  readonly title = computed(() => this.getTitle(this.studentEntries()));
+  readonly multipleStudyClasses = computed(
     () => (this.studentEntries()?.studyClasses?.length ?? 0) > 1,
   );
-  searchTerm = signal("");
-  sortCriteria = signal<SortCriteria<SortKey>>({
+  readonly searchTerm = signal("");
+  readonly sortCriteria = signal<SortCriteria<SortKey>>({
     primarySortKey: "registrationDate",
     ascending: false,
   });
-  entries = computed(() => this.studentEntries()?.entries ?? []);
-  sortedEntries = computed(() =>
+  readonly entries = computed(() => this.studentEntries()?.entries ?? []);
+  readonly sortedEntries = computed(() =>
     this.sortStudentEntries(this.entries(), this.sortCriteria()),
   );
-  filteredEntries = computed(() =>
+  readonly filteredEntries = computed(() =>
     searchEntries(
       this.sortedEntries(),
       ["name", "status", "company", "studyClass"],
       this.searchTerm(),
     ),
   );
-  mailtoLink = computed(() =>
+  readonly mailtoLink = computed(() =>
     this.getMailtoLink(this.eventTypeId(), this.entries()),
   );
 

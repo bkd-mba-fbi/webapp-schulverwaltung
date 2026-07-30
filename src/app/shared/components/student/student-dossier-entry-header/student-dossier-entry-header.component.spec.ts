@@ -34,8 +34,8 @@ import { StudentDossierEntryHeaderComponent } from "./student-dossier-entry-head
   ],
 })
 class HostComponent {
-  icon = signal("notes");
-  category = signal<Option<string>>(null);
+  readonly icon = signal("notes");
+  readonly category = signal<Option<string>>(null);
 }
 
 describe("StudentDossierEntryHeaderComponent", () => {

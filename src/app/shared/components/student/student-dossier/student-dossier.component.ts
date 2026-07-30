@@ -37,16 +37,27 @@ import { StudentDossierInformationBodyComponent } from "../student-dossier-infor
 export class StudentDossierComponent {
   dossierService = inject(StudentDossierService);
 
-  loading = toSignal(this.dossierService.loading$, { requireSync: true });
-  informationEntries = toSignal(this.dossierService.informationEntries$, {
-    initialValue: [],
+  readonly loading = toSignal(this.dossierService.loading$, {
+    requireSync: true,
   });
-  disadvantageEntries = toSignal(this.dossierService.disadvantageEntries$, {
-    initialValue: [],
-  });
-  dossierEntries = toSignal(this.dossierService.filteredDossierEntries$, {
-    initialValue: [],
-  });
+  readonly informationEntries = toSignal(
+    this.dossierService.informationEntries$,
+    {
+      initialValue: [],
+    },
+  );
+  readonly disadvantageEntries = toSignal(
+    this.dossierService.disadvantageEntries$,
+    {
+      initialValue: [],
+    },
+  );
+  readonly dossierEntries = toSignal(
+    this.dossierService.filteredDossierEntries$,
+    {
+      initialValue: [],
+    },
+  );
 
   getEntryIcon(entry: StudentDossierEntry): string {
     if (entry.additionalInformation.File) {

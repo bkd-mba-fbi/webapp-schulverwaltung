@@ -23,8 +23,8 @@ import { GradingScale } from "../../../../../shared/models/grading-scale.model";
   imports: [NgClass, NgStyle, TranslatePipe],
 })
 export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
-  entries = input.required<ReadonlyArray<EvaluationEntry>>();
-  gradingScale = input.required<GradingScale>();
+  readonly entries = input.required<ReadonlyArray<EvaluationEntry>>();
+  readonly gradingScale = input.required<GradingScale>();
 
   private translate = inject(TranslateService);
   private resizeObserver: ResizeObserver | undefined;
@@ -41,24 +41,24 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     | ElementRef<HTMLDivElement>
     | undefined;
 
-  chartWidth = signal(600);
-  minChartWidth = signal(300);
-  chartHeight = signal(350);
-  chartMargin = signal({ top: 5, right: 25, bottom: 25, left: 25 });
-  minBarWidth = signal(20);
-  maxBarWidth = signal(25);
-  barPaddingFactor = signal(0.7); // factor determining how much space should be left between bars
-  barCountForSmallerWidth = signal(25);
-  currentChartWidth = signal(0);
-  currentScrollWidth = signal(0);
-  legendWidth = signal(0);
-  xAxisLabelWidth = signal(0);
+  readonly chartWidth = signal(600);
+  readonly minChartWidth = signal(300);
+  readonly chartHeight = signal(350);
+  readonly chartMargin = signal({ top: 5, right: 25, bottom: 25, left: 25 });
+  readonly minBarWidth = signal(20);
+  readonly maxBarWidth = signal(25);
+  readonly barPaddingFactor = signal(0.7); // factor determining how much space should be left between bars
+  readonly barCountForSmallerWidth = signal(25);
+  readonly currentChartWidth = signal(0);
+  readonly currentScrollWidth = signal(0);
+  readonly legendWidth = signal(0);
+  readonly xAxisLabelWidth = signal(0);
 
-  isOverflowing = computed(() => {
+  readonly isOverflowing = computed(() => {
     return this.currentScrollWidth() > this.currentChartWidth();
   });
 
-  overflowClass = computed(() =>
+  readonly overflowClass = computed(() =>
     this.isOverflowing() ? "is-overflowing" : "",
   );
 
@@ -92,9 +92,9 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   }
 
   // computed signals
-  hasData = computed(() => this.chartData().length > 0);
+  readonly hasData = computed(() => this.chartData().length > 0);
 
-  chartInnerWidth = computed(() => {
+  readonly chartInnerWidth = computed(() => {
     const data = this.chartData();
     const numBars = data.length;
 
@@ -107,12 +107,12 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     return Math.max(this.minChartWidth(), calcChartWidth);
   });
 
-  chartInnerHeight = computed(
+  readonly chartInnerHeight = computed(
     () =>
       this.chartHeight() - this.chartMargin().top - this.chartMargin().bottom,
   );
 
-  renderedChartWidth = computed(() => {
+  readonly renderedChartWidth = computed(() => {
     return (
       this.chartInnerWidth() +
       this.chartMargin().left +
@@ -120,18 +120,18 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     );
   });
 
-  legendPosition = computed(
+  readonly legendPosition = computed(
     () => (this.renderedChartWidth() - this.legendWidth()) / 2,
   );
-  xAxisLabelPosition = computed(
+  readonly xAxisLabelPosition = computed(
     () => (this.renderedChartWidth() - this.xAxisLabelWidth()) / 2,
   );
 
-  viewBox = computed(
+  readonly viewBox = computed(
     () => `0 0 ${this.renderedChartWidth()} ${this.chartHeight()}`,
   );
 
-  bars = computed(() => {
+  readonly bars = computed(() => {
     const data = this.chartData();
     const xScale = this.xScaleBar();
     const yScale = this.yScaleLinear();
@@ -157,7 +157,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     });
   });
 
-  xLabels = computed(() => {
+  readonly xLabels = computed(() => {
     const data = this.chartData();
     const xScale = this.xScaleBar();
     const chartHeight = this.chartInnerHeight();
@@ -184,7 +184,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     return labels;
   });
 
-  barLabels = computed(() => {
+  readonly barLabels = computed(() => {
     return this.bars().map((bar) => ({
       x: bar.x + bar.width / 2,
       y: bar.y - 5,
@@ -192,7 +192,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     }));
   });
 
-  legendLabels = computed(() => {
+  readonly legendLabels = computed(() => {
     const legendY = this.chartMargin().top / 2;
 
     const labels = [
@@ -213,7 +213,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
   });
 
   // Combined and processed data for the chart
-  private chartData = computed(() => {
+  private readonly chartData = computed(() => {
     const scale = this.gradingScale();
 
     if (!scale || scale.Grades.length === 0 || this.entries().length === 0) {
@@ -235,7 +235,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
       .sort((a, b) => b.Sort.localeCompare(a.Sort));
   });
 
-  private xScaleBar = computed(() => {
+  private readonly xScaleBar = computed(() => {
     if (this.chartData().length === 0)
       return {
         domain: [],
@@ -268,7 +268,7 @@ export class EvaluationChartComponent implements AfterViewInit, OnDestroy {
     return { domain: xDomain, range: xRange, step: step, barWidth: barWidth };
   });
 
-  private yScaleLinear = computed(() => {
+  private readonly yScaleLinear = computed(() => {
     if (this.chartData().length === 0)
       return {
         domain: [0, 0] as [number, number],

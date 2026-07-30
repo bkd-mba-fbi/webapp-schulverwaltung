@@ -19,11 +19,13 @@ export class StudentAvatarComponent {
   readonly studentId = input.required<number>();
   readonly student = input<PersonWithClassRegistration>();
 
-  studyClasses = computed(
+  readonly studyClasses = computed(
     () =>
       this.student()
         ?.ClassRegistrations?.filter((reg) => reg.IsActive)
         ?.map((reg) => reg.NumberStudyClass) ?? [],
   );
-  studyClassesLabel = computed(() => this.studyClasses().join(", ") ?? null);
+  readonly studyClassesLabel = computed(
+    () => this.studyClasses().join(", ") ?? null,
+  );
 }

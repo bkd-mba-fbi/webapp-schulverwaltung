@@ -26,13 +26,13 @@ import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-heade
 export class EvaluationStatisticComponent {
   state = inject(EvaluationStateService);
 
-  entries = computed(() =>
+  readonly entries = computed(() =>
     this.state
       .entries()
       .filter((entry) => entry.grade?.Value != null && entry.grade.Value > 0),
   );
 
-  average = computed(() => {
+  readonly average = computed(() => {
     if (this.entries().length === 0) {
       return 0;
     }
@@ -42,7 +42,7 @@ export class EvaluationStatisticComponent {
     );
   });
 
-  standardDeviation = computed(() => {
+  readonly standardDeviation = computed(() => {
     if (this.entries().length <= 1) {
       return 0;
     }
@@ -55,11 +55,11 @@ export class EvaluationStatisticComponent {
     return Number(Math.sqrt(sum / this.entries().length).toFixed(2));
   });
 
-  highestGrade = computed(() => this.findGrade(true));
+  readonly highestGrade = computed(() => this.findGrade(true));
 
-  lowestGrade = computed(() => this.findGrade(false));
+  readonly lowestGrade = computed(() => this.findGrade(false));
 
-  unsufficientCount = computed(
+  readonly unsufficientCount = computed(
     () => this.entries().filter((entry) => !entry.grade?.Sufficient).length,
   );
 

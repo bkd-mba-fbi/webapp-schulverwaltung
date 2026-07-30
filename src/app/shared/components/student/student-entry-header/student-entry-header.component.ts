@@ -20,7 +20,7 @@ import { CaretComponent } from "../../caret/caret.component";
 export class StudentEntryHeaderComponent {
   readonly opened = input(false);
 
-  private header = viewChild.required(NgbAccordionHeader);
+  private readonly header = viewChild.required(NgbAccordionHeader);
 
   protected isCollapsed(): boolean {
     return this.header().item.collapsed;

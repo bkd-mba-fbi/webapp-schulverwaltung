@@ -14,7 +14,7 @@ export class TestsDeleteComponent {
 
   readonly test = input.required<Test>();
 
-  canDeleteTest = computed(() => {
+  readonly canDeleteTest = computed(() => {
     const testsExists =
       this.test()?.Results?.filter(
         (test) =>

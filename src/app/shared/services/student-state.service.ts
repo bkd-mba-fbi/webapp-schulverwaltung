@@ -21,7 +21,7 @@ export class StudentStateService {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  dossierPage = toSignal(
+  readonly dossierPage = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       map(({ url }) => url),

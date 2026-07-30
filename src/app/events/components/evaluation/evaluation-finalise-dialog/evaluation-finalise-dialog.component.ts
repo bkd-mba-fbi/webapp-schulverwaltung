@@ -34,11 +34,14 @@ export class EvaluationFinaliseDialogComponent {
   readonly eventId = input<Option<number>>(null);
   readonly hasOpenEvaluations = input<boolean>(false);
 
-  loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT), {
-    initialValue: true,
-  });
+  readonly loading = toSignal(
+    this.loadingService.loading(PAGE_LOADING_CONTEXT),
+    {
+      initialValue: true,
+    },
+  );
 
-  eventSummary = toSignal(
+  readonly eventSummary = toSignal(
     toObservable(this.eventId).pipe(
       switchMap((eventId) =>
         eventId ? this.loadEventSummary(eventId) : of(null),
@@ -47,7 +50,7 @@ export class EvaluationFinaliseDialogComponent {
     { initialValue: null as Option<EventSummary> },
   );
 
-  isModuleEvent = computed(
+  readonly isModuleEvent = computed(
     () => this.eventSummary()?.EventTypeId === MODULE_EVENT_TYPE_ID,
   );
 

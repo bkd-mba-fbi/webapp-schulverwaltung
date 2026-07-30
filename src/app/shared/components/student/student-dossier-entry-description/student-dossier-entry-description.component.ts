@@ -21,7 +21,7 @@ export class StudentDossierEntryDescriptionComponent {
 
   readonly entry = input.required<StudentDossierEntry>();
 
-  showDescription = computed(
+  readonly showDescription = computed(
     () =>
       // For entries created via email, the .eml file is referenced in the
       // `File` attribute, so we don't render the (HTML-)content

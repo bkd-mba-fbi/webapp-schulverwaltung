@@ -52,11 +52,11 @@ export class EvaluationListComponent {
 
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
-  hasGrades = computed(() => this.state.gradingScale() !== null);
-  hasGradeComments = computed(
+  readonly hasGrades = computed(() => this.state.gradingScale() !== null);
+  readonly hasGradeComments = computed(
     () => this.state.gradingScale()?.CommentsAllowed === true,
   );
-  columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
+  readonly columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
       Key: GRADE_COLUMN_KEY,
       Value: this.translate.instant("evaluation.columns.grade"),
@@ -81,7 +81,10 @@ export class EvaluationListComponent {
     ].filter(notNull);
   });
 
-  selectedColumn = linkedSignal<ReadonlyArray<DropDownItem>, Option<number>>({
+  readonly selectedColumn = linkedSignal<
+    ReadonlyArray<DropDownItem>,
+    Option<number>
+  >({
     source: this.columnOptions,
     computation: (options, previous) => {
       const previousOptions = previous?.source;

@@ -47,7 +47,7 @@ export class MySettingsNotificationsToggleComponent implements ControlValueAcces
     this.onChange(value);
   }
 
-  protected descriptionLines = computed(() => {
+  protected readonly descriptionLines = computed(() => {
     const description = this.description();
     return description ? description.split("\n") : [];
   });

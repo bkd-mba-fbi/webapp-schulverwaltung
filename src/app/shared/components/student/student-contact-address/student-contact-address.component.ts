@@ -18,12 +18,12 @@ export class StudentContactAddressComponent {
   readonly student = input.required<Student | Person>();
   readonly emailProperty = input<"DisplayEmail" | "Email2">("DisplayEmail");
 
-  postalCode = computed(() => {
+  readonly postalCode = computed(() => {
     const student = this.student();
     return "PostalCode" in student ? student.PostalCode : student.Zip;
   });
 
-  email = computed(() => {
+  readonly email = computed(() => {
     const student = this.student();
     if (this.emailProperty() === "Email2" && "Email2" in student) {
       return student.Email2 || null;

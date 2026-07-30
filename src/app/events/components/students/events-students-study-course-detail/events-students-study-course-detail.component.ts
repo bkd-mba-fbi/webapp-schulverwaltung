@@ -68,31 +68,33 @@ export class EventsStudentsStudyCourseDetailComponent {
   personId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
   );
-  person = toSignal(
+  readonly person = toSignal(
     this.personId$.pipe(switchMap((id) => this.personsService.get(id))),
     { initialValue: null },
   );
-  subscription = toSignal(
+  readonly subscription = toSignal(
     this.refreshSubscription.pipe(
       startWith(null),
       switchMap(() => this.loadSubscription()),
     ),
   );
-  subscriptionId = computed(() => this.subscription()?.Id ?? null);
-  subscriptionDetails = toSignal(this.loadSubscriptionDetails(), {
+  readonly subscriptionId = computed(() => this.subscription()?.Id ?? null);
+  readonly subscriptionDetails = toSignal(this.loadSubscriptionDetails(), {
     initialValue: [] as ReadonlyArray<SubscriptionDetailsEntry>,
   });
-  currentStatus = computed(() => ({
+  readonly currentStatus = computed(() => ({
     IdStatus: this.subscription()?.StatusId ?? 0,
     Status: this.subscription()?.Status ?? "",
   }));
-  backLink = toSignal(
+  readonly backLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnparams }) => returnparams),
       map(parseQueryString),
     ),
   );
-  loading = toSignal(this.loadingService.loading$, { initialValue: true });
+  readonly loading = toSignal(this.loadingService.loading$, {
+    initialValue: true,
+  });
 
   updateStatus(): void {
     const subscriptionId = this.subscriptionId();

@@ -33,7 +33,7 @@ export class SelectComponent<
 
   readonly value = model<Option<TKey>>(null);
 
-  selectedOption = computed(() => {
+  readonly selectedOption = computed(() => {
     const options = this.options();
     const rawValue = this.value();
     return (

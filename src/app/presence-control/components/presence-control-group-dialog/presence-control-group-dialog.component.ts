@@ -35,12 +35,14 @@ export class PresenceControlGroupDialogComponent {
     input.required<SubscriptionDetail>();
   readonly group = input<Option<string>>(null);
 
-  title = computed(() => `presence-control.groups.${this.dialogMode()}.title`);
-  groupOptions = computed(() => [
+  readonly title = computed(
+    () => `presence-control.groups.${this.dialogMode()}.title`,
+  );
+  readonly groupOptions = computed(() => [
     this.createEmptyOption(),
     ...this.createGroupOptions(this.subscriptionDetailsDefinitions()),
   ]);
-  selected = linkedSignal(
+  readonly selected = linkedSignal(
     () =>
       this.groupOptions().find((option) => option.id === this.group()) ??
       this.createEmptyOption(),

@@ -107,20 +107,20 @@ export class EvaluationStateService {
 
   ///// Public signals /////
 
-  sortCriteria = signal<EvaluationSortCriteria>(INITIAL_SORT_CRITERIA);
+  readonly sortCriteria = signal<EvaluationSortCriteria>(INITIAL_SORT_CRITERIA);
 
-  loading = toSignal(this.loadingService.loading(EVALUATION_CONTEXT), {
+  readonly loading = toSignal(this.loadingService.loading(EVALUATION_CONTEXT), {
     requireSync: true,
   });
 
-  noEvaluation = computed(
+  readonly noEvaluation = computed(
     () =>
       !this.gradingScale() &&
       this.columns().length === 0 &&
       this.entries().every(({ criteria }) => criteria.length === 0),
   );
 
-  hasReviewStarted = computed(
+  readonly hasReviewStarted = computed(
     () =>
       this.event()?.hasReviewOfEvaluationStarted &&
       !this.event()?.hasEvaluationStarted,
@@ -129,7 +129,7 @@ export class EvaluationStateService {
   /**
    * The course or study class.
    */
-  event = toSignal<Option<EvaluationEvent>>(
+  readonly event = toSignal<Option<EvaluationEvent>>(
     this.eventId$.pipe(switchMap(this.loadEvaluationEvent.bind(this))),
     { initialValue: null },
   );
@@ -137,18 +137,18 @@ export class EvaluationStateService {
   /**
    * The columns of the evaluation table.
    */
-  columns = computed(() =>
+  readonly columns = computed(() =>
     this.collectColumns(this.columnSubscriptionDetails()),
   );
 
   /**
    * The rows of the evaluation table.
    */
-  entries = computed(() =>
+  readonly entries = computed(() =>
     this.sortEntries(this.unsortedEntries(), this.sortCriteria()),
   );
 
-  gradingItems = linkedSignal({
+  readonly gradingItems = linkedSignal({
     source: toSignal(
       this.eventId$.pipe(
         switchMap(this.loadGradingItems.bind(this)),
@@ -159,7 +159,7 @@ export class EvaluationStateService {
     computation: (items) => items,
   });
 
-  gradingScale = toSignal<Option<GradingScale>>(
+  readonly gradingScale = toSignal<Option<GradingScale>>(
     toObservable(this.event).pipe(
       switchMap((event) =>
         this.loadGradingScale(event?.gradingScaleId ?? null),
@@ -174,7 +174,7 @@ export class EvaluationStateService {
    * VssIds of the subscription details to decide whether to display them as
    * column or criteria.
    */
-  private subscriptionDetailsDisplay = toSignal<
+  private readonly subscriptionDetailsDisplay = toSignal<
     Option<SubscriptionDetailsDisplay>
   >(this.loadSubscriptionDetailsDisplay(), { initialValue: null });
 
@@ -182,7 +182,7 @@ export class EvaluationStateService {
    * All subscription details of the event (of all persons, columns and
    * criteria).
    */
-  private fetchedSubscriptionDetails: Signal<
+  private readonly fetchedSubscriptionDetails: Signal<
     ReadonlyArray<SubscriptionDetail>
   > = toSignal(
     this.eventId$.pipe(switchMap(this.loadSubscriptionDetails.bind(this))),
@@ -191,7 +191,7 @@ export class EvaluationStateService {
     },
   );
 
-  private subscriptionDetails = linkedSignal(() =>
+  private readonly subscriptionDetails = linkedSignal(() =>
     this.fetchedSubscriptionDetails(),
   );
 
@@ -201,7 +201,7 @@ export class EvaluationStateService {
    * details are updated after a change of another detail. Also, we want to be
    * able to revert the value in case of an error during save.
    */
-  private subscriptionDetailsValues = computed<
+  private readonly subscriptionDetailsValues = computed<
     Dict<WritableSignal<SubscriptionDetail["Value"]>>
   >(() =>
     this.fetchedSubscriptionDetails().reduce(
@@ -217,7 +217,7 @@ export class EvaluationStateService {
    * Subscription details of the event that should be displayed as columns (of
    * all persons).
    */
-  private columnSubscriptionDetails = computed(() =>
+  private readonly columnSubscriptionDetails = computed(() =>
     this.filterColumns(
       this.subscriptionDetails(),
       this.subscriptionDetailsDisplay(),
@@ -228,14 +228,14 @@ export class EvaluationStateService {
    * Subscription details of the event that should be displayed as criteria (of
    * all persons).
    */
-  private criteriaSubscriptionDetails = computed(() =>
+  private readonly criteriaSubscriptionDetails = computed(() =>
     this.filterCriteria(
       this.subscriptionDetails(),
       this.subscriptionDetailsDisplay(),
     ),
   );
 
-  private unsortedEntries = computed(() =>
+  private readonly unsortedEntries = computed(() =>
     this.collectEntries(
       this.gradingItems(),
       this.gradingScale(),

@@ -23,10 +23,10 @@ export class StudentGradesCourseComponent {
   readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
   readonly isEditable = input.required<boolean>();
 
-  sortedTests = computed(() =>
+  readonly sortedTests = computed(() =>
     sortByDate(this.decoratedCourse().course.Tests ?? []),
   );
-  canEditGrades = computed(
+  readonly canEditGrades = computed(
     () =>
       this.isEditable() &&
       (this.decoratedCourse().course.FinalGrades ?? []).length === 0,

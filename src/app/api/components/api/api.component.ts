@@ -37,8 +37,8 @@ export class ApiComponent implements OnInit {
   private http = inject(HttpClient);
   private settings = inject<Settings>(SETTINGS);
 
-  formGroup = signal(this.createFormGroup());
-  params = computed(() => this.formGroup().controls.params);
+  readonly formGroup = signal(this.createFormGroup());
+  readonly params = computed(() => this.formGroup().controls.params);
 
   ngOnInit(): void {
     const value = this.restoreValue();

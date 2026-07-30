@@ -36,11 +36,11 @@ export type ImportEntry<
   providedIn: "root",
 })
 export class ImportStateService {
-  importType = signal<ImportType>(IMPORT_TYPES[0]);
-  file = signal<Option<File>>(null);
+  readonly importType = signal<ImportType>(IMPORT_TYPES[0]);
+  readonly file = signal<Option<File>>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  parsedEntries = signal<Option<ReadonlyArray<any>>>(null);
-  importEntries =
+  readonly parsedEntries = signal<Option<ReadonlyArray<any>>>(null);
+  readonly importEntries =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     signal<Option<ReadonlyArray<ImportEntry<any, any, any, any>>>>(null);
 }

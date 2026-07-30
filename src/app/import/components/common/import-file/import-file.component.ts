@@ -52,7 +52,7 @@ export class ImportFileComponent {
       label: this.translate.instant(`import.file.types.${key}`),
     }));
 
-  fileService = computed(() => {
+  readonly fileService = computed(() => {
     const importType = this.stateService.importType();
     switch (importType) {
       case "subscriptionDetails":
@@ -63,7 +63,7 @@ export class ImportFileComponent {
         throw new UnreachableError(importType, "Unhandled import type");
     }
   });
-  requiredColumnNames = computed(() =>
+  readonly requiredColumnNames = computed(() =>
     new Array(this.fileService().requiredColumns)
       .fill("")
       .map((_, i) =>
@@ -73,8 +73,8 @@ export class ImportFileComponent {
       ),
   );
 
-  error = signal<Option<ParseError>>(null);
-  errorMessage = computed(() => {
+  readonly error = signal<Option<ParseError>>(null);
+  readonly errorMessage = computed(() => {
     const error = this.error();
     if (!error) return null;
 

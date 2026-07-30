@@ -53,7 +53,7 @@ export class TestsTableComponent implements OnInit, OnDestroy {
   private modalService = inject(BkdModalService);
   private destroy$ = new Subject<void>();
 
-  private sticky = viewChild(TableHeaderStickyDirective);
+  private readonly sticky = viewChild(TableHeaderStickyDirective);
 
   readonly selectedTest = input<Option<Test>>(null);
 

@@ -30,17 +30,17 @@ export class StudentComponent {
   private state = inject(StudentStateService);
   private dossierGradesService = inject(StudentGradesService);
 
-  loading = toSignal(this.state.loadingStudent$, {
+  readonly loading = toSignal(this.state.loadingStudent$, {
     requireSync: true,
   });
-  studentId = toSignal(this.state.studentId$, { initialValue: null });
-  student = toSignal(this.state.student$, { initialValue: null });
+  readonly studentId = toSignal(this.state.studentId$, { initialValue: null });
+  readonly student = toSignal(this.state.student$, { initialValue: null });
 
   dossierPage = this.state.dossierPage;
-  reports = toSignal(this.dossierGradesService.testReports$, {
+  readonly reports = toSignal(this.dossierGradesService.testReports$, {
     initialValue: [] as ReadonlyArray<ReportInfo>,
   });
 
-  backlinkQueryParams = toSignal(this.state.backlinkQueryParams$);
-  returnParams = toSignal(this.state.returnParams$);
+  readonly backlinkQueryParams = toSignal(this.state.backlinkQueryParams$);
+  readonly returnParams = toSignal(this.state.returnParams$);
 }

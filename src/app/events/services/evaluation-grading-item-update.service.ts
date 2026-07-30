@@ -25,9 +25,12 @@ export class EvaluationGradingItemUpdateService implements OnDestroy {
   private testStateService = inject(TestStateService);
   private loadingService = inject(LoadingService);
 
-  updating = toSignal(this.loadingService.loading(EVALUATION_UPDATE_CONTEXT), {
-    requireSync: true,
-  });
+  readonly updating = toSignal(
+    this.loadingService.loading(EVALUATION_UPDATE_CONTEXT),
+    {
+      requireSync: true,
+    },
+  );
 
   private updateQueue$ = new Subject<QueuedUpdateTask>();
 

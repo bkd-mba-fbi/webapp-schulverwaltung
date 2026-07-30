@@ -26,17 +26,20 @@ export class StudentDossierFilterComponent {
 
   readonly dropdownId = uniqueId("student-dossier-filter-dropdown");
 
-  isDropdownOpen = signal(false);
-  isFilterActive = toSignal(this.filterService.isFilterActive$, {
+  readonly isDropdownOpen = signal(false);
+  readonly isFilterActive = toSignal(this.filterService.isFilterActive$, {
     requireSync: true,
   });
-  categoryOptions = toSignal(this.filterService.filterOptions$, {
+  readonly categoryOptions = toSignal(this.filterService.filterOptions$, {
     initialValue: [],
   });
 
-  selectedCategories = toSignal(this.filterService.selectedCategories$, {
-    initialValue: [],
-  });
+  readonly selectedCategories = toSignal(
+    this.filterService.selectedCategories$,
+    {
+      initialValue: [],
+    },
+  );
 
   toggleDropdown(): void {
     this.isDropdownOpen.update((open) => !open);

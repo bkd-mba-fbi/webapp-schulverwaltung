@@ -94,9 +94,11 @@ export class TestsEditFormComponent {
 
   courseId$ = this.testStateService.courseId$;
 
-  gradingScales = toSignal(this.loadGradingScales(), { initialValue: [] });
+  readonly gradingScales = toSignal(this.loadGradingScales(), {
+    initialValue: [],
+  });
 
-  testFormData = linkedSignal<TestFormData>(() => {
+  readonly testFormData = linkedSignal<TestFormData>(() => {
     const test = this.test();
     const isPointGrading = Boolean(test?.IsPointGrading);
     return {
@@ -141,7 +143,7 @@ export class TestsEditFormComponent {
     disabled(schema.gradingScaleId, hasResults);
   });
 
-  submitted = signal(false);
+  readonly submitted = signal(false);
 
   onSubmit(): void {
     this.submitted.set(true);

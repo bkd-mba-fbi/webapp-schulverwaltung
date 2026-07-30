@@ -66,7 +66,7 @@ export class StudentAbsencesComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  hasAbsences = computed(() => {
+  readonly hasAbsences = computed(() => {
     const counts = this.absenceCounts();
     if (!counts) return false;
 

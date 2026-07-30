@@ -24,14 +24,14 @@ export class PresenceControlBlockLessonComponent {
   readonly blockPresenceControlEntries =
     input.required<ReadonlyArray<PresenceControlEntry>>();
 
-  blockLessonOptions = computed(() =>
+  readonly blockLessonOptions = computed(() =>
     this.blockPresenceControlEntries().map((entry) => ({
       entry,
       selected: entry.confirmationState === this.entry().confirmationState,
     })),
   );
 
-  selectedEntries = computed(() =>
+  readonly selectedEntries = computed(() =>
     this.blockLessonOptions()
       .filter(({ selected }) => selected)
       .map(({ entry }) => entry),

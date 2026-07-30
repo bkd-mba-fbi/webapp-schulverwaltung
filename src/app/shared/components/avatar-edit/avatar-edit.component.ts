@@ -31,7 +31,7 @@ export class AvatarEditComponent {
 
   readonly studentId = input.required<number>();
 
-  avatarDataUri = toSignal(
+  readonly avatarDataUri = toSignal(
     merge(
       toObservable(this.studentId),
       this.reload$.pipe(map(() => this.studentId())),

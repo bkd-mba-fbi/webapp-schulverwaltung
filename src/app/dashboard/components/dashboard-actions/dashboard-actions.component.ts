@@ -25,7 +25,7 @@ export class DashboardActionsComponent {
   settings = inject<Settings>(SETTINGS);
   private configurationsService = inject(ConfigurationsService);
 
-  canEditInstructorEmail = toSignal(
+  readonly canEditInstructorEmail = toSignal(
     this.configurationsService.canEditInstructorEmail$,
     {
       initialValue: false,

@@ -38,7 +38,7 @@ export class EventsListComponent {
 
   readonly withRatings = input(true);
 
-  entries = toSignal(this.loadEntries(), { initialValue: [] });
+  readonly entries = toSignal(this.loadEntries(), { initialValue: [] });
 
   constructor() {
     this.state.setRoles(this.storage.getPayload()?.roles ?? null);

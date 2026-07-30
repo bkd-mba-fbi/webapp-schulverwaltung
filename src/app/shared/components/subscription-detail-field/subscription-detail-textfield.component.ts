@@ -62,7 +62,8 @@ export class SubscriptionDetailTextfieldComponent {
     this.isInt() || this.isCurrency() ? "number" : "text",
   );
 
-  private input = viewChild.required<ElementRef<HTMLInputElement>>("input");
+  private readonly input =
+    viewChild.required<ElementRef<HTMLInputElement>>("input");
 
   onChange(event: Event) {
     const { value: rawValue } = event.target as HTMLInputElement;

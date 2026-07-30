@@ -23,7 +23,7 @@ export class AvatarComponent {
   readonly link = input<RouterLink["routerLink"]>();
   readonly linkParams = input<Params>();
 
-  avatarStyles = computed<Dict<string>>(() =>
+  readonly avatarStyles = computed<Dict<string>>(() =>
     this.buildAvatarStyles(this.studentId()),
   );
 

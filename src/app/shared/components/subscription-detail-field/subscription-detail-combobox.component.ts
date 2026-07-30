@@ -74,8 +74,8 @@ export class SubscriptionDetailComboboxComponent
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
 
-  private typeahead = viewChild.required(NgbTypeahead);
-  private typeaheadInput =
+  private readonly typeahead = viewChild.required(NgbTypeahead);
+  private readonly typeaheadInput =
     viewChild.required<ElementRef<HTMLInputElement>>("typeahead");
   private focus$ = new Subject<string>();
   private destroy$ = new Subject<void>();

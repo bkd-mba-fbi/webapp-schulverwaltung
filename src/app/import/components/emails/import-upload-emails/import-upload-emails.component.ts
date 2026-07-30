@@ -36,9 +36,10 @@ export class ImportUploadEmailsComponent {
   private stateService = inject(ImportStateService);
   private uploadService = inject(ImportUploadEmailsService);
 
-  importEntries: WritableSignal<Option<ReadonlyArray<EmailImportEntry>>> =
-    this.stateService.importEntries;
-  errorEntries = computed(
+  readonly importEntries: WritableSignal<
+    Option<ReadonlyArray<EmailImportEntry>>
+  > = this.stateService.importEntries;
+  readonly errorEntries = computed(
     () =>
       this.importEntries()?.filter(
         ({ importStatus }) => importStatus === "error",

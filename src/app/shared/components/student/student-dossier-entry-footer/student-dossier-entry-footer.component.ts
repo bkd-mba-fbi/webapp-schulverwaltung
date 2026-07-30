@@ -27,8 +27,10 @@ export class StudentDossierEntryFooterComponent {
 
   readonly entry = input.required<StudentDossierEntry>();
 
-  private studentId = toSignal(this.state.studentId$, { requireSync: true });
-  studentName = toSignal(
+  private readonly studentId = toSignal(this.state.studentId$, {
+    requireSync: true,
+  });
+  readonly studentName = toSignal(
     this.state.student$.pipe(map((student) => student?.FullName ?? null)),
     {
       initialValue: null,
@@ -38,7 +40,7 @@ export class StudentDossierEntryFooterComponent {
   /**
    * Whether the current user is the student itself.
    */
-  isStudent = computed(() => {
+  readonly isStudent = computed(() => {
     const studentId = this.studentId();
     const userId = this.storage.getPayload()?.id_person ?? null;
     return userId ? studentId === Number(userId) : false;

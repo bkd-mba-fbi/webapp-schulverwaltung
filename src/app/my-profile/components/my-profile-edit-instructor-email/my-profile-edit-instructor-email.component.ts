@@ -47,24 +47,24 @@ export class MyProfileEditInstructorEmailComponent {
   private profileService = inject(MyProfileService);
   private personsService = inject(PersonsRestService);
 
-  loading = toSignal(this.profileService.loadingPerson$, {
+  readonly loading = toSignal(this.profileService.loadingPerson$, {
     requireSync: true,
   });
-  submitted = signal(false);
-  saving = signal(false);
+  readonly submitted = signal(false);
+  readonly saving = signal(false);
 
-  instructorEmail = toSignal(this.loadInstructorEmail(), {
+  readonly instructorEmail = toSignal(this.loadInstructorEmail(), {
     initialValue: null,
   });
 
-  apprenticeship = toSignal(
+  readonly apprenticeship = toSignal(
     this.profileService.apprenticeships$.pipe(map((v) => (v && v[0]) ?? null)),
     {
       initialValue: null,
     },
   );
 
-  formData = linkedSignal<InstructorEmailFormData>(() => {
+  readonly formData = linkedSignal<InstructorEmailFormData>(() => {
     const email = this.instructorEmail() ?? "";
 
     return {

@@ -44,14 +44,14 @@ export class EvaluationVerifyComponent
   private router = inject(Router);
   private portalService = inject(PortalService);
 
-  hasGrades = computed(() => this.state.gradingScale() !== null);
-  hasOpenEvaluations = computed(() =>
+  readonly hasGrades = computed(() => this.state.gradingScale() !== null);
+  readonly hasOpenEvaluations = computed(() =>
     this.state.entries().some((entry) => entry.evaluationRequired),
   );
-  loadingPdf = signal(false);
+  readonly loadingPdf = signal(false);
 
   embedded = this.portalService.inIframe;
-  hostHeight = signal<Option<string>>(this.getStandaloneHeight());
+  readonly hostHeight = signal<Option<string>>(this.getStandaloneHeight());
 
   ngOnInit() {
     // Make sure we have the correct hasOpenEvaluations value

@@ -30,7 +30,7 @@ export abstract class TableHeaderComponent {
     return this.sticky();
   }
 
-  shown = signal<boolean>(false);
+  readonly shown = signal<boolean>(false);
   constructor() {
     effect(this.updateShownClass.bind(this));
   }

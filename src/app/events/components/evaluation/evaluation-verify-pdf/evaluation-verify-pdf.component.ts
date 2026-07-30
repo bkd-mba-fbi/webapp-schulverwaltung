@@ -39,13 +39,17 @@ export class EvaluationVerifyPdfComponent implements OnDestroy {
 
   readonly eventId = input.required<number>();
 
-  loading = toSignal(this.loadingService.loading(EVALUATION_PDF_CONTEXT));
-  loadingPdf = outputFromObservable(
+  readonly loading = toSignal(
+    this.loadingService.loading(EVALUATION_PDF_CONTEXT),
+  );
+  readonly loadingPdf = outputFromObservable(
     this.loadingService.loading(EVALUATION_PDF_CONTEXT),
   );
 
-  reportUrl = computed(() => this.getReportUrlForEventId(this.eventId()));
-  reportBlobUrl = toSignal(
+  readonly reportUrl = computed(() =>
+    this.getReportUrlForEventId(this.eventId()),
+  );
+  readonly reportBlobUrl = toSignal(
     toObservable(this.reportUrl).pipe(
       distinctUntilChanged(),
       switchMap((url) =>

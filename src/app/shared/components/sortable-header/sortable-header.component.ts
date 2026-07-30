@@ -24,11 +24,11 @@ export class SortableHeaderComponent<TSortKey extends SortKey> {
   readonly sortKey = input.required<TSortKey>();
   readonly sortCriteria = model.required<Option<SortCriteria<TSortKey>>>();
 
-  isSorted = computed(
+  readonly isSorted = computed(
     () => this.sortCriteria()?.primarySortKey === this.sortKey(),
   );
 
-  sortDirectionCharacter = computed(() =>
+  readonly sortDirectionCharacter = computed(() =>
     this.isSorted() ? (this.sortCriteria()?.ascending ? "↓" : "↑") : "",
   );
 

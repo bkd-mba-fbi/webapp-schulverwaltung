@@ -87,7 +87,7 @@ export class StudentGradesTestComponent {
   readonly gradingScale = input<Option<GradingScale>>(null);
   readonly isEditable = input(false);
 
-  grading = toSignal(
+  readonly grading = toSignal(
     toObservable(this.test).pipe(map(this.getGrading.bind(this))),
     { initialValue: null },
   );
