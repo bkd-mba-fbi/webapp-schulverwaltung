@@ -26,11 +26,11 @@ import { MyAbsencesAbstractConfirmComponent } from "./my-absences-abstract-confi
   ],
 })
 export class MyAbsencesReportConfirmComponent extends MyAbsencesAbstractConfirmComponent {
-  private state = inject(MyAbsencesReportStateService);
-  private selectionService = inject(MyAbsencesReportSelectionService);
+  private readonly state = inject(MyAbsencesReportStateService);
+  private readonly selectionService = inject(MyAbsencesReportSelectionService);
 
-  readonly titleKey = "my-absences.report.title";
-  selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
+  protected readonly titleKey = "my-absences.report.title";
+  protected selectedLessonIds$ = this.selectionService.selectedIds$.pipe(
     map((selectedIds) => uniq(flatten(selectedIds.map((s) => s.lessonIds)))),
   );
 

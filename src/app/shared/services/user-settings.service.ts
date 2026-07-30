@@ -36,11 +36,11 @@ const NOTIFICATION_TYPES_INACTIVE_KEY = "notificationTypesInactive";
   providedIn: "root",
 })
 export class UserSettingsService {
-  private settingsRestService = inject(UserSettingsRestService);
+  private readonly settingsRestService = inject(UserSettingsRestService);
 
-  private refetch$ = new Subject<void>();
+  private readonly refetch$ = new Subject<void>();
 
-  private settings$ = this.refetch$.pipe(
+  private readonly settings$ = this.refetch$.pipe(
     startWith(null), // Trigger the initial request
     debounceTime(REFETCH_DEBOUNCE_TIME), // Avoid making two requests initially, when the component is triggering a refetch in `ngOnInit`
     switchMap(() => this.settingsRestService.getUserSettingsCst()),
@@ -48,7 +48,7 @@ export class UserSettingsService {
     shareReplay(1),
   );
 
-  private accessInfo$ = this.settingsRestService
+  private readonly accessInfo$ = this.settingsRestService
     .getAccessInfo()
     .pipe(shareReplay(1));
 

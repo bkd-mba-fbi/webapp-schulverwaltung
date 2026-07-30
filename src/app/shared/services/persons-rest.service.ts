@@ -14,7 +14,7 @@ import { RestService } from "./rest.service";
   providedIn: "root",
 })
 export class PersonsRestService extends RestService<typeof Person> {
-  protected personEmailCodec = t.type(
+  private readonly personEmailCodec = t.type(
     pick(this.codec.props, ["Email", "FormOfAddress"]),
   );
 
@@ -128,7 +128,7 @@ export class PersonsRestService extends RestService<typeof Person> {
       .pipe(map(() => undefined));
   }
 
-  getInstructorEmail(
+  private getInstructorEmail(
     personId: number,
     context?: HttpContext,
   ): Observable<unknown> {

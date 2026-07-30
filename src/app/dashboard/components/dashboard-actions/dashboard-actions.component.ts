@@ -21,18 +21,18 @@ import { DashboardDeadlineComponent } from "../dashboard-deadline/dashboard-dead
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardActionsComponent {
-  dashboardService = inject(DashboardService);
-  settings = inject<Settings>(SETTINGS);
-  private configurationsService = inject(ConfigurationsService);
+  protected readonly dashboardService = inject(DashboardService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly configurationsService = inject(ConfigurationsService);
 
-  readonly canEditInstructorEmail = toSignal(
+  protected readonly canEditInstructorEmail = toSignal(
     this.configurationsService.canEditInstructorEmail$,
     {
       initialValue: false,
     },
   );
 
-  get substitutionsAdminLink(): string {
+  protected get substitutionsAdminLink(): string {
     return this.settings.dashboard.substitutionsAdminLink;
   }
 }

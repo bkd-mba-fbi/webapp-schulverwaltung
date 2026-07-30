@@ -26,7 +26,7 @@ export class StudentGradesFinalGradeComponent {
   readonly gradingScale = input<Option<GradingScale>>(null);
   readonly average = input.required<number>();
 
-  readonly gradeForStudent = computed(() => {
+  protected readonly gradeForStudent = computed(() => {
     return Gradings.evaluate(
       this.grading(),
       this.finalGrade(),

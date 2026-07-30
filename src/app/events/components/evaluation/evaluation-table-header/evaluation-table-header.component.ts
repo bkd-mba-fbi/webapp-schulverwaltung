@@ -33,15 +33,15 @@ export class EvaluationTableHeaderComponent extends TableHeaderComponent {
   readonly hasGrades = input.required<boolean>();
   readonly hasGradeComments = input(false);
 
-  readonly gradeColumnSelected = computed(
+  protected readonly gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
 
-  readonly commentColumnSelected = computed(
+  protected readonly commentColumnSelected = computed(
     () => this.selectedColumn() === COMMENT_COLUMN_KEY,
   );
 
-  isColumnSelected(column: EvaluationColumn) {
+  protected isColumnSelected(column: EvaluationColumn) {
     return column.vssId === this.selectedColumn();
   }
 }

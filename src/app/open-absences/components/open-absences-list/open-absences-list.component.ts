@@ -43,12 +43,12 @@ import {
 export class OpenAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  openAbsencesService = inject(OpenAbsencesService);
-  selectionService = inject(ConfirmAbsencesSelectionService);
-  private scrollPosition = inject(ScrollPositionService);
+  protected readonly openAbsencesService = inject(OpenAbsencesService);
+  protected readonly selectionService = inject(ConfirmAbsencesSelectionService);
+  private readonly scrollPosition = inject(ScrollPositionService);
 
-  readonly sortKeys = SORT_KEYS;
-  private destroy$ = new Subject<void>();
+  protected readonly sortKeys = SORT_KEYS;
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.openAbsencesService.currentDetail = null;
@@ -63,7 +63,7 @@ export class OpenAbsencesListComponent
     this.destroy$.next();
   }
 
-  onToggleAll(checked: boolean): void {
+  protected onToggleAll(checked: boolean): void {
     this.openAbsencesService.filteredEntries$
       .pipe(take(1))
       .subscribe((entries) => {
@@ -71,12 +71,15 @@ export class OpenAbsencesListComponent
       });
   }
 
-  onCheckboxCellClick(event: Event, checkbox: HTMLInputElement): void {
+  protected onCheckboxCellClick(
+    event: Event,
+    checkbox: HTMLInputElement,
+  ): void {
     if (event.target !== checkbox) {
       checkbox.click();
     }
   }
-  getLessonsCountKey(entry: OpenAbsencesEntry): string {
+  protected getLessonsCountKey(entry: OpenAbsencesEntry): string {
     const suffix = entry.lessonsCount === 1 ? "singular" : "plural";
     return `open-absences.list.content.lessonsCount.${suffix}`;
   }

@@ -51,17 +51,19 @@ export abstract class PaginatedEntriesService<
   TFilterValue,
   TSortKey extends SortKey = Extract<keyof T, string>,
 > implements OnDestroy {
-  protected location = inject(Location);
-  protected loadingService = inject(LoadingService);
-  protected settings: Settings = inject<Settings>(SETTINGS);
-  sortService = inject<SortService<TSortKey>>(SortService);
+  private readonly location = inject(Location);
+  protected readonly loadingService = inject(LoadingService);
+  protected readonly settings: Settings = inject<Settings>(SETTINGS);
+  private readonly sortService = inject<SortService<TSortKey>>(SortService);
 
   loading$ = this.loadingService.loading$;
   loadingPage$ = this.loadingService.loading(PAGE_LOADING_CONTEXT);
-  sortCriteria$ = this.sortService.sortCriteria$;
+  private readonly sortCriteria$ = this.sortService.sortCriteria$;
   sortCriteria = this.sortService.sortCriteria;
 
-  private filter$ = new BehaviorSubject<TFilterValue>(this.getInitialFilter());
+  private readonly filter$ = new BehaviorSubject<TFilterValue>(
+    this.getInitialFilter(),
+  );
   isFilterValid$ = this.filter$.pipe(map(this.isValidFilter.bind(this)));
   validFilter$ = this.filter$.pipe(
     filter(this.isValidFilter.bind(this)),
@@ -69,18 +71,18 @@ export abstract class PaginatedEntriesService<
     shareReplay(1),
   );
 
-  private resetEntries$ = new Subject<void>();
-  private nextPage$ = new Subject<void>();
-  private page$ = merge(
+  private readonly resetEntries$ = new Subject<void>();
+  private readonly nextPage$ = new Subject<void>();
+  private readonly page$ = merge(
     this.nextPage$.pipe(map(() => "next")),
     merge(this.resetEntries$, this.validFilter$, this.sortCriteria$).pipe(
       map(() => "reset"),
     ),
   ).pipe(scan((page, action) => (action === "next" ? page + 1 : 0), 0));
-  private offset$ = this.page$.pipe(
+  private readonly offset$ = this.page$.pipe(
     map((page) => page * this.settings.paginationLimit),
   );
-  private pageResult$ = combineLatest([
+  private readonly pageResult$ = combineLatest([
     this.validFilter$,
     this.sortCriteria$,
     this.offset$,

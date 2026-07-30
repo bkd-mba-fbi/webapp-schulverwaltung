@@ -24,23 +24,23 @@ import { createTeacherString } from "src/app/shared/utils/timetable-entries";
 
 @Injectable()
 export class MyAbsencesService {
-  private settings = inject<Settings>(SETTINGS);
-  private storageService = inject(StorageService);
-  private studentsService = inject(StudentsRestService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly storageService = inject(StorageService);
+  private readonly studentsService = inject(StudentsRestService);
 
-  private studentId$ = new ReplaySubject<number>(1);
-  private lessonAbsences$ =
+  private readonly studentId$ = new ReplaySubject<number>(1);
+  private readonly lessonAbsences$ =
     // Includes lesson absences without a corresponding timetable
     // entry (i.e. for which no lesson presence entry will be built)
     this.studentId$.pipe(
       switchMap(this.loadLessonAbsences.bind(this)),
       shareReplay(1),
     );
-  private lessonIncidents$ = this.studentId$.pipe(
+  private readonly lessonIncidents$ = this.studentId$.pipe(
     switchMap(this.loadLessonIncidents.bind(this)),
     shareReplay(1),
   );
-  private lessonPresences$ = this.getLessonPresences();
+  private readonly lessonPresences$ = this.getLessonPresences();
 
   openAbsences$ = this.getAbsences(this.settings.unconfirmedAbsenceStateId);
   excusedAbsences$ = this.getAbsences(this.settings.excusedAbsenceStateId);

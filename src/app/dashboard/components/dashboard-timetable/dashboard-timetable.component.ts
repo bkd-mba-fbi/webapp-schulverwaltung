@@ -46,35 +46,35 @@ const CALENDAR_SUBSCRIBE_KEY = "cal";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardTimetableComponent {
-  private teachersService = inject(TeachersRestService);
-  private studentsService = inject(StudentsRestService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private userSettings = inject(UserSettingsService);
-  private dashboardService = inject(DashboardService);
-  private loadingService = inject(LoadingService);
+  private readonly teachersService = inject(TeachersRestService);
+  private readonly studentsService = inject(StudentsRestService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly userSettings = inject(UserSettingsService);
+  private readonly dashboardService = inject(DashboardService);
+  private readonly loadingService = inject(LoadingService);
 
-  userId$ = this.dashboardService.userId$;
-  isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
-  isStudent$ = this.dashboardService.hasStudentRole$;
-  date$ = new BehaviorSubject(startOfDay(new Date()));
-  loading$ = this.loadingService.loading$;
-  timetableEntries$ = this.loadTimetableEntries().pipe(
+  private readonly userId$ = this.dashboardService.userId$;
+  private readonly isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
+  private readonly isStudent$ = this.dashboardService.hasStudentRole$;
+  protected date$ = new BehaviorSubject(startOfDay(new Date()));
+  protected loading$ = this.loadingService.loading$;
+  protected timetableEntries$ = this.loadTimetableEntries().pipe(
     map(groupTimetableEntries),
   );
 
-  gotoToday(): void {
+  protected gotoToday(): void {
     this.date$.next(startOfDay(new Date()));
   }
 
-  gotoPreviousDay(): void {
+  protected gotoPreviousDay(): void {
     this.date$.next(subDays(this.date$.getValue(), 1));
   }
 
-  gotoNextDay(): void {
+  protected gotoNextDay(): void {
     this.date$.next(addDays(this.date$.getValue(), 1));
   }
 
-  getSubscribeCalendarUrl(): Observable<Option<string>> {
+  protected getSubscribeCalendarUrl(): Observable<Option<string>> {
     return this.userSettings.getSetting(CALENDAR_SUBSCRIBE_KEY);
   }
 

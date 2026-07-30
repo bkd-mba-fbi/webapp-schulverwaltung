@@ -20,8 +20,8 @@ import { PresenceTypesRestService } from "./presence-types-rest.service";
   providedIn: "root",
 })
 export class PresenceTypesService {
-  private restService = inject(PresenceTypesRestService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly restService = inject(PresenceTypesRestService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 

@@ -24,9 +24,9 @@ import { StatusProcessesRestService } from "src/app/shared/services/status-proce
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsStudentsStudyCourseEditDialogComponent {
-  private statusProcessesService = inject(StatusProcessesRestService);
-  private loadingService = inject(LoadingService);
-  activeModal = inject(NgbActiveModal);
+  private readonly statusProcessesService = inject(StatusProcessesRestService);
+  private readonly loadingService = inject(LoadingService);
+  readonly activeModal = inject(NgbActiveModal);
 
   readonly currentStatus = input.required<Status>();
   readonly subscriptionId = input.required<number>();

@@ -13,8 +13,8 @@ export interface NotificationType {
   providedIn: "root",
 })
 export class NotificationTypesService {
-  private settings = inject<Settings>(SETTINGS);
-  private storage = inject(StorageService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly storage = inject(StorageService);
 
   private currentRoles: Option<ReadonlyArray<string>> = null;
 

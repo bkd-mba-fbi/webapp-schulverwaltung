@@ -50,7 +50,7 @@ export abstract class ImportFileService<
   /**
    * Parse Excel sheet
    */
-  protected async parse(file: File): Promise<ReadonlyArray<TRow>> {
+  private async parse(file: File): Promise<ReadonlyArray<TRow>> {
     const buffer = await file.arrayBuffer();
     const book = read(buffer);
     const sheet = book.Sheets[book.SheetNames[0]];
@@ -68,7 +68,7 @@ export abstract class ImportFileService<
   /**
    * Verify basic data format
    */
-  protected verify(rows: ReadonlyArray<TRow>): Option<ParseError> {
+  private verify(rows: ReadonlyArray<TRow>): Option<ParseError> {
     const emptyError = this.verifyNonEmpty(rows);
     if (emptyError) {
       return emptyError;
@@ -82,7 +82,7 @@ export abstract class ImportFileService<
     return null;
   }
 
-  protected verifyNonEmpty(rows: ReadonlyArray<TRow>): Option<EmptyFileError> {
+  private verifyNonEmpty(rows: ReadonlyArray<TRow>): Option<EmptyFileError> {
     if (rows.length === 0) {
       return new EmptyFileError();
     }
@@ -90,7 +90,7 @@ export abstract class ImportFileService<
     return null;
   }
 
-  protected verifyColumns(
+  private verifyColumns(
     rows: ReadonlyArray<TRow>,
   ): Option<MissingColumnsError> {
     if (rows.length > 0) {

@@ -25,7 +25,7 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
   extends RestService<T>
   implements TypeaheadService
 {
-  protected typeaheadCodec = t.type(
+  protected readonly typeaheadCodec = t.type(
     pick(this.codec.props, [this.keyAttr, this.labelAttr]),
   );
 
@@ -34,8 +34,8 @@ export abstract class TypeaheadRestService<T extends t.InterfaceType<any>>
     settings: Settings,
     codec: T,
     resourcePath: string,
-    protected labelAttr: string,
-    protected keyAttr = "Id",
+    protected readonly labelAttr: string,
+    protected readonly keyAttr = "Id",
   ) {
     super(http, settings, codec, resourcePath);
   }

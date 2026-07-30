@@ -11,7 +11,7 @@ import {
   selector: "textarea[bkdTextareaAutosize]",
 })
 export class TextareaAutosizeDirective implements AfterViewInit, OnDestroy {
-  private elementRef = inject(ElementRef);
+  private readonly elementRef = inject(ElementRef);
 
   private observer?: IntersectionObserver;
 
@@ -54,7 +54,7 @@ export class TextareaAutosizeDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  resize() {
+  private resize() {
     this.elementRef.nativeElement.style.height = "0";
     this.elementRef.nativeElement.style.height =
       this.elementRef.nativeElement.scrollHeight + 3 + "px";

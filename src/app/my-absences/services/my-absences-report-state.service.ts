@@ -28,8 +28,8 @@ export class MyAbsencesReportStateService extends PaginatedEntriesService<
   LessonPresence,
   ReportAbsencesFilter
 > {
-  private studentsService = inject(StudentsRestService);
-  private storageService = inject(StorageService);
+  private readonly studentsService = inject(StudentsRestService);
+  private readonly storageService = inject(StorageService);
 
   private _preventAbsencesAfterStart?: boolean;
   private get preventAbsencesAfterStart(): boolean {

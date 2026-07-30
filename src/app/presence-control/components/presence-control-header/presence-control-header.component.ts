@@ -96,8 +96,8 @@ const DEBOUNCE_TIME = 1000; // 1 second
   ],
 })
 export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
-  state = inject(PresenceControlStateService);
-  private groupService = inject(PresenceControlGroupService);
+  readonly state = inject(PresenceControlStateService);
+  private readonly groupService = inject(PresenceControlGroupService);
 
   readonly selectedLesson = model.required<LessonEntry>();
   readonly lessons = input.required<ReadonlyArray<LessonEntry>>();
@@ -108,8 +108,8 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
   readonly selectedDate = model.required<Date>();
   readonly search = model("");
 
-  private dateSubject: Subject<Date> = new Subject<Date>();
-  private destroy$ = new Subject<void>();
+  private readonly dateSubject: Subject<Date> = new Subject<Date>();
+  private readonly destroy$ = new Subject<void>();
 
   readonly lessonDropdown = viewChild(NgbDropdown);
 

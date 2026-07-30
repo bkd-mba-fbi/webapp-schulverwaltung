@@ -38,29 +38,37 @@ import { ImportProceedUploadDialogComponent } from "../../common/import-proceed-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportValidationSubscriptionDetailsComponent {
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private stateService = inject(ImportStateService);
-  private validationService = inject(ImportValidateSubscriptionDetailsService);
-  private modalService = inject(BkdModalService);
-  private toastService = inject(ToastService);
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
+  private readonly stateService = inject(ImportStateService);
+  private readonly validationService = inject(
+    ImportValidateSubscriptionDetailsService,
+  );
+  private readonly modalService = inject(BkdModalService);
+  private readonly toastService = inject(ToastService);
 
-  readonly parsedEntries: WritableSignal<
+  private readonly parsedEntries: WritableSignal<
     Option<ReadonlyArray<SubscriptionDetailEntry>>
   > = this.stateService.parsedEntries;
-  readonly importEntries: WritableSignal<
+  private readonly importEntries: WritableSignal<
     Option<ReadonlyArray<SubscriptionDetailImportEntry>>
   > = this.stateService.importEntries;
 
-  readonly isValidating = computed(() => this.importEntries() === null);
+  protected readonly isValidating = computed(
+    () => this.importEntries() === null,
+  );
 
-  readonly validEntries = computed(() => this.getEntriesByStatus("valid"));
-  readonly validCount = computed(() => this.validEntries().length);
+  private readonly validEntries = computed(() =>
+    this.getEntriesByStatus("valid"),
+  );
+  private readonly validCount = computed(() => this.validEntries().length);
 
-  readonly invalidEntries = computed(() => this.getEntriesByStatus("invalid"));
-  readonly invalidCount = computed(() => this.invalidEntries().length);
+  private readonly invalidEntries = computed(() =>
+    this.getEntriesByStatus("invalid"),
+  );
+  private readonly invalidCount = computed(() => this.invalidEntries().length);
 
-  readonly sortedEntries = computed(() => [
+  protected readonly sortedEntries = computed(() => [
     ...this.invalidEntries(),
     ...this.validEntries(),
   ]);
@@ -78,7 +86,7 @@ export class ImportValidationSubscriptionDetailsComponent {
       .then((entries) => this.stateService.importEntries.set(entries));
   }
 
-  proceedToUpload(): void {
+  protected proceedToUpload(): void {
     if (this.validCount() === 0) {
       this.toastService.error(
         this.translate.instant("import.validation.proceed-no-valid"),
@@ -105,7 +113,9 @@ export class ImportValidationSubscriptionDetailsComponent {
     );
   }
 
-  getErrorMessage(entry: SubscriptionDetailImportEntry): Option<string> {
+  protected getErrorMessage(
+    entry: SubscriptionDetailImportEntry,
+  ): Option<string> {
     if (entry.validationStatus === "invalid" && entry.validationError) {
       return this.translate.instant(
         `import.validation.errors.${entry.validationError.type}`,

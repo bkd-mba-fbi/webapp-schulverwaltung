@@ -21,11 +21,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsAddComponent {
-  private courseService = inject(CoursesRestService);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private router = inject(Router);
-  private state = inject(TestStateService);
+  private readonly courseService = inject(CoursesRestService);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly router = inject(Router);
+  private readonly state = inject(TestStateService);
 
   defaultGradingScaleId$ = this.state.tests$.pipe(
     map(this.getLatestGradingScaleId.bind(this)),

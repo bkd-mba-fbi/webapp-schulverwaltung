@@ -58,52 +58,53 @@ import {
   ],
 })
 export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
-  private fb = inject(UntypedFormBuilder);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private selectionService = inject(ConfirmAbsencesSelectionService);
-  private dropDownItemsService = inject(DropDownItemsRestService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private updateService = inject(LessonPresencesUpdateRestService);
-  private settings = inject<Settings>(SETTINGS);
-  private openAbsencesEditService = inject<IConfirmAbsencesService>(
+  private readonly fb = inject(UntypedFormBuilder);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly selectionService = inject(ConfirmAbsencesSelectionService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly updateService = inject(LessonPresencesUpdateRestService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly openAbsencesEditService = inject<IConfirmAbsencesService>(
     CONFIRM_ABSENCES_SERVICE,
     { optional: true },
   );
 
-  formGroup$ = this.selectionService.selectedWithoutPresenceType$.pipe(
-    map(this.createFormGroup.bind(this)),
-    shareReplay(1),
-  );
+  protected formGroup$ =
+    this.selectionService.selectedWithoutPresenceType$.pipe(
+      map(this.createFormGroup.bind(this)),
+      shareReplay(1),
+    );
 
-  saving$ = new BehaviorSubject(false);
-  private submitted$ = new BehaviorSubject(false);
+  protected saving$ = new BehaviorSubject(false);
+  private readonly submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
-  absenceTypeIdErrors$ = getValidationErrors(
+  protected formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
+  protected absenceTypeIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
     "absenceTypeId",
   );
 
-  private confirmationStates$ = this.dropDownItemsService
+  private readonly confirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
     .pipe(shareReplay(1));
 
-  excusedState$ = findDropDownItem$(
+  protected excusedState$ = findDropDownItem$(
     this.confirmationStates$,
     this.settings.excusedAbsenceStateId,
   );
-  unexcusedState$ = findDropDownItem$(
+  protected unexcusedState$ = findDropDownItem$(
     this.confirmationStates$,
     this.settings.unexcusedAbsenceStateId,
   );
 
-  absenceTypes$ = this.presenceTypesService.confirmationTypes$;
+  protected absenceTypes$ = this.presenceTypesService.confirmationTypes$;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.selectionService.selectedIds$
@@ -156,7 +157,7 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.submitted$.next(true);
     this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
       if (formGroup.valid) {
@@ -166,11 +167,11 @@ export class ConfirmAbsencesComponent implements OnInit, OnDestroy {
     });
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.navigateBack();
   }
 
-  getSelectedCount(): Observable<number> {
+  protected getSelectedCount(): Observable<number> {
     return this.selectionService.selectedLessons$.pipe(
       map((lessons) => lessons.length),
     );

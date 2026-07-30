@@ -18,9 +18,9 @@ import { decode } from "./shared/utils/decode";
   imports: [ToastComponent, RouterOutlet],
 })
 export class AppComponent {
-  private toastService = inject(ToastService);
-  private settings = inject<Settings>(SETTINGS);
-  private navigator = inject<Navigator>(NAVIGATOR);
+  private readonly toastService = inject(ToastService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly navigator = inject<Navigator>(NAVIGATOR);
 
   constructor() {
     const i18n = inject(I18nService);

@@ -23,15 +23,15 @@ import { getCourseDesignation } from "../../../utils/events";
   ],
 })
 export class TestsHeaderComponent {
-  private reportsService = inject(ReportsService);
+  private readonly reportsService = inject(ReportsService);
 
   readonly course = input.required<Course>();
 
-  readonly courseDesignation = computed(() =>
+  protected readonly courseDesignation = computed(() =>
     getCourseDesignation(this.course()),
   );
 
-  reports$ = toObservable(this.course).pipe(
+  protected reports$ = toObservable(this.course).pipe(
     map((course) => course.Id),
     distinctUntilChanged(),
     switchMap((courseId) =>

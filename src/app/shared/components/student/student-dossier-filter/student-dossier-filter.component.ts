@@ -21,20 +21,26 @@ import { StudentDossierFilterService } from "src/app/shared/services/student-dos
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierFilterComponent {
-  private filterService = inject(StudentDossierFilterService);
-  private host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly filterService = inject(StudentDossierFilterService);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  readonly dropdownId = uniqueId("student-dossier-filter-dropdown");
+  protected readonly dropdownId = uniqueId("student-dossier-filter-dropdown");
 
   readonly isDropdownOpen = signal(false);
-  readonly isFilterActive = toSignal(this.filterService.isFilterActive$, {
-    requireSync: true,
-  });
-  readonly categoryOptions = toSignal(this.filterService.filterOptions$, {
-    initialValue: [],
-  });
+  protected readonly isFilterActive = toSignal(
+    this.filterService.isFilterActive$,
+    {
+      requireSync: true,
+    },
+  );
+  protected readonly categoryOptions = toSignal(
+    this.filterService.filterOptions$,
+    {
+      initialValue: [],
+    },
+  );
 
-  readonly selectedCategories = toSignal(
+  protected readonly selectedCategories = toSignal(
     this.filterService.selectedCategories$,
     {
       initialValue: [],
@@ -45,12 +51,12 @@ export class StudentDossierFilterComponent {
     this.isDropdownOpen.update((open) => !open);
   }
 
-  onCategoriesChange(categories: ReadonlyArray<string>): void {
+  protected onCategoriesChange(categories: ReadonlyArray<string>): void {
     this.filterService.setSelectedCategories(categories);
   }
 
   @HostListener("document:click", ["$event.target"])
-  onDocumentClick(target: EventTarget | null): void {
+  protected onDocumentClick(target: EventTarget | null): void {
     if (
       this.isDropdownOpen() &&
       target instanceof Node &&

@@ -26,15 +26,15 @@ const MODULE_EVENT_TYPE_ID = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationFinaliseDialogComponent {
-  activeModal = inject(NgbActiveModal);
-  private eventsService = inject(EventsRestService);
-  private loadingService = inject(LoadingService);
-  private evaluationStatusService = inject(StatusProcessesRestService);
+  private readonly activeModal = inject(NgbActiveModal);
+  private readonly eventsService = inject(EventsRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly evaluationStatusService = inject(StatusProcessesRestService);
 
   readonly eventId = input<Option<number>>(null);
   readonly hasOpenEvaluations = input<boolean>(false);
 
-  readonly loading = toSignal(
+  protected readonly loading = toSignal(
     this.loadingService.loading(PAGE_LOADING_CONTEXT),
     {
       initialValue: true,
@@ -61,7 +61,7 @@ export class EvaluationFinaliseDialogComponent {
     );
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.activeModal.dismiss();
   }
 

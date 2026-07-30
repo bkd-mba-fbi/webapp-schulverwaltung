@@ -20,12 +20,12 @@ import { EvaluationGradingItemUpdateService } from "../../../services/evaluation
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationDefaultGradeDialogComponent {
-  activeModal = inject(NgbActiveModal);
+  private readonly activeModal = inject(NgbActiveModal);
 
   readonly updateService = input.required<EvaluationGradingItemUpdateService>();
   readonly gradingScale = input<Option<GradingScale>>(null);
 
-  readonly selectedGradeKey = signal<number | null>(null);
+  protected readonly selectedGradeKey = signal<Option<number>>(null);
 
   readonly gradeOptions = computed(
     () =>
@@ -35,14 +35,14 @@ export class EvaluationDefaultGradeDialogComponent {
       })) ?? null,
   );
 
-  readonly selectedGrade = computed(() => {
+  protected readonly selectedGrade = computed(() => {
     const key = this.selectedGradeKey();
     return (
       this.gradingScale()?.Grades.find((grade) => grade.Id === key) ?? null
     );
   });
 
-  async updateGrades(): Promise<void> {
+  protected async updateGrades(): Promise<void> {
     const selectedGrade = this.selectedGrade();
     if (selectedGrade) {
       await this.updateService()
@@ -51,7 +51,7 @@ export class EvaluationDefaultGradeDialogComponent {
     }
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.activeModal.dismiss();
   }
 }

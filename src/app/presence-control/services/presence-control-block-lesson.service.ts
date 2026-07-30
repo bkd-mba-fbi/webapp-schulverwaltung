@@ -19,10 +19,10 @@ export function getBlockLessonLoadingContext(
 
 @Injectable()
 export class PresenceControlBlockLessonService {
-  private state = inject(PresenceControlStateService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private loadingService = inject(LoadingService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly state = inject(PresenceControlStateService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   /**
    * A block lesson is defined as a set of lesson presences of the

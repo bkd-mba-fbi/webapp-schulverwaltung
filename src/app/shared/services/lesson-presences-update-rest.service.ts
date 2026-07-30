@@ -8,8 +8,8 @@ import { SETTINGS, Settings } from "src/app/settings";
   providedIn: "root",
 })
 export class LessonPresencesUpdateRestService {
-  private http = inject(HttpClient);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   editLessonPresences(
     lessonIds: ReadonlyArray<number>,

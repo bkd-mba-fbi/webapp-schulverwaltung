@@ -52,8 +52,8 @@ const DEBOUNCE_TIME = 500;
   imports: [FormsModule, ReactiveFormsModule, SelectComponent, TranslatePipe],
 })
 export class StudentGradesEditDialogComponent implements OnInit {
-  activeModal = inject(NgbActiveModal);
-  private courseService = inject(CoursesRestService);
+  private readonly activeModal = inject(NgbActiveModal);
+  private readonly courseService = inject(CoursesRestService);
 
   readonly test = input.required<Test>();
   readonly gradeId = model<Option<number>>(null);
@@ -61,45 +61,46 @@ export class StudentGradesEditDialogComponent implements OnInit {
   readonly points = input<Option<number>>(null);
   readonly studentId = input.required<number>();
 
-  readonly closeButtonDisabled: WritableSignal<boolean> = signal(false);
+  protected readonly closeButtonDisabled: WritableSignal<boolean> =
+    signal(false);
 
-  readonly updatedTestResult = linkedSignal<Option<Result>>(() => {
+  private readonly updatedTestResult = linkedSignal<Option<Result>>(() => {
     const test = this.test();
     return (test && resultOfStudent(this.studentId(), test)) ?? null;
   });
-  readonly maxPoints = computed<number>(() => {
+  protected readonly maxPoints = computed<number>(() => {
     const test = this.test();
     return test ? maxPoints(test) : 0;
   });
-  readonly maxPointsAdjusted = computed<number>(() => {
+  private readonly maxPointsAdjusted = computed<number>(() => {
     const test = this.test();
     return test ? maxPointsAdjusted(test) : 0;
   });
 
-  pointsInput: UntypedFormControl;
+  protected pointsInput: UntypedFormControl;
 
-  private gradeSubject$: Subject<Option<number>> = new Subject<
+  private readonly gradeSubject$: Subject<Option<number>> = new Subject<
     Option<number>
   >();
-  private pointsSubject$: Subject<string> = new Subject<string>();
+  private readonly pointsSubject$: Subject<string> = new Subject<string>();
 
-  updatedGrade$: Observable<Option<number>> = this.gradeSubject$.pipe(
-    debounceTime(DEBOUNCE_TIME),
-  );
-  updatedPoints$: Observable<number> = this.pointsSubject$.pipe(
-    debounceTime(DEBOUNCE_TIME),
-    filter(this.isValid.bind(this)),
-    map(Number),
-  );
+  private readonly updatedGrade$: Observable<Option<number>> =
+    this.gradeSubject$.pipe(debounceTime(DEBOUNCE_TIME));
+  private readonly updatedPoints$: Observable<number> =
+    this.pointsSubject$.pipe(
+      debounceTime(DEBOUNCE_TIME),
+      filter(this.isValid.bind(this)),
+      map(Number),
+    );
   private readonly updatedPointsFromObservable = toSignal(this.updatedPoints$);
-  readonly updatedPoints = computed(
+  private readonly updatedPoints = computed(
     () => this.updatedPointsFromObservable() ?? this.points() ?? 0,
   );
-  readonly gradingScaleDisabled = computed(
+  protected readonly gradingScaleDisabled = computed(
     () => this.test()?.IsPointGrading && this.updatedPoints() > 0,
   );
 
-  destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.pointsInput = new UntypedFormControl(
@@ -134,15 +135,15 @@ export class StudentGradesEditDialogComponent implements OnInit {
     });
   }
 
-  onGradeChange(gradeId: Option<DropDownItem["Key"]>): void {
+  protected onGradeChange(gradeId: Option<DropDownItem["Key"]>): void {
     this.gradeSubject$.next(gradeId == null ? null : Number(gradeId));
   }
 
-  onPointsChange(points: string): void {
+  protected onPointsChange(points: string): void {
     this.pointsSubject$.next(points);
   }
 
-  isGreaterThanMaxPointsAdjusted(points: string): boolean {
+  protected isGreaterThanMaxPointsAdjusted(points: string): boolean {
     const pointsValue = Number(points);
     return (
       this.maxPointsAdjusted() > 0 &&
@@ -151,7 +152,7 @@ export class StudentGradesEditDialogComponent implements OnInit {
     );
   }
 
-  close(): void {
+  protected close(): void {
     this.activeModal.close(this.updatedTestResult());
   }
 

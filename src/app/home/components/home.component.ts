@@ -27,7 +27,7 @@ interface Section {
   imports: [RouterLink, TranslatePipe],
 })
 export class HomeComponent {
-  readonly sections: ReadonlyArray<Section> = [
+  protected readonly sections: ReadonlyArray<Section> = [
     { path: "dashboard" },
     { path: "presence-control" },
     { path: "open-absences" },

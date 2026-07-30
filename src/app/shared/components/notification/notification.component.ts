@@ -21,7 +21,7 @@ export class NotificationComponent {
   readonly actionLabel = input<string>("");
   readonly action = output<void>();
 
-  handleClick(): void {
+  protected handleClick(): void {
     this.action.emit();
   }
 }

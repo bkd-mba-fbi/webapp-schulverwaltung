@@ -14,6 +14,8 @@
 - We use [OnPush](https://angular.dev/best-practices/skipping-subtrees#using-onpush) instead of the `Default` change detection strategy
   - As a consequence, state has to be handled reactively, using signals (preferred) or observables (for more advanced async use cases) → see next section
   - When generating components with `ng generate component` the correct strategy will already be configured
+- We mark properties that are not modified (such as signals, observables etc.) with `readonly`
+- We mark properties and methods only used in the component logic with `private` and such that are used in template with `protected`.
 
 ## Reactivity
 

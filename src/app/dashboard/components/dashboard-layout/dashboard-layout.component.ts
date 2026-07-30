@@ -22,5 +22,5 @@ import { DashboardTimetableComponent } from "../dashboard-timetable/dashboard-ti
   ],
 })
 export class DashboardLayoutComponent {
-  dashboardService = inject(DashboardService);
+  protected readonly dashboardService = inject(DashboardService);
 }

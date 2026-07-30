@@ -11,5 +11,5 @@ import { ToastService } from "../../services/toast.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastComponent {
-  toastService = inject(ToastService);
+  protected readonly toastService = inject(ToastService);
 }

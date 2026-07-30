@@ -17,7 +17,7 @@ export class StudentGradesCourseHeaderComponent {
   readonly gradingScale = input<Option<GradingScale>>(null);
   readonly average = input<number>(0);
 
-  readonly gradeForStudent = computed(() =>
+  protected readonly gradeForStudent = computed(() =>
     evaluate(this.grading(), this.finalGrade(), this.gradingScale()),
   );
 

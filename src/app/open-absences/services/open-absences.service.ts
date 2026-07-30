@@ -36,23 +36,23 @@ const SEARCH_FIELDS: ReadonlyArray<keyof OpenAbsencesEntry> = [
 
 @Injectable()
 export class OpenAbsencesService implements IConfirmAbsencesService {
-  private translate = inject(TranslateService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private selectionService = inject(ConfirmAbsencesSelectionService);
-  private sortService = inject<SortService<SortKey>>(SortService);
-  private loadingService = inject(LoadingService);
+  private readonly translate = inject(TranslateService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly selectionService = inject(ConfirmAbsencesSelectionService);
+  private readonly sortService = inject<SortService<SortKey>>(SortService);
+  private readonly loadingService = inject(LoadingService);
 
   loading$ = this.loadingService.loading$;
   search$ = new BehaviorSubject<string>("");
 
-  private updateUnconfirmedAbsences$ = new Subject<
+  private readonly updateUnconfirmedAbsences$ = new Subject<
     ReadonlyArray<LessonPresence>
   >();
-  private unconfirmedAbsences$ = merge(
+  private readonly unconfirmedAbsences$ = merge(
     this.loadUnconfirmedAbsences(),
     this.updateUnconfirmedAbsences$,
   ).pipe(shareReplay(1));
-  private entries$ = this.unconfirmedAbsences$.pipe(
+  private readonly entries$ = this.unconfirmedAbsences$.pipe(
     map(buildOpenAbsencesEntries),
     shareReplay(1),
   );

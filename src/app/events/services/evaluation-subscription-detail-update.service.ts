@@ -17,14 +17,16 @@ const EVALUTATION_UPDATE_CONTEXT = "events-evaluation-update";
 
 @Injectable()
 export class EvaluationSubscriptionDetailUpdateService {
-  private loadingService = inject(LoadingService);
-  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
-  private state = inject(EvaluationStateService);
-  private restErrorService = inject(RestErrorNotificationService);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly subscriptionDetailsService = inject(
+    SubscriptionDetailsRestService,
+  );
+  private readonly state = inject(EvaluationStateService);
+  private readonly restErrorService = inject(RestErrorNotificationService);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
-  readonly updating = toSignal(
+  private readonly updating = toSignal(
     this.loadingService.loading(EVALUTATION_UPDATE_CONTEXT),
     {
       requireSync: true,

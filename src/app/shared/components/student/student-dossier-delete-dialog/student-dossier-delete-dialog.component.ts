@@ -9,7 +9,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [TranslatePipe],
 })
 export class StudentDossierDeleteDialogComponent {
-  activeModal = inject(NgbActiveModal);
+  protected readonly activeModal = inject(NgbActiveModal);
 
   readonly type = input<"document" | "note">();
 }

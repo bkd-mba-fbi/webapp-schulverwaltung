@@ -20,7 +20,7 @@ import {
   imports: [],
 })
 export class AverageGradesComponent {
-  private locale = inject(LOCALE_ID);
+  private readonly locale = inject(LOCALE_ID);
 
   readonly test = input.required<Test>();
 

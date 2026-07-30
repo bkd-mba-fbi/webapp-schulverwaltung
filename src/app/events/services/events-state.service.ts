@@ -50,31 +50,31 @@ export interface EventEntry {
 
 @Injectable({ providedIn: "root" })
 export class EventsStateService {
-  private coursesRestService = inject(CoursesRestService);
-  private studyClassRestService = inject(StudyClassesRestService);
-  private loadingService = inject(LoadingService);
-  private translate = inject(TranslateService);
-  private router = inject(Router);
+  private readonly coursesRestService = inject(CoursesRestService);
+  private readonly studyClassRestService = inject(StudyClassesRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly translate = inject(TranslateService);
+  private readonly router = inject(Router);
 
   loading$ = this.loadingService.loading$;
 
-  private searchFields$ = new BehaviorSubject<ReadonlyArray<keyof EventEntry>>([
-    "designation",
-  ]);
-  private searchSubject$ = new BehaviorSubject<string>("");
+  private readonly searchFields$ = new BehaviorSubject<
+    ReadonlyArray<keyof EventEntry>
+  >(["designation"]);
+  private readonly searchSubject$ = new BehaviorSubject<string>("");
   search$ = this.searchSubject$.asObservable();
 
-  private scopeSubject$ = new BehaviorSubject<EventScope>("current");
+  private readonly scopeSubject$ = new BehaviorSubject<EventScope>("current");
   scope$ = this.scopeSubject$.asObservable();
 
-  private roles$ = new BehaviorSubject<Option<string>>(null);
-  private isClassTeacher$ = this.roles$.pipe(
+  private readonly roles$ = new BehaviorSubject<Option<string>>(null);
+  private readonly isClassTeacher$ = this.roles$.pipe(
     map((roles) => hasRole(roles, "ClassTeacherRole")),
     shareReplay(1),
   );
 
-  private events$ = this.getEvents().pipe(shareReplay(1));
-  private filteredEvents$ = combineLatest([
+  private readonly events$ = this.getEvents().pipe(shareReplay(1));
+  private readonly filteredEvents$ = combineLatest([
     this.events$,
     this.searchFields$,
     this.search$,

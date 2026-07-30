@@ -20,7 +20,7 @@ export class SwitchComponent {
   readonly disabled = input(false);
   readonly value = model(false);
 
-  fallbackId = uniqueId("bkd-switch");
+  protected readonly fallbackId = uniqueId("bkd-switch");
 
   constructor() {}
 }

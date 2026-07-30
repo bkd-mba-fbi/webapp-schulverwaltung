@@ -31,7 +31,7 @@ export class MyAbsencesReportHeaderComponent {
   /**
    * User may not choose dates in the past
    */
-  minDate = {
+  protected readonly minDate = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     day: new Date().getDate(),
@@ -42,7 +42,7 @@ export class MyAbsencesReportHeaderComponent {
   /**
    * Update date to the same date, if date from changes.
    */
-  updateDateFrom(date: Option<Date>): void {
+  protected updateDateFrom(date: Option<Date>): void {
     this.filter.update((current) => ({
       ...current,
       dateFrom: date,
@@ -50,7 +50,7 @@ export class MyAbsencesReportHeaderComponent {
     }));
   }
 
-  show(): void {
+  protected show(): void {
     this.filter.set({
       // Normalize the dates' times to 00:00 to be comparable
       dateFrom: normalizeDate(this.filter().dateFrom),

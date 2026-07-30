@@ -28,10 +28,10 @@ export function getEntryUpdateContext(entry: PresenceControlEntry): string {
   providedIn: "root",
 })
 export class LessonPresencesUpdateService {
-  private restService = inject(LessonPresencesUpdateRestService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private loadingService = inject(LoadingService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly restService = inject(LessonPresencesUpdateRestService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   /**
    * Update the presence type of the given entry (or multiple entries of the

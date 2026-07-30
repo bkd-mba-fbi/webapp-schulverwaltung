@@ -33,7 +33,7 @@ export class EventsStudentsStudyCourseListComponent {
   readonly sortCriteria = model.required<Option<SortCriteria<SortKey>>>();
   readonly searchTerm = model<string>();
 
-  updateSortCriteria(newCriteria: SortCriteria<SortKey>): void {
+  private updateSortCriteria(newCriteria: SortCriteria<SortKey>): void {
     this.sortCriteria.set(newCriteria);
   }
 }

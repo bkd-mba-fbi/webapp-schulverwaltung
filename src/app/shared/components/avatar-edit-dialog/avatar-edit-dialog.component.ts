@@ -28,10 +28,10 @@ type AvatarEditDialogStep = "choose" | "crop" | "uploading";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarEditDialogComponent {
-  activeModal = inject(NgbActiveModal);
-  translate = inject(TranslateService);
-  private croptService = inject(CroptService);
-  private additionalInformationsRestService = inject(
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly translate = inject(TranslateService);
+  private readonly croptService = inject(CroptService);
+  private readonly additionalInformationsRestService = inject(
     AdditionalInformationsRestService,
   );
 
@@ -39,18 +39,19 @@ export class AvatarEditDialogComponent {
 
   readonly step = signal<AvatarEditDialogStep>("choose");
 
-  acceptedFileTypes = [".jpg", ".jpeg", ".png"];
-  acceptedMimeTypes = ["image/jpeg", "image/png"];
+  protected readonly acceptedFileTypes = [".jpg", ".jpeg", ".png"];
+  private readonly acceptedMimeTypes = ["image/jpeg", "image/png"];
   readonly file = signal<Option<File>>(null);
-  readonly invalidFile = computed(
+  protected readonly invalidFile = computed(
     () =>
       this.file() && !this.acceptedMimeTypes.includes(this.file()?.type ?? ""),
   );
-  readonly error = signal<Option<unknown>>(null);
+  protected readonly error = signal<Option<unknown>>(null);
 
-  readonly cropElement = viewChild<ElementRef<HTMLDivElement>>("cropElement");
+  private readonly cropElement =
+    viewChild<ElementRef<HTMLDivElement>>("cropElement");
 
-  readonly saving = signal(false);
+  protected readonly saving = signal(false);
 
   readonly canCancel = computed(
     () => this.step() !== "uploading" || !this.saving(),
@@ -64,14 +65,14 @@ export class AvatarEditDialogComponent {
     }
     return false;
   });
-  readonly cancelLabel = computed(() =>
+  protected readonly cancelLabel = computed(() =>
     this.translate.instant(
       this.error()
         ? "shared.avatar-edit.dialog.close"
         : "shared.avatar-edit.dialog.cancel",
     ),
   );
-  readonly proceedLabel = computed(() =>
+  protected readonly proceedLabel = computed(() =>
     this.translate.instant(
       this.step() === "crop"
         ? "shared.avatar-edit.dialog.save"

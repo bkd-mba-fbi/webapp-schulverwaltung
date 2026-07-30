@@ -15,7 +15,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportProceedUploadDialogComponent {
-  activeModal = inject(NgbActiveModal);
+  protected readonly activeModal = inject(NgbActiveModal);
 
   readonly validCount = input.required<number>();
   readonly invalidCount = input.required<number>();

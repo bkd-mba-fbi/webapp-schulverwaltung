@@ -52,16 +52,18 @@ export type SortKey = (typeof SORT_KEYS)[number];
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  state = inject(PresenceControlStateService);
-  selectionService = inject(PresenceControlGroupSelectionService);
-  groupService = inject(PresenceControlGroupService);
-  private userSettings = inject(UserSettingsService);
-  private subscriptionDetailService = inject(SubscriptionDetailsRestService);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private modalService = inject(BkdModalService);
-  private sortService = inject<SortService<SortKey>>(SortService);
+  private readonly route = inject(ActivatedRoute);
+  readonly state = inject(PresenceControlStateService);
+  readonly selectionService = inject(PresenceControlGroupSelectionService);
+  readonly groupService = inject(PresenceControlGroupService);
+  private readonly userSettings = inject(UserSettingsService);
+  private readonly subscriptionDetailService = inject(
+    SubscriptionDetailsRestService,
+  );
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly sortService = inject<SortService<SortKey>>(SortService);
 
   sortKeys = SORT_KEYS;
   backlinkQueryParams$ = this.route.queryParams.pipe(
@@ -69,7 +71,7 @@ export class PresenceControlGroupComponent implements OnInit {
     map(parseQueryString),
   );
 
-  private eventIds$ = this.state.selectedLesson$.pipe(
+  private readonly eventIds$ = this.state.selectedLesson$.pipe(
     map((lesson) => lesson?.getEventIds() || []),
   );
 

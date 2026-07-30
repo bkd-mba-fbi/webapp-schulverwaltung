@@ -24,7 +24,7 @@ import { EvaluationHeaderComponent } from "../evaluation-header/evaluation-heade
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationStatisticComponent {
-  state = inject(EvaluationStateService);
+  protected readonly state = inject(EvaluationStateService);
 
   readonly entries = computed(() =>
     this.state
@@ -63,7 +63,7 @@ export class EvaluationStatisticComponent {
     () => this.entries().filter((entry) => !entry.grade?.Sufficient).length,
   );
 
-  findGrade(highest: boolean) {
+  private findGrade(highest: boolean) {
     if (this.entries().length === 0) {
       return "-";
     }

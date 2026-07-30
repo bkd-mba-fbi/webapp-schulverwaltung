@@ -22,5 +22,5 @@ import { MyGradesHeaderComponent } from "../my-grades-header/my-grades-header.co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyGradesShowComponent {
-  myGradesService = inject(MyGradesService);
+  protected readonly myGradesService = inject(MyGradesService);
 }

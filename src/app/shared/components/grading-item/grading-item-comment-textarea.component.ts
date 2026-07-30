@@ -26,12 +26,12 @@ export class GradingItemCommentTextareaComponent {
   readonly value = model<Option<string>>(null);
   readonly commit = output<Option<string>>();
 
-  onInput(event: Event) {
+  protected onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;
     this.value.set(value || null);
   }
 
-  onBlur() {
+  protected onBlur() {
     this.commit.emit(this.value() ?? null);
   }
 }

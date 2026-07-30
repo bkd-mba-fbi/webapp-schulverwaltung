@@ -23,21 +23,21 @@ import { ToastService } from "../../../shared/services/toast.service";
 export abstract class MyAbsencesAbstractConfirmComponent
   implements OnInit, OnDestroy
 {
-  protected fb = inject(UntypedFormBuilder);
-  protected router = inject(Router);
-  protected toastService = inject(ToastService);
-  protected translate = inject(TranslateService);
-  protected presenceTypesService = inject(PresenceTypesService);
-  protected updateService = inject(LessonPresencesUpdateRestService);
-  protected storageService = inject(StorageService);
-  protected settings = inject<Settings>(SETTINGS);
+  protected readonly fb = inject(UntypedFormBuilder);
+  protected readonly router = inject(Router);
+  protected readonly toastService = inject(ToastService);
+  protected readonly translate = inject(TranslateService);
+  protected readonly presenceTypesService = inject(PresenceTypesService);
+  protected readonly updateService = inject(LessonPresencesUpdateRestService);
+  protected readonly storageService = inject(StorageService);
+  protected readonly settings = inject<Settings>(SETTINGS);
 
-  formGroup = this.createFormGroup();
+  protected readonly formGroup = this.createFormGroup();
 
-  saving$ = new BehaviorSubject(false);
+  protected saving$ = new BehaviorSubject(false);
   protected submitted$ = new BehaviorSubject(false);
 
-  absenceTypes$ = combineLatest([
+  protected absenceTypes$ = combineLatest([
     this.getConfirmationTypes(),
     this.getHalfDayType(),
   ]).pipe(
@@ -46,14 +46,14 @@ export abstract class MyAbsencesAbstractConfirmComponent
     ),
   );
 
-  absenceTypeIdErrors$ = getValidationErrors(
+  protected absenceTypeIdErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
     "absenceTypeId",
   );
 
-  abstract readonly titleKey: string;
-  abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
+  protected abstract readonly titleKey: string;
+  protected abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
 
   protected destroy$ = new Subject<void>();
 
@@ -68,7 +68,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
     this.destroy$.next();
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.submitted$.next(true);
     if (this.formGroup.valid) {
       const { absenceTypeId } = this.formGroup.value;
@@ -76,11 +76,11 @@ export abstract class MyAbsencesAbstractConfirmComponent
     }
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.navigateBack();
   }
 
-  getSelectedCount(): Observable<number> {
+  protected getSelectedCount(): Observable<number> {
     return this.selectedLessonIds$.pipe(map((ids) => ids.length));
   }
 

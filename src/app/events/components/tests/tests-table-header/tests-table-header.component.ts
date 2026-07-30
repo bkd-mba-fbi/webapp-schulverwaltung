@@ -30,7 +30,7 @@ import { TestTableHeaderComponent } from "../tests-table-test-header/tests-table
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsTableHeaderComponent extends TableHeaderComponent {
-  state = inject(TestStateService);
+  protected readonly state = inject(TestStateService);
 
   readonly selectedTest = input<Option<Test>>(null);
   readonly publish = output<Test>();

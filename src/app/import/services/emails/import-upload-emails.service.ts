@@ -35,7 +35,7 @@ export class ImportUploadEmailsService {
     total: 0,
   });
 
-  private personsService = inject(PersonsRestService);
+  private readonly personsService = inject(PersonsRestService);
 
   async upload(
     validatedEntries: ReadonlyArray<EmailImportEntry>,

@@ -23,8 +23,8 @@ export class EvaluationGradeComponent implements OnDestroy {
   readonly options = input.required<ReadonlyArray<DropDownItem>>();
   readonly value = model<Option<number>>(null);
 
-  private valueSubject = new Subject<Option<number>>();
-  private destroy$ = new Subject<void>();
+  private readonly valueSubject = new Subject<Option<number>>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor() {
     this.valueSubject

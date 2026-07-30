@@ -18,26 +18,26 @@ interface BlockLessonOption {
   imports: [FormsModule, DatePipe, TranslatePipe],
 })
 export class PresenceControlBlockLessonComponent {
-  activeModal = inject(NgbActiveModal);
+  protected readonly activeModal = inject(NgbActiveModal);
 
   readonly entry = input.required<PresenceControlEntry>();
   readonly blockPresenceControlEntries =
     input.required<ReadonlyArray<PresenceControlEntry>>();
 
-  readonly blockLessonOptions = computed(() =>
+  protected readonly blockLessonOptions = computed(() =>
     this.blockPresenceControlEntries().map((entry) => ({
       entry,
       selected: entry.confirmationState === this.entry().confirmationState,
     })),
   );
 
-  readonly selectedEntries = computed(() =>
+  protected readonly selectedEntries = computed(() =>
     this.blockLessonOptions()
       .filter(({ selected }) => selected)
       .map(({ entry }) => entry),
   );
 
-  isCurrentLesson(option: BlockLessonOption): boolean {
+  protected isCurrentLesson(option: BlockLessonOption): boolean {
     return isEqual(
       option.entry.lessonPresence.LessonDateTimeFrom,
       this.entry().lessonPresence.LessonDateTimeFrom,

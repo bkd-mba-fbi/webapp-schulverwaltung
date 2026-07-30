@@ -36,8 +36,8 @@ export interface BkdModalRef<TComponent> extends NgbModalRef {
   providedIn: "root",
 })
 export class BkdModalService {
-  private modal = inject(NgbModal);
-  private portal = inject(PortalService);
+  private readonly modal = inject(NgbModal);
+  private readonly portal = inject(PortalService);
 
   /**
    * Delegated to NgbModal.open, but – when running within iframe –
@@ -122,7 +122,7 @@ export class BkdModalService {
    * Hides the portal's scroll bar and shows it again, when the modal
    * is closed.
    */
-  disablePortalScrolling(modalRef: NgbModalRef): void {
+  private disablePortalScrolling(modalRef: NgbModalRef): void {
     if (this.portal.window && this.portal.document) {
       // On certain browsers/OSes the scrollbar consumes horizontal space, so
       // the hiding of the scrollbar will change the width of the content. To

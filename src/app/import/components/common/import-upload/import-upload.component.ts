@@ -22,5 +22,5 @@ import { ImportUploadSubscriptionDetailsComponent } from "../../subscription-det
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportUploadComponent {
-  stateService = inject(ImportStateService);
+  protected readonly stateService = inject(ImportStateService);
 }

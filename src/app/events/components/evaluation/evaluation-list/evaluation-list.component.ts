@@ -40,20 +40,22 @@ import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.c
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationListComponent {
-  state = inject(EvaluationStateService);
-  private updateDefaultGradeService = inject(
+  protected readonly state = inject(EvaluationStateService);
+  private readonly updateDefaultGradeService = inject(
     EvaluationGradingItemUpdateService,
   );
-  private updateSubscriptionDetailService = inject(
+  private readonly updateSubscriptionDetailService = inject(
     EvaluationSubscriptionDetailUpdateService,
   );
-  private translate = inject(TranslateService);
-  private modalService = inject(BkdModalService);
+  private readonly translate = inject(TranslateService);
+  private readonly modalService = inject(BkdModalService);
 
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
-  readonly hasGrades = computed(() => this.state.gradingScale() !== null);
-  readonly hasGradeComments = computed(
+  protected readonly hasGrades = computed(
+    () => this.state.gradingScale() !== null,
+  );
+  protected readonly hasGradeComments = computed(
     () => this.state.gradingScale()?.CommentsAllowed === true,
   );
   readonly columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
@@ -103,7 +105,7 @@ export class EvaluationListComponent {
     },
   });
 
-  openDefaultGradeDialog() {
+  protected openDefaultGradeDialog() {
     const modalRef = this.modalService.open(
       EvaluationDefaultGradeDialogComponent,
     );
@@ -115,7 +117,9 @@ export class EvaluationListComponent {
     );
   }
 
-  updateSubscriptionDetail(detail: EvaluationSubscriptionDetail): void {
+  protected updateSubscriptionDetail(
+    detail: EvaluationSubscriptionDetail,
+  ): void {
     void this.updateSubscriptionDetailService.updateSubscriptionDetail(detail);
   }
 }

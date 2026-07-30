@@ -36,7 +36,7 @@ export abstract class SelectionService<T> implements OnDestroy {
     { connector: () => new ReplaySubject<ReadonlyArray<T>>(1) }, // Make it hot
   );
 
-  private selectionSub: Subscription;
+  private readonly selectionSub: Subscription;
 
   constructor() {
     this.selectionSub = this.selection$.connect();

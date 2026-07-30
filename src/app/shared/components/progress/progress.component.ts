@@ -17,10 +17,12 @@ export class ProgressComponent {
   readonly total = input.required<number>();
   readonly ariaLabel = input.required<string>();
 
-  readonly percentage = computed(() =>
+  protected readonly percentage = computed(() =>
     this.total() > 0 ? (this.processed() / this.total()) * 100 : 0,
   );
-  readonly label = computed(() => this.toLabel(this.processed(), this.total()));
+  protected readonly label = computed(() =>
+    this.toLabel(this.processed(), this.total()),
+  );
 
   private toLabel(processed: number, total: number): string {
     return `${processed} / ${total}`;

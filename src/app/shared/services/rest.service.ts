@@ -24,10 +24,10 @@ export const enum HTTP_STATUS {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export abstract class RestService<T extends t.InterfaceType<any>> {
   constructor(
-    protected http: HttpClient,
-    protected settings: Settings,
-    protected codec: T,
-    protected resourcePath: string,
+    protected readonly http: HttpClient,
+    protected readonly settings: Settings,
+    protected readonly codec: T,
+    protected readonly resourcePath: string,
   ) {}
 
   get(

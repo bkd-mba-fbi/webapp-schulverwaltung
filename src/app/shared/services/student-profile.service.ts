@@ -41,14 +41,14 @@ const DOSSIER_STAY_PERMIT_CONTEXT = "dossier-stay-permit";
   providedIn: "root",
 })
 export class StudentProfileService {
-  private studentsService = inject(StudentsRestService);
-  private personsService = inject(PersonsRestService);
-  private apprenticeshipManagersService = inject(
+  private readonly studentsService = inject(StudentsRestService);
+  private readonly personsService = inject(PersonsRestService);
+  private readonly apprenticeshipManagersService = inject(
     ApprenticeshipManagersRestService,
   );
-  private jobTrainersService = inject(JobTrainersRestService);
-  private dropDownItemsService = inject(DropDownItemsRestService);
-  private loadingService = inject(LoadingService);
+  private readonly jobTrainersService = inject(JobTrainersRestService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly loadingService = inject(LoadingService);
 
   private readonly IGNORE_404_CONTEXT = new HttpContext().set(
     RestErrorInterceptorOptions,

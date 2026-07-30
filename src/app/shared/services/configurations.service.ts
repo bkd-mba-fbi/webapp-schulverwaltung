@@ -6,9 +6,11 @@ import { ConfigurationsRestService } from "./configurations-rest.service";
   providedIn: "root",
 })
 export class ConfigurationsService {
-  private configurationsRestService = inject(ConfigurationsRestService);
+  private readonly configurationsRestService = inject(
+    ConfigurationsRestService,
+  );
 
-  private schoolAppNavigation$ = this.configurationsRestService
+  private readonly schoolAppNavigation$ = this.configurationsRestService
     .getSchoolAppNavigation()
     .pipe(shareReplay(1));
 

@@ -46,15 +46,17 @@ import { StudentEntryHeaderComponent } from "../student-entry-header/student-ent
   providers: [StudentAbsencesService],
 })
 export class StudentAbsencesComponent implements OnInit, OnDestroy {
-  private state = inject(StudentStateService);
-  private presenceTypesService = inject(PresenceTypesService);
-  absencesService = inject(StudentAbsencesService);
-  absencesSelectionService = inject(ConfirmAbsencesSelectionService);
+  private readonly state = inject(StudentStateService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  protected readonly absencesService = inject(StudentAbsencesService);
+  protected readonly absencesSelectionService = inject(
+    ConfirmAbsencesSelectionService,
+  );
 
-  halfDayActive$ = this.presenceTypesService.halfDayActive$;
-  absenceCounts = this.absencesService.counts$;
+  protected halfDayActive$ = this.presenceTypesService.halfDayActive$;
+  protected readonly absenceCounts = this.absencesService.counts$;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.state.studentId$
@@ -66,7 +68,7 @@ export class StudentAbsencesComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  readonly hasAbsences = computed(() => {
+  protected readonly hasAbsences = computed(() => {
     const counts = this.absenceCounts();
     if (!counts) return false;
 

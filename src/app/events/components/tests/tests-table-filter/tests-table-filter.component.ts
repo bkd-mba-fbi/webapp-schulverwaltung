@@ -16,15 +16,15 @@ import {
 export class TestsTableFilterComponent {
   readonly filter = model<TestsFilter>(INITIAL_TESTS_FILTER);
 
-  showOnlyMine(): void {
+  protected showOnlyMine(): void {
     this.filter.update((current) => ({ ...current, onlyMine: true }));
   }
 
-  showAll(): void {
+  protected showAll(): void {
     this.filter.update((current) => ({ ...current, onlyMine: false }));
   }
 
-  onHidePublishedChange(event: Event): void {
+  protected onHidePublishedChange(event: Event): void {
     const hidePublished =
       (event.target &&
         event.target instanceof HTMLInputElement &&

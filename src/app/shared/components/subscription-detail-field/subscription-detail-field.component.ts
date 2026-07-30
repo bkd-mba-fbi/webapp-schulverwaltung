@@ -145,26 +145,26 @@ export class SubscriptionDetailFieldComponent {
   readonly value = model<SubscriptionDetail["Value"]>();
   readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly isTextField = computed(
+  protected readonly isTextField = computed(
     () =>
       this.detail()?.VssTypeId === SubscriptionDetailType.ShortText ||
       this.detail()?.VssTypeId === SubscriptionDetailType.Int ||
       this.detail()?.VssTypeId === SubscriptionDetailType.Currency,
   );
-  readonly isTextarea = computed(
+  protected readonly isTextarea = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Text,
   );
-  readonly isYesNo = computed(
+  protected readonly isYesNo = computed(
     () =>
       this.detail()?.VssTypeId === SubscriptionDetailType.YesNo ||
       this.detail()?.VssTypeId === SubscriptionDetailType.Yes,
   );
-  readonly isDate = computed(
+  protected readonly isDate = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Date,
   );
 
   @HostBinding("class.horizontal")
-  get horizontalClass() {
+  private get horizontalClass() {
     return this.layout() === "horizontal";
   }
 }

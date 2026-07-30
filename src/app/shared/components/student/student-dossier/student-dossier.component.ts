@@ -35,31 +35,31 @@ import { StudentDossierInformationBodyComponent } from "../student-dossier-infor
   providers: [StudentDossierService],
 })
 export class StudentDossierComponent {
-  dossierService = inject(StudentDossierService);
+  private readonly dossierService = inject(StudentDossierService);
 
-  readonly loading = toSignal(this.dossierService.loading$, {
+  protected readonly loading = toSignal(this.dossierService.loading$, {
     requireSync: true,
   });
-  readonly informationEntries = toSignal(
+  protected readonly informationEntries = toSignal(
     this.dossierService.informationEntries$,
     {
       initialValue: [],
     },
   );
-  readonly disadvantageEntries = toSignal(
+  protected readonly disadvantageEntries = toSignal(
     this.dossierService.disadvantageEntries$,
     {
       initialValue: [],
     },
   );
-  readonly dossierEntries = toSignal(
+  protected readonly dossierEntries = toSignal(
     this.dossierService.filteredDossierEntries$,
     {
       initialValue: [],
     },
   );
 
-  getEntryIcon(entry: StudentDossierEntry): string {
+  protected getEntryIcon(entry: StudentDossierEntry): string {
     if (entry.additionalInformation.File) {
       return "insert_drive_file";
     }

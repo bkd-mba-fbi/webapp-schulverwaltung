@@ -7,7 +7,7 @@ import { differenceInCalendarDays } from "date-fns";
   standalone: true,
 })
 export class DaysDifferencePipe implements PipeTransform {
-  private translate = inject(TranslateService);
+  private readonly translate = inject(TranslateService);
 
   transform(input: Maybe<Date>): string {
     if (!input) {

@@ -10,7 +10,7 @@ import { Test } from "../../../../shared/models/test.model";
   imports: [TranslatePipe],
 })
 export class TestsDeleteComponent {
-  activeModal = inject(NgbActiveModal);
+  protected readonly activeModal = inject(NgbActiveModal);
 
   readonly test = input.required<Test>();
 

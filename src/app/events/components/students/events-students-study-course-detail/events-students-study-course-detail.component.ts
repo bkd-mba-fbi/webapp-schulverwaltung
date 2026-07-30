@@ -49,54 +49,59 @@ type SubscriptionDetailsEntry = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsStudentsStudyCourseDetailComponent {
-  private settings = inject<Settings>(SETTINGS);
-  private route = inject(ActivatedRoute);
-  private personsService = inject(PersonsRestService);
-  private subscriptionsService = inject(SubscriptionsRestService);
-  private storageService = inject(StorageService);
-  private statusProcessesService = inject(StatusProcessesRestService);
-  private loadingService = inject(LoadingService);
-  private modalService = inject(BkdModalService);
-  private translate = inject(TranslateService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly route = inject(ActivatedRoute);
+  private readonly personsService = inject(PersonsRestService);
+  private readonly subscriptionsService = inject(SubscriptionsRestService);
+  private readonly storageService = inject(StorageService);
+  private readonly statusProcessesService = inject(StatusProcessesRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly translate = inject(TranslateService);
 
-  private refreshSubscription = new Subject<void>();
+  private readonly refreshSubscription = new Subject<void>();
 
-  eventId$ =
+  private readonly eventId$ =
     this.route.parent?.paramMap.pipe(
       map((params) => Number(params.get("id"))),
     ) ?? of(0);
-  personId$ = this.route.paramMap.pipe(
+  private readonly personId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
   );
-  readonly person = toSignal(
+  protected readonly person = toSignal(
     this.personId$.pipe(switchMap((id) => this.personsService.get(id))),
     { initialValue: null },
   );
-  readonly subscription = toSignal(
+  private readonly subscription = toSignal(
     this.refreshSubscription.pipe(
       startWith(null),
       switchMap(() => this.loadSubscription()),
     ),
   );
-  readonly subscriptionId = computed(() => this.subscription()?.Id ?? null);
-  readonly subscriptionDetails = toSignal(this.loadSubscriptionDetails(), {
-    initialValue: [] as ReadonlyArray<SubscriptionDetailsEntry>,
-  });
-  readonly currentStatus = computed(() => ({
+  private readonly subscriptionId = computed(
+    () => this.subscription()?.Id ?? null,
+  );
+  protected readonly subscriptionDetails = toSignal(
+    this.loadSubscriptionDetails(),
+    {
+      initialValue: [] as ReadonlyArray<SubscriptionDetailsEntry>,
+    },
+  );
+  protected readonly currentStatus = computed(() => ({
     IdStatus: this.subscription()?.StatusId ?? 0,
     Status: this.subscription()?.Status ?? "",
   }));
-  readonly backLink = toSignal(
+  protected readonly backLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnparams }) => returnparams),
       map(parseQueryString),
     ),
   );
-  readonly loading = toSignal(this.loadingService.loading$, {
+  protected readonly loading = toSignal(this.loadingService.loading$, {
     initialValue: true,
   });
 
-  updateStatus(): void {
+  protected updateStatus(): void {
     const subscriptionId = this.subscriptionId();
     if (!subscriptionId) {
       return;

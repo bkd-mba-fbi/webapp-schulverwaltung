@@ -6,7 +6,7 @@ import { I18nService } from "../services/i18n.service";
   standalone: true,
 })
 export class AddSpacePipe implements PipeTransform {
-  protected i18n = inject(I18nService);
+  private readonly i18n = inject(I18nService);
 
   transform(value: string, chars: string): string {
     const lang = this.i18n.detectLanguage();

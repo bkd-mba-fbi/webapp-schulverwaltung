@@ -21,7 +21,7 @@ export class GradeSelectComponent {
 
   constructor() {}
 
-  onGradeChange(selectedGradeId: Option<DropDownItem["Key"]>): void {
+  protected onGradeChange(selectedGradeId: Option<DropDownItem["Key"]>): void {
     const gradeId = this.gradeId();
     if (gradeId != null) {
       this.gradeIdSelected.emit({

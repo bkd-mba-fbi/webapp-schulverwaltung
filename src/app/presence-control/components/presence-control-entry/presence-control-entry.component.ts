@@ -35,10 +35,10 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
   ],
 })
 export class PresenceControlEntryComponent {
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private modalService = inject(BkdModalService);
-  private loadingService = inject(LoadingService);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly loadingService = inject(LoadingService);
 
   readonly entry = input.required<PresenceControlEntry>();
   readonly hasUnconfirmedAbsences = input(false);

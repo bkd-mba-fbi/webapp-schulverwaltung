@@ -45,5 +45,7 @@ export class SubscriptionDetailLabelComponent {
   readonly hideLabel = input.required<boolean>();
   readonly layout = input.required<"vertical" | "horizontal">();
 
-  readonly required = computed(() => this.detail().VssInternet === "M");
+  protected readonly required = computed(
+    () => this.detail().VssInternet === "M",
+  );
 }

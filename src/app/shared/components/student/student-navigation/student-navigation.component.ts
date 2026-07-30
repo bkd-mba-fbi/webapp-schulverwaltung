@@ -22,5 +22,5 @@ export class StudentNavigationComponent {
   readonly student = input<PersonWithClassRegistration>();
   readonly returnParams = input.required<string>();
 
-  dossierPages = STUDENT_PAGES;
+  protected readonly dossierPages = STUDENT_PAGES;
 }

@@ -65,19 +65,19 @@ export type SortKey = "name" | "registrationDate";
   providedIn: "root",
 })
 export class EventsStudentsStateService {
-  private route = inject(ActivatedRoute);
-  private loadingService = inject(LoadingService);
-  private eventsService = inject(EventsRestService);
-  private coursesService = inject(CoursesRestService);
-  private subscriptionsService = inject(SubscriptionsRestService);
-  private personsService = inject(PersonsRestService);
-  private apprenticeshipContractsService = inject(
+  private readonly route = inject(ActivatedRoute);
+  private readonly loadingService = inject(LoadingService);
+  private readonly eventsService = inject(EventsRestService);
+  private readonly coursesService = inject(CoursesRestService);
+  private readonly subscriptionsService = inject(SubscriptionsRestService);
+  private readonly personsService = inject(PersonsRestService);
+  private readonly apprenticeshipContractsService = inject(
     ApprenticeshipContractsRestService,
   );
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private reportsService = inject(ReportsService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly reportsService = inject(ReportsService);
 
-  eventId$ = combineLatest([
+  private readonly eventId$ = combineLatest([
     this.route.paramMap,
     this.route.parent?.paramMap ?? of(null),
   ]).pipe(
@@ -88,17 +88,17 @@ export class EventsStudentsStateService {
     ),
     distinctUntilChanged(),
   );
-  private eventSummary$ = this.eventId$.pipe(
+  private readonly eventSummary$ = this.eventId$.pipe(
     switchMap(this.loadEventSummary.bind(this)),
     shareReplay(1),
   );
-  private eventSummary = toLazySignal(this.eventSummary$, {
+  private readonly eventSummary = toLazySignal(this.eventSummary$, {
     initialValue: null,
   });
   private readonly eventTypeId = computed(
     () => this.eventSummary()?.EventTypeId ?? null,
   );
-  private studentEntries = toLazySignal(this.loadStudentEntries(), {
+  private readonly studentEntries = toLazySignal(this.loadStudentEntries(), {
     initialValue: null,
   });
 

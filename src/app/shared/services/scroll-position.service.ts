@@ -55,8 +55,8 @@ import {
   providedIn: "root",
 })
 export class ScrollPositionService implements OnDestroy {
-  private router = inject(Router);
-  private viewportScroller = inject(ViewportScroller);
+  private readonly router = inject(Router);
+  private readonly viewportScroller = inject(ViewportScroller);
 
   private scrollPositions: Dict<[number, number]> = {};
 
@@ -65,21 +65,27 @@ export class ScrollPositionService implements OnDestroy {
     this.getInitialActivatedRouteSnapshot();
   private currentScrollPosition: [number, number] = [0, 0];
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   // Determine the scroll position when the navigation starts and the
-  private activationEnd$ = this.router.events.pipe(filter(isActivationEnd));
-  private navigationEnd$ = this.router.events.pipe(filter(isNavigationEnd));
-  private navigationStart$ = this.router.events.pipe(filter(isNavigationStart));
+  private readonly activationEnd$ = this.router.events.pipe(
+    filter(isActivationEnd),
+  );
+  private readonly navigationEnd$ = this.router.events.pipe(
+    filter(isNavigationEnd),
+  );
+  private readonly navigationStart$ = this.router.events.pipe(
+    filter(isNavigationStart),
+  );
 
   // "old" component is still correctly rendered
-  private scrollPosition$ = this.navigationStart$.pipe(
+  private readonly scrollPosition$ = this.navigationStart$.pipe(
     map(this.getScrollPosition.bind(this)),
   );
 
   // On each NavigationEnd, emit the first ActivationEnd (there may be
   // multiple for a single navigation)
-  private route$ = this.activationEnd$.pipe(take(1)).pipe(
+  private readonly route$ = this.activationEnd$.pipe(take(1)).pipe(
     mergeMap((first) => [
       of(first),
       this.navigationEnd$.pipe(

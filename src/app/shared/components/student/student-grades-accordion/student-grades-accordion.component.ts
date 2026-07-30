@@ -46,16 +46,16 @@ export interface CourseWithGrades {
   ],
 })
 export class StudentGradesAccordionComponent {
-  dossierGradesService = inject(StudentGradesService);
+  private readonly dossierGradesService = inject(StudentGradesService);
 
   readonly courses = input.required<ReadonlyArray<Course>>();
   readonly studentId = input.required<number>();
   readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
   readonly isEditable = input<boolean>(true);
 
-  readonly decoratedCourses = computed<ReadonlyArray<CourseWithGrades>>(() =>
-    this.getDecoratedCourses(),
-  );
+  protected readonly decoratedCourses = computed<
+    ReadonlyArray<CourseWithGrades>
+  >(() => this.getDecoratedCourses());
 
   private getDecoratedCourses(): CourseWithGrades[] {
     return this.courses().map((course) => {

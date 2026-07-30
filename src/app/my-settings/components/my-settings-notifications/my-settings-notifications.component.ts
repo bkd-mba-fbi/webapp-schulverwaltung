@@ -55,13 +55,13 @@ interface NotificationSetting {
   ],
 })
 export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
-  private userSettings = inject(UserSettingsService);
-  private formBuilder = inject(UntypedFormBuilder);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private notificationTypes = inject(NotificationTypesService);
+  private readonly userSettings = inject(UserSettingsService);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly notificationTypes = inject(NotificationTypesService);
 
-  readonly channelsSettings: ReadonlyArray<NotificationSetting> = [
+  protected readonly channelsSettings: ReadonlyArray<NotificationSetting> = [
     {
       key: "gui",
       label: this.translate.get("my-settings.notifications.gui"),
@@ -76,9 +76,8 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     },
   ];
 
-  typesSettings: ReadonlyArray<NotificationSetting> = this.notificationTypes
-    .getNotificationTypes()
-    .map((type) => {
+  protected readonly typesSettings: ReadonlyArray<NotificationSetting> =
+    this.notificationTypes.getNotificationTypes().map((type) => {
       const { label, description } =
         this.translate.getCurrentLang() === "fr-CH"
           ? type.text.fr
@@ -90,16 +89,16 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
       };
     });
 
-  private channelsValue$ = this.userSettings.getNotificationChannels();
-  private typesValue$ = this.userSettings
+  private readonly channelsValue$ = this.userSettings.getNotificationChannels();
+  private readonly typesValue$ = this.userSettings
     .getNotificationTypesInactive()
     .pipe(map(this.typesArrayToRecord.bind(this)));
 
-  channelsFormGroup$ = this.channelsValue$.pipe(
+  protected channelsFormGroup$ = this.channelsValue$.pipe(
     map((value) => this.createFormGroup(this.channelsSettings, value)),
     shareReplay(1),
   );
-  allChannelsInactive$ = merge(
+  private readonly allChannelsInactive$ = merge(
     this.channelsValue$,
     this.channelsFormGroup$.pipe(
       switchMap((formGroup) => formGroup.valueChanges),
@@ -109,7 +108,7 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     distinctUntilChanged(),
   );
 
-  typesFormGroup$ = this.typesValue$.pipe(
+  protected typesFormGroup$ = this.typesValue$.pipe(
     withLatestFrom(this.allChannelsInactive$),
     map(([value, allChannelsInactive]) =>
       this.createFormGroup(
@@ -122,8 +121,8 @@ export class MySettingsNotificationsComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
-  saving$ = new BehaviorSubject(false);
-  private destroy$ = new Subject<void>();
+  protected saving$ = new BehaviorSubject(false);
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     // Make sure we have fresh settings, even if the have been loaded previously

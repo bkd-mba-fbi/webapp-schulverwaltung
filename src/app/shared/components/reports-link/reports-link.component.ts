@@ -32,15 +32,15 @@ export class ReportsLinkComponent {
   readonly reports = input.required<ReadonlyArray<ReportInfo>>();
   readonly disableIfUnavailable = input(false);
 
-  private storageService = inject(StorageService);
+  private readonly storageService = inject(StorageService);
 
-  readonly dropdownId = uniqueId("reports-link-dropdown");
+  protected readonly dropdownId = uniqueId("reports-link-dropdown");
 
-  openReport(report: ReportInfo): void {
+  protected openReport(report: ReportInfo): void {
     window.open(this.addTokenToUrl(report), "_blank");
   }
 
-  addTokenToUrl(report: ReportInfo): URL {
+  private addTokenToUrl(report: ReportInfo): URL {
     const url = new URL(report.url);
     url.searchParams.set("token", this.storageService.getAccessToken() ?? "");
     return url;

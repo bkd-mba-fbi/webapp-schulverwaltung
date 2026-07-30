@@ -54,12 +54,12 @@ interface Column {
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
-  state = inject(EvaluateAbsencesStateService);
-  private scrollPosition = inject(ScrollPositionService);
-  private route = inject(ActivatedRoute);
-  private presenceTypesService = inject(PresenceTypesService);
-  private reportsService = inject(ReportsService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
+  readonly state = inject(EvaluateAbsencesStateService);
+  private readonly scrollPosition = inject(ScrollPositionService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly reportsService = inject(ReportsService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
 
   reports$ = this.loadReports();
 

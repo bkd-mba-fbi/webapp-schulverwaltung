@@ -25,7 +25,7 @@ const MEDIA_BREAKPOINT_SM = 576;
   standalone: true,
 })
 export class TableHeaderStickyDirective implements AfterViewInit, OnDestroy {
-  private portal = inject(PortalService);
+  private readonly portal = inject(PortalService);
 
   readonly inlineHeader = input.required<TableHeaderComponent>();
   readonly stickyHeader = input.required<TableHeaderComponent>();
@@ -74,7 +74,7 @@ export class TableHeaderStickyDirective implements AfterViewInit, OnDestroy {
   /**
    * Handle vertical scrolling of the table
    */
-  private handleWindowScroll = (): void => {
+  private readonly handleWindowScroll = (): void => {
     this.updateStickyVisibility();
     this.updateStickyTopOffset();
   };
@@ -82,7 +82,7 @@ export class TableHeaderStickyDirective implements AfterViewInit, OnDestroy {
   /**
    * Handling resizing of the table
    */
-  private handleWindowResize = (): void => {
+  private readonly handleWindowResize = (): void => {
     this.updateStickyWidth();
 
     // Update the positioning as well since it my have changed due to layout
@@ -94,7 +94,7 @@ export class TableHeaderStickyDirective implements AfterViewInit, OnDestroy {
   /**
    * Handle horizontal scrolling of the table
    */
-  private handleTableScroll = (): void => {
+  private readonly handleTableScroll = (): void => {
     this.updateStickyLeftOffset();
   };
 

@@ -20,8 +20,8 @@ export enum Category {
   providedIn: "root",
 })
 export class EditAbsencesUpdateService {
-  private updateService = inject(LessonPresencesUpdateRestService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly updateService = inject(LessonPresencesUpdateRestService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   update(
     entries: ReadonlyArray<LessonPresence>,

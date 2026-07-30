@@ -31,15 +31,15 @@ export class TestTableHeaderComponent {
 
   constructor() {}
 
-  emitToggleHeader() {
+  protected emitToggleHeader() {
     this.toggleHeader.emit(!this.expanded());
   }
 
-  publishTest() {
+  protected publishTest() {
     this.publish.emit(this.test());
   }
 
-  unpublishTest() {
+  protected unpublishTest() {
     this.unpublish.emit(this.test());
   }
 }

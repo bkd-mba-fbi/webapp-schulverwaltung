@@ -40,7 +40,7 @@ const DEBOUNCE_TIME = 1250;
   imports: [FormsModule, SelectComponent, AsyncPipe, TranslatePipe],
 })
 export class GradeComponent implements OnInit, OnDestroy {
-  private state = inject(TestStateService);
+  private readonly state = inject(TestStateService);
 
   readonly grade = input.required<GradeOrNoResult>();
   readonly student = input.required<Student>();
@@ -51,9 +51,9 @@ export class GradeComponent implements OnInit, OnDestroy {
   maxPoints = 0;
   maxPointsAdjusted = 0;
 
-  private pointsSubject$ = new Subject<string>();
-  private gradeSubject$ = new Subject<Option<number>>();
-  private gradingScaleDisabledSubject$: BehaviorSubject<boolean> =
+  private readonly pointsSubject$ = new Subject<string>();
+  private readonly gradeSubject$ = new Subject<Option<number>>();
+  private readonly gradingScaleDisabledSubject$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
 
   readonly gradingScaleDisabled = computed(() => this.isGradingScaleDisabled());

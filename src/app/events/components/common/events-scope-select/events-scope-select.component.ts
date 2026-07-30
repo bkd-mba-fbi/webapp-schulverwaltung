@@ -20,11 +20,13 @@ export type EventScope = "current" | "past";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsScopeSelectComponent {
-  private translate = inject(TranslateService);
+  private readonly translate = inject(TranslateService);
 
   readonly value = model.required<EventScope>();
 
-  readonly scopeOptions: ReadonlyArray<ButtonGroupOption<EventScope>> = [
+  protected readonly scopeOptions: ReadonlyArray<
+    ButtonGroupOption<EventScope>
+  > = [
     { key: "current", label: this.translate.instant("events.scopes.current") },
     { key: "past", label: this.translate.instant("events.scopes.past") },
   ];

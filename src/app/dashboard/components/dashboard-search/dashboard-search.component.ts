@@ -12,8 +12,8 @@ import { StudentsRestService } from "../../../shared/services/students-rest.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardSearchComponent {
-  studentsRestService = inject(StudentsRestService);
-  private router = inject(Router);
+  protected readonly studentsRestService = inject(StudentsRestService);
+  private readonly router = inject(Router);
 
   async navigateToDossier(key: DropDownItem["Key"]) {
     const id = Number(key);

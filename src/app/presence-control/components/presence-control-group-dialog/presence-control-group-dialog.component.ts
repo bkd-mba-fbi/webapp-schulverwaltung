@@ -27,8 +27,8 @@ export enum DialogMode {
   imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlGroupDialogComponent {
-  activeModal = inject(NgbActiveModal);
-  private translate = inject(TranslateService);
+  readonly activeModal = inject(NgbActiveModal);
+  private readonly translate = inject(TranslateService);
 
   readonly dialogMode = input.required<DialogMode>();
   readonly subscriptionDetailsDefinitions =

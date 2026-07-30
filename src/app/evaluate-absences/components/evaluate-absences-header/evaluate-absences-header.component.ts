@@ -33,9 +33,9 @@ import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.s
   ],
 })
 export class EvaluateAbsencesHeaderComponent {
-  studentsService = inject(StudentsRestService);
-  coursesService = inject(CoursesRestService);
-  studyClassesService = inject(StudyClassesRestService);
+  protected readonly studentsService = inject(StudentsRestService);
+  protected readonly coursesService = inject(CoursesRestService);
+  protected readonly studyClassesService = inject(StudyClassesRestService);
 
   readonly filter = model<EvaluateAbsencesFilter>({
     student: null,
@@ -45,7 +45,7 @@ export class EvaluateAbsencesHeaderComponent {
     dateTo: null,
   });
 
-  readonly classesHttpFilter = {
+  protected readonly classesHttpFilter = {
     params: {
       fields: "IsActive",
       ["filter.IsActive"]: "=true",

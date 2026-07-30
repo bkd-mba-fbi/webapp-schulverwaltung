@@ -32,14 +32,16 @@ export class SubscriptionDetailTextareaComponent {
   readonly value = model<SubscriptionDetail["Value"]>();
   readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly readonly = computed(() => this.detail().VssInternet === "R");
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
 
-  onInput(event: Event) {
+  protected onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;
     this.value.set(value || null);
   }
 
-  onBlur() {
+  protected onBlur() {
     this.commit.emit(this.value() ?? null);
   }
 }

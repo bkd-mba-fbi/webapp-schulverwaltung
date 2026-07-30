@@ -7,7 +7,7 @@ import { Test } from "src/app/shared/models/test.model";
   standalone: true,
 })
 export class TestsWeightPipe implements PipeTransform {
-  private translate = inject(TranslateService);
+  private readonly translate = inject(TranslateService);
 
   transform(input: Test): string {
     return `${this.translate.instant("tests.factor")} ${input.Weight} (${

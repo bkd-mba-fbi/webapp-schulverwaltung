@@ -11,9 +11,9 @@ import { StorageService } from "./storage.service";
   providedIn: "root",
 })
 export class AvatarService {
-  private settings = inject<Settings>(SETTINGS);
-  private storageService = inject(StorageService);
-  private http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly storageService = inject(StorageService);
+  private readonly http = inject(HttpClient);
 
   getAvatarUrl(studentId: number): string {
     const accessToken = this.storageService.getAccessToken() || "";

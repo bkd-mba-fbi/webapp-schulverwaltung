@@ -81,6 +81,7 @@ export default tseslint.config(
       ],
 
       "@typescript-eslint/no-deprecated": "warn",
+      "@typescript-eslint/prefer-readonly": "error",
 
       "@typescript-eslint/no-unused-vars": [
         "error",

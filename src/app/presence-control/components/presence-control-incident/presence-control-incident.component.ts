@@ -21,8 +21,8 @@ interface IncidentOption {
   imports: [FormsModule, TranslatePipe],
 })
 export class PresenceControlIncidentComponent {
-  activeModal = inject(NgbActiveModal);
-  private translate = inject(TranslateService);
+  readonly activeModal = inject(NgbActiveModal);
+  private readonly translate = inject(TranslateService);
 
   readonly incidentTypes = input.required<ReadonlyArray<PresenceType>>();
   readonly incident = input<Option<PresenceType>>(null);

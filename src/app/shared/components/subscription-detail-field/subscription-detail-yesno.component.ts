@@ -88,18 +88,22 @@ export class SubscriptionDetailYesNoComponent {
   readonly value = model<SubscriptionDetail["Value"]>();
   readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly readonly = computed(() => this.detail().VssInternet === "R");
-  readonly yesAndNo = computed(
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  protected readonly yesAndNo = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.YesNo,
   );
-  readonly asRadios = computed(() => this.detail().ShowAsRadioButtons);
+  protected readonly asRadios = computed(
+    () => this.detail().ShowAsRadioButtons,
+  );
 
-  onRadioChange(value: SubscriptionDetail["Value"]): void {
+  protected onRadioChange(value: SubscriptionDetail["Value"]): void {
     this.value.set(value);
     this.commit.emit(this.value() ?? null);
   }
 
-  onCheckboxToggle(checked: boolean): void {
+  protected onCheckboxToggle(checked: boolean): void {
     const value = checked ? "Ja" : this.yesAndNo() ? "Nein" : null;
 
     this.value.set(value);

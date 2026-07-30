@@ -20,5 +20,5 @@ import { EditAbsencesStateService } from "../../services/edit-absences-state.ser
   ],
 })
 export class EditAbsencesComponent {
-  state = inject(EditAbsencesStateService);
+  private readonly state = inject(EditAbsencesStateService);
 }

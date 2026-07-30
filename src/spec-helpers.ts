@@ -208,7 +208,7 @@ function createInputChange<
 export class ActivatedRouteMock {
   // Use a ReplaySubject to share previous values with subscribers
   // and pump new values into the `paramMap` observable
-  private subject = new ReplaySubject<ParamMap>();
+  private readonly subject = new ReplaySubject<ParamMap>();
 
   constructor(initialParams: Params) {
     this.setParamMap(initialParams);

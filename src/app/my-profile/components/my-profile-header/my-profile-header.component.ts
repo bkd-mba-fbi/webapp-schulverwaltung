@@ -21,12 +21,12 @@ import { ReportsService } from "../../../shared/services/reports.service";
   imports: [AvatarEditComponent, ReportsLinkComponent, AsyncPipe, DatePipe],
 })
 export class MyProfileHeaderComponent {
-  private reportsService = inject(ReportsService);
+  private readonly reportsService = inject(ReportsService);
 
   readonly person = input<Person>();
-  readonly personId = computed(() => this.person()?.Id ?? null);
+  private readonly personId = computed(() => this.person()?.Id ?? null);
 
-  reports$ = toObservable(this.personId).pipe(
+  protected reports$ = toObservable(this.personId).pipe(
     switchMap((personId) =>
       personId
         ? this.reportsService.getPersonMasterDataReports(personId)

@@ -19,15 +19,15 @@ import { TestStateService } from "../../../services/test-state.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsComponent implements OnInit, OnDestroy {
-  state = inject(TestStateService);
-  private route = inject(ActivatedRoute);
+  private readonly state = inject(TestStateService);
+  private readonly route = inject(ActivatedRoute);
 
-  courseId$: Observable<number> = this.route.paramMap.pipe(
+  private readonly courseId$: Observable<number> = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
     distinctUntilChanged(),
   );
 
-  destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit() {
     this.courseId$

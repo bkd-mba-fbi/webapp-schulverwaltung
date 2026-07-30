@@ -49,38 +49,38 @@ import {
   imports: [FormsModule, ReactiveFormsModule, AsyncPipe, TranslatePipe],
 })
 export class EditAbsencesEditComponent implements OnInit, OnDestroy {
-  private fb = inject(UntypedFormBuilder);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private state = inject(EditAbsencesStateService);
-  private dropDownItemsService = inject(DropDownItemsRestService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private updateService = inject(EditAbsencesUpdateService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly fb = inject(UntypedFormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly state = inject(EditAbsencesStateService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly updateService = inject(EditAbsencesUpdateService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  absenceTypes$ = this.presenceTypesService.confirmationTypes$;
-  incidents$ = this.presenceTypesService.incidentTypes$;
+  protected absenceTypes$ = this.presenceTypesService.confirmationTypes$;
+  protected incidents$ = this.presenceTypesService.incidentTypes$;
 
-  formGroup$ = this.createFormGroup();
+  protected formGroup$ = this.createFormGroup();
 
-  saving$ = new BehaviorSubject(false);
-  private submitted$ = new BehaviorSubject(false);
+  protected saving$ = new BehaviorSubject(false);
+  private readonly submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
-  absenceTypeIdErrors$ = getValidationErrors(
+  protected formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
+  protected absenceTypeIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
     "absenceTypeId",
   );
-  incidentIdErrors$ = getValidationErrors(
+  protected incidentIdErrors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
     "incidentId",
   );
 
-  availableCategories = [
+  private readonly availableCategories = [
     Category.Absent,
     Category.Dispensation,
     Category.HalfDay,
@@ -88,12 +88,12 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     Category.Present,
   ];
 
-  confirmationStates$ = this.dropDownItemsService
+  protected confirmationStates$ = this.dropDownItemsService
     .getAbsenceConfirmationStates()
     .pipe(map(this.sortAbsenceConfirmationStates.bind(this)), shareReplay(1));
 
   // Remove Category HalfDay if the corresponding PresenceType is inactive
-  activeCategories$ = this.presenceTypesService.halfDayActive$.pipe(
+  protected activeCategories$ = this.presenceTypesService.halfDayActive$.pipe(
     map((halfDayActive) =>
       halfDayActive
         ? this.availableCategories
@@ -101,7 +101,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     ),
   );
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     if (this.state.selected.length === 0) {
@@ -125,19 +125,19 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  isAbsent(category: Category): boolean {
+  protected isAbsent(category: Category): boolean {
     return category === Category.Absent;
   }
 
-  isExcused(state: DropDownItem): boolean {
+  protected isExcused(state: DropDownItem): boolean {
     return state.Key === this.settings.excusedAbsenceStateId;
   }
 
-  isIncident(category: Category): boolean {
+  protected isIncident(category: Category): boolean {
     return category === Category.Incident;
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.submitted$.next(true);
     this.formGroup$.pipe(take(1)).subscribe((formGroup) => {
       if (formGroup.valid) {
@@ -146,7 +146,7 @@ export class EditAbsencesEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.navigateBack();
   }
 

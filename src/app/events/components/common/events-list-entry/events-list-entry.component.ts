@@ -26,5 +26,7 @@ export class EventsListEntryComponent {
   readonly withRatings = input<boolean>(true);
   readonly withDate = input<boolean>(true);
 
-  readonly link = computed(() => convertLink(this.event().detailLink));
+  protected readonly link = computed(() =>
+    convertLink(this.event().detailLink),
+  );
 }

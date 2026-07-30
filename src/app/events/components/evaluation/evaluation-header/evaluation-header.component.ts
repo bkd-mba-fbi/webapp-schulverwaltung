@@ -33,22 +33,22 @@ import { ReportsLinkComponent } from "../../../../shared/components/reports-link
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationHeaderComponent {
-  private reportsService = inject(ReportsService);
-  private route = inject(ActivatedRoute);
-  private state = inject(EvaluationStateService);
+  private readonly reportsService = inject(ReportsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly state = inject(EvaluationStateService);
 
   readonly event = input.required<EvaluationEvent>();
   readonly showActions = input<boolean>(true);
 
-  readonly hasGradeEntries = computed(() =>
+  protected readonly hasGradeEntries = computed(() =>
     this.state.entries().some((entry) => (entry.grade?.Value ?? 0) > 0),
   );
 
-  readonly queryParam = signal<string | null>(
+  protected readonly queryParam = signal<string | null>(
     this.route.snapshot.queryParamMap.get("returnlink"),
   );
 
-  reports$ = toObservable(this.event).pipe(
+  protected reports$ = toObservable(this.event).pipe(
     map((event) => event.id),
     distinctUntilChanged(),
     switchMap((eventId) =>
@@ -57,7 +57,7 @@ export class EvaluationHeaderComponent {
     startWith([]),
   );
 
-  readonly returnlink = computed(() => {
+  protected readonly returnlink = computed(() => {
     if (!this.showActions()) {
       return `/events/${this.event().id}/evaluation`;
     }

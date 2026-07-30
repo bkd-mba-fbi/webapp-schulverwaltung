@@ -49,9 +49,9 @@ import { TestsTableHeaderComponent } from "../tests-table-header/tests-table-hea
   ],
 })
 export class TestsTableComponent implements OnInit, OnDestroy {
-  state = inject(TestStateService);
-  private modalService = inject(BkdModalService);
-  private destroy$ = new Subject<void>();
+  protected readonly state = inject(TestStateService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly destroy$ = new Subject<void>();
 
   private readonly sticky = viewChild(TableHeaderStickyDirective);
 
@@ -75,7 +75,7 @@ export class TestsTableComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  setAverageAsFinalGrade() {
+  protected setAverageAsFinalGrade() {
     this.state.course$
       .pipe(take(1))
       .subscribe((course) =>
@@ -83,7 +83,9 @@ export class TestsTableComponent implements OnInit, OnDestroy {
       );
   }
 
-  isEditFinalGradesAllowed(studentGrade: StudentGrade): Observable<boolean> {
+  protected isEditFinalGradesAllowed(
+    studentGrade: StudentGrade,
+  ): Observable<boolean> {
     return this.state.course$.pipe(
       map((course) =>
         Boolean(
@@ -93,7 +95,7 @@ export class TestsTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  getGrades(
+  protected getGrades(
     studentGrade: StudentGrade,
   ): ReadonlyArray<{ id: string; grade: GradeOrNoResult }> {
     return studentGrade.grades.flatMap((grade) => ({
@@ -102,21 +104,21 @@ export class TestsTableComponent implements OnInit, OnDestroy {
     }));
   }
 
-  publish(test: Test) {
+  protected publish(test: Test) {
     const modalRef = this.openModal(test);
     this.onCloseModal(modalRef, () => this.state.publish(test));
   }
 
-  unpublish(test: Test) {
+  protected unpublish(test: Test) {
     const modalRef = this.openModal(test);
     this.onCloseModal(modalRef, () => this.state.unpublish(test));
   }
 
-  calculatePointsAverage(test: Test) {
+  private calculatePointsAverage(test: Test) {
     return this.safeAverage(test, averagePoints);
   }
 
-  calculateGradeAverage(test: Test) {
+  private calculateGradeAverage(test: Test) {
     return this.safeAverage(test, averageGrade);
   }
 

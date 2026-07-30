@@ -79,20 +79,20 @@ import { StudentGradesEditDialogComponent } from "../student-grades-edit-dialog/
   imports: [DatePipe, TranslatePipe, TestPointsPipe, TestsWeightPipe],
 })
 export class StudentGradesTestComponent {
-  private gradeService = inject(StudentGradesService);
-  private modalService = inject(BkdModalService);
+  private readonly gradeService = inject(StudentGradesService);
+  private readonly modalService = inject(BkdModalService);
 
   readonly test = input.required<Test>();
   readonly studentId = input.required<number>();
   readonly gradingScale = input<Option<GradingScale>>(null);
   readonly isEditable = input(false);
 
-  readonly grading = toSignal(
+  protected readonly grading = toSignal(
     toObservable(this.test).pipe(map(this.getGrading.bind(this))),
     { initialValue: null },
   );
 
-  editGrading(test: Test): void {
+  protected editGrading(test: Test): void {
     const modalRef = this.modalService.open(StudentGradesEditDialogComponent, {
       backdrop: "static", // prevent closing by click outside of modal
     });

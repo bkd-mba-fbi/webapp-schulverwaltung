@@ -84,23 +84,27 @@ const EVALUATION_CONTEXT = "events-evaluation";
 
 @Injectable()
 export class EvaluationStateService {
-  private route = inject(ActivatedRoute);
-  private loadingService = inject(LoadingService);
-  private coursesService = inject(CoursesRestService);
-  private studyClassesService = inject(StudyClassesRestService);
-  private gradingItemsService = inject(GradingItemsRestService);
-  private gradingScalesService = inject(GradingScalesRestService);
-  private configurationsService = inject(ConfigurationsRestService);
-  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly loadingService = inject(LoadingService);
+  private readonly coursesService = inject(CoursesRestService);
+  private readonly studyClassesService = inject(StudyClassesRestService);
+  private readonly gradingItemsService = inject(GradingItemsRestService);
+  private readonly gradingScalesService = inject(GradingScalesRestService);
+  private readonly configurationsService = inject(ConfigurationsRestService);
+  private readonly subscriptionDetailsService = inject(
+    SubscriptionDetailsRestService,
+  );
 
-  private eventIdParam$ = (this.route.parent?.params ?? of({} as Params)).pipe(
+  private readonly eventIdParam$ = (
+    this.route.parent?.params ?? of({} as Params)
+  ).pipe(
     map((params) => {
       const eventId = params["id"];
       return eventId ? Number(eventId) : null;
     }),
   );
-  private reload$ = new Subject<void>();
-  private eventId$ = merge(
+  private readonly reload$ = new Subject<void>();
+  private readonly eventId$ = merge(
     this.eventIdParam$,
     this.reload$.pipe(switchMap(() => this.eventIdParam$)),
   );
@@ -524,7 +528,7 @@ export class EvaluationStateService {
     };
   }
 
-  isEvaluationRequired(
+  private isEvaluationRequired(
     gradingItem: GradingItem,
     gradingScale: Option<GradingScale>,
     columnDetails: (SubscriptionDetail | null)[],

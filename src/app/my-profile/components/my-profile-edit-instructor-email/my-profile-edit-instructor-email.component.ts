@@ -40,31 +40,31 @@ type InstructorEmailFormData = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyProfileEditInstructorEmailComponent {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private toastService = inject(ToastService);
-  private profileService = inject(MyProfileService);
-  private personsService = inject(PersonsRestService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
+  private readonly toastService = inject(ToastService);
+  private readonly profileService = inject(MyProfileService);
+  private readonly personsService = inject(PersonsRestService);
 
-  readonly loading = toSignal(this.profileService.loadingPerson$, {
+  protected readonly loading = toSignal(this.profileService.loadingPerson$, {
     requireSync: true,
   });
-  readonly submitted = signal(false);
-  readonly saving = signal(false);
+  protected readonly submitted = signal(false);
+  protected readonly saving = signal(false);
 
-  readonly instructorEmail = toSignal(this.loadInstructorEmail(), {
+  private readonly instructorEmail = toSignal(this.loadInstructorEmail(), {
     initialValue: null,
   });
 
-  readonly apprenticeship = toSignal(
+  protected readonly apprenticeship = toSignal(
     this.profileService.apprenticeships$.pipe(map((v) => (v && v[0]) ?? null)),
     {
       initialValue: null,
     },
   );
 
-  readonly formData = linkedSignal<InstructorEmailFormData>(() => {
+  private readonly formData = linkedSignal<InstructorEmailFormData>(() => {
     const email = this.instructorEmail() ?? "";
 
     return {
@@ -73,11 +73,11 @@ export class MyProfileEditInstructorEmailComponent {
       instructorEmail: isEmail(email) ? email : "",
     };
   });
-  instructorEmailForm = form(this.formData, (schema) => {
+  protected readonly instructorEmailForm = form(this.formData, (schema) => {
     email(schema.instructorEmail);
   });
 
-  onSubmit(event: Event): void {
+  protected onSubmit(event: Event): void {
     event.preventDefault();
     this.submitted.set(true);
 
@@ -88,7 +88,7 @@ export class MyProfileEditInstructorEmailComponent {
     this.save(this.instructorEmailForm().value().instructorEmail);
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.navigateBack();
   }
 

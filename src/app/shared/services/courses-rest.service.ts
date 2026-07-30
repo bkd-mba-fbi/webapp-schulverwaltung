@@ -34,15 +34,15 @@ export class CoursesRestService
   extends RestService<typeof Course>
   implements TypeaheadService
 {
-  protected typeaheadCodec = t.type(
+  private readonly typeaheadCodec = t.type(
     pick(this.codec.props, ["Id", "Designation"]),
   );
-  protected statusCodec = t.type(
+  private readonly statusCodec = t.type(
     pick(this.codec.props, ["Id", "StatusId", "EvaluationStatusRef"]),
   );
 
-  private translate = inject(TranslateService);
-  private toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly toastService = inject(ToastService);
 
   constructor() {
     const http = inject(HttpClient);

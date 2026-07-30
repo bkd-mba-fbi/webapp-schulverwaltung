@@ -31,26 +31,26 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsEditComponent {
-  state = inject(TestStateService);
-  private courseService = inject(CoursesRestService);
-  private route = inject(ActivatedRoute);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private router = inject(Router);
-  private modalService = inject(BkdModalService);
+  protected readonly state = inject(TestStateService);
+  private readonly courseService = inject(CoursesRestService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly router = inject(Router);
+  private readonly modalService = inject(BkdModalService);
 
-  saving$ = new BehaviorSubject(false);
+  protected saving$ = new BehaviorSubject(false);
 
-  private testId$ = this.route.paramMap.pipe(
+  private readonly testId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("testId"))),
     distinctUntilChanged(),
   );
 
-  test$ = combineLatest([this.state.tests$, this.testId$]).pipe(
+  protected test$ = combineLatest([this.state.tests$, this.testId$]).pipe(
     map(([tests, id]) => tests.find((t) => t.Id === id)),
   );
 
-  openDeleteModal(test: Test) {
+  protected openDeleteModal(test: Test) {
     const modalRef = this.modalService.open(TestsDeleteComponent);
     modalRef.setInput("test", test);
     modalRef.result.then(

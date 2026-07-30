@@ -51,21 +51,23 @@ export class SubscriptionDetailTextfieldComponent {
   readonly value = model<SubscriptionDetail["Value"]>();
   readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly readonly = computed(() => this.detail().VssInternet === "R");
-  readonly isInt = computed(
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  private readonly isInt = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.Int,
   );
-  readonly isCurrency = computed(
+  protected readonly isCurrency = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.Currency,
   );
-  readonly fieldType = computed(() =>
+  protected readonly fieldType = computed(() =>
     this.isInt() || this.isCurrency() ? "number" : "text",
   );
 
   private readonly input =
     viewChild.required<ElementRef<HTMLInputElement>>("input");
 
-  onChange(event: Event) {
+  protected onChange(event: Event) {
     const { value: rawValue } = event.target as HTMLInputElement;
     const value = this.normalizeValueOnChange(rawValue);
 
@@ -86,7 +88,7 @@ export class SubscriptionDetailTextfieldComponent {
     }
   }
 
-  onBlur() {
+  protected onBlur() {
     // Normalize the value such that the currency gets propperly formatted
     this.value.set(this.normalizeValueOnBlur(this.value() ?? null));
 

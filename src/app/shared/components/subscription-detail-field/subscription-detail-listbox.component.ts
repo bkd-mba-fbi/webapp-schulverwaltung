@@ -99,19 +99,23 @@ export class SubscriptionDetailListboxComponent {
   readonly value = model<SubscriptionDetail["Value"]>();
   readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly readonly = computed(() => this.detail().VssInternet === "R");
-  readonly asRadios = computed(() => this.detail().ShowAsRadioButtons);
-  readonly items = computed(() =>
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  protected readonly asRadios = computed(
+    () => this.detail().ShowAsRadioButtons,
+  );
+  protected readonly items = computed(() =>
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
-  readonly hasManyItems = computed(
+  protected readonly hasManyItems = computed(
     () => (this.items() ?? []).length > MANY_ITEMS_COUNT,
   );
-  readonly normalizedValue = computed(() =>
+  protected readonly normalizedValue = computed(() =>
     this.detail().Value ? String(this.detail().Value) : null,
   );
 
-  onChange(rawValue: SubscriptionDetail["Value"]): void {
+  protected onChange(rawValue: SubscriptionDetail["Value"]): void {
     const item = this.items()?.find((item) => item.Key == rawValue);
     const value = item?.Key ? this.normalizeItemKey(item?.Key) : null;
 
@@ -119,7 +123,7 @@ export class SubscriptionDetailListboxComponent {
     this.commit.emit(value);
   }
 
-  normalizeItemKey(key: DropDownItemWithActive["Key"]): string {
+  protected normalizeItemKey(key: DropDownItemWithActive["Key"]): string {
     return String(key);
   }
 }

@@ -26,15 +26,15 @@ import { SwitchComponent } from "../../../shared/components/switch/switch.compon
   ],
 })
 export class MySettingsNotificationsToggleComponent implements ControlValueAccessor {
-  private cd = inject(ChangeDetectorRef);
+  private readonly cd = inject(ChangeDetectorRef);
 
   readonly id = input.required<string>();
   readonly label = input.required<string>();
   readonly description = input<Option<string>>(null);
   readonly disabled = model(false);
 
-  onChange = (_: boolean) => {};
-  onTouched = () => {};
+  private onChange = (_: boolean) => {};
+  private onTouched = () => {};
 
   private _value = false;
 

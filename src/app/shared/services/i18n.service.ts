@@ -19,8 +19,8 @@ export function provideDetectedLocale(): Provider[] {
   providedIn: "root",
 })
 export class I18nService {
-  private translate = inject(TranslateService);
-  private storage = inject(StorageService);
+  private readonly translate = inject(TranslateService);
+  private readonly storage = inject(StorageService);
 
   private detectedLanguage: Option<string>;
 

@@ -17,7 +17,7 @@ import { AvatarService } from "../../services/avatar.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
-  private avatarService = inject(AvatarService);
+  private readonly avatarService = inject(AvatarService);
 
   readonly studentId = input.required<number>();
   readonly link = input<RouterLink["routerLink"]>();

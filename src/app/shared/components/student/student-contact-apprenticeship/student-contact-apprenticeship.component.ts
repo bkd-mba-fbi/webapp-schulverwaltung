@@ -26,7 +26,7 @@ export class StudentContactApprenticeshipComponent {
   readonly instructorEmailEditLink = input<Option<string>>(null);
   readonly instructorEmailEditLabel = input<Option<string>>(null);
 
-  readonly instructorEmail = computed(() => {
+  protected readonly instructorEmail = computed(() => {
     const email = this.student().Custom1;
     return isEmail(email) ? email : "";
   });

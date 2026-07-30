@@ -35,8 +35,8 @@ export type ReportInfo = Report & { title: string; url: string };
   providedIn: "root",
 })
 export class ReportsService {
-  private settings = inject<Settings>(SETTINGS);
-  private http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly http = inject(HttpClient);
 
   /**
    * Report "Stammblatt" with user's master data (used in my profile)

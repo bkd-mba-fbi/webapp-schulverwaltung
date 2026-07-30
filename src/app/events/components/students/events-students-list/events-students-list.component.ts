@@ -25,10 +25,10 @@ import { EventsStudentsStudyCourseListComponent } from "../events-students-study
   styleUrl: "./events-students-list.component.scss",
 })
 export class EventsStudentsListComponent {
-  state = inject(EventsStudentsStateService);
-  private route = inject(ActivatedRoute);
+  protected readonly state = inject(EventsStudentsStateService);
+  private readonly route = inject(ActivatedRoute);
 
-  readonly returnLink = toSignal(
+  protected readonly returnLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnlink }) => {
         return returnlink ? decodeURIComponent(returnlink) : null;

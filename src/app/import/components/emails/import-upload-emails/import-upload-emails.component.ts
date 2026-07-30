@@ -31,21 +31,21 @@ import { ImportEntryValueComponent } from "../../common/import-entry-value/impor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportUploadEmailsComponent {
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private stateService = inject(ImportStateService);
-  private uploadService = inject(ImportUploadEmailsService);
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
+  private readonly stateService = inject(ImportStateService);
+  private readonly uploadService = inject(ImportUploadEmailsService);
 
-  readonly importEntries: WritableSignal<
+  private readonly importEntries: WritableSignal<
     Option<ReadonlyArray<EmailImportEntry>>
   > = this.stateService.importEntries;
-  readonly errorEntries = computed(
+  protected readonly errorEntries = computed(
     () =>
       this.importEntries()?.filter(
         ({ importStatus }) => importStatus === "error",
       ) ?? [],
   );
-  progress = this.uploadService.progress;
+  protected readonly progress = this.uploadService.progress;
 
   constructor() {
     const importEntries = this.importEntries();
@@ -57,11 +57,11 @@ export class ImportUploadEmailsComponent {
     this.upload(importEntries);
   }
 
-  retry() {
+  protected retry() {
     this.upload(this.importEntries() ?? [], { retryFailedOnly: true });
   }
 
-  getErrorMessage(entry: EmailImportEntry): Option<string> {
+  protected getErrorMessage(entry: EmailImportEntry): Option<string> {
     if (entry.importStatus === "error" && entry.importError) {
       const defaultError = this.translate.instant(
         "import.upload.error.entry-error",

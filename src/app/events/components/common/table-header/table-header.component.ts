@@ -17,7 +17,7 @@ import {
   template: "",
 })
 export abstract class TableHeaderComponent {
-  private element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /**
    * Set to false for the inline version of the header, true for the sticky (or
@@ -26,7 +26,7 @@ export abstract class TableHeaderComponent {
   readonly sticky = input(false);
 
   @HostBinding("class.sticky")
-  get stickyClass() {
+  private get stickyClass() {
     return this.sticky();
   }
 

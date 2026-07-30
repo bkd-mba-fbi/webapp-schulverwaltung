@@ -31,37 +31,37 @@ import { OpenAbsencesService } from "../../services/open-absences.service";
 export class OpenAbsencesDetailComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private openAbsencesService = inject(OpenAbsencesService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private personService = inject(PersonsRestService);
-  selectionService = inject(ConfirmAbsencesSelectionService);
-  private scrollPosition = inject(ScrollPositionService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly openAbsencesService = inject(OpenAbsencesService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly personService = inject(PersonsRestService);
+  protected readonly selectionService = inject(ConfirmAbsencesSelectionService);
+  private readonly scrollPosition = inject(ScrollPositionService);
 
-  absences$ = this.route.paramMap.pipe(
+  protected absences$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForParams.bind(this)),
   );
-  hasAbsences$ = this.absences$.pipe(map(longerOrEqual(1)));
-  studentFullName$ = this.absences$.pipe(
+  private readonly hasAbsences$ = this.absences$.pipe(map(longerOrEqual(1)));
+  protected studentFullName$ = this.absences$.pipe(
     map((absences) => (absences[0] && absences[0].StudentFullName) || null),
   );
-  allSelected$ = combineLatest([
+  private readonly allSelected$ = combineLatest([
     this.absences$,
     this.selectionService.selection$,
   ]).pipe(map(([absences, selection]) => absences.length === selection.length));
 
-  studentEmail$ = this.absences$.pipe(
+  private readonly studentEmail$ = this.absences$.pipe(
     map((absences) => (absences[0] && absences[0].StudentRef.Id) || null),
     switchMap((id) =>
       id ? this.personService.getByIdWithEmailInfos(id) : EMPTY,
     ),
   );
 
-  allUnconfirmedAbsencesForStudent$ = this.route.paramMap.pipe(
+  private readonly allUnconfirmedAbsencesForStudent$ = this.route.paramMap.pipe(
     switchMap(this.getAbsencesForStudentParam.bind(this)),
   );
-  mailTo$ = combineLatest([
+  protected mailTo$ = combineLatest([
     this.studentEmail$,
     this.allUnconfirmedAbsencesForStudent$,
   ]).pipe(
@@ -70,7 +70,7 @@ export class OpenAbsencesDetailComponent
     ),
   );
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.selectionService.clearNonLessonPresences();
@@ -99,7 +99,7 @@ export class OpenAbsencesDetailComponent
     this.destroy$.next();
   }
 
-  toggleAll(checked: boolean): void {
+  private toggleAll(checked: boolean): void {
     if (checked) {
       this.absences$
         .pipe(take(1))
@@ -109,13 +109,13 @@ export class OpenAbsencesDetailComponent
     }
   }
 
-  onRowClick(event: Event, checkbox: HTMLInputElement): void {
+  private onRowClick(event: Event, checkbox: HTMLInputElement): void {
     if (event.target !== checkbox) {
       checkbox.click();
     }
   }
 
-  getPresenceTypeDesignation(
+  private getPresenceTypeDesignation(
     lessonPresence: LessonPresence,
   ): Observable<Option<string>> {
     return this.presenceTypesService.displayedTypes$.pipe(

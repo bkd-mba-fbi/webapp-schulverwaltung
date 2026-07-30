@@ -44,10 +44,10 @@ export class TypeaheadComponent implements OnDestroy {
   readonly value = model<Option<DropDownItem["Key"]>>(null);
   readonly additionalHttpParams = input<HttpParams>();
 
-  readonly loading = signal(false);
-  readonly selectedItem = signal<Option<DropDownItem>>(null);
+  protected readonly loading = signal(false);
+  protected readonly selectedItem = signal<Option<DropDownItem>>(null);
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor() {
     toObservable(this.value)
@@ -74,18 +74,18 @@ export class TypeaheadComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  search = (term$: Observable<string>) => {
+  protected readonly search = (term$: Observable<string>) => {
     return term$.pipe(
       processTerm(MINIMAL_TERM_LENGTH, FETCH_DEBOUNCE_TIME),
       switchMap(this.fetchItems.bind(this)),
     );
   };
 
-  format(item: DropDownItem): string {
+  protected format(item: DropDownItem): string {
     return item.Value;
   }
 
-  onChange(value: unknown): void {
+  protected onChange(value: unknown): void {
     const item = value instanceof Object ? (value as DropDownItem) : null;
     this.selectedItem.set(item);
     this.value.set(item?.Key ?? null);

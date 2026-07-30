@@ -15,9 +15,9 @@ export function provideGlobalErrorHandler(): Provider[] {
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  private ngZone = inject(NgZone);
-  private translate = inject(TranslateService);
-  private toastService = inject(ToastService);
+  private readonly ngZone = inject(NgZone);
+  private readonly translate = inject(TranslateService);
+  private readonly toastService = inject(ToastService);
 
   handleError(error: unknown): void {
     console.error(String(error));

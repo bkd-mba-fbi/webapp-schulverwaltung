@@ -16,10 +16,10 @@ import { StudentProfileService } from "./student-profile.service";
 
 @Injectable()
 export class StudentStateService {
-  private profileService = inject(StudentProfileService);
-  private storageService = inject(StorageService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private readonly profileService = inject(StudentProfileService);
+  private readonly storageService = inject(StorageService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   readonly dossierPage = toSignal(
     this.router.events.pipe(

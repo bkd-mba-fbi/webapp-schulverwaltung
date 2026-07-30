@@ -61,40 +61,42 @@ const ALL_TEACHERS_OBJECT_TYPE_ID = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEditComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private translate = inject(TranslateService);
-  private editService = inject(StudentDossierEditService);
-  private toastService = inject(ToastService);
-  private modalService = inject(BkdModalService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly translate = inject(TranslateService);
+  private readonly editService = inject(StudentDossierEditService);
+  private readonly toastService = inject(ToastService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  acceptedFileTypes = this.settings.dossierAllowedFileTypes;
+  protected readonly acceptedFileTypes = this.settings.dossierAllowedFileTypes;
 
-  readonly loading = toSignal(this.editService.loading$, { requireSync: true });
-  readonly saving = signal(false);
-  readonly studentId = toSignal(this.editService.studentId$, {
+  protected readonly loading = toSignal(this.editService.loading$, {
     requireSync: true,
   });
-  readonly studentName = toSignal(this.editService.studentName$, {
+  protected readonly saving = signal(false);
+  private readonly studentId = toSignal(this.editService.studentId$, {
+    requireSync: true,
+  });
+  protected readonly studentName = toSignal(this.editService.studentName$, {
     initialValue: null,
   });
-  readonly additionalInformationId = toSignal(
+  protected readonly additionalInformationId = toSignal(
     this.editService.additionalInformationId$,
     {
       requireSync: true,
     },
   );
-  readonly additionalInformation = toSignal(
+  protected readonly additionalInformation = toSignal(
     this.editService.additionalInformation$,
     {
       initialValue: null,
     },
   );
-  readonly categories = toSignal(this.editService.categories$, {
+  protected readonly categories = toSignal(this.editService.categories$, {
     initialValue: [],
   });
-  readonly classTeacherObject = toSignal(
+  protected readonly classTeacherObject = toSignal(
     this.editService.studentId$.pipe(
       switchMap((studentId) =>
         this.editService.getClassTeacherObject(studentId),
@@ -116,12 +118,12 @@ export class StudentDossierEditComponent {
       : this.translate.instant("student.dossier.edit.title-new"),
   );
 
-  types = ["document", "note"].map((key) => ({
+  protected readonly types = ["document", "note"].map((key) => ({
     key,
     label: this.translate.instant(`student.dossier.edit.type.${key}`),
   }));
 
-  readonly entryFormData = linkedSignal<DossierEntryFormData>(() => {
+  private readonly entryFormData = linkedSignal<DossierEntryFormData>(() => {
     const info = this.additionalInformation();
     return {
       type: info ? (info.File ? "document" : "note") : "document",
@@ -168,7 +170,7 @@ export class StudentDossierEditComponent {
     disabled(schema.objectId, editing);
   });
 
-  readonly submitted = signal(false);
+  protected readonly submitted = signal(false);
 
   constructor() {
     effect(() => this.updateFormObjectId());

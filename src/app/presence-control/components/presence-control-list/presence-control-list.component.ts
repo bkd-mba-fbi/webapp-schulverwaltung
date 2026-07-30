@@ -50,13 +50,15 @@ const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
 export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  state = inject(PresenceControlStateService);
-  private blockLessons = inject(PresenceControlBlockLessonService);
-  private lessonPresencesUpdateService = inject(LessonPresencesUpdateService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private modalService = inject(BkdModalService);
-  private scrollPosition = inject(ScrollPositionService);
-  private route = inject(ActivatedRoute);
+  readonly state = inject(PresenceControlStateService);
+  private readonly blockLessons = inject(PresenceControlBlockLessonService);
+  private readonly lessonPresencesUpdateService = inject(
+    LessonPresencesUpdateService,
+  );
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly scrollPosition = inject(ScrollPositionService);
+  private readonly route = inject(ActivatedRoute);
 
   search$ = new BehaviorSubject<string>("");
   entries$ = combineLatest([
@@ -67,7 +69,7 @@ export class PresenceControlListComponent
     shareReplay(1),
   );
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.route.queryParams

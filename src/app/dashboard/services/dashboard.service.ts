@@ -38,14 +38,15 @@ const TIMETABLE_ROLES = ["LessonTeacherRole", "StudentRole"];
 
 @Injectable()
 export class DashboardService {
-  private settingsService = inject(UserSettingsService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private studentsService = inject(StudentsRestService);
-  private courseService = inject(CoursesRestService);
-  private storageService = inject(StorageService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly settingsService = inject(UserSettingsService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly studentsService = inject(StudentsRestService);
+  private readonly courseService = inject(CoursesRestService);
+  private readonly storageService = inject(StorageService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  private rolesAndPermissions$ = (this.storageService.getPayload()?.holder_id
+  private readonly rolesAndPermissions$ = (this.storageService.getPayload()
+    ?.holder_id
     ? of(
         this.storageService
           .getPayload()!
@@ -54,11 +55,11 @@ export class DashboardService {
     : this.settingsService.getRolesAndPermissions()
   ).pipe(shareReplay(1));
   userId$ = new ReplaySubject<number>(1);
-  private lessonAbsences$ = this.userId$.pipe(
+  private readonly lessonAbsences$ = this.userId$.pipe(
     switchMap((id) => this.studentsService.getLessonAbsences(id)),
     shareReplay(1),
   );
-  private lessonIncidents$ = this.userId$.pipe(
+  private readonly lessonIncidents$ = this.userId$.pipe(
     switchMap((id) => this.studentsService.getLessonIncidents(id)),
     shareReplay(1),
   );

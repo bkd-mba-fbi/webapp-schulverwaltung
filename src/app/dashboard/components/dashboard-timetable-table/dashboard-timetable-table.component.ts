@@ -14,15 +14,15 @@ import { DashboardTimetableEntryGroup } from "../../utils/dashboard-timetable-en
   imports: [AsyncPipe, DatePipe, TranslatePipe, RouterLink],
 })
 export class DashboardTimetableTableComponent {
-  private dashboardService = inject(DashboardService);
+  private readonly dashboardService = inject(DashboardService);
 
   readonly entries =
     input.required<ReadonlyArray<DashboardTimetableEntryGroup>>();
 
-  isStudent$ = this.dashboardService.hasStudentRole$;
-  isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
+  protected isStudent$ = this.dashboardService.hasStudentRole$;
+  protected isTeacher$ = this.dashboardService.hasLessonTeacherRole$;
 
-  buildLink(eventId: number) {
+  protected buildLink(eventId: number) {
     return convertLink(getEventsStudentsLink(eventId, "/dashboard"));
   }
 }

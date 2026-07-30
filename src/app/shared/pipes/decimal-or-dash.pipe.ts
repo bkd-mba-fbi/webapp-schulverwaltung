@@ -9,7 +9,7 @@ export const DASH = "–";
   standalone: true,
 })
 export class DecimalOrDashPipe implements PipeTransform {
-  private locale = inject(LOCALE_ID);
+  private readonly locale = inject(LOCALE_ID);
 
   transform(
     value: number | string | null | undefined,

@@ -5,7 +5,7 @@ import { StorageService } from "./storage.service";
   providedIn: "root",
 })
 export class AuthService {
-  private storage = inject(StorageService);
+  private readonly storage = inject(StorageService);
 
   get isAuthenticated(): boolean {
     return Boolean(this.accessToken);

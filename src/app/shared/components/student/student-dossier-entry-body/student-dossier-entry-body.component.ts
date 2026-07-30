@@ -24,21 +24,21 @@ import { StudentDossierEntryFooterComponent } from "../student-dossier-entry-foo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEntryBodyComponent {
-  private settings = inject<Settings>(SETTINGS);
-  private storageService = inject(StorageService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly storageService = inject(StorageService);
 
   readonly entry = input.required<StudentDossierEntry>();
 
-  readonly documentPath = computed(
+  private readonly documentPath = computed(
     () =>
       // The path in the `File` attribute starts with `/restApi`, so we remove
       // this to have the actual document path without the API prefix
       this.entry().additionalInformation.File?.replace(/^\/restApi/, "") ??
       null,
   );
-  readonly hasDocument = computed(() => Boolean(this.documentPath()));
+  protected readonly hasDocument = computed(() => Boolean(this.documentPath()));
 
-  openDocument(): void {
+  protected openDocument(): void {
     // We generate the URL that includes the token when we are using it,
     // otherwise the token can already be expired (hence this openDocument()
     // call and no href="" attribute).

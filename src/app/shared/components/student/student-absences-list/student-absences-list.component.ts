@@ -47,7 +47,7 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
   ],
 })
 export class StudentAbsencesListComponent {
-  private presenceTypesService = inject(PresenceTypesService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
 
   readonly absences$ =
     input<Observable<Option<ReadonlyArray<LessonPresence>>>>();
@@ -79,26 +79,27 @@ export class StudentAbsencesListComponent {
   readonly displayEmail = input(false);
   readonly mailTo$ = input<Observable<string>>();
 
-  readonly checkboxes = viewChildren<ElementRef<HTMLInputElement>>("checkbox");
+  private readonly checkboxes =
+    viewChildren<ElementRef<HTMLInputElement>>("checkbox");
 
-  lessonPresences$ = toObservable(this.absences$).pipe(
+  protected lessonPresences$ = toObservable(this.absences$).pipe(
     filter(Boolean),
     switchAll(),
     startWith(null),
     shareReplay(1),
   );
-  loading$ = this.lessonPresences$.pipe(map(not(isArray)));
+  protected loading$ = this.lessonPresences$.pipe(map(not(isArray)));
 
-  selectionService$ = toObservable(this.selectionService).pipe(
+  private readonly selectionService$ = toObservable(this.selectionService).pipe(
     filter(notNull),
     shareReplay(1),
   );
-  editable$ = this.selectionService$.pipe(
+  protected editable$ = this.selectionService$.pipe(
     map(() => true),
     startWith(false),
   );
 
-  allSelected$ = combineLatest([
+  protected allSelected$ = combineLatest([
     this.lessonPresences$.pipe(filter(notNull)),
     this.selectionService$.pipe(switchMap((service) => service.selection$)),
   ]).pipe(
@@ -108,7 +109,9 @@ export class StudentAbsencesListComponent {
     ),
   );
 
-  private displayPresenceType$ = toObservable(this.displayPresenceType);
+  private readonly displayPresenceType$ = toObservable(
+    this.displayPresenceType,
+  );
 
   constructor() {
     effect(() => {
@@ -119,7 +122,7 @@ export class StudentAbsencesListComponent {
     });
   }
 
-  toggleAll(checked: boolean): void {
+  protected toggleAll(checked: boolean): void {
     if (checked) {
       this.lessonPresences$
         .pipe(take(1))
@@ -134,7 +137,10 @@ export class StudentAbsencesListComponent {
    * non-static (within @if) and can therefore not be referenced in
    * the template itself.
    */
-  onRowClick(event: Event, indexOrCheckbox: number | HTMLInputElement): void {
+  protected onRowClick(
+    event: Event,
+    indexOrCheckbox: number | HTMLInputElement,
+  ): void {
     const checkboxes = this.checkboxes();
     if (checkboxes.length === 0) return;
 
@@ -152,7 +158,7 @@ export class StudentAbsencesListComponent {
     }
   }
 
-  getPresenceTypeDesignation(
+  protected getPresenceTypeDesignation(
     absence: LessonPresence,
   ): Observable<Option<string>> {
     return this.displayPresenceType$.pipe(

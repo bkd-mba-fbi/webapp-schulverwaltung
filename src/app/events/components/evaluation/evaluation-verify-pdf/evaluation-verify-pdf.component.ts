@@ -31,15 +31,15 @@ const EVALUATION_PDF_CONTEXT = "evaluation-verify-pdf";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationVerifyPdfComponent implements OnDestroy {
-  private reportsService = inject(ReportsService);
-  private storageService = inject(StorageService);
-  private loadingService = inject(LoadingService);
-  private settings = inject<Settings>(SETTINGS);
-  private translate = inject(TranslateService);
+  private readonly reportsService = inject(ReportsService);
+  private readonly storageService = inject(StorageService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly translate = inject(TranslateService);
 
   readonly eventId = input.required<number>();
 
-  readonly loading = toSignal(
+  protected readonly loading = toSignal(
     this.loadingService.loading(EVALUATION_PDF_CONTEXT),
   );
   readonly loadingPdf = outputFromObservable(
@@ -87,7 +87,7 @@ export class EvaluationVerifyPdfComponent implements OnDestroy {
     }
   }
 
-  print(): void {
+  protected print(): void {
     const reportBlobUrl = this.reportBlobUrl();
     if (!reportBlobUrl) return;
 
@@ -102,7 +102,7 @@ export class EvaluationVerifyPdfComponent implements OnDestroy {
     };
   }
 
-  download(): void {
+  protected download(): void {
     const reportBlobUrl = this.reportBlobUrl();
     if (!reportBlobUrl) return;
 

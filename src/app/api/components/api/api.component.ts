@@ -33,12 +33,12 @@ const API_REQUEST_KEY = "bkdApiRequest";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApiComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private http = inject(HttpClient);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly fb = inject(FormBuilder);
+  private readonly http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  readonly formGroup = signal(this.createFormGroup());
-  readonly params = computed(() => this.formGroup().controls.params);
+  protected readonly formGroup = signal(this.createFormGroup());
+  protected readonly params = computed(() => this.formGroup().controls.params);
 
   ngOnInit(): void {
     const value = this.restoreValue();
@@ -58,27 +58,27 @@ export class ApiComponent implements OnInit {
     }
   }
 
-  addParam({ key = "", value = "" } = {}): void {
+  protected addParam({ key = "", value = "" } = {}): void {
     const { params } = this.formGroup().controls;
     params.push(this.createKeyValueGroup(key, value));
   }
 
-  removeParam(index: number): void {
+  protected removeParam(index: number): void {
     const { params } = this.formGroup().controls;
     params.removeAt(index);
   }
 
-  addHeader({ key = "", value = "" } = {}): void {
+  protected addHeader({ key = "", value = "" } = {}): void {
     const { headers } = this.formGroup().controls;
     headers.push(this.createKeyValueGroup(key, value));
   }
 
-  removeHeader(index: number): void {
+  protected removeHeader(index: number): void {
     const { headers } = this.formGroup().controls;
     headers.removeAt(index);
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     const group = this.formGroup();
     if (group.valid) {
       const {

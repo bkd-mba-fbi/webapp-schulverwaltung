@@ -29,13 +29,13 @@ import { TestsTableComponent } from "../tests-table/tests-table.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsListComponent {
-  settings = inject<Settings>(SETTINGS);
-  state = inject(TestStateService);
-  private translate = inject(TranslateService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  protected readonly state = inject(TestStateService);
+  private readonly translate = inject(TranslateService);
 
-  selectTest$: Subject<number> = new Subject();
+  private readonly selectTest$: Subject<number> = new Subject();
 
-  testOptions$ = this.state.tests$.pipe(
+  protected testOptions$ = this.state.tests$.pipe(
     map((test) => [
       { Key: -1, Value: this.translate.instant("tests.grade") },
       ...test.map((test) => {
@@ -45,7 +45,7 @@ export class TestsListComponent {
     distinctUntilChanged(),
   );
 
-  selectedTestId$ = merge(
+  protected selectedTestId$ = merge(
     this.selectTest$,
     this.state.tests$.pipe(
       take(1),
@@ -53,16 +53,17 @@ export class TestsListComponent {
     ),
   ).pipe(distinctUntilChanged());
 
-  selectedTest$: Observable<Test | undefined> = this.selectedTestId$.pipe(
-    switchMap((id: number) =>
-      this.state.tests$.pipe(
-        map((tests) => tests.find((test) => test.Id === id)),
+  protected selectedTest$: Observable<Test | undefined> =
+    this.selectedTestId$.pipe(
+      switchMap((id: number) =>
+        this.state.tests$.pipe(
+          map((tests) => tests.find((test) => test.Id === id)),
+        ),
       ),
-    ),
-    distinctUntilChanged(),
-  );
+      distinctUntilChanged(),
+    );
 
-  testSelected(id: number) {
+  protected testSelected(id: number) {
     this.selectTest$.next(id);
   }
 }

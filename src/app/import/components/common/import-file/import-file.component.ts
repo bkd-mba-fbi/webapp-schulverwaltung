@@ -39,20 +39,21 @@ import { ImportFileSubscriptionDetailsService } from "../../../services/subscrip
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportFileComponent {
-  private translate = inject(TranslateService);
-  private fileSubscriptionDetailsService = inject(
+  private readonly translate = inject(TranslateService);
+  private readonly fileSubscriptionDetailsService = inject(
     ImportFileSubscriptionDetailsService,
   );
-  private fileEmailsService = inject(ImportFileEmailsService);
-  stateService = inject(ImportStateService);
+  private readonly fileEmailsService = inject(ImportFileEmailsService);
+  readonly stateService = inject(ImportStateService);
 
-  importTypeOptions: ReadonlyArray<ButtonGroupOption<ImportType>> =
-    IMPORT_TYPES.map((key) => ({
-      key,
-      label: this.translate.instant(`import.file.types.${key}`),
-    }));
+  protected readonly importTypeOptions: ReadonlyArray<
+    ButtonGroupOption<ImportType>
+  > = IMPORT_TYPES.map((key) => ({
+    key,
+    label: this.translate.instant(`import.file.types.${key}`),
+  }));
 
-  readonly fileService = computed(() => {
+  private readonly fileService = computed(() => {
     const importType = this.stateService.importType();
     switch (importType) {
       case "subscriptionDetails":
@@ -63,7 +64,7 @@ export class ImportFileComponent {
         throw new UnreachableError(importType, "Unhandled import type");
     }
   });
-  readonly requiredColumnNames = computed(() =>
+  protected readonly requiredColumnNames = computed(() =>
     new Array(this.fileService().requiredColumns)
       .fill("")
       .map((_, i) =>
@@ -73,8 +74,8 @@ export class ImportFileComponent {
       ),
   );
 
-  readonly error = signal<Option<ParseError>>(null);
-  readonly errorMessage = computed(() => {
+  protected readonly error = signal<Option<ParseError>>(null);
+  protected readonly errorMessage = computed(() => {
     const error = this.error();
     if (!error) return null;
 

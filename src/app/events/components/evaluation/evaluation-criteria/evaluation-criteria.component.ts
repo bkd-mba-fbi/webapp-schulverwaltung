@@ -23,28 +23,28 @@ import { SubscriptionDetailFieldComponent } from "../../../../shared/components/
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationCriteriaComponent {
-  private translate = inject(TranslateService);
+  private readonly translate = inject(TranslateService);
 
   readonly entry = input.required<EvaluationEntry>();
   readonly visible = model.required<boolean>();
   readonly subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
 
   @HostBinding("class.criteria-visible")
-  get visibleClass() {
+  private get visibleClass() {
     return this.visible();
   }
 
-  readonly heading = computed(
+  protected readonly heading = computed(
     () =>
       this.headingDetail()?.VssDesignation ??
       this.translate.instant("evaluation.set-criteria"),
   );
 
-  readonly headingDetail = computed(
+  protected readonly headingDetail = computed(
     () => this.entry().criteria.find((c) => c.detail.VssStyle === "HE")?.detail,
   );
 
-  toggle() {
+  protected toggle() {
     this.visible.update((visible) => !visible);
   }
 }

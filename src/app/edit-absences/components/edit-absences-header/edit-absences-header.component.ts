@@ -54,12 +54,14 @@ import {
   ],
 })
 export class EditAbsencesHeaderComponent {
-  studentsService = inject(StudentsRestService);
-  coursesService = inject(CoursesRestService);
-  studyClassService = inject(StudyClassesRestService);
-  teacherResourcesService = inject(TeacherResourcesRestService);
-  private state = inject(EditAbsencesStateService);
-  private translate = inject(TranslateService);
+  protected readonly studentsService = inject(StudentsRestService);
+  protected readonly coursesService = inject(CoursesRestService);
+  protected readonly studyClassService = inject(StudyClassesRestService);
+  protected readonly teacherResourcesService = inject(
+    TeacherResourcesRestService,
+  );
+  private readonly state = inject(EditAbsencesStateService);
+  private readonly translate = inject(TranslateService);
 
   readonly filter = model<EditAbsencesFilter>({
     student: null,
@@ -74,7 +76,7 @@ export class EditAbsencesHeaderComponent {
     incidentTypes: null,
   });
 
-  weekdaysGrouped$ = this.state.weekdays$.pipe(
+  protected weekdaysGrouped$ = this.state.weekdays$.pipe(
     map((weekdays) =>
       addGroupToDropdownItem(
         weekdays,
@@ -83,7 +85,7 @@ export class EditAbsencesHeaderComponent {
     ),
   );
 
-  absenceConfirmationStatesGrouped$ =
+  protected absenceConfirmationStatesGrouped$ =
     this.state.absenceConfirmationStates$.pipe(
       map((i) =>
         addGroupToDropdownItem(
@@ -93,7 +95,7 @@ export class EditAbsencesHeaderComponent {
       ),
     );
 
-  presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
+  protected presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) =>
       presenceTypes.filter(not(isComment)).filter(not(isIncident)),
     ),
@@ -107,7 +109,7 @@ export class EditAbsencesHeaderComponent {
     ),
   );
 
-  incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
+  protected incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) => presenceTypes.filter(isIncident)),
     map(sortPresenceTypes),
     map(createPresenceTypesDropdownItems),
@@ -119,7 +121,7 @@ export class EditAbsencesHeaderComponent {
     ),
   );
 
-  classesHttpFilter = {
+  protected readonly classesHttpFilter = {
     params: {
       fields: "IsActive",
       ["filter.IsActive"]: "=true",
@@ -146,7 +148,7 @@ export class EditAbsencesHeaderComponent {
     }));
   }
 
-  show(): void {
+  protected show(): void {
     this.filter.update((filter) => ({
       ...filter,
 

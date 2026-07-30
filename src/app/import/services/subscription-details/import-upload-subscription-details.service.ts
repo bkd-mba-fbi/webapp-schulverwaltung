@@ -35,7 +35,9 @@ export class ImportUploadSubscriptionDetailsService {
     total: 0,
   });
 
-  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
+  private readonly subscriptionDetailsService = inject(
+    SubscriptionDetailsRestService,
+  );
 
   async upload(
     validatedEntries: ReadonlyArray<SubscriptionDetailImportEntry>,
