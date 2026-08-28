@@ -1,11 +1,17 @@
 @if (loading()) {
   <bkd-spinner class="small"></bkd-spinner>
 } @else {
-  @if (informationEntries().length === 0 && dossierEntries().length === 0) {
+  @if (
+    informationEntries().length === 0 &&
+    disadvantageEntries().length === 0 &&
+    dossierEntries().length === 0
+  ) {
     <p>{{ "student.dossier.no-entries" | translate }}</p>
   } @else {
     <div ngbAccordion>
-      @if (informationEntries().length > 0) {
+      @if (
+        informationEntries().length > 0 || disadvantageEntries().length > 0
+      ) {
         <div ngbAccordionItem class="information-item">
           <bkd-student-dossier-entry-header icon="info_outlined">
             {{ "student.dossier.information" | translate }}

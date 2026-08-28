@@ -123,22 +123,52 @@ describe("StudentDossierComponent", () => {
 
   it("renders placeholder message if no entries are available", () => {
     studentDossierServiceMock.informationEntries$.next([]);
+    studentDossierServiceMock.disadvantageEntries$.next([]);
     studentDossierServiceMock.filteredDossierEntries$.next([]);
     fixture.detectChanges();
+
     expect(element.textContent).toContain("student.dossier.no-entries");
+    const infoButton = getInformationToggle();
+    expect(infoButton).toBeNull();
   });
 
   it("renders information entry if available", () => {
+    studentDossierServiceMock.disadvantageEntries$.next([]);
+    studentDossierServiceMock.filteredDossierEntries$.next([]);
     fixture.detectChanges();
 
     expect(element.textContent).not.toContain("student.dossier.no-entries");
-    expect(element.textContent).toContain("student.dossier.information");
+
+    const infoButton = getInformationToggle();
+    expect(infoButton).not.toBeNull();
+    infoButton?.click();
+
+    expect(element.textContent).toContain("Epilepsie");
+  });
+
+  it("renders disadvantage entry if available", () => {
+    studentDossierServiceMock.informationEntries$.next([]);
+    studentDossierServiceMock.filteredDossierEntries$.next([]);
+    fixture.detectChanges();
+
+    expect(element.textContent).not.toContain("student.dossier.no-entries");
+
+    const infoButton = getInformationToggle();
+    expect(infoButton).not.toBeNull();
+    infoButton?.click();
+
+    expect(element.textContent).toContain("Dyslexie");
   });
 
   it("renders dossier entries if available", () => {
+    studentDossierServiceMock.informationEntries$.next([]);
+    studentDossierServiceMock.disadvantageEntries$.next([]);
     fixture.detectChanges();
 
     expect(element.textContent).not.toContain("student.dossier.no-entries");
+    const infoButton = getInformationToggle();
+    expect(infoButton).toBeNull();
+
     expect(element.textContent).toContain("Anruf Eltern");
     expect(element.textContent).toContain("1. Verwarnung");
   });
@@ -175,20 +205,29 @@ describe("StudentDossierComponent", () => {
       ]);
       fixture.detectChanges();
 
-      expect(getFirstEntryIcon()).toBe("insert_drive_file");
+      expect(getFirstDossierEntryIcon()).toBe("insert_drive_file");
     });
 
     it("renders a notes icon if the entry does not have a file", () => {
       fixture.detectChanges();
-      expect(getFirstEntryIcon()).toBe("notes");
+      expect(getFirstDossierEntryIcon()).toBe("notes");
     });
-
-    function getFirstEntryIcon() {
-      return element
-        .querySelector(
-          ".accordion-item:not(.information-item) .material-icons-outlined",
-        )
-        ?.textContent?.trim();
-    }
   });
+
+  function getFirstDossierEntryIcon() {
+    return element
+      .querySelector(
+        ".accordion-item:not(.information-item) .material-icons-outlined",
+      )
+      ?.textContent?.trim();
+  }
+
+  function getInformationToggle(): Option<HTMLButtonElement> {
+    const buttons = Array.from(element.querySelectorAll("button"));
+    return (
+      buttons.find((button) =>
+        button.textContent.includes("student.dossier.information"),
+      ) ?? null
+    );
+  }
 });
