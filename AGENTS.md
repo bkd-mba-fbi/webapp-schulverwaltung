@@ -1,5 +1,7 @@
 # AGENTS.md
 
+These rules take precedence over any skill guidance.
+
 ## Coding Style
 
 - Don't use the `any` type or @ts-ignore, try to type things appropriately.
@@ -11,3 +13,7 @@
 
 - In a Jasmine test, don't use the word "should" as in `it("should return true", ...)`, instead use the style `it("returns true", ...)`.
 - If I have focused a test with `fdescribe` or `fit`, don't remove it when doing any code changes, if the changes you are doing are on the same component/service.
+
+## Angular
+
+- Angular-specific best practices: [angular.md](doc/angular.md).
