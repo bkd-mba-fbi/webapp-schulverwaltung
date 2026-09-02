@@ -2,10 +2,9 @@ import { AsyncPipe, NgClass } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   inject,
+  input,
+  output,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -31,10 +30,9 @@ import { TestTableHeaderComponent } from "../tests-table-test-header/tests-table
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsTableHeaderComponent extends TableHeaderComponent {
-  state = inject(TestStateService);
+  protected readonly state = inject(TestStateService);
 
-  @Input() selectedTest?: Test;
-
-  @Output() publish = new EventEmitter<Test>();
-  @Output() unpublish = new EventEmitter<Test>();
+  readonly selectedTest = input<Option<Test>>(null);
+  readonly publish = output<Test>();
+  readonly unpublish = output<Test>();
 }

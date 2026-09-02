@@ -21,21 +21,29 @@ import { StudentContactLegalRepresentativeComponent } from "../student-contact-l
   ],
 })
 export class StudentContactComponent {
-  state = inject(StudentStateService);
+  private readonly state = inject(StudentStateService);
 
-  student = toSignal(this.state.student$);
-  loadingStudent = toSignal(this.state.loadingStudent$, { requireSync: true });
-
-  legalRepresentatives = toSignal(this.state.legalRepresentatives$, {
-    initialValue: null,
+  protected readonly student = toSignal(this.state.student$);
+  protected readonly loadingStudent = toSignal(this.state.loadingStudent$, {
+    requireSync: true,
   });
-  loadingLegalRepresentatives = toSignal(
+
+  protected readonly legalRepresentatives = toSignal(
+    this.state.legalRepresentatives$,
+    {
+      initialValue: null,
+    },
+  );
+  protected readonly loadingLegalRepresentatives = toSignal(
     this.state.loadingLegalRepresentatives$,
     { requireSync: true },
   );
 
-  apprenticeships = toSignal(this.state.apprenticeships$);
-  loadingApprenticeships = toSignal(this.state.loadingApprenticeships$, {
-    requireSync: true,
-  });
+  protected readonly apprenticeships = toSignal(this.state.apprenticeships$);
+  protected readonly loadingApprenticeships = toSignal(
+    this.state.loadingApprenticeships$,
+    {
+      requireSync: true,
+    },
+  );
 }

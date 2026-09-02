@@ -48,38 +48,51 @@ import { MyProfileHeaderComponent } from "../my-profile-header/my-profile-header
   ],
 })
 export class MyProfileShowComponent {
-  profileService = inject(MyProfileService);
-  private configurationsService = inject(ConfigurationsService);
+  private readonly profileService = inject(MyProfileService);
+  private readonly configurationsService = inject(ConfigurationsService);
 
-  person = toSignal(this.profileService.person$, { initialValue: null });
-  loadingPerson = toSignal(this.profileService.loadingPerson$, {
-    requireSync: true,
-  });
-
-  legalRepresentatives = toSignal(this.profileService.legalRepresentatives$, {
+  protected readonly person = toSignal(this.profileService.person$, {
     initialValue: null,
   });
-  loadingLegalRepresentatives = toSignal(
+  protected readonly loadingPerson = toSignal(
+    this.profileService.loadingPerson$,
+    {
+      requireSync: true,
+    },
+  );
+
+  protected readonly legalRepresentatives = toSignal(
+    this.profileService.legalRepresentatives$,
+    {
+      initialValue: null,
+    },
+  );
+  protected readonly loadingLegalRepresentatives = toSignal(
     this.profileService.loadingLegalRepresentatives$,
     { requireSync: true },
   );
 
-  apprenticeships = toSignal(this.profileService.apprenticeships$);
-  loadingApprenticeships = toSignal(
+  protected readonly apprenticeships = toSignal(
+    this.profileService.apprenticeships$,
+  );
+  protected readonly loadingApprenticeships = toSignal(
     this.profileService.loadingApprenticeships$,
     {
       requireSync: true,
     },
   );
 
-  stayPermit = toSignal(this.profileService.stayPermit$, {
+  protected readonly stayPermit = toSignal(this.profileService.stayPermit$, {
     initialValue: null,
   });
-  loadingStayPermit = toSignal(this.profileService.loadingStayPermit$, {
-    requireSync: true,
-  });
+  protected readonly loadingStayPermit = toSignal(
+    this.profileService.loadingStayPermit$,
+    {
+      requireSync: true,
+    },
+  );
 
-  canEditInstructorEmail = toSignal(
+  protected readonly canEditInstructorEmail = toSignal(
     this.configurationsService.canEditInstructorEmail$,
     {
       initialValue: false,

@@ -22,5 +22,5 @@ import { ImportValidationSubscriptionDetailsComponent } from "../../subscription
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportValidationComponent {
-  stateService = inject(ImportStateService);
+  protected readonly stateService = inject(ImportStateService);
 }

@@ -42,27 +42,27 @@ type CoursesAction =
 
 @Injectable()
 export class StudentGradesService {
-  private coursesRestService = inject(CoursesRestService);
-  private subscriptionRestService = inject(SubscriptionsRestService);
-  private reportsService = inject(ReportsService);
-  private loadingService = inject(LoadingService);
-  private gradingScalesRestService = inject(GradingScalesRestService);
+  private readonly coursesRestService = inject(CoursesRestService);
+  private readonly subscriptionRestService = inject(SubscriptionsRestService);
+  private readonly reportsService = inject(ReportsService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly gradingScalesRestService = inject(GradingScalesRestService);
 
-  private studentId$ = new ReplaySubject<number>(1);
-  private subscriptionAndEventsIds$ = this.studentId$.pipe(
+  private readonly studentId$ = new ReplaySubject<number>(1);
+  private readonly subscriptionAndEventsIds$ = this.studentId$.pipe(
     switchMap(this.loadSubscriptionAndEventIds.bind(this)),
     shareReplay(1),
   );
-  private subscriptionIds$ = this.subscriptionAndEventsIds$.pipe(
+  private readonly subscriptionIds$ = this.subscriptionAndEventsIds$.pipe(
     map((ids) => ids.subscriptionIds),
   );
-  private eventIds$ = this.subscriptionAndEventsIds$.pipe(
+  private readonly eventIds$ = this.subscriptionAndEventsIds$.pipe(
     map((ids) => ids.eventIds),
   );
-  private scopeSubject$ = new BehaviorSubject<EventScope>("current");
+  private readonly scopeSubject$ = new BehaviorSubject<EventScope>("current");
   scope$ = this.scopeSubject$.asObservable();
 
-  private initialStudentCourses$ = this.eventIds$.pipe(
+  private readonly initialStudentCourses$ = this.eventIds$.pipe(
     distinctUntilChanged(isEqual),
     switchMap(this.loadCourses.bind(this)),
     switchMap((courses) =>
@@ -74,7 +74,7 @@ export class StudentGradesService {
     shareReplay(1),
   );
 
-  action$ = new ReplaySubject<CoursesAction>(1);
+  private readonly action$ = new ReplaySubject<CoursesAction>(1);
   studentCourses$ = merge(
     this.action$,
     this.initialStudentCourses$.pipe(
@@ -185,11 +185,11 @@ export class StudentGradesService {
     );
   }
 
-  private tests$ = this.studentCourses$.pipe(
+  private readonly tests$ = this.studentCourses$.pipe(
     map((courses) => courses.flatMap((course) => course.Tests).filter(notNull)),
   );
 
-  private gradingScaleIds$ = combineLatest([
+  private readonly gradingScaleIds$ = combineLatest([
     this.tests$.pipe(
       map((tests) => [...tests.map((test) => test.GradingScaleId)]),
       skip(1),

@@ -65,26 +65,26 @@ export const VIEW_MODES: ReadonlyArray<string> = Object.values(
 export class PresenceControlStateService
   implements OnDestroy, IConfirmAbsencesService
 {
-  private userSettings = inject(UserSettingsService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private lessonTeacherService = inject(LessonTeachersRestService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private groupService = inject(PresenceControlGroupService);
-  private dropDownItemsService = inject(DropDownItemsRestService);
-  private loadingService = inject(LoadingService);
-  private storageService = inject(StorageService);
-  private settings = inject<Settings>(SETTINGS);
-  private location = inject(Location);
+  private readonly userSettings = inject(UserSettingsService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly lessonTeacherService = inject(LessonTeachersRestService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly groupService = inject(PresenceControlGroupService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly storageService = inject(StorageService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly location = inject(Location);
 
   confirmBackLinkParams?: Params;
 
-  private selectedDateSubject$ = new BehaviorSubject(new Date());
+  private readonly selectedDateSubject$ = new BehaviorSubject(new Date());
   selectedDate$ = this.selectedDateSubject$.asObservable().pipe(
     map((date) => startOfDay(date)),
     distinctUntilChanged(isEqual),
   );
 
-  private viewModeSubject$ = new Subject<PresenceControlViewMode>();
+  private readonly viewModeSubject$ = new Subject<PresenceControlViewMode>();
   viewMode$ = merge(
     this.viewModeSubject$,
     this.userSettings.getPresenceControlViewMode().pipe(take(1)),
@@ -94,8 +94,8 @@ export class PresenceControlStateService
     switchMap((date) => this.loadLessonsByDate(date)),
     shareReplay(1),
   );
-  private selectLessonId$ = new Subject<number | string | undefined>();
-  private selectLesson$ = this.selectLessonId$.pipe(
+  private readonly selectLessonId$ = new Subject<number | string | undefined>();
+  private readonly selectLesson$ = this.selectLessonId$.pipe(
     switchMap((id) => this.getLessonById(id)),
   );
   selectedLesson$ = combineLatest([
@@ -116,9 +116,11 @@ export class PresenceControlStateService
     map((entry) => entry?.lessons.length || 0),
   );
 
-  private updateLessonPresences$ = new Subject<ReadonlyArray<LessonPresence>>();
-  private reloadLessonPresences$ = new Subject<void>();
-  private lessonPresences$ = merge(
+  private readonly updateLessonPresences$ = new Subject<
+    ReadonlyArray<LessonPresence>
+  >();
+  private readonly reloadLessonPresences$ = new Subject<void>();
+  private readonly lessonPresences$ = merge(
     withReload(this.selectedLesson$, this.reloadLessonPresences$).pipe(
       switchMap((lesson) =>
         lesson ? this.loadLessonPresencesByLesson(lesson) : of([]),
@@ -129,7 +131,8 @@ export class PresenceControlStateService
 
   presenceTypes$ = this.loadPresenceTypes().pipe(shareReplay(1));
 
-  private reloadStudentIdsWithUnconfirmedAbsences$ = new Subject<void>();
+  private readonly reloadStudentIdsWithUnconfirmedAbsences$ =
+    new Subject<void>();
   studentIdsWithUnconfirmedAbsences$ = merge(
     this.selectedDate$,
     this.selectedLesson$.pipe(skip(1)),
@@ -145,7 +148,7 @@ export class PresenceControlStateService
     .getAbsenceConfirmationStates()
     .pipe(shareReplay(1));
 
-  private studentIds$ = this.lessonPresences$.pipe(
+  private readonly studentIds$ = this.lessonPresences$.pipe(
     map((p) => uniq(p.map((i) => i.StudentRef.Id))),
     shareReplay(1),
   );
@@ -197,7 +200,7 @@ export class PresenceControlStateService
     this.viewMode$,
   ]).pipe(map(spread(this.buildQueryParams.bind(this))), map(serializeParams));
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor() {
     this.queryParamsString$

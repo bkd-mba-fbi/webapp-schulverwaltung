@@ -40,10 +40,12 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailLabelComponent {
-  detail = model.required<SubscriptionDetail>();
-  id = input.required<string>();
-  hideLabel = input.required<boolean>();
-  layout = input.required<"vertical" | "horizontal">();
+  readonly detail = model.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly hideLabel = input.required<boolean>();
+  readonly layout = input.required<"vertical" | "horizontal">();
 
-  required = computed(() => this.detail().VssInternet === "M");
+  protected readonly required = computed(
+    () => this.detail().VssInternet === "M",
+  );
 }

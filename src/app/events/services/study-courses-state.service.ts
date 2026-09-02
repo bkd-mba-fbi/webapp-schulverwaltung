@@ -22,19 +22,19 @@ import { searchEntries } from "src/app/shared/utils/search";
 
 @Injectable()
 export class StudyCoursesStateService {
-  private router = inject(Router);
-  private loadingService = inject(LoadingService);
-  private storageService = inject(StorageService);
-  private eventsRestService = inject(EventsRestService);
-  private subscriptionsRestService = inject(SubscriptionsRestService);
-  private eventLeadershipService = inject(EventLeadershipRestService);
+  private readonly router = inject(Router);
+  private readonly loadingService = inject(LoadingService);
+  private readonly storageService = inject(StorageService);
+  private readonly eventsRestService = inject(EventsRestService);
+  private readonly subscriptionsRestService = inject(SubscriptionsRestService);
+  private readonly eventLeadershipService = inject(EventLeadershipRestService);
 
   loading$ = this.loadingService.loading$;
 
-  private searchSubject$ = new BehaviorSubject<string>("");
+  private readonly searchSubject$ = new BehaviorSubject<string>("");
   search$ = this.searchSubject$.asObservable();
 
-  private unfilteredStudyCourses$ = this.loadStudyCourses().pipe(
+  private readonly unfilteredStudyCourses$ = this.loadStudyCourses().pipe(
     shareReplay(1),
   );
   studyCourses$ = combineLatest([

@@ -16,14 +16,16 @@ import { AvatarComponent } from "../../avatar/avatar.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentAvatarComponent {
-  studentId = input.required<number>();
-  student = input<PersonWithClassRegistration>();
+  readonly studentId = input.required<number>();
+  readonly student = input<PersonWithClassRegistration>();
 
-  studyClasses = computed(
+  private readonly studyClasses = computed(
     () =>
       this.student()
         ?.ClassRegistrations?.filter((reg) => reg.IsActive)
         ?.map((reg) => reg.NumberStudyClass) ?? [],
   );
-  studyClassesLabel = computed(() => this.studyClasses().join(", ") ?? null);
+  protected readonly studyClassesLabel = computed(
+    () => this.studyClasses().join(", ") ?? null,
+  );
 }

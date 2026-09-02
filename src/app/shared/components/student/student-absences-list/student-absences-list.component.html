@@ -20,36 +20,40 @@
           <a
             class="edit btn btn-primary btn-icon me-2"
             [class.disabled]="
-              (selectionService?.selection$ | async)?.length === 0
+              (selectionService()?.selection$ | async)?.length === 0
             "
-            routerLink="{{ confirmLink }}"
+            routerLink="{{ confirmLink() }}"
           >
             <i class="material-icons">edit</i>
           </a>
-          @if (reports) {
+          @let reportsValue = reports();
+          @if (reportsValue) {
             <bkd-reports-link
-              [reports]="reports"
+              [reports]="reportsValue"
               [disableIfUnavailable]="true"
               class="me-2"
             ></bkd-reports-link>
           }
-          @if (displayEmail) {
+          @if (displayEmail()) {
             <a
               class="mail btn btn-primary btn-icon me-2"
-              href="mailto:{{ mailTo$ | async }}"
+              href="mailto:{{ mailTo$() | async }}"
               target="_blank"
             >
               <i class="material-icons">mail</i>
             </a>
           }
         </div>
+        @let defaultAbsenceSelectionMessageValue =
+          defaultAbsenceSelectionMessage();
         @if (
-          (defaultAbsenceSelectionMessage &&
-            (selectionService?.selectedWithoutPresenceType$ | async)?.length) ||
+          (defaultAbsenceSelectionMessageValue &&
+            (selectionService()?.selectedWithoutPresenceType$ | async)
+              ?.length) ||
           0 > 0
         ) {
           <div class="validation">
-            {{ defaultAbsenceSelectionMessage }}
+            {{ defaultAbsenceSelectionMessageValue }}
           </div>
         }
       </div>
@@ -66,8 +70,8 @@
               #checkbox
               type="checkbox"
               class="form-check-input"
-              [checked]="selectionService?.isSelected$(absence) | async"
-              (change)="selectionService?.toggle(absence)"
+              [checked]="selectionService()?.isSelected$(absence) | async"
+              (change)="selectionService()?.toggle(absence)"
             />
           </div>
         }
@@ -93,9 +97,9 @@
           </div>
         }
         @if (
-          displayPresenceType &&
+          displayPresenceType() &&
           !presenceTypeDesignation &&
-          defaultAbsenceSelectionMessage
+          defaultAbsenceSelectionMessage()
         ) {
           <div class="presence-type confirm">
             {{ "my-absences.show.confirm-presence-type" | translate }}

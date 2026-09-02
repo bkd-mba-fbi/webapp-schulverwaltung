@@ -1,10 +1,31 @@
-import { Injectable, inject } from "@angular/core";
+import {
+  ComponentRef,
+  Injectable,
+  InputSignalWithTransform,
+  Type,
+  inject,
+} from "@angular/core";
 import {
   // eslint-disable-next-line no-restricted-imports
   NgbModal,
+  NgbModalOptions,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { PortalService } from "./portal.service";
+
+type SignalInputWriteType<C, K extends keyof C> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  C[K] extends InputSignalWithTransform<any, infer WriteT> ? WriteT : never;
+
+/**
+ * Wrapper of `NgbModalRef` that provides a type-safe `setInput()` to update the component's input signals.
+ */
+export interface BkdModalRef<TComponent> extends NgbModalRef {
+  setInput<TKey extends keyof TComponent>(
+    name: TKey,
+    value: SignalInputWriteType<TComponent, TKey>,
+  ): void;
+}
 
 /**
  * Drop-in replacement for NgbModal that wraps the NgbModal and
@@ -15,23 +36,31 @@ import { PortalService } from "./portal.service";
   providedIn: "root",
 })
 export class BkdModalService {
-  private modal = inject(NgbModal);
-  private portal = inject(PortalService);
+  private readonly modal = inject(NgbModal);
+  private readonly portal = inject(PortalService);
 
   /**
    * Delegated to NgbModal.open, but – when running within iframe –
    * applies the Evento Portal content's scroll offset to the modal
    * window component and limits its height.
    */
-  open(
-    ...args: Parameters<typeof this.modal.open>
-  ): ReturnType<typeof this.modal.open> {
-    const modalRef = this.modal.open(...args);
+  open<TComponent>(
+    component: Type<TComponent>,
+    options?: NgbModalOptions,
+  ): BkdModalRef<TComponent> {
+    const modalRef = this.modal.open(component, options);
 
     this.applyPortalOffsetAndMaxHeight(modalRef);
     this.disablePortalScrolling(modalRef);
 
-    return modalRef;
+    return Object.assign(modalRef, {
+      setInput: (name: PropertyKey, value: unknown) => {
+        this.getComponentRef<TComponent>(modalRef).setInput(
+          name as string,
+          value,
+        );
+      },
+    });
   }
 
   /**
@@ -93,7 +122,7 @@ export class BkdModalService {
    * Hides the portal's scroll bar and shows it again, when the modal
    * is closed.
    */
-  disablePortalScrolling(modalRef: NgbModalRef): void {
+  private disablePortalScrolling(modalRef: NgbModalRef): void {
     if (this.portal.window && this.portal.document) {
       // On certain browsers/OSes the scrollbar consumes horizontal space, so
       // the hiding of the scrollbar will change the width of the content. To
@@ -112,6 +141,18 @@ export class BkdModalService {
         this.portal.document.style.overflow = "auto";
       }
     });
+  }
+
+  /**
+   * Returns the `ComponentRef` of the given modal's content component
+   * (`NgbModalRef` only exposes `componentInstance`).
+   */
+  private getComponentRef<C>(modalRef: NgbModalRef): ComponentRef<C> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const componentRef = (modalRef as any)._contentRef?.componentRef;
+
+    if (!componentRef) throw new Error("ComponentRef not available");
+    return componentRef;
   }
 
   /**

@@ -27,20 +27,24 @@ const GROUP_LOADING_CONTEXT = "presence-control-group";
 
 @Injectable()
 export class PresenceControlGroupService {
-  private userSettings = inject(UserSettingsService);
-  private eventService = inject(EventsRestService);
-  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
-  private loadingService = inject(LoadingService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly userSettings = inject(UserSettingsService);
+  private readonly eventService = inject(EventsRestService);
+  private readonly subscriptionDetailsService = inject(
+    SubscriptionDetailsRestService,
+  );
+  private readonly loadingService = inject(LoadingService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  private selectGroup$ = new Subject<GroupOption["id"]>();
-  private selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
-  private lessonPresences$ = new ReplaySubject<ReadonlyArray<LessonPresence>>();
-  private reloadSubscriptionDetails$ = new Subject();
+  private readonly selectGroup$ = new Subject<GroupOption["id"]>();
+  private readonly selectedLesson$ = new ReplaySubject<Option<LessonEntry>>();
+  private readonly lessonPresences$ = new ReplaySubject<
+    ReadonlyArray<LessonPresence>
+  >();
+  private readonly reloadSubscriptionDetails$ = new Subject();
 
-  private defaultGroup: Option<string> = null;
+  private readonly defaultGroup: Option<string> = null;
 
-  private savedGroup$ = this.selectedLesson$.pipe(
+  private readonly savedGroup$ = this.selectedLesson$.pipe(
     switchMap((lesson) =>
       this.userSettings
         .getPresenceControlGroupView()
@@ -55,7 +59,7 @@ export class PresenceControlGroupService {
 
   loading$ = this.loadingService.loading(GROUP_LOADING_CONTEXT);
 
-  private subscriptionDetailsDefinitions$ = this.selectedLesson$.pipe(
+  private readonly subscriptionDetailsDefinitions$ = this.selectedLesson$.pipe(
     map((lesson) => lesson?.getEventIds() || []),
     switchMap((ids) =>
       forkJoin(
@@ -81,7 +85,7 @@ export class PresenceControlGroupService {
     shareReplay(1),
   );
 
-  private subscriptionDetails$ = combineLatest([
+  private readonly subscriptionDetails$ = combineLatest([
     this.selectedLesson$,
     this.groupsAvailability$,
     this.reloadSubscriptionDetails$.pipe(

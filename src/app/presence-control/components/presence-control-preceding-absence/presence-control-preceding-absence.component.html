@@ -2,7 +2,7 @@
   <p>
     {{ "presence-control.preceding-absence.text" | translate }}
   </p>
-  @for (absence of precedingAbsences; track absence.Id) {
+  @for (absence of precedingAbsences(); track absence.Id) {
     <div>
       {{ absence.LessonRef.From | date: "HH:mm" }}–{{
         absence.LessonRef.To | date: "HH:mm"

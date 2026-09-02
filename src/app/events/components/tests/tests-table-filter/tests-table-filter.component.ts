@@ -14,27 +14,32 @@ import {
   styleUrl: "./tests-table-filter.component.scss",
 })
 export class TestsTableFilterComponent {
-  private translate = inject(TranslateService);
+  private readonly translate = inject(TranslateService);
 
-  filter = model<TestsFilter>(INITIAL_TESTS_FILTER);
+  protected readonly filter = model<TestsFilter>(INITIAL_TESTS_FILTER);
 
-  onlyMineOptions = [
+  protected readonly onlyMineOptions: ReadonlyArray<{
+    key: string;
+    label: string;
+  }> = [
     { key: "all", label: this.translate.instant("tests.all-tests") },
     { key: "mine", label: this.translate.instant("tests.owned-tests") },
   ];
 
-  onlyMineValue = computed(() => (this.filter().onlyMine ? "mine" : "all"));
+  protected readonly onlyMineValue = computed(() =>
+    this.filter().onlyMine ? "mine" : "all",
+  );
 
   onOnlyMineChange(value: Option<string>): void {
     this.filter.set({ ...this.filter(), onlyMine: value === "mine" });
   }
 
-  onHidePublishedChange(event: Event): void {
+  protected onHidePublishedChange(event: Event): void {
     const hidePublished =
       (event.target &&
         event.target instanceof HTMLInputElement &&
         event.target?.checked) ??
       false;
-    this.filter.set({ ...this.filter(), hidePublished });
+    this.filter.update((current) => ({ ...current, hidePublished }));
   }
 }

@@ -29,7 +29,7 @@ export class EvaluateAbsencesStateService
   >
   implements IConfirmAbsencesService
 {
-  private lessonPresenceService = inject(LessonPresencesRestService);
+  private readonly lessonPresenceService = inject(LessonPresencesRestService);
 
   confirmBackLinkParams?: Params;
 

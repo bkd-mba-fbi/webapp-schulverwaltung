@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   inject,
+  linkedSignal,
+  model,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { isAfter } from "date-fns/isAfter";
@@ -14,6 +13,7 @@ import { DateSelectComponent } from "src/app/shared/components/date-select/date-
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import { keyToNumber } from "src/app/shared/utils/drop-down-items";
 import { TypeaheadComponent } from "../../../shared/components/typeahead/typeahead.component";
 import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.service";
 
@@ -25,53 +25,72 @@ import { EvaluateAbsencesFilter } from "../../services/evaluate-absences-state.s
   imports: [TypeaheadComponent, TranslatePipe, DateSelectComponent],
 })
 export class EvaluateAbsencesHeaderComponent {
-  studentsService = inject(StudentsRestService);
-  coursesService = inject(CoursesRestService);
-  studyClassesService = inject(StudyClassesRestService);
+  protected readonly studentsService = inject(StudentsRestService);
+  protected readonly coursesService = inject(CoursesRestService);
+  protected readonly studyClassesService = inject(StudyClassesRestService);
 
-  @Input()
-  filter: EvaluateAbsencesFilter = {
+  readonly filter = model<EvaluateAbsencesFilter>({
     student: null,
     course: null,
     studyClass: null,
     dateFrom: null,
     dateTo: null,
-  };
+  });
 
-  @Output() filterChange = new EventEmitter<EvaluateAbsencesFilter>();
+  /**
+   * The filter currently being edited. Changes stay local until they get
+   * committed to `filter` by `show`, in order to not reload the entries
+   * on every single change.
+   */
+  protected readonly intermediateFilter = linkedSignal(() => this.filter());
 
-  classesHttpFilter = {
+  protected readonly classesHttpFilter = {
     params: {
       fields: "IsActive",
       ["filter.IsActive"]: "=true",
     },
   };
 
-  onDateFromChange(date: Date | null) {
-    this.filter.dateFrom = date;
+  protected readonly keyToNumber = keyToNumber;
 
-    // Make sure the dates represent a valid range to avoid an always empty result
-    if (date && this.filter.dateTo && isAfter(date, this.filter.dateTo)) {
-      this.filter.dateTo = date;
-    }
+  onDateFromChange(date: Option<Date>) {
+    this.intermediateFilter.update((current) => ({
+      ...current,
+      dateFrom: date,
+
+      // Make sure the dates represent a valid range to avoid an always empty result
+      dateTo:
+        date && current.dateTo && isAfter(date, current.dateTo)
+          ? date
+          : current.dateTo,
+    }));
   }
 
-  onDateToChange(date: Date | null) {
-    this.filter.dateTo = date;
+  onDateToChange(date: Option<Date>) {
+    this.intermediateFilter.update((current) => ({
+      ...current,
+      dateTo: date,
 
-    // Make sure the dates represent a valid range to avoid an always empty result
-    if (date && this.filter.dateFrom && isBefore(date, this.filter.dateFrom)) {
-      this.filter.dateFrom = date;
-    }
+      // Make sure the dates represent a valid range to avoid an always empty result
+      dateFrom:
+        date && current.dateFrom && isBefore(date, current.dateFrom)
+          ? date
+          : current.dateFrom,
+    }));
   }
 
-  show(): void {
-    this.filterChange.emit({
-      ...this.filter,
+  protected patchFilter(patch: Partial<EvaluateAbsencesFilter>): void {
+    this.intermediateFilter.update((current) => ({ ...current, ...patch }));
+  }
+
+  protected show(): void {
+    const intermediateFilter = this.intermediateFilter();
+    this.filter.set({
+      ...intermediateFilter,
 
       // Normalize the dates' times to 00:00 to be comparable
-      dateFrom: normalizeDate(this.filter.dateFrom),
-      dateTo: normalizeDate(this.filter.dateTo),
+      dateFrom: normalizeDate(intermediateFilter.dateFrom),
+      dateTo: normalizeDate(intermediateFilter.dateTo),
     });
   }
 }

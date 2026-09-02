@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { combineLatest, forkJoin } from "rxjs";
-import { map, switchMap, take } from "rxjs/operators";
+import { filter, map, switchMap, take } from "rxjs/operators";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { SortService } from "src/app/shared/services/sort.service";
 import { UserSettingsService } from "src/app/shared/services/user-settings.service";
@@ -52,30 +52,34 @@ export type SortKey = (typeof SORT_KEYS)[number];
   providers: [PresenceControlGroupSelectionService],
 })
 export class PresenceControlGroupComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  state = inject(PresenceControlStateService);
-  selectionService = inject(PresenceControlGroupSelectionService);
-  groupService = inject(PresenceControlGroupService);
-  private userSettings = inject(UserSettingsService);
-  private subscriptionDetailService = inject(SubscriptionDetailsRestService);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private modalService = inject(BkdModalService);
-  private sortService = inject<SortService<SortKey>>(SortService);
+  private readonly route = inject(ActivatedRoute);
+  protected readonly state = inject(PresenceControlStateService);
+  protected readonly selectionService = inject(
+    PresenceControlGroupSelectionService,
+  );
+  protected readonly groupService = inject(PresenceControlGroupService);
+  private readonly userSettings = inject(UserSettingsService);
+  private readonly subscriptionDetailService = inject(
+    SubscriptionDetailsRestService,
+  );
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly sortService = inject<SortService<SortKey>>(SortService);
 
-  sortKeys = SORT_KEYS;
-  backlinkQueryParams$ = this.route.queryParams.pipe(
+  protected readonly sortKeys = SORT_KEYS;
+  protected readonly backlinkQueryParams$ = this.route.queryParams.pipe(
     map(({ returnparams }) => returnparams),
     map(parseQueryString),
   );
 
-  private eventIds$ = this.state.selectedLesson$.pipe(
+  private readonly eventIds$ = this.state.selectedLesson$.pipe(
     map((lesson) => lesson?.getEventIds() || []),
   );
 
-  sortCriteria = this.sortService.sortCriteria;
+  protected readonly sortCriteria = this.sortService.sortCriteria;
 
-  sortedEntries$ = combineLatest([
+  protected readonly sortedEntries$ = combineLatest([
     this.groupService.getSubscriptionDetailsForStudents(),
     this.sortService.sortCriteria$,
   ]).pipe(map(spread(sortSubscriptionDetails)));
@@ -95,11 +99,11 @@ export class PresenceControlGroupComponent implements OnInit {
     );
   }
 
-  selectGroup(): void {
+  protected selectGroup(): void {
     this.openGroupModal(DialogMode.Select, this.selectCallback.bind(this));
   }
 
-  assignGroup(): void {
+  protected assignGroup(): void {
     this.openGroupModal(DialogMode.Assign, this.assignCallback.bind(this));
   }
 
@@ -108,18 +112,24 @@ export class PresenceControlGroupComponent implements OnInit {
     callback: (selectedGroup: GroupOption) => void,
   ): void {
     combineLatest([
-      this.groupService.getSubscriptionDetailsDefinitions(),
-      this.groupService.group$,
+      this.groupService
+        .getSubscriptionDetailsDefinitions()
+        .pipe(filter(Boolean)),
+      this.groupService.group$.pipe(
+        map((group) => (group ? String(group) : null)),
+      ),
     ])
       .pipe(take(1))
       .subscribe(([subscriptionDetailsDefinitions, group]) => {
         const modalRef = this.modalService.open(
           PresenceControlGroupDialogComponent,
         );
-        modalRef.componentInstance.dialogMode = dialogMode;
-        modalRef.componentInstance.subscriptionDetailsDefinitions =
-          subscriptionDetailsDefinitions;
-        modalRef.componentInstance.group = group;
+        modalRef.setInput("dialogMode", dialogMode);
+        modalRef.setInput(
+          "subscriptionDetailsDefinitions",
+          subscriptionDetailsDefinitions,
+        );
+        modalRef.setInput("group", group);
 
         modalRef.result.then(
           (selectedGroup) => {

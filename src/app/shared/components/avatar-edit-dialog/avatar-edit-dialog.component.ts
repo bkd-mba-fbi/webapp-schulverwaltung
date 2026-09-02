@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
   viewChild,
 } from "@angular/core";
@@ -27,32 +28,35 @@ type AvatarEditDialogStep = "choose" | "crop" | "uploading";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarEditDialogComponent {
-  activeModal = inject(NgbActiveModal);
-  translate = inject(TranslateService);
-  private croptService = inject(CroptService);
-  private additionalInformationsRestService = inject(
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly translate = inject(TranslateService);
+  private readonly croptService = inject(CroptService);
+  private readonly additionalInformationsRestService = inject(
     AdditionalInformationsRestService,
   );
 
-  studentId = signal<number>(0);
+  readonly studentId = input.required<number>();
 
-  step = signal<AvatarEditDialogStep>("choose");
+  readonly step = signal<AvatarEditDialogStep>("choose");
 
-  acceptedFileTypes = [".jpg", ".jpeg", ".png"];
-  acceptedMimeTypes = ["image/jpeg", "image/png"];
-  file = signal<Option<File>>(null);
-  invalidFile = computed(
+  protected readonly acceptedFileTypes = [".jpg", ".jpeg", ".png"];
+  private readonly acceptedMimeTypes = ["image/jpeg", "image/png"];
+  readonly file = signal<Option<File>>(null);
+  protected readonly invalidFile = computed(
     () =>
       this.file() && !this.acceptedMimeTypes.includes(this.file()?.type ?? ""),
   );
-  error = signal<Option<unknown>>(null);
+  protected readonly error = signal<Option<unknown>>(null);
 
-  cropElement = viewChild<ElementRef<HTMLDivElement>>("cropElement");
+  private readonly cropElement =
+    viewChild<ElementRef<HTMLDivElement>>("cropElement");
 
-  saving = signal(false);
+  protected readonly saving = signal(false);
 
-  canCancel = computed(() => this.step() !== "uploading" || !this.saving());
-  canProceed = computed(() => {
+  readonly canCancel = computed(
+    () => this.step() !== "uploading" || !this.saving(),
+  );
+  readonly canProceed = computed(() => {
     switch (this.step()) {
       case "choose":
         return this.file() !== null && !this.invalidFile();
@@ -61,14 +65,14 @@ export class AvatarEditDialogComponent {
     }
     return false;
   });
-  cancelLabel = computed(() =>
+  protected readonly cancelLabel = computed(() =>
     this.translate.instant(
       this.error()
         ? "shared.avatar-edit.dialog.close"
         : "shared.avatar-edit.dialog.cancel",
     ),
   );
-  proceedLabel = computed(() =>
+  protected readonly proceedLabel = computed(() =>
     this.translate.instant(
       this.step() === "crop"
         ? "shared.avatar-edit.dialog.save"

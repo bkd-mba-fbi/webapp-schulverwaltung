@@ -32,10 +32,10 @@ const DEFAULT_CONTEXT = "default";
   providedIn: "root",
 })
 export class LoadingService implements OnDestroy {
-  private action$ = new Subject<LoadingAction>();
-  private loadingCountsSub: Subscription;
+  private readonly action$ = new Subject<LoadingAction>();
+  private readonly loadingCountsSub: Subscription;
 
-  loadingCounts$ = connectable(
+  private readonly loadingCounts$ = connectable(
     this.action$.pipe(
       scan((counts, { action, context }) => {
         switch (action) {

@@ -15,8 +15,8 @@ import { ResettableInputComponent } from "src/app/shared/components/resettable-i
   styleUrl: "./events-students-header.component.scss",
 })
 export class EventsStudentsHeaderComponent {
-  title = input.required<Option<string>>();
-  count = input<Option<number>>(null);
+  readonly title = input.required<Option<string>>();
+  readonly count = input<Option<number>>(null);
 
-  searchTerm = model<string>();
+  readonly searchTerm = model<string>();
 }

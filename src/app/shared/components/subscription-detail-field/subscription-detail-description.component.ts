@@ -13,6 +13,6 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailDescriptionComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
 }

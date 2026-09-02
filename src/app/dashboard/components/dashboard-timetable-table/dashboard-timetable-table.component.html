@@ -1,4 +1,4 @@
-@if (entries.length > 0) {
+@if (entries().length > 0) {
   <table class="table">
     <thead>
       <tr>
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (group of entries; track $index) {
+      @for (group of entries(); track $index) {
         @for (entry of group.entries; track entry.id) {
           <tr [class.group-border]="entry.id === group.entries[0].id">
             @if (entry.id === group.entries[0].id) {

@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubmitButtonComponent {
-  disabled = input(false);
-  saving = input(false);
+  readonly disabled = input(false);
+  readonly saving = input(false);
 }

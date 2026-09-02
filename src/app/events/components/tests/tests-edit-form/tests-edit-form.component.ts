@@ -71,22 +71,24 @@ export type TestFormValue = Omit<
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsEditFormComponent {
-  private testStateService = inject(TestStateService);
-  private configurationsService = inject(ConfigurationsRestService);
-  private gradingScalesService = inject(GradingScalesRestService);
+  private readonly testStateService = inject(TestStateService);
+  private readonly configurationsService = inject(ConfigurationsRestService);
+  private readonly gradingScalesService = inject(GradingScalesRestService);
 
-  test = input<Option<Test>>(null);
-  defaultGradingScaleId = input<Option<number>>(null);
-  saving = input(false);
-  save = output<TestFormValue>();
+  readonly test = input<Option<Test>>(null);
+  readonly defaultGradingScaleId = input<Option<number>>(null);
+  readonly saving = input(false);
+  readonly save = output<TestFormValue>();
 
-  componentId = uniqueId("bkd-tests-edit-form");
+  protected readonly componentId = uniqueId("bkd-tests-edit-form");
 
-  courseId$ = this.testStateService.courseId$;
+  protected readonly courseId$ = this.testStateService.courseId$;
 
-  gradingScales = toSignal(this.loadGradingScales(), { initialValue: [] });
+  protected readonly gradingScales = toSignal(this.loadGradingScales(), {
+    initialValue: [],
+  });
 
-  testFormData = linkedSignal<TestFormData>(() => {
+  private readonly testFormData = linkedSignal<TestFormData>(() => {
     const test = this.test();
     const isPointGrading = Boolean(test?.IsPointGrading);
     return {
@@ -101,7 +103,7 @@ export class TestsEditFormComponent {
       gradingScaleId: this.getGradingScaleIdValue() ?? "",
     };
   });
-  testForm = form(this.testFormData, (schema) => {
+  protected readonly testForm = form(this.testFormData, (schema) => {
     const hasResults = () => (this.test()?.Results?.length ?? 0) > 0;
     const hasGradingScales = () => this.gradingScales().length > 0;
     const isPointGrading = () => this.testFormData().isPointGrading === "true";
@@ -131,9 +133,9 @@ export class TestsEditFormComponent {
     disabled(schema.gradingScaleId, hasResults);
   });
 
-  submitted = signal(false);
+  protected readonly submitted = signal(false);
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.submitted.set(true);
 
     if (this.testForm().valid()) {

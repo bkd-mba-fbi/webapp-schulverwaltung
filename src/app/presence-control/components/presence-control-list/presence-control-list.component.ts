@@ -28,7 +28,10 @@ import {
 import { PresenceControlBlockLessonComponent } from "../presence-control-block-lesson/presence-control-block-lesson.component";
 import { PresenceControlEntryComponent } from "../presence-control-entry/presence-control-entry.component";
 import { PresenceControlHeaderComponent } from "../presence-control-header/presence-control-header.component";
-import { PresenceControlIncidentComponent } from "../presence-control-incident/presence-control-incident.component";
+import {
+  IncidentOption,
+  PresenceControlIncidentComponent,
+} from "../presence-control-incident/presence-control-incident.component";
 
 const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
   "studentFullName",
@@ -50,16 +53,18 @@ const SEARCH_FIELDS: ReadonlyArray<keyof PresenceControlEntry> = [
 export class PresenceControlListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  state = inject(PresenceControlStateService);
-  private blockLessons = inject(PresenceControlBlockLessonService);
-  private lessonPresencesUpdateService = inject(LessonPresencesUpdateService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private modalService = inject(BkdModalService);
-  private scrollPosition = inject(ScrollPositionService);
-  private route = inject(ActivatedRoute);
+  protected readonly state = inject(PresenceControlStateService);
+  private readonly blockLessons = inject(PresenceControlBlockLessonService);
+  private readonly lessonPresencesUpdateService = inject(
+    LessonPresencesUpdateService,
+  );
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly scrollPosition = inject(ScrollPositionService);
+  private readonly route = inject(ActivatedRoute);
 
-  search$ = new BehaviorSubject<string>("");
-  entries$ = combineLatest([
+  readonly search$ = new BehaviorSubject<string>("");
+  protected readonly entries$ = combineLatest([
     this.state.presenceControlEntriesByGroup$,
     this.search$,
   ]).pipe(
@@ -67,7 +72,7 @@ export class PresenceControlListComponent
     shareReplay(1),
   );
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.route.queryParams
@@ -110,9 +115,11 @@ export class PresenceControlListComponent
             const modalRef = this.modalService.open(
               PresenceControlBlockLessonComponent,
             );
-            modalRef.componentInstance.entry = entry;
-            modalRef.componentInstance.blockPresenceControlEntries =
-              presenceControlEntries;
+            modalRef.setInput("entry", entry);
+            modalRef.setInput(
+              "blockPresenceControlEntries",
+              presenceControlEntries,
+            );
             modalRef.result.then(
               (entries) => {
                 if (entries) {
@@ -126,24 +133,28 @@ export class PresenceControlListComponent
       );
   }
 
-  updateIncident(entry: PresenceControlEntry, presenceTypeId: number): void {
+  private updateIncident(
+    entry: PresenceControlEntry,
+    presenceTypeId: Option<number>,
+  ): void {
     this.lessonPresencesUpdateService
       .updatePresenceType(entry, presenceTypeId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((updates) => this.state.updateLessonPresencesTypes(updates));
   }
 
-  changeIncident(entry: PresenceControlEntry): void {
+  protected changeIncident(entry: PresenceControlEntry): void {
     this.presenceTypesService.incidentTypes$.subscribe((incidentTypes) => {
       const modalRef = this.modalService.open(PresenceControlIncidentComponent);
-      modalRef.componentInstance.incident =
+      modalRef.setInput(
+        "incident",
         incidentTypes.find((type) => type.Id === entry.presenceType?.Id) ||
-        null;
-      modalRef.componentInstance.incidentTypes = incidentTypes;
+          null,
+      );
+      modalRef.setInput("incidentTypes", incidentTypes);
       modalRef.result.then(
-        (selectedIncident) => {
-          this.updateIncident(entry, selectedIncident?.Id || null);
-        },
+        (selectedIncident: IncidentOption) =>
+          this.updateIncident(entry, selectedIncident?.id ?? null),
         () => {},
       );
     });

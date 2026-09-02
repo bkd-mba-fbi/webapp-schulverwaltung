@@ -37,9 +37,9 @@ export class EditAbsencesStateService
   extends PaginatedEntriesService<LessonPresence, EditAbsencesFilter>
   implements IConfirmAbsencesService
 {
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
 
   confirmBackLinkParams?: Params;
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { Person } from "../../../models/person.model";
 import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
 
@@ -10,7 +10,7 @@ import { PersonEmailPipe } from "../../../pipes/person-email.pipe";
   imports: [PersonEmailPipe],
 })
 export class StudentContactLegalRepresentativeComponent {
-  @Input() person: Person;
+  readonly person = input.required<Person>();
 
   constructor() {}
 }

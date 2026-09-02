@@ -11,8 +11,8 @@ import { decodeArray } from "../utils/decode";
   providedIn: "root",
 })
 export class DropDownItemsRestService {
-  private http = inject(HttpClient);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   getWeekdays(): Observable<ReadonlyArray<DropDownItem>> {
     return this.http

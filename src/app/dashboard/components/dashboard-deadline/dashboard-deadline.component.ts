@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
 
@@ -10,7 +10,5 @@ import { AddSpacePipe } from "../../../shared/pipes/add-space.pipe";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardDeadlineComponent {
-  @Input() count: number;
-
-  constructor() {}
+  readonly count = input.required<number>();
 }

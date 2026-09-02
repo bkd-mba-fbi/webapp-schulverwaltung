@@ -20,7 +20,7 @@ describe("StudentContactLegalRepresentativeComponent", () => {
       StudentContactLegalRepresentativeComponent,
     );
     component = fixture.componentInstance;
-    component.person = buildPerson(123);
+    fixture.componentRef.setInput("person", buildPerson(123));
     fixture.detectChanges();
   });
 

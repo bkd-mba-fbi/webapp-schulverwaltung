@@ -40,23 +40,25 @@ import { EvaluationTableComponent } from "../evaluation-table/evaluation-table.c
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationListComponent {
-  state = inject(EvaluationStateService);
-  private updateDefaultGradeService = inject(
+  protected readonly state = inject(EvaluationStateService);
+  private readonly updateDefaultGradeService = inject(
     EvaluationGradingItemUpdateService,
   );
-  private updateSubscriptionDetailService = inject(
+  private readonly updateSubscriptionDetailService = inject(
     EvaluationSubscriptionDetailUpdateService,
   );
-  private translate = inject(TranslateService);
-  private modalService = inject(BkdModalService);
+  private readonly translate = inject(TranslateService);
+  private readonly modalService = inject(BkdModalService);
 
   readonly GRADE_COLUMN = GRADE_COLUMN_KEY;
 
-  hasGrades = computed(() => this.state.gradingScale() !== null);
-  hasGradeComments = computed(
+  protected readonly hasGrades = computed(
+    () => this.state.gradingScale() !== null,
+  );
+  protected readonly hasGradeComments = computed(
     () => this.state.gradingScale()?.CommentsAllowed === true,
   );
-  columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
+  readonly columnOptions = computed<ReadonlyArray<DropDownItem>>(() => {
     const gradeOption: DropDownItem = {
       Key: GRADE_COLUMN_KEY,
       Value: this.translate.instant("evaluation.columns.grade"),
@@ -81,7 +83,10 @@ export class EvaluationListComponent {
     ].filter(notNull);
   });
 
-  selectedColumn = linkedSignal<ReadonlyArray<DropDownItem>, Option<number>>({
+  readonly selectedColumn = linkedSignal<
+    ReadonlyArray<DropDownItem>,
+    Option<number>
+  >({
     source: this.columnOptions,
     computation: (options, previous) => {
       const previousOptions = previous?.source;
@@ -100,19 +105,21 @@ export class EvaluationListComponent {
     },
   });
 
-  openDefaultGradeDialog() {
+  protected openDefaultGradeDialog() {
     const modalRef = this.modalService.open(
       EvaluationDefaultGradeDialogComponent,
     );
-    modalRef.componentInstance.gradingScale = this.state.gradingScale;
-    modalRef.componentInstance.updateService = this.updateDefaultGradeService;
+    modalRef.setInput("gradingScale", this.state.gradingScale());
+    modalRef.setInput("updateService", this.updateDefaultGradeService);
     modalRef.result.then(
       () => {},
       () => {},
     );
   }
 
-  updateSubscriptionDetail(detail: EvaluationSubscriptionDetail): void {
+  protected updateSubscriptionDetail(
+    detail: EvaluationSubscriptionDetail,
+  ): void {
     void this.updateSubscriptionDetailService.updateSubscriptionDetail(detail);
   }
 }

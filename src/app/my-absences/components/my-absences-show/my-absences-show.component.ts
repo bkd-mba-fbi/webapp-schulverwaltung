@@ -46,12 +46,14 @@ import { MyAbsencesReportLinkComponent } from "../my-absences-report-link/my-abs
   ],
 })
 export class MyAbsencesShowComponent {
-  private reportsService = inject(ReportsService);
-  myAbsencesService = inject(MyAbsencesService);
-  absencesSelectionService = inject(ConfirmAbsencesSelectionService);
+  private readonly reportsService = inject(ReportsService);
+  protected readonly myAbsencesService = inject(MyAbsencesService);
+  protected readonly absencesSelectionService = inject(
+    ConfirmAbsencesSelectionService,
+  );
 
-  openAbsencesReports$ = this.loadOpenAbsencesReports();
-  allAbsencesReports$ = this.loadAllAbsencesReports();
+  protected readonly openAbsencesReports$ = this.loadOpenAbsencesReports();
+  protected readonly allAbsencesReports$ = this.loadAllAbsencesReports();
 
   private loadOpenAbsencesReports(): Observable<ReadonlyArray<ReportInfo>> {
     return combineLatest([

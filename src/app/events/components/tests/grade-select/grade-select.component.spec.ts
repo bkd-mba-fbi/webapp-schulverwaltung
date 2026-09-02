@@ -17,6 +17,7 @@ describe("GradeSelectComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GradeSelectComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("options", []);
     fixture.detectChanges();
   });
 

@@ -6,7 +6,8 @@
     <bkd-typeahead
       [id]="'filter-student'"
       [typeaheadService]="studentsService"
-      [(value)]="filter.student"
+      [value]="intermediateFilter().student"
+      (valueChange)="patchFilter({ student: keyToNumber($event) })"
     ></bkd-typeahead>
   </div>
 
@@ -17,7 +18,8 @@
     <bkd-typeahead
       [id]="'filter-module-instance'"
       [typeaheadService]="coursesService"
-      [(value)]="filter.course"
+      [value]="intermediateFilter().course"
+      (valueChange)="patchFilter({ course: $event })"
     ></bkd-typeahead>
   </div>
 
@@ -28,7 +30,8 @@
     <bkd-typeahead
       [id]="'filter-study-class'"
       [typeaheadService]="studyClassService"
-      [(value)]="filter.studyClass"
+      [value]="intermediateFilter().studyClass"
+      (valueChange)="patchFilter({ studyClass: keyToNumber($event) })"
       [additionalHttpParams]="this.classesHttpFilter"
     ></bkd-typeahead>
   </div>
@@ -40,7 +43,8 @@
     <bkd-typeahead
       [id]="'filter-teacher'"
       [typeaheadService]="teacherResourcesService"
-      [(value)]="filter.teacher"
+      [value]="intermediateFilter().teacher"
+      (valueChange)="patchFilter({ teacher: keyToString($event) })"
     ></bkd-typeahead>
   </div>
 
@@ -50,7 +54,7 @@
     }}</label>
     <bkd-date-select
       [id]="'filter-date-from'"
-      [value]="filter.dateFrom"
+      [value]="intermediateFilter().dateFrom"
       (valueChange)="onDateFromChange($event)"
     ></bkd-date-select>
   </div>
@@ -61,7 +65,7 @@
     }}</label>
     <bkd-date-select
       [id]="'filter-date-to'"
-      [value]="filter.dateTo"
+      [value]="intermediateFilter().dateTo"
       (valueChange)="onDateToChange($event)"
     ></bkd-date-select>
   </div>
@@ -72,8 +76,9 @@
     }}</label>
     <bkd-multiselect
       [id]="'filter-weekdays'"
-      [options]="weekdaysGrouped$ | async"
-      [(values)]="filter.weekdays"
+      [options]="(weekdaysGrouped$ | async) ?? []"
+      [values]="intermediateFilter().weekdays"
+      (valuesChange)="patchFilter({ weekdays: keysToStrings($event) })"
     ></bkd-multiselect>
   </div>
 </div>
@@ -86,7 +91,10 @@
     <bkd-multiselect
       [id]="'filter-confirmation-state'"
       [options]="absenceConfirmationStatesGrouped$ | async"
-      [(values)]="filter.confirmationStates"
+      [values]="intermediateFilter().confirmationStates"
+      (valuesChange)="
+        patchFilter({ confirmationStates: keysToNumbers($event) })
+      "
     ></bkd-multiselect>
   </div>
 
@@ -97,7 +105,8 @@
     <bkd-multiselect
       [id]="'filter-presence-type'"
       [options]="presenceTypesGrouped$ | async"
-      [(values)]="filter.presenceTypes"
+      [values]="intermediateFilter().presenceTypes"
+      (valuesChange)="patchFilter({ presenceTypes: keysToNumbers($event) })"
     ></bkd-multiselect>
   </div>
 
@@ -108,7 +117,8 @@
     <bkd-multiselect
       [id]="'filter-incident'"
       [options]="incidentTypesGrouped$ | async"
-      [(values)]="filter.incidentTypes"
+      [values]="intermediateFilter().incidentTypes"
+      (valuesChange)="patchFilter({ incidentTypes: keysToNumbers($event) })"
     ></bkd-multiselect>
   </div>
 

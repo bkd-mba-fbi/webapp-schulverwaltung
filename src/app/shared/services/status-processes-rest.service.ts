@@ -11,10 +11,10 @@ import { PAGE_LOADING_CONTEXT } from "./paginated-entries.service";
   providedIn: "root",
 })
 export class StatusProcessesRestService {
-  private http = inject(HttpClient);
-  private settings = inject<Settings>(SETTINGS);
-  private loadingService = inject(LoadingService);
-  private baseUrl: string;
+  private readonly http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly loadingService = inject(LoadingService);
+  private readonly baseUrl: string;
 
   constructor() {
     this.baseUrl = `${this.settings.apiUrl}/StatusProcesses/`;

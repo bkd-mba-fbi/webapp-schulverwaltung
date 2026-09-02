@@ -55,27 +55,32 @@ import { EvaluationTableHeaderComponent } from "../evaluation-table-header/evalu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationTableComponent {
-  state = inject(EvaluationStateService);
-  gradingItemUpdateService = inject(EvaluationGradingItemUpdateService);
-  private route = inject(ActivatedRoute);
+  private readonly state = inject(EvaluationStateService);
+  private readonly gradingItemUpdateService = inject(
+    EvaluationGradingItemUpdateService,
+  );
+  private readonly route = inject(ActivatedRoute);
 
-  sortCriteria = model.required<Option<SortCriteria<EvaluationSortKey>>>();
-  selectedColumn = input.required<number>();
-  columns = input.required<ReadonlyArray<EvaluationColumn>>();
-  entries = input.required<ReadonlyArray<EvaluationEntry>>();
-  hasGrades = input.required<boolean>();
-  hasGradeComments = input.required<boolean>();
-  subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
-  gradingScale = input.required<GradingScale>();
+  readonly sortCriteria =
+    model.required<Option<SortCriteria<EvaluationSortKey>>>();
+  readonly selectedColumn = input.required<number>();
+  readonly columns = input.required<ReadonlyArray<EvaluationColumn>>();
+  readonly entries = input.required<ReadonlyArray<EvaluationEntry>>();
+  readonly hasGrades = input.required<boolean>();
+  readonly hasGradeComments = input.required<boolean>();
+  readonly subscriptionDetailChange = output<EvaluationSubscriptionDetail>();
+  readonly gradingScale = input.required<GradingScale>();
 
-  gradeColumnSelected = computed(
+  protected readonly gradeColumnSelected = computed(
     () => this.selectedColumn() === GRADE_COLUMN_KEY,
   );
-  commentColumnSelected = computed(
+  protected readonly commentColumnSelected = computed(
     () => this.selectedColumn() === COMMENT_COLUMN_KEY,
   );
-  gradesAverage = computed(() => this.getGradesAverage(this.entries()));
-  totalColumns = computed(
+  protected readonly gradesAverage = computed(() =>
+    this.getGradesAverage(this.entries()),
+  );
+  protected readonly totalColumns = computed(
     () =>
       1 + // Name
       (this.hasGrades() ? 1 : 0) + // Grade
@@ -83,7 +88,7 @@ export class EvaluationTableComponent {
       this.columns().length, // Subscription details
   );
 
-  returnLink = toSignal(
+  protected readonly returnLink = toSignal(
     this.route.queryParams.pipe(
       map(({ returnlink }) => {
         return returnlink ? decodeURIComponent(returnlink) : null;
@@ -91,7 +96,7 @@ export class EvaluationTableComponent {
     ),
   );
 
-  private criteriaVisibilities = linkedSignal<
+  private readonly criteriaVisibilities = linkedSignal<
     ReadonlyArray<EvaluationEntry>,
     Dict<WritableSignal<boolean>>
   >({
@@ -107,7 +112,7 @@ export class EvaluationTableComponent {
       }, {}),
   });
 
-  private sticky = viewChild(TableHeaderStickyDirective);
+  private readonly sticky = viewChild(TableHeaderStickyDirective);
 
   constructor() {
     effect(() => {
@@ -117,29 +122,29 @@ export class EvaluationTableComponent {
       this.sticky()?.refresh();
     });
   }
-  isColumnSelected(
+  protected isColumnSelected(
     column: Option<EvaluationColumn | EvaluationSubscriptionDetail>,
   ) {
     if (!column) return false;
     return this.getColumnKey(column) === this.selectedColumn();
   }
 
-  getDetailValue(
+  protected getDetailValue(
     detail: Option<EvaluationSubscriptionDetail>,
   ): WritableSignal<SubscriptionDetail["Value"]> {
     if (!detail) return signal(null);
     return detail.value ?? signal(null);
   }
 
-  isCriteriaVisible(entry: EvaluationEntry): WritableSignal<boolean> {
+  protected isCriteriaVisible(entry: EvaluationEntry): WritableSignal<boolean> {
     return this.criteriaVisibilities()[entry.gradingItem.Id] ?? signal(false);
   }
 
-  toggleCriteria(entry: EvaluationEntry): void {
+  protected toggleCriteria(entry: EvaluationEntry): void {
     this.criteriaVisibilities()[entry.gradingItem.Id]?.update((v) => !v);
   }
 
-  onRowClick(event: MouseEvent): void {
+  protected onRowClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     // Toggle the criteria, if the user clicks the empty space within a cell
     if (target.tagName === "TD") {
@@ -150,7 +155,7 @@ export class EvaluationTableComponent {
     }
   }
 
-  gradeOptions = computed(() =>
+  protected readonly gradeOptions = computed(() =>
     this.gradingScale()?.Grades.map((grade) => ({
       Key: grade.Id,
       Value: grade.Designation,
@@ -170,11 +175,11 @@ export class EvaluationTableComponent {
     return average(grades);
   }
 
-  updateGrade(gradeId: Option<number>, gradingItemId: string) {
+  protected updateGrade(gradeId: Option<number>, gradingItemId: string) {
     this.gradingItemUpdateService.updateGrade(gradingItemId, gradeId);
   }
 
-  updateComment(comment: Option<string>, gradingItemId: string) {
+  protected updateComment(comment: Option<string>, gradingItemId: string) {
     this.gradingItemUpdateService.updateComment(gradingItemId, comment);
   }
 }

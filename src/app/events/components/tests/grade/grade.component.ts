@@ -1,11 +1,11 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  Input,
-  OnChanges,
   OnDestroy,
   OnInit,
+  computed,
   inject,
+  input,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -39,38 +39,38 @@ const DEBOUNCE_TIME = 1250;
   styleUrls: ["./grade.component.scss"],
   imports: [FormsModule, SelectComponent, AsyncPipe, TranslatePipe],
 })
-export class GradeComponent implements OnInit, OnDestroy, OnChanges {
-  private state = inject(TestStateService);
+export class GradeComponent implements OnInit, OnDestroy {
+  private readonly state = inject(TestStateService);
 
-  @Input() grade: GradeOrNoResult;
-  @Input() student: Student;
-  @Input() tabIndex: number;
-  @Input() gradeOptions: DropDownItem[];
-  @Input() hasFinalGrade = false;
+  readonly grade = input.required<GradeOrNoResult>();
+  readonly student = input.required<Student>();
+  readonly tabIndex = input<number>();
+  readonly gradeOptions = input<ReadonlyArray<DropDownItem>>([]);
+  readonly hasFinalGrade = input<boolean>(false);
 
-  maxPoints = 0;
-  maxPointsAdjusted = 0;
+  protected maxPoints = 0;
+  private maxPointsAdjusted = 0;
 
-  private pointsSubject$ = new Subject<string>();
-  private gradeSubject$ = new Subject<Option<number>>();
-  private gradingScaleDisabledSubject$: BehaviorSubject<boolean> =
+  private readonly pointsSubject$ = new Subject<string>();
+  private readonly gradeSubject$ = new Subject<Option<number>>();
+  private readonly gradingScaleDisabledSubject$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
 
-  gradingScaleDisabled$ = this.gradingScaleDisabledSubject$.asObservable();
+  protected readonly gradingScaleDisabled = computed(() =>
+    this.isGradingScaleDisabled(),
+  );
 
-  destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
-
-    this.maxPoints = toMaxPoints(this.grade);
-    this.maxPointsAdjusted = toMaxPointsAdjusted(this.grade);
+    this.maxPoints = toMaxPoints(this.grade());
+    this.maxPointsAdjusted = toMaxPointsAdjusted(this.grade());
     this.initSave(
       this.pointsSubject$.pipe(
         filter(this.isValid.bind(this)),
         map((points) => ({
-          studentId: this.student.Id,
-          testId: this.grade.test.Id,
+          studentId: this.student().Id,
+          testId: this.grade().test.Id,
           points: points ? Number(points) : null,
         })),
       ),
@@ -78,32 +78,28 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
     this.initSave(
       this.gradeSubject$.pipe(
         map((gradeId) => ({
-          studentId: this.student.Id,
-          testId: this.grade.test.Id,
+          studentId: this.student().Id,
+          testId: this.grade().test.Id,
           gradeId,
         })),
       ),
     );
   }
 
-  ngOnChanges() {
-    this.gradingScaleDisabledSubject$.next(this.isGradingScaleDisabled());
-  }
-
   ngOnDestroy() {
     this.destroy$.next();
   }
 
-  onPointsChange(points: string) {
+  protected onPointsChange(points: string) {
     this.pointsSubject$.next(points);
     this.gradingScaleDisabledSubject$.next(!(points === null || points === ""));
   }
 
-  onGradeChange(gradeId: Option<DropDownItem["Key"]>) {
+  protected onGradeChange(gradeId: Option<DropDownItem["Key"]>) {
     this.gradeSubject$.next(gradeId == null ? null : Number(gradeId));
   }
 
-  isGreaterThanMaxPointsAdjusted(points: string): boolean {
+  protected isGreaterThanMaxPointsAdjusted(points: string): boolean {
     const pointsValue = Number(points);
     return (
       this.maxPointsAdjusted > 0 &&
@@ -139,12 +135,13 @@ export class GradeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isGradingScaleDisabled() {
+    const gradeValue = this.grade();
     return (
-      this.grade.test.IsPublished ||
-      this.hasFinalGrade ||
-      (this.grade.test.IsPointGrading &&
-        this.grade.kind === "grade" &&
-        this.grade.result.Points != null)
+      gradeValue.test.IsPublished ||
+      this.hasFinalGrade() ||
+      (gradeValue.test.IsPointGrading &&
+        gradeValue.kind === "grade" &&
+        gradeValue.result.Points != null)
     );
   }
 }

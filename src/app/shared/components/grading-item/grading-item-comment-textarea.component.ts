@@ -23,15 +23,15 @@ import { Option } from "../../models/common-types";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GradingItemCommentTextareaComponent {
-  value = model<Option<string>>(null);
-  commit = output<Option<string>>();
+  readonly value = model<Option<string>>(null);
+  readonly commit = output<Option<string>>();
 
-  onInput(event: Event) {
+  protected onInput(event: Event) {
     const { value } = event.target as HTMLTextAreaElement;
     this.value.set(value || null);
   }
 
-  onBlur() {
+  protected onBlur() {
     this.commit.emit(this.value() ?? null);
   }
 }

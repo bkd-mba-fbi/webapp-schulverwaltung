@@ -9,6 +9,6 @@ import { StudentEntryHeaderComponent } from "../student-entry-header/student-ent
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEntryHeaderComponent {
-  icon = input.required<string>();
-  category = input<Option<string>>(null);
+  readonly icon = input.required<string>();
+  readonly category = input<Option<string>>(null);
 }

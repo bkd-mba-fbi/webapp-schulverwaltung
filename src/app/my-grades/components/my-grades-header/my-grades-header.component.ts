@@ -18,5 +18,5 @@ import { MyGradesService } from "../../services/my-grades.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyGradesHeaderComponent {
-  myGradesService = inject(MyGradesService);
+  protected readonly myGradesService = inject(MyGradesService);
 }

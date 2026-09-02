@@ -24,18 +24,18 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
   /**
    * Example: [".xls", ".xlsx", ".csv", "image/png"]
    */
-  acceptedFileTypes = input.required<ReadonlyArray<string>>();
-  error = input<Option<string>>(null);
-  value = model<Option<File>>(null);
+  readonly acceptedFileTypes = input.required<ReadonlyArray<string>>();
+  readonly error = input<Option<string>>(null);
+  readonly value = model<Option<File>>(null);
 
-  acceptedFileExtensions = computed(() =>
+  protected readonly acceptedFileExtensions = computed(() =>
     this.acceptedFileTypes().map(this.getFileExtensionForType.bind(this)),
   );
 
-  dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
+  protected readonly dragging = signal(false); // Used to show the drop zone when dragging a file into the viewport
   private dragCount = 0;
 
-  private fileInput =
+  private readonly fileInput =
     viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
 
   ngAfterViewInit(): void {
@@ -48,29 +48,29 @@ export class FileInputComponent implements AfterViewInit, OnDestroy {
     document.removeEventListener("dragleave", this.onDragLeave);
   }
 
-  onFileInput(files: FileList | null): void {
+  protected onFileInput(files: FileList | null): void {
     this.value.set(files?.item(0) ?? null);
   }
 
-  onDragEnter = () => {
+  private readonly onDragEnter = () => {
     this.dragCount += 1;
     if (this.dragCount === 1) {
       this.dragging.set(true);
     }
   };
 
-  onDragLeave = () => {
+  private readonly onDragLeave = () => {
     this.dragCount -= 1;
     if (this.dragCount === 0) {
       this.dragging.set(false);
     }
   };
 
-  onFileDrag(event: DragEvent): void {
+  protected onFileDrag(event: DragEvent): void {
     event.preventDefault();
   }
 
-  onFileDrop(event: DragEvent): void {
+  protected onFileDrop(event: DragEvent): void {
     event.preventDefault();
 
     this.dragCount = 0;

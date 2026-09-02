@@ -23,21 +23,21 @@ import { ToastService } from "../../../shared/services/toast.service";
 export abstract class MyAbsencesAbstractConfirmComponent
   implements OnInit, OnDestroy
 {
-  protected fb = inject(UntypedFormBuilder);
-  protected router = inject(Router);
-  protected toastService = inject(ToastService);
-  protected translate = inject(TranslateService);
-  protected presenceTypesService = inject(PresenceTypesService);
-  protected updateService = inject(LessonPresencesUpdateRestService);
-  protected storageService = inject(StorageService);
-  protected settings = inject<Settings>(SETTINGS);
+  private readonly fb = inject(UntypedFormBuilder);
+  protected readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  protected readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly updateService = inject(LessonPresencesUpdateRestService);
+  private readonly storageService = inject(StorageService);
+  protected readonly settings = inject<Settings>(SETTINGS);
 
-  formGroup = this.createFormGroup();
+  protected readonly formGroup = this.createFormGroup();
 
-  saving$ = new BehaviorSubject(false);
-  protected submitted$ = new BehaviorSubject(false);
+  protected readonly saving$ = new BehaviorSubject(false);
+  private readonly submitted$ = new BehaviorSubject(false);
 
-  absenceTypes$ = combineLatest([
+  protected readonly absenceTypes$ = combineLatest([
     this.getConfirmationTypes(),
     this.getHalfDayType(),
   ]).pipe(
@@ -46,16 +46,16 @@ export abstract class MyAbsencesAbstractConfirmComponent
     ),
   );
 
-  absenceTypeIdErrors$ = getValidationErrors(
+  protected readonly absenceTypeIdErrors$ = getValidationErrors(
     of(this.formGroup),
     this.submitted$,
     "absenceTypeId",
   );
 
-  abstract titleKey: string;
-  abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
+  protected abstract readonly titleKey: string;
+  protected abstract selectedLessonIds$: Observable<ReadonlyArray<number>>;
 
-  protected destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     // Nothing to confirm if no entries are selected
@@ -68,7 +68,7 @@ export abstract class MyAbsencesAbstractConfirmComponent
     this.destroy$.next();
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.submitted$.next(true);
     if (this.formGroup.valid) {
       const { absenceTypeId } = this.formGroup.value;
@@ -76,15 +76,15 @@ export abstract class MyAbsencesAbstractConfirmComponent
     }
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.navigateBack();
   }
 
-  getSelectedCount(): Observable<number> {
+  protected getSelectedCount(): Observable<number> {
     return this.selectedLessonIds$.pipe(map((ids) => ids.length));
   }
 
-  protected getConfirmationTypes(): Observable<ReadonlyArray<PresenceType>> {
+  private getConfirmationTypes(): Observable<ReadonlyArray<PresenceType>> {
     return this.presenceTypesService.confirmationTypes$.pipe(
       map((types) =>
         types.filter(
@@ -98,13 +98,13 @@ export abstract class MyAbsencesAbstractConfirmComponent
     return of(null);
   }
 
-  protected createFormGroup(): UntypedFormGroup {
+  private createFormGroup(): UntypedFormGroup {
     return this.fb.group({
       absenceTypeId: [null, Validators.required],
     });
   }
 
-  protected save(absenceTypeId: number): void {
+  private save(absenceTypeId: number): void {
     this.saving$.next(true);
 
     this.selectedLessonIds$

@@ -41,23 +41,23 @@ const STUDENT_DOSSIER_CONTEXT = "student-dossier";
   providedIn: "root",
 })
 export class StudentDossierService implements OnDestroy {
-  private settings = inject<Settings>(SETTINGS);
-  private state = inject(StudentStateService);
-  private loadingService = inject(LoadingService);
-  private studentsService = inject(StudentsRestService);
-  private dropDownItemsService = inject(DropDownItemsRestService);
-  private storageService = inject(StorageService);
-  private filterService = inject(StudentDossierFilterService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly state = inject(StudentStateService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly studentsService = inject(StudentsRestService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly storageService = inject(StorageService);
+  private readonly filterService = inject(StudentDossierFilterService);
 
   loading$ = this.loadingService.loading(STUDENT_DOSSIER_CONTEXT);
   studentId$ = this.state.studentId$;
 
-  private destroy$ = new Subject<void>();
-  private additionalInformations$ = this.studentId$.pipe(
+  private readonly destroy$ = new Subject<void>();
+  private readonly additionalInformations$ = this.studentId$.pipe(
     switchMap((studentId) => this.loadAdditionalInformations(studentId)),
     shareReplay(1),
   );
-  private categories$ = this.loadCategories();
+  private readonly categories$ = this.loadCategories();
 
   entries$ = combineLatest([
     this.additionalInformations$,

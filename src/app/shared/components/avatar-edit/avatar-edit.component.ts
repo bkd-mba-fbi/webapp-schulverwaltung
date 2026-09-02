@@ -25,12 +25,13 @@ import { AvatarEditDialogComponent } from "../avatar-edit-dialog/avatar-edit-dia
   },
 })
 export class AvatarEditComponent {
-  private avatarService = inject(AvatarService);
-  private modalService = inject(BkdModalService);
-  private reload$ = new Subject<void>();
+  private readonly avatarService = inject(AvatarService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly reload$ = new Subject<void>();
 
-  studentId = input.required<number>();
-  avatarDataUri = toSignal(
+  readonly studentId = input.required<number>();
+
+  protected readonly avatarDataUri = toSignal(
     merge(
       toObservable(this.studentId),
       this.reload$.pipe(map(() => this.studentId())),
@@ -40,7 +41,7 @@ export class AvatarEditComponent {
     ),
   );
 
-  openDialog(event?: Event) {
+  protected openDialog(event?: Event) {
     event?.stopImmediatePropagation();
     if (this.avatarDataUri()) {
       // Cannot change image, once it is set
@@ -48,9 +49,7 @@ export class AvatarEditComponent {
     }
 
     const modalRef = this.modalService.open(AvatarEditDialogComponent);
-
-    const component = modalRef.componentInstance as AvatarEditDialogComponent;
-    component.studentId.set(this.studentId());
+    modalRef.setInput("studentId", this.studentId());
 
     modalRef.closed.subscribe(() => {
       this.reload$.next();

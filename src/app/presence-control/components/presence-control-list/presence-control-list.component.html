@@ -13,12 +13,12 @@
     [absentCount]="state.absentCount$ | async"
     [absentPrecedingCount]="state.absentPrecedingCount$ | async"
     [viewMode]="state.viewMode$ | async"
-    [selectDate]="state.selectedDate$ | async"
+    [selectedDate]="state.selectedDate$ | async"
     [search]="search$ | async"
     (searchChange)="search$.next($event)"
     (viewModeChange)="state.setViewMode($event)"
-    (selectDateChange)="state.setDate($event)"
-    (selectLessonChange)="state.setLessonId($event.id)"
+    (selectedDateChange)="state.setDate($event)"
+    (selectedLessonChange)="state.setLessonId($event.id)"
   ></bkd-presence-control-header>
   @if (!lesson) {
     <p class="mt-3">{{ "presence-control.no-lessons" | translate }}</p>

@@ -16,6 +16,8 @@ import { StudentDossierEntryFooterComponent } from "../student-dossier-entry-foo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierInformationBodyComponent {
-  informationEntries = input.required<ReadonlyArray<StudentDossierEntry>>();
-  disadvantageEntries = input.required<ReadonlyArray<StudentDossierEntry>>();
+  readonly informationEntries =
+    input.required<ReadonlyArray<StudentDossierEntry>>();
+  readonly disadvantageEntries =
+    input.required<ReadonlyArray<StudentDossierEntry>>();
 }

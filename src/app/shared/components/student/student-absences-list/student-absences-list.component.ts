@@ -3,21 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  effect,
   inject,
+  input,
   viewChildren,
 } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
-import {
-  BehaviorSubject,
-  Observable,
-  ReplaySubject,
-  combineLatest,
-  of,
-} from "rxjs";
+import { Observable, combineLatest, of } from "rxjs";
 import {
   filter,
   map,
@@ -52,17 +46,19 @@ import { SpinnerComponent } from "../../spinner/spinner.component";
     DaysDifferencePipe,
   ],
 })
-export class StudentAbsencesListComponent implements OnChanges {
-  private presenceTypesService = inject(PresenceTypesService);
+export class StudentAbsencesListComponent {
+  private readonly presenceTypesService = inject(PresenceTypesService);
 
-  @Input() absences$?: Observable<Option<ReadonlyArray<LessonPresence>>>;
-  @Input() selectionService: Option<ConfirmAbsencesSelectionService> = null;
+  readonly absences$ =
+    input<Observable<Option<ReadonlyArray<LessonPresence>>>>();
+  readonly selectionService =
+    input<Option<ConfirmAbsencesSelectionService>>(null);
 
   /**
    * Whether display the presence type's designation (but only if is
    * not the default absence type).
    */
-  @Input() displayPresenceType = true;
+  readonly displayPresenceType = input(true);
 
   /**
    * If set to a string, this message will be displayed, if the
@@ -70,40 +66,40 @@ export class StudentAbsencesListComponent implements OnChanges {
    * default absence type). Also, entries without absence type will be
    * annotated.
    */
-  @Input() defaultAbsenceSelectionMessage: Option<string> = null;
+  readonly defaultAbsenceSelectionMessage = input<Option<string>>(null);
 
-  @Input() reports: Option<ReadonlyArray<ReportInfo>> = null;
+  readonly reports = input<Option<ReadonlyArray<ReportInfo>>>(null);
 
-  @Input() confirmLink = "confirm";
+  readonly confirmLink = input("confirm");
 
   /**
    * Whether to show a button opening the user's email client
    * The receiver address, subject and body is set in the mailto string
    */
-  @Input() displayEmail = false;
-  @Input() mailTo$: Observable<string>;
+  readonly displayEmail = input(false);
+  readonly mailTo$ = input<Observable<string>>();
 
-  readonly checkboxes = viewChildren<ElementRef<HTMLInputElement>>("checkbox");
+  private readonly checkboxes =
+    viewChildren<ElementRef<HTMLInputElement>>("checkbox");
 
-  lessonPresences$$ = new ReplaySubject<
-    Observable<ReadonlyArray<LessonPresence>>
-  >(1);
-  lessonPresences$ = this.lessonPresences$$.pipe(
+  protected readonly lessonPresences$ = toObservable(this.absences$).pipe(
+    filter(Boolean),
     switchAll(),
     startWith(null),
     shareReplay(1),
   );
-  loading$ = this.lessonPresences$.pipe(map(not(isArray)));
+  protected readonly loading$ = this.lessonPresences$.pipe(map(not(isArray)));
 
-  selectionService$ = new ReplaySubject<ConfirmAbsencesSelectionService>(1);
-  editable$ = this.selectionService$.pipe(
+  private readonly selectionService$ = toObservable(this.selectionService).pipe(
+    filter(notNull),
+    shareReplay(1),
+  );
+  protected readonly editable$ = this.selectionService$.pipe(
     map(() => true),
     startWith(false),
   );
 
-  private displayPresenceType$ = new BehaviorSubject<boolean>(true);
-
-  allSelected$ = combineLatest([
+  protected readonly allSelected$ = combineLatest([
     this.lessonPresences$.pipe(filter(notNull)),
     this.selectionService$.pipe(switchMap((service) => service.selection$)),
   ]).pipe(
@@ -113,31 +109,26 @@ export class StudentAbsencesListComponent implements OnChanges {
     ),
   );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["absences$"]) {
-      this.lessonPresences$$.next(changes["absences$"].currentValue);
-    }
-    if (
-      changes["selectionService"] &&
-      changes["selectionService"].currentValue
-    ) {
-      changes["selectionService"].currentValue.clear();
-      this.selectionService$.next(changes["selectionService"].currentValue);
-    }
-    if (changes["displayPresenceType"]) {
-      this.displayPresenceType$.next(
-        changes["displayPresenceType"].currentValue,
-      );
-    }
+  private readonly displayPresenceType$ = toObservable(
+    this.displayPresenceType,
+  );
+
+  constructor() {
+    effect(() => {
+      const service = this.selectionService();
+      if (service) {
+        service.clear();
+      }
+    });
   }
 
-  toggleAll(checked: boolean): void {
+  protected toggleAll(checked: boolean): void {
     if (checked) {
       this.lessonPresences$
         .pipe(take(1))
-        .subscribe((absences) => this.selectionService?.clear(absences));
+        .subscribe((absences) => this.selectionService()?.clear(absences));
     } else {
-      this.selectionService?.clear();
+      this.selectionService()?.clear();
     }
   }
 
@@ -146,7 +137,10 @@ export class StudentAbsencesListComponent implements OnChanges {
    * non-static (within @if) and can therefore not be referenced in
    * the template itself.
    */
-  onRowClick(event: Event, indexOrCheckbox: number | HTMLInputElement): void {
+  protected onRowClick(
+    event: Event,
+    indexOrCheckbox: number | HTMLInputElement,
+  ): void {
     const checkboxes = this.checkboxes();
     if (checkboxes.length === 0) return;
 
@@ -164,7 +158,7 @@ export class StudentAbsencesListComponent implements OnChanges {
     }
   }
 
-  getPresenceTypeDesignation(
+  protected getPresenceTypeDesignation(
     absence: LessonPresence,
   ): Observable<Option<string>> {
     return this.displayPresenceType$.pipe(

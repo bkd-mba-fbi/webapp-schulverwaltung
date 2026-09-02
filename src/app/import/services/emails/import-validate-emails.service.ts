@@ -27,7 +27,7 @@ export type EmailImportEntry = ImportEntry<
   providedIn: "root",
 })
 export class ImportValidateEmailsService {
-  private personsService = inject(PersonsRestService);
+  private readonly personsService = inject(PersonsRestService);
 
   async fetchAndValidate(
     parsedEntries: ReadonlyArray<EmailEntry>,

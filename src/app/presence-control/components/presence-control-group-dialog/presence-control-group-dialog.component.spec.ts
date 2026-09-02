@@ -23,16 +23,19 @@ describe("PresenceControlGroupDialogComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlGroupDialogComponent);
     component = fixture.componentInstance;
-    component.dialogMode = DialogMode.Select;
-    component.subscriptionDetailsDefinitions = buildSubscriptionDetail(3843);
-    component.group = null;
+    fixture.componentRef.setInput("dialogMode", DialogMode.Select);
+    fixture.componentRef.setInput(
+      "subscriptionDetailsDefinitions",
+      buildSubscriptionDetail(3843),
+    );
+    fixture.componentRef.setInput("group", null);
     fixture.detectChanges();
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
-    expect(component.title).toBe("presence-control.groups.select.title");
-    expect(component.selected).toEqual({
+    expect(component.title()).toBe("presence-control.groups.select.title");
+    expect(component.selected()).toEqual({
       id: null,
       label: "presence-control.groups.all",
     });

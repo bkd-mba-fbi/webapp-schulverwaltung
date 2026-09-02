@@ -3,14 +3,18 @@
     {{ "presence-control.block-lesson.text" | translate }}
   </p>
   <form>
-    @for (option of blockLessonOptions; track option.entry.id; let i = $index) {
+    @for (
+      option of blockLessonOptions();
+      track option.entry.id;
+      let i = $index
+    ) {
       <div class="form-check">
         <input
           type="checkbox"
           class="form-check-input"
           id="lesson-presence-{{ i }}"
           [checked]="option.selected"
-          (change)="option.selected = !option.selected"
+          (change)="toggleSelected(option)"
         />
         <label
           class="form-check-label d-flex"
@@ -34,7 +38,6 @@
   </form>
 </div>
 
-@let selectedEntries = getSelectedEntries();
 <div class="modal-footer">
   <button
     type="button"
@@ -46,8 +49,8 @@
   <button
     type="button"
     class="btn btn-primary"
-    (click)="activeModal.close(selectedEntries)"
-    [disabled]="selectedEntries.length === 0"
+    (click)="activeModal.close(selectedEntries())"
+    [disabled]="selectedEntries().length === 0"
   >
     {{ "presence-control.block-lesson.save" | translate }}
   </button>

@@ -5,16 +5,16 @@
 </div>
 <div class="modal-body">
   <form>
-    @for (option of incidentOptions; track option.id; let i = $index) {
+    @for (option of incidentOptions(); track option.id; let i = $index) {
       <div class="form-check">
         <input
           class="form-check-input"
           type="radio"
           name="incident"
           id="incident-{{ i }}"
-          [checked]="option.id === selected.id"
+          [checked]="option.id === selected().id"
           [value]="option.id"
-          (change)="onSelectionChange(option)"
+          (change)="selected.set(option)"
         />
         <label class="form-check-label" for="incident-{{ i }}">
           {{ option.label }}
@@ -34,7 +34,7 @@
   <button
     type="button"
     class="btn btn-primary"
-    (click)="activeModal.close(getSelectedIncident())"
+    (click)="activeModal.close(selected())"
   >
     {{ "presence-control.incident.save" | translate }}
   </button>

@@ -93,23 +93,29 @@ const MANY_ITEMS_COUNT = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailListboxComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  layout = input.required<"vertical" | "horizontal">();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly layout = input.required<"vertical" | "horizontal">();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  asRadios = computed(() => this.detail().ShowAsRadioButtons);
-  items = computed(() =>
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  protected readonly asRadios = computed(
+    () => this.detail().ShowAsRadioButtons,
+  );
+  protected readonly items = computed(() =>
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
-  hasManyItems = computed(() => (this.items() ?? []).length > MANY_ITEMS_COUNT);
-  normalizedValue = computed(() =>
+  protected readonly hasManyItems = computed(
+    () => (this.items() ?? []).length > MANY_ITEMS_COUNT,
+  );
+  protected readonly normalizedValue = computed(() =>
     this.detail().Value ? String(this.detail().Value) : null,
   );
 
-  onChange(rawValue: SubscriptionDetail["Value"]): void {
+  protected onChange(rawValue: SubscriptionDetail["Value"]): void {
     const item = this.items()?.find((item) => item.Key == rawValue);
     const value = item?.Key ? this.normalizeItemKey(item?.Key) : null;
 
@@ -117,7 +123,7 @@ export class SubscriptionDetailListboxComponent {
     this.commit.emit(value);
   }
 
-  normalizeItemKey(key: DropDownItemWithActive["Key"]): string {
+  protected normalizeItemKey(key: DropDownItemWithActive["Key"]): string {
     return String(key);
   }
 }

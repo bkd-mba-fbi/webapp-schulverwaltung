@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  linkedSignal,
+  model,
 } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { startOfDay } from "date-fns/startOfDay";
@@ -19,18 +18,22 @@ import { ReportAbsencesFilter } from "../../services/my-absences-report-state.se
   imports: [BacklinkComponent, DateSelectComponent, TranslatePipe],
 })
 export class MyAbsencesReportHeaderComponent {
-  @Input()
-  filter: ReportAbsencesFilter = {
+  readonly filter = model<ReportAbsencesFilter>({
     dateFrom: null,
     dateTo: null,
-  };
+  });
 
-  @Output() filterChange = new EventEmitter<ReportAbsencesFilter>();
+  /**
+   * The filter currently being edited. Changes stay local until they get
+   * committed to `filter` by `show`, in order to not reload the entries
+   * on every single change.
+   */
+  protected readonly intermediateFilter = linkedSignal(() => this.filter());
 
   /**
    * User may not choose dates in the past
    */
-  minDate = {
+  protected readonly minDate = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     day: new Date().getDate(),
@@ -41,18 +44,24 @@ export class MyAbsencesReportHeaderComponent {
   /**
    * Update date to the same date, if date from changes.
    */
-  updateDateFrom(date: Option<Date>): void {
-    this.filter.dateFrom = date;
-    if (date) {
-      this.filter.dateTo = date;
-    }
+  protected updateDateFrom(date: Option<Date>): void {
+    this.intermediateFilter.update((current) => ({
+      ...current,
+      dateFrom: date,
+      dateTo: date ?? current.dateTo,
+    }));
   }
 
-  show(): void {
-    this.filterChange.emit({
+  protected updateDateTo(date: Option<Date>): void {
+    this.intermediateFilter.update((current) => ({ ...current, dateTo: date }));
+  }
+
+  protected show(): void {
+    const intermediateFilter = this.intermediateFilter();
+    this.filter.set({
       // Normalize the dates' times to 00:00 to be comparable
-      dateFrom: normalizeDate(this.filter.dateFrom),
-      dateTo: normalizeDate(this.filter.dateTo),
+      dateFrom: normalizeDate(intermediateFilter.dateFrom),
+      dateTo: normalizeDate(intermediateFilter.dateTo),
     });
   }
 }

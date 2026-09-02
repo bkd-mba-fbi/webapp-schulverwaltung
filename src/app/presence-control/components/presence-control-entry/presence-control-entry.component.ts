@@ -1,17 +1,16 @@
 import { AsyncPipe } from "@angular/common";
 import {
   Component,
-  EventEmitter,
   HostBinding,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  computed,
   inject,
+  input,
+  output,
 } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { Params, RouterLink } from "@angular/router";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { ReplaySubject, combineLatest, map, switchMap } from "rxjs";
+import { combineLatest, map, switchMap } from "rxjs";
 import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
 import { getEntryUpdateContext } from "src/app/shared/services/lesson-presences-update.service";
@@ -35,30 +34,33 @@ import { PresenceControlPrecedingAbsenceComponent } from "../presence-control-pr
     TranslatePipe,
   ],
 })
-export class PresenceControlEntryComponent implements OnChanges {
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private modalService = inject(BkdModalService);
-  private loadingService = inject(LoadingService);
+export class PresenceControlEntryComponent {
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly loadingService = inject(LoadingService);
 
-  @Input() entry: PresenceControlEntry;
-  @Input() hasUnconfirmedAbsences = false;
-  @Input() viewMode: PresenceControlViewMode;
-  @Input() showClassName = false;
-  @Input() profileReturnParams?: Params;
+  readonly entry = input.required<PresenceControlEntry>();
+  readonly hasUnconfirmedAbsences = input(false);
+  readonly viewMode = input.required<PresenceControlViewMode>();
+  readonly showClassName = input(false);
+  readonly profileReturnParams = input<Params>();
 
-  @Output() togglePresenceType = new EventEmitter<PresenceControlEntry>();
-  @Output() changeIncident = new EventEmitter<PresenceControlEntry>();
+  readonly togglePresenceType = output<PresenceControlEntry>();
+  readonly changeIncident = output<PresenceControlEntry>();
 
-  @HostBinding("class") get classNames(): string {
-    return [this.entry.presenceCategory, this.viewMode].join(" ");
+  protected readonly studentId = computed(
+    () => this.entry().lessonPresence.StudentRef.Id,
+  );
+  protected readonly isListViewMode = computed(
+    () => this.viewMode() === PresenceControlViewMode.List,
+  );
+
+  @HostBinding("class") protected get classNames(): string {
+    return [this.entry().presenceCategory, this.viewMode()].join(" ");
   }
 
-  entry$ = new ReplaySubject<PresenceControlEntry>(1);
-  studentId$ = this.entry$.pipe(
-    map(({ lessonPresence }) => lessonPresence.StudentRef.Id),
-  );
-  loading$ = this.entry$.pipe(
+  protected readonly loading$ = toObservable(this.entry).pipe(
     switchMap((entry) =>
       combineLatest([
         this.loadingService.loading(getEntryUpdateContext(entry)),
@@ -69,17 +71,7 @@ export class PresenceControlEntryComponent implements OnChanges {
     ),
   );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["entry"]) {
-      this.entry$.next(changes["entry"].currentValue);
-    }
-  }
-
-  get isListViewMode(): boolean {
-    return this.viewMode === PresenceControlViewMode.List;
-  }
-
-  updatePresenceType(entry: PresenceControlEntry): void {
+  protected updatePresenceType(entry: PresenceControlEntry): void {
     if (!entry.canChangePresenceType) {
       this.toastService.warning(
         this.translate.instant("presence-control.entry.update-warning"),
@@ -89,16 +81,16 @@ export class PresenceControlEntryComponent implements OnChanges {
     }
   }
 
-  updateIncident(entry: PresenceControlEntry): void {
+  protected updateIncident(entry: PresenceControlEntry): void {
     if (entry.canChangeIncident) {
       this.changeIncident.emit(entry);
     }
   }
 
-  showPrecedingAbsences(entry: PresenceControlEntry): void {
+  protected showPrecedingAbsences(entry: PresenceControlEntry): void {
     const modalRef = this.modalService.open(
       PresenceControlPrecedingAbsenceComponent,
     );
-    modalRef.componentInstance.precedingAbsences = entry.precedingAbsences;
+    modalRef.setInput("precedingAbsences", entry.precedingAbsences ?? []);
   }
 }

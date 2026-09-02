@@ -1,5 +1,11 @@
 import { DatePipe } from "@angular/common";
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -17,35 +23,40 @@ interface BlockLessonOption {
   styleUrls: ["presence-control-block-lesson.component.scss"],
   imports: [FormsModule, DatePipe, TranslatePipe],
 })
-export class PresenceControlBlockLessonComponent implements OnInit {
-  activeModal = inject(NgbActiveModal);
+export class PresenceControlBlockLessonComponent {
+  protected readonly activeModal = inject(NgbActiveModal);
 
-  @Input() entry: PresenceControlEntry;
-  @Input() blockPresenceControlEntries: ReadonlyArray<PresenceControlEntry>;
-  blockLessonOptions: ReadonlyArray<BlockLessonOption> = [];
+  readonly entry = input.required<PresenceControlEntry>();
+  readonly blockPresenceControlEntries =
+    input.required<ReadonlyArray<PresenceControlEntry>>();
 
-  // OnInit because input are set by modal and won't trigger the onChanges hook
-  ngOnInit(): void {
-    this.blockLessonOptions = this.buildLessonPresenceOptions();
-  }
+  protected readonly blockLessonOptions = linkedSignal<
+    ReadonlyArray<BlockLessonOption>
+  >(() =>
+    this.blockPresenceControlEntries().map((entry) => ({
+      entry,
+      selected: entry.confirmationState === this.entry().confirmationState,
+    })),
+  );
 
-  getSelectedEntries(): ReadonlyArray<PresenceControlEntry> {
-    return this.blockLessonOptions
+  protected readonly selectedEntries = computed(() =>
+    this.blockLessonOptions()
       .filter(({ selected }) => selected)
-      .map(({ entry }) => entry);
-  }
+      .map(({ entry }) => entry),
+  );
 
-  isCurrentLesson(option: BlockLessonOption): boolean {
-    return isEqual(
-      option.entry.lessonPresence.LessonDateTimeFrom,
-      this.entry.lessonPresence.LessonDateTimeFrom,
+  protected toggleSelected(option: BlockLessonOption): void {
+    this.blockLessonOptions.update((options) =>
+      options.map((o) =>
+        o.entry === option.entry ? { ...o, selected: !o.selected } : o,
+      ),
     );
   }
 
-  private buildLessonPresenceOptions() {
-    return this.blockPresenceControlEntries.map((entry) => ({
-      entry,
-      selected: this.entry.confirmationState === entry.confirmationState,
-    }));
+  protected isCurrentLesson(option: BlockLessonOption): boolean {
+    return isEqual(
+      option.entry.lessonPresence.LessonDateTimeFrom,
+      this.entry().lessonPresence.LessonDateTimeFrom,
+    );
   }
 }

@@ -1,12 +1,11 @@
 import { AsyncPipe, DatePipe, NgClass } from "@angular/common";
 import {
   Component,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
   inject,
+  input,
+  model,
   viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -88,34 +87,31 @@ const DEBOUNCE_TIME = 1000; // 1 second
   ],
 })
 export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
-  state = inject(PresenceControlStateService);
-  private groupService = inject(PresenceControlGroupService);
+  protected readonly state = inject(PresenceControlStateService);
+  private readonly groupService = inject(PresenceControlGroupService);
 
-  @Input() selectedLesson: LessonEntry;
-  @Input() lessons: ReadonlyArray<LessonEntry>;
-  @Input() presentCount: Option<number> = null;
-  @Input() absentCount: Option<number> = null;
-  @Input() absentPrecedingCount: Option<number> = null;
-  @Input() viewMode: PresenceControlViewMode;
-  @Input() selectDate: Date;
-  @Input() search = "";
+  readonly selectedLesson = model.required<LessonEntry>();
+  readonly lessons = input.required<ReadonlyArray<LessonEntry>>();
+  readonly presentCount = input<Option<number>>(null);
+  readonly absentCount = input<Option<number>>(null);
+  readonly absentPrecedingCount = input<Option<number>>(null);
+  readonly viewMode = model.required<PresenceControlViewMode>();
+  readonly selectedDate = model.required<Date>();
+  readonly search = model("");
 
-  @Output() selectLessonChange = new EventEmitter<LessonEntry>();
-  @Output() selectDateChange = new EventEmitter<Date>();
-  @Output() searchChange = new EventEmitter<string>();
-  @Output() viewModeChange = new EventEmitter<PresenceControlViewMode>();
+  private readonly dateSubject: Subject<Date> = new Subject<Date>();
+  private readonly destroy$ = new Subject<void>();
 
-  private dateSubject: Subject<Date> = new Subject<Date>();
-  private destroy$ = new Subject<void>();
+  protected readonly lessonDropdown = viewChild(NgbDropdown);
 
-  readonly lessonDropdown = viewChild(NgbDropdown);
-
-  viewModeOptions: ReadonlyArray<ViewModeOption> = [
+  protected readonly viewModeOptions: ReadonlyArray<ViewModeOption> = [
     { viewMode: PresenceControlViewMode.List, icon: "list" },
     { viewMode: PresenceControlViewMode.Grid, icon: "view_module" },
   ];
 
-  isGroupSelected$ = this.groupService.group$.pipe(map(notNull));
+  protected readonly isGroupSelected$ = this.groupService.group$.pipe(
+    map(notNull),
+  );
 
   constructor() {
     const config = inject(NgbInputDatepickerConfig);
@@ -151,7 +147,7 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
     this.dateSubject
       .pipe(debounceTime(DEBOUNCE_TIME), takeUntil(this.destroy$))
       .subscribe((date) => {
-        this.selectDateChange.emit(date);
+        this.selectedDate.set(date);
       });
   }
 
@@ -160,7 +156,7 @@ export class PresenceControlHeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onDateChange(date: unknown) {
+  protected onDateChange(date: unknown) {
     // Only emit the new date value if it is a valid date
     if (date instanceof Date) {
       // Ensure year is in the 2000s

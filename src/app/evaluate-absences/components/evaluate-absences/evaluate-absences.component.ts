@@ -20,5 +20,5 @@ import { EvaluateAbsencesStateService } from "../../services/evaluate-absences-s
   ],
 })
 export class EvaluateAbsencesComponent {
-  state = inject(EvaluateAbsencesStateService);
+  private readonly state = inject(EvaluateAbsencesStateService);
 }

@@ -21,11 +21,11 @@ import { EventsStudentsHeaderComponent } from "../events-students-header/events-
   styleUrl: "./events-students-course-list.component.scss",
 })
 export class EventsStudentsCourseListComponent {
-  title = input.required<Option<string>>();
-  count = input.required<number>();
-  entries = input.required<ReadonlyArray<StudentEntry>>();
-  multipleStudyClasses = input(false);
-  returnLink = input<Option<string>>(null);
+  readonly title = input.required<Option<string>>();
+  readonly count = input.required<number>();
+  readonly entries = input.required<ReadonlyArray<StudentEntry>>();
+  readonly multipleStudyClasses = input(false);
+  readonly returnLink = input<Option<string>>(null);
 
-  searchTerm = model<string>();
+  readonly searchTerm = model<string>();
 }

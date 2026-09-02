@@ -17,10 +17,11 @@ import { SafeHtmlPipe } from "../../../pipes/safe-html.pipe";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEntryDescriptionComponent {
-  private settings = inject<Settings>(SETTINGS);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  entry = input.required<StudentDossierEntry>();
-  showDescription = computed(
+  readonly entry = input.required<StudentDossierEntry>();
+
+  protected readonly showDescription = computed(
     () =>
       // For entries created via email, the .eml file is referenced in the
       // `File` attribute, so we don't render the (HTML-)content

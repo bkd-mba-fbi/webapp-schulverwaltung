@@ -20,18 +20,21 @@ interface QueuedUpdateTask {
 const EVALUATION_UPDATE_CONTEXT = "events-evaluation-default-grade-update";
 @Injectable()
 export class EvaluationGradingItemUpdateService implements OnDestroy {
-  private gradingItemsRestService = inject(GradingItemsRestService);
-  private evaluationStateService = inject(EvaluationStateService);
-  private testStateService = inject(TestStateService);
-  private loadingService = inject(LoadingService);
+  private readonly gradingItemsRestService = inject(GradingItemsRestService);
+  private readonly evaluationStateService = inject(EvaluationStateService);
+  private readonly testStateService = inject(TestStateService);
+  private readonly loadingService = inject(LoadingService);
 
-  updating = toSignal(this.loadingService.loading(EVALUATION_UPDATE_CONTEXT), {
-    requireSync: true,
-  });
+  readonly updating = toSignal(
+    this.loadingService.loading(EVALUATION_UPDATE_CONTEXT),
+    {
+      requireSync: true,
+    },
+  );
 
-  private updateQueue$ = new Subject<QueuedUpdateTask>();
+  private readonly updateQueue$ = new Subject<QueuedUpdateTask>();
 
-  private subscription: Subscription;
+  private readonly subscription: Subscription;
 
   constructor() {
     this.subscription = this.updateQueue$

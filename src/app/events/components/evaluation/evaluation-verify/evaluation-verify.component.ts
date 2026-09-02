@@ -39,19 +39,23 @@ import { EvaluationVerifyPdfComponent } from "../evaluation-verify-pdf/evaluatio
 export class EvaluationVerifyComponent
   implements AfterViewInit, OnDestroy, OnInit
 {
-  state = inject(EvaluationStateService);
-  private modalService = inject(BkdModalService);
-  private router = inject(Router);
-  private portalService = inject(PortalService);
+  protected readonly state = inject(EvaluationStateService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly router = inject(Router);
+  private readonly portalService = inject(PortalService);
 
-  hasGrades = computed(() => this.state.gradingScale() !== null);
-  hasOpenEvaluations = computed(() =>
+  private readonly hasGrades = computed(
+    () => this.state.gradingScale() !== null,
+  );
+  protected readonly hasOpenEvaluations = computed(() =>
     this.state.entries().some((entry) => entry.evaluationRequired),
   );
-  loadingPdf = signal(false);
+  protected readonly loadingPdf = signal(false);
 
-  embedded = this.portalService.inIframe;
-  hostHeight = signal<Option<string>>(this.getStandaloneHeight());
+  private readonly embedded = this.portalService.inIframe;
+  protected readonly hostHeight = signal<Option<string>>(
+    this.getStandaloneHeight(),
+  );
 
   ngOnInit() {
     // Make sure we have the correct hasOpenEvaluations value
@@ -77,17 +81,14 @@ export class EvaluationVerifyComponent
     }
   }
 
-  openFinaliseEvaluationDialog(): void {
+  protected openFinaliseEvaluationDialog(): void {
     const modalRef = this.modalService.open(EvaluationFinaliseDialogComponent);
-    const component =
-      modalRef.componentInstance as EvaluationFinaliseDialogComponent;
-
-    component.eventId.set(this.state.event()?.id ?? null);
+    modalRef.setInput("eventId", this.state.event()?.id ?? null);
 
     const hasOpenEvaluations = this.state
       .entries()
       .some((entry) => entry.evaluationRequired);
-    component.hasOpenEvaluations.set(hasOpenEvaluations);
+    modalRef.setInput("hasOpenEvaluations", hasOpenEvaluations);
 
     modalRef.result.then(
       async (result) => {
@@ -105,7 +106,7 @@ export class EvaluationVerifyComponent
     return `calc(100vh - ${topOffset}px)`;
   }
 
-  private updateEmbeddedHeight = () => {
+  private readonly updateEmbeddedHeight = () => {
     if (!this.embedded) return;
 
     this.hostHeight.set(

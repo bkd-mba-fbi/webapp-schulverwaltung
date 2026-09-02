@@ -17,20 +17,20 @@ import {
   template: "",
 })
 export abstract class TableHeaderComponent {
-  private element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /**
    * Set to false for the inline version of the header, true for the sticky (or
    * fixed) version of the header.
    */
-  sticky = input(false);
+  readonly sticky = input(false);
 
   @HostBinding("class.sticky")
-  get stickyClass() {
+  protected get stickyClass() {
     return this.sticky();
   }
 
-  shown = signal<boolean>(false);
+  readonly shown = signal<boolean>(false);
   constructor() {
     effect(this.updateShownClass.bind(this));
   }

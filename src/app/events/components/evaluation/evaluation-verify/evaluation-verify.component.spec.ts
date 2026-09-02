@@ -61,7 +61,6 @@ describe("EvaluationVerifyComponent", () => {
 
   it("renders verify page with finalize button", () => {
     fixture.detectChanges();
-    console.log(element.innerHTML);
     expect(element.textContent).not.toContain("evaluation.review-started");
     expect(getButtonWithText("download")).not.toBeNull();
     expect(getButtonWithText("print")).not.toBeNull();
